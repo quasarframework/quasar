@@ -1,0 +1,15 @@
+{
+  "extends": "defaults/configurations/google",
+
+  "env": {
+    "browser": 1
+  },
+
+  "globals": {
+    "require": 1,
+    "$": 1
+  },
+
+  "rules": {
+  }
+}
