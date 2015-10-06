@@ -1,0 +1,9 @@
+/node_modules
+/preview
+/build
+/gulp
+/src
+/src-preview
+/assets
+gulpfile.js
+semantic.json

@@ -14,7 +14,7 @@
   ],
   "author": "Razvan Stoenescu <Razvan.Stoenescu@gmail.com>",
   "license": "MIT",
-  "dependencies": {
+  "devDependencies": {
     "browser-sync": "^2.9.6",
     "chai": "^3.3.0",
     "conventional-recommended-bump": "0.0.3",
@@ -57,7 +57,7 @@
     "webpack": "^1.12.2",
     "webpack-stream": "^2.1.0"
   },
-  "devDependencies": {
+  "dependencies": {
     "fastclick": "^1.0.6",
     "jquery": "^2.1.4",
     "lodash": "^3.10.1",

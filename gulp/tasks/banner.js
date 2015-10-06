@@ -12,7 +12,7 @@ function pad(n) {
 }
 
 gulp.task('banner', function() {
-    var banner = fs.readFileSync('./banner.tpl', 'utf8');
+    var banner = fs.readFileSync('./assets/banner.tpl', 'utf8');
     var pkg = require('../../package.json');
     var year = (new Date().getFullYear());
 
