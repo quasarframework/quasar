@@ -18,7 +18,7 @@ var config = {
         dest: build+'/style',
         depsName: 'quasar-dependencies',
         deps: [
-            '!semantic/dist/semantic'
+            'quasar-semantic/semantic'
         ]
     },
     autoprefixer: {browsers: ['last 1 version']},
@@ -36,9 +36,9 @@ var config = {
             'lodash/index',
             'vue/dist/vue',
             'fastclick/lib/fastclick',
+            'quasar-semantic/semantic'
             //'touchswipe/index.js',
             //gsap
-            '!semantic/dist/semantic'
         ]
     },
 

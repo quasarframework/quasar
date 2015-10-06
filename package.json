@@ -61,7 +61,7 @@
     "fastclick": "^1.0.6",
     "jquery": "^2.1.4",
     "lodash": "^3.10.1",
-    "semantic-ui": "^2.1.4",
+    "quasar-semantic": "0.0.3",
     "vue": "^0.12.15"
   }
 }
