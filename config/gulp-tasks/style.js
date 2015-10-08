@@ -1,6 +1,8 @@
-var gulp = require('gulp'),
-    config = require('../config'),
-    $ = config.$;
+var
+    gulp = require('gulp'),
+    config = require('../gulp-config'),
+    $ = config.$
+;
 
 gulp.task('style:lint', function() {
     gulp.src(config.style.watch)

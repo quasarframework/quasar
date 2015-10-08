@@ -1,7 +1,9 @@
-var gulp = require('gulp'),
-    config = require('../config'),
+var
+    gulp = require('gulp'),
+    config = require('../gulp-config'),
     $ = config.$,
-    fs = require('fs');
+    fs = require('fs')
+;
 
 function pad(n) {
     if (n < 10) {
@@ -12,7 +14,7 @@ function pad(n) {
 }
 
 gulp.task('banner', function() {
-    var banner = fs.readFileSync('./assets/banner.tpl', 'utf8');
+    var banner = fs.readFileSync('./config/version-banner.tpl', 'utf8');
     var pkg = require('../../package.json');
     var year = (new Date().getFullYear());
 

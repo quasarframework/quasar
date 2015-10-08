@@ -1,11 +1,10 @@
-# Quasar Framework<br>[![Circle CI](https://circleci.com/gh/rstoenescu/quasar-framework/tree/master.svg?style=shield)](https://circleci.com/gh/rstoenescu/quasar-framework/tree/master) [![npm version](https://badge.fury.io/js/quasar-framework.svg)](https://badge.fury.io/js/quasar-framework) [![dependencies](https://david-dm.org/rstoenescu/quasar-framework.svg)](https://david-dm.org/rstoenescu/quasar-framework) 
+# Quasar Framework<br><a href="https://circleci.com/gh/rstoenescu/quasar-framework/tree/master"><img src="https://circleci.com/gh/rstoenescu/quasar-framework/tree/master.svg?style=shield"></a><a href="https://badge.fury.io/js/quasar-framework"><img src="https://badge.fury.io/js/quasar-framework.svg"></a><a href="https://david-dm.org/rstoenescu/quasar-framework"><img src="https://david-dm.org/rstoenescu/quasar-framework.svg"></a>
 
 ## Description
 
-<span style="background-color:red">
 IN ACTIVE DEVELOPMENT!!!
-FAR FROM READY FOR PRODUCTION!!!
-</span>
+
+FAR FROM READY!!!
 
 Do not take an interest in this yet.
 

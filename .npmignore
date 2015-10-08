@@ -1,9 +1,4 @@
-/node_modules
-/preview
-/build
-/gulp
+/config
 /src
-/src-preview
-/assets
 gulpfile.js
-semantic.json
+.eslintrc

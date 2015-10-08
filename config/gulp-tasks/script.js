@@ -1,10 +1,11 @@
-var gulp = require('gulp'),
-    config = require('../config'),
-    $ = config.$,
-    named = require('vinyl-named'),
+var
+	gulp = require('gulp'),
+	config = require('../gulp-config'),
+	$ = config.$,
+	named = require('vinyl-named'),
     webpack = require('webpack'),
-    stream = require('webpack-stream');
-
+    stream = require('webpack-stream')
+;
 
 gulp.task('script:lint', function() {
     return gulp.src(config.script.watch)

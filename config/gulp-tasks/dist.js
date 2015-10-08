@@ -1,6 +1,8 @@
-var gulp = require('gulp'),
-    config = require('../config'),
-    del = require('del');
+var
+	gulp = require('gulp'),
+    config = require('../gulp-config'),
+    del = require('del')
+;
 
 gulp.task('dist:copy', function() {
     return gulp.src(config.dist.src)

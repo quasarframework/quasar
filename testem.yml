@@ -1,0 +1,16 @@
+framework: "mocha"
+src_files:
+  - "node_modules/chai/chai.js"
+  - "node_modules/sinon/pkg/sinon.js"
+  - "build/js/quasar-dependencies.js"
+  - "build/js/quasar.js"
+  - "test/setup.js"
+  - "test/**/*.spec.js"
+launchers:
+  node:
+    command: "npm run test:node"
+    protocol: "tap"
+launch_in_dev:
+  - "node"
+  - "chrome"
+  - "firefox"
