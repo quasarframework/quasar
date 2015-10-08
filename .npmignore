@@ -1,4 +1,5 @@
 /config
 /src
+bower.json
 gulpfile.js
 .eslintrc
