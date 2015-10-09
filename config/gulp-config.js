@@ -4,7 +4,9 @@ var
     src         = './src',
     build       = './build',
     dist        = './dist',
-    src_preview = './src_preview'
+
+    src_preview = './src_preview',
+    preview = './preview'
 ;
 
 var config = {
