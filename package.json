@@ -5,7 +5,7 @@
   "main": "dist/js/quasar.min.js",
   "files": ["dist"],
   "scripts": {
-    "preinstall": "npm i -g gulp mocha testem && gem install scss-lint && npm rebuild node-sass",
+    "preinstall": "gem install scss-lint && npm rebuild node-sass",
     "build": "gulp dist",
 
     "test": "gulp build && testem ci",

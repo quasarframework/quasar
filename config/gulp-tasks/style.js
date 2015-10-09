@@ -39,6 +39,7 @@ gulp.task('dev:style', ['style:lint'], function() {
 
 gulp.task('prod:style', ['style:lint'], function() {
     return gulp.src(config.style.entry)
+        .pipe($.changed(config.style.dest))
         .pipe($.sass().on('error', $.sass.logError))
         .pipe($.autoprefixer(config.style.autoprefixer))
         .pipe($.minifyCss())
