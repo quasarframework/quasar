@@ -2,3 +2,8 @@ general:
   branches:
     ignore:
       - gh-pages
+machine:
+  node:
+    version: 4.1.1
+  pre:
+  	- sudo apt-get install ruby-full; gem install scss-lint
