@@ -1,5 +1,7 @@
 languages:
   Javascript: true
 exclude_paths:
-  - dist/js/*dependencies*.js
-  - dist/css/*dependencies*.css
+  - dist/js/quasar-dependencies.js
+  - dist/js/quasar-dependencies.min.js
+  - dist/css/quasar-dependencies.css
+  - dist/css/quasar-dependencies.min.css
