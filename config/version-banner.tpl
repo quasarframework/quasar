@@ -1,4 +1,4 @@
 /* Quasar Framework v<%= pkg.version %>
- * Released under MIT license
- * (c) <%= year %> <%= pkg.author %>
+ * <%= pkg.homepage %> - MIT license
+ * (c) <%= year %> <%= pkg.author.name %>
  */

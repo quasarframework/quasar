@@ -4,9 +4,11 @@
   "description": "Simultaneously build desktop websites and phone+tablet apps.",
   "main": "dist/js/quasar.min.js",
   "scripts": {
-    "test": "testem ci",
-    "test:dev": "testem",
-    "test:node": "mocha -r test/setup.js test/**/*.spec.js"
+    "test": "gulp build && testem ci",
+    "test:dev": "testem ci",
+    "test:live": "testem",
+    "test:node": "mocha -r test/setup.js test/**/*.spec.js",
+    "test:pjs": "testem ci -l phantomjs"
   },
   "repository": {
     "type": "git",
@@ -29,20 +31,14 @@
   "bugs": {
     "url": "https://github.com/rstoenescu/quasar-framework/issues"
   },
-  "homepage": "https://github.com/rstoenescu/quasar-framework#readme",
-  "dependencies": {
-    "fastclick": ">=1.0.6",
-    "jquery": ">=2.1.4",
-    "lodash": ">=3.10.1",
-    "quasar-semantic": ">=0.0.3",
-    "vue": ">=0.12.16"
-  },
+  "homepage": "http://quasar-framework.org",
   "devDependencies": {
     "browser-sync": ">=2.9.10",
     "chai": ">=3.3.0",
     "del": ">=2.0.2",
     "eslint": ">=1.6.0",
     "eslint-config-defaults": ">=7.0.1",
+    "fastclick": ">=1.0.6",
     "gulp": ">=3.9.0",
     "gulp-autoprefixer": ">=3.0.2",
     "gulp-changed": ">=1.3.0",
@@ -62,12 +58,16 @@
     "gulp-sourcemaps": ">=1.5.2",
     "gulp-uglify": ">=1.4.1",
     "gulp-util": ">=3.0.6",
+    "jquery": ">=2.1.4",
+    "lodash": ">=3.10.1",
     "mocha": ">=2.3.3",
-    "require-dir": ">=0.3.0",
+    "quasar-semantic": ">=0.0.3",
+    "require-dir": "^0.3.0",
     "run-sequence": ">=1.1.4",
     "sinon": ">=1.17.1",
     "testem": ">=0.9.7",
     "vinyl-named": "^1.1.0",
+    "vue": ">=0.12.16",
     "webpack": ">=1.12.2",
     "webpack-stream": ">=2.1.1"
   }

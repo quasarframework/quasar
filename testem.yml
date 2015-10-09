@@ -1,6 +1,5 @@
-framework: "mocha"
+framework: "mocha+chai"
 src_files:
-  - "node_modules/chai/chai.js"
   - "node_modules/sinon/pkg/sinon.js"
   - "build/js/quasar-dependencies.js"
   - "build/js/quasar.js"
@@ -11,6 +10,6 @@ launchers:
     command: "npm run test:node"
     protocol: "tap"
 launch_in_dev:
-  - "node"
+  - "phantomjs"
   - "chrome"
   - "firefox"

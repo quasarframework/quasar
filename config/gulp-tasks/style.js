@@ -32,7 +32,7 @@ gulp.task('dev:style', ['style:lint'], function() {
         .pipe($.changed(config.style.dest))
         .pipe($.sourcemaps.init())
         .pipe($.sass().on('error', $.sass.logError))
-        .pipe($.autoprefixer(config.autoprefixer))
+        .pipe($.autoprefixer(config.style.autoprefixer))
         .pipe($.sourcemaps.write())
         .pipe(gulp.dest(config.style.dest));
 });

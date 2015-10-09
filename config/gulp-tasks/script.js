@@ -36,14 +36,14 @@ gulp.task('prod:script:deps', function() {
 gulp.task('dev:script', ['script:lint'], function() {
     return gulp.src(config.script.entry)
         .pipe(named())
-        .pipe(stream({devtool: 'sourcemap'}, webpack))
+        .pipe(stream(config.script.webpack.dev, webpack))
         .pipe(gulp.dest(config.script.dest));
 });
 
 gulp.task('prod:script', ['script:lint'], function() {
     return gulp.src(config.script.entry)
         .pipe(named())
-        .pipe(stream({}, webpack))
+        .pipe(stream(config.script.webpack.prod, webpack))
         .pipe($.uglify())
         .pipe($.rename({extname: '.min.js'}))
         .pipe(gulp.dest(config.script.dest));

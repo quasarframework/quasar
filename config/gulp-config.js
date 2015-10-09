@@ -40,7 +40,13 @@ var config = {
             //'touchswipe/index.js',
             //gsap
         ],
-        autoprefixer: {browsers: ['last 1 version']}
+        webpack: {
+            dev: {
+                devtool: '#inline-source-map'
+                //devtool: '#cheap-module-eval-source-map'
+            },
+            prod: {}
+        }
     },
 
     style: {
@@ -52,7 +58,8 @@ var config = {
         depsName: 'quasar-dependencies',
         deps: [
             'quasar-semantic/semantic'
-        ]
+        ],
+        autoprefixer: {browsers: ['last 3 versions']}
     }
 };
 
