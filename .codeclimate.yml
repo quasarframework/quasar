@@ -1,0 +1,5 @@
+languages:
+  Javascript: true
+exclude_paths:
+  - dist/js/*dependencies*.js
+  - dist/css/*dependencies*.css
