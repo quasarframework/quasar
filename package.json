@@ -1,11 +1,10 @@
 {
   "name": "quasar-framework",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Simultaneously build desktop websites and phone+tablet apps.",
   "main": "dist/js/quasar.min.js",
   "files": ["dist"],
   "scripts": {
-    "preinstall": "gem install scss-lint && npm rebuild node-sass",
     "prepublish": "gulp dist",
     "build": "gulp dist",
 
