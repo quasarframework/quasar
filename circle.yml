@@ -5,5 +5,8 @@ general:
 machine:
   node:
     version: 4.1.1
+dependencies:
   pre:
-    - sudo apt-get install ruby-full; gem install scss-lint
+    - sudo apt-get install ruby-full
+    - gem install scss-lint
+    - npm rebuild node-sass
