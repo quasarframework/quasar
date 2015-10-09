@@ -64,7 +64,7 @@
     "jquery": ">=2.1.4",
     "lodash": ">=3.10.1",
     "mocha": ">=2.3.3",
-    "quasar-semantic": ">=0.0.3",
+    "quasar-semantic": ">=0.0.4",
     "require-dir": "^0.3.0",
     "run-sequence": ">=1.1.4",
     "sinon": ">=1.17.1",
