@@ -64,13 +64,13 @@ var config = {
 };
 
 config.script.deps = _.map(config.script.deps, function(item) {
-    if (item.startsWith('!')) {
+    if (item.indexOf('!') === 0) {
         return item.substr(1)+'.js';
     }
     return 'node_modules/'+item+'.js';
 });
 config.style.deps = _.map(config.style.deps, function(item) {
-    if (item.startsWith('!')) {
+    if (item.indexOf('!') === 0) {
         return item.substr(1)+'.css';
     }
     return 'node_modules/'+item+'.css';
