@@ -5,7 +5,3 @@ general:
 machine:
   node:
     version: 4.1.1
-dependencies:
-  pre:
-    - gem install scss-lint
-    - npm rebuild node-sass
