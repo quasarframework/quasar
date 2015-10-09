@@ -1,12 +1,14 @@
-var gulp = require('gulp'),
-    config = require('../config'),
+var
+    gulp = require('gulp'),
+    config = require('../gulp-config'),
     $ = config.$,
     browserSync = require('browser-sync').create(),
     runSequence = require('run-sequence'),
     pngquant = require('imagemin-pngquant'),
     named = require('vinyl-named'),
     webpack = require('webpack'),
-    stream = require('webpack-stream');
+    stream = require('webpack-stream')
+;
 
 // inject browserSync to config so other
 // modules (like CSS) can stream to it

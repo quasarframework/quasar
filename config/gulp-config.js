@@ -3,7 +3,8 @@ var
 
     src         = './src',
     build       = './build',
-    dist        = './dist'
+    dist        = './dist',
+    src_preview = './src_preview'
 ;
 
 var config = {
@@ -60,6 +61,44 @@ var config = {
             'quasar-semantic/dist/semantic'
         ],
         autoprefixer: {browsers: ['last 3 versions']}
+    },
+
+    preview: {
+        server: {
+            port: 3000,
+            ui: { port: 3001 },
+            open: false,
+            reloadOnRestart: true,
+            server: {
+                baseDir: preview
+            }
+        },
+        html: {
+            src: src_preview+'/**/*.html',
+            dest: preview
+        },
+        image: {
+            src: src_preview+'/images/**/*',
+            dest: preview
+        },
+        style: {
+            watch: src_preview+'/style/**/*.scss',
+            entry: [
+                src_preview+'/style/project.scss'
+            ],
+            dest: preview+'/style',
+        },
+        script: {
+            watch: src_preview+'/js/**/*.js',
+            entry: [
+                src_preview+'/js/project.js'
+            ],
+            dest: preview+'/js',
+        },
+        deps: {
+            src: build+'/**/*',
+            dest: preview+'/quasar'
+        }
     }
 };
 
