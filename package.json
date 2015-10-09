@@ -6,6 +6,7 @@
   "files": ["dist"],
   "scripts": {
     "preinstall": "gem install scss-lint && npm rebuild node-sass",
+    "prepublish": "gulp dist",
     "build": "gulp dist",
 
     "test": "gulp build && testem ci",
