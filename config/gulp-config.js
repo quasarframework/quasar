@@ -1,3 +1,5 @@
+'use strict';
+
 var
     _ = require('lodash'),
 
@@ -9,7 +11,17 @@ var
     preview = './preview'
 ;
 
-var config = {
+function mapToNodeModules(suffix, list) {
+    return _.map(list, function(item) {
+        if (item.indexOf('!') === 0) {
+            return item.substr(1) + suffix;
+        }
+        return 'node_modules/'+item+suffix;
+    });
+}
+
+
+module.exports = {
     $: (require('gulp-load-plugins'))(),
 
     clean: [build],
@@ -34,7 +46,7 @@ var config = {
         ],
         dest: build+'/js',
         depsName: 'quasar-dependencies',
-        deps: [
+        deps: mapToNodeModules('.js', [
             'jquery/dist/jquery',
             'lodash/index',
             'vue/dist/vue',
@@ -42,7 +54,7 @@ var config = {
             'quasar-semantic/dist/semantic'
             //'touchswipe/index.js',
             //gsap
-        ],
+        ]),
         webpack: {
             dev: {
                 devtool: '#inline-source-map'
@@ -59,9 +71,9 @@ var config = {
         ],
         dest: build+'/style',
         depsName: 'quasar-dependencies',
-        deps: [
+        deps: mapToNodeModules('.css', [
             'quasar-semantic/dist/semantic'
-        ],
+        ]),
         autoprefixer: {browsers: ['last 3 versions']}
     },
 
@@ -103,18 +115,3 @@ var config = {
         }
     }
 };
-
-config.script.deps = _.map(config.script.deps, function(item) {
-    if (item.indexOf('!') === 0) {
-        return item.substr(1)+'.js';
-    }
-    return 'node_modules/'+item+'.js';
-});
-config.style.deps = _.map(config.style.deps, function(item) {
-    if (item.indexOf('!') === 0) {
-        return item.substr(1)+'.css';
-    }
-    return 'node_modules/'+item+'.css';
-});
-
-module.exports = config;

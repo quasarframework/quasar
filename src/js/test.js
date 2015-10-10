@@ -3,7 +3,7 @@
  * @module my/q
  * @see module:my/q
  */
-console.log("wow");
+console.log('wow');
 
 /**
  * callme and only me
@@ -12,3 +12,9 @@ console.log("wow");
 function callme() {
     //
 }
+
+callme();
+
+module.exports = function() {
+    console.log('wow');
+};

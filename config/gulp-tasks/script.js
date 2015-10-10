@@ -1,7 +1,8 @@
+'use strict';
+
 var
 	gulp = require('gulp'),
 	config = require('../gulp-config'),
-	$ = config.$,
 	named = require('vinyl-named'),
     webpack = require('webpack'),
     stream = require('webpack-stream')
@@ -9,26 +10,26 @@ var
 
 gulp.task('script:lint', function() {
     return gulp.src(config.script.watch)
-        .pipe($.eslint())
-        .pipe($.eslint.format());
+        .pipe(config.$.eslint())
+        .pipe(config.$.eslint.format());
 });
 
 
 gulp.task('dev:script:deps', function() {
     return gulp.src(config.script.deps)
-        .pipe($.newer(config.script.dest + '/' + config.script.depsName + '.js'))
-        .pipe($.sourcemaps.init())
-        .pipe($.concat(config.script.depsName+'.js'))
-        .pipe($.sourcemaps.write())
+        .pipe(config.$.newer(config.script.dest + '/' + config.script.depsName + '.js'))
+        .pipe(config.$.sourcemaps.init())
+        .pipe(config.$.concat(config.script.depsName+'.js'))
+        .pipe(config.$.sourcemaps.write())
         .pipe(gulp.dest(config.script.dest));
 });
 
 gulp.task('prod:script:deps', function() {
     return gulp.src(config.script.deps)
-        .pipe($.newer(config.script.dest + '/' + config.script.depsName + '.min.js'))
-        .pipe($.concat(config.script.depsName+'.min.js'))
-        .pipe($.uglify())
-        .pipe($.sourcemaps.write())
+        .pipe(config.$.newer(config.script.dest + '/' + config.script.depsName + '.min.js'))
+        .pipe(config.$.concat(config.script.depsName+'.min.js'))
+        .pipe(config.$.uglify())
+        .pipe(config.$.sourcemaps.write())
         .pipe(gulp.dest(config.script.dest));
 });
 
@@ -44,8 +45,8 @@ gulp.task('prod:script', ['script:lint'], function() {
     return gulp.src(config.script.entry)
         .pipe(named())
         .pipe(stream(config.script.webpack.prod, webpack))
-        .pipe($.uglify())
-        .pipe($.rename({extname: '.min.js'}))
+        .pipe(config.$.uglify())
+        .pipe(config.$.rename({extname: '.min.js'}))
         .pipe(gulp.dest(config.script.dest));
 });
 
