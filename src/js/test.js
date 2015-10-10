@@ -15,6 +15,6 @@ function callme() {
 
 callme();
 
-module.exports = function() {
+exports = function() {
     console.log('wow');
 };

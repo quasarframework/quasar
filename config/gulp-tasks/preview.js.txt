@@ -42,8 +42,8 @@ gulp.task('preview:image', function() {
         .pipe(config.$.changed(config.preview.image.dest))
         .pipe(config.$.imagemin({
             progressive: true,
-            svgoPlugins: [{removeViewBox: false}],
-            use: [pngquant()]
+            svgoPlugins: [{removeViewBox: false}]
+            //,use: [pngquant()]
         }))
         .pipe(gulp.dest(config.preview.image.dest));
 });

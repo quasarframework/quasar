@@ -16,7 +16,10 @@ window.a = 'a';
  * @return {[type]}     [description]
  */
 function wow(gee, gux) {
-    //
+    if (gux) {
+        gux++;
+    }
+
     return gee;
 }
 
@@ -41,6 +44,6 @@ function wee(version, varax) {
 wow();
 wee();
 
-module.exports = function() {
+exports = function() {
     console.log('waaa');
 };
