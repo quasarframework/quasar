@@ -39,7 +39,7 @@
     "browser-sync": ">=2.9.10",
     "chai": ">=3.3.0",
     "del": ">=2.0.2",
-    "eslint": ">=1.6.0",
+    "eslint": "^1.6.0",
     "eslint-config-defaults": ">=7.0.1",
     "fastclick": ">=1.0.6",
     "gulp": ">=3.9.0",
