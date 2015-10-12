@@ -1,5 +1,6 @@
 {
   "ignore": [
-    "**/*dependencies*"
+    "**/*dependencies*",
+    "dist/**"
   ]
 }
