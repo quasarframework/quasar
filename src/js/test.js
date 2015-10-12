@@ -1,20 +1,20 @@
 /**
- * Q module.
- * @module my/q
- * @see module:my/q
- */
+* Q module.
+* @module my/q
+* @see module:my/q
+*/
 console.log('wow');
 
 /**
- * callme and only me
- * @return {undefined} nothing
- */
+* callme and only me
+* @return {undefined} nothing
+*/
 function callme() {
-    //
+  //
 }
 
 callme();
 
-exports = function() {
-    console.log('wow');
+module.exports = function() {
+  console.log('wow');
 };
