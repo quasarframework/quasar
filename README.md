@@ -5,6 +5,9 @@
 <a href="https://david-dm.org/rstoenescu/quasar-framework"><img src="https://david-dm.org/rstoenescu/quasar-framework.svg"></a>
 <a href="https://codeclimate.com/github/rstoenescu/quasar-framework"><img src="https://codeclimate.com/github/rstoenescu/quasar-framework/badges/gpa.svg"></a>
 
+<a href="https://www.bithound.io/github/rstoenescu/quasar-framework"><img src="https://www.bithound.io/github/rstoenescu/quasar-framework/badges/score.svg" alt="bitHound Score"></a>
+<a href="https://www.bithound.io/github/rstoenescu/quasar-framework/master/dependencies/npm"><img src="https://www.bithound.io/github/rstoenescu/quasar-framework/badges/dependencies.svg" alt="bitHound Dependencies"></a>
+
 ## Description
 
 IN ACTIVE DEVELOPMENT!!!
