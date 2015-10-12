@@ -16,6 +16,6 @@ else {
    * We are in a browser.
    * Set up variables like above using serves js files.
    */
-  expect = chai.expect;
-  inBrowser = true;
+  window.expect = chai.expect;
+  window.inBrowser = true;
 }

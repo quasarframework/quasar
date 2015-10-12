@@ -7,9 +7,25 @@
 
   "globals": {
     "require": 1,
-    "$": 1
+    "$": 1,
+
+    "inBrowser": 1,
+    "moquire": 1,
+    "chai": 1,
+    "expect": 1,
+    "sinon": 1,
+    "describe": 1,
+    "it": 1,
+    "before": 1,
+    "after": 1,
+    "beforeEach": 1,
+    "afterEach": 1
   },
 
   "rules": {
+    "max-len": [1, 120, 4],
+    "no-invalid-this": 0,
+    "dot-location": 0,
+    "brace-style": [2, "stroustrup", { "allowSingleLine": true }]
   }
 }
