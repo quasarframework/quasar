@@ -8,6 +8,7 @@
   "globals": {
     "require": 1,
     "$": 1,
+    "module": 1,
 
     "inBrowser": 1,
     "moquire": 1,
