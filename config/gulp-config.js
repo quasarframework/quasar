@@ -56,10 +56,17 @@ module.exports = {
     ]),
     webpack: {
       dev: {
-        devtool: '#inline-source-map'
+        devtool: '#inline-source-map',
+        output: {
+          libraryTarget: 'umd'
+        }
         //devtool: '#cheap-module-eval-source-map'
       },
-      prod: {}
+      prod: {
+        output: {
+          libraryTarget: 'umd'
+        }
+      }
     }
   },
 
