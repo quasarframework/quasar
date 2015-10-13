@@ -2,5 +2,6 @@ languages:
   JavaScript: true
 exclude_paths:
   - "node_modules/*"
+  - "config/*"
   - "dist/*"
 
