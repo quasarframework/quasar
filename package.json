@@ -82,6 +82,7 @@
     "sinon": ">=1.17.1",
     "sinon-chai": "^2.8.0",
     "vinyl-named": "^1.1.0",
+    "vinyl-named-with-path": "^1.0.0",
     "vue": ">=0.12.16",
     "webpack": "^1.12.2",
     "webpack-stream": ">=2.1.1"

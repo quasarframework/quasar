@@ -6,7 +6,7 @@ var
   plugins = config.plugins,
   del = require('del'),
   runSequence = require('run-sequence'),
-  named = require('vinyl-named'),
+  named = require('vinyl-named-with-path'),
   webpack = require('webpack'),
   stream = require('webpack-stream');
 
