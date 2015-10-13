@@ -3,6 +3,7 @@
 var
   gulp = require('gulp'),
   config = require('../gulp-config'),
+  plugins = config.plugins,
   fs = require('fs');
 
 gulp.task('banner', function() {
@@ -11,7 +12,7 @@ gulp.task('banner', function() {
   var year = new Date().getFullYear();
 
   return gulp.src(config.banner.src)
-  .pipe(config.$.header(banner, {
+  .pipe(plugins.header(banner, {
     pkg: pkg,
     year: year
   }))

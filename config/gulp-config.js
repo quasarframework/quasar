@@ -21,7 +21,7 @@ function mapToNodeModules(suffix, list) {
 
 
 module.exports = {
-  $: require('gulp-load-plugins')(),
+  plugins: require('gulp-load-plugins')(),
 
   clean: [build],
 
