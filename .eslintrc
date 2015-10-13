@@ -6,6 +6,8 @@
   },
 
   "globals": {
+    "q": true,
+    "quasar": true,
     "require": true,
     "$": true,
     "module": true,

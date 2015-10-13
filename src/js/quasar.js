@@ -41,9 +41,10 @@ function wee(version, varax) {
   return version;
 }
 
-wow();
-wee();
+var quasar = window.q = window.quasar = {};
 
-module.exports = function() {
-  console.log('waaa');
+quasar.log = function() {
+  return 'quasar';
 };
+
+module.exports = quasar;

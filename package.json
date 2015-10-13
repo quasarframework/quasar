@@ -9,10 +9,7 @@
   "scripts": {
     "prepublish": "gulp dist",
     "build": "gulp dist",
-    "test": "testem ci",
-    "test:dev": "testem",
-    "test:node": "mocha -r test/setup.js test/**/*.spec.js",
-    "test:pjs": "testem ci -l phantomjs"
+    "test": "./npm-test.sh"
   },
   "repository": {
     "type": "git",
@@ -39,6 +36,7 @@
   "devDependencies": {
     "browser-sync": ">=2.9.10",
     "chai": ">=3.3.0",
+    "codecov.io": "^0.1.6",
     "del": ">=2.0.2",
     "eslint": "^1.6.0",
     "eslint-config-defaults": ">=7.0.1",
@@ -62,18 +60,30 @@
     "gulp-sourcemaps": ">=1.5.2",
     "gulp-uglify": ">=1.4.1",
     "gulp-util": ">=3.0.6",
+    "istanbul": "^0.3.22",
+    "istanbul-instrumenter-loader": "^0.1.3",
     "jquery": ">=2.1.4",
+    "karma": "^0.13.10",
+    "karma-chai": "^0.1.0",
+    "karma-chrome-launcher": "^0.2.1",
+    "karma-coverage": "^0.5.2",
+    "karma-firefox-launcher": "^0.1.6",
+    "karma-mocha": "^0.2.0",
+    "karma-phantomjs-launcher": "^0.2.1",
+    "karma-sinon": "^1.0.4",
+    "karma-sinon-chai": "^1.1.0",
+    "karma-webpack": "^1.7.0",
     "lodash": ">=3.10.1",
     "mocha": ">=2.3.3",
+    "phantomjs": "^1.9.18",
     "quasar-semantic": ">=0.0.4",
     "require-dir": "^0.3.0",
     "run-sequence": ">=1.1.4",
     "sinon": ">=1.17.1",
     "sinon-chai": "^2.8.0",
-    "testem": ">=0.9.7",
     "vinyl-named": "^1.1.0",
     "vue": ">=0.12.16",
-    "webpack": ">=1.12.2",
+    "webpack": "^1.12.2",
     "webpack-stream": ">=2.1.1"
   }
 }
