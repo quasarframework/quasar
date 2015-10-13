@@ -1,5 +1,4 @@
 languages:
   JavaScript: true
 exclude_paths:
-  - "dist/js/quasar-dependencies*"
-  - "dist/css/quasar-dependencies*"
+  - "dist"
