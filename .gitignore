@@ -1,5 +1,5 @@
 /node_modules
 /build
+/dist
 /coverage
-/preview/server
 /preview/processed
