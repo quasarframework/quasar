@@ -9,7 +9,7 @@
   "scripts": {
     "prepublish": "gulp dist",
     "build": "gulp dist",
-    "test": "./npm-test.sh"
+    "test": "karma start --single-run"
   },
   "repository": {
     "type": "git",
