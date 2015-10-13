@@ -5,10 +5,17 @@ var
 
   src         = './src',
   build       = './build',
-  dist        = './dist',
+  dist        = './dist';
 
-  srcPreview = './srcPreview',
-  preview = './preview';
+var preview = (function() {
+  var base = './preview';
+
+  return {
+    base: base,
+    preprocess: base + '/preprocess',
+    processed: base + '/processed',
+  };
+}());
 
 function mapToNodeModules(suffix, list) {
   return _.map(list, function(item) {
@@ -22,7 +29,6 @@ function mapToNodeModules(suffix, list) {
 
 module.exports = {
   plugins: require('gulp-load-plugins')(),
-
   clean: [build],
 
   banner: {
@@ -90,34 +96,32 @@ module.exports = {
       open: false,
       reloadOnRestart: true,
       server: {
-        baseDir: preview
+        baseDir: preview.base
       }
     },
-    html: {
-      src: srcPreview + '/**/*.html',
-      dest: preview
-    },
-    image: {
-      src: srcPreview + '/images/**/*',
-      dest: preview
-    },
+    clean: [preview.processed],
+    watch: [
+      preview.base + '**/*',
+      '!' + preview.base + '/quasar/**/*',
+      '!' + preview.preprocess + '/**/*',
+      '!' + preview.processed + '/**/*'
+    ],
     style: {
-      watch: srcPreview + '/style/**/*.scss',
+      watch: preview.preprocess + '/style/**/*.scss',
       entry: [
-        srcPreview + '/style/project.scss'
+        preview.preprocess + '/style/project.scss'
       ],
-      dest: preview + '/style',
+      dest: preview.processed + '/style',
     },
     script: {
-      watch: srcPreview + '/js/**/*.js',
+      watch: preview.preprocess + '/pages/**/*.js',
       entry: [
-        srcPreview + '/js/project.js'
+        preview.preprocess + '/pages/**/*.js'
       ],
-      dest: preview + '/js',
-    },
-    deps: {
-      src: build + '/**/*',
-      dest: preview + '/quasar'
+      dest: preview.processed + '/pages',
+      webpack: {
+        devtool: '#inline-source-map'
+      }
     }
   }
 };

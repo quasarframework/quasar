@@ -14,26 +14,6 @@ gulp.task('script:lint', function() {
     .pipe(plugins.eslint.format());
 });
 
-
-gulp.task('dev:script:deps', function() {
-  return gulp.src(config.script.deps)
-    .pipe(plugins.newer(config.script.dest + '/' + config.script.depsName + '.js'))
-    .pipe(plugins.sourcemaps.init())
-    .pipe(plugins.concat(config.script.depsName + '.js'))
-    .pipe(plugins.sourcemaps.write())
-		.pipe(gulp.dest(config.script.dest));
-});
-
-gulp.task('prod:script:deps', function() {
-  return gulp.src(config.script.deps)
-    .pipe(plugins.newer(config.script.dest + '/' + config.script.depsName + '.min.js'))
-    .pipe(plugins.concat(config.script.depsName + '.min.js'))
-    .pipe(plugins.uglify())
-    .pipe(plugins.sourcemaps.write())
-    .pipe(gulp.dest(config.script.dest));
-});
-
-
 gulp.task('dev:script', ['script:lint'], function() {
   return gulp.src(config.script.entry)
     .pipe(named())

@@ -13,7 +13,8 @@ function callme() {
   //
 }
 
-callme();
+//callme();
+//alert('a');
 
 module.exports = function() {
   console.log('wow');
