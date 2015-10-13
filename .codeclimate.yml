@@ -1,7 +1,6 @@
----
 languages:
   JavaScript: true
 exclude_paths:
-  - node_modules/**/*
-  - dist/**/*
+  - "node_modules/*"
+  - "dist/*"
 
