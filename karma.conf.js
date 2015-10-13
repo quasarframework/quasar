@@ -64,13 +64,12 @@ module.exports = function(config) {
           subdir: 'report-html'
         },
         {
-          type: 'lcov',
-          subdir: 'report-lcov'
+          type: 'text-summary'
         },
         {
           type: 'cobertura',
           subdir: '.',
-          file: 'cobertura.txt'
+          file: 'cobertura.xml'
         }
       ]
     },
