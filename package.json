@@ -3,11 +3,12 @@
   "version": "0.0.3",
   "description": "Simultaneously build desktop websites and phone+tablet apps.",
   "main": "dist/js/quasar.min.js",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "prepublish": "gulp dist",
     "build": "gulp dist",
-
     "test": "testem ci",
     "test:dev": "testem",
     "test:node": "mocha -r test/setup.js test/**/*.spec.js",
@@ -68,6 +69,7 @@
     "require-dir": "^0.3.0",
     "run-sequence": ">=1.1.4",
     "sinon": ">=1.17.1",
+    "sinon-chai": "^2.8.0",
     "testem": ">=0.9.7",
     "vinyl-named": "^1.1.0",
     "vue": ">=0.12.16",

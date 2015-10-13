@@ -1,5 +1,6 @@
 framework: "mocha+chai"
 src_files:
+  - "node_modules/sinon-chai/lib/sinon-chai"
   - "node_modules/sinon/pkg/sinon.js"
   - "build/js/quasar-dependencies.js"
   - "build/js/quasar.js"
