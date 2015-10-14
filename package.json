@@ -13,7 +13,13 @@
 
     "pjs": "karma start --browsers PhantomJS --single-run",
     "chrome": "karma start --browsers Chrome --single-run",
-    "ff": "karma start --browsers Firefox --single-run"
+    "ff": "karma start --browsers Firefox --single-run",
+
+    "pjs-live": "karma start --browsers PhantomJS",
+    "chrome-live": "karma start --browsers Chrome",
+    "ff-live": "karma start --browsers Firefox",
+
+    "coverage": "google-chrome ./coverage/report-html/index.html"
   },
   "repository": {
     "type": "git",
@@ -64,6 +70,7 @@
     "gulp-sourcemaps": ">=1.5.2",
     "gulp-uglify": ">=1.4.1",
     "gulp-util": ">=3.0.6",
+    "gulp-watch": "^4.3.5",
     "istanbul": "^0.3.22",
     "istanbul-instrumenter-loader": "^0.1.3",
     "jquery": ">=2.1.4",

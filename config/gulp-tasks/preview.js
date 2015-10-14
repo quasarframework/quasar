@@ -63,13 +63,13 @@ gulp.task('preview:build', ['preview:script', 'preview:style', 'build-dev']);
 gulp.task('preview:serve', function() {
   config.browser.init(config.preview.server, function() {
     // quasar sources
-    gulp.watch(config.style.watch, ['dev:style']);
-    gulp.watch(config.script.watch, browserReloadAfter('dev:script'));
+    plugins.watch(config.style.watch, ['dev:style']);
+    plugins.watch(config.script.watch, browserReloadAfter('dev:script'));
 
     // preview sources
-    gulp.watch(config.preview.style.watch, ['preview:style']);
-    gulp.watch(config.preview.script.watch, browserReloadAfter('preview:script'));
-    gulp.watch(config.preview.watch, function() {
+    plugins.watch(config.preview.style.watch, ['preview:style']);
+    plugins.watch(config.preview.script.watch, browserReloadAfter('preview:script'));
+    plugins.watch(config.preview.watch, function() {
       config.browser.reload();
     });
   });

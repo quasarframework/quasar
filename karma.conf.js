@@ -32,7 +32,6 @@ module.exports = function(config) {
     },
 
     webpack: {
-      devtool: '#inline-source-map',
       output: {
         libraryTarget: 'umd'
       },
