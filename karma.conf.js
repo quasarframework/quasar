@@ -15,6 +15,7 @@ module.exports = function(config) {
     files: [
       'build/js/quasar-dependencies.js',
       'src/js/quasar.js',
+      'test/setup.js',
       'test/**/*.spec.js'
     ],
 

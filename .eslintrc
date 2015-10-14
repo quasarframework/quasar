@@ -11,6 +11,9 @@
     "require": true,
     "$": true,
     "module": true,
+    "exports": true,
+    "_": true,
+    "testing": true,
 
     "inBrowser": true,
     "moquire": true,
@@ -26,7 +29,7 @@
   },
 
   "rules": {
-    "max-len": [1, 120, 4],
+    "max-len": [1, 5000, 4],
     "no-invalid-this": 0,
     "dot-location": 0,
     "brace-style": [2, "stroustrup", { "allowSingleLine": true }]

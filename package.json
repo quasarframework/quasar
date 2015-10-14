@@ -9,7 +9,11 @@
   "scripts": {
     "prepublish": "gulp dist",
     "build": "gulp dist",
-    "test": "karma start --single-run"
+    "test": "karma start --single-run",
+
+    "pjs": "karma start --browsers PhantomJS --single-run",
+    "chrome": "karma start --browsers Chrome --single-run",
+    "ff": "karma start --browsers Firefox --single-run"
   },
   "repository": {
     "type": "git",

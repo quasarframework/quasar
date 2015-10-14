@@ -14,7 +14,6 @@ if (typeof process !== 'undefined') {
   sinon = require('sinon');
 
   chai.use(sinonChai);
-  inBrowser = false;
 }
 else {
   /**
@@ -22,5 +21,9 @@ else {
    * Set up variables like above using serves js files.
    */
   window.expect = chai.expect;
-  window.inBrowser = true;
+  window.testing = {
+    phantomjs: (function() {
+      return navigator.userAgent.indexOf('PhantomJS') > -1;
+    }())
+  };
 }
