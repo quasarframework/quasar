@@ -16,6 +16,15 @@ FAR FROM READY!!!
 
 Do not take an interest in this yet.
 
+## Documentation
+
+Head on to the Quasar official website: [http://quasar-framework.org](http://quasar-framework.org)
+
+
+## Related Components
+
+* [Quasar CLI](https://github.com/rstoenescu/quasar-cli)
+* [Quasar Semantic UI Build](https://github.com/rstoenescu/quasar-semantic)
 
 ## License
 
