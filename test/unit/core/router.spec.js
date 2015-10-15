@@ -5,7 +5,7 @@ describe('Router', function() {
   });
 
   afterEach(function() {
-    quasar.destroy.router();
+    quasar.stop.router();
     window.location.hash = this.hash;
   });
 
@@ -33,10 +33,10 @@ describe('Router', function() {
   });
 
   it('should be able to destroy router', function() {
-    expect(quasar.destroy.router).to.be.a('function');
-    expect(quasar.router.is.initialized).to.be.a('function');
-    quasar.destroy.router();
-    expect(quasar.router.is.initialized()).to.be.equal(false);
+    expect(quasar.stop.router).to.be.a('function');
+    expect(quasar.router.is.running).to.be.a('function');
+    quasar.stop.router();
+    expect(quasar.router.is.running()).to.be.equal(false);
   });
 
   it('should be able to add a route and verify it', function() {
@@ -138,7 +138,10 @@ describe('Router', function() {
     }).to.throw(/Route has no path/);
 
     expect(function() {
-      quasar.overwrite.route({path: 'bogus'});
+      quasar.overwrite.route({
+        path: 'bogus',
+        on: function() {}
+      });
     }).to.throw(/Route not registered/);
   });
 
@@ -163,8 +166,8 @@ describe('Router', function() {
       path: '#/',
       on: function() { done(); }
     });
-    expect(quasar.initialize.router).to.be.a('function');
-    quasar.initialize.router();
+    expect(quasar.start.router).to.be.a('function');
+    quasar.start.router();
     expect(quasar.get.all.routes()).to.have.length(1);
   });
 
@@ -178,18 +181,14 @@ describe('Router', function() {
         done();
       }
     });
-    quasar.initialize.router();
+    quasar.start.router();
     quasar.navigate.to.route('#/quasar');
   });
 
-  it('should be able to trigger a route without any methods', function(done) {
-    quasar.add.route({path: '#/quasar'});
-    quasar.initialize.router();
-    quasar.navigate.to.route('#/quasar');
-    setTimeout(function() {
-      expect(quasar.get.current.route()).to.equal('#/quasar');
-      done();
-    }, msToWaitBeforeHashChanges);
+  it('should throw error when adding route with no methods', function() {
+    expect(function() {
+      quasar.add.route({path: '#/quasar'});
+    }).to.throw(/Missing route methods/);
   });
 
   it('should be able to refresh a route', function(done) {
@@ -205,7 +204,7 @@ describe('Router', function() {
         }
       }
     });
-    quasar.initialize.router();
+    quasar.start.router();
     quasar.navigate.to.route('#/quasar');
     quasar.refresh.current.route();
   });
@@ -219,7 +218,7 @@ describe('Router', function() {
         done();
       }
     });
-    quasar.initialize.router();
+    quasar.start.router();
     quasar.navigate.to.route('#/page/10');
   });
 
@@ -236,7 +235,7 @@ describe('Router', function() {
         done();
       }
     });
-    quasar.initialize.router();
+    quasar.start.router();
     quasar.navigate.to.route('#/page?empty=&empty2&test=true&tset=false&complex=%20this');
   });
 
@@ -250,7 +249,7 @@ describe('Router', function() {
         done();
       }
     });
-    quasar.initialize.router();
+    quasar.start.router();
   });
 
   it('should be able to provide the correct state for before/on/after', function(done) {
@@ -266,11 +265,11 @@ describe('Router', function() {
       },
       after: function() {
         expect(this.state).to.equal('after');
-        this.next(); //can be ommited
+        this.next(); //can be omitted
         done();
       }
     });
-    quasar.initialize.router();
+    quasar.start.router();
     quasar.navigate.to.route('#/page');
   });
 
@@ -283,7 +282,7 @@ describe('Router', function() {
       path: '#/route2',
       on: function() { done(); }
     });
-    quasar.initialize.router();
+    quasar.start.router();
     quasar.navigate.to.route('#/route1');
   });
 
@@ -312,7 +311,7 @@ describe('Router', function() {
         done();
       }
     });
-    quasar.initialize.router();
+    quasar.start.router();
     quasar.navigate.to.route('#/route1');
   });
 
@@ -320,7 +319,7 @@ describe('Router', function() {
     quasar.add.route(routeOne);
     quasar.add.route(routeTwo);
     quasar.add.route(routeThree);
-    quasar.initialize.router();
+    quasar.start.router();
 
     quasar.navigate.to.route(routeOne.path);
 
@@ -358,7 +357,7 @@ describe('Router', function() {
 
   it('should call onRouteChange', function(done) {
     quasar.add.route(routeOne);
-    quasar.initialize.router({
+    quasar.start.router({
       onRouteChange: function(route) {
         expect(route).to.be.an('object');
         expect(route.path).to.be.ok;
@@ -369,7 +368,7 @@ describe('Router', function() {
   });
 
   it('should call onRouteNotFound', function(done) {
-    quasar.initialize.router({
+    quasar.start.router({
       onRouteNotFound: function(route) {
         expect(route).to.be.an('array');
         done();
@@ -380,7 +379,7 @@ describe('Router', function() {
 
   it('should log about no valid route when onRouteNotFound() is not specified', function(done) {
     sinon.spy(window.console, 'log');
-    quasar.initialize.router();
+    quasar.start.router();
     setTimeout(function() {
       expect(window.console.log).to.have.been.calledOnce;
       expect(window.console.log).to.have.been.calledWithMatch('No valid route');

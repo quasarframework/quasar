@@ -15,7 +15,7 @@ function destroyRouter() {
   __onRouteNotFound = null;
 }
 
-function routerIsInitialized() {
+function routerIsRunning() {
   return window.onhashchange !== null;
 }
 
@@ -35,6 +35,9 @@ function addRoute(route) {
   }
   if (!route.path) {
     throw new Error('Route has no path');
+  }
+  if (!route.before && !route.on && !route.after) {
+    throw new Error('Missing route methods');
   }
   if (hasRoute(route.path)) {
     throw new Error('Route already registered. Use overwrite.');
@@ -231,7 +234,7 @@ function bindHashChange() {
   };
 }
 
-function initializeRouter(config) {
+function startRouter(config) {
   config = config || {};
 
   __onRouteChange = config.onRouteChange;
@@ -266,12 +269,12 @@ module.exports = {
   has: {
     route: hasRoute
   },
-  destroy: {
+  stop: {
     router: destroyRouter
   },
   router: {
     is: {
-      initialized: routerIsInitialized
+      running: routerIsRunning
     }
   },
   remove: {
@@ -288,8 +291,8 @@ module.exports = {
       route: navigateToRoute
     }
   },
-  initialize: {
-    router: initializeRouter
+  start: {
+    router: startRouter
   },
   refresh: {
     current: {
