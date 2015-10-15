@@ -123,7 +123,7 @@ function matchPath(path) {
   var params = {};
   var query = {};
 
-  //parse querystring
+  // parse querystring
   if (hashParts.hashQueryArray.length > 0) {
     for (var q = 0; q < hashParts.hashQueryArray.length; q++) {
       var keyValue = hashParts.hashQueryArray[q].split('=');
@@ -132,13 +132,15 @@ function matchPath(path) {
     }
   }
 
-  //parse hash parameters
+  // parse hash parameters
   for (var i = 0; i < __routes.length; i++) {
     var route = __routes[i];
 
-    if (route.path.search(/:/) > 0) {//Dynamic parts
+    // dynamic parts
+    if (route.path.search(/:/) > 0) {
       var routeSlices = route.path.split('/');
-      var tester = hashParts.hashParams;
+
+      tester = hashParts.hashParams;
 
       for (var x = 0; x < routeSlices.length; x++) {
         if (x < testerSlices.length && routeSlices[x].charAt(0) === ':') {
@@ -159,10 +161,10 @@ function matchPath(path) {
 }
 
 function getNextRouteStep(state) {
-  if (state == 'before') {
+  if (state === 'before') {
     return 'on';
   }
-  if (state == 'on') {
+  if (state === 'on') {
     return 'after';
   }
 
