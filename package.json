@@ -10,15 +10,12 @@
     "prepublish": "gulp dist",
     "build": "gulp dist",
     "test": "karma start --single-run",
-
     "pjs": "karma start --browsers PhantomJS --single-run",
     "chrome": "karma start --browsers Chrome --single-run",
     "ff": "karma start --browsers Firefox --single-run",
-
     "pjs-live": "karma start --browsers PhantomJS",
     "chrome-live": "karma start --browsers Chrome",
     "ff-live": "karma start --browsers Firefox",
-
     "coverage": "google-chrome ./coverage/report-html/index.html"
   },
   "repository": {
