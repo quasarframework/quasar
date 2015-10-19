@@ -178,9 +178,7 @@ function executeRouteStep(route, state, previousResult) {
   var nextState = getNextRouteStep(state);
 
   if (!route.hasOwnProperty(state)) {
-    if (nextState) {
-      executeRouteStep(route, nextState);
-    }
+    executeRouteStep(route, nextState);
     return;
   }
 

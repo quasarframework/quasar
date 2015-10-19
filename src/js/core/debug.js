@@ -2,12 +2,16 @@ var __profiler = {};
 
 module.exports = {
   printStack: function() {
+    /* istanbul ignore next */
     var e = new Error('dummy');
+
+    /* istanbul ignore next */
     var stack = e.stack.replace(/^[^\(]+?[\n$]/gm, '')
       .replace(/^\s+at\s+/gm, '')
       .replace(/^Object.<anonymous>\s*\(/gm, '{anon}()@')
       .split('\n');
 
+    /* istanbul ignore next */
     console.log(stack);
   },
   profile: function(name) {
