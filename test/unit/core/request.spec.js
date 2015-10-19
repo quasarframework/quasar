@@ -21,11 +21,11 @@ describe('Request', function() {
 
   beforeEach(function() {
     this.server = sinon.fakeServer.create();
-    quasar.reset.requests.cache();
+    quasar.clear.requests.cache();
   });
   afterEach(function() {
     this.server.restore();
-    quasar.reset.requests.cache();
+    quasar.clear.requests.cache();
   });
 
 
@@ -236,7 +236,7 @@ describe('Request', function() {
 
   describe('cache', function() {
 
-    expect(quasar.reset.requests.cache).to.be.a('function');
+    expect(quasar.clear.requests.cache).to.be.a('function');
 
     beforeEach(function() {
       this.initialConfig = quasar.config.requests.use.cache;
@@ -249,7 +249,7 @@ describe('Request', function() {
     });
 
     after(function() {
-      quasar.reset.requests.cache();
+      quasar.clear.requests.cache();
     });
 
     it('should fetch from cache when cache is enabled', function(done) {

@@ -164,7 +164,7 @@ module.exports = {
       requests: cache.abortAllRequests
     }
   },
-  reset: {
+  clear: {
     requests: {
       cache: cache.resetRequestCache
     }
