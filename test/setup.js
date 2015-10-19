@@ -47,3 +47,7 @@ if (typeof Function.prototype.bind != 'function') {
     return bound;
   };
 }
+
+// Immediately throw error when using Sinon.
+// The default behavior is to throw error in a setTimeout().
+window.sinon.logError.useImmediateExceptions = true;

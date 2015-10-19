@@ -9,8 +9,8 @@ function processTarget(target) {
     return target;
   }
 
-  if (quasar.config.request.baseURL) {
-    return quasar.config.request.baseURL + '/' + target;
+  if (quasar.config.requests.baseURL) {
+    return quasar.config.requests.baseURL + '/' + target;
   }
 
   return target;
@@ -27,13 +27,18 @@ function xhrCall(type, config) {
   config.url = processTarget(config.url);
 
   config.type = type;
-  config.xhrFields = {
+  config.xhrFields = _.merge({
     withCredentials: true
-  };
+  }, config.xhrFields || {});
 
-  if (quasar.config.request.errorFnHandler) {
-    config.error = function(error) {
-      return !quasar.config.request.errorFnHandler.apply(this, arguments);
+  if (quasar.config.requests.failFnHandler) {
+    config.error = function() {
+      var shouldHaltExecution = quasar.config.requests.failFnHandler.apply(this, arguments);
+
+      if (shouldHaltExecution === true) {
+        throw new Error('Halting default failure handlers');
+      }
+      return true;
     };
   }
 
@@ -58,25 +63,37 @@ function getStore(commonConfig) {
   }
 
   return {
-    get: function(config) {
-      config = config || {};
-      config = $.extend({}, commonConfig, config);
-      return xhrCall('GET', config);
-    },
-    post: function(config) {
-      config = config || {};
-      config = $.extend({}, commonConfig, config);
-      return xhrCall('POST', config);
-    },
-    put: function(config) {
-      config = config || {};
-      config = $.extend({}, commonConfig, config);
-      return xhrCall('PUT', config);
-    },
-    del: function(config) {
-      config = config || {};
-      config = $.extend({}, commonConfig, config);
-      return xhrCall('DELETE', config);
+    make: {
+      a: {
+        get: {
+          request: function(config) {
+            config = config || {};
+            config = $.extend({}, commonConfig, config);
+            return xhrCall('GET', config);
+          }
+        },
+        post: {
+          request: function(config) {
+            config = config || {};
+            config = $.extend({}, commonConfig, config);
+            return xhrCall('POST', config);
+          }
+        },
+        put: {
+          request: function(config) {
+            config = config || {};
+            config = $.extend({}, commonConfig, config);
+            return xhrCall('PUT', config);
+          }
+        },
+        del: {
+          request: function(config) {
+            config = config || {};
+            config = $.extend({}, commonConfig, config);
+            return xhrCall('DELETE', config);
+          }
+        }
+      }
     }
   };
 }
@@ -111,10 +128,10 @@ function makeGroupRequest() {
 
 module.exports = {
   config: {
-    request: {
+    requests: {
       baseURL: '',
-      errorFnHandler: null,
-      uses: {
+      failFnHandler: null,
+      use: {
         cache: true
       }
     }
@@ -148,7 +165,7 @@ module.exports = {
     }
   },
   reset: {
-    request: {
+    requests: {
       cache: cache.resetRequestCache
     }
   }

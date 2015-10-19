@@ -21,11 +21,11 @@ describe('Request', function() {
 
   beforeEach(function() {
     this.server = sinon.fakeServer.create();
-    quasar.reset.request.cache();
+    quasar.reset.requests.cache();
   });
   afterEach(function() {
     this.server.restore();
-    quasar.reset.request.cache();
+    quasar.reset.requests.cache();
   });
 
 
@@ -121,15 +121,15 @@ describe('Request', function() {
 
     it('should trigger a GET request to the right URL when base URL is configured', function(done) {
       var url = 'http://quasar-framework/framework';
-      var initialConfig = quasar.config.request.baseURL;
+      var initialConfig = quasar.config.requests.baseURL;
 
-      quasar.config.request.baseURL = url;
+      quasar.config.requests.baseURL = url;
       this.server.respondWith('GET', url + '/some/script.php', [200, contentType, jsonOne]);
 
       quasar.make.a.get.request({url: 'some/script.php'}).done(function(data) {
         expect(data).to.deep.equal(objOne);
 
-        quasar.config.request.baseURL = initialConfig;
+        quasar.config.requests.baseURL = initialConfig;
         done();
       });
 
@@ -167,17 +167,17 @@ describe('Request', function() {
   describe('error handler', function() {
 
     before(function() {
-      this.initialConfig = quasar.config.request.errorFnHandler;
+      this.initialConfig = quasar.config.requests.failFnHandler;
     });
 
     after(function() {
-      quasar.config.request.errorFnHandler = this.initialConfig;
+      quasar.config.requests.failFnHandler = this.initialConfig;
     });
 
     it('should be triggered and call fail() when it is configured so', function(done) {
       var triggerHandler = false;
 
-      quasar.config.request.errorFnHandler = function(error) {
+      quasar.config.requests.failFnHandler = function(error) {
         if (error.status && error.status == 404) {
           triggerHandler = true;
           return false;
@@ -194,8 +194,8 @@ describe('Request', function() {
       this.server.respond();
     });
 
-    it('should be triggered and don\'t call fail() when it is configured so', function(done) {
-      quasar.config.request.errorFnHandler = function() {
+    it('should be triggered and DON\'T call fail() when it is configured so', function(done) {
+      quasar.config.requests.failFnHandler = function() {
         setTimeout(done, 1);
         return true;
       };
@@ -203,15 +203,18 @@ describe('Request', function() {
       this.server.respondWith('GET', urlOne, [404, contentType, jsonOne]);
 
       quasar.make.a.get.request({url: urlOne}).fail(function() {
-        // because of errorFnHandler returning false:
+        // because failFnHandler returns true,
+        // we should not reach this point:
         throw new Error('Should not call fail()');
       });
 
-      this.server.respond();
+      expect(function() {
+        this.server.respond();
+      }.bind(this)).to.throw(/Halting default failure handlers/);
     });
 
     it('should not be triggered if request is a success', function(done) {
-      quasar.config.request.errorFnHandler = function() {
+      quasar.config.requests.failFnHandler = function() {
         throw new Error('Should not be called on success');
       };
 
@@ -219,7 +222,7 @@ describe('Request', function() {
 
       quasar.make.a.get.request({url: urlOne})
         .fail(function() {
-          // because of errorFnHandler returning false:
+          // because of failFnHandler returning false:
           throw new Error('Should not call fail()');
         })
         .done(function() {
@@ -233,24 +236,24 @@ describe('Request', function() {
 
   describe('cache', function() {
 
-    expect(quasar.reset.request.cache).to.be.a('function');
+    expect(quasar.reset.requests.cache).to.be.a('function');
 
     beforeEach(function() {
-      this.initialConfig = quasar.config.request.uses.cache;
+      this.initialConfig = quasar.config.requests.use.cache;
       sinon.spy(window.console, 'log');
     });
 
     afterEach(function() {
-      quasar.config.request.uses.cache = this.initialConfig;
+      quasar.config.requests.use.cache = this.initialConfig;
       window.console.log.restore();
     });
 
     after(function() {
-      quasar.reset.request.cache();
+      quasar.reset.requests.cache();
     });
 
     it('should fetch from cache when cache is enabled', function(done) {
-      quasar.config.request.uses.cache = true;
+      quasar.config.requests.use.cache = true;
 
       this.server.respondWith('GET', urlOne, [200, contentType, jsonOne]);
 
@@ -266,7 +269,7 @@ describe('Request', function() {
     });
 
     it('should fetch from server when cache is disabled', function(done) {
-      quasar.config.request.uses.cache = false;
+      quasar.config.requests.use.cache = false;
 
       this.server.respondWith('GET', urlOne, [200, contentType, jsonOne]);
 
@@ -286,7 +289,7 @@ describe('Request', function() {
     });
 
     it('should fetch from server when cachable is set to false', function(done) {
-      quasar.config.request.uses.cache = true;
+      quasar.config.requests.use.cache = true;
 
       this.server.respondWith('GET', urlOne, [200, contentType, jsonOne]);
 
@@ -451,10 +454,10 @@ describe('Request', function() {
       this.server.respondWith('PUT', urlOne, [200, contentType, jsonTwo]);
       this.server.respondWith('DELETE', urlOne, [200, contentType, jsonTwo]);
 
-      store.get().done(fn);
-      store.post().done(fn);
-      store.put().done(fn);
-      store.del().done(fn);
+      store.make.a.get.request().done(fn);
+      store.make.a.post.request().done(fn);
+      store.make.a.put.request().done(fn);
+      store.make.a.del.request().done(fn);
 
       this.server.respond();
     });
@@ -464,7 +467,7 @@ describe('Request', function() {
 
       this.server.respondWith('GET', urlTwo, [200, contentType, jsonOne]);
 
-      store.get({url: urlTwo}).done(function() {
+      store.make.a.get.request({url: urlTwo}).done(function() {
         done();
       });
 
