@@ -1,14 +1,65 @@
 function encode(value) {
-  return _.isObject(value) ? JSON.stringify(value) : value;
+  if (_.isDate(value)) {
+    return '__q_date|' + value.toUTCString();
+  }
+  if (_.isRegExp(value)) {
+    return '__q_expr|' + value.source;
+  }
+  if (_.isNumber(value)) {
+    return '__q_numb|' + value;
+  }
+  if (_.isBoolean(value)) {
+    return '__q_bool|' + (value ? '1' : '0');
+  }
+  if (_.isString(value)) {
+    return '__q_strn|' + value;
+  }
+  if (_.isPlainObject(value)) {
+    return '__q_objt|' + JSON.stringify(value);
+  }
+
+  // hmm, we don't know what to do with it,
+  // so just return it as is
+  return value;
 }
 
 function decode(value) {
-  try {
-    value = JSON.parse(value);
-  }
-  catch(e) {};
+  var type, length, source;
 
-  return value;
+  length = value.length;
+  if (length < 10) {
+    // then it wasn't encoded by us
+    return value;
+  }
+
+  type = value.substr(0, 8);
+  source = value.substring(9);
+
+  switch(type) {
+  case '__q_date':
+    return new Date(source);
+
+  case '__q_expr':
+    return new RegExp(source);
+
+  case '__q_numb':
+    return Number(source);
+
+  case '__q_bool':
+    return Boolean(source == '1');
+
+  case '__q_strn':
+    return '' + source;
+
+  case '__q_objt':
+    return JSON.parse(source);
+
+  default:
+    // hmm, we reached here, we don't know the type,
+    // then it means it wasn't encoded by us, so just
+    // return whatever value it is
+    return value;
+  }
 }
 
 /*

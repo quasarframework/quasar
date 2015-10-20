@@ -24,7 +24,7 @@ describe('Storage', function() {
       it('should be able to get and set item', function() {
         expect(quasar.get[type].storage.item(keyOne)).to.equal(null);
         quasar.set[type].storage.item(keyOne, valueOne);
-        expect(window[type + 'Storage'].getItem(keyOne)).to.equal(valueOne);
+        expect(window[type + 'Storage'].getItem(keyOne)).to.equal('__q_strn|' + valueOne);
         expect(quasar.get[type].storage.item(keyOne)).to.equal(valueOne);
       });
 
@@ -93,6 +93,113 @@ describe('Storage', function() {
 
         expect(repository[keyOne]).to.equal(valueOne);
         expect(repository[keyTwo]).to.deep.equal(valueTwo);
+      });
+
+      it('should be able to write and read a date', function() {
+        var
+          result,
+          date = new Date();
+
+        quasar.set[type].storage.item(keyOne, date);
+
+        result = quasar.get[type].storage.item(keyOne);
+        expect(result).to.be.a('date');
+        expect(result.toUTCString()).to.equal(date.toUTCString());
+      });
+
+      it('should be able to write and read a regular expression', function() {
+        var
+          result,
+          regexp = /abc/;
+
+        quasar.set[type].storage.item(keyOne, regexp);
+
+        result = quasar.get[type].storage.item(keyOne);
+        expect(result).to.be.an.instanceof(RegExp);
+        expect(result.source).to.equal(regexp.source);
+      });
+
+      it('should be able to write and read a number', function() {
+        var
+          result,
+          numbers = [4, 55.4, Math.PI];
+
+        _.each(numbers, function(number) {
+          quasar.set[type].storage.item(keyOne, number);
+
+          result = quasar.get[type].storage.item(keyOne);
+          expect(result).to.be.a('number');
+          expect(result).to.equal(number);
+        });
+      });
+
+      it('should be able to write and read a boolean', function() {
+        var
+          result,
+          bools = [false, true];
+
+        _.each(bools, function(bool) {
+          quasar.set[type].storage.item(keyOne, bool);
+
+          result = quasar.get[type].storage.item(keyOne);
+          expect(result).to.be.a('boolean');
+          expect(result).to.equal(bool);
+        });
+      });
+
+      it('should be able to write and read a string', function() {
+        var
+          result,
+          string = 'Quasar Framework';
+
+        quasar.set[type].storage.item(keyOne, string);
+
+        result = quasar.get[type].storage.item(keyOne);
+        expect(result).to.be.a('string');
+        expect(result).to.equal(string);
+      });
+
+      it('should be able to write and read a plain object', function() {
+        var
+          result,
+          obj = {
+            test: true,
+            tset: {
+              quasar: 'framework'
+            }
+          };
+
+        quasar.set[type].storage.item(keyOne, obj);
+
+        result = quasar.get[type].storage.item(keyOne);
+        expect(result).to.be.an('object');
+        expect(result).to.deep.equal(obj);
+      });
+
+      it('should be able to read an item not written by us', function() {
+        var
+          result,
+          rawValues = ['raw', 'Some non-compliant value'];
+
+        _.each(rawValues, function(rawValue) {
+          window[type + 'Storage'].setItem(keyOne, rawValue);
+
+          result = quasar.get[type].storage.item(keyOne);
+          expect(result).to.be.a('string');
+          expect(result).to.equal(rawValue);
+        });
+      });
+
+      it('should be able to write and read an unsupported type like Function', function() {
+        var
+          result,
+          obj = function() { return 5; };
+
+        quasar.set[type].storage.item(keyOne, obj);
+
+        result = quasar.get[type].storage.item(keyOne);
+        expect(result).to.be.a('string');
+        expect(result).to.equal(obj.toString());
       });
 
     });
