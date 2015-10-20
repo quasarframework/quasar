@@ -46,7 +46,7 @@ function decode(value) {
     return Number(source);
 
   case '__q_bool':
-    return Boolean(source == '1');
+    return Boolean(source === '1');
 
   case '__q_strn':
     return '' + source;
@@ -80,7 +80,7 @@ function hasSessionStorageItem(key) {
 
 function getLocalStorageLength() {
   return window.localStorage.length;
-};
+}
 
 function getSessionStorageLength() {
   return window.sessionStorage.length;
@@ -125,10 +125,13 @@ function getSessionStorageAtIndex(index) {
 
 function getAllLocalStorage() {
   var
+    i = 0,
     result = {},
-    key;
+    key,
+    length = getLocalStorageLength();
 
-  for (var i = 0; key = window.localStorage.key(i); i++) {
+  for (var i = 0; i < length; i++) {
+    key = window.localStorage.key(i);
     result[key] = getLocalStorageItem(key);
   }
 
@@ -137,10 +140,13 @@ function getAllLocalStorage() {
 
 function getAllSessionStorage() {
   var
+    i = 0,
     result = {},
-    key;
+    key,
+    length = getSessionStorageLength();
 
-  for (var i = 0; key = window.sessionStorage.key(i); i++) {
+  for (var i = 0; i < length; i++) {
+    key = window.sessionStorage.key(i);
     result[key] = getSessionStorageItem(key);
   }
 

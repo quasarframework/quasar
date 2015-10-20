@@ -63,7 +63,7 @@ var requestsInProgress = {
 function log(action, options) {
   console.log(
     '[xhr:' + action + ']',
-    (options.type != 'GET' ? options.type + ' ' : '') + options.url,
+    (options.type !== 'GET' ? options.type + ' ' : '') + options.url,
     options.data ? options.data : ''
   );
 }

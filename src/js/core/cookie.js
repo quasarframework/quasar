@@ -1,6 +1,3 @@
-var config = {
-  defaults: {}
-};
 
 function encode(string) {
   return encodeURIComponent(string);
@@ -32,7 +29,7 @@ function read(string) {
   try {
     string = JSON.parse(string);
   }
-  catch(e) {};
+  catch(e) {}
 
   return string;
 }
