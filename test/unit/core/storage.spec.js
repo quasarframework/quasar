@@ -89,7 +89,7 @@ describe('Storage', function() {
         quasar.set[type].storage.item(keyOne, valueOne);
         quasar.set[type].storage.item(keyTwo, valueTwo);
 
-        var repository = quasar.get.all[type].storage();
+        var repository = quasar.get.all[type].storage.items();
 
         expect(repository[keyOne]).to.equal(valueOne);
         expect(repository[keyTwo]).to.deep.equal(valueTwo);

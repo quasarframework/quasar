@@ -107,7 +107,7 @@ var getStorageAtIndex = generateFunctions(function(type) {
   };
 });
 
-var getAllStorage = generateFunctions(function(type) {
+var getAllStorageItems = generateFunctions(function(type) {
   var
     lengthFn = getStorageLength[type],
     storage = window[type + 'Storage'],
@@ -177,10 +177,14 @@ module.exports = {
   get: {
     all: {
       local: {
-        storage: getAllStorage.local
+        storage: {
+          items: getAllStorageItems.local
+        }
       },
       session: {
-        storage: getAllStorage.session
+        storage: {
+          items: getAllStorageItems.session
+        }
       }
     },
     local: {
