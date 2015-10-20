@@ -62,26 +62,26 @@ function decode(value) {
   }
 }
 
-function generate(fn) {
+function generateFunctions(fn) {
   return {
     local: fn('local'),
     session: fn('session')
   };
 }
 
-var hasStorageItem = generate(function(type) {
+var hasStorageItem = generateFunctions(function(type) {
   return function(key) {
     return window[type + 'Storage'].getItem(key) !== null;
   };
 });
 
-var getStorageLength = generate(function(type) {
+var getStorageLength = generateFunctions(function(type) {
   return function() {
     return window[type + 'Storage'].length;
   };
 });
 
-var getStorageItem = generate(function(type) {
+var getStorageItem = generateFunctions(function(type) {
   var
     hasFn = hasStorageItem[type],
     storage = window[type + 'Storage'];
@@ -94,7 +94,7 @@ var getStorageItem = generate(function(type) {
   };
 });
 
-var getStorageAtIndex = generate(function(type) {
+var getStorageAtIndex = generateFunctions(function(type) {
   var
     lengthFn = getStorageLength[type],
     getItemFn = getStorageItem[type],
@@ -107,7 +107,7 @@ var getStorageAtIndex = generate(function(type) {
   };
 });
 
-var getAllStorage = generate(function(type) {
+var getAllStorage = generateFunctions(function(type) {
   var
     lengthFn = getStorageLength[type],
     storage = window[type + 'Storage'],
@@ -128,7 +128,7 @@ var getAllStorage = generate(function(type) {
   };
 });
 
-var setStorageItem = generate(function(type) {
+var setStorageItem = generateFunctions(function(type) {
   var storage = window[type + 'Storage'];
 
   return function(key, value) {
@@ -136,7 +136,7 @@ var setStorageItem = generate(function(type) {
   };
 });
 
-var removeStorageItem = generate(function(type) {
+var removeStorageItem = generateFunctions(function(type) {
   var storage = window[type + 'Storage'];
 
   return function(key) {
@@ -144,7 +144,7 @@ var removeStorageItem = generate(function(type) {
   };
 });
 
-var clearStorage = generate(function(type) {
+var clearStorage = generateFunctions(function(type) {
   var storage = window[type + 'Storage'];
 
   return function() {
@@ -152,7 +152,7 @@ var clearStorage = generate(function(type) {
   };
 });
 
-var storageIsEmpty = generate(function(type) {
+var storageIsEmpty = generateFunctions(function(type) {
   var getLengthFn = getStorageLength[type];
 
   return function() {
@@ -165,39 +165,39 @@ module.exports = {
   has: {
     local: {
       storage: {
-        item: hasStorageItem['local']
+        item: hasStorageItem.local
       }
     },
     session: {
       storage: {
-        item: hasStorageItem['session']
+        item: hasStorageItem.session
       }
     }
   },
   get: {
     all: {
       local: {
-        storage: getAllStorage['local']
+        storage: getAllStorage.local
       },
       session: {
-        storage: getAllStorage['session']
+        storage: getAllStorage.session
       }
     },
     local: {
       storage: {
-        length: getStorageLength['local'],
-        item: getStorageItem['local'],
+        length: getStorageLength.local,
+        item: getStorageItem.local,
         at: {
-          index: getStorageAtIndex['local']
+          index: getStorageAtIndex.local
         }
       }
     },
     session: {
       storage: {
-        length: getStorageLength['session'],
-        item: getStorageItem['session'],
+        length: getStorageLength.session,
+        item: getStorageItem.session,
         at: {
-          index: getStorageAtIndex['session']
+          index: getStorageAtIndex.session
         }
       }
     }
@@ -205,46 +205,46 @@ module.exports = {
   set: {
     local: {
       storage: {
-        item: setStorageItem['local']
+        item: setStorageItem.local
       }
     },
     session: {
       storage: {
-        item: setStorageItem['session']
+        item: setStorageItem.session
       }
     }
   },
   remove: {
     local: {
       storage: {
-        item: removeStorageItem['local']
+        item: removeStorageItem.local
       }
     },
     session: {
       storage: {
-        item: removeStorageItem['session']
+        item: removeStorageItem.session
       }
     }
   },
   clear: {
     local: {
-      storage: clearStorage['local']
+      storage: clearStorage.local
     },
     session: {
-      storage: clearStorage['session']
+      storage: clearStorage.session
     }
   },
   local: {
     storage: {
       is: {
-        empty: storageIsEmpty['local']
+        empty: storageIsEmpty.local
       }
     }
   },
   session: {
     storage: {
       is: {
-        empty: storageIsEmpty['session']
+        empty: storageIsEmpty.session
       }
     }
   }
