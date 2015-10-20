@@ -62,181 +62,142 @@ function decode(value) {
   }
 }
 
-/*
- * Has
- */
-
-function hasLocalStorageItem(key) {
-  return window.localStorage.getItem(key) !== null;
+function generate(fn) {
+  return {
+    local: fn('local'),
+    session: fn('session')
+  };
 }
 
-function hasSessionStorageItem(key) {
-  return window.sessionStorage.getItem(key) !== null;
-}
+var hasStorageItem = generate(function(type) {
+  return function(key) {
+    return window[type + 'Storage'].getItem(key) !== null;
+  };
+});
 
-/*
- * Length
- */
+var getStorageLength = generate(function(type) {
+  return function() {
+    return window[type + 'Storage'].length;
+  };
+});
 
-function getLocalStorageLength() {
-  return window.localStorage.length;
-}
-
-function getSessionStorageLength() {
-  return window.sessionStorage.length;
-}
-
-/*
- * Get Item
- */
-function getLocalStorageItem(key) {
-  if (hasLocalStorageItem(key)) {
-    return decode(window.localStorage.getItem(key));
-  }
-  return null;
-}
-
-function getSessionStorageItem(key) {
-  if (hasSessionStorageItem(key)) {
-    return decode(window.sessionStorage.getItem(key));
-  }
-  return null;
-}
-
-/*
- * Get Key
- */
-
-function getLocalStorageAtIndex(index) {
-  if (index < getLocalStorageLength()) {
-    return getLocalStorageItem(window.localStorage.key(index));
-  }
-}
-
-function getSessionStorageAtIndex(index) {
-  if (index < getSessionStorageLength()) {
-    return getSessionStorageItem(window.sessionStorage.key(index));
-  }
-}
-
-/*
- * Get All
- */
-
-function getAllLocalStorage() {
+var getStorageItem = generate(function(type) {
   var
-    result = {},
-    key,
-    length = getLocalStorageLength();
+    hasFn = hasStorageItem[type],
+    storage = window[type + 'Storage'];
 
-  for (var i = 0; i < length; i++) {
-    key = window.localStorage.key(i);
-    result[key] = getLocalStorageItem(key);
-  }
+  return function(key) {
+    if (hasFn(key)) {
+      return decode(storage.getItem(key));
+    }
+    return null;
+  };
+});
 
-  return result;
-}
-
-function getAllSessionStorage() {
+var getStorageAtIndex = generate(function(type) {
   var
-    result = {},
-    key,
-    length = getSessionStorageLength();
+    lengthFn = getStorageLength[type],
+    getItemFn = getStorageItem[type],
+    storage = window[type + 'Storage'];
 
-  for (var i = 0; i < length; i++) {
-    key = window.sessionStorage.key(i);
-    result[key] = getSessionStorageItem(key);
-  }
+  return function(index) {
+    if (index < lengthFn()) {
+      return getItemFn(storage.key(index));
+    }
+  };
+});
 
-  return result;
-}
+var getAllStorage = generate(function(type) {
+  var
+    lengthFn = getStorageLength[type],
+    storage = window[type + 'Storage'],
+    getItemFn = getStorageItem[type];
 
-/*
- * Set Item
- */
+  return function() {
+    var
+      result = {},
+      key,
+      length = lengthFn();
 
-function setLocalStorageItem(key, value) {
-  window.localStorage.setItem(key, encode(value));
-}
+    for (var i = 0; i < length; i++) {
+      key = storage.key(i);
+      result[key] = getItemFn(key);
+    }
 
-function setSessionStorageItem(key, value) {
-  window.sessionStorage.setItem(key, encode(value));
-}
+    return result;
+  };
+});
 
-/*
- * Remove Item
- */
+var setStorageItem = generate(function(type) {
+  var storage = window[type + 'Storage'];
 
-function removeLocalStorageItem(key) {
-  window.localStorage.removeItem(key);
-}
+  return function(key, value) {
+    storage.setItem(key, encode(value));
+  };
+});
 
-function removeSessionStorageItem(key) {
-  window.sessionStorage.removeItem(key);
-}
+var removeStorageItem = generate(function(type) {
+  var storage = window[type + 'Storage'];
 
-/*
- * Clear
- */
+  return function(key) {
+    storage.removeItem(key);
+  };
+});
 
-function clearLocalStorage() {
-  window.localStorage.clear();
-}
+var clearStorage = generate(function(type) {
+  var storage = window[type + 'Storage'];
 
-function clearSessionStorage() {
-  window.sessionStorage.clear();
-}
+  return function() {
+    storage.clear();
+  };
+});
 
-/*
- * Is empty?
- */
+var storageIsEmpty = generate(function(type) {
+  var getLengthFn = getStorageLength[type];
 
-function localStorageIsEmpty() {
-  return getLocalStorageLength() === 0;
-}
-
-function sessionStorageIsEmpty() {
-  return getSessionStorageLength() === 0;
-}
+  return function() {
+    return getLengthFn() === 0;
+  };
+});
 
 
 module.exports = {
   has: {
     local: {
       storage: {
-        item: hasLocalStorageItem
+        item: hasStorageItem['local']
       }
     },
     session: {
       storage: {
-        item: hasSessionStorageItem
+        item: hasStorageItem['session']
       }
     }
   },
   get: {
     all: {
       local: {
-        storage: getAllLocalStorage
+        storage: getAllStorage['local']
       },
       session: {
-        storage: getAllSessionStorage
+        storage: getAllStorage['session']
       }
     },
     local: {
       storage: {
-        length: getLocalStorageLength,
-        item: getLocalStorageItem,
+        length: getStorageLength['local'],
+        item: getStorageItem['local'],
         at: {
-          index: getLocalStorageAtIndex
+          index: getStorageAtIndex['local']
         }
       }
     },
     session: {
       storage: {
-        length: getSessionStorageLength,
-        item: getSessionStorageItem,
+        length: getStorageLength['session'],
+        item: getStorageItem['session'],
         at: {
-          index: getSessionStorageAtIndex
+          index: getStorageAtIndex['session']
         }
       }
     }
@@ -244,46 +205,46 @@ module.exports = {
   set: {
     local: {
       storage: {
-        item: setLocalStorageItem
+        item: setStorageItem['local']
       }
     },
     session: {
       storage: {
-        item: setSessionStorageItem
+        item: setStorageItem['session']
       }
     }
   },
   remove: {
     local: {
       storage: {
-        item: removeLocalStorageItem
+        item: removeStorageItem['local']
       }
     },
     session: {
       storage: {
-        item: removeSessionStorageItem
+        item: removeStorageItem['session']
       }
     }
   },
   clear: {
     local: {
-      storage: clearLocalStorage
+      storage: clearStorage['local']
     },
     session: {
-      storage: clearSessionStorage
+      storage: clearStorage['session']
     }
   },
   local: {
     storage: {
       is: {
-        empty: localStorageIsEmpty
+        empty: storageIsEmpty['local']
       }
     }
   },
   session: {
     storage: {
       is: {
-        empty: sessionStorageIsEmpty
+        empty: storageIsEmpty['session']
       }
     }
   }
