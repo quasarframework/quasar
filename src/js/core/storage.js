@@ -125,7 +125,6 @@ function getSessionStorageAtIndex(index) {
 
 function getAllLocalStorage() {
   var
-    i = 0,
     result = {},
     key,
     length = getLocalStorageLength();
@@ -140,7 +139,6 @@ function getAllLocalStorage() {
 
 function getAllSessionStorage() {
   var
-    i = 0,
     result = {},
     key,
     length = getSessionStorageLength();
