@@ -1,15 +1,6 @@
 describe('Cookies', function() {
   var cookieName = 'quasarTestCookie';
 
-  expect(quasar.set.cookie).to.exist;
-  expect(quasar.set.cookie).to.be.a('function');
-
-  expect(quasar.get.cookie).to.exist;
-  expect(quasar.get.cookie).to.be.a('function');
-
-  expect(quasar.remove.cookie).to.exist;
-  expect(quasar.remove.cookie).to.be.a('function');
-
   beforeEach(function() {
     quasar.remove.cookie(cookieName);
   });
@@ -23,6 +14,12 @@ describe('Cookies', function() {
   it('should be able to read a cookie', function() {
     quasar.set.cookie(cookieName, 'some-value');
     expect(quasar.get.cookie(cookieName)).to.equal('some-value');
+  });
+
+  it('should be able to verify if a cookie exists', function() {
+    expect(quasar.has.cookie(cookieName)).to.equal(false);
+    quasar.set.cookie(cookieName, 'some-value');
+    expect(quasar.has.cookie(cookieName)).to.equal(true);
   });
 
   it('should be able to set an existing cookie to another value', function() {

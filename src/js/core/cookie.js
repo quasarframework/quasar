@@ -85,6 +85,10 @@ function removeCookie(key, options) {
   }));
 }
 
+function hasCookie(key) {
+  return getCookie(key) !== undefined;
+}
+
 
 module.exports = {
   remove: {
@@ -92,6 +96,9 @@ module.exports = {
   },
   set: {
     cookie: setCookie
+  },
+  has: {
+    cookie: hasCookie
   },
   get: {
     cookie: getCookie,
