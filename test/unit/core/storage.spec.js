@@ -1,4 +1,4 @@
-describe.only('Storage', function() {
+describe('Storage', function() {
 
   var
     keyOne = 'quasar-bogus-key-one',
