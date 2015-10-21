@@ -1,17 +1,14 @@
 var __profiler = {};
 
-module.exports = {
-  printStack: function() {
-    /* istanbul ignore next */
+var debug = {
+  printStack: /* istanbul ignore next */ function() {
     var e = new Error('dummy');
 
-    /* istanbul ignore next */
     var stack = e.stack.replace(/^[^\(]+?[\n$]/gm, '')
       .replace(/^\s+at\s+/gm, '')
       .replace(/^Object.<anonymous>\s*\(/gm, '{anon}()@')
       .split('\n');
 
-    /* istanbul ignore next */
     console.log(stack);
   },
   profile: function(name) {
@@ -24,4 +21,8 @@ module.exports = {
     __profiler[name] = new Date().getTime();
     console.log('[profile start: ' + name + ']');
   }
+};
+
+module.exports = {
+  debug: debug
 };
