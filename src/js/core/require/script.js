@@ -70,7 +70,7 @@ function deepLoad(module, callback) {
     }, 25);
     return;
   }
-  else if (module.state == states.READY) {
+  else if (module.state === states.READY) {
     quasar.nextTick(function() {
       callback(module.error, module);
     });
@@ -96,7 +96,7 @@ function deepLoad(module, callback) {
   request.send();
 }
 
-function getModuleExports(module, relative) {
+function getModuleExports(module) {
   if (module.exports) {
     return module.exports;
   }
