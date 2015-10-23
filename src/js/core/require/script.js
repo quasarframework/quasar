@@ -35,7 +35,7 @@ function load(module, callback, request) {
     module.text = request.response;
   }
 
-  module.text.replace(/(?:^|[^\w\$_.])qRequire\s*\(\s*["']([^"']*)["']\s*\)/g, function(_, id) {
+  module.text.replace(/(?:^|[^\w\$_.])require\s*\(\s*["']([^"']*)["']\s*\)/g, function(_, id) {
     requires[id] = true;
   });
 
@@ -107,7 +107,7 @@ function getModuleExports(module) {
     fn = module.factoryFn;
   }
   else {
-    fn = globalEval('(function(qRequire,exports,module){' + module.text + '\n})//# sourceURL=' + module.location);
+    fn = globalEval('(function(require,exports,module){' + module.text + '\n})//# sourceURL=' + module.location);
   }
 
   fn(
@@ -121,8 +121,15 @@ function getModuleExports(module) {
   return module.exports;
 }
 
-function loadJS(resource, callback) {
-  var module;
+function requireScript(resource, callback) {
+  var
+    module,
+    /*eslint-disable */
+    deferred = $.Deferred()
+    /*eslint-enable */
+    ;
+
+  callback = callback || function() {};
 
   if (_.isFunction(resource)) {
     module = {location: '', text: '' + resource, factoryFn: resource};
@@ -134,6 +141,7 @@ function loadJS(resource, callback) {
   deepLoad(module, function(err) {
     if (err) {
       callback(err);
+      deferred.reject(err);
       return;
     }
 
@@ -141,10 +149,11 @@ function loadJS(resource, callback) {
       getModuleExports(module);
     }
 
-    if (callback) {
-      callback(resource.error, module.exports);
-    }
+    callback(resource.error, module.exports);
+    deferred.resolve(module.exports);
   });
+
+  return deferred;
 }
 
 function clearRequireCache() {
@@ -152,6 +161,6 @@ function clearRequireCache() {
 }
 
 module.exports = {
-  load: loadJS,
-  clear: clearRequireCache
+  require: requireScript,
+  clearCache: clearRequireCache
 };

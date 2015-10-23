@@ -1,12 +1,12 @@
 var
-  js = require('./require/script'),
+  script = require('./require/script'),
   css = require('./require/css')
   ;
 
 
 module.exports = {
   require: {
-    js: js.load
+    script: script.require
   },
   inject: {
     global: {
@@ -22,9 +22,7 @@ module.exports = {
   },
   clear: {
     require: {
-      js: {
-        cache: js.clear
-      }
+      cache: script.clearCache
     },
     global: {
       css: function() {
