@@ -8,7 +8,9 @@ var
   runSequence = require('run-sequence'),
   named = require('vinyl-named-with-path'),
   webpack = require('webpack'),
-  stream = require('webpack-stream');
+  stream = require('webpack-stream'),
+  nib = require('nib')
+  ;
 
 
 /**
@@ -29,14 +31,17 @@ function browserReloadAfter(tasks) {
 }
 
 gulp.task('preview:style:lint', function() {
-  gulp.src(config.preview.style.watch)
-    .pipe(plugins.scssLint({customReport: plugins.scssLintStylish}));
+  return gulp.src(config.preview.style.watch)
+    .pipe(plugins.stylint())
+    .pipe(plugins.stylint.reporter());
 });
 gulp.task('preview:style', ['preview:style:lint'], function() {
   return gulp.src(config.preview.style.entry)
     .pipe(plugins.changed(config.preview.style.dest))
     .pipe(plugins.sourcemaps.init())
-    .pipe(plugins.sass().on('error', plugins.sass.logError))
+    .pipe(plugins.stylus({
+      use: [nib()]
+    }))
     .pipe(plugins.autoprefixer(config.style.autoprefixer))
     .pipe(plugins.sourcemaps.write())
     .pipe(gulp.dest(config.preview.style.dest))
@@ -57,7 +62,7 @@ gulp.task('preview:script', ['preview:script:lint'], function() {
 
 
 gulp.task('preview:clean', function() {
-  del(config.preview.clean);
+  del.sync(config.preview.clean);
 });
 gulp.task('preview:build', ['preview:script', 'preview:style', 'build-dev']);
 gulp.task('preview:serve', function() {

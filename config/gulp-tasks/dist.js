@@ -11,5 +11,5 @@ gulp.task('dist:copy', function() {
 });
 
 gulp.task('dist:clean', function() {
-  del([config.dist.dest]);
+  del.sync([config.dist.dest]);
 });

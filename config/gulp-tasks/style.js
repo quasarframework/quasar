@@ -3,18 +3,23 @@
 var
   gulp = require('gulp'),
   config = require('../gulp-config'),
-  plugins = config.plugins;
+  plugins = config.plugins,
+  nib = require('nib')
+  ;
 
 gulp.task('style:lint', function() {
-  gulp.src(config.style.watch)
-    .pipe(plugins.scssLint({customReport: plugins.scssLintStylish}));
+  return gulp.src(config.style.watch)
+    .pipe(plugins.stylint())
+    .pipe(plugins.stylint.reporter());
 });
 
 gulp.task('dev:style', ['style:lint'], function() {
   return gulp.src(config.style.entry)
     .pipe(plugins.changed(config.style.dest))
     .pipe(plugins.sourcemaps.init())
-    .pipe(plugins.sass().on('error', plugins.sass.logError))
+    .pipe(plugins.stylus({
+      use: [nib()]
+    }))
     .pipe(plugins.autoprefixer(config.style.autoprefixer))
     .pipe(plugins.sourcemaps.write())
     .pipe(gulp.dest(config.style.dest))
@@ -24,7 +29,9 @@ gulp.task('dev:style', ['style:lint'], function() {
 gulp.task('prod:style', ['style:lint'], function() {
   return gulp.src(config.style.entry)
     .pipe(plugins.changed(config.style.dest))
-    .pipe(plugins.sass().on('error', plugins.sass.logError))
+    .pipe(plugins.stylus({
+      use: [nib()]
+    }))
     .pipe(plugins.autoprefixer(config.style.autoprefixer))
     .pipe(plugins.minifyCss())
     .pipe(plugins.rename({extname: '.min.css'}))

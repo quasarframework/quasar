@@ -5,10 +5,6 @@ general:
 machine:
   node:
     version: 4.1.1
-dependencies:
-  pre:
-    - gem install scss-lint
-    - npm rebuild node-sass
 test:
   post:
     - cat /home/ubuntu/quasar-framework/coverage/cobertura.xml | /home/ubuntu/quasar-framework/node_modules/codecov.io/bin/codecov.io.js

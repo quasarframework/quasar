@@ -4,10 +4,11 @@ var
   gulp = require('gulp'),
   config = require('../gulp-config'),
   runSequence = require('run-sequence'),
-  del = require('del');
+  del = require('del')
+  ;
 
 gulp.task('clean', function() {
-  return del(config.clean);
+  del.sync(config.clean);
 });
 
 gulp.task('build', function(done) {

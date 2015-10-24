@@ -77,9 +77,9 @@ module.exports = {
   },
 
   style: {
-    watch: src + '/style/**/*.scss',
+    watch: src + '/style/**/*.styl',
     entry: [
-      src + '/style/quasar.scss'
+      src + '/style/quasar.styl'
     ],
     dest: build + '/style',
     depsName: 'quasar-dependencies',
@@ -107,9 +107,9 @@ module.exports = {
       '!' + preview.processed + '/**/*'
     ],
     style: {
-      watch: preview.preprocess + '/style/**/*.scss',
+      watch: preview.preprocess + '/style/**/*.styl',
       entry: [
-        preview.preprocess + '/style/project.scss'
+        preview.preprocess + '/style/project.styl'
       ],
       dest: preview.processed + '/style',
     },
