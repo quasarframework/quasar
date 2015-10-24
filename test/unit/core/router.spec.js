@@ -196,7 +196,7 @@ describe('Router', function() {
   it('should be able to refresh a route', function(done) {
     var times = 0;
 
-    expect(quasar.refresh.current.route).to.be.a('function');
+    expect(quasar.reload.current.route).to.be.a('function');
     quasar.add.route({
       path: '#/quasar',
       on: function() {
@@ -208,7 +208,7 @@ describe('Router', function() {
     });
     quasar.start.router();
     quasar.navigate.to.route('#/quasar');
-    quasar.refresh.current.route();
+    quasar.reload.current.route();
   });
 
   it('should be able to register and trigger route with parameters', function(done) {

@@ -248,7 +248,7 @@ function getCurrentRoute() {
   return window.location.hash;
 }
 
-function refreshCurrentRoute() {
+function reloadCurrentRoute() {
   triggerRoute(getCurrentRoute());
 }
 
@@ -293,9 +293,9 @@ module.exports = {
   start: {
     router: startRouter
   },
-  refresh: {
+  reload: {
     current: {
-      route: refreshCurrentRoute
+      route: reloadCurrentRoute
     }
   }
 };
