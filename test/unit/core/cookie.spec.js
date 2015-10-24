@@ -1,3 +1,5 @@
+'use strict';
+
 describe('Cookies', function() {
   var cookieName = 'quasarTestCookie';
 

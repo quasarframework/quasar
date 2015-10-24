@@ -4,7 +4,8 @@ var
   gulp = require('gulp'),
   config = require('../gulp-config'),
   plugins = config.plugins,
-  fs = require('fs');
+  fs = require('fs')
+  ;
 
 gulp.task('banner', function() {
   var banner = fs.readFileSync('./config/version-banner.tpl', 'utf8');

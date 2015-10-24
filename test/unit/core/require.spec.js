@@ -1,3 +1,5 @@
+'use strict';
+
 describe('Require', function() {
 
   describe('Script', function() {

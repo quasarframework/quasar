@@ -6,7 +6,8 @@ var
   plugins = config.plugins,
   named = require('vinyl-named'),
   webpack = require('webpack'),
-  stream = require('webpack-stream');
+  stream = require('webpack-stream')
+  ;
 
 gulp.task('script:lint', function() {
   return gulp.src(config.script.watch)

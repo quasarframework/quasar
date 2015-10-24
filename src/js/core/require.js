@@ -1,3 +1,5 @@
+'use strict';
+
 var
   script = require('./require/script'),
   css = require('./require/css')

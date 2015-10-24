@@ -5,7 +5,8 @@ var
 
   src         = './src',
   build       = './build',
-  dist        = './dist';
+  dist        = './dist'
+  ;
 
 var preview = (function() {
   var base = './preview';

@@ -1,3 +1,5 @@
+'use strict';
+
 var cache = require('./request-cache');
 
 function isURL(target) {

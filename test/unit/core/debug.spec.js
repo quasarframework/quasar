@@ -1,3 +1,5 @@
+'use strict';
+
 describe('.debug', function() {
 
   beforeEach(function() {

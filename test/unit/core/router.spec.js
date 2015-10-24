@@ -1,3 +1,5 @@
+'use strict';
+
 describe('Router', function() {
 
   beforeEach(function() {

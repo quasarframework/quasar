@@ -1,3 +1,5 @@
+'use strict';
+
 var localCache = {
   __data: {},
   __itemTimeout: 30 * 60 * 1000, // milliseconds

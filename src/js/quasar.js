@@ -1,3 +1,4 @@
+'use strict';
 
 // Initialize global quasar object
 var quasar = window.quasar = window.q = {};

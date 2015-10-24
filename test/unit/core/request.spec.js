@@ -1,3 +1,5 @@
+'use strict';
+
 describe('Request', function() {
 
   var url = '/some/path/script.php';

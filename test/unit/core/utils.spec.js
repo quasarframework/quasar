@@ -1,3 +1,5 @@
+'use strict';
+
 describe('Utils', function() {
 
   describe('- nextTick', function() {

@@ -3,7 +3,8 @@
 var
   gulp = require('gulp'),
   config = require('../gulp-config'),
-  plugins = config.plugins;
+  plugins = config.plugins
+  ;
 
 /**
  * Scripts

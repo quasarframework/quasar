@@ -1,3 +1,5 @@
+'use strict';
+
 describe('.env', function() {
 
   it('should have detectors', function() {

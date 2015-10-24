@@ -1,3 +1,4 @@
+'use strict';
 
 function encode(string) {
   return encodeURIComponent(string);

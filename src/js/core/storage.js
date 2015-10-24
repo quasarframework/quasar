@@ -1,3 +1,5 @@
+'use strict';
+
 function encode(value) {
   if (_.isDate(value)) {
     return '__q_date|' + value.toUTCString();

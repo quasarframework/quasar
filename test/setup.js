@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Export modules to global scope as necessary
  * (only for testing)
