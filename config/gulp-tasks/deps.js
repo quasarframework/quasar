@@ -9,39 +9,39 @@ var
 /**
  * Scripts
  */
-gulp.task('dev:script:deps', function() {
-  return gulp.src(config.script.deps)
-    .pipe(plugins.newer(config.script.dest + '/' + config.script.depsName + '.js'))
+gulp.task('dev:js:deps', function() {
+  return gulp.src(config.js.deps)
+    .pipe(plugins.newer(config.js.dest + '/' + config.js.depsName + '.js'))
     .pipe(plugins.sourcemaps.init())
-    .pipe(plugins.concat(config.script.depsName + '.js'))
+    .pipe(plugins.concat(config.js.depsName + '.js'))
     .pipe(plugins.sourcemaps.write())
-		.pipe(gulp.dest(config.script.dest));
+		.pipe(gulp.dest(config.js.dest));
 });
 
-gulp.task('prod:script:deps', function() {
-  return gulp.src(config.script.deps)
-    .pipe(plugins.newer(config.script.dest + '/' + config.script.depsName + '.min.js'))
-    .pipe(plugins.concat(config.script.depsName + '.min.js'))
+gulp.task('prod:js:deps', function() {
+  return gulp.src(config.js.deps)
+    .pipe(plugins.newer(config.js.dest + '/' + config.js.depsName + '.min.js'))
+    .pipe(plugins.concat(config.js.depsName + '.min.js'))
     .pipe(plugins.uglify())
-    .pipe(gulp.dest(config.script.dest));
+    .pipe(gulp.dest(config.js.dest));
 });
 
 
 /**
  * Styles
  */
-gulp.task('dev:style:deps', function() {
-  return gulp.src(config.style.deps)
-    .pipe(plugins.newer(config.style.dest + '/' + config.style.depsName + '.css'))
+gulp.task('dev:css:deps', function() {
+  return gulp.src(config.css.deps)
+    .pipe(plugins.newer(config.css.dest + '/' + config.css.depsName + '.css'))
     .pipe(plugins.sourcemaps.init())
-    .pipe(plugins.concat(config.style.depsName + '.css'))
+    .pipe(plugins.concat(config.css.depsName + '.css'))
     .pipe(plugins.sourcemaps.write())
-    .pipe(gulp.dest(config.style.dest));
+    .pipe(gulp.dest(config.css.dest));
 });
 
-gulp.task('prod:style:deps', function() {
-  return gulp.src(config.style.deps)
-    .pipe(plugins.concat(config.style.depsName + '.min.css'))
-    .pipe(plugins.minifyCss({processImport: false}))
-    .pipe(gulp.dest(config.style.dest));
+gulp.task('prod:css:deps', function() {
+  return gulp.src(config.css.deps)
+    .pipe(plugins.concat(config.css.depsName + '.min.css'))
+    .pipe(plugins.csso())
+    .pipe(gulp.dest(config.css.dest));
 });

@@ -34,5 +34,5 @@ gulp.task('dist', function(done) {
 /**
 * Helpers
 */
-gulp.task('build-dev', ['development:style', 'development:script']);
-gulp.task('build-prod', ['production:style', 'production:script']);
+gulp.task('build-dev', ['development:css', 'development:js']);
+gulp.task('build-prod', ['production:css', 'production:js']);

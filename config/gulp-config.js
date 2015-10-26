@@ -45,7 +45,7 @@ module.exports = {
     dest: dist
   },
 
-  script: {
+  js: {
     watch: src + '/js/**/*.js',
     entry: [
       src + '/js/quasar.js'
@@ -77,12 +77,12 @@ module.exports = {
     }
   },
 
-  style: {
-    watch: src + '/style/**/*.styl',
+  css: {
+    watch: src + '/css/**/*.styl',
     entry: [
-      src + '/style/quasar.styl'
+      src + '/css/quasar.styl'
     ],
-    dest: build + '/style',
+    dest: build + '/css',
     depsName: 'quasar-dependencies',
     deps: mapToNodeModules('.css', [
       'quasar-semantic/dist/semantic'
@@ -107,14 +107,14 @@ module.exports = {
       '!' + preview.preprocess + '/**/*',
       '!' + preview.processed + '/**/*'
     ],
-    style: {
-      watch: preview.preprocess + '/style/**/*.styl',
+    css: {
+      watch: preview.preprocess + '/css/**/*.styl',
       entry: [
-        preview.preprocess + '/style/project.styl'
+        preview.preprocess + '/css/project.styl'
       ],
-      dest: preview.processed + '/style',
+      dest: preview.processed + '/css',
     },
-    script: {
+    js: {
       watch: preview.preprocess + '/pages/**/*.js',
       entry: [
         preview.preprocess + '/pages/**/*.js'
