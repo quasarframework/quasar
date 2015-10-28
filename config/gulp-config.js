@@ -45,34 +45,37 @@ module.exports = {
     dest: dist
   },
 
+  deps: {
+    name: 'quasar-dependencies',
+    js: {
+      src: mapToNodeModules('.js', [
+        'jquery/dist/jquery',
+        'lodash/index',
+        'vue/dist/vue',
+        'fastclick/lib/fastclick',
+        'quasar-semantic/dist/semantic'
+        //'touchswipe/index.js',
+        //gsap
+      ]),
+      dest: build + '/js'
+    },
+    css: {
+      src: mapToNodeModules('.css', [
+        'quasar-semantic/dist/semantic'
+      ]),
+      dest: build + '/css'
+    }
+  },
+
   js: {
     watch: src + '/js/**/*.js',
     entry: [
       src + '/js/quasar.js'
     ],
     dest: build + '/js',
-    depsName: 'quasar-dependencies',
-    deps: mapToNodeModules('.js', [
-      'jquery/dist/jquery',
-      'lodash/index',
-      'vue/dist/vue',
-      'fastclick/lib/fastclick',
-      'quasar-semantic/dist/semantic'
-      //'touchswipe/index.js',
-      //gsap
-    ]),
     webpack: {
-      dev: {
-        devtool: '#inline-source-map',
-        output: {
-          libraryTarget: 'umd'
-        }
-        //devtool: '#cheap-module-eval-source-map'
-      },
-      prod: {
-        output: {
-          libraryTarget: 'umd'
-        }
+      output: {
+        libraryTarget: 'umd'
       }
     }
   },
@@ -82,12 +85,7 @@ module.exports = {
     entry: [
       src + '/css/quasar.styl'
     ],
-    dest: build + '/css',
-    depsName: 'quasar-dependencies',
-    deps: mapToNodeModules('.css', [
-      'quasar-semantic/dist/semantic'
-    ]),
-    autoprefixer: {browsers: ['last 3 versions']}
+    dest: build + '/css'
   },
 
   preview: {

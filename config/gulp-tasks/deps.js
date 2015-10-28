@@ -11,13 +11,13 @@ var
  */
 
 function compileJs(production) {
-  return gulp.src(config.js.deps)
+  return gulp.src(config.deps.js.src)
     .pipe(plugins.pipes.js.deps({
       prod: production,
       extmin: production,
-      name: config.js.depsName
+      name: config.deps.name
     }))
-    .pipe(gulp.dest(config.js.dest));
+    .pipe(gulp.dest(config.deps.js.dest));
 }
 
 gulp.task('dev:js:deps', function() {
@@ -34,13 +34,13 @@ gulp.task('prod:js:deps', function() {
  */
 
 function compileCss(production) {
-  return gulp.src(config.css.deps)
+  return gulp.src(config.deps.css.src)
     .pipe(plugins.pipes.css.deps({
       prod: production,
       extmin: production,
-      name: config.css.depsName
+      name: config.deps.name
     }))
-    .pipe(gulp.dest(config.css.dest));
+    .pipe(gulp.dest(config.deps.css.dest));
 }
 
 gulp.task('dev:css:deps', function() {

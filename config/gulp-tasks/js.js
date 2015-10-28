@@ -16,7 +16,8 @@ function compileJs(production) {
   return gulp.src(config.js.entry)
     .pipe(plugins.pipes.js.compile({
       prod: production,
-      extmin: production
+      extmin: production,
+      pack: config.js.webpack
     }))
     .pipe(gulp.dest(config.js.dest));
 }
