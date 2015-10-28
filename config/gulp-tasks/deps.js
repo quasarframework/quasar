@@ -9,39 +9,44 @@ var
 /**
  * Scripts
  */
-gulp.task('dev:js:deps', function() {
+
+function compileJs(production) {
   return gulp.src(config.js.deps)
-    .pipe(plugins.newer(config.js.dest + '/' + config.js.depsName + '.js'))
-    .pipe(plugins.sourcemaps.init())
-    .pipe(plugins.concat(config.js.depsName + '.js'))
-    .pipe(plugins.sourcemaps.write())
-		.pipe(gulp.dest(config.js.dest));
+    .pipe(plugins.pipes.js.deps({
+      prod: production,
+      extmin: production,
+      name: config.js.depsName
+    }))
+    .pipe(gulp.dest(config.js.dest));
+}
+
+gulp.task('dev:js:deps', function() {
+  return compileJs(false);
 });
 
 gulp.task('prod:js:deps', function() {
-  return gulp.src(config.js.deps)
-    .pipe(plugins.newer(config.js.dest + '/' + config.js.depsName + '.min.js'))
-    .pipe(plugins.concat(config.js.depsName + '.min.js'))
-    .pipe(plugins.uglify())
-    .pipe(gulp.dest(config.js.dest));
+  return compileJs(true);
 });
 
 
 /**
  * Styles
  */
-gulp.task('dev:css:deps', function() {
+
+function compileCss(production) {
   return gulp.src(config.css.deps)
-    .pipe(plugins.newer(config.css.dest + '/' + config.css.depsName + '.css'))
-    .pipe(plugins.sourcemaps.init())
-    .pipe(plugins.concat(config.css.depsName + '.css'))
-    .pipe(plugins.sourcemaps.write())
+    .pipe(plugins.pipes.css.deps({
+      prod: production,
+      extmin: production,
+      name: config.css.depsName
+    }))
     .pipe(gulp.dest(config.css.dest));
+}
+
+gulp.task('dev:css:deps', function() {
+  return compileCss(false);
 });
 
 gulp.task('prod:css:deps', function() {
-  return gulp.src(config.css.deps)
-    .pipe(plugins.concat(config.css.depsName + '.min.css'))
-    .pipe(plugins.csso())
-    .pipe(gulp.dest(config.css.dest));
+  return compileCss(true);
 });

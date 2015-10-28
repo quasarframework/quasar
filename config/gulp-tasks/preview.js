@@ -1,3 +1,6 @@
+require('../gulp-config').browser = require('browser-sync').create();
+
+/*
 'use strict';
 
 var
@@ -10,12 +13,6 @@ var
   nib = require('nib')
   ;
 
-
-/**
- * Inject browser property to global config so that
- * tasks are able to trigger browser reload
- */
-config.browser = require('browser-sync').create();
 
 function browserReloadAfter(tasks) {
   return function() {
@@ -85,3 +82,4 @@ gulp.task('preview:serve', function() {
 gulp.task('preview', function(done) {
   runSequence('clean', 'preview:build', 'preview:serve', done);
 });
+*/

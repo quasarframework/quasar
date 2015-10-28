@@ -4,4 +4,3 @@ exclude_paths:
   - "node_modules/*"
   - "config/*"
   - "dist/*"
-

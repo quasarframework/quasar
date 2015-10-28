@@ -3,30 +3,30 @@
 var
   gulp = require('gulp'),
   config = require('../gulp-config'),
-  plugins = config.plugins,
-  named = require('vinyl-named')
+  plugins = config.plugins
   ;
 
 gulp.task('js:lint', function() {
   return gulp.src(config.js.watch)
-    .pipe(plugins.eslint())
-    .pipe(plugins.eslint.format());
+    .pipe(plugins.pipes.js.lint());
 });
 
-gulp.task('dev:js', ['js:lint'], function() {
+
+function compileJs(production) {
   return gulp.src(config.js.entry)
-    .pipe(named())
-    .pipe(plugins.webpack(config.js.webpack.dev))
+    .pipe(plugins.pipes.js.compile({
+      prod: production,
+      extmin: production
+    }))
     .pipe(gulp.dest(config.js.dest));
+}
+
+gulp.task('dev:js', ['js:lint'], function() {
+  return compileJs(false);
 });
 
 gulp.task('prod:js', ['js:lint'], function() {
-  return gulp.src(config.js.entry)
-    .pipe(named())
-    .pipe(plugins.webpack(config.js.webpack.prod))
-    .pipe(plugins.uglify())
-    .pipe(plugins.rename({extname: '.min.js'}))
-    .pipe(gulp.dest(config.js.dest));
+  return compileJs(true);
 });
 
 gulp.task('development:js', ['dev:js', 'dev:js:deps']);
