@@ -9,7 +9,7 @@ _.merge(quasar,
   require('./core/environment'),
   require('./core/cookie'),
   require('./core/router'),
-  require('./core/request/request'),
+  require('./core/request'),
   require('./core/storage'),
   require('./core/require')
 );

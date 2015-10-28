@@ -1,6 +1,6 @@
 'use strict';
 
-var cache = require('./request-cache');
+var cache = require('./request/cache');
 
 function isURL(target) {
   return target.indexOf('http') === 0;
