@@ -49,7 +49,7 @@ describe('Require', function() {
       quasar.require.script(reqOne, function(err, exports) {
         expect(err).to.not.be.ok;
         fn();
-      }).fail(function(err) {
+      }).fail(function() {
         throw new Error('Should not reach fail()');
       }).done(function(exports) {
         fn();
@@ -73,7 +73,7 @@ describe('Require', function() {
         expect(err).to.not.be.ok;
         fn(exports);
       })
-      .fail(function(err) {
+      .fail(function() {
         throw new Error('Should not reach fail()');
       })
       .done(fn)
