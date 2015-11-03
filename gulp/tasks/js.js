@@ -7,7 +7,7 @@ var
   ;
 
 gulp.task('js:lint', function() {
-  return gulp.src(config.js.watch)
+  return gulp.src(config.js.all)
     .pipe(plugins.pipes.js.lint());
 });
 

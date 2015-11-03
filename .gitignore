@@ -1,4 +1,7 @@
 /node_modules
 /build
+/dist
 /coverage
-/preview/processed
+/preview/node_modules
+/preview/build
+/preview/dist

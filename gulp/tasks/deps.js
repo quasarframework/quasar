@@ -6,47 +6,43 @@ var
   plugins = config.plugins
   ;
 
+function compile(production, type) {
+  var stream = gulp.src(config.deps[type].src)
+    .pipe(plugins.pipes[type].deps({
+      prod: production,
+      name: config.deps.name
+    }))
+    .pipe(gulp.dest(config.deps[type].dest));
+
+  return stream;
+}
+
 /**
  * Scripts
  */
 
-function compileJs(production) {
-  return gulp.src(config.deps.js.src)
-    .pipe(plugins.pipes.js.deps({
-      prod: production,
-      extmin: production,
-      name: config.deps.name
-    }))
-    .pipe(gulp.dest(config.deps.js.dest));
-}
-
 gulp.task('dev:js:deps', function() {
-  return compileJs(false);
+  return compile(false, 'js');
 });
 
 gulp.task('prod:js:deps', function() {
-  return compileJs(true);
+  return compile(true, 'js');
 });
-
 
 /**
  * Styles
  */
 
-function compileCss(production) {
-  return gulp.src(config.deps.css.src)
-    .pipe(plugins.pipes.css.deps({
-      prod: production,
-      extmin: production,
-      name: config.deps.name
-    }))
-    .pipe(gulp.dest(config.deps.css.dest));
-}
-
 gulp.task('dev:css:deps', function() {
-  return compileCss(false);
+  return compile(false, 'css');
 });
 
 gulp.task('prod:css:deps', function() {
-  return compileCss(true);
+  return compile(true, 'css');
 });
+
+/*
+ * Main tasks
+ */
+gulp.task('dev:deps',  ['dev:js:deps',  'dev:css:deps']);
+gulp.task('prod:deps', ['prod:js:deps', 'prod:css:deps']);

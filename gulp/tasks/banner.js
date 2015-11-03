@@ -8,6 +8,6 @@ var
 
 gulp.task('banner', function() {
   return gulp.src(config.banner.src)
-  .pipe(plugins.pipes.banner())
-  .pipe(gulp.dest(config.banner.dest));
+    .pipe(plugins.pipes.banner())
+    .pipe(gulp.dest(config.banner.dest));
 });

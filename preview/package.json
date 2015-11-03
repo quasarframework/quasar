@@ -1,0 +1,26 @@
+{
+  "name": "quasar-project",
+  "version": "0.0.1",
+  "description": "Project built by Quasar Framework",
+  "private": true,
+  "directories": {},
+  "scripts": {
+    "build": "gulp dist",
+    "test": "karma start --single-run",
+    "pjs": "karma start --browsers PhantomJS --single-run",
+    "chrome": "karma start --browsers Chrome --single-run",
+    "ff": "karma start --browsers Firefox --single-run",
+    "pjs-live": "karma start --browsers PhantomJS",
+    "chrome-live": "karma start --browsers Chrome",
+    "ff-live": "karma start --browsers Firefox",
+    "coverage": "google-chrome ./coverage/report-html/index.html"
+  },
+  "author": "",
+  "license": "",
+  "dependencies": {
+    "quasar-framework": "^0.0.6"
+  },
+  "devDependencies": {
+    "raw-loader": "^0.5.1"
+  }
+}

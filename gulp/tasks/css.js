@@ -7,7 +7,7 @@ var
   ;
 
 gulp.task('css:lint', function() {
-  return gulp.src(config.css.watch)
+  return gulp.src(config.css.all)
     .pipe(plugins.pipes.css.lint());
 });
 
@@ -17,8 +17,7 @@ function compile(production) {
       prod: production,
       extmin: production
     }))
-    .pipe(gulp.dest(config.css.dest))
-    .pipe(config.browser.stream());
+    .pipe(gulp.dest(config.css.dest));
 }
 
 gulp.task('dev:css', ['css:lint'], function() {

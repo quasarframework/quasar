@@ -12,7 +12,7 @@ gulp.task('clean', function() {
 });
 
 gulp.task('build', function(done) {
-  runSequence(
+  return runSequence(
     'clean',
     'build-dev',
     'banner',
@@ -21,15 +21,18 @@ gulp.task('build', function(done) {
 });
 
 gulp.task('dist', function(done) {
-  runSequence(
+  return runSequence(
     'clean',
     ['build-dev', 'build-prod'],
-    'dist:clean',
     'dist:copy',
     done
   );
 });
 
+gulp.task('dist:copy', function() {
+  return gulp.src(config.dist.src)
+    .pipe(gulp.dest(config.dist.dest));
+});
 
 /**
 * Helpers
