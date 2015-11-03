@@ -32,7 +32,7 @@ function createNode(options) {
 
 function getNodeBy(type) {
   return type === 'global' ? globalNode : pageNode;
-};
+}
 
 function injectCSS(type, url) {
   var node = getNodeBy(type);

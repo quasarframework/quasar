@@ -113,7 +113,7 @@ describe('Require', function() {
 
       sinon.spy(window.console, 'log');
 
-      quasar.require.script(reqOne, function(err, module) {
+      quasar.require.script(reqOne, function() {
         ++times;
       });
       this.server.respondWith('GET', urlOne, [200, contentType, 'console.log("once only");']);
@@ -298,7 +298,7 @@ describe('Require', function() {
 
     it('should be able to handle case when requiring a file already in progress of loading (simple case)', function(done) {
       var times = 0;
-      var fn = function(err, exports) {
+      var fn = function() {
         times++;
         if (times == 2) {
           done();
