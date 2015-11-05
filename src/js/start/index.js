@@ -4,9 +4,7 @@ var
   loadRoutes = require('./load/routes')
   ;
 
-var startApp = function() {
-  startApp = function() {};
-
+function startApp() {
   quasar.make.a.get.request({url: 'app.json', local: true})
     .done(function(appManifest) {
       loadRoutes(appManifest);

@@ -1,6 +1,6 @@
 {
   "name": "quasar-framework",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Simultaneously build desktop websites and phone+tablet apps.",
   "main": "dist/js/quasar.min.js",
   "files": [
