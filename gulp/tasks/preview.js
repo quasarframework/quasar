@@ -7,14 +7,11 @@ var
   ;
 
 gulp.task('preview', ['monitor'], function() {
-  spawn('quasar', ['preview', '-d'], {cwd: config.preview})
+  spawn('quasar', ['preview', '-d'], {cwd: config.preview, stdio: 'inherit'})
     .on('error', function() {
       console.log();
       console.log('!!! You need quasar-cli installed (npm install -g quasar-cli) !!!');
       console.log();
       process.exit(1);
-    })
-    .stdout.on('data', function(data) {
-      console.log(data.toString());
     });
 });

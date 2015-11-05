@@ -1,2 +1,2 @@
 
-console.log('app loaded');
+quasar.start.app();

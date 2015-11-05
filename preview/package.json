@@ -1,7 +1,7 @@
 {
-  "name": "quasar-project",
+  "name": "quasar-app",
   "version": "0.0.1",
-  "description": "Project built by Quasar Framework",
+  "description": "App built by Quasar Framework",
   "private": true,
   "directories": {},
   "scripts": {
@@ -17,10 +17,28 @@
   },
   "author": "",
   "license": "",
-  "dependencies": {
-    "quasar-framework": "^0.0.6"
-  },
   "devDependencies": {
-    "raw-loader": "^0.5.1"
+    "chai": "^3.4.0",
+    "eslint": "^1.7.3",
+    "eslint-config-defaults": "^7.0.1",
+    "istanbul": "^0.4.0",
+    "istanbul-instrumenter-loader": "^0.1.3",
+    "karma": "^0.13.10",
+    "karma-chai": "^0.1.0",
+    "karma-chrome-launcher": "^0.2.1",
+    "karma-coverage": "^0.5.2",
+    "karma-firefox-launcher": "^0.1.6",
+    "karma-mocha": "^0.2.0",
+    "karma-phantomjs-launcher": "^0.2.1",
+    "karma-sinon": "^1.0.4",
+    "karma-sinon-chai": "^1.1.0",
+    "karma-webpack": "^1.7.0",
+    "lodash": "^3.10.1",
+    "mocha": "^2.3.3",
+    "phantomjs": "^1.9.18",
+    "raw-loader": "^0.5.1",
+    "sinon": "^1.17.1",
+    "sinon-chai": "^2.8.0",
+    "webpack": "^1.12.2"
   }
 }
