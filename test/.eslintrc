@@ -14,7 +14,6 @@
     "exports": true,
     "_": true,
     "testing": true,
-    "process": true,
 
     "inBrowser": true,
     "moquire": true,
