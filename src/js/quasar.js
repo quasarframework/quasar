@@ -1,20 +1,22 @@
 'use strict';
 
-// Initialize global quasar object
+/*
+ * Initialize Quasar Object
+ */
 var quasar = window.quasar = window.q = {};
 
 /*
- * Add CORE
+ * Generate Quasar
  */
 _.merge(quasar,
-  require('./core/utils'),
-  require('./core/debug'),
-  require('./core/environment'),
-  require('./core/cookie'),
-  require('./core/router'),
-  require('./core/request'),
-  require('./core/storage'),
-  require('./core/require'),
+  require('./lib/utils'),
+  require('./lib/debug'),
+  require('./lib/environment'),
+  require('./lib/cookie'),
+  require('./lib/router'),
+  require('./lib/request'),
+  require('./lib/storage'),
+  require('./lib/require'),
 
   require('./start')
 );
@@ -22,4 +24,8 @@ _.merge(quasar,
 /*
  * Load Entry Point
  */
-quasar.require.script('js/app');
+var node = $('[data-entry-point]');
+
+if (node.length > 0) {
+  quasar.require.script('js/' + node.attr('data-entry-point'));
+}

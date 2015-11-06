@@ -1,7 +1,7 @@
 'use strict';
 
 var
-  loadRoutes = require('./load/routes')
+  loadRoutes = require('./register/routes')
   ;
 
 function startApp() {

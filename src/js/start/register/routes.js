@@ -28,17 +28,15 @@ function getRoute(pageName, pageManifest) {
       quasar.inject.page.css(exports.config.css);
     }
 
-    var fn = function(data) {
-      self.next([exports, data]);
-    };
-
     if (exports.prepare) {
       exports.prepare(
         {
           params: self.params,
           query: self.query
         },
-        fn
+        function(data) {
+          self.next([exports, data]);
+        }
       );
     }
     else {

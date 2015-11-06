@@ -30,3 +30,26 @@ if (typeof Function.prototype.bind != 'function') {
     return bound;
   };
 }
+
+(function() {
+
+  var
+    server,
+    appManifest
+    ;
+
+  window.testing.app = {
+    reset: function() {
+      quasar.router.stop();
+      window.location.hash = '';
+      server.restore();
+    },
+    start: function() {
+      quasar.start.app();
+      server = sinon.fakeServer.create();
+    },
+
+    pages: {}
+  };
+
+}());
