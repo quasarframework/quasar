@@ -60,19 +60,21 @@ module.exports = function(config) {
       dir: 'coverage',
       reporters: [
         {
-          type: 'html',
-          subdir: 'report-html'
-        },
-        {
           type: 'text-summary'
         },
         {
-          type: 'cobertura',
-          subdir: '.',
-          file: 'cobertura.xml'
+          type: 'lcov',
+          subdir: 'lcov'
         }
       ]
     },
+
+    /*
+    //lcov-result-merger 'lcov*' 'converged.log'
+    proxies: {
+      '/': 'http://localhost:3000'
+    },
+    */
 
 
     // web server port

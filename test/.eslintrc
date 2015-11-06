@@ -13,8 +13,20 @@
     "module": true,
     "exports": true,
     "_": true,
+    "testing": true,
     "process": true,
-    "inBrowser": true
+
+    "inBrowser": true,
+    "moquire": true,
+    "chai": true,
+    "expect": true,
+    "sinon": true,
+    "describe": true,
+    "it": true,
+    "before": true,
+    "after": true,
+    "beforeEach": true,
+    "afterEach": true
   },
 
   "rules": {
