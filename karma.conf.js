@@ -69,13 +69,6 @@ module.exports = function(config) {
       ]
     },
 
-    /*
-    //lcov-result-merger 'lcov*' 'converged.log'
-    proxies: {
-      '/': 'http://localhost:3000'
-    },
-    */
-
 
     // web server port
     port: 9876,

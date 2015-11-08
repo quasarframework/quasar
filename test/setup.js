@@ -12,6 +12,7 @@ window.testing = {
 window.sinon.logError.useImmediateExceptions = true;
 
 if (typeof Function.prototype.bind != 'function') {
+  /*eslint-disable no-extend-native*/
   Function.prototype.bind = function bind(obj) {
     var
       args = Array.prototype.slice.call(arguments, 1),
@@ -35,21 +36,61 @@ if (typeof Function.prototype.bind != 'function') {
 
   var
     server,
-    appManifest
+    appManifest,
+    callback
     ;
 
   window.testing.app = {
     reset: function() {
-      quasar.router.stop();
+      quasar.stop.router();
       window.location.hash = '';
-      server.restore();
+      if (server) {
+        server.restore();
+      }
+      quasar.clear.requests.cache();
+      quasar.clear.require.cache();
+    },
+    prepare: function() {
+      callback = null;
+      server = sinon.fakeServer.create();
+      server.autoRespond = true;
+      appManifest = {
+        pages: {}
+      };
     },
     start: function() {
+      this.registerFile('app.json', JSON.stringify(appManifest));
       quasar.start.app();
-      server = sinon.fakeServer.create();
     },
 
-    pages: {}
+    addIndex: function(js, files, manifest) {
+      this.addPage('index', [
+        {
+          url: 'js/script.index.js',
+          content: js
+        }
+      ].concat(files || []), manifest);
+    },
+    addPage: function(name, files, manifest) {
+      appManifest.pages[name] = manifest || {};
+
+      _.forEach(files, function(file) {
+        this.registerFile('/pages/' + name + '/' + file.url, file.content);
+      }.bind(this));
+    },
+
+    registerFile: function(url, content) {
+      server.respondWith('GET', url, [200, {'Content-Type': 'application/json'}, content]);
+    },
+  };
+
+  window.testing.done = function() {
+    if (callback) {
+      callback();
+    }
+  };
+  window.testing.done.set = function(done) {
+    callback = done;
   };
 
 }());
