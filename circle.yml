@@ -7,4 +7,4 @@ machine:
     version: 4.1.1
 test:
   post:
-    - cat /home/ubuntu/quasar-framework/coverage/lcov/lcov.info | /home/ubuntu/quasar-framework/node_modules/codecov.io/bin/codecov.io.js
+    - cat /home/ubuntu/quasar-framework/coverage/lcov.info | /home/ubuntu/quasar-framework/node_modules/codecov.io/bin/codecov.io.js

@@ -64,7 +64,7 @@ module.exports = function(config) {
         },
         {
           type: 'lcov',
-          subdir: 'lcov'
+          subdir: '.'
         }
       ]
     },
