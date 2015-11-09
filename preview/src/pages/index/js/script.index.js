@@ -7,5 +7,5 @@ module.exports.prepare = function(opts, done) {
 };
  */
 
-module.exports.render = function(manifest, opts, data) {
+module.exports.render = function(data, opts, manifest) {
 };

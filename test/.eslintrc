@@ -31,6 +31,7 @@
   "rules": {
     "max-len": [1, 5000, 4],
     "no-invalid-this": 0,
+    "no-multi-str": 0,
     "dot-location": 0,
     "brace-style": [2, "stroustrup", { "allowSingleLine": true }]
   }

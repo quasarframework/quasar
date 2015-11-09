@@ -40,8 +40,13 @@ if (typeof Function.prototype.bind != 'function') {
     callback
     ;
 
+  if ($('#quasar-view').length === 0) {
+    $('<div id="quasar-view">').appendTo($('body'));
+  }
+
   window.testing.app = {
     reset: function() {
+      $('#quasar-view').html('');
       quasar.stop.router();
       window.location.hash = '';
       if (server) {
@@ -49,6 +54,8 @@ if (typeof Function.prototype.bind != 'function') {
       }
       quasar.clear.requests.cache();
       quasar.clear.require.cache();
+      quasar.clear.global.css();
+      quasar.clear.page.css();
     },
     prepare: function() {
       callback = null;
@@ -75,13 +82,16 @@ if (typeof Function.prototype.bind != 'function') {
       appManifest.pages[name] = manifest || {};
 
       _.forEach(files, function(file) {
-        this.registerFile('/pages/' + name + '/' + file.url, file.content);
+        if (_.isFunction(file.content)) {
+          file.content = '(' + file.content.toString() + '());';
+        }
+        this.registerFile('/pages/' + name + '/' + file.url, file.content, file.code);
       }.bind(this));
     },
 
-    registerFile: function(url, content) {
-      server.respondWith('GET', url, [200, {'Content-Type': 'application/json'}, content]);
-    },
+    registerFile: function(url, content, code) {
+      server.respondWith('GET', url, [code || 200, {'Content-Type': 'application/json'}, content]);
+    }
   };
 
   window.testing.done = function() {

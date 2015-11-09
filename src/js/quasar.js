@@ -24,8 +24,9 @@ _.merge(quasar,
 /*
  * Load Entry Point
  */
-var node = $('[data-entry-point]');
+var node = $('#quasar-view[data-entry-point]');
 
+/* istanbul ignore next */
 if (node.length > 0) {
   quasar.require.script('js/' + node.attr('data-entry-point'));
 }

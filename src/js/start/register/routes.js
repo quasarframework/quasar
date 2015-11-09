@@ -10,8 +10,10 @@ function getRoute(pageName, pageManifest) {
     console.log('[page:require]', pageName);
 
     quasar.require.script('pages/' + pageName + '/js/script.' + pageName)
-      .fail(function(err) {
-        //TODO: report error
+      .fail(
+        /* istanbul ignore next */
+      function(err) {
+        throw new Error('[page:require] Cannot load script file.');
       }).done(function(exports) {
         console.log('[page:process]', pageName);
         exports.config = exports.config || {};
@@ -35,7 +37,7 @@ function getRoute(pageName, pageManifest) {
           query: self.query
         },
         function(data) {
-          self.next([exports, data]);
+          self.next([exports, data || {}]);
         }
       );
     }
@@ -48,19 +50,19 @@ function getRoute(pageName, pageManifest) {
     var
       self = this,
       exports = args[0],
-      data = args[1]
+      data = args[1] || {}
       ;
 
     $('#quasar-view').html(exports.config.html || '');
 
     if (exports.render) {
       exports.render(
-        pageManifest,
+        data,
         {
           params: self.params,
           query: self.query
         },
-        data
+        pageManifest
       );
     }
 
