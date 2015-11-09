@@ -21,8 +21,9 @@ describe('App', function() {
     testing.done.set(done);
     testing.app.addIndex(
       function() {
-        module.exports.render = function(data, opts, manifest) {
+        module.exports.render = function(data, vm, opts, manifest) {
           expect(data).to.deep.equal({});
+          expect(vm.$data).to.deep.equal({});
           expect(opts).to.deep.equal({params: {}, query: {}});
           expect(manifest).to.deep.equal({man: true});
           testing.done();
@@ -46,8 +47,9 @@ describe('App', function() {
           callback({someData: 'value'});
         }, 1);
       };
-      module.exports.render = function(data, opts, manifest) {
+      module.exports.render = function(data, vm, opts, manifest) {
         expect(data).to.deep.equal({someData: 'value'});
+        expect(vm.$data).to.deep.equal({});
         expect(opts).to.deep.equal({params: {}, query: {}});
         expect(manifest).to.deep.equal({});
         testing.done();
@@ -66,6 +68,51 @@ describe('App', function() {
       };
       module.exports.render = function(data) {
         expect(data).to.deep.equal({});
+        testing.done();
+      };
+    });
+    testing.app.start();
+  });
+
+  it('should be able to trigger scope() with no prepare()', function(done) {
+    testing.done.set(done);
+    testing.app.addIndex(function() {
+      module.exports.scope = function(data, opts) {
+        expect(data).to.deep.equal({});
+        expect(opts).to.deep.equal({params: {}, query: {}});
+        return {my: 'vue-scope'};
+      };
+      module.exports.render = function(data, vm, opts, manifest) {
+        expect(data).to.deep.equal({});
+        expect(vm.$data).to.deep.equal({my: 'vue-scope'});
+        expect(opts).to.deep.equal({params: {}, query: {}});
+        expect(manifest).to.deep.equal({});
+        testing.done();
+      };
+    });
+    testing.app.start();
+  });
+
+  it('should be able to trigger scope() with prepare()', function(done) {
+    testing.done.set(done);
+    testing.app.addIndex(function() {
+      module.exports.prepare = function(opts, callback) {
+        expect(opts).to.deep.equal({params: {}, query: {}});
+        expect(callback).to.be.a('function');
+        setTimeout(function() {
+          callback({someData: 'value'});
+        }, 1);
+      };
+      module.exports.scope = function(data, opts) {
+        expect(data).to.deep.equal({someData: 'value'});
+        expect(opts).to.deep.equal({params: {}, query: {}});
+        return {my: 'scope'};
+      };
+      module.exports.render = function(data, vm, opts, manifest) {
+        expect(data).to.deep.equal({someData: 'value'});
+        expect(vm.$data).to.deep.equal({my: 'scope'});
+        expect(opts).to.deep.equal({params: {}, query: {}});
+        expect(manifest).to.deep.equal({});
         testing.done();
       };
     });

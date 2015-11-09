@@ -16,7 +16,7 @@
     "pjs-live": "karma start --browsers PhantomJS",
     "chrome-live": "karma start --browsers Chrome",
     "ff-live": "karma start --browsers Firefox",
-    "coverage": "google-chrome ./coverage/lcov/lcov-report/index.html"
+    "coverage": "google-chrome ./coverage/lcov-report/index.html &"
   },
   "repository": {
     "type": "git",

@@ -7,5 +7,17 @@ module.exports.prepare = function(opts, done) {
 };
  */
 
-module.exports.render = function(data, opts, manifest) {
+ /*
+  * Compute Vue scope
+  *
+ module.exports.scope = function(data, opts) {
+   return {};
+ };
+  */
+
+ /*
+  * Use as page starting point
+  *
+module.exports.render = function(data, vm, opts, manifest) {
 };
+ */

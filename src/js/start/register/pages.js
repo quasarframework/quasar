@@ -1,7 +1,10 @@
 'use strict';
 
 function getRoute(pageName, pageManifest) {
-  var route = {path: '#/' + (pageName != 'index' ? pageName : '')};
+  var
+    scope,
+    route = {path: '#/' + (pageName != 'index' ? pageName : '')}
+    ;
 
   route.before = function() {
     var self = this;
@@ -22,27 +25,36 @@ function getRoute(pageName, pageManifest) {
   };
 
   route.on = function(exports) {
-    var response, self = this;
-
     quasar.clear.page.css();
 
     if (exports.config.css) {
       quasar.inject.page.css(exports.config.css);
     }
 
+    var
+      scope = {},
+      self = this,
+      opts = {
+        params: this.params,
+        query: this.query
+      };
+
     if (exports.prepare) {
       exports.prepare(
-        {
-          params: self.params,
-          query: self.query
-        },
+        opts,
         function(data) {
-          self.next([exports, data || {}]);
+          if (exports.scope) {
+            scope = exports.scope(data, opts);
+          }
+          self.next([exports, data, scope]);
         }
       );
     }
     else {
-      this.next([exports]);
+      if (exports.scope) {
+        scope = exports.scope({}, opts);
+      }
+      this.next([exports, {}, scope]);
     }
   };
 
@@ -50,7 +62,8 @@ function getRoute(pageName, pageManifest) {
     var
       self = this,
       exports = args[0],
-      data = args[1] || {}
+      data = args[1] || {},
+      scope = args[2]
       ;
 
     $('#quasar-view').html(exports.config.html || '');
@@ -58,6 +71,10 @@ function getRoute(pageName, pageManifest) {
     if (exports.render) {
       exports.render(
         data,
+        new Vue({
+          el: '#quasar-view',
+          data: scope
+        }),
         {
           params: self.params,
           query: self.query

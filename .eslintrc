@@ -14,7 +14,8 @@
     "exports": true,
     "_": true,
     "process": true,
-    "inBrowser": true
+    "inBrowser": true,
+    "Vue": true
   },
 
   "rules": {
