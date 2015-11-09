@@ -10,6 +10,7 @@ describe('App', function() {
     testing.app.reset();
   });
 
+
   it('should be able to start app', function(done) {
     testing.done.set(done);
     testing.app.addIndex('testing.done();');
@@ -78,7 +79,7 @@ describe('App', function() {
         css: '/pages/index/css/page.css'
       };
       module.exports.render = function() {
-        expect($('#__quasar_page_css').html()).to.equal('<link type="text/css" href="/pages/index/css/page.css" rel="stylesheet">');
+        testing.assert.pageCSS('/pages/index/css/page.css');
         testing.done();
       };
     }, [{
@@ -111,7 +112,7 @@ describe('App', function() {
       };
       module.exports.render = function() {
         expect($('#quasar-view').html()).to.equal('index html content');
-        expect($('#__quasar_page_css').html()).to.equal('<link type="text/css" href="/pages/index/css/page.css" rel="stylesheet">');
+        testing.assert.pageCSS('/pages/index/css/page.css');
         quasar.navigate.to.route('#/secondpage');
       };
     });
@@ -126,7 +127,7 @@ describe('App', function() {
           };
           module.exports.render = function() {
             expect($('#quasar-view').html()).to.equal('second page html content');
-            expect($('#__quasar_page_css').html()).to.equal('<link type="text/css" href="/pages/secondpage/css/secondpage.css" rel="stylesheet">');
+            testing.assert.pageCSS('/pages/secondpage/css/secondpage.css');
             testing.done();
           };
         }

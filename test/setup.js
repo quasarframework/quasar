@@ -103,4 +103,16 @@ if (typeof Function.prototype.bind != 'function') {
     callback = done;
   };
 
+  window.testing.assert = {
+    pageCSS: function(href) {
+      var css = $('#__quasar_page_css').html();
+
+      expect(css).to.contain('<link');
+      expect(css).to.contain('type="text/css"');
+      expect(css).to.contain('href="' + href + '"');
+      expect(css).to.contain('rel="stylesheet"');
+      expect($('#__quasar_page_css').children().length == 1);
+    }
+  };
+
 }());
