@@ -16,8 +16,14 @@ _.merge(quasar,
   require('./lib/router'),
   require('./lib/request'),
   require('./lib/storage'),
-  require('./lib/require'),
+  require('./lib/require')
+);
 
+_.merge(quasar,
+  require('./procedures/app-manifest')
+);
+
+_.merge(quasar,
   require('./start')
 );
 

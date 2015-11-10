@@ -122,13 +122,30 @@ describe('Request', function() {
     });
 
     it('should trigger a GET request to the right URL when base URL is configured', function(done) {
-      var url = 'http://quasar-framework/framework';
+      var url = 'http://quasar-framework.org/framework';
       var initialConfig = quasar.config.requests.baseURL;
 
       quasar.config.requests.baseURL = url;
       this.server.respondWith('GET', url + '/some/script.php', [200, contentType, jsonOne]);
 
       quasar.make.a.get.request({url: 'some/script.php'}).done(function(data) {
+        expect(data).to.deep.equal(objOne);
+
+        quasar.config.requests.baseURL = initialConfig;
+        done();
+      });
+
+      this.server.respond();
+    });
+
+    it('should avoid using baseURL when trying a local request', function(done) {
+      var url = 'http://quasar-framework.org/';
+      var initialConfig = quasar.config.requests.baseURL;
+
+      quasar.config.requests.baseURL = url;
+      this.server.respondWith('GET', 'some/script.php', [200, contentType, jsonOne]);
+
+      quasar.make.a.get.request({url: 'some/script.php', local: true}).done(function(data) {
         expect(data).to.deep.equal(objOne);
 
         quasar.config.requests.baseURL = initialConfig;

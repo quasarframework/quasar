@@ -6,16 +6,12 @@ function isURL(target) {
   return target.indexOf('http') === 0;
 }
 
-function processTarget(target) {
-  if (isURL(target)) {
+function processTarget(target, local) {
+  if (isURL(target) || local || !quasar.config.requests.baseURL) {
     return target;
   }
 
-  if (quasar.config.requests.baseURL) {
-    return quasar.config.requests.baseURL + '/' + target;
-  }
-
-  return target;
+  return quasar.config.requests.baseURL + '/' + target;
 }
 
 
@@ -26,7 +22,7 @@ function xhrCall(type, config) {
     throw new Error('Missing URL');
   }
 
-  config.url = processTarget(config.url);
+  config.url = processTarget(config.url, config.local);
 
   config.type = type;
   config.xhrFields = _.merge({
