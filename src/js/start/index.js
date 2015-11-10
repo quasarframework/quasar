@@ -1,16 +1,20 @@
 'use strict';
 
-var
-  loadPages = require('./register/pages')
-  ;
-
 function startApp() {
-  quasar.make.a.get.request({url: 'app.json', local: true})
-    .done(function(appManifest) {
-      loadPages(appManifest);
-      quasar.start.router();
-    });
-};
+  $(function() {
+    /*eslint-disable no-undef */
+    FastClick.attach(document.body);
+    /*eslint-enable no-undef */
+  });
+
+  quasar.load.app.manifest(function(err, appManifest) {
+    if (err) {
+      throw new Error('Could not load App manifest.');
+    }
+    require('./register-pages')(appManifest);
+    quasar.start.router();
+  });
+}
 
 module.exports = {
   start: {

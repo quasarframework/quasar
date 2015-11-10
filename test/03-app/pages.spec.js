@@ -1,6 +1,6 @@
 'use strict';
 
-describe.only('App', function() {
+describe('App', function() {
 
   beforeEach(function() {
     testing.app.reset();

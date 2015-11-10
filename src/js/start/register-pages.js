@@ -1,10 +1,7 @@
 'use strict';
 
 function getRoute(pageName, pageManifest) {
-  var
-    scope,
-    route = {path: '#/' + (pageName != 'index' ? pageName : '')}
-    ;
+  var route = {path: '#/' + (pageName !== 'index' ? pageName : '')};
 
   function extend(self, properties) {
     return _.merge(
@@ -28,7 +25,7 @@ function getRoute(pageName, pageManifest) {
     quasar.require.script('pages/' + pageName + '/js/script.' + pageName)
       .fail(
         /* istanbul ignore next */
-      function(err) {
+      function() {
         throw new Error('[page:require] Cannot load script file.');
       }).done(function(exports) {
         console.log('[page:process]', pageName);
