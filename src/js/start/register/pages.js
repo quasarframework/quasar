@@ -33,26 +33,35 @@ function getRoute(pageName, pageManifest) {
 
     var
       scope = {},
-      self = this,
-      opts = {
-        params: this.params,
-        query: this.query
-      };
+      self = this
+      ;
 
     if (exports.prepare) {
-      exports.prepare(
-        opts,
-        function(data) {
+      exports.prepare.call({
+        params: self.params,
+        query: self.query,
+        name: pageName,
+        done: function(data) {
           if (exports.scope) {
-            scope = exports.scope(data, opts);
+            scope = exports.scope.call({
+              params: self.params,
+              query: self.query,
+              name: pageName,
+              data: data
+            });
           }
           self.next([exports, data, scope]);
         }
-      );
+      });
     }
     else {
       if (exports.scope) {
-        scope = exports.scope({}, opts);
+        scope = exports.scope.call({
+          params: self.params,
+          query: self.query,
+          name: pageName,
+          data: {}
+        });
       }
       this.next([exports, {}, scope]);
     }
@@ -69,18 +78,18 @@ function getRoute(pageName, pageManifest) {
     $('#quasar-view').html(exports.config.html || '');
 
     if (exports.render) {
-      exports.render(
-        data,
-        new Vue({
+      exports.render.call({
+        params: self.params,
+        query: self.query,
+        name: pageName,
+        data: data,
+        scope: scope,
+        vm: new Vue({
           el: '#quasar-view',
           data: scope
         }),
-        {
-          params: self.params,
-          query: self.query
-        },
-        pageManifest
-      );
+        manifest: pageManifest
+      });
     }
 
     console.log('[page:ready]', pageName);

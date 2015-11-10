@@ -2,15 +2,15 @@
 /*
  * Use for Async operations before displaying page
  *
-module.exports.prepare = function(opts, done) {
-  done({});
+module.exports.prepare = function() {
+  this.done({});
 };
  */
 
  /*
   * Compute Vue scope
   *
- module.exports.scope = function(data, opts) {
+ module.exports.scope = function() {
    return {};
  };
   */
@@ -18,6 +18,6 @@ module.exports.prepare = function(opts, done) {
  /*
   * Use as page starting point
   *
-module.exports.render = function(data, vm, opts, manifest) {
+module.exports.render = function() {
 };
  */

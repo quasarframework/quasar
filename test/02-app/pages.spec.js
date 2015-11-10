@@ -21,11 +21,14 @@ describe('App', function() {
     testing.done.set(done);
     testing.app.addIndex(
       function() {
-        module.exports.render = function(data, vm, opts, manifest) {
-          expect(data).to.deep.equal({});
-          expect(vm.$data).to.deep.equal({});
-          expect(opts).to.deep.equal({params: {}, query: {}});
-          expect(manifest).to.deep.equal({man: true});
+        module.exports.render = function() {
+          expect(this.data).to.deep.equal({});
+          expect(this.scope).to.deep.equal({});
+          expect(this.vm.$data).to.equal(this.scope);
+          expect(this.params).to.deep.equal({});
+          expect(this.query).to.deep.equal({});
+          expect(this.name).to.equal('index');
+          expect(this.manifest).to.deep.equal({man: true});
           testing.done();
         };
       },
@@ -40,18 +43,22 @@ describe('App', function() {
   it('should be able to trigger prepare()', function(done) {
     testing.done.set(done);
     testing.app.addIndex(function() {
-      module.exports.prepare = function(opts, callback) {
-        expect(opts).to.deep.equal({params: {}, query: {}});
-        expect(callback).to.be.a('function');
+      module.exports.prepare = function() {
+        expect(this.params).to.deep.equal({});
+        expect(this.query).to.deep.equal({});
+        expect(this.name).to.equal('index');
+        expect(this.done).to.be.a('function');
         setTimeout(function() {
-          callback({someData: 'value'});
-        }, 1);
+          this.done({someData: 'value'});
+        }.bind(this), 1);
       };
-      module.exports.render = function(data, vm, opts, manifest) {
-        expect(data).to.deep.equal({someData: 'value'});
-        expect(vm.$data).to.deep.equal({});
-        expect(opts).to.deep.equal({params: {}, query: {}});
-        expect(manifest).to.deep.equal({});
+      module.exports.render = function() {
+        expect(this.data).to.deep.equal({someData: 'value'});
+        expect(this.scope).to.deep.equal({});
+        expect(this.params).to.deep.equal({});
+        expect(this.query).to.deep.equal({});
+        expect(this.name).to.equal('index');
+        expect(this.manifest).to.deep.equal({});
         testing.done();
       };
     });
@@ -61,13 +68,13 @@ describe('App', function() {
   it('should be able handle prepare() with no callback param', function(done) {
     testing.done.set(done);
     testing.app.addIndex(function() {
-      module.exports.prepare = function(opts, callback) {
+      module.exports.prepare = function() {
         setTimeout(function() {
-          callback();
-        }, 1);
+          this.done();
+        }.bind(this), 1);
       };
-      module.exports.render = function(data) {
-        expect(data).to.deep.equal({});
+      module.exports.render = function() {
+        expect(this.data).to.deep.equal({});
         testing.done();
       };
     });
@@ -77,16 +84,19 @@ describe('App', function() {
   it('should be able to trigger scope() with no prepare()', function(done) {
     testing.done.set(done);
     testing.app.addIndex(function() {
-      module.exports.scope = function(data, opts) {
-        expect(data).to.deep.equal({});
-        expect(opts).to.deep.equal({params: {}, query: {}});
+      module.exports.scope = function() {
+        expect(this.data).to.deep.equal({});
+        expect(this.params).to.deep.equal({});
+        expect(this.query).to.deep.equal({});
+        expect(this.name).to.equal('index');
         return {my: 'vue-scope'};
       };
-      module.exports.render = function(data, vm, opts, manifest) {
-        expect(data).to.deep.equal({});
-        expect(vm.$data).to.deep.equal({my: 'vue-scope'});
-        expect(opts).to.deep.equal({params: {}, query: {}});
-        expect(manifest).to.deep.equal({});
+      module.exports.render = function() {
+        expect(this.data).to.deep.equal({});
+        expect(this.vm.$data).to.deep.equal({my: 'vue-scope'});
+        expect(this.params).to.deep.equal({});
+        expect(this.query).to.deep.equal({});
+        expect(this.manifest).to.deep.equal({});
         testing.done();
       };
     });
@@ -96,23 +106,26 @@ describe('App', function() {
   it('should be able to trigger scope() with prepare()', function(done) {
     testing.done.set(done);
     testing.app.addIndex(function() {
-      module.exports.prepare = function(opts, callback) {
-        expect(opts).to.deep.equal({params: {}, query: {}});
-        expect(callback).to.be.a('function');
+      module.exports.prepare = function() {
+        expect(this.params).to.deep.equal({});
+        expect(this.query).to.deep.equal({});
+        expect(this.done).to.be.a('function');
         setTimeout(function() {
-          callback({someData: 'value'});
-        }, 1);
+          this.done({someData: 'value'});
+        }.bind(this), 1);
       };
-      module.exports.scope = function(data, opts) {
-        expect(data).to.deep.equal({someData: 'value'});
-        expect(opts).to.deep.equal({params: {}, query: {}});
+      module.exports.scope = function() {
+        expect(this.data).to.deep.equal({someData: 'value'});
+        expect(this.params).to.deep.equal({});
+        expect(this.query).to.deep.equal({});
         return {my: 'scope'};
       };
-      module.exports.render = function(data, vm, opts, manifest) {
-        expect(data).to.deep.equal({someData: 'value'});
-        expect(vm.$data).to.deep.equal({my: 'scope'});
-        expect(opts).to.deep.equal({params: {}, query: {}});
-        expect(manifest).to.deep.equal({});
+      module.exports.render = function() {
+        expect(this.data).to.deep.equal({someData: 'value'});
+        expect(this.vm.$data).to.deep.equal({my: 'scope'});
+        expect(this.params).to.deep.equal({});
+        expect(this.query).to.deep.equal({});
+        expect(this.manifest).to.deep.equal({});
         testing.done();
       };
     });
@@ -158,6 +171,7 @@ describe('App', function() {
         css: '/pages/index/css/page.css'
       };
       module.exports.render = function() {
+        expect(this.name).to.equal('index');
         expect($('#quasar-view').html()).to.equal('index html content');
         testing.assert.pageCSS('/pages/index/css/page.css');
         quasar.navigate.to.route('#/secondpage');
@@ -173,6 +187,7 @@ describe('App', function() {
             css: '/pages/secondpage/css/secondpage.css'
           };
           module.exports.render = function() {
+            expect(this.name).to.equal('secondpage');
             expect($('#quasar-view').html()).to.equal('second page html content');
             testing.assert.pageCSS('/pages/secondpage/css/secondpage.css');
             testing.done();
