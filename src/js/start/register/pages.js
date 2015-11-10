@@ -6,6 +6,19 @@ function getRoute(pageName, pageManifest) {
     route = {path: '#/' + (pageName != 'index' ? pageName : '')}
     ;
 
+  function extend(self, properties) {
+    return _.merge(
+      {},
+      {
+        params: self.params,
+        query: self.query,
+        name: pageName,
+        manifest: pageManifest,
+      },
+      properties
+    );
+  }
+
   route.before = function() {
     var self = this;
 
@@ -37,31 +50,18 @@ function getRoute(pageName, pageManifest) {
       ;
 
     if (exports.prepare) {
-      exports.prepare.call({
-        params: self.params,
-        query: self.query,
-        name: pageName,
+      exports.prepare.call(extend(self, {
         done: function(data) {
           if (exports.scope) {
-            scope = exports.scope.call({
-              params: self.params,
-              query: self.query,
-              name: pageName,
-              data: data
-            });
+            scope = exports.scope.call(extend(self, {data: data}));
           }
           self.next([exports, data, scope]);
         }
-      });
+      }));
     }
     else {
       if (exports.scope) {
-        scope = exports.scope.call({
-          params: self.params,
-          query: self.query,
-          name: pageName,
-          data: {}
-        });
+        scope = exports.scope.call(extend(self, {data: {}}));
       }
       this.next([exports, {}, scope]);
     }
@@ -78,18 +78,14 @@ function getRoute(pageName, pageManifest) {
     $('#quasar-view').html(exports.config.html || '');
 
     if (exports.render) {
-      exports.render.call({
-        params: self.params,
-        query: self.query,
-        name: pageName,
+      exports.render.call(extend(self, {
         data: data,
         scope: scope,
         vm: new Vue({
           el: '#quasar-view',
           data: scope
-        }),
-        manifest: pageManifest
-      });
+        })
+      }));
     }
 
     console.log('[page:ready]', pageName);

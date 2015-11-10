@@ -1,6 +1,6 @@
 'use strict';
 
-describe('App', function() {
+describe.only('App', function() {
 
   beforeEach(function() {
     testing.app.reset();
@@ -24,7 +24,7 @@ describe('App', function() {
         module.exports.render = function() {
           expect(this.data).to.deep.equal({});
           expect(this.scope).to.deep.equal({});
-          expect(this.vm.$data).to.equal(this.scope);
+          expect(this.vm.$data).to.deep.equal(this.scope);
           expect(this.params).to.deep.equal({});
           expect(this.query).to.deep.equal({});
           expect(this.name).to.equal('index');
@@ -48,6 +48,7 @@ describe('App', function() {
         expect(this.query).to.deep.equal({});
         expect(this.name).to.equal('index');
         expect(this.done).to.be.a('function');
+        expect(this.manifest).to.deep.equal({});
         setTimeout(function() {
           this.done({someData: 'value'});
         }.bind(this), 1);
@@ -89,6 +90,7 @@ describe('App', function() {
         expect(this.params).to.deep.equal({});
         expect(this.query).to.deep.equal({});
         expect(this.name).to.equal('index');
+        expect(this.manifest).to.deep.equal({});
         return {my: 'vue-scope'};
       };
       module.exports.render = function() {
