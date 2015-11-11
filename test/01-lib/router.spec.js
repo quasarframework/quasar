@@ -227,6 +227,7 @@ describe('Router', function() {
       after: function() {
         expect(this.params).to.be.an('object');
         expect(this.params.number).to.equal('10');
+        this.next();
         done();
       }
     });
