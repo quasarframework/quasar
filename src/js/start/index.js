@@ -1,13 +1,12 @@
 'use strict';
 
 function startApp() {
-  $(function() {
-    /*eslint-disable no-undef */
-    FastClick.attach(document.body);
-    /*eslint-enable no-undef */
-  });
+  /*eslint-disable no-undef */
+  FastClick.attach(document.body);
+  /*eslint-enable no-undef */
 
   quasar.load.app.manifest(function(err, appManifest) {
+    /* istanbul ignore next */
     if (err) {
       throw new Error('Could not load App manifest.');
     }

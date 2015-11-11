@@ -31,10 +31,5 @@ _.merge(quasar,
  * Load Entry Point
  */
 $(function() {
-  var node = $('#quasar-view[data-entry-point]');
-
-  /* istanbul ignore next */
-  if (node.length > 0) {
-    quasar.require.script('js/' + node.attr('data-entry-point'));
-  }
+  quasar.require.script('js/app');
 });
