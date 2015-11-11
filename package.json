@@ -9,13 +9,13 @@
   "scripts": {
     "prepublish": "gulp dist",
     "build": "gulp dist",
-    "test": "karma start --single-run",
-    "pjs": "karma start --browsers PhantomJS --single-run",
-    "chrome": "karma start --browsers Chrome --single-run",
-    "ff": "karma start --browsers Firefox --single-run",
-    "pjs-live": "karma start --browsers PhantomJS",
-    "chrome-live": "karma start --browsers Chrome",
-    "ff-live": "karma start --browsers Firefox",
+    "test": "karma start",
+    "pjs": "karma start --browsers PhantomJS",
+    "chrome": "karma start --browsers Chrome",
+    "ff": "karma start --browsers Firefox",
+    "pjs-live": "karma start --browsers PhantomJS --no-single-run",
+    "chrome-live": "karma start --browsers Chrome --no-single-run",
+    "ff-live": "karma start --browsers Firefox --no-single-run",
     "coverage": "google-chrome ./coverage/lcov-report/index.html &"
   },
   "repository": {

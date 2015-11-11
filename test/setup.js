@@ -1,6 +1,5 @@
 'use strict';
 
-window.expect = chai.expect;
 window.testing = {
   phantomjs: (function() {
     return navigator.userAgent.indexOf('PhantomJS') > -1;
