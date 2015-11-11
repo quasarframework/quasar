@@ -200,4 +200,100 @@ describe('App', function() {
     testing.app.start();
   });
 
+  describe('hashes', function() {
+
+    it('should be able to handle $', function(done) {
+      testing.done.set(done);
+      testing.app.addIndex(function() {
+        module.exports.render = function() {
+          testing.done();
+        };
+      }, [], {
+        hashes: ['$']
+      });
+      testing.app.start();
+    });
+
+    it('should be able to handle multiple hashes', function(done) {
+      testing.done.set(done);
+      testing.app.addIndex(function() {
+        module.exports.render = function() {
+          if (this.params.age) {
+            expect(this.params.age).to.equal('5');
+            expect(this.params.name).to.equal('Razvan');
+            testing.done();
+            return;
+          }
+          quasar.navigate.to.route('#/index/5/shop/Razvan');
+        };
+      }, [], {
+        hashes: ['$', ':age/shop/:name']
+      });
+      testing.app.start();
+    });
+
+    it('should be able to handle multiple hashes without $', function(done) {
+      testing.done.set(done);
+      testing.app.addIndex(function() {
+        module.exports.render = function() {
+          expect(this.params.age).to.equal('5');
+          expect(this.params.name).to.equal('Razvan');
+          testing.done();
+        };
+      }, [], {
+        hashes: [':age/shop/:name']
+      });
+      testing.app.start();
+      quasar.navigate.to.route('#/index/5/shop/Razvan');
+    });
+
+    it('should be able to handle hashes & query string', function(done) {
+      testing.done.set(done);
+      testing.app.addIndex(function() {
+        module.exports.render = function() {
+          expect(this.params.age).to.equal('5');
+          expect(this.params.name).to.equal('Razvan');
+          expect(this.query.q).to.equal('string');
+          expect(this.query.think).to.equal('big');
+          testing.done();
+        };
+      }, [], {
+        hashes: [':age/shop/:name']
+      });
+      testing.app.start();
+      quasar.navigate.to.route('#/index/5/shop/Razvan?q=string&think=big');
+    });
+
+    it('should be able to handle hashes & query string on multiple pages', function(done) {
+      testing.done.set(done);
+      testing.app.addIndex(function() {
+        module.exports.render = function() {
+          quasar.navigate.to.route('#/razvan/5/think/big?q=string&think=big');
+        };
+      });
+      testing.app.addPage(
+        'razvan',
+        [
+          {
+            url: 'js/script.razvan.js',
+            content: function() {
+              module.exports.render = function() {
+                expect(this.params.age).to.equal('5');
+                expect(this.params.name).to.equal('big');
+                expect(this.query.q).to.equal('string');
+                expect(this.query.think).to.equal('big');
+                testing.done();
+              };
+            }
+          }
+        ],
+        {
+          hashes: ['$', ':age/think/:name']
+        }
+      );
+      testing.app.start();
+    });
+
+  });
+
 });

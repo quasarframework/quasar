@@ -1,7 +1,7 @@
 'use strict';
 
-function getRoute(pageName, pageManifest) {
-  var route = {path: '#/' + (pageName !== 'index' ? pageName : '')};
+function getRoute(pageName, path, pageManifest) {
+  var route = {path: path};
 
   function extend(self, properties) {
     return _.merge(
@@ -91,9 +91,28 @@ function getRoute(pageName, pageManifest) {
   return route;
 }
 
+function getPaths(pageName, pageHashes) {
+  var
+    paths = [],
+    basePath = '#/' + (pageName !== 'index' ? pageName : '')
+    ;
+
+  if (!pageHashes) {
+    return [basePath];
+  }
+
+  _.forEach(pageHashes, function(hash) {
+    paths.push(hash === '$' ? basePath : '#/' + pageName + '/' + hash);
+  });
+
+  return paths;
+}
+
 function registerRoutes(appManifest) {
-  _.forEach(appManifest.pages, function(pageManifest, name) {
-    quasar.add.route(getRoute(name, pageManifest));
+  _.forEach(appManifest.pages, function(pageManifest, pageName) {
+    _.forEach(getPaths(pageName, pageManifest.hashes), function(path) {
+      quasar.add.route(getRoute(pageName, path, pageManifest));
+    });
   });
 }
 
