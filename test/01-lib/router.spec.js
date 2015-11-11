@@ -214,7 +214,17 @@ describe('Router', function() {
   it('should be able to register and trigger route with parameters', function(done) {
     quasar.add.route({
       path: '#/page/:number',
+      before: function() {
+        expect(this.params).to.be.an('object');
+        expect(this.params.number).to.equal('10');
+        this.next();
+      },
       on: function() {
+        expect(this.params).to.be.an('object');
+        expect(this.params.number).to.equal('10');
+        this.next();
+      },
+      after: function() {
         expect(this.params).to.be.an('object');
         expect(this.params.number).to.equal('10');
         done();
@@ -227,7 +237,25 @@ describe('Router', function() {
   it('should be able to capture query string', function(done) {
     quasar.add.route({
       path: '#/page',
+      before: function() {
+        expect(this.query).to.be.an('object');
+        expect(this.query.test).to.equal('true');
+        expect(this.query.tset).to.equal('false');
+        expect(this.query.empty).to.equal('');
+        expect(this.query.empty2).to.equal('');
+        expect(this.query.complex).to.equal(' this');
+        this.next();
+      },
       on: function() {
+        expect(this.query).to.be.an('object');
+        expect(this.query.test).to.equal('true');
+        expect(this.query.tset).to.equal('false');
+        expect(this.query.empty).to.equal('');
+        expect(this.query.empty2).to.equal('');
+        expect(this.query.complex).to.equal(' this');
+        this.next();
+      },
+      after: function() {
         expect(this.query).to.be.an('object');
         expect(this.query.test).to.equal('true');
         expect(this.query.tset).to.equal('false');
@@ -254,25 +282,24 @@ describe('Router', function() {
     quasar.start.router();
   });
 
-  it('should be able to provide the correct state for before/on/after', function(done) {
+  it('should be able to provide the correct url property for before/on/after', function(done) {
     quasar.add.route({
-      path: '#/page',
+      path: '#/page/:number',
       before: function() {
-        expect(this.state).to.equal('before');
+        expect(this.url).to.equal('#/page/10?think=big');
         this.next();
       },
       on: function() {
-        expect(this.state).to.equal('on');
+        expect(this.url).to.equal('#/page/10?think=big');
         this.next();
       },
       after: function() {
-        expect(this.state).to.equal('after');
-        this.next(); //can be omitted
+        expect(this.url).to.equal('#/page/10?think=big');
         done();
       }
     });
     quasar.start.router();
-    quasar.navigate.to.route('#/page');
+    quasar.navigate.to.route('#/page/10?think=big');
   });
 
   it('should trigger multiple routes', function(done) {

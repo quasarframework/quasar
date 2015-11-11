@@ -29,6 +29,7 @@ describe('App', function() {
           expect(this.query).to.deep.equal({});
           expect(this.name).to.equal('index');
           expect(this.manifest).to.deep.equal({man: true});
+          expect(this.route).to.equal('$');
           testing.done();
         };
       },
@@ -49,6 +50,7 @@ describe('App', function() {
         expect(this.name).to.equal('index');
         expect(this.done).to.be.a('function');
         expect(this.manifest).to.deep.equal({});
+        expect(this.route).to.equal('$');
         setTimeout(function() {
           this.done({someData: 'value'});
         }.bind(this), 1);
@@ -60,6 +62,7 @@ describe('App', function() {
         expect(this.query).to.deep.equal({});
         expect(this.name).to.equal('index');
         expect(this.manifest).to.deep.equal({});
+        expect(this.route).to.equal('$');
         testing.done();
       };
     });
@@ -91,6 +94,7 @@ describe('App', function() {
         expect(this.query).to.deep.equal({});
         expect(this.name).to.equal('index');
         expect(this.manifest).to.deep.equal({});
+        expect(this.route).to.equal('$');
         return {my: 'vue-scope'};
       };
       module.exports.render = function() {
@@ -190,6 +194,7 @@ describe('App', function() {
           };
           module.exports.render = function() {
             expect(this.name).to.equal('secondpage');
+            expect(this.route).to.equal('$');
             expect($('#quasar-view').html()).to.equal('second page html content');
             testing.assert.pageCSS('/pages/secondpage/css/secondpage.css');
             testing.done();
@@ -255,6 +260,7 @@ describe('App', function() {
           expect(this.params.name).to.equal('Razvan');
           expect(this.query.q).to.equal('string');
           expect(this.query.think).to.equal('big');
+          expect(this.route).to.equal(':age/shop/:name');
           testing.done();
         };
       }, [], {
@@ -268,7 +274,7 @@ describe('App', function() {
       testing.done.set(done);
       testing.app.addIndex(function() {
         module.exports.render = function() {
-          quasar.navigate.to.route('#/razvan/5/think/big?q=string&think=big');
+          quasar.navigate.to.route('#/razvan?q=string&think=big');
         };
       });
       testing.app.addPage(
@@ -278,11 +284,18 @@ describe('App', function() {
             url: 'js/script.razvan.js',
             content: function() {
               module.exports.render = function() {
-                expect(this.params.age).to.equal('5');
-                expect(this.params.name).to.equal('big');
                 expect(this.query.q).to.equal('string');
                 expect(this.query.think).to.equal('big');
-                testing.done();
+                expect(this.route).to.be.a('string');
+                if (this.route === '$') {
+                  expect(this.params).to.deep.equal({});
+                  quasar.navigate.to.route('#/razvan/5/think/big?q=string&think=big');
+                }
+                else if (this.route === ':age/think/:name') {
+                  expect(this.params.age).to.equal('5');
+                  expect(this.params.name).to.equal('big');
+                  testing.done();
+                }
               };
             }
           }

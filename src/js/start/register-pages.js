@@ -1,7 +1,15 @@
 'use strict';
 
-function getRoute(pageName, path, pageManifest) {
-  var route = {path: path};
+function getPath(pageName, hash) {
+  if (hash !== '$') {
+    return '#/' + pageName + '/' + hash;
+  }
+
+  return '#/' + (pageName !== 'index' ? pageName : '');
+}
+
+function getRoute(pageName, hash, pageManifest) {
+  var route = {path: getPath(pageName, hash)};
 
   function extend(self, properties) {
     return _.merge(
@@ -11,6 +19,7 @@ function getRoute(pageName, path, pageManifest) {
         query: self.query,
         name: pageName,
         manifest: pageManifest,
+        route: hash
       },
       properties
     );
@@ -91,27 +100,14 @@ function getRoute(pageName, path, pageManifest) {
   return route;
 }
 
-function getPaths(pageName, pageHashes) {
-  var
-    paths = [],
-    basePath = '#/' + (pageName !== 'index' ? pageName : '')
-    ;
-
-  if (!pageHashes) {
-    return [basePath];
-  }
-
-  _.forEach(pageHashes, function(hash) {
-    paths.push(hash === '$' ? basePath : '#/' + pageName + '/' + hash);
-  });
-
-  return paths;
+function getHashes(pageHashes) {
+  return !pageHashes ? ['$'] : pageHashes;
 }
 
 function registerRoutes(appManifest) {
   _.forEach(appManifest.pages, function(pageManifest, pageName) {
-    _.forEach(getPaths(pageName, pageManifest.hashes), function(path) {
-      quasar.add.route(getRoute(pageName, path, pageManifest));
+    _.forEach(getHashes(pageManifest.hashes), function(hash) {
+      quasar.add.route(getRoute(pageName, hash, pageManifest));
     });
   });
 }
