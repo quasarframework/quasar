@@ -307,6 +307,34 @@ describe('App', function() {
       testing.app.start();
     });
 
+    it('should trigger global page events', function(done) {
+      var
+        times = 0,
+        fn = function() {
+          times++;
+        };
+
+      testing.done.set(function() {
+        quasar.nextTick(function() {
+          expect(times).to.equal(5);
+          done();
+        });
+      });
+
+      quasar.global.events.on('app:page:requiring', fn);
+      quasar.global.events.on('app:page:preparing', fn);
+      quasar.global.events.on('app:page:scoping', fn);
+      quasar.global.events.on('app:page:rendering', fn);
+      quasar.global.events.on('app:page:ready', fn);
+
+      testing.app.addIndex(function() {
+        module.exports.render = function() {
+          testing.done();
+        };
+      });
+      testing.app.start();
+    });
+
   });
 
 });

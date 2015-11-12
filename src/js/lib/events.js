@@ -1,11 +1,5 @@
 'use strict';
 
-function ensureEvent(events, eventName) {
-  if (!events.hasOwnProperty(eventName)) {
-    events[eventName] = [];
-  }
-}
-
 function on(eventName, callback, context, once) {
   if (!eventName) {
     throw new Error('Missing event name');
@@ -17,7 +11,9 @@ function on(eventName, callback, context, once) {
     throw new Error('Callback is not a function');
   }
 
-  ensureEvent(this.events, eventName);
+  if (!this.events.hasOwnProperty(eventName)) {
+    this.events[eventName] = [];
+  }
 
   if (_.some(this.events[eventName], function(item) {
     return item.cb === callback;
@@ -71,7 +67,8 @@ function trigger(eventName) {
   }
 
   if (!this.events.hasOwnProperty(eventName)) {
-    throw new Error('Unregistered event name');
+    // Nothing to trigger
+    return;
   }
 
   var args = Array.prototype.slice.call(arguments, 1);
@@ -131,12 +128,43 @@ function createEventsEmitter() {
     hasEvent: hasEvent.bind(props),
     getEventsList: getEventsList.bind(props)
   };
-};
+}
+
+function makeEventsEmitter(object) {
+  if (!_.isObject(object)) {
+    throw new Error('Missing object');
+  }
+
+  _.merge(object, createEventsEmitter());
+}
+
+function isEventsEmitter(object) {
+  if (!_.isObject(object)) {
+    throw new Error('Missing object');
+  }
+
+  return _.isFunction(object.on) &&
+    _.isFunction(object.off) &&
+    _.isFunction(object.once) &&
+    _.isFunction(object.trigger) &&
+    _.isFunction(object.hasEvent) &&
+    _.isFunction(object.getEventsList);
+}
 
 module.exports = {
   create: {
     events: {
       emitter: createEventsEmitter
+    }
+  },
+  make: {
+    events: {
+      emitter: makeEventsEmitter
+    }
+  },
+  is: {
+    events: {
+      emitter: isEventsEmitter
     }
   }
 };

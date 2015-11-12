@@ -29,7 +29,7 @@ function getRoute(pageName, hash, pageManifest) {
     var self = this;
 
     $('#quasar-view').html('Loading page...');
-    console.log('[page:require]', pageName);
+    quasar.global.events.trigger('app:page:requiring', extend(self));
 
     quasar.require.script('pages/' + pageName + '/js/script.' + pageName)
       .fail(
@@ -37,7 +37,6 @@ function getRoute(pageName, hash, pageManifest) {
       function() {
         throw new Error('[page:require] Cannot load script file.');
       }).done(function(exports) {
-        console.log('[page:process]', pageName);
         exports.config = exports.config || {};
         self.next(exports);
       });
@@ -52,22 +51,31 @@ function getRoute(pageName, hash, pageManifest) {
 
     var
       scope = {},
+      extender,
       self = this
       ;
+
+    quasar.global.events.trigger('app:page:preparing', extend(self));
 
     if (exports.prepare) {
       exports.prepare.call(extend(self, {
         done: function(data) {
+          extender = extend(self, {data: data});
+
+          quasar.global.events.trigger('app:page:scoping', extender);
           if (exports.scope) {
-            scope = exports.scope.call(extend(self, {data: data}));
+            scope = exports.scope.call(extender);
           }
           self.next([exports, data, scope]);
         }
       }));
     }
     else {
+      extender = extend(self, {data: {}});
+
+      quasar.global.events.trigger('app:page:scoping', extender);
       if (exports.scope) {
-        scope = exports.scope.call(extend(self, {data: {}}));
+        scope = exports.scope.call(extender);
       }
       this.next([exports, {}, scope]);
     }
@@ -81,20 +89,23 @@ function getRoute(pageName, hash, pageManifest) {
       scope = args[2]
       ;
 
+    var extender = extend(self, {
+      data: data,
+      scope: scope,
+      vm: new Vue({
+        el: '#quasar-view',
+        data: scope
+      })
+    });
+
     $('#quasar-view').html(exports.config.html || '');
+    quasar.global.events.trigger('app:page:rendering', extender);
 
     if (exports.render) {
-      exports.render.call(extend(self, {
-        data: data,
-        scope: scope,
-        vm: new Vue({
-          el: '#quasar-view',
-          data: scope
-        })
-      }));
+      exports.render.call(extender);
     }
 
-    console.log('[page:ready]', pageName);
+    quasar.global.events.trigger('app:page:ready', extender);
   };
 
   return route;

@@ -114,9 +114,8 @@ describe('Events', function() {
       this.emitter.trigger();
     }.bind(this)).to.throw(/Missing event name/);
 
-    expect(function() {
-      this.emitter.trigger('event');
-    }.bind(this)).to.throw(/Unregistered event name/);
+    // Should not throw for unregistered event:
+    this.emitter.trigger('event');
   });
 
   it('should be able to trigger event callback once', function() {
@@ -147,6 +146,39 @@ describe('Events', function() {
     expect(function() {
       this.emitter.hasEvent('event', 'string');
     }.bind(this)).to.throw(/Callback is not a function/);
+  });
+
+  it('should be able to inject events methods to an object', function(done) {
+    var object = {};
+
+    quasar.make.events.emitter(object);
+    expect(object.on).to.be.a('function');
+    expect(object.off).to.be.a('function');
+    expect(object.once).to.be.a('function');
+    expect(object.trigger).to.be.a('function');
+
+    object.on('event', function() {
+      done();
+    });
+    expect(object.hasEvent('event'));
+    object.trigger('event');
+  });
+
+  it('should throw error when trying to inject events methods to an object and supplying faulty params', function() {
+    expect(function() {
+      quasar.make.events.emitter();
+    }).to.throw(/Missing object/);
+  });
+
+  it('should tell if object is an event emitter', function() {
+    expect(quasar.is.events.emitter(this.emitter)).to.equal(true);
+    expect(quasar.is.events.emitter({some: 'object'})).to.equal(false);
+  });
+
+  it('should throw error when trying to tell if object is emitter and supplying faulty params', function() {
+    expect(function() {
+      quasar.is.events.emitter();
+    }).to.throw(/Missing object/);
   });
 
 });

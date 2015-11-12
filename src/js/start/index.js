@@ -1,15 +1,14 @@
 'use strict';
 
-function startApp() {
-  /*eslint-disable no-undef */
-  FastClick.attach(document.body);
-  /*eslint-enable no-undef */
+require('./initialize');
 
+function startApp() {
   quasar.load.app.manifest(function(err, appManifest) {
     /* istanbul ignore next */
     if (err) {
       throw new Error('Could not load App manifest.');
     }
+
     require('./register-pages')(appManifest);
     quasar.start.router();
   });
