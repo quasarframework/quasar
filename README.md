@@ -1,3 +1,5 @@
+![Quasar Framework logo](http://quasar-framework.org/images/quasar-logo.png)
+
 # Quasar Framework
 
 <a href="https://badge.fury.io/js/quasar-framework"><img src="https://badge.fury.io/js/quasar-framework.svg"></a>

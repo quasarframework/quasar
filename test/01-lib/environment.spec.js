@@ -1,6 +1,6 @@
 'use strict';
 
-describe('.env', function() {
+describe('Environment', function() {
 
   it('should have detectors', function() {
     expect(quasar.runs.on).to.exist;

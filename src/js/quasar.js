@@ -16,7 +16,8 @@ _.merge(quasar,
   require('./lib/router'),
   require('./lib/ajax-request'),
   require('./lib/storage'),
-  require('./lib/require')
+  require('./lib/require'),
+  require('./lib/events')
 );
 
 _.merge(quasar,
