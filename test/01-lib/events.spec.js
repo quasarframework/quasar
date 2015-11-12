@@ -65,6 +65,14 @@ describe('Events', function() {
     expect(this.emitter.hasSubscriber('someEvent', this.emptyFn)).to.equal(false);
   });
 
+  it('should be able to remove a callback from an event but retain other callbacks', function() {
+    this.emitter.on('event1', this.emptyFn);
+    this.emitter.on('event1', this.fn);
+    this.emitter.off('event1', this.emptyFn);
+    expect(this.emitter.hasSubscriber('event1', this.emptyFn)).to.equal(false);
+    expect(this.emitter.hasSubscriber('event1', this.fn)).to.equal(true);
+  });
+
   it('should be able to remove all events', function() {
     this.emitter.on('event1', this.emptyFn);
     this.emitter.on('event2', this.emptyFn);
