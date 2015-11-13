@@ -3,9 +3,9 @@
 /*
  * Inject FastClick
  */
-/*eslint-disable no-undef */
+/* eslint-disable no-undef */
 FastClick.attach(document.body);
-/*eslint-enable no-undef */
+/* eslint-enable no-undef */
 
 /*
  * Inject Globals

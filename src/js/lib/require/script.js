@@ -125,9 +125,9 @@ function getModuleExports(module) {
 function requireScript(resource, callback) {
   var
     module,
-    /*eslint-disable */
+    /* eslint-disable */
     deferred = $.Deferred()
-    /*eslint-enable */
+    /* eslint-enable */
     ;
 
   callback = callback || function() {};

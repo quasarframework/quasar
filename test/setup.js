@@ -10,8 +10,8 @@ window.testing = {
 // The default behavior is to throw error in a setTimeout().
 window.sinon.logError.useImmediateExceptions = true;
 
-if (typeof Function.prototype.bind != 'function') {
-  /*eslint-disable no-extend-native*/
+if (testing.phantomjs && typeof Function.prototype.bind != 'function') {
+  /* eslint-disable no-extend-native*/
   Function.prototype.bind = function bind(obj) {
     var
       args = Array.prototype.slice.call(arguments, 1),

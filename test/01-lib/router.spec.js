@@ -11,7 +11,7 @@ describe('Router', function() {
     window.location.hash = this.hash;
   });
 
-  var msToWaitBeforeHashChanges = 50;
+  var msToWaitBeforeHashChanges = 75;
   var routeOne = {
     path: '#/route-one',
     on: function() {}
