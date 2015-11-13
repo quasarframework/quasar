@@ -1,6 +1,7 @@
 ![Quasar Framework logo](http://quasar-framework.org/images/quasar-logo.png)
 
 # Quasar Framework
+> Simultaneously build desktop/mobile SPA websites & phone/tablet apps.
 
 <a href="https://badge.fury.io/js/quasar-framework"><img src="https://badge.fury.io/js/quasar-framework.svg"></a>
 <a href="https://circleci.com/gh/rstoenescu/quasar-framework/tree/master"><img src="https://circleci.com/gh/rstoenescu/quasar-framework/tree/master.svg?style=shield"></a>

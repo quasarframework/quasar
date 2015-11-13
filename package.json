@@ -1,7 +1,7 @@
 {
   "name": "quasar-framework",
-  "version": "0.0.7",
-  "description": "Simultaneously build desktop websites and phone+tablet apps.",
+  "version": "0.0.8",
+  "description": "Simultaneously build desktop/mobile SPA websites & phone/tablet apps.",
   "main": "dist/js/quasar.min.js",
   "files": [
     "dist"
@@ -28,7 +28,9 @@
     "js",
     "phone",
     "tablet",
-    "desktop"
+    "desktop",
+    "spa",
+    "website"
   ],
   "author": {
     "name": "Razvan Stoenescu",
