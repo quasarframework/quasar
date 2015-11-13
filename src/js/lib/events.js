@@ -108,28 +108,44 @@ function trigger(eventNames) {
   }.bind(this));
 }
 
-function hasSubscriber(eventName, callback) {
-  if (!eventName) {
+function hasSubscriber(eventNames, callback) {
+  if (!eventNames) {
     return !_.isEmpty(this.events);
   }
 
-  var result = this.events.hasOwnProperty(eventName);
-
-  if (!result) {
-    return false;
+  if (_.isFunction(eventNames)) {
+    callback = eventNames;
+    eventNames = getEventsList.call(this).join(' ');
   }
 
-  if (callback) {
-    if (!_.isFunction(callback)) {
-      throw new Error('Callback is not a function');
+  if (callback && !_.isFunction(callback)) {
+    throw new Error('Callback is not a function');
+  }
+
+  var foundSubscriber = false;
+
+  _.forEach(parseEventNames(eventNames), function(eventName) {
+    var result = this.events.hasOwnProperty(eventName);
+
+    if (!result) {
+      return;
     }
 
-    return _.some(this.events[eventName], function(item) {
-      return item.cb === callback;
-    });
-  }
+    if (callback) {
+      result = _.some(this.events[eventName], function(item) {
+        return item.cb === callback;
+      });
 
-  return true;
+      if (result) {
+        foundSubscriber = true;
+      }
+      return;
+    }
+
+    foundSubscriber = true;
+  }.bind(this));
+
+  return foundSubscriber;
 }
 
 function getEventsList() {

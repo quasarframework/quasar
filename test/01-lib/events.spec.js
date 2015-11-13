@@ -155,22 +155,56 @@ describe('Events', function() {
     expect(times).to.equal(1);
   });
 
-  it('should be able to tell if emitter has subscribers', function() {
-    expect(this.emitter.hasSubscriber()).to.equal(false);
-    this.emitter.on('event', this.emptyFn);
+  it('should tell if callbacks are registered for an event', function() {
+    expect(this.emitter.hasSubscriber('event')).to.equal(false);
+    this.emitter.on('event', this.fn);
     expect(this.emitter.hasSubscriber('event')).to.equal(true);
-    expect(this.emitter.hasSubscriber('event', this.emptyFn)).to.equal(true);
     this.emitter.off('event');
-    expect(this.emitter.hasSubscriber()).to.equal(false);
-    this.emitter.on('event1 event2', this.emptyFn);
-    this.emitter.off();
-    expect(this.emitter.hasSubscriber()).to.equal(false);
+    expect(this.emitter.hasSubscriber('event')).to.equal(false);
   });
 
-  it('should be able to tell if emitter has event registered with callback', function() {
+  it('should tell if a callback is registered for an event', function() {
+    expect(this.emitter.hasSubscriber('event', this.fn)).to.equal(false);
     this.emitter.on('event', this.emptyFn);
-    expect(this.emitter.hasSubscriber('event', this.emptyFn)).to.equal(true);
-    expect(this.emitter.hasSubscriber('event', function() {})).to.equal(false);
+    expect(this.emitter.hasSubscriber('event', this.fn)).to.equal(false);
+    this.emitter.on('event', this.fn);
+    expect(this.emitter.hasSubscriber('event', this.fn)).to.equal(true);
+    this.emitter.off('event', this.fn);
+    expect(this.emitter.hasSubscriber('event', this.fn)).to.equal(false);
+  });
+
+  it('should tell if a callback is registered for any of the specified events', function() {
+    expect(this.emitter.hasSubscriber('event1', this.fn)).to.equal(false);
+    expect(this.emitter.hasSubscriber('event2', this.fn)).to.equal(false);
+    expect(this.emitter.hasSubscriber('event1 event2', this.fn)).to.equal(false);
+    this.emitter.on('event1', this.emptyFn);
+    expect(this.emitter.hasSubscriber('event1 event2', this.fn)).to.equal(false);
+    this.emitter.on('event2', this.fn);
+    expect(this.emitter.hasSubscriber('event1 event2', this.fn)).to.equal(true);
+    this.emitter.off('event2', this.fn);
+    expect(this.emitter.hasSubscriber('event1 event2', this.fn)).to.equal(false);
+  });
+
+  it('should tell if a callback is registered for any events', function() {
+    expect(this.emitter.hasSubscriber('event1 event2', this.fn)).to.equal(false);
+    expect(this.emitter.hasSubscriber(this.fn)).to.equal(false);
+    this.emitter.on('event1', this.emptyFn);
+    expect(this.emitter.hasSubscriber(this.fn)).to.equal(false);
+    this.emitter.on('event2', this.fn);
+    expect(this.emitter.hasSubscriber(this.fn)).to.equal(true);
+    this.emitter.off('event2', this.fn);
+    expect(this.emitter.hasSubscriber(this.fn)).to.equal(false);
+  });
+
+  it('should tell if an emitter has any events/callbacks at all', function() {
+    expect(this.emitter.hasSubscriber(this.fn)).to.equal(false);
+    expect(this.emitter.hasSubscriber()).to.equal(false);
+    this.emitter.on('event1', this.emptyFn);
+    expect(this.emitter.hasSubscriber()).to.equal(true);
+    this.emitter.on('event2', this.fn);
+    expect(this.emitter.hasSubscriber()).to.equal(true);
+    this.emitter.off();
+    expect(this.emitter.hasSubscriber()).to.equal(false);
   });
 
   it('should throw error when supplying hasSubscriber() with faulty parameters', function() {
