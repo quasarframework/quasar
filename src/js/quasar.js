@@ -9,6 +9,7 @@ var quasar = window.quasar = window.q = {};
  * Generate Quasar
  */
 _.merge(quasar,
+  require('./lib/version'),
   require('./lib/utils'),
   require('./lib/debug'),
   require('./lib/environment'),

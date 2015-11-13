@@ -19,6 +19,7 @@ function compileJs(production) {
       extmin: production,
       pack: config.js.webpack
     }))
+    .pipe(plugins.injectVersion())
     .pipe(gulp.dest(config.js.dest));
 }
 
