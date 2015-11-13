@@ -4,8 +4,9 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      'test/setup-predeps.js',
       'build/js/quasar-dependencies.js',
-      'test/setup.js',
+      'test/setup-postdeps.js',
       'src/js/quasar.js',
       'test/**/*.spec.js'
     ],
