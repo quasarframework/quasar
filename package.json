@@ -75,7 +75,7 @@
     "lodash": "^3.10.1",
     "mocha": "^2.3.3",
     "phantomjs": "^1.9.18",
-    "quasar-semantic": "^0.0.4",
+    "quasar-semantic": "0.x.x",
     "require-dir": "^0.3.0",
     "run-sequence": "^1.1.4",
     "sinon": "^1.17.1",

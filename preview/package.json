@@ -5,40 +5,15 @@
   "private": true,
   "directories": {},
   "scripts": {
-    "build": "gulp dist",
-    "test": "karma start --single-run",
-    "pjs": "karma start --browsers PhantomJS --single-run",
-    "chrome": "karma start --browsers Chrome --single-run",
-    "ff": "karma start --browsers Firefox --single-run",
-    "pjs-live": "karma start --browsers PhantomJS",
-    "chrome-live": "karma start --browsers Chrome",
-    "ff-live": "karma start --browsers Firefox",
+    "test": "quasar test",
     "coverage": "google-chrome ./coverage/report-html/index.html"
   },
   "author": "",
   "license": "",
   "devDependencies": {
-    "chai": "^3.4.0",
-    "eslint": "^1.7.3",
-    "eslint-config-defaults": "^7.0.1",
-    "istanbul": "^0.4.0",
-    "istanbul-instrumenter-loader": "^0.1.3",
-    "karma": "^0.13.10",
-    "karma-chai": "^0.1.0",
-    "karma-chrome-launcher": "^0.2.1",
-    "karma-coverage": "^0.5.2",
-    "karma-firefox-launcher": "^0.1.6",
-    "karma-mocha": "^0.2.0",
-    "karma-phantomjs-launcher": "^0.2.1",
-    "karma-sinon": "^1.0.4",
-    "karma-sinon-chai": "^1.1.0",
-    "karma-webpack": "^1.7.0",
-    "lodash": "^3.10.1",
-    "mocha": "^2.3.3",
-    "phantomjs": "^1.9.18",
-    "raw-loader": "^0.5.1",
-    "sinon": "^1.17.1",
-    "sinon-chai": "^2.8.0",
-    "webpack": "^1.12.2"
+    "raw-loader": "0.x.x"
+  },
+  "dependencies": {
+    "quasar-framework": "0.x.x"
   }
 }

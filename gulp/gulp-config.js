@@ -1,23 +1,11 @@
 'use strict';
 
 var
-  _ = require('lodash'),
-
   src         = './src',
   build       = './build',
   dist        = './dist',
   preview     = './preview'
   ;
-
-function mapToNodeModules(suffix, list) {
-  return _.map(list, function(item) {
-    if (item.indexOf('!') === 0) {
-      return item.substr(1) + suffix;
-    }
-    return 'node_modules/' + item + suffix;
-  });
-}
-
 
 module.exports = {
   preview: preview,
@@ -39,22 +27,18 @@ module.exports = {
 
   deps: {
     name: 'quasar-dependencies',
+    dest: build,
     js: {
-      src: mapToNodeModules('.js', [
+      src: [
         'jquery/dist/jquery',
         'lodash/index',
         'vue/dist/vue',
-        'fastclick/lib/fastclick',
-        'quasar-semantic/dist/semantic'
-        //'touchswipe/index.js',
-        //gsap
-      ]),
+        'fastclick/lib/fastclick'
+      ],
       dest: build + '/js'
     },
     css: {
-      src: mapToNodeModules('.css', [
-        'quasar-semantic/dist/semantic'
-      ]),
+      src: [],
       dest: build + '/css'
     }
   },

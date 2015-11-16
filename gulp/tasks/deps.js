@@ -1,15 +1,30 @@
 'use strict';
 
 var
+  fse = require('fs-extra'),
   gulp = require('gulp'),
   config = require('../gulp-config'),
-  plugins = config.plugins
+  plugins = config.plugins,
+  _ = require('lodash'),
+  path = require('path')
   ;
 
+function mapToNodeModules(suffix, list) {
+  return _.map(list, function(item) {
+    if (item.indexOf('!') === 0) {
+      return item.substr(1) + '.' + suffix;
+    }
+    return 'node_modules/' + item + '.' + suffix;
+  });
+}
+
 function compile(production, type) {
-  var stream = gulp.src(config.deps[type].src)
+  var deps = mapToNodeModules(type, config.deps[type].src);
+
+  var stream = gulp.src(deps)
     .pipe(plugins.pipes[type].deps({
       prod: production,
+      extmin: true,
       name: config.deps.name
     }))
     .pipe(gulp.dest(config.deps[type].dest));
@@ -39,6 +54,16 @@ gulp.task('dev:css:deps', function() {
 
 gulp.task('prod:css:deps', function() {
   return compile(true, 'css');
+});
+
+gulp.task('deps:semantic', function(done) {
+  fse.copy(
+    'node_modules/quasar-semantic/dist',
+    path.join(config.deps.dest, 'semantic'),
+    function() {
+      done();
+    }
+  );
 });
 
 /*

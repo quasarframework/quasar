@@ -37,5 +37,5 @@ gulp.task('dist:copy', function() {
 /**
 * Helpers
 */
-gulp.task('build-dev', ['development:css', 'development:js']);
+gulp.task('build-dev', ['development:css', 'development:js', 'deps:semantic']);
 gulp.task('build-prod', ['production:css', 'production:js']);
