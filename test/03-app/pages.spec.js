@@ -21,7 +21,7 @@ describe('App', function() {
     testing.done.set(done);
     testing.app.addIndex(
       function() {
-        module.exports.render = function() {
+        module.exports.start = function() {
           expect(this.data).to.deep.equal({});
           expect(this.scope).to.deep.equal({});
           expect(this.vm.$data).to.deep.equal(this.scope);
@@ -55,7 +55,7 @@ describe('App', function() {
           this.done({someData: 'value'});
         }.bind(this), 1);
       };
-      module.exports.render = function() {
+      module.exports.start = function() {
         expect(this.data).to.deep.equal({someData: 'value'});
         expect(this.scope).to.deep.equal({});
         expect(this.params).to.deep.equal({});
@@ -77,7 +77,7 @@ describe('App', function() {
           this.done();
         }.bind(this), 1);
       };
-      module.exports.render = function() {
+      module.exports.start = function() {
         expect(this.data).to.deep.equal({});
         testing.done();
       };
@@ -97,7 +97,7 @@ describe('App', function() {
         expect(this.route).to.equal('$');
         return {my: 'vue-scope'};
       };
-      module.exports.render = function() {
+      module.exports.start = function() {
         expect(this.data).to.deep.equal({});
         expect(this.vm.$data).to.deep.equal({my: 'vue-scope'});
         expect(this.params).to.deep.equal({});
@@ -126,7 +126,7 @@ describe('App', function() {
         expect(this.query).to.deep.equal({});
         return {my: 'scope'};
       };
-      module.exports.render = function() {
+      module.exports.start = function() {
         expect(this.data).to.deep.equal({someData: 'value'});
         expect(this.vm.$data).to.deep.equal({my: 'scope'});
         expect(this.params).to.deep.equal({});
@@ -144,7 +144,7 @@ describe('App', function() {
       module.exports.config = {
         css: '/pages/index/css/page.css'
       };
-      module.exports.render = function() {
+      module.exports.start = function() {
         testing.assert.pageCSS('/pages/index/css/page.css');
         testing.done();
       };
@@ -161,7 +161,7 @@ describe('App', function() {
       module.exports.config = {
         html: 'page html content'
       };
-      module.exports.render = function() {
+      module.exports.start = function() {
         expect($('#quasar-view').html()).to.equal('page html content');
         testing.done();
       };
@@ -176,7 +176,7 @@ describe('App', function() {
         html: 'index html content',
         css: '/pages/index/css/page.css'
       };
-      module.exports.render = function() {
+      module.exports.start = function() {
         expect(this.name).to.equal('index');
         expect($('#quasar-view').html()).to.equal('index html content');
         testing.assert.pageCSS('/pages/index/css/page.css');
@@ -192,7 +192,7 @@ describe('App', function() {
             html: 'second page html content',
             css: '/pages/secondpage/css/secondpage.css'
           };
-          module.exports.render = function() {
+          module.exports.start = function() {
             expect(this.name).to.equal('secondpage');
             expect(this.route).to.equal('$');
             expect($('#quasar-view').html()).to.equal('second page html content');
@@ -210,7 +210,7 @@ describe('App', function() {
     it('should be able to handle $', function(done) {
       testing.done.set(done);
       testing.app.addIndex(function() {
-        module.exports.render = function() {
+        module.exports.start = function() {
           testing.done();
         };
       }, [], {
@@ -222,7 +222,7 @@ describe('App', function() {
     it('should be able to handle multiple hashes', function(done) {
       testing.done.set(done);
       testing.app.addIndex(function() {
-        module.exports.render = function() {
+        module.exports.start = function() {
           if (this.params.age) {
             expect(this.params.age).to.equal('5');
             expect(this.params.name).to.equal('Razvan');
@@ -240,7 +240,7 @@ describe('App', function() {
     it('should be able to handle multiple hashes without $', function(done) {
       testing.done.set(done);
       testing.app.addIndex(function() {
-        module.exports.render = function() {
+        module.exports.start = function() {
           expect(this.params.age).to.equal('5');
           expect(this.params.name).to.equal('Razvan');
           testing.done();
@@ -255,7 +255,7 @@ describe('App', function() {
     it('should be able to handle hashes & query string', function(done) {
       testing.done.set(done);
       testing.app.addIndex(function() {
-        module.exports.render = function() {
+        module.exports.start = function() {
           expect(this.params.age).to.equal('5');
           expect(this.params.name).to.equal('Razvan');
           expect(this.query.q).to.equal('string');
@@ -273,7 +273,7 @@ describe('App', function() {
     it('should be able to handle hashes & query string on multiple pages', function(done) {
       testing.done.set(done);
       testing.app.addIndex(function() {
-        module.exports.render = function() {
+        module.exports.start = function() {
           quasar.navigate.to.route('#/razvan?q=string&think=big');
         };
       });
@@ -283,7 +283,7 @@ describe('App', function() {
           {
             url: 'js/script.razvan.js',
             content: function() {
-              module.exports.render = function() {
+              module.exports.start = function() {
                 expect(this.query.q).to.equal('string');
                 expect(this.query.think).to.equal('big');
                 expect(this.route).to.be.a('string');
@@ -328,7 +328,7 @@ describe('App', function() {
       quasar.global.events.on('app:page:ready', fn);
 
       testing.app.addIndex(function() {
-        module.exports.render = function() {
+        module.exports.start = function() {
           testing.done();
         };
       });

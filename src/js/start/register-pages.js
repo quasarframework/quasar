@@ -101,8 +101,8 @@ function getRoute(pageName, hash, pageManifest) {
     $('#quasar-view').html(exports.config.html || '');
     quasar.global.events.trigger('app:page:rendering', extender);
 
-    if (exports.render) {
-      exports.render.call(extender);
+    if (exports.start) {
+      exports.start.call(extender);
     }
 
     quasar.global.events.trigger('app:page:ready', extender);

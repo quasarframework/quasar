@@ -18,6 +18,6 @@ module.exports.prepare = function() {
  /*
   * Use as page starting point
   *
-module.exports.render = function() {
+module.exports.start = function() {
 };
  */
