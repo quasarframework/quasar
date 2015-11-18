@@ -324,7 +324,7 @@ describe('App', function() {
       quasar.global.events.on('app:page:requiring', fn);
       quasar.global.events.on('app:page:preparing', fn);
       quasar.global.events.on('app:page:scoping', fn);
-      quasar.global.events.on('app:page:rendering', fn);
+      quasar.global.events.on('app:page:starting', fn);
       quasar.global.events.on('app:page:ready', fn);
 
       testing.app.addIndex(function() {
