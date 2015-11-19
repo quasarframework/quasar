@@ -33,7 +33,7 @@ function getRoute(pageName, hash, pageManifest) {
 
     quasar.require.script('pages/' + pageName + '/js/script.' + pageName)
       .fail(
-        /* istanbul ignore next */
+      /* istanbul ignore next */
       function() {
         throw new Error('[page:require] Cannot load script file.');
       }).done(function(exports) {

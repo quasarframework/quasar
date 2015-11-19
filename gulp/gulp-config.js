@@ -49,11 +49,7 @@ module.exports = {
       src + '/js/quasar.js'
     ],
     dest: build + '/js',
-    webpack: {
-      output: {
-        libraryTarget: 'umd'
-      }
-    }
+    webpack: {}
   },
 
   css: {

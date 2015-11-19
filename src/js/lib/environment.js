@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = {
+var env = {
   runs: {
     on: {
       mobile: (/* istanbul ignore next */function(a) {
@@ -18,3 +18,10 @@ module.exports = {
     }
   }
 };
+
+_.merge(env.runs.on, {
+  desktop: !env.runs.on.mobile && !env.runs.on.cordova,
+  browser: !env.runs.on.cordova
+});
+
+module.exports = env;
