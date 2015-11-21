@@ -1,22 +1,15 @@
 {
   "extends": "defaults/configurations/google",
 
-  "env": {
-    "browser": true
-  },
+  "env": {},
 
   "globals": {
     "q": true,
     "quasar": true,
-    "require": true,
-    "$": true,
-    "module": true,
-    "exports": true,
-    "_": true,
-    "global": true,
-    "process": true,
-    "inBrowser": true,
-    "Vue": true
+
+    "gulp": true,
+    "config": true,
+    "plugins": true
   },
 
   "rules": {

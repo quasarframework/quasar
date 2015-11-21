@@ -5,9 +5,11 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'test/setup-predeps.js',
-      'build/js/quasar-dependencies.js',
+      'dist/full/deps/quasar-dependencies.css',
+      'dist/full/deps/quasar-dependencies.js',
       'test/setup-postdeps.js',
-      'src/js/quasar.js',
+      'dist/full/lib/quasar.full.css',
+      'dist/build/lib/quasar.full.js',
       'test/**/*.spec.js'
     ],
 
@@ -18,7 +20,7 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'src/js/quasar.js': ['webpack']
+      'dist/build/lib/quasar.full.js': ['webpack']
     },
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -29,14 +31,11 @@ module.exports = function(config) {
     frameworks: ['mocha', 'chai', 'sinon', 'sinon-chai'],
 
     webpack: {
-      output: {
-        libraryTarget: 'umd'
-      },
       module: {
         postLoaders: [
           {
             test: /\.js$/,
-            exclude: /(node_modules|resources\/js\/vendor)/,
+            exclude: /node_modules/,
             loader: 'istanbul-instrumenter'
           }
         ]

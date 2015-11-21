@@ -1,73 +1,69 @@
 'use strict';
 
 var
-  fse = require('fs-extra'),
-  gulp = require('gulp'),
-  config = require('../gulp-config'),
-  plugins = config.plugins,
   _ = require('lodash'),
-  path = require('path')
+  fs = require('fs'),
+  fse = require('fs-extra')
   ;
 
-function mapToNodeModules(suffix, list) {
+function mapToNodeModules(list, min, suffix) {
   return _.map(list, function(item) {
-    if (item.indexOf('!') === 0) {
-      return item.substr(1) + '.' + suffix;
+    if (min && !fs.existsSync('node_modules/' + item + '.' + (min ? 'min.' : '') + suffix)) {
+      return 'node_modules/' + item + '.' + suffix;
     }
-    return 'node_modules/' + item + '.' + suffix;
+    return 'node_modules/' + item + '.' + (min ? 'min.' : '') + suffix;
   });
 }
 
-function compile(production, type) {
-  var deps = mapToNodeModules(type, config.deps[type].src);
-
-  var stream = gulp.src(deps)
+function compile(production, type, deps, dest) {
+  return gulp.src(mapToNodeModules(deps, production, type))
     .pipe(plugins.pipes[type].deps({
-      prod: production,
-      extmin: true,
-      name: config.deps.name
+      prod: type !== 'css' ? production : false,
+      name: config.deps.name + (production ? '.min' : '')
     }))
-    .pipe(gulp.dest(config.deps[type].dest));
-
-  return stream;
+    .pipe(gulp.dest(config.deps[dest].dest));
 }
 
-/**
- * Scripts
- */
 
-gulp.task('dev:js:deps', function() {
-  return compile(false, 'js');
+gulp.task('build:deps:js:dev', function() {
+  return compile(false, 'js', config.deps.core.js, 'core');
+});
+gulp.task('build:deps:js:prod', function() {
+  return compile(true, 'js', config.deps.core.js, 'core');
 });
 
-gulp.task('prod:js:deps', function() {
-  return compile(true, 'js');
+gulp.task('build:deps:css:dev', function() {
+  return compile(false, 'css', config.deps.core.css, 'core');
+});
+gulp.task('build:deps:css:prod', function() {
+  return compile(true, 'css', config.deps.core.css, 'core');
 });
 
-/**
- * Styles
- */
 
-gulp.task('dev:css:deps', function() {
-  return compile(false, 'css');
+gulp.task('full:deps:js:dev', function() {
+  return compile(false, 'js', config.deps.core.js.concat(config.deps.semantic), 'full');
+});
+gulp.task('full:deps:js:prod', function() {
+  return compile(true, 'js', config.deps.core.js.concat(config.deps.semantic), 'full');
 });
 
-gulp.task('prod:css:deps', function() {
-  return compile(true, 'css');
+gulp.task('full:deps:css:dev', function() {
+  return compile(false, 'css', config.deps.core.css.concat(config.deps.semantic), 'full');
+});
+gulp.task('full:deps:css:prod', function() {
+  return compile(true, 'css', config.deps.core.css.concat(config.deps.semantic), 'full');
 });
 
-gulp.task('deps:semantic', function(done) {
+gulp.task('build:semantic', function(done) {
   fse.copy(
-    'node_modules/quasar-semantic/dist',
-    path.join(config.deps.dest, 'semantic'),
+    config.build.semantic.src + '/themes',
+    config.build.semantic.dest + '/themes',
     function() {
-      done();
+      fse.copy(
+        config.build.semantic.src + '/components',
+        config.build.semantic.dest,
+        done
+      );
     }
   );
 });
-
-/*
- * Main tasks
- */
-gulp.task('dev:deps',  ['dev:js:deps',  'dev:css:deps']);
-gulp.task('prod:deps', ['prod:js:deps', 'prod:css:deps']);
