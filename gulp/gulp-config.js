@@ -46,10 +46,10 @@ module.exports = {
   },
 
   js: {
-    all: src + '/lib/**/*.js'
+    all: src + '/**/*.js'
   },
   css: {
-    all: src + '/lib/**/*.styl'
+    all: src + '/**/*.styl'
   },
 
   preprocess: {
