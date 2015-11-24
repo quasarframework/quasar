@@ -1,10 +1,6 @@
 'use strict';
 
-var
-  gulp = require('gulp'),
-  config = require('../gulp-config'),
-  spawn = require('child_process').spawn
-  ;
+var spawn = require('child_process').spawn;
 
 function launchPreview(type) {
   spawn('quasar', [type, '-d'], {cwd: config.preview, stdio: 'inherit'})

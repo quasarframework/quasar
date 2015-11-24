@@ -1,7 +1,5 @@
 deps:
   js: []
   css: []
-  Xquasar:
-    - 'feat/web-storage'
 preview: {}
 banner: {}

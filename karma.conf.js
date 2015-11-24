@@ -5,11 +5,11 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'test/setup-predeps.js',
-      'dist/full/deps/quasar-dependencies.css',
-      'dist/full/deps/quasar-dependencies.js',
+      'dist/deps/quasar-dependencies.css',
+      'dist/deps/quasar-dependencies.js',
       'test/setup-postdeps.js',
-      'dist/full/lib/quasar.full.css',
-      'dist/minimal/lib/quasar.full.js',
+      'dist/lib/quasar.css',
+      'build/quasar.js',
       'test/**/*.spec.js'
     ],
 
@@ -20,7 +20,7 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'dist/minimal/lib/quasar.full.js': ['webpack']
+      'build/quasar.js': ['webpack']
     },
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -35,7 +35,7 @@ module.exports = function(config) {
         postLoaders: [
           {
             test: /\.js$/,
-            exclude: /node_modules/,
+            exclude: /(test|node_modules|bower_components)\//,
             loader: 'istanbul-instrumenter'
           }
         ]

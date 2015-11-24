@@ -12,54 +12,36 @@ module.exports = {
 
   deps: {
     name: 'quasar-dependencies',
-    core: {
-      js: [
-        'jquery/dist/jquery',
-        'lodash/index',
-        'vue/dist/vue',
-        'fastclick/lib/fastclick'
-      ],
-      css: [],
-      dest: dist + '/minimal/deps'
-    },
-    semantic: 'semantic-ui-css/semantic',
-    full: {
-      dest: dist + '/full/deps'
-    }
-  },
-
-  minimal: {
-    lib: {
-      src: src + '/lib/**/*',
-      dest: dist + '/minimal/lib'
-    },
-    semantic: {
-      src: 'node_modules/semantic-ui-css',
-      dest: dist + '/minimal/lib/semantic'
-    }
-  },
-
-  full: {
-    lib: {
-      dest: dist + '/full/lib'
-    }
+    js: [
+      'jquery/dist/jquery',
+      'lodash/index',
+      'vue/dist/vue',
+      'fastclick/lib/fastclick',
+      'semantic-ui-css/semantic'
+    ],
+    css: [
+      'semantic-ui-css/semantic'
+    ],
+    dest: dist + '/deps'
   },
 
   js: {
-    all: src + '/**/*.js'
+    all: src + '/**/*.js',
+    src: build + '/quasar.js',
+    dest: dist + '/lib',
+    webpack: {}
   },
   css: {
-    all: src + '/**/*.styl'
+    all: src + '/**/*.styl',
+    src: build + '/quasar.styl',
+    dest: dist + '/lib'
   },
 
-  preprocess: {
-    src: {
-      js: src + '/quasar.js',
-      css: src + '/quasar.styl'
-    },
-    core: src + '/lib/core/*/*.js',
-    full: src + '/lib/*/*/*',
+  lib: {
+    src: src + '/lib',
+    dest: build
   },
 
+  dist: dist,
   preview: preview
 };

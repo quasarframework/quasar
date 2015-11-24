@@ -10,14 +10,19 @@ function run(tasks) {
 
 function watchForChanges() {
   /*
+   * Watch for Build Config
+   */
+  plugins.watch('gulp/**/*', run('dev'));
+
+  /*
    * Watch for CSS
    */
-  plugins.watch(config.css.all, run('full:css:dev'));
+  plugins.watch(config.css.all, run('css:dev'));
 
   /*
    * Watch for JS
    */
-  plugins.watch(config.js.all, run('full:js:dev'));
+  plugins.watch(config.js.all, run('js:dev'));
 
   process.nextTick(function() {
     plugins.util.log();
@@ -26,4 +31,4 @@ function watchForChanges() {
   });
 }
 
-gulp.task('monitor', ['full:dev'], watchForChanges);
+gulp.task('monitor', ['dev'], watchForChanges);

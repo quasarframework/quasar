@@ -8,8 +8,7 @@
   ],
   "scripts": {
     "prepublish": "gulp",
-    "build": "gulp",
-    "test": "karma start",
+    "test": "gulp dev && karma start",
     "pjs": "karma start --browsers PhantomJS",
     "chrome": "karma start --browsers Chrome",
     "ff": "karma start --browsers Firefox",

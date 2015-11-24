@@ -1,13 +1,13 @@
 'use strict';
 
-function compile(options) {
-  return gulp.src(options.src)
-    .pipe(plugins.pipes[options.type].compile({
-      prod: options.production,
-      extmin: options.production,
+function compile(type, production) {
+  return gulp.src(config[type].src)
+    .pipe(plugins.pipes[type].compile({
+      prod: production,
+      extmin: production,
       pack: config.js.webpack
     }))
-    .pipe(gulp.dest(options.dest));
+    .pipe(gulp.dest(config[type].dest));
 }
 
 /*
@@ -19,20 +19,11 @@ gulp.task('js:lint', function() {
     .pipe(plugins.pipes.js.lint());
 });
 
-gulp.task('full:js:dev', ['js:lint', 'full:js:preprocess'], function() {
-  return compile({
-    type: 'js',
-    src: config.minimal.lib.dest + '/quasar.full.js',
-    dest: config.full.lib.dest
-  });
+gulp.task('js:dev', ['js:lint', 'js:preprocess', 'copy:source'], function() {
+  return compile('js');
 });
-gulp.task('full:js:prod', ['js:lint', 'full:js:preprocess'], function() {
-  return compile({
-    type: 'js',
-    production: true,
-    src: config.minimal.lib.dest + '/quasar.full.js',
-    dest: config.full.lib.dest
-  });
+gulp.task('js:prod', ['js:lint', 'js:preprocess', 'copy:source'], function() {
+  return compile('js', true);
 });
 
 
@@ -45,18 +36,18 @@ gulp.task('css:lint', function() {
     .pipe(plugins.pipes.css.lint());
 });
 
-gulp.task('full:css:dev', ['full:css:preprocess'], function() {
-  compile({
-    type: 'css',
-    src: config.minimal.lib.dest + '/quasar.full.styl',
-    dest: config.full.lib.dest
-  });
+gulp.task('css:dev', ['css:lint', 'css:preprocess', 'copy:source'], function() {
+  return compile('css');
 });
-gulp.task('full:css:prod', ['full:css:preprocess'], function() {
-  compile({
-    type: 'css',
-    production: true,
-    src: config.minimal.lib.dest + '/quasar.full.styl',
-    dest: config.full.lib.dest
-  });
+gulp.task('css:prod', ['css:lint', 'css:preprocess', 'copy:source'], function() {
+  return compile('css', true);
+});
+
+/*
+ * Helper tasks
+ */
+
+gulp.task('copy:source', function() {
+  return gulp.src(config.lib.src + '/**/*')
+    .pipe(gulp.dest(config.lib.dest));
 });

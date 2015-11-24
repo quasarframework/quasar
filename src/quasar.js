@@ -6,8 +6,6 @@ var quasar = window.quasar = window.q = {
 
 // @echo COMPONENTS
 
-// @echo requireStatement
-
 $(function() {
   quasar.require.script('js/app');
 });
