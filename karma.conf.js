@@ -9,7 +9,7 @@ module.exports = function(config) {
       'dist/full/deps/quasar-dependencies.js',
       'test/setup-postdeps.js',
       'dist/full/lib/quasar.full.css',
-      'dist/build/lib/quasar.full.js',
+      'dist/minimal/lib/quasar.full.js',
       'test/**/*.spec.js'
     ],
 
@@ -20,7 +20,7 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'dist/build/lib/quasar.full.js': ['webpack']
+      'dist/minimal/lib/quasar.full.js': ['webpack']
     },
 
     // base path that will be used to resolve all patterns (eg. files, exclude)

@@ -19,18 +19,18 @@ gulp.task('js:lint', function() {
     .pipe(plugins.pipes.js.lint());
 });
 
-gulp.task('full:js:dev', ['js:lint', 'full:preprocess'], function() {
+gulp.task('full:js:dev', ['js:lint', 'full:js:preprocess'], function() {
   return compile({
     type: 'js',
-    src: config.build.lib.dest + '/quasar.full.js',
+    src: config.minimal.lib.dest + '/quasar.full.js',
     dest: config.full.lib.dest
   });
 });
-gulp.task('full:js:prod', ['js:lint', 'full:preprocess'], function() {
+gulp.task('full:js:prod', ['js:lint', 'full:js:preprocess'], function() {
   return compile({
     type: 'js',
     production: true,
-    src: config.build.lib.dest + '/quasar.full.js',
+    src: config.minimal.lib.dest + '/quasar.full.js',
     dest: config.full.lib.dest
   });
 });
@@ -48,7 +48,7 @@ gulp.task('css:lint', function() {
 gulp.task('full:css:dev', ['full:css:preprocess'], function() {
   compile({
     type: 'css',
-    src: config.build.lib.dest + '/quasar.full.styl',
+    src: config.minimal.lib.dest + '/quasar.full.styl',
     dest: config.full.lib.dest
   });
 });
@@ -56,7 +56,7 @@ gulp.task('full:css:prod', ['full:css:preprocess'], function() {
   compile({
     type: 'css',
     production: true,
-    src: config.build.lib.dest + '/quasar.full.styl',
+    src: config.minimal.lib.dest + '/quasar.full.styl',
     dest: config.full.lib.dest
   });
 });

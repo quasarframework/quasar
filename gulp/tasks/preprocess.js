@@ -6,7 +6,7 @@ var
   preprocess = require('preprocess')
   ;
 
-function requireComponents(components) {
+function requireJsComponents(components) {
   return _.map(components, function(component) {
     component = component.slice(0, -3);
     return 'require(\'./' + component + '\');';
@@ -20,7 +20,7 @@ function requireCssComponents(components) {
   }).join('\n');
 }
 
-gulp.task('build:preprocess', ['build:copy'], function(done) {
+gulp.task('minimal:js:preprocess', ['minimal:copy'], function(done) {
   var pkg = require('../../package.json');
   var core = _.map(glob.sync(config.preprocess.core), function(folder) {
     return folder.substring(folder.indexOf('core/'));
@@ -28,17 +28,17 @@ gulp.task('build:preprocess', ['build:copy'], function(done) {
 
   preprocess.preprocessFile(
     config.preprocess.src.js,
-    config.build.lib.dest + '/quasar.js',
+    config.minimal.lib.dest + '/quasar.js',
     {
       VERSION: '__VERSION: \'' + pkg.version + '\'',
-      COMPONENTS: requireComponents(core),
+      COMPONENTS: requireJsComponents(core),
       requireStatement: '// @echo requireStatement'
     },
     done
   );
 });
 
-gulp.task('full:preprocess', ['build:preprocess'], function(done) {
+gulp.task('full:js:preprocess', ['minimal:js:preprocess'], function(done) {
   var components;
 
   components = _.map(glob.sync(config.preprocess.full + '.js'), function(folder) {
@@ -51,16 +51,16 @@ gulp.task('full:preprocess', ['build:preprocess'], function(done) {
   });
 
   preprocess.preprocessFile(
-    config.build.lib.dest + '/quasar.js',
-    config.build.lib.dest + '/quasar.full.js',
+    config.minimal.lib.dest + '/quasar.js',
+    config.minimal.lib.dest + '/quasar.full.js',
     {
-      requireStatement: requireComponents(components)
+      requireStatement: requireJsComponents(components)
     },
     done
   );
 });
 
-gulp.task('full:css:preprocess', ['build:copy'], function(done) {
+gulp.task('full:css:preprocess', ['minimal:copy'], function(done) {
   var components;
 
   components = _.map(glob.sync(config.preprocess.full + '.styl'), function(folder) {
@@ -68,13 +68,10 @@ gulp.task('full:css:preprocess', ['build:copy'], function(done) {
 
     return parts[parts.length - 3] + '/' + parts[parts.length - 2] + '/' + parts[parts.length - 1];
   });
-  components = _.filter(components, function(comp) {
-    return !_.endsWith(comp, 'semantic.styl');
-  });
 
   preprocess.preprocessFile(
-    config.build.lib.dest + '/quasar.styl',
-    config.build.lib.dest + '/quasar.full.styl',
+    config.minimal.lib.dest + '/quasar.styl',
+    config.minimal.lib.dest + '/quasar.full.styl',
     {
       requireStatement: requireCssComponents(components)
     },

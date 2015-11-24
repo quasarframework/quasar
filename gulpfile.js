@@ -1,3 +1,5 @@
+'use strict';
+
 var requireDir = require('require-dir');
 
 global.gulp = require('gulp');

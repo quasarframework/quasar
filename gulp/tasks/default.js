@@ -17,25 +17,25 @@ gulp.task('default', ['build', 'full']);
 
 gulp.task('build', ['clean', 'js:lint', 'css:lint'], function(done) {
   runSequence(
-    ['build:dev', 'build:prod'],
+    ['minimal:dev', 'minimal:prod'],
     done
   );
 });
 
-gulp.task('build:dev', ['clean', 'js:lint', 'css:lint'], function(done) {
+gulp.task('minimal:dev', ['clean', 'js:lint', 'css:lint'], function(done) {
   runSequence(
     [
-      'build:deps:js:dev', 'build:deps:css:dev',
-      'build:copy', 'build:preprocess', 'build:semantic'
+      'minimal:deps:js:dev', 'minimal:deps:css:dev',
+      'minimal:copy', 'minimal:js:preprocess', 'minimal:semantic'
     ],
     done
   );
 });
-gulp.task('build:prod', ['clean', 'js:lint', 'css:lint'], function(done) {
+gulp.task('minimal:prod', ['clean', 'js:lint', 'css:lint'], function(done) {
   runSequence(
     [
-      'build:deps:js:prod', 'build:deps:css:prod',
-      'build:copy', 'build:preprocess', 'build:semantic'
+      'minimal:deps:js:prod', 'minimal:deps:css:prod',
+      'minimal:copy', 'minimal:js:preprocess', 'minimal:semantic'
     ],
     done
   );
@@ -76,7 +76,7 @@ gulp.task('full:prod', ['clean', 'js:lint', 'css:lint'], function(done) {
  * Other tasks
  */
 
-gulp.task('build:copy', function() {
-  return gulp.src(config.build.lib.src)
-    .pipe(gulp.dest(config.build.lib.dest));
+gulp.task('minimal:copy', function() {
+  return gulp.src(config.minimal.lib.src)
+    .pipe(gulp.dest(config.minimal.lib.dest));
 });

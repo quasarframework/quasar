@@ -20,7 +20,7 @@ module.exports = {
         'fastclick/lib/fastclick'
       ],
       css: [],
-      dest: dist + '/build/deps'
+      dest: dist + '/minimal/deps'
     },
     semantic: 'semantic-ui-css/semantic',
     full: {
@@ -28,14 +28,14 @@ module.exports = {
     }
   },
 
-  build: {
+  minimal: {
     lib: {
       src: src + '/lib/**/*',
-      dest: dist + '/build/lib'
+      dest: dist + '/minimal/lib'
     },
     semantic: {
       src: 'node_modules/semantic-ui-css',
-      dest: dist + '/build/lib/semantic'
+      dest: dist + '/minimal/lib/semantic'
     }
   },
 
