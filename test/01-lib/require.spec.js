@@ -92,7 +92,7 @@ describe('Require', function() {
 
     it('should be able to load, execute and retrieve exports for a JS file', function(done) {
       this.server.respondWith('GET', urlOne, [200, contentType, 'console.log("works");var a = "saying";module.exports = { say: function() { return a; } };']);
-      sinon.spy(window.console, 'log');
+      sinon.spy(console, 'log');
       quasar.require.script(reqOne, function(err, module) {
         expect(err).to.not.be.ok;
 
@@ -101,7 +101,7 @@ describe('Require', function() {
         expect(module.say()).to.equal('saying');
 
         expect(console.log).to.have.been.calledWith('works');
-        window.console.log.restore();
+        console.log.restore();
 
         done();
       });
@@ -111,7 +111,7 @@ describe('Require', function() {
     it('should be able to cache a script file', function(done) {
       var times = 0;
 
-      sinon.spy(window.console, 'log');
+      sinon.spy(console, 'log');
 
       quasar.require.script(reqOne, function() {
         ++times;
@@ -127,7 +127,7 @@ describe('Require', function() {
           expect(console.log).to.have.been.calledOnce;
           expect(console.log).to.have.been.calledWith('once only');
 
-          window.console.log.restore();
+          console.log.restore();
           done();
         });
       });

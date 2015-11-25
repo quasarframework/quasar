@@ -259,12 +259,12 @@ describe('Request', function() {
 
     beforeEach(function() {
       this.initialConfig = quasar.config.requests.use.cache;
-      sinon.spy(window.console, 'log');
+      sinon.spy(console, 'log');
     });
 
     afterEach(function() {
       quasar.config.requests.use.cache = this.initialConfig;
-      window.console.log.restore();
+      console.log.restore();
     });
 
     after(function() {

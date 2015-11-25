@@ -123,7 +123,7 @@ describe('Router', function() {
   it('should be able to overwrite a route', function() {
     var newRoute = _.clone(routeOne, true);
 
-    newRoute.on = function() { console.log('new route'); };
+    newRoute.on = function() { var i = 0; };
     expect(routeOne).to.not.deep.equal(newRoute);
 
     quasar.add.route(routeOne);
@@ -411,9 +411,9 @@ describe('Router', function() {
     sinon.spy(window.console, 'log');
     quasar.start.router();
     setTimeout(function() {
-      expect(window.console.log).to.have.been.calledOnce;
-      expect(window.console.log).to.have.been.calledWithMatch('No valid route');
-      window.console.log.restore();
+      expect(console.log).to.have.been.calledOnce;
+      expect(console.log).to.have.been.calledWithMatch('No valid route');
+      console.log.restore();
       done();
     }, msToWaitBeforeHashChanges);
   });

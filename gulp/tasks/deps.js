@@ -21,7 +21,7 @@ function compile(type, production) {
   return gulp.src(mapToNodeModules(config.deps[type], production, type))
     .pipe(plugins.newer(config.deps.dest + '/' + name + '.' + type))
     .pipe(plugins.pipes[type].deps({
-      prod: type !== 'css' ? production : false,
+      prod: type !== 'css' && production,
       name: name
     }))
     .pipe(gulp.dest(config.deps.dest));
