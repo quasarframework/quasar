@@ -22,7 +22,8 @@ module.exports = {
     css: [
       'semantic-ui-css/semantic'
     ],
-    dest: dist + '/deps'
+    dest: dist + '/deps',
+    semantic: 'node_modules/semantic-ui-css'
   },
 
   js: {

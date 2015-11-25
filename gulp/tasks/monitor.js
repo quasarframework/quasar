@@ -10,11 +10,6 @@ function run(tasks) {
 
 function watchForChanges() {
   /*
-   * Watch for Build Config
-   */
-  plugins.watch('gulp/**/*', run('dev'));
-
-  /*
    * Watch for CSS
    */
   plugins.watch(config.css.all, run('css:dev'));

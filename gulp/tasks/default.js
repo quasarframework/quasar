@@ -11,12 +11,7 @@ gulp.task('clean', function() {
 
 gulp.task('default', ['dist']);
 
-gulp.task('dist', ['clean'], function(done) {
-  runSequence(
-    ['dev', 'prod'],
-    done
-  );
-});
+gulp.task('dist', ['dev', 'prod']);
 
-gulp.task('dev', ['deps:js:dev', 'deps:css:dev', 'js:dev', 'css:dev']);
-gulp.task('prod', ['deps:js:prod', 'deps:css:prod', 'js:prod', 'css:prod']);
+gulp.task('dev', ['deps:js:dev', 'deps:css:dev', 'deps:css:semantic', 'js:dev', 'css:dev']);
+gulp.task('prod', ['deps:js:prod', 'deps:css:prod', 'deps:css:semantic', 'js:prod', 'css:prod']);

@@ -16,10 +16,13 @@ function mapToNodeModules(list, min, suffix) {
 }
 
 function compile(type, production) {
+  var name = config.deps.name + (production ? '.min' : '');
+
   return gulp.src(mapToNodeModules(config.deps[type], production, type))
+    .pipe(plugins.newer(config.deps.dest + '/' + name + '.' + type))
     .pipe(plugins.pipes[type].deps({
       prod: type !== 'css' ? production : false,
-      name: config.deps.name + (production ? '.min' : '')
+      name: name
     }))
     .pipe(gulp.dest(config.deps.dest));
 }
@@ -36,4 +39,10 @@ gulp.task('deps:css:dev', function() {
 });
 gulp.task('deps:css:prod', function() {
   return compile('css', true);
+});
+
+gulp.task('deps:css:semantic', function() {
+  return gulp.src(config.deps.semantic + '/themes/**/*')
+    .pipe(plugins.changed(config.deps.dest + '/themes'))
+    .pipe(gulp.dest(config.deps.dest + '/themes'));
 });

@@ -49,5 +49,6 @@ gulp.task('css:prod', ['css:lint', 'css:preprocess', 'copy:source'], function() 
 
 gulp.task('copy:source', function() {
   return gulp.src(config.lib.src + '/**/*')
+    .pipe(plugins.changed(config.lib.dest))
     .pipe(gulp.dest(config.lib.dest));
 });
