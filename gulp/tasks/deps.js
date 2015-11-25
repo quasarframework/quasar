@@ -2,8 +2,7 @@
 
 var
   _ = require('lodash'),
-  fs = require('fs'),
-  fse = require('fs-extra')
+  fs = require('fs')
   ;
 
 function mapToNodeModules(list, min, suffix) {

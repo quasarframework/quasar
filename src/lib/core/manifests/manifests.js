@@ -14,7 +14,7 @@ function loadAppManifest(callback) {
     .done(function(data) {
       callback(null, data);
     });
-};
+}
 
 _.merge(q, {
   load: {

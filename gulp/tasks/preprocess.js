@@ -6,17 +6,10 @@ var
   preprocess = require('preprocess')
   ;
 
-function requireJsComponents(components) {
+function requireComponents(type, components) {
   return _.map(components, function(component) {
-    component = component.slice(0, -3);
-    return 'require(\'./' + component + '\');';
-  }).join('\n');
-}
-
-function requireCssComponents(components) {
-  return _.map(components, function(component) {
-    component = component.slice(0, -5);
-    return '@require \'' + component + '\'';
+    component = component.slice(0, type === 'js' ? -3 : -5);
+    return type === 'js' ? 'require(\'./' + component + '\');' : '@require \'' + component + '\'';
   }).join('\n');
 }
 
@@ -41,7 +34,7 @@ gulp.task('js:preprocess', function(done) {
     config.lib.dest + '/quasar.js',
     {
       VERSION: '__VERSION: \'' + pkg.version + '\'',
-      COMPONENTS: requireJsComponents(core.concat(plugins)),
+      COMPONENTS: requireComponents('js', core.concat(plugins)),
     },
     done
   );
@@ -59,7 +52,7 @@ gulp.task('css:preprocess', function(done) {
   preprocess.preprocessFile(
     config.lib.src + '/../quasar.styl',
     config.lib.dest + '/quasar.styl',
-    {COMPONENTS: requireCssComponents(components)},
+    {COMPONENTS: requireComponents('css', components)},
     done
   );
 });
