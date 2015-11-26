@@ -39,28 +39,33 @@ gulp.task('monitor', ['dev'], watchForChanges);
  * Preview
  */
 
-function launch(args) {
+function launch(args, done) {
   args.push('-d');
   spawn('quasar', args, {cwd: config.preview.src, stdio: 'inherit'})
     .on('error', function() {
       console.log('\n!!! You need quasar-cli installed (npm install -g quasar-cli) !!!\n');
       process.exit(1);
+    })
+    .on('close', function() {
+      done();
     });
 }
 
-gulp.task('preview', ['monitor'], function() {
-  launch(['preview']);
+gulp.task('preview', ['monitor'], function(done) {
+  launch(['preview'], done);
 });
 
-gulp.task('preview-resp', ['monitor'], function() {
-  launch(['preview', '-r']);
+gulp.task('preview-resp', ['monitor'], function(done) {
+  launch(['preview', '-r'], done);
 });
 
 /*
  * Run Wrapper
  */
 
-gulp.task('wrapper', ['dev'], function() {
+gulp.task('wrapper', ['dev'], function(done) {
   console.log(plugins.util.colors.magenta('\nMake sure that you have added at least one platform (quasar wrap platform add <platform-name>).\n'));
-  launch(['wrap', 'run']);
+  launch(['build'], function() {
+    launch(['wrap', 'run'], done);
+  });
 });
