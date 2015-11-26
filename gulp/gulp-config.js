@@ -8,7 +8,7 @@ var
   ;
 
 module.exports = {
-  clean: [build, dist],
+  clean: [build, dist, 'coverage'],
 
   deps: {
     name: 'quasar-dependencies',
@@ -43,6 +43,7 @@ module.exports = {
     dest: build
   },
 
-  dist: dist,
-  preview: preview
+  preview: {
+    src: preview
+  }
 };

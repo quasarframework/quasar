@@ -3,7 +3,7 @@
 var spawn = require('child_process').spawn;
 
 function launchPreview(type) {
-  spawn('quasar', [type, '-d'], {cwd: config.preview, stdio: 'inherit'})
+  spawn('quasar', [type, '-d'], {cwd: config.preview.src, stdio: 'inherit'})
     .on('error', function() {
       console.log();
       console.log('!!! You need quasar-cli installed (npm install -g quasar-cli) !!!');
@@ -16,6 +16,6 @@ gulp.task('preview', ['monitor'], function() {
   launchPreview('preview');
 });
 
-gulp.task('rpreview', ['monitor'], function() {
-  launchPreview('rpreview');
+gulp.task('preview-resp', ['monitor'], function() {
+  launchPreview('preview -r');
 });
