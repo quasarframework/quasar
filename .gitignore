@@ -4,3 +4,5 @@
 /coverage
 /preview/node_modules
 /preview/dist
+/preview/wrapper/platforms/*
+/preview/wrapper/plugins
