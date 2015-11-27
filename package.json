@@ -6,8 +6,8 @@
     "dist"
   ],
   "scripts": {
-    "prepublish": "gulp",
-    "test": "gulp dev && karma start",
+    "prepublish": "npm test",
+    "test": "mocha test/lint.js && gulp dev && karma start",
     "pjs": "karma start --browsers PhantomJS",
     "chrome": "karma start --browsers Chrome",
     "ff": "karma start --browsers Firefox",
@@ -73,6 +73,7 @@
     "karma-webpack": "^1.7.0",
     "lodash": "^3.10.1",
     "mocha": "^2.3.3",
+    "mocha-eslint": "^1.0.0",
     "phantomjs": "^1.9.18",
     "preprocess": "^3.0.2",
     "require-dir": "^0.3.0",
