@@ -6,7 +6,6 @@
     "dist"
   ],
   "scripts": {
-    "prepublish": "npm test",
     "test": "mocha test/lint.js && gulp dev && karma start",
     "pjs": "karma start --browsers PhantomJS",
     "chrome": "karma start --browsers Chrome",
