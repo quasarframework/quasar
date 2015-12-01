@@ -37,6 +37,9 @@ module.exports = {
     src: build + '/quasar.styl',
     dest: dist + '/lib'
   },
+  html: {
+    all: src + '/**/*.html'
+  },
 
   lib: {
     src: src + '/lib',

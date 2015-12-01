@@ -92,16 +92,19 @@ function getRoute(pageName, hash, pageManifest) {
       scope = args[2]
       ;
 
-    var extender = extend(self, {
-      data: data,
-      scope: scope,
-      vm: new Vue({
-        el: '#quasar-view',
-        data: scope
-      })
+    $('#quasar-view').html(exports.config.html || '');
+
+    var vm = new Vue({
+      el: '#quasar-view',
+      data: scope
     });
 
-    $('#quasar-view').html(exports.config.html || '');
+    var extender = extend(self, {
+      data: data,
+      vm: vm
+    });
+
+    extender.scope = vm.$data;
     quasar.global.events.trigger('app:page:starting', extender);
 
     if (exports.start) {

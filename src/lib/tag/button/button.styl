@@ -1,0 +1,18 @@
+.ui.button
+    &.primary
+        background-color $primary
+    &.raised
+        box-shadow $shadow
+        &:active
+            box-shadow 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15)
+    &.flat
+        background-color transparent
+        box-shadow none
+        font-weight 500
+        border 0
+        color black
+        &:active
+            background-color lighten(black, 80%)
+            color white
+    &.squared
+        border-radius 0 !important

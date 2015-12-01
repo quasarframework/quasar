@@ -1,0 +1,44 @@
+$header-row-height = 64px
+
+.quasar-header
+  display block
+  box-sizing border-box
+  background-color $primary
+  color white
+  font-size 20px
+  font-weight 500
+  line-height 1
+  transition color .18s ease-in, box-shadow .18s ease-in
+
+  &.cover
+    background-repeat no-repeat
+    background-size cover
+    background-position center center
+
+  &.shadow
+    box-shadow 0 7px 6px -3px rgba(0, 0, 0, .4)
+
+  .quasar-header-row
+    height $header-row-height
+    padding 0 16px
+
+    .quasar-header-main
+      margin-left 10px
+      white-space nowrap
+      overflow hidden
+      text-overflow ellipsis
+      padding 8px 0
+      height 40px
+
+    .quasar-header-button
+      cursor pointer
+      padding 8px
+      outline 0
+      user-select none
+      width 40px
+      height 40px
+      box-sizing border-box !important
+      border-radius $radius
+
+.quasar-content
+  padding 20px 0

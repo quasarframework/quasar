@@ -24,7 +24,7 @@ function watchForChanges() {
   /*
    * Watch for JS
    */
-  plugins.watch(config.js.all, run('js:dev'));
+  plugins.watch([config.js.all, config.html.all], run('js:dev'));
 
   process.nextTick(function() {
     plugins.util.log();
