@@ -17,7 +17,7 @@ describe('App', function() {
     testing.app.start();
   });
 
-  it('should be able to trigger render()', function(done) {
+  it('should be able to trigger start()', function(done) {
     testing.done.set(done);
     testing.app.addIndex(
       function() {
@@ -85,17 +85,21 @@ describe('App', function() {
     testing.app.start();
   });
 
-  it('should be able to trigger scope() with no prepare()', function(done) {
+  it('should be able to trigger vue() with no prepare()', function(done) {
     testing.done.set(done);
     testing.app.addIndex(function() {
-      module.exports.scope = function() {
+      module.exports.vue = function() {
         expect(this.data).to.deep.equal({});
         expect(this.params).to.deep.equal({});
         expect(this.query).to.deep.equal({});
         expect(this.name).to.equal('index');
         expect(this.manifest).to.deep.equal({});
         expect(this.route).to.equal('$');
-        return {my: 'vue-scope'};
+        return {
+          data: {
+            my: 'vue-scope'
+          }
+        };
       };
       module.exports.start = function() {
         expect(this.data).to.deep.equal({});
@@ -109,7 +113,7 @@ describe('App', function() {
     testing.app.start();
   });
 
-  it('should be able to trigger scope() with prepare()', function(done) {
+  it('should be able to trigger vue() with prepare()', function(done) {
     testing.done.set(done);
     testing.app.addIndex(function() {
       module.exports.prepare = function() {
@@ -120,15 +124,19 @@ describe('App', function() {
           this.done({someData: 'value'});
         }.bind(this), 1);
       };
-      module.exports.scope = function() {
+      module.exports.vue = function() {
         expect(this.data).to.deep.equal({someData: 'value'});
         expect(this.params).to.deep.equal({});
         expect(this.query).to.deep.equal({});
-        return {my: 'scope'};
+        return {
+          data: {
+            my: 'vue-scope'
+          }
+        };
       };
       module.exports.start = function() {
         expect(this.data).to.deep.equal({someData: 'value'});
-        expect(this.vm.$data).to.deep.equal({my: 'scope'});
+        expect(this.vm.$data).to.deep.equal({my: 'vue-scope'});
         expect(this.params).to.deep.equal({});
         expect(this.query).to.deep.equal({});
         expect(this.manifest).to.deep.equal({});

@@ -3,6 +3,8 @@
 require('../../router/router');
 require('../../events/events');
 
+var currentLayoutName, newLayout;
+
 function getPath(pageName, hash) {
   if (hash !== '$') {
     return '#/' + pageName + '/' + hash;
@@ -31,7 +33,7 @@ function getRoute(pageName, hash, pageManifest) {
   route.before = function() {
     var self = this;
 
-    $('#quasar-view').html('Loading page...');
+    $(currentLayoutName ? '.quasar-content' : '#quasar-view').html('Loading page...');
     quasar.global.events.trigger('app:page:requiring', extend(self));
 
     quasar.require.script('pages/' + pageName + '/js/script.' + pageName)
@@ -41,6 +43,19 @@ function getRoute(pageName, hash, pageManifest) {
         throw new Error('[page:require] Cannot load script file.');
       }).done(function(exports) {
         exports.config = exports.config || {};
+
+        quasar.global.events.trigger('app:page:layouting', extend(self));
+
+        if (exports.config.layout && currentLayoutName !== exports.config.layout) {
+          quasar.require.script('layouts/layout-' + exports.config.layout)
+            .done(function(layout) {
+              newLayout = layout;
+              self.next(exports);
+            });
+          return;
+        }
+
+        quasar.global.layout = {};
         self.next(exports);
       });
   };
@@ -53,7 +68,7 @@ function getRoute(pageName, hash, pageManifest) {
     }
 
     var
-      scope = {},
+      vue = {},
       extender,
       self = this
       ;
@@ -65,11 +80,11 @@ function getRoute(pageName, hash, pageManifest) {
         done: function(data) {
           extender = extend(self, {data: data});
 
-          quasar.global.events.trigger('app:page:scoping', extender);
-          if (exports.scope) {
-            scope = exports.scope.call(extender);
+          quasar.global.events.trigger('app:page:vueing', extender);
+          if (exports.vue) {
+            vue = exports.vue.call(extender);
           }
-          self.next([exports, data, scope]);
+          self.next([exports, data, vue]);
         }
       }));
     }
@@ -77,27 +92,40 @@ function getRoute(pageName, hash, pageManifest) {
       extender = extend(self, {data: {}});
 
       quasar.global.events.trigger('app:page:scoping', extender);
-      if (exports.scope) {
-        scope = exports.scope.call(extender);
+      if (exports.vue) {
+        vue = exports.vue.call(extender);
       }
-      this.next([exports, {}, scope]);
+      this.next([exports, {}, vue]);
     }
   };
 
   route.after = function(args) {
     var
+      rootElement = '#quasar-view',
       self = this,
       exports = args[0],
       data = args[1] || {},
-      scope = args[2]
+      vue = args[2],
+      layoutName = exports.config.layout
       ;
 
-    $('#quasar-view').html(exports.config.html || '');
+    if (layoutName) {
+      if (layoutName !== currentLayoutName) {
+        $(rootElement).html(newLayout.template);
+        quasar.global.layout = new Vue(_.merge({}, newLayout.vue, {el: rootElement}));
 
-    var vm = new Vue({
-      el: '#quasar-view',
-      data: scope
-    });
+        if (newLayout.start) {
+          newLayout.start.call({
+            vm: quasar.global.layout
+          });
+        }
+      }
+      rootElement = '.quasar-content';
+    }
+
+    $(rootElement).html(exports.config.html || '');
+
+    var vm = new Vue(_.merge({}, vue, {el: rootElement}));
 
     var extender = extend(self, {
       data: data,
@@ -111,6 +139,7 @@ function getRoute(pageName, hash, pageManifest) {
       exports.start.call(extender);
     }
 
+    currentLayoutName = exports.config.layout;
     quasar.global.events.trigger('app:page:ready', extender);
   };
 
