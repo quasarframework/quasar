@@ -1,5 +1,5 @@
 
-module.exports.template = require('raw!./layout-main.html');
+module.exports.template = require('raw!./layout.main.html');
 
 module.exports.vue = {
 };
