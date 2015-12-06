@@ -39,9 +39,3 @@ gulp.task('deps:css:dev', function() {
 gulp.task('deps:css:prod', function() {
   return compile('css', true);
 });
-
-gulp.task('deps:css:semantic', function() {
-  return gulp.src(config.deps.semantic + '/themes/**/*')
-    .pipe(plugins.changed(config.deps.dest + '/themes'))
-    .pipe(gulp.dest(config.deps.dest + '/themes'));
-});

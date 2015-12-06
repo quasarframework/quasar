@@ -56,6 +56,7 @@
     "gulp-pipes": "0.x.x",
     "gulp-util": "^3.0.6",
     "gulp-watch": "^4.3.5",
+    "hammerjs": "^2.0.4",
     "istanbul": "^0.4.0",
     "istanbul-instrumenter-loader": "^0.1.3",
     "jquery": "^2.1.4",
@@ -80,6 +81,7 @@
     "semantic-ui-css": "^2.1.6",
     "sinon": "^1.17.1",
     "sinon-chai": "^2.8.0",
+    "velocity-animate": "^1.2.3",
     "vue": "^1.0.1"
   }
 }

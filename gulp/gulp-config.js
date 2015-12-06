@@ -17,13 +17,19 @@ module.exports = {
       'lodash/index',
       'vue/dist/vue',
       'fastclick/lib/fastclick',
-      'semantic-ui-css/semantic'
+      'hammerjs/hammer',
+      'velocity-animate/velocity',
+      'velocity-animate/velocity.ui'
     ],
     css: [
-      'semantic-ui-css/semantic'
+      'normalize.css/normalize'
     ],
-    dest: dist + '/deps',
-    semantic: 'node_modules/semantic-ui-css'
+    dest: dist + '/deps'
+  },
+
+  appAdditions: {
+    src: src + '/app-additions/**/*',
+    dest: dist + '/app-additions'
   },
 
   js: {

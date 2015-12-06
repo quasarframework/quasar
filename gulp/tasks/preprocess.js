@@ -23,10 +23,10 @@ gulp.task('js:preprocess', function(done) {
     return parts[parts.length - 3] + '/' + parts[parts.length - 2] + '/' + parts[parts.length - 1];
   });
   core = _.filter(components, function(comp) {
-    return _.startsWith(comp, 'core/');
+    return _.startsWith(comp, 'core-js/');
   });
   plugins = _.filter(components, function(comp) {
-    return !_.startsWith(comp, 'core/');
+    return !_.startsWith(comp, 'core-js/');
   });
 
   preprocess.preprocessFile(
