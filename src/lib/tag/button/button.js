@@ -7,16 +7,14 @@ Vue.component('quasar-button', {
     var manager = el.getAttributesManager();
     var attr = manager.getEmpty();
 
-    _.forEach(attr, function(type) {
-      manager.withEmpty(type, function() {
-        el.addClass(type);
-        if (type === 'circular') {
-          el.addClass('icon');
-        }
-        else if (type == 'flat') {
-          el.addClass('squared');
-        }
-      });
+    manager.withEmpty(attr.getEmpty(), function(type) {
+      el.addClass(type);
+      if (type === 'circular') {
+        el.addClass('icon');
+      }
+      else if (type == 'flat') {
+        el.addClass('squared');
+      }
     });
   }
 });

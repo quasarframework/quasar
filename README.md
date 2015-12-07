@@ -11,7 +11,7 @@
 
 <a href="https://codecov.io/github/rstoenescu/quasar-framework"><img src="http://codecov.io/github/rstoenescu/quasar-framework/coverage.svg" alt="Coverage via Codecov"></a>
 <a href="https://codeclimate.com/github/rstoenescu/quasar-framework"><img src="https://codeclimate.com/github/rstoenescu/quasar-framework/badges/gpa.svg" /></a>
-<a href="https://www.bithound.io/github/rstoenescu/quasar-framework"><img src="https://www.bithound.io/github/rstoenescu/quasar-framework/badges/score.svg" alt="bitHound Score"></a>
+<a href="https://www.bithound.io/github/rstoenescu/quasar-framework"><img src="https://www.bithound.io/github/rstoenescu/quasar-framework/badges/code.svg" alt="bitHound Code"></a>
 
 ## Description
 

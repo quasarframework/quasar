@@ -75,8 +75,8 @@ var IOS_SPINNER = {
   line: [{
     fn: function(i, spinnerName) {
       return {
-        y1: spinnerName == 'ios' ? 17 : 12,
-        y2: spinnerName == 'ios' ? 29 : 20,
+        y1: spinnerName === 'ios' ? 17 : 12,
+        y2: spinnerName === 'ios' ? 29 : 20,
         t: TRANSLATE32 + ' rotate(' + (30 * i + (i < 6 ? 180 : -180)) + ')',
         a: [{
           fn: function() {
@@ -349,7 +349,7 @@ var animations = {
       if (rIndex % 2) {
         scaleX = -1;
         translateX = -64;
-        dasharray = 128 - -58 * v;
+        dasharray = 128 + 58 * v;
         dashoffset = 182 * v;
       }
 
@@ -423,14 +423,17 @@ Vue.component('quasar-spinner', {
     el.html(container.innerHTML);
 
     svg = el.children()[0];
+    size = el.attr('size');
 
-    if (size = el.attr('size')) {
+    if (size) {
       $(svg).css({
         height: size,
         width: size
       });
     }
 
-    animations[spinnerName] && animations[spinnerName](svg)();
+    if (animations[spinnerName]) {
+      animations[spinnerName](svg)();
+    }
   }
 });

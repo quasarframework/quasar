@@ -7,13 +7,13 @@
   ],
   "scripts": {
     "test": "mocha test/lint.js && gulp dev && karma start",
-    "pjs": "karma start --browsers PhantomJS",
-    "chrome": "karma start --browsers Chrome",
-    "ff": "karma start --browsers Firefox",
-    "pjs-live": "karma start --browsers PhantomJS --no-single-run",
-    "chrome-live": "karma start --browsers Chrome --no-single-run",
-    "ff-live": "karma start --browsers Firefox --no-single-run",
-    "coverage": "google-chrome ./coverage/lcov-report/index.html &"
+    "pjs": "gulp dev && karma start --browsers PhantomJS",
+    "chrome": "gulp dev && karma start --browsers Chrome",
+    "ff": "gulp dev && karma start --browsers Firefox",
+    "pjs-live": "gulp dev && karma start --browsers PhantomJS --no-single-run",
+    "chrome-live": "gulp dev && karma start --browsers Chrome --no-single-run",
+    "ff-live": "gulp dev && karma start --browsers Firefox --no-single-run",
+    "coverage": "gulp dev && google-chrome ./coverage/lcov-report/index.html &"
   },
   "repository": {
     "type": "git",
