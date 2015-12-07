@@ -423,14 +423,17 @@ Vue.component('quasar-spinner', {
     el.html(container.innerHTML);
 
     svg = el.children()[0];
-    size = el.attr('size');
 
-    if (size) {
+
+    manager.with('size', function(name, value) {
+      if (!value) {
+        throw new Error('quasar-spinner: specify size or remove attribute');
+      }
       $(svg).css({
-        height: size,
-        width: size
+        height: value,
+        width: value
       });
-    }
+    });
 
     if (animations[spinnerName]) {
       animations[spinnerName](svg)();

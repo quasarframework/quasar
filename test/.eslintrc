@@ -25,7 +25,8 @@
     "before": true,
     "after": true,
     "beforeEach": true,
-    "afterEach": true
+    "afterEach": true,
+    "_html": true
   },
 
   "rules": {

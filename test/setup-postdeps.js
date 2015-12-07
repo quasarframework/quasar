@@ -24,6 +24,7 @@
       quasar.clear.require.cache();
       quasar.clear.global.css();
       quasar.clear.page.css();
+      testing.app.var = {};
     },
     prepare: function() {
       callback = null;
@@ -59,6 +60,14 @@
 
     registerFile: function(url, content, code) {
       server.respondWith('GET', url, [code || 200, {'Content-Type': 'application/json'}, content]);
+    },
+
+    tag: function(template, fn) {
+      testing.app.addIndex(
+        '(function() {module.exports.config = { html: \'' + template + '\'};' +
+        'module.exports.start = function() {var _html = $(\'#quasar-view\').html();(' + fn.toString() + '());}}());'
+      );
+      testing.app.start();
     }
   };
 

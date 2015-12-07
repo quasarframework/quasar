@@ -31,18 +31,18 @@ $.fn.getAttributesManager = function() {
         return attributes.hasOwnProperty(name);
       });
     },
-    hasEmpty: function(list) {
+    hasEmpty: function(emptyAttrList) {
       var value;
 
-      if (!list) {
+      if (!emptyAttrList) {
         return false;
       }
 
-      if (!_.isArray(list)) {
-        list = list.split(' ');
+      if (!_.isArray(emptyAttrList)) {
+        emptyAttrList = emptyAttrList.split(' ');
       }
 
-      return _.any(list, function(name) {
+      return _.any(emptyAttrList, function(name) {
         value = attributes[name];
         return attributes.hasOwnProperty(name) && (_.isUndefined(value) || value === '');
       });
@@ -198,16 +198,16 @@ $.fn.getAttributesManager = function() {
     getClass: function() {
       return node.attr('class').split(' ');
     },
-    hasClass: function(list) {
-      if (!list) {
+    hasClass: function(classList) {
+      if (!classList) {
         return false;
       }
 
-      if (!_.isArray(list)) {
-        list = list.split(' ');
+      if (!_.isArray(classList)) {
+        classList = classList.split(' ');
       }
 
-      return _.any(list, function(name) {
+      return _.any(classList, function(name) {
         return node.hasClass(name);
       });
     },
@@ -239,15 +239,16 @@ $.fn.getAttributesManager = function() {
         throw new Error(tag + 'specify prefix');
       }
 
-      var classes;
+      var classes = node.attr('class');
 
-      if (classes = node.attr('class')) {
+      if (classes) {
         classes = classes.split(' ').filter(function(c) {
           return c.indexOf(prefix) !== 0;
         });
         node.attr('class', $.trim(classes.join(' ')));
         this.update();
       }
+
       return this;
     },
     addClass: function(list) {

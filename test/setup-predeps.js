@@ -10,23 +10,28 @@ window.testing = {
 // The default behavior is to throw error in a setTimeout().
 window.sinon.logError.useImmediateExceptions = true;
 
-if (testing.phantomjs && typeof Function.prototype.bind != 'function') {
-  /* eslint-disable no-extend-native*/
-  Function.prototype.bind = function bind(obj) {
-    var
-      args = Array.prototype.slice.call(arguments, 1),
-      self = this,
-      Nop = function() {},
-      bound = function() {
-        return self.apply(
-          this instanceof Nop ? this : obj || {}, args.concat(
-            Array.prototype.slice.call(arguments)
-          )
-        );
-      };
+if (testing.phantomjs) {
+  if (typeof Function.prototype.bind != 'function') {
+    /* eslint-disable no-extend-native*/
+    Function.prototype.bind = function bind(obj) {
+      var
+        args = Array.prototype.slice.call(arguments, 1),
+        self = this,
+        Nop = function() {},
+        bound = function() {
+          return self.apply(
+            this instanceof Nop ? this : obj || {}, args.concat(
+              Array.prototype.slice.call(arguments)
+            )
+          );
+        };
 
-    Nop.prototype = this.prototype || {};
-    bound.prototype = new Nop();
-    return bound;
-  };
+      Nop.prototype = this.prototype || {};
+      bound.prototype = new Nop();
+      return bound;
+    };
+  }
+  if (!window.hasOwnProperty('requestAnimationFrame')) {
+    window.requestAnimationFrame = function() {};
+  }
 }

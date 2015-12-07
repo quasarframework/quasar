@@ -3,11 +3,13 @@
 Vue.component('quasar-button', {
   template: '<button class="ui button"><slot></slot></button>',
   compiled: function() {
-    var el = $(this.$el);
-    var manager = el.getAttributesManager();
-    var attr = manager.getEmpty();
+    var
+      el = $(this.$el),
+      manager = el.getAttributesManager(),
+      attr = manager.getEmpty()
+      ;
 
-    manager.withEmpty(attr.getEmpty(), function(type) {
+    manager.withEmpty(attr, function(type) {
       el.addClass(type);
       if (type === 'circular') {
         el.addClass('icon');
