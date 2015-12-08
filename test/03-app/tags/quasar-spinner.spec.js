@@ -42,4 +42,28 @@ describe('Tag: quasar-spinner', function() {
     );
   });
 
+  it('should default to android if no spinner type specified and not on iOS', function(done) {
+    testing.done.set(done);
+    testing.app.tag(
+      '<quasar-spinner></quasar-spinner>',
+      function() {
+        expect(_html).to.include('<div class="spinner spinner-android"><svg ');
+        expect(_html).to.include('</svg></div>');
+        setTimeout(testing.done, 50);
+      }
+    );
+  });
+
+  it('should default to android if no spinner type specified and not on iOS', function(done) {
+    testing.done.set(done);
+    testing.app.tag(
+      '<quasar-spinner></quasar-spinner>',
+      function() {
+        expect(_html).to.include('<div class="spinner spinner-android"><svg ');
+        expect(_html).to.include('</svg></div>');
+        testing.done();
+      }
+    );
+  });
+
 });

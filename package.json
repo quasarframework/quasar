@@ -13,7 +13,7 @@
     "pjs-live": "gulp dev && karma start --browsers PhantomJS --no-single-run",
     "chrome-live": "gulp dev && karma start --browsers Chrome --no-single-run",
     "ff-live": "gulp dev && karma start --browsers Firefox --no-single-run",
-    "coverage": "gulp dev && google-chrome ./coverage/lcov-report/index.html &"
+    "coverage": "google-chrome ./coverage/lcov-report/index.html &"
   },
   "repository": {
     "type": "git",

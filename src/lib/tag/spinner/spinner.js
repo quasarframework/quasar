@@ -75,8 +75,8 @@ var IOS_SPINNER = {
   line: [{
     fn: function(i, spinnerName) {
       return {
-        y1: spinnerName === 'ios' ? 17 : 12,
-        y2: spinnerName === 'ios' ? 29 : 20,
+        y1: spinnerName === 'ios' ? 17 : /* istanbul ignore next */ 12,
+        y2: spinnerName === 'ios' ? 29 : /* istanbul ignore next */ 20,
         t: TRANSLATE32 + ' rotate(' + (30 * i + (i < 6 ? 180 : -180)) + ')',
         a: [{
           fn: function() {
@@ -333,19 +333,38 @@ var spinners = {
 var animations = {
 
   android: function(ele) {
-    var rIndex = 0;
-    var rotateCircle = 0;
-    var startTime;
-    var svgEle = ele.querySelector('g');
-    var circleEle = ele.querySelector('circle');
+    var
+      rIndex = 0,
+      rotateCircle = 0,
+      startTime,
+      currentColor = '#4b8bf4',
+      el = $(ele),
+      svgEle = ele.querySelector('g'),
+      circleEle = ele.querySelector('circle')
+      ;
+
+    var colors = {
+      '#4b8bf4': '#db4437',
+      '#db4437': '#f4b400',
+      '#f4b400': '#0f9d58',
+      '#0f9d58': '#4b8bf4'
+    };
+
+    el.css('stroke', '#4b8bf4');
 
     function run() {
+      // if not on page anymore...
+      if ($(ele).closest('body').length === 0) {
+        return;
+      }
+
       var v = easeInOutCubic(Date.now() - startTime, 650);
       var scaleX = 1;
       var translateX = 0;
       var dasharray = 188 - 58 * v;
       var dashoffset = 182 - 182 * v;
 
+      /* istanbul ignore if */
       if (rIndex % 2) {
         scaleX = -1;
         translateX = -64;
@@ -360,13 +379,21 @@ var animations = {
       setSvgAttribute(circleEle, 't', 'scale(' + scaleX + ',1) translate(' + translateX + ',0) rotate(' + rotateLine + ',32,32)');
 
       rotateCircle += 4.1;
+      /* istanbul ignore if */
       if (rotateCircle > 359) {
         rotateCircle = 0;
       }
       setSvgAttribute(svgEle, 't', 'rotate(' + rotateCircle + ',32,32)');
 
+      /* istanbul ignore if */
       if (v >= 1) {
         rIndex++;
+
+        if (rIndex % 2 === 0) {
+          currentColor = colors[currentColor];
+          el.css('stroke', currentColor);
+        }
+
         if (rIndex > 7) {
           rIndex = 0;
         }
@@ -387,30 +414,42 @@ var animations = {
 
 function easeInOutCubic(t, c) {
   t /= c / 2;
+  /* istanbul ignore else */
   if (t < 1) {
     return 1 / 2 * t * t * t;
   }
+  /* istanbul ignore next */
   t -= 2;
+  /* istanbul ignore next */
   return 1 / 2 * (t * t * t + 2);
 }
 
 //<quasar-spinner android size="10em"></quasar-spinner>
 
 Vue.component('quasar-spinner', {
-  template: '<div class="spinner"></div>',
+  template: '<div class="spinner"><slot></slot></div>',
   compiled: function() {
-    var el = $(this.$el);
-    var svg, size;
-    var manager = el.getAttributesManager();
-    var container = document.createElement('div');
+    var
+      el = $(this.$el),
+      svg, size, spinnerName,
+      manager = el.getAttributesManager(),
+      container = document.createElement('div')
+      ;
 
     var emptyAttributes = manager.getEmpty();
 
+    /* istanbul ignore else */
     if (emptyAttributes.length === 0) {
-      throw new Error('quasar-spinner: specify spinner type');
+      /* istanbul ignore next */
+      spinnerName = quasar.runs.on.ios ? 'ios' : 'android';
     }
-
-    var spinnerName = emptyAttributes[0];
+    else if (emptyAttributes.length === 1) {
+      spinnerName = emptyAttributes[0];
+    }
+    else {
+      /* istanbul ignore next */
+      throw new Error('Specified more than one type of spinner.');
+    }
 
     el.addClass('spinner-' + spinnerName);
     manager.removeEmpty();
@@ -426,6 +465,7 @@ Vue.component('quasar-spinner', {
 
 
     manager.with('size', function(name, value) {
+      /* istanbul ignore if */
       if (!value) {
         throw new Error('quasar-spinner: specify size or remove attribute');
       }
@@ -435,8 +475,12 @@ Vue.component('quasar-spinner', {
       });
     });
 
-    if (animations[spinnerName]) {
-      animations[spinnerName](svg)();
+    this.spinnerName = spinnerName;
+    this.svg = svg;
+  },
+  ready: function() {
+    if (animations[this.spinnerName]) {
+      animations[this.spinnerName](this.svg)();
     }
   }
 });

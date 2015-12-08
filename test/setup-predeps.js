@@ -32,6 +32,8 @@ if (testing.phantomjs) {
     };
   }
   if (!window.hasOwnProperty('requestAnimationFrame')) {
-    window.requestAnimationFrame = function() {};
+    window.requestAnimationFrame = function(fn) {
+      setTimeout(fn, 1);
+    };
   }
 }
