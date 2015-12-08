@@ -1,4 +1,5 @@
 @require colors
+@require sizes
 
 html, body
   height 100%
@@ -10,16 +11,12 @@ body
   min-width 320px
   background $white
   font-family 'Roboto', 'Helvetica Neue', Arial, Helvetica, sans-serif
-  font-size 14px
+  font-size @fontSize
   line-height 1.4285em
   color rgba(0, 0, 0, .87)
   font-smoothing antialiased
 
 
-
-/*******************************
-             Headers
-*******************************/
 
 h1, h2, h3, h4, h5
   font-family 'Roboto', 'Helvetica Neue', Arial, Helvetica, sans-serif
@@ -49,9 +46,6 @@ h5
   font-size 1rem
 
 
-/*******************************
-             Text
-*******************************/
 
 p
   margin  0  0 1em
@@ -64,9 +58,7 @@ p:last-child
   margin-bottom 0
 
 
-/*-------------------
-        Links
---------------------*/
+
 
 a
   color lighten($primary, 30%)
@@ -77,9 +69,7 @@ a:hover
   text-decoration none
 
 
-/*******************************
-          Highlighting
-*******************************/
+
 
 
 /* Site */

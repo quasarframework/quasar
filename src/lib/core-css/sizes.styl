@@ -1,0 +1,33 @@
+
+$emSize = 14px
+$fontSize = 14px
+
+$scrollbarWidth = 17px
+
+
+$mobileBreakpoint            =  320px
+$tabletBreakpoint            =  768px
+$computerBreakpoint          =  992px
+$largeMonitorBreakpoint      = 1200px
+$widescreenMonitorBreakpoint = 1920px
+
+$largestMobileScreen = ($tabletBreakpoint - 1px)
+$largestTabletScreen = ($computerBreakpoint - 1px)
+$largestSmallMonitor = ($largeMonitorBreakpoint - 1px)
+$largestLargeMonitor = ($widescreenMonitorBreakpoint - 1px)
+
+$mobileMinimumGutter = 0em
+$mobileWidth = auto
+$mobileGutter = 1em
+
+$tabletMinimumGutter = ($emSize  * 1)
+$tabletWidth = $tabletBreakpoint - ($tabletMinimumGutter * 2) - $scrollbarWidth
+$tabletGutter = auto
+
+$computerMinimumGutter = ($emSize  * 1.5)
+$computerWidth = $computerBreakpoint - ($computerMinimumGutter * 2) - $scrollbarWidth
+$computerGutter = auto
+
+$largeMonitorMinimumGutter = ($emSize  * 2)
+$largeMonitorWidth = $largeMonitorBreakpoint - ($largeMonitorMinimumGutter * 2) - $scrollbarWidth
+$largeMonitorGutter = auto

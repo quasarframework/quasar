@@ -2,10 +2,34 @@
 $primary = #3f51b5
 $secondary = #CACBCD
 
-$success = #0f9d58
-$info = #03a9f4
-$warning = #ff5722
-$alert = #f44336
+
+/* Positive */
+$positiveColor           = #21BA45;
+$positiveBackgroundColor = #FCFFF5
+$positiveBorderColor     = #A3C293
+$positiveHeaderColor     = #1A531B
+$positiveTextColor       = #2C662D
+
+/* Negative */
+$negativeColor           = #DB2828;
+$negativeBackgroundColor = #FFF6F6
+$negativeBorderColor     = #E0B4B4
+$negativeHeaderColor     = #912D2B
+$negativeTextColor       = #9F3A38
+
+/* Info */
+$infoColor              = #31CCEC
+$infoBackgroundColor    = #F8FFFF
+$infoBorderColor        = #A9D5DE
+$infoHeaderColor        = #0E566C
+$infoTextColor          = #276F86
+
+/* Warning */
+$warningColor           = #F2C037
+$warningBorderColor     = #C9BA9B
+$warningBackgroundColor = #FFFAF3
+$warningHeaderColor     = #794B02
+$warningTextColor       = #573A08
 
 $white = #fff
 $black = #000
@@ -18,48 +42,45 @@ $black = #000
   background-color $primary !important
 
 
-.success
-  color $success !important
+.positive
+  color $positiveColor !important
 
-.background.success
-  color $white !important
-  background-color $success !important
+.background.positive
+  color $positiveTextColor !important
+  background-color $positiveBackgroundColor !important
+
+
+.negative
+  color $negativeColor !important
+
+.background.negative
+  color $negativeTextColor !important
+  background-color $negativeBackgroundColor !important
 
 
 .info
-  color $info !important
+  color $infoColor !important
 
 .background.info
-  color $white !important
-  background-color $info !important
+  color $infoTextColor !important
+  background-color $infoBackgroundColor !important
 
 
 .warning
-  color $warning !important
+  color $warningColor !important
 
 .background.warning
-  color $white !important
-  background-color $warning !important
-
-
-.alert
-  color $alert !important
-
-.background.alert
-  color $white !important
-  background-color $alert !important
+  color $warningTextColor !important
+  background-color $warningBackgroundColor !important
 
 
 .white
   color $white !important
-
-.black
-  color $black !important
-
-
 .background.white
   background-color $white !important
 
+.black
+  color $black !important
 .background.black
   background-color $black !important
 
@@ -1840,4 +1861,4 @@ $black = #000
 .background.blue-grey-A700
   background-color #455a64
 
-// @stylint on
+// $stylint on
