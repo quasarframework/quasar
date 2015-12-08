@@ -1,4 +1,4 @@
-$header-row-height = 64px
+$toolbar-row-height = 64px
 
 .quasar-toolbar
   display block
@@ -16,17 +16,10 @@ $header-row-height = 64px
     background-position center center
 
   &.shadow
-    box-shadow 0 7px 6px -3px rgba(0, 0, 0, .4)
-
-  .quasar-toolbar-navigation
-    @extend .background.yellow
-    .quasar-toolbar-tab
-      @extend .blue
-      &.active
-        border-bottom 7px solid #e3e3e3
+    @extend .shadow-4dp
 
   .quasar-toolbar-row
-    height $header-row-height
+    height $toolbar-row-height
     padding 0 16px
 
     .quasar-toolbar-title
@@ -37,12 +30,18 @@ $header-row-height = 64px
       padding 8px 0
       height 40px
 
-    .quasar-toolbar-button
-      cursor pointer
+    .button
+      border 0
       padding 8px
-      outline 0
-      user-select none
       width 40px
       height 40px
-      box-sizing border-box !important
       border-radius $radius
+      background-color transparent
+
+  .quasar-toolbar-navigation
+    background-color $secondary
+    .quasar-toolbar-tab
+      transition all .2s
+      color $primary
+      &.active
+        border-bottom 5px solid $primary

@@ -1,0 +1,17 @@
+
+@require sizes
+
+.only
+
+  @media only screen and (max-width $largestMobileScreen)
+    &.tablet, &.small.monitor, &.large.monitor
+      display none
+  @media only screen and (min-width $tabletBreakpoint) and (max-width $largestTabletScreen)
+    &.mobile, &.small.monitor, &.large.monitor
+      display none
+  @media only screen and (min-width $computerBreakpoint) and (max-width $largestSmallMonitor)
+    &.mobile, &.tablet, &.large.monitor
+      display none
+  @media only screen and (min-width $largeMonitorBreakpoint)
+    &.mobile, &.tablet, &.small.monitor
+      display none

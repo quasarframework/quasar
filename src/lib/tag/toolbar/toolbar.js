@@ -76,26 +76,23 @@ Vue.component('quasar-toolbar', {
 
 
 Vue.component('quasar-toolbar-navigation', {
-  template: '<div class="quasar-toolbar-row quasar-toolbar-navigation layout horizontal center"><slot></slot></div>',
-  compiled: function() {
-    if (quasar.runs.on.ios) {
-      $(this.$el).addClass('quasar-footer');
-    }
+  template: '<div class="quasar-toolbar-row quasar-toolbar-navigation layout justify-around"><slot></slot></div>',
+  ready: function() {
+    $(this.$el).find('a.quasar-toolbar-tab').click(function() {
+      var self = $(this);
+
+      self.siblings().removeClass('active');
+      self.addClass('active');
+    });
   }
 });
 
 Vue.component('quasar-toolbar-tab', {
-  template: '<div class="quasar-toolbar-tab layout flex-auto center-justified center"><slot></slot></div>'
+  template: '<a class="quasar-toolbar-tab layout grow-1"><div class="layout grow-1 self-center justify-center"><slot></slot></div></a>'
 });
-
-
 
 Vue.component('quasar-toolbar-row', {
-  template: '<div class="quasar-toolbar-row layout horizontal center"><slot></slot></div>'
-});
-
-Vue.component('quasar-toolbar-button', {
-  template: '<div class="quasar-toolbar-button"><slot></slot></div>'
+  template: '<div class="quasar-toolbar-row layout horizontal items-center"><slot></slot></div>'
 });
 
 Vue.component('quasar-toolbar-title', {

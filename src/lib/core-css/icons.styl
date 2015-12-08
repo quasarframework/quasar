@@ -30,18 +30,11 @@ $inverted = #1B1C1D
   &:before
     background none !important
 
-
-
-/*******************************
-             Types
-*******************************/
-
-
 /*--------------
     Loading
 ---------------*/
 
-.icon.loading
+.icon.spin
   height 1em
   line-height 1
   animation icon-loading 2s linear infinite
@@ -57,23 +50,12 @@ $inverted = #1B1C1D
              States
 *******************************/
 
-.icon.hover
-  opacity 1 !important
-
-.icon.active
-  opacity 1 !important
-
-.emphasized.icon
-  opacity 1 !important
+.icon
+  &.hover, &.active, &.emphasized
+    opacity 1 !important
 
 .disabled.icon
   opacity .45 !important
-
-
-
-/*******************************
-           Variations
-*******************************/
 
 
 /*-------------------

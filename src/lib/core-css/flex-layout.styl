@@ -3,180 +3,140 @@
   display -webkit-flex // @stylint ignore
   display flex
 
-.layout.inline
-  display -ms-inline-flexbox // @stylint ignore
-  display -webkit-inline-flex // @stylint ignore
-  display inline-flex // @stylint ignore
+  /**
+   * For CONTAINER
+   */
 
-.layout.horizontal
-  @extends .layout
-  -ms-flex-direction row
-  -webkit-flex-direction row
-  flex-direction row
+  &.inline
+    display -ms-inline-flexbox // @stylint ignore
+    display -webkit-inline-flex // @stylint ignore
+    display inline-flex // @stylint ignore
 
-.layout.horizontal-reverse
-  @extends .layout
-  -ms-flex-direction row-reverse
-  -webkit-flex-direction row-reverse
-  flex-direction row-reverse
+  &.horizontal
+    -ms-flex-direction row
+    -webkit-flex-direction row
+    flex-direction row
+  &.horizontal-reverse
+    -ms-flex-direction row-reverse
+    -webkit-flex-direction row-reverse
+    flex-direction row-reverse
 
-.layout.vertical
-  @extends .layout
-  -ms-flex-direction column
-  -webkit-flex-direction column
-  flex-direction column
+  &.vertical
+    -ms-flex-direction column
+    -webkit-flex-direction column
+    flex-direction column
+  &.vertical-reverse
+    -ms-flex-direction column-reverse
+    -webkit-flex-direction column-reverse
+    flex-direction column-reverse
 
-.layout.vertical-reverse
-  @extends .layout
-  -ms-flex-direction column-reverse
-  -webkit-flex-direction column-reverse
-  flex-direction column-reverse
 
-.layout.wrap
-  -ms-flex-wrap wrap
-  -webkit-flex-wrap wrap
-  flex-wrap wrap
+  &.wrap
+    -ms-flex-wrap wrap
+    -webkit-flex-wrap wrap
+    flex-wrap wrap
+  &.wrap-reverse
+    -ms-flex-wrap wrap-reverse
+    -webkit-flex-wrap wrap-reverse
+    flex-wrap wrap-reverse
 
-.layout.wrap-reverse
-  -ms-flex-wrap wrap-reverse
-  -webkit-flex-wrap wrap-reverse
-  flex-wrap wrap-reverse
 
-.layout.flex-auto
-  -ms-flex 1 1 auto
-  -webkit-flex 1 1 auto
-  flex 1 1 auto
+  +prefix-classes('justify-')
+    &.start
+      -webkit-justify-content flex-start
+      justify-content flex-start
+    &.end
+      -webkit-justify-content flex-end
+      justify-content flex-end
+    &.center
+      -webkit-justify-content center
+      justify-content center
+    &.between
+      -webkit-justify-content space-between
+      justify-content space-between
+    &.around
+      -webkit-justify-content space-around
+      justify-content space-around
 
-.layout.flex-none
-  -ms-flex none
-  -webkit-flex none
-  flex none
 
-.layout.flex
-  -ms-flex 1 1 .000000001px
-  -webkit-flex 1
-  flex 1
-  -webkit-flex-basis .000000001px
-  flex-basis .000000001px
+  +prefix-classes('items-')
+    &.start
+      -webkit-align-items flex-start
+      align-items flex-start
+    &.end
+      -webkit-align-items flex-end
+      align-items flex-end
+    &.center
+      -webkit-align-items center
+      align-items center
+    &.stretch
+      -webkit-align-items stretch
+      align-items stretch
+    &.baseline
+      -webkit-align-items baseline
+      align-items baseline
 
-.layout.flex-2
-  -ms-flex 2
-  -webkit-flex 2
-  flex 2
 
-.layout.flex-3
-  -ms-flex 3
-  -webkit-flex 3
-  flex 3
+  +prefix-classes('content-')
+    &.start
+      -webkit-align-content flex-start
+      align-content flex-start
+    &.end
+      -webkit-align-content flex-end
+      align-content flex-end
+    &.center
+      -webkit-align-content center
+      align-content center
+    &.stretch
+      -webkit-align-content stretch
+      align-content stretch
+    &.baseline
+      -webkit-align-content baseline
+      align-content baseline
 
-.layout.flex-4
-  -ms-flex 4
-  -webkit-flex 4
-  flex 4
 
-.layout.flex-5
-  -ms-flex 5
-  -webkit-flex 5
-  flex 5
+  /**
+   * For CHILDREN
+   */
 
-.layout.flex-6
-  -ms-flex 6
-  -webkit-flex 6
-  flex 6
+  for i in 1..12
+    &.order-{i}
+      -webkit-order i
+      order i
+    &.flex-{i}
+      -ms-flex i
+      -webkit-flex i
+      flex i
+    &.grow-{i}
+      -webkit-flex-grow i
+      flex-grow i
+    &.shrink-{i}
+      -webkit-flex-shrink i
+      flex-shrink i
 
-.layout.flex-7
-  -ms-flex 7
-  -webkit-flex 7
-  flex 7
+  &.flex
+    -ms-flex 1 1 .000000001px
+    -webkit-flex 1
+    flex 1
+    -webkit-flex-basis .000000001px
+    flex-basis .000000001px
+  &.basis-0
+    -webkit-flex-basis 0
+    flex-basis 0
 
-.layout.flex-8
-  -ms-flex 8
-  -webkit-flex 8
-  flex 8
-
-.layout.flex-9
-  -ms-flex 9
-  -webkit-flex 9
-  flex 9
-
-.layout.flex-10
-  -ms-flex 10
-  -webkit-flex 10
-  flex 10
-
-.layout.flex-11
-  -ms-flex 11
-  -webkit-flex 11
-  flex 11
-
-.layout.flex-12
-  -ms-flex 12
-  -webkit-flex 12
-  flex 12
-
-/* alignment in cross axis */
-.layout.start
-  -ms-flex-align start
-  -webkit-align-items flex-start
-  align-items flex-start
-
-.layout.center
-  -ms-flex-align center
-  -webkit-align-items center
-  align-items center
-
-.layout.end
-  -ms-flex-align end
-  -webkit-align-items flex-end
-  align-items flex-end
-
-/* alignment in main axis */
-.layout.start-justified
-  -ms-flex-pack start
-  -webkit-justify-content flex-start
-  justify-content flex-start
-
-.layout.center-justified
-  -ms-flex-pack center
-  -webkit-justify-content center
-  justify-content center
-
-.layout.end-justified
-  -ms-flex-pack end
-  -webkit-justify-content flex-end
-  justify-content flex-end
-
-.layout.around-justified
-  -ms-flex-pack around
-  -webkit-justify-content space-around
-  justify-content space-around
-
-.layout.justified
-  -ms-flex-pack justify
-  -webkit-justify-content space-between
-  justify-content space-between
-
-.layout.center-center
-  @extends .layout.center
-  @extends .layout.center-justified
-
-/* self alignment */
-.layout.self-start
-  -ms-align-self flex-start
-  -webkit-align-self flex-start
-  align-self flex-start
-
-.layout.self-center
-  -ms-align-self center
-  -webkit-align-self center
-  align-self center
-
-.layout.self-end
-  -ms-align-self flex-end
-  -webkit-align-self flex-end
-  align-self flex-end
-
-.layout.self-stretch
-  -ms-align-self stretch
-  -webkit-align-self stretch
-  align-self stretch
+  +prefix-classes('self-')
+    &.start
+      -webkit-align-self flex-start
+      align-selft flex-start
+    &.end
+      -webkit-align-self flex-end
+      align-self flex-end
+    &.center
+      -webkit-align-self center
+      align-self center
+    &.stretch
+      -webkit-align-self stretch
+      align-self stretch
+    &.baseline
+      -webkit-align-self baseline
+      align-self baseline

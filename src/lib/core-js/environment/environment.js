@@ -13,8 +13,8 @@ var env = {
         return document.URL.indexOf('http://') === -1 && /* istanbul ignore next */ document.URL.indexOf('https://') === -1;
       }()),
 
-      android: userAgent.match(/android/) && !userAgent.match(/iemobile/),
-      ios: userAgent.match(/iphone|ipod|ipad/) && !userAgent.match(/iemobile/),
+      android: !userAgent.match(/iemobile/) && userAgent.match(/android/),
+      ios: !userAgent.match(/iemobile/) && userAgent.match(/iphone|ipod|ipad/),
       blackberry: userAgent.match(/blackberry/),
       windows: userAgent.match(/iemobile/)
     },
