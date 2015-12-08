@@ -1,6 +1,6 @@
 'use strict';
 
-describe('App', function() {
+describe('App Pages', function() {
 
   beforeEach(function() {
     testing.app.reset();

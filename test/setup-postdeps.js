@@ -58,6 +58,13 @@
       }.bind(this));
     },
 
+    addLayout: function(name, content, code) {
+      if (_.isFunction(content)) {
+        content = '(' + content.toString() + '());';
+      }
+      this.registerFile('/layouts/layout.' + name + '.js', content, code);
+    },
+
     registerFile: function(url, content, code) {
       server.respondWith('GET', url, [code || 200, {'Content-Type': 'application/json'}, content]);
     },

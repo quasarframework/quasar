@@ -3,7 +3,7 @@
 require('../../router/router');
 require('../../events/events');
 
-var currentLayoutName, newLayout;
+var currentLayoutName;
 
 function getPath(pageName, hash) {
   if (hash !== '$') {
@@ -11,6 +11,53 @@ function getPath(pageName, hash) {
   }
 
   return '#/' + (pageName !== 'index' ? pageName : '');
+}
+
+function injectLayout(layout, layoutName) {
+  var rootElement = '#quasar-view';
+
+  /* istanbul ignore if */
+  if (!layout.html) {
+    throw new Error('Layout HTML cannot be empty. Otherwise layout is useless.');
+  }
+
+  $(rootElement).html(layout.html);
+  quasar.global.layout = new Vue(_.merge({}, layout.vue || {}, {el: rootElement}));
+  currentLayoutName = layoutName;
+
+  if (layout.start) {
+    layout.start.call({
+      vm: quasar.global.layout,
+      scope: quasar.global.layout.$data
+    });
+  }
+}
+
+function loadLayout(exports, done) {
+  if (!exports.config.layout) {
+    // reset global layout object
+    quasar.global.layout = {};
+    currentLayoutName = null;
+    done();
+    return; // <<< EARLY EXIT
+  }
+
+  if (currentLayoutName === exports.config.layout) {
+    done();
+    return; // <<< EARLY EXIT
+  }
+
+  quasar.require.script('layouts/layout.' + exports.config.layout)
+    .done(function(layout) {
+      injectLayout(layout, exports.config.layout);
+      done();
+    })
+    .fail(
+      /* istanbul ignore next */
+      function() {
+        throw new Error('Cannot load layout ' + exports.config.layout + '.');
+      }
+    );
 }
 
 function getRoute(pageName, hash, pageManifest) {
@@ -38,28 +85,17 @@ function getRoute(pageName, hash, pageManifest) {
 
     quasar.require.script('pages/' + pageName + '/js/script.' + pageName)
       .fail(
-      /* istanbul ignore next */
-      function() {
-        throw new Error('[page:require] Cannot load script file.');
-      }).done(function(exports) {
+        /* istanbul ignore next */
+        function() {
+          throw new Error('[page:require] Cannot load script file.');
+        }
+      ).done(function(exports) {
         exports.config = exports.config || {};
 
         quasar.global.events.trigger('app:page:layouting', extend(self));
-
-        if (exports.config.layout && currentLayoutName !== exports.config.layout) {
-          quasar.require.script('layouts/layout.' + exports.config.layout)
-            .done(function(layout) {
-              newLayout = layout;
-              self.next(exports);
-            })
-            .fail(function() {
-              throw new Error('Cannot load layout ' + exports.config.layout + '.');
-            });
-          return;
-        }
-
-        quasar.global.layout = {};
-        self.next(exports);
+        loadLayout(exports, function() {
+          self.next(exports);
+        });
       });
   };
 
@@ -104,27 +140,12 @@ function getRoute(pageName, hash, pageManifest) {
 
   route.after = function(args) {
     var
-      rootElement = '#quasar-view',
       self = this,
       exports = args[0],
       data = args[1] || {},
       vue = args[2],
-      layoutName = exports.config.layout
+      rootElement = exports.config.layout ? '.quasar-content' : '#quasar-view'
       ;
-
-    if (layoutName) {
-      if (layoutName !== currentLayoutName) {
-        $(rootElement).html(newLayout.template || '<quasar-content></quasar-content>');
-        quasar.global.layout = new Vue(_.merge({}, newLayout.vue || {}, {el: rootElement}));
-
-        if (newLayout.start) {
-          newLayout.start.call({
-            vm: quasar.global.layout
-          });
-        }
-      }
-      rootElement = '.quasar-content';
-    }
 
     $(rootElement).html(exports.config.html || '');
 
@@ -142,7 +163,6 @@ function getRoute(pageName, hash, pageManifest) {
       exports.start.call(extender);
     }
 
-    currentLayoutName = exports.config.layout;
     quasar.global.events.trigger('app:page:ready', extender);
   };
 
