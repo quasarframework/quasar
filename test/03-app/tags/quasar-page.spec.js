@@ -5,6 +5,7 @@ describe('quasar-page components', function() {
   beforeEach(function() {
     testing.app.reset();
     testing.app.prepare();
+    $(window).scrollTop(0);
   });
   afterEach(function() {
     testing.app.reset();
@@ -71,7 +72,7 @@ describe('quasar-page components', function() {
         setTimeout(function() {
           expect(header.hasClass('shadow')).to.equal(false);
           testing.done();
-        }, 50);
+        }, 100);
       }
     );
   });
@@ -107,8 +108,8 @@ describe('quasar-page components', function() {
           setTimeout(function() {
             expect(header.hasClass('shadow')).to.equal(false);
             testing.done();
-          }, 50);
-        }, 50);
+          }, 100);
+        }, 100);
       }
     );
   });
@@ -149,9 +150,9 @@ describe('quasar-page components', function() {
             setTimeout(function() {
               expect(testing.isPartVisible(header)).to.equal(true);
               testing.done();
-            }, 50);
-          }, 50);
-        }, 50);
+            }, 100);
+          }, 100);
+        }, 100);
       }
     );
   });
@@ -195,8 +196,8 @@ describe('quasar-page components', function() {
             expect(header.hasClass('shadow')).to.equal(false);
             expect(testing.isAllVisible(row)).to.equal(true);
             testing.done();
-          }, 50);
-        }, 50);
+          }, 100);
+        }, 100);
       }
     );
   });
@@ -229,8 +230,8 @@ describe('quasar-page components', function() {
           setTimeout(function() {
             expect(testing.isAllVisible(footer)).to.equal(false);
             testing.done();
-          }, 50);
-        }, 50);
+          }, 100);
+        }, 100);
       }
     );
   });
@@ -259,7 +260,7 @@ describe('quasar-page components', function() {
         setTimeout(function() {
           expect(testing.isAllVisible(footer)).to.equal(true);
           testing.done();
-        }, 50);
+        }, 100);
       }
     );
   });
@@ -268,7 +269,7 @@ describe('quasar-page components', function() {
     testing.done.set(done);
     testing.app.tag(
       testing.line(true, function() {/*
-        <quasar-page keep-marginals>
+        <quasar-page keep-marginals keep-footer>
           <quasar-content>
             <div style="height: 5000px"></div>
           </quasar-content>
@@ -291,7 +292,7 @@ describe('quasar-page components', function() {
         setTimeout(function() {
           expect(testing.isAllVisible(footer)).to.equal(true);
           testing.done();
-        }, 50);
+        }, 100);
       }
     );
   });
@@ -320,7 +321,7 @@ describe('quasar-page components', function() {
         setTimeout(function() {
           expect(testing.isAllVisible(footer)).to.equal(true);
           testing.done();
-        }, 50);
+        }, 100);
       }
     );
   });
@@ -349,7 +350,7 @@ describe('quasar-page components', function() {
         setTimeout(function() {
           expect(testing.isAllVisible(footer)).to.equal(true);
           testing.done();
-        }, 50);
+        }, 100);
       }
     );
   });

@@ -28,7 +28,7 @@ Vue.component('quasar-page', {
         return;
       }
 
-      var target = manager.hasEmpty('retract-header') || manager.hasEmpty('shrink-header') ? $(window) : content;
+      var target = manager.hasEmpty('keep-marginals') ? content : $(window);
 
       target.scroll(function() {
         var shouldHaveShadow = target.scrollTop() > 0;
