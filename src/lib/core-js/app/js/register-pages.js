@@ -83,30 +83,40 @@ function loadLayout(exports, done) {
     );
 }
 
-function getRoute(pageName, hash, pageManifest) {
-  var route = {path: getPath(pageName, hash)};
-
-  function extend(self, properties) {
-    return _.merge(
-      {},
-      {
-        params: self.params,
-        query: self.query,
-        name: pageName,
-        manifest: pageManifest,
-        route: hash
-      },
-      properties
-    );
+function getVueParams(exports, self) {
+  if (!exports.vue) {
+    return {}; // <<< EARLY EXIT
   }
 
-  route.before = function() {
+  if (_.isFunction(exports.vue)) {
+    return exports.vue.call(self); // <<< EARLY EXIT
+  }
+
+  return exports.vue;
+}
+
+function getPageMethodContext(self, routeConfig, properties) {
+  return _.merge(
+    {},
+    {
+      params: self.params,
+      query: self.query,
+      name: routeConfig.pageName,
+      manifest: routeConfig.pageManifest,
+      route: routeConfig.hash
+    },
+    properties
+  );
+}
+
+function getRouteBefore(routeConfig) {
+  return function() {
     var self = this;
 
     $(currentLayoutName ? '.quasar-content' : '#quasar-view').html('Loading page...');
-    quasar.global.events.trigger('app:page:requiring', extend(self));
+    quasar.global.events.trigger('app:page:requiring', getPageMethodContext(self, routeConfig));
 
-    quasar.require.script('pages/' + pageName + '/js/script.' + pageName)
+    quasar.require.script('pages/' + routeConfig.pageName + '/js/script.' + routeConfig.pageName)
       .fail(
         /* istanbul ignore next */
         function() {
@@ -115,60 +125,52 @@ function getRoute(pageName, hash, pageManifest) {
       ).done(function(exports) {
         exports.config = exports.config || {};
 
-        quasar.global.events.trigger('app:page:layouting', extend(self));
+        quasar.global.events.trigger('app:page:layouting', getPageMethodContext(self, routeConfig));
         loadLayout(exports, function() {
           self.next(exports);
         });
       });
   };
+}
 
-  route.on = function(exports) {
+function getRouteOn(routeConfig) {
+  return function(exports) {
     quasar.clear.page.css();
 
     if (exports.config.css) {
       quasar.inject.page.css(exports.config.css);
     }
 
-    var
-      vue = {},
-      extender,
-      self = this
-      ;
+    var self = this;
 
-    quasar.global.events.trigger('app:page:preparing', extend(self));
+    quasar.global.events.trigger('app:page:preparing', getPageMethodContext(self, routeConfig));
 
     if (exports.prepare) {
-      exports.prepare.call(extend(self, {
+      exports.prepare.call(getPageMethodContext(self, routeConfig, {
         done: function(data) {
-          extender = extend(self, {data: data});
-
-          quasar.global.events.trigger('app:page:vueing', extender);
-          if (exports.vue) {
-            vue = exports.vue.call(extender);
-          }
-          self.next([exports, data, vue]);
+          self.next([exports, data]);
         }
       }));
     }
     else {
-      extender = extend(self, {data: {}});
-
-      quasar.global.events.trigger('app:page:vueing', extender);
-      if (exports.vue) {
-        vue = exports.vue.call(extender);
-      }
-      this.next([exports, {}, vue]);
+      this.next([exports, {}]);
     }
   };
+}
 
-  route.after = function(args) {
+function getRouteAfter(routeConfig) {
+  return function(args) {
     var
       self = this,
+      vue,
       exports = args[0],
       data = args[1] || {},
-      vue = args[2],
-      rootElement = exports.config.layout ? '.quasar-content' : '#quasar-view'
+      rootElement = exports.config.layout ? '.quasar-content' : '#quasar-view',
+      extender = getPageMethodContext(self, routeConfig, {data: data})
       ;
+
+    quasar.global.events.trigger('app:page:vueing', extender);
+    vue = getVueParams(exports, extender);
 
     $(rootElement).html(exports.config.html || '');
 
@@ -177,12 +179,13 @@ function getRoute(pageName, hash, pageManifest) {
       function() {
         var vm = this;
 
-        var extender = extend(self, {
+        var extender = getPageMethodContext(self, routeConfig, {
           data: data,
-          vm: vm
+          vm: vm,
+          scope: vm.$data,
+          $el: $(rootElement)
         });
 
-        extender.scope = vm.$data;
         quasar.global.events.trigger('app:page:starting', extender);
 
         if (exports.start) {
@@ -193,8 +196,6 @@ function getRoute(pageName, hash, pageManifest) {
       }
     ));
   };
-
-  return route;
 }
 
 function getHashes(pageHashes) {
@@ -202,9 +203,21 @@ function getHashes(pageHashes) {
 }
 
 function registerRoutes(appManifest) {
+  var routeConfig;
+
   _.forEach(appManifest.pages, function(pageManifest, pageName) {
     _.forEach(getHashes(pageManifest.hashes), function(hash) {
-      quasar.add.route(getRoute(pageName, hash, pageManifest));
+      routeConfig = {
+        pageName: pageName,
+        hash: hash,
+        pageManifest: pageManifest
+      };
+      quasar.add.route({
+        path: getPath(pageName, hash),
+        before: getRouteBefore(routeConfig),
+        on: getRouteOn(routeConfig),
+        after: getRouteAfter(routeConfig)
+      });
     });
   });
 }

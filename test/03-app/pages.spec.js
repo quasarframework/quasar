@@ -30,6 +30,8 @@ describe('App Pages', function() {
           expect(this.name).to.equal('index');
           expect(this.manifest).to.deep.equal({man: true});
           expect(this.route).to.equal('$');
+          expect(this.$el).to.be.an('object');
+          expect(this.$el.addClass).to.exist;
           testing.done();
         };
       },
@@ -139,6 +141,7 @@ describe('App Pages', function() {
         expect(this.name).to.equal('index');
         expect(this.manifest).to.deep.equal({});
         expect(this.route).to.equal('$');
+        expect(this.$el).to.be.an('object');
         testing.done();
       };
     });
@@ -172,6 +175,23 @@ describe('App Pages', function() {
         expect(this.params).to.deep.equal({});
         expect(this.query).to.deep.equal({});
         expect(this.manifest).to.deep.equal({});
+        testing.done();
+      };
+    });
+    testing.app.start();
+  });
+
+  it('should be able to handle vue as an object', function(done) {
+    testing.done.set(done);
+    testing.app.addIndex(function() {
+      module.exports.vue = {
+        data: {
+          my: 'vue-scope'
+        }
+      };
+      module.exports.start = function() {
+        expect(this.vm.$data).to.deep.equal({my: 'vue-scope'});
+        expect(this.scope).to.deep.equal({my: 'vue-scope'});
         testing.done();
       };
     });
