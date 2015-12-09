@@ -1,5 +1,3 @@
-'use strict';
-
 module.exports.vue = function() {
   return {
     data: {

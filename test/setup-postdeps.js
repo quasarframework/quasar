@@ -12,6 +12,46 @@
     $('<div id="quasar-view">').appendTo($('body'));
   }
 
+  window.testing.isAllVisible = function($this) {
+    var docViewTop = $(window).scrollTop();
+    var docViewBottom = docViewTop + $(window).height();
+
+    var elemTop = $this.offset().top;
+    var elemBottom = elemTop + $this.height();
+
+    return $this.is(':visible') && elemBottom <= docViewBottom && elemTop >= docViewTop;
+  };
+
+  window.testing.isPartVisible = function($this) {
+    var docViewTop = $(window).scrollTop();
+
+    var elemTop = $this.offset().top;
+    var elemBottom = elemTop + $this.height();
+
+    return $this.is(':visible') && elemTop < docViewTop && elemBottom > docViewTop;
+  };
+
+  window.testing.line = function(strip, fn) {
+    if (_.isFunction(strip)) {
+      fn = strip;
+      strip = false;
+    }
+    else if (!_.isFunction(fn)) {
+      throw new TypeError('line() expects a function');
+    }
+    else if (!_.isBoolean(strip)) {
+      throw new TypeError('line() expects a boolean');
+    }
+
+    var match = /\/\*[ \t]*(?:\r\n|\n)([\s\S]*?)(?:\r\n|\n)[ \t]*\*\//.exec(fn.toString());
+
+    if (!match) {
+      throw new TypeError('line() expects a function with comment; check syntax');
+    }
+
+    return strip ? _.trim(match[1].replace(/(\s)*\n(\s)*/g, '')) : match[1];
+  };
+
   window.testing.app = {
     reset: function() {
       $('#quasar-view').html('');

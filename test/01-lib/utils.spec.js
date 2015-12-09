@@ -2,20 +2,16 @@
 
 describe('Utils', function() {
 
-  describe('- nextTick', function() {
+  it('nextTick() should delay execution', function(done) {
+    var executed = false;
 
-    it('should delay execution', function(done) {
-      var executed = false;
-
-      quasar.nextTick(function() {
-        executed = true;
-      });
-
-      expect(executed).to.equal(false);
-
-      setTimeout(done, 2);
+    quasar.nextTick(function() {
+      executed = true;
     });
 
+    expect(executed).to.equal(false);
+
+    setTimeout(done, 2);
   });
 
   describe('- Reflection', function() {

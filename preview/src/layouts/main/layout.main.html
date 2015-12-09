@@ -1,19 +1,25 @@
-<quasar-page>
+<quasar-page keep-footer retract-header>
 
-  <quasar-toolbar keep scroll-shadow>
-    <quasar-toolbar-row>
+  <quasar-header>
+    <quasar-row>
       <quasar-button><quasar-icon sidebar></quasar-icon></quasar-button>
-      <quasar-toolbar-title>Text {{text}}</quasar-toolbar-title>
+      <quasar-title>Text {{text}}</quasar-title>
       <quasar-button><quasar-icon alarm></quasar-icon></quasar-button>
       <quasar-button><quasar-icon ellipsis vertical></quasar-icon></quasar-button>
-    </quasar-toolbar-row>
-    <quasar-toolbar-navigation>
-      <quasar-toolbar-tab><quasar-icon database></quasar-icon>Tab 1</quasar-toolbar-tab>
-      <quasar-toolbar-tab><quasar-icon database></quasar-icon>Tab 2</quasar-toolbar-tab>
-      <quasar-toolbar-tab><quasar-icon database></quasar-icon>Tab 3</quasar-toolbar-tab>
-    </quasar-toolbar-navigation>
-  </quasar-toolbar>
+    </quasar-row>
+    <quasar-navigation>
+      <quasar-tab><quasar-icon database></quasar-icon>Tab 1</quasar-tab>
+      <quasar-tab><quasar-icon database></quasar-icon>Tab 2</quasar-tab>
+      <quasar-tab><quasar-icon database></quasar-icon>Tab 3</quasar-tab>
+    </quasar-navigation>
+  </quasar-header>
 
   <quasar-content></quasar-content>
+
+  <quasar-footer>
+    <quasar-row>
+      <quasar-title>Text</quasar-title>
+    </quasar-row>
+  </quasar-footer>
 
 </quasar-page>

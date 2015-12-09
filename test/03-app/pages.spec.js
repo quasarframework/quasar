@@ -103,10 +103,42 @@ describe('App Pages', function() {
       };
       module.exports.start = function() {
         expect(this.data).to.deep.equal({});
+        expect(this.scope).to.deep.equal({my: 'vue-scope'});
         expect(this.vm.$data).to.deep.equal({my: 'vue-scope'});
         expect(this.params).to.deep.equal({});
         expect(this.query).to.deep.equal({});
         expect(this.manifest).to.deep.equal({});
+        testing.done();
+      };
+    });
+    testing.app.start();
+  });
+
+  it('should be able to trigger vue() with ready inner method', function(done) {
+    testing.done.set(done);
+    testing.app.var.hit = 0;
+    testing.app.addIndex(function() {
+      module.exports.vue = function() {
+        return {
+          data: {
+            some: 'value'
+          },
+          ready: function() {
+            expect(this.$el).to.exist;
+            expect(this.$data).to.deep.equal({some: 'value'});
+            testing.app.var.hit++;
+          }
+        };
+      };
+      module.exports.start = function() {
+        expect(testing.app.var.hit).to.equal(1);
+        expect(this.scope).to.deep.equal({some: 'value'});
+        expect(this.data).to.deep.equal({});
+        expect(this.params).to.deep.equal({});
+        expect(this.query).to.deep.equal({});
+        expect(this.name).to.equal('index');
+        expect(this.manifest).to.deep.equal({});
+        expect(this.route).to.equal('$');
         testing.done();
       };
     });
@@ -324,14 +356,15 @@ describe('App Pages', function() {
 
       testing.done.set(function() {
         quasar.nextTick(function() {
-          expect(times).to.equal(5);
+          expect(times).to.equal(6);
           done();
         });
       });
 
       quasar.global.events.on('app:page:requiring', fn);
+      quasar.global.events.on('app:page:layouting', fn);
       quasar.global.events.on('app:page:preparing', fn);
-      quasar.global.events.on('app:page:scoping', fn);
+      quasar.global.events.on('app:page:vueing', fn);
       quasar.global.events.on('app:page:starting', fn);
       quasar.global.events.on('app:page:ready', fn);
 

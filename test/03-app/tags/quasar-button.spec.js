@@ -15,7 +15,8 @@ describe('Tag: quasar-button', function() {
     testing.app.tag(
       '<quasar-button>Quasar Button Label</quasar-button>',
       function() {
-        expect(_html).to.include('<button ');
+        console.log(_html);
+        expect(_html).to.include('<button');
         expect(_html).to.include('Quasar Button Label</button>');
         testing.done();
       }

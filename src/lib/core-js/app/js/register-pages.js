@@ -13,24 +13,47 @@ function getPath(pageName, hash) {
   return '#/' + (pageName !== 'index' ? pageName : '');
 }
 
+function injectReady(vue, readyFunction) {
+  if (!vue.ready) {
+    vue.ready = readyFunction;
+    return vue; // <<< EARLY EXIT
+  }
+
+  var originalReadyFunction = vue.ready;
+
+  vue.ready = function() {
+    originalReadyFunction.call(this);
+    readyFunction.call(this);
+  };
+
+  return vue;
+}
+
 function injectLayout(layout, layoutName) {
   var rootElement = '#quasar-view';
 
-  /* istanbul ignore if */
+  /* istanbul ignore next */
   if (!layout.html) {
     throw new Error('Layout HTML cannot be empty. Otherwise layout is useless.');
   }
 
   $(rootElement).html(layout.html);
-  quasar.global.layout = new Vue(_.merge({}, layout.vue || {}, {el: rootElement}));
-  currentLayoutName = layoutName;
 
-  if (layout.start) {
-    layout.start.call({
-      vm: quasar.global.layout,
-      scope: quasar.global.layout.$data
-    });
-  }
+  quasar.global.layout = new Vue(injectReady(
+    _.merge({}, layout.vue || {}, {el: rootElement}),
+    function() {
+      var vm = this;
+
+      currentLayoutName = layoutName;
+
+      if (layout.start) {
+        layout.start.call({
+          vm: vm,
+          scope: vm.$data
+        });
+      }
+    }
+  ));
 }
 
 function loadLayout(exports, done) {
@@ -130,7 +153,7 @@ function getRoute(pageName, hash, pageManifest) {
     else {
       extender = extend(self, {data: {}});
 
-      quasar.global.events.trigger('app:page:scoping', extender);
+      quasar.global.events.trigger('app:page:vueing', extender);
       if (exports.vue) {
         vue = exports.vue.call(extender);
       }
@@ -149,21 +172,26 @@ function getRoute(pageName, hash, pageManifest) {
 
     $(rootElement).html(exports.config.html || '');
 
-    var vm = new Vue(_.merge({}, vue, {el: rootElement}));
+    var vm = new Vue(injectReady(
+      _.merge({}, vue, {el: rootElement}),
+      function() {
+        var vm = this;
 
-    var extender = extend(self, {
-      data: data,
-      vm: vm
-    });
+        var extender = extend(self, {
+          data: data,
+          vm: vm
+        });
 
-    extender.scope = vm.$data;
-    quasar.global.events.trigger('app:page:starting', extender);
+        extender.scope = vm.$data;
+        quasar.global.events.trigger('app:page:starting', extender);
 
-    if (exports.start) {
-      exports.start.call(extender);
-    }
+        if (exports.start) {
+          exports.start.call(extender);
+        }
 
-    quasar.global.events.trigger('app:page:ready', extender);
+        quasar.global.events.trigger('app:page:ready', extender);
+      }
+    ));
   };
 
   return route;

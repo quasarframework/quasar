@@ -8,8 +8,11 @@
   "scripts": {
     "test": "mocha test/lint.js && gulp dev && karma start",
     "pjs": "gulp dev && karma start --browsers PhantomJS",
+    "pjss": "karma start --browsers PhantomJS",
     "chrome": "gulp dev && karma start --browsers Chrome",
+    "chromes": "karma start --browsers Chrome",
     "ff": "gulp dev && karma start --browsers Firefox",
+    "ffs": "karma start --browsers Firefox",
     "pjs-live": "gulp dev && karma start --browsers PhantomJS --no-single-run",
     "chrome-live": "gulp dev && karma start --browsers Chrome --no-single-run",
     "ff-live": "gulp dev && karma start --browsers Firefox --no-single-run",

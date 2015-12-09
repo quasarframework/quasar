@@ -1,7 +1,7 @@
 'use strict';
 
 Vue.component('quasar-button', {
-  template: '<button class="button"><slot></slot></button>',
+  template: '<button><slot></slot></button>',
   compiled: function() {
     var
       el = $(this.$el),
