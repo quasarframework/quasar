@@ -134,4 +134,52 @@ describe('App Layouts', function() {
     testing.app.start();
   });
 
+  it('should trigger global layout events', function(done) {
+    var
+      times = 0,
+      fn = function() {
+        times++;
+      };
+
+    testing.app.var.events = [
+      'app:layout:require',
+      'app:layout:post-require',
+      'app:layout:html',
+      'app:layout:post-html',
+      'app:layout:vue',
+      'app:layout:post-vue',
+      'app:layout:start',
+      'app:layout:post-start',
+      'app:layout:ready'
+    ];
+
+    testing.done.set(function() {
+      quasar.nextTick(function() {
+        expect(times).to.equal(testing.app.var.events.length);
+        quasar.global.events.off(testing.app.var.events.join(' '));
+        done();
+      });
+    });
+
+    quasar.global.events.on(testing.app.var.events.join(' '), fn);
+
+    testing.app.addLayout('xmain', function() {
+      module.exports.html = 'Quasar Framework <quasar-content></quasar-content>';
+    });
+    testing.app.addIndex(
+      function() {
+        module.exports.config = {
+          html: 'page content',
+          layout: 'xmain'
+        };
+        module.exports.start = function() {
+          quasar.nextTick(function() {
+            testing.done();
+          });
+        };
+      }
+    );
+    testing.app.start();
+  });
+
 });

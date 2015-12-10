@@ -438,19 +438,27 @@ describe('App Pages', function() {
           times++;
         };
 
+      testing.app.var.events = [
+        'app:page:require',
+        'app:page:post-require',
+        'app:page:prepare',
+        'app:page:post-prepare',
+        'app:page:vue',
+        'app:page:post-vue',
+        'app:page:start',
+        'app:page:post-start',
+        'app:page:ready'
+      ];
+
       testing.done.set(function() {
         quasar.nextTick(function() {
-          expect(times).to.equal(6);
+          expect(times).to.equal(testing.app.var.events.length);
+          quasar.global.events.off(testing.app.var.events.join(' '));
           done();
         });
       });
 
-      quasar.global.events.on('app:page:requiring', fn);
-      quasar.global.events.on('app:page:layouting', fn);
-      quasar.global.events.on('app:page:preparing', fn);
-      quasar.global.events.on('app:page:vueing', fn);
-      quasar.global.events.on('app:page:starting', fn);
-      quasar.global.events.on('app:page:ready', fn);
+      quasar.global.events.on(testing.app.var.events.join(' '), fn);
 
       testing.app.addIndex(function() {
         module.exports.start = function() {

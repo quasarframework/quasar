@@ -29,29 +29,46 @@ function injectVueReadyMethod(vue, readyFunction) {
   return vue;
 }
 
+function startLayout(layout, context, vm) {
+  quasar.global.events.trigger('app:layout:post-vue app:layout:start', context);
+  if (layout.start) {
+    layout.start.call({vm: vm, $data: vm.$data});
+  }
+  quasar.global.events.trigger('app:layout:post-start app:layout:ready', context);
+}
+
 function injectLayout(layout, layoutName) {
-  var rootElement = '#quasar-view';
+  var
+    rootElement = '#quasar-view',
+    context = {
+      name: layoutName,
+      layout: layout
+    };
 
   /* istanbul ignore next */
   if (!layout.html) {
     throw new Error('Layout HTML cannot be empty. Otherwise it\'s useless.');
   }
 
+  quasar.global.events.trigger('app:layout:post-require app:layout:html', context);
+
   $(rootElement).html(layout.html);
+  currentLayoutName = layoutName;
+
+  quasar.global.events.trigger('app:layout:post-html app:layout:vue', context);
+
+  /* istanbul ignore next */
+  if (
+    layout.html.indexOf('<quasar-content>') === -1 ||
+    layout.html.indexOf('</quasar-content>') === -1
+  ) {
+    return; // <<< EARLY-EXIT
+  }
 
   quasar.global.layout = new Vue(injectVueReadyMethod(
     _.merge({}, layout.vue || {}, {el: rootElement}),
     function() {
-      var vm = this;
-
-      currentLayoutName = layoutName;
-
-      if (layout.start) {
-        layout.start.call({
-          vm: vm,
-          $data: vm.$data
-        });
-      }
+      startLayout(layout, context, this);
     }
   ));
 }
@@ -69,6 +86,10 @@ function loadLayout(exports, done) {
     done();
     return; // <<< EARLY EXIT
   }
+
+  quasar.global.events.trigger('app:layout:require', {
+    name: exports.config.layout
+  });
 
   quasar.require.script('layouts/layout.' + exports.config.layout)
     .done(function(layout) {
@@ -117,7 +138,7 @@ function getRouteBefore(routeConfig) {
       ;
 
     $(currentLayoutName ? '.quasar-content' : '#quasar-view').html('Loading page...');
-    quasar.global.events.trigger('app:page:requiring', context);
+    quasar.global.events.trigger('app:page:require', context);
 
     quasar.require.script('pages/' + routeConfig.pageName + '/js/script.' + routeConfig.pageName)
       .fail(
@@ -128,7 +149,12 @@ function getRouteBefore(routeConfig) {
       ).done(function(exports) {
         exports.config = exports.config || {};
 
-        quasar.global.events.trigger('app:page:layouting', context);
+        quasar.global.events.trigger('app:page:post-require app:page:dispose', context);
+        if (quasar.global.page && quasar.global.page.dispose) {
+          quasar.global.page.dispose();
+        }
+
+        quasar.global.events.trigger('app:page:post-dispose', context);
         loadLayout(exports, function() {
           self.next(exports);
         });
@@ -140,17 +166,13 @@ function getRouteOn(routeConfig) {
   return function(exports) {
     var self = this;
 
-    if (quasar.global.page && quasar.global.page.dispose) {
-      quasar.global.page.dispose();
-    }
-
     quasar.clear.page.css();
 
     if (exports.config.css) {
       quasar.inject.page.css(exports.config.css);
     }
 
-    quasar.global.events.trigger('app:page:preparing', getPageMethodContext(self, routeConfig));
+    quasar.global.events.trigger('app:page:prepare', getPageMethodContext(self, routeConfig));
 
     if (!exports.prepare) {
       this.next(exports);
@@ -174,7 +196,16 @@ function getRouteAfter(routeConfig) {
       context = getPageMethodContext(self, routeConfig, {prepared: prepared})
       ;
 
-    quasar.global.events.trigger('app:page:vueing', context);
+    /* istanbul ignore next */
+    if ($rootElement.length === 0) {
+      throw new Error(
+        exports.config.layout ?
+        'Layout HTML must include a <quasar-content>...</quasar-content> tag.' :
+        '#quasar-view NOT found'
+      );
+    }
+
+    quasar.global.events.trigger('app:page:post-prepare app:page:vue', context);
 
     $rootElement.html(exports.config.html || '');
 
@@ -190,7 +221,7 @@ function getRouteAfter(routeConfig) {
           $el: $rootElement
         });
 
-        quasar.global.events.trigger('app:page:starting', context);
+        quasar.global.events.trigger('app:page:post-vue app:page:start', context);
         quasar.global.page = {
           vm: vm,
           $data: vm.$data,
@@ -202,7 +233,7 @@ function getRouteAfter(routeConfig) {
           exports.start.call(context);
         }
 
-        quasar.global.events.trigger('app:page:ready', context);
+        quasar.global.events.trigger('app:page:post-start app:page:ready', context);
       }
     ));
   };
