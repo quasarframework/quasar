@@ -25,19 +25,19 @@ describe('App Layouts', function() {
     testing.done.set(done);
     testing.app.var.getPageContent = getPageContent;
     testing.app.addLayout('main', function() {
-      module.exports.html = 'layout <quasar-content></quasar-content>';
+      module.exports.html = 'layout {{name}} <quasar-content></quasar-content>';
       module.exports.vue = {
         data: {
-          value: 'quasar'
+          name: 'framework'
         }
       };
       module.exports.start = function() {
         expect(this.vm).to.be.an('object');
-        expect(this.vm.$data.value).to.equal('quasar');
-        expect(this.scope).to.be.an('object');
-        expect(this.scope.value).to.equal('quasar');
-        this.scope.value = 'other';
-        expect(this.vm.$data.value).to.equal('other');
+        expect(this.vm.$data.name).to.equal('framework');
+        expect(this.$data).to.be.an('object');
+        expect(this.$data.name).to.equal('framework');
+        this.$data.name = 'quasar';
+        expect(this.vm.$data.name).to.equal('quasar');
       };
     });
     testing.app.addIndex(
@@ -47,8 +47,10 @@ describe('App Layouts', function() {
           layout: 'main'
         };
         module.exports.start = function() {
-          expect($('#quasar-view').html()).to.equal('layout ' + testing.app.var.getPageContent('page content'));
-          testing.done();
+          quasar.nextTick(function() {
+            expect($('#quasar-view').html()).to.equal('layout quasar ' + testing.app.var.getPageContent('page content'));
+            testing.done();
+          });
         };
       }
     );
@@ -105,7 +107,7 @@ describe('App Layouts', function() {
         };
         module.exports.start = function() {
           expect($('#quasar-view').html()).to.equal(testing.app.var.getPageContent('content') + ' yyy');
-          expect(quasar.global.layout).to.not.deep.equal({});
+          expect(quasar.global.layout).to.be.an('object');
           quasar.navigate.to.route('#/nolayout');
         };
       }
@@ -120,7 +122,7 @@ describe('App Layouts', function() {
           };
           module.exports.start = function() {
             expect($('#quasar-view').html()).to.equal('page content');
-            expect(quasar.global.layout).to.deep.equal({});
+            expect(quasar.global.layout).to.not.exist;
             testing.done();
           };
         }

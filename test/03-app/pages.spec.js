@@ -22,9 +22,9 @@ describe('App Pages', function() {
     testing.app.addIndex(
       function() {
         module.exports.start = function() {
-          expect(this.data).to.deep.equal({});
-          expect(this.scope).to.deep.equal({});
-          expect(this.vm.$data).to.deep.equal(this.scope);
+          expect(this.prepared).to.not.exist;
+          expect(this.$data).to.deep.equal({});
+          expect(this.vm.$data).to.deep.equal(this.$data);
           expect(this.params).to.deep.equal({});
           expect(this.query).to.deep.equal({});
           expect(this.name).to.equal('index');
@@ -32,6 +32,10 @@ describe('App Pages', function() {
           expect(this.route).to.equal('$');
           expect(this.$el).to.be.an('object');
           expect(this.$el.addClass).to.exist;
+
+          expect(quasar.global.page).to.be.an('object');
+          expect(quasar.global.page.scope).to.deep.equal(this.scope);
+
           testing.done();
         };
       },
@@ -58,8 +62,8 @@ describe('App Pages', function() {
         }.bind(this), 1);
       };
       module.exports.start = function() {
-        expect(this.data).to.deep.equal({someData: 'value'});
-        expect(this.scope).to.deep.equal({});
+        expect(this.prepared).to.deep.equal({someData: 'value'});
+        expect(this.$data).to.deep.equal({});
         expect(this.params).to.deep.equal({});
         expect(this.query).to.deep.equal({});
         expect(this.name).to.equal('index');
@@ -75,12 +79,12 @@ describe('App Pages', function() {
     testing.done.set(done);
     testing.app.addIndex(function() {
       module.exports.prepare = function() {
-        setTimeout(function() {
+        quasar.nextTick(function() {
           this.done();
-        }.bind(this), 1);
+        }.bind(this));
       };
       module.exports.start = function() {
-        expect(this.data).to.deep.equal({});
+        expect(this.prepared).to.not.exist;
         testing.done();
       };
     });
@@ -91,7 +95,7 @@ describe('App Pages', function() {
     testing.done.set(done);
     testing.app.addIndex(function() {
       module.exports.vue = function() {
-        expect(this.data).to.deep.equal({});
+        expect(this.prepared).to.not.exist;
         expect(this.params).to.deep.equal({});
         expect(this.query).to.deep.equal({});
         expect(this.name).to.equal('index');
@@ -104,8 +108,8 @@ describe('App Pages', function() {
         };
       };
       module.exports.start = function() {
-        expect(this.data).to.deep.equal({});
-        expect(this.scope).to.deep.equal({my: 'vue-scope'});
+        expect(this.prepared).to.not.exist;
+        expect(this.$data).to.deep.equal({my: 'vue-scope'});
         expect(this.vm.$data).to.deep.equal({my: 'vue-scope'});
         expect(this.params).to.deep.equal({});
         expect(this.query).to.deep.equal({});
@@ -134,8 +138,8 @@ describe('App Pages', function() {
       };
       module.exports.start = function() {
         expect(testing.app.var.hit).to.equal(1);
-        expect(this.scope).to.deep.equal({some: 'value'});
-        expect(this.data).to.deep.equal({});
+        expect(this.$data).to.deep.equal({some: 'value'});
+        expect(this.prepare).to.not.exist;
         expect(this.params).to.deep.equal({});
         expect(this.query).to.deep.equal({});
         expect(this.name).to.equal('index');
@@ -155,12 +159,12 @@ describe('App Pages', function() {
         expect(this.params).to.deep.equal({});
         expect(this.query).to.deep.equal({});
         expect(this.done).to.be.a('function');
-        setTimeout(function() {
+        quasar.nextTick(function() {
           this.done({someData: 'value'});
-        }.bind(this), 1);
+        }.bind(this));
       };
       module.exports.vue = function() {
-        expect(this.data).to.deep.equal({someData: 'value'});
+        expect(this.prepared).to.deep.equal({someData: 'value'});
         expect(this.params).to.deep.equal({});
         expect(this.query).to.deep.equal({});
         return {
@@ -170,7 +174,7 @@ describe('App Pages', function() {
         };
       };
       module.exports.start = function() {
-        expect(this.data).to.deep.equal({someData: 'value'});
+        expect(this.prepared).to.deep.equal({someData: 'value'});
         expect(this.vm.$data).to.deep.equal({my: 'vue-scope'});
         expect(this.params).to.deep.equal({});
         expect(this.query).to.deep.equal({});
@@ -191,7 +195,7 @@ describe('App Pages', function() {
       };
       module.exports.start = function() {
         expect(this.vm.$data).to.deep.equal({my: 'vue-scope'});
-        expect(this.scope).to.deep.equal({my: 'vue-scope'});
+        expect(this.$data).to.deep.equal({my: 'vue-scope'});
         testing.done();
       };
     });
@@ -229,6 +233,29 @@ describe('App Pages', function() {
     testing.app.start();
   });
 
+  it('should be able to be $data reactive', function(done) {
+    testing.done.set(done);
+    testing.app.addIndex(function() {
+      module.exports.config = {
+        html: 'I am {{name}}.'
+      };
+      module.exports.vue = {
+        data: {
+          name: 'Quasar'
+        }
+      };
+      module.exports.start = function() {
+        expect(this.$el.html()).to.equal('I am Quasar.');
+        this.vm.$data.name = 'reactive';
+        quasar.nextTick(function() {
+          expect(this.$el.html()).to.equal('I am reactive.');
+          testing.done();
+        }.bind(this));
+      };
+    });
+    testing.app.start();
+  });
+
   it('should be able to register multiple pages', function(done) {
     testing.done.set(done);
     testing.app.addIndex(function() {
@@ -239,6 +266,10 @@ describe('App Pages', function() {
       module.exports.start = function() {
         expect(this.name).to.equal('index');
         expect($('#quasar-view').html()).to.equal('index html content');
+
+        expect(quasar.global.page).to.be.an('object');
+        expect(quasar.global.page.$data).to.deep.equal(this.$data);
+
         testing.assert.pageCSS('/pages/index/css/page.css');
         quasar.navigate.to.route('#/secondpage');
       };
@@ -255,8 +286,41 @@ describe('App Pages', function() {
           module.exports.start = function() {
             expect(this.name).to.equal('secondpage');
             expect(this.route).to.equal('$');
+
+            expect(quasar.global.page).to.be.an('object');
+            expect(quasar.global.page.vm).to.deep.equal(this.vm);
+            expect(quasar.global.page.$data).to.deep.equal(this.$data);
+
             expect($('#quasar-view').html()).to.equal('second page html content');
             testing.assert.pageCSS('/pages/secondpage/css/secondpage.css');
+            testing.done();
+          };
+        }
+      }]
+    );
+    testing.app.start();
+  });
+
+  it('should be able to call dispose() when changing page', function(done) {
+    testing.done.set(done);
+    testing.app.addIndex(function() {
+      module.exports.start = function() {
+        expect(quasar.global.page).to.be.an('object');
+        expect(quasar.global.page.$data).to.deep.equal(this.$data);
+        quasar.navigate.to.route('#/secondpage');
+      };
+
+      module.exports.dispose = function() {
+        testing.app.var.disposeHasBeenCalled = true;
+      };
+    });
+    testing.app.addPage(
+      'secondpage',
+      [{
+        url: 'js/script.secondpage.js',
+        content: function() {
+          module.exports.prepare = function() {
+            expect(testing.app.var.disposeHasBeenCalled).to.equal(true);
             testing.done();
           };
         }
