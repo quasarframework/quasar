@@ -153,24 +153,22 @@ function getRouteOn(routeConfig) {
     quasar.global.events.trigger('app:page:preparing', getPageMethodContext(self, routeConfig));
 
     if (!exports.prepare) {
-      this.next([exports]);
+      this.next(exports);
       return; // <<< EARLY EXIT
     }
 
     exports.prepare.call(getPageMethodContext(self, routeConfig, {
       done: function(prepared) {
-        self.next([exports, prepared]);
+        self.next(exports, prepared);
       }
     }));
   };
 }
 
 function getRouteAfter(routeConfig) {
-  return function(args) {
+  return function(exports, prepared) {
     var
       self = this,
-      exports = args[0],
-      prepared = args[1],
       rootElement = exports.config.layout ? '.quasar-content' : '#quasar-view',
       $rootElement = $(rootElement),
       context = getPageMethodContext(self, routeConfig, {prepared: prepared})

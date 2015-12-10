@@ -175,7 +175,7 @@ function getNextRouteStep(state) {
   return null;
 }
 
-function executeRouteStep(route, state, previousResult) {
+function executeRouteStep(route, state, previousArgs) {
   var nextState = getNextRouteStep(state);
 
   if (!route.hasOwnProperty(state)) {
@@ -184,12 +184,13 @@ function executeRouteStep(route, state, previousResult) {
   }
 
   route.state = state;
-  route.next = function(result) {
+  route.next = function() {
     if (nextState) {
-      executeRouteStep(route, nextState, result);
+      executeRouteStep(route, nextState, Array.prototype.slice.call(arguments));
     }
   };
-  route[state](previousResult);
+
+  route[state].apply(route, previousArgs);
 }
 
 function runRoute(route) {

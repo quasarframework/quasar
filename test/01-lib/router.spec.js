@@ -345,6 +345,40 @@ describe('Router', function() {
     quasar.navigate.to.route('#/route1');
   });
 
+  it('should successfully pass in multiple parameters between route methods', function(done) {
+    var times = 0;
+
+    quasar.add.route({
+      path: '#/route1',
+      before: function() {
+        times++;
+        expect(times).to.equal(1);
+        expect(this.next).to.be.a('function');
+        this.next('p1', 'p2', true);
+      },
+      on: function(param1, param2, param3) {
+        times++;
+        expect(times).to.equal(2);
+        expect(param1).to.equal('p1');
+        expect(param2).to.equal('p2');
+        expect(param3).to.equal(true);
+        expect(this.next).to.be.a('function');
+        this.next({some: 'data'}, false, 12, 0);
+      },
+      after: function(param1, param2, param3, param4) {
+        times++;
+        expect(times).to.equal(3);
+        expect(param1).to.deep.equal({some: 'data'});
+        expect(param2).to.equal(false);
+        expect(param3).to.equal(12);
+        expect(param4).to.equal(0);
+        done();
+      }
+    });
+    quasar.start.router();
+    quasar.navigate.to.route('#/route1');
+  });
+
   it('should trigger routes correctly on browser back/forward', function(done) {
     quasar.add.route(routeOne);
     quasar.add.route(routeTwo);
