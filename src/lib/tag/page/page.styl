@@ -7,8 +7,8 @@ $toolbar-row-height = 64px
   display block
   box-sizing border-box
   background-color $primary
-  color white
-  font-size $fontSize + 5px
+  color $white
+  font-size $fontSize
   font-weight 500
   line-height 1
   transition color .18s ease-in, box-shadow .18s ease-in
@@ -32,6 +32,7 @@ $toolbar-row-height = 64px
       text-overflow ellipsis
       padding 10px 0
       height 40px
+      font-size $fontSize + 7px
 
     button, .button
       border 0
@@ -40,8 +41,11 @@ $toolbar-row-height = 64px
       height 40px
       border-radius $radius
       background-color transparent
+      color $white
+      font-size $fontSize + 7px
 
   .quasar-navigation
+    height $toolbar-row-height * 0.8
     background-color $secondary
     .quasar-tab
       transition all .2s

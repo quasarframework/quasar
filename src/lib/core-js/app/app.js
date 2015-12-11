@@ -1,6 +1,5 @@
 'use strict';
 
-require('../manifests/manifests');
 require('../router/router');
 require('../debug/debug');
 require('./js/initialize');

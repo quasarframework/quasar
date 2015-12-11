@@ -1,6 +1,6 @@
 /node_modules
-/build
 /dist
+/src/__generated*
 /coverage
 /preview/node_modules
 /preview/dist

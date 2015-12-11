@@ -9,7 +9,7 @@
     ;
 
   if ($('.quasar-layout').length === 0) {
-    $('<div id="quasar-view">').appendTo($('body'));
+    $('<div id="quasar-app">').appendTo($('body'));
   }
 
   window.testing.isAllVisible = function($this) {
