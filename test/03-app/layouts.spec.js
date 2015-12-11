@@ -48,7 +48,7 @@ describe('App Layouts', function() {
         };
         module.exports.start = function() {
           quasar.nextTick(function() {
-            expect($('#quasar-view').html()).to.equal('layout quasar ' + testing.app.var.getPageContent('page content'));
+            expect($('.quasar-layout').html()).to.equal('layout quasar ' + testing.app.var.getPageContent('page content'));
             testing.done();
           });
         };
@@ -67,7 +67,7 @@ describe('App Layouts', function() {
           layout: 'qqq'
         };
         module.exports.start = function() {
-          expect($('#quasar-view').html()).to.equal('layout ' + testing.app.var.getPageContent('index content'));
+          expect($('.quasar-layout').html()).to.equal('layout ' + testing.app.var.getPageContent('index content'));
           testing.app.var.layout = quasar.global.layout;
           quasar.navigate.to.route('#/page');
         };
@@ -83,7 +83,7 @@ describe('App Layouts', function() {
             layout: 'qqq'
           };
           module.exports.start = function() {
-            expect($('#quasar-view').html()).to.equal('layout ' + testing.app.var.getPageContent('page content'));
+            expect($('.quasar-layout').html()).to.equal('layout ' + testing.app.var.getPageContent('page content'));
             expect(quasar.global.layout).to.deep.equal(testing.app.var.layout);
             testing.done();
           };
@@ -106,7 +106,7 @@ describe('App Layouts', function() {
           layout: 'yyy'
         };
         module.exports.start = function() {
-          expect($('#quasar-view').html()).to.equal(testing.app.var.getPageContent('content') + ' yyy');
+          expect($('.quasar-layout').html()).to.equal(testing.app.var.getPageContent('content') + ' yyy');
           expect(quasar.global.layout).to.be.an('object');
           quasar.navigate.to.route('#/nolayout');
         };
@@ -121,7 +121,7 @@ describe('App Layouts', function() {
             html: 'page content'
           };
           module.exports.start = function() {
-            expect($('#quasar-view').html()).to.equal('page content');
+            expect($('.quasar-layout').html()).to.equal('page content');
             expect(quasar.global.layout).to.not.exist;
             testing.done();
           };

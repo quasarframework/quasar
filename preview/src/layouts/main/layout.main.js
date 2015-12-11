@@ -1,11 +1,13 @@
 
-module.exports.html = require('raw!./layout.main.html');
-
-module.exports.vue = {
+module.exports = {
+  template: require('raw!./layout.main.html'),
   data: {
     text: ''
+  },
+  ready: function() {
+    console.log('Layout main ready');
+  },
+  destroyed: function() {
+    console.log('Layout main destroyed');
   }
-};
-
-module.exports.start = function() {
 };

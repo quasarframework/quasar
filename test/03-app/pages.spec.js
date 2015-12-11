@@ -226,7 +226,7 @@ describe('App Pages', function() {
         html: 'page html content'
       };
       module.exports.start = function() {
-        expect($('#quasar-view').html()).to.equal('page html content');
+        expect($('.quasar-layout').html()).to.equal('page html content');
         testing.done();
       };
     });
@@ -265,7 +265,7 @@ describe('App Pages', function() {
       };
       module.exports.start = function() {
         expect(this.name).to.equal('index');
-        expect($('#quasar-view').html()).to.equal('index html content');
+        expect($('.quasar-layout').html()).to.equal('index html content');
 
         expect(quasar.global.page).to.be.an('object');
         expect(quasar.global.page.$data).to.deep.equal(this.$data);
@@ -291,7 +291,7 @@ describe('App Pages', function() {
             expect(quasar.global.page.vm).to.deep.equal(this.vm);
             expect(quasar.global.page.$data).to.deep.equal(this.$data);
 
-            expect($('#quasar-view').html()).to.equal('second page html content');
+            expect($('.quasar-layout').html()).to.equal('second page html content');
             testing.assert.pageCSS('/pages/secondpage/css/secondpage.css');
             testing.done();
           };

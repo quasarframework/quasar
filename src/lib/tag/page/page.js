@@ -4,19 +4,19 @@
  * Quasar Page
  */
 
-Vue.component('quasar-page', {
-  template: '<div class="quasar-page"><slot></slot></div>',
+Vue.component('quasar-layout', {
+  template: '<div class="quasar-layout"><slot></slot></div>',
   ready: function() {
     var
-      page = $(this.$el),
-      header = page.find('.quasar-header'),
-      content = page.find('.quasar-content'),
-      footer = page.find('.quasar-footer'),
-      manager = page.getAttributesManager()
+      layout = $(this.$el),
+      header = layout.find('.quasar-header'),
+      page = layout.find('.quasar-page'),
+      footer = layout.find('.quasar-footer'),
+      manager = layout.getAttributesManager()
       ;
 
     if (footer.length > 0 && !manager.hasEmpty('keep-marginals') && manager.hasEmpty('keep-footer')) {
-      content.css('padding-bottom', footer.height() + 20 + 'px');
+      page.css('padding-bottom', footer.height() + 20 + 'px');
     }
 
     manager.withEmpty('keep-footer', function() {
@@ -28,7 +28,7 @@ Vue.component('quasar-page', {
         return;
       }
 
-      var target = manager.hasEmpty('keep-marginals') ? content : $(window);
+      var target = manager.hasEmpty('keep-marginals') ? page : $(window);
 
       target.scroll(function() {
         var shouldHaveShadow = target.scrollTop() > 0;
@@ -38,13 +38,13 @@ Vue.component('quasar-page', {
     });
 
     manager.withEmpty('keep-marginals', function() {
-      page.addClass('fixed-top layout vertical window-height');
-      content.addClass('scroll flex');
+      layout.addClass('fixed-top layout vertical window-height');
+      page.addClass('scroll flex');
     });
 
     manager.withEmpty('shrink-header', function() {
       header.addClass('fixed-top').css('z-index', 1);
-      content.css('padding-top', header.height() + 20 + 'px');
+      page.css('padding-top', header.height() + 20 + 'px');
 
       var headerHeight = header.height();
 
@@ -61,7 +61,7 @@ Vue.component('quasar-page', {
 
     manager.withEmpty('retract-header', function() {
       header.addClass('fixed-top').css('z-index', 1);
-      content.css('padding-top', header.height() + 20 + 'px');
+      page.css('padding-top', header.height() + 20 + 'px');
 
       var
         lastOffset = 0,
@@ -88,8 +88,8 @@ Vue.component('quasar-page', {
  * Quasar Content
  */
 
-Vue.component('quasar-content', {
-  template: '<div class="quasar-content"><slot></slot></div>'
+Vue.component('quasar-page', {
+  template: '<div class="quasar-page"><slot></slot></div>'
 });
 
 /*

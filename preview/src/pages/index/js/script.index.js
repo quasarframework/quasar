@@ -1,15 +1,19 @@
-module.exports.vue = function() {
-  return {
-    data: {
-      msg: 'aaa'
-    },
-    methods: {
-      myalert: function() {
-        alert('aaa');
-      }
-    }
-  };
-};
+'use strict';
 
-module.exports.start = function() {
+module.exports = {
+  template: require('raw!../html/view.index.html'),
+  data: {
+    msg: 'aaa'
+  },
+  methods: {
+    myalert: function() {
+      alert('aaa');
+    }
+  },
+  ready: function() {
+    console.log('Page index ready');
+  },
+  destroyed: function() {
+    console.log('Page index destroyed');
+  }
 };

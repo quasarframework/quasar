@@ -8,7 +8,7 @@
     callback
     ;
 
-  if ($('#quasar-view').length === 0) {
+  if ($('.quasar-layout').length === 0) {
     $('<div id="quasar-view">').appendTo($('body'));
   }
 
@@ -54,7 +54,7 @@
 
   window.testing.app = {
     reset: function() {
-      $('#quasar-view').html('');
+      $('.quasar-layout').html('');
       quasar.stop.router();
       window.location.hash = '';
       if (server) {
@@ -112,7 +112,7 @@
     tag: function(template, fn) {
       testing.app.addIndex(
         '(function() {module.exports.config = { html: \'' + template + '\'};' +
-        'module.exports.start = function() {var _html = $(\'#quasar-view\').html();(' + fn.toString() + '());}}());'
+        'module.exports.start = function() {var _html = $(\'.quasar-layout\').html();(' + fn.toString() + '());}}());'
       );
       testing.app.start();
     }

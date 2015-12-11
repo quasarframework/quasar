@@ -1,24 +1,18 @@
 'use strict';
 
-/*
- * Use for Async operations before displaying page
- *
-module.exports.prepare = function() {
-  this.done({});
-};
- */
+var html = require('raw!../html/view.second.html');
 
-/*
- * Compute Vue parameters
- *
-module.exports.vue = function() {
- return {};
+module.exports = function(done) {
+  console.log('called exports()');
+  quasar.nextTick(function() {
+    done({
+      template: html,
+      ready: function() {
+        console.log('Page second ready');
+      },
+      destroyed: function() {
+        console.log('Page second destroyed');
+      }
+    });
+  });
 };
- */
-
-/*
- * Use as page starting point
- *
-module.exports.start = function() {
-};
- */
