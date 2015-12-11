@@ -22,7 +22,7 @@ module.exports.layout = function(layoutName, done) {
         });
       });
     })
-    .fail(/* istanbul ignore next */function() {
+    .fail(/* istanbul ignore next */ function() {
       throw new Error('Cannot load layout ' + exports.config.layout + '.');
     });
 };
@@ -37,7 +37,7 @@ module.exports.page = function(pageName, done) {
         });
       });
     })
-    .fail(/* istanbul ignore next */function() {
+    .fail(/* istanbul ignore next */ function() {
       throw new Error('Cannot load layout ' + exports.config.layout + '.');
     });
 };

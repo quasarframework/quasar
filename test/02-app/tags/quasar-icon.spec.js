@@ -15,7 +15,7 @@ describe('Tag: quasar-icon', function() {
     testing.app.tag(
       '<quasar-icon></quasar-icon>',
       function() {
-        expect(_html).to.equal('<i class="icon"></i>');
+        expect(_html).to.include('<i class="icon"></i>');
         testing.done();
       }
     );
@@ -26,7 +26,7 @@ describe('Tag: quasar-icon', function() {
     testing.app.tag(
       '<quasar-icon alarm></quasar-icon>',
       function() {
-        expect(_html).to.equal('<i class="icon alarm"></i>');
+        expect(_html).to.include('<i class="icon alarm"></i>');
         testing.done();
       }
     );
@@ -39,7 +39,7 @@ describe('Tag: quasar-icon', function() {
     testing.app.tag(
       '<quasar-icon :name=></quasar-icon>',
       function() {
-        expect(_html).to.equal('<i class="icon alarm"></i>');
+        expect(_html).to.include('<i class="icon alarm"></i>');
         testing.done();
       }
     );

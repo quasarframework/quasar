@@ -38,13 +38,19 @@ module.exports = {
   },
 
   js: {
-    all: src + '/**/*.js',
+    all: [
+      src + '/**/*.js',
+      '!' + src + '/' + generated + '.js'
+    ],
     src: src + '/' + generated + '.js',
     dest: dist + '/lib',
     webpack: {}
   },
   css: {
-    all: src + '/**/*.styl',
+    all: [
+      src + '/**/*.styl',
+      '!' + src + '/' + generated + '.styl'
+    ],
     src: src + '/' + generated + '.styl',
     dest: dist + '/lib'
   },

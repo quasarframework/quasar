@@ -1,6 +1,6 @@
 'use strict';
 
-describe('quasar-page components', function() {
+describe('quasar-layout components', function() {
 
   beforeEach(function() {
     testing.app.reset();
@@ -19,7 +19,7 @@ describe('quasar-page components', function() {
     testing.done.set(done);
     testing.app.tag(
       testing.line(true, function() {/*
-        <quasar-page>
+        <quasar-layout>
           <quasar-header>
             <quasar-row>
               <quasar-title>Text {{text}}</quasar-title>
@@ -28,18 +28,18 @@ describe('quasar-page components', function() {
               <quasar-tab>Tab 1</quasar-tab>
             </quasar-navigation>
           </quasar-header>
-          <quasar-content></quasar-content>
+          <quasar-page></quasar-page>
           <quasar-footer>
             <quasar-row>
               <quasar-title>Some text</quasar-title>
             </quasar-row>
           </quasar-footer>
-        </quasar-page>
+        </quasar-layout>
       */}),
       function() {
-        expect(_html.match(/class="([\w\s])*quasar-page/)).to.exist;
+        expect(_html.match(/class="([\w\s])*quasar-layout/)).to.exist;
         expect(_html.match(/class="([\w\s])*quasar-header/)).to.exist;
-        expect(_html.match(/class="([\w\s])*quasar-content/)).to.exist;
+        expect(_html.match(/class="([\w\s])*quasar-page/)).to.exist;
         expect(_html.match(/class="([\w\s])*quasar-footer/)).to.exist;
         testing.done();
       }
@@ -50,21 +50,21 @@ describe('quasar-page components', function() {
     testing.done.set(done);
     testing.app.tag(
       testing.line(true, function() {/*
-        <quasar-page scroll-shadow>
+        <quasar-layout scroll-shadow>
           <quasar-header>
             <quasar-row>
               <quasar-title>Quasar</quasar-header>
             </quasar-row>
           </quasar-header>
-          <quasar-content>
+          <quasar-page>
             <div style="height: 5000px"></div>
-          </quasar-content>
-        </quasar-page>
+          </quasar-page>
+        </quasar-layout>
       */}),
       function() {
         var
           header = $('.quasar-header'),
-          content = $('.quasar-content')
+          content = $('.quasar-page')
           ;
 
         expect(header.hasClass('shadow')).to.equal(false);
@@ -81,21 +81,21 @@ describe('quasar-page components', function() {
     testing.done.set(done);
     testing.app.tag(
       testing.line(true, function() {/*
-        <quasar-page keep-marginals scroll-shadow>
+        <quasar-layout keep-marginals scroll-shadow>
           <quasar-header>
             <quasar-row>
               <quasar-title>Quasar</quasar-header>
             </quasar-row>
           </quasar-header>
-          <quasar-content>
+          <quasar-page>
             <div style="height: 5000px"></div>
-          </quasar-content>
-        </quasar-page>
+          </quasar-page>
+        </quasar-layout>
       */}),
       function() {
         var
           header = $('.quasar-header'),
-          content = $('.quasar-content')
+          content = $('.quasar-page')
           ;
 
         expect(header.hasClass('shadow')).to.equal(false);
@@ -118,21 +118,21 @@ describe('quasar-page components', function() {
     testing.done.set(done);
     testing.app.tag(
       testing.line(true, function() {/*
-        <quasar-page retract-header scroll-shadow>
+        <quasar-layout retract-header scroll-shadow>
           <quasar-header>
             <quasar-row>
               <quasar-title>Quasar</quasar-header>
             </quasar-row>
           </quasar-header>
-          <quasar-content>
+          <quasar-page>
             <div style="height: 5000px"></div>
-          </quasar-content>
-        </quasar-page>
+          </quasar-page>
+        </quasar-layout>
       */}),
       function() {
         var
           header = $('.quasar-header'),
-          content = $('.quasar-content')
+          content = $('.quasar-page')
           ;
 
         $(window).scrollTop(0);
@@ -161,7 +161,7 @@ describe('quasar-page components', function() {
     testing.done.set(done);
     testing.app.tag(
       testing.line(true, function() {/*
-        <quasar-page shrink-header scroll-shadow>
+        <quasar-layout shrink-header scroll-shadow>
           <quasar-header>
             <quasar-row>
               <quasar-title>Quasar</quasar-header>
@@ -170,15 +170,15 @@ describe('quasar-page components', function() {
               <quasar-title>Second Row</quasar-header>
             </quasar-row>
           </quasar-header>
-          <quasar-content>
+          <quasar-page>
             <div style="height: 5000px"></div>
-          </quasar-content>
-        </quasar-page>
+          </quasar-page>
+        </quasar-layout>
       */}),
       function() {
         var
           header = $('.quasar-header'),
-          content = $('.quasar-content'),
+          content = $('.quasar-page'),
           row = $('#second-row')
           ;
 
@@ -190,7 +190,8 @@ describe('quasar-page components', function() {
         setTimeout(function() {
           expect(header.hasClass('shadow')).to.equal(true);
           expect(testing.isAllVisible(header)).to.equal(true);
-          expect(testing.isAllVisible(row)).to.equal(false);
+          console.log(content.html());
+          expect(testing.isAllVisible(row)).to.equal(true);
           $(window).scrollTop(0);
           setTimeout(function() {
             expect(header.hasClass('shadow')).to.equal(false);
@@ -206,16 +207,16 @@ describe('quasar-page components', function() {
     testing.done.set(done);
     testing.app.tag(
       testing.line(true, function() {/*
-        <quasar-page>
-          <quasar-content>
+        <quasar-layout>
+          <quasar-page>
             <div style="height: 5000px"></div>
-          </quasar-content>
+          </quasar-page>
           <quasar-footer>
             <quasar-row>
               <quasar-title>Footer</quasar-title>
             </quasar-row>
           </quasar-footer>
-        </quasar-page>
+        </quasar-layout>
       */}),
       function() {
         var footer = $('.quasar-footer');
@@ -240,16 +241,16 @@ describe('quasar-page components', function() {
     testing.done.set(done);
     testing.app.tag(
       testing.line(true, function() {/*
-        <quasar-page keep-footer>
-          <quasar-content>
+        <quasar-layout keep-footer>
+          <quasar-page>
             <div style="height: 5000px"></div>
-          </quasar-content>
+          </quasar-page>
           <quasar-footer>
             <quasar-row>
               <quasar-title>Footer</quasar-title>
             </quasar-row>
           </quasar-footer>
-        </quasar-page>
+        </quasar-layout>
       */}),
       function() {
         var footer = $('.quasar-footer');
@@ -269,21 +270,21 @@ describe('quasar-page components', function() {
     testing.done.set(done);
     testing.app.tag(
       testing.line(true, function() {/*
-        <quasar-page keep-marginals keep-footer>
-          <quasar-content>
+        <quasar-layout keep-marginals keep-footer>
+          <quasar-page>
             <div style="height: 5000px"></div>
-          </quasar-content>
+          </quasar-page>
           <quasar-footer>
             <quasar-row>
               <quasar-title>Footer</quasar-title>
             </quasar-row>
           </quasar-footer>
-        </quasar-page>
+        </quasar-layout>
       */}),
       function() {
         var
           footer = $('.quasar-footer'),
-          content = $('.quasar-content')
+          content = $('.quasar-page')
           ;
 
         content.scrollTop(0);
@@ -301,16 +302,16 @@ describe('quasar-page components', function() {
     testing.done.set(done);
     testing.app.tag(
       testing.line(true, function() {/*
-        <quasar-page keep-footer shrink-header>
-          <quasar-content>
+        <quasar-layout keep-footer shrink-header>
+          <quasar-page>
             <div style="height: 5000px"></div>
-          </quasar-content>
+          </quasar-page>
           <quasar-footer>
             <quasar-row>
               <quasar-title>Footer</quasar-title>
             </quasar-row>
           </quasar-footer>
-        </quasar-page>
+        </quasar-layout>
       */}),
       function() {
         var footer = $('.quasar-footer');
@@ -330,16 +331,16 @@ describe('quasar-page components', function() {
     testing.done.set(done);
     testing.app.tag(
       testing.line(true, function() {/*
-        <quasar-page keep-footer retract-header>
-          <quasar-content>
+        <quasar-layout keep-footer retract-header>
+          <quasar-page>
             <div style="height: 5000px"></div>
-          </quasar-content>
+          </quasar-page>
           <quasar-footer>
             <quasar-row>
               <quasar-title>Footer</quasar-title>
             </quasar-row>
           </quasar-footer>
-        </quasar-page>
+        </quasar-layout>
       */}),
       function() {
         var footer = $('.quasar-footer');
@@ -359,14 +360,14 @@ describe('quasar-page components', function() {
     testing.done.set(done);
     testing.app.tag(
       testing.line(true, function() {/*
-        <quasar-page>
+        <quasar-layout>
           <quasar-header>
             <quasar-navigation>
               <quasar-tab>Tab 1</quasar-tab>
             </quasar-navigation>
           </quasar-header>
-          <quasar-content></quasar-content>
-        </quasar-page>
+          <quasar-page></quasar-page>
+        </quasar-layout>
       */}),
       function() {
         $('.quasar-tab').click(function() {

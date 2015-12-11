@@ -1,17 +1,15 @@
 'use strict';
 
-function parseVue(route, asset, done, manifest) {
+function parseVue(context, asset, done) {
   if (_.isFunction(asset.exports)) {
     asset.exports.call(
-      {
-        params: route.params,
-        query: route.query,
-        name: asset.name,
-        route: route.hash,
-        manifest: manifest
-      },
+      context,
       function(vue) {
-        done(vue);
+        console.log('vue', vue);
+        quasar.nextTick(function() {
+          console.log('vue2', vue);
+          done(vue);
+        });
       }
     );
     return; // <<< EARLY EXIT
@@ -22,10 +20,7 @@ function parseVue(route, asset, done, manifest) {
   });
 }
 
-module.exports.layout = function(route, asset, done) {
-  parseVue(route, asset, done);
+module.exports.layout = function(context, asset, done) {
+  parseVue({}, asset, done);
 };
-
-module.exports.page = function(route, manifest, asset, done) {
-  parseVue(route, asset, done, manifest);
-};
+module.exports.page = parseVue;

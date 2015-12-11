@@ -54,7 +54,7 @@
 
   window.testing.app = {
     reset: function() {
-      $('.quasar-layout').html('');
+      $('#quasar-app').html('');
       quasar.stop.router();
       window.location.hash = '';
       if (server) {
@@ -64,6 +64,8 @@
       quasar.clear.require.cache();
       quasar.clear.global.css();
       quasar.clear.page.css();
+      quasar.global.page = {};
+      quasar.global.layout = {};
       testing.app.var = {};
     },
     prepare: function() {
@@ -111,8 +113,8 @@
 
     tag: function(template, fn) {
       testing.app.addIndex(
-        '(function() {module.exports.config = { html: \'' + template + '\'};' +
-        'module.exports.start = function() {var _html = $(\'.quasar-layout\').html();(' + fn.toString() + '());}}());'
+        '(function() {module.exports = { template: \'' + template + '\',' +
+        'ready: function() { _html = $(\'#quasar-app\').html();(' + fn.toString() + '());}};}());'
       );
       testing.app.start();
     }
