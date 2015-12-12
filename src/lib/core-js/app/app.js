@@ -26,12 +26,9 @@ function renderVue(context, pageVue, layoutVue, done) {
   }
 
   quasar.global.events.trigger('app:layout:post-prepare app:layout:render app:page:post-prepare', context);
-  console.log('ZZ here', $('#quasar-app').html());
   render.layout(layoutVue, function() {
-    console.log('X here', $('#quasar-app').html());
     quasar.global.events.trigger('app:layout:post-render app:layout:ready app:page:render', context);
     render.page(pageVue, function() {
-      console.log('X here 2');
       quasar.global.events.trigger('app:page:post-render app:page:ready', context);
     });
   });
@@ -51,12 +48,11 @@ function prepareRoute(context, layout, page) {
 
   var layoutVue, pageVue;
 
-  console.log('prepare');
   if (!quasar.global.layout.name || quasar.global.layout.name !== layout.name) {
     quasar.global.events.trigger('app:layout:post-require app:layout:prepare', context);
     prepare.layout(context, layout, function(vue) {
       layoutVue = vue;
-      renderVue(context, layoutVue, pageVue);
+      renderVue(context, pageVue, layoutVue);
       quasar.global.layout.name = layout.name;
     });
     quasar.global.events.trigger('app:page:post-require app:page:prepare', context);

@@ -5,9 +5,7 @@ function parseVue(context, asset, done) {
     asset.exports.call(
       context,
       function(vue) {
-        console.log('vue', vue);
         quasar.nextTick(function() {
-          console.log('vue2', vue);
           done(vue);
         });
       }

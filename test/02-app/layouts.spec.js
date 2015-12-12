@@ -114,20 +114,18 @@ describe('App Layouts', function() {
     testing.app.start();
   });
 
-  it.skip('should be able to load layout with exports as function', function(done) {
+  it('should be able to load layout with exports as function', function(done) {
     testing.done.set(done);
     testing.app.var.getPageContent = getPageContent;
     testing.app.addLayout('ppmain', function() {
       module.exports = function(callback) {
         quasar.nextTick(function() {
-          console.log('here');
           callback({
             template: 'layout {{name}} <quasar-page></quasar-page>',
             data: {
               name: 'framework'
             },
             ready: function() {
-              console.log('here 2');
               var el = $(this.$el);
 
               expect(el.html()).to.include('layout framework');
@@ -135,7 +133,6 @@ describe('App Layouts', function() {
               Vue.nextTick(function() {
                 expect(el.html()).to.include('layout quasar');
               });
-              console.log('here 3');
             }
           });
         });
@@ -143,11 +140,9 @@ describe('App Layouts', function() {
     });
     testing.app.addIndex(
       function() {
-        console.log('page');
         module.exports = {
           template: 'page content',
           ready: function() {
-            console.log('page ready');
             Vue.nextTick(function() {
               expect($('#quasar-app').html()).to.equal('layout quasar ' + testing.app.var.getPageContent('page content'));
               testing.done();
