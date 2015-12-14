@@ -11,7 +11,7 @@ describe('App Layouts', function() {
   });
 
   function getPageContent(content) {
-    return '<div class="quasar-page">' + content + '</div>';
+    return '<div class="quasar-page">' + content + '<div class="__quasar_page_css"></div></div>';
   }
 
   //
@@ -159,36 +159,35 @@ describe('App Layouts', function() {
   it('should be able to maintain layout', function(done) {
     testing.done.set(done);
     testing.app.var.getPageContent = getPageContent;
+    testing.app.addPage(
+      'page',
+      [{
+        url: 'js/script.page.js',
+        content: function() {
+          module.exports = {
+            template: 'page content',
+            ready: function() {
+              expect($('#quasar-app').html()).to.equal('layout ' + testing.app.var.getPageContent('page content'));
+              expect(quasar.layout).to.deep.equal(testing.app.var.layout);
+              testing.done();
+            }
+          };
+        }
+      }],
+      {layout: 'quasar'}
+    );
     testing.app.addIndex(
       function() {
         module.exports = {
           template: 'index content',
           ready: function() {
             expect($('#quasar-app').html()).to.equal('layout ' + testing.app.var.getPageContent('index content'));
-            testing.app.var.layout = quasar.global.layout;
+            testing.app.var.layout = quasar.layout;
             quasar.navigate.to.route('#/page');
           }
         };
       },
       null,
-      {layout: 'quasar'}
-    );
-    testing.app.addPage(
-      'page',
-      [{
-        url: 'js/script.page.js',
-        content: function() {
-          console.log('here 1');
-          module.exports = {
-            template: 'page content',
-            ready: function() {
-              expect($('#quasar-app').html()).to.equal('layout ' + testing.app.var.getPageContent('page content'));
-              expect(quasar.global.layout).to.deep.equal(testing.app.var.layout);
-              testing.done();
-            }
-          };
-        }
-      }],
       {layout: 'quasar'}
     );
     testing.app.addLayout('quasar', function() {
@@ -208,7 +207,7 @@ describe('App Layouts', function() {
           template: 'content',
           ready: function() {
             expect($('#quasar-app').html()).to.equal(testing.app.var.getPageContent('content') + ' yyy');
-            expect(quasar.global.layout).to.be.an('object');
+            expect(quasar.layout).to.be.an('object');
             quasar.navigate.to.route('#/nolayout');
           }
         };
@@ -224,8 +223,8 @@ describe('App Layouts', function() {
           module.exports = {
             template: 'page content',
             ready: function() {
-              expect($('#quasar-app').html()).to.equal('<div class="quasar-layout"><div class="quasar-page">page content</div></div>');
-              expect(quasar.global.layout.name).to.equal('__default');
+              expect($('#quasar-app').html()).to.equal('<div class="quasar-layout">' + testing.app.var.getPageContent('page content') + '</div>');
+              expect(quasar.layout.name).to.equal('__default');
               testing.done();
             }
           };

@@ -89,7 +89,7 @@ Vue.component('quasar-layout', {
  */
 
 Vue.component('quasar-page', {
-  template: '<div class="quasar-page"><slot></slot></div>'
+  template: '<div class="quasar-page"></div>'
 });
 
 /*

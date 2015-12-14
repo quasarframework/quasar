@@ -31,7 +31,7 @@ function createNode(options) {
 }
 
 function getNodeBy(type) {
-  return type === 'global' ? globalNode : pageNode;
+  return type === 'global' ? globalNode : $(quasar.layout.vm.$el).find('.__quasar_page_css');
 }
 
 function injectCSS(type, url) {
@@ -59,11 +59,6 @@ function emptyNode(type) {
 globalNode = createNode({
   tag: 'div',
   id: '__quasar_global_css',
-  appendTo: $('body')
-});
-pageNode = createNode({
-  tag: 'div',
-  id: '__quasar_page_css',
   appendTo: $('body')
 });
 

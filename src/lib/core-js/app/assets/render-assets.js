@@ -28,18 +28,28 @@ function injectVue(currentVue, el, readyFunction) {
 
 function destroyVue() {
   _.forEach(arguments, function(argument) {
-    if (quasar.global[argument].vm) {
-      quasar.global[argument].vm.$destroy();
+    if (quasar[argument].vm) {
+      quasar[argument].vm.$destroy();
     }
   });
 }
 
 module.exports.layout = function(layoutVue, done) {
   destroyVue('page', 'layout');
-  quasar.global.layout.vm = new Vue(injectVue(layoutVue, '#quasar-app', done));
+  quasar.layout.vm = new Vue(injectVue(layoutVue, '#quasar-app', done));
 };
 
-module.exports.page = function(pageVue, done) {
+module.exports.page = function(context, pageVue, done) {
   destroyVue('page');
-  quasar.global.page.vm = new Vue(injectVue(pageVue, '.quasar-page', done));
+
+  pageVue.template = pageVue.template || '';
+  pageVue.template += '<div class="__quasar_page_css"></div>';
+
+  quasar.page.vm = new Vue(injectVue(pageVue, '.quasar-page', done));
+
+  quasar.nextTick(function() {
+    if (context.manifest.css) {
+      quasar.inject.page.css(context.manifest.css);
+    }
+  });
 };

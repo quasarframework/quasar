@@ -62,19 +62,17 @@
       }
       quasar.clear.requests.cache();
       quasar.clear.require.cache();
-      quasar.clear.global.css();
-      quasar.clear.page.css();
-      quasar.global.page = {};
-      quasar.global.layout = {};
+      quasar.clear.css();
+      quasar.global.manifest = {pages: {}};
+      appManifest = {pages: {}};
+      quasar.layout = {};
+      quasar.page = {};
       testing.app.var = {};
     },
     prepare: function() {
       callback = null;
       server = sinon.fakeServer.create();
       server.autoRespond = true;
-      appManifest = {
-        pages: {}
-      };
     },
     start: function() {
       this.registerFile('app.json', JSON.stringify(appManifest));
@@ -131,13 +129,16 @@
 
   window.testing.assert = {
     pageCSS: function(href) {
-      var css = $('#__quasar_page_css').html();
+      var cssNode = $(quasar.page.vm.$el).find('.__quasar_page_css');
+
+      expect(cssNode).to.have.length(1);
+      expect(cssNode.children()).to.have.length(1);
+      var css = cssNode.html();
 
       expect(css).to.contain('<link');
       expect(css).to.contain('type="text/css"');
       expect(css).to.contain('href="' + href + '"');
       expect(css).to.contain('rel="stylesheet"');
-      expect($('#__quasar_page_css').children().length == 1);
     }
   };
 

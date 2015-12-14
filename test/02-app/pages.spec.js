@@ -23,7 +23,7 @@ describe('App Pages', function() {
       function() {
         module.exports = {
           ready: function() {
-            expect($(this.$el).html()).to.equal('');
+            expect($(this.$el).html()).to.equal('<div class="__quasar_page_css"></div>');
             testing.done();
           }
         };
@@ -48,12 +48,13 @@ describe('App Pages', function() {
               ready: function() {
                 var el = $(this.$el), vm = this;
 
-                expect(el.html()).to.equal('');
+                console.log('template', this.template);
                 expect(vm).to.be.an('object');
                 expect(vm.$data).to.be.an('object');
                 quasar.nextTick(function() {
-                  expect(quasar.global.page.name).to.equal('index');
-                  expect(quasar.global.page.vm).to.deep.equal(vm);
+                  expect(el.html()).to.equal('<div class="__quasar_page_css"></div>');
+                  expect(quasar.page.name).to.equal('index');
+                  expect(quasar.page.vm).to.deep.equal(vm);
                   testing.done();
                 });
               }
@@ -77,12 +78,12 @@ describe('App Pages', function() {
             ready: function() {
               var el = $(this.$el), vm = this;
 
-              expect(el.html()).to.equal('quasar rocks!');
+              expect(el.html().indexOf('quasar rocks!')).to.equal(0);
               expect(vm).to.be.an('object');
               expect(vm.$data).to.be.an('object');
               quasar.nextTick(function() {
-                expect(quasar.global.page.name).to.equal('index');
-                expect(quasar.global.page.vm).to.deep.equal(vm);
+                expect(quasar.page.name).to.equal('index');
+                expect(quasar.page.vm).to.deep.equal(vm);
                 testing.done();
               });
             }
@@ -107,10 +108,10 @@ describe('App Pages', function() {
           ready: function() {
             var el = $(this.$el);
 
-            expect(el.html()).to.equal('some template msg');
+            expect(el.html().indexOf('some template msg')).to.equal(0);
             this.$data.msg = 'message';
             Vue.nextTick(function() {
-              expect(el.html()).to.equal('some template message');
+              expect(el.html().indexOf('some template message')).to.equal(0);
               testing.done();
             });
           }
@@ -134,10 +135,10 @@ describe('App Pages', function() {
               ready: function() {
                 var el = $(this.$el), vm = this;
 
-                expect(el.html()).to.equal('template msg');
+                expect(el.html().indexOf('template msg')).to.equal(0);
                 this.$data.msg = 'message';
                 Vue.nextTick(function() {
-                  expect(el.html()).to.equal('template message');
+                  expect(el.html().indexOf('template message')).to.equal(0);
                   testing.done();
                 });
               }
@@ -155,8 +156,10 @@ describe('App Pages', function() {
       function() {
         module.exports = {
           ready: function() {
-            testing.assert.pageCSS('/pages/index/css/page.css');
-            testing.done();
+            setTimeout(function() {
+              testing.assert.pageCSS('/pages/index/css/page.css');
+              testing.done();
+            }, 50);
           }
         };
       },
@@ -179,10 +182,9 @@ describe('App Pages', function() {
           callback({
             template: 'index html content',
             ready: function() {
-              expect($(this.$el).html()).to.equal('index html content');
-              expect($('.quasar-page').html()).to.equal('index html content');
+              expect($(this.$el).html().indexOf('index html content')).to.equal(0);
+              expect($('.quasar-page').html().indexOf('index html content')).to.equal(0);
 
-              testing.assert.pageCSS('/pages/index/css/page.css');
               quasar.navigate.to.route('#/secondpage');
             }
           });
@@ -205,11 +207,13 @@ describe('App Pages', function() {
             callback({
               template: 'second html content',
               ready: function() {
-                expect($(this.$el).html()).to.equal('second html content');
-                expect($('.quasar-page').html()).to.equal('second html content');
+                expect($(this.$el).html().indexOf('second html content')).to.equal(0);
+                expect($('.quasar-page').html().indexOf('second html content')).to.equal(0);
 
-                testing.assert.pageCSS('/pages/secondpage/css/page.css');
-                testing.done();
+                setTimeout(function() {
+                  testing.assert.pageCSS('/pages/secondpage/css/page.css');
+                  testing.done();
+                }, 50);
               }
             });
           };
@@ -361,43 +365,66 @@ describe('App Pages', function() {
       testing.app.start();
     });
 
-    it('should trigger global page events', function(done) {
-      var
-        times = 0,
-        fn = function() {
-          times++;
-        };
+  });
 
-      testing.app.var.events = [
-        'app:page:require',
-        'app:page:post-require',
-        'app:page:prepare',
-        'app:page:post-prepare',
-        'app:page:render',
-        'app:page:post-render',
-        'app:page:ready'
-      ];
-
-      testing.done.set(function() {
-        quasar.nextTick(function() {
-          expect(times).to.equal(testing.app.var.events.length);
-          quasar.global.events.off(testing.app.var.events.join(' '));
-          done();
-        });
-      });
-
-      quasar.global.events.on(testing.app.var.events.join(' '), fn);
-
-      testing.app.addIndex(function() {
+  it('should inject page CSS', function(done) {
+    testing.done.set(done);
+    testing.app.addIndex(
+      function() {
         module.exports = {
           ready: function() {
-            testing.done();
+            setTimeout(function() {
+              var cssNode = $(this.$el).find('.__quasar_page_css');
+
+              expect(cssNode).to.have.length(1);
+              expect(cssNode.children()).to.have.length(1);
+
+              testing.assert.pageCSS('/some/bogus.css');
+
+              testing.done();
+            }.bind(this), 100);
           }
         };
+      }, null, {css: '/some/bogus.css'}
+    );
+    testing.app.start();
+  });
+
+  it('should trigger global page events', function(done) {
+    var
+      times = 0,
+      fn = function() {
+        times++;
+      };
+
+    testing.app.var.events = [
+      'app:page:require',
+      'app:page:post-require',
+      'app:page:prepare',
+      'app:page:post-prepare',
+      'app:page:render',
+      'app:page:post-render',
+      'app:page:ready'
+    ];
+
+    testing.done.set(function() {
+      quasar.nextTick(function() {
+        expect(times).to.equal(testing.app.var.events.length);
+        quasar.global.events.off(testing.app.var.events.join(' '));
+        done();
       });
-      testing.app.start();
     });
 
+    quasar.global.events.on(testing.app.var.events.join(' '), fn);
+
+    testing.app.addIndex(function() {
+      module.exports = {
+        ready: function() {
+          testing.done();
+        }
+      };
+    });
+    testing.app.start();
   });
 
 });

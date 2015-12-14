@@ -3,18 +3,19 @@
 require('../events/events');
 require('../router/router');
 require('../debug/debug');
-require('./js/initialize');
+require('./assets/initialize');
 
 var
-  request = require('./js/request-assets'),
-  prepare = require('./js/prepare-assets'),
-  render = require('./js/render-assets')
+  request = require('./assets/request-assets'),
+  prepare = require('./assets/prepare-assets'),
+  render = require('./assets/render-assets')
   ;
 
 function renderVue(context, pageVue, layoutVue, done) {
   if (layoutVue === false) {
+    // layout hasn't changed...
     quasar.global.events.trigger('app:page:render', context);
-    render.page(pageVue, function() {
+    render.page(context, pageVue, function() {
       quasar.global.events.trigger('app:page:post-render app:page:ready', context);
     });
     return;
@@ -28,7 +29,7 @@ function renderVue(context, pageVue, layoutVue, done) {
   quasar.global.events.trigger('app:layout:post-prepare app:layout:render app:page:post-prepare', context);
   render.layout(layoutVue, function() {
     quasar.global.events.trigger('app:layout:post-render app:layout:ready app:page:render', context);
-    render.page(pageVue, function() {
+    render.page(context, pageVue, function() {
       quasar.global.events.trigger('app:page:post-render app:page:ready', context);
     });
   });
@@ -40,26 +41,20 @@ function prepareRoute(context, layout, page) {
     return;
   }
 
-  quasar.clear.page.css();
-
-  if (context.manifest.css) {
-    quasar.inject.page.css(context.manifest.css);
-  }
-
   var layoutVue, pageVue;
 
-  if (!quasar.global.layout.name || quasar.global.layout.name !== layout.name) {
+  if (!quasar.layout.name || quasar.layout.name !== layout.name) {
     quasar.global.events.trigger('app:layout:post-require app:layout:prepare', context);
     prepare.layout(context, layout, function(vue) {
       layoutVue = vue;
+      quasar.layout.name = layout.name;
       renderVue(context, pageVue, layoutVue);
-      quasar.global.layout.name = layout.name;
     });
     quasar.global.events.trigger('app:page:post-require app:page:prepare', context);
     prepare.page(context, page, function(vue) {
       pageVue = vue;
+      quasar.page.name = page.name;
       renderVue(context, pageVue, layoutVue);
-      quasar.global.page.name = page.name;
     });
     return;
   }

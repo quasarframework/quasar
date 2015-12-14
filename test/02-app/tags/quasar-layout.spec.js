@@ -87,9 +87,7 @@ describe('quasar-layout components', function() {
               <quasar-title>Quasar</quasar-header>
             </quasar-row>
           </quasar-header>
-          <quasar-page>
-            <div style="height: 5000px"></div>
-          </quasar-page>
+          <quasar-page></quasar-page>
         </quasar-layout>
       */}),
       function() {
@@ -98,6 +96,7 @@ describe('quasar-layout components', function() {
           content = $('.quasar-page')
           ;
 
+        content.append('<div style="height: 5000px">');
         expect(header.hasClass('shadow')).to.equal(false);
         expect(testing.isAllVisible(header)).to.equal(true);
         content.scrollTop(500);
@@ -124,9 +123,7 @@ describe('quasar-layout components', function() {
               <quasar-title>Quasar</quasar-header>
             </quasar-row>
           </quasar-header>
-          <quasar-page>
-            <div style="height: 5000px"></div>
-          </quasar-page>
+          <quasar-page></quasar-page>
         </quasar-layout>
       */}),
       function() {
@@ -135,6 +132,7 @@ describe('quasar-layout components', function() {
           content = $('.quasar-page')
           ;
 
+        content.append('<div style="height: 5000px">');
         $(window).scrollTop(0);
         expect(header.hasClass('shadow')).to.equal(false);
         expect(testing.isAllVisible(header)).to.equal(true);
@@ -170,9 +168,7 @@ describe('quasar-layout components', function() {
               <quasar-title>Second Row</quasar-header>
             </quasar-row>
           </quasar-header>
-          <quasar-page>
-            <div style="height: 5000px"></div>
-          </quasar-page>
+          <quasar-page></quasar-page>
         </quasar-layout>
       */}),
       function() {
@@ -182,6 +178,7 @@ describe('quasar-layout components', function() {
           row = $('#second-row')
           ;
 
+        content.append('<div style="height: 5000px">');
         $(window).scrollTop(0);
         expect(header.hasClass('shadow')).to.equal(false);
         expect(testing.isAllVisible(header)).to.equal(true);
@@ -190,7 +187,6 @@ describe('quasar-layout components', function() {
         setTimeout(function() {
           expect(header.hasClass('shadow')).to.equal(true);
           expect(testing.isAllVisible(header)).to.equal(true);
-          console.log(content.html());
           expect(testing.isAllVisible(row)).to.equal(true);
           $(window).scrollTop(0);
           setTimeout(function() {
@@ -208,9 +204,7 @@ describe('quasar-layout components', function() {
     testing.app.tag(
       testing.line(true, function() {/*
         <quasar-layout>
-          <quasar-page>
-            <div style="height: 5000px"></div>
-          </quasar-page>
+          <quasar-page></quasar-page>
           <quasar-footer>
             <quasar-row>
               <quasar-title>Footer</quasar-title>
@@ -221,6 +215,7 @@ describe('quasar-layout components', function() {
       function() {
         var footer = $('.quasar-footer');
 
+        $('.quasar-page').append('<div style="height: 5000px">');
         $(window).scrollTop(0);
         expect(footer.hasClass('shadow')).to.equal(false);
         expect(testing.isAllVisible(footer)).to.equal(false);
@@ -242,9 +237,7 @@ describe('quasar-layout components', function() {
     testing.app.tag(
       testing.line(true, function() {/*
         <quasar-layout keep-footer>
-          <quasar-page>
-            <div style="height: 5000px"></div>
-          </quasar-page>
+          <quasar-page></quasar-page>
           <quasar-footer>
             <quasar-row>
               <quasar-title>Footer</quasar-title>
@@ -255,6 +248,7 @@ describe('quasar-layout components', function() {
       function() {
         var footer = $('.quasar-footer');
 
+        $('.quasar-page').append('<div style="height: 5000px">');
         $(window).scrollTop(0);
         expect(testing.isAllVisible(footer)).to.equal(true);
         $(window).scrollTop(5000);
@@ -271,9 +265,7 @@ describe('quasar-layout components', function() {
     testing.app.tag(
       testing.line(true, function() {/*
         <quasar-layout keep-marginals keep-footer>
-          <quasar-page>
-            <div style="height: 5000px"></div>
-          </quasar-page>
+          <quasar-page></quasar-page>
           <quasar-footer>
             <quasar-row>
               <quasar-title>Footer</quasar-title>
@@ -287,6 +279,7 @@ describe('quasar-layout components', function() {
           content = $('.quasar-page')
           ;
 
+        content.append('<div style="height: 5000px">');
         content.scrollTop(0);
         expect(testing.isAllVisible(footer)).to.equal(true);
         content.scrollTop(5000);
@@ -303,9 +296,7 @@ describe('quasar-layout components', function() {
     testing.app.tag(
       testing.line(true, function() {/*
         <quasar-layout keep-footer shrink-header>
-          <quasar-page>
-            <div style="height: 5000px"></div>
-          </quasar-page>
+          <quasar-page></quasar-page>
           <quasar-footer>
             <quasar-row>
               <quasar-title>Footer</quasar-title>
@@ -316,6 +307,7 @@ describe('quasar-layout components', function() {
       function() {
         var footer = $('.quasar-footer');
 
+        $('.quasar-page').append('<div style="height: 5000px">');
         $(window).scrollTop(0);
         expect(testing.isAllVisible(footer)).to.equal(true);
         $(window).scrollTop(5000);
@@ -332,9 +324,7 @@ describe('quasar-layout components', function() {
     testing.app.tag(
       testing.line(true, function() {/*
         <quasar-layout keep-footer retract-header>
-          <quasar-page>
-            <div style="height: 5000px"></div>
-          </quasar-page>
+          <quasar-page></quasar-page>
           <quasar-footer>
             <quasar-row>
               <quasar-title>Footer</quasar-title>
@@ -345,6 +335,7 @@ describe('quasar-layout components', function() {
       function() {
         var footer = $('.quasar-footer');
 
+        $('.quasar-page').append('<div style="height: 5000px">');
         $(window).scrollTop(0);
         expect(testing.isAllVisible(footer)).to.equal(true);
         $(window).scrollTop(5000);

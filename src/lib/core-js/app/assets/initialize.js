@@ -13,7 +13,8 @@ FastClick.attach(document.body);
  * Inject Globals
  */
 quasar.global = {
-  page: {},
-  layout: {},
   events: quasar.create.events.emitter()
 };
+
+quasar.page = {};
+quasar.layout = {};
