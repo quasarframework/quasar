@@ -28,7 +28,7 @@ module.exports.layout = function(layoutName, done) {
 };
 
 module.exports.page = function(pageName, done) {
-  quasar.require.script('pages/' + pageName + '/js/script.' + pageName)
+  quasar.require.script('pages/' + pageName + '/script.' + pageName)
     .done(function(page) {
       quasar.nextTick(function() {
         done({

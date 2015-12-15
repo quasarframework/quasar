@@ -162,7 +162,7 @@ describe('App Layouts', function() {
     testing.app.addPage(
       'page',
       [{
-        url: 'js/script.page.js',
+        url: 'script.page.js',
         content: function() {
           module.exports = {
             template: 'page content',
@@ -218,7 +218,7 @@ describe('App Layouts', function() {
     testing.app.addPage(
       'nolayout',
       [{
-        url: 'js/script.nolayout.js',
+        url: 'script.nolayout.js',
         content: function() {
           module.exports = {
             template: 'page content',

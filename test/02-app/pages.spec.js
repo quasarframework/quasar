@@ -196,7 +196,7 @@ describe('App Pages', function() {
     testing.app.addPage(
       'secondpage',
       [{
-        url: 'js/script.secondpage.js',
+        url: 'script.secondpage.js',
         content: function() {
           module.exports = function(callback) {
             expect(this.name).to.equal('secondpage');
@@ -242,7 +242,7 @@ describe('App Pages', function() {
     testing.app.addPage(
       'secondpage',
       [{
-        url: 'js/script.secondpage.js',
+        url: 'script.secondpage.js',
         content: function() {
           module.exports = {
             ready: function() {
@@ -339,7 +339,7 @@ describe('App Pages', function() {
         'razvan',
         [
           {
-            url: 'js/script.razvan.js',
+            url: 'script.razvan.js',
             content: function() {
               module.exports = function() {
                 expect(this.query.q).to.equal('string');

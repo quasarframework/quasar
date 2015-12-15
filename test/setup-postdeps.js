@@ -82,7 +82,7 @@
     addIndex: function(js, files, manifest) {
       this.addPage('index', [
         {
-          url: 'js/script.index.js',
+          url: 'script.index.js',
           content: js
         }
       ].concat(files || []), manifest);
