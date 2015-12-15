@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  template: require('raw!../html/view.index.html'),
+  template: require('raw!./view.index.html'),
   data: {
     msg: 'aaa'
   },
