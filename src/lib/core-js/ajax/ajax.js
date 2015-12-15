@@ -7,11 +7,11 @@ function isURL(target) {
 }
 
 function processTarget(target, local) {
-  if (isURL(target) || local || !quasar.config.requests.baseURL) {
+  if (isURL(target) || local || !q.config.requests.baseURL) {
     return target;
   }
 
-  return quasar.config.requests.baseURL + '/' + target;
+  return q.config.requests.baseURL + '/' + target;
 }
 
 
@@ -29,9 +29,9 @@ function xhrCall(type, config) {
     withCredentials: true
   }, config.xhrFields || {});
 
-  if (quasar.config.requests.failFnHandler) {
+  if (q.config.requests.failFnHandler) {
     config.error = function() {
-      var shouldHaltExecution = quasar.config.requests.failFnHandler.apply(this, arguments);
+      var shouldHaltExecution = q.config.requests.failFnHandler.apply(this, arguments);
 
       if (shouldHaltExecution === true) {
         throw new Error('Halting default failure handlers');

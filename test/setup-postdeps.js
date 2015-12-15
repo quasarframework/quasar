@@ -102,7 +102,7 @@
       if (_.isFunction(content)) {
         content = '(' + content.toString() + '());';
       }
-      this.registerFile('/layouts/layout.' + name + '.js', content, code);
+      this.registerFile('/layouts/' + name + '/layout.' + name + '.js', content, code);
     },
 
     registerFile: function(url, content, code) {

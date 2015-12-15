@@ -36,7 +36,7 @@ function destroyVue() {
 
 module.exports.layout = function(layoutVue, done) {
   destroyVue('page', 'layout');
-  quasar.layout.vm = new Vue(injectVue(layoutVue, '#quasar-app', done));
+  q.layout.vm = new Vue(injectVue(layoutVue, '#quasar-app', done));
 };
 
 module.exports.page = function(context, pageVue, done) {
@@ -45,11 +45,11 @@ module.exports.page = function(context, pageVue, done) {
   pageVue.template = pageVue.template || '';
   pageVue.template += '<div class="__quasar_page_css"></div>';
 
-  quasar.page.vm = new Vue(injectVue(pageVue, '.quasar-page', done));
+  q.page.vm = new Vue(injectVue(pageVue, '.quasar-page', done));
 
-  quasar.nextTick(function() {
+  q.nextTick(function() {
     if (context.manifest.css) {
-      quasar.inject.page.css(context.manifest.css);
+      q.inject.page.css(context.manifest.css);
     }
   });
 };

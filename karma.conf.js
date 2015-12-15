@@ -8,7 +8,7 @@ module.exports = function(config) {
       'test/setup-predeps.js',
       'dist/deps/quasar-dependencies.js',
       'test/setup-postdeps.js',
-      'src/__generated_quasar.js',
+      'src/quasar.js',
       'test/**/*.spec.js'
     ],
 
@@ -19,7 +19,7 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'src/__generated_quasar.js': ['webpack']
+      'src/quasar.js': ['webpack']
     },
 
     // base path that will be used to resolve all patterns (eg. files, exclude)

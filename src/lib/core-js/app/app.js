@@ -14,9 +14,9 @@ var
 function renderVue(context, pageVue, layoutVue, done) {
   if (layoutVue === false) {
     // layout hasn't changed...
-    quasar.global.events.trigger('app:page:render', context);
+    q.global.events.trigger('app:page:render', context);
     render.page(context, pageVue, function() {
-      quasar.global.events.trigger('app:page:post-render app:page:ready', context);
+      q.global.events.trigger('app:page:post-render app:page:ready', context);
     });
     return;
   }
@@ -26,11 +26,11 @@ function renderVue(context, pageVue, layoutVue, done) {
     return;
   }
 
-  quasar.global.events.trigger('app:layout:post-prepare app:layout:render app:page:post-prepare', context);
+  q.global.events.trigger('app:layout:post-prepare app:layout:render app:page:post-prepare', context);
   render.layout(layoutVue, function() {
-    quasar.global.events.trigger('app:layout:post-render app:layout:ready app:page:render', context);
+    q.global.events.trigger('app:layout:post-render app:layout:ready app:page:render', context);
     render.page(context, pageVue, function() {
-      quasar.global.events.trigger('app:page:post-render app:page:ready', context);
+      q.global.events.trigger('app:page:post-render app:page:ready', context);
     });
   });
 }
@@ -43,23 +43,23 @@ function prepareRoute(context, layout, page) {
 
   var layoutVue, pageVue;
 
-  if (!quasar.layout.name || quasar.layout.name !== layout.name) {
-    quasar.global.events.trigger('app:layout:post-require app:layout:prepare', context);
+  if (!q.layout.name || q.layout.name !== layout.name) {
+    q.global.events.trigger('app:layout:post-require app:layout:prepare', context);
     prepare.layout(context, layout, function(vue) {
       layoutVue = vue;
-      quasar.layout.name = layout.name;
+      q.layout.name = layout.name;
       renderVue(context, pageVue, layoutVue);
     });
-    quasar.global.events.trigger('app:page:post-require app:page:prepare', context);
+    q.global.events.trigger('app:page:post-require app:page:prepare', context);
     prepare.page(context, page, function(vue) {
       pageVue = vue;
-      quasar.page.name = page.name;
+      q.page.name = page.name;
       renderVue(context, pageVue, layoutVue);
     });
     return;
   }
 
-  quasar.global.events.trigger('app:page:post-require app:page:prepare', context);
+  q.global.events.trigger('app:page:post-require app:page:prepare', context);
   prepare.page(context, page, function(vue) {
     renderVue(context, vue, false);
   });
@@ -68,13 +68,13 @@ function prepareRoute(context, layout, page) {
 function startRoute(manifest, pageName, context) {
   var layout, page;
 
-  quasar.global.events.trigger('app:layout:require', context);
+  q.global.events.trigger('app:layout:require', context);
   request.layout(manifest.layout, function(asset) {
     layout = asset;
     prepareRoute(context, layout, page);
   });
 
-  quasar.global.events.trigger('app:page:require', context);
+  q.global.events.trigger('app:page:require', context);
   request.page(pageName, function(asset) {
     page = asset;
     prepareRoute(context, layout, page);
@@ -96,7 +96,7 @@ function getPath(pageName, hash) {
 function registerRoutes(appManifest) {
   _.forEach(appManifest.pages, function(pageManifest, pageName) {
     _.forEach(getHashes(pageManifest.hashes), function(hash) {
-      quasar.add.route({
+      q.add.route({
         path: getPath(pageName, hash),
         on: function() {
           var route = this;
@@ -115,14 +115,14 @@ function registerRoutes(appManifest) {
 }
 
 function startApp() {
-  quasar.make.a.get.request({url: 'app.json', local: true})
+  q.make.a.get.request({url: 'app.json', local: true})
     .fail(/* istanbul ignore next */ function() {
       throw new Error('Could not load App Manifest.');
     })
     .done(function(appManifest) {
-      quasar.global.manifest = appManifest;
+      q.global.manifest = appManifest;
       registerRoutes(appManifest);
-      quasar.start.router();
+      q.start.router();
     });
 }
 

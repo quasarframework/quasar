@@ -31,7 +31,7 @@ function createNode(options) {
 }
 
 function getNodeBy(type) {
-  return type === 'global' ? globalNode : $(quasar.layout.vm.$el).find('.__quasar_page_css');
+  return type === 'global' ? globalNode : $(q.layout.vm.$el).find('.__quasar_page_css');
 }
 
 function injectCSS(type, url) {

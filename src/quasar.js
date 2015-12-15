@@ -1,9 +1,10 @@
 'use strict';
 
-var quasar = window.quasar = window.q = {
-  // @echo VERSION
-};
+window.quasar = window.q = {};
 
-// @echo COMPONENTS
+function requireAll(r) {
+  r.keys().forEach(r);
+}
+requireAll(require.context('./lib', true, /\.js$/));
 
-quasar.boot();
+window.q.boot();

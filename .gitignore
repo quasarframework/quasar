@@ -1,6 +1,5 @@
 /node_modules
 /dist
-/src/__generated*
 /coverage
 /preview/node_modules
 /preview/dist

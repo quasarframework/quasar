@@ -19,12 +19,12 @@ function watchForChanges() {
   /*
    * Watch for CSS
    */
-  plugins.watch(config.css.all, run('css:dev'));
+  plugins.watch(config.css.watch, run('css:dev'));
 
   /*
    * Watch for JS
    */
-  plugins.watch(config.js.all.concat([config.html.all]), run('js:dev'));
+  plugins.watch(config.js.watch, run('js:dev'));
 
   /*
    * Watch App Additions

@@ -2,7 +2,7 @@
 
 module.exports.layout = function(layoutName, done) {
   if (!layoutName) {
-    quasar.nextTick(function() {
+    q.nextTick(function() {
       done({
         name: '__default',
         exports: {
@@ -13,9 +13,9 @@ module.exports.layout = function(layoutName, done) {
     return; // <<< EARLY EXIT
   }
 
-  quasar.require.script('layouts/layout.' + layoutName)
+  q.require.script('layouts/' + layoutName + '/layout.' + layoutName)
     .done(function(layout) {
-      quasar.nextTick(function() {
+      q.nextTick(function() {
         done({
           name: layoutName,
           exports: layout
@@ -28,9 +28,9 @@ module.exports.layout = function(layoutName, done) {
 };
 
 module.exports.page = function(pageName, done) {
-  quasar.require.script('pages/' + pageName + '/script.' + pageName)
+  q.require.script('pages/' + pageName + '/script.' + pageName)
     .done(function(page) {
-      quasar.nextTick(function() {
+      q.nextTick(function() {
         done({
           name: pageName,
           exports: page

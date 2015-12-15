@@ -85,7 +85,7 @@ $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
     requestsInProgress.set(options.requestName || cacheId, jqXHR);
   }
 
-  if (!quasar.config.requests.use.cache || options.hasOwnProperty('cachable') && !options.cachable) {
+  if (!q.config.requests.use.cache || options.hasOwnProperty('cachable') && !options.cachable) {
     jqXHR.promise().done(function() {
       log('done', options);
     });
@@ -114,7 +114,7 @@ $.ajaxTransport('+*', function(options, originalOptions, jqXHR, headers, complet
     return; // <<<<---- EARLY EXIT; abort Ajax hijack
   }
 
-  if (!quasar.config.requests.use.cache || options.hasOwnProperty('cachable') && !options.cachable) {
+  if (!q.config.requests.use.cache || options.hasOwnProperty('cachable') && !options.cachable) {
     log('start', options);
     return; // <<<<---- EARLY EXIT; abort Ajax hijack
   }

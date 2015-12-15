@@ -4,16 +4,11 @@ var
   src         = './src',
   build       = './build',
   dist        = './dist',
-  preview     = './preview',
-  generated   = '__generated_quasar'
+  preview     = './preview'
   ;
 
 module.exports = {
-  clean: [
-    build, dist, 'coverage',
-    src + '/lib/' + generated + '.js',
-    src + '/lib/' + generated + '.styl'
-  ],
+  clean: [build, dist, 'coverage'],
 
   deps: {
     name: 'quasar-dependencies',
@@ -38,29 +33,17 @@ module.exports = {
   },
 
   js: {
-    all: [
-      src + '/**/*.js',
-      '!' + src + '/' + generated + '.js'
-    ],
-    src: src + '/' + generated + '.js',
+    watch: src + '/**/*.js',
+    src: src + '/quasar.js',
     dest: dist + '/lib',
-    webpack: {}
+    webpack: {
+      cache: true
+    }
   },
   css: {
-    all: [
-      src + '/**/*.styl',
-      '!' + src + '/' + generated + '.styl'
-    ],
-    src: src + '/' + generated + '.styl',
+    watch: src + '/**/*.styl',
+    src: src + '/quasar.styl',
     dest: dist + '/lib'
-  },
-  html: {
-    all: src + '/**/*.html'
-  },
-
-  preprocess: {
-    dir: src,
-    file: generated
   },
 
   preview: {

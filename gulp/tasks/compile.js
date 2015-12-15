@@ -1,5 +1,12 @@
 'use strict';
 
+var _ = require('lodash');
+
+var types = {
+  'js': ['js:lint'],
+  'css': ['css:lint']
+};
+
 function compile(type, production) {
   return gulp.src(config[type].src)
     .pipe(plugins.pipes[type].compile({
@@ -10,35 +17,17 @@ function compile(type, production) {
     .pipe(gulp.dest(config[type].dest));
 }
 
-/*
- * Javascript
- */
+_.forEach(types, function(deps, type) {
+  gulp.task(type + ':lint', function() {
+    return gulp.src(config[type].watch)
+      .pipe(plugins.pipes[type].lint());
+  });
 
-gulp.task('js:lint', function() {
-  return gulp.src(config.js.all)
-    .pipe(plugins.pipes.js.lint());
-});
+  gulp.task(type + ':dev', deps, function() {
+    return compile(type);
+  });
 
-gulp.task('js:dev', ['js:lint', 'js:preprocess'], function() {
-  return compile('js');
-});
-gulp.task('js:prod', ['js:lint', 'js:preprocess'], function() {
-  return compile('js', true);
-});
-
-
-/*
- * CSS
- */
-
-gulp.task('css:lint', function() {
-  return gulp.src(config.css.all)
-    .pipe(plugins.pipes.css.lint());
-});
-
-gulp.task('css:dev', ['css:lint', 'css:preprocess'], function() {
-  return compile('css');
-});
-gulp.task('css:prod', ['css:lint', 'css:preprocess'], function() {
-  return compile('css', true);
+  gulp.task(type + ':prod', deps, function() {
+    return compile(type, true);
+  });
 });

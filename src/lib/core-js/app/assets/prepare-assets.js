@@ -5,7 +5,7 @@ function parseVue(context, asset, done) {
     asset.exports.call(
       context,
       function(vue) {
-        quasar.nextTick(function() {
+        q.nextTick(function() {
           done(vue);
         });
       }
@@ -13,7 +13,7 @@ function parseVue(context, asset, done) {
     return; // <<< EARLY EXIT
   }
 
-  quasar.nextTick(function() {
+  q.nextTick(function() {
     done(asset.exports);
   });
 }
