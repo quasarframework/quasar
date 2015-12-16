@@ -19,7 +19,7 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'src/quasar.js': ['webpack']
+      'src/quasar.js': ['webpack', 'sourcemap']
     },
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
@@ -30,6 +30,7 @@ module.exports = function(config) {
     frameworks: ['mocha', 'chai', 'sinon', 'sinon-chai'],
 
     webpack: {
+      devtool: 'inline-source-map',
       module: {
         postLoaders: [
           {
@@ -74,7 +75,7 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome', 'Firefox', 'PhantomJS'],
+    browsers: ['Chrome', 'Firefox', 'Pjs'],
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
@@ -90,7 +91,20 @@ module.exports = function(config) {
       'karma-firefox-launcher',
       'karma-chrome-launcher',
       'karma-coverage',
-      'karma-mocha-reporter'
-    ]
+      'karma-mocha-reporter',
+      'karma-sourcemap-loader'
+    ],
+
+    customLaunchers: {
+      Pjs: {
+        base: 'PhantomJS',
+        options: {
+          viewportSize: {
+            width: 1200,
+            height: 1000
+          }
+        }
+      }
+    }
   });
 };

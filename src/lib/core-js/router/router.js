@@ -1,5 +1,7 @@
 'use strict';
 
+require('../events/events');
+
 var
   __routes = [],
   __onRouteChange = null,
@@ -204,6 +206,8 @@ function triggerRoute(path) {
   if (!path || path === '' || path === '#') {
     path = '#/';
   }
+
+  quasar.global.events.trigger('app:route', path);
 
   var route = matchPath(path);
 

@@ -7,10 +7,10 @@
   ],
   "scripts": {
     "test": "mocha test/lint.js && gulp dev && karma start",
-    "pjs": "karma start --browsers PhantomJS",
+    "pjs": "karma start --browsers Pjs",
     "chrome": "karma start --browsers Chrome",
     "ff": "karma start --browsers Firefox",
-    "pjs-live": "gulp dev && karma start --browsers PhantomJS --no-single-run",
+    "pjs-live": "gulp dev && karma start --browsers Pjs --no-single-run",
     "chrome-live": "gulp dev && karma start --browsers Chrome --no-single-run",
     "ff-live": "gulp dev && karma start --browsers Firefox --no-single-run",
     "coverage": "google-chrome ./coverage/lcov-report/index.html &"
@@ -70,6 +70,7 @@
     "karma-phantomjs-launcher": "^0.2.1",
     "karma-sinon": "^1.0.4",
     "karma-sinon-chai": "^1.1.0",
+    "karma-sourcemap-loader": "^0.3.6",
     "karma-webpack": "^1.7.0",
     "lodash": "^3.10.1",
     "mocha": "^2.3.3",

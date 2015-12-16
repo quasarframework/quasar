@@ -16,7 +16,8 @@
     "global": true,
     "process": true,
     "inBrowser": true,
-    "Vue": true
+    "Vue": true,
+    "Hammer": true
   },
 
   "rules": {

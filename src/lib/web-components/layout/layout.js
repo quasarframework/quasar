@@ -1,11 +1,13 @@
 'use strict';
 
+var template = $(require('raw!./layout.html'));
+
 /*
  * Quasar Page
  */
 
 Vue.component('quasar-layout', {
-  template: '<div class="quasar-layout"><slot></slot></div>',
+  template: template.find('#quasar-layout').html(),
   ready: function() {
     var
       layout = $(this.$el),
@@ -89,7 +91,7 @@ Vue.component('quasar-layout', {
  */
 
 Vue.component('quasar-page', {
-  template: '<div class="quasar-page"></div>'
+  template: template.find('#quasar-page').html()
 });
 
 /*
@@ -97,34 +99,109 @@ Vue.component('quasar-page', {
  */
 
 Vue.component('quasar-header', {
-  template: '<div class="quasar-header quasar-toolbar layout vertical"><slot></slot></div>'
+  template: template.find('#quasar-header').html()
 });
 
 
 Vue.component('quasar-navigation', {
-  template: '<div class="quasar-row quasar-navigation layout justify-around"><slot></slot></div>',
+  template: template.find('#quasar-navigation').html(),
   ready: function() {
-    $(this.$el).find('a.quasar-tab').click(function() {
-      var self = $(this);
+    var
+      nav = $(this.$el),
+      scroller = nav.find('> .tabsContainer'),
+      content = scroller.find('> .tabsContent'),
+      leftScroll = nav.find('> .left-scroll'),
+      rightScroll = nav.find('> .right-scroll')
+      ;
 
-      self.siblings().removeClass('active');
-      self.addClass('active');
+    function scrollToSelectedIfNeeded(tab) {
+      if (!nav.hasClass('scrollable')) {
+        return;
+      }
+
+      var contentRect = content[0].getBoundingClientRect();
+      var tabRect = tab[0].getBoundingClientRect();
+
+      var tabWidth = tabRect.width;
+      var tabOffsetLeft = tabRect.left - contentRect.left;
+
+      var leftPosition = tabOffsetLeft - scroller.scrollLeft();
+
+      if (leftPosition < 0) {
+        scroller[0].scrollLeft += leftPosition;
+      }
+      else {
+        leftPosition += tabWidth - scroller[0].offsetWidth;
+        if (leftPosition > 0) {
+          scroller[0].scrollLeft += leftPosition;
+        }
+      }
+    }
+
+    function updateScrollIndicator() {
+      nav.addClass('scrollable');
+      if (scroller.width() >= scroller[0].scrollWidth) {
+        nav.removeClass('scrollable');
+      }
+
+      leftScroll.removeClass('invisible');
+      rightScroll.removeClass('invisible');
+      if (scroller.scrollLeft() <= 0) {
+        leftScroll.addClass('invisible');
+      }
+      if (scroller.scrollLeft() + scroller.innerWidth() + 5 >= scroller[0].scrollWidth) {
+        rightScroll.addClass('invisible');
+      }
+    }
+
+    scroller.scroll(updateScrollIndicator);
+    $(window).resize(updateScrollIndicator);
+    q.nextTick(function() {
+      updateScrollIndicator();
     });
+
+    leftScroll.click(function() {scroller[0].scrollLeft -= 40;});
+    rightScroll.click(function() {scroller[0].scrollLeft += 40;});
+
+    nav.find('a.quasar-tab:not(.left-scroll):not(.right-scroll)')
+      .click(function() {
+        var self = $(this);
+
+        scrollToSelectedIfNeeded(self);
+
+        if (self.hasClass('active')) {
+          return;
+        }
+        self.siblings().removeClass('active');
+        self.addClass('active');
+      })
+      .each(/* istanbul ignore next */ function() {
+        var hammer = $(this).hammer().getHammer();
+        var lastOffset = 0;
+
+        hammer.on('panmove', function(ev) {
+          scroller[0].scrollLeft += lastOffset - ev.deltaX;
+          lastOffset = ev.deltaX;
+        });
+        hammer.on('panend', function(ev) {
+          lastOffset = 0;
+        });
+      });
   }
 });
 
 Vue.component('quasar-tab', {
-  template: '<a class="quasar-tab layout grow-1"><div class="layout grow-1 self-center justify-center"><slot></slot></div></a>'
+  template: template.find('#quasar-tab').html()
 });
 
 Vue.component('quasar-row', {
-  template: '<div class="quasar-row layout horizontal items-center"><slot></slot></div>'
+  template: template.find('#quasar-row').html()
 });
 
 Vue.component('quasar-title', {
-  template: '<div class="quasar-title layout flex"><slot></slot></div>'
+  template: template.find('#quasar-title').html()
 });
 
 Vue.component('quasar-footer', {
-  template: '<div class="quasar-footer quasar-toolbar"><slot></slot></div>'
+  template: template.find('#quasar-footer').html()
 });

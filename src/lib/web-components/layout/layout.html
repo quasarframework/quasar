@@ -1,0 +1,51 @@
+<templates>
+
+  <template id="quasar-layout">
+    <div class="quasar-layout"><slot></slot></div>
+  </template>
+
+  <template id="quasar-page">
+    <div class="quasar-page"></div>
+  </template>
+
+  <template id="quasar-header">
+    <div class="quasar-header quasar-toolbar layout vertical"><slot></slot></div>
+  </template>
+
+  <template id="quasar-tab">
+    <a class="quasar-tab layout non-selectable">
+      <div class="layout self-center nowrap">
+        <slot></slot>
+      </div>
+    </a>
+  </template>
+
+  <template id="quasar-row">
+    <div class="quasar-row layout horizontal items-center"><slot></slot></div>
+  </template>
+
+  <template id="quasar-title">
+    <div class="quasar-title layout flex"><slot></slot></div>
+  </template>
+
+  <template id="quasar-footer">
+    <div class="quasar-footer quasar-toolbar"><slot></slot></div>
+  </template>
+
+  <template id="quasar-navigation">
+    <div class="quasar-row quasar-navigation layout">
+      <quasar-tab class="left-scroll">
+        <quasar-icon chevron left></quasar-icon>
+      </quasar-tab>
+      <div class="tabsContainer layout flex">
+        <div class="tabsContent layout">
+          <slot></slot>
+        </div>
+      </div>
+      <quasar-tab class="right-scroll">
+        <quasar-icon chevron right></quasar-icon>
+      </quasar-tab>
+    </div>
+  </template>
+
+</templates>

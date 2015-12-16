@@ -19,7 +19,7 @@ function compile(type, production) {
 
 _.forEach(types, function(deps, type) {
   gulp.task(type + ':lint', function() {
-    return gulp.src(config[type].watch)
+    return gulp.src(config.lint[type])
       .pipe(plugins.pipes[type].lint());
   });
 

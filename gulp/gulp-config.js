@@ -32,8 +32,16 @@ module.exports = {
     dest: dist + '/app-additions'
   },
 
+  lint: {
+    js: src + '/**/*.js',
+    css: src + '/**/*.styl'
+  },
+
   js: {
-    watch: src + '/**/*.js',
+    watch: [
+      src + '/**/*.js',
+      src + '/**/*.html'
+    ],
     src: src + '/quasar.js',
     dest: dist + '/lib',
     webpack: {
