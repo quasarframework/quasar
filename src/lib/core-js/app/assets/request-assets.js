@@ -1,5 +1,29 @@
 'use strict';
 
+function requestAsset(type, assetName, done) {
+  var url;
+
+  if (type === 'page') {
+    url = 'pages/' + assetName + '/script.' + assetName;
+  }
+  else {
+    url = 'layouts/' + assetName + '/layout.' + assetName;
+  }
+
+  q.require.script(url)
+    .done(function(asset) {
+      q.nextTick(function() {
+        done({
+          name: assetName,
+          exports: asset
+        });
+      });
+    })
+    .fail(/* istanbul ignore next */ function() {
+      throw new Error('Cannot load ' + type + '.');
+    });
+}
+
 module.exports.layout = function(layoutName, done) {
   if (!layoutName) {
     q.nextTick(function() {
@@ -13,31 +37,9 @@ module.exports.layout = function(layoutName, done) {
     return; // <<< EARLY EXIT
   }
 
-  q.require.script('layouts/' + layoutName + '/layout.' + layoutName)
-    .done(function(layout) {
-      q.nextTick(function() {
-        done({
-          name: layoutName,
-          exports: layout
-        });
-      });
-    })
-    .fail(/* istanbul ignore next */ function() {
-      throw new Error('Cannot load layout ' + exports.config.layout + '.');
-    });
+  requestAsset('layout', layoutName, done);
 };
 
 module.exports.page = function(pageName, done) {
-  q.require.script('pages/' + pageName + '/script.' + pageName)
-    .done(function(page) {
-      q.nextTick(function() {
-        done({
-          name: pageName,
-          exports: page
-        });
-      });
-    })
-    .fail(/* istanbul ignore next */ function() {
-      throw new Error('Cannot load layout ' + exports.config.layout + '.');
-    });
+  requestAsset('page', pageName, done);
 };

@@ -10,6 +10,18 @@ $.fn.getAttributes = function() {
   return attributes;
 };
 
+function parseParam(list) {
+  if (!list) {
+    return false;
+  }
+
+  if (!_.isArray(list)) {
+    list = list.split(' ');
+  }
+
+  return list;
+}
+
 $.fn.getAttributesManager = function() {
   var
     node = this,
@@ -19,30 +31,26 @@ $.fn.getAttributesManager = function() {
 
   return {
     has: function(list) {
+      list = parseParam(list);
+
       if (!list) {
         return false;
-      }
-
-      if (!_.isArray(list)) {
-        list = list.split(' ');
       }
 
       return _.any(list, function(name) {
         return attributes.hasOwnProperty(name);
       });
     },
-    hasEmpty: function(emptyAttrList) {
+    hasEmpty: function(list) {
       var value;
 
-      if (!emptyAttrList) {
+      list = parseParam(list);
+
+      if (!list) {
         return false;
       }
 
-      if (!_.isArray(emptyAttrList)) {
-        emptyAttrList = emptyAttrList.split(' ');
-      }
-
-      return _.any(emptyAttrList, function(name) {
+      return _.any(list, function(name) {
         value = attributes[name];
         return attributes.hasOwnProperty(name) && (_.isUndefined(value) || value === '');
       });
@@ -55,12 +63,10 @@ $.fn.getAttributesManager = function() {
     },
 
     with: function(list, fn, defaultName, doNotUseDefault) {
+      list = parseParam(list);
+
       if (!list) {
         return this;
-      }
-
-      if (!_.isArray(list)) {
-        list = list.split(' ');
       }
 
       var intersection = _.intersection(list, _.keys(attributes));
@@ -82,12 +88,10 @@ $.fn.getAttributesManager = function() {
       return this.remove(name);
     },
     withEmpty: function(names, fn, defaultName, doNotUseDefault) {
+      names = parseParam(names);
+
       if (!names) {
         return this;
-      }
-
-      if (!_.isArray(names)) {
-        names = names.split(' ');
       }
 
       names = _.filter(names, function(name) {
@@ -154,12 +158,10 @@ $.fn.getAttributesManager = function() {
       return this.update();
     },
     removeEmpty: function(list) {
+      list = parseParam(list);
+
       if (!list) {
         return this.remove(this.getEmpty());
-      }
-
-      if (!_.isArray(list)) {
-        list = list.split(' ');
       }
 
       list = _.filter(list, function(item) {
@@ -198,16 +200,14 @@ $.fn.getAttributesManager = function() {
     getClass: function() {
       return node.attr('class').split(' ');
     },
-    hasClass: function(classList) {
-      if (!classList) {
+    hasClass: function(list) {
+      list = parseParam(list);
+
+      if (!list) {
         return false;
       }
 
-      if (!_.isArray(classList)) {
-        classList = classList.split(' ');
-      }
-
-      return _.any(classList, function(name) {
+      return _.any(list, function(name) {
         return node.hasClass(name);
       });
     },

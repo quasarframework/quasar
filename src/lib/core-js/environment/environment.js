@@ -1,9 +1,10 @@
 'use strict';
 
-/* istanbul ignore next */
-function runsOn() {
-  var userAgent = (navigator.userAgent || /* istanbul ignore next */ navigator.vendor || /* istanbul ignore next */ window.opera).toLowerCase();
+function getUserAgent() {
+  return (navigator.userAgent || /* istanbul ignore next */ navigator.vendor || /* istanbul ignore next */ window.opera).toLowerCase();
+}
 
+function getMatch(userAgent, platformMatch) {
   var match = /(edge)\/([\w.]+)/.exec(userAgent) ||
     /(opr)[\/]([\w.]+)/.exec(userAgent) ||
     /(chrome)[\/]([\w.]+)/.exec(userAgent) ||
@@ -17,7 +18,16 @@ function runsOn() {
     userAgent.indexOf('compatible') < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(userAgent) ||
     [];
 
-  var platformMatch = /(ipad)/.exec(userAgent) ||
+  return {
+    browser: match[5] || match[3] || match[1] || '',
+    version: match[2] || match[4] || '0',
+    versionNumber: match[4] || match[2] || '0',
+    platform: platformMatch[0] || ''
+  };
+}
+
+function getPlatformMatch(userAgent) {
+  return /(ipad)/.exec(userAgent) ||
     /(ipod)/.exec(userAgent) ||
     /(windows phone)/.exec(userAgent) ||
     /(iphone)/.exec(userAgent) ||
@@ -32,15 +42,16 @@ function runsOn() {
     /(bb)/.exec(userAgent) ||
     /(blackberry)/.exec(userAgent) ||
     [];
+}
 
+/* istanbul ignore next */
+function runsOn() {
   var
-    browser = {},
-    matched = {
-      browser: match[5] || match[3] || match[1] || '',
-      version: match[2] || match[4] || '0',
-      versionNumber: match[4] || match[2] || '0',
-      platform: platformMatch[0] || ''
-    };
+    userAgent = getUserAgent(),
+    platformMatch = getPlatformMatch(userAgent),
+    matched = getMatch(userAgent, platformMatch),
+    browser = {}
+    ;
 
   if (matched.browser) {
     browser[matched.browser] = true;
@@ -111,8 +122,6 @@ function runsOn() {
 
   // Kindle browsers are marked as Safari on Kindle
   if (browser.safari && browser.kindle) {
-    var kindle = 'kindle';
-
     matched.browser = 'kindle';
     browser.kindle = true;
   }
