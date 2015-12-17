@@ -1,6 +1,6 @@
 'use strict';
 
-describe('quasar-layout tabs', function() {
+!testing.phantomjs && describe('quasar-layout tabs', function() {
 
   beforeEach(function() {
     testing.app.reset();
@@ -15,7 +15,7 @@ describe('quasar-layout tabs', function() {
     $(window).scrollTop(0);
   });
 
-  !testing.phantomjs && it('should be able to handle navigation scroll', function(done) {
+  it('should be able to handle navigation scroll', function(done) {
     testing.done.set(done);
     testing.app.tag(
       testing.line(true, function() {/*
@@ -72,7 +72,7 @@ describe('quasar-layout tabs', function() {
     );
   });
 
-  !testing.phantomjs && it('should be able to make tab visible on click when scrolled', function(done) {
+  it('should be able to make tab visible on click when scrolled', function(done) {
     testing.done.set(done);
     testing.app.tag(
       testing.line(true, function() {/*

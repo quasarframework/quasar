@@ -1,9 +1,11 @@
 'use strict';
 
+/* istanbul ignore next */
 function getUserAgent() {
-  return (navigator.userAgent || /* istanbul ignore next */ navigator.vendor || /* istanbul ignore next */ window.opera).toLowerCase();
+  return (navigator.userAgent || navigator.vendor || window.opera).toLowerCase();
 }
 
+/* istanbul ignore next */
 function getMatch(userAgent, platformMatch) {
   var match = /(edge)\/([\w.]+)/.exec(userAgent) ||
     /(opr)[\/]([\w.]+)/.exec(userAgent) ||
@@ -26,6 +28,7 @@ function getMatch(userAgent, platformMatch) {
   };
 }
 
+/* istanbul ignore next */
 function getPlatformMatch(userAgent) {
   return /(ipad)/.exec(userAgent) ||
     /(ipod)/.exec(userAgent) ||
@@ -136,7 +139,7 @@ function runsOn() {
   browser.name = matched.browser;
   browser.platform = matched.platform;
 
-  if (document.URL.indexOf('http://') === -1 && /* istanbul ignore next */ document.URL.indexOf('https://') === -1) {
+  if (document.URL.indexOf('http://') === -1 && document.URL.indexOf('https://') === -1) {
     browser.cordova = true;
   }
 

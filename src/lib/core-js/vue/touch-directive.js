@@ -7,6 +7,7 @@ var
   gestures = ['tap', 'pan', 'pinch', 'press', 'rotate', 'swipe']
   ;
 
+/* istanbul ignore next */
 Vue.directive('touch', {
   bind: function() {
     if (!this.el.hammer) {

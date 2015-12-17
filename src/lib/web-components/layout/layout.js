@@ -132,6 +132,7 @@ Vue.component('quasar-navigation', {
       }
       else {
         leftPosition += tabWidth - scroller[0].offsetWidth;
+        /* istanbul ignore else */
         if (leftPosition > 0) {
           scroller[0].scrollLeft += leftPosition;
         }

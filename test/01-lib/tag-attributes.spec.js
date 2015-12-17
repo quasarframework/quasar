@@ -2,29 +2,19 @@
 
 describe('Tag Attributes', function() {
 
-  var
-    id = 'tag-attrib-test',
-    body = $('body')
-    ;
-
   afterEach(function() {
-    $(id).remove();
+    testing.node.remove();
   });
-
-  function inject(attributes) {
-    $(id).remove();
-    return $('<div id="' + id + '" ' + attributes + '>').appendTo(body);
-  }
 
   it('should be able to get list of all attributes', function() {
     var
-      node = inject('one="1" two="2" three four'),
+      node = testing.node.inject('', 'one="1" two="2" three four'),
       att = node.getAttributes()
       ;
 
     expect(att).to.be.an('object');
     expect(att).to.deep.equal({
-      id: id,
+      id: testing.node.id,
       one: '1',
       two: '2',
       three: '',
@@ -38,7 +28,7 @@ describe('Tag Attributes', function() {
 
   it('should be able to get attributes manager', function() {
     var
-      node = inject('one="1" two="2" three four'),
+      node = testing.node.inject('', 'one="1" two="2" three four'),
       att = node.getAttributesManager()
       ;
 
@@ -52,7 +42,7 @@ describe('Tag Attributes', function() {
 
   it('has()', function() {
     var
-      node = inject('one="1" two'),
+      node = testing.node.inject('', 'one="1" two'),
       att = node.getAttributesManager()
       ;
 
@@ -66,7 +56,7 @@ describe('Tag Attributes', function() {
 
   it('hasWithPrefix()', function() {
     var
-      node = inject('att="yes" myattrib="one" my-other'),
+      node = testing.node.inject('', 'att="yes" myattrib="one" my-other'),
       att = node.getAttributesManager()
       ;
 
@@ -76,40 +66,40 @@ describe('Tag Attributes', function() {
   });
 
   it('hasEmpty()', function() {
-    expect(inject('my-other').getAttributesManager().hasEmpty()).to.equal(false);
-    expect(inject('my-other').getAttributesManager().hasEmpty('my-other')).to.equal(true);
-    expect(inject('my-other="value"').getAttributesManager().hasEmpty('my-other')).to.equal(false);
+    expect(testing.node.inject('', 'my-other').getAttributesManager().hasEmpty()).to.equal(false);
+    expect(testing.node.inject('', 'my-other').getAttributesManager().hasEmpty('my-other')).to.equal(true);
+    expect(testing.node.inject('', 'my-other="value"').getAttributesManager().hasEmpty('my-other')).to.equal(false);
     expect($('.bogus').getAttributesManager().hasEmpty('my')).to.equal(false);
   });
 
   it('hasEmptyWithPrefix()', function() {
-    expect(inject('my-other').getAttributesManager().hasEmptyWithPrefix('my-other')).to.equal(true);
-    expect(inject('my-other="value"').getAttributesManager().hasEmptyWithPrefix('my-other')).to.equal(false);
+    expect(testing.node.inject('', 'my-other').getAttributesManager().hasEmptyWithPrefix('my-other')).to.equal(true);
+    expect(testing.node.inject('', 'my-other="value"').getAttributesManager().hasEmptyWithPrefix('my-other')).to.equal(false);
     expect($('.bogus').getAttributesManager().hasEmptyWithPrefix('my')).to.equal(false);
   });
 
   it('has with list()', function() {
-    expect(inject('my-other').getAttributesManager().has('my-other other')).to.equal(true);
-    expect(inject('my-other').getAttributesManager().has(['my-other', 'other'])).to.equal(true);
-    expect(inject('my-other my="true"').getAttributesManager().has('my')).to.equal(true);
-    expect(inject('my-other').getAttributesManager().has('some-other other')).to.equal(false);
-    expect(inject('my-other').getAttributesManager().has(['some-other', 'other'])).to.equal(false);
-    expect(inject('my-other="value"').getAttributesManager().has('my-other')).to.equal(true);
+    expect(testing.node.inject('', 'my-other').getAttributesManager().has('my-other other')).to.equal(true);
+    expect(testing.node.inject('', 'my-other').getAttributesManager().has(['my-other', 'other'])).to.equal(true);
+    expect(testing.node.inject('', 'my-other my="true"').getAttributesManager().has('my')).to.equal(true);
+    expect(testing.node.inject('', 'my-other').getAttributesManager().has('some-other other')).to.equal(false);
+    expect(testing.node.inject('', 'my-other').getAttributesManager().has(['some-other', 'other'])).to.equal(false);
+    expect(testing.node.inject('', 'my-other="value"').getAttributesManager().has('my-other')).to.equal(true);
     expect($('.bogus').getAttributesManager().has('my other')).to.equal(false);
   });
 
   it('hasEmpty with list()', function() {
-    expect(inject('my-other').getAttributesManager().hasEmpty('my-other other')).to.equal(true);
-    expect(inject('my-other').getAttributesManager().hasEmpty(['my-other', 'other'])).to.equal(true);
-    expect(inject('my-other').getAttributesManager().hasEmpty('some-other other')).to.equal(false);
-    expect(inject('my-other').getAttributesManager().hasEmpty(['some-other', 'other'])).to.equal(false);
-    expect(inject('my-other="value"').getAttributesManager().hasEmpty('my-other')).to.equal(false);
+    expect(testing.node.inject('', 'my-other').getAttributesManager().hasEmpty('my-other other')).to.equal(true);
+    expect(testing.node.inject('', 'my-other').getAttributesManager().hasEmpty(['my-other', 'other'])).to.equal(true);
+    expect(testing.node.inject('', 'my-other').getAttributesManager().hasEmpty('some-other other')).to.equal(false);
+    expect(testing.node.inject('', 'my-other').getAttributesManager().hasEmpty(['some-other', 'other'])).to.equal(false);
+    expect(testing.node.inject('', 'my-other="value"').getAttributesManager().hasEmpty('my-other')).to.equal(false);
     expect($('.bogus').getAttributesManager().hasEmpty('my other')).to.equal(false);
   });
 
   it('with()', function() {
     var
-      node = inject('empty first="1st"'),
+      node = testing.node.inject('', 'empty first="1st"'),
       att = node.getAttributesManager()
       ;
 
@@ -138,7 +128,7 @@ describe('Tag Attributes', function() {
 
   it('withEmpty', function() {
     var
-      node = inject('first="1st" second'),
+      node = testing.node.inject('', 'first="1st" second'),
       att = node.getAttributesManager()
       ;
 
@@ -166,7 +156,7 @@ describe('Tag Attributes', function() {
 
   it('with() with list', function() {
     var
-      node = inject('first="1st" second="2nd" third'),
+      node = testing.node.inject('', 'first="1st" second="2nd" third'),
       att = node.getAttributesManager(),
       result
       ;
@@ -203,7 +193,7 @@ describe('Tag Attributes', function() {
 
   it('withEmpty() with list', function() {
     var
-      node = inject('one two first="1st" second="2nd" tag'),
+      node = testing.node.inject('', 'one two first="1st" second="2nd" tag'),
       att = node.getAttributesManager(),
       result
       ;
@@ -243,9 +233,9 @@ describe('Tag Attributes', function() {
   });
 
   it('getAll()', function() {
-    expect(inject('one two first="1st" second="2nd"').getAttributesManager().getAll())
+    expect(testing.node.inject('', 'one two first="1st" second="2nd"').getAttributesManager().getAll())
       .to.deep.equal({
-        id: id,
+        id: testing.node.id,
         one: '',
         two: '',
         first: '1st',
@@ -256,7 +246,7 @@ describe('Tag Attributes', function() {
   });
 
   it('getEmpty()', function() {
-    var empty = inject('one two first="1st" second="2nd"').getAttributesManager().getEmpty();
+    var empty = testing.node.inject('', 'one two first="1st" second="2nd"').getAttributesManager().getEmpty();
 
     expect(_.includes(empty, 'one')).to.equal(true);
     expect(_.includes(empty, 'two')).to.equal(true);
@@ -266,10 +256,10 @@ describe('Tag Attributes', function() {
 
   it('getWithPrefix()', function() {
     expect(function() {
-      inject('').getAttributesManager().getWithPrefix();
+      testing.node.inject('', '').getAttributesManager().getWithPrefix();
     }).to.throw(/specify prefix/);
 
-    expect(inject('my-one my-two my-first="1st" second="2nd" empty').getAttributesManager().getWithPrefix('my-'))
+    expect(testing.node.inject('', 'my-one my-two my-first="1st" second="2nd" empty').getAttributesManager().getWithPrefix('my-'))
       .to.deep.equal({
         'my-one': '',
         'my-two': '',
@@ -281,10 +271,10 @@ describe('Tag Attributes', function() {
 
   it('getEmptyWithPrefix()', function() {
     expect(function() {
-      inject('').getAttributesManager().getEmptyWithPrefix();
+      testing.node.inject('', '').getAttributesManager().getEmptyWithPrefix();
     }).to.throw(/specify prefix/);
 
-    var empty = inject('my-one my-two my-first="1st" second="2nd" empty').getAttributesManager().getEmptyWithPrefix('my-');
+    var empty = testing.node.inject('', 'my-one my-two my-first="1st" second="2nd" empty').getAttributesManager().getEmptyWithPrefix('my-');
 
     expect(_.includes(empty, 'my-one')).to.equal(true);
     expect(_.includes(empty, 'my-two')).to.equal(true);
@@ -294,7 +284,7 @@ describe('Tag Attributes', function() {
 
   it('remove()', function() {
     var
-      node = inject('one two first="1st" second="2nd"'),
+      node = testing.node.inject('', 'one two first="1st" second="2nd"'),
       att = node.getAttributesManager(),
       result
       ;
@@ -315,7 +305,7 @@ describe('Tag Attributes', function() {
 
   it('removeEmpty()', function() {
     var
-      node = inject('one two first="1st" second="2nd"'),
+      node = testing.node.inject('', 'one two first="1st" second="2nd"'),
       att = node.getAttributesManager(),
       result
       ;
@@ -336,7 +326,7 @@ describe('Tag Attributes', function() {
 
   it('remove() with list', function() {
     var
-      node = inject('one two first="1st" second="2nd"'),
+      node = testing.node.inject('', 'one two first="1st" second="2nd"'),
       att = node.getAttributesManager(),
       result
       ;
@@ -365,7 +355,7 @@ describe('Tag Attributes', function() {
 
   it('removeEmpty() with list', function() {
     var
-      node = inject('one two first="1st" second="2nd" tag1 tag2="value"'),
+      node = testing.node.inject('', 'one two first="1st" second="2nd" tag1 tag2="value"'),
       att = node.getAttributesManager(),
       result
       ;
@@ -399,7 +389,7 @@ describe('Tag Attributes', function() {
 
   it('removeWithPrefix()', function() {
     var
-      node = inject('my-one my-two my-first="1st" second="2nd"'),
+      node = testing.node.inject('', 'my-one my-two my-first="1st" second="2nd"'),
       att = node.getAttributesManager(),
       result
       ;
@@ -410,7 +400,7 @@ describe('Tag Attributes', function() {
 
     expect(att.removeWithPrefix('bogus')).to.equal(att);
     expect(att.getAll()).to.deep.equal({
-      id: id,
+      id: testing.node.id,
       'my-one': '',
       'my-two': '',
       'my-first': '1st',
@@ -419,7 +409,7 @@ describe('Tag Attributes', function() {
 
     expect(att.removeWithPrefix('my')).to.be.an('object');
     expect(att.getAll()).to.deep.equal({
-      id: id,
+      id: testing.node.id,
       'second': '2nd'
     });
 
@@ -428,7 +418,7 @@ describe('Tag Attributes', function() {
 
   it('removeEmptyWithPrefix()', function() {
     var
-      node = inject('my-one my-two my-first="1st" second="2nd"'),
+      node = testing.node.inject('', 'my-one my-two my-first="1st" second="2nd"'),
       att = node.getAttributesManager(),
       result
       ;
@@ -439,7 +429,7 @@ describe('Tag Attributes', function() {
 
     expect(att.removeEmptyWithPrefix('bogus')).to.equal(att);
     expect(att.getAll()).to.deep.equal({
-      id: id,
+      id: testing.node.id,
       'my-one': '',
       'my-two': '',
       'my-first': '1st',
@@ -448,7 +438,7 @@ describe('Tag Attributes', function() {
 
     expect(att.removeEmptyWithPrefix('my')).to.be.an('object');
     expect(att.getAll()).to.deep.equal({
-      id: id,
+      id: testing.node.id,
       'my-first': '1st',
       'second': '2nd'
     });
@@ -457,11 +447,11 @@ describe('Tag Attributes', function() {
   });
 
   it('getClass()', function() {
-    expect(inject('class="one two"').getAttributesManager().getClass()).to.deep.equal(['one', 'two']);
+    expect(testing.node.inject('', 'class="one two"').getAttributesManager().getClass()).to.deep.equal(['one', 'two']);
   });
 
   it('hasClass()', function() {
-    var att = inject('class="one two three"').getAttributesManager();
+    var att = testing.node.inject('', 'class="one two three"').getAttributesManager();
 
     expect(att.hasClass('')).to.equal(false);
     expect(att.hasClass('bogus1 bogus2')).to.equal(false);
@@ -476,7 +466,7 @@ describe('Tag Attributes', function() {
   });
 
   it('hasClassWithPrefix()', function() {
-    var att = inject('class="one two three my-one my-two"').getAttributesManager();
+    var att = testing.node.inject('', 'class="one two three my-one my-two"').getAttributesManager();
 
     expect(function() {
       att.hasClassWithPrefix('');
@@ -490,7 +480,7 @@ describe('Tag Attributes', function() {
   });
 
   it('removeClass()', function() {
-    var att = inject('class="one two three my-one my-two"').getAttributesManager();
+    var att = testing.node.inject('', 'class="one two three my-one my-two"').getAttributesManager();
 
     att.removeClass('one two');
     expect(att.getClass()).to.deep.equal(['three', 'my-one', 'my-two']);
@@ -500,7 +490,7 @@ describe('Tag Attributes', function() {
   });
 
   it('removeClassWithPrefix()', function() {
-    var att = inject('class="one two three my-one my-two"').getAttributesManager();
+    var att = testing.node.inject('', 'class="one two three my-one my-two"').getAttributesManager();
 
     expect(function() {
       att.removeClassWithPrefix();
@@ -516,7 +506,7 @@ describe('Tag Attributes', function() {
   });
 
   it('addClass()', function() {
-    var att = inject('').getAttributesManager();
+    var att = testing.node.inject('', '').getAttributesManager();
 
     att.addClass('one two');
     expect(att.getClass()).to.deep.equal(['one', 'two']);
@@ -527,14 +517,14 @@ describe('Tag Attributes', function() {
 
   it('add()', function() {
     var
-      node = inject(''),
+      node = testing.node.inject('', ''),
       att = node.getAttributesManager();
 
     att.add('first', '1st');
     expect(att.add('second', '2nd')).to.be.an('object');
 
     expect(att.getAll()).to.deep.equal({
-      id: id,
+      id: testing.node.id,
       first: '1st',
       second: '2nd'
     });
@@ -548,14 +538,14 @@ describe('Tag Attributes', function() {
 
   it('update()', function() {
     var
-      node = inject(''),
+      node = testing.node.inject('', ''),
       att = node.getAttributesManager();
 
-    expect(att.getAll()).to.deep.equal({id: id});
+    expect(att.getAll()).to.deep.equal({id: testing.node.id});
     node.attr('some', 'value');
     att.update();
     expect(att.getAll()).to.deep.equal({
-      id: id,
+      id: testing.node.id,
       some: 'value'
     });
   });

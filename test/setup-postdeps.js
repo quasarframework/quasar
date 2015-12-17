@@ -148,4 +148,26 @@
     }
   };
 
+
+  var testingNodeID = 'testing-node-id';
+
+  window.testing.node = {
+    id: testingNodeID,
+    inject: function(content, attributes, callback) {
+      this.remove();
+      content = content || '';
+      attributes = attributes || '';
+      callback && q.nextTick(function() {
+        callback();
+      });
+      return $('<div id="' + testingNodeID + '" ' + attributes + '>' + content + '</div>').appendTo($('body'));
+    },
+    remove: function() {
+      $(testingNodeID).remove();
+    }
+  };
+
+
+  window.testing.scope = {};
+
 }());
