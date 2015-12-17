@@ -76,6 +76,7 @@
     "mocha": "^2.3.3",
     "mocha-eslint": "^1.0.0",
     "phantomjs": "^1.9.18",
+    "raw-loader": "^0.5.1",
     "require-dir": "^0.3.0",
     "run-sequence": "^1.1.4",
     "sinon": "^1.17.1",
