@@ -15,7 +15,7 @@ describe('Tag: quasar-icon', function() {
     testing.app.tag(
       '<quasar-icon></quasar-icon>',
       function() {
-        expect(_html).to.include('<i class="icon"></i>');
+        expect(_html).to.include('<i class="quasar-icon"></i>');
         testing.done();
       }
     );
@@ -24,10 +24,25 @@ describe('Tag: quasar-icon', function() {
   it('should be able to render with attribs', function(done) {
     testing.done.set(done);
     testing.app.tag(
-      '<quasar-icon alarm></quasar-icon>',
+      '<quasar-icon tab></quasar-icon>',
       function() {
-        expect(_html).to.include('<i class="icon alarm"></i>');
-        testing.done();
+        Vue.nextTick(function() {
+          expect(testing.app.html()).to.include('<i class="quasar-icon">tab</i>');
+          testing.done();
+        });
+      }
+    );
+  });
+
+  it('should be able to render with multiple attribs', function(done) {
+    testing.done.set(done);
+    testing.app.tag(
+      '<quasar-icon more vert></quasar-icon>',
+      function() {
+        Vue.nextTick(function() {
+          expect(testing.app.html()).to.include('<i class="quasar-icon">more_vert</i>');
+          testing.done();
+        });
       }
     );
   });
@@ -37,9 +52,9 @@ describe('Tag: quasar-icon', function() {
     return;
     testing.done.set(done);
     testing.app.tag(
-      '<quasar-icon :name=></quasar-icon>',
+      '<quasar-icon :name.literal="tab"></quasar-icon>',
       function() {
-        expect(_html).to.include('<i class="icon alarm"></i>');
+        expect(_html).to.include('<i class="quasar-icon">tab</i>');
         testing.done();
       }
     );

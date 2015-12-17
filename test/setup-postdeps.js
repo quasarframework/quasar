@@ -118,9 +118,13 @@
     tag: function(template, fn) {
       testing.app.addIndex(
         '(function() {module.exports = { template: \'' + template + '\',' +
-        'ready: function() { _html = $(\'#quasar-app\').html();(' + fn.toString() + '());}};}());'
+        'ready: function() { var _html = $(\'#quasar-app\').html();(' + fn.toString() + '());}};}());'
       );
       testing.app.start();
+    },
+
+    html: function() {
+      return $('#quasar-app').html();
     }
   };
 

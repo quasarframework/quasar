@@ -1,6 +1,6 @@
 'use strict';
 
-describe('quasar-layout components', function() {
+!testing.phantomjs && describe('quasar-layout components', function() {
 
   beforeEach(function() {
     testing.app.reset();
@@ -46,7 +46,7 @@ describe('quasar-layout components', function() {
     );
   });
 
-  !testing.phantomjs && it('should be able to handle scroll-shadow along no additional attribs', function(done) {
+  it('should be able to handle scroll-shadow along no additional attribs', function(done) {
     testing.done.set(done);
     testing.app.tag(
       testing.line(true, function() {/*
@@ -77,7 +77,29 @@ describe('quasar-layout components', function() {
     );
   });
 
-  !testing.phantomjs && it('should be able to handle keep-marginals & scroll-shadow types', function(done) {
+  it('should be able to add shadow', function(done) {
+    testing.done.set(done);
+    testing.app.tag(
+      testing.line(true, function() {/*
+        <quasar-layout shadow>
+          <quasar-header>
+            <quasar-row>
+              <quasar-title>Quasar</quasar-header>
+            </quasar-row>
+          </quasar-header>
+          <quasar-page>
+            <div style="height: 5000px"></div>
+          </quasar-page>
+        </quasar-layout>
+      */}),
+      function() {
+        expect($('.quasar-header').hasClass('shadow')).to.equal(true);
+        testing.done();
+      }
+    );
+  });
+
+  it('should be able to handle keep-marginals & scroll-shadow types', function(done) {
     testing.done.set(done);
     testing.app.tag(
       testing.line(true, function() {/*
@@ -113,7 +135,7 @@ describe('quasar-layout components', function() {
     );
   });
 
-  !testing.phantomjs && it('should be able to handle retract-header & scroll-shadow types', function(done) {
+  it('should be able to handle retract-header & scroll-shadow types', function(done) {
     testing.done.set(done);
     testing.app.tag(
       testing.line(true, function() {/*
@@ -155,7 +177,7 @@ describe('quasar-layout components', function() {
     );
   });
 
-  !testing.phantomjs && it('should be able to handle shrink-header & scroll-shadow types', function(done) {
+  it('should be able to handle shrink-header & scroll-shadow types', function(done) {
     testing.done.set(done);
     testing.app.tag(
       testing.line(true, function() {/*
@@ -199,7 +221,7 @@ describe('quasar-layout components', function() {
     );
   });
 
-  !testing.phantomjs && it('should be able to handle footer on scroll', function(done) {
+  it('should be able to handle footer on scroll', function(done) {
     testing.done.set(done);
     testing.app.tag(
       testing.line(true, function() {/*
@@ -232,7 +254,7 @@ describe('quasar-layout components', function() {
     );
   });
 
-  !testing.phantomjs && it('should be able to handle keep-footer', function(done) {
+  it('should be able to handle keep-footer', function(done) {
     testing.done.set(done);
     testing.app.tag(
       testing.line(true, function() {/*
@@ -260,7 +282,7 @@ describe('quasar-layout components', function() {
     );
   });
 
-  !testing.phantomjs && it('should be able to handle footer with keep-marginals', function(done) {
+  it('should be able to handle footer with keep-marginals', function(done) {
     testing.done.set(done);
     testing.app.tag(
       testing.line(true, function() {/*
@@ -291,7 +313,7 @@ describe('quasar-layout components', function() {
     );
   });
 
-  !testing.phantomjs && it('should be able to handle keep-footer and shrink-header', function(done) {
+  it('should be able to handle keep-footer and shrink-header', function(done) {
     testing.done.set(done);
     testing.app.tag(
       testing.line(true, function() {/*
@@ -319,7 +341,7 @@ describe('quasar-layout components', function() {
     );
   });
 
-  !testing.phantomjs && it('should be able to handle keep-footer and retract-header', function(done) {
+  it('should be able to handle keep-footer and retract-header', function(done) {
     testing.done.set(done);
     testing.app.tag(
       testing.line(true, function() {/*

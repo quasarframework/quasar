@@ -25,7 +25,12 @@ Vue.component('quasar-layout', {
       footer.addClass('fixed-bottom');
     });
 
-    manager.withEmpty('scroll-shadow', function() {
+    manager.withEmpty('scroll-shadow shadow', function(type) {
+      if (type === 'shadow') {
+        header.addClass('shadow');
+        return;
+      }
+
       if (!manager.hasEmpty('keep-marginals retract-header shrink-header')) {
         return;
       }

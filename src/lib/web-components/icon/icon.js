@@ -9,7 +9,7 @@ Vue.component('quasar-icon', {
     var icon = manager.getEmpty();
 
     if (icon.length > 0) {
-      this.$data.name = icon.reverse().join(' ');
+      this.name = icon.reverse().join('_');
       manager.removeEmpty();
     }
   }
