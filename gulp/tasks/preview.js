@@ -26,11 +26,6 @@ function watchForChanges() {
    */
   plugins.watch(config.js.watch, run('js:dev'));
 
-  /*
-   * Watch App Additions
-   */
-  plugins.watch(config.appAdditions.src, run('app:additions'));
-
   process.nextTick(function() {
     plugins.util.log();
     plugins.util.log(plugins.util.colors.magenta('Monitoring'), 'Quasar Framework source code for changes...');

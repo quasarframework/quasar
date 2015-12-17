@@ -13,11 +13,11 @@
   </template>
 
   <template id="quasar-tab">
-    <a class="quasar-tab layout non-selectable">
+    <div class="quasar-tab layout non-selectable">
       <div class="layout self-center nowrap">
         <slot></slot>
       </div>
-    </a>
+    </div>
   </template>
 
   <template id="quasar-row">
@@ -35,7 +35,7 @@
   <template id="quasar-navigation">
     <div class="quasar-row quasar-navigation layout">
       <quasar-tab class="left-scroll">
-        <quasar-icon chevron left></quasar-icon>
+        <quasar-icon chevron_left></quasar-icon>
       </quasar-tab>
       <div class="tabsContainer layout flex">
         <div class="tabsContent layout">
@@ -43,7 +43,7 @@
         </div>
       </div>
       <quasar-tab class="right-scroll">
-        <quasar-icon chevron right></quasar-icon>
+        <quasar-icon chevron_right></quasar-icon>
       </quasar-tab>
     </div>
   </template>

@@ -164,7 +164,7 @@ Vue.component('quasar-navigation', {
     leftScroll.click(function() {scroller[0].scrollLeft -= 40;});
     rightScroll.click(function() {scroller[0].scrollLeft += 40;});
 
-    nav.find('a.quasar-tab:not(.left-scroll):not(.right-scroll)')
+    nav.find('.quasar-tab:not(.left-scroll):not(.right-scroll)')
       .click(function() {
         var self = $(this);
 

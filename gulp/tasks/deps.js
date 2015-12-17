@@ -39,3 +39,25 @@ gulp.task('deps:css:dev', function() {
 gulp.task('deps:css:prod', function() {
   return compile('css', true);
 });
+
+
+/*
+ * Additions
+ */
+
+var appAdditionsTasks = [];
+
+_.forEach(config.appAdditions.assets, function(entry, number) {
+  var taskName = 'app:additions:' + number;
+
+  appAdditionsTasks.push(taskName);
+  gulp.task(taskName, function() {
+    var dest = config.appAdditions.dest + entry.dest;
+
+    return gulp.src(entry.src)
+      .pipe(plugins.changed(dest))
+      .pipe(gulp.dest(dest));
+  });
+});
+
+gulp.task('app:additions', appAdditionsTasks);

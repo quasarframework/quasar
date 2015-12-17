@@ -28,8 +28,17 @@ module.exports = {
   },
 
   appAdditions: {
-    src: src + '/app-additions/**/*',
-    dest: dist + '/app-additions'
+    assets: [
+      {
+        src: 'node_modules/material-design-icons/iconfont/Roboto-{Thin,Light,Regular,Medium,Bold}.{eot,otf,ttf,woff,woff2}',
+        dest: 'assets/fonts/icons'
+      },
+      {
+        src: 'node_modules/roboto-fontface/fonts/*.{eot,otf,ttf,woff,woff2}',
+        dest: 'assets/fonts/roboto'
+      }
+    ],
+    dest: dist + '/app-additions/'
   },
 
   lint: {
