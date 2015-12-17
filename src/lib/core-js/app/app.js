@@ -81,11 +81,11 @@ function startRoute(manifest, pageName, context) {
   });
 }
 
-function getHashes(pageHashes) {
+function parseHashes(pageHashes) {
   return !pageHashes ? ['$'] : pageHashes;
 }
 
-function getPath(pageName, hash) {
+function getHash(pageName, hash) {
   if (hash !== '$') {
     return '#/' + pageName + '/' + hash;
   }
@@ -95,10 +95,10 @@ function getPath(pageName, hash) {
 
 function registerRoutes(appManifest) {
   _.forEach(appManifest.pages, function(pageManifest, pageName) {
-    _.forEach(getHashes(pageManifest.hashes), function(hash) {
+    _.forEach(parseHashes(pageManifest.hashes), function(hash) {
       q.add.route({
-        path: getPath(pageName, hash),
-        on: function() {
+        hash: getHash(pageName, hash),
+        trigger: function() {
           var route = this;
 
           startRoute(pageManifest, pageName, {

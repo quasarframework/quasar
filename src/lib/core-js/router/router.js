@@ -2,33 +2,29 @@
 
 require('../events/events');
 
-var
-  __routes = [],
-  __onRouteChange = null,
-  __onRouteNotFound = null;
+var __routes = [];
 
 function getAllRoutes() {
   return _.clone(__routes, true);
 }
 
-function destroyRouter() {
+function stopRouter() {
   removeAllRoutes();
   window.onhashchange = null;
-  __onRouteChange = null;
-  __onRouteNotFound = null;
+  quasar.global.events.trigger('app:router:stopped');
 }
 
 function routerIsRunning() {
   return window.onhashchange !== null;
 }
 
-function hasRoute(path) {
-  if (!path) {
-    throw new Error('Missing path');
+function hasRoute(hash) {
+  if (!hash) {
+    throw new Error('Missing hash');
   }
 
   return _.some(__routes, function(route) {
-    return route.path === path;
+    return route.hash === hash;
   });
 }
 
@@ -36,37 +32,37 @@ function addRoute(route) {
   if (!route) {
     throw new Error('Missing route');
   }
-  if (!route.path) {
-    throw new Error('Route has no path');
+  if (!route.hash) {
+    throw new Error('Route has no hash');
   }
-  if (!route.before && !route.on && !route.after) {
-    throw new Error('Missing route methods');
+  if (!route.trigger) {
+    throw new Error('Missing route trigger method');
   }
-  if (hasRoute(route.path)) {
+  if (hasRoute(route.hash)) {
     throw new Error('Route already registered. Use overwrite.');
   }
 
   __routes.push(route);
 }
 
-function getRoute(path) {
-  if (!path) {
-    throw new Error('Missing path');
+function getRoute(hash) {
+  if (!hash) {
+    throw new Error('Missing hash');
   }
-  return _.find(__routes, {path: path});
+  return _.find(__routes, {hash: hash});
 }
 
 function removeAllRoutes() {
   __routes = [];
 }
 
-function removeRoute(path) {
-  if (!path) {
-    throw new Error('Missing path');
+function removeRoute(hash) {
+  if (!hash) {
+    throw new Error('Missing hash');
   }
 
   __routes = _.filter(__routes, function(route) {
-    return route.path !== path;
+    return route.hash !== hash;
   });
 }
 
@@ -74,56 +70,56 @@ function overwriteRoute(route) {
   if (!route) {
     throw new Error('Missing route');
   }
-  if (!route.path) {
-    throw new Error('Route has no path');
+  if (!route.hash) {
+    throw new Error('Route has no hash');
   }
-  if (!hasRoute(route.path)) {
+  if (!hasRoute(route.hash)) {
     throw new Error('Route not registered');
   }
 
-  _.remove(__routes, {path: route.path});
+  _.remove(__routes, {hash: route.hash});
   addRoute(route);
 }
 
-function navigateToRoute(path) {
-  if (!path) {
-    throw new Error('Path missing');
+function navigateToRoute(hash) {
+  if (!hash) {
+    throw new Error('Hash missing');
   }
-  if (!_(path).startsWith('#')) {
+  if (!_(hash).startsWith('#')) {
     throw new Error('Route should start with #');
   }
 
-  window.location.hash = path;
+  window.location.hash = hash;
 }
 
-function getArrayFromPath(path) {
-  var tokens = path.split('/');
+function getArrayFromHash(hash) {
+  var tokens = hash.split('/');
 
   tokens.shift();
   return tokens;
 }
 
-function getCleanPath(path) {
+function getCleanHash(hash) {
   var result = {};
-  var hashIndexOfQuery = path.indexOf('?');
+  var hashIndexOfQuery = hash.indexOf('?');
 
-  result.path = path;
-  result.hashParams = hashIndexOfQuery >= 0 ? path.substring(0, hashIndexOfQuery) : path;
-  result.hashQuery = hashIndexOfQuery >= 0 ? path.substring(path.indexOf('?') + 1) : '';
+  result.hash = hash;
+  result.hashParams = hashIndexOfQuery >= 0 ? hash.substring(0, hashIndexOfQuery) : hash;
+  result.hashQuery = hashIndexOfQuery >= 0 ? hash.substring(hash.indexOf('?') + 1) : '';
   result.hashQueryArray = result.hashQuery ? result.hashQuery.split('&') : [];
 
   var cleanedHashParams = result.hashParams.replace(/\/+$/, '');
 
   if (result.hashParams !== cleanedHashParams) {
-    result.path = cleanedHashParams;
-    result.path += result.hashQuery ? '?' + result.hashQuery : '';
+    result.hash = cleanedHashParams;
+    result.hash += result.hashQuery ? '?' + result.hashQuery : '';
   }
 
   return result;
 }
 
-function matchPath(path) {
-  var hashParts = getCleanPath(path);
+function matchHash(hash) {
+  var hashParts = getCleanHash(hash);
   var testerSlices = hashParts.hashParams.split('/');
   var tester = hashParts.hashParams;
   var params = {};
@@ -143,8 +139,8 @@ function matchPath(path) {
     var route = __routes[i];
 
     // dynamic parts
-    if (route.path.search(/:/) > 0) {
-      var routeSlices = route.path.split('/');
+    if (route.hash.search(/:/) > 0) {
+      var routeSlices = route.hash.split('/');
 
       tester = hashParts.hashParams;
 
@@ -155,9 +151,9 @@ function matchPath(path) {
         }
       }
     }
-    if (route.path === tester) {
+    if (route.hash === tester) {
       route.params = params;
-      route.url = path;
+      route.url = hash;
       route.query = query;
       return route;
     }
@@ -166,63 +162,22 @@ function matchPath(path) {
   return null;
 }
 
-function getNextRouteStep(state) {
-  if (state === 'before') {
-    return 'on';
-  }
-  if (state === 'on') {
-    return 'after';
+function triggerRoute(hash) {
+  if (!hash || hash === '' || hash === '#') {
+    hash = '#/';
   }
 
-  return null;
-}
+  quasar.global.events.trigger('app:route:change', hash);
 
-function executeRouteStep(route, state, previousArgs) {
-  var nextState = getNextRouteStep(state);
-
-  if (!route.hasOwnProperty(state)) {
-    executeRouteStep(route, nextState);
-    return;
-  }
-
-  route.state = state;
-  route.next = function() {
-    if (nextState) {
-      executeRouteStep(route, nextState, Array.prototype.slice.call(arguments));
-    }
-  };
-
-  route[state].apply(route, previousArgs);
-}
-
-function runRoute(route) {
-  if (__onRouteChange) {
-    __onRouteChange(route);
-  }
-  executeRouteStep(route, 'before');
-}
-
-function triggerRoute(path) {
-  if (!path || path === '' || path === '#') {
-    path = '#/';
-  }
-
-  quasar.global.events.trigger('app:route', path);
-
-  var route = matchPath(path);
+  var route = matchHash(hash);
 
   if (!route) {
-    if (!__onRouteNotFound) {
-      console.log('No valid route for', path);
-    }
-    else {
-      __onRouteNotFound(getArrayFromPath(path));
-    }
-
+    quasar.global.events.trigger('app:route:notfound', getArrayFromHash(hash));
     return;
   }
 
-  runRoute(route);
+  quasar.global.events.trigger('app:route:trigger', route);
+  route.trigger.apply(route);
 }
 
 function bindHashChange() {
@@ -238,14 +193,9 @@ function bindHashChange() {
   };
 }
 
-function startRouter(config) {
-  config = config || {};
-
-  __onRouteChange = config.onRouteChange;
-  __onRouteNotFound = config.onRouteNotFound;
-
+function startRouter() {
+  quasar.global.events.trigger('app:router:started');
   bindHashChange();
-
   triggerRoute(window.location.hash);
 }
 
@@ -273,9 +223,6 @@ _.merge(q, {
   has: {
     route: hasRoute
   },
-  stop: {
-    router: destroyRouter
-  },
   router: {
     is: {
       running: routerIsRunning
@@ -297,6 +244,9 @@ _.merge(q, {
   },
   start: {
     router: startRouter
+  },
+  stop: {
+    router: stopRouter
   },
   reload: {
     current: {

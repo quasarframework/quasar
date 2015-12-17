@@ -1,6 +1,7 @@
 'use strict';
 
 require('../touch/hammer');
+require('../touch/prevent-ghosts');
 
 var
   customEvents = {},
@@ -15,6 +16,8 @@ Vue.directive('touch', {
     }
 
     var mc = this.mc = this.el.hammer;
+
+    quasar.prevent.ghost.click(this.el);
 
     // determine event type
     var event = this.arg;
@@ -75,6 +78,7 @@ Vue.directive('touch', {
   }
 });
 
+/* istanbul ignore next */
 function registerCustomEvent(hammerOptions) {
   customEvents[hammerOptions.event] = hammerOptions;
 }
@@ -87,10 +91,4 @@ _.merge(q, {
       }
     }
   }
-});
-
-registerCustomEvent({
-  type: 'tap',
-  event: 'doubletap',
-  taps: 2
 });
