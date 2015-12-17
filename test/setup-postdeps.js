@@ -54,6 +54,12 @@
 
   window.testing.app = {
     reset: function() {
+      if (quasar.layout.vm && quasar.layout.vm.$destroy) {
+        quasar.layout.vm.$destroy();
+      }
+      if (quasar.page.vm && quasar.page.vm.$destroy) {
+        quasar.page.vm.$destroy();
+      }
       $('#quasar-app').html('');
       quasar.stop.router();
       window.location.hash = '';

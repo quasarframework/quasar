@@ -6,7 +6,7 @@ describe('Tag: quasar-icon', function() {
     testing.app.reset();
     testing.app.prepare();
   });
-  afterEach(function() {
+  after(function() {
     testing.app.reset();
   });
 

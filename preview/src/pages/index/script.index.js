@@ -8,6 +8,12 @@ module.exports = {
   methods: {
     myalert: function() {
       alert('aaa');
+    },
+    tapped: function() {
+      alert('tapped');
+    },
+    panned: function(args) {
+      console.log('panned', args.deltaX, args.deltaY);
     }
   },
   ready: function() {
