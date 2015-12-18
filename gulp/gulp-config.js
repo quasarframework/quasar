@@ -30,11 +30,11 @@ module.exports = {
   appAdditions: {
     assets: [
       {
-        src: 'node_modules/material-design-icons/iconfont/Roboto-{Thin,Light,Regular,Medium,Bold}.{eot,otf,ttf,woff,woff2}',
+        src: 'node_modules/material-design-icons/iconfont/*.{eot,otf,ttf,woff,woff2}',
         dest: 'assets/fonts/icons'
       },
       {
-        src: 'node_modules/roboto-fontface/fonts/*.{eot,otf,ttf,woff,woff2}',
+        src: 'node_modules/roboto-fontface/fonts/Roboto-{Thin,Light,Regular,Medium,Bold}.{eot,otf,ttf,woff,woff2}',
         dest: 'assets/fonts/roboto'
       }
     ],

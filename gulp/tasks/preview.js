@@ -2,7 +2,8 @@
 
 var
   runSequence = require('run-sequence'),
-  spawn = require('child_process').spawn
+  spawn = require('child_process').spawn,
+  _ = require('lodash')
   ;
 
 /*
@@ -15,29 +16,29 @@ function run(tasks) {
   };
 }
 
-function watchForChanges() {
+function watchForChanges(production) {
+  var suffix = production ? 'prod' : 'dev';
+
   /*
    * Watch for CSS
    */
-  plugins.watch(config.css.watch, run('css:dev'));
+  plugins.watch(config.css.watch, run('css:' + suffix));
 
   /*
    * Watch for JS
    */
-  plugins.watch(config.js.watch, run('js:dev'));
+  plugins.watch(config.js.watch, run('js:' + suffix));
 
   process.nextTick(function() {
     plugins.util.log();
-    plugins.util.log(plugins.util.colors.magenta('Monitoring'), 'Quasar Framework source code for changes...');
+    plugins.util.log(
+      plugins.util.colors.red(production ? '[PRODUCTION]' : '') +
+      plugins.util.colors.yellow(!production ? '[Development]' : ''),
+      'Monitoring Quasar Framework...'
+    );
     plugins.util.log();
   });
 }
-
-gulp.task('monitor', ['dev'], watchForChanges);
-
-/*
- * Preview
- */
 
 function launch(args, done) {
   args.push('-d');
@@ -51,21 +52,26 @@ function launch(args, done) {
     });
 }
 
-gulp.task('preview', ['monitor'], function(done) {
-  launch(['preview'], done);
-});
 
-gulp.task('preview-resp', ['monitor'], function(done) {
-  launch(['preview', '-r'], done);
-});
+_.forEach(['dev', 'prod'], function(type) {
 
-/*
- * Run Wrapper
- */
+  var suffix = type === 'prod' ? ':prod' : '';
+  var cmd = type === 'prod' ? ['-p'] : [];
 
-gulp.task('wrapper', ['dev'], function(done) {
-  console.log(plugins.util.colors.magenta('\nMake sure that you have added at least one platform (quasar wrap platform add <platform-name>).\n'));
-  launch(['build'], function() {
-    launch(['wrap', 'run'], done);
+  gulp.task('monitor' + suffix, [type], function() {
+    watchForChanges(type === 'prod');
   });
+  gulp.task('preview' + suffix, ['monitor' + suffix], function(done) {
+    launch(['preview'].concat(cmd), done);
+  });
+  gulp.task('responsive' + suffix, ['monitor' + suffix], function(done) {
+    launch(['responsive'].concat(cmd), done);
+  });
+  gulp.task('wrap' + suffix, [type], function(done) {
+    console.log(plugins.util.colors.magenta('\nMake sure that you have added at least one platform (quasar wrap platform add <platform-name>).\n'));
+    launch(['build'].concat(cmd), function() {
+      launch(['wrap', 'run'], done);
+    });
+  });
+
 });

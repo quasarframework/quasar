@@ -20,26 +20,22 @@ function compile(type, production) {
   return gulp.src(mapToNodeModules(config.deps[type], production, type))
     .pipe(plugins.newer(config.deps.dest + '/' + name + '.' + type))
     .pipe(plugins.pipes[type].deps({
-      prod: type !== 'css' && production,
+      prod: production,
       name: name
     }))
     .pipe(gulp.dest(config.deps.dest));
 }
 
-gulp.task('deps:js:dev', function() {
-  return compile('js');
-});
-gulp.task('deps:js:prod', function() {
-  return compile('js', true);
-});
+_.forEach(['dev', 'prod'], function(type) {
 
-gulp.task('deps:css:dev', function() {
-  return compile('css');
-});
-gulp.task('deps:css:prod', function() {
-  return compile('css', true);
-});
+  gulp.task('deps:js:' + type, function() {
+    return compile('js', type === 'prod');
+  });
+  gulp.task('deps:css:' + type, function() {
+    return compile('css', type === 'prod');
+  });
 
+});
 
 /*
  * Additions

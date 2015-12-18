@@ -1,6 +1,6 @@
 {
   "name": "quasar-framework",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "description": "Simultaneously build desktop/mobile SPA websites & phone/tablet apps.",
   "files": [
     "dist"
