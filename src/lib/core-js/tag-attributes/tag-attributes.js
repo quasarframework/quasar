@@ -62,7 +62,7 @@ $.fn.getAttributesManager = function() {
       return !_.isEmpty(this.getEmptyWithPrefix(prefix));
     },
 
-    with: function(list, fn, defaultName, doNotUseDefault) {
+    with: function(list, fn, defaultName) {
       list = parseParam(list);
 
       if (!list) {
@@ -72,7 +72,7 @@ $.fn.getAttributesManager = function() {
       var intersection = _.intersection(list, _.keys(attributes));
 
       if (intersection.length === 0) {
-        if (defaultName && !doNotUseDefault) {
+        if (defaultName) {
           fn(defaultName);
         }
         return this; // <<< EARLY EXIT
@@ -87,7 +87,7 @@ $.fn.getAttributesManager = function() {
       fn(name, attributes[name]);
       return this.remove(name);
     },
-    withEmpty: function(names, fn, defaultName, doNotUseDefault) {
+    withEmpty: function(names, fn, defaultName) {
       names = parseParam(names);
 
       if (!names) {
@@ -98,7 +98,7 @@ $.fn.getAttributesManager = function() {
         return this.hasEmpty(name);
       }.bind(this));
 
-      return this.with(names, fn, defaultName, doNotUseDefault);
+      return this.with(names, fn, defaultName);
     },
 
     getAll: function() {

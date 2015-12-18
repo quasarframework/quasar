@@ -187,7 +187,7 @@ describe('Tag Attributes', function() {
 
     result = att.with('fourth fifth', function() {
       throw new Error('Should not reach here as list is not valid');
-    }, 'defaultName', true);
+    });
     expect(result).to.equal(att);
   });
 
@@ -228,7 +228,7 @@ describe('Tag Attributes', function() {
 
     result = att.withEmpty('bogus1 bogus2', function() {
       throw new Error('Should not reach here as list is not valid');
-    }, 'defaultName', true);
+    });
     expect(result).to.equal(att);
   });
 
