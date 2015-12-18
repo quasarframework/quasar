@@ -1,7 +1,7 @@
 'use strict';
 
 Vue.component('quasar-icon', {
-  template: '<i class="quasar-icon">{{name}}</i>',
+  template: '<i class="quasar-icon non-selectable">{{name}}</i>',
   props: ['name'],
   compiled: function() {
     var el = $(this.$el);
@@ -9,7 +9,7 @@ Vue.component('quasar-icon', {
     var icon = manager.getEmpty();
 
     if (icon.length > 0) {
-      this.name = icon.reverse().join('_');
+      this.name = icon[0];
       manager.removeEmpty();
     }
   }
