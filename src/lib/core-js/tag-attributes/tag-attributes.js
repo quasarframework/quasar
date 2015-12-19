@@ -22,6 +22,16 @@ function parseParam(list) {
   return list;
 }
 
+function hasAsset(list, fn) {
+  list = parseParam(list);
+
+  if (!list) {
+    return false;
+  }
+
+  return _.any(list, fn);
+}
+
 $.fn.getAttributesManager = function() {
   var
     node = this,
@@ -31,13 +41,7 @@ $.fn.getAttributesManager = function() {
 
   return {
     has: function(list) {
-      list = parseParam(list);
-
-      if (!list) {
-        return false;
-      }
-
-      return _.any(list, function(name) {
+      return hasAsset(list, function(name) {
         return attributes.hasOwnProperty(name);
       });
     },
@@ -201,13 +205,7 @@ $.fn.getAttributesManager = function() {
       return node.attr('class').split(' ');
     },
     hasClass: function(list) {
-      list = parseParam(list);
-
-      if (!list) {
-        return false;
-      }
-
-      return _.any(list, function(name) {
+      return hasAsset(list, function(name) {
         return node.hasClass(name);
       });
     },
