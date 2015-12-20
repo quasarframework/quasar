@@ -17,5 +17,11 @@
     <body>
       <div id="quasar-app"></div>
       <script type="text/javascript" src="js/app-dependencies.js" charset="utf-8"></script>
+      <script type="text/javascript">
+        @@appManifest
+        quasar.boot(function() {
+          quasar.start.app();
+        });
+      </script>
     </body>
 </html>

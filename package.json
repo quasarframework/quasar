@@ -54,6 +54,7 @@
     "gulp-newer": "^1.1.0",
     "gulp-pipes": "0.x.x",
     "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.5.4",
     "gulp-util": "^3.0.6",
     "gulp-watch": "^4.3.5",
     "hammerjs": "^2.0.4",

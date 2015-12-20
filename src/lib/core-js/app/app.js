@@ -115,19 +115,27 @@ function registerRoutes(appManifest) {
 }
 
 function startApp() {
-  q.make.a.get.request({url: 'app.json', local: true})
-    .fail(/* istanbul ignore next */ function() {
-      throw new Error('Could not load App Manifest.');
-    })
-    .done(function(appManifest) {
-      q.global.manifest = appManifest;
-      registerRoutes(appManifest);
-      q.start.router();
+  registerRoutes(quasar.global.manifest);
+  q.start.router();
+}
+
+function bootApp(callback) {
+  callback = callback || $.noop;
+
+  /* istanbul ignore if */
+  if (q.runs.on.cordova) {
+    $.getScript('cordova.js', function() {
+      document.addEventListener('deviceready', callback, false);
     });
+    return; // <<< EARLY EXIT
+  }
+
+  callback();
 }
 
 _.merge(q, {
   start: {
     app: startApp
-  }
+  },
+  boot: bootApp
 });

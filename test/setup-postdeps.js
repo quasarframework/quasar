@@ -4,7 +4,6 @@
 
   var
     server,
-    appManifest,
     callback
     ;
 
@@ -70,7 +69,6 @@
       quasar.clear.require.cache();
       quasar.clear.css();
       quasar.global.manifest = {pages: {}};
-      appManifest = {pages: {}};
       quasar.layout = {};
       quasar.page = {};
       testing.app.var = {};
@@ -81,7 +79,6 @@
       server.autoRespond = true;
     },
     start: function() {
-      this.registerFile('app.json', JSON.stringify(appManifest));
       quasar.start.app();
     },
 
@@ -94,7 +91,7 @@
       ].concat(files || []), manifest);
     },
     addPage: function(name, files, manifest) {
-      appManifest.pages[name] = manifest || {};
+      quasar.global.manifest.pages[name] = manifest || {};
 
       _.forEach(files, function(file) {
         if (_.isFunction(file.content)) {
