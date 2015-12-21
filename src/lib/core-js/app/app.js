@@ -51,7 +51,7 @@ function prepareRoute(context, layout, page) {
 
   if (!q.layout.name || q.layout.name !== layout.name) {
     q.global.events.trigger('app:layout:post-require app:layout:prepare', context);
-    prepare({}, layout, function(vue) {
+    prepare(q.global.manifest.layouts[context.manifest.layout], layout, function(vue) {
       validate.layout(vue);
       layoutVue = vue;
       q.layout.name = layout.name;

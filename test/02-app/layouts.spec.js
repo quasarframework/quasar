@@ -124,6 +124,7 @@ describe('App Layouts', function() {
     testing.app.var.getPageContent = getPageContent;
     testing.app.addLayout('ppmain', function() {
       module.exports = function(callback) {
+        expect(this.test).to.equal('yeah');
         quasar.nextTick(function() {
           callback({
             template: 'layout {{name}} <quasar-page></quasar-page>',
@@ -142,7 +143,7 @@ describe('App Layouts', function() {
           });
         });
       };
-    });
+    }, {test: 'yeah'});
     testing.app.addIndex(
       function() {
         module.exports = {
