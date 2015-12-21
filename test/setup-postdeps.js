@@ -68,7 +68,9 @@
       quasar.clear.requests.cache();
       quasar.clear.require.cache();
       quasar.clear.css();
-      quasar.global.manifest = {pages: {}};
+      quasar.clear.page.css();
+      quasar.clear.layout.css();
+      quasar.global.manifest = {pages: {}, layouts: {}};
       quasar.layout = {};
       quasar.page = {};
       testing.app.var = {};
@@ -101,11 +103,13 @@
       }.bind(this));
     },
 
-    addLayout: function(name, content, code) {
+    addLayout: function(name, content, manifest) {
+      quasar.global.manifest.layouts[name] = manifest || {};
+
       if (_.isFunction(content)) {
         content = '(' + content.toString() + '());';
       }
-      this.registerFile('/layouts/' + name + '/layout.' + name + '.js', content, code);
+      this.registerFile('/layouts/' + name + '/layout.' + name + '.js', content);
     },
 
     registerFile: function(url, content, code) {
@@ -135,8 +139,8 @@
   };
 
   window.testing.assert = {
-    pageCSS: function(href) {
-      var cssNode = $(quasar.page.vm.$el).find('.__quasar_page_css');
+    css: function(type, href) {
+      var cssNode = $('#__quasar_' + type + '_css');
 
       expect(cssNode).to.have.length(1);
       expect(cssNode.children()).to.have.length(1);

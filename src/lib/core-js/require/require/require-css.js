@@ -1,9 +1,6 @@
 'use strict';
 
-var
-  globalNode,
-  pageNode
-  ;
+var cssNodes = {};
 
 function createNode(options) {
   /* istanbul ignore next */
@@ -31,7 +28,7 @@ function createNode(options) {
 }
 
 function getNodeBy(type) {
-  return type === 'global' ? globalNode : $(q.layout.vm.$el).find('.__quasar_page_css');
+  return cssNodes[type];
 }
 
 function injectCSS(type, url) {
@@ -56,10 +53,12 @@ function emptyNode(type) {
 }
 
 
-globalNode = createNode({
-  tag: 'div',
-  id: '__quasar_global_css',
-  appendTo: $('body')
+_.forEach(['global', 'layout', 'page'], function(type) {
+  cssNodes[type] = createNode({
+    tag: 'div',
+    id: '__quasar_' + type + '_css',
+    appendTo: $('body')
+  });
 });
 
 module.exports = {

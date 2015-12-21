@@ -11,7 +11,7 @@ describe('App Layouts', function() {
   });
 
   function getPageContent(content) {
-    return '<div class="quasar-page">' + content + '<div class="__quasar_page_css"></div></div>';
+    return '<div class="quasar-page">' + content + '</div>';
   }
 
   //
@@ -25,7 +25,12 @@ describe('App Layouts', function() {
     testing.done.set(done);
     testing.app.var.getPageContent = getPageContent;
     testing.app.addLayout('main', function() {
-      testing.done();
+      module.exports = {
+        template: 'layout <quasar-page></quasar-page>',
+        ready: function() {
+          testing.done();
+        }
+      };
     });
     testing.app.addIndex(
       function() {
@@ -62,7 +67,7 @@ describe('App Layouts', function() {
           template: 'page content',
           ready: function() {
             Vue.nextTick(function() {
-              expect($('#quasar-app').html()).to.equal('layout quasar ' + testing.app.var.getPageContent('page content'));
+              expect($('#quasar-app').html()).to.include('layout quasar ' + testing.app.var.getPageContent('page content'));
               testing.done();
             });
           }
@@ -236,6 +241,50 @@ describe('App Layouts', function() {
         template: '<quasar-page></quasar-page> yyy'
       };
     });
+    testing.app.start();
+  });
+
+  it('should inject layout CSS', function(done) {
+    testing.done.set(done);
+    testing.app.addIndex(
+      function() {
+        module.exports = {
+          template: 'content',
+          ready: function() {
+            setTimeout(function() {
+              testing.assert.css('layout', '/bogus/layout1.css');
+              quasar.navigate.to.route('#/layout');
+            }, 50);
+          }
+        };
+      },
+      null,
+      {layout: 'l1'}
+    );
+    testing.app.addPage(
+      'layout',
+      [{
+        url: 'script.layout.js',
+        content: function() {
+          module.exports = {
+            template: 'page content',
+            ready: function() {
+              setTimeout(function() {
+                testing.assert.css('layout', '/bogus/layout2.css');
+                testing.done();
+              }, 50);
+            }
+          };
+        }
+      }],
+      {layout: 'l2'}
+    );
+    testing.app.addLayout('l1', function() {
+      module.exports = {template: '<quasar-page></quasar-page> yyy'};
+    }, {css: '/bogus/layout1.css'});
+    testing.app.addLayout('l2', function() {
+      module.exports = {template: '<quasar-page></quasar-page> qqq'};
+    }, {css: '/bogus/layout2.css'});
     testing.app.start();
   });
 

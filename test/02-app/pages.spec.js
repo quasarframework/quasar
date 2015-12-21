@@ -23,7 +23,7 @@ describe('App Pages', function() {
       function() {
         module.exports = {
           ready: function() {
-            expect($(this.$el).html()).to.equal('<div class="__quasar_page_css"></div>');
+            expect($(this.$el).html()).to.equal('');
             testing.done();
           }
         };
@@ -52,7 +52,7 @@ describe('App Pages', function() {
                 expect(vm).to.be.an('object');
                 expect(vm.$data).to.be.an('object');
                 quasar.nextTick(function() {
-                  expect(el.html()).to.equal('<div class="__quasar_page_css"></div>');
+                  expect(el.html()).to.equal('');
                   expect(quasar.page.name).to.equal('index');
                   expect(quasar.page.vm).to.deep.equal(vm);
                   testing.done();
@@ -157,7 +157,7 @@ describe('App Pages', function() {
         module.exports = {
           ready: function() {
             setTimeout(function() {
-              testing.assert.pageCSS('/pages/index/css/page.css');
+              testing.assert.css('page', '/pages/index/css/page.css');
               testing.done();
             }, 50);
           }
@@ -211,9 +211,9 @@ describe('App Pages', function() {
                 expect($('.quasar-page').html().indexOf('second html content')).to.equal(0);
 
                 setTimeout(function() {
-                  testing.assert.pageCSS('/pages/secondpage/css/page.css');
+                  testing.assert.css('page', '/pages/secondpage/css/page.css');
                   testing.done();
-                }, 50);
+                }, 100);
               }
             });
           };
@@ -374,15 +374,9 @@ describe('App Pages', function() {
         module.exports = {
           ready: function() {
             setTimeout(function() {
-              var cssNode = $(this.$el).find('.__quasar_page_css');
-
-              expect(cssNode).to.have.length(1);
-              expect(cssNode.children()).to.have.length(1);
-
-              testing.assert.pageCSS('/some/bogus.css');
-
+              testing.assert.css('page', '/some/bogus.css');
               testing.done();
-            }.bind(this), 100);
+            }, 50);
           }
         };
       }, null, {css: '/some/bogus.css'}

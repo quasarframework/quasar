@@ -8,16 +8,21 @@ require('./assets/initialize');
 var
   request = require('./assets/request-assets'),
   prepare = require('./assets/prepare-assets'),
-  render = require('./assets/render-assets')
+  validate = require('./assets/validate-assets'),
+  render = require('./assets/render-assets'),
+  injectCSS = require('./assets/inject-css')
   ;
 
 function renderVue(context, pageVue, layoutVue, done) {
+  injectCSS('page', context.manifest);
+
+  // if layout hasn't changed...
   if (layoutVue === false) {
-    // layout hasn't changed...
     q.global.events.trigger('app:page:render', context);
-    render.page(context, pageVue, function() {
+    render('page', pageVue, function() {
       q.global.events.trigger('app:page:post-render app:page:ready', context);
     });
+
     return;
   }
 
@@ -26,10 +31,11 @@ function renderVue(context, pageVue, layoutVue, done) {
     return;
   }
 
+  injectCSS('layout', q.global.manifest.layouts[context.manifest.layout]);
   q.global.events.trigger('app:layout:post-prepare app:layout:render app:page:post-prepare', context);
-  render.layout(layoutVue, function() {
+  render('layout', layoutVue, function() {
     q.global.events.trigger('app:layout:post-render app:layout:ready app:page:render', context);
-    render.page(context, pageVue, function() {
+    render('page', pageVue, function() {
       q.global.events.trigger('app:page:post-render app:page:ready', context);
     });
   });
@@ -45,13 +51,14 @@ function prepareRoute(context, layout, page) {
 
   if (!q.layout.name || q.layout.name !== layout.name) {
     q.global.events.trigger('app:layout:post-require app:layout:prepare', context);
-    prepare.layout(context, layout, function(vue) {
+    prepare({}, layout, function(vue) {
+      validate.layout(vue);
       layoutVue = vue;
       q.layout.name = layout.name;
       renderVue(context, pageVue, layoutVue);
     });
     q.global.events.trigger('app:page:post-require app:page:prepare', context);
-    prepare.page(context, page, function(vue) {
+    prepare(context, page, function(vue) {
       pageVue = vue;
       q.page.name = page.name;
       renderVue(context, pageVue, layoutVue);
@@ -60,7 +67,7 @@ function prepareRoute(context, layout, page) {
   }
 
   q.global.events.trigger('app:page:post-require app:page:prepare', context);
-  prepare.page(context, page, function(vue) {
+  prepare(context, page, function(vue) {
     renderVue(context, vue, false);
   });
 }

@@ -1,6 +1,6 @@
 'use strict';
 
-function parseVue(context, asset, done) {
+module.exports = function(context, asset, done) {
   if (_.isFunction(asset.exports)) {
     asset.exports.call(
       context,
@@ -16,9 +16,4 @@ function parseVue(context, asset, done) {
   q.nextTick(function() {
     done(asset.exports);
   });
-}
-
-module.exports.layout = function(context, asset, done) {
-  parseVue({}, asset, done);
 };
-module.exports.page = parseVue;

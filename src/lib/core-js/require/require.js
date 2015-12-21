@@ -18,6 +18,11 @@ _.merge(q, {
       css: function(url) {
         css.inject('page', url);
       }
+    },
+    layout: {
+      css: function(url) {
+        css.inject('layout', url);
+      }
     }
   },
   clear: {
@@ -30,6 +35,11 @@ _.merge(q, {
     page: {
       css: function() {
         css.emptyNode('page');
+      }
+    },
+    layout: {
+      css: function() {
+        css.emptyNode('layout');
       }
     }
   }

@@ -4,4 +4,4 @@ exclude_paths:
   - "node_modules/*"
   - "config/*"
   - "dist/*"
-- "src/lib/core-js/environment/environment.js"
+  - "src/lib/core-js/environment/environment.js"

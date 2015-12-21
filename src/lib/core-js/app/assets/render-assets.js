@@ -34,22 +34,11 @@ function destroyVue() {
   });
 }
 
-module.exports.layout = function(layoutVue, done) {
-  destroyVue('page', 'layout');
-  q.layout.vm = new Vue(injectVue(layoutVue, '#quasar-app', done));
-};
-
-module.exports.page = function(context, pageVue, done) {
+module.exports = function(type, vue, done) {
   destroyVue('page');
+  if (type === 'layout') {
+    destroyVue('layout');
+  }
 
-  pageVue.template = pageVue.template || '';
-  pageVue.template += '<div class="__quasar_page_css"></div>';
-
-  q.page.vm = new Vue(injectVue(pageVue, '.quasar-page', done));
-
-  q.nextTick(function() {
-    if (context.manifest.css) {
-      q.inject.page.css(context.manifest.css);
-    }
-  });
+  q[type].vm = new Vue(injectVue(vue, type === 'layout' ? '#quasar-app' : '.quasar-page', done));
 };
