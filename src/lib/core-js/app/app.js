@@ -126,10 +126,10 @@ function startApp() {
   q.start.router();
 }
 
+/* istanbul ignore next */
 function bootApp(callback) {
   callback = callback || $.noop;
 
-  /* istanbul ignore if */
   if (q.runs.on.cordova) {
     $.getScript('cordova.js', function() {
       document.addEventListener('deviceready', callback, false);

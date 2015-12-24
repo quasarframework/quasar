@@ -1,0 +1,40 @@
+
+$drawer-width = 300px
+
+body.inactive.with-drawer:after
+  z-index $z-drawer - 1
+
+.quasar-drawer-content
+  z-index $z-drawer
+  position fixed
+  top 0
+  left 0
+  bottom 0
+  height 100%
+  width $drawer-width
+  transform translateX(-100%)
+  background-color $white
+
+.quasar-drawer-opener
+  position fixed
+  top 0
+  left 0
+  bottom 0
+  height 100%
+  width 15px
+
+@media screen and (min-width: $largestMobileScreen)
+  body.with-drawer
+    &.inactive
+      overflow auto
+      &:after
+        position inherit
+    .quasar-drawer-toggle
+      display none
+    .quasar-drawer-content
+      transform translateX(0) !important
+      outline 0 !important
+    .quasar-layout
+      margin-left $drawer-width !important
+      .quasar-header.fixed-top
+        margin-left $drawer-width !important

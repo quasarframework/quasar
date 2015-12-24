@@ -13,5 +13,8 @@ _.merge(q, {
     normalized: {
       path: require('./js/normalizePath')
     }
+  },
+  open: {
+    url: require('./js/open-url')
   }
 });

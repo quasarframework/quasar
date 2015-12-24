@@ -20,8 +20,10 @@ Vue.directive('touch', {
     quasar.prevent.ghost.click(this.el);
 
     // determine event type
-    var event = this.arg;
-    var recognizerType, recognizer;
+    var
+      event = this.arg,
+      recognizerType, recognizer
+      ;
 
     if (customEvents[event]) { // custom event
       var custom = customEvents[event];
@@ -39,13 +41,15 @@ Vue.directive('touch', {
     }
 
     recognizer = mc.get(event);
-    if (!recognizer) {
-      // add recognizer
-      recognizer = new Hammer[_.capitalize(event)]();
-      // make sure multiple recognizers work together...
-      recognizer.recognizeWith(mc.recognizers);
-      mc.add(recognizer);
+    if (recognizer) {
+      return;
     }
+
+    // add recognizer
+    recognizer = new Hammer[_.capitalize(event)]();
+    // make sure multiple recognizers work together...
+    recognizer.recognizeWith(mc.recognizers);
+    mc.add(recognizer);
   },
 
   update: function(fn) {
