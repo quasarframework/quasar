@@ -25,27 +25,32 @@ Vue.component('quasar-layout', {
       page.css('padding-bottom', footer.height() + 20 + 'px');
     }
 
-    manager.withEmpty('keep-footer', function() {
-      footer.addClass('fixed-bottom');
-    });
-
     manager.withEmpty('scroll-shadow shadow', function(type) {
       if (type === 'shadow') {
         header.addClass('shadow');
         return;
       }
 
-      if (!manager.hasEmpty('keep-marginals retract-header shrink-header')) {
+      if (!manager.hasEmpty('keep-header keep-marginals shrink-header')) {
         return;
       }
 
       var target = manager.hasEmpty('keep-marginals') ? page : $(window);
 
       target.scroll(function() {
-        var shouldHaveShadow = target.scrollTop() > 0;
-
-        header[shouldHaveShadow ? 'addClass' : 'removeClass']('shadow');
+        header[target.scrollTop() > 0 ? 'addClass' : 'removeClass']('shadow');
       });
+    });
+
+    manager.withEmpty('keep-header', function() {
+      header.addClass('fixed-top');
+      drawer.css('top', header.height() + 'px');
+      page.css('padding-top', header.height() + 20 + 'px');
+    });
+
+    manager.withEmpty('keep-footer', function() {
+      footer.addClass('fixed-bottom');
+      drawer.css('bottom', footer.height() + 'px');
     });
 
     manager.withEmpty('keep-marginals', function() {
