@@ -1,4 +1,4 @@
-<quasar-layout retract-header shadow>
+<quasar-layout shrink-header shadow>
 
   <quasar-header>
     <quasar-row>
@@ -30,7 +30,7 @@
       <div>rstoenescu@rstoenescu.com</div>
     </quasar-drawer-cover>
 
-    <quasar-drawer-item v-for="n in 4" v-on:click="alertMe(n+1)">
+    <quasar-drawer-item v-for="n in 14" v-on:click="alertMe(n+1)">
       <quasar-icon alarm class="small"></quasar-icon>
       Message {{n + 1}}
     </quasar-drawer-item>

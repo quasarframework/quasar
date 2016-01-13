@@ -1,5 +1,6 @@
 
 $drawer-width = 300px
+$drawer-separator-color = #ECECEC
 
 body.inactive.with-drawer:after
   z-index $z-drawer - 1
@@ -10,15 +11,14 @@ body.inactive.with-drawer:after
   top 0
   left 0
   bottom 0
-  height 100%
   width $drawer-width
   transform translateX(-100%)
   background-color $white
+  border-right 1px solid $drawer-separator-color
 
   .quasar-drawer-cover
-    background-color #E3ECF5
     width 100%
-    border-bottom 1px solid #BAC1C9
+    border-bottom 1px solid $drawer-separator-color
     padding 16px 16px 8px 16px
     margin-bottom 8px
   .quasar-icon
@@ -34,7 +34,7 @@ body.inactive.with-drawer:after
   .quasar-drawer-divider
     margin 8px 0
     height 1px
-    background-color #e5e5e5
+    background-color $drawer-separator-color
     border 0
     padding 0
   .quasar-drawer-header
@@ -55,8 +55,14 @@ body.inactive.with-drawer:after
   height 100%
   width 15px
 
+@media screen and (max-width: $largestMobileScreen - 1)
+  .quasar-drawer-content
+    top 0 !important
+
 @media screen and (min-width: $largestMobileScreen)
   body.with-drawer
+    .quasar-page
+      padding 20px
     &.inactive
       overflow auto
       &:after
@@ -69,4 +75,4 @@ body.inactive.with-drawer:after
     .quasar-layout
       margin-left $drawer-width !important
       .quasar-header.fixed-top
-        margin-left $drawer-width !important
+        z-index 20 !important

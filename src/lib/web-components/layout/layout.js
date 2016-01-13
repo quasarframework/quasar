@@ -1,6 +1,9 @@
 'use strict';
 
-var template = $(require('raw!./layout.html'));
+var
+  rowHeight = 55,
+  template = $(require('raw!./layout.html'))
+  ;
 
 /*
  * Quasar Page
@@ -14,6 +17,7 @@ Vue.component('quasar-layout', {
       header = layout.find('.quasar-header'),
       page = layout.find('.quasar-page'),
       footer = layout.find('.quasar-footer'),
+      drawer = layout.find('.quasar-drawer-content'),
       manager = layout.getAttributesManager()
       ;
 
@@ -50,18 +54,21 @@ Vue.component('quasar-layout', {
     });
 
     manager.withEmpty('shrink-header', function() {
-      header.addClass('fixed-top').css('z-index', 1);
-      page.css('padding-top', header.height() + 20 + 'px');
-
       var headerHeight = header.height();
+
+      header.addClass('fixed-top').css('z-index', 1);
+      page.css('padding-top', headerHeight + 20 + 'px');
+      drawer.css('top', headerHeight + 'px');
 
       $(window).scroll(function() {
         var
           offset = $(window).scrollTop(),
-          translate = Math.min(headerHeight, offset)
+          translate = Math.min(headerHeight, offset),
+          distance = Math.max(rowHeight, headerHeight - Math.min(headerHeight, offset))
           ;
 
-        header.css('height', Math.max(64, headerHeight - Math.min(headerHeight, offset)) + 'px');
+        drawer.css('top', distance + 'px');
+        header.css('height', distance + 'px');
         header.find('.quasar-row:not(:first-of-type)').css('display', offset > 0 ? 'none' : '');
       });
     });
@@ -76,6 +83,8 @@ Vue.component('quasar-layout', {
         headerHeight = header.height()
         ;
 
+      drawer.css('top', headerHeight + 'px');
+
       $(window).scroll(function() {
         var
           offset = $(window).scrollTop(),
@@ -84,6 +93,7 @@ Vue.component('quasar-layout', {
           ;
 
         header.css({'transform': 'translate3d(0,-' + translate + 'px, 0)'});
+        drawer.css('top', headerHeight - translate + 'px');
         lastOffset = offset;
         lastTranslate = translate;
       });
