@@ -1,6 +1,19 @@
 'use strict';
 
-var width = 300;
+var
+  width = 300,
+  template = $(require('raw!./drawer.html'))
+  ;
+
+_.forEach(['cover', 'item', 'header'], function(type) {
+  Vue.component('quasar-drawer-' + type, {
+    template: template.find('#quasar-drawer-' + type).html()
+  });
+});
+
+Vue.component('quasar-drawer-divider', {
+  template: '<div class="quasar-drawer-divider"></div>'
+});
 
 function animate(open, node, currentPosition) {
   node.velocity(
@@ -19,7 +32,7 @@ function animate(open, node, currentPosition) {
 }
 
 Vue.component('quasar-drawer', {
-  template: require('raw!./drawer.html'),
+  template: template.find('#quasar-drawer').html(),
   data: function() {
     return {
       opened: false

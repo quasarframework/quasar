@@ -15,6 +15,38 @@ body.inactive.with-drawer:after
   transform translateX(-100%)
   background-color $white
 
+  .quasar-drawer-cover
+    background-color #E3ECF5
+    width 100%
+    border-bottom 1px solid #BAC1C9
+    padding 16px 16px 8px 16px
+    margin-bottom 8px
+  .quasar-icon
+    opacity .54
+    float left
+    color lighten($black, 13%)
+    margin-right 16px
+  .quasar-drawer-item
+    cursor pointer
+    transition all .3s
+    &:hover
+      background-color $grey-300
+  .quasar-drawer-divider
+    margin 8px 0
+    height 1px
+    background-color #e5e5e5
+    border 0
+    padding 0
+  .quasar-drawer-header
+    color lighten($black, 45%)
+
+  .quasar-drawer-item, .quasar-drawer-header
+    font-weight 500
+    height 48px
+    padding 8px 16px
+    line-height 16px
+    font-size 16px
+
 .quasar-drawer-opener
   position fixed
   top 0

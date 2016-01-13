@@ -22,24 +22,26 @@
   <quasar-page></quasar-page>
 
   <quasar-drawer>
-    Drawer A....<br>Drawer....<br>Drawer....<br>Drawer....<br>
-    <quasar-button>Wow</quasar-button>
-    Drawer....<br>Drawer....<br>Drawer....<br>Drawer....<br>
-    Drawer....<br>Drawer....<br>Drawer....<br>Drawer....<br>
-    Drawer....<br>Drawer....<br>Drawer....<br>Drawer....<br>
-    Drawer....<br>Drawer....<br>Drawer....<br>Drawer....<br>
-    Drawer....<br>Drawer....<br>Drawer....<br>Drawer....<br>
-    Drawer....<br>Drawer....<br>Drawer....<br>Drawer....<br>
-    Drawer....<br>Drawer....<br>Drawer....<br>Drawer....<br>
-    Drawer....<br>Drawer....<br>Drawer....<br>Drawer....<br>
-    Drawer....<br>Drawer....<br>Drawer....<br>Drawer....<br>
-    Drawer....<br>Drawer....<br>Drawer....<br>Drawer....<br>
-    Drawer....<br>Drawer....<br>Drawer....<br>Drawer....<br>
-    Drawer....<br>Drawer....<br>Drawer....<br>Drawer....<br>
-    Drawer....<br>Drawer....<br>Drawer....<br>Drawer....<br>
-    Drawer....<br>Drawer....<br>Drawer....<br>Drawer....<br>
-    Drawer....<br>Drawer....<br>Drawer....<br>Drawer....<br>
-    Drawer....<br>Drawer....<br>Drawer....<br>Drawer.... Z<br>
+    <quasar-drawer-cover>
+      <div>
+        <img src="http://semantic-ui.com/images/avatar/large/elliot.jpg" width="100px" height="100px" style="border-radius: 50px; margin-bottom: 20px">
+      </div>
+      <div><strong>Razvan Stoenescu</strong></div>
+      <div>rstoenescu@rstoenescu.com</div>
+    </quasar-drawer-cover>
+
+    <quasar-drawer-item v-for="n in 4" v-on:click="alertMe(n+1)">
+      <quasar-icon alarm class="small"></quasar-icon>
+      Message {{n + 1}}
+    </quasar-drawer-item>
+
+    <quasar-drawer-divider></quasar-drawer-divider>
+    <quasar-drawer-header>Subheader</quasar-drawer-header>
+
+    <quasar-drawer-item v-for="n in 5" v-on:click="alertMe(n+1)">
+      <quasar-icon alarm class="small"></quasar-icon>
+      Message {{n + 1}}
+    </quasar-drawer-item>
   </quasar-drawer>
 
 
