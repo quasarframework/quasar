@@ -12,9 +12,9 @@ body.inactive.with-drawer:after
   left 0
   bottom 0
   width $drawer-width
-  transform translateX(-100%)
+  transform translateX(- $drawer-width)
+  will-change transform
   background-color $white
-  border-right 1px solid $drawer-separator-color
 
   .quasar-drawer-cover
     width 100%
@@ -71,9 +71,10 @@ body.inactive.with-drawer:after
     .quasar-drawer-toggle
       display none
     .quasar-drawer-content
+      @extend .z-4
       transform translateX(0) !important
       outline 0 !important
     .quasar-layout
       margin-left $drawer-width !important
       .quasar-header.fixed-top
-        z-index 20 !important
+        z-index $z-drawer + 1 !important

@@ -21,6 +21,10 @@ Vue.component('quasar-layout', {
       manager = layout.getAttributesManager()
       ;
 
+    this.gc = {
+      scrolls: []
+    };
+
     if (footer.length > 0 && !manager.hasEmpty('keep-marginals') && manager.hasEmpty('keep-footer')) {
       page.css('padding-bottom', footer.height() + 20 + 'px');
     }
@@ -37,10 +41,13 @@ Vue.component('quasar-layout', {
 
       var target = manager.hasEmpty('keep-marginals') ? page : $(window);
 
-      target.scroll(function() {
+      var scrollFn = function() {
         header[target.scrollTop() > 0 ? 'addClass' : 'removeClass']('shadow');
-      });
-    });
+      };
+
+      target.scroll(scrollFn);
+      this.gc.scrolls.push([target, scrollFn]);
+    }.bind(this));
 
     manager.withEmpty('keep-header', function() {
       header.addClass('fixed-top');
@@ -59,13 +66,16 @@ Vue.component('quasar-layout', {
     });
 
     manager.withEmpty('shrink-header', function() {
-      var headerHeight = header.height();
+      var
+        scrollFn,
+        headerHeight = header.height()
+        ;
 
       header.addClass('fixed-top').css('z-index', 1);
       page.css('padding-top', headerHeight + 20 + 'px');
       drawer.css('top', headerHeight + 'px');
 
-      $(window).scroll(function() {
+      scrollFn = function() {
         var
           offset = $(window).scrollTop(),
           translate = Math.min(headerHeight, offset),
@@ -75,14 +85,18 @@ Vue.component('quasar-layout', {
         drawer.css('top', distance + 'px');
         header.css('height', distance + 'px');
         header.find('.quasar-row:not(:first-of-type)').css('display', offset > 0 ? 'none' : '');
-      });
-    });
+      };
+
+      $(window).scroll(scrollFn);
+      this.gc.scrolls.push([$(window), scrollFn]);
+    }.bind(this));
 
     manager.withEmpty('retract-header', function() {
       header.addClass('fixed-top').css('z-index', 1);
       page.css('padding-top', header.height() + 20 + 'px');
 
       var
+        scrollFn,
         lastOffset = 0,
         lastTranslate = 0,
         headerHeight = header.height()
@@ -90,7 +104,7 @@ Vue.component('quasar-layout', {
 
       drawer.css('top', headerHeight + 'px');
 
-      $(window).scroll(function() {
+      scrollFn = function() {
         var
           offset = $(window).scrollTop(),
           delta = offset - lastOffset,
@@ -101,7 +115,15 @@ Vue.component('quasar-layout', {
         drawer.css('top', headerHeight - translate + 'px');
         lastOffset = offset;
         lastTranslate = translate;
-      });
+      };
+
+      $(window).scroll(scrollFn);
+      this.gc.scrolls.push([$(window), scrollFn]);
+    }.bind(this));
+  },
+  destroyed: function() {
+    _.forEach(this.gc.scrolls, function(scroll) {
+      scroll[0].off('scroll', scroll[1]);
     });
   }
 });
@@ -133,6 +155,10 @@ Vue.component('quasar-navigation', {
       leftScroll = nav.find('> .left-scroll'),
       rightScroll = nav.find('> .right-scroll')
       ;
+
+    this.gc = {
+      resizers: []
+    };
 
     function scrollToSelectedIfNeeded(tab) {
       if (!nav.hasClass('scrollable')) {
@@ -177,6 +203,8 @@ Vue.component('quasar-navigation', {
 
     scroller.scroll(updateScrollIndicator);
     $(window).resize(updateScrollIndicator);
+    this.gc.resizers.push([$(window), updateScrollIndicator]);
+
     q.nextTick(function() {
       updateScrollIndicator();
     });
@@ -208,6 +236,11 @@ Vue.component('quasar-navigation', {
           lastOffset = 0;
         });
       });
+  },
+  destroyed: function() {
+    _.forEach(this.gc.resizers, function(resize) {
+      resize[0].off('resize', resize[1]);
+    });
   }
 });
 
