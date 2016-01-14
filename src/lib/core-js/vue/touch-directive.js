@@ -30,8 +30,6 @@ Vue.directive('touch', {
 
     var mc = this.mc = this.el.hammer;
 
-    quasar.prevent.ghost.click(this.el);
-
     // determine event type
     var
       decodedEvent = decodeEvent(this.arg),
@@ -53,6 +51,10 @@ Vue.directive('touch', {
 
     if (!_.includes(gestures, event)) {
       throw new Error('Invalid v-touch event: ' + event);
+    }
+
+    if (event === 'tap') {
+      quasar.prevent.ghost.click(this.el);
     }
 
     recognizer = mc.get(event);
