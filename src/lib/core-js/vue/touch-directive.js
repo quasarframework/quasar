@@ -8,6 +8,19 @@ var
   gestures = ['tap', 'pan', 'pinch', 'press', 'rotate', 'swipe']
   ;
 
+function decodeEvent(event) {
+  if (event.indexOf('-') === -1) {
+    return [event, null];
+  }
+
+  var direction = event.split('-');
+
+  event = direction.shift();
+  direction = direction[0] === 'x' ? Hammer.DIRECTION_HORIZONTAL : Hammer.DIRECTION_VERTICAL;
+
+  return [event, direction];
+}
+
 /* istanbul ignore next */
 Vue.directive('touch', {
   bind: function() {
@@ -21,7 +34,9 @@ Vue.directive('touch', {
 
     // determine event type
     var
-      event = this.arg,
+      decodedEvent = decodeEvent(this.arg),
+      event = decodedEvent[0],
+      direction = decodedEvent[1],
       recognizerType, recognizer
       ;
 
@@ -42,11 +57,16 @@ Vue.directive('touch', {
 
     recognizer = mc.get(event);
     if (recognizer) {
-      return;
+      if (!direction || recognizer.options.direction === direction) {
+        return;
+      }
     }
 
     // add recognizer
     recognizer = new Hammer[_.capitalize(event)]();
+    if (direction) {
+      recognizer.options.direction = direction;
+    }
     // make sure multiple recognizers work together...
     recognizer.recognizeWith(mc.recognizers);
     mc.add(recognizer);
@@ -56,7 +76,7 @@ Vue.directive('touch', {
     var
       mc = this.mc,
       vm = this.vm,
-      event = this.arg
+      event = decodeEvent(this.arg)[0]
       ;
 
     // teardown old handler
@@ -73,7 +93,7 @@ Vue.directive('touch', {
   },
 
   unbind: function() {
-    this.mc.off(this.arg, this.handler);
+    this.mc.off(decodeEvent(this.arg)[0], this.handler);
 
     if (!_.keys(this.mc.handlers).length) {
       this.mc.destroy();

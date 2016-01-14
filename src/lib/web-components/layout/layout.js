@@ -31,7 +31,7 @@ Vue.component('quasar-layout', {
         return;
       }
 
-      if (!manager.hasEmpty('keep-header keep-marginals shrink-header')) {
+      if (!manager.hasEmpty('keep-header retract-header keep-marginals shrink-header')) {
         return;
       }
 
