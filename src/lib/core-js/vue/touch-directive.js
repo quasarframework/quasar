@@ -5,7 +5,7 @@ require('../touch/prevent-ghosts');
 
 var
   customEvents = {},
-  gestures = ['tap', 'pan', 'pinch', 'press', 'rotate', 'swipe']
+  gestures = ['pan', 'pinch', 'press', 'rotate', 'swipe']
   ;
 
 function decodeEvent(event) {
@@ -51,10 +51,6 @@ Vue.directive('touch', {
 
     if (!_.includes(gestures, event)) {
       throw new Error('Invalid v-touch event: ' + event);
-    }
-
-    if (event === 'tap') {
-      quasar.prevent.ghost.click(this.el);
     }
 
     recognizer = mc.get(event);
