@@ -106,7 +106,7 @@
         <quasar-layout keep-marginals scroll-shadow>
           <quasar-header>
             <quasar-row>
-              <quasar-title>Quasar</quasar-header>
+              <quasar-title>Quasar Header</quasar-header>
             </quasar-row>
           </quasar-header>
           <quasar-page></quasar-page>
@@ -254,6 +254,34 @@
     );
   });
 
+  it('should be able to handle keep-header', function(done) {
+    testing.done.set(done);
+    testing.app.tag(
+      testing.line(true, function() {/*
+        <quasar-layout keep-header>
+          <quasar-header>
+            <quasar-row>
+              <quasar-title>Footer</quasar-title>
+            </quasar-row>
+          </quasar-header>
+          <quasar-page></quasar-page>
+        </quasar-layout>
+      */}),
+      function() {
+        var header = $('.quasar-header');
+
+        $('.quasar-page').append('<div style="height: 5000px">');
+        $(window).scrollTop(0);
+        expect(testing.isAllVisible(header)).to.equal(true);
+        $(window).scrollTop(5000);
+        setTimeout(function() {
+          expect(testing.isAllVisible(header)).to.equal(true);
+          testing.done();
+        }, 100);
+      }
+    );
+  });
+
   it('should be able to handle keep-footer', function(done) {
     testing.done.set(done);
     testing.app.tag(
@@ -365,6 +393,45 @@
           expect(testing.isAllVisible(footer)).to.equal(true);
           testing.done();
         }, 100);
+      }
+    );
+  });
+
+  it('should be able to render drawer', function(done) {
+    testing.done.set(done);
+    testing.app.tag(
+      testing.line(true, function() {/*
+        <quasar-layout>
+          <quasar-drawer>
+            <quasar-drawer-cover>
+              <div style="width: 100px; height: 100px; background-color: black;"></div>
+              <div><strong>Razvan Stoenescu</strong></div>
+              <div>Quasar Framework rocks!</div>
+            </quasar-drawer-cover>
+
+            <quasar-drawer-item v-for="n in 14">
+              <quasar-icon alarm class="small"></quasar-icon>
+              Message {{n + 1}}
+            </quasar-drawer-item>
+
+            <quasar-drawer-divider></quasar-drawer-divider>
+            <quasar-drawer-header>Subheader</quasar-drawer-header>
+
+            <quasar-drawer-item v-for="n in 5">
+              <quasar-icon alarm class="small"></quasar-icon>
+              Message {{n + 1}}
+            </quasar-drawer-item>
+          </quasar-drawer>
+          <quasar-page></quasar-page>
+      */}),
+      function() {
+        expect(_html.match(/class="([\w\s])*quasar-layout/)).to.exist;
+        expect(_html.match(/class="([\w\s])*quasar-drawer/)).to.exist;
+        expect(_html.match(/class="([\w\s])*quasar-page/)).to.exist;
+        expect(_html.match(/class="([\w\s])*quasar-drawer-cover/)).to.exist;
+        expect(_html.match(/class="([\w\s])*quasar-drawer-item/)).to.exist;
+        expect(_html.match(/class="([\w\s])*quasar-drawer-divider/)).to.exist;
+        testing.done();
       }
     );
   });

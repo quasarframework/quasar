@@ -8,6 +8,7 @@ var
   gestures = ['pan', 'pinch', 'press', 'rotate', 'swipe']
   ;
 
+/* istanbul ignore next */
 function decodeEvent(event) {
   if (event.indexOf('-') === -1) {
     return [event, null];
