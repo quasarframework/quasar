@@ -22,21 +22,7 @@
         <quasar-layout>
           <quasar-header>
             <quasar-navigation>
-              <quasar-tab>TabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTab 1</quasar-tab>
-              <quasar-tab>TabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTab 2</quasar-tab>
-              <quasar-tab>TabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTab 3</quasar-tab>
-              <quasar-tab>TabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTab 4</quasar-tab>
-              <quasar-tab>TabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTab 5</quasar-tab>
-              <quasar-tab>TabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTab 6</quasar-tab>
-              <quasar-tab>TabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTab 7</quasar-tab>
-              <quasar-tab>TabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTab 8</quasar-tab>
-              <quasar-tab>TabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTab 9</quasar-tab>
-              <quasar-tab>TabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTab 10</quasar-tab>
-              <quasar-tab>TabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTab 11</quasar-tab>
-              <quasar-tab>TabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTab 12</quasar-tab>
-              <quasar-tab>TabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTab 13</quasar-tab>
-              <quasar-tab>TabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTab 14</quasar-tab>
-              <quasar-tab>TabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTab 15</quasar-tab>
+              <quasar-tab v-for="n in 30">TabTabTabTabTabTabTab {{n}}</quasar-tab>
             </quasar-navigation>
           </quasar-header>
           <quasar-page></quasar-page>
@@ -79,21 +65,7 @@
         <quasar-layout>
           <quasar-header>
             <quasar-navigation>
-              <quasar-tab>TabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTab 1</quasar-tab>
-              <quasar-tab>TabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTab 2</quasar-tab>
-              <quasar-tab>TabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTab 3</quasar-tab>
-              <quasar-tab>TabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTab 4</quasar-tab>
-              <quasar-tab>TabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTab 5</quasar-tab>
-              <quasar-tab>TabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTab 6</quasar-tab>
-              <quasar-tab>TabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTab 7</quasar-tab>
-              <quasar-tab>TabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTab 8</quasar-tab>
-              <quasar-tab>TabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTab 9</quasar-tab>
-              <quasar-tab>TabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTab 10</quasar-tab>
-              <quasar-tab>TabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTab 11</quasar-tab>
-              <quasar-tab>TabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTab 12</quasar-tab>
-              <quasar-tab>TabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTab 13</quasar-tab>
-              <quasar-tab>TabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTab 14</quasar-tab>
-              <quasar-tab>TabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTabTab 15</quasar-tab>
+              <quasar-tab v-for="n in 25">TabTabTabTabTabTabTab {{n}}</quasar-tab>
             </quasar-navigation>
           </quasar-header>
           <quasar-page></quasar-page>
@@ -135,37 +107,131 @@
 
   it('should be able to handle navigation tab click/tap', function(done) {
     testing.done.set(done);
-    testing.app.tag(
-      testing.line(true, function() {/*
-        <quasar-layout>
-          <quasar-header>
-            <quasar-navigation>
-              <quasar-tab>Tab 1</quasar-tab>
-            </quasar-navigation>
-          </quasar-header>
-          <quasar-page></quasar-page>
-        </quasar-layout>
-      */}),
-      function() {
-        var clicked = 0;
-
-        $('.tabsContent .quasar-tab').click(function() {
-          var $this = $(this);
-
-          clicked++;
-          expect($this.hasClass('active')).to.equal(true);
-          if (clicked === 1) {
-            q.nextTick(function() {
-              $this.click();
+    testing.app.addPage(
+      'second',
+      [{
+        url: 'script.second.js',
+        content: function() {
+          module.exports = {
+            template: 'page content',
+            ready: function() {
               q.nextTick(function() {
-                expect($this.hasClass('active')).to.equal(true);
+                expect($('.tabsContent .quasar-tab:last').hasClass('active')).to.equal(true);
                 testing.done();
               });
+            }
+          };
+        }
+      }],
+      {layout: 'tab-test'}
+    );
+    testing.app.addIndex(
+      function() {
+        module.exports = {
+          template: 'index content',
+          ready: function() {
+            q.nextTick(function() {
+              expect($('.tabsContent .quasar-tab:first').hasClass('active')).to.equal(true);
+              $('.tabsContent .quasar-tab:last').click();
             });
           }
-        }).click();
-      }
+        };
+      },
+      null,
+      {layout: 'tab-test'}
     );
+    testing.app.addLayout('tab-test', function() {
+      module.exports = {
+        template: testing.line(true, function() {/*
+          <quasar-layout>
+            <quasar-header>
+              <quasar-navigation>
+                <quasar-tab page="index">Index</quasar-tab>
+                <quasar-tab page="second">Second</quasar-tab>
+              </quasar-navigation>
+            </quasar-header>
+            <quasar-page></quasar-page>
+          </quasar-layout>
+        */})
+      };
+    });
+    testing.app.start();
+  });
+
+  it('should be able to handle navigation tab click/tap with route attribute', function(done) {
+    testing.done.set(done);
+    testing.app.addPage(
+      'second',
+      [{
+        url: 'script.second.js',
+        content: function() {
+          module.exports = {
+            template: 'page content',
+            ready: function() {
+              q.nextTick(function() {
+                expect($('.tabsContent .quasar-tab:last').hasClass('active')).to.equal(true);
+                $('.tabsContent .quasar-tab:last').click();
+              });
+            }
+          };
+        }
+      }],
+      {layout: 'tab-test-2'}
+    );
+    testing.app.addPage(
+      'third',
+      [{
+        url: 'script.third.js',
+        content: function() {
+          module.exports = {
+            template: 'page content',
+            ready: function() {
+              q.nextTick(function() {
+                expect($('.tabsContent .quasar-tab:last').hasClass('active')).to.equal(false);
+                testing.done();
+              });
+            }
+          };
+        }
+      }],
+      {layout: 'tab-test-2'}
+    );
+    testing.app.addIndex(
+      function() {
+        module.exports = {
+          template: 'index content',
+          ready: function() {
+            q.nextTick(function() {
+              expect($('.tabsContent .quasar-tab:first').hasClass('active')).to.equal(true);
+              $('.tabsContent .quasar-tab:first').click();
+            });
+          }
+        };
+      },
+      null,
+      {layout: 'tab-test-2'}
+    );
+    testing.app.addLayout('tab-test-2', function() {
+      module.exports = {
+        methods: {
+          getThirdRoute: function() {
+            return '#/third';
+          }
+        },
+        template: testing.line(true, function() {/*
+          <quasar-layout>
+            <quasar-header>
+              <quasar-navigation>
+                <quasar-tab page="index" route="#/second">Index</quasar-tab>
+                <quasar-tab page="second" :route="getThirdRoute">Second</quasar-tab>
+              </quasar-navigation>
+            </quasar-header>
+            <quasar-page></quasar-page>
+          </quasar-layout>
+        */})
+      };
+    });
+    testing.app.start();
   });
 
 });

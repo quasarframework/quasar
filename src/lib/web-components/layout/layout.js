@@ -153,7 +153,8 @@ Vue.component('quasar-navigation', {
       scroller = nav.find('> .tabsContainer'),
       content = scroller.find('> .tabsContent'),
       leftScroll = nav.find('> .left-scroll'),
-      rightScroll = nav.find('> .right-scroll')
+      rightScroll = nav.find('> .right-scroll'),
+      tabs = nav.find('.quasar-tab:not(.left-scroll):not(.right-scroll)')
       ;
 
     this.gc = {
@@ -212,17 +213,22 @@ Vue.component('quasar-navigation', {
     leftScroll.click(function() {scroller[0].scrollLeft -= 40;});
     rightScroll.click(function() {scroller[0].scrollLeft += 40;});
 
-    nav.find('.quasar-tab:not(.left-scroll):not(.right-scroll)')
+    this.gc.autoSelectTab = function(context) {
+      tabs.removeClass('active');
+      var activeTab = tabs.filter('[page="' + context.name + '"]');
+
+      if (activeTab.length === 0) {
+        return;
+      }
+      activeTab.addClass('active');
+      scrollToSelectedIfNeeded(activeTab);
+    };
+
+    quasar.global.events.on('app:page:ready', this.gc.autoSelectTab);
+
+    tabs
       .click(function() {
-        var self = $(this);
-
-        scrollToSelectedIfNeeded(self);
-
-        if (self.hasClass('active')) {
-          return;
-        }
-        self.siblings().removeClass('active');
-        self.addClass('active');
+        scrollToSelectedIfNeeded($(this));
       })
       .each(/* istanbul ignore next */ function() {
         var hammer = $(this).hammer().getHammer();
@@ -238,6 +244,8 @@ Vue.component('quasar-navigation', {
       });
   },
   destroyed: function() {
+    quasar.global.events.off('app:page:ready', this.gc.autoSelectTab);
+
     _.forEach(this.gc.resizers, function(resize) {
       resize[0].off('resize', resize[1]);
     });
@@ -245,7 +253,30 @@ Vue.component('quasar-navigation', {
 });
 
 Vue.component('quasar-tab', {
-  template: template.find('#quasar-tab').html()
+  template: template.find('#quasar-tab').html(),
+  props: ['page', 'route'],
+  ready: function() {
+    if (!this.page) {
+      return;
+    }
+
+    var route = '#/' + (this.page === 'index' ? '' : this.page);
+
+    if (this.route) {
+      if (_.isFunction(this.route)) {
+        route = this.route(this.page);
+      }
+      else {
+        route = this.route;
+      }
+    }
+
+    $(this.$el)
+      .attr('page', this.page)
+      .click(function() {
+        quasar.navigate.to.route(route);
+      }.bind(this));
+  }
 });
 
 Vue.component('quasar-row', {

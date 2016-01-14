@@ -1,21 +1,19 @@
-<quasar-layout retract-header scroll-shadow>
+<quasar-layout shrink-header scroll-shadow>
 
   <quasar-header>
     <quasar-row>
-      <quasar-button class="quasar-drawer-toggle"><quasar-icon menu></quasar-icon></quasar-button>
+      <quasar-button class="quasar-drawer-toggle"><quasar-icon>menu</quasar-icon></quasar-button>
       <quasar-title>Quasar</quasar-title>
-      <quasar-button><quasar-icon alarm></quasar-icon></quasar-button>
-      <quasar-button><quasar-icon more_vert></quasar-icon></quasar-button>
+      <quasar-button><quasar-icon>alarm</quasar-icon></quasar-button>
+      <quasar-button><quasar-icon>more_vert</quasar-icon></quasar-button>
     </quasar-row>
     <quasar-navigation>
-      <quasar-tab><quasar-icon tab></quasar-icon>Tab 1</quasar-tab>
-      <quasar-tab><quasar-icon tab></quasar-icon>Tab 2</quasar-tab>
-      <quasar-tab><quasar-icon tab></quasar-icon>Tab 3</quasar-tab>
-      <quasar-tab><quasar-icon tab></quasar-icon>Tab 4</quasar-tab>
-      <quasar-tab><quasar-icon tab></quasar-icon>Tab 5</quasar-tab>
-      <quasar-tab><quasar-icon tab></quasar-icon>Tab 6</quasar-tab>
-      <quasar-tab><quasar-icon tab></quasar-icon>Tab 7</quasar-tab>
-      <quasar-tab><quasar-icon tab></quasar-icon>Tab 8</quasar-tab>
+      <quasar-tab page="index"><quasar-icon>tab</quasar-icon>Index Page</quasar-tab>
+      <quasar-tab page="second"><quasar-icon>tab</quasar-icon>Second Page</quasar-tab>
+      <quasar-tab><quasar-icon>tab</quasar-icon>Tab 3</quasar-tab>
+      <quasar-tab><quasar-icon>tab</quasar-icon>Tab 4</quasar-tab>
+      <quasar-tab><quasar-icon>tab</quasar-icon>Tab 5</quasar-tab>
+      <quasar-tab><quasar-icon>tab</quasar-icon>Tab 6</quasar-tab>
     </quasar-navigation>
   </quasar-header>
 
@@ -31,7 +29,7 @@
     </quasar-drawer-cover>
 
     <quasar-drawer-item v-for="n in 14" v-on:click="alertMe(n+1)">
-      <quasar-icon alarm class="small"></quasar-icon>
+      <quasar-icon>alarm</quasar-icon>
       Message {{n + 1}}
     </quasar-drawer-item>
 
@@ -39,7 +37,7 @@
     <quasar-drawer-header>Subheader</quasar-drawer-header>
 
     <quasar-drawer-item v-for="n in 5" v-on:click="alertMe(n+1)">
-      <quasar-icon alarm class="small"></quasar-icon>
+      <quasar-icon>alarm</quasar-icon>
       Message {{n + 1}}
     </quasar-drawer-item>
   </quasar-drawer>
