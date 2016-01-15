@@ -15,22 +15,25 @@ body.inactive.with-drawer:after
   transform translateX(- $drawer-width)
   will-change transform
   background-color $white
+  @extend .z-8
 
   .quasar-drawer-cover
     width 100%
-    border-bottom 1px solid $drawer-separator-color
-    padding 16px 16px 8px 16px
+    padding 16px
     margin-bottom 8px
-  .quasar-icon
-    opacity .54
-    float left
-    color lighten($black, 13%)
-    margin-right 16px
+    background-color $primary
+    color $white
+    .quasar-icon
+      cursor pointer
   .quasar-drawer-item
     cursor pointer
     transition all .3s
+    .quasar-icon
+      color $primary
+      margin-right 32px
+      font-size 180%
     &:hover
-      background-color $grey-300
+      background-color $grey-200
   .quasar-drawer-divider
     margin 8px 0
     height 1px
@@ -44,8 +47,7 @@ body.inactive.with-drawer:after
     font-weight 500
     height 48px
     padding 8px 16px
-    line-height 16px
-    font-size 16px
+    font-size 14px
 
 .quasar-drawer-opener
   position fixed

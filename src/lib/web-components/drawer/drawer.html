@@ -3,14 +3,14 @@
   <template id="quasar-drawer">
     <div class="quasar-drawer">
       <div class="quasar-drawer-opener" v-touch:pan-x="openByTouch">&nbsp;</div>
-      <div class="quasar-drawer-content scroll z-4" v-touch:pan-x="closeByTouch"><slot></slot></div>
+      <div class="quasar-drawer-content scroll" v-touch:pan-x="closeByTouch"><slot></slot></div>
     </div>
   </template>
 
   <template id="quasar-drawer-cover">
     <div class="quasar-drawer-cover">
       <div class="float-right">
-        <quasar-button class="quasar-drawer-toggle"><quasar-icon class="small">chevron_left</quasar-icon></quasar-button>
+        <quasar-icon class="quasar-drawer-toggle medium">chevron_left</quasar-icon>
       </div>
       <slot></slot>
     </div>
