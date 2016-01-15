@@ -2,10 +2,15 @@
 
 var
   body = $('body'),
-  template = $(require('raw!./drawer.html'))
+  template = $(require('raw!./drawer.html')),
+  drawerAnimationSpeed = 150
   ;
 
-_.forEach(['cover', 'item', 'header'], function(type) {
+function closeDrawer() {
+  quasar.drawer.close();
+}
+
+_.forEach(['cover', 'header'], function(type) {
   Vue.component('quasar-drawer-' + type, {
     template: template.find('#quasar-drawer-' + type).html()
   });
@@ -15,11 +20,31 @@ Vue.component('quasar-drawer-divider', {
   template: '<div class="quasar-drawer-divider"></div>'
 });
 
+Vue.component('quasar-drawer-item', {
+  template: template.find('#quasar-drawer-item').html(),
+  props: ['route'],
+  ready: function() {
+    var
+      el = $(this.$el),
+      route = this.route
+      ;
+
+    el.click(function() {
+      closeDrawer();
+
+      if (route && route !== quasar.get.current.route()) {
+        quasar.navigate.to.route(route);
+      }
+    });
+  }
+});
+
+
 /* istanbul ignore next */
 function animate(open, node, currentPosition, width) {
   node.velocity(
     {translateX: open ? [0, currentPosition] : [-width, currentPosition]},
-    {duration: 150}
+    {duration: drawerAnimationSpeed}
   );
 
   if (open) {
@@ -40,7 +65,11 @@ Vue.component('quasar-drawer', {
     };
   },
   methods: {
-    open: /* istanbul ignore next */ function(event) {
+    openByTouch: /* istanbul ignore next */ function(event) {
+      if ($(window).width > 767) {
+        return;
+      }
+
       var
         content = $(this.$el).find('> .quasar-drawer-content'),
         position = Math.min(0, event.center.x - this.width),
@@ -59,7 +88,11 @@ Vue.component('quasar-drawer', {
         'outline': '9999px solid rgba(0,0,0,' + percentage * .5 + ')'
       });
     },
-    close: /* istanbul ignore next */ function(event) {
+    closeByTouch: /* istanbul ignore next */ function(event) {
+      if ($(window).width > 767) {
+        return;
+      }
+
       var
         content = $(this.$el).find('> .quasar-drawer-content'),
         position = event.deltaX,
@@ -84,7 +117,11 @@ Vue.component('quasar-drawer', {
         'outline': '9999px solid rgba(0,0,0,' + percentage * .5 + ')'
       });
     },
-    toggle: /* istanbul ignore next */ function() {
+    toggle: /* istanbul ignore next */ function(state) {
+      if (_.isBoolean(state) && this.opened === state) {
+        return;
+      }
+
       this.opened = !this.opened;
       animate(
         this.opened,
@@ -92,6 +129,12 @@ Vue.component('quasar-drawer', {
         (this.opened ? -1 : 0) * this.width,
         this.width
       );
+    },
+    open: /* istanbul ignore next */ function() {
+      this.toggle(true);
+    },
+    close: /* istanbul ignore next */ function() {
+      this.toggle(false);
     }
   },
   ready: function() {
@@ -105,8 +148,13 @@ Vue.component('quasar-drawer', {
     }.bind(this));
 
     body.addClass('with-drawer');
+    quasar.drawer = this;
+
+    $(window).resize(this.close);
   },
   destroyed: function() {
     body.removeClass('with-drawer inactive');
+    delete quasar.drawer;
+    $(window).off('resize', this.close);
   }
 });

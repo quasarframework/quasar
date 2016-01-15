@@ -2,8 +2,8 @@
 
   <template id="quasar-drawer">
     <div class="quasar-drawer">
-      <div class="quasar-drawer-opener" v-touch:pan-x="open">&nbsp;</div>
-      <div class="quasar-drawer-content scroll" v-touch:pan-x="close"><slot></slot></div>
+      <div class="quasar-drawer-opener" v-touch:pan-x="openByTouch">&nbsp;</div>
+      <div class="quasar-drawer-content scroll z-4" v-touch:pan-x="closeByTouch"><slot></slot></div>
     </div>
   </template>
 
