@@ -20,13 +20,13 @@
   <quasar-page></quasar-page>
 
   <quasar-drawer>
-    <quasar-drawer-cover>
+    <quasar-drawer-header>
       <div>
         <img src="http://semantic-ui.com/images/avatar2/large/matthew.png" width="100px" height="100px" style="border-radius: 50px; margin-bottom: 20px">
       </div>
       <div><strong>Razvan Stoenescu</strong></div>
       <div>rstoenescu@rstoenescu.com</div>
-    </quasar-drawer-cover>
+    </quasar-drawer-header>
 
     <quasar-drawer-item v-for="n in 4" route="#/">
       <quasar-icon>alarm</quasar-icon>
@@ -34,12 +34,19 @@
     </quasar-drawer-item>
 
     <quasar-drawer-divider></quasar-drawer-divider>
-    <quasar-drawer-header>Subheader</quasar-drawer-header>
+    <quasar-drawer-title>Section</quasar-drawer-title>
 
     <quasar-drawer-item v-for="n in 5" route="#/second">
       <quasar-icon>alarm</quasar-icon>
       Second Page
     </quasar-drawer-item>
+
+    <quasar-drawer-footer>
+      <quasar-drawer-item v-for="n in 2">
+        <quasar-icon>alarm</quasar-icon>
+        Settings
+      </quasar-drawer-item>
+    </quasar-drawer-footer>
   </quasar-drawer>
 
 </quasar-layout>

@@ -11,7 +11,7 @@ function closeDrawer() {
   quasar.drawer.close();
 }
 
-_.forEach(['cover', 'header'], function(type) {
+_.forEach(['header', 'title'], function(type) {
   Vue.component('quasar-drawer-' + type, {
     template: template.find('#quasar-drawer-' + type).html()
   });
@@ -19,6 +19,10 @@ _.forEach(['cover', 'header'], function(type) {
 
 Vue.component('quasar-drawer-divider', {
   template: '<div class="quasar-drawer-divider"></div>'
+});
+
+Vue.component('quasar-drawer-footer', {
+  template: '<div class="quasar-drawer-footer"><slot></slot></div>'
 });
 
 Vue.component('quasar-drawer-item', {
@@ -134,9 +138,12 @@ Vue.component('quasar-drawer', {
     }
   },
   ready: function() {
-    var el = $(this.$el);
+    var
+      el = $(this.$el),
+      content = el.find('> .quasar-drawer-content')
+      ;
 
-    this.width = parseInt(el.find('> .quasar-drawer-content').css('width'), 10);
+    this.width = parseInt(content.css('width'), 10);
 
     /* istanbul ignore next */
     el.parents('.quasar-layout').find('.quasar-drawer-toggle').click(function() {
@@ -145,6 +152,9 @@ Vue.component('quasar-drawer', {
 
     body.addClass('with-drawer');
     quasar.drawer = this;
+
+    content.find('> .quasar-drawer-container')
+      .css('padding-bottom', content.find('.quasar-drawer-footer').height() + 16 + 'px');
 
     $(window).resize(this.close);
   },

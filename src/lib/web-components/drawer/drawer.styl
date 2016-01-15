@@ -5,6 +5,10 @@ $drawer-separator-color = #ECECEC
 body.inactive.with-drawer:after
   z-index $z-drawer - 1
 
+.quasar-drawer-container
+  position relative
+  height 100%
+
 .quasar-drawer-content
   z-index $z-drawer
   position fixed
@@ -17,7 +21,7 @@ body.inactive.with-drawer:after
   background-color $white
   @extend .z-8
 
-  .quasar-drawer-cover
+  .quasar-drawer-header
     width 100%
     padding 16px
     margin-bottom 8px
@@ -25,6 +29,12 @@ body.inactive.with-drawer:after
     color $white
     .quasar-icon
       cursor pointer
+  .quasar-drawer-footer
+    position fixed
+    bottom 0
+    width 100%
+    background-color $white
+    border-top 1px solid $drawer-separator-color
   .quasar-drawer-item
     cursor pointer
     transition all .3s
@@ -40,10 +50,10 @@ body.inactive.with-drawer:after
     background-color $drawer-separator-color
     border 0
     padding 0
-  .quasar-drawer-header
+  .quasar-drawer-title
     color lighten(black, 45%)
 
-  .quasar-drawer-item, .quasar-drawer-header
+  .quasar-drawer-item, .quasar-drawer-title
     font-weight 500
     height 48px
     padding 8px 16px
