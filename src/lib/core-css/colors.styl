@@ -5,29 +5,10 @@ $secondary = $yellow
 $link-color = lighten($primary, 30%)
 $link-active = $primary
 
-$positiveColor           = #21BA45;
-$positiveBackgroundColor = #FCFFF5
-$positiveBorderColor     = #A3C293
-$positiveHeaderColor     = #1A531B
-$positiveTextColor       = #2C662D
-
-$negativeColor           = #DB2828;
-$negativeBackgroundColor = #FFF6F6
-$negativeBorderColor     = #E0B4B4
-$negativeHeaderColor     = #912D2B
-$negativeTextColor       = #9F3A38
-
-$infoColor              = #31CCEC
-$infoBackgroundColor    = #F8FFFF
-$infoBorderColor        = #A9D5DE
-$infoHeaderColor        = #0E566C
-$infoTextColor          = #276F86
-
-$warningColor           = #F2C037
-$warningBorderColor     = #C9BA9B
-$warningBackgroundColor = #FFFAF3
-$warningHeaderColor     = #794B02
-$warningTextColor       = #573A08
+$positive  = #21BA45
+$negative  = #DB2828
+$info      = #31CCEC
+$warning   = #F2C037
 
 
 .primary
@@ -38,35 +19,35 @@ $warningTextColor       = #573A08
 
 
 .positive
-  color $positiveColor !important
+  color $positive !important
 
 .background.positive
-  color $positiveTextColor !important
-  background-color $positiveBackgroundColor !important
+  color black !important
+  background-color $positive !important
 
 
 .negative
-  color $negativeColor !important
+  color $negative !important
 
 .background.negative
-  color $negativeTextColor !important
-  background-color $negativeBackgroundColor !important
+  color white !important
+  background-color $negative !important
 
 
 .info
-  color $infoColor !important
+  color $info !important
 
 .background.info
-  color $infoTextColor !important
-  background-color $infoBackgroundColor !important
+  color black !important
+  background-color $info !important
 
 
 .warning
-  color $warningColor !important
+  color $warning !important
 
 .background.warning
-  color $warningTextColor !important
-  background-color $warningBackgroundColor !important
+  color black !important
+  background-color $warning !important
 
 
 .white
