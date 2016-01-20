@@ -5,8 +5,11 @@
 
 <br>
 {{msg}}
-<div style="background-color: teal; width: 100px; height: 100px;" v-on:click="notify()"></div>
-<div style="background-color: orange; width: 100px; height: 100px;" v-on:click="modal()"></div>
+<br><br>
+<quasar-button v-on:click="notify()">Notifies</quasar-button>
+<br><br>
+<quasar-button v-on:click="modal()">Modal 1</quasar-button>
+<quasar-button v-on:click="modal2()">Modal 2</quasar-button>
 <div class="ui teal progress" data-percent="74" v-on:click="myalert()">
   <div class="bar"></div>
   <div class="label">74% Funded</div>

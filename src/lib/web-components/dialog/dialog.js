@@ -12,9 +12,8 @@ function Dialog(options) {
 
   var
     el = $(this.vm.$el),
-    header = el.find('.quasar-dialog-header'),
     body = $(this.vm.$el).find('.quasar-dialog-body'),
-    footer = el.find('.quasar-dialog-footer')
+    footer = $(this.vm.$el).find('.quasar-dialog-footer')
     ;
 
   this.scroll = function() {
@@ -24,17 +23,11 @@ function Dialog(options) {
       ;
 
     if (!hasScroll) {
-      console.log('NO SCROLL');
-      header.removeClass('shadow');
       footer.removeClass('shadow');
       return;
     }
 
-    console.log(offset > 0 ? 'header shadow' : '');
-    console.log(offset, body.height(), offset + body.height() + 25, body.prop('scrollHeight'), offset + body.height() < body.prop('scrollHeight') ? 'footer shadow' : '');
-    console.log('---');
-    header[offset > 0 ? 'addClass' : 'removeClass']('z-2');
-    footer[offset + body.height() + 25 < body.prop('scrollHeight') ? 'addClass' : 'removeClass']('z-2-up');
+    footer[offset + body.height() + 25 < body.prop('scrollHeight') ? 'addClass' : 'removeClass']('z-4-up');
   };
   this.open();
 
@@ -49,14 +42,18 @@ Dialog.prototype.open = function() {
   }.bind(this), 1);
 };
 
-Dialog.prototype.close = function() {
-  $('body').removeClass('inactive');
-
+Dialog.prototype.close = function(onClose) {
   $(this.vm.$el)
   .removeClass('active')
   .find('> .quasar-dialog-body').off('scroll', this.scroll);
 
   setTimeout(function() {
+    $('body').removeClass('inactive');
+
+    if (onClose) {
+      onClose();
+    }
+
     this.vm.$destroy(true);
   }.bind(this), 200);
 };
@@ -71,7 +68,7 @@ function createDialog(options) {
 
   var node = $(template).appendTo(dialogsNode);
 
-  node.find('.quasar-dialog-body').html(options.html);
+  node.find('.quasar-dialog-content').html(options.html);
 
   var config = _.merge(
     {
@@ -85,8 +82,14 @@ function createDialog(options) {
           buttons: options.buttons
         },
         methods: {
-          dismiss: function() {
-            dialog.close();
+          ___onClick: function(dismiss, method) {
+            if (dismiss) {
+              dialog.close(function() {
+                if (method) {
+                  method.call(this);
+                }
+              }.bind(this));
+            }
           }
         }
       }
