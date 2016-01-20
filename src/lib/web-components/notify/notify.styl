@@ -1,3 +1,4 @@
+
 #__quasar_notifiers
   position fixed
   z-index $z-notifier
@@ -8,11 +9,15 @@
     margin-bottom 5px
     will-change transform
     color white
-    background-color $grey-600
+    background-color $grey-700
     font-size 14px
 
     a
       color $yellow
+
+    img
+      max-height 30px
+      max-width 30px
 
     > *
       margin 5px
@@ -35,7 +40,7 @@
 
 @media (min-width: $tabletBreakpoint)
   #__quasar_notifiers
-    top 50px
+    top 120px
     right 16px
     pointer-events none
 
@@ -60,4 +65,3 @@
       margin-bottom 0
       -webkit-justify-content space-between
       justify-content space-between
-      box-shadow 0 4px 5px 0 rgba(0, 0, 0, .84), 0 1px 10px 0 rgba(0, 0, 0, .62), 0 2px 4px -1px rgba(0, 0, 0, .44)

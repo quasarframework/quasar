@@ -2,9 +2,6 @@
 $drawer-width = 300px
 $drawer-separator-color = #ECECEC
 
-body.inactive.with-drawer:after
-  z-index $z-drawer - 1
-
 .quasar-drawer-container
   position relative
   height 100%
@@ -85,11 +82,9 @@ body.inactive.with-drawer:after
     bottom 0 !important
 
 @media screen and (min-width: $largestMobileScreen)
-  body.with-drawer
+  body
     .quasar-page
       padding 20px
-    &.inactive
-      overflow auto
     .quasar-drawer-opener, .quasar-drawer-toggle
       display none
     .quasar-drawer-content

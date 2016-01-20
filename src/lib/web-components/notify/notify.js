@@ -1,7 +1,7 @@
 'use strict';
 
 var
-  notifyNode = $('<div id="__quasar_notifiers">'),
+  notifyNode = $('<div id="__quasar_notifiers" class="layout vertical items-end">'),
   dismissers = [],
   types = [
     {
@@ -41,8 +41,7 @@ function Notify(options) {
     {
       timeout: 7000,
       onDismiss: $.noop,
-      dismissable: true,
-      vue: {
+      vm: {
         methods: {
           ____pan: function(event) {
             var
@@ -78,10 +77,11 @@ function Notify(options) {
     options
   );
 
-  this.node = $('<div class="quasar-notifier layout items-center wrap non-selectable z-4" v-touch:pan="____pan">');
+  this.node = $('<div class="quasar-notifier layout items-center justify-between wrap non-selectable z-4" v-touch:pan="____pan">');
 
   this.node.append(
     (this.icon ? '<quasar-icon>' + this.icon + '</quasar-icon> ' : '') +
+    (this.image ? '<img src="' + this.image + '">' : '') +
     '<div class="layout flex">' + this.html + '</div>'
   );
 
@@ -101,11 +101,6 @@ function Notify(options) {
     .click(dismissAll)
     .appendTo(this.node);
 
-  if (this.dismissable && !quasar.runs.with.touch && quasar.runs.on.desktop) {
-    this.node.css('cursor', 'pointer');
-    this.node.click(function() {this.dismiss();}.bind(this));
-  }
-
   if (this.timeout > 0) {
     this.timer = setTimeout(function() {
       this.dismiss();
@@ -115,8 +110,8 @@ function Notify(options) {
   this.vm.el = this.node[0];
   this.vm = new Vue(this.vm);
 
+  quasar.global.events.trigger('app:notify', this.html);
   this.node.css('display', 'none').appendTo(notifyNode).slideToggle();
-  notifyNode.append('<div style="clear: both;">');
 
   if (dismissers.length > 5) {
     dismissers.shift()();
@@ -140,8 +135,7 @@ Notify.prototype.dismiss = function() {
   }
 
   this.node.slideToggle(200, function() {
-    this.node.next().remove();
-    this.vue.$destroy(true);
+    this.vm.$destroy(true);
     this.onDismiss();
   }.bind(this));
 

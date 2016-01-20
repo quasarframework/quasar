@@ -18,13 +18,15 @@ $dialog-pad = 24px
 
     &.active
       opacity 1
-      background-color rgba(0,0,0,.4)
+      background-color rgba(0,0,0,$overlay-opacity)
       .quasar-dialog-content
-        transform translateY(0)
+        transform translateY(0) scale(1)
 
     .quasar-dialog-content
+      max-height 90vh
       transition all .2s linear
-      transform translateY(-150px)
+      transform translateY(100px) scale(.7)
+      will-change transform
       max-width 600px
       margin 16px
       color $dialog-text
@@ -40,7 +42,9 @@ $dialog-pad = 24px
       color black
 
     .quasar-dialog-body
-      padding 0 $dialog-pad $dialog-pad $dialog-pad
+      max-height 65vh
+      overflow-y auto
+      padding 0 $dialog-pad 24px $dialog-pad
 
     .quasar-dialog-footer
       height 52px
@@ -57,3 +61,6 @@ $dialog-pad = 24px
         cursor pointer
         & + div
           margin-left 8px
+
+    .quasar-dialog-header, .quasar-dialog-footer
+      transition all .3s ease-in
