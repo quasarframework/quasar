@@ -3,7 +3,8 @@
 var
   body = $('body'),
   template = $(require('raw!./drawer.html')),
-  drawerAnimationSpeed = 150
+  drawerAnimationSpeed = 200,
+  overlayOpacity = .7
   ;
 
 /* istanbul ignore next */
@@ -46,13 +47,29 @@ Vue.component('quasar-drawer-item', {
 
 
 /* istanbul ignore next */
-function animate(open, node, currentPosition, width) {
+function animate(open, node, overlay, percentage, currentPosition, width) {
   node.velocity(
     {translateX: open ? [0, currentPosition] : [-width, currentPosition]},
+    {duration: drawerAnimationSpeed}
+  );
+
+  if (open) {
+    overlay.addClass('active');
+  }
+
+  overlay
+  .css('background-color', 'rgba(0,0,0,' + percentage * overlayOpacity + ')')
+  .velocity(
+    {
+      'backgroundColor': '#000',
+      'backgroundColorAlpha': open ? overlayOpacity : .01
+    },
     {
       duration: drawerAnimationSpeed,
       complete: function() {
-        node.css({'outline': open ? '9999px solid rgba(0,0,0,.2)' : ''});
+        if (!open) {
+          overlay.removeClass('active');
+        }
       }
     }
   );
@@ -75,19 +92,22 @@ Vue.component('quasar-drawer', {
 
       var
         content = $(this.$el).find('> .quasar-drawer-content'),
+        overlay = $(this.$el).find('> .quasar-drawer-overlay'),
         position = Math.min(0, event.center.x - this.width),
         percentage = (this.width - Math.abs(position)) / this.width
         ;
 
       if (event.isFinal) {
         this.opened = event.center.x > 75;
-        animate(this.opened, content, position, this.width);
+        animate(this.opened, content, overlay, percentage, position, this.width);
         return;
       }
 
       content.css({
         'transform': 'translateX(' + position + 'px)',
       });
+      overlay.addClass('active')
+        .css('background-color', 'rgba(0,0,0,' + percentage * overlayOpacity + ')');
     },
     closeByTouch: /* istanbul ignore next */ function(event) {
       if ($(window).width > 767) {
@@ -96,6 +116,7 @@ Vue.component('quasar-drawer', {
 
       var
         content = $(this.$el).find('> .quasar-drawer-content'),
+        overlay = $(this.$el).find('> .quasar-drawer-overlay'),
         position = event.deltaX,
         percentage = position < 0 ? 1 + position / this.width : 1
         ;
@@ -109,13 +130,14 @@ Vue.component('quasar-drawer', {
 
       if (event.isFinal) {
         this.opened = Math.abs(position) <= 75;
-        animate(this.opened, content, position, this.width);
+        animate(this.opened, content, overlay, percentage, position, this.width);
         return;
       }
 
       content.css({
         'transform': 'translateX(' + position + 'px)',
       });
+      overlay.css('background-color', 'rgba(0,0,0,' + percentage * overlayOpacity + ')');
     },
     toggle: /* istanbul ignore next */ function(state) {
       if (_.isBoolean(state) && this.opened === state) {
@@ -126,6 +148,8 @@ Vue.component('quasar-drawer', {
       animate(
         this.opened,
         $(this.$el).find('> .quasar-drawer-content'),
+        $(this.$el).find('> .quasar-drawer-overlay'),
+        this.opened ? .01 : 1,
         (this.opened ? -1 : 0) * this.width,
         this.width
       );

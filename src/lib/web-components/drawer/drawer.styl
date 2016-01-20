@@ -9,6 +9,18 @@ body.inactive.with-drawer:after
   position relative
   height 100%
 
+.quasar-drawer-overlay
+  display none
+  position fixed
+  z-index $z-drawer
+  top 0
+  bottom 0
+  left 0
+  right 0
+  background-color black
+  &.active
+    display block
+
 .quasar-drawer-content
   z-index $z-drawer
   position fixed
@@ -78,8 +90,6 @@ body.inactive.with-drawer:after
       padding 20px
     &.inactive
       overflow auto
-      &:after
-        position inherit
     .quasar-drawer-opener, .quasar-drawer-toggle
       display none
     .quasar-drawer-content
