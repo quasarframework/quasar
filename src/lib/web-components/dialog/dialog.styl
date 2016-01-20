@@ -1,0 +1,59 @@
+$dialog-primary = $primary
+$dialog-text = black
+$dialog-bg = $white
+$dialog-radius = 5px
+$dialog-pad = 24px
+
+#__quasar_dialogs
+  .quasar-dialog
+    z-index $z-dialog
+    position fixed
+    top 0
+    left 0
+    right 0
+    bottom 0
+    background-color rgba(0,0,0,0)
+    transition all .2s linear
+    opacity 0
+
+    &.active
+      opacity 1
+      background-color rgba(0,0,0,.4)
+      .quasar-dialog-content
+        transform translateY(0)
+
+    .quasar-dialog-content
+      transition all .2s linear
+      transform translateY(-150px)
+      max-width 600px
+      margin 16px
+      color $dialog-text
+      background-color $dialog-bg
+      border-radius $dialog-radius
+      @extend .z-8
+
+    .quasar-dialog-header
+      border-radius $dialog-radius $dialog-radius 0 0
+      padding $dialog-pad $dialog-pad 20px $dialog-pad
+      font-size 1.8em
+      font-weight 500
+      color black
+
+    .quasar-dialog-body
+      padding 0 $dialog-pad $dialog-pad $dialog-pad
+
+    .quasar-dialog-footer
+      height 52px
+      padding 8px
+
+      div
+        color $primary
+        font-weight 500
+        text-transform uppercase
+        min-width 64px
+        height 36px
+        padding-left 8px
+        padding-right 8px
+        cursor pointer
+        & + div
+          margin-left 8px

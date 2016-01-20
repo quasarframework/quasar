@@ -112,8 +112,8 @@ function Notify(options) {
     }.bind(this), this.timeout);
   }
 
-  this.vue.el = this.node[0];
-  this.vue = new Vue(this.vue);
+  this.vm.el = this.node[0];
+  this.vm = new Vue(this.vm);
 
   this.node.css('display', 'none').appendTo(notifyNode).slideToggle();
   notifyNode.append('<div style="clear: both;">');
@@ -126,7 +126,7 @@ function Notify(options) {
   return {
     node: this.node,
     dismiss: this.dismiss.bind(this),
-    vm: this.vue
+    vm: this.vm
   };
 }
 
