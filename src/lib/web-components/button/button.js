@@ -1,22 +1,30 @@
 'use strict';
 
+var
+  colors = ['neutral', 'primary', 'secondary', 'tertiary', 'positive', 'negative', 'warning', 'info'],
+  sizes = ['small', 'big']
+  ;
+
 Vue.component('quasar-button', {
-  template: '<button><slot></slot></button>',
+  template: '<div class="quasar-button non-selectable"><slot></slot></a>',
   compiled: function() {
     var
       el = $(this.$el),
-      manager = el.getAttributesManager(),
-      attr = manager.getEmpty()
+      manager = el.getAttributesManager()
       ;
 
-    manager.withEmpty(attr, function(type) {
-      el.addClass(type);
-      if (type === 'circular') {
-        el.addClass('icon');
-      }
-      else if (type == 'flat') {
-        el.addClass('squared');
-      }
+    manager.withEmpty(colors, function(color) {
+      el.addClass(color);
+    });
+
+    manager.withEmpty(sizes, function(size) {
+      el.addClass(size);
+    });
+
+    _.forEach(['circular', 'raised', 'disabled', 'inverted', 'cornered', 'fluid'], function(type) {
+      manager.withEmpty(type, function() {
+        el.addClass(type);
+      });
     });
   }
 });

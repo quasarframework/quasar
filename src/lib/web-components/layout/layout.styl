@@ -26,7 +26,7 @@ $toolbar-row-height = 55px
 
   .quasar-row
     height $toolbar-row-height
-    padding 0 16px
+    padding 0 10px
 
     .quasar-title
       margin-left 10px
@@ -37,12 +37,12 @@ $toolbar-row-height = 55px
       height 40px
       font-size $fontSize + 7px
 
-    button, .button
+    .quasar-toolbar-button
       border 0
+      cursor pointer
       padding 8px
-      width 40px
+      width 35px
       height 40px
-      border-radius $radius
       background-color transparent
       color $white
       font-size $fontSize + 7px
@@ -93,6 +93,6 @@ $toolbar-row-height = 55px
       color $white !important
 
 .quasar-header .quasar-tab.active
-  border-bottom 4px solid #18ffff
+  border-bottom 4px solid lighten($primary, 65%)
 .quasar-footer .quasar-tab.active
-  border-top 4px solid #18ffff
+  border-top 4px solid lighten($primary, 65%)

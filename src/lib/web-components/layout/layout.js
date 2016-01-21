@@ -252,6 +252,10 @@ Vue.component('quasar-navigation', {
   }
 });
 
+Vue.component('quasar-toolbar-button', {
+  template: '<div class="quasar-toolbar-button"><slot></slot></div>'
+});
+
 Vue.component('quasar-tab', {
   template: template.find('#quasar-tab').html(),
   props: ['page', 'route'],

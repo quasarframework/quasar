@@ -1,4 +1,3 @@
-$dialog-primary = $primary
 $dialog-text = black
 $dialog-bg = $white
 $dialog-radius = 5px
@@ -27,6 +26,7 @@ $dialog-pad = 24px
       transition all .2s ease-in
       transform translateY(100px) scale(.7)
       will-change transform
+      min-width 280px
       max-width 600px
       margin 16px
       color $dialog-text
@@ -41,6 +41,10 @@ $dialog-pad = 24px
       font-weight 500
       color black
 
+      .quasar-icon
+        font-size 1.5em
+        margin-right 10px
+
     .quasar-dialog-body
       max-height 65vh
       overflow-y auto
@@ -49,17 +53,10 @@ $dialog-pad = 24px
 
     .quasar-dialog-footer
       height 52px
-      padding 8px
+      padding 0 8px
 
-      div
-        color $primary
-        font-weight 500
+      .quasar-button
         text-transform uppercase
-        min-width 64px
-        height 36px
-        padding-left 8px
-        padding-right 8px
-        cursor pointer
         & + div
           margin-left 8px
 

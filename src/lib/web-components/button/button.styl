@@ -1,22 +1,123 @@
-button, .button
+
+$button-colors = neutral $neutral,
+                 primary $primary,
+                 secondary $secondary,
+                 tertiary $tertiary,
+                 positive $positive,
+                 negative $negative,
+                 warning $warning,
+                 info $info
+
+buttonHoverColor($color)
+  if luminosity($color) > 0.49
+    darken($color, 10%)
+  else
+    lighten($color, 20%)
+
+.quasar-button
+  display inline-block
   outline 0
   cursor pointer
-  user-select none
+  border none
+  background-image none
+  text-shadow none
+  font-weight 500
+  font-style normal
+  text-align center
+  text-decoration none
+  white-space nowrap
+  letter-spacing .5px
+  vertical-align middle
+  border-radius 3px
+  transition all .12s ease-in
+  margin-top 5px
+  margin-bottom 5px
+  color #5C5C5C
 
-  &.primary
-      background-color $primary
+  &.fluid
+    width 100%
+
+  &.cornered
+    border-radius 0
+
+  & + &
+    margin-left 8px
+
+  &:active:not(.disabled):not(.default)
+    @extend .z-4
+
   &.raised
-      box-shadow $shadow
-      &:active
-          box-shadow 0 5px 11px 0 rgba(0, 0, 0, .18), 0 4px 15px 0 rgba(0, 0, 0, .15)
-  &.flat
-      background-color transparent
-      box-shadow none
-      font-weight 500
-      border 0
-      color black
-      &:active
-          background-color lighten(black, 80%)
+    @extend .z-2
+    &:hover:not(.disabled)
+      @extend .z-4
+    &:active:not(.disabled)
+      @extend .z-8
+
+  &:active:not(.disabled)
+    background-color buttonHoverColor(white)
+
+  /**
+   * COLORS
+   */
+  for $color in $button-colors
+    &.{$color[0]}
+      color white
+      background-color $color[1]
+      &:hover:not(.disabled), &:active:not(.disabled)
+        background-color buttonHoverColor($color[1])
+      &.inverted
+        color $color[1]
+        background-color white
+        &:hover:not(.disabled), &:active:not(.disabled)
           color white
-  &.squared
-      border-radius 0 !important
+          background-color $color[1]
+
+  &.neutral
+    color #5C5C5C !important
+
+  /**
+   * SHAPE
+   */
+
+  /* default shape */
+  &:not(.circular)
+    min-width 64px
+    padding 0 15px
+    height 42px
+    line-height 42px
+    .quasar-icon
+      margin 0 10px
+      font-size 1.7em
+    &.small
+      padding 0 7px
+      height 36px
+      line-height 36px
+      .quasar-icon
+        font-size 1.5em
+    &.big
+      padding 0 25px
+      height 62px
+      line-height 62px
+      .quasar-icon
+        font-size 1.9em
+
+  &.circular
+    border-radius 50%
+    padding 0
+    height 56px
+    width 56px
+    line-height 53px
+    font-size 24px
+    &.small
+      height 37px
+      width 37px
+      line-height 34px
+      .quasar-icon
+        font-size .8em
+    &.big
+      height 72px
+      width 72px
+      line-height 66px
+      font-size 28px
+      .quasar-icon
+        font-size 1.1em

@@ -5,7 +5,7 @@
       <div class="quasar-dialog-content"></div>
     </div>
     <div class="quasar-dialog-footer layout content-center justify-end items-stretch">
-      <div class="quasar-dialog-button layout items-center justify-center" v-for="button in buttons" v-on:click="___onClick(button.dismiss, button.fn)">{{button.label}}</div>
+      <quasar-button class="layout items-center justify-center" :class="button.type" v-for="button in buttons" v-on:click="___onClick(button.dismiss, button.fn)">{{button.label}}</quasar-button>
     </div>
   </div>
 </div>
