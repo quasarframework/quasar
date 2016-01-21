@@ -28,7 +28,3 @@ Vue.component('quasar-button', {
     });
   }
 });
-
-Vue.component('quasar-button-group', {
-  template: '<div class="buttons"><slot></slot></div>'
-});
