@@ -27,7 +27,7 @@ function Dialog(options) {
       return;
     }
 
-    footer[offset + body.height() + 25 < body.prop('scrollHeight') ? 'addClass' : 'removeClass']('z-4-up');
+    footer[offset + body.height() + 25 < body.prop('scrollHeight') ? 'addClass' : 'removeClass']('z-2-up');
   };
   this.open();
 

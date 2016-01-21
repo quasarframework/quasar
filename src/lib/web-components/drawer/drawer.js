@@ -23,7 +23,7 @@ Vue.component('quasar-drawer-divider', {
 });
 
 Vue.component('quasar-drawer-footer', {
-  template: '<div class="quasar-drawer-footer"><slot></slot></div>'
+  template: '<div class="quasar-drawer-footer z-2-up"><slot></slot></div>'
 });
 
 Vue.component('quasar-drawer-item', {

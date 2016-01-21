@@ -15,8 +15,8 @@ describe('Tag: quasar-button', function() {
     testing.app.tag(
       '<quasar-button>Quasar Button Label</quasar-button>',
       function() {
-        expect(_html).to.include('<button');
-        expect(_html).to.include('Quasar Button Label</button>');
+        expect(_html).to.include('class="quasar-button');
+        expect(_html).to.include('Quasar Button Label</div>');
         testing.done();
       }
     );
@@ -27,22 +27,9 @@ describe('Tag: quasar-button', function() {
     testing.app.tag(
       '<quasar-button circular>Quasar Button Label</quasar-button>',
       function() {
-        expect(_html).to.include('<button ');
-        expect(_html).to.include('circular icon');
-        expect(_html).to.include('Quasar Button Label</button>');
-        testing.done();
-      }
-    );
-  });
-
-  it('should be able to render with flat param', function(done) {
-    testing.done.set(done);
-    testing.app.tag(
-      '<quasar-button flat>Quasar Button Label</quasar-button>',
-      function() {
-        expect(_html).to.include('<button ');
-        expect(_html).to.include('flat squared');
-        expect(_html).to.include('Quasar Button Label</button>');
+        expect(_html).to.include('class="quasar-button');
+        expect(_html).to.include('circular');
+        expect(_html).to.include('Quasar Button Label</div>');
         testing.done();
       }
     );
@@ -53,9 +40,9 @@ describe('Tag: quasar-button', function() {
     testing.app.tag(
       '<quasar-button qwerty>Quasar Button Label</quasar-button>',
       function() {
-        expect(_html).to.include('<button ');
+        expect(_html).to.include('class="quasar-button');
         expect(_html).to.include('qwerty');
-        expect(_html).to.include('Quasar Button Label</button>');
+        expect(_html).to.include('Quasar Button Label</div>');
         testing.done();
       }
     );

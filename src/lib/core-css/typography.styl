@@ -11,52 +11,11 @@ body
   min-width 320px
   background $white
   font-family 'Roboto', 'Helvetica Neue', Arial, Helvetica, sans-serif
-  font-size $fontSize
-  line-height 1.4285em
-  color rgba(0, 0, 0, .87)
+  font-size $font-size
+  font-weight normal
+  line-height 1em
+  color lighten(black, 17%)
   font-smoothing antialiased
-
-
-
-h1, h2, h3, h4, h5
-  font-family 'Roboto', 'Helvetica Neue', Arial, Helvetica, sans-serif
-  line-height 1.2857em
-  margin calc(2rem - .14285em) 0 1rem
-  font-weight bold
-  padding 0
-  &:first-child
-    margin-top 0
-  &:last-child
-    margin-bottom 0
-
-h1
-  min-height 1rem
-  font-size 2rem
-
-h2
-  font-size 1.714rem
-
-h3
-  font-size 1.28rem
-
-h4
-  font-size 1.071rem
-
-h5
-  font-size 1rem
-
-
-
-p
-  margin  0  0 1em
-  line-height 1.4285em
-
-p:first-child
-  margin-top 0
-
-p:last-child
-  margin-bottom 0
-
 
 a
   color $link-color
@@ -67,8 +26,61 @@ a
     color $link-active
     text-decoration none
 
+h1, h2, h3, h4, h5, h6
+  font-weight 400
+  padding 0
+  line-height 1.1
+  &:first-child
+    margin-top 0
+  &:last-child
+    margin-bottom 0
+
+h1
+  min-height 1rem
+  font-size $font-size * 4
+  margin (@font-size / 2) 0 (@font-size / 2.5) 0
+
+h2
+  font-size $font-size * 3
+  margin (@font-size / 2) 0 (@font-size / 2.5) 0
+  border-bottom 1px solid $neutral
+
+h3
+  font-size $font-size * 2.5
+  margin (@font-size / 2) 0 (@font-size / 2.5) 0
+
+h4
+  font-size $font-size * 2
+  margin (@font-size / 2) 0 (@font-size / 2.5) 0
+
+h5
+  font-size $font-size * 1.6
+  margin (@font-size / 2) 0 (@font-size / 2.5) 0
+
+h6
+  font-size $font-size * 1.4
+  margin (@font-size / 2) 0 (@font-size / 2.5) 0
 
 
+.light
+  font-weight 300
+.thin
+  font-weight 200
+
+p
+  margin .5em 0 1em
+  line-height 1.4em
+
+p:first-child
+  margin-top 0
+
+p:last-child
+  margin-bottom 0
+
+.responsive-text
+  font-size $font-size
+  font-size 3.7vmin
+  line-height 3.9vmin
 
 /* Site */
 ::-webkit-selection
