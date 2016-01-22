@@ -77,7 +77,13 @@ buttonHoverColor($color)
   &.neutral
     color $neutral-text !important
   &.light
-    color $black !important
+    color black !important
+    &.inverted
+      color white !important
+      background-color black
+      &:hover:not(.disabled), &:active:not(.disabled)
+        color black !important
+        background-color white
 
   /* default shape */
   &:not(.circular)
