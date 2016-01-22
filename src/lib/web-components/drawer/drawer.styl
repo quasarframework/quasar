@@ -8,12 +8,7 @@ $drawer-separator-color = #ECECEC
 
 .quasar-drawer-overlay
   display none
-  position fixed
   z-index $z-drawer
-  top 0
-  bottom 0
-  left 0
-  right 0
   background-color black
   &.active
     display block
@@ -93,5 +88,3 @@ $drawer-separator-color = #ECECEC
       outline 0 !important
     .quasar-layout
       margin-left $drawer-width !important
-      .quasar-header.fixed-top
-        z-index $z-drawer + 1 !important

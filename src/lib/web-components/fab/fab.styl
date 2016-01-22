@@ -1,0 +1,66 @@
+#__quasar_fabs
+  position fixed
+  bottom 10px
+  right 16px
+  width 56px
+  pointer-events none
+
+  .quasar-button
+    pointer-events all
+
+  ul
+    padding 0
+    list-style-type none
+    visibility hidden
+    position absolute
+    pointer-events all
+    .quasar-button
+      opacity 0
+
+  .quasar-fab-label
+    display none
+    position absolute
+    background-color $grey-600
+    padding 10px
+    border-radius 3px
+    color white
+    font-weight 600
+
+  .quasar-fab
+    z-index $z-fab
+    position relative
+    &:not(.horizontal)
+      ul
+        left 0
+        right 0
+        text-align center
+        bottom 64px
+        margin 0
+      .quasar-fab-label
+        top 17px
+        right 64px
+
+    &.horizontal
+      ul
+        text-align right
+        right 64px
+        top 0
+        transform translateY(-50%)
+        width 500px
+        height 40px
+        li
+          display inline-block
+          margin 15px 15px 0 0
+      .quasar-fab-label
+        right 0
+        bottom 64px
+        margin-bottom 10px
+
+    &.active
+      ul
+        visibility visible
+        border-radius 10px
+
+    &:hover
+      .quasar-fab-label
+        display block

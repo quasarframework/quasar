@@ -1,96 +1,33 @@
 
 @require variables
 
-/* All Sizes */
 .container
   display block
   max-width 100% !important
 
-
-/* Mobile */
 @media only screen and (max-width $largestMobileScreen)
   .container
     width $mobileWidth !important
     margin-left $mobileGutter !important
     margin-right $mobileGutter !important
 
-  .ui.grid.container
-    width $mobileGridWidth !important
-
-  .ui.relaxed.grid.container
-    width $mobileRelaxedGridWidth !important
-
-  .ui.very.relaxed.grid.container
-    width $mobileVeryRelaxedGridWidth !important
-
-
-
-/* Tablet */
 @media only screen and (min-width $tabletBreakpoint) and (max-width $largestTabletScreen)
   .container
     width $tabletWidth
     margin-left $tabletGutter !important
     margin-right $tabletGutter !important
 
-  .ui.grid.container
-    width $tabletGridWidth !important
-
-  .ui.relaxed.grid.container
-    width $tabletRelaxedGridWidth !important
-
-  .ui.very.relaxed.grid.container
-    width $tabletVeryRelaxedGridWidth !important
-
-
-
-/* Small Monitor */
 @media only screen and (min-width $computerBreakpoint) and (max-width $largestSmallMonitor)
   .container
     width $computerWidth
     margin-left $computerGutter !important
     margin-right $computerGutter !important
 
-  .ui.grid.container
-    width $computerGridWidth !important
-
-  .ui.relaxed.grid.container
-    width $computerRelaxedGridWidth !important
-
-  .ui.very.relaxed.grid.container
-    width $computerVeryRelaxedGridWidth !important
-
-
-
-/* Large Monitor */
 @media only screen and (min-width $largeMonitorBreakpoint)
   .container
     width $largeMonitorWidth
     margin-left $largeMonitorGutter !important
     margin-right $largeMonitorGutter !important
 
-  .ui.grid.container
-    width $largeMonitorGridWidth !important
-
-  .ui.relaxed.grid.container
-    width $largeMonitorRelaxedGridWidth !important
-
-  .ui.very.relaxed.grid.container
-    width $largeMonitorVeryRelaxedGridWidth !important
-
-
-
-/*******************************
-             Types
-*******************************/
-
-
-/* Text Container */
-.container.text
-  font-family $textFontFamily
-  max-width $textWidth !important
-  line-height $textLineHeight
-  font-size $textSize
-
-/* Fluid */
 .container.fluid
   width 100%

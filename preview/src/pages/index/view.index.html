@@ -21,11 +21,10 @@
 <br>
 {{msg}}
 <br><br>
-<quasar-button v-on:click="notify()">Notifies</quasar-button>
-<br><br>
-<quasar-button v-on:click="modal()">Modal 1</quasar-button>
-<quasar-button v-on:click="modal2()">Modal 2</quasar-button>
-<div class="ui teal progress" data-percent="74" v-on:click="myalert()">
+<quasar-button @click="notify()">Notifies</quasar-button>
+<quasar-button @click="modal()">Modal 1</quasar-button>
+<quasar-button @click="modal2()">Modal 2</quasar-button>
+<div class="ui teal progress" data-percent="74" @click="myalert()">
   <div class="bar"></div>
   <div class="label">74% Funded</div>
 </div>

@@ -18,7 +18,7 @@ function renderVue(context, pageVue, layoutVue, done) {
 
   // if layout hasn't changed...
   if (layoutVue === false) {
-    q.global.events.trigger('app:page:render', context);
+    q.global.events.trigger('app:page:post-prepare app:page:render', context);
     render('page', pageVue, function() {
       q.global.events.trigger('app:page:post-render app:page:ready', context);
     });

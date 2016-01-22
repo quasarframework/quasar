@@ -71,7 +71,7 @@ Vue.component('quasar-layout', {
         headerHeight = header.height()
         ;
 
-      header.addClass('fixed-top').css('z-index', 1);
+      header.addClass('fixed-top');
       page.css('padding-top', headerHeight + 20 + 'px');
       drawer.css('top', headerHeight + 'px');
 
@@ -92,7 +92,7 @@ Vue.component('quasar-layout', {
     }.bind(this));
 
     manager.withEmpty('retract-header', function() {
-      header.addClass('fixed-top').css('z-index', 1);
+      header.addClass('fixed-top');
       page.css('padding-top', header.height() + 20 + 'px');
 
       var

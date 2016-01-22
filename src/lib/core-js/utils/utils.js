@@ -1,5 +1,7 @@
 'use strict';
 
+$.fn.reverse = [].reverse;
+
 _.merge(q, {
   nextTick: function(fn) {
     setTimeout(fn, 1);

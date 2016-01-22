@@ -47,6 +47,26 @@ module.exports = {
   },
   ready: function() {
     console.log('Page index ready');
+    quasar.add.fab({
+      icon: 'alarm',
+      class: 'primary',
+      buttons: [
+        {
+          icon: 'alarm',
+          class: 'secondary',
+          fn: function() {
+            alert('1');
+          }
+        },
+        {
+          icon: 'mail',
+          class: 'tertiary',
+          fn: function() {
+            alert('2');
+          }
+        }
+      ]
+    });
   },
   destroyed: function() {
     console.log('Page index destroyed');

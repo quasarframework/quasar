@@ -1,10 +1,13 @@
+$toolbar-row-height = 55px
+
 .quasar-layout
   position relative
 
 .quasar-page
   padding 20px 0
 
-$toolbar-row-height = 55px
+.quasar-header, .quasar-footer
+  z-index $z-marginals
 
 .quasar-toolbar
   display block
@@ -71,8 +74,9 @@ $toolbar-row-height = 55px
       font-weight normal
       &.active
         font-weight 600
+        border-bottom 4px solid lighten($primary, 65%)
       i
-        margin-right 3px
+        margin-right 5px
 
     .left-scroll, .right-scroll
       padding 0 10px
@@ -92,8 +96,3 @@ $toolbar-row-height = 55px
 
     .left-scroll, .right-scroll, .quasar-tab.active
       color $white !important
-
-.quasar-header .quasar-tab.active
-  border-bottom 4px solid lighten($primary, 65%)
-.quasar-footer .quasar-tab.active
-  border-top 4px solid lighten($primary, 65%)

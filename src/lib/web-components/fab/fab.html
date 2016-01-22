@@ -1,0 +1,17 @@
+<div
+  class="quasar-fab"
+  v-for="(index, fab) in fabs"
+  :class="{active: fab.active, horizontal: fab.horizontal}"
+  >
+  <div v-if="fab.label" class="quasar-fab-label">{{fab.label}}</div>
+  <ul>
+    <li v-for="button in fab.buttons">
+      <quasar-button circular small raised :class="button.class" @click="execute(button, fab, index)">
+        <quasar-icon>{{button.icon}}</quasar-icon>
+      </quasar-button>
+    </li>
+  </ul>
+  <quasar-button circular raised :class="fab.class" @click="toggle(fab, index)">
+    <quasar-icon>{{fab.active ? 'close' : fab.icon}}</quasar-icon>
+  </quasar-button>
+</div>

@@ -3,7 +3,7 @@
   <template id="quasar-drawer">
     <div class="quasar-drawer">
       <div class="quasar-drawer-opener" v-touch:pan-x="openByTouch">&nbsp;</div>
-      <div class="quasar-drawer-overlay" v-on:click="close()"></div>
+      <div class="quasar-drawer-overlay overlay" @click="close()"></div>
       <div class="quasar-drawer-content" v-touch:pan-x="closeByTouch">
         <div class="quasar-drawer-container scroll">
           <slot></slot>
