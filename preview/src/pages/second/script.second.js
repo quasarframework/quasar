@@ -8,14 +8,14 @@ module.exports = {
     icon: 'alarm',
     types: ['rectangle', 'circular'],
     sizes: ['small', 'medium', 'big'],
-    colors: ['default', 'neutral', 'primary', 'secondary', 'tertiary', 'positive', 'negative', 'warning', 'info'],
+    colors: ['default', 'neutral', 'primary', 'secondary', 'tertiary', 'positive', 'negative', 'warning', 'info', 'light', 'dark'],
     extras: ['raised', 'disabled', 'inverted']
   },
   ready: function() {
     quasar.add.fab({
       icon: 'cloud',
       label: 'FAB',
-      class: 'secondary',
+      class: 'tertiary',
       buttons: [
         {
           icon: 'alarm',

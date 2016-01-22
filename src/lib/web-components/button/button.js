@@ -1,7 +1,7 @@
 'use strict';
 
 var
-  colors = ['neutral', 'primary', 'secondary', 'tertiary', 'positive', 'negative', 'warning', 'info'],
+  colors = ['neutral', 'primary', 'secondary', 'tertiary', 'positive', 'negative', 'warning', 'info', 'light', 'dark'],
   sizes = ['small', 'big']
   ;
 
