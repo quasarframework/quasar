@@ -21,6 +21,11 @@ function toggle(fab, el, done) {
     ;
 
   if (open) {
+    if (_.isFunction(fab.fn)) {
+      fab.fn();
+      return;
+    }
+
     fab.active = true;
   }
 
@@ -31,6 +36,7 @@ function toggle(fab, el, done) {
       complete: function() {
         if (!open) {
           fab.active = false;
+          done && done();
         }
       }
     }
@@ -127,7 +133,6 @@ function animateFab(el, show, done) {
     {
       duration: 3 * animationDuration,
       complete: function() {
-        console.log('done', show ? 'showing' : 'hiding');
         done && done();
       }
     }
@@ -175,7 +180,6 @@ function removeAllFabs() {
 
 quasar.global.events.on('app:page:post-prepare', removeAllFabs);
 
-quasar.fabs = vm.$data.fabs;
 _.merge(q, {
   add: {
     fab: addFab

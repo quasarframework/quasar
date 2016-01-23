@@ -67,6 +67,13 @@ module.exports = {
         }
       ]
     });
+    /*quasar.add.fab({
+      icon: 'alarm',
+      class: 'primary',
+      fn: function() {
+        console.log('simple!');
+      }
+    });*/
   },
   destroyed: function() {
     console.log('Page index destroyed');
