@@ -86,7 +86,7 @@ Vue.component('quasar-drawer', {
   },
   methods: {
     openByTouch: /* istanbul ignore next */ function(event) {
-      if ($(window).width > 767) {
+      if ($(window).width() > 767) {
         return;
       }
 
@@ -110,7 +110,7 @@ Vue.component('quasar-drawer', {
         .css('background-color', 'rgba(0,0,0,' + percentage * overlayOpacity + ')');
     },
     closeByTouch: /* istanbul ignore next */ function(event) {
-      if ($(window).width > 767) {
+      if ($(window).width() > 767) {
         return;
       }
 
