@@ -62,8 +62,8 @@ function displayAnimation(el, show, done) {
   .velocity(
     {display: 'block', opacity: newValue, scaleX: newValue, scaleY: newValue},
     {
-      duration: 3 * durationUnit,
-      delay: show ? 4 * durationUnit : 0,
+      duration: 2 * durationUnit,
+      delay: show ? 5 * durationUnit : 0,
       complete: done
     }
   );

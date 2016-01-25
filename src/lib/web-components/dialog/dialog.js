@@ -7,8 +7,8 @@ var
 
 $('body').append(dialogsNode);
 
-function Dialog(options) {
-  this.vm = new Vue(options.vm);
+function Dialog(vm) {
+  this.vm = new Vue(vm);
 
   var
     el = $(this.vm.$el),
@@ -29,17 +29,17 @@ function Dialog(options) {
 
     footer[offset + body.height() + 25 < body.prop('scrollHeight') ? 'addClass' : 'removeClass']('z-2-up');
   };
-  this.open();
 
+  showDialog(this);
   body.scroll(this.scroll);
 }
 
-Dialog.prototype.open = function() {
+function showDialog(dialog) {
   $('body').addClass('inactive');
   setTimeout(function() {
-    $(this.vm.$el).addClass('active');
-    this.scroll();
-  }.bind(this), 1);
+    $(dialog.vm.$el).addClass('active');
+    dialog.scroll();
+  }, 30);
 };
 
 Dialog.prototype.close = function(onClose) {
@@ -70,34 +70,27 @@ function createDialog(options) {
 
   node.find('.quasar-dialog-content').html(options.html);
 
-  var config = _.merge(
-    {
-      title: 'Dialog',
-      buttons: [],
-      vm: {
-        el: node[0],
-        data: {
-          icon: options.icon,
-          title: options.title,
-          buttons: options.buttons
-        },
-        methods: {
-          ___onClick: function(dismiss, method) {
-            if (dismiss) {
-              dialog.close(function() {
-                if (method) {
-                  method.call(this);
-                }
-              }.bind(this));
+  var vm = _.merge({
+    el: node[0],
+    data: {
+      icon: options.icon,
+      title: options.title,
+      buttons: options.buttons
+    },
+    methods: {
+      ___onClick: function(dismiss, method) {
+        if (dismiss) {
+          dialog.close(function() {
+            if (method) {
+              method.call(this);
             }
-          }
+          }.bind(this));
         }
       }
-    },
-    options
-  );
+    }
+  }, options.vm || {});
 
-  var dialog = new Dialog(config);
+  var dialog = new Dialog(vm);
 
   return dialog;
 }

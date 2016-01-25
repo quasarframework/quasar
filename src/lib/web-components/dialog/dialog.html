@@ -1,11 +1,21 @@
 <div class="quasar-dialog layout vertical items-center justify-center overlay">
   <div class="quasar-dialog-container">
     <div class="quasar-dialog-body">
-      <div class="quasar-dialog-header"><quasar-icon v-if="icon">{{icon}}</quasar-icon>{{title}}</div>
+      <div class="quasar-dialog-header">
+        <quasar-icon v-if="icon">{{icon}}</quasar-icon>
+        {{title}}
+      </div>
       <div class="quasar-dialog-content"></div>
     </div>
     <div class="quasar-dialog-footer layout content-center justify-end items-stretch">
-      <quasar-button class="layout items-center justify-center" :class="button.type" v-for="button in buttons" @click="___onClick(button.dismiss, button.fn)">{{button.label}}</quasar-button>
+      <quasar-button
+        v-for="button in buttons"
+        class="layout items-center justify-center"
+        :class="button.type"
+        @click="___onClick(button.dismiss, button.fn)"
+      >
+        {{button.label}}
+      </quasar-button>
     </div>
   </div>
 </div>
