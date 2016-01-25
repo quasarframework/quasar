@@ -6,37 +6,30 @@ require('../button/button');
 var
   fabsNode = $('<div id="__quasar_fabs">'),
   template = require('raw!./fab.html'),
-  animationDuration = 100
+
+  durationUnit = 100,
+  toggleOnDuration = durationUnit,
+  toggleOffDuration = 3 * durationUnit
   ;
 
 $('body').append(fabsNode);
 
-function toggle(fab, el, done) {
+function toggleAnimation(el, open, done) {
   var
     time = 0,
+    fab = {horizontal: false},
     offsetY = fab.horizontal ? 0 : 40,
     offsetX = fab.horizontal ? 40 : 0,
-    buttons = el.find('ul .quasar-button'),
-    open = !fab.active
+    buttons = el.find('.quasar-button')
     ;
 
-  if (open) {
-    if (_.isFunction(fab.fn)) {
-      fab.fn();
-      return;
-    }
-
-    fab.active = true;
-  }
-
-  buttons.velocity('stop', true).velocity(
+  buttons.velocity('stop').velocity(
     {opacity: '0', scaleX: '.4', scaleY: '.4', translateX: offsetX + 'px', translateY: offsetY + 'px'},
     {
-      duration: open ? 0 : animationDuration,
+      duration: open ? 0 : toggleOffDuration,
       complete: function() {
         if (!open) {
-          fab.active = false;
-          done && done();
+          done();
         }
       }
     }
@@ -49,37 +42,92 @@ function toggle(fab, el, done) {
   buttons.reverse().each(function() {
     $(this).velocity(
       {opacity: '1', scaleX: '1', scaleY: '1', translateX: '0', translateY: '0'},
-      {duration: animationDuration, delay: time, complete: done}
+      {duration: toggleOnDuration, delay: time}
     );
     time += 100;
   });
+
+  setTimeout(done, time + 100);
 }
+
+function displayAnimation(el, show, done) {
+  var
+    oldValue = show ? '0.01' : '1',
+    newValue = show ? '1' : '0.01'
+    ;
+
+  el
+  .velocity('stop')
+  .velocity({opacity: oldValue, scaleX: oldValue, scaleY: oldValue}, {duration: 0})
+  .velocity(
+    {display: 'block', opacity: newValue, scaleX: newValue, scaleY: newValue},
+    {
+      duration: 3 * durationUnit,
+      delay: show ? 4 * durationUnit : 0,
+      complete: done
+    }
+  );
+}
+
+
+var Fab = Vue.extend({
+  template: template,
+  data: function() {
+    return {
+      active: false
+    };
+  },
+  transitions: {
+    pop: {
+      css: false,
+      enter: function(el, done) {
+        displayAnimation($(el), true, done);
+      },
+      leave: function(el, done) {
+        displayAnimation($(el), false, done);
+      }
+    },
+    toggle: {
+      css: false,
+      enter: function(el, done) {
+        toggleAnimation($(el), true, done);
+      },
+      leave: function(el, done) {
+        toggleAnimation($(el), false, done);
+      }
+    }
+  },
+  props: ['cfg'],
+  methods: {
+    toggle: function() {
+      if (this.cfg.fn) {
+        this.cfg.fn();
+        return;
+      }
+
+      this.active = !this.active;
+    },
+    execute: function(action) {
+      this.active = !this.active;
+
+      setTimeout(function() {
+        if (action.fn) {
+          action.fn();
+        }
+      }, toggleOffDuration + 50);
+    }
+  }
+});
 
 var vm = new Vue({
   el: fabsNode[0],
   replace: false,
-  template: template,
+  template: '<quasar-fab v-for="fab in fabs" :cfg="fab"></quasar-fab>',
   data: {
     fabs: []
   },
-  methods: {
-    toggle: function(fab, index) {
-      toggle(
-        fab,
-        getElements(index)
-      );
-    },
-    execute: function(action, fab, index) {
-      toggle(
-        fab,
-        getElements(index),
-        function() {
-          if (_.isFunction(action.fn)) {
-            action.fn();
-          }
-        }
-      );
-    }
+  components: {
+    'quasar-fab': Fab
   }
 });
 
@@ -91,9 +139,6 @@ function validate(fab) {
   if (!fab.icon) {
     throw new Error('Please specify FAB icon.');
   }
-  if (!fab.fn && !fab.buttons) {
-    throw new Error('Please specify either an action or list of actions.');
-  }
   if (fab.buttons) {
     _.forEach(fab.buttons, function(button, index) {
       if (!button.icon) {
@@ -102,56 +147,24 @@ function validate(fab) {
       if (!button.fn) {
         throw new Error('Missing fn for FAB ' + fab.icon + ' mini-button at index ' + index);
       }
+      if (!_.isFunction(button.fn)) {
+        throw new Error('fn for FAB ' + fab.icon + ' mini-button at index ' + index + ' is not a function.');
+      }
     });
   }
-}
-
-function parse(fab) {
-  return _.merge({}, fab, {active: false});
-}
-
-function getElements(index) {
-  var elements = fabsNode.find('> .quasar-fab');
-
-  if (!index) {
-    return elements;
-  }
-
-  return $(elements[index]);
-}
-
-function animateFab(el, show, done) {
-  var
-    oldValue = show ? '0.1' : '1',
-    newValue = show ? '1' : '0.1'
-    ;
-
-  el
-  .velocity({opacity: oldValue, scaleX: oldValue, scaleY: oldValue}, {duration: 0})
-  .velocity(
-    {opacity: newValue, scaleX: newValue, scaleY: newValue},
-    {
-      duration: 3 * animationDuration,
-      complete: function() {
-        done && done();
-      }
+  else if (fab.fn) {
+    if (!_.isFunction(fab.fn)) {
+      throw new Error('FAB fn is not a function.');
     }
-  );
+  }
+  else {
+    throw new Error('Please specify either an action or list of actions.');
+  }
 }
-
 
 function addFab(fab) {
   validate(fab);
-
-  setTimeout(function() {
-    vm.$data.fabs.push(parse(fab));
-    Vue.nextTick(function() {
-      animateFab(
-        getElements(vm.$data.fabs.length - 1),
-        true
-      );
-    });
-  }, 6 * animationDuration);
+  vm.$data.fabs.push(fab);
 }
 
 function getFab(index) {
@@ -159,23 +172,11 @@ function getFab(index) {
 }
 
 function removeFab(index) {
-  animateFab(
-    getElements(index),
-    false,
-    function() {
-      vm.$data.fabs.$remove(index);
-    }
-  );
+  vm.$data.fabs.$remove(index);
 }
 
 function removeAllFabs() {
-  animateFab(
-    getElements(),
-    false,
-    function() {
-      vm.$data.fabs = [];
-    }
-  );
+  vm.$data.fabs = [];
 }
 
 quasar.events.on('app:page:post-prepare', removeAllFabs);

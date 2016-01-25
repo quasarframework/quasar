@@ -1,17 +1,17 @@
 <div
   class="quasar-fab"
-  v-for="(index, fab) in fabs"
-  :class="{active: fab.active, horizontal: fab.horizontal}"
+  :class="{active: active, horizontal: cfg.horizontal}"
+  transition="pop"
   >
-  <div v-if="fab.label" class="quasar-fab-label">{{fab.label}}</div>
-  <ul>
-    <li v-for="button in fab.buttons">
-      <quasar-button circular small raised :class="button.class" @click="execute(button, fab, index)">
+  <div v-if="cfg.label" class="quasar-fab-label">{{cfg.label}}</div>
+  <ul v-show="active" transition="toggle">
+    <li v-for="button in cfg.buttons">
+      <quasar-button circular small raised :class="button.class" @click="execute(button)">
         <quasar-icon>{{button.icon}}</quasar-icon>
       </quasar-button>
     </li>
   </ul>
-  <quasar-button circular raised :class="fab.class" @click="toggle(fab, index)">
-    <quasar-icon>{{fab.active ? 'close' : fab.icon}}</quasar-icon>
+  <quasar-button circular raised :class="cfg.class" @click="toggle()">
+    <quasar-icon>{{active ? 'close' : cfg.icon}}</quasar-icon>
   </quasar-button>
 </div>
