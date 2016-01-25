@@ -12,14 +12,6 @@
     <div class="quasar-header quasar-toolbar layout vertical non-selectable"><slot></slot></div>
   </template>
 
-  <template id="quasar-tab">
-    <div class="quasar-tab layout">
-      <div class="layout self-center nowrap">
-        <slot></slot>
-      </div>
-    </div>
-  </template>
-
   <template id="quasar-row">
     <div class="quasar-row layout horizontal items-center"><slot></slot></div>
   </template>
@@ -33,18 +25,36 @@
   </template>
 
   <template id="quasar-navigation">
-    <div class="quasar-row quasar-navigation layout">
-      <quasar-tab class="left-scroll">
+    <div class="quasar-navigation quasar-row layout">
+      <quasar-navigation-link class="left-scroll">
         <quasar-icon>chevron_left</quasar-icon>
-      </quasar-tab>
-      <div class="tabsContainer layout flex">
-        <div class="tabsContent layout">
+      </quasar-navigation-link>
+      <div class="quasar-navigation-container layout flex">
+        <div class="quasar-navigation-content layout">
+          <template v-if="!manual">
+            <quasar-navigation-link
+              v-for="link in links"
+              :class="[page === link.name ? 'active' : '', group !== link.navigation.group ? 'hidden' : '']"
+              @click="navigateTo(link)"
+            >
+              <quasar-icon v-if="link.icon">{{link.icon}}</quasar-icon>
+              {{link.label}}
+            </quasar-navigation-link>
+          </template>
           <slot></slot>
         </div>
       </div>
-      <quasar-tab class="right-scroll">
+      <quasar-navigation-link class="right-scroll">
         <quasar-icon>chevron_right</quasar-icon>
-      </quasar-tab>
+      </quasar-navigation-link>
+    </div>
+  </template>
+
+  <template id="quasar-navigation-link">
+    <div class="quasar-navigation-link layout">
+      <div class="layout self-center nowrap">
+        <slot></slot>
+      </div>
     </div>
   </template>
 

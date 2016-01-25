@@ -22,7 +22,7 @@
         <quasar-layout>
           <quasar-header>
             <quasar-navigation>
-              <quasar-tab v-for="n in 30">TabTabTabTabTabTabTab {{n}}</quasar-tab>
+              <quasar-navigation-link v-for="n in 30">TabTabTabTabTabTabTab {{n}}</quasar-navigation-link>
             </quasar-navigation>
           </quasar-header>
           <quasar-page></quasar-page>
@@ -65,7 +65,7 @@
         <quasar-layout>
           <quasar-header>
             <quasar-navigation>
-              <quasar-tab v-for="n in 25">TabTabTabTabTabTabTab {{n}}</quasar-tab>
+              <quasar-navigation-link v-for="n in 25">TabTabTabTabTabTabTab {{n}}</quasar-navigation-link>
             </quasar-navigation>
           </quasar-header>
           <quasar-page></quasar-page>
@@ -78,8 +78,8 @@
           content = scroller.find('> .tabsContent'),
           leftScroll = nav.find('> .left-scroll'),
           rightScroll = nav.find('> .right-scroll'),
-          first = content.find('.quasar-tab:first'),
-          last = content.find('.quasar-tab:last')
+          first = content.find('.quasar-navigation-link:first'),
+          last = content.find('.quasar-navigation-link:last')
           ;
 
         quasar.nextTick(function() {
@@ -116,7 +116,7 @@
             template: 'page content',
             ready: function() {
               quasar.nextTick(function() {
-                expect($('.tabsContent .quasar-tab:last').hasClass('active')).to.equal(true);
+                expect($('.tabsContent .quasar-navigation-link:last').hasClass('active')).to.equal(true);
                 testing.done();
               });
             }
@@ -131,8 +131,8 @@
           template: 'index content',
           ready: function() {
             quasar.nextTick(function() {
-              expect($('.tabsContent .quasar-tab:first').hasClass('active')).to.equal(true);
-              $('.tabsContent .quasar-tab:last').click();
+              expect($('.tabsContent .quasar-navigation-link:first').hasClass('active')).to.equal(true);
+              $('.tabsContent .quasar-navigation-link:last').click();
             });
           }
         };
@@ -146,8 +146,8 @@
           <quasar-layout>
             <quasar-header>
               <quasar-navigation>
-                <quasar-tab page="index">Index</quasar-tab>
-                <quasar-tab page="second">Second</quasar-tab>
+                <quasar-navigation-link page="index">Index</quasar-navigation-link>
+                <quasar-navigation-link page="second">Second</quasar-navigation-link>
               </quasar-navigation>
             </quasar-header>
             <quasar-page></quasar-page>
@@ -169,8 +169,8 @@
             template: 'page content',
             ready: function() {
               quasar.nextTick(function() {
-                expect($('.tabsContent .quasar-tab:last').hasClass('active')).to.equal(true);
-                $('.tabsContent .quasar-tab:last').click();
+                expect($('.tabsContent .quasar-navigation-link:last').hasClass('active')).to.equal(true);
+                $('.tabsContent .quasar-navigation-link:last').click();
               });
             }
           };
@@ -187,7 +187,7 @@
             template: 'page content',
             ready: function() {
               quasar.nextTick(function() {
-                expect($('.tabsContent .quasar-tab:last').hasClass('active')).to.equal(false);
+                expect($('.tabsContent .quasar-navigation-link:last').hasClass('active')).to.equal(false);
                 testing.done();
               });
             }
@@ -202,8 +202,8 @@
           template: 'index content',
           ready: function() {
             quasar.nextTick(function() {
-              expect($('.tabsContent .quasar-tab:first').hasClass('active')).to.equal(true);
-              $('.tabsContent .quasar-tab:first').click();
+              expect($('.tabsContent .quasar-navigation-link:first').hasClass('active')).to.equal(true);
+              $('.tabsContent .quasar-navigation-link:first').click();
             });
           }
         };
@@ -222,8 +222,8 @@
           <quasar-layout>
             <quasar-header>
               <quasar-navigation>
-                <quasar-tab page="index" route="#/second">Index</quasar-tab>
-                <quasar-tab page="second" :route="getThirdRoute">Second</quasar-tab>
+                <quasar-navigation-link page="index" route="#/second">Index</quasar-navigation-link>
+                <quasar-navigation-link page="second" :route="getThirdRoute">Second</quasar-navigation-link>
               </quasar-navigation>
             </quasar-header>
             <quasar-page></quasar-page>

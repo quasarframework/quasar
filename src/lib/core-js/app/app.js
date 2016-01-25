@@ -60,7 +60,10 @@ function prepareRoute(context, layout, page) {
     quasar.events.trigger('app:page:post-require app:page:prepare', context);
     prepare(context, page, function(vue) {
       pageVue = vue;
+
       quasar.page.name = page.name;
+      quasar.page.manifest = context.manifest;
+
       renderVue(context, pageVue, layoutVue);
     });
     return;
@@ -102,6 +105,7 @@ function getHash(pageName, hash) {
 
 function registerRoutes(appManifest) {
   _.forEach(appManifest.pages, function(pageManifest, pageName) {
+    pageManifest.name = pageName;
     _.forEach(parseHashes(pageManifest.hashes), function(hash) {
       quasar.add.route({
         hash: getHash(pageName, hash),

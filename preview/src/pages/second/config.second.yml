@@ -1,1 +1,5 @@
 layout: 'main'
+label: 'Page Two'
+icon: 'mail'
+navigation:
+  group: 'main'

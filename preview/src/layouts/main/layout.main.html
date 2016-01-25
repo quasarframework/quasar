@@ -7,14 +7,12 @@
       <quasar-toolbar-button><quasar-icon>alarm</quasar-icon></quasar-toolbar-button>
       <quasar-toolbar-button><quasar-icon>more_vert</quasar-icon></quasar-toolbar-button>
     </quasar-row>
-    <quasar-navigation>
-      <quasar-tab page="index"><quasar-icon>tab</quasar-icon>Index Page</quasar-tab>
-      <quasar-tab page="second"><quasar-icon>tab</quasar-icon>Second Page</quasar-tab>
-      <quasar-tab><quasar-icon>tab</quasar-icon>Tab 3</quasar-tab>
-      <quasar-tab><quasar-icon>tab</quasar-icon>Tab 4</quasar-tab>
-      <quasar-tab><quasar-icon>tab</quasar-icon>Tab 5</quasar-tab>
-      <quasar-tab><quasar-icon>tab</quasar-icon>Tab 6</quasar-tab>
+    <!--
+    <quasar-navigation manual>
+      <quasar-navigation-link><quasar-icon>alarm</quasar-icon> Alarm</quasar-navigation-link>
     </quasar-navigation>
+    -->
+    <quasar-navigation></quasar-navigation>
   </quasar-header>
 
   <quasar-page></quasar-page>
@@ -28,9 +26,14 @@
       <div>rstoenescu@rstoenescu.com</div>
     </quasar-drawer-header>
 
-    <quasar-drawer-item v-for="n in 4" route="#/">
+    <quasar-drawer-item v-for="n in 3" route="#/">
       <quasar-icon>alarm</quasar-icon>
       Index Page Index Page Index Page Index Page Index Page Index Page Index Page Index Page
+    </quasar-drawer-item>
+
+    <quasar-drawer-item route="#/three">
+      <quasar-icon>alarm</quasar-icon>
+      Third Page
     </quasar-drawer-item>
 
     <quasar-drawer-divider></quasar-drawer-divider>

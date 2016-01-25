@@ -25,7 +25,7 @@
               <quasar-title>Text {{text}}</quasar-title>
             </quasar-row>
             <quasar-navigation>
-              <quasar-tab>Tab 1</quasar-tab>
+              <quasar-navigation-link>Tab 1</quasar-navigation-link>
             </quasar-navigation>
           </quasar-header>
           <quasar-page></quasar-page>

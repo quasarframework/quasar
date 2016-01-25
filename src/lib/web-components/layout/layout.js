@@ -145,17 +145,65 @@ Vue.component('quasar-header', {
 });
 
 
+Vue.component('quasar-toolbar-button', {
+  template: '<div class="quasar-toolbar-button"><slot></slot></div>'
+});
+
+Vue.component('quasar-row', {
+  template: template.find('#quasar-row').html()
+});
+
+Vue.component('quasar-title', {
+  template: template.find('#quasar-title').html()
+});
+
+Vue.component('quasar-footer', {
+  template: template.find('#quasar-footer').html()
+});
+
+
 Vue.component('quasar-navigation', {
+  data: function() {
+    var links = _.filter(quasar.data.manifest.pages, function(page) {
+      return page.navigation;
+    });
+
+    return {
+      page: '',
+      group: '',
+      manual: false,
+      links: links
+    };
+  },
+  methods: {
+    navigateTo: function(link) {
+      var
+        name = link.name,
+        route = link.navigation.route
+        ;
+
+      quasar.navigate.to.route(
+        '#/' +
+        (name === 'index' && !route ? '' : name) +
+        (route ? '/' + route : '')
+      );
+    }
+  },
   template: template.find('#quasar-navigation').html(),
   ready: function() {
     var
       nav = $(this.$el),
-      scroller = nav.find('> .tabsContainer'),
-      content = scroller.find('> .tabsContent'),
+      manager = nav.getAttributesManager(),
+      scroller = nav.find('> .quasar-navigation-container'),
+      content = scroller.find('> .quasar-navigation-content'),
       leftScroll = nav.find('> .left-scroll'),
       rightScroll = nav.find('> .right-scroll'),
-      tabs = nav.find('.quasar-tab:not(.left-scroll):not(.right-scroll)')
+      links = content.find('.quasar-navigation-link')
       ;
+
+    manager.with('manual', function() {
+      this.manual = true;
+    }.bind(this));
 
     this.gc = {
       resizers: []
@@ -213,20 +261,23 @@ Vue.component('quasar-navigation', {
     leftScroll.click(function() {scroller[0].scrollLeft -= 40;});
     rightScroll.click(function() {scroller[0].scrollLeft += 40;});
 
-    this.gc.autoSelectTab = function(context) {
-      tabs.removeClass('active');
-      var activeTab = tabs.filter('[page="' + context.name + '"]');
+    this.gc.updateCurrents = function(context) {
+      this.page = context.name;
+      var manifest = context.manifest;
 
-      if (activeTab.length === 0) {
-        return;
+      if (manifest.navigation && manifest.navigation.group) {
+        this.group = manifest.navigation.group;
       }
-      activeTab.addClass('active');
-      scrollToSelectedIfNeeded(activeTab);
-    };
+      else {
+        this.group = '';
+      }
 
-    quasar.events.on('app:page:ready', this.gc.autoSelectTab);
+      //scrollToSelectedIfNeeded(activeTab);
+    }.bind(this);
 
-    tabs
+    quasar.events.on('app:page:ready', this.gc.updateCurrents);
+
+    links
       .click(function() {
         scrollToSelectedIfNeeded($(this));
       })
@@ -252,45 +303,6 @@ Vue.component('quasar-navigation', {
   }
 });
 
-Vue.component('quasar-toolbar-button', {
-  template: '<div class="quasar-toolbar-button"><slot></slot></div>'
-});
-
-Vue.component('quasar-tab', {
-  template: template.find('#quasar-tab').html(),
-  props: ['page', 'route'],
-  ready: function() {
-    if (!this.page) {
-      return;
-    }
-
-    var route = '#/' + (this.page === 'index' ? '' : this.page);
-
-    if (this.route) {
-      if (_.isFunction(this.route)) {
-        route = this.route(this.page);
-      }
-      else {
-        route = this.route;
-      }
-    }
-
-    $(this.$el)
-      .attr('page', this.page)
-      .click(function() {
-        quasar.navigate.to.route(route);
-      }.bind(this));
-  }
-});
-
-Vue.component('quasar-row', {
-  template: template.find('#quasar-row').html()
-});
-
-Vue.component('quasar-title', {
-  template: template.find('#quasar-title').html()
-});
-
-Vue.component('quasar-footer', {
-  template: template.find('#quasar-footer').html()
+Vue.component('quasar-navigation-link', {
+  template: template.find('#quasar-navigation-link').html()
 });
