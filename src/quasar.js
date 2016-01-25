@@ -1,6 +1,6 @@
 'use strict';
 
-window.quasar = window.q = {};
+window.quasar = {};
 
 function requireAll(r) {
   r.keys().forEach(r);

@@ -40,5 +40,5 @@ module.exports = function(type, vue, done) {
     destroyVue('layout');
   }
 
-  q[type].vm = new Vue(injectVue(vue, type === 'layout' ? '#quasar-app' : '.quasar-page', done));
+  quasar[type].vm = new Vue(injectVue(vue, type === 'layout' ? '#quasar-app' : '.quasar-page', done));
 };

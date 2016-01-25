@@ -49,6 +49,8 @@ $drawer-separator-color = #ECECEC
       font-size 1.8em
     &:hover
       background-color $grey-200
+    &.active
+      background-color $grey-300
   .quasar-drawer-divider
     margin 8px 0
     height 1px
@@ -57,9 +59,9 @@ $drawer-separator-color = #ECECEC
     padding 0
   .quasar-drawer-title
     color lighten(black, 45%)
+    font-weight 500
 
   .quasar-drawer-item, .quasar-drawer-title
-    font-weight 500
     height 48px
     padding 8px 16px
     font-size 14px

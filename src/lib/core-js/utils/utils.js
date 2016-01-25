@@ -2,7 +2,7 @@
 
 $.fn.reverse = [].reverse;
 
-_.merge(q, {
+_.merge(quasar, {
   nextTick: function(fn) {
     setTimeout(fn, 1);
   },

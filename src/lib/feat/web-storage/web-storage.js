@@ -163,7 +163,7 @@ var storageIsEmpty = generateFunctions(function(type) {
 });
 
 
-_.merge(q, {
+_.merge(quasar, {
   has: {
     local: {
       storage: {

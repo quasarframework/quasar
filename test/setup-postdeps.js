@@ -70,7 +70,7 @@
       quasar.clear.css();
       quasar.clear.page.css();
       quasar.clear.layout.css();
-      quasar.global.manifest = {pages: {}, layouts: {}};
+      quasar.data.manifest = {pages: {}, layouts: {}};
       quasar.layout = {};
       quasar.page = {};
       testing.app.var = {};
@@ -93,7 +93,7 @@
       ].concat(files || []), manifest);
     },
     addPage: function(name, files, manifest) {
-      quasar.global.manifest.pages[name] = manifest || {};
+      quasar.data.manifest.pages[name] = manifest || {};
 
       _.forEach(files, function(file) {
         if (_.isFunction(file.content)) {
@@ -104,7 +104,7 @@
     },
 
     addLayout: function(name, content, manifest) {
-      quasar.global.manifest.layouts[name] = manifest || {};
+      quasar.data.manifest.layouts[name] = manifest || {};
 
       if (_.isFunction(content)) {
         content = '(' + content.toString() + '());';
@@ -162,7 +162,7 @@
       this.remove();
       content = content || '';
       attributes = attributes || '';
-      callback && q.nextTick(function() {
+      callback && quasar.nextTick(function() {
         callback();
       });
       return $('<div id="' + testingNodeID + '" ' + attributes + '>' + content + '</div>').appendTo($('body'));

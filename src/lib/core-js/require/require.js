@@ -6,7 +6,7 @@ var
   ;
 
 
-_.merge(q, {
+_.merge(quasar, {
   require: {
     script: script.require
   },

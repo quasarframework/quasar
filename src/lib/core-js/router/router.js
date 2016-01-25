@@ -11,7 +11,7 @@ function getAllRoutes() {
 function stopRouter() {
   removeAllRoutes();
   window.onhashchange = null;
-  quasar.global.events.trigger('app:router:stopped');
+  quasar.events.trigger('app:router:stopped');
 }
 
 function routerIsRunning() {
@@ -167,16 +167,16 @@ function triggerRoute(hash) {
     hash = '#/';
   }
 
-  quasar.global.events.trigger('app:route:change', hash);
+  quasar.events.trigger('app:route:change', hash);
 
   var route = matchHash(hash);
 
   if (!route) {
-    quasar.global.events.trigger('app:route:notfound', getArrayFromHash(hash));
+    quasar.events.trigger('app:route:notfound', getArrayFromHash(hash));
     return;
   }
 
-  quasar.global.events.trigger('app:route:trigger', route);
+  quasar.events.trigger('app:route:trigger', route);
   route.trigger.apply(route);
 }
 
@@ -194,7 +194,7 @@ function bindHashChange() {
 }
 
 function startRouter() {
-  quasar.global.events.trigger('app:router:started');
+  quasar.events.trigger('app:router:started');
   bindHashChange();
   triggerRoute(window.location.hash);
 }
@@ -207,7 +207,7 @@ function reloadCurrentRoute() {
   triggerRoute(getCurrentRoute());
 }
 
-_.merge(q, {
+_.merge(quasar, {
   get: {
     all: {
       routes: getAllRoutes

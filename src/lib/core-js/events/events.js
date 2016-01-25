@@ -193,7 +193,7 @@ function isEventsEmitter(object) {
     _.isFunction(object.getEventsList);
 }
 
-_.merge(q, {
+_.merge(quasar, {
   create: {
     events: {
       emitter: createEventsEmitter

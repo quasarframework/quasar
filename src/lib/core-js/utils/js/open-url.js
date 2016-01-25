@@ -2,7 +2,7 @@
 
 /* istanbul ignore next */
 module.exports = function(url) {
-  if (q.runs.on.cordova) {
+  if (quasar.runs.on.cordova) {
     navigator.app.loadUrl(url, {
       openExternal: true
     });

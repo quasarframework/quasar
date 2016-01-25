@@ -16,7 +16,7 @@ describe('Router', function() {
   });
 
   afterEach(function() {
-    quasar.global.events.off(events.join(' '));
+    quasar.events.off(events.join(' '));
     quasar.stop.router();
     window.location.hash = this.hash;
   });
@@ -341,7 +341,7 @@ describe('Router', function() {
     var events = 0;
 
     quasar.add.route(routeOne);
-    quasar.global.events.on('app:route:change', function(hash) {
+    quasar.events.on('app:route:change', function(hash) {
       if (events === 0) {
         expect(hash).to.equal('#/');
       }
@@ -350,7 +350,7 @@ describe('Router', function() {
       }
       events++;
     });
-    quasar.global.events.on('app:route:trigger', function(route) {
+    quasar.events.on('app:route:trigger', function(route) {
       expect(route).to.be.an('object');
       expect(route.hash).to.be.ok;
       expect(events).to.equal(2);
@@ -361,7 +361,7 @@ describe('Router', function() {
   });
 
   it('should trigger route not found event', function(done) {
-    quasar.global.events.on('app:route:notfound', function(hashParts) {
+    quasar.events.on('app:route:notfound', function(hashParts) {
       expect(hashParts).to.be.an('array');
       done();
     });
@@ -373,10 +373,10 @@ describe('Router', function() {
     quasar.stop.router();
     var events = 0;
 
-    quasar.global.events.on('app:router:started', function() {
+    quasar.events.on('app:router:started', function() {
       events++;
     });
-    quasar.global.events.on('app:router:stopped', function() {
+    quasar.events.on('app:router:stopped', function() {
       expect(events).to.equal(1);
       done();
     });

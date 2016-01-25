@@ -146,7 +146,7 @@ function runsOn() {
   return browser;
 }
 
-_.merge(q, {
+_.merge(quasar, {
   runs: {
     on: runsOn(),
     with: {

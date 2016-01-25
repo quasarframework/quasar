@@ -110,7 +110,7 @@ function Notify(options) {
   this.vm.el = this.node[0];
   this.vm = new Vue(this.vm);
 
-  quasar.global.events.trigger('app:notify', this.html);
+  quasar.events.trigger('app:notify', this.html);
   this.node.css('display', 'none').appendTo(notifyNode).slideToggle();
 
   if (dismissers.length > 5) {
@@ -164,9 +164,9 @@ function notify(options, defaults) {
 }
 
 
-q.notify = notify;
+quasar.notify = notify;
 _.forEach(types, function(type) {
-  q.notify[type.name] = function(opts) {
+  quasar.notify[type.name] = function(opts) {
     notify(opts, type.defaults);
   };
 });

@@ -12,9 +12,9 @@ FastClick.attach(document.body);
 /*
  * Inject Globals
  */
-q.global = {
-  events: q.create.events.emitter()
-};
-
-q.page = {};
-q.layout = {};
+_.merge(quasar, {
+  events: quasar.create.events.emitter(),
+  page: {},
+  layout: {},
+  data: {}
+});

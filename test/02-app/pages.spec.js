@@ -404,12 +404,12 @@ describe('App Pages', function() {
     testing.done.set(function() {
       quasar.nextTick(function() {
         expect(times).to.equal(testing.app.var.events.length);
-        quasar.global.events.off(testing.app.var.events.join(' '));
+        quasar.events.off(testing.app.var.events.join(' '));
         done();
       });
     });
 
-    quasar.global.events.on(testing.app.var.events.join(' '), fn);
+    quasar.events.on(testing.app.var.events.join(' '), fn);
 
     testing.app.addIndex(function() {
       module.exports = {

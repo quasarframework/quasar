@@ -178,9 +178,9 @@ function removeAllFabs() {
   );
 }
 
-quasar.global.events.on('app:page:post-prepare', removeAllFabs);
+quasar.events.on('app:page:post-prepare', removeAllFabs);
 
-_.merge(q, {
+_.merge(quasar, {
   add: {
     fab: addFab
   },

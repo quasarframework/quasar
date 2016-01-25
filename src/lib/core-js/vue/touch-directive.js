@@ -106,7 +106,7 @@ function registerCustomEvent(hammerOptions) {
   customEvents[hammerOptions.event] = hammerOptions;
 }
 
-_.merge(q, {
+_.merge(quasar, {
   register: {
     custom: {
       touch: {

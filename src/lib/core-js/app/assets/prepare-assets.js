@@ -5,7 +5,7 @@ module.exports = function(context, asset, done) {
     asset.exports.call(
       context,
       function(vue) {
-        q.nextTick(function() {
+        quasar.nextTick(function() {
           done(vue);
         });
       }
@@ -13,7 +13,7 @@ module.exports = function(context, asset, done) {
     return; // <<< EARLY EXIT
   }
 
-  q.nextTick(function() {
+  quasar.nextTick(function() {
     done(asset.exports);
   });
 };

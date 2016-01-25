@@ -82,7 +82,7 @@
           last = content.find('.quasar-tab:last')
           ;
 
-        q.nextTick(function() {
+        quasar.nextTick(function() {
           expect(nav.hasClass('scrollable')).to.equal(true);
           scroller[0].scrollLeft = 100;
           setTimeout(function() {
@@ -115,7 +115,7 @@
           module.exports = {
             template: 'page content',
             ready: function() {
-              q.nextTick(function() {
+              quasar.nextTick(function() {
                 expect($('.tabsContent .quasar-tab:last').hasClass('active')).to.equal(true);
                 testing.done();
               });
@@ -130,7 +130,7 @@
         module.exports = {
           template: 'index content',
           ready: function() {
-            q.nextTick(function() {
+            quasar.nextTick(function() {
               expect($('.tabsContent .quasar-tab:first').hasClass('active')).to.equal(true);
               $('.tabsContent .quasar-tab:last').click();
             });
@@ -168,7 +168,7 @@
           module.exports = {
             template: 'page content',
             ready: function() {
-              q.nextTick(function() {
+              quasar.nextTick(function() {
                 expect($('.tabsContent .quasar-tab:last').hasClass('active')).to.equal(true);
                 $('.tabsContent .quasar-tab:last').click();
               });
@@ -186,7 +186,7 @@
           module.exports = {
             template: 'page content',
             ready: function() {
-              q.nextTick(function() {
+              quasar.nextTick(function() {
                 expect($('.tabsContent .quasar-tab:last').hasClass('active')).to.equal(false);
                 testing.done();
               });
@@ -201,7 +201,7 @@
         module.exports = {
           template: 'index content',
           ready: function() {
-            q.nextTick(function() {
+            quasar.nextTick(function() {
               expect($('.tabsContent .quasar-tab:first').hasClass('active')).to.equal(true);
               $('.tabsContent .quasar-tab:first').click();
             });

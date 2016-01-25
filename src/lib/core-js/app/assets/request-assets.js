@@ -10,9 +10,9 @@ function requestAsset(type, assetName, done) {
     url = 'layouts/' + assetName + '/layout.' + assetName;
   }
 
-  q.require.script(url)
+  quasar.require.script(url)
     .done(function(asset) {
-      q.nextTick(function() {
+      quasar.nextTick(function() {
         done({
           name: assetName,
           exports: asset
@@ -26,7 +26,7 @@ function requestAsset(type, assetName, done) {
 
 module.exports.layout = function(layoutName, done) {
   if (!layoutName) {
-    q.nextTick(function() {
+    quasar.nextTick(function() {
       done({
         name: '__default',
         exports: {

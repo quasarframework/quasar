@@ -206,7 +206,7 @@ Vue.component('quasar-navigation', {
     $(window).resize(updateScrollIndicator);
     this.gc.resizers.push([$(window), updateScrollIndicator]);
 
-    q.nextTick(function() {
+    quasar.nextTick(function() {
       updateScrollIndicator();
     });
 
@@ -224,7 +224,7 @@ Vue.component('quasar-navigation', {
       scrollToSelectedIfNeeded(activeTab);
     };
 
-    quasar.global.events.on('app:page:ready', this.gc.autoSelectTab);
+    quasar.events.on('app:page:ready', this.gc.autoSelectTab);
 
     tabs
       .click(function() {
@@ -244,7 +244,7 @@ Vue.component('quasar-navigation', {
       });
   },
   destroyed: function() {
-    quasar.global.events.off('app:page:ready', this.gc.autoSelectTab);
+    quasar.events.off('app:page:ready', this.gc.autoSelectTab);
 
     _.forEach(this.gc.resizers, function(resize) {
       resize[0].off('resize', resize[1]);

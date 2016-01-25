@@ -88,7 +88,7 @@ function hasCookie(key) {
 }
 
 
-_.merge(q, {
+_.merge(quasar, {
   remove: {
     cookie: removeCookie
   },

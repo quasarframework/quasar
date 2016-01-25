@@ -60,7 +60,7 @@ function preventGhosts(element) {
   }
 }
 
-_.merge(q, {
+_.merge(quasar, {
   prevent: {
     ghost: {
       click: preventGhosts

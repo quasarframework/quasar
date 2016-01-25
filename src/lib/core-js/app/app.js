@@ -18,9 +18,9 @@ function renderVue(context, pageVue, layoutVue, done) {
 
   // if layout hasn't changed...
   if (layoutVue === false) {
-    q.global.events.trigger('app:page:post-prepare app:page:render', context);
+    quasar.events.trigger('app:page:post-prepare app:page:render', context);
     render('page', pageVue, function() {
-      q.global.events.trigger('app:page:post-render app:page:ready', context);
+      quasar.events.trigger('app:page:post-render app:page:ready', context);
     });
 
     return;
@@ -31,12 +31,12 @@ function renderVue(context, pageVue, layoutVue, done) {
     return;
   }
 
-  injectCSS('layout', q.global.manifest.layouts[context.manifest.layout]);
-  q.global.events.trigger('app:layout:post-prepare app:layout:render app:page:post-prepare', context);
+  injectCSS('layout', quasar.data.manifest.layouts[context.manifest.layout]);
+  quasar.events.trigger('app:layout:post-prepare app:layout:render app:page:post-prepare', context);
   render('layout', layoutVue, function() {
-    q.global.events.trigger('app:layout:post-render app:layout:ready app:page:render', context);
+    quasar.events.trigger('app:layout:post-render app:layout:ready app:page:render', context);
     render('page', pageVue, function() {
-      q.global.events.trigger('app:page:post-render app:page:ready', context);
+      quasar.events.trigger('app:page:post-render app:page:ready', context);
     });
   });
 }
@@ -49,24 +49,24 @@ function prepareRoute(context, layout, page) {
 
   var layoutVue, pageVue;
 
-  if (!q.layout.name || q.layout.name !== layout.name) {
-    q.global.events.trigger('app:layout:post-require app:layout:prepare', context);
-    prepare(q.global.manifest.layouts[context.manifest.layout], layout, function(vue) {
+  if (!quasar.layout.name || quasar.layout.name !== layout.name) {
+    quasar.events.trigger('app:layout:post-require app:layout:prepare', context);
+    prepare(quasar.data.manifest.layouts[context.manifest.layout], layout, function(vue) {
       validate.layout(vue);
       layoutVue = vue;
-      q.layout.name = layout.name;
+      quasar.layout.name = layout.name;
       renderVue(context, pageVue, layoutVue);
     });
-    q.global.events.trigger('app:page:post-require app:page:prepare', context);
+    quasar.events.trigger('app:page:post-require app:page:prepare', context);
     prepare(context, page, function(vue) {
       pageVue = vue;
-      q.page.name = page.name;
+      quasar.page.name = page.name;
       renderVue(context, pageVue, layoutVue);
     });
     return;
   }
 
-  q.global.events.trigger('app:page:post-require app:page:prepare', context);
+  quasar.events.trigger('app:page:post-require app:page:prepare', context);
   prepare(context, page, function(vue) {
     renderVue(context, vue, false);
   });
@@ -75,13 +75,13 @@ function prepareRoute(context, layout, page) {
 function startRoute(manifest, pageName, context) {
   var layout, page;
 
-  q.global.events.trigger('app:layout:require', context);
+  quasar.events.trigger('app:layout:require', context);
   request.layout(manifest.layout, function(asset) {
     layout = asset;
     prepareRoute(context, layout, page);
   });
 
-  q.global.events.trigger('app:page:require', context);
+  quasar.events.trigger('app:page:require', context);
   request.page(pageName, function(asset) {
     page = asset;
     prepareRoute(context, layout, page);
@@ -103,7 +103,7 @@ function getHash(pageName, hash) {
 function registerRoutes(appManifest) {
   _.forEach(appManifest.pages, function(pageManifest, pageName) {
     _.forEach(parseHashes(pageManifest.hashes), function(hash) {
-      q.add.route({
+      quasar.add.route({
         hash: getHash(pageName, hash),
         trigger: function() {
           var route = this;
@@ -122,15 +122,15 @@ function registerRoutes(appManifest) {
 }
 
 function startApp() {
-  registerRoutes(quasar.global.manifest);
-  q.start.router();
+  registerRoutes(quasar.data.manifest);
+  quasar.start.router();
 }
 
 /* istanbul ignore next */
 function bootApp(callback) {
   callback = callback || $.noop;
 
-  if (q.runs.on.cordova) {
+  if (quasar.runs.on.cordova) {
     $.getScript('cordova.js', function() {
       document.addEventListener('deviceready', callback, false);
     });
@@ -140,7 +140,7 @@ function bootApp(callback) {
   callback();
 }
 
-_.merge(q, {
+_.merge(quasar, {
   start: {
     app: startApp
   },

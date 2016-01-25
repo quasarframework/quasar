@@ -7,11 +7,11 @@ function isURL(target) {
 }
 
 function processTarget(target, local) {
-  if (isURL(target) || local || !q.config.requests.baseURL) {
+  if (isURL(target) || local || !quasar.config.requests.baseURL) {
     return target;
   }
 
-  return q.config.requests.baseURL + '/' + target;
+  return quasar.config.requests.baseURL + '/' + target;
 }
 
 
@@ -29,9 +29,9 @@ function xhrCall(type, config) {
     withCredentials: true
   }, config.xhrFields || {});
 
-  if (q.config.requests.failFnHandler) {
+  if (quasar.config.requests.failFnHandler) {
     config.error = function() {
-      var shouldHaltExecution = q.config.requests.failFnHandler.apply(this, arguments);
+      var shouldHaltExecution = quasar.config.requests.failFnHandler.apply(this, arguments);
 
       if (shouldHaltExecution === true) {
         throw new Error('Halting default failure handlers');
@@ -124,7 +124,7 @@ function makeGroupRequest() {
   return $.when.apply(null, arguments);
 }
 
-_.merge(q, {
+_.merge(quasar, {
   config: {
     requests: {
       baseURL: '',

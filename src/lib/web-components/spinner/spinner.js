@@ -441,7 +441,7 @@ Vue.component('quasar-spinner', {
     /* istanbul ignore else */
     if (emptyAttributes.length === 0) {
       /* istanbul ignore next */
-      spinnerName = q.runs.on.ios ? 'ios' : 'android';
+      spinnerName = quasar.runs.on.ios ? 'ios' : 'android';
     }
     else if (emptyAttributes.length === 1) {
       spinnerName = emptyAttributes[0];

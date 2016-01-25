@@ -2,7 +2,7 @@
 
 var __profiler = {};
 
-_.merge(q, {
+_.merge(quasar, {
   debug: {
     printStack: /* istanbul ignore next */ function() {
       var e = new Error('dummy');

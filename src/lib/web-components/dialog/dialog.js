@@ -102,4 +102,4 @@ function createDialog(options) {
   return dialog;
 }
 
-q.dialog = createDialog;
+quasar.dialog = createDialog;

@@ -14,7 +14,7 @@ var
 var globalEval = eval;
 
 function resolveModule(base, relativePath) {
-  var resolved = q.get.normalized.path(relativePath + '.js', base);
+  var resolved = quasar.get.normalized.path(relativePath + '.js', base);
 
   if (!modulesCache[resolved]) {
     modulesCache[resolved] = {location: resolved};
@@ -74,14 +74,14 @@ function deepLoad(module, callback) {
     return;
   }
   else if (module.state === states.READY) {
-    q.nextTick(function() {
+    quasar.nextTick(function() {
       callback(module.error, module);
     });
     return;
   }
 
   if (module.text) {
-    q.nextTick(function() {
+    quasar.nextTick(function() {
       load(module, callback);
     });
     return;
