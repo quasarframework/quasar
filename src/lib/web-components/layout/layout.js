@@ -18,14 +18,43 @@ Vue.component('quasar-layout', {
       page = layout.find('.quasar-page'),
       footer = layout.find('.quasar-footer'),
       drawer = layout.find('.quasar-drawer-content'),
-      manager = layout.getAttributesManager()
-      ;
+      manager = layout.getAttributesManager(),
+      headerHeight = header.height(),
+      update = {
+        drawerTop: false,
+        drawerBottom: false,
+        pageTop: false,
+        pageBottom: false
+      };
 
     this.gc = {
-      scrolls: []
+      scrolls: [],
+      marginalsHeightChanged: function() {
+        Vue.nextTick(function() {
+          $(window).scrollTop(0);
+          quasar.nextTick(function() {
+            if (update.drawerTop) {
+              header.css('height', '');
+              drawer.css('top', header.height() + 'px');
+              headerHeight = header.height();
+            }
+            if (update.drawerBottom) {
+              footer.css('height', '');
+              drawer.css('bottom', footer.height() + 'px');
+            }
+            if (update.pageTop) {
+              page.css('padding-top', header.height() + 20 + 'px');
+            }
+            if (update.pageBottom) {
+              page.css('padding-bottom', footer.height() + 20 + 'px');
+            }
+          });
+        });
+      }
     };
 
     if (footer.length > 0 && !manager.hasEmpty('keep-marginals') && manager.hasEmpty('keep-footer')) {
+      update.pageBottom = true;
       page.css('padding-bottom', footer.height() + 20 + 'px');
     }
 
@@ -51,14 +80,22 @@ Vue.component('quasar-layout', {
 
     manager.withEmpty('keep-header', function() {
       header.addClass('fixed-top');
+
+      update.drawerTop = true;
       drawer.css('top', header.height() + 'px');
+
+      update.pageTop = true;
       page.css('padding-top', header.height() + 20 + 'px');
-    });
+
+      quasar.events.on('app:page:ready app:layout:update', this.gc.marginalsHeightChanged);
+    }.bind(this));
 
     manager.withEmpty('keep-footer', function() {
       footer.addClass('fixed-bottom');
+      update.drawerBottom = true;
       drawer.css('bottom', footer.height() + 'px');
-    });
+      quasar.events.on('app:page:ready app:layout:update', this.gc.marginalsHeightChanged);
+    }.bind(this));
 
     manager.withEmpty('keep-marginals', function() {
       layout.addClass('fixed-top layout vertical window-height');
@@ -66,16 +103,18 @@ Vue.component('quasar-layout', {
     });
 
     manager.withEmpty('shrink-header', function() {
-      var
-        scrollFn,
-        headerHeight = header.height()
-        ;
+      var scrollFn;
 
       header.addClass('fixed-top');
+
+      update.pageTop = true;
       page.css('padding-top', headerHeight + 20 + 'px');
+
+      update.drawerTop = true;
       drawer.css('top', headerHeight + 'px');
 
       scrollFn = function() {
+        console.log('scroll');
         var
           offset = $(window).scrollTop(),
           translate = Math.min(headerHeight, offset),
@@ -89,19 +128,23 @@ Vue.component('quasar-layout', {
 
       $(window).scroll(scrollFn);
       this.gc.scrolls.push([$(window), scrollFn]);
+
+      quasar.events.on('app:page:ready app:layout:update', this.gc.marginalsHeightChanged);
     }.bind(this));
 
     manager.withEmpty('retract-header', function() {
       header.addClass('fixed-top');
+
+      update.pageTop = true;
       page.css('padding-top', header.height() + 20 + 'px');
 
       var
         scrollFn,
         lastOffset = 0,
-        lastTranslate = 0,
-        headerHeight = header.height()
+        lastTranslate = 0
         ;
 
+      update.drawerTop = true;
       drawer.css('top', headerHeight + 'px');
 
       scrollFn = function() {
@@ -119,9 +162,12 @@ Vue.component('quasar-layout', {
 
       $(window).scroll(scrollFn);
       this.gc.scrolls.push([$(window), scrollFn]);
+
+      quasar.events.on('app:page:ready app:layout:update', this.gc.marginalsHeightChanged);
     }.bind(this));
   },
   destroyed: function() {
+    quasar.events.off('app:page:ready app:layout:update', this.gc.marginalsHeightChanged);
     _.forEach(this.gc.scrolls, function(scroll) {
       scroll[0].off('scroll', scroll[1]);
     });
@@ -163,6 +209,7 @@ Vue.component('quasar-footer', {
 
 
 Vue.component('quasar-navigation', {
+  template: template.find('#quasar-navigation').html(),
   data: function() {
     var links = _.filter(quasar.data.manifest.pages, function(page) {
       return page.navigation;
@@ -189,7 +236,6 @@ Vue.component('quasar-navigation', {
       );
     }
   },
-  template: template.find('#quasar-navigation').html(),
   ready: function() {
     var
       nav = $(this.$el),

@@ -25,7 +25,7 @@
   </template>
 
   <template id="quasar-navigation">
-    <div class="quasar-navigation quasar-row layout">
+    <div class="quasar-navigation quasar-row layout" :class="[group.length === 0 ? 'hidden' : '']">
       <quasar-navigation-link class="left-scroll">
         <quasar-icon>chevron_left</quasar-icon>
       </quasar-navigation-link>

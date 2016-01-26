@@ -23,7 +23,6 @@ $drawer-separator-color = #ECECEC
   transform translateX(- $drawer-width)
   will-change transform
   background-color $white
-  @extend .z-8
 
   .quasar-drawer-header
     width 100%
@@ -38,7 +37,7 @@ $drawer-separator-color = #ECECEC
     bottom 0
     width 100%
     background-color $white
-    border-top 1px dashed $drawer-separator-color
+    border-top 2px solid $drawer-separator-color
   .quasar-drawer-item
     cursor pointer
     transition all .3s

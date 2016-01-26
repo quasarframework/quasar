@@ -75,7 +75,6 @@ $toolbar-row-height = 55px
       line-height 25px
       &.active
         font-weight 600
-        border-bottom 4px solid lighten($primary, 65%)
       i
         margin-right .3em
         font-size 1.9em
@@ -97,3 +96,8 @@ $toolbar-row-height = 55px
 
     .left-scroll, .right-scroll, .quasar-navigation-link.active
       color $white !important
+
+.quasar-header .quasar-navigation-link.active
+  border-bottom 5px solid lighten($primary, 65%)
+.quasar-footer .quasar-navigation-link.active
+  border-top 5px solid lighten($primary, 65%)
