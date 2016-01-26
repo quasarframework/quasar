@@ -135,7 +135,7 @@
     );
   });
 
-  it('should be able to handle retract-header & scroll-shadow types', function(done) {
+  it.skip('should be able to handle retract-header & scroll-shadow types', function(done) {
     testing.done.set(done);
     testing.app.tag(
       testing.line(true, function() {/*
@@ -177,7 +177,7 @@
     );
   });
 
-  it('should be able to handle shrink-header & scroll-shadow types', function(done) {
+  it.skip('should be able to handle shrink-header & scroll-shadow types', function(done) {
     testing.done.set(done);
     testing.app.tag(
       testing.line(true, function() {/*

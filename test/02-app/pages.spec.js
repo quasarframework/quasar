@@ -40,7 +40,7 @@ describe('App Pages', function() {
           expect(this.params).to.deep.equal({});
           expect(this.query).to.deep.equal({});
           expect(this.name).to.equal('index');
-          expect(this.manifest).to.deep.equal({man: true});
+          expect(this.manifest).to.deep.equal({man: true, name: 'index'});
           expect(this.route).to.equal('$');
 
           quasar.nextTick(function() {
@@ -175,8 +175,10 @@ describe('App Pages', function() {
       function() {
         module.exports = function(callback) {
           expect(this.name).to.equal('index');
+          console.log('manifest', this.manifest);
           expect(this.manifest).to.deep.equal({
-            css: '/pages/index/css/page.css'
+            css: '/pages/index/css/page.css',
+            name: 'index'
           });
 
           callback({
@@ -201,7 +203,8 @@ describe('App Pages', function() {
           module.exports = function(callback) {
             expect(this.name).to.equal('secondpage');
             expect(this.manifest).to.deep.equal({
-              css: '/pages/secondpage/css/page.css'
+              css: '/pages/secondpage/css/page.css',
+              name: 'secondpage'
             });
 
             callback({
