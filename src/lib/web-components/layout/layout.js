@@ -53,9 +53,14 @@ Vue.component('quasar-layout', {
       }
     };
 
-    if (footer.length > 0 && !manager.hasEmpty('keep-marginals') && manager.hasEmpty('keep-footer')) {
+    if (footer.length > 0 && !manager.hasEmpty('keep-marginals')) {
       update.pageBottom = true;
       page.css('padding-bottom', footer.height() + 20 + 'px');
+
+      footer.addClass('fixed-bottom');
+      update.drawerBottom = true;
+      drawer.css('bottom', footer.height() + 'px');
+      quasar.events.on('app:page:ready app:layout:update', this.gc.marginalsHeightChanged);
     }
 
     manager.withEmpty('scroll-shadow shadow', function(type) {
@@ -90,16 +95,9 @@ Vue.component('quasar-layout', {
       quasar.events.on('app:page:ready app:layout:update', this.gc.marginalsHeightChanged);
     }.bind(this));
 
-    manager.withEmpty('keep-footer', function() {
-      footer.addClass('fixed-bottom');
-      update.drawerBottom = true;
-      drawer.css('bottom', footer.height() + 'px');
-      quasar.events.on('app:page:ready app:layout:update', this.gc.marginalsHeightChanged);
-    }.bind(this));
-
     manager.withEmpty('keep-marginals', function() {
       layout.addClass('fixed-top layout vertical window-height');
-      page.addClass('scroll flex');
+      page.addClass('scroll flex window-height');
     });
 
     manager.withEmpty('shrink-header', function() {
