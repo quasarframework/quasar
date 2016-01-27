@@ -19,6 +19,8 @@ module.exports = {
       min: 20,
       max: 50
     },
-    text: ''
+    text: '',
+    textarea: '',
+    number: 10
   }
 };

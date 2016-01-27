@@ -24,13 +24,18 @@
   </p>
 
   <h2>Range</h2>
-  {{range.model}}: [{{range.min}}, {{range.max}}]
+  [{{range.min}}, {{range.max}}] - {{range.model}}
   <quasar-range :model.sync="range.model" :min="range.min" :max="range.max"></quasar-range>
 
   <h2>Text Input</h2>
   Inline with text <quasar-input inline :model.sync="text">Address</quasar-input>
   <quasar-input :model.sync="text">Address</quasar-input>
 
+  <h2>Number</h2>
+  Inline with text <quasar-number inline :model.sync="number">Number label</quasar-number>
+  <quasar-number :model.sync="number" :min="7" :max="10" :debounce="1000" :step="0.5">Number label</quasar-number>
+
   <h2>Textarea</h2>
-  <quasar-textarea>Textarea label</quasar-textarea>
+  {{textarea}}
+  <quasar-textarea :model.sync="textarea">Textarea label</quasar-textarea>
   </div>

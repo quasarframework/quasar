@@ -1,9 +1,12 @@
+$inline-input-max-width = 200px
+
 .quasar-input
   position relative
   margin 0
   width 100%
   font-size 1.2em
   overflow hidden
+  color $grey-600
 
 .quasar-input-field
   position relative
@@ -15,7 +18,6 @@
   padding 0.85em 0.15em
   width 100%
   background transparent
-  color $grey-600
   outline none
   -moz-appearance none
   -webkit-appearance none /* for box shadows to show on iOS */
@@ -25,7 +27,6 @@
   float right
   width 40%
   color $grey-700
-  font-weight bold
   position absolute
   bottom 0
   left 0
@@ -65,7 +66,22 @@
   animation quasar-input-animation 0.3s forwards
 
 .quasar-input.inline
-  max-width 200px
+  max-width $inline-input-max-width
+
+@keyframes quasar-input-animation
+  50%
+    opacity 0
+    transform translate3d(1.5em, 0, 0)
+  51%
+    opacity 0
+    transform translate3d(-1.5em, -45%, 0)
+  100%
+    opacity 1
+    transform translate3d(0, -45%, 0)
+
+/**
+ * Textarea specific
+ */
 
 .quasar-textarea
   resize none
@@ -84,13 +100,19 @@
       border-left 4px solid $primary
       transform translate3d(0, 100%, 0)
 
-@keyframes quasar-input-animation
-  50%
-    opacity 0
-    transform translate3d(1.5em, 0, 0)
-  51%
-    opacity 0
-    transform translate3d(-1.5em, -45%, 0)
-  100%
-    opacity 1
-    transform translate3d(0, -45%, 0)
+/**
+ * Number specific
+ */
+
+.quasar-number
+  .quasar-input-field
+    padding-right 80px
+  .quasar-number-decrement, .quasar-number-increment
+    position absolute
+    top 22px
+    padding 10px
+    cursor pointer
+  .quasar-number-decrement
+    right 40px
+  .quasar-number-increment
+    right 0

@@ -1,5 +1,5 @@
 .quasar-range
-  margin 10px 0
+  margin 45px 0
   width 100%
   height 40px
   position relative
@@ -25,17 +25,23 @@
     border-radius 21px
     box-shadow 0 1px 3px 1px rgba(0,0,0,0.4)
 
-  .quasar-range-tooltip
+  .quasar-range-tooltip, .quasar-range-min, .quasar-range-max
     position absolute
-    top -41px
-    color white
-    background-color $grey-500
     border-radius 5px
+
+  .quasar-range-tooltip
+    top -35px
+    color white
     padding 6px
-    display none
+    background-color $grey-500
+
+  .quasar-range-min, .quasar-range-max
+    top 0px
+    color $grey-500
+
+  .quasar-range-max
+    right 0
 
   &.active
     &:before
       background-color $primary
-    .quasar-range-tooltip
-      display block

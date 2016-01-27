@@ -67,7 +67,6 @@ Vue.component('quasar-range', {
 
       if (event.isFinal) {
         this.model = newValue;
-        this.tooltip = '';
       }
     }
   },
@@ -92,6 +91,7 @@ Vue.component('quasar-range', {
   },
   ready: function() {
     this.el = $(this.$el);
+    this.tooltip = this.model;
 
     this.gc = {
       update: function() {
@@ -108,26 +108,68 @@ Vue.component('quasar-range', {
 });
 
 
-Vue.component('quasar-input', {
-  template: template.find('#input').html(),
-  props: ['model'],
-  ready: function() {
+var inputVM = {
+  props: {
+    model: {},
+    debounce: Number
+  },
+  beforeCompile: function() {
     var el = $(this.$el);
 
-    el.getAttributesManager().with('inline', function() {
+    el.getAttributesManager()
+    .with('inline', function() {
       el.addClass('inline');
+    })
+    .with('lazy', function() {
+      el.find('> .quasar-input-field').attr('lazy', '');
     });
   }
-});
+};
 
-Vue.component('quasar-textarea', {
-  template: template.find('#textarea').html(),
-  props: ['model'],
-  ready: function() {
-    var el = $(this.$el);
+Vue.component('quasar-input', Vue.extend({
+  mixins: [inputVM],
+  template: template.find('#input').html()
+}));
 
-    el.getAttributesManager().with('inline', function() {
-      el.addClass('inline');
-    });
+Vue.component('quasar-textarea', Vue.extend({
+  mixins: [inputVM],
+  template: template.find('#textarea').html()
+}));
+
+Vue.component('quasar-number', Vue.extend({
+  mixins: [inputVM],
+  template: template.find('#number').html(),
+  props: {
+    model: {
+      type: Number,
+      default: 0,
+      coerce: function(value) {
+        return parseFloat(value, 10);
+      }
+    },
+    step: {
+      type: Number,
+      default: 1,
+      coerce: function(value) {
+        return parseFloat(value, 10);
+      }
+    },
+    min: Number,
+    max: Number
+  },
+  watch: {
+    model: function(value) {
+      if (_.isNumber(this.min) && value < this.min) {
+        this.model = this.min;
+      }
+      else if (_.isNumber(this.max) && value > this.max) {
+        this.model = this.max;
+      }
+    }
+  },
+  methods: {
+    increment: function(step) {
+      this.model += step;
+    }
   }
-});
+}));
