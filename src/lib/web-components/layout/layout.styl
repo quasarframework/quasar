@@ -9,6 +9,8 @@ $toolbar-row-height = 55px
 
 .quasar-header, .quasar-footer
   z-index $z-marginals
+  @media (min-width $tabletBreakpoint)
+    z-index $z-drawer + 1
 
 .quasar-toolbar
   display block

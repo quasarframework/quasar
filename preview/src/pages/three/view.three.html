@@ -1,1 +1,34 @@
-page index template
+<div class="container">
+  <h2>Checkbox</h2>
+  {{check}}
+  <quasar-checkbox :model.sync="check">Check me!</quasar-checkbox>
+  <p>
+    <quasar-checkbox inline :model.sync="check">Check me!</quasar-checkbox>
+    <quasar-checkbox inline :model.sync="check">Check me!</quasar-checkbox>
+  </p>
+
+  <h2>Radio</h2>
+  <p>
+    Selected option: {{radio.model}}
+    <quasar-radio :options="radio.options" :model.sync="radio.model"></quasar-radio>
+  </p>
+  <p>
+    <quasar-radio inline :options="radio.options" :model.sync="radio.model"></quasar-radio>
+  </p>
+
+  <h2>Switch</h2>
+  <quasar-switch :model.sync="check">Switch me</quasar-switch>
+  <p>
+    <quasar-switch inline :model.sync="check">Switch me</quasar-switch>
+    Inline with Text
+  </p>
+
+  <h2>Range</h2>
+  {{range.model}}: [{{range.min}}, {{range.max}}]
+  <quasar-range :model.sync="range.model" :min="range.min" :max="range.max"></quasar-range>
+
+  <h2>Text</h2>
+  Input text field:
+  <quasar-text inline :model.sync="text" placeholder="Type here"></quasar-text>
+  <quasar-text :model.sync="text" placeholder="Type here"></quasar-text>
+</div>

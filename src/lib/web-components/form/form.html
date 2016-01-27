@@ -1,0 +1,49 @@
+<templates>
+  <template id="checkbox">
+    <div
+      class="quasar-checkbox non-selectable layout items-center"
+      :class="{checked: model}"
+      @click="model = !model"
+    >
+      <slot></slot>
+    </div>
+  </template>
+
+  <template id="radio">
+    <div class="quasar-radio non-selectable">
+      <div
+        v-for="option in options"
+        :class="{checked: model === option.value}"
+        @click="model = option.value"
+      >
+        {{option.label}}
+      </div>
+    </div>
+  </template>
+
+  <template id="switch">
+    <div
+      class="quasar-switch non-selectable layout items-center"
+      :class="{checked: model}"
+      @click="model = !model"
+    >
+      <slot></slot>
+    </div>
+  </template>
+
+  <template id="range">
+    <div
+      class="quasar-range non-selectable"
+      :class="[tooltip !== '' ? 'active' : '']"
+      v-touch:pan-x="pan"
+    >
+      <div class="quasar-range-picker" :style="{left: position + 'px'}"></div>
+      <div
+        class="quasar-range-tooltip"
+        :style="{left: position + 10 + 'px'}"
+      >
+        {{tooltip}}
+      </div>
+    </div>
+  </template>
+</templates>

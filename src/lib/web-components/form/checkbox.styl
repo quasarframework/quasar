@@ -1,0 +1,37 @@
+$checkbox-size = 2px
+
+.quasar-checkbox
+  position relative
+  padding 20px 15px 20px 40px
+  margin 5px 0
+  height 20px
+  cursor pointer
+
+  &:not(.inline)
+    width 100%
+
+  &:before, &:after
+    content ''
+    position absolute
+    top 5px
+    left 1px
+    width 25px
+    height 25px
+    z-index 0
+    border $checkbox-size solid $primary
+    border-radius 2px
+    margin-top 2px
+    transition .2s
+
+  &.checked:before
+    top 6px
+    left 3px
+    width 10px
+    height 20px
+    border-top $checkbox-size solid transparent
+    border-left $checkbox-size solid transparent
+    border-right 1.5 * $checkbox-size solid $primary
+    border-bottom 1.5 * $checkbox-size solid $primary
+    transform rotate(30deg)
+    backface-visibility hidden
+    transform-origin 100% 100%

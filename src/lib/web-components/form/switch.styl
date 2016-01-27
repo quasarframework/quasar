@@ -1,0 +1,38 @@
+.quasar-switch
+  position relative
+  padding 20px 15px 20px 65px
+  margin 5px 0
+  height 20px
+  cursor pointer
+
+  &:before
+    content ''
+    display inline-block
+    position absolute
+    top 11px
+    left -16px
+    width 50px
+    height 16px
+    background-color $grey-500
+    border-radius 15px
+    margin-right 10px
+    transition background 0.3s ease
+    vertical-align middle
+    margin 0 16px
+  &.checked:before
+    background-color $primary
+
+  &:after
+    content ''
+    position absolute
+    top 8px
+    left 0px
+    display inline-block
+    width 21px
+    height 21px
+    background-color #F1F1F1
+    border-radius 21px
+    box-shadow 0 1px 3px 1px rgba(0,0,0,0.4)
+    transition left 0.3s ease, background .3s ease, box-shadow 0.1s ease
+  &.checked:after
+    left 29px

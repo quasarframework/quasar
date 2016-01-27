@@ -35,7 +35,7 @@ $drawer-separator-color = #ECECEC
   .quasar-drawer-footer
     position fixed
     bottom 0
-    width 100%
+    width 95%
     background-color $white
     border-top 2px solid $drawer-separator-color
   .quasar-drawer-item
@@ -89,3 +89,7 @@ $drawer-separator-color = #ECECEC
       outline 0 !important
     .quasar-layout
       margin-left $drawer-width !important
+    .quasar-drawer-container
+      overflow hidden
+      &:hover
+        overflow auto
