@@ -112,7 +112,6 @@ Vue.component('quasar-layout', {
       drawer.css('top', headerHeight + 'px');
 
       scrollFn = function() {
-        console.log('scroll');
         var
           offset = $(window).scrollTop(),
           translate = Math.min(headerHeight, offset),

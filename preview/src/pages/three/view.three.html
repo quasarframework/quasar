@@ -27,8 +27,10 @@
   {{range.model}}: [{{range.min}}, {{range.max}}]
   <quasar-range :model.sync="range.model" :min="range.min" :max="range.max"></quasar-range>
 
-  <h2>Text</h2>
-  Input text field:
-  <quasar-text inline :model.sync="text" placeholder="Type here"></quasar-text>
-  <quasar-text :model.sync="text" placeholder="Type here"></quasar-text>
-</div>
+  <h2>Text Input</h2>
+  Inline with text <quasar-input inline :model.sync="text">Address</quasar-input>
+  <quasar-input :model.sync="text">Address</quasar-input>
+
+  <h2>Textarea</h2>
+  <quasar-textarea>Textarea label</quasar-textarea>
+  </div>

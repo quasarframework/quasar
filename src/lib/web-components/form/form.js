@@ -108,8 +108,20 @@ Vue.component('quasar-range', {
 });
 
 
-Vue.component('quasar-text', {
-  template: '<input class="quasar-text layout items-center" v-model="model" type="text">',
+Vue.component('quasar-input', {
+  template: template.find('#input').html(),
+  props: ['model'],
+  ready: function() {
+    var el = $(this.$el);
+
+    el.getAttributesManager().with('inline', function() {
+      el.addClass('inline');
+    });
+  }
+});
+
+Vue.component('quasar-textarea', {
+  template: template.find('#textarea').html(),
   props: ['model'],
   ready: function() {
     var el = $(this.$el);

@@ -46,4 +46,22 @@
       </div>
     </div>
   </template>
+
+  <template id="input">
+    <div class="quasar-input layout" :class="[model && model.length > 0 ? 'quasar-input-filled' : '']">
+			<input v-model="model" class="quasar-input-field" type="text">
+			<label class="quasar-input-label non-selectable">
+				<span><slot></slot></span>
+			</label>
+		</div>
+  </template>
+
+  <template id="textarea">
+    <div class="quasar-input quasar-textarea layout" :class="[model && model.length > 0 ? 'quasar-input-filled' : '']">
+			<textarea v-model="model" class="quasar-input-field" type="text"></textarea>
+			<label class="quasar-input-label non-selectable">
+				<span><slot></slot></span>
+			</label>
+		</div>
+  </template>
 </templates>
