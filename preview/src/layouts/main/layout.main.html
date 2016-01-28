@@ -30,36 +30,31 @@
 
   <quasar-drawer>
     <quasar-drawer-header>
-      <div>
-        <img src="http://semantic-ui.com/images/avatar2/large/matthew.png" width="100px" height="100px" style="border-radius: 50px; margin-bottom: 20px">
-      </div>
+      <pre>
+________
+\_____  \  __ _______    ___________ _______
+ /  / \  \|  |  \__  \  /  ___/\__  \\_  __ \
+/   \_/.  \  |  // __ \_\___ \  / __ \|  | \/
+\_____\ \_/____/(____  /____  >(____  /__|
+       \__>          \/     \/      \/
+      </pre>
       <div><strong>Razvan Stoenescu</strong></div>
       <div>rstoenescu@rstoenescu.com</div>
     </quasar-drawer-header>
 
-    <quasar-drawer-item v-for="n in 3" route="#/">
-      <quasar-icon>alarm</quasar-icon>
-      Index Page Index Page Index Page Index Page Index Page Index Page Index Page Index Page
-    </quasar-drawer-item>
-
-    <quasar-drawer-item route="#/three">
-      <quasar-icon>alarm</quasar-icon>
-      Third Page
-    </quasar-drawer-item>
-
-    <quasar-drawer-divider></quasar-drawer-divider>
-    <quasar-drawer-title>Section</quasar-drawer-title>
-
-    <quasar-drawer-item v-for="n in 5" route="#/second">
-      <quasar-icon>alarm</quasar-icon>
-      Second Page
-    </quasar-drawer-item>
+    <template v-for="n in 2">
+      <quasar-drawer-link page="index"></quasar-drawer-link>
+      <quasar-drawer-link page="typography"></quasar-drawer-link>
+      <quasar-drawer-link page="buttons"></quasar-drawer-link>
+      <quasar-drawer-link page="inputs"></quasar-drawer-link>
+      <quasar-drawer-link page="form"></quasar-drawer-link>
+      <quasar-drawer-divider></quasar-drawer-divider>
+      <quasar-drawer-title>Section Label</quasar-drawer-title>
+    </template>
+    <quasar-drawer-link page="form"></quasar-drawer-link>
 
     <quasar-drawer-footer>
-      <quasar-drawer-item v-for="n in 2" route="#/second">
-        <quasar-icon>alarm</quasar-icon>
-        Settings
-      </quasar-drawer-item>
+      <quasar-drawer-link v-for="n in 2" :click="openSettings" icon="settings" label="Buttons"></quasar-drawer-link>
     </quasar-drawer-footer>
 
   </quasar-drawer>

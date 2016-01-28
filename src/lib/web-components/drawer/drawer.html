@@ -21,8 +21,11 @@
     </div>
   </template>
 
-  <template id="quasar-drawer-item">
-    <div class="quasar-drawer-item text-truncate"><slot></slot></div>
+  <template id="quasar-drawer-link">
+    <div class="quasar-drawer-link text-truncate" @click="execute" :class="[active ? 'active' : '']">
+      <quasar-icon v-if="icon">{{icon}}</quasar-icon>
+      {{label}}
+    </div>
   </template>
 
   <template id="quasar-drawer-title">

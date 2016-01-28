@@ -1,5 +1,2 @@
-layout: 'main'
-label: 'Page One'
-icon: 'cloud'
-navigation:
-  group: 'main'
+label: 'Index'
+icon: 'account_circle'

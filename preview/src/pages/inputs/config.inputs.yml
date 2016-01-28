@@ -1,0 +1,5 @@
+layout: 'main'
+label: 'Inputs'
+icon: 'pages'
+navigation:
+  group: 'main'

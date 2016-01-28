@@ -14,12 +14,11 @@ var
 
 $('body').append(fabsNode);
 
-function toggleAnimation(el, open, done) {
+function toggleAnimation(el, open, horizontal, done) {
   var
     time = 0,
-    fab = {horizontal: false},
-    offsetY = fab.horizontal ? 0 : 40,
-    offsetX = fab.horizontal ? 40 : 0,
+    offsetY = horizontal ? 0 : 40,
+    offsetX = horizontal ? 40 : 0,
     buttons = el.find('.quasar-button')
     ;
 
@@ -90,10 +89,10 @@ var Fab = Vue.extend({
     toggle: {
       css: false,
       enter: function(el, done) {
-        toggleAnimation($(el), true, done);
+        toggleAnimation($(el), true, this.cfg.horizontal, done);
       },
       leave: function(el, done) {
-        toggleAnimation($(el), false, done);
+        toggleAnimation($(el), false, this.cfg.horizontal, done);
       }
     }
   },

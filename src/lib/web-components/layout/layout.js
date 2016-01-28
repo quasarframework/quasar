@@ -229,7 +229,7 @@ Vue.component('quasar-navigation', {
       quasar.navigate.to.route(
         '#/' +
         (name === 'index' && !route ? '' : name) +
-        (route ? '/' + route : '')
+        (route ? (name !== 'index' ? '/' : '') + route : '')
       );
     }
   },

@@ -4,6 +4,9 @@ module.exports = {
   methods: {
     alertMe: function(n) {
       alert('message ' + n);
+    },
+    openSettings: function() {
+      quasar.notify('This should have opened Settings');
     }
   }
 };

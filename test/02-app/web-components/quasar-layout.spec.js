@@ -409,18 +409,18 @@
               <div>Quasar Framework rocks!</div>
             </quasar-drawer-header>
 
-            <quasar-drawer-item v-for="n in 14">
+            <quasar-drawer-link v-for="n in 14">
               <quasar-icon>alarm</quasar-icon>
               Message {{n + 1}}
-            </quasar-drawer-item>
+            </quasar-drawer-link>
 
             <quasar-drawer-divider></quasar-drawer-divider>
             <quasar-drawer-header>Subheader</quasar-drawer-header>
 
-            <quasar-drawer-item v-for="n in 5">
+            <quasar-drawer-link v-for="n in 5">
               <quasar-icon>alarm</quasar-icon>
               Message {{n + 1}}
-            </quasar-drawer-item>
+            </quasar-drawer-link>
           </quasar-drawer>
           <quasar-page></quasar-page>
       */}),
@@ -429,7 +429,7 @@
         expect(_html.match(/class="([\w\s])*quasar-drawer/)).to.exist;
         expect(_html.match(/class="([\w\s])*quasar-page/)).to.exist;
         expect(_html.match(/class="([\w\s])*quasar-drawer-header/)).to.exist;
-        expect(_html.match(/class="([\w\s])*quasar-drawer-item/)).to.exist;
+        expect(_html.match(/class="([\w\s])*quasar-drawer-link/)).to.exist;
         expect(_html.match(/class="([\w\s])*quasar-drawer-divider/)).to.exist;
         testing.done();
       }
