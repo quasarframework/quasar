@@ -12,8 +12,8 @@ function Dialog(vm) {
 
   var
     el = $(this.vm.$el),
-    body = $(this.vm.$el).find('.quasar-dialog-body'),
-    footer = $(this.vm.$el).find('.quasar-dialog-footer')
+    body = el.find('.quasar-dialog-body'),
+    footer = el.find('.quasar-dialog-footer')
     ;
 
   this.scroll = function() {

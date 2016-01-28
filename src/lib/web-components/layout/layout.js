@@ -339,7 +339,7 @@ Vue.component('quasar-navigation', {
           scroller[0].scrollLeft += lastOffset - ev.deltaX;
           lastOffset = ev.deltaX;
         });
-        hammer.on('panend', function(ev) {
+        hammer.on('panend', function() {
           lastOffset = 0;
         });
       });

@@ -1,9 +1,6 @@
 'use strict';
 
-var
-  runSequence = require('run-sequence'),
-  del = require('del')
-  ;
+var del = require('del');
 
 gulp.task('clean', function() {
   del.sync(config.clean);

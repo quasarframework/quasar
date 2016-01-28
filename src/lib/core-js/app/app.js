@@ -13,7 +13,7 @@ var
   injectCSS = require('./assets/inject-css')
   ;
 
-function renderVue(context, pageVue, layoutVue, done) {
+function renderVue(context, pageVue, layoutVue) {
   injectCSS('page', context.manifest);
 
   // if layout hasn't changed...

@@ -34,7 +34,6 @@ function createSvgElement(tagName, data, parent, spinnerName) {
   var k, x, y;
 
   for (k in data) {
-
     if (_.isArray(data[k])) {
       for (x = 0; x < data[k].length; x++) {
         if (data[k][x].fn) {
@@ -431,7 +430,7 @@ Vue.component('quasar-spinner', {
   compiled: function() {
     var
       el = $(this.$el),
-      svg, size, spinnerName,
+      svg, spinnerName,
       manager = el.getAttributesManager(),
       container = document.createElement('div')
       ;

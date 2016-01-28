@@ -13,12 +13,15 @@ Vue.component('quasar-button', {
       manager = el.getAttributesManager()
       ;
 
-    manager.withEmpty(colors, function(color) {
+    manager
+    .withEmpty(colors, function(color) {
       el.addClass(color);
-    });
-
-    manager.withEmpty(sizes, function(size) {
+    })
+    .withEmpty(sizes, function(size) {
       el.addClass(size);
+    })
+    .withEmpty('uppercase', function() {
+      el.addClass('uppercase');
     });
 
     _.forEach(['circular', 'raised', 'disabled', 'inverted', 'cornered', 'fluid'], function(type) {
