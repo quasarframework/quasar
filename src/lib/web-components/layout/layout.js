@@ -212,6 +212,13 @@ Vue.component('quasar-navigation', {
       return page.navigation;
     });
 
+    links = _.sortBy(links, function(link) {
+      if (!link.navigation) {
+        return 0;
+      }
+      return link.navigation.order || 100;
+    });
+
     return {
       page: '',
       group: '',
