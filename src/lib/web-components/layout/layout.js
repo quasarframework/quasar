@@ -69,7 +69,7 @@ Vue.component('quasar-layout', {
         return;
       }
 
-      if (!manager.hasEmpty('keep-header retract-header keep-marginals shrink-header')) {
+      if (!manager.hasEmpty('keep-header retract-header keep-navigation keep-marginals shrink-header')) {
         return;
       }
 
@@ -129,7 +129,7 @@ Vue.component('quasar-layout', {
       quasar.events.on('app:page:ready app:layout:update', this.gc.marginalsHeightChanged);
     }.bind(this));
 
-    manager.withEmpty('retract-header', function() {
+    var retract = function(minHeightFn) {
       header.addClass('fixed-top');
 
       update.pageTop = true;
@@ -148,7 +148,7 @@ Vue.component('quasar-layout', {
         var
           offset = $(window).scrollTop(),
           delta = offset - lastOffset,
-          translate = Math.max(0, Math.min(headerHeight, lastTranslate + delta))
+          translate = Math.max(0, Math.min(minHeightFn(), lastTranslate + delta))
           ;
 
         header.css({'transform': 'translate3d(0,-' + translate + 'px, 0)'});
@@ -161,7 +161,15 @@ Vue.component('quasar-layout', {
       this.gc.scrolls.push([$(window), scrollFn]);
 
       quasar.events.on('app:page:ready app:layout:update', this.gc.marginalsHeightChanged);
-    }.bind(this));
+    }.bind(this);
+
+    manager.withEmpty('retract-header', function() {
+      retract(function() {return headerHeight;});
+    });
+
+    manager.withEmpty('keep-navigation', function() {
+      retract(function() {return header.find('.quasar-row.quasar-navigation').height();});
+    });
   },
   destroyed: function() {
     quasar.events.off('app:page:ready app:layout:update', this.gc.marginalsHeightChanged);
