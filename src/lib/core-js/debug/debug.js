@@ -14,15 +14,17 @@ _.merge(quasar, {
 
       console.log(stack);
     },
-    profile: function(name) {
+    profile: function(name, byNotify) {
+      var message, fn = byNotify ? quasar.notify : console.log;
+
       if (__profiler.hasOwnProperty(name)) {
-        console.log('[profile end: ' + name + ']', new Date().getTime() - __profiler[name]);
+        fn('[profile end: ' + name + '] ' + (new Date().getTime() - __profiler[name]));
         delete __profiler[name];
         return;
       }
 
       __profiler[name] = new Date().getTime();
-      console.log('[profile start: ' + name + ']');
+      fn('[profile start: ' + name + ']');
     }
   }
 });

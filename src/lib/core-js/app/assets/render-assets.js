@@ -41,8 +41,5 @@ module.exports = function(type, vue, done) {
     destroyVue('layout');
   }
 
-  var time = new Date().getTime();
-
   quasar[type].vm = new Vue(injectVue(vue, el, done));
-  quasar.notify(type + ' - ' + (new Date().getTime() - time));
 };
