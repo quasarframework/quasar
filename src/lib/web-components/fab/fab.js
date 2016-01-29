@@ -16,7 +16,7 @@ function toggleAnimation(el, open, horizontal, done) {
     time = 0,
     offsetY = horizontal ? 0 : 40,
     offsetX = horizontal ? 40 : 0,
-    buttons = el.find('.button')
+    buttons = el.find('button')
     ;
 
   buttons.velocity('stop').velocity(
