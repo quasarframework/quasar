@@ -15,7 +15,7 @@
   <template id="quasar-drawer-header">
     <div class="quasar-drawer-header">
       <div class="float-right">
-        <quasar-icon class="quasar-drawer-toggle small">chevron_left</quasar-icon>
+        <i class="quasar-drawer-toggle small">chevron_left</i>
       </div>
       <slot></slot>
     </div>
@@ -23,7 +23,7 @@
 
   <template id="quasar-drawer-link">
     <div class="quasar-drawer-link text-truncate" @click="execute" :class="[active ? 'active' : '']">
-      <quasar-icon v-if="icon">{{icon}}</quasar-icon>
+      <i v-if="icon">{{icon}}</i>
       {{label}}
     </div>
   </template>

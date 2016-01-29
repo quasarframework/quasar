@@ -80,7 +80,7 @@ function Notify(options) {
   this.node = $('<div class="quasar-notifier layout items-center justify-between wrap non-selectable z-4" v-touch:pan="____pan">');
 
   this.node.append(
-    (this.icon ? '<quasar-icon>' + this.icon + '</quasar-icon> ' : '') +
+    (this.icon ? '<i>' + this.icon + '</i> ' : '') +
     (this.image ? '<img src="' + this.image + '">' : '') +
     '<div class="layout flex">' + this.html + '</div>'
   );
@@ -97,7 +97,7 @@ function Notify(options) {
     }.bind(this));
   }
 
-  $('<a class="quasar-notifier-dismiss-all"><quasar-icon>delete</quasar-icon></a>')
+  $('<a class="quasar-notifier-dismiss-all"><i>delete</i></a>')
     .click(dismissAll)
     .appendTo(this.node);
 

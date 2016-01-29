@@ -7,11 +7,11 @@
   <ul v-show="active" transition="toggle">
     <li v-for="button in cfg.buttons">
       <quasar-button circular small raised :class="button.class" @click="execute(button)">
-        <quasar-icon>{{button.icon}}</quasar-icon>
+        <i>{{button.icon}}</i>
       </quasar-button>
     </li>
   </ul>
   <quasar-button circular raised :class="cfg.class" @click="toggle()">
-    <quasar-icon>{{active ? 'close' : cfg.icon}}</quasar-icon>
+    <i>{{active ? 'close' : cfg.icon}}</i>
   </quasar-button>
 </div>

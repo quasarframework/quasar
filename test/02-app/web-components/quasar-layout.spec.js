@@ -410,7 +410,7 @@
             </quasar-drawer-header>
 
             <quasar-drawer-link v-for="n in 14">
-              <quasar-icon>alarm</quasar-icon>
+              <i>alarm</i>
               Message {{n + 1}}
             </quasar-drawer-link>
 
@@ -418,7 +418,7 @@
             <quasar-drawer-header>Subheader</quasar-drawer-header>
 
             <quasar-drawer-link v-for="n in 5">
-              <quasar-icon>alarm</quasar-icon>
+              <i>alarm</i>
               Message {{n + 1}}
             </quasar-drawer-link>
           </quasar-drawer>

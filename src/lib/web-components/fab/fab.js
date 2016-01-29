@@ -1,8 +1,5 @@
 'use strict';
 
-require('../icon/icon');
-require('../button/button');
-
 var
   fabsNode = $('<div id="__quasar_fabs">'),
   template = require('raw!./fab.html'),

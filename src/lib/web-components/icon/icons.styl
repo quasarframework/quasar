@@ -5,7 +5,9 @@
   src url("../assets/fonts/icons/MaterialIcons-Regular.eot") /* For IE6-8 */
   src local("Material Icons"), local("MaterialIcons-Regular"), url("../assets/fonts/icons/MaterialIcons-Regular.woff2") format("woff2"), url("../assets/fonts/icons/MaterialIcons-Regular.woff") format("woff"), url("../assets/fonts/icons/MaterialIcons-Regular.ttf") format("truetype")
 
-.quasar-icon
+i
+  @extend .non-selectable
+
   font-family 'Material Icons'
   font-weight normal
   font-style normal
@@ -29,22 +31,3 @@
 
   /* Support for IE. */
   font-feature-settings 'liga'
-
-  &.tiny
-    font-size 1rem
-  &.small
-    font-size 2rem
-  &.medium
-    font-size 4rem
-  &.large
-    font-size 6rem
-
-  &.dark
-    color rgba(0, 0, 0, 0.54)
-  &.dark.inactive
-    color rgba(0, 0, 0, 0.26)
-
-  &.light
-    color rgba(255, 255, 255, 1)
-  &.light.inactive
-    color rgba(255, 255, 255, 0.3)

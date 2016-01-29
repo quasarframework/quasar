@@ -27,7 +27,7 @@
   <template id="quasar-navigation">
     <div class="quasar-navigation quasar-row layout" :class="[!manual && group.length === 0 ? 'hidden' : '']">
       <quasar-navigation-link class="left-scroll">
-        <quasar-icon>chevron_left</quasar-icon>
+        <i>chevron_left</i>
       </quasar-navigation-link>
       <div class="quasar-navigation-container layout flex">
         <div class="quasar-navigation-content layout">
@@ -37,7 +37,7 @@
               :class="[page === link.name ? 'active' : '', group !== link.navigation.group ? 'hidden' : '']"
               @click="navigateTo(link)"
             >
-              <quasar-icon v-if="link.icon">{{link.icon}}</quasar-icon>
+              <i v-if="link.icon">{{link.icon}}</i>
               {{link.label}}
             </quasar-navigation-link>
           </template>
@@ -45,7 +45,7 @@
         </div>
       </div>
       <quasar-navigation-link class="right-scroll">
-        <quasar-icon>chevron_right</quasar-icon>
+        <i>chevron_right</i>
       </quasar-navigation-link>
     </div>
   </template>

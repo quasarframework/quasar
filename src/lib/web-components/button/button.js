@@ -6,7 +6,7 @@ var
   ;
 
 Vue.component('quasar-button', {
-  template: '<div class="quasar-button non-selectable"><slot></slot></a>',
+  template: '<div class="quasar-button non-selectable"><slot></slot></div>',
   compiled: function() {
     var
       el = $(this.$el),
