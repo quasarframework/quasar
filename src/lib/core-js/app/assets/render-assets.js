@@ -26,19 +26,23 @@ function injectVue(currentVue, el, readyFunction) {
   return vue;
 }
 
-function destroyVue() {
-  _.forEach(arguments, function(argument) {
-    if (quasar[argument].vm) {
-      quasar[argument].vm.$destroy();
-    }
-  });
+function destroyVue(instance) {
+  if (quasar[instance].vm) {
+    quasar[instance].vm.$destroy();
+  }
 }
 
 module.exports = function(type, vue, done) {
+  var el = '.quasar-page';
+
   destroyVue('page');
   if (type === 'layout') {
+    el = '#quasar-app';
     destroyVue('layout');
   }
 
-  quasar[type].vm = new Vue(injectVue(vue, type === 'layout' ? '#quasar-app' : '.quasar-page', done));
+  var time = new Date().getTime();
+
+  quasar[type].vm = new Vue(injectVue(vue, el, done));
+  quasar.notify(type + ' - ' + (new Date().getTime() - time));
 };

@@ -133,9 +133,11 @@ var vm = new Vue({
 
     this.gc = {
       marginalsHeightChanged: function() {
-        var footer = $('.quasar-footer');
+        Vue.nextTick(function() {
+          var footer = $('.quasar-footer');
 
-        el.css('margin-bottom', (footer.length > 0 ? 10 + footer.height() : 0) + 'px');
+          el.css('margin-bottom', (footer.length > 0 ? 10 + footer.height() : 0) + 'px');
+        });
       }
     };
     quasar.events.on('app:page:ready app:layout:update', this.gc.marginalsHeightChanged);

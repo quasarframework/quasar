@@ -6,7 +6,8 @@ var
   modulesCache = {},
   states = {
     LOADING: 1,
-    READY: 2
+    LOADED: 2,
+    READY: 3
   };
 
 // Named "eval" is mandatory for
@@ -24,7 +25,7 @@ function resolveModule(base, relativePath) {
 }
 
 function load(module, callback, request) {
-  module.state = states.READY;
+  module.state = states.LOADED;
 
   if (request && request.status !== 200) {
     module.error = request;
@@ -70,10 +71,10 @@ function deepLoad(module, callback) {
   if (module.state === states.LOADING) {
     setTimeout(function() {
       deepLoad(module, callback);
-    }, 25);
+    }, 5);
     return;
   }
-  else if (module.state === states.READY) {
+  else if (module.state === states.LOADED || module.state === states.READY) {
     quasar.nextTick(function() {
       callback(module.error, module);
     });
@@ -121,7 +122,13 @@ function getModuleExports(module) {
     module // module
   );
 
+  module.state = states.READY;
   return module.exports;
+}
+
+function applyCallback(callback, deferred, resource, module) {
+  callback(resource.error, module.exports);
+  deferred.resolve(module.exports);
 }
 
 function requireScript(resource, callback) {
@@ -141,20 +148,26 @@ function requireScript(resource, callback) {
     module = resolveModule('', resource);
   }
 
-  deepLoad(module, function(err) {
-    if (err) {
-      callback(err);
-      deferred.reject(err);
-      return;
-    }
+  if (module.state === states.READY) {
+    quasar.nextTick(function() {
+      applyCallback(callback, deferred, resource, module);
+    });
+  }
+  else {
+    deepLoad(module, function(err) {
+      if (err) {
+        callback(err);
+        deferred.reject(err);
+        return;
+      }
 
-    if (!module.exports) {
-      getModuleExports(module);
-    }
+      if (!module.exports) {
+        getModuleExports(module);
+      }
 
-    callback(resource.error, module.exports);
-    deferred.resolve(module.exports);
-  });
+      applyCallback(callback, deferred, resource, module);
+    });
+  }
 
   return deferred;
 }

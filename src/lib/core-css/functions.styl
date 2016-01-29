@@ -1,0 +1,5 @@
+activeColor($color)
+  if luminosity($color) > 0.49
+    darken($color, 10%)
+  else
+    lighten($color, 20%)

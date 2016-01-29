@@ -10,12 +10,6 @@ $button-colors = neutral $neutral,
                  light $white,
                  dark $black
 
-buttonHoverColor($color)
-  if luminosity($color) > 0.49
-    darken($color, 10%)
-  else
-    lighten($color, 20%)
-
 .quasar-button
   display inline-block
   outline 0
@@ -55,7 +49,7 @@ buttonHoverColor($color)
       @extend .z-8
 
   &:active:not(.disabled)
-    background-color buttonHoverColor(white)
+    background-color activeColor(white)
 
   /**
    * COLORS
@@ -65,7 +59,7 @@ buttonHoverColor($color)
       color white
       background-color $color[1]
       &:hover:not(.disabled), &:active:not(.disabled)
-        background-color buttonHoverColor($color[1])
+        background-color activeColor($color[1])
       &.inverted
         color $color[1]
         background-color white
