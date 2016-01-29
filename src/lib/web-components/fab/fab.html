@@ -6,12 +6,12 @@
   <div v-if="cfg.label" class="quasar-fab-label">{{cfg.label}}</div>
   <ul v-show="active" transition="toggle">
     <li v-for="button in cfg.buttons">
-      <quasar-button circular small raised :class="button.class" @click="execute(button)">
+      <button class="circular small raised" :class="button.class" @click="execute(button)">
         <i>{{button.icon}}</i>
-      </quasar-button>
+      </button>
     </li>
   </ul>
-  <quasar-button circular raised :class="cfg.class" @click="toggle()">
+  <button class="circular raised" :class="cfg.class" @click="toggle()">
     <i>{{active ? 'close' : cfg.icon}}</i>
-  </quasar-button>
+  </button>
 </div>

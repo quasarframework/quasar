@@ -8,7 +8,6 @@ require('./assets/initialize');
 var
   request = require('./assets/request-assets'),
   prepare = require('./assets/prepare-assets'),
-  validate = require('./assets/validate-assets'),
   render = require('./assets/render-assets'),
   injectCSS = require('./assets/inject-css')
   ;
@@ -52,7 +51,6 @@ function prepareRoute(context, layout, page) {
   if (!quasar.layout.name || quasar.layout.name !== layout.name) {
     quasar.events.trigger('app:layout:post-require app:layout:prepare', context);
     prepare(quasar.data.manifest.layouts[context.manifest.layout], layout, function(vue) {
-      validate.layout(vue);
       layoutVue = vue;
       quasar.layout.name = layout.name;
       renderVue(context, pageVue, layoutVue);

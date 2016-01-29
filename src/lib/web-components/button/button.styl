@@ -10,7 +10,9 @@ $button-colors = neutral $neutral,
                  light $white,
                  dark $black
 
-.quasar-button
+button
+  @extend .non-selectable
+
   display inline-block
   outline 0
   cursor pointer
@@ -28,6 +30,7 @@ $button-colors = neutral $neutral,
   transition all .12s ease-in
   margin 15px 0
   color $neutral-text
+  background-color transparent
 
   &.fluid
     width 100%

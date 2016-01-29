@@ -8,14 +8,14 @@
       <div class="quasar-dialog-content"></div>
     </div>
     <div class="quasar-dialog-footer layout content-center justify-end items-stretch">
-      <quasar-button
+      <button
         v-for="button in buttons"
         class="layout items-center justify-center"
         :class="button.type"
         @click="___onClick(button.dismiss, button.fn)"
       >
         {{button.label}}
-      </quasar-button>
+      </button>
     </div>
   </div>
 </div>

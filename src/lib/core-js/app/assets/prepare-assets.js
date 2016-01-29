@@ -1,8 +1,8 @@
 'use strict';
 
-module.exports = function(context, asset, done) {
-  if (_.isFunction(asset.exports)) {
-    asset.exports.call(
+module.exports = function(context, assetExports, done) {
+  if (_.isFunction(assetExports)) {
+    assetExports.call(
       context,
       function(vue) {
         quasar.nextTick(function() {
@@ -14,6 +14,6 @@ module.exports = function(context, asset, done) {
   }
 
   quasar.nextTick(function() {
-    done(asset.exports);
+    done(assetExports);
   });
 };

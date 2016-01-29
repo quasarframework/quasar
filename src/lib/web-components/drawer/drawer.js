@@ -7,11 +7,6 @@ var
   overlayOpacity = .7
   ;
 
-/* istanbul ignore next */
-function closeDrawer() {
-  quasar.drawer.close();
-}
-
 _.forEach(['header', 'title'], function(type) {
   Vue.component('quasar-drawer-' + type, {
     template: template.find('#quasar-drawer-' + type).html()
@@ -36,21 +31,21 @@ Vue.component('quasar-drawer-link', {
   },
   methods: {
     execute: function() {
-      closeDrawer();
+      quasar.drawer.close(function() {
+        if (this.click) {
+          this.click();
+          return;
+        }
 
-      if (this.click) {
-        this.click();
-        return;
-      }
+        if (this.route) {
+          quasar.navigate.to.route(this.route);
+          return;
+        }
 
-      if (this.route) {
-        quasar.navigate.to.route(this.route);
-        return;
-      }
-
-      if (this.page) {
-        quasar.navigate.to.route('#/' + (this.page === 'index' ? '' : this.page));
-      }
+        if (this.page) {
+          quasar.navigate.to.route('#/' + (this.page === 'index' ? '' : this.page));
+        }
+      }.bind(this));
     }
   },
   compiled: function() {
@@ -84,7 +79,7 @@ Vue.component('quasar-drawer-link', {
 
 
 /* istanbul ignore next */
-function animate(open, node, overlay, percentage, currentPosition, width) {
+function animate(open, node, overlay, percentage, currentPosition, width, done) {
   node.velocity(
     {translateX: open ? [0, currentPosition] : [-width, currentPosition]},
     {duration: drawerAnimationSpeed}
@@ -107,6 +102,7 @@ function animate(open, node, overlay, percentage, currentPosition, width) {
         if (!open) {
           overlay.removeClass('active');
         }
+        done && done();
       }
     }
   );
@@ -176,8 +172,9 @@ Vue.component('quasar-drawer', {
       });
       overlay.css('background-color', 'rgba(0,0,0,' + percentage * overlayOpacity + ')');
     },
-    toggle: /* istanbul ignore next */ function(state) {
+    toggle: /* istanbul ignore next */ function(state, done) {
       if (_.isBoolean(state) && this.opened === state) {
+        done && done();
         return;
       }
 
@@ -188,14 +185,15 @@ Vue.component('quasar-drawer', {
         $(this.$el).find('> .quasar-drawer-overlay'),
         this.opened ? .01 : 1,
         (this.opened ? -1 : 0) * this.width,
-        this.width
+        this.width,
+        done
       );
     },
-    open: /* istanbul ignore next */ function() {
-      this.toggle(true);
+    open: /* istanbul ignore next */ function(done) {
+      this.toggle(true, done);
     },
-    close: /* istanbul ignore next */ function() {
-      this.toggle(false);
+    close: /* istanbul ignore next */ function(done) {
+      this.toggle(false, done);
     }
   },
   ready: function() {
@@ -219,9 +217,11 @@ Vue.component('quasar-drawer', {
 
     $(window).resize(this.close);
   },
-  destroyed: function() {
-    body.removeClass('with-drawer inactive');
+  destroy: function() {
     delete quasar.drawer;
     $(window).off('resize', this.close);
+  },
+  destroyed: function() {
+    body.removeClass('with-drawer inactive');
   }
 });

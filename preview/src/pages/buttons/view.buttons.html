@@ -8,17 +8,17 @@ Some <i>{{icon}}</i> text.
 <template v-for="type in types">
   <template v-for="size in sizes">
     <h3>{{size}}</h3>
-    <quasar-button v-if="type === 'rectangle'" :class="[type, size, 'primary']">{{type}}</quasar-button>
-    <quasar-button v-if="type === 'rectangle'" :class="[type, size, 'primary']"><i>{{icon}}</i>{{type}}</quasar-button>
-    <quasar-button v-if="type === 'rectangle'" :class="[type, size, 'primary']"><i>{{icon}}</i></quasar-button>
+    <button v-if="type === 'rectangle'" :class="[type, size, 'primary']">{{type}}</button>
+    <button v-if="type === 'rectangle'" :class="[type, size, 'primary']"><i>{{icon}}</i>{{type}}</button>
+    <button v-if="type === 'rectangle'" :class="[type, size, 'primary']"><i>{{icon}}</i></button>
     text
-    <quasar-button v-else :class="[type, size, 'primary']"><i>{{icon}}</i></quasar-button>
+    <button v-else :class="[type, size, 'primary']"><i>{{icon}}</i></button>
     <template v-for="extra in extras">
-      <quasar-button v-if="type === 'rectangle'" :class="[type, size, 'primary', extra]">{{type}}-{{extra}}</quasar-button>
-      <quasar-button v-else :class="[type, size, 'primary', extra]"><i>{{icon}}</i></quasar-button>
+      <button v-if="type === 'rectangle'" :class="[type, size, 'primary', extra]">{{type}}-{{extra}}</button>
+      <button v-else :class="[type, size, 'primary', extra]"><i>{{icon}}</i></button>
     </template>
   </template>
-  <quasar-button v-if="type === 'rectangle'" :class="['primary', 'fluid']">Fluid</quasar-button>
+  <button v-if="type === 'rectangle'" :class="['primary', 'fluid']">Fluid</button>
 </template>
 <br><br>
 <h2>Types</h2>
@@ -26,14 +26,14 @@ Some <i>{{icon}}</i> text.
   <h3>{{type}}</h3>
   <template v-for="color in colors">
     <h4>{{color}}</h4>
-    <quasar-button v-if="type === 'rectangle'" :class="[type, color]">{{type}}-{{color}}</quasar-button>
-    <quasar-button v-if="type === 'rectangle'" :class="[type, color]"><i>{{icon}}</i>{{type}}-{{color}}</quasar-button>
-    <quasar-button v-if="type === 'rectangle'" :class="[type, color]"><i>{{icon}}</i></quasar-button>
+    <button v-if="type === 'rectangle'" :class="[type, color]">{{type}}-{{color}}</button>
+    <button v-if="type === 'rectangle'" :class="[type, color]"><i>{{icon}}</i>{{type}}-{{color}}</button>
+    <button v-if="type === 'rectangle'" :class="[type, color]"><i>{{icon}}</i></button>
     text
-    <quasar-button v-else :class="[type, color]"><i>{{icon}}</i></quasar-button>
+    <button v-else :class="[type, color]"><i>{{icon}}</i></button>
     <template v-for="extra in extras">
-      <quasar-button v-if="type === 'rectangle'" :class="[type, color, extra]">{{type}}-{{color}}-{{extra}}</quasar-button>
-      <quasar-button v-else :class="[type, color, extra]"><i>{{icon}}</i></quasar-button>
+      <button v-if="type === 'rectangle'" :class="[type, color, extra]">{{type}}-{{color}}-{{extra}}</button>
+      <button v-else :class="[type, color, extra]"><i>{{icon}}</i></button>
     </template>
   </template>
 </div>

@@ -39,6 +39,12 @@ module.exports = function(type, vue, done) {
   if (type === 'layout') {
     el = '#quasar-app';
     destroyVue('layout');
+
+    if (_.isEqual(vue, {})) {
+      $(el).html('<div class="quasar-page"></div>');
+      done && done();
+      return;
+    }
   }
 
   quasar[type].vm = new Vue(injectVue(vue, el, done));
