@@ -2,6 +2,15 @@
 
 var __profiler = {};
 
+function notify(byNotify, message) {
+  if (byNotify) {
+    quasar.notify(message);
+    return;
+  }
+
+  console.log(message);
+}
+
 _.merge(quasar, {
   debug: {
     printStack: /* istanbul ignore next */ function() {
@@ -15,16 +24,14 @@ _.merge(quasar, {
       console.log(stack);
     },
     profile: function(name, byNotify) {
-      var message, fn = byNotify ? quasar.notify : console.log;
-
       if (__profiler.hasOwnProperty(name)) {
-        fn('[profile end: ' + name + '] ' + (new Date().getTime() - __profiler[name]));
+        notify(byNotify, '[profile end: ' + name + '] ' + (new Date().getTime() - __profiler[name]));
         delete __profiler[name];
         return;
       }
 
       __profiler[name] = new Date().getTime();
-      fn('[profile start: ' + name + ']');
+      notify(byNotify, '[profile start: ' + name + ']');
     }
   }
 });

@@ -48,11 +48,11 @@ function prepareRoute(context, layout, page) {
 
   var layoutVue, pageVue;
 
-  if (!quasar.layout.name || quasar.layout.name !== layout.name) {
+  if (!quasar.layout.name || quasar.layout.name !== context.manifest.layout) {
     quasar.events.trigger('app:layout:post-require app:layout:prepare', context);
     prepare(quasar.data.manifest.layouts[context.manifest.layout], layout, function(vue) {
       layoutVue = vue;
-      quasar.layout.name = layout.name;
+      quasar.layout.name = context.manifest.layout;
       renderVue(context, pageVue, layoutVue);
     });
     quasar.events.trigger('app:page:post-require app:page:prepare', context);

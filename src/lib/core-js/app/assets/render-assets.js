@@ -41,6 +41,7 @@ module.exports = function(type, vue, done) {
     destroyVue('layout');
 
     if (_.isEqual(vue, {})) {
+      delete quasar[type].vm;
       $(el).html('<div class="quasar-page"></div>');
       done && done();
       return;
