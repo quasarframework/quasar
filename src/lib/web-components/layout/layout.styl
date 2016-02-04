@@ -79,7 +79,7 @@ $toolbar-row-height = 55px
       &.active
         font-weight 600
       &:active
-        background-color activeColor($primary)
+        background-color strongActiveColor($primary)
       i
         margin-right .3em
         font-size 1.9em
@@ -104,11 +104,11 @@ $toolbar-row-height = 55px
 
 .quasar-header .quasar-navigation-link
   &.active
-    border-bottom 5px solid lighten($primary, 65%)
+    border-bottom 5px solid strongActiveColor($primary)
   &:active
     border-radius 7px 7px 0 0
 .quasar-footer .quasar-navigation-link
   &.active
-    border-top 5px solid lighten($primary, 65%)
+    border-top 5px solid strongActiveColor($primary)
   &:active
     border-radius 0 0 7px 7px

@@ -1,3 +1,5 @@
+@require form
+
 .quasar-switch
   position relative
   padding 20px 15px 20px 65px
@@ -11,9 +13,9 @@
     position absolute
     top 12px
     left -16px
-    width 50px
+    width 55px
     height 13px
-    background-color $grey-400
+    background-color $form-border-color
     border-radius 15px
     margin-right 10px
     transition background 0.3s ease
@@ -30,9 +32,9 @@
     display inline-block
     width 25px
     height 25px
-    background-color #F1F1F1
+    background-color $form-circular-color
     border-radius 21px
     box-shadow 0 1px 3px 1px rgba(0,0,0,0.4)
     transition left 0.3s ease, background .3s ease, box-shadow 0.1s ease
   &.checked:after
-    left 29px
+    left 30px

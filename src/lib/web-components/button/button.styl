@@ -10,7 +10,9 @@ $button-colors = neutral $neutral,
                  light $white,
                  dark $black
 
-button
+$button-radius = 3px
+
+button, .quasar-button
   @extend .non-selectable
 
   display inline-block
@@ -26,7 +28,7 @@ button
   white-space nowrap
   letter-spacing .5px
   vertical-align middle
-  border-radius 3px
+  border-radius $button-radius
   transition all .12s ease-in
   margin 15px 0
   color $neutral-text

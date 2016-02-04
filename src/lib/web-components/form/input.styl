@@ -1,118 +1,28 @@
-$inline-input-max-width = 200px
+@require form
 
-.quasar-input
-  position relative
-  margin 0
-  width 100%
-  font-size 1.2em
-  overflow hidden
-  color $grey-600
+input, textarea
+  @extend .layout
 
-.quasar-input-field
-  position relative
   display block
-  float right
-  border none
-  border-radius 0
-  margin-top 1em
-  padding 0.85em 0.15em
+  color black
+  border 1px solid $form-border-color
+  border-radius 3px
+  margin 1em 0
+  padding .9em 1em
   width 100%
-  background transparent
+  background white
   outline none
+  transition all .3s
+
   -moz-appearance none
   -webkit-appearance none /* for box shadows to show on iOS */
+  appearance none
 
-.quasar-input-label
-  display inline-block
-  float right
-  width 40%
-  color $grey-400
-  position absolute
-  bottom 0
-  left 0
-  padding 0 0.25em
-  width 100%
-  height calc(100% - 1em)
-  text-align left
-  pointer-events none
-  -webkit-touch-callout none
+  &:focus
+    box-shadow $form-shadow
 
-  span
-    position relative
-    display block
-    padding 1em 0 1.6em 0
-    width 100%
-    position absolute
+  &.inline
+    max-width 300px
 
-  &:before, &:after
-    content ''
-    position absolute
-    top 0
-    left 0
-    width 100%
-    height calc(100% - 10px)
-    border-bottom 1px solid $grey-400
-
-  &:after
-    margin-top 2px
-    border-bottom 4px solid $primary
-    transform translate3d(-100%, 0, 0)
-    transition transform 0.3s
-
-.quasar-input-field:focus + .quasar-input-label:after, .quasar-input-filled .quasar-input-label span:after
-  transform translate3d(0, 0, 0)
-
-.quasar-input-field:focus + .quasar-input-label span, .quasar-input-filled .quasar-input-label span
-  animation quasar-input-animation 0.3s forwards
-
-.quasar-input.inline
-  max-width $inline-input-max-width
-
-@keyframes quasar-input-animation
-  50%
-    opacity 0
-    transform translate3d(1.5em, 0, 0)
-  51%
-    opacity 0
-    transform translate3d(-1.5em, -45%, 0)
-  100%
-    opacity 1
-    transform translate3d(0, -45%, 0)
-
-/**
- * Textarea specific
- */
-
-.quasar-textarea
-  resize none
-  min-height 238px
-  .quasar-input-field
-    margin 2em 0 0 0 !important
-    padding 0 0 0 .5em
-    border-left 1px solid $grey-500
-  .quasar-input-label
-    padding-left .5em
-    padding-top .3em
-    &:before, &:after
-      border-bottom 0
-    &:after
-      margin-top 15px
-      border-left 4px solid $primary
-      transform translate3d(0, 100%, 0)
-
-/**
- * Number specific
- */
-
-.quasar-number
-  .quasar-input-field
-    padding-right 80px
-  .quasar-number-decrement, .quasar-number-increment
-    position absolute
-    top 22px
-    padding 10px
-    cursor pointer
-  .quasar-number-decrement
-    right 40px
-  .quasar-number-increment
-    right 0
+textarea
+  height 11em

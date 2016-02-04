@@ -1,0 +1,36 @@
+$label-color = #e8e8e8
+
+label
+  display inline-block
+  line-height 1
+  vertical-align baseline
+  margin 0 .2em
+  background-color $label-color
+  background-image none
+  padding .5em .8em
+  color rgba(0,0,0,.6)
+  text-transform none
+  font-weight 700
+  border 0 solid transparent
+  border-radius .28571429rem
+  transition background .1s ease
+
+  &.link
+    cursor pointer
+    &:hover
+      background-color activeColor($label-color)
+
+  i
+    font-size 2.5em
+
+  img
+    display inline-block
+    vertical-align top
+    height 2.1666em
+    margin -.5em .5em -.5em -.8em
+    border-radius 3px 0 0 3px
+
+form label
+  width 100%
+  margin 0
+  padding-top 1em

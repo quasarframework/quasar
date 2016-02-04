@@ -108,6 +108,7 @@ Vue.component('quasar-range', {
 });
 
 
+
 var inputVM = {
   props: {
     model: {},
@@ -125,16 +126,6 @@ var inputVM = {
     });
   }
 };
-
-Vue.component('quasar-input', Vue.extend({
-  mixins: [inputVM],
-  template: template.find('#input').html()
-}));
-
-Vue.component('quasar-textarea', Vue.extend({
-  mixins: [inputVM],
-  template: template.find('#textarea').html()
-}));
 
 Vue.component('quasar-number', Vue.extend({
   mixins: [inputVM],

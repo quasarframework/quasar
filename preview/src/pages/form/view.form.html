@@ -1,17 +1,15 @@
 <div class="quasar-container">
-  <div style="width: 350px;">
-
-  <quasar-input >Name</quasar-input>
-  <quasar-input >Surname</quasar-input>
-  <quasar-input >Address</quasar-input>
-  <quasar-input >Phone</quasar-input>
-  <quasar-range model="5" :min="1" :max="10"></quasar-range>
-  <quasar-input >Mail</quasar-input>
-  <quasar-input >Job</quasar-input>
-  <quasar-checkbox>I workout</quasar-checkbox>
-  <quasar-textarea>Comments</quasar-textarea>
-  <quasar-switch inline>Subscribe to newsletter</quasar-switch>
-  <button class="primary">Submit</button>
-
-  </div>
+  <form>
+    <label>Name <input></label>
+    <input placeholder="Surname">
+    <input placeholder="Address">
+    <input placeholder="Phone">
+    <quasar-range model="5" :min="1" :max="10"></quasar-range>
+    <input placeholder="Mail">
+    <input placeholder="Job">
+    <quasar-checkbox>I workout</quasar-checkbox>
+    <textarea placeholder="Comments"></textarea>
+    <quasar-switch inline>Subscribe to newsletter</quasar-switch>
+    <button class="primary">Submit</button>
+  </form>
 </div>

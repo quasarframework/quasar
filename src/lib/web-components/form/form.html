@@ -50,12 +50,7 @@
   </template>
 
   <template id="input">
-    <div class="quasar-input layout" :class="[model && model.length > 0 ? 'quasar-input-filled' : '']">
-			<input v-model="model" class="quasar-input-field" type="text" :debounce="debounce">
-			<label class="quasar-input-label non-selectable">
-				<span><slot></slot></span>
-			</label>
-		</div>
+		<input type="text">
   </template>
 
   <template id="textarea">

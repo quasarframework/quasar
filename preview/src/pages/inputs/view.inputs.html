@@ -3,8 +3,8 @@
   {{check}}
   <quasar-checkbox :model.sync="check">Check me!</quasar-checkbox>
   <p>
-    <quasar-checkbox inline :model.sync="check">Check me!</quasar-checkbox>
-    <quasar-checkbox inline :model.sync="check">Check me!</quasar-checkbox>
+    <quasar-checkbox class="inline" :model.sync="check">Check me!</quasar-checkbox>
+    <quasar-checkbox class="inline" :model.sync="check">Check me!</quasar-checkbox>
   </p>
 
   <h2>Radio</h2>
@@ -28,14 +28,14 @@
   <quasar-range :model.sync="range.model" :min="range.min" :max="range.max"></quasar-range>
 
   <h2>Text Input</h2>
-  Inline with text <quasar-input inline :model.sync="text">Address</quasar-input>
-  <quasar-input :model.sync="text">Address</quasar-input>
+  Inline with text <input v-model="text" placeholder="Address" class="inline"></input>
+  <input v-model="text" placeholder="Address"></input>
 
   <h2>Number</h2>
-  Inline with text <quasar-number inline :model.sync="number">Number label</quasar-number>
+  Inline with text <quasar-number class="inline" :model.sync="number">Number label</quasar-number>
   <quasar-number :model.sync="number" :min="7" :max="10" :debounce="1000" :step="0.5">Number label</quasar-number>
 
   <h2>Textarea</h2>
   {{textarea}}
-  <quasar-textarea :model.sync="textarea">Textarea label</quasar-textarea>
+  <textarea v-model="textarea" placeholder="Textarea label"></textarea>
   </div>

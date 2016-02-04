@@ -1,3 +1,5 @@
+@require form
+
 .quasar-range
   margin 45px 0 10px 0
   width 100%
@@ -13,7 +15,7 @@
     width 100%
     background-color $grey-400
     border-radius 10px
-    transition background .3s ease
+    transition background 1s ease
 
   .quasar-range-picker
     position absolute
@@ -21,7 +23,7 @@
     left 0
     width 25px
     height 25px
-    background-color #F1F1F1
+    background-color $form-circular-color
     border-radius 21px
     box-shadow 0 1px 3px 1px rgba(0,0,0,0.4)
 
@@ -31,13 +33,13 @@
 
   .quasar-range-tooltip
     top -35px
-    color white
+    color $form-text-color
     padding 6px
-    background-color $grey-500
+    background-color $form-border-color
 
   .quasar-range-min, .quasar-range-max
     top 0px
-    color $grey-500
+    color $form-text-color
 
   .quasar-range-max
     right 0
