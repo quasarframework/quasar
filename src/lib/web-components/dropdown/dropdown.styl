@@ -1,0 +1,74 @@
+@require '../form/form'
+
+.quasar-dropdown
+  position relative
+  width 100%
+  margin 1em 0
+  padding 1em
+
+  color $form-text-color
+  background $form-background
+  border $form-border
+  border-radius $form-border-radius
+  cursor pointer
+  outline none
+
+  transition all .3s
+
+  &:after
+    content ''
+    width 0
+    height 0
+    position absolute
+    right 16px
+    top 50%
+    margin-top -3px
+    border-width 6px 6px 0 6px
+    border-style solid
+    border-color $form-border-color transparent
+
+  &.active
+    box-shadow 0px -1px 5px 0px rgba(0,0,0,0.6)
+
+    &:after
+      border-width 0 6px 6px 6px
+    ul
+      transform rotateX(0deg) translateY(0)
+      opacity 1
+      pointer-events auto
+
+  span.default
+    color $grey-400
+
+  ul
+    position absolute
+    top 1.95em
+    left -2px
+    z-index $z-dropdown
+    width calc(100% + 4px)
+    max-height 300px
+    overflow-y auto
+
+    transform rotateX(70deg) translateY(-50px)
+    border $form-border
+    border-top 1px solid #ccc
+    border-radius $form-border-radius
+    border-top-left-radius 0
+    border-top-right-radius 0
+    box-shadow 0px 2px 5px 0px rgba(0,0,0,0.6)
+
+    background white
+    transition all .15s ease-out
+    list-style none
+
+    padding 0
+    opacity 0
+    pointer-events none
+
+  li
+    padding 1em 1em
+    border-bottom 1px solid #eee
+    &:hover, &.active
+      background-color #eee
+    &.active
+      font-weight bold

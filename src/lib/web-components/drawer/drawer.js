@@ -174,7 +174,9 @@ Vue.component('quasar-drawer', {
     },
     toggle: /* istanbul ignore next */ function(state, done) {
       if (_.isBoolean(state) && this.opened === state) {
-        done && done();
+        if (_.isFunction(done)) {
+          done();
+        }
         return;
       }
 
