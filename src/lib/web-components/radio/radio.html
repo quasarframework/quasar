@@ -1,0 +1,9 @@
+<div class="quasar-radio non-selectable">
+  <div
+    v-for="option in options"
+    :class="{checked: model === option.value}"
+    @click="model = option.value"
+  >
+    {{option.label}}
+  </div>
+</div>

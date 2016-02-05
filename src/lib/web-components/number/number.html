@@ -1,0 +1,8 @@
+<div class="quasar-input quasar-number layout quasar-input-filled">
+  <input v-model="model" class="quasar-input-field" type="text" :debounce="debounce">
+  <label class="quasar-input-label non-selectable">
+    <span><slot></slot></span>
+  </label>
+  <div class="quasar-number-decrement" @click="increment(-1 * step)"><i>remove</i></div>
+  <div class="quasar-number-increment" @click="increment(step)"><i>add</i></div>
+</div>

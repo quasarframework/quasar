@@ -4,7 +4,7 @@
   position relative
   width 100%
   margin 1em 0
-  padding 1em
+  padding .8em 1em
 
   color $form-text-color
   background $form-background
@@ -27,22 +27,12 @@
     border-style solid
     border-color $form-border-color transparent
 
-  &.active
-    box-shadow 0px -1px 5px 0px rgba(0,0,0,0.6)
-
-    &:after
-      border-width 0 6px 6px 6px
-    ul
-      transform rotateX(0deg) translateY(0)
-      opacity 1
-      pointer-events auto
-
   span.default
     color $grey-400
 
   ul
     position absolute
-    top 1.95em
+    top -1em
     left -2px
     z-index $z-dropdown
     width calc(100% + 4px)
@@ -51,11 +41,8 @@
 
     transform rotateX(70deg) translateY(-50px)
     border $form-border
-    border-top 1px solid #ccc
     border-radius $form-border-radius
-    border-top-left-radius 0
-    border-top-right-radius 0
-    box-shadow 0px 2px 5px 0px rgba(0,0,0,0.6)
+    box-shadow $form-shadow
 
     background white
     transition all .15s ease-out
@@ -71,4 +58,13 @@
     &:hover, &.active
       background-color #eee
     &.active
+      background-color #ddd
       font-weight bold
+
+  &.active
+    &:after
+      border-width 0 6px 6px 6px
+    ul
+      transform rotateX(0deg) translateY(0)
+      opacity 1
+      pointer-events auto

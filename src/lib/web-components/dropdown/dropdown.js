@@ -4,7 +4,7 @@ var template = require('raw!./dropdown.html');
 
 Vue.component('quasar-dropdown', {
   template: template,
-  props: ['model', 'options', 'label'],
+  props: ['model', 'options', 'placeholder'],
   data: function() {
     return {
       active: false
