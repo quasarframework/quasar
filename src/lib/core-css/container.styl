@@ -1,33 +1,26 @@
 
 @require variables
 
+@media only screen and (max-width $small-viewport-breakpoint)
+  .quasar-container
+    width $small-viewport-width !important
+    margin-left $small-viewport-gutter !important
+    margin-right $small-viewport-gutter !important
+
+@media only screen and (min-width $medium-viewport) and (max-width $medium-viewport-breakpoint)
+  .quasar-container
+    width $medium-viewport-width
+    margin-left $medium-viewport-gutter !important
+    margin-right $medium-viewport-gutter !important
+
+@media only screen and (min-width $bigViewport)
+  .quasar-container
+    width $big-viewport-width
+    margin-left $big-viewport-gutter !important
+    margin-right $big-viewport-gutter !important
+
 .quasar-container
   display block
   max-width 100% !important
-
-@media only screen and (max-width $largestMobileScreen)
-  .quasar-container
-    width $mobileWidth !important
-    margin-left $mobileGutter !important
-    margin-right $mobileGutter !important
-
-@media only screen and (min-width $tabletBreakpoint) and (max-width $largestTabletScreen)
-  .quasar-container
-    width $tabletWidth
-    margin-left $tabletGutter !important
-    margin-right $tabletGutter !important
-
-@media only screen and (min-width $computerBreakpoint) and (max-width $largestSmallMonitor)
-  .quasar-container
-    width $computerWidth
-    margin-left $computerGutter !important
-    margin-right $computerGutter !important
-
-@media only screen and (min-width $largeMonitorBreakpoint)
-  .quasar-container
-    width $largeMonitorWidth
-    margin-left $largeMonitorGutter !important
-    margin-right $largeMonitorGutter !important
-
-.container.fluid
-  width 100%
+  &.fit
+    width 100%

@@ -1,5 +1,5 @@
 
-$drawer-width = 300px
+$drawer-width = 200px
 $drawer-separator-color = #ECECEC
 
 .quasar-drawer-container
@@ -44,7 +44,7 @@ $drawer-separator-color = #ECECEC
     line-height 32px
     i
       color lighten(black, 45%)
-      margin-right 24px
+      margin-right 15px
       font-size 1.8em
     &:hover
       background-color $grey-200
@@ -73,12 +73,12 @@ $drawer-separator-color = #ECECEC
   height 100%
   width 15px
 
-@media screen and (max-width: $largestMobileScreen - 1)
+@media screen and (max-width: $small-viewport-breakpoint)
   .quasar-drawer-content
     top 0 !important
     bottom 0 !important
 
-@media screen and (min-width: $largestMobileScreen)
+@media screen and (min-width: $small-viewport)
   body.with-drawer
     .quasar-page
       padding 20px

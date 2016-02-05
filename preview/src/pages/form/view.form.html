@@ -1,16 +1,14 @@
-<div class="quasar-container">
-  <form>
-    <label>Name <input></label>
-    <input placeholder="Surname">
-    <input placeholder="Address">
-    <input placeholder="Phone">
-    <quasar-range model="5" :min="1" :max="10"></quasar-range>
-    <input placeholder="Mail">
-    <input placeholder="Job">
-    <quasar-checkbox>I workout</quasar-checkbox>
-    <textarea placeholder="Comments"></textarea>
-    <quasar-dropdown :model.sync="dropdown.model" :options="dropdown.options" label="Select Option">Dropdown</quasar-dropdown>
-    <quasar-switch inline>Subscribe to newsletter</quasar-switch>
-    <button class="primary">Submit</button>
-  </form>
-</div>
+<form>
+  <label>Name <input></label>
+  <input placeholder="Surname">
+  <input placeholder="Address">
+  <input placeholder="Phone">
+  <quasar-range model="5" :min="1" :max="10"></quasar-range>
+  <input placeholder="Mail">
+  <input placeholder="Job">
+  <quasar-checkbox>I workout</quasar-checkbox>
+  <textarea placeholder="Comments"></textarea>
+  <quasar-dropdown :model.sync="dropdown.model" :options="dropdown.options" label="Select Option">Dropdown</quasar-dropdown>
+  <quasar-switch inline>Subscribe to newsletter</quasar-switch>
+  <button class="primary">Submit</button>
+</form>

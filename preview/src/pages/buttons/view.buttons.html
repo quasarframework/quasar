@@ -1,5 +1,3 @@
-<div class="quasar-container">
-
 <a href="#/">Index</a>
 <br><a href="#/second">Second</a>
 <br><br>
@@ -19,7 +17,7 @@ Some <i>{{icon}}</i> text.
       <button v-else :class="[type, size, 'primary', extra]"><i>{{icon}}</i></button>
     </template>
   </template>
-  <button v-if="type === 'rectangle'" :class="['primary', 'fluid']">Fluid</button>
+  <button v-if="type === 'rectangle'" class="primary fit">Fit</button>
 </template>
 <br><br>
 <h2>Types</h2>
@@ -37,6 +35,4 @@ Some <i>{{icon}}</i> text.
       <button v-else :class="[type, color, extra]"><i>{{icon}}</i></button>
     </template>
   </template>
-</div>
-
 </div>

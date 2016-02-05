@@ -2,29 +2,23 @@
 @require sizes
 
 .only
-  @media only screen and (max-width $largestMobileScreen)
-    &.tablet, &.small.monitor, &.large.monitor
+  @media only screen and (max-width $small-viewport-breakpoint)
+    &.medium-viewport, &.big-viewport
       display none
-  @media only screen and (min-width $tabletBreakpoint) and (max-width $largestTabletScreen)
-    &.mobile, &.small.monitor, &.large.monitor
+  @media only screen and (min-width $medium-viewport) and (max-width $medium-viewport-breakpoint)
+    &.small-viewport, &.big-viewport
       display none
-  @media only screen and (min-width $computerBreakpoint) and (max-width $largestSmallMonitor)
-    &.mobile, &.tablet, &.large.monitor
-      display none
-  @media only screen and (min-width $largeMonitorBreakpoint)
-    &.mobile, &.tablet, &.small.monitor
+  @media only screen and (min-width $big-viewport)
+    &.small-viewport, &.medium-viewport
       display none
 
 .hide
-  @media only screen and (max-width $largestMobileScreen)
-    &.mobile
+  @media only screen and (max-width $small-viewport-breakpoint)
+    &.small-viewport
       display none
-  @media only screen and (min-width $tabletBreakpoint) and (max-width $largestTabletScreen)
-    &.tablet
+  @media only screen and (min-width $medium-viewport) and (max-width $medium-viewport-breakpoint)
+    &.medium-viewport
       display none
-  @media only screen and (min-width $computerBreakpoint) and (max-width $largestSmallMonitor)
-    &.small.monitor
-      display none
-  @media only screen and (min-width $largeMonitorBreakpoint)
-    &.large.monitor
+  @media only screen and (min-width $big-viewport)
+    &.big-viewport
       display none

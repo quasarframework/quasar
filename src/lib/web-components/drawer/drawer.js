@@ -4,7 +4,8 @@ var
   body = $('body'),
   template = $(require('raw!./drawer.html')),
   drawerAnimationSpeed = 200,
-  overlayOpacity = .7
+  overlayOpacity = .7,
+  widthBreakpoint = 600 /* equivalent to CSS $medium-viewport */
   ;
 
 _.forEach(['header', 'title'], function(type) {
@@ -119,7 +120,7 @@ Vue.component('quasar-drawer', {
   },
   methods: {
     openByTouch: /* istanbul ignore next */ function(event) {
-      if ($(window).width() > 767) {
+      if ($(window).width() >= widthBreakpoint) {
         return;
       }
 
@@ -143,7 +144,7 @@ Vue.component('quasar-drawer', {
         .css('background-color', 'rgba(0,0,0,' + percentage * overlayOpacity + ')');
     },
     closeByTouch: /* istanbul ignore next */ function(event) {
-      if ($(window).width() > 767) {
+      if ($(window).width() >= widthBreakpoint) {
         return;
       }
 
