@@ -22,10 +22,8 @@
     right 0
     bottom 0
 
-.text-truncate
-  overflow hidden
-  white-space nowrap
-  text-overflow ellipsis
+.fit
+  width 100%
 
 .disabled
   opacity .6
@@ -34,6 +32,7 @@
 .window-height
   margin 0
   height 100vh
+
 
 .uppercase
   text-transform uppercase
@@ -52,6 +51,10 @@
   .justify
     text-align justify
     hyphens auto
+  .truncate
+    overflow hidden
+    white-space nowrap
+    text-overflow ellipsis
 
 .hidden
   display none

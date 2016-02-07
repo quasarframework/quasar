@@ -9,7 +9,7 @@ module.exports = {
     types: ['rectangle', 'circular'],
     sizes: ['small', 'medium', 'big'],
     colors: ['default', 'neutral', 'primary', 'secondary', 'tertiary', 'positive', 'negative', 'warning', 'info', 'light', 'dark'],
-    extras: ['raised', 'disabled', 'inverted']
+    extras: ['raised', 'disabled', 'inverted', 'bordered']
   },
   ready: function() {
     quasar.add.fab({
