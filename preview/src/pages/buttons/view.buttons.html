@@ -1,12 +1,7 @@
-<a href="#/">Index</a>
-<br><a href="#/second">Second</a>
-<br><br>
-Some <i>{{icon}}</i> text.
-<br><br>
 <h2>Sizes</h2>
 <template v-for="type in types">
   <template v-for="size in sizes">
-    <h3>{{size}}</h3>
+    <h3 class="capitalize">{{size}}</h3>
     <button v-if="type === 'rectangle'" :class="[type, size, 'primary']">{{type}}</button>
     <button v-if="type === 'rectangle'" :class="[type, size, 'primary']"><i>{{icon}}</i>{{type}}</button>
     <button v-if="type === 'rectangle'" :class="[type, size, 'primary']"><i>{{icon}}</i></button>
@@ -17,14 +12,15 @@ Some <i>{{icon}}</i> text.
       <button v-else :class="[type, size, 'primary', extra]"><i>{{icon}}</i></button>
     </template>
   </template>
-  <button v-if="type === 'rectangle'" class="primary fit">Fit</button>
 </template>
+<h5>Fit - to width</h5>
+<button class="primary fit">Fit</button>
 <br><br>
 <h2>Types</h2>
 <div v-for="type in types">
-  <h3>{{type}}</h3>
+  <h3 class="capitalize">{{type}}</h3>
   <template v-for="color in colors">
-    <h4>{{color}}</h4>
+    <h4 class="capitalize">{{color}}</h4>
     <button v-if="type === 'rectangle'" :class="[type, color]">{{type}}-{{color}}</button>
     <button v-if="type === 'rectangle'" :class="[type, color]"><i>{{icon}}</i>{{type}}-{{color}}</button>
     <button v-if="type === 'rectangle'" :class="[type, color]"><i>{{icon}}</i></button>

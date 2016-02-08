@@ -1,7 +1,7 @@
 'use strict';
 
 var
-  notifyNode = $('<div id="__quasar_notifiers" class="layout vertical items-end">'),
+  notifyNode = $('<div id="__quasar_notifiers" class="layout vertical vertical-end">'),
   dismissers = [],
   types = [
     {
@@ -77,7 +77,7 @@ function Notify(options) {
     options
   );
 
-  this.node = $('<div class="quasar-notifier layout items-center justify-between wrap non-selectable z-4" v-touch:pan="____pan">');
+  this.node = $('<div class="quasar-notifier layout vertical-center horizontal-between wrap non-selectable z-4" v-touch:pan="____pan">');
 
   this.node.append(
     (this.icon ? '<i>' + this.icon + '</i> ' : '') +

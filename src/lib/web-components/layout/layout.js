@@ -312,10 +312,6 @@ Vue.component('quasar-navigation', {
     $(window).resize(updateScrollIndicator);
     this.gc.resizers.push([$(window), updateScrollIndicator]);
 
-    quasar.nextTick(function() {
-      updateScrollIndicator();
-    });
-
     leftScroll.click(function() {scroller[0].scrollLeft -= 40;});
     rightScroll.click(function() {scroller[0].scrollLeft += 40;});
 
@@ -330,6 +326,7 @@ Vue.component('quasar-navigation', {
         this.group = '';
       }
 
+      Vue.nextTick(updateScrollIndicator);
       //scrollToSelectedIfNeeded(activeTab);
     }.bind(this);
 

@@ -10,7 +10,7 @@ button, .quasar-button
   border none
   background-image none
   text-shadow none
-  font-weight 600
+  font-weight 300
   font-style normal
   text-align center
   text-decoration none
@@ -73,18 +73,20 @@ button, .quasar-button
   &:not(.circular)
     min-width 64px
     padding 0 15px
-    height 47px
-    line-height 43px
+    height 40px
+    line-height 36px
     i
       margin 0 10px
       font-size 1.7em
     &.small
-      padding 0 15px
-      height 36px
-      line-height 34px
+      font-size .9em
+      padding 0 10px
+      height 34px
+      line-height 32px
       i
         font-size 1.5em
     &.big
+      font-size 1.2em
       padding 0 25px
       height 62px
       line-height 58px
@@ -93,7 +95,7 @@ button, .quasar-button
 
   /* circular shape */
   &.circular
-    @extend .layout, .layout.inline, .layout.items-center, .layout.justify-center
+    @extend .layout, .layout.inline, .layout.vertical-center, .layout.horizontal-center
     border-radius 50%
     padding 0
     height 56px

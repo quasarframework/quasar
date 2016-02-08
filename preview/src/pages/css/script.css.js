@@ -5,7 +5,7 @@ var html = require('raw!./view.css.html');
 module.exports = {
   template: html,
   data: {
-    progress: 10
+    progress: 81
   },
   methods: {
     randomize: function() {
