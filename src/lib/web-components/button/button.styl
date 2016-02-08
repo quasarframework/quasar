@@ -1,15 +1,3 @@
-
-$button-colors = neutral $neutral,
-                 primary $primary,
-                 secondary $secondary,
-                 tertiary $tertiary,
-                 positive $positive,
-                 negative $negative,
-                 warning $warning,
-                 info $info,
-                 light $white,
-                 dark $black
-
 $button-radius = 4px
 
 button, .quasar-button
@@ -22,7 +10,7 @@ button, .quasar-button
   border none
   background-image none
   text-shadow none
-  font-weight normal
+  font-weight 600
   font-style normal
   text-align center
   text-decoration none
@@ -56,7 +44,7 @@ button, .quasar-button
   /**
    * COLORS
    */
-  for $color in $button-colors
+  for $color in $colors
     &.{$color[0]}
       color white
       background-color $color[1]
