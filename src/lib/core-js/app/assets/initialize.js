@@ -12,9 +12,10 @@ FastClick.attach(document.body);
 /*
  * Inject Address Bar color
  */
-var div = $('<div class="background primary">');
+var color, div = $('<div class="background primary">');
+
 $('body').append(div);
-var color = div.css('background-color');
+color = div.css('background-color');
 div.remove();
 
 $('head')
