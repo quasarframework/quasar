@@ -34,9 +34,6 @@ $toolbar-row-height = 55px
 
     .quasar-title
       margin-left 10px
-      white-space nowrap
-      overflow hidden
-      text-overflow ellipsis
       padding 10px 0
       height 40px
       font-size $font-size + 7px
@@ -60,6 +57,7 @@ $toolbar-row-height = 55px
       position relative
       white-space nowrap
       overflow hidden
+
     .quasar-navigation-content
       touch-action pan-y
       position absolute
@@ -67,13 +65,13 @@ $toolbar-row-height = 55px
 
     .quasar-navigation-link
       transition all .2s
-      padding-left 15px
-      padding-right 15px
       cursor pointer
       color $white
       max-width 300px
       font-weight normal
       line-height 25px
+      padding 0 15px
+
       &.active
         font-weight 600
       &:active
@@ -83,19 +81,21 @@ $toolbar-row-height = 55px
         font-size 1.9em
 
     .left-scroll, .right-scroll
-      padding 0 5px
+      padding 0
+      text-align center
+      i
+        margin-right 0
 
     &:not(.scrollable)
       .left-scroll, .right-scroll
         display none
       .quasar-navigation-content
-        @extend .layout.self-center
+        @extend .grid .self-center
         width 100%
       .quasar-navigation-link
-        @extend .layout.flex
+        @extend .grid .full-width
         > div
-          @extend .layout.flex
-          @extend .layout.horizontal-center
+          @extend .grid .full-width, .grid.horizontal-center
 
     .left-scroll, .right-scroll, .quasar-navigation-link.active
       color $white !important

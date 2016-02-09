@@ -1,11 +1,55 @@
-.layout
+.grid
   display -ms-flexbox // @stylint ignore
   display -webkit-flex // @stylint ignore
   display flex
 
   /**
-   * For CONTAINER
+   * Helpers
    */
+  &.full-width
+    > *
+      -ms-flex 1
+      -webkit-flex 1
+      flex 1
+
+  &.small-gutter
+    margin -.5em 0 .5em -.5em
+    > *
+      padding .5em 0 0 .5em
+
+  &.gutter
+    margin -1em 0 1em -1em
+    > *
+      padding 1em 0 0 1em
+
+  &.big-gutter
+    margin -2em 0 2em -2em
+    > *
+      padding 2em 0 0 2em
+
+  &.huge-gutter
+    margin -3em 0 3em -3em
+    > *
+      padding 3em 0 0 3em
+
+  > *
+    for $cols in (1..7)
+      for $parts in (1..$cols)
+        &.width-{$parts}of{$cols}
+          flex 0 0 ($parts / $cols * 100)%
+
+  &.responsive
+    -ms-flex-wrap wrap
+    -webkit-flex-wrap wrap
+    flex-wrap wrap
+    > *
+      -ms-flex 0 0 100%
+      -webkit-flex 0 0 100%
+      flex 0 0 100%
+      @media (min-width 48em)
+        -ms-flex 1
+        -webkit-flex 1
+        flex 1
 
   &.inline
     display -ms-inline-flexbox // @stylint ignore
@@ -46,10 +90,10 @@
 
 
   +prefix-classes('horizontal-')
-    &.start
+    &.left
       -webkit-justify-content flex-start
       justify-content flex-start
-    &.end
+    &.right
       -webkit-justify-content flex-end
       justify-content flex-end
     &.center
@@ -64,10 +108,10 @@
 
 
   +prefix-classes('vertical-')
-    &.start
+    &.top
       -webkit-align-items flex-start
       align-items flex-start
-    &.end
+    &.bottom
       -webkit-align-items flex-end
       align-items flex-end
     &.center
@@ -82,10 +126,10 @@
 
 
   +prefix-classes('content-')
-    &.start
+    &.top
       -webkit-align-content flex-start
       align-content flex-start
-    &.end
+    &.bottom
       -webkit-align-content flex-end
       align-content flex-end
     &.center
@@ -104,43 +148,48 @@
    */
 
   for i in 1..12
-    &.order-{i}
+    .order-{i}
       -webkit-order i
       order i
-    &.flex-{i}
+    .flex-{i}
       -ms-flex i
       -webkit-flex i
       flex i
-    &.grow-{i}
+    .grow-{i}
       -webkit-flex-grow i
       flex-grow i
-    &.shrink-{i}
+    .shrink-{i}
       -webkit-flex-shrink i
       flex-shrink i
 
-  &.flex
+  .full-width
     -ms-flex 1 1 .000000001px
     -webkit-flex 1
     flex 1
     -webkit-flex-basis .000000001px
     flex-basis .000000001px
-  &.basis-0
+  .basis-0
     -webkit-flex-basis 0
     flex-basis 0
 
+  .full-height
+    display -ms-flexbox // @stylint ignore
+    display -webkit-flex // @stylint ignore
+    display flex
+
   +prefix-classes('self-')
-    &.start
+    .top
       -webkit-align-self flex-start
-      align-selft flex-start
-    &.end
+      align-self flex-start
+    .bottom
       -webkit-align-self flex-end
       align-self flex-end
-    &.center
+    .center
       -webkit-align-self center
       align-self center
-    &.stretch
+    .stretch
       -webkit-align-self stretch
       align-self stretch
-    &.baseline
+    .baseline
       -webkit-align-self baseline
       align-self baseline

@@ -9,15 +9,15 @@
   </template>
 
   <template id="quasar-header">
-    <div class="quasar-header quasar-toolbar layout vertical non-selectable"><slot></slot></div>
+    <div class="quasar-header quasar-toolbar grid vertical non-selectable"><slot></slot></div>
   </template>
 
   <template id="quasar-row">
-    <div class="quasar-row layout horizontal vertical-center"><slot></slot></div>
+    <div class="quasar-row grid horizontal vertical-center"><slot></slot></div>
   </template>
 
   <template id="quasar-title">
-    <div class="quasar-title layout flex text-truncate"><slot></slot></div>
+    <div class="quasar-title grid full-width text-truncate"><slot></slot></div>
   </template>
 
   <template id="quasar-footer">
@@ -25,12 +25,12 @@
   </template>
 
   <template id="quasar-navigation">
-    <div class="quasar-navigation quasar-row layout" :class="[!manual && group.length === 0 ? 'hidden' : '']">
+    <div class="quasar-navigation quasar-row grid" :class="[!manual && group.length === 0 ? 'hidden' : '']">
       <quasar-navigation-link class="left-scroll">
         <i>chevron_left</i>
       </quasar-navigation-link>
-      <div class="quasar-navigation-container layout flex">
-        <div class="quasar-navigation-content layout">
+      <div class="quasar-navigation-container grid full-width">
+        <div class="quasar-navigation-content grid">
           <template v-if="!manual">
             <quasar-navigation-link
               v-for="link in links"
@@ -51,8 +51,8 @@
   </template>
 
   <template id="quasar-navigation-link">
-    <div class="quasar-navigation-link layout">
-      <div class="layout self-center nowrap">
+    <div class="quasar-navigation-link grid">
+      <div class="grid self-center nowrap">
         <slot></slot>
       </div>
     </div>

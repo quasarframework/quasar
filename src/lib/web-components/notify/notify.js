@@ -1,7 +1,7 @@
 'use strict';
 
 var
-  notifyNode = $('<div id="__quasar_notifiers" class="layout vertical vertical-end">'),
+  notifyNode = $('<div id="__quasar_notifiers" class="layout vertical vertical-bottom">'),
   dismissers = [],
   types = [
     {

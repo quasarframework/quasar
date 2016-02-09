@@ -1,4 +1,4 @@
-<div class="quasar-dialog layout vertical vertical-center horizontal-center overlay">
+<div class="quasar-dialog grid vertical vertical-center horizontal-center overlay">
   <div class="quasar-dialog-container">
     <div class="quasar-dialog-body">
       <div class="quasar-dialog-header">
@@ -7,10 +7,10 @@
       </div>
       <div class="quasar-dialog-content"></div>
     </div>
-    <div class="quasar-dialog-footer layout content-center horizontal-end vertical-stretch">
+    <div class="quasar-dialog-footer grid content-center horizontal-right vertical-stretch">
       <button
         v-for="button in buttons"
-        class="layout vertical-center horizontal-center"
+        class="grid vertical-center horizontal-center"
         :class="button.type"
         @click="___onClick(button.dismiss, button.fn)"
       >
