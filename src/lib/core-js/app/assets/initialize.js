@@ -10,6 +10,19 @@ FastClick.attach(document.body);
 /* eslint-enable no-undef */
 
 /*
+ * Inject Address Bar color
+ */
+var div = $('<div class="background primary">');
+$('body').append(div);
+var color = div.css('background-color');
+div.remove();
+
+$('head')
+  .append('<meta name="theme-color" content="' + color + '">')
+  .append('<meta name="msapplication-navbutton-color" content="' + color + '">')
+  .append('<meta name="apple-mobile-web-app-status-bar-style" content="' + color + '">');
+
+/*
  * Inject Globals
  */
 _.merge(quasar, {
