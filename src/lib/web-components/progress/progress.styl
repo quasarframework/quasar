@@ -37,11 +37,11 @@
       animation progress-bar-stripes 2s linear infinite
 
 
-  for $color in $colors
-    &.{$color[0]}
-      color $color[1]
+  for $name, $color in $colors
+    &.{$name}
+      color $color
       .quasar-progress-indicator
-        background-color $color[1]
+        background-color $color
 
 @keyframes progress-bar-stripes
   from

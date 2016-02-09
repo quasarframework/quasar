@@ -44,20 +44,20 @@ button, .quasar-button
   /**
    * COLORS
    */
-  for $color in $colors
-    &.{$color[0]}
+  for $name, $color in $colors
+    &.{$name}
       color white
-      background-color $color[1]
+      background-color $color
       &:hover:not(.disabled), &:active:not(.disabled)
-        background-color activeColor($color[1])
+        background-color activeColor($color)
       &.inverted, &.bordered
-        color $color[1]
+        color $color
         background-color white
         &:hover:not(.disabled), &:active:not(.disabled)
           color white
-          background-color $color[1]
+          background-color $color
       &.bordered
-        border 2px solid $color[1]
+        border 2px solid $color
   &.neutral
     color $neutral-text !important
   &.light

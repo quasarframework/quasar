@@ -43,9 +43,8 @@ a
       opacity 1
 
 h1, h2, h3, h4, h5, h6
-  font-weight 400
   padding 0
-  line-height 1.1
+  line-height 1.5
   &:first-child
     margin-top 0
   &:last-child
@@ -53,42 +52,67 @@ h1, h2, h3, h4, h5, h6
 
 h1
   min-height 1rem
-  font-size $font-size * 2.4
+  font-size $font-size * 2.5
   margin (@font-size) 0 (@font-size / 1.7) 0
 
 h2
   font-size $font-size * 2.2
+  letter-spacing 1.7px
   margin (@font-size) 0 (@font-size / 1.7) 0
   border-bottom 1px solid $neutral
 
 h3
   font-size $font-size * 2
   font-weight 500
+  letter-spacing 1.5px
   margin (@font-size) 0 (@font-size / 1.7) 0
 
 h4
-  font-size $font-size * 1.8
-  font-weight 200
+  font-size $font-size * 1.6
+  font-weight 400
   letter-spacing 2px
   margin (@font-size) 0 (@font-size / 1.7) 0
 
 h5
-  font-size $font-size * 1.6
-  font-weight 200
-  letter-spacing 1px
-  margin (@font-size) 0 (@font-size / 1.7) 0
-
-h6
   font-size $font-size * 1.4
   font-weight 300
   letter-spacing 1px
   margin (@font-size) 0 (@font-size / 1.7) 0
 
-
-.light-text
-  font-weight 300
-.thin-text
+h6
+  font-size $font-size * 1.4
   font-weight 200
+  margin (@font-size) 0 (@font-size / 1.7) 0
+
+
+.uppercase
+  text-transform uppercase
+.lowercase
+  text-transform lowercase
+.capitalize
+  text-transform capitalize
+
++prefix-classes('text-')
+  .center
+    text-align center
+  .left
+    text-align left
+  .right
+    text-align right
+  .justify
+    text-align justify
+    hyphens auto
+
+  .truncate
+    overflow hidden
+    white-space nowrap
+    text-overflow ellipsis
+
+  .light
+    font-weight 300
+  .thin
+    font-weight 200
+
 
 p
   margin .5em 0 1em
