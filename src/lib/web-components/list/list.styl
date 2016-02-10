@@ -25,24 +25,25 @@ ul.list
     img, i
       font-size 2em
 
+    &.list-title
+      font-size 1.8em
+
+    .list-action
+      float right
+
     &.complex
-      @extend .grid, .grid.horizontal, .grid.full-width
+      @extend .grid
       p
         @extend .grid .flex-12
       > i:first-child
+        @extend .grid, .grid.horizontal-center
         font-size 2.9em
       img, i
         color $primary
         margin .2em .2em 0 0
-      .secondary-content
-        @extend .grid, .grid.horizontal
+      .list-action
+        @extend .grid, .grid.horizontal-center
         padding-top .4em
-
-  .list-title
-    font-size 1.8em
-
-  .secondary-content
-    float right
 
   &.borderless
     border 0
