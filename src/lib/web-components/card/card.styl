@@ -1,0 +1,55 @@
+$card-radius = 3px
+
+.card
+  @extend .z-2
+
+  position relative
+  margin .5em 0 1em 0
+  transition box-shadow .25s
+  border-radius $card-radius
+
+  &:hover
+    @extend .z-6
+
+  .card-title
+    font-size 2em
+    font-weight 300
+    margin .5em 0 1em 0
+
+  .card-image
+    position relative
+    .card-title
+      color white
+      position absolute
+      bottom 0
+      left 0
+      padding 20px
+      margin .5em 0
+    img
+      display block
+      border-radius $card-radius $card-radius 0 0
+      position relative
+      top 0
+      right 0
+      bottom 0
+      left 0
+      width 100%
+
+  .card-content
+    padding 20px
+    border-radius 0 0 $card-radius $card-radius
+    p
+      margin 0
+
+  .card-action
+    background rgba(255, 255, 255, .15)
+    border-top 1px solid alpha($grey-400, .4)
+    padding 20px
+    a
+      color inherit
+      border-radius $card-radius
+      text-transform uppercase
+      margin 0 20px 0 0
+      transition all .25s
+      &:hover
+        text-shadow 0px 0px 2px black

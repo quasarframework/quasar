@@ -30,16 +30,16 @@
     </quasar-drawer-header>
     -->
 
-    <template v-for="n in 2">
-      <quasar-drawer-link page="index"></quasar-drawer-link>
-      <quasar-drawer-link page="typography"></quasar-drawer-link>
-      <quasar-drawer-link page="buttons"></quasar-drawer-link>
-      <quasar-drawer-link page="inputs"></quasar-drawer-link>
-      <quasar-drawer-link page="form"></quasar-drawer-link>
-      <quasar-drawer-divider></quasar-drawer-divider>
-      <quasar-drawer-title>Section Label</quasar-drawer-title>
-    </template>
+    <quasar-drawer-link page="index"></quasar-drawer-link>
+    <quasar-drawer-link page="typography"></quasar-drawer-link>
+    <quasar-drawer-link page="card"></quasar-drawer-link>
+    <quasar-drawer-link page="css"></quasar-drawer-link>
+    <quasar-drawer-link page="buttons"></quasar-drawer-link>
+    <quasar-drawer-link page="inputs"></quasar-drawer-link>
     <quasar-drawer-link page="form"></quasar-drawer-link>
+    <quasar-drawer-divider></quasar-drawer-divider>
+    <quasar-drawer-title>Section Label</quasar-drawer-title>
+    <quasar-drawer-link page="grid"></quasar-drawer-link>
 
     <quasar-drawer-footer>
       <quasar-drawer-link v-for="n in 2" :click="openSettings" icon="settings" label="Buttons"></quasar-drawer-link>
