@@ -16,7 +16,7 @@ $card-radius = 3px
     font-weight 300
     margin .5em 0 1em 0
 
-  .card-image
+  .card-cover
     position relative
     .card-title
       color white
@@ -25,6 +25,13 @@ $card-radius = 3px
       left 0
       padding 20px
       margin .5em 0
+    .card-menu
+      position absolute
+      right 16px
+      bottom 16px
+      button
+        margin 0
+        padding 0
     img
       display block
       border-radius $card-radius $card-radius 0 0
@@ -51,5 +58,5 @@ $card-radius = 3px
       text-transform uppercase
       margin 0 20px 0 0
       transition all .25s
-      &:hover
+      &:active
         text-shadow 0px 0px 2px black
