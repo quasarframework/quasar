@@ -1,0 +1,5 @@
+label: 'List'
+icon: 'pages'
+layout: 'main'
+navigation:
+  group: 'main'

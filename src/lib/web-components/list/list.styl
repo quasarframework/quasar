@@ -1,0 +1,57 @@
+ul.list
+  margin .5em 0 1em 0
+  border 1px solid $grey-200
+  overflow hidden
+  position relative
+  padding 0
+  list-style-type none
+  border-radius 3px
+
+  li
+    line-height 1.5em
+    padding 10px 20px
+    margin 0
+    border-bottom 1px solid $grey-200
+
+    p
+      margin .2em
+      color $grey-600
+      span:first-of-type
+        color black
+        font-size 1.4em
+        display block
+        margin-bottom .3em
+
+    img, i
+      font-size 2em
+
+    &.complex
+      @extend .grid, .grid.horizontal, .grid.full-width
+      p
+        @extend .grid .flex-12
+      > i:first-child
+        font-size 2.9em
+      img, i
+        color $primary
+        margin .2em .2em 0 0
+      .secondary-content
+        @extend .grid, .grid.horizontal
+        padding-top .4em
+
+  .list-title
+    font-size 1.8em
+
+  .secondary-content
+    float right
+
+  &.borderless
+    border 0
+  &.no-separator li
+    border 0
+  &.highlight li:not(.list-title):hover
+      background-color rgba(0, 0, 0, .05)
+  &.link li:not(.list-title)
+    cursor pointer
+
+  &.highlight.borderless li
+    border-radius 3px
