@@ -7,7 +7,7 @@ ul.list
   list-style-type none
   border-radius 3px
 
-  li
+  > li
     line-height 1.5em
     padding 10px 20px
     margin 0
@@ -43,16 +43,15 @@ ul.list
         margin .2em .2em 0 0
       .list-action
         @extend .grid, .grid.horizontal-center
-        padding-top .4em
 
   &.borderless
     border 0
-  &.no-separator li
+  &.no-separator > li
     border 0
-  &.highlight li:not(.list-title):hover
-      background-color rgba(0, 0, 0, .05)
-  &.link li:not(.list-title)
+  &.highlight > li:not(.list-title):hover
+    background-color rgba(0, 0, 0, .05)
+  &.link > li:not(.list-title)
     cursor pointer
 
-  &.highlight.borderless li
+  &.highlight.borderless > li
     border-radius 3px
