@@ -1,4 +1,6 @@
-$card-radius = 3px
+$card-radius = 4px
+$card-padding = 1.5em
+$card-highlight = rgba(0, 0, 0, .3)
 
 .card
   @extend .z-2
@@ -18,17 +20,22 @@ $card-radius = 3px
 
   .card-cover
     position relative
+
     .card-title
       color white
       position absolute
       bottom 0
       left 0
-      padding 20px
+      padding ($card-padding / 2)
       margin .5em 0
+      background-color $card-highlight
+      border-radius $card-radius
     .card-menu
       position absolute
-      right 16px
-      bottom 16px
+      right $card-padding
+      top $card-padding
+      background-color $card-highlight
+      border-radius $card-radius
       button
         margin 0
         padding 0
@@ -42,21 +49,34 @@ $card-radius = 3px
       left 0
       width 100%
 
+    &:last-child img
+      border-radius $card-radius
+
   .card-content
-    padding 20px
+    padding $card-padding
     border-radius 0 0 $card-radius $card-radius
     p
-      margin 0
+      margin-left 0
+      mergin-right 0
 
   .card-action
-    background rgba(255, 255, 255, .15)
     border-top 1px solid alpha($grey-400, .4)
-    padding 20px
+    padding $card-padding 0
+    border-radius $card-radius $card-radius 0 0
+    margin-left $card-padding
+    margin-right $card-padding
     a
       color inherit
-      border-radius $card-radius
       text-transform uppercase
-      margin 0 20px 0 0
+      padding $card-padding ($card-padding / 2)
+      margin 0
       transition all .25s
+
       &:active
         text-shadow 0px 0px 2px black
+
+    a + a
+        padding-left ($card-padding / 3)
+
+  &.highlight-action .card-action
+    background rgba(255, 255, 255, .15)

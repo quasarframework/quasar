@@ -38,39 +38,39 @@ h1, h2, h3, h4, h5, h6
     margin-bottom 0
 
 h1
+  font-size 2.6em
   min-height 1rem
-  font-size $font-size * 2.5
-  margin (@font-size) 0 (@font-size / 1.7) 0
+  margin (@font-size / 3) 0 .5em 0
 
 h2
-  font-size $font-size * 2.2
+  font-size 2.2em
   letter-spacing 1.7px
-  margin (@font-size) 0 (@font-size / 1.7) 0
+  margin (@font-size / 2) 0 .5em 0
   border-bottom 1px solid $neutral
 
 h3
-  font-size $font-size * 2
+  font-size 2em
   font-weight 500
   letter-spacing 1.5px
-  margin (@font-size) 0 (@font-size / 1.7) 0
+  margin (@font-size / 2) 0 .5em 0
 
 h4
-  font-size $font-size * 1.6
+  font-size 1.6em
   font-weight 400
   letter-spacing 2px
-  margin (@font-size) 0 (@font-size / 1.7) 0
+  margin (@font-size / 2) 0 .5em 0
 
 h5
-  font-size $font-size * 1.4
+  font-size 1.4em
   font-weight 300
   letter-spacing 1px
-  margin (@font-size) 0 (@font-size / 1.7) 0
+  margin (@font-size / 2) 0 .5em 0
 
 h6
-  font-size $font-size * 1.4
-  font-weight 200
-  margin (@font-size) 0 (@font-size / 1.7) 0
-
+  font-size 1.4em
+  font-weight 300
+  font-style italic
+  margin (@font-size / 2) 0 .5em 0
 
 .uppercase
   text-transform uppercase
@@ -104,6 +104,10 @@ h6
 p
   margin .5em 0 1em
   line-height 1.4em
+  &.caption
+    font-size 1.2em
+    font-weight 300
+    margin-bottom 2em
 
 p:first-child
   margin-top 0
@@ -111,7 +115,7 @@ p:first-child
 p:last-child
   margin-bottom 0
 
-/* Site */
+
 ::-webkit-selection
   background-color $primary
   color rgba(0, 0, 0, .87)
@@ -125,7 +129,6 @@ p:last-child
   color rgba(0, 0, 0, .87)
 
 
-/* Form */
 textarea::-webkit-selection,
 input::-webkit-selection
   background-color rgba(100, 100, 100, .4)
