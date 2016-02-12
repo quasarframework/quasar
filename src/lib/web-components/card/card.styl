@@ -1,5 +1,5 @@
 $card-radius = 4px
-$card-padding = 1.5em
+$card-padding = 1.8em
 $card-highlight = rgba(0, 0, 0, .3)
 
 .card
@@ -13,6 +13,11 @@ $card-highlight = rgba(0, 0, 0, .3)
   &:hover
     @extend .z-6
 
+  .dismiss.default
+    border-radius 0 $card-radius 0 $card-radius
+    background-color $card-highlight
+    padding ( $card-padding / 3 )
+
   .card-title
     font-size 2em
     font-weight 300
@@ -20,6 +25,7 @@ $card-highlight = rgba(0, 0, 0, .3)
 
   .card-cover
     position relative
+    border-radius $card-radius $card-radius 0 0
 
     .card-title
       color white
@@ -30,15 +36,7 @@ $card-highlight = rgba(0, 0, 0, .3)
       margin .5em 0
       background-color $card-highlight
       border-radius $card-radius
-    .card-menu
-      position absolute
-      right $card-padding
-      top $card-padding
-      background-color $card-highlight
-      border-radius $card-radius
-      button
-        margin 0
-        padding 0
+      pointer-events none
     img
       display block
       border-radius $card-radius $card-radius 0 0
@@ -48,6 +46,8 @@ $card-highlight = rgba(0, 0, 0, .3)
       bottom 0
       left 0
       width 100%
+    iframe, video
+      border-radius $card-radius $card-radius 0 0
 
     &:last-child img
       border-radius $card-radius
