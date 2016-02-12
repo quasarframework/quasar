@@ -1,3 +1,4 @@
+@require shadows
 
 .non-selectable
   -moz-user-select none
@@ -24,6 +25,14 @@
 
 .fit
   width 100%
+
+.hoverable
+  transition box-shadow .3s
+  &:hover
+    @extend .z-6
+
+.round-borders
+  border-radius 5px
 
 .disabled
   opacity .6

@@ -21,7 +21,7 @@ $card-highlight = rgba(0, 0, 0, .3)
   .card-title
     font-size 2em
     font-weight 300
-    margin .5em 0 1em 0
+    margin .1em 0 1em 0
 
   .card-cover
     position relative
@@ -52,7 +52,7 @@ $card-highlight = rgba(0, 0, 0, .3)
     &:last-child img
       border-radius $card-radius
 
-  .card-content
+  .card-content, .card-details
     padding $card-padding
     border-radius 0 0 $card-radius $card-radius
     p
@@ -61,8 +61,7 @@ $card-highlight = rgba(0, 0, 0, .3)
 
   .card-action
     border-top 1px solid alpha($grey-400, .4)
-    padding $card-padding 0
-    border-radius $card-radius $card-radius 0 0
+    padding ($card-padding / 1.5) 0 $card-padding 0
     margin-left $card-padding
     margin-right $card-padding
     a
@@ -79,4 +78,51 @@ $card-highlight = rgba(0, 0, 0, .3)
         padding-left ($card-padding / 3)
 
   &.highlight-action .card-action
-    background rgba(255, 255, 255, .15)
+    padding ($card-padding / 1.5) 0
+    background rgba(0, 0, 0, .1)
+    border-top 0
+    border-radius $card-radius $card-radius 0 0
+
+
+  &.card-with-details
+    overflow hidden
+
+  .card-details
+    position absolute
+    top 0
+    right 0
+    bottom 0
+    left 0
+    overflow auto
+    transform translateY(105%)
+    transition all .2s
+    color black
+    background-color white
+    &.active
+      transform translateY(0)
+      display block
+
+  .card-details-activator
+    color inherit
+    padding 0 ($card-padding / 3.5)
+    border-radius 50%
+    line-height 1.8em
+    font-size 1.8em
+    cursor pointer
+    border-radius 0 0 0 $card-radius
+    display block
+    position absolute
+    top 0
+    right 0
+    transition text-shadow .2s, color .2s
+    &:hover
+      color white
+      background-color $card-highlight
+
+  .card-cover .card-details-activator
+    color white
+    background-color $card-highlight
+    line-height 1.6em
+    font-size 1.6em
+    &:hover
+      color black
