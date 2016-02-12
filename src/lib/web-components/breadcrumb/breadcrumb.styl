@@ -1,0 +1,86 @@
+$breadcrumb-radius = 4px
+$breadcrumb-height = 34px
+
+$breadcrumb-primary = $secondary
+$breadcrumb-secondary = lighten($secondary, 10%)
+
+$breadcrumb-hover = $tertiary
+$breadcrumb-active = darken($breadcrumb-hover, 15%)
+
+ul.breadcrumb
+  list-style none
+  display inline-block
+  margin 10px 0
+  padding 0
+
+  i
+    font-size  1.7em
+
+  li
+    float left
+    a
+      color white
+      display block
+      background $breadcrumb-primary
+      text-decoration  none
+      position relative
+      height $breadcrumb-height
+      line-height $breadcrumb-height
+      padding 0 10px 0 5px
+      text-align center
+      margin-right 23px
+
+    &:nth-child(even) a
+      background-color $breadcrumb-secondary
+      &:before
+        border-color $breadcrumb-secondary
+        border-left-color transparent
+      &:after
+        border-left-color $breadcrumb-secondary
+
+    &:first-child a
+      padding-left 15px
+      border-radius $breadcrumb-radius 0 0 $breadcrumb-radius
+      &:before
+        border none
+
+    &:last-child a
+      padding-right 15px
+      border-radius 0 $breadcrumb-radius $breadcrumb-radius 0
+      &:after
+        border none
+
+    a
+      &:before, &:after
+        content  ''
+        position absolute
+        top  0
+        border 0 solid $breadcrumb-primary
+        border-width ($breadcrumb-height / 2) 10px
+        width  0
+        height  0
+
+      &:before
+        left -($breadcrumb-height / 2)
+        border-left-color transparent
+
+      &:after
+        left 100%
+        border-color transparent
+        border-left-color $breadcrumb-primary
+
+      &:hover
+        background-color  $breadcrumb-hover
+        &:before
+          border-color $breadcrumb-hover
+          border-left-color transparent
+        &:after
+          border-left-color $breadcrumb-hover
+
+      &:active
+        background-color $breadcrumb-active
+        &:before
+          border-color $breadcrumb-active
+          border-left-color transparent
+        &:after
+          border-left-color $breadcrumb-active
