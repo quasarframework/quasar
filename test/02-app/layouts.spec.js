@@ -1,6 +1,6 @@
 'use strict';
 
-describe('App Layouts', function() {
+describe.skip('App Layouts', function() {
 
   beforeEach(function() {
     testing.app.reset();

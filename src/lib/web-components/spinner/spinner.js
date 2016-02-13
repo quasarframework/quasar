@@ -34,7 +34,7 @@ function createSvgElement(tagName, data, parent, spinnerName) {
   var k, x, y;
 
   for (k in data) {
-    if (_.isArray(data[k])) {
+    if (Array.isArray(data[k])) {
       for (x = 0; x < data[k].length; x++) {
         if (data[k][x].fn) {
           for (y = 0; y < data[k][x].t; y++) {

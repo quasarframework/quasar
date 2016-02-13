@@ -383,8 +383,8 @@ describe('Require', function() {
       });
     });
 
-    _.forEach(['page', 'layout'], function(type) {
-      describe(_.capitalize(type), function() {
+    ['page', 'layout'].forEach(function(type) {
+      describe(type, function() {
         var cssNode = $('#__quasar_' + type + '_css');
 
         quasar.layout = {

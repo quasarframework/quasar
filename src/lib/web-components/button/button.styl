@@ -1,10 +1,9 @@
 $button-radius = 4px
 
 button, .quasar-button
-  @extend .non-selectable
-  @extend .uppercase
+  @extend .non-selectable, .uppercase
+  @extend .grid, .grid.vertical-center, .grid.horizontal-center, .grid.content-center
 
-  display inline-block
   outline 0
   cursor pointer
   border none
@@ -12,7 +11,6 @@ button, .quasar-button
   text-shadow none
   font-weight 300
   font-style normal
-  text-align center
   text-decoration none
   white-space nowrap
   vertical-align middle
@@ -25,7 +23,7 @@ button, .quasar-button
   &.cornered
     border-radius 0
 
-  & + &
+  &.inline + &.inline
     margin-left 8px
 
   &:active:not(.disabled):not(.default)
@@ -71,7 +69,6 @@ button, .quasar-button
 
   /* default shape */
   &:not(.circular)
-    min-width 64px
     padding 0 15px
     height 40px
     line-height 36px
@@ -95,7 +92,6 @@ button, .quasar-button
 
   /* circular shape */
   &.circular
-    @extend .grid, .grid.inline, .grid.vertical-center, .grid.horizontal-center
     border-radius 50%
     padding 0
     height 56px

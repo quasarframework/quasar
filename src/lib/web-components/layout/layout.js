@@ -173,7 +173,7 @@ Vue.component('quasar-layout', {
   },
   destroyed: function() {
     quasar.events.off('app:page:ready app:layout:update', this.gc.marginalsHeightChanged);
-    _.forEach(this.gc.scrolls, function(scroll) {
+    this.gc.scrolls.forEach(function(scroll) {
       scroll[0].off('scroll', scroll[1]);
     });
   }
@@ -216,15 +216,22 @@ Vue.component('quasar-footer', {
 Vue.component('quasar-navigation', {
   template: template.find('#quasar-navigation').html(),
   data: function() {
-    var links = _.filter(quasar.data.manifest.pages, function(page) {
-      return page.navigation;
+    var
+      links,
+      pages = quasar.data.manifest.pages
+      ;
+
+    links = Object.keys(pages).filter(function(key) {
+      return pages[key].navigation;
+    });
+    links = links.map(function(link) {
+      link = pages[link];
+      link.navigation.order = link.navigation.order || 100;
+      return link;
     });
 
-    links = _.sortBy(links, function(link) {
-      if (!link.navigation) {
-        return 0;
-      }
-      return link.navigation.order || 100;
+    links = links.sort(function(link, secondLink) {
+      return link.navigation.order - secondLink.navigation.order;
     });
 
     return {
@@ -352,7 +359,7 @@ Vue.component('quasar-navigation', {
   destroyed: function() {
     quasar.events.off('app:page:ready', this.gc.autoSelectTab);
 
-    _.forEach(this.gc.resizers, function(resize) {
+    this.gc.resizers.forEach(function(resize) {
       resize[0].off('resize', resize[1]);
     });
   }

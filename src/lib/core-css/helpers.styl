@@ -23,6 +23,11 @@
     right 0
     bottom 0
 
+.inline
+  display -ms-inline-flexbox !important // @stylint ignore
+  display -webkit-inline-flex !important // @stylint ignore
+  display inline-flex !important // @stylint ignore
+
 .fit
   width 100%
 
@@ -43,7 +48,7 @@
   height 100vh
 
 .hidden
-  display none
+  display none !important
 
 .invisible
   visibility hidden

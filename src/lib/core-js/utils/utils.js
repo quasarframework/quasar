@@ -2,7 +2,7 @@
 
 $.fn.reverse = [].reverse;
 
-_.merge(quasar, {
+$.extend(true, quasar, {
   nextTick: function(fn) {
     setTimeout(fn, 1);
   },
@@ -18,5 +18,8 @@ _.merge(quasar, {
   },
   open: {
     url: require('./js/open-url')
+  },
+  capitalize: function(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
   }
 });

@@ -2,8 +2,7 @@
 
 var
   runSequence = require('run-sequence'),
-  spawn = require('child_process').spawn,
-  _ = require('lodash')
+  spawn = require('child_process').spawn
   ;
 
 /*
@@ -53,7 +52,7 @@ function launch(args, done) {
 }
 
 
-_.forEach(['dev', 'prod'], function(type) {
+['dev', 'prod'].forEach(function(type) {
 
   var suffix = type === 'prod' ? ':prod' : '';
   var cmd = type === 'prod' ? ['-p'] : [];

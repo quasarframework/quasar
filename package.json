@@ -44,8 +44,8 @@
     "chai": "^3.4.0",
     "codecov.io": "^0.1.6",
     "del": "^2.0.2",
-    "eslint": "^1.7.3",
-    "eslint-config-defaults": "^8.0.2",
+    "eslint": "^2.0.0",
+    "eslint-config-defaults": "^9.0.0",
     "fastclick": "^1.0.6",
     "fs-extra": "^0.26.2",
     "gulp": "^3.9.0",
@@ -73,7 +73,6 @@
     "karma-sinon-chai": "^1.1.0",
     "karma-sourcemap-loader": "^0.3.6",
     "karma-webpack": "^1.7.0",
-    "lodash": "^3.10.1",
     "material-design-icons": "^2.1.1",
     "mocha": "^2.3.3",
     "mocha-eslint": "^1.0.0",
@@ -81,11 +80,11 @@
     "phantomjs": "^1.9.18",
     "raw-loader": "^0.5.1",
     "require-dir": "^0.3.0",
-    "roboto-fontface": "^0.4.2",
+    "roboto-fontface": "^0.4.3",
     "run-sequence": "^1.1.4",
     "sinon": "^1.17.1",
     "sinon-chai": "^2.8.0",
     "velocity-animate": "^1.2.3",
-    "vue": "^1.0.1"
+    "vue": "^1.0.16"
   }
 }

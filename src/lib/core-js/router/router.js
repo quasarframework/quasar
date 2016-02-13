@@ -5,7 +5,8 @@ require('../events/events');
 var __routes = [];
 
 function getAllRoutes() {
-  return _.clone(__routes, true);
+  // return a clone so user can't tamper with our private data
+  return __routes.slice();
 }
 
 function stopRouter() {
@@ -23,7 +24,7 @@ function hasRoute(hash) {
     throw new Error('Missing hash');
   }
 
-  return _.some(__routes, function(route) {
+  return __routes.some(function(route) {
     return route.hash === hash;
   });
 }
@@ -49,7 +50,9 @@ function getRoute(hash) {
   if (!hash) {
     throw new Error('Missing hash');
   }
-  return _.find(__routes, {hash: hash});
+  return __routes.filter(function(route) {
+    return route.hash === hash;
+  })[0];
 }
 
 function removeAllRoutes() {
@@ -61,7 +64,7 @@ function removeRoute(hash) {
     throw new Error('Missing hash');
   }
 
-  __routes = _.filter(__routes, function(route) {
+  __routes = __routes.filter(function(route) {
     return route.hash !== hash;
   });
 }
@@ -77,7 +80,9 @@ function overwriteRoute(route) {
     throw new Error('Route not registered');
   }
 
-  _.remove(__routes, {hash: route.hash});
+  __routes = __routes.filter(function(item) {
+    return item.hash !== route.hash;
+  });
   addRoute(route);
 }
 
@@ -85,7 +90,7 @@ function navigateToRoute(hash) {
   if (!hash) {
     throw new Error('Hash missing');
   }
-  if (!_(hash).startsWith('#')) {
+  if (hash.charAt(0) != '#') {
     throw new Error('Route should start with #');
   }
 
@@ -207,7 +212,7 @@ function reloadCurrentRoute() {
   triggerRoute(getCurrentRoute());
 }
 
-_.merge(quasar, {
+$.extend(true, quasar, {
   get: {
     all: {
       routes: getAllRoutes

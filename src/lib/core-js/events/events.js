@@ -1,12 +1,12 @@
 'use strict';
 
 function parseEventNames(eventNames) {
-  return _.trim(eventNames).replace(/\s\s+/g, ' ').split(' ');
+  return eventNames.trim().replace(/\s\s+/g, ' ').split(' ');
 }
 
-function remove(events, eventName, item) {
-  events[eventName] = _.without(events[eventName], item);
-  if (_.isEmpty(events[eventName])) {
+function remove(events, eventName, filterFn) {
+  events[eventName] = events[eventName].filter(filterFn);
+  if (events[eventName].length === 0) {
     delete events[eventName];
   }
 }
@@ -18,16 +18,16 @@ function on(eventNames, callback, context, once) {
   if (!callback) {
     throw new Error('Missing callback');
   }
-  if (!_.isFunction(callback)) {
+  if (typeof callback !== 'function') {
     throw new Error('Callback is not a function');
   }
 
-  _.forEach(parseEventNames(eventNames), function(eventName) {
+  parseEventNames(eventNames).forEach(function(eventName) {
     if (!this.events.hasOwnProperty(eventName)) {
       this.events[eventName] = [];
     }
 
-    if (_.some(this.events[eventName], function(item) {
+    if (this.events[eventName].some(function(item) {
       return item.cb === callback;
     })) {
       // Event name already has specified callback
@@ -48,11 +48,11 @@ function off(eventNames, callback) {
     return;
   }
 
-  if (callback && !_.isFunction(callback)) {
+  if (callback && typeof callback !== 'function') {
     throw new Error('Callback is not a function');
   }
 
-  _.forEach(parseEventNames(eventNames), function(eventName) {
+  parseEventNames(eventNames).forEach(function(eventName) {
     if (!this.events.hasOwnProperty(eventName)) {
       // Unregistered event name
       return;
@@ -63,16 +63,9 @@ function off(eventNames, callback) {
       return;
     }
 
-    var item = _.find(this.events[eventName], function(item) {
-      return item.cb === callback;
+    remove(this.events, eventName, function(ev) {
+      return ev.cb !== callback;
     });
-
-    if (!item) {
-      // Event is not registered with specified callback
-      return;
-    }
-
-    remove(this.events, eventName, item);
   }.bind(this));
 }
 
@@ -87,7 +80,7 @@ function trigger(eventNames) {
 
   var args = Array.prototype.slice.call(arguments, 1);
 
-  _.forEach(parseEventNames(eventNames), function(eventName) {
+  parseEventNames(eventNames).forEach(function(eventName) {
     if (!this.events.hasOwnProperty(eventName)) {
       // Nothing to trigger
       return;
@@ -95,36 +88,36 @@ function trigger(eventNames) {
 
     var onceList = [];
 
-    _.forEach(this.events[eventName], function(item) {
-      item.cb.apply(item.context, args);
-      if (item.once) {
-        onceList.push(item);
+    this.events[eventName].forEach(function(ev) {
+      ev.cb.apply(ev.context, args);
+      if (ev.once) {
+        onceList.push(ev);
       }
     });
 
-    _.forEach(onceList, function(item) {
-      remove(this.events, eventName, item);
-    }.bind(this));
+    remove(this.events, eventName, function(ev) {
+      return !onceList.includes(ev);
+    });
   }.bind(this));
 }
 
 function hasSubscriber(eventNames, callback) {
   if (!eventNames) {
-    return !_.isEmpty(this.events);
+    return Object.keys(this.events).length !== 0;
   }
 
-  if (_.isFunction(eventNames)) {
+  if (typeof eventNames === 'function') {
     callback = eventNames;
     eventNames = getEventsList.call(this).join(' ');
   }
 
-  if (callback && !_.isFunction(callback)) {
+  if (callback && typeof callback !== 'function') {
     throw new Error('Callback is not a function');
   }
 
   var foundSubscriber = false;
 
-  _.forEach(parseEventNames(eventNames), function(eventName) {
+  parseEventNames(eventNames).forEach(function(eventName) {
     var result = this.events.hasOwnProperty(eventName);
 
     if (!result) {
@@ -132,7 +125,7 @@ function hasSubscriber(eventNames, callback) {
     }
 
     if (callback) {
-      result = _.some(this.events[eventName], function(item) {
+      result = this.events[eventName].some(function(item) {
         return item.cb === callback;
       });
 
@@ -149,7 +142,7 @@ function hasSubscriber(eventNames, callback) {
 }
 
 function getEventsList() {
-  return _.keys(this.events);
+  return Object.keys(this.events);
 }
 
 function createEventsEmitter() {
@@ -169,7 +162,7 @@ function createEventsEmitter() {
 }
 
 function makeEventsEmitter(object) {
-  if (!_.isObject(object)) {
+  if (object !== Object(object)) {
     throw new Error('Missing object');
   }
 
@@ -177,23 +170,23 @@ function makeEventsEmitter(object) {
     throw new Error('Object is already an emitter');
   }
 
-  _.merge(object, createEventsEmitter());
+  $.extend(true, object, createEventsEmitter());
 }
 
 function isEventsEmitter(object) {
-  if (!_.isObject(object)) {
+  if (object !== Object(object)) {
     throw new Error('Missing object');
   }
 
-  return _.isFunction(object.on) &&
-    _.isFunction(object.off) &&
-    _.isFunction(object.once) &&
-    _.isFunction(object.trigger) &&
-    _.isFunction(object.hasSubscriber) &&
-    _.isFunction(object.getEventsList);
+  return typeof object.on === 'function' &&
+    typeof object.off === 'function' &&
+    typeof object.once === 'function' &&
+    typeof object.trigger === 'function' &&
+    typeof object.hasSubscriber === 'function' &&
+    typeof object.getEventsList === 'function';
 }
 
-_.merge(quasar, {
+$.extend(true, quasar, {
   create: {
     events: {
       emitter: createEventsEmitter

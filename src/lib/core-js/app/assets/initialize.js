@@ -26,7 +26,7 @@ $('head')
 /*
  * Inject Globals
  */
-_.merge(quasar, {
+$.extend(true, quasar, {
   events: quasar.create.events.emitter(),
   page: {},
   layout: {},

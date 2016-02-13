@@ -1,7 +1,7 @@
 'use strict';
 
 function injectVue(currentVue, el, readyFunction) {
-  var vue = _.merge({}, currentVue);
+  var vue = $.extend(true, {}, currentVue);
 
   vue.el = el;
   vue.replace = false;
@@ -40,7 +40,7 @@ module.exports = function(type, vue, done) {
     el = '#quasar-app';
     destroyVue('layout');
 
-    if (_.isEqual(vue, {})) {
+    if (Object.keys(vue).length === 0) {
       delete quasar[type].vm;
       $(el).html('<div class="quasar-page"></div>');
       done && done();

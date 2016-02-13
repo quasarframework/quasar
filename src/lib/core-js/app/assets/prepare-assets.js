@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = function(context, assetExports, done) {
-  if (_.isFunction(assetExports)) {
+  if (typeof assetExports === 'function') {
     assetExports.call(
       context,
       function(vue) {

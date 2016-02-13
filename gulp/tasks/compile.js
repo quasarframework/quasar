@@ -1,7 +1,5 @@
 'use strict';
 
-var _ = require('lodash');
-
 var types = {
   'js': ['js:lint'],
   'css': ['css:lint']
@@ -17,7 +15,9 @@ function compile(type, production) {
     .pipe(gulp.dest(config[type].dest));
 }
 
-_.forEach(types, function(deps, type) {
+Object.keys(types).forEach(function(type) {
+  var deps = types[type];
+
   gulp.task(type + ':lint', function() {
     return gulp.src(config.lint[type])
       .pipe(plugins.pipes[type].lint());

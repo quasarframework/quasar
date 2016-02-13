@@ -25,7 +25,7 @@ function xhrCall(type, config) {
   config.url = processTarget(config.url, config.local);
 
   config.type = type;
-  config.xhrFields = _.merge({
+  config.xhrFields = $.extend(true, {
     withCredentials: true
   }, config.xhrFields || {});
 
@@ -44,7 +44,7 @@ function xhrCall(type, config) {
     config.dataType = config.dataType || 'json';
   }
 
-  if (config.data && (_.isArray(config.data) || _.isObject(config.data))) {
+  if (config.data && (Array.isArray(config.data) || config.data === Object(config.data))) {
     config.data = JSON.stringify(config.data);
   }
 
@@ -124,7 +124,7 @@ function makeGroupRequest() {
   return $.when.apply(null, arguments);
 }
 
-_.merge(quasar, {
+$.extend(true, quasar, {
   config: {
     requests: {
       baseURL: '',

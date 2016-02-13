@@ -19,7 +19,7 @@ describe('Storage', function() {
     quasar.clear.session.storage();
   });
 
-  _.each(['local', 'session'], function(type) {
+  ['local', 'session'].forEach(function(type) {
 
     describe('(' + type + ')', function() {
 
@@ -126,7 +126,7 @@ describe('Storage', function() {
           result,
           numbers = [4, 55.4, Math.PI];
 
-        _.each(numbers, function(number) {
+        numbers.forEach(function(number) {
           quasar.set[type].storage.item(keyOne, number);
 
           result = quasar.get[type].storage.item(keyOne);
@@ -140,7 +140,7 @@ describe('Storage', function() {
           result,
           bools = [false, true];
 
-        _.each(bools, function(bool) {
+        bools.forEach(function(bool) {
           quasar.set[type].storage.item(keyOne, bool);
 
           result = quasar.get[type].storage.item(keyOne);
@@ -183,7 +183,7 @@ describe('Storage', function() {
           result,
           rawValues = ['raw', 'Some non-compliant value'];
 
-        _.each(rawValues, function(rawValue) {
+        rawValues.forEach(function(rawValue) {
           window[type + 'Storage'].setItem(keyOne, rawValue);
 
           result = quasar.get[type].storage.item(keyOne);

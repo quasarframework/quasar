@@ -8,7 +8,7 @@ var
   widthBreakpoint = 600 /* equivalent to CSS $medium-viewport */
   ;
 
-_.forEach(['header', 'title'], function(type) {
+['header', 'title'].forEach(function(type) {
   Vue.component('quasar-drawer-' + type, {
     template: template.find('#quasar-drawer-' + type).html()
   });
@@ -174,8 +174,8 @@ Vue.component('quasar-drawer', {
       overlay.css('background-color', 'rgba(0,0,0,' + percentage * overlayOpacity + ')');
     },
     toggle: /* istanbul ignore next */ function(state, done) {
-      if (_.isBoolean(state) && this.opened === state) {
-        if (_.isFunction(done)) {
+      if (typeof state === 'boolean' && this.opened === state) {
+        if (typeof done === 'function') {
           done();
         }
         return;

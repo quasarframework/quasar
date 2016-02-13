@@ -31,14 +31,14 @@
   };
 
   window.testing.line = function(strip, fn) {
-    if (_.isFunction(strip)) {
+    if (typeof strip === 'function') {
       fn = strip;
       strip = false;
     }
-    else if (!_.isFunction(fn)) {
+    else if (typeof fn !== 'function') {
       throw new TypeError('line() expects a function');
     }
-    else if (!_.isBoolean(strip)) {
+    else if (typeof strip !== 'boolean') {
       throw new TypeError('line() expects a boolean');
     }
 
@@ -48,7 +48,7 @@
       throw new TypeError('line() expects a function with comment; check syntax');
     }
 
-    return strip ? _.trim(match[1].replace(/(\s)*\n(\s)*/g, '')) : match[1];
+    return strip ? match[1].replace(/(\s)*\n(\s)*/g, '').trim() : match[1];
   };
 
   window.testing.app = {
@@ -95,8 +95,8 @@
     addPage: function(name, files, manifest) {
       quasar.data.manifest.pages[name] = manifest || {};
 
-      _.forEach(files, function(file) {
-        if (_.isFunction(file.content)) {
+      files.forEach(function(file) {
+        if (typeof file.content === 'function') {
           file.content = '(' + file.content.toString() + '());';
         }
         this.registerFile('/pages/' + name + '/' + file.url, file.content, file.code);
@@ -106,7 +106,7 @@
     addLayout: function(name, content, manifest) {
       quasar.data.manifest.layouts[name] = manifest || {};
 
-      if (_.isFunction(content)) {
+      if (typeof content === 'function') {
         content = '(' + content.toString() + '());';
       }
       this.registerFile('/layouts/' + name + '/layout.' + name + '.js', content);

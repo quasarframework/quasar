@@ -70,7 +70,7 @@ function createDialog(options) {
 
   node.find('.quasar-dialog-content').html(options.html);
 
-  var vm = _.merge({
+  var vm = $.extend(true, {
     el: node[0],
     data: {
       icon: options.icon,

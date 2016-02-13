@@ -14,7 +14,7 @@ describe('Tag: quasar-spinner', function() {
     'android', 'ios', 'bubbles', 'circles', 'crescent', 'dots', 'lines', 'ripple'
   ];
 
-  _.forEach(spinners, function(spinner) {
+  spinners.forEach(function(spinner) {
     it('should be able to render ' + spinner + ' spinner', function(done) {
       testing.done.set(done);
       testing.app.var.spinner = spinner;

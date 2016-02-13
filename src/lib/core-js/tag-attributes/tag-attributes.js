@@ -2,8 +2,12 @@ $.fn.getAttributes = function() {
   var attributes = {};
 
   if (this.length) {
-    $.each(this[0].attributes, function(index, attr) {
-      attributes[attr.name] = attr.value;
+    var self = this[0].attributes;
+
+    Object.keys(self).forEach(function(key) {
+      if (self[key].name) {
+        attributes[self[key].name] = self[key].value;
+      }
     });
   }
 
@@ -15,7 +19,7 @@ function parseParam(list) {
     return false;
   }
 
-  if (!_.isArray(list)) {
+  if (!Array.isArray(list)) {
     list = list.split(' ');
   }
 
@@ -29,7 +33,7 @@ function hasAsset(list, fn) {
     return false;
   }
 
-  return _.any(list, fn);
+  return list.some(fn);
 }
 
 $.fn.getAttributesManager = function() {
@@ -54,16 +58,16 @@ $.fn.getAttributesManager = function() {
         return false;
       }
 
-      return _.any(list, function(name) {
+      return list.some(function(name) {
         value = attributes[name];
-        return attributes.hasOwnProperty(name) && (_.isUndefined(value) || value === '');
+        return attributes.hasOwnProperty(name) && (typeof value === 'undefined' || value === '');
       });
     },
     hasWithPrefix: function(prefix) {
-      return !_.isEmpty(this.getWithPrefix(prefix));
+      return Object.keys(this.getWithPrefix(prefix)).length > 0;
     },
     hasEmptyWithPrefix: function(prefix) {
-      return !_.isEmpty(this.getEmptyWithPrefix(prefix));
+      return this.getEmptyWithPrefix(prefix).length > 0;
     },
 
     with: function(list, fn, defaultName) {
@@ -73,7 +77,9 @@ $.fn.getAttributesManager = function() {
         return this;
       }
 
-      var intersection = _.intersection(list, _.keys(attributes));
+      var intersection = list.filter(function(att) {
+        return attributes.hasOwnProperty(att);
+      });
 
       if (intersection.length === 0) {
         if (defaultName) {
@@ -98,7 +104,7 @@ $.fn.getAttributesManager = function() {
         return this;
       }
 
-      names = _.filter(names, function(name) {
+      names = names.filter(function(name) {
         return this.hasEmpty(name);
       }.bind(this));
 
@@ -106,12 +112,12 @@ $.fn.getAttributesManager = function() {
     },
 
     getAll: function() {
-      return _.clone(attributes);
+      return $.extend(true, {}, attributes);
     },
     getEmpty: function() {
       var attrs = [];
 
-      _.each(attributes, function(value, name) {
+      Object.keys(attributes).forEach(function(name) {
         if (this.hasEmpty(name)) {
           attrs.push(name);
         }
@@ -126,9 +132,9 @@ $.fn.getAttributesManager = function() {
 
       var attrs = {};
 
-      _.each(attributes, function(value, name) {
+      Object.keys(attributes).forEach(function(name) {
         if (name.indexOf(prefix) === 0) {
-          attrs[name] = value;
+          attrs[name] = attributes[name];
         }
       });
       return attrs;
@@ -140,7 +146,7 @@ $.fn.getAttributesManager = function() {
 
       var attrs = [];
 
-      _.each(this.getEmpty(), function(name) {
+      this.getEmpty().forEach(function(name) {
         if (name.indexOf(prefix) === 0) {
           attrs.push(name);
         }
@@ -149,11 +155,11 @@ $.fn.getAttributesManager = function() {
     },
 
     remove: function(list) {
-      if (!_.isArray(list)) {
-        list = list ? list.split(' ') : _.keys(attributes);
+      if (!Array.isArray(list)) {
+        list = list ? list.split(' ') : Object.keys(attributes);
       }
 
-      _.each(list, function(name) {
+      list.forEach(function(name) {
         if (this.has(name)) {
           node.removeAttr(name);
         }
@@ -168,7 +174,7 @@ $.fn.getAttributesManager = function() {
         return this.remove(this.getEmpty());
       }
 
-      list = _.filter(list, function(item) {
+      list = list.filter(function(item) {
         return this.hasEmpty(item);
       }.bind(this));
 
@@ -183,7 +189,7 @@ $.fn.getAttributesManager = function() {
         throw new Error(tag + 'please specify prefix');
       }
 
-      _.each(this.getWithPrefix(prefix), function(value, name) {
+      Object.keys(this.getWithPrefix(prefix)).forEach(function(name) {
         node.removeAttr(name);
       });
 
@@ -194,7 +200,7 @@ $.fn.getAttributesManager = function() {
         throw new Error(tag + 'please specify prefix');
       }
 
-      _.each(this.getEmptyWithPrefix(prefix), function(name) {
+      this.getEmptyWithPrefix(prefix).forEach(function(name) {
         node.removeAttr(name);
       });
 
@@ -226,7 +232,7 @@ $.fn.getAttributesManager = function() {
       return classes.length > 0;
     },
     removeClass: function(name) {
-      if (_.isArray(name)) {
+      if (Array.isArray(name)) {
         name = name.join(' ');
       }
       node.removeClass(name);
@@ -250,7 +256,7 @@ $.fn.getAttributesManager = function() {
       return this;
     },
     addClass: function(list) {
-      if (_.isArray(list)) {
+      if (Array.isArray(list)) {
         list = list.join(' ');
       }
 

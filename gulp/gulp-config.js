@@ -14,7 +14,6 @@ module.exports = {
     name: 'quasar-dependencies',
     js: [
       'jquery/dist/jquery',
-      'lodash/index',
       'vue/dist/vue',
       'fastclick/lib/fastclick',
       'hammerjs/hammer',

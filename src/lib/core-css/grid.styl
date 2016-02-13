@@ -1,3 +1,5 @@
+@require helpers
+
 .grid
   display -ms-flexbox // @stylint ignore
   display -webkit-flex // @stylint ignore
@@ -50,11 +52,6 @@
         -ms-flex 1
         -webkit-flex 1
         flex 1
-
-  &.inline
-    display -ms-inline-flexbox // @stylint ignore
-    display -webkit-inline-flex // @stylint ignore
-    display inline-flex // @stylint ignore
 
   &.horizontal
     -ms-flex-direction row

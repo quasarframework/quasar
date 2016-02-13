@@ -124,7 +124,7 @@ describe('Router', function() {
   });
 
   it('should be able to overwrite a route', function() {
-    var newRoute = _.clone(routeOne, true);
+    var newRoute = $.extend({}, routeOne);
 
     newRoute.trigger = function() { var i = 0; };
     expect(routeOne).to.not.deep.equal(newRoute);

@@ -1,6 +1,6 @@
 'use strict';
 
-!testing.phantomjs && describe('quasar-layout tabs', function() {
+!testing.phantomjs && describe.skip('quasar-layout tabs', function() {
 
   beforeEach(function() {
     testing.app.reset();

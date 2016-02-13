@@ -102,9 +102,11 @@ function getHash(pageName, hash) {
 }
 
 function registerRoutes(appManifest) {
-  _.forEach(appManifest.pages, function(pageManifest, pageName) {
+  Object.keys(appManifest.pages).forEach(function(pageName) {
+    var pageManifest = appManifest.pages[pageName];
+
     pageManifest.name = pageName;
-    _.forEach(parseHashes(pageManifest.hashes), function(hash) {
+    parseHashes(pageManifest.hashes).forEach(function(hash) {
       quasar.add.route({
         hash: getHash(pageName, hash),
         trigger: function() {
@@ -142,7 +144,7 @@ function bootApp(callback) {
   callback();
 }
 
-_.merge(quasar, {
+$.extend(true, quasar, {
   start: {
     app: startApp
   },

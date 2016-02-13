@@ -9,7 +9,7 @@ function decode(string) {
 }
 
 function stringifyCookieValue(value) {
-  return encode(_.isObject(value) ? JSON.stringify(value) : '' + value);
+  return encode(value === Object(value) ? JSON.stringify(value) : '' + value);
 }
 
 function read(string) {
@@ -78,7 +78,7 @@ function getCookie(key) {
 }
 
 function removeCookie(key, options) {
-  setCookie(key, '', _.merge({}, options, {
+  setCookie(key, '', $.extend(true, {}, options, {
     expires: -1
   }));
 }
@@ -88,7 +88,7 @@ function hasCookie(key) {
 }
 
 
-_.merge(quasar, {
+$.extend(true, quasar, {
   remove: {
     cookie: removeCookie
   },

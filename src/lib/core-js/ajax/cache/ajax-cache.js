@@ -12,7 +12,7 @@ var localCache = {
       new Date().getTime() - this.__data[cacheId].time < this.__itemTimeout;
   },
   get: function(cacheId) {
-    return _.clone(this.__data[cacheId], true);
+    return $.extend(true, {}, this.__data[cacheId]);
   },
   set: function(cacheId, cachedData, statusCode, statusText) {
     this.remove(cacheId);
@@ -54,9 +54,9 @@ var requestsInProgress = {
   },
   abortAll: function() {
     // first of all, abort all requests in progress
-    _.each(this.__data, function(request) {
-      request.abort();
-    });
+    Object.keys(this.__data).forEach(function(request) {
+      this.__data[request].abort();
+    }.bind(this));
 
     this.__data = {};
   }
@@ -72,7 +72,7 @@ function log(action, options) {
 
 $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
   // cache must work only for some of the HTTP verbs
-  if (!_.contains(['GET', 'HEAD'], options.type)) {
+  if (!['GET', 'HEAD'].includes(options.type)) {
     jqXHR.promise().done(function() {
       log('done', options);
     });
@@ -109,7 +109,7 @@ $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
 
 $.ajaxTransport('+*', function(options, originalOptions, jqXHR, headers, completeCallback) {
   // cache must work only for some of the HTTP verbs
-  if (!_.contains(['GET', 'HEAD'], options.type)) {
+  if (!['GET', 'HEAD'].includes(options.type)) {
     log('start', options);
     return; // <<<<---- EARLY EXIT; abort Ajax hijack
   }

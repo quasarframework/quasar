@@ -4,9 +4,9 @@ var
   fabsNode = $('<div id="__quasar_fabs">'),
   template = require('raw!./fab.html'),
 
-  durationUnit = 100,
+  durationUnit = 50,
   toggleOnDuration = durationUnit,
-  toggleOffDuration = 3 * durationUnit
+  toggleOffDuration = 5 * durationUnit
   ;
 
 $('body').append(fabsNode);
@@ -25,7 +25,7 @@ function toggleAnimation(el, open, horizontal, done) {
       duration: open ? 0 : toggleOffDuration,
       complete: function() {
         if (!open) {
-          done();
+          setTimeout(done, 2 * durationUnit);
         }
       }
     }
@@ -153,20 +153,20 @@ function validate(fab) {
     throw new Error('Please specify FAB icon.');
   }
   if (fab.buttons) {
-    _.forEach(fab.buttons, function(button, index) {
+    fab.buttons.forEach(function(button, index) {
       if (!button.icon) {
         throw new Error('Missing icon for FAB ' + fab.icon + ' mini-button at index ' + index);
       }
       if (!button.fn) {
         throw new Error('Missing fn for FAB ' + fab.icon + ' mini-button at index ' + index);
       }
-      if (!_.isFunction(button.fn)) {
+      if (typeof button.fn !== 'function') {
         throw new Error('fn for FAB ' + fab.icon + ' mini-button at index ' + index + ' is not a function.');
       }
     });
   }
   else if (fab.fn) {
-    if (!_.isFunction(fab.fn)) {
+    if (typeof fab.fn !== 'function') {
       throw new Error('FAB fn is not a function.');
     }
   }
@@ -194,7 +194,7 @@ function removeAllFabs() {
 
 quasar.events.on('app:page:post-prepare', removeAllFabs);
 
-_.merge(quasar, {
+$.extend(true, quasar, {
   add: {
     fab: addFab
   },

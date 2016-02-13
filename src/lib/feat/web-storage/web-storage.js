@@ -1,22 +1,25 @@
 'use strict';
 
 function encode(value) {
-  if (_.isDate(value)) {
+  if (Object.prototype.toString.call(value) === '[object Date]') {
     return '__q_date|' + value.toUTCString();
   }
-  if (_.isRegExp(value)) {
+  if (Object.prototype.toString.call(value) === '[object RegExp]') {
     return '__q_expr|' + value.source;
   }
-  if (_.isNumber(value)) {
+  if (typeof value === 'number') {
     return '__q_numb|' + value;
   }
-  if (_.isBoolean(value)) {
+  if (typeof value === 'boolean') {
     return '__q_bool|' + (value ? '1' : '0');
   }
-  if (_.isString(value)) {
+  if (typeof value === 'string') {
     return '__q_strn|' + value;
   }
-  if (_.isPlainObject(value)) {
+  if (typeof value === 'function') {
+    return '__q_strn|' + value.toString();
+  }
+  if (value === Object(value)) {
     return '__q_objt|' + JSON.stringify(value);
   }
 
@@ -163,7 +166,7 @@ var storageIsEmpty = generateFunctions(function(type) {
 });
 
 
-_.merge(quasar, {
+$.extend(true, quasar, {
   has: {
     local: {
       storage: {

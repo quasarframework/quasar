@@ -26,7 +26,7 @@ $('body').append(notifyNode);
 
 
 function dismissAll() {
-  _.forEach(dismissers, function(dismiss) {
+  dismissers.forEach(function(dismiss) {
     dismiss();
   });
 }
@@ -36,7 +36,7 @@ function Notify(options) {
     this.dismiss();
   }.bind(this);
 
-  _.merge(
+  $.extend(true,
     this,
     {
       timeout: 7000,
@@ -91,7 +91,7 @@ function Notify(options) {
     this.node.append(button);
     button.click(function() {
       this.dismiss();
-      if (_.isFunction(this.button.fn)) {
+      if (typeof this.button.fn === 'function') {
         this.button.fn();
       }
     }.bind(this));
@@ -141,7 +141,9 @@ Notify.prototype.dismiss = function() {
 
   this.dismissed = true;
 
-  dismissers = _.without(dismissers, this.dismiss);
+  dismissers = dismissers.filter(function(item) {
+    return item !== this.dismiss;
+  }.bind(this));
 };
 
 
@@ -150,11 +152,11 @@ function notify(options, defaults) {
     throw new Error('Missing notify options.');
   }
 
-  if (_.isString(options)) {
+  if (typeof options === 'string') {
     options = {html: options};
   }
 
-  _.merge(options, defaults);
+  $.extend(true, options, defaults);
 
   if (!options.html) {
     throw new Error('Missing notify content/HTML.');
@@ -165,7 +167,7 @@ function notify(options, defaults) {
 
 
 quasar.notify = notify;
-_.forEach(types, function(type) {
+types.forEach(function(type) {
   quasar.notify[type.name] = function(opts) {
     notify(opts, type.defaults);
   };

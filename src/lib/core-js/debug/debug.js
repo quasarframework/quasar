@@ -11,7 +11,7 @@ function notify(byNotify, message) {
   console.log(message);
 }
 
-_.merge(quasar, {
+$.extend(true, quasar, {
   debug: {
     printStack: /* istanbul ignore next */ function() {
       var e = new Error('dummy');

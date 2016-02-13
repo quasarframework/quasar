@@ -1,6 +1,6 @@
 'use strict';
 
-describe('App Pages', function() {
+describe.skip('App Pages', function() {
 
   beforeEach(function() {
     testing.app.reset();

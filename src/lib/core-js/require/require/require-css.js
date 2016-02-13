@@ -53,7 +53,7 @@ function emptyNode(type) {
 }
 
 
-_.forEach(['global', 'layout', 'page'], function(type) {
+['global', 'layout', 'page'].forEach(function(type) {
   cssNodes[type] = createNode({
     tag: 'div',
     id: '__quasar_' + type + '_css',

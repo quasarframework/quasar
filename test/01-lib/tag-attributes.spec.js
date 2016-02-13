@@ -248,8 +248,8 @@ describe('Tag Attributes', function() {
   it('getEmpty()', function() {
     var empty = testing.node.inject('', 'one two first="1st" second="2nd"').getAttributesManager().getEmpty();
 
-    expect(_.includes(empty, 'one')).to.equal(true);
-    expect(_.includes(empty, 'two')).to.equal(true);
+    expect(empty.includes('one')).to.equal(true);
+    expect(empty.includes('two')).to.equal(true);
 
     expect($('.bogus').getAttributesManager().getEmpty()).to.deep.equal([]);
   });
@@ -276,8 +276,8 @@ describe('Tag Attributes', function() {
 
     var empty = testing.node.inject('', 'my-one my-two my-first="1st" second="2nd" empty').getAttributesManager().getEmptyWithPrefix('my-');
 
-    expect(_.includes(empty, 'my-one')).to.equal(true);
-    expect(_.includes(empty, 'my-two')).to.equal(true);
+    expect(empty.includes('my-one')).to.equal(true);
+    expect(empty.includes('my-two')).to.equal(true);
 
     expect($('.bogus').getAttributesManager().getEmptyWithPrefix('my')).to.deep.equal([]);
   });

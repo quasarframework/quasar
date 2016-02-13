@@ -43,14 +43,14 @@ Vue.directive('touch', {
       var custom = customEvents[event];
 
       recognizerType = custom.type;
-      recognizer = new Hammer[_.capitalize(recognizerType)](custom);
+      recognizer = new Hammer[quasar.capitalize(recognizerType)](custom);
       recognizer.recognizeWith(mc.recognizers);
       mc.add(recognizer);
 
       return; // EARLY EXIT
     }
 
-    if (!_.includes(gestures, event)) {
+    if (!gestures.includes(event)) {
       throw new Error('Invalid v-touch event: ' + event);
     }
 
@@ -62,7 +62,7 @@ Vue.directive('touch', {
     }
 
     // add recognizer
-    recognizer = new Hammer[_.capitalize(event)]();
+    recognizer = new Hammer[quasar.capitalize(event)]();
     if (direction) {
       recognizer.options.direction = direction;
     }
@@ -94,7 +94,7 @@ Vue.directive('touch', {
   unbind: function() {
     this.mc.off(decodeEvent(this.arg)[0], this.handler);
 
-    if (!_.keys(this.mc.handlers).length) {
+    if (Object.keys(this.mc.handlers).length === 0) {
       this.mc.destroy();
       this.el.hammer = null;
     }
@@ -106,7 +106,7 @@ function registerCustomEvent(hammerOptions) {
   customEvents[hammerOptions.event] = hammerOptions;
 }
 
-_.merge(quasar, {
+$.extend(true, quasar, {
   register: {
     custom: {
       touch: {

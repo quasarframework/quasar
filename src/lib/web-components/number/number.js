@@ -44,10 +44,10 @@ Vue.component('quasar-number', Vue.extend({
   },
   watch: {
     model: function(value) {
-      if (_.isNumber(this.min) && value < this.min) {
+      if (typeof this.min === 'number' && value < this.min) {
         this.model = this.min;
       }
-      else if (_.isNumber(this.max) && value > this.max) {
+      else if (typeof this.max === 'number' && value > this.max) {
         this.model = this.max;
       }
     }

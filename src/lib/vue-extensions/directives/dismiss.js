@@ -11,7 +11,7 @@ Vue.directive('dismiss', {
     }
   },
   update: function(fn) {
-    if (fn && !_.isFunction(fn)) {
+    if (fn && typeof fn !== 'function') {
       throw new Error('v-dismiss requires a function if parameter is specified. ' + fn);
     }
 

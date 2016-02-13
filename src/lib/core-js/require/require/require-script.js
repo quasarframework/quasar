@@ -141,7 +141,7 @@ function requireScript(resource, callback) {
 
   callback = callback || function() {};
 
-  if (_.isFunction(resource)) {
+  if (typeof resource === 'function') {
     module = {location: '', text: '' + resource, factoryFn: resource};
   }
   else {

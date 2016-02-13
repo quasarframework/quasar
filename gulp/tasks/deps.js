@@ -1,12 +1,9 @@
 'use strict';
 
-var
-  _ = require('lodash'),
-  fs = require('fs')
-  ;
+var fs = require('fs');
 
 function mapToNodeModules(list, min, suffix) {
-  return _.map(list, function(item) {
+  return list.map(function(item) {
     if (min && !fs.existsSync('node_modules/' + item + '.min.' + suffix)) {
       return 'node_modules/' + item + '.' + suffix;
     }
@@ -26,7 +23,7 @@ function compile(type, production) {
     .pipe(gulp.dest(config.deps.dest));
 }
 
-_.forEach(['dev', 'prod'], function(type) {
+['dev', 'prod'].forEach(function(type) {
 
   gulp.task('deps:js:' + type, function() {
     return compile('js', type === 'prod');
@@ -43,7 +40,7 @@ _.forEach(['dev', 'prod'], function(type) {
 
 var appAdditionsTasks = [];
 
-_.forEach(config.appAdditions.assets, function(entry, number) {
+config.appAdditions.assets.forEach(function(entry, number) {
   var taskName = 'app:additions:' + number;
 
   appAdditionsTasks.push(taskName);
