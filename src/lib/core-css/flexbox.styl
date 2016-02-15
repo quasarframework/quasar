@@ -1,0 +1,105 @@
+flexbox(value)
+  if value == inline-flex
+    display -webkit-inline-flex
+    display -ms-inline-flexbox
+    display inline-flex
+  else if value == flex
+    display -webkit-flex
+    display -ms-flexbox
+    display flex
+
+flex(value)
+  -webkit-flex value
+  -ms-flex value
+  flex value
+
+flex-basis(value)
+  -webkit-flex-basis value
+  -ms-flex-basis value
+  flex-basis value
+
+flex-grow(value)
+  -webkit-flex-grow value
+  -ms-flex-grow value
+  flex-grow value
+
+flex-shrink(value)
+  -webkit-flex-shrink value
+  -ms-flex-shrink value
+  flex-shrink value
+
+flex-direction(value)
+  -webkit-flex-direction value
+  -ms-flex-direction value
+  flex-direction value
+
+flex-wrap(value)
+  -webkit-flex-wrap value
+  -ms-flex-wrap value
+  flex-wrap value
+
+flex-flow(value)
+  -webkit-flex-flow value
+  -ms-flex-flow value
+  flex-flow value
+
+justify-content(value)
+  if value == start || value == end
+    -webkit-justify-content flex-+value
+    -ms-flex-pack value
+    justify-content flex-+value
+  else if value == center
+    -webkit-justify-content value
+    -ms-flex-pack value
+    justify-content value
+  else if value == space-between
+    -webkit-justify-content value
+    -ms-flex-pack justify
+    justify-content value
+  else if value == space-around
+    -webkit-justify-content value
+    -ms-flex-pack distribute
+    justify-content value
+
+align-content(value)
+  if value == space-around
+    -webkit-align-content value
+    -ms-flex-line-pack distribute
+    align-content value
+  else if value == space-between
+    -webkit-align-content value
+    -ms-flex-line-pack justify
+    align-content value
+  else if value == end or value == start
+    -webkit-align-content flex-+value
+    -ms-flex-line-pack value
+    align-content flex-+value
+  else
+    -webkit-align-content value
+    -ms-flex-line-pack value
+    align-content value
+
+align-items(value)
+  if value == start or value == end
+    -webkit-align-items flex-+value
+    -ms-flex-align value
+    align-items flex-+value
+  else
+    -webkit-align-items value
+    -ms-flex-align value
+    align-items value
+
+align-self(value)
+  if value == start or value == end
+    -webkit-align-self flex-+value
+    -ms-flex-item-align value
+    align-self flex-+value
+  else
+    -webkit-align-self value
+    -ms-flex-item-align value
+    align-self value
+
+order(value)
+  -ms-flex-order value // @stylint ignore
+  -webkit-order value
+  order value

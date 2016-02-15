@@ -1,0 +1,4 @@
+label: 'Page Label'
+icon: 'pages'
+navigation:
+  group: 'main'
