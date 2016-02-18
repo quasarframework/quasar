@@ -53,7 +53,7 @@ module.exports = function(type, vue, done) {
     if (template.find('quasar-navigation').length === 0) {
       var ios = quasar.runs.on.ios;
 
-      template.find('.quasar-layout-' + (ios ? 'footer' : 'header'))[ios ? 'prepend' : 'append']('<quasar-navigation></quasar-navigation>');
+      template.find('.quasar-screen-' + (ios ? 'footer' : 'header'))[ios ? 'prepend' : 'append']('<quasar-navigation></quasar-navigation>');
       vue.template = template[0].outerHTML;
     }
   }

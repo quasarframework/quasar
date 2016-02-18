@@ -211,7 +211,7 @@ Vue.component('quasar-drawer', {
     this.width = parseInt(content.css('width'), 10) + /* scrollbar */ 15;
 
      /* istanbul ignore next */
-    el.parents('.quasar-layout').find('.quasar-drawer-toggle').click(function() {
+    el.parents('.quasar-screen').find('.quasar-drawer-toggle').click(function() {
       this.toggle();
     }.bind(this));
 

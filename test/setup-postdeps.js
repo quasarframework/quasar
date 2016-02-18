@@ -7,7 +7,7 @@
     callback
     ;
 
-  if ($('.quasar-layout').length === 0) {
+  if ($('.quasar-screen').length === 0) {
     $('<div id="quasar-app">').appendTo($('body'));
   }
 

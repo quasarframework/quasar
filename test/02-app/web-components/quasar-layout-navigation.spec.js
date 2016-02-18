@@ -1,6 +1,6 @@
 'use strict';
 
-!testing.phantomjs && describe.skip('quasar-layout tabs', function() {
+!testing.phantomjs && describe.skip('quasar-screen tabs', function() {
 
   beforeEach(function() {
     testing.app.reset();
@@ -19,14 +19,14 @@
     testing.done.set(done);
     testing.app.tag(
       testing.line(true, function() {/*
-        <quasar-layout>
+        <quasar-screen>
           <quasar-header>
             <quasar-navigation manual>
               <quasar-navigation-link v-for="n in 30">TabTabTabTabTabTabTab {{n}}</quasar-navigation-link>
             </quasar-navigation>
           </quasar-header>
           <quasar-page></quasar-page>
-        </quasar-layout>
+        </quasar-screen>
       */}),
       function() {
         var
@@ -62,14 +62,14 @@
     testing.done.set(done);
     testing.app.tag(
       testing.line(true, function() {/*
-        <quasar-layout>
+        <quasar-screen>
           <quasar-header>
             <quasar-navigation manual>
               <quasar-navigation-link v-for="n in 25">TabTabTabTabTabTabTab {{n}}</quasar-navigation-link>
             </quasar-navigation>
           </quasar-header>
           <quasar-page></quasar-page>
-        </quasar-layout>
+        </quasar-screen>
       */}),
       function() {
         var

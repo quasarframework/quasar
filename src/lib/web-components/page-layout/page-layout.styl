@@ -1,33 +1,44 @@
-body, #quasar-app
+$layout-header-height = 3.1rem
+
+#quasar-app
+  position relative
   height 100%
 
-.quasar-layout-content > div
-  overflow auto
+.quasar-screen
+  // position fixed
+  // top 0
+  // right 0
+  // left 0
+  // bottom 0
 
 .quasar-page-container
   position relative
 
-.quasar-layout-header.shadow
+.quasar-screen-content > div
+  overflow auto
+
+.quasar-screen-header.shadow
   @extend .z-4
 
-.quasar-layout-header > .row, .quasar-layout-footer > .row
-  height 3.1rem
+.quasar-screen-header > .row, .quasar-screen-footer > .row
+  height $layout-header-height
   background-color $primary
   color $white
-  line-height 1
+  font-size 1.6rem
   transition color .18s ease-in, box-shadow .18s ease-in
 
   i.button
-    border 0
     cursor pointer
     padding .7rem
-    font-size 1.3rem
+    & + i.button
+      padding-left 0
 
   p
     @extend .text-truncate
-    margin 0 10px
-    padding 10px 0
-    font-size 1.5rem
+    margin 0 .5rem
+    margin-top 3px
+    font-size 1.7rem
+    line-height 1.7rem
 
 .quasar-navigation
   padding 0
@@ -74,12 +85,12 @@ body, #quasar-app
   .left-scroll, .right-scroll, .quasar-navigation-link.active
     color $white !important
 
-.quasar-layout-header .quasar-navigation-link
+.quasar-screen-header .quasar-navigation-link
   &.active
     border-bottom 5px solid strongActiveColor($primary)
   &:active
     border-radius 7px 7px 0 0
-.quasar-layout-footer .quasar-navigation-link
+.quasar-screen-footer .quasar-navigation-link
   &.active
     border-top 5px solid strongActiveColor($primary)
   &:active
