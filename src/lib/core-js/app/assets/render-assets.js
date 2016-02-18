@@ -35,7 +35,6 @@ function destroyVue(instance) {
 module.exports = function(type, vue, done) {
   var el = '.quasar-page';
 
-  quasar.debug.profile(type, true);
   destroyVue('page');
 
   if (type === 'layout') {
@@ -45,7 +44,6 @@ module.exports = function(type, vue, done) {
     if (Object.keys(vue).length === 0) {
       delete quasar[type].vm;
       $(el).html('<div class="quasar-page"></div>');
-      quasar.debug.profile(type, true);
       done && done();
       return;
     }
@@ -61,5 +59,4 @@ module.exports = function(type, vue, done) {
   }
 
   quasar[type].vm = new Vue(injectVue(vue, el, done));
-  quasar.debug.profile(type, true);
 };
