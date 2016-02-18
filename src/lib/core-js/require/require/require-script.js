@@ -12,7 +12,7 @@ var
 
 // Named "eval" is mandatory for
 // executing in the global scope.
-var globalEval = eval;
+var globalEval = eval; //eslint-disable-line no-eval
 
 function resolveModule(base, relativePath) {
   var resolved = quasar.get.normalized.path(relativePath + '.js', base);

@@ -1,3 +1,5 @@
+$notify-primary = $secondary
+$notify-secondary = lighten($notify-primary, 20%)
 
 #__quasar_notifiers
   position fixed
@@ -10,7 +12,7 @@
   opacity .9
   will-change transform
   color white
-  background-color $grey-700
+  background-color $notify-primary
   font-size 1rem
 
   a
@@ -29,17 +31,25 @@
 
   .quasar-notifier-dismiss-all
     display none
-    font-size 1.7em
-    line-height 1em
+    font-size 1.5rem
+    line-height 1rem
     padding 5px
-    color $grey-200
-    margin-right 0
+    color $notify-primary
+    margin-left .5rem
     border-radius 7px
-    background-color $grey-800
+    background-color $notify-secondary
 
   &:first-of-type
     .quasar-notifier-dismiss-all
       display inherit
+
+@media (max-width: $layout-small-max)
+  .quasar-notifier
+    padding 10px 16px
+    min-width 100%
+    float left
+    box-shadow none !important
+    border-top 1px solid $notify-secondary
 
 @media (min-width: $layout-medium-min)
   #__quasar_notifiers
@@ -48,17 +58,10 @@
     margin-left 16px
 
   .quasar-notifier
+    @extend .z-4
     pointer-events all
     border-radius 5px
     max-width 700px
     padding 5px 16px
     margin 5px 16px 5px auto
-
-@media (max-width: $layout-small-max)
-  .quasar-notifier
-    padding 10px 16px
-    min-width 100%
-    float left
-    border 0
-    border-radius 0
-    margin-bottom 0
+    border 3px solid $notify-secondary

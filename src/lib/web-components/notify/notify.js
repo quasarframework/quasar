@@ -77,7 +77,7 @@ function Notify(options) {
     options
   );
 
-  this.node = $('<div class="quasar-notifier row items-center justify-between nowrap non-selectable z-4" v-touch:pan="____pan">');
+  this.node = $('<div class="quasar-notifier row items-center justify-between nowrap non-selectable" v-touch:pan="____pan">');
 
   this.node.append(
     (this.icon ? '<i>' + this.icon + '</i> ' : '') +
