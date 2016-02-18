@@ -1,7 +1,7 @@
 'use strict';
 
 var
-  notifyNode = $('<div id="__quasar_notifiers" class="grid vertical vertical-bottom">'),
+  notifyNode = $('<div id="__quasar_notifiers" class="column">'),
   dismissers = [],
   types = [
     {
@@ -77,12 +77,12 @@ function Notify(options) {
     options
   );
 
-  this.node = $('<div class="quasar-notifier grid vertical-center horizontal-between wrap non-selectable z-4" v-touch:pan="____pan">');
+  this.node = $('<div class="quasar-notifier row items-center justify-between nowrap non-selectable z-4" v-touch:pan="____pan">');
 
   this.node.append(
     (this.icon ? '<i>' + this.icon + '</i> ' : '') +
     (this.image ? '<img src="' + this.image + '">' : '') +
-    '<div class="full-width">' + this.html + '</div>'
+    '<div class="auto">' + this.html + '</div>'
   );
 
   if (this.button) {

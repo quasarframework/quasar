@@ -1,10 +1,10 @@
 
-$drawer-width = 200px
+$drawer-width = 250px
 $drawer-separator-color = #ECECEC
 
-.quasar-drawer-container
+.quasar-drawer
   position relative
-  height 100%
+  overflow-y none
 
 .quasar-drawer-overlay
   display none
@@ -15,81 +15,75 @@ $drawer-separator-color = #ECECEC
 
 .quasar-drawer-content
   z-index $z-drawer
-  position fixed
-  top 0
-  left 0
-  bottom 0
-  width $drawer-width
-  transform translateX(- $drawer-width)
   will-change transform
   background-color $white
 
-  .quasar-drawer-header
-    width 100%
-    padding 16px
-    margin-bottom 8px
-    background-color $primary
-    color $white
-    i
-      cursor pointer
-  .quasar-drawer-footer
-    position fixed
-    bottom 0
-    width 100%
-    background-color $white
-    border-top 2px solid $drawer-separator-color
-  .quasar-drawer-link
-    cursor pointer
-    transition all .3s
-    line-height 32px
-    i
-      color lighten(black, 45%)
-      margin-right 15px
-      font-size 1.8em
-    &:hover
-      background-color $grey-200
-    &.active
-      background-color $grey-300
-  .quasar-drawer-divider
-    margin 8px 0
-    height 1px
-    background-color $drawer-separator-color
-    border 0
-    padding 0
-  .quasar-drawer-title
-    color lighten(black, 45%)
-    font-weight 500
-
-  .quasar-drawer-link, .quasar-drawer-title
-    height 48px
-    padding 8px 16px
-    font-size 14px
-
 .quasar-drawer-opener
   position fixed
+  z-index $z-drawer
   top 0
   left 0
   bottom 0
   height 100%
   width 15px
 
-@media screen and (max-width: $small-viewport-breakpoint)
-  .quasar-drawer-content
-    top 0 !important
-    bottom 0 !important
+.quasar-drawer-header
+  width 100%
+  padding 16px
+  margin-bottom 8px
+  background-color $primary
+  color $white
+  i
+    cursor pointer
 
-@media screen and (min-width: $medium-viewport)
-  body.with-drawer
-    .quasar-page
-      padding 20px
-    .quasar-drawer-opener, .quasar-drawer-toggle
-      display none
-    .quasar-drawer-content
-      transform translateX(0) !important
-      outline 0 !important
-    .quasar-layout
-      margin-left $drawer-width !important
-    .quasar-drawer-container
-      overflow hidden
-      &:hover
-        overflow auto
+.quasar-drawer-footer
+  position fixed
+  bottom 0
+  width 100%
+  background-color $white
+  border-top 2px solid $drawer-separator-color
+
+.quasar-drawer-link
+  cursor pointer
+  transition all .3s
+  line-height 32px
+  i
+    color lighten(black, 45%)
+    margin-right 15px
+    font-size 1.8em
+  &:hover
+    background-color $grey-200
+  &.active
+    background-color $grey-300
+
+.quasar-drawer-divider
+  margin 8px 0
+  height 1px
+  background-color $drawer-separator-color
+  border 0
+  padding 0
+.quasar-drawer-title
+  color lighten(black, 45%)
+  font-weight 500
+
+.quasar-drawer-link, .quasar-drawer-title
+  height 48px
+  padding 8px 16px
+  font-size 14px
+
+@media screen and (max-width: $layout-small-max)
+  .quasar-drawer-content
+    position fixed
+    top 0
+    left 0
+    bottom 0
+    transform translateX(- $drawer-width)
+    width $drawer-width
+
+@media screen and (min-width: $layout-medium-min)
+  .quasar-drawer
+    width $drawer-width
+  .quasar-drawer-opener, .quasar-drawer-toggle
+    display none !important
+  .quasar-drawer-content
+    transform translateX(0) !important

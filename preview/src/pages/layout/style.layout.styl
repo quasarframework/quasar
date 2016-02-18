@@ -1,8 +1,17 @@
-.quasar-page
-  padding 0
-.row
-  margin 20px 0
-  div
-    background-color rgba(0, 0, 0, .2)
-    border 1px solid black
-    padding 5px
+$bg = rgba(147, 128, 108, .1)
+
+#layout-container
+  margin-top 30px
+
+  .row, .column, .layout
+    > div > div
+      padding 10px
+      border-radius 3px
+      background $bg
+      text-align center
+
+  &.with-border
+    .row, .column, .layout
+      border 2px solid teal
+      > div
+        border 1px dashed orange

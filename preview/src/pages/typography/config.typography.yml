@@ -1,3 +1,5 @@
-layout: 'main'
 label: 'Typography'
 icon: 'cloud'
+layout: 'main'
+navigation:
+  group: 'main'

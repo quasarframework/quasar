@@ -4,10 +4,8 @@
     <div class="quasar-drawer">
       <div class="quasar-drawer-opener" v-touch:pan-x="openByTouch">&nbsp;</div>
       <div class="quasar-drawer-overlay overlay" @click="close()"></div>
-      <div class="quasar-drawer-content" v-touch:pan-x="closeByTouch">
-        <div class="quasar-drawer-container scroll">
-          <slot></slot>
-        </div>
+      <div class="quasar-drawer-content full-height" v-touch:pan-x="closeByTouch">
+        <slot></slot>
       </div>
     </div>
   </template>
@@ -29,7 +27,7 @@
   </template>
 
   <template id="quasar-drawer-title">
-    <div class="quasar-drawer-title grid vertical-center"><slot></slot></div>
+    <div class="quasar-drawer-title row items-center"><slot></slot></div>
   </template>
 
 </templates>

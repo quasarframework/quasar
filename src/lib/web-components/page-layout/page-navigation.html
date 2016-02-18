@@ -1,0 +1,19 @@
+<div class="quasar-navigation row" :class="{hidden: group.length === 0}">
+  <div class="quasar-navigation-link left-scroll row items-center">
+    <i>chevron_left</i>
+  </div>
+  <div class="quasar-navigation-container auto row">
+    <div
+      class="quasar-navigation-link row items-center"
+      v-for="link in links"
+      :class="{active: page === link.name, hidden: link.navigation.group !== group}"
+      @click="navigateTo(link)"
+    >
+        <i v-if="link.icon">{{link.icon}}</i>
+        {{link.label}}
+    </div>
+  </div>
+  <div class="quasar-navigation-link right-scroll row items-center">
+    <i>chevron_right</i>
+  </div>
+</div>

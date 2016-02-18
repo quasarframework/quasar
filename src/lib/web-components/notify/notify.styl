@@ -1,69 +1,64 @@
 
 #__quasar_notifiers
   position fixed
+  left 0
+  right 0
+  bottom 0
   z-index $z-notifier
 
-  .quasar-notifier
-    opacity 0.9
-    float right
-    margin-bottom 5px
-    will-change transform
-    color white
-    background-color $grey-700
-    font-size 14px
+.quasar-notifier
+  opacity .9
+  will-change transform
+  color white
+  background-color $grey-700
+  font-size 1rem
 
-    a
-      color $yellow
+  a
+    color $yellow
 
-    img
-      max-height 30px
-      max-width 30px
+  img
+    max-height 30px
+    max-width 30px
 
-    > *
-      margin 5px
+  > div
+    margin 5px
 
-    > i
-      font-size 1.5em
-      line-height 1em
+  > i
+    font-size 1.5em
+    line-height 1em
 
+  .quasar-notifier-dismiss-all
+    display none
+    font-size 1.7em
+    line-height 1em
+    padding 5px
+    color $grey-200
+    margin-right 0
+    border-radius 7px
+    background-color $grey-800
+
+  &:first-of-type
     .quasar-notifier-dismiss-all
-      display none
-      font-size 1.7em
-      line-height 1em
-      padding 5px
-      color $grey-200
-      margin-right 0
-      border-radius 7px
-      background-color $grey-800
+      display inherit
 
-    &:first-of-type
-      .quasar-notifier-dismiss-all
-        display inherit
-
-@media (min-width: $medium-viewport)
+@media (min-width: $layout-medium-min)
   #__quasar_notifiers
-    top 120px
-    right 16px
     pointer-events none
+    top 110px
+    margin-left 16px
 
-    .quasar-notifier
-      pointer-events all
-      border-radius 5px
-      max-width 700px
-      padding 5px 16px
+  .quasar-notifier
+    pointer-events all
+    border-radius 5px
+    max-width 700px
+    padding 5px 16px
+    margin 5px 16px 5px auto
 
-@media (max-width: $small-viewport-breakpoint)
-  #__quasar_notifiers
-    left 0
-    right 0
-    bottom 0
-
-    .quasar-notifier
-      padding 10px 16px
-      min-width 100%
-      float left
-      border 0
-      border-radius 0
-      margin-bottom 0
-      -webkit-horizontal-content space-between
-      horizontal-content space-between
+@media (max-width: $layout-small-max)
+  .quasar-notifier
+    padding 10px 16px
+    min-width 100%
+    float left
+    border 0
+    border-radius 0
+    margin-bottom 0

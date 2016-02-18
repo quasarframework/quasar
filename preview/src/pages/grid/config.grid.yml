@@ -1,6 +1,0 @@
-label: 'Grid'
-icon: 'pages'
-layout: 'main'
-navigation:
-  order: 2
-  group: 'main'

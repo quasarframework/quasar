@@ -1,0 +1,109 @@
+body, #quasar-app
+  height 100%
+
+.quasar-layout-content > div
+  overflow auto
+
+.quasar-page-container
+  position relative
+
+.quasar-layout-header.shadow
+  @extend .z-4
+
+.quasar-layout-header > .row, .quasar-layout-footer > .row
+  height 3.1rem
+  background-color $primary
+  color $white
+  line-height 1
+  transition color .18s ease-in, box-shadow .18s ease-in
+
+  i.button
+    border 0
+    cursor pointer
+    padding .7rem
+    font-size 1.3rem
+
+  p
+    @extend .text-truncate
+    margin 0 10px
+    padding 10px 0
+    font-size 1.5rem
+
+.quasar-navigation
+  padding 0
+
+  .quasar-navigation-container
+    touch-action pan-y
+    position relative
+    white-space nowrap
+    overflow hidden
+
+  .quasar-navigation-content
+    touch-action pan-y
+    position absolute
+    height 100%
+
+  .quasar-navigation-link
+    transition all .2s
+    cursor pointer
+    color white
+    max-width 300px
+    font-size 1rem
+    padding 0 15px
+
+    &.active
+      font-weight 600
+    &:active
+      background-color strongActiveColor($primary)
+    i
+      margin-right .3rem
+      font-size 1.3rem
+
+  .left-scroll, .right-scroll
+    padding 0
+    text-align center
+    i
+      margin-right 0
+
+  &:not(.scrollable)
+    .left-scroll, .right-scroll
+      display none
+
+  .left-scroll, .right-scroll
+    padding 0 3px
+  .left-scroll, .right-scroll, .quasar-navigation-link.active
+    color $white !important
+
+.quasar-layout-header .quasar-navigation-link
+  &.active
+    border-bottom 5px solid strongActiveColor($primary)
+  &:active
+    border-radius 7px 7px 0 0
+.quasar-layout-footer .quasar-navigation-link
+  &.active
+    border-top 5px solid strongActiveColor($primary)
+  &:active
+    border-radius 0 0 7px 7px
+
+.smart-container
+  padding 2rem 0
+
+@media only screen and (max-width $layout-small-max)
+  .smart-container
+    padding-left .5rem
+    padding-right .5rem
+@media only screen and (min-width $layout-medium-min) and (max-width $layout-medium-max)
+  .smart-container
+    width 95%
+    max-width $layout-medium-min
+    padding-left 1rem
+@media only screen and (min-width $layout-big-min) and (max-width $layout-big-max)
+  .smart-container
+    width 85%
+    max-width $layout-medium-min
+    padding-left 3rem
+@media only screen and (min-width $layout-large-min)
+  .smart-container
+    width 85%
+    max-width $layout-big-min
+    padding-left 4rem

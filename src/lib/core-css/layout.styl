@@ -39,17 +39,17 @@
       padding 1em 0 0 1em
 
   &.big-gutter
-    margin -2em 0 2em -2em
+    margin -2.5em 0 2.5em -2.5em
     > div
-      padding 2em 0 0 2em
+      padding 2.5em 0 0 2.5em
 
   &.large-gutter
-    margin -3em 0 3em -3em
+    margin -3.5em 0 3.5em -3.5em
     > div
-      padding 3em 0 0 3em
+      padding 3.5em 0 0 3.5em
 
 
-for i in 1..25
+for i in 1..10
   .order-{i}
     order(i)
   .grow-{i}
@@ -60,7 +60,7 @@ for i in 1..25
 .auto
   @extend .grow-1
 
-for $cols in (1..7)
+for $cols in (1..5)
   for $parts in (1..$cols)
     &.width-{$parts}of{$cols}
       flex(0 1 ($parts / $cols * 100)%)
@@ -71,6 +71,62 @@ for $cols in (1..7)
 .sm, .gt-sm, .md, .lt-md, .gt-md, .bg, .lt-bg, .gt-bg, .lg, .lt-lg
   display none
 
+.wrap
+  flex-wrap(wrap)
+.no-wrap
+  flex-wrap(nowrap)
+.reverse-wrap
+  flex-wrap(wrap-reverse)
+
++prefix-classes('justify-')
+  &.start
+    justify-content(start)
+  &.end
+    justify-content(end)
+  &.center
+    justify-content(center)
+  &.between
+    justify-content(space-between)
+  &.around
+    justify-content(space-around)
+
++prefix-classes('items-')
+  &.start
+    align-items(start)
+  &.end
+    align-items(end)
+  &.center
+    align-items(center)
+  &.baseline
+    align-items(baseline)
+  &.stretch
+    align-items(stretch)
+
++prefix-classes('content-')
+  &.start
+    align-content(start)
+  &.end
+    align-content(end)
+  &.center
+    align-content(center)
+  &.between
+    align-content(space-between)
+  &.around
+    align-content(space-around)
+
++prefix-classes('self-')
+  &.start
+    align-self(start)
+  &.end
+    align-self(end)
+  &.center
+    align-self(center)
+  &.baseline
+    align-self(baseline)
+  &.stretch
+    align-self(stretch)
+
+
 layout-media-query($type)
   .{$type}
     display block
@@ -80,16 +136,66 @@ layout-media-query($type)
       flexbox(flex)
       &.inline
         flexbox(inline-flex)
+
   .{$type}-hide
     display none
+
   .{$type}-auto
     @extend .grow-1
-  for $cols in (1..7)
+
+  for $cols in (1..5)
     for $parts in (1..$cols)
       .{$type}-width-{$parts}of{$cols}
         flex(0 1 ($parts / $cols * 100)%)
       .{$type}-offset-{$parts}of{$cols}
         margin-left ($parts / $cols * 100)%
+
+  for i in 1..10
+    .{$type}-order-{i}
+      order(i)
+    .{$type}-grow-{i}
+      flex-grow(i)
+    .{$type}-shrink-{i}
+      flex-shrink(i)
+
+  .{$type}-row
+    flexbox(flex)
+    flex-direction(row)
+    &.inline
+      flexbox(inline-flex)
+  .{$type}-reverse-row
+    flexbox(flex)
+    flex-direction(row-reverse)
+    &.inline
+      flexbox(inline-flex)
+  .{$type}-column
+    flexbox(flex)
+    flex-direction(column)
+    &.inline
+      flexbox(inline-flex)
+  .{$type}-reverse-column
+    flexbox(flex)
+    flex-direction(column-reverse)
+    &.inline
+      flexbox(inline-flex)
+
+  .layout, .row, .column
+    &.{$type}-small-gutter
+      margin -.5em 0 .5em -.5em
+      > div
+        padding .5em 0 0 .5em
+    &.{$type}-medium-gutter, &.{$type}-gutter
+      margin -1em 0 1em -1em
+      > div
+        padding 1em 0 0 1em
+    &.{$type}-big-gutter
+      margin -2.5em 0 2.5em -2.5em
+      > div
+        padding 2.5em 0 0 2.5em
+    &.{$type}-large-gutter
+      margin -3.5em 0 3.5em -3.5em
+      > div
+        padding 3.5em 0 0 3.5em
 
 @media only screen and (max-width $layout-small-max)
   layout-media-query('sm')
@@ -114,59 +220,3 @@ layout-media-query($type)
   layout-media-query('lg')
 @media only screen and (max-width $layout-big-max)
   layout-media-query('lt-lg')
-
-
-.wrap
-  flex-wrap(wrap)
-.no-wrap
-  flex-wrap(nowrap)
-.reverse-wrap
-  flex-wrap(wrap-reverse)
-
-+prefix-classes('justify-')
-  &.left
-    justify-content(flex-start)
-  &.right
-    justify-content(flex-end)
-  &.center
-    justify-content(center)
-  &.between
-    justify-content(space-between)
-  &.around
-    justify-content(space-around)
-
-+prefix-classes('items-')
-  &.left
-    align-items(flex-start)
-  &.right
-    align-items(flex-end)
-  &.center
-    align-items(center)
-  &.baseline
-    align-items(baseline)
-  &.stretch
-    align-items(stretch)
-
-+prefix-classes('content-')
-  &.left
-    align-content(flex-start)
-  &.right
-    align-content(flex-end)
-  &.center
-    align-content(center)
-  &.between
-    align-content(space-between)
-  &.around
-    align-content(space-around)
-
-+prefix-classes('self-')
-  &.left
-    align-self(flex-start)
-  &.right
-    align-self(flex-end)
-  &.center
-    align-self(center)
-  &.baseline
-    align-self(baseline)
-  &.stretch
-    align-self(stretch)

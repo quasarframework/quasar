@@ -125,23 +125,6 @@ var vm = new Vue({
   components: {
     'quasar-fab': Fab
   },
-  ready: function() {
-    var el = $(this.$el);
-
-    this.gc = {
-      marginalsHeightChanged: function() {
-        Vue.nextTick(function() {
-          var footer = $('.quasar-footer');
-
-          el.css('margin-bottom', (footer.length > 0 ? 10 + footer.height() : 0) + 'px');
-        });
-      }
-    };
-    quasar.events.on('app:page:ready app:layout:update', this.gc.marginalsHeightChanged);
-  },
-  destroyed: function() {
-    quasar.events.off('app:page:ready app:layout:update', this.gc.marginalsHeightChanged);
-  }
 });
 
 

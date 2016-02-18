@@ -1,53 +1,29 @@
-<quasar-layout>
-
-  <quasar-header>
-    <quasar-row>
-      <quasar-toolbar-button class="quasar-drawer-toggle"><i>menu</i></quasar-toolbar-button>
-      <quasar-title>Quasar Framework</quasar-title>
-      <quasar-toolbar-button><i>alarm</i></quasar-toolbar-button>
-      <quasar-toolbar-button><i>more_vert</i></quasar-toolbar-button>
-    </quasar-row>
-    <!--
-    <quasar-navigation manual>
-      <quasar-navigation-link><i>alarm</i> Alarm</quasar-navigation-link>
-    </quasar-navigation>
-    -->
-    <quasar-navigation></quasar-navigation>
-  </quasar-header>
-
-  <quasar-page class="quasar-container"></quasar-page>
-
-  <!--
-  <quasar-footer>
-  </quasar-footer>
-  -->
-
-  <quasar-drawer>
-    <!--
-    <quasar-drawer-header>
-      <div><strong>Razvan Stoenescu</strong></div>
-      <div>Quasar Framework rocks!</div>
-    </quasar-drawer-header>
-    -->
-
-    <quasar-drawer-link page="index"></quasar-drawer-link>
-    <quasar-drawer-link page="typography"></quasar-drawer-link>
-    <quasar-drawer-link page="card"></quasar-drawer-link>
-    <quasar-drawer-link page="list"></quasar-drawer-link>
-    <quasar-drawer-link page="collapsible"></quasar-drawer-link>
-    <quasar-drawer-link page="grid"></quasar-drawer-link>
-    <quasar-drawer-link page="css"></quasar-drawer-link>
-    <quasar-drawer-link page="buttons"></quasar-drawer-link>
-    <quasar-drawer-link page="inputs"></quasar-drawer-link>
-    <quasar-drawer-link page="form"></quasar-drawer-link>
-    <quasar-drawer-divider></quasar-drawer-divider>
-    <quasar-drawer-title>Section Label</quasar-drawer-title>
-    <quasar-drawer-link page="grid"></quasar-drawer-link>
-
-    <quasar-drawer-footer>
-      <quasar-drawer-link v-for="n in 2" :click="openSettings" icon="settings" label="Buttons"></quasar-drawer-link>
-    </quasar-drawer-footer>
-
-  </quasar-drawer>
-
-</quasar-layout>
+<div class="quasar-layout column full-height">
+  <div class="quasar-layout-header">
+    <div class="row items-center" style="">
+      <i class="button quasar-drawer-toggle">menu</i>
+      <p class="auto">Title</p>
+      <i class="button">alarm</i>
+      <i class="button">more_vert</i>
+    </div>
+  </div>
+  <div class="quasar-layout-content row full-height">
+    <quasar-drawer>
+      <quasar-drawer-link page="index"></quasar-drawer-link>
+      <quasar-drawer-link page="typography"></quasar-drawer-link>
+      <quasar-drawer-link page="card"></quasar-drawer-link>
+      <quasar-drawer-link page="list"></quasar-drawer-link>
+      <quasar-drawer-link page="collapsible"></quasar-drawer-link>
+      <quasar-drawer-link page="layout"></quasar-drawer-link>
+      <quasar-drawer-link page="css"></quasar-drawer-link>
+      <quasar-drawer-link page="buttons"></quasar-drawer-link>
+      <quasar-drawer-link page="inputs"></quasar-drawer-link>
+      <quasar-drawer-link page="form"></quasar-drawer-link>
+    </quasar-drawer>
+    <div class="auto quasar-page-container">
+      <div class="quasar-page smart-container"></div>
+    </div>
+  </div>
+  <div class="quasar-layout-footer">
+  </div>
+</div>

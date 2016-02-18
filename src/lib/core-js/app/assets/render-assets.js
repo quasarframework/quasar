@@ -35,7 +35,9 @@ function destroyVue(instance) {
 module.exports = function(type, vue, done) {
   var el = '.quasar-page';
 
+  quasar.debug.profile(type, true);
   destroyVue('page');
+
   if (type === 'layout') {
     el = '#quasar-app';
     destroyVue('layout');
@@ -43,10 +45,21 @@ module.exports = function(type, vue, done) {
     if (Object.keys(vue).length === 0) {
       delete quasar[type].vm;
       $(el).html('<div class="quasar-page"></div>');
+      quasar.debug.profile(type, true);
       done && done();
       return;
+    }
+
+    var template = $(vue.template);
+
+    if (template.find('quasar-navigation').length === 0) {
+      var ios = quasar.runs.on.ios;
+
+      template.find('.quasar-layout-' + (ios ? 'footer' : 'header'))[ios ? 'prepend' : 'append']('<quasar-navigation></quasar-navigation>');
+      vue.template = template[0].outerHTML;
     }
   }
 
   quasar[type].vm = new Vue(injectVue(vue, el, done));
+  quasar.debug.profile(type, true);
 };

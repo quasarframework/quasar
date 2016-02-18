@@ -3,5 +3,8 @@
 var html = require('raw!./view.layout.html');
 
 module.exports = {
-  template: html
+  template: html,
+  data: {
+    border: false
+  }
 };

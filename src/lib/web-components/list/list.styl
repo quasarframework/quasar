@@ -8,7 +8,7 @@ ul.list
   border-radius 3px
 
   > li
-    line-height 1.5em
+    line-height 1.5rem
     padding 10px 20px
     margin 0
     border-bottom 1px solid $grey-200
@@ -32,17 +32,17 @@ ul.list
       float right
 
     &.complex
-      @extend .grid
+      @extend .row
       p
-        @extend .grid .flex-12
+        @extend .auto
       > i:first-child
-        @extend .grid, .grid.horizontal-center
+        @extend .row, .items-start
         font-size 2.9em
       img, i
         color $primary
         margin .2em .2em 0 0
       .list-action
-        @extend .grid, .grid.horizontal-center
+        @extend .row, .items-start
 
   &.borderless
     border 0

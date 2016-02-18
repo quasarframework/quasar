@@ -28,8 +28,21 @@
   display -webkit-inline-flex !important // @stylint ignore
   display inline-flex !important // @stylint ignore
 
+.background-cover
+  background-repeat no-repeat
+  background-size cover
+  background-position center center
+
 .fit
   width 100%
+  height 100%
+.full-height
+  height 100%
+.full-width
+  width 100%
+.window-height
+  margin 0
+  height 100vh
 
 .hoverable
   transition box-shadow .3s
@@ -42,10 +55,6 @@
 .disabled
   opacity .6
   cursor not-allowed
-
-.window-height
-  margin 0
-  height 100vh
 
 .hidden
   display none !important
