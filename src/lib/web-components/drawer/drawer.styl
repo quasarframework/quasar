@@ -2,23 +2,27 @@
 $drawer-width = 250px
 $drawer-separator-color = #ECECEC
 
-.quasar-drawer
+.drawer
   position relative
   overflow-y none
 
-.quasar-drawer-overlay
+.drawer-overlay
   display none
   z-index $z-drawer
   background-color black
   &.active
     display block
 
-.quasar-drawer-content
+.drawer-content
   z-index $z-drawer
   will-change transform
   background-color $white
+  top 0
+  bottom 0
+  left 0
+  width $drawer-width
 
-.quasar-drawer-opener
+.drawer-opener
   position fixed
   z-index $z-drawer
   top 0
@@ -27,7 +31,7 @@ $drawer-separator-color = #ECECEC
   height 100%
   width 15px
 
-.quasar-drawer-header
+.drawer-header
   width 100%
   padding 16px
   margin-bottom 8px
@@ -36,14 +40,14 @@ $drawer-separator-color = #ECECEC
   i
     cursor pointer
 
-.quasar-drawer-footer
+.drawer-footer
   position fixed
   bottom 0
   width 100%
   background-color $white
   border-top 2px solid $drawer-separator-color
 
-.quasar-drawer-link
+.drawer-link
   cursor pointer
   transition all .3s
   line-height 32px
@@ -56,34 +60,33 @@ $drawer-separator-color = #ECECEC
   &.active
     background-color $grey-300
 
-.quasar-drawer-divider
+.drawer-divider
   margin 8px 0
   height 1px
   background-color $drawer-separator-color
   border 0
   padding 0
-.quasar-drawer-title
+.drawer-title
   color lighten(black, 45%)
   font-weight 500
 
-.quasar-drawer-link, .quasar-drawer-title
+.drawer-link, .drawer-title
   height 48px
   padding 8px 16px
   font-size 14px
 
 @media screen and (max-width: $layout-small-max)
-  .quasar-drawer-content
+  .drawer-content
     position fixed
-    top 0
-    left 0
-    bottom 0
     transform translateX(- $drawer-width)
-    width $drawer-width
 
 @media screen and (min-width: $layout-medium-min)
-  .quasar-drawer
-    width $drawer-width
-  .quasar-drawer-opener, .quasar-drawer-toggle
+  .drawer-toggle
     display none !important
-  .quasar-drawer-content
+  .drawer
+    flex(0 0 $drawer-width)
+  .drawer-content
+    right 0
+    position absolute !important
     transform translateX(0) !important
+    overflow auto

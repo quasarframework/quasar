@@ -402,35 +402,35 @@
     testing.app.tag(
       testing.line(true, function() {/*
         <quasar-screen>
-          <quasar-drawer>
-            <quasar-drawer-header>
+          <drawer>
+            <drawer-header>
               <div style="width: 100px; height: 100px; background-color: black;"></div>
               <div><strong>Razvan Stoenescu</strong></div>
               <div>Quasar Framework rocks!</div>
-            </quasar-drawer-header>
+            </drawer-header>
 
-            <quasar-drawer-link v-for="n in 14">
+            <drawer-link v-for="n in 14">
               <i>alarm</i>
               Message {{n + 1}}
-            </quasar-drawer-link>
+            </drawer-link>
 
-            <quasar-drawer-divider></quasar-drawer-divider>
-            <quasar-drawer-header>Subheader</quasar-drawer-header>
+            <drawer-divider></drawer-divider>
+            <drawer-header>Subheader</drawer-header>
 
-            <quasar-drawer-link v-for="n in 5">
+            <drawer-link v-for="n in 5">
               <i>alarm</i>
               Message {{n + 1}}
-            </quasar-drawer-link>
-          </quasar-drawer>
+            </drawer-link>
+          </drawer>
           <quasar-page></quasar-page>
       */}),
       function() {
         expect(_html.match(/class="([\w\s])*quasar-screen/)).to.exist;
-        expect(_html.match(/class="([\w\s])*quasar-drawer/)).to.exist;
+        expect(_html.match(/class="([\w\s])*drawer/)).to.exist;
         expect(_html.match(/class="([\w\s])*quasar-page/)).to.exist;
-        expect(_html.match(/class="([\w\s])*quasar-drawer-header/)).to.exist;
-        expect(_html.match(/class="([\w\s])*quasar-drawer-link/)).to.exist;
-        expect(_html.match(/class="([\w\s])*quasar-drawer-divider/)).to.exist;
+        expect(_html.match(/class="([\w\s])*drawer-header/)).to.exist;
+        expect(_html.match(/class="([\w\s])*drawer-link/)).to.exist;
+        expect(_html.match(/class="([\w\s])*drawer-divider/)).to.exist;
         testing.done();
       }
     );

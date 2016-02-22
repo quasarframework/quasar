@@ -1,37 +1,28 @@
-<div class="quasar-screen column full-height">
-  <div class="quasar-screen-header non-selectable">
-    <div class="row items-center">
-      <i class="button quasar-drawer-toggle">menu</i>
-      <p class="auto">Title</p>
-      <i class="button">alarm</i>
-      <i class="button">more_vert</i>
-    </div>
+<screen>
+
+  <div slot="header" class="row items-center">
+    <i class="button drawer-toggle">menu</i>
+    <p class="auto">Title</p>
+    <i class="button">alarm</i>
+    <i class="button">more_vert</i>
   </div>
-  <div class="auto column full-height" style="overflow: auto">
-    <div class="quasar-screen-content row full-height">
-      <quasar-drawer>
-        <quasar-drawer-link page="index"></quasar-drawer-link>
-        <quasar-drawer-link page="typography"></quasar-drawer-link>
-        <quasar-drawer-link page="card"></quasar-drawer-link>
-        <quasar-drawer-link page="list"></quasar-drawer-link>
-        <quasar-drawer-link page="collapsible"></quasar-drawer-link>
-        <quasar-drawer-link page="layout"></quasar-drawer-link>
-        <quasar-drawer-link page="css"></quasar-drawer-link>
-        <quasar-drawer-link page="buttons"></quasar-drawer-link>
-        <quasar-drawer-link page="inputs"></quasar-drawer-link>
-        <quasar-drawer-link page="form"></quasar-drawer-link>
-      </quasar-drawer>
-      <div class="auto quasar-page-container">
-        <div class="quasar-page smart-container"></div>
-      </div>
-    </div>
+  <div slot="footer" class="row items-center">
+    <p class="auto">Fooooter</p>
   </div>
-  <div class="quasar-screen-footer">
-    <div class="row items-center">
-      <i class="button quasar-drawer-toggle">menu</i>
-      <p class="auto">Title</p>
-      <i class="button">alarm</i>
-      <i class="button">more_vert</i>
-    </div>
-  </div>
-</div>
+
+  <drawer>
+    <drawer-link page="index"></drawer-link>
+    <drawer-link page="typography"></drawer-link>
+    <drawer-link page="card"></drawer-link>
+    <drawer-link page="list"></drawer-link>
+    <drawer-link page="collapsible"></drawer-link>
+    <drawer-link page="layout"></drawer-link>
+    <drawer-link page="css"></drawer-link>
+    <drawer-link page="buttons"></drawer-link>
+    <drawer-link page="inputs"></drawer-link>
+    <drawer-link v-for="n in 10" page="form"></drawer-link>
+  </drawer>
+
+  <page class="smart-container"></page>
+
+</screen>

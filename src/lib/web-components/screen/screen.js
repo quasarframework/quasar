@@ -1,9 +1,9 @@
 'use strict';
 
-var template = require('raw!./page-navigation.html');
+var navigationTemplate = require('raw!./screen-navigation.html');
 
 Vue.component('quasar-navigation', {
-  template: template,
+  template: navigationTemplate,
   data: function() {
     var
       links,
@@ -145,4 +145,15 @@ Vue.component('quasar-navigation', {
       resize[0].off('resize', resize[1]);
     });
   }
+});
+
+
+var screenTemplate = require('raw!./screen.html');
+
+Vue.component('screen', {
+  template: screenTemplate
+});
+
+Vue.component('page', {
+  template: '<div class="quasar-pages"></div>'
 });

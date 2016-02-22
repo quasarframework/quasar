@@ -1,7 +1,7 @@
 'use strict';
 
 var
-  fabsNode = $('<div id="__quasar_fabs">'),
+  fabsNode, vm,// = $('<div id="__quasar_fabs">'),
   template = require('raw!./fab.html'),
 
   durationUnit = 50,
@@ -115,16 +115,22 @@ var Fab = Vue.extend({
   }
 });
 
-var vm = new Vue({
-  el: fabsNode[0],
-  replace: false,
-  template: '<quasar-fab v-for="fab in fabs" :cfg="fab"></quasar-fab>',
-  data: {
-    fabs: []
-  },
-  components: {
-    'quasar-fab': Fab
-  },
+quasar.events.on('app:layout:post-render', function() {
+  fabsNode = $('#__quasar_fabs');
+  if (vm) {
+    vm.$destroy(true);
+  }
+  vm = new Vue({
+    el: fabsNode[0],
+    replace: false,
+    template: '<quasar-fab v-for="fab in fabs" :cfg="fab"></quasar-fab>',
+    data: {
+      fabs: []
+    },
+    components: {
+      'quasar-fab': Fab
+    },
+  });
 });
 
 
@@ -159,6 +165,7 @@ function validate(fab) {
 }
 
 function addFab(fab) {
+  window.x = vm;
   validate(fab);
   vm.$data.fabs.push(fab);
 }
@@ -172,7 +179,9 @@ function removeFab(index) {
 }
 
 function removeAllFabs() {
-  vm.$data.fabs = [];
+  if (vm) {
+    vm.$data.fabs = [];
+  }
 }
 
 quasar.events.on('app:page:post-prepare', removeAllFabs);

@@ -1,5 +1,8 @@
 label: 'Typography'
 icon: 'cloud'
 layout: 'main'
+hashes:
+  - $
+  - :gigi
 navigation:
   group: 'main'

@@ -15,7 +15,7 @@ Vue.component('quasar-screen', {
       header = layout.find('.quasar-header'),
       page = layout.find('.quasar-page'),
       footer = layout.find('.quasar-footer'),
-      drawer = layout.find('.quasar-drawer-content'),
+      drawer = layout.find('.drawer-content'),
       manager = layout.getAttributesManager(),
       headerHeight = header.height(),
       update = {

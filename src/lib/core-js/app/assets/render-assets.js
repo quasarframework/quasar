@@ -26,37 +26,62 @@ function injectVue(currentVue, el, readyFunction) {
   return vue;
 }
 
-function destroyVue(instance) {
-  if (quasar[instance].vm) {
-    quasar[instance].vm.$destroy();
+function injectNavigation(vue) {
+  var template = $(vue.template);
+
+  if (template.find('quasar-navigation').length === 0) {
+    var ios = quasar.runs.on.ios;
+
+    template[ios ? 'prepend' : 'append']('<quasar-navigation slot="' + (ios ? 'footer' : 'header') + '"><quasar-navigation></quasar-navigation>');
+    vue.template = template[0].outerHTML;
   }
 }
 
-module.exports = function(type, vue, done) {
-  var el = '.quasar-page';
+module.exports.layout = function(vue, done) {
+  var el = '#quasar-app';
 
-  destroyVue('page');
-
-  if (type === 'layout') {
-    el = '#quasar-app';
-    destroyVue('layout');
-
-    if (Object.keys(vue).length === 0) {
-      delete quasar[type].vm;
-      $(el).html('<div class="quasar-page"></div>');
-      done && done();
-      return;
-    }
-
-    var template = $(vue.template);
-
-    if (template.find('quasar-navigation').length === 0) {
-      var ios = quasar.runs.on.ios;
-
-      template.find('.quasar-screen-' + (ios ? 'footer' : 'header'))[ios ? 'prepend' : 'append']('<quasar-navigation></quasar-navigation>');
-      vue.template = template[0].outerHTML;
-    }
+  if (quasar.page.length > 0) {
+    Object.keys(quasar.page).forEach(function(page) {
+      quasar.page[page].vm.$destroy(true);
+    });
+  }
+  if (quasar.layout.vm) {
+    quasar.layout.vm.$destroy();
   }
 
-  quasar[type].vm = new Vue(injectVue(vue, el, done));
+  if (Object.keys(vue).length === 0) {
+    delete quasar.layout.vm;
+    $(el).html('<div class="quasar-pages"></div>');
+    done && done();
+    return;
+  }
+
+  injectNavigation(vue);
+
+  quasar.layout.vm = new Vue(injectVue(vue, el, done));
+};
+
+module.exports.page = function(vue, context, done) {
+  var
+    el = '[data-page="' + context.identification + '"]',
+    container = $(el),
+    pageContainers = $('.quasar-page-container'),
+    newPage = $(
+      '<div class="quasar-page-container" data-page="' +
+      context.identification +
+      '"><div class="quasar-page"></div></div>'
+    );
+
+  pageContainers.css('display', 'none');
+
+  if (container.length !== 0) {
+    container.css('display', '');
+    done && done();
+    return;
+  }
+
+  pageContainers.css('display', 'none');
+  $('.quasar-pages').append(newPage);
+
+  quasar.page[context.identification].vm = new Vue(injectVue(vue, el + '> .quasar-page', done));
 };

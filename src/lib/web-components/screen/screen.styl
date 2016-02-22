@@ -1,44 +1,50 @@
 $layout-header-height = 3.1rem
 
-#quasar-app
-  position relative
+html, body, #quasar-app
   height 100%
+  width 100%
 
 .quasar-screen
-  // position fixed
-  // top 0
-  // right 0
-  // left 0
-  // bottom 0
+  position fixed
+  top 0
+  right 0
+  left 0
+  bottom 0
+  height 100%
+  width 100%
+
+  .quasar-pages
+    @extend .auto
+    position relative
 
 .quasar-page-container
-  position relative
-
-.quasar-screen-content > div
+  position absolute
+  top 0
+  left 0
+  right 0
+  bottom 0
   overflow auto
 
-.quasar-screen-header.shadow
-  @extend .z-4
+.quasar-screen-header, .quasar-screen-footer
+  > .row
+    height $layout-header-height
+    background-color $primary
+    color $white
+    font-size 1.6rem
+    transition color .18s ease-in, box-shadow .18s ease-in
 
-.quasar-screen-header > .row, .quasar-screen-footer > .row
-  height $layout-header-height
-  background-color $primary
-  color $white
-  font-size 1.6rem
-  transition color .18s ease-in, box-shadow .18s ease-in
+    i.button
+      cursor pointer
+      padding .7rem
+      & + i.button
+        padding-left 0
 
-  i.button
-    cursor pointer
-    padding .7rem
-    & + i.button
-      padding-left 0
-
-  p
-    @extend .text-truncate
-    margin 0 .5rem
-    margin-top 3px
-    font-size 1.7rem
-    line-height 1.7rem
+    p
+      @extend .text-truncate
+      margin 0 .5rem
+      margin-top 3px
+      font-size 1.7rem
+      line-height 1.7rem
 
 .quasar-navigation
   padding 0
@@ -96,25 +102,25 @@ $layout-header-height = 3.1rem
   &:active
     border-radius 0 0 7px 7px
 
-.smart-container
+.smart-container .quasar-page
   padding 2rem 0
 
 @media only screen and (max-width $layout-small-max)
-  .smart-container
+  .smart-container .quasar-page
     padding-left .5rem
     padding-right .5rem
 @media only screen and (min-width $layout-medium-min) and (max-width $layout-medium-max)
-  .smart-container
+  .smart-container .quasar-page
     width 95%
     max-width $layout-medium-min
     padding-left 1rem
 @media only screen and (min-width $layout-big-min) and (max-width $layout-big-max)
-  .smart-container
+  .smart-container .quasar-page
     width 85%
     max-width $layout-medium-min
     padding-left 3rem
 @media only screen and (min-width $layout-large-min)
-  .smart-container
+  .smart-container .quasar-page
     width 85%
     max-width $layout-big-min
     padding-left 4rem

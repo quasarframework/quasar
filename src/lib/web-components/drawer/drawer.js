@@ -4,25 +4,26 @@ var
   template = $(require('raw!./drawer.html')),
   drawerAnimationSpeed = 200,
   overlayOpacity = .7,
-  widthBreakpoint = 600 /* equivalent to CSS $layout-medium-min */
+  widthBreakpoint = 919 /* equivalent to CSS $layout-medium-min */,
+  drawerWidth = 250
   ;
 
 ['header', 'title'].forEach(function(type) {
-  Vue.component('quasar-drawer-' + type, {
-    template: template.find('#quasar-drawer-' + type).html()
+  Vue.component('drawer-' + type, {
+    template: template.find('#drawer-' + type).html()
   });
 });
 
-Vue.elementDirective('quasar-drawer-divider', {
-  template: '<div class="quasar-drawer-divider"></div>'
+Vue.elementDirective('drawer-divider', {
+  template: '<div class="drawer-divider"></div>'
 });
 
-Vue.component('quasar-drawer-footer', {
-  template: '<div class="quasar-drawer-footer"><slot></slot></div>'
+Vue.component('drawer-footer', {
+  template: '<div class="drawer-footer"><slot></slot></div>'
 });
 
-Vue.component('quasar-drawer-link', {
-  template: template.find('#quasar-drawer-link').html(),
+Vue.component('drawer-link', {
+  template: template.find('#drawer-link').html(),
   props: ['page', 'route', 'click', 'icon', 'label'],
   data: function() {
     return {
@@ -114,8 +115,8 @@ function toggleAnimate(open, node, overlay, percentage, currentPosition, width, 
   );
 }
 
-Vue.component('quasar-drawer', {
-  template: template.find('#quasar-drawer').html(),
+Vue.component('drawer', {
+  template: template.find('#drawer').html(),
   data: function() {
     return {
       opened: false
@@ -128,15 +129,15 @@ Vue.component('quasar-drawer', {
       }
 
       var
-        content = $(this.$el).find('> .quasar-drawer-content'),
-        overlay = $(this.$el).find('> .quasar-drawer-overlay'),
-        position = Math.min(0, event.center.x - this.width),
-        percentage = (this.width - Math.abs(position)) / this.width
+        content = $(this.$el).find('> .drawer-content'),
+        overlay = $(this.$el).find('> .drawer-overlay'),
+        position = Math.min(0, event.center.x - drawerWidth),
+        percentage = (drawerWidth - Math.abs(position)) / drawerWidth
         ;
 
       if (event.isFinal) {
         this.opened = event.center.x > 75;
-        toggleAnimate(this.opened, content, overlay, percentage, position, this.width);
+        toggleAnimate(this.opened, content, overlay, percentage, position, drawerWidth);
         return;
       }
 
@@ -152,22 +153,22 @@ Vue.component('quasar-drawer', {
       }
 
       var
-        content = $(this.$el).find('> .quasar-drawer-content'),
-        overlay = $(this.$el).find('> .quasar-drawer-overlay'),
+        content = $(this.$el).find('> .drawer-content'),
+        overlay = $(this.$el).find('> .drawer-overlay'),
         position = event.deltaX,
-        percentage = position < 0 ? 1 + position / this.width : 1
+        percentage = position < 0 ? 1 + position / drawerWidth : 1
         ;
 
       if (position > 0) {
         position = 0;
       }
-      else if (position < - this.width) {
-        position = - this.width;
+      else if (position < - drawerWidth) {
+        position = - drawerWidth;
       }
 
       if (event.isFinal) {
         this.opened = Math.abs(position) <= 75;
-        toggleAnimate(this.opened, content, overlay, percentage, position, this.width);
+        toggleAnimate(this.opened, content, overlay, percentage, position, drawerWidth);
         return;
       }
 
@@ -187,11 +188,11 @@ Vue.component('quasar-drawer', {
       this.opened = !this.opened;
       toggleAnimate(
         this.opened,
-        $(this.$el).find('> .quasar-drawer-content'),
-        $(this.$el).find('> .quasar-drawer-overlay'),
+        $(this.$el).find('> .drawer-content'),
+        $(this.$el).find('> .drawer-overlay'),
         this.opened ? .01 : 1,
-        (this.opened ? -1 : 0) * this.width,
-        this.width,
+        (this.opened ? -1 : 0) * drawerWidth,
+        drawerWidth,
         done
       );
     },
@@ -205,13 +206,11 @@ Vue.component('quasar-drawer', {
   ready: function() {
     var
       el = $(this.$el),
-      content = el.find('> .quasar-drawer-content')
+      content = el.find('> .drawer-content')
       ;
 
-    this.width = parseInt(content.css('width'), 10) + /* scrollbar */ 15;
-
-     /* istanbul ignore next */
-    el.parents('.quasar-screen').find('.quasar-drawer-toggle').click(function() {
+   /* istanbul ignore next */
+    el.parents('.quasar-screen').find('.drawer-toggle').click(function() {
       this.toggle();
     }.bind(this));
 

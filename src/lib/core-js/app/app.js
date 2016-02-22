@@ -18,7 +18,7 @@ function renderVue(context, pageVue, layoutVue) {
   // if layout hasn't changed...
   if (layoutVue === false) {
     quasar.events.trigger('app:page:post-prepare app:page:render', context);
-    render('page', pageVue, function() {
+    render.page(pageVue, context, function() {
       quasar.events.trigger('app:page:post-render app:page:ready', context);
     });
 
@@ -32,9 +32,9 @@ function renderVue(context, pageVue, layoutVue) {
 
   injectCSS('layout', quasar.data.manifest.layouts[context.manifest.layout]);
   quasar.events.trigger('app:layout:post-prepare app:layout:render app:page:post-prepare', context);
-  render('layout', layoutVue, function() {
+  render.layout(layoutVue, function() {
     quasar.events.trigger('app:layout:post-render app:layout:ready app:page:render', context);
-    render('page', pageVue, function() {
+    render.page(pageVue, context, function() {
       quasar.events.trigger('app:page:post-render app:page:ready', context);
     });
   });
@@ -59,8 +59,11 @@ function prepareRoute(context, layout, page) {
     prepare(context, page, function(vue) {
       pageVue = vue;
 
-      quasar.page.name = page.name;
-      quasar.page.manifest = context.manifest;
+      quasar.page[context.identification] = {
+        name: context.name,
+        hash: context.route,
+        manifest: context.manifest
+      };
 
       renderVue(context, pageVue, layoutVue);
     });
@@ -69,11 +72,17 @@ function prepareRoute(context, layout, page) {
 
   quasar.events.trigger('app:page:post-require app:page:prepare', context);
   prepare(context, page, function(vue) {
+    quasar.page[context.identification] = {
+      name: context.name,
+      hash: context.route,
+      manifest: context.manifest
+    };
+
     renderVue(context, vue, false);
   });
 }
 
-function startRoute(manifest, pageName, context) {
+function startRoute(manifest, context) {
   var layout, page;
 
   quasar.events.trigger('app:layout:require', context);
@@ -83,7 +92,7 @@ function startRoute(manifest, pageName, context) {
   });
 
   quasar.events.trigger('app:page:require', context);
-  request.page(pageName, function(asset) {
+  request.page(context.name, function(asset) {
     page = asset;
     prepareRoute(context, layout, page);
   });
@@ -112,12 +121,14 @@ function registerRoutes(appManifest) {
         trigger: function() {
           var route = this;
 
-          startRoute(pageManifest, pageName, {
+          console.log(pageName + (hash ? hash : ''));
+          startRoute(pageManifest, {
             params: route.params,
             query: route.query,
             name: pageName,
             route: hash,
-            manifest: pageManifest
+            manifest: pageManifest,
+            identification: pageName + (hash ? hash : '')
           });
         }
       });

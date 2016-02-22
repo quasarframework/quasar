@@ -1,33 +1,33 @@
 <templates>
 
-  <template id="quasar-drawer">
-    <div class="quasar-drawer">
-      <div class="quasar-drawer-opener" v-touch:pan-x="openByTouch">&nbsp;</div>
-      <div class="quasar-drawer-overlay overlay" @click="close()"></div>
-      <div class="quasar-drawer-content full-height" v-touch:pan-x="closeByTouch">
+  <template id="drawer">
+    <div class="drawer">
+      <div class="drawer-opener" v-touch:pan-x="openByTouch">&nbsp;</div>
+      <div class="drawer-overlay overlay" @click="close()"></div>
+      <div class="drawer-content" v-touch:pan-x="closeByTouch">
         <slot></slot>
       </div>
     </div>
   </template>
 
-  <template id="quasar-drawer-header">
-    <div class="quasar-drawer-header">
+  <template id="drawer-header">
+    <div class="drawer-header">
       <div class="float-right">
-        <i class="quasar-drawer-toggle small">chevron_left</i>
+        <i class="drawer-toggle small">chevron_left</i>
       </div>
       <slot></slot>
     </div>
   </template>
 
-  <template id="quasar-drawer-link">
-    <div class="quasar-drawer-link text-truncate" @click="execute" :class="[active ? 'active' : '']">
+  <template id="drawer-link">
+    <div class="drawer-link text-truncate" @click="execute" :class="[active ? 'active' : '']">
       <i v-if="icon">{{icon}}</i>
       {{label}}
     </div>
   </template>
 
-  <template id="quasar-drawer-title">
-    <div class="quasar-drawer-title row items-center"><slot></slot></div>
+  <template id="drawer-title">
+    <div class="drawer-title row items-center"><slot></slot></div>
   </template>
 
 </templates>
