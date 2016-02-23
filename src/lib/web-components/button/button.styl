@@ -1,110 +1,133 @@
-$button-radius = 4px
-
 button, .quasar-button
-  @extend .non-selectable, .uppercase
-  @extend .row, .justify-center, .items-center, .content-center
+  @extend .non-selectable, .row, .justify-center, .items-center
+  @extend .content-center, .no-wrap, .inline
 
   outline 0
-  cursor pointer
   border 0
-  background-image none
-  text-shadow none
-  font-weight 300
-  font-style normal
+  cursor pointer
   text-decoration none
   white-space nowrap
+  position relative
+  font-style normal
+  text-overflow ellipsis
+  overflow hidden
+  text-align center
   vertical-align middle
-  border-radius $button-radius
-  transition all .12s ease-in
-  margin 15px 0
-  color $neutral-text
+  flex-shrink(0)
   background-color transparent
+  line-height 1
+  transition all .12s ease-in
 
-  &.cornered
-    border-radius 0
+  i
+    font-size $button-icon-size
+    &.float-left
+      margin-right $button-icon-margin
+    &.float-right
+      margin-left $button-icon-margin
 
-  &.inline + &.inline
-    margin-left 8px
+  font-size $button-font-size
+  padding $button-padding
+  min-height $button-min-height
 
-  &:active:not(.disabled):not(.default)
-    @extend .z-4
-
-  &.raised
-    @extend .z-4
-    &:hover:not(.disabled)
-      @extend .z-6
-    &:active:not(.disabled)
-      @extend .z-8
-
-  &:active:not(.disabled)
-    background-color activeColor(white)
-
-  /**
-   * COLORS
-   */
-  for $name, $color in $colors
-    &.{$name}
-      color white
-      background-color $color
-      &:hover:not(.disabled), &:active:not(.disabled)
-        background-color activeColor($color)
-      &.inverted, &.bordered
-        color $color
-        background-color white
-        &:hover:not(.disabled), &:active:not(.disabled)
-          color white
-          background-color $color
-      &.bordered
-        border 2px solid $color
-  &.neutral
-    color $neutral-text !important
-  &.light
-    color black !important
-    &.inverted
-      color white !important
-      background-color black
-      &:hover:not(.disabled), &:active:not(.disabled)
-        color black !important
-        background-color white
-
-  /* default shape */
-  &:not(.circular)
-    padding 0 15px
-    height 40px
-    line-height 36px
+  &.small
+    font-size $button-small-font-size
+    padding $button-small-padding
+    min-height $button-small-min-height
     i
-      margin 0 10px
-      font-size 1.7em
-    &.small
-      font-size .9em
-      padding 0 10px
-      height 34px
-      line-height 32px
-      i
-        font-size 1.5em
-    &.big
-      font-size 1.2em
-      padding 0 25px
-      height 62px
-      line-height 58px
-      i
-        font-size 2.1em
+      font-size $button-small-icon-size
+  &.big
+    font-size $button-big-font-size
+    padding $button-big-padding
+    min-height $button-big-min-height
+    i
+      font-size $button-big-icon-size
 
-  /* circular shape */
-  &.circular
-    border-radius 50%
-    padding 0
-    height 56px
-    width 56px
-    font-size 20px
-    line-height 18px
-    &.small
-      height 37px
-      width 37px
-      font-size 17px
+body.mat
+  button, .quasar-button
+    border-radius $mat-button-border-radius
+    box-shadow $mat-button-box-shadow
+    text-transform $mat-button-text-transform
+
+    margin $mat-button-margin
+    padding $mat-button-padding
+    min-height $mat-button-min-height
+
+    font-weight $mat-button-font-weight
+    font-size $mat-button-font-size
+
+body.ios
+  button, .quasar-button
+    border-radius $ios-button-border-radius
+    box-shadow $ios-button-box-shadow
+    text-transform $ios-button-text-transform
+
+    margin $ios-button-margin
+    padding $ios-button-padding
+    min-height $ios-button-min-height
+
+    font-weight $ios-button-font-weight
+    font-size $ios-button-font-size
+
+
+body.mat, body.ios
+  button, .quasar-button
+    &.clear
+      box-shadow none !important
+      background-color transparent !important
+      transition none
+
+    &.round
+      border-radius 64px
+      padding 0 2.6rem
+
+    &.raised
+      box-shadow $shadow-4
+      &:hover:not(.disabled)
+        box-shadow $shadow-6
+      &:active:not(.disabled)
+        box-shadow $shadow-8
+
+    /**
+     * COLORS
+     */
+    for $name, $color in $colors
+      &.{$name}
+        color white
+        background-color $color
+
+        &:active:not(.disabled)
+          background-color activeColor($color)
+        &.inverted, &.outline
+          color $color
+          background-color transparent
+          &:active:not(.disabled)
+            color white
+            background-color $color
+        &.outline
+          border 1px solid $color
+        &.clear
+          color $color
+        &.clear:active:not(.disabled)
+          color activeColor($color)
+
+    &.light
+      color $dark !important
+
+    /* circular shape */
+    &.circular
+      border-radius 50%
+      padding 0
+      height 56px
+      width 56px
+      font-size 20px
       line-height 18px
-    &.big
-      height 72px
-      width 72px
-      line-height 32px
-      font-size 32px
+      &.small
+        height 37px
+        width 37px
+        font-size 17px
+        line-height 18px
+      &.big
+        height 72px
+        width 72px
+        line-height 32px
+        font-size 32px

@@ -156,3 +156,9 @@ $.extend(true, quasar, {
     }
   }
 });
+
+var body = $('body');
+
+if (!body.hasClass('ios') && !body.hasClass('mat')) {
+  body.addClass(quasar.runs.on.ios ? 'ios' : 'mat');
+}

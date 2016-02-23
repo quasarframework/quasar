@@ -2,17 +2,18 @@
   font-family 'Material Icons'
   font-style normal
   font-weight 400
-  src url("../assets/fonts/icons/MaterialIcons-Regular.eot") /* For IE6-8 */
-  src local("Material Icons"), local("MaterialIcons-Regular"), url("../assets/fonts/icons/MaterialIcons-Regular.woff2") format("woff2"), url("../assets/fonts/icons/MaterialIcons-Regular.woff") format("woff"), url("../assets/fonts/icons/MaterialIcons-Regular.ttf") format("truetype")
+  src url('../assets/fonts/icons/MaterialIcons-Regular.eot') /* For IE6-8 */
+  src local('Material Icons'), local('MaterialIcons-Regular'), url('../assets/fonts/icons/MaterialIcons-Regular.woff2') format('woff2'), url('../assets/fonts/icons/MaterialIcons-Regular.woff') format('woff'), url('../assets/fonts/icons/MaterialIcons-Regular.ttf') format('truetype')
 
 i
   @extend .non-selectable, .inline
 
-  font-family 'Material Icons'
-  font-weight normal
-  font-style normal
+  box-sizing content-box
+  font-family $icon-font-family
+  font-weight $icon-font-weight
+  font-style $icon-font-style
+  text-transform $icon-text-transform
   vertical-align middle
-  text-transform none
   letter-spacing normal
   word-wrap normal
   white-space nowrap

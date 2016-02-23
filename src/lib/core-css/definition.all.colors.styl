@@ -8,17 +8,14 @@ $negative  ?= #DB2828
 $info      ?= #31CCEC
 $warning   ?= #F2C037
 
-$neutral-text ?= #5C5C5C
+$light     ?= #f4f4f4
+$dark      ?= #333
 
 $text-color          ?= lighten(black, 17%)
 $background-color    ?= white
 
 $link-color          ?= lighten($primary, 25%)
 $link-color-active   ?= $primary
-
-$label-bg            ?= #e8e8e8
-$label-color         ?= rgba(0, 0, 0, .6)
-
 
 $colors = {
   neutral: $neutral
@@ -29,8 +26,8 @@ $colors = {
   negative: $negative
   warning: $warning
   info: $info
-  light: white
-  dark: black
+  light: $light
+  dark: $dark
 }
 
 $red = #f44336

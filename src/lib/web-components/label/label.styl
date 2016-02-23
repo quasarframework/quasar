@@ -2,16 +2,17 @@ label
   display inline-block
   line-height 1
   vertical-align baseline
-  margin 0 .2em
-  background-color $label-bg
-  background-image none
-  padding .5em .8em
-  color $label-color
   text-transform none
-  font-weight 700
-  border 0 solid transparent
-  border-radius .28571429rem
+  text-align center
   transition background .1s ease
+  white-space nowrap
+  min-width 10px
+
+  color $label-color
+  background-color $label-background-color
+  margin $label-margin
+  padding $label-padding
+  border $label-border
 
   &.link
     cursor pointer
@@ -21,13 +22,6 @@ label
   i
     font-size 2.5em
 
-  img
-    display inline-block
-    vertical-align top
-    height 2.1666em
-    margin -.5em .5em -.5em -.8em
-    border-radius 3px 0 0 3px
-
   input
     margin-bottom 0
 
@@ -36,3 +30,9 @@ label
   margin 0
   padding-top 1em
   padding-bottom 1em
+  text-align left
+
+body.mat label
+  border-radius $mat-label-border-radius
+body.ios label
+  border-radius $ios-label-border-radius

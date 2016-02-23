@@ -2,33 +2,35 @@
 <template v-for="type in types">
   <template v-for="size in sizes">
     <h3 class="capitalize">{{size}}</h3>
-    <button v-if="type === 'rectangle'" class="primary inline" :class="[type, size]">{{type}}</button>
-    <button v-if="type === 'rectangle'" class="primary inline" :class="[type, size]"><i>{{icon}}</i>{{type}}</button>
-    <button v-if="type === 'rectangle'" class="primary inline" :class="[type, size]"><i>{{icon}}</i></button>
+    <button v-if="type === 'rectangle'" class="primary" :class="[type, size]">{{type}}</button>
+    <button v-if="type === 'rectangle'" class="primary" :class="[type, size]"><i class="float-left">{{icon}}</i>{{type}}</button>
+    <button v-if="type === 'rectangle'" class="primary" :class="[type, size]"><i>{{icon}}</i></button>
     text
-    <button v-else class="primary inline" :class="[type, size]"><i>{{icon}}</i></button>
+    <button v-else class="primary" :class="[type, size]"><i>{{icon}}</i></button>
     <template v-for="extra in extras">
-      <button v-if="type === 'rectangle'" class="primary inline" :class="[type, size, extra]">{{type}}-{{extra}}</button>
-      <button v-else class="primary inline" :class="[type, size, extra]"><i>{{icon}}</i></button>
+      <button v-if="type === 'rectangle'" class="primary" :class="[type, size, extra]">{{type}}-{{extra}}</button>
+      <button v-else class="primary" :class="[type, size, extra]"><i>{{icon}}</i></button>
     </template>
   </template>
 </template>
-<h5>Full Width</h5>
-<button class="primary full-width">Fit</button>
+<br>
+<p>Block also adds 'display: block'</p>
+<button class="primary block">Block</button>
+<button class="primary full-width">Full-Width</button>
 <br><br>
 <h2>Types</h2>
 <div v-for="type in types">
   <h3 class="capitalize">{{type}}</h3>
   <template v-for="color in colors">
     <h4 class="capitalize">{{color}}</h4>
-    <button v-if="type === 'rectangle'" class="inline" :class="[type, color]">{{type}}-{{color}}</button>
-    <button v-if="type === 'rectangle'" class="inline" :class="[type, color]"><i>{{icon}}</i>{{type}}-{{color}}</button>
-    <button v-if="type === 'rectangle'" class="inline" :class="[type, color]"><i>{{icon}}</i></button>
+    <button v-if="type === 'rectangle'" :class="[type, color]">{{type}}-{{color}}</button>
+    <button v-if="type === 'rectangle'" :class="[type, color]"><i class="float-left">{{icon}}</i>{{type}}-{{color}}</button>
+    <button v-if="type === 'rectangle'" :class="[type, color]"><i>{{icon}}</i></button>
     text
-    <button v-else class="inline" :class="[type, color]"><i>{{icon}}</i></button>
+    <button v-else :class="[type, color]"><i>{{icon}}</i></button>
     <template v-for="extra in extras">
-      <button v-if="type === 'rectangle'" class="inline" :class="[type, color, extra]">{{type}}-{{color}}-{{extra}}</button>
-      <button v-else class="inline" :class="[type, color, extra]"><i>{{icon}}</i></button>
+      <button v-if="type === 'rectangle'" :class="[type, color, extra]">{{type}}-{{color}}-{{extra}}</button>
+      <button v-else :class="[type, color, extra]"><i>{{icon}}</i></button>
     </template>
   </template>
 </div>

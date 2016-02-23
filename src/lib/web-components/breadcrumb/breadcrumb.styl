@@ -1,12 +1,3 @@
-$breadcrumb-radius = 4px
-$breadcrumb-height = 34px
-$breadcrumb-separator = 15px
-
-$breadcrumb-primary = $secondary
-$breadcrumb-secondary = lighten($secondary, 10%)
-
-$breadcrumb-hover = $tertiary
-$breadcrumb-active = darken($breadcrumb-hover, 15%)
 
 ul.breadcrumb
   list-style none
@@ -15,7 +6,7 @@ ul.breadcrumb
   padding 0
 
   i
-    font-size  1.7em
+    font-size 1.7em
 
   li
     float left
@@ -24,7 +15,7 @@ ul.breadcrumb
       color white
       display block
       background $breadcrumb-primary
-      text-decoration  none
+      text-decoration none
       position relative
       height $breadcrumb-height
       line-height $breadcrumb-height
@@ -45,17 +36,17 @@ ul.breadcrumb
       padding-left $breadcrumb-separator
       border-radius $breadcrumb-radius 0 0 $breadcrumb-radius
       &:before
-        border none
+        border 0
 
     &:last-child a
       padding-right $breadcrumb-separator
       border-radius 0 $breadcrumb-radius $breadcrumb-radius 0
       &:after
-        border none
+        border 0
 
     a
       &:before, &:after
-        content  ''
+        content ''
         position absolute
         top 0
         border 0 solid $breadcrumb-primary
@@ -64,7 +55,7 @@ ul.breadcrumb
         height 0
 
       &:before
-        left - $breadcrumb-separator
+        left (- $breadcrumb-separator)
         border-left-color transparent
 
       &:after
@@ -73,7 +64,7 @@ ul.breadcrumb
         border-left-color $breadcrumb-primary
 
       &:hover
-        background-color  $breadcrumb-hover
+        background-color $breadcrumb-hover
         &:before
           border-color $breadcrumb-hover
           border-left-color transparent
