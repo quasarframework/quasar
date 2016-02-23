@@ -1,33 +1,36 @@
 'use strict';
 
-var types = {
-  'js': ['js:lint'],
-  'css': ['css:lint']
-};
+/*
+ * Scripts
+ */
 
-function compile(type, production) {
-  return gulp.src(config[type].src)
-    .pipe(plugins.pipes[type].compile({
+function compile(production) {
+  return gulp.src(config.js.src)
+    .pipe(plugins.pipes.js.compile({
       prod: production,
       pack: config.js.webpack
     }))
-    .pipe(plugins.rename('quasar.' + (production ? 'min.' : '') + type))
-    .pipe(gulp.dest(config[type].dest));
+    .pipe(plugins.rename('quasar.' + (production ? 'min.' : '') + 'js'))
+    .pipe(gulp.dest(config.js.dest));
 }
 
-Object.keys(types).forEach(function(type) {
-  var deps = types[type];
-
+['js', 'css'].forEach(function(type) {
   gulp.task(type + ':lint', function() {
     return gulp.src(config.lint[type])
       .pipe(plugins.pipes[type].lint());
   });
+});
 
-  gulp.task(type + ':dev', deps, function() {
-    return compile(type);
-  });
+gulp.task('js:dev', ['js:lint'], function() {
+  return compile();
+});
 
-  gulp.task(type + ':prod', deps, function() {
-    return compile(type, true);
-  });
+gulp.task('js:prod', ['js:lint'], function() {
+  return compile(true);
+});
+
+gulp.task('css', ['css:lint'], function() {
+  return gulp.src(config.css.src)
+    .pipe(plugins.newer(config.css.dest))
+    .pipe(gulp.dest(config.css.dest));
 });

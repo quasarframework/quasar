@@ -58,7 +58,7 @@ for i in 1..10
     flex-shrink(i)
 
 .auto
-  flex(1 0 auto)
+  flex(1 1 auto)
 
 for $cols in (1..5)
   for $parts in (1..$cols)
@@ -141,7 +141,7 @@ layout-media-query($type)
     display none
 
   .{$type}-auto
-    @extend .grow-1
+    @extend .auto
 
   for $cols in (1..5)
     for $parts in (1..$cols)

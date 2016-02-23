@@ -1,18 +1,18 @@
 $dialog-text = black
-$dialog-bg = $white
+$dialog-bg = white
 $dialog-radius = 5px
 $dialog-pad = 24px
 
 #__quasar_dialogs
   .quasar-dialog
     z-index $z-dialog
-    background-color rgba(0,0,0,0)
+    background-color rgba(0, 0, 0, 0)
     transition all .2s ease-in
     opacity 0
 
     &.active
       opacity 1
-      background-color rgba(0,0,0,$overlay-opacity)
+      background-color rgba(0, 0, 0, $overlay-opacity)
       .quasar-dialog-container
         transform translateY(0) scale(1)
 

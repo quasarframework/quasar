@@ -51,15 +51,15 @@ module.exports = {
       src + '/**/*.html'
     ],
     src: src + '/quasar.js',
-    dest: dist + '/lib',
+    dest: dist + '/js',
     webpack: {
       cache: true
     }
   },
   css: {
     watch: src + '/**/*.styl',
-    src: src + '/quasar.styl',
-    dest: dist + '/lib'
+    src: src + '/**/*.styl',
+    dest: dist + '/css'
   },
 
   preview: {

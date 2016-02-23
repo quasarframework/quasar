@@ -21,7 +21,7 @@ function watchForChanges(production) {
   /*
    * Watch for CSS
    */
-  plugins.watch(config.css.watch, run('css:' + suffix));
+  plugins.watch(config.css.watch, run('css'));
 
   /*
    * Watch for JS
