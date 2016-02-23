@@ -23,11 +23,7 @@ $drawer-separator-color = #ECECEC
   width $drawer-width
 
 .drawer-opener
-  position fixed
   z-index $z-drawer
-  top 0
-  left 0
-  bottom 0
   height 100%
   width 15px
 
@@ -41,8 +37,7 @@ $drawer-separator-color = #ECECEC
     cursor pointer
 
 .drawer-footer
-  position fixed
-  bottom 0
+  @extend .fixed-bottom
   width 100%
   background-color white
   border-top 2px solid $drawer-separator-color

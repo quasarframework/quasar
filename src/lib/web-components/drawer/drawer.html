@@ -2,7 +2,7 @@
 
   <template id="drawer">
     <div class="drawer">
-      <div class="drawer-opener" v-touch:pan-x="openByTouch">&nbsp;</div>
+      <div class="drawer-opener fixed-left" v-touch:pan-x="openByTouch">&nbsp;</div>
       <div class="drawer-overlay overlay" @click="close()"></div>
       <div class="drawer-content" v-touch:pan-x="closeByTouch">
         <slot></slot>

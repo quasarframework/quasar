@@ -1,5 +1,3 @@
-@require variables
-
 .layout
   flexbox(flex)
   &.inline
@@ -29,24 +27,24 @@
 
 .layout, .row, .column
   &.small-gutter
-    margin -.5em 0 .5em -.5em
+    margin (- $layout-small-gutter) 0 $layout-small-gutter (- $layout-small-gutter)
     > div
-      padding .5em 0 0 .5em
+      padding $layout-small-gutter 0 0 $layout-small-gutter
 
   &.medium-gutter, &.gutter
-    margin -1em 0 1em -1em
+    margin (- $layout-medium-gutter) 0 $layout-medium-gutter (- $layout-medium-gutter)
     > div
-      padding 1em 0 0 1em
+      padding $layout-medium-gutter 0 0 $layout-medium-gutter
 
   &.big-gutter
-    margin -2.5em 0 2.5em -2.5em
+    margin (- $layout-big-gutter) 0 $layout-big-gutter (- $layout-big-gutter)
     > div
-      padding 2.5em 0 0 2.5em
+      padding $layout-big-gutter 0 0 $layout-big-gutter
 
   &.large-gutter
-    margin -3.5em 0 3.5em -3.5em
+    margin (- $layout-large-gutter) 0 $layout-large-gutter (- $layout-large-gutter)
     > div
-      padding 3.5em 0 0 3.5em
+      padding $layout-large-gutter 0 0 $layout-large-gutter
 
 
 for i in 1..10
@@ -181,21 +179,21 @@ layout-media-query($type)
 
   .layout, .row, .column
     &.{$type}-small-gutter
-      margin -.5em 0 .5em -.5em
+      margin (- $layout-small-gutter) 0 $layout-small-gutter (- $layout-small-gutter)
       > div
-        padding .5em 0 0 .5em
+        padding $layout-small-gutter 0 0 $layout-small-gutter
     &.{$type}-medium-gutter, &.{$type}-gutter
-      margin -1em 0 1em -1em
+      margin (- $layout-medium-gutter) 0 $layout-medium-gutter (- $layout-medium-gutter)
       > div
-        padding 1em 0 0 1em
+        padding $layout-medium-gutter 0 0 $layout-medium-gutter
     &.{$type}-big-gutter
-      margin -2.5em 0 2.5em -2.5em
+      margin (- $layout-big-gutter) 0 $layout-big-gutter (- $layout-big-gutter)
       > div
-        padding 2.5em 0 0 2.5em
+        padding $layout-big-gutter 0 0 $layout-big-gutter
     &.{$type}-large-gutter
-      margin -3.5em 0 3.5em -3.5em
+      margin (- $layout-large-gutter) 0 $layout-large-gutter (- $layout-large-gutter)
       > div
-        padding 3.5em 0 0 3.5em
+        padding $layout-large-gutter 0 0 $layout-large-gutter
 
 @media only screen and (max-width $layout-small-max)
   layout-media-query('sm')
