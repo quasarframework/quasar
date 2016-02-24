@@ -1,7 +1,5 @@
 'use strict';
 
-require('../environment/environment');
-
 function hammerify(el, options) {
   var $el = $(el);
 

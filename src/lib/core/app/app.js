@@ -1,10 +1,5 @@
 'use strict';
 
-require('../events/events');
-require('../router/router');
-require('../debug/debug');
-require('./assets/initialize');
-
 var
   request = require('./assets/request-assets'),
   prepare = require('./assets/prepare-assets'),

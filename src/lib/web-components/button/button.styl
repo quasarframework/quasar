@@ -18,6 +18,17 @@ button, .quasar-button
   line-height 1
   transition all .12s ease-in
 
+  border-radius $button-border-radius
+  box-shadow $button-box-shadow
+  text-transform $button-text-transform
+
+  margin $button-margin
+  padding $button-padding
+  min-height $button-min-height
+
+  font-weight $button-font-weight
+  font-size $button-font-size
+
   i
     font-size $button-icon-size
     &.float-left
@@ -42,92 +53,63 @@ button, .quasar-button
     i
       font-size $button-big-icon-size
 
-body.mat
-  button, .quasar-button
-    border-radius $mat-button-border-radius
-    box-shadow $mat-button-box-shadow
-    text-transform $mat-button-text-transform
+  &.clear
+    box-shadow none !important
+    background-color transparent !important
+    transition none
 
-    margin $mat-button-margin
-    padding $mat-button-padding
-    min-height $mat-button-min-height
+  &.round
+    border-radius 64px
+    padding 0 2.6rem
 
-    font-weight $mat-button-font-weight
-    font-size $mat-button-font-size
+  &.raised
+    box-shadow $shadow-4
+    &:hover:not(.disabled)
+      box-shadow $shadow-6
+    &:active:not(.disabled)
+      box-shadow $shadow-8
 
-body.ios
-  button, .quasar-button
-    border-radius $ios-button-border-radius
-    box-shadow $ios-button-box-shadow
-    text-transform $ios-button-text-transform
+  /**
+   * COLORS
+   */
+  for $name, $color in $colors
+    &.{$name}
+      color white
+      background-color $color
 
-    margin $ios-button-margin
-    padding $ios-button-padding
-    min-height $ios-button-min-height
-
-    font-weight $ios-button-font-weight
-    font-size $ios-button-font-size
-
-
-body.mat, body.ios
-  button, .quasar-button
-    &.clear
-      box-shadow none !important
-      background-color transparent !important
-      transition none
-
-    &.round
-      border-radius 64px
-      padding 0 2.6rem
-
-    &.raised
-      box-shadow $shadow-4
-      &:hover:not(.disabled)
-        box-shadow $shadow-6
       &:active:not(.disabled)
-        box-shadow $shadow-8
-
-    /**
-     * COLORS
-     */
-    for $name, $color in $colors
-      &.{$name}
-        color white
-        background-color $color
-
+        background-color activeColor($color)
+      &.inverted, &.outline
+        color $color
+        background-color transparent
         &:active:not(.disabled)
-          background-color activeColor($color)
-        &.inverted, &.outline
-          color $color
-          background-color transparent
-          &:active:not(.disabled)
-            color white
-            background-color $color
-        &.outline
-          border 1px solid $color
-        &.clear
-          color $color
-        &.clear:active:not(.disabled)
-          color activeColor($color)
+          color white
+          background-color $color
+      &.outline
+        border 1px solid $color
+      &.clear
+        color $color
+      &.clear:active:not(.disabled)
+        color activeColor($color)
 
-    &.light
-      color $dark !important
+  &.light
+    color $dark !important
 
-    /* circular shape */
-    &.circular
-      border-radius 50%
-      padding 0
-      height 56px
-      width 56px
-      font-size 20px
+  /* circular shape */
+  &.circular
+    border-radius 50%
+    padding 0
+    height 56px
+    width 56px
+    font-size 20px
+    line-height 18px
+    &.small
+      height 37px
+      width 37px
+      font-size 17px
       line-height 18px
-      &.small
-        height 37px
-        width 37px
-        font-size 17px
-        line-height 18px
-      &.big
-        height 72px
-        width 72px
-        line-height 32px
-        font-size 32px
+    &.big
+      height 72px
+      width 72px
+      line-height 32px
+      font-size 32px

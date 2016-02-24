@@ -1,8 +1,5 @@
 'use strict';
 
-require('../touch/hammer');
-require('../touch/prevent-ghosts');
-
 var
   customEvents = {},
   gestures = ['pan', 'pinch', 'press', 'rotate', 'swipe']

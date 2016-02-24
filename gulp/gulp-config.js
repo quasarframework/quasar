@@ -56,9 +56,22 @@ module.exports = {
       cache: true
     }
   },
+
   css: {
     watch: src + '/**/*.styl',
-    src: src + '/**/*.styl',
+    themes: {
+      ios: [
+        src + '/themes/common-core/*.styl',
+        src + '/themes/common-components/*.styl',
+        src + '/themes/ios/*.styl'
+      ],
+      mat: [
+        src + '/themes/common-core/*.styl',
+        src + '/themes/common-components/*.styl',
+        src + '/themes/mat/*.styl'
+      ]
+    },
+    lib: src + '/lib/**/*.styl',
     dest: dist + '/css'
   },
 
