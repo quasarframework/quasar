@@ -13,7 +13,7 @@ FastClick.attach(document.body);
 require('../environment/environment');
 
 $(function() {
-  var theme = $('html[ios]').length > 0 || quasar.runs.on.ios ? 'ios' : 'mat';
+  var theme = $('body').hasClass('ios') || quasar.runs.on.ios ? 'ios' : 'mat';
 
   $('head').append('<link data-theme rel="stylesheet" href="css/app.' + theme + '.css">');
 });

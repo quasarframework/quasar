@@ -12,17 +12,7 @@ $.extend(true, quasar, {
   },
   inject: {
     css: function(url) {
-      css.inject('global', url);
-    },
-    page: {
-      css: function(url) {
-        css.inject('page', url);
-      }
-    },
-    layout: {
-      css: function(url) {
-        css.inject('layout', url);
-      }
+      css.inject(url);
     }
   },
   clear: {
@@ -30,17 +20,7 @@ $.extend(true, quasar, {
       cache: script.clearCache
     },
     css: function() {
-      css.emptyNode('global');
-    },
-    page: {
-      css: function() {
-        css.emptyNode('page');
-      }
-    },
-    layout: {
-      css: function() {
-        css.emptyNode('layout');
-      }
+      css.clear();
     }
   }
 });

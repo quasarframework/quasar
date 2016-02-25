@@ -37,38 +37,63 @@ function injectNavigation(vue) {
   }
 }
 
-module.exports.layout = function(vue, done) {
-  var el = '#quasar-app';
+function destroyTemporaryPages() {
+  var destroyElement;
+
+  Object.keys(quasar.page).forEach(function(page) {
+    if (page.indexOf('--') > 0) {
+      destroyElement = $(quasar.page[page].vm.$el).parent();
+      quasar.page[page].vm.$destroy();
+      destroyElement.remove();
+    }
+  });
+}
+
+module.exports.layout = function(vue, context, done) {
+  var
+    el = '#quasar-app',
+    container = $(el)
+    ;
 
   if (quasar.page.length > 0) {
     Object.keys(quasar.page).forEach(function(page) {
-      quasar.page[page].vm.$destroy(true);
+      quasar.page[page].vm.$destroy();
     });
   }
   if (quasar.layout.vm) {
     quasar.layout.vm.$destroy();
   }
 
-  if (Object.keys(vue).length === 0) {
+  container.removeClass();
+
+  if (!context.manifest.layout) {
     delete quasar.layout.vm;
-    $(el).html('<div class="quasar-pages"></div>');
+    container.html('');
     done && done();
     return;
   }
 
+  container.addClass('layout-' + context.manifest.layout);
   injectNavigation(vue);
 
   quasar.layout.vm = new Vue(injectVue(vue, el, done));
 };
 
 module.exports.page = function(vue, context, done) {
+  destroyTemporaryPages();
+
+  if (!context.manifest.layout) {
+    $('#quasar-app').append('<div class="quasar-page page-' + context.identification + '"></div>');
+    quasar.page[context.identification].vm = new Vue(injectVue(vue, '#quasar-app > .quasar-page', done));
+    done && done();
+  }
+
   var
-    el = '[data-page="' + context.identification + '"]',
+    el = '.page-' + context.identification,
     container = $(el),
     pageContainers = $('.quasar-page-container'),
     newPage = $(
-      '<div class="quasar-page-container" data-page="' +
-      context.identification +
+      '<div class="quasar-page-container page-' + context.identification +
       '"><div class="quasar-page"></div></div>'
     );
 
@@ -81,7 +106,7 @@ module.exports.page = function(vue, context, done) {
   }
 
   pageContainers.css('display', 'none');
-  $('.quasar-pages').append(newPage);
+  $('#quasar-app .quasar-pages').append(newPage);
 
   quasar.page[context.identification].vm = new Vue(injectVue(vue, el + '> .quasar-page', done));
 };

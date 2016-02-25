@@ -3,12 +3,17 @@
 var
   request = require('./assets/request-assets'),
   prepare = require('./assets/prepare-assets'),
-  render = require('./assets/render-assets'),
-  injectCSS = require('./assets/inject-css')
+  render = require('./assets/render-assets')
   ;
 
+function injectCSS(manifest) {
+  if (manifest && manifest.css) {
+    quasar.inject.css(manifest.css);
+  }
+}
+
 function renderVue(context, pageVue, layoutVue) {
-  injectCSS('page', context.manifest);
+  injectCSS(context.manifest);
 
   // if layout hasn't changed...
   if (layoutVue === false) {
@@ -25,9 +30,9 @@ function renderVue(context, pageVue, layoutVue) {
     return;
   }
 
-  injectCSS('layout', quasar.data.manifest.layouts[context.manifest.layout]);
+  injectCSS(quasar.data.manifest.layouts[context.manifest.layout]);
   quasar.events.trigger('app:layout:post-prepare app:layout:render app:page:post-prepare', context);
-  render.layout(layoutVue, function() {
+  render.layout(layoutVue, context, function() {
     quasar.events.trigger('app:layout:post-render app:layout:ready app:page:render', context);
     render.page(pageVue, context, function() {
       quasar.events.trigger('app:page:post-render app:page:ready', context);
@@ -116,14 +121,13 @@ function registerRoutes(appManifest) {
         trigger: function() {
           var route = this;
 
-          console.log(pageName + (hash ? hash : ''));
           startRoute(pageManifest, {
             params: route.params,
             query: route.query,
             name: pageName,
             route: hash,
             manifest: pageManifest,
-            identification: pageName + (hash ? hash : '')
+            identification: pageName + (hash.length && hash != '$' ? '--' + hash : '')
           });
         }
       });

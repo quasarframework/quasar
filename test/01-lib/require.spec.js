@@ -350,77 +350,34 @@ describe('Require', function() {
   describe('CSS', function() {
 
     var url = '/my-bogus-url.css';
+    var element = $('#__quasar_css');
 
-    describe('global', function() {
-      var element = $('#__quasar_global_css');
-
-      it('should guarantee DOM element for global CSS injecting', function() {
-        expect(element).to.have.length(1);
-      });
-
-      it('should be able to inject global CSS', function() {
-        quasar.inject.css(url);
-        expect(element.children()).to.have.length(1);
-
-        var el = $(element.children()[0]);
-
-        expect(el.attr('href')).to.equal(url);
-        expect(el.attr('rel')).to.equal('stylesheet');
-        expect(el.attr('type')).to.equal('text/css');
-      });
-
-      it('should be able to empty global CSS element', function() {
-        expect(element.children()).to.have.length(1);
-        quasar.clear.css();
-        expect(element.children()).to.have.length(0);
-      });
-
-      it('should not inject global duplicate CSS', function() {
-        quasar.clear.css();
-        quasar.inject.css(url);
-        quasar.inject.css(url);
-        expect(element.children()).to.have.length(1);
-      });
+    it('should guarantee DOM element for global CSS injecting', function() {
+      expect(element).to.have.length(1);
     });
 
-    ['page', 'layout'].forEach(function(type) {
-      describe(type, function() {
-        var cssNode = $('#__quasar_' + type + '_css');
+    it('should be able to inject global CSS', function() {
+      quasar.inject.css(url);
+      expect(element.children()).to.have.length(1);
 
-        quasar.layout = {
-          vm: {
-            $el: 'body'
-          }
-        };
+      var el = $(element.children()[0]);
 
-        after(function() {
-          quasar.page = {};
-        });
+      expect(el.attr('href')).to.equal(url);
+      expect(el.attr('rel')).to.equal('stylesheet');
+      expect(el.attr('type')).to.equal('text/css');
+    });
 
-        it('should be able to inject ' + type + ' CSS', function() {
-          quasar.inject[type].css(url);
-          expect(cssNode.children()).to.have.length(1);
+    it('should be able to empty global CSS element', function() {
+      expect(element.children()).to.have.length(1);
+      quasar.clear.css();
+      expect(element.children()).to.have.length(0);
+    });
 
-          var el = $(cssNode.children()[0]);
-
-          expect(el.attr('href')).to.equal(url);
-          expect(el.attr('rel')).to.equal('stylesheet');
-          expect(el.attr('type')).to.equal('text/css');
-        });
-
-        it('should be able to empty ' + type + ' CSS element', function() {
-          expect(cssNode.children()).to.have.length(1);
-          quasar.clear[type].css();
-          expect(cssNode.children()).to.have.length(0);
-        });
-
-        it('should not inject ' + type + ' duplicate CSS', function() {
-          quasar.clear[type].css();
-          quasar.inject[type].css(url);
-          quasar.inject[type].css(url);
-          expect(cssNode.children()).to.have.length(1);
-        });
-      });
+    it('should not inject global duplicate CSS', function() {
+      quasar.clear.css();
+      quasar.inject.css(url);
+      quasar.inject.css(url);
+      expect(element.children()).to.have.length(1);
     });
 
   });

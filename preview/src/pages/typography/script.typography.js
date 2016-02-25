@@ -46,7 +46,6 @@ module.exports = {
     }
   },
   ready: function() {
-    console.log('Page index ready');
     quasar.add.fab({
       icon: 'mail',
       class: 'secondary',

@@ -68,8 +68,6 @@
       quasar.clear.requests.cache();
       quasar.clear.require.cache();
       quasar.clear.css();
-      quasar.clear.page.css();
-      quasar.clear.layout.css();
       quasar.data.manifest = {pages: {}, layouts: {}};
       quasar.layout = {};
       quasar.page = {};

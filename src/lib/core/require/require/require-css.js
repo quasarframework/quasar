@@ -1,7 +1,5 @@
 'use strict';
 
-var cssNodes = {};
-
 function createNode(options) {
   /* istanbul ignore next */
   options = options || {};
@@ -27,13 +25,7 @@ function createNode(options) {
   return node;
 }
 
-function getNodeBy(type) {
-  return cssNodes[type];
-}
-
-function injectCSS(type, url) {
-  var node = getNodeBy(type);
-
+function injectCSS(url) {
   if (node.find('[href="' + url + '"]').length > 0) {
     // we don't inject duplicates
     return;
@@ -48,20 +40,18 @@ function injectCSS(type, url) {
   });
 }
 
-function emptyNode(type) {
-  getNodeBy(type).empty();
+function clear() {
+  node.empty();
 }
 
 
-['global', 'layout', 'page'].forEach(function(type) {
-  cssNodes[type] = createNode({
-    tag: 'div',
-    id: '__quasar_' + type + '_css',
-    appendTo: $('body')
-  });
+var node = createNode({
+  tag: 'div',
+  id: '__quasar_css',
+  appendTo: $('body')
 });
 
 module.exports = {
   inject: injectCSS,
-  emptyNode: emptyNode
+  clear: clear
 };
