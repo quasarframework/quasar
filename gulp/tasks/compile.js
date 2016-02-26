@@ -3,7 +3,9 @@
 ['js', 'css'].forEach(function(type) {
   gulp.task(type + ':lint', function() {
     return gulp.src(config.lint[type])
-      .pipe(plugins.pipes[type].lint());
+      .pipe(plugins.pipes[type].lint({
+        fail: config.bailOnError
+      }));
   });
 });
 
@@ -12,12 +14,19 @@
  */
 
 function compile(production) {
-  return gulp.src(config.js.src)
+  var pipe = gulp.src(config.js.src)
     .pipe(plugins.pipes.js.compile({
       prod: production,
       pack: config.js.webpack
-    }))
-    .pipe(plugins.rename('quasar.' + (production ? 'min.' : '') + 'js'))
+    }));
+
+  if (config.bailOnError) {
+    pipe.on('error', function() {
+      process.exit(1);
+    });
+  }
+
+  return pipe.pipe(plugins.rename('quasar.' + (production ? 'min.' : '') + 'js'))
     .pipe(gulp.dest(config.js.dest));
 }
 

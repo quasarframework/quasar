@@ -8,6 +8,7 @@ var
   ;
 
 module.exports = {
+  bailOnError: true, // automatically becomes false on preview
   clean: [build, dist, 'coverage'],
 
   deps: {

@@ -46,8 +46,14 @@ function launch(args, done) {
       console.log('\n!!! You need quasar-cli installed (npm install -g quasar-cli) !!!\n');
       process.exit(1);
     })
-    .on('close', function() {
+    .on('close', function(code) {
       done();
+
+      if (code) {
+        console.log(plugins.util.colors.red('\n!!! [FAILURE] Quasar CLI errored out. Check for code errors above. Bailing !!!\n'));
+      }
+
+      process.exit(code);
     });
 }
 
@@ -58,6 +64,7 @@ function launch(args, done) {
   var cmd = type === 'prod' ? ['-p'] : [];
 
   gulp.task('monitor' + suffix, [type], function() {
+    config.bailOnError = false;
     watchForChanges(type === 'prod');
   });
   gulp.task('preview' + suffix, ['monitor' + suffix], function(done) {
