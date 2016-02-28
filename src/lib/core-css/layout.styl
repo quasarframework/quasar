@@ -1,29 +1,29 @@
 .layout
-  flexbox(flex)
+  display flex
   &.inline
-    flexbox(inline-flex)
+    display inline-flex
 
 .row
-  flexbox(flex)
-  flex-direction(row)
+  display flex
+  flex-direction row
   &.inline
-    flexbox(inline-flex)
+    display inline-flex
 .reverse-row
-  flexbox(flex)
-  flex-direction(row-reverse)
+  display flex
+  flex-direction row-reverse
   &.inline
-    flexbox(inline-flex)
+    display inline-flex
 
 .column
-  flexbox(flex)
-  flex-direction(column)
+  display flex
+  flex-direction column
   &.inline
-    flexbox(inline-flex)
+    display inline-flex
 .reverse-column
-  flexbox(flex)
-  flex-direction(column-reverse)
+  display flex
+  flex-direction column-reverse
   &.inline
-    flexbox(inline-flex)
+    display inline-flex
 
 .layout, .row, .column
   &.small-gutter
@@ -49,19 +49,19 @@
 
 for i in 0..10
   .order-{i}
-    order(i)
+    order i
   .grow-{i}
-    flex-grow(i)
+    flex-grow i
   .shrink-{i}
-    flex-shrink(i)
+    flex-shrink i
 
 .auto
-  flex(1 1 auto)
+  flex 1 1 auto
 
 for $cols in (1..5)
   for $parts in (1..$cols)
     &.width-{$parts}of{$cols}
-      flex(0 1 ($parts / $cols * 100)%)
+      flex 0 1 ($parts / $cols * 100)%
     &.offset-{$parts}of{$cols}
       margin-left ($parts / $cols * 100)%
 
@@ -70,59 +70,59 @@ for $cols in (1..5)
   display none
 
 .wrap
-  flex-wrap(wrap)
+  flex-wrap wrap
 .no-wrap
-  flex-wrap(nowrap)
+  flex-wrap nowrap
 .reverse-wrap
-  flex-wrap(wrap-reverse)
+  flex-wrap wrap-reverse
 
 +prefix-classes('justify-')
   &.start
-    justify-content(start)
+    justify-content start
   &.end
-    justify-content(end)
+    justify-content end
   &.center
-    justify-content(center)
+    justify-content center
   &.between
-    justify-content(space-between)
+    justify-content space-between
   &.around
-    justify-content(space-around)
+    justify-content space-around
 
 +prefix-classes('items-')
   &.start
-    align-items(start)
+    align-items start
   &.end
-    align-items(end)
+    align-items end
   &.center
-    align-items(center)
+    align-items center
   &.baseline
-    align-items(baseline)
+    align-items baseline
   &.stretch
-    align-items(stretch)
+    align-items stretch
 
 +prefix-classes('content-')
   &.start
-    align-content(start)
+    align-content start
   &.end
-    align-content(end)
+    align-content end
   &.center
-    align-content(center)
+    align-content center
   &.between
-    align-content(space-between)
+    align-content space-between
   &.around
-    align-content(space-around)
+    align-content space-around
 
 +prefix-classes('self-')
   &.start
-    align-self(start)
+    align-self start
   &.end
-    align-self(end)
+    align-self end
   &.center
-    align-self(center)
+    align-self center
   &.baseline
-    align-self(baseline)
+    align-self baseline
   &.stretch
-    align-self(stretch)
+    align-self stretch
 
 
 layout-media-query($type)
@@ -131,9 +131,9 @@ layout-media-query($type)
     &.inline
       display inline-block
     &.layout
-      flexbox(flex)
+      display flex
       &.inline
-        flexbox(inline-flex)
+        display inline-flex
 
   .{$type}-hide
     display none
@@ -144,38 +144,38 @@ layout-media-query($type)
   for $cols in (1..5)
     for $parts in (1..$cols)
       .{$type}-width-{$parts}of{$cols}
-        flex(0 1 ($parts / $cols * 100)%)
+        flex 0 1 ($parts / $cols * 100)%
       .{$type}-offset-{$parts}of{$cols}
         margin-left ($parts / $cols * 100)%
 
   for i in 1..10
     .{$type}-order-{i}
-      order(i)
+      order i
     .{$type}-grow-{i}
-      flex-grow(i)
+      flex-grow i
     .{$type}-shrink-{i}
-      flex-shrink(i)
+      flex-shrink i
 
   .{$type}-row
-    flexbox(flex)
-    flex-direction(row)
+    display flex
+    flex-direction row
     &.inline
-      flexbox(inline-flex)
+      display inline-flex
   .{$type}-reverse-row
-    flexbox(flex)
-    flex-direction(row-reverse)
+    display flex
+    flex-direction row-reverse
     &.inline
-      flexbox(inline-flex)
+      display inline-flex
   .{$type}-column
-    flexbox(flex)
-    flex-direction(column)
+    display flex
+    flex-direction column
     &.inline
-      flexbox(inline-flex)
+      display inline-flex
   .{$type}-reverse-column
-    flexbox(flex)
-    flex-direction(column-reverse)
+    display flex
+    flex-direction column-reverse
     &.inline
-      flexbox(inline-flex)
+      display inline-flex
 
   .layout, .row, .column
     &.{$type}-small-gutter

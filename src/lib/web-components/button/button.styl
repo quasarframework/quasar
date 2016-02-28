@@ -1,6 +1,13 @@
 button, .quasar-button
-  @extend .non-selectable, .row, .justify-center, .items-center
-  @extend .content-center, .no-wrap, .inline
+  @extend .non-selectable
+
+  display inline-flex
+  flex-direction row
+  justify-content center
+  align-items center
+  align-content center
+  flex-wrap nowrap
+  flex-shrink 0
 
   outline 0
   border 0
@@ -13,7 +20,6 @@ button, .quasar-button
   overflow hidden
   text-align center
   vertical-align middle
-  flex-shrink(0)
   background-color transparent
   line-height 1
   transition all .12s ease-in
