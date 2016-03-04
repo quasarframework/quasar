@@ -1,7 +1,4 @@
 
-$drawer-width = 250px
-$drawer-separator-color = #ECECEC
-
 .drawer
   position relative
   overflow-y none
@@ -9,71 +6,67 @@ $drawer-separator-color = #ECECEC
 .drawer-overlay
   display none
   z-index $z-drawer
-  background-color black
   &.active
     display block
-
-.drawer-content
-  z-index $z-drawer
-  will-change transform
-  background-color white
-  top 0
-  bottom 0
-  left 0
-  width $drawer-width
 
 .drawer-opener
   z-index $z-drawer
   height 100%
   width 15px
 
-.drawer-header
-  width 100%
-  padding 16px
-  margin-bottom 8px
-  background-color $primary
-  color white
-  i
-    cursor pointer
+.drawer-content
+  z-index $z-drawer
+  will-change transform
+  background-color $drawer-background-color
+  top 0
+  bottom 0
+  left 0
+  width $drawer-width
+  overflow auto
+  font-size $drawer-font-size
 
-.drawer-footer
-  @extend .fixed-bottom
-  width 100%
-  background-color white
-  border-top 2px solid $drawer-separator-color
+  .divider
+    margin 8px 0
+    height 1px
+    background-color $drawer-separator-color
+    border 0
+    padding 0
+
+  .title
+    @extend .row, .items-center
+    color $drawer-title-color
+    font-weight 500
+
+  .drawer-link, .title
+    height 48px
+    padding 8px 10px
+
+
+
+.drawer-toggle
+  cursor pointer
 
 .drawer-link
   cursor pointer
   transition all .3s
   line-height 32px
+  background-color $drawer-link-background-color
   i
-    color lighten(black, 45%)
+    color $drawer-link-text-color
     margin-right 15px
-    font-size 1.8em
+    font-size $drawer-icon-font-size
   &:hover
-    background-color $grey-3
+    background-color $drawer-link-hover-background-color
   &.active
-    background-color $grey-4
+    background-color $drawer-link-active-background-color
 
-.drawer-divider
-  margin 8px 0
-  height 1px
-  background-color $drawer-separator-color
-  border 0
-  padding 0
-.drawer-title
-  color lighten(black, 45%)
-  font-weight 500
-
-.drawer-link, .drawer-title
-  height 48px
-  padding 8px 16px
-  font-size 14px
 
 @media screen and (max-width: $layout-small-max)
   .drawer-content
     position fixed
     transform translateX(- $drawer-width)
+    box-shadow $drawer-shadow
+    padding $drawer-padding
 
 @media screen and (min-width: $layout-medium-min)
   .drawer-toggle
@@ -84,4 +77,3 @@ $drawer-separator-color = #ECECEC
     right 0
     position absolute !important
     transform translateX(0) !important
-    overflow auto

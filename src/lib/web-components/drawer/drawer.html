@@ -3,7 +3,7 @@
   <template id="drawer">
     <div class="drawer">
       <div class="drawer-opener fixed-left" v-touch:pan-x="openByTouch">&nbsp;</div>
-      <div class="drawer-overlay overlay" @click="close()"></div>
+      <div class="drawer-overlay overlay" @click="close()" v-touch:pan-x="closeByTouch"></div>
       <div class="drawer-content" v-touch:pan-x="closeByTouch">
         <slot></slot>
       </div>
@@ -24,10 +24,6 @@
       <i v-if="icon">{{icon}}</i>
       {{label}}
     </div>
-  </template>
-
-  <template id="drawer-title">
-    <div class="drawer-title row items-center"><slot></slot></div>
   </template>
 
 </templates>

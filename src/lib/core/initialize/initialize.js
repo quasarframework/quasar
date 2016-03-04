@@ -13,12 +13,19 @@ FastClick.attach(document.body);
 require('../environment/environment');
 
 $(function() {
-  var theme = $('body').hasClass('ios') || quasar.runs.on.ios ? 'ios' : 'mat';
+  if ($('body').hasClass('ios')) {
+    quasar.runs.on.ios = true;
+  }
+
+  var theme = quasar.runs.on.ios ? 'ios' : 'mat';
 
   $('head').append('<link data-theme rel="stylesheet" href="css/app.' + theme + '.css">');
 });
 
 function forceTheme(theme) {
+  if (theme === 'ios') {
+    quasar.runs.on.ios = true;
+  }
   $('head link[data-theme]').remove();
   $('head').append('<link data-theme rel="stylesheet" href="css/app.' + theme + '.css">');
 }

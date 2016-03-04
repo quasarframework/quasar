@@ -1,6 +1,7 @@
 'use strict';
 
 var
+  body = $('body'),
   template = $(require('raw!./drawer.html')),
   drawerAnimationSpeed = 200,
   overlayOpacity = .7,
@@ -8,18 +9,241 @@ var
   drawerWidth = 250
   ;
 
-['header', 'title'].forEach(function(type) {
-  Vue.component('drawer-' + type, {
-    template: template.find('#drawer-' + type).html()
-  });
-});
+/* istanbul ignore next */
+function getCurrentPosition(node) {
+  var transform = node.css('transform');
 
-Vue.elementDirective('drawer-divider', {
-  template: '<div class="drawer-divider"></div>'
-});
+  return transform !== 'none' ? parseInt(transform.split(/[()]/)[1].split(', ')[4], 10) : 0;
+}
 
-Vue.component('drawer-footer', {
-  template: '<div class="drawer-footer"><slot></slot></div>'
+/* istanbul ignore next */
+function matToggleAnimate(open, node, overlay, percentage, done) {
+  var currentPosition = getCurrentPosition(node);
+
+  node.velocity('stop').velocity(
+    {translateX: open ? [0, currentPosition] : [-drawerWidth, currentPosition]},
+    {duration: !open || currentPosition !== 0 ? drawerAnimationSpeed : 0}
+  );
+
+  if (open) {
+    overlay.addClass('active');
+  }
+
+  overlay
+  .css('background-color', 'rgba(0,0,0,' + percentage * overlayOpacity + ')')
+  .velocity('stop')
+  .velocity(
+    {
+      'backgroundColor': '#000',
+      'backgroundColorAlpha': open ? overlayOpacity : .01
+    },
+    {
+      duration: drawerAnimationSpeed,
+      complete: function() {
+        if (!open) {
+          overlay.removeClass('active');
+          $(window).off('resize', quasar.drawer.close);
+        }
+        else {
+          $(window).resize(quasar.drawer.close);
+        }
+        if (typeof done === 'function') {
+          done();
+        }
+      }
+    }
+  );
+}
+
+/* istanbul ignore next */
+function iosToggleAnimate(open, overlay, done) {
+  if (open) {
+    overlay.addClass('active');
+  }
+
+  var currentPosition = getCurrentPosition(body);
+
+  body.velocity('stop').velocity(
+    {translateX: open ? [drawerWidth, currentPosition] : [0, currentPosition]},
+    {
+      duration: !open || currentPosition !== drawerWidth ? drawerAnimationSpeed : 0,
+      complete: function() {
+        if (!open) {
+          overlay.removeClass('active');
+          $(window).off('resize', quasar.drawer.close);
+        }
+        else {
+          $(window).resize(quasar.drawer.close);
+        }
+        if (typeof done === 'function') {
+          done();
+        }
+      }
+    }
+  );
+}
+
+/* istanbul ignore next */
+function openByTouch(event) {
+  if ($(window).width() >= widthBreakpoint) {
+    return;
+  }
+
+  var
+    position = event.center.x,
+    overlay = $(this.$el).find('> .drawer-overlay')
+    ;
+
+  if (event.isFinal) {
+    this.opened = event.center.x > 75;
+  }
+
+  if (quasar.runs.on.ios) {
+    position = Math.min(event.center.x, drawerWidth);
+
+    if (event.isFinal) {
+      iosToggleAnimate(this.opened, overlay);
+      return;
+    }
+    body.css({
+      'transform': 'translateX(' + position + 'px)'
+    });
+  }
+  else { // mat
+    position = Math.min(0, position - drawerWidth);
+    var
+      content = $(this.$el).find('> .drawer-content'),
+      percentage = (drawerWidth - Math.abs(position)) / drawerWidth
+      ;
+
+    if (event.isFinal) {
+      matToggleAnimate(this.opened, content, overlay, percentage);
+      return;
+    }
+    content.css({
+      'transform': 'translateX(' + position + 'px)'
+    });
+    overlay
+      .addClass('active')
+      .css('background-color', 'rgba(0,0,0,' + percentage * overlayOpacity + ')');
+  }
+}
+
+/* istanbul ignore next */
+function closeByTouch(event) {
+  if ($(window).width() >= widthBreakpoint) {
+    return;
+  }
+
+  var
+    position = event.deltaX,
+    overlay = $(this.$el).find('> .drawer-overlay')
+    ;
+
+  if (position > 0) {
+    position = 0;
+  }
+  else if (position < - drawerWidth) {
+    position = - drawerWidth;
+  }
+
+  if (event.isFinal) {
+    this.opened = Math.abs(position) <= 75;
+  }
+
+  if (quasar.runs.on.ios) {
+    position = drawerWidth + position;
+
+    if (event.isFinal) {
+      iosToggleAnimate(this.opened, overlay);
+      return;
+    }
+    body.css({
+      'transform': 'translateX(' + position + 'px)'
+    });
+  }
+  else { // mat
+    var
+      content = $(this.$el).find('> .drawer-content'),
+      percentage = position < 0 ? 1 + position / drawerWidth : 1
+      ;
+
+    if (event.isFinal) {
+      matToggleAnimate(this.opened, content, overlay, percentage);
+      return;
+    }
+    content.css({
+      'transform': 'translateX(' + position + 'px)',
+    });
+    overlay.css('background-color', 'rgba(0,0,0,' + percentage * overlayOpacity + ')');
+  }
+}
+
+Vue.component('drawer', {
+  template: template.find('#drawer').html(),
+  data: function() {
+    return {
+      opened: false
+    };
+  },
+  methods: {
+    openByTouch: function(event) {
+      openByTouch.call(this, event);
+    },
+    closeByTouch: function(event) {
+      closeByTouch.call(this, event);
+    },
+    toggle: /* istanbul ignore next */ function(state, done) {
+      if (typeof state === 'boolean' && this.opened === state) {
+        if (typeof done === 'function') {
+          done();
+        }
+        return;
+      }
+
+      this.opened = !this.opened;
+      var overlay = $(this.$el).find('> .drawer-overlay');
+
+      if (quasar.runs.on.ios) {
+        iosToggleAnimate(
+          this.opened,
+          overlay,
+          done
+        );
+      }
+      else {
+        matToggleAnimate(
+          this.opened,
+          $(this.$el).find('> .drawer-content'),
+          overlay,
+          this.opened ? .01 : 1,
+          done
+        );
+      }
+    },
+    open: /* istanbul ignore next */ function(done) {
+      this.toggle(true, done);
+    },
+    close: /* istanbul ignore next */ function(done) {
+      this.toggle(false, done);
+    }
+  },
+  ready: function() {
+    var
+      el = $(this.$el),
+      content = el.find('> .drawer-content')
+      ;
+
+   /* istanbul ignore next */
+    el.parents('.quasar-screen').find('.drawer-toggle').click(function() {
+      this.toggle();
+    }.bind(this));
+
+    quasar.drawer = this;
+  },
+  destroy: function() {
+    delete quasar.drawer;
+  }
 });
 
 Vue.component('drawer-link', {
@@ -75,148 +299,5 @@ Vue.component('drawer-link', {
     if (this.page) {
       quasar.events.off('app:page:ready', this.gc.onPageChange);
     }
-  }
-});
-
-
-/* istanbul ignore next */
-function toggleAnimate(open, node, overlay, percentage, currentPosition, width, done) {
-  node.velocity(
-    {translateX: open ? [0, currentPosition] : [-width, currentPosition]},
-    {duration: drawerAnimationSpeed}
-  );
-
-  if (open) {
-    overlay.addClass('active');
-  }
-
-  overlay
-  .css('background-color', 'rgba(0,0,0,' + percentage * overlayOpacity + ')')
-  .velocity(
-    {
-      'backgroundColor': '#000',
-      'backgroundColorAlpha': open ? overlayOpacity : .01
-    },
-    {
-      duration: drawerAnimationSpeed,
-      complete: function() {
-        if (!open) {
-          overlay.removeClass('active');
-          $(window).off('resize', quasar.drawer.close);
-        }
-        else {
-          $(window).resize(quasar.drawer.close);
-        }
-        if (typeof done === 'function') {
-          done();
-        }
-      }
-    }
-  );
-}
-
-Vue.component('drawer', {
-  template: template.find('#drawer').html(),
-  data: function() {
-    return {
-      opened: false
-    };
-  },
-  methods: {
-    openByTouch: /* istanbul ignore next */ function(event) {
-      if ($(window).width() >= widthBreakpoint) {
-        return;
-      }
-
-      var
-        content = $(this.$el).find('> .drawer-content'),
-        overlay = $(this.$el).find('> .drawer-overlay'),
-        position = Math.min(0, event.center.x - drawerWidth),
-        percentage = (drawerWidth - Math.abs(position)) / drawerWidth
-        ;
-
-      if (event.isFinal) {
-        this.opened = event.center.x > 75;
-        toggleAnimate(this.opened, content, overlay, percentage, position, drawerWidth);
-        return;
-      }
-
-      content.css({
-        'transform': 'translateX(' + position + 'px)',
-      });
-      overlay.addClass('active')
-        .css('background-color', 'rgba(0,0,0,' + percentage * overlayOpacity + ')');
-    },
-    closeByTouch: /* istanbul ignore next */ function(event) {
-      if ($(window).width() >= widthBreakpoint) {
-        return;
-      }
-
-      var
-        content = $(this.$el).find('> .drawer-content'),
-        overlay = $(this.$el).find('> .drawer-overlay'),
-        position = event.deltaX,
-        percentage = position < 0 ? 1 + position / drawerWidth : 1
-        ;
-
-      if (position > 0) {
-        position = 0;
-      }
-      else if (position < - drawerWidth) {
-        position = - drawerWidth;
-      }
-
-      if (event.isFinal) {
-        this.opened = Math.abs(position) <= 75;
-        toggleAnimate(this.opened, content, overlay, percentage, position, drawerWidth);
-        return;
-      }
-
-      content.css({
-        'transform': 'translateX(' + position + 'px)',
-      });
-      overlay.css('background-color', 'rgba(0,0,0,' + percentage * overlayOpacity + ')');
-    },
-    toggle: /* istanbul ignore next */ function(state, done) {
-      if (typeof state === 'boolean' && this.opened === state) {
-        if (typeof done === 'function') {
-          done();
-        }
-        return;
-      }
-
-      this.opened = !this.opened;
-      toggleAnimate(
-        this.opened,
-        $(this.$el).find('> .drawer-content'),
-        $(this.$el).find('> .drawer-overlay'),
-        this.opened ? .01 : 1,
-        (this.opened ? -1 : 0) * drawerWidth,
-        drawerWidth,
-        done
-      );
-    },
-    open: /* istanbul ignore next */ function(done) {
-      this.toggle(true, done);
-    },
-    close: /* istanbul ignore next */ function(done) {
-      this.toggle(false, done);
-    }
-  },
-  ready: function() {
-    var
-      el = $(this.$el),
-      content = el.find('> .drawer-content')
-      ;
-
-   /* istanbul ignore next */
-    el.parents('.quasar-screen').find('.drawer-toggle').click(function() {
-      this.toggle();
-    }.bind(this));
-
-    quasar.drawer = this;
-  },
-  destroy: function() {
-    delete quasar.drawer;
   }
 });
