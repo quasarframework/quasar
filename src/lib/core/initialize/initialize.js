@@ -12,23 +12,22 @@ FastClick.attach(document.body);
  */
 require('../environment/environment');
 
-$(function() {
-  if ($('body').hasClass('ios')) {
-    quasar.runs.on.ios = true;
-  }
-
-  var theme = quasar.runs.on.ios ? 'ios' : 'mat';
-
-  $('head').append('<link data-theme rel="stylesheet" href="css/app.' + theme + '.css">');
-});
-
 function forceTheme(theme) {
   if (theme === 'ios') {
     quasar.runs.on.ios = true;
+    quasar.runs.on.android = false;
   }
   $('head link[data-theme]').remove();
   $('head').append('<link data-theme rel="stylesheet" href="css/app.' + theme + '.css">');
 }
+
+$(function() {
+  var body = $('body');
+
+  forceTheme(body.hasClass('ios') || quasar.runs.on.ios ? 'ios' : 'mat');
+  body.addClass(quasar.runs.on.desktop ? 'desktop' : 'mobile');
+  body.addClass(quasar.runs.with.touch ? 'touch' : 'no-touch');
+});
 
 /*
  * Inject Globals

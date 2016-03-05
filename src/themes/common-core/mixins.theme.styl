@@ -1,17 +1,17 @@
 activeColor($color)
-  if luminosity($color) > 0.29
+  if luminosity($color) > .29
     darken($color, 10%)
   else
     lighten($color, 30%)
 
 strongActiveColor($color)
-  if luminosity($color) > 0.29
+  if luminosity($color) > .29
     darken($color, 20%)
   else
     lighten($color, 80%)
 
 upsideColor($color)
-  if luminosity($color) > 0.49
+  if luminosity($color) > .49
     black
   else
     white

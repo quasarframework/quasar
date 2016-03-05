@@ -17,15 +17,18 @@ function getCurrentPosition(node) {
 }
 
 /* istanbul ignore next */
-function matToggleAnimate(open, node, overlay, percentage, done) {
-  var currentPosition = getCurrentPosition(node);
+function matToggleAnimate(onRightSide, opening, node, overlay, percentage, done) {
+  var
+    currentPosition = getCurrentPosition(node),
+    closePosition = (onRightSide ? 1 : -1) * drawerWidth
+    ;
 
   node.velocity('stop').velocity(
-    {translateX: open ? [0, currentPosition] : [-drawerWidth, currentPosition]},
-    {duration: !open || currentPosition !== 0 ? drawerAnimationSpeed : 0}
+    {translateX: opening ? [0, currentPosition] : [closePosition, currentPosition]},
+    {duration: !opening || currentPosition !== 0 ? drawerAnimationSpeed : 0}
   );
 
-  if (open) {
+  if (opening) {
     overlay.addClass('active');
   }
 
@@ -35,17 +38,17 @@ function matToggleAnimate(open, node, overlay, percentage, done) {
   .velocity(
     {
       'backgroundColor': '#000',
-      'backgroundColorAlpha': open ? overlayOpacity : .01
+      'backgroundColorAlpha': opening ? overlayOpacity : .01
     },
     {
       duration: drawerAnimationSpeed,
       complete: function() {
-        if (!open) {
+        if (!opening) {
           overlay.removeClass('active');
-          $(window).off('resize', quasar.drawer.close);
+          $(window).off('resize', quasar.close.drawers);
         }
         else {
-          $(window).resize(quasar.drawer.close);
+          $(window).resize(quasar.close.drawers);
         }
         if (typeof done === 'function') {
           done();
@@ -56,24 +59,27 @@ function matToggleAnimate(open, node, overlay, percentage, done) {
 }
 
 /* istanbul ignore next */
-function iosToggleAnimate(open, overlay, done) {
-  if (open) {
+function iosToggleAnimate(onRightSide, opening, overlay, done) {
+  if (opening) {
     overlay.addClass('active');
   }
 
-  var currentPosition = getCurrentPosition(body);
+  var
+    currentPosition = getCurrentPosition(body),
+    openPosition = (onRightSide ? -1 : 1) * drawerWidth
+    ;
 
   body.velocity('stop').velocity(
-    {translateX: open ? [drawerWidth, currentPosition] : [0, currentPosition]},
+    {translateX: opening ? [openPosition, currentPosition] : [0, currentPosition]},
     {
-      duration: !open || currentPosition !== drawerWidth ? drawerAnimationSpeed : 0,
+      duration: !opening || currentPosition !== openPosition ? drawerAnimationSpeed : 0,
       complete: function() {
-        if (!open) {
+        if (!opening) {
           overlay.removeClass('active');
-          $(window).off('resize', quasar.drawer.close);
+          $(window).off('resize', quasar.close.drawers);
         }
         else {
-          $(window).resize(quasar.drawer.close);
+          $(window).resize(quasar.close.drawers);
         }
         if (typeof done === 'function') {
           done();
@@ -90,34 +96,40 @@ function openByTouch(event) {
   }
 
   var
-    position = event.center.x,
+    position = Math.abs(event.deltaX),
     overlay = $(this.$el).find('> .drawer-overlay')
     ;
 
   if (event.isFinal) {
-    this.opened = event.center.x > 75;
+    this.opened = position > 75;
   }
 
   if (quasar.runs.on.ios) {
-    position = Math.min(event.center.x, drawerWidth);
+    position = Math.min(position, drawerWidth);
 
     if (event.isFinal) {
-      iosToggleAnimate(this.opened, overlay);
+      iosToggleAnimate(this.rightSide, this.opened, overlay);
       return;
     }
     body.css({
-      'transform': 'translateX(' + position + 'px)'
+      'transform': 'translateX(' + (this.rightSide ? -1 : 1) * position + 'px)'
     });
   }
   else { // mat
-    position = Math.min(0, position - drawerWidth);
+    if (this.rightSide) {
+      position = Math.max(drawerWidth - position, 0);
+    }
+    else {
+      position = Math.min(0, position - drawerWidth);
+    }
+
     var
       content = $(this.$el).find('> .drawer-content'),
       percentage = (drawerWidth - Math.abs(position)) / drawerWidth
       ;
 
     if (event.isFinal) {
-      matToggleAnimate(this.opened, content, overlay, percentage);
+      matToggleAnimate(this.rightSide, this.opened, content, overlay, percentage);
       return;
     }
     content.css({
@@ -130,32 +142,39 @@ function openByTouch(event) {
 }
 
 /* istanbul ignore next */
+function getBetween(value, min, max) {
+  if (value < min) {
+    return min;
+  }
+
+  if (value > max) {
+    return max;
+  }
+
+  return value;
+}
+
+/* istanbul ignore next */
 function closeByTouch(event) {
   if ($(window).width() >= widthBreakpoint) {
     return;
   }
 
   var
-    position = event.deltaX,
+    position = this.rightSide ? getBetween(event.deltaX, 0, drawerWidth) : getBetween(event.deltaX, -drawerWidth, 0),
+    initialPosition = (this.rightSide ? - 1 : 1) * drawerWidth,
     overlay = $(this.$el).find('> .drawer-overlay')
     ;
-
-  if (position > 0) {
-    position = 0;
-  }
-  else if (position < - drawerWidth) {
-    position = - drawerWidth;
-  }
 
   if (event.isFinal) {
     this.opened = Math.abs(position) <= 75;
   }
 
   if (quasar.runs.on.ios) {
-    position = drawerWidth + position;
+    position = initialPosition + position;
 
     if (event.isFinal) {
-      iosToggleAnimate(this.opened, overlay);
+      iosToggleAnimate(this.rightSide, this.opened, overlay);
       return;
     }
     body.css({
@@ -165,11 +184,11 @@ function closeByTouch(event) {
   else { // mat
     var
       content = $(this.$el).find('> .drawer-content'),
-      percentage = position < 0 ? 1 + position / drawerWidth : 1
+      percentage = 1 + (this.rightSide ? -1 : 1) * position / drawerWidth
       ;
 
     if (event.isFinal) {
-      matToggleAnimate(this.opened, content, overlay, percentage);
+      matToggleAnimate(this.rightSide, this.opened, content, overlay, percentage);
       return;
     }
     content.css({
@@ -181,6 +200,15 @@ function closeByTouch(event) {
 
 Vue.component('drawer', {
   template: template.find('#drawer').html(),
+  props: {
+    'right-side': {
+      type: Boolean,
+      default: false,
+      coerce: function(value) {
+        return value ? true : false;
+      }
+    }
+  },
   data: function() {
     return {
       opened: false
@@ -206,6 +234,7 @@ Vue.component('drawer', {
 
       if (quasar.runs.on.ios) {
         iosToggleAnimate(
+          this.rightSide,
           this.opened,
           overlay,
           done
@@ -213,6 +242,7 @@ Vue.component('drawer', {
       }
       else {
         matToggleAnimate(
+          this.rightSide,
           this.opened,
           $(this.$el).find('> .drawer-content'),
           overlay,
@@ -235,14 +265,33 @@ Vue.component('drawer', {
       ;
 
    /* istanbul ignore next */
-    el.parents('.quasar-screen').find('.drawer-toggle').click(function() {
+    el.parents('.quasar-screen').find('.' + (this.rightSide ? 'right' : 'left') + '-drawer-toggle').click(function() {
       this.toggle();
     }.bind(this));
 
-    quasar.drawer = this;
+    quasar[(this.rightSide ? 'right' : 'left') + 'Drawer'] = this;
   },
   destroy: function() {
-    delete quasar.drawer;
+    delete quasar[(this.rightSide ? 'right' : 'left') + 'Drawer'];
+  }
+});
+
+$.extend(true, quasar, {
+  close: {
+    drawers: function(fn) {
+      if (quasar.leftDrawer && quasar.leftDrawer.opened) {
+        quasar.leftDrawer.close(fn);
+        return;
+      }
+      if (quasar.rightDrawer && quasar.rightDrawer.opened) {
+        quasar.rightDrawer.close(fn);
+        return;
+      }
+
+      if (typeof fn === 'function') {
+        fn();
+      }
+    }
   }
 });
 
@@ -256,7 +305,7 @@ Vue.component('drawer-link', {
   },
   methods: {
     execute: function() {
-      quasar.drawer.close(function() {
+      quasar.close.drawers(function() {
         if (this.click) {
           this.click();
           return;
