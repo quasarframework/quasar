@@ -350,34 +350,44 @@ describe('Require', function() {
   describe('CSS', function() {
 
     var url = '/my-bogus-url.css';
-    var element = $('#__quasar_css');
+    var head = $('head');
 
-    it('should guarantee DOM element for global CSS injecting', function() {
-      expect(element).to.have.length(1);
+    it('should throw error when parameter missing', function() {
+      expect(function() {
+        quasar.inject.css();
+      }).to.throw(/Specify CSS URL when injecting/);
     });
 
-    it('should be able to inject global CSS', function() {
+    it('should be able to inject CSS', function() {
       quasar.inject.css(url);
-      expect(element.children()).to.have.length(1);
+      expect(head.find('[data-injected-css]')).to.have.length(1);
 
-      var el = $(element.children()[0]);
+      var el = $(head.find('[data-injected-css]')[0]);
 
       expect(el.attr('href')).to.equal(url);
       expect(el.attr('rel')).to.equal('stylesheet');
       expect(el.attr('type')).to.equal('text/css');
     });
 
-    it('should be able to empty global CSS element', function() {
-      expect(element.children()).to.have.length(1);
+    it('should be able to remove all injected CSS', function() {
+      expect(head.find('[data-injected-css]')).to.have.length(1);
       quasar.clear.css();
-      expect(element.children()).to.have.length(0);
+      expect(head.find('[data-injected-css]')).to.have.length(0);
     });
 
-    it('should not inject global duplicate CSS', function() {
+    it('should not inject duplicate CSS', function() {
       quasar.clear.css();
       quasar.inject.css(url);
       quasar.inject.css(url);
-      expect(element.children()).to.have.length(1);
+      expect(head.find('[data-injected-css]')).to.have.length(1);
+    });
+
+    it('should be able to inject multiple CSS', function() {
+      quasar.clear.css();
+      quasar.inject.css(url);
+      quasar.inject.css('/other.css');
+      quasar.inject.css(url);
+      expect(head.find('[data-injected-css]')).to.have.length(2);
     });
 
   });

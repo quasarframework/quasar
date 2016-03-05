@@ -11,9 +11,7 @@ $.extend(true, quasar, {
     script: script.require
   },
   inject: {
-    css: function(url) {
-      css.inject(url);
-    }
+    css: css.inject
   },
   clear: {
     require: {

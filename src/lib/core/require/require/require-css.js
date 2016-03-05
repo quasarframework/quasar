@@ -1,55 +1,28 @@
 'use strict';
 
-function createNode(options) {
-  /* istanbul ignore next */
-  options = options || {};
-
-  /* istanbul ignore next */
-  if (!options.tag) {
-    throw new Error('Please specify tag');
-  }
-
-  var tag = options.tag;
-  var appendTo = options.appendTo;
-
-  delete options.tag;
-  delete options.appendTo;
-
-  var node = $('<' + tag + '>', options);
-
-  /* istanbul ignore next */
-  if (appendTo) {
-    node.appendTo(appendTo);
-  }
-
-  return node;
-}
+var container = $('head');
 
 function injectCSS(url) {
-  if (node.find('[href="' + url + '"]').length > 0) {
+  if (!url) {
+    throw new Error('Specify CSS URL when injecting.');
+  }
+
+  if (container.find('[href="' + url + '"]').length > 0) {
     // we don't inject duplicates
     return;
   }
 
-  createNode({
-    tag: 'link',
-    appendTo: node,
+  $('<link>', {
     type: 'text/css',
     href: url,
-    rel: 'stylesheet'
-  });
+    rel: 'stylesheet',
+    'data-injected-css': true
+  }).appendTo(container);
 }
 
 function clear() {
-  node.empty();
+  container.find('[data-injected-css]').remove();
 }
-
-
-var node = createNode({
-  tag: 'div',
-  id: '__quasar_css',
-  appendTo: $('body')
-});
 
 module.exports = {
   inject: injectCSS,
