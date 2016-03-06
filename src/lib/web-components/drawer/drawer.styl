@@ -14,9 +14,6 @@
   height 100%
   width 15px
 
-body.desktop .drawer-opener
-  display none
-
 .drawer-content
   z-index $z-drawer
   will-change transform
@@ -67,8 +64,7 @@ body.desktop .drawer-opener
   &.active
     background-color $drawer-link-active-background-color
 
-
-@media screen and (max-width: $layout-small-max)
+swipe-behavior()
   .drawer-content
     position fixed
     &.left-side
@@ -78,13 +74,21 @@ body.desktop .drawer-opener
       transform translateX($drawer-width)
       box-shadow $drawer-shadow-right
 
+@media screen and (max-width: $layout-small-max)
+  swipe-behavior()
+
 @media screen and (min-width: $layout-medium-min)
   .left-drawer-toggle, .right-drawer-toggle
-    display none !important
+    &:not(.always-visible)
+      display none !important
   .drawer
-    flex 0 0 $drawer-width
-  .drawer-content
-    left 0
-    right 0
-    position absolute !important
-    transform translateX(0) !important
+    &.swipe-only
+      swipe-behavior()
+    &:not(.swipe-only)
+      flex 0 0 $drawer-width
+
+      .drawer-content
+        left 0
+        right 0
+        position absolute !important
+        transform translateX(0) !important

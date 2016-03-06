@@ -1,10 +1,10 @@
 <screen>
 
   <div slot="header" class="row items-center">
-    <i class="button left-drawer-toggle">menu</i>
+    <i class="btn left-drawer-toggle">menu</i>
     <p class="auto">Title</p>
-    <i class="button">more_vert</i>
-    <i class="button right-drawer-toggle">menu</i>
+    <i class="btn" v-exit-app>power_settings_new</i>
+    <i class="btn right-drawer-toggle">menu</i>
   </div>
 
   <drawer>
@@ -25,7 +25,7 @@
 
   <page class="smart-container"></page>
 
-  <drawer right-side>
+  <drawer right-side swipe-only>
     <div class="title">Right Side</div>
     <drawer-link page="index"></drawer-link>
     <drawer-link page="typography"></drawer-link>

@@ -22,11 +22,21 @@ function forceTheme(theme) {
 }
 
 $(function() {
-  var body = $('body');
+  var
+    body = $('body'),
+    list = []
+    ;
 
   forceTheme(body.hasClass('ios') || quasar.runs.on.ios ? 'ios' : 'mat');
-  body.addClass(quasar.runs.on.desktop ? 'desktop' : 'mobile');
-  body.addClass(quasar.runs.with.touch ? 'touch' : 'no-touch');
+
+  list.push(quasar.runs.on.desktop ? 'desktop' : 'mobile');
+  list.push(quasar.runs.with.touch ? 'touch' : 'no-touch');
+
+  if (quasar.runs.on.cordova) {
+    list.push('cordova');
+  }
+
+  body.addClass(list.join(' '));
 });
 
 /*

@@ -207,6 +207,13 @@ Vue.component('drawer', {
       coerce: function(value) {
         return value ? true : false;
       }
+    },
+    'swipe-only': {
+      type: Boolean,
+      default: false,
+      coerce: function(value) {
+        return value ? true : false;
+      }
     }
   },
   data: function() {
@@ -258,16 +265,21 @@ Vue.component('drawer', {
       this.toggle(false, done);
     }
   },
-  ready: function() {
+  ready: /* istanbul ignore next */ function() {
     var
       el = $(this.$el),
-      content = el.find('> .drawer-content')
+      content = el.find('> .drawer-content'),
+      toggles = el.parents('.quasar-screen').find('.' + (this.rightSide ? 'right' : 'left') + '-drawer-toggle')
       ;
 
-   /* istanbul ignore next */
-    el.parents('.quasar-screen').find('.' + (this.rightSide ? 'right' : 'left') + '-drawer-toggle').click(function() {
+    toggles.click(function() {
       this.toggle();
     }.bind(this));
+
+    if (this.swipeOnly) {
+      el.addClass('swipe-only');
+      toggles.addClass('always-visible');
+    }
 
     quasar[(this.rightSide ? 'right' : 'left') + 'Drawer'] = this;
   },

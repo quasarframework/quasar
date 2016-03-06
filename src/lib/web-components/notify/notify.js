@@ -97,7 +97,7 @@ function Notify(options) {
     }.bind(this));
   }
 
-  $('<a class="quasar-notifier-dismiss-all"><i>delete</i></a>')
+  $('<a class="quasar-notifier-dismiss-all"><i>delete_sweep</i></a>')
     .click(dismissAll)
     .appendTo(this.node);
 
