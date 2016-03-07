@@ -8,7 +8,7 @@ var
  * Quasar Page
  */
 
-Vue.component('quasar-screen', {
+Vue.component('screen', {
   ready: function() {
     var
       layout = $(this.$el),

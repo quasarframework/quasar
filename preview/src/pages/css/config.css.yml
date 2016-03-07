@@ -2,4 +2,4 @@ label: 'CSS Elements'
 icon: 'pages'
 layout: 'main'
 navigation:
-  group: 'main'
+  group: 'typography'

@@ -1,12 +1,16 @@
-<div class="quasar-screen overlay column full-height full-width">
-  <div class="quasar-screen-header non-selectable">
+<div class="screen overlay column full-height full-width">
+  <div class="screen-header non-selectable">
     <slot name="header"></slot>
   </div>
-  <div class="quasar-screen-content row auto">
+
+  <div class="screen-content row auto">
     <slot></slot>
     <div id="__quasar_fabs"></div>
   </div>
-  <div class="quasar-screen-footer">
+
+  <div class="screen-footer">
     <slot name="footer"></slot>
   </div>
+
+  <screen-navigation></screen-navigation>
 </div>

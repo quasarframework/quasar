@@ -10,7 +10,7 @@
     display block
 
 .drawer-opener
-  z-index $z-drawer
+  z-index ($z-marginals - 1)
   height 100%
   width 15px
 
@@ -26,10 +26,12 @@
 
   &.left-side
     left 0
-    padding $drawer-padding-left
+    if $theme == 'ios'
+      padding $ios-drawer-padding-left
   &.right-side
     right 0
-    padding $drawer-padding-right
+    if $theme == 'ios'
+      padding $ios-drawer-padding-right
 
   .divider
     margin 8px 0
@@ -69,10 +71,12 @@ swipe-behavior()
     position fixed
     &.left-side
       transform translateX(- $drawer-width)
-      box-shadow $drawer-shadow-left
+      if $theme == 'ios'
+        box-shadow $ios-drawer-shadow-left
     &.right-side
       transform translateX($drawer-width)
-      box-shadow $drawer-shadow-right
+      if $theme == 'ios'
+        box-shadow $ios-drawer-shadow-right
 
 @media screen and (max-width: $layout-small-max)
   swipe-behavior()

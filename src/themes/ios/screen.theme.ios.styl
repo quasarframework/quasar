@@ -1,10 +1,21 @@
-$screen-marginals-row-min-height     ?= 55px
+$screen-navigation-order             ?= 9
+$screen-navigation-link-padding      ?= 10px 20px
 
-$screen-marginals-border             ?= 1px
-$screen-marginals-border-style       ?= solid
-$screen-marginals-border-color       ?= #b2b2b2
-
-$screen-marginals-background-color   ?= #f8f8f8
+$screen-marginals-background-color   ?= $ios-primary
 $screen-marginals-color              ?= black
-$screen-marginals-font-size          ?= 1.6rem
-$screen-marginals-font-weight        ?= 600
+$screen-marginals-font-size          ?= 1rem
+$screen-marginals-font-weight        ?= normal
+
+$screen-navigation-link-active-background-color ?= strongActiveColor($screen-marginals-background-color)
+
+/*
+ * Specific
+ */
+
+$ios-screen-content-border           ?= 1px solid $ios-tertiary
+$ios-screen-content-border-radius    ?= 0
+$ios-screen-navigation-link-color    ?= $ios-secondary
+
+$ios-screen-navigation-link-icon-font-size     ?= 2rem
+$ios-screen-navigation-link-icon-margin-bottom ?= .6rem
+$ios-screen-navigation-link-active-color       ?= $primary

@@ -229,7 +229,7 @@ describe.skip('App Layouts', function() {
           module.exports = {
             template: 'page content',
             ready: function() {
-              expect($('#quasar-app').html()).to.equal('<div class="quasar-screen">' + testing.app.var.getPageContent('page content') + '</div>');
+              expect($('#quasar-app').html()).to.equal('<div class="screen">' + testing.app.var.getPageContent('page content') + '</div>');
               expect(quasar.layout.name).to.equal('__default');
               testing.done();
             }

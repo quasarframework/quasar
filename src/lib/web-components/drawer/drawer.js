@@ -4,9 +4,7 @@ var
   body = $('body'),
   template = $(require('raw!./drawer.html')),
   drawerAnimationSpeed = 200,
-  overlayOpacity = .7,
-  widthBreakpoint = 919 /* equivalent to CSS $layout-medium-min */,
-  drawerWidth = 250
+  overlayOpacity = .7
   ;
 
 /* istanbul ignore next */
@@ -17,7 +15,7 @@ function getCurrentPosition(node) {
 }
 
 /* istanbul ignore next */
-function matToggleAnimate(onRightSide, opening, node, overlay, percentage, done) {
+function matToggleAnimate(onRightSide, opening, node, overlay, percentage, drawerWidth, done) {
   var
     currentPosition = getCurrentPosition(node),
     closePosition = (onRightSide ? 1 : -1) * drawerWidth
@@ -59,7 +57,7 @@ function matToggleAnimate(onRightSide, opening, node, overlay, percentage, done)
 }
 
 /* istanbul ignore next */
-function iosToggleAnimate(onRightSide, opening, overlay, done) {
+function iosToggleAnimate(onRightSide, opening, overlay, drawerWidth, done) {
   if (opening) {
     overlay.addClass('active');
   }
@@ -91,13 +89,17 @@ function iosToggleAnimate(onRightSide, opening, overlay, done) {
 
 /* istanbul ignore next */
 function openByTouch(event) {
-  if ($(window).width() >= widthBreakpoint) {
+  var
+    el = $(this.$el),
+    content = el.find('> .drawer-content');
+
+  if (content.css('position') !== 'fixed') {
     return;
   }
 
   var
     position = Math.abs(event.deltaX),
-    overlay = $(this.$el).find('> .drawer-overlay')
+    overlay = el.find('> .drawer-overlay')
     ;
 
   if (event.isFinal) {
@@ -105,10 +107,10 @@ function openByTouch(event) {
   }
 
   if (quasar.runs.on.ios) {
-    position = Math.min(position, drawerWidth);
+    position = Math.min(position, this.width);
 
     if (event.isFinal) {
-      iosToggleAnimate(this.rightSide, this.opened, overlay);
+      iosToggleAnimate(this.rightSide, this.opened, overlay, this.width);
       return;
     }
     body.css({
@@ -117,19 +119,16 @@ function openByTouch(event) {
   }
   else { // mat
     if (this.rightSide) {
-      position = Math.max(drawerWidth - position, 0);
+      position = Math.max(this.width - position, 0);
     }
     else {
-      position = Math.min(0, position - drawerWidth);
+      position = Math.min(0, position - this.width);
     }
 
-    var
-      content = $(this.$el).find('> .drawer-content'),
-      percentage = (drawerWidth - Math.abs(position)) / drawerWidth
-      ;
+    var percentage = (this.width - Math.abs(position)) / this.width;
 
     if (event.isFinal) {
-      matToggleAnimate(this.rightSide, this.opened, content, overlay, percentage);
+      matToggleAnimate(this.rightSide, this.opened, content, overlay, percentage, this.width);
       return;
     }
     content.css({
@@ -156,14 +155,18 @@ function getBetween(value, min, max) {
 
 /* istanbul ignore next */
 function closeByTouch(event) {
-  if ($(window).width() >= widthBreakpoint) {
+  var
+    el = $(this.$el),
+    content = el.find('> .drawer-content');
+
+  if (content.css('position') !== 'fixed') {
     return;
   }
 
   var
-    position = this.rightSide ? getBetween(event.deltaX, 0, drawerWidth) : getBetween(event.deltaX, -drawerWidth, 0),
-    initialPosition = (this.rightSide ? - 1 : 1) * drawerWidth,
-    overlay = $(this.$el).find('> .drawer-overlay')
+    position = this.rightSide ? getBetween(event.deltaX, 0, this.width) : getBetween(event.deltaX, -this.width, 0),
+    initialPosition = (this.rightSide ? - 1 : 1) * this.width,
+    overlay = el.find('> .drawer-overlay')
     ;
 
   if (event.isFinal) {
@@ -174,7 +177,7 @@ function closeByTouch(event) {
     position = initialPosition + position;
 
     if (event.isFinal) {
-      iosToggleAnimate(this.rightSide, this.opened, overlay);
+      iosToggleAnimate(this.rightSide, this.opened, overlay, this.width);
       return;
     }
     body.css({
@@ -182,13 +185,10 @@ function closeByTouch(event) {
     });
   }
   else { // mat
-    var
-      content = $(this.$el).find('> .drawer-content'),
-      percentage = 1 + (this.rightSide ? -1 : 1) * position / drawerWidth
-      ;
+    var percentage = 1 + (this.rightSide ? -1 : 1) * position / this.width;
 
     if (event.isFinal) {
-      matToggleAnimate(this.rightSide, this.opened, content, overlay, percentage);
+      matToggleAnimate(this.rightSide, this.opened, content, overlay, percentage, this.width);
       return;
     }
     content.css({
@@ -244,6 +244,7 @@ Vue.component('drawer', {
           this.rightSide,
           this.opened,
           overlay,
+          this.width,
           done
         );
       }
@@ -254,6 +255,7 @@ Vue.component('drawer', {
           $(this.$el).find('> .drawer-content'),
           overlay,
           this.opened ? .01 : 1,
+          this.width,
           done
         );
       }
@@ -269,8 +271,10 @@ Vue.component('drawer', {
     var
       el = $(this.$el),
       content = el.find('> .drawer-content'),
-      toggles = el.parents('.quasar-screen').find('.' + (this.rightSide ? 'right' : 'left') + '-drawer-toggle')
+      toggles = el.parents('.screen').find('.' + (this.rightSide ? 'right' : 'left') + '-drawer-toggle')
       ;
+
+    this.width = parseInt(content.css('width'), 10);
 
     toggles.click(function() {
       this.toggle();

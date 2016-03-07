@@ -1,5 +1,3 @@
 label: 'Row/Column'
 icon: 'pages'
 layout: 'main'
-navigation:
-  group: 'main'

@@ -1,10 +1,22 @@
-$screen-marginals-row-min-height     ?= 55px
-
-$screen-marginals-border             ?= 0
-$screen-marginals-border-style       ?= solid
-$screen-marginals-border-color       ?= #b2b2b2
+$screen-navigation-order             ?= -9
+$screen-navigation-link-padding      ?= 6px 10px
 
 $screen-marginals-background-color   ?= $primary
 $screen-marginals-color              ?= white
-$screen-marginals-font-size          ?= 1.6rem
-$screen-marginals-font-weight        ?= normal
+$screen-marginals-font-size          ?= 1rem
+$screen-marginals-font-weight        ?= 500
+
+$screen-navigation-link-active-background-color ?= strongActiveColor($screen-marginals-background-color)
+
+/*
+ * Specific
+ */
+
+// Navigation Links
+$mat-screen-navigation-link-border-bottom           ?= 4px solid transparent
+$mat-screen-navigation-link-text-transform          ?= uppercase
+$mat-screen-navigation-link-opacity                 ?= .7
+$mat-screen-navigation-link-active-opacity          ?= 1
+
+// Active Navigation Links
+$mat-screen-navigation-link-active-border-bottom    ?= 4px solid white

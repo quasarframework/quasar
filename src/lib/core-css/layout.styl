@@ -47,6 +47,10 @@
       padding $layout-large-gutter 0 0 $layout-large-gutter
 
 
+.order-first
+  order -1000
+.order-last
+  order 1000
 for i in 0..10
   .order-{i}
     order i
@@ -148,6 +152,10 @@ layout-media-query($type)
       .{$type}-offset-{$parts}of{$cols}
         margin-left ($parts / $cols * 100)%
 
+  .order-first
+    order -1000
+  .order-last
+    order 1000
   for i in 1..10
     .{$type}-order-{i}
       order i

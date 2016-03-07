@@ -2,4 +2,4 @@ label: 'Form'
 icon: 'description'
 layout: 'main'
 navigation:
-  group: 'main'
+  group: 'form'

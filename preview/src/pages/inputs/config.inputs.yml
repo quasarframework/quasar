@@ -2,5 +2,4 @@ layout: 'main'
 label: 'Inputs'
 icon: 'pages'
 navigation:
-  group: 'main'
-  order: 2
+  group: 'form'

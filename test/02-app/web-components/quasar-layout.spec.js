@@ -1,6 +1,6 @@
 'use strict';
 
-!testing.phantomjs && describe.skip('quasar-screen components', function() {
+!testing.phantomjs && describe.skip('screen components', function() {
 
   beforeEach(function() {
     testing.app.reset();
@@ -19,7 +19,7 @@
     testing.done.set(done);
     testing.app.tag(
       testing.line(true, function() {/*
-        <quasar-screen>
+        <screen>
           <quasar-header>
             <quasar-row>
               <quasar-title>Text {{text}}</quasar-title>
@@ -34,10 +34,10 @@
               <quasar-title>Some text</quasar-title>
             </quasar-row>
           </quasar-footer>
-        </quasar-screen>
+        </screen>
       */}),
       function() {
-        expect(_html.match(/class="([\w\s])*quasar-screen/)).to.exist;
+        expect(_html.match(/class="([\w\s])*screen/)).to.exist;
         expect(_html.match(/class="([\w\s])*quasar-header/)).to.exist;
         expect(_html.match(/class="([\w\s])*quasar-page/)).to.exist;
         expect(_html.match(/class="([\w\s])*quasar-footer/)).to.exist;
@@ -50,7 +50,7 @@
     testing.done.set(done);
     testing.app.tag(
       testing.line(true, function() {/*
-        <quasar-screen scroll-shadow>
+        <screen scroll-shadow>
           <quasar-header>
             <quasar-row>
               <quasar-title>Quasar</quasar-header>
@@ -59,7 +59,7 @@
           <quasar-page>
             <div style="height: 5000px"></div>
           </quasar-page>
-        </quasar-screen>
+        </screen>
       */}),
       function() {
         var
@@ -81,7 +81,7 @@
     testing.done.set(done);
     testing.app.tag(
       testing.line(true, function() {/*
-        <quasar-screen shadow>
+        <screen shadow>
           <quasar-header>
             <quasar-row>
               <quasar-title>Quasar</quasar-header>
@@ -90,7 +90,7 @@
           <quasar-page>
             <div style="height: 5000px"></div>
           </quasar-page>
-        </quasar-screen>
+        </screen>
       */}),
       function() {
         expect($('.quasar-header').hasClass('shadow')).to.equal(true);
@@ -103,14 +103,14 @@
     testing.done.set(done);
     testing.app.tag(
       testing.line(true, function() {/*
-        <quasar-screen keep-marginals scroll-shadow>
+        <screen keep-marginals scroll-shadow>
           <quasar-header>
             <quasar-row>
               <quasar-title>Quasar Header</quasar-header>
             </quasar-row>
           </quasar-header>
           <quasar-page></quasar-page>
-        </quasar-screen>
+        </screen>
       */}),
       function() {
         var
@@ -139,14 +139,14 @@
     testing.done.set(done);
     testing.app.tag(
       testing.line(true, function() {/*
-        <quasar-screen retract-header scroll-shadow>
+        <screen retract-header scroll-shadow>
           <quasar-header>
             <quasar-row>
               <quasar-title>Quasar</quasar-header>
             </quasar-row>
           </quasar-header>
           <quasar-page></quasar-page>
-        </quasar-screen>
+        </screen>
       */}),
       function() {
         var
@@ -181,7 +181,7 @@
     testing.done.set(done);
     testing.app.tag(
       testing.line(true, function() {/*
-        <quasar-screen shrink-header scroll-shadow>
+        <screen shrink-header scroll-shadow>
           <quasar-header>
             <quasar-row>
               <quasar-title>Quasar</quasar-header>
@@ -191,7 +191,7 @@
             </quasar-row>
           </quasar-header>
           <quasar-page></quasar-page>
-        </quasar-screen>
+        </screen>
       */}),
       function() {
         var
@@ -225,14 +225,14 @@
     testing.done.set(done);
     testing.app.tag(
       testing.line(true, function() {/*
-        <quasar-screen>
+        <screen>
           <quasar-page></quasar-page>
           <quasar-footer>
             <quasar-row>
               <quasar-title>Footer</quasar-title>
             </quasar-row>
           </quasar-footer>
-        </quasar-screen>
+        </screen>
       */}),
       function() {
         var footer = $('.quasar-footer');
@@ -258,14 +258,14 @@
     testing.done.set(done);
     testing.app.tag(
       testing.line(true, function() {/*
-        <quasar-screen keep-header>
+        <screen keep-header>
           <quasar-header>
             <quasar-row>
               <quasar-title>Footer</quasar-title>
             </quasar-row>
           </quasar-header>
           <quasar-page></quasar-page>
-        </quasar-screen>
+        </screen>
       */}),
       function() {
         var header = $('.quasar-header');
@@ -286,14 +286,14 @@
     testing.done.set(done);
     testing.app.tag(
       testing.line(true, function() {/*
-        <quasar-screen keep-footer>
+        <screen keep-footer>
           <quasar-page></quasar-page>
           <quasar-footer>
             <quasar-row>
               <quasar-title>Footer</quasar-title>
             </quasar-row>
           </quasar-footer>
-        </quasar-screen>
+        </screen>
       */}),
       function() {
         var footer = $('.quasar-footer');
@@ -314,14 +314,14 @@
     testing.done.set(done);
     testing.app.tag(
       testing.line(true, function() {/*
-        <quasar-screen keep-marginals keep-footer>
+        <screen keep-marginals keep-footer>
           <quasar-page></quasar-page>
           <quasar-footer>
             <quasar-row>
               <quasar-title>Footer</quasar-title>
             </quasar-row>
           </quasar-footer>
-        </quasar-screen>
+        </screen>
       */}),
       function() {
         var
@@ -345,14 +345,14 @@
     testing.done.set(done);
     testing.app.tag(
       testing.line(true, function() {/*
-        <quasar-screen keep-footer shrink-header>
+        <screen keep-footer shrink-header>
           <quasar-page></quasar-page>
           <quasar-footer>
             <quasar-row>
               <quasar-title>Footer</quasar-title>
             </quasar-row>
           </quasar-footer>
-        </quasar-screen>
+        </screen>
       */}),
       function() {
         var footer = $('.quasar-footer');
@@ -373,14 +373,14 @@
     testing.done.set(done);
     testing.app.tag(
       testing.line(true, function() {/*
-        <quasar-screen keep-footer retract-header>
+        <screen keep-footer retract-header>
           <quasar-page></quasar-page>
           <quasar-footer>
             <quasar-row>
               <quasar-title>Footer</quasar-title>
             </quasar-row>
           </quasar-footer>
-        </quasar-screen>
+        </screen>
       */}),
       function() {
         var footer = $('.quasar-footer');
@@ -401,7 +401,7 @@
     testing.done.set(done);
     testing.app.tag(
       testing.line(true, function() {/*
-        <quasar-screen>
+        <screen>
           <drawer>
             <drawer-header>
               <div style="width: 100px; height: 100px; background-color: black;"></div>
@@ -425,7 +425,7 @@
           <quasar-page></quasar-page>
       */}),
       function() {
-        expect(_html.match(/class="([\w\s])*quasar-screen/)).to.exist;
+        expect(_html.match(/class="([\w\s])*screen/)).to.exist;
         expect(_html.match(/class="([\w\s])*drawer/)).to.exist;
         expect(_html.match(/class="([\w\s])*quasar-page/)).to.exist;
         expect(_html.match(/class="([\w\s])*drawer-header/)).to.exist;

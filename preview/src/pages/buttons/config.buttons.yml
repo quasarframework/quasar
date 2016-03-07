@@ -1,3 +1,6 @@
 layout: 'main'
 label: 'Buttons'
 icon: 'mail'
+navigation:
+  group: 'widget'
+  order: 3

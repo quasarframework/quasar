@@ -13,10 +13,19 @@ FastClick.attach(document.body);
 require('../environment/environment');
 
 function forceTheme(theme) {
+  var body = $('body');
+
   if (theme === 'ios') {
     quasar.runs.on.ios = true;
     quasar.runs.on.android = false;
+    body.removeClass('mat').addClass('ios');
   }
+  else {
+    quasar.runs.on.ios = false;
+    quasar.runs.on.android = true;
+    body.removeClass('ios').addClass('mat');
+  }
+
   $('head link[data-theme]').remove();
   $('head').append('<link data-theme rel="stylesheet" href="css/app.' + theme + '.css">');
 }
@@ -49,7 +58,9 @@ $.extend(true, quasar, {
   page: {},
   layout: {},
   data: {},
-  force: {
-    theme: forceTheme
+  swap: {
+    theme: function() {
+      forceTheme($('body').hasClass('ios') ? 'mat' : 'ios');
+    }
   }
 });

@@ -5,16 +5,18 @@
     <p>Title</p>
     <div class="group">
       <button class="small" v-exit-app><i>power_settings_new</i></button>
+      <button class="small" @click="swapTheme"><i>swap_vertical_circle</i></button>
       <button class="small right-drawer-toggle"><i>menu</i></button>
     </div>
   </div>
+  <!--
   <div slot="footer" class="row items-center">
     <p>Footer</p>
   </div>
+  -->
 
   <drawer>
     <div class="title">Left Side</div>
-    <div class="divider"></div>
     <drawer-link v-for="page in pages" :page="page"></drawer-link>
   </drawer>
 
