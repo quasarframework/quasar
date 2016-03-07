@@ -1,16 +1,10 @@
-$layout-header-height = 3.1rem
-
 html, body, #quasar-app
   height 100%
   width 100%
 
-.quasar-screen
-  height 100%
-  width 100%
-
-  .quasar-pages
-    @extend .auto
-    position relative
+.quasar-screen .quasar-pages
+  @extend .auto
+  position relative
 
 .quasar-page-container
   position absolute
@@ -20,92 +14,50 @@ html, body, #quasar-app
   bottom 0
   overflow auto
 
+.quasar-screen-header
+  border-bottom $screen-marginals-border
+  border-bottom-style $screen-marginals-border-style
+  border-bottom-color $screen-marginals-border-color
+
+.quasar-screen-footer
+  border-top $screen-marginals-border
+  border-top-style $screen-marginals-border-style
+  border-top-color $screen-marginals-border-color
+
 .quasar-screen-header, .quasar-screen-footer
   z-index $z-marginals
-  background-color $primary
+  background-color $screen-marginals-background-color
+  font-weight $screen-marginals-font-weight
 
   > .row
-    min-height $layout-header-height
-    color white
-    font-size 1.6rem
+    min-height $screen-marginals-row-min-height
+    color $screen-marginals-color
     transition color .18s ease-in, box-shadow .18s ease-in
 
-    i.btn
-      cursor pointer
-      padding .7rem
-      & + i.btn
-        padding-left 0
+  .group
+    @extend .row.inline
+    margin-left 10px
+    margin-right 10px
+    button
+      padding-left 15px
+      padding-right 15px
 
-    p
-      @extend .text-truncate
-      margin 0 .5rem
-      margin-top 3px
-      font-size 1.7rem
-      line-height 1.7rem
-
-.quasar-navigation
-  padding 0
-
-  .quasar-navigation-container
-    touch-action pan-y
-    position relative
-    white-space nowrap
-    overflow hidden
-
-  .quasar-navigation-content
-    touch-action pan-y
-    position absolute
-    height 100%
-
-  .quasar-navigation-link
-    transition all .2s
-    cursor pointer
-    color white
-    max-width 300px
-    font-size 1rem
-    padding 0 15px
-
-    &.active
-      font-weight 600
-    &:active
-      background-color strongActiveColor($primary)
-    i
-      margin-right .3rem
-      font-size 1.3rem
-
-  .left-scroll, .right-scroll
-    padding 0
-    text-align center
-    i
-      margin-right 0
-
-  &:not(.scrollable)
-    .left-scroll, .right-scroll
-      display none
-
-  .left-scroll, .right-scroll
-    padding 0 3px
-  .left-scroll, .right-scroll, .quasar-navigation-link.active
-    color white !important
-
-.quasar-screen-header .quasar-navigation-link
-  &.active
-    border-bottom 5px solid strongActiveColor($primary)
-  &:active
-    border-radius 7px 7px 0 0
-.quasar-screen-footer .quasar-navigation-link
-  &.active
-    border-top 5px solid strongActiveColor($primary)
-  &:active
-    border-radius 0 0 7px 7px
+  p
+    @extend .text-truncate, .text-center, .auto
+    margin 0
+    font-size 1.4rem
+    line-height 1.2
+    &:first-child
+      margin-left 15px
+    &:last-child
+      margin-right 15px
 
 .smart-container .quasar-page
   padding 2rem 0
 
 @media only screen and (max-width $layout-small-max)
   .smart-container .quasar-page
-    padding-left .5rem
-    padding-right .5rem
+    padding 1rem .5rem
 @media only screen and (min-width $layout-medium-min) and (max-width $layout-medium-max)
   .smart-container .quasar-page
     width 95%

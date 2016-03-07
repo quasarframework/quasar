@@ -33,39 +33,63 @@ h1, h2, h3, h4, h5, h6
     margin-bottom 0
 
 h1
-  font-size 2.6rem
+  font-size (2.6 * $typography-font-size)
   min-height 1rem
   margin (@font-size / 3) 0 .5rem 0
 
 h2
-  font-size 2.2rem
+  font-size (2.2 * $typography-font-size)
   letter-spacing 1.7px
   margin (@font-size / 2) 0 .5rem 0
   border-bottom 1px solid $neutral
 
 h3
-  font-size 2rem
+  font-size (2 * $typography-font-size)
   font-weight 500
   letter-spacing 1.5px
   margin (@font-size / 2) 0 .5rem 0
 
 h4
-  font-size 1.6rem
+  font-size (1.6 * $typography-font-size)
   font-weight 400
   letter-spacing 2px
   margin (@font-size / 2) 0 .5rem 0
 
 h5
-  font-size 1.4rem
+  font-size (1.4 * $typography-font-size)
   font-weight 300
   letter-spacing 1px
   margin (@font-size / 2) 0 .5rem 0
 
 h6
-  font-size 1.4rem
+  font-size (1.4 * $typography-font-size)
   font-weight 300
   font-style italic
   margin (@font-size / 2) 0 .5rem 0
+
+p
+  margin $typography-p-margin
+  line-height $typography-p-line-height
+  &.caption
+    font-size 1.2rem
+    font-weight 300
+    margin-bottom 2rem
+  &:first-child
+    margin-top 0
+  &:last-child
+    margin-bottom 0
+
+@media screen and (max-width: $layout-medium-max)
+  h1
+    font-size (1.6 * $typography-font-size)
+  h2
+    font-size (1.4 * $typography-font-size)
+  h3
+    font-size (1.2 * $typography-font-size)
+  h4, h5, h6
+    font-size (1.1 * $typography-font-size)
+  p.caption
+    font-size 1.1rem
 
 .uppercase
   text-transform uppercase
@@ -94,21 +118,6 @@ h6
     font-weight 300
   .thin
     font-weight 200
-
-
-p
-  margin $typography-p-margin
-  line-height $typography-p-line-height
-  &.caption
-    font-size 1.2rem
-    font-weight 300
-    margin-bottom 2rem
-
-p:first-child
-  margin-top 0
-
-p:last-child
-  margin-bottom 0
 
 
 ::-webkit-selection

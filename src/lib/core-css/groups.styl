@@ -1,0 +1,10 @@
+.group
+  display inline-block
+  margin 5px
+  > *
+    margin-left -5px
+    margin-right -5px
+    &:first-of-type
+      border-radius $button-border-radius 0 0 $button-border-radius
+    &:last-of-type
+      border-radius 0 $button-border-radius $button-border-radius 0

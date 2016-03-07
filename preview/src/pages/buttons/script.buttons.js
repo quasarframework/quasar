@@ -8,8 +8,8 @@ module.exports = {
     icon: 'alarm',
     types: ['rectangle', 'circular'],
     sizes: ['small', 'medium', 'big'],
-    colors: ['default', 'primary', 'secondary', 'tertiary', 'positive', 'negative', 'warning', 'info', 'light', 'dark'],
-    extras: ['glossy', 'raised', 'disabled', 'inverted', 'outline', 'clear', 'round']
+    colors: ['primary', 'secondary', 'tertiary', 'positive', 'negative', 'warning', 'info', 'light', 'dark'],
+    extras: ['glossy', 'raised', 'disabled', 'clear', 'outline', 'round']
   },
   ready: function() {
     quasar.add.fab({

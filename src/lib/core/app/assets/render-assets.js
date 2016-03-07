@@ -26,17 +26,6 @@ function injectVue(currentVue, el, readyFunction) {
   return vue;
 }
 
-function injectNavigation(vue) {
-  var template = $(vue.template);
-
-  if (template.find('quasar-navigation').length === 0) {
-    var ios = quasar.runs.on.ios;
-
-    template[ios ? 'prepend' : 'append']('<quasar-navigation slot="' + (ios ? 'footer' : 'header') + '"><quasar-navigation></quasar-navigation>');
-    vue.template = template[0].outerHTML;
-  }
-}
-
 function destroyTemporaryPages() {
   var destroyElement;
 
@@ -74,8 +63,6 @@ module.exports.layout = function(vue, context, done) {
   }
 
   container.addClass('layout-' + context.manifest.layout);
-  injectNavigation(vue);
-
   quasar.layout.vm = new Vue(injectVue(vue, el, done));
 };
 

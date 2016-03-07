@@ -25,7 +25,6 @@ button, .button
   transition all .12s ease-in
 
   border-radius $button-border-radius
-  box-shadow $button-box-shadow
   text-transform $button-text-transform
 
   margin $button-margin
@@ -59,11 +58,6 @@ button, .button
     i
       font-size $button-big-icon-size
 
-  &.clear
-    box-shadow none !important
-    background-color transparent !important
-    transition none
-
   &.round
     border-radius 64px
     padding 0 2.6rem
@@ -85,18 +79,8 @@ button, .button
 
       &:active:not(.disabled)
         background-color activeColor($color) !important
-      &.inverted, &.outline
-        color $color
-        background-color transparent
-        &:active:not(.disabled)
-          color white
-          background-color $color
       &.outline
         border 1px solid $color
-      &.clear
-        color $color
-        &:active:not(.disabled)
-          color activeColor($color)
       &.glossy
         border 1px solid
         border-color darken($color, 10%) darken($color, 15%) darken($color, 15%)
@@ -106,6 +90,13 @@ button, .button
           border-color darken($color, 25%) darken($color, 20%) darken($color, 10%)
           box-shadow inset 0 1px 3px rgba(black, .2), 0 1px rgba(white, .4)
           background-image linear-gradient(to bottom, darken($color, 13%), lighten($color, 5%))
+
+      &.clear, &.outline
+        color $color
+        background-color transparent
+        &:active:not(.disabled)
+          color white
+          background-color $color !important
 
   &.light
     color $dark !important
@@ -136,13 +127,11 @@ button, .button
 body.desktop
   button, .button
     for $name, $color in $colors
-      &.{$name}
-        &:hover:not(.disabled):not(.clear):not(.glossy)
+      &.{$name}:not(.disabled)
+        &:hover:not(.clear):not(.glossy)
           background-color hoverColor($color)
-          box-shadow $shadow-6 !important
-        &.inverted, &.outline
-          &:hover:not(.disabled)
+          box-shadow $button-box-shadow
+        &.clear, &.outline
+          &:hover
             color white
-            background-color $color
-        &.clear:active:not(.disabled)
-          color white
+            background-color activeColor($color)
