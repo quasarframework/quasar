@@ -4,13 +4,13 @@
   </div>
   <div class="screen-navigation-scroller row">
     <div
-      class="screen-navigation-link row items-center justify-center"
+      class="screen-navigation-link items-center justify-center"
       v-for="link in links"
-      :class="{active: page === link.name, hidden: link.navigation.group !== group}"
+      :class="{active: page === link.name, hidden: link.navigation.group !== group, hideIcon: link.navigation.hide === 'icon', hideLabel: link.navigation.hide === 'label'}"
       @click="navigateTo(link)"
     >
-        <i v-if="link.icon">{{link.icon}}</i>
-        {{link.label}}
+        <i v-if="link.icon" class="screen-navigation-link-icon">{{link.icon}}</i>
+        <span class="screen-navigation-link-label">{{link.label}}</span>
     </div>
   </div>
   <div class="row items-center justify-center right-scroll">

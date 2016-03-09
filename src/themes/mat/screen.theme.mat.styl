@@ -1,22 +1,25 @@
+
+$screen-marginals-background-color      ?= $primary
+$screen-marginals-color                 ?= white
+$screen-marginals-font-size             ?= 1rem
+$screen-marginals-font-weight           ?= 500
+$screen-marginals-icon-button-font-size ?= (1.5 * $screen-marginals-font-size)
+
 $screen-navigation-order             ?= -9
-$screen-navigation-link-padding      ?= 6px 10px
+$screen-navigation-padding           ?= 6px 10px
+$screen-navigation-color             ?= alpha($screen-marginals-color, .7)
+$screen-navigation-active-color      ?= $screen-marginals-color
+$screen-navigation-background-color  ?= $screen-marginals-background-color
+$screen-navigation-highlight-color   ?= strongActiveColor($screen-navigation-background-color)
 
-$screen-marginals-background-color   ?= $primary
-$screen-marginals-color              ?= white
-$screen-marginals-font-size          ?= 1rem
-$screen-marginals-font-weight        ?= 500
-
-$screen-navigation-link-active-background-color ?= strongActiveColor($screen-marginals-background-color)
+$screen-navigation-icon-font-size    ?= (1.5 * $screen-marginals-font-size)
+$screen-navigation-icon-margin       ?= 0 .4rem 0 0
+$screen-navigation-label-font-size   ?= $screen-marginals-font-size
 
 /*
  * Specific
  */
 
-// Navigation Links
-$mat-screen-navigation-link-border-bottom           ?= 4px solid transparent
-$mat-screen-navigation-link-text-transform          ?= uppercase
-$mat-screen-navigation-link-opacity                 ?= .7
-$mat-screen-navigation-link-active-opacity          ?= 1
-
-// Active Navigation Links
-$mat-screen-navigation-link-active-border-bottom    ?= 4px solid white
+$mat-screen-navigation-text-transform          ?= uppercase
+$mat-screen-navigation-border-bottom           ?= 4px solid transparent
+$mat-screen-navigation-active-border-bottom    ?= 4px solid $screen-navigation-active-color

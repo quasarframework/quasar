@@ -3,3 +3,4 @@ icon: 'pages'
 layout: 'main'
 navigation:
   group: 'typography'
+  hide: 'icon'

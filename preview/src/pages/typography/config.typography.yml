@@ -6,3 +6,4 @@ hashes:
   - :gigi
 navigation:
   group: 'typography'
+  hide: 'icon'

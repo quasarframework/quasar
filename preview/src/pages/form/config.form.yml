@@ -3,3 +3,4 @@ icon: 'description'
 layout: 'main'
 navigation:
   group: 'form'
+  hide: 'label'

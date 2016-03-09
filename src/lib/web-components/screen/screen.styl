@@ -30,9 +30,9 @@ if $theme == 'ios'
 .screen-header, .screen-footer, .screen-navigation
   z-index $z-marginals
   font-size $screen-marginals-font-size
+  color $screen-marginals-color
   background-color $screen-marginals-background-color
   font-weight $screen-marginals-font-weight
-  color $screen-marginals-color
   transition color .18s ease-in, box-shadow .18s ease-in
 
   > .row
@@ -60,7 +60,7 @@ if $theme == 'ios'
       margin-right 15px
 
   button i
-    font-size (1.5 * $screen-marginals-font-size)
+    font-size $screen-marginals-icon-button-font-size
 
 /*
  * Screen Navigation
@@ -68,6 +68,8 @@ if $theme == 'ios'
 
 .screen-navigation
   min-height 2rem
+  color $screen-navigation-color
+  background-color $screen-navigation-background-color
 
   &:not(.scrollable)
     .left-scroll, .right-scroll
@@ -79,51 +81,59 @@ if $theme == 'ios'
     font-size 1.8rem
     cursor pointer
 
+    &.disabled
+      color $screen-navigation-color !important
+      opacity 1 !important
+    &:not(.disabled)
+      color $screen-navigation-active-color
+
     if $theme == 'mat'
-      border-bottom $mat-screen-navigation-link-border-bottom
-    if $theme == 'ios'
-      &:not(.disabled)
-        color $ios-screen-navigation-link-active-color
+      border-bottom $mat-screen-navigation-border-bottom
 
   if $theme == 'ios'
     @extend .justify-center
-    color $ios-screen-navigation-link-color
 
 
 .screen-navigation-scroller
   overflow hidden
 
 .screen-navigation-link
+  display flex
   min-height 55px
-  padding $screen-navigation-link-padding
+  padding $screen-navigation-padding
   cursor pointer
   transition all .3s
   white-space nowrap
 
+  .screen-navigation-link-icon
+    margin $screen-navigation-icon-margin
+    font-size $screen-navigation-icon-font-size
+  .screen-navigation-link-label
+    font-size $screen-navigation-label-font-size
   &.active
-    opacity $screen-navigation-link-active-opacity
+    color $screen-navigation-active-color
   &:active
-    background-color $screen-navigation-link-active-background-color
+    background-color $screen-navigation-highlight-color
 
   if $theme == 'mat'
-    @extend .row
-    opacity $mat-screen-navigation-link-opacity
-    text-transform $mat-screen-navigation-link-text-transform
-    border-bottom $mat-screen-navigation-link-border-bottom
+    flex-direction row
+
+    text-transform $mat-screen-navigation-text-transform
+    border-bottom $mat-screen-navigation-border-bottom
 
     &.active
-      opacity $mat-screen-navigation-link-active-opacity
-      border-bottom $mat-screen-navigation-link-active-border-bottom
-    i
-      display none !important
+      border-bottom $mat-screen-navigation-active-border-bottom
 
   if $theme == 'ios'
-    @extend .column
-    &.active
-      color $ios-screen-navigation-link-active-color
-    i
-      font-size $ios-screen-navigation-link-icon-font-size
-      margin-bottom $ios-screen-navigation-link-icon-margin-bottom
+    flex-direction column
+
+
+if $theme == 'mat'
+  @media only screen and (max-width $layout-small-max)
+    .screen-navigation-link
+      &.hideIcon .screen-navigation-link-icon,
+      &.hideLabel .screen-navigation-link-label
+        display none !important
 
 @media only screen and (max-width $layout-medium-max)
   .screen-navigation:not(.scrollable)
@@ -132,8 +142,8 @@ if $theme == 'ios'
 
 @media only screen and (min-width $layout-big-min)
   .screen-navigation-link
-    padding-left (3 * $screen-navigation-link-padding[1])
-    padding-right (3 * $screen-navigation-link-padding[1])
+    padding-left (3 * $screen-navigation-padding[1])
+    padding-right (3 * $screen-navigation-padding[1])
 
 
 /*
