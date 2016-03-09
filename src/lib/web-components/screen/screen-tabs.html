@@ -1,0 +1,13 @@
+<tabs :class="{hidden: group.length === 0}" v-ref:tab-controller>
+  <tab
+    slot="header"
+    v-for="tab in tabs"
+    :active="tab.name === page"
+    :hidden="tab.navigation.group !== group"
+    :icon="tab.icon"
+    :hide="tab.navigation.hide"
+    @click="navigateTo(tab)"
+  >
+    {{tab.label}}
+  </tab>
+</tabs>

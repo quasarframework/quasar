@@ -15,7 +15,6 @@
   width 15px
 
 .drawer-content
-  z-index $z-drawer
   will-change transform
   background-color $drawer-background-color
   top 0
@@ -79,6 +78,7 @@ swipe-behavior()
         box-shadow $ios-drawer-shadow-right
 
 @media screen and (max-width: $layout-small-max)
+  z-index $z-drawer
   swipe-behavior()
 
 @media screen and (min-width: $layout-medium-min)

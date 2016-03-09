@@ -1,0 +1,8 @@
+<h1>Tabs</h1>
+
+<tabs>
+  <tab slot="header" v-for="tab in tabs" :hidden="tab.hidden" :disabled="tab.disabled" :icon="tab.icon" :target="tab.target">{{tab.label}}</tab>
+  <div slot="content" id="tab-1">Tab 1<br>Tab 1<br>Tab 1<br>Tab 1<br>Tab 1<br>Tab 1<br>Tab 1<br></div>
+  <div slot="content" id="tab-2">Tab 2<br>Tab 2<br>Tab 2<br>Tab 2<br>Tab 2<br>Tab 2<br>Tab 2<br>Tab 2<br>Tab 2<br></div>
+  <div slot="content" id="tab-3">Tab 3<br>Tab 3<br>Tab 3<br></div>
+</tabs>

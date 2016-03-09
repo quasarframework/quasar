@@ -1,0 +1,6 @@
+label: 'Tabs'
+icon: 'tab'
+layout: 'main'
+navigation:
+  group: 'widget'
+  order: 2

@@ -20,7 +20,7 @@ html, body, #quasar-app
 .screen-footer
   order 10
 .screen-navigation
-  order $screen-navigation-order
+  order $tabs-order
 
 if $theme == 'ios'
   .screen-content
@@ -29,14 +29,20 @@ if $theme == 'ios'
 
 .screen-header, .screen-footer, .screen-navigation
   z-index $z-marginals
-  font-size $screen-marginals-font-size
+
+.screen-navigation .tabs
+  border-radius 0
+
+.screen-header, .screen-footer
   color $screen-marginals-color
   background-color $screen-marginals-background-color
+  font-size $screen-marginals-font-size
   font-weight $screen-marginals-font-weight
   transition color .18s ease-in, box-shadow .18s ease-in
 
+.screen-header, .screen-footer
   > .row
-    min-height (1.7 * $screen-marginals-font-size)
+    min-height $screen-row-min-height
 
   .group
     @extend .row.inline
@@ -61,89 +67,6 @@ if $theme == 'ios'
 
   button i
     font-size $screen-marginals-icon-button-font-size
-
-/*
- * Screen Navigation
- */
-
-.screen-navigation
-  min-height 2rem
-  color $screen-navigation-color
-  background-color $screen-navigation-background-color
-
-  &:not(.scrollable)
-    .left-scroll, .right-scroll
-      display none !important
-
-  .left-scroll, .right-scroll
-    height 100%
-    min-width 35px
-    font-size 1.8rem
-    cursor pointer
-
-    &.disabled
-      color $screen-navigation-color !important
-      opacity 1 !important
-    &:not(.disabled)
-      color $screen-navigation-active-color
-
-    if $theme == 'mat'
-      border-bottom $mat-screen-navigation-border-bottom
-
-  if $theme == 'ios'
-    @extend .justify-center
-
-
-.screen-navigation-scroller
-  overflow hidden
-
-.screen-navigation-link
-  display flex
-  min-height 55px
-  padding $screen-navigation-padding
-  cursor pointer
-  transition all .3s
-  white-space nowrap
-
-  .screen-navigation-link-icon
-    margin $screen-navigation-icon-margin
-    font-size $screen-navigation-icon-font-size
-  .screen-navigation-link-label
-    font-size $screen-navigation-label-font-size
-  &.active
-    color $screen-navigation-active-color
-  &:active
-    background-color $screen-navigation-highlight-color
-
-  if $theme == 'mat'
-    flex-direction row
-
-    text-transform $mat-screen-navigation-text-transform
-    border-bottom $mat-screen-navigation-border-bottom
-
-    &.active
-      border-bottom $mat-screen-navigation-active-border-bottom
-
-  if $theme == 'ios'
-    flex-direction column
-
-
-if $theme == 'mat'
-  @media only screen and (max-width $layout-small-max)
-    .screen-navigation-link
-      &.hideIcon .screen-navigation-link-icon,
-      &.hideLabel .screen-navigation-link-label
-        display none !important
-
-@media only screen and (max-width $layout-medium-max)
-  .screen-navigation:not(.scrollable)
-    .screen-navigation-scroller, .screen-navigation-link
-      flex 1 1 auto
-
-@media only screen and (min-width $layout-big-min)
-  .screen-navigation-link
-    padding-left (3 * $screen-navigation-padding[1])
-    padding-right (3 * $screen-navigation-padding[1])
 
 
 /*

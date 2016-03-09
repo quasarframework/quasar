@@ -34,20 +34,14 @@ Vue.component('quasar-collapsible', {
       default: false
     }
   },
-  ready: function() {
-    var self = this;
-
-    this.$on('closeOtherItems', function(child) {
-      if (self.freely) {
+  events: {
+    closeOtherItems: function(child) {
+      if (this.freely) {
         return;
       }
 
-      self.$children.forEach(function(item) {
-        if (child !== item) {
-          item.opened = false;
-        }
-      });
-    });
+      this.$broadcast('closeYourself', child);
+    }
   }
 });
 
@@ -57,6 +51,13 @@ Vue.component('quasar-collapsible-item', {
     return {
       opened: false
     };
+  },
+  events: {
+    closeYourself: function(item) {
+      if (this !== item) {
+        item.opened = false;
+      }
+    }
   },
   methods: {
     toggle: function() {

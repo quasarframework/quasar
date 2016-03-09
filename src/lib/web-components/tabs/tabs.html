@@ -1,0 +1,29 @@
+<templates>
+  <template id="tabs">
+    <div class="tabs-container">
+      <div class="tabs row items-center">
+        <div class="row items-center justify-center left-scroll">
+          <i>chevron_left</i>
+        </div>
+        <div class="tabs-scroller row">
+          <slot name="header"></slot>
+        </div>
+        <div class="row items-center justify-center right-scroll">
+          <i>chevron_right</i>
+        </div>
+      </div>
+      <slot name="content"></slot>
+    </div>
+  </template>
+
+  <template id="tab">
+    <div
+      class="tab items-center justify-center"
+      :class="{active: active, hidden: hidden, disabled: disabled, hideIcon: hide === 'icon', hideLabel: hide === 'label'}"
+      @click="activate()"
+    >
+        <i v-if="icon" class="tabs-icon">{{icon}}</i>
+        <span class="tabs-label"><slot></slot></span>
+    </div>
+  </template>
+</templates>
