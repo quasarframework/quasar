@@ -72,9 +72,6 @@ if $theme == 'ios'
   &:not(.scrollable)
     .left-scroll, .right-scroll
       display none !important
-    &.stretch
-      .screen-navigation-scroller, .screen-navigation-link
-        @extend .auto
 
   .left-scroll, .right-scroll
     height 100%
@@ -128,8 +125,12 @@ if $theme == 'ios'
       font-size $ios-screen-navigation-link-icon-font-size
       margin-bottom $ios-screen-navigation-link-icon-margin-bottom
 
+@media only screen and (max-width $layout-medium-max)
+  .screen-navigation:not(.scrollable)
+    .screen-navigation-scroller, .screen-navigation-link
+      flex 1 1 auto
 
-@media only screen and (min-width $layout-large-min)
+@media only screen and (min-width $layout-big-min)
   .screen-navigation-link
     padding-left (3 * $screen-navigation-link-padding[1])
     padding-right (3 * $screen-navigation-link-padding[1])

@@ -94,11 +94,8 @@ Vue.component('screen-navigation', {
     }
 
     function updateScrollIndicator() {
-      nav.addClass('scrollable').removeClass('stretch');
+      nav.addClass('scrollable');
       if (scroller.width() >= scroller[0].scrollWidth) {
-        if (quasar.runs.on.android && scroller.width() / $(window).width() >= .35) {
-          nav.addClass('stretch');
-        }
         nav.removeClass('scrollable');
       }
 
