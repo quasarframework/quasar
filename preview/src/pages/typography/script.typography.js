@@ -56,7 +56,7 @@ module.exports = {
 
     var target = $(this.$el).find('#visibility');
 
-    quasar.events.on('app:visible app:hidden', function(state) {
+    quasar.events.on('app:visibility', function(state) {
       target.append('App became ' + state + '<br>');
     });
   },

@@ -28,7 +28,7 @@ function onchange(evt) {
     state = this[hidden] ? h : v;
   }
 
-  quasar.events.trigger('app:' + state, state);
+  quasar.events.trigger('app:visibility', state);
   body.removeClass('app-' + (state === 'visible' ? h : v)).addClass('app-' + state);
 }
 
