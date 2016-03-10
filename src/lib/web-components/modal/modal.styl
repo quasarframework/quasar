@@ -1,0 +1,14 @@
+.modal
+  background-color $modal-background-color
+
+@media screen and (min-width $layout-medium-min)
+  .modal:not(.fullscreen)
+    margin auto
+    width $modal-width
+    max-width $modal-max-width
+    height $modal-height
+    max-height $modal-max-height
+    outline 9999px solid $overlay-background-color
+    box-shadow $shadow-8
+    .screen
+      position relative

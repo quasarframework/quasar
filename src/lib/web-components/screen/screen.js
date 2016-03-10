@@ -11,7 +11,7 @@ Vue.component('screen', {
 });
 
 Vue.component('page', {
-  template: '<div class="quasar-pages"></div>'
+  template: '<div class="quasar-pages"><slot></slot></div>'
 });
 
 Vue.component('screen-tabs', {

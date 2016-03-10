@@ -1,0 +1,5 @@
+label: 'Modal'
+icon: 'open_in_new'
+layout: 'main'
+navigation:
+  group: 'modal'
