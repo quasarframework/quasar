@@ -2,7 +2,8 @@
 
 var
   body = $('body'),
-  hidden = 'hidden'
+  hidden = 'hidden',
+  appVisibility = 'visible'
   ;
 
 function onchange(evt) {
@@ -28,6 +29,7 @@ function onchange(evt) {
     state = this[hidden] ? h : v;
   }
 
+  appVisibility = state;
   quasar.events.trigger('app:visibility', state);
   body.removeClass('app-' + (state === 'visible' ? h : v)).addClass('app-' + state);
 }
@@ -58,5 +60,15 @@ $(function() {
   // set the initial state (but only if browser supports the Page Visibility API)
   if (document[hidden] !== undefined) {
     onchange({type: document[hidden] ? 'blur' : 'focus'});
+  }
+});
+
+$.extend(true, quasar, {
+  app: {
+    is: {
+      visible: function() {
+        return appVisibility === 'visible';
+      }
+    }
   }
 });
