@@ -2,13 +2,13 @@
 <template v-for="type in types">
   <template v-for="size in sizes">
     <h3 class="capitalize">{{size}}</h3>
-    <button v-if="type === 'rectangle'" class="primary" :class="[type, size]">{{type}}</button>
-    <button v-if="type === 'rectangle'" class="primary" :class="[type, size]"><i class="float-left">{{icon}}</i>{{type}}</button>
-    <button v-if="type === 'rectangle'" class="primary" :class="[type, size]"><i>{{icon}}</i></button>
+    <button v-if="type === 'default'" class="primary" :class="[type, size]">{{type}}</button>
+    <button v-if="type === 'default'" class="primary" :class="[type, size]"><i class="float-left">{{icon}}</i>{{type}}</button>
+    <button v-if="type === 'default'" class="primary" :class="[type, size]"><i>{{icon}}</i></button>
     text
     <button v-else class="primary" :class="[type, size]"><i>{{icon}}</i></button>
     <template v-for="extra in extras">
-      <button v-if="type === 'rectangle'" class="primary" :class="[type, size, extra]">{{type}}-{{extra}}</button>
+      <button v-if="type === 'default'" class="primary" :class="[type, size, extra]">{{type}}-{{extra}}</button>
       <button v-else class="primary" :class="[type, size, extra]"><i>{{icon}}</i></button>
     </template>
   </template>
@@ -23,13 +23,13 @@
   <h3 class="capitalize">{{type}}</h3>
   <template v-for="color in colors">
     <h4 class="capitalize">{{color}}</h4>
-    <button v-if="type === 'rectangle'" :class="[type, color]">{{type}}-{{color}}</button>
-    <button v-if="type === 'rectangle'" :class="[type, color]"><i class="float-left">{{icon}}</i>{{type}}-{{color}}</button>
-    <button v-if="type === 'rectangle'" :class="[type, color]"><i>{{icon}}</i></button>
+    <button v-if="type === 'default'" :class="[type, color]">{{color}}</button>
+    <button v-if="type === 'default'" :class="[type, color]"><i class="float-left">{{icon}}</i>{{color}}</button>
+    <button v-if="type === 'default'" :class="[type, color]"><i>{{icon}}</i></button>
     text
     <button v-else :class="[type, color]"><i>{{icon}}</i></button>
     <template v-for="extra in extras">
-      <button v-if="type === 'rectangle'" :class="[type, color, extra]">{{type}}-{{color}}-{{extra}}</button>
+      <button v-if="type === 'default'" :class="[type, color, extra]">{{color}}-{{extra}}</button>
       <button v-else :class="[type, color, extra]"><i>{{icon}}</i></button>
     </template>
   </template>

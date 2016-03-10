@@ -17,19 +17,6 @@ $background-color    ?= white
 $link-color          ?= lighten($primary, 25%)
 $link-color-active   ?= $primary
 
-$colors = {
-  neutral: $neutral
-  primary: $primary
-  secondary: $secondary
-  tertiary: $tertiary
-  positive: $positive
-  negative: $negative
-  warning: $warning
-  info: $info
-  light: $light
-  dark: $dark
-}
-
 $red = #f44336
 $red-1 = #ffebee
 $red-2 = #ffcdd2
@@ -315,3 +302,37 @@ $blue-grey-11 = #cfd8dc
 $blue-grey-12 = #b0bec5
 $blue-grey-13 = #78909c
 $blue-grey-14 = #455a64
+
+
+$colors ?= {
+  neutral: $neutral
+  primary: $primary
+  secondary: $secondary
+  tertiary: $tertiary
+  positive: $positive
+  negative: $negative
+  warning: $warning
+  info: $info
+  light: $light
+  dark: $dark,
+
+  red: $red,
+  pink: $pink,
+  purple: $purple,
+  deep-purple: $deep-purple,
+  indigo: $indigo,
+  blue: $blue,
+  light-blue: $light-blue,
+  cyan: $cyan,
+  teal: $teal,
+  green: $green,
+  light-green: $light-green,
+  lime: $lime,
+  yellow: $yellow,
+  amber: $amber,
+  orange: $orange,
+  deep-orange: $deep-orange,
+  brown: $brown,
+  grey: $grey,
+  blue-grey: $blue-grey
+}
