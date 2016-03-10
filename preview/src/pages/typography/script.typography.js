@@ -53,6 +53,12 @@ module.exports = {
         quasar.dialog({html: 'You tapped on a FAB.', title: 'Good Job', buttons: [{label: 'OK', dismiss: true}]});
       }
     });
+
+    var target = $(this.$el).find('#visibility');
+
+    quasar.events.on('app:visible app:hidden', function(state) {
+      target.append('App became ' + state + '<br>');
+    });
   },
   destroyed: function() {
     console.log('Page index destroyed');
