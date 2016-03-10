@@ -55,7 +55,7 @@ Vue.component('quasar-collapsible-item', {
   events: {
     closeYourself: function(item) {
       if (this !== item) {
-        item.opened = false;
+        this.opened = false;
       }
     }
   },

@@ -1,5 +1,3 @@
-$collapsible-border = 1px solid $grey-3
-
 ul.collapsible
   margin .5em 0 1em 0
   padding 0
@@ -7,7 +5,6 @@ ul.collapsible
 
   > li
     list-style-type none
-    background-color white
 
     > div:first-child
       display block
@@ -16,6 +13,7 @@ ul.collapsible
       line-height 3em
       padding 0 1.5em
       border-bottom $collapsible-border
+      background-color $collapsible-header-background-color
       i
         width 2em
         font-size 1.7em
@@ -26,6 +24,7 @@ ul.collapsible
       opacity 0
       overflow hidden
       transition all .3s
+      background-color $collapsible-content-background-color
 
       &.card
         margin 0
@@ -52,7 +51,7 @@ ul.collapsible
     > li
       @extend .z-4
       margin 0 24px
-      transition margin .35s, cubic-bezier(.25, .46, .45, .94)
+      transition all .35s cubic-bezier(.25, .46, .45, .94)
       border-bottom 0
 
       > div:first-child

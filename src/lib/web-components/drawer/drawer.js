@@ -3,7 +3,7 @@
 var
   body = $('body'),
   template = $(require('raw!./drawer.html')),
-  drawerAnimationSpeed = 200,
+  drawerAnimationSpeed = 150,
   overlayOpacity = .7
   ;
 
@@ -103,7 +103,7 @@ function openByTouch(event) {
     ;
 
   if (event.isFinal) {
-    this.opened = position > 75;
+    this.opened = position > this.width / 1.7;
   }
 
   if (quasar.runs.on.ios) {
