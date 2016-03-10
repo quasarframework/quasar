@@ -73,11 +73,15 @@ function launch(args, done) {
   gulp.task('responsive' + suffix, ['monitor' + suffix], function(done) {
     launch(['responsive'].concat(cmd), done);
   });
-  gulp.task('wrap' + suffix, [type], function(done) {
-    console.log(plugins.util.colors.magenta('\nMake sure that you have added at least one platform (quasar wrap platform add <platform-name>).\n'));
+
+  gulp.task('fullwrap' + suffix, [type], function(done) {
     launch(['build'].concat(cmd), function() {
       launch(['wrap', 'run'], done);
     });
   });
 
+});
+
+gulp.task('wrap', function(done) {
+  launch(['wrap', 'run'], done);
 });
