@@ -90,8 +90,15 @@ Modal.prototype.close = function() {
   };
 });
 
-Modal.prototype.fullscreen = function() {
-  this.alwaysFullscreen = true;
+Modal.prototype.set = function(properties) {
+  if (properties !== Object(properties)) {
+    throw new Error('Modal.set() needs an object as parameter.');
+  }
+
+  Object.keys(properties).forEach(function(property) {
+    this[property] = properties[property];
+  }.bind(this));
+
   return this;
 };
 
