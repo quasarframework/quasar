@@ -43,6 +43,9 @@ module.exports = {
         buttons: [{label: 'ok', fn: function() {console.log(this.fall);}, dismiss: true}],
         icon: 'alarm'
       });
+    },
+    writeVisibilityState: function(state) {
+      $(this.$el).find('#visibility').append('App became ' + state + '.<br>');
     }
   },
   ready: function() {
@@ -54,13 +57,9 @@ module.exports = {
       }
     });
 
-    var target = $(this.$el).find('#visibility');
-
-    quasar.events.on('app:visibility', function(state) {
-      target.append('App became ' + state + '.<br>');
-    });
+    quasar.events.on('app:visibility', this.writeVisibilityState);
   },
   destroyed: function() {
-    console.log('Page index destroyed');
+    quasar.events.off('app:visibility', this.writeVisibilityState);
   }
 };

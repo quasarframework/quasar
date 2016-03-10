@@ -1,6 +1,5 @@
 <tabs :class="{hidden: group.length === 0}" v-ref:tab-controller>
   <tab
-    slot="header"
     v-for="tab in tabs"
     :active="tab.name === page"
     :hidden="tab.navigation.group !== group"

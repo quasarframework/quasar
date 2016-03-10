@@ -82,7 +82,7 @@ Vue.component('tabs', {
   events: {
     selected: function(tab, tabNode) {
       this.content.css('display', 'none');
-      this.content.filter(tab.target).css('display', '');
+      $(tab.target).css('display', '');
 
       this.$broadcast('blur', tab);
 
@@ -104,7 +104,12 @@ Vue.component('tabs', {
     this.leftScroll = this.nav.find('.left-scroll');
     this.rightScroll = this.nav.find('.right-scroll');
     this.links = this.scroller.find('.tab');
-    this.content = $(this.$el).find('[slot="content"]');
+
+    this.content = $(this.$children.filter(function($child) {
+      return $child.target;
+    }).map(function($child) {
+      return $child.target;
+    }).join(','));
 
     this.content.css('display', 'none');
     this.scroller.scroll(this.updateScrollIndicator);

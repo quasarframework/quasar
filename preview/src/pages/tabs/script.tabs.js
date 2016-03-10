@@ -12,10 +12,14 @@ module.exports = {
         target: '#tab-1'
       },
       {
+        label: 'Disabled',
+        icon: 'fingerprint',
+        disabled: true
+      },
+      {
         label: 'Tab 2',
         icon: 'alarm',
-        target: '#tab-2',
-        disabled: true
+        target: '#tab-2'
       },
       {
         label: 'Tab 3',
