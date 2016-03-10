@@ -3,8 +3,8 @@
   <template id="drawer">
     <div class="drawer" :class="{'left-side': !rightSide, 'right-side': rightSide}">
       <div class="drawer-opener touch-only mobile-only" v-touch:pan-x="openByTouch" :class="{'fixed-left': !rightSide, 'fixed-right': rightSide}">&nbsp;</div>
-      <div class="drawer-overlay overlay" @click="close()" v-touch:pan-x="closeByTouch"></div>
-      <div class="drawer-content" v-touch:pan-x="closeByTouch" :class="{'left-side': !rightSide, 'right-side': rightSide}">
+      <div class="drawer-overlay fullscreen" @click="close()" v-touch:pan-x="closeByTouch"></div>
+      <div class="drawer-content scroll" v-touch:pan-x="closeByTouch" :class="{'left-side': !rightSide, 'right-side': rightSide}">
         <slot></slot>
       </div>
     </div>

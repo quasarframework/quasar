@@ -1,7 +1,4 @@
 .non-selectable
-  -moz-user-select none
-  -ms-user-select none
-  -webkit-user-select none
   user-select none
 
 .scroll
@@ -26,7 +23,7 @@
     bottom 0
 
 .inline
-  display inline-flex !important // @stylint ignore
+  display inline-flex !important
 
 .background-cover
   background-repeat no-repeat
@@ -73,7 +70,7 @@
   visibility hidden
 
 .transparent
-  opacity $overlay-opacity
+  background-color transparent
 
 .fixed-bottom,
 .fixed-left,
@@ -107,7 +104,7 @@
   bottom 0
   left 0
 
-.overlay
+.fullscreen
   position fixed
   top 0
   right 0

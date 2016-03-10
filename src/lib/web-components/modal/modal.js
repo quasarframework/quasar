@@ -15,7 +15,7 @@ function Modal(vm) {
 
   var
     self = this,
-    element = $('<div class="modal hidden all-pointer-events window-height overlay">').appendTo(target)
+    element = $('<div class="modal hidden all-pointer-events window-height window-width fullscreen">').appendTo(target)
     ;
 
   $.extend(true, vm, {
@@ -39,7 +39,7 @@ Modal.prototype.show = function() {
     throw new Error('Modal was previously destroyed. Create another one.');
   }
 
-  this.$el[this.alwaysFullscreen ? 'addClass' : 'removeClass']('fullscreen');
+  this.$el[this.alwaysFullscreen ? 'addClass' : 'removeClass']('always-fullscreen');
 
   var
     self = this,
@@ -68,7 +68,7 @@ Modal.prototype.close = function() {
       complete: function() {
         target.removeClass('no-pointer-events');
         if (self.autoDestroy) {
-          self.$el.remove();
+          self.destroy();
         }
         self.__onCloseHandlers.forEach(function(handler) {
           handler();
@@ -100,6 +100,11 @@ Modal.prototype.set = function(properties) {
   }.bind(this));
 
   return this;
+};
+
+Modal.prototype.destroy = function() {
+  self.$el.remove();
+  target.removeClass('no-pointer-events');
 };
 
 quasar.Modal = Modal;
