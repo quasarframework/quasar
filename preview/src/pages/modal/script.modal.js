@@ -42,7 +42,7 @@ module.exports = {
         template: '<h1>Simple Modal</h1><p>This one is fullscreen on bigger screens too.</p>' +
                   '<button class="tertiary" @click="close()">Close Me</button>'
       }).set({
-        fullscreen: true
+        alwaysFullscreen: true
       }).show();
     }
   },
