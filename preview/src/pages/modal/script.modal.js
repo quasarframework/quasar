@@ -38,12 +38,9 @@ module.exports = {
       .show();
     },
     openSimpleFullscreenModal: function() {
-      var modal = new quasar.Modal({
+      new quasar.Modal({
         template: '<h1>Simple Modal</h1><p>This one is fullscreen on bigger screens too.</p><button class="tertiary" @click="close()">Close Me</button>'
-      });
-
-      modal.fullscreen = true;
-      modal.show();
+      }).fullscreen().show();
     }
   },
 };

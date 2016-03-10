@@ -31,6 +31,7 @@ function Modal(vm) {
   this.__onShowHandlers = [];
   this.__onCloseHandlers = [];
   this.autoDestroy = true;
+  this.alwaysFullscreen = false;
 }
 
 Modal.prototype.show = function() {
@@ -38,7 +39,7 @@ Modal.prototype.show = function() {
     throw new Error('Modal was previously destroyed. Create another one.');
   }
 
-  this.$el[this.fullscreen ? 'addClass' : 'removeClass']('fullscreen');
+  this.$el[this.alwaysFullscreen ? 'addClass' : 'removeClass']('fullscreen');
 
   var
     self = this,
@@ -88,5 +89,10 @@ Modal.prototype.close = function() {
     return this;
   };
 });
+
+Modal.prototype.fullscreen = function() {
+  this.alwaysFullscreen = true;
+  return this;
+};
 
 quasar.Modal = Modal;
