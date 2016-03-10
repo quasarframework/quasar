@@ -78,8 +78,10 @@ swipe-behavior()
         box-shadow $ios-drawer-shadow-right
 
 @media screen and (max-width: $layout-small-max)
-  z-index $z-drawer
   swipe-behavior()
+
+  .drawer-content
+    z-index $z-drawer
 
 @media screen and (min-width: $layout-medium-min)
   .left-drawer-toggle, .right-drawer-toggle
