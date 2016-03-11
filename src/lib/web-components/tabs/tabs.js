@@ -2,80 +2,100 @@
 
 var
   scrollNavigationSpeed = 5, // in pixels
+  debounceDelay = 50, // in ms
   template = $(require('raw!./tabs.html'))
   ;
 
 Vue.component('tabs', {
   template: template.find('#tabs').html(),
   methods: {
-    updateScrollIndicator: function() {
-      this.nav.addClass('scrollable');
-      if (this.scroller.width() + 2 * this.leftScroll.width() >= this.scroller[0].scrollWidth) {
-        this.nav.removeClass('scrollable');
-      }
+    redraw: function() {
+      var
+        scrollPosition = 0,
+        scroller = this.scroller[0]
+        ;
 
-      this.leftScroll.removeClass('disabled');
-      this.rightScroll.removeClass('disabled');
-      if (this.scroller.scrollLeft() <= 0) {
-        this.leftScroll.addClass('disabled');
+      if (this.scroller.width() === 0 && scroller.scrollWidth === 0) {
+        return;
       }
-      if (this.scroller.scrollLeft() + this.scroller.innerWidth() + 5 >= this.scroller[0].scrollWidth) {
-        this.rightScroll.addClass('disabled');
+      if (this.scrollable) {
+        scrollPosition = scroller.scrollLeft;
+        this.nav.removeClass('scrollable');
+        this.scrollable = false;
+      }
+      if (this.scroller.width() < scroller.scrollWidth) {
+        this.nav.addClass('scrollable');
+        scroller.scrollLeft = scrollPosition;
+        this.scrollable = true;
+        this.updateScrollIndicator();
       }
     },
-    scrollToSelectedIfNeeded: function(tab) {
-      if (tab.length === 0 || !this.nav.hasClass('scrollable')) {
+    updateScrollIndicator: function() {
+      if (!quasar.runs.on.desktop || !this.scrollable) {
         return;
       }
 
-      var contentRect = this.scroller[0].getBoundingClientRect();
-      var tabRect = tab[0].getBoundingClientRect();
+      var scroller = this.scroller[0];
 
-      var tabWidth = tabRect.width;
-      var offset = tabRect.left - contentRect.left;
+      this.leftScroll[scroller.scrollLeft <= 0 ? 'addClass' : 'removeClass']('disabled');
+      this.rightScroll[scroller.scrollLeft + this.scroller.innerWidth() + 5 >= scroller.scrollWidth ? 'addClass' : 'removeClass']('disabled');
+    },
+    scrollToSelectedIfNeeded: function(tab) {
+      if (tab.length === 0 || !this.scrollable) {
+        return;
+      }
+
+      var
+        scroller = this.scroller[0],
+        contentRect = scroller.getBoundingClientRect(),
+        tabRect = tab[0].getBoundingClientRect(),
+        tabWidth = tabRect.width,
+        offset = tabRect.left - contentRect.left
+        ;
 
       if (offset < 0) {
-        this.animScrollTo(this.scroller[0].scrollLeft + offset);
+        this.animScrollTo(scroller.scrollLeft + offset);
       }
       else {
-        offset += tabWidth - this.scroller[0].offsetWidth;
+        offset += tabWidth - scroller.offsetWidth;
         /* istanbul ignore else */
         if (offset > 0) {
-          this.animScrollTo(this.scroller[0].scrollLeft + offset);
+          this.animScrollTo(scroller.scrollLeft + offset);
         }
       }
     },
     animScrollTo: function(value) {
-      if (this.gc.scrollTimer) {
-        clearInterval(this.gc.scrollTimer);
+      if (this.scrollTimer) {
+        clearInterval(this.scrollTimer);
       }
 
       this.scrollTowards(value);
-      this.gc.scrollTimer = setInterval(function() {
+      this.scrollTimer = setInterval(function() {
         if (this.scrollTowards(value)) {
-          clearInterval(this.gc.scrollTimer);
+          clearInterval(this.scrollTimer);
         }
       }.bind(this), 5);
     },
     scrollTowards: function(value) {
       var
-        scroll = this.scroller[0].scrollLeft,
-        direction = value < scroll ? -1 : 1,
+        scroller = this.scroller[0],
+        scrollPosition = scroller.scrollLeft,
+        direction = value < scrollPosition ? -1 : 1,
         done = false
         ;
 
-      scroll += direction * scrollNavigationSpeed;
+      scrollPosition += direction * scrollNavigationSpeed;
 
-      if (scroll < 0) {
+      if (scrollPosition < 0) {
         done = true;
-        scroll = 0;
+        scrollPosition = 0;
       }
-      else if (direction === -1 && scroll <= value || direction === 1 && scroll >= value) {
+      else if (direction === -1 && scrollPosition <= value || direction === 1 && scrollPosition >= value) {
         done = true;
-        scroll = value;
+        scrollPosition = value;
       }
 
-      this.scroller[0].scrollLeft = scroll;
+      scroller.scrollLeft = scrollPosition;
       return done;
     }
   },
@@ -88,89 +108,102 @@ Vue.component('tabs', {
 
       setTimeout(function() {
         this.scrollToSelectedIfNeeded(tabNode);
-      }.bind(this), 50);
+      }.bind(this), debounceDelay * 4);
+    },
+    hidden: function() {
+      this.redraw();
     }
   },
   ready: function() {
     var self = this;
 
-    this.gc = {
-      scrollTimer: null,
-      resizers: []
-    };
+    this.scrollTimer = null;
+    this.scrollable = false;
 
-    this.nav = $(this.$el).find('.tabs');
+    this.nav = $(this.$el);
     this.scroller = this.nav.find('.tabs-scroller');
     this.leftScroll = this.nav.find('.left-scroll');
     this.rightScroll = this.nav.find('.right-scroll');
-    this.links = this.scroller.find('.tab');
+    this.tabs = this.scroller.find('.tab');
+
+    // debounce some costly methods;
+    // debouncing here because debounce needs to be per instance
+    this.redraw = quasar.debounce(this.redraw, debounceDelay);
+    this.updateScrollIndicator = quasar.debounce(this.updateScrollIndicator, debounceDelay);
 
     this.content = $(this.$children.filter(function($child) {
       return $child.target;
     }).map(function($child) {
       return $child.target;
     }).join(','));
-
     this.content.css('display', 'none');
+
     this.scroller.scroll(this.updateScrollIndicator);
-    $(window).resize(this.updateScrollIndicator);
-    this.gc.resizers.push(this.updateScrollIndicator);
-    quasar.events.on('app:page:ready', this.updateScrollIndicator);
+    $(window).resize(this.redraw);
 
-    quasar.nextTick(function() {
-      self.updateScrollIndicator();
-    });
-
-    var scrollEvents = {
-      start: [],
-      stop: []
-    };
+    // let browser drawing stabilize then
+    setTimeout(function() {
+      self.redraw();
+      quasar.events.on('app:page:ready', self.redraw);
+    }, debounceDelay);
 
     if (quasar.runs.on.desktop) {
+      var scrollEvents = {
+        start: [],
+        stop: []
+      };
+
       scrollEvents.start.push('mousedown');
       scrollEvents.stop.push('mouseup');
+
+      if (quasar.runs.with.touch) {
+        scrollEvents.start.push('touchstart');
+        scrollEvents.stop.push('touchend');
+      }
+
+      this.leftScroll.bind(scrollEvents.start.join(' '), function() {
+        self.animScrollTo(0);
+      });
+      this.leftScroll.bind(scrollEvents.stop.join(' '), function() {
+        clearInterval(self.scrollTimer);
+      });
+      this.rightScroll.bind(scrollEvents.start.join(' '), function() {
+        self.animScrollTo(9999);
+      });
+      this.rightScroll.bind(scrollEvents.stop.join(' '), function() {
+        clearInterval(self.scrollTimer);
+      });
     }
-    if (quasar.runs.with.touch) {
-      scrollEvents.start.push('touchstart');
-      scrollEvents.stop.push('touchend');
-    }
-    this.leftScroll.bind(scrollEvents.start.join(' '), function() {
-      self.animScrollTo(0);
-    });
-    this.leftScroll.bind(scrollEvents.stop.join(' '), function() {
-      clearInterval(self.gc.scrollTimer);
-    });
-    this.rightScroll.bind(scrollEvents.start.join(' '), function() {
-      self.animScrollTo(9999);
-    });
-    this.rightScroll.bind(scrollEvents.stop.join(' '), function() {
-      clearInterval(self.gc.scrollTimer);
-    });
 
     if (quasar.runs.with.touch) {
-      this.links
-        .each(function() {
-          var hammer = $(this).hammer().getHammer();
-          var lastOffset = 0;
+      this.tabs.each(function() {
+        var hammer = $(this).hammer().getHammer();
+        var lastOffset = 0;
 
-          hammer.on('panmove', function(ev) {
-            self.scroller[0].scrollLeft += lastOffset - ev.deltaX;
-            lastOffset = ev.deltaX;
-          });
-          hammer.on('panend', function() {
-            lastOffset = 0;
-          });
+        hammer.on('panmove', function(ev) {
+          self.scroller[0].scrollLeft += lastOffset - ev.deltaX;
+          lastOffset = ev.deltaX;
         });
+        hammer.on('panend', function() {
+          lastOffset = 0;
+        });
+      });
     }
   },
-  destroyed: function() {
-    if (this.gc.scrollTimer) {
-      clearInterval(this.gc.scrollTimer);
+  beforeDestroy: function() {
+    if (this.scrollTimer) {
+      clearInterval(this.scrollTimer);
     }
-    this.gc.resizers.forEach(function(resize) {
-      $(window).off('resize', resize);
-    });
-    quasar.events.off('app:page:ready', this.updateScrollIndicator);
+    this.scroller.off('scroll', this.updateScrollIndicator);
+    $(window).off('resize', this.redraw);
+    quasar.events.off('app:page:ready', this.redraw);
+    if (quasar.runs.with.touch) {
+      this.tabs.each(function() {
+        $(this).getHammer().destroy();
+      });
+    }
+    this.leftScroll.off();
+    this.rightScroll.off();
   }
 });
 
@@ -201,6 +234,9 @@ Vue.component('tab', {
       if (value) {
         this.$dispatch('selected', this, $(this.$el));
       }
+    },
+    hidden: function(value) {
+      this.$dispatch('hidden');
     }
   }
 });

@@ -103,7 +103,7 @@ Modal.prototype.set = function(properties) {
 };
 
 Modal.prototype.destroy = function() {
-  self.$el.remove();
+  this.$el.remove();
   target.removeClass('no-pointer-events');
 };
 

@@ -1,16 +1,16 @@
 <templates>
   <template id="tabs">
-    <div class="tabs-container">
-      <div class="tabs row items-center">
-        <div class="row items-center justify-center left-scroll">
-          <i>chevron_left</i>
-        </div>
-        <div class="tabs-scroller row">
-          <slot></slot>
-        </div>
-        <div class="row items-center justify-center right-scroll">
-          <i>chevron_right</i>
-        </div>
+    <div class="tabs row items-center">
+      <div class="row items-center justify-center left-scroll">
+        <i>chevron_left</i>
+      </div>
+      <div class="tabs-scroller row auto">
+        <div class="spacer"></div>
+        <slot></slot>
+        <div class="spacer"></div>
+      </div>
+      <div class="row items-center justify-center right-scroll">
+        <i>chevron_right</i>
       </div>
     </div>
   </template>

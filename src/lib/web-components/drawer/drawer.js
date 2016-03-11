@@ -103,7 +103,7 @@ function openByTouch(event) {
     ;
 
   if (event.isFinal) {
-    this.opened = position > this.width / 1.7;
+    this.opened = position > 75;
   }
 
   if (quasar.runs.on.ios) {

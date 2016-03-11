@@ -27,11 +27,14 @@
     &:not(.disabled)
       color $tabs-active-color
 
-    if $theme == 'mat'
-      border-bottom $mat-tabs-border-bottom
-
   if $theme == 'ios'
     @extend .justify-center
+
+body.mobile .tabs.scrollable
+  .left-scroll, .right-scroll
+    display none !important
+  .spacer
+    min-width 30%
 
 .tabs-scroller
   overflow hidden

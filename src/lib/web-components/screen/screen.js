@@ -66,16 +66,12 @@ Vue.component('screen-tabs', {
       else {
         this.group = '';
       }
-
-      setTimeout(function() {
-        tabController.updateScrollIndicator();
-      }, 50);
     }
   },
   ready: function() {
     quasar.events.on('app:page:ready', this.update);
   },
-  destroyed: function() {
+  beforeDestroy: function() {
     quasar.events.off('app:page:ready', this.update);
   }
 });

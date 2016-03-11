@@ -41,12 +41,17 @@ function destroyTemporaryPages() {
 module.exports.layout = function(vue, context, done) {
   var
     el = '#quasar-app',
-    container = $(el)
+    container = $(el),
+    pageKeys = Object.keys(quasar.page)
     ;
 
-  if (quasar.page.length > 0) {
-    Object.keys(quasar.page).forEach(function(page) {
-      quasar.page[page].vm.$destroy();
+  if (pageKeys.length > 0) {
+    pageKeys.forEach(function(page) {
+      var vm = quasar.page[page].vm;
+
+      if (vm) {
+        vm.$destroy();
+      }
     });
   }
   if (quasar.layout.vm) {
