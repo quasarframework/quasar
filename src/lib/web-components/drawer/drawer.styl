@@ -15,7 +15,6 @@
   width 15px
 
 .drawer-content
-  z-index $z-drawer
   will-change transform
   background-color $drawer-background-color
   top 0
@@ -67,6 +66,7 @@
 
 swipe-behavior()
   .drawer-content
+    z-index $z-drawer
     position fixed
     &.left-side
       transform translateX(- $drawer-width)
