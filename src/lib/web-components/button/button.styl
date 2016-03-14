@@ -64,10 +64,8 @@ button, .button
 
   &.raised
     box-shadow $shadow-2
-    &:hover:not(.disabled)
-      box-shadow $shadow-3
     &:active:not(.disabled)
-      box-shadow $shadow-4
+      box-shadow $shadow-3
 
   /**
    * COLORS
@@ -78,7 +76,7 @@ button, .button
       background-color $color
 
       &:active:not(.disabled)
-        background-color activeColor($color) !important
+        background-color active-color($color) !important
       &.outline
         border 1px solid $color
       &.glossy
@@ -126,12 +124,16 @@ button, .button
 
 body.desktop
   button, .button
+    &.raised
+      &:hover:not(.disabled)
+        box-shadow $shadow-3
+
     for $name, $color in $colors
       &.{$name}:not(.disabled)
         &:hover:not(.clear):not(.glossy)
-          background-color hoverColor($color)
+          background-color hover-color($color)
           box-shadow $button-box-shadow
-        &.clear, &.outline
-          &:hover
-            color white
-            background-color activeColor($color)
+        &.clear:hover
+          background-color lighten($color, 70%)
+        &.outline:hover
+          color white

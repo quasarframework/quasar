@@ -1,23 +1,17 @@
-activeColor($color)
+active-color($color)
   if luminosity($color) > .29
     darken($color, 10%)
   else
     lighten($color, 30%)
 
-hoverColor($color)
+hover-color($color)
   if luminosity($color) > .29
-    darken($color, 6%)
+    darken($color, 15%)
   else
     lighten($color, 15%)
 
-strongActiveColor($color)
+strong-active-color($color)
   if luminosity($color) > .29
     darken($color, 20%)
   else
     lighten($color, 80%)
-
-upsideColor($color)
-  if luminosity($color) > .49
-    black
-  else
-    white
