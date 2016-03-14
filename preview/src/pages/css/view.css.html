@@ -5,6 +5,11 @@
   <label class="link">Link Label</label>
 </p>
 
+<div style="margin: 40px">
+  <div class="flex inline shadow-box items-center justify-center inset-shadow">.inset-shadow</div>
+  <div class="flex inline shadow-box items-center justify-center" v-for="n in 5" :class="['shadow-' + (n + 1)]">.shadow-{{n+1}}</div>
+</div>
+
 <ul class="breadcrumb">
   <li><a><i>home</i> </a></li>
   <li><a><i>mail</i> Quasar</a></li>

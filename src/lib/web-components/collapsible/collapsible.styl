@@ -42,21 +42,21 @@ ul.collapsible
       border-bottom 0
 
   &:not(.popout)
-    @extend .z-4
     border-top $collapsible-border
     border-right $collapsible-border
     border-left $collapsible-border
+    box-shadow $shadow-3
 
   &.popout
     > li
-      @extend .z-4
       margin 0 24px
       transition all .35s cubic-bezier(.25, .46, .45, .94)
       border-bottom 0
+      box-shadow $shadow-2
 
       > div:first-child
         border-bottom $collapsible-border
 
       &.active
-        @extend .z-8
         margin 16px 0
+        box-shadow $shadow-4

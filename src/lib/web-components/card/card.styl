@@ -3,15 +3,14 @@ $card-padding = 1.8em
 $card-highlight = rgba(0, 0, 0, .3)
 
 .card
-  @extend .z-2
-
   position relative
   margin .5em 0 1em 0
   transition box-shadow .25s
   border-radius $card-radius
+  box-shadow $shadow-1
 
   &:hover
-    @extend .z-6
+    box-shadow $shadow-2
 
   .dismiss.default
     border-radius 0 $card-radius 0 $card-radius
@@ -57,7 +56,7 @@ $card-highlight = rgba(0, 0, 0, .3)
     border-radius 0 0 $card-radius $card-radius
     p
       margin-left 0
-      mergin-right 0
+      margin-right 0
 
   .card-action
     border-top 1px solid alpha($grey-5, .4)
@@ -72,7 +71,7 @@ $card-highlight = rgba(0, 0, 0, .3)
       transition all .25s
 
       &:active
-        text-shadow 0px 0px 2px black
+        text-shadow 0 0 2px black
 
     a + a
         padding-left ($card-padding / 3)

@@ -94,7 +94,7 @@ Vue.component('screen', {
     }.bind(this));
 
     manager.withEmpty('keep-marginals', function() {
-      layout.addClass('fixed-top layout vertical window-height');
+      layout.addClass('fixed-top flex vertical window-height');
       page.addClass('scroll flex window-height');
     });
 
