@@ -12,15 +12,39 @@
 .all-pointer-events
   pointer-events all
 
-.inactive
-  overflow hidden
-  &:after
-    content ''
-    position fixed
-    top 0
-    left 0
-    right 0
-    bottom 0
+.overlay
+  display none
+  position fixed
+  top 0
+  right 0
+  bottom 0
+  left 0
+  width 100vw
+  height 100vh
+  background-color transparent
+  transition background-color .28s ease-in
+  &.active
+    display block
+    background-color $overlay-background-color
+
+.spin
+  animation quasar-spin 2s infinite linear
+.rotate-90
+  transform rotate(90deg)
+.rotate-180
+  transform rotate(180deg)
+.rotate-270
+  transform rotate(270deg)
+.flip-horizontal
+  transform scale(-1, 1)
+.flip-vertical
+  transform scale(1, -1)
+
+@keyframes quasar-spin
+  0%
+    transform rotate(0deg)
+  100%
+    transform rotate(359deg)
 
 .inline
   display inline-flex !important

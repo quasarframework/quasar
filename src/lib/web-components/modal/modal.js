@@ -15,7 +15,8 @@ function Modal(vm) {
 
   var
     self = this,
-    element = $('<div class="modal hidden all-pointer-events window-height window-width fullscreen">').appendTo(target)
+    overlay = $('<div class="overlay">').appendTo(target),
+    element = $('<div class="modal hidden window-height window-width fullscreen">').appendTo(target)
     ;
 
   $.extend(true, vm, {
@@ -28,6 +29,7 @@ function Modal(vm) {
 
   this.vm = new Vue(vm);
   this.$el = element;
+  this.$overlay = overlay;
   this.__onShowHandlers = [];
   this.__onCloseHandlers = [];
   this.autoDestroy = true;
@@ -55,7 +57,9 @@ Modal.prototype.show = function() {
 
   this.$el.removeClass('hidden');
   this.$el.velocity(effect, options);
-  target.addClass('no-pointer-events');
+  if (!this.alwaysFullscreen) {
+    this.$overlay.addClass('active');
+  }
   return this;
 };
 
@@ -66,7 +70,6 @@ Modal.prototype.close = function() {
     options = {
       duration: duration,
       complete: function() {
-        target.removeClass('no-pointer-events');
         if (self.autoDestroy) {
           self.destroy();
         }
@@ -76,6 +79,9 @@ Modal.prototype.close = function() {
       }
     };
 
+  if (!this.alwaysFullscreen) {
+    this.$overlay.removeClass('active');
+  }
   this.$el.velocity(effect, options);
 };
 
@@ -104,7 +110,7 @@ Modal.prototype.set = function(properties) {
 
 Modal.prototype.destroy = function() {
   this.$el.remove();
-  target.removeClass('no-pointer-events');
+  this.$overlay.remove();
 };
 
 quasar.Modal = Modal;
