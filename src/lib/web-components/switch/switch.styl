@@ -1,37 +1,31 @@
 .quasar-switch
   position relative
-  padding 20px 15px 20px 65px
-  margin 5px 0
-  height 20px
   cursor pointer
+  height $switch-height
+  min-width $switch-min-width
+  padding $switch-padding
 
   &:before
     content ''
     display inline-block
     position absolute
-    top 12px
-    left -11px
-    width 55px
-    height 13px
-    background-color $form-border-color
-    border-radius 15px
     vertical-align middle
-    margin-left 16px
-    transition background .3s ease
-  &.checked:before
-    background-color $primary
+    transition all .3s ease
+    top $switch-area-position[0]
+    left $switch-area-position[1]
+    width $switch-area-size[0]
+    height $switch-area-size[1]
 
   &:after
     content ''
-    position absolute
-    top 6px
-    left 5px
     display inline-block
-    width 25px
-    height 25px
-    background-color $form-circular-color
-    border-radius 21px
-    box-shadow 0 1px 3px 1px rgba(0, 0, 0, .4)
-    transition left .3s ease, background .3s ease, box-shadow .1s ease
+    position absolute
+    border-radius 50%
+    transition all .3s ease
+    top $switch-handle-position[0]
+    left $switch-handle-position[1]
+    width $switch-handle-size[0]
+    height $switch-handle-size[1]
+    background-color white
   &.checked:after
-    left 36px
+    left ($switch-handle-position[1] + $switch-area-size[0] - $switch-handle-size[0] - 2 * $switch-border-size)
