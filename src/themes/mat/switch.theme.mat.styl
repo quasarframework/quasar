@@ -1,18 +1,17 @@
-$switch-height                 ?= 32px
-$switch-min-width              ?= 50px
-$switch-padding                ?= 0 5px 0 $switch-min-width
+$switch-height                 ?= 36px
+$switch-padding                ?= 0 0 0 60px
 $switch-border-size            ?= 0
 
-$switch-area-position          ?= 8px 5px
-$switch-area-size              ?= 38px 14px
+$switch-area-position          ?= 9px 10px
+$switch-area-size              ?= 42px 16px
 
-$switch-handle-position        ?= 5px 5px
-$switch-handle-size            ?= 20px 20px
+$switch-handle-position        ?= 4px 10px
+$switch-handle-size            ?= 25px 25px
 
 .quasar-switch
   &:before
     border-radius 16px
-    background-color $form-primary-color
+    background-color $form-secondary-color
   &.checked:before
     background-color lighten($form-active-color, 60%)
 

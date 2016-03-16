@@ -36,6 +36,9 @@ $radio-color = $primary
       z-index 0
       transition .28s ease
 
-    &.checked:after
-        background-color $primary
+    &.checked
+      &:before
+        border 2px solid $form-active-color
+      &:after
+        background-color $form-active-color
         transform scale(1.02)

@@ -1,10 +1,9 @@
-$checkbox-size = 2px
 
 .quasar-checkbox
   position relative
-  padding 20px 15px 20px 40px
+  padding 0 0 0 40px
   margin 5px 0
-  height 20px
+  height 32px
   cursor pointer
 
   &:not(.inline)
@@ -13,24 +12,31 @@ $checkbox-size = 2px
   &:before, &:after
     content ''
     position absolute
-    top 5px
-    left 1px
+    top $checkbox-position[0]
+    left $checkbox-position[1]
     width 25px
     height 25px
     z-index 0
-    border $checkbox-size solid $form-primary-color
+    border 2px solid $form-primary-color
     margin-top 2px
     transition .2s
+    transition all .3s ease
+    border-radius $checkbox-border-radius
 
-  &.checked:before
-    top 6px
-    left 3px
-    width 10px
-    height 20px
-    border-top $checkbox-size solid transparent
-    border-left $checkbox-size solid transparent
-    border-right 1.5 * $checkbox-size solid $primary
-    border-bottom 1.5 * $checkbox-size solid $primary
-    transform rotate(30deg)
-    backface-visibility hidden
-    transform-origin 100% 100%
+  &.checked
+    &:before
+      background-color $form-active-color
+      border 2px solid $form-active-color
+    &:after
+      top $checkbox-tick-position[0]
+      left $checkbox-tick-position[1]
+      width $checkbox-tick-size[0]
+      height $checkbox-tick-size[1]
+      border-top $checkbox-tick-thickness solid transparent
+      border-left $checkbox-tick-thickness solid transparent
+      border-right $checkbox-tick-thickness solid white
+      border-bottom $checkbox-tick-thickness solid white
+      transform rotate(30deg)
+      backface-visibility hidden
+      transform-origin 100% 100%
+      border-radius 0

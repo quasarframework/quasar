@@ -22,6 +22,9 @@ function decodeEvent(event) {
 /* istanbul ignore next */
 Vue.directive('touch', {
   bind: function() {
+    if (!quasar.runs.with.touch) {
+      return;
+    }
     if (!this.el.hammer) {
       this.el.hammer = new Hammer.Manager(this.el);
     }
@@ -69,6 +72,9 @@ Vue.directive('touch', {
   },
 
   update: function(fn) {
+    if (!quasar.runs.with.touch) {
+      return;
+    }
     var
       mc = this.mc,
       vm = this.vm,
@@ -89,6 +95,9 @@ Vue.directive('touch', {
   },
 
   unbind: function() {
+    if (!quasar.runs.with.touch) {
+      return;
+    }
     this.mc.off(decodeEvent(this.arg)[0], this.handler);
 
     if (Object.keys(this.mc.handlers).length === 0) {

@@ -2,7 +2,7 @@
 
 var template = require('raw!./switch.html');
 
-Vue.component('quasar-switch', {
+Vue.component('switch', {
   template: template,
   props: ['model']
 });

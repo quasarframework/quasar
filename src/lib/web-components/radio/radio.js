@@ -2,7 +2,7 @@
 
 var template = require('raw!./radio.html');
 
-Vue.component('quasar-radio', {
+Vue.component('radio', {
   template: template,
   props: ['options', 'model']
 });

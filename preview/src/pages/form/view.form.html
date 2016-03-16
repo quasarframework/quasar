@@ -4,13 +4,14 @@
   <input placeholder="Address">
   <input placeholder="Phone">
   <quasar-dropdown :model.sync="dropdown.model" :options="dropdown.options" placeholder="Select Option">Dropdown</quasar-dropdown>
-  <quasar-range model="5" :min="1" :max="10"></quasar-range>
+  {{range}}
+  <range :model.sync="range" :min="1" :max="10"></range>
   <input placeholder="Mail">
   <input placeholder="Job">
-  <quasar-checkbox>I workout</quasar-checkbox>
+  <checkbox>I workout</checkbox>
   <textarea placeholder="Comments"></textarea>
   <div class="row items-center">
-    <quasar-switch class="inline">Subscribe to newsletter</quasar-switch>
+    <switch class="inline">Subscribe to newsletter</switch>
     <button class="primary">Submit</button>
   </div>
 </div>

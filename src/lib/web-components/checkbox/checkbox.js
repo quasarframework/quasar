@@ -2,7 +2,7 @@
 
 var template = require('raw!./checkbox.html');
 
-Vue.component('quasar-checkbox', {
+Vue.component('checkbox', {
   template: template,
   props: ['model']
 });

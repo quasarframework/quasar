@@ -1,15 +1,7 @@
 <div
   class="quasar-range non-selectable"
-  :class="[tooltip != model ? 'active' : '']"
+  :class="{active: active}"
   v-touch:pan-x="pan"
 >
-  <div class="quasar-range-min">{{min}}</div>
-  <div class="quasar-range-max">{{max}}</div>
-  <div
-    class="quasar-range-tooltip"
-    :style="{left: position + 2 + 'px'}"
-  >
-    {{tooltip}}
-  </div>
-  <div class="quasar-range-picker" :style="{left: position + 'px'}"></div>
+  <div class="quasar-range-picker" :style="{left: position}"></div>
 </div>

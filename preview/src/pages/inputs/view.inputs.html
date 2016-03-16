@@ -1,30 +1,31 @@
 <h2>Checkbox</h2>
-{{check}}
-<quasar-checkbox :model.sync="check">Check me!</quasar-checkbox>
+<checkbox :model.sync="check" class="inline" style="border: 1px solid black"></checkbox>
+<checkbox :model.sync="check">Check me!</checkbox>
 <p>
-  <quasar-checkbox class="inline" :model.sync="check">Check me!</quasar-checkbox>
-  <quasar-checkbox class="inline" :model.sync="check">Check me!</quasar-checkbox>
+  <checkbox class="inline" :model.sync="check">Check me!</checkbox>
+  <checkbox class="inline" :model.sync="check">Check me!</checkbox>
 </p>
 
 <h2>Radio</h2>
 <p>
-  Selected option: {{radio.model}}
-  <quasar-radio :options="radio.options" :model.sync="radio.model"></quasar-radio>
+  <radio :options="radio.options" :model.sync="radio.model" class="inline" style="border: 1px solid black"></radio>
+  <radio :options="radio.options" :model.sync="radio.model"></radio>
 </p>
 <p>
-  <quasar-radio class="inline" :options="radio.options" :model.sync="radio.model"></quasar-radio>
+  <radio class="inline" :options="radio.options" :model.sync="radio.model"></radio>
 </p>
 
 <h2>Switch</h2>
-<quasar-switch :model.sync="check">Switch me</quasar-switch>
+<switch :model.sync="check" class="inline" style="border: 1px solid black"></switch>
+<switch :model.sync="check">Switch me</switch>
 <p>
-  <quasar-switch class="inline" :model.sync="check">Switch me</quasar-switch>
+  <switch class="inline" :model.sync="check">Switch me</switch>
   Inline with Text
 </p>
 
 <h2>Range</h2>
 [{{range.min}}, {{range.max}}] - {{range.model}}
-<quasar-range :model.sync="range.model" :min="range.min" :max="range.max"></quasar-range>
+<range :model.sync="range.model" :min="range.min" :max="range.max"></range>
 
 <h2>Text Input</h2>
 Inline with text <input v-model="text" placeholder="Address" class="inline"></input>
