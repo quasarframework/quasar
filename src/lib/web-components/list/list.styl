@@ -1,57 +1,117 @@
-ul.list
-  margin .5em 0 1em 0
-  border 1px solid $grey-3
-  overflow hidden
+$list-divider-color     ?= #dedede
+$item-description-color ?= #666
+$list-header-color      ?= #858585
+
+.list-item
   position relative
-  padding 0
-  list-style-type none
-  border-radius 3px
+  text-transform none
+  text-decoration none
+  text-align initial
+  font-weight normal
+  box-shadow none
+  display flex
+  align-items center
+  margin 0
+  padding 0 0 0 16px
+  border 0
+  width 100%
+  min-height 3rem
+  overflow hidden
+  transition all .3s
 
-  > li
-    line-height 1.5rem
-    padding 10px 20px
-    margin 0
-    border-bottom 1px solid $grey-3
+  i
+    line-height 1
+    font-size 2.4rem
+    min-height 2.4rem
 
+  img
+    border 0
+
+  .item-left, .item-right
+    display inline-flex
+    margin 9px 8px 9px 0
+  .item-left
+    margin-top 11px
+    margin-bottom 10px
+    margin-left 0
+
+  .list-content
+    display flex
+    flex-direction row
+    flex 1 1 auto
+    align-items center
+    align-self stretch
+    padding 13px 8px 13px 0
+
+    .item-right
+      margin 9px 8px 9px 0
+
+  .list-label
+    flex 1 1 auto
+    white-space nowrap
+    text-overflow ellipsis
+    overflow hidden
+    h1, h2, h3, h4, h5, h6, p
+      white-space nowrap
+      text-overflow ellipsis
+      overflow hidden
+      margin 0
+      padding 0
     p
-      margin .2em
-      color $grey-7
-      span:first-of-type
-        color black
-        font-size 1.4em
-        display block
-        margin-bottom .3em
+      color $item-description-color
 
-    img, i
-      font-size 2em
+  .list-avatar img
+    max-width 3rem
+    max-height 3rem
+    border-radius 50%
 
-    &.list-title
-      font-size 1.8em
+  .list-thumbnail
+    margin 8px 0
+    img
+      max-width 8rem
+      max-height 8rem
 
-    .list-action
-      float right
+  .item-left + .list-content,
+  .list-avatar + .list-content,
+  .list-thumbnail + .list-content
+    margin-left 24px
 
-    &.complex
-      @extend .row
-      p
-        @extend .auto
-      > i:first-child
-        @extend .row, .items-start
-        font-size 2.9em
-      img, i
-        color $primary
-        margin .2em .2em 0 0
-      .list-action
-        @extend .row, .items-start
+.list
+  &.list-content-delimiter
+    .list-item + .list-item
+      .list-content
+        border-top 1px solid $list-divider-color
+  &:not(.list-content-delimiter)
+    .list-item + .list-item
+      border-top 1px solid $list-divider-color
 
-  &.borderless
-    border 0
-  &.no-separator > li
-    border 0
-  &.highlight > li:not(.list-title):hover
-    background-color rgba(0, 0, 0, .05)
-  &.link > li:not(.list-title)
-    cursor pointer
+  &.list-inset
+    margin 16px
+    border-radius $generic-border-radius
+    .list-item:first-child
+      border-top-width 0
+      border-top-right-radius $generic-border-radius
+      border-top-left-radius $generic-border-radius
+    .list-item:last-child
+      border-bottom-width 0
+      border-bottom-right-radius $generic-border-radius
+      border-bottom-left-radius $generic-border-radius
 
-  &.highlight.borderless > li
-    border-radius 3px
+  &.list-content-delimiter .list-item
+    border-width 0
+
+  .list-divider
+    color black
+    background-color $list-divider-color
+    min-height 30px
+    width 100%
+    padding 16px
+    &[dark]
+      color white
+      background-color black
+
+  .list-header
+    border-bottom 1px solid $list-divider-color
+    margin-left 0
+    padding 16px
+    color $list-header-color
