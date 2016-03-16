@@ -1,4 +1,5 @@
 <h2>Checkbox</h2>
+<item>gogu</item>
 <checkbox :model.sync="check" class="inline" style="border: 1px solid black"></checkbox>
 <checkbox :model.sync="check">Check me!</checkbox>
 <p>
@@ -8,11 +9,11 @@
 
 <h2>Radio</h2>
 <p>
-  <radio :options="radio.options" :model.sync="radio.model" class="inline" style="border: 1px solid black"></radio>
-  <radio :options="radio.options" :model.sync="radio.model"></radio>
-</p>
-<p>
-  <radio class="inline" :options="radio.options" :model.sync="radio.model"></radio>
+  <radio :model.sync="radio" value="opt1" class="inline" style="border: 1px solid black"></radio>
+  <radio :model.sync="radio" value="opt2" class="inline"></radio>
+  <radio :model.sync="radio" value="opt1">Option 1</radio>
+  <radio :model.sync="radio" value="opt2">Option 2</radio>
+  <radio :model.sync="radio" value="opt3">Option 3</radio>
 </p>
 
 <h2>Switch</h2>

@@ -1,0 +1,27 @@
+$radio-size           ?= 35px 40px
+$radio-picker-size    ?= 12px
+$radio-tick-thickness ?= 3px
+
+.quasar-radio
+  &:after
+    content ''
+    position absolute
+    opacity 0
+
+    top (($radio-size[0] - 1.8 * $radio-picker-size) / 4)
+    left (($radio-size[1] - 1.8 * $radio-picker-size) / 2)
+    width ($radio-picker-size)
+    height (1.8 * $radio-picker-size)
+
+    border-top none
+    border-left none
+    border-right $radio-tick-thickness solid $form-active-color
+    border-bottom $radio-tick-thickness solid $form-active-color
+    transform rotate(30deg)
+    transform-origin 100% 100%
+
+    transition all .3s ease
+
+  &.checked:after
+    content ''
+    opacity 1

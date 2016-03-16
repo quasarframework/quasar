@@ -85,7 +85,7 @@ module.exports.page = function(vue, context, done) {
     container = $(el),
     pageContainers = $('.quasar-page-container'),
     newPage = $(
-      '<div class="quasar-page-container page-' + context.identification +
+      '<div class="quasar-page-container scroll page-' + context.identification +
       '"><div class="quasar-page"></div></div>'
     );
 

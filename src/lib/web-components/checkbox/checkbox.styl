@@ -16,10 +16,8 @@
     left $checkbox-position[1]
     width 25px
     height 25px
-    z-index 0
     border 2px solid $form-primary-color
     margin-top 2px
-    transition .2s
     transition all .3s ease
     border-radius $checkbox-border-radius
 
@@ -32,11 +30,10 @@
       left $checkbox-tick-position[1]
       width $checkbox-tick-size[0]
       height $checkbox-tick-size[1]
-      border-top $checkbox-tick-thickness solid transparent
-      border-left $checkbox-tick-thickness solid transparent
+      border-top none
+      border-left none
       border-right $checkbox-tick-thickness solid white
       border-bottom $checkbox-tick-thickness solid white
       transform rotate(30deg)
-      backface-visibility hidden
       transform-origin 100% 100%
       border-radius 0

@@ -1,44 +1,7 @@
-$radio-size = 20px
-$radio-color = $primary
-
 .quasar-radio
-  margin 5px 0
-
-  div
-    position relative
+  position relative
+  height $radio-size[0]
+  padding 0 0 0 $radio-size[1]
+  cursor pointer
+  &:not(.inline)
     width 100%
-    padding 16px 15px 16px 40px
-    cursor pointer
-
-    &:before
-      content ''
-      position absolute
-      left 0
-      top 10px
-      margin 4px
-      width $radio-size
-      height $radio-size
-      z-index 0
-      transition .28s ease
-      border-radius 50%
-      border 2px solid $form-primary-color
-    &:after
-      content ''
-      border-radius 50%
-      border 2px solid $primary
-      transform scale(0)
-      position absolute
-      top 14px
-      left 4px
-      margin 4px
-      width $radio-size - 8px
-      height $radio-size - 8px
-      z-index 0
-      transition .28s ease
-
-    &.checked
-      &:before
-        border 2px solid $form-active-color
-      &:after
-        background-color $form-active-color
-        transform scale(1.02)

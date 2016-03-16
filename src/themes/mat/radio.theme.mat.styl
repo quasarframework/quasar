@@ -1,0 +1,33 @@
+$radio-size        ?= 35px 40px
+$radio-picker-size ?= 25px
+
+.quasar-radio
+  &:before
+    content ''
+    position absolute
+    top (($radio-size[0] - $radio-picker-size) / 2)
+    left (($radio-size[1] - $radio-picker-size) / 2)
+    width $radio-picker-size
+    height $radio-picker-size
+    transition .28s ease
+    border-radius 50%
+    border 2px solid $form-primary-color
+  &:after
+    content ''
+    border-radius 50%
+    border 2px solid $form-active-color
+    transform scale(0)
+    position absolute
+    top (($radio-size[0] - $radio-picker-size) / 2)
+    left (($radio-size[1] - $radio-picker-size) / 2)
+    margin 4px
+    width ($radio-picker-size - 8px)
+    height ($radio-picker-size - 8px)
+    transition .28s ease
+
+  &.checked
+    &:before
+      border 2px solid $form-active-color
+    &:after
+      background-color $form-active-color
+      transform scale(1.02)
