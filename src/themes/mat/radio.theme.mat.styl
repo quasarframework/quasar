@@ -1,33 +1,39 @@
-$radio-size        ?= 35px 40px
-$radio-picker-size ?= 25px
+$radio-size         ?= $generic-input-size
+$radio-border-width ?= $generic-input-border-width
 
 .quasar-radio
-  &:before
-    content ''
-    position absolute
-    top (($radio-size[0] - $radio-picker-size) / 2)
-    left (($radio-size[1] - $radio-picker-size) / 2)
-    width $radio-picker-size
-    height $radio-picker-size
-    transition .28s ease
-    border-radius 50%
-    border 2px solid $form-primary-color
-  &:after
-    content ''
-    border-radius 50%
-    border 2px solid $form-active-color
-    transform scale(0)
-    position absolute
-    top (($radio-size[0] - $radio-picker-size) / 2)
-    left (($radio-size[1] - $radio-picker-size) / 2)
-    margin 4px
-    width ($radio-picker-size - 8px)
-    height ($radio-picker-size - 8px)
-    transition .28s ease
+  display inline-block
+  height ($checkbox-size + $checkbox-border-width)
+  width ($checkbox-size + $checkbox-border-width)
+  vertical-align middle
 
-  &.checked
+  input
+    display none
+
+  input + div
+    position relative
+
+    &:before, &:after
+      content ''
+      position absolute
+      top 0
+      left 0
+      border-radius 50%
+      transition .3s ease
+
     &:before
-      border 2px solid $form-active-color
+      width $radio-size
+      height $radio-size
+      border $radio-border-width solid $form-darker-color
+    &:after
+      transform scale(0)
+      margin (3 * $radio-border-width)
+      width ($radio-size - 6 * $radio-border-width)
+      height ($radio-size - 6 * $radio-border-width)
+
+  input:checked + div
+    &:before
+      border $radio-border-width solid $form-active-color
     &:after
       background-color $form-active-color
       transform scale(1.02)

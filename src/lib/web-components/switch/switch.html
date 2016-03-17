@@ -1,7 +1,4 @@
-<div
-  class="quasar-switch non-selectable row items-center"
-  :class="{checked: model}"
-  @click="model = !model"
->
-  <slot></slot>
-</div>
+<label class="quasar-switch">
+  <input type="checkbox" v-model="model">
+  <div></div>
+</label>

@@ -1,7 +1,4 @@
-<div
-  class="quasar-radio non-selectable row items-center"
-  :class="{checked: model === value}"
-  @click="model = value"
->
-  <slot></slot>
-</div>
+<label class="quasar-radio">
+  <input type="radio" v-model="model" :value="value">
+  <div></div>
+</label>

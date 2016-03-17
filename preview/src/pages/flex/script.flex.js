@@ -1,6 +1,6 @@
 'use strict';
 
-var html = require('raw!./view.layout.html');
+var html = require('raw!./view.flex.html');
 
 module.exports = {
   template: html,

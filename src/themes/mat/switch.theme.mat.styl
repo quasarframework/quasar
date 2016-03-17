@@ -1,21 +1,31 @@
-$switch-height                 ?= 36px
-$switch-padding                ?= 0 0 0 60px
-$switch-border-size            ?= 0
+$switch-size           ?= $generic-input-size
+$switch-width-factor   ?= 1.6
 
-$switch-area-position          ?= 9px 10px
-$switch-area-size              ?= 42px 16px
+$switch-height           = $switch-size
+$switch-width            = $switch-width-factor * $switch-size
+$switch-border-size      = 2px
 
-$switch-handle-position        ?= 4px 10px
-$switch-handle-size            ?= 25px 25px
+$switch-handle-size      = ($switch-size - $switch-border-size)
+$switch-handle-top       = 0
+$switch-handle-left      = 0
+
+$switch-area-width       = ($switch-width - $switch-border-size)
+$switch-area-height      = (.75 * $switch-height)
+$switch-area-left        = 0
+$switch-area-top         = (.085 * $switch-height)
+$switch-area-active-left = ($switch-width - $switch-handle-size - $switch-border-size)
 
 .quasar-switch
-  &:before
-    border-radius 16px
-    background-color $form-secondary-color
-  &.checked:before
-    background-color lighten($form-active-color, 60%)
+  input + div
+    &:before
+      border-radius 16px
+      background-color $form-lighter-color
+    &:after
+      box-shadow $form-shadow
 
-  &:after
-    box-shadow $form-shadow
-  &.checked:after
-    background-color $form-active-color
+  input:checked + div
+    &:before
+      background-color lighten($form-active-color, 60%)
+
+    &:after
+      background-color $form-active-color

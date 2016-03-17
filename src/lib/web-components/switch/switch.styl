@@ -1,30 +1,35 @@
 .quasar-switch
-  position relative
-  cursor pointer
+  display inline-block
   height $switch-height
-  padding $switch-padding
+  width $switch-width
+  vertical-align middle
 
-  &:before
-    content ''
-    display inline-block
-    position absolute
-    vertical-align middle
-    transition all .3s ease
-    top $switch-area-position[0]
-    left $switch-area-position[1]
-    width $switch-area-size[0]
-    height $switch-area-size[1]
+  input
+    display none
 
-  &:after
-    content ''
-    display inline-block
-    position absolute
-    border-radius 50%
-    transition all .3s ease
-    top $switch-handle-position[0]
-    left $switch-handle-position[1]
-    width $switch-handle-size[0]
-    height $switch-handle-size[1]
-    background-color white
-  &.checked:after
-    left ($switch-handle-position[1] + $switch-area-size[0] - $switch-handle-size[0] - 2 * $switch-border-size)
+  input + div
+    position relative
+
+    &:before, &:after
+      content ''
+      position absolute
+      transition all .3s ease
+
+    &:before
+      vertical-align middle
+      top $switch-area-top
+      left $switch-area-left
+      width $switch-area-width
+      height $switch-area-height
+
+    &:after
+      border-radius 50%
+      top $switch-handle-top
+      left $switch-handle-left
+      width $switch-handle-size
+      height $switch-handle-size
+      background-color white
+
+  input:checked + div
+    &:after
+      left $switch-area-active-left

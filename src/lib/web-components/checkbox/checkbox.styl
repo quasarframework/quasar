@@ -1,39 +1,45 @@
+$checkbox-tick-top        = ($checkbox-size / 6)
+$checkbox-tick-left       = ($checkbox-size / 6)
+$checkbox-tick-width      = (.26 * $checkbox-size)
+$checkbox-tick-height     = (.55 * $checkbox-size)
 
 .quasar-checkbox
-  position relative
-  padding 0 0 0 40px
-  margin 5px 0
-  height 32px
-  cursor pointer
+  display inline-block
+  height ($checkbox-size + $checkbox-border-width)
+  width ($checkbox-size + $checkbox-border-width)
+  vertical-align middle
 
-  &:not(.inline)
-    width 100%
+  input
+    display none
 
-  &:before, &:after
-    content ''
-    position absolute
-    top $checkbox-position[0]
-    left $checkbox-position[1]
-    width 25px
-    height 25px
-    border 2px solid $form-primary-color
-    margin-top 2px
-    transition all .3s ease
-    border-radius $checkbox-border-radius
+  input + div
+    position relative
 
-  &.checked
+    &:before
+      border $checkbox-border-width solid $form-darker-color
+    &:before, &:after
+      content ''
+      position absolute
+      top 0
+      left 0
+      width $checkbox-size
+      height $checkbox-size
+      transition all .3s ease
+      border-radius $checkbox-border-radius
+
+  input:checked + div
     &:before
       background-color $form-active-color
-      border 2px solid $form-active-color
+      border $checkbox-border-width solid $form-active-color
     &:after
-      top $checkbox-tick-position[0]
-      left $checkbox-tick-position[1]
-      width $checkbox-tick-size[0]
-      height $checkbox-tick-size[1]
+      top $checkbox-tick-top
+      left $checkbox-tick-left
+      width $checkbox-tick-width
+      height $checkbox-tick-height
       border-top none
       border-left none
       border-right $checkbox-tick-thickness solid white
       border-bottom $checkbox-tick-thickness solid white
-      transform rotate(30deg)
+      transform rotate(45deg)
       transform-origin 100% 100%
       border-radius 0

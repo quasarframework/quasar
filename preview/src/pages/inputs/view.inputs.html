@@ -1,27 +1,35 @@
 <h2>Checkbox</h2>
-<item>gogu</item>
-<checkbox :model.sync="check" class="inline" style="border: 1px solid black"></checkbox>
-<checkbox :model.sync="check">Check me!</checkbox>
+<checkbox :model.sync="check" style="border: 1px solid black"></checkbox>
+<label>
+  <checkbox :model.sync="check"></checkbox>
+  Checkbox Label
+</label>
 <p>
-  <checkbox class="inline" :model.sync="check">Check me!</checkbox>
-  <checkbox class="inline" :model.sync="check">Check me!</checkbox>
+  <checkbox :model.sync="check"></checkbox>
+  <checkbox :model.sync="check"></checkbox>
+  <checkbox :model.sync="check"></checkbox>
 </p>
 
 <h2>Radio</h2>
+<radio :model.sync="radio" value="opt1" style="border: 1px solid black"></radio>
+<label>
+  <radio :model.sync="radio" value="opt2"></radio>
+  Radio Label
+</label>
 <p>
-  <radio :model.sync="radio" value="opt1" class="inline" style="border: 1px solid black"></radio>
-  <radio :model.sync="radio" value="opt2" class="inline"></radio>
   <radio :model.sync="radio" value="opt1">Option 1</radio>
   <radio :model.sync="radio" value="opt2">Option 2</radio>
   <radio :model.sync="radio" value="opt3">Option 3</radio>
 </p>
 
 <h2>Switch</h2>
-<switch :model.sync="check" class="inline" style="border: 1px solid black"></switch>
-<switch :model.sync="check">Switch me</switch>
+<switch :model.sync="check" style="border: 1px solid black"></switch>
+<label>
+  <switch :model.sync="check"></switch>
+  Switch label
+</label>
 <p>
-  <switch class="inline" :model.sync="check">Switch me</switch>
-  Inline with Text
+  <switch :model.sync="check"></switch> Inline with Text
 </p>
 
 <h2>Range</h2>
