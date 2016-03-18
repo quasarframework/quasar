@@ -120,30 +120,17 @@ p
     font-weight 200
 
 
-::-webkit-selection
-  background-color $primary
-  color rgba(0, 0, 0, .87)
-
-::-moz-selection
-  background-color $primary
-  color rgba(0, 0, 0, .87)
-
+::-webkit-selection,
+::-moz-selection,
 ::selection
   background-color $primary
-  color rgba(0, 0, 0, .87)
-
+  color alpha(opposite-non-color($primary), .87)
 
 textarea::-webkit-selection,
-input::-webkit-selection
-  background-color rgba(100, 100, 100, .4)
-  color rgba(0, 0, 0, .87)
-
+input::-webkit-selection,
 textarea::-moz-selection,
-input::-moz-selection
-  background-color rgba(100, 100, 100, .4)
-  color rgba(0, 0, 0, .87)
-
+input::-moz-selection,
 textarea::selection,
 input::selection
-  background-color rgba(100, 100, 100, .4)
-  color rgba(0, 0, 0, .87)
+  background-color alpha($primary, .4)
+  color alpha(opposite-non-color($primary), .87)

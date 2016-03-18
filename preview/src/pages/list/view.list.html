@@ -1,3 +1,28 @@
+<h1>Item alone</h1>
+<div class="item">
+  <i>mail</i>
+  <div class="item-content">
+    <div class="item-label">Quasar Framework</div>
+    <div class="item-value">Some note</div>
+  </div>
+</div>
+
+<h1>Item alone</h1>
+<div class="item">
+  <i>mail</i>
+  <label class="item-content">
+    <div class="item-label">Quasar Framework</div>
+    <radio :model.sync="radio" value="opt1"></radio>
+  </label>
+</div>
+<div class="item">
+  <i>mail</i>
+  <label class="item-content">
+    <div class="item-label">Quasar Framework</div>
+    <radio :model.sync="radio" value="opt1"></radio>
+  </label>
+</div>
+
 <h1>List</h1>
 <div class="list">
   <div class="item">Quasar Framework</div>
@@ -36,11 +61,54 @@
 <h1>List with item-action</h1>
 <div class="list bordered inner-delimiter">
   <div class="item">
-    <i>mail</i>
     <div class="item-content">
       <div class="item-label">Quasar Framework</div>
+      <div class="item-value">Some note</div>
     </div>
   </div>
+  <div class="item">
+    <div class="item-content">
+      <div class="item-label">Quasar Framework</div>
+      <div class="item-value">Some note</div>
+    </div>
+  </div>
+  <div class="item">
+    <div class="item-content">
+      <div class="item-label">Quasar Framework</div>
+      <div class="item-value">Some note</div>
+    </div>
+  </div>
+</div>
+
+<h1>List with item-action</h1>
+<div class="list bordered inner-delimiter">
+  <label class="item">
+    <checkbox></checkbox>
+    <div class="item-content">
+      Quasar Framework
+    </div>
+  </label>
+  <label class="item">
+    <checkbox></checkbox>
+    <div class="item-content">
+      <div class="item-label">
+        Quasar Framework
+      </div>
+      <div class="item-value">
+        Some note
+      </div>
+    </div>
+  </label>
+  <label class="item">
+    <checkbox></checkbox>
+    <div class="item-content">
+      Quasar Framework
+    </div>
+  </label>
+</div>
+
+<h1>List with item-action</h1>
+<div class="list bordered inner-delimiter">
   <div class="item">
     <i>mail</i>
     <div class="item-content">
@@ -48,7 +116,13 @@
     </div>
   </div>
   <div class="item">
-    <i>mail</i>
+    <i>pages</i>
+    <div class="item-content">
+      <div class="item-label">Quasar Framework</div>
+    </div>
+  </div>
+  <div class="item">
+    <i>alarm</i>
     <div class="item-content">
       <div class="item-label">Quasar Framework</div>
     </div>
@@ -70,7 +144,15 @@
     <i>mail</i>
     <div class="item-content">
       <div class="item-label">Quasar Framework</div>
-      <i class="item-action">mail</i>
+      <i>mail</i>
+    </div>
+  </div>
+  <div class="item">
+    <i>mail</i>
+    <div class="item-content">
+      <div class="item-label">Quasar Framework</div>
+      <i>mail</i>
+      <i>alarm</i>
     </div>
   </div>
   <div class="list-header">Radios</div>
@@ -78,14 +160,14 @@
     <i>mail</i>
     <label class="item-content">
       <div class="item-label">Quasar Framework</div>
-      <radio :model.sync="radio" value="opt1" class="item-action"></radio>
+      <radio :model.sync="radio" value="opt1"></radio>
     </label>
   </div>
   <div class="item">
     <i>mail</i>
     <label class="item-content">
       <div class="item-label">Quasar Framework</div>
-      <radio :model.sync="radio" value="opt2" class="item-action"></radio>
+      <radio :model.sync="radio" value="opt2"></radio>
     </label>
   </div>
   <div class="list-header">Checkbox</div>
@@ -93,22 +175,22 @@
     <i>mail</i>
     <label class="item-content">
       <div class="item-label">
-        <p main>Quasar Framework</p>
+        <p title>Quasar Framework</p>
         <p>Description</p>
         <p>Description</p>
         <p>Description</p>
       </div>
-      <checkbox class="item-action"></checkbox>
+      <checkbox></checkbox>
     </label>
   </div>
   <div class="item">
     <i>mail</i>
     <label class="item-content">
       <div class="item-label">
-        <p main>Quasar Framework</p>
+        <p title>Quasar Framework</p>
         <p>Description</p>
       </div>
-      <checkbox class="item-action"></checkbox>
+      <checkbox></checkbox>
     </label>
   </div>
   <div class="item">
@@ -117,7 +199,7 @@
       <div class="item-label">
         Quasar Framework
       </div>
-      <checkbox class="item-action"></checkbox>
+      <checkbox></checkbox>
     </label>
   </div>
   <div class="list-header">Switch</div>
@@ -125,7 +207,7 @@
     <i>mail</i>
     <label class="item-content">
       <div class="item-label">Quasar Framework</div>
-      <switch class="item-action"></switch>
+      <switch></switch>
     </label>
   </div>
   <div class="list-header">Button</div>
@@ -143,19 +225,19 @@
   <div class="item">
     <div class="item-content">
       <div class="item-label">Quasar Framework</div>
-      <i class="item-action">mail</i>
+      <i>mail</i>
     </div>
   </div>
   <div class="item">
     <div class="item-content">
       <div class="item-label">Quasar Framework</div>
-      <i class="item-action">mail</i>
+      <i>mail</i>
     </div>
   </div>
   <div class="item">
     <div class="item-content">
       <div class="item-label">Quasar Framework</div>
-      <i class="item-action">mail</i>
+      <i>mail</i>
     </div>
   </div>
 </div>
@@ -191,7 +273,7 @@
     <div class="item-avatar"><img src="assets/avatar.png"></div>
     <div class="item-content">
       <div class="item-label">
-        <p main>Quasar Framework</p>
+        <p title>Quasar Framework</p>
         <p>Description</p>
       </div>
     </div>
@@ -201,22 +283,22 @@
     <div class="item-avatar"><img src="assets/avatar.png"></div>
     <div class="item-content">
       <div class="item-label">
-        <p main>Quasar Framework</p>
+        <p title>Quasar Framework</p>
         <p>Description</p>
         <p>Description</p>
       </div>
-      <i class="item-action">mail</i>
+      <i>mail</i>
     </div>
   </div>
   <div class="item">
     <div class="item-avatar"><img src="assets/avatar.png"></div>
     <div class="item-content">
       <div class="item-label">
-        <p main>Quasar Framework</p>
+        <p title>Quasar Framework</p>
         <p>Description</p>
         <p>Description</p>
       </div>
-      <i class="item-action">mail</i>
+      <i>mail</i>
     </div>
   </div>
 </div>
@@ -227,7 +309,7 @@
     <div class="item-avatar"><img src="assets/avatar.png"></div>
     <div class="item-content">
       <div class="item-label">
-        <p main>Quasar Framework</p>
+        <p title>Quasar Framework</p>
         <p>Description</p>
       </div>
     </div>
@@ -237,7 +319,7 @@
     <div class="item-avatar"><img src="assets/avatar.png"></div>
     <div class="item-content">
       <div class="item-label">
-        <p main>Quasar Framework</p>
+        <p title>Quasar Framework</p>
         <p>Description</p>
         <p>Description</p>
       </div>
@@ -248,7 +330,7 @@
     <div class="item-avatar"><img src="assets/avatar.png"></div>
     <div class="item-content">
       <div class="item-label">
-        <p main>Quasar Framework</p>
+        <p title>Quasar Framework</p>
         <p>Description</p>
         <p>Description</p>
       </div>
@@ -263,7 +345,7 @@
     <div class="item-avatar"><img src="assets/avatar.png"></div>
     <div class="item-content">
       <div class="item-label">
-        <p main>Quasar Framework</p>
+        <p title>Quasar Framework</p>
         <p>Description</p>
       </div>
     </div>
@@ -273,7 +355,7 @@
     <div class="item-avatar"><img src="assets/avatar.png"></div>
     <div class="item-content">
       <div class="item-label">
-        <p main>Quasar Framework</p>
+        <p title>Quasar Framework</p>
         <p>Description</p>
         <p>Description</p>
       </div>
@@ -284,7 +366,7 @@
     <div class="item-avatar"><img src="assets/avatar.png"></div>
     <div class="item-content">
       <div class="item-label">
-        <p main>Quasar Framework</p>
+        <p title>Quasar Framework</p>
         <p>Description</p>
         <p>Description</p>
       </div>
@@ -299,7 +381,7 @@
     <div class="item-thumbnail"><img src="assets/avatar.png"></div>
     <div class="item-content">
       <div class="item-label">
-        <p main>Quasar Framework</p>
+        <p title>Quasar Framework</p>
         <p>Description</p>
       </div>
       <button class="primary clear item-action">View</button>
@@ -309,7 +391,7 @@
     <div class="item-thumbnail"><img src="assets/avatar.png"></div>
     <div class="item-content">
       <div class="item-label">
-        <p main>Quasar Framework</p>
+        <p title>Quasar Framework</p>
         <p>Description</p>
       </div>
       <button class="primary clear item-action">View</button>
@@ -319,7 +401,7 @@
     <div class="item-thumbnail"><img src="assets/avatar.png"></div>
     <div class="item-content">
       <div class="item-label">
-        <p main>Quasar Framework</p>
+        <p title>Quasar Framework</p>
         <p>Description</p>
       </div>
       <button class="primary clear item-action">View</button>
@@ -333,7 +415,7 @@
     <div class="item-thumbnail"><img src="assets/avatar.png"></div>
     <div class="item-content">
       <div class="item-label">
-        <p main>Quasar Framework</p>
+        <p title>Quasar Framework</p>
         <p>Description</p>
       </div>
       <button class="primary clear item-action">View</button>
@@ -343,7 +425,7 @@
     <div class="item-thumbnail"><img src="assets/avatar.png"></div>
     <div class="item-content">
       <div class="item-label">
-        <p main>Quasar Framework</p>
+        <p title>Quasar Framework</p>
         <p>Description</p>
       </div>
       <button class="primary clear item-action">View</button>
@@ -353,7 +435,7 @@
     <div class="item-thumbnail"><img src="assets/avatar.png"></div>
     <div class="item-content">
       <div class="item-label">
-        <p main>Quasar Framework</p>
+        <p title>Quasar Framework</p>
         <p>Description</p>
       </div>
       <button class="primary clear item-action">View</button>

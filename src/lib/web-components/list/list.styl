@@ -21,10 +21,6 @@
     font-size (5px + $generic-input-size)
     min-height (5px + $generic-input-size)
 
-  .item-action, .item-value
-    margin auto 0
-  button.item-action
-    margin-right (5px - $item-margin)
   .item-value
     color $item-note-color
 
@@ -48,9 +44,11 @@
       padding 0
       font-size ($item-font-size / 1.1)
       color $item-description-color
-    p[main]
+    p[title]
       font-size $item-font-size
       color inherit
+    button
+      margin-right (5px - $item-margin)
 
   .item-label
     margin-top 10px
