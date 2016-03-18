@@ -63,20 +63,23 @@ Vue.component('range', {
     this.update = quasar.debounce(this.update, 50);
     this.update();
 
-    if (quasar.runs.on.desktop) {
-      this.el.click(function(event) {
-        if (quasar.runs.with.touch && event.eventPhase === Event.BUBBLING_PHASE) {
-          // panning already dealt with this;
-          return;
-        }
+    this.clickHandler = function(event) {
+      if (quasar.runs.with.touch && event.eventPhase === Event.BUBBLING_PHASE) {
+        // panning already dealt with this;
+        return;
+      }
 
-        var
-          range = this.max - this.min,
-          percentage = Math.min(1, Math.max(0, event.offsetX / this.el.width()))
-          ;
+      var
+        range = this.max - this.min,
+        percentage = Math.min(1, Math.max(0, event.offsetX / this.el.width()))
+        ;
 
-        this.model = (this.min + percentage * range).toFixed(this.precision);
-      }.bind(this));
-    }
+      this.model = (this.min + percentage * range).toFixed(this.precision);
+    }.bind(this);
+
+    this.el.click(this.clickHandler);
+  },
+  destroy: function() {
+    this.el.off('click', this.clickHandler);
   }
 });

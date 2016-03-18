@@ -218,13 +218,30 @@
       <switch></switch>
     </label>
   </div>
-  <div class="list-header">Button</div>
+</div>
+<br>
+<div class="list item-delimiter bordered">
+  <div class="list-header">Range & Button</div>
+  <div class="item">
+    <i>volume_up</i>
+    <div class="item-content">
+      <span class="item-value item-right-margin">1</span>
+      <range :model.sync="range" :min="1" :max="10"></range>
+      <span class="item-value item-left-margin">10</span>
+      <div class="item-left-margin" style="font-weight: bold">{{range}}</div>
+    </div>
+  </div>
   <div class="item">
     <i>mail</i>
     <div class="item-content">
       <div class="item-label">Quasar Framework</div>
-      <button class="teal item-action">Click Me</button>
+      <button class="primary item-action">Click Me</button>
     </div>
+  </div>
+  <div class="item">
+    <i class="item-right-margin">volume_down</i>
+    <range :model.sync="range" :min="1" :max="10"></range>
+    <i class="item-left-margin">volume_up</i>
   </div>
 </div>
 

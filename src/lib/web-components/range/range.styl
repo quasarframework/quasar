@@ -1,24 +1,32 @@
+$quasar-range-height = 36px
+$quasar-range-handler-size = 24px
+
 .quasar-range
-  margin 8px 0
-  width calc(100% - 24px)
-  height 36px
+  padding-right $quasar-range-handler-size
+  height $quasar-range-height
   position relative
   cursor pointer
+  display inline-block
+  width 100%
+  vertical-align middle
 
   &:before
     content ''
     position absolute
-    top 16px
+    top ($quasar-range-height / 2 - 1px)
     height 2px
-    width calc(100% + 24px)
-    background-color $form-lighter-color
+    width 100%
+    background-color $form-darker-color
     transition background 1s ease
+
+.quasar-range-container
+  position relative
 
 .quasar-range-picker
   position absolute
-  top 4px
-  width 24px
-  height 24px
+  top (($quasar-range-height - $quasar-range-handler-size) / 2)
+  width $quasar-range-handler-size
+  height $quasar-range-handler-size
   background-color white
   border-radius 21px
   box-shadow 0 1px 3px 1px rgba(0, 0, 0, .4)
