@@ -1,37 +1,41 @@
 <h1>Badges</h1>
 <p>
   <div class="badge">badge</div>
-  <div class="badge secondary-background shadow-1">10k</div>
+  <div class="badge primary-background white">badge</div>
+  <div class="badge secondary-background white shadow-1">10k</div>
   Text
 </p>
 <p>
-  <div class="badge tertiary-background"><i>mail</i> 10</div>
-  <div class="badge tertiary-background">
+  <div class="badge tertiary-background white"><i>mail</i> 10</div>
+  <div class="badge purple-background white">
     <i left-detail>mail</i> 10
   </div>
   Text
 </p>
 <p>
-  <div class="badge secondary-background">
+  <div class="badge amber-background">
     <span left-detail>Quasar</span> Framework
   </div>
-  <div class="badge secondary-background">
+  <div class="badge secondary-background white">
     Quasar <span right-detail>Framework</span>
   </div>
   Text
 </p>
 
+<h1>Shadows</h1>
 <div style="margin: 40px">
   <div class="flex inline shadow-box items-center justify-center inset-shadow">.inset-shadow</div>
   <div class="flex inline shadow-box items-center justify-center" v-for="n in 5" :class="['shadow-' + (n + 1)]">.shadow-{{n+1}}</div>
 </div>
 
+<h1>Breadcrumb</h1>
 <ul class="breadcrumb">
   <li><a><i>home</i> </a></li>
   <li><a><i>mail</i> Quasar</a></li>
   <li><a><i>cloud</i> Breadcrumb</a></li>
 </ul>
 
+<h1>Progress bars</h1>
 <p>
   <quasar-progress :model="progress" @click="randomize()"></quasar-progress>
   <quasar-progress :model="progress" class="label stripe" @click="randomize()"></quasar-progress>
@@ -45,16 +49,19 @@
   <quasar-progress :model="progress" class="stripe animate" @click="randomize()"></quasar-progress>
 </p>
 
+<h1>Responsive image</h1>
 <p>
   <img src="assets/mountains.jpg" class="responsive">
 </p>
 
+<h1>Video Embed</h1>
 <p>
   <div class="video">
     <iframe width="853" height="480" src="https://www.youtube.com/embed/k3_tw44QsZQ?rel=0" frameborder="0" allowfullscreen></iframe>
   </div>
 </p>
 
+<h1>Dismissible</h1>
 <div v-dismiss style="height: 150px; width: 250px; padding: 70px;" class="hoverable round-borders primary-background white">
   <div style="font-size: 1.5em; text-shadow: 1px 1px 4px black;">Dismissible</div>
 </div>
