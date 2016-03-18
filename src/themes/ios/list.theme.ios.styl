@@ -8,7 +8,10 @@ $list-header-font-size        ?= .8rem
 $list-header-text-transform   ?= uppercase
 
 $item-font-size         ?= 1rem
-$item-min-height        ?= (15px + $generic-input-size)
+$item-min-height        ?= max(50px, 15px + $generic-input-size)
 $item-description-color ?= #777
 $item-margin            ?= ($generic-input-size / 2)
 $item-note-color        ?= #c5c5c5
+
+$item-active-color            ?= opposite-non-color($primary)
+$item-active-background-color ?= $primary

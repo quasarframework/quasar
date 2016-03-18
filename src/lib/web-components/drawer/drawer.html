@@ -20,9 +20,9 @@
   </template>
 
   <template id="drawer-link">
-    <div class="drawer-link text-truncate" @click="execute" :class="[active ? 'active' : '']">
+    <div class="item link-item" v-page-link="launch" v-active-page="page">
       <i v-if="icon">{{icon}}</i>
-      {{label}}
+      <div class="item-content text-truncate">{{label}}</div>
     </div>
   </template>
 

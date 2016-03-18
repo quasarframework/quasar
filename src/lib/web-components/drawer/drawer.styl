@@ -31,38 +31,8 @@
     if $theme == 'ios'
       padding $ios-drawer-padding-right
 
-  .divider
-    margin 8px 0
-    height 1px
-    background-color $drawer-separator-color
-    border 0
-    padding 0
-
-  .title
-    @extend .row, .items-center
-    color $drawer-title-color
-    font-weight 500
-
-  .drawer-link, .title
-    height 48px
-    padding 8px 10px
-
 .left-drawer-toggle, .right-drawer-toggle
   cursor pointer
-
-.drawer-link
-  cursor pointer
-  transition all .3s
-  line-height 32px
-  background-color $drawer-link-background-color
-  i
-    color $drawer-link-text-color
-    margin-right 15px
-    font-size $drawer-icon-font-size
-  &:hover
-    background-color $drawer-link-hover-background-color
-  &.active
-    background-color $drawer-link-active-background-color
 
 swipe-behavior()
   .drawer-content

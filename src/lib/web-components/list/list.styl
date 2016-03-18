@@ -16,6 +16,15 @@
   font-size $item-font-size
   transition all .3s
 
+  &.active
+    color $item-active-color
+    background-color $item-active-background-color
+  &.link-item:not(.active)
+    cursor pointer
+    transition all .3s
+    &:hover
+      background-color $list-divider-color
+
   i
     line-height 1
     font-size (5px + $generic-input-size)
@@ -71,8 +80,49 @@
       max-width 4rem
       max-height 4rem
 
+list-inner-delimiter()
+  .item + .item:not(.active)
+    .item-content
+      border-top 1px solid $list-divider-color
+  .item:not(.active) + .list-header
+    border-top 1px solid $list-divider-color
+  .list-header
+    border-bottom 1px solid $list-divider-color
+
+list-item-delimiter()
+  .item:not(.active) + .list-header,
+  .item:not(.active) + .item,
+  .item + .item:not(.active)
+    border-top 1px solid $list-divider-color
+  .list-header
+    border-bottom 1px solid $list-divider-color
+
+list-top-bottom-bordered()
+  border-width 1px 0 1px 0
+  border-style solid
+  border-color $list-divider-color
+
+
 .list
   margin $list-margin
+
+  .list-header
+    font-size $list-header-font-size
+    text-transform $list-header-text-transform
+    font-weight bold
+    color $list-header-color
+    background-color $list-header-background-color
+    padding 16px
+    &.inverted
+      color $list-header-background-color
+      background-color $list-header-color
+
+  .list-divider
+    margin 5px 0
+    height 1px
+    background-color $list-divider-color
+    border 0
+    padding 0
 
   &.inset
     margin $list-inset-margin
@@ -87,26 +137,17 @@
       border-bottom-left-radius $generic-border-radius
 
   &.inner-delimiter
-    .item + .item
-      .item-content
-        border-top 1px solid $list-divider-color
-    .item + .list-header
-      border-top 1px solid $list-divider-color
+    list-inner-delimiter()
   &.item-delimiter
-    .item + .list-header,
-    .item + .item
-      border-top 1px solid $list-divider-color
+    list-item-delimiter()
 
   &.bordered
     border 1px solid $list-divider-color
 
-  .list-header
-    font-size $list-header-font-size
-    text-transform $list-header-text-transform
-    color $list-header-color
-    background-color $list-header-background-color
-    border-bottom 1px solid $list-divider-color
-    padding 16px
-    &.inverted
-      color $list-header-background-color
-      background-color $list-header-color
+  &.top-bottom-bordered
+    list-top-bottom-bordered()
+
+  &.platform-delimiter
+    if $theme == 'ios'
+      list-item-delimiter()
+      list-top-bottom-bordered()

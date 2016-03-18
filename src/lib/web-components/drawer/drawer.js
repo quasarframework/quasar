@@ -313,56 +313,27 @@ $.extend(true, quasar, {
 
 Vue.component('drawer-link', {
   template: template.find('#drawer-link').html(),
-  props: ['page', 'route', 'click', 'icon', 'label'],
-  data: function() {
-    return {
-      active: false
-    };
-  },
+  props: ['page', 'route'],
   methods: {
-    execute: function() {
+    launch: function(handler) {
       quasar.close.drawers(function() {
-        if (this.click) {
-          this.click();
-          return;
-        }
-
-        if (this.route) {
-          quasar.navigate.to.route(this.route);
-          return;
-        }
-
-        if (this.page) {
-          quasar.navigate.to.route('#/' + (this.page === 'index' ? '' : this.page));
-        }
+        handler(this.route || this.page);
       }.bind(this));
     }
   },
-  compiled: function() {
+  beforeCompile: function() {
     if (!this.page) {
+      console.error('Drawer link missing page attribute');
       return;
     }
 
     var page = quasar.data.manifest.pages[this.page];
 
     if (!page) {
-      throw new Error('Drawer link points to unavailable page "' + this.page + '"');
+      console.error('Drawer link points to unavailable page "' + this.page + '"');
     }
 
     this.icon = page.icon;
     this.label = page.label;
-
-    this.gc = {
-      onPageChange: function(context) {
-        this.active = context.name === page.name;
-      }.bind(this)
-    };
-
-    quasar.events.on('app:page:ready', this.gc.onPageChange);
-  },
-  destroyed: function() {
-    if (this.page) {
-      quasar.events.off('app:page:ready', this.gc.onPageChange);
-    }
   }
 });

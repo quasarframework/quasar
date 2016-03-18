@@ -18,24 +18,24 @@
   -->
 
   <drawer>
-    <div class="title">Left Side</div>
-    <drawer-link v-for="page in pages" :page="page"></drawer-link>
+    <div class="list platform-delimiter">
+      <div class="list-header">
+        Left Side
+      </div>
+      <drawer-link v-for="page in pages" :page="page"></drawer-link>
+    </div>
   </drawer>
 
   <page class="smart-container"></page>
 
   <drawer right-side swipe-only>
-    <div class="title">Right Side</div>
-    <drawer-link page="index"></drawer-link>
-    <drawer-link page="typography"></drawer-link>
-    <drawer-link page="card"></drawer-link>
-    <drawer-link page="list"></drawer-link>
-    <drawer-link page="collapsible"></drawer-link>
-    <drawer-link page="css"></drawer-link>
-    <drawer-link page="buttons"></drawer-link>
-    <drawer-link page="inputs"></drawer-link>
-    <div class="divider"></div>
-    <drawer-link v-for="n in 3" page="form"></drawer-link>
+    <div class="list platform-delimiter">
+      <div class="list-header">
+        Right Side
+      </div>
+      <drawer-link page="index"></drawer-link>
+      <drawer-link page="typography"></drawer-link>
+    </div>
   </drawer>
 
 </screen>
