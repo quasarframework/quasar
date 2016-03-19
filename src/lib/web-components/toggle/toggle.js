@@ -1,8 +1,8 @@
 'use strict';
 
-var template = require('raw!./switch.html');
+var template = require('raw!./toggle.html');
 
-Vue.component('switch', {
+Vue.component('toggle', {
   template: template,
   props: ['model'],
   methods: {

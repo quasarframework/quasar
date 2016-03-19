@@ -1,7 +1,7 @@
-.quasar-switch
+.quasar-toggle
   display inline-block
-  height $switch-height
-  width $switch-width
+  height $toggle-height
+  width $toggle-width
   vertical-align middle
 
   input
@@ -17,19 +17,19 @@
 
     &:before
       vertical-align middle
-      top $switch-area-top
-      left $switch-area-left
-      width $switch-area-width
-      height $switch-area-height
+      top $toggle-area-top
+      left $toggle-area-left
+      width $toggle-area-width
+      height $toggle-area-height
 
     &:after
       border-radius 50%
-      top $switch-handle-top
-      left $switch-handle-left
-      width $switch-handle-size
-      height $switch-handle-size
+      top $toggle-handle-top
+      left $toggle-handle-left
+      width $toggle-handle-size
+      height $toggle-handle-size
       background-color white
 
   input:checked + div
     &:after
-      left $switch-area-active-left
+      left $toggle-area-active-left
