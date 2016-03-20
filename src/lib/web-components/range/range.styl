@@ -1,9 +1,7 @@
-$quasar-range-height = 36px
-$quasar-range-handler-size = 24px
 
 .quasar-range
-  padding-right $quasar-range-handler-size
-  height $quasar-range-height
+  padding-right $range-thumb-size
+  height $range-height
   position relative
   cursor pointer
   display inline-block
@@ -13,29 +11,29 @@ $quasar-range-handler-size = 24px
   &:before
     content ''
     position absolute
-    top ($quasar-range-height / 2 - 1px)
-    height 2px
+    top (($range-height - $range-track-height) / 2)
+    height $range-track-height
     width 100%
-    background-color $form-darker-color
-    transition background 1s ease
+    background-color $range-track-color
+    transition background .7s ease
 
 .quasar-range-container
   position relative
 
-.quasar-range-picker
+.quasar-range-thumb
   position absolute
-  top (($quasar-range-height - $quasar-range-handler-size) / 2)
-  width $quasar-range-handler-size
-  height $quasar-range-handler-size
-  background-color white
-  border-radius 21px
-  box-shadow 0 1px 3px 1px rgba(0, 0, 0, .4)
-  transition all .3s ease
+  top (($range-height - $range-thumb-size) / 2)
+  width $range-thumb-size
+  height $range-thumb-size
+  background-color $range-color
+  border-radius $range-thumb-radius
+  box-shadow $range-thumb-box-shadow
+  transition $range-transition
 
 .quasar-range.active
   &:before
-    background-color $form-active-color
-  .quasar-range-picker
-    top 1px
-    width 30px
-    height 30px
+    background-color $range-active-track-color
+  .quasar-range-thumb
+    top (($range-height - $range-active-thumb-size) / 2)
+    width $range-active-thumb-size
+    height $range-active-thumb-size
