@@ -41,10 +41,6 @@ button, .button
     &.float-right
       margin-left $button-icon-margin
 
-  font-size $button-font-size
-  padding $button-padding
-  min-height $button-min-height
-
   &.small
     font-size $button-small-font-size
     padding $button-small-padding
@@ -95,6 +91,9 @@ button, .button
         &:active:not(.disabled)
           color white
           background-color $color !important
+
+  &.clear
+    border-radius 0
 
   &.light
     color $dark !important

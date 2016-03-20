@@ -8,6 +8,7 @@ maximized-modal()
   height 100vh
   max-width 100vw
   max-height 100vh
+  border-radius 0
   .screen
     position relative
 
@@ -18,6 +19,28 @@ maximized-modal()
   overflow-y auto
   min-width 280px
   max-height 80vh
+
+  .modal-header
+    text-align $modal-header-text-align
+    padding $modal-header-padding
+    font-size $modal-header-font-size
+    font-weight 500
+
+  .modal-body
+    text-align $modal-body-text-align
+    padding $modal-body-padding
+    color $modal-body-color
+  .modal-scroll
+    max-height $modal-scroll-size
+    @extend .scroll
+  .modal-radio, .modal-checkbox
+    border-top 1px solid $form-darker-color
+    border-bottom 1px solid $form-darker-color
+
+  .modal-buttons
+    padding $modal-buttons-padding
+    display flex
+    flex-direction row
 
   &.minimized
     minimized-modal()

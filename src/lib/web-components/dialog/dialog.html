@@ -1,0 +1,30 @@
+<div v-if="title" class="modal-header">
+  {{title}}
+</div>
+<div v-if="message" class="modal-body modal-scroll">
+  <p>{{message}}</p>
+</div>
+<div v-if="inputs" class="modal-body modal-scroll">
+  <label v-for="input in inputs" class="item">
+    <input type="text" v-model="input.model" :placeholder="input.label">
+  </label>
+</div>
+<div v-if="radios" class="modal-radio modal-scroll">
+  <label v-for="radio in radios" class="item">
+    <radio :model.sync="radioModel" :value="radio.value"></radio>
+    <div class="item-content">
+      {{radio.label}}
+    </div>
+  </label>
+</div>
+<div v-if="checkboxes" class="modal-checkbox modal-scroll">
+  <label v-for="checkbox in checkboxes" class="item">
+    <checkbox :model.sync="checkbox.checked"></checkbox>
+    <div class="item-content">
+      {{checkbox.label}}
+    </div>
+  </label>
+</div>
+<div v-if="buttons" class="modal-buttons">
+  <button v-for="button in buttons" class="primary clear" @click="button.handler(getData()), close()">{{button.label}}</button>
+</div>

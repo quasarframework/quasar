@@ -6,7 +6,9 @@ var
   duration = 300
   ;
 
-function Modal(vm) {
+function Modal(vmObject) {
+  var vm = $.extend({}, vmObject);
+
   if (!vm) {
     throw new Error('Modal needs a VM.');
   }
