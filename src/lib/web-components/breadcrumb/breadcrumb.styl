@@ -1,7 +1,8 @@
 
 ul.breadcrumb
   list-style none
-  display inline-block
+  display inline-flex
+  flex-wrap nowrap
   margin ($breadcrumb-height / 3) 0 0 0
   padding 0
 
@@ -63,14 +64,6 @@ ul.breadcrumb
         border-color transparent
         border-left-color $breadcrumb-primary
 
-      &:hover
-        background-color $breadcrumb-hover
-        &:before
-          border-color $breadcrumb-hover
-          border-left-color transparent
-        &:after
-          border-left-color $breadcrumb-hover
-
       &:active
         background-color $breadcrumb-active
         &:before
@@ -78,3 +71,12 @@ ul.breadcrumb
           border-left-color transparent
         &:after
           border-left-color $breadcrumb-active
+
+body.desktop ul.breadcrumb a
+  &:hover
+    background-color $breadcrumb-hover
+    &:before
+      border-color $breadcrumb-hover
+      border-left-color transparent
+    &:after
+      border-left-color $breadcrumb-hover
