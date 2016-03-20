@@ -4,7 +4,7 @@ var
   body = $('body'),
   template = $(require('raw!./drawer.html')),
   drawerAnimationSpeed = 150,
-  overlayOpacity = .7
+  backdropOpacity = .7
   ;
 
 /* istanbul ignore next */
@@ -15,7 +15,7 @@ function getCurrentPosition(node) {
 }
 
 /* istanbul ignore next */
-function matToggleAnimate(onRightSide, opening, node, overlay, percentage, drawerWidth, done) {
+function matToggleAnimate(onRightSide, opening, node, backdrop, percentage, drawerWidth, done) {
   var
     currentPosition = getCurrentPosition(node),
     closePosition = (onRightSide ? 1 : -1) * drawerWidth
@@ -27,22 +27,22 @@ function matToggleAnimate(onRightSide, opening, node, overlay, percentage, drawe
   );
 
   if (opening) {
-    overlay.addClass('active');
+    backdrop.addClass('active');
   }
 
-  overlay
-  .css('background-color', 'rgba(0,0,0,' + percentage * overlayOpacity + ')')
+  backdrop
+  .css('background-color', 'rgba(0,0,0,' + percentage * backdropOpacity + ')')
   .velocity('stop')
   .velocity(
     {
       'backgroundColor': '#000',
-      'backgroundColorAlpha': opening ? overlayOpacity : .01
+      'backgroundColorAlpha': opening ? backdropOpacity : .01
     },
     {
       duration: drawerAnimationSpeed,
       complete: function() {
         if (!opening) {
-          overlay.removeClass('active');
+          backdrop.removeClass('active');
           $(window).off('resize', quasar.close.drawers);
         }
         else {
@@ -57,9 +57,9 @@ function matToggleAnimate(onRightSide, opening, node, overlay, percentage, drawe
 }
 
 /* istanbul ignore next */
-function iosToggleAnimate(onRightSide, opening, overlay, drawerWidth, done) {
+function iosToggleAnimate(onRightSide, opening, backdrop, drawerWidth, done) {
   if (opening) {
-    overlay.addClass('active');
+    backdrop.addClass('active');
   }
 
   var
@@ -73,7 +73,7 @@ function iosToggleAnimate(onRightSide, opening, overlay, drawerWidth, done) {
       duration: !opening || currentPosition !== openPosition ? drawerAnimationSpeed : 0,
       complete: function() {
         if (!opening) {
-          overlay.removeClass('active');
+          backdrop.removeClass('active');
           $(window).off('resize', quasar.close.drawers);
         }
         else {
@@ -99,7 +99,7 @@ function openByTouch(event) {
 
   var
     position = Math.abs(event.deltaX),
-    overlay = el.find('> .drawer-overlay')
+    backdrop = el.find('> .drawer-backdrop')
     ;
 
   if (event.isFinal) {
@@ -110,7 +110,7 @@ function openByTouch(event) {
     position = Math.min(position, this.width);
 
     if (event.isFinal) {
-      iosToggleAnimate(this.rightSide, this.opened, overlay, this.width);
+      iosToggleAnimate(this.rightSide, this.opened, backdrop, this.width);
       return;
     }
     body.css({
@@ -128,15 +128,15 @@ function openByTouch(event) {
     var percentage = (this.width - Math.abs(position)) / this.width;
 
     if (event.isFinal) {
-      matToggleAnimate(this.rightSide, this.opened, content, overlay, percentage, this.width);
+      matToggleAnimate(this.rightSide, this.opened, content, backdrop, percentage, this.width);
       return;
     }
     content.css({
       'transform': 'translateX(' + position + 'px)'
     });
-    overlay
+    backdrop
       .addClass('active')
-      .css('background-color', 'rgba(0,0,0,' + percentage * overlayOpacity + ')');
+      .css('background-color', 'rgba(0,0,0,' + percentage * backdropOpacity + ')');
   }
 }
 
@@ -166,7 +166,7 @@ function closeByTouch(event) {
   var
     position = this.rightSide ? getBetween(event.deltaX, 0, this.width) : getBetween(event.deltaX, -this.width, 0),
     initialPosition = (this.rightSide ? - 1 : 1) * this.width,
-    overlay = el.find('> .drawer-overlay')
+    backdrop = el.find('> .drawer-backdrop')
     ;
 
   if (event.isFinal) {
@@ -177,7 +177,7 @@ function closeByTouch(event) {
     position = initialPosition + position;
 
     if (event.isFinal) {
-      iosToggleAnimate(this.rightSide, this.opened, overlay, this.width);
+      iosToggleAnimate(this.rightSide, this.opened, backdrop, this.width);
       return;
     }
     body.css({
@@ -188,13 +188,13 @@ function closeByTouch(event) {
     var percentage = 1 + (this.rightSide ? -1 : 1) * position / this.width;
 
     if (event.isFinal) {
-      matToggleAnimate(this.rightSide, this.opened, content, overlay, percentage, this.width);
+      matToggleAnimate(this.rightSide, this.opened, content, backdrop, percentage, this.width);
       return;
     }
     content.css({
       'transform': 'translateX(' + position + 'px)',
     });
-    overlay.css('background-color', 'rgba(0,0,0,' + percentage * overlayOpacity + ')');
+    backdrop.css('background-color', 'rgba(0,0,0,' + percentage * backdropOpacity + ')');
   }
 }
 
@@ -237,13 +237,13 @@ Vue.component('drawer', {
       }
 
       this.opened = !this.opened;
-      var overlay = $(this.$el).find('> .drawer-overlay');
+      var backdrop = $(this.$el).find('> .drawer-backdrop');
 
       if (quasar.runs.on.ios) {
         iosToggleAnimate(
           this.rightSide,
           this.opened,
-          overlay,
+          backdrop,
           this.width,
           done
         );
@@ -253,7 +253,7 @@ Vue.component('drawer', {
           this.rightSide,
           this.opened,
           $(this.$el).find('> .drawer-content'),
-          overlay,
+          backdrop,
           this.opened ? .01 : 1,
           this.width,
           done

@@ -1,15 +1,29 @@
-.modal
-  background-color $modal-background-color
-  overflow hidden
 
-@media screen and (min-width $layout-medium-min)
-  .modal:not(.always-fullscreen)
-    margin auto
-    width $modal-width
-    max-width $modal-max-width
-    height $modal-height
-    max-height $modal-max-height
-    box-shadow $shadow-4
-    border-radius $modal-border-radius
-    .screen
-      position relative
+minimized-modal()
+  max-width 80vw
+  max-height 80vh
+
+maximized-modal()
+  width 100vw
+  height 100vh
+  max-width 100vw
+  max-height 100vh
+  .screen
+    position relative
+
+.modal-content
+  background-color $modal-background-color
+  border-radius $modal-border-radius
+  box-shadow $shadow-4
+  overflow-y auto
+  min-width 280px
+  max-height 80vh
+
+  &.minimized
+    minimized-modal()
+  &.maximized
+    maximized-modal()
+
+@media screen and (max-width $layout-small-max)
+  .modal-content:not(.minimized)
+    maximized-modal()

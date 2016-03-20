@@ -22,8 +22,9 @@ html, body, #quasar-app
 .screen-navigation
   order $tabs-order
 
-if $theme == 'ios'
-  .screen-content
+.screen-content
+  overflow-y auto
+  if $theme == 'ios'
     border-top $ios-screen-content-border
     border-bottom $ios-screen-content-border
 

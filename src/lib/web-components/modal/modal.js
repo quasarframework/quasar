@@ -2,6 +2,7 @@
 
 var
   target = $('#quasar-app'),
+  template = require('raw!./modal.html'),
   duration = 300
   ;
 
@@ -13,14 +14,14 @@ function Modal(vm) {
     throw new Error('Modal needs a template.');
   }
 
-  var
-    self = this,
-    overlay = $('<div class="overlay">').appendTo(target),
-    element = $('<div class="modal hidden window-height window-width fullscreen">').appendTo(target)
-    ;
+  var self = this;
+
+  this.$el = $(template).appendTo(target);
+  this.$backdrop = this.$el.find('> .modal-backdrop');
+  this.$content = this.$el.find('> .modal-content');
 
   $.extend(true, vm, {
-    el: element[0],
+    el: self.$content[0],
     replace: false,
     methods: {
       close: self.close.bind(self)
@@ -28,12 +29,11 @@ function Modal(vm) {
   });
 
   this.vm = new Vue(vm);
-  this.$el = element;
-  this.$overlay = overlay;
   this.__onShowHandlers = [];
   this.__onCloseHandlers = [];
   this.autoDestroy = true;
-  this.alwaysFullscreen = false;
+  this.minimized = false;
+  this.maximized = false;
 }
 
 Modal.prototype.show = function() {
@@ -41,7 +41,17 @@ Modal.prototype.show = function() {
     throw new Error('Modal was previously destroyed. Create another one.');
   }
 
-  this.$el[this.alwaysFullscreen ? 'addClass' : 'removeClass']('always-fullscreen');
+  if (this.minimized && this.maximized) {
+    throw new Error('Modal cannot be minimized & maximized simultaneous.');
+  }
+
+  this.$content.removeClass('minimized maximized');
+  if (this.minimized) {
+    this.$content.addClass('minimized');
+  }
+  if (this.maximized) {
+    this.$content.addClass('maximized');
+  }
 
   var
     self = this,
@@ -56,9 +66,9 @@ Modal.prototype.show = function() {
     };
 
   this.$el.removeClass('hidden');
-  this.$el.velocity(effect, options);
-  if (!this.alwaysFullscreen) {
-    this.$overlay.addClass('active');
+  this.$content.velocity(effect, options);
+  if (!this.maximized) {
+    this.$backdrop.addClass('active');
   }
   return this;
 };
@@ -79,10 +89,8 @@ Modal.prototype.close = function() {
       }
     };
 
-  if (!this.alwaysFullscreen) {
-    this.$overlay.removeClass('active');
-  }
-  this.$el.velocity(effect, options);
+  this.$backdrop.removeClass('active');
+  this.$content.velocity(effect, options);
 };
 
 ['onShow', 'onClose'].forEach(function(event) {
@@ -108,9 +116,20 @@ Modal.prototype.set = function(properties) {
   return this;
 };
 
+Modal.prototype.css = function(properties) {
+  if (properties !== Object(properties)) {
+    throw new Error('Modal.css() needs an object as parameter.');
+  }
+
+  this.$content.css(properties);
+  return this;
+};
+
 Modal.prototype.destroy = function() {
+  if (this.vm) {
+    this.vm.$destroy();
+  }
   this.$el.remove();
-  this.$overlay.remove();
 };
 
 quasar.Modal = Modal;

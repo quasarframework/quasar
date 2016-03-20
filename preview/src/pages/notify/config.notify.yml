@@ -1,0 +1,5 @@
+label: 'Notify'
+icon: 'done_all'
+layout: 'main'
+navigation:
+  group: 'modal'

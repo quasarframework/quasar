@@ -13,7 +13,7 @@
 .all-pointer-events
   pointer-events all
 
-.overlay
+.backdrop
   display none
   position fixed
   top 0
@@ -26,7 +26,7 @@
   transition background-color .28s ease-in
   &.active
     display block
-    background-color $overlay-background-color
+    background-color $backdrop-background-color
 
 .spin
   animation quasar-spin 2s infinite linear
