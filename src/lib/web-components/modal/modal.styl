@@ -33,9 +33,11 @@ maximized-modal()
   .modal-scroll
     max-height $modal-scroll-size
     @extend .scroll
-  .modal-radio, .modal-checkbox
+  .modal-controls
     border-top 1px solid $form-darker-color
     border-bottom 1px solid $form-darker-color
+    &.list
+      margin 0
 
   .modal-buttons
     padding $modal-buttons-padding

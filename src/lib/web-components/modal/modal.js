@@ -57,7 +57,7 @@ Modal.prototype.show = function() {
 
   var
     self = this,
-    effect = quasar.runs.on.ios ? {translateY: [0, '101%']} : 'transition.slideUpIn',
+    effect = quasar.runs.on.ios ? 'transition.shrinkIn' : 'transition.slideUpIn',
     options = {
       duration: duration,
       complete: function() {
@@ -78,7 +78,7 @@ Modal.prototype.show = function() {
 Modal.prototype.close = function() {
   var
     self = this,
-    effect = quasar.runs.on.ios ? {translateY: ['101%', 0]} : 'transition.slideDownOut',
+    effect = quasar.runs.on.ios ? 'transition.shrinkOut' : 'transition.slideDownOut',
     options = {
       duration: duration,
       complete: function() {

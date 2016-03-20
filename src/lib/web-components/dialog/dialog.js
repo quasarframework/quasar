@@ -79,6 +79,23 @@ function parseCheckboxes(checkboxes) {
   });
 }
 
+function parseRanges(ranges) {
+  if (!Array.isArray(ranges)) {
+    throw new Error('Dialog ranges parameter must be an array.');
+  }
+
+  if (ranges.some(function(range) {
+    return typeof range.min === 'undefined' || typeof range.max === 'undefined';
+  })) {
+    throw new Error('One of Dialog\'s range parameter is missing either min or max');
+  }
+
+  return ranges.map(function(range) {
+    range.value = range.value || range.min;
+    return range;
+  });
+}
+
 quasar.dialog = function(options) {
   var data = $.extend({}, options);
 
@@ -92,11 +109,14 @@ quasar.dialog = function(options) {
   if (data.inputs) {
     data.inputs = parseInputs(data.inputs);
   }
-  if (data.radios) {
+  else if (data.radios) {
     data.radioModel = parseRadios(data.radios);
   }
-  if (data.checkboxes) {
+  else if (data.checkboxes) {
     data.checkboxes = parseCheckboxes(data.checkboxes);
+  }
+  else if (data.ranges) {
+    data.ranges = parseRanges(data.ranges);
   }
 
   new quasar.Modal({
@@ -120,6 +140,14 @@ quasar.dialog = function(options) {
             return checkbox.checked;
           }).map(function(checkbox) {
             return checkbox.value;
+          });
+        }
+        if (this.ranges) {
+          return this.ranges.map(function(range) {
+            return {
+              label: range.label,
+              value: range.value
+            };
           });
         }
       }
