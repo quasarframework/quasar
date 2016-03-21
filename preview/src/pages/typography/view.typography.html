@@ -1,18 +1,22 @@
 
 <h1>Visibility</h1>
-<label class="ios-only">ios</label>
-<label class="mat-only">mat</label>
-<label class="desktop-only">desktop</label>
-<label class="mobile-only">mobile</label>
-<label class="cordova-only">cordova</label>
-<label class="touch-only">touch</label>
-<label class="no-touch-only">no-touch</label>
+<div class="badge white primary-background primary-background ios-only">ios</div>
+<div class="badge white primary-background mat-only">mat</div>
+<div class="badge white primary-background desktop-only">desktop</div>
+<div class="badge white primary-background mobile-only">mobile</div>
+<div class="badge white primary-background cordova-only">cordova</div>
+<div class="badge white primary-background touch-only">touch</div>
+<div class="badge white primary-background no-touch-only">no-touch</div>
 
 <p style="margin-top: 20px">
   <span class="desktop-only">Switch to other tab then back to see Visibility in action.</span>
   <span class="mobile-only">Switch to another App then back here to see Visibility in action.</span>
 </p>
 <p id="visibility"></p>
+
+<p>
+  <button class="primary" @click="toggleFullscreen">Toggle Fullscreen</button>
+</p>
 
 <h1>Header 1</h1>
 <p>Text</p>

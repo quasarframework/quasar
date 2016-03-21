@@ -17,6 +17,14 @@ module.exports = {
     },
     writeVisibilityState: function(state) {
       $(this.$el).find('#visibility').append('App became ' + state + '.<br>');
+    },
+    toggleFullscreen: function() {
+      if (quasar.is.fullscreen()) {
+        quasar.exit.fullscreen();
+      }
+      else {
+        quasar.request.fullscreen();
+      }
     }
   },
   ready: function() {

@@ -1,6 +1,7 @@
 'use strict';
 
 $.fn.reverse = [].reverse;
+var fullscreen = require('./js/fullscreen');
 
 $.extend(true, quasar, {
   nextTick: function(fn) {
@@ -22,5 +23,14 @@ $.extend(true, quasar, {
   capitalize: function(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   },
-  debounce: require('./js/debounce')
+  debounce: require('./js/debounce'),
+  is: {
+    fullscreen: fullscreen.active
+  },
+  request: {
+    fullscreen: fullscreen.request
+  },
+  exit: {
+    fullscreen: fullscreen.exit
+  }
 });
