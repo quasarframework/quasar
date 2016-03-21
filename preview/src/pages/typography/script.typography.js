@@ -20,14 +20,6 @@ module.exports = {
     }
   },
   ready: function() {
-    quasar.add.fab({
-      icon: 'mail',
-      class: 'secondary',
-      fn: function() {
-        quasar.dialog({html: 'You tapped on a FAB.', title: 'Good Job', buttons: [{label: 'OK', dismiss: true}]});
-      }
-    });
-
     quasar.events.on('app:visibility', this.writeVisibilityState);
   },
   destroyed: function() {

@@ -14,28 +14,5 @@ module.exports = {
       'light-green', 'lime', 'yellow', 'amber', 'orange', 'deep-orange', 'brown', 'grey', 'blue-grey'
     ],
     extras: ['glossy', 'raised', 'disabled', 'clear', 'outline', 'round']
-  },
-  ready: function() {
-    quasar.add.fab({
-      icon: 'cloud',
-      label: 'FAB',
-      class: 'tertiary',
-      buttons: [
-        {
-          icon: 'alarm',
-          class: 'positive',
-          fn: function() {
-            alert('1');
-          }
-        },
-        {
-          icon: 'mail',
-          class: 'warning',
-          fn: function() {
-            alert('2');
-          }
-        }
-      ]
-    });
   }
 };

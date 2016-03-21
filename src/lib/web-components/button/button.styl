@@ -17,7 +17,6 @@ button, .button
   position relative
   font-style normal
   text-overflow ellipsis
-  overflow hidden
   text-align center
   vertical-align middle
   background-color transparent
@@ -100,22 +99,20 @@ button, .button
 
   /* circular shape */
   &.circular
+    text-align center
     border-radius 50%
     padding 0
-    height 56px
-    width 56px
-    font-size 20px
-    line-height 18px
+    height $button-circular-size
+    width $button-circular-size
+    line-height $button-circular-size
     &.small
-      height 37px
-      width 37px
-      font-size 17px
-      line-height 18px
+      height $button-small-circular-size
+      width $button-small-circular-size
+      line-height $button-small-circular-size
     &.big
-      height 72px
-      width 72px
-      line-height 32px
-      font-size 32px
+      height $button-big-circular-size
+      width $button-big-circular-size
+      line-height $button-big-circular-size
 
   &.block, &.full-width
     margin-left 0

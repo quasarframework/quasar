@@ -1,17 +1,20 @@
-<div
-  class="quasar-fab inline"
-  :class="{active: active, horizontal: cfg.horizontal}"
-  transition="pop"
-  >
-  <div v-if="cfg.label" class="quasar-fab-label">{{cfg.label}}</div>
-  <ul v-show="active" transition="toggle">
-    <li v-for="button in cfg.buttons">
-      <button class="circular small raised inline" :class="button.class" @click="execute(button)">
-        <i>{{button.icon}}</i>
+<templates>
+  <template id="fab">
+    <div class="quasar-fab" :class="{opened: opened, 'with-backdrop': click || backdrop}">
+      <div v-if="click || backdrop" class="backdrop" @click="toggle(true)"></div>
+      <button class="circular raised" @click="toggle()" :class="classes">
+        <i class="quasar-fab-icon">{{icon}}</i>
+        <i class="quasar-fab-active-icon">{{activeIcon}}</i>
       </button>
-    </li>
-  </ul>
-  <button class="circular raised" :class="cfg.class" @click="toggle()">
-    <i>{{active ? 'close' : cfg.icon}}</i>
-  </button>
-</div>
+      <div class="quasar-fab-actions" :class="[direction]">
+        <slot></slot>
+      </div>
+    </div>
+  </template>
+
+  <template id="small-fab">
+    <button class="circular small raised" @click="closeFAB()">
+      <i><slot></slot></i>
+    </button>
+  </template>
+</templates>
