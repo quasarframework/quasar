@@ -67,6 +67,10 @@ Modal.prototype.show = function() {
       }
     };
 
+  if (!this.minimized && (this.maximized || $(window).width() <= 600)) {
+    effect = {translateX: [0, '101%']};
+  }
+
   this.$el.removeClass('hidden');
   this.$content.velocity(effect, options);
   if (!this.maximized) {
@@ -90,6 +94,10 @@ Modal.prototype.close = function() {
         });
       }
     };
+
+  if (!this.minimized && (this.maximized || $(window).width() <= 600)) {
+    effect = {translateX: ['101%', 0]};
+  }
 
   this.$backdrop.removeClass('active');
   this.$content.velocity(effect, options);
