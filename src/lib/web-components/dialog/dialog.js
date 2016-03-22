@@ -51,7 +51,7 @@ function parseRadios(radios) {
     return radio.selected;
   });
 
-  if (!selectedValue) {
+  if (selectedValue.length === 0) {
     return radios[0].value;
   }
 

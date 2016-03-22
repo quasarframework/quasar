@@ -38,6 +38,36 @@
 <range :model.sync="range.model" :min="range.min" :max="range.max" style="border: 1px solid black"></range>
 <range :model.sync="range.model" :min="range.min" :max="range.max"></range>
 
+<h2>Select</h2>
+<div class="list item-delimiter bordered">
+  <div class="list-header">Single Selection</div>
+  <div class="item">
+    <div class="item-content">
+      <div class="item-label">Company</div>
+      <choice :model.sync="select" :options="selectOptions" ok-text="Pick" cancel-text="Neah" title="Company"></choice>
+    </div>
+  </div>
+  <div class="item">
+    <div class="item-content">
+      <div class="item-label">Company</div>
+      <choice :model.sync="select" :options="selectOptions" ok-text="Pick"></choice>
+    </div>
+  </div>
+  <div class="list-header">Multiple Selection</div>
+  <div class="item">
+    <div class="item-content">
+      <div class="item-label">Companies</div>
+      <choice multiple :model.sync="multipleSelect" :options="selectOptions" ok-text="Pick" title="Companies"></choice>
+    </div>
+  </div>
+  <div class="item">
+    <div class="item-content">
+      <div class="item-label">Companies</div>
+      <choice multiple :model.sync="multipleSelect" :options="selectOptions" ok-text="Pick" title="Companies"></choice>
+    </div>
+  </div>
+</div>
+
 <h2>Text Input</h2>
 Inline with text <input v-model="text" placeholder="Address" class="inline"></input>
 <input v-model="text" placeholder="Address"></input>

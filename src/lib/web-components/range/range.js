@@ -8,7 +8,36 @@ function modelToPosition(model, min, max, size) {
 
 Vue.component('range', {
   template: template,
-  props: ['model', 'min', 'max', 'precision'],
+  props: {
+    model: {
+      type: Number,
+      twoWay: true,
+      required: true,
+      coerce: function(value) {
+        return parseInt(value, 10);
+      }
+    },
+    min: {
+      type: Number,
+      required: true,
+      coerce: function(value) {
+        return parseInt(value, 10);
+      }
+    },
+    max: {
+      type: Number,
+      required: true,
+      coerce: function(value) {
+        return parseInt(value, 10);
+      }
+    },
+    precision: {
+      type: Number,
+      coerce: function(value) {
+        return parseInt(value, 10);
+      }
+    }
+  },
   data: function() {
     return {
       position: 0,

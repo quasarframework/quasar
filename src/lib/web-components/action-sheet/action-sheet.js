@@ -67,7 +67,7 @@ function actionSheet(options) {
 
   modal.$el.removeClass('items-center').addClass('items-end');
   modal.$backdrop.click(function() {
-    modal.close();
+    modal.close(data.dismissButton.handler);
   });
   modal.show();
 }

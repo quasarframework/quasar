@@ -4,5 +4,10 @@ var template = require('raw!./checkbox.html');
 
 Vue.component('checkbox', {
   template: template,
-  props: ['model']
+  props: {
+    model: {
+      type: Boolean,
+      twoWay: true
+    }
+  }
 });

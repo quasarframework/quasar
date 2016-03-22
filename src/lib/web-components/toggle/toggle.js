@@ -4,7 +4,13 @@ var template = require('raw!./toggle.html');
 
 Vue.component('toggle', {
   template: template,
-  props: ['model'],
+  props: {
+    model: {
+      type: Boolean,
+      twoWay: true,
+      required: true
+    }
+  },
   methods: {
     toggle: function(event) {
       if (
