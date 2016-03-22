@@ -41,7 +41,6 @@ h2
   font-size (2.2 * $typography-font-size)
   letter-spacing 1.7px
   margin (@font-size / 2) 0 .5rem 0
-  border-bottom 1px solid $neutral
 
 h3
   font-size (2 * $typography-font-size)
@@ -118,6 +117,52 @@ p
     font-weight 300
   .thin
     font-weight 200
+
+small
+  font-size .8rem
+big
+  font-size 1.7rem
+
+blockquote
+  padding 10px 20px
+  margin 0 0 20px
+  font-size 17.5px
+  border-left 5px solid $primary
+  &.pull-right
+    padding-right 15px
+    padding-left 0
+    border-right 5px solid $primary
+    border-left 0
+    text-align right
+
+  small
+    display block
+    line-height 1.4
+    color $faded
+    &:before
+      content '\2014 \00A0'
+
+dt
+  font-weight bold
+dd
+  margin-left 0
+dt, dd
+  line-height 1.4
+dl
+  margin-top 0
+  margin-bottom 20px
+  &.horizontal
+    dt
+      float left
+      width 25%
+      clear left
+      text-align right
+      overflow hidden
+      text-overflow ellipsis
+      white-space nowrap
+    dd
+      margin-left 30%
+
 
 
 ::-webkit-selection,

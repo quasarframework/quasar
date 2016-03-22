@@ -1,5 +1,5 @@
 label: 'CSS Elements'
-icon: 'pages'
+icon: 'dashboard'
 layout: 'main'
 navigation:
   group: 'typography'

@@ -10,15 +10,6 @@
     </div>
   </template>
 
-  <template id="drawer-header">
-    <div class="drawer-header">
-      <div class="float-right">
-        <i class="drawer-toggle small">chevron_left</i>
-      </div>
-      <slot></slot>
-    </div>
-  </template>
-
   <template id="drawer-link">
     <div class="item item-link" v-page-link="launch" v-active-page="page">
       <i v-if="icon">{{icon}}</i>

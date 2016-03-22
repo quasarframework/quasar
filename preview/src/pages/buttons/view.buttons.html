@@ -1,17 +1,19 @@
 <h2>Sizes</h2>
-<template v-for="type in types">
-  <template v-for="size in sizes">
-    <h3 class="capitalize">{{size}}</h3>
-    <button v-if="type === 'default'" class="primary" :class="[type, size]">{{type}}</button>
-    <button v-if="type === 'default'" class="primary" :class="[type, size]"><i class="float-left">{{icon}}</i>{{type}}</button>
-    <button v-if="type === 'default'" class="primary" :class="[type, size]"><i>{{icon}}</i></button>
-    text
-    <button v-else class="primary" :class="[type, size]"><i>{{icon}}</i></button>
-    <template v-for="extra in extras">
-      <button v-if="type === 'default'" class="primary" :class="[type, size, extra]">{{type}}-{{extra}}</button>
-      <button v-else class="primary" :class="[type, size, extra]"><i>{{icon}}</i></button>
-    </template>
-  </template>
+<template v-for="size in sizes">
+  <h3 class="capitalize">{{* size}}</h3>
+  <button class="primary" :class.once="size">Btn</button>
+  <button class="primary" :class.once="size"><i class="on-left">{{* icon}}</i>Btn</button>
+  <button class="primary" :class.once="size"><i>{{* icon}}</i></button>
+  text
+  <button class="primary disabled" :class.once="size">Disabled</button>
+  <button v-for="extra in extras" class="primary" :class.once="[size, extra]">{{* extra}}</button>
+</template>
+<template v-for="size in sizes">
+  <h3 class="capitalize">{{* size}}</h3>
+  <button class="primary circular" :class.once="size"><i>{{* icon}}</i></button>
+  text
+  <button primary circular class="disabled" :class.once="size"><i>{{* icon}}</i></button>
+  <button v-for="extra in extras" class="primary circular" :class.once="[size, extra]"><i>{{* icon}}</i></button>
 </template>
 <br>
 <p>Block also adds 'display: block'</p>
@@ -19,21 +21,26 @@
 <button class="primary full-width">Full-Width</button>
 <br><br>
 <h2>Types</h2>
-<div v-for="type in types">
-  <h3 class="capitalize">{{type}}</h3>
-  <template v-for="color in colors">
-    <h4 class="capitalize">{{color}}</h4>
-    <button v-if="type === 'default'" :class="[type, color]">{{color}}</button>
-    <button v-if="type === 'default'" :class="[type, color]"><i class="float-left">{{icon}}</i>{{color}}</button>
-    <button v-if="type === 'default'" :class="[type, color]"><i>{{icon}}</i></button>
-    text
-    <button v-else :class="[type, color]"><i>{{icon}}</i></button>
-    <template v-for="extra in extras">
-      <button v-if="type === 'default'" :class="[type, color, extra]">{{color}}-{{extra}}</button>
-      <button v-else :class="[type, color, extra]"><i>{{icon}}</i></button>
-    </template>
-  </template>
-</div>
+<h3 class="capitalize">Rectangular</h3>
+<template v-for="color in colors">
+  <h4 class="capitalize">{{* color}}</h4>
+  <button :class.once="color">{{* color}}</button>
+  <button :class.once="color"><i class="on-left">{{* icon}}</i>{{* color}}</button>
+  <button :class.once="color"><i>{{* icon}}</i></button>
+  text
+  <button class="disabled" :class.once="color"><i>{{* icon}}</i></button>
+  <button v-for="extra in extras" :class.once="[color, extra]">{{* color}}-{{* extra}}</button>
+</template>
+
+<h3 class="capitalize">Circular</h3>
+<template v-for="color in colors">
+  <h4 class="capitalize">{{* color}}</h4>
+  <button class="circular" :class.once="color"><i>{{* icon}}</i></button>
+  text
+  <button class="circular disabled" :class.once="color"><i>{{* icon}}</i></button>
+  <button v-for="extra in extras" class="circular" :class.once="[color, extra]"><i>{{* icon}}</i></button>
+</template>
+
 
 <h2>Group</h2>
 <div class="group">

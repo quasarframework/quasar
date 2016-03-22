@@ -1,5 +1,5 @@
 label: 'Notify'
-icon: 'done_all'
+icon: 'announcement'
 layout: 'main'
 navigation:
   group: 'modal'

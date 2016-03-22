@@ -40,7 +40,7 @@ module.exports = {
           {
             label: 'Cancel',
             icon: 'cancel',
-            classes: 'primary',
+            classes: 'text-primary',
             handler: function() {
               console.log('Cancelled...');
             }

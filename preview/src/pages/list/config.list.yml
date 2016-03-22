@@ -1,5 +1,5 @@
 label: 'List'
-icon: 'pages'
+icon: 'list'
 layout: 'main'
 navigation:
   group: 'widget'

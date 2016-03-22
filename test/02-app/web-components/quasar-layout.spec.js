@@ -403,19 +403,12 @@
       testing.line(true, function() {/*
         <screen>
           <drawer>
-            <drawer-header>
-              <div style="width: 100px; height: 100px; background-color: black;"></div>
-              <div><strong>Razvan Stoenescu</strong></div>
-              <div>Quasar Framework rocks!</div>
-            </drawer-header>
-
             <drawer-link v-for="n in 14">
               <i>alarm</i>
               Message {{n + 1}}
             </drawer-link>
 
             <drawer-divider></drawer-divider>
-            <drawer-header>Subheader</drawer-header>
 
             <drawer-link v-for="n in 5">
               <i>alarm</i>
@@ -428,7 +421,6 @@
         expect(_html.match(/class="([\w\s])*screen/)).to.exist;
         expect(_html.match(/class="([\w\s])*drawer/)).to.exist;
         expect(_html.match(/class="([\w\s])*quasar-page/)).to.exist;
-        expect(_html.match(/class="([\w\s])*drawer-header/)).to.exist;
         expect(_html.match(/class="([\w\s])*drawer-link/)).to.exist;
         expect(_html.match(/class="([\w\s])*drawer-divider/)).to.exist;
         testing.done();

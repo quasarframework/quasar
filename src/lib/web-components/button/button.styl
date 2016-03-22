@@ -35,7 +35,7 @@ button, .button
 
   i
     font-size $button-icon-size
-    &.float-left
+    &.on-left
       margin-right $button-icon-margin
     &.float-right
       margin-left $button-icon-margin
@@ -62,9 +62,6 @@ button, .button
     &:active:not(.disabled)
       box-shadow $shadow-3
 
-  /**
-   * COLORS
-   */
   for $name, $color in $colors
     &.{$name}
       color white
@@ -97,7 +94,6 @@ button, .button
   &.light
     color $dark !important
 
-  /* circular shape */
   &.circular
     text-align center
     border-radius 50%

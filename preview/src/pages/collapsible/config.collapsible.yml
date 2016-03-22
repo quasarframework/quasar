@@ -1,5 +1,5 @@
 label: 'Collapsible'
-icon: 'pages'
+icon: 'vertical_align_bottom'
 layout: 'main'
 navigation:
   group: 'widget'

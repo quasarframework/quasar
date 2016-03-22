@@ -5,7 +5,7 @@ var template = $(require('raw!./fab.html'));
 Vue.component('fab', {
   template: template.find('#fab').html(),
   props: {
-    classes: {
+    type: {
       type: Array,
       default: function() {
         return ['primary'];
