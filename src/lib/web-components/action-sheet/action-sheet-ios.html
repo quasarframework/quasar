@@ -1,6 +1,6 @@
 <div class="quasar-action-sheet">
   <div v-if="title" class="item justify-center faded">
-    <span class="item-value">{{{title}}}</span>
+    <span class="item-value">{{{* title}}}</span>
   </div>
 
   <div class="modal-controls modal-scroll">
@@ -11,7 +11,7 @@
         @click="close(button.handler)"
         :class="button.classes"
       >
-        {{button.label}}
+        {{* button.label}}
       </div>
     </div>
   </div>
@@ -23,6 +23,6 @@
     @click="close(dismissButton.handler)"
     :class="dismissButton.classes"
   >
-    <strong>{{dismissButton.label}}</strong>
+    <strong>{{* dismissButton.label}}</strong>
   </div>
 </div>

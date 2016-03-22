@@ -77,7 +77,7 @@
     "material-design-icons": "^2.1.1",
     "mocha": "^2.3.3",
     "mocha-eslint": "^2.0.0",
-    "normalize.css": "^3.0.3",
+    "normalize.css": "^4.0.0",
     "phantomjs": "^1.9.18",
     "raw-loader": "^0.5.1",
     "require-dir": "^0.3.0",

@@ -1,5 +1,5 @@
 <div v-if="title" class="modal-header">
-  {{{title}}}
+  {{{* title}}}
 </div>
 
 <div class="modal-scroll">
@@ -10,9 +10,9 @@
       @click="close(button.handler)"
       :class="button.classes"
     >
-      <i v-if="button.icon">{{button.icon}}</i>
+      <i v-if="button.icon">{{* button.icon}}</i>
       <div class="item-content">
-        {{button.label}}
+        {{* button.label}}
       </div>
     </div>
   </div>
@@ -24,9 +24,9 @@
     @click="close(dismissButton.handler)"
     :class="dismissButton.classes"
   >
-    <i v-if="dismissButton.icon">{{dismissButton.icon}}</i>
+    <i v-if="dismissButton.icon">{{* dismissButton.icon}}</i>
     <div class="item-content">
-      {{dismissButton.label}}
+      {{* dismissButton.label}}
     </div>
   </div>
 </div>

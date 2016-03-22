@@ -1,19 +1,19 @@
 <div v-if="title" class="modal-header">
-  {{{title}}}
+  {{{* title}}}
 </div>
 <div v-if="message" class="modal-body modal-scroll">
-  <p>{{{message}}}</p>
+  <p>{{{* message}}}</p>
 </div>
 <div v-if="inputs" class="modal-body modal-scroll">
   <label v-for="input in inputs" class="item">
-    <input type="text" v-model="input.model" :placeholder="input.label">
+    <input type="text" v-model="input.model" :placeholder.once="input.label">
   </label>
 </div>
 <div v-if="radios" class="modal-controls modal-scroll">
   <label v-for="radio in radios" class="item">
-    <radio :model.sync="radioModel" :value="radio.value"></radio>
+    <radio :model.sync="radioModel" :value.once="radio.value"></radio>
     <div class="item-content">
-      {{radio.label}}
+      {{* radio.label}}
     </div>
   </label>
 </div>
@@ -21,22 +21,30 @@
   <label v-for="checkbox in checkboxes" class="item">
     <checkbox :model.sync="checkbox.checked"></checkbox>
     <div class="item-content">
-      {{checkbox.label}}
+      {{* checkbox.label}}
     </div>
   </label>
 </div>
 <div v-if="ranges" class="modal-controls modal-scroll list">
   <template v-for="range in ranges">
-    <div v-if="range.label" class="list-header">{{range.label}}: {{range.value}}</div>
+    <div v-if="range.label" class="list-header">{{* range.label}}: {{range.value}}</div>
     <div class="item">
-      <i v-if="range.iconMin" class="item-right-margin">{{range.iconMin}}</i>
-      <div v-else class="item-right-margin">{{range.min}}</div>
-      <range :model.sync="range.value" :min="range.min" :max="range.max"></range>
-      <i v-if="range.iconMax" class="item-left-margin">{{range.iconMax}}</i>
-      <div v-else class="item-left-margin">{{range.max}}</div>
+      <i v-if="range.iconMin" class="item-right-margin">{{* range.iconMin}}</i>
+      <div v-else class="item-right-margin">{{* range.min}}</div>
+
+      <range :model.sync="range.value" :min.once="range.min" :max.once="range.max"></range>
+
+      <i v-if="range.iconMax" class="item-left-margin">{{* range.iconMax}}</i>
+      <div v-else class="item-left-margin">{{* range.max}}</div>
     </div>
   </template>
 </div>
 <div v-if="buttons" class="modal-buttons">
-  <button v-for="button in buttons" class="primary clear" @click="button.handler(getData()), close()">{{button.label}}</button>
+  <button
+    v-for="button in buttons"
+    class="primary clear"
+    @click="button.handler(getData()), close()"
+  >
+    {{* button.label}}
+  </button>
 </div>
