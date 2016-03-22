@@ -33,12 +33,10 @@ function Modal(vmObject) {
   this.vm = new Vue(vm);
   this.__onShowHandlers = [];
   this.__onCloseHandlers = [];
-  this.autoDestroy = true;
-  this.minimized = false;
-  this.maximized = false;
+  this.selfDestroy = true;
 }
 
-Modal.prototype.show = function() {
+Modal.prototype.show = function(onShow) {
   if (this.$el.closest('html').length === 0) {
     throw new Error('Modal was previously destroyed. Create another one.');
   }
@@ -56,19 +54,28 @@ Modal.prototype.show = function() {
   }
 
   var
+    effect,
     self = this,
-    effect = quasar.runs.on.ios ? 'transition.shrinkIn' : 'transition.slideUpIn',
     options = {
       duration: duration,
       complete: function() {
         self.__onShowHandlers.forEach(function(handler) {
           handler();
         });
+        if (typeof onShow === 'function') {
+          onShow();
+        }
       }
     };
 
-  if (!this.minimized && (this.maximized || $(window).width() <= 600)) {
+  if (this.transitionIn) {
+    effect = this.transitionIn;
+  }
+  else if (!this.minimized && (this.maximized || $(window).width() <= 600)) {
     effect = {translateX: [0, '101%']};
+  }
+  else {
+    effect = quasar.runs.on.ios ? 'transition.shrinkIn' : 'transition.slideUpIn';
   }
 
   this.$el.removeClass('hidden');
@@ -79,24 +86,33 @@ Modal.prototype.show = function() {
   return this;
 };
 
-Modal.prototype.close = function() {
+Modal.prototype.close = function(onClose) {
   var
+    effect,
     self = this,
-    effect = quasar.runs.on.ios ? 'transition.shrinkOut' : 'transition.slideDownOut',
     options = {
       duration: duration,
       complete: function() {
-        if (self.autoDestroy) {
+        if (self.selfDestroy) {
           self.destroy();
         }
         self.__onCloseHandlers.forEach(function(handler) {
           handler();
         });
+        if (typeof onClose === 'function') {
+          onClose();
+        }
       }
     };
 
-  if (!this.minimized && (this.maximized || $(window).width() <= 600)) {
+  if (this.transitionOut) {
+    effect = this.transitionOut;
+  }
+  else if (!this.minimized && (this.maximized || $(window).width() <= 600)) {
     effect = {translateX: ['101%', 0]};
+  }
+  else {
+    effect = quasar.runs.on.ios ? 'transition.shrinkOut' : 'transition.slideDownOut';
   }
 
   this.$backdrop.removeClass('active');

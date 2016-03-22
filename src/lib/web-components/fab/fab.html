@@ -1,12 +1,15 @@
 <templates>
   <template id="fab">
-    <div class="quasar-fab" :class="{opened: opened, 'with-backdrop': click || backdrop}">
+    <div
+      class="quasar-fab flex inline justify-center"
+      :class="{opened: opened, 'with-backdrop': click || backdrop}"
+    >
       <div v-if="click || backdrop" class="backdrop" @click="toggle(true)"></div>
       <button class="circular raised" @click="toggle()" :class="classes">
         <i class="quasar-fab-icon">{{icon}}</i>
         <i class="quasar-fab-active-icon">{{activeIcon}}</i>
       </button>
-      <div class="quasar-fab-actions" :class="[direction]">
+      <div class="quasar-fab-actions flex inline items-center" :class="[direction]">
         <slot></slot>
       </div>
     </div>

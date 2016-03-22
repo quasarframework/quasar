@@ -30,14 +30,21 @@ maximized-modal()
     text-align $modal-body-text-align
     padding $modal-body-padding
     color $modal-body-color
-  .modal-scroll
-    max-height $modal-scroll-size
-    @extend .scroll
   .modal-controls
     border-top 1px solid $form-darker-color
     border-bottom 1px solid $form-darker-color
     &.list
       margin 0
+
+  .small-modal-scroll, .modal-scroll, .big-modal-scroll
+    @extend .scroll
+  .small-modal-scroll
+    max-height (.65 * $modal-scroll-size)
+  .modal-scroll
+    max-height $modal-scroll-size
+  .big-modal-scroll
+    max-height (2 * $modal-scroll-size)
+
 
   .modal-buttons
     padding $modal-buttons-padding
