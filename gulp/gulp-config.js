@@ -21,9 +21,7 @@ module.exports = {
       'velocity-animate/velocity',
       'velocity-animate/velocity.ui'
     ],
-    css: [
-      'normalize.css/normalize'
-    ],
+    // css: [],
     dest: dist + '/deps'
   },
 

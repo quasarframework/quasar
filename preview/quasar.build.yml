@@ -4,4 +4,4 @@ deps:
 preview: {}
 responsive: {}
 test: {}
-// forceTheme: 'mat'
+forceTheme: 'mat'
