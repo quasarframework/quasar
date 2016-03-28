@@ -48,18 +48,21 @@ function prepareRoute(context, layout, page) {
 
   var layoutVue, pageVue;
 
-  if (!quasar.layout.name || quasar.layout.name !== context.manifest.layout) {
+  if (
+    !quasar.current.layout ||
+    !quasar.current.layout.name ||
+    quasar.current.layout.name !== context.manifest.layout
+  ) {
     quasar.events.trigger('app:layout:post-require app:layout:prepare', context);
     prepare(quasar.data.manifest.layouts[context.manifest.layout], layout, function(vue) {
       layoutVue = vue;
-      quasar.layout.name = context.manifest.layout;
       renderVue(context, pageVue, layoutVue);
     });
     quasar.events.trigger('app:page:post-require app:page:prepare', context);
     prepare(context, page, function(vue) {
       pageVue = vue;
 
-      quasar.page[context.identification] = {
+      quasar.page[context.name] = {
         name: context.name,
         hash: context.route,
         manifest: context.manifest
@@ -72,7 +75,7 @@ function prepareRoute(context, layout, page) {
 
   quasar.events.trigger('app:page:post-require app:page:prepare', context);
   prepare(context, page, function(vue) {
-    quasar.page[context.identification] = {
+    quasar.page[context.name] = {
       name: context.name,
       hash: context.route,
       manifest: context.manifest
@@ -98,39 +101,28 @@ function startRoute(manifest, context) {
   });
 }
 
-function parseHashes(pageHashes) {
-  return !pageHashes ? ['$'] : pageHashes;
-}
-
-function getHash(pageName, hash) {
-  if (hash !== '$') {
-    return '#/' + pageName + '/' + hash;
-  }
-
-  return '#/' + (pageName !== 'index' ? pageName : '');
-}
-
 function registerRoutes(appManifest) {
   Object.keys(appManifest.pages).forEach(function(pageName) {
-    var pageManifest = appManifest.pages[pageName];
+    var
+      pageManifest = appManifest.pages[pageName],
+      hash = '#/' + (pageName !== 'index' ? pageName : '')
+      ;
 
     pageManifest.name = pageName;
-    parseHashes(pageManifest.hashes).forEach(function(hash) {
-      quasar.add.route({
-        hash: getHash(pageName, hash),
-        trigger: function() {
-          var route = this;
 
-          startRoute(pageManifest, {
-            params: route.params,
-            query: route.query,
-            name: pageName,
-            route: hash,
-            manifest: pageManifest,
-            identification: pageName + (hash.length && hash != '$' ? '--' + hash : '')
-          });
-        }
-      });
+    quasar.add.route({
+      hash: hash,
+      trigger: function() {
+        var route = this;
+
+        startRoute(pageManifest, {
+          params: route.params,
+          query: route.query,
+          name: pageName,
+          route: hash,
+          manifest: pageManifest
+        });
+      }
     });
   });
 }

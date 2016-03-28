@@ -11,7 +11,7 @@ Vue.component('fab', {
         return ['primary'];
       },
       coerce: function(value) {
-        return Array.isArray(value) ? value : value.split(' ');
+        return Array.isArray(value) || typeof value === 'undefined' ? value : value.split(' ');
       }
     },
     icon: {

@@ -53,11 +53,11 @@
 
   window.testing.app = {
     reset: function() {
-      if (quasar.layout.vm && quasar.layout.vm.$destroy) {
-        quasar.layout.vm.$destroy();
+      if (quasar.current.layout && quasar.current.layout.vm && quasar.current.layout.vm.$destroy) {
+        quasar.current.layout.vm.$destroy();
       }
-      if (quasar.page.vm && quasar.page.vm.$destroy) {
-        quasar.page.vm.$destroy();
+      if (quasar.current.page && quasar.current.page.vm && quasar.current.page.vm.$destroy) {
+        quasar.current.page.vm.$destroy();
       }
       $('#quasar-app').html('');
       quasar.stop.router();
@@ -69,8 +69,7 @@
       quasar.clear.require.cache();
       quasar.clear.css();
       quasar.data.manifest = {pages: {}, layouts: {}};
-      quasar.layout = {};
-      quasar.page = {};
+      quasar.current = {};
       testing.app.var = {};
     },
     prepare: function() {

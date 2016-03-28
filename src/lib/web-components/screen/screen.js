@@ -23,7 +23,7 @@ Vue.component('screen-tabs', {
       ;
 
     tabs = Object.keys(pages).filter(function(key) {
-      return pages[key].navigation && pages[key].layout === quasar.layout.name;
+      return pages[key].navigation && pages[key].layout === quasar.current.layout.name;
     });
     tabs = tabs.map(function(tab) {
       tab = pages[tab];

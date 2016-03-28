@@ -1,9 +1,6 @@
 label: 'Typography'
 icon: 'format_color_text'
 layout: 'main'
-hashes:
-  - $
-  - :gigi
 navigation:
   group: 'typography'
   hide: 'icon'

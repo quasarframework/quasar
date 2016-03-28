@@ -26,18 +26,6 @@ function injectVue(currentVue, el, readyFunction) {
   return vue;
 }
 
-function destroyTemporaryPages() {
-  var destroyElement;
-
-  Object.keys(quasar.page).forEach(function(page) {
-    if (page.indexOf('--') > 0) {
-      destroyElement = $(quasar.page[page].vm.$el).parent();
-      quasar.page[page].vm.$destroy();
-      destroyElement.remove();
-    }
-  });
-}
-
 module.exports.layout = function(vue, context, done) {
   var
     el = '#quasar-app',
@@ -54,51 +42,57 @@ module.exports.layout = function(vue, context, done) {
       }
     });
   }
-  if (quasar.layout.vm) {
-    quasar.layout.vm.$destroy();
+  if (quasar.current.layout && quasar.current.layout.vm) {
+    quasar.current.layout.vm.$destroy();
   }
 
   container.removeClass();
 
   if (!context.manifest.layout) {
-    delete quasar.layout.vm;
+    quasar.current.layout = null;
     container.html('');
     done && done();
     return;
   }
 
   container.addClass('layout-' + context.manifest.layout);
-  quasar.layout.vm = new Vue(injectVue(vue, el, done));
+  quasar.current.layout = {name: context.manifest.layout};
+  quasar.current.layout.vm = new Vue(injectVue(vue, el, done));
 };
 
 module.exports.page = function(vue, context, done) {
-  destroyTemporaryPages();
+  var id = context.name;
 
   if (!context.manifest.layout) {
-    $('#quasar-app').append('<div class="quasar-page page-' + context.identification + '"></div>');
-    quasar.page[context.identification].vm = new Vue(injectVue(vue, '#quasar-app > .quasar-page', done));
+    $('#quasar-app').append('<div class="quasar-page page-' + id + '"></div>');
+    quasar.current.page = quasar.page[id];
+    quasar.page[id].vm = new Vue(injectVue(vue, '#quasar-app > .quasar-page', done));
     done && done();
   }
 
   var
-    el = '.page-' + context.identification,
+    el = '.page-' + id,
     container = $(el),
-    pageContainers = $('.quasar-page-container'),
+    sticky = $('.quasar-sticky-' + id),
     newPage = $(
-      '<div class="quasar-page-container scroll page-' + context.identification +
+      '<div class="quasar-page-container scroll page-' + id +
       '"><div class="quasar-page"></div></div>'
     );
 
-  pageContainers.css('display', 'none');
+  // page container elements
+  $('.quasar-page-container').css('display', 'none');
+  // page sticky elements
+  $('.quasar-page-sticky').css('display', 'none');
 
   if (container.length !== 0) {
     container.css('display', '');
+    sticky.css('display', '');
+    quasar.current.page = quasar.page[id];
     done && done();
     return;
   }
 
-  pageContainers.css('display', 'none');
   $('#quasar-app .quasar-pages').append(newPage);
-
-  quasar.page[context.identification].vm = new Vue(injectVue(vue, el + '> .quasar-page', done));
+  quasar.current.page = quasar.page[id];
+  quasar.page[id].vm = new Vue(injectVue(vue, el + '> .quasar-page', done));
 };

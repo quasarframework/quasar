@@ -174,7 +174,7 @@ describe.skip('App Layouts', function() {
             template: 'page content',
             ready: function() {
               expect($('#quasar-app').html()).to.equal('layout ' + testing.app.var.getPageContent('page content'));
-              expect(quasar.layout).to.deep.equal(testing.app.var.layout);
+              expect(quasar.current.layout).to.deep.equal(testing.app.var.layout);
               testing.done();
             }
           };
@@ -188,7 +188,7 @@ describe.skip('App Layouts', function() {
           template: 'index content',
           ready: function() {
             expect($('#quasar-app').html()).to.equal('layout ' + testing.app.var.getPageContent('index content'));
-            testing.app.var.layout = quasar.layout;
+            testing.app.var.layout = quasar.current.layout;
             quasar.navigate.to.route('#/page');
           }
         };
@@ -213,7 +213,7 @@ describe.skip('App Layouts', function() {
           template: 'content',
           ready: function() {
             expect($('#quasar-app').html()).to.equal(testing.app.var.getPageContent('content') + ' yyy');
-            expect(quasar.layout).to.be.an('object');
+            expect(quasar.current.layout).to.be.an('object');
             quasar.navigate.to.route('#/nolayout');
           }
         };
@@ -230,7 +230,7 @@ describe.skip('App Layouts', function() {
             template: 'page content',
             ready: function() {
               expect($('#quasar-app').html()).to.equal('<div class="screen">' + testing.app.var.getPageContent('page content') + '</div>');
-              expect(quasar.layout.name).to.equal('__default');
+              expect(quasar.current.layout.name).to.equal('__default');
               testing.done();
             }
           };

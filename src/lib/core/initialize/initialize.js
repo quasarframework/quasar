@@ -58,6 +58,7 @@ $.extend(true, quasar, {
   page: {},
   layout: {},
   data: {},
+  current: {},
   swap: {
     theme: function() {
       forceTheme($('body').hasClass('ios') ? 'mat' : 'ios');
