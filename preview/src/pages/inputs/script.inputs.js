@@ -36,8 +36,9 @@ module.exports = {
         value: 'ora'
       }
     ],
-    text: '',
+    username: '',
+    password: '',
     textarea: '',
-    number: 10
+    number: 4
   }
 };

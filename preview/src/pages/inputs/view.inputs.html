@@ -1,3 +1,136 @@
+<h2>Text Input</h2>
+Inline with text <input v-model="username" class="inline"></input>
+<input v-model="password" type="password"></input>
+
+<br><br>
+
+<div class="list inner-delimiter bordered">
+  <div class="list-header">Fixed</div>
+  <div class="item fixed-label">
+    <div class="item-content">
+      <label for="user1" class="item-label">Username</label>
+      <input id="user1" v-model="username"></input>
+    </div>
+  </div>
+  <div class="item fixed-label">
+    <div class="item-content">
+      <label for="pass1" class="item-label">Password</label>
+      <input id="pass1" v-model="password" type="password"></input>
+    </div>
+  </div>
+</div>
+
+<div class="list inner-delimiter bordered">
+  <div class="list-header">Floating</div>
+  <div class="item floating-label">
+    <div class="item-content">
+      <input v-model="username" required></input>
+      <label>Username</label>
+    </div>
+  </div>
+  <div class="item floating-label">
+    <div class="item-content">
+      <input v-model="password" type="password" required></input>
+      <label>Password</label>
+    </div>
+  </div>
+</div>
+
+<div class="list inner-delimiter bordered">
+  <div class="list-header">Inline</div>
+  <div class="item inline-label">
+    <label class="item-content">
+      Username
+      <input v-model="username"></input>
+    </label>
+  </div>
+  <div class="item inline-label">
+    <label class="item-content">
+      Password
+      <input v-model="password" type="password"></input>
+    </label>
+  </div>
+</div>
+
+<div class="list inset inner-delimiter bordered">
+  <div class="list-header">Inset and Fixed</div>
+  <div class="item">
+    <div class="item-content fixed-label">
+      <label for="user2" class="item-label">Username</label>
+      <input id="user2" v-model="username"></input>
+    </div>
+  </div>
+  <div class="item fixed-label">
+    <div class="item-content">
+      <label for="pass2" class="item-label">Password</label>
+      <input id="pass2" v-model="password" type="password"></input>
+    </div>
+  </div>
+</div>
+
+<div class="list inner-delimiter bordered">
+  <div class="list-header">Placeholder</div>
+  <div class="item">
+    <div class="item-content">
+      <input v-model="username" placeholder="Username"></input>
+    </div>
+  </div>
+  <div class="item">
+    <div class="item-content">
+      <input v-model="password" type="password" placeholder="Password"></input>
+    </div>
+  </div>
+</div>
+
+<div class="list inner-delimiter bordered">
+  <div class="list-header">Stacked</div>
+  <div class="item stacked-label">
+    <div class="item-content">
+      <input id="user4" v-model="username" required></input>
+      <label for="user4">Username</label>
+    </div>
+  </div>
+  <div class="item stacked-label">
+    <div class="item-content">
+      <input id="pass4" v-model="password" type="password" required></input>
+      <label for="pass4">Password</label>
+    </div>
+  </div>
+</div>
+
+
+<h2>Number</h2>
+Inline with text <number class="inline" :min="2" :max="10" :model.sync="number"></number>
+<br><br><number :model.sync="number" :min="2" :max="10" :debounce="1000" :step="0.5">Number label</number>
+<br><br>
+<div class="list inner-delimiter bordered">
+  <label class="item">
+    <div class="item-content">
+      <div class="item-label fixed-label">
+        Some number
+      </div>
+      <div class="item-value">
+        <number :model.sync="number"></number>
+      </div>
+    </div>
+  </label>
+  <label class="item">
+    <div class="item-content">
+      <div class="item-label fixed-label">
+        Some number
+      </div>
+      <div class="item-value">
+        <number :model.sync="number" :debounce="1000" :step="1.5">
+      </div>
+    </div>
+  </label>
+</div>
+
+<h2>Textarea</h2>
+{{textarea}}
+<textarea v-model="textarea" placeholder="Textarea label"></textarea>
+
+
 <h2>Checkbox</h2>
 <checkbox :model.sync="check" style="border: 1px solid black"></checkbox>
 <label>
@@ -67,15 +200,3 @@
     </div>
   </div>
 </div>
-
-<h2>Text Input</h2>
-Inline with text <input v-model="text" placeholder="Address" class="inline"></input>
-<input v-model="text" placeholder="Address"></input>
-
-<h2>Number</h2>
-Inline with text <quasar-number class="inline" :model.sync="number">Number label</quasar-number>
-<quasar-number :model.sync="number" :min="7" :max="10" :debounce="1000" :step="0.5">Number label</quasar-number>
-
-<h2>Textarea</h2>
-{{textarea}}
-<textarea v-model="textarea" placeholder="Textarea label"></textarea>

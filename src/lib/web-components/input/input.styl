@@ -1,25 +1,57 @@
-inputa, textarea
-  display flex
-  flex-direction row
-
-  border $form-border
-  border-radius $form-border-radius
-  margin 1em 0
-  padding .7em 1em
-  width 100%
-  background white
+input, textarea
+  padding $input-padding-vertical $input-padding-horizontal
+  border 0
+  border-radius 0
   outline 0
-  transition all .3s
-
-  -moz-appearance none
-  -webkit-appearance none /* for box shadows to show on iOS */
-  appearance none
-
+  box-shadow $shadow-1
+  transition box-shadow .3s
   &:focus
-    box-shadow $form-shadow
+    box-shadow $shadow-2
 
-  &.inline
-    max-width 300px
+.item
+  input
+    display flex
+    flex-direction row
+    flex 1 1 auto
+
+    border-bottom 2px solid transparent
+    box-shadow none
+
+  &.fixed-label label
+    flex 0 0 33%
+  &.floating-label
+    .item-content
+      position relative
+    label
+      position absolute
+      left 0
+      bottom $input-padding-vertical
+      pointer-events none
+      transform-origin left top
+      transform translateY(0) scale(1)
+      transition transform .15s ease-in-out, color .3s
+      will-change transform
+    input
+      margin-top 1.7rem
+      transition border .3s
+    input:focus
+      border-bottom 2px solid $form-active-color
+    input:focus ~ label, input:valid ~ label
+      transform translateY(-2rem) scale(.8)
+  &.stacked-label
+    .item-content
+      position relative
+    label
+      position absolute
+      top .7rem
+      left 0
+      transform scale(.9)
+      transition color .3s
+    input
+      margin-top 1.7rem
+    input:focus ~ label
+      color $form-active-color
 
 textarea
   height 11em
+  width 100%

@@ -2,34 +2,14 @@
 
 var template = require('raw!./number.html');
 
-
-var inputVM = {
-  props: {
-    model: {},
-    debounce: Number
-  },
-  beforeCompile: function() {
-    var el = $(this.$el);
-
-    el.getAttributesManager()
-    .with('inline', function() {
-      el.addClass('inline');
-    })
-    .with('lazy', function() {
-      el.find('> .quasar-input-field').attr('lazy', '');
-    });
-  }
-};
-
-Vue.component('quasar-number', Vue.extend({
-  mixins: [inputVM],
+Vue.component('number', Vue.extend({
   template: template,
   props: {
     model: {
       type: Number,
       default: 0,
       coerce: function(value) {
-        return parseFloat(value, 10);
+        return parseFloat(value, 10) || 0;
       }
     },
     step: {
@@ -39,6 +19,13 @@ Vue.component('quasar-number', Vue.extend({
         return parseFloat(value, 10);
       }
     },
+    lazy: {
+      type: Boolean,
+      coerce: function(value) {
+        return value ? true : false;
+      }
+    },
+    debounce: Number,
     min: Number,
     max: Number
   },
@@ -53,8 +40,15 @@ Vue.component('quasar-number', Vue.extend({
     }
   },
   methods: {
-    increment: function(step) {
-      this.model += step;
+    increment: function(direction) {
+      this.model += direction * this.step;
+    }
+  },
+  compiled: function() {
+    this.step = this.step || 1;
+
+    if (this.lazy) {
+      $(this.$el).find('input').attr('lazy', '');
     }
   }
 }));
