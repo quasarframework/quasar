@@ -1,0 +1,5 @@
+label: 'Tree'
+icon: 'format_line_spacing'
+layout: 'main'
+navigation:
+  group: 'widget'
