@@ -1,127 +1,64 @@
-$card-radius = 4px
-$card-padding = 1.8em
-$card-highlight = rgba(0, 0, 0, .3)
+$card-box-shadow ?= $shadow-1
+$card-border-radius ?= 2px
+$card-padding-horizontal ?= 16px
+$card-padding-vertical ?= 13px
 
 .card
+  width 100%
+  margin-bottom 20px
+  border-radius $card-border-radius
+  box-shadow $card-box-shadow
+  display block
+  overflow hidden
   position relative
-  margin .5em 0 1em 0
-  transition box-shadow .25s
-  border-radius $card-radius
-  box-shadow $shadow-1
 
-  &:hover
-    box-shadow $shadow-2
-
-  .dismiss.default
-    border-radius 0 $card-radius 0 $card-radius
-    background-color $card-highlight
-    padding ($card-padding / 3)
-
-  .card-title
-    font-size 2em
-    font-weight 300
-    margin .1em 0 1em 0
-
-  .card-cover
-    position relative
-    border-radius $card-radius $card-radius 0 0
-
-    .card-title
-      color white
-      position absolute
-      bottom 0
-      left 0
-      padding ($card-padding / 2)
-      margin .5em 0
-      background-color $card-highlight
-      border-radius $card-radius
-      pointer-events none
-    img
-      display block
-      border-radius $card-radius $card-radius 0 0
-      position relative
-      top 0
-      right 0
-      bottom 0
-      left 0
-      width 100%
-    iframe, video
-      border-radius $card-radius $card-radius 0 0
-
-    &:last-child img
-      border-radius $card-radius
-
-  .card-content, .card-details
-    padding $card-padding
-    border-radius 0 0 $card-radius $card-radius
-    p
-      margin-left 0
-      margin-right 0
-
-  .card-action
-    border-top 1px solid alpha($grey-5, .4)
-    padding ($card-padding / 1.5) 0 $card-padding 0
-    margin-left $card-padding
-    margin-right $card-padding
-    a
-      color inherit
-      text-transform uppercase
-      padding $card-padding ($card-padding / 2)
-      margin 0
-      transition all .25s
-
-      &:active
-        text-shadow 0 0 2px black
-
-    a + a
-        padding-left ($card-padding / 3)
-
-  &.highlight-action .card-action
-    padding ($card-padding / 1.5) 0
-    background rgba(0, 0, 0, .1)
-    border-top 0
-    border-radius $card-radius $card-radius 0 0
-
-
-  &.card-with-details
-    overflow hidden
-
-  .card-details
-    position absolute
-    top 0
-    right 0
-    bottom 0
-    left 0
-    overflow auto
-    transform translateY(105%)
-    transition all .2s
-    color black
-    background-color white
-    &.active
-      transform translateY(0)
-      display block
-
-  .card-details-activator
-    color inherit
-    padding 0 ($card-padding / 3.5)
-    border-radius 50%
-    line-height 1.8em
-    font-size 1.8em
-    cursor pointer
-    border-radius 0 0 0 $card-radius
+  > img, .card-media img
     display block
-    position absolute
-    top 0
-    right 0
-    transition text-shadow .2s, color .2s
-    &:hover
-      color white
-      background-color $card-highlight
+    width 100%
+    max-width 100%
+    border 0
 
-  .card-cover .card-details-activator
-    color white
-    background-color $card-highlight
-    line-height 1.6em
-    font-size 1.6em
-    &:hover
-      color black
+  .video:first-child, .video:first-child iframe
+    border-radius $card-border-radius $card-border-radius 0 0
+
+  > ul.collapsible
+    margin 0
+
+.card-content
+  line-height 1.4
+  padding $card-padding-vertical $card-padding-horizontal
+
+.card-title
+  font-size 1.3rem
+  font-weight 500
+  padding $card-padding-horizontal
+
+  button
+    margin 0
+
+.card .list.bordered
+  border 0
+  border-top 2px solid $grey-2
+.card-title + .card-content
+  padding-top 0
+
+.card-actions
+  padding $card-padding-vertical $card-padding-horizontal
+  display flex
+  flex-direction row
+  align-items center
+  > *:not(:last-child)
+    padding-right $card-padding-horizontal
+
+.card-media
+  position relative
+  > button
+    margin 0
+    position absolute
+    bottom - ($button-circular-size / 2)
+    right (2 * $card-padding-horizontal)
+
+.card-no-top-padding
+  padding-top 0 !important
+.card-force-top-padding
+  padding-top $card-padding-vertical !important
