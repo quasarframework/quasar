@@ -32,5 +32,10 @@ $.extend(true, quasar, {
   },
   exit: {
     fullscreen: fullscreen.exit
+  },
+  runs: {
+    within: {
+      iframe: window.self != window.top
+    }
   }
 });
