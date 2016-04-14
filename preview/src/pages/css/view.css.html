@@ -28,6 +28,16 @@
   <div class="flex inline shadow-box items-center justify-center" v-for="n in 5" :class="['shadow-' + (n + 1)]">.shadow-{{n+1}}</div>
 </div>
 
+<h1>Tooltips</h1>
+<div v-tooltip.literal="Quasar Rulz!" style="width: 200px; height: 70px;background-color: #26A69A;">
+  &nbsp;
+</div>
+<br><br>
+<button class="amber" v-tooltip.wrap.inline.literal="Tooltip">X</button>
+<button class="amber" v-tooltip.wrap.inline.literal="Tooltip for the user">Tooltip</button>
+<button class="secondary" v-tooltip.wrap.inline.literal="Lorem Ipsum... Some long tooltip...">Some long button</button>
+<button class="amber" v-tooltip.wrap.inline.literal="Lorem Ipsum...">Button</button>
+
 <h1>Breadcrumb</h1>
 <ul class="breadcrumb">
   <li><a><i>home</i> </a></li>
