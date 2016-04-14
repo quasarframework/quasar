@@ -5,9 +5,11 @@
   <p>{{{* message}}}</p>
 </div>
 <div v-if="inputs" class="modal-body modal-scroll">
-  <label v-for="input in inputs" class="item">
-    <input type="text" v-model="input.model" :placeholder.once="input.label">
-  </label>
+  <div v-for="input in inputs" class="item">
+    <div class="item-content">
+      <input type="text" v-model="input.model" :placeholder.once="input.label" required autofocus>
+    </div>
+  </div>
 </div>
 <div v-if="radios" class="modal-controls modal-scroll">
   <label v-for="radio in radios" class="item">

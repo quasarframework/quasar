@@ -16,6 +16,9 @@ input, textarea
 
     border-bottom 2px solid transparent
     box-shadow none
+    transition all .3s
+    &:focus
+      border-bottom 2px solid $form-active-color
 
   &.fixed-label label
     flex 0 0 33%
@@ -33,9 +36,6 @@ input, textarea
       will-change transform
     input
       margin-top 1.7rem
-      transition border .3s
-    input:focus
-      border-bottom 2px solid $form-active-color
     input:focus ~ label, input:valid ~ label
       transform translateY(-2rem) scale(.8)
   &.stacked-label
