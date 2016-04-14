@@ -146,6 +146,9 @@ list-top-bottom-bordered()
   &.bordered
     border 1px solid $list-divider-color
 
+  &.striped > *:nth-child(odd), &.highlight > .item:hover
+    background-color $list-stripe-color
+
   &.top-bottom-bordered
     list-top-bottom-bordered()
 

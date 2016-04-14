@@ -1,0 +1,95 @@
+table
+  border-collapse collapse
+  border-spacing 0
+  width 100%
+  display table
+  border 0
+
+  &.bordered
+    border $table-border
+
+  &.inner-delimiter
+    > thead > tr, > tbody > tr
+      border-bottom $table-border
+
+  &.striped
+    > tbody > tr
+      &:nth-child(odd)
+        background-color $table-highlight-color
+      > td
+        border-radius 0
+
+  &.highlight
+    > tbody > tr
+      transition background-color .25s ease
+      &:hover
+        background-color $table-highlight-color
+
+  &.centered
+    thead tr th, tbody tr td
+      text-align center
+
+thead
+  border-bottom $table-border
+
+td, th
+  padding 0
+  border 0
+  padding 15px 5px
+  display table-cell
+  text-align left
+  vertical-align middle
+  border-radius 2px
+
+@media only screen and (max-width $layout-medium-max)
+  table.responsive
+    display block
+    position relative
+
+    th, td
+      margin 0
+      vertical-align top
+    th
+      text-align left
+    thead
+      display block
+      float left
+    thead tr
+      display block
+      padding 0 10px 0 0
+    thead tr th::before
+      content '\00a0'
+    tbody
+      display block
+      width auto
+      position relative
+      overflow-x auto
+      white-space nowrap
+    tbody tr
+      display inline-block
+      vertical-align top
+    th
+      display block
+      text-align right
+    td
+      display block
+      min-height 1.25em
+      text-align left
+    tr
+      padding 0 10px
+    thead
+      border 0
+      border-right $table-border
+
+    &.inner-delimiter
+      th
+        border-bottom 0
+        border-left 0
+      td
+        border-left 0
+        border-right 0
+        border-bottom 0
+      tr
+        border 0
+      tbody tr
+        border-right $table-border
