@@ -13,23 +13,23 @@ module.exports = function(done) {
         data: data,
         columns: [
           {
-            name: 'Date',
+            label: 'Date',
             field: 'isodate'
           },
           {
-            name: 'Source',
+            label: 'Source',
             field: 'source'
           },
           {
-            name: 'Serviceable',
+            label: 'Serviceable',
             field: 'serviceable'
           },
           {
-            name: 'Log Number',
+            label: 'Log Number',
             field: 'log_number'
           },
           {
-            name: 'Message',
+            label: 'Message',
             field: 'message'
           }
         ]

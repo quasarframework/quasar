@@ -1,0 +1,65 @@
+<div class="quasar-grid-table">
+  <div>
+    Rows per Page:
+    <choice
+      :model.sync="rowsPerPage"
+      :options="rowsPerPageOptions"
+      ok-label="Change"
+      cancel-label="Cancel"
+      title="Rows per Page"
+    ></choice>
+  </div>
+
+  <div>
+    Columns:
+    <choice
+      multiple
+      :model.sync="chosenColumnsModel"
+      :options="chosenColumnsOptions"
+      ok-label="Select"
+      cancel-label="Cancel"
+      title="Visible Columns"
+    ></choice>
+  </div>
+
+  <div v-show="rowsPerPage !== Infinity">
+    <div>
+      Page:
+      <range :model.sync="page" :min="1" :max="pagesNumber"></range>
+    </div>
+    <div>
+      {{rowsPerPage * (page - 1) + 1}} to {{Math.min(rowsNumber, rowsPerPage * page)}} of {{rowsNumber}} entries.
+    </div>
+    <div>
+      <button :class="{disabled: page === 1}" class="primary clear" @click="goToPageByOffset(-1)"><i>keyboard_arrow_left</i></button>
+      Page {{page}} of {{pagesNumber}}.
+      <button :class="{disabled: page === pagesNumber}" class="primary clear" @click="goToPageByOffset(1)"><i>keyboard_arrow_right</i></button>
+    </div>
+  </div>
+
+  <table class="responsive striped bordered">
+    <thead>
+      <tr>
+          <th
+            v-for="column in columns"
+            v-show="column.hidden !== true"
+            @click="sortBy(column.field)"
+            :class="{'sortable-column': sortable}"
+          >
+            {{column.label}}
+
+            <i v-show="sortField === column.field && sortOrder === -1">keyboard_arrow_down</i>
+            <i v-show="sortField === column.field && sortOrder === 1">keyboard_arrow_up</i>
+          </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr v-for="row in data | orderBy sortField sortOrder | limitBy rowsPerPage page">
+        <td v-for="column in columns" v-show="column.hidden !== true">
+          {{row[column.field]}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

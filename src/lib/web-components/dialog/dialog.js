@@ -8,7 +8,7 @@ function parseButtons(buttons) {
   }
 
   if (buttons.some(function(button) {
-    return typeof button !== 'string' && (Object(button) !== button || !button.label || !button.handler);
+    return typeof button !== 'string' && (Object(button) !== button || typeof button.label === 'undefined' || typeof button.handler !== 'function');
   })) {
     throw new Error('At least one of Dialog\'s button parameter is neither a string nor an object with both label handler.');
   }
@@ -42,7 +42,7 @@ function parseRadios(radios) {
   }
 
   if (radios.some(function(radio) {
-    return !radio.label || !radio.value;
+    return typeof radio.label === 'undefined' || typeof radio.value === 'undefined';
   })) {
     throw new Error('One of Dialog\'s radio parameter is missing either label or value');
   }
@@ -68,7 +68,7 @@ function parseCheckboxes(checkboxes) {
   }
 
   if (checkboxes.some(function(checkbox) {
-    return !checkbox.label || !checkbox.value;
+    return typeof checkbox.label === 'undefined' || typeof checkbox.value === 'undefined';
   })) {
     throw new Error('One of Dialog\'s checkbox parameter is missing either label or value');
   }
