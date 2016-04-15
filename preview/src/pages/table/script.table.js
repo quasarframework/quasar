@@ -12,7 +12,12 @@ module.exports = {
       'striped',
       'highlight',
       'centered',
-      'responsive'
+      'responsive',
+      ['responsive', 'inner-delimiter'],
+      ['responsive', 'bordered'],
+      ['responsive', 'striped'],
+      ['responsive', 'highlight'],
+      ['responsive', 'centered']
     ]
   }
 };
