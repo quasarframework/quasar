@@ -4,7 +4,7 @@
   </div>
 
   <grid-table
-    :data="data | filterBy searchQuery"
+    :data="formattedData | filterBy searchQuery"
     :columns="columns"
     :rows-per-page="rowsPerPage"
     :sortable="sortable"

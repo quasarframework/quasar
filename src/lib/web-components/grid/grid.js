@@ -10,7 +10,7 @@ var
     {label: '25', value: 25},
     {label: '50', value: 50},
     {label: '100', value: 100},
-    {label: 'No pagination', value: Infinity}
+    {label: 'No pagination', value: 0}
   ];
 
 function getRowsPerPageOption(rowsPerPage) {
@@ -61,6 +61,25 @@ Vue.component('grid', {
     return {
       searchQuery: ''
     };
+  },
+  computed: {
+    formattedData: function() {
+      var columns = this.columns.filter(function(column) {
+        return column.formatter;
+      });
+
+      if (columns.length === 0) {
+        return this.data;
+      }
+
+      return this.data.map(function(item) {
+        columns.forEach(function(column) {
+          item[column.field] = column.formatter(item[column.field]);
+        });
+
+        return item;
+      });
+    }
   }
 });
 

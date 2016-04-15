@@ -22,7 +22,7 @@
     ></choice>
   </div>
 
-  <div v-show="rowsPerPage !== Infinity">
+  <div v-show="rowsPerPage !== 0 && rowsNumber > 0">
     <div>
       Page:
       <range :model.sync="page" :min="1" :max="pagesNumber"></range>
@@ -46,7 +46,7 @@
             @click="sortBy(column.field)"
             :class="{'sortable-column': sortable}"
           >
-            {{column.label}}
+            {{{column.label}}}
 
             <i v-show="sortField === column.field && sortOrder === -1">keyboard_arrow_down</i>
             <i v-show="sortField === column.field && sortOrder === 1">keyboard_arrow_up</i>
@@ -57,7 +57,7 @@
     <tbody>
       <tr v-for="row in data | orderBy sortField sortOrder | limitBy rowsPerPage page">
         <td v-for="column in columns" v-show="column.hidden !== true">
-          {{row[column.field]}}
+          {{{row[column.field]}}}
         </td>
       </tr>
     </tbody>

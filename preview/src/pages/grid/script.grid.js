@@ -22,7 +22,13 @@ module.exports = function(done) {
           },
           {
             label: 'Serviceable',
-            field: 'serviceable'
+            field: 'serviceable',
+            formatter: function(value) {
+              if (value === 'Informational') {
+                return '<i>info</i>';
+              }
+              return value;
+            }
           },
           {
             label: 'Log Number',
