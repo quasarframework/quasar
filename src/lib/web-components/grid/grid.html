@@ -1,0 +1,51 @@
+<div class="quasar-grid">
+  <div>
+    Rows per Page:
+    <choice
+      :model.sync="rowsPerPage"
+      :options="rowsPerPageOptions"
+      ok-text="OK"
+      cancel-text="Cancel"
+      title="Rows per Page"
+    ></choice>
+  </div>
+
+  <div>
+    Page:
+    <range :model.sync="page" :min="1" :max="pagesNumber"></range>
+  </div>
+
+  <!--
+  <choice
+    multiple
+    :model.sync="rowSelection"
+    :options="selectOptions"
+    ok-text="Pick"
+    cancel-text="Neah"
+    title="Company"
+  ></choice>
+-->
+
+  <div>
+    {{rowsPerPage * (page - 1) + 1}} to {{Math.min(rowsNumber, rowsPerPage * page)}} of {{rowsNumber}} entries.
+  </div>
+  <div>
+    <button :class="{disabled: page === 1}" class="primary clear" @click="goToPageByOffset(-1)"><i>keyboard_arrow_left</i></button>
+    Page {{page}} of {{pagesNumber}}.
+    <button :class="{disabled: page === pagesNumber}" class="primary clear" @click="goToPageByOffset(1)"><i>keyboard_arrow_right</i></button>
+  </div>
+
+  <table class="responsive striped bordered">
+    <thead>
+      <tr>
+          <th v-for="column in columns">{{column.name}}</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr v-for="row in data | limitBy rowsPerPage page">
+        <td v-for="column in columns">{{row[column.field]}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
