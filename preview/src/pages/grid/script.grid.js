@@ -14,7 +14,10 @@ module.exports = function(done) {
         columns: [
           {
             label: 'Date',
-            field: 'isodate'
+            field: 'isodate',
+            formatter: function(value) {
+              return new Date(value).toLocaleString();
+            }
           },
           {
             label: 'Source',

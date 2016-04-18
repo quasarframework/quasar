@@ -4,9 +4,12 @@
   </div>
 
   <grid-table
-    :data="formattedData | filterBy searchQuery"
+    v-ref:table
+    :data="data | filterBy searchQuery"
     :columns="columns"
     :rows-per-page="rowsPerPage"
     :sortable="sortable"
+    :selection="selection"
+    :no-data-label="noDataLabel"
   ></grid-table>
 </div>

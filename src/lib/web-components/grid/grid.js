@@ -55,6 +55,10 @@ Vue.component('grid', {
       coerce: function(value) {
         return value ? true : false;
       }
+    },
+    noDataLabel: {
+      type: String,
+      default: 'No data to display.'
     }
   },
   data: function() {
@@ -62,30 +66,16 @@ Vue.component('grid', {
       searchQuery: ''
     };
   },
-  computed: {
-    formattedData: function() {
-      var columns = this.columns.filter(function(column) {
-        return column.formatter;
-      });
-
-      if (columns.length === 0) {
-        return this.data;
-      }
-
-      return this.data.map(function(item) {
-        columns.forEach(function(column) {
-          item[column.field] = column.formatter(item[column.field]);
-        });
-
-        return item;
-      });
+  watch: {
+    searchQuery: function() {
+      this.$refs.table.page = 1;
     }
   }
 });
 
 Vue.component('grid-table', {
   template: tableTemplate,
-  props: ['data', 'columns', 'rowsPerPage', 'sortable'],
+  props: ['data', 'columns', 'rowsPerPage', 'sortable', 'noDataLabel'],
   data: function() {
     var rowsPerPage = this.rowsPerPage;
     var chosenColumns = this.getChosenColumn();
@@ -112,10 +102,16 @@ Vue.component('grid-table', {
           value: column.field
         };
       });
+    },
+    computedRowsPerPage: function() {
+      return this.rowsPerPage ? this.rowsPerPage : Infinity;
+    },
+    rowOffset: function() {
+      return this.rowsPerPage * (this.page - 1);
     }
   },
   watch: {
-    data: function() {
+    data: function(value) {
       this.page = 1;
     },
     rowsPerPage: function(value) {

@@ -28,7 +28,7 @@
       <range :model.sync="page" :min="1" :max="pagesNumber"></range>
     </div>
     <div>
-      {{rowsPerPage * (page - 1) + 1}} to {{Math.min(rowsNumber, rowsPerPage * page)}} of {{rowsNumber}} entries.
+      {{rowOffset + 1}} to {{Math.min(rowsNumber, rowsPerPage * page)}} of {{rowsNumber}} entries.
     </div>
     <div>
       <button :class="{disabled: page === 1}" class="primary clear" @click="goToPageByOffset(-1)"><i>keyboard_arrow_left</i></button>
@@ -47,7 +47,6 @@
             :class="{'sortable-column': sortable}"
           >
             {{{column.label}}}
-
             <i v-show="sortField === column.field && sortOrder === -1">keyboard_arrow_down</i>
             <i v-show="sortField === column.field && sortOrder === 1">keyboard_arrow_up</i>
           </th>
@@ -55,11 +54,15 @@
     </thead>
 
     <tbody>
-      <tr v-for="row in data | orderBy sortField sortOrder | limitBy rowsPerPage page">
+      <tr v-for="row in data | orderBy sortField sortOrder | limitBy computedRowsPerPage rowOffset">
         <td v-for="column in columns" v-show="column.hidden !== true">
-          {{{row[column.field]}}}
+          {{{column.formatter ? column.formatter(row[column.field]) : row[column.field]}}}
         </td>
       </tr>
     </tbody>
   </table>
+
+  <div v-show="data.length === 0">
+    {{noDataLabel}}
+  </div>
 </div>
