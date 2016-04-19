@@ -41,7 +41,18 @@ module.exports = function(done) {
             label: 'Message',
             field: 'message'
           }
-        ]
+        ],
+        selection: {
+          mode: 'multiple',
+          actions: [
+            {
+              label: 'View',
+              handler: function(selectedRows) {
+                console.dir(selectedRows);
+              }
+            }
+          ]
+        }
       }
     });
   });

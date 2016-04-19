@@ -34,6 +34,16 @@ function getColumnsFieldArray(columns) {
   });
 }
 
+Vue.filter('gridShowSelected', function(data, filter) {
+  if (!filter) {
+    return data;
+  }
+
+  return data.filter(function(row) {
+    return row.__selected;
+  });
+});
+
 Vue.component('grid', {
   template: template,
   props: {
@@ -60,17 +70,20 @@ Vue.component('grid', {
       type: String,
       default: 'No data to display.'
     },
-    idProperty: {
-      type: String
-    }
+    idProperty: String,
+    selection: Object
   },
   data: function() {
     return {
-      searchQuery: ''
+      searchQuery: '',
+      showOnlySelected: false
     };
   },
   watch: {
     searchQuery: function() {
+      this.$refs.table.page = 1;
+    },
+    showOnlySelected: function() {
       this.$refs.table.page = 1;
     }
   }
@@ -78,7 +91,7 @@ Vue.component('grid', {
 
 Vue.component('grid-table', {
   template: tableTemplate,
-  props: ['data', 'columns', 'rowsPerPage', 'sortable', 'noDataLabel', 'idProperty'],
+  props: ['data', 'columns', 'rowsPerPage', 'sortable', 'noDataLabel', 'idProperty', 'selection'],
   data: function() {
     var rowsPerPage = this.rowsPerPage;
     var chosenColumns = this.getChosenColumn();
@@ -88,7 +101,8 @@ Vue.component('grid-table', {
       rowsPerPageOptions: getRowsPerPageOption(rowsPerPage),
       sortField: '',
       sortOrder: 1,
-      chosenColumnsModel: chosenColumns
+      chosenColumnsModel: chosenColumns,
+      singleSelectedRow: null
     };
   },
   computed: {
@@ -111,6 +125,14 @@ Vue.component('grid-table', {
     },
     rowOffset: function() {
       return this.rowsPerPage * (this.page - 1);
+    },
+    selectedRows: function() {
+      if (this.selection.mode === 'single') {
+        return this.singleSelectedRow ? [this.singleSelectedRow] : [];
+      }
+      return this.data.filter(function(row) {
+        return row.__selected === true;
+      });
     }
   },
   watch: {
@@ -151,6 +173,18 @@ Vue.component('grid-table', {
       }).map(function(column) {
         return column.field;
       });
+    },
+    clearSelection: function() {
+      if (this.selection.mode === 'single') {
+        this.singleSelectedRow = null;
+      }
+      else {
+        this.data.forEach(function(row) {
+          if (row.hasOwnProperty('__selected')) {
+            row.__selected = false;
+          }
+        });
+      }
     }
   }
 });

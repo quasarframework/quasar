@@ -28,18 +28,27 @@
       <range :model.sync="page" :min="1" :max="pagesNumber"></range>
     </div>
     <div>
-      {{rowOffset + 1}} to {{Math.min(rowsNumber, rowsPerPage * page)}} of {{rowsNumber}} entries.
-    </div>
-    <div>
       <button :class="{disabled: page === 1}" class="primary clear" @click="goToPageByOffset(-1)"><i>keyboard_arrow_left</i></button>
       Page {{page}} of {{pagesNumber}}.
       <button :class="{disabled: page === pagesNumber}" class="primary clear" @click="goToPageByOffset(1)"><i>keyboard_arrow_right</i></button>
     </div>
+    <div>
+      {{rowOffset + 1}} to {{Math.min(rowsNumber, rowsPerPage * page)}} of {{rowsNumber}} entries.
+    </div>
+  </div>
+
+  <div v-if="selection">
+    Selected {{selectedRows.length}} rows.
+    <button v-for="action in selection.actions" class="primary" @click="action.handler(selectedRows)">{{action.label}}</button>
+    <button class="secondary" @click="clearSelection()">Clear Selection</button>
   </div>
 
   <table class="responsive striped bordered">
     <thead>
       <tr>
+          <th v-if="selection">
+            &nbsp;
+          </th>
           <th
             v-for="column in columns"
             v-show="column.hidden !== true"
@@ -58,6 +67,10 @@
         v-for="row in data | orderBy sortField sortOrder | limitBy computedRowsPerPage rowOffset"
         :track-by="idProperty"
       >
+        <td v-if="selection">
+          <radio v-if="selection.mode === 'single'" :model.sync="singleSelectedRow" :value="row"></radio>
+          <checkbox v-else :model.sync="row.__selected"></checkbox>
+        </td>
         <td v-for="column in columns" v-show="column.hidden !== true">
           {{{column.formatter ? column.formatter(row[column.field]) : row[column.field]}}}
         </td>
