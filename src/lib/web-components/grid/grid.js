@@ -114,9 +114,6 @@ Vue.component('grid-table', {
     }
   },
   watch: {
-    data: function(value) {
-      this.page = 1;
-    },
     rowsPerPage: function(value) {
       this.page = 1;
     },
