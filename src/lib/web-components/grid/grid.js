@@ -59,6 +59,9 @@ Vue.component('grid', {
     noDataLabel: {
       type: String,
       default: 'No data to display.'
+    },
+    idProperty: {
+      type: String
     }
   },
   data: function() {
@@ -75,7 +78,7 @@ Vue.component('grid', {
 
 Vue.component('grid-table', {
   template: tableTemplate,
-  props: ['data', 'columns', 'rowsPerPage', 'sortable', 'noDataLabel'],
+  props: ['data', 'columns', 'rowsPerPage', 'sortable', 'noDataLabel', 'idProperty'],
   data: function() {
     var rowsPerPage = this.rowsPerPage;
     var chosenColumns = this.getChosenColumn();

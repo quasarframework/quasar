@@ -54,7 +54,10 @@
     </thead>
 
     <tbody>
-      <tr v-for="row in data | orderBy sortField sortOrder | limitBy computedRowsPerPage rowOffset">
+      <tr
+        v-for="row in data | orderBy sortField sortOrder | limitBy computedRowsPerPage rowOffset"
+        :track-by="idProperty"
+      >
         <td v-for="column in columns" v-show="column.hidden !== true">
           {{{column.formatter ? column.formatter(row[column.field]) : row[column.field]}}}
         </td>
