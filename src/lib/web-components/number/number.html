@@ -1,5 +1,5 @@
 <div class="quasar-number row">
   <button @click="increment(-1)"><i>remove</i></button>
-  <input v-model="model" class="quasar-input-field" type="text" :debounce="debounce">
+  <input v-model="model" class="quasar-input-field" type="text" :debounce="debounce" lazy number>
   <button @click="increment(1)"><i>add</i></button>
 </div>

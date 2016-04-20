@@ -2,6 +2,7 @@
 
 Vue.transition('slide', {
   css: false,
+
   enter: function(el, done) {
     $(el).velocity('stop').velocity('slideDown', done);
   },

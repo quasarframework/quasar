@@ -1,0 +1,5 @@
+label: 'Pagination'
+icon: 'swap_horiz'
+layout: 'main'
+navigation:
+  group: 'widget'
