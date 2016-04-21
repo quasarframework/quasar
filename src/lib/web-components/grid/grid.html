@@ -1,21 +1,11 @@
-<div class="quasar-grid">
-  <div>
-    Filter: <input v-model="searchQuery" type="text" :debounce="350">
-  </div>
-
-  <label v-if="selection">
-    <checkbox :model.sync="showOnlySelected"></checkbox>
-    Show only selected entries
-  </label>
-
-  <grid-table
-    v-ref:table
-    :data="data | gridShowSelected showOnlySelected | filterBy searchQuery"
-    :columns="columns"
-    :rows-per-page="rowsPerPage"
-    :sortable="sortable"
-    :selection="selection"
-    :no-data-label="noDataLabel"
-    :id-property="idProperty"
-  ></grid-table>
-</div>
+<grid-table
+  v-ref:table
+  class="quasar-grid"
+  :data="data | gridShowSelected showOnlySelected selection singleSelection | filterBy searchQuery"
+  :columns="columns"
+  :rows-per-page="rowsPerPage"
+  :sortable="sortable"
+  :selection="selection"
+  :no-data-label="noDataLabel"
+  :id-property="idProperty"
+></grid-table>

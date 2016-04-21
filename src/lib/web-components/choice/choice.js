@@ -35,9 +35,8 @@ Vue.component('choice', {
       type: String,
       default: 'Select'
     },
-    message: {
-      type: String
-    }
+    message: String,
+    fixedLabel: String
   },
   computed: {
     label: function() {

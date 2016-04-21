@@ -10,14 +10,9 @@ module.exports = {
       'inner-delimiter',
       'bordered',
       'striped',
-      'highlight',
+      'hoverable',
       'centered',
-      'responsive',
-      ['responsive', 'inner-delimiter'],
-      ['responsive', 'bordered'],
-      ['responsive', 'striped'],
-      ['responsive', 'highlight'],
-      ['responsive', 'centered']
+      'compact'
     ]
   }
 };

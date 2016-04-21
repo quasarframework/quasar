@@ -15,6 +15,7 @@ module.exports = function(done) {
           {
             label: 'Date',
             field: 'isodate',
+            style: 'width: 10%',
             formatter: function(value) {
               return new Date(value).toLocaleString();
             }
@@ -24,14 +25,16 @@ module.exports = function(done) {
             field: 'source'
           },
           {
-            label: 'Serviceable',
+            label: 'Service',
             field: 'serviceable',
             formatter: function(value) {
               if (value === 'Informational') {
                 return '<i>info</i>';
               }
               return value;
-            }
+            },
+            style: 'color: green;',
+            classes: 'text-center'
           },
           {
             label: 'Log Number',
@@ -39,14 +42,21 @@ module.exports = function(done) {
           },
           {
             label: 'Message',
-            field: 'message'
+            field: 'message',
+            style: 'width: 400px'
           }
         ],
         selection: {
           mode: 'multiple',
           actions: [
             {
-              label: 'View',
+              label: 'View 1',
+              handler: function(selectedRows) {
+                console.dir(selectedRows);
+              }
+            },
+            {
+              label: 'View 2',
               handler: function(selectedRows) {
                 console.dir(selectedRows);
               }

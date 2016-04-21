@@ -1,17 +1,38 @@
 <div class="quasar-grid-table">
-  <div>
-    Rows per Page:
+
+  <div class="grid-top-controls row items-center justify-end">
+    <div class="auto">
+      <div v-if="selection" v-show="controls === ''" transition="slide">
+        Selected {{selectedRows.length}} rows.
+      </div>
+      <div v-if="selection" v-show="controls === 'selection'" transition="slide">
+        <div class="group">
+          <button :class="{disabled: selectedRows.length === 0}" class="primary clear small" @click="chooseAction()"><i>menu</i></button>
+          <button :class="{disabled: selectedRows.length === 0}" class="primary clear small" @click="clearSelection()"><i>cancel</i></button>
+        </div>
+        <label><checkbox :model.sync="showOnlySelected"></checkbox> Selected only</label>
+      </div>
+      <div v-show="controls === 'filter'" transition="slide">
+        Filter:
+        <input v-model="searchQuery" type="text" :debounce="350">
+        <button class="primary clear small" @click="searchQuery = ''">
+          <i>clear</i>
+        </button>
+      </div>
+    </div>
+
+    <button class="primary clear" @click="toggleControls('filter')"><i>search</i></button>
+    <button v-if="selection" class="primary clear" @click="toggleControls('selection')"><i>playlist_add_check</i></button>
+
     <choice
       :model.sync="rowsPerPage"
       :options="rowsPerPageOptions"
       ok-label="Change"
       cancel-label="Cancel"
       title="Rows per Page"
+      fixed-label="<i>reorder</i>"
     ></choice>
-  </div>
 
-  <div>
-    Columns:
     <choice
       multiple
       :model.sync="chosenColumnsModel"
@@ -19,22 +40,13 @@
       ok-label="Select"
       cancel-label="Cancel"
       title="Visible Columns"
+      fixed-label="<i>view_column</i>"
     ></choice>
   </div>
 
-  <pagination :model.sync="page" :max="pagesNumber" v-show="rowsPerPage !== 0 && rowsNumber > 0"></pagination>
 
-  <div v-if="selection">
-    Selected {{selectedRows.length}} rows.
-    <button :class="{disabled: selectedRows.length === 0}" v-for="action in selection.actions" class="primary" @click="action.handler(selectedRows)">{{action.label}}</button>
-    <button :class="{disabled: selectedRows.length === 0}" class="secondary" @click="clearSelection()">Clear Selection</button>
-  </div>
 
-  <div>
-    {{rowOffset + 1}} to {{Math.min(rowsNumber, rowsPerPage * page)}} of {{rowsNumber}} entries.
-  </div>
-
-  <table class="striped bordered">
+  <table class="striped bordered compact">
     <thead>
       <tr>
           <th v-if="selection">
@@ -62,14 +74,26 @@
           <radio v-if="selection.mode === 'single'" :model.sync="singleSelectedRow" :value="row"></radio>
           <checkbox v-else :model.sync="row.__selected"></checkbox>
         </td>
-        <td v-for="column in columns" v-show="column.hidden !== true">
+        <td
+          v-for="column in columns"
+          v-show="column.hidden !== true"
+          :style="column.style"
+          :class="column.classes"
+        >
           {{{column.formatter ? column.formatter(row[column.field]) : row[column.field]}}}
         </td>
       </tr>
     </tbody>
   </table>
 
-  <div v-show="data.length === 0">
-    {{noDataLabel}}
+  <div class="grid-bottom-controls row items-center">
+    <div class="auto" v-show="data.length > 0">
+      {{rowOffset + 1}} to {{Math.min(rowsNumber, rowsPerPage * page)}} of {{rowsNumber}}
+    </div>
+    <div class="auto" v-else>
+      {{noDataLabel}}
+    </div>
+
+    <pagination :model.sync="page" :max="pagesNumber" v-show="rowsPerPage !== 0 && rowsNumber > 0"></pagination>
   </div>
 </div>

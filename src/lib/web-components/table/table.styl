@@ -1,9 +1,9 @@
 table
   border-collapse collapse
   border-spacing 0
-  width 100%
   display table
   border 0
+  width 100%
 
   &.bordered
     border $table-border
@@ -17,94 +17,27 @@ table
   thead
     border-bottom $table-head-border
 
-td, th
-  padding 0
-  border 0
-  padding 15px 5px
-  display table-cell
-  text-align left
-  vertical-align middle
+  td, th
+    padding 0
+    border 0
+    padding 15px 5px
+    display table-cell
+    text-align left
+    vertical-align middle
 
-@media only screen and (max-width $layout-medium-max)
-  table.responsive
-    display block
-    position relative
+  &.compact td
+    padding 5px
 
-    th, td
-      margin 0
-      vertical-align top
-    th
-      text-align left
-    thead
-      display block
-      float left
-    thead tr
-      display block
-      padding 0 10px 0 0
-    thead tr th::before
-      content '\00a0'
-    tbody
-      display block
-      width auto
-      position relative
-      overflow-x auto
-      white-space nowrap
-    tbody tr
-      display inline-block
-      vertical-align top
-    th
-      display block
-      text-align right
-    td
-      display block
-      min-height 1.25em
-      text-align left
-    tr
-      padding 0 10px
-      border 0
-    thead
-      border 0
-      border-right $table-head-border
-
-    &.inner-delimiter, &.bordered
-      th
-        border-bottom 0
-        border-left 0
-      td
-        border-left 0
-        border-right 0
-        border-bottom 0
-      tr
-        border 0
-      tbody tr
-        border-right $table-border
-
-    &.bordered
-      tr
-        padding 0
-      th, td
-        border-right 0
-        border-bottom $table-border
-      th
-        padding-right 15px
-      td
-        padding-left 15px
-        padding-right 15px
-      tbody
-        tr
-          margin-left -5px
-        td
-          padding-left 20px
-
-table
   &.centered
     th, td
       text-align center
-  &.highlight
+
+  &.hoverable
     > tbody > tr
       transition background-color .25s ease
       &:hover
         background-color $table-highlight-color
+
   &.striped
     > tbody > tr
       &:nth-child(odd)

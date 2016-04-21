@@ -34,9 +34,13 @@ function getColumnsFieldArray(columns) {
   });
 }
 
-Vue.filter('gridShowSelected', function(data, filter) {
+Vue.filter('gridShowSelected', function(data, filter, selection, singleSelection) {
   if (!filter) {
     return data;
+  }
+
+  if (selection.mode === 'single') {
+    return singleSelection;
   }
 
   return data.filter(function(row) {
@@ -76,7 +80,8 @@ Vue.component('grid', {
   data: function() {
     return {
       searchQuery: '',
-      showOnlySelected: false
+      showOnlySelected: false,
+      singleSelection: []
     };
   },
   watch: {
@@ -85,6 +90,17 @@ Vue.component('grid', {
     },
     showOnlySelected: function() {
       this.$refs.table.page = 1;
+    }
+  },
+  events: {
+    'toggle-selection': function() {
+      this.showOnlySelected = !this.showOnlySelected;
+    },
+    'filter': function(value) {
+      this.searchQuery = value;
+    },
+    'set-single-selection': function(value) {
+      this.singleSelection = value;
     }
   }
 });
@@ -102,7 +118,10 @@ Vue.component('grid-table', {
       sortField: '',
       sortOrder: 1,
       chosenColumnsModel: chosenColumns,
-      singleSelectedRow: null
+      singleSelectedRow: null,
+      searchQuery: '',
+      controls: '',
+      showOnlySelected: false
     };
   },
   computed: {
@@ -133,6 +152,16 @@ Vue.component('grid-table', {
       return this.data.filter(function(row) {
         return row.__selected === true;
       });
+    },
+    actionsModel: function() {
+      var index = -1;
+
+      return this.selection.actions.map(function(item) {
+        return {
+          label: item.label,
+          value: ++index
+        };
+      });
     }
   },
   watch: {
@@ -145,6 +174,15 @@ Vue.component('grid-table', {
           hidden: !options.includes(this.columns[i].field)
         }));
       }
+    },
+    searchQuery: function(value) {
+      this.$dispatch('filter', value);
+    },
+    showOnlySelected: function(value) {
+      this.$dispatch('toggle-selection');
+    },
+    singleSelectedRow: function(value) {
+      this.$dispatch('set-single-selection', [value]);
     }
   },
   methods: {
@@ -185,6 +223,37 @@ Vue.component('grid-table', {
           }
         });
       }
+
+      this.showOnlySelected = false;
+    },
+    toggleControls: function(mode) {
+      this.controls = this.controls === mode ? '' : mode;
+    },
+    chooseAction: function() {
+      var
+        options = this.actionsModel,
+        selectedRows = this.selectedRows,
+        actions = this.selection.actions
+        ;
+
+      if (selectedRows.length === 0) {
+        return;
+      }
+
+      quasar.dialog({
+        title: 'Actions',
+        message: 'Apply action for the ' + selectedRows.length + ' selected row(s).',
+        radios: options,
+        buttons: [
+          'Cancel',
+          {
+            label: 'Apply',
+            handler: function(data) {
+              actions[data].handler(selectedRows);
+            }
+          }
+        ]
+      });
     }
   }
 });
