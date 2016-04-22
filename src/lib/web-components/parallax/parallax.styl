@@ -1,0 +1,23 @@
+.quasar-parallax
+  position relative
+  width 100%
+  overflow hidden
+
+.quasar-parallax-image
+  position absolute
+  top 0
+  right 0
+  bottom 0
+  left 0
+
+  img
+    visibility hidden
+    position absolute
+    left 50%
+    top 0
+    min-width 100%
+    min-height 100%
+    z-index -1
+
+    &.ready
+      visibility visible

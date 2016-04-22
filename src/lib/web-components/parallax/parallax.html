@@ -1,0 +1,12 @@
+<div class="quasar-parallax column items-center justify-center" :style="{height: height + 'px'}">
+  <div class="quasar-parallax-image">
+    <img
+      v-el:img
+      :src="src"
+      @load="processImage()"
+      :class="{ready: ready}"
+      :style="{transform: 'translate3D(-50%,' + imageOffset + 'px, 0)'}">
+  </div>
+  <slot name="loading" v-if="!ready"></slot>
+  <slot v-else></slot>
+</div>
