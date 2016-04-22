@@ -1,7 +1,7 @@
 <div class="quasar-grid-table">
 
-  <div class="grid-top-controls row items-center justify-end">
-    <div class="auto">
+  <div class="grid-top-controls sm-column gt-sm-row items-center justify-end">
+    <div class="auto sm-order-last self-center">
       <div v-if="selection" v-show="controls === ''" transition="slide">
         Selected {{selectedRows.length}} rows.
       </div>
@@ -15,41 +15,55 @@
       <div v-show="controls === 'filter'" transition="slide">
         Filter:
         <input v-model="searchQuery" type="text" :debounce="350">
-        <button class="primary clear small" @click="searchQuery = ''">
+        <button class="primary clear small" @click="clearFilter()">
           <i>clear</i>
         </button>
       </div>
     </div>
 
-    <button class="primary clear" @click="toggleControls('filter')"><i>search</i></button>
-    <button v-if="selection" class="primary clear" @click="toggleControls('selection')"><i>playlist_add_check</i></button>
+    <div class="row">
+      <button
+        class="primary"
+        :class="{'clear': controls !== 'filter'}"
+        @click="toggleControls('filter')"
+      >
+        <i>search</i>
+      </button>
 
-    <choice
-      :model.sync="rowsPerPage"
-      :options="rowsPerPageOptions"
-      ok-label="Change"
-      cancel-label="Cancel"
-      title="Rows per Page"
-      fixed-label="<i>reorder</i>"
-    ></choice>
+      <button
+        v-if="selection"
+        class="primary"
+        :class="{'clear': controls !== 'selection'}"
+        @click="toggleControls('selection')"
+      >
+        <i>playlist_add_check</i>
+      </button>
 
-    <choice
-      multiple
-      :model.sync="chosenColumnsModel"
-      :options="chosenColumnsOptions"
-      ok-label="Select"
-      cancel-label="Cancel"
-      title="Visible Columns"
-      fixed-label="<i>view_column</i>"
-    ></choice>
+      <choice
+        :model.sync="rowsPerPage"
+        :options="rowsPerPageOptions"
+        ok-label="Change"
+        cancel-label="Cancel"
+        title="Rows per Page"
+        fixed-label="<i>format_list_numbered</i>"
+      ></choice>
+
+      <choice
+        multiple
+        :model.sync="chosenColumnsModel"
+        :options="chosenColumnsOptions"
+        ok-label="Select"
+        cancel-label="Cancel"
+        title="Visible Columns"
+        fixed-label="<i>view_column</i>"
+      ></choice>
+    </div>
   </div>
 
-
-
-  <table class="striped bordered compact">
+  <table class="striped highlight bordered compact">
     <thead>
       <tr>
-          <th v-if="selection">
+          <th v-if="selection" style="width: 30px; text-align: center">
             &nbsp;
           </th>
           <th
@@ -84,11 +98,29 @@
         </td>
       </tr>
     </tbody>
+
+    <tfoot v-show="computedRowsPerPage > 10">
+      <tr>
+          <th v-if="selection">
+            &nbsp;
+          </th>
+          <th
+            v-for="column in columns"
+            v-show="column.hidden !== true"
+            @click="sortBy(column.field)"
+            :class="{'sortable-column': sortable}"
+          >
+            {{{column.label}}}
+            <i v-show="sortField === column.field && sortOrder === -1">keyboard_arrow_down</i>
+            <i v-show="sortField === column.field && sortOrder === 1">keyboard_arrow_up</i>
+          </th>
+      </tr>
+    </tfoot>
   </table>
 
-  <div class="grid-bottom-controls row items-center">
+  <div class="grid-bottom-controls sm-column gt-sm-row items-center">
     <div class="auto" v-show="data.length > 0">
-      {{rowOffset + 1}} to {{Math.min(rowsNumber, rowsPerPage * page)}} of {{rowsNumber}}
+      Showing {{rowOffset + 1}} to {{Math.min(rowsNumber, rowsPerPage * page)}} of {{rowsNumber}} entries
     </div>
     <div class="auto" v-else>
       {{noDataLabel}}

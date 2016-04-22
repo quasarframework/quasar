@@ -226,6 +226,10 @@ Vue.component('grid-table', {
 
       this.showOnlySelected = false;
     },
+    clearFilter: function() {
+      this.searchQuery = '';
+      this.controls = '';
+    },
     toggleControls: function(mode) {
       this.controls = this.controls === mode ? '' : mode;
     },

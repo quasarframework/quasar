@@ -10,7 +10,7 @@ module.exports = {
       'inner-delimiter',
       'bordered',
       'striped',
-      'hoverable',
+      'highlight',
       'centered',
       'compact'
     ]

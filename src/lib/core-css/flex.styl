@@ -152,10 +152,11 @@ flex-media-query($type)
       .{$type}-offset-{$parts}of{$cols}
         margin-left ($parts / $cols * 100)%
 
-  .order-first
+  .{$type}-order-first
     order -1000
-  .order-last
+  .{$type}-order-last
     order 1000
+
   for i in 1..10
     .{$type}-order-{i}
       order i

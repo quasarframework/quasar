@@ -15,14 +15,15 @@ module.exports = function(done) {
           {
             label: 'Date',
             field: 'isodate',
-            style: 'width: 10%',
+            style: 'width: 100px',
             formatter: function(value) {
               return new Date(value).toLocaleString();
             }
           },
           {
             label: 'Source',
-            field: 'source'
+            field: 'source',
+            style: 'width: 100px'
           },
           {
             label: 'Service',
@@ -33,17 +34,18 @@ module.exports = function(done) {
               }
               return value;
             },
-            style: 'color: green;',
+            style: 'color: green; width: 100px',
             classes: 'text-center'
           },
           {
             label: 'Log Number',
-            field: 'log_number'
+            field: 'log_number',
+            style: 'width: 100px'
           },
           {
             label: 'Message',
             field: 'message',
-            style: 'width: 400px'
+            style: 'width: 700px'
           }
         ],
         selection: {
