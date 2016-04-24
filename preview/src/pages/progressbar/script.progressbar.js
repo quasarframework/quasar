@@ -1,6 +1,6 @@
 'use strict';
 
-var html = require('raw!./view.progress.html');
+var html = require('raw!./view.progressbar.html');
 
 module.exports = {
   template: html,

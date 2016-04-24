@@ -1,6 +1,6 @@
-label: 'Form'
-icon: 'description'
 layout: 'main'
+label: 'Form Inputs'
+icon: 'content_paste'
 navigation:
   group: 'form'
   hide: 'label'

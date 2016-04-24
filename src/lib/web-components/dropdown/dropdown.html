@@ -1,6 +1,0 @@
-<div class="quasar-dropdown" @click="active = !active" :class="{active: active}">
-	<span :class="{default: !options[model]}">{{options[model] || placeholder || 'Select Option'}}</span>
-	<ul>
-		<li v-for="(value, label) in options" @click="select(value)" :class="{active: (model === value)}">{{label}}</li>
-	</ul>
-</div>
