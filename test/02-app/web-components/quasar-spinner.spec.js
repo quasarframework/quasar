@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Tag: quasar-spinner', function() {
+describe.skip('Tag: quasar-spinner', function() {
 
   beforeEach(function() {
     testing.app.reset();
