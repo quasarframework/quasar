@@ -18,7 +18,9 @@
 </div>
 
 <div style="margin-top: 20px">
-  <spinner v-for="spinner in spinners" :name="spinner" :color="color" :size="size"></spinner>
+  <div v-for="spinner in spinners" v-tooltip.inline="spinner">
+    <spinner :name="spinner" :color="color" :size="size"></spinner>
+  </div>
 </div>
 
 <h2>Default Spinner</h2>

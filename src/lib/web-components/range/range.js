@@ -55,7 +55,7 @@ Vue.component('range', {
         ;
 
       if (event.isFinal) {
-        this.model = newValue;
+        this.model = parseFloat(newValue, 10);
         this.active = false;
         return;
       }
@@ -103,7 +103,7 @@ Vue.component('range', {
         percentage = Math.min(1, Math.max(0, event.offsetX / this.el.width()))
         ;
 
-      this.model = (this.min + percentage * range).toFixed(this.precision);
+      this.model = parseFloat((this.min + percentage * range).toFixed(this.precision), 10);
     }.bind(this);
 
     this.el.click(this.clickHandler);
