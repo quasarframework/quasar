@@ -1,0 +1,67 @@
+<h4>Simple</h4>
+<slider class="text-white">
+  <div slot="slide" class="bg-primary">
+    Slide 1
+  </div>
+  <div slot="slide" class="bg-secondary">
+    Slide 2
+  </div>
+  <div slot="slide" class="bg-tertiary">
+    Slide 3
+  </div>
+</slider>
+
+<h4>Arrows and indicators</h4>
+<slider arrows indicators class="text-white">
+  <div slot="slide" class="bg-primary">
+    <div v-for="n in 20">Slide {{n}}</div>
+  </div>
+  <div slot="slide" class="bg-secondary">
+    Slide 2
+  </div>
+  <div slot="slide" class="bg-tertiary">
+    Slide 3
+  </div>
+</slider>
+
+<h4>Arrows</h4>
+<slider arrows class="text-white">
+  <div slot="slide" class="bg-primary">
+    Slide 1
+  </div>
+  <div slot="slide" class="bg-secondary">
+    Slide 2
+  </div>
+  <div slot="slide" class="bg-tertiary">
+    Slide 3
+  </div>
+</slider>
+
+<h4>Indicators</h4>
+<slider indicators class="text-white">
+  <div slot="slide" class="bg-primary">
+    Slide 1
+  </div>
+  <div slot="slide" class="bg-secondary">
+    Slide 2
+  </div>
+  <div slot="slide" class="bg-tertiary">
+    Slide 3
+  </div>
+</slider>
+
+<h4>Centered</h4>
+<slider arrows indicators class="text-white">
+  <div slot="slide" class="bg-primary centered">
+    Slide 1
+  </div>
+  <div slot="slide" class="bg-secondary centered">
+    Slide 2
+  </div>
+  <div slot="slide" class="bg-tertiary centered">
+    Slide 3
+  </div>
+</slider>
+
+<h4>On full screen modal</h4>
+<button class="primary glossy" @click="launchModal()">Launch</button>

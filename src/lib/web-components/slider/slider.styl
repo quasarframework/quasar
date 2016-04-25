@@ -1,0 +1,59 @@
+.quasar-slider
+  overflow hidden
+
+.quasar-slider-inner
+  position relative
+  height 100%
+
+.quasar-slider-track
+  white-space nowrap
+  padding 0
+  margin 0
+  will-change transform
+  display flex
+  flex-wrap nowrap
+  height 100%
+
+  > div
+    flex 0 0 100%
+    min-height $slider-min-height
+    margin 0
+    padding $slider-padding
+
+    &.centered
+      display flex
+      flex-direction column
+      align-items center
+      justify-content center
+
+  &.with-arrows
+    > div
+      padding-left 10%
+      padding-right 10%
+
+.quasar-slider-left-button,
+.quasar-slider-right-button
+  position absolute
+  top 0
+  bottom 0
+  font-size $slider-arrow-size
+  cursor pointer
+  width 10%
+  max-width 70px
+.quasar-slider-left-button
+  left 0
+.quasar-slider-right-button
+  right 0
+
+.quasar-slider-indicators
+  position absolute
+  bottom 1.2rem
+  left 0
+  right 0
+  margin 0
+  padding 0
+
+  i
+    font-size $slider-indicator-size
+    margin 0 .3rem
+    cursor pointer

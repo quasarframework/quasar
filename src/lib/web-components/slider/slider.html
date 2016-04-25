@@ -1,0 +1,34 @@
+<div class="quasar-slider">
+  <div class="quasar-slider-inner">
+    <div
+      v-el:track
+      class="quasar-slider-track"
+      :class="{'with-arrows': arrows, 'with-indicators': indicators}"
+      v-touch:pan-x="pan"
+    >
+      <slot name="slide"></slot>
+    </div>
+    <div
+      v-if="arrows"
+      class="quasar-slider-left-button row items-center justify-center"
+      :class="{hidden: slide === 0}"
+      @click="goToSlide(slide - 1)"
+    >
+      <i>keyboard_arrow_left</i>
+    </div>
+    <div
+      v-if="arrows"
+      class="quasar-slider-right-button row items-center justify-center"
+      :class="{hidden: slide === slidesNumber - 1}"
+      @click="goToSlide(slide + 1)"
+    >
+      <i>keyboard_arrow_right</i>
+    </div>
+    <div v-if="indicators" class="quasar-slider-indicators row justify-center">
+      <i v-for="n in slidesNumber" @click="goToSlide(n)">
+        <span v-show="n !== slide">panorama_fish_eye</span>
+        <span v-else>lens</span>
+      </i>
+    </div>
+  </div>
+</div>
