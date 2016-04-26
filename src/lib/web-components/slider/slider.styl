@@ -1,5 +1,7 @@
 .quasar-slider
   overflow hidden
+  &.fullscreen
+    z-index $z-absolute
 
 .quasar-slider-inner
   position relative
@@ -30,6 +32,9 @@
     > div
       padding-left 10%
       padding-right 10%
+  &.with-toolbar
+    > div
+      padding-bottom ($slider-padding + 1rem)
 
 .quasar-slider-left-button,
 .quasar-slider-right-button
@@ -37,23 +42,39 @@
   top 0
   bottom 0
   font-size $slider-arrow-size
-  cursor pointer
   width 10%
   max-width 70px
+  pointer-events none
+  i
+    cursor pointer
+    pointer-events all
+    padding 3px
+    border-radius 50%
+    background-color $slider-ovelay-color
+    opacity $slider-opacity
+    transition opacity .3s
+    &:hover
+      opacity $slider-opacity-active
 .quasar-slider-left-button
   left 0
 .quasar-slider-right-button
   right 0
 
-.quasar-slider-indicators
+.quasar-slider-toolbar
   position absolute
-  bottom 1.2rem
+  bottom 0
   left 0
   right 0
   margin 0
-  padding 0
-
+  background-color $slider-ovelay-color
+  opacity $slider-opacity
+  padding .5rem .5rem
+  transition opacity .3s
+  &:hover
+    opacity $slider-opacity-active
   i
-    font-size $slider-indicator-size
-    margin 0 .3rem
     cursor pointer
+    margin 0 .3rem
+    font-size $slider-button-size
+  .quasar-slider-dots i
+    font-size $slider-indicator-size

@@ -1,0 +1,12 @@
+<slider arrows dots fullscreen class="text-white bg-black quasar-gallery-slider">
+  <div
+    v-for="img in src"
+    track-by="$index"
+    slot="slide"
+    class="no-padding flex items-center justify-center"
+  >
+    <div>
+      <img :src="img">
+    </div>
+  </div>
+</slider>

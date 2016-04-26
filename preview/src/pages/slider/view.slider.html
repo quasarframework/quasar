@@ -11,8 +11,8 @@
   </div>
 </slider>
 
-<h4>Arrows and indicators</h4>
-<slider arrows indicators class="text-white">
+<h4>Arrows, dots, fullscreen</h4>
+<slider arrows dots fullscreen class="text-white">
   <div slot="slide" class="bg-primary">
     <div v-for="n in 20">Slide {{n}}</div>
   </div>
@@ -37,8 +37,8 @@
   </div>
 </slider>
 
-<h4>Indicators</h4>
-<slider indicators class="text-white">
+<h4>Dots</h4>
+<slider dots class="text-white">
   <div slot="slide" class="bg-primary">
     Slide 1
   </div>
@@ -51,7 +51,7 @@
 </slider>
 
 <h4>Centered</h4>
-<slider arrows indicators class="text-white">
+<slider arrows dots class="text-white">
   <div slot="slide" class="bg-primary centered">
     Slide 1
   </div>
@@ -65,3 +65,19 @@
 
 <h4>On full screen modal</h4>
 <button class="primary glossy" @click="launchModal()">Launch</button>
+
+<h4>With custom actions</h4>
+<slider arrows dots actions class="text-white">
+  <div slot="slide" class="bg-primary">
+    <div v-for="n in 20">Slide {{n}}</div>
+  </div>
+  <div slot="slide" class="bg-secondary">
+    Slide 2
+  </div>
+  <div slot="slide" class="bg-tertiary">
+    Slide 3
+  </div>
+  <i slot="action">camera_enhance</i>
+  <i slot="action">bookmark_border</i>
+  <i slot="action">add_shopping_cart</i>
+</slider>

@@ -8,7 +8,7 @@ module.exports.active = function() {
 };
 
 module.exports.request = function(target) {
-  target = (target || document).documentElement;
+  target = target || document.documentElement;
 
   if (module.exports.active()) {
     return;
@@ -40,5 +40,14 @@ module.exports.exit = function() {
   }
   else if (document.webkitExitFullscreen) {
     document.webkitExitFullscreen();
+  }
+};
+
+module.exports.toggle = function(target) {
+  if (module.exports.active()) {
+    module.exports.exit();
+  }
+  else {
+    module.exports.request(target);
   }
 };

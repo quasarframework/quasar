@@ -33,6 +33,9 @@ $.extend(true, quasar, {
   exit: {
     fullscreen: fullscreen.exit
   },
+  toggle: {
+    fullscreen: fullscreen.toggle
+  },
   runs: {
     within: {
       iframe: window.self != window.top

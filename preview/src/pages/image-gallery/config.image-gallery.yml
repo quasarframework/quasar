@@ -1,0 +1,5 @@
+label: 'Gallery'
+icon: 'insert_photo'
+layout: 'main'
+navigation:
+  group: 'widget'

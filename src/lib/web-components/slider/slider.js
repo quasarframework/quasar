@@ -14,7 +14,17 @@ Vue.component('slider', {
       default: false,
       coerce: getBoolean
     },
-    indicators: {
+    dots: {
+      type: Boolean,
+      default: false,
+      coerce: getBoolean
+    },
+    fullscreen: {
+      type: Boolean,
+      default: false,
+      coerce: getBoolean
+    },
+    actions: {
       type: Boolean,
       default: false,
       coerce: getBoolean
@@ -24,8 +34,14 @@ Vue.component('slider', {
     return {
       position: 0,
       slide: 0,
-      slidesNumber: 0
+      slidesNumber: 0,
+      inFullscreen: false
     };
+  },
+  computed: {
+    toolbar: function() {
+      return this.dots || this.fullscreen || this.actions;
+    }
   },
   methods: {
     pan: function(event) {
@@ -40,7 +56,7 @@ Vue.component('slider', {
         this.slide === 0 && event.deltaX > 0 ||
         this.slide === this.slidesNumber - 1 && event.deltaX < 0
       ) {
-        delta = delta / 7;
+        delta = delta / 10;
       }
 
       this.position = this.initialPosition + delta / this.track.width() * 100;
@@ -53,7 +69,6 @@ Vue.component('slider', {
         else {
           this.goToSlide(event.deltaX < 0 ? this.slide + 1 : this.slide - 1);
         }
-        //this.goToSlide(event.distance > 130 ? - Math.round(this.position / 100) : this.slide);
         delete this.initialPosition;
       }
     },
@@ -63,6 +78,9 @@ Vue.component('slider', {
         translateX: [- this.slide * 100 + '%', this.position + '%']
       });
       this.position = - this.slide * 100;
+    },
+    toggleFullscreen: function() {
+      this.inFullscreen = !this.inFullscreen;
     }
   },
   ready: function() {
