@@ -26,5 +26,19 @@ Vue.component('gallery-slider', {
       type: Array,
       required: true
     }
+  },
+  data: function() {
+    return {
+      quickView: false
+    };
+  },
+  methods: {
+    toggleQuickView: function() {
+      this.quickView = !this.quickView;
+    },
+    selectImage: function(index) {
+      this.$refs.slider.goToSlide(index, true);
+      this.toggleQuickView();
+    }
   }
 });

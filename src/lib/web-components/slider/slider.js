@@ -72,11 +72,11 @@ Vue.component('slider', {
         delete this.initialPosition;
       }
     },
-    goToSlide: function(slide) {
+    goToSlide: function(slide, noAnimation) {
       this.slide = Math.min(this.slidesNumber - 1, Math.max(0, slide));
       this.track.velocity('stop').velocity({
         translateX: [- this.slide * 100 + '%', this.position + '%']
-      });
+      }, noAnimation ? {duration: 0} : undefined);
       this.position = - this.slide * 100;
     },
     toggleFullscreen: function() {
