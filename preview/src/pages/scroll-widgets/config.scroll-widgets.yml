@@ -1,0 +1,5 @@
+label: 'Scroll Directives'
+icon: 'swap_vert'
+layout: 'main'
+navigation:
+  group: 'widget'
