@@ -10,13 +10,7 @@ module.exports = {
       'assets/mountains.jpg',
       'assets/parallax1.jpg',
       'assets/parallax2.jpg'
-    ],
-    sticky: {
-      top: 200,
-      bottom: 700,
-      offsetRight: 50,
-      offsetTop: 400
-    }
+    ]
   },
   methods: {
     scroll: function(position) {

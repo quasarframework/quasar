@@ -1,14 +1,10 @@
 <p class="caption">Please scroll down to see the images</p>
+  <p v-for="n in 6" class="par-text">{{loremipsum}}</p>
 
-<p v-for="n in 2" class="par-text">{{loremipsum}}</p>
-<!--
-<img v-scroll-sticky="sticky" src="assets/mountains.jpg" style="width: 200px">
--->
-<p v-for="n in 4" class="par-text">{{loremipsum}}</p>
+  <p class="caption">Scroll Fire below</p>
+  <p class="text-center">
+    <img v-scroll-fire="scrollFire" v-el:mountains src="assets/mountains.jpg" style="width: 200px">
+  </p>
 
-<p class="caption">Scroll Fire below</p>
-<p class="text-center">
-  <img v-scroll-fire="scrollFire" v-el:mountains src="assets/mountains.jpg" style="width: 200px">
-</p>
-
-<p v-for="n in 3" class="par-text">{{loremipsum}}</p>
+  <p v-for="n in 3" class="par-text">{{loremipsum}}</p>
+</div>
