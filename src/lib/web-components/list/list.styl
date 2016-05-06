@@ -84,6 +84,16 @@
       max-width 4rem
       max-height 4rem
 
+  .item-swipe
+    position absolute
+    top 0
+    right 0
+    bottom 0
+    z-index -1
+
+  .item-swipe + .item-content
+    background-color white
+
 list-inner-delimiter()
   .item + .item:not(.active)
     .item-content
@@ -152,7 +162,7 @@ list-top-bottom-bordered()
   &.top-bottom-bordered
     list-top-bottom-bordered()
 
-  &.platform-delimiter
-    if $theme == 'ios'
+  if $theme == 'ios'
+    &.platform-delimiter
       list-item-delimiter()
       list-top-bottom-bordered()

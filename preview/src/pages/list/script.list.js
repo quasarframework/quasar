@@ -6,6 +6,7 @@ module.exports = {
   template: html,
   data: {
     radio: 'opt1',
-    range: 2
+    range: 2,
+    toggle: false
   }
 };
