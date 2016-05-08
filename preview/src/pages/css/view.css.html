@@ -22,6 +22,12 @@
   Text
 </p>
 
+<h1>State Widget</h1>
+<state :model.sync="state">
+  <div slot="active"><spinner :size="51"></spinner></div>
+  <button class="primary" @click="changeState()">Hit me!</button>
+</state>
+
 <h1>Shadows</h1>
 <div style="margin: 40px">
   <div class="flex inline shadow-box items-center justify-center inset-shadow">.inset-shadow</div>
