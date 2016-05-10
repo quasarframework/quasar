@@ -14,8 +14,10 @@ module.exports = function(url) {
       win.focus();
     }
     else {
-      // TODO alert
-      //m.alert("Please allow popups first, then please try again.");
+      quasar.dialog({
+        title: 'Cannot Open Window',
+        message: 'Please allow popups first, then please try again.'
+      });
     }
   }
 };
