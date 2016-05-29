@@ -1,16 +1,16 @@
 'use strict';
 
-module.exports.active = function() {
+function isActive() {
   return document.fullscreenElement ||
       document.mozFullScreenElement ||
       document.webkitFullscreenElement ||
       document.msFullscreenElement;
 };
 
-module.exports.request = function(target) {
+function requestFullscreen(target) {
   target = target || document.documentElement;
 
-  if (module.exports.active()) {
+  if (isActive()) {
     return;
   }
 
@@ -28,7 +28,7 @@ module.exports.request = function(target) {
   }
 };
 
-module.exports.exit = function() {
+function exitFullscreen() {
   if (document.exitFullscreen) {
     document.exitFullscreen();
   }
@@ -43,11 +43,27 @@ module.exports.exit = function() {
   }
 };
 
-module.exports.toggle = function(target) {
-  if (module.exports.active()) {
-    module.exports.exit();
+function toggleFullscreen(target) {
+  if (isActive()) {
+    exitFullscreen();
   }
   else {
-    module.exports.request(target);
+    requestFullscreen(target);
   }
 };
+
+
+$.extend(true, quasar, {
+  is: {
+    fullscreen: isActive
+  },
+  request: {
+    fullscreen: requestFullscreen
+  },
+  exit: {
+    fullscreen: exitFullscreen
+  },
+  toggle: {
+    fullscreen: toggleFullscreen
+  }
+});

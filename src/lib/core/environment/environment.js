@@ -153,6 +153,9 @@ $.extend(true, quasar, {
       touch: (function() {
         return !!('ontouchstart' in document.documentElement) || /* istanbul ignore next */ window.navigator.msMaxTouchPoints > 0;
       }())
+    },
+    within: {
+      iframe: window.self != window.top
     }
   }
 });

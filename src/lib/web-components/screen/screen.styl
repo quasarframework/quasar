@@ -30,7 +30,7 @@
 .screen-navigation .tabs
   border-radius 0
 
-.screen-header, .screen-footer
+.screen-header, .screen-footer, .screen-bar
   color $screen-marginals-color
   background-color $screen-marginals-background-color
   font-size $screen-marginals-font-size
@@ -68,6 +68,14 @@
   button i
     font-size $screen-marginals-icon-button-font-size
 
+.screen-bar
+  display flex
+  justify-content center
+  align-items center
+  min-height $screen-bar-min-height
+
+  if $theme == 'mat'
+    text-transform uppercase
 
 /*
  * Smart Page Container
