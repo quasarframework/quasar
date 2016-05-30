@@ -16,8 +16,8 @@ module.exports = {
     scroll: function(position) {
       console.log('v-scroll: position', position);
     },
-    scrollFire: function() {
-      $(this.$els.mountains).velocity('callout.tada', {
+    scrollFire: function(element) {
+      element.velocity('callout.tada', {
         display: null,
         stagger: 200
       });

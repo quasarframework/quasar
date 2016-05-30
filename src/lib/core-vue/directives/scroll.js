@@ -53,6 +53,8 @@ Vue.directive('scroll-fire', {
       return;
     }
 
+    var element = this.element;
+
     this.scroll = quasar.debounce(function() {
       var
         containerBottom = this.pageContainer.offset().top + this.pageContainer.innerHeight(),
@@ -61,7 +63,7 @@ Vue.directive('scroll-fire', {
 
       if (elementBottom < containerBottom) {
         this.pageContainer.off('scroll', this.scroll);
-        handler();
+        handler(element);
       }
     }.bind(this), 50);
   },
