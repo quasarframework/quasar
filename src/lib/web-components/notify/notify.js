@@ -5,11 +5,11 @@ var
   dismissers = [],
   types = [
     {
-      name: 'success',
+      name: 'positive',
       defaults: {icon: 'check'}
     },
     {
-      name: 'error',
+      name: 'negative',
       defaults: {icon: 'whatshot'}
     },
     {
