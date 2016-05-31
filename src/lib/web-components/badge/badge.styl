@@ -12,7 +12,7 @@
   text-align center
   vertical-align middle
 
-  > [left-detail], > [right-detail]
+  > .left-detail, > .right-detail
     display inline-block
     vertical-align middle
     height 100%
@@ -20,11 +20,13 @@
     margin (- $badge-padding-vertical) ($badge-padding-horizontal / 2)
     background-color alpha(black, .1)
     opacity .8
-  > [left-detail]
+
+  > .left-detail
     margin-left - $badge-padding-horizontal
     padding-left $badge-padding-horizontal
     border-radius $badge-border-radius 0 0 $badge-border-radius
-  > [right-detail]
+
+  > .right-detail
     margin-right - $badge-padding-horizontal
     padding-right $badge-padding-horizontal
     border-radius 0 $badge-border-radius $badge-border-radius 0
