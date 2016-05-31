@@ -40,7 +40,7 @@ function Notify(options) {
     this,
     {
       timeout: 7000,
-      onDismiss: $.noop,
+      onDismiss: options.onDismiss || $.noop,
       vm: {
         methods: {
           ____pan: function(event) {
@@ -91,8 +91,8 @@ function Notify(options) {
     this.node.append(button);
     button.click(function() {
       this.dismiss();
-      if (typeof this.button.fn === 'function') {
-        this.button.fn();
+      if (typeof this.button.handler === 'function') {
+        this.button.handler();
       }
     }.bind(this));
   }
@@ -169,6 +169,6 @@ function notify(options, defaults) {
 quasar.notify = notify;
 types.forEach(function(type) {
   quasar.notify[type.name] = function(opts) {
-    notify(opts, type.defaults);
+    return notify(opts, type.defaults);
   };
 });

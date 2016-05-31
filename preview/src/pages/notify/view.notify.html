@@ -1,1 +1,61 @@
-<button class="primary raised" @click="notify">Show Notifiers</button>
+<h5>Basic Notifiers</h5>
+<p>
+  <button class="primary" @click="basicNotify()">
+    Basic Notify
+  </button>
+
+  <button class="primary" @click="basicNotifyWithLongMessage()">
+    Basic Notify with Long Message
+  </button>
+</p>
+
+<h5>Types of Notifiers</h5>
+<p>
+  <button
+    v-for="type in types"
+    :class="type"
+    @click="notifyWithType(type)"
+  >
+    {{type | capitalize}} Notify
+  </button>
+</p>
+
+<h5>Notifiers with Options</h5>
+<p>
+  <button class="primary" @click="noTimeoutNotify()">
+    Basic Notify with No Timeout
+  </button>
+
+  <button class="primary" @click="notifyWithIcon()">
+    Notify With an Icon
+  </button>
+
+  <button class="primary" @click="notifyWithButton()">
+    Notify With a Button
+  </button>
+</p>
+
+<h5>Controlling Notifiers</h5>
+<p>
+  <button
+    class="secondary"
+    @click="showNotify()"
+    :class="{disabled: notifyShowing}"
+  >
+    Show Notify
+  </button>
+  <button
+    class="secondary"
+    @click="dismissNotify()"
+    :class="{disabled: !notifyShowing}"
+  >
+    Hide Notify
+  </button>
+</p>
+
+<h5>Simultaneous Multiple Notifiers</h5>
+<p>
+  <button class="primary" @click="showMultipleNotifiers()">
+    Show Multiple Notifiers
+  </button>
+</p>
