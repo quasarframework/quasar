@@ -7,38 +7,38 @@ module.exports = {
   data: {
     treeModel: [
       {
-        title: 'item 1',
+        title: 'Item 1',
         expanded: true,
         children: [
           {
-            title: 'item 1.1',
+            title: 'Item 1.1',
             expanded: false,
             children: [
               {
-                title: 'item 1.1.1',
+                title: 'Item 1.1.1',
                 expanded: false,
                 children: [
                   {
-                    title: 'item 1.1.1.1',
+                    title: 'Item 1.1.1.1',
                     expanded: false,
                     children: []
                   }
                 ]
               },
               {
-                title: 'item 1.1.2',
+                title: 'Item 1.1.2',
                 expanded: false,
                 children: []
               }
             ]
           },
           {
-            title: 'item 1.2',
+            title: 'Item 1.2',
             expanded: false,
             children: []
           },
           {
-            title: 'item 1.3',
+            title: 'Item 1.3',
             expanded: false,
             handler: function() { quasar.notify('Tapped on item 1.3'); },
             children: []
@@ -46,29 +46,29 @@ module.exports = {
         ]
       },
       {
-        title: 'item 2',
+        title: 'Item 2',
         expanded: false,
         children: [
           {
-            title: 'item 2.1',
+            title: 'Item 2.1',
             expanded: false,
             children: [
               {
-                title: 'item 2.1.1',
+                title: 'Item 2.1.1',
                 expanded: false,
                 children: []
               },
               {
-                title: 'item 2.1.2',
+                title: 'Item 2.1.2',
                 expanded: false,
                 children: [
                   {
-                    title: 'item 2.1.2.1',
+                    title: 'Item 2.1.2.1',
                     expanded: false,
                     children: []
                   },
                   {
-                    title: 'item 2.1.2.2',
+                    title: 'Item 2.1.2.2',
                     expanded: false,
                     children: []
                   }
@@ -77,12 +77,12 @@ module.exports = {
             ]
           },
           {
-            title: 'item 2.2',
+            title: 'Item 2.2',
             expanded: false,
             children: []
           },
           {
-            title: 'item 2.3',
+            title: 'Item 2.3',
             expanded: false,
             children: []
           }
