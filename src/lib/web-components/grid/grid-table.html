@@ -1,11 +1,10 @@
 <div class="quasar-grid-table">
-
   <div class="grid-top-controls sm-column gt-sm-row items-center justify-end">
     <div class="auto sm-order-last self-center">
-      <div v-if="selection" v-show="controls === ''" transition="slide">
+      <div v-show="selectionMode !== 'none' && controls === ''" transition="slide">
         Selected {{selectedRows.length}} rows.
       </div>
-      <div v-if="selection" v-show="controls === 'selection'" transition="slide">
+      <div v-show="selectionMode !== 'none' && controls === 'selection'" transition="slide">
         <div class="group">
           <button :class="{disabled: selectedRows.length === 0}" class="primary clear small" @click="chooseAction()"><i>menu</i></button>
           <button :class="{disabled: selectedRows.length === 0}" class="primary clear small" @click="clearSelection()"><i>cancel</i></button>
@@ -31,7 +30,7 @@
       </button>
 
       <button
-        v-if="selection"
+        v-if="selectionMode !== 'none'"
         class="primary"
         :class="{'clear': controls !== 'selection'}"
         @click="toggleControls('selection')"
@@ -63,7 +62,7 @@
   <table class="striped highlight bordered compact">
     <thead>
       <tr>
-          <th v-if="selection" style="width: 30px; text-align: center">
+          <th v-if="selectionMode !== 'none'" style="width: 30px; text-align: center">
             &nbsp;
           </th>
           <th
@@ -84,8 +83,8 @@
         v-for="row in data | orderBy sortField sortOrder | limitBy computedRowsPerPage rowOffset"
         :track-by="idProperty"
       >
-        <td v-if="selection">
-          <radio v-if="selection.mode === 'single'" :model.sync="singleSelectedRow" :value="row"></radio>
+        <td v-if="selectionMode !== 'none'">
+          <radio v-if="selectionMode === 'single'" :model.sync="singleSelectedRow" :value="row"></radio>
           <checkbox v-else :model.sync="row.__selected"></checkbox>
         </td>
         <td
@@ -101,7 +100,7 @@
 
     <tfoot v-show="computedRowsPerPage > 10">
       <tr>
-          <th v-if="selection">
+          <th v-if="selectionMode !== 'none'">
             &nbsp;
           </th>
           <th

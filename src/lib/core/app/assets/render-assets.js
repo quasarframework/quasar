@@ -1,27 +1,29 @@
 'use strict';
 
-function injectVue(currentVue, el, readyFunction) {
-  var vue = $.extend(true, {}, currentVue);
-
+function injectVue(vue, el, readyFunction, layout) {
   vue.el = el;
   vue.replace = false;
 
-  /* istanbul ignore next */
-  if (!readyFunction) {
-    return vue;
-  }
+  var handler = function() {
+    quasar.nextTick(function() {
+      readyFunction();
+    });
+  };
 
   if (!vue.ready) {
-    vue.ready = readyFunction;
+    vue.ready = handler;
+    vue.___quasarInjected = $.noop;
     return vue; // <<< EARLY EXIT
   }
 
-  var originalReadyFunction = vue.ready;
+  var originalReadyFunction = vue.___quasarInjected || vue.ready;
 
   vue.ready = function() {
     originalReadyFunction.call(this);
-    readyFunction.call(this);
+    handler();
   };
+
+  vue.___quasarInjected = originalReadyFunction;
 
   return vue;
 }

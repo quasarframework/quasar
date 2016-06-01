@@ -34,12 +34,12 @@ function getColumnsFieldArray(columns) {
   });
 }
 
-Vue.filter('gridShowSelected', function(data, filter, selection, singleSelection) {
-  if (!filter) {
+Vue.filter('gridShowSelected', function(data, filter, selectionMode, singleSelection) {
+  if (!filter || selectionMode === 'none') {
     return data;
   }
 
-  if (selection.mode === 'single') {
+  if (selectionMode === 'single') {
     return singleSelection;
   }
 
@@ -75,7 +75,14 @@ Vue.component('grid', {
       default: 'No data to display.'
     },
     idProperty: String,
-    selection: Object
+    selectionMode: {
+      type: String,
+      default: 'none',
+      coerce: function(value) {
+        return value === 'single' || value === 'multiple' ? value : 'none';
+      }
+    },
+    selectionActions: Array
   },
   data: function() {
     return {
@@ -107,7 +114,7 @@ Vue.component('grid', {
 
 Vue.component('grid-table', {
   template: tableTemplate,
-  props: ['data', 'columns', 'rowsPerPage', 'sortable', 'noDataLabel', 'idProperty', 'selection'],
+  props: ['data', 'columns', 'rowsPerPage', 'sortable', 'noDataLabel', 'idProperty', 'selectionMode', 'selectionActions'],
   data: function() {
     var rowsPerPage = this.rowsPerPage;
     var chosenColumns = this.getChosenColumn();
@@ -146,7 +153,7 @@ Vue.component('grid-table', {
       return this.rowsPerPage * (this.page - 1);
     },
     selectedRows: function() {
-      if (this.selection.mode === 'single') {
+      if (this.selectionMode === 'single') {
         return this.singleSelectedRow ? [this.singleSelectedRow] : [];
       }
       return this.data.filter(function(row) {
@@ -156,7 +163,7 @@ Vue.component('grid-table', {
     actionsModel: function() {
       var index = -1;
 
-      return this.selection.actions.map(function(item) {
+      return this.selectionActions.map(function(item) {
         return {
           label: item.label,
           value: ++index
@@ -190,6 +197,10 @@ Vue.component('grid-table', {
       this.page = Math.min(this.pagesNumber, Math.max(1, this.page + pageOffset));
     },
     sortBy: function(field) {
+      if (!this.sortable) {
+        return;
+      }
+
       // if sort field got changed
       if (this.sortField !== field) {
         this.sortOrder = 1;
@@ -213,7 +224,7 @@ Vue.component('grid-table', {
       });
     },
     clearSelection: function() {
-      if (this.selection.mode === 'single') {
+      if (this.selectionMode === 'single') {
         this.singleSelectedRow = null;
       }
       else {
@@ -237,7 +248,7 @@ Vue.component('grid-table', {
       var
         options = this.actionsModel,
         selectedRows = this.selectedRows,
-        actions = this.selection.actions
+        actions = this.selectionActions
         ;
 
       if (selectedRows.length === 0) {

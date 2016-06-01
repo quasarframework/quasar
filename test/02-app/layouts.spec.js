@@ -298,11 +298,8 @@ describe.skip('App Layouts', function() {
 
     testing.app.var.events = [
       'app:layout:require',
-      'app:layout:post-require',
       'app:layout:prepare',
-      'app:layout:post-prepare',
       'app:layout:render',
-      'app:layout:post-render',
       'app:layout:ready'
     ];
 

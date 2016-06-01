@@ -56,7 +56,6 @@ require('../events/events');
 $.extend(true, quasar, {
   events: quasar.create.events.emitter(),
   page: {},
-  layout: {},
   data: {},
   current: {},
   swap: {

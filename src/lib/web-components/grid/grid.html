@@ -1,11 +1,12 @@
 <grid-table
   v-ref:table
   class="quasar-grid"
-  :data="data | gridShowSelected showOnlySelected selection singleSelection | filterBy searchQuery"
+  :data="data | gridShowSelected showOnlySelected selectionMode singleSelection | filterBy searchQuery"
   :columns="columns"
   :rows-per-page="rowsPerPage"
   :sortable="sortable"
-  :selection="selection"
+  :selection-mode="selectionMode"
+  :selection-actions="selectionActions"
   :no-data-label="noDataLabel"
   :id-property="idProperty"
 ></grid-table>

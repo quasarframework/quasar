@@ -396,11 +396,8 @@ describe.skip('App Pages', function() {
 
     testing.app.var.events = [
       'app:page:require',
-      'app:page:post-require',
       'app:page:prepare',
-      'app:page:post-prepare',
       'app:page:render',
-      'app:page:post-render',
       'app:page:ready'
     ];
 

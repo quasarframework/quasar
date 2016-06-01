@@ -12,92 +12,63 @@ function injectCSS(manifest) {
   }
 }
 
-function renderVue(context, pageVue, layoutVue) {
-  injectCSS(context.manifest);
-
-  // if layout hasn't changed...
-  if (layoutVue === false) {
-    quasar.events.trigger('app:page:post-prepare app:page:render', context);
+function preparePage(context, page) {
+  quasar.events.trigger('app:page:prepare', context);
+  prepare(context, page, function(pageVue) {
+    quasar.events.trigger('app:page:render', context);
     render.page(pageVue, context, function() {
-      quasar.events.trigger('app:page:post-render app:page:ready', context);
-    });
-
-    return;
-  }
-
-  if (!layoutVue || !pageVue) {
-    // not ready yet...
-    return;
-  }
-
-  injectCSS(quasar.data.manifest.layouts[context.manifest.layout]);
-  quasar.events.trigger('app:layout:post-prepare app:layout:render app:page:post-prepare', context);
-  render.layout(layoutVue, context, function() {
-    quasar.events.trigger('app:layout:post-render app:layout:ready app:page:render', context);
-    render.page(pageVue, context, function() {
-      quasar.events.trigger('app:page:post-render app:page:ready', context);
+      quasar.events.trigger('app:page:ready', context);
     });
   });
 }
 
-function prepareRoute(context, layout, page) {
+function loadRoute(context, layout, page) {
   if (!layout || !page) {
     // not ready yet...
     return;
   }
 
-  var layoutVue, pageVue;
+  injectCSS(context.manifest);
 
   if (
     !quasar.current.layout ||
     !quasar.current.layout.name ||
     quasar.current.layout.name !== context.manifest.layout
   ) {
-    quasar.events.trigger('app:layout:post-require app:layout:prepare', context);
-    prepare(quasar.data.manifest.layouts[context.manifest.layout], layout, function(vue) {
-      layoutVue = vue;
-      renderVue(context, pageVue, layoutVue);
+    injectCSS(quasar.data.manifest.layouts[context.manifest.layout]);
+    quasar.events.trigger('app:layout:prepare', context);
+    prepare(quasar.data.manifest.layouts[context.manifest.layout], layout, function(layoutVue) {
+      quasar.events.trigger('app:layout:render', context);
+      render.layout(layoutVue, context, function() {
+        quasar.events.trigger('app:layout:ready', context);
+        preparePage(context, page);
+      });
     });
-    quasar.events.trigger('app:page:post-require app:page:prepare', context);
-    prepare(context, page, function(vue) {
-      pageVue = vue;
 
-      quasar.page[context.name] = {
-        name: context.name,
-        hash: context.route,
-        manifest: context.manifest
-      };
-
-      renderVue(context, pageVue, layoutVue);
-    });
     return;
   }
 
-  quasar.events.trigger('app:page:post-require app:page:prepare', context);
-  prepare(context, page, function(vue) {
-    quasar.page[context.name] = {
-      name: context.name,
-      hash: context.route,
-      manifest: context.manifest
-    };
-
-    renderVue(context, vue, false);
-  });
+  preparePage(context, page);
 }
 
-function startRoute(manifest, context) {
+function prepareAssets(manifest, context) {
   var layout, page;
 
   quasar.events.trigger('app:layout:require', context);
   request.layout(manifest.layout, function(asset) {
     layout = asset;
-    prepareRoute(context, layout, page);
+    loadRoute(context, layout, page);
   });
 
   quasar.events.trigger('app:page:require', context);
   request.page(context.name, function(asset) {
     page = asset;
-    prepareRoute(context, layout, page);
+    quasar.page[context.name] = {
+      name: context.name,
+      hash: context.route,
+      manifest: context.manifest
+    };
+    loadRoute(context, layout, page);
   });
 }
 
@@ -115,7 +86,7 @@ function registerRoutes(appManifest) {
       trigger: function() {
         var route = this;
 
-        startRoute(pageManifest, {
+        prepareAssets(pageManifest, {
           params: route.params,
           query: route.query,
           name: pageName,
