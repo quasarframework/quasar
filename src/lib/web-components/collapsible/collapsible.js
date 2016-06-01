@@ -31,7 +31,10 @@ Vue.component('quasar-collapsible', {
   props: {
     freely: {
       type: Boolean,
-      default: false
+      default: false,
+      coerce: function(value) {
+        return value ? true : false;
+      }
     }
   },
   events: {
