@@ -31,9 +31,11 @@
   button
     margin 0
 
-.card .list.bordered
-  border 0
-  border-top 2px solid $grey-2
+.card .list
+  margin 0
+  &.bordered
+    border 0
+    border-top 2px solid $grey-2
 .card-title + .card-content
   padding-top 0
 
@@ -42,7 +44,7 @@
   display flex
   flex-direction row
   align-items center
-  > *:not(:last-child)
+  > *:not(:last-child) // @stylint ignore
     padding-right $card-padding-horizontal
 
 .card-media
