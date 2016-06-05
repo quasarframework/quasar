@@ -33,6 +33,8 @@
 
 .spin
   animation quasar-spin 2s infinite linear
+.blink
+  animation quasar-blink 1s steps(5, start) infinite
 .rotate-90
   transform rotate(90deg)
 .rotate-180
@@ -43,6 +45,10 @@
   transform scale(-1, 1)
 .flip-vertical
   transform scale(1, -1)
+
+@keyframes quasar-blink
+  to
+    visibility hidden
 
 @keyframes quasar-spin
   0%

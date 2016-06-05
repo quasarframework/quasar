@@ -6,3 +6,4 @@ preview/coverage
 /preview/dist
 /preview/wrapper/platforms/*
 /preview/wrapper/plugins
+npm-debug.log
