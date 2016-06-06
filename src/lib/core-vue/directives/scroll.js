@@ -66,6 +66,8 @@ Vue.directive('scroll-fire', {
         handler(element);
       }
     }.bind(this), 50);
+
+    this.scroll();
   },
   unbind: function() {
     this.pageContainer.off('scroll', this.scroll);
