@@ -53,6 +53,9 @@ module.exports = {
     dest: dist + '/js',
     webpack: {
       cache: true
+    },
+    define: {
+      __QUASAR_VERSION__: JSON.stringify(require('../package.json').version)
     }
   },
 

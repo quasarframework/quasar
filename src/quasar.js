@@ -1,6 +1,8 @@
 'use strict';
 
-window.quasar = {};
+window.quasar = {
+  VERSION: __QUASAR_VERSION__
+};
 
 function requireAll(r) {
   r.keys().forEach(r);

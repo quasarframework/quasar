@@ -17,7 +17,8 @@ function compile(production) {
   var pipe = gulp.src(config.js.src)
     .pipe(plugins.pipes.js.compile({
       prod: production,
-      pack: config.js.webpack
+      pack: config.js.webpack,
+      define: config.js.define
     }));
 
   if (config.bailOnError) {
