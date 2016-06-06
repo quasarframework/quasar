@@ -21,6 +21,7 @@ Vue.component('number', Vue.extend({
     },
     lazy: {
       type: Boolean,
+      default: true,
       coerce: function(value) {
         return value ? true : false;
       }
@@ -45,9 +46,7 @@ Vue.component('number', Vue.extend({
     }
   },
   compiled: function() {
-    this.step = this.step || 1;
-
-    if (this.lazy) {
+    if (!this.lazy) {
       $(this.$el).find('input').attr('lazy', '');
     }
   }
