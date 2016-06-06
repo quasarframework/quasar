@@ -227,10 +227,3 @@ flex-media-query($type)
   flex-media-query('lg')
 @media only screen and (max-width $layout-big-max)
   flex-media-query('lt-lg')
-
-/*
- * Visibility Helpers
- */
-for type in desktop mobile cordova ios mat touch no-touch
-  body:not(.{type}) .{type}-only
-    display none !important

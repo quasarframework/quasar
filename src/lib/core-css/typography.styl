@@ -50,13 +50,6 @@ abbr[title]
   text-decoration underline dotted /* 2 */
 
 /**
- * Prevent the duplicate application of `bolder` by the next rule in Safari 6.
- */
-
-b, strong
-  font-weight inherit
-
-/**
  * Add the correct font style in Android 4.3-.
  */
 
@@ -278,10 +271,10 @@ p
     white-space nowrap
     text-overflow ellipsis
 
-  .light
-    font-weight 300
-  .thin
-    font-weight 200
+.light-paragraph
+  font-weight 300
+.thin-paragraph
+  font-weight 200
 
 small
   font-size 80%
@@ -291,6 +284,11 @@ sub
   bottom -.25em
 sup
   top -.5em
+
+.strong
+  font-weight bold
+.emphasize
+  font-style italic
 
 blockquote
   padding 10px 20px
