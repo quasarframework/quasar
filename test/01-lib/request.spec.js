@@ -214,8 +214,10 @@ describe('Request', function() {
     });
 
     it('should be triggered and DON\'T call fail() when it is configured so', function(done) {
+      var calledErrorHandler = false;
+
       quasar.config.requests.failFnHandler = function() {
-        setTimeout(done, 1);
+        calledErrorHandler = true;
         return true;
       };
 
@@ -227,9 +229,14 @@ describe('Request', function() {
         throw new Error('Should not call fail()');
       });
 
-      expect(function() {
-        this.server.respond();
-      }.bind(this)).to.throw(/Halting default failure handlers/);
+      window.onerror = function(error) {
+        expect(calledErrorHandler).to.be.true;
+        expect(error).to.contain('Halting default failure handlers');
+        window.onerror = null;
+        done();
+      };
+
+      this.server.respond();
     });
 
     it('should not be triggered if request is a success', function(done) {

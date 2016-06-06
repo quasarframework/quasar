@@ -1,4 +1,6 @@
 
+var webpack = require('gulp-pipes').js.webpack;
+
 module.exports = function(config) {
   config.set({
 
@@ -39,7 +41,12 @@ module.exports = function(config) {
             loader: 'istanbul-instrumenter'
           }
         ]
-      }
+      },
+      plugins: [
+        new webpack.DefinePlugin({
+          __QUASAR_VERSION__: JSON.stringify('0.0.0')
+        })
+      ]
     },
 
     webpackMiddleware: {

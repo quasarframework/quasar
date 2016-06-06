@@ -15,11 +15,9 @@
 
 ## Description
 
-IN ACTIVE DEVELOPMENT!!!
-
-FAR FROM READY!!!
-
-Do not take an interest in this yet.
+* Modern HTML5 SPA front-end framework on steroids.
+* Desktop and Mobile. Native Mobile Apps included.
+* Full Stack Toolkit.
 
 ## Documentation
 
@@ -37,6 +35,6 @@ I'm only asking that you [read this](http://quasar-framework.org/guide/contribut
 
 ## License
 
-Copyright (c) 2015 Razvan Stoenescu
+Copyright (c) 2016 Razvan Stoenescu
 
 [MIT License](http://en.wikipedia.org/wiki/MIT_License)

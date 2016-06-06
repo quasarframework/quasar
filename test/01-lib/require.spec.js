@@ -133,42 +133,8 @@ describe('Require', function() {
       });
     });
 
-    it('should be able to deeply load a script file', function(done) {
-      quasar.require.script(reqOne, function(err, module) {
-        expect(err).to.not.be.ok;
-
-        expect(module).to.be.a('string');
-        expect(module).to.equal('saying');
-
-        done();
-      });
-
-      this.server.respondWith('GET', urlOne, [200, contentType, 'var text = require("./' + reqThree + '");module.exports = text.say();']);
-      this.server.respond();
-      this.server.respondWith('GET', urlThree, [200, contentType, 'var a = "saying";module.exports = { say: function() { return a; } };']);
-      this.server.respond();
-    });
-
-    it('should be able to deeply load using relative paths', function(done) {
-      quasar.require.script(reqOne, function(err, module) {
-        expect(err).to.not.be.ok;
-
-        expect(module).to.be.a('string');
-        expect(module).to.equal('quasar');
-
-        done();
-      });
-
-      this.server.respondWith('GET', urlOne, [200, contentType, 'var text = require("' + reqTwo + '");module.exports = text.say();']);
-      this.server.respond();
-      this.server.respondWith('GET', urlTwo, [200, contentType, 'var three = require("../' + reqThree + '"); var a = three; module.exports = { say: function() { return a; } };']);
-      this.server.respond();
-      this.server.respondWith('GET', urlThree, [200, contentType, 'module.exports = "quasar"; ']);
-      this.server.respond();
-    });
-
     it('should return error if cannot load script file', function(done) {
-      quasar.require.script(reqOne, function(err, module) {
+      quasar.require.script(urlOne, function(err, module) {
         expect(err).to.be.an('object');
         expect(err.status).to.equal(404);
         expect(module).not.to.exist;
@@ -218,6 +184,40 @@ describe('Require', function() {
       this.server.respondWith('GET', urlTwo, [200, contentType, 'var three = require("bogus"); var a = three; module.exports = { say: function() { return a; } };']);
       this.server.respond();
       this.server.respondWith('GET', '/bogus.js', [404, contentType, '']);
+      this.server.respond();
+    });
+
+    it('should be able to deeply load a script file', function(done) {
+      quasar.require.script(reqOne, function(err, module) {
+        expect(err).to.not.be.ok;
+
+        expect(module).to.be.a('string');
+        expect(module).to.equal('saying');
+
+        done();
+      });
+
+      this.server.respondWith('GET', urlOne, [200, contentType, 'var text = require("./' + reqThree + '");module.exports = text.say();']);
+      this.server.respond();
+      this.server.respondWith('GET', urlThree, [200, contentType, 'var a = "saying";module.exports = { say: function() { return a; } };']);
+      this.server.respond();
+    });
+
+    it('should be able to deeply load using relative paths', function(done) {
+      quasar.require.script(reqOne, function(err, module) {
+        expect(err).to.not.be.ok;
+
+        expect(module).to.be.a('string');
+        expect(module).to.equal('quasar');
+
+        done();
+      });
+
+      this.server.respondWith('GET', urlOne, [200, contentType, 'var text = require("' + reqTwo + '");module.exports = text.say();']);
+      this.server.respond();
+      this.server.respondWith('GET', urlTwo, [200, contentType, 'var three = require("../' + reqThree + '"); var a = three; module.exports = { say: function() { return a; } };']);
+      this.server.respond();
+      this.server.respondWith('GET', urlThree, [200, contentType, 'module.exports = "quasar"; ']);
       this.server.respond();
     });
 

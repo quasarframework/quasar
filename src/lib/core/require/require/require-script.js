@@ -76,7 +76,7 @@ function deepLoad(module, callback) {
   }
   else if (module.state === states.LOADED || module.state === states.READY) {
     quasar.nextTick(function() {
-      callback(module.error, module);
+      callback(module.error);
     });
     return;
   }
@@ -94,6 +94,13 @@ function deepLoad(module, callback) {
 
   request.onload = function() {
     load(module, callback, request);
+  };
+  request.onreadystatechange = function() {
+    if (request.readyState === 4 && request.status !== 200) {
+      quasar.nextTick(function() {
+        callback(request);
+      });
+    }
   };
 
   request.open('GET', module.location, true);
