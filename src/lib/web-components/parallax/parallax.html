@@ -4,9 +4,9 @@
       v-el:img
       :src="src"
       @load="processImage()"
-      :class="{ready: ready}"
+      :class="{ready: imageHasBeenLoaded}"
       :style="{transform: 'translate3D(-50%,' + imageOffset + 'px, 0)'}">
   </div>
-  <slot name="loading" v-if="!ready"></slot>
+  <slot name="loading" v-if="!imageHasBeenLoaded"></slot>
   <slot v-else></slot>
 </div>

@@ -16,13 +16,13 @@ Vue.component('parallax', {
   },
   data: function() {
     return {
-      ready: false,
+      imageHasBeenLoaded: false,
       imageOffset: 0
     };
   },
   watch: {
     src: function() {
-      this.ready = false;
+      this.imageHasBeenLoaded = false;
     },
     height: function() {
       this.updatePosition();
@@ -30,11 +30,11 @@ Vue.component('parallax', {
   },
   methods: {
     processImage: function() {
-      this.ready = true;
+      this.imageHasBeenLoaded = true;
       this.processResize();
     },
     processResize: function() {
-      if (!this.ready) {
+      if (!this.imageHasBeenLoaded || !this.pageContainer) {
         return;
       }
 
@@ -44,7 +44,7 @@ Vue.component('parallax', {
       this.updatePosition();
     },
     updatePosition: function() {
-      if (!this.ready) {
+      if (!this.imageHasBeenLoaded) {
         return;
       }
 
@@ -70,10 +70,9 @@ Vue.component('parallax', {
 
     quasar.events.once('app:page:ready', function(page) {
       self.pageName = page.name;
-      self.$nextTick(function() {
-        self.pageContainer = quasar.current.page.scrollContainer;
-        self.pageContainer.scroll(self.updatePosition);
-      });
+      self.pageContainer = quasar.current.page.scrollContainer;
+      self.pageContainer.scroll(self.updatePosition);
+      self.processResize();
     });
 
     this.onPageReady = function(page) {
