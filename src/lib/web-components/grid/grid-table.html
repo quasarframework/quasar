@@ -67,7 +67,7 @@
           </th>
           <th
             v-for="column in columns"
-            v-show="column.hidden !== true"
+            v-show="!column.hidden"
             @click="sortBy(column.field)"
             :class="{'sortable-column': sortable}"
           >
@@ -89,10 +89,11 @@
         </td>
         <td
           v-for="column in columns"
-          v-show="column.hidden !== true"
+          v-if="!column.hidden"
           :style="column.style"
           :class="column.classes"
         >
+        {{column.hidden === true ? 'hid' : 'vis'}}
           {{{column.formatter ? column.formatter(row[column.field]) : row[column.field]}}}
         </td>
       </tr>
@@ -105,7 +106,7 @@
           </th>
           <th
             v-for="column in columns"
-            v-show="column.hidden !== true"
+            v-show="!column.hidden"
             @click="sortBy(column.field)"
             :class="{'sortable-column': sortable}"
           >
