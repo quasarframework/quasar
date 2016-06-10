@@ -32,7 +32,7 @@ module.exports = {
         dest: 'assets/fonts/icons'
       },
       {
-        src: 'node_modules/roboto-fontface/fonts/Roboto-{Thin,Light,Regular,Medium,Bold}.woff',
+        src: 'node_modules/roboto-fontface/fonts/roboto/Roboto-{Thin,Light,Regular,Medium,Bold}.woff',
         dest: 'assets/fonts/roboto'
       }
     ],

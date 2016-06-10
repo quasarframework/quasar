@@ -81,7 +81,7 @@
     "phantomjs": "^1.9.18",
     "raw-loader": "^0.5.1",
     "require-dir": "^0.3.0",
-    "roboto-fontface": "0.x",
+    "roboto-fontface": "^0.5.0",
     "run-sequence": "^1.1.4",
     "sinon": "^1.17.1",
     "sinon-chai": "^2.8.0",
