@@ -94,32 +94,9 @@ module.exports = {
         ]
       });
     },
-    checkbox: function() {
-      quasar.dialog({
-        title: 'Checkboxes',
-        checkboxes: [
-          {
-            label: 'Option 1',
-            value: 'opt1',
-            checked: true
-          },
-          {
-            label: 'Option 2',
-            value: 'opt2'
-          },
-          {
-            label: 'Option 3',
-            value: 'opt3'
-          },
-          {
-            label: 'Option 4',
-            value: 'opt4'
-          },
-          {
-            label: 'Option 5',
-            value: 'opt5'
-          }
-        ],
+    checkbox: function(toggles) {
+      var options = {
+        title: toggles ? 'Toggles' : 'Checkboxes',
         buttons: [
           {
             label: 'Cancel',
@@ -132,7 +109,33 @@ module.exports = {
             }
           }
         ]
-      });
+      };
+
+      options[toggles ? 'toggles' : 'checkboxes'] = [
+        {
+          label: 'Option 1',
+          value: 'opt1',
+          checked: true
+        },
+        {
+          label: 'Option 2',
+          value: 'opt2'
+        },
+        {
+          label: 'Option 3',
+          value: 'opt3'
+        },
+        {
+          label: 'Option 4',
+          value: 'opt4'
+        },
+        {
+          label: 'Option 5',
+          value: 'opt5'
+        }
+      ];
+
+      quasar.dialog(options);
     },
     range: function() {
       quasar.dialog({

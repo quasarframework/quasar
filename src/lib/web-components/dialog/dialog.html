@@ -27,6 +27,16 @@
     </div>
   </label>
 </div>
+<div v-if="toggles" class="modal-controls modal-scroll">
+  <label v-for="toggle in toggles" class="item">
+    <div class="item-content">
+      <div class="item-label">
+        {{{* toggle.label}}}
+      </div>
+      <toggle :model.sync="toggle.checked"></toggle>
+    </div>
+  </label>
+</div>
 <div v-if="ranges" class="modal-controls modal-scroll list">
   <template v-for="range in ranges">
     <div v-if="range.label" class="list-header">{{{* range.label}}}: {{range.value}}</div>

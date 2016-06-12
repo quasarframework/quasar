@@ -115,6 +115,9 @@ quasar.dialog = function(options) {
   else if (data.checkboxes) {
     data.checkboxes = parseCheckboxes(data.checkboxes);
   }
+  else if (data.toggles) {
+    data.toggles = parseCheckboxes(data.toggles);
+  }
   else if (data.ranges) {
     data.ranges = parseRanges(data.ranges);
   }
@@ -135,8 +138,8 @@ quasar.dialog = function(options) {
         if (this.radios) {
           return this.radioModel;
         }
-        if (this.checkboxes) {
-          return this.checkboxes.filter(function(checkbox) {
+        if (this.checkboxes || this.toggles) {
+          return (this.checkboxes || this.toggles).filter(function(checkbox) {
             return checkbox.checked;
           }).map(function(checkbox) {
             return checkbox.value;
