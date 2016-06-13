@@ -6,7 +6,7 @@
         @click="toggle"
       >
         <i v-if="model.icon">{{model.icon}}</i>
-        {{model.title}}
+        <span class="quasar-tree-label">{{model.title}}</span>
         <span v-if="isExpandable">{{{model.expanded ? contractHtml : expandHtml}}}</span>
       </div>
       <ul v-show="model.expanded" v-if="isExpandable" transition="slide">
