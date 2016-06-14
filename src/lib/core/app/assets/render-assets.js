@@ -28,7 +28,7 @@ function injectVue(vue, el, readyFunction, layout) {
   return vue;
 }
 
-module.exports.layout = function(vue, context, done) {
+module.exports.layout = function(vue, context, oldLayout, done) {
   var
     el = '#quasar-app',
     container = $(el),
@@ -44,34 +44,30 @@ module.exports.layout = function(vue, context, done) {
       }
     });
   }
-  if (quasar.current.layout && quasar.current.layout.vm) {
-    quasar.current.layout.vm.$destroy();
+  if (oldLayout && oldLayout.vm) {
+    oldLayout.vm.$destroy();
   }
 
   container.removeClass();
 
-  if (!context.manifest.layout) {
-    quasar.current.layout = null;
+  if (!quasar.current.layout) {
     container.html('');
     done && done();
     return;
   }
 
   container.addClass('layout-' + context.manifest.layout);
-  quasar.current.layout = {name: context.manifest.layout};
   quasar.current.layout.vm = new Vue(injectVue(vue, el, done));
 };
 
 module.exports.page = function(vue, context, done) {
   var
     id = context.name,
-    root = $('#quasar-app'),
-    currentPage = $.extend(true, {}, context)
+    root = $('#quasar-app')
     ;
 
   if (!context.manifest.layout) {
     root.append('<div class="quasar-page page-' + id + '" style="overflow: auto; height: 100%;"></div>');
-    quasar.current.page = currentPage;
     quasar.current.page.vm = new Vue(injectVue(vue, '#quasar-app > .quasar-page', done));
     quasar.current.page.pageContainer = quasar.current.page.scrollContainer = $(quasar.current.page.vm.$el);
     done && done();
@@ -105,9 +101,8 @@ module.exports.page = function(vue, context, done) {
 
   root.find('.quasar-pages').append(newPage);
 
-  quasar.current.page = currentPage;
   if (context.parameterized) {
-    quasar.page.___quasarTemporary___ = currentPage;
+    quasar.page.___quasarTemporary___ = quasar.current.page;
   }
 
   quasar.current.page.vm = new Vue(injectVue(vue, el + '> .quasar-page', done));

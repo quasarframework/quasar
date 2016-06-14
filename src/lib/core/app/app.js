@@ -13,6 +13,8 @@ function injectCSS(manifest) {
 }
 
 function preparePage(context, page) {
+  quasar.current.page = $.extend(true, {}, context);
+
   quasar.events.trigger('app:page:prepare', context);
   prepare(context, page, function(pageVue) {
     quasar.events.trigger('app:page:render', context);
@@ -32,14 +34,26 @@ function loadRoute(context, layout, page) {
 
   if (
     !quasar.current.layout ||
-    !quasar.current.layout.name ||
     quasar.current.layout.name !== context.manifest.layout
   ) {
     injectCSS(quasar.data.manifest.layouts[context.manifest.layout]);
+
+    var
+      oldLayout = quasar.current.layout,
+      newLayoutName = context.manifest.layout,
+      layoutContext = newLayoutName ? $.extend(
+        {name: newLayoutName},
+        quasar.data.manifest.layouts[newLayoutName]
+      ) : {};
+
+    quasar.current.layout = context.manifest.layout ? {
+      name: context.manifest.layout
+    } : null;
+
     quasar.events.trigger('app:layout:prepare', context);
-    prepare(quasar.data.manifest.layouts[context.manifest.layout], layout, function(layoutVue) {
+    prepare(layoutContext, layout, function(layoutVue) {
       quasar.events.trigger('app:layout:render', context);
-      render.layout(layoutVue, context, function() {
+      render.layout(layoutVue, context, oldLayout, function() {
         quasar.events.trigger('app:layout:ready', context);
         preparePage(context, page);
       });
