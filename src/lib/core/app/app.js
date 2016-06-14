@@ -63,13 +63,18 @@ function prepareAssets(manifest, context) {
   quasar.events.trigger('app:page:require', context);
   request.page(context.name, function(asset) {
     page = asset;
-    quasar.page[context.name] = {
-      name: context.name,
-      hash: context.route,
-      manifest: context.manifest
-    };
     loadRoute(context, layout, page);
   });
+}
+
+function validateRoutes(appManifest) {
+  if (!appManifest.pages.index) {
+    throw new Error('Missing "index" Page.');
+  }
+  if (appManifest.pages.index.routes) {
+    delete appManifest.pages.index.routes;
+    console.warn('Routes are disabled for "index" Page.');
+  }
 }
 
 function registerRoutes(appManifest) {
@@ -81,25 +86,31 @@ function registerRoutes(appManifest) {
 
     pageManifest.name = pageName;
 
-    quasar.add.route({
-      hash: hash,
-      trigger: function() {
-        var route = this;
+    (pageManifest.routes || ['$']).forEach(function(route) {
+      quasar.add.route({
+        hash: hash + (route === '$' ? '' : '/' + route),
+        trigger: function() {
+          var self = this;
 
-        prepareAssets(pageManifest, {
-          params: route.params,
-          query: route.query,
-          name: pageName,
-          route: hash,
-          manifest: pageManifest
-        });
-      }
+          prepareAssets(pageManifest, {
+            params: self.params,
+            query: self.query,
+            name: pageName,
+            route: route,
+            hash: self.hash,
+            parameterized: Object.keys(self.params).length > 0 || Object.keys(self.query).length > 0,
+            manifest: pageManifest
+          });
+        }
+      });
     });
   });
 }
 
 function startApp() {
+  validateRoutes(quasar.data.manifest);
   registerRoutes(quasar.data.manifest);
+
   quasar.start.router();
 }
 

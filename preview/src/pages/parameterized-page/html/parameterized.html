@@ -1,0 +1,21 @@
+<h1>Parameterized Route</h1>
+
+<button class="tertiary" @click="navigate()">
+  To default Page
+</button>
+
+<div class="bg-secondary text-white"><pre class="text-left">{{self | json}}</pre></div>
+
+<template v-for="n in 20">
+  <p>Temporary Template</p>
+  <p>
+    Query: <div class="badge bg-secondary text-white">{{query | json}}</div>
+    Params: <div class="badge bg-secondary text-white">{{params | json}}</div>
+  </p>
+</template>
+
+
+<fab type="secondary" icon="tag_faces" direction="up" v-layout-page-sticky class="absolute-bottom-right">
+  <small-fab class="tertiary">tag_faces</small-fab>
+  <small-fab class="tertiary">tag_faces</small-fab>
+</fab>

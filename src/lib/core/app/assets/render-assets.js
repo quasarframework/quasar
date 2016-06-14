@@ -63,31 +63,39 @@ module.exports.layout = function(vue, context, done) {
 };
 
 module.exports.page = function(vue, context, done) {
-  var id = context.name;
+  var
+    id = context.name,
+    root = $('#quasar-app'),
+    currentPage = $.extend(true, {}, context)
+    ;
 
   if (!context.manifest.layout) {
-    $('#quasar-app').append('<div class="quasar-page page-' + id + '" style="overflow: auto; height: 100%;"></div>');
-    quasar.current.page = quasar.page[id];
-    quasar.page[id].vm = new Vue(injectVue(vue, '#quasar-app > .quasar-page', done));
-    quasar.page[id].pageContainer = quasar.page[id].scrollContainer = $(quasar.page[id].vm.$el);
+    root.append('<div class="quasar-page page-' + id + '" style="overflow: auto; height: 100%;"></div>');
+    quasar.current.page = currentPage;
+    quasar.current.page.vm = new Vue(injectVue(vue, '#quasar-app > .quasar-page', done));
+    quasar.current.page.pageContainer = quasar.current.page.scrollContainer = $(quasar.current.page.vm.$el);
     done && done();
+  }
+  else if (quasar.page.___quasarTemporary___) {
+    quasar.page.___quasarTemporary___.vm.$destroy();
+    root.find('.__quasar_temporary_page').remove();
+    delete quasar.page.___quasarTemporary___;
   }
 
   var
-    el = '.page-' + id,
-    container = $(el),
-    sticky = $('.quasar-sticky-' + id),
+    el = '.page-' + id + (context.parameterized ? '.__quasar_temporary_page' : ''),
+    container = root.find(el),
+    sticky = root.find('.quasar-sticky-' + id + (context.parameterized ? '.__quasar_temporary_sticky' : '')),
     newPage = $(
-      '<div class="quasar-page-container scroll page-' + id +
+      '<div class="quasar-page-container scroll page-' +
+      id + (context.parameterized ? ' __quasar_temporary_page' : '') +
       '"><div class="quasar-page"></div></div>'
     );
 
-  // page container elements
-  $('.quasar-page-container').css('display', 'none');
-  // page sticky elements
-  $('.quasar-page-sticky').css('display', 'none');
+  root.find('.quasar-page-container, .quasar-page-sticky')
+    .css('display', 'none');
 
-  if (container.length !== 0) {
+  if (!context.parameterized && container.length !== 0) {
     container.css('display', '');
     sticky.css('display', '');
     quasar.current.page = quasar.page[id];
@@ -95,9 +103,14 @@ module.exports.page = function(vue, context, done) {
     return;
   }
 
-  $('#quasar-app .quasar-pages').append(newPage);
-  quasar.current.page = quasar.page[id];
-  quasar.page[id].vm = new Vue(injectVue(vue, el + '> .quasar-page', done));
-  quasar.page[id].pageContainer = $(quasar.page[id].vm.$el);
-  quasar.page[id].scrollContainer = newPage;
+  root.find('.quasar-pages').append(newPage);
+
+  quasar.current.page = currentPage;
+  if (context.parameterized) {
+    quasar.page.___quasarTemporary___ = currentPage;
+  }
+
+  quasar.current.page.vm = new Vue(injectVue(vue, el + '> .quasar-page', done));
+  quasar.current.page.pageContainer = $(quasar.current.page.vm.$el);
+  quasar.current.page.scrollContainer = newPage;
 };

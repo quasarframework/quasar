@@ -19,10 +19,10 @@
   &.active
     color $item-active-color
     background-color $item-active-background-color
-  &.item-link:not(.active)
+  &.item-link
     cursor pointer
     transition all .3s
-    &:hover
+    &:not(.active):hover
       background-color $list-divider-color
 
   i

@@ -93,7 +93,6 @@
           :style="column.style"
           :class="column.classes"
         >
-        {{column.hidden === true ? 'hid' : 'vis'}}
           {{{column.formatter ? column.formatter(row[column.field]) : row[column.field]}}}
         </td>
       </tr>

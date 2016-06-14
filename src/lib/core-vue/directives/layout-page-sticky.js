@@ -20,7 +20,13 @@ Vue.directive('layout-page-sticky', {
 
     this.frag = factory.create(this._host, this._scope, this._frag);
     this.frag.before(this.anchor);
-    this.frag.children[0].$el.className += ' quasar-page-sticky quasar-sticky-' + quasar.current.page.name;
+
+    var classes = ['quasar-page-sticky', 'quasar-sticky-' + quasar.current.page.name];
+
+    if (quasar.current.page.parameterized) {
+      classes.push('__quasar_temporary_sticky');
+    }
+    this.frag.children[0].$el.className += ' ' + classes.join(' ');
   },
   unbind: function() {
     this.frag.remove();
