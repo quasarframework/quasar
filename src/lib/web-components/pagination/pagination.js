@@ -33,7 +33,7 @@ Vue.component('pagination', {
       this.model = this.normalize(this.model + offset);
     },
     normalize: function(value) {
-      return Math.min(this.max, Math.max(1, parseInt(value, 10)));
+      return Math.min(this.max, Math.max(1, value));
     }
   },
   computed: {
@@ -43,11 +43,14 @@ Vue.component('pagination', {
   },
   watch: {
     newPage: function(value) {
-      if (value || value === 0) {
-        this.model = this.normalize(value);
-        this.newPage = '';
+      var parsed = parseInt(value, 10);
+
+      if (parsed) {
+        this.model = this.normalize(parsed);
         $(this.$els.input).blur();
       }
+
+      this.newPage = '';
     }
   }
 });

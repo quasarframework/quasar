@@ -5,7 +5,17 @@
   <button :class="{disabled: model === min}" class="primary clear small circular" @click="changeModelByOffset(-1)">
     <i>keyboard_arrow_left</i>
   </button>
-  <input type="text" v-el:input v-model="newPage" number lazy :style="{width: inputPlaceholder.length * 10 + 'px'}" :placeholder="inputPlaceholder">
+
+  <input
+    type="text"
+    v-el:input
+    v-model="newPage"
+    number
+    lazy
+    :style="{width: inputPlaceholder.length * 10 + 'px'}"
+    :placeholder="inputPlaceholder"
+  >
+
   <button :class="{disabled: model === max}" class="primary clear small circular" @click="changeModelByOffset(1)">
     <i>keyboard_arrow_right</i>
   </button>
