@@ -41,6 +41,10 @@ $(function() {
   list.push(quasar.runs.on.desktop ? 'desktop' : 'mobile');
   list.push(quasar.runs.with.touch ? 'touch' : 'no-touch');
 
+  if (quasar.runs.within.iframe) {
+    list.push('within-iframe');
+  }
+
   if (quasar.runs.on.cordova) {
     list.push('cordova');
   }
