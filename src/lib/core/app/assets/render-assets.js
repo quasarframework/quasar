@@ -52,7 +52,7 @@ module.exports.layout = function(vue, context, oldLayout, done) {
 
   if (!quasar.current.layout) {
     container.html('');
-    done && done();
+    done();
     return;
   }
 
@@ -70,7 +70,7 @@ module.exports.page = function(vue, context, done) {
     root.append('<div class="quasar-page page-' + id + '" style="overflow: auto; height: 100%;"></div>');
     quasar.current.page.vm = new Vue(injectVue(vue, '#quasar-app > .quasar-page', done));
     quasar.current.page.pageContainer = quasar.current.page.scrollContainer = $(quasar.current.page.vm.$el);
-    done && done();
+    done();
   }
   else if (quasar.page.___quasarTemporary___) {
     quasar.page.___quasarTemporary___.vm.$destroy();
@@ -95,7 +95,7 @@ module.exports.page = function(vue, context, done) {
     container.css('display', '');
     sticky.css('display', '');
     quasar.current.page = quasar.page[id];
-    done && done();
+    done();
     return;
   }
 

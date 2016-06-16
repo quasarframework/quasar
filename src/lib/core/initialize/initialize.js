@@ -57,6 +57,16 @@ $(function() {
  */
 require('../events/events');
 
+window.onerror = function(message, source, lineno, colno, error) {
+  quasar.events.trigger('app:error', {
+    message: message,
+    source: source,
+    lineno: lineno,
+    colno: colno,
+    error: error
+  });
+};
+
 $.extend(true, quasar, {
   events: quasar.create.events.emitter(),
   page: {},

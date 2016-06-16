@@ -19,6 +19,8 @@ function preparePage(context, page) {
   prepare(context, page, function(pageVue) {
     quasar.events.trigger('app:page:render', context);
     render.page(pageVue, context, function() {
+      quasar.hide.global.progress();
+      quasar.events.off('app:error', quasar.hide.global.progress);
       quasar.events.trigger('app:page:ready', context);
     });
   });
@@ -46,9 +48,7 @@ function loadRoute(context, layout, page) {
         quasar.data.manifest.layouts[newLayoutName]
       ) : {};
 
-    quasar.current.layout = context.manifest.layout ? {
-      name: context.manifest.layout
-    } : null;
+    quasar.current.layout = newLayoutName ? {name: newLayoutName} : null;
 
     quasar.events.trigger('app:layout:prepare', context);
     prepare(layoutContext, layout, function(layoutVue) {
@@ -105,6 +105,9 @@ function registerRoutes(appManifest) {
         hash: hash + (route === '$' ? '' : '/' + route),
         trigger: function() {
           var self = this;
+
+          quasar.show.global.progress();
+          quasar.events.on('app:error', quasar.hide.global.progress);
 
           prepareAssets(pageManifest, {
             params: self.params,

@@ -8,6 +8,25 @@
 .transparent
   background-color transparent
 
+.dimmed, .light-dimmed
+  &:after
+    content ''
+    position absolute
+    top 0
+    right 0
+    bottom 0
+    left 0
+.dimmed:after
+  background-color $dimmed-background-color
+.light-dimmed:after
+  background-color $light-dimmed-background-color
+body
+  &.dimmed, &.light-dimmed
+    &:after
+      z-index $z-body-dimmed
+.z-absolute
+  z-index $z-absolute
+
 for type in desktop mobile cordova ios mat touch no-touch within-iframe
   body:not(.{type}) .{type}-only
     display none !important
