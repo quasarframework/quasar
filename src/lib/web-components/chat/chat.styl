@@ -1,0 +1,68 @@
+.chat-you, .chat-other
+  margin 45px 0 0 0
+  font-weight $chat-font-weight
+
+  .chat-user
+    margin -30px 0 0 0
+    display block
+    img
+      width 65px
+      height 65px
+      border-radius 50%
+      box-shadow $chat-box-shadow
+
+  .chat-date
+    font-size $chat-date-font-size
+    color $chat-date-color
+
+  .chat-message
+    display block
+    p
+      display inline-block
+      padding 10px
+      position relative
+      font-size $chat-message-font-size
+      border-radius 3px
+      box-shadow $chat-box-shadow
+      &:after
+        content ''
+        position absolute
+        top 0
+        border-left 17px solid transparent
+        border-right 17px solid transparent
+
+.chat-you
+  .chat-user
+    float right
+  .chat-date
+    float right
+    margin -20px 10px 0 0
+  .chat-message
+    margin 0 90px 0 0
+    text-align right
+    p
+      margin 0 0 0 auto
+      color $chat-message-you-color
+      background-color $chat-message-you-background-color
+      &:after
+        content ''
+        right 0
+        margin 0 -15px 0 0
+        border-top 17px solid $chat-message-you-background-color
+
+.chat-other
+  .chat-user
+    float left
+  .chat-date
+    float left
+    margin -20px 0 0 10px
+  .chat-message
+    margin 0 0 0 90px
+    p
+      color $chat-message-other-color
+      background-color $chat-message-other-background-color
+      &:after
+        content ''
+        left 0
+        margin 0 0 0 -15px
+        border-top 17px solid $chat-message-other-background-color
