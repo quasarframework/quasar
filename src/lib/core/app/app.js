@@ -19,9 +19,11 @@ function preparePage(context, page) {
   prepare(context, page, function(pageVue) {
     quasar.events.trigger('app:page:render', context);
     render.page(pageVue, context, function() {
-      quasar.hide.global.progress();
-      quasar.events.off('app:error', quasar.hide.global.progress);
-      quasar.events.trigger('app:page:ready', context);
+      quasar.nextTick(function() {
+        quasar.hide.global.progress();
+        quasar.events.off('app:error', quasar.hide.global.progress);
+        quasar.events.trigger('app:page:ready', context);
+      });
     });
   });
 }

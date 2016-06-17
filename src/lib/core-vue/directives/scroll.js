@@ -9,10 +9,8 @@ Vue.directive('scroll', {
 
     quasar.events.once('app:page:ready', function(page) {
       self.pageName = page.name;
-      Vue.nextTick(function() {
-        self.pageContainer = quasar.current.page.scrollContainer;
-        self.pageContainer.scroll(self.scroll);
-      });
+      self.pageContainer = quasar.current.page.scrollContainer;
+      self.pageContainer.scroll(self.scroll);
     });
   },
   update: function(handler) {
@@ -40,10 +38,8 @@ Vue.directive('scroll-fire', {
 
     quasar.events.once('app:page:ready', function(page) {
       self.pageName = page.name;
-      Vue.nextTick(function() {
-        self.pageContainer = quasar.current.page.scrollContainer;
-        self.pageContainer.scroll(self.scroll);
-      });
+      self.pageContainer = quasar.current.page.scrollContainer;
+      self.pageContainer.scroll(self.scroll);
     });
   },
   update: function(handler) {

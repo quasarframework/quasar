@@ -108,7 +108,7 @@ module.exports.page = function(vue, context, done) {
     quasar.page[id] = quasar.current.page;
   }
 
-  quasar.current.page.vm = new Vue(injectVue(vue, el + '> .quasar-page', done));
-  quasar.current.page.pageContainer = $(quasar.current.page.vm.$el);
   quasar.current.page.scrollContainer = newPage;
+  quasar.current.page.pageContainer = $(el + '> .quasar-page');
+  quasar.current.page.vm = new Vue(injectVue(vue, el + '> .quasar-page', done));
 };
