@@ -18,6 +18,7 @@
 * Modern HTML5 SPA front-end framework on steroids.
 * Desktop and Mobile. Native Mobile Apps included.
 * Full Stack Toolkit.
+* With VueJS.
 
 ## Documentation
 

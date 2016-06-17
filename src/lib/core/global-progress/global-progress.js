@@ -3,7 +3,7 @@
 var
   vm,
   body = $('body'),
-  node = $(require('raw!./global-progress.html')),
+  template = require('raw!./global-progress.html'),
   appIsInProgress = false,
   timeout
   ;
@@ -20,13 +20,16 @@ function showProgress(options) {
   options = options || {};
 
   timeout = setTimeout(function() {
+    var node = $(template);
+
     body.addClass('dimmed');
     body.append(node);
 
+    console.log(quasar.runs.on.ios ? 'ios' : 'tail');
     vm = new Vue({
       el: node[0],
       data: {
-        spinner: options.spinner || 'tail'
+        spinner: options.spinner || quasar.runs.on.ios ? 'ios' : 'tail'
       }
     });
 
