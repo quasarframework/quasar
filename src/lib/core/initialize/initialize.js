@@ -30,27 +30,25 @@ function forceTheme(theme) {
   $('head').append('<link data-theme rel="stylesheet" href="css/app.' + theme + '.css">');
 }
 
-$(function() {
-  var
-    body = $('body'),
-    list = []
-    ;
+var
+  body = $('body'),
+  list = []
+  ;
 
-  forceTheme(body.hasClass('ios') || quasar.runs.on.ios ? 'ios' : 'mat');
+forceTheme(body.hasClass('ios') || quasar.runs.on.ios ? 'ios' : 'mat');
 
-  list.push(quasar.runs.on.desktop ? 'desktop' : 'mobile');
-  list.push(quasar.runs.with.touch ? 'touch' : 'no-touch');
+list.push(quasar.runs.on.desktop ? 'desktop' : 'mobile');
+list.push(quasar.runs.with.touch ? 'touch' : 'no-touch');
 
-  if (quasar.runs.within.iframe) {
-    list.push('within-iframe');
-  }
+if (quasar.runs.within.iframe) {
+  list.push('within-iframe');
+}
 
-  if (quasar.runs.on.cordova) {
-    list.push('cordova');
-  }
+if (quasar.runs.on.cordova) {
+  list.push('cordova');
+}
 
-  body.addClass(list.join(' '));
-});
+body.addClass(list.join(' '));
 
 /*
  * Inject Globals

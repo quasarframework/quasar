@@ -27,6 +27,17 @@ body
 .z-absolute
   z-index $z-absolute
 
+
+@keyframes quasar-highlight
+  0%
+    background $lime-6
+  100%
+    background transparent
+
+.highlight-and-fade
+  animation quasar-highlight 2s
+
+
 for type in desktop mobile cordova ios mat touch no-touch within-iframe
   body:not(.{type}) .{type}-only
     display none !important

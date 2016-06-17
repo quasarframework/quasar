@@ -1,0 +1,5 @@
+label: 'Pull to Refresh'
+icon: 'pages'
+layout: 'main'
+navigation:
+  group: 'widget'

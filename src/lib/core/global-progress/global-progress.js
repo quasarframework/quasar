@@ -25,7 +25,6 @@ function showProgress(options) {
     body.addClass('dimmed');
     body.append(node);
 
-    console.log(quasar.runs.on.ios ? 'ios' : 'tail');
     vm = new Vue({
       el: node[0],
       data: {
@@ -34,7 +33,7 @@ function showProgress(options) {
     });
 
     timeout = null;
-  }, options.delay || 300);
+  }, options.delay || 500);
 
   appIsInProgress = true;
   quasar.events.trigger('app:global-progress', true);

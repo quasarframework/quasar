@@ -104,6 +104,9 @@ module.exports.page = function(vue, context, done) {
   if (context.parameterized) {
     quasar.page.___quasarTemporary___ = quasar.current.page;
   }
+  else if (!quasar.page[id]) {
+    quasar.page[id] = quasar.current.page;
+  }
 
   quasar.current.page.vm = new Vue(injectVue(vue, el + '> .quasar-page', done));
   quasar.current.page.pageContainer = $(quasar.current.page.vm.$el);
