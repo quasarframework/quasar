@@ -1,0 +1,9 @@
+<div class="quasar-infinite-scroll">
+  <div v-el:content class="quasar-infinite-scroll-content">
+    <slot></slot>
+  </div>
+  <br>
+  <div class="quasar-infinite-scroll-message" v-show="refreshing">
+    <slot name="message"></slot>
+  </div>
+</div>

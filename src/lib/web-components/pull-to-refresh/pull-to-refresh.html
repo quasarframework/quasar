@@ -1,25 +1,25 @@
-<div class="pull-to-refresh" v-el:container>
+<div class="pull-to-refresh">
   <div
     class="pull-to-refresh-container"
     :style="{transform: 'translateY(' + pullPosition + 'px)'}"
     v-touch:pan-y="pull"
   >
-    <div
-      class="pull-to-refresh-message row items-end justify-center"
-    >
-      <span v-show="state !== 'refreshing'">
-        <i :class="{'rotate-180': state === 'pulled'}">expand_more</i>
-        <span v-show="state === 'pull'">
-          Pull Down
-        </span>
-        <span v-show="state === 'pulled'">
-          Release
-        </span>
+    <div class="pull-to-refresh-message row items-center justify-center">
+      <i v-show="state !== 'refreshing'" :class="{'rotate-180': state === 'pulled'}">arrow_downward</i>
+      <i v-else class="spin">{{refreshIcon}}</i>
+
+      &nbsp;&nbsp;
+      <span v-show="state === 'pull'">
+        {{pullMessage}}
       </span>
-      <span v-else>
-        <spinner :name="spinner" color="#777" :size="45"></spinner>
+      <span v-show="state === 'pulled'">
+        {{releaseMessage}}
+      </span>
+      <span v-show="state === 'refreshing'">
+        {{refreshMessage}}
       </span>
     </div>
+
     <slot></slot>
   </div>
 </div>

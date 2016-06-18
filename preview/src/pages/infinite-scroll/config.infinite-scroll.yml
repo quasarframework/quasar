@@ -1,5 +1,5 @@
-label: 'Pull to Refresh'
-icon: 'cached'
+label: 'Infinite Scroll'
+icon: 'update'
 layout: 'main'
 navigation:
   group: 'scroll'

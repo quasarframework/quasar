@@ -12,6 +12,22 @@ Vue.component('pull-to-refresh', {
     distance: {
       type: Number,
       default: 35
+    },
+    pullMessage: {
+      type: String,
+      default: 'Pull down to refresh'
+    },
+    releaseMessage: {
+      type: String,
+      default: 'Release to refresh'
+    },
+    refreshMessage: {
+      type: String,
+      default: 'Refreshing...'
+    },
+    refreshIcon: {
+      type: String,
+      default: 'refresh'
     }
   },
   data: function() {
@@ -117,16 +133,14 @@ Vue.component('pull-to-refresh', {
     }
   },
   ready: function() {
-    quasar.events.once('app:page:ready', function() {
-      this.container = $(this.$els.container);
+    this.container = $(this.$el);
 
-      var scrollContainer = this.container.parent();
+    var scrollContainer = this.container.parent();
 
-      if (scrollContainer.hasClass('quasar-page')) {
-        scrollContainer = scrollContainer.parent();
-      }
+    if (scrollContainer.hasClass('quasar-page')) {
+      scrollContainer = scrollContainer.parent();
+    }
 
-      this.scrollContainer = scrollContainer;
-    }.bind(this));
+    this.scrollContainer = scrollContainer;
   }
 });

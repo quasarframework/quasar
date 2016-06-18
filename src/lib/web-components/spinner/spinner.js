@@ -20,7 +20,7 @@ Object.keys(templates).forEach(function(spinner) {
 });
 
 Vue.component('spinner', {
-  template: '<partial :name="partialName"></partial>',
+  template: '<span><partial :name="partialName"></partial></span>',
   props: {
     name: {
       type: String,

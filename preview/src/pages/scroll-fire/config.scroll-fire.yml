@@ -1,5 +1,5 @@
-label: 'Scroll Directives'
+label: 'Scroll Fire'
 icon: 'swap_vert'
 layout: 'main'
 navigation:
-  group: 'widget'
+  group: 'scroll'

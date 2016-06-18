@@ -1,6 +1,6 @@
 'use strict';
 
-var html = require('raw!./view.scroll-widgets.html');
+var html = require('raw!./view.scroll-fire.html');
 
 module.exports = {
   template: html,
