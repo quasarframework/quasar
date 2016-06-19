@@ -1,0 +1,5 @@
+label: 'Dropdown'
+icon: 'content_paste'
+layout: 'main'
+navigation:
+  group: 'widget'

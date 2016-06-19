@@ -1,0 +1,13 @@
+<div class="quasar-dropdown">
+  <div class="quasar-dropdown-target" @click="toggle()">
+    <slot name="target"></slot>
+  </div>
+  <div
+    class="quasar-dropdown-menu shadow-2"
+    style="display: none;"
+    :class="{visible: opened}"
+    v-el:menu
+  >
+    <slot></slot>
+  </div>
+</div>
