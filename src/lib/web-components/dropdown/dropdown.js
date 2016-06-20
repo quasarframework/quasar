@@ -3,57 +3,64 @@
 var
   body = $('body'),
   win = $(window),
-  template = require('raw!./dropdown.html'),
-  offset = 20
+  offset = 20,
+  dropdownTemplate = require('raw!./dropdown.html'),
+  contextTemplate = require('raw!./context-dropdown.html')
   ;
 
-function animate(menuElement, containerElement, duration, opening) {
+function animate(menuElement, position, duration, opening, fixed) {
   var
     windowWidth = win.width(),
     windowHeight = win.height(),
-    containerPosition = $(containerElement).offset(),
     menu = $(menuElement),
     menuWidth = menu.width(),
     menuHeight = menu.height(),
-    transition;
+    transition,
+    toRight = position.left + menuWidth < windowWidth || 2 * position.left < windowWidth,
+    toBottom = position.top + menuHeight < windowHeight || 2 * position.top < windowHeight,
+    css = {
+      top: '',
+      right: '',
+      bottom: '',
+      left: '',
+      maxHeight: ''
+    };
 
-  var toRight = containerPosition.left + offset + menuWidth < windowWidth;
-  var toDown = containerPosition.top + offset + menuHeight < windowHeight;
-
-  var css = {};
 
   if (toRight) {
-    css.left = offset + 'px';
-    css.right = '';
+    css.left = position.left + 'px';
   }
   else {
-    css.left = '';
-    css.right = offset + 'px';
+    css.left = Math.max(10, position.left - menuWidth) + 'px';
   }
 
-  if (toDown) {
-    css.top = offset + 'px';
-    css.bottom = '';
+  if (toBottom) {
+    css.top = position.top + 'px';
+    if (windowHeight - position.top < menuHeight) {
+      css.maxHeight = windowHeight - position.top - offset + 'px';
+    }
   }
   else {
-    css.top = '';
-    css.bottom = offset + 'px';
+    css.top = Math.max(10, position.top - menuHeight) + 'px';
+    if (position.top < menuHeight) {
+      css.maxHeight = position.top - offset + 'px';
+    }
   }
+
 
   if (!opening) {
-    toDown = !toDown;
+    toBottom = !toBottom;
   }
 
   menu
     .velocity('stop')
     .css(css)
-    .velocity('transition.slide' + (toDown ? 'Down' : 'Up') + (opening ? 'In' : 'Out'), {
+    .velocity('transition.slide' + (toBottom ? 'Down' : 'Up') + (opening ? 'In' : 'Out'), {
       duration: duration
     });
 }
 
-Vue.component('dropdown', {
-  template: template,
+var vm = {
   props: {
     duration: {
       type: Number,
@@ -66,20 +73,29 @@ Vue.component('dropdown', {
     };
   },
   methods: {
-    toggle: function() {
-      this[this.opened ? 'close' : 'open']();
+    toggle: function(event) {
+      this[this.opened ? 'close' : 'open'](event);
     },
-    open: function() {
+    open: function(event) {
+      event.preventDefault();
+
       if (this.opened) {
         return;
       }
 
       this.opened = true;
       quasar.nextTick(function() {
-        body.click(this.close);
+        body.mousedown(this.close);
       }.bind(this));
 
-      animate(this.$els.menu, this.$el, this.duration, this.opened);
+      this.position = {
+        top: event.clientY,
+        left: event.clientX
+      };
+
+      animate(this.$els.menu, this.position, this.duration, this.opened);
+
+      return false;
     },
     close: function() {
       if (!this.opened) {
@@ -87,12 +103,36 @@ Vue.component('dropdown', {
       }
 
       this.opened = false;
-      body.off('click', this.close);
+      body.off('mousedown', this.close);
 
-      animate(this.$els.menu, this.$el, this.duration, this.opened);
+      animate(this.$els.menu, this.position, this.duration, this.opened);
     }
+  }
+};
+
+Vue.component('dropdown', {
+  mixins: [vm],
+  template: dropdownTemplate,
+  destroy: function() {
+    body.off('mousedown', this.close);
+  }
+});
+
+Vue.component('context-dropdown', {
+  mixins: [vm],
+  template: contextTemplate,
+  ready: function() {
+    this.target = $(this.$el).parent();
+
+    // also include margins for context menu
+    if (this.target.hasClass('quasar-page')) {
+      this.target = this.target.parent();
+    }
+
+    this.target.on('contextmenu', this.open);
   },
   destroy: function() {
-    body.off('click', this.close);
+    this.target.off('contextmenu', this.open);
+    body.off('mousedown', this.close);
   }
 });
