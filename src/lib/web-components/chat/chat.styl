@@ -22,21 +22,16 @@
       padding 10px
       position relative
       font-size $chat-message-font-size
-      border-radius 3px
+      border-radius $generic-border-radius
       box-shadow $chat-box-shadow
       &:after
         content ''
         position absolute
         top 0
-        border-left 17px solid transparent
-        border-right 17px solid transparent
 
 .chat-you
-  .chat-user
+  .chat-user, .chat-date
     float right
-  .chat-date
-    float right
-    margin -20px 10px 0 0
   .chat-message
     margin 0 90px 0 0
     text-align right
@@ -47,15 +42,10 @@
       &:after
         content ''
         right 0
-        margin 0 -15px 0 0
-        border-top 17px solid $chat-message-you-background-color
 
 .chat-other
-  .chat-user
+  .chat-user, .chat-date
     float left
-  .chat-date
-    float left
-    margin -20px 0 0 10px
   .chat-message
     margin 0 0 0 90px
     p
@@ -64,5 +54,3 @@
       &:after
         content ''
         left 0
-        margin 0 0 0 -15px
-        border-top 17px solid $chat-message-other-background-color
