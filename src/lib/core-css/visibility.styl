@@ -41,3 +41,15 @@ body
 for type in desktop mobile cordova ios mat touch no-touch within-iframe
   body:not(.{type}) .{type}-only
     display none !important
+
+for type in desktop mobile cordova ios mat touch no-touch within-iframe
+  body.{type} .{type}-hide
+    display none !important
+
+@media all and (orientation portrait)
+  .orientation-landscape
+    display none !important
+
+@media all and (orientation landscape)
+  .orientation-portrait
+    display none !important
