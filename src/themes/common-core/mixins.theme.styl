@@ -16,6 +16,12 @@ strong-active-color($color)
   else
     lighten($color, 80%)
 
+composite-color($color)
+  if luminosity($color) > .29
+    darken($color, 20%)
+  else
+    lighten($color, 65%)
+
 opposite-non-color($color)
   if luminosity($color) > .29
     black
