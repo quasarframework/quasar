@@ -55,6 +55,9 @@ body.addClass(list.join(' '));
  */
 require('../events/events');
 
+/*
+ * Capture errors
+ */
 window.onerror = function(message, source, lineno, colno, error) {
   quasar.events.trigger('app:error', {
     message: message,
@@ -64,6 +67,11 @@ window.onerror = function(message, source, lineno, colno, error) {
     error: error
   });
 };
+
+/*
+ * Inject $quasar variable into Vue
+ */
+Vue.prototype.$quasar = quasar;
 
 $.extend(true, quasar, {
   events: quasar.create.events.emitter(),
