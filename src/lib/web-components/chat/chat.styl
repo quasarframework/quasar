@@ -52,3 +52,8 @@
       background-color $chat-message-other-background-color
       &:after
         left 0
+
+for $name, $color in $colors
+  .chat-message.{$name} p
+    color white
+    background-color $color

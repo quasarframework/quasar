@@ -25,3 +25,9 @@ $chat-box-shadow                     ?= none
     border-top 10px solid transparent
     border-bottom 10px solid transparent
     border-right 17px solid $chat-message-other-background-color
+
+for $name, $color in $colors
+  .chat-you .chat-message.{$name} p:after
+    border-left-color $color !important
+  .chat-other .chat-message.{$name} p:after
+    border-right-color $color !important
