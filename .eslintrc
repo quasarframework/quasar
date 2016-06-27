@@ -17,6 +17,7 @@
     "process": true,
     "inBrowser": true,
     "Vue": true,
+    "Vuex": true,
     "Hammer": true,
     "__QUASAR_VERSION__": true
   },
