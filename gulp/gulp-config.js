@@ -16,6 +16,7 @@ module.exports = {
     js: [
       'jquery/dist/jquery',
       'vue/dist/vue',
+      'vuex/dist/vuex',
       'fastclick/lib/fastclick',
       'hammerjs/hammer',
       'velocity-animate/velocity',

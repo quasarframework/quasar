@@ -90,5 +90,8 @@
     "sinon-chai": "^2.8.0",
     "velocity-animate": "^1.2.3",
     "vue": "^1.x"
+  },
+  "dependencies": {
+    "vuex": "^0.8.0"
   }
 }
