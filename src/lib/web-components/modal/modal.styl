@@ -27,9 +27,12 @@ maximized-modal()
     font-weight 500
 
   .modal-body
-    text-align $modal-body-text-align
     padding $modal-body-padding
-    color $modal-body-color
+  .modal-slim-body
+    padding $modal-slim-body-padding
+  .modal-body, .modal-slim-body
+    text-align $modal-body-text-align
+
   .modal-controls
     border-top 1px solid $form-darker-color
     border-bottom 1px solid $form-darker-color

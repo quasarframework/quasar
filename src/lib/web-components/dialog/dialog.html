@@ -51,6 +51,16 @@
     </div>
   </template>
 </div>
+<div v-if="progress" class="modal-slim-body">
+  <progress-bar
+    :model="progress.model"
+    class="primary stripe"
+    :class="{indeterminate: progress.indeterminate}"
+  ></progress-bar>
+  <span v-if="!progress.indeterminate">
+    {{progress.model}} %
+  </span>
+</div>
 <div v-if="buttons" class="modal-buttons">
   <button
     v-for="button in buttons"

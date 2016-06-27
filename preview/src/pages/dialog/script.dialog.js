@@ -11,6 +11,35 @@ module.exports = {
         message: 'Modern HTML5 Single Page Application front-end framework on steroids.'
       });
     },
+    progress: function() {
+      var progress = {
+        //model: 25
+        indeterminate: true
+      };
+
+      var dialog = quasar.dialog({
+        title: 'Progress',
+        message: 'Computing...',
+        progress: progress,
+        buttons: [
+          {
+            label: 'Cancel',
+            handler: function(data) {
+              clearInterval(timeout);
+              console.log('Canceled!', data);
+            }
+          }
+        ]
+      });
+
+      var timeout = setInterval(function() {
+        progress.model++;
+        if (progress.model === 50) {
+          clearInterval(timeout);
+          dialog.close();
+        }
+      }, 1000);
+    },
     prompt: function() {
       quasar.dialog({
         title: 'Prompt',

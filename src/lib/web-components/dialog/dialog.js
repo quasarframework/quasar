@@ -96,6 +96,18 @@ function parseRanges(ranges) {
   });
 }
 
+function parseProgress(progress) {
+  if (progress !== Object(progress)) {
+    throw new Error('Progress property is not an Object.');
+  }
+
+  if (!progress.hasOwnProperty('model') && !progress.indeterminate) {
+    throw new Error('Specify either a model or set as indeterminate.');
+  }
+
+  return progress;
+}
+
 quasar.dialog = function(options) {
   var data = $.extend({}, options);
 
@@ -121,8 +133,11 @@ quasar.dialog = function(options) {
   else if (data.ranges) {
     data.ranges = parseRanges(data.ranges);
   }
+  else if (data.progress) {
+    data.progress = parseProgress(data.progress);
+  }
 
-  new quasar.Modal({
+  return new quasar.Modal({
     template: template,
     data: data,
     methods: {
@@ -152,6 +167,9 @@ quasar.dialog = function(options) {
               value: range.value
             };
           });
+        }
+        if (this.progress) {
+          return this.progress.model;
         }
       }
     }
