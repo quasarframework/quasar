@@ -32,6 +32,7 @@ maximized-modal()
     padding $modal-slim-body-padding
   .modal-body, .modal-slim-body
     text-align $modal-body-text-align
+    color $modal-body-color
 
   .modal-controls
     border-top 1px solid $form-darker-color
@@ -53,6 +54,9 @@ maximized-modal()
     padding $modal-buttons-padding
     display flex
     flex-direction row
+    &.modal-stacked-buttons
+      flex-direction column
+
 
   &.minimized
     minimized-modal()

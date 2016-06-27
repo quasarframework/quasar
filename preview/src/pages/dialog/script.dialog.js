@@ -13,8 +13,8 @@ module.exports = {
     },
     progress: function() {
       var progress = {
-        //model: 25
-        indeterminate: true
+        model: 25
+        //indeterminate: true
       };
 
       var dialog = quasar.dialog({
@@ -80,6 +80,27 @@ module.exports = {
             label: 'Agree',
             handler: function() {
               console.log('Agreed!');
+            }
+          }
+        ]
+      });
+    },
+    stacked: function() {
+      quasar.dialog({
+        title: 'Confirm',
+        message: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+        stackButtons: true,
+        buttons: [
+          {
+            label: 'Turn on speed boost',
+            handler: function() {
+              console.log('Turning on speed boost.');
+            }
+          },
+          {
+            label: 'No Thanks',
+            handler: function() {
+              console.log('Ok, no speed boost.');
             }
           }
         ]

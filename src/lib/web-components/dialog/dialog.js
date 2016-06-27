@@ -168,7 +168,7 @@ quasar.dialog = function(options) {
             };
           });
         }
-        if (this.progress) {
+        if (this.progress && !this.progress.indeterminate) {
           return this.progress.model;
         }
       }

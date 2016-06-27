@@ -29,8 +29,12 @@ $modal-buttons-padding   ?= 0
     &:hover, &:active
       color white !important
       background-color rgba(0, 0, 0, .3) !important
-  button + button
-    border-left 1px solid $form-darker-color
+  &:not(.modal-stacked-buttons)
+    button + button
+      border-left 1px solid $form-darker-color
+  &.modal-stacked-buttons
+    button + button
+      border-top 1px solid $form-darker-color
 
 .modal-controls + .modal-buttons
   border-top 0
