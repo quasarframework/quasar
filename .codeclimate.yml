@@ -5,3 +5,4 @@ exclude_paths:
   - "config/*"
   - "dist/*"
   - "src/lib/core-js/environment/environment.js"
+  - "preview/*"
