@@ -50,7 +50,7 @@ $timeline-light-color ?= lighten($timeline-color, 50%)
   color $timeline-color
   width 100%
 
-.timeline-stamp
+.timeline-label
   position relative
   width 100%
   color $timeline-color
@@ -63,7 +63,7 @@ $timeline-light-color ?= lighten($timeline-color, 50%)
       .timeline-badge
         background-color $color
         box-shadow 0 0 0 $timeline-border-width composite-color($color)
-      .timeline-date, .timeline-stamp
+      .timeline-date, .timeline-label
         color $color
 
 @media only screen and (max-width $layout-small-max)
@@ -78,7 +78,7 @@ $timeline-light-color ?= lighten($timeline-color, 50%)
     margin-bottom 1rem
   .timeline-badge
     left (-1.3 * $timeline-badge-space)
-  .timeline-stamp
+  .timeline-label
     margin-bottom $timeline-item-margin-bottom
 
 @media only screen and (min-width $layout-medium-min)
@@ -105,6 +105,6 @@ $timeline-light-color ?= lighten($timeline-color, 50%)
         text-align right
         right 'calc(100% + %s)' % (2 * $timeline-badge-space)
 
-  .timeline-stamp
+  .timeline-label
     margin-bottom $timeline-item-margin-bottom
     text-align center

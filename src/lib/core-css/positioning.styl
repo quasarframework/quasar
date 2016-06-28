@@ -8,6 +8,9 @@
 .no-padding
   padding 0 !important
 
+.relative-position
+  position relative !important
+
 .fixed,
 .fixed-bottom,
 .fixed-left,
@@ -71,3 +74,16 @@
     float left
   .right
     float right
+
++prefix-classes('vertical-')
+  .top
+    vertical-align top
+  .middle
+    vertical-align middle
+  .bottom
+    vertical-align bottom
+
+&.on-left
+  margin-right .5rem
+&.on-right
+  margin-left .5rem

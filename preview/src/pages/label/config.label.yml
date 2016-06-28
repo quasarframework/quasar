@@ -1,0 +1,6 @@
+label: 'Labels'
+icon: 'turned_in'
+layout: 'main'
+navigation:
+  group: 'typography'
+  hide: 'icon'

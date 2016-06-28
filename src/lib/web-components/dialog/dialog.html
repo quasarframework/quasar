@@ -61,7 +61,11 @@
     {{progress.model}} %
   </span>
 </div>
-<div v-if="buttons" class="modal-buttons" :class="{'modal-stacked-buttons': stackButtons}">
+<div
+  v-if="buttons"
+  class="modal-buttons"
+  :class="{row: !stackButtons, column: stackButtons}"
+>
   <button
     v-for="button in buttons"
     class="primary clear"

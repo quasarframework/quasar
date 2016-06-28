@@ -98,6 +98,36 @@ module.exports = {
             }
           },
           {
+            label: 'Turn on speed boost',
+            handler: function() {
+              console.log('Turning on speed boost.');
+            }
+          },
+          {
+            label: 'Turn on speed boost',
+            handler: function() {
+              console.log('Turning on speed boost.');
+            }
+          },
+          {
+            label: 'Turn on speed boost',
+            handler: function() {
+              console.log('Turning on speed boost.');
+            }
+          },
+          {
+            label: 'Turn on speed boost',
+            handler: function() {
+              console.log('Turning on speed boost.');
+            }
+          },
+          {
+            label: 'Turn on speed boost',
+            handler: function() {
+              console.log('Turning on speed boost.');
+            }
+          },
+          {
             label: 'No Thanks',
             handler: function() {
               console.log('Ok, no speed boost.');
