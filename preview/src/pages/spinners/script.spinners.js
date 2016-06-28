@@ -9,8 +9,9 @@ module.exports = {
     color: '#000000',
     spinners: [
       'audio', 'ball', 'bars', 'circles', 'dots',
-      'grid', 'hearts', 'ios', 'oval', 'puff',
-      'rings', 'tail'
+      'facebook', 'gears', 'grid', 'hearts',
+      'hourglass', 'infinity', 'ios', 'oval',
+      'pie', 'puff', 'radio', 'rings', 'tail'
     ],
     colorOptions: [
       {

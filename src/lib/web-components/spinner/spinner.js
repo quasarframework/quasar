@@ -6,11 +6,17 @@ var templates = {
   bars: require('raw!./svg-spinners/bars.svg'),
   circles: require('raw!./svg-spinners/circles.svg'),
   dots: require('raw!./svg-spinners/dots.svg'),
+  facebook: require('raw!./svg-spinners/facebook.svg'),
+  gears: require('raw!./svg-spinners/gears.svg'),
   grid: require('raw!./svg-spinners/grid.svg'),
   hearts: require('raw!./svg-spinners/hearts.svg'),
+  hourglass: require('raw!./svg-spinners/hourglass.svg'),
+  infinity: require('raw!./svg-spinners/infinity.svg'),
   ios: require('raw!./svg-spinners/ios.svg'),
   oval: require('raw!./svg-spinners/oval.svg'),
+  pie: require('raw!./svg-spinners/pie.svg'),
   puff: require('raw!./svg-spinners/puff.svg'),
+  radio: require('raw!./svg-spinners/radio.svg'),
   rings: require('raw!./svg-spinners/rings.svg'),
   tail: require('raw!./svg-spinners/tail.svg')
 };
