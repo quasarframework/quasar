@@ -1,4 +1,3 @@
-
 .label
   display inline-flex
   flex-direction row
@@ -30,31 +29,8 @@
     padding-right $label-padding-horizontal
     border-radius 0 $label-border-radius $label-border-radius 0
 
-  &.tag
-    position relative
-    margin-left 1rem
-    padding-left 1.5rem
-    padding-right 1.5rem
-
-    &:before, &:after
-      content ''
-      position absolute
-      top 50%
-    &:before
-      right 100%
-      transform translateY(-50%) translateX(50%) rotate(-45deg)
-      background-color inherit
-      width 1.14rem
-      height 1.14rem
-      transition none
-    &:after
-      left 0
-      margin-top -.25rem
-      background-color white
-      width .5rem
-      height .5rem
-      box-shadow 0 -1px 1px 0 rgba(0, 0, 0, .3)
-      border-radius 50%
+  &.circular
+    border-radius 50%
 
   &.floating
     position absolute
@@ -63,10 +39,6 @@
     left 100%
     margin 0 0 0 -1.5rem !important
     font-size .7rem
-
-  &.circular
-    border-radius 50%
-
 
   &.pointing-up, &.pointing-right, &.pointing-down, &.pointing-left
     position relative
@@ -104,3 +76,29 @@
       left 0
       bottom auto
       right auto
+
+  &.tag
+    position relative
+    margin-left 1rem
+    padding-left 1.5rem
+    padding-right 1rem
+
+    &:before, &:after
+      content ''
+      position absolute
+      top 50%
+    &:before
+      right 100%
+      transform translateY(-50%) translateX(50%) rotate(-45deg)
+      background-color inherit
+      width 1.14rem
+      height 1.14rem
+      transition none
+    &:after
+      left 0
+      margin-top -.25rem
+      background-color white
+      width .5rem
+      height .5rem
+      box-shadow 0 -1px 1px 0 rgba(0, 0, 0, .3)
+      border-radius 50%
