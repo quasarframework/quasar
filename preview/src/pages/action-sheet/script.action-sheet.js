@@ -5,9 +5,10 @@ var html = require('raw!./view.action-sheet.html');
 module.exports = {
   template: html,
   methods: {
-    showActionSheet: function() {
+    showActionSheet: function(gallery) {
       quasar.action.sheet({
         title: 'Actions',
+        gallery: gallery,
         buttons: [
           {
             label: 'Delete',
@@ -35,6 +36,50 @@ module.exports = {
             icon: 'favorite',
             handler: function() {
               console.log('Added to favorites');
+            }
+          },
+          {
+            label: 'Cancel',
+            icon: 'cancel',
+            classes: 'text-primary',
+            handler: function() {
+              console.log('Cancelled...');
+            }
+          }
+        ]
+      });
+    },
+    showActionSheetWithAvatar: function(gallery) {
+      quasar.action.sheet({
+        title: 'Share to',
+        gallery: gallery,
+        buttons: [
+          {
+            label: 'Joe',
+            avatar: 'assets/linux-avatar.png',
+            handler: function() {
+              console.log('Joe');
+            }
+          },
+          {
+            label: 'John',
+            avatar: 'assets/boy-avatar.png',
+            handler: function() {
+              console.log('John');
+            }
+          },
+          {
+            label: 'Jim',
+            avatar: 'assets/linux-avatar.png',
+            handler: function() {
+              console.log('Jim');
+            }
+          },
+          {
+            label: 'Jack',
+            avatar: 'assets/guy-avatar.png',
+            handler: function() {
+              console.log('Jack');
             }
           },
           {
