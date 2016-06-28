@@ -2,7 +2,7 @@ languages:
   JavaScript: true
 exclude_paths:
   - "node_modules/*"
-  - "config/*"
   - "dist/*"
-  - "src/lib/core-js/environment/environment.js"
+  - "test/*"
+  - "src/lib/core/environment/environment.js"
   - "preview/*"
