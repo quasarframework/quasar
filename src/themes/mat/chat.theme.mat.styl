@@ -1,31 +1,16 @@
-$chat-font-weight                    ?= 300
-$chat-date-color                     ?= #a6a6a6
-$chat-date-font-size                 ?= .8rem
-$chat-message-font-size              ?= 1rem
-$chat-message-you-color              ?= #fff
-$chat-message-other-color            ?= #fff
-$chat-message-you-background-color   ?= $primary
-$chat-message-other-background-color ?= $secondary
-$chat-box-shadow                     ?= 0 2px 6px rgba(0, 0, 0, .3)
-
-.chat-you
-  .chat-date
-    margin -20px 10px 0 0
-  .chat-message p:after
-    margin 0 -15px 0 0
-    border-top 17px solid $chat-message-you-background-color
-    border-left 17px solid transparent
-    border-right 17px solid transparent
-
-.chat-other
-  .chat-date
-    margin -20px 0 0 10px
-  .chat-message p:after
-    margin 0 0 0 -15px
-    border-top 17px solid $chat-message-other-background-color
-    border-left 17px solid transparent
-    border-right 17px solid transparent
-
-for $name, $color in $colors
-  .chat-message.{$name} p:after
-    border-top 17px solid $color
+$chat-font-weight                     ?= 300
+$chat-date-color                      ?= #a6a6a6
+$chat-date-font-size                  ?= .8rem
+$chat-you-date-margin                 ?= -20px 10px 0 0
+$chat-other-date-margin               ?= -20px 0 0 10px
+$chat-message-font-size               ?= 1rem
+$chat-message-offset                  ?= 90px
+$chat-message-you-color               ?= #fff
+$chat-message-other-color             ?= #fff
+$chat-message-you-background-color    ?= $primary
+$chat-message-other-background-color  ?= $secondary
+$chat-message-pointer-size            ?= 1rem
+$chat-message-pointer-top             ?= 0
+$chat-message-you-pointer-transform   ?= translateX(50%) skew(125deg)
+$chat-message-other-pointer-transform ?= translateX(-50%) skew(55deg)
+$chat-box-shadow                      ?= 0 2px 6px rgba(0, 0, 0, .3)
