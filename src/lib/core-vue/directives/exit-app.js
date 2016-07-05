@@ -4,8 +4,8 @@ Vue.directive('exit-app', {
   bind: function() {
     this.container = $(this.el);
 
-    if (!quasar.runs.on.cordova) {
-      this.container.addClass('cordova-only');
+    if (!quasar.runs.on.android) {
+      this.container.addClass('hidden');
       return;
     }
 
@@ -14,7 +14,7 @@ Vue.directive('exit-app', {
     });
   },
   unbind: function() {
-    if (!quasar.runs.on.cordova) {
+    if (!quasar.runs.on.android) {
       return;
     }
 
