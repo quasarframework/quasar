@@ -24,10 +24,25 @@ function resolveModule(base, relativePath) {
   return modulesCache[resolved];
 }
 
+function requestHasError(request) {
+  if (request.status !== 200) {
+    if (quasar.runs.on.cordova) {
+      if (request.status !== 0) {
+        return true;
+      }
+    }
+    else {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 function load(module, callback, request) {
   module.state = states.LOADED;
 
-  if (request && request.status !== 200) {
+  if (request && requestHasError(request)) {
     module.error = request;
     callback(module.error, module);
     return;
@@ -96,7 +111,7 @@ function deepLoad(module, callback) {
     load(module, callback, request);
   };
   request.onreadystatechange = function() {
-    if (request.readyState === 4 && request.status !== 200) {
+    if (request.readyState === 4 && requestHasError(request)) {
       quasar.nextTick(function() {
         callback(request);
       });
