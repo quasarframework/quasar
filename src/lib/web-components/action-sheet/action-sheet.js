@@ -34,7 +34,7 @@ function parseButtons(buttons) {
 }
 
 function getCSS() {
-  if (quasar.runs.on.ios) {
+  if (quasar.theme === 'ios') {
     return {
       maxHeight: '80vh',
       height: 'auto',
@@ -56,7 +56,7 @@ function actionSheet(options) {
   data.dismissButton = data.buttons.pop();
 
   var modal = new quasar.Modal({
-    template: quasar.runs.on.ios ? iosTemplate : matTemplate,
+    template: quasar.theme === 'ios' ? iosTemplate : matTemplate,
     data: data
   })
   .css(getCSS())

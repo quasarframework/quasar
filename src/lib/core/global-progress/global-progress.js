@@ -28,7 +28,7 @@ function showProgress(options) {
     vm = new Vue({
       el: node[0],
       data: {
-        spinner: options.spinner || quasar.runs.on.ios ? 'ios' : 'tail'
+        spinner: options.spinner || quasar.theme === 'ios' ? 'ios' : 'tail'
       }
     });
 

@@ -30,7 +30,7 @@ Vue.component('spinner', {
   props: {
     name: {
       type: String,
-      default: quasar.runs.on.ios ? 'ios' : 'tail'
+      default: quasar.theme === 'ios' ? 'ios' : 'tail'
     },
     size: {
       type: Number,

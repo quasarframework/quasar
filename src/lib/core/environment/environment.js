@@ -72,6 +72,11 @@ function runsOn() {
     browser.mobile = true;
   }
 
+  // Set iOS if on iPod, iPad or iPhone
+  if (browser.ipod || browser.ipad || browser.iphone) {
+    browser.ios = true;
+  }
+
   if (browser['windows phone']) {
     browser.winphone = true;
     delete browser['windows phone'];

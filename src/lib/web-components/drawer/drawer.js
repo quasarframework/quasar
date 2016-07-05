@@ -106,7 +106,7 @@ function openByTouch(event) {
     this.opened = position > 75;
   }
 
-  if (quasar.runs.on.ios) {
+  if (quasar.theme === 'ios') {
     position = Math.min(position, this.width);
 
     if (event.isFinal) {
@@ -173,7 +173,7 @@ function closeByTouch(event) {
     this.opened = Math.abs(position) <= 75;
   }
 
-  if (quasar.runs.on.ios) {
+  if (quasar.theme === 'ios') {
     position = initialPosition + position;
 
     if (event.isFinal) {
@@ -239,7 +239,7 @@ Vue.component('drawer', {
       this.opened = !this.opened;
       var backdrop = $(this.$el).find('> .drawer-backdrop');
 
-      if (quasar.runs.on.ios) {
+      if (quasar.theme === 'ios') {
         iosToggleAnimate(
           this.rightSide,
           this.opened,

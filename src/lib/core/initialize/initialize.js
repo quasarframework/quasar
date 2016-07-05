@@ -16,15 +16,13 @@ function forceTheme(theme) {
   var body = $('body');
 
   if (theme === 'ios') {
-    quasar.runs.on.ios = true;
-    quasar.runs.on.android = false;
     body.removeClass('mat').addClass('ios');
   }
   else {
-    quasar.runs.on.ios = false;
-    quasar.runs.on.android = true;
     body.removeClass('ios').addClass('mat');
   }
+
+  quasar.theme = theme;
 
   $('head link[data-theme]').remove();
   $('head').append('<link data-theme rel="stylesheet" href="css/app.' + theme + '.css">');

@@ -75,7 +75,7 @@ Modal.prototype.show = function(onShow) {
     effect = {translateX: [0, '101%']};
   }
   else {
-    effect = quasar.runs.on.ios ? 'transition.shrinkIn' : 'transition.slideUpIn';
+    effect = quasar.theme === 'ios' ? 'transition.shrinkIn' : 'transition.slideUpIn';
   }
 
   this.$el.removeClass('hidden');
@@ -112,7 +112,7 @@ Modal.prototype.close = function(onClose) {
     effect = {translateX: ['101%', 0]};
   }
   else {
-    effect = quasar.runs.on.ios ? 'transition.shrinkOut' : 'transition.slideDownOut';
+    effect = quasar.theme === 'ios' ? 'transition.shrinkOut' : 'transition.slideDownOut';
   }
 
   this.$backdrop.removeClass('active');
