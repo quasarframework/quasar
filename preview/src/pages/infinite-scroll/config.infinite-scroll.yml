@@ -1,5 +1,0 @@
-label: 'Infinite Scroll'
-icon: 'update'
-layout: 'main'
-navigation:
-  group: 'scroll'

@@ -27,6 +27,7 @@ Head on to the Quasar Framework official website: [http://quasar-framework.org](
 ## Related Components
 
 * [Quasar Framework CLI](https://github.com/rstoenescu/quasar-cli)
+* [Quasar Framework Templates](https://github.com/rstoenescu/quasar-templates)
 
 ## Contributing
 

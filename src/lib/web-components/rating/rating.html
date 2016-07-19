@@ -1,9 +1,0 @@
-<div class="quasar-rating">
-  <i
-    v-for="index in maxGrade"
-    :class="{active: (!mouseModel && model > index) || (mouseModel && mouseModel > index)}"
-    @click="model = index + 1"
-    @mouseover="mouseModel = index + 1"
-    @mouseout="mouseModel = 0"
-  >{{icon}}</i>
-</div>

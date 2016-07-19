@@ -1,5 +1,0 @@
-label: 'Notify'
-icon: 'announcement'
-layout: 'main'
-navigation:
-  group: 'modal'

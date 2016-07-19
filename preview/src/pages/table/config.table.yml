@@ -1,5 +1,0 @@
-label: 'Table'
-icon: 'view_stream'
-layout: 'main'
-navigation:
-  group: 'table'

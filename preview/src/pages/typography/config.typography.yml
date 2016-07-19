@@ -1,6 +1,0 @@
-label: 'Typography'
-icon: 'format_color_text'
-layout: 'main'
-navigation:
-  group: 'typography'
-  hide: 'icon'
