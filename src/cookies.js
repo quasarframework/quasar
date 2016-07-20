@@ -35,7 +35,7 @@ function read (string) {
   return string
 }
 
-function setCookie (key, value, options = {}) {
+function set (key, value, options = {}) {
   let
     days = options.expires,
     time = options.expires = new Date()
@@ -54,7 +54,7 @@ function setCookie (key, value, options = {}) {
   ].join('')
 }
 
-function getCookie (key) {
+function get (key) {
   let
     result = key ? undefined : {},
     cookies = document.cookie ? document.cookie.split(' ') : [],
@@ -80,30 +80,20 @@ function getCookie (key) {
   return result
 }
 
-function removeCookie (key, options) {
-  setCookie(key, '', $.extend(true, {}, options, {
+function remove (key, options) {
+  set(key, '', $.extend(true, {}, options, {
     expires: -1
   }))
 }
 
-function hasCookie (key) {
-  return getCookie(key) !== undefined
+function has (key) {
+  return get(key) !== undefined
 }
 
 export default {
-  remove: {
-    cookie: removeCookie
-  },
-  set: {
-    cookie: setCookie
-  },
-  has: {
-    cookie: hasCookie
-  },
-  get: {
-    cookie: getCookie,
-    all: {
-      cookies: () => getCookie()
-    }
-  }
+  get,
+  set,
+  has,
+  remove,
+  all: () => get()
 }

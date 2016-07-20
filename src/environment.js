@@ -1,8 +1,3 @@
-
-import $ from 'jquery'
-
-$('body').append()
-
 /* istanbul ignore next */
 function getUserAgent () {
   return (navigator.userAgent || navigator.vendor || window.opera).toLowerCase()

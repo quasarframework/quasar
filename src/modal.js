@@ -12,7 +12,7 @@ const
     </div>
   `
 
-export default class Modal {
+class Modal {
   constructor (vmObject) {
     let
       vm = $.extend({}, vmObject),
@@ -176,4 +176,8 @@ export default class Modal {
     }
     this.$el.remove()
   }
+}
+
+export default {
+  create: (props) => new Modal(props)
 }

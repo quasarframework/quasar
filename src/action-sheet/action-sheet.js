@@ -49,7 +49,7 @@ function getCSS () {
   }
 }
 
-export function actionSheet (options) {
+function create (options) {
   let
     data = $.extend({}, options),
     modal
@@ -57,7 +57,7 @@ export function actionSheet (options) {
   data.buttons = parseButtons(data.buttons)
   data.dismissButton = data.buttons.pop()
 
-  modal = new Modal({
+  modal = Modal.create({
     template: theme === 'ios' ? iosTemplate : matTemplate,
     data: data
   })
@@ -71,11 +71,10 @@ export function actionSheet (options) {
   modal.$backdrop.click(() => {
     modal.close(data.dismissButton.handler)
   })
-  modal.show()
+
+  return modal
 }
 
 export default {
-  action: {
-    sheet: actionSheet
-  }
+  create
 }

@@ -65,9 +65,5 @@ $(() => {
 })
 
 export default {
-  app: {
-    is: {
-      visible: () => appVisibility === 'visible'
-    }
-  }
+  isVisible: () => appVisibility === 'visible'
 }

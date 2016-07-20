@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import dialog from '../../dialog/dialog'
+import Dialog from '../../dialog/dialog'
 
 export default {
   props: {
@@ -92,7 +92,7 @@ export default {
 
       config[this.multiple ? 'checkboxes' : 'radios'] = options
 
-      dialog(config)
+      Dialog.create(config).show()
     }
   }
 }

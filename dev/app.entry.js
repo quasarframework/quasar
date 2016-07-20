@@ -8,7 +8,7 @@ import 'velocity-animate/velocity.ui'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VueTouch from 'vue-touch'
-import Quasar from '../src'
+import Quasar from 'quasar-framework'
 
 Vue.use(VueRouter)
 Vue.use(VueTouch)

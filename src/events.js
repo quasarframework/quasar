@@ -143,7 +143,7 @@ function getEventsList () {
   return Object.keys(this.events)
 }
 
-function createEventsEmitter () {
+function createEmitter () {
   var props = {
     events: {}
   }
@@ -159,19 +159,19 @@ function createEventsEmitter () {
   }
 }
 
-function makeEventsEmitter (object) {
+function makeEmitter (object) {
   if (object !== Object(object)) {
     throw new Error('Missing object')
   }
 
-  if (isEventsEmitter(object)) {
+  if (isEmitter(object)) {
     throw new Error('Object is already an emitter')
   }
 
-  $.extend(true, object, createEventsEmitter())
+  $.extend(true, object, createEmitter())
 }
 
-function isEventsEmitter (object) {
+function isEmitter (object) {
   if (object !== Object(object)) {
     throw new Error('Missing object')
   }
@@ -184,22 +184,10 @@ function isEventsEmitter (object) {
     typeof object.getEventsList === 'function'
 }
 
-export var events = createEventsEmitter()
+export var events = createEmitter()
 
 export default {
-  create: {
-    events: {
-      emitter: createEventsEmitter
-    }
-  },
-  make: {
-    events: {
-      emitter: makeEventsEmitter
-    }
-  },
-  is: {
-    events: {
-      emitter: isEventsEmitter
-    }
-  }
+  createEmitter,
+  makeEmitter,
+  isEmitter
 }

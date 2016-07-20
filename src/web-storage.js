@@ -149,95 +149,30 @@ let
     return () => getLengthFn() === 0
   })
 
-export default {
-  has: {
-    local: {
-      storage: {
-        item: hasStorageItem.local
-      }
-    },
-    session: {
-      storage: {
-        item: hasStorageItem.session
-      }
-    }
-  },
+export var LocalStorage = {
+  has: hasStorageItem.local,
   get: {
-    all: {
-      local: {
-        storage: {
-          items: getAllStorageItems.local
-        }
-      },
-      session: {
-        storage: {
-          items: getAllStorageItems.session
-        }
-      }
-    },
-    local: {
-      storage: {
-        length: getStorageLength.local,
-        item: getStorageItem.local,
-        at: {
-          index: getStorageAtIndex.local
-        }
-      }
-    },
-    session: {
-      storage: {
-        length: getStorageLength.session,
-        item: getStorageItem.session,
-        at: {
-          index: getStorageAtIndex.session
-        }
-      }
-    }
+    length: getStorageLength.local,
+    item: getStorageItem.local,
+    index: getStorageAtIndex.local,
+    all: getAllStorageItems.local
   },
-  set: {
-    local: {
-      storage: {
-        item: setStorageItem.local
-      }
-    },
-    session: {
-      storage: {
-        item: setStorageItem.session
-      }
-    }
+  set: setStorageItem.local,
+  remove: removeStorageItem.local,
+  clear: clearStorage.local,
+  isEmpty: storageIsEmpty.local
+}
+
+export var SessionStorage = { // eslint-disable-line one-var
+  has: hasStorageItem.session,
+  get: {
+    length: getStorageLength.session,
+    item: getStorageItem.session,
+    index: getStorageAtIndex.session,
+    all: getAllStorageItems.session
   },
-  remove: {
-    local: {
-      storage: {
-        item: removeStorageItem.local
-      }
-    },
-    session: {
-      storage: {
-        item: removeStorageItem.session
-      }
-    }
-  },
-  clear: {
-    local: {
-      storage: clearStorage.local
-    },
-    session: {
-      storage: clearStorage.session
-    }
-  },
-  local: {
-    storage: {
-      is: {
-        empty: storageIsEmpty.local
-      }
-    }
-  },
-  session: {
-    storage: {
-      is: {
-        empty: storageIsEmpty.session
-      }
-    }
-  }
+  set: setStorageItem.session,
+  remove: removeStorageItem.session,
+  clear: clearStorage.session,
+  isEmpty: storageIsEmpty.session
 }

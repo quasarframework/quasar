@@ -150,7 +150,7 @@ class Notify {
   }
 }
 
-function notify (options, defaults) {
+function create (options, defaults) {
   if (!options) {
     throw new Error('Missing notify options.')
   }
@@ -169,7 +169,9 @@ function notify (options, defaults) {
 }
 
 types.forEach((type) => {
-  notify[type.name] = (opts) => notify(opts, type.defaults)
+  create[type.name] = (opts) => create(opts, type.defaults)
 })
 
-export default notify
+export default {
+  create
+}

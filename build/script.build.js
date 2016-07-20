@@ -8,7 +8,6 @@ var
   rollup = require('rollup'),
   uglify = require('uglify-js'),
   babel = require('rollup-plugin-babel'),
-  replace = require('rollup-plugin-replace'),
   string = require('rollup-plugin-string'),
   vue = require('rollup-plugin-vue'),
   version = process.env.VERSION || require('../package.json').version,
@@ -34,25 +33,29 @@ var
     jquery: '$',
     fastclick: 'FastClick',
     hammerjs: 'Hammer'
+  },
+  rollupConfig = {
+    entry: 'src/index.js',
+    plugins: [vue(), string(stringConfig), babel(babelConfig)],
+    external: external
   }
 
 require('colors')
 require('./script.clean.js')
 shell.mkdir('-p', path.join(__dirname, '../dist/'))
 
-file = fs
-  .readFileSync('src/index.js', 'utf-8')
-  .replace(/version: '[\d\.]+'/, "version: '" + version + "'")
-fs.writeFileSync('src/index.js', file)
+;['index', 'index.es6'].forEach(function (name) {
+  file = fs
+    .readFileSync('src/' + name + '.js', 'utf-8')
+    .replace(/version: '[\d\.]+'/, "version: '" + version + "'")
+  fs.writeFileSync('src/' + name + '.js', file)
+})
 
 // CommonJS build.
 // this is used as the "main" field in package.json
 // and used by bundlers like Webpack and Browserify.
-rollup.rollup({
-  entry: 'src/index.js',
-  plugins: [vue(), string(stringConfig), babel(babelConfig)],
-  external: external
-})
+rollup
+.rollup(rollupConfig)
 .then(function (bundle) {
   return write('dist/quasar.common.js', bundle.generate({
     format: 'cjs',
@@ -60,20 +63,21 @@ rollup.rollup({
     globals: globals
   }).code)
 })
+// ES6 Dev Build
+.then(function () {
+  return rollup
+    .rollup(rollupConfig)
+    .then(function (bundle) {
+      return write('dist/quasar.es6.js', bundle.generate({
+        banner: banner,
+        moduleName: 'Quasar',
+        globals: globals
+      }).code)
+    })
+})
 // Standalone Dev Build
 .then(function () {
-  return rollup.rollup({
-    entry: 'src/index.js',
-    plugins: [
-      replace({
-        'process.env.NODE_ENV': "'development'"
-      }),
-      vue(),
-      string(stringConfig),
-      babel(babelConfig)
-    ],
-    external: external
-  })
+  return rollup.rollup(rollupConfig)
   .then(function (bundle) {
     return write('dist/quasar.js', bundle.generate({
       format: 'umd',
@@ -83,20 +87,9 @@ rollup.rollup({
     }).code)
   })
 })
+// Standalone Production Build
 .then(function () {
-  // Standalone Production Build
-  return rollup.rollup({
-    entry: 'src/index.js',
-    plugins: [
-      replace({
-        'process.env.NODE_ENV': "'production'"
-      }),
-      vue(),
-      string(stringConfig),
-      babel(babelConfig)
-    ],
-    external: external
-  })
+  return rollup.rollup(rollupConfig)
   .then(function (bundle) {
     var code, res, map
 

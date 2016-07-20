@@ -1,4 +1,3 @@
-
 function isActive () {
   return document.fullscreenElement ||
       document.mozFullScreenElement ||
@@ -6,7 +5,7 @@ function isActive () {
       document.msFullscreenElement
 }
 
-function requestFullscreen (target) {
+function request (target) {
   target = target || document.documentElement
 
   if (isActive()) {
@@ -27,7 +26,7 @@ function requestFullscreen (target) {
   }
 }
 
-function exitFullscreen () {
+function exit () {
   if (document.exitFullscreen) {
     document.exitFullscreen()
   }
@@ -42,26 +41,18 @@ function exitFullscreen () {
   }
 }
 
-function toggleFullscreen (target) {
+function toggle (target) {
   if (isActive()) {
-    exitFullscreen()
+    exit()
   }
   else {
-    requestFullscreen(target)
+    request(target)
   }
 }
 
 export default {
-  is: {
-    fullscreen: isActive
-  },
-  request: {
-    fullscreen: requestFullscreen
-  },
-  exit: {
-    fullscreen: exitFullscreen
-  },
-  toggle: {
-    fullscreen: toggleFullscreen
-  }
+  isActive,
+  request,
+  exit,
+  toggle
 }

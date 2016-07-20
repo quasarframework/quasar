@@ -26,6 +26,7 @@ module.exports = {
     extensions: ['', '.js', '.vue'],
     fallback: [path.join(__dirname, '../node_modules')],
     alias: {
+      'quasar-framework': path.resolve(__dirname, '../src/index.es6'),
       'asset': path.resolve(__dirname, '../dev/assets'),
       'component': path.resolve(__dirname, '../dev/components'),
       'view': path.resolve(__dirname, '../dev/views')

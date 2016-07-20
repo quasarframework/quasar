@@ -24,8 +24,12 @@ import { LocalStorage, SessionStorage } from './web-storage'
 let Quasar = {
   version: '0.5.0',
   install,
-  start,
+  start
+}
 
+init(Quasar)
+
+export {
   ActionSheet,
   Dialog,
   AppFullscreen,
@@ -41,7 +45,5 @@ let Quasar = {
   LocalStorage,
   SessionStorage
 }
-
-init(Quasar)
 
 export default Quasar

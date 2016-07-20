@@ -93,7 +93,6 @@
     "phantomjs": "^2.1.7",
     "raw-loader": "^0.5.1",
     "rollup": "^0.34.1",
-    "rollup-plugin-replace": "^1.1.1",
     "rollup-plugin-string": "^2.0.2",
     "rollup-plugin-vue": "^2.0.1",
     "velocity-animate": "^1.2.3",

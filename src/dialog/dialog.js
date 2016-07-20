@@ -105,7 +105,7 @@ function parseProgress (progress) {
   return progress
 }
 
-export default function (options) {
+function create (options) {
   var data = $.extend({}, options)
 
   if (!data.buttons) {
@@ -134,7 +134,7 @@ export default function (options) {
     data.progress = parseProgress(data.progress)
   }
 
-  return new Modal({
+  return Modal.create({
     template: template,
     data: data,
     methods: {
@@ -170,5 +170,9 @@ export default function (options) {
     }
   }).set({
     minimized: true
-  }).show()
+  })
+}
+
+export default {
+  create
 }

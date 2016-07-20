@@ -5,21 +5,22 @@ import { events } from './events'
 
 let
   vm,
-  body = $('body'),
   appIsInProgress = false,
   timeout
 
-const template = `
-  <div class="fullscreen row items-center justify-center z-absolute">
-    <spinner :name="spinner" color="#fff" :size="80"></spinner>
-  </div>
-`
+const
+  body = $('body'),
+  template = `
+    <div class="fullscreen row items-center justify-center z-absolute">
+      <spinner :name="spinner" color="#fff" :size="80"></spinner>
+    </div>
+  `
 
-function isInProgress () {
+function isActive () {
   return appIsInProgress
 }
 
-function showProgress (options = {}) {
+function show (options = {}) {
   if (appIsInProgress) {
     return
   }
@@ -41,10 +42,10 @@ function showProgress (options = {}) {
   }, options.delay || 500)
 
   appIsInProgress = true
-  events.trigger('app:global-progress', true)
+  events.trigger('app:loading', true)
 }
 
-function hideProgress () {
+function hide () {
   if (!appIsInProgress) {
     return
   }
@@ -59,25 +60,11 @@ function hideProgress () {
   }
 
   appIsInProgress = false
-  events.trigger('app:global-progress', false)
+  events.trigger('app:loading', false)
 }
 
 export default {
-  is: {
-    in: {
-      global: {
-        progress: isInProgress
-      }
-    }
-  },
-  show: {
-    global: {
-      progress: showProgress
-    }
-  },
-  hide: {
-    global: {
-      progress: hideProgress
-    }
-  }
+  isActive,
+  show,
+  hide
 }

@@ -5,12 +5,12 @@
 </template>
 
 <script>
-import Quasar from '../../src'
+import { Keycodes } from 'quasar-framework'
 
 export default {
   data () {
     return {
-      key: Quasar.key.f11,
+      key: Keycodes.f11,
       set: false
     }
   }
