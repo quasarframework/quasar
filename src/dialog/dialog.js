@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import template from './dialog.html'
-import Modal from '../modal'
+import Modal from '../modal/modal'
 
 function parseButtons (buttons) {
   if (!Array.isArray(buttons)) {

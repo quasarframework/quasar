@@ -1,6 +1,6 @@
 import $ from 'jquery'
-import { Vue } from './install'
-import { events } from './events'
+import { Vue } from '../install'
+import { events } from '../events'
 
 let
   notifyNode = $('<div id="__quasar_notifiers" class="column">'),

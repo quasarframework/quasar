@@ -1,5 +1,5 @@
 import $ from 'jquery'
-import Environment from '../../environment'
+import Environment from '../environment'
 
 export default (_Vue) => {
   _Vue.directive('hover', {

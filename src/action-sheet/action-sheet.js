@@ -1,5 +1,5 @@
 import $ from 'jquery'
-import Modal from '../modal'
+import Modal from '../modal/modal'
 import theme from '../theme'
 
 import matTemplate from './action-sheet-material.html'

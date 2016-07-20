@@ -17,7 +17,7 @@ import radio from './svg-spinners/radio.svg'
 import rings from './svg-spinners/rings.svg'
 import tail from './svg-spinners/tail.svg'
 
-import theme from '../../../theme'
+import theme from '../../theme'
 
 let templates = {
   audio, ball, bars, circles, dots, facebook, gears, grid, hearts,

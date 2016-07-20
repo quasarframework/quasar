@@ -1,4 +1,5 @@
 import Environment from '../environment'
+import Dialog from '../dialog/dialog'
 
 /* istanbul ignore next */
 export default (url) => {
@@ -16,11 +17,9 @@ export default (url) => {
     win.focus()
   }
   else {
-    /* TODO
-    quasar.dialog({
+    Dialog.create({
       title: 'Cannot Open Window',
       message: 'Please allow popups first, then please try again.'
-    })
-    */
+    }).show()
   }
 }
