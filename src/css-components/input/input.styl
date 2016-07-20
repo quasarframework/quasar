@@ -1,0 +1,67 @@
+input, textarea
+  padding $input-padding-vertical $input-padding-horizontal
+  border 0
+  outline 0
+  transition all .3s
+  border-bottom 2px solid transparent
+
+input
+  border-bottom 2px solid $form-darker-color
+  &:focus
+    border-bottom 2px solid $form-active-color
+
+textarea
+  height 11em
+  width 100%
+  box-shadow $shadow-1
+  border 2px solid transparent
+  &:focus
+    border 2px solid $form-active-color
+    box-shadow $shadow-2
+
+.item
+  input
+    display flex
+    flex-direction row
+    flex 1 1 auto
+    width 100%
+
+    box-shadow none
+    border-bottom 2px solid transparent
+    &:focus
+      border-bottom 2px solid $form-active-color
+
+  &.fixed-label label
+    flex 0 0 33%
+  &.inline-label label input
+    margin-left 1rem
+  &.floating-label
+    .item-content
+      position relative
+    label
+      position absolute
+      left 0
+      bottom $input-padding-vertical
+      pointer-events none
+      transform-origin left top
+      transform translateY(0) scale(1)
+      transition transform .15s ease-in-out, color .3s
+      will-change transform
+    input
+      margin-top 1.7rem
+    input:focus ~ label, input:valid ~ label
+      transform translateY(-2rem) scale(.8)
+      color $form-active-color
+  &.stacked-label
+    .item-content
+      position relative
+    label
+      position absolute
+      top .7rem
+      left 0
+      transform scale(.9)
+      transition color .3s
+    input
+      margin-top 1.7rem
+    input:focus ~ label
+      color $form-active-color
