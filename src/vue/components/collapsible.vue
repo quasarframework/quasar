@@ -10,7 +10,7 @@ export default {
     freely: {
       type: Boolean,
       default: false,
-      coerce: (value) => value ? true : false // eslint-disable-line no-unneeded-ternary
+      coerce: Boolean
     }
   },
   events: {

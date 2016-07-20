@@ -23,7 +23,7 @@ var
     exclude: 'node_modules/**'
   },
   stringConfig = {
-    include: '**/*.svg'
+    include: ['**/*.svg', '**/*.html']
   },
   external = [
     'jquery',

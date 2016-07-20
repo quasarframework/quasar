@@ -14,6 +14,8 @@ import Storage from './web-storage'
 import GlobalProgress from './global-progress'
 import Modal from './modal'
 import notify from './notify'
+import ActionSheet from './action-sheet/action-sheet'
+import dialog from './dialog/dialog'
 
 import './polyfills'
 import './error-handler'
@@ -25,7 +27,8 @@ let Quasar = {
   key,
   utils,
   Modal,
-  notify
+  notify,
+  dialog
 }
 
 $.extend(true, Quasar,
@@ -35,7 +38,8 @@ $.extend(true, Quasar,
   AppVisibility,
   Cookies,
   Storage,
-  GlobalProgress
+  GlobalProgress,
+  ActionSheet
 )
 
 // TODO verify requirements are installed

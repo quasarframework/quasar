@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Dialog from '../../feats/dialog'
+import dialog from '../../dialog/dialog'
 
 export default {
   props: {
@@ -16,14 +16,14 @@ export default {
       type: Array,
       required: true,
       validator: (options) => {
-        return !options.some((option) => {
-          return typeof option.label === 'undefined' || typeof option.value === 'undefined'
-        })
+        return !options.some(
+          (option) => typeof option.label === 'undefined' || typeof option.value === 'undefined'
+        )
       }
     },
     multiple: {
       type: Boolean,
-      coerce: (value) => value ? true : false // eslint-disable-line no-unneeded-ternary
+      coerce: Boolean
     },
     okLabel: {
       type: String,
@@ -92,7 +92,7 @@ export default {
 
       config[this.multiple ? 'checkboxes' : 'radios'] = options
 
-      Dialog(config)
+      dialog(config)
     }
   }
 }

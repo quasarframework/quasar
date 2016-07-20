@@ -32,7 +32,7 @@ export default {
     lazy: {
       type: Boolean,
       default: true,
-      coerce: (value) => value ? true : false // eslint-disable-line no-unneeded-ternary
+      coerce: Boolean
     },
     debounce: Number,
     min: Number,

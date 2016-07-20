@@ -1,44 +1,46 @@
 import $ from 'jquery'
 import Hammer from 'hammerjs'
 
-function swipeLeft (event) {
-  if (event.type === 'panstart') {
-    this.swipeItem.css('z-index', '')
-  }
+function swipeLeft (self) {
+  return (event) => {
+    if (event.type === 'panstart') {
+      self.swipeItem.css('z-index', '')
+    }
 
-  var delta = Math.min(
-    0,
-    Math.max(
-      -this.width,
-      this.opened ? event.deltaX - this.width : event.deltaX
+    var delta = Math.min(
+      0,
+      Math.max(
+        -self.width,
+        self.opened ? event.deltaX - self.width : event.deltaX
+      )
     )
-  )
 
-  if (event.type !== 'panend') {
-    this.element.css('transform', 'translateX(' + delta + 'px)')
-    return
-  }
+    if (event.type !== 'panend') {
+      self.element.css('transform', 'translateX(' + delta + 'px)')
+      return
+    }
 
-  let changingState
+    let changingState
 
-  if (!this.opened) {
-    changingState = delta < -0.5 * this.width
-    this.element.velocity(
-      {translateX: changingState ? [-this.width, delta] : [0, delta]},
-      {duration: 250}
-    )
-  }
-  else {
-    changingState = delta > -0.5 * this.width
-    this.element.velocity(
-      {translateX: changingState ? [0, delta] : [-this.width, delta]},
-      {duration: 250}
-    )
-  }
+    if (!self.opened) {
+      changingState = delta < -0.5 * self.width
+      self.element.velocity(
+        {translateX: changingState ? [-self.width, delta] : [0, delta]},
+        {duration: 250}
+      )
+    }
+    else {
+      changingState = delta > -0.5 * this.width
+      self.element.velocity(
+        {translateX: changingState ? [0, delta] : [-self.width, delta]},
+        {duration: 250}
+      )
+    }
 
-  if (changingState) {
-    this.opened = !this.opened
-    this.swipeItem.css('z-index', this.opened ? '1' : '')
+    if (changingState) {
+      self.opened = !self.opened
+      self.swipeItem.css('z-index', self.opened ? '1' : '')
+    }
   }
 }
 
@@ -52,10 +54,10 @@ export default (_Vue) => {
 
       this.hammer = Hammer(this.el) // eslint-disable-line
         .set({direction: Hammer.DIRECTION_HORIZONTAL})
-        .on('panstart pan panend', swipeLeft.bind(this))
+        .on('panstart pan panend', swipeLeft(this))
     },
     unbind () {
-      this.hammer.off('pan panend')
+      this.hammer.off('panstart pan panend')
     }
   })
 }
