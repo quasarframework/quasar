@@ -1,0 +1,35 @@
+.quasar-toggle
+  display inline-block
+  height $toggle-height
+  width $toggle-width
+  vertical-align middle
+
+  input
+    display none
+
+  input + div
+    position relative
+
+    &:before, &:after
+      content ''
+      position absolute
+      transition all .3s ease
+
+    &:before
+      vertical-align middle
+      top $toggle-area-top
+      left $toggle-area-left
+      width $toggle-area-width
+      height $toggle-area-height
+
+    &:after
+      border-radius 50%
+      top $toggle-handle-top
+      left $toggle-handle-left
+      width $toggle-handle-size
+      height $toggle-handle-size
+      background-color white
+
+  input:checked + div
+    &:after
+      left $toggle-area-active-left

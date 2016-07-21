@@ -1,0 +1,19 @@
+<template>
+  <p>Model: <strong>{{ratingModel}}</strong></p>
+  <div style="font-size: 2rem; margin-top: 20px;">
+    <rating :model.sync="ratingModel" :max-grade="3"></rating>
+    <rating :model.sync="ratingModel" :max-grade="5" icon="pets"></rating>
+    <rating :model.sync="ratingModel" :max-grade="9" icon="thumb_up"></rating>
+    <rating :model.sync="ratingModel" :max-grade="6" icon="home"></rating>
+  </div>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      ratingModel: 1
+    }
+  }
+}
+</script>

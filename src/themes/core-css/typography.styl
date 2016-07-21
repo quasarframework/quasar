@@ -1,0 +1,357 @@
+/*
+ * Normalizing -- credits go to Normalize.css 4
+ */
+
+*, *:before, *:after // @stylint ignore
+  box-sizing inherit
+  -webkit-tap-highlight-color transparent
+  -moz-tap-highlight-color transparent
+
+html, body, #quasar-app
+  height 100%
+  width 100%
+  margin 0
+  box-sizing border-box
+
+/* iPad Input Shadows */
+input[type='text'], input[type='email'], input[type='search'], input[type='password']
+  -webkit-appearance none
+  -moz-appearance none /* mobile firefox too! */
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+main,
+menu,
+nav,
+section,
+summary
+  display block
+
+/**
+ * Add the correct display in iOS 4-7.
+ */
+audio:not([controls])
+  display none
+  height 0
+
+/**
+ * 1. Remove the bottom border in Firefox 39-.
+ * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.
+ */
+
+abbr[title]
+  border-bottom none /* 1 */
+  text-decoration underline /* 2 */
+  text-decoration underline dotted /* 2 */
+
+/**
+ * Add the correct font style in Android 4.3-.
+ */
+
+dfn
+  font-style italic
+
+img
+  border-style none
+
+/**
+ * Hide the overflow in IE.
+ */
+
+svg:not(:root)
+  overflow hidden
+
+/**
+ * 1. Correct the inheritance and scaling of font size in all browsers.
+ * 2. Correct the odd `em` font sizing in all browsers.
+ */
+
+code, kbd, pre, samp
+  font-family monospace, monospace /* 1 */
+  font-size 1em /* 2 */
+
+/**
+ * 1. Add the correct box sizing in Firefox.
+ * 2. Show the overflow in Edge and IE.
+ */
+
+hr
+  box-sizing content-box /* 1 */
+  height 0 /* 1 */
+  overflow visible /* 2 */
+
+/**
+ * Change font properties to `inherit` in all browsers (opinionated).
+ */
+
+button,
+input,
+select,
+textarea
+  font inherit
+  margin 0
+
+/**
+ * Restore the font weight unset by the previous rule.
+ */
+
+optgroup
+  font-weight bold
+
+/**
+ * Show the overflow in IE.
+ * 1. Show the overflow in Edge.
+ * 2. Show the overflow in Edge, Firefox, and IE.
+ */
+
+button,
+input, /* 1 */
+select /* 2 */
+  overflow visible
+
+/**
+ * Remove the inner border and padding in Firefox.
+ */
+
+button::-moz-focus-inner, input::-moz-focus-inner
+  border 0
+  padding 0
+
+/**
+ * Restore the focus styles unset by the previous rule.
+ */
+
+button:-moz-focusring, input:-moz-focusring
+  outline 1px dotted ButtonText
+
+/**
+ * Remove the default vertical scrollbar in IE.
+ */
+
+textarea
+  overflow auto
+
+/**
+ * Correct the odd appearance of search inputs in Chrome and Safari.
+ */
+
+input[type='search']
+  -webkit-appearance textfield
+
+/**
+ * Remove the inner padding and cancel buttons in Chrome on OS X and
+ * Safari on OS X.
+ */
+
+input[type='search']::-webkit-search-cancel-button,
+input[type='search']::-webkit-search-decoration
+  -webkit-appearance none
+
+
+
+/*
+ * Now Typography!
+ */
+
+body
+  overflow hidden
+  min-width 320px
+  background $background-color
+  font-family $typography-font-family
+  color $text-color
+  -ms-text-size-adjust 100%
+  -webkit-text-size-adjust 100%
+  -webkit-font-smoothing antialiased
+  -moz-osx-font-smoothing grayscale
+  font-smoothing antialiased
+
+
+a
+  color $link-color
+  text-decoration none
+  cursor pointer
+  outline 0
+  transition color .25s
+  &:hover
+    color $link-color-active
+  &:active, &:hover
+    outline-width 0
+
+h1, h2, h3, h4, h5, h6
+  padding 0
+  line-height 1.5
+  &:first-child
+    margin-top 0
+  &:last-child
+    margin-bottom 0
+
+h1
+  font-size (2.6 * $typography-font-size)
+  min-height 1rem
+  margin (@font-size / 3) 0 .5rem 0
+
+h2
+  font-size (2.2 * $typography-font-size)
+  letter-spacing 1.7px
+  margin (@font-size / 2) 0 .5rem 0
+
+h3
+  font-size (2 * $typography-font-size)
+  font-weight 500
+  letter-spacing 1.5px
+  margin (@font-size / 2) 0 .5rem 0
+
+h4
+  font-size (1.6 * $typography-font-size)
+  font-weight 400
+  letter-spacing 2px
+  margin (@font-size / 2) 0 .5rem 0
+
+h5
+  font-size (1.4 * $typography-font-size)
+  font-weight 300
+  letter-spacing 1px
+  margin (@font-size / 2) 0 .5rem 0
+
+h6
+  font-size (1.4 * $typography-font-size)
+  font-weight 300
+  font-style italic
+  margin (@font-size / 2) 0 .5rem 0
+
+p
+  margin $typography-p-margin
+  line-height $typography-p-line-height
+  &.caption
+    font-size 1.2rem
+    font-weight 300
+    margin-bottom 2rem
+  &:first-child
+    margin-top 0
+  &:last-child
+    margin-bottom 0
+
+@media screen and (max-width: $layout-medium-max)
+  h1
+    font-size (1.6 * $typography-font-size)
+  h2
+    font-size (1.4 * $typography-font-size)
+  h3
+    font-size (1.2 * $typography-font-size)
+  h4, h5, h6
+    font-size (1.1 * $typography-font-size)
+  p.caption
+    font-size 1.1rem
+
+.uppercase
+  text-transform uppercase
+.lowercase
+  text-transform lowercase
+.capitalize
+  text-transform capitalize
+
++prefix-classes('text-')
+  .center
+    text-align center
+  .left
+    text-align left
+  .right
+    text-align right
+  .justify
+    text-align justify
+    hyphens auto
+
+  .truncate
+    overflow hidden
+    white-space nowrap
+    text-overflow ellipsis
+
+  .italic
+    font-style italic
+  .bold
+    font-weight bold
+
+.light-paragraph
+  font-weight 300
+.thin-paragraph
+  font-weight 200
+
+small
+  font-size 80%
+big
+  font-size 170%
+sub
+  bottom -.25em
+sup
+  top -.5em
+
+.strong
+  font-weight bold
+.emphasize
+  font-style italic
+
+blockquote
+  padding 10px 20px
+  margin 0 0 20px
+  font-size 17.5px
+  border-left 5px solid $primary
+  &.text-right
+    padding-right 15px
+    padding-left 0
+    border-right 5px solid $primary
+    border-left 0
+    text-align right
+
+  small
+    display block
+    line-height 1.4
+    color $faded
+    &:before
+      content '\2014 \00A0'
+
+dt
+  font-weight bold
+dd
+  margin-left 0
+dt, dd
+  line-height 1.4
+dl
+  margin-top 0
+  margin-bottom 20px
+  &.horizontal
+    dt
+      float left
+      width 25%
+      clear left
+      text-align right
+      overflow hidden
+      text-overflow ellipsis
+      white-space nowrap
+    dd
+      margin-left 30%
+
+
+
+::-webkit-selection,
+::-moz-selection,
+::selection
+  background-color $primary
+  color alpha(opposite-non-color($primary), .87)
+
+textarea::-webkit-selection,
+input::-webkit-selection,
+textarea::-moz-selection,
+input::-moz-selection,
+textarea::selection,
+input::selection
+  background-color alpha($primary, .4)
+  color alpha(opposite-non-color($primary), .87)
+
+*:-webkit-full-screen // @stylint ignore
+  width 100%
+  height 100%

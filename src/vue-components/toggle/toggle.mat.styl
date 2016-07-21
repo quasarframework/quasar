@@ -1,0 +1,14 @@
+.quasar-toggle
+  input + div
+    &:before
+      border-radius 16px
+      background-color $form-lighter-color
+    &:after
+      box-shadow $form-shadow
+
+  input:checked + div
+    &:before
+      background-color lighten($form-active-color, 60%)
+
+    &:after
+      background-color $form-active-color

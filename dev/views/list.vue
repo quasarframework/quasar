@@ -1,0 +1,535 @@
+<template>
+  <h1>Item alone</h1>
+  <div class="item">
+    <i>mail</i>
+    <div class="item-content">
+      <div class="item-label">Quasar Framework</div>
+      <div class="item-value">Some note</div>
+    </div>
+  </div>
+
+  <h1>Item alone</h1>
+  <div class="item">
+    <i>mail</i>
+    <label class="item-content">
+      <div class="item-label">Quasar Framework</div>
+      <radio :model.sync="radio" value="opt1"></radio>
+    </label>
+  </div>
+  <div class="item">
+    <i>mail</i>
+    <label class="item-content">
+      <div class="item-label">Quasar Framework</div>
+      <radio :model.sync="radio" value="opt2"></radio>
+    </label>
+  </div>
+
+  <h1>List</h1>
+  <div class="list">
+    <div class="item">Quasar Framework</div>
+    <div class="item">Quasar Framework</div>
+    <div class="item">Quasar Framework</div>
+  </div>
+
+  <h1>List - Striped</h1>
+  <div class="list striped">
+    <div class="item">Quasar Framework</div>
+    <div class="item">Quasar Framework</div>
+    <div class="item">Quasar Framework</div>
+  </div>
+
+  <h1>List - Highlight</h1>
+  <div class="list highlight">
+    <div class="item">Quasar Framework</div>
+    <div class="item">Quasar Framework</div>
+    <div class="item">Quasar Framework</div>
+  </div>
+
+  <h1>List with divider</h1>
+  <div class="list">
+    <div class="item">Quasar Framework</div>
+    <div class="item">Quasar Framework</div>
+    <div class="list-divider"></div>
+    <div class="item">Quasar Framework</div>
+  </div>
+
+  <h1>List item-delimiter</h1>
+  <div class="list item-delimiter">
+    <div class="item">Quasar Framework</div>
+    <div class="item">Quasar Framework</div>
+    <div class="item">Quasar Framework</div>
+  </div>
+
+  <h1>List inset</h1>
+  <div class="list inset">
+    <div class="item">Quasar Framework</div>
+    <div class="item">Quasar Framework</div>
+    <div class="item">Quasar Framework</div>
+  </div>
+
+  <h1>List with headers</h1>
+  <div class="list item-delimiter">
+    <div class="list-header"><h1>H1 Header</h1></div>
+    <div class="item">Quasar Framework</div>
+    <div class="item">Quasar Framework</div>
+    <div class="list-header">Header</div>
+    <div class="item">Quasar Framework</div>
+    <div class="item">Quasar Framework</div>
+    <div class="list-header">Header</div>
+    <div class="item">Quasar Framework</div>
+    <div class="list-header inverted">Inverted Header</div>
+    <div class="item">Quasar Framework</div>
+  </div>
+
+  <h1>List with item-action</h1>
+  <div class="list bordered inner-delimiter">
+    <div class="item">
+      <div class="item-content">
+        <div class="item-label">Quasar Framework</div>
+        <div class="item-value">Some note</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-content">
+        <div class="item-label">Quasar Framework</div>
+        <div class="item-value">Some note</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-content">
+        <div class="item-label">Quasar Framework</div>
+        <div class="item-value">Some note</div>
+      </div>
+    </div>
+  </div>
+
+  <h1>List with swipe actions</h1>
+  <div class="list bordered">
+    <div class="item">
+      <i>mail</i>
+      <div class="item-swipe">
+        <button class="primary">More</button>
+        <button class="secondary">Text</button>
+        <button class="tertiary">Call</button>
+      </div>
+      <div class="item-content" v-swipe-item>
+        <div class="item-label">Quasar Framework</div>
+        <div class="item-value">Some note</div>
+      </div>
+    </div>
+    <div class="list-divider"></div>
+    <div class="item">
+      <i>mail</i>
+      <div class="item-swipe">
+        <button class="primary">More</button>
+        <button class="secondary">Text</button>
+      </div>
+      <div class="item-content" v-swipe-item>
+        <div class="item-label">Quasar Framework</div>
+        <div class="item-value">Some note</div>
+      </div>
+    </div>
+    <div class="list-divider"></div>
+    <div class="item">
+      <i>mail</i>
+      <div class="item-swipe">
+        <button class="tertiary">Call</button>
+      </div>
+      <div class="item-content" v-swipe-item>
+        <div class="item-label">Quasar Framework</div>
+        <div class="item-value">Some note</div>
+      </div>
+    </div>
+  </div>
+
+  <h1>List with item-action</h1>
+  <div class="list bordered inner-delimiter">
+    <label class="item">
+      <checkbox></checkbox>
+      <div class="item-content">
+        Quasar Framework
+      </div>
+    </label>
+    <label class="item">
+      <checkbox></checkbox>
+      <div class="item-content">
+        <div class="item-label">
+          Quasar Framework
+        </div>
+        <div class="item-value">
+          Some note
+        </div>
+      </div>
+    </label>
+    <label class="item">
+      <checkbox></checkbox>
+      <div class="item-content">
+        Quasar Framework
+      </div>
+    </label>
+  </div>
+
+  <h1>List with item-action</h1>
+  <div class="list bordered inner-delimiter">
+    <div class="item">
+      <i>mail</i>
+      <div class="item-content">
+        <div class="item-label">Quasar Framework</div>
+      </div>
+    </div>
+    <div class="item">
+      <i>pages</i>
+      <div class="item-content">
+        <div class="item-label">Quasar Framework</div>
+      </div>
+    </div>
+    <div class="item">
+      <i>alarm</i>
+      <div class="item-content">
+        <div class="item-label">Quasar Framework</div>
+      </div>
+    </div>
+  </div>
+
+  <h1>List with item-action</h1>
+  <div class="list inner-delimiter bordered">
+    <div class="list-header">Text</div>
+    <div class="item">
+      <i>mail</i>
+      <div class="item-content">
+        <div class="item-label">Quasar Framework</div>
+        <div class="item-value">Some note</div>
+      </div>
+    </div>
+    <div class="list-header">Icon</div>
+    <div class="item">
+      <i>mail</i>
+      <div class="item-content">
+        <div class="item-label">Quasar Framework</div>
+        <i>mail</i>
+      </div>
+    </div>
+    <div class="item">
+      <i>mail</i>
+      <div class="item-content">
+        <div class="item-label">Quasar Framework</div>
+        <i>mail</i>
+        <i>alarm</i>
+      </div>
+    </div>
+    <div class="list-header">Radios</div>
+    <div class="item">
+      <i>mail</i>
+      <label class="item-content">
+        <div class="item-label">Quasar Framework</div>
+        <radio :model.sync="radio" value="opt1"></radio>
+      </label>
+    </div>
+    <div class="item">
+      <i>mail</i>
+      <label class="item-content">
+        <div class="item-label">Quasar Framework</div>
+        <radio :model.sync="radio" value="opt2"></radio>
+      </label>
+    </div>
+    <div class="list-header">Checkbox</div>
+    <div class="item">
+      <i>mail</i>
+      <label class="item-content">
+        <div class="item-label">
+          <p class="item-title">Quasar Framework</p>
+          <p>Description</p>
+          <p>Description</p>
+          <p>Description</p>
+        </div>
+        <checkbox></checkbox>
+      </label>
+    </div>
+    <div class="item">
+      <i>mail</i>
+      <label class="item-content">
+        <div class="item-label">
+          <p class="item-title">Quasar Framework</p>
+          <p>Description</p>
+        </div>
+        <checkbox></checkbox>
+      </label>
+    </div>
+    <div class="item">
+      <i>mail</i>
+      <label class="item-content">
+        <div class="item-label">
+          Quasar Framework
+        </div>
+        <checkbox></checkbox>
+      </label>
+    </div>
+    <div class="list-header">Toggle</div>
+    <div class="item">
+      <i>mail</i>
+      <label class="item-content">
+        <div class="item-label">Quasar Framework</div>
+        <toggle :model.sync="toggle"></toggle>
+      </label>
+    </div>
+  </div>
+  <div class="list item-delimiter bordered">
+    <div class="list-header">Range & Button</div>
+    <div class="item">
+      <i>volume_up</i>
+      <div class="item-content">
+        <span class="item-value item-right-margin">1</span>
+        <range :model.sync="range" :min="1" :max="10"></range>
+        <span class="item-value item-left-margin">10</span>
+        <div class="item-left-margin" style="font-weight: bold">{{range}}</div>
+      </div>
+    </div>
+    <div class="item">
+      <i>mail</i>
+      <div class="item-content">
+        <div class="item-label">Quasar Framework</div>
+        <button class="primary item-action">Click Me</button>
+      </div>
+    </div>
+    <div class="item">
+      <i class="item-right-margin">volume_down</i>
+      <range :model.sync="range" :min="1" :max="10"></range>
+      <i class="item-left-margin">volume_up</i>
+    </div>
+  </div>
+
+  <h1>List with item-action</h1>
+  <div class="list inner-delimiter">
+    <div class="item">
+      <div class="item-content">
+        <div class="item-label">Quasar Framework</div>
+        <i>mail</i>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-content">
+        <div class="item-label">Quasar Framework</div>
+        <i>mail</i>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-content">
+        <div class="item-label">Quasar Framework</div>
+        <i>mail</i>
+      </div>
+    </div>
+  </div>
+
+  <h1>List inner-delimiter with item-action</h1>
+  <div class="list inner-delimiter">
+    <div class="item">
+      <i>mail</i>
+      <div class="item-content">
+        <div class="item-label">Quasar Framework</div>
+        <button class="primary clear item-action">View</button>
+      </div>
+    </div>
+    <div class="item">
+      <i>mail</i>
+      <div class="item-content">
+        <div class="item-label">Quasar Framework</div>
+        <button class="primary clear item-action">View</button>
+      </div>
+    </div>
+    <div class="item">
+      <i>mail</i>
+      <div class="item-content">
+        <div class="item-label">Quasar Framework</div>
+        <button class="primary clear item-action">View</button>
+      </div>
+    </div>
+  </div>
+
+  <h1>List inner-delimiter with avatar</h1>
+  <div class="list inner-delimiter">
+    <div class="item">
+      <img class="avatar" src="../assets/avatar.png">
+      <div class="item-content">
+        <div class="item-label">
+          <p class="item-title">Quasar Framework</p>
+          <p>Description</p>
+        </div>
+      </div>
+    </div>
+    <div class="list-header">Header</div>
+    <div class="item">
+      <img class="avatar" src="../assets/avatar.png">
+      <div class="item-content">
+        <div class="item-label">
+          <p class="item-title">Quasar Framework</p>
+          <p>Description</p>
+          <p>Description</p>
+        </div>
+        <i>mail</i>
+      </div>
+    </div>
+    <div class="item">
+      <img class="avatar" src="../assets/avatar.png">
+      <div class="item-content">
+        <div class="item-label">
+          <p class="item-title">Quasar Framework</p>
+          <p>Description</p>
+          <p>Description</p>
+        </div>
+        <i>mail</i>
+      </div>
+    </div>
+  </div>
+
+  <h1>List inner-delimiter with avatar</h1>
+  <div class="list inner-delimiter">
+    <div class="item">
+      <img class="avatar" src="../assets/avatar.png">
+      <div class="item-content">
+        <div class="item-label">
+          <p class="item-title">Quasar Framework</p>
+          <p>Description</p>
+        </div>
+      </div>
+    </div>
+    <div class="list-header">Header</div>
+    <div class="item">
+      <img class="avatar" src="../assets/avatar.png">
+      <div class="item-content">
+        <div class="item-label">
+          <p class="item-title">Quasar Framework</p>
+          <p>Description</p>
+          <p>Description</p>
+        </div>
+        <button class="primary clear item-action">View</button>
+      </div>
+    </div>
+    <div class="item">
+      <img class="avatar" src="../assets/avatar.png">
+      <div class="item-content">
+        <div class="item-label">
+          <p class="item-title">Quasar Framework</p>
+          <p>Description</p>
+          <p>Description</p>
+        </div>
+        <button class="primary clear item-action">View</button>
+      </div>
+    </div>
+  </div>
+
+  <h1>List item-delimiter with avatar</h1>
+  <div class="list item-delimiter">
+    <div class="item">
+      <img class="avatar" src="../assets/avatar.png">
+      <div class="item-content">
+        <div class="item-label">
+          <p class="item-title">Quasar Framework</p>
+          <p>Description</p>
+        </div>
+      </div>
+    </div>
+    <div class="list-header">Header</div>
+    <div class="item">
+      <img class="avatar" src="../assets/avatar.png">
+      <div class="item-content">
+        <div class="item-label">
+          <p class="item-title">Quasar Framework</p>
+          <p>Description</p>
+          <p>Description</p>
+        </div>
+        <button class="primary clear item-action">View</button>
+      </div>
+    </div>
+    <div class="item">
+      <img class="avatar" src="../assets/avatar.png">
+      <div class="item-content">
+        <div class="item-label">
+          <p class="item-title">Quasar Framework</p>
+          <p>Description</p>
+          <p>Description</p>
+        </div>
+        <button class="primary clear item-action">View</button>
+      </div>
+    </div>
+  </div>
+
+  <h1>List with thumbnails</h1>
+  <div class="list inner-delimiter">
+    <div class="item">
+      <img class="thumbnail" src="../assets/avatar.png">
+      <div class="item-content">
+        <div class="item-label">
+          <p class="item-title">Quasar Framework</p>
+          <p>Description</p>
+        </div>
+        <button class="primary clear item-action">View</button>
+      </div>
+    </div>
+    <div class="item">
+      <img class="thumbnail" src="../assets/avatar.png">
+      <div class="item-content">
+        <div class="item-label">
+          <p class="item-title">Quasar Framework</p>
+          <p>Description</p>
+        </div>
+        <button class="primary clear item-action">View</button>
+      </div>
+    </div>
+    <div class="item">
+      <img class="thumbnail" src="../assets/avatar.png">
+      <div class="item-content">
+        <div class="item-label">
+          <p class="item-title">Quasar Framework</p>
+          <p>Description</p>
+        </div>
+        <button class="primary clear item-action">View</button>
+      </div>
+    </div>
+  </div>
+
+  <h1>List with thumbnails</h1>
+  <div class="list item-delimiter">
+    <div class="item">
+      <img class="thumbnail" src="../assets/avatar.png">
+      <div class="item-content">
+        <div class="item-label">
+          <p class="item-title">Quasar Framework</p>
+          <p>Description</p>
+        </div>
+        <button class="primary clear item-action">View</button>
+      </div>
+    </div>
+    <div class="item">
+      <img class="thumbnail" src="../assets/avatar.png">
+      <div class="item-content">
+        <div class="item-label">
+          <p class="item-title">Quasar Framework</p>
+          <p>Description</p>
+        </div>
+        <button class="primary clear item-action">View</button>
+      </div>
+    </div>
+    <div class="item">
+      <img class="thumbnail" src="../assets/avatar.png">
+      <div class="item-content">
+        <div class="item-label">
+          <p class="item-title">Quasar Framework</p>
+          <p>Description</p>
+        </div>
+        <button class="primary clear item-action">View</button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      radio: 'opt1',
+      range: 2,
+      toggle: false
+    }
+  }
+}
+</script>

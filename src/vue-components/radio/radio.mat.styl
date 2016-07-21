@@ -1,0 +1,36 @@
+.quasar-radio
+  display inline-block
+  height ($checkbox-size + $checkbox-border-width)
+  width ($checkbox-size + $checkbox-border-width)
+  vertical-align middle
+
+  input
+    display none !important
+
+  input + div
+    position relative
+
+    &:before, &:after
+      content ''
+      position absolute
+      top 0
+      left 0
+      border-radius 50%
+      transition .3s ease
+
+    &:before
+      width $radio-size
+      height $radio-size
+      border $radio-border-width solid $form-darker-color
+    &:after
+      transform scale(0)
+      margin (3 * $radio-border-width)
+      width ($radio-size - 6 * $radio-border-width)
+      height ($radio-size - 6 * $radio-border-width)
+
+  input:checked + div
+    &:before
+      border $radio-border-width solid $form-active-color
+    &:after
+      background-color $form-active-color
+      transform scale(1.02)

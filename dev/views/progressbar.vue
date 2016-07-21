@@ -1,0 +1,44 @@
+<template>
+  <h1>Determinate</h1>
+  <p>
+    <progress-bar :model="progress" @click="randomize()"></progress-bar>
+    <progress-bar :model="progress" class="stripe" @click="randomize()"></progress-bar>
+    <progress-bar :model="progress" class="stripe positive" @click="randomize()"></progress-bar>
+    <progress-bar :model="progress" class="stripe info" @click="randomize()"></progress-bar>
+    <progress-bar :model="progress" class="stripe warning" @click="randomize()"></progress-bar>
+    <progress-bar :model="progress" class="stripe secondary" @click="randomize()"></progress-bar>
+    <progress-bar :model="progress" class="stripe tertiary" @click="randomize()"></progress-bar>
+    <progress-bar :model="progress" class="stripe dark" @click="randomize()"></progress-bar>
+    <progress-bar :model="progress" class="stripe negative" @click="randomize()"></progress-bar>
+    <progress-bar :model="progress" class="stripe animate" @click="randomize()"></progress-bar>
+  </p>
+
+  <h1>Indeterminate</h1>
+  <p>
+    <progress-bar class="indeterminate"></progress-bar>
+    <progress-bar class="indeterminate positive"></progress-bar>
+    <progress-bar class="indeterminate warning"></progress-bar>
+    <progress-bar class="indeterminate negative"></progress-bar>
+    <progress-bar class="indeterminate dark"></progress-bar>
+  </p>
+
+  <h1>Specific Height</h1>
+  <p>
+    <progress-bar class="indeterminate stripe" style="height: 25px"></progress-bar>
+  </p>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      progress: 81
+    }
+  },
+  methods: {
+    randomize () {
+      this.progress = Math.round(Math.random() * 100)
+    }
+  }
+}
+</script>

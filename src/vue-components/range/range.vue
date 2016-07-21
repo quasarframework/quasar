@@ -3,7 +3,7 @@
     class="quasar-range non-selectable"
     :class="{active: active}"
     v-touch:pan="pan"
-    v-touch-options:pan="{ direction: 'horizontal' }">
+    v-touch-options:pan="{ direction: 'horizontal' }"
   >
     <div class="quasar-range-container">
       <div class="quasar-range-thumb" :style="{left: position}"></div>

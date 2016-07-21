@@ -1,0 +1,30 @@
+.quasar-radio
+  display inline-block
+  height ($radio-size + $radio-border-width)
+  width ($radio-size + $radio-border-width)
+  vertical-align middle
+
+  input
+    display none !important
+
+  input + div
+    position relative
+
+    &:after
+      content ''
+      position absolute
+      opacity 0
+      top 0
+      left ($radio-size / 3)
+      width (.36 * $radio-size)
+      height (.75 * $radio-size)
+      border-top none
+      border-left none
+      border-right $radio-tick-thickness solid $form-active-color
+      border-bottom $radio-tick-thickness solid $form-active-color
+      transform rotate(45deg)
+      transition all .3s ease
+
+input:checked + div
+  &:after
+    opacity 1

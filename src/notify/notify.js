@@ -78,7 +78,7 @@ class Notify {
       <div
         class="quasar-notifier row items-center justify-between nowrap non-selectable"
         v-touch:pan="____pan"
-        v-touch-options:pan="{ direction: 'horizontal' }">
+        v-touch-options:pan="{ direction: 'horizontal' }"
       >
     `)
 
@@ -119,7 +119,7 @@ class Notify {
     if (dismissers.length > 5) {
       dismissers.shift()()
     }
-    dismissers.push(this.dismiss)
+    dismissers.push(() => { this.dismiss() })
 
     return {
       node: this.node,
@@ -129,6 +129,7 @@ class Notify {
   }
 
   dismiss () {
+    console.log(this)
     if (this.dismissed) {
       return
     }

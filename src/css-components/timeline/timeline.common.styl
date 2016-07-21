@@ -1,10 +1,3 @@
-$timeline-badge-size ?= 3rem
-$timeline-badge-space ?= $timeline-badge-size
-$timeline-item-margin-bottom ?= 4rem
-$timeline-border-width ?= .2rem
-$timeline-color ?= $grey-6
-$timeline-light-color ?= lighten($timeline-color, 50%)
-
 .timeline
   position relative
   width 100%
@@ -18,6 +11,16 @@ $timeline-light-color ?= lighten($timeline-color, 50%)
     width $timeline-border-width
     margin-left -2px
     background $timeline-light-color
+
+  for $name, $color in $colors
+    &.{$name}
+      &:before
+        background-color composite-color($color)
+      .timeline-badge
+        background-color $color
+        box-shadow 0 0 0 $timeline-border-width composite-color($color)
+      .timeline-date, .timeline-label
+        color $color
 
 .timeline-item
   position relative
@@ -55,16 +58,6 @@ $timeline-light-color ?= lighten($timeline-color, 50%)
   width 100%
   color $timeline-color
 
-.timeline
-  for $name, $color in $colors
-    &.{$name}
-      &:before
-        background-color composite-color($color)
-      .timeline-badge
-        background-color $color
-        box-shadow 0 0 0 $timeline-border-width composite-color($color)
-      .timeline-date, .timeline-label
-        color $color
 
 @media only screen and (max-width $layout-small-max)
   .timeline

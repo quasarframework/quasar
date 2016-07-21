@@ -2,7 +2,7 @@
   <label
     class="quasar-toggle"
     v-touch:pan="toggle"
-    v-touch-options:pan="{ direction: 'horizontal' }">
+    v-touch-options:pan="{ direction: 'horizontal' }"
   >
     <input type="checkbox" v-model="model">
     <div></div>

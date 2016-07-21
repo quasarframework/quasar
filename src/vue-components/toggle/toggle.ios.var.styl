@@ -1,0 +1,16 @@
+$toggle-size           ?= $generic-input-size
+$toggle-width-factor   ?= 1.5
+
+$toggle-height          = $toggle-size
+$toggle-width           = $toggle-width-factor * $toggle-size
+$toggle-border-size     = 2px
+
+$toggle-handle-size     = ($toggle-size - 3 * $toggle-border-size)
+$toggle-handle-top      = $toggle-border-size
+$toggle-handle-left     = $toggle-border-size
+
+$toggle-area-width      = ($toggle-width - $toggle-border-size)
+$toggle-area-height     = ($toggle-height - $toggle-border-size)
+$toggle-area-left       = 0
+$toggle-area-top        = 0
+$toggle-area-active-left = ($toggle-width - $toggle-handle-size - 2 * $toggle-border-size)

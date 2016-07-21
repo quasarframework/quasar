@@ -1,0 +1,64 @@
+
+minimized-modal()
+  max-width 80vw
+  max-height 80vh
+
+maximized-modal()
+  width 100vw
+  height 100vh
+  max-width 100vw
+  max-height 100vh
+  border-radius 0
+  .screen
+    position relative
+
+.modal-content
+  background-color $modal-background-color
+  border-radius $modal-border-radius
+  box-shadow $shadow-4
+  overflow-y auto
+  min-width 280px
+  max-height 80vh
+
+  .modal-header
+    text-align $modal-header-text-align
+    padding $modal-header-padding
+    font-size $modal-header-font-size
+    font-weight 500
+
+  .modal-body
+    padding $modal-body-padding
+  .modal-slim-body
+    padding $modal-slim-body-padding
+  .modal-body, .modal-slim-body
+    text-align $modal-body-text-align
+    color $modal-body-color
+
+  .modal-controls
+    border-top 1px solid $form-darker-color
+    border-bottom 1px solid $form-darker-color
+    &.list
+      margin 0
+
+  .small-modal-scroll, .modal-scroll, .big-modal-scroll
+    @extend .scroll
+  .small-modal-scroll
+    max-height (.65 * $modal-scroll-size)
+  .modal-scroll
+    max-height $modal-scroll-size
+  .big-modal-scroll
+    max-height (2 * $modal-scroll-size)
+
+
+  .modal-buttons
+    padding $modal-buttons-padding
+
+
+  &.minimized
+    minimized-modal()
+  &.maximized
+    maximized-modal()
+
+@media screen and (max-width $layout-small-max)
+  .modal-content:not(.minimized)
+    maximized-modal()

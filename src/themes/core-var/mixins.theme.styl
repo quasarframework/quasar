@@ -1,0 +1,35 @@
+active-color($color)
+  if luminosity($color) > .29
+    darken($color, 10%)
+  else
+    lighten($color, 30%)
+
+hover-color($color)
+  if luminosity($color) > .29
+    darken($color, 15%)
+  else
+    lighten($color, 15%)
+
+strong-active-color($color)
+  if luminosity($color) > .29
+    darken($color, 20%)
+  else
+    lighten($color, 80%)
+
+composite-color($color)
+  if luminosity($color) > .29
+    darken($color, 20%)
+  else
+    lighten($color, 65%)
+
+opposite-non-color($color)
+  if luminosity($color) > .29
+    black
+  else
+    white
+
+max(value1, value2)
+  if value1 <= value2
+    value2
+  else
+    value1

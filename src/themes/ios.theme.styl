@@ -1,0 +1,34 @@
+$theme = 'ios'
+
+$generic-border-radius ?= 4px
+
+$ios-primary   ?= #f8f8f8
+$ios-secondary ?= #8c8c8c
+$ios-tertiary  ?= #b2b2b2
+
+$generic-input-size            ?= 30px
+$generic-input-border-width    ?= 2px
+
+
+$typography-font-family     ?= '-apple-system', 'Helvetica Neue', Helvetica, Arial, sans-serif
+$typography-font-size       ?= 1rem
+$typography-p-margin        ?= .5rem 0 1rem 0
+$typography-p-line-height   ?= 1.4rem
+
+@import './core-var/*'
+@import './core-css/*'
+
+@import '../css-components/*/*.common.var'
+@import '../css-components/*/*.ios.var'
+@import '../css-components/*/*.common'
+// @import '../css-components/*/*.ios'
+
+@import '../{modal,notify}/*.common.var'
+@import '../{modal,notify}/*.ios.var'
+@import '../{modal,notify}/*.common'
+@import '../{modal,notify}/*.ios'
+
+@import '../vue-components/*/*.common.var'
+@import '../vue-components/*/*.ios.var'
+@import '../vue-components/*/*.common'
+@import '../vue-components/*/*.ios'

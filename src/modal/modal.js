@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import { Vue } from '../install'
-import theme from '../theme'
+import theme from '../themes/themes'
 
 const
   target = $('#quasar-app'),
