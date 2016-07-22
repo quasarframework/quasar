@@ -4,6 +4,23 @@ var
   stylus = require('stylus'),
   themes = ['ios', 'mat']
 
+themes.forEach(function (theme) {
+  var
+    src = 'src/themes/quasar.' + theme + '.styl',
+    dest = 'dist/quasar.' + theme + '.styl',
+    deps,
+    data
+
+  deps = stylus(readFile(src))
+    .set('paths', [path.join(__dirname, '../src/themes/')])
+    .deps()
+
+  data = compile([src].concat(deps))
+
+  fs.writeFileSync(dest, data, 'utf-8')
+  console.log(dest.bold + ' ' + getSize(data).gray)
+})
+
 function readFile (file) {
   return fs.readFileSync(file, 'utf-8')
 }
@@ -27,20 +44,3 @@ function compile (src) {
 function getSize (code) {
   return (code.length / 1024).toFixed(2) + 'kb'
 }
-
-themes.forEach(function (theme) {
-  var
-    src = 'src/themes/quasar.' + theme + '.styl',
-    dest = 'dist/quasar.' + theme + '.styl',
-    deps,
-    data
-
-  deps = stylus(readFile(src))
-    .set('paths', [path.join(__dirname, '../src/themes/')])
-    .deps()
-
-  data = compile([src].concat(deps))
-
-  fs.writeFileSync(dest, data, 'utf-8')
-  console.log(dest.bold + ' ' + getSize(data).gray)
-})

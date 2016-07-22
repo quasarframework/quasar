@@ -2,6 +2,7 @@ general:
   branches:
     ignore:
       - gh-pages
+      - dev
 machine:
   node:
     version: 4.2.0
