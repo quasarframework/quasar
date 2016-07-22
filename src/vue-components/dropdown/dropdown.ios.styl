@@ -1,0 +1,21 @@
+$dropdown-background-color ?= white
+$dropdown-min-width        ?= 200px
+$dropdown-max-height       ?= 450px
+$dropdown-box-shadow       ?= $shadow-2
+
+.quasar-dropdown-menu
+  position fixed
+  background-color $dropdown-background-color
+  min-width $dropdown-min-width
+  max-height $dropdown-max-height
+  overflow auto
+  z-index $z-dropdown
+  box-shadow $dropdown-box-shadow
+  .list
+    margin 0
+
+.quasar-dropdown
+  display inline-block
+
+.quasar-dropdown-target
+  cursor pointer

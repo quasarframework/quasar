@@ -1,3 +1,57 @@
+$toggle-size           ?= $generic-input-size
+$toggle-width-factor   ?= 1.5
+
+$toggle-height          = $toggle-size
+$toggle-width           = $toggle-width-factor * $toggle-size
+$toggle-border-size     = 2px
+
+$toggle-handle-size     = ($toggle-size - 3 * $toggle-border-size)
+$toggle-handle-top      = $toggle-border-size
+$toggle-handle-left     = $toggle-border-size
+
+$toggle-area-width      = ($toggle-width - $toggle-border-size)
+$toggle-area-height     = ($toggle-height - $toggle-border-size)
+$toggle-area-left       = 0
+$toggle-area-top        = 0
+$toggle-area-active-left = ($toggle-width - $toggle-handle-size - 2 * $toggle-border-size)
+
+.quasar-toggle
+  display inline-block
+  height $toggle-height
+  width $toggle-width
+  vertical-align middle
+
+  input
+    display none
+
+  input + div
+    position relative
+
+    &:before, &:after
+      content ''
+      position absolute
+      transition all .3s ease
+
+    &:before
+      vertical-align middle
+      top $toggle-area-top
+      left $toggle-area-left
+      width $toggle-area-width
+      height $toggle-area-height
+
+    &:after
+      border-radius 50%
+      top $toggle-handle-top
+      left $toggle-handle-left
+      width $toggle-handle-size
+      height $toggle-handle-size
+      background-color white
+
+  input:checked + div
+    &:after
+      left $toggle-area-active-left
+
+
 .quasar-toggle
   input + div
     &:before

@@ -1,0 +1,53 @@
+$range-height              ?= 36px
+$range-transition          ?= all .3s ease
+$range-color               ?= white
+$range-active-color        ?= white
+
+$range-track-color         ?= $form-darker-color
+$range-active-track-color  ?= $form-active-color
+$range-track-height        ?= 2px
+
+$range-thumb-size          ?= 24px
+$range-active-thumb-size   ?= ($range-thumb-size + 7px)
+$range-thumb-box-shadow    ?= 0 1px 3px 1px rgba(0, 0, 0, .4)
+$range-thumb-radius        ?= 50%
+
+
+.quasar-range
+  padding-right $range-thumb-size
+  height $range-height
+  position relative
+  cursor pointer
+  display inline-block
+  width 100%
+  vertical-align middle
+
+  &:before
+    content ''
+    position absolute
+    top (($range-height - $range-track-height) / 2)
+    height $range-track-height
+    width 100%
+    background-color $range-track-color
+    transition background .7s ease
+
+.quasar-range-container
+  position relative
+
+.quasar-range-thumb
+  position absolute
+  top (($range-height - $range-thumb-size) / 2)
+  width $range-thumb-size
+  height $range-thumb-size
+  background-color $range-color
+  border-radius $range-thumb-radius
+  box-shadow $range-thumb-box-shadow
+  transition $range-transition
+
+.quasar-range.active
+  &:before
+    background-color $range-active-track-color
+  .quasar-range-thumb
+    top (($range-height - $range-active-thumb-size) / 2)
+    width $range-active-thumb-size
+    height $range-active-thumb-size

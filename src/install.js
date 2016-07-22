@@ -76,7 +76,6 @@ export default function (_Vue) {
     return
   }
 
-  _Vue.prototype.$quasar = this
   Vue = _Vue
 
   registerTransitions(_Vue)

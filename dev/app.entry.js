@@ -14,7 +14,7 @@ Vue.use(VueRouter)
 Vue.use(VueTouch)
 Vue.use(Quasar)
 
-import '../src/themes/ios.theme.styl'
+import '../src/themes/quasar.mat.styl'
 
 var router = new VueRouter()
 

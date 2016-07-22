@@ -1,0 +1,91 @@
+$slider-min-height       ?= 200px
+$slider-padding          ?= 2.3rem
+$slider-arrow-size       ?= 2rem
+$slider-ovelay-color     ?= rgba(0, 0, 0, .3)
+$slider-opacity          ?= .6
+$slider-opacity-active   ?= 1
+$slider-button-size      ?= 1.5rem
+$slider-dots-size        ?= .8rem
+
+
+.quasar-slider
+  overflow hidden
+  &.fullscreen
+    z-index $z-absolute
+
+.quasar-slider-inner
+  position relative
+  height 100%
+
+.quasar-slider-track
+  white-space nowrap
+  padding 0
+  margin 0
+  will-change transform
+  display flex
+  flex-wrap nowrap
+  height 100%
+
+  > div
+    flex 0 0 100%
+    min-height $slider-min-height
+    margin 0
+    padding $slider-padding
+
+    &.centered
+      display flex
+      flex-direction column
+      align-items center
+      justify-content center
+
+  &.with-arrows
+    > div
+      padding-left 10%
+      padding-right 10%
+  &.with-toolbar
+    > div
+      padding-bottom ($slider-padding + 1rem)
+
+.quasar-slider-left-button,
+.quasar-slider-right-button
+  position absolute
+  top 0
+  bottom 0
+  font-size $slider-arrow-size
+  width 10%
+  max-width 70px
+  pointer-events none
+  i
+    cursor pointer
+    pointer-events all
+    padding 3px
+    border-radius 50%
+    background-color $slider-ovelay-color
+    opacity $slider-opacity
+    transition opacity .3s
+    &:hover
+      opacity $slider-opacity-active
+.quasar-slider-left-button
+  left 0
+.quasar-slider-right-button
+  right 0
+
+.quasar-slider-toolbar
+  position absolute
+  bottom 0
+  left 0
+  right 0
+  margin 0
+  z-index 1
+  background-color $slider-ovelay-color
+  opacity $slider-opacity
+  padding .5rem .5rem
+  transition opacity .3s
+  &:hover
+    opacity $slider-opacity-active
+  i
+    cursor pointer
+    margin 0 .5rem
+    font-size $slider-button-size
+  .quasar-slider-dots i
+    font-size $slider-dots-size

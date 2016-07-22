@@ -1,0 +1,11 @@
+$rating-grade-color        ?= $grey-6
+$rating-active-grade-color ?= $yellow
+$rating-shadow             ?= $shadow-1
+
+
+.quasar-rating i
+  color $rating-grade-color
+  text-shadow $rating-shadow
+  cursor pointer
+  &.active
+    color $rating-active-grade-color

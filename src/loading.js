@@ -1,7 +1,7 @@
 import $ from 'jquery'
 import theme from './themes/themes'
 import { Vue } from './install'
-import { events } from './events'
+import Events from './events'
 
 let
   vm,
@@ -42,7 +42,7 @@ function show (options = {}) {
   }, options.delay || 500)
 
   appIsInProgress = true
-  events.trigger('app:loading', true)
+  Events.trigger('app:loading', true)
 }
 
 function hide () {
@@ -60,7 +60,7 @@ function hide () {
   }
 
   appIsInProgress = false
-  events.trigger('app:loading', false)
+  Events.trigger('app:loading', false)
 }
 
 export default {

@@ -1,5 +1,3 @@
-import $ from 'jquery'
-
 function parseEventNames (eventNames) {
   return eventNames.trim().replace(/\s\s+/g, ' ').split(' ')
 }
@@ -75,7 +73,7 @@ function once (eventNames, callback, context) {
 
 function trigger (eventNames, ...args) {
   if (!eventNames) {
-    eventNames = getEventsList.call(this).join(' ')
+    eventNames = getList.call(this).join(' ')
   }
 
   parseEventNames(eventNames).forEach((eventName) => {
@@ -106,7 +104,7 @@ function hasSubscriber (eventNames, callback) {
 
   if (typeof eventNames === 'function') {
     callback = eventNames
-    eventNames = getEventsList.call(this).join(' ')
+    eventNames = getList.call(this).join(' ')
   }
 
   if (callback && typeof callback !== 'function') {
@@ -139,7 +137,7 @@ function hasSubscriber (eventNames, callback) {
   return foundSubscriber
 }
 
-function getEventsList () {
+function getList () {
   return Object.keys(this.events)
 }
 
@@ -155,39 +153,8 @@ function createEmitter () {
     trigger: trigger.bind(props),
 
     hasSubscriber: hasSubscriber.bind(props),
-    getEventsList: getEventsList.bind(props)
+    getList: getList.bind(props)
   }
 }
 
-function makeEmitter (object) {
-  if (object !== Object(object)) {
-    throw new Error('Missing object')
-  }
-
-  if (isEmitter(object)) {
-    throw new Error('Object is already an emitter')
-  }
-
-  $.extend(true, object, createEmitter())
-}
-
-function isEmitter (object) {
-  if (object !== Object(object)) {
-    throw new Error('Missing object')
-  }
-
-  return typeof object.on === 'function' &&
-    typeof object.off === 'function' &&
-    typeof object.once === 'function' &&
-    typeof object.trigger === 'function' &&
-    typeof object.hasSubscriber === 'function' &&
-    typeof object.getEventsList === 'function'
-}
-
-export var events = createEmitter()
-
-export default {
-  createEmitter,
-  makeEmitter,
-  isEmitter
-}
+export default createEmitter()

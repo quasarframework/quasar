@@ -117,10 +117,10 @@ export default {
     }
   },
   ready () {
-    Events.events.on('app:visibility', this.writeVisibilityState)
+    Events.on('app:visibility', this.writeVisibilityState)
   },
   destroyed () {
-    Events.events.off('app:visibility', this.writeVisibilityState)
+    Events.off('app:visibility', this.writeVisibilityState)
   }
 }
 </script>

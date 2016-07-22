@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Dialog from '../../dialog/dialog'
+import Dialog from '../../components/dialog/dialog'
 
 export default {
   props: {

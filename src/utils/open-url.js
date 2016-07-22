@@ -1,5 +1,5 @@
 import Environment from '../environment'
-import Dialog from '../dialog/dialog'
+import Dialog from '../components/dialog/dialog'
 
 /* istanbul ignore next */
 export default (url) => {
