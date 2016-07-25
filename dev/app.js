@@ -11,7 +11,7 @@ import VueTouch from 'vue-touch'
 import Quasar from 'quasar'
 
 Quasar.theme.set(__THEME)
-require('./themes/app.' + __THEME + '.styl')
+require('../src/themes/quasar.' + __THEME + '.styl')
 
 Vue.use(VueRouter)
 Vue.use(VueTouch)
@@ -35,6 +35,7 @@ router.map({
       '/flex': { component: require('view/flex.vue') },
       '/form': { component: require('view/form.vue') },
       '/loading': { component: require('view/loading.vue') },
+      '/modal': { component: require('view/modal.vue') },
       '/label': { component: require('view/label.vue') },
       '/list': { component: require('view/list.vue') },
       '/notify': { component: require('view/notify.vue') },

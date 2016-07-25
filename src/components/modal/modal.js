@@ -121,9 +121,6 @@ class Modal {
       effect = theme === 'ios' ? 'transition.shrinkOut' : 'transition.slideDownOut'
     }
 
-    console.log('here')
-    window.z = this.$content
-
     this.$backdrop.removeClass('active')
     this.$content.velocity(effect, options)
 

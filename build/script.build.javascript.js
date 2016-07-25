@@ -38,7 +38,7 @@ var
     external: external
   }
 
-;['index', 'index.es6'].forEach(function (name) {
+;['index', 'index.es6'].forEach(function (name) { // eslint-disable-line
   file = fs
     .readFileSync('src/' + name + '.js', 'utf-8')
     .replace(/version: '[\d\.]+'/, "version: '" + version + "'")

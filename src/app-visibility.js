@@ -3,7 +3,6 @@ import $ from 'jquery'
 import Events from './events'
 
 let
-  body = $('body'),
   hidden = 'hidden',
   appVisibility = 'visible'
 
@@ -32,7 +31,6 @@ function onchange (evt) {
 
   appVisibility = state
   Events.trigger('app:visibility', state)
-  body.removeClass('app-' + (state === 'visible' ? h : v)).addClass('app-' + state)
 }
 
 $(() => {

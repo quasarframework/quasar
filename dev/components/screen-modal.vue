@@ -1,0 +1,59 @@
+<template>
+  <screen>
+    <div slot="header" class="row items-center">
+      <button @click="close()"><i>keyboard_arrow_left</i></button>
+      <p>Modal Header</p>
+    </div>
+    <div slot="footer" class="row items-center">
+      <p>Modal Footer</p>
+    </div>
+
+    <div style="padding: 20px">
+      <h1>Modal</h1>
+      <button class="primary" @click="openModal()">Open Another Modal</button>
+      <h1>Modal</h1>
+      <h1>Modal</h1>
+      <h1>Modal</h1>
+      <h1>Modal</h1>
+      <h1>Modal</h1>
+      <h1>Modal</h1>
+      <h1>Modal</h1>
+      <h1>Modal</h1>
+      <h1>Modal</h1>
+      <h1>Modal</h1>
+      <h1>Modal</h1>
+      <h1>Modal</h1>
+      <h1>Modal</h1>
+      <h1>Modal</h1>
+      <h1>Modal</h1>
+      <h1>Modal</h1>
+      <h1>Modal</h1>
+      <h1>Modal</h1>
+      <h1>Modal</h1>
+      <h1>Modal</h1>
+      <h1>Modal</h1>
+      <h1>Modal</h1>
+      <h1>Modal</h1>
+      <h1>Modal</h1>
+      <h1>Modal</h1>
+      <h1>Modal</h1>
+      <h1>Modal</h1>
+      <h1>Modal</h1>
+      <h1>Modal</h1>
+      <h1>Modal</h1>
+      <h1>Modal</h1>
+      <h1>Modal</h1>
+      <h1>Modal</h1>
+      <h1>Modal</h1>
+      <h1>Modal</h1>
+      <h1>Modal</h1>
+      <h1>Modal</h1>
+    </div>
+  </screen>
+</template>
+
+<script>
+export default {
+  methods: {}
+}
+</script>

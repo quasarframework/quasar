@@ -41,7 +41,7 @@ module.exports = {
       'process.env': {
         NODE_ENV: process.env.PROD ? '"production"' : '"development"'
       },
-      '__THEME': '"' + (process.argv[2] || 'mat') + '"'
+      '__THEME': '"' + theme + '"'
     }),
     new webpack.ProvidePlugin({
       $: 'jquery',
