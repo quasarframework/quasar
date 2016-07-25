@@ -6,6 +6,32 @@ $typography-font-family     ?= 'Roboto'
 $typography-p-margin        ?= .5rem 0 1rem 0
 $typography-p-line-height   ?= 1.4rem
 
+if $typography-font-family == 'Roboto'
+  @font-face
+    font-family 'Roboto'
+    src local(Roboto Thin), url('~roboto-fontface/fonts/roboto/Roboto-Thin.woff') format('woff')
+    font-weight 200
+
+  @font-face
+    font-family 'Roboto'
+    src local(Roboto Light), url('~roboto-fontface/fonts/roboto/Roboto-Light.woff') format('woff')
+    font-weight 300
+
+  @font-face
+    font-family 'Roboto'
+    src local(Roboto Regular), url('~roboto-fontface/fonts/roboto/Roboto-Regular.woff') format('woff')
+    font-weight 400
+
+  @font-face
+    font-family 'Roboto'
+    src url('~roboto-fontface/fonts/roboto/Roboto-Medium.woff') format('woff')
+    font-weight 500
+
+  @font-face
+    font-family 'Roboto'
+    src url('~roboto-fontface/fonts/roboto/Roboto-Bold.woff') format('woff')
+    font-weight 700
+
 @import './quasar.core'
 
 @import '../components/*/*.mat'
