@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { Loading } from 'quasar-framework'
+import { Loading } from 'quasar'
 
 export default {
   methods: {

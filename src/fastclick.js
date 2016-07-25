@@ -1,6 +1,6 @@
 import FastClick from 'fastclick'
-import Environment from './environment'
+import Platform from './platform'
 
-if (Environment.runs.on.touch) {
+if (Platform.has.touch) {
   FastClick.attach(document.body)
 }

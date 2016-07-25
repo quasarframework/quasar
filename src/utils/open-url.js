@@ -1,9 +1,9 @@
-import Environment from '../environment'
+import Platform from '../platform'
 import Dialog from '../components/dialog/dialog'
 
 /* istanbul ignore next */
 export default (url) => {
-  if (Environment.runs.on.cordova) {
+  if (Platform.is.cordova) {
     navigator.app.loadUrl(url, {
       openExternal: true
     })

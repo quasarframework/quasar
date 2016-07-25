@@ -2,7 +2,14 @@ var
   fs = require('fs'),
   path = require('path'),
   stylus = require('stylus'),
-  themes = ['ios', 'mat']
+  themes = ['ios', 'mat'],
+  version = process.env.VERSION || require('../package.json').version,
+  banner =
+    '/*!\n' +
+    ' * Quasar Framework v' + version + '\n' +
+    ' * (c) ' + new Date().getFullYear() + ' Razvan Stoenescu\n' +
+    ' * Released under the MIT License.\n' +
+    ' */\n'
 
 themes.forEach(function (theme) {
   var
@@ -26,7 +33,7 @@ function readFile (file) {
 }
 
 function compile (src) {
-  var data = ''
+  var data = banner
 
   src.forEach(function (file) {
     data += readFile(file) + '\n'
@@ -36,7 +43,7 @@ function compile (src) {
     // remove imports
     .replace(/@import '[^']+'\n/g, '')
     // remove comments
-    .replace(/(\/\*[\w'-\.,`\s\r\n\*]*\*\/)|(\/\/[\w\s']*)/g, '')
+    .replace(/(\/\*[\w'-\.,`\s\r\n\*@]*\*\/)|(\/\/[^\n]*)/g, '')
     // remove unnecessary newlines
     .replace(/\n[\n]+/g, '\n')
 }

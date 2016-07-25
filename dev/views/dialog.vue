@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { Dialog } from 'quasar-framework'
+import { Dialog } from 'quasar'
 
 export default {
   methods: {

@@ -46,7 +46,7 @@ function getPlatformMatch (userAgent) {
 }
 
 /* istanbul ignore next */
-function runsOn () {
+function getPlatform () {
   let
     userAgent = getUserAgent(),
     platformMatch = getPlatformMatch(userAgent),
@@ -149,13 +149,11 @@ function runsOn () {
 }
 
 export default {
-  runs: {
-    on: runsOn(),
-    with: {
-      touch: (() => !!('ontouchstart' in document.documentElement) || /* istanbul ignore next */ window.navigator.msMaxTouchPoints > 0)()
-    },
-    within: {
-      iframe: window.self !== window.top
-    }
+  is: getPlatform(),
+  has: {
+    touch: (() => !!('ontouchstart' in document.documentElement) || /* istanbul ignore next */ window.navigator.msMaxTouchPoints > 0)()
+  },
+  within: {
+    iframe: window.self !== window.top
   }
 }

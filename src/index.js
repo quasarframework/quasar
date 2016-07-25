@@ -2,6 +2,7 @@
 import install from './install'
 import start from './start'
 import init from './init'
+import * as theme from './theme'
 
 import './polyfills'
 import './error-handler'
@@ -15,7 +16,7 @@ import Notify from './components/notify/notify'
 import AppFullscreen from './app-fullscreen'
 import AppVisibility from './app-visibility'
 import Cookies from './cookies'
-import Environment from './environment'
+import Platform from './platform'
 import Events from './events'
 import Keycodes from './keycodes'
 import Loading from './loading'
@@ -26,13 +27,14 @@ let Quasar = {
   version: '0.5.0',
   install,
   start,
+  theme,
 
   ActionSheet,
   Dialog,
   AppFullscreen,
   AppVisibility,
   Cookies,
-  Environment,
+  Platform,
   Events,
   Keycodes,
   Loading,

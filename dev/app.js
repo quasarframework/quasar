@@ -8,15 +8,16 @@ import 'velocity-animate/velocity.ui'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VueTouch from 'vue-touch'
-import Quasar from 'quasar-framework'
+import Quasar from 'quasar'
+
+Quasar.theme.set(__THEME)
+require('./themes/app.' + __THEME + '.styl')
 
 Vue.use(VueRouter)
 Vue.use(VueTouch)
 Vue.use(Quasar)
 
-import '../src/themes/quasar.mat.styl'
-
-var router = new VueRouter()
+let router = new VueRouter()
 
 router.map({
   '/': {
@@ -49,10 +50,6 @@ router.map({
   }
 })
 
-/*
-quasar.boot.app(() => {
+Quasar.start(() => {
   router.start(Vue.extend({}), '#quasar-app')
 })
-*/
-
-router.start(Vue.extend({}), '#quasar-app')

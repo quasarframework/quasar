@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import Modal from '../modal/modal'
-import theme from '../../themes/themes'
+import { current as theme } from '../../theme'
 
 import matTemplate from './action-sheet-material.html'
 import iosTemplate from './action-sheet-ios.html'

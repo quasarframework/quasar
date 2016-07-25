@@ -14,7 +14,7 @@
 <script>
 import $ from 'jquery'
 import debounce from '../../utils/debounce'
-import Environment from '../../environment'
+import Platform from '../../platform'
 
 function modelToPosition (model, min, max, size) {
   return (model - min) / (max - min) * 100 + '%'
@@ -97,7 +97,7 @@ export default {
     this.update()
 
     this.clickHandler = (event) => {
-      if (Environment.runs.with.touch && event.eventPhase === Event.BUBBLING_PHASE) {
+      if (Platform.has.touch && event.eventPhase === Event.BUBBLING_PHASE) {
         // panning already dealt with this
         return
       }

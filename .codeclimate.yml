@@ -4,5 +4,5 @@ exclude_paths:
   - "node_modules/*"
   - "dist/*"
   - "test/*"
-  - "src/lib/core/environment/environment.js"
+  - "src/lib/core/platform/platform.js"
   - "preview/*"

@@ -1,10 +1,10 @@
 import $ from 'jquery'
-import Environment from '../environment'
+import Platform from '../platform'
 
 export default (_Vue) => {
   _Vue.directive('hover', {
     update (handler) {
-      if (!Environment.runs.on.desktop) {
+      if (!Platform.is.desktop) {
         return
       }
 
@@ -19,7 +19,7 @@ export default (_Vue) => {
       this.container.hover(this.onHover, this.onBlur)
     },
     unbind () {
-      if (!Environment.runs.on.desktop) {
+      if (!Platform.is.desktop) {
         return
       }
 

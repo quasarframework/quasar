@@ -4,7 +4,8 @@ var
   utils = require('./utils'),
   HtmlWebpackPlugin = require('html-webpack-plugin'),
   projectRoot = path.resolve(__dirname, '../'),
-  entry = './dev/app.entry.js',
+  entry = './dev/app.js',
+  theme = process.argv[2] || 'mat',
   plugins = []
 
 if (process.env.NODE_ENV !== 'production') {
@@ -26,7 +27,7 @@ module.exports = {
     extensions: ['', '.js', '.vue'],
     fallback: [path.join(__dirname, '../node_modules')],
     alias: {
-      'quasar-framework': path.resolve(__dirname, '../src/index.es6'),
+      'quasar': path.resolve(__dirname, '../src/index.es6'),
       'asset': path.resolve(__dirname, '../dev/assets'),
       'component': path.resolve(__dirname, '../dev/components'),
       'view': path.resolve(__dirname, '../dev/views')
@@ -39,7 +40,8 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: process.env.PROD ? '"production"' : '"development"'
-      }
+      },
+      '__THEME': '"' + (process.argv[2] || 'mat') + '"'
     }),
     new webpack.ProvidePlugin({
       $: 'jquery',
@@ -57,7 +59,7 @@ module.exports = {
     })
   ]),
   module: {
-    preLoaders: [
+    /* preLoaders: [
       {
         test: /\.vue$/,
         loader: 'eslint',
@@ -70,7 +72,7 @@ module.exports = {
         include: projectRoot,
         exclude: /node_modules/
       }
-    ],
+    ],*/
     loaders: [utils.styleLoaders()].concat([
       {
         test: /\.vue$/,

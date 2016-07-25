@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { ActionSheet } from 'quasar-framework'
+import { ActionSheet } from 'quasar'
 
 export default {
   methods: {

@@ -1,0 +1,33 @@
+$action-sheet-background-color ?= $ios-primary
+$action-sheet-border-radius    ?= 13px
+$action-sheet-max-width        ?= 95%
+$action-sheet-margin-bottom    ?= .6rem
+$action-sheet-font-size        ?= 1.5rem
+$action-sheet-avatar-padding   ?= .6rem 1.1rem
+
+.quasar-action-sheet-gallery
+  .column
+    padding $action-sheet-avatar-padding
+    transition all .3s
+    &:hover
+      background-color $list-divider-color
+  i, img
+    font-size 2rem
+    margin-bottom 5px
+  .avatar
+    width 50px
+    height 50px
+
+  .quasar-action-sheet
+    border-radius $action-sheet-border-radius
+    background-color $action-sheet-background-color
+    max-width $action-sheet-max-width
+    margin-left auto
+    margin-right auto
+    margin-bottom $action-sheet-margin-bottom
+    overflow hidden
+
+    .list
+      margin 0
+    .item-link
+      font-size $action-sheet-font-size

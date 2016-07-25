@@ -1,12 +1,12 @@
 import $ from 'jquery'
-import Environment from '../environment'
+import Platform from '../platform'
 
 export default (_Vue) => {
   _Vue.directive('exit-app', {
     bind () {
       this.container = $(this.el)
 
-      if (!Environment.runs.on.android) {
+      if (!Platform.is.android) {
         this.container.addClass('hidden')
         return
       }
@@ -16,7 +16,7 @@ export default (_Vue) => {
       })
     },
     unbind () {
-      if (!Environment.runs.on.android) {
+      if (!Platform.is.android) {
         return
       }
 

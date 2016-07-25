@@ -2,6 +2,7 @@
 import install from './install'
 import start from './start'
 import init from './init'
+import * as theme from './theme'
 
 import './polyfills'
 import './error-handler'
@@ -15,7 +16,7 @@ import Notify from './components/notify/notify'
 import AppFullscreen from './app-fullscreen'
 import AppVisibility from './app-visibility'
 import Cookies from './cookies'
-import Environment from './environment'
+import Platform from './platform'
 import Events from './events'
 import Keycodes from './keycodes'
 import Loading from './loading'
@@ -25,7 +26,8 @@ import { LocalStorage, SessionStorage } from './web-storage'
 let Quasar = {
   version: '0.5.0',
   install,
-  start
+  start,
+  theme
 }
 
 init(Quasar)
@@ -36,7 +38,7 @@ export {
   AppFullscreen,
   AppVisibility,
   Cookies,
-  Environment,
+  Platform,
   Events,
   Keycodes,
   Loading,
@@ -44,7 +46,8 @@ export {
   Notify,
   Utils,
   LocalStorage,
-  SessionStorage
+  SessionStorage,
+  theme
 }
 
 export default Quasar

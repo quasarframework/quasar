@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { Notify } from 'quasar-framework'
+import { Notify } from 'quasar'
 
 export default {
   data () {

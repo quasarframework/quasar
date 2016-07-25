@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import { Notify, Utils } from 'quasar-framework'
+import { Notify, Utils } from 'quasar'
 
 export default {
   data () {

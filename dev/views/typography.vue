@@ -87,7 +87,7 @@
 </template>
 
 <script>
-import { AppFullscreen, Events } from 'quasar-framework'
+import { AppFullscreen, Events } from 'quasar'
 
 export default {
   data () {

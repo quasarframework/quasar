@@ -1,5 +1,5 @@
 import $ from 'jquery'
-import theme from './themes/themes'
+import { current as theme } from './theme'
 import { Vue } from './install'
 import Events from './events'
 
