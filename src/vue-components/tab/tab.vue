@@ -1,7 +1,7 @@
 <template>
   <div
     class="tab items-center justify-center"
-    :class="{active: active, hidden: hidden, disabled: disabled, hideIcon: hide === 'icon', hideLabel: hide === 'label'}"
+    :class="{'v-link-active': active, hidden: hidden, disabled: disabled, hideIcon: hide === 'icon', hideLabel: hide === 'label'}"
     @click="activate()"
   >
       <i v-if="icon" class="tabs-icon">{{icon}}</i>

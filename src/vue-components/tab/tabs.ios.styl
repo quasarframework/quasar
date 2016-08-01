@@ -61,7 +61,7 @@ body.mobile .tabs.scrollable
     font-size $tabs-icon-font-size
   .tabs-icon + .tabs-label
     margin $tabs-label-margin
-  &.active
+  &.v-link-active
     color $tabs-active-color
   &:active
     background-color $tabs-highlight-color
@@ -93,13 +93,13 @@ for $name, $color in $colors
     if $name != 'light'
       &.clear
         .tab
-          &.active
+          &.v-link-active
             color $layout-second-color
           &:active
             background-color 2px solid $layout-second-color
       &:not(.clear)
         .tab
-          &.active
+          &.v-link-active
             color white
           &:active
             background-color 2px solid white

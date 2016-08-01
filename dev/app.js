@@ -50,7 +50,11 @@ router.map({
     }
   },
   '/layout': {
-    component: require('view/layout.vue')
+    component: require('view/layout.vue'),
+    subRoutes: {
+      '/alarm': { component: {} },
+      '/help': { component: {} }
+    }
   }
 })
 
