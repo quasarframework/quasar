@@ -1,5 +1,5 @@
 <template>
-  <slider v-ref:slider arrows fullscreen class="text-white bg-black quasar-gallery-slider">
+  <quasar-slider v-ref:slider arrows fullscreen class="text-white bg-black quasar-gallery-slider">
     <div
       v-for="img in src"
       track-by="$index"
@@ -25,7 +25,7 @@
         >
       </div>
     </div>
-  </slider>
+  </quasar-slider>
 </template>
 
 <script>

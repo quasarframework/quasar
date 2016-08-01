@@ -13,14 +13,14 @@
     <i>mail</i>
     <label class="item-content">
       <div class="item-label">Quasar Framework</div>
-      <radio :model.sync="radio" value="opt1"></radio>
+      <quasar-radio :model.sync="radio" value="opt1"></quasar-radio>
     </label>
   </div>
   <div class="item">
     <i>mail</i>
     <label class="item-content">
       <div class="item-label">Quasar Framework</div>
-      <radio :model.sync="radio" value="opt2"></radio>
+      <quasar-radio :model.sync="radio" value="opt2"></quasar-radio>
     </label>
   </div>
 
@@ -145,13 +145,13 @@
   <h1>List with item-action</h1>
   <div class="list bordered inner-delimiter">
     <label class="item">
-      <checkbox></checkbox>
+      <quasar-checkbox></quasar-checkbox>
       <div class="item-content">
         Quasar Framework
       </div>
     </label>
     <label class="item">
-      <checkbox></checkbox>
+      <quasar-checkbox></quasar-checkbox>
       <div class="item-content">
         <div class="item-label">
           Quasar Framework
@@ -162,7 +162,7 @@
       </div>
     </label>
     <label class="item">
-      <checkbox></checkbox>
+      <quasar-checkbox></quasar-checkbox>
       <div class="item-content">
         Quasar Framework
       </div>
@@ -222,14 +222,14 @@
       <i>mail</i>
       <label class="item-content">
         <div class="item-label">Quasar Framework</div>
-        <radio :model.sync="radio" value="opt1"></radio>
+        <quasar-radio :model.sync="radio" value="opt1"></quasar-radio>
       </label>
     </div>
     <div class="item">
       <i>mail</i>
       <label class="item-content">
         <div class="item-label">Quasar Framework</div>
-        <radio :model.sync="radio" value="opt2"></radio>
+        <quasar-radio :model.sync="radio" value="opt2"></quasar-radio>
       </label>
     </div>
     <div class="list-header">Checkbox</div>
@@ -242,7 +242,7 @@
           <p>Description</p>
           <p>Description</p>
         </div>
-        <checkbox></checkbox>
+        <quasar-checkbox></quasar-checkbox>
       </label>
     </div>
     <div class="item">
@@ -252,7 +252,7 @@
           <p class="item-title">Quasar Framework</p>
           <p>Description</p>
         </div>
-        <checkbox></checkbox>
+        <quasar-checkbox></quasar-checkbox>
       </label>
     </div>
     <div class="item">
@@ -261,7 +261,7 @@
         <div class="item-label">
           Quasar Framework
         </div>
-        <checkbox></checkbox>
+        <quasar-checkbox></quasar-checkbox>
       </label>
     </div>
     <div class="list-header">Toggle</div>
@@ -269,7 +269,7 @@
       <i>mail</i>
       <label class="item-content">
         <div class="item-label">Quasar Framework</div>
-        <toggle :model.sync="toggle"></toggle>
+        <quasar-toggle :model.sync="toggle"></quasar-toggle>
       </label>
     </div>
   </div>
@@ -279,7 +279,7 @@
       <i>volume_up</i>
       <div class="item-content">
         <span class="item-value item-right-margin">1</span>
-        <range :model.sync="range" :min="1" :max="10"></range>
+        <quasar-range :model.sync="range" :min="1" :max="10"></quasar-range>
         <span class="item-value item-left-margin">10</span>
         <div class="item-left-margin" style="font-weight: bold">{{range}}</div>
       </div>
@@ -293,7 +293,7 @@
     </div>
     <div class="item">
       <i class="item-right-margin">volume_down</i>
-      <range :model.sync="range" :min="1" :max="10"></range>
+      <quasar-range :model.sync="range" :min="1" :max="10"></quasar-range>
       <i class="item-left-margin">volume_up</i>
     </div>
   </div>

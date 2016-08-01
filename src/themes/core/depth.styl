@@ -19,6 +19,11 @@ $shadow-3 = 0 10px 20px alpha($shadow-color, .19), 0 6px 6px alpha($shadow-color
 $shadow-4 = 0 14px 28px alpha($shadow-color, .25), 0 10px 10px alpha($shadow-color, .22)
 $shadow-5 = 0 19px 38px alpha($shadow-color, .30), 0 15px 12px alpha($shadow-color, .22)
 
+$shadow-up-1 = 0 -1px 3px alpha($shadow-color, .12), 0 -1px 2px alpha($shadow-color, .24)
+$shadow-up-2 = 0 -3px 6px alpha($shadow-color, .16), 0 -3px 6px alpha($shadow-color, .23)
+$shadow-up-3 = 0 -10px 20px alpha($shadow-color, .19), 0 -6px 6px alpha($shadow-color, .23)
+$shadow-up-4 = 0 -14px 28px alpha($shadow-color, .25), 0 -10px 10px alpha($shadow-color, .22)
+$shadow-up-5 = 0 -19px 38px alpha($shadow-color, .30), 0 -15px 12px alpha($shadow-color, .22)
 
 .shadow-transition
   transition $shadow-transition
@@ -38,3 +43,14 @@ $shadow-5 = 0 19px 38px alpha($shadow-color, .30), 0 15px 12px alpha($shadow-col
   box-shadow $shadow-4
 .shadow-5, .hoverable-5:hover
   box-shadow $shadow-5
+
+.shadow-up-1, .hoverable-up:hover, .hoverable-up-1:hover
+  box-shadow $shadow-up-1
+.shadow-up-2, .hoverable-up-2:hover
+  box-shadow $shadow-up-2
+.shadow-up-3, .hoverable-up-3:hover
+  box-shadow $shadow-up-3
+.shadow-up-4, .hoverable-up-4:hover
+  box-shadow $shadow-up-4
+.shadow-up-5, .hoverable-up-5:hover
+  box-shadow $shadow-up-5

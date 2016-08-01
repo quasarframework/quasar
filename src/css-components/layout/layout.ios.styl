@@ -1,0 +1,84 @@
+$layout-navbar-order ?= -9
+$marginals-color ?= #424242
+$marginals-background-color ?= #f8f8f8
+
+.layout
+  @extends .fullscreen, .column, .full-height, .full-width
+
+.layout-header
+  order -10
+  box-shadow $shadow-1
+
+.layout-footer
+  order 10
+  box-shadow $shadow-up-1
+
+.layout-navbar
+  order $layout-navbar-order
+
+.layout-content
+  overflow-y auto
+
+.layout-header, .layout-footer
+  color $marginals-color
+  background-color $marginals-background-color
+
+.layout-header, .layout-footer, .layout-navbar
+  z-index $z-marginals
+
+.toolbar
+  padding 4px
+  min-height 44px
+  display flex
+  overflow hidden
+  flex-direction row
+  align-items center
+  justify-content space-between
+  width 100%
+  position relative
+
+  for $name, $color in $colors
+    &.{$name}
+      if $name != 'light'
+        color white
+      background-color $color
+      &.glossy
+        background-image linear-gradient(to bottom, rgba(white, .3), rgba(white, 0) 50%, rgba(black, .12) 51%, rgba(black, .04))
+      &.clear
+        color $color
+        background-color transparent
+
+.toolbar-buttons
+  margin 0 .2rem
+  button
+    margin 0 .2rem
+    padding .2rem
+.toolbar-content
+  flex 1
+  min-width 0
+  max-width 100%
+.toolbar-title
+  pointer-events none
+  position absolute
+  top 0
+  left 0
+  padding 0 90px 1px
+  width 100%
+  height 100%
+  display flex
+  align-items center
+  justify-content center
+  &.padding-1
+    padding 0 45px 1px
+  &.padding-3
+    padding 0 135px 1px
+  &.padding-4
+    padding 0 180px 1px
+  > div
+    flex 1
+    font-weight 600
+    overflow hidden
+    text-overflow ellipsis
+    white-space nowrap
+    font-size 1.2rem
+    text-align center

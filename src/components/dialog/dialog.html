@@ -13,7 +13,7 @@
 </div>
 <div v-if="radios" class="modal-controls modal-scroll">
   <label v-for="radio in radios" class="item">
-    <radio :model.sync="radioModel" :value.once="radio.value"></radio>
+    <quasar-radio :model.sync="radioModel" :value.once="radio.value"></quasar-radio>
     <div class="item-content">
       {{{* radio.label}}}
     </div>
@@ -21,7 +21,7 @@
 </div>
 <div v-if="checkboxes" class="modal-controls modal-scroll">
   <label v-for="checkbox in checkboxes" class="item">
-    <checkbox :model.sync="checkbox.checked"></checkbox>
+    <quasar-checkbox :model.sync="checkbox.checked"></quasar-checkbox>
     <div class="item-content">
       {{{* checkbox.label}}}
     </div>
@@ -33,7 +33,7 @@
       <div class="item-label">
         {{{* toggle.label}}}
       </div>
-      <toggle :model.sync="toggle.checked"></toggle>
+      <quasar-toggle :model.sync="toggle.checked"></quasar-toggle>
     </div>
   </label>
 </div>
@@ -44,7 +44,7 @@
       <i v-if="range.iconMin" class="item-right-margin">{{* range.iconMin}}</i>
       <div v-else class="item-right-margin">{{* range.min}}</div>
 
-      <range :model.sync="range.value" :min.once="range.min" :max.once="range.max"></range>
+      <quasar-range :model.sync="range.value" :min.once="range.min" :max.once="range.max"></quasar-range>
 
       <i v-if="range.iconMax" class="item-left-margin">{{* range.iconMax}}</i>
       <div v-else class="item-left-margin">{{* range.max}}</div>
@@ -52,11 +52,11 @@
   </template>
 </div>
 <div v-if="progress" class="modal-slim-body">
-  <progress-bar
+  <quasar-progress-bar
     :model="progress.model"
     class="primary stripe"
     :class="{indeterminate: progress.indeterminate}"
-  ></progress-bar>
+  ></quasar-progress-bar>
   <span v-if="!progress.indeterminate">
     {{progress.model}} %
   </span>

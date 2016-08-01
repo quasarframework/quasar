@@ -1,9 +1,9 @@
 <template>
-  <tree
+  <quasar-tree
     :model="treeModel"
     contract-html="<i>remove_circle</i>"
     expand-html="<i>add_circle</i>"
-  ></tree>
+  ></quasar-tree>
 </template>
 
 <script>

@@ -4,7 +4,7 @@
     <div class="item">
       <i>format_size</i>
       <div class="item-content">
-        <range :model.sync="size" min="20" max="256"></range>
+        <quasar-range :model.sync="size" min="20" max="256"></quasar-range>
         <div class="item-left-margin item-value" style="font-weight: bold">{{size}}px</div>
       </div>
     </div>
@@ -13,7 +13,7 @@
       <div class="item-content">
         <label for="color-spinner" class="item-label">Color</label>
         <input id="color-spinner" v-model="color">
-        <choice :model.sync="color" :options="colorOptions" ok-label="Pick" title="Spinner Color"></choice>
+        <quasar-choice :model.sync="color" :options="colorOptions" ok-label="Pick" title="Spinner Color"></quasar-choice>
       </div>
     </div>
   </div>

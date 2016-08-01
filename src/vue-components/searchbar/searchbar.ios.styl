@@ -1,0 +1,61 @@
+.quasar-searchbar-input-container
+  position relative
+  flex-shrink 1
+  width 100%
+
+.quasar-searchbar-icon, .quasar-searchbar-clear
+  position absolute
+  top 0
+  padding 0
+  margin 0
+  min-height 0
+  width 14px
+  height 100%
+  color inherit
+  opacity .4
+
+.quasar-searchbar-icon
+  left 9px
+  transition all 300ms ease
+.quasar-searchbar-clear
+  right 13px
+
+.quasar-searchbar-input
+  padding 0 28px
+  height auto
+  border-radius $generic-border-radius
+  font-weight 400
+  box-shadow $shadow-1
+  width 100%
+  border 0
+  outline 0
+  font-size .9rem
+  line-height 30px
+  color black
+  background-color rgba(0, 0, 0, .08)
+  transition all 300ms ease
+
+for $name, $color in $colors
+  .toolbar.{$name} .quasar-searchbar-input
+    background-color active-color($color)
+    if $name != 'light'
+      color white
+      &::-webkit-input-placeholder
+        color white
+      &::-moz-placeholder
+        color white
+      &:-ms-input-placeholder
+        color white
+
+.quasar-searchbar
+  padding 0 8px
+  background inherit
+  display flex
+  align-items center
+  width 100%
+
+  &.quasar-searchbar-centered
+    .quasar-searchbar-icon
+      padding-left calc(50% - 45px)
+    .quasar-searchbar-input
+      padding-left calc(50% - 22px)

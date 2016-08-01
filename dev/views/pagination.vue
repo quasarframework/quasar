@@ -1,7 +1,7 @@
 <template>
   <h1>Pagination</h1>
   <p>Page: {{page}}</p>
-  <pagination :model.sync="page" :max="17"></pagination>
+  <quasar-pagination :model.sync="page" :max="17"></quasar-pagination>
 </template>
 
 <script>

@@ -101,8 +101,8 @@
 
 
   <h2>Number</h2>
-  Inline with text <number class="inline" :min="2" :max="10" :model.sync="number"></number>
-  <br><br><number :model.sync="number" :min="2" :max="10" :debounce="1000" :step="0.5">Number label</number>
+  Inline with text <quasar-number class="inline" :min="2" :max="10" :model.sync="number"></quasar-number>
+  <br><br><quasar-number :model.sync="number" :min="2" :max="10" :debounce="1000" :step="0.5">Number label</quasar-number>
   <br><br>
   <div class="list inner-delimiter bordered">
     <label class="item">
@@ -111,7 +111,7 @@
           Some number
         </div>
         <div class="item-value">
-          <number :model.sync="number"></number>
+          <quasar-number :model.sync="number"></quasar-number>
         </div>
       </div>
     </label>
@@ -121,7 +121,7 @@
           Some number
         </div>
         <div class="item-value">
-          <number :model.sync="number" :debounce="1000" :step="1.5">
+          <quasar-number :model.sync="number" :debounce="1000" :step="1.5">
         </div>
       </div>
     </label>
@@ -133,44 +133,44 @@
 
 
   <h2>Checkbox</h2>
-  <checkbox :model.sync="check" style="border: 1px solid black"></checkbox>
+  <quasar-checkbox :model.sync="check" style="border: 1px solid black"></quasar-checkbox>
   <label>
-    <checkbox :model.sync="check"></checkbox>
+    <quasar-checkbox :model.sync="check"></quasar-checkbox>
     Checkbox Label
   </label>
   <p>
-    <checkbox :model.sync="check"></checkbox>
-    <checkbox :model.sync="check"></checkbox>
-    <checkbox :model.sync="check"></checkbox>
+    <quasar-checkbox :model.sync="check"></quasar-checkbox>
+    <quasar-checkbox :model.sync="check"></quasar-checkbox>
+    <quasar-checkbox :model.sync="check"></quasar-checkbox>
   </p>
 
   <h2>Radio</h2>
-  <radio :model.sync="radio" value="opt1" style="border: 1px solid black"></radio>
+  <quasar-radio :model.sync="radio" value="opt1" style="border: 1px solid black"></quasar-radio>
   <label>
-    <radio :model.sync="radio" value="opt2"></radio>
+    <quasar-radio :model.sync="radio" value="opt2"></quasar-radio>
     Radio Label
   </label>
   <p>
-    <radio :model.sync="radio" value="opt1">Option 1</radio>
-    <radio :model.sync="radio" value="opt2">Option 2</radio>
-    <radio :model.sync="radio" value="opt3">Option 3</radio>
+    <quasar-radio :model.sync="radio" value="opt1">Option 1</quasar-radio>
+    <quasar-radio :model.sync="radio" value="opt2">Option 2</quasar-radio>
+    <quasar-radio :model.sync="radio" value="opt3">Option 3</quasar-radio>
   </p>
 
   <h2>Toggle</h2>
-  <toggle :model.sync="check" style="border: 1px solid black"></toggle>
+  <quasar-toggle :model.sync="check" style="border: 1px solid black"></quasar-toggle>
   <label>
-    <toggle :model.sync="check"></toggle>
+    <quasar-toggle :model.sync="check"></quasar-toggle>
     Toggle label
   </label>
   <p>
-    <toggle :model.sync="check"></toggle> Inline with Text
+    <quasar-toggle :model.sync="check"></quasar-toggle> Inline with Text
   </p>
 
   <h2>Range</h2>
   [{{range.min}}, {{range.max}}] - {{range.model}}
   <br>
-  <range :model.sync="range.model" :min="range.min" :max="range.max" style="border: 1px solid black"></range>
-  <range :model.sync="range.model" :min="range.min" :max="range.max"></range>
+  <quasar-range :model.sync="range.model" :min="range.min" :max="range.max" style="border: 1px solid black"></quasar-range>
+  <quasar-range :model.sync="range.model" :min="range.min" :max="range.max"></quasar-range>
 
   <h2>Select</h2>
   <div class="list item-delimiter bordered">
@@ -178,26 +178,26 @@
     <div class="item">
       <div class="item-content">
         <div class="item-label">Company</div>
-        <choice :model.sync="select" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Company"></choice>
+        <quasar-choice :model.sync="select" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Company"></quasar-choice>
       </div>
     </div>
     <div class="item">
       <div class="item-content">
         <div class="item-label">Company</div>
-        <choice :model.sync="select" :options="selectOptions" ok-label="Pick"></choice>
+        <quasar-choice :model.sync="select" :options="selectOptions" ok-label="Pick"></quasar-choice>
       </div>
     </div>
     <div class="list-header">Multiple Selection</div>
     <div class="item">
       <div class="item-content">
         <div class="item-label">Companies</div>
-        <choice multiple :model.sync="multipleSelect" :options="selectOptions" ok-label="Pick" title="Companies"></choice>
+        <quasar-choice multiple :model.sync="multipleSelect" :options="selectOptions" ok-label="Pick" title="Companies"></quasar-choice>
       </div>
     </div>
     <div class="item">
       <div class="item-content">
         <div class="item-label">Companies</div>
-        <choice multiple :model.sync="multipleSelect" :options="selectOptions" ok-label="Pick" title="Companies"></choice>
+        <quasar-choice multiple :model.sync="multipleSelect" :options="selectOptions" ok-label="Pick" title="Companies"></quasar-choice>
       </div>
     </div>
   </div>

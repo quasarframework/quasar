@@ -23,6 +23,7 @@ import ProgressBar from './vue-components/progress-bar/progress-bar.vue'
 import Radio from './vue-components/radio/radio.vue'
 import Range from './vue-components/range/range.vue'
 import Rating from './vue-components/rating/rating.vue'
+import SearchBar from './vue-components/searchbar/searchbar.vue'
 import Slider from './vue-components/slider/slider.vue'
 import registerSpinners from './vue-components/spinner/spinner'
 import State from './vue-components/state/state.vue'
@@ -46,26 +47,27 @@ function registerDirectives (_Vue) {
 }
 
 function registerComponents (_Vue) {
-  _Vue.component('dropdown', Dropdown)
-  _Vue.component('context-dropdown', ContextDropdown)
-  _Vue.component('checkbox', Checkbox)
-  _Vue.component('choice', Choice)
-  _Vue.component('video', Video)
+  _Vue.component('quasar-dropdown', Dropdown)
+  _Vue.component('quasar-context-dropdown', ContextDropdown)
+  _Vue.component('quasar-checkbox', Checkbox)
+  _Vue.component('quasar-choice', Choice)
+  _Vue.component('quasar-video', Video)
   _Vue.component('quasar-collapsible', Collapsible)
   _Vue.component('quasar-collapsible-item', CollapsibleItem)
-  _Vue.component('gallery', Gallery)
-  _Vue.component('gallery-slider', GallerySlider)
-  _Vue.component('number', Number)
-  _Vue.component('pagination', Pagination)
-  _Vue.component('progress-bar', ProgressBar)
-  _Vue.component('radio', Radio)
-  _Vue.component('range', Range)
-  _Vue.component('rating', Rating)
-  _Vue.component('slider', Slider)
-  _Vue.component('state', State)
-  _Vue.component('toggle', Toggle)
-  _Vue.component('tree', Tree)
-  _Vue.component('tree-item', TreeItem)
+  _Vue.component('quasar-gallery', Gallery)
+  _Vue.component('quasar-gallery-slider', GallerySlider)
+  _Vue.component('quasar-number', Number)
+  _Vue.component('quasar-pagination', Pagination)
+  _Vue.component('quasar-progress-bar', ProgressBar)
+  _Vue.component('quasar-radio', Radio)
+  _Vue.component('quasar-range', Range)
+  _Vue.component('quasar-rating', Rating)
+  _Vue.component('quasar-searchbar', SearchBar)
+  _Vue.component('quasar-slider', Slider)
+  _Vue.component('quasar-state', State)
+  _Vue.component('quasar-toggle', Toggle)
+  _Vue.component('quasar-tree', Tree)
+  _Vue.component('quasar-tree-item', TreeItem)
 }
 
 export var Vue

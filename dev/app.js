@@ -48,6 +48,9 @@ router.map({
       '/tree': { component: require('view/tree.vue') },
       '/typography': { component: require('view/typography') }
     }
+  },
+  '/layout': {
+    component: require('view/layout.vue')
   }
 })
 

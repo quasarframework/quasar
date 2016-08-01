@@ -30,7 +30,7 @@ $button-border-radius       ?= $generic-border-radius
 $button-box-shadow          ?= none
 $button-font-weight         ?= normal
 $button-text-transform      ?= none
-$button-margin              ?= .4rem .2rem
+$button-margin              ?= 0
 
 
 button, .button
@@ -97,7 +97,8 @@ button, .button
 
   for $name, $color in $colors
     &.{$name}
-      color white
+      if $name != 'light'
+        color white
       background-color $color
 
       &:active:not(.disabled)

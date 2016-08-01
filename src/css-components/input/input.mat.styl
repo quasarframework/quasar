@@ -1,16 +1,21 @@
 input, textarea
-  padding $input-padding-vertical $input-padding-horizontal
-  border 0
-  outline 0
-  transition all .3s
-  border-bottom 2px solid transparent
+  &:not(.no-style)
+    padding $input-padding-vertical $input-padding-horizontal
+    border 0
+    outline 0
+    transition all .3s
+    border-bottom 2px solid transparent
+    border-radius $generic-border-radius
+    box-shadow $shadow-1
+    &:focus
+      box-shadow $shadow-2
 
-input
+input:not(.no-style)
   border-bottom 2px solid $form-darker-color
   &:focus
     border-bottom 2px solid $form-active-color
 
-textarea
+textarea:not(.no-style)
   height 11em
   width 100%
   box-shadow $shadow-1
@@ -65,12 +70,6 @@ textarea
       margin-top 1.7rem
     input:focus ~ label
       color $form-active-color
-
-input, textarea
-  border-radius $generic-border-radius
-  box-shadow $shadow-1
-  &:focus
-    box-shadow $shadow-2
 
 .item
   &.floating-label, &.stacked-label

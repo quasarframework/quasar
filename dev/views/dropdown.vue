@@ -1,5 +1,5 @@
 <template>
-  <dropdown>
+  <quasar-dropdown>
     <button slot="target" class="primary">
       <i>more_vert</i>
     </button>
@@ -12,9 +12,9 @@
         </div>
       </div>
     </div>
-  </dropdown>
+  </quasar-dropdown>
 
-  <dropdown>
+  <quasar-dropdown>
     <button slot="target" class="primary">
       <i>mail</i>
     </button>
@@ -27,13 +27,13 @@
         </div>
       </div>
     </div>
-  </dropdown>
+  </quasar-dropdown>
 
   <p class="caption">
     Context menu also available. Right click on this page to see it.
   </p>
 
-  <context-dropdown>
+  <quasar-context-dropdown>
     <div class="list item-delimiter highlight">
       <div class="item item-link" v-for="n in 30">
         <div class="item-content">
@@ -42,10 +42,10 @@
         </div>
       </div>
     </div>
-  </context-dropdown>
+  </quasar-context-dropdown>
 
   <div style="height: 200px; width: 200px; background-color: teal;">
-    <context-dropdown>
+    <quasar-context-dropdown>
       <div class="list item-delimiter highlight">
         <div class="item item-link" v-for="n in 3">
           <div class="item-content">
@@ -54,7 +54,7 @@
           </div>
         </div>
       </div>
-    </context-dropdown>
+    </quasar-context-dropdown>
   </div>
 </template>
 

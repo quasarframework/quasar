@@ -1,9 +1,9 @@
 <template>
   <h1>State Widget</h1>
-  <state :model.sync="state">
+  <quasar-state :model.sync="state">
     <div slot="active"><spinner :size="51"></spinner></div>
     <button class="primary" @click="changeState()">Hit me!</button>
-  </state>
+  </quasar-state>
 
   <h1>Shadows</h1>
   <div style="margin: 40px">

@@ -1,6 +1,6 @@
 <template>
   <label>
-    <toggle :model.sync="border"></toggle>
+    <quasar-toggle :model.sync="border"></quasar-toggle>
     Grid Borders
   </label>
   <div id="layout-container" :class="{'with-border': border}">

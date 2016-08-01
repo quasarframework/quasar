@@ -9,7 +9,7 @@
       <span v-if="isExpandable">{{{model.expanded ? contractHtml : expandHtml}}}</span>
     </div>
     <ul v-show="model.expanded" v-if="isExpandable" transition="slide">
-      <tree-item v-for="item in model.children" :model="item" :contract-html="contractHtml" :expand-html="expandHtml"></tree-item>
+      <quasar-tree-item v-for="item in model.children" :model="item" :contract-html="contractHtml" :expand-html="expandHtml"></quasar-tree-item>
     </ul>
   </li>
 </template>
