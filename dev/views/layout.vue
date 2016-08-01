@@ -65,6 +65,42 @@
       </div>
     </div>
 
+    <quasar-tabs class="layout-navbar">
+      <quasar-tab icon="mail" v-link="'/layout'">Mails</quasar-tab>
+      <quasar-tab icon="alarm">Alarms</quasar-tab>
+      <quasar-tab icon="help">Help</quasar-tab>
+    </quasar-tabs>
+
+    <quasar-tabs class="layout-navbar dark">
+      <quasar-tab icon="mail" v-link="'/layout'">Mails</quasar-tab>
+      <quasar-tab icon="alarm">Alarms</quasar-tab>
+      <quasar-tab icon="help">Help</quasar-tab>
+    </quasar-tabs>
+
+    <quasar-tabs class="layout-navbar light">
+      <quasar-tab icon="mail" v-link="'/layout'">Mails</quasar-tab>
+      <quasar-tab icon="alarm">Alarms</quasar-tab>
+      <quasar-tab icon="help">Help</quasar-tab>
+    </quasar-tabs>
+
+    <quasar-tabs class="layout-navbar light">
+      <quasar-tab icon="mail" v-link="'/layout'">Mails</quasar-tab>
+      <quasar-tab icon="alarm">Alarms</quasar-tab>
+      <quasar-tab icon="help">Help</quasar-tab>
+    </quasar-tabs>
+
+    <quasar-tabs class="layout-navbar primary">
+      <quasar-tab icon="mail" v-link="'/layout'">Mails</quasar-tab>
+      <quasar-tab icon="alarm">Alarms</quasar-tab>
+      <quasar-tab icon="help">Help</quasar-tab>
+    </quasar-tabs>
+
+    <quasar-tabs class="layout-navbar orange clear">
+      <quasar-tab icon="mail" v-link="'/layout'">Mails</quasar-tab>
+      <quasar-tab icon="alarm">Alarms</quasar-tab>
+      <quasar-tab icon="help">Help</quasar-tab>
+    </quasar-tabs>
+
     <div class="layout-content">
       <div>Search: '{{ search }}'</div>
       <div v-for="n in 100">text</div>

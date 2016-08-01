@@ -27,6 +27,8 @@ import SearchBar from './vue-components/searchbar/searchbar.vue'
 import Slider from './vue-components/slider/slider.vue'
 import registerSpinners from './vue-components/spinner/spinner'
 import State from './vue-components/state/state.vue'
+import Tab from './vue-components/tab/tab.vue'
+import Tabs from './vue-components/tab/tabs.vue'
 import Toggle from './vue-components/toggle/toggle.vue'
 import Tree from './vue-components/tree/tree.vue'
 import TreeItem from './vue-components/tree/tree-item.vue'
@@ -65,6 +67,8 @@ function registerComponents (_Vue) {
   _Vue.component('quasar-searchbar', SearchBar)
   _Vue.component('quasar-slider', Slider)
   _Vue.component('quasar-state', State)
+  _Vue.component('quasar-tab', Tab)
+  _Vue.component('quasar-tabs', Tabs)
   _Vue.component('quasar-toggle', Toggle)
   _Vue.component('quasar-tree', Tree)
   _Vue.component('quasar-tree-item', TreeItem)

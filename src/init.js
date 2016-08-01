@@ -1,3 +1,5 @@
+import './hammer'
+
 export default function (Quasar) {
   // TODO verify requirements are installed
 

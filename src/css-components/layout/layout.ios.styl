@@ -1,27 +1,29 @@
-$layout-navbar-order ?= -9
-$marginals-color ?= #424242
-$marginals-background-color ?= #f8f8f8
+$layout-navbar-order ?= 9
+$layout-border ?= 1px solid $layout-second-color
 
 .layout
   @extends .fullscreen, .column, .full-height, .full-width
 
 .layout-header
   order -10
-  box-shadow $shadow-1
+  .toolbar
+    border-bottom $layout-border
 
 .layout-footer
   order 10
-  box-shadow $shadow-up-1
+  .toolbar
+    border-top $layout-border
 
 .layout-navbar
   order $layout-navbar-order
+  border-top $layout-border
 
 .layout-content
   overflow-y auto
 
 .layout-header, .layout-footer
-  color $marginals-color
-  background-color $marginals-background-color
+  color $layout-color
+  background-color $layout-background-color
 
 .layout-header, .layout-footer, .layout-navbar
   z-index $z-marginals
@@ -47,6 +49,9 @@ $marginals-background-color ?= #f8f8f8
       &.clear
         color $color
         background-color transparent
+
+  button:active:not(.disabled)
+    color $layout-active-color
 
 .toolbar-buttons
   margin 0 .2rem

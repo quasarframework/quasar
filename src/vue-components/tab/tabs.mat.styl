@@ -1,0 +1,118 @@
+$tabs-order             ?= -9
+$tabs-padding           ?= 6px 10px
+$tabs-color             ?= $layout-color
+$tabs-active-color      ?= $layout-active-color
+$tabs-background-color  ?= $layout-background-color
+$tabs-highlight-color   ?= strong-active-color($tabs-background-color)
+
+$tabs-font-size         ?= 1rem
+$tabs-icon-font-size    ?= 1.5rem
+$tabs-font-weight       ?= 500
+$tabs-label-margin      ?= 0 0 0 5px
+$tabs-label-font-size   ?= 1rem
+
+$tabs-text-transform          ?= uppercase
+$tabs-border-bottom           ?= 2px solid transparent
+$tabs-active-border-bottom    ?= 2px solid $tabs-active-color
+
+.tabs
+  min-height 55px
+  overflow hidden
+  color $tabs-color
+  background-color $tabs-background-color
+  font-size $tabs-font-size
+  font-weight $tabs-font-weight
+  transition color .18s ease-in, box-shadow .18s ease-in
+  &:not(.layout-navbar)
+    border-radius $generic-border-radius
+
+  &:not(.scrollable)
+    .left-scroll, .right-scroll
+      display none !important
+
+  .left-scroll, .right-scroll
+    height 100%
+    min-width 25px
+    cursor pointer
+    color $tabs-active-color
+    font-size (1.2 * $tabs-icon-font-size)
+
+    &.disabled
+      visibility hidden
+
+body.mobile .tabs.scrollable
+  .left-scroll, .right-scroll
+    display none !important
+  .spacer
+    min-width 45%
+
+.tabs-scroller
+  overflow hidden
+
+.tab
+  display flex
+  min-height 55px
+  padding $tabs-padding
+  cursor pointer
+  transition all .3s
+  white-space nowrap
+
+  .tabs-icon
+    font-size $tabs-icon-font-size
+  .tabs-icon + .tabs-label
+    margin $tabs-label-margin
+  &.active
+    color $tabs-active-color
+    border-bottom $tabs-active-border-bottom
+  &:active
+    background-color $tabs-highlight-color
+
+  flex-direction row
+  text-transform $tabs-text-transform
+  border-bottom $tabs-border-bottom
+
+@media only screen and (max-width $layout-small-max)
+  .tab
+    &.hideIcon .tabs-icon,
+    &.hideLabel .tabs-label
+      display none !important
+
+@media only screen and (max-width $layout-medium-max)
+  .tabs:not(.scrollable)
+    .tabs-scroller, .tab
+      flex 1 1 auto
+
+@media only screen and (min-width $layout-big-min)
+  .tab
+    padding-left (3 * $tabs-padding[1])
+    padding-right (3 * $tabs-padding[1])
+
+for $name, $color in $colors
+  .tabs.{$name}
+    color composite-color($color)
+    background-color $color
+    &.glossy
+      background-image linear-gradient(to bottom, rgba(white, .3), rgba(white, 0) 50%, rgba(black, .12) 51%, rgba(black, .04))
+    &.clear
+      color $color
+      background-color transparent
+    .left-scroll, .right-scroll
+      if $name == 'light'
+        color composite-color($color)
+      else
+        color white
+    if $name != 'light'
+      &.clear
+        .tab
+          &.active
+            color $layout-second-color
+            border-bottom 2px solid $layout-second-color
+          &:active
+            background-color 2px solid $layout-second-color
+      &:not(.clear)
+        .tab
+          &.active
+            color white
+            border-bottom 2px solid white
+          &:active
+            background-color 2px solid white
