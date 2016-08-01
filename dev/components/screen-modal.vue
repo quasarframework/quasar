@@ -1,55 +1,34 @@
 <template>
-  <screen>
-    <div slot="header" class="row items-center">
-      <button @click="close()"><i>keyboard_arrow_left</i></button>
-      <p>Modal Header</p>
-    </div>
-    <div slot="footer" class="row items-center">
-      <p>Modal Footer</p>
+  <div class="layout">
+    <div class="layout-header">
+      <div class="toolbar">
+        <button @click="close()"><i>arrow_back</i></button>
+        <div class="toolbar-content">
+          <div class="toolbar-title padding-2">
+            <div>Some very very very very long title here</div>
+          </div>
+        </div>
+        <div class="toolbar-buttons">
+          <button><i>search</i></button>
+          <button><i>help</i></button>
+        </div>
+      </div>
+      <div class="toolbar primary">
+        <quasar-searchbar :model.sync="search"></quasar-searchbar>
+      </div>
     </div>
 
-    <div style="padding: 20px">
-      <h1>Modal</h1>
-      <button class="primary" @click="openModal()">Open Another Modal</button>
-      <h1>Modal</h1>
-      <h1>Modal</h1>
-      <h1>Modal</h1>
-      <h1>Modal</h1>
-      <h1>Modal</h1>
-      <h1>Modal</h1>
-      <h1>Modal</h1>
-      <h1>Modal</h1>
-      <h1>Modal</h1>
-      <h1>Modal</h1>
-      <h1>Modal</h1>
-      <h1>Modal</h1>
-      <h1>Modal</h1>
-      <h1>Modal</h1>
-      <h1>Modal</h1>
-      <h1>Modal</h1>
-      <h1>Modal</h1>
-      <h1>Modal</h1>
-      <h1>Modal</h1>
-      <h1>Modal</h1>
-      <h1>Modal</h1>
-      <h1>Modal</h1>
-      <h1>Modal</h1>
-      <h1>Modal</h1>
-      <h1>Modal</h1>
-      <h1>Modal</h1>
-      <h1>Modal</h1>
-      <h1>Modal</h1>
-      <h1>Modal</h1>
-      <h1>Modal</h1>
-      <h1>Modal</h1>
-      <h1>Modal</h1>
-      <h1>Modal</h1>
-      <h1>Modal</h1>
-      <h1>Modal</h1>
-      <h1>Modal</h1>
-      <h1>Modal</h1>
+    <quasar-tabs class="layout-navbar">
+      <quasar-tab icon="mail">Mails</quasar-tab>
+      <quasar-tab icon="alarm">Alarms</quasar-tab>
+      <quasar-tab icon="help">Help</quasar-tab>
+    </quasar-tabs>
+
+    <div class="layout-content">
+      <div>Search: '{{ search }}'</div>
+      <div v-for="n in 100">text</div>
     </div>
-  </screen>
+  </div>
 </template>
 
 <script>
