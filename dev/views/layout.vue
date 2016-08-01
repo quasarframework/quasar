@@ -57,6 +57,12 @@
       <div class="toolbar primary">
         <quasar-searchbar :model.sync="search"></quasar-searchbar>
       </div>
+      <div class="toolbar secondary">
+        <quasar-searchbar :model.sync="search"></quasar-searchbar>
+      </div>
+      <div class="toolbar light">
+        <quasar-searchbar :model.sync="search"></quasar-searchbar>
+      </div>
     </div>
 
     <div class="layout-content">

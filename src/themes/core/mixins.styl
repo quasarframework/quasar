@@ -4,6 +4,12 @@ active-color($color)
   else
     lighten($color, 30%)
 
+light-active-color($color)
+  if luminosity($color) > .29
+    darken($color, 5%)
+  else
+    lighten($color, 20%)
+
 hover-color($color)
   if luminosity($color) > .29
     darken($color, 15%)

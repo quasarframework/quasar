@@ -36,6 +36,7 @@
   font-size 1rem
   line-height 38px
   background-color white
+  transition all .2s ease
 
 for $name, $color in $colors
   .toolbar.{$name} .quasar-searchbar-input
@@ -48,3 +49,8 @@ for $name, $color in $colors
         color white
       &:-ms-input-placeholder
         color white
+
+body.desktop .toolbar
+  for $name, $color in $colors
+    &.{$name} .quasar-searchbar-input:hover
+      background-color light-active-color($color)

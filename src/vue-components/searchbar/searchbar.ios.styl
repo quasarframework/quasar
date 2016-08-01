@@ -47,6 +47,11 @@ for $name, $color in $colors
       &:-ms-input-placeholder
         color white
 
+body.desktop .toolbar
+  for $name, $color in $colors
+    &.{$name} .quasar-searchbar-input:hover
+      background-color light-active-color($color)
+
 .quasar-searchbar
   padding 0 8px
   background inherit
