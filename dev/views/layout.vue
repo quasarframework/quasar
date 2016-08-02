@@ -2,15 +2,13 @@
   <div class="layout">
     <div class="layout-header">
       <div class="toolbar">
-        <button><i>menu</i></button>
+        <button class="left-drawer-opener"><i>menu</i></button>
         <div class="toolbar-content">
           <div class="toolbar-title padding-1">
             <div>Some very very very very long title here</div>
           </div>
         </div>
-        <div class="toolbar-buttons">
-          <button><i>help</i></button>
-        </div>
+        <button class="right-drawer-opener"><i>menu</i></button>
       </div>
       <!--
       <div class="toolbar">
@@ -105,8 +103,55 @@
       <quasar-tab icon="help" v-link="'/layout/help'">Help</quasar-tab>
     </quasar-tabs>
 
-    <div class="layout-content">
-      <router-view></router-view>
+    <div class="row auto">
+      <quasar-drawer>
+        <div class="toolbar light border-bottom">
+          <div class="toolbar-content">
+            <div class="toolbar-title no-padding">
+              <div>Left Drawer</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="list platform-delimiter">
+          <quasar-drawer-link v-link="{path: '/layout', exact: true}" icon="mail">
+            Maaails
+          </quasar-drawer-link>
+          <div class="item item-link drawer-closer" v-link="{path: '/layout', exact: true}">
+            <i>mail</i>
+            <div class="item-content text-truncate">Mails</div>
+          </div>
+          <div class="item item-link drawer-closer" v-link="'/layout/alarm'">
+            <i>alarm</i>
+            <div class="item-content text-truncate">Alarms</div>
+          </div>
+        </div>
+      </quasar-drawer>
+
+      <quasar-drawer right-side swipe-only>
+        <div class="toolbar light border-bottom">
+          <div class="toolbar-content">
+            <div class="toolbar-title no-padding">
+              <div>Right Drawer</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="list platform-delimiter">
+          <div class="item item-link">
+            <i>mail</i>
+            <div class="item-content text-truncate">Mails</div>
+          </div>
+          <div class="item item-link">
+            <i>alarm</i>
+            <div class="item-content text-truncate">Alarms</div>
+          </div>
+        </div>
+      </quasar-drawer>
+
+      <div class="layout-content">
+        <router-view></router-view>
+      </div>
     </div>
 
     <div class="layout-footer">

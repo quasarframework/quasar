@@ -1,0 +1,71 @@
+$drawer-width                        ?= 250px
+$drawer-font-size                    ?= 1rem
+$drawer-icon-font-size               ?= 1.8rem
+$drawer-background-color             ?= white
+$drawer-border                       ?= $layout-border
+
+.drawer
+  position relative
+  overflow-y none
+  .list
+    margin 0
+
+.drawer-backdrop
+  display none
+  z-index $z-drawer
+  &.active
+    display block
+
+.drawer-opener
+  z-index ($z-marginals - 1)
+  height 100%
+  width 15px
+
+.drawer-content
+  will-change transform
+  background-color $drawer-background-color
+  top 0
+  bottom 0
+  width $drawer-width
+  font-size $drawer-font-size
+
+  &.left-side
+    left 0
+  &.right-side
+    right 0
+
+.left-drawer-opener, .right-drawer-opener
+  cursor pointer
+
+swipe-behavior()
+  .drawer-content
+    z-index $z-drawer
+    position fixed
+    &.left-side
+      transform translateX(- $drawer-width)
+    &.right-side
+      transform translateX($drawer-width)
+
+@media screen and (max-width: $layout-small-max)
+  swipe-behavior()
+
+@media screen and (min-width: $layout-medium-min)
+  .left-drawer-opener, .right-drawer-opener
+    &:not(.always-visible)
+      display none !important
+  .drawer
+    &.swipe-only
+      swipe-behavior()
+    &:not(.swipe-only)
+      flex 0 0 $drawer-width
+
+      .drawer-content
+        left 0
+        right 0
+        position absolute !important
+        transform translateX(0) !important
+  .drawer-content
+    &.left-side
+      border-right $drawer-border
+    &.right-side
+      border-left $drawer-border

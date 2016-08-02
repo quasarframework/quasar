@@ -62,8 +62,14 @@ export default {
         'red', 'pink', 'purple', 'deep-purple', 'indigo', 'blue', 'light-blue', 'cyan', 'teal', 'green',
         'light-green', 'lime', 'yellow', 'amber', 'orange', 'deep-orange', 'brown', 'grey', 'blue-grey'
       ],
-      extras: ['glossy', 'raised', 'clear', 'outline', 'round']
+      extras: ['raised', 'clear', 'outline', 'round', 'bordered', 'push', 'glossy']
     }
   }
 }
 </script>
+
+<style scoped>
+button {
+  margin: 2px;
+}
+</style>

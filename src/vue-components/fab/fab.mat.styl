@@ -1,5 +1,6 @@
-$fab-size      = (1.2 * $button-circular-size)
-$fab-translate = 2 * $fab-size
+$fab-size       = (1.2 * $button-circular-size)
+$fab-translate  = 2 * $fab-size
+$fab-margin    ?= 5px
 
 .quasar-fab
   height $fab-size
@@ -7,8 +8,10 @@ $fab-translate = 2 * $fab-size
   position relative
   vertical-align middle
 
-  &.opened
+  button
+    margin $fab-margin
 
+  &.opened
     .quasar-fab-actions
       opacity 1
       transform scaleX(1) scaleY(1) translateX(0) translateY(0)
@@ -28,7 +31,7 @@ $fab-translate = 2 * $fab-size
 
 .quasar-fab-icon, .quasar-fab-active-icon
   position absolute
-  top 0
+  top 4px
   left ($fab-size / 4)
   transition opacity .4s, transform .4s
 .quasar-fab-icon

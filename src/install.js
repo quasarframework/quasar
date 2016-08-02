@@ -1,6 +1,8 @@
 
 import transitionSlide from './vue-transitions/slide'
 
+import GridSelectedFilter from './vue-filters/grid-selected'
+
 import directiveAttr from './vue-directives/attr'
 import directiveCardClose from './vue-directives/card-close'
 import directiveCardDetails from './vue-directives/card-details'
@@ -17,6 +19,8 @@ import Checkbox from './vue-components/checkbox/checkbox.vue'
 import Choice from './vue-components/choice/choice.vue'
 import Collapsible from './vue-components/collapsible/collapsible.vue'
 import CollapsibleItem from './vue-components/collapsible/collapsible-item.vue'
+import Drawer from './vue-components/drawer/drawer.vue'
+import DrawerLink from './vue-components/drawer/drawer-link.vue'
 import Dropdown from './vue-components/dropdown/dropdown.vue'
 import Fab from './vue-components/fab/fab.vue'
 import SmallFab from './vue-components/fab/small-fab.vue'
@@ -25,7 +29,6 @@ import Gallery from './vue-components/gallery/gallery.vue'
 import GallerySlider from './vue-components/gallery/gallery-slider.vue'
 import Grid from './vue-components/grid/grid.vue'
 import GridTable from './vue-components/grid/grid-table.vue'
-import GridSelectedFilter from './vue-components/grid/grid-selected-filter'
 import InfiniteScroll from './vue-components/infinite-scroll/infinite-scroll.vue'
 import Number from './vue-components/number/number.vue'
 import Pagination from './vue-components/pagination/pagination.vue'
@@ -50,6 +53,10 @@ function registerTransitions (_Vue) {
   _Vue.transition('slide', transitionSlide)
 }
 
+function registerFilters (_Vue) {
+  _Vue.filter('gridShowSelected', GridSelectedFilter)
+}
+
 function registerDirectives (_Vue) {
   _Vue.directive('attr', directiveAttr)
   _Vue.directive('card-minimize', directiveCardMinimize)
@@ -69,6 +76,8 @@ function registerComponents (_Vue) {
   _Vue.component('quasar-choice', Choice)
   _Vue.component('quasar-collapsible', Collapsible)
   _Vue.component('quasar-collapsible-item', CollapsibleItem)
+  _Vue.component('quasar-drawer', Drawer)
+  _Vue.component('quasar-drawer-link', DrawerLink)
   _Vue.component('quasar-dropdown', Dropdown)
   _Vue.component('quasar-context-dropdown', ContextDropdown)
   _Vue.component('quasar-fab', Fab)
@@ -77,7 +86,6 @@ function registerComponents (_Vue) {
   _Vue.component('quasar-gallery-slider', GallerySlider)
   _Vue.component('quasar-grid', Grid)
   _Vue.component('quasar-grid-table', GridTable)
-  _Vue.filter('gridShowSelected', GridSelectedFilter)
   _Vue.component('quasar-infinite-scroll', InfiniteScroll)
   _Vue.component('quasar-number', Number)
   _Vue.component('quasar-pagination', Pagination)
@@ -109,6 +117,7 @@ export default function (_Vue) {
   Vue = _Vue
 
   registerTransitions(_Vue)
+  registerFilters(_Vue)
   registerDirectives(_Vue)
   registerComponents(_Vue)
   registerSpinners(_Vue)

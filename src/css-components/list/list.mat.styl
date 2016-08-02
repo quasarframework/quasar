@@ -35,13 +35,13 @@ $item-active-background-color ?= $primary
   font-size $item-font-size
   transition all .3s
 
-  &.active
+  &.active, &.v-link-active
     color $item-active-color
     background-color $item-active-background-color
   &.item-link
     cursor pointer
     transition all .3s
-    &:not(.active):hover
+    &:not(.active):not(.v-link-active):hover
       background-color $list-divider-color
 
   i
@@ -110,7 +110,7 @@ $item-active-background-color ?= $primary
     background-color white
 
 list-inner-delimiter()
-  .item + .item:not(.active)
+  .item + .item:not(.active):not(.v-link-active)
     .item-content
       border-top 1px solid $list-divider-color
   .item:not(.active) + .list-header
@@ -119,9 +119,9 @@ list-inner-delimiter()
     border-bottom 1px solid $list-divider-color
 
 list-item-delimiter()
-  .item:not(.active) + .list-header,
-  .item:not(.active) + .item,
-  .item + .item:not(.active)
+  .item:not(.active):not(.v-link-active) + .list-header,
+  .item:not(.active):not(.v-link-active) + .item,
+  .item + .item:not(.active):not(.v-link-active)
     border-top 1px solid $list-divider-color
   .list-header
     border-bottom 1px solid $list-divider-color

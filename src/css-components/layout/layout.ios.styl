@@ -20,6 +20,8 @@ $layout-border ?= 1px solid $layout-second-color
 
 .layout-content
   overflow-y auto
+  width 100%
+  position relative
 
 .layout-header, .layout-footer
   color $layout-color
@@ -30,7 +32,7 @@ $layout-border ?= 1px solid $layout-second-color
 
 .toolbar
   padding 4px
-  min-height 44px
+  min-height 47px
   display flex
   overflow hidden
   flex-direction row
@@ -38,6 +40,11 @@ $layout-border ?= 1px solid $layout-second-color
   justify-content space-between
   width 100%
   position relative
+
+  &.border-bottom
+    border-bottom $layout-border
+  &.border-top
+    border-top $layout-border
 
   for $name, $color in $colors
     &.{$name}

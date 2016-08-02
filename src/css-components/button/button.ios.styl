@@ -97,9 +97,13 @@ button, .button
 
   for $name, $color in $colors
     &.{$name}
+      background-color $color
+      text-shadow 0 0 2px black
+
       if $name != 'light'
         color white
-      background-color $color
+      else
+        text-shadow none
 
       &:active:not(.disabled)
         background-color active-color($color) !important
@@ -118,15 +122,28 @@ button, .button
       &.clear, &.outline
         color $color
         background-color transparent
+        text-shadow none
         &:active:not(.disabled)
           color white
           background-color $color !important
 
+      &.bordered
+        border 3px
+        border-style solid
+        border-color active-color($color)
+
+      &.push
+        transition none
+        border-bottom 3px solid dark-active-color($color)
+        box-shadow $shadow-2
+        &:active:not(.disabled)
+          border-bottom 0
+          box-shadow none !important
+        &:not(.circular)
+          border-radius 7px
+
   &.clear
     border-radius 0
-
-  &.light
-    color $dark !important
 
   &.circular
     text-align center
@@ -134,15 +151,15 @@ button, .button
     padding 0
     height $button-circular-size
     width $button-circular-size
-    line-height $button-circular-size
+    line-height ($button-circular-size - 9px)
     &.small
       height $button-small-circular-size
       width $button-small-circular-size
-      line-height $button-small-circular-size
+      line-height ($button-small-circular-size - 9px)
     &.big
       height $button-big-circular-size
       width $button-big-circular-size
-      line-height $button-big-circular-size
+      line-height ($button-big-circular-size - 7px)
 
   &.block, &.full-width
     margin-left 0
@@ -158,7 +175,8 @@ body.desktop
       &.{$name}:not(.disabled)
         &:hover:not(.clear):not(.glossy)
           background-color hover-color($color)
-          box-shadow $button-box-shadow
+          &:not(.push)
+            box-shadow $button-box-shadow
         &.clear:hover
           background-color lighten($color, 70%)
         &.outline:hover

@@ -13,7 +13,6 @@
 <script>
 import data from 'asset/grid-data.json'
 
-console.log(data)
 export default {
   data () {
     return {
