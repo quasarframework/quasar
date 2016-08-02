@@ -25,14 +25,19 @@ export default {
         'Dropdown',
         'Flex',
         'Form',
+        'Infinite Scroll',
         'Loading',
         'Label',
         'List',
         'Modal',
         'Notify',
         'Pagination',
+        'Parallax',
         'Progressbar',
+        'Pull to Refresh',
         'Rating',
+        'Scroll Fire',
+        'Slider',
         'Spinners',
         'Table',
         'Timeline',
@@ -43,7 +48,7 @@ export default {
   },
   methods: {
     link (page) {
-      return page.toLowerCase().replace(/ /, '-')
+      return page.toLowerCase().replace(/ /g, '-')
     }
   }
 }

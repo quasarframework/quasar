@@ -1,12 +1,16 @@
 
 import transitionSlide from './vue-transitions/slide'
 
-import directiveAttr from './vue-directives/attribute'
-import directiveCard from './vue-directives/card'
+import directiveAttr from './vue-directives/attr'
+import directiveCardClose from './vue-directives/card-close'
+import directiveCardDetails from './vue-directives/card-details'
+import directiveCardMinimize from './vue-directives/card-minimize'
 import directiveCollapsible from './vue-directives/collapsible'
-import directiveExit from './vue-directives/exit-app'
+import directiveExitApp from './vue-directives/exit-app'
 import directiveHover from './vue-directives/hover'
-import directiveList from './vue-directives/list'
+import directiveScrollFire from './vue-directives/scroll-fire'
+import directiveScroll from './vue-directives/scroll'
+import directiveSwipeItem from './vue-directives/swipe-item'
 import directiveTooltip from './vue-directives/tooltip'
 
 import Checkbox from './vue-components/checkbox/checkbox.vue'
@@ -17,9 +21,12 @@ import Dropdown from './vue-components/dropdown/dropdown.vue'
 import ContextDropdown from './vue-components/dropdown/context-dropdown.vue'
 import Gallery from './vue-components/gallery/gallery.vue'
 import GallerySlider from './vue-components/gallery/gallery-slider.vue'
+import InfiniteScroll from './vue-components/infinite-scroll/infinite-scroll.vue'
 import Number from './vue-components/number/number.vue'
 import Pagination from './vue-components/pagination/pagination.vue'
+import Parallax from './vue-components/parallax/parallax.vue'
 import ProgressBar from './vue-components/progress-bar/progress-bar.vue'
+import PullToRefresh from './vue-components/pull-to-refresh/pull-to-refresh.vue'
 import Radio from './vue-components/radio/radio.vue'
 import Range from './vue-components/range/range.vue'
 import Rating from './vue-components/rating/rating.vue'
@@ -35,17 +42,21 @@ import TreeItem from './vue-components/tree/tree-item.vue'
 import Video from './vue-components/video/video.vue'
 
 function registerTransitions (_Vue) {
-  transitionSlide(_Vue)
+  _Vue.transition('slide', transitionSlide)
 }
 
 function registerDirectives (_Vue) {
-  directiveAttr(_Vue)
-  directiveCard(_Vue)
-  directiveCollapsible(_Vue)
-  directiveExit(_Vue)
-  directiveHover(_Vue)
-  directiveList(_Vue)
-  directiveTooltip(_Vue)
+  _Vue.directive('attr', directiveAttr)
+  _Vue.directive('card-minimize', directiveCardMinimize)
+  _Vue.directive('card-close', directiveCardClose)
+  _Vue.directive('card-details', directiveCardDetails)
+  _Vue.directive('collapsible', directiveCollapsible)
+  _Vue.directive('exit-app', directiveExitApp)
+  _Vue.directive('hover', directiveHover)
+  _Vue.directive('scroll-fire', directiveScrollFire)
+  _Vue.directive('scroll', directiveScroll)
+  _Vue.directive('swipe-item', directiveSwipeItem)
+  _Vue.directive('tooltip', directiveTooltip)
 }
 
 function registerComponents (_Vue) {
@@ -58,9 +69,12 @@ function registerComponents (_Vue) {
   _Vue.component('quasar-collapsible-item', CollapsibleItem)
   _Vue.component('quasar-gallery', Gallery)
   _Vue.component('quasar-gallery-slider', GallerySlider)
+  _Vue.component('quasar-infinite-scroll', InfiniteScroll)
   _Vue.component('quasar-number', Number)
   _Vue.component('quasar-pagination', Pagination)
+  _Vue.component('quasar-parallax', Parallax)
   _Vue.component('quasar-progress-bar', ProgressBar)
+  _Vue.component('quasar-pull-to-refresh', PullToRefresh)
   _Vue.component('quasar-radio', Radio)
   _Vue.component('quasar-range', Range)
   _Vue.component('quasar-rating', Rating)

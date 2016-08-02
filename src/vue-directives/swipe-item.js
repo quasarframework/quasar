@@ -44,20 +44,18 @@ function swipeLeft (self) {
   }
 }
 
-export default (_Vue) => {
-  _Vue.directive('swipe-item', {
-    bind () {
-      this.element = $(this.el)
-      this.opened = false
-      this.swipeItem = this.element.siblings('.item-swipe')
-      this.width = this.swipeItem.width()
+export default {
+  bind () {
+    this.element = $(this.el)
+    this.opened = false
+    this.swipeItem = this.element.siblings('.item-swipe')
+    this.width = this.swipeItem.width()
 
-      this.hammer = Hammer(this.el) // eslint-disable-line
-        .set({direction: Hammer.DIRECTION_HORIZONTAL})
-        .on('panstart pan panend', swipeLeft(this))
-    },
-    unbind () {
-      this.hammer.off('panstart pan panend')
-    }
-  })
+    this.hammer = Hammer(this.el) // eslint-disable-line
+      .set({direction: Hammer.DIRECTION_HORIZONTAL})
+      .on('panstart pan panend', swipeLeft(this))
+  },
+  unbind () {
+    this.hammer.off('panstart pan panend')
+  }
 }

@@ -50,7 +50,7 @@ export default {
         return
       }
 
-      var scroller = this.scroller[0]
+      let scroller = this.scroller[0]
 
       this.leftScroll[scroller.scrollLeft <= 0 ? 'addClass' : 'removeClass']('disabled')
       this.rightScroll[scroller.scrollLeft + this.scroller.innerWidth() + 5 >= scroller.scrollWidth ? 'addClass' : 'removeClass']('disabled')
@@ -78,7 +78,7 @@ export default {
         }
       }
     },
-    animScrollTo: function(value) {
+    animScrollTo (value) {
       if (this.scrollTimer) {
         clearInterval(this.scrollTimer)
       }
@@ -90,8 +90,8 @@ export default {
         }
       }, 5)
     },
-    scrollTowards: function(value) {
-      var
+    scrollTowards (value) {
+      let
         scroller = this.scroller[0],
         scrollPosition = scroller.scrollLeft,
         direction = value < scrollPosition ? -1 : 1,
@@ -188,8 +188,9 @@ export default {
 
     if (Platform.has.touch) {
       this.tabs.each(function() {
-        var hammer = $(this).hammer().getHammer()
-        var lastOffset = 0
+        let
+          hammer = $(this).hammer().getHammer(),
+          lastOffset = 0
 
         hammer.on('panmove', function(ev) {
           self.scroller[0].scrollLeft += lastOffset - ev.deltaX

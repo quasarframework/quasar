@@ -1,0 +1,18 @@
+$pull-to-refresh-color     ?= $primary
+$pull-to-refresh-font-size ?= 1rem
+$pull-to-refresh-icon-size ?= 2rem
+
+.pull-to-refresh
+  overflow hidden
+  position relative
+
+.pull-to-refresh-container
+  touch-action pan-x pan-y !important
+
+.pull-to-refresh-message
+  height 65px
+  color $pull-to-refresh-color
+  font-size $pull-to-refresh-font-size
+  i
+    font-size $pull-to-refresh-icon-size
+    transition all .3s

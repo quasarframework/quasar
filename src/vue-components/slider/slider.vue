@@ -6,7 +6,7 @@
         class="quasar-slider-track"
         :class="{'with-arrows': arrows, 'with-toolbar': toolbar}"
         v-touch:pan="pan"
-        v-touch-options:pan="{ direction: 'horizontal' }">
+        v-touch-options:pan="{ direction: 'horizontal' }"
       >
         <slot name="slide"></slot>
       </div>
@@ -91,7 +91,7 @@ export default {
         this.track.velocity('stop')
       }
 
-      var delta = event.deltaX
+      let delta = event.deltaX
 
       if (
         this.slide === 0 && event.deltaX > 0 ||

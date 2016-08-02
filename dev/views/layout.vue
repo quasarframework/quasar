@@ -102,8 +102,7 @@
     </quasar-tabs>
 
     <div class="layout-content">
-      <div>Search: '{{ search }}'</div>
-      <div v-for="n in 100">text</div>
+      <router-view></router-view>
     </div>
 
     <div class="layout-footer">
