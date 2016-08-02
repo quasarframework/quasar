@@ -12,6 +12,7 @@
           <button><i>help</i></button>
         </div>
       </div>
+      <!--
       <div class="toolbar">
         <button><i>menu</i></button>
         <div class="toolbar-content">
@@ -63,8 +64,10 @@
       <div class="toolbar light">
         <quasar-searchbar :model.sync="search"></quasar-searchbar>
       </div>
+      -->
     </div>
 
+    <!--
     <quasar-tabs class="layout-navbar">
       <quasar-tab icon="mail">Mails</quasar-tab>
       <quasar-tab icon="alarm">Alarms</quasar-tab>
@@ -89,16 +92,17 @@
       <quasar-tab icon="help">Help</quasar-tab>
     </quasar-tabs>
 
-    <quasar-tabs class="layout-navbar primary">
-      <quasar-tab icon="mail" v-link="{path: '/layout', exact: true}">Mails</quasar-tab>
-      <quasar-tab icon="alarm" v-link="'/layout/alarm'">Alarms</quasar-tab>
-      <quasar-tab icon="help" v-link="'/layout/help'">Help</quasar-tab>
-    </quasar-tabs>
-
     <quasar-tabs class="layout-navbar orange clear">
       <quasar-tab icon="mail">Mails</quasar-tab>
       <quasar-tab icon="alarm">Alarms</quasar-tab>
       <quasar-tab icon="help">Help</quasar-tab>
+    </quasar-tabs>
+    -->
+
+    <quasar-tabs class="layout-navbar primary">
+      <quasar-tab icon="mail" v-link="{path: '/layout', exact: true}">Mails</quasar-tab>
+      <quasar-tab icon="alarm" v-link="'/layout/alarm'">Alarms</quasar-tab>
+      <quasar-tab icon="help" v-link="'/layout/help'">Help</quasar-tab>
     </quasar-tabs>
 
     <div class="layout-content">

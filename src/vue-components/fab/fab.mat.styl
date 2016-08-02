@@ -1,0 +1,71 @@
+$fab-size      = (1.2 * $button-circular-size)
+$fab-translate = 2 * $fab-size
+
+.quasar-fab
+  height $fab-size
+  width $fab-size
+  position relative
+  vertical-align middle
+
+  &.opened
+
+    .quasar-fab-actions
+      opacity 1
+      transform scaleX(1) scaleY(1) translateX(0) translateY(0)
+      pointer-events all
+    .quasar-fab-icon
+      transform rotate3d(0, 0, 1, 180deg)
+      opacity 0
+    .quasar-fab-active-icon
+      transform rotate3d(0, 0, 1, 0deg)
+      opacity 1
+    .backdrop
+      display block
+      background-color rgba(255, 255, 255, .5)
+
+    &.with-backdrop
+      z-index $z-fab
+
+.quasar-fab-icon, .quasar-fab-active-icon
+  position absolute
+  top 0
+  left ($fab-size / 4)
+  transition opacity .4s, transform .4s
+.quasar-fab-icon
+  opacity 1
+  transform rotate3d(0, 0, 1, 0deg)
+.quasar-fab-active-icon
+  opacity 0
+  transform rotate3d(0, 0, 1, -180deg)
+
+.quasar-fab-actions
+  position absolute
+  margin 0
+  opacity 0
+  transition all .2s ease-in
+  pointer-events none
+
+  &.right
+    transform scaleX(.4) scaleY(.4) translateX(- $fab-translate)
+    height $fab-size
+    left $fab-size
+    flex-direction row
+  &.left
+    transform scaleX(.4) scaleY(.4) translateX($fab-translate)
+    height $fab-size
+    right $fab-size
+    flex-direction row-reverse
+  &.up
+    transform scaleX(.4) scaleY(.4) translateY($fab-translate)
+    width $fab-size
+    flex-direction column-reverse
+    justify-content center
+    bottom $fab-size
+    right 0
+  &.down
+    transform scaleX(.4) scaleY(.4) translateY(- $fab-translate)
+    width $fab-size
+    flex-direction column
+    justify-content center
+    top $fab-size
+    left 0

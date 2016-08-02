@@ -5,6 +5,10 @@
     <h1>Parallax</h1>
   </quasar-parallax>
   <div v-for="n in 100">text</div>
+  <quasar-fab class="fixed" style="bottom: 60px; right: 17px;" type="primary" direction="up">
+    <quasar-small-fab label="first" class="tertiary">mail</quasar-small-fab>
+    <quasar-small-fab label="second" class="secondary">alarm</quasar-small-fab>
+  </quasar-fab>
 </template>
 
 <script>

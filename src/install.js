@@ -18,9 +18,14 @@ import Choice from './vue-components/choice/choice.vue'
 import Collapsible from './vue-components/collapsible/collapsible.vue'
 import CollapsibleItem from './vue-components/collapsible/collapsible-item.vue'
 import Dropdown from './vue-components/dropdown/dropdown.vue'
+import Fab from './vue-components/fab/fab.vue'
+import SmallFab from './vue-components/fab/small-fab.vue'
 import ContextDropdown from './vue-components/dropdown/context-dropdown.vue'
 import Gallery from './vue-components/gallery/gallery.vue'
 import GallerySlider from './vue-components/gallery/gallery-slider.vue'
+import Grid from './vue-components/grid/grid.vue'
+import GridTable from './vue-components/grid/grid-table.vue'
+import GridSelectedFilter from './vue-components/grid/grid-selected-filter'
 import InfiniteScroll from './vue-components/infinite-scroll/infinite-scroll.vue'
 import Number from './vue-components/number/number.vue'
 import Pagination from './vue-components/pagination/pagination.vue'
@@ -60,15 +65,19 @@ function registerDirectives (_Vue) {
 }
 
 function registerComponents (_Vue) {
-  _Vue.component('quasar-dropdown', Dropdown)
-  _Vue.component('quasar-context-dropdown', ContextDropdown)
   _Vue.component('quasar-checkbox', Checkbox)
   _Vue.component('quasar-choice', Choice)
-  _Vue.component('quasar-video', Video)
   _Vue.component('quasar-collapsible', Collapsible)
   _Vue.component('quasar-collapsible-item', CollapsibleItem)
+  _Vue.component('quasar-dropdown', Dropdown)
+  _Vue.component('quasar-context-dropdown', ContextDropdown)
+  _Vue.component('quasar-fab', Fab)
+  _Vue.component('quasar-small-fab', SmallFab)
   _Vue.component('quasar-gallery', Gallery)
   _Vue.component('quasar-gallery-slider', GallerySlider)
+  _Vue.component('quasar-grid', Grid)
+  _Vue.component('quasar-grid-table', GridTable)
+  _Vue.filter('gridShowSelected', GridSelectedFilter)
   _Vue.component('quasar-infinite-scroll', InfiniteScroll)
   _Vue.component('quasar-number', Number)
   _Vue.component('quasar-pagination', Pagination)
@@ -86,6 +95,7 @@ function registerComponents (_Vue) {
   _Vue.component('quasar-toggle', Toggle)
   _Vue.component('quasar-tree', Tree)
   _Vue.component('quasar-tree-item', TreeItem)
+  _Vue.component('quasar-video', Video)
 }
 
 export var Vue

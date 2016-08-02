@@ -93,6 +93,10 @@ module.exports = {
         loader: 'raw'
       },
       {
+        test: /\.json$/,
+        loader: 'json'
+      },
+      {
         test: /\.(png|jpe?g|gif)(\?.*)?$/,
         loader: 'url',
         query: {
