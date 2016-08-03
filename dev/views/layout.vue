@@ -2,26 +2,37 @@
   <quasar-layout>
     <div slot="header" class="toolbar">
       <button class="left-drawer-opener"><i>menu</i></button>
-      <div class="toolbar-content">
-        <div class="toolbar-title padding-1">
-          <div>Some very very very very long title here</div>
-        </div>
-      </div>
+      <quasar-toolbar-title :padding="1">
+        Some very very very very long title here
+      </quasar-toolbar-title>
       <button class="right-drawer-opener"><i>menu</i></button>
     </div>
     <div slot="header" class="toolbar">
       <button><i>menu</i></button>
-      <div class="toolbar-content">
-        <div class="toolbar-title padding-4">
-          <div>Some very very very very long title here</div>
-        </div>
-      </div>
-      <div class="toolbar-buttons">
-        <button><i>search</i></button>
-        <button><i>search</i></button>
-        <button><i>search</i></button>
-        <button><i>help</i></button>
-      </div>
+      <quasar-toolbar-title :padding="2">
+        Some very very very very long title here
+      </quasar-toolbar-title>
+      <button><i>search</i></button>
+      <button><i>help</i></button>
+    </div>
+    <div slot="header" class="toolbar">
+      <button><i>menu</i></button>
+      <quasar-toolbar-title :padding="3">
+        Some very very very very long title here
+      </quasar-toolbar-title>
+      <button><i>search</i></button>
+      <button><i>search</i></button>
+      <button><i>help</i></button>
+    </div>
+    <div slot="header" class="toolbar">
+      <button><i>menu</i></button>
+      <quasar-toolbar-title :padding="4" class="text-left">
+        Some very very very very long title here
+      </quasar-toolbar-title>
+      <button><i>search</i></button>
+      <button><i>search</i></button>
+      <button><i>search</i></button>
+      <button><i>help</i></button>
     </div>
     <div slot="header" class="toolbar">
       <quasar-searchbar :model.sync="search"></quasar-searchbar>
@@ -35,11 +46,9 @@
 
     <quasar-drawer>
       <div class="toolbar light border-bottom">
-        <div class="toolbar-content">
-          <div class="toolbar-title no-padding">
-            <div>Left Drawer</div>
-          </div>
-        </div>
+        <quasar-toolbar-title :padding="0">
+          Left Drawer
+        </quasar-toolbar-title>
       </div>
 
       <div class="list platform-delimiter">
@@ -59,11 +68,9 @@
 
     <quasar-drawer right-side swipe-only>
       <div class="toolbar light border-bottom">
-        <div class="toolbar-content">
-          <div class="toolbar-title no-padding">
-            <div>Right Drawer</div>
-          </div>
-        </div>
+        <quasar-toolbar-title :padding="1">
+          Right Drawer
+        </quasar-toolbar-title>
       </div>
 
       <div class="list platform-delimiter">
@@ -86,15 +93,11 @@
       <div class="toolbar-buttons">
         <button><i>menu</i></button>
       </div>
-      <div class="toolbar-content">
-        <div class="toolbar-title">
-          <div>Toolbar</div>
-        </div>
-      </div>
-      <div class="toolbar-buttons">
-        <button class="text-red"><i>search</i></button>
-        <button class="text-yellow"><i>help</i></button>
-      </div>
+      <quasar-toolbar-title :padding="1">
+        Toolbar
+      </quasar-toolbar-title>
+      <button class="text-red"><i>search</i></button>
+      <button class="text-yellow"><i>help</i></button>
     </div>
   </quasar-layout>
 </template>

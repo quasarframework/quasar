@@ -65,18 +65,12 @@ $layout-toolbar-min-height ?= 50px
         color $color
         background-color transparent
 
-  button:active:not(.disabled)
-    color $layout-active-color
-
-.toolbar-buttons
-  margin 0 .2rem
   button
     margin 0 .2rem
     padding .2rem
-.toolbar-content
-  flex 1
-  min-width 0
-  max-width 100%
+    &:active:not(.disabled)
+      color $layout-active-color
+
 .toolbar-title
   pointer-events none
   position absolute
@@ -88,12 +82,16 @@ $layout-toolbar-min-height ?= 50px
   display flex
   align-items center
   justify-content center
+  &.padding-0
+    padding 0
   &.padding-1
-    padding 0 45px 1px
+    padding 0 45px
+  &.padding-2
+    padding 0 85px
   &.padding-3
-    padding 0 135px 1px
+    padding 0 125px
   &.padding-4
-    padding 0 180px 1px
+    padding 0 165px
   > div
     flex 1
     font-weight 600
@@ -102,3 +100,17 @@ $layout-toolbar-min-height ?= 50px
     white-space nowrap
     font-size 1.2rem
     text-align center
+.toolbar-content
+  flex 1
+  min-width 0
+  max-width 100%
+  &.text-left .toolbar-title
+    position relative
+    padding 0 7px
+    > div
+      text-align left
+  &.text-right .toolbar-title
+    position relative
+    padding 0 7px
+    > div
+      text-align right

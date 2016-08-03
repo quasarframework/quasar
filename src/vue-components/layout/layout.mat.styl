@@ -53,14 +53,12 @@ $layout-toolbar-min-height ?= 55px
         color $color
         background-color transparent
 
-  button:active:not(.disabled)
-    color $layout-active-color
-
-.toolbar-buttons
-  margin 0 .2rem
   button
     margin 0 .2rem
     padding .2rem
+    &:active:not(.disabled)
+      color $layout-active-color
+
 .toolbar-content
   flex 1
   min-width 0
