@@ -4,7 +4,7 @@ import debounce from '../utils/debounce'
 export default {
   bind () {
     this.element = $(this.el)
-    this.scrollContainer = this.element.parents('.layout-content')
+    this.scrollContainer = this.element.parents('.layout-scroll-area')
     if (this.scrollContainer.length === 0) {
       this.scrollContainer = $('#quasar-app')
     }

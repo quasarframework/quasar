@@ -81,7 +81,7 @@ export default {
     this.container = $(this.$el)
     this.image = $(this.$els.img)
 
-    this.pageContainer = this.container.parents('.layout-content')
+    this.pageContainer = this.container.parents('.layout-scroll-area')
     if (this.pageContainer.length === 0) {
       this.pageContainer = $('#quasar-app')
     }

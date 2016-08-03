@@ -58,7 +58,7 @@ export default {
     this.scroll = Utils.debounce(this.scroll, 50)
     this.element = $(this.$els.content)
 
-    this.scrollContainer = this.inline ? $(this.$el) : this.element.parents('.layout-content')
+    this.scrollContainer = this.inline ? $(this.$el) : this.element.parents('.layout-scroll-area')
     if (this.scrollContainer.length === 0) {
       this.scrollContainer = $('#quasar-app')
     }

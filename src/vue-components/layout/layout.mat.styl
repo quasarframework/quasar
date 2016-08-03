@@ -1,5 +1,4 @@
 $layout-navbar-order ?= -9
-$layout-content-box-shadow ?= inset 0 8px 8px -8px #696868, inset 0 -8px 8px -8px #696868
 
 .layout
   @extends .fullscreen, .column, .full-height, .full-width
@@ -14,10 +13,16 @@ $layout-content-box-shadow ?= inset 0 8px 8px -8px #696868, inset 0 -8px 8px -8p
   order $layout-navbar-order
 
 .layout-content
-  overflow-y auto
-  width 100%
-  box-shadow $layout-content-box-shadow
+  @extends .flex, .auto
+  overflow hidden
+
+.layout-view
   position relative
+  @extends .auto
+
+.layout-scroll-area
+  height 100%
+  overflow auto
 
 .layout-header, .layout-footer
   color $layout-color

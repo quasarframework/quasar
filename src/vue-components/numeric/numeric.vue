@@ -1,5 +1,5 @@
 <template>
-  <div class="quasar-number row inline items-center">
+  <div class="quasar-numeric row inline items-center">
     <i @click="increment(-1)">remove</i>
     <input
       type="text"

@@ -101,8 +101,8 @@
 
 
   <h2>Number</h2>
-  Inline with text <quasar-number class="inline" :min="2" :max="10" :model.sync="number"></quasar-number>
-  <br><br><quasar-number :model.sync="number" :min="2" :max="10" :debounce="1000" :step="0.5">Number label</quasar-number>
+  Inline with text <quasar-numeric class="inline" :min="2" :max="10" :model.sync="number"></quasar-numeric>
+  <br><br><quasar-numeric :model.sync="number" :min="2" :max="10" :debounce="1000" :step="0.5">Number label</quasar-numeric>
   <br><br>
   <div class="list inner-delimiter bordered">
     <label class="item">
@@ -111,7 +111,7 @@
           Some number
         </div>
         <div class="item-value">
-          <quasar-number :model.sync="number"></quasar-number>
+          <quasar-numeric :model.sync="number"></quasar-numeric>
         </div>
       </div>
     </label>
@@ -121,7 +121,7 @@
           Some number
         </div>
         <div class="item-value">
-          <quasar-number :model.sync="number" :debounce="1000" :step="1.5">
+          <quasar-numeric :model.sync="number" :debounce="1000" :step="1.5">
         </div>
       </div>
     </label>
