@@ -1,15 +1,15 @@
-$notify-primary = $secondary
-$notify-secondary = lighten($notify-primary, 20%)
+$toast-primary   ?= $secondary
+$toast-secondary ?= lighten($toast-primary, 20%)
 
-#__quasar_notifiers
+#__quasar_toasts
   position fixed
-  z-index $z-notifier
+  z-index $z-toast
 
-.quasar-notifier
+.quasar-toast
   opacity .9
   will-change transform
   color white
-  background-color $notify-primary
+  background-color $toast-primary
   font-size 1rem
 
   a
@@ -26,46 +26,46 @@ $notify-secondary = lighten($notify-primary, 20%)
     font-size 1.5em
     line-height 1em
 
-  .quasar-notifier-dismiss-all
+  .quasar-toast-dismiss-all
     display none
     font-size 1.5rem
     line-height 1rem
     padding 5px
-    color $notify-primary
+    color $toast-primary
     margin-left .5rem
     border-radius 7px
-    background-color $notify-secondary
+    background-color $toast-secondary
 
   &:first-of-type
-    .quasar-notifier-dismiss-all
+    .quasar-toast-dismiss-all
       display inherit
 
 @media (max-width: $layout-small-max)
-  #__quasar_notifiers
+  #__quasar_toasts
     left 0
     right 0
     bottom 0
 
-  .quasar-notifier
+  .quasar-toast
     padding 10px 16px
     min-width 100%
     float left
     box-shadow none !important
-    border-top 1px solid $notify-secondary
+    border-top 1px solid $toast-secondary
 
 @media (min-width: $layout-medium-min)
-  #__quasar_notifiers
+  #__quasar_toasts
     pointer-events none
     top 60px
     left 25px
     right 25px
 
-  .quasar-notifier
+  .quasar-toast
     pointer-events all
     border-radius 5px
     max-width $layout-medium-min
     min-width ($layout-medium-min / 2.5)
     padding 5px 16px
     margin 5px 16px 5px auto
-    border 3px solid $notify-secondary
+    border 3px solid $toast-secondary
     box-shadow $shadow-3

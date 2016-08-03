@@ -236,12 +236,12 @@
 </template>
 
 <script>
-import { Notify } from 'quasar'
+import { Toast } from 'quasar'
 
 export default {
   methods: {
     dismissMe () {
-      Notify.create('Card dismissed.')
+      Toast.create('Card dismissed.')
     }
   }
 }

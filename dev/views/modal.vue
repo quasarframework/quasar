@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { Modal, Notify } from 'quasar'
+import { Modal, Toast } from 'quasar'
 import ScreenModal from 'component/screen-modal.vue'
 // import modalTemplate from './modal-template.html'
 
@@ -33,10 +33,10 @@ export default {
         template: '<h1 v-for="n in 10">Simple Modal</h1><button class="secondary" @click="close()">Close Me</button>'
       })
       .onShow(function() {
-        Notify.create('Opened a simple modal');
+        Toast.create('Opened a simple modal');
       })
       .onClose(function() {
-        Notify.create('Closed the simple modal');
+        Toast.create('Closed the simple modal');
       })
       .css({
         padding: '50px',

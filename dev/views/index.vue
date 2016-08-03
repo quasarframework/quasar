@@ -32,7 +32,6 @@ export default {
         'Label',
         'List',
         'Modal',
-        'Notify',
         'Pagination',
         'Parallax',
         'Progressbar',
@@ -43,6 +42,7 @@ export default {
         'Spinners',
         'Table',
         'Timeline',
+        'Toast',
         'Tree',
         'Typography'
       ]

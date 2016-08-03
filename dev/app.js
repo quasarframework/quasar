@@ -41,7 +41,6 @@ router.map({
       '/modal': { component: require('view/modal.vue') },
       '/label': { component: require('view/label.vue') },
       '/list': { component: require('view/list.vue') },
-      '/notify': { component: require('view/notify.vue') },
       '/pagination': { component: require('view/pagination.vue') },
       '/parallax': { component: require('view/parallax.vue') },
       '/progressbar': { component: require('view/progressbar.vue') },
@@ -52,6 +51,7 @@ router.map({
       '/spinners': { component: require('view/spinners.vue') },
       '/table': { component: require('view/table.vue') },
       '/timeline': { component: require('view/timeline.vue') },
+      '/toast': { component: require('view/toast.vue') },
       '/tree': { component: require('view/tree.vue') },
       '/typography': { component: require('view/typography.vue') }
     }

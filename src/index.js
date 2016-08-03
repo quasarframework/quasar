@@ -11,7 +11,7 @@ import './fastclick'
 import ActionSheet from './components/action-sheet/action-sheet'
 import Dialog from './components/dialog/dialog'
 import Modal from './components/modal/modal'
-import Notify from './components/notify/notify'
+import Toast from './components/toast/toast'
 
 import AppFullscreen from './app-fullscreen'
 import AppVisibility from './app-visibility'
@@ -39,7 +39,7 @@ let Quasar = {
   Keycodes,
   Loading,
   Modal,
-  Notify,
+  Toast,
   Utils,
   LocalStorage,
   SessionStorage
