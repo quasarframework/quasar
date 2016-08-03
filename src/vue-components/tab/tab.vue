@@ -10,10 +10,12 @@
 </template>
 
 <script>
+import $ from 'jquery'
+
 export default {
   props: ['active', 'hidden', 'disabled', 'hide', 'icon', 'label', 'target'],
   methods: {
-    activate: function() {
+    activate () {
       if (this.disabled) {
         return
       }
@@ -21,7 +23,7 @@ export default {
     }
   },
   events: {
-    blur: function(tab) {
+    blur (tab) {
       if (tab === this) {
         return
       }
@@ -29,7 +31,7 @@ export default {
     }
   },
   watch: {
-    active: function(value) {
+    active (value) {
       if (this.disabled) {
         return
       }
@@ -37,8 +39,8 @@ export default {
         this.$dispatch('selected', this, $(this.$el))
       }
     },
-    hidden: function(value) {
-      this.$dispatch('hidden');
+    hidden (value) {
+      this.$dispatch('hidden')
     }
   }
 }

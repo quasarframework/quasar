@@ -130,7 +130,8 @@
 </template>
 
 <script>
-import { Dialog } from 'quasar'
+import $ from 'jquery'
+import Dialog from '../../components/dialog/dialog'
 
 const defaultRowsPerPage = [
   {label: '5', value: 5},
@@ -142,8 +143,8 @@ const defaultRowsPerPage = [
   {label: 'No pagination', value: 0}
 ]
 
-function getRowsPerPageOption(rowsPerPage) {
-  if (defaultRowsPerPage.find(function(column) { return column.value === rowsPerPage })) {
+function getRowsPerPageOption (rowsPerPage) {
+  if (defaultRowsPerPage.find(column => column.value === rowsPerPage)) {
     return defaultRowsPerPage
   }
 
@@ -157,17 +158,12 @@ function getRowsPerPageOption(rowsPerPage) {
   return options
 }
 
-function getColumnsFieldArray(columns) {
-  return columns.map(function(column) {
-    return column.field
-  })
-}
-
 export default {
   props: ['data', 'columns', 'rowsPerPage', 'sortable', 'noDataLabel', 'idProperty', 'selectionMode', 'selectionActions'],
   data () {
-    var rowsPerPage = this.rowsPerPage
-    var chosenColumns = this.getChosenColumn()
+    let
+      rowsPerPage = this.rowsPerPage,
+      chosenColumns = this.getChosenColumn()
 
     return {
       page: 1,
@@ -189,7 +185,7 @@ export default {
       return Math.ceil(this.data.length / this.rowsPerPage)
     },
     chosenColumnsOptions () {
-      return this.columns.map(function(column) {
+      return this.columns.map(column => {
         return {
           label: column.label,
           value: column.field
@@ -206,14 +202,12 @@ export default {
       if (this.selectionMode === 'single') {
         return this.singleSelectedRow ? [this.singleSelectedRow] : []
       }
-      return this.data.filter(function(row) {
-        return row.__selected === true
-      })
+      return this.data.filter(row => row.__selected === true)
     },
     actionsModel () {
       let index = -1
 
-      return this.selectionActions.map(function(item) {
+      return this.selectionActions.map(item => {
         return {
           label: item.label,
           value: ++index
@@ -222,31 +216,31 @@ export default {
     }
   },
   watch: {
-    rowsPerPage: function(value) {
+    rowsPerPage (value) {
       this.page = 1
     },
-    chosenColumnsModel: function(options) {
+    chosenColumnsModel (options) {
       for (let i = 0; i < this.columns.length; i++) {
         this.columns.$set(i, $.extend({}, this.columns[i], {
           hidden: !options.includes(this.columns[i].field)
         }))
       }
     },
-    searchQuery: function(value) {
+    searchQuery (value) {
       this.$dispatch('filter', value)
     },
-    showOnlySelected: function(value) {
+    showOnlySelected (value) {
       this.$dispatch('toggle-selection')
     },
-    singleSelectedRow: function(value) {
+    singleSelectedRow (value) {
       this.$dispatch('set-single-selection', [value])
     }
   },
   methods: {
-    goToPageByOffset: function(pageOffset) {
+    goToPageByOffset (pageOffset) {
       this.page = Math.min(this.pagesNumber, Math.max(1, this.page + pageOffset))
     },
-    sortBy: function(field) {
+    sortBy (field) {
       if (!this.sortable) {
         return
       }
@@ -268,15 +262,15 @@ export default {
     },
     getChosenColumn () {
       return this.columns
-        .filter((column) => column.hidden !== true)
-        .map((column) => column.field)
+        .filter(column => column.hidden !== true)
+        .map(column => column.field)
     },
     clearSelection () {
       if (this.selectionMode === 'single') {
         this.singleSelectedRow = null
       }
       else {
-        this.data.forEach((row) => {
+        this.data.forEach(row => {
           if (row.hasOwnProperty('__selected')) {
             row.__selected = false
           }
@@ -289,7 +283,7 @@ export default {
       this.searchQuery = ''
       this.controls = ''
     },
-    toggleControls: function(mode) {
+    toggleControls (mode) {
       this.controls = this.controls === mode ? '' : mode
     },
     chooseAction () {
@@ -297,7 +291,6 @@ export default {
         options = this.actionsModel,
         selectedRows = this.selectedRows,
         actions = this.selectionActions
-
 
       if (selectedRows.length === 0) {
         return

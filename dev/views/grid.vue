@@ -22,8 +22,8 @@ export default {
           label: 'Date',
           field: 'isodate',
           style: 'width: 100px',
-          formatter: function(value) {
-            return new Date(value).toLocaleString();
+          formatter (value) {
+            return new Date(value).toLocaleString()
           }
         },
         {
@@ -34,11 +34,11 @@ export default {
         {
           label: 'Service',
           field: 'serviceable',
-          formatter: function(value) {
+          formatter (value) {
             if (value === 'Informational') {
-              return '<i>info</i>';
+              return '<i>info</i>'
             }
-            return value;
+            return value
           },
           style: 'color: green; width: 100px',
           classes: 'text-center'
@@ -59,14 +59,14 @@ export default {
         actions: [
           {
             label: 'View 1',
-            handler: function(selectedRows) {
-              console.dir(selectedRows);
+            handler (selectedRows) {
+              console.dir(selectedRows)
             }
           },
           {
             label: 'View 2',
-            handler: function(selectedRows) {
-              console.dir(selectedRows);
+            handler (selectedRows) {
+              console.dir(selectedRows)
             }
           }
         ]

@@ -67,10 +67,8 @@ export default {
         containerTop = this.pageContainer.offset().top,
         containerHeight = this.pageContainer.innerHeight(),
         containerBottom = containerTop + containerHeight,
-
         top = this.container.offset().top,
         bottom = top + this.height
-
 
       if (bottom > containerTop && top < containerBottom) {
         this.imageOffset = Math.round(containerTop - top + (containerHeight - this.imageHeight) / 2)

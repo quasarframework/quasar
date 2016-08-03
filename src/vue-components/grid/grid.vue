@@ -41,7 +41,7 @@ export default {
     selectionMode: {
       type: String,
       default: 'none',
-      coerce: function(value) {
+      coerce: value => {
         return value === 'single' || value === 'multiple' ? value : 'none'
       }
     },
@@ -63,13 +63,13 @@ export default {
     }
   },
   events: {
-    ['toggle-selection'] () {
+    'toggle-selection' () {
       this.showOnlySelected = !this.showOnlySelected
     },
     filter (value) {
       this.searchQuery = value
     },
-    ['set-single-selection']: function(value) {
+    'set-single-selection' (value) {
       this.singleSelection = value
     }
   }

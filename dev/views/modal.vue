@@ -12,15 +12,10 @@
 <script>
 import { Modal, Toast } from 'quasar'
 import ScreenModal from 'component/screen-modal.vue'
-// import modalTemplate from './modal-template.html'
-
-let number = 0
 
 export default {
   methods: {
     openScreenModal () {
-      var self = this;
-
       ScreenModal.methods.openModal = this.openScreenModal
 
       Modal.create(ScreenModal).css({
@@ -32,11 +27,11 @@ export default {
       Modal.create({
         template: '<h1 v-for="n in 10">Simple Modal</h1><button class="secondary" @click="close()">Close Me</button>'
       })
-      .onShow(function() {
-        Toast.create('Opened a simple modal');
+      .onShow(() => {
+        Toast.create('Opened a simple modal')
       })
-      .onClose(function() {
-        Toast.create('Closed the simple modal');
+      .onClose(() => {
+        Toast.create('Closed the simple modal')
       })
       .css({
         padding: '50px',

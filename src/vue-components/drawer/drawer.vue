@@ -145,7 +145,7 @@ function openByTouch (event) {
 
   if (theme.current === 'ios') {
     position = Math.min(position, this.width)
-    percentage = 1. - (this.width - Math.abs(position)) / this.width
+    percentage = 1.0 - (this.width - Math.abs(position)) / this.width
     fn = iosToggleAnimate
     target = body
     position = (this.rightSide ? -1 : 1) * position
@@ -184,19 +184,16 @@ function getBetween (value, min, max) {
 function closeByTouch (event) {
   let
     el = $(this.$el),
-    content = el.find('> .drawer-content')
+    content = el.find('> .drawer-content'),
+    target, fn, percentage, position, initialPosition, backdrop
 
   if (content.css('position') !== 'fixed') {
     return
   }
 
-  let
-    position = this.rightSide ? getBetween(event.deltaX, 0, this.width) : getBetween(event.deltaX, -this.width, 0),
-    initialPosition = (this.rightSide ? - 1 : 1) * this.width,
-    backdrop = el.find('> .drawer-backdrop'),
-    target,
-    fn,
-    percentage
+  position = this.rightSide ? getBetween(event.deltaX, 0, this.width) : getBetween(event.deltaX, -this.width, 0)
+  initialPosition = (this.rightSide ? -1 : 1) * this.width
+  backdrop = el.find('> .drawer-backdrop')
 
   if (event.isFinal) {
     this.opened = Math.abs(position) <= 75
@@ -219,15 +216,15 @@ function closeByTouch (event) {
     return
   }
   target.css({
-    'transform': 'translateX(' + position + 'px)',
+    'transform': 'translateX(' + position + 'px)'
   })
   backdrop.css('background-color', 'rgba(0,0,0,' + percentage * backdropOpacity[theme.current] + ')')
 }
 
-function closeDrawers(done) {
+function closeDrawers (done) {
   if (leftDrawer && leftDrawer.opened) {
     leftDrawer.setState(false, done)
-    return;
+    return
   }
   if (rightDrawer && rightDrawer.opened) {
     rightDrawer.setState(false, done)

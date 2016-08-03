@@ -32,7 +32,7 @@ import { Dialog } from 'quasar'
 
 export default {
   methods: {
-    alert: function() {
+    alert () {
       Dialog.create({
         title: 'FAB',
         message: 'Good job! Keep it going.'

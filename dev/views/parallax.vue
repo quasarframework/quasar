@@ -33,8 +33,6 @@
 </template>
 
 <script>
-import { ActionSheet } from 'quasar'
-
 export default {
   data () {
     return {

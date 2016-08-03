@@ -59,7 +59,7 @@ module.exports = {
     })
   ]),
   module: {
-    /* preLoaders: [
+    preLoaders: [
       {
         test: /\.vue$/,
         loader: 'eslint',
@@ -72,7 +72,7 @@ module.exports = {
         include: projectRoot,
         exclude: /node_modules/
       }
-    ],*/
+    ],
     loaders: [utils.styleLoaders()].concat([
       {
         test: /\.vue$/,

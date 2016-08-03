@@ -19,7 +19,7 @@ import $ from 'jquery'
 import Platform from '../../platform'
 import debounce from '../../utils/debounce'
 
-let
+const
   scrollNavigationSpeed = 5, // in pixels
   debounceDelay = 50 // in ms
 
@@ -45,7 +45,7 @@ export default {
         this.updateScrollIndicator()
       }
     },
-    updateScrollIndicator: function() {
+    updateScrollIndicator () {
       if (!Platform.is.desktop || !this.scrollable) {
         return
       }
@@ -55,7 +55,7 @@ export default {
       this.leftScroll[scroller.scrollLeft <= 0 ? 'addClass' : 'removeClass']('disabled')
       this.rightScroll[scroller.scrollLeft + this.scroller.innerWidth() + 5 >= scroller.scrollWidth ? 'addClass' : 'removeClass']('disabled')
     },
-    scrollToSelectedIfNeeded: function(tab) {
+    scrollToSelectedIfNeeded (tab) {
       if (tab.length === 0 || !this.scrollable) {
         return
       }
@@ -172,31 +172,31 @@ export default {
         scrollEvents.stop.push('touchend')
       }
 
-      this.leftScroll.bind(scrollEvents.start.join(' '), function() {
-        self.animScrollTo(0)
+      this.leftScroll.bind(scrollEvents.start.join(' '), () => {
+        this.animScrollTo(0)
       })
-      this.leftScroll.bind(scrollEvents.stop.join(' '), function() {
-        clearInterval(self.scrollTimer)
+      this.leftScroll.bind(scrollEvents.stop.join(' '), () => {
+        clearInterval(this.scrollTimer)
       })
-      this.rightScroll.bind(scrollEvents.start.join(' '), function() {
-        self.animScrollTo(9999)
+      this.rightScroll.bind(scrollEvents.start.join(' '), () => {
+        this.animScrollTo(9999)
       })
-      this.rightScroll.bind(scrollEvents.stop.join(' '), function() {
-        clearInterval(self.scrollTimer)
+      this.rightScroll.bind(scrollEvents.stop.join(' '), () => {
+        clearInterval(this.scrollTimer)
       })
     }
 
     if (Platform.has.touch) {
-      this.tabs.each(function() {
+      this.tabs.each(function () {
         let
           hammer = $(this).hammer().getHammer(),
           lastOffset = 0
 
-        hammer.on('panmove', function(ev) {
+        hammer.on('panmove', (ev) => {
           self.scroller[0].scrollLeft += lastOffset - ev.deltaX
           lastOffset = ev.deltaX
         })
-        hammer.on('panend', function() {
+        hammer.on('panend', () => {
           lastOffset = 0
         })
       })
@@ -209,7 +209,7 @@ export default {
     this.scroller.off('scroll', this.updateScrollIndicator)
     $(window).off('resize', this.redraw)
     if (Platform.has.touch) {
-      this.tabs.each(function() {
+      this.tabs.each(function () {
         $(this).getHammer().destroy()
       })
     }

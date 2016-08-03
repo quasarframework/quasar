@@ -36,9 +36,9 @@ export default {
       console.log('called scroll', index)
 
       setTimeout(() => {
-        var items = []
+        let items = []
 
-        for (var i = 0; i < 7; i++) {
+        for (let i = 0; i < 7; i++) {
           items.push({})
         }
 

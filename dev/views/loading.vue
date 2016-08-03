@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { Loading, Dialog } from 'quasar'
+import { Loading } from 'quasar'
 
 export default {
   methods: {

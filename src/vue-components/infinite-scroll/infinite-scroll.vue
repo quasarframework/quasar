@@ -11,7 +11,8 @@
 </template>
 
 <script>
-import { Utils } from 'quasar'
+import $ from 'jquery'
+import debounce from '../../utils/debounce'
 
 export default {
   props: {
@@ -22,9 +23,7 @@ export default {
     inline: {
       type: Boolean,
       default: false,
-      coerce: function(value) {
-        return !!value
-      }
+      coerce: Boolean
     }
   },
   data () {
@@ -49,13 +48,15 @@ export default {
         this.refreshing = true
         this.handler(this.index, () => {
           this.refreshing = false
-          this.scroll()
+          if (this.element.parents('html').length > 0) {
+            this.scroll()
+          }
         })
       }
     }
   },
   ready () {
-    this.scroll = Utils.debounce(this.scroll, 50)
+    this.scroll = debounce(this.scroll, 50)
     this.element = $(this.$els.content)
 
     this.scrollContainer = this.inline ? $(this.$el) : this.element.parents('.layout-scroll-area')

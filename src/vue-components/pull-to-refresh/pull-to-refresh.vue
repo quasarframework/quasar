@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import $ from 'jquery'
 import Hammer from 'hammerjs'
 
 export default {
@@ -57,12 +58,12 @@ export default {
       default: 'refresh'
     }
   },
-  data: function() {
+  data () {
     let height = 65
 
     return {
       state: 'pull',
-      pullPosition: - height,
+      pullPosition: -height,
       height: height,
       animating: false,
       pulling: false,
@@ -85,7 +86,7 @@ export default {
         if (this.state === 'refreshing') {
           return
         }
-        if (this.pullPosition === - this.height && hammer.direction === Hammer.DIRECTION_UP) {
+        if (this.pullPosition === -this.height && hammer.direction === Hammer.DIRECTION_UP) {
           return
         }
 
@@ -103,7 +104,7 @@ export default {
       }
 
       this.pulling = true
-      this.pullPosition = - this.height + Math.max(0, Math.pow(hammer.deltaY, 0.85))
+      this.pullPosition = -this.height + Math.max(0, Math.pow(hammer.deltaY, 0.85))
 
       if (this.pullPosition > this.distance) {
         if (hammer.isFinal) {
@@ -122,7 +123,7 @@ export default {
         if (hammer.isFinal) {
           this.pulling = false
           this.scrollContainer.css('overflow', this.originalScrollOverflow)
-          this.animateTo(- this.height)
+          this.animateTo(-this.height)
         }
       }
     },
