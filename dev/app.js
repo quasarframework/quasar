@@ -60,7 +60,7 @@ router.map({
     component: require('view/layout.vue'),
     subRoutes: {
       '/': { component: require('view/layout-index.vue') },
-      '/alarm': { component: {template: '<div v-for="n in 100">gigi</div>'} },
+      '/alarm': { component: {template: '<div><div v-for="n in 100">gigi</div></div>'} },
       '/help': { component: {} }
     }
   }

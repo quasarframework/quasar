@@ -78,9 +78,9 @@
       </div>
     </quasar-drawer>
 
-    <quasar-layout-view>
-      <router-view></router-view>
-    </quasar-layout-view>
+    <div class="layout-view">
+      <router-view class="layout-scroll-area"></router-view>
+    </div>
 
     <div slot="footer" class="toolbar light">
       <div class="toolbar-buttons">
