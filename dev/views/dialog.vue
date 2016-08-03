@@ -7,6 +7,7 @@
   <button class="primary" @click="checkbox(true)">Toggle</button>
   <button class="primary" @click="range()">Range</button>
   <button class="primary" @click="progress()">Progress</button>
+  <button class="primary" @click="progress2()">Progress 2</button>
 
   <br>
   <button class="primary" @click="stacked()">Stacked Buttons</button>
@@ -54,6 +55,25 @@ export default {
           dialog.close()
         }
       }, 1000)
+    },
+    progress2 () {
+      let
+        dialog,
+        timeout,
+        progress = {
+          indeterminate: true
+        }
+
+      dialog = Dialog.create({
+        message: 'Loading...',
+        progress: progress,
+        buttons: false
+      }).show()
+
+      timeout = setTimeout(() => {
+        clearTimeout(timeout)
+        dialog.close()
+      }, 3000)
     },
     prompt () {
       Dialog.create({

@@ -11,8 +11,9 @@ let
 const
   body = $('body'),
   template = `
-    <div class="fullscreen row items-center justify-center z-absolute">
+    <div class="fullscreen column items-center justify-center z-absolute">
       <spinner :name="spinner" color="#fff" :size="80"></spinner>
+      <div v-if="message" style="margin: 40px 20px 0 20px; text-align: center; color: white; text-shadow: 0 0 7px black">{{ message }}</div>
     </div>
   `
 
@@ -20,8 +21,13 @@ function isActive () {
   return appIsInProgress
 }
 
-function show (options = {}) {
+function show ({
+  delay = 500,
+  spinner = theme === 'ios' ? 'ios' : 'tail',
+  message = false
+} = {}) {
   if (appIsInProgress) {
+    vm.$data = {spinner, message}
     return
   }
 
@@ -34,12 +40,13 @@ function show (options = {}) {
     vm = new Vue({
       el: node[0],
       data: {
-        spinner: options.spinner || theme === 'ios' ? 'ios' : 'tail'
+        spinner,
+        message
       }
     })
 
     timeout = null
-  }, options.delay || 500)
+  }, delay)
 
   appIsInProgress = true
   Events.trigger('app:loading', true)

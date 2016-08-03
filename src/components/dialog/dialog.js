@@ -3,6 +3,10 @@ import template from './dialog.html'
 import Modal from '../modal/modal'
 
 function parseButtons (buttons) {
+  if (buttons === false) {
+    return false
+  }
+
   if (!Array.isArray(buttons)) {
     throw new Error('Dialog buttons parameter must be an array.')
   }
@@ -108,7 +112,7 @@ function parseProgress (progress) {
 function create (options) {
   var data = $.extend({}, options)
 
-  if (!data.buttons) {
+  if (typeof data.buttons === 'undefined') {
     data.buttons = [{label: 'Ok', handler: $.noop}]
   }
   else {
