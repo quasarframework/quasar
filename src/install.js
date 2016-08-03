@@ -31,7 +31,6 @@ import Grid from './vue-components/grid/grid.vue'
 import GridTable from './vue-components/grid/grid-table.vue'
 import InfiniteScroll from './vue-components/infinite-scroll/infinite-scroll.vue'
 import Layout from './vue-components/layout/layout.vue'
-import LayoutView from './vue-components/layout/layout-view.vue'
 import Numeric from './vue-components/numeric/numeric.vue'
 import Pagination from './vue-components/pagination/pagination.vue'
 import Parallax from './vue-components/parallax/parallax.vue'
@@ -90,7 +89,6 @@ function registerComponents (_Vue) {
   _Vue.component('quasar-grid-table', GridTable)
   _Vue.component('quasar-infinite-scroll', InfiniteScroll)
   _Vue.component('quasar-layout', Layout)
-  _Vue.component('quasar-layout-view', LayoutView)
   _Vue.component('quasar-numeric', Numeric)
   _Vue.component('quasar-pagination', Pagination)
   _Vue.component('quasar-parallax', Parallax)

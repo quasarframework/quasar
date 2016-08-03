@@ -1,5 +1,6 @@
-$layout-navbar-order ?= 9
-$layout-border ?= 1px solid $layout-second-color
+$layout-navbar-order       ?= 9
+$layout-border             ?= 1px solid $layout-second-color
+$layout-toolbar-min-height ?= 50px
 
 .layout
   @extends .fullscreen, .column, .full-height, .full-width
@@ -39,7 +40,7 @@ $layout-border ?= 1px solid $layout-second-color
 
 .toolbar
   padding 4px
-  min-height 47px
+  min-height $layout-toolbar-min-height
   display flex
   overflow hidden
   flex-direction row
