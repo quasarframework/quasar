@@ -38,3 +38,10 @@ $radio-border-width ?= $generic-input-border-width
     &:after
       background-color $form-active-color
       transform scale(1.02)
+
+  for $name, $color in $colors
+    &.{$name} input:checked + div
+      &:before
+        border-color $color
+      &:after
+        background-color $color

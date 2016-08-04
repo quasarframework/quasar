@@ -1,5 +1,6 @@
 $backdrop-opacity           ?= .3
 $backdrop-background-color  ?= rgba(0, 0, 0, $backdrop-opacity)
+$generic-margin             ?= 5px
 
 .backdrop
   display none
@@ -23,3 +24,6 @@ $backdrop-background-color  ?= rgba(0, 0, 0, $backdrop-opacity)
 
 .round-borders
   border-radius $generic-border-radius
+
+.generic-margin, .group > * // @stylint ignore
+  margin 5px

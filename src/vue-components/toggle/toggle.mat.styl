@@ -26,19 +26,18 @@ $toggle-area-active-left = ($toggle-width - $toggle-handle-size - $toggle-border
 
   input + div
     position relative
-
     &:before, &:after
       content ''
       position absolute
       transition all .3s ease
-
     &:before
       vertical-align middle
       top $toggle-area-top
       left $toggle-area-left
       width $toggle-area-width
       height $toggle-area-height
-
+      border-radius 16px
+      background-color $form-lighter-color
     &:after
       border-radius 50%
       top $toggle-handle-top
@@ -46,23 +45,18 @@ $toggle-area-active-left = ($toggle-width - $toggle-handle-size - $toggle-border
       width $toggle-handle-size
       height $toggle-handle-size
       background-color white
-
-  input:checked + div
-    &:after
-      left $toggle-area-active-left
-
-
-.quasar-toggle
-  input + div
-    &:before
-      border-radius 16px
-      background-color $form-lighter-color
-    &:after
       box-shadow $form-shadow
 
   input:checked + div
     &:before
       background-color lighten($form-active-color, 60%)
-
     &:after
+      left $toggle-area-active-left
       background-color $form-active-color
+
+  for $name, $color in $colors
+    &.{$name} input:checked + div
+      &:before
+        background-color lighten($color, 60%)
+      &:after
+        background-color $color

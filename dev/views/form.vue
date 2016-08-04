@@ -134,6 +134,8 @@
 
   <h2>Checkbox</h2>
   <quasar-checkbox :model.sync="check" style="border: 1px solid black"></quasar-checkbox>
+  <quasar-checkbox :model.sync="check" class="secondary"></quasar-checkbox>
+  <quasar-checkbox :model.sync="check" class="orange"></quasar-checkbox>
   <label>
     <quasar-checkbox :model.sync="check"></quasar-checkbox>
     Checkbox Label
@@ -146,6 +148,8 @@
 
   <h2>Radio</h2>
   <quasar-radio :model.sync="radio" value="opt1" style="border: 1px solid black"></quasar-radio>
+  <quasar-radio :model.sync="radio" value="opt2" class="secondary"></quasar-radio>
+  <quasar-radio :model.sync="radio" value="opt2" class="orange"></quasar-radio>
   <label>
     <quasar-radio :model.sync="radio" value="opt2"></quasar-radio>
     Radio Label
@@ -158,6 +162,8 @@
 
   <h2>Toggle</h2>
   <quasar-toggle :model.sync="check" style="border: 1px solid black"></quasar-toggle>
+  <quasar-toggle :model.sync="check" class="secondary"></quasar-toggle>
+  <quasar-toggle :model.sync="check" class="orange"></quasar-toggle>
   <label>
     <quasar-toggle :model.sync="check"></quasar-toggle>
     Toggle label

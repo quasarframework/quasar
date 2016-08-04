@@ -48,3 +48,8 @@ $checkbox-tick-height     = (.55 * $checkbox-size)
       transform rotate(45deg)
       transform-origin 100% 100%
       border-radius 0
+
+  for $name, $color in $colors
+    &.{$name} input:checked + div:before
+      background-color $color
+      border-color $color

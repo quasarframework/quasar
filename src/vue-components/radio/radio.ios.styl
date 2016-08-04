@@ -31,6 +31,10 @@ $radio-tick-thickness ?= 2px
       transform rotate(45deg)
       transition all .3s ease
 
+  for $name, $color in $colors
+    &.{$name} input:checked + div:after
+      border-color $color
+
 input:checked + div
   &:after
     opacity 1
