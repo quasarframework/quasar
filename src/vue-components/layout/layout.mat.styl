@@ -1,5 +1,5 @@
 $layout-navbar-order       ?= -9
-$layout-toolbar-min-height ?= 55px
+$layout-toolbar-min-height ?= 47px
 
 .layout
   @extends .fullscreen, .column, .full-height, .full-width
@@ -19,10 +19,10 @@ $layout-toolbar-min-height ?= 55px
 
 .layout-view
   position relative
-  @extends .auto
+  @extends .auto, .column
 
 .layout-scroll-area
-  height 100%
+  flex 1 1 auto
   overflow auto
 
 .layout-header, .layout-footer
@@ -34,7 +34,7 @@ $layout-toolbar-min-height ?= 55px
 
 .toolbar
   padding 4px
-  min-height 55px
+  min-height $layout-toolbar-min-height
   display flex
   overflow hidden
   flex-direction row

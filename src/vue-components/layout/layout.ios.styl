@@ -25,10 +25,10 @@ $layout-toolbar-min-height ?= 50px
 
 .layout-view
   position relative
-  @extends .auto
+  @extends .auto, .column
 
 .layout-scroll-area
-  height 100%
+  flex 1 1 auto
   overflow auto
 
 .layout-header, .layout-footer
