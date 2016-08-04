@@ -1,14 +1,16 @@
 $collapsible-border                   ?= 1px solid $grey-3
 $collapsible-header-background-color  ?= white
 $collapsible-content-background-color ?= white
+$collapsible-popout-active-shadow     ?= $shadow-1
 
 ul.collapsible
-  margin .5em 0 1em 0
+  margin .5em 0 1em
   padding 0
   list-style-type none
 
   > li
     list-style-type none
+    border $collapsible-border
 
     > div:first-child
       display block
@@ -16,7 +18,6 @@ ul.collapsible
       min-height 3em
       line-height 3em
       padding 0 1.5em
-      border-bottom $collapsible-border
       background-color $collapsible-header-background-color
       i
         width 2em
@@ -35,31 +36,26 @@ ul.collapsible
         box-shadow none
 
     &.active
-      border-bottom $collapsible-border
       > div:last-child
-        padding 2em
+        padding 1rem
         max-height 9999px
         opacity 1
 
     &:last-child
-      border-bottom 0
+      border-bottom $collapsible-border
 
   &:not(.popout)
-    border-top $collapsible-border
-    border-right $collapsible-border
-    border-left $collapsible-border
-    box-shadow $shadow-2
+    > li:not(:last-child)
+      border-bottom 0
 
   &.popout
     > li
+      border-top 0
       margin 0 24px
       transition all .35s cubic-bezier(.25, .46, .45, .94)
-      border-bottom 0
-      box-shadow $shadow-2
-
-      > div:first-child
-        border-bottom $collapsible-border
 
       &.active
         margin 16px 0
-        box-shadow $shadow-4
+        box-shadow $collapsible-popout-active-shadow
+    > li:first-child
+      border-top $collapsible-border

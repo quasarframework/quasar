@@ -1,5 +1,5 @@
 <template>
-  <div class="column">
+  <div class="column group">
     <button
       class="primary"
       v-for="page in pages"
