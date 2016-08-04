@@ -2,10 +2,11 @@ var
   path = require('path'),
   webpack = require('webpack'),
   utils = require('./utils'),
+  platform = require('./platform'),
   HtmlWebpackPlugin = require('html-webpack-plugin'),
+  autoprefixer = require('autoprefixer'),
   projectRoot = path.resolve(__dirname, '../'),
   entry = './dev/app.js',
-  theme = process.argv[2] || 'mat',
   plugins = []
 
 if (process.env.NODE_ENV !== 'production') {
@@ -41,7 +42,7 @@ module.exports = {
       'process.env': {
         NODE_ENV: process.env.PROD ? '"production"' : '"development"'
       },
-      '__THEME': '"' + theme + '"'
+      '__THEME': '"' + platform.theme + '"'
     }),
     new webpack.ProvidePlugin({
       $: 'jquery',
@@ -61,19 +62,13 @@ module.exports = {
   module: {
     preLoaders: [
       {
-        test: /\.vue$/,
-        loader: 'eslint',
-        include: projectRoot,
-        exclude: /node_modules/
-      },
-      {
-        test: /\.js$/,
+        test: /\.(vue|js)$/,
         loader: 'eslint',
         include: projectRoot,
         exclude: /node_modules/
       }
     ],
-    loaders: [utils.styleLoaders()].concat([
+    loaders: [utils.styleLoaders({ sourceMap: true, postcss: true })].concat([
       {
         test: /\.vue$/,
         loader: 'vue'
@@ -119,5 +114,8 @@ module.exports = {
   },
   vue: {
     loaders: utils.cssLoaders()
+  },
+  postcss: function () {
+    return [autoprefixer]
   }
 }

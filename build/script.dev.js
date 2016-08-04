@@ -4,6 +4,7 @@ var
   express = require('express'),
   webpack = require('webpack'),
   webpackConfig = require('./webpack.dev.config'),
+  platform = require('./platform'),
   app = express(),
   compiler = webpack(webpackConfig),
   devMiddleware = require('webpack-dev-middleware')(compiler, {
@@ -36,11 +37,14 @@ app.use(hotMiddleware)
 // serve pure static assets
 app.use('/statics', express.static('./dev/statics'))
 
+// try to serve Cordova statics for Play App
+app.use(express.static(platform.cordovaAssets))
+
 module.exports = app.listen(8080, function (err) {
   if (err) {
     console.log(err)
     return
   }
-  console.log('Developing with "' + (process.argv[2] || 'mat') + '" theme')
+  console.log('Developing with "' + platform.theme + '" theme')
   console.log('Listening at http://localhost:8080\n')
 })

@@ -48,6 +48,7 @@
   },
   "homepage": "http://quasar-framework.org",
   "devDependencies": {
+    "autoprefixer": "^6.4.0",
     "babel-core": "^6.0.0",
     "babel-loader": "^6.0.0",
     "babel-plugin-transform-runtime": "^6.0.0",
@@ -94,6 +95,7 @@
     "material-design-icons": "^2.2.3",
     "object-assign": "^4.1.0",
     "phantomjs": "^2.1.7",
+    "postcss-loader": "^0.9.1",
     "raw-loader": "^0.5.1",
     "roboto-fontface": "^0.5.0",
     "rollup": "^0.34.1",

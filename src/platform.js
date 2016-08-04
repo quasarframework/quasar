@@ -141,7 +141,7 @@ function getPlatform () {
   browser.name = matched.browser
   browser.platform = matched.platform
 
-  if (document.URL.indexOf('http://') === -1 && document.URL.indexOf('https://') === -1) {
+  if (window._cordovaNative) {
     browser.cordova = true
   }
 

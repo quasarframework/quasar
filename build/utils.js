@@ -4,6 +4,10 @@ exports.cssLoaders = function (options) {
   options = options || {}
 
   function generateLoaders (loaders) {
+    if (options.postcss) {
+      loaders.splice(1, 0, 'postcss')
+    }
+
     var sourceLoader = loaders.map(function (loader) {
       var extraParamChar
       if (/\?/.test(loader)) {
