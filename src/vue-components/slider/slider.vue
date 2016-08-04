@@ -32,7 +32,7 @@
             <span v-else>lens</span>
           </i>
         </div>
-        <div v-if="fullscreen || actions" class="row items-center">
+        <div class="row items-center">
           <slot name="action"></slot>
           <i v-if="fullscreen" @click="toggleFullscreen()">
             <span v-show="!inFullscreen">fullscreen</span>
