@@ -25,12 +25,16 @@ var
   external = [
     'jquery',
     'fastclick',
-    'hammerjs'
+    'hammerjs',
+    'velocity-animate',
+    'velocity-animate/velocity.ui'
   ],
   globals = {
     jquery: '$',
     fastclick: 'FastClick',
-    hammerjs: 'Hammer'
+    hammerjs: 'Hammer',
+    'velocity-animate': 'vel',
+    'velocity-animate/velocity.ui': 'velui'
   },
   rollupConfig = {
     entry: 'src/index.js',
@@ -60,11 +64,15 @@ rollup
 // ES6 Dev Build
 .then(function () {
   return rollup
-    .rollup(rollupConfig)
+    .rollup({
+      entry: 'src/index.es6.js',
+      plugins: [vue(), string(stringConfig)],
+      external: external
+    })
     .then(function (bundle) {
       return write('dist/quasar.es6.js', bundle.generate({
+        exports: 'named',
         banner: banner,
-        moduleName: 'Quasar',
         globals: globals
       }).code)
     })

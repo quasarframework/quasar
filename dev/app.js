@@ -1,16 +1,8 @@
-import $ from 'jquery'
-import 'hammerjs'
-
-window.jQuery = window.$ = $
-import 'velocity-animate'
-import 'velocity-animate/velocity.ui'
-
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VueTouch from 'vue-touch'
 import Quasar from 'quasar'
 
-Quasar.theme.set(__THEME)
 require('../src/themes/quasar.' + __THEME + '.styl')
 
 Vue.use(VueRouter)

@@ -1,3 +1,6 @@
+import 'jquery'
+import 'velocity-animate'
+import 'velocity-animate/velocity.ui'
 
 import install from './install'
 import start from './start'
