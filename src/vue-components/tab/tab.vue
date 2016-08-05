@@ -1,11 +1,11 @@
 <template>
   <div
-    class="tab items-center justify-center"
+    class="quasar-tab items-center justify-center"
     :class="{'v-link-active': active, hidden: hidden, disabled: disabled, hideIcon: hide === 'icon', hideLabel: hide === 'label'}"
     @click="activate()"
   >
-      <i v-if="icon" class="tabs-icon">{{icon}}</i>
-      <span class="tabs-label"><slot></slot></span>
+      <i v-if="icon" class="quasar-tabs-icon">{{icon}}</i>
+      <span class="quasar-tabs-label"><slot></slot></span>
   </div>
 </template>
 

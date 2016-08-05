@@ -12,7 +12,7 @@ $tabs-font-weight       ?= 400
 $tabs-label-margin      ?= 5px 0 0 0
 $tabs-label-font-size   ?= .7rem
 
-.tabs
+.quasar-tabs
   min-height 65px
   overflow hidden
   color $tabs-color
@@ -20,8 +20,7 @@ $tabs-label-font-size   ?= .7rem
   font-size $tabs-font-size
   font-weight $tabs-font-weight
   transition color .18s ease-in, box-shadow .18s ease-in
-  &:not(.layout-navbar)
-    border-radius $generic-border-radius
+  border-radius $generic-border-radius
 
   &:not(.scrollable)
     .left-scroll, .right-scroll
@@ -39,16 +38,16 @@ $tabs-label-font-size   ?= .7rem
 
   @extend .justify-center
 
-body.mobile .tabs.scrollable
+body.mobile .quasar-tabs.scrollable
   .left-scroll, .right-scroll
     display none !important
   .spacer
     min-width 45%
 
-.tabs-scroller
+.quasar-tabs-scroller
   overflow hidden
 
-.tab
+.quasar-tab
   display flex
   flex-direction column
   min-height 55px
@@ -57,9 +56,9 @@ body.mobile .tabs.scrollable
   transition all .3s
   white-space nowrap
 
-  .tabs-icon
+  .quasar-tabs-icon
     font-size $tabs-icon-font-size
-  .tabs-icon + .tabs-label
+  .quasar-tabs-icon + .quasar-tabs-label
     margin $tabs-label-margin
   &.v-link-active
     color $tabs-active-color
@@ -67,17 +66,17 @@ body.mobile .tabs.scrollable
     background-color $tabs-highlight-color
 
 @media only screen and (max-width $layout-medium-max)
-  .tabs:not(.scrollable)
-    .tabs-scroller, .tab
+  .quasar-tabs:not(.scrollable)
+    .quasar-tabs-scroller, .quasar-tab
       flex 1 1 auto
 
 @media only screen and (min-width $layout-big-min)
-  .tab
+  .quasar-tab
     padding-left (3 * $tabs-padding[1])
     padding-right (3 * $tabs-padding[1])
 
 for $name, $color in $colors
-  .tabs.{$name}
+  .quasar-tabs.{$name}
     color composite-color($color)
     background-color $color
     &.glossy
@@ -92,13 +91,13 @@ for $name, $color in $colors
         color white
     if $name != 'light'
       &.clear
-        .tab
+        .quasar-tab
           &.v-link-active
             color $layout-second-color
           &:active
             background-color 2px solid $layout-second-color
       &:not(.clear)
-        .tab
+        .quasar-tab
           &.v-link-active
             color white
           &:active

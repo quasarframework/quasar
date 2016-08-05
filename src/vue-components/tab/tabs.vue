@@ -1,9 +1,9 @@
 <template>
-  <div class="tabs row items-center">
+  <div class="quasar-tabs row items-center">
     <div class="row items-center justify-center left-scroll">
       <i>chevron_left</i>
     </div>
-    <div class="tabs-scroller row auto">
+    <div class="quasar-tabs-scroller row auto">
       <div class="spacer"></div>
       <slot></slot>
       <div class="spacer"></div>
@@ -134,10 +134,10 @@ export default {
     this.scrollable = false
 
     this.nav = $(this.$el)
-    this.scroller = this.nav.find('.tabs-scroller')
+    this.scroller = this.nav.find('.quasar-tabs-scroller')
     this.leftScroll = this.nav.find('.left-scroll')
     this.rightScroll = this.nav.find('.right-scroll')
-    this.tabs = this.scroller.find('.tab')
+    this.tabs = this.scroller.find('.quasar-tab')
 
     // debounce some costly methods;
     // debouncing here because debounce needs to be per instance

@@ -5,6 +5,12 @@ $layout-toolbar-min-height ?= 50px
 .layout
   @extends .fullscreen, .column, .full-height, .full-width
 
+  > .quasar-tabs
+    z-index $z-marginals
+    order $layout-navbar-order
+    border-top $layout-border
+    border-radius 0 !important
+
 .layout-header
   order -10
   .toolbar
@@ -14,10 +20,6 @@ $layout-toolbar-min-height ?= 50px
   order 10
   .toolbar
     border-top $layout-border
-
-.layout-navbar
-  order $layout-navbar-order
-  border-top $layout-border
 
 .layout-content
   @extends .flex, .auto
@@ -35,7 +37,7 @@ $layout-toolbar-min-height ?= 50px
   color $layout-color
   background-color $layout-background-color
 
-.layout-header, .layout-footer, .layout-navbar
+.layout-header, .layout-footer
   z-index $z-marginals
 
 .toolbar

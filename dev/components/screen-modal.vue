@@ -16,7 +16,7 @@
       <quasar-searchbar :model.sync="search"></quasar-searchbar>
     </div>
 
-    <quasar-tabs slot="navbar" class="layout-navbar">
+    <quasar-tabs slot="navbar">
       <quasar-tab icon="mail">Mails</quasar-tab>
       <quasar-tab icon="alarm">Alarms</quasar-tab>
       <quasar-tab icon="help">Help</quasar-tab>
