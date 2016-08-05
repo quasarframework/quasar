@@ -28,8 +28,7 @@ module.exports = {
     extensions: ['', '.js', '.vue'],
     fallback: [path.join(__dirname, '../node_modules')],
     alias: {
-      // 'quasar': path.resolve(__dirname, '../src/index.es6'),
-      'quasar': path.resolve(__dirname, '../dist/quasar.common'),
+      'quasar': path.resolve(__dirname, '../src/index.es6'),
       'asset': path.resolve(__dirname, '../dev/assets'),
       'component': path.resolve(__dirname, '../dev/components'),
       'view': path.resolve(__dirname, '../dev/views')
@@ -62,14 +61,14 @@ module.exports = {
     })
   ]),
   module: {
-    /* preLoaders: [
+    preLoaders: [
       {
         test: /\.(vue|js)$/,
         loader: 'eslint',
         include: projectRoot,
         exclude: /node_modules/
       }
-    ],*/
+    ],
     loaders: [utils.styleLoaders({ sourceMap: true, postcss: true })].concat([
       {
         test: /\.vue$/,
@@ -79,7 +78,7 @@ module.exports = {
         test: /\.js$/,
         loader: 'babel',
         include: projectRoot,
-        exclude: /node_modules|quasar\.common/
+        exclude: /node_modules/
       },
       {
         test: /\.html$/,
