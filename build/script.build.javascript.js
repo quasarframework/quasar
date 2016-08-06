@@ -8,6 +8,7 @@ var
   babel = require('rollup-plugin-babel'),
   string = require('rollup-plugin-string'),
   vue = require('rollup-plugin-vue'),
+  nonStandalone = process.argv[2] === 'simple' || process.argv[3] === 'simple',
   version = process.env.VERSION || require('../package.json').version,
   file,
   banner =
@@ -79,9 +80,12 @@ rollup
 })
 // Standalone Dev Build
 .then(function () {
+  if (nonStandalone) {
+    return
+  }
   return rollup.rollup(rollupConfig)
   .then(function (bundle) {
-    return write('dist/quasar.js', bundle.generate({
+    return write('dist/quasar.standalone.js', bundle.generate({
       format: 'umd',
       banner: banner,
       moduleName: 'Quasar',
@@ -91,6 +95,9 @@ rollup
 })
 // Standalone Production Build
 .then(function () {
+  if (nonStandalone) {
+    return
+  }
   return rollup.rollup(rollupConfig)
   .then(function (bundle) {
     var code, res, map
@@ -104,7 +111,7 @@ rollup
 
     res = uglify.minify(code, {
       fromString: true,
-      outSourceMap: 'quasar.min.js.map',
+      outSourceMap: 'quasar.standalone.min.js.map',
       output: {
         preamble: banner,
         ascii_only: true
@@ -113,13 +120,13 @@ rollup
 
     // fix uglifyjs sourcemap
     map = JSON.parse(res.map)
-    map.sources = ['quasar.js']
+    map.sources = ['quasar.standalone.js']
     map.sourcesContent = [code]
-    map.file = 'quasar.min.js'
+    map.file = 'quasar.standalone.min.js'
 
     return [
-      write('dist/quasar.min.js', res.code),
-      write('dist/quasar.min.js.map', JSON.stringify(map))
+      write('dist/quasar.standalone.min.js', res.code),
+      write('dist/quasar.standalone.min.js.map', JSON.stringify(map))
     ]
   })
   .then(zip)
@@ -140,11 +147,11 @@ function write (dest, code) {
 
 function zip () {
   return new Promise(function (resolve, reject) {
-    fs.readFile('dist/quasar.min.js', function (err, buf) {
+    fs.readFile('dist/quasar.standalone.min.js', function (err, buf) {
       if (err) return reject(err)
       zlib.gzip(buf, function (err, buf) {
         if (err) return reject(err)
-        write('dist/quasar.min.js.gz', buf).then(resolve)
+        write('dist/quasar.standalone.min.js.gz', buf).then(resolve)
       })
     })
   })

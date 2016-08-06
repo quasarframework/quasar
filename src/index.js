@@ -10,6 +10,7 @@ import * as theme from './theme'
 import './polyfills'
 import './error-handler'
 import './fastclick'
+import './hammer'
 
 import ActionSheet from './components/action-sheet/action-sheet'
 import Dialog from './components/dialog/dialog'

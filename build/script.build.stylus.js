@@ -2,7 +2,11 @@ var
   fs = require('fs'),
   path = require('path'),
   stylus = require('stylus'),
+  postcss = require('postcss'),
+  cssnano = require('cssnano'),
+  autoprefixer = require('autoprefixer'),
   themes = ['ios', 'mat'],
+  nonStandalone = process.argv[2] === 'simple' || process.argv[3] === 'simple',
   version = process.env.VERSION || require('../package.json').version,
   banner =
     '/*!\n' +
@@ -14,7 +18,6 @@ var
 themes.forEach(function (theme) {
   var
     src = 'src/themes/quasar.' + theme + '.styl',
-    dest = 'dist/quasar.' + theme + '.styl',
     deps,
     data
 
@@ -24,12 +27,52 @@ themes.forEach(function (theme) {
 
   data = compile([src].concat(deps))
 
-  fs.writeFileSync(dest, data, 'utf-8')
-  console.log(dest.bold + ' ' + getSize(data).gray)
+  // write Stylus file
+  writeFile('dist/quasar.' + theme + '.styl', data)
+
+  // write compiled CSS file
+  stylus(data).render(function (err, css) {
+    if (err) {
+      logError('Stylus could not compile ' + src.gray + ' file...')
+      throw err
+    }
+
+    // write unprefixed non-standalone version
+    writeFile('dist/quasar.' + theme + '.css', css)
+
+    if (nonStandalone) {
+      return
+    }
+
+    // write auto-prefixed standalone version
+    postcss([autoprefixer]).process(css).then(function (result) {
+      result.warnings().forEach(function (warn) {
+        console.warn(warn.toString())
+      })
+      writeFile('dist/quasar.' + theme + '.standalone.css', result.css)
+      cssnano.process(result.css).then(function (result) {
+        writeFile('dist/quasar.' + theme + '.standalone.min.css', result.css)
+      })
+    })
+  })
 })
+
+function logError (err) {
+  console.error('[Error]'.red, err)
+}
 
 function readFile (file) {
   return fs.readFileSync(file, 'utf-8')
+}
+
+function writeFile (file, data) {
+  fs.writeFile(file, data, 'utf-8', function (err) {
+    if (err) {
+      logError('Could not write ' + file.gray + ' file...')
+      return
+    }
+    console.log(file.bold + ' ' + getSize(data).gray)
+  })
 }
 
 function compile (src) {

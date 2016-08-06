@@ -4,7 +4,7 @@
       <slot name="header"></slot>
     </div>
 
-    <slot name="navbar"></slot>
+    <slot name="navigation"></slot>
 
     <div class="layout-content">
       <slot></slot>

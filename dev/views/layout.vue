@@ -38,7 +38,7 @@
       <quasar-searchbar :model.sync="search"></quasar-searchbar>
     </div>
 
-    <quasar-tabs slot="navbar" class="primary">
+    <quasar-tabs slot="navigation" class="primary">
       <quasar-tab icon="mail" v-link="{path: '/layout', exact: true}">Mails</quasar-tab>
       <quasar-tab icon="alarm" v-link="'/layout/alarm'">Alarms</quasar-tab>
       <quasar-tab icon="help" v-link="'/layout/help'">Help</quasar-tab>
