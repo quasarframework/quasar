@@ -22,7 +22,11 @@ export default function (callback = function () {}) {
     theme.set(Platform.is.ios ? 'ios' : 'mat')
   }
 
-  if (Platform.is.cordova) {
+  /*
+    if on Cordova, but not on an iframe,
+    like on Quasar Play app
+   */
+  if (Platform.is.cordova && !Platform.within.iframe) {
     var tag = document.createElement('script')
 
     document.addEventListener('deviceready', callback, false)

@@ -119,17 +119,21 @@ $layout-toolbar-min-height ?= 50px
 
 .layout-padding
   @media only screen and (max-width $layout-small-max)
-    padding-left .5rem
-    padding-right .5rem
+    padding .5rem
+    &.horizontal
+      padding 0 .5rem
   @media only screen and (min-width $layout-medium-min) and (max-width $layout-medium-max)
     max-width $layout-medium-min
-    padding-left 2rem
-    padding-right 2rem
+    padding 1rem 2rem
+    &.horizontal
+      padding 0 2rem
   @media only screen and (min-width $layout-big-min) and (max-width $layout-big-max)
     max-width $layout-medium-min
-    padding-left 3rem
-    padding-right 3rem
+    padding 2rem 3rem
+    &.horizontal
+      padding 0 3rem
   @media only screen and (min-width $layout-large-min)
     max-width $layout-big-min
-    padding-left 4rem
-    padding-right 4rem
+    padding 3rem 4rem
+    &.horizontal
+      padding 0 4rem
