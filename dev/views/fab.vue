@@ -22,8 +22,8 @@
   </div>
 
   <quasar-fab :click="alert" class="absolute-bottom-right" type="primary" active-icon="alarm" direction="up">
-    <quasar-small-fab label="first" class="primary">mail</quasar-small-fab>
-    <quasar-small-fab label="second">alarm</quasar-small-fab>
+    <quasar-small-fab class="primary">mail</quasar-small-fab>
+    <quasar-small-fab>alarm</quasar-small-fab>
   </quasar-fab>
 </template>
 

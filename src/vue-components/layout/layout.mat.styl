@@ -1,5 +1,6 @@
 $layout-navbar-order       ?= -9
 $layout-toolbar-min-height ?= 47px
+$toolbar-title-font-size   ?= 1rem
 
 .layout
   @extends .fullscreen, .column, .full-height, .full-width
@@ -68,28 +69,26 @@ $layout-toolbar-min-height ?= 47px
 .toolbar-title
   flex 1
   align-items center
-  font-size 1.4rem
+  font-size $toolbar-title-font-size
   font-weight 500
   > div
     padding 0 12px
     width 100%
-    overflow hidden
-    text-overflow ellipsis
-    white-space nowrap
+    @extend .ellipsis
 
 .layout-padding
   @media only screen and (max-width $layout-small-max)
-    padding .5rem
+    padding 1.5rem .5rem
     &.horizontal
       padding 0 .5rem
   @media only screen and (min-width $layout-medium-min) and (max-width $layout-medium-max)
     max-width $layout-medium-min
-    padding 1rem 2rem
+    padding 1.5rem 2rem
     &.horizontal
       padding 0 2rem
   @media only screen and (min-width $layout-big-min) and (max-width $layout-big-max)
     max-width $layout-medium-min
-    padding 2rem 3rem
+    padding 2.5rem 3rem
     &.horizontal
       padding 0 3rem
   @media only screen and (min-width $layout-large-min)

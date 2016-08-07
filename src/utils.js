@@ -1,20 +1,17 @@
 
 import normalizePath from './utils/normalize-path'
-import openUrl from './utils/open-url'
+import openURL from './utils/open-url'
 import debounce from './utils/debounce'
 
 export default {
-  nextTick: function (fn, delay = 1) {
-    setTimeout(fn, delay)
+  timeout: function (fn, delay = 1) {
+    return setTimeout(fn, delay)
   },
-  get: {
-    normalized: {
-      path: normalizePath
-    }
+  interval: function (fn, delay = 1) {
+    return setInterval(fn, delay)
   },
-  open: {
-    url: openUrl
-  },
+  normalizePath,
+  openURL,
   capitalize: function (string) {
     return string.charAt(0).toUpperCase() + string.slice(1)
   },

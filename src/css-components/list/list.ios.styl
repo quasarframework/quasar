@@ -69,9 +69,7 @@ $item-active-background-color ?= $primary
     margin-right - $item-margin
     padding-right $item-margin
     p
-      white-space nowrap
-      text-overflow ellipsis
-      overflow hidden
+      @extend .ellipsis
       margin 0
       padding 0
       font-size ($item-font-size / 1.1)
@@ -86,9 +84,7 @@ $item-active-background-color ?= $primary
     margin-top 10px
     margin-bottom 10px
     flex 1 1 auto
-    white-space nowrap
-    text-overflow ellipsis
-    overflow hidden
+    @extend .ellipsis
 
   img
     &.avatar
