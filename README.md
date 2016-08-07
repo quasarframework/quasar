@@ -30,6 +30,7 @@ Head on to the Quasar Framework official website: [http://quasar-framework.org](
 
 * [Quasar Framework CLI](https://github.com/rstoenescu/quasar-cli)
 * [Quasar Framework Templates](https://github.com/rstoenescu/quasar-templates)
+* [Quasar Play App](https://github.com/rstoenescu/quasar-play)
 
 ## Contributing
 
