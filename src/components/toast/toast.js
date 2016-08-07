@@ -129,7 +129,6 @@ class Toast {
   }
 
   dismiss () {
-    console.log(this)
     if (this.dismissed) {
       return
     }
