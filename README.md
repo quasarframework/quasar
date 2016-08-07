@@ -1,4 +1,4 @@
-NOTICE! Undergoing major changes to support ES6, vue-loader, smarter starter boilerplate, hot reload, e2e testing, faster build times, lower footprint, new and faster CLI and many more! v0.5.0 coming soon.
+**NOTICE! Undergoing major changes to support ES6, vue-loader, smarter starter boilerplate, hot reload, e2e testing, faster build times, lower footprint, new and faster CLI and many more! v0.5.0 coming soon.**
 
 ![Quasar Framework logo](http://quasar-framework.org/images/quasar-logo.png)
 
