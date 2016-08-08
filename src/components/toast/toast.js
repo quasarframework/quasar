@@ -8,19 +8,19 @@ let
   types = [
     {
       name: 'positive',
-      defaults: {icon: 'check'}
+      defaults: {icon: 'check', color: 'positive'}
     },
     {
       name: 'negative',
-      defaults: {icon: 'whatshot'}
+      defaults: {icon: 'whatshot', color: 'negative'}
     },
     {
       name: 'info',
-      defaults: {icon: 'info'}
+      defaults: {icon: 'info', color: 'info'}
     },
     {
       name: 'warning',
-      defaults: {icon: 'warning'}
+      defaults: {icon: 'warning', color: 'warning'}
     }
   ]
 
@@ -32,7 +32,9 @@ function dismissAll () {
 
 class Toast {
   constructor (options) {
-    var dismiss = () => { this.dismiss() }
+    let
+      dismiss = () => { this.dismiss() },
+      color = options.color ? 'custom-background bg-' + options.color : ''
 
     $.extend(true,
       this,
@@ -76,7 +78,7 @@ class Toast {
 
     this.node = $(`
       <div
-        class="quasar-toast row items-center justify-between nowrap non-selectable"
+        class="quasar-toast row items-center justify-between nowrap non-selectable ${color}"
         v-touch:pan="____pan"
         v-touch-options:pan="{ direction: 'horizontal' }"
       >

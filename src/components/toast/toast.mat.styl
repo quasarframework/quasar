@@ -1,5 +1,6 @@
-$toast-primary   ?= $secondary
-$toast-secondary ?= lighten($toast-primary, 20%)
+$toast-background-color ?= $secondary
+$toast-button-color     ?= yellow
+$toast-border           ?= 3px solid white
 
 #__quasar_toasts
   position fixed
@@ -8,12 +9,14 @@ $toast-secondary ?= lighten($toast-primary, 20%)
 .quasar-toast
   opacity .9
   will-change transform
-  color white
-  background-color $toast-primary
   font-size 1rem
+  color white
+  border $toast-border
+  &:not(.custom-background)
+    background-color $toast-background-color
 
   a
-    color $yellow
+    color $toast-button-color
 
   img
     max-height 30px
@@ -31,10 +34,10 @@ $toast-secondary ?= lighten($toast-primary, 20%)
     font-size 1.5rem
     line-height 1rem
     padding 5px
-    color $toast-primary
+    color white
     margin-left .5rem
     border-radius 7px
-    background-color $toast-secondary
+    background-color rgba(0, 0, 0, .3)
 
   &:first-of-type
     .quasar-toast-dismiss-all
@@ -50,8 +53,8 @@ $toast-secondary ?= lighten($toast-primary, 20%)
     padding 10px 16px
     min-width 100%
     float left
+    border-width 3px 0 0 0
     box-shadow none !important
-    border-top 1px solid $toast-secondary
 
 @media (min-width: $layout-medium-min)
   #__quasar_toasts
@@ -67,5 +70,4 @@ $toast-secondary ?= lighten($toast-primary, 20%)
     min-width ($layout-medium-min / 2.5)
     padding 5px 16px
     margin 5px 16px 5px auto
-    border 3px solid $toast-secondary
     box-shadow $shadow-3
