@@ -13,7 +13,7 @@
       </div>
     </div>
     <div slot="header" class="toolbar primary">
-      <quasar-search :model.sync="search"></quasar-search>
+      <quasar-search :model.sync="search" class="primary"></quasar-search>
     </div>
 
     <quasar-tabs slot="navbar">
@@ -22,10 +22,12 @@
       <quasar-tab icon="help">Help</quasar-tab>
     </quasar-tabs>
 
-    <quasar-layout-view>
-      <div>Search: '{{ search }}'</div>
-      <div v-for="n in 100">text</div>
-    </quasar-layout-view>
+    <div class="layout-scroll-area">
+      <div class="layout-padding">
+        <div>Search: '{{ search }}'</div>
+        <div v-for="n in 100">text</div>
+      </div>
+    </div>
   </div>
 </template>
 

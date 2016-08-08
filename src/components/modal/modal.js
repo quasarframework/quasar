@@ -77,8 +77,11 @@ class Modal {
     if (this.transitionIn) {
       effect = this.transitionIn
     }
+    else if (theme === 'mat') {
+      effect = 'transition.slideUpIn'
+    }
     else if (!this.minimized && (this.maximized || $(window).width() <= 600)) {
-      effect = theme === 'ios' ? {translateX: [0, '101%']} : 'transition.slideUpIn'
+      effect = {translateX: [0, '101%']}
     }
     else {
       effect = 'transition.shrinkIn'
