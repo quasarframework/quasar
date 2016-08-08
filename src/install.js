@@ -16,15 +16,14 @@ import directiveSwipeItem from './vue-directives/swipe-item'
 import directiveTooltip from './vue-directives/tooltip'
 
 import Checkbox from './vue-components/checkbox/checkbox.vue'
-import Choice from './vue-components/choice/choice.vue'
 import Collapsible from './vue-components/collapsible/collapsible.vue'
 import CollapsibleItem from './vue-components/collapsible/collapsible-item.vue'
+import ContextMenu from './vue-components/dropdown/context-menu.vue'
 import Drawer from './vue-components/drawer/drawer.vue'
 import DrawerLink from './vue-components/drawer/drawer-link.vue'
 import Dropdown from './vue-components/dropdown/dropdown.vue'
 import Fab from './vue-components/fab/fab.vue'
 import SmallFab from './vue-components/fab/small-fab.vue'
-import ContextDropdown from './vue-components/dropdown/context-dropdown.vue'
 import Gallery from './vue-components/gallery/gallery.vue'
 import GallerySlider from './vue-components/gallery/gallery-slider.vue'
 import Grid from './vue-components/grid/grid.vue'
@@ -41,6 +40,7 @@ import Radio from './vue-components/radio/radio.vue'
 import Range from './vue-components/range/range.vue'
 import Rating from './vue-components/rating/rating.vue'
 import SearchBar from './vue-components/searchbar/searchbar.vue'
+import Select from './vue-components/select/select.vue'
 import Slider from './vue-components/slider/slider.vue'
 import registerSpinners from './vue-components/spinner/spinner'
 import State from './vue-components/state/state.vue'
@@ -75,13 +75,12 @@ function registerDirectives (_Vue) {
 
 function registerComponents (_Vue) {
   _Vue.component('quasar-checkbox', Checkbox)
-  _Vue.component('quasar-choice', Choice)
   _Vue.component('quasar-collapsible', Collapsible)
   _Vue.component('quasar-collapsible-item', CollapsibleItem)
+  _Vue.component('quasar-context-menu', ContextMenu)
   _Vue.component('quasar-drawer', Drawer)
   _Vue.component('quasar-drawer-link', DrawerLink)
   _Vue.component('quasar-dropdown', Dropdown)
-  _Vue.component('quasar-context-dropdown', ContextDropdown)
   _Vue.component('quasar-fab', Fab)
   _Vue.component('quasar-small-fab', SmallFab)
   _Vue.component('quasar-gallery', Gallery)
@@ -100,6 +99,7 @@ function registerComponents (_Vue) {
   _Vue.component('quasar-range', Range)
   _Vue.component('quasar-rating', Rating)
   _Vue.component('quasar-searchbar', SearchBar)
+  _Vue.component('quasar-select', Select)
   _Vue.component('quasar-slider', Slider)
   _Vue.component('quasar-state', State)
   _Vue.component('quasar-tab', Tab)

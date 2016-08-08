@@ -37,16 +37,16 @@
           <i>playlist_add_check</i>
         </button>
 
-        <quasar-choice
+        <quasar-select
           :model.sync="rowsPerPage"
           :options="rowsPerPageOptions"
           ok-label="Change"
           cancel-label="Cancel"
           title="Rows per Page"
           fixed-label="<i>format_list_numbered</i>"
-        ></quasar-choice>
+        ></quasar-select>
 
-        <quasar-choice
+        <quasar-select
           multiple
           :model.sync="chosenColumnsModel"
           :options="chosenColumnsOptions"
@@ -54,7 +54,7 @@
           cancel-label="Cancel"
           title="Visible Columns"
           fixed-label="<i>view_column</i>"
-        ></quasar-choice>
+        ></quasar-select>
       </div>
     </div>
 

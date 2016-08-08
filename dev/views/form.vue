@@ -184,26 +184,26 @@
     <div class="item">
       <div class="item-content">
         <div class="item-label">Company</div>
-        <quasar-choice :model.sync="select" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Company"></quasar-choice>
+        <quasar-select :model.sync="select" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Company"></quasar-select>
       </div>
     </div>
     <div class="item">
       <div class="item-content">
         <div class="item-label">Company</div>
-        <quasar-choice :model.sync="select" :options="selectOptions" ok-label="Pick"></quasar-choice>
+        <quasar-select :model.sync="select" :options="selectOptions" ok-label="Pick"></quasar-select>
       </div>
     </div>
     <div class="list-header">Multiple Selection</div>
     <div class="item">
       <div class="item-content">
         <div class="item-label">Companies</div>
-        <quasar-choice multiple :model.sync="multipleSelect" :options="selectOptions" ok-label="Pick" title="Companies"></quasar-choice>
+        <quasar-select multiple :model.sync="multipleSelect" :options="selectOptions" ok-label="Pick" title="Companies"></quasar-select>
       </div>
     </div>
     <div class="item">
       <div class="item-content">
         <div class="item-label">Companies</div>
-        <quasar-choice multiple :model.sync="multipleSelect" :options="selectOptions" ok-label="Pick" title="Companies"></quasar-choice>
+        <quasar-select multiple :model.sync="multipleSelect" :options="selectOptions" ok-label="Pick" title="Companies"></quasar-select>
       </div>
     </div>
   </div>
