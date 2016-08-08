@@ -78,10 +78,10 @@ class Modal {
       effect = this.transitionIn
     }
     else if (!this.minimized && (this.maximized || $(window).width() <= 600)) {
-      effect = {translateX: [0, '101%']}
+      effect = theme === 'ios' ? {translateX: [0, '101%']} : 'transition.slideUpIn'
     }
     else {
-      effect = theme === 'ios' ? 'transition.shrinkIn' : 'transition.slideUpIn'
+      effect = 'transition.shrinkIn'
     }
 
     this.$el.removeClass('hidden')
@@ -115,10 +115,10 @@ class Modal {
       effect = this.transitionOut
     }
     else if (!this.minimized && (this.maximized || $(window).width() <= 600)) {
-      effect = {translateX: ['101%', 0]}
+      effect = theme === 'ios' ? {translateX: ['101%', 0]} : 'transition.slideDownOut'
     }
     else {
-      effect = theme === 'ios' ? 'transition.shrinkOut' : 'transition.slideDownOut'
+      effect = theme === 'ios' ? 'transition.shrinkOut' : 'transition.expandOut'
     }
 
     this.$backdrop.removeClass('active')

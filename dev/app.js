@@ -58,6 +58,7 @@ router.map({
   }
 })
 
+Quasar.theme.set(__THEME)
 Quasar.start(() => {
   router.start(Vue.extend({}), '#quasar-app')
 })
