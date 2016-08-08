@@ -164,7 +164,7 @@ flex-media-query($type)
     display none
 
   .{$type}-auto
-    @extend .auto
+    flex 1 1 auto
 
   for $cols in (1..5)
     for $parts in (1..$cols)

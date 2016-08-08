@@ -4,7 +4,9 @@ $layout-toolbar-min-height ?= 50px
 $toolbar-title-font-size   ?= 1rem
 
 .layout
-  @extends .fullscreen, .column, .full-height, .full-width
+  @extend .fullscreen, .full-height, .full-width
+  display flex
+  flex-direction column
 
   > .quasar-tabs
     z-index $z-marginals
@@ -23,12 +25,15 @@ $toolbar-title-font-size   ?= 1rem
     border-top $layout-border
 
 .layout-content
-  @extends .flex, .auto
+  display flex
+  flex 1 1 auto
   overflow hidden
 
 .layout-view
   position relative
-  @extends .auto, .column
+  flex 1 1 auto
+  display flex
+  flex-direction column
 
 .layout-scroll-area
   flex 1 1 auto
