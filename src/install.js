@@ -39,7 +39,7 @@ import PullToRefresh from './vue-components/pull-to-refresh/pull-to-refresh.vue'
 import Radio from './vue-components/radio/radio.vue'
 import Range from './vue-components/range/range.vue'
 import Rating from './vue-components/rating/rating.vue'
-import SearchBar from './vue-components/searchbar/searchbar.vue'
+import Search from './vue-components/search/search.vue'
 import Select from './vue-components/select/select.vue'
 import Slider from './vue-components/slider/slider.vue'
 import registerSpinners from './vue-components/spinner/spinner'
@@ -98,7 +98,7 @@ function registerComponents (_Vue) {
   _Vue.component('quasar-radio', Radio)
   _Vue.component('quasar-range', Range)
   _Vue.component('quasar-rating', Rating)
-  _Vue.component('quasar-searchbar', SearchBar)
+  _Vue.component('quasar-search', Search)
   _Vue.component('quasar-select', Select)
   _Vue.component('quasar-slider', Slider)
   _Vue.component('quasar-state', State)

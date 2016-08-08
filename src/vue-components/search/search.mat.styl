@@ -1,0 +1,58 @@
+.quasar-search-input-container
+  position relative
+  flex-shrink 1
+  width 100%
+
+.quasar-search-icon, .quasar-search-clear
+  position absolute
+  top 0
+  padding 0
+  margin 0
+  min-height 0
+  width 12px
+  height 100%
+
+.quasar-search-icon
+  left 16px
+.quasar-search-clear
+  right 13px
+
+.quasar-search-input
+  padding 0 45px
+  height auto
+  border-radius $generic-border-radius
+  font-weight 400
+  box-shadow $shadow-1
+  width 100%
+  border 0
+  outline 0
+  font-size 1rem
+  line-height 38px
+  background white
+  transition all .2s ease
+
+.quasar-search
+  @extend .flex, .items-center
+  padding 3px
+  background inherit
+  width 100%
+
+  for $name, $color in $colors
+    &.{$name}
+      if $name != 'light'
+        color white
+      .quasar-search-input
+        background active-color($color)
+        if $name != 'light'
+          color white
+          &::-webkit-input-placeholder
+            color $grey-4
+          &::-moz-placeholder
+            color $grey-4
+          &:-ms-input-placeholder
+            color $grey-4
+
+body.desktop .quasar-search
+  for $name, $color in $colors
+    &.{$name} .quasar-search-input:hover
+      background light-active-color($color)

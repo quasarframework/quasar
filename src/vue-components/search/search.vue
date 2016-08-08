@@ -1,15 +1,15 @@
 <template>
   <div
-    class="quasar-searchbar"
-    :class="{'quasar-searchbar-centered': !this.focused && this.model === ''}"
+    class="quasar-search"
+    :class="{'quasar-search-centered': !this.focused && this.model === ''}"
   >
-    <div class="quasar-searchbar-input-container">
-      <button class="quasar-searchbar-icon">
+    <div class="quasar-search-input-container">
+      <button class="quasar-search-icon">
         <i>search</i>
       </button>
       <input
         type="text"
-        class="quasar-searchbar-input no-style"
+        class="quasar-search-input no-style"
         placeholder="Search"
         v-model="model"
         :debounce="debounce"
@@ -17,7 +17,7 @@
         @blur="focused = false"
       >
       <button
-        class="quasar-searchbar-clear"
+        class="quasar-search-clear"
         @click="clear()"
         :class="{hidden: this.model === ''}"
       >

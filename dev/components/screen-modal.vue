@@ -13,7 +13,7 @@
       </div>
     </div>
     <div slot="header" class="toolbar primary">
-      <quasar-searchbar :model.sync="search"></quasar-searchbar>
+      <quasar-search :model.sync="search"></quasar-search>
     </div>
 
     <quasar-tabs slot="navbar">

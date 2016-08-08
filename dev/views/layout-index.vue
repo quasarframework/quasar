@@ -1,5 +1,10 @@
 <template>
   <div>
+    <quasar-search :model.sync="search"></quasar-search>
+    <quasar-search :model.sync="search" class="purple"></quasar-search>
+    <quasar-search :model.sync="search" class="red"></quasar-search>
+    <quasar-search :model.sync="search" class="dark"></quasar-search>
+
     <div class="layout-padding">
       <h1>Hello</h1>
       <div v-for="n in 100">text</div>
