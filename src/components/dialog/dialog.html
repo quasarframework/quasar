@@ -52,11 +52,11 @@
   </template>
 </div>
 <div v-if="progress" class="modal-slim-body">
-  <quasar-progress-bar
+  <quasar-progress
     :model="progress.model"
     class="primary stripe"
     :class="{indeterminate: progress.indeterminate}"
-  ></quasar-progress-bar>
+  ></quasar-progress>
   <span v-if="!progress.indeterminate">
     {{progress.model}} %
   </span>

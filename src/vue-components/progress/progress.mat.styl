@@ -1,19 +1,19 @@
-$progress-bar-track-color          ?= rgba(0, 0, 0, .15)
-$progress-bar-track-desktop-height ?= 15px
-$progress-bar-default-track-color  ?= $primary
-$progress-bar-border-radius        ?= $generic-border-radius
-$progress-bar-margin               ?= .5rem 0 1rem 0
+$progress-track-color          ?= rgba(0, 0, 0, .15)
+$progress-track-desktop-height ?= 15px
+$progress-default-track-color  ?= $primary
+$progress-border-radius        ?= $generic-border-radius
+$progress-margin               ?= .5rem 0 1rem 0
 
 
-.quasar-progress-bar
+.quasar-progress
   position relative
   height 4px
   display block
   width 100%
-  background-color $progress-bar-track-color
-  border-radius $progress-bar-border-radius
+  background-color $progress-track-color
+  border-radius $progress-border-radius
   background-clip padding-box
-  margin $progress-bar-margin
+  margin $progress-margin
   overflow hidden
 
   &:not(.indeterminate) > div
@@ -21,15 +21,15 @@ $progress-bar-margin               ?= .5rem 0 1rem 0
     top 0
     bottom 0
     background-color $primary
-    border-radius $progress-bar-border-radius
+    border-radius $progress-border-radius
     transition width .3s linear
 
   &.animate
     > div
-      animation quasar-progress-bar-stripes 2s linear infinite
+      animation quasar-progress-stripes 2s linear infinite
 
   &.indeterminate > div
-    background-color $progress-bar-default-track-color
+    background-color $progress-default-track-color
 
     &:before, &:after
       content ''
@@ -41,9 +41,9 @@ $progress-bar-margin               ?= .5rem 0 1rem 0
       will-change left, right
 
     &:before
-      animation quasar-progress-bar-indeterminate 2.1s cubic-bezier(.65, .815, .735, .395) infinite
+      animation quasar-progress-indeterminate 2.1s cubic-bezier(.65, .815, .735, .395) infinite
     &:after
-      animation quasar-progress-bar-indeterminate-short 2.1s cubic-bezier(.165, .84, .44, 1) infinite
+      animation quasar-progress-indeterminate-short 2.1s cubic-bezier(.165, .84, .44, 1) infinite
       animation-delay 1.15s
 
   &.stripe
@@ -56,10 +56,10 @@ $progress-bar-margin               ?= .5rem 0 1rem 0
       > div
         background-color $color
 
-body.desktop .quasar-progress-bar
-  height $progress-bar-track-desktop-height
+body.desktop .quasar-progress
+  height $progress-track-desktop-height
 
-@keyframes quasar-progress-bar-indeterminate
+@keyframes quasar-progress-indeterminate
   0%
     left -35%
     right 100%
@@ -70,7 +70,7 @@ body.desktop .quasar-progress-bar
     left 100%
     right -90%
 
-@keyframes quasar-progress-bar-indeterminate-short
+@keyframes quasar-progress-indeterminate-short
   0%
     left -200%
     right 100%
@@ -81,7 +81,7 @@ body.desktop .quasar-progress-bar
     left 107%
     right -8%
 
-@keyframes quasar-progress-bar-stripes
+@keyframes quasar-progress-stripes
   from
     background-position 40px 0
   to

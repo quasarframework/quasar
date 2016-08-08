@@ -34,7 +34,7 @@ import ToolbarTitle from './vue-components/layout/toolbar-title.vue'
 import Numeric from './vue-components/numeric/numeric.vue'
 import Pagination from './vue-components/pagination/pagination.vue'
 import Parallax from './vue-components/parallax/parallax.vue'
-import ProgressBar from './vue-components/progress-bar/progress-bar.vue'
+import Progress from './vue-components/progress/progress.vue'
 import PullToRefresh from './vue-components/pull-to-refresh/pull-to-refresh.vue'
 import Radio from './vue-components/radio/radio.vue'
 import Range from './vue-components/range/range.vue'
@@ -93,7 +93,7 @@ function registerComponents (_Vue) {
   _Vue.component('quasar-numeric', Numeric)
   _Vue.component('quasar-pagination', Pagination)
   _Vue.component('quasar-parallax', Parallax)
-  _Vue.component('quasar-progress-bar', ProgressBar)
+  _Vue.component('quasar-progress', Progress)
   _Vue.component('quasar-pull-to-refresh', PullToRefresh)
   _Vue.component('quasar-radio', Radio)
   _Vue.component('quasar-range', Range)

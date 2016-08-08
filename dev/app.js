@@ -35,7 +35,7 @@ router.map({
       '/list': { component: require('view/list.vue') },
       '/pagination': { component: require('view/pagination.vue') },
       '/parallax': { component: require('view/parallax.vue') },
-      '/progressbar': { component: require('view/progressbar.vue') },
+      '/progress': { component: require('view/progress.vue') },
       '/pull-to-refresh': { component: require('view/pull-to-refresh.vue') },
       '/rating': { component: require('view/rating.vue') },
       '/scroll-fire': { component: require('view/scroll-fire.vue') },

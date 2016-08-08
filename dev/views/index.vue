@@ -34,7 +34,7 @@ export default {
         'Modal',
         'Pagination',
         'Parallax',
-        'Progressbar',
+        'Progress',
         'Pull to Refresh',
         'Rating',
         'Scroll Fire',
