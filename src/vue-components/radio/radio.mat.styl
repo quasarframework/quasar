@@ -36,7 +36,7 @@ $radio-border-width ?= $generic-input-border-width
     &:before
       border $radio-border-width solid $form-active-color
     &:after
-      background-color $form-active-color
+      background $form-active-color
       transform scale(1.02)
 
   for $name, $color in $colors
@@ -44,4 +44,4 @@ $radio-border-width ?= $generic-input-border-width
       &:before
         border-color $color
       &:after
-        background-color $color
+        background $color

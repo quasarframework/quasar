@@ -7,8 +7,8 @@ $chat-message-font-size               ?= 1rem
 $chat-message-offset                  ?= 80px
 $chat-message-you-color               ?= #fff
 $chat-message-other-color             ?= #fff
-$chat-message-you-background-color    ?= $primary
-$chat-message-other-background-color  ?= $secondary
+$chat-message-you-background    ?= $primary
+$chat-message-other-background  ?= $secondary
 $chat-message-pointer-size            ?= .6rem
 $chat-message-pointer-top             ?= 10px
 $chat-message-you-pointer-transform   ?= translateX(50%) rotate(45deg)
@@ -43,7 +43,7 @@ $chat-box-shadow                      ?= none
       box-shadow $chat-box-shadow
       &:after
         content ''
-        background-color inherit
+        background inherit
         width $chat-message-pointer-size
         height .6rem
         position absolute
@@ -60,7 +60,7 @@ $chat-box-shadow                      ?= none
     p
       margin 0 0 0 auto
       color $chat-message-you-color
-      background-color $chat-message-you-background-color
+      background $chat-message-you-background
       text-align left
       &:after
         top $chat-message-pointer-top
@@ -78,7 +78,7 @@ $chat-box-shadow                      ?= none
     margin 0 0 0 $chat-message-offset
     p
       color $chat-message-other-color
-      background-color $chat-message-other-background-color
+      background $chat-message-other-background
       &:after
         top $chat-message-pointer-top
         left 1px

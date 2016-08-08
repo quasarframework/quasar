@@ -35,12 +35,12 @@
   outline 0
   font-size 1rem
   line-height 38px
-  background-color white
+  background white
   transition all .2s ease
 
 for $name, $color in $colors
   .toolbar.{$name} .quasar-searchbar-input
-    background-color active-color($color)
+    background active-color($color)
     if $name != 'light'
       color white
       &::-webkit-input-placeholder
@@ -53,4 +53,4 @@ for $name, $color in $colors
 body.desktop .toolbar
   for $name, $color in $colors
     &.{$name} .quasar-searchbar-input:hover
-      background-color light-active-color($color)
+      background light-active-color($color)

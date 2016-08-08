@@ -40,13 +40,13 @@ table
   &.striped
     > tbody > tr
       &:nth-child(odd)
-        background-color $table-highlight-color
+        background $table-highlight-color
       > td
         border-radius 0
 
 
 body.desktop table.highlight
   > tbody > tr, th
-    transition background-color .25s ease
+    transition background .25s ease
     &:hover
-      background-color darken($table-highlight-color, 5%) !important
+      background darken($table-highlight-color, 5%) !important

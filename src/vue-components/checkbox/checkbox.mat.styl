@@ -34,7 +34,7 @@ $checkbox-tick-height     = (.55 * $checkbox-size)
 
   input:checked + div
     &:before
-      background-color $form-active-color
+      background $form-active-color
       border $checkbox-border-width solid $form-active-color
     &:after
       top $checkbox-tick-top
@@ -51,5 +51,5 @@ $checkbox-tick-height     = (.55 * $checkbox-size)
 
   for $name, $color in $colors
     &.{$name} input:checked + div:before
-      background-color $color
+      background $color
       border-color $color

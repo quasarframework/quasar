@@ -43,6 +43,41 @@
       <quasar-tab icon="alarm" v-link="'/layout/alarm'">Alarms</quasar-tab>
       <quasar-tab icon="help" v-link="'/layout/help'">Help</quasar-tab>
     </quasar-tabs>
+    <quasar-tabs slot="navigation" class="light">
+      <quasar-tab icon="mail" v-link="{path: '/layout', exact: true}">Mails</quasar-tab>
+      <quasar-tab icon="alarm" v-link="'/layout/alarm'">Alarms</quasar-tab>
+      <quasar-tab icon="help" v-link="'/layout/help'">Help</quasar-tab>
+    </quasar-tabs>
+    <quasar-tabs slot="navigation" class="orange">
+      <quasar-tab icon="mail" v-link="{path: '/layout', exact: true}">Mails</quasar-tab>
+      <quasar-tab icon="alarm" v-link="'/layout/alarm'">Alarms</quasar-tab>
+      <quasar-tab icon="help" v-link="'/layout/help'">Help</quasar-tab>
+    </quasar-tabs>
+    <quasar-tabs slot="navigation" class="secondary">
+      <quasar-tab icon="mail" v-link="{path: '/layout', exact: true}">Mails</quasar-tab>
+      <quasar-tab icon="alarm" v-link="'/layout/alarm'">Alarms</quasar-tab>
+      <quasar-tab icon="help" v-link="'/layout/help'">Help</quasar-tab>
+    </quasar-tabs>
+    <quasar-tabs slot="navigation" class="primary glossy">
+      <quasar-tab icon="mail" v-link="{path: '/layout', exact: true}">Mails</quasar-tab>
+      <quasar-tab icon="alarm" v-link="'/layout/alarm'">Alarms</quasar-tab>
+      <quasar-tab icon="help" v-link="'/layout/help'">Help</quasar-tab>
+    </quasar-tabs>
+    <quasar-tabs slot="navigation" class="primary clear">
+      <quasar-tab icon="mail" v-link="{path: '/layout', exact: true}">Mails</quasar-tab>
+      <quasar-tab icon="alarm" v-link="'/layout/alarm'">Alarms</quasar-tab>
+      <quasar-tab icon="help" v-link="'/layout/help'">Help</quasar-tab>
+    </quasar-tabs>
+    <quasar-tabs slot="navigation" class="orange clear">
+      <quasar-tab icon="mail" v-link="{path: '/layout', exact: true}">Mails</quasar-tab>
+      <quasar-tab icon="alarm" v-link="'/layout/alarm'">Alarms</quasar-tab>
+      <quasar-tab icon="help" v-link="'/layout/help'">Help</quasar-tab>
+    </quasar-tabs>
+    <quasar-tabs slot="navigation" class="light clear">
+      <quasar-tab icon="mail" v-link="{path: '/layout', exact: true}">Mails</quasar-tab>
+      <quasar-tab icon="alarm" v-link="'/layout/alarm'">Alarms</quasar-tab>
+      <quasar-tab icon="help" v-link="'/layout/help'">Help</quasar-tab>
+    </quasar-tabs>
 
     <quasar-drawer>
       <div class="toolbar light border-bottom">

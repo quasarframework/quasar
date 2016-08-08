@@ -2,7 +2,7 @@ $tree-connector-color            ?= #ccc
 $tree-label-padding              ?= 5px
 $tree-label-border-radius        ?= $generic-border-radius
 $tree-highlight-color            ?= inherit
-$tree-highlight-background-color ?= $tree-connector-color
+$tree-highlight-background ?= $tree-connector-color
 
 .quasar-tree
   li
@@ -44,13 +44,13 @@ $tree-highlight-background-color ?= $tree-connector-color
   cursor pointer
   .quasar-tree-label:active
     color $tree-highlight-color
-    background-color $tree-highlight-background-color
+    background $tree-highlight-background
 
 body.desktop
   .quasar-tree-expandable-item, .quasar-tree-link
     .quasar-tree-label:hover
       color $tree-highlight-color
-      background-color $tree-highlight-background-color
+      background $tree-highlight-background
 
 .quasar-tree-label
   padding $tree-label-padding

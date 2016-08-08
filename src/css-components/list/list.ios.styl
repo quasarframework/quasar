@@ -3,7 +3,7 @@ $list-divider-color           ?= #d0d0d0
 $list-stripe-color            ?= #f2f2f2
 
 $list-header-color            ?= $layout-color
-$list-header-background-color ?= $layout-background-color
+$list-header-background ?= $layout-background
 $list-header-font-size        ?= .8rem
 $list-header-text-transform   ?= uppercase
 $list-margin                  ?= .5rem 0 1rem 0
@@ -15,7 +15,7 @@ $item-margin                  ?= ($generic-input-size / 4)
 $item-value-color             ?= #c5c5c5
 
 $item-active-color            ?= opposite-non-color($primary)
-$item-active-background-color ?= $primary
+$item-active-background ?= $primary
 
 .item
   position relative
@@ -37,12 +37,12 @@ $item-active-background-color ?= $primary
 
   &.active, &.v-link-active
     color $item-active-color
-    background-color $item-active-background-color
+    background $item-active-background
   &.item-link
     cursor pointer
     transition all .3s
     &:not(.active):not(.v-link-active):hover
-      background-color $list-divider-color
+      background $list-divider-color
 
   i
     line-height 1
@@ -103,7 +103,7 @@ $item-active-background-color ?= $primary
     z-index -1
 
   .item-swipe + .item-content
-    background-color white
+    background white
 
 list-inner-delimiter()
   .item + .item:not(.active):not(.v-link-active)
@@ -136,16 +136,16 @@ list-top-bottom-bordered()
     text-transform $list-header-text-transform
     font-weight bold
     color $list-header-color
-    background-color $list-header-background-color
+    background $list-header-background
     padding 16px
     &.inverted
-      color $list-header-background-color
-      background-color $list-header-color
+      color $list-header-background
+      background $list-header-color
 
   .list-divider
     margin 5px 0
     height 1px
-    background-color $list-divider-color
+    background $list-divider-color
     border 0
     padding 0
 
@@ -170,7 +170,7 @@ list-top-bottom-bordered()
     border 1px solid $list-divider-color
 
   &.striped > *:nth-child(odd), &.highlight > .item:hover // @stylint ignore
-    background-color $list-stripe-color
+    background $list-stripe-color
 
   &.top-bottom-bordered
     list-top-bottom-bordered()

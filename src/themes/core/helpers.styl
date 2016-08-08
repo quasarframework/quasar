@@ -1,5 +1,5 @@
 $backdrop-opacity           ?= .3
-$backdrop-background-color  ?= rgba(0, 0, 0, $backdrop-opacity)
+$backdrop-background  ?= rgba(0, 0, 0, $backdrop-opacity)
 $generic-margin             ?= 5px
 
 .backdrop
@@ -11,11 +11,11 @@ $generic-margin             ?= 5px
   left 0
   width 100vw
   height 100vh
-  background-color transparent
-  transition background-color .28s ease-in
+  background transparent
+  transition background .28s ease-in
   &.active
     display block
-    background-color $backdrop-background-color
+    background $backdrop-background
 
 .background-cover
   background-repeat no-repeat

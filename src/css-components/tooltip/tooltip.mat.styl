@@ -1,5 +1,5 @@
 $tooltip-color              ?= #fff
-$tooltip-background-color   ?= #727272
+$tooltip-background   ?= #727272
 $tooltip-width              ?= 160px
 $tooltip-padding            ?= .5rem .75rem
 $tooltip-font-size          ?= .85rem
@@ -28,7 +28,7 @@ $tooltip-border-radius      ?= $generic-border-radius
     width $tooltip-width
     border-radius $tooltip-border-radius
     color $tooltip-color
-    background-color $tooltip-background-color
+    background $tooltip-background
     text-align center
     font-size $tooltip-font-size
     line-height $tooltip-line-height
@@ -37,7 +37,7 @@ $tooltip-border-radius      ?= $generic-border-radius
     content ' '
     margin-left (- $tooltip-arrow-border-width)
     width 0
-    border-top $tooltip-arrow-border-width solid $tooltip-background-color
+    border-top $tooltip-arrow-border-width solid $tooltip-background
     border-right $tooltip-arrow-border-width solid transparent
     border-left $tooltip-arrow-border-width solid transparent
 

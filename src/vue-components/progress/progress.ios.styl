@@ -10,7 +10,7 @@ $progress-margin               ?= .5rem 0 1rem 0
   height 4px
   display block
   width 100%
-  background-color $progress-track-color
+  background $progress-track-color
   border-radius $progress-border-radius
   background-clip padding-box
   margin $progress-margin
@@ -20,7 +20,7 @@ $progress-margin               ?= .5rem 0 1rem 0
     position absolute
     top 0
     bottom 0
-    background-color $primary
+    background $primary
     border-radius $progress-border-radius
     transition width .3s linear
 
@@ -29,12 +29,12 @@ $progress-margin               ?= .5rem 0 1rem 0
       animation quasar-progress-stripes 2s linear infinite
 
   &.indeterminate > div
-    background-color $progress-default-track-color
+    background $progress-default-track-color
 
     &:before, &:after
       content ''
       position absolute
-      background-color inherit
+      background inherit
       top 0
       left 0
       bottom 0
@@ -52,9 +52,8 @@ $progress-margin               ?= .5rem 0 1rem 0
       background-size 40px 40px
 
   for $name, $color in $colors
-    &.{$name}
-      > div
-        background-color $color
+    &.{$name} > div
+      background $color
 
 body.desktop .quasar-progress
   height $progress-track-desktop-height

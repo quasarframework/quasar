@@ -1,4 +1,4 @@
-$modal-background-color  ?= white
+$modal-background  ?= white
 $modal-border-radius     ?= $generic-border-radius
 
 $modal-width             ?= 80vw
@@ -32,7 +32,7 @@ maximized-modal()
     position relative
 
 .modal-content
-  background-color $modal-background-color
+  background $modal-background
   border-radius $modal-border-radius
   box-shadow $shadow-4
   overflow-y auto

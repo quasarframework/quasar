@@ -37,26 +37,26 @@ $toggle-area-active-left = ($toggle-width - $toggle-handle-size - $toggle-border
       width $toggle-area-width
       height $toggle-area-height
       border-radius 16px
-      background-color $form-lighter-color
+      background $form-lighter-color
     &:after
       border-radius 50%
       top $toggle-handle-top
       left $toggle-handle-left
       width $toggle-handle-size
       height $toggle-handle-size
-      background-color white
+      background white
       box-shadow $form-shadow
 
   input:checked + div
     &:before
-      background-color lighten($form-active-color, 60%)
+      background lighten($form-active-color, 60%)
     &:after
       left $toggle-area-active-left
-      background-color $form-active-color
+      background $form-active-color
 
   for $name, $color in $colors
     &.{$name} input:checked + div
       &:before
-        background-color lighten($color, 60%)
+        background lighten($color, 60%)
       &:after
-        background-color $color
+        background $color

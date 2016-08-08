@@ -1,4 +1,4 @@
-$toast-background-color ?= $secondary
+$toast-background ?= $secondary
 $toast-button-color     ?= yellow
 $toast-border           ?= 3px solid white
 $toast-border-radius    ?= 7px
@@ -15,7 +15,7 @@ $toast-border-radius    ?= 7px
   border $toast-border
   border-radius $toast-border-radius
   &:not(.custom-background)
-    background-color $toast-background-color
+    background $toast-background
 
   a
     color $toast-button-color
@@ -39,7 +39,7 @@ $toast-border-radius    ?= 7px
     margin-left .5rem
     border-radius 7px
     color white
-    background-color rgba(0, 0, 0, .3)
+    background rgba(0, 0, 0, .3)
 
   &:first-of-type
     .quasar-toast-dismiss-all

@@ -1,4 +1,4 @@
-$modal-background-color  ?= $layout-background-color
+$modal-background  ?= $layout-background
 $modal-border-radius     ?= 13px
 
 $modal-width             ?= 80vw
@@ -32,7 +32,7 @@ maximized-modal()
     position relative
 
 .modal-content
-  background-color $modal-background-color
+  background $modal-background
   border-radius $modal-border-radius
   box-shadow $shadow-4
   overflow-y auto
@@ -81,7 +81,7 @@ maximized-modal()
         font-weight bold
       &:hover, &:active
         color white !important
-        background-color rgba(0, 0, 0, .3) !important
+        background rgba(0, 0, 0, .3) !important
     &.row
       button + button
         border-left 1px solid $form-darker-color

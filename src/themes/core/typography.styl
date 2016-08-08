@@ -1,7 +1,7 @@
 body
   overflow hidden
   min-width 320px
-  background $background-color
+  background $background
   font-family $typography-font-family
   color $text-color
   -ms-text-size-adjust 100%
@@ -174,7 +174,7 @@ dl
 ::-webkit-selection,
 ::-moz-selection,
 ::selection
-  background-color $primary
+  background $primary
   color alpha(opposite-non-color($primary), .87)
 
 textarea::-webkit-selection,
@@ -183,7 +183,7 @@ textarea::-moz-selection,
 input::-moz-selection,
 textarea::selection,
 input::selection
-  background-color alpha($primary, .4)
+  background alpha($primary, .4)
   color alpha(opposite-non-color($primary), .87)
 
 *:-webkit-full-screen // @stylint ignore

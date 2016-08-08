@@ -1,5 +1,5 @@
-$dimmed-background-color       ?= rgba(0, 0, 0, .4)
-$light-dimmed-background-color ?= rgba(255, 255, 255, .6)
+$dimmed-background       ?= rgba(0, 0, 0, .4)
+$light-dimmed-background ?= rgba(255, 255, 255, .6)
 
 .ellipsis
   text-overflow ellipsis
@@ -14,7 +14,7 @@ $light-dimmed-background-color ?= rgba(255, 255, 255, .6)
 .invisible
   visibility hidden
 .transparent
-  background-color transparent
+  background transparent
 
 .dimmed, .light-dimmed
   &:after
@@ -25,9 +25,9 @@ $light-dimmed-background-color ?= rgba(255, 255, 255, .6)
     bottom 0
     left 0
 .dimmed:after
-  background-color $dimmed-background-color
+  background $dimmed-background
 .light-dimmed:after
-  background-color $light-dimmed-background-color
+  background $light-dimmed-background
 body
   &.dimmed, &.light-dimmed
     &:after

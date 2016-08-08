@@ -36,7 +36,7 @@ $toolbar-title-font-size   ?= 1rem
 
 .layout-header, .layout-footer
   color $layout-color
-  background-color $layout-background-color
+  background $layout-background
 
 .layout-header, .layout-footer
   z-index $z-marginals
@@ -61,12 +61,12 @@ $toolbar-title-font-size   ?= 1rem
     &.{$name}
       if $name != 'light'
         color white
-      background-color $color
+      background $color
       &.glossy
         background-image linear-gradient(to bottom, rgba(white, .3), rgba(white, 0) 50%, rgba(black, .12) 51%, rgba(black, .04))
       &.clear
         color $color
-        background-color transparent
+        background transparent
 
   button
     margin 0 .2rem

@@ -55,7 +55,7 @@ button, .button
   white-space nowrap
   vertical-align middle
   color inherit
-  background-color transparent
+  background transparent
   line-height 1
   transition all .12s ease-in
   -webkit-appearance button
@@ -95,9 +95,26 @@ button, .button
     &:active:not(.disabled)
       box-shadow $shadow-3
 
+  &.bordered
+    border 3px solid
+
+  &.push
+    transition none
+    box-shadow $shadow-2
+    &:active:not(.disabled)
+      border-bottom 0
+      box-shadow none !important
+    &:not(.circular)
+      border-radius 7px
+
+  &.glossy
+    border 1px solid
+    &:active:not(.disabled)
+      box-shadow inset 0 1px 3px rgba(black, .2), 0 1px rgba(white, .4)
+
   for $name, $color in $colors
     &.{$name}
-      background-color $color
+      background $color
       text-shadow 0 0 2px black
 
       if $name != 'light'
@@ -106,44 +123,34 @@ button, .button
         text-shadow none
 
       &:active:not(.disabled)
-        background-color active-color($color) !important
+        background active-color($color) !important
+
       &.outline
         border 1px solid $color
+
       &.glossy
-        border 1px solid
         border-color darken($color, 10%) darken($color, 15%) darken($color, 15%)
         background-image linear-gradient(to bottom, rgba(white, .3), rgba(white, 0) 50%, rgba(black, .12) 51%, rgba(black, .04))
-        &:active:not(.disabled)
-          background darken($color, 5%)
-          border-color darken($color, 25%) darken($color, 20%) darken($color, 10%)
-          box-shadow inset 0 1px 3px rgba(black, .2), 0 1px rgba(white, .4)
-          background-image linear-gradient(to bottom, darken($color, 13%), lighten($color, 5%))
 
       &.clear, &.outline
         color $color
-        background-color transparent
-        text-shadow none
         &:active:not(.disabled)
-          color white
-          background-color $color !important
+          background $color !important
 
       &.bordered
-        border 3px
-        border-style solid
         border-color active-color($color)
 
       &.push
-        transition none
         border-bottom 3px solid dark-active-color($color)
-        box-shadow $shadow-2
-        &:active:not(.disabled)
-          border-bottom 0
-          box-shadow none !important
-        &:not(.circular)
-          border-radius 7px
 
   &.clear
     border-radius 0
+
+  &.clear, &.outline
+    background transparent
+    text-shadow none
+    &:active:not(.disabled)
+      color white
 
   &.circular
     text-align center
@@ -173,11 +180,12 @@ body.desktop
 
     for $name, $color in $colors
       &.{$name}:not(.disabled)
-        &:hover:not(.clear):not(.glossy)
-          background-color hover-color($color)
+        &:hover:not(.clear)
+          background hover-color($color)
           &:not(.push)
             box-shadow $button-box-shadow
         &.clear:hover
-          background-color lighten($color, 70%)
-        &.outline:hover
-          color white
+          background lighten($color, 70%)
+
+    &.outline:hover
+      color white

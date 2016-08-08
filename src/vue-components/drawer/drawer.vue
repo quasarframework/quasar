@@ -8,7 +8,7 @@
     >&nbsp</div>
     <div
       class="drawer-backdrop fullscreen"
-      style="background-color: rgba(0, 0, 0, 0.01)"
+      style="background: rgba(0, 0, 0, 0.01)"
       @click="setState(false)"
       v-touch:pan="closeByTouch"
       v-touch-options:pan="{ direction: 'horizontal' }"
@@ -166,7 +166,7 @@ function openByTouch (event) {
   })
   backdrop
     .addClass('active')
-    .css('background-color', 'rgba(0,0,0,' + percentage * backdropOpacity[theme.current] + ')')
+    .css('background', 'rgba(0,0,0,' + percentage * backdropOpacity[theme.current] + ')')
 }
 
 function getBetween (value, min, max) {
@@ -218,7 +218,7 @@ function closeByTouch (event) {
   target.css({
     'transform': 'translateX(' + position + 'px)'
   })
-  backdrop.css('background-color', 'rgba(0,0,0,' + percentage * backdropOpacity[theme.current] + ')')
+  backdrop.css('background', 'rgba(0,0,0,' + percentage * backdropOpacity[theme.current] + ')')
 }
 
 function closeDrawers (done) {

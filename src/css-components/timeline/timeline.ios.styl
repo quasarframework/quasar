@@ -22,9 +22,9 @@ $timeline-light-color ?= lighten($timeline-color, 50%)
   for $name, $color in $colors
     &.{$name}
       &:before
-        background-color composite-color($color)
+        background composite-color($color)
       .timeline-badge
-        background-color $color
+        background $color
         box-shadow 0 0 0 $timeline-border-width composite-color($color)
       .timeline-date, .timeline-label
         color $color
@@ -42,7 +42,7 @@ $timeline-light-color ?= lighten($timeline-color, 50%)
   top 0
   border-radius 50%
   color white
-  background-color $timeline-color
+  background $timeline-color
   display flex
   align-items center
   justify-content center

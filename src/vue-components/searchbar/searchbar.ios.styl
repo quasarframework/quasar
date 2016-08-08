@@ -32,12 +32,12 @@
   font-size .9rem
   line-height 30px
   color black
-  background-color rgba(0, 0, 0, .08)
+  background rgba(0, 0, 0, .08)
   transition all 300ms ease
 
 for $name, $color in $colors
   .toolbar.{$name} .quasar-searchbar-input
-    background-color active-color($color)
+    background active-color($color)
     if $name != 'light'
       color white
       &::-webkit-input-placeholder
@@ -50,7 +50,7 @@ for $name, $color in $colors
 body.desktop .toolbar
   for $name, $color in $colors
     &.{$name} .quasar-searchbar-input:hover
-      background-color light-active-color($color)
+      background light-active-color($color)
 
 .quasar-searchbar
   padding 0 8px
