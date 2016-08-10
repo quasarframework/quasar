@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import $ from 'jquery'
+import Utils from '../../utils'
 import Hammer from 'hammerjs'
 
 export default {
@@ -91,16 +91,16 @@ export default {
         }
 
         let
-          containerTop = this.scrollContainer.offset().top,
-          thisContainerTop = this.container.offset().top
+          containerTop = Utils.dom.offset(this.scrollContainer).top,
+          thisContainerTop = Utils.dom.offset(this.$el).top
 
         if (containerTop > thisContainerTop) {
           this.scrolling = true
           return
         }
 
-        this.originalScrollOverflow = this.scrollContainer.css('overflow')
-        this.scrollContainer.css('overflow', 'hidden')
+        this.originalScrollOverflow = this.scrollContainer.style.overflow
+        this.scrollContainer.style.overflow = 'hidden'
       }
 
       this.pulling = true
@@ -110,7 +110,7 @@ export default {
         if (hammer.isFinal) {
           this.state = 'refreshing'
           this.pulling = false
-          this.scrollContainer.css('overflow', this.originalScrollOverflow)
+          this.scrollContainer.style.overflow = this.originalScrollOverflow
           this.animateTo(0)
           this.trigger()
         }
@@ -122,7 +122,7 @@ export default {
         this.state = 'pull'
         if (hammer.isFinal) {
           this.pulling = false
-          this.scrollContainer.css('overflow', this.originalScrollOverflow)
+          this.scrollContainer.style.overflow = this.originalScrollOverflow
           this.animateTo(-this.height)
         }
       }
@@ -156,8 +156,7 @@ export default {
     }
   },
   ready () {
-    this.container = $(this.$el)
-    this.scrollContainer = this.container.parent()
+    this.scrollContainer = this.$el.parentNode
   }
 }
 </script>

@@ -15,9 +15,8 @@
 </template>
 
 <script>
-import $ from 'jquery'
 import Platform from '../../platform'
-import debounce from '../../utils/debounce'
+import Utils from '../../utils'
 
 const
   scrollNavigationSpeed = 5, // in pixels
@@ -26,23 +25,20 @@ const
 export default {
   methods: {
     redraw () {
-      let
-        scrollPosition = 0,
-        scroller = this.scroller[0]
-
-      if (this.scroller.width() === 0 && scroller.scrollWidth === 0) {
+      if (!Platform.is.desktop) {
         return
       }
-      if (this.scrollable) {
-        scrollPosition = scroller.scrollLeft
-        this.nav.removeClass('scrollable')
-        this.scrollable = false
+      if (Utils.dom.width(this.scroller) === 0 && this.scroller.scrollWidth === 0) {
+        return
       }
-      if (this.scroller.width() < scroller.scrollWidth) {
-        this.nav.addClass('scrollable')
-        scroller.scrollLeft = scrollPosition
+      if (Utils.dom.width(this.scroller) < this.scroller.scrollWidth) {
+        this.$el.classList.add('scrollable')
         this.scrollable = true
         this.updateScrollIndicator()
+      }
+      else {
+        this.$el.classList.remove('scrollable')
+        this.scrollable = false
       }
     },
     updateScrollIndicator () {
@@ -50,10 +46,10 @@ export default {
         return
       }
 
-      let scroller = this.scroller[0]
+      let action = this.scroller.scrollLeft + Utils.dom.width(this.scroller) + 5 >= this.scroller.scrollWidth ? 'add' : 'remove'
 
-      this.leftScroll[scroller.scrollLeft <= 0 ? 'addClass' : 'removeClass']('disabled')
-      this.rightScroll[scroller.scrollLeft + this.scroller.innerWidth() + 5 >= scroller.scrollWidth ? 'addClass' : 'removeClass']('disabled')
+      this.leftScroll.classList[this.scroller.scrollLeft <= 0 ? 'add' : 'remove']('disabled')
+      this.rightScroll.classList[action]('disabled')
     },
     scrollToSelectedIfNeeded (tab) {
       if (tab.length === 0 || !this.scrollable) {
@@ -61,20 +57,19 @@ export default {
       }
 
       let
-        scroller = this.scroller[0],
-        contentRect = scroller.getBoundingClientRect(),
-        tabRect = tab[0].getBoundingClientRect(),
+        contentRect = this.scroller.getBoundingClientRect(),
+        tabRect = tab.getBoundingClientRect(),
         tabWidth = tabRect.width,
         offset = tabRect.left - contentRect.left
 
       if (offset < 0) {
-        this.animScrollTo(scroller.scrollLeft + offset)
+        this.animScrollTo(this.scroller.scrollLeft + offset)
       }
       else {
-        offset += tabWidth - scroller.offsetWidth
+        offset += tabWidth - this.scroller.offsetWidth
         /* istanbul ignore else */
         if (offset > 0) {
-          this.animScrollTo(scroller.scrollLeft + offset)
+          this.animScrollTo(this.scroller.scrollLeft + offset)
         }
       }
     },
@@ -92,8 +87,7 @@ export default {
     },
     scrollTowards (value) {
       let
-        scroller = this.scroller[0],
-        scrollPosition = scroller.scrollLeft,
+        scrollPosition = this.scroller.scrollLeft,
         direction = value < scrollPosition ? -1 : 1,
         done = false
 
@@ -108,15 +102,12 @@ export default {
         scrollPosition = value
       }
 
-      scroller.scrollLeft = scrollPosition
+      this.scroller.scrollLeft = scrollPosition
       return done
     }
   },
   events: {
     selected (tab, tabNode) {
-      this.content.css('display', 'none')
-      $(tab.target).css('display', '')
-
       this.$broadcast('blur', tab)
 
       setTimeout(() => {
@@ -128,32 +119,20 @@ export default {
     }
   },
   ready () {
-    let self = this
-
     this.scrollTimer = null
-    this.scrollable = false
+    this.scrollable = !Platform.is.desktop
 
-    this.nav = $(this.$el)
-    this.scroller = this.nav.find('.quasar-tabs-scroller')
-    this.leftScroll = this.nav.find('.left-scroll')
-    this.rightScroll = this.nav.find('.right-scroll')
-    this.tabs = this.scroller.find('.quasar-tab')
+    this.scroller = this.$el.getElementsByClassName('quasar-tabs-scroller')[0]
+    this.leftScroll = this.$el.getElementsByClassName('left-scroll')[0]
+    this.rightScroll = this.$el.getElementsByClassName('right-scroll')[0]
 
     // debounce some costly methods;
     // debouncing here because debounce needs to be per instance
-    this.redraw = debounce(this.redraw, debounceDelay)
-    this.updateScrollIndicator = debounce(this.updateScrollIndicator, debounceDelay)
+    this.redraw = Utils.debounce(this.redraw, debounceDelay)
+    this.updateScrollIndicator = Utils.debounce(this.updateScrollIndicator, debounceDelay)
 
-    this.content = $(
-      this.$children
-        .filter(($child) => $child.target)
-        .map(($child) => $child.target)
-        .join(',')
-    )
-    this.content.css('display', 'none')
-
-    this.scroller.scroll(this.updateScrollIndicator)
-    $(window).resize(this.redraw)
+    this.scroller.addEventListener('scroll', this.updateScrollIndicator)
+    window.addEventListener('resize', this.redraw)
 
     // let browser drawing stabilize then
     setTimeout(() => { this.redraw() }, debounceDelay)
@@ -172,32 +151,20 @@ export default {
         scrollEvents.stop.push('touchend')
       }
 
-      this.leftScroll.bind(scrollEvents.start.join(' '), () => {
-        this.animScrollTo(0)
-      })
-      this.leftScroll.bind(scrollEvents.stop.join(' '), () => {
-        clearInterval(this.scrollTimer)
-      })
-      this.rightScroll.bind(scrollEvents.start.join(' '), () => {
-        this.animScrollTo(9999)
-      })
-      this.rightScroll.bind(scrollEvents.stop.join(' '), () => {
-        clearInterval(this.scrollTimer)
-      })
-    }
-
-    if (Platform.has.touch) {
-      this.tabs.each(function () {
-        let
-          hammer = $(this).hammer().getHammer(),
-          lastOffset = 0
-
-        hammer.on('panmove', (ev) => {
-          self.scroller[0].scrollLeft += lastOffset - ev.deltaX
-          lastOffset = ev.deltaX
+      scrollEvents.start.forEach(evt => {
+        this.leftScroll.addEventListener(evt, () => {
+          this.animScrollTo(0)
         })
-        hammer.on('panend', () => {
-          lastOffset = 0
+        this.rightScroll.addEventListener(evt, () => {
+          this.animScrollTo(9999)
+        })
+      })
+      scrollEvents.stop.forEach(evt => {
+        this.leftScroll.addEventListener(evt, () => {
+          clearInterval(this.scrollTimer)
+        })
+        this.rightScroll.addEventListener(evt, () => {
+          clearInterval(this.scrollTimer)
         })
       })
     }
@@ -206,15 +173,8 @@ export default {
     if (this.scrollTimer) {
       clearInterval(this.scrollTimer)
     }
-    this.scroller.off('scroll', this.updateScrollIndicator)
-    $(window).off('resize', this.redraw)
-    if (Platform.has.touch) {
-      this.tabs.each(function () {
-        $(this).getHammer().destroy()
-      })
-    }
-    this.leftScroll.off()
-    this.rightScroll.off()
+    this.scroller.removeEventListener('scroll', this.updateScrollIndicator)
+    window.removeEventListener('resize', this.redraw)
   }
 }
 </script>

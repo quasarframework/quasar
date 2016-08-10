@@ -1,4 +1,4 @@
-import $ from 'jquery'
+import Utils from '../../utils'
 import template from './dialog.html'
 import Modal from '../modal/modal'
 
@@ -12,16 +12,16 @@ function parseButtons (buttons) {
   }
 
   if (buttons.some(
-    (button) => typeof button !== 'string' && (Object(button) !== button || typeof button.label === 'undefined' || typeof button.handler !== 'function')
+    button => typeof button !== 'string' && (Object(button) !== button || typeof button.label === 'undefined' || typeof button.handler !== 'function')
   )) {
     throw new Error('At least one of Dialog\'s button parameter is neither a string nor an object with both label handler.')
   }
 
-  return buttons.map((button) => {
+  return buttons.map(button => {
     if (typeof button === 'string') {
       return {
         label: button,
-        handler: () => {}
+        handler () {}
       }
     }
     return button
@@ -33,7 +33,7 @@ function parseInputs (inputs) {
     throw new Error('Dialog inputs parameter must be an array.')
   }
 
-  return inputs.map((input) => {
+  return inputs.map(input => {
     input.model = input.model || ''
     return input
   })
@@ -45,12 +45,12 @@ function parseRadios (radios) {
   }
 
   if (radios.some(
-    (radio) => typeof radio.label === 'undefined' || typeof radio.value === 'undefined'
+    radio => typeof radio.label === 'undefined' || typeof radio.value === 'undefined'
   )) {
     throw new Error('One of Dialog\'s radio parameter is missing either label or value')
   }
 
-  var selectedValue = radios.filter((radio) => radio.selected)
+  var selectedValue = radios.filter(radio => radio.selected)
 
   if (selectedValue.length === 0) {
     return radios[0].value
@@ -69,12 +69,12 @@ function parseCheckboxes (checkboxes) {
   }
 
   if (checkboxes.some(
-    (checkbox) => typeof checkbox.label === 'undefined' || typeof checkbox.value === 'undefined'
+    checkbox => typeof checkbox.label === 'undefined' || typeof checkbox.value === 'undefined'
   )) {
     throw new Error('One of Dialog\'s checkbox parameter is missing either label or value')
   }
 
-  return checkboxes.map((checkbox) => {
+  return checkboxes.map(checkbox => {
     checkbox.checked = checkbox.checked || false
     return checkbox
   })
@@ -86,12 +86,12 @@ function parseRanges (ranges) {
   }
 
   if (ranges.some(
-    (range) => typeof range.min === 'undefined' || typeof range.max === 'undefined'
+    range => typeof range.min === 'undefined' || typeof range.max === 'undefined'
   )) {
     throw new Error('One of Dialog\'s range parameter is missing either min or max')
   }
 
-  return ranges.map((range) => {
+  return ranges.map(range => {
     range.value = range.value || range.min
     return range
   })
@@ -110,10 +110,10 @@ function parseProgress (progress) {
 }
 
 function create (options) {
-  var data = $.extend({}, options)
+  var data = Utils.extend({}, options)
 
   if (typeof data.buttons === 'undefined') {
-    data.buttons = [{label: 'Ok', handler: $.noop}]
+    data.buttons = [{label: 'Ok', handler () {}}]
   }
   else {
     data.buttons = parseButtons(data.buttons)
@@ -144,7 +144,7 @@ function create (options) {
     methods: {
       getData () {
         if (this.inputs) {
-          return this.inputs.map((input) => {
+          return this.inputs.map(input => {
             return {
               name: input.name,
               value: input.model
@@ -156,11 +156,11 @@ function create (options) {
         }
         if (this.checkboxes || this.toggles) {
           return (this.checkboxes || this.toggles).filter(
-            (checkbox) => checkbox.checked
-          ).map((checkbox) => checkbox.value)
+            checkbox => checkbox.checked
+          ).map(checkbox => checkbox.value)
         }
         if (this.ranges) {
-          return this.ranges.map((range) => {
+          return this.ranges.map(range => {
             return {
               label: range.label,
               value: range.value

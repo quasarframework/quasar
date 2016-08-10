@@ -1,19 +1,19 @@
-import $ from 'jquery'
-
 export default {
   css: false,
 
   enter (el, done) {
-    $(el).velocity('stop').velocity('slideDown', done)
+    Velocity(el, 'stop')
+    Velocity(el, 'slideDown', done)
   },
   enterCancelled (el) {
-    $(el).velocity('stop')
+    Velocity(el, 'stop')
   },
 
   leave (el, done) {
-    $(el).velocity('stop').velocity('slideUp', done)
+    Velocity(el, 'stop')
+    Velocity(el, 'slideUp', done)
   },
   leaveCancelled (el) {
-    $(el).velocity('stop')
+    Velocity(el, 'stop')
   }
 }

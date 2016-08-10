@@ -8,8 +8,8 @@
     </button>
 
     <input
-      type="text"
       v-el:input
+      type="text"
       v-model="newPage"
       number
       lazy
@@ -27,15 +27,13 @@
 </template>
 
 <script>
-import $ from 'jquery'
-
 export default {
   props: {
     model: {
       type: Number,
       twoWay: true,
       required: true,
-      coerce: (value) => parseInt(value, 10)
+      coerce: value => parseInt(value, 10)
     },
     min: {
       type: Number,
@@ -71,7 +69,7 @@ export default {
 
       if (parsed) {
         this.model = this.normalize(parsed)
-        $(this.$els.input).blur()
+        this.$els.input.blur()
       }
 
       this.newPage = ''

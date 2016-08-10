@@ -1,50 +1,43 @@
-import $ from 'jquery'
+import Utils from '../../utils'
 import { Vue } from '../../install'
 import { current as theme } from '../../theme'
 
-const
-  target = $('#quasar-app'),
-  duration = 300,
-  template = `
-    <div class="modal hidden fullscreen flex items-center justify-center">
-      <div class="modal-backdrop backdrop"></div>
-      <div class="modal-content"></div>
-    </div>
-  `
+const duration = 300
 
 class Modal {
-  constructor (vmObject) {
-    let
-      vm = $.extend({}, vmObject),
-      self = this
-
+  constructor (vm) {
     if (!vm) {
-      throw new Error('Modal needs a VM.')
+      throw new Error('Modal needs a VueModel.')
     }
     if (!vm.template) {
       throw new Error('Modal needs a template.')
     }
 
-    this.$el = $(template).appendTo(target)
-    this.$backdrop = this.$el.find('> .modal-backdrop')
-    this.$content = this.$el.find('> .modal-content')
-
-    $.extend(true, vm, {
-      el: self.$content[0],
-      replace: false,
+    let vmObject = Utils.extend(true, {}, vm, {
+      template: `<div class="modal hidden fullscreen flex items-center justify-center">
+          <div v-el:backdrop class="modal-backdrop backdrop"></div>
+          <div v-el:content class="modal-content">${vm.template}</div></div>`,
       methods: {
-        close: () => { self.close() }
+        close: () => {
+          this.close()
+        }
       }
     })
 
-    this.vm = new Vue(vm)
+    this.vm = new Vue(vmObject)
+    this.vm.$mount().$appendTo(document.body)
+
+    this.$el = this.vm.$el
+    this.$backdrop = this.vm.$els.backdrop
+    this.$content = this.vm.$els.content
+
     this.__onShowHandlers = []
     this.__onCloseHandlers = []
     this.selfDestroy = true
   }
 
   show (onShow) {
-    if (this.$el.closest('html').length === 0) {
+    if (!this.$el.closest('body')) {
       throw new Error('Modal was previously destroyed. Create another one.')
     }
 
@@ -52,21 +45,21 @@ class Modal {
       throw new Error('Modal cannot be minimized & maximized simultaneous.')
     }
 
-    this.$content.removeClass('minimized maximized')
+    this.$content.classList.remove('minimized', 'maximized')
     if (this.minimized) {
-      this.$content.addClass('minimized')
+      this.$content.classList.add('minimized')
     }
     if (this.maximized) {
-      this.$content.addClass('maximized')
+      this.$content.classList.add('maximized')
     }
 
     let
       effect,
       options = {
-        duration: duration,
+        duration,
         complete: () => {
           this.__onShowHandlers.forEach(
-            (handler) => { handler() }
+            handler => { handler() }
           )
           if (typeof onShow === 'function') {
             onShow()
@@ -80,17 +73,17 @@ class Modal {
     else if (theme === 'mat') {
       effect = 'transition.slideUpIn'
     }
-    else if (!this.minimized && (this.maximized || $(window).width() <= 600)) {
+    else if (!this.minimized && (this.maximized || Utils.dom.viewport().width <= 600)) {
       effect = {translateX: [0, '101%']}
     }
     else {
       effect = 'transition.shrinkIn'
     }
 
-    this.$el.removeClass('hidden')
-    this.$content.velocity(effect, options)
+    this.$el.classList.remove('hidden')
+    Velocity(this.$content, effect, options)
     if (!this.maximized) {
-      this.$backdrop.addClass('active')
+      this.$backdrop.classList.add('active')
     }
 
     return this
@@ -100,13 +93,13 @@ class Modal {
     let
       effect,
       options = {
-        duration: duration,
+        duration,
         complete: () => {
           if (this.selfDestroy) {
             this.destroy()
           }
           this.__onCloseHandlers.forEach(
-            (handler) => { handler() }
+            handler => { handler() }
           )
           if (typeof onClose === 'function') {
             onClose()
@@ -117,15 +110,15 @@ class Modal {
     if (this.transitionOut) {
       effect = this.transitionOut
     }
-    else if (!this.minimized && (this.maximized || $(window).width() <= 600)) {
+    else if (!this.minimized && (this.maximized || Utils.dom.viewport().width <= 600)) {
       effect = theme === 'ios' ? {translateX: ['101%', 0]} : 'transition.slideDownOut'
     }
     else {
       effect = theme === 'ios' ? 'transition.shrinkOut' : 'transition.expandOut'
     }
 
-    this.$backdrop.removeClass('active')
-    this.$content.velocity(effect, options)
+    this.$backdrop.classList.remove('active')
+    Velocity(this.$content, effect, options)
 
     return this
   }
@@ -154,7 +147,7 @@ class Modal {
       throw new Error('Modal.set() needs an object as parameter.')
     }
 
-    Object.keys(properties).forEach((property) => {
+    Object.keys(properties).forEach(property => {
       this[property] = properties[property]
     })
 
@@ -166,7 +159,7 @@ class Modal {
       throw new Error('Modal.css() needs an object as parameter.')
     }
 
-    this.$content.css(properties)
+    Utils.dom.css(this.$content, properties)
     return this
   }
 
@@ -179,5 +172,5 @@ class Modal {
 }
 
 export default {
-  create: (props) => new Modal(props)
+  create: props => new Modal(props)
 }

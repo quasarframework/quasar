@@ -11,8 +11,7 @@
 </template>
 
 <script>
-import $ from 'jquery'
-import debounce from '../../utils/debounce'
+import Utils from '../../utils'
 
 export default {
   props: {
@@ -39,16 +38,16 @@ export default {
       }
 
       let
-        windowHeight = this.scrollContainer.innerHeight(),
-        containerBottom = this.scrollContainer.offset().top + windowHeight,
-        triggerPosition = this.element.offset().top + this.element.height() - windowHeight
+        windowHeight = Utils.dom.height(this.scrollContainer),
+        containerBottom = Utils.dom.offset(this.scrollContainer).top + windowHeight,
+        triggerPosition = Utils.dom.offset(this.element).top + Utils.dom.height(this.element) - windowHeight
 
       if (triggerPosition < containerBottom) {
         this.index++
         this.refreshing = true
         this.handler(this.index, () => {
           this.refreshing = false
-          if (this.element.parents('html').length > 0) {
+          if (this.element.closest('body')) {
             this.scroll()
           }
         })
@@ -56,19 +55,19 @@ export default {
     }
   },
   ready () {
-    this.scroll = debounce(this.scroll, 50)
-    this.element = $(this.$els.content)
+    this.scroll = Utils.debounce(this.scroll, 50)
+    this.element = this.$els.content
 
-    this.scrollContainer = this.inline ? $(this.$el) : this.element.parents('.layout-scroll-area')
-    if (this.scrollContainer.length === 0) {
-      this.scrollContainer = $('#quasar-app')
+    this.scrollContainer = this.inline ? this.$el : this.element.closest('.layout-scroll-area')
+    if (!this.scrollContainer) {
+      this.scrollContainer = document.getElementById('quasar-app')
     }
-    this.scrollContainer.scroll(this.scroll)
+    this.scrollContainer.addEventListener('scroll', this.scroll)
 
     this.scroll()
   },
   destroy () {
-    this.scrollContainer.off('scroll', this.scroll)
+    this.scrollContainer.removeEventListener('scroll', this.scroll)
   }
 }
 </script>

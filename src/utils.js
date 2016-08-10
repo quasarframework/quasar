@@ -2,18 +2,22 @@
 import normalizePath from './utils/normalize-path'
 import openURL from './utils/open-url'
 import debounce from './utils/debounce'
+import * as dom from './utils/dom'
+import extend from './utils/extend'
 
 export default {
-  timeout: function (fn, delay = 1) {
+  timeout (fn, delay = 1) {
     return setTimeout(fn, delay)
   },
-  interval: function (fn, delay = 1) {
+  interval (fn, delay = 1) {
     return setInterval(fn, delay)
   },
   normalizePath,
   openURL,
-  capitalize: function (string) {
+  capitalize (string) {
     return string.charAt(0).toUpperCase() + string.slice(1)
   },
-  debounce
+  debounce,
+  extend,
+  dom
 }

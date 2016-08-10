@@ -1,16 +1,13 @@
-import $ from 'jquery'
-
 export default {
   bind () {
-    this.element = $(this.el)
-    this.scrollContainer = this.element.parents('.layout-scroll-area')
-    if (this.scrollContainer.length === 0) {
-      this.scrollContainer = $('#quasar-app')
+    this.scrollContainer = this.el.closest('.layout-scroll-area')
+    if (!this.scrollContainer) {
+      this.scrollContainer = document.getElementById('quasar-app')
     }
   },
   update (handler) {
     if (this.scroll) {
-      this.scrollContainer.off('scroll', this.scroll)
+      this.scrollContainer.removeEventListener('scroll', this.scroll)
     }
 
     if (typeof handler !== 'function') {
@@ -19,11 +16,11 @@ export default {
     }
 
     this.scroll = () => {
-      handler(this.scrollContainer.scrollTop())
+      handler(this.scrollContainer.scrollTop)
     }
-    this.scrollContainer.scroll(this.scroll)
+    this.scrollContainer.addEventListener('scroll', this.scroll)
   },
   unbind () {
-    this.scrollContainer.off('scroll', this.scroll)
+    this.scrollContainer.removeEventListener('scroll', this.scroll)
   }
 }

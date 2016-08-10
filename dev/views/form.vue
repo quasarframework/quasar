@@ -100,8 +100,8 @@
   </div>
 
 
-  <h2>Number</h2>
-  Inline with text <quasar-numeric class="inline" :min="2" :max="10" :model.sync="number"></quasar-numeric>
+  <h2>Numeric</h2>
+  Inline with text <quasar-numeric :model.sync="number" class="inline" :min="2" :max="10"></quasar-numeric>
   <br><br><quasar-numeric :model.sync="number" :min="2" :max="10" :debounce="1000" :step="0.5">Number label</quasar-numeric>
   <br><br>
   <div class="list inner-delimiter bordered">

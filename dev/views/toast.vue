@@ -1,6 +1,6 @@
 <template>
   <h5>Basic Notifiers</h5>
-  <p>
+  <p class="group">
     <button class="primary" @click="basicToast()">
       Basic Toast
     </button>
@@ -11,7 +11,7 @@
   </p>
 
   <h5>Types of Notifiers</h5>
-  <p>
+  <p class="group">
     <button
       v-for="type in types"
       :class="type"
@@ -22,7 +22,7 @@
   </p>
 
   <h5>Notifiers with Options</h5>
-  <p>
+  <p class="group">
     <button class="primary" @click="noTimeoutToast()">
       Basic Toast with No Timeout
     </button>
@@ -37,7 +37,7 @@
   </p>
 
   <h5>Controlling Notifiers</h5>
-  <p>
+  <p class="group">
     <button
       class="secondary"
       @click="showToast()"
@@ -55,7 +55,7 @@
   </p>
 
   <h5>Simultaneous Multiple Notifiers</h5>
-  <p>
+  <p class="group">
     <button class="primary" @click="showMultipleNotifiers()">
       Show Multiple Notifiers
     </button>

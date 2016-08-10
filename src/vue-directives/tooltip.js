@@ -1,32 +1,22 @@
-import $ from 'jquery'
-
 export default {
   bind () {
-    var element = $(this.el)
-
     if (this.modifiers.wrap) {
-      element.wrap('<div class="quasar-tooltip"></div>')
-      this.target = element.parent()
+      this.target = document.createElement('div')
+
+      this.el.parentNode.insertBefore(this.target, this.el)
+      this.target.appendChild(this.el)
     }
     else {
-      this.target = element.addClass('quasar-tooltip')
+      this.target = this.el
     }
 
+    this.target.classList.add('quasar-tooltip')
+
     if (this.modifiers.inline) {
-      this.target.addClass('flex inline')
+      this.target.classList.add('flex', 'inline')
     }
   },
   update (value) {
-    this.target.attr('quasar-tooltip', value)
-  },
-  unbind () {
-    if (this.modifiers.wrap) {
-      this.target.children().unwrap()
-    }
-    else {
-      this.target
-        .removeClass('quasar-tooltip')
-        .removeAttr('quasar-tooltip')
-    }
+    this.target.setAttribute('quasar-tooltip', value)
   }
 }

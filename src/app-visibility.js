@@ -1,6 +1,5 @@
-
-import $ from 'jquery'
 import Events from './events'
+import Utils from './utils'
 
 let
   hidden = 'hidden',
@@ -33,7 +32,7 @@ function onchange (evt) {
   Events.trigger('app:visibility', state)
 }
 
-$(() => {
+Utils.dom.ready(() => {
   // Standards:
   if (hidden in document) {
     document.addEventListener('visibilitychange', onchange)

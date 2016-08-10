@@ -15,9 +15,9 @@ export default {
     options: {
       type: Array,
       required: true,
-      validator: (options) => {
-        return !options.some(
-          (option) => typeof option.label === 'undefined' || typeof option.value === 'undefined'
+      validator: options => {
+        return !options.some(option =>
+          typeof option.label === 'undefined' || typeof option.value === 'undefined'
         )
       }
     },

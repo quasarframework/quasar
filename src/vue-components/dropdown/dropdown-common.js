@@ -1,17 +1,14 @@
-import $ from 'jquery'
+import Utils from '../../utils'
 
-const
-  body = $('body'),
-  win = $(window),
-  offset = 20
+const offset = 20
 
-function animate (menuElement, position, duration, opening, fixed) {
+function animate (menu, position, duration, opening, fixed) {
   let
-    windowWidth = win.width(),
-    windowHeight = win.height(),
-    menu = $(menuElement),
-    menuWidth = menu.width(),
-    menuHeight = menu.height(),
+    viewport = Utils.viewport(),
+    windowWidth = viewport.width,
+    windowHeight = viewport.height,
+    menuWidth = menu.offsetWidth,
+    menuHeight = menu.offsetHeight,
     toRight = position.left + menuWidth < windowWidth || 2 * position.left < windowWidth,
     toBottom = position.top + menuHeight < windowHeight || 2 * position.top < windowHeight,
     css = {
@@ -46,12 +43,11 @@ function animate (menuElement, position, duration, opening, fixed) {
     toBottom = !toBottom
   }
 
-  menu
-    .velocity('stop')
-    .css(css)
-    .velocity('transition.slide' + (toBottom ? 'Down' : 'Up') + (opening ? 'In' : 'Out'), {
-      duration: duration
-    })
+  Velocity(menu, 'stop')
+  Utils.css(menu, css)
+  Velocity(menu, 'transition.slide' + (toBottom ? 'Down' : 'Up') + (opening ? 'In' : 'Out'), {
+    duration: duration
+  })
 }
 
 export default {
@@ -79,7 +75,7 @@ export default {
 
       this.opened = true
       this.$nextTick(() => {
-        body.mousedown(this.close)
+        document.body.addEventListener('mousedown', this.close)
       })
 
       this.position = {
@@ -88,8 +84,6 @@ export default {
       }
 
       animate(this.$els.menu, this.position, this.duration, this.opened)
-
-      return false
     },
     close () {
       if (!this.opened) {
@@ -97,8 +91,7 @@ export default {
       }
 
       this.opened = false
-      body.off('mousedown', this.close)
-
+      document.body.removeEventListener('mousedown', this.close)
       animate(this.$els.menu, this.position, this.duration, this.opened)
     }
   }

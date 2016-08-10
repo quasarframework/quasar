@@ -31,10 +31,9 @@ var
     'velocity-animate/velocity.ui'
   ],
   globals = {
-    jquery: '$',
     fastclick: 'FastClick',
     hammerjs: 'Hammer',
-    'velocity-animate': 'vel',
+    'velocity-animate': 'Velocity',
     'velocity-animate/velocity.ui': 'velui'
   },
   rollupConfig = {
@@ -43,7 +42,7 @@ var
     external: external
   }
 
-;['index', 'index.es6'].forEach(function (name) { // eslint-disable-line
+'index index.es6'.split(' ').forEach(function (name) { // eslint-disable-line
   file = fs
     .readFileSync('src/' + name + '.js', 'utf-8')
     .replace(/version: '[\d\.]+'/, "version: '" + version + "'")
@@ -51,8 +50,6 @@ var
 })
 
 // CommonJS build.
-// this is used as the "main" field in package.json
-// and used by bundlers like Webpack and Browserify.
 rollup
 .rollup(rollupConfig)
 .then(function (bundle) {

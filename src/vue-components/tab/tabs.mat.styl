@@ -24,20 +24,28 @@ $tabs-active-border-bottom    ?= 2px solid $tabs-active-color
   font-weight $tabs-font-weight
   transition color .18s ease-in, box-shadow .18s ease-in
   border-radius $generic-border-radius
+  position relative
 
   &:not(.scrollable)
     .left-scroll, .right-scroll
       display none !important
 
   .left-scroll, .right-scroll
+    position absolute
     height 100%
     min-width 25px
     cursor pointer
-    color $tabs-active-color
-    font-size (1.2 * $tabs-icon-font-size)
+    color white
+    text-shadow 0 0 10px black
+    font-size (1.4 * $tabs-icon-font-size)
 
     &.disabled
       visibility hidden
+
+  .left-scroll
+    left 0
+  .right-scroll
+    right 0
 
   &.clear
     background transparent !important
@@ -45,14 +53,21 @@ $tabs-active-border-bottom    ?= 2px solid $tabs-active-color
   &.glossy
     background-image linear-gradient(to bottom, rgba(white, .3), rgba(white, 0) 50%, rgba(black, .12) 51%, rgba(black, .04)) !important
 
-body.mobile .quasar-tabs.scrollable
-  .left-scroll, .right-scroll
-    display none !important
-  .spacer
-    min-width 45%
-
 .quasar-tabs-scroller
   overflow hidden
+
+body.mobile
+  .quasar-tabs.scrollable
+    .left-scroll, .right-scroll
+      display none !important
+    .spacer
+      min-width 45%
+
+  .quasar-tabs-scroller
+    overflow-y hidden
+    overflow-x auto
+    will-change scroll-position
+    -webkit-overflow-scrolling touch
 
 .quasar-tab
   display flex
@@ -64,7 +79,7 @@ body.mobile .quasar-tabs.scrollable
 
   .quasar-tabs-icon
     font-size $tabs-icon-font-size
-  .quasar-tabs-icon + .quasar-tabs-label
+  .quasar-tabs-icon + .quasar-tab-label
     margin $tabs-label-margin
   &.v-link-active
     color $tabs-active-color
@@ -78,7 +93,7 @@ body.mobile .quasar-tabs.scrollable
 @media only screen and (max-width $layout-small-max)
   .quasar-tab
     &.hideIcon .quasar-tabs-icon,
-    &.hideLabel .quasar-tabs-label
+    &.hideLabel .quasar-tab-label
       display none !important
 
 @media only screen and (max-width $layout-medium-max)
@@ -97,11 +112,6 @@ for $name, $color in $colors
     background $color
     &.clear
       color $color
-    .left-scroll, .right-scroll
-      if $name == 'light'
-        color composite-color($color)
-      else
-        color white
     if $name != 'light'
       &.clear .quasar-tab
         &.v-link-active, &:active

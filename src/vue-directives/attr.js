@@ -1,4 +1,3 @@
-
 export default function (attribs, oldAttribs) {
   if (typeof attribs === 'undefined') {
     console.error('v-attr received empty new value from "' + oldAttribs + '"', this.el)

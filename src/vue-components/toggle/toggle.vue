@@ -10,8 +10,6 @@
 </template>
 
 <script>
-import $ from 'jquery'
-
 export default {
   props: {
     model: {
@@ -26,7 +24,7 @@ export default {
         event.isFinal &&
         (this.model && event.deltaX < 0 || !this.model && event.deltaX > 0)
       ) {
-        $(this.$el).find('input').click()
+        this.model = !this.model
       }
     }
   }

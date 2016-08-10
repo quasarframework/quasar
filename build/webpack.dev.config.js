@@ -44,11 +44,6 @@ module.exports = {
       },
       '__THEME': '"' + platform.theme + '"'
     }),
-    new webpack.ProvidePlugin({
-      $: 'jquery',
-      jQuery: 'jquery',
-      'window.jQuery': 'jquery'
-    }),
     new webpack.optimize.DedupePlugin(),
     // https://github.com/glenjamin/webpack-hot-middleware#installation--usage
     new webpack.optimize.OccurenceOrderPlugin(),

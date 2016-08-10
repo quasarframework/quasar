@@ -1,9 +1,11 @@
-import $ from 'jquery'
+import Utils from '../../utils'
 import { Vue } from '../../install'
 import Events from '../../events'
 
+document.body.innerHTML += '<div id="__quasar_toasts" class="column"></div>'
+
 let
-  toastNode = $('<div id="__quasar_toasts" class="column">'),
+  toastNode = document.getElementById('__quasar_toasts'),
   dismissers = [],
   types = [
     {
@@ -24,87 +26,66 @@ let
     }
   ]
 
-$('body').append(toastNode)
-
 function dismissAll () {
-  dismissers.forEach((dismiss) => { dismiss() })
+  dismissers.forEach(dismiss => { dismiss() })
 }
 
 class Toast {
   constructor (options) {
     let
-      dismiss = () => { this.dismiss() },
+      dismiss = () => { this.dismiss(true) },
       color = options.color ? 'custom-background bg-' + options.color : ''
 
-    $.extend(true,
-      this,
-      {
-        timeout: 7000,
-        onDismiss: options.onDismiss || $.noop,
-        vm: {
-          methods: {
-            ____pan: function (event) {
-              var
-                el = $(this.$el),
-                delta = event.deltaX,
-                opacity = 0.9 - Math.abs(delta) / 180
+    this.timeout = typeof options.timeout !== 'undefined' ? options.timeout : 7000
+    this.onDismiss = options.onDismiss || function () {}
 
-              el.velocity('stop')
-
-              if (opacity < 0.05) {
-                el.css('opacity', '0')
-                dismiss()
-                return
-              }
-
-              if (event.isFinal) {
-                el.velocity({
-                  translateX: [0, delta],
-                  opacity: 0.9
-                })
-                return
-              }
-
-              el.css({
-                transform: 'translateX(' + delta + 'px)',
-                opacity: opacity
-              })
-            }
-          }
-        }
-      },
-      options
-    )
-
-    this.node = $(`
-      <div
+    this.vm = new Vue({
+      template: `<div
         class="quasar-toast row items-center justify-between nowrap non-selectable ${color}"
         v-touch:pan="____pan"
-        v-touch-options:pan="{ direction: 'horizontal' }"
-      >
-    `)
+        v-touch-options:pan="{ direction: 'horizontal' }">` +
+        (this.icon ? `<i>${this.icon}</i>` : '') +
+        (this.image ? `<img src="${this.image}">` : '') +
+        `<div class="auto">${options.html}</div>` +
+        (this.button ? `<a @click="___toastButton">${this.button.label}</a>` : '') +
+        '<a @click="___dismissAll" class="quasar-toast-dismiss-all"><i>delete</i></a></div>',
+      methods: {
+        ____pan (event) {
+          var
+            delta = event.deltaX,
+            opacity = 0.9 - Math.abs(delta) / 180
 
-    this.node.append(
-      (this.icon ? `<i>${this.icon}</i>` : '') +
-      (this.image ? `<img src="${this.image}">` : '') +
-      `<div class="auto">${this.html}</div>`
-    )
+          Velocity(this.$el, 'stop')
 
-    if (this.button) {
-      let button = $(`<a>${this.button.label}</a>`)
+          if (opacity < 0.05) {
+            this.$el.style.opacity = '0'
+            dismiss()
+            return
+          }
 
-      this.node.append(button)
-      button.click(() => {
-        this.dismiss()
-        if (typeof this.button.handler === 'function') {
-          this.button.handler()
+          if (event.isFinal) {
+            Velocity(this.$el, {
+              translateX: [0, delta],
+              opacity: 0.9
+            })
+            return
+          }
+
+          Utils.dom.css(this.$el, {
+            transform: 'translateX(' + delta + 'px)',
+            opacity: opacity
+          })
+        },
+        ___dismissAll: dismissAll,
+        ___toastButton: () => {
+          this.dismiss()
+          if (options.button && typeof options.button.handler === 'function') {
+            options.button.handler()
+          }
         }
-      })
-    }
-
-    $('<a class="quasar-toast-dismiss-all"><i>delete</i></a>')
-      .click(dismissAll)
-      .appendTo(this.node)
+      }
+    })
+    this.vm.$mount().$appendTo(toastNode)
 
     if (this.timeout > 0) {
       this.timer = setTimeout(() => {
@@ -112,11 +93,11 @@ class Toast {
       }, this.timeout)
     }
 
-    this.vm.el = this.node[0]
-    this.vm = new Vue(this.vm)
-
     Events.trigger('app:toast', this.html)
-    this.node.css('display', 'none').appendTo(toastNode).slideToggle()
+    Velocity(this.vm.$el, 'slideDown', {
+      easing: 'easeOutQuart',
+      display: 'flex'
+    })
 
     if (dismissers.length > 5) {
       dismissers.shift()()
@@ -125,43 +106,48 @@ class Toast {
 
     return {
       node: this.node,
-      dismiss: this.dismiss.bind(this),
-      vm: this.vm
+      dismiss: this.dismiss.bind(this)
     }
   }
 
-  dismiss () {
+  dismiss (swipedOut) {
     if (this.dismissed) {
       return
     }
+
+    this.dismissed = true
 
     if (this.timer) {
       clearTimeout(this.timer)
     }
 
-    this.node.slideToggle(200, () => {
+    if (swipedOut) {
       this.vm.$destroy(true)
       this.onDismiss()
-    })
+    }
+    else {
+      Velocity(this.vm.$el, 'slideUp', {
+        complete: () => {
+          this.vm.$destroy(true)
+          this.onDismiss()
+        }
+      })
+    }
 
-    this.dismissed = true
-
-    dismissers = dismissers.filter((item) => {
-      return item !== this.dismiss
-    })
+    dismissers = dismissers.filter(item => item !== this.dismiss)
   }
 }
 
-function create (options, defaults) {
-  if (!options) {
+function create (opts, defaults) {
+  if (!opts) {
     throw new Error('Missing toast options.')
   }
 
-  if (typeof options === 'string') {
-    options = {html: options}
-  }
-
-  $.extend(true, options, defaults)
+  let options = Utils.extend(
+    true,
+    typeof opts === 'string' ? {html: opts} : opts,
+    defaults
+  )
 
   if (!options.html) {
     throw new Error('Missing toast content/HTML.')
@@ -170,8 +156,8 @@ function create (options, defaults) {
   return new Toast(options)
 }
 
-types.forEach((type) => {
-  create[type.name] = (opts) => create(opts, type.defaults)
+types.forEach(type => {
+  create[type.name] = opts => create(opts, type.defaults)
 })
 
 export default {

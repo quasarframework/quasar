@@ -1,4 +1,3 @@
-import $ from 'jquery'
 import { current as theme } from './theme'
 import { Vue } from './install'
 import Events from './events'
@@ -9,9 +8,8 @@ let
   timeout
 
 const
-  body = $('body'),
   template = `
-    <div class="fullscreen column items-center justify-center z-absolute">
+    <div class="quasar-loading fullscreen column items-center justify-center z-absolute">
       <spinner :name="spinner" color="#fff" :size="80"></spinner>
       <div v-if="message" style="margin: 40px 20px 0 20px; max-width: 450px; text-align: center; color: white; text-shadow: 0 0 7px black">{{ message }}</div>
     </div>
@@ -31,19 +29,18 @@ function show ({
     return
   }
 
-  timeout = setTimeout(function () {
-    var node = $(template)
-
-    body.addClass('dimmed')
-    body.append(node)
+  timeout = setTimeout(() => {
+    document.body.classList.add('dimmed')
 
     vm = new Vue({
-      el: node[0],
+      template,
       data: {
         spinner,
         message
       }
     })
+
+    vm.$mount().$appendTo(document.body)
 
     timeout = null
   }, delay)
@@ -62,7 +59,7 @@ function hide () {
     timeout = null
   }
   else {
-    body.removeClass('dimmed')
+    document.body.classList.remove('dimmed')
     vm.$destroy(true)
   }
 

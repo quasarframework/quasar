@@ -1,9 +1,5 @@
 /* eslint-disable no-extend-native, one-var, no-self-compare */
 
-import $ from 'jquery'
-
-$.fn.reverse = [].reverse
-
 if (!Array.prototype.includes) {
   Array.prototype.includes = function (searchElement, startFrom) {
     'use strict'
@@ -54,5 +50,36 @@ if (!String.prototype.endsWith) {
     let lastIndex = subjectString.indexOf(searchString, position)
 
     return lastIndex !== -1 && lastIndex === position
+  }
+}
+
+if (typeof Element.prototype.matches !== 'function') {
+  Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.mozMatchesSelector || Element.prototype.webkitMatchesSelector || function matches (selector) {
+    let
+      element = this,
+      elements = (element.document || element.ownerDocument).querySelectorAll(selector),
+      index = 0
+
+    while (elements[index] && elements[index] !== element) {
+      ++index
+    }
+
+    return Boolean(elements[index])
+  }
+}
+
+if (typeof Element.prototype.closest !== 'function') {
+  Element.prototype.closest = function closest (selector) {
+    let element = this
+
+    while (element && element.nodeType === 1) {
+      if (element.matches(selector)) {
+        return element
+      }
+
+      element = element.parentNode
+    }
+
+    return null
   }
 }

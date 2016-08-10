@@ -7,6 +7,7 @@
       :class="{'fixed-left': !rightSide, 'fixed-right': rightSide}"
     >&nbsp</div>
     <div
+      v-el:backdrop
       class="drawer-backdrop fullscreen"
       style="background: rgba(0, 0, 0, 0.01)"
       @click="setState(false)"
@@ -14,9 +15,10 @@
       v-touch-options:pan="{ direction: 'horizontal' }"
     ></div>
     <div
-      class="drawer-content scroll"
+      v-el:content
       v-touch:pan="closeByTouch"
       v-touch-options:pan="{ direction: 'horizontal' }"
+      class="drawer-content scroll"
       :class="{'left-side': !rightSide, 'right-side': rightSide}"
     >
       <slot></slot>
@@ -25,11 +27,10 @@
 </template>
 
 <script>
-import $ from 'jquery'
+import Utils from '../../utils'
 import * as theme from '../../theme'
 
 const
-  body = $('body'),
   drawerAnimationSpeed = 150,
   backdropOpacity = {
     mat: 0.7,
@@ -41,7 +42,7 @@ let
   rightDrawer
 
 function getCurrentPosition (node) {
-  let transform = node.css('transform')
+  let transform = Utils.dom.style(node, 'transform')
   return transform !== 'none' ? parseInt(transform.split(/[()]/)[1].split(', ')[4], 10) : 0
 }
 
@@ -50,18 +51,20 @@ function matToggleAnimate (onRightSide, opening, backdrop, percentage, drawerWid
     currentPosition = getCurrentPosition(node),
     closePosition = (onRightSide ? 1 : -1) * drawerWidth
 
-  node.velocity('stop').velocity(
+  Velocity(node, 'stop')
+  Velocity(
+    node,
     {translateX: opening ? [0, currentPosition] : [closePosition, currentPosition]},
     {duration: !opening || currentPosition !== 0 ? drawerAnimationSpeed : 0}
   )
 
   if (opening) {
-    backdrop.addClass('active')
+    backdrop.classList.add('active')
   }
 
-  backdrop
-  .velocity('stop')
-  .velocity(
+  Velocity(backdrop, 'stop')
+  Velocity(
+    backdrop,
     {
       'backgroundColor': '#000',
       'backgroundColorAlpha': opening ? backdropOpacity.mat : 0.01
@@ -70,11 +73,11 @@ function matToggleAnimate (onRightSide, opening, backdrop, percentage, drawerWid
       duration: drawerAnimationSpeed,
       complete () {
         if (!opening) {
-          backdrop.removeClass('active')
-          $(window).off('resize', closeDrawers)
+          backdrop.classList.remove('active')
+          window.removeEventListener('resize', closeDrawers)
         }
         else {
-          $(window).resize(closeDrawers)
+          window.addEventListener('resize', closeDrawers)
         }
         if (typeof done === 'function') {
           done()
@@ -86,21 +89,22 @@ function matToggleAnimate (onRightSide, opening, backdrop, percentage, drawerWid
 
 function iosToggleAnimate (onRightSide, opening, backdrop, percentage, drawerWidth, done) {
   if (opening) {
-    backdrop.addClass('active')
+    backdrop.classList.add('active')
   }
 
   let
-    currentPosition = getCurrentPosition(body),
+    currentPosition = getCurrentPosition(document.body),
     openPosition = (onRightSide ? -1 : 1) * drawerWidth
 
-  body.velocity('stop').velocity(
+  Velocity(document.body, 'stop')
+  Velocity(document.body,
     {translateX: opening ? [openPosition, currentPosition] : [0, currentPosition]},
     {duration: !opening || currentPosition !== openPosition ? drawerAnimationSpeed : 0}
   )
 
-  backdrop
-  .velocity('stop')
-  .velocity(
+  Velocity(backdrop, 'stop')
+  Velocity(
+    backdrop,
     {
       'backgroundColor': '#000',
       'backgroundColorAlpha': opening ? backdropOpacity.ios : 0.01
@@ -109,11 +113,11 @@ function iosToggleAnimate (onRightSide, opening, backdrop, percentage, drawerWid
       duration: drawerAnimationSpeed,
       complete () {
         if (!opening) {
-          backdrop.removeClass('active')
-          $(window).off('resize', closeDrawers)
+          backdrop.classList.remove('active')
+          window.removeEventListener('resize', closeDrawers)
         }
         else {
-          $(window).resize(closeDrawers)
+          window.addEventListener('resize', closeDrawers)
         }
         if (typeof done === 'function') {
           done()
@@ -125,16 +129,15 @@ function iosToggleAnimate (onRightSide, opening, backdrop, percentage, drawerWid
 
 function openByTouch (event) {
   const
-    el = $(this.$el),
-    content = el.find('> .drawer-content')
+    content = this.$els.content,
+    backdrop = this.$els.backdrop
 
-  if (content.css('position') !== 'fixed') {
+  if (Utils.dom.style(content, 'position') !== 'fixed') {
     return
   }
 
   let
     position = Math.abs(event.deltaX),
-    backdrop = el.find('> .drawer-backdrop'),
     target,
     fn,
     percentage
@@ -147,7 +150,7 @@ function openByTouch (event) {
     position = Math.min(position, this.width)
     percentage = 1.0 - (this.width - Math.abs(position)) / this.width
     fn = iosToggleAnimate
-    target = body
+    target = document.body
     position = (this.rightSide ? -1 : 1) * position
   }
   else { // mat
@@ -161,12 +164,10 @@ function openByTouch (event) {
     fn(this.rightSide, this.opened, backdrop, percentage, this.width, null, content)
     return
   }
-  target.css({
-    'transform': 'translateX(' + position + 'px)'
-  })
-  backdrop
-    .addClass('active')
-    .css('background', 'rgba(0,0,0,' + percentage * backdropOpacity[theme.current] + ')')
+
+  target.style.transform = 'translateX(' + position + 'px)'
+  backdrop.classList.add('active')
+  backdrop.style.background = 'rgba(0,0,0,' + percentage * backdropOpacity[theme.current] + ')'
 }
 
 function getBetween (value, min, max) {
@@ -182,18 +183,20 @@ function getBetween (value, min, max) {
 }
 
 function closeByTouch (event) {
-  let
-    el = $(this.$el),
-    content = el.find('> .drawer-content'),
-    target, fn, percentage, position, initialPosition, backdrop
+  const
+    content = this.$els.content,
+    backdrop = this.$els.backdrop
 
-  if (content.css('position') !== 'fixed') {
+  let
+    target, fn, percentage, position,
+    initialPosition
+
+  if (Utils.dom.style(content, 'position') !== 'fixed') {
     return
   }
 
   position = this.rightSide ? getBetween(event.deltaX, 0, this.width) : getBetween(event.deltaX, -this.width, 0)
   initialPosition = (this.rightSide ? -1 : 1) * this.width
-  backdrop = el.find('> .drawer-backdrop')
 
   if (event.isFinal) {
     this.opened = Math.abs(position) <= 75
@@ -203,7 +206,7 @@ function closeByTouch (event) {
     position = initialPosition + position
     percentage = (this.rightSide ? -1 : 1) * position / this.width
     fn = iosToggleAnimate
-    target = body
+    target = document.body
   }
   else { // mat
     percentage = 1 + (this.rightSide ? -1 : 1) * position / this.width
@@ -215,10 +218,9 @@ function closeByTouch (event) {
     fn(this.rightSide, this.opened, backdrop, percentage, this.width, null, content)
     return
   }
-  target.css({
-    'transform': 'translateX(' + position + 'px)'
-  })
-  backdrop.css('background', 'rgba(0,0,0,' + percentage * backdropOpacity[theme.current] + ')')
+
+  target.style.transform = 'translateX(' + position + 'px)'
+  backdrop.style.background = 'rgba(0,0,0,' + percentage * backdropOpacity[theme.current] + ')'
 }
 
 function closeDrawers (done) {
@@ -270,39 +272,43 @@ export default {
       }
 
       this.opened = !this.opened
-      let
-        backdrop = $(this.$el).find('> .drawer-backdrop'),
-        fn = theme.current === 'ios' ? iosToggleAnimate : matToggleAnimate
+      let fn = theme.current === 'ios' ? iosToggleAnimate : matToggleAnimate
 
       fn(
         this.rightSide,
         this.opened,
-        backdrop,
+        this.$els.backdrop,
         this.opened ? 0.01 : 1,
         this.width,
         done,
-        $(this.$el).find('> .drawer-content')
+        this.$els.content
       )
     }
   },
   ready () {
     const
-      el = $(this.$el),
-      content = el.find('> .drawer-content'),
-      toggles = el.parents('.layout').find('.' + (this.rightSide ? 'right' : 'left') + '-drawer-opener')
+      content = this.$els.content,
+      toggles = this.$el.closest('.layout').getElementsByClassName((this.rightSide ? 'right' : 'left') + '-drawer-opener')
 
-    this.width = parseInt(content.css('width'), 10)
+    this.width = Utils.dom.width(content)
 
-    toggles.click(() => {
-      this.setState(true)
+    ;[].slice.call(toggles).forEach(el => {
+      el.addEventListener('click', () => {
+        this.setState(true)
+      })
     })
-    content.find('.drawer-closer').click(() => {
-      this.setState(false)
+
+    ;[].slice.call(content.getElementsByClassName('drawer-closer')).forEach(el => {
+      el.addEventListener('click', () => {
+        this.setState(false)
+      })
     })
 
     if (this.swipeOnly) {
-      el.addClass('swipe-only')
-      toggles.addClass('always-visible')
+      [].slice.call(toggles).forEach(el => {
+        el.classList.add('always-visible')
+      })
+      this.$el.classList.add('swipe-only')
     }
 
     if (this.rightSide) {

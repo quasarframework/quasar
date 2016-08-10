@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import $ from 'jquery'
+import Utils from '../../utils'
 
 export default {
   props: {
@@ -53,8 +53,8 @@ export default {
         return
       }
 
-      this.image.css('min-height', Math.max(this.height, this.pageContainer.innerHeight()))
-      this.imageHeight = this.image.height()
+      this.image.style.minHeight = Math.max(this.height, Utils.dom.height(this.pageContainer))
+      this.imageHeight = Utils.dom.height(this.image)
 
       this.updatePosition()
     },
@@ -64,10 +64,10 @@ export default {
       }
 
       let
-        containerTop = this.pageContainer.offset().top,
-        containerHeight = this.pageContainer.innerHeight(),
+        containerTop = Utils.dom.offset(this.pageContainer).top,
+        containerHeight = Utils.dom.height(this.pageContainer),
         containerBottom = containerTop + containerHeight,
-        top = this.container.offset().top,
+        top = Utils.dom.offset(this.container).top,
         bottom = top + this.height
 
       if (bottom > containerTop && top < containerBottom) {
@@ -76,19 +76,22 @@ export default {
     }
   },
   ready () {
-    this.container = $(this.$el)
-    this.image = $(this.$els.img)
+    this.container = this.$el
+    this.image = this.$els.img
 
-    this.pageContainer = this.container.parents('.layout-scroll-area')
-    if (this.pageContainer.length === 0) {
-      this.pageContainer = $('#quasar-app')
+    this.pageContainer = this.$el.closest('.layout-scroll-area')
+    if (!this.pageContainer) {
+      this.pageContainer = document.getElementById('quasar-app')
     }
-    this.pageContainer.scroll(this.updatePosition)
+    this.pageContainer.addEventListener('scroll', this.updatePosition)
+    this.resizeHandler = Utils.debounce(this.processResize, 50)
+    window.addEventListener('resize', this.resizeHandler)
+
     this.processResize()
   },
   beforeDestroy () {
-    $(window).off('resize', this.processResize)
-    this.pageContainer.off('scroll', this.updatePosition)
+    window.removeEventListener('resize', this.resizeHandler)
+    this.pageContainer.removeEventListener('scroll', this.updatePosition)
   }
 }
 </script>

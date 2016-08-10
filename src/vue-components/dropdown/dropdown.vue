@@ -14,13 +14,12 @@
 </template>
 
 <script>
-import $ from 'jquery'
 import vm from './dropdown-common'
 
 export default {
   mixins: [vm],
   destroy () {
-    $('body').off('mousedown', this.close)
+    document.body.removeEventListener('mousedown', this.close)
   }
 }
 </script>

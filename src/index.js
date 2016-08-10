@@ -1,5 +1,5 @@
-import 'jquery'
-import 'velocity-animate'
+import Velocity from 'velocity-animate'
+window.Velocity = Velocity
 import 'velocity-animate/velocity.ui'
 
 import install from './install'
@@ -10,7 +10,6 @@ import * as theme from './theme'
 import './polyfills'
 import './error-handler'
 import './fastclick'
-import './hammer'
 
 import ActionSheet from './components/action-sheet/action-sheet'
 import Dialog from './components/dialog/dialog'

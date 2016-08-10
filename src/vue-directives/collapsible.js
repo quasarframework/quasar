@@ -1,27 +1,23 @@
-import $ from 'jquery'
-
 export default {
   bind () {
-    var self = this
+    this.clickHandler = () => {
+      this.el.classList.toggle('active')
 
-    $(this.el)
-    .addClass('collapsible')
-    .children().each(function () {
-      $(this).find('div:first-child').click(function () {
-        var items = $(this).parent().toggleClass('active')
+      if (!this.free) {
+        [].slice.call(this.el.parentNode.children).forEach(li => {
+          if (li !== this.el) {
+            li.classList.remove('active')
+          }
+        })
+      }
+    }
 
-        if (self.oneAtATime) {
-          items.siblings().removeClass('active')
-        }
-      })
-    })
+    this.el.children[0].addEventListener('click', this.clickHandler)
   },
-  update (freely) {
-    this.oneAtATime = !freely
+  update () {
+    this.free = !!this.modifiers.free
   },
   unbind () {
-    $(this.el).find('li').each(function () {
-      $(this).find('div:first-child').off('click')
-    })
+    this.el.children[0].removeEventListener('click', this.clickHandler)
   }
 }

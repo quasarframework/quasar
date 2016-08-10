@@ -5,13 +5,13 @@
     @click="activate()"
   >
       <i v-if="icon" class="quasar-tabs-icon">{{icon}}</i>
-      <span class="quasar-tabs-label"><slot></slot></span>
+      <span class="quasar-tab-label">
+        <slot></slot>
+      </span>
   </div>
 </template>
 
 <script>
-import $ from 'jquery'
-
 export default {
   props: ['active', 'hidden', 'disabled', 'hide', 'icon', 'label', 'target'],
   methods: {
@@ -36,7 +36,7 @@ export default {
         return
       }
       if (value) {
-        this.$dispatch('selected', this, $(this.$el))
+        this.$dispatch('selected', this, this.$el)
       }
     },
     hidden (value) {

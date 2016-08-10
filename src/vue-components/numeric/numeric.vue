@@ -15,8 +15,6 @@
 </template>
 
 <script>
-import $ from 'jquery'
-
 export default {
   props: {
     model: {
@@ -28,11 +26,6 @@ export default {
       type: Number,
       default: 1,
       coerce: (value) => parseFloat(value, 10)
-    },
-    lazy: {
-      type: Boolean,
-      default: true,
-      coerce: Boolean
     },
     debounce: Number,
     min: Number,
@@ -51,11 +44,6 @@ export default {
   methods: {
     increment (direction) {
       this.model += direction * this.step
-    }
-  },
-  compiled () {
-    if (!this.lazy) {
-      $(this.$el).find('input').attr('lazy', '')
     }
   }
 }

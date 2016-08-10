@@ -12,7 +12,6 @@
 </template>
 
 <script>
-import $ from 'jquery'
 import debounce from '../../utils/debounce'
 import Platform from '../../platform'
 
@@ -52,7 +51,7 @@ export default {
   methods: {
     pan (event) {
       let
-        size = this.el.width(),
+        size = this.$el.offsetWidth,
         range = this.max - this.min,
         value = (this.model - this.min) / range,
         percentage = Math.min(1, Math.max(0, value + event.deltaX / size)),
@@ -68,7 +67,7 @@ export default {
       this.active = true
     },
     update () {
-      this.position = modelToPosition(this.model, this.min, this.max, this.el.width())
+      this.position = modelToPosition(this.model, this.min, this.max, this.$el.offsetWidth)
     }
   },
   watch: {
@@ -91,8 +90,6 @@ export default {
     }
   },
   ready () {
-    this.el = $(this.$el)
-
     this.update = debounce(this.update, 50)
     this.update()
 
@@ -104,15 +101,15 @@ export default {
 
       let
         range = this.max - this.min,
-        percentage = Math.min(1, Math.max(0, event.offsetX / this.el.width()))
+        percentage = Math.min(1, Math.max(0, event.offsetX / this.$el.offsetWidth))
 
       this.model = parseFloat((this.min + percentage * range).toFixed(this.precision), 10)
     }
 
-    this.el.click(this.clickHandler)
+    this.$el.addEventListener('click', this.clickHandler)
   },
   destroy () {
-    this.el.off('click', this.clickHandler)
+    this.$el.removeEventListener('click', this.clickHandler)
   }
 }
 </script>

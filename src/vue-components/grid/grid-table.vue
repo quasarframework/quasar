@@ -130,7 +130,7 @@
 </template>
 
 <script>
-import $ from 'jquery'
+import Utils from '../../utils'
 import Dialog from '../../components/dialog/dialog'
 
 const defaultRowsPerPage = [
@@ -221,7 +221,7 @@ export default {
     },
     chosenColumnsModel (options) {
       for (let i = 0; i < this.columns.length; i++) {
-        this.columns.$set(i, $.extend({}, this.columns[i], {
+        this.columns.$set(i, Utils.extend({}, this.columns[i], {
           hidden: !options.includes(this.columns[i].field)
         }))
       }

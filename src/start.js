@@ -1,21 +1,20 @@
-import $ from 'jquery'
 import Platform from './platform'
 import * as theme from './theme'
 
-let list = []
+function addClass (className) {
+  document.body.classList.add(className)
+}
 
-list.push(Platform.is.desktop ? 'desktop' : 'mobile')
-list.push(Platform.has.touch ? 'touch' : 'no-touch')
+addClass(Platform.is.desktop ? 'desktop' : 'mobile')
+addClass(Platform.has.touch ? 'touch' : 'no-touch')
 
 if (Platform.within.iframe) {
-  list.push('within-iframe')
+  addClass('within-iframe')
 }
 
 if (Platform.is.cordova) {
-  list.push('cordova')
+  addClass('cordova')
 }
-
-$('body').addClass(list.join(' '))
 
 export default function (callback = function () {}) {
   if (!theme.current) {

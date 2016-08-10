@@ -4,20 +4,12 @@ import transitionSlide from './vue-transitions/slide'
 import GridSelectedFilter from './vue-filters/grid-selected'
 
 import directiveAttr from './vue-directives/attr'
-import directiveCardClose from './vue-directives/card-close'
-import directiveCardDetails from './vue-directives/card-details'
-import directiveCardMinimize from './vue-directives/card-minimize'
 import directiveCollapsible from './vue-directives/collapsible'
-import directiveExitApp from './vue-directives/exit-app'
-import directiveHover from './vue-directives/hover'
 import directiveScrollFire from './vue-directives/scroll-fire'
 import directiveScroll from './vue-directives/scroll'
-import directiveSwipeItem from './vue-directives/swipe-item'
 import directiveTooltip from './vue-directives/tooltip'
 
 import Checkbox from './vue-components/checkbox/checkbox.vue'
-import Collapsible from './vue-components/collapsible/collapsible.vue'
-import CollapsibleItem from './vue-components/collapsible/collapsible-item.vue'
 import ContextMenu from './vue-components/dropdown/context-menu.vue'
 import Drawer from './vue-components/drawer/drawer.vue'
 import DrawerLink from './vue-components/drawer/drawer-link.vue'
@@ -61,22 +53,14 @@ function registerFilters (_Vue) {
 
 function registerDirectives (_Vue) {
   _Vue.directive('attr', directiveAttr)
-  _Vue.directive('card-minimize', directiveCardMinimize)
-  _Vue.directive('card-close', directiveCardClose)
-  _Vue.directive('card-details', directiveCardDetails)
   _Vue.directive('collapsible', directiveCollapsible)
-  _Vue.directive('exit-app', directiveExitApp)
-  _Vue.directive('hover', directiveHover)
   _Vue.directive('scroll-fire', directiveScrollFire)
   _Vue.directive('scroll', directiveScroll)
-  _Vue.directive('swipe-item', directiveSwipeItem)
   _Vue.directive('tooltip', directiveTooltip)
 }
 
 function registerComponents (_Vue) {
   _Vue.component('quasar-checkbox', Checkbox)
-  _Vue.component('quasar-collapsible', Collapsible)
-  _Vue.component('quasar-collapsible-item', CollapsibleItem)
   _Vue.component('quasar-context-menu', ContextMenu)
   _Vue.component('quasar-drawer', Drawer)
   _Vue.component('quasar-drawer-link', DrawerLink)

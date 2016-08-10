@@ -1,5 +1,5 @@
-import $ from 'jquery'
 import Modal from '../modal/modal'
+import Utils from '../../utils'
 import { current as theme } from '../../theme'
 
 import matTemplate from './action-sheet-material.html'
@@ -15,7 +15,7 @@ function parseButtons (buttons) {
   }
 
   if (buttons.some(
-    (button) => Object(button) !== button || !button.label || !button.handler
+    button => Object(button) !== button || !button.label || !button.handler
   )) {
     throw new Error('At least one of Action Sheet\'s button parameter is not an object or missing label and/or handler.')
   }
@@ -51,7 +51,7 @@ function getCSS () {
 
 function create (options) {
   let
-    data = $.extend({}, options),
+    data = Utils.extend(true, {}, options),
     modal
 
   data.buttons = parseButtons(data.buttons)
@@ -67,8 +67,9 @@ function create (options) {
     transitionOut: {translateY: ['101%', 0]}
   })
 
-  modal.$el.removeClass('items-center').addClass('items-end')
-  modal.$backdrop.click(() => {
+  modal.$el.classList.remove('items-center')
+  modal.$el.classList.add('items-end')
+  modal.$backdrop.addEventListener('click', () => {
     modal.close(data.dismissButton.handler)
   })
 

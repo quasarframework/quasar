@@ -1,14 +1,10 @@
-import $ from 'jquery'
-
-const body = $('body')
-
 export function set (theme) {
   if (current) {
-    body.removeClass(current)
+    document.body.classList.remove(current)
   }
 
   current = theme
-  body.addClass(theme)
+  document.body.classList.add(theme)
 }
 
 export var current

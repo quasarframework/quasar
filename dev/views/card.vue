@@ -19,21 +19,6 @@
   </div>
 
   <div class="card">
-    <div class="card-title row items-center">
-      <span class="auto">Card Title</span>
-      <div class="group">
-        <button class="primary clear small" v-card-minimize><i>vertical_align_bottom</i></button>
-        <button class="primary clear small" v-card-close><i>close</i></button>
-      </div>
-    </div>
-    <div class="card-content">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-      incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-      exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-    </div>
-  </div>
-
-  <div class="card">
     <div class="card-title bg-primary text-white">
       Card Title
     </div>
@@ -94,9 +79,9 @@
     <div class="card-title">
       Card with Parallax Image
     </div>
-    <parallax src="../assets/parallax2.jpg" :height="150">
+    <quasar-parallax :src="'statics/parallax2.jpg'" :height="150">
       <div slot="loading">Loading...</div>
-    </parallax>
+    </quasar-parallax>
     <div class="card-content">
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
       incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
@@ -212,20 +197,20 @@
     <div class="card-title bg-purple text-white">
       Card with Collapsible
     </div>
-    <ul v-collapsible>
-      <li>
+    <ul class="collapsible">
+      <li v-collapsible>
         <div><i>filter_drama</i>First</div>
         <div>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
         </div>
       </li>
-      <li>
+      <li v-collapsible>
         <div><i>place</i>Second</div>
         <div>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
         </div>
       </li>
-      <li>
+      <li v-collapsible>
         <div><i>whatshot</i>Third</div>
         <div>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.

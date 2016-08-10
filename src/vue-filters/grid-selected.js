@@ -7,5 +7,5 @@ export default function (data, filter, selectionMode, singleSelection) {
     return singleSelection
   }
 
-  return data.filter((row) => row.__selected)
+  return data.filter(row => row.__selected)
 }
