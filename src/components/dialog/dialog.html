@@ -5,9 +5,10 @@
   <p>{{{* message}}}</p>
 </div>
 <div v-if="inputs" class="modal-body modal-scroll">
-  <div v-for="input in inputs" class="item">
+  <div v-for="input in inputs" class="item floating-label">
     <div class="item-content">
-      <input type="text" v-model="input.model" :placeholder.once="input.label" required autofocus>
+      <input type="text" v-model="input.model" required autofocus>
+      <label>{{ input.label }}</label>
     </div>
   </div>
 </div>

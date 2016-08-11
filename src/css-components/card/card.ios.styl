@@ -25,6 +25,12 @@ $card-padding-vertical   ?= 13px
   > ul.collapsible
     margin 0
 
+  .list
+    margin 0
+    &.bordered
+      border 0
+      border-top 2px solid $grey-2
+
 .card-content
   line-height 1.4
   padding $card-padding-vertical $card-padding-horizontal
@@ -39,12 +45,6 @@ $card-padding-vertical   ?= 13px
 
   button
     margin 0
-
-  .list
-    margin 0
-    &.bordered
-      border 0
-      border-top 2px solid $grey-2
 
 .card-actions
   padding $card-padding-vertical $card-padding-horizontal

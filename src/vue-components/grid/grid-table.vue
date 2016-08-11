@@ -91,6 +91,7 @@
             v-if="!column.hidden"
             :style="column.style"
             :class="column.classes"
+            :data-th="column.label"
           >
             {{{column.formatter ? column.formatter(row[column.field]) : row[column.field]}}}
           </td>

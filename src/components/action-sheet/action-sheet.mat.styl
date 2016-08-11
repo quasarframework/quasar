@@ -1,11 +1,12 @@
 $action-sheet-avatar-padding   ?= .6rem 1.2rem
+$action-sheet-hover-background ?= #d0d0d0
 
 .quasar-action-sheet-gallery
-  .column
+  > div
     padding $action-sheet-avatar-padding
     transition all .3s
     &:hover
-      background $list-divider-color
+      background $action-sheet-hover-background
   i, img
     font-size 2rem
     margin-bottom 5px

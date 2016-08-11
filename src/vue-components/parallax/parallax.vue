@@ -53,7 +53,7 @@ export default {
         return
       }
 
-      this.image.style.minHeight = Math.max(this.height, Utils.dom.height(this.pageContainer))
+      this.image.style.minHeight = Math.max(this.height, Utils.dom.height(this.pageContainer)) + 'px'
       this.imageHeight = Utils.dom.height(this.image)
 
       this.updatePosition()
@@ -79,14 +79,14 @@ export default {
     this.container = this.$el
     this.image = this.$els.img
 
-    this.pageContainer = this.$el.closest('.layout-scroll-area')
+    this.pageContainer = this.$el.closest('.layout-view')
     if (!this.pageContainer) {
       this.pageContainer = document.getElementById('quasar-app')
     }
-    this.pageContainer.addEventListener('scroll', this.updatePosition)
     this.resizeHandler = Utils.debounce(this.processResize, 50)
-    window.addEventListener('resize', this.resizeHandler)
 
+    window.addEventListener('resize', this.resizeHandler)
+    this.pageContainer.addEventListener('scroll', this.updatePosition)
     this.processResize()
   },
   beforeDestroy () {

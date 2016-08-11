@@ -108,6 +108,13 @@ export default {
   },
   events: {
     selected (tab, tabNode) {
+      if (this.content.length > 0) {
+        [].forEach.call(this.content, el => {
+          el.style.display = 'none'
+        })
+        document.querySelector(tab.target).style.display = ''
+      }
+
       this.$broadcast('blur', tab)
 
       setTimeout(() => {
@@ -130,6 +137,16 @@ export default {
     // debouncing here because debounce needs to be per instance
     this.redraw = Utils.debounce(this.redraw, debounceDelay)
     this.updateScrollIndicator = Utils.debounce(this.updateScrollIndicator, debounceDelay)
+
+    this.content = this.$children.filter(child => child.target)
+    if (this.content.length > 0) {
+      this.content = document.querySelectorAll(
+        this.content.map(child => child.target).join(',')
+      )
+      ;[].forEach.call(this.content, el => {
+        el.style.display = 'none'
+      })
+    }
 
     this.scroller.addEventListener('scroll', this.updateScrollIndicator)
     window.addEventListener('resize', this.redraw)

@@ -1,6 +1,6 @@
 $layout-navbar-order       ?= -9
 $layout-toolbar-min-height ?= 47px
-$toolbar-title-font-size   ?= 1rem
+$toolbar-title-font-size   ?= 1.2rem
 
 .layout
   @extend .fullscreen, .full-height, .full-width
@@ -24,14 +24,10 @@ $toolbar-title-font-size   ?= 1rem
   overflow hidden
 
 .layout-view
-  position relative
-  display flex
-  flex-direction column
-  flex 1 1 auto
-
-.layout-scroll-area
-  flex 1 1 auto
   overflow auto
+  width 100%
+  -webkit-overflow-scrolling touch
+  will-change scroll-position
 
 .layout-header, .layout-footer
   color $layout-color

@@ -80,7 +80,6 @@
     "html-webpack-plugin": "^2.22.0",
     "isparta-loader": "^2.0.0",
     "jasmine-core": "^2.4.1",
-    "jquery": "^3.1.0",
     "json-loader": "^0.5.4",
     "karma": "^1.1.1",
     "karma-chrome-launcher": "^1.0.1",
@@ -122,7 +121,6 @@
   "peerDependencies": {
     "fastclick": "^1.0.6",
     "hammerjs": "^2.0.8",
-    "jquery": "^3.1.0",
     "velocity-animate": "^1.2.3",
     "vue": "^1.0.26",
     "vue-touch": "^1.1.0"

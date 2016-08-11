@@ -1,3 +1,8 @@
+$input-border          ?= 2px solid transparent
+$input-focus-border    ?= 2px solid $form-active-color
+$textarea-border       ?= 2px solid transparent
+$textarea-focus-border ?= 2px solid $form-active-color
+
 input, textarea
   &:not(.no-style)
     padding $input-padding-vertical $input-padding-horizontal
@@ -7,22 +12,19 @@ input, textarea
     border-bottom 2px solid transparent
     border-radius $generic-border-radius
     box-shadow $shadow-1
-    &:focus
-      box-shadow $shadow-2
 
 input:not(.no-style)
-  border-bottom 2px solid $form-darker-color
+  border-bottom $input-border
   &:focus
-    border-bottom 2px solid $form-active-color
+    border-bottom $input-focus-border
 
 textarea:not(.no-style)
   height 11em
   width 100%
   box-shadow $shadow-1
-  border 2px solid transparent
+  border $textarea-border
   &:focus
-    border 2px solid $form-active-color
-    box-shadow $shadow-2
+    border $textarea-focus-border
 
 .item
   input
@@ -30,11 +32,9 @@ textarea:not(.no-style)
     flex-direction row
     flex 1 1 auto
     width 100%
-
     box-shadow none
-    border-bottom 2px solid transparent
     &:focus
-      border-bottom 2px solid $form-active-color
+      border-radius 0
 
   &.fixed-label label
     flex 0 0 33%
@@ -70,7 +70,3 @@ textarea:not(.no-style)
       margin-top 1.7rem
     input:focus ~ label
       color $form-active-color
-
-  &.floating-label, &.stacked-label
-    input
-      box-shadow none

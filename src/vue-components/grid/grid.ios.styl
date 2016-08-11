@@ -12,3 +12,25 @@
     margin-bottom 1rem
   .grid-bottom-controls > div
     margin-top 1rem
+
+  .quasar-grid-table
+    table
+      width 100%
+    thead
+      display none
+    tbody td
+      display block
+      text-align left !important
+      width 100% !important
+      padding 7px 10px
+    tbody td:before
+      content attr(data-th)
+      display block
+      text-align left
+      font-weight bold
+
+@media only screen and (min-width $layout-medium-min)
+  .grid-top-controls
+    margin-bottom 5px
+  .grid-bottom-controls
+    margin-top 5px

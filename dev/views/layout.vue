@@ -134,9 +134,7 @@
       </div>
     </quasar-drawer>
 
-    <div class="layout-view">
-      <router-view class="layout-scroll-area"></router-view>
-    </div>
+    <router-view class="layout-view"></router-view>
 
     <div slot="footer" class="toolbar light">
       <div class="toolbar-buttons">

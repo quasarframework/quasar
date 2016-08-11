@@ -22,7 +22,7 @@
       <quasar-tab icon="help">Help</quasar-tab>
     </quasar-tabs>
 
-    <div class="layout-scroll-area">
+    <div class="layout-view">
       <div class="layout-padding">
         <div>Search: '{{ search }}'</div>
         <div v-for="n in 100">text</div>

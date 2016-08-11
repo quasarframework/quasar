@@ -103,45 +103,6 @@
     </div>
   </div>
 
-  <h1>List with swipe actions</h1>
-  <div class="list bordered">
-    <div class="item">
-      <i>mail</i>
-      <div class="item-swipe">
-        <button class="primary">More</button>
-        <button class="secondary">Text</button>
-        <button class="tertiary">Call</button>
-      </div>
-      <div class="item-content" v-swipe-item>
-        <div class="item-label">Quasar Framework</div>
-        <div class="item-value">Some note</div>
-      </div>
-    </div>
-    <div class="list-divider"></div>
-    <div class="item">
-      <i>mail</i>
-      <div class="item-swipe">
-        <button class="primary">More</button>
-        <button class="secondary">Text</button>
-      </div>
-      <div class="item-content" v-swipe-item>
-        <div class="item-label">Quasar Framework</div>
-        <div class="item-value">Some note</div>
-      </div>
-    </div>
-    <div class="list-divider"></div>
-    <div class="item">
-      <i>mail</i>
-      <div class="item-swipe">
-        <button class="tertiary">Call</button>
-      </div>
-      <div class="item-content" v-swipe-item>
-        <div class="item-label">Quasar Framework</div>
-        <div class="item-value">Some note</div>
-      </div>
-    </div>
-  </div>
-
   <h1>List with item-action</h1>
   <div class="list bordered inner-delimiter">
     <label class="item">

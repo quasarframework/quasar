@@ -5,26 +5,28 @@ import { current as theme } from '../../theme'
 const duration = 300
 
 class Modal {
-  constructor (vm) {
-    if (!vm) {
+  constructor (userVm) {
+    if (!userVm) {
       throw new Error('Modal needs a VueModel.')
     }
-    if (!vm.template) {
+    if (!userVm.template) {
       throw new Error('Modal needs a template.')
     }
 
-    let vmObject = Utils.extend(true, {}, vm, {
-      template: `<div class="modal hidden fullscreen flex items-center justify-center">
-          <div v-el:backdrop class="modal-backdrop backdrop"></div>
-          <div v-el:content class="modal-content">${vm.template}</div></div>`,
-      methods: {
-        close: () => {
-          this.close()
-        }
-      }
-    })
+    let vm = Utils.extend(true, userVm)
 
-    this.vm = new Vue(vmObject)
+    vm.template = `<div class="modal hidden fullscreen flex items-center justify-center">
+          <div v-el:backdrop class="modal-backdrop backdrop"></div>
+          <div v-el:content class="modal-content">${userVm.template}</div></div>`
+    vm.methods = vm.methods || {}
+    vm.methods.close = onClose => {
+      this.close(onClose)
+    }
+
+    // preserve data bindings
+    vm.data = userVm.data
+
+    this.vm = new Vue(vm)
     this.vm.$mount().$appendTo(document.body)
 
     this.$el = this.vm.$el
@@ -172,5 +174,7 @@ class Modal {
 }
 
 export default {
-  create: props => new Modal(props)
+  create (vm) {
+    return new Modal(vm)
+  }
 }

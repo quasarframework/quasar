@@ -1,5 +1,4 @@
 import Modal from '../modal/modal'
-import Utils from '../../utils'
 import { current as theme } from '../../theme'
 
 import matTemplate from './action-sheet-material.html'
@@ -20,7 +19,7 @@ function parseButtons (buttons) {
     throw new Error('At least one of Action Sheet\'s button parameter is not an object or missing label and/or handler.')
   }
 
-  return buttons.map((button) => {
+  return buttons.map(button => {
     if (button.classes) {
       if (Array.isArray(button.classes)) {
         button.classes = button.classes.split(' ')
@@ -49,17 +48,13 @@ function getCSS () {
   }
 }
 
-function create (options) {
-  let
-    data = Utils.extend(true, {}, options),
-    modal
-
+function create (data) {
   data.buttons = parseButtons(data.buttons)
   data.dismissButton = data.buttons.pop()
 
-  modal = Modal.create({
+  let modal = Modal.create({
     template: theme === 'ios' ? iosTemplate : matTemplate,
-    data: data
+    data
   })
   .css(getCSS())
   .set({

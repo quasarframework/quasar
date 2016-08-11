@@ -42,15 +42,15 @@ class Toast {
     this.vm = new Vue({
       template: `<div
         class="quasar-toast row items-center justify-between nowrap non-selectable ${color}"
-        v-touch:pan="____pan"
+        v-touch:pan="pan"
         v-touch-options:pan="{ direction: 'horizontal' }">` +
-        (this.icon ? `<i>${this.icon}</i>` : '') +
-        (this.image ? `<img src="${this.image}">` : '') +
+        (options.icon ? `<i>${options.icon}</i>` : '') +
+        (options.image ? `<img src="${options.image}">` : '') +
         `<div class="auto">${options.html}</div>` +
-        (this.button ? `<a @click="___toastButton">${this.button.label}</a>` : '') +
-        '<a @click="___dismissAll" class="quasar-toast-dismiss-all"><i>delete</i></a></div>',
+        (options.button ? `<a @click="toastButton">${options.button.label}</a>` : '') +
+        '<a @click="dismissAll" class="quasar-toast-dismiss-all"><i>delete</i></a></div>',
       methods: {
-        ____pan (event) {
+        pan (event) {
           var
             delta = event.deltaX,
             opacity = 0.9 - Math.abs(delta) / 180
@@ -76,8 +76,8 @@ class Toast {
             opacity: opacity
           })
         },
-        ___dismissAll: dismissAll,
-        ___toastButton: () => {
+        dismissAll: dismissAll,
+        toastButton: () => {
           this.dismiss()
           if (options.button && typeof options.button.handler === 'function') {
             options.button.handler()

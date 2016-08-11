@@ -42,6 +42,13 @@ export default {
     hidden (value) {
       this.$dispatch('hidden')
     }
+  },
+  ready () {
+    if (this.active && this.target) {
+      this.$nextTick(() => {
+        this.$dispatch('selected', this, this.$el)
+      })
+    }
   }
 }
 </script>

@@ -3,7 +3,7 @@ $list-divider-color           ?= #d0d0d0
 $list-stripe-color            ?= #f2f2f2
 
 $list-header-color            ?= #858585
-$list-header-background ?= white
+$list-header-background       ?= white
 $list-header-font-size        ?= 1rem
 $list-header-text-transform   ?= none
 $list-margin                  ?= .5rem 0 1rem 0
@@ -14,8 +14,8 @@ $item-description-color       ?= #777
 $item-margin                  ?= ($generic-input-size / 2)
 $item-value-color             ?= #c5c5c5
 
-$item-active-color            ?= opposite-non-color($primary)
-$item-active-background ?= $primary
+$item-active-background       ?= $primary
+$item-active-color            ?= opposite-non-color($item-active-background)
 
 .item
   position relative
@@ -35,14 +35,15 @@ $item-active-background ?= $primary
   font-size $item-font-size
   transition all .3s
 
-  &.active, &.v-link-active
-    color $item-active-color
-    background $item-active-background
   &.item-link
     cursor pointer
     transition all .3s
     &:not(.active):not(.v-link-active):hover
       background $list-divider-color
+
+  &.active, &.v-link-active
+    color $item-active-color
+    background $item-active-background
 
   i
     line-height 1
@@ -94,16 +95,6 @@ $item-active-background ?= $primary
       margin 8px 0
       width 4rem
       height 4rem
-
-  .item-swipe
-    position absolute
-    top 0
-    right 0
-    bottom 0
-    z-index -1
-
-  .item-swipe + .item-content
-    background white
 
 list-inner-delimiter()
   .item + .item:not(.active):not(.v-link-active)
@@ -169,7 +160,7 @@ list-top-bottom-bordered()
   &.bordered
     border 1px solid $list-divider-color
 
-  &.striped > *:nth-child(odd), &.highlight > .item:hover // @stylint ignore
+  &.striped > *:nth-child(odd), &.highlight > .item:not(.active):not(.v-link-active):hover // @stylint ignore
     background $list-stripe-color
 
   &.top-bottom-bordered

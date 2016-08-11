@@ -55,7 +55,7 @@ export default {
         }
       ],
       selection: {
-        mode: 'multiple',
+        mode: 'single',
         actions: [
           {
             label: 'View 1',

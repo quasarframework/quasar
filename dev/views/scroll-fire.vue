@@ -22,7 +22,7 @@ export default {
       console.log('v-scroll: position', position)
     },
     scrollFire (element) {
-      element.velocity('callout.tada', {
+      Velocity(element, 'callout.tada', {
         display: null,
         stagger: 200
       })

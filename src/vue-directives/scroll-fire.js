@@ -2,7 +2,7 @@ import Utils from '../utils'
 
 export default {
   bind () {
-    this.scrollContainer = this.el.closest('.layout-scroll-area')
+    this.scrollContainer = this.el.closest('.layout-view')
     if (!this.scrollContainer) {
       this.scrollContainer = document.getElementById('quasar-app')
     }
@@ -25,7 +25,7 @@ export default {
 
       if (elementBottom < containerBottom) {
         this.scrollContainer.removeEventListener('scroll', this.scroll)
-        handler(this.element)
+        handler(this.el)
       }
     }, 50)
 

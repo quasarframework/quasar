@@ -1,14 +1,18 @@
 import Utils from '../../utils'
+import Platform from '../../platform'
 
 const offset = 20
 
 function animate (menu, position, duration, opening, fixed) {
+  // necessary to compute menu width and height
+  menu.style.display = 'block'
+
   let
-    viewport = Utils.viewport(),
+    viewport = Utils.dom.viewport(),
     windowWidth = viewport.width,
     windowHeight = viewport.height,
-    menuWidth = menu.offsetWidth,
-    menuHeight = menu.offsetHeight,
+    menuWidth = Utils.dom.width(menu),
+    menuHeight = Utils.dom.height(menu),
     toRight = position.left + menuWidth < windowWidth || 2 * position.left < windowWidth,
     toBottom = position.top + menuHeight < windowHeight || 2 * position.top < windowHeight,
     css = {
@@ -44,7 +48,7 @@ function animate (menu, position, duration, opening, fixed) {
   }
 
   Velocity(menu, 'stop')
-  Utils.css(menu, css)
+  Utils.dom.css(menu, css)
   Velocity(menu, 'transition.slide' + (toBottom ? 'Down' : 'Up') + (opening ? 'In' : 'Out'), {
     duration: duration
   })
@@ -76,6 +80,9 @@ export default {
       this.opened = true
       this.$nextTick(() => {
         document.body.addEventListener('mousedown', this.close)
+        if (Platform.has.touch) {
+          document.body.addEventListener('touchstart', this.close)
+        }
       })
 
       this.position = {
@@ -92,6 +99,10 @@ export default {
 
       this.opened = false
       document.body.removeEventListener('mousedown', this.close)
+      if (Platform.has.touch) {
+        document.body.removeEventListener('touchstart', this.close)
+      }
+
       animate(this.$els.menu, this.position, this.duration, this.opened)
     }
   }
