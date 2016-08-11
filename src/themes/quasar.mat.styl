@@ -4,34 +4,35 @@ $generic-input-border-width    ?= 2px
 
 $typography-font-family        ?= 'Roboto'
 
-$layout-color                  ?= #424242
-$layout-active-color           ?= $primary
-$layout-background             ?= $light
+$toolbar-color                 ?= white
+$toolbar-background            ?= $primary
+$toolbar-active-color          ?= $primary
+$toolbar-faded-color           ?= composite-color($primary)
 
 if $typography-font-family == 'Roboto'
   @font-face
     font-family 'Roboto'
-    src local(Roboto Thin), url('~roboto-fontface/fonts/roboto/Roboto-Thin.woff') format('woff')
+    src local(Roboto Thin), url('~roboto-fontface/fonts/Roboto/Roboto-Thin.woff') format('woff')
     font-weight 200
 
   @font-face
     font-family 'Roboto'
-    src local(Roboto Light), url('~roboto-fontface/fonts/roboto/Roboto-Light.woff') format('woff')
+    src local(Roboto Light), url('~roboto-fontface/fonts/Roboto/Roboto-Light.woff') format('woff')
     font-weight 300
 
   @font-face
     font-family 'Roboto'
-    src local(Roboto Regular), url('~roboto-fontface/fonts/roboto/Roboto-Regular.woff') format('woff')
+    src local(Roboto Regular), url('~roboto-fontface/fonts/Roboto/Roboto-Regular.woff') format('woff')
     font-weight 400
 
   @font-face
     font-family 'Roboto'
-    src url('~roboto-fontface/fonts/roboto/Roboto-Medium.woff') format('woff')
+    src url('~roboto-fontface/fonts/Roboto/Roboto-Medium.woff') format('woff')
     font-weight 500
 
   @font-face
     font-family 'Roboto'
-    src url('~roboto-fontface/fonts/roboto/Roboto-Bold.woff') format('woff')
+    src url('~roboto-fontface/fonts/Roboto/Roboto-Bold.woff') format('woff')
     font-weight 700
 
 @import './quasar.core'

@@ -31,8 +31,8 @@ $toolbar-title-font-size   ?= 1.25rem
   will-change scroll-position
 
 .layout-header, .layout-footer
-  color $layout-color
-  background $layout-background
+  color $toolbar-color
+  background $toolbar-background
 
 .layout-header, .layout-footer
   z-index $z-marginals
@@ -46,23 +46,33 @@ $toolbar-title-font-size   ?= 1.25rem
   align-items center
   justify-content space-between
   width 100%
+  position relative
+  color $toolbar-color
+  background $toolbar-background
 
   for $name, $color in $colors
-    &.{$name}
-      if $name != 'light'
+    if $name != 'light'
+      &.{$name}
         color white
-      background $color
-      &.glossy
-        background-image linear-gradient(to bottom, rgba(white, .3), rgba(white, 0) 50%, rgba(black, .12) 51%, rgba(black, .04))
-      &.clear
-        color $color
-        background transparent
+        background $color
+        &.inverted
+          color $color
+    if $name == 'light'
+      &.light
+        color composite-color($color)
+        background $color
+        &.inverted
+          color $color
+          background composite-color($color)
+
+  &.inverted
+    background white
 
   button
     margin 0 .2rem
     padding .2rem
     &:active:not(.disabled)
-      color $layout-active-color
+      color $toolbar-active-color
 
 .toolbar-content
   flex 1

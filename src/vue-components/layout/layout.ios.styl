@@ -1,5 +1,5 @@
 $layout-navbar-order       ?= 9
-$layout-border             ?= 1px solid $layout-second-color
+$layout-border             ?= 1px solid $toolbar-faded-color
 $layout-toolbar-min-height ?= 50px
 $toolbar-title-font-size   ?= 1.2rem
 
@@ -37,8 +37,8 @@ $toolbar-title-font-size   ?= 1.2rem
   will-change scroll-position
 
 .layout-header, .layout-footer
-  color $layout-color
-  background $layout-background
+  color $toolbar-color
+  background $toolbar-background
 
 .layout-header, .layout-footer
   z-index $z-marginals
@@ -53,6 +53,8 @@ $toolbar-title-font-size   ?= 1.2rem
   justify-content space-between
   width 100%
   position relative
+  color $toolbar-color
+  background $toolbar-background
 
   &.border-bottom
     border-bottom $layout-border
@@ -60,21 +62,32 @@ $toolbar-title-font-size   ?= 1.2rem
     border-top $layout-border
 
   for $name, $color in $colors
-    &.{$name}
-      if $name != 'light'
+    if $name != 'light'
+      &.{$name}
         color white
-      background $color
-      &.glossy
-        background-image linear-gradient(to bottom, rgba(white, .3), rgba(white, 0) 50%, rgba(black, .12) 51%, rgba(black, .04))
-      &.clear
-        color $color
-        background transparent
+        background $color
+        &.inverted
+          color $color
+        if luminosity($color) < .3
+          &:not(.inverted)
+            border 0
+    if $name == 'light'
+      &.light
+        color composite-color($color)
+        background $color
+        &.inverted
+          color $color
+          background composite-color($color)
+
+
+  &.inverted
+    background white
 
   button
     margin 0 .2rem
     padding .2rem
     &:active:not(.disabled)
-      color $layout-active-color
+      color $toolbar-active-color
 
 .toolbar-title
   pointer-events none

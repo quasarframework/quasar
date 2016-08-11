@@ -12,11 +12,12 @@
         <button><i>help</i></button>
       </div>
     </div>
+
     <div slot="header" class="toolbar primary">
       <quasar-search :model.sync="search" class="primary"></quasar-search>
     </div>
 
-    <quasar-tabs slot="navbar">
+    <quasar-tabs slot="navigation">
       <quasar-tab icon="mail">Mails</quasar-tab>
       <quasar-tab icon="alarm">Alarms</quasar-tab>
       <quasar-tab icon="help">Help</quasar-tab>

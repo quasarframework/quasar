@@ -1,12 +1,10 @@
 <template>
-  <div class="quasar-tabs row items-center">
+  <div class="quasar-tabs row">
     <div class="row items-center justify-center left-scroll">
       <i>chevron_left</i>
     </div>
-    <div class="quasar-tabs-scroller row auto">
-      <div class="spacer"></div>
+    <div class="quasar-tabs-scroller row">
       <slot></slot>
-      <div class="spacer"></div>
     </div>
     <div class="row items-center justify-center right-scroll">
       <i>chevron_right</i>
@@ -31,7 +29,7 @@ export default {
       if (Utils.dom.width(this.scroller) === 0 && this.scroller.scrollWidth === 0) {
         return
       }
-      if (Utils.dom.width(this.scroller) < this.scroller.scrollWidth) {
+      if (Utils.dom.width(this.scroller) + 5 < this.scroller.scrollWidth) {
         this.$el.classList.add('scrollable')
         this.scrollable = true
         this.updateScrollIndicator()

@@ -7,81 +7,16 @@
       </quasar-toolbar-title>
       <button class="right-drawer-opener"><i>menu</i></button>
     </div>
-    <!--
-    <div slot="header" class="toolbar">
-      <button><i>menu</i></button>
-      <quasar-toolbar-title :padding="2">
-        Some very very very very long title here
-      </quasar-toolbar-title>
-      <button><i>search</i></button>
-      <button><i>help</i></button>
-    </div>
-    <div slot="header" class="toolbar">
-      <button><i>menu</i></button>
-      <quasar-toolbar-title :padding="3">
-        Some very very very very long title here
-      </quasar-toolbar-title>
-      <button><i>search</i></button>
-      <button><i>search</i></button>
-      <button><i>help</i></button>
-    </div>
-    <div slot="header" class="toolbar">
-      <button><i>menu</i></button>
-      <quasar-toolbar-title :padding="4" class="text-left">
-        Some very very very very long title here
-      </quasar-toolbar-title>
-      <button><i>search</i></button>
-      <button><i>search</i></button>
-      <button><i>search</i></button>
-      <button><i>help</i></button>
-    </div>
-    -->
+
     <div slot="header" class="toolbar">
       <quasar-search :model.sync="search"></quasar-search>
     </div>
 
-    <quasar-tabs slot="navigation" class="primary">
+    <quasar-tabs slot="navigation">
       <quasar-tab icon="mail" v-link="{path: '/layout', exact: true}">Mails</quasar-tab>
       <quasar-tab icon="alarm" v-link="'/layout/alarm'">Alarms</quasar-tab>
-      <quasar-tab icon="help" v-link="'/layout/help'">Help</quasar-tab>
-    </quasar-tabs>
-    <!--
-    <quasar-tabs slot="navigation" class="light">
       <quasar-tab icon="mail" v-link="{path: '/layout', exact: true}">Mails</quasar-tab>
-      <quasar-tab icon="alarm" v-link="'/layout/alarm'">Alarms</quasar-tab>
-      <quasar-tab icon="help" v-link="'/layout/help'">Help</quasar-tab>
     </quasar-tabs>
-    <quasar-tabs slot="navigation" class="orange">
-      <quasar-tab icon="mail" v-link="{path: '/layout', exact: true}">Mails</quasar-tab>
-      <quasar-tab icon="alarm" v-link="'/layout/alarm'">Alarms</quasar-tab>
-      <quasar-tab icon="help" v-link="'/layout/help'">Help</quasar-tab>
-    </quasar-tabs>
-    <quasar-tabs slot="navigation" class="secondary">
-      <quasar-tab icon="mail" v-link="{path: '/layout', exact: true}">Mails</quasar-tab>
-      <quasar-tab icon="alarm" v-link="'/layout/alarm'">Alarms</quasar-tab>
-      <quasar-tab icon="help" v-link="'/layout/help'">Help</quasar-tab>
-    </quasar-tabs>
-    <quasar-tabs slot="navigation" class="primary glossy">
-      <quasar-tab icon="mail" v-link="{path: '/layout', exact: true}">Mails</quasar-tab>
-      <quasar-tab icon="alarm" v-link="'/layout/alarm'">Alarms</quasar-tab>
-      <quasar-tab icon="help" v-link="'/layout/help'">Help</quasar-tab>
-    </quasar-tabs>
-    <quasar-tabs slot="navigation" class="primary clear">
-      <quasar-tab icon="mail" v-link="{path: '/layout', exact: true}">Mails</quasar-tab>
-      <quasar-tab icon="alarm" v-link="'/layout/alarm'">Alarms</quasar-tab>
-      <quasar-tab icon="help" v-link="'/layout/help'">Help</quasar-tab>
-    </quasar-tabs>
-    <quasar-tabs slot="navigation" class="orange clear">
-      <quasar-tab icon="mail" v-link="{path: '/layout', exact: true}">Mails</quasar-tab>
-      <quasar-tab icon="alarm" v-link="'/layout/alarm'">Alarms</quasar-tab>
-      <quasar-tab icon="help" v-link="'/layout/help'">Help</quasar-tab>
-    </quasar-tabs>
-    <quasar-tabs slot="navigation" class="light clear">
-      <quasar-tab icon="mail" v-link="{path: '/layout', exact: true}">Mails</quasar-tab>
-      <quasar-tab icon="alarm" v-link="'/layout/alarm'">Alarms</quasar-tab>
-      <quasar-tab icon="help" v-link="'/layout/help'">Help</quasar-tab>
-    </quasar-tabs>
-    -->
 
     <div slot="header" class="toolbar purple">
       <quasar-search :model.sync="search" class="purple"></quasar-search>
