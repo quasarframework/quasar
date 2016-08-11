@@ -1,7 +1,7 @@
 /*
  * Size small
  */
-$button-small-font-size     ?= .8rem
+$button-small-font-size     ?= .75rem
 $button-small-icon-size     ?= (1.5 * $button-small-font-size)
 $button-small-padding       ?= 0 .8rem
 $button-small-min-height    ?= 2rem
@@ -10,7 +10,7 @@ $button-small-circular-size ?= 37px
 /*
  * Size default
  */
-$button-font-size           ?= .9rem
+$button-font-size           ?= .85rem
 $button-icon-size           ?= (1.5 * $button-font-size)
 $button-padding             ?= 0 1rem
 $button-min-height          ?= 2.4rem
@@ -36,14 +36,7 @@ $button-margin              ?= 0
 button, .button
   @extend .non-selectable
 
-  display inline-flex
-  flex-direction row
-  justify-content center
-  align-items center
-  align-content center
-  flex-wrap nowrap
-  flex-shrink 0
-
+  display inline
   outline 0
   border 0
   cursor pointer
@@ -77,13 +70,13 @@ button, .button
     font-size $button-small-font-size
     padding $button-small-padding
     min-height $button-small-min-height
-    i
+    &:not(.circular) i
       font-size $button-small-icon-size
   &.big
     font-size $button-big-font-size
     padding $button-big-padding
     min-height $button-big-min-height
-    i
+    &:not(.circular) i
       font-size $button-big-icon-size
 
   &.round
@@ -132,10 +125,11 @@ button, .button
         border-color darken($color, 10%) darken($color, 15%) darken($color, 15%)
         background-image linear-gradient(to bottom, rgba(white, .3), rgba(white, 0) 50%, rgba(black, .12) 51%, rgba(black, .04))
 
-      &.clear, &.outline
-        color $color
-        &:active:not(.disabled)
-          background $color !important
+      if $name != 'light'
+        &.clear, &.outline
+          color $color
+          &:active:not(.disabled)
+            background $color !important
 
       &.bordered
         border-color active-color($color)
@@ -158,15 +152,12 @@ button, .button
     padding 0
     height $button-circular-size
     width $button-circular-size
-    line-height ($button-circular-size - 9px)
     &.small
       height $button-small-circular-size
       width $button-small-circular-size
-      line-height ($button-small-circular-size - 9px)
     &.big
       height $button-big-circular-size
       width $button-big-circular-size
-      line-height ($button-big-circular-size - 7px)
 
   &.block, &.full-width
     margin-left 0

@@ -1,6 +1,6 @@
 $layout-navbar-order       ?= -9
-$layout-toolbar-min-height ?= 47px
-$toolbar-title-font-size   ?= 1.2rem
+$layout-toolbar-min-height ?= 56px
+$toolbar-title-font-size   ?= 1.25rem
 
 .layout
   @extend .fullscreen, .full-height, .full-width
@@ -22,6 +22,7 @@ $toolbar-title-font-size   ?= 1.2rem
   display flex
   flex 1 1 auto
   overflow hidden
+  position relative
 
 .layout-view
   overflow auto
@@ -83,17 +84,17 @@ $toolbar-title-font-size   ?= 1.2rem
     &.horizontal
       padding 0 .5rem
   @media only screen and (min-width $layout-medium-min) and (max-width $layout-medium-max)
-    max-width $layout-medium-min
+    max-width (.75 * $layout-medium-max)
     padding 1.5rem 2rem
     &.horizontal
       padding 0 2rem
   @media only screen and (min-width $layout-big-min) and (max-width $layout-big-max)
-    max-width $layout-medium-min
+    max-width (.75 * $layout-big-max)
     padding 2.5rem 3rem
     &.horizontal
       padding 0 3rem
   @media only screen and (min-width $layout-large-min)
-    max-width $layout-big-min
+    max-width $layout-big-max
     padding 3rem 4rem
     &.horizontal
       padding 0 4rem

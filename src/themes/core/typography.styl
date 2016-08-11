@@ -22,70 +22,51 @@ a
     outline-width 0
 
 h1, h2, h3, h4, h5, h6
-  padding 0
-  line-height 1.5
-  &:first-child
-    margin-top 0
-  &:last-child
-    margin-bottom 0
+  font-weight 400
+  line-height 110%
+  -webkit-font-smoothing antialised
 
 h1
-  font-size 2.6rem
-  min-height 1rem
-  margin (@font-size / 3) 0 .5rem 0
+  font-size 4.2rem
+  letter-spacing -.04em
+  margin 2.1rem 0 1.68rem
+  font-weight 300
 
 h2
-  font-size 2.2rem
-  letter-spacing 1.7px
-  margin (@font-size / 2) 0 .5rem 0
+  font-size 3.56rem
+  letter-spacing -.02em
+  margin 1.78rem 0 1.424rem
 
 h3
-  font-size 2rem
-  font-weight 500
-  letter-spacing 1.5px
-  margin (@font-size / 2) 0 .5rem 0
+  font-size 2.92rem
+  margin 1.46rem 0 1.168rem
 
 h4
-  font-size 1.6rem
-  font-weight 400
-  letter-spacing 2px
-  margin (@font-size / 2) 0 .5rem 0
+  font-size 2.28rem
+  margin 1.14rem 0 .912rem
 
 h5
-  font-size 1.4rem
-  font-weight 300
-  letter-spacing 1px
-  margin (@font-size / 2) 0 .5rem 0
+  font-size 1.64rem
+  margin .82rem 0 .656rem
+  -moz-osx-font-smoothing grayscale
 
 h6
-  font-size 1.4rem
-  font-weight 300
-  font-style italic
-  margin (@font-size / 2) 0 .5rem 0
+  font-size 1rem
+  letter-spacing .02em
+  margin .5rem 0 .4rem
+  font-weight 500
 
 p
-  margin $typography-p-margin
-  line-height $typography-p-line-height
+  font-size 1rem
+  letter-spacing 0
+  margin 0 0 16px
+  line-height 24px
+  color rgba(0, 0, 0, .71)
+  padding 0
+  -webkit-font-smoothing antialiased
   &.caption
-    font-size 1.2rem
     font-weight 300
-    margin-bottom 2rem
-  &:first-child
-    margin-top 0
-  &:last-child
-    margin-bottom 0
-
-@media screen and (max-width: $layout-medium-max)
-  h1
-    font-size 1.6rem
-  h2
-    font-size 1.4rem
-  h3
-    font-size 1.2rem
-  h4, h5, h6
-    font-size 1.1rem
-  p.caption
-    font-size 1.1rem
+    margin-bottom 30px
 
 .uppercase
   text-transform uppercase
