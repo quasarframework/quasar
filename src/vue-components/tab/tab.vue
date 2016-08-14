@@ -41,10 +41,17 @@ export default {
     },
     hidden (value) {
       this.$dispatch('hidden')
+    },
+    '$route' (value) {
+      this.$nextTick(() => {
+        if (this.$el.classList.contains('v-link-active')) {
+          this.$dispatch('selected', this, this.$el)
+        }
+      })
     }
   },
   ready () {
-    if (this.active && this.target) {
+    if (this.active && this.target || this.$el.classList.contains('v-link-active')) {
       this.$nextTick(() => {
         this.$dispatch('selected', this, this.$el)
       })

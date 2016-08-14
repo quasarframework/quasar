@@ -25,7 +25,7 @@ let templates = {
 }
 
 export default (_Vue) => {
-  Object.keys(templates).forEach((spinner) => {
+  Object.keys(templates).forEach(spinner => {
     _Vue.partial('quasar-partial-' + spinner, templates[spinner])
   })
 

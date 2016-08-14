@@ -1,9 +1,11 @@
 import Utils from '../../utils'
 import Platform from '../../platform'
 
-const offset = 20
+const
+  offset = 20,
+  duration = 100
 
-function animate (menu, position, duration, opening, fixed) {
+function animate (menu, position, opening) {
   // necessary to compute menu width and height
   menu.style.display = 'block'
 
@@ -49,18 +51,14 @@ function animate (menu, position, duration, opening, fixed) {
 
   Velocity(menu, 'stop')
   Utils.dom.css(menu, css)
-  Velocity(menu, 'transition.slide' + (toBottom ? 'Down' : 'Up') + (opening ? 'In' : 'Out'), {
-    duration: duration
-  })
+  Velocity(
+    menu,
+    'transition.slide' + (toBottom ? 'Down' : 'Up') + (opening ? 'In' : 'Out'),
+    {duration}
+  )
 }
 
 export default {
-  props: {
-    duration: {
-      type: Number,
-      default: 100
-    }
-  },
   data () {
     return {
       opened: false
@@ -90,7 +88,7 @@ export default {
         left: event.clientX
       }
 
-      animate(this.$els.menu, this.position, this.duration, this.opened)
+      animate(this.$els.menu, this.position, this.opened)
     },
     close () {
       if (!this.opened) {
@@ -103,7 +101,7 @@ export default {
         document.body.removeEventListener('touchstart', this.close)
       }
 
-      animate(this.$els.menu, this.position, this.duration, this.opened)
+      animate(this.$els.menu, this.position, this.opened)
     }
   }
 }

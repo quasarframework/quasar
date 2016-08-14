@@ -6,6 +6,6 @@
 
 <script>
 export default {
-  props: ['source']
+  props: ['src']
 }
 </script>

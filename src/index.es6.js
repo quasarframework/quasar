@@ -21,7 +21,6 @@ import AppVisibility from './app-visibility'
 import Cookies from './cookies'
 import Platform from './platform'
 import Events from './events'
-import Keycodes from './keycodes'
 import Loading from './loading'
 import Utils from './utils'
 import { LocalStorage, SessionStorage } from './web-storage'
@@ -43,7 +42,6 @@ export {
   Cookies,
   Platform,
   Events,
-  Keycodes,
   Loading,
   Modal,
   Toast,
