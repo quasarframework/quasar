@@ -1,5 +1,0 @@
-label: 'Pull to Refresh'
-icon: 'cached'
-layout: 'main'
-navigation:
-  group: 'scroll'

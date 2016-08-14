@@ -1,6 +1,0 @@
-label: 'CSS Elements'
-icon: 'dashboard'
-layout: 'main'
-navigation:
-  group: 'typography'
-  hide: 'icon'

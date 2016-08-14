@@ -1,0 +1,42 @@
+$generic-border-radius         ?= 2px
+$generic-input-size            ?= 25px
+$generic-input-border-width    ?= 2px
+
+$typography-font-family        ?= 'Roboto'
+
+$toolbar-color                 ?= white
+$toolbar-background            ?= $primary
+$toolbar-active-color          ?= $primary
+$toolbar-faded-color           ?= composite-color($primary)
+
+if $typography-font-family == 'Roboto'
+  @font-face
+    font-family 'Roboto'
+    src local(Roboto Thin), url('~roboto-fontface/fonts/Roboto/Roboto-Thin.woff') format('woff')
+    font-weight 200
+
+  @font-face
+    font-family 'Roboto'
+    src local(Roboto Light), url('~roboto-fontface/fonts/Roboto/Roboto-Light.woff') format('woff')
+    font-weight 300
+
+  @font-face
+    font-family 'Roboto'
+    src local(Roboto Regular), url('~roboto-fontface/fonts/Roboto/Roboto-Regular.woff') format('woff')
+    font-weight 400
+
+  @font-face
+    font-family 'Roboto'
+    src url('~roboto-fontface/fonts/Roboto/Roboto-Medium.woff') format('woff')
+    font-weight 500
+
+  @font-face
+    font-family 'Roboto'
+    src url('~roboto-fontface/fonts/Roboto/Roboto-Bold.woff') format('woff')
+    font-weight 700
+
+@import './quasar.core'
+
+@import '../components/*/*.mat'
+@import '../css-components/*/*.mat'
+@import '../vue-components/*/*.mat'

@@ -1,0 +1,43 @@
+<div class="quasar-action-sheet">
+  <div v-if="title" class="item justify-center faded">
+    <span class="item-value">{{{* title}}}</span>
+  </div>
+
+  <div class="modal-controls modal-scroll">
+    <div v-if="gallery" class="quasar-action-sheet-gallery row wrap items-center justify-center">
+      <div
+        v-for="button in buttons"
+        class="cursor-pointer column inline items-center justify-center"
+        @click="close(button.handler)"
+        :class="button.classes"
+      >
+        <i v-if="button.icon">{{* button.icon}}</i>
+        <img v-if="button.avatar" :src="button.avatar" class="avatar">
+
+        <span>{{* button.label}}</span>
+      </div>
+    </div>
+    <div v-else class="list item-delimiter">
+      <div
+        v-for="button in buttons"
+        class="item item-link justify-center"
+        @click="close(button.handler)"
+        :class="button.classes"
+      >
+        <i v-if="button.icon">{{* button.icon}}</i>
+        <img v-if="button.avatar" :src="button.avatar" class="avatar">
+        <span style="margin-left: 15px;">{{* button.label}}</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="quasar-action-sheet">
+  <div
+    class="item item-link justify-center"
+    @click="close(dismissButton.handler)"
+    :class="dismissButton.classes"
+  >
+    <strong>{{* dismissButton.label}}</strong>
+  </div>
+</div>

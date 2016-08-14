@@ -1,39 +1,19 @@
 {
-  "extends": "defaults/configurations/google",
-
+  "parserOptions": {
+    "ecmaVersion": 5
+  },
   "env": {
-    "browser": true
+    "jasmine": true
   },
-
   "globals": {
-    "q": true,
-    "quasar": true,
-    "require": true,
     "$": true,
-    "module": true,
-    "exports": true,
-    "_": true,
-    "testing": true,
-
-    "inBrowser": true,
-    "moquire": true,
-    "chai": true,
-    "expect": true,
-    "sinon": true,
-    "describe": true,
-    "it": true,
-    "before": true,
-    "after": true,
-    "beforeEach": true,
-    "afterEach": true,
-    "_html": true
+    "jQuery": true,
+    "casper": true,
+    "getWarnCount": true
   },
-
   "rules": {
-    "max-len": [1, 5000, 4],
-    "no-invalid-this": 0,
     "no-multi-str": 0,
-    "dot-location": 0,
-    "brace-style": [2, "stroustrup", { "allowSingleLine": true }]
+    "object-curly-spacing": 0,
+    "array-bracket-spacing": 0
   }
 }

@@ -1,6 +1,0 @@
-label: 'Progress'
-icon: 'hourglass_empty'
-layout: 'main'
-navigation:
-  group: 'typography'
-  hide: 'icon'

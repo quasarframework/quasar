@@ -1,0 +1,171 @@
+$list-inset-margin            ?= 16px 16px 2rem 16px
+$list-divider-color           ?= #d0d0d0
+$list-stripe-color            ?= #f2f2f2
+
+$list-header-color            ?= $toolbar-color
+$list-header-background       ?= $toolbar-background
+$list-header-font-size        ?= .8rem
+$list-header-text-transform   ?= uppercase
+$list-margin                  ?= .5rem 0 1rem 0
+
+$item-font-size               ?= .9rem
+$item-min-height              ?= max(50px, 15px + $generic-input-size)
+$item-description-color       ?= #777
+$item-margin                  ?= ($generic-input-size / 4)
+$item-value-color             ?= #c5c5c5
+
+$item-active-background       ?= $primary
+$item-active-color            ?= opposite-non-color($item-active-background)
+
+.item
+  position relative
+  text-transform none
+  text-decoration none
+  text-align initial
+  font-weight normal
+  box-shadow none
+  display flex
+  align-items center
+  margin 0
+  padding 0 $item-margin
+  border 0
+  width 100%
+  min-height $item-min-height
+  overflow hidden
+  font-size $item-font-size
+  transition all .3s
+
+  &.item-link
+    cursor pointer
+    transition all .3s
+    &:not(.active):not(.v-link-active):hover
+      background $list-divider-color
+
+  &.active, &.v-link-active
+    color $item-active-color
+    background $item-active-background
+
+  i
+    line-height 1
+    font-size $generic-input-size
+    min-height $generic-input-size
+
+  .item-value
+    color $item-value-color
+  .item-left-margin
+    margin-left $item-margin
+  .item-right-margin
+    margin-right $item-margin
+
+  img
+    border 0
+
+  .item-content
+    display flex
+    flex-direction row
+    flex 1 1 auto
+    align-items center
+    align-self stretch
+    margin-left $item-margin
+    margin-right - $item-margin
+    padding-right $item-margin
+    p
+      @extend .ellipsis
+      margin 0
+      padding 0
+      font-size ($item-font-size / 1.1)
+      color $item-description-color
+    p.item-title
+      font-size $item-font-size
+      color inherit
+    button
+      margin-right (5px - $item-margin)
+
+  .item-label
+    margin-top 10px
+    margin-bottom 10px
+    flex 1 1 auto
+    @extend .ellipsis
+
+  img
+    &.avatar
+      max-width 3rem
+      max-height 3rem
+    &.thumbnail
+      margin 8px 0
+      width 4rem
+      height 4rem
+
+list-inner-delimiter()
+  .item + .item:not(.active):not(.v-link-active)
+    .item-content
+      border-top 1px solid $list-divider-color
+  .item:not(.active):not(.v-link-active) + .list-header
+    border-top 1px solid $list-divider-color
+  .list-header
+    border-bottom 1px solid $list-divider-color
+
+list-item-delimiter()
+  .item:not(.active):not(.v-link-active) + .list-header,
+  .item:not(.active):not(.v-link-active) + .item,
+  .item + .item:not(.active):not(.v-link-active)
+    border-top 1px solid $list-divider-color
+  .list-header
+    border-bottom 1px solid $list-divider-color
+
+list-top-bottom-bordered()
+  border-width 1px 0 1px 0
+  border-style solid
+  border-color $list-divider-color
+
+
+.list
+  margin $list-margin
+
+  .list-header
+    font-size $list-header-font-size
+    text-transform $list-header-text-transform
+    font-weight bold
+    color $list-header-color
+    background $list-header-background
+    padding 16px
+    &.inverted
+      color $list-header-background
+      background $list-header-color
+
+  .list-divider
+    margin 5px 0
+    height 1px
+    background $list-divider-color
+    border 0
+    padding 0
+
+  &.inset
+    margin $list-inset-margin
+    border-radius $generic-border-radius
+    .item:first-child
+      border-top-width 0
+      border-top-right-radius $generic-border-radius
+      border-top-left-radius $generic-border-radius
+    .item:last-child
+      border-bottom-width 0
+      border-bottom-right-radius $generic-border-radius
+      border-bottom-left-radius $generic-border-radius
+
+  &.inner-delimiter
+    list-inner-delimiter()
+  &.item-delimiter
+    list-item-delimiter()
+
+  &.bordered
+    border 1px solid $list-divider-color
+
+  &.striped > *:nth-child(odd), &.highlight > .item:not(.active):not(.v-link-active):hover // @stylint ignore
+    background $list-stripe-color
+
+  &.top-bottom-bordered
+    list-top-bottom-bordered()
+
+  &.platform-delimiter
+    list-item-delimiter()
+    list-top-bottom-bordered()

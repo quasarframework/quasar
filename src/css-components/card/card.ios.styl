@@ -1,0 +1,68 @@
+$card-box-shadow         ?= $shadow-1
+$card-border-radius      ?= 2px
+$card-padding-horizontal ?= 16px
+$card-padding-vertical   ?= 13px
+
+.card
+  width 100%
+  margin-bottom 20px
+  border-radius $card-border-radius
+  box-shadow $card-box-shadow
+  display block
+  overflow hidden
+  position relative
+
+  > img, .card-media img
+    display block
+    width 100%
+    max-width 100%
+    border 0
+
+  .video:first-child, .video:first-child iframe
+    border-radius $card-border-radius $card-border-radius 0 0
+
+  > ul.collapsible
+    margin 0
+
+  .list
+    margin 0
+    &.bordered
+      border 0
+      border-top 2px solid $grey-2
+
+.card-content
+  line-height 1.4
+  padding $card-padding-vertical $card-padding-horizontal
+
+.card-title
+  font-size 1.1rem
+  font-weight 500
+  padding $card-padding-horizontal
+
+  & + .card-content
+    padding-top 0
+
+  button
+    margin 0
+
+.card-actions
+  padding $card-padding-vertical $card-padding-horizontal
+  display flex
+  flex-direction row
+  align-items center
+  font-size 80%
+  > *:not(:last-child) // @stylint ignore
+    padding-right 8px
+
+.card-media
+  position relative
+  > button
+    margin 0
+    position absolute
+    bottom - ($button-circular-size / 2)
+    right (2 * $card-padding-horizontal)
+
+.card-no-top-padding
+  padding-top 0 !important
+.card-force-top-padding
+  padding-top $card-padding-vertical !important

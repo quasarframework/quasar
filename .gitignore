@@ -1,9 +1,7 @@
-/node_modules
-/dist
-/coverage
-/preview/node_modules
-preview/coverage
-/preview/dist
-/preview/wrapper/platforms/*
-/preview/wrapper/plugins
+.DS_Store
+node_modules/
+dist/
 npm-debug.log
+test/unit/coverage/
+test/e2e/dist/
+cordova

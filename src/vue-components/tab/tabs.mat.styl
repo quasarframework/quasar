@@ -1,0 +1,140 @@
+$tabs-order                   ?= -9
+$tabs-padding                 ?= 6px 10px
+$tabs-color                   ?= $toolbar-faded-color
+$tabs-active-color            ?= $toolbar-color
+$tabs-background              ?= $toolbar-background
+$tabs-highlight-color         ?= opposite-non-color($tabs-background)
+
+$tabs-font-size               ?= 1rem
+$tabs-icon-font-size          ?= 1.5rem
+$tabs-font-weight             ?= 500
+$tabs-label-margin            ?= 0 0 0 5px
+$tabs-label-font-size         ?= 1rem
+
+$tabs-text-transform          ?= uppercase
+$tabs-border-bottom           ?= 2px solid transparent
+$tabs-active-border-bottom    ?= 2px solid $tabs-active-color
+
+.quasar-tabs-scroller
+  overflow hidden
+
+body.mobile
+  .quasar-tabs.scrollable
+    .left-scroll, .right-scroll
+      display none !important
+    .spacer
+      min-width 45%
+
+  .quasar-tabs-scroller
+    overflow-y hidden
+    overflow-x auto
+    will-change scroll-position
+    -webkit-overflow-scrolling touch
+
+.quasar-tab
+  display flex
+  min-height 55px
+  padding $tabs-padding
+  cursor pointer
+  transition all .3s
+  white-space nowrap
+
+  .quasar-tabs-icon
+    font-size $tabs-icon-font-size
+  .quasar-tabs-icon + .quasar-tab-label
+    margin $tabs-label-margin
+  &.v-link-active
+    color $tabs-active-color
+    border-bottom $tabs-active-border-bottom
+  &:active
+    background $tabs-highlight-color
+
+  text-transform $tabs-text-transform
+  border-bottom $tabs-border-bottom
+
+@media only screen and (max-width $layout-small-max)
+  .quasar-tab
+    &.hideIcon .quasar-tabs-icon,
+    &.hideLabel .quasar-tab-label
+      display none !important
+
+@media only screen and (max-width $layout-medium-max)
+  .quasar-tabs:not(.scrollable)
+    .quasar-tabs-scroller, .quasar-tab
+      flex 1 1 auto
+
+.quasar-tabs
+  min-height 55px
+  overflow hidden
+  color $tabs-color
+  background $tabs-background
+  font-size $tabs-font-size
+  font-weight $tabs-font-weight
+  transition color .18s ease-in, box-shadow .18s ease-in
+  border-radius $generic-border-radius
+  position relative
+
+  &:not(.scrollable)
+    .left-scroll, .right-scroll
+      display none !important
+
+  .left-scroll, .right-scroll
+    position absolute
+    height 100%
+    min-width 25px
+    cursor pointer
+    color white
+    text-shadow 0 0 10px black
+    font-size (1.4 * $tabs-icon-font-size)
+
+    &.disabled
+      visibility hidden
+
+  .left-scroll
+    left 0
+  .right-scroll
+    right 0
+
+  &.inverted
+    background white
+
+  for $name, $color in $colors
+    if $name == 'light'
+      &.light
+        color composite-color($color)
+        background $color
+        .quasar-tab
+          &.v-link-active, &:active
+            color $grey-8
+            border-bottom 2px solid $grey-8
+          &:active
+            background $grey-8
+        &.inverted
+          color $color
+          background composite-color($color)
+          .quasar-tab
+            &.v-link-active, &:active
+              color white
+              border-bottom 2px solid white
+            &:active
+              background white
+    if $name != 'light'
+      &.{$name}
+        &.inverted
+          color lighten($color, 30%)
+        &:not(.inverted)
+          color composite-color($color)
+          background $color
+
+        &.inverted .quasar-tab
+          &.v-link-active, &:active
+            color $color
+            border-bottom 2px solid $color
+          &:active
+            background-color $color
+        &:not(.inverted) .quasar-tab
+          &.v-link-active, &:active
+            color white
+            border-bottom 2px solid white
+          &:active
+            background white

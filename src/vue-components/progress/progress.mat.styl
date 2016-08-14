@@ -1,0 +1,87 @@
+$progress-track-color          ?= rgba(0, 0, 0, .15)
+$progress-track-desktop-height ?= 15px
+$progress-default-track-color  ?= $primary
+$progress-border-radius        ?= $generic-border-radius
+$progress-margin               ?= .5rem 0 1rem 0
+
+
+.quasar-progress
+  position relative
+  height 4px
+  display block
+  width 100%
+  background $progress-track-color
+  border-radius $progress-border-radius
+  background-clip padding-box
+  margin $progress-margin
+  overflow hidden
+
+  &:not(.indeterminate) > div
+    position absolute
+    top 0
+    bottom 0
+    background $primary
+    border-radius $progress-border-radius
+    transition width .3s linear
+
+  &.animate
+    > div
+      animation quasar-progress-stripes 2s linear infinite
+
+  &.indeterminate > div
+    background $progress-default-track-color
+
+    &:before, &:after
+      content ''
+      position absolute
+      background inherit
+      top 0
+      left 0
+      bottom 0
+      will-change left, right
+
+    &:before
+      animation quasar-progress-indeterminate 2.1s cubic-bezier(.65, .815, .735, .395) infinite
+    &:after
+      animation quasar-progress-indeterminate-short 2.1s cubic-bezier(.165, .84, .44, 1) infinite
+      animation-delay 1.15s
+
+  &.stripe
+    > div, > div:before, > div:after
+      background-image linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent)
+      background-size 40px 40px
+
+  for $name, $color in $colors
+    &.{$name} > div
+      background $color
+
+body.desktop .quasar-progress
+  height $progress-track-desktop-height
+
+@keyframes quasar-progress-indeterminate
+  0%
+    left -35%
+    right 100%
+  60%
+    left 100%
+    right -90%
+  100%
+    left 100%
+    right -90%
+
+@keyframes quasar-progress-indeterminate-short
+  0%
+    left -200%
+    right 100%
+  60%
+    left 107%
+    right -8%
+  100%
+    left 107%
+    right -8%
+
+@keyframes quasar-progress-stripes
+  from
+    background-position 40px 0
+  to
+    background-position 0 0

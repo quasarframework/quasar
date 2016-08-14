@@ -1,0 +1,73 @@
+$toast-background ?= $secondary
+$toast-button-color     ?= yellow
+$toast-border           ?= 3px solid white
+$toast-border-radius    ?= 7px
+
+#__quasar_toasts
+  position fixed
+  z-index $z-toast
+
+.quasar-toast
+  opacity .9
+  will-change transform
+  color white
+  font-size 1rem
+  border $toast-border
+  border-radius $toast-border-radius
+  &:not(.custom-background)
+    background $toast-background
+
+  a
+    color $toast-button-color
+
+  img
+    max-height 30px
+    max-width 30px
+
+  > div
+    margin 5px
+
+  > i
+    font-size 1.5em
+    line-height 1em
+
+  .quasar-toast-dismiss-all
+    display none
+    font-size 1.5rem
+    line-height 1rem
+    padding 5px
+    margin-left .5rem
+    border-radius 7px
+    color white
+    background rgba(0, 0, 0, .3)
+
+  &:first-of-type .quasar-toast-dismiss-all
+    display inherit
+
+@media (max-width: $layout-small-max)
+  #__quasar_toasts
+    bottom 0
+    left 0
+    right 0
+
+  .quasar-toast
+    margin 0 5px 5px
+    padding 10px 16px
+    min-width 100%
+    float left
+    box-shadow none !important
+
+@media (min-width: $layout-medium-min)
+  #__quasar_toasts
+    pointer-events none
+    top 60px
+    left 25px
+    right 25px
+
+  .quasar-toast
+    pointer-events all
+    max-width $layout-medium-min
+    min-width ($layout-medium-min / 2.5)
+    padding 5px 16px
+    margin 5px 16px 5px auto
+    box-shadow $shadow-3

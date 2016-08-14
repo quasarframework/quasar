@@ -1,0 +1,87 @@
+$chat-font-weight                     ?= 300
+$chat-date-color                      ?= #a6a6a6
+$chat-date-font-size                  ?= .8rem
+$chat-you-date-margin                 ?= -20px 10px 0 0
+$chat-other-date-margin               ?= -20px 0 0 10px
+$chat-message-font-size               ?= 1rem
+$chat-message-offset                  ?= 90px
+$chat-message-you-color               ?= #fff
+$chat-message-other-color             ?= #fff
+$chat-message-you-background    ?= $primary
+$chat-message-other-background  ?= $secondary
+$chat-message-pointer-size            ?= 1rem
+$chat-message-pointer-top             ?= 0
+$chat-message-you-pointer-transform   ?= translateX(50%) skew(125deg)
+$chat-message-other-pointer-transform ?= translateX(-50%) skew(55deg)
+$chat-box-shadow                      ?= 0 2px 6px rgba(0, 0, 0, .3)
+
+.chat-you, .chat-other
+  margin 45px 0 0
+  font-weight $chat-font-weight
+
+  .chat-user
+    margin -30px 0 0
+    display block
+    img
+      width 65px
+      height 65px
+      border-radius 50%
+      box-shadow $chat-box-shadow
+
+  .chat-date
+    font-size $chat-date-font-size
+    color $chat-date-color
+
+  .chat-message
+    display block
+    p
+      display inline-block
+      padding 10px
+      position relative
+      font-size $chat-message-font-size
+      border-radius $generic-border-radius
+      box-shadow $chat-box-shadow
+      &:after
+        content ''
+        background inherit
+        width $chat-message-pointer-size
+        height .6rem
+        position absolute
+        top 0
+
+.chat-you
+  .chat-user, .chat-date
+    float right
+  .chat-date
+    margin $chat-you-date-margin
+  .chat-message
+    margin 0 $chat-message-offset 0 0
+    text-align right
+    p
+      margin 0 0 0 auto
+      color $chat-message-you-color
+      background $chat-message-you-background
+      text-align left
+      &:after
+        top $chat-message-pointer-top
+        right 1px
+        bottom auto
+        left auto
+        transform $chat-message-you-pointer-transform
+
+.chat-other
+  .chat-user, .chat-date
+    float left
+  .chat-date
+    margin $chat-other-date-margin
+  .chat-message
+    margin 0 0 0 $chat-message-offset
+    p
+      color $chat-message-other-color
+      background $chat-message-other-background
+      &:after
+        top $chat-message-pointer-top
+        left 1px
+        bottom auto
+        right auto
+        transform $chat-message-other-pointer-transform

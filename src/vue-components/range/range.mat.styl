@@ -1,0 +1,70 @@
+$range-height              ?= 36px
+$range-transition          ?= all .3s ease
+$range-color               ?= $form-active-color
+$range-active-color        ?= $form-active-color
+
+$range-track-color         ?= $form-active-color
+$range-active-track-color  ?= $form-active-color
+$range-track-height        ?= 2px
+
+$range-thumb-size          ?= 14px
+$range-active-thumb-size   ?= ($range-thumb-size + 7px)
+$range-thumb-box-shadow    ?= none
+$range-thumb-radius        ?= 50%
+
+$range-thumb-outline-size  ?= 16px
+
+.quasar-range
+  padding-right $range-thumb-size
+  height $range-height
+  position relative
+  cursor pointer
+  display inline-block
+  width 100%
+  vertical-align middle
+
+  &:before
+    content ''
+    position absolute
+    top (($range-height - $range-track-height) / 2)
+    height $range-track-height
+    width 100%
+    background $range-track-color
+    transition background .7s ease
+
+.quasar-range-container
+  position relative
+
+.quasar-range-thumb
+  position absolute
+  top (($range-height - $range-thumb-size) / 2)
+  width $range-thumb-size
+  height $range-thumb-size
+  background $range-color
+  border-radius $range-thumb-radius
+  box-shadow $range-thumb-box-shadow
+  transition $range-transition
+
+.quasar-range.active
+  &:before
+    background $range-active-track-color
+  .quasar-range-thumb
+    top (($range-height - $range-active-thumb-size) / 2)
+    width $range-active-thumb-size
+    height $range-active-thumb-size
+
+.quasar-range
+  .quasar-range-thumb:before
+    content ''
+    display block
+    position absolute
+    top - ($range-thumb-outline-size / 2)
+    left - ($range-thumb-outline-size / 2)
+    width ($range-thumb-size + $range-thumb-outline-size)
+    height ($range-thumb-size + $range-thumb-outline-size)
+    background alpha($range-active-color, .5)
+    border-radius $range-thumb-radius
+    transition $range-transition
+  &.active .quasar-range-thumb:before
+    width ($range-active-thumb-size + $range-thumb-outline-size)
+    height ($range-active-thumb-size + $range-thumb-outline-size)

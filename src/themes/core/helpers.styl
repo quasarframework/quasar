@@ -1,0 +1,29 @@
+$backdrop-opacity           ?= .3
+$backdrop-background  ?= rgba(0, 0, 0, $backdrop-opacity)
+$generic-margin             ?= 5px
+
+.backdrop
+  display none
+  position fixed
+  top 0
+  right 0
+  bottom 0
+  left 0
+  width 100vw
+  height 100vh
+  background transparent
+  transition background .28s ease-in
+  &.active
+    display block
+    background $backdrop-background
+
+.background-cover
+  background-repeat no-repeat
+  background-size cover
+  background-position center center
+
+.round-borders
+  border-radius $generic-border-radius
+
+.generic-margin, .group > * // @stylint ignore
+  margin 5px

@@ -1,6 +1,0 @@
-layout: 'main'
-label: 'Buttons'
-icon: 'mail'
-navigation:
-  group: 'typography'
-  hide: 'icon'

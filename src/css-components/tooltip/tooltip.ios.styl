@@ -1,0 +1,46 @@
+$tooltip-color              ?= #fff
+$tooltip-background   ?= #727272
+$tooltip-width              ?= 160px
+$tooltip-padding            ?= .5rem .75rem
+$tooltip-font-size          ?= .85rem
+$tooltip-line-height        ?= 1.5
+$tooltip-arrow-border-width ?= 5px
+$tooltip-border-radius      ?= $generic-border-radius
+
+
+.quasar-tooltip
+  position relative
+
+  &:before, &:after
+    position absolute
+    bottom 101%
+    left 50%
+    z-index $z-tooltip
+    pointer-events none
+    opacity 0
+    transition opacity .15s ease
+
+  &:before
+    content attr(quasar-tooltip)
+    margin-bottom $tooltip-arrow-border-width
+    margin-left (- $tooltip-width / 2)
+    padding $tooltip-padding
+    width $tooltip-width
+    border-radius $tooltip-border-radius
+    color $tooltip-color
+    background $tooltip-background
+    text-align center
+    font-size $tooltip-font-size
+    line-height $tooltip-line-height
+
+  &:after
+    content ' '
+    margin-left (- $tooltip-arrow-border-width)
+    width 0
+    border-top $tooltip-arrow-border-width solid $tooltip-background
+    border-right $tooltip-arrow-border-width solid transparent
+    border-left $tooltip-arrow-border-width solid transparent
+
+  &:hover
+    &:before, &:after
+      opacity 1

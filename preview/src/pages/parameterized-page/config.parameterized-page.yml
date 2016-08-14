@@ -1,8 +1,0 @@
-label: 'Parameterized Page'
-icon: 'photo_filter'
-layout: 'main'
-routes:
-  - '$'
-  - ':number'
-navigation:
-  group: 'main'

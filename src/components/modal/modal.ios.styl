@@ -1,0 +1,102 @@
+$modal-background        ?= white
+$modal-border-radius     ?= 13px
+
+$modal-width             ?= 80vw
+$modal-max-width         ?= 1000px
+
+$modal-height            ?= 80vh
+$modal-max-height        ?= 1000px
+
+$modal-header-font-size  ?= 1.3rem
+$modal-header-padding    ?= 20px 16px 7px
+$modal-header-text-align ?= center
+$modal-body-text-align   ?= center
+$modal-body-color        ?= black
+$modal-body-padding      ?= 0 16px 21px
+$modal-slim-body-padding ?= 0 16px 16px 16px
+$modal-scroll-size       ?= 240px
+$modal-buttons-padding   ?= 0
+
+
+minimized-modal()
+  max-width 80vw
+  max-height 80vh
+
+maximized-modal()
+  width 100vw
+  height 100vh
+  max-width 100vw
+  max-height 100vh
+  border-radius 0
+  .screen
+    position relative
+
+.modal-content
+  background $modal-background
+  border-radius $modal-border-radius
+  box-shadow $shadow-4
+  overflow-y auto
+  min-width 280px
+  max-height 80vh
+
+  .modal-header
+    text-align $modal-header-text-align
+    padding $modal-header-padding
+    font-size $modal-header-font-size
+    font-weight 500
+
+  .modal-body
+    padding $modal-body-padding
+  .modal-slim-body
+    padding $modal-slim-body-padding
+  .modal-body, .modal-slim-body
+    text-align $modal-body-text-align
+    color $modal-body-color
+
+  .modal-controls
+    border-top 1px solid $form-darker-color
+    border-bottom 1px solid $form-darker-color
+    &.list
+      margin 0
+
+  .small-modal-scroll, .modal-scroll, .big-modal-scroll
+    @extend .scroll
+  .small-modal-scroll
+    max-height (.65 * $modal-scroll-size)
+  .modal-scroll
+    max-height $modal-scroll-size
+  .big-modal-scroll
+    max-height (2 * $modal-scroll-size)
+
+
+  .modal-buttons
+    padding $modal-buttons-padding
+    border-top 1px solid $form-darker-color
+    button
+      flex 1 1 auto
+      font-size 110%
+      margin 0
+      padding 1rem 1rem
+      &:last-child
+        font-weight bold
+      &:hover, &:active
+        color white !important
+        background rgba(0, 0, 0, .3) !important
+    &.row
+      button + button
+        border-left 1px solid $form-darker-color
+    &.column
+      button + button
+        border-top 1px solid $form-darker-color
+
+  &.minimized
+    minimized-modal()
+  &.maximized
+    maximized-modal()
+
+@media screen and (max-width $layout-small-max)
+  .modal-content:not(.minimized)
+    maximized-modal()
+
+.modal-controls + .modal-buttons
+  border-top 0

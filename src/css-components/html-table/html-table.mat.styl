@@ -1,0 +1,50 @@
+$table-border          ?= 1px solid #d0d0d0
+$table-head-border     ?= 2px solid #d0d0d0
+$table-highlight-color ?= #f2f2f2
+
+table
+  border-collapse collapse
+  border-spacing 0
+  display table
+  border 0
+  width 100%
+
+  &.bordered
+    border $table-border
+    th, td
+      border-right $table-border
+
+  &.inner-delimiter, &.bordered
+    tr
+      border-bottom $table-border
+
+  thead
+    border-bottom $table-head-border
+
+  td, th
+    padding 0
+    border 0
+    padding 15px 5px
+    display table-cell
+    text-align left
+    vertical-align middle
+
+  &.compact td
+    padding 5px
+
+  &.centered
+    th, td
+      text-align center
+
+  &.striped
+    > tbody > tr
+      &:nth-child(odd)
+        background $table-highlight-color
+      > td
+        border-radius 0
+
+body.desktop table.highlight
+  > tbody > tr, th
+    transition background .25s ease
+    &:hover
+      background darken($table-highlight-color, 5%) !important

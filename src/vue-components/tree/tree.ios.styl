@@ -1,0 +1,57 @@
+$tree-connector-color            ?= #ccc
+$tree-label-padding              ?= 5px
+$tree-label-border-radius        ?= $generic-border-radius
+$tree-highlight-color            ?= inherit
+$tree-highlight-background ?= $tree-connector-color
+
+.quasar-tree
+  li
+    margin 0
+    list-style-type none
+    position relative
+    padding 10px 5px 0 5px
+
+    &:before
+      content ''
+      position absolute
+      top 0
+      width 1px
+      height 100%
+      right auto
+      left -15px
+      border-left 1px solid $tree-connector-color
+      bottom 50px
+
+    &:after
+      content:''
+      position absolute
+      top 20px
+      width 20px
+      height 20px
+      right auto
+      left -15px
+      border-top 1px solid $tree-connector-color
+
+    &:last-child:before
+      height 20px
+
+  // Remove connectors before root
+  > ul > li
+    &:after, &:before
+      border 0
+
+.quasar-tree-expandable-item, .quasar-tree-link
+  cursor pointer
+  .quasar-tree-label:active
+    color $tree-highlight-color
+    background $tree-highlight-background
+
+body.desktop
+  .quasar-tree-expandable-item, .quasar-tree-link
+    .quasar-tree-label:hover
+      color $tree-highlight-color
+      background $tree-highlight-background
+
+.quasar-tree-label
+  padding $tree-label-padding
+  border-radius $tree-label-border-radius

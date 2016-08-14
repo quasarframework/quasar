@@ -1,5 +1,0 @@
-label: 'Dialog'
-icon: 'chat'
-layout: 'main'
-navigation:
-  group: 'modal'
