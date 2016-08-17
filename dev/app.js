@@ -42,6 +42,7 @@ router.map({
       '/slider': { component: require('view/slider.vue') },
       '/spinners': { component: require('view/spinners.vue') },
       '/table': { component: require('view/table.vue') },
+      '/tabs': { component: require('view/tabs.vue') },
       '/timeline': { component: require('view/timeline.vue') },
       '/toast': { component: require('view/toast.vue') },
       '/tree': { component: require('view/tree.vue') },

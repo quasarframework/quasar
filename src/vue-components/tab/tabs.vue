@@ -1,12 +1,12 @@
 <template>
   <div class="quasar-tabs row">
-    <div class="row items-center justify-center left-scroll">
+    <div v-el:left-scroll class="row items-center justify-center left-scroll">
       <i>chevron_left</i>
     </div>
-    <div class="quasar-tabs-scroller row">
+    <div v-el:scroller class="quasar-tabs-scroller row">
       <slot></slot>
     </div>
-    <div class="row items-center justify-center right-scroll">
+    <div v-el:right-scroll class="row items-center justify-center right-scroll">
       <i>chevron_right</i>
     </div>
   </div>
@@ -26,10 +26,10 @@ export default {
       if (!Platform.is.desktop) {
         return
       }
-      if (Utils.dom.width(this.scroller) === 0 && this.scroller.scrollWidth === 0) {
+      if (Utils.dom.width(this.$els.scroller) === 0 && this.$els.scroller.scrollWidth === 0) {
         return
       }
-      if (Utils.dom.width(this.scroller) + 5 < this.scroller.scrollWidth) {
+      if (Utils.dom.width(this.$els.scroller) + 5 < this.$els.scroller.scrollWidth) {
         this.$el.classList.add('scrollable')
         this.scrollable = true
         this.updateScrollIndicator()
@@ -44,10 +44,10 @@ export default {
         return
       }
 
-      let action = this.scroller.scrollLeft + Utils.dom.width(this.scroller) + 5 >= this.scroller.scrollWidth ? 'add' : 'remove'
+      let action = this.$els.scroller.scrollLeft + Utils.dom.width(this.$els.scroller) + 5 >= this.$els.scroller.scrollWidth ? 'add' : 'remove'
 
-      this.leftScroll.classList[this.scroller.scrollLeft <= 0 ? 'add' : 'remove']('disabled')
-      this.rightScroll.classList[action]('disabled')
+      this.$els.leftScroll.classList[this.$els.scroller.scrollLeft <= 0 ? 'add' : 'remove']('disabled')
+      this.$els.rightScroll.classList[action]('disabled')
     },
     scrollToSelectedIfNeeded (tab) {
       if (tab.length === 0 || !this.scrollable) {
@@ -55,19 +55,19 @@ export default {
       }
 
       let
-        contentRect = this.scroller.getBoundingClientRect(),
+        contentRect = this.$els.scroller.getBoundingClientRect(),
         tabRect = tab.getBoundingClientRect(),
         tabWidth = tabRect.width,
         offset = tabRect.left - contentRect.left
 
       if (offset < 0) {
-        this.animScrollTo(this.scroller.scrollLeft + offset)
+        this.animScrollTo(this.$els.scroller.scrollLeft + offset)
       }
       else {
-        offset += tabWidth - this.scroller.offsetWidth
+        offset += tabWidth - this.$els.scroller.offsetWidth
         /* istanbul ignore else */
         if (offset > 0) {
-          this.animScrollTo(this.scroller.scrollLeft + offset)
+          this.animScrollTo(this.$els.scroller.scrollLeft + offset)
         }
       }
     },
@@ -85,7 +85,7 @@ export default {
     },
     scrollTowards (value) {
       let
-        scrollPosition = this.scroller.scrollLeft,
+        scrollPosition = this.$els.scroller.scrollLeft,
         direction = value < scrollPosition ? -1 : 1,
         done = false
 
@@ -100,26 +100,24 @@ export default {
         scrollPosition = value
       }
 
-      this.scroller.scrollLeft = scrollPosition
+      this.$els.scroller.scrollLeft = scrollPosition
       return done
     }
   },
   events: {
-    selected (tab, tabNode) {
-      if (this.content.length > 0) {
-        [].forEach.call(this.content, el => {
-          el.style.display = 'none'
-        })
-        document.querySelector(tab.target).style.display = ''
-      }
-
-      this.$broadcast('blur', tab)
+    selected (tab) {
+      this.$broadcast('tabSelected', tab)
 
       setTimeout(() => {
-        this.scrollToSelectedIfNeeded(tabNode)
+        this.scrollToSelectedIfNeeded(tab.$el)
       }, debounceDelay * 4)
     },
     hidden () {
+      this.redraw()
+    }
+  },
+  watch: {
+    '$children' () {
       this.redraw()
     }
   },
@@ -127,26 +125,12 @@ export default {
     this.scrollTimer = null
     this.scrollable = !Platform.is.desktop
 
-    this.scroller = this.$el.getElementsByClassName('quasar-tabs-scroller')[0]
-    this.leftScroll = this.$el.getElementsByClassName('left-scroll')[0]
-    this.rightScroll = this.$el.getElementsByClassName('right-scroll')[0]
-
     // debounce some costly methods;
     // debouncing here because debounce needs to be per instance
     this.redraw = Utils.debounce(this.redraw, debounceDelay)
     this.updateScrollIndicator = Utils.debounce(this.updateScrollIndicator, debounceDelay)
 
-    this.content = this.$children.filter(child => child.target)
-    if (this.content.length > 0) {
-      this.content = document.querySelectorAll(
-        this.content.map(child => child.target).join(',')
-      )
-      ;[].forEach.call(this.content, el => {
-        el.style.display = 'none'
-      })
-    }
-
-    this.scroller.addEventListener('scroll', this.updateScrollIndicator)
+    this.$els.scroller.addEventListener('scroll', this.updateScrollIndicator)
     window.addEventListener('resize', this.redraw)
 
     // let browser drawing stabilize then
@@ -167,18 +151,18 @@ export default {
       }
 
       scrollEvents.start.forEach(evt => {
-        this.leftScroll.addEventListener(evt, () => {
+        this.$els.leftScroll.addEventListener(evt, () => {
           this.animScrollTo(0)
         })
-        this.rightScroll.addEventListener(evt, () => {
+        this.$els.rightScroll.addEventListener(evt, () => {
           this.animScrollTo(9999)
         })
       })
       scrollEvents.stop.forEach(evt => {
-        this.leftScroll.addEventListener(evt, () => {
+        this.$els.leftScroll.addEventListener(evt, () => {
           clearInterval(this.scrollTimer)
         })
-        this.rightScroll.addEventListener(evt, () => {
+        this.$els.rightScroll.addEventListener(evt, () => {
           clearInterval(this.scrollTimer)
         })
       })
@@ -188,7 +172,7 @@ export default {
     if (this.scrollTimer) {
       clearInterval(this.scrollTimer)
     }
-    this.scroller.removeEventListener('scroll', this.updateScrollIndicator)
+    this.$els.scroller.removeEventListener('scroll', this.updateScrollIndicator)
     window.removeEventListener('resize', this.redraw)
   }
 }

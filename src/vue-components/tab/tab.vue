@@ -20,14 +20,32 @@ export default {
         return
       }
       this.active = true
+    },
+    setTargetVisibility (visible) {
+      if (this.targetElement) {
+        this.targetElement.style.display = visible ? '' : 'none'
+      }
+    }
+  },
+  computed: {
+    targetElement () {
+      // if no target
+      if (!this.target) {
+        return
+      }
+
+      return document.querySelector(this.target)
     }
   },
   events: {
-    blur (tab) {
-      if (tab === this) {
-        return
+    tabSelected (tab) {
+      let targetIsMe = tab === this
+
+      if (!targetIsMe) {
+        this.active = false
       }
-      this.active = false
+
+      this.setTargetVisibility(tab === this)
     }
   },
   watch: {
@@ -36,16 +54,27 @@ export default {
         return
       }
       if (value) {
-        this.$dispatch('selected', this, this.$el)
+        this.$dispatch('selected', this)
       }
     },
     hidden (value) {
       this.$dispatch('hidden')
     },
+    target (value, oldValue) {
+      if (oldValue) {
+        let oldTab = document.querySelector(oldValue)
+        if (oldTab) {
+          oldTab.style.display = 'none'
+        }
+      }
+      this.$nextTick(() => {
+        this.setTargetVisibility(this.active)
+      })
+    },
     '$route' (value) {
       this.$nextTick(() => {
         if (this.$el.classList.contains('v-link-active')) {
-          this.$dispatch('selected', this, this.$el)
+          this.$dispatch('selected', this)
         }
       })
     }
@@ -53,8 +82,11 @@ export default {
   ready () {
     if (this.active && this.target || this.$el.classList.contains('v-link-active')) {
       this.$nextTick(() => {
-        this.$dispatch('selected', this, this.$el)
+        this.$dispatch('selected', this)
       })
+    }
+    else {
+      this.setTargetVisibility(false)
     }
   }
 }

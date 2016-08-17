@@ -15,7 +15,7 @@
     <quasar-tabs slot="navigation">
       <quasar-tab icon="mail" v-link="{path: '/layout', exact: true}">Mails</quasar-tab>
       <quasar-tab icon="alarm" v-link="'/layout/alarm'">Alarms</quasar-tab>
-      <quasar-tab icon="mail" v-link="{path: '/layout', exact: true}">Mails</quasar-tab>
+      <quasar-tab icon="delete">Account</quasar-tab>
     </quasar-tabs>
 
     <div slot="header" class="toolbar purple">

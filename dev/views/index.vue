@@ -41,6 +41,7 @@ export default {
         'Slider',
         'Spinners',
         'Table',
+        'Tabs',
         'Timeline',
         'Toast',
         'Tree',
