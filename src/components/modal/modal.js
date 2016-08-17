@@ -3,6 +3,7 @@ import { Vue } from '../../install'
 import { current as theme } from '../../theme'
 
 const duration = 300
+let openedModalNumber = 0
 
 class Modal {
   constructor (userVm) {
@@ -88,40 +89,59 @@ class Modal {
       this.$backdrop.classList.add('active')
     }
 
+    this.__popstate = () => {
+      if (
+        window.history.state &&
+        window.history.state.modalId &&
+        window.history.state.modalId >= this.__modalId
+      ) {
+        return
+      }
+      openedModalNumber--
+
+      let
+        effect,
+        options = {
+          duration,
+          complete: () => {
+            if (this.selfDestroy) {
+              this.destroy()
+            }
+            this.__onCloseHandlers.forEach(
+              handler => { console.log('onCloseHandler'); handler() }
+            )
+            if (typeof this.__onClose === 'function') {
+              this.__onClose()
+              delete this.__onClose
+            }
+          }
+        }
+
+      if (this.transitionOut) {
+        effect = this.transitionOut
+      }
+      else if (!this.minimized && (this.maximized || Utils.dom.viewport().width <= 600)) {
+        effect = theme === 'ios' ? {translateX: ['101%', 0]} : 'transition.slideDownOut'
+      }
+      else {
+        effect = theme === 'ios' ? 'transition.shrinkOut' : 'transition.expandOut'
+      }
+
+      this.$backdrop.classList.remove('active')
+      window.removeEventListener('popstate', this.__popstate)
+      delete this.__popstate
+      Velocity(this.$content, effect, options)
+    }
+    this.__modalId = ++openedModalNumber
+    window.history.pushState({modalId: this.__modalId}, '')
+    window.addEventListener('popstate', this.__popstate)
+
     return this
   }
 
   close (onClose) {
-    let
-      effect,
-      options = {
-        duration,
-        complete: () => {
-          if (this.selfDestroy) {
-            this.destroy()
-          }
-          this.__onCloseHandlers.forEach(
-            handler => { handler() }
-          )
-          if (typeof onClose === 'function') {
-            onClose()
-          }
-        }
-      }
-
-    if (this.transitionOut) {
-      effect = this.transitionOut
-    }
-    else if (!this.minimized && (this.maximized || Utils.dom.viewport().width <= 600)) {
-      effect = theme === 'ios' ? {translateX: ['101%', 0]} : 'transition.slideDownOut'
-    }
-    else {
-      effect = theme === 'ios' ? 'transition.shrinkOut' : 'transition.expandOut'
-    }
-
-    this.$backdrop.classList.remove('active')
-    Velocity(this.$content, effect, options)
-
+    this.__onClose = onClose
+    window.history.go(-1)
     return this
   }
 
@@ -166,10 +186,7 @@ class Modal {
   }
 
   destroy () {
-    if (this.vm) {
-      this.vm.$destroy()
-    }
-    this.$el.remove()
+    this.vm.$destroy(true)
   }
 }
 

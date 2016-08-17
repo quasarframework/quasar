@@ -13,6 +13,8 @@
 import { Modal, Toast } from 'quasar'
 import ScreenModal from 'component/screen-modal.vue'
 
+let modals = 0
+
 export default {
   methods: {
     openScreenModal () {
@@ -24,8 +26,14 @@ export default {
       }).show()
     },
     openSimpleModal () {
+      modals++
       Modal.create({
-        template: '<h1 v-for="n in 10">Simple Modal</h1><button class="secondary" @click="close()">Close Me</button>'
+        template: '<button class="primary" @click="open">Open Another</button><div>' + modals + '</div><h1 v-for="n in 10">Simple Modal</h1><button class="secondary" @click="close()">Close Me</button>',
+        methods: {
+          open: () => {
+            this.openSimpleModal()
+          }
+        }
       })
       .onShow(() => {
         Toast.create('Opened a simple modal')
