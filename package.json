@@ -5,7 +5,8 @@
   "main": "dist/quasar.common.js",
   "jsnext:main": "dist/quasar.es6.js",
   "files": [
-    "dist"
+    "dist",
+    "src"
   ],
   "scripts": {
     "deploy": "bash build/shell.deploy.sh",
