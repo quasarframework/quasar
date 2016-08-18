@@ -173,10 +173,43 @@
   </p>
 
   <h2>Range</h2>
-  [{{range.min}}, {{range.max}}] - {{range.model}}
+  [1, 5, 1] - {{range.model}}
   <br>
-  <quasar-range :model.sync="range.model" :min="range.min" :max="range.max" style="border: 1px solid black"></quasar-range>
-  <quasar-range :model.sync="range.model" :min="range.min" :max="range.max"></quasar-range>
+  <quasar-range :model.sync="range.model" :step="1" style="border: 1px solid black"></quasar-range>
+  <quasar-range :model.sync="range.model" :step="1"></quasar-range>
+  <quasar-range :model.sync="range.model" snap="true"></quasar-range>
+  <quasar-range :model.sync="range.model" :step="1" snap="true"></quasar-range>
+
+  <br><br>
+  [2, 5, 1] - {{range.model}}
+  <br>
+  <quasar-range :model.sync="range.model" :min="2" :step="1" style="border: 1px solid black"></quasar-range>
+  <quasar-range :model.sync="range.model" :min="2" :step="1"></quasar-range>
+  <quasar-range :model.sync="range.model" :min="2" snap="true"></quasar-range>
+  <quasar-range :model.sync="range.model" :min="2" :step="1" snap="true"></quasar-range>
+
+  <br><br>
+  [20, 50, 5] - {{range.model2}}
+  <br>
+  <quasar-range :model.sync="range.model2" :min="20" :max="50" :step="5" label="true" style="border: 1px solid black"></quasar-range>
+  <quasar-range :model.sync="range.model2" :min="20" :max="50" :step="5" label="true"></quasar-range>
+  <quasar-range :model.sync="range.model2" :min="20" :max="50" :step="5" snap="true" label="true"></quasar-range>
+  <quasar-range :model.sync="range.model2" :min="20" :max="50" :step="5" label="true" snap="true"></quasar-range>
+
+
+  <quasar-range class="secondary" :model.sync="range.model2" :min="20" :max="50" :step="5" label="true" snap="true"></quasar-range>
+  <quasar-range class="orange" :model.sync="range.model2" :min="20" :max="50" :step="5" label="true" snap="true"></quasar-range>
+  <quasar-range class="dark" :model.sync="range.model2" :min="20" :max="50" :step="5" label="true" snap="true"></quasar-range>
+  <quasar-range class="yellow" :model.sync="range.model2" :min="20" :max="50" :step="5" label="true" snap="true"></quasar-range>
+  <quasar-range class="light" :model.sync="range.model2" :min="20" :max="50" :step="5" label="true" snap="true"></quasar-range>
+
+  <br><br>
+  [-50, 50, 5] - {{range.model3}}
+  <br>
+  <quasar-range :model.sync="range.model3" :min="-50" :max="50" :step="5" style="border: 1px solid black"></quasar-range>
+  <quasar-range :model.sync="range.model3" :min="-50" :max="50" :step="5"></quasar-range>
+  <quasar-range :model.sync="range.model3" :min="-50" :max="50" snap="true"></quasar-range>
+  <quasar-range :model.sync="range.model3" :min="-50" :max="50" :step="5" snap="true"></quasar-range>
 
   <h2>Select</h2>
   <div class="list item-delimiter bordered">
@@ -222,9 +255,11 @@ export default {
       check: false,
       radio: 'opt2',
       range: {
-        model: 25,
-        min: 20,
-        max: 50
+        model: 4,
+        model2: 25,
+        model3: -10,
+        min: 1,
+        max: 100
       },
       select: 'fb',
       multipleSelect: ['goog', 'twtr'],

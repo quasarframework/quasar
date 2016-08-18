@@ -1,53 +1,84 @@
 $range-height              ?= 36px
-$range-transition          ?= all .3s ease
-$range-color               ?= white
-$range-active-color        ?= white
+$range-color               ?= $grey-4
+$range-active-color        ?= $form-active-color
 
-$range-track-color         ?= $form-darker-color
-$range-active-track-color  ?= $form-active-color
 $range-track-height        ?= 2px
+$range-mark-height         ?= 7px
 
-$range-thumb-size          ?= 24px
-$range-active-thumb-size   ?= ($range-thumb-size + 7px)
-$range-thumb-box-shadow    ?= 0 1px 3px 1px rgba(0, 0, 0, .4)
-$range-thumb-radius        ?= 50%
+$range-handle-size         ?= 35px
+$range-handle-radius       ?= 50%
+$range-handle-box-shadow   ?= 0 1px 3px 1px rgba(0, 0, 0, .4)
 
+
+.quasar-range-track
+  position absolute
+  top 50%
+  left 0
+  transform translateY(-50%)
+  height $range-track-height
+  width 100%
+  background $range-color
+  transition all .3s ease
+  &.active-track
+    background $range-active-color
+  &.handle-at-minimum
+    background transparent
+
+.quasar-range-mark
+  position absolute
+  top 50%
+  height $range-mark-height
+  width 2px
+  background $range-color
+  transform translateX(-50%) translateY(-50%)
+
+.quasar-range-handle-container
+  width auto
+  position relative
+  height 100%
+  margin-left ($range-handle-size / 2)
+  margin-right ($range-handle-size / 2)
+
+.quasar-range-label
+  position relative
+  top (- $range-handle-size / 3)
+  left 0
+  padding 8px 0
+  opacity 0
+  text-align center
+  transform translateY(0) scale(.1)
+  transition all .3s ease
+  width $range-handle-size
+  height $range-handle-size
+  font-size ($range-handle-size / 3)
+  line-height ($range-handle-size / 2)
+  color black
+  text-shadow 1px 1px 5px white
+
+.quasar-range-handle
+  position absolute
+  top 50%
+  transform translate3d(-50%, -50%, 0) scale(.67)
+  transform-origin center
+  transition all .3s ease
+  width $range-handle-size
+  height $range-handle-size
+  border-radius $range-handle-radius
+  background white
+  box-shadow $range-handle-box-shadow
+  &.active
+    transform translate3d(-50%, -50%, 0) scale(1)
+    transition opacity .3s ease, transform .3s ease
+    .quasar-range-label
+      opacity 1
+      transform translateY(-50%) scale(1)
 
 .quasar-range
-  padding-right $range-thumb-size
+  position relative
   height $range-height
-  position relative
-  cursor pointer
-  display inline-block
   width 100%
-  vertical-align middle
+  cursor pointer
 
-  &:before
-    content ''
-    position absolute
-    top (($range-height - $range-track-height) / 2)
-    height $range-track-height
-    width 100%
-    background $range-track-color
-    transition background .7s ease
-
-.quasar-range-container
-  position relative
-
-.quasar-range-thumb
-  position absolute
-  top (($range-height - $range-thumb-size) / 2)
-  width $range-thumb-size
-  height $range-thumb-size
-  background $range-color
-  border-radius $range-thumb-radius
-  box-shadow $range-thumb-box-shadow
-  transition $range-transition
-
-.quasar-range.active
-  &:before
-    background $range-active-track-color
-  .quasar-range-thumb
-    top (($range-height - $range-active-thumb-size) / 2)
-    width $range-active-thumb-size
-    height $range-active-thumb-size
+  for $name, $color in $colors
+    &.{$name} .quasar-range-track.active-track
+      background $color

@@ -1,24 +1,41 @@
 <template>
   <div
     class="quasar-range non-selectable"
-    :class="{active: active}"
-    v-touch:pan="pan"
-    v-touch-options:pan="{ direction: 'horizontal' }"
+    @mousedown="setActive"
+    @mouseup="active = false"
+    @mousemove="update"
+    @touchstart="setActive"
+    @touchend="active = false"
+    @touchmove="update"
   >
-    <div class="quasar-range-container">
-      <div class="quasar-range-thumb" :style="{left: position}"></div>
+    <div v-el:handle class="quasar-range-handle-container">
+      <div class="quasar-range-track"></div>
+      <div
+        v-if="snap"
+        class="quasar-range-mark"
+        v-for="n in ((this.max - this.min) / this.step + 1)"
+        :style="{left: n * 100 * this.step / (this.max - this.min) + '%'}"
+      ></div>
+      <div
+        class="quasar-range-track active-track"
+        :style="{width: percentage}"
+        :class="{'no-transition': active, 'handle-at-minimum': model === min}"
+      ></div>
+      <div
+        class="quasar-range-handle"
+        :style="{left: percentage}"
+        :class="{active: active, 'handle-at-minimum': model === min}"
+      >
+        <div
+          class="quasar-range-label"
+          v-if="label"
+        >{{ model }}</div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import debounce from '../../utils/debounce'
-import Platform from '../../platform'
-
-function modelToPosition (model, min, max, size) {
-  return (model - min) / (max - min) * 100 + '%'
-}
-
 export default {
   props: {
     model: {
@@ -29,87 +46,104 @@ export default {
     },
     min: {
       type: Number,
-      required: true,
+      default: 1,
       coerce: (value) => parseInt(value, 10)
     },
     max: {
       type: Number,
-      required: true,
+      default: 5,
       coerce: (value) => parseInt(value, 10)
     },
-    precision: {
+    step: {
       type: Number,
+      default: 1,
       coerce: (value) => parseInt(value, 10)
+    },
+    snap: {
+      type: Boolean,
+      default: false,
+      coerce: Boolean
+    },
+    label: {
+      type: Boolean,
+      default: false,
+      coerce: Boolean
     }
   },
   data () {
     return {
-      position: 0,
-      active: false
+      active: false,
+      currentPercentage: (this.model - this.min) / (this.max - this.min)
     }
   },
-  methods: {
-    pan (event) {
-      let
-        size = this.$el.offsetWidth,
-        range = this.max - this.min,
-        value = (this.model - this.min) / range,
-        percentage = Math.min(1, Math.max(0, value + event.deltaX / size)),
-        newValue = (this.min + percentage * range).toFixed(this.precision)
-
-      if (event.isFinal) {
-        this.model = parseFloat(newValue, 10)
-        this.active = false
-        return
+  computed: {
+    percentage () {
+      if (this.snap) {
+        return (this.model - this.min) / (this.max - this.min) * 100 + '%'
       }
-
-      this.position = modelToPosition(newValue, this.min, this.max, size)
-      this.active = true
-    },
-    update () {
-      this.position = modelToPosition(this.model, this.min, this.max, this.$el.offsetWidth)
+      return 100 * this.currentPercentage + '%'
     }
   },
   watch: {
     model (value) {
-      this.$nextTick(this.update)
+      if (this.active) {
+        return
+      }
+      this.currentPercentage = (value - this.min) / (this.max - this.min)
     },
     min (value) {
       if (this.model < value) {
         this.model = value
         return
       }
-      this.$nextTick(this.update)
+      this.$nextTick(this.validateProps)
     },
     max (value) {
       if (this.model > value) {
         this.model = value
         return
       }
-      this.$nextTick(this.update)
+      this.$nextTick(this.validateProps)
+    },
+    step () {
+      this.$nextTick(this.validateProps)
     }
   },
-  ready () {
-    this.update = debounce(this.update, 50)
-    this.update()
-
-    this.clickHandler = (event) => {
-      if (Platform.has.touch && event.eventPhase === Event.BUBBLING_PHASE) {
-        // panning already dealt with this
+  methods: {
+    setActive (event) {
+      this.active = true
+      this.update(event)
+    },
+    update (event) {
+      if (!this.active) {
         return
       }
 
+      event.preventDefault()
+
       let
-        range = this.max - this.min,
-        percentage = Math.min(1, Math.max(0, event.offsetX / this.$el.offsetWidth))
+        clientX = typeof event.clientX !== 'undefined' ? event.clientX : event.changedTouches[0].clientX,
+        container = this.$els.handle,
+        offset = clientX - container.getBoundingClientRect().left,
+        width = container.offsetWidth,
+        percentage = Math.min(1, Math.max(0, offset / width)),
+        model = this.min + percentage * (this.max - this.min),
+        modulo = model % this.step
 
-      this.model = parseFloat((this.min + percentage * range).toFixed(this.precision), 10)
+      this.currentPercentage = percentage
+      this.model = Math.min(this.max, Math.max(this.min, model - modulo + (modulo >= this.step / 2 ? this.step : 0)))
+    },
+    validateProps () {
+      if (this.min >= this.max) {
+        console.error('Range error: min >= max', this.$el, this.min, this.max)
+      }
+      else if ((this.max - this.min) % this.step !== 0) {
+        console.error('Range error: step must be a divisor of max - min', this.$el, this.min, this.max, this.step)
+      }
     }
-
-    this.$el.addEventListener('click', this.clickHandler)
   },
-  destroy () {
-    this.$el.removeEventListener('click', this.clickHandler)
+  beforeCompile () {
+    this.validateProps()
   }
 }
 </script>
