@@ -54,3 +54,17 @@ export function ready (fn) {
 
   document.addEventListener('DOMContentLoaded', fn, false)
 }
+
+export function childOf (target, parent) {
+  let element = target
+
+  while (element && element.nodeType) {
+    if (element === parent) {
+      return true
+    }
+
+    element = element.parentNode
+  }
+
+  return false
+}

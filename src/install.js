@@ -1,4 +1,6 @@
 
+import Platform from './platform'
+
 import transitionSlide from './vue-transitions/slide'
 
 import GridSelectedFilter from './vue-filters/grid-selected'
@@ -10,10 +12,10 @@ import directiveScroll from './vue-directives/scroll'
 import directiveTooltip from './vue-directives/tooltip'
 
 import Checkbox from './vue-components/checkbox/checkbox.vue'
-import ContextMenu from './vue-components/dropdown/context-menu.vue'
+import ContextMenuDesktop from './vue-components/context-menu/context-menu-desktop.vue'
+import ContextMenuMobile from './vue-components/context-menu/context-menu-mobile.vue'
 import Drawer from './vue-components/drawer/drawer.vue'
 import DrawerLink from './vue-components/drawer/drawer-link.vue'
-import Dropdown from './vue-components/dropdown/dropdown.vue'
 import Fab from './vue-components/fab/fab.vue'
 import SmallFab from './vue-components/fab/small-fab.vue'
 import Gallery from './vue-components/gallery/gallery.vue'
@@ -26,6 +28,7 @@ import ToolbarTitle from './vue-components/layout/toolbar-title.vue'
 import Numeric from './vue-components/numeric/numeric.vue'
 import Pagination from './vue-components/pagination/pagination.vue'
 import Parallax from './vue-components/parallax/parallax.vue'
+import Popover from './vue-components/popover/popover.vue'
 import Progress from './vue-components/progress/progress.vue'
 import PullToRefresh from './vue-components/pull-to-refresh/pull-to-refresh.vue'
 import Radio from './vue-components/radio/radio.vue'
@@ -61,10 +64,9 @@ function registerDirectives (_Vue) {
 
 function registerComponents (_Vue) {
   _Vue.component('quasar-checkbox', Checkbox)
-  _Vue.component('quasar-context-menu', ContextMenu)
+  _Vue.component('quasar-context-menu', Platform.is.desktop ? ContextMenuDesktop : ContextMenuMobile)
   _Vue.component('quasar-drawer', Drawer)
   _Vue.component('quasar-drawer-link', DrawerLink)
-  _Vue.component('quasar-dropdown', Dropdown)
   _Vue.component('quasar-fab', Fab)
   _Vue.component('quasar-small-fab', SmallFab)
   _Vue.component('quasar-gallery', Gallery)
@@ -77,6 +79,7 @@ function registerComponents (_Vue) {
   _Vue.component('quasar-numeric', Numeric)
   _Vue.component('quasar-pagination', Pagination)
   _Vue.component('quasar-parallax', Parallax)
+  _Vue.component('quasar-popover', Popover)
   _Vue.component('quasar-progress', Progress)
   _Vue.component('quasar-pull-to-refresh', PullToRefresh)
   _Vue.component('quasar-radio', Radio)

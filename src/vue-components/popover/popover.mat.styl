@@ -1,0 +1,40 @@
+$popover-background   ?= white
+$popover-max-height   ?= 450px
+$popover-box-shadow   ?= $shadow-2
+
+.quasar-popover
+  position relative
+  display inline-block
+
+.quasar-popover-target
+  cursor pointer
+
+.quasar-popover-content
+  position absolute
+  opacity 0
+  transition all .2s ease
+  transform scale(0)
+  box-shadow $popover-box-shadow
+  background $popover-background
+  max-height $popover-max-height
+  min-width 200px
+  overflow-y auto
+  z-index $z-popover
+
+  &.left
+    &.bottom
+      transform-origin left bottom
+    &.top
+      transform-origin left top
+  &.right
+    &.bottom
+      transform-origin right bottom
+    &.top
+      transform-origin right top
+
+  &.check, &.active
+    transform scale(1)
+    opacity 1
+
+  .list
+    margin 0

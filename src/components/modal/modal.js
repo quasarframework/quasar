@@ -10,30 +10,42 @@ class Modal {
     if (!userVm) {
       throw new Error('Modal needs a VueModel.')
     }
-    if (!userVm.template) {
+    if (!userVm.el && !userVm.template) {
       throw new Error('Modal needs a template.')
     }
 
-    let vm = Utils.extend(true, userVm)
+    let vm
+    this.__customElement = typeof userVm.el !== 'undefined'
 
-    vm.template = `<div class="modal hidden fullscreen flex items-center justify-center">
-          <div v-el:backdrop class="modal-backdrop backdrop"></div>
-          <div v-el:content class="modal-content">${userVm.template}</div></div>`
-    vm.methods = vm.methods || {}
-    vm.methods.close = onClose => {
-      this.close(onClose)
+    if (this.__customElement) {
+      vm = userVm
+    }
+    else {
+      vm = Utils.extend(true, userVm)
+      vm.template = `<div class="modal hidden fullscreen flex items-center justify-center">
+            <div v-el:backdrop class="modal-backdrop backdrop"></div>
+            <div v-el:content class="modal-content">${userVm.template}</div></div>`
+
+      // preserve data bindings
+      vm.data = userVm.data
+      vm.methods = vm.methods || {}
+      vm.methods.close = onClose => {
+        this.close(onClose)
+      }
     }
 
-    // preserve data bindings
-    vm.data = userVm.data
-
     this.vm = new Vue(vm)
-    this.vm.$mount().$appendTo(document.body)
+    if (!this.__customElement) {
+      this.vm.$mount().$appendTo(document.body)
+      this.$content = this.vm.$els.content
+      this.$backdrop = this.vm.$els.backdrop
+    }
+    else {
+      this.$content = this.vm.$el.getElementsByClassName('modal-content')[0]
+      this.$backdrop = this.vm.$el.getElementsByClassName('modal-backdrop')[0]
+    }
 
     this.$el = this.vm.$el
-    this.$backdrop = this.vm.$els.backdrop
-    this.$content = this.vm.$els.content
-
     this.__onShowHandlers = []
     this.__onCloseHandlers = []
     this.selfDestroy = true
@@ -54,6 +66,10 @@ class Modal {
     }
     if (this.maximized) {
       this.$content.classList.add('maximized')
+    }
+
+    if (this.__customElement) {
+      this.$backdrop.addEventListener('click', this.close)
     }
 
     let
@@ -85,6 +101,11 @@ class Modal {
 
     this.$el.classList.remove('hidden')
     Velocity(this.$content, effect, options)
+    setTimeout(() => {
+      [].slice.call(this.$el.getElementsByClassName('modal-scroll')).forEach(el => {
+        el.scrollTop = 0
+      })
+    }, 10)
     if (!this.maximized) {
       this.$backdrop.classList.add('active')
     }
@@ -104,6 +125,8 @@ class Modal {
         options = {
           duration,
           complete: () => {
+            this.$el.classList.add('hidden')
+
             if (this.selfDestroy) {
               this.destroy()
             }
@@ -128,6 +151,9 @@ class Modal {
       }
 
       this.$backdrop.classList.remove('active')
+      if (this.__customElement) {
+        this.$backdrop.removeEventListener('click', this.close)
+      }
       window.removeEventListener('popstate', this.__popstate)
       delete this.__popstate
       Velocity(this.$content, effect, options)
@@ -186,7 +212,7 @@ class Modal {
   }
 
   destroy () {
-    this.vm.$destroy(true)
+    this.vm.$destroy(!this.__customElement)
   }
 }
 

@@ -1,46 +1,48 @@
-<div v-if="title" class="modal-header">
-  {{{* title}}}
-</div>
-
-<div class="modal-scroll">
-  <div v-if="gallery" class="quasar-action-sheet-gallery row wrap items-center justify-center">
-    <div
-      v-for="button in buttons"
-      class="cursor-pointer column inline items-center justify-center"
-      @click="close(button.handler)"
-      :class="button.classes"
-    >
-      <i v-if="button.icon">{{* button.icon}}</i>
-      <img v-if="button.avatar" :src="button.avatar" class="avatar">
-
-      <span>{{* button.label}}</span>
-    </div>
+<div>
+  <div v-if="title" class="modal-header">
+    {{{* title}}}
   </div>
-  <div v-else class="list inset">
-    <div
-      v-for="button in buttons"
-      class="item item-link"
-      @click="close(button.handler)"
-      :class="button.classes"
-    >
-      <i v-if="button.icon">{{* button.icon}}</i>
-      <img v-if="button.avatar" :src="button.avatar" class="avatar">
-      <div class="item-content">
-        {{* button.label}}
+
+  <div class="modal-scroll">
+    <div v-if="gallery" class="quasar-action-sheet-gallery row wrap items-center justify-center">
+      <div
+        v-for="button in buttons"
+        class="cursor-pointer column inline items-center justify-center"
+        @click="close(button.handler)"
+        :class="button.classes"
+      >
+        <i v-if="button.icon">{{* button.icon}}</i>
+        <img v-if="button.avatar" :src="button.avatar" class="avatar">
+
+        <span>{{* button.label}}</span>
+      </div>
+    </div>
+    <div v-else class="list inset">
+      <div
+        v-for="button in buttons"
+        class="item item-link"
+        @click="close(button.handler)"
+        :class="button.classes"
+      >
+        <i v-if="button.icon">{{* button.icon}}</i>
+        <img v-if="button.avatar" :src="button.avatar" class="avatar">
+        <div class="item-content">
+          {{* button.label}}
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<div class="list inset">
-  <div
-    class="item item-link"
-    @click="close(dismissButton.handler)"
-    :class="dismissButton.classes"
-  >
-    <i v-if="dismissButton.icon">{{* dismissButton.icon}}</i>
-    <div class="item-content">
-      {{* dismissButton.label}}
+  <div class="list inset">
+    <div
+      class="item item-link"
+      @click="close(dismissButton.handler)"
+      :class="dismissButton.classes"
+    >
+      <i v-if="dismissButton.icon">{{* dismissButton.icon}}</i>
+      <div class="item-content">
+        {{* dismissButton.label}}
+      </div>
     </div>
   </div>
 </div>
