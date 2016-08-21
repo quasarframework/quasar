@@ -19,6 +19,7 @@
         v-el:input
         v-model="input"
         @keyup.enter="add()"
+        @keyup.8="remove(model.length - 1)"
         @focus="active = true"
         @blur="active = false"
       >
@@ -52,7 +53,9 @@ export default {
       }
     },
     remove (index) {
-      this.model.splice(index, 1)
+      if (index >= 0 && index < this.model.length) {
+        this.model.splice(index, 1)
+      }
     },
     focus () {
       this.$els.input.focus()
