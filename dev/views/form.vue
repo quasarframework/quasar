@@ -3,6 +3,8 @@
   Inline with text <input v-model="username" class="inline">
   <input v-model="password" type="password">
 
+  <h2>Text Chips Input</h2>
+  <quasar-chips :model.sync="chips"></quasar-chips>
   <br><br>
 
   <div class="list inner-delimiter bordered">
@@ -252,6 +254,7 @@
 export default {
   data () {
     return {
+      chips: ['Joe', 'Jim'],
       check: false,
       radio: 'opt2',
       range: {

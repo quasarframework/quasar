@@ -12,6 +12,7 @@ import directiveScroll from './vue-directives/scroll'
 import directiveTooltip from './vue-directives/tooltip'
 
 import Checkbox from './vue-components/checkbox/checkbox.vue'
+import Chips from './vue-components/chips/chips.vue'
 import ContextMenuDesktop from './vue-components/context-menu/context-menu-desktop.vue'
 import ContextMenuMobile from './vue-components/context-menu/context-menu-mobile.vue'
 import Drawer from './vue-components/drawer/drawer.vue'
@@ -64,6 +65,7 @@ function registerDirectives (_Vue) {
 
 function registerComponents (_Vue) {
   _Vue.component('quasar-checkbox', Checkbox)
+  _Vue.component('quasar-chips', Chips)
   _Vue.component('quasar-context-menu', Platform.is.desktop ? ContextMenuDesktop : ContextMenuMobile)
   _Vue.component('quasar-drawer', Drawer)
   _Vue.component('quasar-drawer-link', DrawerLink)
