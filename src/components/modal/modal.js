@@ -100,7 +100,6 @@ class Modal {
     }
 
     this.$el.classList.remove('hidden')
-    Velocity(this.$content, effect, options)
     setTimeout(() => {
       [].slice.call(this.$el.getElementsByClassName('modal-scroll')).forEach(el => {
         el.scrollTop = 0
@@ -155,12 +154,14 @@ class Modal {
         this.$backdrop.removeEventListener('click', this.close)
       }
       window.removeEventListener('popstate', this.__popstate)
-      delete this.__popstate
       Velocity(this.$content, effect, options)
     }
     this.__modalId = ++openedModalNumber
     window.history.pushState({modalId: this.__modalId}, '')
     window.addEventListener('popstate', this.__popstate)
+
+    // finally show it
+    Velocity(this.$content, effect, options)
 
     return this
   }
