@@ -21,7 +21,7 @@ $label-before-transform   ?= translateY(-50%) translateX(50%) rotate(-45deg)
     height 100%
     padding $label-padding-vertical ($label-padding-horizontal / 2)
     margin (- $label-padding-vertical) ($label-padding-horizontal / 2)
-    background alpha(black, .1)
+    background rgba(0, 0, 0, .1)
     opacity .8
 
   > .left-detail
@@ -106,4 +106,19 @@ $label-before-transform   ?= translateY(-50%) translateX(50%) rotate(-45deg)
       width .5rem
       height .5rem
       box-shadow 0 -1px 1px 0 rgba(0, 0, 0, .3)
+      border-radius 50%
+
+  &.chip
+    border-radius 16px
+    padding 0 12px
+    height 32px
+    i
+      border-radius 50%
+      padding 3px
+      cursor pointer
+    img
+      float left
+      margin 0 8px 0 -12px
+      height 32px
+      width 32px
       border-radius 50%

@@ -35,6 +35,21 @@
     Text
   </p>
 
+  <h1>Chips</h1>
+  <p>
+    <div class="chip label bg-grey-4"><img :src="'statics/boy-avatar.png'"> John</div>
+    <div class="chip label bg-teal text-white"><img :src="'statics/boy-avatar.png'"> Joe</div>
+    <div class="chip label bg-black text-white"><img :src="'statics/boy-avatar.png'"> Jim</div>
+    <br><br>
+    <div class="chip label bg-light"><img :src="'statics/boy-avatar.png'"> John <i class="on-right">close</i></div>
+    <div class="chip label bg-red text-white"><img :src="'statics/boy-avatar.png'"> Joe <i class="on-right">close</i></div>
+    <div class="chip label bg-primary text-white"><img :src="'statics/boy-avatar.png'"> Jim <i class="on-right">close</i></div>
+    <br><br>
+    <div class="chip label bg-grey-4">John</div>
+    <div class="chip label bg-teal text-white">Joe</div>
+    <div class="chip label bg-black text-white">Jim</div>
+  </p>
+
   <h1>Tags</h1>
   <p>
     <div class="tag label bg-light">New</div>

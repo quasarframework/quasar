@@ -33,7 +33,7 @@ $button-text-transform      ?= uppercase
 $button-margin              ?= 0
 
 
-button, .button
+button
   @extend .non-selectable
 
   display inline
@@ -55,6 +55,7 @@ button, .button
 
   border-radius $button-border-radius
   text-transform $button-text-transform
+  text-shadow 0 0 2px black
 
   margin $button-margin
   padding $button-padding
@@ -100,15 +101,9 @@ button, .button
     &:not(.circular)
       border-radius 7px
 
-  &.glossy
-    border 1px solid
-    &:active:not(.disabled)
-      box-shadow inset 0 1px 3px rgba(black, .2), 0 1px rgba(white, .4)
-
   for $name, $color in $colors
     &.{$name}
       background $color
-      text-shadow 0 0 2px black
 
       if $name != 'light'
         color white
@@ -123,7 +118,6 @@ button, .button
 
       &.glossy
         border-color darken($color, 10%) darken($color, 15%) darken($color, 15%)
-        background-image linear-gradient(to bottom, rgba(white, .3), rgba(white, 0) 50%, rgba(black, .12) 51%, rgba(black, .04))
 
       if $name != 'light'
         &.clear, &.outline
@@ -136,6 +130,12 @@ button, .button
 
       &.push
         border-bottom 3px solid dark-active-color($color)
+
+  &.glossy
+    border 1px solid
+    background-image linear-gradient(to bottom, rgba(white, .3), rgba(white, 0) 50%, rgba(black, .12) 51%, rgba(black, .04))
+    &:active:not(.disabled)
+      box-shadow inset 0 1px 3px rgba(black, .2), 0 1px rgba(white, .4)
 
   &.clear
     border-radius 0
@@ -163,20 +163,19 @@ button, .button
     margin-left 0
     margin-right 0
 
-body.desktop
-  button, .button
-    &.raised
-      &:hover:not(.disabled)
-        box-shadow $shadow-3
+body.desktop button
+  &.raised
+    &:hover:not(.disabled)
+      box-shadow $shadow-3
 
-    for $name, $color in $colors
-      &.{$name}:not(.disabled)
-        &:hover:not(.clear)
-          background hover-color($color)
-          &:not(.push)
-            box-shadow $button-box-shadow
-        &.clear:hover
-          background lighten($color, 70%)
+  for $name, $color in $colors
+    &.{$name}:not(.disabled)
+      &:hover:not(.clear)
+        background hover-color($color)
+        &:not(.push)
+          box-shadow $button-box-shadow
+      &.clear:hover
+        background lighten($color, 70%)
 
-    &.outline:hover
-      color white
+  &.outline:hover
+    color white
