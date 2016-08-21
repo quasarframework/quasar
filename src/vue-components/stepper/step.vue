@@ -15,6 +15,7 @@
       <div class="group" style="margin-top: 1rem;">
         <button
           class="primary"
+          :class="{disabled: !ready}"
           @click="nextStep()"
         >
           {{ stepper && step === stepper.steps ? 'Finish' : 'Next' }}
@@ -37,6 +38,10 @@ export default {
     title: {
       type: String,
       required: true
+    },
+    ready: {
+      type: Boolean,
+      default: true
     }
   },
   data () {
@@ -55,7 +60,9 @@ export default {
   },
   methods: {
     nextStep () {
-      this.notify('nextStep')
+      if (this.ready) {
+        this.notify('nextStep')
+      }
     },
     previousStep () {
       this.notify('previousStep')
