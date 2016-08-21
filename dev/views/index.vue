@@ -40,6 +40,7 @@ export default {
         'Scroll Fire',
         'Slider',
         'Spinners',
+        'Stepper',
         'Table',
         'Tabs',
         'Timeline',

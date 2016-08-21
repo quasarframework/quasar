@@ -1,9 +1,9 @@
-$timeline-badge-size ?= 3rem
-$timeline-badge-space ?= $timeline-badge-size
-$timeline-item-margin-bottom ?= 4rem
-$timeline-border-width ?= .2rem
-$timeline-color ?= $grey-6
-$timeline-light-color ?= lighten($timeline-color, 50%)
+$timeline-badge-size         ?= 3rem
+$timeline-badge-space        ?= $timeline-badge-size
+$timeline-item-margin-bottom ?= 1rem
+$timeline-border-width       ?= .2rem
+$timeline-color              ?= $grey-6
+$timeline-light-color        ?= lighten($timeline-color, 50%)
 
 .timeline
   position relative
@@ -31,6 +31,7 @@ $timeline-light-color ?= lighten($timeline-color, 50%)
 
 .timeline-item
   position relative
+  margin-bottom $timeline-item-margin-bottom
 
   &:last-child
     margin-bottom 0
@@ -54,11 +55,18 @@ $timeline-light-color ?= lighten($timeline-color, 50%)
   img
     max-width 100%
 
+
+.timeline-title, .timeline-date
+  min-height $timeline-badge-size
+  display flex
+  flex-direction column
+  justify-content center
 .timeline-date
-  position absolute
-  top 0
   color $timeline-color
-  width 100%
+.timeline-title + .timeline-date
+  min-height 0
+.timeline-content
+  margin-top 1rem
 
 .timeline-label
   position relative
@@ -72,7 +80,6 @@ $timeline-light-color ?= lighten($timeline-color, 50%)
       left ($timeline-badge-size / 2)
   .timeline-item
     margin-left (1.3 * $timeline-badge-space)
-    margin-bottom ($timeline-item-margin-bottom / 2)
   .timeline-date
     position relative
     margin-bottom 1rem
@@ -87,7 +94,6 @@ $timeline-light-color ?= lighten($timeline-color, 50%)
       left 50%
 
   .timeline-item
-    margin-bottom $timeline-item-margin-bottom
     width 'calc(50% - %s)' % $timeline-badge-space
 
     &:nth-child(odd):not(.on-right), &.on-left

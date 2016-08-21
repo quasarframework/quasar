@@ -40,6 +40,8 @@ import Select from './vue-components/select/select.vue'
 import Slider from './vue-components/slider/slider.vue'
 import registerSpinners from './vue-components/spinner/spinner'
 import State from './vue-components/state/state.vue'
+import Stepper from './vue-components/stepper/stepper.vue'
+import Step from './vue-components/stepper/step.vue'
 import Tab from './vue-components/tab/tab.vue'
 import Tabs from './vue-components/tab/tabs.vue'
 import Toggle from './vue-components/toggle/toggle.vue'
@@ -91,6 +93,8 @@ function registerComponents (_Vue) {
   _Vue.component('quasar-select', Select)
   _Vue.component('quasar-slider', Slider)
   _Vue.component('quasar-state', State)
+  _Vue.component('quasar-stepper', Stepper)
+  _Vue.component('quasar-step', Step)
   _Vue.component('quasar-tab', Tab)
   _Vue.component('quasar-tabs', Tabs)
   _Vue.component('quasar-toggle', Toggle)

@@ -14,7 +14,7 @@
         <div>17:01</div>
         <div>June 16th, 2016</div>
       </div>
-      <div class="card">
+      <div class="card timeline-content">
         <div class="card-title">
           Card Title
         </div>
@@ -39,7 +39,7 @@
         <div>17:01</div>
         <div>June 16th, 2016</div>
       </div>
-      <div class="card">
+      <div class="card timeline-content">
         <div class="card-title">
           Card Title
         </div>
@@ -64,7 +64,7 @@
         <div>17:01</div>
         <div>June 16th, 2016</div>
       </div>
-      <div class="card">
+      <div class="card timeline-content">
         <div class="card-title">
           Card Title
         </div>

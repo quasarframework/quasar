@@ -41,6 +41,7 @@ router.map({
       '/scroll-fire': { component: require('view/scroll-fire.vue') },
       '/slider': { component: require('view/slider.vue') },
       '/spinners': { component: require('view/spinners.vue') },
+      '/stepper': { component: require('view/stepper.vue') },
       '/table': { component: require('view/table.vue') },
       '/tabs': { component: require('view/tabs.vue') },
       '/timeline': { component: require('view/timeline.vue') },
