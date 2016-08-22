@@ -55,15 +55,16 @@ $timeline-light-color        ?= lighten($timeline-color, 50%)
   img
     max-width 100%
 
-
 .timeline-title, .timeline-date
   min-height $timeline-badge-size
   display flex
   flex-direction column
   justify-content center
+.timeline-title
+  font-weight 700
 .timeline-date
   color $timeline-color
-.timeline-title + .timeline-date
+.timeline-title + .timeline-date // @stylint ignore
   min-height 0
 .timeline-content
   margin-top 1rem

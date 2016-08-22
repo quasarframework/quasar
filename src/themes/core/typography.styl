@@ -59,14 +59,15 @@ h6
 p
   font-size 1rem
   letter-spacing 0
-  margin 0 0 16px
+  margin 0 0 1rem
   line-height 24px
   color rgba(0, 0, 0, .71)
   padding 0
   -webkit-font-smoothing antialiased
   &.caption
     font-weight 300
-    margin-bottom 30px
+    &:not(:first-child)
+      margin-top 2rem
 
 .token
   color opposite-non-color($primary)

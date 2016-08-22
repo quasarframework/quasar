@@ -26,6 +26,7 @@ export default {
         'Flex',
         'Form',
         'Grid',
+        'Gallery',
         'Infinite Scroll',
         'Loading',
         'Label',

@@ -18,13 +18,26 @@
   height auto
   width 100%
 
+.quasar-gallery-slider-overlay
+  position absolute
+  top 0
+  right 0
+  bottom 0
+  left 0
+  width 100%
+  height 100%
+  display none
+  &.active
+    display block
+
 .quasar-gallery-slider-quickview
   position absolute
-  bottom -101%
+  bottom 0
   left 0
   right 0
-  will-change bottom
+  will-change transform
   transition all .3s
+  transform translateY(101%)
   width 100%
   height auto
   max-height 60%
@@ -36,7 +49,7 @@
   text-align center
 
   &.active
-    bottom 0
+    transform translateY(0)
 
   img
     opacity .5

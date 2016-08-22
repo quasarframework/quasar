@@ -6,10 +6,16 @@
       slot="slide"
       class="no-padding flex items-center justify-center"
     >
-      <div>
+      <div class="full-width">
         <img :src="img">
       </div>
     </div>
+
+    <div
+      class="quasar-gallery-slider-overlay"
+      :class="{active: quickView}"
+      @click="toggleQuickView()"
+    ></div>
 
     <i slot="action" @click="toggleQuickView()">view_carousel</i>
 

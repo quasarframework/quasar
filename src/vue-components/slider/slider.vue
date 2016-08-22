@@ -122,7 +122,20 @@ export default {
       this.position = -this.slide * 100
     },
     toggleFullscreen () {
-      this.inFullscreen = !this.inFullscreen
+      if (this.inFullscreen) {
+        window.history.go(-1)
+        return
+      }
+
+      this.inFullscreen = true
+      window.history.pushState({}, '')
+      window.addEventListener('popstate', this.popState)
+    },
+    popState () {
+      if (this.inFullscreen) {
+        this.inFullscreen = false
+      }
+      window.removeEventListener('popstate', this.popState)
     }
   },
   ready () {

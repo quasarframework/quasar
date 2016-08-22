@@ -24,9 +24,9 @@ const
   offset = 20,
   cssReset = {
     top: '',
-    right: '',
     bottom: '',
     left: '',
+    right: '',
     maxHeight: '',
     maxWidth: '',
     transformOrigin: ''
@@ -60,7 +60,6 @@ export default {
         content = this.$els.content,
         target = this.$els.target,
         position,
-        relativePosition,
         css = Utils.extend({}, cssReset)
 
       // necessary to compute menu width and height
@@ -78,16 +77,16 @@ export default {
         targetPosition = this.$els.target.getBoundingClientRect()
 
       if (this.touchPosition) {
-        position = Utils.event.position(event)
-        relativePosition = {
-          top: position.top - targetPosition.top,
-          left: position.left - targetPosition.left
+        let touchPosition = Utils.event.position(event)
+        position = {
+          top: touchPosition.top,
+          left: touchPosition.left
         }
       }
       else {
         position = {
-          top: targetPosition.top + targetHeight / 2,
-          left: targetPosition.left + targetWidth / 2
+          top: targetPosition.top,
+          left: targetPosition.left
         }
       }
 
@@ -98,39 +97,41 @@ export default {
       content.classList.remove('check', 'left', 'right', 'bottom', 'top')
 
       if (!this.touchPosition) {
-        relativePosition = {
-          top: toBottom ? 0 : targetHeight,
-          left: toRight ? 0 : targetWidth
+        if (!toBottom) {
+          position.top += targetHeight
+        }
+        if (!toRight) {
+          position.left += targetWidth
         }
       }
 
       if (toRight) {
-        css.left = relativePosition.left + 'px'
         content.classList.add('left')
+        css.left = position.left + 'px'
         if (windowWidth - position.left < contentWidth) {
-          css.maxWidth = windowWidth - position.left - offset + 'px'
+          css.maxWidth = (windowWidth - position.left - offset) + 'px'
         }
       }
       else {
-        css.right = (targetWidth - relativePosition.left) + 'px'
         content.classList.add('right')
+        css.right = (windowWidth - position.left) + 'px'
         if (position.left < contentWidth) {
-          css.maxWidth = position.left - offset + 'px'
+          css.maxWidth = (position.left - offset) + 'px'
         }
       }
 
       if (toBottom) {
         content.classList.add('top')
-        css.top = relativePosition.top + 'px'
+        css.top = position.top + 'px'
         if (windowHeight - position.top < contentHeight) {
-          css.maxHeight = windowHeight - position.top - offset + 'px'
+          css.maxHeight = (windowHeight - position.top - offset) + 'px'
         }
       }
       else {
         content.classList.add('bottom')
-        css.bottom = (targetHeight - relativePosition.top) + 'px'
+        css.bottom = (windowHeight - position.top) + 'px'
         if (position.top < contentHeight) {
-          css.maxHeight = position.top - offset + 'px'
+          css.maxHeight = (position.top - offset) + 'px'
         }
       }
 
@@ -141,18 +142,25 @@ export default {
       // event won't be triggered immediately
       setTimeout(() => {
         document.addEventListener('click', this.closeFromOutside)
+        this.scrollContainer = this.$el.closest('.layout-view')
+        if (!this.scrollContainer) {
+          this.scrollContainer = document.getElementById('quasar-app')
+        }
+        this.scrollContainer.addEventListener('scroll', this.close)
       }, 210)
     },
-    close (event) {
+    close () {
       if (this.active) {
         this.active = false
-        document.removeEventListener('click', this.closeFromOutside)
         setTimeout(() => {
           Utils.dom.css(this.$els.content, cssReset)
         }, 200)
+
+        this.scrollContainer.removeEventListener('scroll', this.close)
+        document.removeEventListener('click', this.closeFromOutside)
       }
     },
-    closeFromOutside (event) {
+    closeFromOutside () {
       if (!this.active || this.$els.content === event.target.closest('.quasar-popover-content')) {
         return
       }

@@ -27,6 +27,7 @@ router.map({
       '/flex': { component: require('view/flex.vue') },
       '/form': { component: require('view/form.vue') },
       '/grid': { component: require('view/grid.vue') },
+      '/gallery': { component: require('view/gallery.vue') },
       '/infinite-scroll': { component: require('view/infinite-scroll.vue') },
       '/loading': { component: require('view/loading.vue') },
       '/modal': { component: require('view/modal.vue') },

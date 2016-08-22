@@ -2,7 +2,6 @@ $primary   ?= #027be3
 $secondary ?= #26A69A
 $tertiary  ?= #555
 
-$neutral   ?= #E0E1E2
 $positive  ?= #21BA45
 $negative  ?= #DB2828
 $info      ?= #31CCEC
@@ -14,7 +13,7 @@ $dark      ?= #333
 $faded     ?= #777
 
 $text-color          ?= lighten(black, 17%)
-$background    ?= white
+$background          ?= white
 
 $link-color          ?= lighten($primary, 25%)
 $link-color-active   ?= $primary
@@ -307,7 +306,6 @@ $blue-grey-14 = #455a64
 
 
 $colors ?= {
-  neutral: $neutral
   primary: $primary
   secondary: $secondary
   tertiary: $tertiary
@@ -355,11 +353,6 @@ $colors ?= {
   color $tertiary
 .bg-tertiary
   background $tertiary
-
-.text-neutral
-  color $neutral
-.bg-neutral
-  background $neutral
 
 .text-faded
   color $faded

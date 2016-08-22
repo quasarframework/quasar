@@ -10,7 +10,7 @@ import Utils from '../../utils'
 export default {
   events: {
     'stepper::reset' () {
-      this.reset()
+      this.redraw()
     },
     'stepper::nextStep' () {
       this.config.currentStep++
@@ -32,6 +32,10 @@ export default {
   },
   methods: {
     reset () {
+      this.redraw()
+      this.config.currentStep = 1
+    },
+    redraw () {
       let step = 1
 
       this.config.currentStep = this.config.currentStep || 1

@@ -19,7 +19,6 @@
         v-el:input
         v-model="input"
         @keyup.enter="add()"
-        @keyup.8="remove(model.length - 1)"
         @focus="active = true"
         @blur="active = false"
       >
