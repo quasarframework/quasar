@@ -100,8 +100,8 @@ body.mobile
     background white
 
   for $name, $color in $colors
-    if $name == 'light'
-      &.light
+    if $name == 'light' || $name == 'white'
+      &.{$name}
         color composite-color($color)
         background $color
         .quasar-tab
@@ -119,7 +119,7 @@ body.mobile
               border-bottom 2px solid white
             &:active
               background white
-    if $name != 'light'
+    if $name != 'light' && $name != 'white'
       &.{$name}
         &.inverted
           color lighten($color, 30%)

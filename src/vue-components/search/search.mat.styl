@@ -41,11 +41,11 @@
 
   for $name, $color in $colors
     &.{$name}
-      if $name != 'light'
+      if $name != 'light' && $name != 'white'
         color white
       .quasar-search-input
         background active-color($color)
-        if $name != 'light'
+        if $name != 'light' && $name != 'white'
           color white
           &::-webkit-input-placeholder
             color $grey-4

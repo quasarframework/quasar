@@ -58,7 +58,7 @@ export default {
       icon: 'alarm',
       sizes: ['small', 'medium', 'big'],
       colors: [
-        'primary', 'secondary', 'tertiary', 'positive', 'negative', 'warning', 'info', 'light', 'dark',
+        'primary', 'secondary', 'tertiary', 'positive', 'negative', 'warning', 'info', 'white', 'light', 'dark',
         'red', 'pink', 'purple', 'deep-purple', 'indigo', 'blue', 'light-blue', 'cyan', 'teal', 'green',
         'light-green', 'lime', 'yellow', 'amber', 'orange', 'deep-orange', 'brown', 'grey', 'blue-grey'
       ],

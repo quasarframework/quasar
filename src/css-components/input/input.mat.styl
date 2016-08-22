@@ -1,4 +1,4 @@
-$input-border          ?= 2px solid transparent
+$input-border          ?= 2px solid $form-lighter-color
 $input-focus-border    ?= 2px solid $form-active-color
 $textarea-border       ?= 2px solid transparent
 $textarea-focus-border ?= 2px solid $form-active-color
@@ -9,9 +9,6 @@ input, textarea
     border 0
     outline 0
     transition all .3s
-    border-bottom 2px solid transparent
-    border-radius $generic-border-radius
-    box-shadow $shadow-1
 
 input:not(.no-style)
   border-bottom $input-border
@@ -32,9 +29,7 @@ textarea:not(.no-style)
     flex-direction row
     flex 1 1 auto
     width 100%
-    box-shadow none
-    &:focus
-      border-radius 0
+    border-bottom-color transparent
 
   &.fixed-label label
     flex 0 0 33%

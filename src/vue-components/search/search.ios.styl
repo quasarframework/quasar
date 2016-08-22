@@ -42,7 +42,7 @@
   for $name, $color in $colors
     &.{$name} .quasar-search-input
       background active-color($color)
-      if $name != 'light'
+      if $name != 'light' && $name != 'white'
         color white
         &::-webkit-input-placeholder
           color white

@@ -51,14 +51,14 @@ $toolbar-title-font-size   ?= 1.25rem
   background $toolbar-background
 
   for $name, $color in $colors
-    if $name != 'light'
+    if $name != 'light' && $name != 'white'
       &.{$name}
         color white
         background $color
         &.inverted
           color $color
-    if $name == 'light'
-      &.light
+    if $name == 'light' || $name == 'white'
+      &.{$name}
         color composite-color($color)
         background $color
         &.inverted
@@ -71,6 +71,7 @@ $toolbar-title-font-size   ?= 1.25rem
   button
     margin 0 .2rem
     padding .2rem
+    text-shadow none
     &:active:not(.disabled)
       color $toolbar-active-color
 

@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { Utils } from 'quasar'
+import Utils from '../../utils'
 
 const
   offset = 20,
