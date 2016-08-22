@@ -46,6 +46,8 @@
 </template>
 
 <script>
+import Platform from '../../platform'
+
 export default {
   props: {
     arrows: {
@@ -123,19 +125,26 @@ export default {
     },
     toggleFullscreen () {
       if (this.inFullscreen) {
-        window.history.go(-1)
+        if (Platform.within.iframe) {
+          this.inFullscreen = false
+        }
+        else {
+          window.history.go(-1)
+        }
         return
       }
 
       this.inFullscreen = true
-      window.history.pushState({}, '')
-      window.addEventListener('popstate', this.popState)
+      if (!Platform.within.iframe) {
+        window.history.pushState({}, '')
+        window.addEventListener('popstate', this.__popState)
+      }
     },
-    popState () {
+    __popState () {
       if (this.inFullscreen) {
         this.inFullscreen = false
       }
-      window.removeEventListener('popstate', this.popState)
+      window.removeEventListener('popstate', this.__popState)
     }
   },
   ready () {

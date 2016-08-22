@@ -1,4 +1,5 @@
 import Utils from '../../utils'
+import Platform from '../../platform'
 import { Vue } from '../../install'
 import { current as theme } from '../../theme'
 
@@ -111,6 +112,7 @@ class Modal {
 
     this.__popstate = () => {
       if (
+        !Platform.within.iframe &&
         window.history.state &&
         window.history.state.modalId &&
         window.history.state.modalId >= this.__modalId
@@ -129,8 +131,11 @@ class Modal {
             if (this.selfDestroy) {
               this.destroy()
             }
+            if (this.__closedByBackButton && this.onBackButton) {
+              this.onBackButton()
+            }
             this.__onCloseHandlers.forEach(
-              handler => { console.log('onCloseHandler'); handler() }
+              handler => { handler() }
             )
             if (typeof this.__onClose === 'function') {
               this.__onClose()
@@ -153,12 +158,17 @@ class Modal {
       if (this.__customElement) {
         this.$backdrop.removeEventListener('click', this.close)
       }
-      window.removeEventListener('popstate', this.__popstate)
+      if (!Platform.within.iframe) {
+        window.removeEventListener('popstate', this.__popstate)
+      }
       Velocity(this.$content, effect, options)
     }
     this.__modalId = ++openedModalNumber
-    window.history.pushState({modalId: this.__modalId}, '')
-    window.addEventListener('popstate', this.__popstate)
+    this.__closedByBackButton = true
+    if (!Platform.within.iframe) {
+      window.history.pushState({modalId: this.__modalId}, '')
+      window.addEventListener('popstate', this.__popstate)
+    }
 
     // finally show it
     Velocity(this.$content, effect, options)
@@ -168,21 +178,27 @@ class Modal {
 
   close (onClose) {
     this.__onClose = onClose
-    window.history.go(-1)
+    this.__closedByBackButton = false
+    if (Platform.within.iframe) {
+      this.__popstate()
+    }
+    else {
+      window.history.go(-1)
+    }
     return this
   }
 
   onShow (handler) {
-    this.__trigger('onShow', handler)
+    this.__registerTrigger('onShow', handler)
     return this
   }
 
   onClose (handler) {
-    this.__trigger('onClose', handler)
+    this.__registerTrigger('onClose', handler)
     return this
   }
 
-  __trigger (event, handler) {
+  __registerTrigger (event, handler) {
     if (typeof handler !== 'function') {
       throw new Error('Modal ' + event + ' handler must be a function.')
     }

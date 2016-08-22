@@ -80,23 +80,6 @@ function parseCheckboxes (checkboxes) {
   })
 }
 
-function parseRanges (ranges) {
-  if (!Array.isArray(ranges)) {
-    throw new Error('Dialog ranges parameter must be an array.')
-  }
-
-  if (ranges.some(
-    range => typeof range.min === 'undefined' || typeof range.max === 'undefined'
-  )) {
-    throw new Error('One of Dialog\'s range parameter is missing either min or max')
-  }
-
-  return ranges.map(range => {
-    range.value = range.value || range.min
-    return range
-  })
-}
-
 function parseProgress (progress) {
   if (progress !== Object(progress)) {
     throw new Error('Progress property is not an Object.')
@@ -131,9 +114,6 @@ function create (options) {
   else if (data.toggles) {
     data.toggles = parseCheckboxes(data.toggles)
   }
-  else if (data.ranges) {
-    data.ranges = parseRanges(data.ranges)
-  }
   else if (data.progress) {
     data.progress = parseProgress(data.progress)
   }
@@ -158,14 +138,6 @@ function create (options) {
           return (this.checkboxes || this.toggles).filter(
             checkbox => checkbox.checked
           ).map(checkbox => checkbox.value)
-        }
-        if (this.ranges) {
-          return this.ranges.map(range => {
-            return {
-              label: range.label,
-              value: range.value
-            }
-          })
         }
         if (this.progress && !this.progress.indeterminate) {
           return this.progress.model

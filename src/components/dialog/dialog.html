@@ -39,20 +39,6 @@
       </div>
     </label>
   </div>
-  <div v-if="ranges" class="modal-controls modal-scroll list">
-    <template v-for="range in ranges">
-      <div v-if="range.label" class="list-header">{{{* range.label}}}: {{range.value}}</div>
-      <div class="item">
-        <i v-if="range.iconMin" class="item-right-margin">{{* range.iconMin}}</i>
-        <div v-else class="item-right-margin">{{* range.min}}</div>
-
-        <quasar-range :model.sync="range.value" :min.once="range.min" :max.once="range.max"></quasar-range>
-
-        <i v-if="range.iconMax" class="item-left-margin">{{* range.iconMax}}</i>
-        <div v-else class="item-left-margin">{{* range.max}}</div>
-      </div>
-    </template>
-  </div>
   <div v-if="progress" class="modal-slim-body">
     <quasar-progress
       :model="progress.model"

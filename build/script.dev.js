@@ -6,6 +6,7 @@ var
   webpackConfig = require('./webpack.dev.config'),
   platform = require('./platform'),
   app = express(),
+  port = process.env.PORT || 8080,
   compiler = webpack(webpackConfig),
   devMiddleware = require('webpack-dev-middleware')(compiler, {
     publicPath: '',
@@ -40,11 +41,11 @@ app.use('/statics', express.static('./dev/statics'))
 // try to serve Cordova statics for Play App
 app.use(express.static(platform.cordovaAssets))
 
-module.exports = app.listen(8080, function (err) {
+module.exports = app.listen(port, function (err) {
   if (err) {
     console.log(err)
     return
   }
   console.log('Developing with "' + platform.theme + '" theme')
-  console.log('Listening at http://localhost:8080\n')
+  console.log('Listening at http://localhost:' + port + '\n')
 })

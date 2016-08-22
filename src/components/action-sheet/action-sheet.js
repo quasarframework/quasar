@@ -59,7 +59,8 @@ function create (data) {
   .css(getCSS())
   .set({
     transitionIn: {translateY: [0, '101%']},
-    transitionOut: {translateY: ['101%', 0]}
+    transitionOut: {translateY: ['101%', 0]},
+    onBackButton: data.dismissButton.handler
   })
 
   modal.$el.classList.remove('items-center')

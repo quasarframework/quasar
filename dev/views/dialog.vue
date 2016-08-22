@@ -5,7 +5,6 @@
   <button class="primary" @click="radio()">Radio</button>
   <button class="primary" @click="checkbox()">Checkbox</button>
   <button class="primary" @click="checkbox(true)">Toggle</button>
-  <button class="primary" @click="range()">Range</button>
   <button class="primary" @click="progress()">Progress</button>
   <button class="primary" @click="progress2()">Progress 2</button>
 
@@ -251,46 +250,6 @@ export default {
       ]
 
       Dialog.create(options).show()
-    },
-    range () {
-      Dialog.create({
-        title: 'Ranges',
-        ranges: [
-          {
-            label: 'Volume',
-            min: 1,
-            max: 5,
-            iconMin: 'volume_down',
-            iconMax: 'volume_up'
-          },
-          {
-            label: 'Brightness',
-            min: 1,
-            max: 5,
-            value: 2
-          },
-          {
-            label: 'Speed',
-            min: 1,
-            max: 10,
-            value: 6
-          },
-          {
-            label: 'Noise Level',
-            min: 4,
-            max: 15
-          }
-        ],
-        buttons: [
-          'Cancel',
-          {
-            label: 'Change',
-            handler (data) {
-              console.log('OK!', data)
-            }
-          }
-        ]
-      }).show()
     }
   }
 }
