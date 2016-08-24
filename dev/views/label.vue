@@ -36,10 +36,14 @@
   </p>
 
   <h1>Chips</h1>
-  <p>
+  <div class="group">
     <div class="chip label bg-grey-4"><img :src="'statics/boy-avatar.png'"> John</div>
     <div class="chip label bg-teal text-white"><img :src="'statics/boy-avatar.png'"> Joe</div>
     <div class="chip label bg-black text-white"><img :src="'statics/boy-avatar.png'"> Jim</div>
+    <div class="chip label bg-grey-4"><div><i>mail</i></div> Jim</div>
+    <div class="chip label bg-teal text-white"><div><i>mail</i></div> Jim</div>
+    <div class="chip label bg-grey-4"><div>J</div> Jim</div>
+    <div class="chip label bg-teal text-white"><div>J</div> Jim</div>
     <br><br>
     <div class="chip label bg-light"><img :src="'statics/boy-avatar.png'"> John <i class="on-right">close</i></div>
     <div class="chip label bg-red text-white"><img :src="'statics/boy-avatar.png'"> Joe <i class="on-right">close</i></div>
@@ -48,7 +52,7 @@
     <div class="chip label bg-grey-4">John</div>
     <div class="chip label bg-teal text-white">Joe</div>
     <div class="chip label bg-black text-white">Jim</div>
-  </p>
+  </div>
 
   <h1>Tags</h1>
   <p>

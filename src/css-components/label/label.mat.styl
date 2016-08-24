@@ -112,14 +112,17 @@ $label-before-transform   ?= translateY(-50%) translateX(50%) rotate(-45deg)
     border-radius 16px
     padding 0 12px
     height 32px
-    i
+    > i.on-right
       border-radius 50%
-      padding 3px
       cursor pointer
       background rgba(0, 0, 0, .2)
-    img
+      padding 3px
+    img, div
       float left
       margin 0 8px 0 -12px
       height 32px
       width 32px
       border-radius 50%
+    div
+      line-height 32px
+      background rgba(0, 0, 0, .2)

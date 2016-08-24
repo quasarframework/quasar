@@ -1,7 +1,7 @@
 $label-padding-vertical   ?= .3rem
 $label-padding-horizontal ?= .7rem
 $label-border-radius      ?= $generic-border-radius
-$label-before-transform   ?= translateY(-50%) translateX(60%) rotate(-45deg)
+$label-before-transform   ?= translateY(-50%) translateX(50%) rotate(-45deg)
 
 .label
   display inline-flex
@@ -21,7 +21,7 @@ $label-before-transform   ?= translateY(-50%) translateX(60%) rotate(-45deg)
     height 100%
     padding $label-padding-vertical ($label-padding-horizontal / 2)
     margin (- $label-padding-vertical) ($label-padding-horizontal / 2)
-    background alpha(black, .1)
+    background rgba(0, 0, 0, .1)
     opacity .8
 
   > .left-detail
@@ -112,14 +112,17 @@ $label-before-transform   ?= translateY(-50%) translateX(60%) rotate(-45deg)
     border-radius 16px
     padding 0 12px
     height 32px
-    i
+    > i.on-right
       border-radius 50%
-      padding 3px
       cursor pointer
       background rgba(0, 0, 0, .2)
-    img
+      padding 3px
+    img, div
       float left
       margin 0 8px 0 -12px
       height 32px
       width 32px
       border-radius 50%
+    div
+      line-height 32px
+      background rgba(0, 0, 0, .2)
