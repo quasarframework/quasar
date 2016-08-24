@@ -7,6 +7,9 @@
     <button class="tertiary" @click="openMinimizedModal()">Minimized Modal</button>
     <button class="tertiary" @click="openMaximizedModal()">Maximized Modal</button>
   </p>
+  <p>
+    <button class="primary" @click="toggleModal()">Toggle Modal</button>
+  </p>
 </template>
 
 <script>
@@ -16,7 +19,24 @@ import ScreenModal from 'component/screen-modal.vue'
 let modals = 0
 
 export default {
+  compiled () {
+    this.modal = Modal.create({
+      template: 'Modal will close shortly'
+    }).set({
+      selfDestroy: false,
+      minimized: true
+    })
+  },
+  beforeDestroy () {
+    this.modal.destroy()
+  },
   methods: {
+    toggleModal () {
+      this.modal.show()
+      setTimeout(() => {
+        this.modal.close()
+      }, 2000)
+    },
     openScreenModal () {
       ScreenModal.methods.openModal = this.openScreenModal
 
