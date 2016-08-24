@@ -29,13 +29,6 @@ $timeline-light-color        ?= lighten($timeline-color, 50%)
       .timeline-date, .timeline-label
         color $color
 
-.timeline-item
-  position relative
-  margin-bottom $timeline-item-margin-bottom
-
-  &:last-child
-    margin-bottom 0
-
 .timeline-badge
   width $timeline-badge-size
   height $timeline-badge-size
@@ -60,6 +53,7 @@ $timeline-light-color        ?= lighten($timeline-color, 50%)
   display flex
   flex-direction column
   justify-content center
+  margin-bottom 1rem
 .timeline-title
   font-weight 700
 .timeline-date
@@ -74,6 +68,18 @@ $timeline-light-color        ?= lighten($timeline-color, 50%)
   width 100%
   color $timeline-color
 
+.timeline-item
+  position relative
+  margin-bottom $timeline-item-margin-bottom
+
+  &:last-child
+    margin-bottom 0
+  &.incomplete
+    .timeline-badge
+      background darken($timeline-light-color, 10%) !important
+      box-shadow 0 0 0 $timeline-border-width $timeline-light-color !important
+    .timeline-date, .timeline-title
+      color $timeline-light-color
 
 @media only screen and (max-width $layout-small-max)
   .timeline
@@ -83,16 +89,14 @@ $timeline-light-color        ?= lighten($timeline-color, 50%)
     margin-left (1.3 * $timeline-badge-space)
   .timeline-date
     position relative
-    margin-bottom 1rem
   .timeline-badge
     left (-1.3 * $timeline-badge-space)
   .timeline-label
     margin-bottom $timeline-item-margin-bottom
 
 @media only screen and (min-width $layout-medium-min)
-  .timeline
-    &:before
-      left 50%
+  .timeline:before
+    left 50%
 
   .timeline-item
     width 'calc(50% - %s)' % $timeline-badge-space
@@ -100,8 +104,10 @@ $timeline-light-color        ?= lighten($timeline-color, 50%)
     &:nth-child(odd):not(.on-right), &.on-left
       .timeline-badge
         right (- $timeline-badge-size / 2 - $timeline-badge-space)
+      .timeline-title
+        text-align right
       .timeline-date
-        text-align left
+        text-align right
         left 'calc(100% + %s)' % (2 * $timeline-badge-space)
 
     &:nth-child(even):not(.on-left), &.on-right
@@ -109,7 +115,6 @@ $timeline-light-color        ?= lighten($timeline-color, 50%)
       .timeline-badge
         left (- $timeline-badge-size / 2 - $timeline-badge-space)
       .timeline-date
-        text-align right
         right 'calc(100% + %s)' % (2 * $timeline-badge-space)
 
   .timeline-label

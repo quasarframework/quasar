@@ -1,7 +1,15 @@
 <template>
-  <div class="timeline-item">
+  <div
+    class="timeline-item"
+    :class="{incomplete: step > stepper.currentStep}"
+  >
     <div class="timeline-badge">
-      {{ step }}
+      <i v-if="step < stepper.currentStep">
+        done
+      </i>
+      <span v-else>
+        {{ step }}
+      </span>
     </div>
     <div class="timeline-title text-bold">
       {{{ title }}}
@@ -12,13 +20,13 @@
       transition="slide"
     >
       <slot></slot>
-      <div class="group" style="margin-top: 1rem;">
+      <div class="group" style="margin-top: 1rem; margin-left: -5px;">
         <button
           class="primary"
           :class="{disabled: !ready}"
           @click="nextStep()"
         >
-          {{ stepper && step === stepper.steps ? 'Finish' : 'Next' }}
+          {{ stepper && step === stepper.steps ? 'Finish' : 'Continue' }}
         </button>
         <button
           class="primary clear"
