@@ -5,12 +5,12 @@
   >
     <div class="quasar-search-input-container">
       <button class="quasar-search-icon">
-        <i>search</i>
+        <i>{{ icon }}</i>
       </button>
       <input
         type="text"
         class="quasar-search-input no-style"
-        placeholder="Search"
+        :placeholder="placeholder"
         v-model="model"
         :debounce="debounce"
         @focus="focused = true"
@@ -38,6 +38,14 @@ export default {
     debounce: {
       type: Number,
       default: 300
+    },
+    icon: {
+      type: String,
+      default: 'search'
+    },
+    placeholder: {
+      type: String,
+      default: 'Search'
     }
   },
   data () {

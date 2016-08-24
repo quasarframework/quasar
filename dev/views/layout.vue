@@ -19,7 +19,7 @@
     </quasar-tabs>
 
     <div slot="header" class="toolbar purple">
-      <quasar-search :model.sync="search" class="purple"></quasar-search>
+      <quasar-search :model.sync="search" class="purple" icon="mail" placeholder="Search mails"></quasar-search>
     </div>
     <div slot="header" class="toolbar red">
       <quasar-search :model.sync="search" class="red"></quasar-search>
