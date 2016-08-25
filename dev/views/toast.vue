@@ -23,6 +23,14 @@
     <button class="primary" @click="toastWithImage()">
       Toast With an Image
     </button>
+
+    <button class="primary" @click="toastWithStyle()">
+      Styled Toast
+    </button>
+
+    <button class="primary" @click="toastWithButtonAndStyle()">
+      Styled Toast with Button
+    </button>
   </p>
 
   <h5>Simultaneous Multiple Notifiers</h5>
@@ -74,6 +82,27 @@ export default {
       Toast.create({
         html: 'Toast with an image',
         image: 'statics/linux-avatar.png'
+      })
+    },
+    toastWithStyle () {
+      Toast.create({
+        html: 'Styled Toast',
+        color: 'white',
+        bgColor: 'red'
+      })
+    },
+    toastWithButtonAndStyle () {
+      Toast.create({
+        html: 'Styled Toast',
+        color: 'white',
+        bgColor: 'red',
+        button: {
+          label: 'Show Me',
+          color: '#333',
+          handler () {
+            Toast.create('But, but... I just showed you..')
+          }
+        }
       })
     },
     showToast () {

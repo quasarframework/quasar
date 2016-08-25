@@ -6,6 +6,7 @@
     <div
       class="quasar-toast row no-wrap items-center non-selectable"
       v-if="stack[0]"
+      :style="{color: stack[0].color, background: stack[0].bgColor}"
     >
       <div>
         <i v-if="stack[0].icon">{{ stack[0].icon }}</i>
@@ -14,8 +15,11 @@
       <div class="quasar-toast-message auto">
         {{{ stack[0].html }}}
       </div>
-      <div class="quasar-toast-button" v-if="stack[0].button">
-        <a @click="dismiss(stack[0].button.handler)">
+      <div class="quasar-toast-button" v-if="stack[0].button && stack[0].button.label">
+        <a
+          @click="dismiss(stack[0].button.handler)"
+          :style="{color: stack[0].button.color}"
+        >
           {{ stack[0].button.label }}
         </a>
       </div>
@@ -31,7 +35,7 @@ let
   transitionDuration = 300, // in ms
   displayDuration = 2500 // in ms
 
-function parseOptions (opts) {
+function parseOptions (opts, defaults) {
   if (!opts) {
     throw new Error('Missing toast options.')
   }
@@ -39,14 +43,13 @@ function parseOptions (opts) {
   let options = Utils.extend(
     true,
     {},
+    defaults,
     typeof opts === 'string' ? {html: opts} : opts
   )
 
   if (!options.html) {
     throw new Error('Missing toast content/HTML.')
   }
-
-  options.onDismiss = options.onDismiss || function () {}
 
   return options
 }
@@ -57,12 +60,20 @@ export default {
       active: false,
       inTransition: false,
       stack: [],
-      timer: null
+      timer: null,
+      defaults: {
+        color: 'white',
+        bgColor: '#323232',
+        button: {
+          color: 'yellow'
+        },
+        onDismiss () {}
+      }
     }
   },
   methods: {
     create (options) {
-      this.stack.push(parseOptions(options))
+      this.stack.push(parseOptions(options, this.defaults))
 
       if (this.active || this.inTransition) {
         return
@@ -106,6 +117,9 @@ export default {
 
         this.inTransition = false
       }, transitionDuration + 50)
+    },
+    setDefaults (opts) {
+      Utils.extend(true, this.defaults, opts)
     }
   }
 }

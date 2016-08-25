@@ -1,28 +1,23 @@
-$toast-color         ?= white
-$toast-background    ?= #323232
-$toast-button-color  ?= yellow
-
 .quasar-toast-container
   position fixed
   left 0
   right 0
   bottom 0
-  margin 10px
-  border-radius $generic-border-radius
   z-index $z-toast
   will-change transform
-  transform translateY(120%)
+  transform translateY(101%)
   transition all .3s ease-in
+  margin 10px
+  border-radius $generic-border-radius
+
   &.active
     transform translateY(0)
 
   .quasar-toast
-    color $toast-color
     padding 20px 24px
     font-size .9rem
 
     a
-      color $toast-button-color
       margin-left 24px
       text-transform uppercase
       &:active
@@ -37,13 +32,9 @@ $toast-button-color  ?= yellow
       max-width 30px
       border-radius 50%
 
-  @media (max-width $layout-small-max)
-    background $toast-background
-
   @media (min-width $layout-medium-min)
     .quasar-toast
       font-size 1.1rem
-      background $toast-background
       border-radius $generic-border-radius
       max-width $layout-medium-min
       min-width ($layout-medium-min / 2.5)

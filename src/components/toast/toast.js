@@ -9,6 +9,9 @@ Events.on('app:vue-ready', (_Vue) => {
 })
 
 export default {
+  setDefaults (opts) {
+    toast.setDefaults(opts)
+  },
   create (opts) {
     toast.create(opts)
   }
