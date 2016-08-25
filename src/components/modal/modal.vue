@@ -12,9 +12,8 @@ import Modal from './modal'
 
 export default {
   props: {
-    config: {
-      type: Object
-    }
+    config: Object,
+    css: Object
   },
   methods: {
     show (onShow) {
@@ -25,6 +24,7 @@ export default {
 
       this.modal = Modal.create(this.$el)
         .set(this.config || {})
+        .css(this.css || {})
         .onClose(() => {
           this.modal = null
         })

@@ -12,7 +12,7 @@
     <button class="primary" @click="showInlineModal()">Show Inline Modal</button>
   </p>
 
-  <quasar-modal :config="{minimized: true}" v-ref:modal>
+  <quasar-modal :config="{minimized: true}" :css="{minWidth: '30vw', minHeight: '30vh'}" v-ref:modal>
     <div style="padding: 50px">
       <div>Some simple Modal</div>
       <div>Variable from parent Vue scope: {{ modalVariable }}</div>
