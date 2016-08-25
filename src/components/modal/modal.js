@@ -11,15 +11,23 @@ class Modal {
     if (!userVm) {
       throw new Error('Modal needs a VueModel.')
     }
-    if (!userVm.el && !userVm.template) {
+
+    if (userVm.nodeType) {
+      this.__customElement = userVm
+    }
+    else if (!userVm.template) {
+      console.error('Error in Modal create object:', userVm)
       throw new Error('Modal needs a template.')
+    }
+    else if (userVm.el) {
+      console.error('Error in Modal create object:', userVm)
+      throw new Error('Specifying "el" property for VM in a Modal is forbidden')
     }
 
     let vm
-    this.__customElement = typeof userVm.el !== 'undefined'
 
     if (this.__customElement) {
-      vm = userVm
+      vm = {el: this.__customElement}
     }
     else {
       vm = Utils.extend(true, userVm)
@@ -69,7 +77,7 @@ class Modal {
       this.$content.classList.add('maximized')
     }
 
-    if (this.__customElement) {
+    if (this.closeWithBackdrop) {
       this.$backdrop.addEventListener('click', this.close)
     }
 
@@ -155,7 +163,7 @@ class Modal {
       }
 
       this.$backdrop.classList.remove('active')
-      if (this.__customElement) {
+      if (this.closeWithBackdrop) {
         this.$backdrop.removeEventListener('click', this.close)
       }
       if (!Platform.within.iframe) {

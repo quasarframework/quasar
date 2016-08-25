@@ -23,11 +23,12 @@ export default {
     this.target = this.$el.parentNode
 
     this.handler = () => {
-      this.modal = Modal.create({
-        el: this.$el
-      }).set({
-        minimized: true
-      }).show()
+      this.modal = Modal.create(this.$el)
+        .set({
+          minimized: true,
+          closeWithBackdrop: true
+        })
+        .show()
     }
 
     this.touchStartHandler = (event) => {

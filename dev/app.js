@@ -21,6 +21,7 @@ router.map({
       '/card': { component: require('view/card.vue') },
       '/chat': { component: require('view/chat.vue') },
       '/collapsible': { component: require('view/collapsible.vue') },
+      '/context-menu': { component: require('view/context-menu.vue') },
       '/css-elements': { component: require('view/css-elements.vue') },
       '/dialog': { component: require('view/dialog.vue') },
       '/fab': { component: require('view/fab.vue') },

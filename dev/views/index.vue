@@ -20,6 +20,7 @@ export default {
         'Card',
         'Chat',
         'Collapsible',
+        'Context Menu',
         'CSS Elements',
         'Dialog',
         'Fab',
