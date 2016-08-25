@@ -1,5 +1,6 @@
 
 import Platform from './platform'
+import Events from './events'
 
 import transitionSlide from './vue-transitions/slide'
 
@@ -118,4 +119,6 @@ export default function (_Vue) {
   registerDirectives(_Vue)
   registerComponents(_Vue)
   registerSpinners(_Vue)
+
+  Events.trigger('app:vue-ready', Vue)
 }

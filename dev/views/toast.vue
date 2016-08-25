@@ -10,23 +10,8 @@
     </button>
   </p>
 
-  <h5>Types of Notifiers</h5>
-  <p class="group">
-    <button
-      v-for="type in types"
-      :class="type"
-      @click="toastWithType(type)"
-    >
-      {{type | capitalize}} Toast
-    </button>
-  </p>
-
   <h5>Notifiers with Options</h5>
   <p class="group">
-    <button class="primary" @click="noTimeoutToast()">
-      Basic Toast with No Timeout
-    </button>
-
     <button class="primary" @click="toastWithIcon()">
       Toast With an Icon
     </button>
@@ -34,23 +19,9 @@
     <button class="primary" @click="toastWithButton()">
       Toast With a Button
     </button>
-  </p>
 
-  <h5>Controlling Notifiers</h5>
-  <p class="group">
-    <button
-      class="secondary"
-      @click="showToast()"
-      :class="{disabled: toastShowing}"
-    >
-      Show Toast
-    </button>
-    <button
-      class="secondary"
-      @click="dismissToast()"
-      :class="{disabled: !toastShowing}"
-    >
-      Hide Toast
+    <button class="primary" @click="toastWithImage()">
+      Toast With an Image
     </button>
   </p>
 
@@ -63,7 +34,7 @@
 </template>
 
 <script>
-import { Toast, Utils } from 'quasar'
+import { Toast } from 'quasar'
 
 export default {
   data () {
@@ -77,22 +48,14 @@ export default {
       Toast.create('Lorem ipsum dolor sit amet, consectetur adipiscing elit')
     },
     basicToastWithLongMessage () {
-      Toast.create('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.')
-    },
-    toastWithType (type) {
-      Toast.create[type]({
-        html: Utils.capitalize(type) + ' toast'
-      })
-    },
-    noTimeoutToast () {
       Toast.create({
-        html: 'This toast won\'t timeout. User must acknowledge it.',
-        timeout: 0
+        html: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+        timeout: 9999999999
       })
     },
     toastWithIcon () {
       Toast.create({
-        html: 'Toast with an icon',
+        html: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
         icon: 'camera_enhance'
       })
     },
@@ -102,9 +65,15 @@ export default {
         button: {
           label: 'Undo',
           handler () {
-            Toast.create.positive('Undone!')
+            Toast.create('Undone')
           }
         }
+      })
+    },
+    toastWithImage () {
+      Toast.create({
+        html: 'Toast with an image',
+        image: 'statics/linux-avatar.png'
       })
     },
     showToast () {
@@ -128,9 +97,9 @@ export default {
       this.toastShowing = false
     },
     showMultipleNotifiers () {
-      this.types.forEach((type) => {
-        this.toastWithType(type)
-      })
+      for (let i = 1; i <= 5; i++) {
+        Toast.create('Showing Toast #' + i)
+      }
     }
   }
 }
