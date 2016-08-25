@@ -29,10 +29,13 @@
     </div>
 
     <quasar-drawer>
-      <div class="toolbar light border-bottom">
-        <quasar-toolbar-title :padding="0">
-          Left Drawer
-        </quasar-toolbar-title>
+      <div class="drawer-header">
+        <img :src="'statics/mountains.jpg'">
+        <a class="avatar">
+          <img :src="'statics/boy-avatar.png'">
+        </a>
+        <div>Quasar Framework</div>
+        <div>some@email.com</div>
       </div>
 
       <div class="list platform-delimiter">
