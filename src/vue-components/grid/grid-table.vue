@@ -61,7 +61,7 @@
     <table class="quasar-table striped highlight bordered compact">
       <thead>
         <tr>
-          <th v-if="selectionMode !== 'none'" style="width: 30px text-align: center">
+          <th v-if="selectionMode !== 'none'" style="width: 30px; text-align: center">
             &nbsp
           </th>
           <th
@@ -69,6 +69,7 @@
             v-show="!column.hidden"
             @click="sortBy(column.field)"
             :class="{'sortable-column': sortable}"
+            style="text-align: left"
           >
             {{{column.label}}}
             <i v-show="sortField === column.field && sortOrder === -1">keyboard_arrow_down</i>
