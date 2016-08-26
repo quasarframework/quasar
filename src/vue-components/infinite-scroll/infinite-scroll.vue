@@ -23,6 +23,10 @@ export default {
       type: Boolean,
       default: false,
       coerce: Boolean
+    },
+    offset: {
+      type: Number,
+      default: 0
     }
   },
   data () {
@@ -40,17 +44,26 @@ export default {
       let
         windowHeight = Utils.dom.height(this.scrollContainer),
         containerBottom = Utils.dom.offset(this.scrollContainer).top + windowHeight,
-        triggerPosition = Utils.dom.offset(this.element).top + Utils.dom.height(this.element) - windowHeight
+        triggerPosition = Utils.dom.offset(this.element).top + Utils.dom.height(this.element) - (this.offset || windowHeight)
 
       if (triggerPosition < containerBottom) {
-        this.index++
-        this.refreshing = true
-        this.handler(this.index, () => {
-          this.refreshing = false
-          if (this.element.closest('body')) {
-            this.scroll()
-          }
-        })
+        this.loadMore()
+      }
+    },
+    loadMore () {
+      this.index++
+      this.refreshing = true
+      this.handler(this.index, () => {
+        this.refreshing = false
+        if (this.element.closest('body')) {
+          this.scroll()
+        }
+      })
+    },
+    reset (doNotLoadMore) {
+      this.index = 0
+      if (!doNotLoadMore) {
+        this.loadMore()
       }
     }
   },
