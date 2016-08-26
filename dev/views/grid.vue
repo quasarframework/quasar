@@ -1,13 +1,15 @@
 <template>
-  <h1>Grid Widget</h1>
-  <quasar-grid
-    :columns="columns"
-    :data="data"
-    :rows-per-page="5"
-    :selection-mode="selection.mode"
-    :selection-actions="selection.actions"
-    id-property="unique_id"
-  ></quasar-grid>
+  <div class="layout-padding">
+    <h1>Grid Widget</h1>
+    <quasar-grid
+      :columns="columns"
+      :data="data"
+      :rows-per-page="5"
+      :selection-mode="selection.mode"
+      :selection-actions="selection.actions"
+      id-property="unique_id"
+    ></quasar-grid>
+  </div>
 </template>
 
 <script>

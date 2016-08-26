@@ -2,6 +2,7 @@
   <quasar-grid-table
     v-ref:table
     class="quasar-grid"
+    :title="title"
     :data="data | gridShowSelected showOnlySelected selectionMode singleSelection | filterBy searchQuery"
     :columns="columns"
     :rows-per-page="rowsPerPage"
@@ -16,6 +17,7 @@
 <script>
 export default {
   props: {
+    title: String,
     columns: {
       type: Array,
       required: true

@@ -1,50 +1,74 @@
-$table-border          ?= 1px solid #d0d0d0
-$table-head-border     ?= 2px solid #d0d0d0
+$table-font-size       ?= .8rem
 $table-highlight-color ?= #f2f2f2
+$table-color           ?= $grey-8
 
-table
-  border-collapse collapse
-  border-spacing 0
-  display table
+table.quasar-table
+  position relative
   border 0
-  width 100%
+  border-collapse collapse
+  font-size $table-font-size
+  background-color white
+  color $table-color
 
-  &.bordered
-    border $table-border
+  &.bordered, &.cell-delimiter
+    border 1px solid rgba(0, 0, 0, .12)
+  &.cell-delimiter
     th, td
-      border-right $table-border
-
-  &.inner-delimiter, &.bordered
+      border-right 1px solid rgba(0, 0, 0, .12)
+  &.row-delimiter, &.cell-delimiter
     tr
       border-bottom $table-border
-
-  thead
-    border-bottom $table-head-border
-
-  td, th
-    padding 0
-    border 0
-    padding 15px 5px
-    display table-cell
-    text-align left
-    vertical-align middle
-
-  &.compact td
-    padding 5px
-
-  &.centered
     th, td
-      text-align center
+      border-bottom 1px solid rgba(0, 0, 0, .12)
 
   &.striped
-    > tbody > tr
+    tbody tr
       &:nth-child(odd)
         background $table-highlight-color
-      > td
+      td
         border-radius 0
+    th
+      border-bottom 2px solid rgba(0, 0, 0, .12)
 
-body.desktop table.highlight
-  > tbody > tr, th
-    transition background .25s ease
+  thead
+    th
+      padding 12px 18px
+      position relative
+      vertical-align bottom
+      text-overflow ellipsis
+      font-weight 700
+      line-height 24px
+      letter-spacing 0
+      height 48px
+      font-size 12px
+      color rgba(0, 0, 0, .54)
+      &:first-of-type
+        padding-left 24px
+      &:last-of-type
+        padding-right 24px
+  tbody
+    tr
+      position relative
+      height 48px
+    td
+      position relative
+      height 48px
+      padding 12px 18px
+      vertical-align middle
+      &:first-of-type
+        padding-left 24px
+      &:last-of-type
+        padding-right 24px
+
+  &.compact
+    th
+      padding-left 5px
+      padding-right 5px
+    td
+      padding 5px
+
+body.desktop table.quasar-table.highlight
+  tbody tr, th
+    transition all .28s ease-in
     &:hover
       background darken($table-highlight-color, 5%) !important

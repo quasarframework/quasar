@@ -58,22 +58,22 @@
       </div>
     </div>
 
-    <table class="striped highlight bordered compact">
+    <table class="quasar-table striped highlight bordered compact">
       <thead>
         <tr>
-            <th v-if="selectionMode !== 'none'" style="width: 30px text-align: center">
-              &nbsp
-            </th>
-            <th
-              v-for="column in columns"
-              v-show="!column.hidden"
-              @click="sortBy(column.field)"
-              :class="{'sortable-column': sortable}"
-            >
-              {{{column.label}}}
-              <i v-show="sortField === column.field && sortOrder === -1">keyboard_arrow_down</i>
-              <i v-show="sortField === column.field && sortOrder === 1">keyboard_arrow_up</i>
-            </th>
+          <th v-if="selectionMode !== 'none'" style="width: 30px text-align: center">
+            &nbsp
+          </th>
+          <th
+            v-for="column in columns"
+            v-show="!column.hidden"
+            @click="sortBy(column.field)"
+            :class="{'sortable-column': sortable}"
+          >
+            {{{column.label}}}
+            <i v-show="sortField === column.field && sortOrder === -1">keyboard_arrow_down</i>
+            <i v-show="sortField === column.field && sortOrder === 1">keyboard_arrow_up</i>
+          </th>
         </tr>
       </thead>
 

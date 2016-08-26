@@ -1,9 +1,9 @@
 <template>
   <div class="quasar-pagination">
-    <button :class="{disabled: model === min}" class="primary clear small circular" @click="model = min">
+    <button :class="{disabled: model === min}" class="primary clear small" @click="model = min">
       <i>first_page</i>
     </button>
-    <button :class="{disabled: model === min}" class="primary clear small circular" @click="changeModelByOffset(-1)">
+    <button :class="{disabled: model === min}" class="primary clear small" @click="changeModelByOffset(-1)">
       <i>keyboard_arrow_left</i>
     </button>
 
@@ -17,10 +17,10 @@
       :placeholder="inputPlaceholder"
     >
 
-    <button :class="{disabled: model === max}" class="primary clear small circular" @click="changeModelByOffset(1)">
+    <button :class="{disabled: model === max}" class="primary clear small" @click="changeModelByOffset(1)">
       <i>keyboard_arrow_right</i>
     </button>
-    <button :class="{disabled: model === max}" class="primary clear small circular" @click="model = max">
+    <button :class="{disabled: model === max}" class="primary clear small" @click="model = max">
       <i>last_page</i>
     </button>
   </div>
