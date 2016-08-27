@@ -13,7 +13,7 @@
       <div class="item-content">
         <label for="color-spinner" class="item-label">Color</label>
         <input id="color-spinner" v-model="color">
-        <quasar-select :model.sync="color" :options="colorOptions" ok-label="Pick" title="Spinner Color"></quasar-select>
+        <quasar-select type="radio" :model.sync="color" :options="colorOptions"></quasar-select>
       </div>
     </div>
   </div>

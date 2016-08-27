@@ -39,6 +39,7 @@ import Range from './vue-components/range/range.vue'
 import Rating from './vue-components/rating/rating.vue'
 import Search from './vue-components/search/search.vue'
 import Select from './vue-components/select/select.vue'
+import DialogSelect from './vue-components/select/dialog-select.vue'
 import Slider from './vue-components/slider/slider.vue'
 import registerSpinners from './vue-components/spinner/spinner'
 import State from './vue-components/state/state.vue'
@@ -94,6 +95,7 @@ function registerComponents (_Vue) {
   _Vue.component('quasar-rating', Rating)
   _Vue.component('quasar-search', Search)
   _Vue.component('quasar-select', Select)
+  _Vue.component('quasar-dialog-select', DialogSelect)
   _Vue.component('quasar-slider', Slider)
   _Vue.component('quasar-state', State)
   _Vue.component('quasar-stepper', Stepper)

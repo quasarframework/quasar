@@ -155,7 +155,9 @@ export default {
       if (this.active) {
         this.active = false
         setTimeout(() => {
-          Utils.dom.css(this.$els.content, cssReset)
+          if (this.$els.content) {
+            Utils.dom.css(this.$els.content, cssReset)
+          }
         }, 200)
 
         this.scrollContainer.removeEventListener('scroll', this.close)
@@ -172,7 +174,7 @@ export default {
   },
   beforeDestroy () {
     if (this.active) {
-      document.removeEventListener('click', this.closeFromOutside)
+      this.close()
     }
   }
 }

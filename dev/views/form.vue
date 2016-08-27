@@ -1,4 +1,66 @@
 <template>
+  <h2>Select</h2>
+  <h4>Dialog Select</h4>
+  <div class="list item-delimiter bordered">
+    <div class="list-header">Single Selection</div>
+    <div class="item">
+      <div class="item-content">
+        <div class="item-label">Company</div>
+        <quasar-dialog-select :model.sync="select" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Company"></quasar-dialog-select>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-content">
+        <div class="item-label">Company</div>
+        <quasar-dialog-select :model.sync="select" :options="selectOptions" ok-label="Pick"></quasar-dialog-select>
+      </div>
+    </div>
+    <div class="list-header">Multiple Selection</div>
+    <div class="item">
+      <div class="item-content">
+        <div class="item-label">Companies</div>
+        <quasar-dialog-select multiple :model.sync="multipleSelect" :options="selectOptions" ok-label="Pick" title="Companies"></quasar-dialog-select>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-content">
+        <div class="item-label">Companies</div>
+        <quasar-dialog-select multiple :model.sync="multipleSelect" :options="selectOptions" ok-label="Pick" title="Companies"></quasar-dialog-select>
+      </div>
+    </div>
+  </div>
+  <h4>Simple Select</h4>
+  <div class="list item-delimiter bordered">
+    <div class="list-header">Single Selection</div>
+    <div class="item">
+      <div class="item-content">
+        <div class="item-label">Radio</div>
+        <quasar-select type="radio" :model.sync="select" :options="selectOptions" v-ref:sel>
+          <span class="primary clear">{{$refs.sel.label}}</span>
+        </quasar-select>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-content">
+        <div class="item-label">Company</div>
+        <quasar-select type="radio" :model.sync="select" :options="selectOptions"></quasar-select>
+      </div>
+    </div>
+    <div class="list-header">Multiple Selection</div>
+    <div class="item">
+      <div class="item-content">
+        <div class="item-label">Checkboxes</div>
+        <quasar-select type="checkbox" :model.sync="multipleSelect" :options="selectOptions" classes="secondary"></quasar-select>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-content">
+        <div class="item-label">Toggle</div>
+        <quasar-select type="toggle" :model.sync="multipleSelect" :options="selectOptions"></quasar-select>
+      </div>
+    </div>
+  </div>
+
   <h2>Text Input</h2>
   Inline with text <input v-model="username" class="inline">
   <input v-model="password" type="password">
@@ -212,36 +274,6 @@
   <quasar-range :model.sync="range.model3" :min="-50" :max="50" :step="5"></quasar-range>
   <quasar-range :model.sync="range.model3" :min="-50" :max="50" snap="true"></quasar-range>
   <quasar-range :model.sync="range.model3" :min="-50" :max="50" :step="5" snap="true"></quasar-range>
-
-  <h2>Select</h2>
-  <div class="list item-delimiter bordered">
-    <div class="list-header">Single Selection</div>
-    <div class="item">
-      <div class="item-content">
-        <div class="item-label">Company</div>
-        <quasar-select :model.sync="select" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Company"></quasar-select>
-      </div>
-    </div>
-    <div class="item">
-      <div class="item-content">
-        <div class="item-label">Company</div>
-        <quasar-select :model.sync="select" :options="selectOptions" ok-label="Pick"></quasar-select>
-      </div>
-    </div>
-    <div class="list-header">Multiple Selection</div>
-    <div class="item">
-      <div class="item-content">
-        <div class="item-label">Companies</div>
-        <quasar-select multiple :model.sync="multipleSelect" :options="selectOptions" ok-label="Pick" title="Companies"></quasar-select>
-      </div>
-    </div>
-    <div class="item">
-      <div class="item-content">
-        <div class="item-label">Companies</div>
-        <quasar-select multiple :model.sync="multipleSelect" :options="selectOptions" ok-label="Pick" title="Companies"></quasar-select>
-      </div>
-    </div>
-  </div>
 </template>
 
 <style scoped>
