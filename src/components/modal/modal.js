@@ -2,6 +2,7 @@ import Utils from '../../utils'
 import Platform from '../../platform'
 import { Vue } from '../../install'
 import { current as theme } from '../../theme'
+import EscapeKey from '../../escape-key'
 
 const duration = 300
 let openedModalNumber = 0
@@ -86,6 +87,7 @@ class Modal {
       options = {
         duration,
         complete: () => {
+          EscapeKey.register(() => { this.close() })
           this.__onShowHandlers.forEach(
             handler => { handler() }
           )
@@ -169,6 +171,7 @@ class Modal {
       if (!Platform.within.iframe) {
         window.removeEventListener('popstate', this.__popstate)
       }
+      EscapeKey.pop()
       Velocity(this.$content, effect, options)
     }
     this.__modalId = ++openedModalNumber

@@ -19,6 +19,7 @@
 
 <script>
 import Utils from '../../utils'
+import EscapeKey from '../../escape-key'
 
 const
   offset = 20,
@@ -147,6 +148,7 @@ export default {
           this.scrollContainer = document.getElementById('quasar-app')
         }
         this.scrollContainer.addEventListener('scroll', this.close)
+        EscapeKey.register(() => { this.close() })
       }, 210)
     },
     close () {
@@ -158,6 +160,7 @@ export default {
 
         this.scrollContainer.removeEventListener('scroll', this.close)
         document.removeEventListener('click', this.closeFromOutside)
+        EscapeKey.pop()
       }
     },
     closeFromOutside () {
