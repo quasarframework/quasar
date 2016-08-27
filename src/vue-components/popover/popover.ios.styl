@@ -12,8 +12,8 @@ $popover-box-shadow   ?= $shadow-2
 .quasar-popover-content
   position fixed
   opacity 0
-  transition opacity .2s ease
-  transform scale(0)
+  pointer-events none
+  transition opacity .2s ease-in
   box-shadow $popover-box-shadow
   background $popover-background
   max-height $popover-max-height
@@ -23,7 +23,7 @@ $popover-box-shadow   ?= $shadow-2
 
   &.check, &.active
     opacity 1
-    transform scale(1)
+    pointer-events all
 
   .list
     margin 0
