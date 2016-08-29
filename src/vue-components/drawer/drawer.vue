@@ -29,6 +29,7 @@
 <script>
 import Utils from '../../utils'
 import * as theme from '../../theme'
+import Platform from '../../platform'
 
 const
   drawerAnimationSpeed = 150,
@@ -47,132 +48,6 @@ function getCurrentPosition (node) {
   return transform !== 'none' ? parseInt(transform.split(/[()]/)[1].split(', ')[4], 10) : 0
 }
 
-function matToggleAnimate (onRightSide, opening, backdrop, percentage, drawerWidth, done, node) {
-  const
-    currentPosition = getCurrentPosition(node),
-    closePosition = (onRightSide ? 1 : -1) * drawerWidth
-
-  Velocity(node, 'stop')
-  Velocity(
-    node,
-    {translateX: opening ? [0, currentPosition] : [closePosition, currentPosition]},
-    {duration: !opening || currentPosition !== 0 ? drawerAnimationSpeed : 0}
-  )
-
-  if (opening) {
-    backdrop.classList.add('active')
-  }
-
-  Velocity(backdrop, 'stop')
-  Velocity(
-    backdrop,
-    {
-      'backgroundColor': '#000',
-      'backgroundColorAlpha': opening ? backdropOpacity.mat : 0.01
-    },
-    {
-      duration: drawerAnimationSpeed,
-      complete () {
-        if (!opening) {
-          backdrop.classList.remove('active')
-          window.removeEventListener('resize', closeDrawers)
-        }
-        else {
-          window.addEventListener('resize', closeDrawers)
-        }
-        if (typeof done === 'function') {
-          done()
-        }
-      }
-    }
-  )
-}
-
-function iosToggleAnimate (onRightSide, opening, backdrop, percentage, drawerWidth, done) {
-  if (opening) {
-    backdrop.classList.add('active')
-    document.body.classList.add('drawer-opened')
-  }
-
-  let
-    currentPosition = getCurrentPosition(appContainer),
-    openPosition = (onRightSide ? -1 : 1) * drawerWidth
-
-  Velocity(appContainer, 'stop')
-  Velocity(appContainer,
-    {translateX: opening ? [openPosition, currentPosition] : [0, currentPosition]},
-    {duration: !opening || currentPosition !== openPosition ? drawerAnimationSpeed : 0}
-  )
-
-  Velocity(backdrop, 'stop')
-  Velocity(
-    backdrop,
-    {
-      'backgroundColor': '#000',
-      'backgroundColorAlpha': opening ? backdropOpacity.ios : 0.01
-    },
-    {
-      duration: drawerAnimationSpeed,
-      complete () {
-        if (!opening) {
-          backdrop.classList.remove('active')
-          window.removeEventListener('resize', closeDrawers)
-          document.body.classList.remove('drawer-opened')
-        }
-        else {
-          window.addEventListener('resize', closeDrawers)
-        }
-        if (typeof done === 'function') {
-          done()
-        }
-      }
-    }
-  )
-}
-
-function openByTouch (event) {
-  const
-    content = this.$els.content,
-    backdrop = this.$els.backdrop
-
-  if (Utils.dom.style(content, 'position') !== 'fixed') {
-    return
-  }
-
-  let
-    position = Math.abs(event.deltaX),
-    target,
-    fn,
-    percentage
-
-  if (event.isFinal) {
-    this.opened = position > 75
-  }
-
-  if (theme.current === 'ios') {
-    position = Math.min(position, this.width)
-    percentage = 1.0 - (this.width - Math.abs(position)) / this.width
-    fn = iosToggleAnimate
-    target = appContainer
-    position = (this.rightSide ? -1 : 1) * position
-  }
-  else { // mat
-    position = this.rightSide ? Math.max(this.width - position, 0) : Math.min(0, position - this.width)
-    percentage = (this.width - Math.abs(position)) / this.width
-    fn = matToggleAnimate
-    target = content
-  }
-
-  if (event.isFinal) {
-    fn(this.rightSide, this.opened, backdrop, percentage, this.width, null, content)
-    return
-  }
-
-  target.style.transform = 'translateX(' + position + 'px)'
-  backdrop.classList.add('active')
-  backdrop.style.background = 'rgba(0,0,0,' + percentage * backdropOpacity[theme.current] + ')'
-}
-
 function getBetween (value, min, max) {
   if (value < min) {
     return min
@@ -183,47 +58,6 @@ function getBetween (value, min, max) {
   }
 
   return value
-}
-
-function closeByTouch (event) {
-  const
-    content = this.$els.content,
-    backdrop = this.$els.backdrop
-
-  let
-    target, fn, percentage, position,
-    initialPosition
-
-  if (Utils.dom.style(content, 'position') !== 'fixed') {
-    return
-  }
-
-  position = this.rightSide ? getBetween(event.deltaX, 0, this.width) : getBetween(event.deltaX, -this.width, 0)
-  initialPosition = (this.rightSide ? -1 : 1) * this.width
-
-  if (event.isFinal) {
-    this.opened = Math.abs(position) <= 75
-  }
-
-  if (theme.current === 'ios') {
-    position = initialPosition + position
-    percentage = (this.rightSide ? -1 : 1) * position / this.width
-    fn = iosToggleAnimate
-    target = appContainer
-  }
-  else { // mat
-    percentage = 1 + (this.rightSide ? -1 : 1) * position / this.width
-    fn = matToggleAnimate
-    target = content
-  }
-
-  if (event.isFinal) {
-    fn(this.rightSide, this.opened, backdrop, percentage, this.width, null, content)
-    return
-  }
-
-  target.style.transform = 'translateX(' + position + 'px)'
-  backdrop.style.background = 'rgba(0,0,0,' + percentage * backdropOpacity[theme.current] + ')'
 }
 
 function closeDrawers (done) {
@@ -260,11 +94,208 @@ export default {
     }
   },
   methods: {
+    __matToggleAnimate (percentage, done) {
+      const
+        node = this.$els.content,
+        backdrop = this.$els.backdrop,
+        currentPosition = getCurrentPosition(node),
+        closePosition = (this.rightSide ? 1 : -1) * this.width
+
+      Velocity(node, 'stop')
+      Velocity(
+        node,
+        {translateX: this.opened ? [0, currentPosition] : [closePosition, currentPosition]},
+        {duration: !this.opened || currentPosition !== 0 ? drawerAnimationSpeed : 0}
+      )
+
+      if (this.opened) {
+        backdrop.classList.add('active')
+        if (!Platform.within.iframe) {
+          if (!window.history.state) {
+            window.history.replaceState({__quasar_drawer: true}, '')
+          }
+          else {
+            window.history.state.__quasar_drawer = true
+          }
+          window.history.pushState({}, '')
+          window.addEventListener('popstate', this.__popState)
+        }
+      }
+      else {
+        window.removeEventListener('resize', closeDrawers)
+        if (!Platform.within.iframe) {
+          window.removeEventListener('popstate', this.__popState)
+          if (window.history.state && !window.history.state.__quasar_drawer) {
+            window.history.go(-1)
+          }
+        }
+      }
+
+      Velocity(backdrop, 'stop')
+      Velocity(
+        backdrop,
+        {
+          'backgroundColor': '#000',
+          'backgroundColorAlpha': this.opened ? backdropOpacity.mat : 0.01
+        },
+        {
+          duration: drawerAnimationSpeed,
+          complete: () => {
+            if (!this.opened) {
+              backdrop.classList.remove('active')
+            }
+            else {
+              window.addEventListener('resize', closeDrawers)
+            }
+            if (typeof done === 'function') {
+              done()
+            }
+          }
+        }
+      )
+    },
+    __iosToggleAnimate (percentage, done) {
+      const backdrop = this.$els.backdrop
+
+      if (this.opened) {
+        backdrop.classList.add('active')
+        document.body.classList.add('drawer-opened')
+        if (!Platform.within.iframe) {
+          if (!window.history.state) {
+            window.history.replaceState({__quasar_drawer: true}, '')
+          }
+          else {
+            window.history.state.__quasar_drawer = true
+          }
+          window.history.pushState({}, '')
+          window.addEventListener('popstate', this.__popState)
+        }
+      }
+      else {
+        window.removeEventListener('resize', closeDrawers)
+        if (!Platform.within.iframe) {
+          window.removeEventListener('popstate', this.__popState)
+          if (window.history.state && !window.history.state.__quasar_drawer) {
+            window.history.go(-1)
+          }
+        }
+      }
+
+      let
+        currentPosition = getCurrentPosition(appContainer),
+        openPosition = (this.rightSide ? -1 : 1) * this.width
+
+      Velocity(appContainer, 'stop')
+      Velocity(appContainer,
+        {translateX: this.opened ? [openPosition, currentPosition] : [0, currentPosition]},
+        {duration: !this.opened || currentPosition !== openPosition ? drawerAnimationSpeed : 0}
+      )
+
+      Velocity(backdrop, 'stop')
+      Velocity(
+        backdrop,
+        {
+          'backgroundColor': '#000',
+          'backgroundColorAlpha': this.opened ? backdropOpacity.ios : 0.01
+        },
+        {
+          duration: drawerAnimationSpeed,
+          complete: () => {
+            if (!this.opened) {
+              backdrop.classList.remove('active')
+              document.body.classList.remove('drawer-opened')
+            }
+            else {
+              window.addEventListener('resize', closeDrawers)
+            }
+            if (typeof done === 'function') {
+              done()
+            }
+          }
+        }
+      )
+    },
     openByTouch (event) {
-      openByTouch.call(this, event)
+      const
+        content = this.$els.content,
+        backdrop = this.$els.backdrop
+
+      if (Utils.dom.style(content, 'position') !== 'fixed') {
+        return
+      }
+
+      let
+        position = Math.abs(event.deltaX),
+        target,
+        fn,
+        percentage
+
+      if (event.isFinal) {
+        this.opened = position > 75
+      }
+
+      if (theme.current === 'ios') {
+        position = Math.min(position, this.width)
+        percentage = 1.0 - (this.width - Math.abs(position)) / this.width
+        fn = this.__iosToggleAnimate
+        target = appContainer
+        position = (this.rightSide ? -1 : 1) * position
+      }
+      else { // mat
+        position = this.rightSide ? Math.max(this.width - position, 0) : Math.min(0, position - this.width)
+        percentage = (this.width - Math.abs(position)) / this.width
+        fn = this.__matToggleAnimate
+        target = content
+      }
+
+      if (event.isFinal) {
+        fn(percentage, null)
+        return
+      }
+
+      target.style.transform = 'translateX(' + position + 'px)'
+      backdrop.classList.add('active')
+      backdrop.style.background = 'rgba(0,0,0,' + percentage * backdropOpacity[theme.current] + ')'
     },
     closeByTouch (event) {
-      closeByTouch.call(this, event)
+      const
+        content = this.$els.content,
+        backdrop = this.$els.backdrop
+
+      let
+        target, fn, percentage, position,
+        initialPosition
+
+      if (Utils.dom.style(content, 'position') !== 'fixed') {
+        return
+      }
+
+      position = this.rightSide ? getBetween(event.deltaX, 0, this.width) : getBetween(event.deltaX, -this.width, 0)
+      initialPosition = (this.rightSide ? -1 : 1) * this.width
+
+      if (event.isFinal) {
+        this.opened = Math.abs(position) <= 75
+      }
+
+      if (theme.current === 'ios') {
+        position = initialPosition + position
+        percentage = (this.rightSide ? -1 : 1) * position / this.width
+        fn = this.__iosToggleAnimate
+        target = appContainer
+      }
+      else { // mat
+        percentage = 1 + (this.rightSide ? -1 : 1) * position / this.width
+        fn = this.__matToggleAnimate
+        target = content
+      }
+
+      if (event.isFinal) {
+        fn(percentage, null)
+        return
+      }
+
+      target.style.transform = 'translateX(' + position + 'px)'
+      backdrop.style.background = 'rgba(0,0,0,' + percentage * backdropOpacity[theme.current] + ')'
     },
     setState (state, done) {
       if (typeof state === 'boolean' && this.opened === state) {
@@ -275,17 +306,16 @@ export default {
       }
 
       this.opened = !this.opened
-      let fn = theme.current === 'ios' ? iosToggleAnimate : matToggleAnimate
+      let fn = theme.current === 'ios' ? this.__iosToggleAnimate : this.__matToggleAnimate
 
-      fn(
-        this.rightSide,
-        this.opened,
-        this.$els.backdrop,
-        this.opened ? 0.01 : 1,
-        this.width,
-        done,
-        this.$els.content
-      )
+      fn(this.opened ? 0.01 : 1, done)
+    },
+    __popState () {
+      if (!Platform.within.iframe) {
+        if (window.history.state && window.history.state.__quasar_drawer) {
+          this.setState(false)
+        }
+      }
     }
   },
   ready () {
