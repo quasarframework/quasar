@@ -35,7 +35,8 @@ const
   backdropOpacity = {
     mat: 0.7,
     ios: 0.2
-  }
+  },
+  appContainer = document.getElementById('quasar-app')
 
 let
   leftDrawer,
@@ -90,14 +91,15 @@ function matToggleAnimate (onRightSide, opening, backdrop, percentage, drawerWid
 function iosToggleAnimate (onRightSide, opening, backdrop, percentage, drawerWidth, done) {
   if (opening) {
     backdrop.classList.add('active')
+    document.body.classList.add('drawer-opened')
   }
 
   let
-    currentPosition = getCurrentPosition(document.body),
+    currentPosition = getCurrentPosition(appContainer),
     openPosition = (onRightSide ? -1 : 1) * drawerWidth
 
-  Velocity(document.body, 'stop')
-  Velocity(document.body,
+  Velocity(appContainer, 'stop')
+  Velocity(appContainer,
     {translateX: opening ? [openPosition, currentPosition] : [0, currentPosition]},
     {duration: !opening || currentPosition !== openPosition ? drawerAnimationSpeed : 0}
   )
@@ -115,6 +117,7 @@ function iosToggleAnimate (onRightSide, opening, backdrop, percentage, drawerWid
         if (!opening) {
           backdrop.classList.remove('active')
           window.removeEventListener('resize', closeDrawers)
+          document.body.classList.remove('drawer-opened')
         }
         else {
           window.addEventListener('resize', closeDrawers)
@@ -150,7 +153,7 @@ function openByTouch (event) {
     position = Math.min(position, this.width)
     percentage = 1.0 - (this.width - Math.abs(position)) / this.width
     fn = iosToggleAnimate
-    target = document.body
+    target = appContainer
     position = (this.rightSide ? -1 : 1) * position
   }
   else { // mat
@@ -206,7 +209,7 @@ function closeByTouch (event) {
     position = initialPosition + position
     percentage = (this.rightSide ? -1 : 1) * position / this.width
     fn = iosToggleAnimate
-    target = document.body
+    target = appContainer
   }
   else { // mat
     percentage = 1 + (this.rightSide ? -1 : 1) * position / this.width
@@ -318,7 +321,9 @@ export default {
       leftDrawer = this
     }
   },
-  destroy () {
+  beforeDestroy () {
+    this.setState(false)
+
     if (this.rightSide) {
       rightDrawer = null
     }

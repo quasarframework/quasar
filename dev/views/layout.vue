@@ -51,6 +51,10 @@
           <div class="item-content text-truncate">Alarms</div>
         </div>
       </div>
+
+      <br>
+      <button class="primary" @click="openModal()">Open Modal</button>
+
     </quasar-drawer>
 
     <quasar-drawer right-side swipe-only>
@@ -88,10 +92,22 @@
 </template>
 
 <script>
+import { Modal } from 'quasar'
+
 export default {
   data () {
     return {
       search: ''
+    }
+  },
+  methods: {
+    openModal () {
+      Modal.create({
+        template: 'Close <button class="primary" @click="close()">me</button>'
+      })
+      .set({minimized: true})
+      .css({padding: '3rem'})
+      .show()
     }
   }
 }
