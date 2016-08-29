@@ -1,9 +1,15 @@
 <template>
   <div>
-    <button class="primary" @click="reset()">Reset</button>
     <button class="primary" @click="loadMore()">Load More</button>
+    <button class="primary" @click="reset()">Reset</button>
+    <button class="primary" @click="stop()">Stop</button>
+    <button class="primary" @click="resume()">Resume</button>
+    <label>
+      <quasar-toggle :model.sync="working"></quasar-toggle>
+      Infinite Scroll working
+    </label>
 
-    <quasar-infinite-scroll :handler="refresher" inline style="height: 400px; overflow: auto; border: 1px solid black;" v-ref:infscroll>
+    <quasar-infinite-scroll :handler="refresher" :working.sync="working" inline style="height: 400px; overflow: auto; border: 1px solid black;" v-ref:infscroll>
       <p v-for="item in items" class="caption">
         <span class="label bg-secondary text-white shadow-1">
           {{ $index + 1 }}
@@ -16,7 +22,7 @@
 
     <br><br>
 
-    <quasar-infinite-scroll :handler="refresher" :offset="50">
+    <quasar-infinite-scroll :handler="refresher" :working.sync="working" :offset="50">
       <p v-for="item in items" class="caption">
         <span class="label bg-secondary text-white shadow-1">
           {{ $index + 1 }}
@@ -33,7 +39,8 @@
 export default {
   data () {
     return {
-      items: [{}, {}, {}, {}, {}]
+      items: [{}, {}, {}, {}, {}],
+      working: true
     }
   },
   methods: {
@@ -43,6 +50,12 @@ export default {
     },
     loadMore () {
       this.$refs.infscroll.loadMore()
+    },
+    stop () {
+      this.$refs.infscroll.stop()
+    },
+    resume () {
+      this.$refs.infscroll.resume()
     },
     refresher (index, done) {
       console.log('called scroll', index)

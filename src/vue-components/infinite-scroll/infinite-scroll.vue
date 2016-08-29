@@ -4,7 +4,7 @@
       <slot></slot>
     </div>
     <br>
-    <div class="quasar-infinite-scroll-message" v-show="refreshing">
+    <div class="quasar-infinite-scroll-message" v-show="fetching">
       <slot name="message"></slot>
     </div>
   </div>
@@ -27,44 +27,69 @@ export default {
     offset: {
       type: Number,
       default: 0
+    },
+    working: {
+      type: Boolean,
+      default: true,
+      coerce: Boolean,
+      twoWay: true
     }
   },
   data () {
     return {
       index: 0,
-      refreshing: false
+      fetching: false
+    }
+  },
+  watch: {
+    working (value) {
+      this.scrollContainer[value ? 'addEventListener' : 'removeEventListener']('scroll', this.scroll)
+      if (value) {
+        this.scroll()
+      }
     }
   },
   methods: {
     scroll () {
-      if (this.refreshing) {
+      if (this.fetching || !this.working) {
         return
       }
 
       let
-        windowHeight = Utils.dom.height(this.scrollContainer),
-        containerBottom = Utils.dom.offset(this.scrollContainer).top + windowHeight,
-        triggerPosition = Utils.dom.offset(this.element).top + Utils.dom.height(this.element) - (this.offset || windowHeight)
+        containerHeight = Utils.dom.height(this.scrollContainer),
+        containerBottom = Utils.dom.offset(this.scrollContainer).top + containerHeight,
+        triggerPosition = Utils.dom.offset(this.element).top + Utils.dom.height(this.element) - (this.offset || containerHeight)
 
       if (triggerPosition < containerBottom) {
         this.loadMore()
       }
     },
     loadMore () {
+      if (this.fetching || !this.working) {
+        return
+      }
+
       this.index++
-      this.refreshing = true
-      this.handler(this.index, () => {
-        this.refreshing = false
+      this.fetching = true
+      this.handler(this.index, stopLoading => {
+        this.fetching = false
+        if (stopLoading) {
+          this.stop()
+          return
+        }
         if (this.element.closest('body')) {
           this.scroll()
         }
       })
     },
-    reset (doNotLoadMore) {
+    reset () {
       this.index = 0
-      if (!doNotLoadMore) {
-        this.loadMore()
-      }
+    },
+    resume () {
+      this.working = true
+    },
+    stop () {
+      this.working = false
     }
   },
   ready () {
@@ -75,11 +100,13 @@ export default {
     if (!this.scrollContainer) {
       this.scrollContainer = document.getElementById('quasar-app')
     }
-    this.scrollContainer.addEventListener('scroll', this.scroll)
+    if (this.working) {
+      this.scrollContainer.addEventListener('scroll', this.scroll)
+    }
 
     this.scroll()
   },
-  destroy () {
+  beforeDestroy () {
     this.scrollContainer.removeEventListener('scroll', this.scroll)
   }
 }
