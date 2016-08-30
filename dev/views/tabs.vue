@@ -15,6 +15,30 @@
           Tab 3
         </quasar-tab>
       </quasar-tabs>
+      <br>
+      <quasar-tabs class="primary">
+        <quasar-tab icon="mail" :target="target1">
+          Tab 1
+        </quasar-tab>
+        <quasar-tab icon="mail" :target="target2" active="true">
+          Tab 2
+        </quasar-tab>
+        <quasar-tab icon="mail" :target="target3">
+          Tab 3
+        </quasar-tab>
+      </quasar-tabs>
+      <br>
+      <quasar-tabs class="orange inverted">
+        <quasar-tab icon="mail" :target="target1">
+          Tab 1
+        </quasar-tab>
+        <quasar-tab icon="mail" :target="target2" active="true">
+          Tab 2
+        </quasar-tab>
+        <quasar-tab icon="mail" :target="target3">
+          Tab 3
+        </quasar-tab>
+      </quasar-tabs>
 
       <div id="tab-1" class="tab">
         <div v-for="n in 5">Tab 1</div>
@@ -28,6 +52,8 @@
       <div id="tab-4" class="tab">
         <div v-for="n in 7">Tab 4</div>
       </div>
+
+      <button>Click me</button>
     </div>
   </div>
 </template>

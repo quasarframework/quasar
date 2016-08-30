@@ -1,16 +1,18 @@
 
-$tabs-order             ?= 9
-$tabs-padding           ?= 8px 20px
-$tabs-color             ?= $toolbar-faded-color
-$tabs-active-color      ?= $toolbar-color
-$tabs-background        ?= $toolbar-background
-$tabs-highlight-color   ?= opposite-non-color($tabs-background)
+$tabs-order                   ?= 9
+$tabs-padding                 ?= 8px 20px
+$tabs-color                   ?= $toolbar-faded-color
+$tabs-active-color            ?= $toolbar-color
+$tabs-background              ?= $toolbar-background
+$tabs-highlight-color         ?= opposite-non-color($tabs-background)
+$tabs-container-border-bottom ?= 1px solid $grey-3
+$tabs-min-height              ?= 61px
 
-$tabs-font-size         ?= 1rem
-$tabs-icon-font-size    ?= 1.7rem
-$tabs-font-weight       ?= 400
-$tabs-label-margin      ?= 5px 0 0 0
-$tabs-label-font-size   ?= .7rem
+$tabs-font-size               ?= .95rem
+$tabs-icon-font-size          ?= 1.7rem
+$tabs-font-weight             ?= 400
+$tabs-label-margin            ?= 5px 0 0 0
+$tabs-label-font-size         ?= .7rem
 
 .quasar-tabs-scroller
   overflow hidden
@@ -31,7 +33,7 @@ body.mobile
 .quasar-tab
   display flex
   flex-direction column
-  min-height 55px
+  min-height $tabs-min-height
   padding $tabs-padding
   cursor pointer
   transition all .3s
@@ -53,7 +55,7 @@ body.mobile
       flex 1 1 auto
 
 .quasar-tabs
-  min-height 65px
+  min-height $tabs-min-height
   overflow hidden
   color $tabs-color
   background $tabs-background
@@ -92,6 +94,8 @@ body.mobile
 
   &.inverted
     background white
+    border-bottom $tabs-container-border-bottom
+    border-radius 0
 
   for $name, $color in $colors
     if $name == 'light' || $name == 'white'

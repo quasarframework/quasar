@@ -4,8 +4,10 @@ $tabs-color                   ?= $toolbar-faded-color
 $tabs-active-color            ?= $toolbar-color
 $tabs-background              ?= $toolbar-background
 $tabs-highlight-color         ?= opposite-non-color($tabs-background)
+$tabs-container-border-bottom ?= 1px solid $grey-4
+$tabs-min-height              ?= 47px
 
-$tabs-font-size               ?= 1rem
+$tabs-font-size               ?= .95rem
 $tabs-icon-font-size          ?= 1.5rem
 $tabs-font-weight             ?= 500
 $tabs-label-margin            ?= 0 0 0 5px
@@ -22,8 +24,6 @@ body.mobile
   .quasar-tabs.scrollable
     .left-scroll, .right-scroll
       display none !important
-    .spacer
-      min-width 45%
 
   .quasar-tabs-scroller
     overflow-y hidden
@@ -33,7 +33,7 @@ body.mobile
 
 .quasar-tab
   display flex
-  min-height 55px
+  min-height $tabs-min-height
   padding $tabs-padding
   cursor pointer
   transition all .3s
@@ -65,7 +65,7 @@ body.mobile
       flex 1 1 auto
 
 .quasar-tabs
-  min-height 55px
+  min-height $tabs-min-height
   overflow hidden
   color $tabs-color
   background $tabs-background
@@ -73,6 +73,7 @@ body.mobile
   font-weight $tabs-font-weight
   transition color .18s ease-in, box-shadow .18s ease-in
   border-radius $generic-border-radius
+  border-bottom $tabs-container-border-bottom
   position relative
 
   &:not(.scrollable)
@@ -98,6 +99,7 @@ body.mobile
 
   &.inverted
     background white
+    border-radius 0
 
   for $name, $color in $colors
     if $name == 'light' || $name == 'white'

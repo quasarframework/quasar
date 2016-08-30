@@ -55,7 +55,6 @@ button
 
   border-radius $button-border-radius
   text-transform $button-text-transform
-  text-shadow 0 0 2px black
 
   margin $button-margin
   padding $button-padding
@@ -104,6 +103,7 @@ button
   for $name, $color in $colors
     &.{$name}
       background $color
+      text-shadow 0 0 2px black
 
       if $name != 'light' && $name != 'white'
         color white

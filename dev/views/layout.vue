@@ -8,25 +8,11 @@
       <button class="right-drawer-opener"><i>menu</i></button>
     </div>
 
-    <div slot="header" class="toolbar">
-      <quasar-search :model.sync="search"></quasar-search>
-    </div>
-
     <quasar-tabs slot="navigation">
       <quasar-tab icon="mail" v-link="{path: '/layout', exact: true}">Mails</quasar-tab>
       <quasar-tab icon="alarm" v-link="'/layout/alarm'">Alarms</quasar-tab>
       <quasar-tab icon="delete">Account</quasar-tab>
     </quasar-tabs>
-
-    <div slot="header" class="toolbar purple">
-      <quasar-search :model.sync="search" class="purple" icon="mail" placeholder="Search mails"></quasar-search>
-    </div>
-    <div slot="header" class="toolbar red">
-      <quasar-search :model.sync="search" class="red"></quasar-search>
-    </div>
-    <div slot="header" class="toolbar dark">
-      <quasar-search :model.sync="search" class="dark"></quasar-search>
-    </div>
 
     <quasar-drawer>
       <div class="drawer-header">
