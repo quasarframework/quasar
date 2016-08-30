@@ -1,4 +1,14 @@
 <template>
+  <div>
+    <button class="primary block">.block</button>
+    <button class="secondary block">.block</button>
+  </div>
+  <div class="row group">
+    <button class="primary">btn</button>
+    <button class="tertiary auto">.auto in a .row container</button>
+  </div>
+  <button class="primary full-width">.full-width</button>
+
   <h2>Sizes</h2>
   <template v-for="size in sizes">
     <h3 class="capitalize">{{* size}}</h3>
