@@ -1,5 +1,6 @@
 $tabs-order                   ?= -9
 $tabs-padding                 ?= 6px 10px
+$tabs-big-screen-side-padding ?= 12px
 $tabs-color                   ?= $toolbar-faded-color
 $tabs-active-color            ?= $toolbar-color
 $tabs-background              ?= $toolbar-background
@@ -19,17 +20,6 @@ $tabs-active-border-bottom    ?= 2px solid $tabs-active-color
 
 .quasar-tabs-scroller
   overflow hidden
-
-body.mobile
-  .quasar-tabs.scrollable
-    .left-scroll, .right-scroll
-      display none !important
-
-  .quasar-tabs-scroller
-    overflow-y hidden
-    overflow-x auto
-    will-change scroll-position
-    -webkit-overflow-scrolling touch
 
 .quasar-tab
   display flex
@@ -64,6 +54,11 @@ body.mobile
     .quasar-tabs-scroller, .quasar-tab
       flex 1 1 auto
 
+@media only screen and (min-width $layout-big-min)
+  .quasar-tabs:not(.scrollable)
+    padding-left $tabs-big-screen-side-padding
+    padding-right $tabs-big-screen-side-padding
+
 .quasar-tabs
   min-height $tabs-min-height
   overflow hidden
@@ -73,8 +68,10 @@ body.mobile
   font-weight $tabs-font-weight
   transition color .18s ease-in, box-shadow .18s ease-in
   border-radius $generic-border-radius
-  border-bottom $tabs-container-border-bottom
   position relative
+
+  &:not([slot='navigation'])
+    border-bottom $tabs-container-border-bottom
 
   &:not(.scrollable)
     .left-scroll, .right-scroll
@@ -141,3 +138,9 @@ body.mobile
             border-bottom 2px solid white
           &:active
             background white
+
+body.mobile .quasar-tabs-scroller
+  overflow-y hidden
+  overflow-x auto
+  will-change scroll-position
+  -webkit-overflow-scrolling touch

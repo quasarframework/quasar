@@ -13,6 +13,13 @@
       <quasar-tab icon="alarm" v-link="'/layout/alarm'">Alarms</quasar-tab>
       <quasar-tab icon="delete">Account</quasar-tab>
     </quasar-tabs>
+    <quasar-tabs slot="navigation">
+      <quasar-tab icon="mail" v-link="{path: '/layout', exact: true}">Mails</quasar-tab>
+      <quasar-tab icon="alarm" v-link="'/layout/alarm'">Alarms</quasar-tab>
+      <quasar-tab icon="delete">Account</quasar-tab>
+      <quasar-tab icon="delete">Tab</quasar-tab>
+      <quasar-tab icon="delete">Some other Tab</quasar-tab>
+    </quasar-tabs>
 
     <quasar-drawer>
       <div class="drawer-header">

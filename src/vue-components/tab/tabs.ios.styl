@@ -1,6 +1,6 @@
-
 $tabs-order                   ?= 9
 $tabs-padding                 ?= 8px 20px
+$tabs-big-screen-side-padding ?= 12px
 $tabs-color                   ?= $toolbar-faded-color
 $tabs-active-color            ?= $toolbar-color
 $tabs-background              ?= $toolbar-background
@@ -16,19 +16,6 @@ $tabs-label-font-size         ?= .7rem
 
 .quasar-tabs-scroller
   overflow hidden
-
-body.mobile
-  .quasar-tabs.scrollable
-    .left-scroll, .right-scroll
-      display none !important
-    .spacer
-      min-width 45%
-
-  .quasar-tabs-scroller
-    overflow-y hidden
-    overflow-x auto
-    -webkit-overflow-scrolling touch
-    will-change scroll-position
 
 .quasar-tab
   display flex
@@ -94,8 +81,9 @@ body.mobile
 
   &.inverted
     background white
-    border-bottom $tabs-container-border-bottom
     border-radius 0
+    &:not([slot='navigation'])
+      border-bottom $tabs-container-border-bottom
 
   for $name, $color in $colors
     if $name == 'light' || $name == 'white'
@@ -133,3 +121,9 @@ body.mobile
             color white
           &:active
             background white
+
+body.mobile .quasar-tabs-scroller
+  overflow-y hidden
+  overflow-x auto
+  -webkit-overflow-scrolling touch
+  will-change scroll-position
