@@ -2,15 +2,10 @@ import Utils from '../utils'
 
 export default {
   bind () {
-    this.scrollContainer = this.el.closest('.layout-view')
-    if (!this.scrollContainer) {
-      this.scrollContainer = document.getElementById('quasar-app')
-    }
+    this.scrollTarget = Utils.dom.getScrollTarget(this.el)
   },
   update (handler) {
-    if (this.scroll) {
-      this.scrollContainer.removeEventListener('scroll', this.scroll)
-    }
+    this.scrollTarget.removeEventListener('scroll', this.scroll)
 
     if (typeof handler !== 'function') {
       this.scroll = function () {}
@@ -19,20 +14,28 @@ export default {
     }
 
     this.scroll = Utils.debounce(() => {
-      let
-        containerBottom = Utils.dom.offset(this.scrollContainer).top + Utils.dom.height(this.scrollContainer),
-        elementBottom = Utils.dom.offset(this.el).top + Utils.dom.height(this.el)
+      let containerBottom, elementBottom, fire
 
-      if (elementBottom < containerBottom) {
-        this.scrollContainer.removeEventListener('scroll', this.scroll)
+      if (this.scrollTarget === window) {
+        elementBottom = this.el.getBoundingClientRect().bottom
+        fire = elementBottom < Utils.dom.viewport().height
+      }
+      else {
+        containerBottom = Utils.dom.offset(this.scrollTarget).top + Utils.dom.height(this.scrollTarget)
+        elementBottom = Utils.dom.offset(this.el).top + Utils.dom.height(this.el)
+        fire = elementBottom < containerBottom
+      }
+
+      if (fire) {
+        this.scrollTarget.removeEventListener('scroll', this.scroll)
         handler(this.el)
       }
-    }, 50)
+    }, 25)
 
-    this.scrollContainer.addEventListener('scroll', this.scroll)
+    this.scrollTarget.addEventListener('scroll', this.scroll)
     this.scroll()
   },
   unbind () {
-    this.scrollContainer.removeEventListener('scroll', this.scroll)
+    this.scrollTarget.removeEventListener('scroll', this.scroll)
   }
 }

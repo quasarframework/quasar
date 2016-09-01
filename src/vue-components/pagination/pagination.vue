@@ -1,6 +1,6 @@
 <template>
   <div class="quasar-pagination">
-    <button :class="{disabled: model === min}" class="primary clear small" @click="model = min">
+    <button :class="{disabled: model === min}" class="primary clear small" @click="changeModelTo(min)">
       <i>first_page</i>
     </button>
     <button :class="{disabled: model === min}" class="primary clear small" @click="changeModelByOffset(-1)">
@@ -15,12 +15,13 @@
       lazy
       :style="{width: inputPlaceholder.length * 10 + 'px'}"
       :placeholder="inputPlaceholder"
+      :disabled="disabled"
     >
 
     <button :class="{disabled: model === max}" class="primary clear small" @click="changeModelByOffset(1)">
       <i>keyboard_arrow_right</i>
     </button>
-    <button :class="{disabled: model === max}" class="primary clear small" @click="model = max">
+    <button :class="{disabled: model === max}" class="primary clear small" @click="changeModelTo(max)">
       <i>last_page</i>
     </button>
   </div>
@@ -42,6 +43,11 @@ export default {
     max: {
       type: Number,
       required: true
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
+      coerce: Boolean
     }
   },
   data () {
@@ -51,8 +57,15 @@ export default {
     }
   },
   methods: {
+    changeModelTo (value) {
+      if (!this.disabled) {
+        this.model = this.normalize(value)
+      }
+    },
     changeModelByOffset (offset) {
-      this.model = this.normalize(this.model + offset)
+      if (!this.disabled) {
+        this.model = this.normalize(this.model + offset)
+      }
     },
     normalize (value) {
       return Math.min(this.max, Math.max(1, value))

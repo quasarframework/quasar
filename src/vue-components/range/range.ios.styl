@@ -2,10 +2,10 @@ $range-height              ?= 36px
 $range-color               ?= $grey-4
 $range-active-color        ?= $form-active-color
 
-$range-track-height        ?= 2px
-$range-mark-height         ?= 7px
+$range-track-height        ?= 1px
+$range-mark-height         ?= 3px
 
-$range-handle-size         ?= 35px
+$range-handle-size         ?= 25px
 $range-handle-radius       ?= 50%
 $range-handle-box-shadow   ?= 0 1px 3px 1px rgba(0, 0, 0, .4)
 
@@ -33,7 +33,6 @@ $range-handle-box-shadow   ?= 0 1px 3px 1px rgba(0, 0, 0, .4)
   transform translateX(-50%) translateY(-50%)
 
 .quasar-range-handle-container
-  width auto
   position relative
   height 100%
   margin-left ($range-handle-size / 2)
@@ -58,7 +57,7 @@ $range-handle-box-shadow   ?= 0 1px 3px 1px rgba(0, 0, 0, .4)
 .quasar-range-handle
   position absolute
   top 50%
-  transform translate3d(-50%, -50%, 0) scale(.67)
+  transform translate3d(-50%, -50%, 0)
   transform-origin center
   transition all .3s ease
   width $range-handle-size
@@ -67,14 +66,13 @@ $range-handle-box-shadow   ?= 0 1px 3px 1px rgba(0, 0, 0, .4)
   background white
   box-shadow $range-handle-box-shadow
   &.active
-    transform translate3d(-50%, -50%, 0) scale(1)
+    transform translate3d(-50%, -50%, 0)
     transition opacity .3s ease, transform .3s ease
     .quasar-range-label
       opacity 1
-      transform translateY(-50%) scale(1)
+      transform translateY(-50%)
 
 .quasar-range
-  position relative
   height $range-height
   width 100%
   cursor pointer

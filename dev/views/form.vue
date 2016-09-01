@@ -1,62 +1,201 @@
 <template>
-  <h2>Select</h2>
-  <h4>Dialog Select</h4>
-  <div class="list item-delimiter bordered">
-    <div class="list-header">Single Selection</div>
-    <div class="item">
+
+  <div style="border: 1px solid black">
+    <input v-model="text">
+    <input v-model="text" :disabled="true">
+  </div>
+  <br><br>
+  <div class="stacked-label" style="border: 1px solid black">
+    <input v-model="text">
+    <label>Username</label>
+  </div>
+  <br><br>
+  <div class="floating-label" style="border: 1px solid black">
+    <input v-model="text" required>
+    <label>Username</label>
+  </div>
+  <br><br>
+
+  <p class="caption">Text Fields</p>
+  <div class="list">
+    <div class="item two-lines">
+      <i class="item-primary">edit</i>
       <div class="item-content">
-        <div class="item-label">Company</div>
-        <quasar-dialog-select :model.sync="select" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Company"></quasar-dialog-select>
+        <input v-model="text" class="full-width">
       </div>
     </div>
-    <div class="item">
+
+    <hr>
+    <div class="item two-lines">
+      <i class="item-primary">edit</i>
       <div class="item-content">
-        <div class="item-label">Company</div>
-        <quasar-dialog-select :model.sync="select" :options="selectOptions" ok-label="Pick"></quasar-dialog-select>
+        <input v-model="text" placeholder="Placeholder" class="full-width">
       </div>
     </div>
-    <div class="list-header">Multiple Selection</div>
-    <div class="item">
-      <div class="item-content">
-        <div class="item-label">Companies</div>
-        <quasar-dialog-select multiple :model.sync="multipleSelect" :options="selectOptions" ok-label="Pick" title="Companies"></quasar-dialog-select>
+
+    <hr>
+    <div class="item two-lines">
+      <i class="item-primary">edit</i>
+      <div class="item-content row items-center">
+        <div style="margin-right: 10px;">Label:</div>
+        <input class="auto" v-model="text">
       </div>
     </div>
-    <div class="item">
+
+    <hr>
+    <div class="item three-lines">
+      <i class="item-primary">edit</i>
       <div class="item-content">
-        <div class="item-label">Companies</div>
-        <quasar-dialog-select multiple :model.sync="multipleSelect" :options="selectOptions" ok-label="Pick" title="Companies"></quasar-dialog-select>
+        <div class="stacked-label">
+          <input v-model="text" class="full-width">
+          <label>Username</label>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+    <div class="item three-lines">
+      <i class="item-primary">edit</i>
+      <div class="item-content">
+        <div class="floating-label">
+          <input v-model="text" required class="full-width">
+          <label>Username</label>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+    <div class="item multiple-lines">
+      <i class="item-primary">edit</i>
+      <div class="item-content">
+        <textarea v-model="multiline" class="full-width"></textarea>
+      </div>
+    </div>
+
+    <hr>
+    <div class="item multiple-lines">
+      <i class="item-primary">edit</i>
+      <div class="item-content">
+        <div class="stacked-label">
+          <textarea v-model="multiline" class="full-width"></textarea>
+          <label>Username</label>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+    <div class="item multiple-lines">
+      <i class="item-primary">edit</i>
+      <div class="item-content">
+        <div class="floating-label">
+          <textarea v-model="multiline" required class="full-width"></textarea>
+          <label>Username</label>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+    <div class="item multiple-lines">
+      <i class="item-primary">edit</i>
+      <div class="item-content">
+        <quasar-chips :model.sync="chips"></quasar-chips>
       </div>
     </div>
   </div>
+
+  <div class="layout-padding">
+    <textarea v-model="multiline"></textarea>
+    <br><br>
+    <div class="stacked-label">
+      <textarea v-model="multiline"></textarea>
+      <label>Username</label>
+    </div>
+    <br><br>
+    <div class="floating-label">
+      <textarea v-model="multiline" required></textarea>
+      <label>Username</label>
+    </div>
+  </div>
+
+
+
+
+
+
+  <h2>Select</h2>
+  <h4>Dialog Select</h4>
+  Text
+  <quasar-dialog-select :disabled="true" style="width: 200px;" type="radio" :model.sync="select" :options="selectOptions" ok-label="Pick"></quasar-dialog-select>
+  <quasar-dialog-select style="width: 300px;" type="checkbox" :model.sync="select" :options="selectOptions" ok-label="Pick"></quasar-dialog-select>
+  <br><br>
+  <div class="list">
+    <div class="list-label">Single Selection</div>
+    <div class="item multiple-lines">
+      <i class="item-primary">supervisor_account</i>
+      <div class="item-content row items-baseline">
+        <div style="margin-right: 10px;">Radio:</div>
+        <quasar-dialog-select class="auto" type="radio" :model.sync="select" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Company"></quasar-dialog-select>
+      </div>
+    </div>
+    <div class="item multiple-lines">
+      <i class="item-primary">supervisor_account</i>
+      <div class="item-content row items-baseline">
+        <div style="margin-right: 10px;">Radio:</div>
+        <quasar-dialog-select class="auto" type="radio" :model.sync="select" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Company"></quasar-dialog-select>
+      </div>
+    </div>
+    <hr>
+    <div class="list-label">Multiple Selection</div>
+    <div class="item multiple-lines">
+      <i class="item-primary">supervisor_account</i>
+      <div class="item-content row items-baseline">
+        <div style="margin-right: 10px;">Checkbox:</div>
+        <quasar-dialog-select class="auto" type="checkbox" :model.sync="multipleSelect" :options="selectOptions" ok-label="Pick" title="Companies"></quasar-dialog-select>
+      </div>
+    </div>
+    <div class="item multiple-lines">
+      <i class="item-primary">supervisor_account</i>
+      <div class="item-content row items-baseline">
+        <div style="margin-right: 10px;">Toggle:</div>
+        <quasar-dialog-select class="auto" type="toggle" :model.sync="multipleSelect" :options="selectOptions" ok-label="Pick" title="Companies"></quasar-dialog-select>
+      </div>
+    </div>
+  </div>
+
   <h4>Simple Select</h4>
-  <div class="list item-delimiter bordered">
-    <div class="list-header">Single Selection</div>
-    <div class="item">
-      <div class="item-content">
-        <div class="item-label">Radio</div>
-        <quasar-select type="radio" :model.sync="select" :options="selectOptions" v-ref:sel>
-          <span class="primary clear">{{$refs.sel.label}}</span>
-        </quasar-select>
+  Text
+  <quasar-select type="radio" style="width: 200px;" :disabled="true" :model.sync="select" :options="selectOptions" v-ref:sel></quasar-select>
+  <quasar-select type="radio" style="width: 300px;" :model.sync="select" :options="selectOptions" v-ref:sel></quasar-select>
+  <br><br>
+  <div class="list">
+    <div class="list-label">Single Selection</div>
+    <div class="item multiple-lines">
+      <i class="item-primary">supervisor_account</i>
+      <div class="item-content row items-baseline">
+        <div style="margin-right: 10px;">Radio:</div>
+        <quasar-select class="auto" type="radio" :model.sync="select" :options="selectOptions" v-ref:sel></quasar-select>
       </div>
     </div>
-    <div class="item">
-      <div class="item-content">
-        <div class="item-label">Company</div>
-        <quasar-select type="radio" :model.sync="select" :options="selectOptions"></quasar-select>
+    <div class="item multiple-lines">
+      <i class="item-primary">supervisor_account</i>
+      <div class="item-content row items-baseline">
+        <div style="margin-right: 10px;">Radio:</div>
+        <quasar-select class="auto" type="radio" :model.sync="select" :options="selectOptions"></quasar-select>
       </div>
     </div>
-    <div class="list-header">Multiple Selection</div>
-    <div class="item">
-      <div class="item-content">
-        <div class="item-label">Checkboxes</div>
-        <quasar-select type="checkbox" :model.sync="multipleSelect" :options="selectOptions" classes="secondary"></quasar-select>
+    <div class="list-label">Multiple Selection</div>
+    <div class="item multiple-lines">
+      <i class="item-primary">supervisor_account</i>
+      <div class="item-content row items-baseline">
+        <div style="margin-right: 10px;">Checkbox:</div>
+        <quasar-select class="auto" type="checkbox" :model.sync="multipleSelect" :options="selectOptions" classes="secondary"></quasar-select>
       </div>
     </div>
-    <div class="item">
-      <div class="item-content">
-        <div class="item-label">Toggle</div>
-        <quasar-select type="toggle" :model.sync="multipleSelect" :options="selectOptions"></quasar-select>
+    <div class="item multiple-lines">
+      <i class="item-primary">supervisor_account</i>
+      <div class="item-content row items-baseline">
+        <div style="margin-right: 10px;">Toggle:</div>
+        <quasar-select class="auto" type="toggle" :model.sync="multipleSelect" :options="selectOptions"></quasar-select>
       </div>
     </div>
   </div>
@@ -67,138 +206,33 @@
 
   <h2>Text Chips Input</h2>
   <quasar-chips :model.sync="chips"></quasar-chips>
+  <quasar-chips :model.sync="chips" :disabled="true"></quasar-chips>
   <br><br>
-
-  <div class="list inner-delimiter bordered">
-    <div class="list-header">Fixed</div>
-    <div class="item fixed-label">
-      <div class="item-content">
-        <label for="user1" class="item-label">Username</label>
-        <input id="user1" v-model="username">
-      </div>
-    </div>
-    <div class="item fixed-label">
-      <div class="item-content">
-        <label for="pass1" class="item-label">Password</label>
-        <input id="pass1" v-model="password" type="password">
-      </div>
-    </div>
-  </div>
-
-  <div class="list inner-delimiter bordered">
-    <div class="list-header">Floating</div>
-    <div class="item floating-label">
-      <div class="item-content">
-        <input v-model="username" required>
-        <label>Username</label>
-      </div>
-    </div>
-    <div class="item floating-label">
-      <div class="item-content">
-        <input v-model="password" type="password" required>
-        <label>Password</label>
-      </div>
-    </div>
-  </div>
-
-  <div class="list inner-delimiter bordered">
-    <div class="list-header">Inline</div>
-    <div class="item inline-label">
-      <label class="item-content">
-        Username
-        <input v-model="username">
-      </label>
-    </div>
-    <div class="item inline-label">
-      <label class="item-content">
-        Password
-        <input v-model="password" type="password">
-      </label>
-    </div>
-  </div>
-
-  <div class="list inset inner-delimiter bordered">
-    <div class="list-header">Inset and Fixed</div>
-    <div class="item">
-      <div class="item-content fixed-label">
-        <label for="user2" class="item-label">Username</label>
-        <input id="user2" v-model="username">
-      </div>
-    </div>
-    <div class="item fixed-label">
-      <div class="item-content">
-        <label for="pass2" class="item-label">Password</label>
-        <input id="pass2" v-model="password" type="password">
-      </div>
-    </div>
-  </div>
-
-  <div class="list inner-delimiter bordered">
-    <div class="list-header">Placeholder</div>
-    <div class="item">
-      <div class="item-content">
-        <input v-model="username" placeholder="Username">
-      </div>
-    </div>
-    <div class="item">
-      <div class="item-content">
-        <input v-model="password" type="password" placeholder="Password">
-      </div>
-    </div>
-  </div>
-
-  <div class="list inner-delimiter bordered">
-    <div class="list-header">Stacked</div>
-    <div class="item stacked-label">
-      <div class="item-content">
-        <input id="user4" v-model="username" required>
-        <label for="user4">Username</label>
-      </div>
-    </div>
-    <div class="item stacked-label">
-      <div class="item-content">
-        <input id="pass4" v-model="password" type="password" required>
-        <label for="pass4">Password</label>
-      </div>
-    </div>
-  </div>
-
 
   <h2>Numeric</h2>
-  Inline with text <quasar-numeric :model.sync="number" class="inline" :min="2" :max="10"></quasar-numeric>
-  <br><br><quasar-numeric :model.sync="number" :min="2" :max="10" :debounce="1000" :step="0.5">Number label</quasar-numeric>
+  Inline with text <quasar-numeric :model.sync="number" :min="2" :max="1000"></quasar-numeric>
+  <br>
+  <quasar-numeric :model.sync="number" style="width: 500px;"></quasar-numeric>
+  <quasar-numeric disabled :model.sync="number"></quasar-numeric>
+  <br><br><quasar-numeric :model.sync="number2" :min="2" :max="100" :debounce="1000" :step="0.5">Number label</quasar-numeric>
   <br><br>
-  <div class="list inner-delimiter bordered">
-    <label class="item">
+  <div class="list">
+    <div class="item multiple-lines">
+      <i class="item-primary">edit</i>
       <div class="item-content">
-        <div class="item-label fixed-label">
-          Some number
-        </div>
-        <div class="item-value">
-          <quasar-numeric :model.sync="number"></quasar-numeric>
-        </div>
+        Number: <quasar-numeric :model.sync="number"></quasar-numeric>
       </div>
-    </label>
-    <label class="item">
-      <div class="item-content">
-        <div class="item-label fixed-label">
-          Some number
-        </div>
-        <div class="item-value">
-          <quasar-numeric :model.sync="number" :debounce="1000" :step="1.5">
-        </div>
-      </div>
-    </label>
+    </div>
   </div>
 
   <h2>Textarea</h2>
   {{textarea}}
-  <textarea v-model="textarea" placeholder="Textarea label"></textarea>
+  <textarea v-model="multiline" placeholder="Textarea label"></textarea>
 
 
   <h2>Checkbox</h2>
   <quasar-checkbox :model.sync="check" style="border: 1px solid black"></quasar-checkbox>
-  <quasar-checkbox :model.sync="check" class="secondary"></quasar-checkbox>
+  <quasar-checkbox :model.sync="check" class="secondary" :disabled="true"></quasar-checkbox>
   <quasar-checkbox :model.sync="check" class="orange"></quasar-checkbox>
   <label>
     <quasar-checkbox :model.sync="check"></quasar-checkbox>
@@ -212,7 +246,7 @@
 
   <h2>Radio</h2>
   <quasar-radio :model.sync="radio" value="opt1" style="border: 1px solid black"></quasar-radio>
-  <quasar-radio :model.sync="radio" value="opt2" class="secondary"></quasar-radio>
+  <quasar-radio :model.sync="radio" value="opt2" class="secondary" :disabled="true"></quasar-radio>
   <quasar-radio :model.sync="radio" value="opt2" class="orange"></quasar-radio>
   <label>
     <quasar-radio :model.sync="radio" value="opt2"></quasar-radio>
@@ -226,7 +260,7 @@
 
   <h2>Toggle</h2>
   <quasar-toggle :model.sync="check" style="border: 1px solid black"></quasar-toggle>
-  <quasar-toggle :model.sync="check" class="secondary"></quasar-toggle>
+  <quasar-toggle :model.sync="check" class="secondary" :disabled="true"></quasar-toggle>
   <quasar-toggle :model.sync="check" class="orange"></quasar-toggle>
   <label>
     <quasar-toggle :model.sync="check"></quasar-toggle>
@@ -240,7 +274,7 @@
   [1, 5, 1] - {{range.model}}
   <br>
   <quasar-range :model.sync="range.model" :step="1" style="border: 1px solid black"></quasar-range>
-  <quasar-range :model.sync="range.model" :step="1"></quasar-range>
+  <quasar-range :model.sync="range.model" :step="1" :disabled="true"></quasar-range>
   <quasar-range :model.sync="range.model" snap="true"></quasar-range>
   <quasar-range :model.sync="range.model" :step="1" snap="true"></quasar-range>
 
@@ -275,12 +309,6 @@
   <quasar-range :model.sync="range.model3" :min="-50" :max="50" snap="true"></quasar-range>
   <quasar-range :model.sync="range.model3" :min="-50" :max="50" :step="5" snap="true"></quasar-range>
 </template>
-
-<style scoped>
-.list {
-  margin-bottom: 1rem;
-}
-</style>
 
 <script>
 export default {
@@ -322,8 +350,10 @@ export default {
       ],
       username: '',
       password: '',
-      textarea: '',
-      number: 4
+      text: '',
+      multiline: '',
+      number: 64,
+      number2: 44
     }
   }
 }

@@ -1,6 +1,6 @@
 <template>
-  <label class="quasar-radio">
-    <input type="radio" v-model="model" :value="value">
+  <label class="quasar-radio" :class="{disabled: disabled}">
+    <input type="radio" v-model="model" :value="value" :disabled="disabled">
     <div></div>
   </label>
 </template>
@@ -14,6 +14,11 @@ export default {
     },
     value: {
       required: true
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
+      coerce: Boolean
     }
   }
 }

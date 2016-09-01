@@ -1,36 +1,41 @@
 <template>
-  <quasar-popover v-ref:popover>
-    <span slot="target">
-      <button :class="classes" @click="__parseOptions">
-        {{{ label }}} &#8675
-      </button>
-    </span>
+  <div class="quasar-select-container">
+    <quasar-popover v-ref:popover :disabled="disabled" cover>
+      <div slot="target" class="cursor-pointer textfield" @click="__parseOptions" :class="{disabled: disabled}">
+        <span>{{{ label }}}</span>
+        <span class="float-right quasar-select-arrow">&#8675</span>
+      </div>
 
-    <div class="list item-delimiter highlight">
-      <label v-if="type === 'radio'" v-for="radio in options" class="item" @click="close">
-        <quasar-radio :model.sync="model" :value.once="radio.value"></quasar-radio>
-        <div class="item-content">
-          {{{* radio.label}}}
-        </div>
-      </label>
+      <div class="list highlight">
+        <label v-if="type === 'radio'" v-for="radio in options" class="item" @click="close">
+          <div class="item-primary">
+            <quasar-radio :model.sync="model" :value.once="radio.value"></quasar-radio>
+          </div>
+          <div class="item-content">
+            {{{* radio.label}}}
+          </div>
+        </label>
 
-      <label v-if="type === 'checkbox'" v-for="checkbox in options" class="item">
-        <quasar-checkbox :model.sync="multipleOptions[$index]"></quasar-checkbox>
-        <div class="item-content">
-          {{{* checkbox.label}}}
-        </div>
-      </label>
+        <label v-if="type === 'checkbox'" v-for="checkbox in options" class="item">
+          <div class="item-primary">
+            <quasar-checkbox :model.sync="multipleOptions[$index]"></quasar-checkbox>
+          </div>
+          <div class="item-content">
+            {{{* checkbox.label}}}
+          </div>
+        </label>
 
-      <label v-if="type === 'toggle'" v-for="toggle in options" class="item">
-        <div class="item-content">
-          <div class="item-label">
+        <label v-if="type === 'toggle'" v-for="toggle in options" class="item">
+          <div class="item-content has-secondary">
             {{{* toggle.label}}}
           </div>
-          <quasar-toggle :model.sync="multipleOptions[$index]"></quasar-toggle>
-        </div>
-      </label>
-    </div>
-  </quasar-popover>
+          <div class="item-secondary">
+            <quasar-toggle :model.sync="multipleOptions[$index]"></quasar-toggle>
+          </div>
+        </label>
+      </div>
+    </quasar-popover>
+  </div>
 </template>
 
 <script>
@@ -68,13 +73,17 @@ export default {
       },
       coerce (value) {
         if (typeof value === 'string') {
-          console.log(value.split(' '))
           return value.split(' ')
         }
         return value
       }
     },
-    fixedLabel: String
+    fixedLabel: String,
+    disabled: {
+      type: Boolean,
+      default: false,
+      coerce: Boolean
+    }
   },
   computed: {
     label () {
@@ -121,7 +130,7 @@ export default {
         return 'Select'
       }
       else if (options.length > 1) {
-        return options[0] + ', ...'
+        return options[0] + ' and ' + (options.length - 1) + ' more'
       }
       return options[0]
     },

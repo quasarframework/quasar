@@ -56,7 +56,7 @@ export default {
       this.processResize()
     },
     processResize () {
-      if (!this.imageHasBeenLoaded || !this.scrollContainer) {
+      if (!this.imageHasBeenLoaded || !this.scrollTarget) {
         return
       }
 
@@ -68,12 +68,20 @@ export default {
         return
       }
 
-      let
-        containerTop = Utils.dom.offset(this.scrollContainer).top,
-        containerHeight = Utils.dom.height(this.scrollContainer),
-        containerBottom = containerTop + containerHeight,
-        top = Utils.dom.offset(this.container).top,
-        bottom = top + this.height
+      let containerTop, containerHeight, containerBottom, top, bottom
+
+      if (this.scrollTarget === window) {
+        containerTop = 0
+        containerHeight = Utils.dom.viewport().height
+        containerBottom = containerHeight
+      }
+      else {
+        containerTop = Utils.dom.offset(this.scrollTarget).top
+        containerHeight = Utils.dom.height(this.scrollTarget)
+        containerBottom = containerTop + containerHeight
+      }
+      top = Utils.dom.offset(this.container).top
+      bottom = top + this.height
 
       if (bottom > containerTop && top < containerBottom) {
         let percentScrolled = (containerBottom - top) / (this.height + containerHeight)
@@ -88,19 +96,16 @@ export default {
     this.container = this.$el
     this.image = this.$els.img
 
-    this.scrollContainer = this.$el.closest('.layout-view')
-    if (!this.scrollContainer) {
-      this.scrollContainer = document.getElementById('quasar-app')
-    }
+    this.scrollTarget = Utils.dom.getScrollTarget(this.$el)
     this.resizeHandler = Utils.debounce(this.processResize, 50)
 
     window.addEventListener('resize', this.resizeHandler)
-    this.scrollContainer.addEventListener('scroll', this.updatePosition)
+    this.scrollTarget.addEventListener('scroll', this.updatePosition)
     this.processResize()
   },
   beforeDestroy () {
     window.removeEventListener('resize', this.resizeHandler)
-    this.scrollContainer.removeEventListener('scroll', this.updatePosition)
+    this.scrollTarget.removeEventListener('scroll', this.updatePosition)
   }
 }
 </script>

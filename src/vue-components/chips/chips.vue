@@ -2,7 +2,7 @@
   <div
     class="quasar-chips group"
     @click="focus"
-    :class="{active: active}"
+    :class="{active: active, disabled: disabled}"
   >
     <span
       class="chip label bg-light text-grey-9"
@@ -21,8 +21,10 @@
         @keyup.enter="add()"
         @focus="active = true"
         @blur="active = false"
+        :disabled="disabled"
+        :placeholder="placeholder"
       >
-      <button class="small text-light" @click="add()" :class="{invisible: !input.length}">
+      <button class="small" @click="add()" :class="{invisible: !input.length}">
         <i>send</i>
       </button>
     </div>
@@ -36,7 +38,13 @@ export default {
       type: Array,
       twoWay: true,
       required: true
-    }
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
+      coerce: Boolean
+    },
+    placeholder: String
   },
   data () {
     return {
@@ -46,13 +54,13 @@ export default {
   },
   methods: {
     add () {
-      if (this.input) {
+      if (!this.disabled && this.input) {
         this.model.push(this.input)
         this.input = ''
       }
     },
     remove (index) {
-      if (index >= 0 && index < this.model.length) {
+      if (!this.disabled && index >= 0 && index < this.model.length) {
         this.model.splice(index, 1)
       }
     },

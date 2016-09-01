@@ -1,7 +1,7 @@
 <template>
   <div
     class="quasar-search"
-    :class="{'quasar-search-centered': !this.focused && this.model === ''}"
+    :class="{'quasar-search-centered': !this.focused && this.model === '', disabled: disabled}"
   >
     <div class="quasar-search-input-container">
       <button class="quasar-search-icon">
@@ -15,6 +15,7 @@
         :debounce="debounce"
         @focus="focused = true"
         @blur="focused = false"
+        :disabled="disabled"
       >
       <button
         class="quasar-search-clear"
@@ -46,6 +47,11 @@ export default {
     placeholder: {
       type: String,
       default: 'Search'
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
+      coerce: Boolean
     }
   },
   data () {
@@ -55,7 +61,9 @@ export default {
   },
   methods: {
     clear () {
-      this.model = ''
+      if (!this.disabled) {
+        this.model = ''
+      }
     }
   }
 }

@@ -1,26 +1,24 @@
+import Utils from '../utils'
+
 export default {
   bind () {
-    this.scrollContainer = this.el.closest('.layout-view')
-    if (!this.scrollContainer) {
-      this.scrollContainer = document.getElementById('quasar-app')
+    this.scrollTarget = Utils.dom.getScrollTarget(this.el)
+    this.scroll = () => {
+      this.handler(Utils.dom.getScrollPosition(this.scrollTarget))
     }
   },
   update (handler) {
-    if (this.scroll) {
-      this.scrollContainer.removeEventListener('scroll', this.scroll)
-    }
+    this.scrollTarget.removeEventListener('scroll', this.scroll)
 
     if (typeof handler !== 'function') {
       console.error('v-scroll requires a function as parameter', this.el)
       return
     }
 
-    this.scroll = () => {
-      handler(this.scrollContainer.scrollTop)
-    }
-    this.scrollContainer.addEventListener('scroll', this.scroll)
+    this.handler = handler
+    this.scrollTarget.addEventListener('scroll', this.scroll)
   },
   unbind () {
-    this.scrollContainer.removeEventListener('scroll', this.scroll)
+    this.scrollTarget.removeEventListener('scroll', this.scroll)
   }
 }

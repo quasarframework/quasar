@@ -1,0 +1,65 @@
+$textfield-border-size        ?= 2px
+$textfield-border-style       ?= solid
+$textfield-border-color       ?= $form-lighter-color
+$textfield-focus-border-color ?= transparent
+$textfield-focus-background   ?= $form-lighter-color
+
+$textfield-padding-horizontal ?= .5rem
+$textfield-padding-vertical   ?= .5rem
+
+input, textarea, .textfield
+  &:not(.no-style)
+    background none
+    font-size .9rem
+    max-width 100%
+    margin-bottom 2px
+    padding $textfield-padding-vertical $textfield-padding-horizontal
+    outline 0
+    transition all .3s
+    border $textfield-border-size $textfield-border-style $textfield-border-color
+    border-radius $generic-border-radius
+    &:focus
+      background $textfield-focus-background
+      border-color $textfield-focus-border-color
+    &[disabled], &.disabled
+      border-color darken($form-darker-color, 20%)
+      border-style dotted
+
+textarea:not(.no-style)
+  height 11em
+
+.stacked-label, .floating-label
+  position relative
+  display inline-block
+  width 100%
+  label
+    font-size .9rem
+    position absolute
+    pointer-events none
+    top $textfield-padding-vertical
+    left $textfield-padding-horizontal
+    transform-origin left top
+    color rgba(0, 0, 0, .54)
+
+.stacked-label
+  label
+    display block
+    transform scale(.8)
+  input
+    padding-top 1.4rem
+  textarea
+    margin-top 1.4rem
+  input:focus + label, textarea:focus + label
+    color $form-active-color
+
+.floating-label
+  label
+    transition transform .15s ease-in-out, color .3s
+    bottom $textfield-padding-vertical
+  input + label, textarea + label
+    transform translateY(1.7rem) scale(1)
+  input, textarea
+    margin-top 1.45rem
+  input:focus ~ label, input:valid ~ label, textarea:focus ~ label, textarea:valid ~ label
+    color $form-active-color
+    transform translateY(0) scale(.8)

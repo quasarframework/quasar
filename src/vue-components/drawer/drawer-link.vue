@@ -1,7 +1,7 @@
 <template>
   <div class="item item-link drawer-closer">
-    <i v-if="icon">{{icon}}</i>
-    <div class="item-content text-truncate">
+    <i v-if="icon" class="item-primary">{{icon}}</i>
+    <div class="item-content">
       <slot></slot>
     </div>
   </div>

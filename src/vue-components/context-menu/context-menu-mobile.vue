@@ -13,16 +13,37 @@
 import Modal from '../../components/modal/modal'
 
 export default {
+  props: {
+    disabled: {
+      type: Boolean,
+      default: false,
+      coerce: Boolean
+    }
+  },
   methods: {
+    open () {
+      this.handler()
+    },
     close () {
       this.target.classList.remove('non-selectable')
       this.modal.close()
+    },
+    toggle () {
+      if (this.modal.active) {
+        this.close()
+      }
+      else {
+        this.open()
+      }
     }
   },
   ready () {
     this.target = this.$el.parentNode
 
     this.handler = () => {
+      if (this.disabled) {
+        return
+      }
       this.modal = Modal.create(this.$el)
         .set({
           minimized: true,

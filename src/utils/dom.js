@@ -12,11 +12,11 @@ export function style (el, property) {
 }
 
 export function height (el) {
-  return parseInt(window.getComputedStyle(el).getPropertyValue('height'), 10)
+  return parseFloat(window.getComputedStyle(el).getPropertyValue('height'), 10)
 }
 
 export function width (el) {
-  return parseInt(window.getComputedStyle(el).getPropertyValue('width'), 10)
+  return parseFloat(window.getComputedStyle(el).getPropertyValue('width'), 10)
 }
 
 export function css (element, css) {
@@ -67,4 +67,15 @@ export function childOf (target, parent) {
   }
 
   return false
+}
+
+export function getScrollTarget (el) {
+  return el.closest('.layout-view') || window
+}
+
+export function getScrollPosition (scrollTarget) {
+  if (scrollTarget === window) {
+    return window.pageYOffset || window.scrollY || document.body.scrollTop || 0
+  }
+  return scrollTarget.scrollTop
 }

@@ -1,29 +1,23 @@
 <template>
-  <button :class="classes" @click="pick">
-    {{{fixedLabel || label}}} &#8675
-  </button>
+  <div class="quasar-select cursor-pointer textfield" @click="pick" :class="{disabled: disabled}">
+    <span>{{{ label }}}</span>
+    <span class="float-right quasar-select-arrow">&#8675</span>
+  </div>
 </template>
 
 <script>
 import Dialog from '../../components/dialog/dialog'
 
+let mapTypeConfig = {
+  radio: 'radios',
+  checkbox: 'checkboxes',
+  toggle: 'toggles'
+}
+
 export default {
   props: {
     model: {
       required: true
-    },
-    classes: {
-      type: Array,
-      default () {
-        return ['primary', 'clear']
-      },
-      coerce (value) {
-        if (typeof value === 'string') {
-          console.log(value.split(' '))
-          return value.split(' ')
-        }
-        return value
-      }
     },
     options: {
       type: Array,
@@ -34,9 +28,12 @@ export default {
         )
       }
     },
-    multiple: {
-      type: Boolean,
-      coerce: Boolean
+    type: {
+      type: String,
+      required: true,
+      validator (value) {
+        return ['radio', 'checkbox', 'toggle'].includes(value)
+      }
     },
     okLabel: {
       type: String,
@@ -51,19 +48,24 @@ export default {
       default: 'Select'
     },
     message: String,
-    fixedLabel: String
+    fixedLabel: String,
+    disabled: {
+      type: Boolean,
+      default: false,
+      coerce: Boolean
+    }
   },
   computed: {
     label () {
-      return this.multiple ? this.getMultipleLabel() : this.getSingleLabel()
+      return this.fixedLabel || this.type === 'radio' ? this.__getSingleLabel() : this.__getMultipleLabel()
     }
   },
   methods: {
-    getSingleLabel () {
+    __getSingleLabel () {
       let option = this.options.find((option) => option.value === this.model)
       return option ? option.label : 'Select'
     },
-    getMultipleLabel () {
+    __getMultipleLabel () {
       let options = this.options
         .filter((option) => this.model.includes(option.value))
         .map((option) => option.label)
@@ -72,7 +74,7 @@ export default {
         return 'Select'
       }
       else if (options.length > 1) {
-        return options[0] + ', ...'
+        return options[0] + ' and ' + (options.length - 1) + ' more'
       }
       return options[0]
     },
@@ -85,9 +87,13 @@ export default {
       return option
     },
     pick () {
+      if (this.disabled) {
+        return
+      }
+
       let
         self = this,
-        mapHandler = this.multiple ? this.mapMultiple : this.mapSingle,
+        mapHandler = this.type === 'radio' ? this.mapSingle : this.mapMultiple,
         options = this.options.map(mapHandler.bind(this)),
         config = {
           title: self.title,
@@ -103,7 +109,7 @@ export default {
           ]
         }
 
-      config[this.multiple ? 'checkboxes' : 'radios'] = options
+      config[mapTypeConfig[this.type]] = options
 
       Dialog.create(config).show()
     }

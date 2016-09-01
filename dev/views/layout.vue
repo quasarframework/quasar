@@ -31,19 +31,59 @@
         <div>some@email.com</div>
       </div>
 
-      <div class="list platform-delimiter">
+      <div class="list">
         <quasar-drawer-link v-link="{path: '/layout', exact: true}" icon="mail">
-          Maaails
+          Mails
         </quasar-drawer-link>
-        <div class="item item-link drawer-closer" v-link="{path: '/layout', exact: true}">
-          <i>mail</i>
-          <div class="item-content text-truncate">Mails</div>
-        </div>
         <div class="item item-link drawer-closer" v-link="'/layout/alarm'">
-          <i>alarm</i>
-          <div class="item-content text-truncate">Alarms</div>
+          <i class="item-primary">alarm</i>
+          <div class="item-content">Alarms</div>
+        </div>
+        <div class="item item-link drawer-closer">
+          <i class="item-primary">chat</i>
+          <div class="item-content">Chat</div>
+        </div>
+        <div class="item item-link drawer-closer">
+          <i class="item-primary">schedule</i>
+          <div class="item-content">Schedule</div>
         </div>
       </div>
+
+      <div class="item three-lines">
+        <img class="item-primary" :src="'statics/boy-avatar.png'">
+        <div class="item-content inset has-secondary">
+          <div>Brunch this weekend?</div>
+          <div>
+            <span>John Doe</span>
+            <br>
+            I'll be in your neighborhood doing errands this
+            weekend. Do you want to grab brunch?
+          </div>
+        </div>
+        <div class="item-secondary stamp">
+          1 week
+        </div>
+        <div class="item-secondary">
+          <quasar-popover v-ref:popover position="top left">
+            <i slot="target">
+              more_vert
+            </i>
+
+            <div class="list">
+              <div class="item item-link" @click="$refs.popover.close()">
+                <div class="item-content">Reply</div>
+              </div>
+              <div class="item item-link" @click="$refs.popover.close()">
+                <div class="item-content">Forward</div>
+              </div>
+              <div class="item item-link" @click="$refs.popover.close()">
+                <div class="item-content">Delete</div>
+              </div>
+            </div>
+          </quasar-popover>
+        </div>
+      </div>
+      <div style="height: 1000px"></div>
 
       <br>
       <button class="primary" @click="openModal()">Open Modal</button>
@@ -57,14 +97,14 @@
         </quasar-toolbar-title>
       </div>
 
-      <div class="list platform-delimiter">
-        <div class="item item-link">
-          <i>mail</i>
-          <div class="item-content text-truncate">Mails</div>
+      <div class="list">
+        <div class="item item-link drawer-closer">
+          <i class="item-primary">chat</i>
+          <div class="item-content">Chat</div>
         </div>
-        <div class="item item-link">
-          <i>alarm</i>
-          <div class="item-content text-truncate">Alarms</div>
+        <div class="item item-link drawer-closer">
+          <i class="item-primary">schedule</i>
+          <div class="item-content">Schedule</div>
         </div>
       </div>
     </quasar-drawer>

@@ -1,4 +1,4 @@
-$drawer-width            ?= 240px
+$drawer-width            ?= 280px
 $drawer-font-size        ?= 1rem
 $drawer-icon-font-size   ?= 1.8rem
 $drawer-background       ?= white
@@ -6,7 +6,6 @@ $drawer-header-font-size ?= .9rem
 
 .drawer
   position relative
-  overflow-y none
   .list
     margin 0
 
@@ -18,16 +17,18 @@ $drawer-header-font-size ?= .9rem
 
 .drawer-opener
   z-index ($z-marginals + 1)
-  height 100%
+  height 100vh
   width 15px
 
 .drawer-content
-  will-change transform
   background $drawer-background
   top 0
   bottom 0
   width $drawer-width
   font-size $drawer-font-size
+  overflow-y auto
+  -webkit-overflow-scrolling touch
+  will-change scroll-position, transform
 
   &.left-side
     left 0
@@ -42,7 +43,6 @@ $drawer-header-font-size ?= .9rem
   position relative
   margin-bottom 8px
   padding 16px
-  background-size 100% 100%, cover
   font-size $drawer-header-font-size
 
   > img

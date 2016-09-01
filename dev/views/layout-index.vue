@@ -1,7 +1,7 @@
 <template>
   <div>
     <quasar-search :model.sync="search"></quasar-search>
-    <quasar-search :model.sync="search" class="purple"></quasar-search>
+    <quasar-search :model.sync="search" class="purple" :disabled="true"></quasar-search>
     <quasar-search :model.sync="search" class="red"></quasar-search>
     <quasar-search :model.sync="search" class="dark"></quasar-search>
 

@@ -18,7 +18,7 @@
       v-el:content
       v-touch:pan="closeByTouch"
       v-touch-options:pan="{ direction: 'horizontal' }"
-      class="drawer-content scroll"
+      class="drawer-content"
       :class="{'left-side': !rightSide, 'right-side': rightSide}"
     >
       <slot></slot>

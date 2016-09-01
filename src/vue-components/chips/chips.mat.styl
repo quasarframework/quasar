@@ -5,8 +5,11 @@
   transition all .3s
   border-bottom 2px solid $form-lighter-color
   border-radius $form-border-radius
+  cursor text
   &.active
     border-bottom 2px solid $form-active-color
+  &.disabled
+    border-bottom-style dotted
   .quasar-chips-input
     display inline-block
     white-space nowrap
@@ -20,3 +23,5 @@
     outline 0
     padding 0
     width 120px
+  button
+    cursor pointer

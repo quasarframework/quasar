@@ -98,7 +98,7 @@ export default {
 
     this.scrollContainer = this.inline ? this.$el : this.element.closest('.layout-view')
     if (!this.scrollContainer) {
-      this.scrollContainer = document.getElementById('quasar-app')
+      this.scrollContainer = window
     }
     if (this.working) {
       this.scrollContainer.addEventListener('scroll', this.scroll)

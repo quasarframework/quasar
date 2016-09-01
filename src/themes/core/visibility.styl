@@ -8,13 +8,14 @@ $light-dimmed-background ?= rgba(255, 255, 255, .6)
 
 .disabled
   opacity .4 !important
-  cursor not-allowed !important
+  &, * // @stylint ignore
+    cursor not-allowed !important
 .hidden
   display none !important
 .invisible
-  visibility hidden
+  visibility hidden !important
 .transparent
-  background transparent
+  background transparent !important
 
 .dimmed, .light-dimmed
   &:after

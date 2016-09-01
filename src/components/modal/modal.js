@@ -62,6 +62,11 @@ class Modal {
   }
 
   show (onShow) {
+    if (this.active) {
+      console.warn('Modal is already displayed')
+      return
+    }
+
     if (!this.$el.closest('body')) {
       throw new Error('Modal was previously destroyed. Create another one.')
     }
@@ -94,6 +99,7 @@ class Modal {
           if (typeof onShow === 'function') {
             onShow()
           }
+          this.active = true
         }
       }
 
@@ -130,6 +136,7 @@ class Modal {
         return
       }
       openedModalNumber--
+      this.active = false
 
       let
         effect,

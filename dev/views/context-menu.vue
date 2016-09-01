@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="height: 100vh">
     <div class="layout-padding">
       <p class="caption">
         <span class="desktop-only">
@@ -21,15 +21,14 @@
     </div>
 
     <quasar-context-menu v-ref:context>
-      <div class="list item-delimiter highlight">
+      <div class="list striped highlight">
         <div
           class="item item-link"
           v-for="n in 30"
           @click="showToast(), $refs.context.close()"
         >
           <div class="item-content">
-            <div class="item-label">Label</div>
-            <div class="item-value">Value</div>
+            Label
           </div>
         </div>
       </div>

@@ -3,19 +3,19 @@
     {{{* title || ''}}}
   </div>
   <div v-if="message" class="modal-body modal-scroll">
-    <p>{{{* message}}}</p>
+    {{{* message}}}
   </div>
   <div v-if="inputs" class="modal-body modal-scroll">
-    <div v-for="input in inputs" class="item floating-label">
-      <div class="item-content">
-        <input type="text" v-model="input.model" required autofocus>
-        <label>{{ input.label }}</label>
-      </div>
+    <div v-for="input in inputs" class="floating-label">
+      <input type="text" class="full-width" v-model="input.model" required>
+      <label>{{ input.label }}</label>
     </div>
   </div>
   <div v-if="radios" class="modal-controls modal-scroll">
     <label v-for="radio in radios" class="item">
-      <quasar-radio :model.sync="radioModel" :value.once="radio.value"></quasar-radio>
+      <div class="item-primary">
+        <quasar-radio :model.sync="radioModel" :value.once="radio.value"></quasar-radio>
+      </div>
       <div class="item-content">
         {{{* radio.label}}}
       </div>
@@ -23,7 +23,9 @@
   </div>
   <div v-if="checkboxes" class="modal-controls modal-scroll">
     <label v-for="checkbox in checkboxes" class="item">
-      <quasar-checkbox :model.sync="checkbox.checked"></quasar-checkbox>
+      <div class="item-primary">
+        <quasar-checkbox :model.sync="checkbox.checked"></quasar-checkbox>
+      </div>
       <div class="item-content">
         {{{* checkbox.label}}}
       </div>
@@ -31,10 +33,10 @@
   </div>
   <div v-if="toggles" class="modal-controls modal-scroll">
     <label v-for="toggle in toggles" class="item">
-      <div class="item-content">
-        <div class="item-label">
-          {{{* toggle.label}}}
-        </div>
+      <div class="item-content has-secondary">
+        {{{* toggle.label}}}
+      </div>
+      <div class="item-secondary">
         <quasar-toggle :model.sync="toggle.checked"></quasar-toggle>
       </div>
     </label>

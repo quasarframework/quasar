@@ -6,8 +6,7 @@
       <div class="list item-delimiter highlight">
         <div class="item item-link" v-for="n in 20" @click="click($refs.context)">
           <div class="item-content">
-            <div class="item-label">Label</div>
-            <div class="item-value">Value</div>
+            Label
           </div>
         </div>
       </div>
@@ -21,68 +20,93 @@
       <div class="list item-delimiter highlight">
         <div class="item item-link" v-for="n in 20" @click="click($refs.popover1)">
           <div class="item-content">
-            <div class="item-label">Label</div>
-            <div class="item-value">Value</div>
+            Label
           </div>
         </div>
       </div>
     </quasar-popover>
 
-    <quasar-popover v-ref:tl class="fixed-top-left" style="top: 50px">
+    <br>
+    Force to bottom left:
+    <quasar-popover v-ref:pop position="bottom left">
       <button slot="target" class="primary">
+        <i>more_vert</i>
+      </button>
+
+      <div class="list item-delimiter highlight">
+        <div class="item item-link" v-for="n in 20" @click="click($refs.pop)">
+          <div class="item-content">
+            Label
+          </div>
+        </div>
+      </div>
+    </quasar-popover>
+
+    <quasar-popover v-ref:pop>
+      <button slot="target" style="margin-left: 500px;" class="primary">
+        <i>more_vert</i>
+      </button>
+
+      <div class="list item-delimiter highlight">
+        <div class="item item-link" v-for="n in 20" @click="click($refs.pop)">
+          <div class="item-content">
+            Label
+          </div>
+        </div>
+      </div>
+    </quasar-popover>
+
+    <quasar-popover v-ref:tl>
+      <button slot="target" class="primary fixed-top-left" style="top: 50px">
         <i class="rotate-90">trending_up</i>
       </button>
 
       <div class="list item-delimiter highlight">
         <div class="item item-link" v-for="n in 20" @click="click($refs.tl)">
           <div class="item-content">
-            <div class="item-label">Label</div>
-            <div class="item-value">Value</div>
+            Label
           </div>
         </div>
       </div>
     </quasar-popover>
 
-    <quasar-popover v-ref:tr class="fixed-top-right">
-      <button slot="target" class="primary">
+    <quasar-popover v-ref:tr>
+      <button slot="target" class="primary fixed-top-right">
         <i class="rotate-180">trending_up</i>
       </button>
 
       <div class="list item-delimiter highlight">
         <div class="item item-link" v-for="n in 20" @click="click($refs.tr)">
           <div class="item-content">
-            <div class="item-label">Label</div>
-            <div class="item-value">Value</div>
+            Label
           </div>
         </div>
       </div>
     </quasar-popover>
 
-    <quasar-popover v-ref:br class="fixed-bottom-right">
-      <button slot="target" class="primary">
+    <quasar-popover v-ref:br>
+      <button slot="target" class="primary fixed-bottom-right">
         <i class="rotate-270">trending_up</i>
       </button>
 
       <div class="list item-delimiter highlight">
         <div class="item item-link" v-for="n in 20" @click="click($refs.br)">
           <div class="item-content">
-            <div class="item-label">Label</div>
-            <div class="item-value">Value</div>
+            Label
           </div>
         </div>
       </div>
     </quasar-popover>
 
-    <quasar-popover v-ref:bl class="fixed-bottom-left">
-      <button slot="target" class="primary">
+    <quasar-popover v-ref:bl>
+      <button slot="target" class="primary fixed-bottom-left">
         <i>trending_up</i>
       </button>
 
       <div class="list item-delimiter highlight">
         <div class="item item-link" v-for="n in 3" @click="click($refs.bl)">
           <div class="item-content">
-            <div class="item-label">Label</div>
-            <div class="item-value">Value</div>
+            Label
           </div>
         </div>
       </div>

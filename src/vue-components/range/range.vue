@@ -1,6 +1,7 @@
 <template>
   <div
     class="quasar-range non-selectable"
+    :class="{disabled: disabled}"
     @mousedown="setActive"
     @mouseup="active = false"
     @mousemove="update"
@@ -24,7 +25,7 @@
       <div
         class="quasar-range-handle"
         :style="{left: percentage}"
-        :class="{active: active, 'handle-at-minimum': model === min}"
+        :class="{active: !disabled && active, 'handle-at-minimum': model === min}"
       >
         <div
           class="quasar-range-label"
@@ -65,6 +66,11 @@ export default {
       coerce: Boolean
     },
     label: {
+      type: Boolean,
+      default: false,
+      coerce: Boolean
+    },
+    disabled: {
       type: Boolean,
       default: false,
       coerce: Boolean
@@ -115,7 +121,7 @@ export default {
       this.update(event)
     },
     update (event) {
-      if (!this.active) {
+      if (this.disabled || !this.active) {
         return
       }
 

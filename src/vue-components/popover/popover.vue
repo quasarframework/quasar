@@ -1,12 +1,6 @@
 <template>
-  <div class="quasar-popover">
-    <div
-      v-el:target
-      class="quasar-popover-target"
-      @click="toggle"
-    >
-      <slot name="target"></slot>
-    </div>
+  <span class="quasar-popover-target">
+    <slot name="target"></slot>
     <div
       v-el:content
       class="quasar-popover-content"
@@ -14,7 +8,7 @@
     >
       <slot></slot>
     </div>
-  </div>
+  </span>
 </template>
 
 <script>
@@ -28,6 +22,7 @@ const
     bottom: '',
     left: '',
     right: '',
+    minWidth: '',
     maxHeight: '',
     maxWidth: '',
     transformOrigin: ''
@@ -44,6 +39,17 @@ export default {
       type: Boolean,
       default: false,
       coerce: Boolean
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
+      coerce: Boolean
+    },
+    position: String,
+    cover: {
+      type: Boolean,
+      default: false,
+      coerce: Boolean
     }
   },
   methods: {
@@ -51,7 +57,7 @@ export default {
       this[this.active ? 'close' : 'open'](event)
     },
     open (event) {
-      if (this.active) {
+      if (this.disabled || this.active || this.inProgress) {
         return
       }
 
@@ -59,9 +65,17 @@ export default {
 
       let
         content = this.$els.content,
-        target = this.$els.target,
+        target = this.$el.children[0],
+        targetWidth = Utils.dom.width(target),
+        targetHeight = Utils.dom.height(target),
+        targetPosition = target.getBoundingClientRect(),
         position,
         css = Utils.extend({}, cssReset)
+
+      if (this.cover) {
+        css.minWidth = targetWidth + 'px'
+      }
+      Utils.dom.css(content, css)
 
       // necessary to compute menu width and height
       content.classList.add('check')
@@ -72,10 +86,7 @@ export default {
         windowWidth = viewport.width,
         windowHeight = viewport.height,
         contentWidth = Utils.dom.width(content),
-        contentHeight = Utils.dom.height(content),
-        targetWidth = Utils.dom.width(target),
-        targetHeight = Utils.dom.height(target),
-        targetPosition = this.$els.target.getBoundingClientRect()
+        contentHeight = Utils.dom.height(content)
 
       if (this.touchPosition) {
         let touchPosition = Utils.event.position(event)
@@ -97,12 +108,35 @@ export default {
 
       content.classList.remove('check', 'left', 'right', 'bottom', 'top')
 
-      if (!this.touchPosition) {
+      if (this.position) {
+        let position = this.position.split(' ')
+
+        if (position.includes('left')) {
+          toRight = false
+        }
+        else if (position.includes('right')) {
+          toRight = true
+        }
+
+        if (position.includes('top')) {
+          toBottom = false
+        }
+        else if (position.includes('bottom')) {
+          toBottom = true
+        }
+      }
+
+      if (this.touchPosition) {
+        if (!toRight) {
+          position.left -= contentWidth
+        }
+      }
+      else {
         if (!toBottom) {
           position.top += targetHeight
         }
         if (!toRight) {
-          position.left += targetWidth
+          position.left += targetWidth - contentWidth
         }
       }
 
@@ -115,7 +149,7 @@ export default {
       }
       else {
         content.classList.add('right')
-        css.right = (windowWidth - position.left) + 'px'
+        css.left = position.left + 'px'
         if (position.left < contentWidth) {
           css.maxWidth = (position.left - offset) + 'px'
         }
@@ -138,41 +172,49 @@ export default {
 
       Utils.dom.css(content, css)
       this.active = true
+      this.inProgress = true
 
       // give a little timeout so that click
       // event won't be triggered immediately
       setTimeout(() => {
         document.addEventListener('click', this.closeFromOutside)
-        this.scrollContainer = this.$el.closest('.layout-view')
-        if (!this.scrollContainer) {
-          this.scrollContainer = document.getElementById('quasar-app')
-        }
-        this.scrollContainer.addEventListener('scroll', this.close)
+        this.scrollTarget = Utils.dom.getScrollTarget(target)
+        this.scrollTarget.addEventListener('scroll', this.close)
         EscapeKey.register(() => { this.close() })
+        this.inProgress = false
       }, 210)
     },
     close () {
-      if (this.active) {
+      if (this.active && !this.inProgress) {
         this.active = false
+        this.inProgress = true
         setTimeout(() => {
           if (this.$els.content) {
             Utils.dom.css(this.$els.content, cssReset)
           }
+          this.inProgress = false
         }, 200)
 
-        this.scrollContainer.removeEventListener('scroll', this.close)
+        if (this.scrollTarget) {
+          this.scrollTarget.removeEventListener('scroll', this.close)
+          this.scrollTarget = null
+        }
         document.removeEventListener('click', this.closeFromOutside)
         EscapeKey.pop()
       }
     },
-    closeFromOutside () {
+    closeFromOutside (event) {
       if (!this.active || this.$els.content === event.target.closest('.quasar-popover-content')) {
         return
       }
       this.close()
     }
   },
+  ready () {
+    this.$el.children[0].addEventListener('click', this.toggle)
+  },
   beforeDestroy () {
+    this.$el.children[0].removeEventListener('click', this.toggle)
     if (this.active) {
       this.close()
     }

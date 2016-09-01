@@ -23,13 +23,13 @@ export function position (e) {
     e = e.touches[0]
   }
 
-  if (e.pageX || e.pageY)	{
-    posx = e.pageX
-    posy = e.pageY
+  if (e.clientX || e.clientY) {
+    posx = e.clientX
+    posy = e.clientY
   }
-  else if (e.clientX || e.clientY) {
-    posx = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft
-    posy = e.clientY + document.body.scrollTop + document.documentElement.scrollTop
+  else if (e.pageX || e.pageY)	{
+    posx = e.pageX - document.body.scrollLeft - document.documentElement.scrollLeft
+    posy = e.pageY - document.body.scrollTop - document.documentElement.scrollTop
   }
 
   return {
