@@ -16,6 +16,9 @@ import Checkbox from './vue-components/checkbox/checkbox.vue'
 import Chips from './vue-components/chips/chips.vue'
 import ContextMenuDesktop from './vue-components/context-menu/context-menu-desktop.vue'
 import ContextMenuMobile from './vue-components/context-menu/context-menu-mobile.vue'
+import Datetime from './vue-components/datetime/datetime.vue'
+import DesktopDatetime from './vue-components/datetime/datetime-desktop.vue'
+import InlineDatetime from './vue-components/datetime/inline-datetime.vue'
 import Drawer from './vue-components/drawer/drawer.vue'
 import DrawerLink from './vue-components/drawer/drawer-link.vue'
 import Fab from './vue-components/fab/fab.vue'
@@ -72,6 +75,8 @@ function registerComponents (_Vue) {
   _Vue.component('quasar-checkbox', Checkbox)
   _Vue.component('quasar-chips', Chips)
   _Vue.component('quasar-context-menu', Platform.is.desktop ? ContextMenuDesktop : ContextMenuMobile)
+  _Vue.component('quasar-datetime', Platform.is.desktop ? DesktopDatetime : Datetime)
+  _Vue.component('quasar-inline-datetime', InlineDatetime)
   _Vue.component('quasar-drawer', Drawer)
   _Vue.component('quasar-drawer-link', DrawerLink)
   _Vue.component('quasar-fab', Fab)

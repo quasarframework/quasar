@@ -1,5 +1,19 @@
 <template>
 
+  <p class="caption">Date</p>
+  <quasar-datetime :model.sync="timestamp" type="date"></quasar-datetime>
+  <br>
+  <quasar-inline-datetime :model.sync="timestamp" type="date"></quasar-inline-datetime>
+  <p class="caption">Time</p>
+  <quasar-datetime :model.sync="timestamp" type="time"></quasar-datetime>
+  <br>
+  <quasar-inline-datetime :model.sync="timestamp" type="time"></quasar-inline-datetime>
+  <p class="caption">Datetime</p>
+  <quasar-datetime :model.sync="timestamp" type="datetime"></quasar-datetime>
+  <br>
+  <quasar-inline-datetime :model.sync="timestamp" type="datetime"></quasar-inline-datetime>
+
+  <div style="height: 50px">&nbsp;</div>
   <div style="border: 1px solid black">
     <input v-model="text">
     <input v-model="text" :disabled="true">
@@ -353,7 +367,8 @@ export default {
       text: '',
       multiline: '',
       number: 64,
-      number2: 44
+      number2: 44,
+      timestamp: '2004-02-01T20:45:00.000Z'
     }
   }
 }

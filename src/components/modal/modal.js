@@ -87,6 +87,8 @@ class Modal {
       this.$backdrop.addEventListener('click', this.close)
     }
 
+    document.body.classList.add('with-modal')
+
     let
       effect,
       options = {
@@ -144,6 +146,7 @@ class Modal {
           duration,
           complete: () => {
             this.$el.classList.add('hidden')
+            document.body.classList.remove('with-modal')
 
             if (this.selfDestroy) {
               this.destroy()

@@ -1,0 +1,190 @@
+.quasar-datetime
+  color rgba(0, 0, 0, .87)
+  font-size 1rem
+  text-align center
+  user-select none
+
+.quasar-datetime-desktop
+  display inline-block
+
+.quasar-datetime-header
+  color opposite-non-color($primary)
+  background $primary
+
+.quasar-datetime-weekdaystring
+  font-size .8rem
+  background rgba(0, 0, 0, .1)
+  padding 5px 0
+
+.quasar-datetime-time
+  padding 10px 0
+
+.quasar-datetime-ampm
+  font-size .9rem
+
+.quasar-datetime-datestring
+  font-size 2.7rem
+  span.small
+    font-size 1.2rem
+
+.quasar-datetime-link
+  cursor pointer
+  opacity .6
+  &.active
+    opacity 1
+
+.quasar-datetime-clockstring
+  font-size 2.7rem
+
+.quasar-datetime-selecter
+  height 330px
+  overflow auto
+
+.quasar-datetime-animate
+  animation quasar-scale-in .4s
+
+.quasar-datetime-view-day
+  width 250px
+  height 300px
+
+.quasar-datetime-weekdays
+  font-size .75rem
+  margin-top 10px
+  margin-bottom 5px
+  div
+    opacity .6
+    width 35px
+    height 35px
+    line-height 35px
+    margin 0
+    padding 0
+    min-width 0
+    min-height 0
+    background transparent
+
+.quasar-datetime-days
+  font-size 12px
+  div
+    width 35px
+    height 35px
+    &:not(.quasar-datetime-fillerday)
+      border-radius 50%
+      transition all .3s
+      &:hover
+        background $grey-4
+      &.active
+        animation quasar-pop-in .5s
+        color opposite-non-color($primary)
+        background $primary
+
+.quasar-datetime-view-year, .quasar-datetime-view-month
+  button
+    font-weight normal
+    color rgba(0, 0, 0, .87) !important
+    &.active
+      font-size 1.5rem
+      padding-top 1rem
+      padding-bottom 1rem
+      color $primary !important
+
+.quasar-datetime-clock
+  width 250px
+  height 250px
+  border-radius 50%
+  background $grey-4
+  padding 24px
+
+.quasar-datetime-clock-circle
+  position relative
+  animation quasar-pop-in .5s
+
+.quasar-datetime-clock-center
+  height 6px
+  width 6px
+  top 0
+  margin auto
+  border-radius 50%
+  min-height 0
+  position absolute
+  left 0
+  right 0
+  bottom 0
+  color opposite-non-color($primary)
+  background $primary
+
+.quasar-datetime-clock-pointer
+  width 1px
+  height 50%
+  margin 0 auto
+  transform-origin top center
+  min-height 0
+  position absolute
+  left 0
+  right 0
+  bottom 0
+  background $primary
+  span
+    position absolute
+    border-radius 50%
+    width 8px
+    height 8px
+    bottom -8px
+    left 0
+    min-width 0
+    min-height 0
+    transform translate(-50%, -50%)
+    background $primary
+
+.quasar-datetime-clock-position
+  position absolute
+  min-height 32px
+  width 32px
+  height 32px
+  font-size 12px
+  line-height 32px
+  margin 0
+  padding 0
+  transform translate(-50%, -50%)
+  border-radius 50%
+  &:hover
+    background $grey-2
+  &.active
+    color opposite-non-color($primary)
+    background $primary
+
+for $pos in 0..12
+  $angle = 30 * $pos
+  $degree = (270 + $angle)
+  .quasar-datetime-clock-pos-{$pos}
+    top (((1 + sin($degree * 1deg)) * 100%) / 2)
+    left (((1 + cos($degree * 1 deg)) * 100%) / 2)
+
+@media (max-width $layout-medium-max)
+  .quasar-datetime
+    width 290px
+  .quasar-datetime-ampm
+    margin-left 1.5rem
+  .quasar-datetime-datestring span
+    margin 10px 5px
+    &.small
+      margin-top 1.3rem
+
+@media (min-width $layout-big-min)
+  .quasar-datetime
+    width 520px
+  .quasar-datetime-datestring
+    padding 10px 0
+  .quasar-datetime-ampm
+    margin-top 5px
+    div
+      margin 2px 0
+  .quasar-datetime-header
+    width 170px
+    position relative
+  .quasar-datetime-weekdaystring
+    position absolute
+    top 0
+    left 0
+    right 0
+  .quasar-datetime-content
+    width 290px

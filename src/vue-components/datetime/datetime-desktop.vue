@@ -1,0 +1,66 @@
+<template>
+  <div class="quasar-datetime-desktop">
+    <quasar-popover v-ref:popover :disabled="disabled">
+      <div slot="target" class="cursor-pointer textfield" :class="{disabled: disabled}">
+        <span>{{{ label }}}</span>
+        <span class="float-right quasar-select-arrow">&#8675</span>
+      </div>
+
+      <quasar-inline-datetime :model.sync="model" :type="type"></quasar-inline-datetime>
+    </quasar-popover>
+  </div>
+</template>
+
+<script>
+import moment from 'moment'
+
+export default {
+  props: {
+    type: {
+      type: String,
+      default: 'date',
+      twoWay: true
+    },
+    model: {
+      type: String,
+      required: true
+    },
+    format: {
+      type: String
+    },
+    okLabel: {
+      type: String,
+      default: 'Set'
+    },
+    cancelLabel: {
+      type: String,
+      default: 'Cancel'
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
+      coerce: Boolean
+    }
+  },
+  computed: {
+    label () {
+      let format
+
+      if (this.format) {
+        format = this.format
+      }
+      else if (this.type === 'date') {
+        format = 'YYYY-MM-DD'
+      }
+      else if (this.type === 'time') {
+        format = 'HH:mm'
+      }
+      else {
+        format = 'YYYY-MM-DD HH:mm:ss'
+      }
+
+      return moment(this.model).format(format)
+    }
+  }
+}
+</script>

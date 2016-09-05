@@ -24,15 +24,16 @@ var
     include: ['**/*.svg', '**/*.html']
   },
   external = [
-    'jquery',
     'fastclick',
     'hammerjs',
+    'moment',
     'velocity-animate',
     'velocity-animate/velocity.ui'
   ],
   globals = {
     fastclick: 'FastClick',
     hammerjs: 'Hammer',
+    moment: 'moment',
     'velocity-animate': 'Velocity',
     'velocity-animate/velocity.ui': 'velui'
   },
