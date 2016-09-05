@@ -93,7 +93,9 @@ $toolbar-title-font-size   ?= 1.25rem
   > div
     padding 0 12px
     width 100%
-    @extend .ellipsis
+    text-overflow ellipsis
+    white-space nowrap
+    overflow hidden
 
 .layout-padding
   @media only screen and (max-width $layout-small-max)

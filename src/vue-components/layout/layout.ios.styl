@@ -120,7 +120,9 @@ $toolbar-title-font-size   ?= 1.2rem
   > div
     flex 1
     font-weight 600
-    @extend .ellipsis
+    text-overflow ellipsis
+    white-space nowrap
+    overflow hidden
     font-size $toolbar-title-font-size
     text-align center
 .toolbar-content

@@ -1,57 +1,29 @@
-$z-marginals      ?= 10
-$z-fab            ?= 20
-$z-drawer         ?= 30
-$z-tooltip        ?= 40
-$z-popover        ?= 50
-$z-modal          ?= 60
-$z-toast          ?= 70
-
-$z-body-dimmed    ?= 100
-$z-absolute       ?= 200
-
-$shadow-color ?= black
-$shadow-transition ?= box-shadow .28s cubic-bezier(.4, 0, .2, 1)
-
-$inset-shadow = 0 7px 9px -7px alpha($shadow-color, .7) inset
-
-$shadow-1 = 0 1px 3px alpha($shadow-color, .12), 0 1px 2px alpha($shadow-color, .24)
-$shadow-2 = 0 3px 6px alpha($shadow-color, .16), 0 3px 6px alpha($shadow-color, .23)
-$shadow-3 = 0 10px 20px alpha($shadow-color, .19), 0 6px 6px alpha($shadow-color, .23)
-$shadow-4 = 0 14px 28px alpha($shadow-color, .25), 0 10px 10px alpha($shadow-color, .22)
-$shadow-5 = 0 19px 38px alpha($shadow-color, .30), 0 15px 12px alpha($shadow-color, .22)
-
-$shadow-up-1 = 0 -1px 3px alpha($shadow-color, .12), 0 -1px 2px alpha($shadow-color, .24)
-$shadow-up-2 = 0 -3px 6px alpha($shadow-color, .16), 0 -3px 6px alpha($shadow-color, .23)
-$shadow-up-3 = 0 -10px 20px alpha($shadow-color, .19), 0 -6px 6px alpha($shadow-color, .23)
-$shadow-up-4 = 0 -14px 28px alpha($shadow-color, .25), 0 -10px 10px alpha($shadow-color, .22)
-$shadow-up-5 = 0 -19px 38px alpha($shadow-color, .30), 0 -15px 12px alpha($shadow-color, .22)
-
 .shadow-transition
-  transition $shadow-transition
-
-.no-shadow, .shadow-0
-  box-shadow none
-.inset-shadow
-  box-shadow $inset-shadow
+  transition $shadow-transition !important
 
 .shadow-1, .hoverable:hover, .hoverable-1:hover
-  box-shadow $shadow-1
+  box-shadow $shadow-1 !important
 .shadow-2, .hoverable-2:hover
-  box-shadow $shadow-2
+  box-shadow $shadow-2 !important
 .shadow-3, .hoverable-3:hover
-  box-shadow $shadow-3
+  box-shadow $shadow-3 !important
 .shadow-4, .hoverable-4:hover
-  box-shadow $shadow-4
+  box-shadow $shadow-4 !important
 .shadow-5, .hoverable-5:hover
-  box-shadow $shadow-5
+  box-shadow $shadow-5 !important
 
 .shadow-up-1, .hoverable-up:hover, .hoverable-up-1:hover
-  box-shadow $shadow-up-1
+  box-shadow $shadow-up-1 !important
 .shadow-up-2, .hoverable-up-2:hover
-  box-shadow $shadow-up-2
+  box-shadow $shadow-up-2 !important
 .shadow-up-3, .hoverable-up-3:hover
-  box-shadow $shadow-up-3
+  box-shadow $shadow-up-3 !important
 .shadow-up-4, .hoverable-up-4:hover
-  box-shadow $shadow-up-4
+  box-shadow $shadow-up-4 !important
 .shadow-up-5, .hoverable-up-5:hover
-  box-shadow $shadow-up-5
+  box-shadow $shadow-up-5 !important
+
+.no-shadow, .shadow-0
+  box-shadow none !important
+.inset-shadow
+  box-shadow $inset-shadow !important

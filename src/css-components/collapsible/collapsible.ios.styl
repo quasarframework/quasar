@@ -19,7 +19,9 @@ ul.collapsible
       line-height 3rem
       padding 0 1rem
       background $collapsible-header-background
-      @extend .ellipsis
+      text-overflow ellipsis
+      white-space nowrap
+      overflow hidden
       i
         width 2rem
         font-size 1.7rem

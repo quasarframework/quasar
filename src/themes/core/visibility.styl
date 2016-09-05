@@ -1,6 +1,3 @@
-$dimmed-background       ?= rgba(0, 0, 0, .4)
-$light-dimmed-background ?= rgba(255, 255, 255, .6)
-
 .ellipsis
   text-overflow ellipsis
   white-space nowrap
@@ -26,15 +23,15 @@ $light-dimmed-background ?= rgba(255, 255, 255, .6)
     bottom 0
     left 0
 .dimmed:after
-  background $dimmed-background
+  background $dimmed-background !important
 .light-dimmed:after
-  background $light-dimmed-background
+  background $light-dimmed-background !important
 body
   &.dimmed, &.light-dimmed
     &:after
-      z-index $z-body-dimmed
+      z-index $z-body-dimmed !important
 .z-absolute
-  z-index $z-absolute
+  z-index $z-absolute !important
 
 
 @keyframes quasar-highlight

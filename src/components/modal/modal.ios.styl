@@ -63,7 +63,9 @@ maximized-modal()
       margin 0
 
   .small-modal-scroll, .modal-scroll, .big-modal-scroll
-    @extend .scroll
+    overflow auto
+    -webkit-overflow-scrolling touch
+    will-change scroll-position
   .small-modal-scroll
     max-height (.65 * $modal-scroll-size)
   .modal-scroll

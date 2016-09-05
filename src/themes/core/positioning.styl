@@ -1,7 +1,7 @@
 .pull-left
-  float left
+  float left !important
 .pull-right
-  float right
+  float right !important
 
 .no-margin
   margin 0 !important
@@ -63,7 +63,7 @@
   right 0
 
 .fullscreen
-  position fixed
+  position fixed !important
   top 0
   right 0
   bottom 0
@@ -71,19 +71,19 @@
 
 +prefix-classes('float-')
   .left
-    float left
+    float left !important
   .right
-    float right
+    float right !important
 
 +prefix-classes('vertical-')
   .top
-    vertical-align top
+    vertical-align top !important
   .middle
-    vertical-align middle
+    vertical-align middle !important
   .bottom
-    vertical-align bottom
+    vertical-align bottom !important
 
 &.on-left
-  margin-right .5rem
+  margin-right .5rem !important
 &.on-right
-  margin-left .5rem
+  margin-left .5rem !important

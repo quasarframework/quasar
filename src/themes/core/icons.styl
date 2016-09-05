@@ -12,8 +12,7 @@ if $icon-font-family == 'Material Icons'
     src local('Material Icons'), local('MaterialIcons-Regular'), url('~material-design-icons/iconfont/MaterialIcons-Regular.woff') format('woff')
 
   i
-    @extend .non-selectable
-
+    user-select none
     display inline-flex
     box-sizing content-box
     font-family $icon-font-family
