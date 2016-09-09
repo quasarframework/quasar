@@ -30,7 +30,7 @@
       ></path>
     </svg>
 
-    <div class="quasar-knob-label" style="{color: color}">{{ label || model }}</div>
+    <div class="quasar-knob-label" :style="{color: color}">{{ label || model }}</div>
   </div>
 </template>
 
