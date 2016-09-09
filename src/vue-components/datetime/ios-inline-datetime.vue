@@ -3,7 +3,7 @@
     <slot></slot>
 
     <div class="quasar-datetime-content">
-      <div class="quasar-datetime-inner full-height row justify-center">
+      <div class="quasar-datetime-inner full-height flex justify-center">
         <div
           class="quasar-datetime-col quasar-datetime-col-month"
           v-if="type === 'date' || type === 'datetime'"
@@ -134,54 +134,48 @@ export default {
   },
   computed: {
     year () {
-      this.__updatePositions('year')
-      return this.date.year()
+      let value = this.date.year()
+      this.__updatePositions('year', value - 1900)
+      return value
     },
     month () {
-      this.__updatePositions('month')
-      return this.date.month()
+      let value = this.date.month()
+      this.__updatePositions('month', value)
+      return value
     },
     day () {
-      this.__updatePositions('date')
-      return this.date.date()
+      let value = this.date.date()
+      this.__updatePositions('date', value - 1)
+      return value
     },
     daysInMonth () {
       return this.date.daysInMonth()
     },
     hour () {
-      this.__updatePositions('hour')
-      return this.date.hour()
+      let value = this.date.hour()
+      this.__updatePositions('hour', value)
+      return value
     },
     minute () {
-      this.__updatePositions('minute')
-      return this.date.minute()
+      let value = this.date.minute()
+      this.__updatePositions('minute', value)
+      return value
     },
 
-    __orientation () {
-      let orientation = {
-        month: 1,
-        date: 1,
-        year: 1,
-        hour: 1,
-        minute: 1
-      }
-
-      return orientation
-    },
     __monthStyle () {
-      return this.__colStyle(118 - (this.month + 1) * 36)
+      return this.__colStyle(82 - this.month * 36)
     },
     __dayStyle () {
-      return this.__colStyle(118 - this.day * 36)
+      return this.__colStyle(82 - (this.day - 1) * 36)
     },
     __yearStyle () {
-      return this.__colStyle(118 - (this.year - 1899) * 36)
+      return this.__colStyle(82 - (this.year - 1900) * 36)
     },
     __hourStyle () {
-      return this.__colStyle(118 - (this.hour + 1) * 36)
+      return this.__colStyle(82 - this.hour * 36)
     },
     __minuteStyle () {
-      return this.__colStyle(118 - (this.minute + 1) * 36)
+      return this.__colStyle(82 - this.minute * 36)
     }
   },
   methods: {
@@ -213,17 +207,17 @@ export default {
     __pad (unit, filler) {
       return (unit < 10 ? filler || '0' : '') + unit
     },
-    __updatePositions (type) {
+    __updatePositions (type, value) {
       let root = this.$els[type]
 
       if (!root) {
         return
       }
 
-      let delta = -this.date[type]() + (type === 'year' ? 1900 : 0)
+      let delta = -value
 
       ;[].slice.call(root.children).forEach(item => {
-        Utils.dom.css(item, this.__itemStyle(this.__orientation[type] * Math.min(3, Math.abs(delta)) * 18 * (delta < 0 ? 1 : -1)))
+        Utils.dom.css(item, this.__itemStyle(value * 36, Math.max(-180, Math.min(180, delta * -18))))
         delta++
       })
     },
@@ -234,11 +228,11 @@ export default {
         'transform': 'translate3d(0,' + value + 'px,0)'
       }
     },
-    __itemStyle (value) {
+    __itemStyle (translation, rotation) {
       return {
-        '-webkit-transform': 'translate3d(0, 36px, 0) rotateX(' + value + 'deg)',
-        '-ms-transform': 'translate3d(0, 36px, 0) rotateX(' + value + 'deg)',
-        'transform': 'translate3d(0, 36px, 0) rotateX(' + value + 'deg)'
+        '-webkit-transform': 'translate3d(0, ' + translation + 'px, 0) rotateX(' + rotation + 'deg)',
+        '-ms-transform': 'translate3d(0, ' + translation + 'px, 0) rotateX(' + rotation + 'deg)',
+        'transform': 'translate3d(0, ' + translation + 'px, 0) rotateX(' + rotation + 'deg)'
       }
     },
 
@@ -249,13 +243,13 @@ export default {
   },
   compiled () {
     if (this.type === 'date' || this.type === 'datetime') {
-      this.__updatePositions('month')
-      this.__updatePositions('date')
-      this.__updatePositions('year')
+      this.__updatePositions('month', this.date.month())
+      this.__updatePositions('date', this.date.date() - 1)
+      this.__updatePositions('year', this.date.year() - 1900)
     }
     if (this.type === 'time' || this.type === 'datetime') {
-      this.__updatePositions('hour')
-      this.__updatePositions('minute')
+      this.__updatePositions('hour', this.date.hour())
+      this.__updatePositions('minute', this.date.minute())
     }
   }
 }

@@ -11,16 +11,19 @@
     width 320px
 
 .quasar-datetime-content
-  height 272px
+  height 200px
   position relative
+  transform translate3d(0, 0, 0)
+  transition-property transform
 
 .quasar-datetime-inner
   font-size 21px
   overflow hidden
-  height 100%
   perspective 1200px
+  height 100%
   text-align right
   position relative
+  padding 0
 
 .quasar-datetime-mask
   position absolute
@@ -34,12 +37,11 @@
   pointer-events none
 
 .quasar-datetime-col
+  display block
   overflow visible
   transform-style preserve-3d
   position relative
   max-height 100%
-  &:first-of-type .quasar-datetime-col-wrapper
-    text-align left
 
 .quasar-datetime-col-wrapper
   transform-style preserve-3d
@@ -51,32 +53,35 @@
   width 10px
 
 .quasar-datetime-col-month
-  width 115px
+  width 117px
+  text-align left
 .quasar-datetime-col-day
-  width 40px
+  width 37px
 .quasar-datetime-col-year
-  width 60px
+  width 61px
 .quasar-datetime-col-hour
-  width 40px
+  width 37px
 .quasar-datetime-col-minute
-  width 40px
+  width 37px
 
 .quasar-datetime-item
   height 36px
   line-height 36px
   padding 0 6px
   color $grey-6
+  transform-origin center center -110px
   backface-visibility hidden
   transition-timing-function ease-out
   transform-style preserve-3d
-  transition-duration .3s
-  cursor pointer
+  position absolute
   white-space nowrap
   overflow hidden
   text-overflow ellipsis
   left 0
   top 0
   width 100%
+  transition-duration .3s
+  cursor pointer
   &.active
     color rgba(0, 0, 0, .87)
 
@@ -97,7 +102,7 @@
     right auto
     height 1px
     width 100%
-    background rgba(0, 0, 0, .87)
+    background $grey-5
     display block
     transform-origin 50% 0
 
