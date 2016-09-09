@@ -30,6 +30,7 @@ import GallerySlider from './vue-components/gallery/gallery-slider.vue'
 import Grid from './vue-components/grid/grid.vue'
 import GridTable from './vue-components/grid/grid-table.vue'
 import InfiniteScroll from './vue-components/infinite-scroll/infinite-scroll.vue'
+import Knob from './vue-components/knob/knob.vue'
 import Layout from './vue-components/layout/layout.vue'
 import ToolbarTitle from './vue-components/layout/toolbar-title.vue'
 import Modal from './components/modal/modal.vue'
@@ -88,6 +89,7 @@ function registerComponents (_Vue) {
   _Vue.component('quasar-grid', Grid)
   _Vue.component('quasar-grid-table', GridTable)
   _Vue.component('quasar-infinite-scroll', InfiniteScroll)
+  _Vue.component('quasar-knob', Knob)
   _Vue.component('quasar-layout', Layout)
   _Vue.component('quasar-toolbar-title', ToolbarTitle)
   _Vue.component('quasar-modal', Modal)

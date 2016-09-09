@@ -1,5 +1,9 @@
 <template>
 
+  <quasar-knob :model.sync="knob" :size="250" :min="-20" :max="50"></quasar-knob>
+  <button @click="knob = 70">Knob to 70</button>
+
+  <br><br>
   <p class="caption">Date</p>
   <quasar-datetime :model.sync="timestamp" type="date"></quasar-datetime>
   <br>
@@ -368,7 +372,8 @@ export default {
       multiline: '',
       number: 64,
       number2: 44,
-      timestamp: '2004-02-01T20:45:00.000Z'
+      timestamp: '2004-02-01T20:45:00.000Z',
+      knob: 25
     }
   }
 }
