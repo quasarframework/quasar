@@ -1,0 +1,110 @@
+.quasar-datetime
+  max-width 100vw
+
+  &:not(.no-border)
+    border 1px solid $grey-4
+  &.type-date
+    width 320px
+  &.type-time
+    width 200px
+  &.type-datetime
+    width 320px
+
+.quasar-datetime-content
+  height 272px
+  position relative
+
+.quasar-datetime-inner
+  font-size 21px
+  overflow hidden
+  height 100%
+  perspective 1200px
+  text-align right
+  position relative
+
+.quasar-datetime-mask
+  position absolute
+  top 0
+  right 0
+  bottom 0
+  left 0
+  height 100%
+  width 100%
+  background linear-gradient(to top, white, white 5%, transparent 20%, transparent 80%, white 95%, white)
+  pointer-events none
+
+.quasar-datetime-col
+  overflow visible
+  transform-style preserve-3d
+  position relative
+  max-height 100%
+  &:first-of-type .quasar-datetime-col-wrapper
+    text-align left
+
+.quasar-datetime-col-wrapper
+  transform-style preserve-3d
+  transition-duration .3s
+  transition-timing-function ease-out
+
+.quasar-datetime-col-divider
+  max-height 100%
+  width 10px
+
+.quasar-datetime-col-month
+  width 115px
+.quasar-datetime-col-day
+  width 40px
+.quasar-datetime-col-year
+  width 60px
+.quasar-datetime-col-hour
+  width 40px
+.quasar-datetime-col-minute
+  width 40px
+
+.quasar-datetime-item
+  height 36px
+  line-height 36px
+  padding 0 6px
+  color $grey-6
+  backface-visibility hidden
+  transition-timing-function ease-out
+  transform-style preserve-3d
+  transition-duration .3s
+  cursor pointer
+  white-space nowrap
+  overflow hidden
+  text-overflow ellipsis
+  left 0
+  top 0
+  width 100%
+  &.active
+    color rgba(0, 0, 0, .87)
+
+.quasar-datetime-highlight
+  height 36px
+  position absolute
+  left 0
+  width 100%
+  top 50%
+  margin-top -18px
+  pointer-events none
+
+  &:before, &:after
+    content ''
+    position absolute
+    transform scaleY(.5)
+    left 0
+    right auto
+    height 1px
+    width 100%
+    background rgba(0, 0, 0, .87)
+    display block
+    transform-origin 50% 0
+
+  &:before
+    top 0
+    bottom auto
+
+  &:after
+    bottom 0
+    top auto

@@ -4,6 +4,7 @@ import VueTouch from 'vue-touch'
 import Quasar from 'quasar'
 
 require('../src/themes/quasar.' + __THEME + '.styl')
+Quasar.theme.set(__THEME)
 
 Vue.use(VueRouter)
 Vue.use(VueTouch)
@@ -62,7 +63,6 @@ router.map({
   }
 })
 
-Quasar.theme.set(__THEME)
 Quasar.start(() => {
   router.start(Vue.extend({}), '#quasar-app')
 })
