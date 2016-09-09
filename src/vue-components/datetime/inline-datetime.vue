@@ -63,9 +63,9 @@
       </div>
     </div>
     <div class="quasar-datetime-content auto column">
-      <div v-el:selecter class="quasar-datetime-selecter auto row items-center justify-center">
+      <div v-el:selector class="quasar-datetime-selector auto row items-center justify-center">
         <div
-          v-show="view === 'year'"
+          v-if="view === 'year'"
           class="quasar-datetime-view-year full-width full-height"
         >
           <button
@@ -79,7 +79,7 @@
         </div>
 
         <div
-          v-show="view === 'month'"
+          v-if="view === 'month'"
           class="quasar-datetime-view-month full-width full-height"
         >
           <button
@@ -93,7 +93,7 @@
         </div>
 
         <div
-          v-show="view === 'day'"
+          v-if="view === 'day'"
           class="quasar-datetime-view-day quasar-datetime-animate"
         >
           <div class="row items-center content-center">
@@ -136,12 +136,12 @@
         </div>
 
         <div
-          v-show="view === 'hour' || view === 'minute'"
+          v-if="view === 'hour' || view === 'minute'"
           v-el:clock
           class="column items-center content-center justify-center"
         >
           <div
-            v-show="view === 'hour'"
+            v-if="view === 'hour'"
             class="quasar-datetime-clock cursor-pointer"
             @mousedown="__dragStart"
             @mousemove="__dragMove"
@@ -166,7 +166,7 @@
           </div>
 
           <div
-            v-show="view === 'minute'"
+            v-if="view === 'minute'"
             class="quasar-datetime-clock cursor-pointer"
             @mousedown="__dragStart"
             @mousemove="__dragMove"
@@ -247,7 +247,7 @@ export default {
       }
 
       let
-        view = this.$els.selecter,
+        view = this.$els.selector,
         rows = value === 'year' ? this.year - 1900 : this.month
 
       this.$nextTick(() => {
@@ -351,9 +351,8 @@ export default {
       return (unit < 10 ? filler || '0' : '') + unit
     },
     __dragStart (ev) {
-      if (this.dragging) {
-        return
-      }
+      ev.stopPropagation()
+      ev.preventDefault()
 
       let
         clock = this.$els.clock,
@@ -371,9 +370,13 @@ export default {
       if (!this.dragging) {
         return
       }
+      ev.stopPropagation()
+      ev.preventDefault()
       this.__updateClock(ev)
     },
     __dragStop (ev) {
+      ev.stopPropagation()
+      ev.preventDefault()
       this.dragging = false
       if (this.view === 'hour') {
         this.view = 'minute'

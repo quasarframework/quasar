@@ -19,6 +19,9 @@
 .quasar-datetime-time
   padding 10px 0
 
+div + .quasar-datetime-time
+  padding-top 0
+
 .quasar-datetime-ampm
   font-size .9rem
 
@@ -36,7 +39,7 @@
 .quasar-datetime-clockstring
   font-size 2.7rem
 
-.quasar-datetime-selecter
+.quasar-datetime-selector
   height 330px
   overflow auto
 
@@ -80,6 +83,7 @@
 .quasar-datetime-view-year, .quasar-datetime-view-month
   button
     font-weight normal
+    text-transform capitalize
     color rgba(0, 0, 0, .87) !important
     &.active
       font-size 1.5rem
@@ -146,32 +150,34 @@
   padding 0
   transform translate(-50%, -50%)
   border-radius 50%
-  &:hover
-    background $grey-2
   &.active
     color opposite-non-color($primary)
     background $primary
 
+body.desktop .quasar-datetime-clock-position:hover
+  background $grey-2
+
 for $pos in 0..12
-  $angle = 30 * $pos
-  $degree = (270 + $angle)
+  $degree = (270 + 30 * $pos)
   .quasar-datetime-clock-pos-{$pos}
     top (((1 + sin($degree * 1deg)) * 100%) / 2)
-    left (((1 + cos($degree * 1 deg)) * 100%) / 2)
+    left (((1 + cos($degree * 1deg)) * 100%) / 2)
 
 @media (max-width $layout-medium-max)
-  .quasar-datetime
-    width 290px
   .quasar-datetime-ampm
     margin-left 1.5rem
   .quasar-datetime-datestring span
     margin 10px 5px
     &.small
       margin-top 1.3rem
+  .quasar-datetime
+    width 290px
+    &:not(.no-border) .quasar-datetime-content
+      border-width 0 1px 1px 1px
+      border-style solid
+      border-color $grey-4
 
 @media (min-width $layout-big-min)
-  .quasar-datetime
-    width 520px
   .quasar-datetime-datestring
     padding 10px 0
   .quasar-datetime-ampm
@@ -188,3 +194,9 @@ for $pos in 0..12
     right 0
   .quasar-datetime-content
     width 290px
+  .quasar-datetime
+    width 520px
+    &:not(.no-border) .quasar-datetime-content
+      border-width 1px 1px 1px 0
+      border-style solid
+      border-color $grey-4
