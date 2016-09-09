@@ -72,7 +72,7 @@
             v-for="n in 200"
             class="primary clear full-width"
             :class="{active: n + 1900 === year}"
-            @click="setYear(n + 1900)"
+            @click="setYear(n + 1900, true)"
           >
             {{ n + 1900 }}
           </button>
@@ -86,7 +86,7 @@
             v-for="monthName in monthsList"
             class="primary clear full-width"
             :class="{active: month === $index}"
-            @click="setMonth($index)"
+            @click="setMonth($index, true)"
           >
             {{ monthName }}
           </button>
@@ -307,14 +307,28 @@ export default {
   },
   methods: {
     /* date */
-    setYear (year) {
+    setYear (year, delay) {
       this.date.year(year)
-      this.view = 'day'
+      if (delay) {
+        setTimeout(() => {
+          this.view = 'day'
+        }, 100)
+      }
+      else {
+        this.view = 'day'
+      }
       this.__updateModel()
     },
-    setMonth (month) {
+    setMonth (month, delay) {
       this.date.month(month)
-      this.view = 'day'
+      if (delay) {
+        setTimeout(() => {
+          this.view = 'day'
+        }, 100)
+      }
+      else {
+        this.view = 'day'
+      }
       this.__updateModel()
     },
     setDay (dayOfMonth) {

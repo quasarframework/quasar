@@ -139,6 +139,9 @@ div + .quasar-datetime-time
     transform translate(-50%, -50%)
     background $primary
 
+body.desktop .quasar-datetime-clock-position:not(.active):hover
+  background $grey-2 !important
+
 .quasar-datetime-clock-position
   position absolute
   min-height 32px
@@ -152,10 +155,7 @@ div + .quasar-datetime-time
   border-radius 50%
   &.active
     color opposite-non-color($primary)
-    background $primary
-
-body.desktop .quasar-datetime-clock-position:hover
-  background $grey-2
+    background $primary !important
 
 for $pos in 0..12
   $degree = (270 + 30 * $pos)
