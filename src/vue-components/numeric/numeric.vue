@@ -20,12 +20,12 @@ export default {
     model: {
       type: Number,
       default: 0,
-      coerce: (value) => parseFloat(value, 10) || 0
+      coerce: value => parseFloat(value, 10) || 0
     },
     step: {
       type: Number,
       default: 1,
-      coerce: (value) => parseFloat(value, 10)
+      coerce: value => parseFloat(value, 10)
     },
     min: Number,
     max: Number,

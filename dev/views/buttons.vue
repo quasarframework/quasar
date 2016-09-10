@@ -1,4 +1,29 @@
 <template>
+  <p class="caption">Progress Button</p>
+  <div class="group">
+    <quasar-progress-button
+      class="dark"
+      :percentage="progressBtn"
+      @click="workButton()"
+    >
+      Work it!
+    </quasar-progress-button>
+    <button class="secondary clear" @click="stopWorkButton()">
+      Stop
+    </button>
+    <button class="secondary clear" @click="progressBtn = -1">
+      Error
+    </button>
+    <button class="secondary clear" @click="progressBtn = 100">
+      Success
+    </button>
+    <button class="secondary clear" @click="progressBtn = 0">
+      Reset
+    </button>
+    <div class="label tag bg-light">{{ progressBtn }}</div>
+  </div>
+
+  <br><br>
   <div>
     <button class="primary block">.block</button>
     <button class="secondary block">.block</button>
@@ -72,7 +97,27 @@ export default {
         'red', 'pink', 'purple', 'deep-purple', 'indigo', 'blue', 'light-blue', 'cyan', 'teal', 'green',
         'light-green', 'lime', 'yellow', 'amber', 'orange', 'deep-orange', 'brown', 'grey', 'blue-grey'
       ],
-      extras: ['raised', 'clear', 'outline', 'round', 'bordered', 'push', 'glossy']
+      extras: ['raised', 'clear', 'outline', 'round', 'bordered', 'push', 'glossy'],
+      progressBtn: 0
+    }
+  },
+  methods: {
+    workButton () {
+      this.stopWorkButton()
+
+      this.progressBtn = 0
+      this.workingButton = setInterval(() => {
+        this.progressBtn += 16
+        if (this.progressBtn >= 100) {
+          this.stopWorkButton()
+        }
+      }, 500)
+    },
+    stopWorkButton () {
+      if (this.workingButton) {
+        clearInterval(this.workingButton)
+        this.workingButton = null
+      }
     }
   }
 }

@@ -1,0 +1,38 @@
+.quasar-progress-button
+  overflow hidden
+
+.quasar-progress-button-content
+  transition all .3s
+  transform translateY(0)
+
+  &.quasar-progress-button-complete
+    transform translateY(-3.25rem)
+  &.quasar-progress-button-incomplete
+    transform translateY(2.75rem)
+
+.quasar-progress-button-error,
+.quasar-progress-button-success
+  position absolute
+  text-align center
+  top 0
+  left 50%
+  div
+    min-height 1.275rem
+    line-height 1.275rem
+
+.quasar-progress-button-error
+  transform translateX(-50%) translateY(-3rem)
+
+.quasar-progress-button-success
+  transform translateX(-50%) translateY(3rem)
+
+.quasar-progress-button-filler
+  transition all .3s
+  position absolute
+  left 0
+  top 0
+  bottom 0
+  height 100%
+  background rgba(255, 255, 255, .25)
+  &.quasar-progress-button-dark-filler
+    background rgba(0, 0, 0, .2)

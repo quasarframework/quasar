@@ -1,12 +1,4 @@
 <template>
-
-  <quasar-knob :model.sync="knob" size="250px" :min="-20" :line-width="2" track-color="white" :max="50" :step="0.5" :label="knob + ' points'"></quasar-knob>
-  <quasar-knob :model.sync="knob" style="font-size: 3rem" :min="-20" :max="50" :step="5"></quasar-knob>
-  <quasar-knob :model.sync="knob" :min="-20" :max="50" disabled></quasar-knob>
-  <br>
-  <button @click="knob = 70">Knob to 70</button>
-
-  <br><br>
   <p class="caption">Date</p>
   <quasar-datetime :model.sync="timestamp" type="date"></quasar-datetime>
   <br>
@@ -36,6 +28,13 @@
     <label>Username</label>
   </div>
   <br><br>
+
+  <p class="caption">Knob</p>
+  <quasar-knob :model.sync="knob" size="250px" :min="-20" :line-width="2" track-color="white" :max="50" :step="0.5" :label="knob + ' points'"></quasar-knob>
+  <quasar-knob :model.sync="knob" style="font-size: 3rem" :min="-20" :max="50" :step="5"></quasar-knob>
+  <quasar-knob :model.sync="knob" :min="-20" :max="50" disabled></quasar-knob>
+  <br>
+  <button @click="knob = 70">Knob to 70</button>
 
   <p class="caption">Text Fields</p>
   <div class="list">
