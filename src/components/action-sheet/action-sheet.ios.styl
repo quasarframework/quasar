@@ -2,7 +2,7 @@ $action-sheet-background       ?= $light
 $action-sheet-border-radius    ?= 13px
 $action-sheet-max-width        ?= 95%
 $action-sheet-margin-bottom    ?= .6rem
-$action-sheet-font-size        ?= 1.5rem
+$action-sheet-font-size        ?= 1.3rem
 $action-sheet-avatar-padding   ?= .6rem 1.1rem
 $action-sheet-hover-background ?= #d0d0d0
 
@@ -29,5 +29,15 @@ $action-sheet-hover-background ?= #d0d0d0
   margin-bottom $action-sheet-margin-bottom
   overflow hidden
 
+  .modal-header
+    border-bottom 2px solid $grey-4
+    padding-bottom 15px !important
+
   .item-link
     font-size $action-sheet-font-size
+    &:first-child
+      margin-top 0
+    &:last-child
+      margin-bottom 0
+    &:not(:last-child)
+      border-bottom 1px solid $grey-4

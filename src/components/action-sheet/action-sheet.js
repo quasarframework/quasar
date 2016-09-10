@@ -4,6 +4,19 @@ import { current as theme } from '../../theme'
 import matTemplate from './action-sheet-material.html'
 import iosTemplate from './action-sheet-ios.html'
 
+let css = {
+  mat: {
+    maxHeight: '80vh',
+    height: 'auto'
+  },
+  ios: {
+    maxHeight: '80vh',
+    height: 'auto',
+    backgroundColor: 'transparent',
+    boxShadow: 'none'
+  }
+}
+
 function parseButtons (buttons) {
   if (!Array.isArray(buttons)) {
     throw new Error('Action Sheet buttons parameter must be an array.')
@@ -32,46 +45,28 @@ function parseButtons (buttons) {
   })
 }
 
-function getCSS () {
-  if (theme === 'ios') {
-    return {
-      maxHeight: '80vh',
-      height: 'auto',
-      backgroundColor: 'transparent',
-      boxShadow: 'none'
-    }
-  }
-
-  return {
-    maxHeight: '80vh',
-    height: 'auto'
-  }
-}
-
-function create (data) {
-  data.buttons = parseButtons(data.buttons)
-  data.dismissButton = data.buttons.pop()
-
-  let modal = Modal.create({
-    template: theme === 'ios' ? iosTemplate : matTemplate,
-    data
-  })
-  .css(getCSS())
-  .set({
-    transitionIn: {translateY: [0, '101%']},
-    transitionOut: {translateY: ['101%', 0]},
-    onBackButton: data.dismissButton.handler
-  })
-
-  modal.$el.classList.remove('items-center')
-  modal.$el.classList.add('items-end')
-  modal.$backdrop.addEventListener('click', () => {
-    modal.close(data.dismissButton.handler)
-  })
-
-  return modal
-}
-
 export default {
-  create
+  create (data) {
+    data.buttons = parseButtons(data.buttons)
+    data.dismissButton = data.buttons.pop()
+
+    let modal = Modal.create({
+      template: theme === 'ios' ? iosTemplate : matTemplate,
+      data
+    })
+    .css(css[theme])
+    .set({
+      transitionIn: {translateY: [0, '101%']},
+      transitionOut: {translateY: ['101%', 0]},
+      onBackButton: data.dismissButton.handler
+    })
+
+    modal.$el.classList.remove('items-center')
+    modal.$el.classList.add('items-end')
+    modal.$backdrop.addEventListener('click', () => {
+      modal.close(data.dismissButton.handler)
+    })
+
+    return modal
+  }
 }

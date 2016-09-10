@@ -1,3 +1,5 @@
+$datetime-color ?= $primary
+
 .quasar-datetime
   color rgba(0, 0, 0, .87)
   font-size 1rem
@@ -8,8 +10,8 @@
   display inline-block
 
 .quasar-datetime-header
-  color opposite-non-color($primary)
-  background $primary
+  color opposite-non-color($datetime-color)
+  background $datetime-color
 
 .quasar-datetime-weekdaystring
   font-size .8rem
@@ -77,8 +79,8 @@ div + .quasar-datetime-time
         background $grey-4
       &.active
         animation quasar-pop-in .5s
-        color opposite-non-color($primary)
-        background $primary
+        color opposite-non-color($datetime-color)
+        background $datetime-color
 
 .quasar-datetime-view-year, .quasar-datetime-view-month
   button
@@ -113,8 +115,8 @@ div + .quasar-datetime-time
   left 0
   right 0
   bottom 0
-  color opposite-non-color($primary)
-  background $primary
+  color opposite-non-color($datetime-color)
+  background $datetime-color
 
 .quasar-datetime-clock-pointer
   width 1px
@@ -126,7 +128,7 @@ div + .quasar-datetime-time
   left 0
   right 0
   bottom 0
-  background $primary
+  background $datetime-color
   span
     position absolute
     border-radius 50%
@@ -137,7 +139,7 @@ div + .quasar-datetime-time
     min-width 0
     min-height 0
     transform translate(-50%, -50%)
-    background $primary
+    background $datetime-color
 
 body.desktop .quasar-datetime-clock-position:not(.active):hover
   background $grey-2 !important
@@ -154,8 +156,8 @@ body.desktop .quasar-datetime-clock-position:not(.active):hover
   transform translate(-50%, -50%)
   border-radius 50%
   &.active
-    color opposite-non-color($primary)
-    background $primary !important
+    color opposite-non-color($datetime-color)
+    background $datetime-color !important
 
 for $pos in 0..12
   $degree = (270 + 30 * $pos)

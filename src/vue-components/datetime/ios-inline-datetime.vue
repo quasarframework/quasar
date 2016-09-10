@@ -136,11 +136,13 @@ export default {
     year () {
       let value = this.date.year()
       this.__updatePositions('year', value - 1900)
+      this.__updatePositions('date', this.date.date() - 1)
       return value
     },
     month () {
       let value = this.date.month()
       this.__updatePositions('month', value)
+      this.__updatePositions('date', this.date.date() - 1)
       return value
     },
     day () {
