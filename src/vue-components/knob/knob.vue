@@ -1,7 +1,8 @@
 <template>
   <div
     class="quasar-knob"
-    :style="{width: size + 'px', height: size + 'px'}"
+    :class="{disabled: disabled}"
+    :style="{width: size, height: size}"
     @mousedown="__dragStart"
     @mousemove="__dragMove"
     @mouseup="__dragStop"
@@ -14,7 +15,7 @@
         d="M 50,50 m 0,-47
            a 47,47 0 1 1 0,94
            a 47,47 0 1 1 0,-94"
-        stroke="#ececec"
+        :stroke="trackColor"
         :stroke-width="lineWidth"
         fill-opacity="0"
       ></path>
@@ -61,13 +62,21 @@ export default {
       type: String,
       default: '#027be3'
     },
+    trackColor: {
+      type: String,
+      default: '#ececec'
+    },
     lineWidth: {
       type: Number,
       default: 6
     },
     size: {
+      type: String,
+      default: '100px'
+    },
+    step: {
       type: Number,
-      default: 100
+      default: 1
     },
     label: String
   },
@@ -149,7 +158,11 @@ export default {
         angle = this.centerPosition.left < position.left ? angle + 90 : 270 - angle
       }
 
-      this.model = Math.round(this.min + (angle / 360) * (this.max - this.min))
+      let
+        model = this.min + (angle / 360) * (this.max - this.min),
+        modulo = model % this.step
+
+      this.model = Math.min(this.max, Math.max(this.min, model - modulo + (Math.abs(modulo) >= this.step / 2 ? (modulo < 0 ? -1 : 1) * this.step : 0)))
     }
   }
 }

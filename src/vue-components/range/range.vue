@@ -137,7 +137,7 @@ export default {
         modulo = model % this.step
 
       this.currentPercentage = percentage
-      this.model = Math.min(this.max, Math.max(this.min, model - modulo + (modulo >= this.step / 2 ? this.step : 0)))
+      this.model = Math.min(this.max, Math.max(this.min, model - modulo + (Math.abs(modulo) >= this.step / 2 ? (modulo < 0 ? -1 : 1) * this.step : 0)))
     },
     validateProps () {
       if (this.min >= this.max) {

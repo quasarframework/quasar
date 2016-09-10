@@ -1,6 +1,9 @@
 <template>
 
-  <quasar-knob :model.sync="knob" :size="250" :min="-20" :max="50"></quasar-knob>
+  <quasar-knob :model.sync="knob" size="250px" :min="-20" :line-width="2" track-color="white" :max="50" :step="0.5" :label="knob + ' points'"></quasar-knob>
+  <quasar-knob :model.sync="knob" style="font-size: 3rem" :min="-20" :max="50" :step="5"></quasar-knob>
+  <quasar-knob :model.sync="knob" :min="-20" :max="50" disabled></quasar-knob>
+  <br>
   <button @click="knob = 70">Knob to 70</button>
 
   <br><br>
