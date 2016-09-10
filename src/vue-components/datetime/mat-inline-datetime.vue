@@ -69,12 +69,12 @@
           class="quasar-datetime-view-year full-width full-height"
         >
           <button
-            v-for="n in 200"
+            v-for="n in 101"
             class="primary clear full-width"
-            :class="{active: n + 1900 === year}"
-            @click="setYear(n + 1900, true)"
+            :class="{active: n + 1950 === year}"
+            @click="setYear(n + 1950, true)"
           >
-            {{ n + 1900 }}
+            {{ n + 1950 }}
           </button>
         </div>
 
@@ -85,8 +85,8 @@
           <button
             v-for="monthName in monthsList"
             class="primary clear full-width"
-            :class="{active: month === $index}"
-            @click="setMonth($index, true)"
+            :class="{active: month === $index + 1}"
+            @click="setMonth($index + 1, true, true)"
           >
             {{ monthName }}
           </button>
@@ -99,7 +99,7 @@
           <div class="row items-center content-center">
             <button
               class="primary clear"
-              @click="setMonth(month - 1)"
+              @click="setMonth(month - 1, true, true)"
             >
               <i>keyboard_arrow_left</i>
             </button>
@@ -108,7 +108,7 @@
             </div>
             <button
               class="primary clear"
-              @click="setMonth(month + 1)"
+              @click="setMonth(month + 1, true, true)"
             >
               <i>keyboard_arrow_right</i>
             </button>
@@ -214,6 +214,11 @@ export default {
       validator (value) {
         return ['date', 'time', 'datetime'].includes(value)
       }
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
+      coerce: Boolean
     }
   },
   data () {
@@ -248,7 +253,7 @@ export default {
 
       let
         view = this.$els.selector,
-        rows = value === 'year' ? this.year - 1900 : this.month
+        rows = value === 'year' ? this.year - 1950 : this.month
 
       this.$nextTick(() => {
         view.scrollTop = rows * Utils.dom.height(view.children[0].children[0]) - Utils.dom.height(view) / 2.5
@@ -260,7 +265,7 @@ export default {
       return this.date.year()
     },
     month () {
-      return this.date.month()
+      return this.date.month() + 1
     },
     day () {
       return this.date.date()
@@ -307,8 +312,11 @@ export default {
   },
   methods: {
     /* date */
-    setYear (year, delay) {
-      this.date.year(year)
+    setYear (value, delay) {
+      if (this.disabled) {
+        return
+      }
+      this.date.year(this.__parseTypeValue('year', value))
       if (delay) {
         setTimeout(() => {
           this.view = 'day'
@@ -319,8 +327,11 @@ export default {
       }
       this.__updateModel()
     },
-    setMonth (month, delay) {
-      this.date.month(month)
+    setMonth (value, force, delay) {
+      if (this.disabled) {
+        return
+      }
+      this.date.month((force ? value : this.__parseTypeValue('month', value)) - 1)
       if (delay) {
         setTimeout(() => {
           this.view = 'day'
@@ -331,13 +342,19 @@ export default {
       }
       this.__updateModel()
     },
-    setDay (dayOfMonth) {
-      this.date.date(dayOfMonth)
+    setDay (value) {
+      if (this.disabled) {
+        return
+      }
+      this.date.date(this.__parseTypeValue('date', value))
       this.__updateModel()
     },
 
     /* time */
     toggleAmPm () {
+      if (this.disabled) {
+        return
+      }
       let
         hour = this.date.hour(),
         offset = this.am ? 12 : -12
@@ -345,18 +362,24 @@ export default {
       this.date.hour(hour + offset)
       this.__updateModel()
     },
-    setHour (hour) {
-      hour = Math.min(23, hour) % 12
+    setHour (value) {
+      if (this.disabled) {
+        return
+      }
+      value = this.__parseTypeValue('hour', value) % 12
 
       if (!this.am) {
-        hour += 12
+        value += 12
       }
 
-      this.date.hour(hour)
+      this.date.hour(value)
       this.__updateModel()
     },
-    setMinute (minute) {
-      this.date.minute(Math.min(59, minute))
+    setMinute (value) {
+      if (this.disabled) {
+        return
+      }
+      this.date.minute(this.__parseTypeValue('minute', value))
       this.__updateModel()
     },
 
@@ -418,6 +441,23 @@ export default {
       }
       else {
         this.setMinute(Math.round(angle / 6))
+      }
+    },
+    __parseTypeValue (type, value) {
+      if (type === 'month') {
+        return Math.max(1, Math.min(12, value))
+      }
+      if (type === 'date') {
+        return Math.max(1, Math.min(this.daysInMonth, value))
+      }
+      if (type === 'year') {
+        return Math.max(1950, Math.min(2050, value))
+      }
+      if (type === 'hour') {
+        return Math.max(0, Math.min(23, value))
+      }
+      if (type === 'minute') {
+        return Math.max(0, Math.min(59, value))
       }
     },
 

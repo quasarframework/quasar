@@ -1,5 +1,6 @@
 <template>
   <p class="caption">Date</p>
+  {{ timestamp }}
   <quasar-datetime :model.sync="timestamp" type="date"></quasar-datetime>
   <br>
   <quasar-inline-datetime :model.sync="timestamp" type="date"></quasar-inline-datetime>

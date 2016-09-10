@@ -13,8 +13,6 @@
 .quasar-datetime-content
   height 200px
   position relative
-  transform translate3d(0, 0, 0)
-  transition-property transform
 
 .quasar-datetime-inner
   font-size 21px
@@ -43,10 +41,12 @@
   position relative
   max-height 100%
 
-.quasar-datetime-col-wrapper
+.quasar-datetime-col-wrapper, .quasar-datetime-item
   transform-style preserve-3d
-  transition-duration .3s
-  transition-timing-function ease-out
+  transition all .2s ease-out
+
+body.desktop .quasar-datetime-col-wrapper
+  cursor pointer
 
 .quasar-datetime-col-divider
   max-height 100%
@@ -69,10 +69,6 @@
   line-height 36px
   padding 0 6px
   color rgba(0, 0, 0, .87)
-  transform-origin center center -110px
-  backface-visibility hidden
-  transition-timing-function ease-out
-  transform-style preserve-3d
   position absolute
   white-space nowrap
   overflow hidden
@@ -80,10 +76,8 @@
   left 0
   top 0
   width 100%
-  transition-duration .3s
-  cursor pointer
-  &.active
-    color rgba(0, 0, 0, .87)
+  backface-visibility hidden
+  transform-origin center center -110px
 
 .quasar-datetime-highlight
   height 36px

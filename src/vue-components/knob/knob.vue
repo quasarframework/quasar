@@ -137,9 +137,6 @@ export default {
       ev.stopPropagation()
       ev.preventDefault()
       this.dragging = false
-      if (this.view === 'hour') {
-        this.view = 'minute'
-      }
     },
     __updateModel (ev) {
       let
