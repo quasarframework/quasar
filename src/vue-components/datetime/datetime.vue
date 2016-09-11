@@ -9,6 +9,7 @@
 import moment from 'moment'
 import Modal from '../../components/modal/modal'
 import PickerModal from './datetime-modal.vue'
+import { current as theme } from '../../theme'
 
 export default {
   props: {
@@ -74,7 +75,24 @@ export default {
       }
 
       modal = Modal.create(PickerModal)
+
+      if (theme === 'ios') {
+        modal.$el.classList.remove('items-center')
+        modal.$el.classList.add('items-end')
+        modal.css({
+          maxHeight: '80vh',
+          height: 'auto',
+          boxShadow: 'none',
+          backgroundColor: '#e4e4e4'
+        })
         .set({
+          transitionIn: {translateY: [0, '101%']},
+          transitionOut: {translateY: ['101%', 0]},
+          closeWithBackdrop: true
+        }).show()
+      }
+      else {
+        modal.set({
           minimized: true,
           closeWithBackdrop: true
         })
@@ -83,6 +101,7 @@ export default {
           maxHeight: '98vh'
         })
         .show()
+      }
     }
   }
 }
