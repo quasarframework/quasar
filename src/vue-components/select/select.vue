@@ -3,7 +3,7 @@
     <quasar-popover v-ref:popover :disabled="disabled" cover>
       <div slot="target" class="cursor-pointer textfield" @click="__parseOptions" :class="{disabled: disabled}">
         <span>{{{ label }}}</span>
-        <span class="float-right quasar-select-arrow">&#8675</span>
+        <div class="float-right quasar-select-arrow caret-down"></div>
       </div>
 
       <div class="list highlight">

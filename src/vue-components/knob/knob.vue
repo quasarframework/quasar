@@ -1,6 +1,6 @@
 <template>
   <div
-    class="quasar-knob"
+    class="quasar-knob non-selectable"
     :class="{disabled: disabled}"
     :style="{width: size, height: size}"
     @mousedown="__dragStart"

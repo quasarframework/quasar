@@ -6,6 +6,8 @@ $textfield-focus-border-color ?= $form-active-color
 $textfield-padding-horizontal ?= 0
 $textfield-padding-vertical   ?= 8px
 
+$caret-color                  ?= $grey-6
+
 input, textarea, .textfield
   &:not(.no-style)
     background none
@@ -17,7 +19,7 @@ input, textarea, .textfield
     outline 0
     transition all .3s
     border-bottom $textfield-border-size $textfield-border-style $textfield-border-color
-    &:focus
+    &:focus, &:hover
       border-bottom $textfield-border-size $textfield-border-style $textfield-focus-border-color
     &[disabled], &.disabled
       border-bottom-color darken($form-darker-color, 20%)
@@ -63,3 +65,33 @@ textarea:not(.no-style)
   input:focus ~ label, input:valid ~ label, textarea:focus ~ label, textarea:valid ~ label
     transform translateY(0) scale(.8)
     color $form-active-color
+
+.caret-down, .caret-up, .caret-left, .caret-right
+  display inline-block
+  height 14px
+  width 14px
+  border 10px solid transparent
+  transition all .3s
+
+.caret-down
+  border-top-color $caret-color
+  transform translateY(10%) scale(.7)
+.caret-up
+  border-bottom-color $caret-color
+  transform translateY(-28%) scale(.7)
+.caret-left
+  border-right-color $caret-color
+  transform translateY(-10%) scale(.7)
+.caret-right
+  border-left-color $caret-color
+  transform translateX(25%) translateY(-10%) scale(.7)
+
+.textfield:hover
+  .caret-down
+    border-top-color $textfield-focus-border-color
+  .caret-up
+    border-bottom-color $textfield-focus-border-color
+  .caret-left
+    border-right-color $textfield-focus-border-color
+  .caret-right
+    border-left-color $textfield-focus-border-color

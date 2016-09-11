@@ -1,5 +1,5 @@
 <template>
-  <div class="quasar-datetime" :class="['type-' + type]">
+  <div class="quasar-datetime" :class="['type-' + type, disabled ? 'disabled' : '']">
     <slot></slot>
 
     <div class="quasar-datetime-content non-selectable">

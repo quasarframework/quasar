@@ -1,5 +1,5 @@
 <template>
-  <div class="quasar-datetime inline column gt-md-row">
+  <div class="quasar-datetime inline column gt-md-row" :class="{disabled: disabled}">
     <div class="quasar-datetime-header column justify-center">
       <div v-if="type === 'date' || type === 'datetime'">
         <div class="quasar-datetime-weekdaystring">{{ weekDayString }}</div>

@@ -3,7 +3,7 @@
     <quasar-popover v-ref:popover :disabled="disabled">
       <div slot="target" class="cursor-pointer textfield" :class="{disabled: disabled}">
         <span>{{{ label }}}</span>
-        <span class="float-right quasar-select-arrow">&#8675</span>
+        <div class="float-right quasar-select-arrow caret-down"></div>
       </div>
 
       <quasar-inline-datetime :model.sync="model" :type="type"></quasar-inline-datetime>

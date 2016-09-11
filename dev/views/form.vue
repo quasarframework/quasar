@@ -1,9 +1,15 @@
 <template>
+  <div class="caret-down"></div>
+  <div class="caret-up"></div>
+  <div class="caret-left"></div>
+  <div class="caret-right"></div>
   <p class="caption">Date</p>
   {{ timestamp }}
   <quasar-datetime :model.sync="timestamp" type="date"></quasar-datetime>
+  <quasar-datetime :model.sync="timestamp" type="date" disabled></quasar-datetime>
   <br>
   <quasar-inline-datetime :model.sync="timestamp" type="date"></quasar-inline-datetime>
+  <quasar-inline-datetime :model.sync="timestamp" type="date" disabled></quasar-inline-datetime>
   <p class="caption">Time</p>
   <quasar-datetime :model.sync="timestamp" type="time"></quasar-datetime>
   <br>

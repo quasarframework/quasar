@@ -1,7 +1,7 @@
 <template>
   <div class="quasar-select cursor-pointer textfield" @click="pick" :class="{disabled: disabled}">
     <span>{{{ label }}}</span>
-    <span class="float-right quasar-select-arrow">&#8675</span>
+    <div class="float-right quasar-select-arrow caret-down"></div>
   </div>
 </template>
 
