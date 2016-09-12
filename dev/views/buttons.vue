@@ -2,7 +2,31 @@
   <p class="caption">Progress Button</p>
   <div class="group">
     <quasar-progress-button
+      class="lime"
+      :percentage="progressBtn"
+      @click="workButton()"
+      dark-filler
+    >
+      Work it!
+    </quasar-progress-button>
+    <quasar-progress-button
       class="dark"
+      :percentage="progressBtn"
+      @click="workButton()"
+    >
+      Work it!
+    </quasar-progress-button>
+    <quasar-progress-button
+      class="lime"
+      indeterminate
+      :percentage="progressBtn"
+      @click="workButton()"
+    >
+      Work it!
+    </quasar-progress-button>
+    <quasar-progress-button
+      class="dark"
+      indeterminate
       :percentage="progressBtn"
       @click="workButton()"
     >
