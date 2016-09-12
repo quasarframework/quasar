@@ -1,7 +1,42 @@
 <template>
   <div class="layout-padding">
-    <p class="caption"><strong>Left to do: collapsible</strong></p>
     <div style="width: 360px; max-width: 100%;">
+
+      <p class="caption">Collapsible</p>
+      <div class="list">
+        <quasar-collapsible icon="mail" label="Inbox">
+          <div class="item" v-for="n in 3">
+            <i class="item-primary">inbox</i>
+            <div class="item-content">
+              Inbox
+            </div>
+          </div>
+          <quasar-collapsible icon="mail" label="Sub Inbox">
+            <div class="item" v-for="n in 3">
+              <i class="item-primary">inbox</i>
+              <div class="item-content">
+                Inbox
+              </div>
+            </div>
+          </quasar-collapsible>
+        </quasar-collapsible>
+        <quasar-collapsible icon="mail" label="Inbox 2">
+          <div class="item" v-for="n in 3">
+            <i class="item-primary">inbox</i>
+            <div class="item-content">
+              Inbox
+            </div>
+          </div>
+        </quasar-collapsible>
+        <quasar-collapsible icon="mail" label="Inbox 3">
+          <div class="item" v-for="n in 3">
+            <i class="item-primary">inbox</i>
+            <div class="item-content">
+              Inbox
+            </div>
+          </div>
+        </quasar-collapsible>
+      </div>
 
       <p class="caption">Simple List</p>
       <div class="list">

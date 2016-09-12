@@ -15,6 +15,7 @@ import directiveTooltip from './vue-directives/tooltip'
 
 import Checkbox from './vue-components/checkbox/checkbox.vue'
 import Chips from './vue-components/chips/chips.vue'
+import Collapsible from './vue-components/collapsible/collapsible.vue'
 import ContextMenuDesktop from './vue-components/context-menu/context-menu-desktop.vue'
 import ContextMenuMobile from './vue-components/context-menu/context-menu-mobile.vue'
 import Datetime from './vue-components/datetime/datetime.vue'
@@ -78,6 +79,7 @@ function registerDirectives (_Vue) {
 function registerComponents (_Vue) {
   _Vue.component('quasar-checkbox', Checkbox)
   _Vue.component('quasar-chips', Chips)
+  _Vue.component('quasar-collapsible', Collapsible)
   _Vue.component('quasar-context-menu', Platform.is.desktop ? ContextMenuDesktop : ContextMenuMobile)
   _Vue.component('quasar-datetime', Platform.is.desktop ? DesktopDatetime : Datetime)
   _Vue.component('quasar-inline-datetime', theme === 'ios' ? iOSInlineDatetime : MaterialInlineDatetime)

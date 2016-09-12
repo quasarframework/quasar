@@ -19,7 +19,6 @@ export default {
         'Buttons',
         'Card',
         'Chat',
-        'Collapsible',
         'Context Menu',
         'CSS Elements',
         'Dialog',

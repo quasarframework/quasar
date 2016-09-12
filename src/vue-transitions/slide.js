@@ -7,6 +7,7 @@ export default {
   },
   enterCancelled (el) {
     Velocity(el, 'stop')
+    el.removeAttribute('style')
   },
 
   leave (el, done) {
@@ -15,5 +16,6 @@ export default {
   },
   leaveCancelled (el) {
     Velocity(el, 'stop')
+    el.removeAttribute('style')
   }
 }
