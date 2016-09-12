@@ -3,28 +3,31 @@ $toggle-width-factor   ?= 1.8
 
 $toggle-height           = $toggle-size
 $toggle-width            = $toggle-width-factor * $toggle-size
-$toggle-border-size      = 2px
 
-$toggle-handle-size      = ($toggle-size - $toggle-border-size)
-$toggle-handle-top       = 0
-$toggle-handle-left      = 0
-
-$toggle-area-width       = ($toggle-width - $toggle-border-size)
-$toggle-area-height      = (.7 * $toggle-height)
-$toggle-area-left        = 0
-$toggle-area-top         = (.1 * $toggle-height)
-$toggle-area-active-left = ($toggle-width - $toggle-handle-size - $toggle-border-size)
+$toggle-handle-size      = $toggle-size
+$toggle-area-width       = $toggle-width
+$toggle-area-active-left = ($toggle-width - $toggle-handle-size)
 
 .quasar-toggle
   display inline-block
   height $toggle-height
   width $toggle-width
   vertical-align middle
+  position relative
 
   input
     display none
+  i
+    color $grey-7
+    line-height $toggle-size
+    font-size (.65 * $toggle-size)
+    position absolute
+    top 0
+    bottom 0
+    left (.15 * $toggle-handle-size)
+    transition all .3s ease
 
-  input + div
+  div
     position relative
     &:before, &:after
       content ''
@@ -32,27 +35,33 @@ $toggle-area-active-left = ($toggle-width - $toggle-handle-size - $toggle-border
       transition all .3s ease
     &:before
       vertical-align middle
-      top $toggle-area-top
-      left $toggle-area-left
+      top (.15 * $toggle-height)
+      left 0
       width $toggle-area-width
-      height $toggle-area-height
+      height (.7 * $toggle-height)
       border-radius 16px
       background $form-lighter-color
     &:after
       border-radius 50%
-      top $toggle-handle-top
-      left $toggle-handle-left
+      top 0
+      left 0
       width $toggle-handle-size
       height $toggle-handle-size
       background white
       box-shadow $form-shadow
+      transform translateX(0)
 
   input:checked + div
     &:before
       background lighten($form-active-color, 60%)
     &:after
-      left $toggle-area-active-left
+      transform translateX($toggle-area-active-left)
       background $form-active-color
+
+  input:checked ~ i
+    color white
+    transform translateX($toggle-area-active-left)
+
 
   for $name, $color in $colors
     &.{$name} input:checked + div

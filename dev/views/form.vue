@@ -288,10 +288,14 @@
   <h2>Toggle</h2>
   <quasar-toggle :model.sync="check" style="border: 1px solid black"></quasar-toggle>
   <quasar-toggle :model.sync="check" class="secondary" :disabled="true"></quasar-toggle>
-  <quasar-toggle :model.sync="check" class="orange"></quasar-toggle>
+  <quasar-toggle :model.sync="check" class="orange" icon="alarm"></quasar-toggle>
   <label>
     <quasar-toggle :model.sync="check"></quasar-toggle>
     Toggle label
+  </label>
+  <label>
+    <quasar-toggle :model.sync="check" icon="mail"></quasar-toggle>
+    With Icon
   </label>
   <p>
     <quasar-toggle :model.sync="check"></quasar-toggle> Inline with Text

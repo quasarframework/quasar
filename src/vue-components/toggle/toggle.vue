@@ -7,6 +7,7 @@
   >
     <input type="checkbox" v-model="model" :disabled="disabled">
     <div></div>
+    <i v-if="icon">{{ icon }}</i>
   </label>
 </template>
 
@@ -22,7 +23,8 @@ export default {
       type: Boolean,
       default: false,
       coerce: Boolean
-    }
+    },
+    icon: String
   },
   methods: {
     toggle (event) {
