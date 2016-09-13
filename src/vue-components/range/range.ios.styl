@@ -3,7 +3,7 @@ $range-color               ?= $grey-4
 $range-active-color        ?= $form-active-color
 
 $range-track-height        ?= 1px
-$range-mark-height         ?= 3px
+$range-mark-height         ?= 10px
 
 $range-handle-size         ?= 25px
 $range-handle-radius       ?= 50%
@@ -40,7 +40,7 @@ $range-handle-box-shadow   ?= 0 1px 3px 1px rgba(0, 0, 0, .4)
 
 .quasar-range-label
   position relative
-  top (- $range-handle-size / 3)
+  top (- $range-handle-size / 1.5)
   left 0
   padding 8px 0
   opacity 0
@@ -49,10 +49,11 @@ $range-handle-box-shadow   ?= 0 1px 3px 1px rgba(0, 0, 0, .4)
   transition all .3s ease
   width $range-handle-size
   height $range-handle-size
-  font-size ($range-handle-size / 3)
-  line-height ($range-handle-size / 2)
-  color black
-  text-shadow 1px 1px 5px white
+  font-size ($range-handle-size / 2)
+  line-height ($range-handle-size / 2.1)
+  color white
+  background black
+  border-radius $generic-border-radius
 
 .quasar-range-handle
   position absolute
@@ -65,7 +66,7 @@ $range-handle-box-shadow   ?= 0 1px 3px 1px rgba(0, 0, 0, .4)
   border-radius $range-handle-radius
   background white
   box-shadow $range-handle-box-shadow
-  &.active
+  &.dragging
     transform translate3d(-50%, -50%, 0)
     transition opacity .3s ease, transform .3s ease
     .quasar-range-label

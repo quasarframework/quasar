@@ -13,5 +13,5 @@ export default function (attribs, oldAttribs) {
     oldValues.forEach((val) => { this.el.removeAttribute(val) })
   }
 
-  values.forEach((value) => { this.el.setAttribute(value, '') })
+  values.forEach(value => { this.el.setAttribute(value, '') })
 }

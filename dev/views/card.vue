@@ -55,13 +55,13 @@
     <div class="card-title">
       Card with List
     </div>
-    <div class="list bordered inner-delimiter">
-      <div class="item" v-for="n in 4">
-        <i>mail</i>
-        <div class="item-content">
-          <div class="item-label">Quasar Framework</div>
-          <button class="item-value"><i>keyboard_arrow_right</i></button>
+    <div class="list highlight no-border">
+      <div class="item item-link" v-for="n in 4">
+        <i class="item-primary">mail</i>
+        <div class="item-content has-secondary">
+          Quasar Framework
         </div>
+        <i class="item-secondary">keyboard_arrow_right</i>
       </div>
     </div>
   </div>
@@ -101,13 +101,11 @@
   </div>
 
   <div class="card">
-    <div class="item">
-      <img class="avatar" src="../assets/avatar.png">
+    <div class="item two-lines">
+      <img class="item-primary" src="../assets/avatar.png">
       <div class="item-content">
-        <div class="item-label">
-          <p class="item-title">Gina</p>
-          <p>3 hours ago</p>
-        </div>
+        <div>Gina</div>
+        <div>3 hours ago</div>
       </div>
     </div>
     <img src="../assets/mountains.jpg">
@@ -136,31 +134,25 @@
       <button class="primary circular"><i>place</i></button>
     </div>
     <div class="card-content">
-      <div class="item">
-        <i>local_bar</i>
+      <div class="item two-lines">
+        <i class="item-primary">local_bar</i>
         <div class="item-content">
-          <div class="item-label">
-            <p class="item-title">Bar XYZ</p>
-            <p>Have a drink.</p>
-          </div>
+          <div>Bar XYZ</div>
+          <div>Have a drink.</div>
         </div>
       </div>
-      <div class="item">
-        <i>local_gas_station</i>
+      <div class="item two-lines">
+        <i class="item-primary">local_gas_station</i>
         <div class="item-content">
-          <div class="item-label">
-            <p class="item-title">Gas Station</p>
-            <p>Fill your gas tank.</p>
-          </div>
+          <div>Gas Station</div>
+          <div>Fill your gas tank.</div>
         </div>
       </div>
-      <div class="item">
-        <i>local_movies</i>
+      <div class="item two-lines">
+        <i class="item-primary">local_movies</i>
         <div class="item-content">
-          <div class="item-label">
-            <p class="item-title">Cinema XYZ</p>
-            <p>Watch a movie.</p>
-          </div>
+          <div>Cinema XYZ</div>
+          <div>Watch a movie.</div>
         </div>
       </div>
     </div>

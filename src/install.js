@@ -44,6 +44,7 @@ import ProgressButton from './vue-components/progress-button/progress-button.vue
 import PullToRefresh from './vue-components/pull-to-refresh/pull-to-refresh.vue'
 import Radio from './vue-components/radio/radio.vue'
 import Range from './vue-components/range/range.vue'
+import DoubleRange from './vue-components/range/double-range.vue'
 import Rating from './vue-components/rating/rating.vue'
 import Search from './vue-components/search/search.vue'
 import Select from './vue-components/select/select.vue'
@@ -105,6 +106,7 @@ function registerComponents (_Vue) {
   _Vue.component('quasar-pull-to-refresh', PullToRefresh)
   _Vue.component('quasar-radio', Radio)
   _Vue.component('quasar-range', Range)
+  _Vue.component('quasar-double-range', DoubleRange)
   _Vue.component('quasar-rating', Rating)
   _Vue.component('quasar-search', Search)
   _Vue.component('quasar-select', Select)
