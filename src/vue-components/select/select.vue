@@ -1,7 +1,7 @@
 <template>
   <div class="quasar-select-container">
-    <quasar-popover v-ref:popover :disabled="disabled" cover>
-      <div slot="target" class="cursor-pointer textfield" @click="__parseOptions" :class="{disabled: disabled}">
+    <quasar-popover v-ref:popover :disable="disable" cover>
+      <div slot="target" class="cursor-pointer textfield" @click="__parseOptions" :class="{disabled: disable}">
         <span>{{{ label }}}</span>
         <div class="float-right quasar-select-arrow caret-down"></div>
       </div>
@@ -15,6 +15,14 @@
             {{{* radio.label}}}
           </div>
         </label>
+
+        <button
+          v-if="type === 'checkbox' || type === 'toggle'"
+          class="primary clear small full-width"
+          @click="$refs.popover.close()"
+        >
+          Close
+        </button>
 
         <label v-if="type === 'checkbox'" v-for="checkbox in options" class="item">
           <div class="item-primary">
@@ -78,8 +86,8 @@ export default {
         return value
       }
     },
-    fixedLabel: String,
-    disabled: {
+    placeholder: String,
+    disable: {
       type: Boolean,
       default: false,
       coerce: Boolean
@@ -87,7 +95,7 @@ export default {
   },
   computed: {
     label () {
-      return this.fixedLabel || this.type === 'radio' ? this.__getSingleLabel() : this.__getMultipleLabel()
+      return this.placeholder || (this.type === 'radio' ? this.__getSingleLabel() : this.__getMultipleLabel())
     },
     multiple () {
       return this.type !== 'radio'
@@ -152,6 +160,9 @@ export default {
       }
     },
     open (event) {
+      if (this.disable) {
+        return
+      }
       this.parseOptions()
       this.$refs.popover.open(event)
     },

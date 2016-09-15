@@ -1,5 +1,5 @@
 <template>
-  <div class="quasar-rating" :class="{disabled: disabled}">
+  <div class="quasar-rating" :class="{disabled: disable}">
     <i
       v-for="index in maxGrade"
       :class="{active: (!mouseModel && model > index) || (mouseModel && mouseModel > index)}"
@@ -26,7 +26,7 @@ export default {
       type: String,
       default: 'grade'
     },
-    disabled: {
+    disable: {
       type: Boolean,
       default: false,
       coerce: Boolean
@@ -39,12 +39,12 @@ export default {
   },
   methods: {
     set (value) {
-      if (!this.disabled) {
+      if (!this.disable) {
         this.model = this.normalize(value)
       }
     },
     setHoverValue (value) {
-      if (!this.disabled) {
+      if (!this.disable) {
         this.mouseModel = value
       }
     },

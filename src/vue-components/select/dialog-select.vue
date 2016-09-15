@@ -1,5 +1,5 @@
 <template>
-  <div class="quasar-select cursor-pointer textfield" @click="pick" :class="{disabled: disabled}">
+  <div class="quasar-select cursor-pointer textfield" @click="pick" :class="{disabled: disable}">
     <span>{{{ label }}}</span>
     <div class="float-right quasar-select-arrow caret-down"></div>
   </div>
@@ -48,8 +48,8 @@ export default {
       default: 'Select'
     },
     message: String,
-    fixedLabel: String,
-    disabled: {
+    placeholder: String,
+    disable: {
       type: Boolean,
       default: false,
       coerce: Boolean
@@ -57,7 +57,7 @@ export default {
   },
   computed: {
     label () {
-      return this.fixedLabel || this.type === 'radio' ? this.__getSingleLabel() : this.__getMultipleLabel()
+      return this.placeholder || (this.type === 'radio' ? this.__getSingleLabel() : this.__getMultipleLabel())
     }
   },
   methods: {
@@ -87,7 +87,7 @@ export default {
       return option
     },
     pick () {
-      if (this.disabled) {
+      if (this.disable) {
         return
       }
 

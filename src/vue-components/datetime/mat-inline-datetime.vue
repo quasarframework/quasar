@@ -1,5 +1,5 @@
 <template>
-  <div class="quasar-datetime inline column gt-md-row" :class="{disabled: disabled}">
+  <div class="quasar-datetime inline column gt-md-row" :class="{disabled: disable}">
     <div class="quasar-datetime-header column justify-center">
       <div v-if="type === 'date' || type === 'datetime'">
         <div class="quasar-datetime-weekdaystring">{{ weekDayString }}</div>
@@ -39,7 +39,7 @@
           >
             {{ __pad(hour, '&nbsp;&nbsp;') }}
           </span>
-          :
+          <span style="opacity: 0.6">:</span>
           <span
             :class="{active: view === 'minute'}"
             class="quasar-datetime-link"
@@ -72,7 +72,7 @@
             v-for="n in 101"
             class="primary clear full-width"
             :class="{active: n + 1950 === year}"
-            @click="setYear(n + 1950, true)"
+            @click="setYear(n + 1950)"
           >
             {{ n + 1950 }}
           </button>
@@ -86,7 +86,7 @@
             v-for="monthName in monthsList"
             class="primary clear full-width"
             :class="{active: month === $index + 1}"
-            @click="setMonth($index + 1, true, true)"
+            @click="setMonth($index + 1, true)"
           >
             {{ monthName }}
           </button>
@@ -99,7 +99,7 @@
           <div class="row items-center content-center">
             <button
               class="primary clear"
-              @click="setMonth(month - 1, true, true)"
+              @click="setMonth(month - 1, true)"
             >
               <i>keyboard_arrow_left</i>
             </button>
@@ -108,7 +108,7 @@
             </div>
             <button
               class="primary clear"
-              @click="setMonth(month + 1, true, true)"
+              @click="setMonth(month + 1, true)"
             >
               <i>keyboard_arrow_right</i>
             </button>
@@ -215,7 +215,7 @@ export default {
         return ['date', 'time', 'datetime'].includes(value)
       }
     },
-    disabled: {
+    disable: {
       type: Boolean,
       default: false,
       coerce: Boolean
@@ -312,38 +312,22 @@ export default {
   },
   methods: {
     /* date */
-    setYear (value, delay) {
-      if (this.disabled) {
+    setYear (value) {
+      if (this.disable) {
         return
       }
       this.date.year(this.__parseTypeValue('year', value))
-      if (delay) {
-        setTimeout(() => {
-          this.view = 'day'
-        }, 100)
-      }
-      else {
-        this.view = 'day'
-      }
       this.__updateModel()
     },
-    setMonth (value, force, delay) {
-      if (this.disabled) {
+    setMonth (value, force) {
+      if (this.disable) {
         return
       }
       this.date.month((force ? value : this.__parseTypeValue('month', value)) - 1)
-      if (delay) {
-        setTimeout(() => {
-          this.view = 'day'
-        }, 100)
-      }
-      else {
-        this.view = 'day'
-      }
       this.__updateModel()
     },
     setDay (value) {
-      if (this.disabled) {
+      if (this.disable) {
         return
       }
       this.date.date(this.__parseTypeValue('date', value))
@@ -352,7 +336,7 @@ export default {
 
     /* time */
     toggleAmPm () {
-      if (this.disabled) {
+      if (this.disable) {
         return
       }
       let
@@ -363,7 +347,7 @@ export default {
       this.__updateModel()
     },
     setHour (value) {
-      if (this.disabled) {
+      if (this.disable) {
         return
       }
       value = this.__parseTypeValue('hour', value) % 12
@@ -376,7 +360,7 @@ export default {
       this.__updateModel()
     },
     setMinute (value) {
-      if (this.disabled) {
+      if (this.disable) {
         return
       }
       this.date.minute(this.__parseTypeValue('minute', value))
@@ -415,9 +399,6 @@ export default {
       ev.stopPropagation()
       ev.preventDefault()
       this.dragging = false
-      if (this.view === 'hour') {
-        this.view = 'minute'
-      }
     },
     __updateClock (ev) {
       let

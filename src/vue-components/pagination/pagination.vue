@@ -1,5 +1,5 @@
 <template>
-  <div class="quasar-pagination">
+  <div class="quasar-pagination" :class="{disabled: disable}">
     <button :class="{disabled: model === min}" class="primary clear small" @click="changeModelTo(min)">
       <i>first_page</i>
     </button>
@@ -15,7 +15,7 @@
       lazy
       :style="{width: inputPlaceholder.length * 10 + 'px'}"
       :placeholder="inputPlaceholder"
-      :disabled="disabled"
+      v-attr="attrib"
     >
 
     <button :class="{disabled: model === max}" class="primary clear small" @click="changeModelByOffset(1)">
@@ -44,7 +44,7 @@ export default {
       type: Number,
       required: true
     },
-    disabled: {
+    disable: {
       type: Boolean,
       default: false,
       coerce: Boolean
@@ -58,12 +58,12 @@ export default {
   },
   methods: {
     changeModelTo (value) {
-      if (!this.disabled) {
+      if (!this.disable) {
         this.model = this.normalize(value)
       }
     },
     changeModelByOffset (offset) {
-      if (!this.disabled) {
+      if (!this.disable) {
         this.model = this.normalize(this.model + offset)
       }
     },
@@ -74,6 +74,9 @@ export default {
   computed: {
     inputPlaceholder () {
       return this.model + ' / ' + this.max
+    },
+    attrib () {
+      return this.disable ? 'disabled' : []
     }
   },
   watch: {

@@ -44,63 +44,67 @@ maximized-modal()
   min-width 280px
   max-height 80vh
 
-  .modal-header
-    text-align $modal-header-text-align
-    padding $modal-header-padding
-    font-size $modal-header-font-size
-    font-weight 500
-
-  .modal-body
-    padding $modal-body-padding
-  .modal-slim-body
-    padding $modal-slim-body-padding
-  .modal-body, .modal-slim-body
-    text-align $modal-body-text-align
-    color $modal-body-color
-
-  .modal-controls
-    border-top 1px solid $form-darker-color
-    border-bottom 1px solid $form-darker-color
-    &.list
-      margin 0
-
-  .small-modal-scroll, .modal-scroll, .big-modal-scroll
-    overflow auto
-    -webkit-overflow-scrolling touch
-    will-change scroll-position
-  .small-modal-scroll
-    max-height (.65 * $modal-scroll-size)
-  .modal-scroll
-    max-height $modal-scroll-size
-  .big-modal-scroll
-    max-height (2 * $modal-scroll-size)
-
-
-  .modal-buttons
-    padding $modal-buttons-padding
-    border-top 1px solid $form-darker-color
-    button
-      flex 1 1 auto
-      font-size 110%
-      margin 0
-      padding 1rem
-      border-radius 0
-      &:last-child
-        font-weight bold
-      &:hover, &:active
-        color white !important
-        background rgba(0, 0, 0, .3) !important
-    &.row
-      button + button
-        border-left 1px solid $form-darker-color
-    &.column
-      button + button
-        border-top 1px solid $form-darker-color
+  .layout
+    width 100%
+    height 100%
 
   &.minimized
     minimized-modal()
   &.maximized
     maximized-modal()
+
+.modal-header
+  text-align $modal-header-text-align
+  padding $modal-header-padding
+  font-size $modal-header-font-size
+  font-weight 500
+
+.modal-body
+  padding $modal-body-padding
+.modal-slim-body
+  padding $modal-slim-body-padding
+.modal-body, .modal-slim-body
+  text-align $modal-body-text-align
+  color $modal-body-color
+
+.modal-controls
+  border-top 1px solid $form-darker-color
+  border-bottom 1px solid $form-darker-color
+  &.list
+    margin 0
+
+.small-modal-scroll, .modal-scroll, .big-modal-scroll
+  overflow auto
+  -webkit-overflow-scrolling touch
+  will-change scroll-position
+.small-modal-scroll
+  max-height (.65 * $modal-scroll-size)
+.modal-scroll
+  max-height $modal-scroll-size
+.big-modal-scroll
+  max-height (2 * $modal-scroll-size)
+
+
+.modal-buttons
+  padding $modal-buttons-padding
+  border-top 1px solid $form-darker-color
+  button
+    flex 1 1 auto
+    font-size 110%
+    margin 0
+    padding 1rem
+    border-radius 0
+    &:last-child
+      font-weight bold
+    &:hover, &:active
+      color white !important
+      background rgba(0, 0, 0, .3) !important
+  &.row
+    button + button
+      border-left 1px solid $form-darker-color
+  &.column
+    button + button
+      border-top 1px solid $form-darker-color
 
 @media screen and (max-width $layout-small-max)
   .modal-content:not(.minimized)

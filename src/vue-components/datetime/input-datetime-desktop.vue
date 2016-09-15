@@ -1,7 +1,7 @@
 <template>
   <div class="quasar-datetime-desktop">
-    <quasar-popover v-ref:popover :disabled="disabled">
-      <div slot="target" class="cursor-pointer textfield" :class="{disabled: disabled}">
+    <quasar-popover :disable="disable">
+      <div slot="target" class="cursor-pointer textfield" :class="{disabled: disable}">
         <span>{{{ label }}}</span>
         <div class="float-right quasar-select-arrow caret-down"></div>
       </div>
@@ -36,7 +36,7 @@ export default {
       type: String,
       default: 'Cancel'
     },
-    disabled: {
+    disable: {
       type: Boolean,
       default: false,
       coerce: Boolean

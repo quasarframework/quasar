@@ -146,7 +146,9 @@ class Modal {
           duration,
           complete: () => {
             this.$el.classList.add('hidden')
-            document.body.classList.remove('with-modal')
+            if (!openedModalNumber) {
+              document.body.classList.remove('with-modal')
+            }
 
             if (this.selfDestroy) {
               this.destroy()

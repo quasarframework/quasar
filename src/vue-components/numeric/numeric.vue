@@ -1,5 +1,5 @@
 <template>
-  <div class="quasar-numeric textfield row inline items-center" :class="{disabled: disabled}">
+  <div class="quasar-numeric textfield row inline items-center" :class="{disabled: disable}">
     <i @click="setByOffset(-1)">remove</i>
     <input
       class="no-style auto"
@@ -7,7 +7,7 @@
       v-model="model"
       class="quasar-input-field"
       :style="{width: (''+model).length * .7 + 'em'}"
-      :disabled="disabled"
+      v-attr="attrib"
       number
     >
     <i @click="setByOffset(1)">add</i>
@@ -29,7 +29,7 @@ export default {
     },
     min: Number,
     max: Number,
-    disabled: {
+    disable: {
       type: Boolean,
       default: false,
       coerce: Boolean
@@ -38,6 +38,11 @@ export default {
   watch: {
     model () {
       this.$nextTick(this.validate)
+    }
+  },
+  computed: {
+    attrib () {
+      return this.disable ? 'disabled' : []
     }
   },
   methods: {
@@ -50,7 +55,7 @@ export default {
       }
     },
     setByOffset (direction) {
-      if (!this.disabled) {
+      if (!this.disable) {
         this.model += direction * this.step
       }
     }

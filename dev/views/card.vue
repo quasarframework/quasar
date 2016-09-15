@@ -185,29 +185,29 @@
     </div>
   </div>
 
-  <div class="card">
-    <div class="card-title bg-purple text-white">
-      Card with Collapsible
+  <div class="card" style="margin-top: 25px;">
+    <div class="card-title">
+      Card with Collapsible List
     </div>
-    <ul class="collapsible">
-      <li v-collapsible>
-        <div><i>filter_drama</i>First</div>
+    <div class="list no-border">
+      <hr>
+      <quasar-collapsible icon="explore" label="First">
         <div>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
         </div>
-      </li>
-      <li v-collapsible>
-        <div><i>place</i>Second</div>
+      </quasar-collapsible>
+      <hr>
+      <quasar-collapsible icon="perm_identity" label="Second">
         <div>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
         </div>
-      </li>
-      <li v-collapsible>
-        <div><i>whatshot</i>Third</div>
+      </quasar-collapsible>
+      <hr>
+      <quasar-collapsible icon="shopping_cart" label="Third">
         <div>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
         </div>
-      </li>
+      </quasar-collapsible>
     </ul>
   </div>
 </template>

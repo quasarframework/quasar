@@ -122,6 +122,13 @@ function create (options) {
     template: template,
     data: data,
     methods: {
+      trigger (handler) {
+        let data = this.getData()
+        function fn () {
+          handler(data)
+        }
+        this.close(fn)
+      },
       getData () {
         if (this.inputs) {
           return this.inputs.map(input => {

@@ -8,7 +8,7 @@
         <div v-show="selectionMode !== 'none' && controls === 'selection'" transition="slide">
           <button :class="{disabled: selectedRows.length === 0}" class="primary clear small" @click="chooseAction()"><i>menu</i></button>
           <button :class="{disabled: selectedRows.length === 0}" class="primary clear small" @click="clearSelection()"><i>cancel</i></button>
-          <label><quasar-checkbox :model.sync="showOnlySelected"></quasar-checkbox> Selected only</label>
+          <label><quasar-checkbox :model.sync="showOnlySelected"></quasar-checkbox> &nbsp;Show Selected</label>
         </div>
         <div v-show="controls === 'filter'" transition="slide">
           Filter:
@@ -19,7 +19,7 @@
         </div>
       </div>
 
-      <div class="row">
+      <div class="grid-control-panel row">
         <button
           class="primary"
           :class="{'clear': controls !== 'filter'}"
@@ -53,7 +53,7 @@
       </div>
     </div>
 
-    <table class="quasar-table striped highlight bordered compact">
+    <table class="quasar-table striped highlight bordered compact full-width">
       <thead>
         <tr>
           <th v-if="selectionMode !== 'none'" style="width: 30px; text-align: center">
@@ -117,7 +117,7 @@
       <div class="auto" v-show="data.length > 0">
         Showing {{rowOffset + 1}} to {{Math.min(rowsNumber, rowsPerPage * page)}} of {{rowsNumber}} entries
       </div>
-      <div class="auto" v-else>
+      <div class="auto text-center" v-else>
         {{noDataLabel}}
       </div>
 

@@ -12,7 +12,7 @@ import Modal from './modal'
 
 export default {
   props: {
-    config: Object,
+    set: Object,
     css: Object
   },
   methods: {
@@ -23,7 +23,7 @@ export default {
       }
 
       this.modal = Modal.create(this.$el)
-        .set(this.config || {})
+        .set(this.set || {})
         .css(this.css || {})
         .onClose(() => {
           this.modal = null

@@ -1,7 +1,7 @@
 <template>
   <div
     class="quasar-knob non-selectable cursor-pointer"
-    :class="{disabled: disabled}"
+    :class="{disabled: disable}"
     :style="{width: size, height: size}"
     @mousedown="__dragStart"
     @mousemove="__dragMove"
@@ -31,7 +31,12 @@
       ></path>
     </svg>
 
-    <div class="quasar-knob-label" :style="{color: color}">{{ label || model }}</div>
+    <div
+      class="quasar-knob-label row items-center justify-center content-center"
+      :style="{color: color}"
+    >
+      {{{ label || model }}}
+    </div>
   </div>
 </template>
 
@@ -45,7 +50,7 @@ export default {
       required: true,
       twoWay: true
     },
-    disabled: {
+    disable: {
       type: Boolean,
       default: false,
       coerce: Boolean
@@ -67,8 +72,8 @@ export default {
       default: '#ececec'
     },
     lineWidth: {
-      type: Number,
-      default: 6
+      type: String,
+      default: '6px'
     },
     size: {
       type: String,
@@ -106,7 +111,7 @@ export default {
   },
   methods: {
     __dragStart (ev) {
-      if (this.disabled) {
+      if (this.disable) {
         return
       }
       ev.stopPropagation()
@@ -123,7 +128,7 @@ export default {
       this.__updateModel(ev)
     },
     __dragMove (ev) {
-      if (!this.dragging || this.disabled) {
+      if (!this.dragging || this.disable) {
         return
       }
       ev.stopPropagation()
@@ -131,7 +136,7 @@ export default {
       this.__updateModel(ev)
     },
     __dragStop (ev) {
-      if (this.disabled) {
+      if (this.disable) {
         return
       }
       ev.stopPropagation()

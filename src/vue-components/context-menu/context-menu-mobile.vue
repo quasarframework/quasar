@@ -14,7 +14,7 @@ import Modal from '../../components/modal/modal'
 
 export default {
   props: {
-    disabled: {
+    disable: {
       type: Boolean,
       default: false,
       coerce: Boolean
@@ -41,7 +41,7 @@ export default {
     this.target = this.$el.parentNode
 
     this.handler = () => {
-      if (this.disabled) {
+      if (this.disable) {
         return
       }
       this.modal = Modal.create(this.$el)

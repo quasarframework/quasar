@@ -1,6 +1,6 @@
 <template>
-  <label class="quasar-checkbox" :class="{disabled: disabled}">
-    <input type="checkbox" v-model="model" :disabled="disabled">
+  <label class="quasar-checkbox" :class="{disabled: disable}">
+    <input type="checkbox" v-model="model" v-attr="attrib">
     <div></div>
   </label>
 </template>
@@ -12,10 +12,15 @@
         type: Boolean,
         twoWay: true
       },
-      disabled: {
+      disable: {
         type: Boolean,
         default: false,
         coerce: Boolean
+      }
+    },
+    computed: {
+      attrib () {
+        return this.disable ? 'disabled' : []
       }
     }
   }

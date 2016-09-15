@@ -1,11 +1,11 @@
 <template>
   <label
     class="quasar-toggle"
-    :class="{disabled: disabled}"
+    :class="{disabled: disable}"
     v-touch:pan="toggle"
     v-touch-options:pan="{ direction: 'horizontal' }"
   >
-    <input type="checkbox" v-model="model" :disabled="disabled">
+    <input type="checkbox" v-model="model" v-attr="attrib">
     <div></div>
     <i v-if="icon">{{ icon }}</i>
   </label>
@@ -19,16 +19,22 @@ export default {
       twoWay: true,
       required: true
     },
-    disabled: {
+    disable: {
       type: Boolean,
       default: false,
       coerce: Boolean
     },
     icon: String
   },
+  computed: {
+    attrib () {
+      return this.disable ? 'disabled' : []
+    }
+  },
   methods: {
     toggle (event) {
       if (
+        !this.disable &&
         event.isFinal &&
         (this.model && event.deltaX < 0 || !this.model && event.deltaX > 0)
       ) {

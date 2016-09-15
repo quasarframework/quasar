@@ -2,14 +2,14 @@ $tree-connector-color            ?= #ccc
 $tree-label-padding              ?= 5px
 $tree-label-border-radius        ?= $generic-border-radius
 $tree-highlight-color            ?= inherit
-$tree-highlight-background ?= $tree-connector-color
+$tree-highlight-background       ?= $tree-connector-color
 
 .quasar-tree
   li
     margin 0
     list-style-type none
     position relative
-    padding 10px 5px 0 5px
+    padding 10px 5px 0
 
     &:before
       content ''
@@ -23,7 +23,7 @@ $tree-highlight-background ?= $tree-connector-color
       bottom 50px
 
     &:after
-      content:''
+      content ''
       position absolute
       top 20px
       width 20px
@@ -45,6 +45,9 @@ $tree-highlight-background ?= $tree-connector-color
   .quasar-tree-label:active
     color $tree-highlight-color
     background $tree-highlight-background
+
+.quasar-tree-expandable-item span:nth-child(2) i
+  color $tree-connector-color
 
 body.desktop
   .quasar-tree-expandable-item, .quasar-tree-link

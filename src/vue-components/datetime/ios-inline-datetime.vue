@@ -1,5 +1,5 @@
 <template>
-  <div class="quasar-datetime" :class="['type-' + type, disabled ? 'disabled' : '']">
+  <div class="quasar-datetime" :class="['type-' + type, disabled ? 'disable' : '']">
     <slot></slot>
 
     <div class="quasar-datetime-content non-selectable">
@@ -130,7 +130,7 @@ export default {
         return ['date', 'time', 'datetime'].includes(value)
       }
     },
-    disabled: {
+    disable: {
       type: Boolean,
       default: false,
       coerce: Boolean
@@ -203,21 +203,21 @@ export default {
   methods: {
     /* date */
     setYear (value) {
-      if (this.disabled) {
+      if (this.disable) {
         return
       }
       this.date.year(this.__parseTypeValue('year', value))
       this.__updateModel()
     },
     setMonth (value) {
-      if (this.disabled) {
+      if (this.disable) {
         return
       }
       this.date.month(this.__parseTypeValue('month', value) - 1)
       this.__updateModel()
     },
     setDay (value) {
-      if (this.disabled) {
+      if (this.disable) {
         return
       }
       this.date.date(this.__parseTypeValue('date', value))
@@ -226,14 +226,14 @@ export default {
 
     /* time */
     setHour (value) {
-      if (this.disabled) {
+      if (this.disable) {
         return
       }
       this.date.hour(this.__parseTypeValue('hour', value))
       this.__updateModel()
     },
     setMinute (value) {
-      if (this.disabled) {
+      if (this.disable) {
         return
       }
       this.date.minute(this.__parseTypeValue('minute', value))
@@ -295,7 +295,7 @@ export default {
       this.model = this.date.toISOString()
     },
     __dragStart (ev, type) {
-      if (this.disabled) {
+      if (this.disable) {
         return
       }
 
@@ -310,7 +310,7 @@ export default {
       this.__dragPosition = Utils.event.position(ev).top
     },
     __dragMove (ev, type) {
-      if (this.dragging !== type || this.disabled) {
+      if (this.dragging !== type || this.disable) {
         return
       }
       ev.stopPropagation()
@@ -319,7 +319,7 @@ export default {
       this.__updatePositions(type, this.date[type]() + this[type + 'DragOffset'])
     },
     __dragStop (ev, type) {
-      if (this.dragging !== type || this.disabled) {
+      if (this.dragging !== type || this.disable) {
         return
       }
       ev.stopPropagation()

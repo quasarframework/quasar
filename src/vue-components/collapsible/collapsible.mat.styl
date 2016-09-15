@@ -1,2 +1,19 @@
+.quasar-collapsible
+  & + &
+    &.item-delimiter
+      border-top 1px solid rgb(224, 224, 224)
+    &.item-inset-delimiter
+      &:after
+        content ''
+        position absolute
+        top 0
+        left 72px
+        right 0
+        height 1px
+        background rgb(224, 224, 224)
+
 .quasar-collapsible-sub-item
-  padding 8px 0 8px 18px
+  padding 8px 8px 8px 18px
+
+  .card
+    margin-bottom 0

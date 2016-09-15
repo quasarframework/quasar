@@ -1,7 +1,7 @@
 <template>
   <div
     class="quasar-range non-selectable"
-    :class="{disabled: disabled}"
+    :class="{disabled: disable}"
     @mousedown.prevent="setActive"
     @touchstart.prevent="setActive"
     @touchend.prevent="end"
@@ -73,7 +73,7 @@ export default {
     },
     step: {
       type: Number,
-      default: 0,
+      default: 1,
       coerce: value => parseInt(value, 10)
     },
     snap: {
@@ -91,7 +91,7 @@ export default {
       default: false,
       coerce: Boolean
     },
-    disabled: {
+    disable: {
       type: Boolean,
       default: false,
       coerce: Boolean
@@ -164,7 +164,7 @@ export default {
   },
   methods: {
     setActive (event) {
-      if (this.disabled) {
+      if (this.disable) {
         return
       }
 

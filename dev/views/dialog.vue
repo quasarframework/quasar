@@ -1,15 +1,18 @@
 <template>
-  <button class="primary" @click="alert()">Alert</button>
-  <button class="primary" @click="prompt()">Prompt</button>
-  <button class="primary" @click="confirm()">Confirm</button>
-  <button class="primary" @click="radio()">Radio</button>
-  <button class="primary" @click="checkbox()">Checkbox</button>
-  <button class="primary" @click="checkbox(true)">Toggle</button>
-  <button class="primary" @click="progress()">Progress</button>
-  <button class="primary" @click="progress2()">Progress 2</button>
+  <div class="group">
+    <button class="primary" @click="alert()">Alert</button>
+    <button class="primary" @click="prompt()">Prompt</button>
+    <button class="primary" @click="confirm()">Confirm</button>
+    <button class="primary" @click="radio()">Radio</button>
+    <button class="primary" @click="checkbox()">Checkbox</button>
+    <button class="primary" @click="checkbox(true)">Toggle</button>
+    <button class="primary" @click="progress()">Progress</button>
+    <button class="primary" @click="progress2()">Progress 2</button>
 
-  <br>
-  <button class="primary" @click="stacked()">Stacked Buttons</button>
+    <br>
+    <button class="primary" @click="stacked()">Stacked Buttons</button>
+    <button class="primary" @click="handlerTest()">HandlerTest</button>
+  </div>
 </template>
 
 <script>
@@ -17,6 +20,28 @@ import { Dialog } from 'quasar'
 
 export default {
   methods: {
+    handlerTest () {
+      Dialog.create({
+        title: 'Handler Test',
+        message: 'OK opens up another Dialog',
+        buttons: [
+          'Cancel',
+          {
+            label: 'Ok',
+            handler () {
+              console.log('handler()')
+              Dialog.create({
+                title: 'Handler Test',
+                buttons: [
+                  'Cancel',
+                  'OK'
+                ]
+              }).show()
+            }
+          }
+        ]
+      }).show()
+    },
     alert () {
       Dialog.create({
         title: 'Alert',

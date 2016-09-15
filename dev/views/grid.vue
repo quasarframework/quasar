@@ -1,6 +1,6 @@
 <template>
   <div class="layout-padding">
-    <h1>Grid Widget</h1>
+    <h1>Grid Component</h1>
     <quasar-grid
       :columns="columns"
       :data="data"

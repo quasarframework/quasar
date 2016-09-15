@@ -1,5 +1,5 @@
 <template>
-  <div class="cursor-pointer textfield" @click="pick" :class="{disabled: disabled}">
+  <div class="cursor-pointer textfield" @click="pick" :class="{disabled: disable}">
     <span>{{{ label }}}</span>
     <div class="float-right quasar-select-arrow caret-down"></div>
   </div>
@@ -33,7 +33,7 @@ export default {
       type: String,
       default: 'Cancel'
     },
-    disabled: {
+    disable: {
       type: Boolean,
       default: false,
       coerce: Boolean
@@ -47,13 +47,13 @@ export default {
         format = this.format
       }
       else if (this.type === 'date') {
-        format = 'YYYY-MM-DD'
+        format = 'YYYY/MM/DD'
       }
       else if (this.type === 'time') {
         format = 'HH:mm'
       }
       else {
-        format = 'YYYY-MM-DD HH:mm:ss'
+        format = 'YYYY/MM/DD HH:mm:ss'
       }
 
       return moment(this.model).format(format)
@@ -61,7 +61,7 @@ export default {
   },
   methods: {
     pick () {
-      if (this.disabled) {
+      if (this.disable) {
         return
       }
 

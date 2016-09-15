@@ -12,6 +12,19 @@
   &.active, &.v-link-active
     background rgba(0, 0, 0, .2)
 
+  & + &
+    &.item-delimiter
+      border-top 1px solid rgb(224, 224, 224)
+    &.item-inset-delimiter
+      &:after
+        content ''
+        position absolute
+        top 0
+        left 72px
+        right 0
+        height 1px
+        background rgb(224, 224, 224)
+
   &.item-link
     cursor pointer
     &:active
@@ -61,18 +74,19 @@
       border-radius 50%
 
   > .item-content
-    padding 16px
-    margin-left 0
+    padding 16px 0
+    margin-left 16px
+    margin-right 16px
     position relative
     &.inset
-      padding-left 72px
+      margin-left 72px
     &.has-secondary
-      padding-right 72px
-    span
+      margin-right 72px
+    > span, > div > span
       color rgba(0, 0, 0, .87)
 
   > .item-primary ~ .item-content
-    padding-left 72px
+    margin-left 72px
 
   > .item-secondary
     color rgb(117, 117, 117)
@@ -168,32 +182,21 @@
 
   &.multiple-lines
     height auto
-    > .item-primary
-      top 12px
-    > .item-secondary:not(.stamp)
-      top 14px
-    > .item-secondary.stamp
-      top 8px
-    > .item-secondary.stamp + .item-secondary
-      top 42px
     > .item-content
       position static
       padding-top 16px
 
-      > div:not(:first-of-type)
-        font-size 14px
-        line-height 18px
-        height 36px
-        margin 4px 0 0
-        color rgba(0, 0, 0, .54)
+  .item-label
+    color rgba(0, 0, 0, .5) !important
+  .item-smaller
+    font-size 14px
 
 body.desktop .item.item-link:hover
   background rgba(0, 0, 0, .2)
 
 .list
   text-align left
-  &:not(.no-border)
-    border 1px solid rgb(224, 224, 224)
+  border 1px solid rgb(224, 224, 224)
 
   > .item, > .quasar-collapsible
     &:first-child
@@ -208,6 +211,8 @@ body.desktop .item.item-link:hover
     background-color rgb(224, 224, 224)
     &.inset
       margin-left 72px
+    &:last-child
+      visibility hidden
 
   .list-label
     color rgba(0, 0, 0, .54)
@@ -222,8 +227,22 @@ body.desktop .item.item-link:hover
   hr + .list-label
     margin-top -8px
 
-  &.striped .item:nth-child(odd)
+  &.striped .item:nth-child(even)
     background-color rgba(0, 0, 0, .05)
 
   &.highlight .item:hover
     background-color rgba(0, 0, 0, .1)
+
+  &.item-delimiter
+    .item + .item
+      border-top 1px solid rgb(224, 224, 224)
+  &.item-inset-delimiter
+    .item + .item
+      &:after
+        content ''
+        position absolute
+        top 0
+        left 72px
+        right 0
+        height 1px
+        background rgb(224, 224, 224)

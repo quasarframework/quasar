@@ -28,7 +28,7 @@ $range-handle-box-shadow   ?= 0 1px 3px 1px rgba(0, 0, 0, .4)
   position absolute
   top 50%
   height $range-mark-height
-  width 2px
+  width 1px
   background $range-color
   transform translateX(-50%) translateY(-50%)
 
@@ -48,7 +48,7 @@ $range-handle-box-shadow   ?= 0 1px 3px 1px rgba(0, 0, 0, .4)
   transform translateY(0) scale(.1)
   transition all .3s ease
   width $range-handle-size
-  height $range-handle-size
+  height ($range-handle-size / 2)
   font-size ($range-handle-size / 2)
   line-height ($range-handle-size / 2.1)
   color white
@@ -66,6 +66,7 @@ $range-handle-box-shadow   ?= 0 1px 3px 1px rgba(0, 0, 0, .4)
   border-radius $range-handle-radius
   background white
   box-shadow $range-handle-box-shadow
+  box-sizing content-box
   &.dragging
     transform translate3d(-50%, -50%, 0)
     transition opacity .3s ease, transform .3s ease

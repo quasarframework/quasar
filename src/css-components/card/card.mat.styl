@@ -25,10 +25,13 @@ $card-padding-vertical   ?= 13px
     margin 0
 
   .list
-    margin 0
-    &.bordered
-      border 0
-      border-top 2px solid $grey-2
+    border 0
+    border-top 1px solid rgb(224, 224, 224)
+    border-bottom 1px solid rgb(224, 224, 224)
+    > .item:first-child, > .quasar-collapsible:first-child
+      margin-top 0
+    > .item:last-child, > .quasar-collapsible:last-child
+      margin-bottom 0
 
 .card-content
   line-height 1.4

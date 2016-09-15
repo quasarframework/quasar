@@ -6,7 +6,7 @@
     {{{* message}}}
   </div>
   <div v-if="inputs" class="modal-body modal-scroll">
-    <div v-for="input in inputs" class="floating-label">
+    <div v-for="input in inputs" class="floating-label" style="margin-bottom: 10px">
       <input type="text" class="full-width" v-model="input.model" required>
       <label>{{ input.label }}</label>
     </div>
@@ -59,7 +59,7 @@
     <button
       v-for="button in buttons"
       class="primary clear"
-      @click="button.handler(getData()), close()"
+      @click="trigger(button.handler)"
     >
       {{{* button.label}}}
     </button>

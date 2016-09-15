@@ -8,7 +8,7 @@ import transitionSlide from './vue-transitions/slide'
 import GridSelectedFilter from './vue-filters/grid-selected'
 
 import directiveAttr from './vue-directives/attr'
-import directiveCollapsible from './vue-directives/collapsible'
+import directiveGoBack from './vue-directives/go-back'
 import directiveScrollFire from './vue-directives/scroll-fire'
 import directiveScroll from './vue-directives/scroll'
 import directiveTooltip from './vue-directives/tooltip'
@@ -18,8 +18,8 @@ import Chips from './vue-components/chips/chips.vue'
 import Collapsible from './vue-components/collapsible/collapsible.vue'
 import ContextMenuDesktop from './vue-components/context-menu/context-menu-desktop.vue'
 import ContextMenuMobile from './vue-components/context-menu/context-menu-mobile.vue'
-import Datetime from './vue-components/datetime/datetime.vue'
-import DesktopDatetime from './vue-components/datetime/datetime-desktop.vue'
+import InputDatetimeMobile from './vue-components/datetime/input-datetime-mobile.vue'
+import InputDatetimeDesktop from './vue-components/datetime/input-datetime-desktop.vue'
 import MaterialInlineDatetime from './vue-components/datetime/mat-inline-datetime.vue'
 import iOSInlineDatetime from './vue-components/datetime/ios-inline-datetime.vue'
 import Drawer from './vue-components/drawer/drawer.vue'
@@ -71,7 +71,7 @@ function registerFilters (_Vue) {
 
 function registerDirectives (_Vue) {
   _Vue.directive('attr', directiveAttr)
-  _Vue.directive('collapsible', directiveCollapsible)
+  _Vue.directive('go-back', directiveGoBack)
   _Vue.directive('scroll-fire', directiveScrollFire)
   _Vue.directive('scroll', directiveScroll)
   _Vue.directive('tooltip', directiveTooltip)
@@ -82,8 +82,8 @@ function registerComponents (_Vue) {
   _Vue.component('quasar-chips', Chips)
   _Vue.component('quasar-collapsible', Collapsible)
   _Vue.component('quasar-context-menu', Platform.is.desktop ? ContextMenuDesktop : ContextMenuMobile)
-  _Vue.component('quasar-datetime', Platform.is.desktop ? DesktopDatetime : Datetime)
   _Vue.component('quasar-inline-datetime', theme === 'ios' ? iOSInlineDatetime : MaterialInlineDatetime)
+  _Vue.component('quasar-datetime', Platform.is.desktop ? InputDatetimeDesktop : InputDatetimeMobile)
   _Vue.component('quasar-drawer', Drawer)
   _Vue.component('quasar-drawer-link', DrawerLink)
   _Vue.component('quasar-fab', Fab)

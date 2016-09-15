@@ -7,22 +7,29 @@
       class="quasar-toast row no-wrap items-center non-selectable"
       v-if="stack[0]"
       :style="{color: stack[0].color, background: stack[0].bgColor}"
+      :class="classes"
     >
-      <div>
-        <i v-if="stack[0].icon">{{ stack[0].icon }}</i>
-        <img v-if="stack[0].image" :src="stack[0].image">
-      </div>
+      <i v-if="stack[0].icon">{{ stack[0].icon }}</i>
+      <img v-if="stack[0].image" :src="stack[0].image">
+
       <div class="quasar-toast-message auto">
         {{{ stack[0].html }}}
       </div>
-      <div class="quasar-toast-button" v-if="stack[0].button && stack[0].button.label">
-        <a
-          @click="dismiss(stack[0].button.handler)"
-          :style="{color: stack[0].button.color}"
-        >
-          {{ stack[0].button.label }}
-        </a>
-      </div>
+
+      <a
+        v-if="stack[0].button && stack[0].button.label"
+        @click="dismiss(stack[0].button.handler)"
+        :style="{color: stack[0].button.color}"
+      >
+        {{ stack[0].button.label }}
+      </a>
+
+      <a
+        @click="dismiss()"
+        :style="{color: stack[0].button.color}"
+      >
+        <i>close</i>
+      </a>
     </div>
   </div>
 </template>
@@ -66,9 +73,17 @@ export default {
         bgColor: '#323232',
         button: {
           color: 'yellow'
-        },
-        onDismiss () {}
+        }
       }
+    }
+  },
+  computed: {
+    classes () {
+      if (!this.stack.length || !this.stack[0].classes) {
+        return {}
+      }
+
+      return this.stack[0].classes.split(' ')
     }
   },
   methods: {
@@ -94,7 +109,7 @@ export default {
         else {
           this.inTransition = false
         }
-      }, transitionDuration + displayDuration)
+      }, transitionDuration + (this.stack[0].timeout || displayDuration))
     },
     dismiss (done) {
       this.active = false
@@ -105,8 +120,11 @@ export default {
       }
 
       setTimeout(() => {
-        this.stack.shift()
+        if (typeof this.stack[0].onDismiss === 'function') {
+          this.stack[0].onDismiss()
+        }
 
+        this.stack.shift()
         done && done()
 
         if (this.stack.length > 0) {

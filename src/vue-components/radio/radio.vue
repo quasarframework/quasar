@@ -1,6 +1,6 @@
 <template>
-  <label class="quasar-radio" :class="{disabled: disabled}">
-    <input type="radio" v-model="model" :value="value" :disabled="disabled">
+  <label class="quasar-radio" :class="{disabled: disable}">
+    <input type="radio" v-model="model" :value="value" v-attr="attrib">
     <div></div>
   </label>
 </template>
@@ -15,10 +15,15 @@ export default {
     value: {
       required: true
     },
-    disabled: {
+    disable: {
       type: Boolean,
       default: false,
       coerce: Boolean
+    }
+  },
+  computed: {
+    attrib () {
+      return this.disable ? 'disabled' : []
     }
   }
 }

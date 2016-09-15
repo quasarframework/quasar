@@ -2,7 +2,7 @@
   <div
     class="quasar-chips group"
     @click="focus"
-    :class="{active: active, disabled: disabled}"
+    :class="{active: active, disabled: disable}"
   >
     <span
       class="chip label bg-light text-grey-9"
@@ -21,7 +21,7 @@
         @keyup.enter="add()"
         @focus="active = true"
         @blur="active = false"
-        :disabled="disabled"
+        v-attr="attrib"
         :placeholder="placeholder"
       >
       <button class="small" @click="add()" :class="{invisible: !input.length}">
@@ -39,7 +39,7 @@ export default {
       twoWay: true,
       required: true
     },
-    disabled: {
+    disable: {
       type: Boolean,
       default: false,
       coerce: Boolean
@@ -52,15 +52,20 @@ export default {
       input: ''
     }
   },
+  computed: {
+    attrib () {
+      return this.disable ? 'disabled' : []
+    }
+  },
   methods: {
     add () {
-      if (!this.disabled && this.input) {
+      if (!this.disable && this.input) {
         this.model.push(this.input)
         this.input = ''
       }
     },
     remove (index) {
-      if (!this.disabled && index >= 0 && index < this.model.length) {
+      if (!this.disable && index >= 0 && index < this.model.length) {
         this.model.splice(index, 1)
       }
     },

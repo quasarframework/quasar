@@ -1,7 +1,7 @@
 <template>
   <div
     class="quasar-range non-selectable"
-    :class="{disabled: disabled}"
+    :class="{disabled: disable}"
     @mousedown.prevent="setActive"
     @touchstart.prevent="setActive"
     @touchend.prevent="end"
@@ -76,7 +76,7 @@ export default {
       default: false,
       coerce: Boolean
     },
-    disabled: {
+    disable: {
       type: Boolean,
       default: false,
       coerce: Boolean
@@ -123,7 +123,7 @@ export default {
   },
   methods: {
     setActive (event) {
-      if (this.disabled) {
+      if (this.disable) {
         return
       }
 

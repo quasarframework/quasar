@@ -40,7 +40,7 @@ export default {
       default: false,
       coerce: Boolean
     },
-    disabled: {
+    disable: {
       type: Boolean,
       default: false,
       coerce: Boolean
@@ -57,7 +57,7 @@ export default {
       this[this.active ? 'close' : 'open'](event)
     },
     open (event) {
-      if (this.disabled || this.active || this.inProgress) {
+      if (this.disable || this.active || this.inProgress) {
         return
       }
 

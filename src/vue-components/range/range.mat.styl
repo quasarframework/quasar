@@ -39,7 +39,7 @@ $range-handle-radius       ?= 50%
 
 .quasar-range-label
   position relative
-  top (- $range-handle-size)
+  top (- $range-handle-size / 1.5)
   left -25%
   padding 8px 0
   opacity 0
@@ -73,6 +73,7 @@ $range-handle-radius       ?= 50%
   height $range-handle-size
   border-radius $range-handle-radius
   background $range-active-color
+  box-sizing content-box
   &.dragging
     transform translate3d(-50%, -50%, 0) scale(1)
     transition opacity .3s ease, transform .3s ease

@@ -1,5 +1,7 @@
 $layout-navbar-order       ?= -9
 $layout-toolbar-min-height ?= 56px
+$layout-header-shadow      ?= $shadow-2
+$layout-footer-shadow      ?= $shadow-up-2
 $toolbar-title-font-size   ?= 1.25rem
 
 .layout
@@ -18,11 +20,16 @@ $toolbar-title-font-size   ?= 1.25rem
     order $layout-navbar-order
     border-radius 0 !important
 
+  > [slot='navigation']
+    box-shadow $layout-header-shadow
+
 .layout-header
   order -10
+  box-shadow $layout-header-shadow
 
 .layout-footer
   order 10
+  box-shadow $layout-footer-shadow
 
 .layout-content
   display flex
