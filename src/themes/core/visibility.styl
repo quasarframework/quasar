@@ -43,6 +43,17 @@ body
 .highlight-and-fade
   animation quasar-highlight 2s
 
+@keyframes quasar-rotate
+  0%
+    transform rotate(0)
+  25%
+    transform rotate(90deg)
+  50%
+    transform rotate(180deg)
+  75%
+    transform rotate(270deg)
+  100%
+    transform rotate(360deg)
 
 for type in desktop mobile cordova ios mat touch no-touch within-iframe
   body:not(.{type}) .{type}-only,

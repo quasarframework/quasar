@@ -100,6 +100,7 @@
     "raw-loader": "^0.5.1",
     "roboto-fontface": "^0.6.0",
     "rollup": "^0.34.1",
+    "rollup-plugin-babel": "^2.6.1",
     "rollup-plugin-string": "^2.0.2",
     "rollup-plugin-vue": "^2.0.1",
     "stylint": "^1.5.6",

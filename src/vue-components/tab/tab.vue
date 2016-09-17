@@ -1,7 +1,7 @@
 <template>
   <div
     class="quasar-tab items-center justify-center"
-    :class="{'v-link-active': active, hidden: hidden, disabled: disabled, hideIcon: hide === 'icon', hideLabel: hide === 'label'}"
+    :class="{'v-link-active': active, hidden: hidden, disabled: disable, hideIcon: hide === 'icon', hideLabel: hide === 'label'}"
     @click="activate()"
   >
       <i v-if="icon" class="quasar-tabs-icon">{{icon}}</i>
@@ -13,10 +13,10 @@
 
 <script>
 export default {
-  props: ['active', 'hidden', 'disabled', 'hide', 'icon', 'label', 'target'],
+  props: ['active', 'hidden', 'disable', 'hide', 'icon', 'label', 'target'],
   methods: {
     activate () {
-      if (this.disabled) {
+      if (this.disable) {
         return
       }
       this.active = true
@@ -50,7 +50,7 @@ export default {
   },
   watch: {
     active (value) {
-      if (this.disabled) {
+      if (this.disable) {
         return
       }
       if (value) {

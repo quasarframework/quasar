@@ -83,7 +83,7 @@ function registerComponents (_Vue) {
   _Vue.component('quasar-collapsible', Collapsible)
   _Vue.component('quasar-context-menu', Platform.is.desktop ? ContextMenuDesktop : ContextMenuMobile)
   _Vue.component('quasar-inline-datetime', theme === 'ios' ? iOSInlineDatetime : MaterialInlineDatetime)
-  _Vue.component('quasar-datetime', Platform.is.desktop ? InputDatetimeDesktop : InputDatetimeMobile)
+  _Vue.component('quasar-datetime', Platform.is.desktop && !Platform.within.iframe ? InputDatetimeDesktop : InputDatetimeMobile)
   _Vue.component('quasar-drawer', Drawer)
   _Vue.component('quasar-drawer-link', DrawerLink)
   _Vue.component('quasar-fab', Fab)

@@ -94,7 +94,7 @@ class Modal {
       options = {
         duration,
         complete: () => {
-          EscapeKey.register(() => { this.close() })
+          EscapeKey.register(() => { this.close(this.onEscapeKey) })
           this.__onShowHandlers.forEach(
             handler => { handler() }
           )

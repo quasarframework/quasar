@@ -11,7 +11,7 @@ import Utils from '../../utils'
 
 export default {
   props: {
-    disabled: {
+    disable: {
       type: Boolean,
       default: false,
       coerce: Boolean
@@ -32,7 +32,7 @@ export default {
     this.target = this.$el.parentNode
 
     this.handler = event => {
-      if (this.disabled) {
+      if (this.disable) {
         return
       }
       event.preventDefault()

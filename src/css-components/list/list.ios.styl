@@ -12,19 +12,6 @@
   &.active, &.v-link-active
     background rgba(0, 0, 0, .2)
 
-  & + &
-    &.item-delimiter
-      border-top 1px solid rgb(224, 224, 224)
-    &.item-inset-delimiter
-      &:after
-        content ''
-        position absolute
-        top 0
-        left 72px
-        right 0
-        height 1px
-        background rgb(224, 224, 224)
-
   &.item-link
     cursor pointer
     &:active
@@ -191,6 +178,22 @@
   .item-smaller
     font-size 14px
 
+.item + .item,
+.item + .quasar-collapsible,
+.quasar-collapsible + .item,
+.quasar-collapsible + .quasar-collapsible
+  &.item-delimiter
+    border-top 1px solid rgb(224, 224, 224)
+  &.item-inset-delimiter
+    &:after
+      content ''
+      position absolute
+      top 0
+      left 72px
+      right 0
+      height 1px
+      background rgb(224, 224, 224)
+
 body.desktop .item.item-link:hover
   background rgba(0, 0, 0, .2)
 
@@ -234,10 +237,16 @@ body.desktop .item.item-link:hover
     background-color rgba(0, 0, 0, .1)
 
   &.item-delimiter
-    .item + .item
+    .item + .item,
+    .item + .quasar-collapsible,
+    .quasar-collapsible + .item,
+    .quasar-collapsible + .quasar-collapsible
       border-top 1px solid rgb(224, 224, 224)
   &.item-inset-delimiter
-    .item + .item
+    .item + .item,
+    .item + .quasar-collapsible,
+    .quasar-collapsible + .item,
+    .quasar-collapsible + .quasar-collapsible
       &:after
         content ''
         position absolute

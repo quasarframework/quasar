@@ -30,6 +30,11 @@ $toolbar-title-font-size   ?= 1.2rem
   .toolbar
     border-top $layout-border
 
+body.desktop
+  .layout-header, .layout-footer
+    button:hover i
+      animation quasar-rotate .25s ease-out
+
 .layout-content
   display flex
   flex 1 1 auto

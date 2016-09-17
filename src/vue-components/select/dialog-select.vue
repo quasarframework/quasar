@@ -17,7 +17,8 @@ let mapTypeConfig = {
 export default {
   props: {
     model: {
-      required: true
+      required: true,
+      twoWay: true
     },
     options: {
       type: Array,

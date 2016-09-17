@@ -35,7 +35,7 @@
       class="quasar-knob-label row items-center justify-center content-center"
       :style="{color: color}"
     >
-      {{{ label || model }}}
+      {{{ placeholder || model }}}
     </div>
   </div>
 </template>
@@ -83,7 +83,7 @@ export default {
       type: Number,
       default: 1
     },
-    label: String
+    placeholder: String
   },
   computed: {
     svgStyle () {

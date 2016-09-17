@@ -298,7 +298,10 @@ export default {
       backdrop.style.background = 'rgba(0,0,0,' + percentage * backdropOpacity[theme.current] + ')'
     },
     setState (state, done) {
-      if (typeof state === 'boolean' && this.opened === state) {
+      if (
+        (!this.swipeOnly && Utils.dom.viewport().width > 600) ||
+        (typeof state === 'boolean' && this.opened === state)
+      ) {
         if (typeof done === 'function') {
           done()
         }
@@ -316,6 +319,12 @@ export default {
           this.setState(false)
         }
       }
+    },
+    open (done) {
+      this.setState(true, done)
+    },
+    close (done) {
+      this.setState(false, done)
     }
   },
   ready () {

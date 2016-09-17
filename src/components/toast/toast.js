@@ -42,7 +42,6 @@ function create (opts, defaults) {
   }
 
   toast.create(opts)
-  return toast
 }
 
 types.forEach(type => {

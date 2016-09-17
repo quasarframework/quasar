@@ -56,6 +56,7 @@ export default {
   },
   props: {
     model: {
+      required: true,
       twoWay: true
     },
     options: {
@@ -72,18 +73,6 @@ export default {
       required: true,
       validator (value) {
         return ['radio', 'checkbox', 'toggle'].includes(value)
-      }
-    },
-    classes: {
-      type: Array,
-      default () {
-        return ['primary', 'clear']
-      },
-      coerce (value) {
-        if (typeof value === 'string') {
-          return value.split(' ')
-        }
-        return value
       }
     },
     placeholder: String,

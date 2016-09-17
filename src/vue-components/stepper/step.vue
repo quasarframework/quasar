@@ -60,30 +60,33 @@ export default {
   },
   watch: {
     visible () {
-      this.notify('reset')
+      this.__notify('reset')
     },
     disabled () {
-      this.notify('reset')
+      this.__notify('reset')
     }
   },
   methods: {
     nextStep () {
       if (this.ready) {
-        this.notify('nextStep')
+        this.__notify('nextStep')
       }
     },
     previousStep () {
-      this.notify('previousStep')
+      this.__notify('previousStep')
     },
-    notify (event) {
+    finish () {
+      this.__notify('finish')
+    },
+    __notify (event) {
       this.$dispatch('stepper::' + event)
     }
   },
   ready () {
-    this.notify('reset')
+    this.__notify('reset')
   },
   destroyed () {
-    this.notify('reset')
+    this.__notify('reset')
   }
 }
 </script>

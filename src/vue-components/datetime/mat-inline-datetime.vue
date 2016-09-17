@@ -29,7 +29,7 @@
       </div>
       <div
         v-if="type === 'time' || type === 'datetime'"
-        class="quasar-datetime-time row gt-md-column justify-center"
+        class="quasar-datetime-time row gt-md-column items-center justify-center"
       >
         <div class="quasar-datetime-clockstring">
           <span

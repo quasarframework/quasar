@@ -56,6 +56,11 @@ export default {
     refreshIcon: {
       type: String,
       default: 'refresh'
+    },
+    disable: {
+      type: Boolean,
+      default: false,
+      coerce: Boolean
     }
   },
   data () {
@@ -79,6 +84,13 @@ export default {
         return
       }
       if (this.animating) {
+        return
+      }
+      if (this.disable) {
+        this.scrolling = false
+        this.pulling = false
+        this.animating = false
+        this.state = 'pull'
         return
       }
 

@@ -58,7 +58,8 @@ export default {
     .set({
       transitionIn: {translateY: [0, '101%']},
       transitionOut: {translateY: ['101%', 0]},
-      onBackButton: data.dismissButton.handler
+      onBackButton: data.dismissButton.handler,
+      onEscapeKey: data.dismissButton.handler
     })
 
     modal.$el.classList.remove('items-center')

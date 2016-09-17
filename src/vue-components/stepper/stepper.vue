@@ -13,13 +13,13 @@ export default {
       this.redraw()
     },
     'stepper::nextStep' () {
-      this.config.currentStep++
-      if (this.config.currentStep > this.config.steps) {
-        this.$emit('finish')
-      }
+      this.nextStep()
     },
     'stepper::previousStep' () {
-      this.config.currentStep--
+      this.previousStep()
+    },
+    'stepper::finish' () {
+      this.finish()
     }
   },
   data () {
@@ -34,6 +34,19 @@ export default {
     reset () {
       this.redraw()
       this.config.currentStep = 1
+    },
+    nextStep () {
+      this.config.currentStep++
+      if (this.config.currentStep > this.config.steps) {
+        this.$emit('finish')
+      }
+    },
+    previousStep () {
+      this.config.currentStep--
+    },
+    finish () {
+      this.config.currentStep = this.config.steps + 1
+      this.$emit('finish')
     },
     redraw () {
       let step = 1
