@@ -20,8 +20,24 @@ import tail from './svg-spinners/tail.svg'
 import { current as theme } from '../../theme'
 
 let templates = {
-  audio, ball, bars, circles, dots, facebook, gears, grid, hearts,
-  hourglass, infinity, ios, oval, pie, puff, radio, rings, tail
+  audio,
+  ball,
+  bars,
+  circles,
+  dots,
+  facebook,
+  gears,
+  grid,
+  hearts,
+  hourglass,
+  infinity,
+  ios,
+  oval,
+  pie,
+  puff,
+  radio,
+  rings,
+  tail
 }
 
 export default (_Vue) => {

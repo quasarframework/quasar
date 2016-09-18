@@ -27,7 +27,7 @@ export function position (e) {
     posx = e.clientX
     posy = e.clientY
   }
-  else if (e.pageX || e.pageY)	{
+  else if (e.pageX || e.pageY) {
     posx = e.pageX - document.body.scrollLeft - document.documentElement.scrollLeft
     posy = e.pageY - document.body.scrollTop - document.documentElement.scrollTop
   }
