@@ -34,7 +34,7 @@ It could be you!
 
 ### $10+
 
-It could be you!
+- Aaryn Bryanton
 
 ### One time
 
