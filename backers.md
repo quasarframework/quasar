@@ -28,7 +28,7 @@ It could be you!
 
 ### $50+
 
-- Spekulatius
+- Peter Thaleikis
 
 ---
 
