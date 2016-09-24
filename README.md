@@ -25,9 +25,21 @@ Head on to the official community forum: [http://forum.quasar-framework.org](htt
 
 I'm excited if you want to contribute to Quasar under any form (report bugs, write a plugin, fix an issue, write a new feature).
 
-I'm only asking that you [read this](http://quasar-framework.org/guide/contributing.html) first.
+### Issue Reporting Guidelines
 
 **Please use the appropriate Github repo to report issues. See "Related Components" above.** For example, a bug related to CLI should be reported to the CLI repo, one related to build issues to Quasar Framework Templates repo and so on.
+
+- The issue list of the repository is **exclusively** for bug reports and feature requests. For anything else please use the [Community Forum](http://forum.quasar-framework.org).
+
+- Try to search for your issue, it may have already been fixed in the development branch or it may have a resolution.
+
+- Check if the issue is reproducible with the latest stable version of Quasar. If you are using a pre-release, please indicate the specific version you are using.
+
+- It is **required** that you clearly describe the steps necessary to reproduce the issue you are running into. Issues with no clear repro steps will not be triaged. If an issue labeled "need repro" receives no further input from the issue author for more than 5 days, it will be closed.
+
+- If your issue is resolved but still open, don’t hesitate to close it. In case you found a solution by yourself, it could be helpful to explain how you fixed it.
+
+Read more [here](http://quasar-framework.org/guide/contributing.html).
 
 ## Quasar Play App
 
