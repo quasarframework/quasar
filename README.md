@@ -16,10 +16,12 @@ Head on to the Quasar Framework official website: [http://quasar-framework.org](
 
 Head on to the official community forum: [http://forum.quasar-framework.org](http://forum.quasar-framework.org)
 
-## Related Components
+## Quasar Repositories
 
-* [Quasar Framework CLI](https://github.com/rstoenescu/quasar-cli)
-* [Quasar Framework Templates](https://github.com/rstoenescu/quasar-templates)
+* [Quasar Framework](https://github.com/rstoenescu/quasar-framework)
+* [Quasar CLI](https://github.com/rstoenescu/quasar-cli)
+* [Quasar App Templates](https://github.com/rstoenescu/quasar-templates)
+* [Quasar Play App](https://github.com/rstoenescu/quasar-play)
 
 ## Contributing
 
