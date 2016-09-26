@@ -18,7 +18,7 @@ It could be you!
 
 ### $250
 
-It could be you!
+- Mike Burgh
 
 ---
 
