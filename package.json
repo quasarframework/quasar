@@ -127,5 +127,8 @@
     "velocity-animate": "^1.2.3",
     "vue": "^1.0.26",
     "vue-touch": "^1.1.0"
+  },
+  "dependencies": {
+    "moment": "^2.15.1"
   }
 }
