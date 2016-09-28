@@ -94,6 +94,7 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^1.7.0",
     "material-design-icons": "^3.0.1",
+    "moment": "^2.14.1",
     "object-assign": "^4.1.0",
     "phantomjs": "^2.1.7",
     "postcss-loader": "^0.13.0",
@@ -127,8 +128,5 @@
     "velocity-animate": "^1.2.3",
     "vue": "^1.0.26",
     "vue-touch": "^1.1.0"
-  },
-  "dependencies": {
-    "moment": "^2.15.1"
   }
 }
