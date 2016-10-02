@@ -1,4 +1,3 @@
-
 import Platform from './platform'
 import Events from './events'
 import { current as theme } from './theme'

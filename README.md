@@ -1,5 +1,7 @@
 ![Quasar Framework logo](http://quasar-framework.org/images/logo/xxhdpi.png)
 
+**This branch is used for Vue 2 compatibility. It is a work in progress.**
+
 # Quasar Framework
 
 > Build responsive websites and hybrid mobile Apps (that look native!) using same code, with VueJs.
