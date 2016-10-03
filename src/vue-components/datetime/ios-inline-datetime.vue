@@ -349,7 +349,7 @@ export default {
       }
     }
   },
-  compiled () {
+  mounted () {
     if (this.type === 'date' || this.type === 'datetime') {
       this.__updatePositions('month', this.date.month())
       this.__updatePositions('date', this.date.date())

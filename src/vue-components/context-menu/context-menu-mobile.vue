@@ -37,43 +37,45 @@ export default {
       }
     }
   },
-  ready () {
-    this.target = this.$el.parentNode
+  mounted () {
+    this.$nextTick(() => {
+      this.target = this.$el.parentNode
 
-    this.handler = () => {
-      if (this.disable) {
-        return
+      this.handler = () => {
+        if (this.disable) {
+          return
+        }
+        this.modal = Modal.create(this.$el)
+          .set({
+            minimized: true,
+            closeWithBackdrop: true
+          })
+          .show()
       }
-      this.modal = Modal.create(this.$el)
-        .set({
-          minimized: true,
-          closeWithBackdrop: true
-        })
-        .show()
-    }
 
-    this.touchStartHandler = (event) => {
-      this.target.classList.add('non-selectable')
-      this.touchTimer = setTimeout(() => {
-        event.preventDefault()
-        event.stopPropagation()
-        this.cleanup()
-        setTimeout(() => {
-          this.handler()
-        }, 10)
-      }, 600)
-    }
-    this.cleanup = () => {
-      this.target.classList.remove('non-selectable')
-      if (this.touchTimer) {
-        clearTimeout(this.touchTimer)
-        this.touchTimer = null
+      this.touchStartHandler = (event) => {
+        this.target.classList.add('non-selectable')
+        this.touchTimer = setTimeout(() => {
+          event.preventDefault()
+          event.stopPropagation()
+          this.cleanup()
+          setTimeout(() => {
+            this.handler()
+          }, 10)
+        }, 600)
       }
-    }
-    this.target.addEventListener('touchstart', this.touchStartHandler)
-    this.target.addEventListener('touchcancel', this.cleanup)
-    this.target.addEventListener('touchmove', this.cleanup)
-    this.target.addEventListener('touchend', this.cleanup)
+      this.cleanup = () => {
+        this.target.classList.remove('non-selectable')
+        if (this.touchTimer) {
+          clearTimeout(this.touchTimer)
+          this.touchTimer = null
+        }
+      }
+      this.target.addEventListener('touchstart', this.touchStartHandler)
+      this.target.addEventListener('touchcancel', this.cleanup)
+      this.target.addEventListener('touchmove', this.cleanup)
+      this.target.addEventListener('touchend', this.cleanup)
+    })
   },
   beforeDestroy () {
     this.target.removeEventListener('touchstart', this.touchStartHandler)

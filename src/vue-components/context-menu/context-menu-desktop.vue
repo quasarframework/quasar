@@ -28,21 +28,23 @@ export default {
       this.$refs.popover.toggle()
     }
   },
-  ready () {
-    this.target = this.$el.parentNode
+  mounted () {
+    this.$nextTick(() => {
+      this.target = this.$el.parentNode
 
-    this.handler = event => {
-      if (this.disable) {
-        return
+      this.handler = event => {
+        if (this.disable) {
+          return
+        }
+        event.preventDefault()
+        event.stopPropagation()
+        if (Utils.dom.childOf(Utils.event.targetElement(event), this.target)) {
+          this.$refs.popover.toggle(event)
+        }
       }
-      event.preventDefault()
-      event.stopPropagation()
-      if (Utils.dom.childOf(Utils.event.targetElement(event), this.target)) {
-        this.$refs.popover.toggle(event)
-      }
-    }
 
-    this.target.addEventListener('contextmenu', this.handler)
+      this.target.addEventListener('contextmenu', this.handler)
+    })
   },
   beforeDestroy () {
     this.target.removeEventListener('contexmenu', this.handler)

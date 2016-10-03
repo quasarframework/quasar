@@ -60,7 +60,7 @@ export default {
       })
     }
   },
-  beforeCompile () {
+  created () {
     this.reset = Utils.debounce(this.reset, 50)
   }
 }

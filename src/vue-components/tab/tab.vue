@@ -79,15 +79,17 @@ export default {
       })
     }
   },
-  ready () {
-    if (this.active && this.target || this.$el.classList.contains('v-link-active')) {
-      this.$nextTick(() => {
-        this.$dispatch('selected', this)
-      })
-    }
-    else {
-      this.setTargetVisibility(false)
-    }
+  mounted () {
+    this.$nextTick(() => {
+      if (this.active && this.target || this.$el.classList.contains('v-link-active')) {
+        this.$nextTick(() => {
+          this.$dispatch('selected', this)
+        })
+      }
+      else {
+        this.setTargetVisibility(false)
+      }
+    })
   }
 }
 </script>

@@ -167,8 +167,10 @@ export default {
       })
     }
   },
-  ready () {
-    this.scrollContainer = this.$el.parentNode
+  mounted () {
+    this.$nextTick(() => {
+      this.scrollContainer = this.$el.parentNode
+    })
   }
 }
 </script>

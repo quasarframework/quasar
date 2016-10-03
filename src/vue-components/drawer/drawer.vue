@@ -327,38 +327,40 @@ export default {
       this.setState(false, done)
     }
   },
-  ready () {
-    const
-      content = this.$els.content,
-      toggles = this.$el.closest('.layout').getElementsByClassName((this.rightSide ? 'right' : 'left') + '-drawer-opener')
+  mounted () {
+    this.$nextTick(() => {
+      const
+        content = this.$els.content,
+        toggles = this.$el.closest('.layout').getElementsByClassName((this.rightSide ? 'right' : 'left') + '-drawer-opener')
 
-    this.width = Utils.dom.width(content)
+      this.width = Utils.dom.width(content)
 
-    ;[].slice.call(toggles).forEach(el => {
-      el.addEventListener('click', () => {
-        this.setState(true)
+      ;[].slice.call(toggles).forEach(el => {
+        el.addEventListener('click', () => {
+          this.setState(true)
+        })
       })
+
+      ;[].slice.call(content.getElementsByClassName('drawer-closer')).forEach(el => {
+        el.addEventListener('click', () => {
+          this.setState(false)
+        })
+      })
+
+      if (this.swipeOnly) {
+        [].slice.call(toggles).forEach(el => {
+          el.classList.add('always-visible')
+        })
+        this.$el.classList.add('swipe-only')
+      }
+
+      if (this.rightSide) {
+        rightDrawer = this
+      }
+      else {
+        leftDrawer = this
+      }
     })
-
-    ;[].slice.call(content.getElementsByClassName('drawer-closer')).forEach(el => {
-      el.addEventListener('click', () => {
-        this.setState(false)
-      })
-    })
-
-    if (this.swipeOnly) {
-      [].slice.call(toggles).forEach(el => {
-        el.classList.add('always-visible')
-      })
-      this.$el.classList.add('swipe-only')
-    }
-
-    if (this.rightSide) {
-      rightDrawer = this
-    }
-    else {
-      leftDrawer = this
-    }
   },
   beforeDestroy () {
     this.setState(false)

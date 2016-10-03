@@ -92,16 +92,18 @@ export default {
       }
     }
   },
-  ready () {
-    this.container = this.$el
-    this.image = this.$els.img
+  mounted () {
+    this.$nextTick(() => {
+      this.container = this.$el
+      this.image = this.$els.img
 
-    this.scrollTarget = Utils.dom.getScrollTarget(this.$el)
-    this.resizeHandler = Utils.debounce(this.processResize, 50)
+      this.scrollTarget = Utils.dom.getScrollTarget(this.$el)
+      this.resizeHandler = Utils.debounce(this.processResize, 50)
 
-    window.addEventListener('resize', this.resizeHandler)
-    this.scrollTarget.addEventListener('scroll', this.updatePosition)
-    this.processResize()
+      window.addEventListener('resize', this.resizeHandler)
+      this.scrollTarget.addEventListener('scroll', this.updatePosition)
+      this.processResize()
+    })
   },
   beforeDestroy () {
     window.removeEventListener('resize', this.resizeHandler)

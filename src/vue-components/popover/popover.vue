@@ -210,8 +210,10 @@ export default {
       this.close()
     }
   },
-  ready () {
-    this.$el.children[0].addEventListener('click', this.toggle)
+  mounted () {
+    this.$nextTick(() => {
+      this.$el.children[0].addEventListener('click', this.toggle)
+    })
   },
   beforeDestroy () {
     this.$el.children[0].removeEventListener('click', this.toggle)

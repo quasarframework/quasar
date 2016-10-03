@@ -147,8 +147,10 @@ export default {
       window.removeEventListener('popstate', this.__popState)
     }
   },
-  ready () {
-    this.slidesNumber = this.$els.track.children.length
+  mounted () {
+    this.$nextTick(() => {
+      this.slidesNumber = this.$els.track.children.length
+    })
   }
 }
 </script>
