@@ -46,7 +46,7 @@ class Modal {
 
     this.vm = new Vue(vm)
     if (!this.__customElement) {
-      this.vm.$mount().$appendTo(document.body)
+      document.body.appendChild(this.vm.$el)
       this.$content = this.vm.$refs.content
       this.$backdrop = this.vm.$refs.backdrop
     }

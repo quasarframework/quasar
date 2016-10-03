@@ -40,7 +40,7 @@ function show ({
       }
     })
 
-    vm.$mount().$appendTo(document.body)
+    document.body.appendChild(vm.$el)
 
     timeout = null
   }, delay)
