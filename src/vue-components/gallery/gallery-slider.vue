@@ -14,10 +14,10 @@
     <div
       class="quasar-gallery-slider-overlay"
       :class="{active: quickView}"
-      @click="toggleQuickView()"
+      @click.native="toggleQuickView()"
     ></div>
 
-    <i slot="action" @click="toggleQuickView()">view_carousel</i>
+    <i slot="action" @click.native="toggleQuickView()">view_carousel</i>
 
     <div
       class="quasar-gallery-slider-quickview"
@@ -27,7 +27,7 @@
         <img
           :src="img"
           :class="{active: $refs.slider.slide === index}"
-          @click="selectImage(index)"
+          @click.native="selectImage(index)"
         >
       </div>
     </div>

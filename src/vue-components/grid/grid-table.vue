@@ -6,14 +6,14 @@
           Selected {{selectedRows.length}} rows.
         </div>
         <div v-show="selectionMode !== 'none' && controls === 'selection'" transition="slide">
-          <button :class="{disabled: selectedRows.length === 0}" class="primary clear small" @click="chooseAction()"><i>menu</i></button>
-          <button :class="{disabled: selectedRows.length === 0}" class="primary clear small" @click="clearSelection()"><i>cancel</i></button>
+          <button :class="{disabled: selectedRows.length === 0}" class="primary clear small" @click.native="chooseAction()"><i>menu</i></button>
+          <button :class="{disabled: selectedRows.length === 0}" class="primary clear small" @click.native="clearSelection()"><i>cancel</i></button>
           <label><quasar-checkbox :model.sync="showOnlySelected"></quasar-checkbox> &nbsp;Show Selected</label>
         </div>
         <div v-show="controls === 'filter'" transition="slide">
           Filter:
           <input v-model="searchQuery" type="text" :debounce="350">
-          <button class="primary clear small" @click="clearFilter()">
+          <button class="primary clear small" @click.native="clearFilter()">
             <i>clear</i>
           </button>
         </div>
@@ -23,7 +23,7 @@
         <button
           class="primary"
           :class="{'clear': controls !== 'filter'}"
-          @click="toggleControls('filter')"
+          @click.native="toggleControls('filter')"
         >
           <i>search</i>
         </button>
@@ -32,7 +32,7 @@
           v-if="selectionMode !== 'none'"
           class="primary"
           :class="{'clear': controls !== 'selection'}"
-          @click="toggleControls('selection')"
+          @click.native="toggleControls('selection')"
         >
           <i>playlist_add_check</i>
         </button>
@@ -62,7 +62,7 @@
           <th
             v-for="column in columns"
             v-show="!column.hidden"
-            @click="sortBy(column.field)"
+            @click.native="sortBy(column.field)"
             :class="{'sortable-column': sortable}"
             style="text-align: left"
           >
@@ -101,7 +101,7 @@
             <th
               v-for="column in columns"
               v-show="!column.hidden"
-              @click="sortBy(column.field)"
+              @click.native="sortBy(column.field)"
               :class="{'sortable-column': sortable}"
             >
               <span v-html="column.label"></span>

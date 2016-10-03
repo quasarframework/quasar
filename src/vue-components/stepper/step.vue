@@ -22,14 +22,14 @@
         <button
           class="primary"
           :class="{disabled: !ready}"
-          @click="nextStep()"
+          @click.native="nextStep()"
         >
           {{ stepper && step === stepper.steps ? 'Finish' : 'Continue' }}
         </button>
         <button
           class="primary clear"
           v-if="step > 1"
-          @click="previousStep()"
+          @click.native="previousStep()"
         >
           Back
         </button>

@@ -1,7 +1,7 @@
 <template>
   <div
     class="quasar-chips group"
-    @click="focus"
+    @click.native="focus"
     :class="{active: active, disabled: disable}"
   >
     <span
@@ -10,7 +10,7 @@
       :key="index"
     >
       {{ label }}
-      <i class="on-right" @click="remove(index)">close</i>
+      <i class="on-right" @click.native="remove(index)">close</i>
     </span>
     <div class="quasar-chips-input chip label text-grey-9">
       <input
@@ -19,12 +19,12 @@
         v-el:input
         v-model="input"
         @keyup.enter="add()"
-        @focus="active = true"
-        @blur="active = false"
+        @focus.native="active = true"
+        @blur.native="active = false"
         v-attr="attrib"
         :placeholder="placeholder"
       >
-      <button class="small" @click="add()" :class="{invisible: !input.length}">
+      <button class="small" @click.native="add()" :class="{invisible: !input.length}">
         <i>send</i>
       </button>
     </div>

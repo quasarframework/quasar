@@ -15,26 +15,26 @@
         class="quasar-slider-left-button row items-center justify-center"
         :class="{hidden: slide === 0}"
       >
-        <i @click="goToSlide(slide - 1)">keyboard_arrow_left</i>
+        <i @click.native="goToSlide(slide - 1)">keyboard_arrow_left</i>
       </div>
       <div
         v-if="arrows"
         class="quasar-slider-right-button row items-center justify-center"
         :class="{hidden: slide === slidesNumber - 1}"
-        @click="goToSlide(slide + 1)"
+        @click.native="goToSlide(slide + 1)"
       >
         <i>keyboard_arrow_right</i>
       </div>
       <div v-if="toolbar" class="quasar-slider-toolbar row items-center justify-end">
         <div class="quasar-slider-dots auto row items-center justify-center">
-          <i v-if="dots" v-for="n in slidesNumber" @click="goToSlide(n - 1)">
+          <i v-if="dots" v-for="n in slidesNumber" @click.native="goToSlide(n - 1)">
             <span v-show="(n - 1) !== slide">panorama_fish_eye</span>
             <span v-else>lens</span>
           </i>
         </div>
         <div class="row items-center">
           <slot name="action"></slot>
-          <i v-if="fullscreen" @click="toggleFullscreen()">
+          <i v-if="fullscreen" @click.native="toggleFullscreen()">
             <span v-show="!inFullscreen">fullscreen</span>
             <span v-else>fullscreen_exit</span>
           </i>

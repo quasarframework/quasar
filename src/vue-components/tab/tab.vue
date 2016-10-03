@@ -2,7 +2,7 @@
   <div
     class="quasar-tab items-center justify-center"
     :class="{'v-link-active': active, hidden: hidden, disabled: disable, hideIcon: hide === 'icon', hideLabel: hide === 'label'}"
-    @click="activate()"
+    @click.native="activate()"
   >
       <i v-if="icon" class="quasar-tabs-icon">{{icon}}</i>
       <span class="quasar-tab-label">

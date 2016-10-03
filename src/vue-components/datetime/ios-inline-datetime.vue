@@ -7,15 +7,15 @@
         <div
           class="quasar-datetime-col quasar-datetime-col-month"
           v-if="type === 'date' || type === 'datetime'"
-          @touchstart="__dragStart($event, 'month')"
-          @touchmove="__dragMove($event, 'month')"
-          @touchend="__dragStop($event, 'month')"
+          @touchstart.native="__dragStart($event, 'month')"
+          @touchmove.native="__dragMove($event, 'month')"
+          @touchend.native="__dragStop($event, 'month')"
         >
           <div v-el:month class="quasar-datetime-col-wrapper" :style="__monthStyle">
             <div
               v-for="(monthName, index) in monthsList"
               class="quasar-datetime-item"
-              @click="setMonth(index + 1)"
+              @click.native="setMonth(index + 1)"
             >
               {{ monthName }}
             </div>
@@ -25,15 +25,15 @@
         <div
           class="quasar-datetime-col quasar-datetime-col-day"
           v-if="type === 'date' || type === 'datetime'"
-          @touchstart="__dragStart($event, 'date')"
-          @touchmove="__dragMove($event, 'date')"
-          @touchend="__dragStop($event, 'date')"
+          @touchstart.native="__dragStart($event, 'date')"
+          @touchmove.native="__dragMove($event, 'date')"
+          @touchend.native="__dragStop($event, 'date')"
         >
           <div v-el:date class="quasar-datetime-col-wrapper" :style="__dayStyle">
             <div
               v-for="monthDay in daysInMonth"
               class="quasar-datetime-item"
-              @click="setDay(monthDay)"
+              @click.native="setDay(monthDay)"
             >
               {{ monthDay }}
             </div>
@@ -43,15 +43,15 @@
         <div
           class="quasar-datetime-col quasar-datetime-col-year"
           v-if="type === 'date' || type === 'datetime'"
-          @touchstart="__dragStart($event, 'year')"
-          @touchmove="__dragMove($event, 'year')"
-          @touchend="__dragStop($event, 'year')"
+          @touchstart.native="__dragStart($event, 'year')"
+          @touchmove.native="__dragMove($event, 'year')"
+          @touchend.native="__dragStop($event, 'year')"
         >
           <div v-el:year class="quasar-datetime-col-wrapper" :style="__yearStyle">
             <div
               v-for="n in 100"
               class="quasar-datetime-item"
-              @click="setYear(n + 1950)"
+              @click.native="setYear(n + 1950)"
             >
               {{ n + 1950 }}
             </div>
@@ -62,15 +62,15 @@
           v-el
           class="quasar-datetime-col quasar-datetime-col-hour"
           v-if="type === 'time' || type === 'datetime'"
-          @touchstart="__dragStart($event, 'hour')"
-          @touchmove="__dragMove($event, 'hour')"
-          @touchend="__dragStop($event, 'hour')"
+          @touchstart.native="__dragStart($event, 'hour')"
+          @touchmove.native="__dragMove($event, 'hour')"
+          @touchend.native="__dragStop($event, 'hour')"
         >
           <div v-el:hour class="quasar-datetime-col-wrapper" :style="__hourStyle">
             <div
               v-for="n in 24"
               class="quasar-datetime-item"
-              @click="setHour(n - 1)"
+              @click.native="setHour(n - 1)"
             >
               {{ n - 1 }}
             </div>
@@ -89,15 +89,15 @@
         <div
           class="quasar-datetime-col quasar-datetime-col-minute"
           v-if="type === 'time' || type === 'datetime'"
-          @touchstart="__dragStart($event, 'minute')"
-          @touchmove="__dragMove($event, 'minute')"
-          @touchend="__dragStop($event, 'minute')"
+          @touchstart.native="__dragStart($event, 'minute')"
+          @touchmove.native="__dragMove($event, 'minute')"
+          @touchend.native="__dragStop($event, 'minute')"
         >
           <div v-el:minute class="quasar-datetime-col-wrapper" :style="__minuteStyle">
             <div
               v-for="n in 60"
               class="quasar-datetime-item"
-              @click="setMinute(n - 1)"
+              @click.native="setMinute(n - 1)"
             >
               {{ __pad(n - 1) }}
             </div>

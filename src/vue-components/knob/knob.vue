@@ -3,12 +3,12 @@
     class="quasar-knob non-selectable cursor-pointer"
     :class="{disabled: disable}"
     :style="{width: size, height: size}"
-    @mousedown="__dragStart"
-    @mousemove="__dragMove"
-    @mouseup="__dragStop"
-    @touchstart="__dragStart"
-    @touchmove="__dragMove"
-    @touchend="__dragStop"
+    @mousedown.native="__dragStart"
+    @mousemove.native="__dragMove"
+    @mouseup.native="__dragStop"
+    @touchstart.native="__dragStart"
+    @touchmove.native="__dragMove"
+    @touchend.native="__dragStop"
   >
     <svg viewBox="0 0 100 100">
       <path

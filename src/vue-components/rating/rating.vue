@@ -3,7 +3,7 @@
     <i
       v-for="index in maxGrade"
       :class="{active: (!mouseModel && model > index) || (mouseModel && mouseModel > index)}"
-      @click="set(index)"
+      @click.native="set(index)"
       @mouseover="setHoverValue(index)"
       @mouseout="mouseModel = 0"
     >{{icon}}</i>

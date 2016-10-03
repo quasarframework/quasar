@@ -10,7 +10,7 @@
       v-el:backdrop
       class="drawer-backdrop fullscreen"
       style="background: rgba(0, 0, 0, 0.01)"
-      @click="setState(false)"
+      @click.native="setState(false)"
       v-touch:pan="closeByTouch"
       v-touch-options:pan="{ direction: 'horizontal' }"
     ></div>

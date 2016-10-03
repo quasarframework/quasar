@@ -13,13 +13,13 @@
         :placeholder="placeholder"
         v-model="model"
         :debounce="debounce"
-        @focus="focused = true"
-        @blur="focused = false"
+        @focus.native="focused = true"
+        @blur.native="focused = false"
         v-attr="attrib"
       >
       <button
         class="quasar-search-clear"
-        @click="clear()"
+        @click.native="clear()"
         :class="{hidden: this.model === ''}"
       >
         <i class="mat-only">clear</i>

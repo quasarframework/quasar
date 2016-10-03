@@ -2,10 +2,10 @@
   <div
     class="quasar-range non-selectable"
     :class="{disabled: disable}"
-    @mousedown.prevent="setActive"
-    @touchstart.prevent="setActive"
-    @touchend.prevent="end"
-    @touchmove.prevent="update"
+    @mousedown.native.prevent="setActive"
+    @touchstart.native.prevent="setActive"
+    @touchend.native.prevent="end"
+    @touchmove.native.prevent="update"
   >
     <div v-el:handle class="quasar-range-handle-container">
       <div class="quasar-range-track"></div>

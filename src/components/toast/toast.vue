@@ -16,14 +16,14 @@
 
       <a
         v-if="stack[0].button && stack[0].button.label"
-        @click="dismiss(stack[0].button.handler)"
+        @click.native="dismiss(stack[0].button.handler)"
         :style="{color: stack[0].button.color}"
       >
         {{ stack[0].button.label }}
       </a>
 
       <a
-        @click="dismiss()"
+        @click.native="dismiss()"
         :style="{color: stack[0].button.color}"
       >
         <i>close</i>
