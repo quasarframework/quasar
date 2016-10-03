@@ -1,6 +1,6 @@
 <template>
   <div class="quasar-select-container">
-    <quasar-popover v-ref:popover :disable="disable" cover>
+    <quasar-popover ref="popover" :disable="disable" cover>
       <div slot="target" class="cursor-pointer textfield" @click.native="__parseOptions" :class="{disabled: disable}">
         <span v-html="label"></span>
         <div class="float-right quasar-select-arrow caret-down"></div>

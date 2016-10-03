@@ -1,6 +1,6 @@
 <template>
   <div>
-    <quasar-popover v-ref:popover touch-position>
+    <quasar-popover ref="popover" touch-position>
       <slot></slot>
     </quasar-popover>
   </div>

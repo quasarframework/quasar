@@ -1,6 +1,6 @@
 <template>
   <quasar-grid-table
-    v-ref:table
+    ref="table"
     class="quasar-grid"
     :data="data | gridShowSelected showOnlySelected selectionMode singleSelection | filterBy searchQuery"
     :columns="columns"

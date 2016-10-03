@@ -1,5 +1,5 @@
 <template>
-  <quasar-slider v-ref:slider arrows fullscreen class="text-white bg-black quasar-gallery-slider">
+  <quasar-slider ref="slider" arrows fullscreen class="text-white bg-black quasar-gallery-slider">
     <div
       v-for="(img, index) in src"
       :key="index"
