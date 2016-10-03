@@ -11,9 +11,7 @@
         {{ step }}
       </span>
     </div>
-    <div class="timeline-title text-bold">
-      {{{ title }}}
-    </div>
+    <div class="timeline-title text-bold" v-html="title"></div>
     <div
       class="timeline-content"
       v-show="stepper && step === stepper.currentStep"

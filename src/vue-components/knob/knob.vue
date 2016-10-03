@@ -34,9 +34,8 @@
     <div
       class="quasar-knob-label row items-center justify-center content-center"
       :style="{color: color}"
-    >
-      {{{ placeholder || model }}}
-    </div>
+      v-html="placeholder || model"
+    ></div>
   </div>
 </template>
 

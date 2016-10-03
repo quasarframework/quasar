@@ -2,7 +2,7 @@
   <div class="quasar-datetime-desktop">
     <quasar-popover :disable="disable">
       <div slot="target" class="cursor-pointer textfield" :class="{disabled: disable}">
-        <span>{{{ label }}}</span>
+        <span v-html="label"></span>
         <div class="float-right quasar-select-arrow caret-down"></div>
       </div>
 

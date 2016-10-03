@@ -1,6 +1,6 @@
 <template>
   <div class="quasar-select cursor-pointer textfield" @click="pick" :class="{disabled: disable}">
-    <span>{{{ label }}}</span>
+    <span v-html="label"></span>
     <div class="float-right quasar-select-arrow caret-down"></div>
   </div>
 </template>

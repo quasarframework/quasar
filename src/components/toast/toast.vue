@@ -12,9 +12,7 @@
       <i v-if="stack[0].icon">{{ stack[0].icon }}</i>
       <img v-if="stack[0].image" :src="stack[0].image">
 
-      <div class="quasar-toast-message auto">
-        {{{ stack[0].html }}}
-      </div>
+      <div class="quasar-toast-message auto" v-html="stack[0].html"></div>
 
       <a
         v-if="stack[0].button && stack[0].button.label"
