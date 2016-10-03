@@ -1,10 +1,6 @@
 <div>
-  <div class="modal-header">
-    {{{* title || ''}}}
-  </div>
-  <div v-if="message" class="modal-body modal-scroll">
-    {{{* message}}}
-  </div>
+  <div class="modal-header" v-html="title || ''"></div>
+  <div v-if="message" class="modal-body modal-scroll" v-html="message"></div>
   <div v-if="inputs" class="modal-body modal-scroll">
     <div v-for="input in inputs" class="floating-label" style="margin-bottom: 10px">
       <input type="text" class="full-width" v-model="input.model" required>
@@ -16,9 +12,7 @@
       <div class="item-primary">
         <quasar-radio :model.sync="radioModel" :value.once="radio.value"></quasar-radio>
       </div>
-      <div class="item-content">
-        {{{* radio.label}}}
-      </div>
+      <div class="item-content" v-html="radio.label"></div>
     </label>
   </div>
   <div v-if="checkboxes" class="modal-controls modal-scroll">
@@ -26,16 +20,12 @@
       <div class="item-primary">
         <quasar-checkbox :model.sync="checkbox.checked"></quasar-checkbox>
       </div>
-      <div class="item-content">
-        {{{* checkbox.label}}}
-      </div>
+      <div class="item-content" v-html="checkbox.label"></div>
     </label>
   </div>
   <div v-if="toggles" class="modal-controls modal-scroll">
     <label v-for="toggle in toggles" class="item">
-      <div class="item-content has-secondary">
-        {{{* toggle.label}}}
-      </div>
+      <div class="item-content has-secondary" v-html="toggle.label"></div>
       <div class="item-secondary">
         <quasar-toggle :model.sync="toggle.checked"></quasar-toggle>
       </div>
@@ -60,8 +50,7 @@
       v-for="button in buttons"
       class="primary clear"
       @click="trigger(button.handler)"
-    >
-      {{{* button.label}}}
-    </button>
+      v-html="button.label"
+    ></button>
   </div>
 </div>

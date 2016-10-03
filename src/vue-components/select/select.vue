@@ -11,9 +11,7 @@
           <div class="item-primary">
             <quasar-radio :model.sync="model" :value.once="radio.value"></quasar-radio>
           </div>
-          <div class="item-content">
-            {{{* radio.label}}}
-          </div>
+          <div class="item-content" v-html="radio.label"></div>
         </label>
 
         <button
@@ -28,15 +26,11 @@
           <div class="item-primary">
             <quasar-checkbox :model.sync="multipleOptions[$index]"></quasar-checkbox>
           </div>
-          <div class="item-content">
-            {{{* checkbox.label}}}
-          </div>
+          <div class="item-content" v-html="checkbox.label"></div>
         </label>
 
         <label v-if="type === 'toggle'" v-for="toggle in options" class="item">
-          <div class="item-content has-secondary">
-            {{{* toggle.label}}}
-          </div>
+          <div class="item-content has-secondary" v-html="toggle.label"></div>
           <div class="item-secondary">
             <quasar-toggle :model.sync="multipleOptions[$index]"></quasar-toggle>
           </div>
