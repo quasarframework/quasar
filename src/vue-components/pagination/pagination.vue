@@ -10,9 +10,7 @@
     <input
       v-el:input
       type="text"
-      v-model="newPage"
-      number
-      lazy
+      v-model.number.lazy="newPage"
       :style="{width: inputPlaceholder.length * 10 + 'px'}"
       :placeholder="inputPlaceholder"
       v-attr="attrib"

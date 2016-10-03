@@ -4,11 +4,10 @@
     <input
       class="no-style auto"
       type="text"
-      v-model="model"
+      v-model.number="model"
       class="quasar-input-field"
       :style="{width: (''+model).length * .7 + 'em'}"
       v-attr="attrib"
-      number
     >
     <i @click="setByOffset(1)">add</i>
   </div>
