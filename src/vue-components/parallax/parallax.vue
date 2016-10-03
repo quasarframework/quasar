@@ -2,7 +2,7 @@
   <div class="quasar-parallax column items-center justify-center" :style="{height: height + 'px'}">
     <div class="quasar-parallax-image">
       <img
-        v-el:img
+        ref="img"
         :src="src"
         @load="processImage()"
         :class="{ready: imageHasBeenLoaded}"
@@ -87,7 +87,7 @@ export default {
         let percentScrolled = (containerBottom - top) / (this.height + containerHeight)
         let imageOffset = Math.round((this.imageHeight - this.height) * percentScrolled * this.speed)
         requestAnimationFrame(() => {
-          this.$els.img.style.transform = 'translate3D(-50%,' + imageOffset + 'px, 0)'
+          this.$refs.img.style.transform = 'translate3D(-50%,' + imageOffset + 'px, 0)'
         })
       }
     }
@@ -95,7 +95,7 @@ export default {
   mounted () {
     this.$nextTick(() => {
       this.container = this.$el
-      this.image = this.$els.img
+      this.image = this.$refs.img
 
       this.scrollTarget = Utils.dom.getScrollTarget(this.$el)
       this.resizeHandler = Utils.debounce(this.processResize, 50)

@@ -16,7 +16,7 @@
       <input
         type="text"
         class="no-style"
-        v-el:input
+        ref="input"
         v-model="input"
         @keyup.enter="add()"
         @focus.native="active = true"
@@ -70,7 +70,7 @@ export default {
       }
     },
     focus () {
-      this.$els.input.focus()
+      this.$refs.input.focus()
     }
   }
 }

@@ -2,7 +2,7 @@
   <div class="quasar-slider" :class="{fullscreen: inFullscreen}">
     <div class="quasar-slider-inner">
       <div
-        v-el:track
+        ref="track"
         class="quasar-slider-track"
         :class="{'with-arrows': arrows, 'with-toolbar': toolbar}"
         v-touch:pan="pan"
@@ -88,7 +88,7 @@ export default {
     pan (event) {
       if (!this.hasOwnProperty('initialPosition')) {
         this.initialPosition = this.position
-        Velocity(this.$els.track, 'stop')
+        Velocity(this.$refs.track, 'stop')
       }
 
       let delta = event.deltaX
@@ -100,8 +100,8 @@ export default {
         delta = delta / 10
       }
 
-      this.position = this.initialPosition + delta / this.$els.track.offsetWidth * 100
-      this.$els.track.style.transform = 'translateX(' + this.position + '%)'
+      this.position = this.initialPosition + delta / this.$refs.track.offsetWidth * 100
+      this.$refs.track.style.transform = 'translateX(' + this.position + '%)'
 
       if (event.isFinal) {
         if (event.distance < 100) {
@@ -116,8 +116,8 @@ export default {
     goToSlide (slide, noAnimation) {
       this.slide = Math.min(this.slidesNumber - 1, Math.max(0, slide))
 
-      Velocity(this.$els.track, 'stop')
-      Velocity(this.$els.track, {
+      Velocity(this.$refs.track, 'stop')
+      Velocity(this.$refs.track, {
         translateX: [-this.slide * 100 + '%', this.position + '%']
       }, noAnimation ? {duration: 0} : undefined)
 
@@ -149,7 +149,7 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
-      this.slidesNumber = this.$els.track.children.length
+      this.slidesNumber = this.$refs.track.children.length
     })
   }
 }

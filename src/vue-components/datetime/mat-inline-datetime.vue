@@ -63,7 +63,7 @@
       </div>
     </div>
     <div class="quasar-datetime-content auto column">
-      <div v-el:selector class="quasar-datetime-selector auto row items-center justify-center">
+      <div ref="selector" class="quasar-datetime-selector auto row items-center justify-center">
         <div
           v-if="view === 'year'"
           class="quasar-datetime-view-year full-width full-height"
@@ -137,7 +137,7 @@
 
         <div
           v-if="view === 'hour' || view === 'minute'"
-          v-el:clock
+          ref="clock"
           class="column items-center content-center justify-center"
         >
           <div
@@ -252,7 +252,7 @@ export default {
       }
 
       let
-        view = this.$els.selector,
+        view = this.$refs.selector,
         rows = value === 'year' ? this.year - 1950 : this.month
 
       this.$nextTick(() => {
@@ -376,7 +376,7 @@ export default {
       ev.preventDefault()
 
       let
-        clock = this.$els.clock,
+        clock = this.$refs.clock,
         clockOffset = Utils.dom.offset(clock)
 
       this.centerClockPosition = {

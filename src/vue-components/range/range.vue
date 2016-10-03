@@ -7,7 +7,7 @@
     @touchend.native.prevent="end"
     @touchmove.native.prevent="update"
   >
-    <div v-el:handle class="quasar-range-handle-container">
+    <div ref="handle" class="quasar-range-handle-container">
       <div class="quasar-range-track"></div>
       <div
         v-if="markers"
@@ -127,7 +127,7 @@ export default {
         return
       }
 
-      let container = this.$els.handle
+      let container = this.$refs.handle
 
       this.dragging = {
         left: container.getBoundingClientRect().left,

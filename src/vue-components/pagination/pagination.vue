@@ -8,7 +8,7 @@
     </button>
 
     <input
-      v-el:input
+      ref="input"
       type="text"
       v-model.number.lazy="newPage"
       :style="{width: inputPlaceholder.length * 10 + 'px'}"
@@ -83,7 +83,7 @@ export default {
 
       if (parsed) {
         this.model = this.normalize(parsed)
-        this.$els.input.blur()
+        this.$refs.input.blur()
       }
 
       this.newPage = ''

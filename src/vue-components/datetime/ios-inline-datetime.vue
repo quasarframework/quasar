@@ -11,7 +11,7 @@
           @touchmove.native="__dragMove($event, 'month')"
           @touchend.native="__dragStop($event, 'month')"
         >
-          <div v-el:month class="quasar-datetime-col-wrapper" :style="__monthStyle">
+          <div ref="month" class="quasar-datetime-col-wrapper" :style="__monthStyle">
             <div
               v-for="(monthName, index) in monthsList"
               class="quasar-datetime-item"
@@ -29,7 +29,7 @@
           @touchmove.native="__dragMove($event, 'date')"
           @touchend.native="__dragStop($event, 'date')"
         >
-          <div v-el:date class="quasar-datetime-col-wrapper" :style="__dayStyle">
+          <div ref="date" class="quasar-datetime-col-wrapper" :style="__dayStyle">
             <div
               v-for="monthDay in daysInMonth"
               class="quasar-datetime-item"
@@ -47,7 +47,7 @@
           @touchmove.native="__dragMove($event, 'year')"
           @touchend.native="__dragStop($event, 'year')"
         >
-          <div v-el:year class="quasar-datetime-col-wrapper" :style="__yearStyle">
+          <div ref="year" class="quasar-datetime-col-wrapper" :style="__yearStyle">
             <div
               v-for="n in 100"
               class="quasar-datetime-item"
@@ -66,7 +66,7 @@
           @touchmove.native="__dragMove($event, 'hour')"
           @touchend.native="__dragStop($event, 'hour')"
         >
-          <div v-el:hour class="quasar-datetime-col-wrapper" :style="__hourStyle">
+          <div ref="hour" class="quasar-datetime-col-wrapper" :style="__hourStyle">
             <div
               v-for="n in 24"
               class="quasar-datetime-item"
@@ -93,7 +93,7 @@
           @touchmove.native="__dragMove($event, 'minute')"
           @touchend.native="__dragStop($event, 'minute')"
         >
-          <div v-el:minute class="quasar-datetime-col-wrapper" :style="__minuteStyle">
+          <div ref="minute" class="quasar-datetime-col-wrapper" :style="__minuteStyle">
             <div
               v-for="n in 60"
               class="quasar-datetime-item"
@@ -262,7 +262,7 @@ export default {
       }
     },
     __updatePositions (type, value) {
-      let root = this.$els[type]
+      let root = this.$refs[type]
 
       if (!root) {
         return
