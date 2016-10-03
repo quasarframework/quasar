@@ -27,8 +27,8 @@
       </div>
       <div v-if="toolbar" class="quasar-slider-toolbar row items-center justify-end">
         <div class="quasar-slider-dots auto row items-center justify-center">
-          <i v-if="dots" v-for="n in slidesNumber" @click="goToSlide(n)">
-            <span v-show="n !== slide">panorama_fish_eye</span>
+          <i v-if="dots" v-for="n in slidesNumber" @click="goToSlide(n - 1)">
+            <span v-show="(n - 1) !== slide">panorama_fish_eye</span>
             <span v-else>lens</span>
           </i>
         </div>

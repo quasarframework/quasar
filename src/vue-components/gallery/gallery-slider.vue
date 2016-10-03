@@ -1,8 +1,8 @@
 <template>
   <quasar-slider v-ref:slider arrows fullscreen class="text-white bg-black quasar-gallery-slider">
     <div
-      v-for="img in src"
-      track-by="$index"
+      v-for="(img, index) in src"
+      :key="index"
       slot="slide"
       class="no-padding flex items-center justify-center"
     >
@@ -23,11 +23,11 @@
       class="quasar-gallery-slider-quickview"
       :class="{active: quickView}"
     >
-      <div v-for="img in src" track-by="$index">
+      <div v-for="(img, index) in src" :key="index">
         <img
           :src="img"
-          :class="{active: $refs.slider.slide === $index}"
-          @click="selectImage($index)"
+          :class="{active: $refs.slider.slide === index}"
+          @click="selectImage(index)"
         >
       </div>
     </div>

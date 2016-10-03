@@ -22,17 +22,17 @@
           Close
         </button>
 
-        <label v-if="type === 'checkbox'" v-for="checkbox in options" class="item">
+        <label v-if="type === 'checkbox'" v-for="(checkbox, index) in options" class="item">
           <div class="item-primary">
-            <quasar-checkbox :model.sync="multipleOptions[$index]"></quasar-checkbox>
+            <quasar-checkbox :model.sync="multipleOptions[index]"></quasar-checkbox>
           </div>
           <div class="item-content" v-html="checkbox.label"></div>
         </label>
 
-        <label v-if="type === 'toggle'" v-for="toggle in options" class="item">
+        <label v-if="type === 'toggle'" v-for="(toggle, index) in options" class="item">
           <div class="item-content has-secondary" v-html="toggle.label"></div>
           <div class="item-secondary">
-            <quasar-toggle :model.sync="multipleOptions[$index]"></quasar-toggle>
+            <quasar-toggle :model.sync="multipleOptions[index]"></quasar-toggle>
           </div>
         </label>
       </div>

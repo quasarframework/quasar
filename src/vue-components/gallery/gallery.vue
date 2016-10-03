@@ -1,8 +1,8 @@
 <template>
   <div class="quasar-gallery">
     <div
-      v-for="img in src"
-      track-by="$index"
+      v-for="(img, index) in src"
+      :key="index"
       :style="{width: width}"
     >
       <img :src="img">

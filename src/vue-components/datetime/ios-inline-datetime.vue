@@ -13,9 +13,9 @@
         >
           <div v-el:month class="quasar-datetime-col-wrapper" :style="__monthStyle">
             <div
-              v-for="monthName in monthsList"
+              v-for="(monthName, index) in monthsList"
               class="quasar-datetime-item"
-              @click="setMonth($index + 1)"
+              @click="setMonth(index + 1)"
             >
               {{ monthName }}
             </div>
@@ -33,9 +33,9 @@
             <div
               v-for="monthDay in daysInMonth"
               class="quasar-datetime-item"
-              @click="setDay(monthDay + 1)"
+              @click="setDay(monthDay)"
             >
-              {{ monthDay + 1 }}
+              {{ monthDay }}
             </div>
           </div>
         </div>
@@ -49,7 +49,7 @@
         >
           <div v-el:year class="quasar-datetime-col-wrapper" :style="__yearStyle">
             <div
-              v-for="n in 101"
+              v-for="n in 100"
               class="quasar-datetime-item"
               @click="setYear(n + 1950)"
             >
@@ -70,9 +70,9 @@
             <div
               v-for="n in 24"
               class="quasar-datetime-item"
-              @click="setHour(n)"
+              @click="setHour(n - 1)"
             >
-              {{ n }}
+              {{ n - 1 }}
             </div>
           </div>
         </div>
@@ -97,9 +97,9 @@
             <div
               v-for="n in 60"
               class="quasar-datetime-item"
-              @click="setMinute(n)"
+              @click="setMinute(n - 1)"
             >
-              {{ __pad(n) }}
+              {{ __pad(n - 1) }}
             </div>
           </div>
         </div>

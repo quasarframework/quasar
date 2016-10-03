@@ -69,7 +69,7 @@
           class="quasar-datetime-view-year full-width full-height"
         >
           <button
-            v-for="n in 101"
+            v-for="n in 100"
             class="primary clear full-width"
             :class="{active: n + 1950 === year}"
             @click="setYear(n + 1950)"
@@ -83,10 +83,10 @@
           class="quasar-datetime-view-month full-width full-height"
         >
           <button
-            v-for="monthName in monthsList"
+            v-for="(monthName, index) in monthsList"
             class="primary clear full-width"
-            :class="{active: month === $index + 1}"
-            @click="setMonth($index + 1, true)"
+            :class="{active: month === index + 1}"
+            @click="setMonth(index + 1, true)"
           >
             {{ monthName }}
           </button>
@@ -127,10 +127,10 @@
             <div
               v-for="monthDay in daysInMonth"
               class="flex items-center content-center justify-center cursor-pointer"
-              :class="{active: monthDay + 1 === day}"
-              @click="setDay(monthDay + 1)"
+              :class="{active: monthDay === day}"
+              @click="setDay(monthDay)"
             >
-              {{ monthDay + 1 }}
+              {{ monthDay }}
             </div>
           </div>
         </div>
@@ -158,9 +158,9 @@
               <div
                 v-for="n in 12"
                 class="quasar-datetime-clock-position"
-                :class="['quasar-datetime-clock-pos-' + (n + 1), n + 1 === hour ? 'active' : '']"
+                :class="['quasar-datetime-clock-pos-' + n, n === hour ? 'active' : '']"
               >
-                {{ n + 1 }}
+                {{ n }}
               </div>
             </div>
           </div>
@@ -183,9 +183,9 @@
               <div
                 v-for="n in 12"
                 class="quasar-datetime-clock-position"
-                :class="['quasar-datetime-clock-pos-' + n, n * 5 === minute ? 'active' : '']"
+                :class="['quasar-datetime-clock-pos-' + (n - 1), (n - 1) * 5 === minute ? 'active' : '']"
               >
-                {{ n * 5 }}
+                {{ (n - 1) * 5 }}
               </div>
             </div>
           </div>
