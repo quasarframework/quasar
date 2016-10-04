@@ -129,5 +129,8 @@
     "velocity-animate": "^1.2.3",
     "vue": "^2.0.0",
     "vue-touch": "^1.1.0"
+  },
+  "dependencies": {
+    "rgb-hex": "^2.0.0"
   }
 }

@@ -131,7 +131,7 @@ function getPlatform () {
     browser.kindle = true
   }
 
-   // Kindle Silk browsers are marked as Safari on Kindle
+  // Kindle Silk browsers are marked as Safari on Kindle
   if (browser.safari && browser.silk) {
     matched.browser = 'silk'
     browser.silk = true
