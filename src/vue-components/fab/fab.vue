@@ -3,8 +3,8 @@
     class="quasar-fab flex inline justify-center"
     :class="{opened: opened, 'with-backdrop': click || backdrop}"
   >
-    <div v-if="click || backdrop" class="backdrop" @click.native="toggle(true)"></div>
-    <button class="circular raised" @click.native="toggle()" :class="type">
+    <div v-if="click || backdrop" class="backdrop" @click="toggle(true)"></div>
+    <button class="circular raised" @click="toggle()" :class="type">
       <i class="quasar-fab-icon">{{icon}}</i>
       <i class="quasar-fab-active-icon">{{activeIcon}}</i>
     </button>

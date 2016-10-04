@@ -1,6 +1,6 @@
 <template>
   <span>
-    <slot v-if="!model"></slot>
+    <slot v-if="!active"></slot>
     <slot v-else name="active"></slot>
   </span>
 </template>
@@ -8,10 +8,9 @@
 <script>
 export default {
   props: {
-    model: {
+    active: {
       type: Boolean,
-      required: true,
-      twoWay: true
+      required: true
     }
   }
 }

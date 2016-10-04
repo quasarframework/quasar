@@ -1,9 +1,9 @@
 <template>
   <div class="quasar-pagination" :class="{disabled: disable}">
-    <button :class="{disabled: model === min}" class="primary clear small" @click.native="changeModelTo(min)">
+    <button :class="{disabled: model === min}" class="primary clear small" @click="__changeValueTo(min)">
       <i>first_page</i>
     </button>
-    <button :class="{disabled: model === min}" class="primary clear small" @click.native="changeModelByOffset(-1)">
+    <button :class="{disabled: model === min}" class="primary clear small" @click="__changeValueByOffset(-1)">
       <i>keyboard_arrow_left</i>
     </button>
 
@@ -16,10 +16,10 @@
       v-attr="attrib"
     >
 
-    <button :class="{disabled: model === max}" class="primary clear small" @click.native="changeModelByOffset(1)">
+    <button :class="{disabled: model === max}" class="primary clear small" @click="__changeValueByOffset(1)">
       <i>keyboard_arrow_right</i>
     </button>
-    <button :class="{disabled: model === max}" class="primary clear small" @click.native="changeModelTo(max)">
+    <button :class="{disabled: model === max}" class="primary clear small" @click="__changeValueTo(max)">
       <i>last_page</i>
     </button>
   </div>
@@ -28,11 +28,9 @@
 <script>
 export default {
   props: {
-    model: {
+    value: {
       type: Number,
-      twoWay: true,
-      required: true,
-      coerce: value => parseInt(value, 10)
+      required: true
     },
     min: {
       type: Number,
@@ -55,23 +53,23 @@ export default {
     }
   },
   methods: {
-    changeModelTo (value) {
+    __changeValueTo (value) {
       if (!this.disable) {
-        this.model = this.normalize(value)
+        this.$emit('input', this.__normalize(value))
       }
     },
-    changeModelByOffset (offset) {
+    __changeValueByOffset (offset) {
       if (!this.disable) {
-        this.model = this.normalize(this.model + offset)
+        this.$emit('input', this.__normalize(this.value + offset))
       }
     },
-    normalize (value) {
-      return Math.min(this.max, Math.max(1, value))
+    __normalize (value) {
+      return Math.min(this.max, Math.max(1, parseInt(value, 10)))
     }
   },
   computed: {
     inputPlaceholder () {
-      return this.model + ' / ' + this.max
+      return this.value + ' / ' + this.max
     },
     attrib () {
       return this.disable ? 'disabled' : []
@@ -82,7 +80,7 @@ export default {
       var parsed = parseInt(value, 10)
 
       if (parsed) {
-        this.model = this.normalize(parsed)
+        this.$emit('input', this.__normalize(parsed))
         this.$refs.input.blur()
       }
 

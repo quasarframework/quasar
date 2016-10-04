@@ -22,14 +22,14 @@
         <button
           class="primary"
           :class="{disabled: !ready}"
-          @click.native="nextStep()"
+          @click="nextStep()"
         >
           {{ stepper && step === stepper.steps ? 'Finish' : 'Continue' }}
         </button>
         <button
           class="primary clear"
           v-if="step > 1"
-          @click.native="previousStep()"
+          @click="previousStep()"
         >
           Back
         </button>
@@ -80,8 +80,10 @@ export default {
       this.$dispatch('stepper::' + event)
     }
   },
-  ready () {
-    this.__notify('reset')
+  mounted () {
+    this.$nextTick(() => {
+      this.__notify('reset')
+    })
   },
   destroyed () {
     this.__notify('reset')

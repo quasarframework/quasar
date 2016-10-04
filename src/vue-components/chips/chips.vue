@@ -1,7 +1,7 @@
 <template>
   <div
     class="quasar-chips group"
-    @click.native="focus"
+    @click="focus"
     :class="{active: active, disabled: disable}"
   >
     <span
@@ -10,21 +10,22 @@
       :key="index"
     >
       {{ label }}
-      <i class="on-right" @click.native="remove(index)">close</i>
+      <i class="on-right" @click="remove(index)">close</i>
     </span>
     <div class="quasar-chips-input chip label text-grey-9">
       <input
         type="text"
         class="no-style"
         ref="input"
-        v-model="input"
+        :value="value"
+        @input="__onInput"
         @keyup.enter="add()"
-        @focus.native="active = true"
-        @blur.native="active = false"
+        @focus="active = true"
+        @blur="active = false"
         v-attr="attrib"
         :placeholder="placeholder"
       >
-      <button class="small" @click.native="add()" :class="{invisible: !input.length}">
+      <button class="small" @click="add()" :class="{invisible: !input.length}">
         <i>send</i>
       </button>
     </div>
@@ -34,9 +35,8 @@
 <script>
 export default {
   props: {
-    model: {
+    value: {
       type: Array,
-      twoWay: true,
       required: true
     },
     disable: {
@@ -58,6 +58,9 @@ export default {
     }
   },
   methods: {
+    __onInput (event) {
+      this.$emit('input', event.target.value)
+    },
     add () {
       if (!this.disable && this.input) {
         this.model.push(this.input)

@@ -3,12 +3,12 @@
     class="quasar-knob non-selectable cursor-pointer"
     :class="{disabled: disable}"
     :style="{width: size, height: size}"
-    @mousedown.native="__dragStart"
-    @mousemove.native="__dragMove"
-    @mouseup.native="__dragStop"
-    @touchstart.native="__dragStart"
-    @touchmove.native="__dragMove"
-    @touchend.native="__dragStop"
+    @mousedown="__dragStart"
+    @mousemove="__dragMove"
+    @mouseup="__dragStop"
+    @touchstart="__dragStart"
+    @touchmove="__dragMove"
+    @touchend="__dragStop"
   >
     <svg viewBox="0 0 100 100">
       <path
@@ -34,7 +34,7 @@
     <div
       class="quasar-knob-label row items-center justify-center content-center"
       :style="{color: color}"
-      v-html="placeholder || model"
+      v-html="placeholder || value"
     ></div>
   </div>
 </template>
@@ -44,10 +44,9 @@ import Utils from '../../utils'
 
 export default {
   props: {
-    model: {
+    value: {
       type: Number,
-      required: true,
-      twoWay: true
+      required: true
     },
     disable: {
       type: Boolean,
@@ -88,7 +87,7 @@ export default {
     svgStyle () {
       return {
         'stroke-dasharray': '295.31px, 295.31px',
-        'stroke-dashoffset': (295.31 * (1.0 - (this.model - this.min) / (this.max - this.min))) + 'px',
+        'stroke-dashoffset': (295.31 * (1.0 - (this.value - this.min) / (this.max - this.min))) + 'px',
         'transition': this.dragging ? '' : 'stroke-dashoffset 0.6s ease 0s, stroke 0.6s ease'
       }
     }
@@ -99,12 +98,12 @@ export default {
     }
   },
   watch: {
-    model (value) {
+    value (value) {
       if (value < this.min) {
-        this.model = this.min
+        this.$emit('input', this.min)
       }
       else if (value > this.max) {
-        this.model = this.max
+        this.$emit('input', this.max)
       }
     }
   },
@@ -124,7 +123,7 @@ export default {
       }
 
       this.dragging = true
-      this.__updateModel(ev)
+      this.__onInput(ev)
     },
     __dragMove (ev) {
       if (!this.dragging || this.disable) {
@@ -132,7 +131,7 @@ export default {
       }
       ev.stopPropagation()
       ev.preventDefault()
-      this.__updateModel(ev)
+      this.__onInput(ev)
     },
     __dragStop (ev) {
       if (this.disable) {
@@ -142,7 +141,7 @@ export default {
       ev.preventDefault()
       this.dragging = false
     },
-    __updateModel (ev) {
+    __onInput (ev) {
       let
         position = Utils.event.position(ev),
         height = Math.abs(position.top - this.centerPosition.top),
@@ -163,7 +162,7 @@ export default {
         model = this.min + (angle / 360) * (this.max - this.min),
         modulo = model % this.step
 
-      this.model = Math.min(this.max, Math.max(this.min, model - modulo + (Math.abs(modulo) >= this.step / 2 ? (modulo < 0 ? -1 : 1) * this.step : 0)))
+      this.$emit('input', Math.min(this.max, Math.max(this.min, model - modulo + (Math.abs(modulo) >= this.step / 2 ? (modulo < 0 ? -1 : 1) * this.step : 0))))
     }
   }
 }

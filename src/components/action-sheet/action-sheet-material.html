@@ -6,7 +6,7 @@
       <div
         v-for="button in buttons"
         class="cursor-pointer column inline items-center justify-center"
-        @click.native="close(button.handler)"
+        @click="close(button.handler)"
         :class="button.classes"
       >
         <i v-if="button.icon">{{ button.icon }}</i>
@@ -19,7 +19,7 @@
       <div
         v-for="button in buttons"
         class="item item-link"
-        @click.native="close(button.handler)"
+        @click="close(button.handler)"
         :class="button.classes"
       >
         <i v-if="button.icon" class="item-primary">{{ button.icon }}</i>
@@ -34,7 +34,7 @@
   <div class="list no-border">
     <div
       class="item item-link"
-      @click.native="close(dismissButton.handler)"
+      @click="close(dismissButton.handler)"
       :class="dismissButton.classes"
     >
       <i v-if="dismissButton.icon" class="item-primary">{{ dismissButton.icon }}</i>

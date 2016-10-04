@@ -2,7 +2,7 @@
   <li class="quasar-tree-item">
     <div
       :class="{'quasar-tree-expandable-item': isExpandable, 'quasar-tree-link': model.handler}"
-      @click.native="toggle"
+      @click="toggle"
     >
       <i v-if="model.icon">{{model.icon}}</i>
       <span class="quasar-tree-label">{{model.title}}</span>

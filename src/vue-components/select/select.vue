@@ -1,13 +1,13 @@
 <template>
   <div class="quasar-select-container">
     <quasar-popover ref="popover" :disable="disable" cover>
-      <div slot="target" class="cursor-pointer textfield" @click.native="__parseOptions" :class="{disabled: disable}">
+      <div slot="target" class="cursor-pointer textfield" @click="__parseOptions" :class="{disabled: disable}">
         <span v-html="label"></span>
         <div class="float-right quasar-select-arrow caret-down"></div>
       </div>
 
       <div class="list highlight">
-        <label v-if="type === 'radio'" v-for="radio in options" class="item" @click.native="close">
+        <label v-if="type === 'radio'" v-for="radio in options" class="item" @click="close">
           <div class="item-primary">
             <quasar-radio :model.sync="model" :value.once="radio.value"></quasar-radio>
           </div>
@@ -17,7 +17,7 @@
         <button
           v-if="type === 'checkbox' || type === 'toggle'"
           class="primary clear small full-width"
-          @click.native="$refs.popover.close()"
+          @click="$refs.popover.close()"
         >
           Close
         </button>

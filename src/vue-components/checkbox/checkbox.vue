@@ -1,6 +1,6 @@
 <template>
   <label class="quasar-checkbox" :class="{disabled: disable}">
-    <input type="checkbox" v-model="model" v-attr="attrib">
+    <input type="checkbox" :value="value" @input="__onInput" v-attr="attrib">
     <div></div>
   </label>
 </template>
@@ -8,10 +8,7 @@
 <script>
   export default {
     props: {
-      model: {
-        type: Boolean,
-        twoWay: true
-      },
+      value: Boolean,
       disable: {
         type: Boolean,
         default: false,
@@ -21,6 +18,11 @@
     computed: {
       attrib () {
         return this.disable ? 'disabled' : []
+      }
+    },
+    methods: {
+      __onInput (event) {
+        this.$emit('input', event.target.value)
       }
     }
   }

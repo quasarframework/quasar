@@ -49,7 +49,7 @@
     <button
       v-for="button in buttons"
       class="primary clear"
-      @click.native="trigger(button.handler)"
+      @click="trigger(button.handler)"
       v-html="button.label"
     ></button>
   </div>

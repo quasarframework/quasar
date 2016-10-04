@@ -7,21 +7,21 @@
           <span
             :class="{active: view === 'month'}"
             class="quasar-datetime-link small"
-            @click.native="view = 'month'"
+            @click="view = 'month'"
           >
             {{ monthString }}
           </span>
           <span
             :class="{active: view === 'day'}"
             class="quasar-datetime-link"
-            @click.native="view = 'day'"
+            @click="view = 'day'"
           >
             {{ dayString }}
           </span>
           <span
             :class="{active: view === 'year'}"
             class="quasar-datetime-link small"
-            @click.native="view = 'year'"
+            @click="view = 'year'"
           >
             {{ year }}
           </span>
@@ -35,7 +35,7 @@
           <span
             :class="{active: view === 'hour'}"
             class="quasar-datetime-link"
-            @click.native="view = 'hour'"
+            @click="view = 'hour'"
           >
             {{ __pad(hour, '&nbsp;&nbsp;') }}
           </span>
@@ -43,7 +43,7 @@
           <span
             :class="{active: view === 'minute'}"
             class="quasar-datetime-link"
-            @click.native="view = 'minute'"
+            @click="view = 'minute'"
           >
             {{ __pad(minute) }}
           </span>
@@ -52,12 +52,12 @@
           <div
             :class="{active: am}"
             class="quasar-datetime-link"
-            @click.native="toggleAmPm()"
+            @click="toggleAmPm()"
           >AM</div>
           <div
             :class="{active: !am}"
             class="quasar-datetime-link"
-            @click.native="toggleAmPm()"
+            @click="toggleAmPm()"
           >PM</div>
         </div>
       </div>
@@ -72,7 +72,7 @@
             v-for="n in 100"
             class="primary clear full-width"
             :class="{active: n + 1950 === year}"
-            @click.native="setYear(n + 1950)"
+            @click="setYear(n + 1950)"
           >
             {{ n + 1950 }}
           </button>
@@ -86,7 +86,7 @@
             v-for="(monthName, index) in monthsList"
             class="primary clear full-width"
             :class="{active: month === index + 1}"
-            @click.native="setMonth(index + 1, true)"
+            @click="setMonth(index + 1, true)"
           >
             {{ monthName }}
           </button>
@@ -99,7 +99,7 @@
           <div class="row items-center content-center">
             <button
               class="primary clear"
-              @click.native="setMonth(month - 1, true)"
+              @click="setMonth(month - 1, true)"
             >
               <i>keyboard_arrow_left</i>
             </button>
@@ -108,7 +108,7 @@
             </div>
             <button
               class="primary clear"
-              @click.native="setMonth(month + 1, true)"
+              @click="setMonth(month + 1, true)"
             >
               <i>keyboard_arrow_right</i>
             </button>
@@ -128,7 +128,7 @@
               v-for="monthDay in daysInMonth"
               class="flex items-center content-center justify-center cursor-pointer"
               :class="{active: monthDay === day}"
-              @click.native="setDay(monthDay)"
+              @click="setDay(monthDay)"
             >
               {{ monthDay }}
             </div>
@@ -143,12 +143,12 @@
           <div
             v-if="view === 'hour'"
             class="quasar-datetime-clock cursor-pointer"
-            @mousedown.native="__dragStart"
-            @mousemove.native="__dragMove"
-            @mouseup.native="__dragStop"
-            @touchstart.native="__dragStart"
-            @touchmove.native="__dragMove"
-            @touchend.native="__dragStop"
+            @mousedown="__dragStart"
+            @mousemove="__dragMove"
+            @mouseup="__dragStop"
+            @touchstart="__dragStart"
+            @touchmove="__dragMove"
+            @touchend="__dragStop"
           >
             <div class="quasar-datetime-clock-circle full-width full-height">
               <div class="quasar-datetime-clock-center"></div>
@@ -168,12 +168,12 @@
           <div
             v-if="view === 'minute'"
             class="quasar-datetime-clock cursor-pointer"
-            @mousedown.native="__dragStart"
-            @mousemove.native="__dragMove"
-            @mouseup.native="__dragStop"
-            @touchstart.native="__dragStart"
-            @touchmove.native="__dragMove"
-            @touchend.native="__dragStop"
+            @mousedown="__dragStart"
+            @mousemove="__dragMove"
+            @mouseup="__dragStop"
+            @touchstart="__dragStart"
+            @touchmove="__dragMove"
+            @touchend="__dragStop"
           >
             <div class="quasar-datetime-clock-circle full-width full-height">
               <div class="quasar-datetime-clock-center"></div>

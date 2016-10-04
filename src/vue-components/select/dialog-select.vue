@@ -1,5 +1,5 @@
 <template>
-  <div class="quasar-select cursor-pointer textfield" @click.native="pick" :class="{disabled: disable}">
+  <div class="quasar-select cursor-pointer textfield" @click="pick" :class="{disabled: disable}">
     <span v-html="label"></span>
     <div class="float-right quasar-select-arrow caret-down"></div>
   </div>
@@ -16,9 +16,8 @@ let mapTypeConfig = {
 
 export default {
   props: {
-    model: {
-      required: true,
-      twoWay: true
+    value: {
+      required: true
     },
     options: {
       type: Array,
@@ -63,12 +62,12 @@ export default {
   },
   methods: {
     __getSingleLabel () {
-      let option = this.options.find((option) => option.value === this.model)
+      let option = this.options.find((option) => option.value === this.value)
       return option ? option.label : 'Select'
     },
     __getMultipleLabel () {
       let options = this.options
-        .filter((option) => this.model.includes(option.value))
+        .filter((option) => this.value.includes(option.value))
         .map((option) => option.label)
 
       if (options.length === 0) {
@@ -80,11 +79,11 @@ export default {
       return options[0]
     },
     mapSingle (option) {
-      option.selected = option.value === this.model
+      option.selected = option.value === this.value
       return option
     },
     mapMultiple (option) {
-      option.checked = this.model.includes(option.value)
+      option.checked = this.value.includes(option.value)
       return option
     },
     pick () {
@@ -104,7 +103,7 @@ export default {
             {
               label: self.okLabel,
               handler (data) {
-                self.model = data
+                self.$emit('input', data)
               }
             }
           ]
