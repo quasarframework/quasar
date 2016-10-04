@@ -7,6 +7,7 @@ function getUserAgent () {
 function getMatch (userAgent, platformMatch) {
   var match = /(edge)\/([\w.]+)/.exec(userAgent) ||
     /(opr)[\/]([\w.]+)/.exec(userAgent) ||
+    /(vivaldi)[\/]([\w.]+)/.exec(userAgent) ||
     /(chrome)[\/]([\w.]+)/.exec(userAgent) ||
     /(iemobile)[\/]([\w.]+)/.exec(userAgent) ||
     /(version)(applewebkit)[\/]([\w.]+).*(safari)[\/]([\w.]+)/.exec(userAgent) ||
@@ -84,8 +85,8 @@ function getPlatform () {
     browser.desktop = true
   }
 
-  // Chrome, Opera 15+ and Safari are webkit based browsers
-  if (browser.chrome || browser.opr || browser.safari) {
+  // Chrome, Opera 15+, Vivaldi and Safari are webkit based browsers
+  if (browser.chrome || browser.opr || browser.safari || browser.vivaldi) {
     browser.webkit = true
   }
 
@@ -135,6 +136,11 @@ function getPlatform () {
   if (browser.safari && browser.silk) {
     matched.browser = 'silk'
     browser.silk = true
+  }
+
+  if (browser.vivaldi) {
+    matched.browser = 'vivaldi'
+    browser.vivaldi = true
   }
 
   // Assign the name and platform variable

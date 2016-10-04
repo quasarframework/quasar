@@ -33,9 +33,8 @@ export function set (theme) {
       metaTag.setAttribute('name', 'msapplicaiton-navbutton-color')
     }
 
-    // Chrome, Firefox OS, Opera
-    // TODO: add Vivaldi browser detection to platform.js
-    if (Platform.is.webkit) {
+    // Chrome, Firefox OS, Opera, Vivaldi
+    if (Platform.is.webkit || Platform.is.vivaldi) {
       // <meta name="theme-color" content="#4285f4">
       metaTag.setAttribute('name', 'theme-color')
     }
