@@ -7,6 +7,8 @@
     <span
       class="chip label bg-light text-grey-9"
       v-for="(label, index) in model"
+      {{ label }}
+      <i class="on-right" @click="remove(index)">close</i>
       :key="index"
     >
       {{ label }}
@@ -18,6 +20,8 @@
         class="no-style"
         ref="input"
         v-model="input"
+        :value="value" 
+        v-on:input="onInput"
         @keyup.enter="add()"
         @focus.native="active = true"
         @blur.native="active = false"
@@ -36,7 +40,7 @@ export default {
   props: {
     model: {
       type: Array,
-      twoWay: true,
+      // twoWay: true // emit event instead
       required: true
     },
     disable: {
@@ -70,7 +74,14 @@ export default {
       }
     },
     focus () {
+<<<<<<< HEAD
+      this.$els.input.focus()
+    },
+    onInput: function (event) {
+      this.$emit('input', event.target.value)
+=======
       this.$refs.input.focus()
+>>>>>>> 4915d33c9312efab098e7949159c1c88240cab3d
     }
   }
 }

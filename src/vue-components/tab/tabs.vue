@@ -121,6 +121,29 @@ export default {
       this.redraw()
     }
   },
+<<<<<<< HEAD
+  mounted () {
+    this.$nextTick( () => {
+      this.scrollTimer = null
+      this.scrollable = !Platform.is.desktop
+
+      // debounce some costly methods;
+      // debouncing here because debounce needs to be per instance
+      this.redraw = Utils.debounce(this.redraw, debounceDelay)
+      this.updateScrollIndicator = Utils.debounce(this.updateScrollIndicator, debounceDelay)
+
+      this.$els.scroller.addEventListener('scroll', this.updateScrollIndicator)
+      window.addEventListener('resize', this.redraw)
+
+      // let browser drawing stabilize then
+      setTimeout(() => { this.redraw() }, debounceDelay)
+
+      if (Platform.is.desktop) {
+        var scrollEvents = {
+          start: [],
+          stop: []
+        }
+=======
   ready () {
     this.scrollTimer = null
     this.scrollable = !Platform.is.desktop
@@ -141,15 +164,36 @@ export default {
         start: [],
         stop: []
       }
+>>>>>>> 4915d33c9312efab098e7949159c1c88240cab3d
 
-      scrollEvents.start.push('mousedown')
-      scrollEvents.stop.push('mouseup')
+        scrollEvents.start.push('mousedown')
+        scrollEvents.stop.push('mouseup')
 
-      if (Platform.has.touch) {
-        scrollEvents.start.push('touchstart')
-        scrollEvents.stop.push('touchend')
+        if (Platform.has.touch) {
+          scrollEvents.start.push('touchstart')
+          scrollEvents.stop.push('touchend')
+        }
+
+<<<<<<< HEAD
+        scrollEvents.start.forEach(evt => {
+          this.$els.leftScroll.addEventListener(evt, () => {
+            this.animScrollTo(0)
+          })
+          this.$els.rightScroll.addEventListener(evt, () => {
+            this.animScrollTo(9999)
+          })
+        })
+        scrollEvents.stop.forEach(evt => {
+          this.$els.leftScroll.addEventListener(evt, () => {
+            clearInterval(this.scrollTimer)
+          })
+          this.$els.rightScroll.addEventListener(evt, () => {
+            clearInterval(this.scrollTimer)
+          })
+        })
       }
-
+    })
+=======
       scrollEvents.start.forEach(evt => {
         this.$refs.leftScroll.addEventListener(evt, () => {
           this.animScrollTo(0)
@@ -167,6 +211,7 @@ export default {
         })
       })
     }
+>>>>>>> 4915d33c9312efab098e7949159c1c88240cab3d
   },
   beforeDestroy () {
     if (this.scrollTimer) {

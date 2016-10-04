@@ -18,8 +18,8 @@ export default {
   props: {
     type: {
       type: String,
-      default: 'date',
-      twoWay: true
+      default: 'date'
+      // twoWay: true // emit event instead
     },
     model: {
       type: String,

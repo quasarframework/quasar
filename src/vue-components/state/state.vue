@@ -10,8 +10,8 @@ export default {
   props: {
     model: {
       type: Boolean,
-      required: true,
-      twoWay: true
+      required: true
+      // twoWay: true // emit event instead
     }
   }
 }

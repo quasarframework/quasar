@@ -15,7 +15,7 @@
   <h4>Arrows, dots, fullscreen</h4>
   <quasar-slider arrows dots fullscreen class="text-white">
     <div slot="slide" class="bg-primary">
-      <div v-for="n in 20">Slide {{n}}</div>
+      <div v-for="n in 20">Slide {{ n }}</div>
     </div>
     <div slot="slide" class="bg-secondary">
       Slide 2
@@ -70,7 +70,7 @@
   <h4>With custom actions</h4>
   <quasar-slider arrows dots actions class="text-white">
     <div slot="slide" class="bg-primary">
-      <div v-for="n in 20">Slide {{n}}</div>
+      <div v-for="n in 20">Slide {{ n }}</div>
     </div>
     <div slot="slide" class="bg-secondary">
       Slide 2

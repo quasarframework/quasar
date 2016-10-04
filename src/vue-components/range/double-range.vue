@@ -51,13 +51,13 @@ export default {
   props: {
     modelMin: {
       type: Number,
-      twoWay: true,
+      // twoWay: true // emit event instead
       required: true,
       coerce: value => parseInt(value, 10)
     },
     modelMax: {
       type: Number,
-      twoWay: true,
+      // twoWay: true // emit event instead
       required: true,
       coerce: value => parseInt(value, 10)
     },

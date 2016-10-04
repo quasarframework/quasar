@@ -74,7 +74,7 @@
             :class="{active: n + 1950 === year}"
             @click.native="setYear(n + 1950)"
           >
-            {{ n + 1950 }}
+            {{ n + 1949 }}
           </button>
         </div>
 
@@ -185,7 +185,11 @@
                 class="quasar-datetime-clock-position"
                 :class="['quasar-datetime-clock-pos-' + (n - 1), (n - 1) * 5 === minute ? 'active' : '']"
               >
+<<<<<<< HEAD
+                {{ (n-1) * 5 }}
+=======
                 {{ (n - 1) * 5 }}
+>>>>>>> 4915d33c9312efab098e7949159c1c88240cab3d
               </div>
             </div>
           </div>
@@ -205,7 +209,7 @@ export default {
   props: {
     model: {
       type: String,
-      twoWay: true,
+      // twoWay: true // emit event instead
       required: true
     },
     type: {

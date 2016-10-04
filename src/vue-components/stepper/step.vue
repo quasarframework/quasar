@@ -80,8 +80,10 @@ export default {
       this.$dispatch('stepper::' + event)
     }
   },
-  ready () {
-    this.__notify('reset')
+  mounted () {
+    this.$nextTick( () => {
+      this.__notify('reset')
+    })
   },
   destroyed () {
     this.__notify('reset')

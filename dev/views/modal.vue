@@ -31,7 +31,7 @@ import ScreenModal from 'component/screen-modal.vue'
 let modals = 0
 
 export default {
-  compiled () {
+  mounted () {
     this.modal = Modal.create({
       template: 'Modal will close shortly'
     }).set({

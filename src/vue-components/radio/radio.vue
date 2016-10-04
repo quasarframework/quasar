@@ -1,6 +1,6 @@
 <template>
   <label class="quasar-radio" :class="{disabled: disable}">
-    <input type="radio" v-model="model" :value="value" v-attr="attrib">
+    <input type="radio" v-model="model" :value="value" v-on:input="onInput" v-attr="attrib">
     <div></div>
   </label>
 </template>
@@ -9,7 +9,7 @@
 export default {
   props: {
     model: {
-      twoWay: true,
+      // twoWay: true // emit event instead
       required: true
     },
     value: {

@@ -51,9 +51,13 @@
             <div
               v-for="n in 100"
               class="quasar-datetime-item"
+<<<<<<< HEAD
+              @click="setYear(n + 1949)"
+=======
               @click.native="setYear(n + 1950)"
+>>>>>>> 4915d33c9312efab098e7949159c1c88240cab3d
             >
-              {{ n + 1950 }}
+              {{ n + 1949 }}
             </div>
           </div>
         </div>
@@ -120,7 +124,7 @@ export default {
   props: {
     model: {
       type: String,
-      twoWay: true,
+      // twoWay: true // emit event instead
       required: true
     },
     type: {

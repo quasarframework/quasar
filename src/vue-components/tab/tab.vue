@@ -80,7 +80,11 @@ export default {
     }
   },
   mounted () {
+<<<<<<< HEAD
+    this.$nextTick( () => {
+=======
     this.$nextTick(() => {
+>>>>>>> 4915d33c9312efab098e7949159c1c88240cab3d
       if (this.active && this.target || this.$el.classList.contains('v-link-active')) {
         this.$nextTick(() => {
           this.$dispatch('selected', this)

@@ -50,8 +50,8 @@ export default {
   },
   props: {
     model: {
-      required: true,
-      twoWay: true
+      required: true
+      // twoWay: true // emit event instead
     },
     options: {
       type: Array,
