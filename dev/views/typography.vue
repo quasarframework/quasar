@@ -14,7 +14,7 @@
     <span class="mobile-only">Switch to another App then back here to see Visibility in action.</span>
   </p>
   <p>
-    <div v-for="event in visibilityEvents" track-by="$index">
+    <div v-for="(event, index) in visibilityEvents" v-bind:key="index">
       {{{ event }}}
     </div>
   </p>

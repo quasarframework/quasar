@@ -22,7 +22,9 @@ export default {
       default () {
         return ['primary']
       },
-      coerce (value) {
+    computed: {
+      normalizedType () {
+        let value = this.type;
         return Array.isArray(value) || typeof value === 'undefined' ? value : value.split(' ')
       }
     },

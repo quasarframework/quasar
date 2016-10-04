@@ -13,9 +13,9 @@
         >
           <div v-el:month class="quasar-datetime-col-wrapper" :style="__monthStyle">
             <div
-              v-for="monthName in monthsList"
+              v-for="(monthName, index) in monthsList"
               class="quasar-datetime-item"
-              @click="setMonth($index + 1)"
+              @click="setMonth(index + 1)"
             >
               {{ monthName }}
             </div>

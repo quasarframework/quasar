@@ -74,7 +74,7 @@
             :class="{active: n + 1950 === year}"
             @click="setYear(n + 1950)"
           >
-            {{ n + 1950 }}
+            {{ n + 1949 }}
           </button>
         </div>
 
@@ -83,10 +83,10 @@
           class="quasar-datetime-view-month full-width full-height"
         >
           <button
-            v-for="monthName in monthsList"
+            v-for="(monthName, index) in monthsList"
             class="primary clear full-width"
-            :class="{active: month === $index + 1}"
-            @click="setMonth($index + 1, true)"
+            :class="{active: month === index + 1}"
+            @click="setMonth(index + 1, true)"
           >
             {{ monthName }}
           </button>
@@ -130,7 +130,7 @@
               :class="{active: monthDay + 1 === day}"
               @click="setDay(monthDay + 1)"
             >
-              {{ monthDay + 1 }}
+              {{ monthDay }}
             </div>
           </div>
         </div>
@@ -160,7 +160,7 @@
                 class="quasar-datetime-clock-position"
                 :class="['quasar-datetime-clock-pos-' + (n + 1), n + 1 === hour ? 'active' : '']"
               >
-                {{ n + 1 }}
+                {{ n }}
               </div>
             </div>
           </div>
@@ -185,7 +185,7 @@
                 class="quasar-datetime-clock-position"
                 :class="['quasar-datetime-clock-pos-' + n, n * 5 === minute ? 'active' : '']"
               >
-                {{ n * 5 }}
+                {{ (n-1) * 5 }}
               </div>
             </div>
           </div>

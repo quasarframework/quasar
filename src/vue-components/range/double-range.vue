@@ -13,7 +13,7 @@
         v-if="markers"
         class="quasar-range-mark"
         v-for="n in ((this.max - this.min) / this.step + 1)"
-        :style="{left: n * 100 * this.step / (this.max - this.min) + '%'}"
+        :style="{left: (n-1) * 100 * this.step / (this.max - this.min) + '%'}"
       ></div>
       <div
         class="quasar-range-track active-track no-transition"
