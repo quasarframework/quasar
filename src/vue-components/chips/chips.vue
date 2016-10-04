@@ -18,6 +18,8 @@
         class="no-style"
         v-el:input
         v-model="input"
+        :value="value" 
+        v-on:input="onInput"
         @keyup.enter="add()"
         @focus="active = true"
         @blur="active = false"
@@ -71,6 +73,9 @@ export default {
     },
     focus () {
       this.$els.input.focus()
+    },
+    onInput: function (event) {
+      this.$emit('input', event.target.value)
     }
   }
 }

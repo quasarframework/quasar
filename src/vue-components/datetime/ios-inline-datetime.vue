@@ -51,9 +51,9 @@
             <div
               v-for="n in 101"
               class="quasar-datetime-item"
-              @click="setYear(n + 1950)"
+              @click="setYear(n + 1949)"
             >
-              {{ n + 1950 }}
+              {{ n + 1949 }}
             </div>
           </div>
         </div>
@@ -72,7 +72,7 @@
               class="quasar-datetime-item"
               @click="setHour(n)"
             >
-              {{ n }}
+              {{ n - 1 }}
             </div>
           </div>
         </div>
@@ -99,7 +99,7 @@
               class="quasar-datetime-item"
               @click="setMinute(n)"
             >
-              {{ __pad(n) }}
+              {{ __pad(n - 1) }}
             </div>
           </div>
         </div>
