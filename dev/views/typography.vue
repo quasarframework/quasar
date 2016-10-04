@@ -116,8 +116,10 @@ export default {
       }
     }
   },
-  ready () {
-    Events.on('app:visibility', this.writeVisibilityState)
+  mounted () {
+    this.$nextTick( () => {
+      Events.on('app:visibility', this.writeVisibilityState)
+    })
   },
   destroyed () {
     Events.off('app:visibility', this.writeVisibilityState)

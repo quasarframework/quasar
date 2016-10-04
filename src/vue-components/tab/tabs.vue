@@ -121,52 +121,54 @@ export default {
       this.redraw()
     }
   },
-  ready () {
-    this.scrollTimer = null
-    this.scrollable = !Platform.is.desktop
+  mounted () {
+    this.$nextTick( () => {
+      this.scrollTimer = null
+      this.scrollable = !Platform.is.desktop
 
-    // debounce some costly methods;
-    // debouncing here because debounce needs to be per instance
-    this.redraw = Utils.debounce(this.redraw, debounceDelay)
-    this.updateScrollIndicator = Utils.debounce(this.updateScrollIndicator, debounceDelay)
+      // debounce some costly methods;
+      // debouncing here because debounce needs to be per instance
+      this.redraw = Utils.debounce(this.redraw, debounceDelay)
+      this.updateScrollIndicator = Utils.debounce(this.updateScrollIndicator, debounceDelay)
 
-    this.$els.scroller.addEventListener('scroll', this.updateScrollIndicator)
-    window.addEventListener('resize', this.redraw)
+      this.$els.scroller.addEventListener('scroll', this.updateScrollIndicator)
+      window.addEventListener('resize', this.redraw)
 
-    // let browser drawing stabilize then
-    setTimeout(() => { this.redraw() }, debounceDelay)
+      // let browser drawing stabilize then
+      setTimeout(() => { this.redraw() }, debounceDelay)
 
-    if (Platform.is.desktop) {
-      var scrollEvents = {
-        start: [],
-        stop: []
+      if (Platform.is.desktop) {
+        var scrollEvents = {
+          start: [],
+          stop: []
+        }
+
+        scrollEvents.start.push('mousedown')
+        scrollEvents.stop.push('mouseup')
+
+        if (Platform.has.touch) {
+          scrollEvents.start.push('touchstart')
+          scrollEvents.stop.push('touchend')
+        }
+
+        scrollEvents.start.forEach(evt => {
+          this.$els.leftScroll.addEventListener(evt, () => {
+            this.animScrollTo(0)
+          })
+          this.$els.rightScroll.addEventListener(evt, () => {
+            this.animScrollTo(9999)
+          })
+        })
+        scrollEvents.stop.forEach(evt => {
+          this.$els.leftScroll.addEventListener(evt, () => {
+            clearInterval(this.scrollTimer)
+          })
+          this.$els.rightScroll.addEventListener(evt, () => {
+            clearInterval(this.scrollTimer)
+          })
+        })
       }
-
-      scrollEvents.start.push('mousedown')
-      scrollEvents.stop.push('mouseup')
-
-      if (Platform.has.touch) {
-        scrollEvents.start.push('touchstart')
-        scrollEvents.stop.push('touchend')
-      }
-
-      scrollEvents.start.forEach(evt => {
-        this.$els.leftScroll.addEventListener(evt, () => {
-          this.animScrollTo(0)
-        })
-        this.$els.rightScroll.addEventListener(evt, () => {
-          this.animScrollTo(9999)
-        })
-      })
-      scrollEvents.stop.forEach(evt => {
-        this.$els.leftScroll.addEventListener(evt, () => {
-          clearInterval(this.scrollTimer)
-        })
-        this.$els.rightScroll.addEventListener(evt, () => {
-          clearInterval(this.scrollTimer)
-        })
-      })
-    }
+    })
   },
   beforeDestroy () {
     if (this.scrollTimer) {

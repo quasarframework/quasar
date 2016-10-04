@@ -161,7 +161,7 @@ export default {
       }
     }
   },
-  beforeCompile () {
+  created () {
     this.validateProps()
     if (Platform.is.desktop) {
       document.body.addEventListener('mousemove', this.update)

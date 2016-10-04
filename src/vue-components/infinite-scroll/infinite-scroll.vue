@@ -92,19 +92,22 @@ export default {
       this.working = false
     }
   },
-  ready () {
-    this.scroll = Utils.debounce(this.scroll, 50)
-    this.element = this.$els.content
+  mounted () {
+    this.$nextTick( () => {
 
-    this.scrollContainer = this.inline ? this.$el : this.element.closest('.layout-view')
-    if (!this.scrollContainer) {
-      this.scrollContainer = window
-    }
-    if (this.working) {
-      this.scrollContainer.addEventListener('scroll', this.scroll)
-    }
+      this.scroll = Utils.debounce(this.scroll, 50)
+      this.element = this.$els.content
 
-    this.scroll()
+      this.scrollContainer = this.inline ? this.$el : this.element.closest('.layout-view')
+      if (!this.scrollContainer) {
+        this.scrollContainer = window
+      }
+      if (this.working) {
+        this.scrollContainer.addEventListener('scroll', this.scroll)
+      }
+
+      this.scroll()
+    })
   },
   beforeDestroy () {
     this.scrollContainer.removeEventListener('scroll', this.scroll)
