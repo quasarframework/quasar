@@ -2,7 +2,7 @@
   <div
     class="quasar-tab items-center justify-center"
     :class="{'v-link-active': active, hidden: hidden, disabled: disable, hideIcon: hide === 'icon', hideLabel: hide === 'label'}"
-    @click="activate()"
+    @click.native="activate()"
   >
       <i v-if="icon" class="quasar-tabs-icon">{{icon}}</i>
       <span class="quasar-tab-label">
@@ -80,7 +80,11 @@ export default {
     }
   },
   mounted () {
+<<<<<<< HEAD
     this.$nextTick( () => {
+=======
+    this.$nextTick(() => {
+>>>>>>> 4915d33c9312efab098e7949159c1c88240cab3d
       if (this.active && this.target || this.$el.classList.contains('v-link-active')) {
         this.$nextTick(() => {
           this.$dispatch('selected', this)

@@ -2,18 +2,18 @@
   <div
     class="quasar-range non-selectable"
     :class="{disabled: disable}"
-    @mousedown.prevent="setActive"
-    @touchstart.prevent="setActive"
-    @touchend.prevent="end"
-    @touchmove.prevent="update"
+    @mousedown.native.prevent="setActive"
+    @touchstart.native.prevent="setActive"
+    @touchend.native.prevent="end"
+    @touchmove.native.prevent="update"
   >
-    <div v-el:handle class="quasar-range-handle-container">
+    <div ref="handle" class="quasar-range-handle-container">
       <div class="quasar-range-track"></div>
       <div
         v-if="markers"
         class="quasar-range-mark"
         v-for="n in ((this.max - this.min) / this.step + 1)"
-        :style="{left: n * 100 * this.step / (this.max - this.min) + '%'}"
+        :style="{left: (n - 1) * 100 * this.step / (this.max - this.min) + '%'}"
       ></div>
       <div
         class="quasar-range-track active-track"
@@ -127,7 +127,7 @@ export default {
         return
       }
 
-      let container = this.$els.handle
+      let container = this.$refs.handle
 
       this.dragging = {
         left: container.getBoundingClientRect().left,

@@ -11,9 +11,7 @@
         {{ step }}
       </span>
     </div>
-    <div class="timeline-title text-bold">
-      {{{ title }}}
-    </div>
+    <div class="timeline-title text-bold" v-html="title"></div>
     <div
       class="timeline-content"
       v-show="stepper && step === stepper.currentStep"
@@ -24,14 +22,14 @@
         <button
           class="primary"
           :class="{disabled: !ready}"
-          @click="nextStep()"
+          @click.native="nextStep()"
         >
           {{ stepper && step === stepper.steps ? 'Finish' : 'Continue' }}
         </button>
         <button
           class="primary clear"
           v-if="step > 1"
-          @click="previousStep()"
+          @click.native="previousStep()"
         >
           Back
         </button>

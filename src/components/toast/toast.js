@@ -25,7 +25,7 @@ let
 
 Events.on('app:vue-ready', (_Vue) => {
   toast = new _Vue(Toast)
-  toast.$mount().$appendTo(document.body)
+  document.body.appendChild(toast.$el)
 })
 
 function create (opts, defaults) {

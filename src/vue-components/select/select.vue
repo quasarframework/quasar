@@ -1,25 +1,23 @@
 <template>
   <div class="quasar-select-container">
-    <quasar-popover v-ref:popover :disable="disable" cover>
-      <div slot="target" class="cursor-pointer textfield" @click="__parseOptions" :class="{disabled: disable}">
-        <span>{{{ label }}}</span>
+    <quasar-popover ref="popover" :disable="disable" cover>
+      <div slot="target" class="cursor-pointer textfield" @click.native="__parseOptions" :class="{disabled: disable}">
+        <span v-html="label"></span>
         <div class="float-right quasar-select-arrow caret-down"></div>
       </div>
 
       <div class="list highlight">
-        <label v-if="type === 'radio'" v-for="radio in options" class="item" @click="close">
+        <label v-if="type === 'radio'" v-for="radio in options" class="item" @click.native="close">
           <div class="item-primary">
             <quasar-radio :model.sync="model" :value.once="radio.value"></quasar-radio>
           </div>
-          <div class="item-content">
-            {{{* radio.label}}}
-          </div>
+          <div class="item-content" v-html="radio.label"></div>
         </label>
 
         <button
           v-if="type === 'checkbox' || type === 'toggle'"
           class="primary clear small full-width"
-          @click="$refs.popover.close()"
+          @click.native="$refs.popover.close()"
         >
           Close
         </button>
@@ -28,15 +26,11 @@
           <div class="item-primary">
             <quasar-checkbox :model.sync="multipleOptions[index]"></quasar-checkbox>
           </div>
-          <div class="item-content">
-            {{{* checkbox.label}}}
-          </div>
+          <div class="item-content" v-html="checkbox.label"></div>
         </label>
 
         <label v-if="type === 'toggle'" v-for="(toggle, index) in options" class="item">
-          <div class="item-content has-secondary">
-            {{{* toggle.label}}}
-          </div>
+          <div class="item-content has-secondary" v-html="toggle.label"></div>
           <div class="item-secondary">
             <quasar-toggle :model.sync="multipleOptions[index]"></quasar-toggle>
           </div>

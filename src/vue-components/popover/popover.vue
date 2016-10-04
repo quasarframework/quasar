@@ -2,7 +2,7 @@
   <span class="quasar-popover-target">
     <slot name="target"></slot>
     <div
-      v-el:content
+      ref="content"
       class="quasar-popover-content"
       :class="{active: active}"
     >
@@ -64,7 +64,7 @@ export default {
       event.preventDefault()
 
       let
-        content = this.$els.content,
+        content = this.$refs.content,
         target = this.$el.children[0],
         targetWidth = Utils.dom.width(target),
         targetHeight = Utils.dom.height(target),
@@ -189,8 +189,8 @@ export default {
         this.active = false
         this.inProgress = true
         setTimeout(() => {
-          if (this.$els.content) {
-            Utils.dom.css(this.$els.content, cssReset)
+          if (this.$refs.content) {
+            Utils.dom.css(this.$refs.content, cssReset)
           }
           this.inProgress = false
         }, 200)
@@ -204,14 +204,14 @@ export default {
       }
     },
     closeFromOutside (event) {
-      if (!this.active || this.$els.content === event.target.closest('.quasar-popover-content')) {
+      if (!this.active || this.$refs.content === event.target.closest('.quasar-popover-content')) {
         return
       }
       this.close()
     }
   },
   mounted () {
-    this.$nextTick( () => {
+    this.$nextTick(() => {
       this.$el.children[0].addEventListener('click', this.toggle)
     })
   },

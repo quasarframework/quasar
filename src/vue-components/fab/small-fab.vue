@@ -1,5 +1,5 @@
 <template>
-  <button class="circular small raised" @click="closeFAB()">
+  <button class="circular small raised" @click.native="closeFAB()">
     <i><slot></slot></i>
   </button>
 </template>

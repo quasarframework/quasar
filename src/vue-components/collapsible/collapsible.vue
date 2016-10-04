@@ -1,11 +1,11 @@
 <template>
   <div class="quasar-collapsible">
-    <div class="item item-link non-selectable item-collapsible" @click="toggle()">
+    <div class="item item-link non-selectable item-collapsible" @click.native="toggle()">
       <i class="item-primary" v-if="icon" v-text="icon"></i>
       <img class="item-primary thumbnail" v-if="img" :src="img"></i>
       <img class="item-primary" v-if="avatar" :src="avatar"></i>
       <div class="item-content has-secondary">
-        {{ label }}
+        <div>{{ label }}</div>
       </div>
       <i class="item-secondary" :class="{'rotate-180': active}">keyboard_arrow_down</i>
     </div>

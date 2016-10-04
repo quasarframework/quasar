@@ -1,6 +1,6 @@
 <template>
   <div class="quasar-infinite-scroll">
-    <div v-el:content class="quasar-infinite-scroll-content">
+    <div ref="content" class="quasar-infinite-scroll-content">
       <slot></slot>
     </div>
     <br>
@@ -93,10 +93,9 @@ export default {
     }
   },
   mounted () {
-    this.$nextTick( () => {
-
+    this.$nextTick(() => {
       this.scroll = Utils.debounce(this.scroll, 50)
-      this.element = this.$els.content
+      this.element = this.$refs.content
 
       this.scrollContainer = this.inline ? this.$el : this.element.closest('.layout-view')
       if (!this.scrollContainer) {

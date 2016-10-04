@@ -1,12 +1,12 @@
 <template>
   <div class="quasar-tabs row">
-    <div v-el:left-scroll class="row items-center justify-center left-scroll">
+    <div ref="leftScroll" class="row items-center justify-center left-scroll">
       <i>chevron_left</i>
     </div>
-    <div v-el:scroller class="quasar-tabs-scroller row">
+    <div ref="scroller" class="quasar-tabs-scroller row">
       <slot></slot>
     </div>
-    <div v-el:right-scroll class="row items-center justify-center right-scroll">
+    <div ref="rightScroll" class="row items-center justify-center right-scroll">
       <i>chevron_right</i>
     </div>
   </div>
@@ -26,10 +26,10 @@ export default {
       if (!Platform.is.desktop) {
         return
       }
-      if (Utils.dom.width(this.$els.scroller) === 0 && this.$els.scroller.scrollWidth === 0) {
+      if (Utils.dom.width(this.$refs.scroller) === 0 && this.$refs.scroller.scrollWidth === 0) {
         return
       }
-      if (Utils.dom.width(this.$els.scroller) + 5 < this.$els.scroller.scrollWidth) {
+      if (Utils.dom.width(this.$refs.scroller) + 5 < this.$refs.scroller.scrollWidth) {
         this.$el.classList.add('scrollable')
         this.scrollable = true
         this.updateScrollIndicator()
@@ -44,10 +44,10 @@ export default {
         return
       }
 
-      let action = this.$els.scroller.scrollLeft + Utils.dom.width(this.$els.scroller) + 5 >= this.$els.scroller.scrollWidth ? 'add' : 'remove'
+      let action = this.$refs.scroller.scrollLeft + Utils.dom.width(this.$refs.scroller) + 5 >= this.$refs.scroller.scrollWidth ? 'add' : 'remove'
 
-      this.$els.leftScroll.classList[this.$els.scroller.scrollLeft <= 0 ? 'add' : 'remove']('disabled')
-      this.$els.rightScroll.classList[action]('disabled')
+      this.$refs.leftScroll.classList[this.$refs.scroller.scrollLeft <= 0 ? 'add' : 'remove']('disabled')
+      this.$refs.rightScroll.classList[action]('disabled')
     },
     scrollToSelectedIfNeeded (tab) {
       if (tab.length === 0 || !this.scrollable) {
@@ -55,19 +55,19 @@ export default {
       }
 
       let
-        contentRect = this.$els.scroller.getBoundingClientRect(),
+        contentRect = this.$refs.scroller.getBoundingClientRect(),
         tabRect = tab.getBoundingClientRect(),
         tabWidth = tabRect.width,
         offset = tabRect.left - contentRect.left
 
       if (offset < 0) {
-        this.animScrollTo(this.$els.scroller.scrollLeft + offset)
+        this.animScrollTo(this.$refs.scroller.scrollLeft + offset)
       }
       else {
-        offset += tabWidth - this.$els.scroller.offsetWidth
+        offset += tabWidth - this.$refs.scroller.offsetWidth
         /* istanbul ignore else */
         if (offset > 0) {
-          this.animScrollTo(this.$els.scroller.scrollLeft + offset)
+          this.animScrollTo(this.$refs.scroller.scrollLeft + offset)
         }
       }
     },
@@ -85,7 +85,7 @@ export default {
     },
     scrollTowards (value) {
       let
-        scrollPosition = this.$els.scroller.scrollLeft,
+        scrollPosition = this.$refs.scroller.scrollLeft,
         direction = value < scrollPosition ? -1 : 1,
         done = false
 
@@ -100,7 +100,7 @@ export default {
         scrollPosition = value
       }
 
-      this.$els.scroller.scrollLeft = scrollPosition
+      this.$refs.scroller.scrollLeft = scrollPosition
       return done
     }
   },
@@ -121,6 +121,7 @@ export default {
       this.redraw()
     }
   },
+<<<<<<< HEAD
   mounted () {
     this.$nextTick( () => {
       this.scrollTimer = null
@@ -142,6 +143,28 @@ export default {
           start: [],
           stop: []
         }
+=======
+  ready () {
+    this.scrollTimer = null
+    this.scrollable = !Platform.is.desktop
+
+    // debounce some costly methods;
+    // debouncing here because debounce needs to be per instance
+    this.redraw = Utils.debounce(this.redraw, debounceDelay)
+    this.updateScrollIndicator = Utils.debounce(this.updateScrollIndicator, debounceDelay)
+
+    this.$refs.scroller.addEventListener('scroll', this.updateScrollIndicator)
+    window.addEventListener('resize', this.redraw)
+
+    // let browser drawing stabilize then
+    setTimeout(() => { this.redraw() }, debounceDelay)
+
+    if (Platform.is.desktop) {
+      var scrollEvents = {
+        start: [],
+        stop: []
+      }
+>>>>>>> 4915d33c9312efab098e7949159c1c88240cab3d
 
         scrollEvents.start.push('mousedown')
         scrollEvents.stop.push('mouseup')
@@ -151,6 +174,7 @@ export default {
           scrollEvents.stop.push('touchend')
         }
 
+<<<<<<< HEAD
         scrollEvents.start.forEach(evt => {
           this.$els.leftScroll.addEventListener(evt, () => {
             this.animScrollTo(0)
@@ -169,12 +193,31 @@ export default {
         })
       }
     })
+=======
+      scrollEvents.start.forEach(evt => {
+        this.$refs.leftScroll.addEventListener(evt, () => {
+          this.animScrollTo(0)
+        })
+        this.$refs.rightScroll.addEventListener(evt, () => {
+          this.animScrollTo(9999)
+        })
+      })
+      scrollEvents.stop.forEach(evt => {
+        this.$refs.leftScroll.addEventListener(evt, () => {
+          clearInterval(this.scrollTimer)
+        })
+        this.$refs.rightScroll.addEventListener(evt, () => {
+          clearInterval(this.scrollTimer)
+        })
+      })
+    }
+>>>>>>> 4915d33c9312efab098e7949159c1c88240cab3d
   },
   beforeDestroy () {
     if (this.scrollTimer) {
       clearInterval(this.scrollTimer)
     }
-    this.$els.scroller.removeEventListener('scroll', this.updateScrollIndicator)
+    this.$refs.scroller.removeEventListener('scroll', this.updateScrollIndicator)
     window.removeEventListener('resize', this.redraw)
   }
 }

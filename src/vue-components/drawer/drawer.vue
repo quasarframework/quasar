@@ -7,15 +7,15 @@
       :class="{'fixed-left': !rightSide, 'fixed-right': rightSide}"
     >&nbsp</div>
     <div
-      v-el:backdrop
+      ref="backdrop"
       class="drawer-backdrop fullscreen"
       style="background: rgba(0, 0, 0, 0.01)"
-      @click="setState(false)"
+      @click.native="setState(false)"
       v-touch:pan="closeByTouch"
       v-touch-options:pan="{ direction: 'horizontal' }"
     ></div>
     <div
-      v-el:content
+      ref="content"
       v-touch:pan="closeByTouch"
       v-touch-options:pan="{ direction: 'horizontal' }"
       class="drawer-content"
@@ -96,8 +96,8 @@ export default {
   methods: {
     __matToggleAnimate (percentage, done) {
       const
-        node = this.$els.content,
-        backdrop = this.$els.backdrop,
+        node = this.$refs.content,
+        backdrop = this.$refs.backdrop,
         currentPosition = getCurrentPosition(node),
         closePosition = (this.rightSide ? 1 : -1) * this.width
 
@@ -155,7 +155,7 @@ export default {
       )
     },
     __iosToggleAnimate (percentage, done) {
-      const backdrop = this.$els.backdrop
+      const backdrop = this.$refs.backdrop
 
       if (this.opened) {
         backdrop.classList.add('active')
@@ -217,8 +217,8 @@ export default {
     },
     openByTouch (event) {
       const
-        content = this.$els.content,
-        backdrop = this.$els.backdrop
+        content = this.$refs.content,
+        backdrop = this.$refs.backdrop
 
       if (Utils.dom.style(content, 'position') !== 'fixed') {
         return
@@ -259,8 +259,8 @@ export default {
     },
     closeByTouch (event) {
       const
-        content = this.$els.content,
-        backdrop = this.$els.backdrop
+        content = this.$refs.content,
+        backdrop = this.$refs.backdrop
 
       let
         target, fn, percentage, position,
@@ -328,9 +328,9 @@ export default {
     }
   },
   mounted () {
-    this.$nextTick( () => {
+    this.$nextTick(() => {
       const
-        content = this.$els.content,
+        content = this.$refs.content,
         toggles = this.$el.closest('.layout').getElementsByClassName((this.rightSide ? 'right' : 'left') + '-drawer-opener')
 
       this.width = Utils.dom.width(content)

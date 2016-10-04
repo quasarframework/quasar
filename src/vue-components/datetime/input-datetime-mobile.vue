@@ -1,6 +1,6 @@
 <template>
-  <div class="cursor-pointer textfield" @click="pick" :class="{disabled: disable}">
-    <span>{{{ label }}}</span>
+  <div class="cursor-pointer textfield" @click.native="pick" :class="{disabled: disable}">
+    <span v-html="label"></span>
     <div class="float-right quasar-select-arrow caret-down"></div>
   </div>
 </template>

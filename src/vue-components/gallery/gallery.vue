@@ -2,7 +2,7 @@
   <div class="quasar-gallery">
     <div
       v-for="(img, index) in src"
-      v-bind:key="index"
+      :key="index"
       :style="{width: width}"
     >
       <img :src="img">

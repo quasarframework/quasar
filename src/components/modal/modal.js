@@ -33,8 +33,8 @@ class Modal {
     else {
       vm = Utils.extend(true, userVm)
       vm.template = `<div class="modal hidden fullscreen flex items-center justify-center">
-            <div v-el:backdrop class="modal-backdrop backdrop"></div>
-            <div v-el:content class="modal-content">${userVm.template}</div></div>`
+            <div ref="backdrop" class="modal-backdrop backdrop"></div>
+            <div ref="content" class="modal-content">${userVm.template}</div></div>`
 
       // preserve data bindings
       vm.data = userVm.data
@@ -46,9 +46,9 @@ class Modal {
 
     this.vm = new Vue(vm)
     if (!this.__customElement) {
-      this.vm.$mount().$appendTo(document.body)
-      this.$content = this.vm.$els.content
-      this.$backdrop = this.vm.$els.backdrop
+      document.body.appendChild(this.vm.$el)
+      this.$content = this.vm.$refs.content
+      this.$backdrop = this.vm.$refs.backdrop
     }
     else {
       this.$content = this.vm.$el.getElementsByClassName('modal-content')[0]

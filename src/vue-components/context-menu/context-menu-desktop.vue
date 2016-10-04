@@ -1,6 +1,6 @@
 <template>
   <div>
-    <quasar-popover v-ref:popover touch-position>
+    <quasar-popover ref="popover" touch-position>
       <slot></slot>
     </quasar-popover>
   </div>
@@ -29,8 +29,7 @@ export default {
     }
   },
   mounted () {
-    this.$nextTick( () => {
-
+    this.$nextTick(() => {
       this.target = this.$el.parentNode
 
       this.handler = event => {

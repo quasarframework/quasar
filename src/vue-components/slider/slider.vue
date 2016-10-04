@@ -2,7 +2,7 @@
   <div class="quasar-slider" :class="{fullscreen: inFullscreen}">
     <div class="quasar-slider-inner">
       <div
-        v-el:track
+        ref="track"
         class="quasar-slider-track"
         :class="{'with-arrows': arrows, 'with-toolbar': toolbar}"
         v-touch:pan="pan"
@@ -15,26 +15,26 @@
         class="quasar-slider-left-button row items-center justify-center"
         :class="{hidden: slide === 0}"
       >
-        <i @click="goToSlide(slide - 1)">keyboard_arrow_left</i>
+        <i @click.native="goToSlide(slide - 1)">keyboard_arrow_left</i>
       </div>
       <div
         v-if="arrows"
         class="quasar-slider-right-button row items-center justify-center"
         :class="{hidden: slide === slidesNumber - 1}"
-        @click="goToSlide(slide + 1)"
+        @click.native="goToSlide(slide + 1)"
       >
         <i>keyboard_arrow_right</i>
       </div>
       <div v-if="toolbar" class="quasar-slider-toolbar row items-center justify-end">
         <div class="quasar-slider-dots auto row items-center justify-center">
-          <i v-if="dots" v-for="n in slidesNumber" @click="goToSlide(n-1)">
-            <span v-show="n-1 !== slide">panorama_fish_eye</span>
+          <i v-if="dots" v-for="n in slidesNumber" @click.native="goToSlide(n - 1)">
+            <span v-show="(n - 1) !== slide">panorama_fish_eye</span>
             <span v-else>lens</span>
           </i>
         </div>
         <div class="row items-center">
           <slot name="action"></slot>
-          <i v-if="fullscreen" @click="toggleFullscreen()">
+          <i v-if="fullscreen" @click.native="toggleFullscreen()">
             <span v-show="!inFullscreen">fullscreen</span>
             <span v-else>fullscreen_exit</span>
           </i>
@@ -88,7 +88,7 @@ export default {
     pan (event) {
       if (!this.hasOwnProperty('initialPosition')) {
         this.initialPosition = this.position
-        Velocity(this.$els.track, 'stop')
+        Velocity(this.$refs.track, 'stop')
       }
 
       let delta = event.deltaX
@@ -100,8 +100,8 @@ export default {
         delta = delta / 10
       }
 
-      this.position = this.initialPosition + delta / this.$els.track.offsetWidth * 100
-      this.$els.track.style.transform = 'translateX(' + this.position + '%)'
+      this.position = this.initialPosition + delta / this.$refs.track.offsetWidth * 100
+      this.$refs.track.style.transform = 'translateX(' + this.position + '%)'
 
       if (event.isFinal) {
         if (event.distance < 100) {
@@ -116,8 +116,8 @@ export default {
     goToSlide (slide, noAnimation) {
       this.slide = Math.min(this.slidesNumber - 1, Math.max(0, slide))
 
-      Velocity(this.$els.track, 'stop')
-      Velocity(this.$els.track, {
+      Velocity(this.$refs.track, 'stop')
+      Velocity(this.$refs.track, {
         translateX: [-this.slide * 100 + '%', this.position + '%']
       }, noAnimation ? {duration: 0} : undefined)
 
@@ -147,8 +147,10 @@ export default {
       window.removeEventListener('popstate', this.__popState)
     }
   },
-  ready () {
-    this.slidesNumber = this.$els.track.children.length
+  mounted () {
+    this.$nextTick(() => {
+      this.slidesNumber = this.$refs.track.children.length
+    })
   }
 }
 </script>

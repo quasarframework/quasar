@@ -1,27 +1,25 @@
 <template>
   <div class="quasar-pagination" :class="{disabled: disable}">
-    <button :class="{disabled: model === min}" class="primary clear small" @click="changeModelTo(min)">
+    <button :class="{disabled: model === min}" class="primary clear small" @click.native="changeModelTo(min)">
       <i>first_page</i>
     </button>
-    <button :class="{disabled: model === min}" class="primary clear small" @click="changeModelByOffset(-1)">
+    <button :class="{disabled: model === min}" class="primary clear small" @click.native="changeModelByOffset(-1)">
       <i>keyboard_arrow_left</i>
     </button>
 
     <input
-      v-el:input
+      ref="input"
       type="text"
-      v-model="newPage"
-      number
-      lazy
+      v-model.number.lazy="newPage"
       :style="{width: inputPlaceholder.length * 10 + 'px'}"
       :placeholder="inputPlaceholder"
       v-attr="attrib"
     >
 
-    <button :class="{disabled: model === max}" class="primary clear small" @click="changeModelByOffset(1)">
+    <button :class="{disabled: model === max}" class="primary clear small" @click.native="changeModelByOffset(1)">
       <i>keyboard_arrow_right</i>
     </button>
-    <button :class="{disabled: model === max}" class="primary clear small" @click="changeModelTo(max)">
+    <button :class="{disabled: model === max}" class="primary clear small" @click.native="changeModelTo(max)">
       <i>last_page</i>
     </button>
   </div>
@@ -85,7 +83,7 @@ export default {
 
       if (parsed) {
         this.model = this.normalize(parsed)
-        this.$els.input.blur()
+        this.$refs.input.blur()
       }
 
       this.newPage = ''

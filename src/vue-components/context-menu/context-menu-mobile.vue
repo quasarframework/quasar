@@ -38,8 +38,7 @@ export default {
     }
   },
   mounted () {
-    this.$nextTick( () => {
-
+    this.$nextTick(() => {
       this.target = this.$el.parentNode
 
       this.handler = () => {

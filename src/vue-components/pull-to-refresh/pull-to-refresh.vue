@@ -168,7 +168,7 @@ export default {
     }
   },
   mounted () {
-    this.$nextTick( () => {
+    this.$nextTick(() => {
       this.scrollContainer = this.$el.parentNode
     })
   }

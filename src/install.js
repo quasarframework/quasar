@@ -27,8 +27,8 @@ import Fab from './vue-components/fab/fab.vue'
 import SmallFab from './vue-components/fab/small-fab.vue'
 import Gallery from './vue-components/gallery/gallery.vue'
 import GallerySlider from './vue-components/gallery/gallery-slider.vue'
-import Grid from './vue-components/grid/grid.vue'
-import GridTable from './vue-components/grid/grid-table.vue'
+// import Grid from './vue-components/grid/grid.vue'
+// import GridTable from './vue-components/grid/grid-table.vue'
 import InfiniteScroll from './vue-components/infinite-scroll/infinite-scroll.vue'
 import Knob from './vue-components/knob/knob.vue'
 import Layout from './vue-components/layout/layout.vue'
@@ -49,7 +49,7 @@ import Search from './vue-components/search/search.vue'
 import Select from './vue-components/select/select.vue'
 import DialogSelect from './vue-components/select/dialog-select.vue'
 import Slider from './vue-components/slider/slider.vue'
-import registerSpinners from './vue-components/spinner/spinner'
+import Spinner from './vue-components/spinner/spinner.vue'
 import State from './vue-components/state/state.vue'
 import Stepper from './vue-components/stepper/stepper.vue'
 import Step from './vue-components/stepper/step.vue'
@@ -89,8 +89,8 @@ function registerComponents (_Vue) {
   _Vue.component('quasar-small-fab', SmallFab)
   _Vue.component('quasar-gallery', Gallery)
   _Vue.component('quasar-gallery-slider', GallerySlider)
-  _Vue.component('quasar-grid', Grid)
-  _Vue.component('quasar-grid-table', GridTable)
+  // _Vue.component('quasar-grid', Grid)
+  // _Vue.component('quasar-grid-table', GridTable)
   _Vue.component('quasar-infinite-scroll', InfiniteScroll)
   _Vue.component('quasar-knob', Knob)
   _Vue.component('quasar-layout', Layout)
@@ -111,6 +111,7 @@ function registerComponents (_Vue) {
   _Vue.component('quasar-select', Select)
   _Vue.component('quasar-dialog-select', DialogSelect)
   _Vue.component('quasar-slider', Slider)
+  _Vue.component('spinner', Spinner)
   _Vue.component('quasar-state', State)
   _Vue.component('quasar-stepper', Stepper)
   _Vue.component('quasar-step', Step)
@@ -136,7 +137,6 @@ export default function (_Vue) {
   registerFilters(_Vue)
   registerDirectives(_Vue)
   registerComponents(_Vue)
-  registerSpinners(_Vue)
 
   Events.trigger('app:vue-ready', Vue)
 }
