@@ -31,8 +31,8 @@ export default {
     working: {
       type: Boolean,
       default: true,
-      coerce: Boolean,
-      twoWay: true
+      coerce: Boolean
+      // twoWay: true // emit event instead
     }
   },
   data () {

@@ -120,7 +120,7 @@ export default {
   props: {
     model: {
       type: String,
-      twoWay: true,
+      // twoWay: true // emit event instead
       required: true
     },
     type: {

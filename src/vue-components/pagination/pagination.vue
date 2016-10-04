@@ -32,7 +32,7 @@ export default {
   props: {
     model: {
       type: Number,
-      twoWay: true,
+      // twoWay: true // emit event instead
       required: true,
       coerce: value => parseInt(value, 10)
     },

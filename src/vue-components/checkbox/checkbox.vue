@@ -9,8 +9,8 @@
   export default {
     props: {
       model: {
-        type: Boolean,
-        twoWay: true
+        type: Boolean
+        // twoWay: true // emit event instead
       },
       disable: {
         type: Boolean,

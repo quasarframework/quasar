@@ -9,7 +9,7 @@
 export default {
   props: {
     model: {
-      twoWay: true,
+      // twoWay: true // emit event instead
       required: true
     },
     value: {

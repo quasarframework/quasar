@@ -36,7 +36,7 @@ export default {
   props: {
     model: {
       type: Array,
-      twoWay: true,
+      // twoWay: true // emit event instead
       required: true
     },
     disable: {

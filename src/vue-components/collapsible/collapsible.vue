@@ -21,7 +21,7 @@ export default {
     active: {
       type: Boolean,
       default: false,
-      twoWay: true,
+      // twoWay: true // emit event instead
       coerce: Boolean
     },
     icon: String,

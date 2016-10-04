@@ -47,8 +47,8 @@ export default {
   props: {
     model: {
       type: Number,
-      required: true,
-      twoWay: true
+      required: true
+      // twoWay: true // emit event instead
     },
     disable: {
       type: Boolean,
