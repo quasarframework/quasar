@@ -18,11 +18,9 @@
 <script>
 export default {
   props: {
-    active: {
+    value: {
       type: Boolean,
-      default: false,
-      twoWay: true,
-      coerce: Boolean
+      default: false
     },
     icon: String,
     img: String,
@@ -31,7 +29,7 @@ export default {
   },
   methods: {
     toggle () {
-      this.active = !this.active
+      this.$emit('input', !this.active)
     }
   }
 }
