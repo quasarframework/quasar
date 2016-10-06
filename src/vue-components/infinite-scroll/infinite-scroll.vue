@@ -21,36 +21,22 @@ export default {
     },
     inline: {
       type: Boolean,
-      default: false,
-      coerce: Boolean
+      default: false
     },
     offset: {
       type: Number,
       default: 0
-    },
-    working: {
-      type: Boolean,
-      default: true,
-      coerce: Boolean,
-      twoWay: true
     }
   },
   data () {
     return {
       index: 0,
-      fetching: false
-    }
-  },
-  watch: {
-    working (value) {
-      this.scrollContainer[value ? 'addEventListener' : 'removeEventListener']('scroll', this.scroll)
-      if (value) {
-        this.scroll()
-      }
+      fetching: false,
+      working: true
     }
   },
   methods: {
-    scroll () {
+    poll () {
       if (this.fetching || !this.working) {
         return
       }
@@ -78,7 +64,7 @@ export default {
           return
         }
         if (this.element.closest('body')) {
-          this.scroll()
+          this.poll()
         }
       })
     },
@@ -87,29 +73,32 @@ export default {
     },
     resume () {
       this.working = true
+      this.scrollContainer.addEventListener('scroll', this.poll)
+      this.poll()
     },
     stop () {
       this.working = false
+      this.scrollContainer.removeEventListener('scroll', this.poll)
     }
   },
   mounted () {
+    console.log('mounted', this.working)
     this.$nextTick(() => {
-      this.scroll = Utils.debounce(this.scroll, 50)
+      this.poll = Utils.debounce(this.poll, 50)
       this.element = this.$refs.content
 
-      this.scrollContainer = this.inline ? this.$el : this.element.closest('.layout-view')
-      if (!this.scrollContainer) {
-        this.scrollContainer = window
-      }
+      console.log('before scrollcontainer')
+      this.scrollContainer = this.inline ? this.$el : Utils.dom.getScrollTarget(this.$el)
+      console.log('intermediate scrollcontainer')
       if (this.working) {
-        this.scrollContainer.addEventListener('scroll', this.scroll)
+        this.scrollContainer.addEventListener('scroll', this.poll)
       }
 
-      this.scroll()
+      this.poll()
     })
   },
   beforeDestroy () {
-    this.scrollContainer.removeEventListener('scroll', this.scroll)
+    this.scrollContainer.removeEventListener('scroll', this.poll)
   }
 }
 </script>
