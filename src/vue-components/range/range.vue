@@ -18,17 +18,17 @@
       <div
         class="quasar-range-track active-track"
         :style="{width: percentage}"
-        :class="{'no-transition': dragging, 'handle-at-minimum': model === min}"
+        :class="{'no-transition': dragging, 'handle-at-minimum': value === min}"
       ></div>
       <div
         class="quasar-range-handle"
         :style="{left: percentage}"
-        :class="{dragging: dragging, 'handle-at-minimum': model === min}"
+        :class="{dragging: dragging, 'handle-at-minimum': value === min}"
       >
         <div
           class="quasar-range-label"
           v-if="label"
-        >{{ model }}</div>
+        >{{ value }}</div>
       </div>
     </div>
   </div>
@@ -40,79 +40,70 @@ import Platform from '../../platform'
 
 export default {
   props: {
-    model: {
+    value: {
       type: Number,
-      twoWay: true,
-      required: true,
-      coerce: value => parseInt(value, 10)
+      required: true
     },
     min: {
       type: Number,
-      default: 1,
-      coerce: value => parseInt(value, 10)
+      default: 1
     },
     max: {
       type: Number,
-      default: 5,
-      coerce: value => parseInt(value, 10)
+      default: 5
     },
     step: {
       type: Number,
-      default: 1,
-      coerce: value => parseInt(value, 10)
+      default: 1
     },
     snap: {
       type: Boolean,
-      default: false,
-      coerce: Boolean
+      default: false
     },
     markers: {
       type: Boolean,
-      default: false,
-      coerce: Boolean
+      default: false
     },
     label: {
       type: Boolean,
-      default: false,
-      coerce: Boolean
+      default: false
     },
     disable: {
       type: Boolean,
-      default: false,
-      coerce: Boolean
+      default: false
     }
   },
   data () {
     return {
       dragging: false,
-      currentPercentage: (this.model - this.min) / (this.max - this.min)
+      currentPercentage: (this.value - this.min) / (this.max - this.min)
     }
   },
   computed: {
     percentage () {
       if (this.snap) {
-        return (this.model - this.min) / (this.max - this.min) * 100 + '%'
+        return (this.value - this.min) / (this.max - this.min) * 100 + '%'
       }
       return 100 * this.currentPercentage + '%'
     }
   },
   watch: {
-    model (value) {
+    value (value) {
       if (this.dragging) {
         return
       }
       this.currentPercentage = (value - this.min) / (this.max - this.min)
     },
     min (value) {
-      if (this.model < value) {
-        this.model = value
+      if (this.value < value) {
+        this.value = value
         return
       }
       this.$nextTick(this.validateProps)
     },
     max (value) {
-      if (this.model > value) {
-        this.model = value
+      if (this.value > value) {
+        this.value = value
         return
       }
       this.$nextTick(this.validateProps)
@@ -146,11 +137,11 @@ export default {
         modulo = model % this.step
 
       this.currentPercentage = percentage
-      this.model = Math.min(this.max, Math.max(this.min, model - modulo + (Math.abs(modulo) >= this.step / 2 ? (modulo < 0 ? -1 : 1) * this.step : 0)))
+      this.$emit('input', Math.min(this.max, Math.max(this.min, model - modulo + (Math.abs(modulo) >= this.step / 2 ? (modulo < 0 ? -1 : 1) * this.step : 0))))
     },
     end () {
       this.dragging = false
-      this.currentPercentage = (this.model - this.min) / (this.max - this.min)
+      this.currentPercentage = (this.value - this.min) / (this.max - this.min)
     },
     validateProps () {
       if (this.min >= this.max) {

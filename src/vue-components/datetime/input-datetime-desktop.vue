@@ -6,7 +6,7 @@
         <div class="float-right quasar-select-arrow caret-down"></div>
       </div>
 
-      <quasar-inline-datetime :model.sync="model" :type="type"></quasar-inline-datetime>
+      <quasar-inline-datetime :value="model" @input="__updateValue" :type="type"></quasar-inline-datetime>
     </quasar-popover>
   </div>
 </template>
@@ -18,12 +18,12 @@ export default {
   props: {
     type: {
       type: String,
-      default: 'date',
-      twoWay: true
+      default: 'date'
     },
-    model: {
+    value: {
       type: String,
-      required: true
+      required: true,
+      default: moment().format()
     },
     format: {
       type: String
@@ -60,6 +60,11 @@ export default {
       }
 
       return moment(this.model).format(format)
+    }
+  },
+  method: {
+    __updateValue (value) {
+      this.$emit('input', value)
     }
   }
 }
