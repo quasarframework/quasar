@@ -6,7 +6,7 @@
   >
     <span
       class="chip label bg-light text-grey-9"
-      v-for="(label, index) in model"
+      v-for="(label, index) in value"
       :key="index"
     >
       {{ label }}
@@ -17,12 +17,11 @@
         type="text"
         class="no-style"
         ref="input"
-        :value="value"
-        @input="__onInput"
+        v-model="input"
         @keyup.enter="add()"
         @focus="active = true"
         @blur="active = false"
-        v-attr="attrib"
+        :disabled="disable"
         :placeholder="placeholder"
       >
       <button class="small" @click="add()" :class="{invisible: !input.length}">
@@ -41,8 +40,7 @@ export default {
     },
     disable: {
       type: Boolean,
-      default: false,
-      coerce: Boolean
+      default: false
     },
     placeholder: String
   },
@@ -52,24 +50,18 @@ export default {
       input: ''
     }
   },
-  computed: {
-    attrib () {
-      return this.disable ? 'disabled' : []
-    }
-  },
   methods: {
-    __onInput (event) {
-      this.$emit('input', event.target.value)
-    },
-    add () {
-      if (!this.disable && this.input) {
-        this.model.push(this.input)
+    add (value = this.input) {
+      if (!this.disable && value) {
+        this.$emit('input', this.value.concat([value]))
         this.input = ''
       }
     },
     remove (index) {
-      if (!this.disable && index >= 0 && index < this.model.length) {
-        this.model.splice(index, 1)
+      if (!this.disable && index >= 0 && index < this.value.length) {
+        let value = this.value.slice(0)
+        value.splice(index, 1)
+        this.$emit('input', value)
       }
     },
     focus () {
