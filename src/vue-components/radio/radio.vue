@@ -1,6 +1,6 @@
 <template>
   <label class="quasar-radio" :class="{disabled: disable}">
-    <input type="radio" v-model="model" :value="value" v-attr="attrib">
+    <input type="radio" v-model="model" :value="val" :disabled="disable">
     <div></div>
   </label>
 </template>
@@ -8,22 +8,25 @@
 <script>
 export default {
   props: {
-    model: {
-      twoWay: true,
+    value: {
       required: true
     },
-    value: {
+    val: {
       required: true
     },
     disable: {
       type: Boolean,
-      default: false,
-      coerce: Boolean
+      default: false
     }
   },
   computed: {
-    attrib () {
-      return this.disable ? 'disabled' : []
+    model: {
+      get () {
+        return this.value
+      },
+      set (value) {
+        this.$emit('input', value)
+      }
     }
   }
 }
