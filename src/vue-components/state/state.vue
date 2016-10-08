@@ -1,6 +1,6 @@
 <template>
   <span>
-    <slot v-if="!active"></slot>
+    <slot v-show="!active"></slot>
     <slot v-else name="active"></slot>
   </span>
 </template>

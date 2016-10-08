@@ -6,14 +6,15 @@
       class="no-style auto quasar-input-field"
       type="text"
       v-model.number="model"
-      @keydown.enter="__updateValue()"
       @blur="__updateValue()"
+      @keydown.enter="__updateValue()"
       @keydown.up="__setByOffset(1)"
       @keydown.down="__setByOffset(-1)"
+      @keydown.esc="model = value"
       :disabled="disable"
       :style="{width: (''+model).length * .7 + 'em'}"
     >
-    <i v-show="value !== model">check</i>
+    <i v-show="value !== model && model !== ''">check</i>
     <i @click="__setByOffset(1)">add</i>
   </div>
 </template>
@@ -38,7 +39,6 @@ export default {
   },
   watch: {
     value () {
-      console.log('watching')
       this.model = this.value
     }
   },
@@ -76,9 +76,6 @@ export default {
         this.__updateValue()
       }
     }
-  },
-  beforeUpdate () {
-    this.__updateValue()
   },
   created () {
     this.__updateValue()
