@@ -22,12 +22,12 @@
       <div
         class="quasar-range-handle no-transition"
         :style="{left: percentageMin * 100 + '%'}"
-        :class="{dragging: dragging, 'handle-at-minimum': modelMin === min}"
+        :class="{dragging: dragging, 'handle-at-minimum': value.min === min}"
       >
         <div
           class="quasar-range-label"
           v-if="label"
-        >{{ modelMin }}</div>
+        >{{ value.min }}</div>
       </div>
       <div
         class="quasar-range-handle no-transition"
@@ -37,7 +37,7 @@
         <div
           class="quasar-range-label"
           v-if="label"
-        >{{ modelMax }}</div>
+        >{{ value.max }}</div>
       </div>
     </div>
   </div>
@@ -49,71 +49,59 @@ import Platform from '../../platform'
 
 export default {
   props: {
-    modelMin: {
-      type: Number,
-      twoWay: true,
+    value: {
+      type: Object,
       required: true,
-      coerce: value => parseInt(value, 10)
-    },
-    modelMax: {
-      type: Number,
-      twoWay: true,
-      required: true,
-      coerce: value => parseInt(value, 10)
+      validator (value) {
+        return typeof value.min !== 'undefined' && typeof value.max !== 'undefined'
+      }
     },
     min: {
       type: Number,
-      default: 0,
-      coerce: value => parseInt(value, 10)
+      default: 0
     },
     max: {
       type: Number,
-      default: 100,
-      coerce: value => parseInt(value, 10)
+      default: 100
     },
     step: {
       type: Number,
-      default: 1,
-      coerce: value => parseInt(value, 10)
+      default: 1
     },
     snap: {
       type: Boolean,
-      default: false,
-      coerce: Boolean
+      default: false
     },
     markers: {
       type: Boolean,
-      default: false,
-      coerce: Boolean
+      default: false
     },
     label: {
       type: Boolean,
-      default: false,
-      coerce: Boolean
+      default: false
     },
     disable: {
       type: Boolean,
-      default: false,
-      coerce: Boolean
+      default: false
     }
   },
   data () {
     return {
       dragging: false,
-      currentMinPercentage: (this.modelMin - this.min) / (this.max - this.min),
-      currentMaxPercentage: (this.modelMax - this.min) / (this.max - this.min)
+      currentMinPercentage: (this.value.min - this.min) / (this.max - this.min),
+      currentMaxPercentage: (this.value.max - this.min) / (this.max - this.min)
     }
   },
   computed: {
     percentageMin () {
       if (this.snap) {
-        return (this.modelMin - this.min) / (this.max - this.min)
+        return (this.value.min - this.min) / (this.max - this.min)
       }
       return this.currentMinPercentage
     },
     percentageMax () {
       if (this.snap) {
-        return (this.modelMax - this.min) / (this.max - this.min)
+        return (this.value.max - this.min) / (this.max - this.min)
       }
       return this.currentMaxPercentage
     },
@@ -122,39 +110,39 @@ export default {
     }
   },
   watch: {
-    modelMin (value) {
+    'value.min' (value) {
       if (this.dragging) {
         return
       }
-      if (value > this.modelMax) {
-        value = this.modelMax
+      if (value > this.value.max) {
+        value = this.value.max
       }
       this.currentMinPercentage = (value - this.min) / (this.max - this.min)
     },
-    modelMax (value) {
+    'value.max' (value) {
       if (this.dragging) {
         return
       }
-      if (value < this.modelMin) {
-        value = this.modelMin
+      if (value < this.value.min) {
+        value = this.value.min
       }
       this.currentMaxPercentage = (value - this.min) / (this.max - this.min)
     },
     min (value) {
-      if (this.modelMin < value) {
-        this.modelMin = value
+      if (this.value.min < value) {
+        this.__update({min: value})
       }
-      if (this.modelMax < value) {
-        this.modelMax = value
+      if (this.value.max < value) {
+        this.__update({max: value})
       }
       this.$nextTick(this.validateProps)
     },
     max (value) {
-      if (this.modelMin > value) {
-        this.modelMin = value
+      if (this.value.min > value) {
+        this.__update({min: value})
       }
-      if (this.modelMax > value) {
-        this.modelMax = value
+      if (this.value.max > value) {
+        this.__update({max: value})
       }
       this.$nextTick(this.validateProps)
     },
@@ -173,9 +161,9 @@ export default {
       this.dragging = {
         left: container.getBoundingClientRect().left,
         width: container.offsetWidth,
-        modelMin: this.modelMin,
+        valueMin: this.value.min,
         percentageMin: this.currentMinPercentage,
-        modelMax: this.modelMax,
+        valueMax: this.value.max,
         percentageMax: this.currentMaxPercentage
       }
 
@@ -201,40 +189,47 @@ export default {
       if (this.dragging.onLeft) {
         if (percentage <= this.dragging.percentageMax) {
           this.currentMinPercentage = percentage
-          this.modelMin = model
-
           this.currentMaxPercentage = this.dragging.percentageMax
-          this.modelMax = this.dragging.modelMax
+          this.__updateInput({
+            min: model,
+            max: this.dragging.valueMax
+          })
         }
         else {
           this.currentMinPercentage = this.dragging.percentageMax
-          this.modelMin = this.dragging.modelMax
-
           this.currentMaxPercentage = percentage
-          this.modelMax = model
+          this.__updateInput({
+            min: this.dragging.valueMax,
+            max: model
+          })
         }
       }
       else {
         if (percentage >= this.dragging.percentageMin) {
           this.currentMaxPercentage = percentage
-          this.modelMax = model
-
           this.currentMinPercentage = this.dragging.percentageMin
-          this.modelMin = this.dragging.modelMin
+          this.__updateInput({
+            min: this.dragging.valueMin,
+            max: model
+          })
         }
         else {
           this.currentMaxPercentage = this.dragging.percentageMin
-          this.modelMax = this.dragging.modelMin
-
           this.currentMinPercentage = percentage
-          this.modelMin = model
+          this.__updateInput({
+            min: model,
+            max: this.dragging.valueMin
+          })
         }
       }
     },
+    __updateInput ({min = this.value.min, max = this.value.max}) {
+      this.$emit('input', {min, max})
+    },
     end () {
       this.dragging = false
-      this.currentMinPercentage = (this.modelMin - this.min) / (this.max - this.min)
-      this.currentMaxPercentage = (this.modelMax - this.min) / (this.max - this.min)
+      this.currentMinPercentage = (this.value.min - this.min) / (this.max - this.min)
+      this.currentMaxPercentage = (this.value.max - this.min) / (this.max - this.min)
     },
     validateProps () {
       if (this.min >= this.max) {
@@ -243,11 +238,11 @@ export default {
       else if ((this.max - this.min) % this.step !== 0) {
         console.error('Range error: step must be a divisor of max - min', this.$el, this.min, this.max, this.step)
       }
-      else if ((this.modelMin - this.min) % this.step !== 0) {
-        console.error('Range error: step must be a divisor of initial modelMin - min', this.$el, this.modelMin, this.min, this.step)
+      else if ((this.value.min - this.min) % this.step !== 0) {
+        console.error('Range error: step must be a divisor of initial value.min - min', this.$el, this.value.min, this.min, this.step)
       }
-      else if ((this.modelMax - this.min) % this.step !== 0) {
-        console.error('Range error: step must be a divisor of initial modelMax - min', this.$el, this.modelMax, this.max, this.step)
+      else if ((this.value.max - this.min) % this.step !== 0) {
+        console.error('Range error: step must be a divisor of initial value.max - min', this.$el, this.value.max, this.max, this.step)
       }
     }
   },
