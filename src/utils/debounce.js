@@ -3,7 +3,7 @@ let now = Date.now
 
 export default function (fn, wait = 250, immediate) {
   let
-    timeout, args, context, timestamp, result,
+    timeout, params, context, timestamp, result,
     later = () => {
       let last = now() - timestamp
 
@@ -13,9 +13,9 @@ export default function (fn, wait = 250, immediate) {
       else {
         timeout = null
         if (!immediate) {
-          result = fn.apply(context, args)
+          result = fn.apply(context, params)
           if (!timeout) {
-            context = args = null
+            context = params = null
           }
         }
       }
@@ -26,13 +26,14 @@ export default function (fn, wait = 250, immediate) {
 
     context = this
     timestamp = now()
+    params = args
 
     if (!timeout) {
       timeout = setTimeout(later, wait)
     }
     if (callNow) {
       result = fn.apply(context, args)
-      context = args = null
+      context = params = null
     }
 
     return result
