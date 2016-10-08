@@ -8,7 +8,7 @@
     ></span>
     <div
       class="quasar-progress-button-content"
-      :class="state"
+      :class="stateClass"
     >
       <div class="quasar-progress-button-error">
         <i>{{ errorIcon }}</i>
@@ -40,20 +40,18 @@ export default {
     },
     darkFiller: {
       type: Boolean,
-      default: false,
-      coerce: Boolean
+      default: false
     },
     indeterminate: {
       type: Boolean,
-      default: false,
-      coerce: Boolean
+      default: false
     }
   },
   computed: {
     active () {
       return this.percentage > 0 && this.percentage < 100
     },
-    state () {
+    stateClass () {
       if (this.percentage >= 100) {
         return 'quasar-progress-button-complete'
       }

@@ -7,9 +7,14 @@
 <script>
 export default {
   props: {
-    model: {
+    percentage: {
       type: Number,
       default: 0
+    }
+  },
+  computed: {
+    model () {
+      return Math.max(0, Math.min(100, this.percentage))
     }
   }
 }

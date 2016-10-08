@@ -1,24 +1,24 @@
 <template>
   <div class="quasar-rating" :class="{disabled: disable}">
     <i
-      v-for="index in maxGrade"
-      :class="{active: (!mouseModel && model > index) || (mouseModel && mouseModel > index)}"
+      v-for="index in max"
+      :class="{active: (!mouseModel && model >= index) || (mouseModel && mouseModel >= index)}"
       @click="set(index)"
-      @mouseover="setHoverValue(index)"
+      @mouseover="__setHoverValue(index)"
       @mouseout="mouseModel = 0"
-    >{{icon}}</i>
+    >{{ icon }}</i>
   </div>
 </template>
 
 <script>
 export default {
   props: {
-    model: {
+    value: {
       type: Number,
       default: 0,
       required: true
     },
-    maxGrade: {
+    max: {
       type: Number,
       required: true
     },
@@ -28,8 +28,7 @@ export default {
     },
     disable: {
       type: Boolean,
-      default: false,
-      coerce: Boolean
+      default: false
     }
   },
   data () {
@@ -37,19 +36,28 @@ export default {
       mouseModel: 0
     }
   },
+  computed: {
+    model: {
+      get () {
+        return this.value
+      },
+      set (value) {
+        if (this.value !== value) {
+          this.$emit('input', value)
+        }
+      }
+    }
+  },
   methods: {
     set (value) {
       if (!this.disable) {
-        this.model = this.normalize(value)
+        this.model = Math.min(this.max, Math.max(1, value))
       }
     },
-    setHoverValue (value) {
+    __setHoverValue (value) {
       if (!this.disable) {
         this.mouseModel = value
       }
-    },
-    normalize (value) {
-      return Math.min(this.maxGrade, Math.max(1, value))
     }
   }
 }
