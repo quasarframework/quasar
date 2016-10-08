@@ -5,7 +5,7 @@
     v-touch:pan="toggle"
     v-touch-options:pan="{ direction: 'horizontal' }"
   >
-    <input type="checkbox" v-model="model" v-attr="attrib">
+    <input type="checkbox" v-model="model" :disabled="disable">
     <div></div>
     <i v-if="icon">{{ icon }}</i>
   </label>
@@ -14,21 +14,24 @@
 <script>
 export default {
   props: {
-    model: {
+    value: {
       type: Boolean,
-      twoWay: true,
       required: true
     },
     disable: {
       type: Boolean,
-      default: false,
-      coerce: Boolean
+      default: false
     },
     icon: String
   },
   computed: {
-    attrib () {
-      return this.disable ? 'disabled' : []
+    model: {
+      get () {
+        return this.value
+      },
+      set (value) {
+        this.$emit('input', value)
+      }
     }
   },
   methods: {
