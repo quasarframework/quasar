@@ -12,10 +12,9 @@
         class="quasar-search-input no-style"
         :placeholder="placeholder"
         v-model="model"
-        :debounce="debounce"
         @focus="focused = true"
         @blur="focused = false"
-        v-attr="attrib"
+        :disabled="disable"
       >
       <button
         class="quasar-search-clear"
@@ -30,9 +29,11 @@
 </template>
 
 <script>
+import Utils from '../utils'
+
 export default {
   props: {
-    model: {
+    value: {
       type: String,
       default: ''
     },
@@ -50,8 +51,7 @@ export default {
     },
     disable: {
       type: Boolean,
-      default: false,
-      coerce: Boolean
+      default: false
     }
   },
   data () {
@@ -59,17 +59,37 @@ export default {
       focused: false
     }
   },
+  watch: {
+    debounce (value) {
+      this.__createDebouncedTrigger(value)
+    }
+  },
   computed: {
-    attrib () {
-      return this.disable ? 'disabled' : []
+    model: {
+      get () {
+        return this.value
+      },
+      set (value) {
+        this.__update(value)
+      }
     }
   },
   methods: {
     clear () {
       if (!this.disable) {
-        this.model = ''
+        this.$emit('input', '')
       }
+    },
+    __createDebouncedTrigger (debounce) {
+      this.__update = Utils.debounce(value => {
+        if (this.value !== value) {
+          this.$emit('input', value)
+        }
+      }, debounce)
     }
+  },
+  created () {
+    this.__createDebouncedTrigger(this.debounce)
   }
 }
 </script>
