@@ -79,13 +79,11 @@ export default {
   props: {
     'right-side': {
       type: Boolean,
-      default: false,
-      coerce: Boolean
+      default: false
     },
     'swipe-only': {
       type: Boolean,
-      default: false,
-      coerce: Boolean
+      default: false
     }
   },
   data () {

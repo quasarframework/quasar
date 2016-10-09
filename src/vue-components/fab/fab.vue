@@ -4,7 +4,7 @@
     :class="{opened: opened, 'with-backdrop': click || backdrop}"
   >
     <div v-if="click || backdrop" class="backdrop" @click="toggle(true)"></div>
-    <button class="circular raised" @click="toggle()" :class="type">
+    <button class="circular raised" @click="toggle()" :class="className">
       <i class="quasar-fab-icon">{{icon}}</i>
       <i class="quasar-fab-active-icon">{{activeIcon}}</i>
     </button>
@@ -21,9 +21,6 @@ export default {
       type: Array,
       default () {
         return ['primary']
-      },
-      coerce (value) {
-        return Array.isArray(value) || typeof value === 'undefined' ? value : value.split(' ')
       }
     },
     icon: {
@@ -38,17 +35,17 @@ export default {
       type: String,
       default: 'right'
     },
-    click: {
-      type: Function
-    },
-    backdrop: {
-      type: Boolean,
-      coerce: Boolean
-    }
+    click: Function.
+    backdrop: Boolean
   },
   data () {
     return {
       opened: false
+    }
+  },
+  computed: {
+    className () {
+      return Array.isArray(this.type) || typeof this.type === 'undefined' ? this.type : this.type.split(' ')
     }
   },
   methods: {

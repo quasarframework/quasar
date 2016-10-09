@@ -50,8 +50,7 @@ export default {
     },
     disable: {
       type: Boolean,
-      default: false,
-      coerce: Boolean
+      default: false
     },
     min: {
       type: Number,

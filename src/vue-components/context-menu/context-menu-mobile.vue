@@ -16,8 +16,7 @@ export default {
   props: {
     disable: {
       type: Boolean,
-      default: false,
-      coerce: Boolean
+      default: false
     }
   },
   methods: {

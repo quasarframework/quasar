@@ -37,19 +37,16 @@ export default {
   props: {
     touchPosition: {
       type: Boolean,
-      default: false,
-      coerce: Boolean
+      default: false
     },
     disable: {
       type: Boolean,
-      default: false,
-      coerce: Boolean
+      default: false
     },
     position: String,
     cover: {
       type: Boolean,
-      default: false,
-      coerce: Boolean
+      default: false
     }
   },
   methods: {

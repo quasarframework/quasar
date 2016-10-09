@@ -2,11 +2,11 @@
   <quasar-grid-table
     ref="table"
     class="quasar-grid"
-    :data="data | gridShowSelected showOnlySelected selectionMode singleSelection | filterBy searchQuery"
+    :data="data | gridShowSelected showOnlySelected computedSelectionMode singleSelection | filterBy searchQuery"
     :columns="columns"
     :rows-per-page="rowsPerPage"
     :sortable="sortable"
-    :selection-mode="selectionMode"
+    :selection-mode="computedSelectionMode"
     :selection-actions="selectionActions"
     :no-data-label="noDataLabel"
     :id-property="idProperty"
@@ -30,8 +30,7 @@ export default {
     },
     sortable: {
       type: Boolean,
-      default: true,
-      coerce: Boolean
+      default: true
     },
     noDataLabel: {
       type: String,
@@ -40,12 +39,15 @@ export default {
     idProperty: String,
     selectionMode: {
       type: String,
-      default: 'none',
-      coerce: value => {
-        return value === 'single' || value === 'multiple' ? value : 'none'
-      }
+      default: 'none'
     },
     selectionActions: Array
+  },
+  computed: {
+    computedSelectionMode () {
+      let value = this.selectionMode
+      return value === 'single' || value === 'multiple' ? value : 'none'
+    }
   },
   data () {
     return {

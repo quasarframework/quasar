@@ -52,23 +52,19 @@ export default {
   props: {
     arrows: {
       type: Boolean,
-      default: false,
-      coerce: Boolean
+      default: false
     },
     dots: {
       type: Boolean,
-      default: false,
-      coerce: Boolean
+      default: false
     },
     fullscreen: {
       type: Boolean,
-      default: false,
-      coerce: Boolean
+      default: false
     },
     actions: {
       type: Boolean,
-      default: false,
-      coerce: Boolean
+      default: false
     }
   },
   data () {
