@@ -4,7 +4,7 @@
     :class="{incomplete: step > stepper.currentStep}"
   >
     <div class="timeline-badge">
-      <i v-if="step < stepper.currentStep">
+      <i v-show="step < stepper.currentStep">
         done
       </i>
       <span v-else>

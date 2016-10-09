@@ -1,15 +1,9 @@
 <template>
-  <button class="circular small raised" @click="closeFAB()">
+  <button class="circular small raised" @click="$emit('closeFAB')">
     <i><slot></slot></i>
   </button>
 </template>
 
 <script>
-export default {
-  methods: {
-    closeFAB () {
-      this.$dispatch('closeFAB')
-    }
-  }
-}
+export default {}
 </script>

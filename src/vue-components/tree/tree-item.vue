@@ -16,6 +16,7 @@
 
 <script>
 export default {
+  name: 'quasar-tree-item',
   props: ['model', 'contract-html', 'expand-html'],
   methods: {
     toggle () {

@@ -12,6 +12,8 @@
 </template>
 
 <script>
+import QuasarTreeItem from './tree-item.vue'
+
 export default {
   props: {
     model: {
@@ -26,6 +28,9 @@ export default {
       type: String,
       required: true
     }
+  },
+  components: {
+    QuasarTreeItem
   }
 }
 </script>

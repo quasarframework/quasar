@@ -57,7 +57,6 @@ import Tab from './vue-components/tab/tab.vue'
 import Tabs from './vue-components/tab/tabs.vue'
 import Toggle from './vue-components/toggle/toggle.vue'
 import Tree from './vue-components/tree/tree.vue'
-import TreeItem from './vue-components/tree/tree-item.vue'
 import Video from './vue-components/video/video.vue'
 
 function registerTransitions (_Vue) {
@@ -119,7 +118,6 @@ function registerComponents (_Vue) {
   _Vue.component('quasar-tabs', Tabs)
   _Vue.component('quasar-toggle', Toggle)
   _Vue.component('quasar-tree', Tree)
-  _Vue.component('quasar-tree-item', TreeItem)
   _Vue.component('quasar-video', Video)
 }
 
