@@ -1,9 +1,9 @@
 <template>
   <div class="quasar-pagination" :class="{disabled: disable}">
-    <button :class="{disabled: model === min}" class="primary clear small" @click="__changeValueTo(min)">
+    <button :class="{disabled: value === min}" class="primary clear small" @click="set(min)">
       <i>first_page</i>
     </button>
-    <button :class="{disabled: model === min}" class="primary clear small" @click="__changeValueByOffset(-1)">
+    <button :class="{disabled: value === min}" class="primary clear small" @click="setByOffset(-1)">
       <i>keyboard_arrow_left</i>
     </button>
 
@@ -13,13 +13,13 @@
       v-model.number.lazy="newPage"
       :style="{width: inputPlaceholder.length * 10 + 'px'}"
       :placeholder="inputPlaceholder"
-      v-attr="attrib"
+      :disabled="disable"
     >
 
-    <button :class="{disabled: model === max}" class="primary clear small" @click="__changeValueByOffset(1)">
+    <button :class="{disabled: value === max}" class="primary clear small" @click="setByOffset(1)">
       <i>keyboard_arrow_right</i>
     </button>
-    <button :class="{disabled: model === max}" class="primary clear small" @click="__changeValueTo(max)">
+    <button :class="{disabled: value === max}" class="primary clear small" @click="set(max)">
       <i>last_page</i>
     </button>
   </div>
@@ -42,37 +42,27 @@ export default {
     },
     disable: {
       type: Boolean,
-      default: false,
-      coerce: Boolean
+      default: false
     }
   },
   data () {
     return {
-      rangeMode: false,
       newPage: ''
     }
   },
   methods: {
-    __changeValueTo (value) {
+    set (value) {
       if (!this.disable) {
-        this.$emit('input', this.__normalize(value))
+        this.model = value
       }
     },
-    __changeValueByOffset (offset) {
+    setByOffset (offset) {
       if (!this.disable) {
-        this.$emit('input', this.__normalize(this.value + offset))
+        this.model = this.value + offset
       }
     },
     __normalize (value) {
       return Math.min(this.max, Math.max(1, parseInt(value, 10)))
-    }
-  },
-  computed: {
-    inputPlaceholder () {
-      return this.value + ' / ' + this.max
-    },
-    attrib () {
-      return this.disable ? 'disabled' : []
     }
   },
   watch: {
@@ -80,11 +70,27 @@ export default {
       var parsed = parseInt(value, 10)
 
       if (parsed) {
-        this.$emit('input', this.__normalize(parsed))
+        this.model = parsed
         this.$refs.input.blur()
       }
 
       this.newPage = ''
+    }
+  },
+  computed: {
+    model: {
+      get () {
+        return this.__normalize(this.value)
+      },
+      set (value) {
+        if (this.value !== value) {
+          this.$emit('input', this.__normalize(value))
+        }
+        this.$refs.input.blur()
+      }
+    },
+    inputPlaceholder () {
+      return this.value + ' / ' + this.max
     }
   }
 }
