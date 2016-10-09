@@ -8,7 +8,7 @@
         <div v-show="selectionMode !== 'none' && controls === 'selection'" transition="slide">
           <button :class="{disabled: selectedRows.length === 0}" class="primary clear small" @click="chooseAction()"><i>menu</i></button>
           <button :class="{disabled: selectedRows.length === 0}" class="primary clear small" @click="clearSelection()"><i>cancel</i></button>
-          <label><quasar-checkbox :model.sync="showOnlySelected"></quasar-checkbox> &nbsp;Show Selected</label>
+          <label><quasar-checkbox v-model="showOnlySelected"></quasar-checkbox> &nbsp;Show Selected</label>
         </div>
         <div v-show="controls === 'filter'" transition="slide">
           Filter:
@@ -39,14 +39,14 @@
 
         <quasar-select
           type="radio"
-          :model.sync="rowsPerPage"
+          v-model="rowsPerPage"
           :options="rowsPerPageOptions"
           fixed-label="<i>format_list_numbered</i>"
         ></quasar-select>
 
         <quasar-select
           type="toggle"
-          :model.sync="chosenColumnsModel"
+          v-model="chosenColumnsModel"
           :options="chosenColumnsOptions"
           fixed-label="<i>view_column</i>"
         ></quasar-select>
@@ -79,8 +79,8 @@
           :track-by="idProperty"
         >
           <td v-if="selectionMode !== 'none'">
-            <quasar-radio v-if="selectionMode === 'single'" :model.sync="singleSelectedRow" :value="row"></quasar-radio>
-            <quasar-checkbox v-else :model.sync="row.__selected"></quasar-checkbox>
+            <quasar-radio v-if="selectionMode === 'single'" v-model="singleSelectedRow" :val="row"></quasar-radio>
+            <quasar-checkbox v-else v-model="row.__selected"></quasar-checkbox>
           </td>
           <td
             v-for="column in columns"
@@ -120,7 +120,7 @@
         {{noDataLabel}}
       </div>
 
-      <quasar-pagination :model.sync="page" :max="pagesNumber" v-show="rowsPerPage !== 0 && rowsNumber > 0"></quasar-pagination>
+      <quasar-pagination v-model="page" :max="pagesNumber" v-show="rowsPerPage !== 0 && rowsNumber > 0"></quasar-pagination>
     </div>
   </div>
 </template>

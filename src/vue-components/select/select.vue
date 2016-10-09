@@ -9,7 +9,7 @@
       <div class="list highlight">
         <label v-if="type === 'radio'" v-for="radio in options" class="item" @click="close">
           <div class="item-primary">
-            <quasar-radio :model.sync="model" :value.once="radio.value"></quasar-radio>
+            <quasar-radio v-model="model" :val="radio.value"></quasar-radio>
           </div>
           <div class="item-content" v-html="radio.label"></div>
         </label>
@@ -24,7 +24,7 @@
 
         <label v-if="type === 'checkbox'" v-for="(checkbox, index) in options" class="item">
           <div class="item-primary">
-            <quasar-checkbox :model.sync="multipleOptions[index]"></quasar-checkbox>
+            <quasar-checkbox v-model="multipleOptions[index]"></quasar-checkbox>
           </div>
           <div class="item-content" v-html="checkbox.label"></div>
         </label>
@@ -32,7 +32,7 @@
         <label v-if="type === 'toggle'" v-for="(toggle, index) in options" class="item">
           <div class="item-content has-secondary" v-html="toggle.label"></div>
           <div class="item-secondary">
-            <quasar-toggle :model.sync="multipleOptions[index]"></quasar-toggle>
+            <quasar-toggle v-model="multipleOptions[index]"></quasar-toggle>
           </div>
         </label>
       </div>

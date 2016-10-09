@@ -22,11 +22,13 @@ export default {
     },
     contractHtml: {
       type: String,
-      required: true
+      required: true,
+      default: '<i>remove_circle</i>'
     },
     expandHtml: {
       type: String,
-      required: true
+      required: true,
+      default: '<i>add_circle</i>'
     }
   },
   components: {
