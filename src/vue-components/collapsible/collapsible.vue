@@ -9,9 +9,11 @@
       </div>
       <i class="item-secondary" :class="{'rotate-180': active}">keyboard_arrow_down</i>
     </div>
-    <div class="quasar-collapsible-sub-item" v-show="active" transition="slide">
-      <slot></slot>
-    </div>
+    <quasar-transition name="slide">
+      <div class="quasar-collapsible-sub-item" v-show="active">
+        <slot></slot>
+      </div>
+    </quasar-transition>
   </div>
 </template>
 

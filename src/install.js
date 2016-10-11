@@ -2,11 +2,8 @@ import Platform from './platform'
 import Events from './events'
 import { current as theme } from './theme'
 
-import transitionSlide from './vue-transitions/slide'
+import Transition from './vue-transitions/transition'
 
-import GridSelectedFilter from './vue-filters/grid-selected'
-
-import directiveAttr from './vue-directives/attr'
 import directiveGoBack from './vue-directives/go-back'
 import directiveScrollFire from './vue-directives/scroll-fire'
 import directiveScroll from './vue-directives/scroll'
@@ -59,16 +56,7 @@ import Toggle from './vue-components/toggle/toggle.vue'
 import Tree from './vue-components/tree/tree.vue'
 import Video from './vue-components/video/video.vue'
 
-function registerTransitions (_Vue) {
-  _Vue.transition('slide', transitionSlide)
-}
-
-function registerFilters (_Vue) {
-  _Vue.filter('gridShowSelected', GridSelectedFilter)
-}
-
 function registerDirectives (_Vue) {
-  _Vue.directive('attr', directiveAttr)
   _Vue.directive('go-back', directiveGoBack)
   _Vue.directive('scroll-fire', directiveScrollFire)
   _Vue.directive('scroll', directiveScroll)
@@ -119,6 +107,8 @@ function registerComponents (_Vue) {
   _Vue.component('quasar-toggle', Toggle)
   _Vue.component('quasar-tree', Tree)
   _Vue.component('quasar-video', Video)
+
+  _Vue.component('quasar-transition', Transition)
 }
 
 export var Vue
@@ -131,8 +121,6 @@ export default function (_Vue) {
 
   Vue = _Vue
 
-  registerTransitions(_Vue)
-  registerFilters(_Vue)
   registerDirectives(_Vue)
   registerComponents(_Vue)
 

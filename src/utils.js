@@ -5,6 +5,7 @@ import * as dom from './utils/dom'
 import * as event from './utils/event'
 import extend from './utils/extend'
 import uid from './utils/uid'
+import * as colors from './utils/colors'
 
 export default {
   openURL,
@@ -13,5 +14,6 @@ export default {
   extend,
   dom,
   uid,
-  event
+  event,
+  colors
 }

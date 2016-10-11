@@ -1,5 +1,5 @@
-import Platform from './platform.js'
-import rgbHex from 'rgb-hex'
+import Platform from './platform'
+import Utils from './utils'
 
 export function set (theme) {
   if (current) {
@@ -9,7 +9,7 @@ export function set (theme) {
   current = theme
   document.body.classList.add(theme)
 
-  // add ,eta tags for mobile address bar coloring
+  // add meta tag for mobile address bar coloring
   if (Platform.is.mobile && !Platform.is.cordova) {
     let tempDiv = document.createElement('div')
     tempDiv.style.height = '10px'
@@ -23,7 +23,7 @@ export function set (theme) {
     document.body.removeChild(tempDiv)
 
     let rgb = primaryColor.match(/\d+/g)
-    let hex = '#' + rgbHex(parseInt(rgb[0]), parseInt(rgb[1]), parseInt(rgb[2]))
+    let hex = '#' + Utils.colors.rgbToHex(parseInt(rgb[0]), parseInt(rgb[1]), parseInt(rgb[2]))
 
     // http://stackoverflow.com/a/33193739
     let metaTag = document.createElement('meta')

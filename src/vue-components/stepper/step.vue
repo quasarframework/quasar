@@ -12,29 +12,30 @@
       </span>
     </div>
     <div class="timeline-title text-bold" v-html="title"></div>
-    <div
-      class="timeline-content"
-      v-show="stepper && step === stepper.currentStep"
-      transition="slide"
-    >
-      <slot></slot>
-      <div class="group" style="margin-top: 1rem; margin-left: -5px;">
-        <button
-          class="primary"
-          :class="{disabled: !ready}"
-          @click="nextStep()"
-        >
-          {{ stepper && step === stepper.steps ? 'Finish' : 'Continue' }}
-        </button>
-        <button
-          class="primary clear"
-          v-if="step > 1"
-          @click="previousStep()"
-        >
-          Back
-        </button>
+    <quasar-transition name="slide">
+      <div
+        class="timeline-content"
+        v-show="stepper && step === stepper.currentStep"
+      >
+        <slot></slot>
+        <div class="group" style="margin-top: 1rem; margin-left: -5px;">
+          <button
+            class="primary"
+            :class="{disabled: !ready}"
+            @click="nextStep()"
+          >
+            {{ stepper && step === stepper.steps ? 'Finish' : 'Continue' }}
+          </button>
+          <button
+            class="primary clear"
+            v-if="step > 1"
+            @click="previousStep()"
+          >
+            Back
+          </button>
+        </div>
       </div>
-    </div>
+    </quasar-transition>
   </div>
 </template>
 

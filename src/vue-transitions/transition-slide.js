@@ -1,6 +1,4 @@
 export default {
-  css: false,
-
   enter (el, done) {
     Velocity(el, 'stop')
     Velocity(el, 'slideDown', done)

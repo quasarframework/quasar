@@ -6,26 +6,27 @@
 </template>
 
 <script>
-  export default {
-    props: {
-      value: {
-        type: Boolean,
-        required: true
-      },
-      disable: {
-        type: Boolean,
-        default: false
-      }
+
+export default {
+  props: {
+    value: {
+      type: Boolean,
+      required: true
     },
-    computed: {
-      model: {
-        get () {
-          return this.value
-        },
-        set (value) {
-          this.$emit('input', value)
-        }
+    disable: {
+      type: Boolean,
+      default: false
+    }
+  },
+  computed: {
+    model: {
+      get () {
+        return this.value
+      },
+      set (value) {
+        this.$emit('input', value)
       }
     }
   }
+}
 </script>
