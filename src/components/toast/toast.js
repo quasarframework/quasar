@@ -24,8 +24,9 @@ let
   ]
 
 Events.on('app:vue-ready', (_Vue) => {
-  toast = new _Vue(Toast)
-  document.body.appendChild(toast.$el)
+  let node = document.createElement('div')
+  document.body.appendChild(node)
+  toast = new _Vue(Toast).$mount(node)
 })
 
 function create (opts, defaults) {
