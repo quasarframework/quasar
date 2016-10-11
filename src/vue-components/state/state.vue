@@ -1,7 +1,7 @@
 <template>
   <span>
     <slot v-show="!active"></slot>
-    <slot v-else name="active"></slot>
+    <slot v-show="active" name="active"></slot>
   </span>
 </template>
 

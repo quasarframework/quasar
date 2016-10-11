@@ -27,16 +27,18 @@
       </div>
       <div v-if="toolbar" class="quasar-slider-toolbar row items-center justify-end">
         <div class="quasar-slider-dots auto row items-center justify-center">
-          <i v-if="dots" v-for="n in slidesNumber" @click="goToSlide(n - 1)">
-            <span v-show="(n - 1) !== slide">panorama_fish_eye</span>
-            <span v-else>lens</span>
-          </i>
+          <i
+            v-if="dots"
+            v-for="n in slidesNumber"
+            @click="goToSlide(n - 1)"
+            v-text="(n - 1) !== slide ? 'panorama_fish_eye' : 'lens'"
+          ></i>
         </div>
         <div class="row items-center">
           <slot name="action"></slot>
           <i v-if="fullscreen" @click="toggleFullscreen()">
             <span v-show="!inFullscreen">fullscreen</span>
-            <span v-else>fullscreen_exit</span>
+            <span v-show="inFullscreen">fullscreen_exit</span>
           </i>
         </div>
       </div>

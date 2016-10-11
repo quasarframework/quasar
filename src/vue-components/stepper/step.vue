@@ -7,7 +7,7 @@
       <i v-show="step < stepper.currentStep">
         done
       </i>
-      <span v-else>
+      <span show="step >= stepper.currentStep">
         {{ step }}
       </span>
     </div>
