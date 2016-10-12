@@ -2,8 +2,7 @@
   <label
     class="quasar-toggle"
     :class="{disabled: disable}"
-    v-touch:pan="toggle"
-    v-touch-options:pan="{ direction: 'horizontal' }"
+    v-touch-swipe.horizontal="toggle"
   >
     <input type="checkbox" v-model="model" :disabled="disable">
     <div></div>
@@ -35,13 +34,14 @@ export default {
     }
   },
   methods: {
-    toggle (event) {
-      if (
-        !this.disable &&
-        event.isFinal &&
-        (this.model && event.deltaX < 0 || !this.model && event.deltaX > 0)
-      ) {
-        this.model = !this.model
+    toggle (evt) {
+      if (!this.disable) {
+        if (this.model && evt.direction === 'left') {
+          this.model = false
+        }
+        else if (!this.model && evt.direction === 'right') {
+          this.model = true
+        }
       }
     }
   }

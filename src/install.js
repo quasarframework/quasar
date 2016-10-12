@@ -8,8 +8,9 @@ import directiveGoBack from './vue-directives/go-back'
 import directiveScrollFire from './vue-directives/scroll-fire'
 import directiveScroll from './vue-directives/scroll'
 import directiveTooltip from './vue-directives/tooltip'
-import directiveTouchPan from './vue-directives/pan'
-import directiveTouchSwipe from './vue-directives/swipe'
+import directiveTouchHold from './vue-directives/touch-hold'
+import directiveTouchPan from './vue-directives/touch-pan'
+import directiveTouchSwipe from './vue-directives/touch-swipe'
 
 import Checkbox from './vue-components/checkbox/checkbox.vue'
 import Chips from './vue-components/chips/chips.vue'
@@ -63,6 +64,7 @@ function registerDirectives (_Vue) {
   _Vue.directive('scroll-fire', directiveScrollFire)
   _Vue.directive('scroll', directiveScroll)
   _Vue.directive('tooltip', directiveTooltip)
+  _Vue.directive('touch-hold', directiveTouchHold)
   _Vue.directive('touch-pan', directiveTouchPan)
   _Vue.directive('touch-swipe', directiveTouchSwipe)
 }
