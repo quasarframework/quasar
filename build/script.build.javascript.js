@@ -17,6 +17,10 @@ var
     ' * (c) ' + new Date().getFullYear() + ' Razvan Stoenescu\n' +
     ' * Released under the MIT License.\n' +
     ' */',
+  vueConfig = {
+    compileTemplate: true,
+    htmlMinifier: {collapseBooleanAttributes: false}
+  },
   babelConfig = {
     exclude: 'node_modules/**'
   },
@@ -39,7 +43,7 @@ var
   },
   rollupConfig = {
     entry: 'src/index.js',
-    plugins: [vue(), string(stringConfig), babel(babelConfig)],
+    plugins: [vue(vueConfig), string(stringConfig), babel(babelConfig)],
     external: external
   }
 
@@ -65,7 +69,7 @@ rollup
   return rollup
     .rollup({
       entry: 'src/index.es6.js',
-      plugins: [vue(), string(stringConfig)],
+      plugins: [vue(vueConfig), string(stringConfig)],
       external: external
     })
     .then(function (bundle) {
