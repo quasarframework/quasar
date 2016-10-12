@@ -7,7 +7,7 @@
       <i v-show="step < stepper.currentStep">
         done
       </i>
-      <span show="step >= stepper.currentStep">
+      <span v-show="step >= stepper.currentStep">
         {{ step }}
       </span>
     </div>
@@ -53,41 +53,26 @@ export default {
   },
   data () {
     return {
-      step: 0,
-      stepper: {}
+      step: -1
     }
   },
-  watch: {
-    visible () {
-      this.__notify('reset')
-    },
-    disabled () {
-      this.__notify('reset')
+  computed: {
+    stepper () {
+      return this.$parent.config
     }
   },
   methods: {
     nextStep () {
       if (this.ready) {
-        this.__notify('nextStep')
+        this.$parent.nextStep()
       }
     },
     previousStep () {
-      this.__notify('previousStep')
+      this.$parent.previousStep()
     },
     finish () {
-      this.__notify('finish')
-    },
-    __notify (event) {
-      this.$dispatch('stepper::' + event)
+      this.$parent.finish()
     }
-  },
-  mounted () {
-    this.$nextTick(() => {
-      this.__notify('reset')
-    })
-  },
-  destroyed () {
-    this.__notify('reset')
   }
 }
 </script>
