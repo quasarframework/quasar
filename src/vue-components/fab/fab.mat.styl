@@ -12,6 +12,8 @@ $fab-margin    ?= 5px
     margin $fab-margin
 
   &.opened
+    z-index $z-fab
+
     .quasar-fab-actions
       opacity 1
       transform scaleX(1) scaleY(1) translateX(0) translateY(0)
@@ -25,9 +27,6 @@ $fab-margin    ?= 5px
     .backdrop
       display block
       background rgba(255, 255, 255, .5)
-
-    &.with-backdrop
-      z-index $z-fab
 
 .quasar-fab-icon, .quasar-fab-active-icon
   position absolute

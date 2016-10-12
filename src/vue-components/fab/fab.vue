@@ -1,10 +1,10 @@
 <template>
   <div
     class="quasar-fab flex inline justify-center"
-    :class="{opened: opened, 'with-backdrop': click || backdrop}"
+    :class="{opened: opened}"
   >
-    <div v-if="click || backdrop" class="backdrop" @click="toggle(true)"></div>
-    <button class="circular raised" @click="toggle()" :class="className">
+    <div class="backdrop" @click="toggle(true)"></div>
+    <button class="circular raised" @click="toggle()" :class="classNames">
       <i class="quasar-fab-icon">{{icon}}</i>
       <i class="quasar-fab-active-icon">{{activeIcon}}</i>
     </button>
@@ -17,11 +17,8 @@
 <script>
 export default {
   props: {
-    type: {
-      type: Array,
-      default () {
-        return ['primary']
-      }
+    classNames: {
+      default: 'primary'
     },
     icon: {
       type: String,
@@ -34,33 +31,29 @@ export default {
     direction: {
       type: String,
       default: 'right'
-    },
-    click: Function.
-    backdrop: Boolean
+    }
   },
   data () {
     return {
       opened: false
     }
   },
-  computed: {
-    className () {
-      return Array.isArray(this.type) || typeof this.type === 'undefined' ? this.type : this.type.split(' ')
-    }
-  },
   methods: {
+    open () {
+      this.opened = true
+    },
+    close (fn) {
+      this.opened = false
+      if (typeof fn === 'function') {
+        fn()
+      }
+    },
     toggle (fromBackdrop) {
       this.opened = !this.opened
 
-      if (!fromBackdrop && this.click && !this.opened) {
-        this.click()
-        return
+      if (!fromBackdrop && !this.opened) {
+        this.$emit('click')
       }
-    }
-  },
-  events: {
-    closeFAB () {
-      this.toggle(true)
     }
   }
 }

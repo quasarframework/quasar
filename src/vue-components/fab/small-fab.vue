@@ -1,5 +1,5 @@
 <template>
-  <button class="circular small raised" @click="$emit('closeFAB')">
+  <button class="circular small raised" @click="$parent.close()">
     <i><slot></slot></i>
   </button>
 </template>
