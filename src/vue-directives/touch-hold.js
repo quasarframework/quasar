@@ -25,8 +25,6 @@ export default {
         ctx.start(evt)
       },
       abort (evt) {
-        evt.preventDefault()
-        evt.stopPropagation()
         if (ctx.timer) {
           clearTimeout(ctx.timer)
           ctx.timer = null
