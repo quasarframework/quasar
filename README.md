@@ -21,6 +21,10 @@ Quasar Framework is an MIT-licensed open source project. Its ongoing development
 
 Head on to the Quasar Framework official website: [http://quasar-framework.org](http://quasar-framework.org)
 
+## Stay in Touch
+
+For latest releases and announcements, follow on Twitter: [@quasarframework](https://twitter.com/quasarframework)
+
 ## Community Forum
 
 Head on to the official community forum: [http://forum.quasar-framework.org](http://forum.quasar-framework.org)
