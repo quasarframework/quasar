@@ -3,23 +3,14 @@
     <div
       class="pull-to-refresh-container"
       :style="{transform: 'translateY(' + pullPosition + 'px)'}"
-      v-touch:pan="pull"
-      v-touch-options:pan="{ direction: 'vertical' }"
+      v-touch-pan.vertical="__pull"
     >
       <div class="pull-to-refresh-message row items-center justify-center">
         <i v-show="state !== 'refreshing'" :class="{'rotate-180': state === 'pulled'}">arrow_downward</i>
         <i v-show="state === 'refreshing'" class="spin">{{refreshIcon}}</i>
 
         &nbsp;&nbsp;
-        <span v-show="state === 'pull'">
-          {{pullMessage}}
-        </span>
-        <span v-show="state === 'pulled'">
-          {{releaseMessage}}
-        </span>
-        <span v-show="state === 'refreshing'">
-          {{refreshMessage}}
-        </span>
+        <span v-html="message"></span>
       </div>
 
       <slot></slot>
@@ -29,7 +20,6 @@
 
 <script>
 import Utils from '../../utils'
-import Hammer from 'hammerjs'
 
 export default {
   props: {
@@ -74,10 +64,23 @@ export default {
       scrolling: false
     }
   },
+  computed: {
+    message () {
+      switch (this.state) {
+        case 'pulled':
+          return this.releaseMessage
+        case 'refreshing':
+          return this.refreshMessage
+        case 'pull':
+        default:
+          return this.pullMessage
+      }
+    }
+  },
   methods: {
-    pull (hammer) {
+    __pull (event) {
       if (this.scrolling) {
-        if (hammer.isFinal) {
+        if (event.isFinal) {
           this.scrolling = false
         }
         return
@@ -97,7 +100,7 @@ export default {
         if (this.state === 'refreshing') {
           return
         }
-        if (this.pullPosition === -this.height && hammer.direction === Hammer.DIRECTION_UP) {
+        if (this.pullPosition === -this.height && event.direction === 'up') {
           return
         }
 
@@ -115,14 +118,14 @@ export default {
       }
 
       this.pulling = true
-      this.pullPosition = -this.height + Math.max(0, Math.pow(hammer.deltaY, 0.85))
+      this.pullPosition = -this.height + Math.max(0, Math.pow(event.distance.y, 0.85))
 
       if (this.pullPosition > this.distance) {
-        if (hammer.isFinal) {
+        if (event.isFinal) {
           this.state = 'refreshing'
           this.pulling = false
           this.scrollContainer.style.overflow = this.originalScrollOverflow
-          this.animateTo(0)
+          this.__animateTo(0)
           this.trigger()
         }
         else {
@@ -131,14 +134,14 @@ export default {
       }
       else {
         this.state = 'pull'
-        if (hammer.isFinal) {
+        if (event.isFinal) {
           this.pulling = false
           this.scrollContainer.style.overflow = this.originalScrollOverflow
-          this.animateTo(-this.height)
+          this.__animateTo(-this.height)
         }
       }
     },
-    animateTo (target, done, previousCall) {
+    __animateTo (target, done, previousCall) {
       if (!previousCall && this.animationId) {
         cancelAnimationFrame(this.animating)
       }
@@ -147,7 +150,7 @@ export default {
 
       if (this.pullPosition - target > 1) {
         this.animating = requestAnimationFrame(() => {
-          this.animateTo(target, done, true)
+          this.__animateTo(target, done, true)
         })
       }
       else {
@@ -160,7 +163,7 @@ export default {
     },
     trigger () {
       this.handler(() => {
-        this.animateTo(-this.height, () => {
+        this.__animateTo(-this.height, () => {
           this.state = 'pull'
         })
       })
