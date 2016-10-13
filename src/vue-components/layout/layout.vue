@@ -2,20 +2,28 @@
   <div class="layout">
     <div class="layout-header">
       <slot name="header"></slot>
+      <slot v-if="!ios" name="navigation"></slot>
     </div>
-
-    <slot name="navigation"></slot>
 
     <div class="layout-content">
       <slot></slot>
     </div>
 
     <div class="layout-footer">
+      <slot v-if="ios" name="navigation"></slot>
       <slot name="footer"></slot>
     </div>
   </div>
 </template>
 
 <script>
-export default {}
+import { current as theme } from '../../theme'
+
+export default {
+  data () {
+    return {
+      ios: theme === 'ios'
+    }
+  }
+}
 </script>

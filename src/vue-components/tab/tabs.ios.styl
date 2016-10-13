@@ -82,8 +82,6 @@ $tabs-label-font-size         ?= .7rem
   &.inverted
     background white
     border-radius 0
-    &:not([slot='navigation'])
-      border-bottom $tabs-container-border-bottom
 
   for $name, $color in $colors
     if $name == 'light' || $name == 'white'
