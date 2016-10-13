@@ -2,8 +2,7 @@
   <div class="drawer" :class="{'left-side': !rightSide, 'right-side': rightSide}">
     <div
       class="drawer-opener touch-only mobile-only"
-      v-touch:pan="openByTouch"
-      v-touch-options:pan="{ direction: 'horizontal' }"
+      v-touch-pan.horizontal="__openByTouch"
       :class="{'fixed-left': !rightSide, 'fixed-right': rightSide}"
     >&nbsp</div>
     <div
@@ -11,13 +10,11 @@
       class="drawer-backdrop fullscreen"
       style="background: rgba(0, 0, 0, 0.01)"
       @click="setState(false)"
-      v-touch:pan="closeByTouch"
-      v-touch-options:pan="{ direction: 'horizontal' }"
+      v-touch-pan.horizontal="__closeByTouch"
     ></div>
     <div
       ref="content"
-      v-touch:pan="closeByTouch"
-      v-touch-options:pan="{ direction: 'horizontal' }"
+      v-touch-pan.horizontal="__closeByTouch"
       class="drawer-content"
       :class="{'left-side': !rightSide, 'right-side': rightSide}"
     >
@@ -39,10 +36,6 @@ const
   },
   appContainer = document.getElementById('quasar-app')
 
-let
-  leftDrawer,
-  rightDrawer
-
 function getCurrentPosition (node) {
   let transform = Utils.dom.style(node, 'transform')
   return transform !== 'none' ? parseInt(transform.split(/[()]/)[1].split(', ')[4], 10) : 0
@@ -58,21 +51,6 @@ function getBetween (value, min, max) {
   }
 
   return value
-}
-
-function closeDrawers (done) {
-  if (leftDrawer && leftDrawer.opened) {
-    leftDrawer.setState(false, done)
-    return
-  }
-  if (rightDrawer && rightDrawer.opened) {
-    rightDrawer.setState(false, done)
-    return
-  }
-
-  if (typeof done === 'function') {
-    done()
-  }
 }
 
 export default {
@@ -120,7 +98,7 @@ export default {
         }
       }
       else {
-        window.removeEventListener('resize', closeDrawers)
+        window.removeEventListener('resize', this.close)
         if (!Platform.within.iframe) {
           window.removeEventListener('popstate', this.__popState)
           if (window.history.state && !window.history.state.__quasar_drawer) {
@@ -143,7 +121,7 @@ export default {
               backdrop.classList.remove('active')
             }
             else {
-              window.addEventListener('resize', closeDrawers)
+              window.addEventListener('resize', this.close)
             }
             if (typeof done === 'function') {
               done()
@@ -170,7 +148,7 @@ export default {
         }
       }
       else {
-        window.removeEventListener('resize', closeDrawers)
+        window.removeEventListener('resize', this.close)
         if (!Platform.within.iframe) {
           window.removeEventListener('popstate', this.__popState)
           if (window.history.state && !window.history.state.__quasar_drawer) {
@@ -204,7 +182,7 @@ export default {
               document.body.classList.remove('drawer-opened')
             }
             else {
-              window.addEventListener('resize', closeDrawers)
+              window.addEventListener('resize', this.close)
             }
             if (typeof done === 'function') {
               done()
@@ -213,7 +191,7 @@ export default {
         }
       )
     },
-    openByTouch (event) {
+    __openByTouch (event) {
       const
         content = this.$refs.content,
         backdrop = this.$refs.backdrop
@@ -223,7 +201,7 @@ export default {
       }
 
       let
-        position = Math.abs(event.deltaX),
+        position = event.distance.x,
         target,
         fn,
         percentage
@@ -255,7 +233,7 @@ export default {
       backdrop.classList.add('active')
       backdrop.style.background = 'rgba(0,0,0,' + percentage * backdropOpacity[theme.current] + ')'
     },
-    closeByTouch (event) {
+    __closeByTouch (event) {
       const
         content = this.$refs.content,
         backdrop = this.$refs.backdrop
@@ -268,7 +246,7 @@ export default {
         return
       }
 
-      position = this.rightSide ? getBetween(event.deltaX, 0, this.width) : getBetween(event.deltaX, -this.width, 0)
+      position = this.rightSide ? getBetween((event.direction === 'left' ? -1 : 1) * event.distance.x, 0, this.width) : getBetween((event.direction === 'left' ? -1 : 1) * event.distance.x, -this.width, 0)
       initialPosition = (this.rightSide ? -1 : 1) * this.width
 
       if (event.isFinal) {
@@ -323,21 +301,16 @@ export default {
     },
     close (done) {
       this.setState(false, done)
+    },
+    toggle (done) {
+      this.setState(!this.opened, done)
     }
   },
   mounted () {
     this.$nextTick(() => {
-      const
-        content = this.$refs.content,
-        toggles = this.$el.closest('.layout').getElementsByClassName((this.rightSide ? 'right' : 'left') + '-drawer-opener')
+      const content = this.$refs.content
 
       this.width = Utils.dom.width(content)
-
-      ;[].slice.call(toggles).forEach(el => {
-        el.addEventListener('click', () => {
-          this.setState(true)
-        })
-      })
 
       ;[].slice.call(content.getElementsByClassName('drawer-closer')).forEach(el => {
         el.addEventListener('click', () => {
@@ -346,29 +319,12 @@ export default {
       })
 
       if (this.swipeOnly) {
-        [].slice.call(toggles).forEach(el => {
-          el.classList.add('always-visible')
-        })
         this.$el.classList.add('swipe-only')
-      }
-
-      if (this.rightSide) {
-        rightDrawer = this
-      }
-      else {
-        leftDrawer = this
       }
     })
   },
   beforeDestroy () {
     this.setState(false)
-
-    if (this.rightSide) {
-      rightDrawer = null
-    }
-    else {
-      leftDrawer = null
-    }
   }
 }
 </script>
