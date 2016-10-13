@@ -1,24 +1,32 @@
 import Platform from '../platform'
 
+let data = {}
+
 export default {
-  bind () {
+  bind (el, { value }, vnode) {
+    let ctx = { value }
+
     if (Platform.is.cordova) {
-      this.goBack = () => {
+      ctx.goBack = () => {
         window.history.go(-1)
       }
     }
     else {
-      this.goBack = () => {
-        this.vm.$router.go(this.route)
+      ctx.goBack = () => {
+        vnode.context.$router.replace(ctx.value)
       }
     }
 
-    this.el.addEventListener('click', this.goBack)
+    data[el] = ctx
+    el.addEventListener('click', ctx.goBack)
   },
-  update (route) {
-    this.route = route
+  update (el, binding) {
+    if (binding.oldValue !== binding.value) {
+      data[el].value = binding.value
+    }
   },
-  unbind () {
-    this.el.removeEventListener('click', this.goBack)
+  unbind (el) {
+    el.removeEventListener('click', data[el].goBack)
+    delete data[el]
   }
 }
