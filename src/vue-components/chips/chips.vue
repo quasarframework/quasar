@@ -38,10 +38,7 @@ export default {
       type: Array,
       required: true
     },
-    disable: {
-      type: Boolean,
-      default: false
-    },
+    disable: Boolean,
     placeholder: String
   },
   data () {

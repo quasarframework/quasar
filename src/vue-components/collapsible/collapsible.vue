@@ -20,10 +20,7 @@
 <script>
 export default {
   props: {
-    value: {
-      type: Boolean,
-      default: false
-    },
+    value: Boolean,
     icon: String,
     img: String,
     avatar: String,

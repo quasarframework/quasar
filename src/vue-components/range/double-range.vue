@@ -68,22 +68,10 @@ export default {
       type: Number,
       default: 1
     },
-    snap: {
-      type: Boolean,
-      default: false
-    },
-    markers: {
-      type: Boolean,
-      default: false
-    },
-    label: {
-      type: Boolean,
-      default: false
-    },
-    disable: {
-      type: Boolean,
-      default: false
-    }
+    snap: Boolean,
+    markers: Boolean,
+    label: Boolean,
+    disable: Boolean
   },
   data () {
     return {

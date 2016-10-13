@@ -51,22 +51,10 @@ import Platform from '../../platform'
 
 export default {
   props: {
-    arrows: {
-      type: Boolean,
-      default: false
-    },
-    dots: {
-      type: Boolean,
-      default: false
-    },
-    fullscreen: {
-      type: Boolean,
-      default: false
-    },
-    actions: {
-      type: Boolean,
-      default: false
-    }
+    arrows: Boolean,
+    dots: Boolean,
+    fullscreen: Boolean,
+    actions: Boolean
   },
   data () {
     return {

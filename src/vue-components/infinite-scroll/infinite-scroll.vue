@@ -19,10 +19,7 @@ export default {
       type: Function,
       required: true
     },
-    inline: {
-      type: Boolean,
-      default: false
-    },
+    inline: Boolean,
     offset: {
       type: Number,
       default: 0

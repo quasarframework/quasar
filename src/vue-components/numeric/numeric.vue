@@ -32,10 +32,7 @@ export default {
     },
     min: Number,
     max: Number,
-    disable: {
-      type: Boolean,
-      default: false
-    }
+    disable: Boolean
   },
   watch: {
     value () {

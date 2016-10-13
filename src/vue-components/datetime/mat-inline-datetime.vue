@@ -215,10 +215,7 @@ export default {
         return ['date', 'time', 'datetime'].includes(value)
       }
     },
-    disable: {
-      type: Boolean,
-      default: false
-    }
+    disable: Boolean
   },
   data () {
     let view

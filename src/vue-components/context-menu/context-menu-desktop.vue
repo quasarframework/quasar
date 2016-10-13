@@ -11,10 +11,7 @@ import Utils from '../../utils'
 
 export default {
   props: {
-    disable: {
-      type: Boolean,
-      default: false
-    }
+    disable: Boolean
   },
   methods: {
     open () {

@@ -55,14 +55,8 @@ function getBetween (value, min, max) {
 
 export default {
   props: {
-    'right-side': {
-      type: Boolean,
-      default: false
-    },
-    'swipe-only': {
-      type: Boolean,
-      default: false
-    }
+    'right-side': Boolean,
+    'swipe-only': Boolean
   },
   data () {
     return {

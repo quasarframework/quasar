@@ -35,19 +35,10 @@ export default {
     }
   },
   props: {
-    touchPosition: {
-      type: Boolean,
-      default: false
-    },
-    disable: {
-      type: Boolean,
-      default: false
-    },
+    touchPosition: Boolean,
+    disable: Boolean,
     position: String,
-    cover: {
-      type: Boolean,
-      default: false
-    }
+    cover: Boolean
   },
   methods: {
     toggle (event) {

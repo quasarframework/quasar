@@ -47,10 +47,7 @@ export default {
       type: String,
       default: 'refresh'
     },
-    disable: {
-      type: Boolean,
-      default: false
-    }
+    disable: Boolean
   },
   data () {
     let height = 65

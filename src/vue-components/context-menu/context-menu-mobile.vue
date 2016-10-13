@@ -14,10 +14,7 @@ import Modal from '../../components/modal/modal'
 
 export default {
   props: {
-    disable: {
-      type: Boolean,
-      default: false
-    }
+    disable: Boolean
   },
   methods: {
     open () {

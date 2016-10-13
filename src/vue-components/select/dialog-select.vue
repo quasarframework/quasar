@@ -49,10 +49,7 @@ export default {
     },
     message: String,
     placeholder: String,
-    disable: {
-      type: Boolean,
-      default: false
-    }
+    disable: Boolean
   },
   computed: {
     label () {

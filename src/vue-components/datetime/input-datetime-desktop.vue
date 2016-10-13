@@ -25,9 +25,7 @@ export default {
       required: true,
       default: moment().format()
     },
-    format: {
-      type: String
-    },
+    format: String,
     okLabel: {
       type: String,
       default: 'Set'
@@ -36,10 +34,7 @@ export default {
       type: String,
       default: 'Cancel'
     },
-    disable: {
-      type: Boolean,
-      default: false
-    }
+    disable: Boolean
   },
   computed: {
     label () {

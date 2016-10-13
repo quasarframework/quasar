@@ -48,10 +48,7 @@ export default {
       type: Number,
       required: true
     },
-    disable: {
-      type: Boolean,
-      default: false
-    },
+    disable: Boolean,
     min: {
       type: Number,
       default: 0
