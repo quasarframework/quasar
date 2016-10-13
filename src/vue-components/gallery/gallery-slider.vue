@@ -1,5 +1,9 @@
 <template>
-  <quasar-slider ref="slider" arrows fullscreen class="text-white bg-black quasar-gallery-slider">
+  <quasar-slider
+    ref="slider" arrows fullscreen
+    @slide="__updateCurrentSlide"
+    class="text-white bg-black quasar-gallery-slider"
+  >
     <div
       v-for="(img, index) in src"
       :key="index"
@@ -26,7 +30,7 @@
       <div v-for="(img, index) in src" :key="index">
         <img
           :src="img"
-          :class="{active: $refs.slider.slide === index}"
+          :class="{active: currentSlide === index}"
           @click="selectImage(index)"
         >
       </div>
@@ -44,7 +48,8 @@ export default {
   },
   data () {
     return {
-      quickView: false
+      quickView: false,
+      currentSlide: 0
     }
   },
   methods: {
@@ -54,6 +59,9 @@ export default {
     selectImage (index) {
       this.$refs.slider.goToSlide(index, true)
       this.toggleQuickView()
+    },
+    __updateCurrentSlide (value) {
+      this.currentSlide = value
     }
   }
 }

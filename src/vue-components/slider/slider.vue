@@ -76,6 +76,11 @@ export default {
       inFullscreen: false
     }
   },
+  watch: {
+    slide (value) {
+      this.$emit('slide', value)
+    }
+  },
   computed: {
     toolbar () {
       return this.dots || this.fullscreen || this.actions
