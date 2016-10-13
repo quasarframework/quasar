@@ -5,8 +5,7 @@
         ref="track"
         class="quasar-slider-track"
         :class="{'with-arrows': arrows, 'with-toolbar': toolbar}"
-        v-touch:pan="pan"
-        v-touch-options:pan="{ direction: 'horizontal' }"
+        v-touch-pan.horizontal="pan"
       >
         <slot name="slide"></slot>
       </div>
@@ -89,11 +88,11 @@ export default {
         Velocity(this.$refs.track, 'stop')
       }
 
-      let delta = event.deltaX
+      let delta = (event.direction === 'left' ? -1 : 1) * event.distance.x
 
       if (
-        this.slide === 0 && event.deltaX > 0 ||
-        this.slide === this.slidesNumber - 1 && event.deltaX < 0
+        this.slide === 0 && delta > 0 ||
+        this.slide === this.slidesNumber - 1 && delta < 0
       ) {
         delta = delta / 10
       }
@@ -102,11 +101,11 @@ export default {
       this.$refs.track.style.transform = 'translateX(' + this.position + '%)'
 
       if (event.isFinal) {
-        if (event.distance < 100) {
+        if (event.distance.x < 100) {
           this.goToSlide(this.slide)
         }
         else {
-          this.goToSlide(event.deltaX < 0 ? this.slide + 1 : this.slide - 1)
+          this.goToSlide(event.direction === 'left' ? this.slide + 1 : this.slide - 1)
         }
         delete this.initialPosition
       }
