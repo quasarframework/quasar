@@ -1,7 +1,7 @@
 <template>
   <div
     class="quasar-tab items-center justify-center"
-    :class="{'v-link-active': active, hidden: hidden, disabled: disable, hideIcon: hide === 'icon', hideLabel: hide === 'label'}"
+    :class="{'router-link-active': active, hidden: hidden, disabled: disable, hideIcon: hide === 'icon', hideLabel: hide === 'label'}"
     @click="activate()"
   >
       <i v-if="icon" class="quasar-tabs-icon">{{icon}}</i>
@@ -73,7 +73,7 @@ export default {
     },
     '$route' (value) {
       this.$nextTick(() => {
-        if (this.$el.classList.contains('v-link-active')) {
+        if (this.$el.classList.contains('router-link-active')) {
           this.$dispatch('selected', this)
         }
       })
@@ -81,7 +81,7 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
-      if (this.active && this.target || this.$el.classList.contains('v-link-active')) {
+      if (this.active && this.target || this.$el.classList.contains('router-link-active')) {
         this.$nextTick(() => {
           this.$dispatch('selected', this)
         })
