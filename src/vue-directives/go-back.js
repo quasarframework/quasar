@@ -4,11 +4,11 @@ let data = {}
 
 export default {
   bind (el, { value }, vnode) {
-    let ctx = { value }
+    let ctx = { value, position: window.history.length - 1 }
 
     if (Platform.is.cordova) {
       ctx.goBack = () => {
-        window.history.go(-1)
+        vnode.context.$router.go(ctx.position - window.history.length)
       }
     }
     else {
