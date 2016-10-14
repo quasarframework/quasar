@@ -1,95 +1,93 @@
 <template>
   <div
     class="quasar-tab items-center justify-center"
-    :class="{'router-link-active': active, hidden: hidden, disabled: disable, hideIcon: hide === 'icon', hideLabel: hide === 'label'}"
+    :class="{active: isActive, hidden: hidden, disabled: disable, hideIcon: hide === 'icon', hideLabel: hide === 'label'}"
     @click="activate()"
   >
-      <i v-if="icon" class="quasar-tabs-icon">{{icon}}</i>
-      <span class="quasar-tab-label">
-        <slot></slot>
-      </span>
+    <router-link v-if="route" ref="routerLink" :to="route" :replace="replace" :append="append" :exact="exact"></router-link>
+    <i v-if="icon" class="quasar-tabs-icon">{{icon}}</i>
+    <span class="quasar-tab-label" v-html="label"></span>
   </div>
 </template>
 
 <script>
+import Utils from '../../utils'
+
 export default {
-  props: ['active', 'hidden', 'disable', 'hide', 'icon', 'label', 'target'],
-  methods: {
-    activate () {
-      if (this.disable) {
-        return
-      }
-      this.active = true
+  props: {
+    label: String,
+    icon: String,
+    disable: Boolean,
+    hidden: Boolean,
+    hide: {
+      type: String,
+      default: ''
     },
-    setTargetVisibility (visible) {
-      if (this.targetElement) {
-        this.targetElement.style.display = visible ? '' : 'none'
-      }
-    }
+    name: String,
+    route: String,
+    replace: Boolean,
+    exact: Boolean,
+    append: Boolean
   },
   computed: {
+    uid () {
+      return this.name || Utils.uid()
+    },
+    isActive () {
+      return this.$parent.activeTab === this.uid
+    },
     targetElement () {
-      // if no target
-      if (!this.target) {
-        return
-      }
-
-      return document.querySelector(this.target)
-    }
-  },
-  events: {
-    tabSelected (tab) {
-      let targetIsMe = tab === this
-
-      if (!targetIsMe) {
-        this.active = false
-      }
-
-      this.setTargetVisibility(tab === this)
+      return this.$parent.refs && this.$parent.refs[this.uid]
     }
   },
   watch: {
-    active (value) {
-      if (this.disable) {
-        return
-      }
-      if (value) {
-        this.$dispatch('selected', this)
-      }
-    },
-    hidden (value) {
-      this.$dispatch('hidden')
-    },
-    target (value, oldValue) {
-      if (oldValue) {
-        let oldTab = document.querySelector(oldValue)
-        if (oldTab) {
-          oldTab.style.display = 'none'
-        }
-      }
-      this.$nextTick(() => {
-        this.setTargetVisibility(this.active)
-      })
-    },
-    '$route' (value) {
-      this.$nextTick(() => {
-        if (this.$el.classList.contains('router-link-active')) {
-          this.$dispatch('selected', this)
-        }
+    isActive (value) {
+      this.setTargetVisibility(value)
+    }
+  },
+  created () {
+    if (this.route) {
+      this.$watch('$route', () => {
+        this.__selectTabIfRouteMatches()
       })
     }
   },
   mounted () {
     this.$nextTick(() => {
-      if (this.active && this.target || this.$el.classList.contains('router-link-active')) {
-        this.$nextTick(() => {
-          this.$dispatch('selected', this)
-        })
-      }
-      else {
-        this.setTargetVisibility(false)
+      this.setTargetVisibility(this.isActive)
+      if (this.route) {
+        this.__selectTabIfRouteMatches()
       }
     })
+  },
+  methods: {
+    activate () {
+      if (!this.isActive && !this.disable) {
+        if (this.route) {
+          this.$refs.routerLink.$el.click()
+        }
+        else {
+          this.$parent.setActiveTab(this.uid)
+        }
+      }
+    },
+    deactivate () {
+      if (this.isActive && !this.disable) {
+        this.$parent.setActiveTab(false)
+      }
+    },
+    setTargetVisibility (visible) {
+      if (this.targetElement) {
+        this.targetElement.style.display = visible ? '' : 'none'
+      }
+    },
+    __selectTabIfRouteMatches () {
+      this.$nextTick(() => {
+        if (this.route && this.$refs.routerLink.$el.classList.contains('router-link-active')) {
+          this.$parent.setActiveTab(this.uid)
+        }
+      })
+    }
   }
 }
 </script>

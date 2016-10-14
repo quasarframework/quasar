@@ -23,6 +23,7 @@ $tabs-active-border-bottom    ?= 2px solid $tabs-active-color
 
 .quasar-tab
   display flex
+  flex-direction column
   min-height $tabs-min-height
   padding $tabs-padding
   cursor pointer
@@ -34,7 +35,7 @@ $tabs-active-border-bottom    ?= 2px solid $tabs-active-color
     font-size $tabs-icon-font-size
   .quasar-tabs-icon + .quasar-tab-label
     margin $tabs-label-margin
-  &.router-link-active
+  &.active
     color $tabs-active-color
     border-bottom $tabs-active-border-bottom
   &:active
@@ -101,7 +102,7 @@ $tabs-active-border-bottom    ?= 2px solid $tabs-active-color
         color composite-color($color)
         background $color
         .quasar-tab
-          &.router-link-active, &:active
+          &.active, &:active
             color $grey-8
             border-bottom 2px solid $grey-8
           &:active
@@ -110,7 +111,7 @@ $tabs-active-border-bottom    ?= 2px solid $tabs-active-color
           color $color
           background composite-color($color)
           .quasar-tab
-            &.router-link-active, &:active
+            &.active, &:active
               color white
               border-bottom 2px solid white
             &:active
@@ -124,13 +125,13 @@ $tabs-active-border-bottom    ?= 2px solid $tabs-active-color
           background $color
 
         &.inverted .quasar-tab
-          &.router-link-active, &:active
+          &.active, &:active
             color $color
             border-bottom 2px solid $color
           &:active
             background-color $color
         &:not(.inverted) .quasar-tab
-          &.router-link-active, &:active
+          &.active, &:active
             color white
             border-bottom 2px solid white
           &:active

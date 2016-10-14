@@ -21,8 +21,123 @@ const
   debounceDelay = 50 // in ms
 
 export default {
+  props: {
+    refs: {
+      type: Object
+    },
+    value: [String, Boolean, Object],
+    defaultTab: {
+      type: [String, Boolean],
+      default: false
+    }
+  },
+  data () {
+    return {
+      innerValue: false
+    }
+  },
+  computed: {
+    activeTab: {
+      get () {
+        return this.usingModel ? this.value : this.innerValue
+      },
+      set (value) {
+        if (this.usingModel) {
+          this.$emit('input', value)
+        }
+        else {
+          this.innerValue = value
+        }
+      }
+    },
+    usingModel () {
+      return typeof this.value !== 'undefined'
+    }
+  },
+  watch: {
+    activeTab (value) {
+      if (!value) {
+        return
+      }
+      this.__findTabAndScroll(value)
+    },
+    '$children' () {
+      this.redraw()
+    }
+  },
+  created () {
+    this.scrollTimer = null
+    this.scrollable = !Platform.is.desktop
+
+    // debounce some costly methods;
+    // debouncing here because debounce needs to be per instance
+    this.__redraw = Utils.debounce(this.__redraw, debounceDelay)
+    this.__updateScrollIndicator = Utils.debounce(this.__updateScrollIndicator, debounceDelay)
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.$refs.scroller.addEventListener('scroll', this.__updateScrollIndicator)
+      window.addEventListener('resize', this.__redraw)
+
+      // let browser drawing stabilize then
+      setTimeout(() => { this.__redraw() }, debounceDelay)
+
+      if (Platform.is.desktop) {
+        var scrollEvents = {
+          start: [],
+          stop: []
+        }
+
+        scrollEvents.start.push('mousedown')
+        scrollEvents.stop.push('mouseup')
+
+        if (Platform.has.touch) {
+          scrollEvents.start.push('touchstart')
+          scrollEvents.stop.push('touchend')
+        }
+
+        scrollEvents.start.forEach(evt => {
+          this.$refs.leftScroll.addEventListener(evt, () => {
+            this.__animScrollTo(0)
+          })
+          this.$refs.rightScroll.addEventListener(evt, () => {
+            this.__animScrollTo(9999)
+          })
+        })
+        scrollEvents.stop.forEach(evt => {
+          this.$refs.leftScroll.addEventListener(evt, () => {
+            clearInterval(this.scrollTimer)
+          })
+          this.$refs.rightScroll.addEventListener(evt, () => {
+            clearInterval(this.scrollTimer)
+          })
+        })
+      }
+
+      if (this.usingModel && this.defaultTab) {
+        console.warn('Tabs ignoring default-tab since using v-model.', this.$el)
+      }
+      if (this.usingModel) {
+        this.__findTabAndScroll(this.activeTab)
+      }
+      else if (this.defaultTab) {
+        this.setActiveTab(this.defaultTab)
+        this.__findTabAndScroll(this.defaultTab)
+      }
+    })
+  },
+  beforeDestroy () {
+    if (this.scrollTimer) {
+      clearInterval(this.scrollTimer)
+    }
+    this.$refs.scroller.removeEventListener('scroll', this.__updateScrollIndicator)
+    window.removeEventListener('resize', this.__redraw)
+  },
   methods: {
-    redraw () {
+    setActiveTab (name) {
+      this.activeTab = name
+    },
+    __redraw () {
       if (!Platform.is.desktop) {
         return
       }
@@ -32,14 +147,14 @@ export default {
       if (Utils.dom.width(this.$refs.scroller) + 5 < this.$refs.scroller.scrollWidth) {
         this.$el.classList.add('scrollable')
         this.scrollable = true
-        this.updateScrollIndicator()
+        this.__updateScrollIndicator()
       }
       else {
         this.$el.classList.remove('scrollable')
         this.scrollable = false
       }
     },
-    updateScrollIndicator () {
+    __updateScrollIndicator () {
       if (!Platform.is.desktop || !this.scrollable) {
         return
       }
@@ -49,8 +164,16 @@ export default {
       this.$refs.leftScroll.classList[this.$refs.scroller.scrollLeft <= 0 ? 'add' : 'remove']('disabled')
       this.$refs.rightScroll.classList[action]('disabled')
     },
-    scrollToSelectedIfNeeded (tab) {
-      if (tab.length === 0 || !this.scrollable) {
+    __findTabAndScroll (value) {
+      setTimeout(() => {
+        let tabElement = this.$children.find(child => child.uid === value)
+        if (tabElement) {
+          this.__scrollToSelectedIfNeeded(tabElement.$el)
+        }
+      }, debounceDelay * 4)
+    },
+    __scrollToSelectedIfNeeded (tab) {
+      if (!tab || !this.scrollable) {
         return
       }
 
@@ -61,29 +184,28 @@ export default {
         offset = tabRect.left - contentRect.left
 
       if (offset < 0) {
-        this.animScrollTo(this.$refs.scroller.scrollLeft + offset)
+        this.__animScrollTo(this.$refs.scroller.scrollLeft + offset)
       }
       else {
         offset += tabWidth - this.$refs.scroller.offsetWidth
-        /* istanbul ignore else */
         if (offset > 0) {
-          this.animScrollTo(this.$refs.scroller.scrollLeft + offset)
+          this.__animScrollTo(this.$refs.scroller.scrollLeft + offset)
         }
       }
     },
-    animScrollTo (value) {
+    __animScrollTo (value) {
       if (this.scrollTimer) {
         clearInterval(this.scrollTimer)
       }
 
-      this.scrollTowards(value)
+      this.__scrollTowards(value)
       this.scrollTimer = setInterval(() => {
-        if (this.scrollTowards(value)) {
+        if (this.__scrollTowards(value)) {
           clearInterval(this.scrollTimer)
         }
       }, 5)
     },
-    scrollTowards (value) {
+    __scrollTowards (value) {
       let
         scrollPosition = this.$refs.scroller.scrollLeft,
         direction = value < scrollPosition ? -1 : 1,
@@ -103,77 +225,6 @@ export default {
       this.$refs.scroller.scrollLeft = scrollPosition
       return done
     }
-  },
-  events: {
-    selected (tab) {
-      this.$broadcast('tabSelected', tab)
-
-      setTimeout(() => {
-        this.scrollToSelectedIfNeeded(tab.$el)
-      }, debounceDelay * 4)
-    },
-    hidden () {
-      this.redraw()
-    }
-  },
-  watch: {
-    '$children' () {
-      this.redraw()
-    }
-  },
-  ready () {
-    this.scrollTimer = null
-    this.scrollable = !Platform.is.desktop
-
-    // debounce some costly methods;
-    // debouncing here because debounce needs to be per instance
-    this.redraw = Utils.debounce(this.redraw, debounceDelay)
-    this.updateScrollIndicator = Utils.debounce(this.updateScrollIndicator, debounceDelay)
-
-    this.$refs.scroller.addEventListener('scroll', this.updateScrollIndicator)
-    window.addEventListener('resize', this.redraw)
-
-    // let browser drawing stabilize then
-    setTimeout(() => { this.redraw() }, debounceDelay)
-
-    if (Platform.is.desktop) {
-      var scrollEvents = {
-        start: [],
-        stop: []
-      }
-
-      scrollEvents.start.push('mousedown')
-      scrollEvents.stop.push('mouseup')
-
-      if (Platform.has.touch) {
-        scrollEvents.start.push('touchstart')
-        scrollEvents.stop.push('touchend')
-      }
-
-      scrollEvents.start.forEach(evt => {
-        this.$refs.leftScroll.addEventListener(evt, () => {
-          this.animScrollTo(0)
-        })
-        this.$refs.rightScroll.addEventListener(evt, () => {
-          this.animScrollTo(9999)
-        })
-      })
-      scrollEvents.stop.forEach(evt => {
-        this.$refs.leftScroll.addEventListener(evt, () => {
-          clearInterval(this.scrollTimer)
-        })
-        this.$refs.rightScroll.addEventListener(evt, () => {
-          clearInterval(this.scrollTimer)
-        })
-      })
-    }
-  },
-  beforeDestroy () {
-    if (this.scrollTimer) {
-      clearInterval(this.scrollTimer)
-    }
-    this.$refs.scroller.removeEventListener('scroll', this.updateScrollIndicator)
-    window.removeEventListener('resize', this.redraw)
   }
 }
 </script>
