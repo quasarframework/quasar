@@ -30,11 +30,6 @@ maximized-modal()
   max-width 100vw
   max-height 100vh
   border-radius 0
-  .screen
-    position relative
-
-.modal
-  z-index $z-modal
 
 .modal-content
   background $modal-background
@@ -48,10 +43,42 @@ maximized-modal()
     width 100%
     height 100%
 
+.modal
+  z-index $z-modal
   &.minimized
-    minimized-modal()
-  &.maximized
+    background $dimmed-background
+    .modal-content
+      minimized-modal()
+  &.maximized .modal-content
     maximized-modal()
+
+.quasar-modal-enter, .quasar-modal-leave-active
+  opacity 0
+
+@media screen and (min-width $layout-medium-min)
+  .modal:not(.maximized)
+    background $dimmed-background
+    &.quasar-modal-enter .modal-content
+      transform scale(1.2)
+    &.quasar-modal-leave-active .modal-content
+      transform scale(.8)
+  .modal.maximized
+    &.quasar-modal-enter, &.quasar-modal-leave-active
+      .modal-content
+        transform translateX(101%)
+
+@media screen and (max-width $layout-small-max)
+  .modal:not(.minimized)
+    .modal-content
+      maximized-modal()
+    &.quasar-modal-enter, &.quasar-modal-leave-active
+      .modal-content
+        transform translateX(101%)
+  .modal.minimized
+    &.quasar-modal-enter .modal-content
+      transform scale(1.2)
+    &.quasar-modal-leave-active .modal-content
+      transform scale(.8)
 
 .modal-header
   text-align $modal-header-text-align
@@ -67,12 +94,6 @@ maximized-modal()
   text-align $modal-body-text-align
   color $modal-body-color
 
-.modal-controls
-  border-top 1px solid $form-darker-color
-  border-bottom 1px solid $form-darker-color
-  &.list
-    margin 0
-
 .small-modal-scroll, .modal-scroll, .big-modal-scroll
   overflow auto
   -webkit-overflow-scrolling touch
@@ -83,7 +104,6 @@ maximized-modal()
   max-height $modal-scroll-size
 .big-modal-scroll
   max-height (2 * $modal-scroll-size)
-
 
 .modal-buttons
   padding $modal-buttons-padding
@@ -106,9 +126,10 @@ maximized-modal()
     button + button
       border-top 1px solid $form-darker-color
 
-@media screen and (max-width $layout-small-max)
-  .modal-content:not(.minimized)
-    maximized-modal()
-
-.modal-controls + .modal-buttons
-  border-top 0
+.modal-controls
+  border-top 1px solid $form-darker-color
+  border-bottom 1px solid $form-darker-color
+  &.list
+    margin 0
+  & + .modal-buttons
+    border-top 0

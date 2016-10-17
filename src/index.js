@@ -13,7 +13,6 @@ import './fastclick'
 
 import ActionSheet from './components/action-sheet/action-sheet'
 import Dialog from './components/dialog/dialog'
-import Modal from './components/modal/modal'
 import Toast from './components/toast/toast'
 
 import AppFullscreen from './app-fullscreen'
@@ -39,7 +38,6 @@ let Quasar = {
   Platform,
   Events,
   Loading,
-  Modal,
   Toast,
   Utils,
   LocalStorage,

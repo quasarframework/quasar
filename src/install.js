@@ -33,7 +33,7 @@ import InfiniteScroll from './vue-components/infinite-scroll/infinite-scroll.vue
 import Knob from './vue-components/knob/knob.vue'
 import Layout from './vue-components/layout/layout.vue'
 import ToolbarTitle from './vue-components/layout/toolbar-title.vue'
-import Modal from './components/modal/modal.vue'
+import Modal from './vue-components/modal/modal.vue'
 import Numeric from './vue-components/numeric/numeric.vue'
 import Pagination from './vue-components/pagination/pagination.vue'
 import Parallax from './vue-components/parallax/parallax.vue'
