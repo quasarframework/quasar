@@ -75,6 +75,10 @@ export function childOf (target, parent) {
   return false
 }
 
+export function has (target) {
+  return this.childOf(target, document.body)
+}
+
 export function getScrollTarget (el) {
   return el.closest('.layout-view') || window
 }

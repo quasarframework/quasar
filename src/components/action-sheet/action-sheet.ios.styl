@@ -41,3 +41,8 @@ $action-sheet-hover-background ?= #d0d0d0
       margin-bottom 0
     &:not(:last-child)
       border-bottom 1px solid $grey-4
+
+.quasar-modal-actions-enter, .quasar-modal-actions-leave-active
+  opacity 0
+  .modal-content
+    transform translateY(101%)

@@ -6,6 +6,7 @@ import * as event from './utils/event'
 import extend from './utils/extend'
 import uid from './utils/uid'
 import * as colors from './utils/colors'
+import modalComponent from './utils/modal-component'
 
 export default {
   openURL,
@@ -15,5 +16,6 @@ export default {
   dom,
   uid,
   event,
-  colors
+  colors,
+  modalComponent
 }

@@ -62,6 +62,8 @@
 </template>
 
 <script>
+import Utils from '../../utils'
+
 export default {
   props: {
     title: String,
@@ -115,7 +117,9 @@ export default {
     this.$refs.dialog.open()
   },
   destroyed () {
-    document.body.removeChild(this.$el)
+    if (Utils.dom.has(this.$el)) {
+      document.body.removeChild(this.$el)
+    }
   }
 }
 </script>

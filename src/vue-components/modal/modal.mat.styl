@@ -45,10 +45,10 @@ maximized-modal()
 
 .modal
   z-index $z-modal
-  &.minimized
+  &.minimized, &.with-backdrop
     background $dimmed-background
-    .modal-content
-      minimized-modal()
+  &.minimized .modal-content
+    minimized-modal()
   &.maximized .modal-content
     maximized-modal()
 

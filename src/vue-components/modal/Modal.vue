@@ -1,11 +1,12 @@
 <template>
-  <transition name="quasar-modal">
+  <transition :name="transition">
     <div
       v-show="active"
-      class="modal fullscreen flex items-center justify-center"
+      class="modal fullscreen flex"
+      :class="classes"
       @click="close()"
     >
-      <div ref="content" class="modal-content" @click.stop>
+      <div ref="content" class="modal-content" @click.stop :style="contentCss">
         <slot></slot>
       </div>
     </div>
@@ -21,9 +22,22 @@ let
   openedModalNumber = 0
 
 export default {
+  props: {
+    transition: {
+      type: String,
+      default: 'quasar-modal'
+    },
+    classNames: String,
+    contentCss: Object
+  },
   data () {
     return {
       active: false
+    }
+  },
+  computed: {
+    classes () {
+      return this.classNames || 'items-center justify-center'
     }
   },
   methods: {
