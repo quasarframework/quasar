@@ -1,6 +1,6 @@
 import Utils from '../../utils'
 import Events from '../../events'
-import Toast from './toast.vue'
+import Toast from './Toast.vue'
 
 let
   toast,

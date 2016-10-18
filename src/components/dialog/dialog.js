@@ -1,5 +1,5 @@
 import { Vue } from '../../install'
-import Dialog from './dialog.vue'
+import Dialog from './Dialog.vue'
 
 export default {
   create (props) {

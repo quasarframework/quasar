@@ -1,7 +1,7 @@
 import { current as theme } from '../../theme'
 import { Vue } from '../../install'
 import Events from '../../events'
-import Loading from './loading.vue'
+import Loading from './Loading.vue'
 
 let
   vm,
