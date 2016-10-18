@@ -4,6 +4,7 @@
     <div
       ref="content"
       class="quasar-popover-content"
+      @click.stop
       :class="{active: active}"
     >
       <slot></slot>
@@ -165,7 +166,7 @@ export default {
       // give a little timeout so that click
       // event won't be triggered immediately
       setTimeout(() => {
-        document.addEventListener('click', this.closeFromOutside)
+        document.addEventListener('click', this.close)
         this.scrollTarget = Utils.dom.getScrollTarget(target)
         this.scrollTarget.addEventListener('scroll', this.close)
         EscapeKey.register(() => { this.close() })
@@ -187,15 +188,9 @@ export default {
           this.scrollTarget.removeEventListener('scroll', this.close)
           this.scrollTarget = null
         }
-        document.removeEventListener('click', this.closeFromOutside)
+        document.removeEventListener('click', this.close)
         EscapeKey.pop()
       }
-    },
-    closeFromOutside (event) {
-      if (!this.active || this.$refs.content === event.target.closest('.quasar-popover-content')) {
-        return
-      }
-      this.close()
     }
   },
   mounted () {

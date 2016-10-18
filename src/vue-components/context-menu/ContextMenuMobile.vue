@@ -1,12 +1,7 @@
 <template>
-  <div class="modal hidden fullscreen flex items-center justify-center">
-    <div class="modal-backdrop backdrop"></div>
-    <div class="modal-content">
-      <div class="modal-scroll">
-        <slot></slot>
-      </div>
-    </div>
-  </div>
+  <quasar-modal class="minimized" ref="dialog">
+    <slot></slot>
+  </quasar-modal>
 </template>
 
 <script>
@@ -22,10 +17,10 @@ export default {
     },
     close () {
       this.target.classList.remove('non-selectable')
-      this.modal.close()
+      this.$refs.dialog.close()
     },
     toggle () {
-      if (this.modal.active) {
+      if (this.$refs.dialog.active) {
         this.close()
       }
       else {
@@ -38,15 +33,9 @@ export default {
       this.target = this.$el.parentNode
 
       this.handler = () => {
-        if (this.disable) {
-          return
+        if (!this.disable) {
+          this.$refs.dialog.open()
         }
-        this.modal = Modal.create(this.$el)
-          .set({
-            minimized: true,
-            closeWithBackdrop: true
-          })
-          .show()
       }
 
       this.touchStartHandler = (event) => {
