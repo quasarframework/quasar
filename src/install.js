@@ -27,8 +27,6 @@ import Fab from './vue-components/fab/Fab.vue'
 import SmallFab from './vue-components/fab/SmallFab.vue'
 import Gallery from './vue-components/gallery/Gallery.vue'
 import GallerySlider from './vue-components/gallery/GallerySlider.vue'
-// import Grid from './vue-components/grid/grid.vue'
-// import GridTable from './vue-components/grid/grid-table.vue'
 import InfiniteScroll from './vue-components/infinite-scroll/InfiniteScroll.vue'
 import Knob from './vue-components/knob/Knob.vue'
 import Layout from './vue-components/layout/Layout.vue'
@@ -82,8 +80,6 @@ function registerComponents (_Vue) {
   _Vue.component('quasar-small-fab', SmallFab)
   _Vue.component('quasar-gallery', Gallery)
   _Vue.component('quasar-gallery-slider', GallerySlider)
-  // _Vue.component('quasar-grid', Grid)
-  // _Vue.component('quasar-grid-table', GridTable)
   _Vue.component('quasar-infinite-scroll', InfiniteScroll)
   _Vue.component('quasar-knob', Knob)
   _Vue.component('quasar-layout', Layout)
