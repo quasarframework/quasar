@@ -5,8 +5,6 @@
 </template>
 
 <script>
-import Modal from '../../components/modal/modal'
-
 export default {
   props: {
     disable: Boolean

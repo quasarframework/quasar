@@ -8,12 +8,6 @@
 <script>
 import Dialog from '../../components/dialog/dialog'
 
-let mapTypeConfig = {
-  radio: 'radios',
-  checkbox: 'checkboxes',
-  toggle: 'toggles'
-}
-
 export default {
   props: {
     value: {
@@ -22,7 +16,7 @@ export default {
     options: {
       type: Array,
       required: true,
-      validator: options => {
+      validator (options) {
         return !options.some(option =>
           typeof option.label === 'undefined' || typeof option.value === 'undefined'
         )
@@ -53,18 +47,21 @@ export default {
   },
   computed: {
     label () {
-      return this.placeholder || (this.type === 'radio' ? this.__getSingleLabel() : this.__getMultipleLabel())
+      return this.placeholder || (this.multiple ? this.__getMultipleLabel() : this.__getSingleLabel())
+    },
+    multiple () {
+      return this.type !== 'radio'
     }
   },
   methods: {
     __getSingleLabel () {
-      let option = this.options.find((option) => option.value === this.value)
+      let option = this.options.find(option => option.value === this.value)
       return option ? option.label : 'Select'
     },
     __getMultipleLabel () {
       let options = this.options
-        .filter((option) => this.value.includes(option.value))
-        .map((option) => option.label)
+        .filter(option => this.value.includes(option.value))
+        .map(option => option.label)
 
       if (options.length === 0) {
         return 'Select'
@@ -74,14 +71,6 @@ export default {
       }
       return options[0]
     },
-    mapSingle (option) {
-      option.selected = option.value === this.value
-      return option
-    },
-    mapMultiple (option) {
-      option.checked = this.value.includes(option.value)
-      return option
-    },
     pick () {
       if (this.disable) {
         return
@@ -89,25 +78,30 @@ export default {
 
       let
         self = this,
-        mapHandler = this.type === 'radio' ? this.mapSingle : this.mapMultiple,
-        options = this.options.map(mapHandler.bind(this)),
-        config = {
-          title: self.title,
-          message: self.message,
-          buttons: [
-            self.cancelLabel,
-            {
-              label: self.okLabel,
-              handler (data) {
-                self.$emit('input', data)
-              }
+        options = this.options.map(option => {
+          return {
+            value: option.value,
+            label: option.label,
+            model: this.value.includes(option.value)
+          }
+        })
+
+      Dialog.create({
+        title: self.title,
+        message: self.message,
+        form: {
+          select: {type: self.type, model: self.value, items: options}
+        },
+        buttons: [
+          self.cancelLabel,
+          {
+            label: self.okLabel,
+            handler (data) {
+              self.$emit('input', data.select)
             }
-          ]
-        }
-
-      config[mapTypeConfig[this.type]] = options
-
-      Dialog.create(config).show()
+          }
+        ]
+      })
     }
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="quasar-select-container">
     <quasar-popover ref="popover" :disable="disable" cover>
-      <div slot="target" class="cursor-pointer textfield" @click="__parseOptions" :class="{disabled: disable}">
+      <div slot="target" class="cursor-pointer textfield" :class="{disabled: disable}">
         <span v-html="label"></span>
         <div class="float-right quasar-select-arrow caret-down"></div>
       </div>
@@ -24,7 +24,7 @@
 
         <label v-if="type === 'checkbox'" v-for="(checkbox, index) in options" class="item">
           <div class="item-primary">
-            <quasar-checkbox v-model="multipleOptions[index]"></quasar-checkbox>
+            <quasar-checkbox v-model="optionsModel[index]"></quasar-checkbox>
           </div>
           <div class="item-content" v-html="checkbox.label"></div>
         </label>
@@ -32,7 +32,7 @@
         <label v-if="type === 'toggle'" v-for="(toggle, index) in options" class="item">
           <div class="item-content has-secondary" v-html="toggle.label"></div>
           <div class="item-secondary">
-            <quasar-toggle v-model="multipleOptions[index]"></quasar-toggle>
+            <quasar-toggle v-model="optionsModel[index]"></quasar-toggle>
           </div>
         </label>
       </div>
@@ -41,22 +41,24 @@
 </template>
 
 <script>
+function getOptionsModel (options, value) {
+  return options.map(option => {
+    return value.includes(option.value) || false
+  }).reduce((o, v, i) => {
+    o[i] = v
+    return o
+  }, {})
+}
+
 export default {
-  data () {
-    return {
-      multipleOptions: [],
-      skipModelUpdate: false
-    }
-  },
   props: {
-    model: {
-      required: true,
-      twoWay: true
+    value: {
+      required: true
     },
     options: {
       type: Array,
       required: true,
-      validator: options => {
+      validator (options) {
         return !options.some(option =>
           typeof option.label === 'undefined' || typeof option.value === 'undefined'
         )
@@ -75,33 +77,45 @@ export default {
       default: false
     }
   },
+  data () {
+    return this.type !== 'radio' ? {optionsModel: getOptionsModel(this.options, this.value)} : {}
+  },
   computed: {
+    model: {
+      get () {
+        return this.value
+      },
+      set (value) {
+        this.$emit('input', value)
+      }
+    },
     label () {
-      return this.placeholder || (this.type === 'radio' ? this.__getSingleLabel() : this.__getMultipleLabel())
+      return this.placeholder || (this.multiple ? this.__getMultipleLabel() : this.__getSingleLabel())
     },
     multiple () {
       return this.type !== 'radio'
     }
   },
   watch: {
-    multipleOptions: {
+    options: {
       deep: true,
       handler (options) {
-        if (!this.multiple || this.skipModelUpdate) {
-          this.skipModelUpdate = false
+        this.optionsModel = getOptionsModel(this.options, this.value)
+      }
+    },
+    optionsModel: {
+      deep: true,
+      handler (options) {
+        if (!this.multiple) {
           return
         }
 
-        let index = 0
         let model = []
-
-        options.forEach(option => {
-          if (option) {
+        Object.keys(options).forEach(index => {
+          if (options[index]) {
             model.push(this.options[index].value)
           }
-          index++
         })
-
         this.model = model
       }
     }
@@ -124,32 +138,13 @@ export default {
       }
       return options[0]
     },
-    __parseOptions () {
-      if (!Array.isArray(this.options)) {
-        throw new Error('Select options parameter must be an array.')
-      }
-      if (this.options.some(
-        option => typeof option.label === 'undefined' || typeof option.value === 'undefined'
-      )) {
-        throw new Error('One of Select\'s option is missing either label or value')
-      }
-
-      if (this.multiple) {
-        this.skipModelUpdate = true
-        this.multipleOptions = this.options.map(option => {
-          return this.model.includes(option.value) || false
-        })
-      }
-    },
     open (event) {
-      if (this.disable) {
-        return
+      if (!this.disable) {
+        this.$refs.popover.open(event)
       }
-      this.parseOptions()
-      this.$refs.popover.open(event)
     },
-    close (event) {
-      this.$refs.popover.close(event)
+    close () {
+      this.$refs.popover.close()
     }
   }
 }
