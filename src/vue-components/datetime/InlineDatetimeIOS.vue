@@ -1,5 +1,5 @@
 <template>
-  <div class="quasar-datetime" :class="['type-' + type, disabled ? 'disable' : '']">
+  <div class="quasar-datetime" :class="['type-' + type, disable ? 'disabled' : '']">
     <slot></slot>
 
     <div class="quasar-datetime-content non-selectable">
@@ -51,15 +51,14 @@
             <div
               v-for="n in 100"
               class="quasar-datetime-item"
-              @click="setYear(n + 1950)"
+              @click="setYear(n + 1949)"
             >
-              {{ n + 1950 }}
+              {{ n + 1949 }}
             </div>
           </div>
         </div>
 
         <div
-          v-el
           class="quasar-datetime-col quasar-datetime-col-hour"
           v-if="type === 'time' || type === 'datetime'"
           @touchstart="__dragStart($event, 'hour')"
@@ -118,9 +117,8 @@ import Utils from '../../utils'
 
 export default {
   props: {
-    model: {
+    value: {
       type: String,
-      twoWay: true,
       required: true
     },
     type: {
@@ -140,7 +138,7 @@ export default {
       yearDragOffset: 0,
       hourDragOffset: 0,
       minuteDragOffset: 0,
-      monthsList: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+      monthsList: moment.months()
     }
   },
   watch: {
@@ -149,6 +147,14 @@ export default {
     }
   },
   computed: {
+    model: {
+      get () {
+        return this.value
+      },
+      set (value) {
+        this.$emit('input', value)
+      }
+    },
     year () {
       let value = this.date.year()
       this.__updatePositions('year', value)

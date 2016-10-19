@@ -6,7 +6,7 @@
         <div class="float-right quasar-select-arrow caret-down"></div>
       </div>
 
-      <quasar-inline-datetime :value="model" @input="__updateValue" :type="type"></quasar-inline-datetime>
+      <quasar-inline-datetime v-model="model" :type="type"></quasar-inline-datetime>
     </quasar-popover>
   </div>
 </template>
@@ -37,6 +37,14 @@ export default {
     disable: Boolean
   },
   computed: {
+    model: {
+      get () {
+        return this.value
+      },
+      set (value) {
+        this.$emit('input', value)
+      }
+    },
     label () {
       let format
 

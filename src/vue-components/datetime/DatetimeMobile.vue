@@ -1,0 +1,106 @@
+<template>
+  <div class="cursor-pointer textfield" @click="pick" :class="{disabled: disable}">
+    <span v-html="label"></span>
+    <div class="float-right quasar-select-arrow caret-down"></div>
+    <quasar-modal
+      ref="dialog"
+      class="with-backdrop"
+      :class="classNames"
+      :transition="transition"
+      :position="position"
+      :content-css="css"
+    >
+      <quasar-inline-datetime v-model="model" :type="type" class="no-border" style="width: 100%">
+        <div class="modal-buttons row full-width">
+          <button @click="$refs.dialog.close()" class="primary clear" v-html="cancelLabel"></button>
+          <button @click="$refs.dialog.close()" class="primary clear" v-html="okLabel"></button>
+        </div>
+      </quasar-inline-datetime>
+    </quasar-modal>
+  </div>
+</template>
+
+<script>
+import moment from 'moment'
+import { current as theme } from '../../theme'
+
+let contentCSS = {
+  ios: {
+    maxHeight: '80vh',
+    height: 'auto',
+    boxShadow: 'none',
+    backgroundColor: '#e4e4e4'
+  },
+  mat: {
+    maxWidth: '95vw',
+    maxHeight: '98vh'
+  }
+}
+
+export default {
+  props: {
+    type: {
+      type: String,
+      default: 'date',
+      twoWay: true
+    },
+    value: {
+      type: String,
+      required: true
+    },
+    format: String,
+    okLabel: {
+      type: String,
+      default: 'Set'
+    },
+    cancelLabel: {
+      type: String,
+      default: 'Cancel'
+    },
+    disable: Boolean
+  },
+  data () {
+    return {
+      css: contentCSS[theme],
+      position: theme === 'ios' ? 'items-end justify-center' : 'items-center justify-center',
+      transition: theme === 'ios' ? 'quasar-modal-actions' : 'quasar-modal',
+      classNames: theme === 'ios' ? '' : 'minimized'
+    }
+  },
+  computed: {
+    model: {
+      get () {
+        return this.value
+      },
+      set (value) {
+        this.$emit('input', value)
+      }
+    },
+    label () {
+      let format
+
+      if (this.format) {
+        format = this.format
+      }
+      else if (this.type === 'date') {
+        format = 'YYYY/MM/DD'
+      }
+      else if (this.type === 'time') {
+        format = 'HH:mm'
+      }
+      else {
+        format = 'YYYY/MM/DD HH:mm:ss'
+      }
+
+      return moment(this.model).format(format)
+    }
+  },
+  methods: {
+    pick () {
+      if (!this.disable) {
+        this.$refs.dialog.open()
+      }
+    }
+  }
+}
+</script>

@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import QuasarTreeItem from './tree-item.vue'
+import QuasarTreeItem from './TreeItem.vue'
 
 export default {
   props: {

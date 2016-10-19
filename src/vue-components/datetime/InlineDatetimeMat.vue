@@ -114,13 +114,7 @@
             </button>
           </div>
           <div class="quasar-datetime-weekdays row items-center justify-start">
-            <div>Mo</div>
-            <div>Tu</div>
-            <div>We</div>
-            <div>Th</div>
-            <div>Fr</div>
-            <div>Sa</div>
-            <div>Su</div>
+            <div v-for="day in daysList">{{day}}</div>
           </div>
           <div class="quasar-datetime-days row wrap items-center justify-start content-center">
             <div v-for="fillerDay in fillerDays" class="quasar-datetime-fillerday"></div>
@@ -203,9 +197,8 @@ import Utils from '../../utils'
 
 export default {
   props: {
-    model: {
+    value: {
       type: String,
-      twoWay: true,
       required: true
     },
     type: {
@@ -235,7 +228,9 @@ export default {
       date: moment(this.model),
       dragging: false,
       centerClockPosition: 0,
-      monthsList: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+      firstDayOfWeek: moment.localeData().firstDayOfWeek(),
+      daysList: moment.weekdaysShort(),
+      monthsList: moment.months()
     }
   },
   watch: {
@@ -257,6 +252,14 @@ export default {
     }
   },
   computed: {
+    model: {
+      get () {
+        return this.value
+      },
+      set (value) {
+        this.$emit('input', value)
+      }
+    },
     year () {
       return this.date.year()
     },
@@ -279,7 +282,7 @@ export default {
       return this.date.format('dddd')
     },
     fillerDays () {
-      return Math.max(0, this.date.clone().date(1).day() - 1)
+      return Math.max(0, this.date.clone().date(1).day() - this.firstDayOfWeek)
     },
     daysInMonth () {
       return this.date.daysInMonth()
