@@ -1,26 +1,26 @@
 <template>
-  <component :is="name" :size="size" :color="color"></component>
+  <component :is="'s-' + name" :size="size" :color="color"></component>
 </template>
 
 <script>
-import SpinnerAudio from './svg-spinners/audio.vue'
-import SpinnerBall from './svg-spinners/ball.vue'
-import SpinnerBars from './svg-spinners/bars.vue'
-import SpinnerCircles from './svg-spinners/circles.vue'
-import SpinnerDots from './svg-spinners/dots.vue'
-import SpinnerFacebook from './svg-spinners/facebook.vue'
-import SpinnerGears from './svg-spinners/gears.vue'
-import SpinnerGrid from './svg-spinners/grid.vue'
-import SpinnerHearts from './svg-spinners/hearts.vue'
-import SpinnerHourglass from './svg-spinners/hourglass.vue'
-import SpinnerInf from './svg-spinners/infinity.vue'
-import SpinnerIos from './svg-spinners/ios.vue'
-import SpinnerOval from './svg-spinners/oval.vue'
-import SpinnerPie from './svg-spinners/pie.vue'
-import SpinnerPuff from './svg-spinners/puff.vue'
-import SpinnerRadio from './svg-spinners/radio.vue'
-import SpinnerRings from './svg-spinners/rings.vue'
-import SpinnerTail from './svg-spinners/tail.vue'
+import SAudio from './svg-spinners/audio.vue'
+import SBall from './svg-spinners/ball.vue'
+import SBars from './svg-spinners/bars.vue'
+import SCircles from './svg-spinners/circles.vue'
+import SDots from './svg-spinners/dots.vue'
+import SFacebook from './svg-spinners/facebook.vue'
+import SGears from './svg-spinners/gears.vue'
+import SGrid from './svg-spinners/grid.vue'
+import SHearts from './svg-spinners/hearts.vue'
+import SHourglass from './svg-spinners/hourglass.vue'
+import SInfinity from './svg-spinners/infinity.vue'
+import SIos from './svg-spinners/ios.vue'
+import SOval from './svg-spinners/oval.vue'
+import SPie from './svg-spinners/pie.vue'
+import SPuff from './svg-spinners/puff.vue'
+import SRadio from './svg-spinners/radio.vue'
+import SRings from './svg-spinners/rings.vue'
+import STail from './svg-spinners/tail.vue'
 
 import { current as theme } from '../../theme'
 
@@ -40,24 +40,24 @@ export default {
     }
   },
   components: {
-    SpinnerAudio,
-    SpinnerBall,
-    SpinnerBars,
-    SpinnerCircles,
-    SpinnerDots,
-    SpinnerFacebook,
-    SpinnerGears,
-    SpinnerGrid,
-    SpinnerHearts,
-    SpinnerHourglass,
-    SpinnerInf,
-    SpinnerIos,
-    SpinnerOval,
-    SpinnerPie,
-    SpinnerPuff,
-    SpinnerRadio,
-    SpinnerRings,
-    SpinnerTail
+    SAudio,
+    SBall,
+    SBars,
+    SCircles,
+    SDots,
+    SFacebook,
+    SGears,
+    SGrid,
+    SHearts,
+    SHourglass,
+    SInfinity,
+    SIos,
+    SOval,
+    SPie,
+    SPuff,
+    SRadio,
+    SRings,
+    STail
   }
 }
 </script>

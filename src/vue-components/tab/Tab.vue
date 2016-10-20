@@ -6,7 +6,9 @@
   >
     <router-link v-if="route" ref="routerLink" :to="route" :replace="replace" :append="append" :exact="exact"></router-link>
     <i v-if="icon" class="quasar-tabs-icon">{{icon}}</i>
-    <span class="quasar-tab-label" v-html="label"></span>
+    <span class="quasar-tab-label">
+      <slot></slot>
+    </span>
   </div>
 </template>
 

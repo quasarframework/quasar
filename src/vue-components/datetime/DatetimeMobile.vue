@@ -7,7 +7,7 @@
       class="with-backdrop"
       :class="classNames"
       :transition="transition"
-      :position="position"
+      :position-classes="position"
       :content-css="css"
     >
       <quasar-inline-datetime v-model="model" :type="type" class="no-border" style="width: 100%">
@@ -41,8 +41,7 @@ export default {
   props: {
     type: {
       type: String,
-      default: 'date',
-      twoWay: true
+      default: 'date'
     },
     value: {
       type: String,

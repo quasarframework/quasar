@@ -20,15 +20,31 @@
 <script>
 export default {
   props: {
-    value: Boolean,
+    opened: Boolean,
     icon: String,
     img: String,
     avatar: String,
     label: String
   },
+  data () {
+    return {
+      active: this.opened
+    }
+  },
+  watch: {
+    opened (value) {
+      this.active = value
+    }
+  },
   methods: {
     toggle () {
-      this.$emit('input', !this.active)
+      this.active = !this.active
+    },
+    open () {
+      this.active = true
+    },
+    close () {
+      this.active = false
     }
   }
 }

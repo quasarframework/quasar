@@ -2,7 +2,6 @@
   <div
     class="quasar-knob non-selectable cursor-pointer"
     :class="{disabled: disable}"
-    :style="{width: size, height: size}"
     @mousedown="__dragStart"
     @mousemove="__dragMove"
     @mouseup="__dragStop"
@@ -10,32 +9,34 @@
     @touchmove="__dragMove"
     @touchend="__dragStop"
   >
-    <svg viewBox="0 0 100 100">
-      <path
-        d="M 50,50 m 0,-47
-           a 47,47 0 1 1 0,94
-           a 47,47 0 1 1 0,-94"
-        :stroke="trackColor"
-        :stroke-width="lineWidth"
-        fill-opacity="0"
-      ></path>
-      <path
-        stroke-linecap="round"
-        fill-opacity="0"
-        d="M 50,50 m 0,-47
-           a 47,47 0 1 1 0,94
-           a 47,47 0 1 1 0,-94"
-        :stroke="color"
-        :stroke-width="lineWidth"
-        :style="svgStyle"
-      ></path>
-    </svg>
+    <div :style="{width: size, height: size}">
+      <svg viewBox="0 0 100 100">
+        <path
+          d="M 50,50 m 0,-47
+             a 47,47 0 1 1 0,94
+             a 47,47 0 1 1 0,-94"
+          :stroke="trackColor"
+          :stroke-width="lineWidth"
+          fill-opacity="0"
+        ></path>
+        <path
+          stroke-linecap="round"
+          fill-opacity="0"
+          d="M 50,50 m 0,-47
+             a 47,47 0 1 1 0,94
+             a 47,47 0 1 1 0,-94"
+          :stroke="color"
+          :stroke-width="lineWidth"
+          :style="svgStyle"
+        ></path>
+      </svg>
 
-    <div
-      class="quasar-knob-label row items-center justify-center content-center"
-      :style="{color: color}"
-      v-html="placeholder || value"
-    ></div>
+      <div
+        class="quasar-knob-label row items-center justify-center content-center"
+        :style="{color: color}"
+        v-html="placeholder || value"
+      ></div>
+    </div>
   </div>
 </template>
 

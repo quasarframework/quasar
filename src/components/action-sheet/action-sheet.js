@@ -1,4 +1,4 @@
-import Utils from '../../utils'
+import ModalGenerator from '../modal-generator'
 import ActionSheets from './ActionSheet.vue'
 
-export default Utils.modalComponent(ActionSheets)
+export default ModalGenerator(ActionSheets)

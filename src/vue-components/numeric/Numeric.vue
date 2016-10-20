@@ -1,7 +1,6 @@
 <template>
   <div class="quasar-numeric textfield row inline items-center" :class="{disabled: disable}">
     <i @click="__setByOffset(-1)">remove</i>
-    {{min}}-{{max}}={{value}}
     <input
       class="no-style auto quasar-input-field"
       type="text"

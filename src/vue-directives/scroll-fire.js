@@ -1,8 +1,6 @@
 import Utils from '../utils'
 
-let data = {}
-
-function updateBinding (el, ctx, binding) {
+function updateBinding (el, binding, ctx) {
   if (typeof binding.value !== 'function') {
     ctx.scrollTarget.removeEventListener('scroll', ctx.scroll)
     console.error('v-scroll-fire requires a function as parameter', el)
@@ -19,7 +17,6 @@ function updateBinding (el, ctx, binding) {
 export default {
   bind (el, binding) {
     let ctx = {
-      scrollTarget: Utils.dom.getScrollTarget(el),
       scroll: Utils.debounce(() => {
         let containerBottom, elementBottom, fire
 
@@ -40,16 +37,21 @@ export default {
       }, 25)
     }
 
-    data[el] = ctx
-    updateBinding(el, ctx, binding)
+    Utils.store.add('scrollfire', el, ctx)
+  },
+  inserted (el, binding) {
+    let ctx = Utils.store.get('scrollfire', el)
+    ctx.scrollTarget = Utils.dom.getScrollTarget(el)
+    updateBinding(el, binding, ctx)
   },
   update (el, binding) {
     if (binding.value !== binding.oldValue) {
-      updateBinding(el, data[el], binding)
+      updateBinding(el, binding, Utils.store.get('scrollfire', el))
     }
   },
   unbind (el) {
-    data[el].scrollTarget.removeEventListener('scroll', data[el].scroll)
-    delete data[el]
+    let ctx = Utils.store.get('scrollfire', el)
+    ctx.scrollTarget.removeEventListener('scroll', ctx.scroll)
+    Utils.store.remove('scrollfire', el)
   }
 }

@@ -3,7 +3,7 @@
     <div
       v-show="active"
       class="modal fullscreen flex"
-      :class="classes"
+      :class="positionClasses"
       @click="close()"
     >
       <div ref="content" class="modal-content" @click.stop :style="contentCss">
@@ -27,17 +27,15 @@ export default {
       type: String,
       default: 'quasar-modal'
     },
-    classNames: String,
+    positionClasses: {
+      type: String,
+      default: 'items-center justify-center'
+    },
     contentCss: Object
   },
   data () {
     return {
       active: false
-    }
-  },
-  computed: {
-    classes () {
-      return this.classNames || 'items-center justify-center'
     }
   },
   methods: {
@@ -99,11 +97,12 @@ export default {
         window.addEventListener('popstate', this.__popstate)
       }
 
-      if (typeof onShow === 'function') {
-        setTimeout(() => {
+      setTimeout(() => {
+        if (typeof onShow === 'function') {
           onShow()
-        }, duration)
-      }
+        }
+        this.$emit('open')
+      }, duration)
     },
     close (onClose) {
       this.__onClose = onClose

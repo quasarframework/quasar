@@ -4,13 +4,14 @@ import { current as theme } from './theme'
 
 import Transition from './vue-transitions/transition'
 
-import directiveGoBack from './vue-directives/go-back'
-import directiveScrollFire from './vue-directives/scroll-fire'
-import directiveScroll from './vue-directives/scroll'
-import directiveTooltip from './vue-directives/tooltip'
-import directiveTouchHold from './vue-directives/touch-hold'
-import directiveTouchPan from './vue-directives/touch-pan'
-import directiveTouchSwipe from './vue-directives/touch-swipe'
+import dGoBack from './vue-directives/go-back'
+import dLink from './vue-directives/link'
+import dScrollFire from './vue-directives/scroll-fire'
+import dScroll from './vue-directives/scroll'
+import dTooltip from './vue-directives/tooltip'
+import dTouchHold from './vue-directives/touch-hold'
+import dTouchPan from './vue-directives/touch-pan'
+import dTouchSwipe from './vue-directives/touch-swipe'
 
 import Checkbox from './vue-components/checkbox/Checkbox.vue'
 import Chips from './vue-components/chips/Chips.vue'
@@ -58,13 +59,14 @@ import Tree from './vue-components/tree/Tree.vue'
 import Video from './vue-components/video/Video.vue'
 
 function registerDirectives (_Vue) {
-  _Vue.directive('go-back', directiveGoBack)
-  _Vue.directive('scroll-fire', directiveScrollFire)
-  _Vue.directive('scroll', directiveScroll)
-  _Vue.directive('tooltip', directiveTooltip)
-  _Vue.directive('touch-hold', directiveTouchHold)
-  _Vue.directive('touch-pan', directiveTouchPan)
-  _Vue.directive('touch-swipe', directiveTouchSwipe)
+  _Vue.directive('go-back', dGoBack)
+  _Vue.directive('link', dLink)
+  _Vue.directive('scroll-fire', dScrollFire)
+  _Vue.directive('scroll', dScroll)
+  _Vue.directive('tooltip', dTooltip)
+  _Vue.directive('touch-hold', dTouchHold)
+  _Vue.directive('touch-pan', dTouchPan)
+  _Vue.directive('touch-swipe', dTouchSwipe)
 }
 
 function registerComponents (_Vue) {

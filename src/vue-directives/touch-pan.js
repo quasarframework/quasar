@@ -1,9 +1,6 @@
 import Utils from '../utils'
 
-let
-  data = {}
-
-function getDirection (el, mod) {
+function getDirection (mod) {
   if (Object.keys(mod).length === 0) {
     return {
       horizontal: true,
@@ -91,7 +88,7 @@ export default {
   bind (el, binding) {
     let ctx = {
       handler: binding.value,
-      direction: getDirection(el, binding.modifiers),
+      direction: getDirection(binding.modifiers),
 
       mouseStart (evt) {
         document.addEventListener('mousemove', ctx.mouseMove)
@@ -164,7 +161,7 @@ export default {
       }
     }
 
-    data[el] = ctx
+    Utils.store.add('touchpan', el, ctx)
     updateClasses(el, ctx.direction)
     el.addEventListener('touchstart', ctx.start)
     el.addEventListener('mousedown', ctx.mouseStart)
@@ -173,14 +170,16 @@ export default {
   },
   update (el, binding) {
     if (binding.oldValue !== binding.value) {
-      data[el].handler = binding.value
+      let ctx = Utils.store.get('touchpan', el)
+      ctx.handler = binding.value
     }
   },
   unbind (el, binding) {
-    let ctx = data[el]
+    let ctx = Utils.store.get('touchpan', el)
     el.removeEventListener('touchstart', ctx.start)
     el.removeEventListener('mousedown', ctx.mouseStart)
     el.removeEventListener('touchmove', ctx.move)
     el.removeEventListener('touchend', ctx.end)
+    Utils.store.remove('touchpan', el)
   }
 }

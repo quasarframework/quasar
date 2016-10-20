@@ -61,7 +61,8 @@ rollup
   return write('dist/quasar.common.js', bundle.generate({
     format: 'cjs',
     banner: banner,
-    globals: globals
+    globals: globals,
+    useStrict: false
   }).code)
 })
 // ES6 Dev Build
@@ -76,7 +77,8 @@ rollup
       return write('dist/quasar.es6.js', bundle.generate({
         exports: 'named',
         banner: banner,
-        globals: globals
+        globals: globals,
+        useStrict: false
       }).code)
     })
 })
@@ -91,7 +93,8 @@ rollup
       format: 'umd',
       banner: banner,
       moduleName: 'Quasar',
-      globals: globals
+      globals: globals,
+      useStrict: false
     }).code)
   })
 })
@@ -108,7 +111,8 @@ rollup
       format: 'umd',
       moduleName: 'Quasar',
       banner: banner,
-      globals: globals
+      globals: globals,
+      useStrict: false
     }).code
 
     res = uglify.minify(code, {

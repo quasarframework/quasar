@@ -7,9 +7,24 @@
       <template v-for="el in form">
         <h6 v-if="el.type === 'heading'" v-html="el.label"></h6>
 
-        <div v-if="el.type === 'input'" class="floating-label" style="margin-bottom: 10px">
+        <div v-if="el.type === 'textbox'" class="floating-label" style="margin-bottom: 10px">
           <input type="text" class="full-width" v-model="el.model" :placeholder="el.placeholder" required>
           <label v-html="el.label"></label>
+        </div>
+
+        <div v-if="el.type === 'textarea'" class="floating-label" style="margin-bottom: 10px">
+          <textarea type="text" class="full-width" v-model="el.model" :placeholder="el.placeholder" required></textarea>
+          <label v-html="el.label"></label>
+        </div>
+
+        <div v-if="el.type === 'numeric'" style="margin-bottom: 10px">
+          <label v-html="el.label"></label>
+          <quasar-numeric v-model="el.model" :min="el.min" :max="el.max" :step="el.step"></quasar-numeric>
+        </div>
+
+        <div v-if="el.type === 'chips'" style="margin-bottom: 10px">
+          <label v-html="el.label"></label>
+          <quasar-chips v-model="el.model"></quasar-chips>
         </div>
 
         <label v-if="el.type === 'radio'" v-for="radio in el.items" class="item">
@@ -33,17 +48,35 @@
           </div>
         </label>
 
-        <template v-if="el.type === 'progress'">
-          <quasar-progress
-            :percentage="el.model"
-            class="primary stripe animate"
-            :class="{indeterminate: el.indeterminate}"
-          ></quasar-progress>
-          <span v-if="!el.indeterminate">
-            {{el.model}} %
-          </span>
-        </template>
+        <div v-if="el.type === 'range' || el.type === 'double-range'" style="margin-bottom: 10px">
+          <label v-html="el.label"></label>
+          <component
+            :is="'quasar-' + el.type"
+            v-model="el.model"
+            :min="el.min"
+            :max="el.max"
+            :step="el.step"
+            :label="el.withLabel"
+            :markers="el.markers"
+            :snap="el.snap"
+          ></component>
+        </div>
+
+        <div v-if="el.type === 'rating'" style="margin-bottom: 10px">
+          <label v-html="el.label"></label>
+          <quasar-rating v-model="el.model" :max="el.max" :icon="el.icon"></quasar-rating>
+        </div>
       </template>
+    </div>
+    <div v-if="progress" class="modal-body">
+      <quasar-progress
+        :percentage="progress.model"
+        class="primary stripe animate"
+        :class="{indeterminate: progress.indeterminate}"
+      ></quasar-progress>
+      <span v-if="!progress.indeterminate">
+        {{progress.model}} %
+      </span>
     </div>
 
     <div
@@ -58,6 +91,9 @@
         v-html="typeof button === 'string' ? button : button.label"
       ></button>
     </div>
+    <div class="modal-buttons row" v-if="!buttons && !nobuttons">
+      <button class="primary clear" @click="close()">OK</button>
+    </div>
   </quasar-modal>
 </template>
 
@@ -70,8 +106,10 @@ export default {
     message: String,
     form: Object,
     stackButtons: Boolean,
-    buttons: [Array, Boolean],
-    destroy: Boolean
+    buttons: Array,
+    destroy: Boolean,
+    nobuttons: Boolean,
+    progress: Object
   },
   computed: {
     opened () {
@@ -82,11 +120,15 @@ export default {
     trigger (handler) {
       this.close(() => {
         if (typeof handler === 'function') {
-          handler(this.getData())
+          handler(this.getFormData())
         }
       })
     },
-    getData () {
+    getFormData () {
+      if (!this.form) {
+        return
+      }
+
       let data = {}
 
       Object.keys(this.form).forEach(name => {

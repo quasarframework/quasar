@@ -1,6 +1,5 @@
 import Platform from '../platform'
-
-let data = {}
+import Utils from '../utils'
 
 export default {
   bind (el, { value }, vnode) {
@@ -17,16 +16,17 @@ export default {
       }
     }
 
-    data[el] = ctx
+    Utils.store.add('goback', el, ctx)
     el.addEventListener('click', ctx.goBack)
   },
   update (el, binding) {
     if (binding.oldValue !== binding.value) {
-      data[el].value = binding.value
+      let ctx = Utils.store.get('goback', el)
+      ctx.value = binding.value
     }
   },
   unbind (el) {
-    el.removeEventListener('click', data[el].goBack)
-    delete data[el]
+    el.removeEventListener('click', Utils.store.get('goback', el).goBack)
+    Utils.store.remove('goback', el)
   }
 }

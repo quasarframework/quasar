@@ -1,11 +1,11 @@
-let
-  data = {},
-  defaultDuration = 800
+import Utils from '../utils'
 
-function update (el, binding) {
-  data[el].duration = parseInt(binding.arg, 10) || defaultDuration
+let defaultDuration = 800
+
+function updateBinding (el, binding, ctx) {
+  ctx.duration = parseInt(binding.arg, 10) || defaultDuration
   if (binding.oldValue !== binding.value) {
-    data[el].handler = binding.value
+    ctx.handler = binding.value
   }
 }
 
@@ -37,21 +37,24 @@ export default {
       }
     }
 
-    data[el] = ctx
-    update(el, binding)
+    Utils.store.add('touchhold', el, ctx)
+    updateBinding(el, binding, ctx)
     el.addEventListener('touchstart', ctx.start)
     el.addEventListener('touchmove', ctx.abort)
     el.addEventListener('touchend', ctx.abort)
     el.addEventListener('mousedown', ctx.mouseStart)
   },
-  update,
+  update (el, binding) {
+    updateBinding(el, binding, Utils.store.get('touchhold', el))
+  },
   unbind (el, binding) {
-    let ctx = data[el]
+    let ctx = Utils.store.get('touchhold', el)
     el.removeEventListener('touchstart', ctx.start)
     el.removeEventListener('touchmove', ctx.abort)
     el.removeEventListener('touchend', ctx.abort)
     el.removeEventListener('mousedown', ctx.mouseStart)
     document.removeEventListener('mousemove', ctx.mouseAbort)
     document.removeEventListener('mouseup', ctx.mouseAbort)
+    Utils.store.remove('touchhold')
   }
 }

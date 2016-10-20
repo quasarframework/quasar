@@ -1,8 +1,6 @@
 import Utils from '../utils'
 
-let data = {}
-
-function getDirection (el, mod) {
+function getDirection (mod) {
   if (Object.keys(mod).length === 0) {
     return {
       left: true, right: true, up: true, down: true, horizontal: true, vertical: true
@@ -49,7 +47,7 @@ export default {
   bind (el, binding) {
     let ctx = {
       handler: binding.value,
-      direction: getDirection(el, binding.modifiers),
+      direction: getDirection(binding.modifiers),
 
       start (evt) {
         let position = Utils.event.position(evt)
@@ -124,7 +122,7 @@ export default {
       }
     }
 
-    data[el] = ctx
+    Utils.store.add('touchswipe', el, ctx)
     updateClasses(el, ctx.direction)
     el.addEventListener('touchstart', ctx.start)
     el.addEventListener('mousedown', ctx.start)
@@ -133,14 +131,16 @@ export default {
   },
   update (el, binding) {
     if (binding.oldValue !== binding.value) {
-      data[el].handler = binding.value
+      let ctx = Utils.store.get('touchswipe', el)
+      ctx.handler = binding.value
     }
   },
   unbind (el, binding) {
-    let ctx = data[el]
+    let ctx = Utils.store.get('touchswipe', el)
     el.removeEventListener('touchstart', ctx.start)
     el.removeEventListener('mousedown', ctx.start)
     el.removeEventListener('touchmove', ctx.move)
     el.removeEventListener('touchend', ctx.end)
+    Utils.store.remove('touchswipe', el)
   }
 }

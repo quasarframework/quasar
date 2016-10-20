@@ -79,14 +79,11 @@ export default {
     }
   },
   mounted () {
-    console.log('mounted', this.working)
     this.$nextTick(() => {
       this.poll = Utils.debounce(this.poll, 50)
       this.element = this.$refs.content
 
-      console.log('before scrollcontainer')
       this.scrollContainer = this.inline ? this.$el : Utils.dom.getScrollTarget(this.$el)
-      console.log('intermediate scrollcontainer')
       if (this.working) {
         this.scrollContainer.addEventListener('scroll', this.poll)
       }

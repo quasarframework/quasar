@@ -2,7 +2,7 @@
   <quasar-modal
     ref="dialog"
     class="with-backdrop"
-    position="items-end justify-center"
+    position-classes="items-end justify-center"
     transition="quasar-modal-actions"
     :content-css="css"
   >
@@ -106,8 +106,21 @@
 </template>
 
 <script>
-import { current as theme } from '../../theme'
+import { current } from '../../theme'
 import Utils from '../../utils'
+
+const modalCSS = {
+  mat: {
+    maxHeight: '80vh',
+    height: 'auto'
+  },
+  ios: {
+    maxHeight: '80vh',
+    height: 'auto',
+    backgroundColor: 'transparent',
+    boxShadow: 'none'
+  }
+}
 
 export default {
   props: {
@@ -117,7 +130,10 @@ export default {
     dismiss: [Object, Boolean]
   },
   data () {
-    return {theme}
+    return {
+      theme: current,
+      css: modalCSS[current]
+    }
   },
   computed: {
     opened () {

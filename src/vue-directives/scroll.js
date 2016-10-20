@@ -1,8 +1,6 @@
 import Utils from '../utils'
 
-let data = {}
-
-function updateBinding (el, ctx, binding) {
+function updateBinding (el, binding, ctx) {
   if (typeof binding.value !== 'function') {
     ctx.scrollTarget.removeEventListener('scroll', ctx.scroll)
     console.error('v-scroll requires a function as parameter', el)
@@ -17,21 +15,26 @@ function updateBinding (el, ctx, binding) {
 
 export default {
   bind (el, binding) {
-    data[el] = {
-      scrollTarget: Utils.dom.getScrollTarget(el),
+    let ctx = {
       scroll () {
-        data[el].handler(Utils.dom.getScrollPosition(data[el].scrollTarget))
+        ctx.handler(Utils.dom.getScrollPosition(ctx.scrollTarget))
       }
     }
-    updateBinding(el, data[el], binding)
+    Utils.store.add('scroll', el, ctx)
+  },
+  inserted (el, binding) {
+    let ctx = Utils.store.get('scroll', el)
+    ctx.scrollTarget = Utils.dom.getScrollTarget(el)
+    updateBinding(el, binding, ctx)
   },
   update (el, binding) {
     if (binding.oldValue !== binding.value) {
-      updateBinding(el, data[el], binding)
+      updateBinding(el, binding, Utils.store.get('scrollfire', el))
     }
   },
   unbind (el) {
-    data[el].scrollTarget.removeEventListener('scroll', data[el].scroll)
-    delete data[el]
+    let ctx = Utils.store.get('scroll', el)
+    ctx.scrollTarget.removeEventListener('scroll', ctx.scroll)
+    Utils.store.remove('scroll', el)
   }
 }

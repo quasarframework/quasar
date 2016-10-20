@@ -1,21 +1,21 @@
-import openURL from './utils/open-url'
+import * as colors from './utils/colors'
 import debounce from './utils/debounce'
-import throttle from './utils/throttle'
 import * as dom from './utils/dom'
 import * as event from './utils/event'
 import extend from './utils/extend'
+import openURL from './utils/open-url'
+import * as store from './utils/store'
+import throttle from './utils/throttle'
 import uid from './utils/uid'
-import * as colors from './utils/colors'
-import modalComponent from './utils/modal-component'
 
 export default {
-  openURL,
-  debounce,
-  throttle,
-  extend,
-  dom,
-  uid,
-  event,
   colors,
-  modalComponent
+  debounce,
+  dom,
+  event,
+  extend,
+  openURL,
+  store,
+  throttle,
+  uid
 }

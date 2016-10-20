@@ -25,7 +25,7 @@ export default {
     refs: {
       type: Object
     },
-    value: [String, Boolean, Object],
+    value: [String, Object],
     defaultTab: {
       type: [String, Boolean],
       default: false
