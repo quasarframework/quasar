@@ -44,7 +44,6 @@ function set (key, value, options = {}) {
     time.setMilliseconds(time.getMilliseconds() + days * 864e+5)
   }
 
-  /* istanbul ignore next */
   document.cookie = [
     encode(key), '=', stringifyCookieValue(value),
     options.expires ? ' expires=' + options.expires.toUTCString() : '', // use expires attribute, max-age is not supported by IE
@@ -69,12 +68,13 @@ function get (key) {
     name = decode(parts.shift())
     cookie = parts.join('=')
 
-    if (key === name) {
+    if (!key) {
+      result[name] = cookie
+    }
+    else if (key === name) {
       result = read(cookie)
       break
     }
-
-    result[name] = cookie
   }
 
   return result
