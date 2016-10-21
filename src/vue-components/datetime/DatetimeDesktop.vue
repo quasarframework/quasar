@@ -1,9 +1,8 @@
 <template>
   <div class="quasar-datetime-desktop">
     <quasar-popover :disable="disable">
-      <div slot="target" class="cursor-pointer textfield" :class="{disabled: disable}">
-        <span v-html="label"></span>
-        <div class="float-right quasar-select-arrow caret-down"></div>
+      <div slot="target" class="cursor-pointer textfield caret" :class="{disabled: disable}">
+        <div v-html="label"></div>
       </div>
 
       <quasar-inline-datetime v-model="model" :type="type"></quasar-inline-datetime>

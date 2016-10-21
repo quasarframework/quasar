@@ -48,8 +48,8 @@
           </div>
         </label>
 
-        <div v-if="el.type === 'range' || el.type === 'double-range'" style="margin-bottom: 10px">
-          <label v-html="el.label"></label>
+        <div v-if="el.type === 'range' || el.type === 'double-range'" style="margin-top: 15px; margin-bottom: 10px">
+          <label v-html="el.label + ' (' + (el.type === 'double-range' ? el.model.min + ' to ' + el.model.max : el.model) + ')'"></label>
           <component
             :is="'quasar-' + el.type"
             v-model="el.model"
@@ -64,7 +64,7 @@
 
         <div v-if="el.type === 'rating'" style="margin-bottom: 10px">
           <label v-html="el.label"></label>
-          <quasar-rating v-model="el.model" :max="el.max" :icon="el.icon"></quasar-rating>
+          <quasar-rating v-model="el.model" :max="el.max" :icon="el.icon" :style="{fontSize: el.size || '2rem'}"></quasar-rating>
         </div>
       </template>
     </div>
@@ -157,6 +157,7 @@ export default {
   },
   mounted () {
     this.$refs.dialog.open()
+    this.$root.quasarClose = this.close
   },
   destroyed () {
     if (Utils.dom.has(this.$el)) {

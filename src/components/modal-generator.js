@@ -6,14 +6,19 @@ export default function (VueComponent) {
       const node = document.createElement('div')
       document.body.appendChild(node)
 
-      /* eslint-disable no-new */
-      new Vue({
+      let vm = new Vue({
         el: node,
         data () {
           return {props}
         },
         render: h => h(VueComponent, {props})
       })
+
+      return {
+        close (fn) {
+          vm.quasarClose(fn)
+        }
+      }
     }
   }
 }

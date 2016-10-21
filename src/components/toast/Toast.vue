@@ -98,7 +98,7 @@ export default {
       this.__show()
     },
     __show () {
-      Events.trigger('app:toast', this.stack[0].html)
+      Events.$emit('app:toast', this.stack[0].html)
 
       this.timer = setTimeout(() => {
         if (this.stack.length > 0) {

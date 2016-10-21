@@ -1,7 +1,10 @@
 <template>
-  <div class="quasar-select cursor-pointer textfield" @click="pick" :class="{disabled: disable}">
-    <span v-html="label"></span>
-    <div class="float-right quasar-select-arrow caret-down"></div>
+  <div
+    class="quasar-select cursor-pointer textfield caret"
+    @click="pick"
+    :class="{disabled: disable}"
+  >
+    <div v-html="label"></div>
   </div>
 </template>
 

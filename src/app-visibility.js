@@ -29,7 +29,7 @@ function onchange (evt) {
   }
 
   appVisibility = state
-  Events.trigger('app:visibility', state)
+  Events.$emit('app:visibility', state)
 }
 
 Utils.dom.ready(() => {

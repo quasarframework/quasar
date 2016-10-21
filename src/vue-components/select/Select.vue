@@ -1,9 +1,12 @@
 <template>
   <div class="quasar-select-container">
     <quasar-popover ref="popover" :disable="disable" cover>
-      <div slot="target" class="cursor-pointer textfield" :class="{disabled: disable}">
-        <span v-html="label"></span>
-        <div class="float-right quasar-select-arrow caret-down"></div>
+      <div
+        slot="target"
+        class="cursor-pointer textfield caret"
+        :class="{disabled: disable}"
+      >
+        <div v-html="label"></div>
       </div>
 
       <div class="list highlight">

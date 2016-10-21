@@ -1,5 +1,6 @@
 import Platform from './platform'
-import Events from './events'
+import { install as eventsInstall } from './events'
+import { install as toastInstall } from './components/toast/toast'
 import { current as theme } from './theme'
 
 import Transition from './vue-transitions/transition'
@@ -125,8 +126,8 @@ export default function (_Vue) {
 
   Vue = _Vue
 
+  eventsInstall(_Vue)
   registerDirectives(_Vue)
   registerComponents(_Vue)
-
-  Events.trigger('app:vue-ready', Vue)
+  toastInstall(_Vue)
 }

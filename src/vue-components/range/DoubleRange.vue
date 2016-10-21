@@ -12,8 +12,8 @@
       <div
         v-if="markers"
         class="quasar-range-mark"
-        v-for="n in ((this.max - this.min) / this.step + 1)"
-        :style="{left: (n - 1) * 100 * this.step / (this.max - this.min) + '%'}"
+        v-for="n in ((max - min) / step + 1)"
+        :style="{left: (n - 1) * 100 * step / (max - min) + '%'}"
       ></div>
       <div
         class="quasar-range-track active-track no-transition"
@@ -170,7 +170,7 @@ export default {
       let
         percentage = Math.min(1, Math.max(0, (Utils.event.position(event).left - this.dragging.left) / this.dragging.width)),
         model = this.min + percentage * (this.max - this.min),
-        modulo = model % this.step
+        modulo = (model - this.min) % this.step
 
       model = Math.min(this.max, Math.max(this.min, model - modulo + (Math.abs(modulo) >= this.step / 2 ? (modulo < 0 ? -1 : 1) * this.step : 0)))
 

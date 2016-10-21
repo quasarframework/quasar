@@ -1,7 +1,6 @@
 <template>
-  <div class="cursor-pointer textfield" @click="pick" :class="{disabled: disable}">
-    <span v-html="label"></span>
-    <div class="float-right quasar-select-arrow caret-down"></div>
+  <div class="cursor-pointer textfield caret" @click="pick" :class="{disabled: disable}">
+    <div v-html="label"></div>
     <quasar-modal
       ref="dialog"
       class="with-backdrop"

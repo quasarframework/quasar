@@ -40,7 +40,7 @@ function show ({
   }, delay)
 
   appIsInProgress = true
-  Events.trigger('app:loading', true)
+  Events.$emit('app:loading', true)
 }
 
 function hide () {
@@ -60,7 +60,7 @@ function hide () {
   }
 
   appIsInProgress = false
-  Events.trigger('app:loading', false)
+  Events.$emit('app:loading', false)
 }
 
 export default {

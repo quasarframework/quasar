@@ -1,5 +1,8 @@
+$item-primary-secondary-color ?= rgb(117, 117, 117)
+$item-content-label-color     ?= rgba(0, 0, 0, .87)
+$item-label-color             ?= rgba(0, 0, 0, .54)
+
 .item
-  color rgba(0, 0, 0, .87)
   height 48px
   position relative
   display block
@@ -18,7 +21,7 @@
       background rgba(0, 0, 0, .3)
 
   > .item-primary
-    color rgb(117, 117, 117)
+    color $item-primary-secondary-color
   > div.item-primary
     position absolute
     top 0
@@ -45,7 +48,6 @@
     line-height 24px
     border-radius 50%
   > img.item-primary
-    color rgb(255, 255, 255)
     display inline-flex
     align-items center
     justify-content center
@@ -56,7 +58,6 @@
     top 4px
     left 16px
     user-select none
-    background-color rgb(188, 188, 188)
     &:not(.thumbnail)
       border-radius 50%
 
@@ -69,14 +70,15 @@
       margin-left 72px
     &.has-secondary
       margin-right 72px
-    > span, > div > span
-      color rgba(0, 0, 0, .87)
+    &:not(.no-style)
+      > span, > div > span
+        color $item-content-label-color
 
   > .item-primary ~ .item-content
     margin-left 72px
 
   > .item-secondary
-    color rgb(117, 117, 117)
+    color $item-primary-secondary-color
     position absolute
     top 0
     margin 12px
@@ -124,17 +126,18 @@
       padding-top 20px
       padding-bottom 16px
 
-      > div:not(.stacked-label):not(.floating-label):not([class^='quasar-'])
-        overflow hidden
-        text-overflow ellipsis
-        white-space nowrap
+      &:not(.no-style)
+        > div:not(.stacked-label):not(.floating-label):not([class^='quasar-'])
+          overflow hidden
+          text-overflow ellipsis
+          white-space nowrap
 
-      > div:not(:first-of-type)
-        font-size 14px
-        line-height 16px
-        height 16px
-        margin 4px 0 0
-        color rgba(0, 0, 0, .54)
+        > div:not(:first-of-type):not([class^='quasar-'])
+          font-size 14px
+          line-height 16px
+          height 16px
+          margin 4px 0 0
+          color $item-label-color
 
   &.three-lines
     height 88px
@@ -148,24 +151,25 @@
       padding-top 16px
       padding-bottom 16px
 
-      > div:not(.stacked-label):not(.floating-label):not([class^='quasar-'])
-        overflow hidden
-        text-overflow ellipsis
+      &:not(.no-style)
+        > div:not(.stacked-label):not(.floating-label):not([class^='quasar-'])
+          overflow hidden
+          text-overflow ellipsis
 
-      > div:first-of-type:not([class^='quasar-'])
-        white-space nowrap
+        > div:first-of-type:not([class^='quasar-'])
+          white-space nowrap
 
-      > div:not(:first-of-type)
-        font-size 14px
-        line-height 18px
-        height 36px
-        margin 4px 0 0
-        color rgba(0, 0, 0, .54)
-        overflow hidden
-        text-overflow ellipsis
-        display -webkit-box
-        -webkit-line-clamp 2
-        -webkit-box-orient vertical
+        > div:not(:first-of-type):not([class^='quasar-'])
+          font-size 14px
+          line-height 18px
+          height 36px
+          margin 4px 0 0
+          color $item-label-color
+          overflow hidden
+          text-overflow ellipsis
+          display -webkit-box
+          -webkit-line-clamp 2
+          -webkit-box-orient vertical
 
   &.multiple-lines
     height auto
@@ -174,7 +178,7 @@
       padding-top 16px
 
   .item-label
-    color rgba(0, 0, 0, .5) !important
+    color $item-label-color !important
   .item-smaller
     font-size 14px
 
@@ -218,7 +222,7 @@ body.desktop .item.item-link:hover
       visibility hidden
 
   .list-label
-    color rgba(0, 0, 0, .54)
+    color $item-label-color
     font-size 14px
     font-weight 500
     line-height 48px
