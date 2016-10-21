@@ -124,6 +124,9 @@ export default {
         this.setActiveTab(this.defaultTab)
         this.__findTabAndScroll(this.defaultTab)
       }
+      else {
+        this.__findTabAndScroll(this.activeTab)
+      }
     })
   },
   beforeDestroy () {

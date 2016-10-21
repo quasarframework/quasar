@@ -2,6 +2,7 @@ import { current as theme } from '../../theme'
 import { Vue } from '../../install'
 import Events from '../../events'
 import Loading from './Loading.vue'
+import Utils from '../../utils'
 
 let
   vm,
@@ -16,10 +17,16 @@ function isActive () {
 function show ({
   delay = 500,
   spinner = theme === 'ios' ? 'ios' : 'tail',
-  message = false
+  message = false,
+  spinnerSize,
+  spinnerColor,
+  messageColor
 } = {}) {
   props.spinner = spinner
   props.message = message
+  props.spinnerSize = spinnerSize
+  props.spinnerColor = spinnerColor
+  props.messageColor = messageColor
 
   if (appIsInProgress) {
     vm && vm.$forceUpdate()
@@ -31,7 +38,7 @@ function show ({
 
     const node = document.createElement('div')
     document.body.appendChild(node)
-    document.body.classList.add('with-loading', 'dimmed')
+    document.body.classList.add('with-loading')
 
     vm = new Vue({
       el: node,
@@ -54,7 +61,7 @@ function hide () {
   }
   else {
     vm.$destroy()
-    document.body.classList.remove('with-loading', 'dimmed')
+    document.body.classList.remove('with-loading')
     document.body.removeChild(vm.$el)
     vm = null
   }

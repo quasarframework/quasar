@@ -50,7 +50,9 @@ export default {
   created () {
     if (this.route) {
       this.$watch('$route', () => {
-        this.__selectTabIfRouteMatches()
+        this.$nextTick(() => {
+          this.__selectTabIfRouteMatches()
+        })
       })
     }
   },
