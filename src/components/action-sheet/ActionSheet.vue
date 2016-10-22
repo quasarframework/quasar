@@ -164,7 +164,7 @@ export default {
     this.$root.quasarClose = this.close
   },
   destroyed () {
-    if (Utils.dom.has(this.$el)) {
+    if (document.body.contains(this.$el)) {
       document.body.removeChild(this.$el)
     }
   }

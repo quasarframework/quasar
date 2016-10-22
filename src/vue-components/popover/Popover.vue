@@ -1,207 +1,268 @@
 <template>
-  <span class="quasar-popover-target">
-    <slot name="target"></slot>
-    <div
-      ref="content"
-      class="quasar-popover-content"
-      @click.stop
-      :class="{active: active}"
-    >
-      <slot></slot>
-    </div>
-  </span>
+  <div
+    class="quasar-popover animate-scale-in"
+    @click.stop
+    :class="{opened: opened}"
+    :style="transformOrigin"
+  >
+    <slot></slot>
+  </div>
 </template>
 
 <script>
+// heavily inspired by http://www.material-ui.com/#/components/popover
+
 import Utils from '../../utils'
 import EscapeKey from '../../escape-key'
 
-const
-  offset = 20,
-  cssReset = {
-    top: '',
-    bottom: '',
-    left: '',
-    right: '',
-    minWidth: '',
-    maxHeight: '',
-    maxWidth: '',
-    transformOrigin: ''
+function getAnchorPosition (el) {
+  const
+    rect = el.getBoundingClientRect(),
+    a = {
+      top: rect.top,
+      left: rect.left,
+      width: el.offsetWidth,
+      height: el.offsetHeight
+    }
+
+  a.right = rect.right || a.left + a.width
+  a.bottom = rect.bottom || a.top + a.height
+  a.middle = a.left + ((a.right - a.left) / 2)
+  a.center = a.top + ((a.bottom - a.top) / 2)
+
+  return a
+}
+
+function getTargetPosition (targetEl) {
+  return {
+    top: 0,
+    center: targetEl.offsetHeight / 2,
+    bottom: targetEl.offsetHeight,
+    left: 0,
+    middle: targetEl.offsetWidth / 2,
+    right: targetEl.offsetWidth
+  }
+}
+
+function getOverlapMode (anchor, target, median) {
+  if ([anchor, target].indexOf(median) >= 0) return 'auto'
+  if (anchor === target) return 'inclusive'
+  return 'exclusive'
+}
+
+function getPositions (anchor, target) {
+  const
+    a = Utils.extend({}, anchor),
+    t = Utils.extend({}, target)
+
+  const positions = {
+    x: ['left', 'right'].filter(p => p !== t.horizontal),
+    y: ['top', 'bottom'].filter(p => p !== t.vertical)
   }
 
+  const overlap = {
+    x: getOverlapMode(a.horizontal, t.horizontal, 'middle'),
+    y: getOverlapMode(a.vertical, t.vertical, 'center')
+  }
+
+  positions.x.splice(overlap.x === 'auto' ? 0 : 1, 0, 'middle')
+  positions.y.splice(overlap.y === 'auto' ? 0 : 1, 0, 'center')
+
+  if (overlap.y !== 'auto') {
+    a.vertical = a.vertical === 'top' ? 'bottom' : 'top'
+    if (overlap.y === 'inclusive') {
+      t.vertical = t.vertical
+    }
+  }
+
+  if (overlap.x !== 'auto') {
+    a.horizontal = a.horizontal === 'left' ? 'right' : 'left'
+    if (overlap.y === 'inclusive') {
+      t.horizontal = t.horizontal
+    }
+  }
+
+  return {
+    positions: positions,
+    anchorPos: a
+  }
+}
+
+function applyAutoPositionIfNeeded (anchor, target, targetOrigin, anchorOrigin, targetPosition) {
+  const {positions, anchorPos} = getPositions(anchorOrigin, targetOrigin)
+
+  if (targetPosition.top < 0 || targetPosition.top + target.bottom > window.innerHeight) {
+    let newTop = anchor[anchorPos.vertical] - target[positions.y[0]]
+    if (newTop + target.bottom <= window.innerHeight) {
+      targetPosition.top = Math.max(0, newTop)
+    }
+    else {
+      newTop = anchor[anchorPos.vertical] - target[positions.y[1]]
+      if (newTop + target.bottom <= window.innerHeight) {
+        targetPosition.top = Math.max(0, newTop)
+      }
+    }
+  }
+  if (targetPosition.left < 0 || targetPosition.left + target.right > window.innerWidth) {
+    let newLeft = anchor[anchorPos.horizontal] - target[positions.x[0]]
+    if (newLeft + target.right <= window.innerWidth) {
+      targetPosition.left = Math.max(0, newLeft)
+    }
+    else {
+      newLeft = anchor[anchorPos.horizontal] - target[positions.x[1]]
+      if (newLeft + target.right <= window.innerWidth) {
+        targetPosition.left = Math.max(0, newLeft)
+      }
+    }
+  }
+  return targetPosition
+}
+
+function parseHorizTransformOrigin (pos) {
+  return pos === 'middle' ? 'center' : pos
+}
+
 export default {
+  props: {
+    anchorRef: String,
+    anchorOrigin: {
+      type: Object,
+      default () {
+        return {vertical: 'bottom', horizontal: 'left'}
+      }
+    },
+    targetOrigin: {
+      type: Object,
+      default () {
+        return {vertical: 'top', horizontal: 'left'}
+      }
+    },
+    maxHeight: String,
+    touchPosition: Boolean,
+    disable: Boolean
+  },
   data () {
     return {
-      active: false
+      opened: false
     }
   },
-  props: {
-    touchPosition: Boolean,
-    disable: Boolean,
-    position: String,
-    cover: Boolean
-  },
-  methods: {
-    toggle (event) {
-      this[this.active ? 'close' : 'open'](event)
-    },
-    open (event) {
-      if (this.disable || this.active || this.inProgress) {
+  computed: {
+    anchorEl () {
+      if (!this.anchorRef) {
         return
       }
-
-      event.preventDefault()
-
-      let
-        content = this.$refs.content,
-        target = this.$el.children[0],
-        targetWidth = Utils.dom.width(target),
-        targetHeight = Utils.dom.height(target),
-        targetPosition = target.getBoundingClientRect(),
-        position,
-        css = Utils.extend({}, cssReset)
-
-      if (this.cover) {
-        css.minWidth = targetWidth + 'px'
+      let target = Utils.getVueRef(this, this.anchorRef)
+      if (!target) {
+        throw new Error(`Vue ref "${this.anchorRef}" not found!`)
       }
-      Utils.dom.css(content, css)
-
-      // necessary to compute menu width and height
-      content.classList.add('check')
-      content.scrollTop = 0
-
-      let
-        viewport = Utils.dom.viewport(),
-        windowWidth = viewport.width,
-        windowHeight = viewport.height,
-        contentWidth = Utils.dom.width(content),
-        contentHeight = Utils.dom.height(content)
-
-      if (this.touchPosition) {
-        let touchPosition = Utils.event.position(event)
-        position = {
-          top: touchPosition.top,
-          left: touchPosition.left
-        }
-      }
-      else {
-        position = {
-          top: targetPosition.top,
-          left: targetPosition.left
-        }
-      }
-
-      let
-        toRight = position.left + contentWidth < windowWidth || 2 * position.left < windowWidth,
-        toBottom = position.top + contentHeight < windowHeight || 2 * position.top < windowHeight
-
-      content.classList.remove('check', 'left', 'right', 'bottom', 'top')
-
-      if (this.position) {
-        let position = this.position.split(' ')
-
-        if (position.includes('left')) {
-          toRight = false
-        }
-        else if (position.includes('right')) {
-          toRight = true
-        }
-
-        if (position.includes('top')) {
-          toBottom = false
-        }
-        else if (position.includes('bottom')) {
-          toBottom = true
-        }
-      }
-
-      if (this.touchPosition) {
-        if (!toRight) {
-          position.left -= contentWidth
-        }
-      }
-      else {
-        if (!toBottom) {
-          position.top += targetHeight
-        }
-        if (!toRight) {
-          position.left += targetWidth - contentWidth
-        }
-      }
-
-      if (toRight) {
-        content.classList.add('left')
-        css.left = position.left + 'px'
-        if (windowWidth - position.left < contentWidth) {
-          css.maxWidth = (windowWidth - position.left - offset) + 'px'
-        }
-      }
-      else {
-        content.classList.add('right')
-        css.left = position.left + 'px'
-        if (position.left < contentWidth) {
-          css.maxWidth = (position.left - offset) + 'px'
-        }
-      }
-
-      if (toBottom) {
-        content.classList.add('top')
-        css.top = position.top + 'px'
-        if (windowHeight - position.top < contentHeight) {
-          css.maxHeight = (windowHeight - position.top - offset) + 'px'
-        }
-      }
-      else {
-        content.classList.add('bottom')
-        css.bottom = (windowHeight - position.top) + 'px'
-        if (position.top < contentHeight) {
-          css.maxHeight = (position.top - offset) + 'px'
-        }
-      }
-
-      Utils.dom.css(content, css)
-      this.active = true
-      this.inProgress = true
-
-      // give a little timeout so that click
-      // event won't be triggered immediately
-      setTimeout(() => {
-        document.addEventListener('click', this.close)
-        this.scrollTarget = Utils.dom.getScrollTarget(target)
-        this.scrollTarget.addEventListener('scroll', this.close)
-        EscapeKey.register(() => { this.close() })
-        this.inProgress = false
-      }, 210)
+      return target.$el ? target.$el : target
     },
-    close () {
-      if (this.active && !this.inProgress) {
-        this.active = false
-        this.inProgress = true
-        setTimeout(() => {
-          if (this.$refs.content) {
-            Utils.dom.css(this.$refs.content, cssReset)
-          }
-          this.inProgress = false
-        }, 200)
+    transformOrigin () {
+      let
+        vert = this.targetOrigin.vertical,
+        horiz = parseHorizTransformOrigin(this.targetOrigin.horizontal)
 
-        if (this.scrollTarget) {
-          this.scrollTarget.removeEventListener('scroll', this.close)
-          this.scrollTarget = null
-        }
-        document.removeEventListener('click', this.close)
-        EscapeKey.pop()
+      return {
+        'transform-origin': vert + ' ' + horiz + ' 0px'
+      }
+    }
+  },
+  watch: {
+    anchorEl (newValue, oldValue) {
+      if (oldValue) {
+        oldValue.removeEventListener('click', this.toggle)
+        this.scrollTarget.removeEventListener('scroll', this.close)
+      }
+      if (newValue) {
+        newValue.addEventListener('click', this.toggle)
       }
     }
   },
   mounted () {
     this.$nextTick(() => {
-      this.$el.children[0].addEventListener('click', this.toggle)
+      if (this.anchorEl) {
+        this.anchorEl.addEventListener('click', this.toggle)
+      }
     })
   },
   beforeDestroy () {
-    this.$el.children[0].removeEventListener('click', this.toggle)
-    if (this.active) {
-      this.close()
+    if (this.anchorEl) {
+      this.anchorEl.removeEventListener('click', this.toggle)
+    }
+    this.close()
+  },
+  methods: {
+    toggle (event) {
+      if (this.opened) {
+        this.close()
+      }
+      else {
+        this.open(event)
+      }
+    },
+    open (event) {
+      if (this.disable) {
+        return
+      }
+      if (!this.opened) {
+        this.opened = true
+        EscapeKey.register(() => { this.close() })
+        if (this.anchorEl) {
+          this.scrollTarget = Utils.dom.getScrollTarget(this.anchorEl)
+          this.scrollTarget.addEventListener('scroll', this.close)
+        }
+        else if (!event) {
+          throw new Error('Popover called without "event" parameter.')
+        }
+        setTimeout(() => {
+          this.__updatePosition(event)
+          this.$emit('open')
+
+          // let us close other Popovers, then
+          // register our closing method; by using timeout we
+          // avoid bubbling up the event and executing close()
+          // immediately after open()
+          document.addEventListener('click', this.close)
+        }, 50)
+      }
+    },
+    close () {
+      if (this.opened) {
+        this.opened = false
+        EscapeKey.pop()
+        document.removeEventListener('click', this.close)
+        if (this.anchorEl) {
+          this.scrollTarget.removeEventListener('scroll', this.close)
+        }
+        this.$emit('close')
+      }
+    },
+    __updatePosition (event) {
+      let anchor
+      const
+        targetEl = this.$el,
+        targetOrigin = this.targetOrigin,
+        anchorOrigin = this.anchorOrigin
+
+      if (!this.anchorEl || (event && this.touchPosition)) {
+        const {top, left} = Utils.event.position(event)
+        anchor = {top, left, width: 1, height: 1, right: left + 1, center: top, middle: left, bottom: top + 1}
+      }
+      else {
+        anchor = getAnchorPosition(this.anchorEl)
+      }
+
+      let target = getTargetPosition(targetEl)
+      let targetPosition = {
+        top: anchor[anchorOrigin.vertical] - target[targetOrigin.vertical],
+        left: anchor[anchorOrigin.horizontal] - target[targetOrigin.horizontal],
+      }
+
+      targetPosition = applyAutoPositionIfNeeded(anchor, target, targetOrigin, anchorOrigin, targetPosition)
+
+      targetEl.style.top = Math.max(0, targetPosition.top) + 'px'
+      targetEl.style.left = Math.max(0, targetPosition.left) + 'px'
+      targetEl.style.maxHeight = this.maxHeight || window.innerHeight * 0.9 + 'px'
     }
   }
 }

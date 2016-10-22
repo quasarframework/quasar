@@ -1,10 +1,9 @@
 <template>
   <div class="quasar-datetime-desktop">
-    <quasar-popover :disable="disable">
-      <div slot="target" class="cursor-pointer textfield caret" :class="{disabled: disable}">
-        <div v-html="label"></div>
-      </div>
-
+    <div ref="target" class="cursor-pointer textfield caret" :class="{disabled: disable}">
+      <div v-html="label"></div>
+    </div>
+    <quasar-popover ref="popover" anchor-ref="target" :disable="disable">
       <quasar-inline-datetime v-model="model" :type="type"></quasar-inline-datetime>
     </quasar-popover>
   </div>
@@ -63,9 +62,12 @@ export default {
       return moment(this.model).format(format)
     }
   },
-  method: {
-    __updateValue (value) {
-      this.$emit('input', value)
+  methods: {
+    open () {
+      this.$refs.popover.open()
+    },
+    close () {
+      this.$refs.popover.close()
     }
   }
 }

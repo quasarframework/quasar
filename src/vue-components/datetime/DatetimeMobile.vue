@@ -1,5 +1,5 @@
 <template>
-  <div class="cursor-pointer textfield caret" @click="pick" :class="{disabled: disable}">
+  <div class="cursor-pointer textfield caret" @click="open" :class="{disabled: disable}">
     <div v-html="label"></div>
     <quasar-modal
       ref="dialog"
@@ -11,8 +11,8 @@
     >
       <quasar-inline-datetime v-model="model" :type="type" class="no-border" style="width: 100%">
         <div class="modal-buttons row full-width">
-          <button @click="$refs.dialog.close()" class="primary clear" v-html="cancelLabel"></button>
-          <button @click="$refs.dialog.close()" class="primary clear" v-html="okLabel"></button>
+          <button @click="close()" class="primary clear" v-html="cancelLabel"></button>
+          <button @click="close(__update)" class="primary clear" v-html="okLabel"></button>
         </div>
       </quasar-inline-datetime>
     </quasar-modal>
@@ -59,6 +59,7 @@ export default {
   },
   data () {
     return {
+      model: '',
       css: contentCSS[theme],
       position: theme === 'ios' ? 'items-end justify-center' : 'items-center justify-center',
       transition: theme === 'ios' ? 'quasar-modal-actions' : 'quasar-modal',
@@ -66,14 +67,6 @@ export default {
     }
   },
   computed: {
-    model: {
-      get () {
-        return this.value
-      },
-      set (value) {
-        this.$emit('input', value)
-      }
-    },
     label () {
       let format
 
@@ -90,14 +83,21 @@ export default {
         format = 'YYYY/MM/DD HH:mm:ss'
       }
 
-      return moment(this.model).format(format)
+      return moment(this.value).format(format)
     }
   },
   methods: {
-    pick () {
+    open () {
       if (!this.disable) {
+        this.model = this.value
         this.$refs.dialog.open()
       }
+    },
+    close (fn) {
+      this.$refs.dialog.close(fn)
+    },
+    __update () {
+      this.$emit('input', this.model)
     }
   }
 }
