@@ -39,9 +39,6 @@ body.drawer-opened
   &.right-side
     right 0
 
-.left-drawer-opener, .right-drawer-opener
-  cursor pointer
-
 .drawer-header
   overflow hidden
   position relative
@@ -82,9 +79,8 @@ swipe-behavior()
   swipe-behavior()
 
 @media screen and (min-width: $layout-medium-min)
-  .left-drawer-opener, .right-drawer-opener
-    &:not(.always-visible)
-      display none !important
+  .hide-on-drawer-visible
+    display none !important
   .drawer
     &.swipe-only
       swipe-behavior()

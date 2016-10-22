@@ -1,3 +1,48 @@
+.animate-spin
+  animation quasar-spin 2s infinite linear
+.animate-blink
+  animation quasar-blink 1s steps(5, start) infinite
+.animate-pop
+  animation quasar-pop .2s
+.animate-scale
+  animation quasar-scale .2s
+.animate-fade
+  animation quasar-fade .2s
+
+@keyframes quasar-blink
+  to
+    visibility hidden
+
+@keyframes quasar-spin
+  0%
+    transform rotate(0deg)
+  100%
+    transform rotate(359deg)
+
+@keyframes quasar-pop
+  0%
+    opacity 0
+    transform scale(.7)
+  70%
+    opacity 1
+    transform scale(1.07)
+  100%
+    transform scale(1)
+
+@keyframes quasar-fade
+  0%
+    opacity 0
+  100%
+    opacity 1
+
+@keyframes quasar-scale
+  0%
+    opacity 0
+    transform scale(.7)
+  100%
+    opacity 1
+    transform scale(1)
+
 .ellipsis
   text-overflow ellipsis
   white-space nowrap

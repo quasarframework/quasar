@@ -7,7 +7,7 @@
     >
       <div class="pull-to-refresh-message row items-center justify-center">
         <i v-show="state !== 'refreshing'" :class="{'rotate-180': state === 'pulled'}">arrow_downward</i>
-        <i v-show="state === 'refreshing'" class="spin">{{refreshIcon}}</i>
+        <i v-show="state === 'refreshing'" class="animate-spin">{{refreshIcon}}</i>
 
         &nbsp;&nbsp;
         <span v-html="message"></span>

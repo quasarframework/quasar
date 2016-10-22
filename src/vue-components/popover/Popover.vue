@@ -1,6 +1,6 @@
 <template>
   <div
-    class="quasar-popover animate-scale-in"
+    class="quasar-popover animate-scale"
     @click.stop
     :class="{opened: opened}"
     :style="transformOrigin"
@@ -155,6 +155,9 @@ export default {
       if (!target) {
         throw new Error(`Vue ref "${this.anchorRef}" not found!`)
       }
+      if (Array.isArray(target)) {
+        target = target[0]
+      }
       return target.$el ? target.$el : target
     },
     transformOrigin () {
@@ -169,9 +172,11 @@ export default {
   },
   watch: {
     anchorEl (newValue, oldValue) {
-      if (oldValue) {
+      if (oldValue && document.body.contains(oldValue)) {
         oldValue.removeEventListener('click', this.toggle)
-        this.scrollTarget.removeEventListener('scroll', this.close)
+        if (this.scrollTarget) {
+          this.scrollTarget.removeEventListener('scroll', this.close)
+        }
       }
       if (newValue) {
         newValue.addEventListener('click', this.toggle)
@@ -181,6 +186,7 @@ export default {
   mounted () {
     this.$nextTick(() => {
       if (this.anchorEl) {
+        this.anchorEl.classList.add('cursor-pointer')
         this.anchorEl.addEventListener('click', this.toggle)
       }
     })
@@ -204,6 +210,10 @@ export default {
       if (this.disable) {
         return
       }
+      if (event) {
+        event.stopPropagation()
+        event.preventDefault()
+      }
       if (!this.opened) {
         this.opened = true
         EscapeKey.register(() => { this.close() })
@@ -214,16 +224,11 @@ export default {
         else if (!event) {
           throw new Error('Popover called without "event" parameter.')
         }
-        setTimeout(() => {
+        document.addEventListener('click', this.close)
+        this.$nextTick(() => {
           this.__updatePosition(event)
           this.$emit('open')
-
-          // let us close other Popovers, then
-          // register our closing method; by using timeout we
-          // avoid bubbling up the event and executing close()
-          // immediately after open()
-          document.addEventListener('click', this.close)
-        }, 50)
+        })
       }
     },
     close () {

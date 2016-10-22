@@ -3,7 +3,7 @@
     class="quasar-fab flex inline justify-center"
     :class="{opened: opened}"
   >
-    <div class="backdrop" @click="toggle(true)"></div>
+    <div class="backdrop animate-fade" @click="toggle(true)"></div>
     <button class="circular raised" @click="toggle()" :class="classNames">
       <i class="quasar-fab-icon">{{icon}}</i>
       <i class="quasar-fab-active-icon">{{activeIcon}}</i>
