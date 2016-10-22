@@ -1,6 +1,5 @@
 import Velocity from 'velocity-animate'
 window.Velocity = Velocity
-import 'velocity-animate/velocity.ui'
 
 import install from './install'
 import start from './start'

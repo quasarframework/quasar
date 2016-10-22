@@ -18,9 +18,6 @@ function encode (value) {
   if (typeof value === 'function') {
     return '__q_strn|' + value.toString()
   }
-  if (Array.isArray(value)) {
-    return '__q_arra|' + JSON.stringify(value)
-  }
   if (value === Object(value)) {
     return '__q_objt|' + JSON.stringify(value)
   }
@@ -57,9 +54,6 @@ function decode (value) {
 
     case '__q_strn':
       return '' + source
-
-    case '__q_arra':
-      return JSON.parse(source)
 
     case '__q_objt':
       return JSON.parse(source)

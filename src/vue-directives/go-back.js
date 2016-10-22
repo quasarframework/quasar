@@ -2,12 +2,12 @@ import Platform from '../platform'
 import Utils from '../utils'
 
 export default {
-  bind (el, { value }, vnode) {
-    let ctx = { value, position: window.history.length - 1 }
+  bind (el, { value, modifiers }, vnode) {
+    let ctx = { value, position: window.history.length - 1, single: modifiers.single }
 
     if (Platform.is.cordova) {
       ctx.goBack = () => {
-        vnode.context.$router.go(ctx.position - window.history.length)
+        vnode.context.$router.go(ctx.single ? -1 : ctx.position - window.history.length)
       }
     }
     else {

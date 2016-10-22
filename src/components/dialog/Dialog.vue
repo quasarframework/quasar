@@ -48,6 +48,7 @@
           </div>
         </label>
 
+        <!--
         <div v-if="el.type === 'range' || el.type === 'double-range'" style="margin-top: 15px; margin-bottom: 10px">
           <label v-html="el.label + ' (' + (el.type === 'double-range' ? el.model.min + ' to ' + el.model.max : el.model) + ')'"></label>
           <component
@@ -61,6 +62,7 @@
             :snap="el.snap"
           ></component>
         </div>
+        -->
 
         <div v-if="el.type === 'rating'" style="margin-bottom: 10px">
           <label v-html="el.label"></label>

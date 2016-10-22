@@ -33,12 +33,11 @@ const
   backdropOpacity = {
     mat: 0.7,
     ios: 0.2
-  },
-  appContainer = document.getElementById('quasar-app')
+  }
 
 function getCurrentPosition (node) {
   let transform = Utils.dom.style(node, 'transform')
-  return transform !== 'none' ? parseInt(transform.split(/[()]/)[1].split(', ')[4], 10) : 0
+  return transform && transform !== 'none' ? parseInt(transform.split(/[()]/)[1].split(', ')[4], 10) : 0
 }
 
 function getBetween (value, min, max) {
@@ -69,14 +68,22 @@ export default {
         node = this.$refs.content,
         backdrop = this.$refs.backdrop,
         currentPosition = getCurrentPosition(node),
-        closePosition = (this.rightSide ? 1 : -1) * this.width
+        closePosition = (this.rightSide ? 1 : -1) * this.width,
+        animationNeeded = this.opened || (!this.opened && percentage !== 0),
+        complete = () => {
+          if (!this.opened) {
+            backdrop.classList.remove('active')
+          }
+          else {
+            window.addEventListener('resize', this.close)
+          }
+          if (typeof done === 'function') {
+            done()
+          }
+        }
 
       Velocity(node, 'stop')
-      Velocity(
-        node,
-        {translateX: this.opened ? [0, currentPosition] : [closePosition, currentPosition]},
-        {duration: !this.opened || currentPosition !== 0 ? drawerAnimationSpeed : 0}
-      )
+      Velocity(backdrop, 'stop')
 
       if (this.opened) {
         backdrop.classList.add('active')
@@ -101,7 +108,16 @@ export default {
         }
       }
 
-      Velocity(backdrop, 'stop')
+      if (!animationNeeded) {
+        complete()
+        return
+      }
+
+      Velocity(
+        node,
+        {translateX: this.opened ? [0, currentPosition] : [closePosition, currentPosition]},
+        {duration: !this.opened || currentPosition !== 0 ? drawerAnimationSpeed : 0}
+      )
       Velocity(
         backdrop,
         {
@@ -110,17 +126,7 @@ export default {
         },
         {
           duration: drawerAnimationSpeed,
-          complete: () => {
-            if (!this.opened) {
-              backdrop.classList.remove('active')
-            }
-            else {
-              window.addEventListener('resize', this.close)
-            }
-            if (typeof done === 'function') {
-              done()
-            }
-          }
+          complete
         }
       )
     },
@@ -152,16 +158,34 @@ export default {
       }
 
       let
-        currentPosition = getCurrentPosition(appContainer),
-        openPosition = (this.rightSide ? -1 : 1) * this.width
+        currentPosition = getCurrentPosition(this.layoutContainer),
+        openPosition = (this.rightSide ? -1 : 1) * this.width,
+        animationNeeded = this.opened || (!this.opened && percentage !== 0),
+        complete = () => {
+          if (!this.opened) {
+            backdrop.classList.remove('active')
+            document.body.classList.remove('drawer-opened')
+          }
+          else {
+            window.addEventListener('resize', this.close)
+          }
+          if (typeof done === 'function') {
+            done()
+          }
+        }
 
-      Velocity(appContainer, 'stop')
-      Velocity(appContainer,
+      Velocity(this.layoutContainer, 'stop')
+      Velocity(backdrop, 'stop')
+
+      if (!animationNeeded) {
+        complete()
+        return
+      }
+
+      Velocity(this.layoutContainer,
         {translateX: this.opened ? [openPosition, currentPosition] : [0, currentPosition]},
         {duration: !this.opened || currentPosition !== openPosition ? drawerAnimationSpeed : 0}
       )
-
-      Velocity(backdrop, 'stop')
       Velocity(
         backdrop,
         {
@@ -170,18 +194,7 @@ export default {
         },
         {
           duration: drawerAnimationSpeed,
-          complete: () => {
-            if (!this.opened) {
-              backdrop.classList.remove('active')
-              document.body.classList.remove('drawer-opened')
-            }
-            else {
-              window.addEventListener('resize', this.close)
-            }
-            if (typeof done === 'function') {
-              done()
-            }
-          }
+          complete
         }
       )
     },
@@ -208,7 +221,7 @@ export default {
         position = Math.min(position, this.width)
         percentage = 1.0 - (this.width - Math.abs(position)) / this.width
         fn = this.__iosToggleAnimate
-        target = appContainer
+        target = this.layoutContainer
         position = (this.rightSide ? -1 : 1) * position
       }
       else { // mat
@@ -251,7 +264,7 @@ export default {
         position = initialPosition + position
         percentage = (this.rightSide ? -1 : 1) * position / this.width
         fn = this.__iosToggleAnimate
-        target = appContainer
+        target = this.layoutContainer
       }
       else { // mat
         percentage = 1 + (this.rightSide ? -1 : 1) * position / this.width
@@ -303,6 +316,10 @@ export default {
   mounted () {
     this.$nextTick(() => {
       const content = this.$refs.content
+
+      if (theme.current === 'ios') {
+        this.layoutContainer = this.$el.closest('.layout') || document.getElementById('quasar-app')
+      }
 
       this.width = Utils.dom.width(content)
 

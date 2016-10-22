@@ -3,7 +3,7 @@
     <i @click="__setByOffset(-1)">remove</i>
     <input
       class="no-style auto quasar-input-field"
-      type="text"
+      type="number"
       v-model.number="model"
       @blur="__updateValue()"
       @keydown.enter="__updateValue()"

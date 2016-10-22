@@ -81,6 +81,9 @@ maximized-modal()
     &.quasar-modal-leave-active .modal-content
       transform scale(.8)
 
+.modal, .modal-content
+  transition all .2s ease-in-out
+
 .modal-header
   text-align $modal-header-text-align
   padding $modal-header-padding

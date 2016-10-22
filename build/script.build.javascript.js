@@ -31,15 +31,13 @@ var
     'fastclick',
     'hammerjs',
     'moment',
-    'velocity-animate',
-    'velocity-animate/velocity.ui'
+    'velocity-animate'
   ],
   globals = {
     fastclick: 'FastClick',
     hammerjs: 'Hammer',
     moment: 'moment',
-    'velocity-animate': 'Velocity',
-    'velocity-animate/velocity.ui': 'velui'
+    'velocity-animate': 'Velocity'
   },
   rollupConfig = {
     entry: 'src/index.js',
