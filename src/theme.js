@@ -30,7 +30,7 @@ export function set (theme) {
 
     if (Platform.is.winphone) {
       // <meta name="msapplication-navbutton-color" content="#4285f4">
-      metaTag.setAttribute('name', 'msapplicaiton-navbutton-color')
+      metaTag.setAttribute('name', 'msapplication-navbutton-color')
     }
 
     // Chrome, Firefox OS, Opera, Vivaldi
