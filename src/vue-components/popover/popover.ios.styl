@@ -1,37 +1,17 @@
 $popover-background   ?= white
-$popover-max-height   ?= 510px
 $popover-box-shadow   ?= $shadow-1
 
-.quasar-popover-target
-  > * // @stylint ignore
-    cursor pointer
-
-.quasar-popover-content
+.quasar-popover
+  display none
   position fixed
-  opacity 0
-  transition all .2s ease
-  transform scale(0)
   box-shadow $popover-box-shadow
   background $popover-background
-  max-height $popover-max-height
-  min-width 200px
-  overflow-y auto
   z-index $z-popover
+  overflow-y auto
+  overflow-x hidden
 
-  &.left
-    &.bottom
-      transform-origin left bottom
-    &.top
-      transform-origin left top
-  &.right
-    &.bottom
-      transform-origin right bottom
-    &.top
-      transform-origin right top
-
-  &.check, &.active
-    transform scale(1)
-    opacity 1
+  &.opened
+    display block
 
   .list
     margin 0

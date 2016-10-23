@@ -22,6 +22,9 @@ export function position (e) {
   if (e.touches && e.touches[0]) {
     e = e.touches[0]
   }
+  else if (e.changedTouches && e.changedTouches[0]) {
+    e = e.changedTouches[0]
+  }
 
   if (e.clientX || e.clientY) {
     posx = e.clientX

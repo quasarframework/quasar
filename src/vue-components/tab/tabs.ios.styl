@@ -31,7 +31,7 @@ $tabs-label-font-size         ?= .7rem
     font-size $tabs-icon-font-size
   .quasar-tabs-icon + .quasar-tab-label
     margin $tabs-label-margin
-  &.v-link-active
+  &.active
     color $tabs-active-color
   &:active
     background $tabs-highlight-color
@@ -82,8 +82,6 @@ $tabs-label-font-size         ?= .7rem
   &.inverted
     background white
     border-radius 0
-    &:not([slot='navigation'])
-      border-bottom $tabs-container-border-bottom
 
   for $name, $color in $colors
     if $name == 'light' || $name == 'white'
@@ -91,7 +89,7 @@ $tabs-label-font-size         ?= .7rem
         color composite-color($color)
         background $color
         .quasar-tab
-          &.v-link-active, &:active
+          &.active, &:active
             color $grey-8
           &:active
             background $grey-8
@@ -99,7 +97,7 @@ $tabs-label-font-size         ?= .7rem
           color $color
           background composite-color($color)
           .quasar-tab
-            &.v-link-active, &:active
+            &.active, &:active
               color white
             &:active
               background white
@@ -112,12 +110,12 @@ $tabs-label-font-size         ?= .7rem
           background $color
 
         &.inverted .quasar-tab
-          &.v-link-active, &:active
+          &.active, &:active
             color $color
           &:active
             background-color $color
         &:not(.inverted) .quasar-tab
-          &.v-link-active, &:active
+          &.active, &:active
             color white
           &:active
             background white

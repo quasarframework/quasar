@@ -1,6 +1,5 @@
 import Velocity from 'velocity-animate'
 window.Velocity = Velocity
-import 'velocity-animate/velocity.ui'
 
 import install from './install'
 import start from './start'
@@ -13,7 +12,6 @@ import './fastclick'
 
 import ActionSheet from './components/action-sheet/action-sheet'
 import Dialog from './components/dialog/dialog'
-import Modal from './components/modal/modal'
 import Toast from './components/toast/toast'
 
 import AppFullscreen from './app-fullscreen'
@@ -21,12 +19,12 @@ import AppVisibility from './app-visibility'
 import Cookies from './cookies'
 import Platform from './platform'
 import Events from './events'
-import Loading from './loading'
+import Loading from './components/loading/loading.js'
 import Utils from './utils'
 import { LocalStorage, SessionStorage } from './web-storage'
 
 let Quasar = {
-  version: '0.7.0',
+  version: '0.8.0',
   install,
   start,
   theme,
@@ -39,7 +37,6 @@ let Quasar = {
   Platform,
   Events,
   Loading,
-  Modal,
   Toast,
   Utils,
   LocalStorage,

@@ -5,7 +5,7 @@ $layout-footer-shadow      ?= $shadow-up-2
 $toolbar-title-font-size   ?= 1.25rem
 
 .layout
-  position fixed
+  position absolute
   top 0
   right 0
   bottom 0
@@ -19,9 +19,6 @@ $toolbar-title-font-size   ?= 1.25rem
     z-index $z-marginals
     order $layout-navbar-order
     border-radius 0 !important
-
-  > [slot='navigation']
-    box-shadow $layout-header-shadow
 
 .layout-header
   order -10

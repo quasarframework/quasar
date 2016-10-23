@@ -5,6 +5,7 @@ $datetime-color ?= $primary
   font-size 1rem
   text-align center
   user-select none
+  line-height initial
 
 .quasar-datetime-desktop
   display inline-block
@@ -47,6 +48,8 @@ div + .quasar-datetime-time
 
 .quasar-datetime-animate
   animation quasar-scale-in .4s
+.modal .quasar-datetime-animate
+  animation initial
 
 .quasar-datetime-view-day
   width 250px

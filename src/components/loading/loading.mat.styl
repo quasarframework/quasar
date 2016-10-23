@@ -1,0 +1,12 @@
+$loading-background ?= $dimmed-background
+
+body.with-loading
+  overflow hidden
+
+.quasar-loading
+  background $loading-background
+  > div
+    margin 40px 20px 0
+    max-width 450px
+    text-align center
+    text-shadow 0 0 7px black

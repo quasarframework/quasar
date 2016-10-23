@@ -1,41 +1,57 @@
 import Utils from '../utils'
 
-export default {
-  bind () {
-    this.scrollTarget = Utils.dom.getScrollTarget(this.el)
-  },
-  update (handler) {
-    this.scrollTarget.removeEventListener('scroll', this.scroll)
+function updateBinding (el, binding, ctx) {
+  if (typeof binding.value !== 'function') {
+    ctx.scrollTarget.removeEventListener('scroll', ctx.scroll)
+    console.error('v-scroll-fire requires a function as parameter', el)
+    return
+  }
 
-    if (typeof handler !== 'function') {
-      this.scroll = function () {}
-      console.error('v-scroll-fire requires a function as parameter', this.el)
-      return
+  ctx.handler = binding.value
+  if (typeof binding.oldValue !== 'function') {
+    ctx.scrollTarget.addEventListener('scroll', ctx.scroll)
+    ctx.scroll()
+  }
+}
+
+export default {
+  bind (el, binding) {
+    let ctx = {
+      scroll: Utils.debounce(() => {
+        let containerBottom, elementBottom, fire
+
+        if (ctx.scrollTarget === window) {
+          elementBottom = el.getBoundingClientRect().bottom
+          fire = elementBottom < Utils.dom.viewport().height
+        }
+        else {
+          containerBottom = Utils.dom.offset(ctx.scrollTarget).top + Utils.dom.height(ctx.scrollTarget)
+          elementBottom = Utils.dom.offset(el).top + Utils.dom.height(el)
+          fire = elementBottom < containerBottom
+        }
+
+        if (fire) {
+          ctx.scrollTarget.removeEventListener('scroll', ctx.scroll)
+          ctx.handler(el)
+        }
+      }, 25)
     }
 
-    this.scroll = Utils.debounce(() => {
-      let containerBottom, elementBottom, fire
-
-      if (this.scrollTarget === window) {
-        elementBottom = this.el.getBoundingClientRect().bottom
-        fire = elementBottom < Utils.dom.viewport().height
-      }
-      else {
-        containerBottom = Utils.dom.offset(this.scrollTarget).top + Utils.dom.height(this.scrollTarget)
-        elementBottom = Utils.dom.offset(this.el).top + Utils.dom.height(this.el)
-        fire = elementBottom < containerBottom
-      }
-
-      if (fire) {
-        this.scrollTarget.removeEventListener('scroll', this.scroll)
-        handler(this.el)
-      }
-    }, 25)
-
-    this.scrollTarget.addEventListener('scroll', this.scroll)
-    this.scroll()
+    Utils.store.add('scrollfire', el, ctx)
   },
-  unbind () {
-    this.scrollTarget.removeEventListener('scroll', this.scroll)
+  inserted (el, binding) {
+    let ctx = Utils.store.get('scrollfire', el)
+    ctx.scrollTarget = Utils.dom.getScrollTarget(el)
+    updateBinding(el, binding, ctx)
+  },
+  update (el, binding) {
+    if (binding.value !== binding.oldValue) {
+      updateBinding(el, binding, Utils.store.get('scrollfire', el))
+    }
+  },
+  unbind (el) {
+    let ctx = Utils.store.get('scrollfire', el)
+    ctx.scrollTarget.removeEventListener('scroll', ctx.scroll)
+    Utils.store.remove('scrollfire', el)
   }
 }

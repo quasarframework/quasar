@@ -1,7 +1,7 @@
 /* eslint-disable no-extend-native, one-var, no-self-compare */
 
 if (!Array.prototype.includes) {
-  Array.prototype.includes = function (searchElement, startFrom) {
+  Array.prototype.includes = function (searchEl, startFrom) {
     'use strict'
 
     let O = Object(this)
@@ -18,11 +18,11 @@ if (!Array.prototype.includes) {
       k = len + n
       if (k < 0) { k = 0 }
     }
-    let currentElement
+    let curEl
     while (k < len) {
-      currentElement = O[k]
-      if (searchElement === currentElement ||
-         (searchElement !== searchElement && currentElement !== currentElement)) { // NaN !== NaN
+      curEl = O[k]
+      if (searchEl === curEl ||
+         (searchEl !== searchEl && curEl !== curEl)) { // NaN !== NaN
         return true
       }
       k++
@@ -32,22 +32,22 @@ if (!Array.prototype.includes) {
 }
 
 if (!String.prototype.startsWith) {
-  String.prototype.startsWith = function (searchString, position) {
+  String.prototype.startsWith = function (str, position) {
     position = position || 0
-    return this.substr(position, searchString.length) === searchString
+    return this.substr(position, str.length) === str
   }
 }
 
 if (!String.prototype.endsWith) {
-  String.prototype.endsWith = function (searchString, position) {
+  String.prototype.endsWith = function (str, position) {
     let subjectString = this.toString()
 
     if (typeof position !== 'number' || !isFinite(position) || Math.floor(position) !== position || position > subjectString.length) {
       position = subjectString.length
     }
-    position -= searchString.length
+    position -= str.length
 
-    let lastIndex = subjectString.indexOf(searchString, position)
+    let lastIndex = subjectString.indexOf(str, position)
 
     return lastIndex !== -1 && lastIndex === position
   }
@@ -70,16 +70,13 @@ if (typeof Element.prototype.matches !== 'function') {
 
 if (typeof Element.prototype.closest !== 'function') {
   Element.prototype.closest = function closest (selector) {
-    let element = this
-
-    while (element && element.nodeType === 1) {
-      if (element.matches(selector)) {
-        return element
+    let el = this
+    while (el && el.nodeType === 1) {
+      if (el.matches(selector)) {
+        return el
       }
-
-      element = element.parentNode
+      el = el.parentNode
     }
-
     return null
   }
 }

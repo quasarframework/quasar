@@ -1,22 +1,18 @@
 export default {
-  bind () {
-    if (this.modifiers.wrap) {
-      this.target = document.createElement('div')
+  bind (el, binding) {
+    el.setAttribute('quasar-tooltip', binding.value)
+    el.classList.add('quasar-tooltip')
 
-      this.el.parentNode.insertBefore(this.target, this.el)
-      this.target.appendChild(this.el)
-    }
-    else {
-      this.target = this.el
-    }
-
-    this.target.classList.add('quasar-tooltip')
-
-    if (this.modifiers.inline) {
-      this.target.classList.add('flex', 'inline')
+    if (binding.modifiers.inline) {
+      el.classList.add('flex', 'inline')
     }
   },
-  update (value) {
-    this.target.setAttribute('quasar-tooltip', value)
+  update (el, binding) {
+    if (binding.value !== binding.oldValue) {
+      el.setAttribute('quasar-tooltip', binding.value)
+    }
+  },
+  unbind (el) {
+    el.removeAttribute('quasar-tooltip')
   }
 }

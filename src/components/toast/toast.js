@@ -1,6 +1,5 @@
 import Utils from '../../utils'
-import Events from '../../events'
-import Toast from './toast.vue'
+import Toast from './Toast.vue'
 
 let
   toast,
@@ -23,11 +22,6 @@ let
     }
   ]
 
-Events.on('app:vue-ready', (_Vue) => {
-  toast = new _Vue(Toast)
-  toast.$mount().$appendTo(document.body)
-})
-
 function create (opts, defaults) {
   if (!opts) {
     throw new Error('Missing toast options.')
@@ -48,9 +42,16 @@ types.forEach(type => {
   create[type.name] = opts => create(opts, type.defaults)
 })
 
+export function install (_Vue) {
+  let node = document.createElement('div')
+  document.body.appendChild(node)
+  toast = new _Vue(Toast).$mount(node)
+}
+
 export default {
   create,
   setDefaults (opts) {
     toast.setDefaults(opts)
-  }
+  },
+  install
 }

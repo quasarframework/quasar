@@ -1,10 +1,10 @@
 export function offset (el) {
-  let rect = el.getBoundingClientRect()
-
-  return {
-    top: rect.top,
-    left: rect.left
+  if (el === window) {
+    return {top: 0, left: 0}
   }
+  let {top, left} = el.getBoundingClientRect()
+
+  return {top, left}
 }
 
 export function style (el, property) {
@@ -12,10 +12,16 @@ export function style (el, property) {
 }
 
 export function height (el) {
+  if (el === window) {
+    return viewport().height
+  }
   return parseFloat(window.getComputedStyle(el).getPropertyValue('height'), 10)
 }
 
 export function width (el) {
+  if (el === window) {
+    return viewport().width
+  }
   return parseFloat(window.getComputedStyle(el).getPropertyValue('width'), 10)
 }
 
@@ -53,20 +59,6 @@ export function ready (fn) {
   }
 
   document.addEventListener('DOMContentLoaded', fn, false)
-}
-
-export function childOf (target, parent) {
-  let element = target
-
-  while (element && element.nodeType) {
-    if (element === parent) {
-      return true
-    }
-
-    element = element.parentNode
-  }
-
-  return false
 }
 
 export function getScrollTarget (el) {
