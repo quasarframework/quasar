@@ -51,7 +51,7 @@ export default {
   methods: {
     set (value) {
       if (!this.disable) {
-        this.model = Math.min(this.max, Math.max(1, value))
+        this.model = Math.min(this.max, Math.max(1, parseInt(value, 10)))
       }
     },
     __setHoverValue (value) {

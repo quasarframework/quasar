@@ -44,6 +44,7 @@ export default {
   },
   watch: {
     isActive (value) {
+      this.$emit('selected', value)
       this.setTargetVisibility(value)
     }
   },

@@ -18,6 +18,9 @@ export default {
     }
   },
   render (h, context) {
+    if (!transitions[context.props.name]) {
+      throw new Error(`Quasar Transition ${context.props.name} is unnowkn.`)
+    }
     var data = {
       props: {
         name: 'quasar-transition',

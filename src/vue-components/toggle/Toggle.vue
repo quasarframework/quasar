@@ -2,7 +2,7 @@
   <label
     class="quasar-toggle"
     :class="{disabled: disable}"
-    v-touch-swipe.horizontal="toggle"
+    v-touch-swipe.horizontal="__toggle"
   >
     <input type="checkbox" v-model="model" :disabled="disable">
     <div></div>
@@ -34,7 +34,7 @@ export default {
     }
   },
   methods: {
-    toggle (evt) {
+    __toggle (evt) {
       if (!this.disable) {
         if (this.model && evt.direction === 'left') {
           this.model = false

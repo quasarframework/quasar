@@ -2,10 +2,10 @@
   <div
     class="quasar-range non-selectable"
     :class="{disabled: disable}"
-    @mousedown.prevent="setActive"
-    @touchstart.prevent="setActive"
-    @touchend.prevent="end"
-    @touchmove.prevent="update"
+    @mousedown.prevent="__setActive"
+    @touchstart.prevent="__setActive"
+    @touchend.prevent="__end"
+    @touchmove.prevent="__update"
   >
     <div ref="handle" class="quasar-range-handle-container">
       <div class="quasar-range-track"></div>
@@ -118,28 +118,28 @@ export default {
     },
     min (value) {
       if (this.value.min < value) {
-        this.__update({min: value})
+        this.____update({min: value})
       }
       if (this.value.max < value) {
-        this.__update({max: value})
+        this.____update({max: value})
       }
-      this.$nextTick(this.validateProps)
+      this.$nextTick(this.__validateProps)
     },
     max (value) {
       if (this.value.min > value) {
-        this.__update({min: value})
+        this.____update({min: value})
       }
       if (this.value.max > value) {
-        this.__update({max: value})
+        this.____update({max: value})
       }
-      this.$nextTick(this.validateProps)
+      this.$nextTick(this.__validateProps)
     },
     step () {
-      this.$nextTick(this.validateProps)
+      this.$nextTick(this.__validateProps)
     }
   },
   methods: {
-    setActive (event) {
+    __setActive (event) {
       if (this.disable) {
         return
       }
@@ -160,9 +160,9 @@ export default {
         percentage = Math.min(1, Math.max(0, offset / this.dragging.width))
 
       this.dragging.onLeft = Math.abs(percentage - this.currentMinPercentage) <= Math.abs(percentage - this.currentMaxPercentage)
-      this.update(event)
+      this.__update(event)
     },
-    update (event) {
+    __update (event) {
       if (!this.dragging) {
         return
       }
@@ -214,12 +214,12 @@ export default {
     __updateInput ({min = this.value.min, max = this.value.max}) {
       this.$emit('input', {min, max})
     },
-    end () {
+    __end () {
       this.dragging = false
       this.currentMinPercentage = (this.value.min - this.min) / (this.max - this.min)
       this.currentMaxPercentage = (this.value.max - this.min) / (this.max - this.min)
     },
-    validateProps () {
+    __validateProps () {
       if (this.min >= this.max) {
         console.error('Range error: min >= max', this.$el, this.min, this.max)
       }
@@ -235,16 +235,16 @@ export default {
     }
   },
   created () {
-    this.validateProps()
+    this.__validateProps()
     if (Platform.is.desktop) {
-      document.body.addEventListener('mousemove', this.update)
-      document.body.addEventListener('mouseup', this.end)
+      document.body.addEventListener('mousemove', this.__update)
+      document.body.addEventListener('mouseup', this.__end)
     }
   },
   beforeDestroy () {
     if (Platform.is.dekstop) {
-      document.body.removeEventListener('mousemove', this.update)
-      document.body.removeEventListener('mouseup', this.end)
+      document.body.removeEventListener('mousemove', this.__update)
+      document.body.removeEventListener('mouseup', this.__end)
     }
   }
 }

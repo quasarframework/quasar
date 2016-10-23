@@ -260,7 +260,7 @@ export default {
       let target = getTargetPosition(targetEl)
       let targetPosition = {
         top: anchor[anchorOrigin.vertical] - target[targetOrigin.vertical],
-        left: anchor[anchorOrigin.horizontal] - target[targetOrigin.horizontal],
+        left: anchor[anchorOrigin.horizontal] - target[targetOrigin.horizontal]
       }
 
       targetPosition = applyAutoPositionIfNeeded(anchor, target, targetOrigin, anchorOrigin, targetPosition)

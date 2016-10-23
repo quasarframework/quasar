@@ -100,8 +100,6 @@
 </template>
 
 <script>
-import Utils from '../../utils'
-
 export default {
   props: {
     title: String,
@@ -109,7 +107,6 @@ export default {
     form: Object,
     stackButtons: Boolean,
     buttons: Array,
-    destroy: Boolean,
     nobuttons: Boolean,
     progress: Object
   },

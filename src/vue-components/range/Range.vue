@@ -2,10 +2,10 @@
   <div
     class="quasar-range non-selectable"
     :class="{disabled: disable}"
-    @mousedown.prevent="setActive"
-    @touchstart.prevent="setActive"
-    @touchend.prevent="end"
-    @touchmove.prevent="update"
+    @mousedown.prevent="__setActive"
+    @touchstart.prevent="__setActive"
+    @touchend.prevent="__end"
+    @touchmove.prevent="__update"
   >
     <div ref="handle" class="quasar-range-handle-container">
       <div class="quasar-range-track"></div>
@@ -99,21 +99,21 @@ export default {
         this.value = value
         return
       }
-      this.$nextTick(this.validateProps)
+      this.$nextTick(this.__validateProps)
     },
     max (value) {
       if (this.value > value) {
         this.value = value
         return
       }
-      this.$nextTick(this.validateProps)
+      this.$nextTick(this.__validateProps)
     },
     step () {
-      this.$nextTick(this.validateProps)
+      this.$nextTick(this.__validateProps)
     }
   },
   methods: {
-    setActive (event) {
+    __setActive (event) {
       if (this.disable) {
         return
       }
@@ -124,9 +124,9 @@ export default {
         left: container.getBoundingClientRect().left,
         width: container.offsetWidth
       }
-      this.update(event)
+      this.__update(event)
     },
-    update (event) {
+    __update (event) {
       if (!this.dragging) {
         return
       }
@@ -139,11 +139,11 @@ export default {
       this.currentPercentage = percentage
       this.$emit('input', Math.min(this.max, Math.max(this.min, model - modulo + (Math.abs(modulo) >= this.step / 2 ? (modulo < 0 ? -1 : 1) * this.step : 0))))
     },
-    end () {
+    __end () {
       this.dragging = false
       this.currentPercentage = (this.value - this.min) / (this.max - this.min)
     },
-    validateProps () {
+    __validateProps () {
       if (this.min >= this.max) {
         console.error('Range error: min >= max', this.$el, this.min, this.max)
       }
@@ -153,16 +153,16 @@ export default {
     }
   },
   created () {
-    this.validateProps()
+    this.__validateProps()
     if (Platform.is.desktop) {
-      document.body.addEventListener('mousemove', this.update)
-      document.body.addEventListener('mouseup', this.end)
+      document.body.addEventListener('mousemove', this.__update)
+      document.body.addEventListener('mouseup', this.__end)
     }
   },
   beforeDestroy () {
     if (Platform.is.dekstop) {
-      document.body.removeEventListener('mousemove', this.update)
-      document.body.removeEventListener('mouseup', this.end)
+      document.body.removeEventListener('mousemove', this.__update)
+      document.body.removeEventListener('mouseup', this.__end)
     }
   }
 }

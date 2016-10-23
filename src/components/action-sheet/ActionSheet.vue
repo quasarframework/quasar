@@ -40,7 +40,7 @@
         </div>
       </div>
 
-      <div class="list no-border">
+      <div v-if="dismiss" class="list no-border">
         <div
           class="item item-link"
           @click="close(dismiss.handler)"
@@ -90,7 +90,7 @@
         </div>
       </div>
 
-      <div class="quasar-action-sheet">
+      <div v-if="dismiss" class="quasar-action-sheet">
         <div
           class="item item-link"
           @click="close(dismiss.handler)"
@@ -107,7 +107,6 @@
 
 <script>
 import { current } from '../../theme'
-import Utils from '../../utils'
 
 const modalCSS = {
   mat: {
@@ -126,8 +125,11 @@ export default {
   props: {
     title: String,
     gallery: Boolean,
-    actions: [Array, Boolean],
-    dismiss: [Object, Boolean]
+    actions: {
+      type: Array,
+      required: true
+    },
+    dismiss: Object
   },
   data () {
     return {
@@ -160,8 +162,10 @@ export default {
     }
   },
   mounted () {
-    this.$refs.dialog.open()
-    this.$root.quasarClose = this.close
+    this.$nextTick(() => {
+      this.$refs.dialog.open()
+      this.$root.quasarClose = this.close
+    })
   },
   destroyed () {
     if (document.body.contains(this.$el)) {

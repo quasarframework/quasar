@@ -56,6 +56,7 @@ export default {
   },
   watch: {
     activeTab (value) {
+      this.$emit('change', value)
       if (!value) {
         return
       }

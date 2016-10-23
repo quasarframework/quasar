@@ -4,7 +4,7 @@
       <img
         ref="img"
         :src="src"
-        @load="processImage()"
+        @load="__processImage()"
         :class="{ready: imageHasBeenLoaded}"
         style="transform: translate3D(-50%, 0, 0)"
       >
@@ -47,23 +47,23 @@ export default {
       this.imageHasBeenLoaded = false
     },
     height () {
-      this.updatePosition()
+      this.__updatePosition()
     }
   },
   methods: {
-    processImage () {
+    __processImage () {
       this.imageHasBeenLoaded = true
-      this.processResize()
+      this.__processResize()
     },
-    processResize () {
+    __processResize () {
       if (!this.imageHasBeenLoaded || !this.scrollTarget) {
         return
       }
 
       this.imageHeight = Utils.dom.height(this.image)
-      this.updatePosition()
+      this.__updatePosition()
     },
-    updatePosition () {
+    __updatePosition () {
       if (!this.imageHasBeenLoaded) {
         return
       }
@@ -98,16 +98,16 @@ export default {
       this.image = this.$refs.img
 
       this.scrollTarget = Utils.dom.getScrollTarget(this.$el)
-      this.resizeHandler = Utils.debounce(this.processResize, 50)
+      this.resizeHandler = Utils.debounce(this.__processResize, 50)
 
       window.addEventListener('resize', this.resizeHandler)
-      this.scrollTarget.addEventListener('scroll', this.updatePosition)
-      this.processResize()
+      this.scrollTarget.addEventListener('scroll', this.__updatePosition)
+      this.__processResize()
     })
   },
   beforeDestroy () {
     window.removeEventListener('resize', this.resizeHandler)
-    this.scrollTarget.removeEventListener('scroll', this.updatePosition)
+    this.scrollTarget.removeEventListener('scroll', this.__updatePosition)
   }
 }
 </script>

@@ -49,7 +49,6 @@ export default {
       type: Number,
       required: true
     },
-    disable: Boolean,
     min: {
       type: Number,
       default: 0
@@ -78,6 +77,7 @@ export default {
       type: Number,
       default: 1
     },
+    disable: Boolean,
     placeholder: String
   },
   computed: {

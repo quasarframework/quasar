@@ -5,7 +5,7 @@
         ref="track"
         class="quasar-slider-track"
         :class="{'with-arrows': arrows, 'with-toolbar': toolbar}"
-        v-touch-pan.horizontal="pan"
+        v-touch-pan.horizontal="__pan"
       >
         <slot name="slide"></slot>
       </div>
@@ -75,7 +75,7 @@ export default {
     }
   },
   methods: {
-    pan (event) {
+    __pan (event) {
       if (!this.hasOwnProperty('initialPosition')) {
         this.initialPosition = this.position
         Velocity(this.$refs.track, 'stop')
