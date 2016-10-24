@@ -9,7 +9,7 @@ export default {
       type: String,
       default: 'slide',
       validator (value) {
-        if (!['slide'].includes(value)) {
+        if (!transitions[value]) {
           console.error('Quasar Transition unknown: ' + value)
           return false
         }

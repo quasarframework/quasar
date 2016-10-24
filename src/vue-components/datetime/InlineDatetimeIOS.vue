@@ -132,7 +132,7 @@ export default {
   },
   data () {
     return {
-      date: moment(this.model),
+      date: moment(this.value),
       monthDragOffset: 0,
       dateDragOffset: 0,
       yearDragOffset: 0,

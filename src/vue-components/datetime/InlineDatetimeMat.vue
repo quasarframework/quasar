@@ -225,7 +225,7 @@ export default {
 
     return {
       view,
-      date: moment(this.model),
+      date: moment(this.value),
       dragging: false,
       centerClockPosition: 0,
       firstDayOfWeek: moment.localeData().firstDayOfWeek(),
