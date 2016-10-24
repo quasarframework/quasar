@@ -70,7 +70,7 @@
     "eslint-friendly-formatter": "^2.0.6",
     "eslint-loader": "^1.5.0",
     "eslint-plugin-html": "^1.5.3",
-    "eslint-plugin-promise": "^2.0.1",
+    "eslint-plugin-promise": "^3.3.0",
     "eslint-plugin-standard": "^2.0.1",
     "eventsource-polyfill": "^0.9.6",
     "express": "^4.14.0",
@@ -83,7 +83,7 @@
     "jasmine-core": "^2.4.1",
     "json-loader": "^0.5.4",
     "karma": "^1.1.1",
-    "karma-chrome-launcher": "^1.0.1",
+    "karma-chrome-launcher": "^2.0.0",
     "karma-coverage": "^1.1.0",
     "karma-firefox-launcher": "^1.0.0",
     "karma-ie-launcher": "^1.0.0",
@@ -97,7 +97,7 @@
     "moment": "^2.15.1",
     "object-assign": "^4.1.0",
     "phantomjs": "^2.1.7",
-    "postcss-loader": "^0.13.0",
+    "postcss-loader": "^1.0.0",
     "raw-loader": "^0.5.1",
     "roboto-fontface": "^0.6.0",
     "rollup": "^0.36.1",
@@ -118,7 +118,7 @@
     "webpack": "^1.13.1",
     "webpack-dev-middleware": "^1.8.3",
     "webpack-hot-middleware": "^2.12.1",
-    "webpack-merge": "^0.14.0"
+    "webpack-merge": "^0.15.0"
   },
   "peerDependencies": {
     "fastclick": "^1.0.6",

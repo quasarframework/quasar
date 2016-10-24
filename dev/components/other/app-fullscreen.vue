@@ -1,0 +1,47 @@
+<template>
+  <div>
+    <div class="layout-padding">
+      <p class="caption">
+        <span class="desktop-only">Click</span>
+        <span class="mobile-only">Tap</span>
+        to switch between fullscreen mode and default mode.
+      </p>
+
+      <p>
+        <button
+          class="secondary"
+          @click="toggleFullscreen()"
+        >
+          <i class="on-left">zoom_out_map</i>
+          Toggle Fullscreen
+        </button>
+      </p>
+
+      <p class="caption">
+        On some phones this will have little effect:
+      </p>
+      <ul class="light-paragraph">
+        <li>
+          For example, on Samsung S4, when App goes into fullscreen, the top bar
+          will slide up but still remain on screen.
+        </li>
+        <li>
+          On Nexus phones, on the other hand, like Nexus 5, Android navigation
+          buttons and top bar dissapear completely.
+        </li>
+      </ul>
+    </div>
+  </div>
+</template>
+
+<script>
+import { AppFullscreen } from 'quasar'
+
+export default {
+  methods: {
+    toggleFullscreen () {
+      AppFullscreen.toggle()
+    }
+  }
+}
+</script>

@@ -6,7 +6,7 @@ var
   HtmlWebpackPlugin = require('html-webpack-plugin'),
   autoprefixer = require('autoprefixer'),
   projectRoot = path.resolve(__dirname, '../'),
-  entry = './dev/app.js',
+  entry = './dev/main.js',
   plugins = []
 
 if (process.env.NODE_ENV !== 'production') {
