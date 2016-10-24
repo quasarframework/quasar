@@ -20,8 +20,7 @@ export default {
     },
     value: {
       type: String,
-      required: true,
-      default: moment().format()
+      required: true
     },
     format: String,
     okLabel: {

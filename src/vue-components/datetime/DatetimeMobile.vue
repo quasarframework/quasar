@@ -59,7 +59,7 @@ export default {
   },
   data () {
     return {
-      model: '',
+      model: moment().format(),
       css: contentCSS[theme],
       position: theme === 'ios' ? 'items-end justify-center' : 'items-center justify-center',
       transition: theme === 'ios' ? 'quasar-modal-actions' : 'quasar-modal',
