@@ -17,7 +17,7 @@
     </div>
 
     <quasar-tabs slot="navigation">
-      <quasar-tab icon="view_quilt" route="/test-layout/layout" exact replace>About</quasar-tab>
+      <quasar-tab icon="view_quilt" route="/test-layout/about" exact replace>About</quasar-tab>
       <quasar-tab icon="view_day" route="/test-layout/toolbar" replace>Toolbar</quasar-tab>
       <quasar-tab icon="view_day" route="/test-layout/tabs" replace>Tabs</quasar-tab>
       <quasar-tab icon="input" route="/test-layout/drawer" replace>Drawer</quasar-tab>

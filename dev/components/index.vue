@@ -3,18 +3,17 @@
     <div class="layout-padding">
       <div
         class="list no-border"
-        v-for="category in pages"
+        v-for="(category, title) in list"
       >
-        <div class="list-label">
-          {{ category.title }}
-        </div>
+        <h4 class="uppercase">
+          {{ title }}
+        </h4>
         <router-link
-          v-for="feature in category.features"
+          v-for="feature in category"
           tag="div"
-          class="item item-link item-inset-delimiter"
-          :to="'/' + category.hash + '/' + feature.hash"
+          class="item item-link item-delimiter"
+          :to="feature.route"
         >
-          <i class="item-primary">{{ feature.icon }}</i>
           <div class="item-content has-secondary">
             <div>{{ feature.title }}</div>
           </div>
@@ -28,10 +27,22 @@
 <script>
 import pages from '../pages'
 
+let list = {}
+pages.map(page => page.slice(0, page.length - 4)).forEach(page => {
+  let [folder, file] = page.split('/')
+  if (!list[folder]) {
+    list[folder] = []
+  }
+  list[folder].push({
+    route: page,
+    title: file.charAt(0).toUpperCase() + file.slice(1)
+  })
+})
+
 export default {
   data () {
     return {
-      pages
+      list
     }
   }
 }

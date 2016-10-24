@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+
 import pages from './pages'
 
 Vue.use(VueRouter)
@@ -9,7 +10,10 @@ function load (name) {
 }
 
 function component (path) {
-  return {path: '/' + path, component: load(path)}
+  return {
+    path: '/' + path.slice(0, path.length - 4),
+    component: require('./components/' + path)
+  }
 }
 
 let routes = [
@@ -18,7 +22,7 @@ let routes = [
     path: '/test-layout',
     component: load('test-layout/layout'),
     children: [
-      {path: 'layout', component: load('test-layout/about')},
+      {path: 'about', component: load('test-layout/about')},
       {path: 'toolbar', component: load('test-layout/toolbar')},
       {path: 'tabs', component: load('test-layout/tabs')},
       {path: 'drawer', component: load('test-layout/drawer')}
@@ -26,11 +30,8 @@ let routes = [
   }
 ]
 
-pages.filter(category => !category.extract).forEach(category => {
-  category.features.forEach(group => {
-    let path = category.hash + '/' + group.hash
-    routes.push(component(path))
-  })
+pages.filter(page => page.indexOf('test-layout') === -1).forEach(page => {
+  routes.push(component(page))
 })
 
 routes.push({path: '*', component: load('error404')})
