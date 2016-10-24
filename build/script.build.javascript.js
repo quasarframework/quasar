@@ -29,13 +29,11 @@ var
   },
   external = [
     'fastclick',
-    'hammerjs',
     'moment',
     'velocity-animate'
   ],
   globals = {
     fastclick: 'FastClick',
-    hammerjs: 'Hammer',
     moment: 'moment',
     'velocity-animate': 'Velocity'
   },
