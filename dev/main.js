@@ -4,8 +4,6 @@ import Quasar from 'quasar'
 import Router from './router'
 import App from './App'
 
-require('../src/themes/quasar.' + __THEME + '.styl')
-
 Quasar.theme.set(__THEME)
 Vue.use(Quasar) // Install Quasar Framework
 
