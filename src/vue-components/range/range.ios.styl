@@ -52,8 +52,11 @@ $range-handle-box-shadow   ?= 0 1px 3px 1px rgba(0, 0, 0, .4)
   font-size ($range-handle-size / 2)
   line-height ($range-handle-size / 2.1)
   color white
-  background black
+  background rgba(0, 0, 0, .8)
   border-radius $generic-border-radius
+  &.label-always
+    opacity 1
+    transform translateY(-50%) scale(.7)
 
 .quasar-range-handle
   position absolute

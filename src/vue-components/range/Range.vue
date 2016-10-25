@@ -27,7 +27,8 @@
       >
         <div
           class="quasar-range-label"
-          v-if="label"
+          :class="{'label-always': labelAlways}"
+          v-if="label || labelAlways"
         >{{ value }}</div>
       </div>
     </div>
@@ -59,6 +60,7 @@ export default {
     snap: Boolean,
     markers: Boolean,
     label: Boolean,
+    labelAlways: Boolean,
     disable: Boolean
   },
   data () {

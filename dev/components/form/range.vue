@@ -41,6 +41,14 @@
       </p>
       <quasar-range v-model="marker" :min="0" :max="10" :step="2" label snap markers></quasar-range>
 
+      <p class="caption">
+        Display Label All the Time
+        <span class="label inline bg-secondary text-white">
+          Model <span class="right-detail"><em>{{label}}</em> &nbsp;&nbsp;(-20 to 20, step 4)</span>
+        </span>
+      </p>
+      <quasar-range v-model="label" :min="-20" :max="20" :step="4" label-always></quasar-range>
+
       <p class="caption">Disabled State</p>
       <quasar-range v-model="standalone" :min="0" :max="50" disable></quasar-range>
 
