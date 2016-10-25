@@ -14,10 +14,7 @@ export default {
     val: {
       required: true
     },
-    disable: {
-      type: Boolean,
-      default: false
-    }
+    disable: Boolean
   },
   computed: {
     model: {

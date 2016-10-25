@@ -1,5 +1,5 @@
 <template>
-  <div class="quasar-datetime inline column gt-md-row" :class="{disabled: disable}">
+  <div class="quasar-datetime inline column gt-md-row" :class="{disabled: disable, readonly: readonly}">
     <div class="quasar-datetime-header column justify-center">
       <div v-if="type === 'date' || type === 'datetime'">
         <div class="quasar-datetime-weekdaystring">{{ weekDayString }}</div>
@@ -208,6 +208,7 @@ export default {
         return ['date', 'time', 'datetime'].includes(value)
       }
     },
+    readonly: Boolean,
     disable: Boolean
   },
   data () {
@@ -252,6 +253,9 @@ export default {
     }
   },
   computed: {
+    editable () {
+      return !this.disabled && !this.readonly
+    },
     model: {
       get () {
         return this.value
@@ -312,21 +316,21 @@ export default {
   methods: {
     /* date */
     setYear (value) {
-      if (this.disable) {
+      if (!this.editable) {
         return
       }
       this.date.year(this.__parseTypeValue('year', value))
       this.__updateModel()
     },
     setMonth (value, force) {
-      if (this.disable) {
+      if (!this.editable) {
         return
       }
       this.date.month((force ? value : this.__parseTypeValue('month', value)) - 1)
       this.__updateModel()
     },
     setDay (value) {
-      if (this.disable) {
+      if (!this.editable) {
         return
       }
       this.date.date(this.__parseTypeValue('date', value))
@@ -335,7 +339,7 @@ export default {
 
     /* time */
     toggleAmPm () {
-      if (this.disable) {
+      if (!this.editable) {
         return
       }
       let
@@ -346,7 +350,7 @@ export default {
       this.__updateModel()
     },
     setHour (value) {
-      if (this.disable) {
+      if (!this.editable) {
         return
       }
       value = this.__parseTypeValue('hour', value) % 12
@@ -359,7 +363,7 @@ export default {
       this.__updateModel()
     },
     setMinute (value) {
-      if (this.disable) {
+      if (!this.editable) {
         return
       }
       this.date.minute(this.__parseTypeValue('minute', value))

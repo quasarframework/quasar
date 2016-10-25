@@ -14,6 +14,12 @@
       <p class="caption">Disabled State</p>
       <quasar-dialog-select disable type="radio" v-model="select" :options="selectOptions"></quasar-dialog-select>
 
+      <p class="caption">Readonly State</p>
+      <quasar-dialog-select readonly type="radio" v-model="select" :options="selectOptions"></quasar-dialog-select>
+
+      <p class="caption">Error State</p>
+      <quasar-dialog-select class="has-error" type="radio" v-model="select" :options="selectOptions"></quasar-dialog-select>
+
       <p class="caption">Inside of a List</p>
       <div class="list">
         <div class="list-label">Single Selection</div>

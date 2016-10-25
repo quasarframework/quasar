@@ -17,6 +17,12 @@
       <p class="caption">Disabled State</p>
       <quasar-chips v-model="model" disable></quasar-chips>
 
+      <p class="caption">Readonly State</p>
+      <quasar-chips v-model="model" readonly></quasar-chips>
+
+      <p class="caption">Error State</p>
+      <quasar-chips v-model="model" class="has-error"></quasar-chips>
+
       <p class="caption">Inside of a List</p>
       <div class="list">
         <div class="item multiple-lines">

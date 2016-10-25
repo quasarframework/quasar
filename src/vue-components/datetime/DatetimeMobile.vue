@@ -1,5 +1,5 @@
 <template>
-  <div class="cursor-pointer textfield caret" @click="open" :class="{disabled: disable}">
+  <div class="cursor-pointer textfield caret" @click="open" :class="{disabled: disable, readonly: readonly}">
     <div v-html="label"></div>
     <quasar-modal
       ref="dialog"
@@ -55,6 +55,7 @@ export default {
       type: String,
       default: 'Cancel'
     },
+    readonly: Boolean,
     disable: Boolean
   },
   data () {
@@ -88,7 +89,7 @@ export default {
   },
   methods: {
     open () {
-      if (!this.disable) {
+      if (!this.disable && !this.readonly) {
         this.model = this.value
         this.$refs.dialog.open()
       }

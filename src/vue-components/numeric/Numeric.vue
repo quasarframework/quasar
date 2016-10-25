@@ -1,5 +1,5 @@
 <template>
-  <div class="quasar-numeric textfield row inline items-center" :class="{disabled: disable}">
+  <div class="quasar-numeric textfield row inline items-center" :class="{disabled: disable, readonly: readonly}">
     <i @click="__setByOffset(-1)">remove</i>
     <input
       class="no-style auto quasar-input-field"
@@ -11,6 +11,7 @@
       @keydown.down="__setByOffset(-1)"
       @keydown.esc="model = value"
       :disabled="disable"
+      :readonly="readonly"
       :style="{width: (''+model).length * .7 + 'em'}"
     >
     <i v-show="value !== model && model !== ''">check</i>
@@ -31,6 +32,7 @@ export default {
     },
     min: Number,
     max: Number,
+    readonly: Boolean,
     disable: Boolean
   },
   watch: {
@@ -55,22 +57,24 @@ export default {
     },
     __updateValue () {
       this.model = this.__normalize(this.model)
-      if (!this.disable && this.value !== this.model) {
+      if (!this.disable && !this.readonly && this.value !== this.model) {
         this.$emit('input', this.model)
       }
     },
     __setByOffset (direction) {
-      if (!this.disable) {
-        let newValue = this.model + direction * this.step
-        if (typeof this.min === 'number' && newValue < this.min && this.model === this.min) {
-          return
-        }
-        if (typeof this.max === 'number' && newValue > this.max && this.model === this.max) {
-          return
-        }
-        this.model = newValue
-        this.__updateValue()
+      if (this.disable || this.readonly) {
+        return
       }
+
+      let newValue = this.model + direction * this.step
+      if (typeof this.min === 'number' && newValue < this.min && this.model === this.min) {
+        return
+      }
+      if (typeof this.max === 'number' && newValue > this.max && this.model === this.max) {
+        return
+      }
+      this.model = newValue
+      this.__updateValue()
     }
   },
   created () {

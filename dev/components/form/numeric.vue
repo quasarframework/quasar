@@ -11,6 +11,12 @@
       <p class="caption">Disabled State</p>
       <quasar-numeric v-model="number" :min="min" :max="max" disable></quasar-numeric>
 
+      <p class="caption">Readonly State</p>
+      <quasar-numeric v-model="number" :min="min" :max="max" readonly></quasar-numeric>
+
+      <p class="caption">Error State</p>
+      <quasar-numeric class="has-error" v-model="number" :min="min" :max="max"></quasar-numeric>
+
       <p class="caption">Inside of a List</p>
       <div class="list">
         <div class="item two-lines">

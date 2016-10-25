@@ -2,13 +2,10 @@
   min-height 45px
   padding-bottom 5px
   transition all .3s
-  border-bottom 2px solid $form-lighter-color
-  border-radius $form-border-radius
   cursor text
-  &.active, &:hover
-    border-bottom 2px solid $form-active-color
-  &.disabled
-    border-bottom-style dotted
+  &.readonly
+    .quasar-chips-input, i
+      display none
   .quasar-chips-input
     display inline-block
     white-space nowrap

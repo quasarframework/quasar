@@ -1,7 +1,7 @@
 <template>
   <div
     class="quasar-search"
-    :class="{'quasar-search-centered': !this.focused && this.model === '', disabled: disable}"
+    :class="{'quasar-search-centered': !this.focused && this.model === '', disabled: disable, readonly: readonly}"
   >
     <div class="quasar-search-input-container">
       <button class="quasar-search-icon">
@@ -12,9 +12,10 @@
         class="quasar-search-input no-style"
         :placeholder="placeholder"
         v-model="model"
-        @focus="focused = true"
-        @blur="focused = false"
+        @focus="focus()"
+        @blur="blur()"
         :disabled="disable"
+        :readonly="readonly"
       >
       <button
         class="quasar-search-clear"
@@ -49,10 +50,8 @@ export default {
       type: String,
       default: 'Search'
     },
-    disable: {
-      type: Boolean,
-      default: false
-    }
+    readonly: Boolean,
+    disable: Boolean
   },
   data () {
     return {
@@ -76,7 +75,7 @@ export default {
   },
   methods: {
     clear () {
-      if (!this.disable) {
+      if (!this.disable && !this.readonly) {
         this.$emit('input', '')
       }
     },
@@ -86,6 +85,14 @@ export default {
           this.$emit('input', value)
         }
       }, debounce)
+    },
+    focus () {
+      if (!this.disable && !this.readonly) {
+        this.focused = true
+      }
+    },
+    blur () {
+      this.focused = false
     }
   },
   created () {

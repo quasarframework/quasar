@@ -44,6 +44,9 @@
       <p class="caption">Disabled State</p>
       <quasar-range v-model="standalone" :min="0" :max="50" disable></quasar-range>
 
+      <p class="caption">Error State</p>
+      <quasar-range class="has-error" v-model="standalone" :min="0" :max="50"></quasar-range>
+
       <p class="caption">Coloring</p>
       <quasar-range class="secondary" v-model="standalone" :min="0" :max="50" label></quasar-range>
       <quasar-range class="orange" v-model="standalone" :min="0" :max="50" label></quasar-range>

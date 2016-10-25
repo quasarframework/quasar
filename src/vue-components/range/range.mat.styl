@@ -103,3 +103,10 @@ $range-handle-radius       ?= 50%
             background $color
           if luminosity($color) > .3
             color black
+
+  &.has-error
+    .quasar-range-track
+      background alpha($has-error, 50%)
+    .quasar-range-track.active-track,
+    .quasar-range-handle:not(.handle-at-minimum)
+      background $has-error

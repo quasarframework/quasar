@@ -15,6 +15,12 @@
 
       <p class="caption">Disabled State</p>
       <quasar-search v-model="search" class="primary" disable></quasar-search>
+
+      <p class="caption">Readonly State</p>
+      <quasar-search v-model="search" class="primary" readonly></quasar-search>
+
+      <p class="caption">Error State</p>
+      <quasar-search v-model="search" class="primary has-error"></quasar-search>
     </div>
   </div>
 </template>

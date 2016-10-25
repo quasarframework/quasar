@@ -17,10 +17,7 @@ export default {
       type: Boolean,
       required: true
     },
-    disable: {
-      type: Boolean,
-      default: false
-    },
+    disable: Boolean,
     icon: String
   },
   computed: {

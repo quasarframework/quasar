@@ -57,6 +57,12 @@
       <p class="caption">Disabled State</p>
       <quasar-datetime disable v-model="model" type="datetime"></quasar-datetime>
 
+      <p class="caption">Readonly State</p>
+      <quasar-datetime readonly v-model="model" type="datetime"></quasar-datetime>
+
+      <p class="caption">Error State</p>
+      <quasar-datetime class="has-error" v-model="model" type="datetime"></quasar-datetime>
+
       <p class="caption">Inside of a List</p>
       <div class="list">
         <div class="list-label">Date or Time</div>
@@ -80,10 +86,6 @@
             <quasar-datetime class="full-width" v-model="model" type="datetime"></quasar-datetime>
           </div>
         </div>
-      </div>
-
-      <div class="label bg-secondary text-white">
-        Model <span class="right-detail"><em>{{model}}</em></span>
       </div>
 
       <p class="caption">
@@ -126,6 +128,9 @@
 
       <p class="caption">Disabled State</p>
       <quasar-inline-datetime disable v-model="model" type="datetime"></quasar-inline-datetime>
+
+      <p class="caption">Readonly State</p>
+      <quasar-inline-datetime readonly v-model="model" type="datetime"></quasar-inline-datetime>
     </div>
   </div>
 </template>

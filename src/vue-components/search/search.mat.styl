@@ -56,7 +56,14 @@
           &:-ms-input-placeholder
             color $grey-4
 
+  &.has-error
+    color opposite-non-color($has-error)
+    .quasar-search-input
+      background $has-error
+
 body.desktop .quasar-search
   for $name, $color in $colors
     &.{$name} .quasar-search-input:hover
       background light-active-color($color)
+  &.has-error .quasar-search-input:hover
+      background light-active-color($has-error)

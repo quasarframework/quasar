@@ -82,3 +82,9 @@ $range-handle-box-shadow   ?= 0 1px 3px 1px rgba(0, 0, 0, .4)
   for $name, $color in $colors
     &.{$name} .quasar-range-track.active-track
       background $color
+
+  &.has-error
+    .quasar-range-track
+      background alpha($has-error, 50%)
+    .quasar-range-handle, .quasar-range-track.active-track
+      background lighten($has-error, 20%)

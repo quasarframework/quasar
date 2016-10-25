@@ -22,6 +22,12 @@
       <p class="caption">Disabled State</p>
       <textarea disabled>I'm disabled. You cannot edit me.</textarea>
 
+      <p class="caption">Readonly State</p>
+      <textarea readonly>Read only. Cannot edit.</textarea>
+
+      <p class="caption">Error State</p>
+      <textarea class="has-error">Invalid content here.</textarea>
+
       <p class="caption">Inside of a List</p>
       <div class="list">
         <div class="item multiple-lines">

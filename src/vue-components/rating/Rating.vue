@@ -26,10 +26,7 @@ export default {
       type: String,
       default: 'grade'
     },
-    disable: {
-      type: Boolean,
-      default: false
-    }
+    disable: Boolean
   },
   data () {
     return {

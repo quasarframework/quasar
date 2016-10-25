@@ -27,7 +27,10 @@ input, textarea, .textfield
       border-color $textfield-focus-border-color
     &[disabled], &.disabled
       border-color darken($form-darker-color, 20%)
+    &[disabled], &.disabled, &[readonly], &.readonly
       border-style dotted
+    &.has-error
+      border $textfield-border-size $textfield-border-style $has-error !important
 
 textarea:not(.no-style)
   height 11em

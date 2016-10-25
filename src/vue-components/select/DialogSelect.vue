@@ -2,7 +2,7 @@
   <div
     class="quasar-select cursor-pointer textfield caret"
     @click="pick"
-    :class="{disabled: disable}"
+    :class="{disabled: disable, readonly: readonly}"
   >
     <div v-html="label"></div>
   </div>
@@ -46,6 +46,7 @@ export default {
     },
     message: String,
     placeholder: String,
+    readonly: Boolean,
     disable: Boolean
   },
   computed: {
@@ -75,7 +76,7 @@ export default {
       return options[0]
     },
     pick () {
-      if (this.disable) {
+      if (this.disable || this.readonly) {
         return
       }
 

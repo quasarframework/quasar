@@ -1,8 +1,8 @@
 <template>
   <div
-    class="quasar-chips group"
+    class="quasar-chips group textfield"
     @click="focus"
-    :class="{active: active, disabled: disable}"
+    :class="{active: active, disabled: disable, readonly: readonly}"
   >
     <span
       class="chip label bg-light text-grey-9"
@@ -39,6 +39,7 @@ export default {
       required: true
     },
     disable: Boolean,
+    readonly: Boolean,
     placeholder: String
   },
   data () {
@@ -49,13 +50,13 @@ export default {
   },
   methods: {
     add (value = this.input) {
-      if (!this.disable && value) {
+      if (!this.disable && !this.readonly && value) {
         this.$emit('input', this.value.concat([value]))
         this.input = ''
       }
     },
     remove (index) {
-      if (!this.disable && index >= 0 && index < this.value.length) {
+      if (!this.disable && !this.readonly && index >= 0 && index < this.value.length) {
         let value = this.value.slice(0)
         value.splice(index, 1)
         this.$emit('input', value)

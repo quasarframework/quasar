@@ -1,5 +1,5 @@
 <template>
-  <div class="quasar-datetime" :class="['type-' + type, disable ? 'disabled' : '']">
+  <div class="quasar-datetime" :class="['type-' + type, disable ? 'disabled' : '', readonly ? 'readonly' : '']">
     <slot></slot>
 
     <div class="quasar-datetime-content non-selectable">
@@ -128,6 +128,7 @@ export default {
         return ['date', 'time', 'datetime'].includes(value)
       }
     },
+    readonly: Boolean,
     disable: Boolean
   },
   data () {
@@ -147,6 +148,9 @@ export default {
     }
   },
   computed: {
+    editable () {
+      return !this.disabled && !this.readonly
+    },
     model: {
       get () {
         return this.value
@@ -205,41 +209,36 @@ export default {
   methods: {
     /* date */
     setYear (value) {
-      if (this.disable) {
-        return
+      if (this.editable) {
+        this.date.year(this.__parseTypeValue('year', value))
+        this.__updateModel()
       }
-      this.date.year(this.__parseTypeValue('year', value))
-      this.__updateModel()
     },
     setMonth (value) {
-      if (this.disable) {
-        return
+      if (this.editable) {
+        this.date.month(this.__parseTypeValue('month', value) - 1)
+        this.__updateModel()
       }
-      this.date.month(this.__parseTypeValue('month', value) - 1)
-      this.__updateModel()
     },
     setDay (value) {
-      if (this.disable) {
-        return
+      if (this.editable) {
+        this.date.date(this.__parseTypeValue('date', value))
+        this.__updateModel()
       }
-      this.date.date(this.__parseTypeValue('date', value))
-      this.__updateModel()
     },
 
     /* time */
     setHour (value) {
-      if (this.disable) {
-        return
+      if (this.editable) {
+        this.date.hour(this.__parseTypeValue('hour', value))
+        this.__updateModel()
       }
-      this.date.hour(this.__parseTypeValue('hour', value))
-      this.__updateModel()
     },
     setMinute (value) {
-      if (this.disable) {
-        return
+      if (this.editable) {
+        this.date.minute(this.__parseTypeValue('minute', value))
+        this.__updateModel()
       }
-      this.date.minute(this.__parseTypeValue('minute', value))
-      this.__updateModel()
     },
 
     /* helpers */
@@ -297,7 +296,7 @@ export default {
       this.model = this.date.toISOString()
     },
     __dragStart (ev, type) {
-      if (this.disable) {
+      if (!this.editable) {
         return
       }
 
@@ -312,7 +311,7 @@ export default {
       this.__dragPosition = Utils.event.position(ev).top
     },
     __dragMove (ev, type) {
-      if (this.dragging !== type || this.disable) {
+      if (this.dragging !== type || !this.editable) {
         return
       }
       ev.stopPropagation()
@@ -321,7 +320,7 @@ export default {
       this.__updatePositions(type, this.date[type]() + this[type + 'DragOffset'])
     },
     __dragStop (ev, type) {
-      if (this.dragging !== type || this.disable) {
+      if (this.dragging !== type || !this.editable) {
         return
       }
       ev.stopPropagation()

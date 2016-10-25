@@ -24,6 +24,12 @@
       <p class="caption">Disabled State</p>
       <input disabled value="You cannot edit me.">
 
+      <p class="caption">Readonly State</p>
+      <input readonly value="Read only. Cannot edit.">
+
+      <p class="caption">Error State</p>
+      <input class="has-error" value="Invalid content here">
+
       <p class="caption">Inside of a List</p>
       <div class="list">
         <div class="item two-lines">

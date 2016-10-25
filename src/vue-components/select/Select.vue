@@ -3,12 +3,12 @@
     <div
       ref="target"
       class="cursor-pointer textfield caret"
-      :class="{disabled: disable}"
+      :class="{disabled: disable, readonly: readonly}"
     >
       <div v-html="label"></div>
     </div>
 
-    <quasar-popover ref="popover" anchor-ref="target" :disable="disable">
+    <quasar-popover ref="popover" anchor-ref="target" :disable="disable || readonly">
       <div class="quasar-select-popover list highlight">
         <label v-if="type === 'radio'" v-for="radio in options" class="item" @click="close">
           <div class="item-primary">
@@ -75,10 +75,8 @@ export default {
       }
     },
     placeholder: String,
-    disable: {
-      type: Boolean,
-      default: false
-    }
+    readonly: Boolean,
+    disable: Boolean
   },
   data () {
     return this.type !== 'radio' ? {optionsModel: getOptionsModel(this.options, this.value)} : {}
@@ -142,7 +140,7 @@ export default {
       return options[0]
     },
     open (event) {
-      if (!this.disable) {
+      if (!this.disable && !this.readonly) {
         this.$refs.popover.open(event)
       }
     },

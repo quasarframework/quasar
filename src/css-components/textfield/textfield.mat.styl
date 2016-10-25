@@ -21,11 +21,14 @@ input, textarea, .textfield
     outline 0
     transition all .3s
     border-bottom $textfield-border-size $textfield-border-style $textfield-border-color
-    &:focus, &:hover
+    &:focus, &:hover, .active
       border-bottom $textfield-border-size $textfield-border-style $textfield-focus-border-color
     &[disabled], &.disabled
       border-bottom-color darken($form-darker-color, 20%)
+    &[disabled], &.disabled, &[readonly], &.readonly
       border-bottom-style dotted
+    &.has-error
+      border-bottom $textfield-border-size $textfield-border-style $has-error !important
 
 textarea:not(.no-style)
   height 11em
