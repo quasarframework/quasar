@@ -2,7 +2,6 @@
   <div
     class="quasar-popover animate-scale"
     @click.stop
-    :class="{opened: opened}"
     :style="transformOrigin"
   >
     <slot></slot>
@@ -33,14 +32,14 @@ function getAnchorPosition (el) {
   return a
 }
 
-function getTargetPosition (targetEl) {
+function getTargetPosition (el) {
   return {
     top: 0,
-    center: targetEl.offsetHeight / 2,
-    bottom: targetEl.offsetHeight,
+    center: el.offsetHeight / 2,
+    bottom: el.offsetHeight,
     left: 0,
-    middle: targetEl.offsetWidth / 2,
-    right: targetEl.offsetWidth
+    middle: el.offsetWidth / 2,
+    right: el.offsetWidth
   }
 }
 
@@ -124,7 +123,6 @@ function parseHorizTransformOrigin (pos) {
 
 export default {
   props: {
-    anchorRef: String,
     anchorOrigin: {
       type: Object,
       default () {
@@ -139,27 +137,23 @@ export default {
     },
     maxHeight: String,
     touchPosition: Boolean,
+    anchorClick: {
+      /*
+        for handling anchor outside of Popover
+        example: context menu component
+      */
+      type: Boolean,
+      default: true
+    },
     disable: Boolean
   },
   data () {
     return {
-      opened: false
+      opened: false,
+      progress: false
     }
   },
   computed: {
-    anchorEl () {
-      if (!this.anchorRef) {
-        return
-      }
-      let target = Utils.getVueRef(this, this.anchorRef)
-      if (!target) {
-        throw new Error(`Vue ref "${this.anchorRef}" not found!`)
-      }
-      if (Array.isArray(target)) {
-        target = target[0]
-      }
-      return target.$el ? target.$el : target
-    },
     transformOrigin () {
       let
         vert = this.targetOrigin.vertical,
@@ -170,29 +164,18 @@ export default {
       }
     }
   },
-  watch: {
-    anchorEl (newValue, oldValue) {
-      if (oldValue && document.body.contains(oldValue)) {
-        oldValue.removeEventListener('click', this.toggle)
-        if (this.scrollTarget) {
-          this.scrollTarget.removeEventListener('scroll', this.close)
-        }
-      }
-      if (newValue) {
-        newValue.addEventListener('click', this.toggle)
-      }
-    }
-  },
   mounted () {
     this.$nextTick(() => {
-      if (this.anchorEl) {
+      this.anchorEl = this.$el.parentNode
+      this.anchorEl.removeChild(this.$el)
+      if (this.anchorClick) {
         this.anchorEl.classList.add('cursor-pointer')
         this.anchorEl.addEventListener('click', this.toggle)
       }
     })
   },
   beforeDestroy () {
-    if (this.anchorEl) {
+    if (this.anchorClick) {
       this.anchorEl.removeEventListener('click', this.toggle)
     }
     this.close()
@@ -207,49 +190,54 @@ export default {
       }
     },
     open (event) {
-      if (this.disable) {
+      if (this.disable || this.opened) {
         return
       }
       if (event) {
         event.stopPropagation()
         event.preventDefault()
       }
-      if (!this.opened) {
-        this.opened = true
-        EscapeKey.register(() => { this.close() })
-        if (this.anchorEl) {
-          this.scrollTarget = Utils.dom.getScrollTarget(this.anchorEl)
-          this.scrollTarget.addEventListener('scroll', this.close)
-        }
-        else if (!event) {
-          throw new Error('Popover called without "event" parameter.')
-        }
-        document.addEventListener('click', this.close)
-        this.$nextTick(() => {
-          this.__updatePosition(event)
-          this.$emit('open')
-        })
-      }
+
+      this.opened = true
+      document.body.click() // close other Popovers
+      document.body.appendChild(this.$el)
+      EscapeKey.register(() => { this.close() })
+      this.scrollTarget = Utils.dom.getScrollTarget(this.anchorEl)
+      this.scrollTarget.addEventListener('scroll', this.close)
+      document.addEventListener('click', this.close)
+      this.$nextTick(() => {
+        this.__updatePosition(event)
+        this.$emit('open')
+      })
     },
     close () {
-      if (this.opened) {
-        this.opened = false
-        EscapeKey.pop()
-        document.removeEventListener('click', this.close)
-        if (this.anchorEl) {
-          this.scrollTarget.removeEventListener('scroll', this.close)
-        }
-        this.$emit('close')
+      if (!this.opened || this.progress) {
+        return
       }
+      document.removeEventListener('click', this.close)
+      this.scrollTarget.removeEventListener('scroll', this.close)
+      EscapeKey.pop()
+      this.progress = true
+
+      /*
+        Using setTimeout to allow
+        v-models to take effect
+      */
+      setTimeout(() => {
+        this.opened = false
+        this.progress = false
+        document.body.removeChild(this.$el)
+        this.$emit('close')
+      }, 1)
     },
     __updatePosition (event) {
       let anchor
       const
-        targetEl = this.$el,
+        el = this.$el,
         targetOrigin = this.targetOrigin,
         anchorOrigin = this.anchorOrigin
 
-      if (!this.anchorEl || (event && this.touchPosition)) {
+      if (event && (!this.anchorClick || this.touchPosition)) {
         const {top, left} = Utils.event.position(event)
         anchor = {top, left, width: 1, height: 1, right: left + 1, center: top, middle: left, bottom: top + 1}
       }
@@ -257,7 +245,7 @@ export default {
         anchor = getAnchorPosition(this.anchorEl)
       }
 
-      let target = getTargetPosition(targetEl)
+      let target = getTargetPosition(el)
       let targetPosition = {
         top: anchor[anchorOrigin.vertical] - target[targetOrigin.vertical],
         left: anchor[anchorOrigin.horizontal] - target[targetOrigin.horizontal]
@@ -265,9 +253,9 @@ export default {
 
       targetPosition = applyAutoPositionIfNeeded(anchor, target, targetOrigin, anchorOrigin, targetPosition)
 
-      targetEl.style.top = Math.max(0, targetPosition.top) + 'px'
-      targetEl.style.left = Math.max(0, targetPosition.left) + 'px'
-      targetEl.style.maxHeight = this.maxHeight || window.innerHeight * 0.9 + 'px'
+      el.style.top = Math.max(0, targetPosition.top) + 'px'
+      el.style.left = Math.max(0, targetPosition.left) + 'px'
+      el.style.maxHeight = this.maxHeight || window.innerHeight * 0.9 + 'px'
     }
   }
 }

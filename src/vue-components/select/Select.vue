@@ -1,14 +1,11 @@
 <template>
-  <div class="quasar-select-container">
-    <div
-      ref="target"
-      class="cursor-pointer textfield caret"
-      :class="{disabled: disable, readonly: readonly}"
-    >
-      <div v-html="label"></div>
-    </div>
+  <div
+    class="quasar-select-container cursor-pointer textfield caret"
+    :class="{disabled: disable, readonly: readonly}"
+  >
+    <div v-html="label"></div>
 
-    <quasar-popover ref="popover" anchor-ref="target" :disable="disable || readonly">
+    <quasar-popover ref="popover" :disable="disable || readonly">
       <div class="quasar-select-popover list highlight">
         <label v-if="type === 'radio'" v-for="radio in options" class="item" @click="close">
           <div class="item-primary">

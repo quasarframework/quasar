@@ -12,11 +12,5 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      model: ''
-    }
-  }
-}
+export default {}
 </script>

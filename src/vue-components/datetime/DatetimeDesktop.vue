@@ -1,9 +1,8 @@
 <template>
-  <div class="quasar-datetime-desktop">
-    <div ref="target" class="cursor-pointer textfield caret" :class="{disabled: disable, readonly: readonly}">
-      <div v-html="label"></div>
-    </div>
-    <quasar-popover ref="popover" anchor-ref="target" :disable="disable || readonly">
+  <div class="quasar-datetime-desktop cursor-pointer textfield caret" :class="{disabled: disable, readonly: readonly}">
+    <div v-html="label"></div>
+
+    <quasar-popover ref="popover" :disable="disable || readonly">
       <quasar-inline-datetime v-model="model" :type="type"></quasar-inline-datetime>
     </quasar-popover>
   </div>

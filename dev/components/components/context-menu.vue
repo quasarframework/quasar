@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding" style="margin-bottom: 1000px;">
+    <div class="layout-padding" style="padding-bottom: 1000px;">
       <p class="caption">
         <span class="desktop-only">
           Right click anywhere on the Page below (not on header though).
