@@ -32,6 +32,7 @@ It could be you!
 ### $50+
 
 - Peter Thaleikis
+- Kristian Mandrup
 
 ---
 
@@ -43,5 +44,6 @@ It could be you!
 
 ### One time
 
+- Remo Laubacher $200
 - Musicformellons $100
 - Mickaël Le Normand $15
