@@ -9,7 +9,6 @@ import dGoBack from './vue-directives/go-back'
 import dLink from './vue-directives/link'
 import dScrollFire from './vue-directives/scroll-fire'
 import dScroll from './vue-directives/scroll'
-import dTooltip from './vue-directives/tooltip'
 import dTouchHold from './vue-directives/touch-hold'
 import dTouchPan from './vue-directives/touch-pan'
 import dTouchSwipe from './vue-directives/touch-swipe'
@@ -56,6 +55,7 @@ import Step from './vue-components/stepper/Step.vue'
 import Tab from './vue-components/tab/Tab.vue'
 import Tabs from './vue-components/tab/Tabs.vue'
 import Toggle from './vue-components/toggle/Toggle.vue'
+import Tooltip from './vue-components/tooltip/Tooltip.vue'
 import Tree from './vue-components/tree/Tree.vue'
 import Video from './vue-components/video/Video.vue'
 
@@ -64,7 +64,6 @@ function registerDirectives (_Vue) {
   _Vue.directive('link', dLink)
   _Vue.directive('scroll-fire', dScrollFire)
   _Vue.directive('scroll', dScroll)
-  _Vue.directive('tooltip', dTooltip)
   _Vue.directive('touch-hold', dTouchHold)
   _Vue.directive('touch-pan', dTouchPan)
   _Vue.directive('touch-swipe', dTouchSwipe)
@@ -110,6 +109,7 @@ function registerComponents (_Vue) {
   _Vue.component('quasar-tab', Tab)
   _Vue.component('quasar-tabs', Tabs)
   _Vue.component('quasar-toggle', Toggle)
+  _Vue.component('quasar-tooltip', Tooltip)
   _Vue.component('quasar-tree', Tree)
   _Vue.component('quasar-video', Video)
 

@@ -1,0 +1,12 @@
+$tooltip-background   ?= white
+$tooltip-box-shadow   ?= $shadow-1
+$tooltip-padding      ?= 10px
+
+.quasar-tooltip
+  position fixed
+  box-shadow $tooltip-box-shadow
+  background $tooltip-background
+  z-index $z-tooltip
+  padding $tooltip-padding
+  overflow-y auto
+  overflow-x hidden
