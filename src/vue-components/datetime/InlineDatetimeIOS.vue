@@ -133,7 +133,7 @@ export default {
   },
   data () {
     return {
-      date: moment(this.value),
+      date: moment(this.value || undefined),
       monthDragOffset: 0,
       dateDragOffset: 0,
       yearDragOffset: 0,
@@ -144,16 +144,13 @@ export default {
   },
   watch: {
     model (value) {
-      this.date = moment(value)
+      this.date = moment(value || undefined)
     }
   },
   computed: {
-    editable () {
-      return !this.disabled && !this.readonly
-    },
     model: {
       get () {
-        return this.value
+        return this.value || undefined
       },
       set (value) {
         this.$emit('input', value)
@@ -204,6 +201,9 @@ export default {
     },
     __minuteStyle () {
       return this.__colStyle(82 - (this.minute + this.minuteDragOffset) * 36)
+    },
+    editable () {
+      return !this.disabled && !this.readonly
     }
   },
   methods: {

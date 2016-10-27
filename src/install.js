@@ -18,8 +18,7 @@ import Chips from './vue-components/chips/Chips.vue'
 import Collapsible from './vue-components/collapsible/Collapsible.vue'
 import ContextMenuDesktop from './vue-components/context-menu/ContextMenuDesktop.vue'
 import ContextMenuMobile from './vue-components/context-menu/ContextMenuMobile.vue'
-import DatetimeMobile from './vue-components/datetime/DatetimeMobile.vue'
-import DatetimeDesktop from './vue-components/datetime/DatetimeDesktop.vue'
+import Datetime from './vue-components/datetime/Datetime.vue'
 import InlineDatetimeMaterial from './vue-components/datetime/InlineDatetimeMat.vue'
 import InlineDatetimeIOS from './vue-components/datetime/InlineDatetimeIOS.vue'
 import Drawer from './vue-components/drawer/Drawer.vue'
@@ -75,7 +74,7 @@ function registerComponents (_Vue) {
   _Vue.component('quasar-collapsible', Collapsible)
   _Vue.component('quasar-context-menu', Platform.is.desktop ? ContextMenuDesktop : ContextMenuMobile)
   _Vue.component('quasar-inline-datetime', theme === 'ios' ? InlineDatetimeIOS : InlineDatetimeMaterial)
-  _Vue.component('quasar-datetime', Platform.is.desktop && !Platform.within.iframe ? DatetimeDesktop : DatetimeMobile)
+  _Vue.component('quasar-datetime', Datetime)
   _Vue.component('quasar-drawer', Drawer)
   _Vue.component('quasar-drawer-link', DrawerLink)
   _Vue.component('quasar-fab', Fab)

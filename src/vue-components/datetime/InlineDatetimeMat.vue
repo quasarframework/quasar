@@ -226,7 +226,7 @@ export default {
 
     return {
       view,
-      date: moment(this.value),
+      date: moment(this.value || undefined),
       dragging: false,
       centerClockPosition: 0,
       firstDayOfWeek: moment.localeData().firstDayOfWeek(),
@@ -236,7 +236,7 @@ export default {
   },
   watch: {
     model (value) {
-      this.date = moment(value)
+      this.date = moment(value || undefined)
     },
     view (value) {
       if (value !== 'year' && value !== 'month') {
@@ -253,12 +253,9 @@ export default {
     }
   },
   computed: {
-    editable () {
-      return !this.disabled && !this.readonly
-    },
     model: {
       get () {
-        return this.value
+        return this.value || undefined
       },
       set (value) {
         this.$emit('input', value)
@@ -311,6 +308,9 @@ export default {
         '-ms-transform': 'rotate(' + degrees + 'deg)',
         'transform': 'rotate(' + degrees + 'deg)'
       }
+    },
+    editable () {
+      return !this.disabled && !this.readonly
     }
   },
   methods: {

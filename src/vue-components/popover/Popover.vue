@@ -95,7 +95,7 @@ export default {
         this.$emit('open')
       })
     },
-    close () {
+    close (fn) {
       if (!this.opened || this.progress) {
         return
       }
@@ -113,6 +113,9 @@ export default {
         this.progress = false
         document.body.removeChild(this.$el)
         this.$emit('close')
+        if (typeof fn === 'function') {
+          fn()
+        }
       }, 1)
     },
     __updatePosition (event) {
