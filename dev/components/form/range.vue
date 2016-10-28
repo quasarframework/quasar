@@ -7,7 +7,7 @@
           Model <span class="right-detail"><em>{{standalone}}</em> &nbsp;&nbsp;(0 to 50)</span>
         </span>
       </p>
-      <quasar-range v-model="standalone" :min="0" :max="50"></quasar-range>
+      <quasar-range  label snap markers :step="5" label-always="true" v-model="standalone" :min="0" :max="50"></quasar-range>
 
       <p class="caption">
         With Step

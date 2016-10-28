@@ -20,7 +20,11 @@ $range-handle-radius       ?= 50%
   transition all .3s ease
   &.active-track
     background $range-active-color
+  &.track-draggable
+    background $range-color
+    border $range-track-height solid $range-active-color
   &.handle-at-minimum
+  &.handle-at-maximum
     background transparent
 
 .quasar-range-mark

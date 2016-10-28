@@ -26,6 +26,14 @@
       <quasar-double-range v-model="label" :min="-20" :max="20" :step="4" label></quasar-double-range>
 
       <p class="caption">
+        Drag entire range
+        <span class="label inline bg-secondary text-white">
+          Model <span class="right-detail"><em>{{range.min}} to {{range.max}}</em> &nbsp;&nbsp;(-20 to 20, step 4)</span>
+        </span>
+      </p>
+      <quasar-double-range v-model="label" :min="-20" :max="20" :step="4" label drag-range></quasar-double-range>
+
+      <p class="caption">
         Snaps to Steps
         <span class="label inline bg-secondary text-white">
           Model <span class="right-detail"><em>{{snap.min}} to {{snap.max}}</em> &nbsp;&nbsp;(0 to 10, step 2)</span>
@@ -48,6 +56,10 @@
         </span>
       </p>
       <quasar-double-range v-model="label" :min="-20" :max="20" :step="4" label-always></quasar-double-range>
+
+      <p class="caption">Disable Min or Max</p>
+      <quasar-double-range v-model="standalone" :min="0" :max="50" disable-min drag-range></quasar-double-range>
+      <quasar-double-range v-model="standalone" :min="0" :max="50" disable-max drag-range></quasar-double-range>
 
       <p class="caption">Disabled State</p>
       <quasar-double-range v-model="standalone" :min="0" :max="50" disable></quasar-double-range>
@@ -106,6 +118,11 @@ export default {
       marker: {
         min: 6,
         max: 8
+      },
+
+      range: {
+        min: 20,
+        max: 55
       }
     }
   }
