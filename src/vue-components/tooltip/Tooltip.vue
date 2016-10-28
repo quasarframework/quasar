@@ -9,17 +9,15 @@ import Utils from '../../utils'
 
 export default {
   props: {
-    anchorOrigin: {
-      type: Object,
-      default () {
-        return {vertical: 'top', horizontal: 'middle'}
-      }
+    anchor: {
+      type: String,
+      default: 'top middle',
+      validator: Utils.popup.positionValidator
     },
-    targetOrigin: {
-      type: Object,
-      default () {
-        return {vertical: 'bottom', horizontal: 'middle'}
-      }
+    self: {
+      type: String,
+      default: 'bottom middle',
+      validator: Utils.popup.positionValidator
     },
     maxHeight: String,
     disable: Boolean
@@ -30,9 +28,15 @@ export default {
     }
   },
   computed: {
+    anchorOrigin () {
+      return Utils.popup.parsePosition(this.anchor)
+    },
+    selfOrigin () {
+      return Utils.popup.parsePosition(this.self)
+    },
     transformCSS () {
       return Utils.popup.getTransformProperties({
-        targetOrigin: this.targetOrigin
+        selfOrigin: this.selfOrigin
       })
     }
   },
@@ -47,7 +51,7 @@ export default {
         el: this.$el,
         anchorEl: this.anchorEl,
         anchorOrigin: this.anchorOrigin,
-        targetOrigin: this.targetOrigin,
+        selfOrigin: this.selfOrigin,
         maxHeight: this.maxHeight
       })
     },
@@ -62,13 +66,17 @@ export default {
     this.$nextTick(() => {
       this.anchorEl = this.$el.parentNode
       this.anchorEl.removeChild(this.$el)
-      this.anchorEl.addEventListener('mouseover', this.open)
-      this.anchorEl.addEventListener('mouseout', this.close)
+      this.anchorEl.addEventListener('mouseenter', this.open)
+      this.anchorEl.addEventListener('focus', this.open)
+      this.anchorEl.addEventListener('mouseleave', this.close)
+      this.anchorEl.addEventListener('blur', this.close)
     })
   },
   beforeDestroy () {
-    this.anchorEl.removeEventListener('mouseover', this.open)
-    this.anchorEl.removeEventListener('mouseout', this.close)
+    this.anchorEl.removeEventListener('mouseenter', this.open)
+    this.anchorEl.removeEventListener('focus', this.open)
+    this.anchorEl.removeEventListener('mouseleave', this.close)
+    this.anchorEl.removeEventListener('blur', this.close)
     this.close()
   }
 }

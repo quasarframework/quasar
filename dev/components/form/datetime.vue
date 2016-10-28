@@ -63,6 +63,13 @@
       <p class="caption">Error State</p>
       <quasar-datetime class="has-error" v-model="model" type="datetime"></quasar-datetime>
 
+      <p class="caption">Min & Max</p>
+      <quasar-datetime type="datetime" v-model="minMaxModel" :min="min" :max="max"></quasar-datetime>
+
+      <p class="caption">Range <sup>(beta)</sup></p>
+      <quasar-datetime type="datetime" v-model="range.start" :min="range.min" :max="range.end"></quasar-datetime>
+      <quasar-datetime type="datetime" v-model="range.end" :min="range.start" :max="range.max"></quasar-datetime>
+
       <p class="caption">Inside of a List</p>
       <div class="list">
         <div class="list-label">Date or Time</div>
@@ -131,15 +138,33 @@
 
       <p class="caption">Readonly State</p>
       <quasar-inline-datetime readonly v-model="model" type="datetime"></quasar-inline-datetime>
+
+      <p class="caption">Min & Max</p>
+      <quasar-inline-datetime type="datetime" v-model="minMaxModel" :min="min" :max="max"></quasar-inline-datetime>
+
+      <p class="caption">Range <sup>(beta)</sup></p>
+      <quasar-inline-datetime type="datetime" v-model="range.start" :min="range.min" :max="range.end"></quasar-inline-datetime>
+      <quasar-inline-datetime type="datetime" v-model="range.end" :min="range.start" :max="range.max"></quasar-inline-datetime>
     </div>
   </div>
 </template>
 
 <script>
+import moment from 'moment'
+
 export default {
   data () {
     return {
-      model: '2016-09-18T10:45:00.000Z'
+      model: '2016-09-18T10:45:00.000Z',
+      minMaxModel: '2016-10-24T10:40:14.674Z',
+      min: moment('2016-10-24T10:40:14.674Z').subtract(5, 'days').format(),
+      max: moment('2016-10-24T10:40:14.674Z').add(4, 'hours').add(10, 'minutes').format(),
+      range: {
+        start: moment('2016-10-24T10:40:14.674Z').subtract(3, 'days').format(),
+        end: moment('2016-10-24T10:40:14.674Z').add(4, 'hours').add(10, 'minutes').add(1, 'month').format(),
+        min: moment('2016-10-24T10:40:14.674Z').subtract(3, 'days').format(),
+        max: moment('2016-10-24T10:40:14.674Z').add(4, 'hours').add(10, 'minutes').add(1, 'month').format()// .add(1, 'month').add(1, 'year')
+      }
     }
   }
 }

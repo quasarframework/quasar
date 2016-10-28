@@ -51,17 +51,18 @@
           <button class="orange push">
             Mouse Hover
 
-            <quasar-tooltip
-              :anchor-origin="anchorOrigin"
-              :target-origin="targetOrigin"
-            >
+            <quasar-tooltip :anchor="anchor" :self="self">
               <div>Quasar is <strong>great</strong>!</div>
               <div class="text-center">Try it.</div>
             </quasar-popover>
           </button>
         </div>
 
-        <p class="caption text-center">Configure the Popover for button above.</p>
+        <p class="caption text-center">Configure the Tooltip for button above.</p>
+        <p class="text-center">
+          <span class="tag label bg-light">anchor="{{anchor}}"</span>
+          <span class="tag label bg-light">self="{{self}}"</span>
+        </p>
         <div class="card-content group row sm-column">
           <div class="auto column items-center">
             <p class="caption">Anchor Origin</p>
@@ -105,30 +106,30 @@
               <div class="column group">
                 <div>Vertical</div>
                 <label>
-                  <quasar-radio v-model="targetOrigin.vertical" val="top"></quasar-radio>
+                  <quasar-radio v-model="selfOrigin.vertical" val="top"></quasar-radio>
                   Top
                 </label>
                 <label>
-                  <quasar-radio v-model="targetOrigin.vertical" val="center"></quasar-radio>
+                  <quasar-radio v-model="selfOrigin.vertical" val="center"></quasar-radio>
                   Center
                 </label>
                 <label>
-                  <quasar-radio v-model="targetOrigin.vertical" val="bottom"></quasar-radio>
+                  <quasar-radio v-model="selfOrigin.vertical" val="bottom"></quasar-radio>
                   Bottom
                 </label>
               </div>
               <div class="column group">
                 <div>Horizontal</div>
                 <label>
-                  <quasar-radio v-model="targetOrigin.horizontal" val="left"></quasar-radio>
+                  <quasar-radio v-model="selfOrigin.horizontal" val="left"></quasar-radio>
                   Left
                 </label>
                 <label>
-                  <quasar-radio v-model="targetOrigin.horizontal" val="middle"></quasar-radio>
+                  <quasar-radio v-model="selfOrigin.horizontal" val="middle"></quasar-radio>
                   Middle
                 </label>
                 <label>
-                  <quasar-radio v-model="targetOrigin.horizontal" val="right"></quasar-radio>
+                  <quasar-radio v-model="selfOrigin.horizontal" val="right"></quasar-radio>
                   Right
                 </label>
               </div>
@@ -144,8 +145,16 @@
 export default {
   data () {
     return {
-      anchorOrigin: {vertical: 'top', horizontal: 'middle'},
-      targetOrigin: {vertical: 'bottom', horizontal: 'middle'}
+      anchorOrigin: {vertical: 'bottom', horizontal: 'middle'},
+      selfOrigin: {vertical: 'top', horizontal: 'middle'}
+    }
+  },
+  computed: {
+    anchor () {
+      return `${this.anchorOrigin.vertical} ${this.anchorOrigin.horizontal}`
+    },
+    self () {
+      return `${this.selfOrigin.vertical} ${this.selfOrigin.horizontal}`
     }
   }
 }

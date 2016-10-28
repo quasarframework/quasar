@@ -7,9 +7,9 @@
     <div v-html="label"></div>
 
     <quasar-popover ref="popup" @open="__setModel()" :disable="disable || readonly">
-      <quasar-inline-datetime v-model="model" :type="type">
+      <quasar-inline-datetime v-model="model" :type="type" :min="min" :max="max">
         <div class="modal-buttons row full-width">
-          <button @click="clear()" class="primary clear" v-html="clearLabel"></button>
+          <button v-if="!noClear" @click="clear()" class="primary clear" v-html="clearLabel"></button>
           <div class="auto"></div>
           <button @click="close()" class="primary clear" v-html="cancelLabel"></button>
           <button @click="close(__update)" class="primary clear" v-html="okLabel"></button>
@@ -33,9 +33,9 @@
       :position-classes="position"
       :content-css="css"
     >
-      <quasar-inline-datetime v-model="model" :type="type" class="no-border" style="width: 100%">
+      <quasar-inline-datetime v-model="model" :type="type" :min="min" :max="max" class="no-border full-width">
         <div class="modal-buttons row full-width">
-          <button @click="clear()" class="primary clear" v-html="clearLabel"></button>
+          <button v-if="!noClear" @click="clear()" class="primary clear" v-html="clearLabel"></button>
           <div class="auto"></div>
           <button @click="close()" class="primary clear" v-html="cancelLabel"></button>
           <button @click="close(__update)" class="primary clear" v-html="okLabel"></button>
@@ -73,7 +73,16 @@ export default {
       type: String,
       required: true
     },
+    min: {
+      type: [String, Boolean],
+      default: false
+    },
+    max: {
+      type: [String, Boolean],
+      default: false
+    },
     format: String,
+    noClear: Boolean,
     clearLabel: {
       type: String,
       default: 'Clear'
