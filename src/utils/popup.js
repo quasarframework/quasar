@@ -1,5 +1,5 @@
 import extend from './extend'
-import Event from './event'
+import { position as eventPosition } from './event'
 
 export function getAnchorPosition (el) {
   const
@@ -122,7 +122,7 @@ export function setPosition ({el, anchorEl, anchorOrigin, targetOrigin, maxHeigh
   let anchor
 
   if (event && (!anchorClick || touchPosition)) {
-    const {top, left} = Event.position(event)
+    const {top, left} = eventPosition(event)
     anchor = {top, left, width: 1, height: 1, right: left + 1, center: top, middle: left, bottom: top + 1}
   }
   else {
