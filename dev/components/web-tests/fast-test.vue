@@ -8,19 +8,10 @@
       For some test that you think it should be persistent,
       make a new *.vue file here or in another folder under /dev/components.
     -->
-
-    <div>{{model}}</div>
-    <quasar-datetime v-model="model"></quasar-datetime>
-    <!--<quasar-inline-datetime type="date" v-model="model"></quasar-inline-datetime>-->
   </div>
 </template>
 
 <script>
 export default {
-  data () {
-    return {
-      model: ''
-    }
-  }
 }
 </script>

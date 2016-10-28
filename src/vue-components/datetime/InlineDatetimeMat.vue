@@ -69,12 +69,12 @@
           class="quasar-datetime-view-year full-width full-height"
         >
           <button
-            v-for="n in 100"
+            v-for="n in yearInterval"
             class="primary clear full-width"
-            :class="{active: n + 1950 === year}"
-            @click="setYear(n + 1950)"
+            :class="{active: n + yearMin === year}"
+            @click="setYear(n + yearMin)"
           >
-            {{ n + 1950 }}
+            {{ n + yearMin }}
           </button>
         </div>
 
@@ -83,12 +83,12 @@
           class="quasar-datetime-view-month full-width full-height"
         >
           <button
-            v-for="(monthName, index) in monthsList"
+            v-for="index in monthInterval"
             class="primary clear full-width"
-            :class="{active: month === index + 1}"
-            @click="setMonth(index + 1, true)"
+            :class="{active: month === index + monthMin}"
+            @click="setMonth(index + monthMin, true)"
           >
-            {{ monthName }}
+            {{ monthsList[index + monthMin - 1] }}
           </button>
         </div>
 
@@ -118,13 +118,19 @@
           </div>
           <div class="quasar-datetime-days row wrap items-center justify-start content-center">
             <div v-for="fillerDay in fillerDays" class="quasar-datetime-fillerday"></div>
+            <div v-if="min" v-for="fillerDay in beforeMinDays" class="flex items-center content-center justify-center disabled">
+              {{ fillerDay }}
+            </div>
             <div
-              v-for="monthDay in daysInMonth"
+              v-for="monthDay in daysInterval"
               class="flex items-center content-center justify-center cursor-pointer"
               :class="{active: monthDay === day}"
               @click="setDay(monthDay)"
             >
               {{ monthDay }}
+            </div>
+            <div v-if="max" v-for="fillerDay in aferMaxDays" class="flex items-center content-center justify-center disabled">
+              {{ fillerDay + maxDay }}
             </div>
           </div>
         </div>
@@ -195,6 +201,10 @@
 import moment from 'moment'
 import Utils from '../../utils'
 
+function convertToAmPm (hour) {
+  return hour === 0 ? 12 : (hour >= 13 ? hour - 12 : hour)
+}
+
 export default {
   props: {
     value: {
@@ -207,6 +217,14 @@ export default {
       validator (value) {
         return ['date', 'time', 'datetime'].includes(value)
       }
+    },
+    min: {
+      type: [String, Boolean],
+      default: false
+    },
+    max: {
+      type: [String, Boolean],
+      default: false
     },
     readonly: Boolean,
     disable: Boolean
@@ -224,19 +242,32 @@ export default {
         break
     }
 
+    this.$nextTick(() => {
+      this.date = this.__normalizeValue(this.date)
+    })
     return {
       view,
       date: moment(this.value || undefined),
       dragging: false,
       centerClockPosition: 0,
       firstDayOfWeek: moment.localeData().firstDayOfWeek(),
-      daysList: moment.weekdaysShort(),
+      daysList: moment.weekdaysShort(true),
       monthsList: moment.months()
     }
   },
   watch: {
     model (value) {
-      this.date = moment(value || undefined)
+      this.date = this.__normalizeValue(moment(value || undefined))
+    },
+    min (value) {
+      this.$nextTick(() => {
+        this.__updateModel()
+      })
+    },
+    max (value) {
+      this.$nextTick(() => {
+        this.__updateModel()
+      })
     },
     view (value) {
       if (value !== 'year' && value !== 'month') {
@@ -245,7 +276,7 @@ export default {
 
       let
         view = this.$refs.selector,
-        rows = value === 'year' ? this.year - 1950 : this.month
+        rows = value === 'year' ? this.year - this.yearMin : this.month - this.monthMin
 
       this.$nextTick(() => {
         view.scrollTop = rows * Utils.dom.height(view.children[0].children[0]) - Utils.dom.height(view) / 2.5
@@ -260,6 +291,12 @@ export default {
       set (value) {
         this.$emit('input', value)
       }
+    },
+    pmin () {
+      return this.min ? moment(this.min) : false
+    },
+    pmax () {
+      return this.max ? moment(this.max) : false
     },
     year () {
       return this.date.year()
@@ -282,15 +319,59 @@ export default {
     weekDayString () {
       return this.date.format('dddd')
     },
+
+    yearInterval () {
+      let
+        min = this.pmin ? this.pmin.year() : 1950,
+        max = this.pmax ? this.pmax.year() : 2050
+      return Math.max(1, max - min + 1)
+    },
+    yearMin () {
+      return this.pmin ? this.pmin.year() - 1 : 1949
+    },
+
+    monthInterval () {
+      let
+        min = this.pmin && this.pmin.year() === this.date.year() ? this.pmin.month() : 0,
+        max = this.pmax && this.pmax.year() === this.date.year() ? this.pmax.month() : 11
+      return Math.max(1, max - min + 1)
+    },
+    monthMin () {
+      return this.pmin && this.pmin.year() === this.date.year() ? this.pmin.month() : 0
+    },
+
     fillerDays () {
       return Math.max(0, this.date.clone().date(1).day() - this.firstDayOfWeek)
     },
-    daysInMonth () {
-      return this.date.daysInMonth()
+    beforeMinDays () {
+      if (!this.pmin || this.pmin.month() !== this.date.month() || this.pmin.year() !== this.date.year()) {
+        return false
+      }
+      return this.pmin.date() - 1
     },
+    aferMaxDays () {
+      if (!this.pmax || this.pmax.month() !== this.date.month() || this.pmax.year() !== this.date.year()) {
+        return false
+      }
+      return this.date.daysInMonth() - this.maxDay
+    },
+    maxDay () {
+      return this.pmax ? this.pmax.date() : this.date.daysInMonth()
+    },
+    daysInterval () {
+      let days = this.date.daysInMonth()
+      let max = !this.pmax || this.pmax.month() !== this.date.month() || this.pmax.year() !== this.date.year() ? 0 : days - this.pmax.date()
+      if (this.beforeMinDays || max) {
+        let min = this.beforeMinDays ? this.beforeMinDays + 1 : 1
+        return Array.apply(null, {length: days - min - max + 1}).map((day, index) => {
+          return index + min
+        })
+      }
+      return days
+    },
+
     hour () {
-      let hour = this.date.hour()
-      return hour === 0 ? 12 : (hour >= 13 ? hour - 12 : hour)
+      return convertToAmPm(this.date.hour())
     },
     minute () {
       return this.date.minute()
@@ -432,7 +513,7 @@ export default {
         return Math.max(1, Math.min(12, value))
       }
       if (type === 'date') {
-        return Math.max(1, Math.min(this.daysInMonth, value))
+        return Math.max(1, Math.min(this.date.daysInMonth(), value))
       }
       if (type === 'year') {
         return Math.max(1950, Math.min(2050, value))
@@ -446,8 +527,17 @@ export default {
     },
 
     /* common */
+    __normalizeValue (value) {
+      if (this.pmin) {
+        value = moment.max(this.pmin.clone(), value)
+      }
+      if (this.pmax) {
+        value = moment.min(this.pmax.clone(), value)
+      }
+      return value
+    },
     __updateModel () {
-      this.model = this.date.toISOString()
+      this.model = this.__normalizeValue(this.date).toISOString()
     }
   }
 }

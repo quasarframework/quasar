@@ -1,7 +1,6 @@
 <template>
   <div class="quasar-datetime" :class="['type-' + type, disable ? 'disabled' : '', readonly ? 'readonly' : '']">
     <slot></slot>
-
     <div class="quasar-datetime-content non-selectable">
       <div class="quasar-datetime-inner full-height flex justify-center">
         <div
@@ -13,11 +12,11 @@
         >
           <div ref="month" class="quasar-datetime-col-wrapper" :style="__monthStyle">
             <div
-              v-for="(monthName, index) in monthsList"
+              v-for="index in monthInterval"
               class="quasar-datetime-item"
-              @click="setMonth(index + 1)"
+              @click="setMonth(index + monthMin)"
             >
-              {{ monthName }}
+              {{ monthsList[index + monthMin - 1] }}
             </div>
           </div>
         </div>
@@ -31,11 +30,11 @@
         >
           <div ref="date" class="quasar-datetime-col-wrapper" :style="__dayStyle">
             <div
-              v-for="monthDay in daysInMonth"
+              v-for="index in daysInterval"
               class="quasar-datetime-item"
-              @click="setDay(monthDay)"
+              @click="setDay(index + dayMin - 1)"
             >
-              {{ monthDay }}
+              {{ index + dayMin - 1 }}
             </div>
           </div>
         </div>
@@ -49,11 +48,11 @@
         >
           <div ref="year" class="quasar-datetime-col-wrapper" :style="__yearStyle">
             <div
-              v-for="n in 100"
+              v-for="n in yearInterval"
               class="quasar-datetime-item"
-              @click="setYear(n + 1949)"
+              @click="setYear(n + yearMin)"
             >
-              {{ n + 1949 }}
+              {{ n + yearMin }}
             </div>
           </div>
         </div>
@@ -67,11 +66,11 @@
         >
           <div ref="hour" class="quasar-datetime-col-wrapper" :style="__hourStyle">
             <div
-              v-for="n in 24"
+              v-for="n in hourInterval"
               class="quasar-datetime-item"
-              @click="setHour(n - 1)"
+              @click="setHour(n + hourMin - 1)"
             >
-              {{ n - 1 }}
+              {{ n + hourMin - 1 }}
             </div>
           </div>
         </div>
@@ -94,11 +93,11 @@
         >
           <div ref="minute" class="quasar-datetime-col-wrapper" :style="__minuteStyle">
             <div
-              v-for="n in 60"
+              v-for="n in minuteInterval"
               class="quasar-datetime-item"
-              @click="setMinute(n - 1)"
+              @click="setMinute(n + minuteMin - 1)"
             >
-              {{ __pad(n - 1) }}
+              {{ __pad(n + minuteMin - 1) }}
             </div>
           </div>
         </div>
@@ -128,10 +127,21 @@ export default {
         return ['date', 'time', 'datetime'].includes(value)
       }
     },
+    min: {
+      type: [String, Boolean],
+      default: false
+    },
+    max: {
+      type: [String, Boolean],
+      default: false
+    },
     readonly: Boolean,
     disable: Boolean
   },
   data () {
+    this.$nextTick(() => {
+      this.date = this.__normalizeValue(this.date)
+    })
     return {
       date: moment(this.value || undefined),
       monthDragOffset: 0,
@@ -144,7 +154,20 @@ export default {
   },
   watch: {
     model (value) {
-      this.date = moment(value || undefined)
+      this.date = this.__normalizeValue(moment(value || undefined))
+      this.__updateAllPositions()
+    },
+    min (value) {
+      this.$nextTick(() => {
+        this.__updateModel()
+        this.__updateAllPositions()
+      })
+    },
+    max (value) {
+      this.$nextTick(() => {
+        this.__updateModel()
+        this.__updateAllPositions()
+      })
     }
   },
   computed: {
@@ -156,35 +179,73 @@ export default {
         this.$emit('input', value)
       }
     },
+    pmin () {
+      return this.min ? moment(this.min) : false
+    },
+    pmax () {
+      return this.max ? moment(this.max) : false
+    },
+
     year () {
-      let value = this.date.year()
-      this.__updatePositions('year', value)
-      this.__updatePositions('date', this.date.date())
-      return value
+      return this.date.year()
     },
+    yearInterval () {
+      let
+        min = this.pmin ? this.pmin.year() : 1950,
+        max = this.pmax ? this.pmax.year() : 2050
+      return Math.max(1, max - min + 1)
+    },
+    yearMin () {
+      return this.pmin ? this.pmin.year() - 1 : 1949
+    },
+
     month () {
-      let value = this.date.month()
-      this.__updatePositions('month', value)
-      this.__updatePositions('date', this.date.date())
-      return value + 1
+      return this.date.month() + 1
     },
+    monthInterval () {
+      let
+        min = this.pmin && this.pmin.year() === this.date.year() ? this.pmin.month() : 0,
+        max = this.pmax && this.pmax.year() === this.date.year() ? this.pmax.month() : 11
+      return Math.max(1, max - min + 1)
+    },
+    monthMin () {
+      return this.pmin && this.pmin.year() === this.date.year() ? this.pmin.month() : 0
+    },
+
     day () {
-      let value = this.date.date()
-      this.__updatePositions('date', value)
-      return value
+      return this.date.date()
+    },
+    dayMin () {
+      return this.pmin && this.pmin.year() === this.date.year() && this.pmin.month() === this.date.month() ? this.pmin.date() : 1
+    },
+    dayMax () {
+      return this.pmax && this.pmax.year() === this.date.year() && this.pmax.month() === this.date.month() ? this.pmax.date() : this.daysInMonth
+    },
+    daysInterval () {
+      return this.dayMax - this.dayMin + 1
     },
     daysInMonth () {
       return this.date.daysInMonth()
     },
+
     hour () {
-      let value = this.date.hour()
-      this.__updatePositions('hour', value)
-      return value
+      return this.date.hour()
     },
+    hourMin () {
+      return this.pmin && this.pmin.year() === this.date.year() && this.pmin.month() === this.date.month() && this.pmin.date() === this.date.date() ? this.pmin.hour() : 0
+    },
+    hourInterval () {
+      return (this.pmax && this.pmax.year() === this.date.year() && this.pmax.month() === this.date.month() && this.pmax.date() === this.date.date() ? this.pmax.hour() : 23) - this.hourMin + 1
+    },
+
     minute () {
-      let value = this.date.minute()
-      this.__updatePositions('minute', value)
-      return value
+      return this.date.minute()
+    },
+    minuteMin () {
+      return this.pmin && this.pmin.year() === this.date.year() && this.pmin.month() === this.date.month() && this.pmin.date() === this.date.date() && this.pmin.hour() === this.date.hour() ? this.pmin.minute() : 0
+    },
+    minuteInterval () {
+      return (this.pmax && this.pmax.year() === this.date.year() && this.pmax.month() === this.date.month() && this.pmax.date() === this.date.date() && this.pmax.hour() === this.date.hour() ? this.pmax.minute() : 59) - this.minuteMin + 1
     },
 
     __monthStyle () {
@@ -262,14 +323,35 @@ export default {
         return Math.max(0, Math.min(59, value))
       }
     },
+    __updateAllPositions () {
+      this.$nextTick(() => {
+        if (this.type === 'date' || this.type === 'datetime') {
+          this.__updatePositions('month', this.date.month())
+          this.__updatePositions('date', this.date.date())
+          this.__updatePositions('year', this.date.year())
+        }
+        if (this.type === 'time' || this.type === 'datetime') {
+          this.__updatePositions('hour', this.date.hour())
+          this.__updatePositions('minute', this.date.minute())
+        }
+      })
+    },
     __updatePositions (type, value) {
       let root = this.$refs[type]
-
       if (!root) {
         return
       }
 
-      let delta = -value + (type === 'year' ? 1950 : (type === 'date' ? 1 : 0))
+      let delta = -value
+      if (type === 'year') {
+        delta += this.yearMin + 1
+      }
+      else if (type === 'date') {
+        delta += this.dayMin
+      }
+      else {
+        delta += this[type + 'Min']
+      }
 
       ;[].slice.call(root.children).forEach(item => {
         Utils.dom.css(item, this.__itemStyle(value * 36, Math.max(-180, Math.min(180, delta * -18))))
@@ -292,9 +374,6 @@ export default {
     },
 
     /* common */
-    __updateModel () {
-      this.model = this.date.toISOString()
-    },
     __dragStart (ev, type) {
       if (!this.editable) {
         return
@@ -348,18 +427,22 @@ export default {
         clearTimeout(this.timeout)
         this.timeout = null
       }
+    },
+    __normalizeValue (value) {
+      if (this.pmin) {
+        value = moment.max(this.pmin.clone(), value)
+      }
+      if (this.pmax) {
+        value = moment.min(this.pmax.clone(), value)
+      }
+      return value
+    },
+    __updateModel () {
+      this.model = this.__normalizeValue(this.date).toISOString()
     }
   },
   mounted () {
-    if (this.type === 'date' || this.type === 'datetime') {
-      this.__updatePositions('month', this.date.month())
-      this.__updatePositions('date', this.date.date())
-      this.__updatePositions('year', this.date.year())
-    }
-    if (this.type === 'time' || this.type === 'datetime') {
-      this.__updatePositions('hour', this.date.hour())
-      this.__updatePositions('minute', this.date.minute())
-    }
+    this.__updateAllPositions()
   },
   beforeDestroy () {
     this.__dragCleanup()
