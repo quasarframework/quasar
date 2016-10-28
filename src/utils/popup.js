@@ -74,8 +74,8 @@ export function getPositions (anchor, target) {
   }
 }
 
-export function applyAutoPositionIfNeeded (anchor, target, targetOrigin, anchorOrigin, targetPosition) {
-  const {positions, anchorPos} = getPositions(anchorOrigin, targetOrigin)
+export function applyAutoPositionIfNeeded (anchor, target, selfOrigin, anchorOrigin, targetPosition) {
+  const {positions, anchorPos} = getPositions(anchorOrigin, selfOrigin)
 
   if (targetPosition.top < 0 || targetPosition.top + target.bottom > window.innerHeight) {
     let newTop = anchor[anchorPos.vertical] - target[positions.y[0]]
@@ -108,17 +108,17 @@ export function parseHorizTransformOrigin (pos) {
   return pos === 'middle' ? 'center' : pos
 }
 
-export function getTransformProperties ({targetOrigin}) {
+export function getTransformProperties ({selfOrigin}) {
   let
-    vert = targetOrigin.vertical,
-    horiz = parseHorizTransformOrigin(targetOrigin.horizontal)
+    vert = selfOrigin.vertical,
+    horiz = parseHorizTransformOrigin(selfOrigin.horizontal)
 
   return {
     'transform-origin': vert + ' ' + horiz + ' 0px'
   }
 }
 
-export function setPosition ({el, anchorEl, anchorOrigin, targetOrigin, maxHeight, event, anchorClick, touchPosition}) {
+export function setPosition ({el, anchorEl, anchorOrigin, selfOrigin, maxHeight, event, anchorClick, touchPosition}) {
   let anchor
 
   if (event && (!anchorClick || touchPosition)) {
@@ -131,13 +131,32 @@ export function setPosition ({el, anchorEl, anchorOrigin, targetOrigin, maxHeigh
 
   let target = getTargetPosition(el)
   let targetPosition = {
-    top: anchor[anchorOrigin.vertical] - target[targetOrigin.vertical],
-    left: anchor[anchorOrigin.horizontal] - target[targetOrigin.horizontal]
+    top: anchor[anchorOrigin.vertical] - target[selfOrigin.vertical],
+    left: anchor[anchorOrigin.horizontal] - target[selfOrigin.horizontal]
   }
 
-  targetPosition = applyAutoPositionIfNeeded(anchor, target, targetOrigin, anchorOrigin, targetPosition)
+  targetPosition = applyAutoPositionIfNeeded(anchor, target, selfOrigin, anchorOrigin, targetPosition)
 
   el.style.top = Math.max(0, targetPosition.top) + 'px'
   el.style.left = Math.max(0, targetPosition.left) + 'px'
   el.style.maxHeight = this.maxHeight || window.innerHeight * 0.9 + 'px'
+}
+
+export function positionValidator (pos) {
+  let parts = pos.split(' ')
+  if (parts.length !== 2) {
+    return false
+  }
+  if (!['top', 'center', 'bottom'].includes(parts[0])) {
+    return false
+  }
+  if (!['left', 'middle', 'right'].includes(parts[1])) {
+    return false
+  }
+  return true
+}
+
+export function parsePosition (pos) {
+  let parts = pos.split(' ')
+  return {vertical: parts[0], horizontal: parts[1]}
 }

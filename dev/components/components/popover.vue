@@ -42,8 +42,8 @@
 
               <quasar-popover
                 ref="popover2"
-                :anchor-origin="anchorOrigin"
-                :target-origin="targetOrigin"
+                :anchor="anchor"
+                :self="self"
               >
                 <div class="list highlight" style="min-width: 100px">
                   <div
@@ -61,6 +61,10 @@
           </div>
 
           <p class="caption text-center">Configure the Popover for button above.</p>
+          <p class="text-center">
+            <span class="tag label bg-light">anchor="{{anchor}}"</span>
+            <span class="tag label bg-light">self="{{self}}"</span>
+          </p>
           <div class="card-content group row sm-column">
             <div class="auto column items-center">
               <p class="caption">Anchor Origin</p>
@@ -99,35 +103,35 @@
             </div>
 
             <div class="auto column items-center">
-              <p class="caption">Target Origin</p>
+              <p class="caption">Self Origin</p>
               <div class="flex">
                 <div class="column group">
                   <div>Vertical</div>
                   <label>
-                    <quasar-radio v-model="targetOrigin.vertical" val="top"></quasar-radio>
+                    <quasar-radio v-model="selfOrigin.vertical" val="top"></quasar-radio>
                     Top
                   </label>
                   <label>
-                    <quasar-radio v-model="targetOrigin.vertical" val="center"></quasar-radio>
+                    <quasar-radio v-model="selfOrigin.vertical" val="center"></quasar-radio>
                     Center
                   </label>
                   <label>
-                    <quasar-radio v-model="targetOrigin.vertical" val="bottom"></quasar-radio>
+                    <quasar-radio v-model="selfOrigin.vertical" val="bottom"></quasar-radio>
                     Bottom
                   </label>
                 </div>
                 <div class="column group">
                   <div>Horizontal</div>
                   <label>
-                    <quasar-radio v-model="targetOrigin.horizontal" val="left"></quasar-radio>
+                    <quasar-radio v-model="selfOrigin.horizontal" val="left"></quasar-radio>
                     Left
                   </label>
                   <label>
-                    <quasar-radio v-model="targetOrigin.horizontal" val="middle"></quasar-radio>
+                    <quasar-radio v-model="selfOrigin.horizontal" val="middle"></quasar-radio>
                     Middle
                   </label>
                   <label>
-                    <quasar-radio v-model="targetOrigin.horizontal" val="right"></quasar-radio>
+                    <quasar-radio v-model="selfOrigin.horizontal" val="right"></quasar-radio>
                     Right
                   </label>
                 </div>
@@ -216,7 +220,15 @@ export default {
   data () {
     return {
       anchorOrigin: {vertical: 'bottom', horizontal: 'left'},
-      targetOrigin: {vertical: 'top', horizontal: 'left'}
+      selfOrigin: {vertical: 'top', horizontal: 'left'}
+    }
+  },
+  computed: {
+    anchor () {
+      return `${this.anchorOrigin.vertical} ${this.anchorOrigin.horizontal}`
+    },
+    self () {
+      return `${this.selfOrigin.vertical} ${this.selfOrigin.horizontal}`
     }
   },
   methods: {

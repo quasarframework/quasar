@@ -14,17 +14,15 @@ import EscapeKey from '../../escape-key'
 
 export default {
   props: {
-    anchorOrigin: {
-      type: Object,
-      default () {
-        return {vertical: 'bottom', horizontal: 'left'}
-      }
+    anchor: {
+      type: String,
+      default: 'bottom left',
+      validator: Utils.popup.positionValidator
     },
-    targetOrigin: {
-      type: Object,
-      default () {
-        return {vertical: 'top', horizontal: 'left'}
-      }
+    self: {
+      type: String,
+      default: 'top left',
+      validator: Utils.popup.positionValidator
     },
     maxHeight: String,
     touchPosition: Boolean,
@@ -46,7 +44,13 @@ export default {
   },
   computed: {
     transformCSS () {
-      return Utils.popup.getTransformProperties({targetOrigin: this.targetOrigin})
+      return Utils.popup.getTransformProperties({selfOrigin: this.selfOrigin})
+    },
+    anchorOrigin () {
+      return Utils.popup.parsePosition(this.anchor)
+    },
+    selfOrigin () {
+      return Utils.popup.parsePosition(this.self)
     }
   },
   mounted () {
@@ -123,7 +127,7 @@ export default {
         el: this.$el,
         anchorEl: this.anchorEl,
         anchorOrigin: this.anchorOrigin,
-        targetOrigin: this.targetOrigin,
+        selfOrigin: this.selfOrigin,
         maxHeight: this.maxHeight,
         anchorClick: this.anchorClick,
         touchPosition: this.touchPosition
