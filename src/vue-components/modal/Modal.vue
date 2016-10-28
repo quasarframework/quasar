@@ -4,7 +4,7 @@
       v-show="active"
       class="modal fullscreen flex"
       :class="positionClasses"
-      @click="close()"
+      @click="click()"
     >
       <div ref="content" class="modal-content" @click.stop :style="contentCss">
         <slot></slot>
@@ -31,7 +31,15 @@ export default {
       type: String,
       default: 'items-center justify-center'
     },
-    contentCss: Object
+    contentCss: Object,
+    noCancelOnOutsideClick: {
+      type: Boolean,
+      default: false
+    },
+    noCancelOnEscKey: {
+      type: Boolean,
+      default: false
+    }
   },
   data () {
     return {
@@ -50,6 +58,9 @@ export default {
 
       document.body.classList.add('with-modal')
       EscapeKey.register(() => {
+        if (this.noCancelOnEscKey) {
+          return
+        }
         this.close(() => {
           this.$emit('escape-key')
         })
@@ -113,6 +124,12 @@ export default {
       else {
         window.history.go(-1)
       }
+    },
+    click (onClick) {
+      if (this.noCancelOnOutsideClick) {
+        return
+      }
+      this.close(onClick)
     }
   }
 }
