@@ -16,14 +16,12 @@
         :style="{left: (n - 1) * 100 * step / (max - min) + '%'}"
       ></div>
       <div
-        class="quasar-range-track active-track no-transition"
-        :class="{'track-draggable': dragRange}"
+        class="quasar-range-track active-track"
         :style="{left: percentageMin * 100 + '%', width: activeTrackWidth}"
       ></div>
       <div
-        class="quasar-range-handle no-transition"
         :style="{left: percentageMin * 100 + '%'}"
-        :class="{dragging: dragging, 'handle-at-minimum': value.min === min, disabled: disableMin}"
+        :class="{dragging: dragging, 'handle-at-minimum': value.min === min, undraggable: disableMin}"
       >
         <div
           class="quasar-range-label"
@@ -32,9 +30,8 @@
         >{{ value.min }}</div>
       </div>
       <div
-        class="quasar-range-handle no-transition"
         :style="{left: percentageMax * 100 + '%'}"
-        :class="{dragging: dragging, 'handle-at-minimum': value.max === max, disabled: disableMax}"
+        :class="{dragging: dragging, 'handle-at-maximum': value.max === max, undraggable: disableMax}"
       >
         <div
           class="quasar-range-label"
@@ -151,9 +148,7 @@ export default {
       if (this.disable) {
         return
       }
-
       let container = this.$refs.handle
-
       this.dragging = {
         left: container.getBoundingClientRect().left,
         width: container.offsetWidth,
@@ -206,45 +201,8 @@ export default {
 
       model = Math.min(this.max, Math.max(this.min, model - modulo + (Math.abs(modulo) >= this.step / 2 ? (modulo < 0 ? -1 : 1) * this.step : 0)))
 
-      // if (!disableMin && this.dragging.byPosition === -1) {
-      //   if (percentage <= this.dragging.percentageMax) {
-      //     this.currentMinPercentage = percentage
-      //     this.currentMaxPercentage = this.dragging.percentageMax
-      //     this.__updateInput({
-      //       min: model,
-      //       max: this.dragging.valueMax
-      //     })
-      //   }
-      //   else {
-      //     this.currentMinPercentage = this.dragging.percentageMax
-      //     this.currentMaxPercentage = percentage
-      //     this.__updateInput({
-      //       min: this.dragging.valueMax,
-      //       max: model
-      //     })
-      //   }
-      // }
-      // else {
-      //   if (percentage >= this.dragging.percentageMin) {
-      //     this.currentMaxPercentage = percentage
-      //     this.currentMinPercentage = this.dragging.percentageMin
-      //     this.__updateInput({
-      //       min: this.dragging.valueMin,
-      //       max: model
-      //     })
-      //   }
-      //   else {
-      //     this.currentMaxPercentage = this.dragging.percentageMin
-      //     this.currentMinPercentage = percentage
-      //     this.__updateInput({
-      //       min: model,
-      //       max: this.dragging.valueMin
-      //     })
-      //   }
-      // }
-
-      if (this.dragging.byPosition) {
-        if (!this.disableMin && percentage <= this.dragging.percentageMax) {
+      if (!this.disableMin && this.dragging.byPosition === -1) {
+        if (percentage <= this.dragging.percentageMax) {
           this.currentMinPercentage = percentage
           this.currentMaxPercentage = this.dragging.percentageMax
           this.__updateInput({
@@ -252,21 +210,39 @@ export default {
             max: this.dragging.valueMax
           })
         }
-        else if (!this.disableMax && percentage >= this.dragging.percentageMin) {
-          this.currentMinPercentage = this.dragging.percentageMin
+        else {
+          this.currentMinPercentage = this.dragging.percentageMax
           this.currentMaxPercentage = percentage
+          this.__updateInput({
+            min: this.dragging.valueMax,
+            max: model
+          })
+        }
+      }
+      else if (!this.disableMax && this.dragging.byPosition === 1) {
+        if (percentage >= this.dragging.percentageMin) {
+          this.currentMaxPercentage = percentage
+          this.currentMinPercentage = this.dragging.percentageMin
           this.__updateInput({
             min: this.dragging.valueMin,
             max: model
           })
         }
+        else {
+          this.currentMaxPercentage = this.dragging.percentageMin
+          this.currentMinPercentage = percentage
+          this.__updateInput({
+            min: model,
+            max: this.dragging.valueMin
+          })
+        }
       }
       else if (this.dragRange && percentage + this.dragging.minPercentageOffset >= 0 && percentage + this.dragging.maxPercentageOffset <= 1) {
-        this.currentMinPercentage = percentage + this.dragging.minPercentageOffset
-        this.currentMaxPercentage = percentage + this.dragging.maxPercentageOffset
+        this.currentMinPercentage = this.disableMin ? this.currentMinPercentage : percentage + this.dragging.minPercentageOffset
+        this.currentMaxPercentage = this.disableMax ? this.currentMaxPercentage : percentage + this.dragging.maxPercentageOffset
         this.__updateInput({
-          min: model,
-          max: model + this.dragging.valueRange
+          min: this.disableMin ? this.dragging.valueMin : model,
+          max: this.disableMax ? this.dragging.valueMax : model + this.dragging.valueRange
         })
       }
     },

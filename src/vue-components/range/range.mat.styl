@@ -20,12 +20,13 @@ $range-handle-radius       ?= 50%
   transition all .3s ease
   &.active-track
     background $range-active-color
-  &.track-draggable
-    background $range-color
-    border $range-track-height solid $range-active-color
+    transform scale(1)
+  &.track-draggable.dragging
+    transform scale(1)
   &.handle-at-minimum
-  &.handle-at-maximum
     background transparent
+  &.handle-at-maximum
+    background solid
 
 .quasar-range-mark
   position absolute
@@ -86,14 +87,30 @@ $range-handle-radius       ?= 50%
     transition opacity .3s ease, transform .3s ease
     .quasar-range-label
       opacity 1
-      transform translateY(-50%) scale(1)
-  &.handle-at-minimum
+  &.handle-at-minimum:not(.undraggable)
     background white
     border 2px solid $range-color
     .quasar-range-label
       color black
       &:before
         background $range-color
+  &.dragging
+    border-width $range-track-height
+    transition border-width .3s ease
+  &.undraggable
+    width 0
+    height 0
+    border-top ($range-handle-size / 2) solid transparent
+    border-bottom ($range-handle-size / 2) solid transparent
+    border-radius 0
+    background transparent
+    width ($range-handle-size / 3)
+    &.range-handle-min
+      border-left $range-handle-size solid $range-active-color
+      transform translate3d(-40%, -50%, 0) scale(.67) !important
+    &.range-handle-max
+      border-right $range-handle-size solid $range-active-color
+      transform translate3d(-60%, -50%, 0) scale(.67)
 
 .quasar-range
   height $range-height
