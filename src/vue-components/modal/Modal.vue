@@ -32,11 +32,11 @@ export default {
       default: 'items-center justify-center'
     },
     contentCss: Object,
-    noCancelOnOutsideClick: {
+    noBackdropDismiss: {
       type: Boolean,
       default: false
     },
-    noCancelOnEscKey: {
+    noEscDismiss: {
       type: Boolean,
       default: false
     }
@@ -58,7 +58,7 @@ export default {
 
       document.body.classList.add('with-modal')
       EscapeKey.register(() => {
-        if (this.noCancelOnEscKey) {
+        if (this.noEscDismiss) {
           return
         }
         this.close(() => {
@@ -126,7 +126,7 @@ export default {
       }
     },
     click (onClick) {
-      if (this.noCancelOnOutsideClick) {
+      if (this.noBackdropDismiss) {
         return
       }
       this.close(onClick)
