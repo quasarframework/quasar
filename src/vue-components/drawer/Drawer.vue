@@ -25,6 +25,7 @@
 
 <script>
 import Utils from '../../utils'
+import Events from '../../events'
 import * as theme from '../../theme'
 import Platform from '../../platform'
 
@@ -36,6 +37,7 @@ const
   }
 
 function getCurrentPosition (node) {
+  // console.log('node', node)
   let transform = Utils.dom.style(node, 'transform')
   return transform && transform !== 'none' ? parseInt(transform.split(/[()]/)[1].split(', ')[4], 10) : 0
 }
@@ -64,6 +66,7 @@ export default {
   },
   methods: {
     __matToggleAnimate (percentage, done) {
+      console.log('toggle', this.$refs, this.$refs.content)
       const
         node = this.$refs.content,
         backdrop = this.$refs.backdrop,
@@ -94,7 +97,12 @@ export default {
           else {
             window.history.state.__quasar_drawer = true
           }
+          let state = window.history.state || {}
+          state.__quasar_drawer = true
+          window.history.replaceState(state, '')
+          console.log('altered state', window.history.state, window.history.length)
           window.history.pushState({}, '')
+          console.log('pushing state', window.history.length)
           window.addEventListener('popstate', this.__popState)
         }
       }
@@ -102,7 +110,9 @@ export default {
         window.removeEventListener('resize', this.close)
         if (!Platform.within.iframe) {
           window.removeEventListener('popstate', this.__popState)
+          console.log('removed popstate')
           if (window.history.state && !window.history.state.__quasar_drawer) {
+            console.log('going back')
             window.history.go(-1)
           }
         }
@@ -297,8 +307,11 @@ export default {
       fn(this.opened ? 0.01 : 1, done)
     },
     __popState () {
+      console.log('popstate')
       if (!Platform.within.iframe) {
+        console.log(window.history.state)
         if (window.history.state && window.history.state.__quasar_drawer) {
+          console.log('closing')
           this.setState(false)
         }
       }
@@ -324,7 +337,9 @@ export default {
       this.width = Utils.dom.width(content)
 
       ;[].slice.call(content.getElementsByClassName('drawer-closer')).forEach(el => {
-        el.addEventListener('click', () => {
+        el.addEventListener('click', (event) => {
+          event.stopPropagating()
+          console.log('router-link closing drawer')
           this.setState(false)
         })
       })
@@ -332,9 +347,15 @@ export default {
       if (this.swipeOnly) {
         this.$el.classList.add('swipe-only')
       }
+
+      this.__eventHandler = handler => {
+        this.close(handler)
+      }
+      Events.$on('app::close-drawers', this.__eventHandler)
     })
   },
   beforeDestroy () {
+    Events.$off('app::close-drawers', this.__eventHandler)
     this.setState(false)
   }
 }

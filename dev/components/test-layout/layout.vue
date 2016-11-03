@@ -31,18 +31,18 @@
       </div>
 
       <div class="list no-border platform-delimiter">
-        <quasar-drawer-link icon="view_quilt" to="/showcase/layout" exact>
+        <quasar-drawer-link icon="view_quilt" to="/test-layout/about" exact>
           About Layout
         </quasar-drawer-link>
         <hr>
         <div class="list-label">Layout Components</div>
-        <quasar-drawer-link icon="build" to="/showcase/layout/toolbar" exact>
+        <quasar-drawer-link icon="build" to="/test-layout/toolbar" exact>
           Toolbar
         </quasar-drawer-link>
-        <quasar-drawer-link icon="tab" to="/showcase/layout/tabs" exact>
+        <quasar-drawer-link icon="tab" to="/test-layout/tabs" exact>
           Tabs
         </quasar-drawer-link>
-        <quasar-drawer-link icon="compare_arrows" to="/showcase/layout/drawer" exact>
+        <quasar-drawer-link icon="compare_arrows" to="/test-layout/drawer" exact>
           Layout Drawer
         </quasar-drawer-link>
       </div>

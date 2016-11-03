@@ -110,8 +110,6 @@
     "url-loader": "^0.5.7",
     "velocity-animate": "^1.2.3",
     "vue": "^2.0.0",
-    "vue-hot-reload-api": "^2.0.6",
-    "vue-html-loader": "^1.2.3",
     "vue-loader": "^9.5.1",
     "vue-router": "^2.0.0",
     "vue-style-loader": "^1.0.0",
