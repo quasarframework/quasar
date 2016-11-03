@@ -1,9 +1,9 @@
-/* istanbul ignore next */
+/* eslint-disable no-useless-escape */
+
 function getUserAgent () {
   return (navigator.userAgent || navigator.vendor || window.opera).toLowerCase()
 }
 
-/* istanbul ignore next */
 function getMatch (userAgent, platformMatch) {
   var match = /(edge)\/([\w.]+)/.exec(userAgent) ||
     /(opr)[\/]([\w.]+)/.exec(userAgent) ||
@@ -27,7 +27,6 @@ function getMatch (userAgent, platformMatch) {
   }
 }
 
-/* istanbul ignore next */
 function getPlatformMatch (userAgent) {
   return /(ipad)/.exec(userAgent) ||
     /(ipod)/.exec(userAgent) ||
@@ -46,7 +45,6 @@ function getPlatformMatch (userAgent) {
     []
 }
 
-/* istanbul ignore next */
 function getPlatform () {
   let
     userAgent = getUserAgent(),
@@ -157,7 +155,7 @@ function getPlatform () {
 export default {
   is: getPlatform(),
   has: {
-    touch: (() => !!('ontouchstart' in document.documentElement) || /* istanbul ignore next */ window.navigator.msMaxTouchPoints > 0)()
+    touch: (() => !!('ontouchstart' in document.documentElement) || window.navigator.msMaxTouchPoints > 0)()
   },
   within: {
     iframe: window.self !== window.top

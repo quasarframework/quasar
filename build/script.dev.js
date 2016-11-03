@@ -39,7 +39,7 @@ app.use(devMiddleware)
 app.use(hotMiddleware)
 
 // serve pure static assets
-var staticsPath = path.posix.join(config.dev.publicPath, 'statics/')
+var staticsPath = path.posix.join(webpackConfig.output.publicPath, 'statics/')
 app.use(staticsPath, express.static('./dev/statics'))
 
 // try to serve Cordova statics for Play App
