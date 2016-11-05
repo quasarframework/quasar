@@ -18,11 +18,17 @@ $range-handle-box-shadow   ?= 0 1px 3px 1px rgba(0, 0, 0, .4)
   height $range-track-height
   width 100%
   background $range-color
-  transition all .3s ease
+  &:not(.dragging)
+    transition all .3s ease
   &.active-track
     background $range-active-color
+  &.track-draggable.dragging
+    height ($range-track-height * 2)
+    transition height .3s ease
   &.handle-at-minimum
     background transparent
+  &.handle-at-maximum
+    background solid
 
 .quasar-range-mark
   position absolute
@@ -76,6 +82,9 @@ $range-handle-box-shadow   ?= 0 1px 3px 1px rgba(0, 0, 0, .4)
     .quasar-range-label
       opacity 1
       transform translateY(-50%)
+  &.undraggable
+    background lighten($range-color, 20%)
+    cursor pointer
 
 .quasar-range
   height $range-height

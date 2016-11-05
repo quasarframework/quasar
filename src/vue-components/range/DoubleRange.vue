@@ -233,7 +233,7 @@ export default {
             max: model
           })
         }
-        else if (!this.disableMin) {
+        else {
           this.currentMinPercentage = this.disableMin ? this.dragging.percentageMin : percentage
           this.currentMaxPercentage = this.dragging.percentageMin
           this.__updateInput({
@@ -243,14 +243,9 @@ export default {
         }
       }
       else if (this.dragging.byPosition === 0) {
-        if (percentage + this.dragging.minPercentageOffset >= this.dragging.percentageMin) {
-
-        }
-        else {
-          // dragging beyond disabled handle. do nothing
-        }
-        this.currentMinPercentage = this.disableMin ? this.currentMinPercentage : percentage + this.dragging.minPercentageOffset
-        this.currentMaxPercentage = this.disableMax ? this.currentMaxPercentage : percentage + this.dragging.maxPercentageOffset
+        this.currentMinPercentage =
+          this.disableMin ? this.currentMinPercentage : this.disableMax && percentage + this.dragging.minPercentageOffset > this.currentMaxPercentage ? this.currentMaxPercentage : percentage + this.dragging.minPercentageOffset
+        this.currentMaxPercentage = this.disableMax ? this.currentMaxPercentage : this.disableMin && percentage + this.dragging.maxPercentageOffset < this.currentMinPercentage ? this.currentMinPercentage : percentage + this.dragging.maxPercentageOffset
         this.__updateInput({
           min: this.disableMin ? this.dragging.valueMin : model,
           max: this.disableMax ? this.dragging.valueMax : model + this.dragging.valueRange

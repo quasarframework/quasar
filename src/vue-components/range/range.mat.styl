@@ -8,6 +8,8 @@ $range-mark-height         ?= 10px
 $range-handle-size         ?= 20px
 $range-handle-radius       ?= 50%
 
+
+
 .quasar-range-track
   position absolute
   top 50%
@@ -44,7 +46,7 @@ $range-handle-radius       ?= 50%
 
 .quasar-range-label
   position relative
-  top (- $range-handle-size * 0.7)
+  top - $range-handle-size
   left -25%
   padding 8px 0
   opacity 0
@@ -72,8 +74,7 @@ $range-handle-radius       ?= 50%
     transform translateY(-50%) scale(1)
 
 .quasar-range-handle.undraggable>.quasar-range-label
-  top (- $range-handle-size * 0.7) - $range-handle-size
-
+  top - $range-handle-size * 2
 
 .quasar-range-handle
   position absolute
@@ -83,26 +84,30 @@ $range-handle-radius       ?= 50%
   transition all .3s ease
   width $range-handle-size
   height $range-handle-size
+  border-radius $range-handle-radius
   box-sizing content-box
-  &:not(.undraggable)
-    border-radius $range-handle-radius
-    background $range-active-color
   &.dragging
     transform translate3d(-50%, -50%, 0) scale(1)
     transition opacity .3s ease, transform .3s ease
     .quasar-range-label
       opacity 1
       transform translateY(-50%) scale(1)
-  &.handle-at-minimum:not(.undraggable)
-    background white
-    border 2px solid $range-color
-    .quasar-range-label
-      color black
-      &:before
-        background $range-color
-  &.undraggable.quasar-range-label
-    opacity 1
-
+  &:not(.undraggable)
+    background $range-active-color
+    &.handle-at-minimum
+      background white
+      border 2px solid $range-color
+      .quasar-range-label
+        color black
+        &:before
+          background $range-color
+  &.undraggable
+    background transparent
+    &.handle-at-minimum
+      .quasar-range-label
+        color black
+        &:before
+          background $range-color
 
 .quasar-range-handle.undraggable:before
   content: ''
@@ -111,14 +116,21 @@ $range-handle-radius       ?= 50%
   height 0
   border-top ($range-handle-size / 2) solid transparent
   border-bottom ($range-handle-size / 2) solid transparent
+  &.handle-at-minimum
+    border-top-color $range-color
+    border-bottom-color $range-color
 
 .range-handle-min.undraggable:before
   border-left $range-handle-size solid $range-active-color
   margin-left $range-handle-size * 0.35
+.range-handle-min.handle-at-minimum.undraggable:before
+    border-left-color $range-color
 
 .range-handle-max.undraggable:before
   border-right $range-handle-size solid $range-active-color
   margin-left $range-handle-size * -0.35
+.range-handle-max.handle-at-maximum.undraggable:before
+    // border-right-color $range-color
 
 .quasar-range
   height $range-height
