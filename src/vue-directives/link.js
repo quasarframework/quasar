@@ -3,27 +3,49 @@ import Utils from '../utils'
 export default {
   bind (el, binding, vnode) {
     let ctx = {
-      replace: binding.replace,
       route: binding.value,
+      delay: binding.modifiers.delay,
+      active: false,
       go () {
-        vnode.context.$router[ctx.replace ? 'replace' : 'push'](ctx.route)
+        const fn = () => {
+          vnode.context.$router[ctx.route.replace ? 'replace' : 'push'](ctx.route)
+        }
+        if (ctx.delay) {
+          setTimeout(fn, 100)
+          return
+        }
+        fn()
+      },
+      updateClass () {
+        const
+          route = vnode.context.$route,
+          ctxRoute = typeof ctx.route === 'string' ? {path: ctx.route} : ctx.route,
+          prop = ctxRoute.name ? 'name' : 'path'
+        let matched = ctx.route.exact ? route[prop] === ctxRoute[prop] : route.matched.some(r => r[prop] === ctxRoute[prop])
+
+        if (ctx.active !== matched) {
+          el.classList[matched ? 'add' : 'remove']('router-link-active')
+          ctx.active = matched
+        }
       }
     }
 
+    ctx.destroyWatcher = vnode.context.$watch('$route', ctx.updateClass)
+    ctx.updateClass()
     Utils.store.add('link', el, ctx)
     el.addEventListener('click', ctx.go)
   },
   update (el, binding) {
-    let ctx = Utils.store.get('link', el)
     if (binding.oldValue !== binding.value) {
+      let ctx = Utils.store.get('link', el)
       ctx.route = binding.value
-    }
-    if (binding.replace !== ctx.replace) {
-      ctx.replace = binding.replace
+      ctx.updateClass()
     }
   },
   unbind (el) {
-    el.removeEventListener('click', Utils.store.get('link', el).go)
+    let ctx = Utils.store.get('link', el)
+    ctx.destroyWatcher()
+    el.removeEventListener('click', ctx.go)
     Utils.store.remove('link', el)
   }
 }
