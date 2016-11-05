@@ -58,6 +58,9 @@ Currently only on [Google Play](https://play.google.com/store/apps/details?id=co
 
 Check its repo here: [Quasar Play](https://github.com/rstoenescu/quasar-play).
 
+## Semver
+Until Quasar reaches a 1.0 release (soon), breaking changes will be released with a new minor version. For example 0.8.1, and 0.8.4 will have the same API, but 0.9.0 will have breaking changes.
+
 ## License
 
 Copyright (c) 2016 Razvan Stoenescu
