@@ -8,7 +8,6 @@ $range-mark-height         ?= 10px
 $range-handle-size         ?= 20px
 $range-handle-radius       ?= 50%
 
-
 .quasar-range-track
   position absolute
   top 50%
@@ -17,12 +16,13 @@ $range-handle-radius       ?= 50%
   height $range-track-height
   width 100%
   background $range-color
-  transition all .3s ease
+  &:not(.dragging)
+    transition all .3s ease
   &.active-track
     background $range-active-color
-    transform scale(1)
   &.track-draggable.dragging
-    transform scale(1)
+    height ($range-track-height * 2)
+    transition height .3s ease
   &.handle-at-minimum
     background transparent
   &.handle-at-maximum
@@ -44,7 +44,7 @@ $range-handle-radius       ?= 50%
 
 .quasar-range-label
   position relative
-  top (- $range-handle-size / 1.5)
+  top (- $range-handle-size * 0.7)
   left -25%
   padding 8px 0
   opacity 0
@@ -60,7 +60,7 @@ $range-handle-radius       ?= 50%
     content ''
     z-index -1
     position absolute
-    top -5px
+    top (- $range-handle-size * 0.25)
     left 0
     width (1.5 * $range-handle-size)
     height (1.5 * $range-handle-size)
@@ -71,6 +71,10 @@ $range-handle-radius       ?= 50%
     opacity 1
     transform translateY(-50%) scale(1)
 
+.quasar-range-handle.undraggable>.quasar-range-label
+  top (- $range-handle-size * 0.7) - $range-handle-size
+
+
 .quasar-range-handle
   position absolute
   top 50%
@@ -79,14 +83,16 @@ $range-handle-radius       ?= 50%
   transition all .3s ease
   width $range-handle-size
   height $range-handle-size
-  border-radius $range-handle-radius
-  background $range-active-color
   box-sizing content-box
+  &:not(.undraggable)
+    border-radius $range-handle-radius
+    background $range-active-color
   &.dragging
     transform translate3d(-50%, -50%, 0) scale(1)
     transition opacity .3s ease, transform .3s ease
     .quasar-range-label
       opacity 1
+      transform translateY(-50%) scale(1)
   &.handle-at-minimum:not(.undraggable)
     background white
     border 2px solid $range-color
@@ -94,23 +100,25 @@ $range-handle-radius       ?= 50%
       color black
       &:before
         background $range-color
-  &.dragging
-    border-width $range-track-height
-    transition border-width .3s ease
-  &.undraggable
-    width 0
-    height 0
-    border-top ($range-handle-size / 2) solid transparent
-    border-bottom ($range-handle-size / 2) solid transparent
-    border-radius 0
-    background transparent
-    width ($range-handle-size / 3)
-    &.range-handle-min
-      border-left $range-handle-size solid $range-active-color
-      transform translate3d(-40%, -50%, 0) scale(.67) !important
-    &.range-handle-max
-      border-right $range-handle-size solid $range-active-color
-      transform translate3d(-60%, -50%, 0) scale(.67)
+  &.undraggable.quasar-range-label
+    opacity 1
+
+
+.quasar-range-handle.undraggable:before
+  content: ''
+  display: block
+  width 0
+  height 0
+  border-top ($range-handle-size / 2) solid transparent
+  border-bottom ($range-handle-size / 2) solid transparent
+
+.range-handle-min.undraggable:before
+  border-left $range-handle-size solid $range-active-color
+  margin-left $range-handle-size * 0.35
+
+.range-handle-max.undraggable:before
+  border-right $range-handle-size solid $range-active-color
+  margin-left $range-handle-size * -0.35
 
 .quasar-range
   height $range-height

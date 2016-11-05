@@ -1,6 +1,34 @@
 <template>
   <div>
     <div class="layout-padding">
+
+
+      <p class="caption">
+        Drag Range
+        <span class="label inline bg-secondary text-white">
+          Model <span class="right-detail"><em>{{range.min}} to {{range.max}}</em> &nbsp;&nbsp;(0 to 100, step 1)</span>
+        </span>
+      </p>
+      <quasar-double-range v-model="range" :min="0" :max="100" label drag-range></quasar-double-range>
+
+      <p class="caption">
+        Drag Range. With Step.
+      </p>
+      <quasar-double-range v-model="range" :min="0" :max="100" :step="5" label drag-range></quasar-double-range>
+
+
+      <p class="caption">Disable Min/Max. Drag Range</p>
+      <quasar-double-range v-model="range" :min="0" :max="100" disable-min disable-max></quasar-double-range>
+      <br /><br/>
+      <quasar-double-range v-model="range" :min="0" :max="100" disable-min drag-range label-always></quasar-double-range>
+      <br />
+      <br />
+      <quasar-double-range v-model="range" :min="0" :max="100" :step="5" disable-max drag-range label-always></quasar-double-range>
+
+
+
+
+
       <p class="caption">
         Standalone
         <span class="label inline bg-secondary text-white">
@@ -10,12 +38,14 @@
       <quasar-double-range v-model="standalone" :min="0" :max="50"></quasar-double-range>
 
       <p class="caption">
-        With Step
+        Snaps to Step
         <span class="label inline bg-secondary text-white">
           Model <span class="right-detail"><em>{{step.min}} to {{step.max}}</em> &nbsp;&nbsp;(0 to 45, step 5)</span>
         </span>
       </p>
-      <quasar-double-range v-model="step" :min="0" :max="45" :step="5"></quasar-double-range>
+      <quasar-double-range v-model="step" :min="0" :max="45" label-always></quasar-double-range>
+      <br /><br />
+      <quasar-double-range v-model="step" :min="0" :max="45" :step="5" label-always></quasar-double-range>
 
       <p class="caption">
         With Label
@@ -24,14 +54,6 @@
         </span>
       </p>
       <quasar-double-range v-model="label" :min="-20" :max="20" :step="4" label></quasar-double-range>
-
-      <p class="caption">
-        Drag entire range
-        <span class="label inline bg-secondary text-white">
-          Model <span class="right-detail"><em>{{range.min}} to {{range.max}}</em> &nbsp;&nbsp;(-20 to 20, step 4)</span>
-        </span>
-      </p>
-      <quasar-double-range v-model="label" :min="-20" :max="20" :step="4" label drag-range></quasar-double-range>
 
       <p class="caption">
         Snaps to Steps
@@ -56,10 +78,6 @@
         </span>
       </p>
       <quasar-double-range v-model="label" :min="-20" :max="20" :step="4" label-always></quasar-double-range>
-
-      <p class="caption">Disable Min or Max</p>
-      <quasar-double-range v-model="standalone" :min="0" :max="50" disable-min drag-range></quasar-double-range>
-      <quasar-double-range v-model="standalone" :min="0" :max="50" disable-max drag-range></quasar-double-range>
 
       <p class="caption">Disabled State</p>
       <quasar-double-range v-model="standalone" :min="0" :max="50" disable></quasar-double-range>
@@ -122,7 +140,7 @@ export default {
 
       range: {
         min: 20,
-        max: 55
+        max: 40
       }
     }
   }
