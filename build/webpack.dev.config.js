@@ -21,7 +21,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, '../test/e2e/dist'),
-    publicPath: '',
+    publicPath: '/',
     filename: '[name].js'
   },
   resolve: {
@@ -29,9 +29,8 @@ module.exports = {
     fallback: [path.join(__dirname, '../node_modules')],
     alias: {
       'quasar': path.resolve(__dirname, '../src/index.es6'),
-      'asset': path.resolve(__dirname, '../dev/assets'),
-      'component': path.resolve(__dirname, '../dev/components'),
-      'view': path.resolve(__dirname, '../dev/views')
+      'assets': path.resolve(__dirname, '../dev/assets'),
+      'components': path.resolve(__dirname, '../dev/components')
     }
   },
   resolveLoader: {
@@ -40,7 +39,7 @@ module.exports = {
   plugins: plugins.concat([
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: process.env.PROD ? '"production"' : '"development"'
+        NODE_ENV: '"development"'
       },
       '__THEME': '"' + platform.theme + '"'
     }),
@@ -76,10 +75,6 @@ module.exports = {
         exclude: /node_modules/
       },
       {
-        test: /\.html$/,
-        loader: 'vue-html'
-      },
-      {
         test: /\.svg$/,
         loader: 'raw'
       },
@@ -109,7 +104,7 @@ module.exports = {
     formatter: require('eslint-friendly-formatter')
   },
   vue: {
-    loaders: utils.cssLoaders()
+    loaders: utils.cssLoaders({ sourceMap: true, postcss: true })
   },
   postcss: function () {
     return [autoprefixer]

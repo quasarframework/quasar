@@ -15,7 +15,8 @@ export default {
         }
         return true
       }
-    }
+    },
+    appear: Boolean
   },
   render (h, context) {
     if (!transitions[context.props.name]) {
@@ -24,7 +25,8 @@ export default {
     var data = {
       props: {
         name: 'quasar-transition',
-        mode: 'out-in'
+        mode: 'out-in',
+        appear: context.props.appear
       },
       on: transitions[context.props.name]
     }

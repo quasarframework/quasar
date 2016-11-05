@@ -35,4 +35,7 @@ pages.filter(page => page.indexOf('test-layout') === -1).forEach(page => {
 })
 
 routes.push({path: '*', component: load('error404')})
-export default new VueRouter({routes})
+export default new VueRouter({
+  mode: 'history',
+  routes
+})
