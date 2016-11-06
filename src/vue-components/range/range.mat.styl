@@ -74,7 +74,7 @@ $range-handle-radius       ?= 50%
     transform translateY(-50%) scale(1)
 
 .quasar-range-handle.undraggable>.quasar-range-label
-  top - $range-handle-size * 2
+  top (- $range-handle-size - ($range-handle-size * 0.75))
 
 .quasar-range-handle
   position absolute
