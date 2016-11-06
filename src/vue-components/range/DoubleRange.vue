@@ -90,16 +90,10 @@ export default {
   },
   computed: {
     percentageMin () {
-      if (this.snap) {
-        return (this.value.min - this.min) / (this.max - this.min)
-      }
-      return this.currentMinPercentage
+      return (!this.snap || this.disableMin) ? this.currentMinPercentage : (this.value.min - this.min) / (this.max - this.min)
     },
     percentageMax () {
-      if (this.snap) {
-        return (this.value.max - this.min) / (this.max - this.min)
-      }
-      return this.currentMaxPercentage
+      return (!this.snap || this.disableMax) ? this.currentMaxPercentage : (this.value.max - this.min) / (this.max - this.min)
     },
     activeTrackWidth () {
       return 100 * (this.percentageMax - this.percentageMin) + '%'
