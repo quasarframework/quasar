@@ -19,16 +19,18 @@ function getDirection (mod) {
   return dir
 }
 
-function updateClasses (el, dir) {
+function updateClasses (el, dir, scroll) {
   el.classList.add('quasar-touch')
 
-  if (dir.horizontal && !dir.vertical) {
-    el.classList.add('quasar-touch-y')
-    el.classList.remove('quasar-touch-x')
-  }
-  else if (!dir.horizontal && dir.vertical) {
-    el.classList.add('quasar-touch-x')
-    el.classList.remove('quasar-touch-y')
+  if (!scroll) {
+    if (dir.horizontal && !dir.vertical) {
+      el.classList.add('quasar-touch-y')
+      el.classList.remove('quasar-touch-x')
+    }
+    else if (!dir.horizontal && dir.vertical) {
+      el.classList.add('quasar-touch-x')
+      el.classList.remove('quasar-touch-y')
+    }
   }
 }
 
@@ -88,6 +90,7 @@ export default {
   bind (el, binding) {
     let ctx = {
       handler: binding.value,
+      scroll: binding.modifiers.scroll,
       direction: getDirection(binding.modifiers),
 
       mouseStart (evt) {
@@ -114,7 +117,9 @@ export default {
       },
       move (evt) {
         if (ctx.event.prevent) {
-          evt.preventDefault()
+          if (!ctx.scroll) {
+            evt.preventDefault()
+          }
           let changes = processChanges(evt, ctx, false)
           if (shouldTrigger(ctx, changes)) {
             ctx.handler(changes)
@@ -162,7 +167,7 @@ export default {
     }
 
     Utils.store.add('touchpan', el, ctx)
-    updateClasses(el, ctx.direction)
+    updateClasses(el, ctx.direction, ctx.scroll)
     el.addEventListener('touchstart', ctx.start)
     el.addEventListener('mousedown', ctx.mouseStart)
     el.addEventListener('touchmove', ctx.move)
@@ -170,8 +175,7 @@ export default {
   },
   update (el, binding) {
     if (binding.oldValue !== binding.value) {
-      let ctx = Utils.store.get('touchpan', el)
-      ctx.handler = binding.value
+      Utils.store.get('touchpan', el).handler = binding.value
     }
   },
   unbind (el, binding) {

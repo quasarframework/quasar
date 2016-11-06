@@ -3,7 +3,7 @@
     <div
       class="pull-to-refresh-container"
       :style="{transform: 'translateY(' + pullPosition + 'px)'}"
-      v-touch-pan.vertical="__pull"
+      v-touch-pan.vertical.scroll="__pull"
     >
       <div class="pull-to-refresh-message row items-center justify-center">
         <i v-show="state !== 'refreshing'" :class="{'rotate-180': state === 'pulled'}">arrow_downward</i>
@@ -47,6 +47,7 @@ export default {
       type: String,
       default: 'refresh'
     },
+    inline: Boolean,
     disable: Boolean
   },
   data () {
@@ -76,67 +77,48 @@ export default {
   },
   methods: {
     __pull (event) {
-      if (this.scrolling) {
-        if (event.isFinal) {
-          this.scrolling = false
-        }
-        return
-      }
-      if (this.animating) {
-        return
-      }
       if (this.disable) {
+        return
+      }
+
+      if (event.isFinal) {
+        if (this.scrolling) {
+          this.scrolling = false
+          this.pulling = false
+          return
+        }
         this.scrolling = false
         this.pulling = false
-        this.animating = false
-        this.state = 'pull'
-        return
-      }
 
-      if (!this.pulling) {
-        if (this.state === 'refreshing') {
-          return
-        }
-        if (this.pullPosition === -this.height && event.direction === 'up') {
-          return
-        }
-
-        let
-          containerTop = Utils.dom.offset(this.scrollContainer).top,
-          thisContainerTop = Utils.dom.offset(this.$el).top
-
-        if (containerTop > thisContainerTop) {
-          this.scrolling = true
-          return
-        }
-
-        this.originalScrollOverflow = this.scrollContainer.style.overflow
-        this.scrollContainer.style.overflow = 'hidden'
-      }
-
-      this.pulling = true
-      this.pullPosition = -this.height + Math.max(0, Math.pow(event.distance.y, 0.85))
-
-      if (this.pullPosition > this.distance) {
-        if (event.isFinal) {
+        if (this.state === 'pulled') {
           this.state = 'refreshing'
-          this.pulling = false
-          this.scrollContainer.style.overflow = this.originalScrollOverflow
           this.__animateTo(0)
           this.trigger()
         }
-        else {
-          this.state = 'pulled'
-        }
-      }
-      else {
-        this.state = 'pull'
-        if (event.isFinal) {
-          this.pulling = false
-          this.scrollContainer.style.overflow = this.originalScrollOverflow
+        else if (this.state === 'pull') {
           this.__animateTo(-this.height)
         }
+        return
       }
+      if (this.animating || this.scrolling || this.state === 'refreshing') {
+        return true
+      }
+
+      let top = Utils.dom.getScrollPosition(this.scrollContainer)
+      if (top !== 0 || (top === 0 && event.direction !== 'down')) {
+        this.scrolling = true
+        if (this.pulling) {
+          this.pulling = false
+          this.state = 'pull'
+          this.__animateTo(-this.height)
+        }
+        return true
+      }
+
+      event.evt.preventDefault()
+      this.pulling = true
+      this.pullPosition = -this.height + Math.max(0, Math.pow(event.distance.y, 0.85))
+      this.state = this.pullPosition > this.distance ? 'pulled' : 'pull'
     },
     __animateTo (target, done, previousCall) {
       if (!previousCall && this.animationId) {
@@ -168,7 +150,7 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
-      this.scrollContainer = this.$el.parentNode
+      this.scrollContainer = this.inline ? this.$el.parentNode : Utils.dom.getScrollTarget(this.$el)
     })
   }
 }

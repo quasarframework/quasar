@@ -1,13 +1,10 @@
-$pull-to-refresh-color     ?= $primary
-$pull-to-refresh-font-size ?= 1rem
-$pull-to-refresh-icon-size ?= 2rem
+$pull-to-refresh-color              ?= $primary
+$pull-to-refresh-font-size          ?= 1rem
+$pull-to-refresh-icon-size          ?= 2rem
 
 .pull-to-refresh
-  overflow hidden
   position relative
-
-.pull-to-refresh-container
-  touch-action pan-x pan-y !important
+  max-height 100vh
 
 .pull-to-refresh-message
   height 65px
