@@ -1,6 +1,7 @@
 $table-font-size       ?= .8rem
 $table-highlight-color ?= #f2f2f2
 $table-color           ?= $grey-8
+$table-border          ?= 1px solid rgba(0, 0, 0, .12)
 
 table.quasar-table
   position relative
@@ -11,15 +12,13 @@ table.quasar-table
   color $table-color
 
   &.bordered, &.cell-delimiter
-    border 1px solid rgba(0, 0, 0, .12)
+    border $table-border
   &.cell-delimiter
     th, td
-      border-right 1px solid rgba(0, 0, 0, .12)
+      border-right $table-border
   &.row-delimiter, &.cell-delimiter
-    tr
-      border-bottom $table-border
     th, td
-      border-bottom 1px solid rgba(0, 0, 0, .12)
+      border-bottom $table-border
 
   &.striped
     tbody tr
@@ -28,7 +27,8 @@ table.quasar-table
       td
         border-radius 0
     th
-      border-bottom 2px solid rgba(0, 0, 0, .12)
+      border-bottom $table-border
+      border-bottom-width 2px
 
   thead
     th
@@ -42,7 +42,6 @@ table.quasar-table
       height 48px
       font-size 12px
       color rgba(0, 0, 0, .54)
-      text-align left
       &:first-of-type
         padding-left 24px
       &:last-of-type
@@ -56,7 +55,6 @@ table.quasar-table
       height 48px
       padding 12px 18px
       vertical-align middle
-      text-align left
       &:first-of-type
         padding-left 24px
       &:last-of-type
@@ -73,4 +71,4 @@ body.desktop table.quasar-table.highlight
   tbody tr, th
     transition all .28s ease-in
     &:hover
-      background darken($table-highlight-color, 5%) !important
+      background darken($table-highlight-color, 5%)

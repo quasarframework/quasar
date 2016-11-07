@@ -71,7 +71,7 @@
         </quasar-collapsible>
         <quasar-collapsible icon="perm_identity" label="Second Card">
           <div class="card">
-            <img :src="'statics/mountains.jpg'">
+            <img src="~assets/mountains.jpg">
             <div class="card-content">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             </div>
@@ -80,7 +80,7 @@
         <quasar-collapsible icon="shopping_cart" label="Third Card">
           <div class="card">
             <div class="card-media">
-              <img :src="'statics/map.png'">
+              <img src="~assets/map.png">
               <button class="primary circular"><i>explore</i></button>
             </div>
             <div class="card-content">
