@@ -10,7 +10,7 @@ let
     },
     {
       name: 'negative',
-      defaults: {icon: 'whatshot', classes: 'bg-negative'}
+      defaults: {icon: 'error', classes: 'bg-negative'}
     },
     {
       name: 'info',
