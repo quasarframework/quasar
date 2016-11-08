@@ -8,7 +8,7 @@
     @touchmove.prevent="__update"
   >
     <div ref="handle" class="quasar-range-handle-container">
-      <div class="quasar-range-track"></div>
+      <div class="quasar-range-track" ></div>
       <div
         v-if="markers"
         class="quasar-range-mark"
@@ -16,13 +16,14 @@
         :style="{left: (n - 1) * 100 * step / (max - min) + '%'}"
       ></div>
       <div
-        class="quasar-range-track active-track no-transition"
+        class="quasar-range-track active-track"
+        :class="{dragging: dragging, 'track-draggable': dragRange}"
         :style="{left: percentageMin * 100 + '%', width: activeTrackWidth}"
       ></div>
       <div
-        class="quasar-range-handle no-transition"
+        class="quasar-range-handle range-handle-min"
         :style="{left: percentageMin * 100 + '%'}"
-        :class="{dragging: dragging, 'handle-at-minimum': value.min === min}"
+        :class="{dragging: dragging, 'handle-at-minimum': value.min === min, undraggable: disableMin}"
       >
         <div
           class="quasar-range-label"
@@ -31,9 +32,9 @@
         >{{ value.min }}</div>
       </div>
       <div
-        class="quasar-range-handle no-transition"
+        class="quasar-range-handle range-handle-max"
         :style="{left: percentageMax * 100 + '%'}"
-        :class="{dragging: dragging}"
+        :class="{dragging: dragging, 'handle-at-maximum': value.max === max, undraggable: disableMax}"
       >
         <div
           class="quasar-range-label"
@@ -74,27 +75,25 @@ export default {
     markers: Boolean,
     label: Boolean,
     labelAlways: Boolean,
-    disable: Boolean
+    disable: Boolean,
+    disableMin: Boolean,
+    disableMax: Boolean,
+    dragRange: Boolean
   },
   data () {
     return {
       dragging: false,
       currentMinPercentage: (this.value.min - this.min) / (this.max - this.min),
-      currentMaxPercentage: (this.value.max - this.min) / (this.max - this.min)
+      currentMaxPercentage: (this.value.max - this.min) / (this.max - this.min),
+      sensitivity: 0.02
     }
   },
   computed: {
     percentageMin () {
-      if (this.snap) {
-        return (this.value.min - this.min) / (this.max - this.min)
-      }
-      return this.currentMinPercentage
+      return (!this.snap || this.disableMin) ? this.currentMinPercentage : (this.value.min - this.min) / (this.max - this.min)
     },
     percentageMax () {
-      if (this.snap) {
-        return (this.value.max - this.min) / (this.max - this.min)
-      }
-      return this.currentMaxPercentage
+      return (!this.snap || this.disableMax) ? this.currentMaxPercentage : (this.value.max - this.min) / (this.max - this.min)
     },
     activeTrackWidth () {
       return 100 * (this.percentageMax - this.percentageMin) + '%'
@@ -146,23 +145,47 @@ export default {
       if (this.disable) {
         return
       }
-
       let container = this.$refs.handle
-
       this.dragging = {
         left: container.getBoundingClientRect().left,
         width: container.offsetWidth,
         valueMin: this.value.min,
         percentageMin: this.currentMinPercentage,
+        percentageMinLimit: this.disableMin ? -1 : 0,
+        minPercentageOffset: 0,
         valueMax: this.value.max,
-        percentageMax: this.currentMaxPercentage
+        percentageMax: this.currentMaxPercentage,
+        maxPercentageOffset: 0,
+        percentageMaxLimit: this.disableMax ? 2 : 1
       }
-
       let
         offset = Utils.event.position(event).left - this.dragging.left,
         percentage = Math.min(1, Math.max(0, offset / this.dragging.width))
 
-      this.dragging.onLeft = Math.abs(percentage - this.currentMinPercentage) <= Math.abs(percentage - this.currentMaxPercentage)
+      if (percentage < this.currentMinPercentage + this.sensitivity) {
+        if (this.disableMin) {
+          this.__cancelDrag()
+          return
+        }
+        this.dragging.byPosition = -1 // Drag min
+      }
+      else if (percentage > this.currentMaxPercentage - this.sensitivity) {
+        if (this.disableMax) {
+          this.__cancelDrag()
+          return
+        }
+        this.dragging.byPosition = 1  // Drag max
+      }
+      else {
+        if (!this.dragRange) {
+          this.__cancelDrag()
+          return
+        }
+        this.dragging.byPosition = 0  // Drag range
+        this.dragging.valueRange = this.dragging.valueMax - this.dragging.valueMin
+        this.dragging.minPercentageOffset = this.currentMinPercentage - percentage
+        this.dragging.maxPercentageOffset = this.currentMaxPercentage - percentage
+      }
       this.__update(event)
     },
     __update (event) {
@@ -170,14 +193,14 @@ export default {
         return
       }
 
+      let percentage = (Utils.event.position(event).left - this.dragging.left) / this.dragging.width
+      percentage = (percentage + this.dragging.minPercentageOffset < this.dragging.percentageMinLimit) ? this.dragging.percentageMinLimit - this.dragging.minPercentageOffset : (percentage + this.dragging.maxPercentageOffset > this.dragging.percentageMaxLimit) ? this.dragging.percentageMaxLimit - this.dragging.maxPercentageOffset : percentage
       let
-        percentage = Math.min(1, Math.max(0, (Utils.event.position(event).left - this.dragging.left) / this.dragging.width)),
-        model = this.min + percentage * (this.max - this.min),
+        model = this.min + (percentage + this.dragging.minPercentageOffset) * (this.max - this.min),
         modulo = (model - this.min) % this.step
-
       model = Math.min(this.max, Math.max(this.min, model - modulo + (Math.abs(modulo) >= this.step / 2 ? (modulo < 0 ? -1 : 1) * this.step : 0)))
 
-      if (this.dragging.onLeft) {
+      if (!this.disableMin && this.dragging.byPosition === -1) {
         if (percentage <= this.dragging.percentageMax) {
           this.currentMinPercentage = percentage
           this.currentMaxPercentage = this.dragging.percentageMax
@@ -188,37 +211,49 @@ export default {
         }
         else {
           this.currentMinPercentage = this.dragging.percentageMax
-          this.currentMaxPercentage = percentage
+          this.currentMaxPercentage = this.disableMax ? this.dragging.percentageMax : percentage
           this.__updateInput({
             min: this.dragging.valueMax,
-            max: model
+            max: this.disableMax ? this.dragging.valueMax : model
           })
         }
       }
-      else {
+      else if (!this.disableMax && this.dragging.byPosition === 1) {
         if (percentage >= this.dragging.percentageMin) {
-          this.currentMaxPercentage = percentage
           this.currentMinPercentage = this.dragging.percentageMin
+          this.currentMaxPercentage = percentage
           this.__updateInput({
             min: this.dragging.valueMin,
             max: model
           })
         }
         else {
+          this.currentMinPercentage = this.disableMin ? this.dragging.percentageMin : percentage
           this.currentMaxPercentage = this.dragging.percentageMin
-          this.currentMinPercentage = percentage
           this.__updateInput({
-            min: model,
+            min: this.disableMin ? this.dragging.valueMin : model,
             max: this.dragging.valueMin
           })
         }
+      }
+      else if (this.dragging.byPosition === 0) {
+        this.currentMinPercentage =
+          this.disableMin ? this.currentMinPercentage : this.disableMax && percentage + this.dragging.minPercentageOffset > this.currentMaxPercentage ? this.currentMaxPercentage : percentage + this.dragging.minPercentageOffset
+        this.currentMaxPercentage = this.disableMax ? this.currentMaxPercentage : this.disableMin && percentage + this.dragging.maxPercentageOffset < this.currentMinPercentage ? this.currentMinPercentage : percentage + this.dragging.maxPercentageOffset
+        this.__updateInput({
+          min: this.disableMin ? this.dragging.valueMin : model,
+          max: this.disableMax ? this.dragging.valueMax : model + this.dragging.valueRange
+        })
       }
     },
     __updateInput ({min = this.value.min, max = this.value.max}) {
       this.$emit('input', {min, max})
     },
-    __end () {
+    __cancelDrag () {
       this.dragging = false
+    },
+    __end () {
+      this.__cancelDrag()
       this.currentMinPercentage = (this.value.min - this.min) / (this.max - this.min)
       this.currentMaxPercentage = (this.value.max - this.min) / (this.max - this.min)
     },
