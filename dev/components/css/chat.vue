@@ -3,7 +3,7 @@
     <div class="layout-padding" style="max-width: 500px;">
       <div class="chat-other">
         <div class="chat-user">
-          <img :src="'statics/linux-avatar.png'">
+          <img src="~assets/linux-avatar.png">
         </div>
         <div class="chat-date">
           7 minutes ago
@@ -17,7 +17,7 @@
 
       <div class="chat-other">
         <div class="chat-user">
-          <img :src="'statics/linux-avatar.png'">
+          <img src="~assets/linux-avatar.png">
         </div>
         <div class="chat-date">
           7 minutes ago
@@ -31,7 +31,7 @@
 
       <div class="chat-you">
         <div class="chat-user">
-          <img :src="'statics/boy-avatar.png'">
+          <img src="~assets/boy-avatar.png">
         </div>
         <div class="chat-date">
           4 minutes ago
@@ -45,7 +45,7 @@
 
       <div class="chat-you">
         <div class="chat-user">
-          <img :src="'statics/boy-avatar.png'">
+          <img src="~assets/boy-avatar.png">
         </div>
         <div class="chat-date">
           4 minutes ago
@@ -59,7 +59,7 @@
 
       <div class="chat-other">
         <div class="chat-user">
-          <img :src="'statics/linux-avatar.png'">
+          <img src="~assets/linux-avatar.png">
         </div>
         <div class="chat-date">
           3 minutes ago
@@ -74,7 +74,7 @@
 
       <div class="chat-you">
         <div class="chat-user">
-          <img :src="'statics/boy-avatar.png'">
+          <img src="~assets/boy-avatar.png">
         </div>
         <div class="chat-date">
           3 minutes ago
@@ -88,7 +88,7 @@
 
       <div class="chat-you">
         <div class="chat-user">
-          <img :src="'statics/boy-avatar.png'">
+          <img src="~assets/boy-avatar.png">
         </div>
         <div class="chat-date">
           3 minutes ago
@@ -102,7 +102,7 @@
 
       <div class="chat-you">
         <div class="chat-user">
-          <img :src="'statics/boy-avatar.png'">
+          <img src="~assets/boy-avatar.png">
         </div>
         <div class="chat-date">
           1 minute ago
@@ -116,7 +116,7 @@
 
       <div class="chat-other">
         <div class="chat-user">
-          <img :src="'statics/linux-avatar.png'">
+          <img src="~assets/linux-avatar.png">
         </div>
         <div class="chat-date">
           A few second ago
@@ -130,7 +130,7 @@
 
       <div class="chat-you">
         <div class="chat-user">
-          <img :src="'statics/boy-avatar.png'">
+          <img src="~assets/boy-avatar.png">
         </div>
         <div class="chat-date">
           Just now
@@ -144,7 +144,7 @@
 
       <div class="chat-other">
         <div class="chat-user">
-          <img :src="'statics/linux-avatar.png'">
+          <img src="~assets/linux-avatar.png">
         </div>
         <div class="chat-date">
           Typing...

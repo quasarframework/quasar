@@ -23,13 +23,13 @@
       <p class="caption">Chip Labels</p>
       <p>
         <div class="group">
-          <div class="chip label bg-grey-4"><img :src="'statics/boy-avatar.png'"> John</div>
-          <div class="chip label bg-teal text-white"><img :src="'statics/boy-avatar.png'"> Joe</div>
-          <div class="chip label bg-black text-white"><img :src="'statics/boy-avatar.png'"> Jim</div>
+          <div class="chip label bg-grey-4"><img src="~assets/boy-avatar.png"> John</div>
+          <div class="chip label bg-teal text-white"><img src="~assets/boy-avatar.png"> Joe</div>
+          <div class="chip label bg-black text-white"><img src="~assets/boy-avatar.png"> Jim</div>
           <br>
-          <div class="chip label bg-light"><img :src="'statics/boy-avatar.png'"> John <i class="on-right">close</i></div>
-          <div class="chip label bg-red text-white"><img :src="'statics/boy-avatar.png'"> Joe <i class="on-right">close</i></div>
-          <div class="chip label bg-primary text-white"><img :src="'statics/boy-avatar.png'"> Jim <i class="on-right">close</i></div>
+          <div class="chip label bg-light"><img src="~assets/boy-avatar.png"> John <i class="on-right">close</i></div>
+          <div class="chip label bg-red text-white"><img src="~assets/boy-avatar.png"> Joe <i class="on-right">close</i></div>
+          <div class="chip label bg-primary text-white"><img src="~assets/boy-avatar.png"> Jim <i class="on-right">close</i></div>
           <br>
           <div class="chip label bg-grey-4">John</div>
           <div class="chip label bg-teal text-white">Joe</div>

@@ -6,7 +6,7 @@
 
       <p class="caption">Scroll Fire below. Reload page to see the effect again.</p>
       <p class="text-center">
-        <img v-scroll-fire="bounceImage" :src="'statics/quasar.jpg'" style="width: 200px">
+        <img v-scroll-fire="bounceImage" src="~assets/quasar.jpg" style="width: 200px">
       </p>
 
       <p v-for="n in 3">{{loremipsum}}</p>

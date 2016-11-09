@@ -19,7 +19,7 @@
         <p v-show="visible">
           <img
             class="responsive"
-            :src="'statics/quasar.jpg'"
+            src="~assets/quasar.jpg"
           >
         </p>
       </quasar-transition>

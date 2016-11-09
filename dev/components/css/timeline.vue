@@ -9,7 +9,7 @@
         </div>
         <div v-for="n in 2" class="timeline-item">
           <div class="timeline-badge">
-            <img v-if="n % 2 === 0" :src="'statics/linux-avatar.png'">
+            <img v-if="n % 2 === 0" src="~assets/linux-avatar.png">
             <i v-else>alarm</i>
           </div>
           <div class="timeline-title">
@@ -20,7 +20,7 @@
             <div>June 16th, 2016</div>
           </div>
           <div class="card">
-            <img :src="'statics/mountains.jpg'">
+            <img src="~assets/mountains.jpg">
             <div class="card-content">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
               incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
@@ -35,7 +35,7 @@
         </div>
         <div v-for="n in 5" class="timeline-item">
           <div class="timeline-badge">
-            <img v-if="n % 2 === 0" :src="'statics/boy-avatar.png'">
+            <img v-if="n % 2 === 0" src="~assets/boy-avatar.png">
             <i v-else>alarm</i>
           </div>
           <div class="timeline-date text-italic">
@@ -60,7 +60,7 @@
         </div>
         <div v-for="n in 4" class="timeline-item">
           <div class="timeline-badge">
-            <img v-if="n % 2 === 0" :src="'statics/guy-avatar.png'">
+            <img v-if="n % 2 === 0" src="~assets/guy-avatar.png">
             <i v-else>alarm</i>
           </div>
           <div class="timeline-date text-italic">

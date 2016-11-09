@@ -142,7 +142,7 @@
 
         <br><br>
         <span>
-          <img ref="target3" :src="'statics/map.png'" class="responsive">
+          <img ref="target3" src="~assets/map.png" class="responsive">
           <quasar-popover anchor-ref="target3" ref="popover3" touch-position>
             <div class="list highlight" style="min-width: 200px; max-height: 300px;">
               <div
@@ -166,9 +166,10 @@
 
           <quasar-popover ref="popover5">
             <img
-            :src="'statics/map.png'"
-            style="height: 150px; width: 200px;"
-            @click="showToast(), $refs.popover5.close()">
+              src="~assets/map.png"
+              style="height: 150px; width: 200px;"
+              @click="showToast(), $refs.popover5.close()"
+            >
           </quasar-popover>
         </button>
 

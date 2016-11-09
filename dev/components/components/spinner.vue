@@ -27,12 +27,13 @@
       </p>
 
       <div style="margin-top: 20px" class="group">
-        <div v-for="spinner in spinners" v-tooltip.inline="spinner">
+        <div v-for="spinner in spinners" class="inline-block">
           <spinner
             :name="spinner"
             :color="color"
             :size="size"
           ></spinner>
+          <quasar-tooltip>{{spinner}}</quasar-tooltip>
         </div>
       </div>
 

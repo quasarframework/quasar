@@ -44,7 +44,7 @@
 
       <div class="card" style="max-width: 600px;">
         <div class="card-media">
-          <img :src="'statics/map.png'">
+          <img src="~assets/map.png">
           <button class="primary circular"><i>place</i></button>
         </div>
         <div class="card-content list no-border highlight">
@@ -84,13 +84,13 @@
 
       <div class="card">
         <div class="item two-lines">
-          <img class="item-primary" :src="'statics/linux-avatar.png'">
+          <img class="item-primary" src="~assets/linux-avatar.png">
           <div class="item-content">
             <div>Joe</div>
             <div>Web Developer</div>
           </div>
         </div>
-        <img :src="'statics/mountains.jpg'">
+        <img src="~assets/mountains.jpg">
         <div class="card-content">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
           incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
@@ -153,7 +153,7 @@
       </div>
 
       <div class="card">
-        <img :src="'statics/mountains.jpg'">
+        <img src="~assets/mountains.jpg">
         <div class="card-content">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
           incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
