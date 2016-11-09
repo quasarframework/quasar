@@ -1,10 +1,11 @@
 <template>
-  <div
-    class="quasar-select-container cursor-pointer textfield caret"
-    :class="{disabled: disable, readonly: readonly}"
+  <picker-textfield
+    :disable="disable"
+    :readonly="readonly"
+    :label="label"
+    :placeholder="placeholder"
+    :value="actualValue"
   >
-    <div v-html="label"></div>
-
     <quasar-popover ref="popover" :disable="disable || readonly">
       <div class="quasar-select-popover list highlight">
         <label v-if="type === 'radio'" v-for="radio in options" class="item" @click="close">
@@ -14,17 +15,9 @@
           <div class="item-content" v-html="radio.label"></div>
         </label>
 
-        <button
-          v-if="type === 'checkbox' || type === 'toggle'"
-          class="primary clear small full-width"
-          @click="$refs.popover.close()"
-        >
-          Close
-        </button>
-
         <label v-if="type === 'checkbox'" v-for="(checkbox, index) in options" class="item">
           <div class="item-primary">
-            <quasar-checkbox v-model="optionsModel[index]"></quasar-checkbox>
+            <quasar-checkbox :value="optModel[index]" @input="toggleValue(checkbox.value)"></quasar-checkbox>
           </div>
           <div class="item-content" v-html="checkbox.label"></div>
         </label>
@@ -32,23 +25,16 @@
         <label v-if="type === 'toggle'" v-for="(toggle, index) in options" class="item">
           <div class="item-content has-secondary" v-html="toggle.label"></div>
           <div class="item-secondary">
-            <quasar-toggle v-model="optionsModel[index]"></quasar-toggle>
+            <quasar-toggle :value="optModel[index]" @input="toggleValue(toggle.value)"></quasar-toggle>
           </div>
         </label>
       </div>
     </quasar-popover>
-  </div>
+  </picker-textfield>
 </template>
 
 <script>
-function getOptionsModel (options, value) {
-  return options.map(option => {
-    return value.includes(option.value) || false
-  }).reduce((o, v, i) => {
-    o[i] = v
-    return o
-  }, {})
-}
+import PickerTextfield from '../../helper-components/picker-textfield/PickerTextfield.vue'
 
 export default {
   props: {
@@ -71,12 +57,10 @@ export default {
         return ['radio', 'checkbox', 'toggle'].includes(value)
       }
     },
+    label: String,
     placeholder: String,
     readonly: Boolean,
     disable: Boolean
-  },
-  data () {
-    return this.type !== 'radio' ? {optionsModel: getOptionsModel(this.options, this.value)} : {}
   },
   computed: {
     model: {
@@ -87,55 +71,24 @@ export default {
         this.$emit('input', value)
       }
     },
-    label () {
-      return this.placeholder || (this.multiple ? this.__getMultipleLabel() : this.__getSingleLabel())
+    optModel () {
+      /* Used by multiple selection only */
+      return this.options.map(opt => this.model.includes(opt.value))
     },
-    multiple () {
-      return this.type !== 'radio'
-    }
-  },
-  watch: {
-    options: {
-      deep: true,
-      handler (options) {
-        this.optionsModel = getOptionsModel(this.options, this.value)
+    actualValue () {
+      if (this.type === 'radio') {
+        let option = this.options.find(option => option.value === this.model)
+        return option ? option.label : ''
       }
-    },
-    optionsModel: {
-      deep: true,
-      handler (options) {
-        if (!this.multiple) {
-          return
-        }
 
-        let model = []
-        Object.keys(options).forEach(index => {
-          if (options[index]) {
-            model.push(this.options[index].value)
-          }
-        })
-        this.model = model
-      }
-    }
-  },
-  methods: {
-    __getSingleLabel () {
-      let option = this.options.find(option => option.value === this.model)
-      return option ? option.label : 'Select'
-    },
-    __getMultipleLabel () {
       let options = this.options
         .filter(option => this.model.includes(option.value))
         .map(option => option.label)
 
-      if (options.length === 0) {
-        return 'Select'
-      }
-      else if (options.length > 1) {
-        return options[0] + ' and ' + (options.length - 1) + ' more'
-      }
-      return options[0]
-    },
+      return !options.length ? '' : options.join(', ')
+    }
+  },
+  methods: {
     open (event) {
       if (!this.disable && !this.readonly) {
         this.$refs.popover.open(event)
@@ -143,7 +96,19 @@ export default {
     },
     close () {
       this.$refs.popover.close()
+    },
+    toggleValue (value) {
+      let index = this.model.indexOf(value)
+      if (index >= 0) {
+        this.model.splice(index, 1)
+      }
+      else {
+        this.model.push(value)
+      }
     }
+  },
+  components: {
+    PickerTextfield
   }
 }
 </script>

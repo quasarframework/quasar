@@ -54,6 +54,12 @@
       <p class="caption">Date & Time</p>
       <quasar-datetime v-model="model" type="datetime"></quasar-datetime>
 
+      <p class="caption">With Label</p>
+      <quasar-datetime v-model="model" type="date" label="Pick Date"></quasar-datetime>
+
+      <p class="caption">With Placeholder</p>
+      <quasar-datetime v-model="model" type="date" placeholder="Pick Date"></quasar-datetime>
+
       <p class="caption">Disabled State</p>
       <quasar-datetime disable v-model="model" type="datetime"></quasar-datetime>
 

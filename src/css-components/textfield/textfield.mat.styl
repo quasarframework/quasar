@@ -36,21 +36,6 @@ textarea:not(.no-style)
 label
   font-size $label-font-size
 
-input, .textfield
-  &.caret
-    position relative
-    padding-right 17px
-    white-space nowrap
-    overflow hidden
-    > div
-      overflow hidden
-    &:after
-      position absolute
-      top 50%
-      right 0
-      transform translateY(-50%) scaleY(.45) scaleX(.85)
-      content '\25BC'
-
 .stacked-label, .floating-label
   position relative
   display inline-block

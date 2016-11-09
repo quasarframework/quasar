@@ -1,15 +1,17 @@
 <template>
-  <div
-    class="quasar-select cursor-pointer textfield caret"
-    @click="pick"
-    :class="{disabled: disable, readonly: readonly}"
-  >
-    <div v-html="label"></div>
-  </div>
+  <picker-textfield
+    :disable="disable"
+    :readonly="readonly"
+    :label="label"
+    :placeholder="placeholder"
+    :value="actualValue"
+    @click.native="pick()"
+  ></picker-textfield>
 </template>
 
 <script>
 import Dialog from '../../components/dialog/dialog'
+import PickerTextfield from '../../helper-components/picker-textfield/PickerTextfield.vue'
 
 export default {
   props: {
@@ -45,36 +47,26 @@ export default {
       default: 'Select'
     },
     message: String,
+    label: String,
     placeholder: String,
     readonly: Boolean,
     disable: Boolean
   },
   computed: {
-    label () {
-      return this.placeholder || (this.multiple ? this.__getMultipleLabel() : this.__getSingleLabel())
-    },
-    multiple () {
-      return this.type !== 'radio'
-    }
-  },
-  methods: {
-    __getSingleLabel () {
-      let option = this.options.find(option => option.value === this.value)
-      return option ? option.label : 'Select'
-    },
-    __getMultipleLabel () {
+    actualValue () {
+      if (this.type === 'radio') {
+        let option = this.options.find(option => option.value === this.value)
+        return option ? option.label : ''
+      }
+
       let options = this.options
         .filter(option => this.value.includes(option.value))
         .map(option => option.label)
 
-      if (options.length === 0) {
-        return 'Select'
-      }
-      else if (options.length > 1) {
-        return options[0] + ' and ' + (options.length - 1) + ' more'
-      }
-      return options[0]
-    },
+      return !options.length ? '' : options.join(', ')
+    }
+  },
+  methods: {
     pick () {
       if (this.disable || this.readonly) {
         return
@@ -107,6 +99,9 @@ export default {
         ]
       })
     }
+  },
+  components: {
+    PickerTextfield
   }
 }
 </script>

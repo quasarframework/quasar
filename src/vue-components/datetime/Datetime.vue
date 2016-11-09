@@ -1,12 +1,18 @@
 <template>
-  <div
-    v-if="desktop"
-    class="quasar-datetime-desktop cursor-pointer textfield caret"
-    :class="{disabled: disable, readonly: readonly}"
+  <picker-textfield
+    :disable="disable"
+    :readonly="readonly"
+    :label="label"
+    :placeholder="placeholder"
+    :value="actualValue"
+    @click.native="__open()"
   >
-    <div v-html="label"></div>
-
-    <quasar-popover ref="popup" @open="__setModel()" :disable="disable || readonly">
+    <quasar-popover
+      v-if="desktop"
+      ref="popup"
+      @open="__setModel()"
+      :disable="disable || readonly"
+    >
       <quasar-inline-datetime v-model="model" :type="type" :min="min" :max="max">
         <div class="modal-buttons row full-width">
           <button v-if="!noClear" @click="clear()" class="primary clear" v-html="clearLabel"></button>
@@ -16,16 +22,9 @@
         </div>
       </quasar-inline-datetime>
     </quasar-popover>
-  </div>
 
-  <div
-    v-else
-    class="cursor-pointer textfield caret"
-    @click="open"
-    :class="{disabled: disable, readonly: readonly}"
-  >
-    <div v-html="label"></div>
     <quasar-modal
+      v-else
       ref="popup"
       class="with-backdrop"
       :class="classNames"
@@ -42,13 +41,14 @@
         </div>
       </quasar-inline-datetime>
     </quasar-modal>
-  </div>
+  </picker-textfield>
 </template>
 
 <script>
 import moment from 'moment'
 import Platform from '../../platform'
 import { current as theme } from '../../theme'
+import PickerTextfield from '../../helper-components/picker-textfield/PickerTextfield.vue'
 
 let contentCSS = {
   ios: {
@@ -95,6 +95,8 @@ export default {
       type: String,
       default: 'Cancel'
     },
+    label: String,
+    placeholder: String,
     readonly: Boolean,
     disable: Boolean
   },
@@ -110,7 +112,7 @@ export default {
     return data
   },
   computed: {
-    label () {
+    actualValue () {
       let format
 
       if (this.format) {
@@ -126,12 +128,12 @@ export default {
         format = 'YYYY-MM-DD HH:mm:ss'
       }
 
-      return this.value ? moment(this.value || undefined).format(format) : '&nbsp;'
+      return this.value ? moment(this.value || undefined).format(format) : ''
     }
   },
   methods: {
     open () {
-      if (!this.disabled && !this.readonly) {
+      if (!this.disable && !this.readonly) {
         this.__setModel()
         this.$refs.popup.open()
       }
@@ -143,12 +145,20 @@ export default {
       this.$refs.popup.close()
       this.$emit('input', '')
     },
+    __open () {
+      if (!this.desktop) {
+        this.open()
+      }
+    },
     __setModel () {
       this.model = this.value || moment().format()
     },
     __update () {
       this.$emit('input', this.model)
     }
+  },
+  components: {
+    PickerTextfield
   }
 }
 </script>

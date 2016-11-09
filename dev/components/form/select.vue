@@ -8,8 +8,11 @@
       <p class="caption">With Toggles</p>
       <quasar-select type="toggle" v-model="multipleSelect" :options="selectOptions"></quasar-select>
 
+      <p class="caption">With Label</p>
+      <quasar-select type="checkbox" v-model="multipleSelect" :options="selectOptions" label="Pick Company"></quasar-select>
+
       <p class="caption">With Placeholder</p>
-      <quasar-select type="radio" v-model="select" :options="selectOptions" :placeholder="'Pick Company'"></quasar-select>
+      <quasar-select type="checkbox" v-model="multipleSelect" :options="selectOptions" placeholder="Pick Company"></quasar-select>
 
       <p class="caption">Disabled State</p>
       <quasar-select disable type="radio" v-model="select" :options="selectOptions"></quasar-select>

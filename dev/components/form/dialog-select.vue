@@ -8,6 +8,9 @@
       <p class="caption">With Toggles</p>
       <quasar-dialog-select type="toggle" v-model="multipleSelect" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Toggles"></quasar-dialog-select>
 
+      <p class="caption">With Label</p>
+      <quasar-dialog-select type="checkbox" v-model="multipleSelect" :options="selectOptions" label="Pick Company"></quasar-dialog-select>
+
       <p class="caption">With Placeholder</p>
       <quasar-dialog-select type="radio" v-model="select" :options="selectOptions" placeholder="Pick Company"></quasar-dialog-select>
 
@@ -23,33 +26,33 @@
       <p class="caption">Inside of a List</p>
       <div class="list">
         <div class="list-label">Single Selection</div>
-        <div class="item multiple-lines">
+        <div class="item two-lines">
           <i class="item-primary">supervisor_account</i>
-          <div class="item-content row items-baseline">
+          <div class="item-content row items-center">
             <label style="margin-right: 10px;">Radio:</label>
             <br>
             <quasar-dialog-select class="auto" type="radio" v-model="select" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Company"></quasar-dialog-select>
           </div>
         </div>
-        <div class="item multiple-lines">
+        <div class="item two-lines">
           <i class="item-primary">supervisor_account</i>
-          <div class="item-content row items-baseline">
+          <div class="item-content row items-center">
             <label style="margin-right: 10px;">Radio:</label>
             <quasar-dialog-select class="auto" type="radio" v-model="select" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Company"></quasar-dialog-select>
           </div>
         </div>
         <hr>
         <div class="list-label">Multiple Selection</div>
-        <div class="item multiple-lines">
+        <div class="item two-lines">
           <i class="item-primary">supervisor_account</i>
-          <div class="item-content row items-baseline">
+          <div class="item-content row items-center">
             <label style="margin-right: 10px;">Checkbox:</label>
             <quasar-dialog-select class="auto" type="checkbox" v-model="multipleSelect" :options="selectOptions" ok-label="Pick" title="Companies"></quasar-dialog-select>
           </div>
         </div>
-        <div class="item multiple-lines">
+        <div class="item two-lines">
           <i class="item-primary">supervisor_account</i>
-          <div class="item-content row items-baseline">
+          <div class="item-content row items-center">
             <label style="margin-right: 10px;">Toggle:</label>
             <quasar-dialog-select class="auto" type="toggle" v-model="multipleSelect" :options="selectOptions" ok-label="Pick" title="Companies"></quasar-dialog-select>
           </div>
