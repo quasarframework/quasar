@@ -124,6 +124,7 @@ export default {
     },
     __updatePosition (event) {
       Utils.popup.setPosition({
+        event,
         el: this.$el,
         anchorEl: this.anchorEl,
         anchorOrigin: this.anchorOrigin,
