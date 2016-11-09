@@ -12,7 +12,7 @@
           <i>assignment</i>
 
           <quasar-popover ref="popover1">
-            <div class="list highlight" style="min-width: 150px; max-height: 500px;">
+            <div class="list scroll highlight" style="min-width: 150px; max-height: 500px;">
               <div
                 class="item item-link two-lines item-delimiter"
                 v-for="n in 20"
