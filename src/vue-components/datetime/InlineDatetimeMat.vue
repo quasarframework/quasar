@@ -2,7 +2,7 @@
   <div class="quasar-datetime inline column gt-md-row" :class="{disabled: disable, readonly: readonly}">
     <div class="quasar-datetime-header column justify-center" v-if="!value">&nbsp;</div>
     <div class="quasar-datetime-header column justify-center" v-else>
-      <div v-if="type === 'date' || type === 'datetime'">
+      <div v-if="typeHasDate">
         <div class="quasar-datetime-weekdaystring">{{ weekDayString }}</div>
         <div class="quasar-datetime-datestring row gt-md-column items-center justify-center">
           <span
@@ -29,7 +29,7 @@
         </div>
       </div>
       <div
-        v-if="type === 'time' || type === 'datetime'"
+        v-if="typeHasTime"
         class="quasar-datetime-time row gt-md-column items-center justify-center"
       >
         <div class="quasar-datetime-clockstring">
@@ -304,6 +304,13 @@ export default {
     pmax () {
       return this.max ? moment(this.max) : ''
     },
+    typeHasDate () {
+      return this.type === 'date' || this.type === 'datetime'
+    },
+    typeHasTime () {
+      return this.type === 'time' || this.type === 'datetime'
+    },
+
     year () {
       return this.date.year()
     },
@@ -338,12 +345,12 @@ export default {
 
     monthInterval () {
       let
-        min = this.pmin && this.pmin.year() === this.date.year() ? this.pmin.month() : 0,
-        max = this.pmax && this.pmax.year() === this.date.year() ? this.pmax.month() : 11
+        min = this.pmin && this.pmin.isSame(this.date, 'year') ? this.pmin.month() : 0,
+        max = this.pmax && this.pmax.isSame(this.date, 'year') ? this.pmax.month() : 11
       return Math.max(1, max - min + 1)
     },
     monthMin () {
-      return this.pmin && this.pmin.year() === this.date.year() ? this.pmin.month() : 0
+      return this.pmin && this.pmin.isSame(this.date, 'year') ? this.pmin.month() : 0
     },
 
     fillerDays () {

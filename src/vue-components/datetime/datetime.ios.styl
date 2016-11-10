@@ -87,6 +87,7 @@ body.desktop .quasar-datetime-col-wrapper
   top 50%
   margin-top -18px
   pointer-events none
+  transition background .9s
 
   &:before, &:after
     content ''
@@ -107,3 +108,11 @@ body.desktop .quasar-datetime-col-wrapper
   &:after
     bottom 0
     top auto
+
+  &.quasar-datetime-no-selection
+    letter-spacing 3px
+    background white
+    color $grey-6
+    > div
+      padding 0 6px
+      text-align center

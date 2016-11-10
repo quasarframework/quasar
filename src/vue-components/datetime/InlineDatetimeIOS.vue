@@ -3,106 +3,115 @@
     <slot></slot>
     <div class="quasar-datetime-content non-selectable">
       <div class="quasar-datetime-inner full-height flex justify-center">
-        <div
-          class="quasar-datetime-col quasar-datetime-col-month"
-          v-if="type === 'date' || type === 'datetime'"
-          @touchstart="__dragStart($event, 'month')"
-          @touchmove="__dragMove($event, 'month')"
-          @touchend="__dragStop($event, 'month')"
-        >
-          <div ref="month" class="quasar-datetime-col-wrapper" :style="__monthStyle">
-            <div
-              v-for="index in monthInterval"
-              class="quasar-datetime-item"
-              @click="setMonth(index + monthMin)"
-            >
-              {{ monthsList[index + monthMin - 1] }}
+        <template v-if="typeHasDate">
+          <div
+            class="quasar-datetime-col quasar-datetime-col-month"
+            @touchstart="__dragStart($event, 'month')"
+            @touchmove="__dragMove($event, 'month')"
+            @touchend="__dragStop($event, 'month')"
+          >
+            <div ref="month" class="quasar-datetime-col-wrapper" :style="__monthStyle">
+              <div
+                v-for="index in monthInterval"
+                class="quasar-datetime-item"
+                @click="setMonth(index + monthMin)"
+              >
+                {{ monthsList[index + monthMin - 1] }}
+              </div>
             </div>
           </div>
-        </div>
 
-        <div
-          class="quasar-datetime-col quasar-datetime-col-day"
-          v-if="type === 'date' || type === 'datetime'"
-          @touchstart="__dragStart($event, 'date')"
-          @touchmove="__dragMove($event, 'date')"
-          @touchend="__dragStop($event, 'date')"
-        >
-          <div ref="date" class="quasar-datetime-col-wrapper" :style="__dayStyle">
-            <div
-              v-for="index in daysInterval"
-              class="quasar-datetime-item"
-              @click="setDay(index + dayMin - 1)"
-            >
-              {{ index + dayMin - 1 }}
+          <div
+            class="quasar-datetime-col quasar-datetime-col-day"
+            @touchstart="__dragStart($event, 'date')"
+            @touchmove="__dragMove($event, 'date')"
+            @touchend="__dragStop($event, 'date')"
+          >
+            <div ref="date" class="quasar-datetime-col-wrapper" :style="__dayStyle">
+              <div
+                v-for="index in daysInterval"
+                class="quasar-datetime-item"
+                @click="setDay(index + dayMin - 1)"
+              >
+                {{ index + dayMin - 1 }}
+              </div>
             </div>
           </div>
-        </div>
 
-        <div
-          class="quasar-datetime-col quasar-datetime-col-year"
-          v-if="type === 'date' || type === 'datetime'"
-          @touchstart="__dragStart($event, 'year')"
-          @touchmove="__dragMove($event, 'year')"
-          @touchend="__dragStop($event, 'year')"
-        >
-          <div ref="year" class="quasar-datetime-col-wrapper" :style="__yearStyle">
-            <div
-              v-for="n in yearInterval"
-              class="quasar-datetime-item"
-              @click="setYear(n + yearMin)"
-            >
-              {{ n + yearMin }}
+          <div
+            class="quasar-datetime-col quasar-datetime-col-year"
+            @touchstart="__dragStart($event, 'year')"
+            @touchmove="__dragMove($event, 'year')"
+            @touchend="__dragStop($event, 'year')"
+          >
+            <div ref="year" class="quasar-datetime-col-wrapper" :style="__yearStyle">
+              <div
+                v-for="n in yearInterval"
+                class="quasar-datetime-item"
+                @click="setYear(n + yearMin)"
+              >
+                {{ n + yearMin }}
+              </div>
             </div>
           </div>
-        </div>
+        </template>
 
-        <div
-          class="quasar-datetime-col quasar-datetime-col-hour"
-          v-if="type === 'time' || type === 'datetime'"
-          @touchstart="__dragStart($event, 'hour')"
-          @touchmove="__dragMove($event, 'hour')"
-          @touchend="__dragStop($event, 'hour')"
-        >
-          <div ref="hour" class="quasar-datetime-col-wrapper" :style="__hourStyle">
-            <div
-              v-for="n in hourInterval"
-              class="quasar-datetime-item"
-              @click="setHour(n + hourMin - 1)"
-            >
-              {{ n + hourMin - 1 }}
+        <template v-if="typeHasTime">
+          <div
+            class="quasar-datetime-col quasar-datetime-col-hour"
+            @touchstart="__dragStart($event, 'hour')"
+            @touchmove="__dragMove($event, 'hour')"
+            @touchend="__dragStop($event, 'hour')"
+          >
+            <div ref="hour" class="quasar-datetime-col-wrapper" :style="__hourStyle">
+              <div
+                v-for="n in hourInterval"
+                class="quasar-datetime-item"
+                @click="setHour(n + hourMin - 1)"
+              >
+                {{ n + hourMin - 1 }}
+              </div>
             </div>
           </div>
-        </div>
 
-        <div
-          class="quasar-datetime-col-divider"
-          v-if="type === 'time' || type === 'datetime'"
-        >
-          <div class="quasar-datetime-col-wrapper full-height row items-center justify-center">
-            <div>:</div>
-          </div>
-        </div>
-
-        <div
-          class="quasar-datetime-col quasar-datetime-col-minute"
-          v-if="type === 'time' || type === 'datetime'"
-          @touchstart="__dragStart($event, 'minute')"
-          @touchmove="__dragMove($event, 'minute')"
-          @touchend="__dragStop($event, 'minute')"
-        >
-          <div ref="minute" class="quasar-datetime-col-wrapper" :style="__minuteStyle">
-            <div
-              v-for="n in minuteInterval"
-              class="quasar-datetime-item"
-              @click="setMinute(n + minuteMin - 1)"
-            >
-              {{ __pad(n + minuteMin - 1) }}
+          <div class="quasar-datetime-col-divider">
+            <div class="quasar-datetime-col-wrapper full-height row items-center justify-center">
+              <div>:</div>
             </div>
           </div>
-        </div>
 
-        <div class="quasar-datetime-highlight"></div>
+          <div
+            class="quasar-datetime-col quasar-datetime-col-minute"
+            @touchstart="__dragStart($event, 'minute')"
+            @touchmove="__dragMove($event, 'minute')"
+            @touchend="__dragStop($event, 'minute')"
+          >
+            <div ref="minute" class="quasar-datetime-col-wrapper" :style="__minuteStyle">
+              <div
+                v-for="n in minuteInterval"
+                class="quasar-datetime-item"
+                @click="setMinute(n + minuteMin - 1)"
+              >
+                {{ __pad(n + minuteMin - 1) }}
+              </div>
+            </div>
+          </div>
+        </template>
+
+        <div
+          class="quasar-datetime-highlight row items-center justify-center"
+          :class="{'quasar-datetime-no-selection': !value}"
+        >
+          <template v-if="!value && typeHasDate">
+            <div class="quasar-datetime-col-month">-----</div>
+            <div class="quasar-datetime-col-day">--</div>
+            <div class="quasar-datetime-col-year">----</div>
+          </template>
+          <template v-if="!value && typeHasTime">
+            <div class="quasar-datetime-col-hour">--</div>
+            <div class="quasar-datetime-col-minute">--</div>
+          </template>
+        </div>
       </div>
 
       <div class="quasar-datetime-mask"></div>
@@ -128,12 +137,12 @@ export default {
       }
     },
     min: {
-      type: [String, Boolean],
-      default: false
+      type: String,
+      default: ''
     },
     max: {
-      type: [String, Boolean],
-      default: false
+      type: String,
+      default: ''
     },
     readonly: Boolean,
     disable: Boolean
@@ -149,7 +158,8 @@ export default {
       yearDragOffset: 0,
       hourDragOffset: 0,
       minuteDragOffset: 0,
-      monthsList: moment.months()
+      monthsList: moment.months(),
+      dragging: false
     }
   },
   watch: {
@@ -185,6 +195,12 @@ export default {
     pmax () {
       return this.max ? moment(this.max) : false
     },
+    typeHasDate () {
+      return this.type === 'date' || this.type === 'datetime'
+    },
+    typeHasTime () {
+      return this.type === 'time' || this.type === 'datetime'
+    },
 
     year () {
       return this.date.year()
@@ -204,8 +220,8 @@ export default {
     },
     monthInterval () {
       let
-        min = this.pmin && this.pmin.year() === this.date.year() ? this.pmin.month() : 0,
-        max = this.pmax && this.pmax.year() === this.date.year() ? this.pmax.month() : 11
+        min = this.pmin && this.pmin.isSame(this.date, 'year') ? this.pmin.month() : 0,
+        max = this.pmax && this.pmax.isSame(this.date, 'year') ? this.pmax.month() : 11
       return Math.max(1, max - min + 1)
     },
     monthMin () {
@@ -216,10 +232,10 @@ export default {
       return this.date.date()
     },
     dayMin () {
-      return this.pmin && this.pmin.year() === this.date.year() && this.pmin.month() === this.date.month() ? this.pmin.date() : 1
+      return this.pmin && this.pmin.isSame(this.date, 'month') ? this.pmin.date() : 1
     },
     dayMax () {
-      return this.pmax && this.pmax.year() === this.date.year() && this.pmax.month() === this.date.month() ? this.pmax.date() : this.daysInMonth
+      return this.pmax && this.pmax.isSame(this.date, 'month') ? this.pmax.date() : this.daysInMonth
     },
     daysInterval () {
       return this.dayMax - this.dayMin + 1
@@ -232,20 +248,20 @@ export default {
       return this.date.hour()
     },
     hourMin () {
-      return this.pmin && this.pmin.year() === this.date.year() && this.pmin.month() === this.date.month() && this.pmin.date() === this.date.date() ? this.pmin.hour() : 0
+      return this.pmin && this.pmin.isSame(this.date, 'day') ? this.pmin.hour() : 0
     },
     hourInterval () {
-      return (this.pmax && this.pmax.year() === this.date.year() && this.pmax.month() === this.date.month() && this.pmax.date() === this.date.date() ? this.pmax.hour() : 23) - this.hourMin + 1
+      return (this.pmax && this.pmax.isSame(this.date, 'day') ? this.pmax.hour() : 23) - this.hourMin + 1
     },
 
     minute () {
       return this.date.minute()
     },
     minuteMin () {
-      return this.pmin && this.pmin.year() === this.date.year() && this.pmin.month() === this.date.month() && this.pmin.date() === this.date.date() && this.pmin.hour() === this.date.hour() ? this.pmin.minute() : 0
+      return this.pmin && this.pmin.isSame(this.date, 'hour') ? this.pmin.minute() : 0
     },
     minuteInterval () {
-      return (this.pmax && this.pmax.year() === this.date.year() && this.pmax.month() === this.date.month() && this.pmax.date() === this.date.date() && this.pmax.hour() === this.date.hour() ? this.pmax.minute() : 59) - this.minuteMin + 1
+      return (this.pmax && this.pmax.isSame(this.date, 'hour') ? this.pmax.minute() : 59) - this.minuteMin + 1
     },
 
     __monthStyle () {
@@ -325,12 +341,12 @@ export default {
     },
     __updateAllPositions () {
       this.$nextTick(() => {
-        if (this.type === 'date' || this.type === 'datetime') {
+        if (this.typeHasDate) {
           this.__updatePositions('month', this.date.month())
           this.__updatePositions('date', this.date.date())
           this.__updatePositions('year', this.date.year())
         }
-        if (this.type === 'time' || this.type === 'datetime') {
+        if (this.typeHasTime) {
           this.__updatePositions('hour', this.date.hour())
           this.__updatePositions('minute', this.date.minute())
         }
@@ -385,6 +401,10 @@ export default {
       })
       ev.stopPropagation()
       ev.preventDefault()
+
+      if (!this.value) {
+        this.__updateModel()
+      }
 
       this.dragging = type
       this.__dragPosition = Utils.event.position(ev).top
