@@ -74,12 +74,12 @@ export default {
       required: true
     },
     min: {
-      type: [String, Boolean],
-      default: false
+      type: String,
+      default: ''
     },
     max: {
-      type: [String, Boolean],
-      default: false
+      type: String,
+      default: ''
     },
     format: String,
     noClear: Boolean,
@@ -107,7 +107,7 @@ export default {
       transition: theme === 'ios' ? 'quasar-modal-actions' : 'quasar-modal',
       classNames: theme === 'ios' ? '' : 'minimized'
     }
-    data.model = ''
+    data.model = this.value || ''
     data.desktop = Platform.is.desktop
     return data
   },
@@ -128,7 +128,7 @@ export default {
         format = 'YYYY-MM-DD HH:mm:ss'
       }
 
-      return this.value ? moment(this.value || undefined).format(format) : ''
+      return this.value ? moment(this.value).format(format) : ''
     }
   },
   methods: {
@@ -150,8 +150,17 @@ export default {
         this.open()
       }
     },
+    __normalizeValue (value) {
+      if (this.min) {
+        value = moment.max(moment(this.min).clone(), value)
+      }
+      if (this.max) {
+        value = moment.min(moment(this.max).clone(), value)
+      }
+      return value
+    },
     __setModel () {
-      this.model = this.value || moment().format()
+      this.model = this.value || this.__normalizeValue(moment()).format(this.format)
     },
     __update () {
       this.$emit('input', this.model)

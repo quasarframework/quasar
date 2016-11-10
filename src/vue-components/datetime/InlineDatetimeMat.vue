@@ -1,6 +1,7 @@
 <template>
   <div class="quasar-datetime inline column gt-md-row" :class="{disabled: disable, readonly: readonly}">
-    <div class="quasar-datetime-header column justify-center">
+    <div class="quasar-datetime-header column justify-center" v-if="!value">&nbsp;</div>
+    <div class="quasar-datetime-header column justify-center" v-else>
       <div v-if="type === 'date' || type === 'datetime'">
         <div class="quasar-datetime-weekdaystring">{{ weekDayString }}</div>
         <div class="quasar-datetime-datestring row gt-md-column items-center justify-center">
@@ -124,7 +125,7 @@
             <div
               v-for="monthDay in daysInterval"
               class="flex items-center content-center justify-center cursor-pointer"
-              :class="{active: monthDay === day}"
+              :class="{active: value && monthDay === day}"
               @click="setDay(monthDay)"
             >
               {{ monthDay }}
@@ -152,13 +153,13 @@
           >
             <div class="quasar-datetime-clock-circle full-width full-height">
               <div class="quasar-datetime-clock-center"></div>
-              <div class="quasar-datetime-clock-pointer" :style="clockPointerStyle">
+              <div class="quasar-datetime-clock-pointer" :style="clockPointerStyle" :class="{hidden: !value}">
                 <span></span>
               </div>
               <div
                 v-for="n in 12"
                 class="quasar-datetime-clock-position"
-                :class="['quasar-datetime-clock-pos-' + n, n === hour ? 'active' : '']"
+                :class="['quasar-datetime-clock-pos-' + n, value && n === hour ? 'active' : '']"
               >
                 {{ n }}
               </div>
@@ -219,12 +220,12 @@ export default {
       }
     },
     min: {
-      type: [String, Boolean],
-      default: false
+      type: String,
+      default: ''
     },
     max: {
-      type: [String, Boolean],
-      default: false
+      type: String,
+      default: ''
     },
     readonly: Boolean,
     disable: Boolean
@@ -256,15 +257,20 @@ export default {
     }
   },
   watch: {
+    value (val) {
+      if (!val) {
+        this.view = ['date', 'datetime'].includes(this.type) ? 'day' : 'hour'
+      }
+    },
     model (value) {
       this.date = this.__normalizeValue(moment(value || undefined))
     },
-    min (value) {
+    min () {
       this.$nextTick(() => {
         this.__updateModel()
       })
     },
-    max (value) {
+    max () {
       this.$nextTick(() => {
         this.__updateModel()
       })
@@ -293,10 +299,10 @@ export default {
       }
     },
     pmin () {
-      return this.min ? moment(this.min) : false
+      return this.min ? moment(this.min) : ''
     },
     pmax () {
-      return this.max ? moment(this.max) : false
+      return this.max ? moment(this.max) : ''
     },
     year () {
       return this.date.year()
