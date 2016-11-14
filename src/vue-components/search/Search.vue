@@ -1,16 +1,17 @@
 <template>
   <div
     class="quasar-search"
-    :class="{'quasar-search-centered': !this.focused && this.model === '', disabled: disable, readonly: readonly}"
+    :class="{'quasar-search-centered': centered, disabled: disable, readonly: readonly}"
   >
     <div class="quasar-search-input-container">
       <button class="quasar-search-icon">
         <i>{{ icon }}</i>
+        <span v-show="$quasar.theme === 'ios' && this.value === '' && !hasText">{{placeholder}}</span>
       </button>
       <input
         type="text"
         class="quasar-search-input no-style"
-        :placeholder="placeholder"
+        :placeholder="$quasar.theme === 'mat' ? placeholder : ''"
         v-model="model"
         @focus="focus()"
         @blur="blur()"
@@ -55,7 +56,8 @@ export default {
   },
   data () {
     return {
-      focused: false
+      focused: false,
+      hasText: this.value.length > 0
     }
   },
   watch: {
@@ -66,11 +68,16 @@ export default {
   computed: {
     model: {
       get () {
+        this.hasText = this.value.length > 0
         return this.value
       },
       set (value) {
+        this.hasText = value.length > 0
         this.__update(value)
       }
+    },
+    centered () {
+      return !this.focused && this.value === ''
     }
   },
   methods: {

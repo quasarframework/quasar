@@ -2,6 +2,7 @@
   position relative
   flex-shrink 1
   width 100%
+  overflow hidden
 
 .quasar-search-icon, .quasar-search-clear
   position absolute
@@ -17,6 +18,8 @@
   left 9px
   transition all 300ms ease
   pointer-events none
+  width 0
+  text-align center
 .quasar-search-clear
   right 13px
 
@@ -43,22 +46,16 @@
     text-shadow none
 
   for $name, $color in $colors
-    &.{$name} .quasar-search-input
-      background active-color($color)
+    &.{$name}
+      .quasar-search-input
+        background active-color($color)
       if $name != 'light' && $name != 'white'
-        color white
-        &::-webkit-input-placeholder
-          color white
-        &::-moz-placeholder
-          color white
-        &:-ms-input-placeholder
+        .quasar-search-input, .quasar-search-icon
           color white
 
   &.quasar-search-centered
     .quasar-search-icon
-      padding-left calc(50% - 2.5rem)
-    .quasar-search-input
-      padding-left calc(50% - .5rem)
+      width 100%
 
   &.has-error
     color opposite-non-color($has-error)

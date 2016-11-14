@@ -7,15 +7,9 @@
 
       <br><br>
 
-      <div v-if="$quasar.platform.is.desktop">Desktop</div>
-      <div v-else>Not desktop</div>
-
-      <div v-if="$quasar.theme === 'mat'">Mat</div>
-      <div v-else>iOS</div>
-
       <quasar-search v-model="search"></quasar-search>
       <quasar-search v-model="search" class="orange"></quasar-search>
-      <quasar-search v-model="search" class="secondary" icon="explore" placeholder="Places"></quasar-search>
+      <quasar-search v-model="search" class="secondary" icon="explore" placeholder="PlacesPlacesPlacesPlacesPlacesPlacesPlaces"></quasar-search>
       <quasar-search v-model="search" class="primary" icon="local_airport" placeholder="Airports"></quasar-search>
       <quasar-search v-model="search" class="dark" icon="local_hotel" placeholder="Hotels"></quasar-search>
 
