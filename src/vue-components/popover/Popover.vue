@@ -10,7 +10,7 @@
 
 <script>
 import Utils from '../../utils'
-import EscapeKey from '../../escape-key'
+import EscapeKey from '../../features/escape-key'
 
 export default {
   props: {

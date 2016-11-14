@@ -37,7 +37,7 @@
 
 <script>
 import Utils from '../../utils'
-import Platform from '../../platform'
+import Platform from '../../features/platform'
 
 export default {
   props: {

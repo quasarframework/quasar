@@ -1,5 +1,5 @@
 import Events from './events'
-import Utils from './utils'
+import Utils from '../utils'
 
 let
   hidden = 'hidden',

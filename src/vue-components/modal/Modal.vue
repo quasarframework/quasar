@@ -14,8 +14,8 @@
 </template>
 
 <script>
-import Platform from '../../platform'
-import EscapeKey from '../../escape-key'
+import Platform from '../../features/platform'
+import EscapeKey from '../../features/escape-key'
 
 let
   duration = 200, // in ms -- synch with transition CSS from Modal

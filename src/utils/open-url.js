@@ -1,4 +1,4 @@
-import Platform from '../platform'
+import Platform from '../features/platform'
 import Dialog from '../components/dialog/dialog'
 
 /* istanbul ignore next */

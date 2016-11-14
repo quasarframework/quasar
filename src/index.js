@@ -1,27 +1,29 @@
 import Velocity from 'velocity-animate'
 window.Velocity = Velocity
 
-import install from './install'
+import install from './vue-install'
 import start from './start'
-import init from './init'
-import * as theme from './theme'
+import standaloneInstall from './standalone-install'
+import * as theme from './features/theme'
 
-import './polyfills'
-import './error-handler'
-import './fastclick'
+import './features/body-classes'
+import './features/polyfills'
+import './features/error-handler'
+import './features/fastclick'
+import './features/addressbar-color'
 
 import ActionSheet from './components/action-sheet/action-sheet'
 import Dialog from './components/dialog/dialog'
 import Toast from './components/toast/toast'
 
-import AppFullscreen from './app-fullscreen'
-import AppVisibility from './app-visibility'
-import Cookies from './cookies'
-import Platform from './platform'
-import Events from './events'
+import AppFullscreen from './features/app-fullscreen'
+import AppVisibility from './features/app-visibility'
+import Cookies from './features/cookies'
+import Platform from './features/platform'
+import Events from './features/events'
 import Loading from './components/loading/loading.js'
 import Utils from './utils'
-import { LocalStorage, SessionStorage } from './web-storage'
+import { LocalStorage, SessionStorage } from './features/web-storage'
 
 let Quasar = {
   version: '0.9.0',
@@ -43,6 +45,6 @@ let Quasar = {
   SessionStorage
 }
 
-init(Quasar)
+standaloneInstall(Quasar)
 
 export default Quasar

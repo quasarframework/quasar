@@ -1,5 +1,5 @@
 <template>
-  <picker-textfield
+  <quasar-picker-textfield
     :disable="disable"
     :readonly="readonly"
     :label="label"
@@ -30,12 +30,10 @@
         </label>
       </div>
     </quasar-popover>
-  </picker-textfield>
+  </quasar-picker-textfield>
 </template>
 
 <script>
-import PickerTextfield from '../../helper-components/picker-textfield/PickerTextfield.vue'
-
 export default {
   props: {
     value: {
@@ -106,9 +104,6 @@ export default {
         this.model.push(value)
       }
     }
-  },
-  components: {
-    PickerTextfield
   }
 }
 </script>

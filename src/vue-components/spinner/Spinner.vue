@@ -22,7 +22,7 @@ import SRadio from './svg-spinners/radio.vue'
 import SRings from './svg-spinners/rings.vue'
 import STail from './svg-spinners/tail.vue'
 
-import { current as theme } from '../../theme'
+import { current as theme } from '../../features/theme'
 
 export default {
   props: {

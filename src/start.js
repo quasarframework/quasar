@@ -1,25 +1,13 @@
-import Platform from './platform'
-import * as theme from './theme'
-
-function addClass (className) {
-  document.body.classList.add(className)
-}
-
-addClass(Platform.is.desktop ? 'desktop' : 'mobile')
-addClass(Platform.has.touch ? 'touch' : 'no-touch')
-
-if (Platform.within.iframe) {
-  addClass('within-iframe')
-}
-
-if (Platform.is.cordova) {
-  addClass('cordova')
-}
+import Platform from './features/platform'
+import Utils from './utils'
+import * as theme from './features/theme'
 
 export default function (callback = function () {}) {
-  if (!theme.current) {
-    theme.set(Platform.is.ios ? 'ios' : 'mat')
-  }
+  Utils.dom.ready(() => {
+    if (!theme.current) {
+      theme.set(Platform.is.ios ? 'ios' : 'mat')
+    }
+  })
 
   /*
     if on Cordova, but not on an iframe,

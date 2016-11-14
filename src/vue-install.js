@@ -1,7 +1,7 @@
-import Platform from './platform'
-import { install as eventsInstall } from './events'
+import Platform from './features/platform'
+import { install as eventsInstall } from './features/events'
 import { install as toastInstall } from './components/toast/toast'
-import { current as theme } from './theme'
+import { current as theme } from './features/theme'
 
 import Transition from './vue-transitions/transition'
 
@@ -35,6 +35,7 @@ import Modal from './vue-components/modal/Modal.vue'
 import Numeric from './vue-components/numeric/Numeric.vue'
 import Pagination from './vue-components/pagination/Pagination.vue'
 import Parallax from './vue-components/parallax/Parallax.vue'
+import PickerTextfield from './vue-components/picker-textfield/PickerTextfield.vue'
 import Popover from './vue-components/popover/Popover.vue'
 import Progress from './vue-components/progress/Progress.vue'
 import ProgressButton from './vue-components/progress-button/ProgressButton.vue'
@@ -89,6 +90,7 @@ function registerComponents (_Vue) {
   _Vue.component('quasar-numeric', Numeric)
   _Vue.component('quasar-pagination', Pagination)
   _Vue.component('quasar-parallax', Parallax)
+  _Vue.component('quasar-picker-textfield', PickerTextfield)
   _Vue.component('quasar-popover', Popover)
   _Vue.component('quasar-progress', Progress)
   _Vue.component('quasar-progress-button', ProgressButton)
@@ -129,4 +131,9 @@ export default function (_Vue) {
   registerDirectives(_Vue)
   registerComponents(_Vue)
   toastInstall(_Vue)
+
+  _Vue.prototype.$quasar = {
+    platform: Platform,
+    theme
+  }
 }

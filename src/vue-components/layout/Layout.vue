@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { current as theme } from '../../theme'
+import { current as theme } from '../../features/theme'
 
 export default {
   data () {

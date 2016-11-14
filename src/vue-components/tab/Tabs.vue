@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import Platform from '../../platform'
+import Platform from '../../features/platform'
 import Utils from '../../utils'
 
 const

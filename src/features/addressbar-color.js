@@ -1,16 +1,9 @@
 import Platform from './platform'
-import Utils from './utils'
+import Utils from '../utils'
 
-export function set (theme) {
-  if (current) {
-    document.body.classList.remove(current)
-  }
-
-  current = theme
-  document.body.classList.add(theme)
-
-  // add meta tag for mobile address bar coloring
-  if (Platform.is.mobile && !Platform.is.cordova) {
+if (Platform.is.mobile && !Platform.is.cordova) {
+  Utils.dom.ready(() => {
+    // add meta tag for mobile address bar coloring
     let tempDiv = document.createElement('div')
     tempDiv.style.height = '10px'
     tempDiv.style.position = 'absolute'
@@ -46,7 +39,5 @@ export function set (theme) {
     metaTag.setAttribute('content', hex)
 
     document.getElementsByTagName('head')[0].appendChild(metaTag)
-  }
+  })
 }
-
-export var current

@@ -1,6 +1,6 @@
-import { current as theme } from '../../theme'
-import { Vue } from '../../install'
-import Events from '../../events'
+import { current as theme } from '../../features/theme'
+import { Vue } from '../../vue-install'
+import Events from '../../features/events'
 import Loading from './Loading.vue'
 
 let

@@ -7,7 +7,7 @@
     :content-css="css"
   >
     <!-- Material -->
-    <div v-once v-if="theme === 'mat'">
+    <div v-once v-if="$quasar.theme === 'mat'">
       <div v-if="title" class="modal-header" v-html="title"></div>
 
       <div class="modal-scroll">
@@ -55,7 +55,7 @@
     </div>
 
     <!-- iOS -->
-    <div v-once v-if="theme === 'ios'">
+    <div v-once v-if="$quasar.theme === 'ios'">
       <div class="quasar-action-sheet">
         <div v-if="title" class="modal-header" v-html="title"></div>
 
@@ -106,7 +106,7 @@
 </template>
 
 <script>
-import { current } from '../../theme'
+import { current as theme } from '../../features/theme'
 
 const modalCSS = {
   mat: {
@@ -133,8 +133,7 @@ export default {
   },
   data () {
     return {
-      theme: current,
-      css: modalCSS[current]
+      css: modalCSS[theme]
     }
   },
   computed: {

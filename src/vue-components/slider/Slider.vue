@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import Platform from '../../platform'
+import Platform from '../../features/platform'
 
 export default {
   props: {

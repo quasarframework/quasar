@@ -1,5 +1,5 @@
 <template>
-  <picker-textfield
+  <quasar-picker-textfield
     :disable="disable"
     :readonly="readonly"
     :label="label"
@@ -41,14 +41,13 @@
         </div>
       </quasar-inline-datetime>
     </quasar-modal>
-  </picker-textfield>
+  </quasar-picker-textfield>
 </template>
 
 <script>
 import moment from 'moment'
-import Platform from '../../platform'
-import { current as theme } from '../../theme'
-import PickerTextfield from '../../helper-components/picker-textfield/PickerTextfield.vue'
+import Platform from '../../features/platform'
+import { current as theme } from '../../features/theme'
 
 let contentCSS = {
   ios: {
@@ -165,9 +164,6 @@ export default {
     __update () {
       this.$emit('input', this.model)
     }
-  },
-  components: {
-    PickerTextfield
   }
 }
 </script>

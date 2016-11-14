@@ -25,8 +25,8 @@
 
 <script>
 import Utils from '../../utils'
-import * as theme from '../../theme'
-import Platform from '../../platform'
+import * as theme from '../../features/theme'
+import Platform from '../../features/platform'
 
 const
   drawerAnimationSpeed = 150,

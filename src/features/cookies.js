@@ -1,4 +1,4 @@
-import Utils from './utils'
+import Utils from '../utils'
 
 function encode (string) {
   return encodeURIComponent(string)

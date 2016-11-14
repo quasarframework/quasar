@@ -1,17 +1,16 @@
 <template>
-  <picker-textfield
+  <quasar-picker-textfield
     :disable="disable"
     :readonly="readonly"
     :label="label"
     :placeholder="placeholder"
     :value="actualValue"
     @click.native="pick()"
-  ></picker-textfield>
+  ></quasar-picker-textfield>
 </template>
 
 <script>
 import Dialog from '../../components/dialog/dialog'
-import PickerTextfield from '../../helper-components/picker-textfield/PickerTextfield.vue'
 
 export default {
   props: {
@@ -99,9 +98,6 @@ export default {
         ]
       })
     }
-  },
-  components: {
-    PickerTextfield
   }
 }
 </script>

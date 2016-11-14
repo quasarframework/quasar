@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import Events from '../../events'
+import Events from '../../features/events'
 import Utils from '../../utils'
 
 let

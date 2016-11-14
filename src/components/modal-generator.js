@@ -1,4 +1,4 @@
-import { Vue } from '../install'
+import { Vue } from '../vue-install'
 
 export default function (VueComponent) {
   return {
