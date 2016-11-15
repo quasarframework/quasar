@@ -149,6 +149,10 @@ function getPlatform () {
     browser.cordova = true
   }
 
+  if (window && window.process && window.process.versions && window.process.versions.electron) {
+    browser.electron = true
+  }
+
   return browser
 }
 

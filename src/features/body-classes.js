@@ -16,4 +16,8 @@ Utils.dom.ready(() => {
   if (Platform.is.cordova) {
     addClass('cordova')
   }
+
+  if (Platform.is.electron) {
+    addClass('electron')
+  }
 })
