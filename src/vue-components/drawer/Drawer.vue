@@ -327,7 +327,8 @@ export default {
       this.width = Utils.dom.width(content)
 
       ;[].slice.call(content.getElementsByClassName('drawer-closer')).forEach(el => {
-        el.addEventListener('click', () => {
+        el.addEventListener('click', (event) => {
+          event.stopPropagation()
           this.setState(false)
         })
       })

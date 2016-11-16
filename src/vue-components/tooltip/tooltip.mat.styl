@@ -1,12 +1,16 @@
-$tooltip-background   ?= white
-$tooltip-box-shadow   ?= $shadow-1
-$tooltip-padding      ?= 10px
+$tooltip-color         ?= #fafafa
+$tooltip-background    ?= #747474
+$tooltip-box-shadow    ?= $shadow-1
+$tooltip-padding       ?= 10px
+$tooltip-border-radius ?= $generic-border-radius
 
 .quasar-tooltip
   position fixed
-  box-shadow $tooltip-box-shadow
+  color $tooltip-color
   background $tooltip-background
+  box-shadow $tooltip-box-shadow
   z-index $z-tooltip
   padding $tooltip-padding
+  border-radius $tooltip-border-radius
   overflow-y auto
   overflow-x hidden
