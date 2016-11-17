@@ -55,6 +55,6 @@ export default {
     el.removeEventListener('mousedown', ctx.mouseStart)
     document.removeEventListener('mousemove', ctx.mouseAbort)
     document.removeEventListener('mouseup', ctx.mouseAbort)
-    Utils.store.remove('touchhold')
+    Utils.store.remove('touchhold', el)
   }
 }
