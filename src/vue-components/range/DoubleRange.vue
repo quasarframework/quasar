@@ -17,13 +17,13 @@
       ></div>
       <div
         class="quasar-range-track active-track"
-        :class="{dragging: dragging, 'track-draggable': dragRange}"
+        :class="{dragging, 'track-draggable': dragRange}"
         :style="{left: percentageMin * 100 + '%', width: activeTrackWidth}"
       ></div>
       <div
         class="quasar-range-handle range-handle-min"
         :style="{left: percentageMin * 100 + '%'}"
-        :class="{dragging: dragging, 'handle-at-minimum': value.min === min, undraggable: disableMin}"
+        :class="{dragging, 'handle-at-minimum': value.min === min, undraggable: disableMin}"
       >
         <div
           class="quasar-range-label"
@@ -34,7 +34,7 @@
       <div
         class="quasar-range-handle range-handle-max"
         :style="{left: percentageMax * 100 + '%'}"
-        :class="{dragging: dragging, 'handle-at-maximum': value.max === max, undraggable: disableMax}"
+        :class="{dragging, 'handle-at-maximum': value.max === max, undraggable: disableMax}"
       >
         <div
           class="quasar-range-label"

@@ -1,7 +1,7 @@
 <template>
   <div
     class="quasar-toast-container"
-    :class="{active: active}"
+    :class="{active}"
   >
     <div
       class="quasar-toast row no-wrap items-center non-selectable"

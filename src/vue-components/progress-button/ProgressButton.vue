@@ -1,5 +1,5 @@
 <template>
-  <button class="quasar-progress-button" :class="{active: active, indeterminate: indeterminate}">
+  <button class="quasar-progress-button" :class="{active, indeterminate}">
     <span
       v-if="!indeterminate"
       class="quasar-progress-button-filler"

@@ -2,7 +2,7 @@
   <div
     class="quasar-chips group textfield"
     @click="focus"
-    :class="{active: active, disabled: disable, readonly: readonly}"
+    :class="{active, disabled: disable, readonly}"
   >
     <span
       class="chip label bg-light text-grey-9"

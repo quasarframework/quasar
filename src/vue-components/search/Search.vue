@@ -1,7 +1,7 @@
 <template>
   <div
     class="quasar-search"
-    :class="{'quasar-search-centered': centered, disabled: disable, readonly: readonly}"
+    :class="{'quasar-search-centered': centered, disabled: disable, readonly}"
   >
     <div class="quasar-search-input-container">
       <button class="quasar-search-icon">

@@ -1,5 +1,5 @@
 <template>
-  <div class="quasar-datetime inline column gt-md-row" :class="{disabled: disable, readonly: readonly}">
+  <div class="quasar-datetime inline column gt-md-row" :class="{disabled: disable, readonly}">
     <div class="quasar-datetime-header column justify-center" v-if="!value">&nbsp;</div>
     <div class="quasar-datetime-header column justify-center" v-else>
       <div v-if="typeHasDate">

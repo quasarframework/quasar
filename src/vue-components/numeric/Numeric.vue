@@ -1,5 +1,5 @@
 <template>
-  <div class="quasar-numeric textfield row inline items-center" :class="{disabled: disable, readonly: readonly}">
+  <div class="quasar-numeric textfield row inline items-center" :class="{disabled: disable, readonly}">
     <i @click="__setByOffset(-1)">remove</i>
     <input
       class="no-style auto quasar-input-field"

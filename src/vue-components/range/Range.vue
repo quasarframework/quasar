@@ -23,7 +23,7 @@
       <div
         class="quasar-range-handle"
         :style="{left: percentage}"
-        :class="{dragging: dragging, 'handle-at-minimum': value === min}"
+        :class="{dragging, 'handle-at-minimum': value === min}"
       >
         <div
           class="quasar-range-label"
