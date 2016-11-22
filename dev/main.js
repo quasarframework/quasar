@@ -6,7 +6,6 @@ import App from './App'
 import moment from 'moment'
 moment.locale('de')
 
-Quasar.theme.set(__THEME)
 Vue.use(Quasar) // Install Quasar Framework
 
 Quasar.start(() => {
