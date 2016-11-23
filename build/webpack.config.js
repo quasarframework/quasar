@@ -10,6 +10,10 @@ var
 
 module.exports = {
   devtool: '#eval-source-map',
+  devServer: {
+    historyApiFallback: true,
+    noInfo: true
+  },
   entry: {
     app: entry
   },
@@ -90,7 +94,6 @@ module.exports = {
       '__THEME': '"' + env.platform.theme + '"'
     }),
     new webpack.NoErrorsPlugin(),
-    // https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'dev/index.html',
