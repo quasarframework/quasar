@@ -1,14 +1,6 @@
 import Platform from './features/platform'
-import Utils from './utils'
-import * as theme from './features/theme'
 
 export default function (callback = function () {}) {
-  Utils.dom.ready(() => {
-    if (!theme.current) {
-      theme.set(Platform.is.ios ? 'ios' : 'mat')
-    }
-  })
-
   /*
     if on Cordova, but not on an iframe,
     like on Quasar Play app
