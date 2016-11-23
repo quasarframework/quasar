@@ -5,14 +5,14 @@ import pages from './pages'
 
 Vue.use(VueRouter)
 
-function load (name) {
-  return require('./components/' + name + '.vue')
+function load (component) {
+  return () => System.import(`./components/${component}.vue`)
 }
 
 function component (path) {
   return {
     path: '/' + path.slice(0, path.length - 4),
-    component: require('./components/' + path)
+    component: () => System.import(`./components/${path}`)
   }
 }
 
@@ -35,6 +35,7 @@ pages.filter(page => page.indexOf('test-layout') === -1).forEach(page => {
 })
 
 routes.push({path: '*', component: load('error404')})
+
 export default new VueRouter({
   // mode: 'history',
   routes

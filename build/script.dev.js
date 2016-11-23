@@ -1,12 +1,11 @@
-process.env.BABEL_ENV = 'development'
 process.env.NODE_ENV = 'development'
 
 var
   path = require('path'),
   express = require('express'),
   webpack = require('webpack'),
-  webpackConfig = require('./webpack.dev.config'),
-  platform = require('./platform'),
+  webpackConfig = require('./webpack.config'),
+  env = require('./env-utils'),
   app = express(),
   opn = require('opn'),
   port = process.env.PORT || 8080,
@@ -43,16 +42,21 @@ var staticsPath = path.posix.join(webpackConfig.output.publicPath, 'statics/')
 app.use(staticsPath, express.static('./dev/statics'))
 
 // try to serve Cordova statics for Play App
-app.use(express.static(platform.cordovaAssets))
+app.use(express.static(env.platform.cordovaAssets))
 
 module.exports = app.listen(port, function (err) {
   if (err) {
     console.log(err)
     return
   }
-  console.log('Developing with "' + platform.theme + '" theme')
   var uri = 'http://localhost:' + port
+
+  console.log('Developing with "' + env.platform.theme + '" theme')
   console.log('Listening at ' + uri + '\n')
   console.log('Building. Please wait...')
-  opn(uri)
+  console.log('Browser will open momentarily.\n')
+
+  devMiddleware.waitUntilValid(function () {
+    opn(uri)
+  })
 })

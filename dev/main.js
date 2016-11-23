@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Quasar from 'quasar'
 import router from './router'
-import App from './App'
 
 import moment from 'moment'
 moment.locale('de')
@@ -13,6 +12,6 @@ Quasar.start(() => {
   new Vue({
     el: '#quasar-app',
     router,
-    render: h => h(App)
+    render: h => h(require('./App'))
   })
 })

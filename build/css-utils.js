@@ -1,6 +1,10 @@
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
+var
+  ExtractTextPlugin = require('extract-text-webpack-plugin'),
+  autoprefixer = require('autoprefixer')
 
-exports.cssLoaders = function (options) {
+module.exports.postcss = [autoprefixer()]
+
+module.exports.styleLoaders = function (options) {
   options = options || {}
 
   function generateLoaders (loaders) {
@@ -22,7 +26,10 @@ exports.cssLoaders = function (options) {
     }).join('!')
 
     if (options.extract) {
-      return ExtractTextPlugin.extract('vue-style-loader', sourceLoader)
+      return ExtractTextPlugin.extract({
+        fallbackLoader: 'vue-style-loader',
+        loader: sourceLoader
+      })
     }
     else {
       return ['vue-style-loader', sourceLoader].join('!')
@@ -31,24 +38,19 @@ exports.cssLoaders = function (options) {
 
   return {
     css: generateLoaders(['css']),
-    postcss: generateLoaders(['css']),
     less: generateLoaders(['css', 'less']),
     sass: generateLoaders(['css', 'sass?indentedSyntax']),
     scss: generateLoaders(['css', 'sass']),
-    stylus: generateLoaders(['css', 'stylus']),
-    styl: generateLoaders(['css', 'stylus'])
+    styl: generateLoaders(['css', 'stylus']),
+    stylus: generateLoaders(['css', 'stylus'])
   }
 }
 
-exports.styleLoaders = function (options) {
-  var
-    output = [],
-    extension,
-    loader,
-    loaders = exports.cssLoaders(options)
-
-  for (extension in loaders) {
-    loader = loaders[extension]
+module.exports.styleRules = function (options) {
+  var output = []
+  var loaders = exports.styleLoaders(options)
+  for (var extension in loaders) {
+    var loader = loaders[extension]
     output.push({
       test: new RegExp('\\.' + extension + '$'),
       loader: loader
