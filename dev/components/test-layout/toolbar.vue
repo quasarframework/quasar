@@ -10,9 +10,9 @@
         <button class="left-drawer-opener">
           <i>menu</i>
         </button>
-        <quasar-toolbar-title :padding="1">
+        <q-toolbar-title :padding="1">
           Toolbar
-        </quasar-toolbar-title>
+        </q-toolbar-title>
         <button class="right-drawer-opener">
           <i>more_vert</i>
         </button>
@@ -24,17 +24,17 @@
 
       <div class="toolbar secondary">
         <button><i>assignment_ind</i></button>
-        <quasar-toolbar-title :padding="2">
+        <q-toolbar-title :padding="2">
           Toolbar
-        </quasar-toolbar-title>
+        </q-toolbar-title>
         <button><i>sim_card</i></button>
         <button><i>gamepad</i></button>
       </div>
       <div class="toolbar orange">
         <button><i>mail</i></button>
-        <quasar-toolbar-title :padding="3">
+        <q-toolbar-title :padding="3">
           Long title for Toolbar. Very very very very very very long title.
-        </quasar-toolbar-title>
+        </q-toolbar-title>
         <button><i>alarm</i></button>
         <button><i>router</i></button>
         <button><i>keyboard</i></button>
@@ -42,9 +42,9 @@
       <div class="toolbar dark">
         <button><i>menu</i></button>
         <button><i>security</i></button>
-        <quasar-toolbar-title :padding="2">
+        <q-toolbar-title :padding="2">
           Toolbar
-        </quasar-toolbar-title>
+        </q-toolbar-title>
         <button><i>headset</i></button>
         <button><i>tv</i></button>
       </div>
@@ -54,25 +54,25 @@
       </p>
       <div class="toolbar purple inverted">
         <button><i>menu</i></button>
-        <quasar-toolbar-title :padding="2">
+        <q-toolbar-title :padding="2">
           Toolbar
-        </quasar-toolbar-title>
+        </q-toolbar-title>
         <button><i>supervisor_account</i></button>
         <button><i>more_vert</i></button>
       </div>
       <div class="toolbar amber inverted">
         <button><i>menu</i></button>
-        <quasar-toolbar-title :padding="2">
+        <q-toolbar-title :padding="2">
           Toolbar
-        </quasar-toolbar-title>
+        </q-toolbar-title>
         <button><i>supervisor_account</i></button>
         <button><i>more_vert</i></button>
       </div>
       <div class="toolbar red inverted">
         <button><i>menu</i></button>
-        <quasar-toolbar-title :padding="2">
+        <q-toolbar-title :padding="2">
           Toolbar
-        </quasar-toolbar-title>
+        </q-toolbar-title>
         <button><i>supervisor_account</i></button>
         <button><i>more_vert</i></button>
       </div>

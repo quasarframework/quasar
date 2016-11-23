@@ -1,6 +1,6 @@
 <template>
   <div
-    class="quasar-knob non-selectable cursor-pointer"
+    class="q-knob non-selectable cursor-pointer"
     :class="{disabled: disable}"
     @mousedown="__dragStart"
     @mousemove="__dragMove"
@@ -32,7 +32,7 @@
       </svg>
 
       <div
-        class="quasar-knob-label row items-center justify-center content-center"
+        class="q-knob-label row items-center justify-center content-center"
         :style="{color: color}"
         v-html="placeholder || value"
       ></div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="quasar-pagination" :class="{disabled: disable}">
+  <div class="q-pagination" :class="{disabled: disable}">
     <button :class="{disabled: value === min}" class="primary clear small" @click="set(min)">
       <i>first_page</i>
     </button>

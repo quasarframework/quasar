@@ -1,6 +1,6 @@
 <template>
   <div
-    class="quasar-popover animate-scale"
+    class="q-popover animate-scale"
     @click.stop
     :style="transformCSS"
   >

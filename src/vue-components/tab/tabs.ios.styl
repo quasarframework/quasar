@@ -14,10 +14,10 @@ $tabs-font-weight             ?= 400
 $tabs-label-margin            ?= 5px 0 0 0
 $tabs-label-font-size         ?= .7rem
 
-.quasar-tabs-scroller
+.q-tabs-scroller
   overflow hidden
 
-.quasar-tab
+.q-tab
   display flex
   flex-direction column
   min-height $tabs-min-height
@@ -27,9 +27,9 @@ $tabs-label-font-size         ?= .7rem
   white-space nowrap
   user-select none
 
-  .quasar-tabs-icon
+  .q-tabs-icon
     font-size $tabs-icon-font-size
-  .quasar-tabs-icon + .quasar-tab-label
+  .q-tabs-icon + .q-tab-label
     margin $tabs-label-margin
   &.active
     color $tabs-active-color
@@ -37,11 +37,11 @@ $tabs-label-font-size         ?= .7rem
     background $tabs-highlight-color
 
 @media only screen and (max-width $layout-medium-max)
-  .quasar-tabs:not(.scrollable)
-    .quasar-tabs-scroller, .quasar-tab
+  .q-tabs:not(.scrollable)
+    .q-tabs-scroller, .q-tab
       flex 1 1 auto
 
-.quasar-tabs
+.q-tabs
   min-height $tabs-min-height
   overflow hidden
   color $tabs-color
@@ -88,7 +88,7 @@ $tabs-label-font-size         ?= .7rem
       &.{$name}
         color composite-color($color)
         background $color
-        .quasar-tab
+        .q-tab
           &.active, &:active
             color $grey-8
           &:active
@@ -96,7 +96,7 @@ $tabs-label-font-size         ?= .7rem
         &.inverted
           color $color
           background composite-color($color)
-          .quasar-tab
+          .q-tab
             &.active, &:active
               color white
             &:active
@@ -109,18 +109,18 @@ $tabs-label-font-size         ?= .7rem
           color composite-color($color)
           background $color
 
-        &.inverted .quasar-tab
+        &.inverted .q-tab
           &.active, &:active
             color $color
           &:active
             background-color $color
-        &:not(.inverted) .quasar-tab
+        &:not(.inverted) .q-tab
           &.active, &:active
             color white
           &:active
             background white
 
-body.mobile .quasar-tabs-scroller
+body.mobile .q-tabs-scroller
   overflow-y hidden
   overflow-x auto
   -webkit-overflow-scrolling touch

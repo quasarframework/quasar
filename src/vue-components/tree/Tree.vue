@@ -1,12 +1,12 @@
 <template>
-  <div class="quasar-tree">
+  <div class="q-tree">
     <ul>
-      <quasar-tree-item
+      <q-tree-item
         v-for="item in model"
         :model="item"
         :contract-html="contractHtml"
         :expand-html="expandHtml"
-      ></quasar-tree-item>
+      ></q-tree-item>
     </ul>
   </div>
 </template>

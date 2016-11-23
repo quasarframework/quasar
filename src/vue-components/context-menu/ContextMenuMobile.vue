@@ -1,7 +1,7 @@
 <template>
-  <quasar-modal class="minimized" ref="dialog">
+  <q-modal class="minimized" ref="dialog">
     <slot></slot>
-  </quasar-modal>
+  </q-modal>
 </template>
 
 <script>

@@ -10,7 +10,7 @@ $range-handle-radius       ?= 50%
 
 
 
-.quasar-range-track
+.q-range-track
   position absolute
   top 50%
   left 0
@@ -30,7 +30,7 @@ $range-handle-radius       ?= 50%
   &.handle-at-maximum
     background solid
 
-.quasar-range-mark
+.q-range-mark
   position absolute
   top 50%
   height $range-mark-height
@@ -38,13 +38,13 @@ $range-handle-radius       ?= 50%
   background $range-color
   transform translateX(-50%) translateY(-50%)
 
-.quasar-range-handle-container
+.q-range-handle-container
   position relative
   height 100%
   margin-left ($range-handle-size / 2)
   margin-right ($range-handle-size / 2)
 
-.quasar-range-label
+.q-range-label
   position relative
   top - $range-handle-size * 0.75
   left -25%
@@ -73,10 +73,10 @@ $range-handle-radius       ?= 50%
     opacity 1
     transform translateY(-50%) scale(1)
 
-.quasar-range-handle.undraggable>.quasar-range-label
+.q-range-handle.undraggable>.q-range-label
   top (- $range-handle-size - ($range-handle-size * 0.75))
 
-.quasar-range-handle
+.q-range-handle
   position absolute
   top 50%
   transform translate3d(-50%, -50%, 0) scale(.67)
@@ -89,7 +89,7 @@ $range-handle-radius       ?= 50%
   &.dragging
     transform translate3d(-50%, -50%, 0) scale(1)
     transition opacity .3s ease, transform .3s ease
-    .quasar-range-label
+    .q-range-label
       opacity 1
       transform translateY(-50%) scale(1)
   &:not(.undraggable)
@@ -97,19 +97,19 @@ $range-handle-radius       ?= 50%
     &.handle-at-minimum
       background white
       border 2px solid $range-color
-      .quasar-range-label
+      .q-range-label
         color black
         &:before
           background $range-color
   &.undraggable
     background transparent
     &.handle-at-minimum
-      .quasar-range-label
+      .q-range-label
         color black
         &:before
           background $range-color
 
-.quasar-range-handle.undraggable:before
+.q-range-handle.undraggable:before
   content: ''
   display: block
   width 0
@@ -132,25 +132,25 @@ $range-handle-radius       ?= 50%
 .range-handle-max.handle-at-maximum.undraggable:before
     // border-right-color $range-color
 
-.quasar-range
+.q-range
   height $range-height
   width 100%
   cursor pointer
 
   for $name, $color in $colors
     &.{$name}
-      .quasar-range-track.active-track,
-      .quasar-range-handle:not(.handle-at-minimum)
+      .q-range-track.active-track,
+      .q-range-handle:not(.handle-at-minimum)
         background $color
-        .quasar-range-label
+        .q-range-label
           &:before
             background $color
           if luminosity($color) > .3
             color black
 
   &.has-error
-    .quasar-range-track
+    .q-range-track
       background alpha($has-error, 50%)
-    .quasar-range-track.active-track,
-    .quasar-range-handle:not(.handle-at-minimum)
+    .q-range-track.active-track,
+    .q-range-handle:not(.handle-at-minimum)
       background $has-error

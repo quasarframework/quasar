@@ -1,6 +1,6 @@
 <template>
-  <div class="quasar-parallax column items-center justify-center" :style="{height: height + 'px'}">
-    <div class="quasar-parallax-image">
+  <div class="q-parallax column items-center justify-center" :style="{height: height + 'px'}">
+    <div class="q-parallax-image">
       <img
         ref="img"
         :src="src"
@@ -9,7 +9,7 @@
         style="transform: translate3D(-50%, 0, 0)"
       >
     </div>
-    <div class="quasar-parallax-text">
+    <div class="q-parallax-text">
       <slot name="loading" v-if="!imageHasBeenLoaded"></slot>
       <slot v-else></slot>
     </div>

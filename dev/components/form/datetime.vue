@@ -34,7 +34,7 @@
           </span>
         </small>
       </p>
-      <quasar-datetime v-model="model" type="date"></quasar-datetime>
+      <q-datetime v-model="model" type="date"></q-datetime>
 
       <p class="caption">
         Time
@@ -49,32 +49,32 @@
           <span class="mat-only">inside of the clock</span>.
         </small>
       </p>
-      <quasar-datetime v-model="model" type="time"></quasar-datetime>
+      <q-datetime v-model="model" type="time"></q-datetime>
 
       <p class="caption">Date & Time</p>
-      <quasar-datetime v-model="model" type="datetime"></quasar-datetime>
+      <q-datetime v-model="model" type="datetime"></q-datetime>
 
       <p class="caption">With Label</p>
-      <quasar-datetime v-model="model" type="date" label="Pick Date"></quasar-datetime>
+      <q-datetime v-model="model" type="date" label="Pick Date"></q-datetime>
 
       <p class="caption">With Placeholder</p>
-      <quasar-datetime v-model="model" type="date" placeholder="Pick Date"></quasar-datetime>
+      <q-datetime v-model="model" type="date" placeholder="Pick Date"></q-datetime>
 
       <p class="caption">Disabled State</p>
-      <quasar-datetime disable v-model="model" type="datetime"></quasar-datetime>
+      <q-datetime disable v-model="model" type="datetime"></q-datetime>
 
       <p class="caption">Readonly State</p>
-      <quasar-datetime readonly v-model="model" type="datetime"></quasar-datetime>
+      <q-datetime readonly v-model="model" type="datetime"></q-datetime>
 
       <p class="caption">Error State</p>
-      <quasar-datetime class="has-error" v-model="model" type="datetime"></quasar-datetime>
+      <q-datetime class="has-error" v-model="model" type="datetime"></q-datetime>
 
       <p class="caption">Min & Max</p>
-      <quasar-datetime type="datetime" v-model="minMaxModel" :min="min" :max="max"></quasar-datetime>
+      <q-datetime type="datetime" v-model="minMaxModel" :min="min" :max="max"></q-datetime>
 
       <p class="caption">Range <sup>(beta)</sup></p>
-      <quasar-datetime type="datetime" v-model="range.start" :min="range.min" :max="range.end"></quasar-datetime>
-      <quasar-datetime type="datetime" v-model="range.end" :min="range.start" :max="range.max"></quasar-datetime>
+      <q-datetime type="datetime" v-model="range.start" :min="range.min" :max="range.end"></q-datetime>
+      <q-datetime type="datetime" v-model="range.end" :min="range.start" :max="range.max"></q-datetime>
 
       <p class="caption">Inside of a List</p>
       <div class="list">
@@ -82,13 +82,13 @@
         <div class="item two-lines">
           <i class="item-primary">access_time</i>
           <div class="item-content">
-            <quasar-datetime class="full-width" v-model="model" type="time"></quasar-datetime>
+            <q-datetime class="full-width" v-model="model" type="time"></q-datetime>
           </div>
         </div>
         <div class="item two-lines">
           <i class="item-primary">update</i>
           <div class="item-content row items-baseline">
-            <quasar-datetime class="full-width" v-model="model" type="date"></quasar-datetime>
+            <q-datetime class="full-width" v-model="model" type="date"></q-datetime>
           </div>
         </div>
         <hr>
@@ -96,7 +96,7 @@
         <div class="item two-lines">
           <i class="item-primary">notifications</i>
           <div class="item-content row items-baseline">
-            <quasar-datetime class="full-width" v-model="model" type="datetime"></quasar-datetime>
+            <q-datetime class="full-width" v-model="model" type="datetime"></q-datetime>
           </div>
         </div>
       </div>
@@ -119,7 +119,7 @@
           </span>
         </small>
       </p>
-      <quasar-inline-datetime v-model="model" type="date"></quasar-inline-datetime>
+      <q-inline-datetime v-model="model" type="date"></q-inline-datetime>
 
       <p class="caption">
         Time
@@ -134,23 +134,23 @@
           <span class="mat-only">inside of the clock</span>.
         </small>
       </p>
-      <quasar-inline-datetime v-model="model" type="time"></quasar-inline-datetime>
+      <q-inline-datetime v-model="model" type="time"></q-inline-datetime>
 
       <p class="caption">Date & Time</p>
-      <quasar-inline-datetime v-model="model" type="datetime"></quasar-inline-datetime>
+      <q-inline-datetime v-model="model" type="datetime"></q-inline-datetime>
 
       <p class="caption">Disabled State</p>
-      <quasar-inline-datetime disable v-model="model" type="datetime"></quasar-inline-datetime>
+      <q-inline-datetime disable v-model="model" type="datetime"></q-inline-datetime>
 
       <p class="caption">Readonly State</p>
-      <quasar-inline-datetime readonly v-model="model" type="datetime"></quasar-inline-datetime>
+      <q-inline-datetime readonly v-model="model" type="datetime"></q-inline-datetime>
 
       <p class="caption">Min & Max</p>
-      <quasar-inline-datetime type="datetime" v-model="minMaxModel" :min="min" :max="max"></quasar-inline-datetime>
+      <q-inline-datetime type="datetime" v-model="minMaxModel" :min="min" :max="max"></q-inline-datetime>
 
       <p class="caption">Range <sup>(beta)</sup></p>
-      <quasar-inline-datetime type="datetime" v-model="range.start" :min="range.min" :max="range.end"></quasar-inline-datetime>
-      <quasar-inline-datetime type="datetime" v-model="range.end" :min="range.start" :max="range.max"></quasar-inline-datetime>
+      <q-inline-datetime type="datetime" v-model="range.start" :min="range.min" :max="range.end"></q-inline-datetime>
+      <q-inline-datetime type="datetime" v-model="range.end" :min="range.start" :max="range.max"></q-inline-datetime>
     </div>
   </div>
 </template>

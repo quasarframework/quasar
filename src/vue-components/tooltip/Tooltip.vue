@@ -1,5 +1,5 @@
 <template>
-  <span class="quasar-tooltip animate-scale" :style="transformCSS">
+  <span class="q-tooltip animate-scale" :style="transformCSS">
     <slot></slot>
   </span>
 </template>

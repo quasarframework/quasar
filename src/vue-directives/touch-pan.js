@@ -20,16 +20,16 @@ function getDirection (mod) {
 }
 
 function updateClasses (el, dir, scroll) {
-  el.classList.add('quasar-touch')
+  el.classList.add('q-touch')
 
   if (!scroll) {
     if (dir.horizontal && !dir.vertical) {
-      el.classList.add('quasar-touch-y')
-      el.classList.remove('quasar-touch-x')
+      el.classList.add('q-touch-y')
+      el.classList.remove('q-touch-x')
     }
     else if (!dir.horizontal && dir.vertical) {
-      el.classList.add('quasar-touch-x')
-      el.classList.remove('quasar-touch-y')
+      el.classList.add('q-touch-x')
+      el.classList.remove('q-touch-y')
     }
   }
 }

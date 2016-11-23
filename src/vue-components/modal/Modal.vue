@@ -25,7 +25,7 @@ export default {
   props: {
     transition: {
       type: String,
-      default: 'quasar-modal'
+      default: 'q-modal'
     },
     positionClasses: {
       type: String,

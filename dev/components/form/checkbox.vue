@@ -8,29 +8,29 @@
       <p class="caption">Standalone</p>
       <div class="column group">
         <label>
-          <quasar-checkbox v-model="checked"></quasar-checkbox>
+          <q-checkbox v-model="checked"></q-checkbox>
           Checkbox Label
         </label>
 
         <label>
-          <quasar-checkbox v-model="checked" class="teal"></quasar-checkbox>
+          <q-checkbox v-model="checked" class="teal"></q-checkbox>
           Checkbox Label
         </label>
 
         <label>
-          <quasar-checkbox v-model="checked" class="orange"></quasar-checkbox>
+          <q-checkbox v-model="checked" class="orange"></q-checkbox>
           Checkbox Label
         </label>
 
         <label>
-          <quasar-checkbox v-model="checked" class="dark"></quasar-checkbox>
+          <q-checkbox v-model="checked" class="dark"></q-checkbox>
           Checkbox Label
         </label>
       </div>
 
       <p class="caption">Disabled State</p>
       <label>
-        <quasar-checkbox v-model="checked" disable></quasar-checkbox>
+        <q-checkbox v-model="checked" disable></q-checkbox>
         Checkbox Label
       </label>
 
@@ -38,7 +38,7 @@
       <div class="list">
         <label class="item">
           <div class="item-primary">
-            <quasar-checkbox v-model="checked"></quasar-checkbox>
+            <q-checkbox v-model="checked"></q-checkbox>
           </div>
           <div class="item-content">
             Notifications
@@ -46,7 +46,7 @@
         </label>
         <label class="item two-lines">
           <div class="item-primary">
-            <quasar-checkbox v-model="checked"></quasar-checkbox>
+            <q-checkbox v-model="checked"></q-checkbox>
           </div>
           <div class="item-content">
             <div>Notifications</div>
@@ -55,7 +55,7 @@
         </label>
         <label class="item three-lines">
           <div class="item-primary">
-            <quasar-checkbox v-model="checked"></quasar-checkbox>
+            <q-checkbox v-model="checked"></q-checkbox>
           </div>
           <div class="item-content">
             <div>Notifications</div>

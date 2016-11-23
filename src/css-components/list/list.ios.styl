@@ -107,7 +107,7 @@ $item-label-color             ?= rgba(0, 0, 0, .54)
   > * // @stylint ignore
     text-align left
 
-  &:not(.two-lines):not(.three-lines):not(.multiple-lines) > .item-content > div:not(.stacked-label):not(.floating-label):not([class^='quasar-'])
+  &:not(.two-lines):not(.three-lines):not(.multiple-lines) > .item-content > div:not(.stacked-label):not(.floating-label):not([class^='q-'])
     overflow hidden
     text-overflow ellipsis
     white-space nowrap
@@ -127,12 +127,12 @@ $item-label-color             ?= rgba(0, 0, 0, .54)
       padding-bottom 16px
 
       &:not(.no-style)
-        > div:not(.stacked-label):not(.floating-label):not([class^='quasar-'])
+        > div:not(.stacked-label):not(.floating-label):not([class^='q-'])
           overflow hidden
           text-overflow ellipsis
           white-space nowrap
 
-        > div:not(:first-of-type):not([class^='quasar-'])
+        > div:not(:first-of-type):not([class^='q-'])
           font-size 14px
           line-height 16px
           height 16px
@@ -152,14 +152,14 @@ $item-label-color             ?= rgba(0, 0, 0, .54)
       padding-bottom 16px
 
       &:not(.no-style)
-        > div:not(.stacked-label):not(.floating-label):not([class^='quasar-'])
+        > div:not(.stacked-label):not(.floating-label):not([class^='q-'])
           overflow hidden
           text-overflow ellipsis
 
-        > div:first-of-type:not([class^='quasar-'])
+        > div:first-of-type:not([class^='q-'])
           white-space nowrap
 
-        > div:not(:first-of-type):not([class^='quasar-'])
+        > div:not(:first-of-type):not([class^='q-'])
           font-size 14px
           line-height 18px
           height 36px
@@ -183,9 +183,9 @@ $item-label-color             ?= rgba(0, 0, 0, .54)
     font-size 14px
 
 .item + .item,
-.item + .quasar-collapsible,
-.quasar-collapsible + .item,
-.quasar-collapsible + .quasar-collapsible
+.item + .q-collapsible,
+.q-collapsible + .item,
+.q-collapsible + .q-collapsible
   &.item-delimiter
     border-top 1px solid rgb(224, 224, 224)
   &.item-inset-delimiter
@@ -205,7 +205,7 @@ body.desktop .item.item-link:hover
   text-align left
   border 1px solid rgb(224, 224, 224)
 
-  > .item, > .quasar-collapsible
+  > .item, > .q-collapsible
     &:first-child
       margin-top 8px
     &:last-child
@@ -242,15 +242,15 @@ body.desktop .item.item-link:hover
 
   &.item-delimiter
     .item + .item,
-    .item + .quasar-collapsible,
-    .quasar-collapsible + .item,
-    .quasar-collapsible + .quasar-collapsible
+    .item + .q-collapsible,
+    .q-collapsible + .item,
+    .q-collapsible + .q-collapsible
       border-top 1px solid rgb(224, 224, 224)
   &.item-inset-delimiter
     .item + .item,
-    .item + .quasar-collapsible,
-    .quasar-collapsible + .item,
-    .quasar-collapsible + .quasar-collapsible
+    .item + .q-collapsible,
+    .q-collapsible + .item,
+    .q-collapsible + .q-collapsible
       &:after
         content ''
         position absolute

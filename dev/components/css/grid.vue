@@ -2,7 +2,7 @@
   <div>
     <div class="layout-padding">
       <label>
-        <quasar-toggle v-model="border"></quasar-toggle>
+        <q-toggle v-model="border"></q-toggle>
         Grid Borders
       </label>
       <div id="view-flexbox" :class="{'with-border': border}">

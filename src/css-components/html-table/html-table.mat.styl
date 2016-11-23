@@ -2,7 +2,7 @@ $table-stripe-color          ?= rgba(0, 0, 0, .07)
 $table-highlight-color       ?= rgba(0, 0, 0, .14)
 $table-border                ?= 1px solid rgba(0, 0, 0, .12)
 
-table.quasar-table
+table.q-table
   border-collapse collapse
   border-spacing 0
   empty-cells show
@@ -120,7 +120,7 @@ table.quasar-table
           border-left $table-border
           border-right $table-border
 
-body.desktop table.quasar-table.highlight tbody tr
+body.desktop table.q-table.highlight tbody tr
   transition all .28s ease-in
   &:hover
     background $table-highlight-color

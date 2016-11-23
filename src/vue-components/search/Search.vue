@@ -1,16 +1,16 @@
 <template>
   <div
-    class="quasar-search"
-    :class="{'quasar-search-centered': centered, disabled: disable, readonly}"
+    class="q-search"
+    :class="{'q-search-centered': centered, disabled: disable, readonly}"
   >
-    <div class="quasar-search-input-container">
-      <button class="quasar-search-icon">
+    <div class="q-search-input-container">
+      <button class="q-search-icon">
         <i>{{ icon }}</i>
         <span v-show="$quasar.theme === 'ios' && this.value === '' && !hasText">{{placeholder}}</span>
       </button>
       <input
         type="text"
-        class="quasar-search-input no-style"
+        class="q-search-input no-style"
         :placeholder="$quasar.theme === 'mat' ? placeholder : ''"
         v-model="model"
         @focus="focus()"
@@ -19,7 +19,7 @@
         :readonly="readonly"
       >
       <button
-        class="quasar-search-clear"
+        class="q-search-clear"
         @click="clear()"
         :class="{hidden: this.model === ''}"
       >

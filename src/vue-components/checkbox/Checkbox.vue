@@ -1,5 +1,5 @@
 <template>
-  <label class="quasar-checkbox" :class="{disabled: disable}">
+  <label class="q-checkbox" :class="{disabled: disable}">
     <input type="checkbox" v-model="model" :disabled="disable">
     <div></div>
   </label>

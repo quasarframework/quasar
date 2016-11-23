@@ -3,74 +3,74 @@
     <div class="layout-padding">
       <div class="column group">
         <label>
-          <quasar-checkbox v-model="bordered"></quasar-checkbox>
+          <q-checkbox v-model="bordered"></q-checkbox>
           Bordered
         </label>
         <label>
-          <quasar-checkbox v-model="highlight"></quasar-checkbox>
+          <q-checkbox v-model="highlight"></q-checkbox>
           Highlight
         </label>
 
         <div class="column gt-md-row">
           <label>
-            <quasar-radio v-model="delimiter" val="none"></quasar-radio>
+            <q-radio v-model="delimiter" val="none"></q-radio>
             No delimiter
           </label>
           <label>
-            <quasar-radio v-model="delimiter" val="horizontal"></quasar-radio>
+            <q-radio v-model="delimiter" val="horizontal"></q-radio>
             Horizontal delimiter
           </label>
           <label>
-            <quasar-radio v-model="delimiter" val="vertical"></quasar-radio>
+            <q-radio v-model="delimiter" val="vertical"></q-radio>
             Vertical delimiter
           </label>
           <label>
-            <quasar-radio v-model="delimiter" val="cell"></quasar-radio>
+            <q-radio v-model="delimiter" val="cell"></q-radio>
             Cell delimiter
           </label>
         </div>
 
         <div class="column gt-md-row">
           <label>
-            <quasar-radio v-model="stripe" val="none"></quasar-radio>
+            <q-radio v-model="stripe" val="none"></q-radio>
             No Stripe
           </label>
           <label>
-            <quasar-radio v-model="stripe" val="odd"></quasar-radio>
+            <q-radio v-model="stripe" val="odd"></q-radio>
             Striped Odd
           </label>
           <label>
-            <quasar-radio v-model="stripe" val="even"></quasar-radio>
+            <q-radio v-model="stripe" val="even"></q-radio>
             Striped Even
           </label>
         </div>
 
         <div>
           <label>
-            <quasar-radio v-model="type" val="none"></quasar-radio>
+            <q-radio v-model="type" val="none"></q-radio>
             Normal
           </label>
           <label>
-            <quasar-radio v-model="type" val="flipped"></quasar-radio>
+            <q-radio v-model="type" val="flipped"></q-radio>
             Flipped
           </label>
           <label>
-            <quasar-radio v-model="type" val="responsive"></quasar-radio>
+            <q-radio v-model="type" val="responsive"></q-radio>
             Responsive
           </label>
         </div>
 
         <div>
           <label>
-            <quasar-radio v-model="gutter" val="none"></quasar-radio>
+            <q-radio v-model="gutter" val="none"></q-radio>
             Normal
           </label>
           <label>
-            <quasar-radio v-model="gutter" val="compact"></quasar-radio>
+            <q-radio v-model="gutter" val="compact"></q-radio>
             Compact
           </label>
           <label>
-            <quasar-radio v-model="gutter" val="loose"></quasar-radio>
+            <q-radio v-model="gutter" val="loose"></q-radio>
             Loose
           </label>
         </div>
@@ -81,7 +81,7 @@
         Classes <span class="right-detail"><em>{{computedClasses}}</em></span>
       </div>
 
-      <table style="margin-top: 30px;" class="quasar-table" :class="computedClasses">
+      <table style="margin-top: 30px;" class="q-table" :class="computedClasses">
         <thead>
           <tr>
             <th class="text-left">Name</th>

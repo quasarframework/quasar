@@ -1,19 +1,19 @@
 <template>
-  <div class="quasar-datetime" :class="['type-' + type, disable ? 'disabled' : '', readonly ? 'readonly' : '']">
+  <div class="q-datetime" :class="['type-' + type, disable ? 'disabled' : '', readonly ? 'readonly' : '']">
     <slot></slot>
-    <div class="quasar-datetime-content non-selectable">
-      <div class="quasar-datetime-inner full-height flex justify-center">
+    <div class="q-datetime-content non-selectable">
+      <div class="q-datetime-inner full-height flex justify-center">
         <template v-if="typeHasDate">
           <div
-            class="quasar-datetime-col quasar-datetime-col-month"
+            class="q-datetime-col q-datetime-col-month"
             @touchstart="__dragStart($event, 'month')"
             @touchmove="__dragMove($event, 'month')"
             @touchend="__dragStop($event, 'month')"
           >
-            <div ref="month" class="quasar-datetime-col-wrapper" :style="__monthStyle">
+            <div ref="month" class="q-datetime-col-wrapper" :style="__monthStyle">
               <div
                 v-for="index in monthInterval"
-                class="quasar-datetime-item"
+                class="q-datetime-item"
                 @click="setMonth(index + monthMin)"
               >
                 {{ monthsList[index + monthMin - 1] }}
@@ -22,15 +22,15 @@
           </div>
 
           <div
-            class="quasar-datetime-col quasar-datetime-col-day"
+            class="q-datetime-col q-datetime-col-day"
             @touchstart="__dragStart($event, 'date')"
             @touchmove="__dragMove($event, 'date')"
             @touchend="__dragStop($event, 'date')"
           >
-            <div ref="date" class="quasar-datetime-col-wrapper" :style="__dayStyle">
+            <div ref="date" class="q-datetime-col-wrapper" :style="__dayStyle">
               <div
                 v-for="index in daysInterval"
-                class="quasar-datetime-item"
+                class="q-datetime-item"
                 @click="setDay(index + dayMin - 1)"
               >
                 {{ index + dayMin - 1 }}
@@ -39,15 +39,15 @@
           </div>
 
           <div
-            class="quasar-datetime-col quasar-datetime-col-year"
+            class="q-datetime-col q-datetime-col-year"
             @touchstart="__dragStart($event, 'year')"
             @touchmove="__dragMove($event, 'year')"
             @touchend="__dragStop($event, 'year')"
           >
-            <div ref="year" class="quasar-datetime-col-wrapper" :style="__yearStyle">
+            <div ref="year" class="q-datetime-col-wrapper" :style="__yearStyle">
               <div
                 v-for="n in yearInterval"
-                class="quasar-datetime-item"
+                class="q-datetime-item"
                 @click="setYear(n + yearMin)"
               >
                 {{ n + yearMin }}
@@ -58,15 +58,15 @@
 
         <template v-if="typeHasTime">
           <div
-            class="quasar-datetime-col quasar-datetime-col-hour"
+            class="q-datetime-col q-datetime-col-hour"
             @touchstart="__dragStart($event, 'hour')"
             @touchmove="__dragMove($event, 'hour')"
             @touchend="__dragStop($event, 'hour')"
           >
-            <div ref="hour" class="quasar-datetime-col-wrapper" :style="__hourStyle">
+            <div ref="hour" class="q-datetime-col-wrapper" :style="__hourStyle">
               <div
                 v-for="n in hourInterval"
-                class="quasar-datetime-item"
+                class="q-datetime-item"
                 @click="setHour(n + hourMin - 1)"
               >
                 {{ n + hourMin - 1 }}
@@ -74,22 +74,22 @@
             </div>
           </div>
 
-          <div class="quasar-datetime-col-divider">
-            <div class="quasar-datetime-col-wrapper full-height row items-center justify-center">
+          <div class="q-datetime-col-divider">
+            <div class="q-datetime-col-wrapper full-height row items-center justify-center">
               <div>:</div>
             </div>
           </div>
 
           <div
-            class="quasar-datetime-col quasar-datetime-col-minute"
+            class="q-datetime-col q-datetime-col-minute"
             @touchstart="__dragStart($event, 'minute')"
             @touchmove="__dragMove($event, 'minute')"
             @touchend="__dragStop($event, 'minute')"
           >
-            <div ref="minute" class="quasar-datetime-col-wrapper" :style="__minuteStyle">
+            <div ref="minute" class="q-datetime-col-wrapper" :style="__minuteStyle">
               <div
                 v-for="n in minuteInterval"
-                class="quasar-datetime-item"
+                class="q-datetime-item"
                 @click="setMinute(n + minuteMin - 1)"
               >
                 {{ __pad(n + minuteMin - 1) }}
@@ -99,22 +99,22 @@
         </template>
 
         <div
-          class="quasar-datetime-highlight row items-center justify-center"
-          :class="{'quasar-datetime-no-selection': !value}"
+          class="q-datetime-highlight row items-center justify-center"
+          :class="{'q-datetime-no-selection': !value}"
         >
           <template v-if="!value && typeHasDate">
-            <div class="quasar-datetime-col-month">-----</div>
-            <div class="quasar-datetime-col-day">--</div>
-            <div class="quasar-datetime-col-year">----</div>
+            <div class="q-datetime-col-month">-----</div>
+            <div class="q-datetime-col-day">--</div>
+            <div class="q-datetime-col-year">----</div>
           </template>
           <template v-if="!value && typeHasTime">
-            <div class="quasar-datetime-col-hour">--</div>
-            <div class="quasar-datetime-col-minute">--</div>
+            <div class="q-datetime-col-hour">--</div>
+            <div class="q-datetime-col-minute">--</div>
           </template>
         </div>
       </div>
 
-      <div class="quasar-datetime-mask"></div>
+      <div class="q-datetime-mask"></div>
     </div>
   </div>
 </template>

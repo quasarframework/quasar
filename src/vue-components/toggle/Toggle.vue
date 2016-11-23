@@ -1,6 +1,6 @@
 <template>
   <label
-    class="quasar-toggle"
+    class="q-toggle"
     :class="{disabled: disable}"
     v-touch-swipe.horizontal="__toggle"
   >

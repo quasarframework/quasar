@@ -1,5 +1,5 @@
 <template>
-  <label class="quasar-radio" :class="{disabled: disable}">
+  <label class="q-radio" :class="{disabled: disable}">
     <input type="radio" v-model="model" :value="val" :disabled="disable">
     <div></div>
   </label>

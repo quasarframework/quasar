@@ -1,5 +1,5 @@
 <template>
-  <div class="quasar-loading animate-fade fullscreen column items-center justify-center z-absolute">
+  <div class="q-loading animate-fade fullscreen column items-center justify-center z-absolute">
     <spinner :name="spinner" :color="spinnerColor" :size="spinnerSize"></spinner>
     <div
       v-if="message"

@@ -2,9 +2,9 @@
   <div>
     <div class="layout-padding">
       <p class="caption">With Component</p>
-      <quasar-video
+      <q-video
         src="https://www.youtube.com/embed/k3_tw44QsZQ?rel=0"
-      ></quasar-video>
+      ></q-video>
 
       <p class="caption">With HTML Markup</p>
       <div class="video">

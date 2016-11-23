@@ -12,7 +12,7 @@
         then come back here to see Visibility in action.
       </p>
 
-      <table class="quasar-table striped" v-if="eventList.length > 0">
+      <table class="q-table striped" v-if="eventList.length > 0">
         <tbody>
           <tr v-for="evt in eventList" :key="evt.timestamp">
             <td>{{ evt.timestamp }}</td>

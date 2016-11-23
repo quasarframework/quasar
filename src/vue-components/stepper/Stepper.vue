@@ -1,5 +1,5 @@
 <template>
-  <div class="quasar-stepper timeline primary">
+  <div class="q-stepper timeline primary">
     <slot></slot>
   </div>
 </template>

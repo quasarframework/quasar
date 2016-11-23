@@ -1,12 +1,12 @@
 <template>
-  <quasar-picker-textfield
+  <q-picker-textfield
     :disable="disable"
     :readonly="readonly"
     :label="label"
     :placeholder="placeholder"
     :value="actualValue"
     @click.native="pick()"
-  ></quasar-picker-textfield>
+  ></q-picker-textfield>
 </template>
 
 <script>

@@ -1,24 +1,24 @@
 <template>
-  <li class="quasar-tree-item">
+  <li class="q-tree-item">
     <div
-      :class="{'quasar-tree-expandable-item': isExpandable, 'quasar-tree-link': model.handler}"
+      :class="{'q-tree-expandable-item': isExpandable, 'q-tree-link': model.handler}"
       @click="toggle"
     >
       <i v-if="model.icon">{{model.icon}}</i>
-      <span class="quasar-tree-label">{{model.title}}</span>
+      <span class="q-tree-label">{{model.title}}</span>
       <span v-if="isExpandable" v-html="model.expanded ? contractHtml : expandHtml"></span>
     </div>
-    <quasar-transition name="slide">
+    <q-transition name="slide">
       <ul v-show="isExpandable && model.expanded">
-        <quasar-tree-item v-for="item in model.children" :model="item" :contract-html="contractHtml" :expand-html="expandHtml"></quasar-tree-item>
+        <q-tree-item v-for="item in model.children" :model="item" :contract-html="contractHtml" :expand-html="expandHtml"></q-tree-item>
       </ul>
-    </quasar-transition>
+    </q-transition>
   </li>
 </template>
 
 <script>
 export default {
-  name: 'quasar-tree-item',
+  name: 'q-tree-item',
   props: ['model', 'contract-html', 'expand-html'],
   methods: {
     toggle () {

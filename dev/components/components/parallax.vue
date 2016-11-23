@@ -9,37 +9,37 @@
       <p v-for="n in 7" class="par-text">{{loremipsum}}</p>
     </div>
 
-    <quasar-parallax :src="'statics/parallax1.jpg'" :height="200">
+    <q-parallax :src="'statics/parallax1.jpg'" :height="200">
       <div slot="loading">Loading...</div>
       <h1>Parallax  Title</h1>
-    </quasar-parallax>
+    </q-parallax>
 
     <div class="layout-padding">
       <p v-for="n in 7" class="par-text">{{loremipsum}}</p>
     </div>
 
-    <quasar-parallax :src="'statics/parallax2.jpg'">
+    <q-parallax :src="'statics/parallax2.jpg'">
       <div slot="loading">Loading...</div>
       <h1>Bridge</h1>
-    </quasar-parallax>
+    </q-parallax>
 
     <div class="layout-padding">
       <p v-for="n in 7" class="par-text">{{loremipsum}}</p>
     </div>
 
-    <quasar-parallax :src="'statics/parallax1.jpg'">
+    <q-parallax :src="'statics/parallax1.jpg'">
       <div slot="loading">Loading...</div>
       <h1>Title</h1>
-    </quasar-parallax>
+    </q-parallax>
 
     <div class="layout-padding">
       <p v-for="n in 7" class="par-text">{{loremipsum}}</p>
     </div>
 
-    <quasar-parallax :src="'statics/mountains.jpg'" :height="200">
+    <q-parallax :src="'statics/mountains.jpg'" :height="200">
       <div slot="loading">Loading...</div>
       <h1>Mountains</h1>
-    </quasar-parallax>
+    </q-parallax>
 
     <div class="layout-padding">
       <p v-for="n in 7" class="par-text">{{loremipsum}}</p>

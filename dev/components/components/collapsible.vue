@@ -2,64 +2,64 @@
   <div>
     <div class="layout-padding" style="max-width: 600px;">
       <div class="list">
-        <quasar-collapsible icon="explore" label="First">
+        <q-collapsible icon="explore" label="First">
           <div>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
           </div>
-        </quasar-collapsible>
-        <quasar-collapsible icon="perm_identity" label="Second">
+        </q-collapsible>
+        <q-collapsible icon="perm_identity" label="Second">
           <div>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
           </div>
-        </quasar-collapsible>
-        <quasar-collapsible icon="shopping_cart" label="Third">
+        </q-collapsible>
+        <q-collapsible icon="shopping_cart" label="Third">
           <div>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
           </div>
-        </quasar-collapsible>
+        </q-collapsible>
       </div>
 
       <p class="caption">With Item Delimiters</p>
       <div class="list item-delimiter">
-        <quasar-collapsible icon="explore" label="First">
+        <q-collapsible icon="explore" label="First">
           <div>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
           </div>
-        </quasar-collapsible>
-        <quasar-collapsible icon="perm_identity" label="Second">
+        </q-collapsible>
+        <q-collapsible icon="perm_identity" label="Second">
           <div>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
           </div>
-        </quasar-collapsible>
-        <quasar-collapsible icon="shopping_cart" label="Third">
+        </q-collapsible>
+        <q-collapsible icon="shopping_cart" label="Third">
           <div>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
           </div>
-        </quasar-collapsible>
+        </q-collapsible>
       </div>
 
       <p class="caption">Preselected/Opened Collapsible</p>
       <div class="list item-delimiter">
-        <quasar-collapsible icon="explore" label="First">
+        <q-collapsible icon="explore" label="First">
           <div>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
           </div>
-        </quasar-collapsible>
-        <quasar-collapsible icon="perm_identity" label="Second" opened>
+        </q-collapsible>
+        <q-collapsible icon="perm_identity" label="Second" opened>
           <div>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
           </div>
-        </quasar-collapsible>
-        <quasar-collapsible icon="shopping_cart" label="Third">
+        </q-collapsible>
+        <q-collapsible icon="shopping_cart" label="Third">
           <div>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
           </div>
-        </quasar-collapsible>
+        </q-collapsible>
       </div>
 
       <p class="caption">Ubiquity. Using Cards as content.</p>
       <div class="list item-delimiter">
-        <quasar-collapsible icon="explore" label="First Card">
+        <q-collapsible icon="explore" label="First Card">
           <div class="card bg-primary text-white">
             <div class="card-title">
               Card Title
@@ -68,16 +68,16 @@
               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             </div>
           </div>
-        </quasar-collapsible>
-        <quasar-collapsible icon="perm_identity" label="Second Card">
+        </q-collapsible>
+        <q-collapsible icon="perm_identity" label="Second Card">
           <div class="card">
             <img src="~assets/mountains.jpg">
             <div class="card-content">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             </div>
           </div>
-        </quasar-collapsible>
-        <quasar-collapsible icon="shopping_cart" label="Third Card">
+        </q-collapsible>
+        <q-collapsible icon="shopping_cart" label="Third Card">
           <div class="card">
             <div class="card-media">
               <img src="~assets/map.png">
@@ -120,7 +120,7 @@
               </button>
             </div>
           </div>
-        </quasar-collapsible>
+        </q-collapsible>
       </div>
     </div>
   </div>

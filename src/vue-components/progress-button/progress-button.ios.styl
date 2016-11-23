@@ -1,4 +1,4 @@
-.quasar-progress-button
+.q-progress-button
   overflow hidden
 
   &.active.indeterminate:before
@@ -10,19 +10,19 @@
     bottom 0
     background-image linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent)
     background-size 40px 40px
-    animation quasar-progress-stripes 2s linear infinite
+    animation q-progress-stripes 2s linear infinite
 
-.quasar-progress-button-content
+.q-progress-button-content
   transition all .3s
   transform translateY(0)
 
-  &.quasar-progress-button-complete
+  &.q-progress-button-complete
     transform translateY(-3.25rem)
-  &.quasar-progress-button-incomplete
+  &.q-progress-button-incomplete
     transform translateY(2.75rem)
 
-.quasar-progress-button-error,
-.quasar-progress-button-success
+.q-progress-button-error,
+.q-progress-button-success
   position absolute
   text-align center
   top 0
@@ -31,13 +31,13 @@
     min-height 1.275rem
     line-height 1.275rem
 
-.quasar-progress-button-error
+.q-progress-button-error
   transform translateX(-50%) translateY(-3rem)
 
-.quasar-progress-button-success
+.q-progress-button-success
   transform translateX(-50%) translateY(3rem)
 
-.quasar-progress-button-filler
+.q-progress-button-filler
   transition all .3s
   position absolute
   left 0
@@ -45,5 +45,5 @@
   bottom 0
   height 100%
   background rgba(255, 255, 255, .25)
-  &.quasar-progress-button-dark-filler
+  &.q-progress-button-dark-filler
     background rgba(0, 0, 0, .2)

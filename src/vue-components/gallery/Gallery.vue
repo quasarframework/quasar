@@ -1,5 +1,5 @@
 <template>
-  <div class="quasar-gallery">
+  <div class="q-gallery">
     <div
       v-for="(img, index) in src"
       :key="index"

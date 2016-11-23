@@ -1,43 +1,43 @@
 <template>
   <div
-    class="quasar-range non-selectable"
+    class="q-range non-selectable"
     :class="{disabled: disable}"
     @mousedown.prevent="__setActive"
     @touchstart.prevent="__setActive"
     @touchend.prevent="__end"
     @touchmove.prevent="__update"
   >
-    <div ref="handle" class="quasar-range-handle-container">
-      <div class="quasar-range-track" ></div>
+    <div ref="handle" class="q-range-handle-container">
+      <div class="q-range-track" ></div>
       <div
         v-if="markers"
-        class="quasar-range-mark"
+        class="q-range-mark"
         v-for="n in ((max - min) / step + 1)"
         :style="{left: (n - 1) * 100 * step / (max - min) + '%'}"
       ></div>
       <div
-        class="quasar-range-track active-track"
+        class="q-range-track active-track"
         :class="{dragging, 'track-draggable': dragRange}"
         :style="{left: percentageMin * 100 + '%', width: activeTrackWidth}"
       ></div>
       <div
-        class="quasar-range-handle range-handle-min"
+        class="q-range-handle range-handle-min"
         :style="{left: percentageMin * 100 + '%'}"
         :class="{dragging, 'handle-at-minimum': value.min === min, undraggable: disableMin}"
       >
         <div
-          class="quasar-range-label"
+          class="q-range-label"
           :class="{'label-always': labelAlways}"
           v-if="label || labelAlways"
         >{{ value.min }}</div>
       </div>
       <div
-        class="quasar-range-handle range-handle-max"
+        class="q-range-handle range-handle-max"
         :style="{left: percentageMax * 100 + '%'}"
         :class="{dragging, 'handle-at-maximum': value.max === max, undraggable: disableMax}"
       >
         <div
-          class="quasar-range-label"
+          class="q-range-label"
           :class="{'label-always': labelAlways}"
           v-if="label || labelAlways"
         >{{ value.max }}</div>

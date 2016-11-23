@@ -1,5 +1,5 @@
 <template>
-  <quasar-picker-textfield
+  <q-picker-textfield
     :disable="disable"
     :readonly="readonly"
     :label="label"
@@ -7,23 +7,23 @@
     :value="actualValue"
     @click.native="__open()"
   >
-    <quasar-popover
+    <q-popover
       v-if="desktop"
       ref="popup"
       @open="__setModel()"
       :disable="disable || readonly"
     >
-      <quasar-inline-datetime v-model="model" :type="type" :min="min" :max="max">
+      <q-inline-datetime v-model="model" :type="type" :min="min" :max="max">
         <div class="modal-buttons row full-width">
           <button v-if="!noClear" @click="clear()" class="primary clear" v-html="clearLabel"></button>
           <div class="auto"></div>
           <button @click="close()" class="primary clear" v-html="cancelLabel"></button>
           <button @click="close(__update)" class="primary clear" v-html="okLabel"></button>
         </div>
-      </quasar-inline-datetime>
-    </quasar-popover>
+      </q-inline-datetime>
+    </q-popover>
 
-    <quasar-modal
+    <q-modal
       v-else
       ref="popup"
       class="with-backdrop"
@@ -32,16 +32,16 @@
       :position-classes="position"
       :content-css="css"
     >
-      <quasar-inline-datetime v-model="model" :type="type" :min="min" :max="max" class="no-border full-width">
+      <q-inline-datetime v-model="model" :type="type" :min="min" :max="max" class="no-border full-width">
         <div class="modal-buttons row full-width">
           <button v-if="!noClear" @click="clear()" class="primary clear" v-html="clearLabel"></button>
           <div class="auto"></div>
           <button @click="close()" class="primary clear" v-html="cancelLabel"></button>
           <button @click="close(__update)" class="primary clear" v-html="okLabel"></button>
         </div>
-      </quasar-inline-datetime>
-    </quasar-modal>
-  </quasar-picker-textfield>
+      </q-inline-datetime>
+    </q-modal>
+  </q-picker-textfield>
 </template>
 
 <script>
@@ -103,7 +103,7 @@ export default {
     let data = Platform.is.desktop ? {} : {
       css: contentCSS[theme],
       position: theme === 'ios' ? 'items-end justify-center' : 'items-center justify-center',
-      transition: theme === 'ios' ? 'quasar-modal-actions' : 'quasar-modal',
+      transition: theme === 'ios' ? 'q-modal-actions' : 'q-modal',
       classNames: theme === 'ios' ? '' : 'minimized'
     }
     data.model = this.value || ''

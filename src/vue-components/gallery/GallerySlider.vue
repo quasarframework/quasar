@@ -1,8 +1,8 @@
 <template>
-  <quasar-slider
+  <q-slider
     ref="slider" arrows fullscreen
     @slide="__updateCurrentSlide"
-    class="text-white bg-black quasar-gallery-slider"
+    class="text-white bg-black q-gallery-slider"
   >
     <div
       v-for="(img, index) in src"
@@ -16,7 +16,7 @@
     </div>
 
     <div
-      class="quasar-gallery-slider-overlay"
+      class="q-gallery-slider-overlay"
       :class="{active: quickView}"
       @click="toggleQuickView()"
     ></div>
@@ -24,7 +24,7 @@
     <i slot="action" @click="toggleQuickView()">view_carousel</i>
 
     <div
-      class="quasar-gallery-slider-quickview"
+      class="q-gallery-slider-quickview"
       :class="{active: quickView}"
     >
       <div v-for="(img, index) in src" :key="index">
@@ -35,7 +35,7 @@
         >
       </div>
     </div>
-  </quasar-slider>
+  </q-slider>
 </template>
 
 <script>

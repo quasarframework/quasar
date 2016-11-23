@@ -1,5 +1,5 @@
 <template>
-  <quasar-modal class="minimized" ref="dialog">
+  <q-modal class="minimized" ref="dialog">
     <div class="modal-header" v-html="title || ''"></div>
     <div v-if="message" class="modal-body modal-scroll" v-html="message"></div>
 
@@ -19,24 +19,24 @@
 
         <div v-if="el.type === 'numeric'" style="margin-bottom: 10px">
           <label v-html="el.label"></label>
-          <quasar-numeric v-model="el.model" :min="el.min" :max="el.max" :step="el.step"></quasar-numeric>
+          <q-numeric v-model="el.model" :min="el.min" :max="el.max" :step="el.step"></q-numeric>
         </div>
 
         <div v-if="el.type === 'chips'" style="margin-bottom: 10px">
           <label v-html="el.label"></label>
-          <quasar-chips v-model="el.model"></quasar-chips>
+          <q-chips v-model="el.model"></q-chips>
         </div>
 
         <label v-if="el.type === 'radio'" v-for="radio in el.items" class="item">
           <div class="item-primary">
-            <quasar-radio v-model="el.model" :val="radio.value"></quasar-radio>
+            <q-radio v-model="el.model" :val="radio.value"></q-radio>
           </div>
           <div class="item-content" v-html="radio.label"></div>
         </label>
 
         <label v-if="el.type === 'checkbox'" v-for="checkbox in el.items" class="item">
           <div class="item-primary">
-            <quasar-checkbox v-model="checkbox.model"></quasar-checkbox>
+            <q-checkbox v-model="checkbox.model"></q-checkbox>
           </div>
           <div class="item-content" v-html="checkbox.label"></div>
         </label>
@@ -44,7 +44,7 @@
         <label v-if="el.type === 'toggle'" v-for="toggle in el.items" class="item">
           <div class="item-content has-secondary" v-html="toggle.label"></div>
           <div class="item-secondary">
-            <quasar-toggle v-model="toggle.model"></quasar-toggle>
+            <q-toggle v-model="toggle.model"></q-toggle>
           </div>
         </label>
 
@@ -52,7 +52,7 @@
         <div v-if="el.type === 'range' || el.type === 'double-range'" style="margin-top: 15px; margin-bottom: 10px">
           <label v-html="el.label + ' (' + (el.type === 'double-range' ? el.model.min + ' to ' + el.model.max : el.model) + ')'"></label>
           <component
-            :is="'quasar-' + el.type"
+            :is="'q-' + el.type"
             v-model="el.model"
             :min="el.min"
             :max="el.max"
@@ -66,16 +66,16 @@
 
         <div v-if="el.type === 'rating'" style="margin-bottom: 10px">
           <label v-html="el.label"></label>
-          <quasar-rating v-model="el.model" :max="el.max" :icon="el.icon" :style="{fontSize: el.size || '2rem'}"></quasar-rating>
+          <q-rating v-model="el.model" :max="el.max" :icon="el.icon" :style="{fontSize: el.size || '2rem'}"></q-rating>
         </div>
       </template>
     </div>
     <div v-if="progress" class="modal-body">
-      <quasar-progress
+      <q-progress
         :percentage="progress.model"
         class="primary stripe animate"
         :class="{indeterminate: progress.indeterminate}"
-      ></quasar-progress>
+      ></q-progress>
       <span v-if="!progress.indeterminate">
         {{progress.model}} %
       </span>
@@ -96,7 +96,7 @@
     <div class="modal-buttons row" v-if="!buttons && !nobuttons">
       <button class="primary clear" @click="close()">OK</button>
     </div>
-  </quasar-modal>
+  </q-modal>
 </template>
 
 <script>

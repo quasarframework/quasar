@@ -13,10 +13,10 @@
         then hit &lt;ENTER&gt;
       </p>
 
-      <quasar-pagination v-model="page" :max="17"></quasar-pagination>
+      <q-pagination v-model="page" :max="17"></q-pagination>
 
       <p class="caption">Disabled State</p>
-      <quasar-pagination v-model="page" :max="17" disable></quasar-pagination>
+      <q-pagination v-model="page" :max="17" disable></q-pagination>
     </div>
   </div>
 </template>

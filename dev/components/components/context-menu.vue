@@ -30,7 +30,7 @@
       </p>
     </div>
 
-    <quasar-context-menu ref="context">
+    <q-context-menu ref="context">
       <div class="list highlight" style="min-width: 150px; max-height: 300px;">
         <div
           class="item item-link two-lines item-delimiter"
@@ -43,7 +43,7 @@
           </div>
         </div>
       </div>
-    </quasar-context-menu>
+    </q-context-menu>
   </div>
 </template>
 

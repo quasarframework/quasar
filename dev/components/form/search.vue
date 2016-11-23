@@ -7,20 +7,20 @@
 
       <br><br>
 
-      <quasar-search v-model="search"></quasar-search>
-      <quasar-search v-model="search" class="orange"></quasar-search>
-      <quasar-search v-model="search" class="secondary" icon="explore" placeholder="PlacesPlacesPlacesPlacesPlacesPlacesPlaces"></quasar-search>
-      <quasar-search v-model="search" class="primary" icon="local_airport" placeholder="Airports"></quasar-search>
-      <quasar-search v-model="search" class="dark" icon="local_hotel" placeholder="Hotels"></quasar-search>
+      <q-search v-model="search"></q-search>
+      <q-search v-model="search" class="orange"></q-search>
+      <q-search v-model="search" class="secondary" icon="explore" placeholder="PlacesPlacesPlacesPlacesPlacesPlacesPlaces"></q-search>
+      <q-search v-model="search" class="primary" icon="local_airport" placeholder="Airports"></q-search>
+      <q-search v-model="search" class="dark" icon="local_hotel" placeholder="Hotels"></q-search>
 
       <p class="caption">Disabled State</p>
-      <quasar-search v-model="search" class="primary" disable></quasar-search>
+      <q-search v-model="search" class="primary" disable></q-search>
 
       <p class="caption">Readonly State</p>
-      <quasar-search v-model="search" class="primary" readonly></quasar-search>
+      <q-search v-model="search" class="primary" readonly></q-search>
 
       <p class="caption">Error State</p>
-      <quasar-search v-model="search" class="primary has-error"></quasar-search>
+      <q-search v-model="search" class="primary has-error"></q-search>
     </div>
   </div>
 </template>

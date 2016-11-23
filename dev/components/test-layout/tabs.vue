@@ -13,67 +13,67 @@
         tabs to navigation routes.
       </p>
 
-      <quasar-tabs>
-        <quasar-tab icon="mail">Mails</quasar-tab>
-        <quasar-tab icon="alarm">Alarms</quasar-tab>
-        <quasar-tab icon="movie">Movies</quasar-tab>
-        <quasar-tab icon="mail">Mails</quasar-tab>
-        <quasar-tab icon="alarm">Alarms</quasar-tab>
-        <quasar-tab icon="movie">Movies</quasar-tab>
-        <quasar-tab icon="mail">Mails</quasar-tab>
-        <quasar-tab icon="alarm">Alarms</quasar-tab>
-        <quasar-tab icon="movie">Movies</quasar-tab>
-        <quasar-tab icon="mail">Mails</quasar-tab>
-        <quasar-tab icon="alarm">Alarms</quasar-tab>
-        <quasar-tab icon="movie">Movies</quasar-tab>
-        <quasar-tab icon="mail">Mails</quasar-tab>
-        <quasar-tab icon="alarm">Alarms</quasar-tab>
-        <quasar-tab icon="movie">Movies</quasar-tab>
-        <quasar-tab icon="mail">Mails</quasar-tab>
-        <quasar-tab icon="alarm">Alarms</quasar-tab>
-        <quasar-tab icon="movie">Movies</quasar-tab>
-      </quasar-tabs>
+      <q-tabs>
+        <q-tab icon="mail">Mails</q-tab>
+        <q-tab icon="alarm">Alarms</q-tab>
+        <q-tab icon="movie">Movies</q-tab>
+        <q-tab icon="mail">Mails</q-tab>
+        <q-tab icon="alarm">Alarms</q-tab>
+        <q-tab icon="movie">Movies</q-tab>
+        <q-tab icon="mail">Mails</q-tab>
+        <q-tab icon="alarm">Alarms</q-tab>
+        <q-tab icon="movie">Movies</q-tab>
+        <q-tab icon="mail">Mails</q-tab>
+        <q-tab icon="alarm">Alarms</q-tab>
+        <q-tab icon="movie">Movies</q-tab>
+        <q-tab icon="mail">Mails</q-tab>
+        <q-tab icon="alarm">Alarms</q-tab>
+        <q-tab icon="movie">Movies</q-tab>
+        <q-tab icon="mail">Mails</q-tab>
+        <q-tab icon="alarm">Alarms</q-tab>
+        <q-tab icon="movie">Movies</q-tab>
+      </q-tabs>
 
       <p class="caption">
         They come in all colors.
       </p>
       <div class="group">
-        <quasar-tabs class="primary">
-          <quasar-tab icon="mail">Mails</quasar-tab>
-          <quasar-tab icon="alarm">Alarms</quasar-tab>
-          <quasar-tab icon="movie">Movies</quasar-tab>
-        </quasar-tabs>
-        <quasar-tabs class="amber clear">
-          <quasar-tab icon="mail">Mails</quasar-tab>
-          <quasar-tab icon="alarm">Alarms</quasar-tab>
-          <quasar-tab icon="movie">Movies</quasar-tab>
-        </quasar-tabs>
-        <quasar-tabs class="secondary">
-          <quasar-tab icon="mail">Mails</quasar-tab>
-          <quasar-tab icon="alarm">Alarms</quasar-tab>
-          <quasar-tab icon="movie">Movies</quasar-tab>
-        </quasar-tabs>
+        <q-tabs class="primary">
+          <q-tab icon="mail">Mails</q-tab>
+          <q-tab icon="alarm">Alarms</q-tab>
+          <q-tab icon="movie">Movies</q-tab>
+        </q-tabs>
+        <q-tabs class="amber clear">
+          <q-tab icon="mail">Mails</q-tab>
+          <q-tab icon="alarm">Alarms</q-tab>
+          <q-tab icon="movie">Movies</q-tab>
+        </q-tabs>
+        <q-tabs class="secondary">
+          <q-tab icon="mail">Mails</q-tab>
+          <q-tab icon="alarm">Alarms</q-tab>
+          <q-tab icon="movie">Movies</q-tab>
+        </q-tabs>
       </div>
 
       <p class="caption">
         And also "inverted".
       </p>
       <div class="group">
-        <quasar-tabs class="orange inverted">
-          <quasar-tab icon="mail">Mails</quasar-tab>
-          <quasar-tab icon="alarm">Alarms</quasar-tab>
-          <quasar-tab icon="movie">Movies</quasar-tab>
-        </quasar-tabs>
-        <quasar-tabs class="secondary inverted">
-          <quasar-tab icon="mail">Mails</quasar-tab>
-          <quasar-tab icon="alarm">Alarms</quasar-tab>
-          <quasar-tab icon="movie">Movies</quasar-tab>
-        </quasar-tabs>
-        <quasar-tabs class="dark inverted">
-          <quasar-tab icon="mail">Mails</quasar-tab>
-          <quasar-tab icon="alarm">Alarms</quasar-tab>
-          <quasar-tab icon="movie">Movies</quasar-tab>
-        </quasar-tabs>
+        <q-tabs class="orange inverted">
+          <q-tab icon="mail">Mails</q-tab>
+          <q-tab icon="alarm">Alarms</q-tab>
+          <q-tab icon="movie">Movies</q-tab>
+        </q-tabs>
+        <q-tabs class="secondary inverted">
+          <q-tab icon="mail">Mails</q-tab>
+          <q-tab icon="alarm">Alarms</q-tab>
+          <q-tab icon="movie">Movies</q-tab>
+        </q-tabs>
+        <q-tabs class="dark inverted">
+          <q-tab icon="mail">Mails</q-tab>
+          <q-tab icon="alarm">Alarms</q-tab>
+          <q-tab icon="movie">Movies</q-tab>
+        </q-tabs>
       </div>
 
       <p class="caption">
@@ -83,18 +83,18 @@
       </p>
 
       <div class="shadow-1">
-        <quasar-tabs
+        <q-tabs
           :refs="$refs"
           default-tab="tab-4"
           class="primary shadow-1"
           style="padding-top: 5px"
         >
-          <quasar-tab name="tab-1" icon="message">Tab 1</quasar-tab>
-          <quasar-tab name="tab-2" disable icon="fingerprint">Tab 2</quasar-tab>
-          <quasar-tab name="tab-3" icon="alarm">Tab 3</quasar-tab>
-          <quasar-tab name="tab-4" icon="accessibility">Tab 4</quasar-tab>
-          <quasar-tab name="tab-5" hidden icon="accessibility">Tab 5</quasar-tab>
-        </quasar-tabs>
+          <q-tab name="tab-1" icon="message">Tab 1</q-tab>
+          <q-tab name="tab-2" disable icon="fingerprint">Tab 2</q-tab>
+          <q-tab name="tab-3" icon="alarm">Tab 3</q-tab>
+          <q-tab name="tab-4" icon="accessibility">Tab 4</q-tab>
+          <q-tab name="tab-5" hidden icon="accessibility">Tab 5</q-tab>
+        </q-tabs>
 
         <div style="padding: 15px;">
           <div ref="tab-1">
@@ -117,21 +117,21 @@
 
       <br><br>
       <div class="shadow-1">
-        <quasar-tabs
+        <q-tabs
           :refs="$refs"
           v-model="xTabsModel"
           class="orange shadow-1"
           style="padding-top: 5px"
         >
-          <quasar-tab name="xtab-1" icon="message">Tab 1</quasar-tab>
-          <quasar-tab name="xtab-2" icon="alarm">Tab 2</quasar-tab>
-          <quasar-tab name="xtab-3" icon="accessibility">Tab 3</quasar-tab>
-        </quasar-tabs>
+          <q-tab name="xtab-1" icon="message">Tab 1</q-tab>
+          <q-tab name="xtab-2" icon="alarm">Tab 2</q-tab>
+          <q-tab name="xtab-3" icon="accessibility">Tab 3</q-tab>
+        </q-tabs>
 
         <div style="padding: 15px;">
           <div class="flex items-baseline">
             <div style="margin-right: 10px">Programmatic select tab:</div>
-            <quasar-select type="radio" v-model="xTabsModel" :options="xTabsOptions"></quasar-select>
+            <q-select type="radio" v-model="xTabsModel" :options="xTabsOptions"></q-select>
           </div>
 
           <div ref="xtab-1">

@@ -5,41 +5,41 @@
 
       <p class="caption">Determined Progress</p>
       <div class="group">
-        <quasar-progress-button
+        <q-progress-button
           class="yellow"
           :percentage="progressBtn"
           @click.native="workButton()"
           dark-filler
         >
           Work it!
-        </quasar-progress-button>
-        <quasar-progress-button
+        </q-progress-button>
+        <q-progress-button
           class="dark"
           :percentage="progressBtn"
           @click.native="workButton()"
         >
           Work it!
-        </quasar-progress-button>
+        </q-progress-button>
       </div>
 
       <p class="caption">Indetermined Progress</p>
       <div class="group">
-        <quasar-progress-button
+        <q-progress-button
           class="primary"
           indeterminate
           :percentage="progressBtn"
           @click.native="workButton()"
         >
           Work it!
-        </quasar-progress-button>
-        <quasar-progress-button
+        </q-progress-button>
+        <q-progress-button
           class="negative"
           indeterminate
           :percentage="progressBtn"
           @click.native="workButton()"
         >
           Work it!
-        </quasar-progress-button>
+        </q-progress-button>
       </div>
 
       <p class="caption">Control Progress with Buttons below</p>

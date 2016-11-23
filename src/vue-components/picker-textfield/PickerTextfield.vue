@@ -1,10 +1,10 @@
 <template>
   <div
-    class="quasar-picker-textfield cursor-pointer textfield caret"
+    class="q-picker-textfield cursor-pointer textfield caret"
     :class="{disabled: disable, readonly, active, 'with-label': label}"
   >
-    <div class="quasar-picker-textfield-label ellipsis" v-html="label"></div>
-    <div class="quasar-picker-textfield-value ellipsis">{{actualValue}}</div>
+    <div class="q-picker-textfield-label ellipsis" v-html="label"></div>
+    <div class="q-picker-textfield-value ellipsis">{{actualValue}}</div>
     <slot></slot>
   </div>
 </template>

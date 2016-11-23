@@ -2,10 +2,10 @@
   <div>
     <div class="layout-padding">
       <h5>Gallery</h5>
-      <quasar-gallery :src="gallery"></quasar-gallery>
+      <q-gallery :src="gallery"></q-gallery>
 
       <h5>Gallery Slider</h5>
-      <quasar-gallery-slider :src="slider"></quasar-gallery>
+      <q-gallery-slider :src="slider"></q-gallery>
     </div>
   </div>
 </template>

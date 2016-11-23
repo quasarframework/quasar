@@ -1,5 +1,5 @@
 <template>
-  <div class="quasar-rating" :class="{disabled: disable}">
+  <div class="q-rating" :class="{disabled: disable}">
     <i
       v-for="index in max"
       :class="{active: (!mouseModel && model >= index) || (mouseModel && mouseModel >= index)}"

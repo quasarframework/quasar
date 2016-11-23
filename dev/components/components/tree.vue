@@ -12,11 +12,11 @@
         turn them into anything you want.
       </p>
 
-      <quasar-tree
+      <q-tree
         :model="treeModel"
         contract-html="<i>remove_circle</i>"
         expand-html="<i>add_circle</i>"
-      ></quasar-tree>
+      ></q-tree>
     </div>
   </div>
 </template>

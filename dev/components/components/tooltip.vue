@@ -14,35 +14,35 @@
 
       <div style="margin-top: 40px;width: 200px; height: 70px;background-color: #26A69A;">
         &nbsp;
-        <quasar-tooltip>
+        <q-tooltip>
           Quasar Rulz!
-        </quasar-tooltip>
+        </q-tooltip>
       </div>
       <br><br>
       <div class="group">
         <button class="indigo">
           Hover
-          <quasar-tooltip>
+          <q-tooltip>
             Quasar Tooltip 1
-          </quasar-tooltip>
+          </q-tooltip>
         </button>
         <button class="red">
           Over
-          <quasar-tooltip>
+          <q-tooltip>
             Quasar Tooltip 2
-          </quasar-tooltip>
+          </q-tooltip>
         </button>
         <button class="purple">
           These
-          <quasar-tooltip>
+          <q-tooltip>
             Quasar Tooltip 3
-          </quasar-tooltip>
+          </q-tooltip>
         </button>
         <button class="amber">
           Buttons
-          <quasar-tooltip>
+          <q-tooltip>
             Quasar Tooltip 4
-          </quasar-tooltip>
+          </q-tooltip>
         </button>
       </div>
 
@@ -51,10 +51,10 @@
           <button class="orange push">
             Mouse Hover
 
-            <quasar-tooltip :anchor="anchor" :self="self">
+            <q-tooltip :anchor="anchor" :self="self">
               <div>Quasar is <strong>great</strong>!</div>
               <div class="text-center">Try it.</div>
-            </quasar-popover>
+            </q-popover>
           </button>
         </div>
 
@@ -70,30 +70,30 @@
               <div class="column group">
                 <div>Vertical</div>
                 <label>
-                  <quasar-radio v-model="anchorOrigin.vertical" val="top"></quasar-radio>
+                  <q-radio v-model="anchorOrigin.vertical" val="top"></q-radio>
                   Top
                 </label>
                 <label>
-                  <quasar-radio v-model="anchorOrigin.vertical" val="center"></quasar-radio>
+                  <q-radio v-model="anchorOrigin.vertical" val="center"></q-radio>
                   Center
                 </label>
                 <label>
-                  <quasar-radio v-model="anchorOrigin.vertical" val="bottom"></quasar-radio>
+                  <q-radio v-model="anchorOrigin.vertical" val="bottom"></q-radio>
                   Bottom
                 </label>
               </div>
               <div class="column group">
                 <div>Horizontal</div>
                 <label>
-                  <quasar-radio v-model="anchorOrigin.horizontal" val="left"></quasar-radio>
+                  <q-radio v-model="anchorOrigin.horizontal" val="left"></q-radio>
                   Left
                 </label>
                 <label>
-                  <quasar-radio v-model="anchorOrigin.horizontal" val="middle"></quasar-radio>
+                  <q-radio v-model="anchorOrigin.horizontal" val="middle"></q-radio>
                   Middle
                 </label>
                 <label>
-                  <quasar-radio v-model="anchorOrigin.horizontal" val="right"></quasar-radio>
+                  <q-radio v-model="anchorOrigin.horizontal" val="right"></q-radio>
                   Right
                 </label>
               </div>
@@ -106,30 +106,30 @@
               <div class="column group">
                 <div>Vertical</div>
                 <label>
-                  <quasar-radio v-model="selfOrigin.vertical" val="top"></quasar-radio>
+                  <q-radio v-model="selfOrigin.vertical" val="top"></q-radio>
                   Top
                 </label>
                 <label>
-                  <quasar-radio v-model="selfOrigin.vertical" val="center"></quasar-radio>
+                  <q-radio v-model="selfOrigin.vertical" val="center"></q-radio>
                   Center
                 </label>
                 <label>
-                  <quasar-radio v-model="selfOrigin.vertical" val="bottom"></quasar-radio>
+                  <q-radio v-model="selfOrigin.vertical" val="bottom"></q-radio>
                   Bottom
                 </label>
               </div>
               <div class="column group">
                 <div>Horizontal</div>
                 <label>
-                  <quasar-radio v-model="selfOrigin.horizontal" val="left"></quasar-radio>
+                  <q-radio v-model="selfOrigin.horizontal" val="left"></q-radio>
                   Left
                 </label>
                 <label>
-                  <quasar-radio v-model="selfOrigin.horizontal" val="middle"></quasar-radio>
+                  <q-radio v-model="selfOrigin.horizontal" val="middle"></q-radio>
                   Middle
                 </label>
                 <label>
-                  <quasar-radio v-model="selfOrigin.horizontal" val="right"></quasar-radio>
+                  <q-radio v-model="selfOrigin.horizontal" val="right"></q-radio>
                   Right
                 </label>
               </div>

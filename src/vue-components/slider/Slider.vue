@@ -1,9 +1,9 @@
 <template>
-  <div class="quasar-slider" :class="{fullscreen: inFullscreen}">
-    <div class="quasar-slider-inner">
+  <div class="q-slider" :class="{fullscreen: inFullscreen}">
+    <div class="q-slider-inner">
       <div
         ref="track"
-        class="quasar-slider-track"
+        class="q-slider-track"
         :class="{'with-arrows': arrows, 'with-toolbar': toolbar}"
         v-touch-pan.horizontal="__pan"
       >
@@ -11,21 +11,21 @@
       </div>
       <div
         v-if="arrows"
-        class="quasar-slider-left-button row items-center justify-center"
+        class="q-slider-left-button row items-center justify-center"
         :class="{hidden: slide === 0}"
       >
         <i @click="goToSlide(slide - 1)">keyboard_arrow_left</i>
       </div>
       <div
         v-if="arrows"
-        class="quasar-slider-right-button row items-center justify-center"
+        class="q-slider-right-button row items-center justify-center"
         :class="{hidden: slide === slidesNumber - 1}"
         @click="goToSlide(slide + 1)"
       >
         <i>keyboard_arrow_right</i>
       </div>
-      <div v-if="toolbar" class="quasar-slider-toolbar row items-center justify-end">
-        <div class="quasar-slider-dots auto row items-center justify-center">
+      <div v-if="toolbar" class="q-slider-toolbar row items-center justify-end">
+        <div class="q-slider-dots auto row items-center justify-center">
           <i
             v-if="dots"
             v-for="n in slidesNumber"

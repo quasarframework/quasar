@@ -1,10 +1,10 @@
 <template>
   <div
-    class="quasar-toast-container"
+    class="q-toast-container"
     :class="{active}"
   >
     <div
-      class="quasar-toast row no-wrap items-center non-selectable"
+      class="q-toast row no-wrap items-center non-selectable"
       v-if="stack[0]"
       :style="{color: stack[0].color, background: stack[0].bgColor}"
       :class="classes"
@@ -12,7 +12,7 @@
       <i v-if="stack[0].icon">{{ stack[0].icon }}</i>
       <img v-if="stack[0].image" :src="stack[0].image">
 
-      <div class="quasar-toast-message auto" v-html="stack[0].html"></div>
+      <div class="q-toast-message auto" v-html="stack[0].html"></div>
 
       <a
         v-if="stack[0].button && stack[0].button.label"

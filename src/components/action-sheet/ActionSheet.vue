@@ -1,9 +1,9 @@
 <template>
-  <quasar-modal
+  <q-modal
     ref="dialog"
     class="with-backdrop"
     position-classes="items-end justify-center"
-    transition="quasar-modal-actions"
+    transition="q-modal-actions"
     :content-css="css"
   >
     <!-- Material -->
@@ -11,7 +11,7 @@
       <div v-if="title" class="modal-header" v-html="title"></div>
 
       <div class="modal-scroll">
-        <div v-if="gallery" class="quasar-action-sheet-gallery row wrap items-center justify-center">
+        <div v-if="gallery" class="q-action-sheet-gallery row wrap items-center justify-center">
           <div
             v-for="button in actions"
             class="cursor-pointer column inline items-center justify-center"
@@ -56,11 +56,11 @@
 
     <!-- iOS -->
     <div v-once v-if="$quasar.theme === 'ios'">
-      <div class="quasar-action-sheet">
+      <div class="q-action-sheet">
         <div v-if="title" class="modal-header" v-html="title"></div>
 
         <div class="modal-scroll">
-          <div v-if="gallery" class="quasar-action-sheet-gallery row wrap items-center justify-center">
+          <div v-if="gallery" class="q-action-sheet-gallery row wrap items-center justify-center">
             <div
               v-for="button in actions"
               class="cursor-pointer column inline items-center justify-center"
@@ -90,7 +90,7 @@
         </div>
       </div>
 
-      <div v-if="dismiss" class="quasar-action-sheet">
+      <div v-if="dismiss" class="q-action-sheet">
         <div
           class="item item-link"
           @click="close(dismiss.handler)"
@@ -102,7 +102,7 @@
         </div>
       </div>
     </div>
-  </quasar-modal>
+  </q-modal>
 </template>
 
 <script>

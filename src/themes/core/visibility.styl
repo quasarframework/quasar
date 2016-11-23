@@ -1,25 +1,25 @@
 .animate-spin
-  animation quasar-spin 2s infinite linear
+  animation q-spin 2s infinite linear
 .animate-blink
-  animation quasar-blink 1s steps(5, start) infinite
+  animation q-blink 1s steps(5, start) infinite
 .animate-pop
-  animation quasar-pop .2s
+  animation q-pop .2s
 .animate-scale
-  animation quasar-scale .2s
+  animation q-scale .2s
 .animate-fade
-  animation quasar-fade .2s
+  animation q-fade .2s
 
-@keyframes quasar-blink
+@keyframes q-blink
   to
     visibility hidden
 
-@keyframes quasar-spin
+@keyframes q-spin
   0%
     transform rotate(0deg)
   100%
     transform rotate(359deg)
 
-@keyframes quasar-pop
+@keyframes q-pop
   0%
     opacity 0
     transform scale(.7)
@@ -29,13 +29,13 @@
   100%
     transform scale(1)
 
-@keyframes quasar-fade
+@keyframes q-fade
   0%
     opacity 0
   100%
     opacity 1
 
-@keyframes quasar-scale
+@keyframes q-scale
   0%
     opacity 0
     transform scale(.7)
@@ -94,16 +94,16 @@ body
   z-index $z-absolute !important
 
 
-@keyframes quasar-highlight
+@keyframes q-highlight
   0%
     background $lime-6
   100%
     background transparent
 
 .highlight-and-fade
-  animation quasar-highlight 2s
+  animation q-highlight 2s
 
-@keyframes quasar-rotate
+@keyframes q-rotate
   0%
     transform rotate(0)
   25%

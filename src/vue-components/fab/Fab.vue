@@ -1,14 +1,14 @@
 <template>
   <div
-    class="quasar-fab flex inline justify-center"
+    class="q-fab flex inline justify-center"
     :class="{opened}"
   >
     <div class="backdrop animate-fade" @click="toggle(true)"></div>
     <button class="circular raised" @click="toggle()" :class="classNames">
-      <i class="quasar-fab-icon">{{icon}}</i>
-      <i class="quasar-fab-active-icon">{{activeIcon}}</i>
+      <i class="q-fab-icon">{{icon}}</i>
+      <i class="q-fab-active-icon">{{activeIcon}}</i>
     </button>
-    <div class="quasar-fab-actions flex inline items-center" :class="[direction]">
+    <div class="q-fab-actions flex inline items-center" :class="[direction]">
       <slot></slot>
     </div>
   </div>

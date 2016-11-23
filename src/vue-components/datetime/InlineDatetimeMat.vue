@@ -1,27 +1,27 @@
 <template>
-  <div class="quasar-datetime inline column gt-md-row" :class="{disabled: disable, readonly}">
-    <div class="quasar-datetime-header column justify-center" v-if="!value">&nbsp;</div>
-    <div class="quasar-datetime-header column justify-center" v-else>
+  <div class="q-datetime inline column gt-md-row" :class="{disabled: disable, readonly}">
+    <div class="q-datetime-header column justify-center" v-if="!value">&nbsp;</div>
+    <div class="q-datetime-header column justify-center" v-else>
       <div v-if="typeHasDate">
-        <div class="quasar-datetime-weekdaystring">{{ weekDayString }}</div>
-        <div class="quasar-datetime-datestring row gt-md-column items-center justify-center">
+        <div class="q-datetime-weekdaystring">{{ weekDayString }}</div>
+        <div class="q-datetime-datestring row gt-md-column items-center justify-center">
           <span
             :class="{active: view === 'month'}"
-            class="quasar-datetime-link small"
+            class="q-datetime-link small"
             @click="view = 'month'"
           >
             {{ monthString }}
           </span>
           <span
             :class="{active: view === 'day'}"
-            class="quasar-datetime-link"
+            class="q-datetime-link"
             @click="view = 'day'"
           >
             {{ dayString }}
           </span>
           <span
             :class="{active: view === 'year'}"
-            class="quasar-datetime-link small"
+            class="q-datetime-link small"
             @click="view = 'year'"
           >
             {{ year }}
@@ -30,12 +30,12 @@
       </div>
       <div
         v-if="typeHasTime"
-        class="quasar-datetime-time row gt-md-column items-center justify-center"
+        class="q-datetime-time row gt-md-column items-center justify-center"
       >
-        <div class="quasar-datetime-clockstring">
+        <div class="q-datetime-clockstring">
           <span
             :class="{active: view === 'hour'}"
-            class="quasar-datetime-link"
+            class="q-datetime-link"
             @click="view = 'hour'"
           >
             {{ __pad(hour, '&nbsp;&nbsp;') }}
@@ -43,31 +43,31 @@
           <span style="opacity: 0.6">:</span>
           <span
             :class="{active: view === 'minute'}"
-            class="quasar-datetime-link"
+            class="q-datetime-link"
             @click="view = 'minute'"
           >
             {{ __pad(minute) }}
           </span>
         </div>
-        <div class="quasar-datetime-ampm column justify-around">
+        <div class="q-datetime-ampm column justify-around">
           <div
             :class="{active: am}"
-            class="quasar-datetime-link"
+            class="q-datetime-link"
             @click="toggleAmPm()"
           >AM</div>
           <div
             :class="{active: !am}"
-            class="quasar-datetime-link"
+            class="q-datetime-link"
             @click="toggleAmPm()"
           >PM</div>
         </div>
       </div>
     </div>
-    <div class="quasar-datetime-content auto column">
-      <div ref="selector" class="quasar-datetime-selector auto row items-center justify-center">
+    <div class="q-datetime-content auto column">
+      <div ref="selector" class="q-datetime-selector auto row items-center justify-center">
         <div
           v-if="view === 'year'"
-          class="quasar-datetime-view-year full-width full-height"
+          class="q-datetime-view-year full-width full-height"
         >
           <button
             v-for="n in yearInterval"
@@ -81,7 +81,7 @@
 
         <div
           v-if="view === 'month'"
-          class="quasar-datetime-view-month full-width full-height"
+          class="q-datetime-view-month full-width full-height"
         >
           <button
             v-for="index in monthInterval"
@@ -95,7 +95,7 @@
 
         <div
           v-if="view === 'day'"
-          class="quasar-datetime-view-day quasar-datetime-animate"
+          class="q-datetime-view-day q-datetime-animate"
         >
           <div class="row items-center content-center">
             <button
@@ -114,11 +114,11 @@
               <i>keyboard_arrow_right</i>
             </button>
           </div>
-          <div class="quasar-datetime-weekdays row items-center justify-start">
+          <div class="q-datetime-weekdays row items-center justify-start">
             <div v-for="day in daysList">{{day}}</div>
           </div>
-          <div class="quasar-datetime-days row wrap items-center justify-start content-center">
-            <div v-for="fillerDay in fillerDays" class="quasar-datetime-fillerday"></div>
+          <div class="q-datetime-days row wrap items-center justify-start content-center">
+            <div v-for="fillerDay in fillerDays" class="q-datetime-fillerday"></div>
             <div v-if="min" v-for="fillerDay in beforeMinDays" class="flex items-center content-center justify-center disabled">
               {{ fillerDay }}
             </div>
@@ -143,7 +143,7 @@
         >
           <div
             v-if="view === 'hour'"
-            class="quasar-datetime-clock cursor-pointer"
+            class="q-datetime-clock cursor-pointer"
             @mousedown="__dragStart"
             @mousemove="__dragMove"
             @mouseup="__dragStop"
@@ -151,15 +151,15 @@
             @touchmove="__dragMove"
             @touchend="__dragStop"
           >
-            <div class="quasar-datetime-clock-circle full-width full-height">
-              <div class="quasar-datetime-clock-center"></div>
-              <div class="quasar-datetime-clock-pointer" :style="clockPointerStyle" :class="{hidden: !value}">
+            <div class="q-datetime-clock-circle full-width full-height">
+              <div class="q-datetime-clock-center"></div>
+              <div class="q-datetime-clock-pointer" :style="clockPointerStyle" :class="{hidden: !value}">
                 <span></span>
               </div>
               <div
                 v-for="n in 12"
-                class="quasar-datetime-clock-position"
-                :class="['quasar-datetime-clock-pos-' + n, value && n === hour ? 'active' : '']"
+                class="q-datetime-clock-position"
+                :class="['q-datetime-clock-pos-' + n, value && n === hour ? 'active' : '']"
               >
                 {{ n }}
               </div>
@@ -168,7 +168,7 @@
 
           <div
             v-if="view === 'minute'"
-            class="quasar-datetime-clock cursor-pointer"
+            class="q-datetime-clock cursor-pointer"
             @mousedown="__dragStart"
             @mousemove="__dragMove"
             @mouseup="__dragStop"
@@ -176,15 +176,15 @@
             @touchmove="__dragMove"
             @touchend="__dragStop"
           >
-            <div class="quasar-datetime-clock-circle full-width full-height">
-              <div class="quasar-datetime-clock-center"></div>
-              <div class="quasar-datetime-clock-pointer" :style="clockPointerStyle">
+            <div class="q-datetime-clock-circle full-width full-height">
+              <div class="q-datetime-clock-center"></div>
+              <div class="q-datetime-clock-pointer" :style="clockPointerStyle">
                 <span></span>
               </div>
               <div
                 v-for="n in 12"
-                class="quasar-datetime-clock-position"
-                :class="['quasar-datetime-clock-pos-' + (n - 1), (n - 1) * 5 === minute ? 'active' : '']"
+                class="q-datetime-clock-position"
+                :class="['q-datetime-clock-pos-' + (n - 1), (n - 1) * 5 === minute ? 'active' : '']"
               >
                 {{ (n - 1) * 5 }}
               </div>

@@ -2,7 +2,7 @@ $fab-size       = (1.2 * $button-circular-size)
 $fab-translate  = 2 * $fab-size
 $fab-margin    ?= 5px
 
-.quasar-fab
+.q-fab
   height $fab-size
   width $fab-size
   position relative
@@ -14,33 +14,33 @@ $fab-margin    ?= 5px
   &.opened
     z-index $z-fab
 
-    .quasar-fab-actions
+    .q-fab-actions
       opacity 1
       transform scaleX(1) scaleY(1) translateX(0) translateY(0)
       pointer-events all
-    .quasar-fab-icon
+    .q-fab-icon
       transform rotate3d(0, 0, 1, 180deg)
       opacity 0
-    .quasar-fab-active-icon
+    .q-fab-active-icon
       transform rotate3d(0, 0, 1, 0deg)
       opacity 1
     .backdrop
       display block
       background rgba(255, 255, 255, .5)
 
-.quasar-fab-icon, .quasar-fab-active-icon
+.q-fab-icon, .q-fab-active-icon
   position absolute
   top 18px
   left 17px
   transition opacity .4s, transform .4s
-.quasar-fab-icon
+.q-fab-icon
   opacity 1
   transform rotate3d(0, 0, 1, 0deg)
-.quasar-fab-active-icon
+.q-fab-active-icon
   opacity 0
   transform rotate3d(0, 0, 1, -180deg)
 
-.quasar-fab-actions
+.q-fab-actions
   position absolute
   margin 0
   opacity 0

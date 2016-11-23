@@ -9,25 +9,25 @@
       </p>
 
       <div class="column items-center" style="margin-top: 100px; margin-bottom: 100px;">
-        <quasar-fab classNames="purple" icon="keyboard_arrow_up" direction="up">
-          <quasar-small-fab class="white" @click.native="toast('mail')">mail</quasar-small-fab>
-          <quasar-small-fab class="white" @click.native="toast('alarm')">alarm</quasar-small-fab>
-        </quasar-fab>
+        <q-fab classNames="purple" icon="keyboard_arrow_up" direction="up">
+          <q-small-fab class="white" @click.native="toast('mail')">mail</q-small-fab>
+          <q-small-fab class="white" @click.native="toast('alarm')">alarm</q-small-fab>
+        </q-fab>
 
-        <quasar-fab icon="keyboard_arrow_left" direction="left">
-          <quasar-small-fab class="white" @click.native="toast('mail')">mail</quasar-small-fab>
-          <quasar-small-fab class="white" @click.native="toast('alarm')">alarm</quasar-small-fab>
-        </quasar-fab>
+        <q-fab icon="keyboard_arrow_left" direction="left">
+          <q-small-fab class="white" @click.native="toast('mail')">mail</q-small-fab>
+          <q-small-fab class="white" @click.native="toast('alarm')">alarm</q-small-fab>
+        </q-fab>
 
-        <quasar-fab classNames="secondary push" icon="keyboard_arrow_right" direction="right">
-          <quasar-small-fab class="primary" @click.native="toast('mail')">mail</quasar-small-fab>
-          <quasar-small-fab class="white" @click.native="toast('alarm')">alarm</quasar-small-fab>
-        </quasar-fab>
+        <q-fab classNames="secondary push" icon="keyboard_arrow_right" direction="right">
+          <q-small-fab class="primary" @click.native="toast('mail')">mail</q-small-fab>
+          <q-small-fab class="white" @click.native="toast('alarm')">alarm</q-small-fab>
+        </q-fab>
 
-        <quasar-fab classNames="tertiary glossy" icon="keyboard_arrow_down" direction="down">
-          <quasar-small-fab class="white" @click.native="toast('mail')">mail</quasar-small-fab>
-          <quasar-small-fab class="white" @click.native="toast('alarm')">alarm</quasar-small-fab>
-        </quasar-fab>
+        <q-fab classNames="tertiary glossy" icon="keyboard_arrow_down" direction="down">
+          <q-small-fab class="white" @click.native="toast('mail')">mail</q-small-fab>
+          <q-small-fab class="white" @click.native="toast('alarm')">alarm</q-small-fab>
+        </q-fab>
       </div>
 
       <p class="caption" style="margin-bottom: 100px;">
@@ -37,7 +37,7 @@
         You can close it by clicking/tapping on the whitey backdrop.
       </p>
 
-      <quasar-fab
+      <q-fab
         class="absolute-bottom-right"
         @click="alert()"
         classNames="primary"
@@ -45,9 +45,9 @@
         direction="up"
         style="right: 18px; bottom: 18px;"
       >
-        <quasar-small-fab class="purple" @click.native="toast('mail')">mail</quasar-small-fab>
-        <quasar-small-fab class="secondary" @click.native="toast('alarm')">alarm</quasar-small-fab>
-      </quasar-fab>
+        <q-small-fab class="purple" @click.native="toast('mail')">mail</q-small-fab>
+        <q-small-fab class="secondary" @click.native="toast('alarm')">alarm</q-small-fab>
+      </q-fab>
     </div>
   </div>
 </template>

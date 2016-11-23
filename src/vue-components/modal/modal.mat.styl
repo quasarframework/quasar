@@ -53,18 +53,18 @@ maximized-modal()
   &.maximized .modal-content
     maximized-modal()
 
-.quasar-modal-enter, .quasar-modal-leave-active
+.q-modal-enter, .q-modal-leave-active
   opacity 0
 
 @media screen and (min-width $layout-medium-min)
   .modal:not(.maximized)
     background $dimmed-background
-    &.quasar-modal-enter .modal-content
+    &.q-modal-enter .modal-content
       transform scale(1.2)
-    &.quasar-modal-leave-active .modal-content
+    &.q-modal-leave-active .modal-content
       transform scale(.8)
   .modal.maximized
-    &.quasar-modal-enter, &.quasar-modal-leave-active
+    &.q-modal-enter, &.q-modal-leave-active
       .modal-content
         transform translateX(101%)
 
@@ -72,13 +72,13 @@ maximized-modal()
   .modal:not(.minimized)
     .modal-content
       maximized-modal()
-    &.quasar-modal-enter, &.quasar-modal-leave-active
+    &.q-modal-enter, &.q-modal-leave-active
       .modal-content
         transform translateX(101%)
   .modal.minimized
-    &.quasar-modal-enter .modal-content
+    &.q-modal-enter .modal-content
       transform scale(1.2)
-    &.quasar-modal-leave-active .modal-content
+    &.q-modal-leave-active .modal-content
       transform scale(.8)
 
 

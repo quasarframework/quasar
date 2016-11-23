@@ -5,7 +5,7 @@
         Based on the device you are using to view this, Quasar detects the following:
       </p>
 
-      <table class="quasar-table striped">
+      <table class="q-table striped">
         <thead>
           <tr>
             <th class="text-left">Property</th>

@@ -1,23 +1,23 @@
 <template>
-  <quasar-picker-textfield
+  <q-picker-textfield
     :disable="disable"
     :readonly="readonly"
     :label="label"
     :placeholder="placeholder"
     :value="actualValue"
   >
-    <quasar-popover ref="popover" :disable="disable || readonly">
-      <div class="quasar-select-popover list highlight">
+    <q-popover ref="popover" :disable="disable || readonly">
+      <div class="q-select-popover list highlight">
         <label v-if="type === 'radio'" v-for="radio in options" class="item" @click="close">
           <div class="item-primary">
-            <quasar-radio v-model="model" :val="radio.value"></quasar-radio>
+            <q-radio v-model="model" :val="radio.value"></q-radio>
           </div>
           <div class="item-content" v-html="radio.label"></div>
         </label>
 
         <label v-if="type === 'checkbox'" v-for="(checkbox, index) in options" class="item">
           <div class="item-primary">
-            <quasar-checkbox :value="optModel[index]" @input="toggleValue(checkbox.value)"></quasar-checkbox>
+            <q-checkbox :value="optModel[index]" @input="toggleValue(checkbox.value)"></q-checkbox>
           </div>
           <div class="item-content" v-html="checkbox.label"></div>
         </label>
@@ -25,12 +25,12 @@
         <label v-if="type === 'toggle'" v-for="(toggle, index) in options" class="item">
           <div class="item-content has-secondary" v-html="toggle.label"></div>
           <div class="item-secondary">
-            <quasar-toggle :value="optModel[index]" @input="toggleValue(toggle.value)"></quasar-toggle>
+            <q-toggle :value="optModel[index]" @input="toggleValue(toggle.value)"></q-toggle>
           </div>
         </label>
       </div>
-    </quasar-popover>
-  </quasar-picker-textfield>
+    </q-popover>
+  </q-picker-textfield>
 </template>
 
 <script>

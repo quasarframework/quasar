@@ -1,10 +1,10 @@
 <template>
-  <div class="quasar-infinite-scroll">
-    <div ref="content" class="quasar-infinite-scroll-content">
+  <div class="q-infinite-scroll">
+    <div ref="content" class="q-infinite-scroll-content">
       <slot></slot>
     </div>
     <br>
-    <div class="quasar-infinite-scroll-message" v-show="fetching">
+    <div class="q-infinite-scroll-message" v-show="fetching">
       <slot name="message"></slot>
     </div>
   </div>

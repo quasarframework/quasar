@@ -1,5 +1,5 @@
 <template>
-  <div id="quasar-app">
+  <div id="q-app">
     <router-view></router-view>
   </div>
 </template>

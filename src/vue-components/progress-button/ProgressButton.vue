@@ -1,22 +1,22 @@
 <template>
-  <button class="quasar-progress-button" :class="{active, indeterminate}">
+  <button class="q-progress-button" :class="{active, indeterminate}">
     <span
       v-if="!indeterminate"
-      class="quasar-progress-button-filler"
-      :class="{'quasar-progress-button-dark-filler': darkFiller}"
+      class="q-progress-button-filler"
+      :class="{'q-progress-button-dark-filler': darkFiller}"
       :style="{width: computedPercentage}"
     ></span>
     <div
-      class="quasar-progress-button-content"
+      class="q-progress-button-content"
       :class="stateClass"
     >
-      <div class="quasar-progress-button-error">
+      <div class="q-progress-button-error">
         <i>{{ errorIcon }}</i>
       </div>
-      <div class="quasar-progress-button-label">
+      <div class="q-progress-button-label">
         <slot></slot>
       </div>
-      <div class="quasar-progress-button-success">
+      <div class="q-progress-button-success">
         <i>{{ successIcon }}</i>
       </div>
     </div>
@@ -53,12 +53,12 @@ export default {
     },
     stateClass () {
       if (this.percentage >= 100) {
-        return 'quasar-progress-button-complete'
+        return 'q-progress-button-complete'
       }
       if (this.percentage < 0) {
-        return 'quasar-progress-button-incomplete'
+        return 'q-progress-button-incomplete'
       }
-      return 'quasar-progress-button-default'
+      return 'q-progress-button-default'
     },
     computedPercentage () {
       if (this.percentage >= 100) {

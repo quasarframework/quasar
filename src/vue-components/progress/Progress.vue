@@ -1,5 +1,5 @@
 <template>
-  <div class="quasar-progress">
+  <div class="q-progress">
     <div :style="{width: model + '%'}"></div>
   </div>
 </template>

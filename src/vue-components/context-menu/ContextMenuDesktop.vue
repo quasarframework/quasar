@@ -1,7 +1,7 @@
 <template>
-  <quasar-popover ref="popover" :anchor-click="false">
+  <q-popover ref="popover" :anchor-click="false">
     <slot></slot>
-  </quasar-popover>
+  </q-popover>
 </template>
 
 <script>

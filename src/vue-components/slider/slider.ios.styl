@@ -8,16 +8,16 @@ $slider-button-size      ?= 1.5rem
 $slider-dots-size        ?= .8rem
 
 
-.quasar-slider
+.q-slider
   overflow hidden
   &.fullscreen
     z-index $z-absolute
 
-.quasar-slider-inner
+.q-slider-inner
   position relative
   height 100%
 
-.quasar-slider-track
+.q-slider-track
   white-space nowrap
   padding 0
   margin 0
@@ -46,8 +46,8 @@ $slider-dots-size        ?= .8rem
     > div
       padding-bottom ($slider-padding + 1rem)
 
-.quasar-slider-left-button,
-.quasar-slider-right-button
+.q-slider-left-button,
+.q-slider-right-button
   position absolute
   top 0
   bottom 0
@@ -65,12 +65,12 @@ $slider-dots-size        ?= .8rem
     transition opacity .3s
     &:hover
       opacity $slider-opacity-active
-.quasar-slider-left-button
+.q-slider-left-button
   left 0
-.quasar-slider-right-button
+.q-slider-right-button
   right 0
 
-.quasar-slider-toolbar
+.q-slider-toolbar
   position absolute
   bottom 0
   left 0
@@ -83,5 +83,5 @@ $slider-dots-size        ?= .8rem
     cursor pointer
     margin 0 .5rem
     font-size $slider-button-size
-  .quasar-slider-dots i
+  .q-slider-dots i
     font-size $slider-dots-size

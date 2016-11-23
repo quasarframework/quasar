@@ -11,7 +11,7 @@
         <button class="primary">
           <i>assignment</i>
 
-          <quasar-popover ref="popover1">
+          <q-popover ref="popover1">
             <div class="list scroll highlight" style="min-width: 150px; max-height: 500px;">
               <div
                 class="item item-link two-lines item-delimiter"
@@ -24,15 +24,15 @@
                 </div>
               </div>
             </div>
-          </quasar-popover>
+          </q-popover>
         </button>
 
         <button ref="target4" class="negative">
           Disabled Popover
 
-          <quasar-popover disable>
+          <q-popover disable>
             This Popover content won't be shown because of "disable"
-          </quasar-popover>
+          </q-popover>
         </button>
 
         <div class="card" style="margin-top: 75px">
@@ -40,7 +40,7 @@
             <button class="orange push">
               Tap
 
-              <quasar-popover
+              <q-popover
                 ref="popover2"
                 :anchor="anchor"
                 :self="self"
@@ -56,7 +56,7 @@
                     </div>
                   </div>
                 </div>
-              </quasar-popover>
+              </q-popover>
             </button>
           </div>
 
@@ -72,30 +72,30 @@
                 <div class="column group">
                   <div>Vertical</div>
                   <label>
-                    <quasar-radio v-model="anchorOrigin.vertical" val="top"></quasar-radio>
+                    <q-radio v-model="anchorOrigin.vertical" val="top"></q-radio>
                     Top
                   </label>
                   <label>
-                    <quasar-radio v-model="anchorOrigin.vertical" val="center"></quasar-radio>
+                    <q-radio v-model="anchorOrigin.vertical" val="center"></q-radio>
                     Center
                   </label>
                   <label>
-                    <quasar-radio v-model="anchorOrigin.vertical" val="bottom"></quasar-radio>
+                    <q-radio v-model="anchorOrigin.vertical" val="bottom"></q-radio>
                     Bottom
                   </label>
                 </div>
                 <div class="column group">
                   <div>Horizontal</div>
                   <label>
-                    <quasar-radio v-model="anchorOrigin.horizontal" val="left"></quasar-radio>
+                    <q-radio v-model="anchorOrigin.horizontal" val="left"></q-radio>
                     Left
                   </label>
                   <label>
-                    <quasar-radio v-model="anchorOrigin.horizontal" val="middle"></quasar-radio>
+                    <q-radio v-model="anchorOrigin.horizontal" val="middle"></q-radio>
                     Middle
                   </label>
                   <label>
-                    <quasar-radio v-model="anchorOrigin.horizontal" val="right"></quasar-radio>
+                    <q-radio v-model="anchorOrigin.horizontal" val="right"></q-radio>
                     Right
                   </label>
                 </div>
@@ -108,30 +108,30 @@
                 <div class="column group">
                   <div>Vertical</div>
                   <label>
-                    <quasar-radio v-model="selfOrigin.vertical" val="top"></quasar-radio>
+                    <q-radio v-model="selfOrigin.vertical" val="top"></q-radio>
                     Top
                   </label>
                   <label>
-                    <quasar-radio v-model="selfOrigin.vertical" val="center"></quasar-radio>
+                    <q-radio v-model="selfOrigin.vertical" val="center"></q-radio>
                     Center
                   </label>
                   <label>
-                    <quasar-radio v-model="selfOrigin.vertical" val="bottom"></quasar-radio>
+                    <q-radio v-model="selfOrigin.vertical" val="bottom"></q-radio>
                     Bottom
                   </label>
                 </div>
                 <div class="column group">
                   <div>Horizontal</div>
                   <label>
-                    <quasar-radio v-model="selfOrigin.horizontal" val="left"></quasar-radio>
+                    <q-radio v-model="selfOrigin.horizontal" val="left"></q-radio>
                     Left
                   </label>
                   <label>
-                    <quasar-radio v-model="selfOrigin.horizontal" val="middle"></quasar-radio>
+                    <q-radio v-model="selfOrigin.horizontal" val="middle"></q-radio>
                     Middle
                   </label>
                   <label>
-                    <quasar-radio v-model="selfOrigin.horizontal" val="right"></quasar-radio>
+                    <q-radio v-model="selfOrigin.horizontal" val="right"></q-radio>
                     Right
                   </label>
                 </div>
@@ -143,7 +143,7 @@
         <br><br>
         <span>
           <img ref="target3" src="~assets/map.png" class="responsive">
-          <quasar-popover anchor-ref="target3" ref="popover3" touch-position>
+          <q-popover anchor-ref="target3" ref="popover3" touch-position>
             <div class="list highlight" style="min-width: 200px; max-height: 300px;">
               <div
                 class="item item-link item-delimiter"
@@ -156,7 +156,7 @@
                 </div>
               </div>
             </div>
-          </quasar-popover>
+          </q-popover>
         </span>
 
         <div style="margin-bottom: 700px;"></div>
@@ -164,19 +164,19 @@
         <button class="secondary absolute-top-right" style="top: 10px; right: 10px; right: 16px;">
           <i>directions</i>
 
-          <quasar-popover ref="popover5">
+          <q-popover ref="popover5">
             <img
               src="~assets/map.png"
               style="height: 150px; width: 200px;"
               @click="showToast(), $refs.popover5.close()"
             >
-          </quasar-popover>
+          </q-popover>
         </button>
 
         <button class="tertiary absolute-bottom-right" style="bottom: 10px; right: 16px;">
           <i>plus_one</i>
 
-          <quasar-popover ref="popover6">
+          <q-popover ref="popover6">
             <div class="group" style="width: 200px; height: 50px; text-align: center;">
               <button class="primary clear" @click="showToast(), $refs.popover6.close()">
                 <i>thumb_up</i>
@@ -188,14 +188,14 @@
                 <i>share</i>
               </button>
             </div>
-          </quasar-popover>
+          </q-popover>
         </button>
       </div>
 
       <button class="primary absolute-bottom-left" style="bottom: 10px; left: 10px;">
         <i>menu</i>
 
-        <quasar-popover ref="popover7">
+        <q-popover ref="popover7">
           <div class="list highlight" style="min-width: 150px">
             <div
               class="item item-link two-lines item-delimiter"
@@ -208,7 +208,7 @@
               </div>
             </div>
           </div>
-        </quasar-popover>
+        </q-popover>
       </button>
     </div>
   </div>

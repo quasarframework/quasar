@@ -1,6 +1,6 @@
 <template>
   <div
-    class="quasar-chips group textfield"
+    class="q-chips group textfield"
     @click="focus"
     :class="{active, disabled: disable, readonly}"
   >
@@ -12,7 +12,7 @@
       {{ label }}
       <i class="on-right" @click="remove(index)">close</i>
     </span>
-    <div class="quasar-chips-input chip label text-grey-9">
+    <div class="q-chips-input chip label text-grey-9">
       <input
         type="text"
         class="no-style"

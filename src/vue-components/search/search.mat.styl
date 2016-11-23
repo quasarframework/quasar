@@ -1,9 +1,9 @@
-.quasar-search-input-container
+.q-search-input-container
   position relative
   flex-shrink 1
   width 100%
 
-.quasar-search-icon, .quasar-search-clear
+.q-search-icon, .q-search-clear
   position absolute
   top 0
   padding 0
@@ -12,13 +12,13 @@
   width 12px
   height 100%
 
-.quasar-search-icon
+.q-search-icon
   left 10px
   pointer-events none
-.quasar-search-clear
+.q-search-clear
   right 15px
 
-.quasar-search-input
+.q-search-input
   padding 0 45px
   height auto
   border-radius $generic-border-radius
@@ -32,7 +32,7 @@
   background white
   transition all .2s ease
 
-.quasar-search
+.q-search
   display flex
   align-items center
   padding 3px
@@ -46,7 +46,7 @@
     &.{$name}
       if $name != 'light' && $name != 'white'
         color white
-      .quasar-search-input
+      .q-search-input
         background active-color($color)
         if $name != 'light' && $name != 'white'
           color white
@@ -59,12 +59,12 @@
 
   &.has-error
     color opposite-non-color($has-error)
-    .quasar-search-input
+    .q-search-input
       background $has-error
 
-body.desktop .quasar-search
+body.desktop .q-search
   for $name, $color in $colors
-    &.{$name} .quasar-search-input:hover
+    &.{$name} .q-search-input:hover
       background light-active-color($color)
-  &.has-error .quasar-search-input:hover
+  &.has-error .q-search-input:hover
       background light-active-color($has-error)

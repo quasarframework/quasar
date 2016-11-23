@@ -1,32 +1,32 @@
 <template>
   <div
-    class="quasar-range non-selectable"
+    class="q-range non-selectable"
     :class="{disabled: disable}"
     @mousedown.prevent="__setActive"
     @touchstart.prevent="__setActive"
     @touchend.prevent="__end"
     @touchmove.prevent="__update"
   >
-    <div ref="handle" class="quasar-range-handle-container">
-      <div class="quasar-range-track"></div>
+    <div ref="handle" class="q-range-handle-container">
+      <div class="q-range-track"></div>
       <div
         v-if="markers"
-        class="quasar-range-mark"
+        class="q-range-mark"
         v-for="n in ((max - min) / step + 1)"
         :style="{left: (n - 1) * 100 * step / (max - min) + '%'}"
       ></div>
       <div
-        class="quasar-range-track active-track"
+        class="q-range-track active-track"
         :style="{width: percentage}"
         :class="{'no-transition': dragging, 'handle-at-minimum': value === min}"
       ></div>
       <div
-        class="quasar-range-handle"
+        class="q-range-handle"
         :style="{left: percentage}"
         :class="{dragging, 'handle-at-minimum': value === min}"
       >
         <div
-          class="quasar-range-label"
+          class="q-range-label"
           :class="{'label-always': labelAlways}"
           v-if="label || labelAlways"
         >{{ value }}</div>

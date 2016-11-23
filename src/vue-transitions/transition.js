@@ -24,7 +24,7 @@ export default {
     }
     var data = {
       props: {
-        name: 'quasar-transition',
+        name: 'q-transition',
         mode: 'out-in',
         appear: context.props.appear
       },

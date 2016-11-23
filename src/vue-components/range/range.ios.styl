@@ -10,7 +10,7 @@ $range-handle-radius       ?= 50%
 $range-handle-box-shadow   ?= 0 1px 3px 1px rgba(0, 0, 0, .4)
 
 
-.quasar-range-track
+.q-range-track
   position absolute
   top 50%
   left 0
@@ -30,7 +30,7 @@ $range-handle-box-shadow   ?= 0 1px 3px 1px rgba(0, 0, 0, .4)
   &.handle-at-maximum
     background solid
 
-.quasar-range-mark
+.q-range-mark
   position absolute
   top 50%
   height $range-mark-height
@@ -38,13 +38,13 @@ $range-handle-box-shadow   ?= 0 1px 3px 1px rgba(0, 0, 0, .4)
   background $range-color
   transform translateX(-50%) translateY(-50%)
 
-.quasar-range-handle-container
+.q-range-handle-container
   position relative
   height 100%
   margin-left ($range-handle-size / 2)
   margin-right ($range-handle-size / 2)
 
-.quasar-range-label
+.q-range-label
   position relative
   top (- $range-handle-size / 1.5)
   left 0
@@ -64,7 +64,7 @@ $range-handle-box-shadow   ?= 0 1px 3px 1px rgba(0, 0, 0, .4)
     opacity 1
     transform translateY(-50%) scale(.7)
 
-.quasar-range-handle
+.q-range-handle
   position absolute
   top 50%
   transform translate3d(-50%, -50%, 0)
@@ -79,24 +79,24 @@ $range-handle-box-shadow   ?= 0 1px 3px 1px rgba(0, 0, 0, .4)
   &.dragging
     transform translate3d(-50%, -50%, 0)
     transition opacity .3s ease, transform .3s ease
-    .quasar-range-label
+    .q-range-label
       opacity 1
       transform translateY(-50%)
   &.undraggable
     background lighten($range-color, 20%)
     cursor pointer
 
-.quasar-range
+.q-range
   height $range-height
   width 100%
   cursor pointer
 
   for $name, $color in $colors
-    &.{$name} .quasar-range-track.active-track
+    &.{$name} .q-range-track.active-track
       background $color
 
   &.has-error
-    .quasar-range-track
+    .q-range-track
       background alpha($has-error, 50%)
-    .quasar-range-handle, .quasar-range-track.active-track
+    .q-range-handle, .q-range-track.active-track
       background lighten($has-error, 20%)

@@ -1,5 +1,5 @@
 <template>
-  <div class="quasar-collapsible">
+  <div class="q-collapsible">
     <div class="item item-link non-selectable item-collapsible" @click="__toggleItem()">
       <i class="item-primary" v-if="icon" v-text="icon"></i>
       <img class="item-primary thumbnail" v-if="img" :src="img"></i>
@@ -9,11 +9,11 @@
       </div>
       <i class="item-secondary" :class="{'rotate-180': active}" @click.stop="toggle()">keyboard_arrow_down</i>
     </div>
-    <quasar-transition name="slide">
-      <div class="quasar-collapsible-sub-item" v-show="active">
+    <q-transition name="slide">
+      <div class="q-collapsible-sub-item" v-show="active">
         <slot></slot>
       </div>
-    </quasar-transition>
+    </q-transition>
   </div>
 </template>
 

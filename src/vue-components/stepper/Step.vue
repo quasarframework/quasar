@@ -12,7 +12,7 @@
       </span>
     </div>
     <div class="timeline-title text-bold" v-html="title"></div>
-    <quasar-transition name="slide">
+    <q-transition name="slide">
       <div
         class="timeline-content"
         v-show="stepper && step === stepper.currentStep"
@@ -35,7 +35,7 @@
           </button>
         </div>
       </div>
-    </quasar-transition>
+    </q-transition>
   </div>
 </template>
 

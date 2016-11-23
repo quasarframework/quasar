@@ -1,8 +1,8 @@
 <template>
-  <div class="quasar-numeric textfield row inline items-center" :class="{disabled: disable, readonly}">
+  <div class="q-numeric textfield row inline items-center" :class="{disabled: disable, readonly}">
     <i @click="__setByOffset(-1)">remove</i>
     <input
-      class="no-style auto quasar-input-field"
+      class="no-style auto q-input-field"
       type="number"
       v-model.number="model"
       @blur="__updateValue()"

@@ -10,7 +10,7 @@ Vue.use(Quasar) // Install Quasar Framework
 Quasar.start(() => {
   /* eslint-disable no-new */
   new Vue({
-    el: '#quasar-app',
+    el: '#q-app',
     router,
     render: h => h(require('./App'))
   })

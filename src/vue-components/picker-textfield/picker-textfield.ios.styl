@@ -1,6 +1,6 @@
 $picker-textfield-min-width ?= 100px
 
-.quasar-picker-textfield
+.q-picker-textfield
   display inline-block
   vertical-align middle
   min-width $picker-textfield-min-width
@@ -14,10 +14,10 @@ $picker-textfield-min-width ?= 100px
     right 0
     transform scaleY(.45) scaleX(.85)
     content '\25BC'
-  .quasar-picker-textfield-value
+  .q-picker-textfield-value
     height 1rem
     color $faded
-  .quasar-picker-textfield-label
+  .q-picker-textfield-label
     width 100%
     transition transform .15s ease-in-out, color .3s
     transform scale(.8)
@@ -25,8 +25,8 @@ $picker-textfield-min-width ?= 100px
     transform-origin left top
     color $form-active-color
   &.with-label
-    .quasar-picker-textfield-value
+    .q-picker-textfield-value
       color rgba(0, 0, 0, 0)
   &.active
-    .quasar-picker-textfield-value
+    .q-picker-textfield-value
       color inherit

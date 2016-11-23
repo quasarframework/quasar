@@ -321,7 +321,7 @@ export default {
       const content = this.$refs.content
 
       if (theme.current === 'ios') {
-        this.layoutContainer = this.$el.closest('.layout') || document.getElementById('quasar-app')
+        this.layoutContainer = this.$el.closest('.layout') || document.getElementById('q-app')
       }
 
       this.width = Utils.dom.width(content)
