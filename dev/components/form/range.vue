@@ -42,7 +42,7 @@
       <q-range v-model="marker" :min="0" :max="10" :step="2" label snap markers></q-range>
 
       <p class="caption">
-        Display Label All the Time
+        Display Label Always
         <span class="label inline bg-secondary text-white">
           Model <span class="right-detail"><em>{{label}}</em> &nbsp;&nbsp;(-20 to 20, step 4)</span>
         </span>

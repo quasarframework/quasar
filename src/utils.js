@@ -3,7 +3,6 @@ import debounce from './utils/debounce'
 import * as dom from './utils/dom'
 import * as event from './utils/event'
 import extend from './utils/extend'
-import getVueRef from './utils/get-vue-ref'
 import openURL from './utils/open-url'
 import * as popup from './utils/popup'
 import * as scrollbar from './utils/scrollbar'
@@ -17,7 +16,6 @@ export default {
   dom,
   event,
   extend,
-  getVueRef,
   openURL,
   popup,
   scrollbar,

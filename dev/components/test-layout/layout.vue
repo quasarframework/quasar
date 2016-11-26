@@ -31,18 +31,18 @@
       </div>
 
       <div class="list no-border platform-delimiter">
-        <q-drawer-link icon="view_quilt" route="/test-layout/about">
+        <q-drawer-link icon="view_quilt" to="/test-layout/about">
           About Layout
         </q-drawer-link>
         <hr>
         <div class="list-label">Layout Components</div>
-        <q-drawer-link icon="build" route="/test-layout/toolbar">
+        <q-drawer-link icon="build" to="/test-layout/toolbar">
           Toolbar
         </q-drawer-link>
-        <q-drawer-link icon="tab" route="/test-layout/tabs">
+        <q-drawer-link icon="tab" to="/test-layout/tabs">
           Tabs
         </q-drawer-link>
-        <q-drawer-link icon="compare_arrows" route="/test-layout/drawer">
+        <q-drawer-link icon="compare_arrows" to="/test-layout/drawer">
           Layout Drawer
         </q-drawer-link>
       </div>

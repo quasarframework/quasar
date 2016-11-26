@@ -1,5 +1,5 @@
 <template>
-  <div class="item item-link drawer-closer" v-link.delay="route">
+  <div class="item item-link drawer-closer" v-link.delay="to">
     <i v-if="icon" class="item-primary">{{icon}}</i>
     <div class="item-content">
       <slot></slot>
@@ -9,6 +9,6 @@
 
 <script>
 export default {
-  props: ['icon', 'route']
+  props: ['icon', 'to']
 }
 </script>

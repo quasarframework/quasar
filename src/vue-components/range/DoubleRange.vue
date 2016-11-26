@@ -21,7 +21,7 @@
         :style="{left: percentageMin * 100 + '%', width: activeTrackWidth}"
       ></div>
       <div
-        class="q-range-handle range-handle-min"
+        class="q-range-handle q-range-handle-min"
         :style="{left: percentageMin * 100 + '%'}"
         :class="{dragging, 'handle-at-minimum': value.min === min, undraggable: disableMin}"
       >
@@ -32,7 +32,7 @@
         >{{ value.min }}</div>
       </div>
       <div
-        class="q-range-handle range-handle-max"
+        class="q-range-handle q-range-handle-max"
         :style="{left: percentageMax * 100 + '%'}"
         :class="{dragging, 'handle-at-maximum': value.max === max, undraggable: disableMax}"
       >

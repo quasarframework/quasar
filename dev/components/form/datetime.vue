@@ -72,7 +72,7 @@
       <p class="caption">Min & Max</p>
       <q-datetime type="datetime" v-model="minMaxModel" :min="min" :max="max"></q-datetime>
 
-      <p class="caption">Range <sup>(beta)</sup></p>
+      <p class="caption">Range</p>
       <q-datetime type="datetime" v-model="range.start" :min="range.min" :max="range.end"></q-datetime>
       <q-datetime type="datetime" v-model="range.end" :min="range.start" :max="range.max"></q-datetime>
 
@@ -148,7 +148,7 @@
       <p class="caption">Min & Max</p>
       <q-inline-datetime type="datetime" v-model="minMaxModel" :min="min" :max="max"></q-inline-datetime>
 
-      <p class="caption">Range <sup>(beta)</sup></p>
+      <p class="caption">Range</p>
       <q-inline-datetime type="datetime" v-model="range.start" :min="range.min" :max="range.end"></q-inline-datetime>
       <q-inline-datetime type="datetime" v-model="range.end" :min="range.start" :max="range.max"></q-inline-datetime>
     </div>

@@ -41,6 +41,14 @@ export default {
     }
   },
   methods: {
+    toggle () {
+      if (this.opened) {
+        this.close()
+      }
+      else {
+        this.open()
+      }
+    },
     open () {
       if (this.disable) {
         return

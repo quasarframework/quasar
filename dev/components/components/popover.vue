@@ -38,7 +38,7 @@
         <div class="card" style="margin-top: 75px">
           <div class="card-title bg-primary text-center">
             <button class="orange push">
-              Tap
+              Tap Me
 
               <q-popover
                 ref="popover2"
