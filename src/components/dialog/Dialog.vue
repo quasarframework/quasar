@@ -1,5 +1,5 @@
 <template>
-  <q-modal class="minimized" ref="dialog">
+  <q-modal class="minimized" ref="dialog" @close="$root.$destroy()">
     <div class="modal-header" v-html="title || ''"></div>
     <div v-if="message" class="modal-body modal-scroll" v-html="message"></div>
 
@@ -150,7 +150,6 @@ export default {
         if (typeof fn === 'function') {
           fn()
         }
-        this.$root.$destroy()
       })
     }
   },

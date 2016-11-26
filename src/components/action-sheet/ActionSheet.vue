@@ -5,6 +5,7 @@
     position-classes="items-end justify-center"
     transition="q-modal-actions"
     :content-css="css"
+    @close="$root.$destroy()"
   >
     <!-- Material -->
     <div v-once v-if="$quasar.theme === 'mat'">
