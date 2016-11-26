@@ -5,7 +5,7 @@
     position-classes="items-end justify-center"
     transition="q-modal-actions"
     :content-css="css"
-    @close="$root.$destroy()"
+    @close="__dismiss()"
   >
     <!-- Material -->
     <div v-once v-if="$quasar.theme === 'mat'">
@@ -44,7 +44,7 @@
       <div v-if="dismiss" class="list no-border">
         <div
           class="item item-link"
-          @click="close(dismiss.handler)"
+          @click="close()"
           :class="dismiss.classes"
         >
           <i v-if="dismiss.icon" class="item-primary">{{ dismiss.icon }}</i>
@@ -94,7 +94,7 @@
       <div v-if="dismiss" class="q-action-sheet">
         <div
           class="item item-link"
-          @click="close(dismiss.handler)"
+          @click="close()"
           :class="dismiss.classes"
         >
           <div class="item-content row justify-center">
@@ -153,15 +153,26 @@ export default {
       if (!this.opened) {
         return
       }
+      const hasFn = typeof fn === 'function'
+
+      if (hasFn) {
+        this.__runCancelHandler = false
+      }
       this.$refs.dialog.close(() => {
-        if (typeof fn === 'function') {
+        if (hasFn) {
           fn()
         }
-        this.$root.$destroy()
       })
+    },
+    __dismiss () {
+      this.$root.$destroy()
+      if (this.__runCancelHandler && this.dismiss && typeof this.dismiss.handler === 'function') {
+        this.dismiss.handler()
+      }
     }
   },
   mounted () {
+    this.__runCancelHandler = true
     this.$nextTick(() => {
       this.$refs.dialog.open()
       this.$root.quasarClose = this.close
