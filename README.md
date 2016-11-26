@@ -25,9 +25,9 @@ Head on to the official community forum: [http://forum.quasar-framework.org](htt
 
 ## Quasar Repositories
 
-* [Quasar Framework](https://github.com/rstoenescu/quasar-framework)
-* [Quasar CLI](https://github.com/rstoenescu/quasar-cli)
-* [Quasar Play App](https://github.com/rstoenescu/quasar-play)
+* [Quasar Framework](https://github.com/quasarframework/quasar)
+* [Quasar CLI](https://github.com/quasarframework/quasar-cli)
+* [Quasar Play App](https://github.com/quasarframework/quasar-play)
 
 ## Contributing
 
@@ -55,7 +55,7 @@ Instead of using mobile emulators for testing your Quasar Apps, use this App ins
 
 Currently only on [Google Play](https://play.google.com/store/apps/details?id=com.quasarframework.quasarplay&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1). Requiring funding to pay fees on Apple Store and release the iOS counterpart too.
 
-Check its repo here: [Quasar Play](https://github.com/rstoenescu/quasar-play).
+Check its repo here: [Quasar Play](https://github.com/quasarframework/quasar-play).
 
 ## Semver
 Until Quasar reaches a 1.0 release (soon), breaking changes will be released with a new minor version. For example 0.8.1, and 0.8.4 will have the same API, but 0.9.0 will have breaking changes.

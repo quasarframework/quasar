@@ -18,16 +18,9 @@ then
 
   # lint and test
   npm run lint 2>/dev/null
-  npm run unit 2>/dev/null
-  npm run cover 2>/dev/null
 
   # build
   VERSION=$VERSION npm run build
-
-  # e2e
-  npm run e2e 2>/dev/null
-  # sauce
-  npm run sauce-all 2>/dev/null
 
   # commit
   git add -A
