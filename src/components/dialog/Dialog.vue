@@ -1,5 +1,11 @@
 <template>
-  <q-modal class="minimized" ref="dialog" @close="$root.$destroy()">
+  <q-modal
+    class="minimized"
+    ref="dialog"
+    @close="__dismiss()"
+    :no-backdrop-dismiss="noBackdropDismiss"
+    :no-esc-dismiss="noEscDismiss"
+  >
     <div class="modal-header" v-html="title || ''"></div>
     <div v-if="message" class="modal-body modal-scroll" v-html="message"></div>
 
@@ -108,11 +114,16 @@ export default {
     stackButtons: Boolean,
     buttons: Array,
     nobuttons: Boolean,
-    progress: Object
+    progress: Object,
+    onDismiss: Function,
+    noBackdropDismiss: Boolean,
+    noEscDismiss: Boolean
   },
   computed: {
     opened () {
-      return this.$refs.dialog.active
+      if (this.$refs.dialog) {
+        return this.$refs.dialog.active
+      }
     }
   },
   methods: {
@@ -151,6 +162,12 @@ export default {
           fn()
         }
       })
+    },
+    __dismiss () {
+      this.$root.$destroy()
+      if (typeof this.onDismiss === 'function') {
+        this.onDismiss()
+      }
     }
   },
   mounted () {
