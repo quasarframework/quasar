@@ -60,61 +60,70 @@ import Tree from './vue-components/tree/Tree.vue'
 import Video from './vue-components/video/Video.vue'
 
 function registerDirectives (_Vue) {
-  _Vue.directive('go-back', dGoBack)
-  _Vue.directive('link', dLink)
-  _Vue.directive('scroll-fire', dScrollFire)
-  _Vue.directive('scroll', dScroll)
-  _Vue.directive('touch-hold', dTouchHold)
-  _Vue.directive('touch-pan', dTouchPan)
-  _Vue.directive('touch-swipe', dTouchSwipe)
+  [
+    ['go-back', dGoBack],
+    ['link', dLink],
+    ['scroll-fire', dScrollFire],
+    ['scroll', dScroll],
+    ['touch-hold', dTouchHold],
+    ['touch-pan', dTouchPan],
+    ['touch-swipe', dTouchSwipe]
+  ].forEach(d => {
+    _Vue.directive(d[0], d[1])
+  })
 }
 
 function registerComponents (_Vue) {
-  _Vue.component('q-checkbox', Checkbox)
-  _Vue.component('q-chips', Chips)
-  _Vue.component('q-collapsible', Collapsible)
-  _Vue.component('q-context-menu', Platform.is.desktop ? ContextMenuDesktop : ContextMenuMobile)
-  _Vue.component('q-inline-datetime', theme === 'ios' ? InlineDatetimeIOS : InlineDatetimeMaterial)
-  _Vue.component('q-datetime', Datetime)
-  _Vue.component('q-drawer', Drawer)
-  _Vue.component('q-drawer-link', DrawerLink)
-  _Vue.component('q-fab', Fab)
-  _Vue.component('q-small-fab', SmallFab)
-  _Vue.component('q-gallery', Gallery)
-  _Vue.component('q-gallery-slider', GallerySlider)
-  _Vue.component('q-infinite-scroll', InfiniteScroll)
-  _Vue.component('q-knob', Knob)
-  _Vue.component('q-layout', Layout)
-  _Vue.component('q-toolbar-title', ToolbarTitle)
-  _Vue.component('q-modal', Modal)
-  _Vue.component('q-numeric', Numeric)
-  _Vue.component('q-pagination', Pagination)
-  _Vue.component('q-parallax', Parallax)
-  _Vue.component('q-picker-textfield', PickerTextfield)
-  _Vue.component('q-popover', Popover)
-  _Vue.component('q-progress', Progress)
-  _Vue.component('q-progress-button', ProgressButton)
-  _Vue.component('q-pull-to-refresh', PullToRefresh)
-  _Vue.component('q-radio', Radio)
-  _Vue.component('q-range', Range)
-  _Vue.component('q-double-range', DoubleRange)
-  _Vue.component('q-rating', Rating)
-  _Vue.component('q-search', Search)
-  _Vue.component('q-select', Select)
-  _Vue.component('q-dialog-select', DialogSelect)
-  _Vue.component('q-slider', Slider)
   _Vue.component('spinner', Spinner)
-  _Vue.component('q-state', State)
-  _Vue.component('q-stepper', Stepper)
-  _Vue.component('q-step', Step)
-  _Vue.component('q-tab', Tab)
-  _Vue.component('q-tabs', Tabs)
-  _Vue.component('q-toggle', Toggle)
-  _Vue.component('q-tooltip', Tooltip)
-  _Vue.component('q-tree', Tree)
-  _Vue.component('q-video', Video)
-
   _Vue.component('q-transition', Transition)
+
+  ;[
+    ['checkbox', Checkbox],
+    ['chips', Chips],
+    ['collapsible', Collapsible],
+    ['context-menu', Platform.is.desktop ? ContextMenuDesktop : ContextMenuMobile],
+    ['inline-datetime', theme === 'ios' ? InlineDatetimeIOS : InlineDatetimeMaterial],
+    ['datetime', Datetime],
+    ['drawer', Drawer],
+    ['drawer-link', DrawerLink],
+    ['fab', Fab],
+    ['small-fab', SmallFab],
+    ['gallery', Gallery],
+    ['gallery-slider', GallerySlider],
+    ['checkbox', Checkbox],
+    ['infinite-scroll', InfiniteScroll],
+    ['knob', Knob],
+    ['layout', Layout],
+    ['toolbar-title', ToolbarTitle],
+    ['modal', Modal],
+    ['numeric', Numeric],
+    ['pagination', Pagination],
+    ['parallax', Parallax],
+    ['picker-textfield', PickerTextfield],
+    ['popover', Popover],
+    ['progress', Progress],
+    ['progress-button', ProgressButton],
+    ['pull-to-refresh', PullToRefresh],
+    ['radio', Radio],
+    ['range', Range],
+    ['double-range', DoubleRange],
+    ['rating', Rating],
+    ['search', Search],
+    ['select', Select],
+    ['dialog-select', DialogSelect],
+    ['slider', Slider],
+    ['state', State],
+    ['stepper', Stepper],
+    ['step', Step],
+    ['tab', Tab],
+    ['tabs', Tabs],
+    ['toggle', Toggle],
+    ['tooltip', Tooltip],
+    ['tree', Tree],
+    ['video', Video]
+  ].forEach(c => {
+    _Vue.component('q-' + c[0], c[1])
+  })
 }
 
 export var Vue
