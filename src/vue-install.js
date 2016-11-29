@@ -18,6 +18,7 @@ import Chips from './vue-components/chips/Chips.vue'
 import Collapsible from './vue-components/collapsible/Collapsible.vue'
 import ContextMenuDesktop from './vue-components/context-menu/ContextMenuDesktop.vue'
 import ContextMenuMobile from './vue-components/context-menu/ContextMenuMobile.vue'
+import DataTable from './vue-components/data-table/DataTable.vue'
 import Datetime from './vue-components/datetime/Datetime.vue'
 import InlineDatetimeMaterial from './vue-components/datetime/InlineDatetimeMat.vue'
 import InlineDatetimeIOS from './vue-components/datetime/InlineDatetimeIOS.vue'
@@ -82,6 +83,7 @@ function registerComponents (_Vue) {
     ['chips', Chips],
     ['collapsible', Collapsible],
     ['context-menu', Platform.is.desktop ? ContextMenuDesktop : ContextMenuMobile],
+    ['data-table', DataTable],
     ['inline-datetime', theme === 'ios' ? InlineDatetimeIOS : InlineDatetimeMaterial],
     ['datetime', Datetime],
     ['drawer', Drawer],

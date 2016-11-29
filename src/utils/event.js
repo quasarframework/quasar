@@ -1,7 +1,9 @@
+function getEvent (e) {
+  return !e ? window.event : e
+}
+
 export function rightClick (e) {
-  if (!e) {
-    e = window.event
-  }
+  e = getEvent(e)
 
   if (e.which) {
     return e.which == 3 // eslint-disable-line
@@ -15,10 +17,8 @@ export function rightClick (e) {
 
 export function position (e) {
   let posx, posy
+  e = getEvent(e)
 
-  if (!e) {
-    e = window.event
-  }
   if (e.touches && e.touches[0]) {
     e = e.touches[0]
   }
@@ -43,10 +43,7 @@ export function position (e) {
 
 export function targetElement (e) {
   let target
-
-  if (!e) {
-    e = window.event
-  }
+  e = getEvent(e)
 
   if (e.target) {
     target = e.target
@@ -61,4 +58,9 @@ export function targetElement (e) {
   }
 
   return target
+}
+
+export function getMouseWheelDirection (e) {
+  e = getEvent(e)
+  return Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)))
 }

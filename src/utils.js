@@ -1,3 +1,4 @@
+import clone from './utils/clone'
 import * as colors from './utils/colors'
 import debounce from './utils/debounce'
 import * as dom from './utils/dom'
@@ -11,6 +12,7 @@ import throttle from './utils/throttle'
 import uid from './utils/uid'
 
 export default {
+  clone,
   colors,
   debounce,
   dom,
