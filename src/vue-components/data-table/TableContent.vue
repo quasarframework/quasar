@@ -3,7 +3,7 @@
     <colgroup>
       <col v-if="selection" style="width: 45px;" />
       <col v-for="col in cols" :style="col.style" />
-      <col v-if="head && scroll.vert" :style="{width: scroll.vert}" />
+      <col v-if="head && scroll.horiz" :style="{width: scroll.horiz}" />
     </colgroup>
     <thead v-if="head">
       <tr>
@@ -17,7 +17,7 @@
             :sorting="sorting"
           />
         </th>
-        <th v-if="head && scroll.vert"></th>
+        <th v-if="head && scroll.horiz"></th>
       </tr>
     </thead>
     <tbody v-else>
@@ -38,9 +38,12 @@ export default {
     selection: [String, Boolean]
   },
   computed: {
+    padding () {
+      return this.scroll.horiz || this.scroll.vert
+    },
     tableStyle () {
       return {
-        width: this.head ? `calc(100% - ${this.scroll.vert})` : '100%'
+        width: this.head && this.padding ? `calc(100% - ${this.scroll.vert})` : '100%'
       }
     }
   },

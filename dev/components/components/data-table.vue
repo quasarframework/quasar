@@ -38,8 +38,9 @@
           </button>
         </template>
       </q-data-table>
+
+      <div style="height: 100vh; margin-top: 50px;">Page has intended scroll.</div>
     </div>
-    <div style="height: 5000px"></div>
   </div>
 </template>
 
@@ -49,7 +50,6 @@ import table from '../../table-data.json'
 export default {
   methods: {
     changeMessage (props) {
-      console.log(props)
       props.rows.forEach(row => {
         row.data.message = 'Gogu'
       })
