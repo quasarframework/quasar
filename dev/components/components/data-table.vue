@@ -39,6 +39,7 @@
         </template>
       </q-data-table>
     </div>
+    <div style="height: 5000px"></div>
   </div>
 </template>
 
@@ -48,6 +49,7 @@ import table from '../../table-data.json'
 export default {
   methods: {
     changeMessage (props) {
+      console.log(props)
       props.rows.forEach(row => {
         row.data.message = 'Gogu'
       })
@@ -67,6 +69,9 @@ export default {
         columnPicker: true,
         leftStickyColumns: 0,
         rightStickyColumns: 2,
+        bodyStyle: {
+          maxHeight: '500px'
+        },
         rowHeight: '50px',
         // responsive: false,
         pagination: {

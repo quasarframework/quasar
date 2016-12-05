@@ -12,11 +12,11 @@ export default {
     }
   },
   created () {
-    this.rowSelection = getRowSelection(this.rows, this.config.selection, this.config.selection === 'multiple')
+    this.rowSelection = getRowSelection(this.rows, this.config.selection, this.multipleSelection)
   },
   watch: {
     rows (r) {
-      this.rowSelection = getRowSelection(r, this.config.selection, this.config.selection === 'multiple')
+      this.rowSelection = getRowSelection(r, this.config.selection, this.multipleSelection)
     },
     rowSelection () {
       this.$nextTick(() => {
@@ -31,11 +31,17 @@ export default {
     }
   },
   computed: {
+    multipleSelection () {
+      return this.config.selection && this.config.selection === 'multiple'
+    },
     rowsSelected () {
-      return this.rowSelection.filter(r => r).length
+      if (this.multipleSelection) {
+        return this.rowSelection.filter(r => r).length
+      }
+      return this.rowSelection.length && this.rowSelection[0] !== -1 ? 1 : 0
     },
     selectedRows () {
-      if (this.config.selection === 'multiple') {
+      if (this.multipleSelection) {
         return this.rowSelection
           .map((selected, index) => [selected, this.rows[index].__index])
           .filter(row => row[0])
@@ -44,19 +50,19 @@ export default {
           })
       }
 
-      if (this.rowSelection[0] === -1) {
+      if (!this.rowSelection.length || this.rowSelection[0] === -1) {
         return []
       }
       const
         index = this.rows[this.rowSelection[0]].__index,
         row = this.data[index]
 
-      return {index, data: row}
+      return [{index, data: row}]
     }
   },
   methods: {
     clearSelection () {
-      if (this.config.selection !== 'multiple') {
+      if (!this.multipleSelection) {
         this.rowSelection = [-1]
         return
       }

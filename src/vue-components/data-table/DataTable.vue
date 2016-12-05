@@ -41,12 +41,13 @@
       </tbody>
     </table>
 
-    <div v-else class="q-data-table-container" @mousewheel.prevent="mouseWheel" @DOMMouseScroll.prevent="mouseWheel">
+    <div v-else class="q-data-table-container" @mousewheel="mouseWheel" @DOMMouseScroll="mouseWheel">
       <div class="q-data-table-head" ref="head">
         <table-content head :cols="cols" :sorting="sorting" :scroll="scroll" :selection="config.selection" @sort="setSortField" />
       </div>
       <div
         class="q-data-table-body"
+        :style="bodyStyle"
         ref="body"
         @scroll="scrollHandler"
       >
@@ -185,6 +186,9 @@ export default {
       if (this.config.rowHeight) {
         return {height: this.config.rowHeight}
       }
+    },
+    bodyStyle () {
+      return this.config.bodyStyle || {}
     },
     message () {
       if (this.rows.length) {

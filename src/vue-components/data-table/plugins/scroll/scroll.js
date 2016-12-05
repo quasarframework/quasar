@@ -27,7 +27,10 @@ export default {
       })
     },
     mouseWheel (e) {
-      this.$refs.body.scrollTop -= Utils.event.getMouseWheelDirection(e) * wheelOffset
+      if (this.scroll.vert) {
+        e.preventDefault()
+        this.$refs.body.scrollTop -= Utils.event.getMouseWheelDirection(e) * wheelOffset
+      }
     },
     resize () {
       requestAnimationFrame(() => {
