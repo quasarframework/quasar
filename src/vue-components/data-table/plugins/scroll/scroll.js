@@ -18,12 +18,7 @@ export default {
 
       requestAnimationFrame(() => {
         this.$refs.head.scrollLeft = left
-        if (this.$refs.stickyLeft) {
-          this.$refs.stickyLeft.scrollTop = top
-        }
-        if (this.$refs.stickyRight) {
-          this.$refs.stickyRight.scrollTop = top
-        }
+        this.updateStickyScroll(top)
       })
     },
     mouseWheel (e) {
@@ -51,6 +46,14 @@ export default {
           this.scroll.vert = size && body.scrollHeight > body.clientHeight ? size + 'px' : 0
         })
       })
+    },
+    updateStickyScroll (top) {
+      if (this.$refs.stickyLeft) {
+        this.$refs.stickyLeft.scrollTop = top
+      }
+      if (this.$refs.stickyRight) {
+        this.$refs.stickyRight.scrollTop = top
+      }
     }
   },
   watch: {
@@ -75,6 +78,16 @@ export default {
           this.resize()
         })
       }
+    },
+    rightStickyColumns () {
+      this.$nextTick(() => {
+        this.updateStickyScroll(this.$refs.body.scrollTop)
+      })
+    },
+    leftStickyColumns () {
+      this.$nextTick(() => {
+        this.updateStickyScroll(this.$refs.body.scrollTop)
+      })
     }
   },
   mounted () {

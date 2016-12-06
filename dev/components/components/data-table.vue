@@ -7,7 +7,7 @@
           <label>Data Table Title</label>
         </div>
 
-        <div class="column group gt-md-row">
+        <div class="column group gt-sm-row">
           <label>
             <q-checkbox v-model="config.filter" />
             Filter
@@ -26,7 +26,7 @@
           </label>
         </div>
 
-        <div class="column gt-md-row group">
+        <div class="column gt-sm-row group">
           <q-select
             v-model="config.selection"
             type="radio"
