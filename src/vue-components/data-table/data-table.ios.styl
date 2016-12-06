@@ -17,12 +17,17 @@
       th
         color rgba(0, 0, 0, .54)
         vertical-align middle
+    &:not(.responsive)
+      th
+        border-bottom 2px solid $grey-5 !important
 
 .q-data-table-toolbar
   padding 5px 24px
   font-weight 300
   &.upper-toolbar
     min-height 69px
+  &.bottom-toolbar
+    border-top 2px solid $grey-3
   > div:not(:first-of-type):not(:last-of-type)
     margin 0 30px
   .q-search
