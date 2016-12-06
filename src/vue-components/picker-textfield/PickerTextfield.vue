@@ -4,7 +4,7 @@
     :class="{disabled: disable, readonly, active, 'with-label': label}"
   >
     <div class="q-picker-textfield-label ellipsis" v-html="label"></div>
-    <div class="q-picker-textfield-value ellipsis">{{actualValue}}</div>
+    <div class="q-picker-textfield-value ellipsis" v-html="actualValue"></div>
     <slot></slot>
   </div>
 </template>
@@ -14,6 +14,7 @@ export default {
   props: {
     label: String,
     placeholder: String,
+    fixedLabel: String,
     value: String,
     disable: Boolean,
     readonly: Boolean
@@ -23,7 +24,7 @@ export default {
       return this.value.length > 0
     },
     actualValue () {
-      return this.label ? this.value : this.value || this.placeholder
+      return this.fixedLabel || (this.label ? this.value : this.value || this.placeholder)
     }
   }
 }

@@ -4,6 +4,7 @@
     :readonly="readonly"
     :label="label"
     :placeholder="placeholder"
+    :fixed-label="fixedLabel"
     :value="actualValue"
     @click.native="__open()"
   >
@@ -96,6 +97,7 @@ export default {
     },
     label: String,
     placeholder: String,
+    fixedLabel: String,
     readonly: Boolean,
     disable: Boolean
   },

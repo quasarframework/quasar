@@ -3,7 +3,7 @@
     <div class="layout-padding">
       <div class="column group" style="margin-bottom: 50px">
         <div class="floating-label">
-          <input v-model="config.title" required class="full-width">
+          <input v-model="config.title" required>
           <label>Data Table Title</label>
         </div>
 
@@ -110,18 +110,6 @@
           <button class="primary clear" @click="deleteRow(props)">
             <i>delete</i>
           </button>
-          <button class="primary clear" @click="changeMessage(props)">
-            <i>edit</i>
-          </button>
-          <button class="primary clear" @click="deleteRow(props)">
-            <i>delete</i>
-          </button>
-          <button class="primary clear" @click="changeMessage(props)">
-            <i>edit</i>
-          </button>
-          <button class="primary clear" @click="deleteRow(props)">
-            <i>delete</i>
-          </button>
         </template>
       </q-data-table>
 
@@ -202,7 +190,7 @@ export default {
           label: 'Source',
           field: 'source',
           sort: true,
-          style: {width: '100px'}
+          style: {width: '120px'}
         },
         {
           label: 'Log Number',

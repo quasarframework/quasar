@@ -6,14 +6,19 @@
         <button class="primary clear" v-if="config.filter" @click="toolbar = 'filter'">
           <i>filter_list</i>
         </button>
-        <button class="primary clear" v-if="config.columnPicker" @click="toolbar = 'columns'">
-          <i>view_column</i>
-        </button>
+        <q-select
+          type="toggle"
+          v-if="config.columnPicker"
+          v-model="columnSelection"
+          :options="columnSelectionOptions"
+          fixed-label="Columns"
+          class="text-right"
+          style="margin-left: 10px"
+        ></q-select>
       </div>
     </div>
 
     <table-filter v-if="toolbar === 'filter'" :filtering="filtering" :columns="cols" @close="toolbar = ''"></table-filter>
-    <column-selection v-if="toolbar === 'columns'" :columns="columns" v-model="columnSelection" @close="toolbar = ''"></column-selection>
     <div class="q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end q-data-table-selection" v-show="toolbar === 'selection'">
       <div class="auto">
         {{ rowsSelected }} item<span v-show="rowsSelected > 1">s</span> selected.

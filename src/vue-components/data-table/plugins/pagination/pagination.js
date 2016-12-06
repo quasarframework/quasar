@@ -1,7 +1,7 @@
 import TablePagination from './TablePagination.vue'
 
 const defaultOptions = [
-  {label: '*All*', value: 0},
+  {label: 'All', value: 0},
   {label: '5', value: 5},
   {label: '10', value: 10},
   {label: '15', value: 15},
@@ -11,7 +11,7 @@ const defaultOptions = [
 ]
 
 function parseOptions (opts) {
-  return [{label: '*All*', value: 0}].concat(
+  return [{label: 'All', value: 0}].concat(
     opts.map(opt => {
       return {
         label: '' + opt,

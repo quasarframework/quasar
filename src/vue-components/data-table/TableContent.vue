@@ -8,11 +8,14 @@
     <thead v-if="head">
       <tr>
         <th v-if="selection"></th>
-        <th v-for="col in cols">
+        <th
+          v-for="col in cols"
+          :class="{sortable: col.sort}"
+          @click="sort(col)"
+        >
           <span v-html="col.label"></span>
           <sort-icon
             v-if="col.sort"
-            @click.native="$emit('sort', col.field)"
             :field="col.field"
             :sorting="sorting"
           ></sort-icon>
@@ -38,12 +41,16 @@ export default {
     selection: [String, Boolean]
   },
   computed: {
-    padding () {
-      return this.scroll.horiz || this.scroll.vert
-    },
     tableStyle () {
       return {
-        width: this.head && this.padding ? `calc(100% - ${this.scroll.vert})` : '100%'
+        width: this.head && this.vert ? `calc(100% - ${this.scroll.vert})` : '100%'
+      }
+    }
+  },
+  methods: {
+    sort (col) {
+      if (col.sort) {
+        this.$emit('sort', col.field)
       }
     }
   },

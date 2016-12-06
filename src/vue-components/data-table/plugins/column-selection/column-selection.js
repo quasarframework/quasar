@@ -1,5 +1,3 @@
-import ColumnSelection from './ColumnSelection.vue'
-
 export default {
   data () {
     return {
@@ -12,13 +10,19 @@ export default {
       this.cols = this.columns.filter(col => select.includes(col.field))
     },
     'config.columnPicker' (value) {
-      if (this.toolbar === 'columns' && !value) {
-        this.toolbar = ''
+      if (!value) {
         this.columnSelection = this.columns.map(col => col.field)
       }
     }
   },
-  components: {
-    ColumnSelection
+  computed: {
+    columnSelectionOptions () {
+      return this.columns.map(col => {
+        return {
+          label: col.label,
+          value: col.field
+        }
+      })
+    }
   }
 }

@@ -9,12 +9,12 @@
         <th v-if="selection"></th>
         <th
           v-for="(col, index) in cols"
-          :class="{invisible: hidden(index)}"
+          :class="{invisible: hidden(index), sortable: col.sort}"
+          @click="sort(col)"
         >
           <span v-html="col.label"></span>
           <sort-icon
             v-if="col.sort"
-            @click.native="$emit('sort', col.field)"
             :field="col.field"
             :sorting="sorting"
           ></sort-icon>
@@ -52,6 +52,11 @@ export default {
         return this.cols.length - this.stickyCols > index
       }
       return index >= this.stickyCols
+    },
+    sort (col) {
+      if (col.sort) {
+        this.$emit('sort', col.field)
+      }
     }
   },
   components: {

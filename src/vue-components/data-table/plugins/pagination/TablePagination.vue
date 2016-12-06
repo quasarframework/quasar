@@ -1,13 +1,16 @@
 <template>
   <div class="q-data-table-toolbar bottom-toolbar row reverse-wrap items-baseline justify-end">
-    <div>Rows</div>
-    <q-select
-      type="radio"
-      v-model="pagination.rowsPerPage"
-      :options="pagination.options"
-      @input="resetPage"
-    ></q-select>
     <div>
+      Rows
+      <q-select
+        type="radio"
+        v-model="pagination.rowsPerPage"
+        :options="pagination.options"
+        @input="resetPage"
+        class="text-right"
+      ></q-select>
+    </div>
+    <div v-if="entries > 0">
       {{start}} - {{end}} / {{entries}}
     </div>
     <q-pagination v-if="pagination.rowsPerPage > 0" v-model="pagination.page" :max="max"></q-pagination>
