@@ -5,7 +5,7 @@
       type="toggle"
       v-model="selection"
       :options="options"
-    />
+    ></q-select>
     <div>
       <button class="primary clear" @click="$emit('close')">
         <i>close</i>

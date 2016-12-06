@@ -6,11 +6,11 @@
       v-model="pagination.rowsPerPage"
       :options="pagination.options"
       @input="resetPage"
-    />
+    ></q-select>
     <div>
       {{start}} - {{end}} / {{entries}}
     </div>
-    <q-pagination v-if="pagination.rowsPerPage > 0" v-model="pagination.page" :max="max" />
+    <q-pagination v-if="pagination.rowsPerPage > 0" v-model="pagination.page" :max="max"></q-pagination>
   </div>
 </template>
 

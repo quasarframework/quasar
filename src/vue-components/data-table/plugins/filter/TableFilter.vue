@@ -1,12 +1,12 @@
 <template>
   <div class="q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end">
-    <q-search v-model="filtering.terms" style="min-width: 250px" />
+    <q-search v-model="filtering.terms" style="min-width: 250px"></q-search>
     <div class="row items-center">
       <q-select
         v-model="filtering.field"
         type="radio"
         :options="filterFields"
-      />
+      ></q-select>
       <button class="primary clear" @click="close()">
         <i>close</i>
       </button>

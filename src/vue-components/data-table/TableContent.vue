@@ -15,7 +15,7 @@
             @click.native="$emit('sort', col.field)"
             :field="col.field"
             :sorting="sorting"
-          />
+          ></sort-icon>
         </th>
         <th v-if="head && scroll.horiz"></th>
       </tr>

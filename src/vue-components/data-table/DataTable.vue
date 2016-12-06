@@ -12,8 +12,8 @@
       </div>
     </div>
 
-    <table-filter v-if="toolbar === 'filter'" :filtering="filtering" :columns="cols" @close="toolbar = ''" />
-    <column-selection v-if="toolbar === 'columns'" :columns="columns" v-model="columnSelection" @close="toolbar = ''" />
+    <table-filter v-if="toolbar === 'filter'" :filtering="filtering" :columns="cols" @close="toolbar = ''"></table-filter>
+    <column-selection v-if="toolbar === 'columns'" :columns="columns" v-model="columnSelection" @close="toolbar = ''"></column-selection>
     <div class="q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end q-data-table-selection" v-show="toolbar === 'selection'">
       <div class="auto">
         {{ rowsSelected }} item<span v-show="rowsSelected > 1">s</span> selected.
@@ -28,8 +28,8 @@
       <tbody>
         <tr v-for="(row, index) in rows">
           <td v-if="config.selection">
-            <q-checkbox v-if="config.selection === 'multiple'" v-model="rowSelection[index]" />
-            <q-radio v-else v-model="rowSelection[0]" :val="index" />
+            <q-checkbox v-if="config.selection === 'multiple'" v-model="rowSelection[index]"></q-checkbox>
+            <q-radio v-else v-model="rowSelection[0]" :val="index"></q-radio>
           </td>
           <template v-for="col in cols">
             <td v-if="!$scopedSlots['col-'+col.field]" v-html="format(row, col)" :data-th="col.label"></td>
@@ -41,9 +41,9 @@
       </tbody>
     </table>
 
-    <div v-else class="q-data-table-container" @mousewheel="mouseWheel" @DOMMouseScroll="mouseWheel">
+    <div v-else class="q-data-table-container" @mousewheel="mouseWheel" @dommousescroll="mouseWheel">
       <div class="q-data-table-head" ref="head" :style="{marginRight: scroll.vert}">
-        <table-content head :cols="cols" :sorting="sorting" :scroll="scroll" :selection="config.selection" @sort="setSortField" />
+        <table-content head :cols="cols" :sorting="sorting" :scroll="scroll" :selection="config.selection" @sort="setSortField"></table-content>
       </div>
       <div
         class="q-data-table-body"
@@ -76,8 +76,8 @@
           <table-sticky :sticky-cols="leftStickyColumns" :cols="cols" :sorting="sorting" :selection="config.selection">
             <tr v-for="(row, index) in rows" :style="rowStyle">
               <td v-if="config.selection">
-                <q-checkbox v-if="config.selection === 'multiple'" v-model="rowSelection[index]" />
-                <q-radio v-else v-model="rowSelection[0]" :val="index" />
+                <q-checkbox v-if="config.selection === 'multiple'" v-model="rowSelection[index]"></q-checkbox>
+                <q-radio v-else v-model="rowSelection[0]" :val="index"></q-radio>
               </td>
               <template v-for="n in leftStickyColumns">
                 <td v-if="!$scopedSlots['col-'+cols[n-1].field]" v-html="format(row, cols[n-1])"></td>
@@ -89,7 +89,7 @@
           </table-sticky>
         </div>
         <div class="q-data-table-sticky-left" :style="{bottom: scroll.horiz}">
-          <table-sticky head :sticky-cols="leftStickyColumns" :scroll="scroll" :cols="cols" :sorting="sorting" @sort="setSortField" :selection="config.selection" />
+          <table-sticky head :sticky-cols="leftStickyColumns" :scroll="scroll" :cols="cols" :sorting="sorting" @sort="setSortField" :selection="config.selection"></table-sticky>
         </div>
       </template>
 
@@ -113,12 +113,12 @@
           </table-sticky>
         </div>
         <div class="q-data-table-sticky-right" :style="{right: scroll.vert}">
-          <table-sticky right head :sticky-cols="rightStickyColumns" :scroll="scroll" :cols="cols" :sorting="sorting" @sort="setSortField" :selection="config.selection" />
+          <table-sticky right head :sticky-cols="rightStickyColumns" :scroll="scroll" :cols="cols" :sorting="sorting" @sort="setSortField" :selection="config.selection"></table-sticky>
         </div>
       </template>
     </div>
 
-    <table-pagination v-if="config.pagination" :pagination="pagination" :entries="pagination.entries" />
+    <table-pagination v-if="config.pagination" :pagination="pagination" :entries="pagination.entries"></table-pagination>
   </div>
 </template>
 

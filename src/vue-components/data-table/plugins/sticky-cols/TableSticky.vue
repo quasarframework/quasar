@@ -17,7 +17,7 @@
             @click.native="$emit('sort', col.field)"
             :field="col.field"
             :sorting="sorting"
-          />
+          ></sort-icon>
         </th>
       </tr>
     </thead>
