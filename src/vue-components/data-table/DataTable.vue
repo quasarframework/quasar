@@ -1,6 +1,6 @@
 <template>
   <div class="q-data-table shadow-1">
-    <div class="q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end" v-if="toolbar === ''">
+    <div v-if="hasToolbar && toolbar === ''" class="q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end">
       <div v-if="config.title" class="q-data-table-title ellipsis auto" v-html="config.title"></div>
       <div class="row items-center">
         <button class="primary clear" v-if="config.filter" @click="toolbar = 'filter'">
@@ -17,7 +17,7 @@
     <div class="q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end q-data-table-selection" v-show="toolbar === 'selection'">
       <div class="auto">
         {{ rowsSelected }} item<span v-show="rowsSelected > 1">s</span> selected.
-        <a @click="clearSelection()" style="text-decoration: underline">Clear</a>
+        <button class="primary clear small" @click="clearSelection()">Clear</button>
       </div>
       <div>
         <slot name="selection" :rows="selectedRows"></slot>
@@ -42,7 +42,7 @@
     </table>
 
     <div v-else class="q-data-table-container" @mousewheel="mouseWheel" @DOMMouseScroll="mouseWheel">
-      <div class="q-data-table-head" ref="head">
+      <div class="q-data-table-head" ref="head" :style="{marginRight: scroll.vert}">
         <table-content head :cols="cols" :sorting="sorting" :scroll="scroll" :selection="config.selection" @sort="setSortField" />
       </div>
       <div
@@ -112,7 +112,7 @@
             </tr>
           </table-sticky>
         </div>
-        <div class="q-data-table-sticky-right">
+        <div class="q-data-table-sticky-right" :style="{right: scroll.vert}">
           <table-sticky right head :sticky-cols="rightStickyColumns" :scroll="scroll" :cols="cols" :sorting="sorting" @sort="setSortField" :selection="config.selection" />
         </div>
       </template>
@@ -200,6 +200,9 @@ export default {
       }
 
       return this.config.message.noData || '<i>warning</i> No data available to show.'
+    },
+    hasToolbar () {
+      return this.config.title || this.config.filter || this.config.columnPicker
     }
   },
   methods: {

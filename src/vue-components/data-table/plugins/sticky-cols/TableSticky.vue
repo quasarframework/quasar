@@ -1,9 +1,8 @@
 <template>
-  <table class="q-table horizontal-delimiter" :style="tableStyle">
+  <table class="q-table horizontal-delimiter">
     <colgroup>
       <col v-if="selection" style="width: 45px;" />
       <col v-for="col in cols" :style="col.style" />
-      <col v-if="right && head && scroll.horiz" :style="{width: scroll.horiz}" />
     </colgroup>
     <thead>
       <tr>
@@ -20,7 +19,6 @@
             :sorting="sorting"
           />
         </th>
-        <th v-if="right && head && scroll.horiz"></th>
       </tr>
     </thead>
 
@@ -46,16 +44,6 @@ export default {
   data () {
     return {
       selected: false
-    }
-  },
-  computed: {
-    padding () {
-      return this.scroll.horiz || this.scroll.vert
-    },
-    tableStyle () {
-      return {
-        width: this.head && this.padding ? `calc(100% - ${this.scroll.vert})` : '100%'
-      }
     }
   },
   methods: {

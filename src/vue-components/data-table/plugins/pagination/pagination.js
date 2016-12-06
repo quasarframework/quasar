@@ -49,6 +49,10 @@ export default {
     'config.pagination': {
       deep: true,
       handler (cfg) {
+        if (cfg === false) {
+          this.pagination.rowsPerPage = 0
+          return
+        }
         if (typeof cfg.rowsPerPage !== 'undefined' && cfg.rowsPerPage !== this.pagination.rowsPerPage) {
           this.pagination.rowsPerPage = cfg.rowsPerPage
         }

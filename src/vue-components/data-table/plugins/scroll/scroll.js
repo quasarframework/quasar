@@ -27,22 +27,29 @@ export default {
       })
     },
     mouseWheel (e) {
-      if (this.scroll.vert) {
+      if (!this.scroll.vert) {
+        return
+      }
+
+      let body = this.$refs.body
+      body.scrollTop -= Utils.event.getMouseWheelDirection(e) * wheelOffset
+      if (body.scrollTop > 0 && body.scrollTop + body.clientHeight < body.scrollHeight) {
         e.preventDefault()
-        this.$refs.body.scrollTop -= Utils.event.getMouseWheelDirection(e) * wheelOffset
       }
     },
     resize () {
-      requestAnimationFrame(() => {
-        if (this.responsive) {
-          return
-        }
-        const
-          body = this.$refs.body,
-          size = Utils.scrollbar.width()
+      this.$nextTick(() => {
+        requestAnimationFrame(() => {
+          if (this.responsive) {
+            return
+          }
+          const
+            body = this.$refs.body,
+            size = Utils.scrollbar.width()
 
-        this.scroll.horiz = size && body.clientWidth < body.scrollWidth ? size + 'px' : 0
-        this.scroll.vert = size && body.scrollHeight > body.clientHeight ? size + 'px' : 0
+          this.scroll.horiz = size && body.clientWidth < body.scrollWidth ? size + 'px' : 0
+          this.scroll.vert = size && body.scrollHeight > body.clientHeight ? size + 'px' : 0
+        })
       })
     }
   },
@@ -51,6 +58,22 @@ export default {
       deep: true,
       handler () {
         this.resize()
+      }
+    },
+    bodyStyle: {
+      deep: true,
+      handler () {
+        this.$nextTick(() => {
+          this.resize()
+        })
+      }
+    },
+    rowStyle: {
+      deep: true,
+      handler () {
+        this.$nextTick(() => {
+          this.resize()
+        })
       }
     }
   },

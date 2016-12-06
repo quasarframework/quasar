@@ -12,6 +12,12 @@ export default {
   watch: {
     'filtering.terms' () {
       this.resetBody()
+    },
+    'config.filter' (value) {
+      if (this.toolbar === 'filter' && !value) {
+        this.toolbar = ''
+        this.filtering.terms = ''
+      }
     }
   },
   methods: {

@@ -1,6 +1,92 @@
 <template>
   <div>
     <div class="layout-padding">
+      <div class="column group" style="margin-bottom: 50px">
+        <div class="floating-label">
+          <input v-model="config.title" required class="full-width">
+          <label>Data Table Title</label>
+        </div>
+
+        <div class="column group gt-md-row">
+          <label>
+            <q-checkbox v-model="config.filter" />
+            Filter
+          </label>
+          <label>
+            <q-checkbox v-model="config.columnPicker" />
+            Column Picker
+          </label>
+          <label>
+            <q-checkbox v-model="pagination" />
+            Pagination
+          </label>
+          <label>
+            <q-checkbox v-model="config.responsive" />
+            Responsive
+          </label>
+        </div>
+
+        <div class="column gt-md-row group">
+          <q-select
+            v-model="config.selection"
+            type="radio"
+            label="Selection"
+            :options="[
+              {label: 'None', value: false},
+              {label: 'Single', value: 'single'},
+              {label: 'Multiple', value: 'multiple'}
+            ]"
+          />
+
+          <q-select
+            v-model="config.leftStickyColumns"
+            type="radio"
+            label="Left Sticky Columns"
+            :options="[
+              {label: 'None', value: 0},
+              {label: '1', value: 1},
+              {label: '2', value: 2}
+            ]"
+          />
+
+          <q-select
+            v-model="config.rightStickyColumns"
+            type="radio"
+            label="Right Sticky Columns"
+            :options="[
+              {label: 'None', value: 0},
+              {label: '1', value: 1},
+              {label: '2', value: 2}
+            ]"
+          />
+        </div>
+
+        <div>
+          <h6>Row height ({{rowHeight}}px)</h6>
+          <br>
+          <q-range v-model="rowHeight" :min="50" :max="200" labelAlways />
+        </div>
+
+        <div>
+          <h6>
+            Table body
+            <q-select
+              type="radio"
+              v-model="bodyHeightProp"
+              :options="[
+                {label: 'Auto', value: 'auto'},
+                {label: 'Height', value: 'height'},
+                {label: 'Min Height', value: 'minHeight'},
+                {label: 'Max Height', value: 'maxHeight'}
+              ]"
+            />
+            <span :style="{fontStyle: bodyHeightProp === 'auto' ? 'italic' : ''}">({{bodyHeight}}px)</span>
+          </h6>
+          <br>
+          <q-range v-model="bodyHeight" :min="100" :max="700" labelAlways :disable="bodyHeightProp === 'auto'" />
+        </div>
+      </div>
+
       <q-data-table
         :data="table"
         :config="config"
@@ -19,19 +105,19 @@
 
         <template slot="selection" scope="props">
           <button class="primary clear" @click="changeMessage(props)">
-            <i>alarm</i>
+            <i>edit</i>
           </button>
           <button class="primary clear" @click="deleteRow(props)">
             <i>delete</i>
           </button>
           <button class="primary clear" @click="changeMessage(props)">
-            <i>alarm</i>
+            <i>edit</i>
           </button>
           <button class="primary clear" @click="deleteRow(props)">
             <i>delete</i>
           </button>
           <button class="primary clear" @click="changeMessage(props)">
-            <i>alarm</i>
+            <i>edit</i>
           </button>
           <button class="primary clear" @click="deleteRow(props)">
             <i>delete</i>
@@ -45,6 +131,7 @@
 </template>
 
 <script>
+import { Utils } from 'quasar'
 import table from '../../table-data.json'
 
 export default {
@@ -73,10 +160,10 @@ export default {
           maxHeight: '500px'
         },
         rowHeight: '50px',
-        // responsive: false,
+        responsive: true,
         pagination: {
-          rowsPerPage: 50,
-          options: [5, 10, 50, 500]
+          rowsPerPage: 15,
+          options: [5, 10, 15, 30, 50, 500]
         },
         selection: 'multiple',
         messages: {
@@ -123,7 +210,40 @@ export default {
           sort: true,
           style: {width: '100px'}
         }
-      ]
+      ],
+
+      pagination: true,
+      rowHeight: 50,
+      bodyHeightProp: 'maxHeight',
+      bodyHeight: 500
+    }
+  },
+  watch: {
+    pagination (value) {
+      if (!value) {
+        this.oldPagination = Utils.clone(this.config.pagination)
+        this.config.pagination = false
+        return
+      }
+
+      this.config.pagination = this.oldPagination
+    },
+    rowHeight (value) {
+      this.config.rowHeight = value + 'px'
+    },
+    bodyHeight (value) {
+      let style = {}
+      if (this.bodyHeightProp !== 'auto') {
+        style[this.bodyHeightProp] = value + 'px'
+      }
+      this.config.bodyStyle = style
+    },
+    bodyHeightProp (value) {
+      let style = {}
+      if (value !== 'auto') {
+        style[value] = this.bodyHeight + 'px'
+      }
+      this.config.bodyStyle = style
     }
   }
 }

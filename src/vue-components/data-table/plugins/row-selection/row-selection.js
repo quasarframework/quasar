@@ -15,6 +15,9 @@ export default {
     this.rowSelection = getRowSelection(this.rows, this.config.selection, this.multipleSelection)
   },
   watch: {
+    'config.selection' (value) {
+      this.rowSelection = getRowSelection(this.rows, value, value === 'multiple')
+    },
     rows (r) {
       this.rowSelection = getRowSelection(r, this.config.selection, this.multipleSelection)
     },
