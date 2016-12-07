@@ -2,8 +2,11 @@
   <div class="q-data-table shadow-1">
     <div v-if="hasToolbar && toolbar === ''" class="q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end">
       <div v-if="config.title" class="q-data-table-title ellipsis auto" v-html="config.title"></div>
-      <div class="row items-center">
-        <button class="primary clear" v-if="config.filter" @click="toolbar = 'filter'">
+      <div v-if="!refreshing" class="row items-center">
+        <button v-if="config.refresh" class="primary clear" @click="toggleRefresh">
+          <i>refresh</i>
+        </button>
+        <button v-if="config.filter" class="primary clear" @click="toolbar = 'filter'">
           <i>filter_list</i>
         </button>
         <q-select
@@ -29,20 +32,26 @@
       </div>
     </div>
 
-    <table v-if="responsive" class="q-table horizontal-delimiter responsive" ref="body">
-      <tbody>
-        <tr v-for="(row, index) in rows">
-          <td v-if="config.selection">
-            <q-checkbox v-if="config.selection === 'multiple'" v-model="rowSelection[index]"></q-checkbox>
-            <q-radio v-else v-model="rowSelection[0]" :val="index"></q-radio>
-          </td>
-          <td v-for="col in cols" :data-th="col.label">
-            <span v-if="!$scopedSlots['col-'+col.field]" v-html="format(row, col)"></span>
-            <slot v-if="$scopedSlots['col-'+col.field]" :name="'col-'+col.field" :row="row" :col="col" :data="row[col.field]"></slot>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <template v-if="responsive">
+      <div v-if="refreshing" class="q-data-table-spinner row items-center justify-center">
+        <spinner></spinner>
+      </div>
+      <div v-if="message" class="q-data-table-message row items-center justify-center" v-html="message"></div>
+      <table v-else class="q-table horizontal-delimiter responsive" ref="body">
+        <tbody>
+          <tr v-for="(row, index) in rows">
+            <td v-if="config.selection">
+              <q-checkbox v-if="config.selection === 'multiple'" v-model="rowSelection[index]"></q-checkbox>
+              <q-radio v-else v-model="rowSelection[0]" :val="index"></q-radio>
+            </td>
+            <td v-for="col in cols" :data-th="col.label">
+              <span v-if="!$scopedSlots['col-'+col.field]" v-html="format(row, col)"></span>
+              <slot v-if="$scopedSlots['col-'+col.field]" :name="'col-'+col.field" :row="row" :col="col" :data="row[col.field]"></slot>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </template>
 
     <div v-else class="q-data-table-container" @mousewheel="mouseWheel" @dommousescroll="mouseWheel">
       <div class="q-data-table-head" ref="head" :style="{marginRight: scroll.vert}">
@@ -54,6 +63,9 @@
         ref="body"
         @scroll="scrollHandler"
       >
+        <div v-if="refreshing" class="q-data-table-spinner row items-center justify-center">
+          <spinner></spinner>
+        </div>
         <div v-if="message" class="q-data-table-message row items-center justify-center" v-html="message"></div>
         <table-content v-else :cols="cols" :selection="config.selection">
           <tr v-for="row in rows" :style="rowStyle">
@@ -68,7 +80,7 @@
         </table-content>
       </div>
 
-      <template v-if="!message && leftStickyColumns || config.selection">
+      <template v-if="!message && (leftStickyColumns || config.selection)">
         <div
           class="q-data-table-sticky-left"
           ref="stickyLeft"
@@ -115,7 +127,7 @@
       </template>
     </div>
 
-    <table-pagination v-if="config.pagination" :pagination="pagination" :entries="pagination.entries"></table-pagination>
+    <table-pagination v-if="!refreshing && config.pagination" :pagination="pagination" :entries="pagination.entries"></table-pagination>
   </div>
 </template>
 
@@ -152,7 +164,8 @@ export default {
   data () {
     return {
       selected: false,
-      toolbar: ''
+      toolbar: '',
+      refreshing: false
     }
   },
   computed: {
@@ -188,6 +201,9 @@ export default {
       return this.config.bodyStyle || {}
     },
     message () {
+      if (this.refreshing) {
+        return this.config.messages.refresh || 'Refreshing. Please wait...'
+      }
       if (this.rows.length) {
         return false
       }
@@ -204,11 +220,24 @@ export default {
   },
   methods: {
     resetBody () {
-      this.$refs.body.scrollTop = 0
+      let body = this.$refs.body
+
+      if (body) {
+        body.scrollTop = 0
+      }
       this.pagination.page = 1
     },
     format (row, col) {
       return col.format ? col.format(row[col.field]) : row[col.field]
+    },
+    refresh (active) {
+      this.refreshing = active
+      if (active) {
+        this.$emit('refresh')
+      }
+    },
+    toggleRefresh () {
+      this.refresh(!this.refreshing)
     }
   },
   components: {

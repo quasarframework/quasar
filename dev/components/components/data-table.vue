@@ -13,6 +13,10 @@
             Filter
           </label>
           <label>
+            <q-checkbox v-model="config.refresh" />
+            Refresh
+          </label>
+          <label>
             <q-checkbox v-model="config.columnPicker" />
             Column Picker
           </label>
@@ -88,9 +92,11 @@
       </div>
 
       <q-data-table
+        ref="table"
         :data="table"
         :config="config"
         :columns="columns"
+        @refresh="refresh()"
       >
         <template slot="col-message" scope="cell">
           <span class="light-paragraph">{{cell.data}}</span>
@@ -133,6 +139,17 @@ export default {
       props.rows.forEach(row => {
         this.table.splice(row.index, 1)
       })
+    },
+    refresh () {
+      this.timeout = setTimeout(() => {
+        this.$refs.table.toggleRefresh()
+        this.timeout = null
+      }, 2000)
+    }
+  },
+  beforeDestroy () {
+    if (this.timeout) {
+      clearTimeout(this.timeout)
     }
   },
   data () {
@@ -141,6 +158,7 @@ export default {
       config: {
         title: 'Data Table',
         filter: true,
+        refresh: true,
         columnPicker: true,
         leftStickyColumns: 0,
         rightStickyColumns: 2,
@@ -156,7 +174,8 @@ export default {
         selection: 'multiple',
         messages: {
           noData: '<i>warning</i> No data available to show.',
-          noDataAfterFiltering: '<i>warning</i> No results. Please refine your search terms.'
+          noDataAfterFiltering: '<i>warning</i> No results. Please refine your search terms.',
+          refresh: 'Refreshing. Please wait...'
         }
       },
       columns: [
