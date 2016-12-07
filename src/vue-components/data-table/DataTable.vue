@@ -215,7 +215,7 @@ export default {
       return this.config.message.noData || '<i>warning</i> No data available to show.'
     },
     hasToolbar () {
-      return this.config.title || this.config.filter || this.config.columnPicker
+      return this.config.title || this.config.filter || this.config.columnPicker || this.config.refresh
     }
   },
   methods: {
