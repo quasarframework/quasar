@@ -13,6 +13,7 @@ import dTouchHold from './vue-directives/touch-hold'
 import dTouchPan from './vue-directives/touch-pan'
 import dTouchSwipe from './vue-directives/touch-swipe'
 
+import AjaxBar from './vue-components/ajax-bar/AjaxBar.vue'
 import Checkbox from './vue-components/checkbox/Checkbox.vue'
 import Chips from './vue-components/chips/Chips.vue'
 import Collapsible from './vue-components/collapsible/Collapsible.vue'
@@ -79,6 +80,7 @@ function registerComponents (_Vue) {
   _Vue.component('q-transition', Transition)
 
   ;[
+    ['ajax-bar', AjaxBar],
     ['checkbox', Checkbox],
     ['chips', Chips],
     ['collapsible', Collapsible],
