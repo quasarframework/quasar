@@ -96,7 +96,7 @@
         :data="table"
         :config="config"
         :columns="columns"
-        @refresh="refresh()"
+        @refresh="refresh"
       >
         <template slot="col-message" scope="cell">
           <span class="light-paragraph">{{cell.data}}</span>
@@ -140,7 +140,14 @@ export default {
         this.table.splice(row.index, 1)
       })
     },
-    refresh () {
+    refresh (start) {
+      if (!start) {
+        if (this.timeout) {
+          clearTimeout(this.timeout)
+          this.timeout = null
+        }
+        return
+      }
       this.timeout = setTimeout(() => {
         this.$refs.table.toggleRefresh()
         this.timeout = null
