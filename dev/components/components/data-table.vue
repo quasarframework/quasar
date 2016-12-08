@@ -144,7 +144,7 @@ export default {
       this.timeout = setTimeout(() => {
         this.$refs.table.toggleRefresh()
         this.timeout = null
-      }, 2000)
+      }, 5000)
     }
   },
   beforeDestroy () {
@@ -174,8 +174,7 @@ export default {
         selection: 'multiple',
         messages: {
           noData: '<i>warning</i> No data available to show.',
-          noDataAfterFiltering: '<i>warning</i> No results. Please refine your search terms.',
-          refresh: 'Refreshing. Please wait...'
+          noDataAfterFiltering: '<i>warning</i> No results. Please refine your search terms.'
         }
       },
       columns: [

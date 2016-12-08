@@ -2,9 +2,9 @@
   <div class="q-data-table shadow-1">
     <div v-if="hasToolbar && toolbar === ''" class="q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end">
       <div v-if="config.title" class="q-data-table-title ellipsis auto" v-html="config.title"></div>
-      <div v-if="!refreshing" class="row items-center">
+      <div class="row items-center">
         <button v-if="config.refresh" class="primary clear" @click="toggleRefresh">
-          <i>refresh</i>
+          <i v-text="refreshing ? 'cached' : 'refresh'" :class="{'animate-spin-reverse': refreshing}"></i>
         </button>
         <button v-if="config.filter" class="primary clear" @click="toolbar = 'filter'">
           <i>filter_list</i>
@@ -33,9 +33,6 @@
     </div>
 
     <template v-if="responsive">
-      <div v-if="refreshing" class="q-data-table-spinner row items-center justify-center">
-        <spinner></spinner>
-      </div>
       <div v-if="message" class="q-data-table-message row items-center justify-center" v-html="message"></div>
       <table v-else class="q-table horizontal-delimiter responsive" ref="body">
         <tbody>
@@ -63,9 +60,6 @@
         ref="body"
         @scroll="scrollHandler"
       >
-        <div v-if="refreshing" class="q-data-table-spinner row items-center justify-center">
-          <spinner></spinner>
-        </div>
         <div v-if="message" class="q-data-table-message row items-center justify-center" v-html="message"></div>
         <table-content v-else :cols="cols" :selection="config.selection">
           <tr v-for="row in rows" :style="rowStyle">
@@ -127,7 +121,7 @@
       </template>
     </div>
 
-    <table-pagination v-if="!refreshing && config.pagination" :pagination="pagination" :entries="pagination.entries"></table-pagination>
+    <table-pagination v-if="config.pagination" :pagination="pagination" :entries="pagination.entries"></table-pagination>
   </div>
 </template>
 
@@ -201,9 +195,6 @@ export default {
       return this.config.bodyStyle || {}
     },
     message () {
-      if (this.refreshing) {
-        return this.config.messages.refresh || 'Refreshing. Please wait...'
-      }
       if (this.rows.length) {
         return false
       }
@@ -232,9 +223,7 @@ export default {
     },
     refresh (active) {
       this.refreshing = active
-      if (active) {
-        this.$emit('refresh')
-      }
+      this.$emit('refresh', active)
     },
     toggleRefresh () {
       this.refresh(!this.refreshing)
