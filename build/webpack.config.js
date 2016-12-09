@@ -4,6 +4,7 @@ var
   cssUtils = require('./css-utils'),
   env = require('./env-utils'),
   HtmlWebpackPlugin = require('html-webpack-plugin'),
+  ProgressBarPlugin = require('progress-bar-webpack-plugin'),
   projectRoot = path.resolve(__dirname, '../'),
   entry = ['./build/hot-reload', './dev/main.js'],
   merge = require('webpack-merge')
@@ -107,6 +108,9 @@ module.exports = {
         },
         postcss: cssUtils.postcss
       }
+    }),
+    new ProgressBarPlugin({
+      format: ' [:bar] ' + ':percent'.bold + ' (:msg)'
     })
   ]
 }

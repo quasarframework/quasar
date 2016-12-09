@@ -71,6 +71,7 @@
     "moment": "^2.15.1",
     "opn": "^4.0.2",
     "postcss-loader": "^1.0.0",
+    "progress-bar-webpack-plugin": "^1.9.0",
     "raw-loader": "^0.5.1",
     "roboto-fontface": "^0.6.0",
     "rollup": "^0.36.1",
