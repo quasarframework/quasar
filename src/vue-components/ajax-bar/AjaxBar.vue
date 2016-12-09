@@ -7,8 +7,7 @@
 <script>
 const
   xhr = XMLHttpRequest,
-  send = xhr.prototype.send,
-  transformSpeed = 1000
+  send = xhr.prototype.send
 
 function translate ({p, pos, active, horiz, reverse}) {
   let x = 1, y = 1
@@ -85,6 +84,10 @@ export default {
       type: Number,
       default: 250
     },
+    delay: {
+      type: Number,
+      default: 1000
+    },
     reverse: Boolean
   },
   data () {
@@ -128,7 +131,7 @@ export default {
         this.timer = setTimeout(() => {
           this.animate = true
           this.move()
-        }, transformSpeed)
+        }, this.delay)
       }
       else if (this.closing) {
         this.closing = false
@@ -159,7 +162,7 @@ export default {
       this.timer = setTimeout(() => {
         this.closing = false
         this.active = false
-      }, transformSpeed)
+      }, 1050)
     },
     move () {
       this.timer = setTimeout(() => {
