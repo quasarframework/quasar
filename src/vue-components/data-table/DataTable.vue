@@ -3,8 +3,11 @@
     <div v-if="hasToolbar && toolbar === ''" class="q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end">
       <div v-if="config.title" class="q-data-table-title ellipsis auto" v-html="config.title"></div>
       <div class="row items-center">
-        <button v-if="config.refresh" class="primary clear" @click="toggleRefresh">
-          <i v-text="refreshing ? 'cached' : 'refresh'" :class="{'animate-spin-reverse': refreshing}"></i>
+        <button v-if="config.refresh && !refreshing" class="primary clear" @click="refresh">
+          <i>refresh</i>
+        </button>
+        <button v-if="refreshing" class="disabled">
+          <i class="animate-spin-reverse">cached</i>
         </button>
         <button v-if="config.filter" class="primary clear" @click="toolbar = 'filter'">
           <i>filter_list</i>
@@ -221,12 +224,17 @@ export default {
     format (row, col) {
       return col.format ? col.format(row[col.field]) : row[col.field]
     },
-    refresh (active) {
-      this.refreshing = active
-      this.$emit('refresh', active)
-    },
-    toggleRefresh () {
-      this.refresh(!this.refreshing)
+    refresh (done) {
+      if (done === true) {
+        this.refreshing = false
+        return
+      }
+      if (!this.refreshing) {
+        this.refreshing = true
+        this.$emit('refresh', () => {
+          this.refreshing = false
+        })
+      }
     }
   },
   components: {

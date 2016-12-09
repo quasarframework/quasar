@@ -92,7 +92,6 @@
       </div>
 
       <q-data-table
-        ref="table"
         :data="table"
         :config="config"
         :columns="columns"
@@ -140,17 +139,9 @@ export default {
         this.table.splice(row.index, 1)
       })
     },
-    refresh (start) {
-      if (!start) {
-        if (this.timeout) {
-          clearTimeout(this.timeout)
-          this.timeout = null
-        }
-        return
-      }
+    refresh (done) {
       this.timeout = setTimeout(() => {
-        this.$refs.table.toggleRefresh()
-        this.timeout = null
+        done()
       }, 5000)
     }
   },
