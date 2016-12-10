@@ -60,6 +60,9 @@
       <p class="caption">With Placeholder</p>
       <q-datetime v-model="model" type="date" placeholder="Pick Date"></q-datetime>
 
+      <p class="caption">With Static Label</p>
+      <q-datetime v-model="model" type="date" static-label="Party Date"></q-datetime>
+
       <p class="caption">Disabled State</p>
       <q-datetime disable v-model="model" type="datetime"></q-datetime>
 

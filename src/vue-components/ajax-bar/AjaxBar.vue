@@ -128,6 +128,7 @@ export default {
         this.progress = 0
         this.active = true
         this.animate = false
+        this.$emit('start')
         this.timer = setTimeout(() => {
           this.animate = true
           this.move()
@@ -159,6 +160,7 @@ export default {
       }
       this.closing = true
       this.progress = 100
+      this.$emit('stop')
       this.timer = setTimeout(() => {
         this.closing = false
         this.active = false

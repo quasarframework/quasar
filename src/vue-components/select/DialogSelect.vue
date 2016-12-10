@@ -4,7 +4,7 @@
     :readonly="readonly"
     :label="label"
     :placeholder="placeholder"
-    :fixed-label="fixedLabel"
+    :static-label="staticLabel"
     :value="actualValue"
     @click.native="pick()"
   ></q-picker-textfield>
@@ -49,7 +49,7 @@ export default {
     message: String,
     label: String,
     placeholder: String,
-    fixedLabel: String,
+    staticLabel: String,
     readonly: Boolean,
     disable: Boolean
   },

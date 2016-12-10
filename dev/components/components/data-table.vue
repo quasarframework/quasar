@@ -179,7 +179,8 @@ export default {
         {
           label: 'Date',
           field: 'isodate',
-          style: {width: '120px'},
+          width: '120px',
+          classes: 'bg-orange-2',
           format (value) {
             return new Date(value).toLocaleString()
           }
@@ -193,26 +194,26 @@ export default {
             }
             return value
           },
-          style: {width: '80px'},
+          width: '80px',
           classes: 'text-center'
         },
         {
           label: 'Message',
           field: 'message',
           sort: true,
-          style: {width: '500px'}
+          width: '500px'
         },
         {
           label: 'Source',
           field: 'source',
           sort: true,
-          style: {width: '120px'}
+          width: '120px'
         },
         {
           label: 'Log Number',
           field: 'log_number',
           sort: true,
-          style: {width: '100px'}
+          width: '100px'
         }
       ],
 

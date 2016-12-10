@@ -17,7 +17,7 @@
           v-if="config.columnPicker"
           v-model="columnSelection"
           :options="columnSelectionOptions"
-          fixed-label="Columns"
+          static-label="Columns"
           class="text-right"
           style="margin-left: 10px"
         ></q-select>
@@ -44,7 +44,7 @@
               <q-checkbox v-if="config.selection === 'multiple'" v-model="rowSelection[index]"></q-checkbox>
               <q-radio v-else v-model="rowSelection[0]" :val="index"></q-radio>
             </td>
-            <td v-for="col in cols" :data-th="col.label">
+            <td v-for="col in cols" :data-th="col.label" :style="col.style" :class="col.classes">
               <span v-if="!$scopedSlots['col-'+col.field]" v-html="format(row, col)"></span>
               <slot v-if="$scopedSlots['col-'+col.field]" :name="'col-'+col.field" :row="row" :col="col" :data="row[col.field]"></slot>
             </td>
@@ -68,7 +68,7 @@
           <tr v-for="row in rows" :style="rowStyle">
             <td v-if="config.selection"></td>
             <td v-for="n in leftStickyColumns"></td>
-            <td v-for="col in regularCols">
+            <td v-for="col in regularCols" :style="col.style" :class="col.classes">
               <span v-if="!$scopedSlots['col-'+col.field]" v-html="format(row, col)"></span>
               <slot v-if="$scopedSlots['col-'+col.field]" :name="'col-'+col.field" :row="row" :col="col" :data="row[col.field]"></slot>
             </td>
@@ -89,7 +89,7 @@
                 <q-checkbox v-if="config.selection === 'multiple'" v-model="rowSelection[index]"></q-checkbox>
                 <q-radio v-else v-model="rowSelection[0]" :val="index"></q-radio>
               </td>
-              <td v-for="n in leftStickyColumns">
+              <td v-for="n in leftStickyColumns" :style="cols[n-1].style" :class="cols[n-1].classes">
                 <span v-if="!$scopedSlots['col-'+cols[n-1].field]" v-html="format(row, cols[n-1])"></span>
                 <slot v-if="$scopedSlots['col-'+cols[n-1].field]" :name="'col-'+cols[n-1].field" :row="row" :col="cols[n-1]" :data="row[cols[n-1].field]"></slot>
               </td>
@@ -111,7 +111,7 @@
             <tr v-for="row in rows" :style="rowStyle">
               <td v-if="config.selection" class="invisible"></td>
               <td v-for="n in cols.length - rightStickyColumns" class="invisible"></td>
-              <td v-for="n in rightStickyColumns">
+              <td v-for="n in rightStickyColumns" :style="rightCols[n-1].style">
                 <span v-if="!$scopedSlots['col-'+rightCols[n-1].field]" v-html="format(row, rightCols[n-1])"></span>
                 <slot v-if="$scopedSlots['col-'+rightCols[n-1].field]" :name="'col-'+rightCols[n-1].field" :row="row" :col="rightCols[n-1]" :data="row[rightCols[n-1].field]"></slot>
               </td>
@@ -227,7 +227,6 @@ export default {
     refresh (state) {
       if (state === false) {
         this.refreshing = false
-        return
       }
       else if (state === true || !this.refreshing) {
         this.refreshing = true

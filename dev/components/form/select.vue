@@ -14,6 +14,9 @@
       <p class="caption">With Placeholder</p>
       <q-select type="checkbox" v-model="multipleSelect" :options="selectOptions" placeholder="Pick Company"></q-select>
 
+      <p class="caption">With Static Label</p>
+      <q-select type="checkbox" v-model="multipleSelect" :options="selectOptions" static-label="Company"></q-select>
+
       <p class="caption">Disabled State</p>
       <q-select disable type="radio" v-model="select" :options="selectOptions"></q-select>
 

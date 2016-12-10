@@ -14,6 +14,9 @@
       <p class="caption">With Placeholder</p>
       <q-dialog-select type="radio" v-model="select" :options="selectOptions" placeholder="Pick Company"></q-dialog-select>
 
+      <p class="caption">With Static Label</p>
+      <q-dialog-select type="radio" v-model="select" :options="selectOptions" static-label="Company"></q-dialog-select>
+
       <p class="caption">Disabled State</p>
       <q-dialog-select disable type="radio" v-model="select" :options="selectOptions"></q-dialog-select>
 

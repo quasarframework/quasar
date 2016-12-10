@@ -14,7 +14,7 @@ export default {
   props: {
     label: String,
     placeholder: String,
-    fixedLabel: String,
+    staticLabel: String,
     value: String,
     disable: Boolean,
     readonly: Boolean
@@ -24,7 +24,7 @@ export default {
       return this.value.length > 0
     },
     actualValue () {
-      return this.fixedLabel || (this.label ? this.value : this.value || this.placeholder)
+      return this.staticLabel || (this.label ? this.value : this.value || this.placeholder)
     }
   }
 }

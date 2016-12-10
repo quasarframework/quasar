@@ -2,7 +2,7 @@
   <table class="q-table horizontal-delimiter" :style="tableStyle">
     <colgroup>
       <col v-if="selection" style="width: 45px;" />
-      <col v-for="col in cols" :style="col.style" />
+      <col v-for="col in cols" :style="{width: col.width}" />
       <col v-if="head && scroll.horiz" :style="{width: scroll.horiz}" />
     </colgroup>
     <thead v-if="head">
