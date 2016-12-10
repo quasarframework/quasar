@@ -1,6 +1,42 @@
 <template>
   <div>
     <div class="layout-padding">
+
+      <p class="caption">**NEW COMPONENT** Floating Label</p>
+
+      <div class="floating-label">
+        <input required class="full-width">
+        <label>Float Text/Required</label>
+      </div>
+
+      <div class="floating-label">
+        <input required type="email" class="full-width">
+        <label>Floating Email</label>
+      </div>
+
+      <div class="floating-label">
+        <input required type="password" class="full-width">
+        <label>Floating Email</label>
+      </div>
+
+      <div class="floating-label">
+        <input required type="password" class="full-width">
+        <label>Floating Email</label>
+      </div>
+
+      <div class="floating-label">
+        <input required class="full-width">
+        <label>Floating Label</label>
+      </div>
+
+
+
+      <p class="caption">**ORIGINAL** Floating Label</p>
+      <div class="floating-label">
+        <input required class="full-width">
+        <label>Floating Label</label>
+      </div>
+
       <p class="caption">Standalone</p>
       <small>Default:</small> <input v-model="username">
       <br>
@@ -8,6 +44,7 @@
 
       <p class="caption">Placeholder</p>
       <input placeholder="Placeholder">
+
 
       <p class="caption">Stacked Label</p>
       <div class="stacked-label">
