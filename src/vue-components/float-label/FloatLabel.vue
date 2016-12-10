@@ -1,53 +1,68 @@
 <template>
-  <div>
-  <!--   class="q-range non-selectable"
-    :class="{disabled: disable}"
-    @mousedown.prevent="__setActive"
-    @touchstart.prevent="__setActive"
-    @touchend.prevent="__end"
-    @touchmove.prevent="__update" -->
+  <div
+    class='floating-label'
+    :class='cssFloatingLabelActivity'
+  >
+    <slot ref='input'></slot>
+    <label>{{ label }}</label>
 
-
+    <pre>{{ $refs }} </pre>
   </div>
 </template>
 
 <script>
 // import Utils from '../../utils'
-import Platform from '../../features/platform'
-
+// import Platform from '../../features/platform'
+/* eslint-disable */
 export default {
   props: {
     label: {
-      type: Object,
-      required: true,
-      validator (value) {
-        return typeof value.min !== 'undefined' && typeof value.max !== 'undefined'
-      }
+      type: String,
+      required: true
     }
   },
   data () {
     return {
-      dragging: false
+      state: {
+        inputType: null,
+        hasFocus: false,
+        hasValue: false,
+        hasValid: false,
+        hasDisabled: false,
+        hasReadonly: false  // can have focus
+      }
     }
   },
   computed: {
-  },
-  watch: {
+    isActive () {
+      let s = this.state
+      return s.hasValue || ( s.hasFocus && !s.hasReadOnly )  // Is it actually this simple!?
+    },
+    cssFloatingLabelActivity () {
+      return this.isActive === true ? 'floating-label-active' : 'floating-label-inactive'
+    }
   },
   methods: {
-  },
-  created () {
-    this.__validateProps()
-    if (Platform.is.desktop) {
-      document.body.addEventListener('mousemove', this.__update)
-      document.body.addEventListener('mouseup', this.__end)
+    __update (e) {
+      let
+        s = this.state,
+        input = e.target
+      s.hasFocus = e.type === 'focus' ? true : e.type === 'blur' ? false : s.hasFocus
+      s.hasValue = input.value ? true : false
+      s.hasValid = input.validity.valid
+      s.hasDisabled = input.disabled
+      s.hasReadonly = input.readOnly
     }
+  },
+  mounted () {
+    // this.state.inputType = this.$refs['input'].type
+    this.$el.addEventListener('focus', this.__update, true)
+    this.$el.addEventListener('blur', this.__update, true)
   },
   beforeDestroy () {
-    if (Platform.is.dekstop) {
-      document.body.removeEventListener('mousemove', this.__update)
-      document.body.removeEventListener('mouseup', this.__end)
-    }
+    this.$el.removeEventListener('focus', this.__update, true)
+    this.$el.removeEventListener('blur', this.__update, true)
   }
 }
 </script>
+

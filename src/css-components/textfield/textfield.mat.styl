@@ -66,6 +66,7 @@ label
     padding-top 1.45rem
   textarea
     margin-top 1.45rem
-  input:focus ~ label, input:valid ~ label, textarea:focus ~ label, textarea:valid ~ label
+&.floating-label-active
+  input ~ label, textarea ~ label, textarea ~ label
     transform translateY(0) scale(.8)
     color $form-active-color
