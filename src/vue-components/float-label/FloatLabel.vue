@@ -6,7 +6,7 @@
     <slot ref='input'></slot>
     <label>{{ label }}</label>
 
-    <pre>{{ $refs }} </pre>
+    <pre>{{ state }} </pre>
   </div>
 </template>
 
@@ -14,6 +14,12 @@
 // import Utils from '../../utils'
 // import Platform from '../../features/platform'
 /* eslint-disable */
+
+// TODO:
+// - init state values during mount()
+// - tidy css
+// -
+
 export default {
   props: {
     label: {
