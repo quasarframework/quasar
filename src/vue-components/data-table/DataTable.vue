@@ -224,12 +224,12 @@ export default {
     format (row, col) {
       return col.format ? col.format(row[col.field]) : row[col.field]
     },
-    refresh (done) {
-      if (done === true) {
+    refresh (state) {
+      if (state === false) {
         this.refreshing = false
         return
       }
-      if (!this.refreshing) {
+      else if (state === true || !this.refreshing) {
         this.refreshing = true
         this.$emit('refresh', () => {
           this.refreshing = false
