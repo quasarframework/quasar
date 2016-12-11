@@ -1,0 +1,70 @@
+
+textarea:focus
+  transition none !important
+  /* ^ existing transition undesirable with user drag-resize */
+
+.float-label
+  /* ^ NB: Distinct from existing Quasar 'floating-label' */
+  position relative
+  display inline-block
+  box-sizing border-box
+  width 100%
+
+  & label
+    position absolute
+    pointer-events none
+    left 0
+    top 1.8rem
+    transform-origin left top
+    color rgba(0, 0, 0, .54)
+    transition transform .15s ease-in-out, color .3s, opacity .3s
+
+  & input
+    padding-top 1.8rem
+    margin-bottom 17px
+    /* 1.8rem seems closer to spec, but maybe should go back to 1.4 for consistency with other styles? */
+
+  & textarea
+    margin-top 1.8rem
+    margin-bottom 13px
+
+  &.label-icon
+    padding-left 48px
+    & i
+      position absolute
+      font-size 24px
+      top 16px
+      left 0px
+      padding 12px
+      transition color .3s
+    & label
+      left 48px
+
+  &.label-focus
+    & label
+    & i
+      color $form-active-color
+
+  &.label-active
+    & label
+      transform translateY(-16px) scale(.8)
+
+  &.label-dense
+    & label
+      top 1.5rem
+    & input
+      padding-top 1.45rem
+      margin-bottom 10px
+    & textarea
+      margin-top 1.45rem
+      margin-bottom 6px
+    &.label-icon
+      & i
+        top 12px
+
+  &.label-inline
+    &.label-active
+      & label
+        opacity 0
+        transform scaleY(.2)
+        color $form-active-color

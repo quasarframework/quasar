@@ -63,10 +63,12 @@ label
   input + label, textarea + label
     transform translateY(1.7rem) scale(1)
   input
-    padding-top 1.45rem
+    padding-top 1.4rem
   textarea
-    margin-top 1.45rem
-&.floating-label-active
-  input ~ label, textarea ~ label, textarea ~ label
+    margin-top 1.4rem
+&.label-active
+  input ~ label, textarea ~ label
     transform translateY(0) scale(.8)
+&.label-focus
+  input ~ label, textarea ~ label
     color $form-active-color
