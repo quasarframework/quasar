@@ -7,7 +7,16 @@
 <script>
 const
   xhr = XMLHttpRequest,
-  send = xhr.prototype.send
+  send = xhr.prototype.send,
+  prefix = ['-webkit-', '-moz-', '-ms-', '-o-']
+
+function prefixed (value) {
+  let o = {transform: value}
+  prefix.forEach(p => {
+    o[p + 'transform'] = value
+  })
+  return o
+}
 
 function translate ({p, pos, active, horiz, reverse}) {
   let x = 1, y = 1
@@ -15,12 +24,12 @@ function translate ({p, pos, active, horiz, reverse}) {
   if (horiz) {
     if (reverse) { x = -1 }
     if (pos === 'bottom') { y = -1 }
-    return `translate3d(${x * (p - 100)}%, ${active ? 0 : y * -200}%, 0)`
+    return prefixed(`translate3d(${x * (p - 100)}%, ${active ? 0 : y * -200}%, 0)`)
   }
 
   if (reverse) { y = -1 }
   if (pos === 'right') { x = -1 }
-  return `translate3d(${active ? 0 : x * -200}%, ${y * (p - 100)}%, 0)`
+  return prefixed(`translate3d(${active ? 0 : x * -200}%, ${y * (p - 100)}%, 0)`)
 }
 
 function inc (p, amount) {
@@ -100,16 +109,15 @@ export default {
   },
   computed: {
     containerStyle () {
-      return {
-        [this.sizeProp]: this.size,
-        transform: translate({
-          p: this.progress,
-          pos: this.position,
-          active: this.active,
-          horiz: this.horizontal,
-          reverse: this.reverse
-        })
-      }
+      let o = translate({
+        p: this.progress,
+        pos: this.position,
+        active: this.active,
+        horiz: this.horizontal,
+        reverse: this.reverse
+      })
+      o[this.sizeProp] = this.size
+      return o
     },
     innerStyle () {
       return {background: this.color}
