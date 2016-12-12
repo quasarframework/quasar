@@ -10,7 +10,7 @@ textarea:focus
   box-sizing border-box
   width 100%
 
-  & label
+  & > label
     position absolute
     pointer-events none
     left 0
@@ -19,37 +19,40 @@ textarea:focus
     color rgba(0, 0, 0, .54)
     transition transform .15s ease-in-out, color .3s, opacity .3s
 
-  & input
+  & > input
     padding-top 1.8rem
     margin-bottom 17px
     /* 1.8rem seems closer to spec, but maybe should go back to 1.4 for consistency with other styles? */
 
-  & textarea
+  & > textarea
     margin-top 1.8rem
     margin-bottom 13px
 
-  &.label-icon
+  & > i
+    position absolute
+    font-size 24px
+    top 16px
+    left 0px
+    padding 12px
+    transition color .3s
+
+
+  &.fl-icon
     padding-left 48px
-    & i
-      position absolute
-      font-size 24px
-      top 16px
-      left 0px
-      padding 12px
-      transition color .3s
+
     & label
       left 48px
 
-  &.label-focus
+  &.fl-focus
     & label
     & i
       color $form-active-color
 
-  &.label-active
+  &.fl-active
     & label
       transform translateY(-16px) scale(.8)
 
-  &.label-dense
+  &.fl-dense
     & label
       top 1.5rem
     & input
@@ -58,13 +61,15 @@ textarea:focus
     & textarea
       margin-top 1.45rem
       margin-bottom 6px
-    &.label-icon
+    &.fl-icon
       & i
         top 12px
 
-  &.label-inline
-    &.label-active
+  &.fl-inline
+    &.fl-active
       & label
         opacity 0
-        transform scaleY(.2)
+        right 0
+        transform-origin 50% 50%
+        transform scaleY(.1) translateX(-10%)
         color $form-active-color

@@ -28,88 +28,88 @@ ISSUES:
 
     <div class="layout-padding">
 
-      <p class="caption strong">Floating Labels (default)</p>
-
-      <q-float-label label="Floating Label" >
-        <input class="full-width">
-      </q-float-label>
-
-      <q-float-label label="Floating Label + Icon" icon="call">
-        <input class="full-width">
-      </q-float-label>
-
-      <q-float-label label="Floating Label + Dense" :dense="true">
-        <input>
-      </q-float-label>
-
-      <q-float-label label="Floating Label + Icon + Dense" icon="mail_outline" :dense="true">
-        <input>
-      </q-float-label>
-
-      <p class="caption">Stacked Layout</p>
-
-      <q-float-label label="Stacked Label" layout="stacked">
-        <input class="full-width">
-      </q-float-label>
-
-      <q-float-label label="Stacked Label + Icon" icon="photo" layout="stacked">
-        <input class="full-width">
-      </q-float-label>
-
-      <q-float-label label="Stacked Label + Dense" :dense="true" layout="stacked">
-        <input>
-      </q-float-label>
-
-      <q-float-label label="Stacked Label + Icon + Dense" icon="portrait":dense="true" layout="stacked">
-        <input>
-      </q-float-label>
+      <p class="caption strong">Floating Labels</p>
 
 
-      <p class="caption">Inline Layout</p>
 
-      <q-float-label label="Inline Label" layout="inline">
-        <input>
-      </q-float-label>
+      <div class="card">
+        <div class="card-title">
+          Layouts
+        </div>
+        <div class="card-content">
 
-      <q-float-label label="Inline Label + Icon" icon="face" layout="inline">
-        <input>
-      </q-float-label>
+          <!-- Layouts -->
+          <q-float-label label="Basic Floating Label" >
+            <input class="full-width">
+          </q-float-label>
 
-      <q-float-label label="Inline Label + Dense" :dense="true" layout="inline">
-        <input>
-      </q-float-label>
+          <q-float-label label="Inline Layout" layout="inline">
+            <input class="full-width">
+          </q-float-label>
 
-      <q-float-label label="Inline Label + Icon + Dense" icon="search":dense="true" layout="inline">
-        <input>
-      </q-float-label>
+          <q-float-label label="Stacked Layout" layout="stacked">
+            <input class="full-width">
+          </q-float-label>
+
+          <!-- Layouts + Icon -->
+          <q-float-label label="Floating Label + Icon" icon="face">
+            <input class="full-width">
+          </q-float-label>
+
+          <q-float-label label="Inline Layout + Icon" layout="inline" icon="mail_outline">
+            <input class="full-width">
+          </q-float-label>
+
+          <q-float-label label="Stacked Layout + Icon" layout="stacked" icon="phone">
+            <input class="full-width">
+          </q-float-label>
+
+        </div>
+
+      </div>
+
+
+
+      <div class="card">
+        <div class="card-title">
+          Input Types
+        </div>
+        <div class="card-content">
+
+          <q-float-label label="Email" icon="mail_outline">
+            <input type="email" class="full-width">
+          </q-float-label>
+
+          <q-float-label label="Password" icon="lock">
+            <input type="password" class="full-width">
+          </q-float-label>
+
+          <q-float-label label="Disabled (Text)">
+            <input type="text" disabled class="full-width" icon="">
+          </q-float-label>
+
+          <q-float-label label="Readonly (Email)">
+            <input type="email" readonly value="professor.plum@study.com" class="full-width">
+          </q-float-label>
+
+          <q-float-label label="Required (Text)">
+            <input type="text" required class="full-width">
+          </q-float-label>
+
+          <q-float-label label="Text (has-error)" icon="build">
+            <input type="text" value="The Revolver" class="full-width has-error">
+          </q-float-label>
+
+
+        </div>
+
+      </div>
+
+
 
 
 
       <p class="caption">Input Types</p>
-
-      <q-float-label label="Email">
-        <input type="email" class="full-width">
-      </q-float-label>
-
-      <q-float-label label="Password">
-        <input type="password" class="full-width">
-      </q-float-label>
-
-      <q-float-label label="Text (disabled)">
-        <input disabled="true" class="full-width">
-      </q-float-label>
-
-      <q-float-label label="Email (readonly)">
-        <input type="email" readonly="true" value="professor.plum@study.com" class="full-width">
-      </q-float-label>
-
-      <q-float-label label="Text (required)">
-        <input required class="full-width">
-      </q-float-label>
-
-      <q-float-label label="Text (has-error)" icon="build">
-        <input value="Revolver" class="full-width has-error">
-      </q-float-label>
 
 
 

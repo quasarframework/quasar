@@ -19,7 +19,7 @@ export default {
       required: true
     },
     layout: {
-      type: String, // 'floating' | 'stacked' | 'inline'
+      type: String, // 'floating' | 'stacked' | 'inside' | inline' | 'nolabel' | custom
       default: 'floating'
     },
     icon: {
@@ -34,31 +34,36 @@ export default {
     return {
       input: null,
       inputType: null,
-      isStacked: this.layout === 'stacked',
-      isInline: this.layout === 'inline',
+      layoutClass: 'float-label layout-' + this.layout + (this.icon ? ' fl-icon' : '') + (this.dense ? ' fl-dense' : ''),
       state: {
         hasFocus: false,
         hasValue: false,
-        hasValid: false, // (unused)
-        hasDisabled: false, // (unused)
-        hasReadOnly: false,  // can receive focus
+        hasInvalid: false,
+        hasReadOnly: false,
+        hasDisabled: false
       }
     }
   },
   computed: {
     cssFloatingLabel () {
       let s = this.state
-      let css = {
-        'float-label': true, // NB: Distinct from existing Quasar 'floating-label'
-        'label-active': this.isStacked || s.hasValue || s.hasReadOnly || s.hasFocus,
-        'label-focus': s.hasFocus,
-        'label-icon': this.icon,
-        'label-dense': this.dense,
-        'label-inline': this.isInline
-      }
+      let css =
+        [
+          [this.layoutClass],
+          {
+            'fl-active': s.hasFocus || s.hasValue || s.hasReadOnly,
+            'fl-focus': s.hasFocus,
+            'fl-value': s.hasValue,
+            'fl-invalid': s.hasInvalid,
+            'fl-read-only': s.hasReadOnly,
+            'fl-disabled': s.hasFocus
+          }
+        ]
       return css
     }
   },
+       // 'float-label': true, // NB: Distinct from existing Quasar 'floating-label'
+       //  [this.layoutClass]: true,
   methods: {
     __update (e) {
       let
@@ -66,9 +71,9 @@ export default {
         etype = e ? e.type : ''
       s.hasFocus = etype === 'focus' ? true : etype === 'blur' ? false : s.hasFocus
       s.hasValue = this.input.value ? true : false
-      s.hasDisabled = this.input.disabled
+      s.hasInvalid = !this.input.validity.valid
       s.hasReadOnly = this.input.readOnly
-      s.hasValid = this.input.validity.valid
+      s.hasDisabled = this.input.disabled
     }
   },
   mounted () {
