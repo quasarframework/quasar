@@ -138,7 +138,101 @@ ISSUES:
 
   </div>
 </template>
+<style lang='stylus'>
 
+$form-active-color = #027be3
+
+$label-nudge-top ?= 2px
+$label-nudge-left ?= 0
+
+textarea:focus
+  transition none !important
+  /* ^ existing transition undesirable with user drag-resize */
+
+.fl-container
+
+  position relative
+  display inline-block
+  box-sizing border-box
+  width 100%
+  min-height 72px
+  background #777
+  margin-bottom 5px
+
+  & > i
+    position absolute
+    font-size 24px
+    padding 12px
+    top 12px
+    left 0
+    transition color .3s
+
+  & > .fl-inner
+    display inline-block
+    box-sizing border-box
+    width 100%
+    padding-top 12px
+
+    & > input
+      padding-top 0 // 1.8rem
+
+    & > textarea
+      margin-top 0 // 1.8rem
+
+    & > label
+      padding-top $label-nudge-top
+      padding-left $label-nudge-left
+      position absolute
+      pointer-events none
+      color rgba(0, 0, 0, .54)
+      transform-origin left top
+      transition transform .15s ease-in-out, color .3s, opacity .3s
+
+// Layout Modifiers -------------------------
+
+// With Icon
+&.fl-icon
+  & > .fl-inner
+    margin-left 48px
+
+// With Dense
+&.fl-dense
+  & > .fl-inner
+    & > label
+      top 1.5rem
+    & > input
+      padding-top 1.45rem
+      margin-bottom 10px
+    & > textarea
+      margin-top 1.45rem
+      margin-bottom 6px
+
+// Label Mixins -------------------------
+
+// Label above input
+&.fl-layout-stacked,
+&.fl-layout-floating.fl-active
+  & > .fl-inner > label
+    transform translateY(-16px) scale(.8)
+
+// Label vanished
+&.fl-layout-inline.fl-active
+  & > .fl-inner > label
+    opacity 0
+    transform-origin left 50%
+    transform scaleY(-1)
+    color $form-active-color
+
+// Label invisible
+
+// Label has focus
+&.fl-focus
+  & > .fl-inner > label
+  & i
+    color $form-active-color
+
+
+</style>
 <script>
 export default {
   data () {
@@ -147,3 +241,4 @@ export default {
   }
 }
 </script>
+

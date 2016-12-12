@@ -1,8 +1,13 @@
 <template>
-  <div :class='cssFloatingLabel'>
+  <div
+    class='fl-container'
+    :class='css_Container'
+  >
+    <div class='fl-inner'>
+      <label>{{ label }}</label>
+      <slot></slot>
+    </div>
     <i v-if='icon'>{{ icon }}</i>
-    <slot></slot>
-    <label>{{ label }}</label>
   </div>
 </template>
 
@@ -34,7 +39,10 @@ export default {
     return {
       input: null,
       inputType: null,
-      layoutClass: 'float-label layout-' + this.layout + (this.icon ? ' fl-icon' : '') + (this.dense ? ' fl-dense' : ''),
+      layoutCss:
+        'fl-layout-' + this.layout
+        + (this.icon ? ' fl-icon' : '')
+        + (this.dense ? ' fl-dense' : ''),
       state: {
         hasFocus: false,
         hasValue: false,
@@ -45,26 +53,24 @@ export default {
     }
   },
   computed: {
-    cssFloatingLabel () {
+    css_Container () {
       let
         s = this.state,
         css =
         [
-          [this.layoutClass],
+          [this.layoutCss],
           {
             'fl-active': s.hasFocus || s.hasValue || s.hasReadOnly,
             'fl-focus': s.hasFocus,
             'fl-value': s.hasValue,
             'fl-invalid': s.hasInvalid,
             'fl-read-only': s.hasReadOnly,
-            'fl-disabled': s.hasFocus
+            'fl-disabled': s.hasDisabled
           }
         ]
       return css
     }
   },
-       // 'float-label': true, // NB: Distinct from existing Quasar 'floating-label'
-       //  [this.layoutClass]: true,
   methods: {
     __update (e) {
       let
@@ -80,7 +86,7 @@ export default {
   mounted () {
       this.input = this.$el.querySelector('input, textarea')
       if (!this.input) {
-        console.warn('"<q-floating-label>" missing required <input> or <textarea>.')
+        throw new Error('<q-floating-label> is missing a required input/textarea element.')
         return
       }
       this.inputType = this.input.type
