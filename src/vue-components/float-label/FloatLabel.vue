@@ -46,8 +46,9 @@ export default {
   },
   computed: {
     cssFloatingLabel () {
-      let s = this.state
-      let css =
+      let
+        s = this.state,
+        css =
         [
           [this.layoutClass],
           {
