@@ -22,7 +22,7 @@ let routes = [
     path: '/test-layout',
     component: load('test-layout/layout'),
     children: [
-      {path: 'about', component: load('test-layout/about')},
+      {path: '', component: load('test-layout/about')},
       {path: 'toolbar', component: load('test-layout/toolbar')},
       {path: 'tabs', component: load('test-layout/tabs')},
       {path: 'drawer', component: load('test-layout/drawer')}

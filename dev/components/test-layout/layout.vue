@@ -17,7 +17,7 @@
     </div>
 
     <q-tabs slot="navigation">
-      <q-tab icon="view_quilt" route="/test-layout/about" exact replace>About</q-tab>
+      <q-tab icon="view_quilt" route="/test-layout" exact replace>About</q-tab>
       <q-tab icon="view_day" route="/test-layout/toolbar" replace>Toolbar</q-tab>
       <q-tab icon="view_day" route="/test-layout/tabs" replace>Tabs</q-tab>
       <q-tab icon="input" route="/test-layout/drawer" replace>Drawer</q-tab>
@@ -31,7 +31,7 @@
       </div>
 
       <div class="list no-border platform-delimiter">
-        <q-drawer-link icon="view_quilt" to="/test-layout/about">
+        <q-drawer-link icon="view_quilt" :to="{path: '/test-layout', exact: true}">
           About Layout
         </q-drawer-link>
         <hr>
