@@ -200,6 +200,9 @@ export default {
         {
           label: 'Message',
           field: 'message',
+          classes (val) {
+            return val.charAt(0) === 'L' ? 'bg-red' : 'bg-yellow'
+          },
           sort: true,
           width: '500px'
         },
