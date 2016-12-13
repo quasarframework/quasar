@@ -53,7 +53,7 @@
       </table>
     </template>
 
-    <div v-else class="q-data-table-container" @mousewheel="mouseWheel" @dommousescroll="mouseWheel">
+    <div v-else class="q-data-table-container" @mousewheel="mouseWheel" @DOMMouseScroll="mouseWheel">
       <div class="q-data-table-head" ref="head" :style="{marginRight: scroll.vert}">
         <table-content head :cols="cols" :sorting="sorting" :scroll="scroll" :selection="config.selection" @sort="setSortField"></table-content>
       </div>
