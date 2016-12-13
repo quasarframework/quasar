@@ -7,18 +7,18 @@
     </colgroup>
     <thead v-if="head">
       <tr>
-        <th v-if="selection"></th>
+        <th v-if="selection">&nbsp;</th>
         <th
           v-for="col in cols"
           :class="{sortable: col.sort}"
           @click="sort(col)"
         >
-          <span v-html="col.label"></span>
           <sort-icon
             v-if="col.sort"
             :field="col.field"
             :sorting="sorting"
           ></sort-icon>
+          <span v-html="col.label"></span>
         </th>
         <th v-if="head && scroll.horiz"></th>
       </tr>

@@ -182,7 +182,7 @@ export default {
           width: '120px',
           classes: 'bg-orange-2',
           format (value) {
-            return new Date(value).toLocaleString()
+            return (new Date(value).toLocaleString()) + (new Date(value).toLocaleString())
           }
         },
         {

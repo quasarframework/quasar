@@ -30,6 +30,9 @@ export default {
     regularCols () {
       return this.cols.slice(this.leftStickyColumns, this.cols.length - this.rightStickyColumns)
     },
+    leftCols () {
+      return Array.apply(null, Array(this.leftStickyColumns)).map((col, n) => this.cols[n])
+    },
     rightCols () {
       return Array.apply(null, Array(this.rightStickyColumns)).map((col, n) => this.cols[this.cols.length - this.rightStickyColumns + n])
     }
