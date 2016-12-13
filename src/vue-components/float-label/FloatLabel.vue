@@ -4,8 +4,9 @@
     :class='css_Container'
   >
     <div class='fl-inner'>
-      <label>{{ label }}</label>
       <slot></slot>
+      <label>{{ label }}</label>
+      <span class='fl-error'>This is an error.,</span>
     </div>
     <i v-if='icon'>{{ icon }}</i>
   </div>

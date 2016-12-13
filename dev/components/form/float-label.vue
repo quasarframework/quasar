@@ -139,6 +139,109 @@ ISSUES:
   </div>
 </template>
 <style lang='stylus'>
+$grey = #9e9e9e
+$grey-1 = #fafafa
+$grey-2 = #f5f5f5
+$grey-3 = #eeeeee
+$grey-4 = #e0e0e0
+$grey-5 = #bdbdbd
+$grey-6 = #9e9e9e
+$grey-7 = #757575
+$grey-8 = #616161
+$grey-9 = #424242
+$grey-10 = #212121
+$grey-11 = #f5f5f5
+$grey-12 = #eeeeee
+$grey-13 = #bdbdbd
+$grey-14 = #616161
+
+$form-darker-color    ?= $grey-5
+$form-lighter-color   ?= $grey-3
+$form-active-color    ?= $primary
+$form-border          ?= 3px solid $form-darker-color
+$form-border-radius   ?= $generic-border-radius
+$form-shadow          ?= 0 1px 3px 1px rgba(0, 0, 0, .4)
+
+
+$textfield-border-size        ?= 2px
+$textfield-border-style       ?= solid
+$textfield-border-color       ?= $form-lighter-color
+$textfield-focus-border-color ?= $form-active-color
+$textfield-font-size          ?= .9rem
+$label-font-size              ?= $textfield-font-size
+$textfield-font-size          ?= .9rem
+
+$textfield-padding-horizontal ?= 0
+$textfield-padding-vertical   ?= 8px
+
+$caret-color                  ?= $grey-9
+
+input, textarea, .textfield
+  &:not(.no-style)
+    background none
+    font-size $textfield-font-size
+    max-width 100%
+    margin-bottom 2px
+    padding $textfield-padding-vertical $textfield-padding-horizontal
+    border 0
+    outline 0
+    transition all .3s
+    border-bottom $textfield-border-size $textfield-border-style $textfield-border-color
+    &:focus, &:hover, .active
+      border-bottom $textfield-border-size $textfield-border-style $textfield-focus-border-color
+    &[disabled], &.disabled
+      border-bottom-color darken($form-darker-color, 20%)
+    &[disabled], &.disabled, &[readonly], &.readonly
+      border-bottom-style dotted
+    &.has-error
+      border-bottom $textfield-border-size $textfield-border-style $has-error !important
+
+label
+  font-size $label-font-size
+
+.stacked-label, .floating-label
+  position relative
+  display inline-block
+  width 100%
+  label
+    position absolute
+    pointer-events none
+    top 0
+    left 0
+    transform-origin left top
+    color rgba(0, 0, 0, .54)
+
+.stacked-label
+  label
+    display block
+    transform scale(.8)
+  input
+    padding-top 1.4rem
+  textarea
+    margin-top 1.4rem
+  input:focus + label, textarea:focus + label
+    color $form-active-color
+
+.floating-label
+  label
+    bottom $textfield-padding-vertical
+    transition transform .15s ease-in-out, color .3s
+  input + label, textarea + label
+    transform translateY(1.7rem) scale(1)
+  input
+    padding-top 1.4rem
+  textarea
+    margin-top 1.4rem
+&.label-active
+  input ~ label, textarea ~ label
+    transform translateY(0) scale(.8)
+&.label-focus
+  input ~ label, textarea ~ label
+    color $form-active-color
+
+
+
+// ^^--- textfield.mat.styl
 
 $form-active-color = #027be3
 
@@ -156,7 +259,7 @@ textarea:focus
   box-sizing border-box
   width 100%
   min-height 72px
-  background #777
+  border 1px solid blue
   margin-bottom 5px
 
   & > i
@@ -169,12 +272,13 @@ textarea:focus
 
   & > .fl-inner
     display inline-block
+    position relative
     box-sizing border-box
     width 100%
     padding-top 12px
+    border 1px solid red
 
     & > input
-      padding-top 0 // 1.8rem
 
     & > textarea
       margin-top 0 // 1.8rem
@@ -193,7 +297,7 @@ textarea:focus
 // With Icon
 &.fl-icon
   & > .fl-inner
-    margin-left 48px
+    padding-left 48px
 
 // With Dense
 &.fl-dense
@@ -233,6 +337,7 @@ textarea:focus
 
 
 </style>
+      padding-top 0 // 1.8rem
 <script>
 export default {
   data () {
