@@ -17,6 +17,11 @@
           <input type="text" class="full-width" v-model="el.model" :placeholder="el.placeholder" required>
           <label v-html="el.label"></label>
         </div>
+        
+        <div v-if="el.type === 'password'" class="floating-label" style="margin-bottom: 10px">
+          <input type="password" class="full-width" v-model="el.model" :placeholder="el.placeholder" required>
+          <label v-html="el.label"></label>
+        </div>
 
         <div v-if="el.type === 'textarea'" class="floating-label" style="margin-bottom: 10px">
           <textarea type="text" class="full-width" v-model="el.model" :placeholder="el.placeholder" required></textarea>
