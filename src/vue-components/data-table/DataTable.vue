@@ -83,21 +83,21 @@
           ref="stickyLeft"
           :style="{bottom: scroll.horiz}"
         >
-          <table-sticky :cols="leftCols" :sorting="sorting" :selection="config.selection">
+          <table-sticky :sticky-cols="leftStickyColumns" :cols="cols" :sorting="sorting" :selection="config.selection">
             <tr v-for="(row, index) in rows" :style="rowStyle">
               <td v-if="config.selection">
                 <q-checkbox v-if="config.selection === 'multiple'" v-model="rowSelection[index]"></q-checkbox>
                 <q-radio v-else v-model="rowSelection[0]" :val="index"></q-radio>
               </td>
-              <td v-for="col in leftCols" :style="formatStyle(col, row[col.field])" :class="formatClass(col, row[col.field])">
-                <span v-if="!$scopedSlots['col-'+col.field]" v-html="format(row, col)"></span>
-                <slot v-if="$scopedSlots['col-'+col.field]" :name="'col-'+col.field" :row="row" :col="col" :data="row[col.field]"></slot>
+              <td v-for="n in leftStickyColumns" :style="formatStyle(cols[n-1], row[cols[n-1].field])" :class="formatClass(cols[n-1], row[cols[n-1].field])">
+                <span v-if="!$scopedSlots['col-'+cols[n-1].field]" v-html="format(row, cols[n-1])"></span>
+                <slot v-if="$scopedSlots['col-'+cols[n-1].field]" :name="'col-'+cols[n-1].field" :row="row" :col="cols[n-1]" :data="row[cols[n-1].field]"></slot>
               </td>
             </tr>
           </table-sticky>
         </div>
         <div class="q-data-table-sticky-left" :style="{bottom: scroll.horiz}">
-          <table-sticky head :scroll="scroll" :cols="leftCols" :sorting="sorting" @sort="setSortField" :selection="config.selection"></table-sticky>
+          <table-sticky head :sticky-cols="leftStickyColumns" :scroll="scroll" :cols="cols" :sorting="sorting" @sort="setSortField" :selection="config.selection"></table-sticky>
         </div>
       </template>
 
@@ -107,17 +107,19 @@
           ref="stickyRight"
           :style="{right: scroll.vert, bottom: scroll.horiz}"
         >
-          <table-sticky right :cols="rightCols" :sorting="sorting" :selection="config.selection">
+          <table-sticky right :sticky-cols="rightStickyColumns" :cols="cols" :sorting="sorting" :selection="config.selection">
             <tr v-for="row in rows" :style="rowStyle">
-              <td v-for="col in rightCols" :style="formatStyle(col, row[col.field])" :class="formatClass(col, row[col.field])">
-                <span v-if="!$scopedSlots['col-'+col.field]" v-html="format(row, col)"></span>
-                <slot v-if="$scopedSlots['col-'+col.field]" :name="'col-'+col.field" :row="row" :col="col" :data="row[col.field]"></slot>
+              <td v-if="config.selection" class="invisible"></td>
+              <td v-for="n in cols.length - rightStickyColumns" class="invisible"></td>
+              <td v-for="n in rightStickyColumns" :style="formatStyle(rightCols[n-1], row[rightCols[n-1].field])" :class="formatClass(rightCols[n-1], row[rightCols[n-1].field])">
+                <span v-if="!$scopedSlots['col-'+rightCols[n-1].field]" v-html="format(row, rightCols[n-1])"></span>
+                <slot v-if="$scopedSlots['col-'+rightCols[n-1].field]" :name="'col-'+rightCols[n-1].field" :row="row" :col="rightCols[n-1]" :data="row[rightCols[n-1].field]"></slot>
               </td>
             </tr>
           </table-sticky>
         </div>
         <div class="q-data-table-sticky-right" :style="{right: scroll.vert}">
-          <table-sticky right head :scroll="scroll" :cols="rightCols" :sorting="sorting" @sort="setSortField" :selection="config.selection"></table-sticky>
+          <table-sticky right head :sticky-cols="rightStickyColumns" :scroll="scroll" :cols="cols" :sorting="sorting" @sort="setSortField" :selection="config.selection"></table-sticky>
         </div>
       </template>
     </div>

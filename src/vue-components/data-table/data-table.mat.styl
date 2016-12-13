@@ -1,17 +1,15 @@
 .q-data-table
   font-size 85%
   table
+    width 100%
     table-layout fixed
-    &.not-fullwidth
-      width 1px
-    &:not(.not-fullwidth)
-      width 100%
+    empty-cells hide
     tr
       background white
     td, th
       text-overflow ellipsis
-      overflow hidden
       white-space nowrap
+      overflow hidden
     tbody tr:nth-child(odd)
       background $grey-3
     thead tr

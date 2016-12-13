@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding">
+    <div>
       <div class="column group" style="margin-bottom: 50px">
         <div class="floating-label">
           <input v-model="config.title" required>

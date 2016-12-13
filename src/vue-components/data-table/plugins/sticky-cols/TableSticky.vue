@@ -1,23 +1,25 @@
 <template>
-  <table class="q-table horizontal-delimiter not-fullwidth">
+  <table class="q-table horizontal-delimiter">
     <colgroup>
-      <col v-if="!right && selection" style="width: 45px;" />
+      <col v-if="selection" style="width: 45px;" />
       <col v-for="col in cols" :style="{width: col.width}" />
     </colgroup>
     <thead>
       <tr>
-        <th v-if="!right && selection">&nbsp;</th>
+        <th v-if="selection">&nbsp;</th>
         <th
           v-for="(col, index) in cols"
-          :class="{sortable: col.sort}"
+          :class="{invisible: hidden(index), sortable: col.sort}"
           @click="sort(col)"
         >
-          <sort-icon
-            v-if="col.sort"
-            :field="col.field"
-            :sorting="sorting"
-          ></sort-icon>
-          <span v-html="col.label"></span>
+          <template v-if="!hidden(index)">
+            <sort-icon
+              v-if="col.sort"
+              :field="col.field"
+              :sorting="sorting"
+            ></sort-icon>
+            <span v-html="col.label"></span>
+          </template>
         </th>
       </tr>
     </thead>
@@ -33,6 +35,7 @@ import SortIcon from '../sort/SortIcon.vue'
 
 export default {
   props: {
+    stickyCols: Number,
     cols: Array,
     head: Boolean,
     right: Boolean,
