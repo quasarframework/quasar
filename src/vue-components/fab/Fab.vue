@@ -1,7 +1,7 @@
 <template>
   <div
     class="q-fab flex inline justify-center"
-    :class="{opened}"
+    :class="{opened: opened}"
   >
     <div class="backdrop animate-fade" @click="toggle(true)"></div>
     <button class="circular raised" @click="toggle()" :class="classNames">

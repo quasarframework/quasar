@@ -1,5 +1,5 @@
 <template>
-  <div class="q-numeric textfield row inline items-center" :class="{disabled: disable, readonly}">
+  <div class="q-numeric textfield row inline items-center" :class="{disabled: disable, readonly: readonly}">
     <i @click="__setByOffset(-1)">remove</i>
     <input
       class="no-style auto q-input-field"

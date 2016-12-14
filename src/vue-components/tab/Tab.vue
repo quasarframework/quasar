@@ -1,7 +1,13 @@
 <template>
   <div
     class="q-tab items-center justify-center"
-    :class="{active: isActive, hidden, disabled: disable, hideIcon: hide === 'icon', hideLabel: hide === 'label'}"
+    :class="{
+      active: isActive,
+      hidden: hidden,
+      disabled: disable,
+      hideIcon: hide === 'icon',
+      hideLabel: hide === 'label'
+    }"
     @click="activate()"
   >
     <router-link v-if="route" ref="routerLink" :to="route" :replace="replace" :append="append" :exact="exact"></router-link>
