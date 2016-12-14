@@ -245,15 +245,12 @@ label
 
 $form-active-color = #027be3
 
-$label-nudge-top ?= 2px
+$label-nudge-top ?= 0
 $label-nudge-left ?= 0
 
-textarea:focus
-  transition none !important
-  /* ^ existing transition undesirable with user drag-resize */
+
 
 .fl-container
-
   position relative
   display inline-block
   box-sizing border-box
@@ -261,6 +258,30 @@ textarea:focus
   min-height 72px
   border 1px solid blue
   margin-bottom 5px
+
+
+  & > label
+    padding-top $label-nudge-top
+    padding-left $label-nudge-left
+    position absolute
+    pointer-events none
+    color rgba(0, 0, 0, .54)
+    top 1.8rem
+    left 0
+    transform-origin left top
+    transition transform .15s ease-in-out, color .3s, opacity .3s
+
+
+  & > input
+    padding-top 1.8rem
+    margin-bottom 17px
+
+  & > textarea
+    margin-top 1.8rem
+    margin-bottom 13px
+
+  & > span.fl-error
+    font-size 12px
 
   & > i
     position absolute
@@ -270,70 +291,53 @@ textarea:focus
     left 0
     transition color .3s
 
-  & > .fl-inner
-    display inline-block
-    position relative
-    box-sizing border-box
-    width 100%
-    padding-top 12px
-    border 1px solid red
-
-    & > input
-
-    & > textarea
-      margin-top 0 // 1.8rem
-
-    & > label
-      padding-top $label-nudge-top
-      padding-left $label-nudge-left
-      position absolute
-      pointer-events none
-      color rgba(0, 0, 0, .54)
-      transform-origin left top
-      transition transform .15s ease-in-out, color .3s, opacity .3s
 
 // Layout Modifiers -------------------------
 
 // With Icon
 &.fl-icon
-  & > .fl-inner
-    padding-left 48px
+  padding-left 48px
+  & > label
+    left 48px
 
 // With Dense
 &.fl-dense
-  & > .fl-inner
-    & > label
-      top 1.5rem
-    & > input
-      padding-top 1.45rem
-      margin-bottom 10px
-    & > textarea
-      margin-top 1.45rem
-      margin-bottom 6px
+  & > label
+    top 1.5rem
+  & > input
+    padding-top 1.45rem
+    margin-bottom 10px
+  & > textarea
+    margin-top 1.45rem
+    margin-bottom 6px
 
-// Label Mixins -------------------------
+// Has focus
+&.fl-focus
+  & > label
+  & >i
+    color $form-active-color
+
+
+// Label Position Mixins -------------------------
 
 // Label above input
 &.fl-layout-stacked,
 &.fl-layout-floating.fl-active
-  & > .fl-inner > label
+  > label
     transform translateY(-16px) scale(.8)
 
 // Label vanished
 &.fl-layout-inline.fl-active
-  & > .fl-inner > label
+  > label
     opacity 0
     transform-origin left 50%
     transform scaleY(-1)
     color $form-active-color
 
-// Label invisible
-
-// Label has focus
-&.fl-focus
-  & > .fl-inner > label
-  & i
-    color $form-active-color
+// Label not displayed
+&.fl-layout-nolabel
+  > label
+    display none
 
 
 </style>

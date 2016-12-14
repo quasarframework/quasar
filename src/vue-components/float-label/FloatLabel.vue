@@ -3,11 +3,9 @@
     class='fl-container'
     :class='css_Container'
   >
-    <div class='fl-inner'>
-      <slot></slot>
-      <label>{{ label }}</label>
-      <span class='fl-error'>This is an error.,</span>
-    </div>
+    <slot></slot>
+    <label>{{ label }}</label>
+    <span v-if='icon' class='fl-error'>This is an error.</span>
     <i v-if='icon'>{{ icon }}</i>
   </div>
 </template>
@@ -28,12 +26,12 @@ export default {
       type: String, // 'floating' | 'stacked' | 'inside' | inline' | 'nolabel' | custom
       default: 'floating'
     },
-    icon: {
-      type: String
-    },
     dense: {
       type: Boolean,
       default: false
+    },
+    icon: {
+      type: String
     }
   },
   data () {
