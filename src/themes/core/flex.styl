@@ -61,6 +61,8 @@ for i in 0..10
 
 .auto
   flex 1 1 auto
+.offset-0
+  margin-left 0
 
 for $cols in (1..5)
   for $parts in (1..$cols)
@@ -144,6 +146,8 @@ flex-media-query($type)
 
   .{$type}-auto
     flex 1 1 auto
+  .{$type}-offset-0
+    margin-left 0
 
   for $cols in (1..5)
     for $parts in (1..$cols)
