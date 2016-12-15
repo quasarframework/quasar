@@ -33,7 +33,7 @@ ISSUES:
 
 
       <div class="card">
-        <div class="card-title">
+        <div class="card-title text-white bg-primary">
           Layouts
         </div>
         <div class="card-content">
@@ -43,11 +43,23 @@ ISSUES:
             <input class="full-width">
           </q-float-label>
 
-          <q-float-label label="Inline Layout" layout="inline">
+          <q-float-label label="Placeholder Layout" layout="placeholder">
             <input class="full-width">
           </q-float-label>
 
           <q-float-label label="Stacked Layout" layout="stacked">
+            <input class="full-width">
+          </q-float-label>
+
+          <q-float-label label="Inline Layout" layout="inline">
+            <input class="full-width">
+          </q-float-label>
+
+          <q-float-label label="Nolabel Layout" layout="nolabel" width="full-width">
+            <input value="My layout has 'nolabel' :-(">
+          </q-float-label>
+
+          <q-float-label label="Floating + Custom Layout" layout="floating custom">
             <input class="full-width">
           </q-float-label>
 
@@ -56,7 +68,7 @@ ISSUES:
             <input class="full-width">
           </q-float-label>
 
-          <q-float-label label="Inline Layout + Icon" layout="inline" icon="mail_outline">
+          <q-float-label label="Placeholder Layout + Icon" layout="placeholder" icon="mail_outline">
             <input class="full-width">
           </q-float-label>
 
@@ -76,8 +88,8 @@ ISSUES:
         </div>
         <div class="card-content">
 
-          <q-float-label label="Email" icon="mail_outline">
-            <input type="email" class="full-width">
+          <q-float-label label="Email" icon="mail_outline" validate width='min'>
+            <input type="email">
           </q-float-label>
 
           <q-float-label label="Password" icon="lock">
@@ -97,7 +109,7 @@ ISSUES:
           </q-float-label>
 
           <q-float-label label="Text (has-error)" icon="build">
-            <input type="text" value="The Revolver" class="full-width has-error">
+            <input type="text" value="The Revolver" class="full-width" pattern=".*(spanner|wrench).*">
           </q-float-label>
 
 
@@ -139,6 +151,7 @@ ISSUES:
   </div>
 </template>
 <style lang='stylus'>
+
 $grey = #9e9e9e
 $grey-1 = #fafafa
 $grey-2 = #f5f5f5
@@ -155,6 +168,21 @@ $grey-12 = #eeeeee
 $grey-13 = #bdbdbd
 $grey-14 = #616161
 
+$primary = #027be3
+
+
+$positive  ?= #21BA45
+$negative  ?= #DB2828
+$info      ?= #31CCEC
+$warning   ?= #F2C037
+
+$white     ?= #fff
+$light     ?= #f4f4f4
+$dark      ?= #333
+$faded     ?= #777
+
+$has-error ?= $negative
+
 $form-darker-color    ?= $grey-5
 $form-lighter-color   ?= $grey-3
 $form-active-color    ?= $primary
@@ -163,7 +191,7 @@ $form-border-radius   ?= $generic-border-radius
 $form-shadow          ?= 0 1px 3px 1px rgba(0, 0, 0, .4)
 
 
-$textfield-border-size        ?= 2px
+$textfield-border-size        ?= 1px
 $textfield-border-style       ?= solid
 $textfield-border-color       ?= $form-lighter-color
 $textfield-focus-border-color ?= $form-active-color
@@ -187,8 +215,8 @@ input, textarea, .textfield
     outline 0
     transition all .3s
     border-bottom $textfield-border-size $textfield-border-style $textfield-border-color
-    &:focus, &:hover, .active
-      border-bottom $textfield-border-size $textfield-border-style $textfield-focus-border-color
+    // &:focus, &:hover, .active
+    //  border-bottom $textfield-border-size $textfield-border-style $textfield-focus-border-color
     &[disabled], &.disabled
       border-bottom-color darken($form-darker-color, 20%)
     &[disabled], &.disabled, &[readonly], &.readonly
@@ -198,7 +226,7 @@ input, textarea, .textfield
 
 label
   font-size $label-font-size
-
+/*
 .stacked-label, .floating-label
   position relative
   display inline-block
@@ -239,57 +267,85 @@ label
   input ~ label, textarea ~ label
     color $form-active-color
 
-
+*/
 
 // ^^--- textfield.mat.styl
 
-$form-active-color = #027be3
 
 $label-nudge-top ?= 0
 $label-nudge-left ?= 0
 
-
+.fl-container > .fl-inner > textarea:active
+  transition none
 
 .fl-container
   position relative
   display inline-block
   box-sizing border-box
-  width 100%
   min-height 72px
-  border 1px solid blue
-  margin-bottom 5px
+  width 100%
+  xbackground lemonchiffon
+  xborder 1px solid blue
+  xmargin-bottom 5px
 
+  & > .fl-inner
+    position relative
+    display inline-block
 
-  & > label
-    padding-top $label-nudge-top
-    padding-left $label-nudge-left
-    position absolute
-    pointer-events none
-    color rgba(0, 0, 0, .54)
-    top 1.8rem
-    left 0
-    transform-origin left top
-    transition transform .15s ease-in-out, color .3s, opacity .3s
+    & > label
+      white-space nowrap
+      position absolute
+      pointer-events none
+      color rgba(0, 0, 0, .54)
+      top 1.8rem
+      left 0
+      transform-origin left top
+      transition transform .15s ease-in-out, color .3s, opacity .3s
 
+    & > input
+      padding-top 1.8rem
 
-  & > input
-    padding-top 1.8rem
-    margin-bottom 17px
+    & > textarea
+      margin-top 1.8rem
 
-  & > textarea
-    margin-top 1.8rem
-    margin-bottom 13px
+    & > div
+      position relative
+      &:before
+        content ''
+        display block
+        position absolute
+        visibility hidden
+        width 2px
+        height 2px
+        left 49%
+        background-color $form-active-color
+        transition-duration .2s
+        transition-timing-function cubic-bezier(.4, 0, .2, 1)
 
-  & > span.fl-error
-    font-size 12px
+    & > input ~ div:before
+      top -4px
+    & > textarea ~ div:before
+      top -8px
 
-  & > i
-    position absolute
-    font-size 24px
-    padding 12px
-    top 12px
-    left 0
-    transition color .3s
+    & > i
+      position absolute
+      font-size 24px
+      padding 12px
+      top 12px
+      left 0
+      transform-origin 50% 50%
+      transition color .3s
+
+    & > span
+      display block
+      position relative
+      pointer-events none
+      visibility hidden
+      opacity 0
+      font-size 12px
+      color $has-error !important
+      transition opacity .3s
+
 
 
 // Layout Modifiers -------------------------
@@ -297,8 +353,9 @@ $label-nudge-left ?= 0
 // With Icon
 &.fl-icon
   padding-left 48px
-  & > label
-    left 48px
+  & > .fl-inner
+    & > i
+      left -48px
 
 // With Dense
 &.fl-dense
@@ -313,9 +370,29 @@ $label-nudge-left ?= 0
 
 // Has focus
 &.fl-focus
-  & > label
-  & >i
-    color $form-active-color
+  & > .fl-inner
+    & > label
+    & > i
+      color $form-active-color
+    & > div:before
+        visibility visible
+        width 100%
+        left 0
+
+
+// Has invalid
+&.fl-invalid > .fl-inner > input
+& > .fl-inner > input.has-error
+  border-bottom-color $has-error !important
+
+& > .fl-inner > input.has-error ~ div:before
+&.fl-invalid > .fl-inner > div:before
+  background $has-error !important
+
+& > .fl-inner > input.has-error ~ span
+&.fl-invalid > .fl-inner > span
+  visibility visible
+  opacity 1
 
 
 // Label Position Mixins -------------------------
@@ -323,25 +400,32 @@ $label-nudge-left ?= 0
 // Label above input
 &.fl-layout-stacked,
 &.fl-layout-floating.fl-active
-  > label
-    transform translateY(-16px) scale(.8)
+  & > .fl-inner > label
+      transform translateY(-22px) scale(.8)
 
 // Label vanished
-&.fl-layout-inline.fl-active
-  > label
-    opacity 0
-    transform-origin left 50%
-    transform scaleY(-1)
-    color $form-active-color
+&.fl-layout-placeholder.fl-active
+  & > .fl-inner > label
+      opacity 0
+      transform-origin left 50%
+      color $form-active-color
 
 // Label not displayed
 &.fl-layout-nolabel
-  > label
-    display none
+  & > .fl-inner > label
+      display none
 
 
+
+
+// Custom Mixins -------------------------
+&.fl-layout-custom.fl-active i
+  transform scale(2) rotation(270)
+&.fl-layout-custom.fl-active label
+  transform translateX(100%) scale(2)
+  color $secondary
 </style>
-      padding-top 0 // 1.8rem
+
 <script>
 export default {
   data () {
