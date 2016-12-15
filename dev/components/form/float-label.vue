@@ -39,16 +39,16 @@ ISSUES:
         <div class="card-content">
 
           <!-- Layouts -->
-          <q-float-label label="Basic Floating Label" >
-            <input class="full-width">
+          <q-float-label label="Basic Floating Label" width="full-width">
+            <input>
           </q-float-label>
 
           <q-float-label label="Placeholder Layout" layout="placeholder">
-            <input class="full-width">
+            <input>
           </q-float-label>
 
           <q-float-label label="Stacked Layout" layout="stacked">
-            <input class="full-width">
+            <input>
           </q-float-label>
 
           <q-float-label label="Inline Layout" layout="inline">
@@ -80,6 +80,31 @@ ISSUES:
 
       </div>
 
+      <div class="card">
+        <div class="card-title">
+          Validation
+        </div>
+        <div class="card-content">
+
+          <q-float-label label="Email (No Validation)" icon="mail_outline">
+            <input type="email">
+          </q-float-label>
+
+          <q-float-label label="Email (Default Validation)" icon="mail_outline" validate>
+            <input type="email">
+          </q-float-label>
+
+          <q-float-label label="Email (Lazy Validation)" icon="mail_outline" validate validate-lazy>
+            <input type="email">
+          </q-float-label>
+
+          <q-float-label label="Email (Custom Validation Message)" icon="mail_outline" validate validate-msg="That ain't a proper email address, pal!">
+            <input type="email">
+          </q-float-label>
+
+        </div>
+      </div>
+
 
 
       <div class="card">
@@ -88,9 +113,22 @@ ISSUES:
         </div>
         <div class="card-content">
 
-          <q-float-label label="Email" icon="mail_outline" validate width='min'>
+          <q-float-label label="Email" icon="mail_outline">
             <input type="email">
           </q-float-label>
+
+          <q-float-label label="Email" icon="mail_outline" validate>
+            <input type="email">
+          </q-float-label>
+
+          <q-float-label label="Email" icon="mail_outline" validate>
+            <input type="email">
+          </q-float-label>
+
+          <q-float-label label="Email" icon="mail_outline" validate>
+            <input type="email">
+          </q-float-label>
+
 
           <q-float-label label="Password" icon="lock">
             <input type="password" class="full-width">
@@ -279,18 +317,17 @@ $label-nudge-left ?= 0
   transition none
 
 .fl-container
+  display inline-flex
   position relative
-  display inline-block
   box-sizing border-box
   min-height 72px
-  width 100%
   xbackground lemonchiffon
   xborder 1px solid blue
   xmargin-bottom 5px
 
   & > .fl-inner
     position relative
-    display inline-block
+    xflex-grow 1
 
     & > label
       white-space nowrap
@@ -303,9 +340,11 @@ $label-nudge-left ?= 0
       transition transform .15s ease-in-out, color .3s, opacity .3s
 
     & > input
+      width 100%
       padding-top 1.8rem
 
     & > textarea
+      width 100%
       margin-top 1.8rem
 
     & > div

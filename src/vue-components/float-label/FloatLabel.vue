@@ -4,6 +4,7 @@
     :class='css_Container'
     :style='style_Container'
   >
+    <label v-if="layout === 'inline'">{{ label }}</label>
     <div class='fl-inner'>
       <slot></slot>
       <label>{{ label }}</label>
@@ -39,8 +40,7 @@ export default {
       default: false
     },
     width: {
-      type: String,
-      default: 'max'
+      type: String
     },
     icon: {
       type: String
@@ -49,21 +49,29 @@ export default {
       type: Boolean,
       default: false
     },
-    validationMsg: {
+    validateMsg: {
       type: String
+    },
+    validateLazy: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
     return {
+      // input
       input: null,
       inputType: null,
-      style_Container: (this.width === 'max' || this.width === 'full-width') ? '100%' : (this.width === 'min') ? '' : this.width,
+      // layout
       layoutCss:
         'fl-layout-' + this.layout
         + (this.icon ? ' fl-icon' : '')
         + (this.dense ? ' fl-dense' : ''),
-      txt_ValidationMsg: this.validationMsg,
+      drawIcon: this.icon,
+      // validation
+      txt_ValidationMsg: this.validateMsg || 'Please enter a valid value.',
       drawValidation: this.validate,
+      // state
       state: {
         hasFocus: false,
         hasTouched: false,
@@ -75,6 +83,13 @@ export default {
     }
   },
   computed: {
+    style_Container () {
+      let style =
+      {
+        'width': (this.width === 'max' || this.width === 'full-width') ? '100%' : (this.width === 'min') ? '' : this.width
+      }
+      return style
+    },
     css_Container () {
       let
         s = this.state,
@@ -106,7 +121,9 @@ export default {
     __onInput (e) {
       this.state.hasValue = this.input.value ? true : false
       this.touched = true
-      this.__updateInvalid()
+      if (!this.validateLazy) {
+        this.__updateInvalid()
+      }
     },
     __updateInvalid () {
       this.state.hasInvalid = !this.input.validity.valid && (this.state.hasValue || this.state.touched)
