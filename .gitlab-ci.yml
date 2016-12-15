@@ -1,0 +1,44 @@
+image: vgaidarji/docker-android-cordova:latest
+
+cache:
+  paths:
+  - node_modules/
+
+stages:
+  - build
+  - test
+
+build_job:
+  stage: build
+  before_script:
+    - node -v
+    - npm -v
+  script:
+    - npm install
+    - cd cordova
+    - cordova platform add android --save
+    - cordova platform ls
+    - cordova build android --release --device
+    - cordova build android --debug --device
+    - cd ..
+  artifacts:
+    name: "${CI_BUILD_STAGE}_${CI_BUILD_REF_NAME}"
+    paths:
+      - cordova/platforms/android/build/outputs/apk/*.apk
+  environment:
+    name: production
+    
+test_job:
+  stage: test
+  before_script:
+    - node -v
+    - npm -v
+  script:
+    - npm install
+    - npm run unit
+  artifacts:
+    name: "${CI_BUILD_STAGE}_${CI_BUILD_REF_NAME}"
+    paths:
+      - test/unit/coverage/*.*
+  environment:
+    name: production
