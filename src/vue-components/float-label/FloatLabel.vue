@@ -1,18 +1,45 @@
 <template>
+
+
+  // TEMPLATE:
+  <!--
+
+  <div class="item q-field-container q-field-layout-XXXX q-field-focus q-field-active">
+
+    <i class="item-primary">edit</i>
+
+    <div class="item-content">
+
+      <label>Inline Label</label>
+
+      <div class="q-field-layout">
+        <input required="required" class="full-width">
+        <label>Floating Label</label>
+      </div>
+
+    </div>
+
+  </div>
+
+ -->
+
   <div
-    class='fl-container'
+    class="item q-field"
     :class='css_Container'
-    :style='style_Container'
+    :xstyle='style_Container'
   >
-    <label v-if="layout === 'inline'">{{ label }}</label>
-    <div class='fl-inner'>
-      <slot></slot>
-      <label>{{ label }}</label>
-      <div></div>
-      <span v-if='drawValidation'>{{ txt_ValidationMsg }}</span>
-      <i v-if='drawIcon'>{{ icon }}</i>
+    <i v-if='draw_Icon' class="item-primary" >{{ icon }}</i>
+    <div class="item-content">
+      <label v-if='draw_InlineLabel' :xstyle='style_InlineLabel'>II{{ label }}</label>
+      <div class="q-float-label">
+        <label v-if='draw_FloatingLabel'>FF{{ label }}</label>
+        <slot></slot>
+        <div></div>
+        <span v-if='draw_Validate'>{{ txt_ValidateMsg }}</span>
+      </div>
     </div>
   </div>
+
 </template>
 
 <script>
@@ -28,11 +55,10 @@ export default {
   name: 'q-float-label',
   props: {
     label: {
-      type: String,
-      required: true
+      type: String
     },
     layout: {
-      type: String, // 'floating' | 'stacked' | 'inside' | inline' | 'nolabel' | custom
+      type: String, // 'floating' | 'stacked' | 'placeholder' | 'inline' | +/'list-item' | +/custom
       default: 'floating'
     },
     dense: {
@@ -40,7 +66,12 @@ export default {
       default: false
     },
     width: {
-      type: String
+      type: String,
+      default: 'shrink' // 'grow' | 'shrink' | '#px' | '#%'
+    },
+    labelWidth: {
+      type: String,
+      default: 'shrink' // 'grow' | 'shrink' | '#px' | '#%' (NB: Only with layout='inline')
     },
     icon: {
       type: String
@@ -59,19 +90,9 @@ export default {
   },
   data () {
     return {
-      // input
       input: null,
       inputType: null,
-      // layout
-      layoutCss:
-        'fl-layout-' + this.layout
-        + (this.icon ? ' fl-icon' : '')
-        + (this.dense ? ' fl-dense' : ''),
-      drawIcon: this.icon,
-      // validation
-      txt_ValidationMsg: this.validateMsg || 'Please enter a valid value.',
-      drawValidation: this.validate,
-      // state
+      isInline: this.layout === 'inline', // TODO: Cater for multiple layout flags
       state: {
         hasFocus: false,
         hasTouched: false,
@@ -83,30 +104,58 @@ export default {
     }
   },
   computed: {
-    style_Container () {
-      let style =
-      {
-        'width': (this.width === 'max' || this.width === 'full-width') ? '100%' : (this.width === 'min') ? '' : this.width
-      }
-      return style
+    draw_Icon () {
+      return !!this.validate
+    },
+    draw_InlineLabel () {
+      return !!this.isInline
+    },
+    draw_FloatingLabel () {
+      return !this.isInline
+    },
+    draw_Validate () {
+      return this.validate
+    },
+    txt_ValidateMsg () {
+      return this.validateMsg || 'Please enter a valid value.'
+      // TODO: Allow msg update / multiple msgs
     },
     css_Container () {
       let
         s = this.state,
         css =
         [
-          [this.layoutCss],
+          ['q-field-layout-' + this.layout],
           {
-            'fl-active': s.hasFocus || s.hasValue || s.hasReadOnly,
-            'fl-touched': s.hasTouched,
-            'fl-focus': s.hasFocus,
-            'fl-value': s.hasValue,
-            'fl-invalid': s.hasInvalid,
-            'fl-read-only': s.hasReadOnly,
-            'fl-disabled': s.hasDisabled
+            'q-field-icon': this.icon,
+            'q-field-dense': this.dense,
+            'q-field-active': s.hasFocus || s.hasValue || s.hasReadOnly,
+            'q-field-touched': s.hasTouched,
+            'q-field-focus': s.hasFocus,
+            'q-field-value': s.hasValue,
+            'q-field-invalid': s.hasInvalid,
+            'q-field-read-only': s.hasReadOnly,
+            'q-field-disabled': s.hasDisabled
           }
         ]
       return css
+    },
+    style_Container () {
+      let style = {
+        'width': (this.width === 'grow') ? '100%' : (this.width === 'shrink') ? '' : this.width
+      }
+      return style
+    },
+    style_InlineLabel () {
+      let style = {}
+      if (this.labelWidth === 'grow') {
+        style['flex-grow'] = '1'
+      } else if (this.labelWidth === 'shrink') {
+        style['flex-shrink'] = '1'
+      } else {
+        style['width'] = this.labelWidth
+      }
+      return style
     }
   },
   methods: {

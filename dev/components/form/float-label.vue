@@ -30,42 +30,193 @@ ISSUES:
 
       <p class="caption strong">Floating Labels</p>
 
-
-
       <div class="card">
         <div class="card-title text-white bg-primary">
           Layouts
         </div>
         <div class="card-content">
 
+
+          <hr />
+        <div class="list">
+
+
+          <q-float-label label="Email" icon="edit" validate>
+            <input type="email">
+          </q-float-label>
+
+          <hr />
+
+<p>Quasar's original (item two-line):</p>
+<div class="item two-lines" style="background: #f8f8f8;"><i class="item-primary">edit</i> <div class="item-content"><input placeholder="Placeholder" class="full-width"></div></div>
+<hr />
+
+        <!-- Layouts -->
+          <q-float-label label="Basic 'Floating' Label Layout" icon="email">
+            <input>
+          </q-float-label>
+
+          <hr />
+
+          <q-float-label label="Floating Layout and Grow" layout="inline" width="grow" icon="email">
+            <input>
+          </q-float-label>
+
+
+          </div>
+
+          <q-float-label label="Placeholder Layout" layout="placeholder" width="grow">
+            <input>
+          </q-float-label>
+
+          <q-float-label label="Stacked Layout" layout="stacked" width="grow">
+            <input>
+          </q-float-label>
+
+          <q-float-label label="Inline Layout" layout="inline" width="grow">
+            <input class="full-width">
+          </q-float-label>
+
+          <hr />
+
+
+
+        <p>Inline Label</p>
+        <div class="item multiple-lines fxl-container">
+          <i class="item-primary">edit</i>
+          <div class="item-content row items-center wrap">
+            <div class="item-label" style="background: pink; flex-grow: 1;margin-right: 10px;">Label:</div>
+            <div class="q-field-layout" style="width: 200px;">
+              <input>
+            </div>
+          </div>
+        </div>
+
+        <div class="item multiple-lines">
+          <i class="item-primary">edit</i>
+          <div class="item-content row items-center wrap">
+            <div class="item-label" style="background: pink; flex-grow: 1;margin-right: 10px;">Label:</div>
+            <div class="q-field-layout">
+              <input>
+            </div>
+          </div>
+        </div>
+
+        <p>Inline Label</p>
+        <div class="item multiple-lines">
+          <i class="item-primary">edit</i>
+            <div class="item-content row items-center wrap">
+              <div class="auto item-label" style="margin-right: 10px;">Label:</div>
+              <input>
+            </div>
+        </div>
+
+
+
+        <p>Normal Item</p>
+        <div class="item two-lines">
+          <i class="item-primary">edit</i>
+          <div class="item-content">
+            <input placeholder="Placeholder" class="full-width">
+          </div>
+        </div>
+        <div class="item multiple-lines">
+          <i class="item-primary">edit</i>
+          <div class="item-content">
+            <input placeholder="Placeholder" class="full-width">
+          </div>
+        </div>
+
+
+        <p>Floating Label</p>
+        <div class="item three-lines">
+          <i class="item-primary">edit</i>
+          <div class="item-content">
+             <div class="9te">
+              <input required="required" class="full-width">
+              <label>Floating Label</label>
+            </div>
+          </div>
+        </div>
+
+
+        <p>UMLTIMA Label</p>
+        <div class="item multiple-lines q-field-container">
+          <i class="item-primary">edit</i>
+          <div class="item-content">
+            <label
+            <div class="q-field-layout"
+              <input required="required" class="full-width">
+              <label>Floating Label</label>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+<div class="item multiple-lines q-field-container">
+  <i class="item-primary">edit</i>
+  <div class="item-content">
+  <div class="floating-label">
+    <textarea required="required" class="full-width"></textarea>
+    <label>Floating Label</label>
+  </div>
+</div>
+</div>
+
+
+<div class="item multiple-lines">
+  <i class="item-primary">edit</i>
+  <div class="item-content row items-center wrap">
+    <div class="item-label" style="margin-right: 10px;">
+
+      Label:</div>
+     <input class="auto">
+    </div></div>
           <!-- Layouts -->
-          <q-float-label label="Basic Floating Label" width="full-width">
+          <q-float-label label="Basic 'Floating' Label Layout">
             <input>
           </q-float-label>
 
-          <q-float-label label="Placeholder Layout" layout="placeholder">
+          <q-float-label label="Floating Layout and Grow" width="grow">
             <input>
           </q-float-label>
 
-          <q-float-label label="Stacked Layout" layout="stacked">
+
+
+          <q-float-label label="Placeholder Layout" layout="placeholder" width="grow">
             <input>
           </q-float-label>
 
-          <q-float-label label="Inline Layout" layout="inline">
+          <q-float-label label="Stacked Layout" layout="stacked" width="grow">
+            <input>
+          </q-float-label>
+
+          <q-float-label label="Inline Layout" layout="inline" width="grow">
             <input class="full-width">
           </q-float-label>
 
-          <q-float-label label="Nolabel Layout" layout="nolabel" width="full-width">
-            <input value="My layout has 'nolabel' :-(">
-          </q-float-label>
-
-          <q-float-label label="Floating + Custom Layout" layout="floating custom">
+          <q-float-label label="Inline Layout + Grow Width" layout="inline" width="grow">
             <input class="full-width">
           </q-float-label>
 
-          <!-- Layouts + Icon -->
-          <q-float-label label="Floating Label + Icon" icon="face">
+          <q-float-label label="Floating + Custom Layout" layout="floating custom" width="grow">
             <input class="full-width">
+          </q-float-label>
+
+          <!-- Layout Variations -->
+          <q-float-label label="Basic Layout + Icon" icon="face">
+            <input class="full-width">
+          </q-float-label>
+
+          <q-float-label label="No Label, just Icon" layout="nolabel" width="full-width">
+            <input value="No Label, just Icon. :-|">
+          </q-float-label>
+
+          <q-float-label label="No Label, just Icon" layout="nolabel" width="full-width">
+            <input value="No Label OR Icon.">
           </q-float-label>
 
           <q-float-label label="Placeholder Layout + Icon" layout="placeholder" icon="mail_outline">
@@ -86,19 +237,19 @@ ISSUES:
         </div>
         <div class="card-content">
 
-          <q-float-label label="Email (No Validation)" icon="mail_outline">
+          <q-float-label label="Email - No Validation" icon="mail_outline">
             <input type="email">
           </q-float-label>
 
-          <q-float-label label="Email (Default Validation)" icon="mail_outline" validate>
+          <q-float-label label="Email - Default Validation" con="mail_outline" validate>
             <input type="email">
           </q-float-label>
 
-          <q-float-label label="Email (Lazy Validation)" icon="mail_outline" validate validate-lazy>
+          <q-float-label label="Email - Lazy Validation" icon="mail_outline" validate validate-lazy>
             <input type="email">
           </q-float-label>
 
-          <q-float-label label="Email (Custom Validation Message)" icon="mail_outline" validate validate-msg="That ain't a proper email address, pal!">
+          <q-float-label label="Email - Custom Validation Message" icon="mail_outline" validate validate-msg="That ain't no email address, pal!">
             <input type="email">
           </q-float-label>
 
@@ -313,39 +464,67 @@ label
 $label-nudge-top ?= 0
 $label-nudge-left ?= 0
 
-.fl-container > .fl-inner > textarea:active
-  transition none
+.q-field .q-float-label > textarea:active
+  transition none // Prevent animation while user drag-resize
 
-.fl-container
-  display inline-flex
+  &:not(.two-lines):not(.three-lines):not(.multiple-lines) > .item-content > div:not(.stacked-label):not(.floating-label):not([class^='q-'])
+    overflow hidden
+    text-overflow ellipsis
+    white-space nowrap
+
+
+
+.q-field
+  height auto
+  min-height 72px
+  & .item-content
+    padding-top 20px
+    padding-bottom 8px
+    overflow-y visible
+  & > i.item-primary
+    top 14px
+    transform-origin 50% 50%
+    transition color .3s
+
+  & .q-float-label > label,
+  & > label
+    transition transform .15s ease-in-out, color .3s, opacity .3s
+
+  & .q-float-label > label
+    position absolute
+    pointer-events none
+    top 8px
+    left 0
+    transform-origin left top
+    color rgba(0, 0, 0, .54)
+
+  & > label
+    position relative
+    margin-right 4px
+
+.q-field
+  height auto
+  background #f8f8f8
+  margin-bottom 1px
+ /* display inline-flex
   position relative
   box-sizing border-box
-  min-height 72px
-  xbackground lemonchiffon
-  xborder 1px solid blue
-  xmargin-bottom 5px
+  min-height 72px*/
 
-  & > .fl-inner
+ /* background lemonchiffon
+  border 1px solid blue
+  margin-bottom 5px*/
+
+  & .q-float-label
     position relative
-    xflex-grow 1
-
-    & > label
-      white-space nowrap
-      position absolute
-      pointer-events none
-      color rgba(0, 0, 0, .54)
-      top 1.8rem
-      left 0
-      transform-origin left top
-      transition transform .15s ease-in-out, color .3s, opacity .3s
+    width 100%
 
     & > input
       width 100%
-      padding-top 1.8rem
+
 
     & > textarea
       width 100%
-      margin-top 1.8rem
 
     & > div
       position relative
@@ -366,14 +545,6 @@ $label-nudge-left ?= 0
     & > textarea ~ div:before
       top -8px
 
-    & > i
-      position absolute
-      font-size 24px
-      padding 12px
-      top 12px
-      left 0
-      transform-origin 50% 50%
-      transition color .3s
 
     & > span
       display block
@@ -389,15 +560,17 @@ $label-nudge-left ?= 0
 
 // Layout Modifiers -------------------------
 
+// Inline
+&.q-field-inline
+
 // With Icon
-&.fl-icon
-  padding-left 48px
-  & > .fl-inner
+/*&.q-field-icon
+  & > .q-field-inner
     & > i
-      left -48px
+      left -48px*/
 
 // With Dense
-&.fl-dense
+&.q-field-dense
   & > label
     top 1.5rem
   & > input
@@ -408,11 +581,11 @@ $label-nudge-left ?= 0
     margin-bottom 6px
 
 // Has focus
-&.fl-focus
-  & > .fl-inner
+&.q-field-focus
+  & > i.item-primay
+     color $form-active-color
+  & .q-float-label
     & > label
-    & > i
-      color $form-active-color
     & > div:before
         visibility visible
         width 100%
@@ -420,16 +593,16 @@ $label-nudge-left ?= 0
 
 
 // Has invalid
-&.fl-invalid > .fl-inner > input
-& > .fl-inner > input.has-error
+&.q-field-invalid > .q-field-inner > input
+& .q-float-label > input.has-error
   border-bottom-color $has-error !important
 
-& > .fl-inner > input.has-error ~ div:before
-&.fl-invalid > .fl-inner > div:before
+& > .q-field-inner > input.has-error ~ div:before
+&.q-field-invalid .q-float-label > div:before
   background $has-error !important
 
-& > .fl-inner > input.has-error ~ span
-&.fl-invalid > .fl-inner > span
+& > .q-field-inner > input.has-error ~ span
+&.q-field-invalid .q-float-label > span
   visibility visible
   opacity 1
 
@@ -437,30 +610,28 @@ $label-nudge-left ?= 0
 // Label Position Mixins -------------------------
 
 // Label above input
-&.fl-layout-stacked,
-&.fl-layout-floating.fl-active
-  & > .fl-inner > label
+&.q-field-layout-stacked,
+&.q-field-layout-floating.q-field-active
+  & .q-float-label > label
       transform translateY(-22px) scale(.8)
 
 // Label vanished
-&.fl-layout-placeholder.fl-active
-  & > .fl-inner > label
+&.q-field-layout-placeholder.q-field-active
+  & .q-float-label > label
       opacity 0
       transform-origin left 50%
       color $form-active-color
 
 // Label not displayed
-&.fl-layout-nolabel
-  & > .fl-inner > label
+&.q-field-layout-nolabel
+  & .q-float-label > label
       display none
 
 
-
-
 // Custom Mixins -------------------------
-&.fl-layout-custom.fl-active i
+&.q-field-layout-custom.q-field-active i
   transform scale(2) rotation(270)
-&.fl-layout-custom.fl-active label
+&.q-field-layout-custom.q-field-active label
   transform translateX(100%) scale(2)
   color $secondary
 </style>
