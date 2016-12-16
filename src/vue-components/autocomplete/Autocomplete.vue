@@ -6,8 +6,8 @@
         v-model="model"
       />
     </slot>
-    <q-popover ref="popover" :anchorClick="false">
-      <div v-if="searching" class="row justify-center" :style="{width: width, padding: '3px 10px'}">
+    <q-popover ref="popover" :anchor-click="false">
+      <div v-if="searching" class="row justify-center" :style="{minWidth: width, padding: '3px 10px'}">
         <spinner name="dots" :size="40"></spinner>
       </div>
       <div v-else class="list no-border" :style="computedWidth">
@@ -55,6 +55,7 @@ export default {
       type: Number,
       default: 500
     },
+    staticData: Object,
     setWidth: Boolean
   },
   data () {
@@ -86,7 +87,7 @@ export default {
     },
     computedWidth () {
       if (this.setWidth) {
-        return {width: this.width}
+        return {minWidth: this.width}
       }
     },
     searching () {
@@ -99,6 +100,7 @@ export default {
       this.$nextTick(() => {
         const searchId = Utils.uid()
         this.searchId = searchId
+
         if (this.model.length < this.minCharacters) {
           this.searchId = ''
           this.close()
@@ -106,10 +108,23 @@ export default {
         }
 
         this.$refs.popover.open()
+
+        if (this.staticData) {
+          this.searchId = ''
+          this.results = Utils.filter(this.model, this.staticData)
+          return
+        }
+
         this.$emit('search', this.model, results => {
           if (results && this.searchId === searchId) {
             this.searchId = ''
-            this.results = results
+
+            if (Array.isArray(results) && results.length > 0) {
+              this.results = results
+              return
+            }
+
+            this.close()
           }
         })
       })

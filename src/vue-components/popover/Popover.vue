@@ -12,10 +12,6 @@
 import Utils from '../../utils'
 import EscapeKey from '../../features/escape-key'
 
-function getEl (ref) {
-  return ref.$el || ref
-}
-
 export default {
   props: {
     anchor: {
@@ -23,7 +19,6 @@ export default {
       default: 'bottom left',
       validator: Utils.popup.positionValidator
     },
-    anchorRef: Object,
     self: {
       type: String,
       default: 'top left',
@@ -62,9 +57,6 @@ export default {
     this.$nextTick(() => {
       this.anchorEl = this.$el.parentNode
       this.anchorEl.removeChild(this.$el)
-      if (this.anchorRef) {
-        this.anchorEl = getEl(this.anchorRef)
-      }
       if (this.anchorClick) {
         this.anchorEl.classList.add('cursor-pointer')
         this.anchorEl.addEventListener('click', this.toggle)

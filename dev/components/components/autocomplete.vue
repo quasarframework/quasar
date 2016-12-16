@@ -1,49 +1,76 @@
 <template>
   <div>
     <div class="layout-padding" style="max-width: 600px;">
-      <q-autocomplete v-model="terms" @search="search" :minCharacters="3" set-width>
+      <h5>Type countries</h5>
+
+      <q-autocomplete v-model="terms" @search="search" set-width>
         <q-search v-model="terms" />
       </q-autocomplete>
 
       <br><br>
 
+      <p class="caption">Minimum 3 characters to trigger search</p>
       <q-autocomplete v-model="terms" @search="search" :minCharacters="3">
         <input v-model="terms" class="full-width"/>
       </q-autocomplete>
 
       <br><br>
 
-      <q-autocomplete v-model="terms" @search="search" :minCharacters="3" />
+      <p class="caption">Fills with its own input field</p>
+      <q-autocomplete v-model="terms" @search="search" />
+
+      <br><br>
+
+      <p class="caption">Static List</p>
+      <q-autocomplete v-model="terms" set-width :static-data="{field: 'value', list: countries}" @search="search" />
     </div>
   </div>
 </template>
 
 <script>
+import { Utils } from 'quasar'
+import countries from 'data/countries.json'
+
+const icons = ['alarm', 'email', 'search', 'build', 'card_giftcard', 'perm_identity', 'receipt', 'schedule', 'speaker_phone', 'archive', 'weekend', 'battery_charging_full']
+
+function getRandomIcon () {
+  return icons[Math.floor(Math.random() * icons.length)]
+}
+function getRandomStamp () {
+  if (Math.floor(Math.random() * 50) % 3 === 0) {
+    return `${Math.floor(Math.random() * 10)} min`
+  }
+}
+function getRandomSecondLabel () {
+  if (Math.floor(Math.random() * 50) % 4 === 0) {
+    return `UID: ${Utils.uid()}`
+  }
+}
+function parseCountries () {
+  return countries.map(country => {
+    return {
+      label: country,
+      secondLabel: getRandomSecondLabel(),
+      icon: getRandomIcon(),
+      stamp: getRandomStamp(),
+      value: country
+    }
+  })
+}
+
 export default {
   data () {
     return {
-      terms: ''
+      terms: '',
+      countries: parseCountries()
     }
   },
   methods: {
     search (terms, done) {
-      console.log('triggered', terms)
+      console.log(`Triggered search for "${terms}"`)
       setTimeout(() => {
-        done([
-          {label: 'alarm', secondLabel: 'Mail alarm', icon: 'alarm', stamp: '10 min', value: 'Alarm'},
-          {label: 'email 1 Email1', secondLabel: 'Some email, huh?', icon: 'email', secondImg: '/statics/mountains.jpg', value: 'Email1'},
-          {label: 'email 2', img: '/statics/mountains.jpg', value: 'Email2'},
-          {label: 'email 3', icon: 'email', secondIcon: 'email', value: 'Email3'},
-          {label: 'email 4', icon: 'email', value: 'Email4'},
-          {label: 'email 5', value: 'Email5'},
-          {label: 'email 6', value: 'Email6'},
-          {label: 'email 7', icon: 'email', value: 'Email7'},
-          {label: 'email 8', icon: 'email', value: 'Email8'},
-          {label: 'email 9', icon: 'email', value: 'Email9'},
-          {label: 'email 10', icon: 'email', value: 'Email10'},
-          {label: 'email 11', icon: 'email', value: 'Email11'}
-        ])
-      }, 2000)
+        done(Utils.filter(terms, {field: 'value', list: parseCountries()}))
+      }, 1000)
     }
   }
 }
