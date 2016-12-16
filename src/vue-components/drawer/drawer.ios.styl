@@ -26,13 +26,14 @@ body.drawer-opened
   width 15px
 
 .drawer-content
-  will-change transform
   background $drawer-background
   top 0
   bottom 0
-  height 100vh
   width $drawer-width
   font-size $drawer-font-size
+  overflow-y auto
+  -webkit-overflow-scrolling touch
+  will-change scroll-position, transform
 
   &.left-side
     left 0
