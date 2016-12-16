@@ -1,17 +1,14 @@
 <template>
 
-
-  // TEMPLATE:
   <!--
 
+
+  // TEMPLATE:
   <div class="item q-field-container q-field-layout-XXXX q-field-focus q-field-active">
 
     <i class="item-primary">edit</i>
-
     <div class="item-content">
-
       <label>Inline Label</label>
-
       <div class="q-field-layout">
         <input required="required" class="full-width">
         <label>Floating Label</label>
@@ -25,12 +22,12 @@
 
   <div
     class="item q-field"
-    :class='css_Container'
-    :style='style_Container'
+    :class='css_Field'
+    :style='style_Field'
   >
     <i v-if='draw_Icon' class="item-primary" >{{ icon }}</i>
     <label v-if='draw_InlineLabel' :style='style_InlineLabel'>{{ label }}:</label>
-    <div class="q-float-label" :style='style_FloatLabel'>
+    <div class="q-field-inner" :style='style_FieldInner'>
       <slot></slot>
       <label v-if='draw_FloatingLabel'>{{ label }}</label>
       <div></div>
@@ -50,7 +47,7 @@
 // - width handling?
 //
 export default {
-  name: 'q-float-label',
+  name: 'q-field-inner',
   props: {
     label: {
       type: String
@@ -70,6 +67,10 @@ export default {
     labelWidth: {
       type: String,
       default: 'shrink' // 'grow' | 'shrink' | '#px' | '#%' (NB: Only with layout='inline')
+    },
+    labelAlign: {
+      type: String,
+      default: 'left' // 'left' | 'right'
     },
     icon: {
       type: String
@@ -103,8 +104,8 @@ export default {
     }
   },
   computed: {
-    draw_Icon: function draw_Icon () {
-      return !!this.validate
+    draw_Icon () {
+      return !!this.icon
     },
     draw_InlineLabel () {
       return !!this.isInline
@@ -117,9 +118,9 @@ export default {
     },
     txt_ValidateMsg () {
       return this.validateMsg || 'Please enter a valid value.'
-      // TODO: Allow msg update / multiple msgs
+      // TODO: Allow msg update / multiple msgs / `vee-validate` integration
     },
-    css_Container () {
+    css_Field () {
       let
         s = this.state,
         css =
@@ -140,9 +141,17 @@ export default {
         ]
       return css
     },
-    style_Container () {
-      let style = {
-        'width': (this.width === 'grow') ? '100%' : (this.width === 'shrink') ? '' : this.width
+    style_Field () {
+      let style = {}
+      if (this.width && this.width != 'shrink') {
+        style['width'] = (this.width === 'grow') ? '100%' : this.width
+      }
+      return style
+    },
+    style_FieldInner () {
+      let style = {}
+      if (!this.isInline || this.labelWidth !== 'grow') {
+        style['flex-grow'] = '1'
       }
       return style
     },
@@ -152,25 +161,16 @@ export default {
         style['flex-grow'] = '1'
       } else if (this.labelWidth === 'shrink') {
         style['flex-shrink'] = '1'
-      } else {
+      } else if (this.labelWidth) {
         style['width'] = this.labelWidth
       }
-      return style
-    },
-    style_FloatLabel () {
-      let style = {}
-      if (!this.isInline || this.labelWidth !== 'grow') {
-        style['flex-grow'] = '1'
+      if (this.labelAlign === 'right') {
+        style['text-align'] = 'right'
       }
       return style
     }
   },
   methods: {
-    logIt(message) {
-        var stack = new Error().stack,
-        caller = stack.split('\n')[2].trim();
-        console.log(caller + ":" + message);
-    },
     __onFocus (e) {
       this.state.hasFocus = true
     },
@@ -187,6 +187,7 @@ export default {
       }
     },
     __updateInvalid () {
+      // TODO: Cater for >1 of ...
       // input.validity = {
       //   badInput
       //   customError
@@ -201,9 +202,6 @@ export default {
       //   valueMissing
       //   }
       this.state.hasInvalid = !this.input.validity.valid && (this.state.hasValue || this.state.touched)
-      // if (this.state.hasInvalid) {
-      //   console.log("**INVALID!!", this.input.validity)
-      // }
     },
     __update () {
       // TODO: Enable change after render...
