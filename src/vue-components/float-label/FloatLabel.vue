@@ -226,7 +226,6 @@ export default {
         this.inputType = this.input.type
       } else {
         this.isTextInput = false
-        this.inputTYpe = ''
       }
       if (this.inputType) {
         this.$el.addEventListener('focus', this.__onFocus, true)

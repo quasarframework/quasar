@@ -728,7 +728,7 @@ input:required:invalid, input:focus:invalid {
 .q-field
   display inline-block
   height auto
-  background #fafafa
+  xbackground #fafafa
   min-height 72px
   margin-bottom 5px
 
