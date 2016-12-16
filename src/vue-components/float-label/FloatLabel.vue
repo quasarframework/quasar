@@ -26,17 +26,15 @@
   <div
     class="item q-field"
     :class='css_Container'
-    :xstyle='style_Container'
+    :style='style_Container'
   >
     <i v-if='draw_Icon' class="item-primary" >{{ icon }}</i>
-    <div class="item-content">
-      <label v-if='draw_InlineLabel' :xstyle='style_InlineLabel'>II{{ label }}</label>
-      <div class="q-float-label">
-        <label v-if='draw_FloatingLabel'>FF{{ label }}</label>
-        <slot></slot>
-        <div></div>
-        <span v-if='draw_Validate'>{{ txt_ValidateMsg }}</span>
-      </div>
+    <label v-if='draw_InlineLabel' :xstyle='style_InlineLabel'>{{ label }}:</label>
+    <div class="q-float-label">
+      <slot></slot>
+      <label v-if='draw_FloatingLabel'>{{ label }}</label>
+      <div></div>
+      <span v-if='draw_Validate'>{{ txt_ValidateMsg }}</span>
     </div>
   </div>
 
@@ -99,12 +97,13 @@ export default {
         hasValue: false,
         hasInvalid: false,
         hasReadOnly: false,
-        hasDisabled: false
+        hasDisabled: false,
+        hasRequired: false
       }
     }
   },
   computed: {
-    draw_Icon () {
+    draw_Icon: function draw_Icon () {
       return !!this.validate
     },
     draw_InlineLabel () {
@@ -135,7 +134,8 @@ export default {
             'q-field-value': s.hasValue,
             'q-field-invalid': s.hasInvalid,
             'q-field-read-only': s.hasReadOnly,
-            'q-field-disabled': s.hasDisabled
+            'q-field-disabled': s.hasDisabled,
+            'q-field-required': s.hasRequired
           }
         ]
       return css
@@ -159,6 +159,11 @@ export default {
     }
   },
   methods: {
+    logIt(message) {
+        var stack = new Error().stack,
+        caller = stack.split('\n')[2].trim();
+        console.log(caller + ":" + message);
+    },
     __onFocus (e) {
       this.state.hasFocus = true
     },
@@ -175,10 +180,27 @@ export default {
       }
     },
     __updateInvalid () {
+      // input.validity = {
+      //   badInput
+      //   customError
+      //   patternMismatch
+      //   rangeOverflow
+      //   rangeUnderflow
+      //   stepMismatch
+      //   tooLong
+      //   tooShort
+      //   typeMismatch
+      //   valid
+      //   valueMissing
+      //   }
       this.state.hasInvalid = !this.input.validity.valid && (this.state.hasValue || this.state.touched)
+      // if (this.state.hasInvalid) {
+      //   console.log("**INVALID!!", this.input.validity)
+      // }
     },
     __update () {
       // TODO: Enable change after render...
+      this.state.hasRequired = this.input.required
       this.state.hasReadOnly = this.input.readOnly
       this.state.hasDisabled = this.input.disabled
     }
