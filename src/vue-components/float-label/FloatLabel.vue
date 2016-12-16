@@ -29,8 +29,8 @@
     :style='style_Container'
   >
     <i v-if='draw_Icon' class="item-primary" >{{ icon }}</i>
-    <label v-if='draw_InlineLabel' :xstyle='style_InlineLabel'>{{ label }}:</label>
-    <div class="q-float-label">
+    <label v-if='draw_InlineLabel' :style='style_InlineLabel'>{{ label }}:</label>
+    <div class="q-float-label" :style='style_FloatLabel'>
       <slot></slot>
       <label v-if='draw_FloatingLabel'>{{ label }}</label>
       <div></div>
@@ -154,6 +154,13 @@ export default {
         style['flex-shrink'] = '1'
       } else {
         style['width'] = this.labelWidth
+      }
+      return style
+    },
+    style_FloatLabel () {
+      let style = {}
+      if (!this.isInline || this.labelWidth !== 'grow') {
+        style['flex-grow'] = '1'
       }
       return style
     }

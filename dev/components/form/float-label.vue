@@ -31,10 +31,40 @@ ISSUES:
       <p class="caption strong">Text Fields</p>
 
       <div class="card">
-<!--         <div class="card-title text-white bg-primary">
+        <div class="card-title text-white bg-primary">
           Layouts
-        </div> -->
+        </div>
         <div class="card-content">
+
+          <q-float-label label="Basic Floating Label" icon="email" >
+            <input type="text">
+          </q-float-label>
+
+          <q-float-label label="Floating Label + Grow Width" icon="email" width="grow">
+            <input type="text">
+          </q-float-label>
+
+          <q-float-label label="Inline Layout" icon="email" layout="inline">
+            <input type="text">
+          </q-float-label>
+
+          <q-float-label label="Inline + Grow Label" icon="email" width="grow" labelWidth="grow" layout="inline">
+            <input type="text">
+          </q-float-label>
+
+          <q-float-label label="Inline + Grow Width + 50% Label" icon="email" width="grow" labelWidth="50%" layout="inline">
+            <input type="text">
+          </q-float-label>
+
+  <hr />
+
+
+          <q-float-label label="Text" icon="face" validate>
+            <input type="text" required>
+          </q-float-label>
+
+
+  <hr />
 
           <q-float-label label="Text - Required" icon="face" validate>
             <input type="text" required>
@@ -499,19 +529,16 @@ input:required:invalid, input:focus:invalid {
 
 
 .q-field
-  height auto
-  min-height 72px
 
   & > .q-float-label
     position relative
-    width 100%
     padding-top 20px
     padding-bottom 8px
     overflow-y visible
 
   & > i.item-primary
     position relative
-    top 16px
+    top 14px
     transform-origin 50% 50%
     transition color .3s
 
@@ -520,6 +547,7 @@ input:required:invalid, input:focus:invalid {
     transition transform .15s ease-in-out, color .3s, opacity .3s
     top 28px
     color rgba(0, 0, 0, .54)
+    white-space nowrap
     pointer-events none
 
   & > .q-float-label > label
@@ -535,8 +563,9 @@ input:required:invalid, input:focus:invalid {
 
 .q-field
   height auto
-  margin-bottom 1px
-  background #f8f8f8
+  min-height 72px
+/*  margin-bottom 1px
+  background #f8f8f8*/
 
   & > .q-float-label
 
