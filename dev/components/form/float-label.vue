@@ -29,66 +29,83 @@ ISSUES:
     <div class="layout-padding">
 
       <div class="card">
-
+        <div class="item">
+          <img class="avatar" src="assets/linux-avatar.png">
+          <div class="item-content">
+            <div class="item-label">
+              <p class="item-title">Joe</p>
+              <p>Web Developer</p>
+            </div>
+          </div>
+        </div>
         <div class="card-title text-white bg-primary">
           Floating Label Fields
-        </div>
+         </div>
 
         <div class="card-content">
 
           <p class="caption strong">Label Layouts</p>
 
-          <q-float-label label="Floating Label">
-            <input type="text">
-          </q-float-label>
+          <div class="row">
+            <div class="auto">
+              <q-float-label label="Floating Label">
+                <input type="text">
+              </q-float-label>
+
+              <br />
+
+              <q-float-label label="Placeholder Label" layout="placeholder">
+                <input type="text">
+              </q-float-label>
+
+              <br />
+
+              <q-float-label label="Stacked Label" layout="stacked">
+                <input type="text">
+              </q-float-label>
+
+            </div>
+
+            <div class="auto">
+              <q-float-label label="Inline Label" layout="inline">
+                <input type="text">
+              </q-float-label>
+
+              <br />
+
+              <q-float-label label="Label + Icon" icon="email">
+                <input type="text">
+              </q-float-label>
+
+              <br />
+
+              <q-float-label>
+                <input type="text" value="No Label at all">
+              </q-float-label>
+
+            </div>
+
+          </div>
+
+
 
           <br />
 
-          <q-float-label label="Stacked Label" layout="stacked">
+
+
+          <p class="caption strong">Layout Width</p>
+
+
+          <q-float-label label="Custom Width (% / px)" icon="email" width="65%">
             <input type="text">
           </q-float-label>
 
-          <br />
-
-          <q-float-label label="Placeholder Label" layout="placeholder">
-            <input type="text">
-          </q-float-label>
-
-          <br />
-
-          <q-float-label label="Inline Label" layout="inline">
-            <input type="text">
-          </q-float-label>
-
-          <br />
-
-          <q-float-label>
-            <input type="text" value="No Label! :-(">
-          </q-float-label>
-
-
-
-          <p class="caption strong">Layout Variations</p>
-
-          <q-float-label label="Icon" icon="email">
-            <input type="text">
-          </q-float-label>
-
-          <br />
-
-          <q-float-label label="Custom Width (50%)" icon="email" width="50%">
-            <input type="text">
-          </q-float-label>
 
           <q-float-label label="Grow Width" icon="email" width="grow">
             <input type="text">
           </q-float-label>
 
-          <q-float-label label="Custom Behaviour" icon="android" width="grow" class="my-android-label">
-            <input type="text">
-          </q-float-label>
-
-          <q-float-label label="Inline Label + Grow Width" icon="email" width="grow">
+          <q-float-label label="Inline Label + Grow Width" icon="email" width="grow" layout="inline">
             <input type="text">
           </q-float-label>
 
@@ -104,30 +121,105 @@ ISSUES:
             <input type="text">
           </q-float-label>
 
-          <p class="caption strong">In a List</p>
+
+          <p class="caption strong">Text Input Types</p>
+
+          <div class="list">
+            <q-float-label label="Email" icon="face">
+              <input type="text">
+            </q-float-label>
+
+            <q-float-label label="Range Component" layout="stacked" icon="email">
+              <q-range v-model="model_range" label markers :step="1" :min="0" :max="10"></q-range>
+            </q-float-label>
+
+            <q-float-label label="Numeric Textbox" layout="stacked" icon="email">
+              <q-numeric
+                v-model="model_numeric"
+                :min="1"
+                :max="100"
+              ></q-numeric>
+            </q-float-label>
+
+            <q-float-label label="Chips Textbox" layout="stacked" icon="email">
+              <q-chips v-model="model_chips"></q-chips>
+            </q-float-label>
+
+
+            <q-float-label label="Select" layout="stacked" icon="email">
+              <q-select
+                class="full-width"
+                type="checkbox"
+                v-model="model_multiSelect"
+                :options="options_suspects"
+              ></q-select>
+            </q-float-label>
+
+          </div>
+
+
+
+
+
+          <p class="caption strong">Other Component Types</p>
 
           <div class="list">
             <q-float-label label="Suspect" icon="face">
               <input type="text">
             </q-float-label>
+
+            <q-float-label label="Range Component" layout="stacked" icon="email">
+              <q-range v-model="model_range" label markers :step="1" :min="0" :max="10"></q-range>
+            </q-float-label>
+
+            <q-float-label label="Numeric Textbox" layout="stacked" icon="email">
+              <q-numeric
+                v-model="model_numeric"
+                :min="1"
+                :max="100"
+              ></q-numeric>
+            </q-float-label>
+
+            <q-float-label label="Chips Textbox" layout="stacked" icon="email">
+              <q-chips v-model="model_chips"></q-chips>
+            </q-float-label>
+
+
+            <q-float-label label="Select" layout="stacked" icon="email">
+              <q-select
+                class="full-width"
+                type="checkbox"
+                v-model="model_multiSelect"
+                :options="options_suspects"
+              ></q-select>
+            </q-float-label>
+
           </div>
 
-          <div class="list">
-            <q-float-label label="Location" icon="email">
-              <input type="text">
-            </q-float-label>
-          </div>
 
           <div class="list">
-            <q-float-label label="Weapon" icon="email">
-              <input type="text">
-            </q-float-label>
-          </div>
 
           <p class="caption strong">Input States</p>
 
+            <q-float-label label="Disabled">
+              <input type="text" disabled class="full-width" icon="">
+            </q-float-label>
+
+            <q-float-label label="Read-Only">
+              <input type="email" readonly value="professor.plum@study.com" class="full-width">
+            </q-float-label>
+
+            <q-float-label label="Required">
+              <input type="text" required class="full-width">
+            </q-float-label>
+
+            <q-float-label label="Invalid" icon="build">
+              <input type="text" value="The Revolver" class="full-width" pattern=".*(spanner|wrench).*">
+            </q-float-label>
 
 
+
+          </div>
 
           <p class="caption strong">Input Types</p>
 
@@ -408,22 +500,6 @@ ISSUES:
             <input type="password" class="full-width">
           </q-float-label>
 
-          <q-float-label label="Disabled (Text)">
-            <input type="text" disabled class="full-width" icon="">
-          </q-float-label>
-
-          <q-float-label label="Readonly (Email)">
-            <input type="email" readonly value="professor.plum@study.com" class="full-width">
-          </q-float-label>
-
-          <q-float-label label="Required (Text)">
-            <input type="text" required class="full-width">
-          </q-float-label>
-
-          <q-float-label label="Text (has-error)" icon="build">
-            <input type="text" value="The Revolver" class="full-width" pattern=".*(spanner|wrench).*">
-          </q-float-label>
-
 
         </div>
 
@@ -462,6 +538,51 @@ ISSUES:
 
   </div>
 </template>
+
+
+
+<script>
+export default {
+  data () {
+    return {
+      model_range: 7,
+      model_numeric: 99,
+      model_chips: ['Rope', 'Candlestick', 'Lead Pipe', 'Revolver'],
+      model_multiSelect: [],
+      options_suspects: [
+        {
+          label: 'Col. Mustard',
+          value: 'mustard'
+        },
+        {
+          label: 'Prof. Plum',
+          value: 'plum'
+        },
+        {
+          label: 'Rev. Green',
+          value: 'green'
+        },
+        {
+          label: 'Miss Scarlet',
+          value: 'scarlet'
+        },
+        {
+          label: 'Mrs. Peacock',
+          value: 'peacock'
+        }
+      ]
+
+    }
+  }
+}
+</script>
+
+
+
+
+
+
+
 <style lang='stylus'>
 
 $grey = #9e9e9e
@@ -591,7 +712,7 @@ $label-nudge-left ?= 0
 .q-field > .q-field-inner > textarea:active
   transition none // Prevent animation while user drag-resize
 
-/* Block firefox red border */
+/* Block firefox red border  DUZNT WORK!*/
 input:required:invalid, input:focus:invalid {
   -moz-box-shadow: none;
 }
@@ -607,7 +728,9 @@ input:required:invalid, input:focus:invalid {
 .q-field
   display inline-block
   height auto
+  background #fafafa
   min-height 72px
+  margin-bottom 5px
 
   /* icon */
   & > i.item-primary
@@ -651,7 +774,7 @@ input:required:invalid, input:focus:invalid {
       width 100%
 
     /* swash */
-    & > div
+    & > div.q-swash
       position relative
       &:before
         content ''
@@ -681,7 +804,6 @@ input:required:invalid, input:focus:invalid {
       font-size 12px
       color $has-error !important
       transition opacity .3s
-
 
 
 // Layout Modifiers -------------------------
@@ -763,31 +885,53 @@ input:required:invalid, input:focus:invalid {
       display none
 
 
-// Custom Mixins -------------------------
+// Custom Mixin -------------------------
+
 .q-field.my-android-label
+  transition all 1s cubic-bezier(.87,-.41,.19,1.44)
   & > i
-    color #4CAF50 !important
+    transition all 1.5s cubic-bezier(.87,-.41,.19,1.44)
     transform-origin 50% bottom
-    transition all 1.2s cubic-bezier(.87,-.41,.19,1.44)
     position relative
+    color #4CAF50
   & > .q-field-inner
+    overflow-x hidden
+    &:before
+      transition all 2s ease-in-out
+      position absolute
+      content '01110000 01110010 01100101 01110100 01100101'
+      font-size 13px
+      color transparent
+      top 8px
+      left -360px
     & > div:before
-      left 0
-      background #4CAF50 !important
+      background-color #4CAF50
+      left 100%
+      width 100%
+      height 4px
+      opacity 1
+      transition-duration 1.5s
+
   &.q-field-active
+    background #000
     & > i
       left 80%
       transform scale(1.5)
     & > .q-field-inner
-      & > label
-        color #4CAF50
-      & > div:before
-        background #4CAF50
-        width 100%
+      &:before
         left 0
-        visibility visible
-        opactiy 1
+        color #4CAF50
+      & > input
+        color #4CAF50
+        border-bottom-color #4CAF50
+        font-family "Lucida Console", Monaco, monospace
+      & > div:before
+        left 0 !important
+        opacity 1 !important
+
   &.q-field-focus
+    & > i
+      transform scale(1.7)
     & > .q-field-inner
       & > div:before
         box-shadow  6px 4px 20px 2px #B6FF00
@@ -803,13 +947,3 @@ div.list > div.q-field > i.item-primary
   width 48px
 
 </style>
-
-<script>
-export default {
-  data () {
-    return {
-    }
-  }
-}
-</script>
-

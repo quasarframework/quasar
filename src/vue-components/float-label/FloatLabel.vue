@@ -27,10 +27,10 @@
   >
     <i v-if='draw_Icon' class="item-primary" >{{ icon }}</i>
     <label v-if='draw_InlineLabel' :style='style_InlineLabel'>{{ label }}:</label>
-    <div class="q-field-inner" :style='style_FieldInner'>
+    <div ref="inner" class="q-field-inner" :style='style_FieldInner'>
       <slot></slot>
       <label v-if='draw_FloatingLabel'>{{ label }}</label>
-      <div></div>
+      <div class='q-swish'></div>
       <span v-if='draw_Validate'>{{ txt_ValidateMsg }}</span>
     </div>
   </div>
@@ -91,7 +91,8 @@ export default {
     return {
       input: null,
       inputType: null,
-      isInline: this.layout === 'inline', // TODO: Cater for multiple layout flags
+      isTextInput: null,
+      isInline: this.layout === 'inline',
       state: {
         hasFocus: false,
         hasTouched: false,
@@ -172,12 +173,15 @@ export default {
   },
   methods: {
     __onFocus (e) {
+      console.log('focus')
       this.state.hasFocus = true
     },
     __onBlur (e) {
       this.state.hasFocus = false
       this.state.touched = true
-      this.__updateInvalid()
+      if (this.isTextInput) {
+        this.__updateInvalid()
+      }
     },
     __onInput (e) {
       this.state.hasValue = this.input.value ? true : false
@@ -211,22 +215,40 @@ export default {
     }
   },
   mounted () {
-      this.input = this.$el.querySelector('input, textarea')
+      // this.input = this.$el.querySelector('input, textarea')
+      this.input = this.$refs.inner.firstChild
       if (!this.input) {
-        throw new Error('<q-floating-label> is missing the required input/textarea element.')
+        throw new Error('<q-floating-label> is missing the required input element/component.')
         return
       }
-      this.inputType = this.input.type
-      this.$el.addEventListener('focus', this.__onFocus, true)
-      this.$el.addEventListener('blur', this.__onBlur, true)
-      this.$el.addEventListener('input', this.__onInput, true)
-      this.__onInput()
-      this.__update()
+      if (['text', 'textarea'].includes(this.input.type)) {
+        this.isTextInput = true
+        this.inputType = this.input.type
+      } else {
+        this.isTextInput = false
+        this.inputTYpe = ''
+      }
+      if (this.inputType) {
+        this.$el.addEventListener('focus', this.__onFocus, true)
+        this.$el.addEventListener('blur', this.__onBlur, true)
+        this.$el.addEventListener('input', this.__onInput, true)
+        this.__onInput()
+        this.__update()
+      } else {
+        // TODO: Handle components properly
+        this.$el.addEventListener('focus', this.__onFocus, true)
+        this.$el.addEventListener('blur', this.__onBlur, true)
+      }
   },
   beforeDestroy () {
+    if (this.inputType) {
       this.$el.removeEventListener('focus', this.__onFocus, true)
       this.$el.removeEventListener('blur', this.__onBlur, true)
       this.$el.removeEventListener('input', this.__onInput, true)
+    } else {
+      this.$el.removeEventListener('deactivate', this.__onFocus, true)
+      this.$el.removeEventListener('deactivate', this.__onBlur, true)
+    }
   }
 }
 </script>
