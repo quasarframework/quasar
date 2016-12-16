@@ -19,7 +19,6 @@ It could be you!
 ### $250
 
 - Mike Burgh
-- Robert Preston
 
 ---
 
@@ -38,14 +37,17 @@ It could be you!
 
 ### $10+
 
+- Valerian Cure ($25)
 - Aaryn Bryanton
 - Maarten Berkenbosch
 - Marek Urbanowicz
+- Samuel Lin
 
 ---
 
 ### One time
 
+- Robert Preston $250
 - Remo Laubacher $200
 - Musicformellons $100
 - Gerard Eviston $50
