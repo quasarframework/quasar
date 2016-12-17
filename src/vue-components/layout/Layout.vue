@@ -2,7 +2,7 @@
   <div class="layout">
     <div class="layout-header">
       <slot name="header"></slot>
-      <slot v-if="!ios" name="navigation"></slot>
+      <slot v-if="$quasar.theme !== 'ios'" name="navigation"></slot>
     </div>
 
     <div class="layout-content">
@@ -10,20 +10,12 @@
     </div>
 
     <div class="layout-footer">
-      <slot v-if="ios" name="navigation"></slot>
       <slot name="footer"></slot>
+      <slot v-if="$quasar.theme === 'ios'" name="navigation"></slot>
     </div>
   </div>
 </template>
 
 <script>
-import { current as theme } from '../../features/theme'
-
-export default {
-  data () {
-    return {
-      ios: theme === 'ios'
-    }
-  }
-}
+export default {}
 </script>

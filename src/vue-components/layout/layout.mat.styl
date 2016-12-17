@@ -1,4 +1,3 @@
-$layout-navbar-order       ?= -9
 $layout-toolbar-min-height ?= 56px
 $layout-header-shadow      ?= $shadow-2
 $layout-footer-shadow      ?= $shadow-up-2
@@ -16,16 +15,12 @@ $toolbar-title-font-size   ?= 1.25rem
   flex-direction column
 
   > .q-tabs
-    z-index $z-marginals
-    order $layout-navbar-order
     border-radius 0 !important
 
 .layout-header
-  order -10
   box-shadow $layout-header-shadow
 
 .layout-footer
-  order 10
   box-shadow $layout-footer-shadow
 
 body.desktop
@@ -48,8 +43,6 @@ body.desktop
 .layout-header, .layout-footer
   color $toolbar-color
   background $toolbar-background
-
-.layout-header, .layout-footer
   z-index $z-marginals
 
 .toolbar

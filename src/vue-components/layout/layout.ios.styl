@@ -1,4 +1,3 @@
-$layout-navbar-order       ?= 9
 $layout-border             ?= 1px solid $toolbar-faded-color
 $layout-toolbar-min-height ?= 50px
 $toolbar-title-font-size   ?= 1.2rem
@@ -14,21 +13,13 @@ $toolbar-title-font-size   ?= 1.2rem
   display flex
   flex-direction column
 
-  > .q-tabs
-    z-index $z-marginals
-    order $layout-navbar-order
-    border-top $layout-border
-    border-radius 0 !important
+.layout-header > .toolbar
+  border-bottom $layout-border
+  &:first-child
+    align-items end
 
-.layout-header
-  order -10
-  .toolbar
-    border-bottom $layout-border
-
-.layout-footer
-  order 10
-  .toolbar
-    border-top $layout-border
+.layout-footer > .toolbar
+  border-top $layout-border
 
 body.desktop
   .layout-header, .layout-footer
@@ -50,8 +41,6 @@ body.desktop
 .layout-header, .layout-footer
   color $toolbar-color
   background $toolbar-background
-
-.layout-header, .layout-footer
   z-index $z-marginals
 
 .toolbar
@@ -144,6 +133,11 @@ body.desktop
     padding 0 7px
     > div
       text-align right
+
+body.cordova .layout-header > .toolbar:first-child
+  padding-top 20px
+  .toolbar-title
+    padding-top 20px
 
 .layout-padding
   @media only screen and (max-width $layout-small-max)
