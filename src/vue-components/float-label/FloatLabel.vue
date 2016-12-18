@@ -1,39 +1,37 @@
-<template>
 
   <!--
+    One Size Fits All!
+    ==================
+    N.B. This layout uses (more-or-less) the Quasar standards for HTML & CSS while accommodating all permutations of labels, icons, inputs & list-items.
 
+    However, it will render up to two extra containing <div>s every time, even though these are only required for firlds with one or more of these options:
+      - icon (needs outer div A)
+      - lineline-label (needs outer div A)
+      - list-item (needs outer div B)
 
-  // TEMPLATE:
-  <div class="item q-field-container q-field-layout-XXXX q-field-focus q-field-active">
+    TODO: Divert to leaner alternative HTML structures where possible
 
-    <i class="item-primary">edit</i>
-    <div class="item-content">
-      <label>Inline Label</label>
-      <div class="q-field-layout">
-        <input required="required" class="full-width">
-        <label>Floating Label</label>
+    <v-if="!isListItem">
+      // TODO
+
+    <v-if="isListItem">
+      // Below...
+  -->
+
+<template>
+  <div class="item multiple-lines q-field" :class='css_Field' :style='style_Field' >
+    <i v-if='draw_Icon' class="item-primary q-field-icon" >{{ icon }}</i>
+    <div class="item-content q-field-content" :class='css_FieldContent'>
+      <label v-if='txt_Label' class='item-label' :style='style_InlineLabel'>{{ txt_Label }}:</label>
+      <div ref="inner" class="q-field-inner" :style='style_FieldInner'>
+        <slot></slot>
+        <label v-if='txt_Float'>{{ txt_Float }}</label>
+        <div class='q-swash'></div>
+        <span v-if='draw_Validate'>{{ txt_ValidateMsg }}</span>
       </div>
-
-    </div>
-
-  </div>
-
- -->
-
-  <div
-    class="item q-field"
-    :class='css_Field'
-    :style='style_Field'
-  >
-    <i v-if='draw_Icon' class="item-primary" >{{ icon }}</i>
-    <label v-if='draw_InlineLabel' :style='style_InlineLabel'>{{ label }}:</label>
-    <div ref="inner" class="q-field-inner" :style='style_FieldInner'>
-      <slot></slot>
-      <label v-if='draw_FloatingLabel'>{{ label }}</label>
-      <div class='q-swash'></div>
-      <span v-if='draw_Validate'>{{ txt_ValidateMsg }}</span>
     </div>
   </div>
+
 
 </template>
 
@@ -47,7 +45,7 @@
 // - width handling?
 //
 export default {
-  name: 'q-field-inner',
+  name: 'q-floating-label',
   props: {
     label: {
       type: String
@@ -55,6 +53,13 @@ export default {
     layout: {
       type: String, // 'floating' | 'stacked' | 'placeholder' | 'inline' | +/'list-item' | +/custom
       default: 'floating'
+    },
+    float: {
+      type: String
+    },
+    floatLayout: {
+      type: String, // 'floating' | 'stacked' | 'placeholder' | 'inline' | +/'list-item' | +/custom
+      default: 'placeholder'
     },
     dense: {
       type: Boolean,
@@ -89,10 +94,15 @@ export default {
   },
   data () {
     return {
+      __label: this.label,
+      __float: this.float,
+      __layout: this.layout,
       input: null,
       inputType: null,
       isTextInput: null,
-      isInline: this.layout === 'inline',
+      isListItem: null,
+      isInline: null,
+      isFloat: null,
       state: {
         hasFocus: false,
         hasTouched: false,
@@ -108,11 +118,11 @@ export default {
     draw_Icon () {
       return !!this.icon
     },
-    draw_InlineLabel () {
-      return !!this.isInline
+    txt_Label () {
+      return this.__label
     },
-    draw_FloatingLabel () {
-      return !this.isInline
+    txt_Float () {
+      return this.__float
     },
     draw_Validate () {
       return this.validate
@@ -125,21 +135,20 @@ export default {
       let
         s = this.state,
         css =
-        [
-          ['q-field-layout-' + this.layout],
-          {
-            'q-field-icon': this.icon,
-            'q-field-dense': this.dense,
-            'q-field-active': s.hasFocus || s.hasValue || s.hasReadOnly,
-            'q-field-touched': s.hasTouched,
-            'q-field-focus': s.hasFocus,
-            'q-field-value': s.hasValue,
-            'q-field-invalid': s.hasInvalid,
-            'q-field-read-only': s.hasReadOnly,
-            'q-field-disabled': s.hasDisabled,
-            'q-field-required': s.hasRequired
-          }
-        ]
+        {
+          ['q-field-layout-' + this.layout]: true,
+          ['q-field-' + (this.isListItem ? 'listed' : 'unlisted')]: true,
+          'q-field-icon': this.icon,
+          'q-field-dense': this.dense,
+          'q-field-active': s.hasFocus || s.hasValue || s.hasReadOnly,
+          'q-field-touched': s.hasTouched, // Why needed in css?
+          'q-field-focus': s.hasFocus,
+          'q-field-value': s.hasValue, // Why needed in css?
+          'q-field-invalid': s.hasInvalid,
+          'q-field-read-only': s.hasReadOnly,
+          'q-field-disabled': s.hasDisabled,
+          'q-field-required': s.hasRequired
+        }
       return css
     },
     style_Field () {
@@ -148,6 +157,9 @@ export default {
         style['width'] = (this.width === 'grow') ? '100%' : this.width
       }
       return style
+    },
+    css_FieldContent () {
+      return this.isInline ? ['row', 'items-start', 'wrap'] : []
     },
     style_FieldInner () {
       let style = {}
@@ -215,29 +227,58 @@ export default {
     }
   },
   mounted () {
-      // this.input = this.$el.querySelector('input, textarea')
-      this.input = this.$refs.inner.firstChild
-      if (!this.input) {
-        throw new Error('<q-floating-label> is missing the required input element/component.')
-        return
-      }
-      if (['text', 'textarea'].includes(this.input.type)) {
-        this.isTextInput = true
-        this.inputType = this.input.type
-      } else {
-        this.isTextInput = false
-      }
-      if (this.inputType) {
-        this.$el.addEventListener('focus', this.__onFocus, true)
-        this.$el.addEventListener('blur', this.__onBlur, true)
-        this.$el.addEventListener('input', this.__onInput, true)
-        this.__onInput()
-        this.__update()
-      } else {
-        // TODO: Handle components properly
-        this.$el.addEventListener('focus', this.__onFocus, true)
-        this.$el.addEventListener('blur', this.__onBlur, true)
-      }
+    // TODO: Nexttick needed here?
+
+    // this.isListItem
+    if (!this.$el.matches) {
+      alert('browser doesn\'t like $el.matches!')
+      this.isListItem = true
+    } else {
+      this.isListItem = this.$el.matches('div.list > div.q-field')
+    }
+
+    // this.isInline
+    // this.__label
+    // this.__float
+    // this.__layout
+    if (this.layout === 'inline') {
+      this.isInline = true
+      this.__label = this.label
+      this.__layout = this.float ? this.floatLayout : null
+      this.__float = this.float ? this.float : null
+    } else {
+      this.isInline = false
+      this.__label = null
+      this.__layout = this.layout
+      this.__float = this.label
+    }
+
+
+    // this.input
+    // this.inputType
+    // this.isTextInput
+    this.input = this.$refs.inner.firstChild // this.$el.querySelector('input, textarea')
+    if (!this.input) {
+      throw new Error('<q-floating-label> is missing the required input element/component.')
+      return
+    }
+    if (['text', 'textarea'].includes(this.input.type)) {
+      this.isTextInput = true
+      this.inputType = this.input.type
+    } else {
+      this.isTextInput = false
+    }
+    if (this.inputType) {
+      this.$el.addEventListener('focus', this.__onFocus, true)
+      this.$el.addEventListener('blur', this.__onBlur, true)
+      this.$el.addEventListener('input', this.__onInput, true)
+      this.__onInput()
+      this.__update()
+    } else {
+      // TODO: Handle components properly
+      this.$el.addEventListener('focus', this.__onFocus, true)
+      this.$el.addEventListener('blur', this.__onBlur, true)
+    }
   },
   beforeDestroy () {
     if (this.inputType) {
