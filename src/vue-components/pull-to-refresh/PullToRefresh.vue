@@ -2,7 +2,7 @@
   <div class="pull-to-refresh">
     <div
       class="pull-to-refresh-container"
-      :style="{transform: 'translateY(' + pullPosition + 'px)'}"
+      :style="style"
       v-touch-pan.vertical.scroll="__pull"
     >
       <div class="pull-to-refresh-message row items-center justify-center">
@@ -73,6 +73,9 @@ export default {
         default:
           return this.pullMessage
       }
+    },
+    style () {
+      return Utils.dom.cssTransform(`translateY(${this.pullPosition}px)`)
     }
   },
   methods: {

@@ -64,12 +64,10 @@
     </q-drawer>
 
     <div slot="footer" class="toolbar">
-      <q-toolbar-title :padding="0">
-        <router-link tag="button" to="/" exact>
-          <i class="on-left">keyboard_arrow_left</i>
-          Back to Index
-        </router-link>
-      </q-toolbar-title>
+      <router-link tag="button" to="/" exact>
+        <i class="on-left">keyboard_arrow_left</i>
+        Back to Index
+      </router-link>
     </div>
   </q-layout>
 </template>

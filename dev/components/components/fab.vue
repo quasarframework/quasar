@@ -38,7 +38,7 @@
       </p>
 
       <q-fab
-        class="absolute-bottom-right"
+        class="fixed-bottom-right"
         @click="alert()"
         classNames="primary"
         active-icon="alarm"
@@ -48,6 +48,8 @@
         <q-small-fab class="purple" @click.native="toast('mail')">mail</q-small-fab>
         <q-small-fab class="secondary" @click.native="toast('alarm')">alarm</q-small-fab>
       </q-fab>
+
+      <div style="height: 1000px">&nbsp;</div>
     </div>
   </div>
 </template>
