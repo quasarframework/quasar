@@ -2,10 +2,10 @@
 
 # Quasar Framework - Nightly Build
 
-Use nightly build for bleeding edge version of Quasar. Please note that the distributable may be unstable and may introduce breaking changes.
+Use nightly build for **bleeding edge** version of Quasar. Please note that the distributable may be unstable and may introduce breaking changes.
 
 ``` bash
-npm i --save git+https://git@github.com/quasarframework/quasar-nightly.git
+npm i --save git+https://git@github.com/quasarframework/quasar-edge.git
 ```
 
 # Official repo

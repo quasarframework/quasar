@@ -26,7 +26,7 @@ import Utils from './utils'
 import { LocalStorage, SessionStorage } from './features/web-storage'
 
 let Quasar = {
-  version: '0.10.3',
+  version: '0.11.0',
   install,
   start,
   theme
