@@ -99,6 +99,6 @@
     "fastclick": "1.x",
     "moment": "2.x",
     "velocity-animate": "1.x",
-    "vue": "^2.1.0"
+    "vue": "^2.1.6"
   }
 }
