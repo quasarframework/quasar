@@ -37,20 +37,22 @@
 
     <template v-if="responsive">
       <div v-if="message" class="q-data-table-message row items-center justify-center" v-html="message"></div>
-      <table v-else class="q-table horizontal-delimiter responsive" ref="body">
-        <tbody>
-          <tr v-for="(row, index) in rows">
-            <td v-if="config.selection">
-              <q-checkbox v-if="config.selection === 'multiple'" v-model="rowSelection[index]"></q-checkbox>
-              <q-radio v-else v-model="rowSelection[0]" :val="index"></q-radio>
-            </td>
-            <td v-for="col in cols" :data-th="col.label" :style="formatStyle(col, row[col.field])" :class="formatClass(col, row[col.field])">
-              <span v-if="!$scopedSlots['col-'+col.field]" v-html="format(row, col)"></span>
-              <slot v-if="$scopedSlots['col-'+col.field]" :name="'col-'+col.field" :row="row" :col="col" :data="row[col.field]"></slot>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div v-else :style="bodyStyle" style="overflow: auto">
+        <table class="q-table horizontal-delimiter responsive" ref="body">
+          <tbody>
+            <tr v-for="(row, index) in rows">
+              <td v-if="config.selection">
+                <q-checkbox v-if="config.selection === 'multiple'" v-model="rowSelection[index]"></q-checkbox>
+                <q-radio v-else v-model="rowSelection[0]" :val="index"></q-radio>
+              </td>
+              <td v-for="col in cols" :data-th="col.label" :style="formatStyle(col, row[col.field])" :class="formatClass(col, row[col.field])">
+                <span v-if="!$scopedSlots['col-'+col.field]" v-html="format(row, col)"></span>
+                <slot v-if="$scopedSlots['col-'+col.field]" :name="'col-'+col.field" :row="row" :col="col" :data="row[col.field]"></slot>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </template>
 
     <div v-else class="q-data-table-container" @mousewheel="mouseWheel" @DOMMouseScroll="mouseWheel">
