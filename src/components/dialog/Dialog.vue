@@ -17,7 +17,7 @@
           <input type="text" class="full-width" v-model="el.model" :placeholder="el.placeholder" required>
           <label v-html="el.label"></label>
         </div>
-        
+
         <div v-if="el.type === 'password'" class="floating-label" style="margin-bottom: 10px">
           <input type="password" class="full-width" v-model="el.model" :placeholder="el.placeholder" required>
           <label v-html="el.label"></label>
@@ -99,8 +99,9 @@
     >
       <button
         v-for="button in buttons"
-        class="primary clear"
         @click="trigger(button.handler)"
+        :class="button.classes || 'primary clear'"
+        :style="button.style"
         v-html="typeof button === 'string' ? button : button.label"
       ></button>
     </div>

@@ -81,6 +81,27 @@ export default {
           }
         },
         {
+          label: 'Custom CSS classes & style to buttons',
+          icon: 'format_color_fill',
+          handler () {
+            Dialog.create({
+              title: 'Confirm',
+              message: 'Custom button classes.',
+              buttons: [
+                {
+                  label: 'Disagree',
+                  classes: 'negative clear',
+                  style: 'text-decoration: underline'
+                },
+                {
+                  label: 'Agree',
+                  classes: 'positive'
+                }
+              ]
+            })
+          }
+        },
+        {
           label: 'Stacked Buttons Example',
           icon: 'reorder',
           handler () {
