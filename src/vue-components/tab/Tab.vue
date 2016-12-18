@@ -1,5 +1,29 @@
 <template>
+  <router-link
+    v-if="route"
+    ref="routerLink"
+    :to="route"
+    :replace="replace"
+    :append="append"
+    :exact="exact"
+    tag="div"
+    class="q-tab items-center justify-center"
+    :class="{
+      active: isActive,
+      hidden: hidden,
+      disabled: disable,
+      hideIcon: hide === 'icon',
+      hideLabel: hide === 'label'
+    }"
+    @click.stop.prevent="activate()"
+  >
+    <i v-if="icon" class="q-tabs-icon">{{icon}}</i>
+    <span class="q-tab-label">
+      <slot></slot>
+    </span>
+  </router-link>
   <div
+    v-else
     class="q-tab items-center justify-center"
     :class="{
       active: isActive,
@@ -10,7 +34,6 @@
     }"
     @click="activate()"
   >
-    <router-link v-if="route" ref="routerLink" :to="route" :replace="replace" :append="append" :exact="exact"></router-link>
     <i v-if="icon" class="q-tabs-icon">{{icon}}</i>
     <span class="q-tab-label">
       <slot></slot>
