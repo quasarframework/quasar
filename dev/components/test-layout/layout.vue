@@ -48,15 +48,7 @@
       </div>
     </q-drawer>
 
-    <div class="layout-view">
-      <q-tabs>
-        <q-tab icon="view_quilt" route="/test-layout/about" replace>About</q-tab>
-        <q-tab icon="view_day" route="/test-layout/toolbar" replace>Toolbar</q-tab>
-        <q-tab icon="view_day" route="/test-layout/tabs" replace>Tabs</q-tab>
-        <q-tab icon="input" route="/test-layout/drawer" replace>Drawer</q-tab>
-      </q-tabs>
-      <router-view></router-view>
-    </div>
+    <router-view class="layout-view"></router-view>
 
     <q-drawer right-side swipe-only ref="rightDrawer">
       <div class="toolbar light">
@@ -73,7 +65,7 @@
 
     <div slot="footer" class="toolbar">
       <q-toolbar-title :padding="0">
-        <router-link tag="button" to="/">
+        <router-link tag="button" to="/" exact>
           <i class="on-left">keyboard_arrow_left</i>
           Back to Index
         </router-link>
