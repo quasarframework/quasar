@@ -13,18 +13,34 @@
           <div class="item-primary">
             <q-radio v-model="model" :val="radio.value"></q-radio>
           </div>
-          <div class="item-content" v-html="radio.label"></div>
+          <div class="item-content">
+            <div v-html="radio.label"></div>
+          </div>
         </label>
+
+        <div v-if="type === 'list'" class="list no-border highlight" :class="{'item-delimiter': delimiter}" style="min-width: 150px; max-height: 300px;">
+          <q-list-item
+            v-for="opt in options"
+            :item="opt"
+            link
+            :active="model === opt.value"
+            @click.native="__setAndClose(opt.value)"
+          ></q-list-item>
+        </div>
 
         <label v-if="type === 'checkbox'" v-for="(checkbox, index) in options" class="item">
           <div class="item-primary">
             <q-checkbox :value="optModel[index]" @input="toggleValue(checkbox.value)"></q-checkbox>
           </div>
-          <div class="item-content" v-html="checkbox.label"></div>
+          <div class="item-content">
+            <div v-html="checkbox.label"></div>
+          </div>
         </label>
 
         <label v-if="type === 'toggle'" v-for="(toggle, index) in options" class="item">
-          <div class="item-content has-secondary" v-html="toggle.label"></div>
+          <div class="item-content has-secondary">
+            <div v-html="toggle.label"></div>
+          </div>
           <div class="item-secondary">
             <q-toggle :value="optModel[index]" @input="toggleValue(toggle.value)"></q-toggle>
           </div>
@@ -53,14 +69,15 @@ export default {
       type: String,
       required: true,
       validator (value) {
-        return ['radio', 'checkbox', 'toggle'].includes(value)
+        return ['radio', 'list', 'checkbox', 'toggle'].includes(value)
       }
     },
     label: String,
     placeholder: String,
     staticLabel: String,
     readonly: Boolean,
-    disable: Boolean
+    disable: Boolean,
+    delimiter: Boolean
   },
   computed: {
     model: {
@@ -105,6 +122,11 @@ export default {
       else {
         this.model.push(value)
       }
+    },
+
+    __setAndClose (val) {
+      this.model = val
+      this.close()
     }
   }
 }

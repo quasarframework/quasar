@@ -10,25 +10,14 @@
       <div v-if="searching" class="row justify-center" :style="{minWidth: width, padding: '3px 10px'}">
         <spinner name="dots" :size="40"></spinner>
       </div>
-      <div v-else class="list no-border" :style="computedWidth">
-        <div
-          class="item item-link"
+      <div v-else class="list no-border" :class="{'item-delimiter': delimiter}" :style="computedWidth">
+        <q-list-item
           v-for="(result, index) in computedResults"
-          @click="setValue(result.value)"
-          :class="{active: selectedIndex === index, 'two-lines': result.secondLabel}"
-        >
-          <i v-if="result.icon" class="item-primary">{{result.icon}}</i>
-          <img v-if="result.img" class="item-primary thumbnail" :src="result.img" />
-
-          <div class="item-content" :class="{'has-secondary': result.secondIcon || result.secondImg || result.stamp}">
-            <div v-html="result.label"></div>
-            <div v-if="result.secondLabel" v-html="result.secondLabel"></div>
-          </div>
-
-          <div v-if="result.stamp" class="item-secondary stamp" v-html="result.stamp"></div>
-          <i v-if="result.secondIcon" class="item-secondary">{{result.secondIcon}}</i>
-          <img v-if="result.secondImg" class="item-secondary thumbnail" :src="result.secondImg" />
-        </div>
+          :item="result"
+          link
+          :active="selectedIndex === index"
+          @click.native="setValue(result.value)"
+        ></q-list-item>
       </div>
     </q-popover>
   </span>
@@ -56,7 +45,8 @@ export default {
       default: 500
     },
     staticData: Object,
-    setWidth: Boolean
+    setWidth: Boolean,
+    delimiter: Boolean
   },
   data () {
     return {
