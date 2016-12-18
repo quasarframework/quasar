@@ -34,6 +34,10 @@ export default {
       type: Boolean,
       default: true
     },
+    offset: {
+      type: Array,
+      validator: Utils.popup.offsetValidator
+    },
     disable: Boolean
   },
   data () {
@@ -126,6 +130,7 @@ export default {
       Utils.popup.setPosition({
         event,
         el: this.$el,
+        offset: this.offset,
         anchorEl: this.anchorEl,
         anchorOrigin: this.anchorOrigin,
         selfOrigin: this.selfOrigin,
