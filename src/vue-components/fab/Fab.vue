@@ -61,7 +61,6 @@ export default {
       if (this.opened) {
         this.__repositionBackdrop()
       }
-      console.log(Utils.dom.offset(this.$el))
 
       if (!fromBackdrop && !this.opened) {
         this.$emit('click')
