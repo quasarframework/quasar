@@ -30,7 +30,7 @@
     <div ref="inner" class="q-field-inner" :style='style_FieldInner'>
       <slot></slot>
       <label v-if='draw_FloatingLabel'>{{ label }}</label>
-      <div class='q-swish'></div>
+      <div class='q-swash'></div>
       <span v-if='draw_Validate'>{{ txt_ValidateMsg }}</span>
     </div>
   </div>
