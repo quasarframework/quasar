@@ -7,11 +7,13 @@
 
       <br><br>
 
-      <q-search v-model="search"></q-search>
-      <q-search v-model="search" class="orange"></q-search>
-      <q-search v-model="search" class="secondary" icon="explore" placeholder="PlacesPlacesPlacesPlacesPlacesPlacesPlaces"></q-search>
-      <q-search v-model="search" class="primary" icon="local_airport" placeholder="Airports"></q-search>
-      <q-search v-model="search" class="dark" icon="local_hotel" placeholder="Hotels"></q-search>
+      <div class="group">
+        <q-search v-model="search"></q-search>
+        <q-search v-model="search" class="orange"></q-search>
+        <q-search v-model="search" class="secondary" icon="explore" placeholder="PlacesPlacesPlacesPlacesPlacesPlacesPlaces"></q-search>
+        <q-search v-model="search" class="primary" icon="local_airport" placeholder="Airports"></q-search>
+        <q-search v-model="search" class="dark" icon="local_hotel" placeholder="Hotels"></q-search>
+      </div>
 
       <p class="caption">Disabled State</p>
       <q-search v-model="search" class="primary" disable></q-search>
