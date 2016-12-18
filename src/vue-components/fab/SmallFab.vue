@@ -1,9 +1,17 @@
 <template>
   <button class="circular small raised" @click="$parent.close()">
-    <i><slot></slot></i>
+    <i>{{icon}}</i>
+    <slot></slot>
   </button>
 </template>
 
 <script>
-export default {}
+export default {
+  props: {
+    icon: {
+      type: String,
+      required: true
+    }
+  }
+}
 </script>

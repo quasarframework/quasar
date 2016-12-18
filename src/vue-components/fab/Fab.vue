@@ -78,7 +78,7 @@ export default {
   computed: {
     backdropPosition () {
       if (Platform.is.mobile && Platform.is.ios) {
-        return Utils.dom.cssTransform(`translate3d(${- this.backdrop.left}px, ${- this.backdrop.top}px, 0)`)
+        return Utils.dom.cssTransform(`translate3d(${-this.backdrop.left}px, ${-this.backdrop.top}px, 0)`)
       }
     }
   }

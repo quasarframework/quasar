@@ -10,23 +10,23 @@
 
       <div class="column items-center" style="margin-top: 100px; margin-bottom: 100px;">
         <q-fab classNames="purple" icon="keyboard_arrow_up" direction="up">
-          <q-small-fab class="white" @click.native="toast('mail')">mail</q-small-fab>
-          <q-small-fab class="white" @click.native="toast('alarm')">alarm</q-small-fab>
+          <q-small-fab class="white" @click.native="toast('mail')" icon="mail"></q-small-fab>
+          <q-small-fab class="white" @click.native="toast('alarm')" icon="alarm"></q-small-fab>
         </q-fab>
 
         <q-fab icon="keyboard_arrow_left" direction="left">
-          <q-small-fab class="white" @click.native="toast('mail')">mail</q-small-fab>
-          <q-small-fab class="white" @click.native="toast('alarm')">alarm</q-small-fab>
+          <q-small-fab class="white" @click.native="toast('mail')" icon="mail"></q-small-fab>
+          <q-small-fab class="white" @click.native="toast('alarm')" icon="alarm"></q-small-fab>
         </q-fab>
 
         <q-fab classNames="secondary push" icon="keyboard_arrow_right" direction="right">
-          <q-small-fab class="primary" @click.native="toast('mail')">mail</q-small-fab>
-          <q-small-fab class="white" @click.native="toast('alarm')">alarm</q-small-fab>
+          <q-small-fab class="primary" @click.native="toast('mail')" icon="mail"></q-small-fab>
+          <q-small-fab class="white" @click.native="toast('alarm')" icon="alarm"></q-small-fab>
         </q-fab>
 
         <q-fab classNames="tertiary glossy" icon="keyboard_arrow_down" direction="down">
-          <q-small-fab class="white" @click.native="toast('mail')">mail</q-small-fab>
-          <q-small-fab class="white" @click.native="toast('alarm')">alarm</q-small-fab>
+          <q-small-fab class="white" @click.native="toast('mail')" icon="mail"></q-small-fab>
+          <q-small-fab class="white" @click.native="toast('alarm')" icon="alarm"></q-small-fab>
         </q-fab>
       </div>
 
@@ -45,8 +45,12 @@
         direction="up"
         style="right: 18px; bottom: 18px;"
       >
-        <q-small-fab class="purple" @click.native="toast('mail')">mail</q-small-fab>
-        <q-small-fab class="secondary" @click.native="toast('alarm')">alarm</q-small-fab>
+        <q-small-fab class="purple" @click.native="toast('mail')" icon="mail">
+          <q-tooltip anchor="center left" self="center right">Mail</q-tooltip>
+        </q-small-fab>
+        <q-small-fab class="secondary" @click.native="toast('alarm')" icon="alarm">
+          <q-tooltip anchor="center left" self="center right">Alarm</q-tooltip>
+        </q-small-fab>
       </q-fab>
 
       <div style="height: 1000px">&nbsp;</div>
