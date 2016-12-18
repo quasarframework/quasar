@@ -24,15 +24,14 @@
             :class="{disabled: !ready}"
             @click="nextStep()"
           >
-            {{ stepper && step === stepper.steps ? 'Finish' : 'Continue' }}
+            {{ stepper && step === stepper.steps ? $parent.finishLabel : $parent.nextLabel }}
           </button>
           <button
             class="primary clear"
             v-if="step > 1"
             @click="previousStep()"
-          >
-            Back
-          </button>
+            v-html="$parent.backLabel"
+          ></button>
         </div>
       </div>
     </q-transition>

@@ -6,6 +6,20 @@
 
 <script>
 export default {
+  props: {
+    backLabel: {
+      type: String,
+      default: 'Back'
+    },
+    nextLabel: {
+      type: String,
+      default: 'Continue'
+    },
+    finishLabel: {
+      type: String,
+      default: 'Finish'
+    }
+  },
   data () {
     return {
       config: {
