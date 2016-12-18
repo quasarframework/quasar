@@ -83,6 +83,10 @@ $tabs-label-font-size         ?= .7rem
     background white
     border-radius 0
 
+  &.justified
+    .q-tabs-scroller, .q-tab
+      flex 1 1 auto
+
   for $name, $color in $colors
     if $name == 'light' || $name == 'white'
       &.{$name}

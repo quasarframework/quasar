@@ -77,6 +77,15 @@
       </div>
 
       <p class="caption">
+        Align "justify" on desktop too.
+      </p>
+      <q-tabs class="justified">
+        <q-tab icon="mail">Mails</q-tab>
+        <q-tab icon="alarm">Alarms</q-tab>
+        <q-tab icon="movie">Movies</q-tab>
+      </q-tabs>
+
+      <p class="caption">
         <span class="desktop-only">Click</span>
         <span class="mobile-only">Tap</span>
         on next Tabs to see target below them swapping views.
