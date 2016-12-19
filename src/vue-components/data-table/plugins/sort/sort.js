@@ -1,11 +1,30 @@
+import moment from 'moment'
+
+const sortMethod = {
+  string: (a, b) => a.localeCompare(b),
+  number: (a, b) => a - b,
+  date: (a, b) => (new Date(a)) - (new Date(b)),
+  moment: (a, b) => moment(a) - moment(b),
+  boolean: (a, b) => {
+    if (a && !b) { return -1 }
+    if (!a && b) { return 1 }
+    return 0
+  }
+}
+
 function nextDirection (dir) {
-  if (dir === 0) {
-    return 1
-  }
-  if (dir === 1) {
-    return -1
-  }
+  if (dir === 0) { return 1 }
+  if (dir === 1) { return -1 }
   return 0
+}
+
+function getSortFn (sort, type) {
+  if (typeof sort === 'function') {
+    return sort
+  }
+  if (type && sortMethod[type]) {
+    return sortMethod[type]
+  }
 }
 
 export default {
@@ -13,7 +32,8 @@ export default {
     return {
       sorting: {
         field: '',
-        dir: 0
+        dir: 0,
+        fn: false
       }
     }
   },
@@ -23,8 +43,8 @@ export default {
     }
   },
   methods: {
-    setSortField (field) {
-      if (this.sorting.field === field) {
+    setSortField (col) {
+      if (this.sorting.field === col.field) {
         this.sorting.dir = nextDirection(this.sorting.dir)
         if (this.sorting.dir === 0) {
           this.sorting.field = ''
@@ -32,29 +52,20 @@ export default {
         return
       }
 
-      this.sorting.field = field
+      this.sorting.field = col.field
       this.sorting.dir = 1
+      this.sorting.fn = getSortFn(col.sort, col.type)
     },
     sort (rows) {
-      if (typeof rows[0][this.sorting.field] === 'string') {
-        rows.sort((a, b) => {
-          let
-            f1 = a[this.sorting.field],
-            f2 = b[this.sorting.field]
+      let sortFn = this.sorting.fn
+      const
+        field = this.sorting.field,
+        dir = this.sorting.dir
 
-          return (this.sorting.dir === 1 ? 1 : -1) * f1.localeCompare(f2)
-        })
-        return
+      if (!sortFn) {
+        sortFn = sortMethod[typeof rows[0][field]] || ((a, b) => a - b)
       }
-      rows.sort((a, b) => {
-        let
-          f1 = a[this.sorting.field],
-          f2 = b[this.sorting.field]
-
-        if (f1 < f2) { return this.sorting.dir === 1 ? -1 : 1 }
-        if (f1 === f2) { return 0 }
-        return this.sorting.dir === 1 ? 1 : -1
-      })
+      rows.sort((a, b) => dir * sortFn(a[field], b[field]))
     }
   }
 }

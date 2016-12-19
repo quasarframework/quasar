@@ -57,7 +57,7 @@ export default {
     },
     sort (col) {
       if (col.sort) {
-        this.$emit('sort', col.field)
+        this.$emit('sort', col)
       }
     }
   },

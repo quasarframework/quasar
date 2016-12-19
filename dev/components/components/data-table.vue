@@ -181,7 +181,9 @@ export default {
           field: 'isodate',
           width: '120px',
           classes: 'bg-orange-2',
-          sort: true,
+          sort (a, b) {
+            return (new Date(a)) - (new Date(b))
+          },
           format (value) {
             return (new Date(value).toLocaleString()) + (new Date(value).toLocaleString())
           }
@@ -202,7 +204,8 @@ export default {
           label: 'Time Range',
           field: 'timerange',
           width: '120px',
-          sort: true
+          sort: true,
+          type: 'number'
         },
         {
           label: 'Message',

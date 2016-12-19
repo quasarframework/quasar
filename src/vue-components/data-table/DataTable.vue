@@ -169,6 +169,13 @@ export default {
   },
   computed: {
     rows () {
+      let length = this.data.length
+      this.pagination.entries = length
+
+      if (!length) {
+        return []
+      }
+
       let rows = Utils.clone(this.data)
 
       rows.forEach((row, i) => {
@@ -182,8 +189,6 @@ export default {
       if (this.sorting.field) {
         this.sort(rows)
       }
-
-      this.pagination.entries = rows.length
 
       if (this.pagination.rowsPerPage > 0) {
         rows = this.paginate(rows)
