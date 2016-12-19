@@ -1,6 +1,12 @@
 <template>
   <div>
     <div class="layout-padding">
+
+      <div class="floating-label">
+        <input required class="full-width">
+        <label>Floating Label</label>
+      </div>
+
       <p class="caption">Standalone</p>
       <small>Default:</small> <input v-model="username">
       <br>
@@ -8,6 +14,7 @@
 
       <p class="caption">Placeholder</p>
       <input placeholder="Placeholder">
+
 
       <p class="caption">Stacked Label</p>
       <div class="stacked-label">
