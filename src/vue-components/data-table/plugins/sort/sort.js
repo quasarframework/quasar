@@ -42,14 +42,18 @@ export default {
             f1 = a[this.sorting.field],
             f2 = b[this.sorting.field]
 
-          return this.sorting.dir === 1 ? f1.localeCompare(f2) : f2.localeCompare(f1)
+          return (this.sorting.dir === 1 ? 1 : -1) * f1.localeCompare(f2)
         })
         return
       }
       rows.sort((a, b) => {
-        if (a < b) { return -1 }
-        if (a === b) { return 0 }
-        return 1
+        let
+          f1 = a[this.sorting.field],
+          f2 = b[this.sorting.field]
+
+        if (f1 < f2) { return this.sorting.dir === 1 ? -1 : 1 }
+        if (f1 === f2) { return 0 }
+        return this.sorting.dir === 1 ? 1 : -1
       })
     }
   }
