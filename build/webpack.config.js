@@ -113,5 +113,8 @@ module.exports = {
     new ProgressBarPlugin({
       format: ' [:bar] ' + ':percent'.bold + ' (:msg)'
     })
-  ]
+  ],
+  performance: {
+    hints: false
+  }
 }
