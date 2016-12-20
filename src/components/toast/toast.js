@@ -43,9 +43,11 @@ types.forEach(type => {
 })
 
 export function install (_Vue) {
-  let node = document.createElement('div')
-  document.body.appendChild(node)
-  toast = new _Vue(Toast).$mount(node)
+  Utils.dom.ready(() => {
+    let node = document.createElement('div')
+    document.body.appendChild(node)
+    toast = new _Vue(Toast).$mount(node)
+  })
 }
 
 export default {

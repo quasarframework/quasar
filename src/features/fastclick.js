@@ -1,6 +1,9 @@
 import FastClick from 'fastclick'
 import Platform from './platform'
+import Utils from '../utils'
 
 if (Platform.has.touch) {
-  FastClick.attach(document.body)
+  Utils.dom.ready(() => {
+    FastClick.attach(document.body)
+  })
 }
