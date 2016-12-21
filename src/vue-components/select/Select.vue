@@ -18,7 +18,7 @@
           </div>
         </label>
 
-        <div v-if="type === 'list'" class="list no-border highlight" :class="{'item-delimiter': delimiter}" style="min-width: 150px; max-height: 300px;">
+        <div v-if="type === 'list'" class="list no-border highlight" :class="{'item-delimiter': delimiter}" style="min-width: 100px;">
           <q-list-item
             v-for="opt in options"
             :item="opt"
@@ -60,8 +60,8 @@ export default {
       type: Array,
       required: true,
       validator (options) {
-        return !options.some(option =>
-          typeof option.label === 'undefined' || typeof option.value === 'undefined'
+        return !options.some(opt =>
+          typeof opt.label === 'undefined' || typeof opt.value === 'undefined'
         )
       }
     },
@@ -82,6 +82,9 @@ export default {
   computed: {
     model: {
       get () {
+        if (this.multiple && !Array.isArray(this.value)) {
+          console.error('Select model needs to be an array when using multiple selection.')
+        }
         return this.value
       },
       set (value) {
@@ -92,15 +95,18 @@ export default {
       /* Used by multiple selection only */
       return this.options.map(opt => this.model.includes(opt.value))
     },
+    singleSelection () {
+      return ['radio', 'list'].includes(this.type)
+    },
     actualValue () {
-      if (this.type === 'radio') {
+      if (!this.multiple) {
         let option = this.options.find(option => option.value === this.model)
         return option ? option.label : ''
       }
 
       let options = this.options
-        .filter(option => this.model.includes(option.value))
-        .map(option => option.label)
+        .filter(opt => this.model.includes(opt.value))
+        .map(opt => opt.label)
 
       return !options.length ? '' : options.join(', ')
     }
