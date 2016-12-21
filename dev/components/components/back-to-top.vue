@@ -1,10 +1,22 @@
 <template>
   <div>
     <div class="layout-padding">
-      <p class="caption">Scroll down to see it in action.</p>
+
+      <div class="row large-gutter">
+      <div class="width-2of3">
+        <p class="caption">Scroll down to see it in action.</p>
+      </div>
+
+      <div class="width-1of3">
+        <label class=" pull-right">
+          {{ toTop ? "Top of Page" : "Top of Component" }}
+          <q-toggle v-model="toTop"></q-toggle>
+        </label>
+      </div>
+      </div>
 
       <br>
-      <q-back-to-top> <!-- :handler="refresher"> -->
+      <q-back-to-top :toTopPage="toTop">
         <p v-for="n in 100" class="caption">
           <span class="label bg-secondary text-white shadow-1">
             {{ n }}
@@ -18,5 +30,11 @@
 </template>
 
 <script>
-export default {}
+export default {
+  data () {
+    return {
+      toTop: false
+    }
+  }
+}
 </script>

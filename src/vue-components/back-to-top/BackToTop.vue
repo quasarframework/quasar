@@ -26,6 +26,10 @@ export default {
     offset: {
       type: Number,
       default: 0
+    },
+    toTopPage: {       /* if true go to top of page, otherwise to top of component (that could be not at top of page) */
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -67,7 +71,7 @@ export default {
         return
       }
       this.stop()
-      Velocity(this.element, 'scroll', {offset: -this.position, mobileHA: false})
+      Velocity(this.element, 'scroll', {offset: (this.toTopPage ? -this.position : 0), mobileHA: false})
       this.resume()
     },
     resume () {
