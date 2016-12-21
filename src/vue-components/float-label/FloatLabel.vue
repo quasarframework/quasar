@@ -2,7 +2,7 @@
   <!--
     One Size Fits All!
     ==================
-    N.B. This layout uses (more-or-less) the Quasar standards for HTML & CSS while accommodating all permutations of labels, icons, inputs & list-items.
+    NB: This layout uses (more-or-less) the Quasar standards for HTML & CSS while accommodating all permutations of labels, icons, inputs & list-items.
 
     However, it will render up to two extra containing <div>s every time, even though these are only required for firlds with one or more of these options:
       - icon (needs outer div A)
@@ -19,31 +19,37 @@
   -->
 
 <template>
-  <div class="item multiple-lines q-field" :class='css_Field' :style='style_Field' >
-    <i v-if='draw_Icon' class="item-primary q-field-icon" >{{ icon }}</i>
-    <div class="item-content q-field-content" :class='css_FieldContent'>
-      <label v-if='txt_Label' class='item-label' :style='style_InlineLabel'>{{ txt_Label }}:</label>
-      <div ref="inner" class="q-field-inner" :style='style_FieldInner'>
+  <div class="item multiple-lines qf" :class='css_Field' >
+<!--     <pre>{{ style_Label }} </pre> -->
+    <i v-if='draw_Icon' class="item-primary qf-icon" >{{ icon }}</i>
+    <div class="item-content qf-content" :class='css_FieldContent'>
+      <label v-if='txt_Label' :for='inputId' class='item-label' :style='style_Label'>{{ txt_Label }}:</label>
+      <div ref="inner" class="qf-inner" :style='style_FieldInner'>
         <slot></slot>
-        <label v-if='txt_Float'>{{ txt_Float }}</label>
-        <div class='q-swash'></div>
-        <span v-if='draw_Validate'>{{ txt_ValidateMsg }}</span>
+        <div class='qf-swoosh'></div>
+        <label v-if='txt_Float' :class='css_Float' :for='inputId'>{{ txt_Float }}</label>
+        <span v-if='draw_Counter' class="qf-counter">{{ txt_Counter }}</span>
+        <span v-if='hint' class="qf-hint">{{ txt_Hint }}</span>
+        <span v-if='draw_Validate' class="qf-validate-msg">{{ txt_ValidateMsg }}</span>
       </div>
     </div>
+    <i v-if='draw_Icon2' class="item-secondary qf-icon" >{{ icon2 }}</i>
   </div>
 
 
 </template>
 
 <script>
-// TODO:
 /* eslint-disable */
-// - React to changes in input attributes: disabled/readonly/value, etc.
-// - iOS styles
-// - multiple validation messages
-// - inline layout
-// - width handling?
-//
+  /**
+    TODO:
+    - React to changes in input attributes: disabled/readonly/value, etc.
+    - iOS styles
+    - multiple validation messages
+    - width handling
+
+  */
+import { Utils } from 'quasar'
 export default {
   name: 'q-floating-label',
   props: {
@@ -51,15 +57,22 @@ export default {
       type: String
     },
     layout: {
-      type: String, // 'floating' | 'stacked' | 'placeholder' | 'inline' | +/'list-item' | +/custom
+      type: String, // 'floating' | 'stacked' | 'inplace' | 'placeholder' | 'inline' | +/'list-item' | +/custom
       default: 'floating'
     },
     float: {
       type: String
     },
     floatLayout: {
-      type: String, // 'floating' | 'stacked' | 'placeholder' | 'inline' | +/'list-item' | +/custom
-      default: 'placeholder'
+      type: String, // 'floating' | 'stacked' | 'inplace' | 'placeholder' | 'inline' | +/'list-item' | +/custom
+      default: 'inplace'
+    },
+    hint: {
+      type: String
+    },
+    counter: {
+      type: Boolean,
+      default: true
     },
     dense: {
       type: Boolean,
@@ -67,220 +80,277 @@ export default {
     },
     width: {
       type: String,
-      default: 'shrink' // 'grow' | 'shrink' | '#px' | '#%'
+      default: null // default=null='shrink' | grow' | '#px' | '#%'
     },
-    labelWidth: {
+    align: {
       type: String,
-      default: 'shrink' // 'grow' | 'shrink' | '#px' | '#%' (NB: Only with layout='inline')
+      default: null // default=null='left' | 'right' | 'center'
     },
-    labelAlign: {
+    inlineWidth: {
       type: String,
-      default: 'left' // 'left' | 'right'
+      default: null // default=null='shrink' | grow' | '#px' | '#%'
+    },
+    inlineAlign: {
+      type: String,
+      default: null // default=null='left' | 'right' | 'center'
     },
     icon: {
       type: String
     },
+    iconInverse: {
+      type: Boolean
+    },
+    icon2: {
+      type: String
+    },
+    maxlength: {
+      type: Number
+    },
     validate: {
-      type: Boolean,
+      type: [String, Boolean], // false (default) | 'immediate' | 'eager' true | 'lazy' | 'submit' (TBA)
       default: false
     },
     validateMsg: {
+      // TODO: more than 1 msg!
       type: String
-    },
-    validateLazy: {
-      type: Boolean,
-      default: false
     }
   },
   data () {
     return {
-      __label: this.label,
-      __float: this.float,
-      __layout: this.layout,
+      // prop local aliases
+      myLabel: this.label,
+      myFloat: this.float,
+      myLayout: this.layout,
+      // derived properties
       input: null,
       inputType: null,
+      inputId: null,
       isTextInput: null,
-      isListItem: null,
       isInline: null,
-      isFloat: null,
+      maxChars: null,
+      // field state
       state: {
-        hasFocus: false,
-        hasTouched: false,
-        hasValue: false,
-        hasInvalid: false,
-        hasReadOnly: false,
-        hasDisabled: false,
-        hasRequired: false
+        hasFocus: null,
+        hasTouched: null,
+        hasValue: null,
+        hasInvalid: null,
+        hasTooLong: null,
+        hasReadOnly: null,
+        hasDisabled: null,
+        hasRequired: null,
+        currentChars: null
       }
     }
   },
   computed: {
+    // prop local aliases
+    myMaxlength () {
+      // If TEXT input, return...
+      // 1. component "maxlength" prop, or  (NB: User-entry UNRESTRICTED)
+      // 2. input 'maxlength' attr          (NB: User-entry LIMITED to 'maxlength')
+      // otherwise return 0 (no maxlength)
+      return !this.isTextInput ? 0 : this.maxlength ? parseInt(this.maxlength, 10) : this.input.hasAttribute('maxlength') ? this.input.maxlength : 0
+    },
+    myValidate () {
+      // If TEXT input, convert TRUE => 'eager', return 'immediate' | 'eager' | 'lazy' | 'form' (TBA) | false
+      return !this.isTextInput ? false : this.validate === true ? 'eager' : this.validate ? this.validate : false
+    },
+    // view rules
+    draw_Counter () {
+      return !!(this.counter && this.myMaxlength)
+    },
+    txt_Counter () {
+      return this.state.currentChars + ' / ' + this.myMaxlength
+    },
     draw_Icon () {
       return !!this.icon
     },
+    draw_Icon2 () {
+      return !!this.icon2
+    },
     txt_Label () {
-      return this.__label
+      return this.myLabel
     },
     txt_Float () {
-      return this.__float
+      return this.myFloat
+    },
+    txt_Hint () {
+      return this.hint
+    },
+    css_Float () {
+      // Explanation:
+      // 'float.qf-float' in this context is the floating label when used as secondary text content - NOT a 'label'
+      // Instead, the job of being a Label falls to the inline 'label.item-label, leaving this wee floaty thing free for other (useless?) fancy stuff.
+      // Invoked by providing 2 minimum props:  layout='inline' (kicks in the inline label) AND float='some extra message'.
+      // Default 'float-layout' is 'inplace', but others can be specified e.g. 'floating', 'placeholder', 'stacked'.
+      // float-layout='inline' is illegal as 'inline' layout is already occupied by the mainm label's layout.
+      //
+      return this.float ? 'qf-float' : 'qf-float-label'
     },
     draw_Validate () {
       return this.validate
     },
     txt_ValidateMsg () {
       return this.validateMsg || 'Please enter a valid value.'
-      // TODO: Allow msg update / multiple msgs / `vee-validate` integration
+      // TODO: Allow msg update / multiple msgs / `vee-validate` integration?
     },
     css_Field () {
       let
         s = this.state,
         css =
         {
-          ['q-field-layout-' + this.layout]: true,
-          ['q-field-' + (this.isListItem ? 'listed' : 'unlisted')]: true,
-          'q-field-icon': this.icon,
-          'q-field-dense': this.dense,
-          'q-field-active': s.hasFocus || s.hasValue || s.hasReadOnly,
-          'q-field-touched': s.hasTouched, // Why needed in css?
-          'q-field-focus': s.hasFocus,
-          'q-field-value': s.hasValue, // Why needed in css?
-          'q-field-invalid': s.hasInvalid,
-          'q-field-read-only': s.hasReadOnly,
-          'q-field-disabled': s.hasDisabled,
-          'q-field-required': s.hasRequired
+          ['qf-layout-' + this.myLayout]: true,
+          'qf-dense': this.dense,
+          'qf-active': s.hasFocus || s.hasValue || s.hasReadOnly,
+          // 'qf-touched': s.hasTouched, // Why is this needed in css?
+          'qf-focus': s.hasFocus,
+          'qf-value': s.hasValue,
+          'qf-invalid': this.validate && s.hasInvalid,
+          'qf-invalid-too-long': s.hasTooLong,
+          'qf-read-only': s.hasReadOnly,
+          'qf-disabled': s.hasDisabled,
+          'qf-required': s.hasRequired
         }
       return css
     },
-    style_Field () {
-      let style = {}
-      if (this.width && this.width != 'shrink') {
-        style['width'] = (this.width === 'grow') ? '100%' : this.width
-      }
-      return style
-    },
     css_FieldContent () {
-      return this.isInline ? ['row', 'items-start', 'wrap'] : []
+      return this.icon2 ? 'has-secondary' : ''
     },
     style_FieldInner () {
-      let style = {}
-      if (!this.isInline || this.labelWidth !== 'grow') {
-        style['flex-grow'] = '1'
-      }
-      return style
+      // shrink / grow / size <input> container
+      return this.calcWidthStyles(this.width, this.align)
     },
-    style_InlineLabel () {
-      let style = {}
-      if (this.labelWidth === 'grow') {
-        style['flex-grow'] = '1'
-      } else if (this.labelWidth === 'shrink') {
-        style['flex-shrink'] = '1'
-      } else if (this.labelWidth) {
-        style['width'] = this.labelWidth
-      }
-      if (this.labelAlign === 'right') {
-        style['text-align'] = 'right'
-      }
-      return style
+    style_Input () {
+      // if container defines a size then <input> with match container. (If not, container will match <input> so leave it alone.)
+      return this.width && this.width != 'shrink' ? { width: '100%', 'margin-left': 0, 'margin-right': 0} : {}
+    },
+    style_Label () {
+      // shrink / grow / size inline <label.item-label>
+      return this.calcWidthStyles(this.labelWidth, this.labelAlign)
     }
   },
   methods: {
+    // Utils
+    calcWidthStyles (width, align) {
+      let style = {}
+      if (width === 'grow') {
+        style['flex-grow'] = '1'
+      } else if (width && width != 'shrink') {
+        style['width'] = width
+      } else if (width) {
+        style['flex-shrink'] = '1'
+      }
+      if (align) {
+        style['text-align'] = align
+      }
+      return style
+    },
+    // Events
     __onFocus (e) {
-      console.log('focus')
       this.state.hasFocus = true
     },
     __onBlur (e) {
       this.state.hasFocus = false
-      this.state.touched = true
-      if (this.isTextInput) {
-        this.__updateInvalid()
+      this.state.hasTouched = true
+      if (this.myValidate === 'lazy') {
+        this.__updateState_validity()
       }
     },
     __onInput (e) {
       this.state.hasValue = this.input.value ? true : false
-      this.touched = true
-      if (!this.validateLazy) {
-        this.__updateInvalid()
+      this.hasTouched = true
+      if (this.myValidate === 'eager') {
+        this.__updateState_validity()
+      }
+      if (this.draw_Counter) {
+        this.__updateState_counter()
       }
     },
-    __updateInvalid () {
-      // TODO: Cater for >1 of ...
-      // input.validity = {
-      //   badInput
-      //   customError
-      //   patternMismatch
-      //   rangeOverflow
-      //   rangeUnderflow
-      //   stepMismatch
-      //   tooLong
-      //   tooShort
-      //   typeMismatch
-      //   valid
-      //   valueMissing
-      //   }
-      this.state.hasInvalid = !this.input.validity.valid && (this.state.hasValue || this.state.touched)
-    },
-    __update () {
+    // State maintenance
+    __initState () {
       // TODO: Enable change after render...
       this.state.hasRequired = this.input.required
       this.state.hasReadOnly = this.input.readOnly
       this.state.hasDisabled = this.input.disabled
+    },
+    __updateState_counter () {
+      this.state.currentChars = this.input.value.length
+      this.state.hasTooLong = this.state.currentChars > this.myMaxlength
+    },
+    __updateState_validity () {
+      // TODO: input.validity: {
+      //   valid,
+      //   badInput, customError, patternMismatch, rangeOverflow, rangeUnderflow, stepMismatch, tooLong, tooShort,typeMismatch, valueMissing
+      this.state.hasInvalid = !this.input.validity.valid && (this.state.hasValue || this.state.hasTouched)
     }
   },
   mounted () {
-    // TODO: Nexttick needed here?
 
-    // this.isListItem
-    if (!this.$el.matches) {
-      alert('browser doesn\'t like $el.matches!')
-      this.isListItem = true
-    } else {
-      this.isListItem = this.$el.matches('div.list > div.q-field')
-    }
-
-    // this.isInline
-    // this.__label
-    // this.__float
-    // this.__layout
-    if (this.layout === 'inline') {
-      this.isInline = true
-      this.__label = this.label
-      this.__layout = this.float ? this.floatLayout : null
-      this.__float = this.float ? this.float : null
-    } else {
-      this.isInline = false
-      this.__label = null
-      this.__layout = this.layout
-      this.__float = this.label
-    }
-
-
-    // this.input
-    // this.inputType
-    // this.isTextInput
+    // Sanitise input control (Type, Id, etc.)
+    //
     this.input = this.$refs.inner.firstChild // this.$el.querySelector('input, textarea')
     if (!this.input) {
       throw new Error('<q-floating-label> is missing the required input element/component.')
       return
     }
-    if (['text', 'textarea'].includes(this.input.type)) {
+    if (['textarea','text','input','password','datetime','email','number','search','time','week','date','datetime-local','month','tel','url'].includes(this.input.type))
+    {
       this.isTextInput = true
       this.inputType = this.input.type
+      this.input.checkValidity()
+      this.__updateState_counter()
+      if (this.validate === 'immediate') {
+        this.__updateState_validity()
+      }
     } else {
       this.isTextInput = false
     }
-    if (this.inputType) {
+    if (this.input.id) {
+      this.inputId = this.input.id
+    } else {
+      this.inputId = Utils.uid()
+      this.input.id = this.inputId
+    }
+
+
+    // Layout (Floating labels vs. Inline Label + opt. 'float-layout')
+    //
+    if (!this.layout || this.layout === 'inline') {
+      // item-label is main Label, float functions as optional msg.
+      this.layout = 'inline' //
+      this.isInline = true
+      this.myLabel = this.label
+      this.myLayout = this.float ? this.floatLayout : this.layout
+      this.myFloat = this.float ? this.float : null
+    } else {
+      // float functions as main Label
+      this.isInline = false
+      this.myLabel = null
+      this.myLayout = this.layout
+      this.myFloat = this.label
+    }
+
+    // this.myHint
+    this.myHint = this.hint
+
+    // this.myCounter
+    // this.maxChars
+
+    // add events
+    if (this.isTextInput) {
       this.$el.addEventListener('focus', this.__onFocus, true)
       this.$el.addEventListener('blur', this.__onBlur, true)
       this.$el.addEventListener('input', this.__onInput, true)
       this.__onInput()
-      this.__update()
+      this.__initState()
     } else {
-      // TODO: Handle components properly
-      this.$el.addEventListener('focus', this.__onFocus, true)
-      this.$el.addEventListener('blur', this.__onBlur, true)
+      // TODO: Handle non-textual components properly!!
+      this.$el.addEventListener('focusin', this.__onFocus, true)
+      this.$el.addEventListener('focusout', this.__onBlur, true)
     }
   },
   beforeDestroy () {
+    // remove events
     if (this.inputType) {
       this.$el.removeEventListener('focus', this.__onFocus, true)
       this.$el.removeEventListener('blur', this.__onBlur, true)

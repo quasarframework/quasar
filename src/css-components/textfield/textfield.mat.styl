@@ -1,3 +1,142 @@
+// // $textfield-border-size        ?= 2px
+// // $textfield-border-style       ?= solid
+// // $textfield-border-color       ?= $form-lighter-color
+// // $textfield-focus-border-color ?= $form-active-color
+// // $textfield-font-size          ?= .9rem
+// // $label-font-size              ?= $textfield-font-size
+
+// // $textfield-padding-horizontal ?= 0
+// // $textfield-padding-vertical   ?= 8px
+
+// // $caret-color                  ?= $grey-9
+
+// // input, textarea, .textfield
+// //   &:not(.no-style)
+// //     background none
+// //     font-size $textfield-font-size
+// //     max-width 100%
+// //     margin-bottom 2px
+// //     padding $textfield-padding-vertical $textfield-padding-horizontal
+// //     border 0
+// //     outline 0
+// //     transition all .3s
+// //     border-bottom $textfield-border-size $textfield-border-style $textfield-border-color
+// //     &:focus, &:hover, .active
+// //       border-bottom $textfield-border-size $textfield-border-style $textfield-focus-border-color
+// //     &[disabled], &.disabled
+// //       border-bottom-color darken($form-darker-color, 20%)
+// //     &[disabled], &.disabled, &[readonly], &.readonly
+// //       border-bottom-style dotted
+// //     &.has-error
+// //       border-bottom $textfield-border-size $textfield-border-style $has-error !important
+
+// // label
+// //   font-size $label-font-size
+
+// // .stacked-label, .floating-label
+// //   position relative
+// //   display inline-block
+// //   width 100%
+// //   label
+// //     position absolute
+// //     pointer-events none
+// //     top 0
+// //     left 0
+// //     transform-origin left top
+// //     color rgba(0, 0, 0, .54)
+
+// // .stacked-label
+// //   label
+// //     display block
+// //     transform scale(.8)
+// //   input
+// //     padding-top 1.4rem
+// //   textarea
+// //     margin-top 1.4rem
+// //   input:focus + label, textarea:focus + label
+// //     color $form-active-color
+
+// // .floating-label
+// //   label
+// //     bottom $textfield-padding-vertical
+// //     transition transform .15s ease-in-out, color .3s
+// //   input + label, textarea + label
+// //     transform translateY(1.7rem) scale(1)
+// //   input
+// //     padding-top 1.4rem
+// //   textarea
+// //     margin-top 1.4rem
+// // &.label-active
+// //   input ~ label, textarea ~ label
+// //     transform translateY(0) scale(.8)
+// // &.label-focus
+// //   input ~ label, textarea ~ label
+// //     color $form-active-color
+
+
+
+
+// <style lang='stylus'>
+
+// $grey = #9e9e9e
+// $grey-1 = #fafafa
+// $grey-2 = #f5f5f5
+// $grey-3 = #eeeeee
+// $grey-4 = #e0e0e0
+// $grey-5 = #bdbdbd
+// $grey-6 = #9e9e9e
+// $grey-7 = #757575
+// $grey-8 = #616161
+// $grey-9 = #424242
+// $grey-10 = #212121
+// $grey-11 = #f5f5f5
+// $grey-12 = #eeeeee
+// $grey-13 = #bdbdbd
+// $grey-14 = #616161
+
+// $primary   ?= #027be3
+// $secondary ?= #26A69A
+// $tertiary  ?= #555
+
+// $positive  ?= #21BA45
+// $negative  ?= #DB2828
+// $info      ?= #31CCEC
+// $warning   ?= #F2C037
+
+// $white     ?= #fff
+// $light     ?= #f4f4f4
+// $dark      ?= #333
+// $faded     ?= #777
+
+// $has-error ?= $negative
+
+// $form-darker-color    ?= $grey-5
+// $form-lighter-color   ?= $grey-4
+// $form-active-color    ?= $primary
+// $form-border          ?= 3px solid $form-darker-color
+// $form-border-radius   ?= $generic-border-radius
+// $form-shadow          ?= 0 1px 3px 1px rgba(0, 0, 0, .4)
+
+
+// $textfield-border-size        ?= 1px
+// $textfield-border-style       ?= solid
+// $textfield-border-color       ?= #cccccc
+// $textfield-focus-border-color ?= $form-active-color
+// $textfield-font-size          ?= .9rem
+// $label-font-size              ?= $textfield-font-size
+
+// $textfield-padding-horizontal ?= 0
+// $textfield-padding-vertical   ?= 8px
+
+// $caret-color                  ?= $grey-9
+// $required-color               ?= $negative
+
+
+
+// // -------------------------------------------------------------------vvvv
+// // textfield.mat.styl ------------------------------------------------vvvv
+// //
+
 // $textfield-border-size        ?= 2px
 // $textfield-border-style       ?= solid
 // $textfield-border-color       ?= $form-lighter-color
@@ -72,3 +211,587 @@
 // &.label-focus
 //   input ~ label, textarea ~ label
 //     color $form-active-color
+
+//     //
+// // textfield.mat.styl ------------------------------------------------^^^^
+// // -------------------------------------------------------------------^^^^
+
+
+
+
+// .qf textarea:active
+//   transition none // Prevent animation while user drag-resize
+
+
+
+// .qf
+// .item
+//   border 1px solid pink
+
+// .qf > .qf-content
+// .item-content
+//   border 1px solid blue
+
+// .qf > .qf-inner
+//   border 1px solid green
+
+// /*.item
+//   background pink
+//   xbackground #fafafa
+//   margin-bottom 5px
+
+// .qf > .qf-content
+// .item-content
+//   background lemonchiffon
+
+// .qf > .qf-inner
+//   background silver
+// */
+// .short-textboxes input[type=text]
+//   width 95px !important
+
+// /* DEBUG CSS */
+// .qf:after
+//   position relative
+//   font-size 12px
+//   font-family Monospace
+//   content attr(class) attr(style)
+
+// // NICE ICONS
+// /*
+//   storage (list)
+
+//   email
+//   mail_outline
+//   message
+//   chat
+//   create (pencil)
+
+//   account_box
+//   account_circle
+
+//   extension     jigsaw
+//   event_seat
+//   weekend (couch)
+//   build
+//   fingerprint
+//   gavel
+//   usb (candleabra)
+//   gesture (rope)
+//   person
+//   person_outline (torso)
+//   vpn_key
+
+//   toys (pinwheel)
+
+//   face
+//   favorite        : heart;
+//   favorite_border
+// */
+
+
+// // -------------------------------------------------------------------vvvv
+// // qf.mat.styl ------------------------------------------------vvvv
+// //
+
+
+
+
+// .qf
+//   background #fafafa
+//   margin-bottom 5px
+
+//   /* icon */
+//   & i.item-primary
+//     transition color .3s
+//     top 14px /* (as item.2-lines) */
+
+//   & > .item-content.qf-content
+//     padding-top 20px
+//     padding-bottom 16px
+
+//   /* labels (inline + float) */
+//   & label
+//     transition transform .15s ease-in-out, color .3s, opacity .3s
+//     transform-origin left top
+//     color rgba(0, 0, 0, .54)
+//     white-space nowrap
+//     pointer-events none
+
+//   & label.item-label
+//     margin-right 10px
+//     margin-top 8px
+
+//   & label.qf-float-label
+//   & label.qf-float
+//     position absolute
+//     top 8px
+//     left 0
+
+
+//   /* field-inner */
+//   & > .qf-inner
+//     position relative
+//     overflow-y visible
+
+//     /* input */
+//     & input
+//       width 100%
+
+//     & > textarea
+//       width 100%
+
+//     /* swash */
+//     & > div.q-swash
+//       position relative
+//       &:before
+//         content ''
+//         display block
+//         position absolute
+//         visibility hidden
+//         width 2px
+//         height 2px
+//         left 49%
+//         background-color $form-active-color
+//         transition-duration .2s
+//         transition-timing-function cubic-bezier(.4, 0, .2, 1)
+
+//     & input ~ div.q-swash:before
+//       top -4px
+//     & > textarea ~ div.q-swash:before
+//       top -8px
+
+
+//     /* validate-msg & hint */
+//     & > span
+//       display block
+//       pointer-events none
+//       font-size 12px
+//       transition opacity .3s
+
+//     & > span.qf-validate-msg
+//       position absolute
+//       color $has-error !important
+//       opacity 0
+
+//     & > span.qf-hint
+//       position relative
+//       color $dark
+//       color rgba(0,0,0,.38)
+
+// // Layout Modifiers -------------------------
+
+// // Unlisted
+// &.qf-unlisted
+//   display inline-block
+//   & > .item-content.qf-content
+//     margin-left 0
+//     margin-right 0
+
+// // + Icon
+// &.qf-unlisted.qf-icon
+//   & i.item-primary.qf-icon
+//     left 0px
+//     margin-left 0px
+//   & > .item-content.qf-content
+//     margin-left 36px
+
+// // Inline
+// /*&.qf-layout-inline
+//   xdisplay inline-flex*/
+
+// // Icon
+// /*&.qf-icon
+//   xdisplay inline-flex*/
+
+// // Dense
+// &.qf-dense
+//   & label
+//     top 1.5rem
+//   & input
+//     padding-top 1.45rem
+//     margin-bottom 10px
+//   & > textarea
+//     margin-top 1.45rem
+//     margin-bottom 6px
+
+// // Has focus
+// &.qf-focus
+//   & label.item-label
+//   & label.qf-float-label
+//   & i.item-primary
+//     color $form-active-color !important
+//   & label.item-label:after
+//   & label.qf-float-label:after
+//     color $required-color
+//   & div.q-swash:before
+//     visibility visible
+//     width 100%
+//     left 0
+
+
+// // Invalid
+// &.qf-invalid input
+//   border-bottom-color $has-error !important
+
+// &.qf-invalid >.qf-content div.q-swash:before
+//   background $has-error !important
+
+// &.qf-invalid span.q-validate-msg
+//   opacity 1
+
+// &.qf-invalid span.q-hint
+//   opacity 0
+
+// // Required
+// &.qf-required
+//   & label.qf-float-label:after
+//   & label:after
+//     content '\00a0*\00a0'
+//     vertical-align top
+
+// // Hover
+// &:hover
+//   & label.item-label
+//   & label.qf-float-label
+//   & i.item-primary
+//     color $form-active-color !important
+//   & label.item-label:after
+//   & label.qf-float-label:after
+//     color $required-color
+//   & > .qf-inner >
+//     & input, textarea, .textfield
+//       border-bottom $textfield-border-size $textfield-border-style $textfield-focus-border-color
+// /*  & div.q-swash:before
+//     visibility visible
+//     width 100%
+//     left 0*/
+
+// // Float/Float-Label Mixins -------------------------
+
+// // Label not displayed
+// &.qf-layout-nolabel
+//   & .qf-content label
+//       display none
+
+// // Label vanished
+// &.qf-layout-inplace.qf-active
+// &.qf-layout-placeholder
+//   & .qf-content label
+//       opacity 0
+//       transform-origin left 50%
+
+// // Label above input
+// &.qf-layout-stacked
+// &.qf-layout-floating.qf-active
+// &.qf-layout-placeholder.qf-active
+//   & .qf-content label
+//       opacity 1
+//       transform translateY(-18px) scale(.8)
+
+
+// // -------------------------
+// // Custom Mixin -------------------------
+// // -------------------------
+
+// .qf.my-android-field
+//   transition all 1.5s cubic-bezier(.87,-.41,.19,1.44)
+//   & i
+//     transition all 1s cubic-bezier(.87,-.41,.19,1.44)
+//     transform-origin 50% bottom
+//     position relative
+//     color #4CAF50
+//   & > .qf-inner
+//     overflow-x hidden
+//     &:before
+//       transition all 1.5s ease-in-out
+//       position absolute
+//       content '01110000 01110010 01100101 01110100 01100101'
+//       font-size 13px
+//       white-space nowrap
+//       color transparent
+//       top 8px
+//       left -360px
+//     & > div.q-swash:before
+//       background-color #4CAF50
+//       left 100%
+//       width 100%
+//       height 4px
+//       opacity 1
+//       transition-duration 1.5s
+
+//   &.qf-active
+//     background #000
+//     & i
+//       left calc(100% - 52px)
+//       transform scale(1.5)
+//     & > .qf-inner
+//       &:before
+//         left 0
+//         color #4CAF50
+//       & input
+//         color #4CAF50
+//         border-bottom-color #4CAF50
+//         font-family "Lucida Console", Monaco, monospace
+//       & > div.q-swash:before
+//         left 0 !important
+//         opacity 1 !important
+
+//   &.qf-focus
+//     & i
+//       transform scale(1.7)
+//     & > .qf-inner
+//       & > div.q-swash:before
+//         box-shadow  6px 4px 20px 2px #B6FF00
+
+
+
+
+// </style>
+
+// .qf
+//   background #fafafa
+//   margin-bottom 5px
+
+//   /* icon */
+//   & > i.item-primary
+//     transition color .3s
+//     top 14px /* (as item.2-lines) */
+
+//   & > .item-content.qf-content
+//     padding-top 20px
+//     padding-bottom 16px
+
+//   /* labels (inline + float) */
+//   & > .qf-content > label
+//   & > .qf-content > .qf-inner > label
+//     transition transform .15s ease-in-out, color .3s, opacity .3s
+//     transform-origin left top
+//     color rgba(0, 0, 0, .54)
+//     white-space nowrap
+//     pointer-events none
+
+//   & > .qf-content > label
+//     margin-right 10px
+//     margin-top 8px
+
+//   & > .qf-content > .qf-inner > label
+//     position absolute
+//     top 8px
+//     left 0
+
+
+//   /* field-inner */
+//   & > .qf-content > .qf-inner
+//     position relative
+//     overflow-y visible
+
+//     /* input */
+//     & > input
+//       width 100%
+
+//     & > textarea
+//       width 100%
+
+//     /* swash */
+//     & > div.q-swash
+//       position relative
+//       &:before
+//         content ''
+//         display block
+//         position absolute
+//         visibility hidden
+//         width 2px
+//         height 2px
+//         left 49%
+//         background-color $form-active-color
+//         transition-duration .2s
+//         transition-timing-function cubic-bezier(.4, 0, .2, 1)
+
+//     & > input ~ div.q-swash:before
+//       top -4px
+//     & > textarea ~ div.q-swash:before
+//       top -8px
+
+
+//     /* validate-msg & hint */
+//     & > span
+//       display block
+//       pointer-events none
+//       font-size 12px
+//       transition opacity .3s
+
+//     & > span.qf-validate-msg
+//       position absolute
+//       color $has-error !important
+//       opacity 0
+
+//     & > span.qf-hint
+//       position relative
+//       color $dark
+//       color rgba(0,0,0,.38)
+
+// // Layout Modifiers -------------------------
+
+// // Unlisted
+// &.qf-unlisted
+//   display inline-block
+//   & > .item-content.qf-content
+//     margin-left 0
+//     margin-right 0
+
+// // + Icon
+// &.qf-unlisted.qf-icon
+//   & > i.item-primary.qf-icon
+//     left 0px
+//     margin-left 0px
+//   & > .item-content.qf-content
+//     margin-left 36px
+
+// // Inline
+// /*&.qf-layout-inline
+//   xdisplay inline-flex*/
+
+// // Icon
+// /*&.qf-icon
+//   xdisplay inline-flex*/
+
+// // Dense
+// &.qf-dense
+//   & > label
+//     top 1.5rem
+//   & > input
+//     padding-top 1.45rem
+//     margin-bottom 10px
+//   & > textarea
+//     margin-top 1.45rem
+//     margin-bottom 6px
+
+// // Has focus
+// &.qf-focus
+//   & > .qf-content > label.item-label
+//   & > .qf-content > .qf-inner > label.qf-float-label
+//   & > i.item-primary
+//     color $form-active-color !important
+//   & > .qf-content > label.item-label:after
+//   & > .qf-content > .qf-inner > label.qf-float-label:after
+//     color $required-color
+//   & > .qf-content > .qf-inner > div.q-swash:before
+//     visibility visible
+//     width 100%
+//     left 0
+
+
+// // Invalid
+// &.qf-invalid > .qf-content > .qf-inner > input
+//   border-bottom-color $has-error !important
+
+// &.qf-invalid >.qf-content > .qf-inner > div.q-swash:before
+//   background $has-error !important
+
+// &.qf-invalid > .qf-content > .qf-inner > span.q-validate-msg
+//   opacity 1
+
+// &.qf-invalid > .qf-content > .qf-inner > span.q-hint
+//   opacity 0
+
+// // Required
+// &.qf-required
+//   & > .qf-content > .qf-inner > label.qf-float-label:after
+//   & > label:after
+//     content '\00a0*\00a0'
+//     vertical-align top
+
+// // Hover
+// &:hover
+//   & > .qf-content > label.item-label
+//   & > .qf-content > .qf-inner > label.qf-float-label
+//   & > i.item-primary
+//     color $form-active-color !important
+//   & > .qf-content > label.item-label:after
+//   & > .qf-content > .qf-inner > label.qf-float-label:after
+//     color $required-color
+//   & > .qf-content > .qf-inner >
+//     & input, textarea, .textfield
+//       border-bottom $textfield-border-size $textfield-border-style $textfield-focus-border-color
+// /*  & > .qf-content > .qf-inner > div.q-swash:before
+//     visibility visible
+//     width 100%
+//     left 0*/
+
+// // Float/Float-Label Mixins -------------------------
+
+// // Label not displayed
+// &.qf-layout-nolabel
+//   & .qf-content > .qf-inner > label
+//       display none
+
+// // Label vanished
+// &.qf-layout-inplace.qf-active
+// &.qf-layout-placeholder
+//   & .qf-content > .qf-inner > label
+//       opacity 0
+//       transform-origin left 50%
+
+// // Label above input
+// &.qf-layout-stacked
+// &.qf-layout-floating.qf-active
+// &.qf-layout-placeholder.qf-active
+//   & .qf-content > .qf-inner > label
+//       opacity 1
+//       transform translateY(-18px) scale(.8)
+
+
+// // -------------------------
+// // Custom Mixin -------------------------
+// // -------------------------
+
+// .qf.my-android-field
+//   transition all 1.5s cubic-bezier(.87,-.41,.19,1.44)
+//   & > i
+//     transition all 1s cubic-bezier(.87,-.41,.19,1.44)
+//     transform-origin 50% bottom
+//     position relative
+//     color #4CAF50
+//   & > .qf-content > .qf-inner
+//     overflow-x hidden
+//     &:before
+//       transition all 1.5s ease-in-out
+//       position absolute
+//       content '01110000 01110010 01100101 01110100 01100101'
+//       font-size 13px
+//       white-space nowrap
+//       color transparent
+//       top 8px
+//       left -360px
+//     & > div.q-swash:before
+//       background-color #4CAF50
+//       left 100%
+//       width 100%
+//       height 4px
+//       opacity 1
+//       transition-duration 1.5s
+
+//   &.qf-active
+//     background #000
+//     & > i
+//       left calc(100% - 52px)
+//       transform scale(1.5)
+//     & > .qf-content > .qf-inner
+//       &:before
+//         left 0
+//         color #4CAF50
+//       & > input
+//         color #4CAF50
+//         border-bottom-color #4CAF50
+//         font-family "Lucida Console", Monaco, monospace
+//       & > div.q-swash:before
+//         left 0 !important
+//         opacity 1 !important
+
+//   &.qf-focus
+//     & > i
+//       transform scale(1.7)
+//     & > .qf-content > .qf-inner
+//       & > div.q-swash:before
+//         box-shadow  6px 4px 20px 2px #B6FF00

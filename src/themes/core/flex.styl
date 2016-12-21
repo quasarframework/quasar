@@ -26,25 +26,31 @@
     display inline-flex
 
 .flex, .row, .column
+  padding-right 0
+  padding-bottom 0
   &.small-gutter
     margin (- $grid-small-gutter) 0 $grid-small-gutter (- $grid-small-gutter)
     > div
-      padding $grid-small-gutter 0 0 $grid-small-gutter
+      padding-top $grid-small-gutter
+      padding-left $grid-small-gutter
 
   &.medium-gutter, &.gutter
     margin (- $grid-medium-gutter) 0 $grid-medium-gutter (- $grid-medium-gutter)
     > div
-      padding $grid-medium-gutter 0 0 $grid-medium-gutter
+      padding-top $grid-medium-gutter
+      padding-left $grid-medium-gutter
 
   &.big-gutter
     margin (- $grid-big-gutter) 0 $grid-big-gutter (- $grid-big-gutter)
     > div
-      padding $grid-big-gutter 0 0 $grid-big-gutter
+      padding-top $grid-medium-gutter
+      padding-left $grid-medium-gutter
 
   &.large-gutter
     margin (- $grid-large-gutter) 0 $grid-large-gutter (- $grid-large-gutter)
     > div
-      padding $grid-large-gutter 0 0 $grid-large-gutter
+      padding-top $grid-medium-gutter
+      padding-left $grid-medium-gutter
 
 
 .order-first
