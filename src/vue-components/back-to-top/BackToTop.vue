@@ -55,7 +55,7 @@ export default {
 
       this.position = window.scrollY
 
-      if ((this.position) > this.triggerPosition) { // < this.containerBottom) {
+      if ((this.position) > this.triggerPosition) {
         this.showBackButton = true
       }
       else {
