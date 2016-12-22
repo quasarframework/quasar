@@ -5,11 +5,11 @@ $icon-text-transform ?= none
 $icon-letter-spacing ?= normal
 
 if $icon-font-family == 'Material Icons'
-  @font-face
-    font-family 'Material Icons'
-    font-style normal
-    font-weight 400
-    if $quasar-dont-import-fonts != true
+  if $quasar-dont-import-fonts != true
+    @font-face
+      font-family 'Material Icons'
+      font-style normal
+      font-weight 400
       src url('~material-design-icons/iconfont/MaterialIcons-Regular.woff') format('woff')
 
   i
