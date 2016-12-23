@@ -4,7 +4,7 @@
     <div class="row items-center group">
       <q-select
         v-model="filtering.field"
-        type="radio"
+        type="list"
         :options="filterFields"
         class="text-right"
       ></q-select>
