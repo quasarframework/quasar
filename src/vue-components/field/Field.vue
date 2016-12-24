@@ -19,21 +19,38 @@
   -->
 
 <template>
-  <div v-else class="item multiple-lines qf" :class='css_Field' >
-  <!--     <pre>{{ style_Label }} </pre> -->
-    <i v-if='draw_Icon' class="item-primary qf-icon" >{{ icon }}</i>
-    <div class="item-content qf-content" :class='css_FieldContent'>
-      <label v-if='txt_Label' :for='inputId' class='item-label qf-label' :style='style_Label'>{{ txt_Label }}:</label>
-      <div ref="inner" class="qf-inner" :class='css_FieldInner' :style='style_FieldInner' >
-        <slot></slot>
-        <div class='qf-swoosh'></div>
-        <label v-if='txt_Float' class='qf-label' :class='css_Float' :for='inputId'>{{ txt_Float }}</label>
-        <span v-if='draw_Counter' class="qf-counter">{{ txt_Counter }}</span>
-        <span v-if='hint' class="qf-hint">{{ txt_Hint }}</span>
-        <span v-if='draw_Validate' class="qf-validate-msg">{{ txt_ValidateMsg }}</span>
+
+  <!--
+      Target Only
+  -->
+  <div v-if="draw_TargetOnly" class='field field-target' :class='css_Field' ref="ref_FieldTarget">
+    <label v-if='txt_Float' class='field-label' :class='css_Float' :for='inputId'>{{ txt_Float }}</label><!-- DO NOT REMOVE!! --><slot></slot>
+    <div class='field-swoosh'></div>
+    <span v-if='draw_Counter' class="field-counter">{{ txt_Counter }}</span>
+    <span v-if='txt_Hint' class="field-hint"><pre>{{ css_Field }}</pre></span>
+    <span v-if='draw_Validate' class="field-validate-msg">{{ txt_ValidateMsg }}</span>
+  </div>
+
+  <!--
+    Render as:
+      - Item (item=true) or
+      - Clean-Item (layout=inline | icon | icon2 | ? )
+  -->
+  <div v-else>
+    <div class='field' :class='css_Field'>
+      <i v-if='draw_Icon' class="item-primary">{{ icon }}</i>
+      <div class="item-content" :class='css_FieldContent'>
+        <label v-if='txt_Label' :for='inputId' class='field-label item-label' :style='style_InlineLabel'>{{ txt_Label }}:</label>
+        <div class="field-target" :class='css_FieldTarget' :style='style_FieldTarget' ref="ref_FieldTarget">
+          <label v-if='txt_Float' class='field-label' :class='css_Float' :for='inputId'>{{ txt_Float }}</label><!-- DO NOT REMOVE!! --><slot></slot>
+          <div class='field-swoosh'></div>
+          <span v-if='draw_Counter' class="field-counter">{{ txt_Counter }}</span>
+          <span v-if='txt_Hint' class="field-hint"><pre>{{ hint }}</pre></span>
+          <span v-if='draw_Validate' class="field-validate-msg">{{ txt_ValidateMsg }}</span>
+        </div>
       </div>
+      <i v-if='draw_Icon2' class="item-secondary" >{{ icon2 }}</i> <!-- css_Icon=[item-secondary] -->
     </div>
-    <i v-if='draw_Icon2' class="item-secondary qf-icon" >{{ icon2 }}</i>
   </div>
 </template>
 
@@ -45,12 +62,55 @@
     - iOS styles
     - multiple validation messages
     - width handling
-
   */
 import { Utils } from 'quasar'
+let TEXT_INPUT_TYPES = ['textarea','text','input','password','datetime','email','number','search','time','week','date','datetime-local','month','tel','url']
 export default {
-  name: 'q-floating-label',
+    components: {
+      'q-field-container': {
+        render (createElement) {
+          debugger
+          return createElement(
+            'div',
+            [
+              createElement('a', {
+                attrs: {
+                  name: 'test',
+                  href: '#' + 'test'
+                }
+              }, this.$slots.default)
+            ]
+          )
+        },
+        data () {
+          console.log('SUB SUB')
+          return { a: 123}
+        }
+      }
+    // ,
+    // 'field-target': {
+
+    // }
+    },
+    render: function (createElement) {
+    // create kebabCase id
+    debugger
+    // var headingId = getChildrenTextContent(this.$slots.default)
+    //   .toLowerCase()
+    //   .replace(/\W+/g, '-')
+    //   .replace(/(^\-|\-$)/g, '')
+    return createElement('a', {
+          attrs: {
+            name: headingId,
+            href: '#' + headingId
+          }
+        }, this.$slots.default)
+  },
+  name: 'q-field',
   props: {
+    item: {
+      type: Boolean
+    },
     label: {
       type: String
     },
@@ -66,7 +126,7 @@ export default {
       default: 'inplace'
     },
     hint: {
-      type: String
+      type: [String, Object]
     },
     counter: {
       type: Boolean,
@@ -78,27 +138,35 @@ export default {
     },
     width: {
       type: String,
-      default: null // default=null='shrink' | grow' | '#px' | '#%'
+      default: null // defaults to css | 'shrink' | grow' | '#px' | '#%'
+    },
+    labelWidth: {
+      type: String,
+      default: null // defaults to css | 'shrink' | grow' | '#px' | '#%'
+    },
+    targetWidth: {
+      type: String,
+      default: null // defaults to css | 'shrink' | grow' | '#px' | '#%'
     },
     align: {
       type: String,
       default: null // default=null='left' | 'right' | 'center'
     },
-    inlineWidth: {
-      type: String,
-      default: null // default=null='shrink' | grow' | '#px' | '#%'
-    },
-    inlineAlign: {
+    labelAlign: {
+      // todo: inline-align
       type: String,
       default: null // default=null='left' | 'right' | 'center'
     },
     icon: {
+      // todo: field-icon
       type: String
     },
     iconInverse: {
+      // todo: field-icon-inverse
       type: Boolean
     },
     icon2: {
+      // todo: field-icon2
       type: String
     },
     maxlength: {
@@ -124,6 +192,7 @@ export default {
       inputType: null,
       inputId: null,
       isTextInput: null,
+      isSingleInput: null,
       isInline: null,
       maxChars: null,
       // field state
@@ -144,9 +213,9 @@ export default {
     // prop local aliases
     myMaxlength () {
       // If TEXT input, return...
-      // 1. component "maxlength" prop, or  (NB: User-entry UNRESTRICTED)
-      // 2. input 'maxlength' attr          (NB: User-entry LIMITED to 'maxlength')
-      // otherwise return 0 (no maxlength)
+      // 1. component "maxlength" prop, or  (NB: User-entry will be UNRESTRICTED)
+      // 2. input 'maxlength' attr          (NB: User-entry will be LIMITED to 'maxlength' value)
+      // otherwise 0 (no maxlength)
       return !this.isTextInput ? 0 : this.maxlength ? parseInt(this.maxlength, 10) : this.input.hasAttribute('maxlength') ? this.input.maxlength : 0
     },
     myValidate () {
@@ -154,6 +223,43 @@ export default {
       return !this.isTextInput ? false : this.validate === true ? 'eager' : this.validate ? this.validate : false
     },
     // view rules
+    css_Field () {
+      let
+        s = this.state,
+        css = {
+          ['field-layout-' + this.myLayout]: true,
+          [this.draw_TargetOnly ? 'target-only' : this.item ? 'item multiple-lines' : 'clean-item']: true,
+          'field-dense': this.dense,
+          'field-active': s.hasFocus || s.hasValue || s.hasReadOnly,
+          'field-focus': s.hasFocus,
+          'field-value': s.hasValue,
+          // 'field-touched': s.hasTouched, // Why is this needed in css?
+          'field-invalid': this.validate && s.hasInvalid,
+          'field-invalid-too-long': s.hasTooLong,
+          'field-read-only': s.hasReadOnly,
+          'field-disabled': s.hasDisabled,
+          'field-required': s.hasRequired
+        }
+      return css
+    },
+    css_FieldContent () {
+      return this.icon2 ? 'has-secondary' : ''
+    },
+    css_FieldTarget () {
+      // if container defines a size then <input> with match container. (If not, container will match <input> so leave it alone.)
+      return this.width && this.width != 'shrink' ? 'field-grow-input' : ''
+    },
+    style_FieldTarget () {
+      // shrink / grow / size <input> container
+      return this.calcWidthStyles(this.width, this.align)
+    },
+    style_InlineLabel () {
+      // shrink / grow / size inline <label.item-label>
+      return this.calcWidthStyles(this.labelWidth, this.labelAlign)
+    },
+    draw_TargetOnly () {
+      return !this.item && !this.icon && !this.icon2 && !this.inline
+    },
     draw_Counter () {
       return !!(this.counter && this.myMaxlength)
     },
@@ -173,17 +279,17 @@ export default {
       return this.myFloat
     },
     txt_Hint () {
-      return this.hint
+      return this.hint // (this.draw_TargetOnly?'draw_TargetOnly=true':'draw_TargetOnly=false') + (this.draw_TargetOnly && !this.item ?' (pseudo)':'')  // this.hint
     },
     css_Float () {
       // Explanation:
-      // 'float.qf-float' in this context is the floating label when used as secondary text content - NOT a 'label'
+      // 'float.field-float' in this context is the floating label when used as secondary text content - NOT a 'label'
       // Instead, the job of being a Label falls to the inline 'label.item-label, leaving this wee floaty thing free for other (useless?) fancy stuff.
       // Invoked by providing 2 minimum props:  layout='inline' (kicks in the inline label) AND float='some extra message'.
       // Default 'float-layout' is 'inplace', but others can be specified e.g. 'floating', 'placeholder', 'stacked'.
       // float-layout='inline' is illegal as 'inline' layout is already occupied by the mainm label's layout.
       //
-      return this.float ? 'qf-float' : 'qf-float-label'
+      return this.float ? 'field-float' : 'field-float-label'
     },
     draw_Validate () {
       return this.validate
@@ -191,40 +297,6 @@ export default {
     txt_ValidateMsg () {
       return this.validateMsg || 'Please enter a valid value.'
       // TODO: Allow msg update / multiple msgs / `vee-validate` integration?
-    },
-    css_Field () {
-      let
-        s = this.state,
-        css =
-        {
-          ['qf-layout-' + this.myLayout]: true,
-          'qf-dense': this.dense,
-          'qf-active': s.hasFocus || s.hasValue || s.hasReadOnly,
-          // 'qf-touched': s.hasTouched, // Why is this needed in css?
-          'qf-focus': s.hasFocus,
-          'qf-value': s.hasValue,
-          'qf-invalid': this.validate && s.hasInvalid,
-          'qf-invalid-too-long': s.hasTooLong,
-          'qf-read-only': s.hasReadOnly,
-          'qf-disabled': s.hasDisabled,
-          'qf-required': s.hasRequired
-        }
-      return css
-    },
-    css_FieldContent () {
-      return this.icon2 ? 'has-secondary' : ''
-    },
-    style_FieldInner () {
-      // shrink / grow / size <input> container
-      return this.calcWidthStyles(this.width, this.align)
-    },
-    css_FieldInner () {
-      // if container defines a size then <input> with match container. (If not, container will match <input> so leave it alone.)
-      return (this.width && this.width != 'shrink') ? 'qf-grow-input' : ''
-    },
-    style_Label () {
-      // shrink / grow / size inline <label.item-label>
-      return this.calcWidthStyles(this.labelWidth, this.labelAlign)
     }
   },
   methods: {
@@ -284,25 +356,38 @@ export default {
   },
   mounted () {
 
-    // Sanitise input control (Type, Id, etc.)
-    //
-    this.input = this.$refs.inner.firstChild // this.$el.querySelector('input, textarea')
-    if (!this.input) {
-      throw new Error('<q-floating-label> is missing the required input element/component.')
+    // Identify input / content
+    let elms = this.$slots.default.filter(vnode => { return !!vnode.tag })
+// debugger
+    if (elms.length == 0) {
+      this.isSingleInput = false
+      console.warn('<q-field> missing content', this)
       return
+    } if (elms.length == 1) {
+      this.isSingleInput = true
+      this.input = this.$refs.ref_FieldTarget.childNodes[1] // this.$el.querySelector('input, textarea')
+    } else {
+      this.isSingleInput = false
+      // TODO: identify input among content.
     }
-    if (['textarea','text','input','password','datetime','email','number','search','time','week','date','datetime-local','month','tel','url'].includes(this.input.type))
-    {
+    if (!this.input) {
+      console.warn('<q-field> missing target <input> or <textarea>.', this)
+      // return
+    }
+    if (TEXT_INPUT_TYPES.includes(''+this.input.type)) {
       this.isTextInput = true
       this.inputType = this.input.type
-      this.input.checkValidity()
       this.__updateState_counter()
+      this.input.checkValidity()
       if (this.validate === 'immediate') {
         this.__updateState_validity()
       }
     } else {
-      this.isTextInput = false
+      console.warn('<q-field> ssingle target must be <input> or <textarea>. Found: ' + this.input.type, this)
+      // return
     }
+
+    // Id
     if (this.input.id) {
       this.inputId = this.input.id
     } else {
@@ -310,9 +395,7 @@ export default {
       this.input.id = this.inputId
     }
 
-
-    // Layout (Floating labels vs. Inline Label + opt. 'float-layout')
-    //
+    // Layout (Floating labels vs. Inline Label /'float-layout')
     if (!this.layout || this.layout === 'inline') {
       // item-label is main Label, float functions as optional msg.
       this.layout = 'inline' //

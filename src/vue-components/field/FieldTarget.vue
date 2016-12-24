@@ -1,40 +1,14 @@
-
-  <!--
-    One Size Fits All!
-    ==================
-    NB: This layout uses (more-or-less) the Quasar standards for HTML & CSS while accommodating all permutations of labels, icons, inputs & list-items.
-
-    However, it will render up to two extra containing <div>s every time, even though these are only required for firlds with one or more of these options:
-      - icon (needs outer div A)
-      - lineline-label (needs outer div A)
-      - list-item (needs outer div B)
-
-    TODO: Divert to leaner alternative HTML structures where possible
-
-    <v-if="!isListItem">
-      // TODO
-
-    <v-if="isListItem">
-      // Below...
-  -->
-
 <template>
-  <div v-else class="item multiple-lines qf" :class='css_Field' >
-  <!--     <pre>{{ style_Label }} </pre> -->
-    <i v-if='draw_Icon' class="item-primary qf-icon" >{{ icon }}</i>
-    <div class="item-content qf-content" :class='css_FieldContent'>
-      <label v-if='txt_Label' :for='inputId' class='item-label qf-label' :style='style_Label'>{{ txt_Label }}:</label>
-      <div ref="inner" class="qf-inner" :class='css_FieldInner' :style='style_FieldInner' >
-        <slot></slot>
-        <div class='qf-swoosh'></div>
-        <label v-if='txt_Float' class='qf-label' :class='css_Float' :for='inputId'>{{ txt_Float }}</label>
-        <span v-if='draw_Counter' class="qf-counter">{{ txt_Counter }}</span>
-        <span v-if='hint' class="qf-hint">{{ txt_Hint }}</span>
-        <span v-if='draw_Validate' class="qf-validate-msg">{{ txt_ValidateMsg }}</span>
-      </div>
-    </div>
-    <i v-if='draw_Icon2' class="item-secondary qf-icon" >{{ icon2 }}</i>
+  <label v-if='txt_Label'class='field-label' :style='style_InlineLabel' :for='inputId'>{{ txt_Label }}:</label>
+  <div ref="target" class="field-target" :class='css_FieldTarget' :style='css_FieldTarget'>
+    <slot></slot>
+    <div class='field-swoosh'></div>
+    <label v-if='txt_Float' class='field-label' :class='css_Float' :for='inputId'>{{ txt_Float }}</label>
+    <span v-if='draw_Counter' class="field-counter">{{ txt_Counter }}</span>
+    <span v-if='hint' class="field-hint">{{ txt_Hint }}</span>
+    <span v-if='draw_Validate' class="field-validate-msg">{{ txt_ValidateMsg }}</span>
   </div>
+
 </template>
 
 <script>
@@ -45,12 +19,15 @@
     - iOS styles
     - multiple validation messages
     - width handling
-
   */
 import { Utils } from 'quasar'
 export default {
   name: 'q-floating-label',
   props: {
+    item: {
+      type: Boolean,
+      default: false
+    },
     label: {
       type: String
     },
@@ -77,28 +54,35 @@ export default {
       default: false
     },
     width: {
+      // todo: input-width
       type: String,
       default: null // default=null='shrink' | grow' | '#px' | '#%'
     },
     align: {
+      // todo: input-align
       type: String,
       default: null // default=null='left' | 'right' | 'center'
     },
     inlineWidth: {
+      // todo: inline-width
       type: String,
       default: null // default=null='shrink' | grow' | '#px' | '#%'
     },
     inlineAlign: {
+      // todo: inline-align
       type: String,
       default: null // default=null='left' | 'right' | 'center'
     },
     icon: {
+      // todo: field-icon
       type: String
     },
     iconInverse: {
+      // todo: field-icon-inverse
       type: Boolean
     },
     icon2: {
+      // todo: field-icon2
       type: String
     },
     maxlength: {
@@ -142,6 +126,9 @@ export default {
   },
   computed: {
     // prop local aliases
+    myItem () {
+      return this.item || this.item-label
+    },
     myMaxlength () {
       // If TEXT input, return...
       // 1. component "maxlength" prop, or  (NB: User-entry UNRESTRICTED)
@@ -177,13 +164,13 @@ export default {
     },
     css_Float () {
       // Explanation:
-      // 'float.qf-float' in this context is the floating label when used as secondary text content - NOT a 'label'
+      // 'float.field-float' in this context is the floating label when used as secondary text content - NOT a 'label'
       // Instead, the job of being a Label falls to the inline 'label.item-label, leaving this wee floaty thing free for other (useless?) fancy stuff.
       // Invoked by providing 2 minimum props:  layout='inline' (kicks in the inline label) AND float='some extra message'.
       // Default 'float-layout' is 'inplace', but others can be specified e.g. 'floating', 'placeholder', 'stacked'.
       // float-layout='inline' is illegal as 'inline' layout is already occupied by the mainm label's layout.
       //
-      return this.float ? 'qf-float' : 'qf-float-label'
+      return this.float ? 'field-float' : 'field-float-label'
     },
     draw_Validate () {
       return this.validate
@@ -197,32 +184,32 @@ export default {
         s = this.state,
         css =
         {
-          ['qf-layout-' + this.myLayout]: true,
-          'qf-dense': this.dense,
-          'qf-active': s.hasFocus || s.hasValue || s.hasReadOnly,
-          // 'qf-touched': s.hasTouched, // Why is this needed in css?
-          'qf-focus': s.hasFocus,
-          'qf-value': s.hasValue,
-          'qf-invalid': this.validate && s.hasInvalid,
-          'qf-invalid-too-long': s.hasTooLong,
-          'qf-read-only': s.hasReadOnly,
-          'qf-disabled': s.hasDisabled,
-          'qf-required': s.hasRequired
+          ['field-layout-' + this.myLayout]: true,
+          'field-dense': this.dense,
+          'field-active': s.hasFocus || s.hasValue || s.hasReadOnly,
+          // 'field-touched': s.hasTouched, // Why is this needed in css?
+          'field-focus': s.hasFocus,
+          'field-value': s.hasValue,
+          'field-invalid': this.validate && s.hasInvalid,
+          'field-invalid-too-long': s.hasTooLong,
+          'field-read-only': s.hasReadOnly,
+          'field-disabled': s.hasDisabled,
+          'field-required': s.hasRequired
         }
       return css
     },
-    css_FieldContent () {
+    css_ItemContent () {
       return this.icon2 ? 'has-secondary' : ''
     },
-    style_FieldInner () {
+    style_FieldTarget () {
       // shrink / grow / size <input> container
       return this.calcWidthStyles(this.width, this.align)
     },
-    css_FieldInner () {
+    css_fieldTarget () {
       // if container defines a size then <input> with match container. (If not, container will match <input> so leave it alone.)
-      return (this.width && this.width != 'shrink') ? 'qf-grow-input' : ''
+      return (this.width && this.width != 'shrink') ? 'field-grow-input' : ''
     },
-    style_Label () {
+    style_InlineLabel () {
       // shrink / grow / size inline <label.item-label>
       return this.calcWidthStyles(this.labelWidth, this.labelAlign)
     }
@@ -286,9 +273,11 @@ export default {
 
     // Sanitise input control (Type, Id, etc.)
     //
-    this.input = this.$refs.inner.firstChild // this.$el.querySelector('input, textarea')
+    this.input = this.$refs.target.firstChild // this.$el.querySelector('input, textarea')
+
+    // identify input
     if (!this.input) {
-      throw new Error('<q-floating-label> is missing the required input element/component.')
+      throw new Error('<q-field> missing target <input|textarea>.')
       return
     }
     if (['textarea','text','input','password','datetime','email','number','search','time','week','date','datetime-local','month','tel','url'].includes(this.input.type))
@@ -311,8 +300,7 @@ export default {
     }
 
 
-    // Layout (Floating labels vs. Inline Label + opt. 'float-layout')
-    //
+    // Layout (Floating labels vs. Inline Label /'float-layout')
     if (!this.layout || this.layout === 'inline') {
       // item-label is main Label, float functions as optional msg.
       this.layout = 'inline' //

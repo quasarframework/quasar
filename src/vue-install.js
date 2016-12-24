@@ -28,6 +28,7 @@ import DrawerLink from './vue-components/drawer/DrawerLink.vue'
 import Fab from './vue-components/fab/Fab.vue'
 import SmallFab from './vue-components/fab/SmallFab.vue'
 import FloatLabel from './vue-components/float-label/FloatLabel.vue'
+import Field from './vue-components/field/Field.vue'
 import Gallery from './vue-components/gallery/Gallery.vue'
 import GallerySlider from './vue-components/gallery/GallerySlider.vue'
 import InfiniteScroll from './vue-components/infinite-scroll/InfiniteScroll.vue'
@@ -94,6 +95,7 @@ function registerComponents (_Vue) {
     ['fab', Fab],
     ['small-fab', SmallFab],
     ['float-label', FloatLabel],
+    ['field', Field],
     ['gallery', Gallery],
     ['gallery-slider', GallerySlider],
     ['checkbox', Checkbox],
