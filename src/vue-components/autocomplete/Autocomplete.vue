@@ -36,7 +36,7 @@ export default {
       type: Number,
       default: 1
     },
-    resultsLimit: {
+    maxResults: {
       type: Number,
       default: 6
     },
@@ -71,8 +71,8 @@ export default {
       }
     },
     computedResults () {
-      if (this.resultsLimit && this.results.length > 0) {
-        return this.results.slice(0, this.resultsLimit)
+      if (this.maxResults && this.results.length > 0) {
+        return this.results.slice(0, this.maxResults)
       }
     },
     computedWidth () {
@@ -97,26 +97,37 @@ export default {
           return
         }
 
-        this.$refs.popover.open()
-
-        if (this.staticData) {
-          this.searchId = ''
-          this.results = Utils.filter(this.model, this.staticData)
-          return
-        }
-
-        this.$emit('search', this.model, results => {
-          if (results && this.searchId === searchId) {
+        this.$refs.popover.close()
+        setTimeout(() => {
+          if (this.staticData) {
             this.searchId = ''
-
-            if (Array.isArray(results) && results.length > 0) {
-              this.results = results
-              return
-            }
-
-            this.close()
+            this.results = Utils.filter(this.model, this.staticData)
+            this.$refs.popover.open()
+            return
           }
-        })
+
+          this.$refs.popover.open()
+          this.$emit('search', this.model, results => {
+            if (results && this.searchId === searchId) {
+              this.searchId = ''
+
+              if (Array.isArray(results) && results.length > 0) {
+                this.$refs.popover.close()
+                this.$nextTick(() => {
+                  this.results = results
+                  setTimeout(() => {
+                    if (this.$refs && this.$refs.popover) {
+                      this.$refs.popover.open()
+                    }
+                  }, 10)
+                })
+                return
+              }
+
+              this.close()
+            }
+          })
+        }, 10)
       })
     },
     close () {
