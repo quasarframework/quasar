@@ -115,7 +115,7 @@ export default {
     },
     toggleFullscreen () {
       if (this.inFullscreen) {
-        if (Platform.within.iframe) {
+        if (!Platform.has.popstate) {
           this.inFullscreen = false
         }
         else {
@@ -125,7 +125,7 @@ export default {
       }
 
       this.inFullscreen = true
-      if (!Platform.within.iframe) {
+      if (Platform.has.popstate) {
         window.history.pushState({}, '')
         window.addEventListener('popstate', this.__popState)
       }
