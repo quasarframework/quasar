@@ -68,7 +68,7 @@ export default {
 
       this.__popstate = () => {
         if (
-          !Platform.within.iframe &&
+          Platform.has.popstate &&
           window.history.state &&
           window.history.state.modalId &&
           window.history.state.modalId >= this.__modalId
@@ -79,7 +79,7 @@ export default {
         EscapeKey.pop()
         this.active = false
 
-        if (!Platform.within.iframe) {
+        if (Platform.has.popstate) {
           window.removeEventListener('popstate', this.__popstate)
         }
 
@@ -103,7 +103,7 @@ export default {
 
       this.active = true
       this.__modalId = ++openedModalNumber
-      if (!Platform.within.iframe) {
+      if (Platform.has.popstate) {
         window.history.pushState({modalId: this.__modalId}, '')
         window.addEventListener('popstate', this.__popstate)
       }
@@ -118,7 +118,7 @@ export default {
     close (onClose) {
       this.__onClose = onClose
 
-      if (Platform.within.iframe) {
+      if (!Platform.has.popstate) {
         this.__popstate()
       }
       else {

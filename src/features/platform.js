@@ -156,7 +156,7 @@ function getPlatform () {
   return browser
 }
 
-export default {
+const Platform = {
   is: getPlatform(),
   has: {
     touch: (() => !!('ontouchstart' in document.documentElement) || window.navigator.msMaxTouchPoints > 0)()
@@ -165,3 +165,6 @@ export default {
     iframe: window.self !== window.top
   }
 }
+
+Platform.has.popstate = !Platform.within.iframe && !Platform.is.electron
+export default Platform
