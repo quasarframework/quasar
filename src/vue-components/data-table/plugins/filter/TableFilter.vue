@@ -1,20 +1,18 @@
 <template>
-  <div class="q-data-table-toolbar upper-toolbar row auto reverse-wrap items-center">
-    <div class="row items-center auto">
-      <q-search class="auto" v-model="filtering.terms"></q-search>
-      <q-select
-        v-model="filtering.field"
-        type="list"
-        :options="filterFields"
-        class="text-right"
-      ></q-select>
-    </div>
+  <div class="q-data-table-toolbar upper-toolbar row auto items-center">
+    <q-search class="auto" v-model="filtering.terms"></q-search>
+    <q-select
+      v-model="filtering.field"
+      type="list"
+      :options="filterFields"
+      class="text-right"
+    ></q-select>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['filtering', 'columns'],
+  props: ['filtering', 'columns', 'labels'],
   computed: {
     filterFields () {
       let cols = this.columns.map(col => {
@@ -24,7 +22,7 @@ export default {
         }
       })
 
-      return [{label: 'All Fields', value: ''}].concat(cols)
+      return [{label: this.labels.allFields, value: ''}].concat(cols)
     }
   }
 }

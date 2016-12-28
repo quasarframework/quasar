@@ -168,6 +168,11 @@ export default {
         messages: {
           noData: '<i>warning</i> No data available to show.',
           noDataAfterFiltering: '<i>warning</i> No results. Please refine your search terms.'
+        },
+        labels: {
+          columns: 'Coloane',
+          allFields: 'Toate campurile',
+          rows: 'Randuri'
         }
       },
       columns: [

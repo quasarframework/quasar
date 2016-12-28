@@ -15,13 +15,13 @@
             v-if="config.columnPicker"
             v-model="columnSelection"
             :options="columnSelectionOptions"
-            static-label="Columns"
+            :static-label="labels.columns"
             class="text-right"
             style="margin-left: 10px"
           ></q-select>
         </div>
       </div>
-      <table-filter v-if="filteringCols.length" :filtering="filtering" :columns="filteringCols"></table-filter>
+      <table-filter v-if="filteringCols.length" :filtering="filtering" :columns="filteringCols" :labels="labels"></table-filter>
     </template>
 
     <div class="q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end q-data-table-selection" v-show="toolbar === 'selection'">
@@ -125,7 +125,7 @@
       </template>
     </div>
 
-    <table-pagination v-if="config.pagination" :pagination="pagination" :entries="pagination.entries"></table-pagination>
+    <table-pagination v-if="config.pagination" :pagination="pagination" :entries="pagination.entries" :labels="labels"></table-pagination>
   </div>
 </template>
 
@@ -134,6 +134,7 @@ import Utils from '../../utils'
 
 import ColumnSelection from './plugins/column-selection/column-selection'
 import Filter from './plugins/filter/filter'
+import I18n from './plugins/i18n/i18n'
 import Pagination from './plugins/pagination/pagination'
 import Responsive from './plugins/responsive/responsive'
 import RowSelection from './plugins/row-selection/row-selection'
@@ -144,7 +145,7 @@ import StickyColumns from './plugins/sticky-cols/sticky-cols'
 import TableContent from './TableContent.vue'
 
 export default {
-  mixins: [ColumnSelection, Filter, Pagination, Responsive, RowSelection, Scroll, Sort, StickyColumns],
+  mixins: [ColumnSelection, Filter, I18n, Pagination, Responsive, RowSelection, Scroll, Sort, StickyColumns],
   props: {
     data: {
       type: Array,
@@ -202,17 +203,6 @@ export default {
     },
     bodyStyle () {
       return this.config.bodyStyle || {}
-    },
-    message () {
-      if (this.rows.length) {
-        return false
-      }
-
-      if (this.filtering.terms) {
-        return (this.config.messages && this.config.messages.noDataAfterFiltering) || '<i>warning</i> No results. Please refine your search terms.'
-      }
-
-      return (this.config.messages && this.config.messages.noData) || '<i>warning</i> No data available to show.'
     },
     hasToolbar () {
       return this.config.title || this.filteringCols.length || this.config.columnPicker || this.config.refresh
