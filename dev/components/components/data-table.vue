@@ -216,6 +216,7 @@ export default {
         {
           label: 'Source',
           field: 'source',
+          filter: true,
           sort: true,
           width: '120px'
         },
