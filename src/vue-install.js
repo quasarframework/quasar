@@ -22,6 +22,7 @@ import ContextMenuDesktop from './vue-components/context-menu/ContextMenuDesktop
 import ContextMenuMobile from './vue-components/context-menu/ContextMenuMobile.vue'
 import DataTable from './vue-components/data-table/DataTable.vue'
 import Datetime from './vue-components/datetime/Datetime.vue'
+import DatetimeRange from './vue-components/datetime/DatetimeRange.vue'
 import InlineDatetimeMaterial from './vue-components/datetime/InlineDatetimeMat.vue'
 import InlineDatetimeIOS from './vue-components/datetime/InlineDatetimeIOS.vue'
 import Drawer from './vue-components/drawer/Drawer.vue'
@@ -91,6 +92,7 @@ function registerComponents (_Vue) {
     ['data-table', DataTable],
     ['inline-datetime', theme === 'ios' ? InlineDatetimeIOS : InlineDatetimeMaterial],
     ['datetime', Datetime],
+    ['datetime-range', DatetimeRange],
     ['drawer', Drawer],
     ['drawer-link', DrawerLink],
     ['fab', Fab],
