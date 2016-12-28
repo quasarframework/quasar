@@ -9,10 +9,6 @@
 
         <div class="column group gt-sm-row">
           <label>
-            <q-checkbox v-model="config.filter" />
-            Filter
-          </label>
-          <label>
             <q-checkbox v-model="config.refresh" />
             Refresh
           </label>
@@ -155,7 +151,6 @@ export default {
       table,
       config: {
         title: 'Data Table',
-        filter: true,
         refresh: true,
         columnPicker: true,
         leftStickyColumns: 0,
@@ -181,6 +176,7 @@ export default {
           field: 'isodate',
           width: '120px',
           classes: 'bg-orange-2',
+          filter: true,
           sort (a, b) {
             return (new Date(a)) - (new Date(b))
           },
@@ -210,6 +206,7 @@ export default {
         {
           label: 'Message',
           field: 'message',
+          filter: true,
           classes (val) {
             return val.charAt(0) === 'L' ? 'bg-red' : 'bg-yellow'
           },

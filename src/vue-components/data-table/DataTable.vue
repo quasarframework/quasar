@@ -1,30 +1,29 @@
 <template>
   <div class="q-data-table shadow-1">
-    <div v-if="hasToolbar && toolbar === ''" class="q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end">
-      <div v-if="config.title" class="q-data-table-title ellipsis auto" v-html="config.title"></div>
-      <div class="row items-center">
-        <button v-if="config.refresh && !refreshing" class="primary clear" @click="refresh">
-          <i>refresh</i>
-        </button>
-        <button v-if="refreshing" class="disabled">
-          <i class="animate-spin-reverse">cached</i>
-        </button>
-        <button v-if="config.filter" class="primary clear" @click="toolbar = 'filter'">
-          <i>filter_list</i>
-        </button>
-        <q-select
-          type="toggle"
-          v-if="config.columnPicker"
-          v-model="columnSelection"
-          :options="columnSelectionOptions"
-          static-label="Columns"
-          class="text-right"
-          style="margin-left: 10px"
-        ></q-select>
+    <template v-if="hasToolbar && toolbar === ''">
+      <div class="q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end">
+        <div v-if="config.title" class="q-data-table-title ellipsis auto" v-html="config.title"></div>
+        <div class="row items-end">
+          <button v-if="config.refresh && !refreshing" class="primary clear" @click="refresh">
+            <i>refresh</i>
+          </button>
+          <button v-if="refreshing" class="disabled">
+            <i class="animate-spin-reverse">cached</i>
+          </button>
+          <q-select
+            type="toggle"
+            v-if="config.columnPicker"
+            v-model="columnSelection"
+            :options="columnSelectionOptions"
+            static-label="Columns"
+            class="text-right"
+            style="margin-left: 10px"
+          ></q-select>
+        </div>
       </div>
-    </div>
+      <table-filter v-if="filteringCols.length" :filtering="filtering" :columns="filteringCols"></table-filter>
+    </template>
 
-    <table-filter v-if="toolbar === 'filter'" :filtering="filtering" :columns="cols" @close="toolbar = ''"></table-filter>
     <div class="q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end q-data-table-selection" v-show="toolbar === 'selection'">
       <div class="auto">
         {{ rowsSelected }} item<span v-show="rowsSelected > 1">s</span> selected.
@@ -170,7 +169,6 @@ export default {
   computed: {
     rows () {
       let length = this.data.length
-      this.pagination.entries = length
 
       if (!length) {
         return []
@@ -190,6 +188,7 @@ export default {
         this.sort(rows)
       }
 
+      this.pagination.entries = rows.length
       if (this.pagination.rowsPerPage > 0) {
         rows = this.paginate(rows)
       }
@@ -216,7 +215,7 @@ export default {
       return (this.config.messages && this.config.messages.noData) || '<i>warning</i> No data available to show.'
     },
     hasToolbar () {
-      return this.config.title || this.config.filter || this.config.columnPicker || this.config.refresh
+      return this.config.title || this.filteringCols.length || this.config.columnPicker || this.config.refresh
     }
   },
   methods: {

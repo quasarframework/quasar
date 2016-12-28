@@ -1,16 +1,13 @@
 <template>
-  <div class="q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end">
-    <q-search v-model="filtering.terms" style="min-width: 250px"></q-search>
-    <div class="row items-center group">
+  <div class="q-data-table-toolbar upper-toolbar row auto reverse-wrap items-center">
+    <div class="row items-center auto">
+      <q-search class="auto" v-model="filtering.terms"></q-search>
       <q-select
         v-model="filtering.field"
         type="list"
         :options="filterFields"
         class="text-right"
       ></q-select>
-      <button class="primary clear" @click="close()">
-        <i>close</i>
-      </button>
     </div>
   </div>
 </template>
@@ -28,12 +25,6 @@ export default {
       })
 
       return [{label: 'All Fields', value: ''}].concat(cols)
-    }
-  },
-  methods: {
-    close () {
-      this.filtering.terms = ''
-      this.$emit('close')
     }
   }
 }
