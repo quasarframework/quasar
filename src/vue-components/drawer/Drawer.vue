@@ -87,7 +87,7 @@ export default {
 
       if (this.opened) {
         backdrop.classList.add('active')
-        if (!Platform.within.iframe) {
+        if (Platform.has.popstate) {
           if (!window.history.state) {
             window.history.replaceState({__quasar_drawer: true}, '')
           }
@@ -103,7 +103,7 @@ export default {
       }
       else {
         window.removeEventListener('resize', this.close)
-        if (!Platform.within.iframe) {
+        if (Platform.has.popstate) {
           window.removeEventListener('popstate', this.__popState)
           if (window.history.state && !window.history.state.__quasar_drawer) {
             window.history.go(-1)
@@ -139,7 +139,7 @@ export default {
       if (this.opened) {
         backdrop.classList.add('active')
         document.body.classList.add('drawer-opened')
-        if (!Platform.within.iframe) {
+        if (Platform.has.popstate) {
           if (!window.history.state) {
             window.history.replaceState({__quasar_drawer: true}, '')
           }
@@ -152,7 +152,7 @@ export default {
       }
       else {
         window.removeEventListener('resize', this.close)
-        if (!Platform.within.iframe) {
+        if (Platform.has.popstate) {
           window.removeEventListener('popstate', this.__popState)
           if (window.history.state && !window.history.state.__quasar_drawer) {
             window.history.go(-1)
@@ -300,10 +300,8 @@ export default {
       fn(this.opened ? 0.01 : 1, done)
     },
     __popState () {
-      if (!Platform.within.iframe) {
-        if (window.history.state && window.history.state.__quasar_drawer) {
-          this.setState(false)
-        }
+      if (Platform.has.popstate && window.history.state && window.history.state.__quasar_drawer) {
+        this.setState(false)
       }
     },
     open (done) {
