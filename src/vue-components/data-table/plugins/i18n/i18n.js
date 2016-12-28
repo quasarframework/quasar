@@ -1,12 +1,17 @@
+import Utils from '../../../../utils'
+const labels = {
+  columns: 'Columns',
+  allCols: 'All Columns',
+  rows: 'Rows'
+}
+
 export default {
   computed: {
     labels () {
-      const labels = this.config && this.config.labels ? this.config.labels : {}
-      return {
-        columns: labels.columns || 'Columns',
-        allFields: labels.allFields || 'All Fields',
-        rows: labels.rows || 'Rows'
+      if (this.config && this.config.labels) {
+        return Utils.extend({}, labels, this.config.labels)
       }
+      return labels
     },
     message () {
       if (this.rows.length) {

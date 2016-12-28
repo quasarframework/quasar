@@ -22,7 +22,7 @@ export default {
         }
       })
 
-      return [{label: this.labels.allFields, value: ''}].concat(cols)
+      return [{label: this.labels.allCols, value: ''}].concat(cols)
     }
   }
 }

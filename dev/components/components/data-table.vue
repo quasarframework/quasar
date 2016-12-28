@@ -170,9 +170,9 @@ export default {
           noDataAfterFiltering: '<i>warning</i> No results. Please refine your search terms.'
         },
         labels: {
-          columns: 'Coloane',
-          allFields: 'Toate campurile',
-          rows: 'Randuri'
+          columns: 'Coluuuuumns',
+          allCols: 'Eeeeeeeeevery Cols',
+          rows: 'Rooows'
         }
       },
       columns: [
