@@ -1,56 +1,42 @@
+<template>
+  <!--
+      Target Only:
+      HAD TO DISABLE for now: Can't find method of keeping events when then <input> element is completely replaced
+  -->
+  <!--  -->
+  <!-- <div class='field field-target' :class='css_Field' :style="style_FieldTarget" ref="ref_FieldTarget">
+    <label v-if='txt_Float' class='field-label' :class='css_Float' :for='inputId'>{{ txt_Float }}</label><slot></slot>
+    <div class='field-swoosh'></div>
+    <span v-if='draw_Counter' class="field-counter">{{ txt_Counter }}</span>
+    <span v-if='txt_Hint' class="field-hint"><pre>{{ css_Field }}</pre></span>
+    <span v-if='draw_Validate' class="field-validate-msg">{{ txt_ValidateMsg }}</span>
+  </div> -->
 
   <!--
     One Size Fits All!
     ==================
     NB: This layout uses (more-or-less) the Quasar standards for HTML & CSS while accommodating all permutations of labels, icons, inputs & list-items.
 
-    However, it will render up to two extra containing <div>s every time, even though these are only required for firlds with one or more of these options:
-      - icon (needs outer div A)
+    However, it will render up to two extra containing <div>s every time, even though these are only required for fields with one or more of these options:
+      - icon or icon2 (needs outer div A)
       - lineline-label (needs outer div A)
-      - list-item (needs outer div B)
+      - list-item (needs outer div A & B)
 
     TODO: Divert to leaner alternative HTML structures where possible
-
-    <v-if="!isListItem">
-      // TODO
-
-    <v-if="isListItem">
-      // Below...
   -->
-
-<template>
-
-  <!--
-      Target Only
-  -->
-  <div v-if="draw_TargetOnly" class='field field-target' :class='css_Field' ref="ref_FieldTarget">
-    <label v-if='txt_Float' class='field-label' :class='css_Float' :for='inputId'>{{ txt_Float }}</label><!-- DO NOT REMOVE!! --><slot></slot>
-    <div class='field-swoosh'></div>
-    <span v-if='draw_Counter' class="field-counter">{{ txt_Counter }}</span>
-    <span v-if='txt_Hint' class="field-hint"><pre>{{ css_Field }}</pre></span>
-    <span v-if='draw_Validate' class="field-validate-msg">{{ txt_ValidateMsg }}</span>
-  </div>
-
-  <!--
-    Render as:
-      - Item (item=true) or
-      - Clean-Item (layout=inline | icon | icon2 | ? )
-  -->
-  <div v-else>
-    <div class='field' :class='css_Field'>
-      <i v-if='draw_Icon' class="item-primary">{{ icon }}</i>
-      <div class="item-content" :class='css_FieldContent'>
-        <label v-if='txt_Label' :for='inputId' class='field-label item-label' :style='style_InlineLabel'>{{ txt_Label }}:</label>
-        <div class="field-target" :class='css_FieldTarget' :style='style_FieldTarget' ref="ref_FieldTarget">
-          <label v-if='txt_Float' class='field-label' :class='css_Float' :for='inputId'>{{ txt_Float }}</label><!-- DO NOT REMOVE!! --><slot></slot>
-          <div class='field-swoosh'></div>
-          <span v-if='draw_Counter' class="field-counter">{{ txt_Counter }}</span>
-          <span v-if='txt_Hint' class="field-hint"><pre>{{ hint }}</pre></span>
-          <span v-if='draw_Validate' class="field-validate-msg">{{ txt_ValidateMsg }}</span>
-        </div>
+  <div class='field' :class='css_Field'>
+    <i v-if='draw_Icon' class="item-primary">{{ icon }}</i>
+    <div class="item-content" :class='css_FieldContent'>
+      <label v-if='txt_Label' :for='inputId' class='field-label item-label' :style='style_InlineLabel'>{{ txt_Label }}:</label>
+      <div class="field-target" :class='css_FieldTarget' :style='style_FieldTarget' ref="ref_FieldTarget">
+        <label v-if='txt_Float' class='field-label' :class='css_Float' :for='inputId'>{{ txt_Float }}</label><!-- DO NOT REMOVE!! --><slot></slot>
+        <div class='field-swoosh'></div>
+        <span v-if='draw_Counter' class="field-counter">{{ txt_Counter }}</span>
+        <span v-if='txt_Hint' class="field-hint">{{ hint }}</span>
+        <span v-if='draw_Validate' class="field-validate-msg">{{ txt_ValidateMsg }}</span>
       </div>
-      <i v-if='draw_Icon2' class="item-secondary" >{{ icon2 }}</i> <!-- css_Icon=[item-secondary] -->
     </div>
+    <i v-if='draw_Icon2' class="item-secondary" >{{ icon2 }}</i> <!-- css_Icon=[item-secondary] -->
   </div>
 </template>
 
@@ -176,6 +162,10 @@ export default {
       type: [String, Boolean], // false (default) | 'immediate' | 'eager' true | 'lazy' | 'submit' (TBA)
       default: false
     },
+    validateImmediate: {
+      type: Boolean, // false (default) | 'immediate' | 'eager' true | 'lazy' | 'submit' (TBA)
+      default: false
+    },
     validateMsg: {
       // TODO: more than 1 msg!
       type: String
@@ -194,7 +184,6 @@ export default {
       isTextInput: null,
       isSingleInput: null,
       isInline: null,
-      maxChars: null,
       // field state
       state: {
         hasFocus: null,
@@ -222,7 +211,20 @@ export default {
       // If TEXT input, convert TRUE => 'eager', return 'immediate' | 'eager' | 'lazy' | 'form' (TBA) | false
       return !this.isTextInput ? false : this.validate === true ? 'eager' : this.validate ? this.validate : false
     },
-    // view rules
+    // Widths...
+    // style_Field () {
+    //   // shrink / grow / size <input> container
+    //   return this.calcWidthStyles(this.width)
+    // },
+    style_FieldTarget () {
+      // shrink / grow / size <input> container
+      return this.calcWidthStyles(this.targetWidth, this.targetAlign)
+    },
+    style_InlineLabel () {
+      // shrink / grow / size inline <label.item-label>
+      return this.calcWidthStyles(this.labelWidth, this.labelAlign)
+    },
+    // Flags & CSS
     css_Field () {
       let
         s = this.state,
@@ -247,18 +249,21 @@ export default {
     },
     css_FieldTarget () {
       // if container defines a size then <input> with match container. (If not, container will match <input> so leave it alone.)
-      return this.width && this.width != 'shrink' ? 'field-grow-input' : ''
+      return this.targetWidth && this.targetWidth != 'shrink' ? 'field-grow-input' : ''
     },
-    style_FieldTarget () {
-      // shrink / grow / size <input> container
-      return this.calcWidthStyles(this.width, this.align)
+    css_Float () {
+      // Explanation:
+      // 'float.field-float' in this context is the floating label when used as secondary text content - NOT a 'label'
+      // Instead, the job of being a Label falls to the inline 'label.item-label, leaving this wee floaty thing free for other (useless?) fancy stuff.
+      // Invoked by providing 2 minimum props:  layout='inline' (kicks in the inline label) AND float='some extra message'.
+      // Default 'float-layout' is 'inplace', but others can be specified e.g. 'floating', 'placeholder', 'stacked'.
+      // float-layout='inline' is illegal as 'inline' layout is already occupied by the mainm label's layout.
+      //
+      return this.float ? 'field-float' : 'field-float-label'
     },
-    style_InlineLabel () {
-      // shrink / grow / size inline <label.item-label>
-      return this.calcWidthStyles(this.labelWidth, this.labelAlign)
-    },
+    // View rules
     draw_TargetOnly () {
-      return !this.item && !this.icon && !this.icon2 && !this.inline
+      return !this.item && !this.icon && !this.icon2 && !this.isInline
     },
     draw_Counter () {
       return !!(this.counter && this.myMaxlength)
@@ -281,16 +286,6 @@ export default {
     txt_Hint () {
       return this.hint // (this.draw_TargetOnly?'draw_TargetOnly=true':'draw_TargetOnly=false') + (this.draw_TargetOnly && !this.item ?' (pseudo)':'')  // this.hint
     },
-    css_Float () {
-      // Explanation:
-      // 'float.field-float' in this context is the floating label when used as secondary text content - NOT a 'label'
-      // Instead, the job of being a Label falls to the inline 'label.item-label, leaving this wee floaty thing free for other (useless?) fancy stuff.
-      // Invoked by providing 2 minimum props:  layout='inline' (kicks in the inline label) AND float='some extra message'.
-      // Default 'float-layout' is 'inplace', but others can be specified e.g. 'floating', 'placeholder', 'stacked'.
-      // float-layout='inline' is illegal as 'inline' layout is already occupied by the mainm label's layout.
-      //
-      return this.float ? 'field-float' : 'field-float-label'
-    },
     draw_Validate () {
       return this.validate
     },
@@ -298,6 +293,11 @@ export default {
       return this.validateMsg || 'Please enter a valid value.'
       // TODO: Allow msg update / multiple msgs / `vee-validate` integration?
     }
+  },
+  watch: {
+    counter () {
+      this.__updateState_counter()
+    },
   },
   methods: {
     // Utils
@@ -332,9 +332,7 @@ export default {
       if (this.myValidate === 'eager') {
         this.__updateState_validity()
       }
-      if (this.draw_Counter) {
-        this.__updateState_counter()
-      }
+      this.__updateState_counter()
     },
     // State maintenance
     __initState () {
@@ -345,7 +343,7 @@ export default {
     },
     __updateState_counter () {
       this.state.currentChars = this.input.value.length
-      this.state.hasTooLong = this.state.currentChars > this.myMaxlength
+      this.state.hasTooLong = this.counter && this.myMaxlength && this.state.currentChars > this.myMaxlength ? true : false
     },
     __updateState_validity () {
       // TODO: input.validity: {
@@ -358,7 +356,7 @@ export default {
 
     // Identify input / content
     let elms = this.$slots.default.filter(vnode => { return !!vnode.tag })
-// debugger
+
     if (elms.length == 0) {
       this.isSingleInput = false
       console.warn('<q-field> missing content', this)
@@ -367,8 +365,8 @@ export default {
       this.isSingleInput = true
       this.input = this.$refs.ref_FieldTarget.childNodes[1] // this.$el.querySelector('input, textarea')
     } else {
+      // TODO: identify marked <input> among arbitrary user content, but for now...
       this.isSingleInput = false
-      // TODO: identify input among content.
     }
     if (!this.input) {
       console.warn('<q-field> missing target <input> or <textarea>.', this)
@@ -379,11 +377,13 @@ export default {
       this.inputType = this.input.type
       this.__updateState_counter()
       this.input.checkValidity()
-      if (this.validate === 'immediate') {
+      if (this.validateImmediate) {
+        this.state.hasTouched = true
         this.__updateState_validity()
       }
     } else {
-      console.warn('<q-field> ssingle target must be <input> or <textarea>. Found: ' + this.input.type, this)
+      // Custom
+      // console.warn('<q-field> single target custom control. Found: ' + this.input.type, this)
       // return
     }
 
@@ -398,7 +398,6 @@ export default {
     // Layout (Floating labels vs. Inline Label /'float-layout')
     if (!this.layout || this.layout === 'inline') {
       // item-label is main Label, float functions as optional msg.
-      this.layout = 'inline' //
       this.isInline = true
       this.myLabel = this.label
       this.myLayout = this.float ? this.floatLayout : this.layout
@@ -411,34 +410,28 @@ export default {
       this.myFloat = this.label
     }
 
-    // this.myHint
-    this.myHint = this.hint
-
-    // this.myCounter
-    // this.maxChars
-
     // add events
     if (this.isTextInput) {
-      this.$el.addEventListener('focus', this.__onFocus, true)
-      this.$el.addEventListener('blur', this.__onBlur, true)
-      this.$el.addEventListener('input', this.__onInput, true)
+      this.input.addEventListener('focus', this.__onFocus, true)
+      this.input.addEventListener('blur', this.__onBlur, true)
+      this.input.addEventListener('input', this.__onInput, true)
       this.__onInput()
       this.__initState()
     } else {
       // TODO: Handle non-textual components properly!!
-      this.$el.addEventListener('focusin', this.__onFocus, true)
-      this.$el.addEventListener('focusout', this.__onBlur, true)
+      this.input.addEventListener('focusin', this.__onFocus, true)
+      this.input.addEventListener('focusout', this.__onBlur, true)
     }
   },
   beforeDestroy () {
     // remove events
     if (this.inputType) {
-      this.$el.removeEventListener('focus', this.__onFocus, true)
-      this.$el.removeEventListener('blur', this.__onBlur, true)
-      this.$el.removeEventListener('input', this.__onInput, true)
+      this.input.removeEventListener('focus', this.__onFocus, true)
+      this.input.removeEventListener('blur', this.__onBlur, true)
+      this.input.removeEventListener('input', this.__onInput, true)
     } else {
-      this.$el.removeEventListener('deactivate', this.__onFocus, true)
-      this.$el.removeEventListener('deactivate', this.__onBlur, true)
+      this.input.removeEventListener('deactivate', this.__onFocus, true)
+      this.input.removeEventListener('deactivate', this.__onBlur, true)
     }
   }
 }
