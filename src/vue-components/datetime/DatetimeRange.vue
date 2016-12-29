@@ -1,10 +1,10 @@
 <template>
   <div>
     <q-datetime
-      v-model="model.min"
+      v-model="model.from"
       :type="type"
       :min="min"
-      :max="model.max || max"
+      :max="model.to || max"
       :format="format"
       :no-clear="noClear"
       :clear-label="clearLabel"
@@ -18,9 +18,9 @@
     ></q-datetime>
 
     <q-datetime
-      v-model="model.max"
+      v-model="model.to"
       :type="type"
-      :min="model.min || min"
+      :min="model.from || min"
       :max="max"
       :format="format"
       :no-clear="noClear"
@@ -42,7 +42,7 @@ export default {
     value: {
       type: Object,
       validator (val) {
-        if (typeof val.min !== 'string' || typeof val.max !== 'string') {
+        if (typeof val.from !== 'string' || typeof val.to !== 'string') {
           console.error('DatetimeRange requires a valid {min, max} model.')
           return false
         }

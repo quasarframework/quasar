@@ -26,7 +26,7 @@
     <q-drawer ref="leftDrawer">
       <div class="toolbar light">
         <q-toolbar-title :padding="1">
-            Drawer
+          Drawer
         </q-toolbar-title>
       </div>
 
