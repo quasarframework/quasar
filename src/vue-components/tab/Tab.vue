@@ -55,7 +55,7 @@ export default {
       default: ''
     },
     name: String,
-    route: String,
+    route: [String, Object],
     replace: Boolean,
     exact: Boolean,
     append: Boolean

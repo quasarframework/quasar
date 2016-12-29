@@ -43,7 +43,7 @@ export default {
       type: Object,
       validator (val) {
         if (typeof val.min !== 'string' || typeof val.max !== 'string') {
-          console.error('DatetimeRange requires a {min, max} model.')
+          console.error('DatetimeRange requires a valid {min, max} model.')
           return false
         }
         return true

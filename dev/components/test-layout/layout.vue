@@ -17,7 +17,7 @@
     </div>
 
     <q-tabs slot="navigation">
-      <q-tab icon="view_quilt" route="/test-layout/about" replace>About</q-tab>
+      <q-tab icon="view_quilt" :route="{path: '/test-layout/about'}" replace>About</q-tab>
       <q-tab icon="view_day" route="/test-layout/toolbar" replace>Toolbar</q-tab>
       <q-tab icon="view_day" route="/test-layout/tabs" replace>Tabs</q-tab>
       <q-tab icon="input" route="/test-layout/drawer" replace>Drawer</q-tab>
