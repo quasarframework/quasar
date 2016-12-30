@@ -3,13 +3,13 @@
     <input
       type="file"
       ref="file"
-      :accept="type"
+      :accept="extensions"
       :multiple="multiple"
       @change="__add"
     >
 
     <div v-if="uploading">
-      <span class="chip label bg-light">
+      <span class="chip label bg-light q-uploader-progress">
         <span v-html="computedLabel.uploading"></span> <spinner :size="15"></spinner> {{ progress }}%
       </span>
     </div>
@@ -18,6 +18,7 @@
         :class="buttonClass"
         v-html="computedLabel.add"
         @click="$refs.file.click()"
+        :disabled="addButtonDisabled"
       ></button>
       <button
         v-if="!hideUploadButton"
@@ -95,7 +96,7 @@ export default {
       type: String,
       default: 'POST'
     },
-    type: String,
+    extensions: String,
     multiple: Boolean,
     hideUploadButton: Boolean
   },
@@ -115,16 +116,23 @@ export default {
     },
     computedLabel () {
       return Utils.extend({
-        add: '<i>add</i> Add File',
+        add: this.multiple ? '<i>add</i> Add Files' : '<i>add</i> Pick File',
         remove: '<i>clear</i> Remove',
         upload: '<i>file_upload</i> Upload',
         failed: '<i>warning</i> Failed',
         uploading: 'Uploading...'
       }, this.labels)
+    },
+    addButtonDisabled () {
+      return !this.multiple && this.files.length >= 1
     }
   },
   methods: {
     __add (e) {
+      if (!this.multiple && this.files.length >= 1) {
+        return
+      }
+
       let files = Array.prototype.slice.call(e.target.files)
       this.$emit('add', files)
 
