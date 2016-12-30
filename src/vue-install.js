@@ -5,6 +5,7 @@ import { current as theme } from './features/theme'
 
 import Transition from './vue-transitions/transition'
 
+import dBackToTop from './vue-directives/back-to-top'
 import dGoBack from './vue-directives/go-back'
 import dLink from './vue-directives/link'
 import dScrollFire from './vue-directives/scroll-fire'
@@ -66,6 +67,7 @@ import Video from './vue-components/video/Video.vue'
 
 function registerDirectives (_Vue) {
   [
+    ['back-to-top', dBackToTop],
     ['go-back', dGoBack],
     ['link', dLink],
     ['scroll-fire', dScrollFire],
