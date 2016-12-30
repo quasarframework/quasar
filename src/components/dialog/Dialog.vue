@@ -99,7 +99,7 @@
     >
       <button
         v-for="button in buttons"
-        @click="trigger(button.handler)"
+        @click="trigger(button.handler, button.preventClose)"
         :class="button.classes || 'primary clear'"
         :style="button.style"
         v-html="typeof button === 'string' ? button : button.label"
@@ -133,12 +133,19 @@ export default {
     }
   },
   methods: {
-    trigger (handler) {
-      this.close(() => {
-        if (typeof handler === 'function') {
-          handler(this.getFormData())
-        }
-      })
+    trigger (handler, preventClose) {
+      const handlerFn = typeof handler === 'function'
+      if (!handlerFn) {
+        this.close()
+        return
+      }
+
+      if (preventClose) {
+        handler(this.getFormData(), this.close)
+      }
+      else {
+        this.close(() => { handler(this.getFormData()) })
+      }
     },
     getFormData () {
       if (!this.form) {

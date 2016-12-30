@@ -139,6 +139,39 @@ export default {
           }
         },
         {
+          label: 'Prevent Close on Button',
+          icon: 'clear',
+          handler () {
+            Dialog.create({
+              title: 'Prevent Close',
+              message: 'Having "Prevent" checkbox ticked and then hitting "Try to Close" button will prevent the dialog from closing.',
+              form: {
+                prevent: {
+                  type: 'checkbox',
+                  items: [
+                    {label: 'Prevent dialog close', value: 'prevent', model: true}
+                  ]
+                }
+              },
+              buttons: [
+                {
+                  label: 'Try to Close',
+                  preventClose: true,
+                  handler (data, close) {
+                    if (!data.prevent.length) {
+                      close(() => {
+                        Toast.create(`Finally. It's closed now.`)
+                      })
+                      return
+                    }
+                    Toast.create('Untick "Prevent" checkbox to be able to close the Dialog.')
+                  }
+                }
+              ]
+            })
+          }
+        },
+        {
           label: 'Determined Progress',
           icon: 'hourglass_empty',
           handler () {

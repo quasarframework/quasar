@@ -38,25 +38,26 @@ function read (string) {
 function set (key, value, options = {}) {
   let
     days = options.expires,
-    time = options.expires = new Date()
+    time
 
   if (typeof options.expires === 'number') {
+    time = new Date()
     time.setMilliseconds(time.getMilliseconds() + days * 864e+5)
   }
 
   document.cookie = [
     encode(key), '=', stringifyCookieValue(value),
-    options.expires ? ' expires=' + options.expires.toUTCString() : '', // use expires attribute, max-age is not supported by IE
-    options.path ? ' path=' + options.path : '',
-    options.domain ? ' domain=' + options.domain : '',
-    options.secure ? ' secure' : ''
+    time ? '; expires=' + time.toUTCString() : '', // use expires attribute, max-age is not supported by IE
+    options.path ? '; path=' + options.path : '',
+    options.domain ? '; domain=' + options.domain : '',
+    options.secure ? '; secure' : ''
   ].join('')
 }
 
 function get (key) {
   let
     result = key ? undefined : {},
-    cookies = document.cookie ? document.cookie.split(' ') : [],
+    cookies = document.cookie ? document.cookie.split('; ') : [],
     i = 0,
     l = cookies.length,
     parts,

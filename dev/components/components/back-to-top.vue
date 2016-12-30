@@ -1,40 +1,40 @@
 <template>
-  <div>
-    <div class="layout-padding">
-
-      <div class="row large-gutter">
-      <div class="width-2of3">
-        <p class="caption">Scroll down to see it in action.</p>
-      </div>
-
-      <div class="width-1of3">
-        <label class=" pull-right">
-          {{ toTop ? "Top of Page" : "Top of Component" }}
-          <q-toggle v-model="toTop"></q-toggle>
-        </label>
-      </div>
-      </div>
-
+  <div class="layout-padding">
+    <p class="caption">
+      Scroll down <i style="font-size: 3rem" class="animate-bounce">keyboard_arrow_down</i>
+    </p>
+    <p class="caption">
+      A circular button is set to appear after scrolling 500px.
       <br>
-      <q-back-to-top :toTopPage="toTop">
-        <p v-for="n in 100" class="caption">
-          <span class="label bg-secondary text-white shadow-1">
-            {{ n }}
-          </span>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-        </p>
+      After another 500px another element will appear on the left.
+    </p>
 
-      </q-back-to-top>
-    </div>
+    <button
+      v-back-to-top.animate="{offset: 500, duration: 200}"
+      class="primary circular fixed-bottom-right animate-pop"
+      style="margin: 0 15px 15px 0"
+    >
+      <i>keyboard_arrow_up</i>
+    </button>
+
+    <a
+      v-back-to-top.animate="1000"
+      class="animate-pop play-backtotop non-selectable"
+    >
+      Back to top
+    </a>
+
+    <p class="caption" v-for="n in 50">Keep scrolling...</p>
   </div>
 </template>
 
-<script>
-export default {
-  data () {
-    return {
-      toTop: false
-    }
-  }
-}
-</script>
+<style lang="styl">
+.play-backtotop
+  color white
+  position fixed
+  left 0
+  top 30%
+  padding 15px
+  background-color rgba(0, 0, 0, .8)
+  border-radius 0 15px 15px 0
+</style>

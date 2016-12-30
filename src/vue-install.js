@@ -5,6 +5,7 @@ import { current as theme } from './features/theme'
 
 import Transition from './vue-transitions/transition'
 
+import dBackToTop from './vue-directives/back-to-top'
 import dGoBack from './vue-directives/go-back'
 import dLink from './vue-directives/link'
 import dScrollFire from './vue-directives/scroll-fire'
@@ -23,6 +24,7 @@ import ContextMenuDesktop from './vue-components/context-menu/ContextMenuDesktop
 import ContextMenuMobile from './vue-components/context-menu/ContextMenuMobile.vue'
 import DataTable from './vue-components/data-table/DataTable.vue'
 import Datetime from './vue-components/datetime/Datetime.vue'
+import DatetimeRange from './vue-components/datetime/DatetimeRange.vue'
 import InlineDatetimeMaterial from './vue-components/datetime/InlineDatetimeMat.vue'
 import InlineDatetimeIOS from './vue-components/datetime/InlineDatetimeIOS.vue'
 import Drawer from './vue-components/drawer/Drawer.vue'
@@ -66,6 +68,7 @@ import Video from './vue-components/video/Video.vue'
 
 function registerDirectives (_Vue) {
   [
+    ['back-to-top', dBackToTop],
     ['go-back', dGoBack],
     ['link', dLink],
     ['scroll-fire', dScrollFire],
@@ -93,6 +96,7 @@ function registerComponents (_Vue) {
     ['data-table', DataTable],
     ['inline-datetime', theme === 'ios' ? InlineDatetimeIOS : InlineDatetimeMaterial],
     ['datetime', Datetime],
+    ['datetime-range', DatetimeRange],
     ['drawer', Drawer],
     ['drawer-link', DrawerLink],
     ['fab', Fab],

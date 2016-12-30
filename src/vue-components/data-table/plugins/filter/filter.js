@@ -12,12 +12,11 @@ export default {
   watch: {
     'filtering.terms' () {
       this.resetBody()
-    },
-    'config.filter' (value) {
-      if (this.toolbar === 'filter' && !value) {
-        this.toolbar = ''
-        this.filtering.terms = ''
-      }
+    }
+  },
+  computed: {
+    filteringCols () {
+      return this.cols.filter(col => col.filter)
     }
   },
   methods: {
@@ -31,7 +30,7 @@ export default {
       }
 
       return rows.filter(row => {
-        return Object.keys(row).some(key => (row[key] + '').toLowerCase().indexOf(terms) > -1)
+        return this.filteringCols.some(col => (row[col.field] + '').toLowerCase().indexOf(terms) > -1)
       })
     }
   },
