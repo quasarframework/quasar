@@ -29,7 +29,7 @@ export default {
   },
   update (el, binding) {
     if (binding.oldValue !== binding.value) {
-      updateBinding(el, binding, Utils.store.get('scrollfire', el))
+      updateBinding(el, binding, Utils.store.get('scroll', el))
     }
   },
   unbind (el) {
