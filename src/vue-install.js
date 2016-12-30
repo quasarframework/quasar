@@ -63,6 +63,7 @@ import Tabs from './vue-components/tab/Tabs.vue'
 import Toggle from './vue-components/toggle/Toggle.vue'
 import Tooltip from './vue-components/tooltip/Tooltip.vue'
 import Tree from './vue-components/tree/Tree.vue'
+import Uploader from './vue-components/uploader/Uploader.vue'
 import Video from './vue-components/video/Video.vue'
 
 function registerDirectives (_Vue) {
@@ -132,6 +133,7 @@ function registerComponents (_Vue) {
     ['toggle', Toggle],
     ['tooltip', Tooltip],
     ['tree', Tree],
+    ['uploader', Uploader],
     ['video', Video]
   ].forEach(c => {
     _Vue.component('q-' + c[0], c[1])
