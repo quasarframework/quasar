@@ -1,7 +1,7 @@
 <template>
   <div class="layout-padding">
     <p class="caption">
-      Scroll down <!--<i style="font-size: 3rem" class="animate-bounce">keyboard_arrow_down</i>-->
+      Scroll down <i style="font-size: 3rem" class="animate-bounce">keyboard_arrow_down</i>
     </p>
     <p class="caption">
       A circular button is set to appear after scrolling 500px.
