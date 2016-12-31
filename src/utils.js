@@ -5,6 +5,7 @@ import * as dom from './utils/dom'
 import * as event from './utils/event'
 import extend from './utils/extend'
 import filter from './utils/filter'
+import * as format from './utils/format'
 import openURL from './utils/open-url'
 import * as popup from './utils/popup'
 import * as scrollbar from './utils/scrollbar'
@@ -20,6 +21,7 @@ export default {
   event,
   extend,
   filter,
+  format,
   openURL,
   popup,
   scrollbar,
