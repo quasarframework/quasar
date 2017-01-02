@@ -38,457 +38,666 @@ ISSUES:
 
 
 
-    <!-- Tabs -->
+      <!-- Tabs -->
 
-    <q-tabs
-      class="primary"
-      :refs="$refs"
-      v-model="currentTab"
-    >
-      <q-tab name="tab-0" icon="message">
-        Usage
-      </q-tab>
-      <q-tab name="tab-1" icon="message">
-        Layout & Sizing
-      </q-tab>
-      <q-tab name="tab-2" icon="fingerprint">
-        Sizing
-      </q-tab>
-      <q-tab name="tab-3" icon="alarm">
-        States
-      </q-tab>
-      <q-tab name="tab-4" icon="accessibility">
-        Validation
-      </q-tab>
-      <q-tab name="tab-3" icon="alarm">
-        Types
-      </q-tab>
-    </q-tabs>
+      <q-tabs
+        class="primary"
+        :refs="$refs"
+        v-model="currentTab"
+      >
+        <q-tab name="tab-usage" icon="card_giftcard">
+          Usage
+        </q-tab>
+        <q-tab name="tab-layout" icon="widgets">
+          Layout
+        </q-tab>
+        <q-tab name="tab-sizing" icon="swap_horiz">
+          Sizing
+        </q-tab>
+        <q-tab name="tab-state" icon="fingerprint">
+          State
+        </q-tab>
+        <q-tab name="tab-validation" icon="playlist_add_check">
+          Validation
+        </q-tab>
+        <q-tab name="tab-types" icon="alarm">
+          Types
+        </q-tab>
+      </q-tabs>
     </div>
-
-    <div style="height:30px;"></div>
 
     <div class="layout-padding short-textboxes">
 
+      <div style="height:120px;"></div>
 
       <!-- USAGE -->
-      <div ref="tab-0">
+      <div ref="tab-usage">
 
         <div class="card">
 
-          <div class="card-title">
-            Usage
+          <div class="card-title bg-primary text-white">
+            Example Form
           </div>
+          <div class='card-content'>
 
-        </div>
-      </div>
+            <div class="grid row wrap ">
 
+              <div class="width-1of4 sm-width-1of1">
+                <q-field item label="First Name" validate icon="face">
+                  <input type="text" class="demoInputWidth" v-model="example.firstName" required />
+                </q-field>
+              </div>
+              <div class="width-1of4 sm-width-1of1">
+                <q-field item validate label="Last Name">
+                  <input type="text" class="demoInputWidth" v-model="example.lastName" required />
+                </q-field>
+              </div>
 
+              <div class="width-2of4">
+                <q-field item label="Email" validate icon="mail_outline">
+                  <input
+                    type="text"
+                    hint="Email is generated from user names."
+                    class="demoInputWidth"
+                    v-model="myExampleEmail"
+                    placeholder="detective.name@favourite.room"
+                    readonly=""
 
+                />
+                </q-field>
+              </div>
 
-    <!-- Layouts-->
-    <div ref="tab-1">
+              <div class="width-2of4 sm-width-1of1" >
+                <q-field item label="Detective Name" validate="lazy" hint='E.g. "Sam Spade"' icon="search">
+                  <input type="text" class="demoInputWidth" v-model="example.detectiveName" required />
+                </q-field>
+              </div>
 
+              <div class="width-1of4">
+                <q-field item label="Password" validate icon="lock_outline">
+                  <input type="password" style="width: 50px;" maxlength="4" counter v-model="example.password" required />
+                </q-field>
+              </div>
 
-      <div class="card">
+              <div class="width-2of4 sm-width-1of1">
+                <q-field item label="Favourite Detective" layout="stacked" target-width="shrink" icon="person_outline">
+                    <q-select
+                      style="width:140px"
+                      type="radio"
+                      v-model="example.favouriteDetective"
+                      :options="ddl_detectives"
+                    ></q-select>
+                </q-field>
+              </div>
 
-        <div class="card-title bg-primary text-white">
-
-          Layouts
-
-        </div>
-
-        <div class="card-ations">
-          <pre>{{ options }}</pre>
-        </div>
-
-        <div class="card-actions justify-between">
-
-          <!-- field options -->
-          <label v-for="opt in ddl_field_options" class="text-center">
-            <q-checkbox v-model="options.field[opt.value]"></q-checkbox><br />
-            {{ opt.label }}
-          </label>
-
-          <!-- field width -->
-          <q-select
-            label="Size"
-            type="radio"
-            v-model="options.field.fieldWidth"
-            :options="ddl_widths"
-          ></q-select>
-
-        </div>
-
-        <div class="card-actions">
-          <!-- layout -->
-          <q-select
-            label="Layout"
-            type="radio"
-            v-model="options.layout"
-            :options="ddl_layouts"
-          ></q-select>
-
-          <!-- grid options -->
-          <div v-if="options.layout==='grid'">
-            <q-select
-              label="Columns"
-              type="radio"
-              v-model="options.grid_cols"
-              :options="ddl_colWidths"
-            ></q-select>
-            <q-select
-              class="width-3of6"
-              label="Options"
-              type="radio"
-              v-model="options.grid_option"
-              :options="ddl_layout_grid_options"
-            ></q-select>
-          </div>
-
-          <!-- list options -->
-          <div v-if="options.layout==='list'">
-            <q-select
-              class="width-3of6"
-              label="List Options"
-              type="toggle"
-              v-model="options.list_options"
-              :options="ddl_layout_list_options"
-            ></q-select>
-
-          </div>
-
-        </div><!-- /row -->
-
-      </div> <!-- /card-actions -->
-
-
-        <div class="card-content">
-
-          <div
-            v-if="options.layout === 'grid'"
-            :class="['grid', 'row', 'wrap', options.grid_option]"
-          >
-
-            <div
-              v-for="field in demo_fields.layouts"
-              :class="options.grid_cols === 'custom' ? field.colWidth : options.grid_cols"
-            >
-              <q-field
-                :label='field.label'
-                :layout='field.layout'
-                :width='field.fieldWidth'
-                :target-width='field.targetWidth'
-                :label-width='field.labelWidth'
-                :item='options.field.item'
-                :icon='options.field.icon?field.icon:null'
-                :icon2='options.field.icon2?field.icon2:null'
-                :hint='options.field.hint?field:null'
-                :dense='options.field.dense'
-                :counter='options.field.counter'
-                :maxlength='15'
-              >
-                <input type="text" model='field.model' />
-              </q-feild>
 
             </div>
 
-          </div> <!-- / .grid //o ptions.field.hint?field.hint:null -->
-
-          <div
-            v-if="options.layout === 'list'"
-            :class="'list ' + options.list_options.join(' ') "
-          >
-
-            <q-field v-for="field in demo_fields.layouts"
-              :label='field.label'
-              :layout='field.layout'
-              :class="[options.field.classWidth === 'custom' ? field.classWidth : options.field.classWidth]"
-              :width='options.field.fieldWidth?options.field.fieldWidth:field.fieldWidth'
-              :target-width='options.field.fieldWidth?options.field.fieldWidth:field.fieldWidth'
-              :label-width='options.field.fieldWidth?options.field.fieldWidth:field.fieldWidth'
-              :item='options.field.item'
-              :icon='options.field.icon?field.icon:null'
-              :icon2='options.field.icon2?field.icon2:null'
-              :hint='options.field.hint?field:null'
-              :dense='options.field.dense'
-              :counter='options.field.counter'
-              :maxlength='15'
-            >
-              <input type="text" model='field.model' />
-            </q-feild>
-
-          </div> <!-- / .list -->
 
 
-          <p class="caption">Inline Label + Float Combos</p>
+            <div class="width-3of6 sm-width-1of1">
+              <q-field item label="Disabled" icon="gesture" width="grow">
+                <input type="text" value="The Rope" disabled>
+              </q-field>
+            </div>
+            <div class="width-2of6 sm-width-1of1">
+              <q-field item label="Required" icon="face" target-width="grow" validate>
+                <input type="text" required >
+              </q-field>
+            </div>
 
-          <div class="row small-gutter wrap">
+          </div>
+<!--
+          <div class="card-title">
+            Usage
+          </div>
+         <div class="card-content">
+            Insert a nice-looking example using fields.
 
-            <!-- NB! DEFAULT: float-layout="inplace" -->
-            <q-float-label label="Inline" layout="inline" float="+ In-place Float" class="width-1of2 sm-width-1of1">
-              <input type="text">
-            </q-float-label>
+            <table class="q-table compact striped border horizontal-delimiter highlight">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Type</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
 
-            <q-float-label label="Inline" layout="inline" float="+ Floating Float!" float-layout="floating" class="width-1of2 sm-width-1of1">
-              <input type="text">
-            </q-float-label>
 
-            <q-float-label label="Inline" layout="inline" float="+ Placeholder Float!" float-layout="placeholder" class="width-1of2 sm-width-1of1">
-              <input type="text" placeholder="Placeholder">
-            </q-float-label>
+              <tbody>
+                <tr>
+                  <td>item</td>
+                  <td><pre>Boolean</pre></td>
+                  <td>xx</td>
+                </tr>
+                <tr>
+                  <td>layout</td>
+                  <td><pre>String</pre></td>
+                  <td>xx</td>
+                </tr>
+                <tr>
+                  <td>dense</td>
+                  <td>Boolean</td>
+                  <td>xx</td>
+                </tr>
+                <tr>
+                  <td>icon</td>
+                  <td>String</td>
+                  <td>xx</td>
+                </tr>
+                <tr>
+                  <td>icon2</td>
+                  <td>String</td>
+                  <td>xx</td>
+                </tr>
+                <tr>
+                  <td>hint</td>
+                  <td>String</td>
+                  <td>xx</td>
+                </tr>
+                <tr>
+                  <td>targetWidth</td>
+                  <td>String</td>
+                  <td>xx</td>
+                </tr>
+                <tr>
+                  <td>targetAlign</td>
+                  <td>String</td>
+                  <td>xx</td>
+                </tr>
+                <tr>
+                  <td>labelWidth</td>
+                  <td>String</td>
+                  <td>xx</td>
+                </tr>
+                <tr>
+                  <td>labelAlign</td>
+                  <td>String</td>
+                  <td>xx</td>
+                </tr>
+                <tr>
+                  <td>maxlength</td>
+                  <td>Number</td>
+                  <td>Specify maximum value length for field validation. <br />NB: The value's length is validated, but data-entry is not restricted to valid lengths.  This method provides an alternative to using <pre>&lt;input maxlength="..." /&gt;</pre> wherein maxlength is enforced.</td>
+                </tr>
+                <tr>
+                  <td>validate</td>
+                  <td>String</td>
+                  <td>Perform validation
+                    <pre>false (default) - Don't validate.</pre>
+                    <pre>`eager` | true - Validate on input event.</pre>
+                    <pre>`lazy` -  Validate on blur event.</pre>
+                  </td>
+                </tr>
+                <tr>
+                  <td>validate-msg</td>
+                  <td>String</td>
+                  <td>Text to override the generic validation error message.</td>
+                </tr>
+                <tr>
+                  <td>validate-immediate</td>
+                  <td>Boolean</td>
+                  <td>If true, validation will be invoked when the field is first rendered, before user input.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div> -->
+        </div>
+      </div>
 
-            <q-float-label label="Inline" layout="inline" float="+ Stacked Float!" float-layout="stacked" class="width-1of2 sm-width-1of1">
-              <input type="text">
-            </q-float-label>
+      <!-- Options-->
+      <div ref="tab-layout">
+
+
+        <div class="card">
+
+          <div class="card-title bg-primary text-white">
+
+            Layout Options
+
+          </div>
+
+              <div class="settings card-actions wrap ">
+
+                <div class="row width-2of5 justify-between">
+<!--                   <q-select
+                    label="Render"
+                    type="radio"
+                    v-model="options.structure"
+                    :options="ddl_structures"
+                  ></q-select> -->
+                  <!-- layout -->
+                  <q-select
+                    label="Example"
+                    style="width:140px"
+                    type="radio"
+                    v-model="options.layout"
+                    :options="ddl_layouts"
+                  ></q-select>
+                  <!-- display -->
+<!--                   <q-select
+                    label="Display"
+                    type="radio"
+                    v-model="options.display"
+                    :options="ddl_displays"
+                  ></q-select> -->
+                </div>
+                <div class="row justify-between width-3of5">
+                  <!-- field options -->
+                   <label v-for="opt in ddl_fieldOpts" style="width:40px;" class="text-center">
+                    <q-checkbox label="asd" v-model="options.fieldOpts[opt.value]"></q-checkbox><br />
+                    {{ opt.label }}
+                  </label>
+
+                </div>
+                <p v-if="(options.layout.indexOf('items-')>-1)" class="no-padding"><strong>Item defaults:</strong> Full-width block; Target  grows.</p>
+                <p v-if="(options.layout.indexOf('fields-')>-1)" class="no-padding"><strong>Field defaults:</strong> No-width inline; Target  shrinks.</p>
+              </div><!-- /card-actions -->
+
+
+            <template v-for="(demoFields, key, index) in demo_fields">
+
+              <div class="card-title" v-if="key==='layouts'">Label Layouts</div>
+              <div class="card-title" v-else-if="key==='combos'">Inline Label + Floating Hint Combos</div>
+
+              <div
+                :class="{
+                  'card-content':(options.layout.indexOf('-grid')>-1),
+                  'bg-field': options.fieldOpts.background
+                }"
+              >
+
+                <div
+                  v-if="(options.layout.indexOf('-grid')>-1)"
+                  :class="['grid',  'row', 'wrap', options.grid_option]"
+                >
+
+                  <!-- IN A GRID -->
+                  <div
+                    v-for="field in demoFields"
+                    :class="options.grid_cols === 'custom' ? field.colWidth : options.grid_cols"
+                  >
+                    <q-field
+                      :data-target-info="'Width ' + (options.field.targetWidth?options.field.targetWidth:field.targetWidth) + ', Align ' + (options.field.targetAlign?options.field.targetAlign:field.targetAlign)"
+                      :data-label-info="'Width ' + (options.field.labelWidth?options.field.labelWidth:field.labelWidth) + ', Align ' + (options.field.labelAlign?options.field.labelAlign:field.labelAlign)"
+                      :label='field.label'
+                      :layout='field.layout'
+                      :float='field.float'
+                      :float-layout='field.floatLayout'
+                      :item="options.layout.indexOf('items-')>-1"
+                      :icon='options.fieldOpts.icon?field.icon:null'
+                      :icon2='options.fieldOpts.icon2?field.icon2:null'
+                      :hint='options.fieldOpts.hint?field.hint:null'
+                      :dense='options.fieldOpts.dense'
+                      :counter='options.fieldOpts.counter'
+                      :maxlength='15'
+                    >
+                      <input type="text" class="demoInputWidth" v-model='field.model' :placeholder='field.placeholder'/>
+                    </q-field>
+
+                  </div>
+
+                </div> <!-- / .grid //o ptions.field.hint?field.hint:null -->
+
+                <!-- IN A LIST -->
+                <div
+                  v-if="(options.layout.indexOf('-list')>-1)"
+                  :class="'list ' + options.list_options.join(' ') + (options.fieldOpts.background?' striped':'') "
+                >
+
+                  <q-field v-for="field in demoFields"
+                    :style="{'display': options.display}"
+                    :label='field.label'
+                    :layout='field.layout'
+                    :float='field.float'
+                    :float-layout='field.floatLayout'
+                    :item="options.structure==='item'"
+                    :icon='options.fieldOpts.icon?field.icon:null'
+                    :icon2='options.fieldOpts.icon2?field.icon2:null'
+                    :hint='options.fieldOpts.hint?field.hint:null'
+                    :dense='options.fieldOpts.dense'
+                    :counter='options.fieldOpts.counter'
+                    :maxlength='15'
+                  >
+                    <input type="text" v-model='field.model' :placeholder='field.placeholder' ref='field-target' />
+                  </q-field>
+
+                </div> <!-- / .list -->
+
+              </div>
+
+            </template>
+
+          </div>
+      </div><!-- / tab-2 -->
+
+      <!-- Sizing  (   Width &amp; Alignment) -->
+      <div ref="tab-sizing">
+
+        <div class="card">
+
+          <div class="card-title bg-primary text-white">
+            Sizing
+          </div>
+          <div class="settings card-actions wrap">
+
+              <div class="sm-width-1of1 width-1of2" style='margin-top:10px;'>
+                <table class="q-table full-width bordered horizontal-delimiter  compact">
+                  <tbody>
+                    <tr><!--
+                      <th><i class="flip-horizontal">format_indent_increase</i><br />Label</th> -->
+                      <th class='text-center'>Label<br /><q-checkbox v-model="options.debugLabel"></q-checkbox></th>
+                      <td><q-select
+                            type="radio"
+                            label="Width"
+                            v-model="options.field.labelWidth"
+                            :options="ddl_widths"
+                          ></q-select></td>
+                      <td><q-select
+                            type="radio"
+                            label="Align"
+                            v-model="options.field.labelAlign"
+                            :options="ddl_alignments"
+                          ></q-select></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="sm-width-1of1 width-1of2" style='margin-top:10px;'>
+                <table class="q-table full-width bordered horizontal-delimiter  compact">
+                  <tbody>
+                    <tr><!--
+                      <th><i>format_indent_increase</i><br />Target</th> -->
+                      <th class='text-center'>Target<br /><q-checkbox v-model="options.debugTarget"></q-checkbox></th>
+                      <td><q-select
+                            type="radio"
+                            label="Width"
+                            v-model="options.field.targetWidth"
+                            :options="ddl_widths"
+                          ></q-select></td>
+                      <td><q-select
+                            type="radio"
+                            label="Align"
+                            v-model="options.field.targetAlign"
+                            :options="ddl_alignments"
+                          ></q-select></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div><!-- /card-actions -->
+
+            <!-- SIZING -->
+            <div class="card-title">Items</div>
+            <div class="card-content bg-field">
+
+              <div class="grid row wrap gutter"
+                :class="{'bg-label': options.debugLabel,
+                    'bg-target': options.debugTarget}">
+
+                <div class="width-1of1">
+                  <q-field label="Inline Label"
+                    layout="inline"
+                    item
+                    hint="Item + Inline Label"
+                    class='shadow-1'
+                    icon="label_outline"
+                    :target-width='options.field.targetWidth'
+                    :label-width='options.field.labelWidth'
+                    :target-align='options.field.targetAlign'
+                    :label-align='options.field.labelAlign'
+                  >
+                    <input type="text" />
+                  </q-field>
+
+                </div>
+
+                <div class="width-1of1">
+                  <q-field label="Floating Label"
+                    layout="stacked"
+                    icon="cloud_queue"
+                    item
+                    hint="Item + Floating Label"
+                    class='shadow-1'
+                    :target-width='options.field.targetWidth'
+                    :label-width='options.field.labelWidth'
+                    :target-align='options.field.targetAlign'
+                    :label-align='options.field.labelAlign'
+                  >
+                    <input type="text" />
+                  </q-field>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-title">Fields</div>
+            <div class="card-content bg-field">
+
+              <div class="grid row wrap gutter"
+                :class="{'bg-label': options.debugLabel,
+                    'bg-target': options.debugTarget}">
+
+                <div class="width-1of1">
+                  <q-field label="Inline Label"
+                    layout="inline"
+                    style="min-height:72px;padding-top: 10px;"
+                    class='shadow-1 full-width'
+                    icon="label_outline"
+                    hint="Field + Inline Label"
+                    :target-width='options.field.targetWidth'
+                    :label-width='options.field.labelWidth'
+                    :target-align='options.field.targetAlign'
+                    :label-align='options.field.labelAlign'
+                  >
+                    <input type="text" />
+                  </q-field>
+
+                </div>
+
+                <div class="width-1of1">
+                  <q-field label="Floating Label"
+                    layout="stacked"
+                    style="min-height:72px;padding-top: 10px;"
+                    class='shadow-1 full-width'
+                    icon="cloud_queue"
+                    hint="Field + Floating Label"
+                    :target-width='options.field.targetWidth'
+                    :label-width='options.field.labelWidth'
+                    :target-align='options.field.targetAlign'
+                    :label-align='options.field.labelAlign'
+                  >
+                    <input type="text" />
+                  </q-field>
+                </div>
+              </div>
+            </div>
+
+
+        </div> <!-- /card -->
+
+      </div>
+
+      <!-- State -->
+      <div ref="tab-state">
+
+        <div class="card">
+
+          <div class="card-title bg-primary text-white">
+            Input States
+          </div>
+          <div class='card-content'>
+            <div class="grid row wrap small-gutter">
+
+              <div class="width-1of2 sm-width-1of1">
+                <q-field item label="Read-Only" icon="email_outline" width="grow">
+                  <input type="email" readonly value="professor.plum@the.study" />
+                </q-field>
+              </div>
+
+              <div class="width-1of2 sm-width-1of1">
+                <q-field item label="Disabled" icon="gesture" width="grow">
+                  <input type="text" value="The Rope" disabled>
+                </q-field>
+              </div>
+              <div class="width-1of2 sm-width-1of1">
+                <q-field item label="Required" icon="face" target-width="grow" validate>
+                  <input type="text" required >
+                </q-field>
+              </div>
+              <div class="width-1of2 sm-width-1of1">
+                <q-field item label="Invalid" icon="build" width="grow" validate>
+                  <input type="text" value="The Revolver" class="full-width" pattern=".*(spanner|wrench).*" >
+                </q-field>
+              </div>
+
+            </div>
 
           </div>
 
         </div>
-
-
       </div>
-    </div>
 
+      <!-- Validation -->
+      <div ref="tab-validation">
 
-    <!-- Sizing  (   Width &amp; Alignment) -->
-    <div ref="tab-2">
+        <div class="card">
 
-      <div class="card">
+          <div class="card-title bg-primary text-white">
+            Validation
+          </div>
+          <div class='card-content'>
+            <div class="grid row wrap small-gutter">
 
-        <div class="card-title">
-          Width &amp; Alignment
-        </div>
+              <div class="width-1of2 sm-width-1of1">
+                <q-field item label="Eager" icon="mail_outline" hint="(Default validate)" validate>
+                  <input type="email">
+                </q-field>
+              </div>
+              <div class="width-1of2 sm-width-1of1">
+                <q-field item label="Lazy" icon="mail_outline" validate="lazy" hint="(validate='lazy')">
+                  <input type="email">
+                </q-field>
+              </div>
+              <div class="width-1of2 sm-width-1of1">
+                <q-field item label="Custom Validation Message" icon="mail_outline" validate validate-msg="That ain't no email address, pal!" hint="(validate-msg='...')">
+                  <input type="email">
+                </q-field>
+              </div>
 
-        <div class="card-content row wrap">
-
-          <q-float-label label=" 40%" icon="short_text" class="width-1of3">
-            <input type="text">
-          </q-float-label>
-
-          <q-float-label label=" 40%"  class="width-1of3">
-            <input type="text">
-          </q-float-label>
-          <q-float-label label=" 40%" icon="short_text" class="width-1of3">
-            <input type="text">
-          </q-float-label>
-          <br />
-
-          <q-float-label label="Width 154px" icon="short_text" class="width-1of3">
-            <input type="text">
-          </q-float-label>
-
-          <q-float-label label="Width 154px" class="width-1of3">
-            <input type="text">
-          </q-float-label>
-
-          <br />
-
-          <q-float-label label="Grow Width" icon="format_align_justify" width="grow">
-            <input type="text">
-          </q-float-label>
-
-
-
-          <q-float-label label="+ Inline Label" icon="format_align_right" width="grow" layout="inline">
-            <input type="text">
-          </q-float-label>
-
-          <q-float-label label="+ Inline Label" icon="format_align_right" width="grow" layout="inline">
-            <input type="text" value="Size 4" size="4">
-          </q-float-label>
-
-          <q-float-label label="+ Label 50%" icon="format_indent_increase" width="grow" labelWidth="50%" layout="inline">
-            <input type="text" value="Size 4" size="4">
-          </q-float-label>
-
-          <q-float-label label="+ Grow Label" icon="format_indent_increase" width="grow" labelWidth="grow" layout="inline">
-            <input type="text" value="Size 4" size="4">
-          </q-float-label>
-
-          <q-float-label label="+ Label Right" icon="format_indent_decrease" width="grow" labelWidth="grow" labelAlign="right" layout="inline">
-            <input type="text">
-          </q-float-label>
-
-          <q-float-label label="50% Inline Label + Grow Width" icon="border_clear" width="grow" labelWidth="50%" layout="inline">
-            <input type="text">
-          </q-float-label>
-
-        </div>
-
-      </div>
-    </div>
-
-
-    <!-- Input States -->
-    <div ref="tab-3">
-
-
-      <div class="card">
-
-        <div class="card-title">
-          Input States
-        </div>
-
-        <div class="card-content">
-
-          <div class="list">
-
-            <q-float-label label="Read-Only" icon="email_outline" width="grow">
-              <input type="email" readonly value="professor.plum@study.com" />
-            </q-float-label>
-
-            <q-float-label label="Disabled" icon="gesture" width="grow">
-              <input type="text" value="With the Rope" disabled>
-            </q-float-label>
-
-            <q-float-label label="Required" icon="face" width="grow">
-              <input type="text" required >
-            </q-float-label>
-
-            <q-float-label label="Invalid" icon="build" width="grow">
-              <input type="text" value="The Revolver" class="full-width" pattern=".*(spanner|wrench).*">
-            </q-float-label>
+              <div class="width-1of2 sm-width-1of1">
+                <q-field item label="Immediate Validation" icon="mail_outline" validate validate-immediate hint='(validate-immediate)'>
+                  <input type="email" value="bogus.email%com">
+                </q-field>
+              </div>
+            </div>
 
           </div>
 
-        </div>
+          <div class="card-title">
+            Maxlength & Counter
+          </div>
+          <div class='card-content'>
+            <div class="grid row wrap small-gutter">
 
-      </div>
+              <div class="width-1of2 sm-width-1of1">
+                <q-field item label="Unvalidated" icon="extension" :maxlength="10" counter>
+                  <input type="email">
+                </q-field>
+              </div>
 
-    </div>
+              <div class="width-1of2 sm-width-1of1">
+                <q-field item label="Validated" icon="bug_report" :maxlength="10" counter validate validate-msg="Too long!">
+                  <input type="email">
+                </q-field>
+              </div>
 
+            </div>
 
-    <div ref="tab-4">
+          </div>
 
-      <div class="card">
-        <div class="card-title">
-          Validation
-        </div>
-        <div class="card-content">
-
-          <q-float-label label="No Validation" icon="mail_outline">
-            <input type="email">
-          </q-float-label>
-
-          <q-float-label label="Immediate Validation" icon="mail_outline" validate="immediate">
-            <input type="email" value="bogus.email%com">
-          </q-float-label>
-
-          <q-float-label label="Eager Validation (default)" icon="mail_outline" validate>
-            <input type="email">
-          </q-float-label>
-
-          <q-float-label label="Lazy Validation" icon="mail_outline" validate="lazy">
-            <input type="email">
-          </q-float-label>
-
-          <q-float-label label="Custom Validation Message" icon="mail_outline" validate validate-msg="That ain't no email address, pal!">
-            <input type="email">
-          </q-float-label>
 
         </div>
       </div>
 
+      <!-- Input Types -->
+      <div ref="tab-types">
 
-    </div>
+        <div class="card">
+
+          <div class="card-title bg-primary text-white">
+            Text Input Types
+          </div>
+
+          <div class="list item-delimiter">
+
+              <q-field item label="Plain Text" icon="text_fields">
+                <input type="text" />
+              </q-field>
+
+              <q-field item label="Email" icon="email" validate validate-msg="Invalid email address">
+                <input type="email" />
+              </q-field>
+
+              <q-field item label="Password" icon="lock" validate counter>
+                <input type="password" :maxlength="8"  />
+              </q-field>
+
+              <q-field item label="Number" icon="looks_one" validate validate-msg="Not a number" >
+                <input type="number" />
+              </q-field>
+
+              <q-field item label="Search" icon="search" validate>
+                <input type="search" />
+              </q-field>
+
+              <q-field item label="Textarea" :maxlength="50" counter validate-immediate icon="comments" target-width="grow">
+                <textarea rows="5" class="full-width">If you end your movement in a room, you get to make a suggestion. To do this, name a suspect, a murder weapon, and the room you just entered. For example, if you just entered the lounge, you might say, "I suggest the crime was committed by Colonel Mustard, in the lounge, with a dagger." The named suspect and murder weapon are both moved into your current room.</textarea>
+              </q-field>
+
+          </div>
+
+          <div class="card-title">
+            Other Components
+          </div>
 
 
-    <!-- Text Input Types -->
-    <div ref="tab-5">
-
-      <div class="card">
-
-        <div class="card-title">
-          Text Input Types
-        </div>
-
-        <div class="card-content">
-
-          <p class="caption strong">Text Input Types</p>
-
-          <div class="list highlight item-inset-delimiter">
-            <q-float-label label="Email" icon="face">
-              <input type="text">
-            </q-float-label>
-
-            <q-float-label label="Range Component" layout="stacked" icon="email">
-              <q-range v-model="models.range" label markers :step="1" :min="0" :max="10"></q-range>
-            </q-float-label>
-
-            <q-float-label label="Numeric Textbox" layout="stacked" icon="email">
+          <div class="list item-delimiter">
+            <q-field item label="Numeric" layout="inline" icon="looks_two">
               <q-numeric
                 v-model="models.numeric"
                 :min="1"
                 :max="100"
               ></q-numeric>
-            </q-float-label>
+            </q-field>
 
-            <q-float-label label="Chips Textbox" layout="stacked" icon="email">
+            <q-field item label="Chips" target-width="grow" layout="stacked"  icon="code">
               <q-chips v-model="models.chips"></q-chips>
-            </q-float-label>
-
-            <q-float-label label="Select" layout="stacked" icon="email">
-              <q-select
-                class="full-width"
-                type="checkbox"
-                v-model="models.multiSelect"
-                :options="ddl_suspects"
-              ></q-select>
-            </q-float-label>
-
+            </q-field>
           </div>
 
-        </div>
-
       </div>
 
-      <div class="card">
+    </div> <!-- / Tab 5 -->
 
-        <div class="card-title">
-          Textareas
-        </div>
+  </div> <!-- / layout-padding -->
 
-        <div class="card-content">
-
-            <q-float-label label="Textarea">
-              <textarea class="full-width"></textarea>
-            </q-float-label>
-
-            <q-float-label label="Textarea + Icon" icon="comments">
-              <textarea rows="5" class="full-width">If you end your movement in a room, you get to make a suggestion. To do this, name a suspect, a murder weapon, and the room you just entered. For example, if you just entered the lounge, you might say, "I suggest the crime was committed by Colonel Mustard, in the lounge, with a dagger." The named suspect and murder weapon are both moved into your current room.</textarea>
-            </q-float-label>
-
-
-            <q-float-label label="Textarea + Icon + Dense (has-error)" icon="fingerprint" :dense="true">
-              <textarea rows="5" class="full-width has-error">The player to your left must disprove your suggestion by showing you one card from her hand that matches your suggestion. If that player can't do so, the player to her left must disprove your suggestion by showing you one card from his hand. This responsibility passes clockwise until someone shows you a card, or until all players have passed.</textarea>
-            </q-float-label>
-
-            <q-float-label label="Textarea (readonly)">
-              <textarea rows="4" readonly class="full-width">If someone shows you a card, you should cross it off on your detective notebook as a possibility. Any cards you hold should also be crossed off as possibilities. Don't let other players see your notebook.</textarea>
-            </q-float-label>
-
-            <q-float-label label="Textarea (disabled)">
-              <textarea rows="4" disabled class="full-width">If you think you have solved the case by eliminating all the false possibilities and have not just had your suggestion disproved this turn, you can end your turn by making an accusation. Announce that you are making an accusation, and state your final guess of the murderer, the murder weapon, and the murder location.</textarea>
-            </q-float-label>
-
-
-        </div>
-
-      </div>
-    </div>
-  </div>
+</div> <!-- / root -->
 </template>
 
 
 
 <script>
 export default {
+  computed: {
+    myExampleEmail () {
+      return (this.example.firstName || '???') + (this.example.firstName || '???') + '@.example.com'
+    }
+  },
   data () {
     return {
       // TABS
       //
-      currentTab: 'tab-1',
+      currentTab: 'tab-usage',
       tabs: [
         {label: 'Tab 1', value: 'tab-1'},
         {label: 'Tab 2', value: 'tab-2'},
@@ -499,34 +708,11 @@ export default {
       demo_fields: {
         layouts: [
           {
-            label: 'Inline',
-            layout: 'inline',
-            icon: 'face',
-            icon2: 'plus_one',
-            hint: 'This is some info',
-            model: '',
-            fieldWidth: '',
-            targetWidth: '',
-            labelWidth: ''
-
-          },
-          {
-            label: '',  // No label
-            layout: '',
-            icon: 'face',
-            icon2: 'plus_one',
-            hint: 'This is some info',
-            model: 'No Label',
-            classWidth: '',
-            targetWidth: '',
-            labelWidth: ''
-          },
-          {
             label: 'Floating',
-            layout: '',
-            icon: 'face',
+            layout: 'floating',
+            icon: 'cloud_queue',
             icon2: 'plus_one',
-            hint: 'This is some info',
+            hint: 'A helpful hint',
             model: '',
             fieldWidth: '',
             targetWidth: '',
@@ -535,9 +721,9 @@ export default {
           {
             label: 'Inplace',
             layout: 'inplace',
-            icon: 'face',
+            icon: 'cloud_queue',
             icon2: 'plus_one',
-            hint: 'This is some info',
+            hint: 'A helpful hint',
             model: '',
             fieldWidth: '',
             targetWidth: '',
@@ -546,9 +732,9 @@ export default {
           {
             label: 'Stacked',
             layout: 'stacked',
-            icon: 'face',
+            icon: 'cloud_queue',
             icon2: 'plus_one',
-            hint: 'This is some info',
+            hint: 'A helpful hint',
             model: '',
             fieldWidth: '',
             targetWidth: '',
@@ -557,9 +743,87 @@ export default {
           {
             label: 'Placeholder',
             layout: 'placeholder',
-            icon: 'face',
+            icon: 'cloud_queue',
             icon2: 'plus_one',
-            hint: 'This is some info',
+            hint: 'A helpful hint',
+            model: '',
+            fieldWidth: '',
+            targetWidth: '',
+            labelWidth: '',
+            placeholder: 'Placeholder...'
+          },
+          {
+            label: '',  // No label
+            layout: '',
+            icon: 'cloud_off',
+            icon2: 'plus_one',
+            hint: 'A helpful hint',
+            model: 'No Label',
+            classWidth: '',
+            targetWidth: '',
+            labelWidth: ''
+          },
+          {
+            label: 'Inline',
+            layout: 'inline',
+            icon: 'label_outline',
+            icon2: 'plus_one',
+            hint: 'A helpful hint',
+            model: '',
+            fieldWidth: '',
+            targetWidth: '',
+            labelWidth: ''
+          }
+        ],
+        combos: [
+          {
+            label: 'Inline',
+            layout: 'inline',
+            float: '+ Inplace Float',
+            floatLayout: 'inplace',
+            icon: 'label_outline',
+            icon2: 'plus_one',
+            hint: 'A helpful hint',
+            model: '',
+            fieldWidth: '',
+            targetWidth: '',
+            labelWidth: ''
+          },
+          {
+            label: 'Inline',
+            layout: 'inline',
+            float: '+ Floating Float',
+            floatLayout: 'floating',
+            icon: 'label_outline',
+            icon2: 'plus_one',
+            hint: 'A helpful hint',
+            model: '',
+            fieldWidth: '',
+            targetWidth: '',
+            labelWidth: ''
+          },
+          {
+            label: 'Inline',
+            layout: 'inline',
+            float: '+ Placeholder Float',
+            floatLayout: 'placeholder',
+            placeholder: 'Placeholder',
+            icon: 'label_outline',
+            icon2: 'plus_one',
+            hint: 'A helpful hint',
+            model: '',
+            fieldWidth: '',
+            targetWidth: '',
+            labelWidth: ''
+          },
+          {
+            label: 'Inline',
+            layout: 'inline',
+            float: '+ Stacked Float',
+            floatLayout: 'stacked',
+            icon: 'label_outline',
+            icon2: 'plus_one',
+            hint: 'A helpful hint',
             model: '',
             fieldWidth: '',
             targetWidth: '',
@@ -571,22 +835,41 @@ export default {
       //
       options: {
         label_options: [''],  // grow, 25%, 50%,
-        layout: 'grid',
+        structure: 'item',
+        layout: 'items-grid',
+        display: 'block',
+        debugLabel: false,
+        debugTarget: false,
         grid_option: 'gutter',
-        grid_cols: '',
-        list_options: ['delimited'],
+        grid_cols: 'width-1of2 sm-width-1of1',
+        list_options: ['item-delimiter'],
         field: {
-          item: false,
-          grow: true,
-          fieldWidth: '',
           targetWidth: '',
           labelWidth: '',
-          icon: true,
+          targetAlign: '',
+          labelAlign: ''
+        },
+        fieldOpts: {
+          background: false,
+          icon: false,
           icon2: false,
-          hint: true,
+          hint: false,
           dense: false,
-          counter: true
+          counter: false
         }
+      },
+      // Example form
+      //
+      example: {
+        playerName: '',
+        firstName: '',
+        lastName: '',
+        detectiveName: '',
+        favouriteDetective: '',
+        email: '',
+        password: '',
+        fave_room: '',
+        description: ''
       },
       // Models
       //
@@ -596,16 +879,70 @@ export default {
         chips: ['Rope', 'Candlestick', 'Lead Pipe', 'Revolver'],
         multiSelect: []
       },
-      // DDL Options
-      //
-      ddl_field_options: [
+      ddl_structures: [
         {
           label: 'Items',
           value: 'item'
         },
         {
-          label: 'Grow',
-          value: 'grow'
+          label: 'Plain',
+          value: 'plain-field'
+        }
+      ],
+      ddl_detectives: [
+        {
+          label: 'Miss Marple',
+          value: 'marple'
+        },
+        {
+          label: 'Sherlock Holmes',
+          value: 'holmes'
+        },
+        {
+          label: 'John McClane',
+          value: 'mcclane'
+        },
+        {
+          label: 'Other',
+          value: 'other'
+        }
+      ],
+      ddl_layouts: [
+        // {
+        //   label: 'in a Row',
+        //   value: 'row'
+        // },
+        {
+          label: 'Items in a Grid',
+          value: 'items-grid'
+        },
+        {
+          label: 'Fields in a Grid',
+          value: 'fields-grid'
+        },
+        {
+          label: 'Items in a List',
+          value: 'items-list'
+        }
+      ],
+      ddl_displays: [
+        {
+          label: 'Default',
+          value: ''
+        },
+        {
+          label: 'Block',
+          value: 'block'
+        },
+        {
+          label: 'Inline',
+          value: 'inline-block'
+        }
+      ],
+      ddl_fieldOpts: [
+        {
+          label: 'BG',
+          value: 'background'
         },
         {
           label: 'Dense',
@@ -616,7 +953,7 @@ export default {
           value: 'icon'
         },
         {
-          label: 'Icon2',
+          label: 'Icon 2',
           value: 'icon2'
         },
         {
@@ -626,16 +963,6 @@ export default {
         {
           label: 'Counter',
           value: 'counter'
-        }
-      ],
-      ddl_layouts: [
-        {
-          label: 'In a List',
-          value: 'list'
-        },
-        {
-          label: 'In a Grid',
-          value: 'grid'
         }
       ],
       ddl_layout_list_options: [
@@ -680,7 +1007,11 @@ export default {
           value: ''
         },
         {
-          label: 'Full Width',
+          label: 'Shrink',
+          value: 'shrink'
+        },
+        {
+          label: 'Grow',
           value: 'grow'
         },
         {
@@ -688,13 +1019,31 @@ export default {
           value: '50%'
         },
         {
-          label: '250px',
-          value: '250px'
+          label: '150px',
+          value: '150px'
+        }
+      ],
+      ddl_alignments: [
+        {
+          label: 'Default',
+          value: ''
+        },
+        {
+          label: 'Left',
+          value: 'left'
+        },
+        {
+          label: 'Center',
+          value: 'center'
+        },
+        {
+          label: 'Right',
+          value: 'right'
         }
       ],
       ddl_colWidths: [
         {
-          label: 'No Sizing',
+          label: 'No Columns',
           value: ''
         },
         {
@@ -766,7 +1115,7 @@ export default {
 
 
 <style lang='styl'>
-
+$layout-small  ?= 600px
 $grey = #9e9e9e
 $grey-1 = #fafafa
 $grey-2 = #f5f5f5
@@ -919,31 +1268,6 @@ $grid-large-gutter  ?= 3.5rem
 // -------------------------------------------------------------------^^^^
 
 
-/*.qf
-.item
-  border 1px solid pink
-
-.qf > .qf-content
-.item-content
-  border 1px solid blue
-
-.qf > .qf-content > .qf-inner
-  border 1px solid green
-*/
-/*.item
-  background pink
-  xbackground #fafafa
-  margin-bottom 5px
-
-.qf > .qf-content
-.item-content
-  background lemonchiffon
-
-.qf > .qf-content > .qf-inner
-  background silver
-*/
-
-
 
 // NICE ICONS TO USE
 /*
@@ -978,36 +1302,10 @@ $grid-large-gutter  ?= 3.5rem
 */
 
 
-
-
-//
-// DEBUG styles ------------------------------------------------vvvv
-//
-
-
-.field
-  background #fafafa
-  margin-bottom 5px
-/*
-
-*/
-  /*
-  &:after
-    position relative
-    font-size 12px
-    font-family Monospace
-    content attr(class) attr(style)
-     */
-
-
-
 //
 // Demo styles ------------------------------------------------vvvv
 //
 
-
-.short-textboxes input[type=text]
-  width 135px
 
 label
 .stacked-label, .floating-label
@@ -1018,91 +1316,103 @@ label
 .card-acrtions .q-picker-textfield-label.active .q-picker-textfield-label .ellipsis
   color rgba(255, 255, 255, .54)
 
+.settings
+  .q-picker-textfield
+    min-width 60px
+    width 65px
 
 .card .card-actions
   xbackground-color #4DB6AC !important
 
-//
-// Other Amendments ------------------------------------------------vvvv
-//
 
-.flex:not(.v-gutter), .row:not(.v-gutter), .column:not(.v-gutter)
-.field
-  .item-content
-  i.item-primary
-  i.item-secondary
-    transition all .3s
+.demoInputWidth
+  width 80px
+.field-layout-inline
+  .demoInputWidth
+    width 70px
 
-.qf textarea:active,
-.field textarea:active
-  transition none // Prevent animation while user drag-resize
 
-/*
-.flex-min-content
-  flex-basis auto
-  xflex-shrink 100
 
-.flex-max-content
-  flex-basis max-content
-  -webkit-flex-basis -webkit-max-content
-  -moz-flex-basis -moz-max-content
-  -ms-flex-preferred-size -ms-flex-positive
-*/
+// Label & Target Debug -----------------v
+.bg-field .grid .field
+  background-color white
+  box-shadow 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24) !important
+  &:hover
+    box-shadow 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23) !important
+.card-content.bg-field
+  background #f8f8f8
+
+.bg-target .field-target
+  xbackground-color #C5CAE9
+.bg-label .field-label
+  xbackground-color #B2DFDB
+
+.bg-target .field-target
+.bg-label .field-float-label
+.bg-label .item-label
+  position relative
+  overflow visible !important
+
+.bg-target .field-target:before
+.bg-label .field-float-label:before
+.bg-label .item-label:before
+  position absolute
+  width 100%
+  left 0
+  top -7px
+  height 100%
+  box-sizing border-box
+  height 100%
+  vertical-align top
+  padding 2px 4px
+  font-size 12px
+  font-weight bold
+  color white
+  z-index 9
+  border-top 2px solid white
+  transition all .3s !important
+.bg-label .field-float-label:before
+.bg-label .item-label:before
+  text-align left
+  background-color #2196F3
+  height 25px
+  content 'LABEL'
+.bg-label .label-align-right label:before
+  text-align right
+.bg-label .label-align-center label:before
+  text-align center
+.bg-target .field-target:before
+  margin-top 8px
+  height 25px
+  background-color #66BB6A
+  content 'TARGET'
+
+
+@media only screen and (max-width 600px)
+  .grid
+    .field-layout-inline
+      input[type=text]:not(.field-grow-input input), textarea:not(.field-grow-input textarea)
+        width 55px
+
+{}
+
+
 //
 // <q-field> container ------------------------------------------------vvvv
 //
-/*
-<div class="field field-layout-floating field-active field-value field-invalid-too-long">
-<div class="field-target">
-<input type="text" value="I AM A FIELD!" id="4bef41e1-bf2a-d7d2-67b8-0048b16bad45">
-<div class="field-swoosh"></div>
-<!----> <!----> <!----> <!---->
-</div> <!---->
-</div>
 
-
-<div class="field sm-width-1of1 field-layout-inline field-active field-value field-invalid-too-long" input-width="grow">
-
-<i class="item-primary">mood</i>
- <label class="field-label" for="f246a8ca-8966-5c34-8b1b-eb94003e8236">My New Field!:</label>
-  <div class="field-target">
-    <input type="text" value="I AM AN INPUT" id="f246a8ca-8966-5c34-8b1b-eb94003e8236">
-    <div class="field-swoosh"></div>
-    <span class="field-validate-msg">errr</span>
-    <span class="field-counter">13 / 10</span>
-    <span class="field-hint">Activate inline label layout by supplying layout='inline'</span> <!---->
-  </div>
-  <i class="item-secondary">mood</i>
-  </div>
-*/
-
-
-
-
-// Default Field
-// ----------------------------
-
-
-// FIELD/ITEM/POSEUDO-ITEM SHARED STRUCTURE
-
-/*div.field
-
-  &.noitem
-
-  &.item
-
-*/
-
-.field
+// FIELD STRUCTURE
+div.field
 
   // Target-Only
   //
   &.target-only
-    background-color #DCEDC8
     display inline-block
+    position relative
     padding-top 10px // <-- top of float touches top of field (i.e. no padding)
     padding-bottom 0px
-
+    &.field-dense
+      padding-top 4px
 
   // field.item || field.clean-item
   //
@@ -1111,6 +1421,7 @@ label
     position relative
     padding-top 0 !important // <-- padding handled by .item-content
     padding-bottom 0 //
+
     > i.item-primary, > i.item-secondary
       color $item-primary-secondary-color
       transition color .3s
@@ -1124,6 +1435,7 @@ label
       // left initial
     > i.item-secondary
       right 0
+
     > .item-content
       padding-top 10px // <-- top of float touches top of field (i.e. no padding)
       padding-bottom 0px
@@ -1131,77 +1443,77 @@ label
       flex-direction row // .row
       align-items flex-start // .items-start
 
+
   // field.item
   //
   &.item
-    background-color #C5CAE9
     display block
     padding-top 0 !important  // <-- padding handled by .item-content
     padding-bottom 0 // <--
     min-height 72px
-    width
+    &.field-can-msg
+      xmin-height 81px
     > i.item-primary
     > i.item-secondary
       margin-top 26px
     > .item-content
       padding-top 20px
-      padding-bottom 0px
+      padding-bottom 0px // 10px
       display flex // .row
       flex-direction row // .row
       align-items flex-start // .items-start
       // flex-wrap wrap // .wrap
   &.item.field-dense
     min-height 60px
+    &.field-can-msg
+      xmin-height 75px
     > i.item-primary
     > i.item-secondary
       font-size 20px
-      margin-top 22px
+      margin-top 20px
     > .item-content
       padding-top 16px
-      padding-bottom 0px
+      padding-bottom 8px
 
   // field.clean-item
   //
   &.clean-item
-    background-color #B2DFDB
     display inline-block
     padding-top 0px
     padding-left 0px
     height auto
+    min-height 52px
+    &.field-can-msg
+      min-height 65px
     > i.item-primary
     > i.item-secondary
       position absolute
-      margin-top 16px // i.item-primary==margin 12px
-      margin-left 0px
+      margin 16px 0 0// i.item-primary==margin 12px
+      top 0
     > .item-content
       padding-top 10px // <-- top of float touches top of field (i.e. no padding)
-      padding-bottom 0px
       display flex // .row
       flex-direction row // .row
       align-items flex-start // .items-start
       &.has-secondary
         margin-right 36px
     i.item-primary ~ div.item-content
-      margin-left 36px // .item-content==72px
+      margin-left 36px
   &.clean-item.field-dense
-    min-height 60px
+    min-height 48px
+    &.field-can-msg
+      min-height 62px
     > i.item-primary
     > i.item-secondary
       font-size 20px
-      margin-top 22px
+      margin-top 12px
     > .item-content
-      padding-top 16px
-      padding-bottom 0px
+      padding-top 6px
+      &.has-secondary
+        margin-right 24px
+    i.item-primary ~ div.item-content
+      margin-left 24px
 
-
-div.field-grow-input
-  > input, > textarea
-    width 100% !important
-    margin 0px
-
-
-// FIELD STRUCTURE
-div.field
 
   // Labels (inline + float)
   label.field-label
@@ -1217,16 +1529,35 @@ div.field
       margin-top 8px
     &.field-float
     &.field-float-label
+      width 100%
       position absolute
       margin-top 8px
     &.field-float
       font-style italic
       padding-right 5px
 
-  // Inputs
-  input, textarea
-    border-bottom 0 !important
-    width 100%
+  .item-content
+    &.label-align-center label.field-label
+      text-align center
+      transform-origin center top
+    &.label-align-right label.field-label
+      text-align right
+      transform-origin right top
+    &.target-align-center div.field-target
+      margin-left auto
+      margin-right auto
+    &.target-align-right div.field-target
+      margin-left auto
+
+  div.field-target
+    position relative
+    > input, > textarea
+      border-bottom 0 !important
+      margin 0 !important
+    &.field-grow-input
+      > input[type=text], > textarea
+        width 100% !important
+        margin 0px
 
   // Swoosh
   div.field-swoosh
@@ -1249,9 +1580,10 @@ div.field
   // Validate-msg(s)
   // Hint
   // Counter
-  span.field-validate-msg, span.field-hint, span.field-counter
+  span.field-validate-msg,
+  span.field-hint,
+  span.field-counter
     display block
-    position relative
     pointer-events none
     font-size 12px
     transition opacity .3s
@@ -1261,112 +1593,88 @@ div.field
     color $has-error !important
     opacity 0
 
+  span.field-hint ~ span.field-validate-msg
+    margin-top -16px
+
   span.field-hint
+    position relative
     color $dark
-    color rgba(0,0,0,.38)
 
   span.field-counter
     float right
     color rgba(0,0,0,.38)
     color $dark
 
-// Layout Modifiers
-// -------------------------
+// Layout Modifiers / CSS Flags
+// ----------------------------
 
-// Has focus
-&.field-focus
-  label.item-label, label.field-float-label, i.item-primary, i.item-secondary
-    color $form-active-color !important
-  label.item-label:after, label.field-float-label:after
-    color $required-color
-  div.field-swoosh:before
-    visibility visible
-    width 100%
-    left 0
+div.field
 
-// Invalid
-&.field-invalid
-  label.item-label, label.field-float-label  // <--- DELETE THESE, OR MAKE OPTIONAL?
-  i.item-primary, i.item-secondary
-    color $has-error !important
-  div.field-swoosh
-    border-top $textfield-border-size $textfield-border-style $has-error !important
-    &:before
-      background $has-error
-  span.field-validate-msg
-    opacity 1
-  span.field-hint
-    opacity 0
-    height auto
+  // Invalid
+  //
+  &.field-invalid
+    label.item-label, label.field-float-label  // <--- TOO MUCH RED?  DELETE THESE, OR MAKE OPTIONAL?
+    // i.item-primary, i.item-secondary  // <--- TOO MUCH RED?  DELETE THESE, OR MAKE OPTIONAL?
+      color $has-error !important
+    div.field-swoosh
+      border-top $textfield-border-size $textfield-border-style $has-error !important
+      &:before
+        background-color $has-error
+    span.field-validate-msg
+      opacity 1
+    span.field-hint
+      opacity 0
 
-// Too-Long (special case, can trigger independently from 'field-invalid' to accommodate maxlength counter.)
-&.field-invalid-too-long
-  span.field-counter
-    color $has-error !important
-  div.field-swoosh
-    border-top $textfield-border-size $textfield-border-style $has-error !important
-    &:before
-      background $has-error
+  // Too-Long
+  // ['pseuedo-invalid'; can trigger independently of 'field-invalid' for counter & underline turning red, and that is all.]
+  //
+  &.field-invalid-too-long
+    span.field-counter
+      color $has-error
+    div.field-swoosh
+      border-top $textfield-border-size $textfield-border-style $has-error !important
+      &:before
+        background-color $has-error
 
-// Required
-&.field-required
-  label.item-label:after, label.field-float-label:after
-    content '\00a0*\00a0'
-    vertical-align top
+  // Focus / Hover
+  //
+  &.field-focus
+  &.field:hover:not(.field-disabled)
+    label.item-label, label.field-float-label
+    i.item-primary, i.item-secondary
+      color $form-active-color !important
+    label.item-label:after, label.field-float-label:after
+      color $required-color
+    div.field-swoosh
+      border-top $textfield-border-size $textfield-border-style $form-active-color !important
+      &:before
+        background-color $form-active-color
+  &.field-focus
+    div.field-target > div.field-swoosh:before
+      visibility visible
+      width 100%
+      left 0
 
-// Hover pseudo selector
-&.field:not(.field-disabled):hover
-  label.item-label, label.field-float-label, i.item-primary, i.item-secondary
-    color $form-active-color
-  label.item-label:after, label.field-float-label:after
-    color $required-color
-  div.field-swoosh
-    border-top-color $form-active-color
+  // Required
+  //
+  &.field-required
+    label.item-label:after, label.field-float-label:after
+      content '\00a0*\00a0'
+      vertical-align top
 
-// Disabled
-&.field-disabled
-  div.field-swoosh
-    border-top-style dotted
+  // Disabled
+  //
+  &.field-disabled
+    div.field-swoosh
+      border-top-style dotted
 
-// Readonly
-&.field-read-only
-  div.field-swoosh
-    border-top-style dotted
-    &:before
-
-      height 1px
-
-
-// Inside List
-.list >
-  .field
-    display block !important // .item==block
-    width 100%
-
-     > i.item-primary
-     > i.item-secondary
-      top 14px // .2-lines
-      margin-top 12px // .item-primary==12px
-      margin-left 12px
-      margin-right 12px
-
-     > .item-content.field-content
-      margin-left 16px // .item-content==16px
-      margin-right 16px // .item-content==16px
-
-    div.item-content.has-secondary
-      margin-right 72px // .item-content==72px
-
-    .item-primary ~ div.item-content.field-content
-      margin-left 72px // .item-content==72px
-
-  &.field-dense
-    i.item-primary
-    i.item-secondary
-      top 8px // .2-lines
-
-
-
+  // Readonly
+  //
+  &.field-read-only
+    div.field-swoosh
+      border-top-style dotted
+      &:before
+        height 1px
 
 
 // Float/Float-Label Mixins
@@ -1394,402 +1702,6 @@ div.field
   &.field-dense
     label.field-float, label.field-float-label
       transform translateY(-14px) scale(.8)
-
-
-
-// Override flex vertical .gutter
-// ----------------------------
-.flex:not(.v-gutter), .row:not(.v-gutter), .column:not(.v-gutter)
-  &.small-gutter
-    margin 0 0 $grid-small-gutter (- $grid-small-gutter)
-    > div
-      // padding 0px
-      // margin 0 0 0 $grid-small-gutter
-
-  &.medium-gutter, &.gutter
-    margin 0 0 $grid-medium-gutter (- $grid-medium-gutter)
-    > div
-      // padding 0px
-      // margin 0 0 0 $grid-medium-gutter
-
-  &.big-gutter
-    margin 0 0 $grid-big-gutter (- $grid-big-gutter)
-    > div
-      // padding 0px
-      // margin 0 0 0 $grid-big-gutter
-
-  &.large-gutter
-    margin 0 0 $grid-large-gutter (- $grid-large-gutter)
-    > div
-      // padding 0px
-      // margin 0 0 0 $grid-large-gutter
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Default Elements
-// ----------------------------
-.qf
-  padding-top 0px
-  padding-bottom 0px
-  min-height 72px
-
-  // icons
-  i.item-primary
-  i.item-secondary
-    transition color .3s
-    margin-top 26px // .item-primary==12px
-    margin-left 0px
-    margin-right 0px
-  i.item-primary
-    left initial
-/*    width 40px
-    height 40px
-    background $primary
-    color white
-    padding 8px
-    box-sizing border-box*/
-  i.item-secondary
-    right 0
-
-  // item-content OVERRIDES
-  div.item-content.qf-content
-    padding-top 20px
-    padding-bottom 15px
-    margin-left 0
-    margin-right 0
-    display flex // .row
-    flex-direction row // .row
-    align-items flex-start // .items-start
-    // flex-wrap wrap // .wrap
-
-    &.has-secondary
-      margin-right 36px
-
-  .item-primary ~ div.item-content.qf-content
-    margin-left 36px // .item-content==72px
-
-  // Labels (inline + float)
-  label.qf-label
-    transition transform .5s cubic-bezier(0.25, 0.8, 0.25, 1), color .3s, opacity .3s
-    transform-origin left top
-    color rgba(0, 0, 0, .54)
-    pointer-events none
-    text-overflow ellipsis // .ellipsis
-    white-space nowrap // .ellipsis
-    overflow hidden // .ellipsis
-
-    &.item-label
-      margin-right 10px
-      margin-top 8px
-
-    &.qf-float-label
-    &.qf-float
-      position absolute
-      top 8px
-      xleft 0
-
-    &.qf-float
-      font-style italic
-      padding-right 5px
-
-  // Field-inner
-  div..
-
-    position relative
-    &.qf-grow-input
-      > input, > textarea
-        width 100% !important
-        margin 0px
-
-  // Inputs
-  input, textarea
-    border-bottom 0 !important
-    width 100%
-
-  // Swoosh
-  div.qf-swoosh
-    position relative
-    top -3px
-    border-top $textfield-border-size $textfield-border-style $textfield-border-color
-    &:before
-      content ''
-      display block
-      position absolute
-      visibility hidden
-      width 2px
-      top -1px
-      height $textfield-border-size + 1
-      left 49%
-      background-color $form-active-color
-      transition-duration .2s
-      transition-timing-function cubic-bezier(.4, 0, .2, 1)
-
-  // Validate-msg(s)
-  // Hint
-  // Counter
-  span.qf-validate-msg, span.qf-hint, span.qf-counter
-    display block
-    position relative
-    pointer-events none
-    font-size 12px
-    transition opacity .3s
-
-  span.qf-validate-msg
-    position relative
-    color $has-error !important
-    opacity 0
-
-  span.qf-hint
-    color $dark
-    color rgba(0,0,0,.38)
-
-  span.qf-counter
-    float right
-    color rgba(0,0,0,.38)
-    color $dark
-
-// Layout Modifiers
-// -------------------------
-
-// Has focus
-&.qf-focus
-  label.item-label, label.qf-float-label, i.item-primary, i.item-secondary
-    color $form-active-color !important
-  label.item-label:after, label.qf-float-label:after
-    color $required-color
-  div.qf-swoosh:before
-    visibility visible
-    width 100%
-    left 0
-
-// Invalid
-&.qf-invalid
-  label.item-label, label.qf-float-label  // <--- DELETE THESE, OR MAKE OPTIONAL?
-  i.item-primary, i.item-secondary
-    color $has-error !important
-  div.qf-swoosh
-    border-top $textfield-border-size $textfield-border-style $has-error !important
-    &:before
-      background $has-error
-  span.qf-validate-msg
-    opacity 1
-  span.qf-hint
-    opacity 0
-    height auto
-
-// Too-Long (special case, can trigger independently from 'qf-invalid' to accommodate maxlength counter.)
-&.qf-invalid-too-long
-  span.qf-counter
-    color $has-error !important
-  div.qf-swoosh
-    border-top $textfield-border-size $textfield-border-style $has-error !important
-    &:before
-      background $has-error
-
-// Required
-&.qf-required
-  label.item-label:after, label.qf-float-label:after
-    content '\00a0*\00a0'
-    vertical-align top
-
-// Hover pseudo selector
-&.qf:not(.qf-disabled):hover
-  label.item-label, label.qf-float-label, i.item-primary, i.item-secondary
-    color $form-active-color
-  label.item-label:after, label.qf-float-label:after
-    color $required-color
-  div.qf-swoosh
-    border-top-color $form-active-color
-
-// Disabled
-&.qf-disabled
-  div.qf-swoosh
-    border-top-style dotted
-
-// Readonly
-&.qf-read-only
-  div.qf-swoosh
-    border-top-style dotted
-    &:before
-
-      height 1px
-
-// Dense
-&.qf-dense
-  min-height 60px
-  i.item-primary.qf-icon
-  i.item-secondary.qf-icon
-    font-size 20px
-    margin-top 22px
-    margin-bottom 0px
-  div.item-content.qf-content
-    padding-top 16px
-    padding-bottom 9px
-  &.has-secondary
-    margin-right 30px
-  .item-primary ~ div.item-content.qf-content
-    margin-left 30px // .item-content==72px
-
-
-// Inside List
-.list >
-  .qf
-    display block // .item==block
-
-    i.item-primary.qf-icon, i.item-secondary.qf-icon
-      top 14px // .2-lines
-      margin-top 12px // .item-primary==12px
-      margin-left 12px
-      margin-right 12px
-
-    div.item-content.qf-content
-      margin-left 16px // .item-content==16px
-      margin-right 16px // .item-content==16px
-
-    div.item-content.has-secondary
-      margin-right 72px // .item-content==72px
-
-    .item-primary ~ div.item-content.qf-content
-      margin-left 72px // .item-content==72px
-
-  &.qf-dense
-
-    i.item-primary.qf-icon
-    i.item-secondary.qf-icon
-      top 8px // .2-lines
-
-
-
-
-
-// Float/Float-Label Mixins
-// -------------------------
-
-// Label not displayed
-&.qf-layout-nolabel
-  label.qf-float, label.qf-float-label
-    display none
-
-// Label vanished
-&.qf-layout-inplace.qf-active, .qf-layout-placeholder
-  label.qf-float, label.qf-float-label
-    opacity 0
-
-// Label visible
-&.qf-layout-stacked, .qf-layout-floating, .qf-layout-placeholder.qf-active.qf-value
-  label.qf-float, label.qf-float-label
-    opacity 1
-
-// Label above input
-&.qf-layout-stacked, .qf-layout-floating.qf-active, .qf-layout-placeholder
-  label.qf-float, label.qf-float-label
-    transform translateY(-18px) scale(.8)
-  &.qf-dense
-    label.qf-float, label.qf-float-label
-      transform translateY(-14px) scale(.8)
-
-
-// Override flex vertical .gutter
-// ----------------------------
-.flex:not(.v-gutter), .row:not(.v-gutter), .column:not(.v-gutter)
-  &.small-gutter
-    margin 0 0 $grid-small-gutter (- $grid-small-gutter)
-    > div.qf
-      padding 0 0 0 $grid-small-gutter
-
-  &.medium-gutter, &.gutter
-    margin 0 0 $grid-medium-gutter (- $grid-medium-gutter)
-    > div.qf
-      padding 0 0 0 $grid-medium-gutter
-
-  &.big-gutter
-    margin 0 0 $grid-big-gutter (- $grid-big-gutter)
-    > div.qf
-      padding 0 0 0 $grid-big-gutter
-
-  &.large-gutter
-    margin 0 0 $grid-large-gutter (- $grid-large-gutter)
-    > div.qf
-      padding 00 0 $grid-large-gutter
-
-
-
-/**/
-// -------------------------
-// Custom Mixin -------------------------
-// -------------------------
-/*
-&.qf.my-android-field
-  transition all 1.5s cubic-bezier(.87,-.41,.19,1.44)
-  i.item-primary.qf-icon
-    transition all 1s cubic-bezier(.87,-.41,.19,1.44)
-    transform-origin 50% bottom
-    position relative
-    color #4CAF50
-  .qf-inner
-    overflow-x hidden
-    &:before
-      transition all 1.5s ease-in-out
-      position absolute
-      content '01110000 01110010 01100101 01110100 01100101'
-      font-size 13px
-      white-space nowrap
-      color transparent
-      top 8px
-      left -360px
-    > div.qf-swoosh:before
-      background-color #4CAF50
-      left 100%
-      width 100%
-      height 4px
-      opacity 1
-      transition-duration 1.5s
-
-&.qf-active
-  background #000
-  i.item-primary.qf-icon
-    left calc(100% - 52px)
-    transform scale(1.5)
-  .qf-inner
-    &:before
-      left 0
-      color #4CAF50
-    input
-      color #4CAF50
-      border-bottom-color #4CAF50
-      font-family "Lucida Console", Monaco, monospace
-    > div.qf-swoosh:before
-      left 0 !important
-      opacity 1 !important
-
-&.qf-focus
-  i.item-primary.qf-icon
-    transform scale(1.7)
-  & > .qf-inner
-    & > div.qf-swoosh:before
-      box-shadow  6px 4px 20px 2px #B6FF00
-
-
-
-*/
 
 
 

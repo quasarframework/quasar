@@ -27,9 +27,9 @@
   <div class='field' :class='css_Field'>
     <i v-if='draw_Icon' class="item-primary">{{ icon }}</i>
     <div class="item-content" :class='css_FieldContent'>
-      <label v-if='txt_Label' :for='inputId' class='field-label item-label' :style='style_InlineLabel'>{{ txt_Label }}:</label>
+      <label v-if='txt_Label' :style='style_FieldLabel' class='field-label item-label' :for='inputId'>{{ txt_Label }}:</label>
       <div class="field-target" :class='css_FieldTarget' :style='style_FieldTarget' ref="ref_FieldTarget">
-        <label v-if='txt_Float' class='field-label' :class='css_Float' :for='inputId'>{{ txt_Float }}</label><!-- DO NOT REMOVE!! --><slot></slot>
+        <label v-if='txt_Float' :style='style_FieldLabel' class='field-label' :class='css_Float' :for='inputId'>{{ txt_Float }}</label><!-- DO NOT REMOVE!! --><slot></slot>
         <div class='field-swoosh'></div>
         <span v-if='draw_Counter' class="field-counter">{{ txt_Counter }}</span>
         <span v-if='txt_Hint' class="field-hint">{{ hint }}</span>
@@ -132,7 +132,11 @@ export default {
     },
     targetWidth: {
       type: String,
-      default: null // defaults to css | 'shrink' | grow' | '#px' | '#%'
+      default: null // **NB: defaults to none for fields, 'grow' for items | 'shrink' | grow' | '#px' | '#%'
+    },
+    targetAlign: {
+      type: String,
+      default: null // defaults to none | 'shrink' | grow' | '#px' | '#%'
     },
     align: {
       type: String,
@@ -163,7 +167,7 @@ export default {
       default: false
     },
     validateImmediate: {
-      type: Boolean, // false (default) | 'immediate' | 'eager' true | 'lazy' | 'submit' (TBA)
+      type: Boolean, // false (default)
       default: false
     },
     validateMsg: {
@@ -199,7 +203,7 @@ export default {
     }
   },
   computed: {
-    // prop local aliases
+    // Props - local aliases
     myMaxlength () {
       // If TEXT input, return...
       // 1. component "maxlength" prop, or  (NB: User-entry will be UNRESTRICTED)
@@ -211,26 +215,38 @@ export default {
       // If TEXT input, convert TRUE => 'eager', return 'immediate' | 'eager' | 'lazy' | 'form' (TBA) | false
       return !this.isTextInput ? false : this.validate === true ? 'eager' : this.validate ? this.validate : false
     },
-    // Widths...
-    // style_Field () {
-    //   // shrink / grow / size <input> container
-    //   return this.calcWidthStyles(this.width)
-    // },
+    myTargetWidth () {
+      // NB: field=true defaults to width='grow'
+      return this.item && !this.targetWidth ? 'grow' : this.targetWidth
+    },
+
+    // Label & Target - Width / Align
     style_FieldTarget () {
       // shrink / grow / size <input> container
-      return this.calcWidthStyles(this.targetWidth, this.targetAlign)
+      let style = this.calcWidthStyle(this.myTargetWidth)
+      // if (this.targetAlign === 'center' || this.targetAlign === 'right') {
+      //   style['margin-left'] = 'auto'
+      // }
+      // if (this.targetAlign === 'center' || this.targetAlign === 'left') {
+      //   style['margin-right'] = 'auto'
+      // }
+      return style
     },
-    style_InlineLabel () {
+    style_FieldLabel () {
       // shrink / grow / size inline <label.item-label>
-      return this.calcWidthStyles(this.labelWidth, this.labelAlign)
+      let style = this.calcWidthStyle(this.labelWidth)
+      return style
     },
-    // Flags & CSS
+
+    // CSS Styles / Flags
     css_Field () {
       let
         s = this.state,
         css = {
           ['field-layout-' + this.myLayout]: true,
-          [this.draw_TargetOnly ? 'target-only' : this.item ? 'item multiple-lines' : 'clean-item']: true,
+          // [this.draw_TargetOnly ? 'target-only' : this.item ? 'item multiple-lines' : 'clean-item']: true,
+          [this.item ? 'item multiple-lines' : 'clean-item']: true,
+          'field-can-msg': !!this.validate || !!this.hint,
           'field-dense': this.dense,
           'field-active': s.hasFocus || s.hasValue || s.hasReadOnly,
           'field-focus': s.hasFocus,
@@ -245,11 +261,16 @@ export default {
       return css
     },
     css_FieldContent () {
-      return this.icon2 ? 'has-secondary' : ''
+      let css = {
+        'has-secondary': this.icon2,
+        ['label-align-'+ this.labelAlign]: !!this.labelAlign,
+        ['target-align-'+ this.targetAlign]: !!this.targetAlign
+      }
+      return css
     },
     css_FieldTarget () {
       // if container defines a size then <input> with match container. (If not, container will match <input> so leave it alone.)
-      return this.targetWidth && this.targetWidth != 'shrink' ? 'field-grow-input' : ''
+      return this.myTargetWidth && this.myTargetWidth !== 'shrink' ? 'field-grow-input' : ''
     },
     css_Float () {
       // Explanation:
@@ -261,6 +282,7 @@ export default {
       //
       return this.float ? 'field-float' : 'field-float-label'
     },
+
     // View rules
     draw_TargetOnly () {
       return !this.item && !this.icon && !this.icon2 && !this.isInline
@@ -290,28 +312,26 @@ export default {
       return this.validate
     },
     txt_ValidateMsg () {
-      return this.validateMsg || 'Please enter a valid value.'
+      return this.validateMsg ? this.validateMsg :  this.input && this.input.validity.valueMissing ? 'Please enter a value.' : 'Please enter a valid value.'
       // TODO: Allow msg update / multiple msgs / `vee-validate` integration?
     }
   },
   watch: {
     counter () {
+      // TODO: Tidy up all these misc. prop changes with a proper (!) interface for controlling component instances.
       this.__updateState_counter()
     },
   },
   methods: {
     // Utils
-    calcWidthStyles (width, align) {
+    calcWidthStyle (width, align) {
       let style = {}
       if (width === 'grow') {
         style['flex-grow'] = '1'
-      } else if (width && width != 'shrink') {
+      } else if (width && width !== 'shrink') {
         style['width'] = width
       } else if (width) {
         style['flex-shrink'] = '1'
-      }
-      if (align) {
-        style['text-align'] = align
       }
       return style
     },
@@ -320,13 +340,41 @@ export default {
       this.state.hasFocus = true
     },
     __onBlur (e) {
+
+      // Numeric input workaround (lose 'e' though)
+
+      if (this.input.type==='number' && !this.input.value && !this.input.ignoreBlur) {
+        this.input.value = ''
+        this.input.ignoreBlur = true
+        this.input.blur()
+        this.input.ignoreBlur = false
+        this.__updateState_validity()
+        // Hacky?  Just replace with '' otherwise
+        // this.input.focus()
+        // document.execCommand("SelectAll")
+        // var rawValue = window.getSelection().toString().replace(/[^0-9.]/g, '')
+        // console.log( rawValue, rawValue)
+        // this.input.value = parseInt(rawValue)
+        // this.input.ignoreBlur = true
+        // this.input.blur()
+        // this.input.ignoreBlur = false
+        // this.__updateState_validity()
+      }
       this.state.hasFocus = false
       this.state.hasTouched = true
       if (this.myValidate === 'lazy') {
         this.__updateState_validity()
       }
     },
+    __onActivate (e) {
+      this.input.focus()
+    },
     __onInput (e) {
+      if (e) {
+        e.stopPropagation()
+        e.cancelBubble = true
+      }
+      console.log(this.input.value.length)
       this.state.hasValue = this.input.value ? true : false
       this.hasTouched = true
       if (this.myValidate === 'eager') {
@@ -412,6 +460,7 @@ export default {
 
     // add events
     if (this.isTextInput) {
+      this.$el.addEventListener('click', this.__onActivate, true)
       this.input.addEventListener('focus', this.__onFocus, true)
       this.input.addEventListener('blur', this.__onBlur, true)
       this.input.addEventListener('input', this.__onInput, true)
@@ -426,6 +475,7 @@ export default {
   beforeDestroy () {
     // remove events
     if (this.inputType) {
+      this.$el.removeEventListener('click', this.__onActivate, true)
       this.input.removeEventListener('focus', this.__onFocus, true)
       this.input.removeEventListener('blur', this.__onBlur, true)
       this.input.removeEventListener('input', this.__onInput, true)
