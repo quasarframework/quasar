@@ -4,6 +4,7 @@
       <div
         ref="track"
         class="q-slider-track"
+        :style="trackPosition"
         :class="{'with-arrows': arrows, 'with-toolbar': toolbar}"
         v-touch-pan.horizontal="__pan"
       >
@@ -48,6 +49,7 @@
 
 <script>
 import Platform from '../../features/platform'
+import Utils from '../../utils'
 
 export default {
   props: {
@@ -72,13 +74,16 @@ export default {
   computed: {
     toolbar () {
       return this.dots || this.fullscreen || this.actions
+    },
+    trackPosition () {
+      return Utils.dom.cssTransform(`translateX(${this.position}%)`)
     }
   },
   methods: {
     __pan (event) {
       if (!this.hasOwnProperty('initialPosition')) {
         this.initialPosition = this.position
-        Velocity(this.$refs.track, 'stop')
+        this.__clearTimer()
       }
 
       let delta = (event.direction === 'left' ? -1 : 1) * event.distance.x
@@ -91,27 +96,25 @@ export default {
       }
 
       this.position = this.initialPosition + delta / this.$refs.track.offsetWidth * 100
-      this.$refs.track.style.transform = 'translateX(' + this.position + '%)'
 
       if (event.isFinal) {
-        if (event.distance.x < 100) {
-          this.goToSlide(this.slide)
-        }
-        else {
-          this.goToSlide(event.direction === 'left' ? this.slide + 1 : this.slide - 1)
-        }
+        this.goToSlide(
+          event.distance.x < 100
+          ? this.slide
+          : (event.direction === 'left' ? this.slide + 1 : this.slide - 1)
+        )
         delete this.initialPosition
       }
     },
     goToSlide (slide, noAnimation) {
       this.slide = Math.min(this.slidesNumber - 1, Math.max(0, slide))
-
-      Velocity(this.$refs.track, 'stop')
-      Velocity(this.$refs.track, {
-        translateX: [-this.slide * 100 + '%', this.position + '%']
-      }, noAnimation ? {duration: 0} : undefined)
-
-      this.position = -this.slide * 100
+      const pos = -this.slide * 100
+      this.__clearTimer()
+      if (noAnimation) {
+        this.position = pos
+        return
+      }
+      this.__animate(pos)
     },
     toggleFullscreen () {
       if (this.inFullscreen) {
@@ -135,12 +138,33 @@ export default {
         this.inFullscreen = false
       }
       window.removeEventListener('popstate', this.__popState)
+    },
+    __clearTimer () {
+      if (this.timer) {
+        cancelAnimationFrame(this.timer)
+        this.timer = null
+      }
+    },
+    __animate (pos) {
+      this.timer = requestAnimationFrame(() => {
+        this.timer = null
+        let diff = (pos - this.position)
+        if (Math.abs(diff) < 1) {
+          this.position = pos
+          return
+        }
+        this.position += (pos - this.position) / 5
+        this.__animate(pos)
+      })
     }
   },
   mounted () {
     this.$nextTick(() => {
       this.slidesNumber = this.$refs.track.children.length
     })
+  },
+  beforeDestroy () {
+    this.__clearTimer()
   }
 }
 </script>
