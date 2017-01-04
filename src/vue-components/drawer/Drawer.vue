@@ -130,7 +130,7 @@ export default {
     },
     __openByTouch (event) {
       // interferes with browser's back/forward swipe feature
-      if (!Platform.is.cordova && Platform.is.ios) {
+      if (Platform.is.ios) {
         return
       }
 
