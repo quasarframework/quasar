@@ -1,10 +1,8 @@
 <template>
   <q-modal
     ref="dialog"
-    class="with-backdrop"
-    position-classes="items-end justify-center"
-    transition="q-modal-actions"
-    :content-css="css"
+    position="bottom"
+    :content-css="contentCss"
     @close="__dismiss()"
   >
     <!-- Material -->
@@ -107,21 +105,6 @@
 </template>
 
 <script>
-import { current as theme } from '../../features/theme'
-
-const modalCSS = {
-  mat: {
-    maxHeight: '80vh',
-    height: 'auto'
-  },
-  ios: {
-    maxHeight: '80vh',
-    height: 'auto',
-    backgroundColor: 'transparent',
-    boxShadow: 'none'
-  }
-}
-
 export default {
   props: {
     title: String,
@@ -132,11 +115,6 @@ export default {
     },
     dismiss: Object
   },
-  data () {
-    return {
-      css: modalCSS[theme]
-    }
-  },
   computed: {
     opened () {
       return this.$refs.dialog.active
@@ -146,6 +124,11 @@ export default {
     },
     dismissButton () {
       return this.buttons[this.buttons.length - 1]
+    },
+    contentCss () {
+      if (this.$quasar.theme === 'ios') {
+        return {backgroundColor: 'transparent'}
+      }
     }
   },
   methods: {

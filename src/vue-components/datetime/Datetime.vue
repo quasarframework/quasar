@@ -105,7 +105,7 @@ export default {
     let data = Platform.is.desktop ? {} : {
       css: contentCSS[theme],
       position: theme === 'ios' ? 'items-end justify-center' : 'items-center justify-center',
-      transition: theme === 'ios' ? 'q-modal-actions' : 'q-modal',
+      transition: theme === 'ios' ? 'q-modal-bottom' : 'q-modal',
       classNames: theme === 'ios' ? '' : 'minimized'
     }
     data.model = this.value || ''

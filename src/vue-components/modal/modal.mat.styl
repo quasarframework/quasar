@@ -116,3 +116,24 @@ maximized-modal()
   justify-content flex-end
   &.column
     align-items flex-end
+
+
+.q-modal-bottom-enter, .q-modal-bottom-leave-active
+  opacity 0
+  .modal-content
+    transform translateY(101%)
+
+.q-modal-top-enter, .q-modal-top-leave-active
+  opacity 0
+  .modal-content
+    transform translateY(-101%)
+
+.q-modal-right-enter, .q-modal-right-leave-active
+  opacity 0
+  .modal-content
+    transform translateX(101%)
+
+.q-modal-left-enter, .q-modal-left-leave-active
+  opacity 0
+  .modal-content
+    transform translateX(-101%)

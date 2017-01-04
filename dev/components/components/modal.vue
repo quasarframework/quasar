@@ -20,6 +20,21 @@
           <i class="item-secondary">keyboard_arrow_right</i>
         </div>
       </div>
+
+      <p class="caption">Appear from Edges</p>
+      <div class="list" style="max-width: 600px;">
+        <div
+          class="item item-link"
+          v-for="position in ['top', 'bottom', 'left', 'right']"
+          @click="openSpecialPosition(position)"
+        >
+          <i class="item-primary">open_in_new</i>
+          <div class="item-content has-secondary">
+            <div>Modal from {{position}}</div>
+          </div>
+          <i class="item-secondary">keyboard_arrow_right</i>
+        </div>
+      </div>
     </div>
 
     <q-modal ref="basicModal" :content-css="{padding: '50px', minWidth: '50vw'}">
@@ -74,12 +89,17 @@
     <q-modal ref="minimizedModal" class="minimized" :content-css="{padding: '50px'}">
       <h4>Minimized Modal</h4>
       <p>This one has backdrop on small screens too.</p>
-      <button class="tertiary" @click="$refs.basicModal.close()">Close Me</button>
+      <button class="red" @click="$refs.basicModal.close()">Close Me</button>
     </q-modal>
 
     <q-modal ref="maximizedModal" class="maximized" :content-css="{padding: '50px'}">
       <h4>Maximized Modal</h4><p>This one is maximized on bigger screens too.</p>
       <button class="tertiary" @click="$refs.maximizedModal.close()">Close Me</button>
+    </q-modal>
+
+    <q-modal ref="positionModal" :position="position" :content-css="{padding: '20px'}">
+      <h4>Modal</h4><p>This one gets displayed from {{position}}.</p>
+      <button class="orange" @click="$refs.positionModal.close()">Close Me</button>
     </q-modal>
   </div>
 </template>
@@ -111,12 +131,19 @@ export default {
           label: 'Always Maximized',
           ref: 'maximizedModal'
         }
-      ]
+      ],
+      position: 'bottom'
     }
   },
   methods: {
     notify (eventName) {
       Toast.create(`Event "${eventName}" was triggered.`)
+    },
+    openSpecialPosition (position) {
+      this.position = position
+      this.$nextTick(() => {
+        this.$refs.positionModal.open()
+      })
     }
   }
 }

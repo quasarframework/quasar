@@ -1,12 +1,12 @@
 <template>
-  <transition :name="transition">
+  <transition :name="modalTransition">
     <div
       v-show="active"
       class="modal fullscreen flex"
-      :class="positionClasses"
+      :class="modalClasses"
       @click="click()"
     >
-      <div ref="content" class="modal-content" @click.stop :style="contentCss">
+      <div ref="content" class="modal-content" @click.stop :style="modalCss" :class="contentClasses">
         <slot></slot>
       </div>
     </div>
@@ -16,6 +16,49 @@
 <script>
 import Platform from '../../features/platform'
 import EscapeKey from '../../features/escape-key'
+import Utils from '../../utils'
+
+const positions = {
+  top: 'items-start justify-center with-backdrop',
+  bottom: 'items-end justify-center with-backdrop',
+  right: 'items-center justify-end with-backdrop',
+  left: 'items-center justify-start with-backdrop'
+}
+const positionCSS = {
+  mat: {
+    maxHeight: '80vh',
+    height: 'auto'
+  },
+  ios: {
+    maxHeight: '80vh',
+    height: 'auto',
+    boxShadow: 'none'
+  }
+}
+
+function additionalCSS (theme, position) {
+  let css = {}
+
+  if (['left', 'right'].includes(position)) {
+    css.maxWidth = '90vw'
+  }
+  if (theme === 'ios') {
+    if (['left', 'top'].includes(position)) {
+      css.borderTopLeftRadius = 0
+    }
+    if (['right', 'top'].includes(position)) {
+      css.borderTopRightRadius = 0
+    }
+    if (['left', 'bottom'].includes(position)) {
+      css.borderBottomLeftRadius = 0
+    }
+    if (['right', 'bottom'].includes(position)) {
+      css.borderBottomRightRadius = 0
+    }
+  }
+
+  return css
+}
 
 let
   duration = 200, // in ms -- synch with transition CSS from Modal
@@ -23,6 +66,13 @@ let
 
 export default {
   props: {
+    position: {
+      type: String,
+      default: '',
+      validator (val) {
+        return val === '' || ['top', 'bottom', 'left', 'right'].includes(val)
+      }
+    },
     transition: {
       type: String,
       default: 'q-modal'
@@ -31,6 +81,7 @@ export default {
       type: String,
       default: 'items-center justify-center'
     },
+    contentClasses: [Object, String],
     contentCss: Object,
     noBackdropDismiss: {
       type: Boolean,
@@ -44,6 +95,25 @@ export default {
   data () {
     return {
       active: false
+    }
+  },
+  computed: {
+    modalClasses () {
+      return this.position ? positions[this.position] : this.positionClasses
+    },
+    modalTransition () {
+      return this.position ? `q-modal-${this.position}` : this.transition
+    },
+    modalCss () {
+      if (this.position) {
+        return Utils.extend(
+          {},
+          positionCSS[this.$quasar.theme],
+          additionalCSS(this.$quasar.theme, this.position),
+          this.contentCss
+        )
+      }
+      return this.contentCss
     }
   },
   methods: {
