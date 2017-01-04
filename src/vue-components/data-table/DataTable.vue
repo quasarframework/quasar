@@ -45,8 +45,9 @@
                 <q-radio v-else v-model="rowSelection[0]" :val="index"></q-radio>
               </td>
               <td v-for="col in cols" :data-th="col.label" :style="formatStyle(col, row[col.field])" :class="formatClass(col, row[col.field])">
-                <span v-if="!$scopedSlots['col-'+col.field]" v-html="format(row, col)"></span>
-                <slot v-if="$scopedSlots['col-'+col.field]" :name="'col-'+col.field" :row="row" :col="col" :data="row[col.field]"></slot>
+                <slot :name="'col-'+col.field" :row="row" :col="col" :data="row[col.field]">
+                  <span v-html="format(row, col)"></span>
+                </slot>
               </td>
             </tr>
           </tbody>
@@ -70,8 +71,9 @@
             <td v-if="config.selection"></td>
             <td v-if="leftStickyColumns" :colspan="leftStickyColumns"></td>
             <td v-for="col in regularCols" :style="formatStyle(col, row[col.field])" :class="formatClass(col, row[col.field])">
-              <span v-if="!$scopedSlots['col-'+col.field]" v-html="format(row, col)"></span>
-              <slot v-if="$scopedSlots['col-'+col.field]" :name="'col-'+col.field" :row="row" :col="col" :data="row[col.field]"></slot>
+              <slot :name="'col-'+col.field" :row="row" :col="col" :data="row[col.field]">
+                <span v-html="format(row, col)"></span>
+              </slot>
             </td>
             <td v-if="rightStickyColumns" :colspan="rightStickyColumns"></td>
           </tr>
@@ -91,8 +93,9 @@
                 <q-radio v-else v-model="rowSelection[0]" :val="index"></q-radio>
               </td>
               <td v-for="col in leftCols" :style="formatStyle(col, row[col.field])" :class="formatClass(col, row[col.field])">
-                <span v-if="!$scopedSlots['col-'+col.field]" v-html="format(row, col)"></span>
-                <slot v-if="$scopedSlots['col-'+col.field]" :name="'col-'+col.field" :row="row" :col="col" :data="row[col.field]"></slot>
+                <slot :name="'col-'+col.field" :row="row" :col="col" :data="row[col.field]">
+                  <span v-html="format(row, col)"></span>
+                </slot>
               </td>
             </tr>
           </table-sticky>
@@ -113,8 +116,9 @@
               <td v-if="config.selection" class="invisible"></td>
               <td :colspan="cols.length - rightStickyColumns" class="invisible"></td>
               <td v-for="col in rightCols" :style="formatStyle(col, row[col.field])" :class="formatClass(col, row[col.field])">
-                <span v-if="!$scopedSlots['col-'+col.field]" v-html="format(row, col)"></span>
-                <slot v-if="$scopedSlots['col-'+col.field]" :name="'col-'+col.field" :row="row" :col="col" :data="row[col.field]"></slot>
+                <slot :name="'col-'+col.field" :row="row" :col="col" :data="row[col.field]">
+                  <span v-html="format(row, col)"></span>
+                </slot>
               </td>
             </tr>
           </table-sticky>
