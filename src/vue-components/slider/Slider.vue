@@ -108,7 +108,7 @@ export default {
       }
     },
     goToSlide (slide, noAnimation) {
-      this.slide = Math.min(this.slidesNumber - 1, Math.max(0, slide))
+      this.slide = Utils.format.between(slide, 0, this.slidesNumber - 1)
       const pos = -this.slide * 100
       if (noAnimation) {
         this.stopAnimation()

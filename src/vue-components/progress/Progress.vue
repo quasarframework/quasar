@@ -5,6 +5,8 @@
 </template>
 
 <script>
+import Utils from '../../utils'
+
 export default {
   props: {
     percentage: {
@@ -14,7 +16,7 @@ export default {
   },
   computed: {
     model () {
-      return Math.max(0, Math.min(100, this.percentage))
+      return Utils.format.between(this.percentage, 0, 100)
     }
   }
 }

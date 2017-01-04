@@ -12,13 +12,5 @@ export function humanStorageSize (bytes) {
 }
 
 export function between (val, min, max) {
-  if (val < min) {
-    return min
-  }
-
-  if (val > max) {
-    return max
-  }
-
-  return val
+  return Math.min(max, Math.max(min, val))
 }
