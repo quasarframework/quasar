@@ -63,7 +63,8 @@ export default {
       position: 0,
       slide: 0,
       slidesNumber: 0,
-      inFullscreen: false
+      inFullscreen: false,
+      animUid: Utils.uid()
     }
   },
   watch: {
@@ -83,7 +84,7 @@ export default {
     __pan (event) {
       if (!this.hasOwnProperty('initialPosition')) {
         this.initialPosition = this.position
-        this.__clearTimer()
+        this.stopAnimation()
       }
 
       let delta = (event.direction === 'left' ? -1 : 1) * event.distance.x
@@ -109,12 +110,19 @@ export default {
     goToSlide (slide, noAnimation) {
       this.slide = Math.min(this.slidesNumber - 1, Math.max(0, slide))
       const pos = -this.slide * 100
-      this.__clearTimer()
       if (noAnimation) {
+        this.stopAnimation()
         this.position = pos
         return
       }
-      this.__animate(pos)
+      Utils.animate({
+        name: this.animUid,
+        pos: this.position,
+        finalPos: pos,
+        apply: (pos) => {
+          this.position = pos
+        }
+      })
     },
     toggleFullscreen () {
       if (this.inFullscreen) {
@@ -139,23 +147,8 @@ export default {
       }
       window.removeEventListener('popstate', this.__popState)
     },
-    __clearTimer () {
-      if (this.timer) {
-        cancelAnimationFrame(this.timer)
-        this.timer = null
-      }
-    },
-    __animate (pos) {
-      this.timer = requestAnimationFrame(() => {
-        this.timer = null
-        let diff = (pos - this.position)
-        if (Math.abs(diff) < 1) {
-          this.position = pos
-          return
-        }
-        this.position += (pos - this.position) / 5
-        this.__animate(pos)
-      })
+    stopAnimation () {
+      Utils.animate.stop(this.animUid)
     }
   },
   mounted () {
@@ -164,7 +157,7 @@ export default {
     })
   },
   beforeDestroy () {
-    this.__clearTimer()
+    this.stopAnimation()
   }
 }
 </script>
