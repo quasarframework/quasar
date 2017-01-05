@@ -24,6 +24,10 @@
             <q-checkbox v-model="config.responsive" />
             Responsive
           </label>
+          <label>
+            <q-checkbox v-model="config.noHeader" />
+            No Header
+          </label>
         </div>
 
         <div class="column gt-sm-row group">
@@ -152,6 +156,7 @@ export default {
       config: {
         title: 'Data Table',
         refresh: true,
+        noHeader: false,
         columnPicker: true,
         leftStickyColumns: 0,
         rightStickyColumns: 2,

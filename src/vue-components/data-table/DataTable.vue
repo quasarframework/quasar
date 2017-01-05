@@ -56,7 +56,7 @@
     </template>
 
     <div v-else class="q-data-table-container" @mousewheel="mouseWheel" @DOMMouseScroll="mouseWheel">
-      <div class="q-data-table-head" ref="head" :style="{marginRight: scroll.vert}">
+      <div v-if="hasHeader" class="q-data-table-head" ref="head" :style="{marginRight: scroll.vert}">
         <table-content head :cols="cols" :sorting="sorting" :scroll="scroll" :selection="config.selection" @sort="setSortField"></table-content>
       </div>
       <div
@@ -86,7 +86,7 @@
           ref="stickyLeft"
           :style="{bottom: scroll.horiz}"
         >
-          <table-sticky :sticky-cols="leftStickyColumns" :cols="cols" :sorting="sorting" :selection="config.selection">
+          <table-sticky :no-header="!hasHeader" :sticky-cols="leftStickyColumns" :cols="cols" :sorting="sorting" :selection="config.selection">
             <tr v-for="(row, index) in rows" :style="rowStyle">
               <td v-if="config.selection">
                 <q-checkbox v-if="config.selection === 'multiple'" v-model="rowSelection[index]"></q-checkbox>
@@ -100,7 +100,7 @@
             </tr>
           </table-sticky>
         </div>
-        <div class="q-data-table-sticky-left" :style="{bottom: scroll.horiz}">
+        <div v-if="hasHeader" class="q-data-table-sticky-left" :style="{bottom: scroll.horiz}">
           <table-sticky head :sticky-cols="leftStickyColumns" :scroll="scroll" :cols="cols" :sorting="sorting" @sort="setSortField" :selection="config.selection"></table-sticky>
         </div>
       </template>
@@ -111,7 +111,7 @@
           ref="stickyRight"
           :style="{right: scroll.vert, bottom: scroll.horiz}"
         >
-          <table-sticky right :sticky-cols="rightStickyColumns" :cols="cols" :sorting="sorting" :selection="config.selection">
+          <table-sticky :no-header="!hasHeader" right :sticky-cols="rightStickyColumns" :cols="cols" :sorting="sorting" :selection="config.selection">
             <tr v-for="row in rows" :style="rowStyle">
               <td v-if="config.selection" class="invisible"></td>
               <td :colspan="cols.length - rightStickyColumns" class="invisible"></td>
@@ -123,7 +123,7 @@
             </tr>
           </table-sticky>
         </div>
-        <div class="q-data-table-sticky-right" :style="{right: scroll.vert}">
+        <div v-if="hasHeader" class="q-data-table-sticky-right" :style="{right: scroll.vert}">
           <table-sticky right head :sticky-cols="rightStickyColumns" :scroll="scroll" :cols="cols" :sorting="sorting" @sort="setSortField" :selection="config.selection"></table-sticky>
         </div>
       </template>
@@ -210,6 +210,9 @@ export default {
     },
     hasToolbar () {
       return this.config.title || this.filteringCols.length || this.config.columnPicker || this.config.refresh
+    },
+    hasHeader () {
+      return !this.config.noHeader
     }
   },
   methods: {

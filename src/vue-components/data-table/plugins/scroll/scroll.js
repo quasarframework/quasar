@@ -17,7 +17,9 @@ export default {
         top = e.currentTarget.scrollTop
 
       requestAnimationFrame(() => {
-        this.$refs.head.scrollLeft = left
+        if (this.$refs.head) {
+          this.$refs.head.scrollLeft = left
+        }
         this.updateStickyScroll(top)
       })
     },
