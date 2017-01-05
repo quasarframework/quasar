@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="q-datetime-range">
     <q-datetime
       v-model="model.from"
       :type="type"
@@ -15,6 +15,8 @@
       :static-label="staticLabel"
       :readonly="readonly"
       :disable="disable"
+      :class="className"
+      :style="css"
     ></q-datetime>
 
     <q-datetime
@@ -32,6 +34,8 @@
       :static-label="staticLabel"
       :readonly="readonly"
       :disable="disable"
+      :class="className"
+      :style="css"
     ></q-datetime>
   </div>
 </template>
@@ -50,6 +54,8 @@ export default {
       },
       required: true
     },
+    className: [String, Object],
+    css: [String, Object],
     type: {
       type: String,
       default: 'date'

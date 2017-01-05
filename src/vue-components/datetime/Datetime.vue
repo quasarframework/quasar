@@ -132,6 +132,14 @@ export default {
       return this.value ? moment(this.value).format(format) : ''
     }
   },
+  watch: {
+    min () {
+      this.__normalizeAndEmit()
+    },
+    max () {
+      this.__normalizeAndEmit()
+    }
+  },
   methods: {
     open () {
       if (!this.disable && !this.readonly) {
@@ -165,6 +173,13 @@ export default {
     },
     __update () {
       this.$emit('input', this.model)
+    },
+    __normalizeAndEmit () {
+      if (this.value) {
+        this.$nextTick(() => {
+          this.$emit('input', this.__normalizeValue(moment(this.value)).format(this.format))
+        })
+      }
     }
   }
 }
