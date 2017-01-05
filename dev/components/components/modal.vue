@@ -89,7 +89,7 @@
     <q-modal ref="minimizedModal" class="minimized" :content-css="{padding: '50px'}">
       <h4>Minimized Modal</h4>
       <p>This one has backdrop on small screens too.</p>
-      <button class="red" @click="$refs.basicModal.close()">Close Me</button>
+      <button class="red" @click="$refs.minimizedModal.close()">Close Me</button>
     </q-modal>
 
     <q-modal ref="maximizedModal" class="maximized" :content-css="{padding: '50px'}">
