@@ -86,7 +86,6 @@
     "stylus": "^0.54.5",
     "stylus-loader": "^2.1.1",
     "url-loader": "^0.5.7",
-    "velocity-animate": "^1.2.3",
     "vue": "^2.1.6",
     "vue-loader": "^10.0.0",
     "vue-router": "^2.0.0",
@@ -100,7 +99,6 @@
   "peerDependencies": {
     "fastclick": "1.x",
     "moment": "2.x",
-    "velocity-animate": "1.x",
     "vue": "^2.1.6"
   }
 }

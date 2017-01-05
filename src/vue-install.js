@@ -3,7 +3,7 @@ import { install as eventsInstall } from './features/events'
 import { install as toastInstall } from './components/toast/toast'
 import { current as theme } from './features/theme'
 
-import Transition from './vue-transitions/transition'
+import Transition from './vue-transitions/index'
 
 import dBackToTop from './vue-directives/back-to-top'
 import dGoBack from './vue-directives/go-back'

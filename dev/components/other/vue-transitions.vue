@@ -16,7 +16,7 @@
       </p>
 
       <q-transition name="slide">
-        <p v-show="visible">
+        <p v-show="visible" style="margin: 0">
           <img
             class="responsive"
             src="~assets/quasar.jpg"

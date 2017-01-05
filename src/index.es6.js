@@ -1,6 +1,3 @@
-import Velocity from 'velocity-animate'
-window.Velocity = Velocity
-
 import install from './vue-install'
 import start from './start'
 import standaloneInstall from './standalone-install'
