@@ -186,6 +186,10 @@ export default {
       }, duration)
     },
     close (onClose) {
+      if (!this.active) {
+        return
+      }
+
       this.__onClose = onClose
 
       if (!Platform.has.popstate) {
@@ -193,6 +197,14 @@ export default {
       }
       else {
         window.history.go(-1)
+      }
+    },
+    toggle (done) {
+      if (this.active) {
+        this.close(done)
+      }
+      else {
+        this.open(done)
       }
     },
     click (onClick) {
