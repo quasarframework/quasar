@@ -1,7 +1,7 @@
 <template>
   <div
-    class="q-knob non-selectable cursor-pointer"
-    :class="{disabled: disable}"
+    class="q-knob non-selectable"
+    :class="{disabled: disable, 'cursor-pointer': !readonly}"
     @mousedown="__dragStart"
     @mousemove="__dragMove"
     @mouseup="__dragStop"
@@ -78,6 +78,7 @@ export default {
       default: 1
     },
     disable: Boolean,
+    readonly: Boolean,
     placeholder: String
   },
   computed: {
@@ -87,6 +88,9 @@ export default {
         'stroke-dashoffset': (295.31 * (1.0 - (this.value - this.min) / (this.max - this.min))) + 'px',
         'transition': this.dragging ? '' : 'stroke-dashoffset 0.6s ease 0s, stroke 0.6s ease'
       }
+    },
+    disabled () {
+      return this.disable || this.readonly
     }
   },
   data () {
@@ -106,7 +110,7 @@ export default {
   },
   methods: {
     __dragStart (ev) {
-      if (this.disable) {
+      if (this.disabled) {
         return
       }
       ev.stopPropagation()
@@ -123,7 +127,7 @@ export default {
       this.__onInput(ev)
     },
     __dragMove (ev) {
-      if (!this.dragging || this.disable) {
+      if (!this.dragging || this.disabled) {
         return
       }
       ev.stopPropagation()
@@ -131,7 +135,7 @@ export default {
       this.__onInput(ev)
     },
     __dragStop (ev) {
-      if (this.disable) {
+      if (this.disabled) {
         return
       }
       ev.stopPropagation()
