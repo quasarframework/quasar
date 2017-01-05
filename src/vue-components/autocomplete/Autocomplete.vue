@@ -140,7 +140,7 @@ export default {
       this.close()
     },
     move (offset) {
-      this.selectedIndex = Math.max(-1, Math.min(this.computedResults.length - 1, this.selectedIndex + offset))
+      this.selectedIndex = Utils.format.between(this.selectedIndex + offset, -1, this.computedResults.length - 1)
     },
     setCurrentSelection () {
       if (this.selectedIndex >= 0) {

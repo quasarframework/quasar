@@ -10,3 +10,7 @@ export function humanStorageSize (bytes) {
 
   return `${bytes.toFixed(1)} ${units[u]}`
 }
+
+export function between (val, min, max) {
+  return Math.min(max, Math.max(min, val))
+}

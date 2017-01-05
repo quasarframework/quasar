@@ -1,3 +1,4 @@
+import animate from './utils/animate'
 import clone from './utils/clone'
 import * as colors from './utils/colors'
 import debounce from './utils/debounce'
@@ -14,6 +15,7 @@ import throttle from './utils/throttle'
 import uid from './utils/uid'
 
 export default {
+  animate,
   clone,
   colors,
   debounce,

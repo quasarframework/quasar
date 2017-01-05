@@ -43,7 +43,7 @@ function inc (p, amount) {
       amount = 0
     }
   }
-  return Math.max(0, Math.min(100, p + amount))
+  return Utils.format.between(p + amount, 0, 100)
 }
 
 function highjackAjax (startHandler, endHandler) {

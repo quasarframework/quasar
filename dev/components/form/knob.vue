@@ -56,6 +56,15 @@
         ></q-knob>
       </div>
 
+      <p class="caption">Readonly state</p>
+      <q-knob
+        v-model="model"
+        :min="min"
+        :max="max"
+        :placeholder="'<i>volume_up</i> ' + model"
+        readonly
+      ></q-knob>
+
       <p class="caption">Disabled state</p>
       <q-knob
         v-model="model"

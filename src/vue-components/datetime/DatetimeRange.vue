@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="q-datetime-range">
     <q-datetime
       v-model="model.from"
       :type="type"
@@ -15,6 +15,8 @@
       :static-label="staticLabel"
       :readonly="readonly"
       :disable="disable"
+      :class="className"
+      :style="css"
     ></q-datetime>
 
     <q-datetime
@@ -32,6 +34,8 @@
       :static-label="staticLabel"
       :readonly="readonly"
       :disable="disable"
+      :class="className"
+      :style="css"
     ></q-datetime>
   </div>
 </template>
@@ -43,13 +47,15 @@ export default {
       type: Object,
       validator (val) {
         if (typeof val.from !== 'string' || typeof val.to !== 'string') {
-          console.error('DatetimeRange requires a valid {min, max} model.')
+          console.error('DatetimeRange requires a valid {from, to} model.')
           return false
         }
         return true
       },
       required: true
     },
+    className: [String, Object],
+    css: [String, Object],
     type: {
       type: String,
       default: 'date'

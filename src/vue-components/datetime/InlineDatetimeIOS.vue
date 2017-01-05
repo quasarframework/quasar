@@ -324,19 +324,19 @@ export default {
     },
     __parseTypeValue (type, value) {
       if (type === 'month') {
-        return Math.max(1, Math.min(12, value))
+        return Utils.format.between(value, 1, 12)
       }
       if (type === 'date') {
-        return Math.max(1, Math.min(this.daysInMonth, value))
+        return Utils.format.between(value, 1, this.daysInMonth)
       }
       if (type === 'year') {
-        return Math.max(1950, Math.min(2050, value))
+        return Utils.format.between(value, 1950, 2050)
       }
       if (type === 'hour') {
-        return Math.max(0, Math.min(23, value))
+        return Utils.format.between(value, 0, 23)
       }
       if (type === 'minute') {
-        return Math.max(0, Math.min(59, value))
+        return Utils.format.between(value, 0, 59)
       }
     },
     __updateAllPositions () {
@@ -370,7 +370,7 @@ export default {
       }
 
       ;[].slice.call(root.children).forEach(item => {
-        Utils.dom.css(item, this.__itemStyle(value * 36, Math.max(-180, Math.min(180, delta * -18))))
+        Utils.dom.css(item, this.__itemStyle(value * 36, Utils.format.between(delta * -18, -180, 180)))
         delta++
       })
     },

@@ -12,8 +12,6 @@
         </span>
       </p>
 
-      <q-datetime-range type="datetime" v-model="range" :min="min" :max="max" />
-
       <div class="label bg-secondary text-white">
         Model <span class="right-detail"><em>{{model}}</em></span>
       </div>
@@ -161,11 +159,7 @@ export default {
       model: '2016-09-18T10:45:00.000Z',
       minMaxModel: '2016-10-24T10:40:14.674Z',
       min: moment('2016-10-24T10:40:14.674Z').subtract(5, 'days').format(),
-      max: moment('2016-10-24T10:40:14.674Z').add(4, 'hours').add(10, 'minutes').add(1, 'month').format(),
-      range: {
-        min: '', // moment('2016-10-24T10:40:14.674Z').subtract(3, 'days').format(),
-        max: '' // moment('2016-10-24T10:40:14.674Z').add(4, 'hours').add(10, 'minutes').add(1, 'month').format()
-      }
+      max: moment('2016-10-24T10:40:14.674Z').add(4, 'hours').add(10, 'minutes').add(1, 'month').format()
     }
   }
 }

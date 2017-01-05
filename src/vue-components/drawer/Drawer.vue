@@ -8,7 +8,7 @@
     <div
       ref="backdrop"
       class="drawer-backdrop fullscreen"
-      style="background: rgba(0, 0, 0, 0.01)"
+      :style="backdropStyle"
       @click="setState(false)"
       v-touch-pan.horizontal="__closeByTouch"
     ></div>
@@ -16,6 +16,7 @@
       ref="content"
       v-touch-pan.horizontal="__closeByTouch"
       class="drawer-content"
+      :style="nodeStyle"
       :class="{'left-side': !rightSide, 'right-side': rightSide}"
     >
       <slot></slot>
@@ -25,32 +26,9 @@
 
 <script>
 import Utils from '../../utils'
-import * as theme from '../../features/theme'
 import Platform from '../../features/platform'
 
-const
-  drawerAnimationSpeed = 150,
-  backdropOpacity = {
-    mat: 0.7,
-    ios: 0.2
-  }
-
-function getCurrentPosition (node) {
-  let transform = Utils.dom.style(node, 'transform')
-  return transform && transform !== 'none' ? parseInt(transform.split(/[()]/)[1].split(', ')[4], 10) : 0
-}
-
-function getBetween (value, min, max) {
-  if (value < min) {
-    return min
-  }
-
-  if (value > max) {
-    return max
-  }
-
-  return value
-}
+const backdropOpacity = {mat: 0.7, ios: 0.2}
 
 export default {
   props: {
@@ -59,17 +37,33 @@ export default {
   },
   data () {
     return {
-      opened: false
+      opened: false,
+      nodePosition: 0,
+      backPosition: 0.01,
+      nodeAnimUid: Utils.uid(),
+      backAnimUid: Utils.uid()
+    }
+  },
+  computed: {
+    nodeStyle () {
+      let css = Utils.dom.cssTransform(`translateX(${this.nodePosition}px)`)
+      if (this.$quasar.theme === 'ios') {
+        if (this.layoutContainer) {
+          Utils.dom.css(this.layoutContainer, css)
+        }
+        return
+      }
+      return css
+    },
+    backdropStyle () {
+      return {background: `rgba(0,0,0,${this.backPosition})`}
     }
   },
   methods: {
-    __matToggleAnimate (percentage, done) {
+    __animate (done) {
+      let finalPos
       const
-        node = this.$refs.content,
         backdrop = this.$refs.backdrop,
-        currentPosition = getCurrentPosition(node),
-        closePosition = (this.rightSide ? 1 : -1) * this.width,
-        animationNeeded = (this.opened && percentage !== 1) || (!this.opened && percentage !== 0),
         complete = () => {
           if (!this.opened) {
             backdrop.classList.remove('active')
@@ -82,8 +76,12 @@ export default {
           }
         }
 
-      Velocity(node, 'stop')
-      Velocity(backdrop, 'stop')
+      if (this.$quasar.theme === 'ios') {
+        finalPos = this.opened ? (this.rightSide ? -1 : 1) * this.width : 0
+      }
+      else {
+        finalPos = this.opened ? 0 : (this.rightSide ? 1 : -1) * this.width
+      }
 
       if (this.opened) {
         backdrop.classList.add('active')
@@ -111,97 +109,31 @@ export default {
         }
       }
 
-      if (!animationNeeded) {
-        complete()
-        return
-      }
-
-      Velocity(
-        node,
-        {translateX: this.opened ? [0, currentPosition] : [closePosition, currentPosition]},
-        {duration: !this.opened || currentPosition !== 0 ? drawerAnimationSpeed : 0}
-      )
-      Velocity(
-        backdrop,
-        {
-          'backgroundColor': '#000',
-          'backgroundColorAlpha': this.opened ? backdropOpacity.mat : 0.01
+      Utils.animate({
+        name: this.backAnimUid,
+        pos: this.backPosition,
+        finalPos: this.opened ? backdropOpacity[this.$quasar.theme] : 0.01,
+        apply: (pos) => {
+          this.backPosition = pos
         },
-        {
-          duration: drawerAnimationSpeed,
-          complete
-        }
-      )
-    },
-    __iosToggleAnimate (percentage, done) {
-      const backdrop = this.$refs.backdrop
-
-      if (this.opened) {
-        backdrop.classList.add('active')
-        document.body.classList.add('drawer-opened')
-        if (Platform.has.popstate) {
-          if (!window.history.state) {
-            window.history.replaceState({__quasar_drawer: true}, '')
-          }
-          else {
-            window.history.state.__quasar_drawer = true
-          }
-          window.history.pushState({}, '')
-          window.addEventListener('popstate', this.__popState)
-        }
-      }
-      else {
-        window.removeEventListener('resize', this.close)
-        if (Platform.has.popstate) {
-          window.removeEventListener('popstate', this.__popState)
-          if (window.history.state && !window.history.state.__quasar_drawer) {
-            window.history.go(-1)
-          }
-        }
-      }
-
-      let
-        currentPosition = getCurrentPosition(this.layoutContainer),
-        openPosition = (this.rightSide ? -1 : 1) * this.width,
-        animationNeeded = (this.opened && percentage !== 1) || (!this.opened && percentage !== 0),
-        complete = () => {
-          if (!this.opened) {
-            backdrop.classList.remove('active')
-            document.body.classList.remove('drawer-opened')
-          }
-          else {
-            window.addEventListener('resize', this.close)
-          }
-          if (typeof done === 'function') {
-            done()
-          }
-        }
-
-      Velocity(this.layoutContainer, 'stop')
-      Velocity(backdrop, 'stop')
-
-      if (!animationNeeded) {
-        complete()
-        return
-      }
-
-      Velocity(this.layoutContainer,
-        {translateX: this.opened ? [openPosition, currentPosition] : [0, currentPosition]},
-        {duration: !this.opened || currentPosition !== openPosition ? drawerAnimationSpeed : 0}
-      )
-      Velocity(
-        backdrop,
-        {
-          'backgroundColor': '#000',
-          'backgroundColorAlpha': this.opened ? backdropOpacity.ios : 0.01
+        threshold: 0.01
+      })
+      Utils.animate({
+        name: this.nodeAnimUid,
+        pos: this.nodePosition,
+        finalPos,
+        apply: (pos) => {
+          this.nodePosition = pos
         },
-        {
-          duration: drawerAnimationSpeed,
-          complete
-        }
-      )
+        done: complete
+      })
     },
     __openByTouch (event) {
+      // interferes with browser's back/forward swipe feature
+      if (Platform.is.ios) {
+        return
+      }
+
       const
         content = this.$refs.content,
         backdrop = this.$refs.backdrop
@@ -212,76 +144,63 @@ export default {
 
       let
         position = event.distance.x,
-        target,
-        fn,
         percentage
 
       if (event.isFinal) {
         this.opened = position > 75
       }
 
-      if (theme.current === 'ios') {
+      if (this.$quasar.theme === 'ios') {
         position = Math.min(position, this.width)
         percentage = 1.0 - (this.width - Math.abs(position)) / this.width
-        fn = this.__iosToggleAnimate
-        target = this.layoutContainer
         position = (this.rightSide ? -1 : 1) * position
       }
       else { // mat
         position = this.rightSide ? Math.max(this.width - position, 0) : Math.min(0, position - this.width)
         percentage = (this.width - Math.abs(position)) / this.width
-        fn = this.__matToggleAnimate
-        target = content
       }
+
+      if (event.isFirst) {
+        backdrop.classList.add('active')
+      }
+      this.nodePosition = position
+      this.backPosition = percentage * backdropOpacity[this.$quasar.theme]
 
       if (event.isFinal) {
-        fn(percentage, null)
-        return
+        this.__animate()
       }
-
-      target.style.transform = 'translateX(' + position + 'px)'
-      backdrop.classList.add('active')
-      backdrop.style.background = 'rgba(0,0,0,' + percentage * backdropOpacity[theme.current] + ')'
     },
     __closeByTouch (event) {
-      const
-        content = this.$refs.content,
-        backdrop = this.$refs.backdrop
-
-      let
-        target, fn, percentage, position,
-        initialPosition
+      const content = this.$refs.content
+      let percentage, position, initialPosition
 
       if (Utils.dom.style(content, 'position') !== 'fixed') {
         return
       }
 
-      position = this.rightSide ? getBetween((event.direction === 'left' ? -1 : 1) * event.distance.x, 0, this.width) : getBetween((event.direction === 'left' ? -1 : 1) * event.distance.x, -this.width, 0)
       initialPosition = (this.rightSide ? -1 : 1) * this.width
+      position = this.rightSide
+        ? Utils.format.between((event.direction === 'left' ? -1 : 1) * event.distance.x, 0, this.width)
+        : Utils.format.between((event.direction === 'left' ? -1 : 1) * event.distance.x, -this.width, 0)
 
       if (event.isFinal) {
         this.opened = Math.abs(position) <= 75
       }
 
-      if (theme.current === 'ios') {
+      if (this.$quasar.theme === 'ios') {
         position = initialPosition + position
         percentage = (this.rightSide ? -1 : 1) * position / this.width
-        fn = this.__iosToggleAnimate
-        target = this.layoutContainer
       }
       else { // mat
         percentage = 1 + (this.rightSide ? -1 : 1) * position / this.width
-        fn = this.__matToggleAnimate
-        target = content
       }
+
+      this.nodePosition = position
+      this.backPosition = percentage * backdropOpacity[this.$quasar.theme]
 
       if (event.isFinal) {
-        fn(percentage, null)
-        return
+        this.__animate()
       }
-
-      target.style.transform = 'translateX(' + position + 'px)'
-      backdrop.style.background = 'rgba(0,0,0,' + percentage * backdropOpacity[theme.current] + ')'
     },
     setState (state, done) {
       if (
@@ -295,9 +214,7 @@ export default {
       }
 
       this.opened = !this.opened
-      let fn = theme.current === 'ios' ? this.__iosToggleAnimate : this.__matToggleAnimate
-
-      fn(this.opened ? 0.01 : 1, done)
+      this.__animate(done)
     },
     __popState () {
       if (Platform.has.popstate && window.history.state && window.history.state.__quasar_drawer) {
@@ -317,12 +234,14 @@ export default {
   mounted () {
     this.$nextTick(() => {
       const content = this.$refs.content
+      this.width = Utils.dom.width(content)
 
-      if (theme.current === 'ios') {
+      if (this.$quasar.theme === 'ios') {
         this.layoutContainer = this.$el.closest('.layout') || document.getElementById('q-app')
       }
-
-      this.width = Utils.dom.width(content)
+      else {
+        this.nodePosition = this.width * (this.rightSide ? 1 : -1)
+      }
 
       ;[].slice.call(content.getElementsByClassName('drawer-closer')).forEach(el => {
         el.addEventListener('click', (event) => {

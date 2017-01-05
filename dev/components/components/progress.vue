@@ -25,6 +25,9 @@
         <q-progress :percentage="progress" class="stripe animate" @click.native="randomize()"></q-progress>
       </p>
 
+      <h5>Buffering</h5>
+      <q-progress :percentage="progressBuffer" @click.native="randomizeBuffer()" :buffer="buffer" style="height: 4px"></q-progress>
+
       <h5>Indeterminate State</h5>
       <p>
         <q-progress class="indeterminate"></q-progress>
@@ -36,7 +39,7 @@
 
       <h5>Specific Height</h5>
       <p>
-        <q-progress class="indeterminate stripe" style="height: 45px"></q-progress>
+        <q-progress :percentage="progress" class="stripe animate" style="height: 45px" @click.native="randomize()"></q-progress>
       </p>
 
       <h5>Striped</h5>
@@ -52,12 +55,18 @@
 export default {
   data () {
     return {
-      progress: 81
+      progress: 67,
+      progressBuffer: 41,
+      buffer: 17
     }
   },
   methods: {
     randomize () {
       this.progress = Math.round(Math.random() * 100)
+    },
+    randomizeBuffer () {
+      this.progressBuffer = Math.round(Math.random() * 71)
+      this.buffer = Math.round(Math.random() * 27)
     }
   }
 }

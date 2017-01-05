@@ -4,7 +4,7 @@
       <col v-if="selection" style="width: 45px;" />
       <col v-for="col in cols" :style="{width: col.width}" />
     </colgroup>
-    <thead>
+    <thead v-if="!noHeader">
       <tr>
         <th v-if="selection">&nbsp;</th>
         <th
@@ -38,6 +38,7 @@ export default {
     stickyCols: Number,
     cols: Array,
     head: Boolean,
+    noHeader: Boolean,
     right: Boolean,
     sorting: Object,
     scroll: Object,

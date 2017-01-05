@@ -105,7 +105,7 @@ export default {
     let data = Platform.is.desktop ? {} : {
       css: contentCSS[theme],
       position: theme === 'ios' ? 'items-end justify-center' : 'items-center justify-center',
-      transition: theme === 'ios' ? 'q-modal-actions' : 'q-modal',
+      transition: theme === 'ios' ? 'q-modal-bottom' : 'q-modal',
       classNames: theme === 'ios' ? '' : 'minimized'
     }
     data.model = this.value || ''
@@ -130,6 +130,14 @@ export default {
       }
 
       return this.value ? moment(this.value).format(format) : ''
+    }
+  },
+  watch: {
+    min () {
+      this.__normalizeAndEmit()
+    },
+    max () {
+      this.__normalizeAndEmit()
     }
   },
   methods: {
@@ -165,6 +173,13 @@ export default {
     },
     __update () {
       this.$emit('input', this.model)
+    },
+    __normalizeAndEmit () {
+      if (this.value) {
+        this.$nextTick(() => {
+          this.$emit('input', this.__normalizeValue(moment(this.value)).format(this.format))
+        })
+      }
     }
   }
 }
