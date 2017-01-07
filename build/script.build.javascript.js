@@ -29,13 +29,11 @@ var
   },
   external = [
     'fastclick',
-    'moment',
-    'velocity-animate'
+    'moment'
   ],
   globals = {
     fastclick: 'FastClick',
-    moment: 'moment',
-    'velocity-animate': 'Velocity'
+    moment: 'moment'
   },
   rollupConfig = {
     entry: 'src/index.js',

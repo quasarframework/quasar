@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="layout-padding">
-      <p class="caption">Please scroll down to see the image and Scroll Fire being called with a nice Velocity effect.</p>
+      <p class="caption">Please scroll down to see the image have a short bounce effect when being visible for first time.</p>
       <p v-for="n in 6">{{loremipsum}}</p>
 
-      <p class="caption">Scroll Fire below. Reload page to see the effect again.</p>
+      <p class="caption">Scroll Fire below. Reload page to see the bounce effect again.</p>
       <p class="text-center">
         <img v-scroll-fire="bounceImage" src="~assets/quasar.jpg" style="width: 200px">
       </p>
@@ -22,9 +22,13 @@ export default {
     }
   },
   methods: {
-    bounceImage (element) {
-      Velocity(element, 'fadeOut', {duration: 1000})
-      Velocity(element, 'fadeIn', {delay: 300, duration: 1000})
+    bounceImage (el) {
+      el.classList.add('animate-bounce')
+      setTimeout(() => {
+        if (document.body.contains(el)) {
+          el.classList.remove('animate-bounce')
+        }
+      }, 2050)
     }
   }
 }

@@ -1,4 +1,4 @@
-import slide from './transition-slide'
+import slide from './slide-toggle'
 
 let transitions = {slide}
 
@@ -20,7 +20,7 @@ export default {
   },
   render (h, context) {
     if (!transitions[context.props.name]) {
-      throw new Error(`Quasar Transition ${context.props.name} is unnowkn.`)
+      throw new Error(`Quasar Transition ${context.props.name} is unknown.`)
     }
     var data = {
       props: {
