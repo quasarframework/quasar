@@ -13,6 +13,7 @@
 
 <script>
 import Utils from '../../utils'
+import Velocity from 'velocity-animate'
 
 export default {
   props: {
