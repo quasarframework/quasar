@@ -16,7 +16,6 @@ import dTouchSwipe from './vue-directives/touch-swipe'
 
 import AjaxBar from './vue-components/ajax-bar/AjaxBar.vue'
 import Autocomplete from './vue-components/autocomplete/Autocomplete.vue'
-import BackToTop from './vue-components/back-to-top/BackToTop.vue'
 import Checkbox from './vue-components/checkbox/Checkbox.vue'
 import Chips from './vue-components/chips/Chips.vue'
 import Collapsible from './vue-components/collapsible/Collapsible.vue'
@@ -89,7 +88,6 @@ function registerComponents (_Vue) {
   ;[
     ['ajax-bar', AjaxBar],
     ['autocomplete', Autocomplete],
-    ['back-to-top', BackToTop],
     ['checkbox', Checkbox],
     ['chips', Chips],
     ['collapsible', Collapsible],
