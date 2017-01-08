@@ -29,6 +29,7 @@ import Fab from './vue-components/fab/Fab.vue'
 import SmallFab from './vue-components/fab/SmallFab.vue'
 import FloatLabel from './vue-components/float-label/FloatLabel.vue'
 import Field from './vue-components/field/Field.vue'
+import FieldTarget from './vue-components/field/FieldTarget.vue'
 import Gallery from './vue-components/gallery/Gallery.vue'
 import GallerySlider from './vue-components/gallery/GallerySlider.vue'
 import InfiniteScroll from './vue-components/infinite-scroll/InfiniteScroll.vue'
@@ -96,6 +97,7 @@ function registerComponents (_Vue) {
     ['small-fab', SmallFab],
     ['float-label', FloatLabel],
     ['field', Field],
+    ['field-target', FieldTarget],
     ['gallery', Gallery],
     ['gallery-slider', GallerySlider],
     ['checkbox', Checkbox],

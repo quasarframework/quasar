@@ -80,116 +80,41 @@ ISSUES:
           </div>
           <div class='card-content'>
 
-            <q-field validate :targeted="false" class="grid row wrap">
+            <div class="grid row wrap ">
 
-              <div class="width-1of1 sm-width-1of1">
-                <i class="field-icon-1 icon-inverse">person_outline</i>
-                <h1 class="field-valid-text-valid">Player Details</h1>
-              </div>
-
-              <!-- Player First & Last Names -->
-              <div class="width-1of1 sm-width-1of1">
-
-                <q-field item
-                  label="Player" layout="inline"
-                  icon="fingerprint" icon-inverse
-                  :icon2="playerNameValidIcon"
-                  ref="playerName"
-                  validate
-                  validate-msg="Both names are required."
-                >
-                  <q-field
-                    class="full-width" target-width="grow"
-                    item label="First Name"
-                    validate :validate-msg="false"
-                  >
-                    <input type="text" v-model="example.firstName" class="w120" required />
-                  </q-field>
-
-                  <q-field
-                    class="full-width" target-width="grow"
-                    item label="Last Name"
-                    validate :validate-msg="false"
-                  >
-                    <input type="text" v-model="example.lastName" class="w120" required />
-                  </q-field>
-
-                  <q-field
-                    label="User Id"
-                    class="full-width"
-                    target-width="grow"
-                    hint="(Generated)"
-                  >
-                    <input
-                      type="text"
-                      class="w80"
-                      v-model="myUserName"
-                      readonly
-                  />
-                  </q-field>
-
-
-                </q-field>
-
-              </div>
-
-              <!-- Email -->
-              <div class="width-3of4">
-                <q-field
-                  label="Email"
-                  validate
-                  validate-msg="Email address isn't valid."
-                  icon="mail_outline"
-                >
-                  <input
-                    type="text"
-                    class="w180"
-                    v-model="example.email"
-                />
+              <div class="width-1of4 sm-width-1of1">
+                <q-field item label="First Name" validate icon="face">
+                  <input type="text" class="demoInputWidth" v-model="example.firstName" required />
                 </q-field>
               </div>
-
-
-              <!-- User ID -->
-<!--               <div class="width-1of4">
-
-              </div> -->
-
-
-
-              <div class="width-1of4">
-                <q-field
-                  label="Starting Amount"
-                  prefix="$" postfix=".00"
-                  target-width="shrink"
-                  validate
-                  layout="floating"
-
-                >
-                  <input type="text" class="w60 text-right" numeric v-model="example.amount1"  required />
+              <div class="width-1of4 sm-width-1of1">
+                <q-field item validate label="Last Name">
+                  <input type="text" class="demoInputWidth" v-model="example.lastName" required />
                 </q-field>
               </div>
 
               <div class="width-2of4">
-                <q-field label="Normal Field"
-                  counter :maxlength="4"
-                  validate
-                  layout="floating"
-                  icon2="plus_one"
-                  prefix="$" postfix=".00"
-                >
-                  <input type="text" v-model="example.firstName"  required />
+                <q-field item label="Email" validate icon="mail_outline">
+                  <input
+                    type="text"
+                    hint="Email is generated from user names."
+                    class="demoInputWidth"
+                    v-model="myExampleEmail"
+                    placeholder="detective.name@favourite.room"
+                    readonly=""
+
+                />
                 </q-field>
               </div>
 
               <div class="width-2of4 sm-width-1of1" >
-                <q-field item label="Detective Name" :maxlength="5" validate hint='E.g. "Sam Spade"' icon="search">
+                <q-field item label="Detective Name" validate="lazy" hint='E.g. "Sam Spade"' icon="search">
                   <input type="text" class="demoInputWidth" v-model="example.detectiveName" required />
                 </q-field>
               </div>
 
               <div class="width-1of4">
-                <q-field item label="Password" validate icon="lock_outline" :maxlength="5">
+                <q-field item label="Password" validate icon="lock_outline">
                   <input type="password" style="width: 50px;" maxlength="4" counter v-model="example.password" required />
                 </q-field>
               </div>
@@ -197,8 +122,8 @@ ISSUES:
               <div class="width-2of4 sm-width-1of1">
                 <q-field item label="Favourite Detective" layout="stacked" target-width="shrink" icon="person_outline">
                     <q-select
-                      type="radio"
                       style="width:140px"
+                      type="radio"
                       v-model="example.favouriteDetective"
                       :options="ddl_detectives"
                     ></q-select>
@@ -765,23 +690,8 @@ ISSUES:
 <script>
 export default {
   computed: {
-    myUserName () {
-      let
-        l1 = Math.min(this.example.firstName.length, 6),
-        l2 = Math.min(this.example.lastName.length, 6),
-        word1 = 'banano',
-        word2 = 'fofano',
-        out = this.example.firstName.substring(0, l1) + word1.substring(l1) + this.example.lastName.substring(0, l2) + word2.substring(l2) + '_123'
-
-      return out
-    },
-    playerNameValidIcon () {
-      return !this.$refs.playerName || !this.$refs.playerName.state || !this.$refs.playerName.state.hasInvalid === null ? ' ' : this.$refs.playerName.state.hasInvalid === true ? 'clear' : this.$refs.field.state.hasInvalid === false ? 'done' : ' '
-    }
-  },
-  methods: {
-    doClick () {
-      console.log('ckicklckl')
+    myExampleEmail () {
+      return (this.example.firstName || '???') + (this.example.firstName || '???') + '@.example.com'
     }
   },
   data () {
@@ -955,20 +865,12 @@ export default {
         playerName: '',
         firstName: '',
         lastName: '',
-        userName: '',
         detectiveName: '',
         favouriteDetective: '',
         email: '',
-        amount1: '',
-        amount2: '',
-        amount3: '',
-        amount4: '',
-        amount5: '',
-        amount6: '',
         password: '',
         fave_room: '',
-        description1: '',
-        description2: ''
+        description: ''
       },
       // Models
       //
@@ -1210,20 +1112,8 @@ export default {
   }
 }
 </script>
-field-active-primary
-field-active-secondary
-field-active-tertiary
-field-active-show
-field-active-hide
-
-label-color
-has-error
 
 
-// list styl
-$item-primary-secondary-color ?= rgb(117, 117, 117)
-$item-content-label-color     ?= rgba(0, 0, 0, .87)
-$item-label-color             ?= rgba(0, 0, 0, .54)
 
 <style lang='styl'>
 $layout-small  ?= 600px
@@ -1413,9 +1303,8 @@ $grid-large-gutter  ?= 3.5rem
 */
 
 
-
 //
-// OLD Demo styles ------------------------------------------------vvvv
+// Demo styles ------------------------------------------------vvvv
 //
 
 
@@ -1506,301 +1395,286 @@ label
       input[type=text]:not(.field-grow-input input), textarea:not(.field-grow-input textarea)
         width 55px
 
-for num in (0..10)
-  .w{num*10+50}
-    width (num*10+50)px
+{}
 
 
 //
-// NEW Demo styles ------------------------------------------------^^^^^
-// NEW Demo styles ------------------------------------------------vvvv
+// <q-field> container ------------------------------------------------vvvv
 //
-/*
-  <div class='field' :class='css_Field'>
-    <i v-if='draw_Icon' class="field-icon-1">{{ icon }}</i>
-    <label v-if='txt_InlineLabel' :style='style_InlineLabel' class='field-label field-label-inline' :for='inputId'>{{ txt_Label }}:</label>
-    <div class="field-target" :class='css_FieldTarget' :style='style_FieldTarget' ref="ref_FieldTarget">
-      <label v-if='txt_FloatLabel' :style='style_FieldLabel' class='field-label field-label-float' :class='css_Float' :for='inputId'>{{ txt_Float }}</label><!-- DO NOT REMOVE!! --><slot></slot><p></p>
-      <div class="target-decoration">
-        <div v-if='draw_Counter' class="target-counter">{{ txt_Counter }}</div>
-        <div v-if='txt_Hint' class="target-hint">{{ hint }}</div>
-        <div v-if='draw_Validate' class="target-validate-msg">{{ txt_ValidateMsg }}</div>
-      </div>
-    </div>
-    <i v-if='draw_Icon' class="icon icon-2">{{ icon }}</i>
-  </div>
-  */
 
-.field:after
-    content: attr(style)
-    position: absolute
-    top: 0
-    left: 0
-    color: red
+// FIELD STRUCTURE
+div.field
 
-// Field
-.field
-  position relative
-  display flex
-  min-height 72px
-  padding-top 10px
-  padding-bottom 0
-  flex-direction row
-  align-items flex-start
-  &.pad-left
-    padding-left 16px
-  &.inset
-    padding-left 72px
-  &.pad-right
-    padding-right 16px
+  // Target-Only
+  //
+  &.target-only
+    display inline-block
+    position relative
+    padding-top 10px // <-- top of float touches top of field (i.e. no padding)
+    padding-bottom 0px
+    &.field-dense
+      padding-top 4px
 
-  xbackground #f0f0f0
-  xmargin-bottom 1px
-  xborder 1px dotted blue
+  // field.item || field.clean-item
+  //
+  &.item
+  &.clean-item
+    position relative
+    padding-top 0 !important // <-- padding handled by .item-content
+    padding-bottom 0 //
 
-  // Icons
-  > .field-icon-1,
-  > .field-icon-2
-    color $item-primary-secondary-color
-    transition color .3s
-    height 24px
-    width 24px
-    margin 12px
-    margin-top 16px
-    font-size 24px
-    line-height 24px
-    border-radius 50%
-    transition all .45s cubic-bezier(0.25, 0.8, 0.25, 1)
-    &.icon-inverse
-      margin-top 8px
-      height 28px
-      width 28px
-      padding 8px 4px 4px 8px
-      color $white
-      background-color $item-primary-secondary-color
-  > .field-icon-1
-    margin-right 36px
-    &.icon-inverse
-      margin-right 20px
-  > .field-icon-2
-    margin-left 36px
-    &.icon-inverse
-      margin-left 20px
+    > i.item-primary, > i.item-secondary
+      color $item-primary-secondary-color
+      transition color .3s
+      height 24px
+      width 24px
+      font-size 24px
+      line-height 24px
+      border-radius 50%
+      margin 12px
+    > i.item-primary
+      // left initial
+    > i.item-secondary
+      right 0
 
-  // Labels
-  > .field-label-inline,
-  > .field-target > .field-input > .field-label-float
-    // transition transform .5s cubic-bezier(0.25, 0.8, 0.25, 1), color .3s, font-size .5s, opacity .3s, padding .5s cubic-bezier(0.25, 1, 0.25, 0.8)
-    transition all .3s cubic-bezier(0.25, 0.8, 0.25, 1)
+    > .item-content
+      padding-top 10px // <-- top of float touches top of field (i.e. no padding)
+      padding-bottom 0px
+      display flex // .row
+      flex-direction row // .row
+      align-items flex-start // .items-start
+
+
+  // field.item
+  //
+  &.item
+    display block
+    padding-top 0 !important  // <-- padding handled by .item-content
+    padding-bottom 0 // <--
+    min-height 72px
+    &.field-can-msg
+      xmin-height 81px
+    > i.item-primary
+    > i.item-secondary
+      margin-top 26px
+    > .item-content
+      padding-top 20px
+      padding-bottom 0px // 10px
+      display flex // .row
+      flex-direction row // .row
+      align-items flex-start // .items-start
+      // flex-wrap wrap // .wrap
+  &.item.field-dense
+    min-height 60px
+    &.field-can-msg
+      xmin-height 75px
+    > i.item-primary
+    > i.item-secondary
+      font-size 20px
+      margin-top 20px
+    > .item-content
+      padding-top 16px
+      padding-bottom 8px
+
+  // field.clean-item
+  //
+  &.clean-item
+    display inline-block
+    padding-top 0px
+    padding-left 0px
+    height auto
+    min-height 52px
+    &.field-can-msg
+      min-height 65px
+    > i.item-primary
+    > i.item-secondary
+      position absolute
+      margin 16px 0 0// i.item-primary==margin 12px
+      top 0
+    > .item-content
+      padding-top 10px // <-- top of float touches top of field (i.e. no padding)
+      display flex // .row
+      flex-direction row // .row
+      align-items flex-start // .items-start
+      &.has-secondary
+        margin-right 36px
+    i.item-primary ~ div.item-content
+      margin-left 36px
+  &.clean-item.field-dense
+    min-height 48px
+    &.field-can-msg
+      min-height 62px
+    > i.item-primary
+    > i.item-secondary
+      font-size 20px
+      margin-top 12px
+    > .item-content
+      padding-top 6px
+      &.has-secondary
+        margin-right 24px
+    i.item-primary ~ div.item-content
+      margin-left 24px
+
+
+  // Labels (inline + float)
+  label.field-label
+    transition transform .5s cubic-bezier(0.25, 0.8, 0.25, 1), color .3s, opacity .3s
     transform-origin left top
     color rgba(0, 0, 0, .54)
-    left 0
-    line-height 16px
-    margin-top 16px
     pointer-events none
-    text-overflow ellipsis
-    white-space nowrap
-    overflow hidden
-  > .field-label-inline
-    margin-right 10px
-  > .field-target > .field-input > .field-label-float
-    width 100%
-    position absolute
-    > span
-      transition inherit
-      visibility hidden
-      font-size $textfield-font-size
-      &:first-child
-        padding-right 5px
-      &:last-child
-        padding-left 5px
+    text-overflow ellipsis // .ellipsis
+    white-space nowrap // .ellipsis
+    overflow hidden // .ellipsis
+    &.item-label
+      margin-right 10px
+      margin-top 8px
+    &.field-float
+    &.field-float-label
+      width 100%
+      position absolute
+      margin-top 8px
+    &.field-float
+      font-style italic
+      padding-right 5px
 
-  &.label-as-text // render inline or float label as plain text (no required indicator or active color, italics)
-    font-style italic
-    padding-right 5px
-  &.label-center
-    text-align center
-    transform-origin center top
-  &.label-right
-    text-align right
-    transform-origin right top
-  &.target-center
-    margin-left auto
-    margin-right auto
-  &.target-right
-    margin-left auto
+  .item-content
+    &.label-align-center label.field-label
+      text-align center
+      transform-origin center top
+    &.label-align-right label.field-label
+      text-align right
+      transform-origin right top
+    &.target-align-center div.field-target
+      margin-left auto
+      margin-right auto
+    &.target-align-right div.field-target
+      margin-left auto
 
-  // Prefix/Postfix Before/After Spans
-  > span,
-  > .field-target > .field-input > span
-    margin 16px 0 0 0 !important
-    border-bottom 0 !important
-    line-height 16px
-    font-size $textfield-font-size
-    white-space nowrap
+  div.field-target
+    position relative
+    > input, > textarea
+      border-bottom 0 !important
+      margin 0 !important
+    &.field-grow-input
+      > input[type=text], > textarea
+        width 100% !important
+        margin 0px
 
-  // Target
-  > .field-target
-
-    // Input
-    > .field-input
-      position relative
-      margin-bottom 3px
-      > :not(:last-child):not(label)
-        margin-right 5px !important
-      &.underline
-        border-bottom $textfield-border-size $textfield-border-style $textfield-border-color
-        &:after
-          content ''
-          display block
-          position absolute
-          visibility hidden
-          bottom -2px
-          width 2px
-          height $textfield-border-size + 1
-          left 49%
-          background-color $form-active-color
-          transition-duration .2s
-          transition-timing-function cubic-bezier(.4, 0, .2, 1)
-
-      // Nested Field
-      > .field
-        min-height initial
-        padding-top 0
-        &.pad-left
-          padding-left 0
-        &.pad-right
-          padding-right 0
-
-      // Text Inputs
-      > input
-      > textarea
-        line-height 16px
-        margin 8px 0 0 0 !important
-        border-bottom 0 !important
-        padding-bottom 7px !important
-        box-shadow none
-        max-width 100% !important
-      &.field-input-grow
-        > input[type=text], > textarea
-          flex-grow 1
-
-    // Counter / Hint / Validate Msg
-    > .field-counter,
-    > .field-hint,
-    > .field-validate-msg
+  // Swoosh
+  div.field-swoosh
+    position relative
+    top -3px
+    border-top $textfield-border-size $textfield-border-style $textfield-border-color
+    &:before
+      content ''
       display block
-      font-size 12px
-      pointer-events none
-      transition opacity .3s
-
-    > .field-counter
-      float right
-      color rgba(0,0,0,.38)
-      color $dark
-
-    > .field-hint
       position absolute
-      color $dark
+      visibility hidden
+      width 2px
+      top -1px
+      height $textfield-border-size + 1
+      left 49%
+      background-color $form-active-color
+      transition-duration .2s
+      transition-timing-function cubic-bezier(.4, 0, .2, 1)
 
-    > .field-validate-msg  // (TODO: Multiple validate msgs)
-      position absolute
-      color $has-error !important
-      opacity 0
+  // Validate-msg(s)
+  // Hint
+  // Counter
+  span.field-validate-msg,
+  span.field-hint,
+  span.field-counter
+    display block
+    pointer-events none
+    font-size 12px
+    transition opacity .3s
 
+  span.field-validate-msg
+    position relative
+    color $has-error !important
+    opacity 0
 
+  span.field-hint ~ span.field-validate-msg
+    margin-top -16px
+
+  span.field-hint
+    position relative
+    color $dark
+
+  span.field-counter
+    float right
+    color rgba(0,0,0,.38)
+    color $dark
 
 // Layout Modifiers / CSS Flags
 // ----------------------------
-.field
-  // Dense-vertical
 
-  // Dense-horizonal
-
-  // Required
-  //
-  &.field-required
-    > .field-label-inline,
-    > .field-target > .field-input > .field-label-float
-      > div
-        display inline-block
-        padding-left 2px
-
-  // Focus / Hover
-  //
-  &.field-focus,
-  &.field:hover:not(.field-disabled)
-    > .field-icon-1,
-    > .field-icon-2
-      color $form-active-color
-      &.icon-inverse
-        color $white !important
-        background-color $form-active-color
-    > .field-label-inline,
-    > .field-target > .field-input > .field-label-float
-      color $form-active-color
-      > div
-        color $required-color
-    > .field-target > .field-input
-      &.underline
-        border-bottom $textfield-border-size $textfield-border-style $form-active-color
-        &:after
-          background-color $form-active-color
-          visibility visible
-          width 100%
-          left 0
-
+div.field
 
   // Invalid
   //
   &.field-invalid
-    > .field-icon-1,   // <--- TOO MUCH RED?  DELETE THESE, OR MAKE OPTIONAL?
-    > .field-icon-2
+    label.item-label, label.field-float-label  // <--- TOO MUCH RED?  DELETE THESE, OR MAKE OPTIONAL?
+    // i.item-primary, i.item-secondary  // <--- TOO MUCH RED?  DELETE THESE, OR MAKE OPTIONAL?
       color $has-error !important
-      &.icon-inverse
-        color $white !important
-        background-color $has-error !important
-    > .field-label-inline,
-    > .field-target > .field-input > .field-label-float
-      color $has-error !important
-    > .field-target > .field-input
-      &.underline
-        border-bottom $textfield-border-size $textfield-border-style $has-error !important
-        &:after
-          background-color $has-error
-    > .field-target
-      > .field-validate-msg
-        opacity 1
-        position relative
-      > .field-hint
-        opacity 0
-        position absolute
+    div.field-swoosh
+      border-top $textfield-border-size $textfield-border-style $has-error !important
+      &:before
+        background-color $has-error
+    span.field-validate-msg
+      opacity 1
+    span.field-hint
+      opacity 0
 
   // Too-Long
   // ['pseuedo-invalid'; can trigger independently of 'field-invalid' for counter & underline turning red, and that is all.]
   //
   &.field-invalid-too-long
-    > .field-target > .field-input
-      &.underline
-        border-bottom $textfield-border-size $textfield-border-style $has-error !important
-        &:after
-          background-color $has-error
-    > .field-target
-      > .field-counter
-        color $has-error
+    span.field-counter
+      color $has-error
+    div.field-swoosh
+      border-top $textfield-border-size $textfield-border-style $has-error !important
+      &:before
+        background-color $has-error
+
+  // Focus / Hover
+  //
+  &.field-focus
+  &.field:hover:not(.field-disabled)
+    label.item-label, label.field-float-label
+    i.item-primary, i.item-secondary
+      color $form-active-color !important
+    label.item-label:after, label.field-float-label:after
+      color $required-color
+    div.field-swoosh
+      border-top $textfield-border-size $textfield-border-style $form-active-color !important
+      &:before
+        background-color $form-active-color
+  &.field-focus
+    div.field-target > div.field-swoosh:before
+      visibility visible
+      width 100%
+      left 0
+
+  // Required
+  //
+  &.field-required
+    label.item-label:after, label.field-float-label:after
+      content '\00a0*\00a0'
+      vertical-align top
 
   // Disabled
   //
   &.field-disabled
-    > .field-target > .field-input
-      border-bottom-style dotted
+    div.field-swoosh
+      border-top-style dotted
 
   // Readonly
   //
   &.field-read-only
-    > .field-target > .field-input
-      border-bottom-style dotted
-      &:after
+    div.field-swoosh
+      border-top-style dotted
+      &:before
         height 1px
 
 
@@ -1809,65 +1683,28 @@ for num in (0..10)
 
 // Label not displayed
 &.field-layout-nolabel
-  > .field-label-inline,
-  > .field-target > .field-input > .field-label-float
+  label.field-float, label.field-float-label
     display none
 
 // Label vanished
-&.field-layout-inplace.field-active, &.field-layout-placeholder
-  > .field-label-inline,
-  > .field-target > .field-input > .field-label-float
+&.field-layout-inplace.field-active, .field-layout-placeholder
+  label.field-float, label.field-float-label
     opacity 0
 
 // Label visible
-&.field-layout-stacked, &.field-layout-floating, &.field-layout-placeholder.field-active.field-value
-  > .field-label-inline,
-  > .field-target > .field-input > .field-label-float
+&.field-layout-stacked, .field-layout-floating, .field-layout-placeholder.field-active.field-value
+  label.field-float, label.field-float-label
     opacity 1
 
 // Label above input
-&.field-layout-stacked, &.field-layout-floating.field-active, &.field-layout-placeholder
-  > .field-label-inline,
-  > .field-target > .field-input > .field-label-float
+&.field-layout-stacked, .field-layout-floating.field-active, .field-layout-placeholder
+  label.field-float, label.field-float-label
     transform translateY(-18px) scale(.8)
-    > span
-      // transform scale(0.5)
-      font-size 0
-      padding 0
   &.field-dense
-    > .field-label-inline,
-    > .field-target > .field-input > .field-label-float
-        transform translateY(-14px) scale(.8)
+    label.field-float, label.field-float-label
+      transform translateY(-14px) scale(.8)
 
 
-
-
-// Field State Styles
-// -------------------------
-
-fieldStates ?= ('field-valid' 'field-invalid' 'field-active' 'field-focus' 'field-readonly' 'field-disabled')
-
-for i in range(0,(length(fieldStates) - 1))
-  .field.{fieldStates[i]} > .{fieldStates[i]}-text-active
-    color $primary
-  .field.{fieldStates[i]} > .{fieldStates[i]}-bg-active
-    background-color $primary
-  .field.{fieldStates[i]} > .{fieldStates[i]}-text-inactive
-    color $grey-4
-  .field.{fieldStates[i]} > .{fieldStates[i]}-bg-inactive
-    background-color $grey-4
-  .field.{fieldStates[i]} > .{fieldStates[i]}-text-valid
-    color $positive
-  .field.{fieldStates[i]} > .{fieldStates[i]}-bg-valid
-    background-color $positive
-  .field.{fieldStates[i]} > .{fieldStates[i]}-text-invalid
-    color $negative
-  .field.{fieldStates[i]} > .{fieldStates[i]}-bg-invalid
-    background-color $negative
-  .field.{fieldStates[i]} > .{fieldStates[i]}-hide
-    display none
-  .field.{fieldStates[i]} > .{fieldStates[i]}-show
-    display auto
 
 </style>
 
