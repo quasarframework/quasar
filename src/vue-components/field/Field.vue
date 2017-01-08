@@ -32,12 +32,12 @@ TODO:
 
   -->
   <div class='field row' :class='css_Field'>
-    <i v-if='draw_Icon' class="field-icon-1" :class='css_Icon1'>{{ icon }}</i>
+    <i v-if='draw_Icon' class="field-icon" :class='css_Icon1'>{{ icon }}</i>
     <label v-if='txt_InlineLabel' :style='style_InlineLabel' class='field-label-inline' :for='inputId'>{{ txt_InlineLabel }}:</label>
+    <slot name="before"></slot>
     <span v-if="before">{{ before }}</span>
     <slot v-if="!targeted"></slot>
     <div v-else class="field-target" :class='css_FieldTarget' :style='style_FieldTarget' ref="ref_FieldTarget">
-    {{ state.hasInvalid + '!'}}
       <div class="field-input row" :class='css_FieldInput'><!--
      --><span v-if="prefix">{{ prefix }}</span><label v-if='txt_FloatLabel' :style='style_FloatLabel' class='field-label-float' :class='css_FloatLabel' :for='inputId' ><span v-if="prefix">{{ prefix }}</span>{{ txt_FloatLabel }}<div v-if="draw_Required">*</div><span v-if="postfix">{{ postfix }}</span></label><slot></slot><span v-if="postfix">{{ postfix }}</span><!--
    --></div>
@@ -46,7 +46,8 @@ TODO:
       <div v-if='txt_ValidateMsg' class="field-validate-msg">{{ txt_ValidateMsg }}</div>
     </div>
     <span v-if="after">{{ after }}</span>
-    <i v-if='draw_Icon2' class="field-icon-2" :class='css_Icon2'>{{ icon2 }}</i>
+    <slot name="after"></slot>
+    <i v-if='draw_Icon2' class="field-icon" :class='css_Icon2'>{{ icon2 }}</i>
   </div>
   <!--
     <i v-if='draw_Icon' class="item-primary">{{ icon }}</i>
@@ -334,8 +335,6 @@ export default {
           'field-read-only': s.hasReadOnly,
           'field-disabled': s.hasDisabled,
           'field-required': s.hasRequired,
-          'pad-left': !this.icon && !this.inset,
-          'pad-right': !this.icon2,
           'inset': this.inset
         }
       return css
@@ -412,8 +411,9 @@ export default {
   },
   watch: {
     'state.hasInvalid':  {
-      handler: function(oldValue, newValue) {
-        this.$emit('fieldEvent', {'validity': newValue})
+      handler: function(newValue, oldValue) {
+        console.log('emit fieldevent --> ', {'hasInvalid': newValue})
+        this.$emit('fieldEvent', {'hasInvalid': newValue})
       }
       // ,
       // immediate: true
@@ -442,7 +442,7 @@ export default {
     },
     __onFieldEvent (e) {
       console.log('Handle Q-Field Event', e)
-      if('validity' in e) {
+      if('hasInvalid' in e) {
         this.__updateState_validity()
       } else if ('focus' in e) {
         this.__onFocus()
@@ -559,7 +559,7 @@ export default {
 
     // Case B:
     // <q-field>
-    //   <q-field>...</q-field>[...] =>  isTargeted = true, isSingleInput = false, isTextInput = false
+    //   <q-field></q-field>[...] =>     isTargeted = true, isSingleInput = false, isTextInput = false
     // </q-field>
 
     // Case C:
@@ -583,10 +583,10 @@ export default {
     } else if (elms.length === 1 && elms[0].elm && TEXT_INPUT_TYPES.includes(elms[0].elm.type+'')) {
       console.log('<q-field> found 1 text input: ', this.inputType)
 
-      // Case A) 1 child = <input>.  Target it.
+      // Case A) 1 child = <input|textarea>.  Target it.
       this.isSingleInput = true
-      this.isTextInput = true   // true = input|textarea
-      this.input = elms[0].elm
+      this.isTextInput = true // true = input|textarea
+      this.input = elms[0].elm // input = <input|textarea>
       this.inputType = this.input.type
       this.__initState()
       this.__updateState_value()
@@ -597,13 +597,18 @@ export default {
       }
     } else if (elms.length === 1) {
 
+      if (this.$children.length) {
+        this.isTextInput = false // false = some component
+        this.input = this.$children[0] // input = component
+
+      }
       // Case B) 1 child = other component/element.  Target it.
       this.isSingleInput = true
       this.isTextInput = false
 
     } else {
 
-      // > 1 child
+      // > 1 child. Target them.
       this.isTextInput = false
       this.input = elms[0].elm
 
@@ -617,7 +622,7 @@ export default {
         }
       })
 
-      // If all children are <q-fields>, target them (Case C), otherwise no target; just user-content (Case D)
+      // DEPRECATED: If all children are <q-fields>...
       // this.isTargeted = (this.numChildFields === this.$children.length)
       console.log('child, ', this.numChildFields, this.$children.length)
     }
@@ -656,8 +661,8 @@ export default {
       this.input.addEventListener('input', this.__onInput, true)
     } else if (this.input && this.isTextInput === false) {
       // TODO: Handle non-textual components properly!!
-      this.input.addEventListener('focusin', this.__onFocus, true)
-      this.input.addEventListener('focusout', this.__onBlur, true)
+      // this.input.elm.addEventListener('focusin', this.__onFocus, true)
+      // this.input.elm.addEventListener('focusout', this.__onBlur, true)
     }
   },
   beforeDestroy () {
@@ -668,8 +673,8 @@ export default {
       this.input.removeEventListener('blur', this.__onBlur, true)
       this.input.removeEventListener('input', this.__onInput, true)
     } else if (this.input && this.isTextInput === false) {
-      this.input.removeEventListener('deactivate', this.__onFocus, true)
-      this.input.removeEventListener('deactivate', this.__onBlur, true)
+      // this.input.elm.removeEventListener('deactivate', this.__onFocus, true)
+      // this.input.elm.removeEventListener('deactivate', this.__onBlur, true)
     }
   }
 }

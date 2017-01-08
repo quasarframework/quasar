@@ -80,133 +80,190 @@ ISSUES:
           </div>
           <div class='card-content'>
 
-            <q-field validate :targeted="false" class="grid row wrap">
+            <q-field :targeted="false" validate class="grid row wrap" style="padding-left: 0; padding-right: 0; ">
 
-              <div class="width-1of1 sm-width-1of1">
-                <i class="field-icon-1 icon-inverse">person_outline</i>
-                <h1 class="field-valid-text-valid">Player Details</h1>
-              </div>
-
-              <!-- Player First & Last Names -->
-              <div class="width-1of1 sm-width-1of1">
-
-                <q-field item
-                  label="Player" layout="inline"
-                  icon="fingerprint" icon-inverse
-                  :icon2="playerNameValidIcon"
-                  ref="playerName"
-                  validate
-                  validate-msg="Both names are required."
-                >
-                  <q-field
-                    class="full-width" target-width="grow"
-                    item label="First Name"
-                    validate :validate-msg="false"
-                  >
-                    <input type="text" v-model="example.firstName" class="w120" required />
+                <div class="width-1of1 row">
+                  <q-field :targeted="false" class="full-width">
+                    <i class="field-icon icon-inverse bg-primary text-white" slot="before">person_outline</i>
+                    <h5 class="field-valid-text-valid" style="margin-top:12px">Player</h5>
+                    <i class="field-icon " slot="after">done</i>
                   </q-field>
+                </div>
+
+                <!-- <div class="width-1of1">
+                  <div class="quote" style="margin 0 0 0 10px">
+                    Enter the required information below and press 'Register' to register a new player.
+                  </div>
+                </div> -->
+
+                <!-- Player First & Last Names -->
+                <div class="width-3of3 sm-width-1of2">
 
                   <q-field
-                    class="full-width" target-width="grow"
-                    item label="Last Name"
-                    validate :validate-msg="false"
-                  >
-                    <input type="text" v-model="example.lastName" class="w120" required />
-                  </q-field>
-
-                  <q-field
-                    label="User Id"
-                    class="full-width"
+                    icon="face"
+                    layout="inline"
+                    :xicon2="playerNameValidIcon"
+                    ref="playerName"
+                    validate
+                    :underline="false"
+                    validate-msg="Both names are required."
+                    hint="Use the player's real name here."
                     target-width="grow"
-                    hint="(Generated)"
+                  >
+                    <q-field
+                      class="full-width" target-width="grow"
+                      label="First Name"
+                      validate :validate-msg="false"
+                    >
+                      <input type="text" v-model="example.firstName" class="w50" required />
+                    </q-field>
+
+                    <q-field
+                      class="full-width" target-width="grow"
+                      label="Last Name"
+                      validate :validate-msg="false"
+                    >
+                      <input type="text" v-model="example.lastName" class="w50" required />
+                    </q-field>
+
+                   <q-field
+                      icon="fingerprint"
+                      class="full-width" target-width="shrink"
+                      label="User ID"
+                    >
+                      <input type="text" readonly v-model="myUserName" class="w100"  />
+                    </q-field>
+                  </q-field>
+
+                </div>
+                <!-- Email -->
+                <div class="width-1of3 sm-width-1of2">
+                  <q-field
+                    label="Email"
+                    icon="mail_outline"
+                    validate
+                    target-width="grow"
+                    validate="lazy-at-first"
+                    validate-msg="Email address isn't valid."
+                    class="full-width"
                   >
                     <input
-                      type="text"
-                      class="w80"
-                      v-model="myUserName"
-                      readonly
+                      type="email"
+                      class="w60"
+                      v-model="example.email"
                   />
                   </q-field>
+                </div>
 
 
-                </q-field>
-
-              </div>
-
-              <!-- Email -->
-              <div class="width-3of4">
-                <q-field
-                  label="Email"
-                  validate
-                  validate-msg="Email address isn't valid."
-                  icon="mail_outline"
-                >
-                  <input
-                    type="text"
-                    class="w180"
-                    v-model="example.email"
-                />
-                </q-field>
-              </div>
+                <!-- Mobile -->
+                <div class="width-1of3 sm-width-1of2">
+                  <q-field
+                    label="Phone"
+                    icon="phone"
+                    validate
+                    target-width="grow"
+                    class="full-width"
+                  >
+                    <input
+                      type="numeric"
+                      class="w60"
+                      v-model="example.mobile"
+                  />
+                  </q-field>
+                </div>
 
 
-              <!-- User ID -->
-<!--               <div class="width-1of4">
+                <!-- Birthday -->
+                <div class="width-1of3 sm-width-1of2">
+                  <q-field
+                    label="Birthday"
+                    layout="stacked"
+                    icon="cake"
+                  >
+                    <q-datetime
 
-              </div> -->
+                      v-model="example.birthday"
+                      type="date"
+                    ></q-datetime>
+                  </q-field>
+                </div>
 
 
+                <!-- User ID -->
+  <!--               <div class="width-1of4">
 
-              <div class="width-1of4">
-                <q-field
-                  label="Starting Amount"
-                  prefix="$" postfix=".00"
-                  target-width="shrink"
-                  validate
-                  layout="floating"
+                </div> -->
 
-                >
-                  <input type="text" class="w60 text-right" numeric v-model="example.amount1"  required />
-                </q-field>
-              </div>
+                <!-- Character -->
+<!--                 <div class="width-1of1 row">
+                  <q-field :targeted="false" class="full-width">
+                    <i class="field-icon icon-inverse bg-primary text-white">search</i>
+                    <h6 class="field-valid-text-valid" style="margin-top:12px">Character</h6>
+                  </q-field>
+                </div> -->
 
-              <div class="width-2of4">
-                <q-field label="Normal Field"
-                  counter :maxlength="4"
-                  validate
-                  layout="floating"
-                  icon2="plus_one"
-                  prefix="$" postfix=".00"
-                >
-                  <input type="text" v-model="example.firstName"  required />
-                </q-field>
-              </div>
+                <div class="width-1of1 sm-width-1of1">
 
-              <div class="width-2of4 sm-width-1of1" >
-                <q-field item label="Detective Name" :maxlength="5" validate hint='E.g. "Sam Spade"' icon="search">
-                  <input type="text" class="demoInputWidth" v-model="example.detectiveName" required />
-                </q-field>
-              </div>
-
-              <div class="width-1of4">
-                <q-field item label="Password" validate icon="lock_outline" :maxlength="5">
-                  <input type="password" style="width: 50px;" maxlength="4" counter v-model="example.password" required />
-                </q-field>
-              </div>
-
-              <div class="width-2of4 sm-width-1of1">
-                <q-field item label="Favourite Detective" layout="stacked" target-width="shrink" icon="person_outline">
+                  <q-field
+                    label="Game Character" layout="stacked"
+                    icon="search" icon-inverse
+                    target-width="shrink"
+                  >
                     <q-select
                       type="radio"
                       style="width:140px"
-                      v-model="example.favouriteDetective"
-                      :options="ddl_detectives"
+                      v-model="example.detectiveName"
+                      :options="ddl_suspects"
                     ></q-select>
-                </q-field>
-              </div>
+                  </q-field>
 
+                </div>
 
-            </div>
+                <div class="width-1of4">
+                  <q-field
+                    label="Starting Amount"
+                    prefix="$" postfix=".00"
+                    target-width="shrink"
+                    validate
+                    layout="floating"
+
+                  >
+                    <input type="text" class="w60 text-right" numeric v-model="example.amount1"  required />
+                  </q-field>
+                </div>
+
+                <div class="width-2of4">
+                  <q-field label="Normal Field"
+                    counter :maxlength="4"
+                    validate
+                    layout="floating"
+                    icon2="plus_one"
+                    prefix="$" postfix=".00"
+                  >
+                    <input type="text" v-model="example.firstName"  required />
+                  </q-field>
+                </div>
+
+                <div class="width-2of4 sm-width-1of1" >
+                  <q-field item label="Detective Name" :maxlength="5" validate hint='E.g. "Sam Spade"' icon="search">
+                    <input type="text" class="demoInputWidth" v-model="example.detectiveName" required />
+                  </q-field>
+                </div>
+
+                <div class="width-1of4">
+                  <q-field item label="Password" validate icon="lock_outline" :maxlength="5">
+                    <input type="password" style="width: 50px;" maxlength="4" counter v-model="example.password" required />
+                  </q-field>
+                </div>
+
+                <div class="width-2of4 sm-width-1of1">
+
+                </div>
+
+              </q-field>
+
+            </q-field>
 
 
 
@@ -771,12 +828,23 @@ export default {
         l2 = Math.min(this.example.lastName.length, 6),
         word1 = 'banano',
         word2 = 'fofano',
-        out = this.example.firstName.substring(0, l1) + word1.substring(l1) + this.example.lastName.substring(0, l2) + word2.substring(l2) + '_123'
+        out = this.example.firstName.substring(0, l1) + word1.substring(l1) + this.example.lastName.substring(0, l2) + word2.substring(l2) + '17'
 
       return out
     },
     playerNameValidIcon () {
-      return !this.$refs.playerName || !this.$refs.playerName.state || !this.$refs.playerName.state.hasInvalid === null ? ' ' : this.$refs.playerName.state.hasInvalid === true ? 'clear' : this.$refs.field.state.hasInvalid === false ? 'done' : ' '
+      if (!this.$refs.playerName) {
+        return 'clear'
+      }
+      else if (this.$refs.playerName.state.hasInvalid === false) {
+        return 'clear'
+      }
+      else if (this.$refs.playerName.state.hasInvalid === true) {
+        return 'done'
+      }
+      else {
+        return ' '
+      }
     }
   },
   methods: {
@@ -956,7 +1024,10 @@ export default {
         firstName: '',
         lastName: '',
         userName: '',
+        birthday: '',
         detectiveName: '',
+        mobile: '',
+        phone: '',
         favouriteDetective: '',
         email: '',
         amount1: '',
@@ -1286,6 +1357,57 @@ $item-primary-secondary-color ?= rgb(117, 117, 117)
 $item-content-label-color     ?= rgba(0, 0, 0, .87)
 $item-label-color             ?= rgba(0, 0, 0, .54)
 
+
+// typography.mat.styl
+
+h1, h2, h3, h4, h5, h6
+  font-weight 400
+  line-height 110%
+  -webkit-font-smoothing antialised
+
+h1
+  font-size 4.2rem
+  letter-spacing -.04em
+  margin 2.1rem 0 1.68rem
+  font-weight 300
+
+h2
+  font-size 3.56rem
+  letter-spacing -.02em
+  margin 1.78rem 0 1.424rem
+
+h3
+  font-size 2.92rem
+  margin 1.46rem 0 1.168rem
+
+h4
+  font-size 2.28rem
+  margin 1.14rem 0 .912rem
+
+h5
+  font-size 1.64rem
+  margin .82rem 0 .656rem
+  -moz-osx-font-smoothing grayscale
+
+h6
+  font-size 1rem
+  letter-spacing .02em
+  margin .5rem 0 .4rem
+  font-weight 500
+
+p
+  font-size 1rem
+  letter-spacing 0
+  margin 0 0 1rem
+  line-height 24px
+  padding 0
+  -webkit-font-smoothing antialiased
+  &.caption
+    font-weight 300
+    &:not(:first-child)
+      margin-top 2rem
+
+
 // -------------------------------------------------------------------vvvv
 // textfield.mat.styl ------------------------------------------------vvvv
 //
@@ -1515,24 +1637,8 @@ for num in (0..10)
 // NEW Demo styles ------------------------------------------------^^^^^
 // NEW Demo styles ------------------------------------------------vvvv
 //
-/*
-  <div class='field' :class='css_Field'>
-    <i v-if='draw_Icon' class="field-icon-1">{{ icon }}</i>
-    <label v-if='txt_InlineLabel' :style='style_InlineLabel' class='field-label field-label-inline' :for='inputId'>{{ txt_Label }}:</label>
-    <div class="field-target" :class='css_FieldTarget' :style='style_FieldTarget' ref="ref_FieldTarget">
-      <label v-if='txt_FloatLabel' :style='style_FieldLabel' class='field-label field-label-float' :class='css_Float' :for='inputId'>{{ txt_Float }}</label><!-- DO NOT REMOVE!! --><slot></slot><p></p>
-      <div class="target-decoration">
-        <div v-if='draw_Counter' class="target-counter">{{ txt_Counter }}</div>
-        <div v-if='txt_Hint' class="target-hint">{{ hint }}</div>
-        <div v-if='draw_Validate' class="target-validate-msg">{{ txt_ValidateMsg }}</div>
-      </div>
-    </div>
-    <i v-if='draw_Icon' class="icon icon-2">{{ icon }}</i>
-  </div>
-  */
 
 .field:after
-    content: attr(style)
     position: absolute
     top: 0
     left: 0
@@ -1547,6 +1653,7 @@ for num in (0..10)
   padding-bottom 0
   flex-direction row
   align-items flex-start
+  margin 0px
   &.pad-left
     padding-left 16px
   &.inset
@@ -1559,12 +1666,12 @@ for num in (0..10)
   xborder 1px dotted blue
 
   // Icons
-  > .field-icon-1,
-  > .field-icon-2
+  > .field-icon
     color $item-primary-secondary-color
     transition color .3s
     height 24px
     width 24px
+    min-width 24px
     margin 12px
     margin-top 16px
     font-size 24px
@@ -1575,14 +1682,15 @@ for num in (0..10)
       margin-top 8px
       height 28px
       width 28px
+      min-width 28px
       padding 8px 4px 4px 8px
       color $white
       background-color $item-primary-secondary-color
-  > .field-icon-1
+  > .field-icon:first-child
     margin-right 36px
     &.icon-inverse
       margin-right 20px
-  > .field-icon-2
+  > .field-icon:last-child
     margin-left 36px
     &.icon-inverse
       margin-left 20px
@@ -1641,14 +1749,16 @@ for num in (0..10)
 
   // Target
   > .field-target
+    xborder 1px dotted red
 
     // Input
     > .field-input
       position relative
-      margin-bottom 3px
+      min-height 40px
       > :not(:last-child):not(label)
-        margin-right 5px !important
+        margin-right 10px !important
       &.underline
+        margin-bottom 3px
         border-bottom $textfield-border-size $textfield-border-style $textfield-border-color
         &:after
           content ''
@@ -1667,22 +1777,27 @@ for num in (0..10)
       > .field
         min-height initial
         padding-top 0
+        padding-bottom 0
         &.pad-left
           padding-left 0
         &.pad-right
           padding-right 0
 
-      // Text Inputs
-      > input
-      > textarea
-        line-height 16px
-        margin 8px 0 0 0 !important
+      // Text Inputs & Sub-Components
+      > input, > textarea, > div
         border-bottom 0 !important
+        max-width 100% !important
+      > div:not(.field)
+        padding-top 8px
+        padding-bottom 8px
+        margin 8px 0 0 0
+      > input, > textarea
+        margin 8px 0 0 0 !important
+        line-height 16px
         padding-bottom 7px !important
         box-shadow none
-        max-width 100% !important
       &.field-input-grow
-        > input[type=text], > textarea
+        > input, > textarea, > div
           flex-grow 1
 
     // Counter / Hint / Validate Msg
@@ -1730,8 +1845,7 @@ for num in (0..10)
   //
   &.field-focus,
   &.field:hover:not(.field-disabled)
-    > .field-icon-1,
-    > .field-icon-2
+    > .field-icon
       color $form-active-color
       &.icon-inverse
         color $white !important
@@ -1754,8 +1868,7 @@ for num in (0..10)
   // Invalid
   //
   &.field-invalid
-    > .field-icon-1,   // <--- TOO MUCH RED?  DELETE THESE, OR MAKE OPTIONAL?
-    > .field-icon-2
+    > .field-icon:first-child   // <--- TOO MUCH RED?  DELETE THESE, OR MAKE OPTIONAL?
       color $has-error !important
       &.icon-inverse
         color $white !important
@@ -1767,7 +1880,7 @@ for num in (0..10)
       &.underline
         border-bottom $textfield-border-size $textfield-border-style $has-error !important
         &:after
-          background-color $has-error
+          background-color $has-error !important
     > .field-target
       > .field-validate-msg
         opacity 1
