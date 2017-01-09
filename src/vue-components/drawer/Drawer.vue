@@ -204,7 +204,7 @@ export default {
     },
     setState (state, done) {
       if (
-        (!this.swipeOnly && Utils.dom.viewport().width > 600) ||
+        (!this.swipeOnly && Utils.dom.viewport().width > 920) ||
         (typeof state === 'boolean' && this.opened === state)
       ) {
         if (typeof done === 'function') {
