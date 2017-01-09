@@ -84,10 +84,13 @@ ISSUES:
 
                 <div class="width-1of1 row">
                   <q-field no-target class="full-width">
-                    <i slot="before" class="field-icon icon-inverse bg-primary text-white">person_outline</i>
-                    <h5 class="field-valid-text-valid" style="margin-top:12px">Registration</h5>
-                    <i slot="after" class="field-icon ">done</i>
-                    <i slot="after" class="field-icon ">person_outline</i>
+                    <i slot="before" class="field-icon icon-inverse bg-primary text-white">fingerprint</i>
+                    <h5 class="field-valid-text-valid" style="margin-top:12px">New Player</h5>
+
+                    <i class="field-icon color-if-field-valid hidden show-if-field-valid">sentiment_very_satisfied</i>
+                    <i class="field-icon text-primary hide-if-field-valid hide-if-field-invalid">sentiment_neutral</i>
+                    <i class="field-icon color-if-field-invalid hidden show-if-field-invalid">sentiment_very_dissatisfied</i>
+
                   </q-field>
                 </div>
 
@@ -102,14 +105,16 @@ ISSUES:
 
                   <q-field ref="playerName"
                     no-underline
-                    icon="face"
-                    layout="inline"
+                    label-layout="inline"
                     validate
-
                     validate-msg="Both names are required."
                     hint="Use the player's real name here."
                     target-width="grow"
                   >
+                    <i slot="before" class="field-icon color-if-field-valid hidden show-if-field-valid">sentiment_very_satisfied</i>
+                    <i slot="before" class="field-icon text-primary hide-if-field-valid hide-if-field-invalid">sentiment_neutral</i>
+                    <i slot="before" class="field-icon color-if-field-invalid hidden show-if-field-invalid">sentiment_very_dissatisfied</i>
+
                     <q-field
                       class="full-width"
                       target-width="grow"
@@ -127,17 +132,21 @@ ISSUES:
                       <input type="text" v-model="example.lastName" class="w50" required />
                     </q-field>
 
-                   <q-field
-                      dense-horizontal
+                    <q-field
                       icon="fingerprint"
-                      class="full-width" target-width="shrink"
-                      label="User ID"
+                      dense-horizontal
+                      class="full-width" target-width="grow"
+                      label="Nickname"
                     >
-                      <input type="text" readonly v-model="myUserName" class="w100"  />
+                        <input type="text" readonly v-model="myUserName" class="w100"  />
                     </q-field>
+
                   </q-field>
 
+
                 </div>
+
+
                 <!-- Email -->
                 <div class="width-1of3 sm-width-1of2">
                   <q-field
@@ -158,10 +167,11 @@ ISSUES:
                 </div>
 
 
-                <!-- Mobile -->
+                <!-- Phone -->
                 <div class="width-1of3 sm-width-1of2">
                   <q-field
                     label="Phone"
+                    label-layout="stacked"
                     icon="phone"
                     class="full-width"
                     target-width="grow"
@@ -170,6 +180,7 @@ ISSUES:
                     validate
                   >
                     <q-field
+                      target-width="shrink"
                       validate
                       :validate-msg='false'
                       prefix="("
@@ -177,7 +188,7 @@ ISSUES:
                     >
                       <input
                         type="number"
-                        style="width: 40px"
+                        class="w20 text-center"
                         v-model="example.areaCode"
                     />
                     </q-field>
@@ -199,11 +210,10 @@ ISSUES:
                   <q-field
                     dense-horizontal
                     label="Birthday"
-                    layout="floating"
+                    label-layout="stacked"
                     icon="cake"
                   >
                     <q-datetime
-
                       v-model="example.birthday"
                       type="date"
                     ></q-datetime>
@@ -227,13 +237,16 @@ ISSUES:
                 <div class="width-1of1 sm-width-1of1">
 
                   <q-field
-                    label="Game Character" layout="stacked"
+                    label="Game Character"
+                    label-layout="stacked"
+                    class="field-focus"
                     icon="search" icon-inverse
                     target-width="shrink"
                   >
                     <q-select
                       type="radio"
                       style="width:140px"
+                      class="text-bold"
                       v-model="example.detectiveName"
                       :options="ddl_suspects"
                     ></q-select>
@@ -470,11 +483,27 @@ ISSUES:
                     v-for="field in demoFields"
                     :class="options.grid_cols === 'custom' ? field.colWidth : options.grid_cols"
                   >
+                <!-- Birthday -->
+                <div class="width-1of3 sm-width-1of2">
+                  <q-field
+                    dense-horizontal
+                    label="Birthday"
+                    label-layout="stacked"
+                    icon="cake"
+                  >
+                    <q-datetime
+
+                      v-model="example.birthday"
+                      type="date"
+                    ></q-datetime>
+                  </q-field>
+                </div>
+
                     <q-field
                       :data-target-info="'Width ' + (options.field.targetWidth?options.field.targetWidth:field.targetWidth) + ', Align ' + (options.field.targetAlign?options.field.targetAlign:field.targetAlign)"
                       :data-label-info="'Width ' + (options.field.labelWidth?options.field.labelWidth:field.labelWidth) + ', Align ' + (options.field.labelAlign?options.field.labelAlign:field.labelAlign)"
                       :label='field.label'
-                      :layout='field.layout'
+                      :label-layout='field.layout'
                       :float='field.float'
                       :float-layout='field.floatLayout'
                       :item="options.layout.indexOf('items-')>-1"
@@ -485,7 +514,7 @@ ISSUES:
                       :counter='options.fieldOpts.counter'
                       :maxlength='15'
                     >
-                      <input type="text" class="demoInputWidth" v-model='field.model' :placeholder='field.placeholder'/>
+                      <input type="text" class="w90" v-model='field.model' :placeholder='field.placeholder'/>
                     </q-field>
 
                   </div>
@@ -501,7 +530,7 @@ ISSUES:
                   <q-field v-for="field in demoFields"
                     :style="{'display': options.display}"
                     :label='field.label'
-                    :layout='field.layout'
+                    :label-layout='field.layout'
                     :float='field.float'
                     :float-layout='field.floatLayout'
                     :item="options.structure==='item'"
@@ -590,7 +619,7 @@ ISSUES:
 
                 <div class="width-1of1">
                   <q-field label="Inline Label"
-                    layout="inline"
+                    label-layout="inline"
                     item
                     hint="Item + Inline Label"
                     class='shadow-1'
@@ -607,7 +636,7 @@ ISSUES:
 
                 <div class="width-1of1">
                   <q-field label="Floating Label"
-                    layout="stacked"
+                    label-layout="stacked"
                     icon="cloud_queue"
                     item
                     hint="Item + Floating Label"
@@ -650,7 +679,7 @@ ISSUES:
                 <div class="width-1of1">
                   <q-field label="Floating Label"
 
-                    layout="stacked"
+                    label-layout="stacked"
                     style="min-height:72px;padding-top: 10px;"
                     class='shadow-1 full-width'
                     icon="cloud_queue"
@@ -816,7 +845,7 @@ ISSUES:
 
 
           <div class="list item-delimiter">
-            <q-field item label="Numeric" layout="inline" icon="looks_two">
+            <q-field item label="Numeric" label-layout="inline" icon="looks_two">
               <q-numeric
                 v-model="models.numeric"
                 :min="1"
@@ -824,7 +853,7 @@ ISSUES:
               ></q-numeric>
             </q-field>
 
-            <q-field item label="Chips" target-width="grow" layout="stacked"  icon="code">
+            <q-field item label="Chips" target-width="grow" label-layout="stacked"  icon="code">
               <q-chips v-model="models.chips"></q-chips>
             </q-field>
           </div>
@@ -844,13 +873,17 @@ ISSUES:
 export default {
   computed: {
     myUserName () {
+      function cap (str) {
+        return str.charAt(0).toUpperCase() + str.slice(1)
+      }
       let
-        l1 = Math.min(this.example.firstName.length, 6),
-        l2 = Math.min(this.example.lastName.length, 6),
-        word1 = 'banano',
-        word2 = 'fofano',
-        out = this.example.firstName.substring(0, l1) + word1.substring(l1) + this.example.lastName.substring(0, l2) + word2.substring(l2) + '17'
-
+        l1 = Math.min(this.example.lastName.length, 4),
+        l2 = Math.min(this.example.firstName.length, 1),
+        l3 = Math.min(this.example.firstName.length, 3),
+        word1 = this.example.lastName.substring(0, l1) + 'Banana'.substring(l1),
+        word2 = this.example.firstName.substring(0, l2) + 'Fo'.substring(l2),
+        word3 = this.example.firstName.substring(0, l3) + 'Fana'.substring(l3),
+        out = cap(word1) + cap(word3) + cap(word2)
       return out
     },
     playerNameValidIcon () {
@@ -1583,7 +1616,7 @@ label
 
 .demoInputWidth
   width 80px
-.field-layout-inline
+.field-label-inline
   .demoInputWidth
     width 70px
 
@@ -1646,7 +1679,7 @@ label
 
 @media only screen and (max-width 600px)
   .grid
-    .field-layout-inline
+    .field-label-inline
       input[type=text]:not(.field-grow-input input), textarea:not(.field-grow-input textarea)
         width 55px
 
@@ -1659,6 +1692,7 @@ for num in (0..20)
 // NEW Demo styles ------------------------------------------------^^^^^
 // NEW Demo styles ------------------------------------------------vvvv
 //
+
 
 .field:after
     position: absolute
@@ -1694,8 +1728,7 @@ for num in (0..20)
     height 24px
     width 24px
     min-width 24px
-    margin 12px
-    margin-top 16px
+    margin 16px 12px 0 12px
     font-size 24px
     line-height 24px
     border-radius 50%
@@ -1851,14 +1884,22 @@ for num in (0..20)
 // ----------------------------
 .field
   // Dense-vertical
+  &.field-dense-vertical
+    min-height  60px
 
   // Dense-horizonal
-  &.field-dense-h
+  &.field-dense-horizontal
     > .field-icon:first-child
       margin-right 12px
     > .field-icon:last-child
       margin-left 12px
-
+/*
+    &.inset
+      padding-left 48px
+    &.pad-left
+      padding-left 8px
+    &.pad-right
+      padding-right 8px*/
   // Required
   //
   &.field-required
@@ -1948,25 +1989,25 @@ for num in (0..20)
 // -------------------------
 
 // Label not displayed
-&.field-layout-nolabel
+&.field-label-nolabel
   > .field-label-inline,
   > .field-target > .field-input > .field-label-float
     display none
 
 // Label vanished
-&.field-layout-inplace.field-active, &.field-layout-placeholder
+&.field-label-inplace.field-active, &.field-label-placeholder
   > .field-label-inline,
   > .field-target > .field-input > .field-label-float
     opacity 0
 
 // Label visible
-&.field-layout-stacked, &.field-layout-floating, &.field-layout-placeholder.field-active.field-value
+&.field-label-stacked, &.field-label-floating, &.field-label-placeholder.field-active.field-value
   > .field-label-inline,
   > .field-target > .field-input > .field-label-float
     opacity 1
 
 // Label above input
-&.field-layout-stacked, &.field-layout-floating.field-active, &.field-layout-placeholder
+&.field-label-stacked, &.field-label-floating.field-active, &.field-label-placeholder
   > .field-label-inline,
   > .field-target > .field-input > .field-label-float
     transform translateY(-18px) scale(.8)
@@ -1980,34 +2021,31 @@ for num in (0..20)
         transform translateY(-14px) scale(.8)
 
 
-
-
-// Field State Styles
+// Field State CSS Styles
 // -------------------------
 
-fieldStates ?= ('field-valid' 'field-invalid' 'field-active' 'field-focus' 'field-readonly' 'field-disabled')
+fieldStates ?= ('field-valid' 'field-invalid' 'field-active' 'field-focus' 'field-disabled' 'field-pristine' 'field-dirty')
+fieldColors ?= $positive $has-error $primary $primary $light $light
 
-for i in range(0,(length(fieldStates) - 1))
-  .field.{fieldStates[i]} > .{fieldStates[i]}-text-color-active
-    color $primary
-  .field.{fieldStates[i]} > .{fieldStates[i]}-bg-color-active
-    background-color $primary
-  .field.{fieldStates[i]} > .{fieldStates[i]}-text-color-inactive
-    color $grey-4
-  .field.{fieldStates[i]} > .{fieldStates[i]}-bg-color-inactive
-    background-color $grey-4
-  .field.{fieldStates[i]} > .{fieldStates[i]}-text-color-valid
-    color $positive
-  .field.{fieldStates[i]} > .{fieldStates[i]}-bg-color-valid
-    background-color $positive
-  .field.{fieldStates[i]} > .{fieldStates[i]}-text-color-invalid
-    color $negative
-  .field.{fieldStates[i]} > .{fieldStates[i]}-bg-color-invalid
-    background-color $negative
-  .field.{fieldStates[i]} > .{fieldStates[i]}-hide
-    display none
-  .field.{fieldStates[i]} > .{fieldStates[i]}-show
-    display auto
+for state, i in fieldStates
+  color = fieldColors[i]
+  .{state}
+    > .color-if-{state}
+    :not(.field) .color-if-{state}
+      color color !important
+  .{state}
+    > .bg-if-{state}
+    :not(.field) .bg-if-{state}
+      background-color color !important
+  .{state}
+    > .show-if-{state}
+    :not(.field) .show-if-{state}
+      display block !important
+  .{state}
+    > .hide-if-{state}
+    :not(.field) .hide-if-{state}
+      display none !important
+
 
 </style>
 

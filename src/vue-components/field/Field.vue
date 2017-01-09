@@ -124,7 +124,7 @@ export default {
     label: {
       type: String
     },
-    layout: {
+    labelLayout: {
       type: String, // 'floating' | 'stacked' | 'inplace' | 'placeholder' | 'inline' | +/'list-item' | +/custom
       default: 'floating'
     },
@@ -159,6 +159,10 @@ export default {
       default: false
     },
     denseHorizontal: {
+      type: Boolean,
+      default: false
+    },
+    denseVertical: {
       type: Boolean,
       default: false
     },
@@ -238,7 +242,7 @@ export default {
       // prop local aliases
       myLabel: null,
       myFloat: null,
-      myLayout: null,
+      myLabelLayout: null,
       myTarget: null,
       // derived properties
       input: null,
@@ -317,12 +321,12 @@ export default {
       let
         s = this.state,
         css = {
-          ['field-layout-' + this.myLayout]: true,
+          ['field-label-' + this.myLabelLayout]: true,
           // [this.draw_TargetOnly ? 'target-only' : this.item ? 'item multiple-lines' : 'clean-item']: true,
-          [this.item ? 'item multiple-lines' : 'clean-item']: true,
+          // [this.item ? 'item multiple-lines' : 'clean-item']: true,
           'field-can-msg': !!this.validate || !!this.hint,
-          'field-dense-v': this.dense,
-          'field-dense-h': this.denseHorizontal,
+          'field-dense-vertical': this.dense || this.denseVertical,
+          'field-dense-horizontal': this.dense || this.denseHorizontal,
           'field-active': s.hasFocus || s.hasValue || s.hasReadOnly,
           'field-focus': s.hasFocus,
           'field-value': s.hasValue,
@@ -477,7 +481,12 @@ export default {
       if (this.numChildFields === 0 && this.isTextInput && !this.state.hasDisabled) {
         this.input.focus()
       } else {
-        this.childFields.find(e => {return e.isTextInput && !e.state.hasDisabled}).input.focus()
+        try {
+          // Try-catch ~ too many reasons focus() isn't allowed!?
+          this.childFields.find(e => {return e.isTextInput && !e.state.hasDisabled}).input.focus()
+        } catch (e) {
+          // Do nothing
+        }
       }
     },
     __onInput (e) {
@@ -538,9 +547,15 @@ export default {
         // Leaf Field - invalid if input .validity==false or .hasTooLong==true
         this.state.hasInvalid = this.state.hasTooLong ? true : !this.input.validity.valid // && (this.state.hasValue || this.state.hasTouched)
       } else {
-        // Branch Field - invalid if *every* (validatable) child has been validated AND *any* child is invalid.
+        // Branch Field - invalid if there are none which have yet to be validated and at least one invalid.
+        console.log('A) Checking kids: ', this.childFields)
         if (!this.childFields.some(e => e.canValidate && e.state.hasInvalid === null)) {
-          this.state.hasInvalid = this.childFields.some(e => e.state.hasInvalid === true)
+          console.log('B) None yet to validate, so...: ')
+          this.state.hasInvalid = this.childFields.some(e => {
+            console.log('C) Checking ', e)
+            return e.state.hasInvalid === true
+          })
+          console.log('D) RESULT:',  this.state.hasInvalid)
         }
       }
       if (this.state.hasInvalid === true) {
@@ -638,18 +653,18 @@ export default {
     }
 
     // Inline/Float Label Layout
-    if (!this.layout || this.layout === 'inline') {
+    if (!this.labelLayout || this.labelLayout === 'inline') {
       // label-inline is main Label, float functions as optional msg.
       this.isInline = true
       this.myLabel = this.label
       // Option: Spare float label can now serve as extra hint text, using 'floatHint' and 'floatLayout'
-      this.myLayout = this.floatHint ? this.floatLayout : this.layout
+      this.myLabelLayout = this.floatHint ? this.floatLayout : this.labelLayout
       this.myFloatHint = this.floatHint ? this.floatHint : null
     } else {
       // label-float is the main Label
       this.isInline = false
       this.myLabel = this.label
-      this.myLayout = this.layout
+      this.myLabelLayout = this.labelLayout
       this.myFloatHint = this.label
     }
 

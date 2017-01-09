@@ -86,7 +86,10 @@ ISSUES:
                   <q-field :targeted="false" class="full-width">
                     <i class="field-icon icon-inverse bg-primary text-white" slot="before">person_outline</i>
                     <h5 class="field-valid-text-valid" style="margin-top:12px">Player</h5>
-                    <i class="field-icon " slot="after">done</i>
+                    <i class="field-icon " slot="after">
+                      <i class="field-icon icon-inverse bg-primary color-if-invalid text-white" slot="before">done</i>
+
+                    </i>
                   </q-field>
                 </div>
 
@@ -1959,28 +1962,19 @@ for num in (0..10)
 // -------------------------
 
 fieldStates ?= ('field-valid' 'field-invalid' 'field-active' 'field-focus' 'field-readonly' 'field-disabled')
+fieldColors ?= ($success $has-error $primary $primary $light $light)
 
 for i in range(0,(length(fieldStates) - 1))
-  .field.{fieldStates[i]} > .{fieldStates[i]}-text-active
-    color $primary
-  .field.{fieldStates[i]} > .{fieldStates[i]}-bg-active
-    background-color $primary
-  .field.{fieldStates[i]} > .{fieldStates[i]}-text-inactive
-    color $grey-4
-  .field.{fieldStates[i]} > .{fieldStates[i]}-bg-inactive
-    background-color $grey-4
-  .field.{fieldStates[i]} > .{fieldStates[i]}-text-valid
-    color $positive
-  .field.{fieldStates[i]} > .{fieldStates[i]}-bg-valid
-    background-color $positive
-  .field.{fieldStates[i]} > .{fieldStates[i]}-text-invalid
-    color $negative
-  .field.{fieldStates[i]} > .{fieldStates[i]}-bg-invalid
-    background-color $negative
-  .field.{fieldStates[i]} > .{fieldStates[i]}-hide
+  // color & bg
+  .field.{fieldStates[i]} > .color-if-{fieldStates[i]}
+    color fieldColors[i]
+  .field.{fieldStates[i]} > .bg-if-{fieldStates[i]}
+    background-color fieldColors[i]
+  // display
+  .field.{fieldStates[i]} > .show-if-{fieldStates[i]}
+    display block
+  .field.{fieldStates[i]} > .hide-if-{fieldStates[i]}
     display none
-  .field.{fieldStates[i]} > .{fieldStates[i]}-show
-    display auto
 
 </style>
 
