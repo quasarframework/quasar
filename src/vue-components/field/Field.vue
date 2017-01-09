@@ -36,7 +36,7 @@ TODO:
     <label v-if='txt_InlineLabel' :style='style_InlineLabel' class='field-label-inline' :for='inputId'>{{ txt_InlineLabel }}:</label>
     <slot name="before"></slot>
     <span v-if="before">{{ before }}</span>
-    <slot v-if="!targeted"></slot>
+    <slot v-if="noTarget"></slot>
     <div v-else class="field-target" :class='css_FieldTarget' :style='style_FieldTarget' ref="ref_FieldTarget">
       <div class="field-input row" :class='css_FieldInput'><!--
      --><span v-if="prefix">{{ prefix }}</span><label v-if='txt_FloatLabel' :style='style_FloatLabel' class='field-label-float' :class='css_FloatLabel' :for='inputId' ><span v-if="prefix">{{ prefix }}</span>{{ txt_FloatLabel }}<div v-if="draw_Required">*</div><span v-if="postfix">{{ postfix }}</span></label><slot></slot><span v-if="postfix">{{ postfix }}</span><!--
@@ -72,11 +72,6 @@ TODO:
     - iOS styles
     - multiple validation messages
     - width handling
-  */
-  /*
-    VALIDITTY:
-      -
-
   */
 import { Utils } from 'quasar'
 let TEXT_INPUT_TYPES = ['textarea','text','input','password','datetime','email','number','search','time','week','date','datetime-local','month','tel','url']
@@ -163,6 +158,10 @@ export default {
       type: Boolean,
       default: false
     },
+    denseHorizontal: {
+      type: Boolean,
+      default: false
+    },
     width: {
       type: String,
       default: null // defaults to css | 'shrink' | grow' | '#px' | '#%'
@@ -178,10 +177,6 @@ export default {
     targetAlign: {
       type: String,
       default: null // defaults to none | 'shrink' | grow' | '#px' | '#%'
-    },
-    underline: {
-      type: Boolean,
-      default: null
     },
     align: {
       type: String,
@@ -216,9 +211,13 @@ export default {
     maxlength: {
       type: Number
     },
-    targeted: {
+    noUnderline: {
       type: Boolean,
-      default: true
+      default: false
+    },
+    noTarget: {
+      type: Boolean,
+      default: false
     },
     validate: {
       type: [String, Boolean], // false (default) | 'immediate' | 'eager' true | 'lazy' | 'submit' (TBA)
@@ -322,7 +321,8 @@ export default {
           // [this.draw_TargetOnly ? 'target-only' : this.item ? 'item multiple-lines' : 'clean-item']: true,
           [this.item ? 'item multiple-lines' : 'clean-item']: true,
           'field-can-msg': !!this.validate || !!this.hint,
-          'field-dense': this.dense,
+          'field-dense-v': this.dense,
+          'field-dense-h': this.denseHorizontal,
           'field-active': s.hasFocus || s.hasValue || s.hasReadOnly,
           'field-focus': s.hasFocus,
           'field-value': s.hasValue,
@@ -364,7 +364,7 @@ export default {
       return {
         'field-input-grow': this.myTargetWidth && this.myTargetWidth !== 'shrink',
         ['target-align-' + this.targetAlign]: !!this.targetAlign,
-        'underline': this.myUnderline
+        'underline': !this.noUnderline
       }
     },
     css_InlineLabel () {
