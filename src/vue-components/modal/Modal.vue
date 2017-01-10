@@ -6,7 +6,7 @@
       :class="modalClasses"
       @click="click()"
     >
-      <div ref="content" class="modal-content" @click.stop :style="modalCss" :class="contentClasses">
+      <div ref="content" class="modal-content scroll" @click.stop :style="modalCss" :class="contentClasses">
         <slot></slot>
       </div>
     </div>
@@ -123,7 +123,7 @@ export default {
       }
 
       if (this.minimized && this.maximized) {
-        throw new Error('Modal cannot be minimized & maximized simultaneous.')
+        throw new Error('Modal cannot be minimized & maximized simultaneously.')
       }
 
       document.body.classList.add('with-modal')
@@ -213,6 +213,15 @@ export default {
       }
       this.close(onClick)
     }
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.$el.parentNode.removeChild(this.$el)
+      document.body.append(this.$el)
+    })
+  },
+  destroyed () {
+    this.$el.parentNode.removeChild(this.$el)
   }
 }
 </script>

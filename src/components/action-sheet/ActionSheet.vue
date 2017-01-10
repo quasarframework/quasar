@@ -160,11 +160,6 @@ export default {
       this.$refs.dialog.open()
       this.$root.quasarClose = this.close
     })
-  },
-  destroyed () {
-    if (document.body.contains(this.$el)) {
-      document.body.removeChild(this.$el)
-    }
   }
 }
 </script>
