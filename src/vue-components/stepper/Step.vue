@@ -48,6 +48,10 @@ export default {
     ready: {
       type: Boolean,
       default: true
+    },
+    beforeNext: {
+      type: Function,
+      default: null
     }
   },
   data () {
@@ -63,7 +67,12 @@ export default {
   methods: {
     nextStep () {
       if (this.ready) {
-        this.$parent.nextStep()
+        if (this.beforeNext) {
+          this.beforeNext(this.$parent.nextStep)
+        }
+        else {
+          this.$parent.nextStep()
+        }
       }
     },
     previousStep () {
