@@ -32,7 +32,7 @@ TODO:
 
   -->
   <div class='field row' :class='css_Field'>
-    <i v-if='draw_Icon' class="field-icon" :class='css_Icon1'>{{ icon }}</i>
+    <i v-if='draw_Icon' class="field-icon field-icon-before" :class='css_Icon1'>{{ icon }}</i>
     <label v-if='txt_InlineLabel' :style='style_InlineLabel' class='field-label-inline' :for='inputId'>{{ txt_InlineLabel }}:</label>
     <slot name="before"></slot>
     <span v-if="before">{{ before }}</span>
@@ -47,7 +47,7 @@ TODO:
     </div>
     <span v-if="after">{{ after }}</span>
     <slot name="after"></slot>
-    <i v-if='draw_Icon2' class="field-icon" :class='css_Icon2'>{{ icon2 }}</i>
+    <i v-if='draw_Icon2' class="field-icon field-icon-after" :class='css_Icon2'>{{ icon2 }}</i>
   </div>
   <!--
     <i v-if='draw_Icon' class="item-primary">{{ icon }}</i>

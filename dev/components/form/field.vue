@@ -83,13 +83,12 @@ ISSUES:
             <q-field no-target validate class="grid row wrap" style="padding-left: 0; padding-right: 0; ">
 
                 <div class="width-1of1 row">
-                  <q-field no-target class="full-width">
+                  <q-field
+                    no-target
+                    class="full-width"
+                  >
                     <i slot="before" class="field-icon icon-inverse bg-primary text-white">fingerprint</i>
                     <h5 class="field-valid-text-valid" style="margin-top:12px">New Player</h5>
-
-                    <i class="field-icon color-if-field-valid hidden show-if-field-valid">sentiment_very_satisfied</i>
-                    <i class="field-icon text-primary hide-if-field-valid hide-if-field-invalid">sentiment_neutral</i>
-                    <i class="field-icon color-if-field-invalid hidden show-if-field-invalid">sentiment_very_dissatisfied</i>
 
                   </q-field>
                 </div>
@@ -101,7 +100,7 @@ ISSUES:
                 </div> -->
 
                 <!-- Player First & Last Names -->
-                <div class="width-3of3 sm-width-1of2">
+                <div class="width-1of1">
 
                   <q-field ref="playerName"
                     no-underline
@@ -111,9 +110,9 @@ ISSUES:
                     hint="Use the player's real name here."
                     target-width="grow"
                   >
-                    <i slot="before" class="field-icon color-if-field-valid hidden show-if-field-valid">sentiment_very_satisfied</i>
-                    <i slot="before" class="field-icon text-primary hide-if-field-valid hide-if-field-invalid">sentiment_neutral</i>
-                    <i slot="before" class="field-icon color-if-field-invalid hidden show-if-field-invalid">sentiment_very_dissatisfied</i>
+                    <i slot="before" class="field-icon field-icon-before color-if-field-valid hidden show-if-field-valid">sentiment_very_satisfied</i>
+                    <i slot="before" class="field-icon field-icon-before text-primary hide-if-field-valid hide-if-field-invalid">sentiment_neutral</i>
+                    <i slot="before" class="field-icon field-icon-before color-if-field-invalid hidden show-if-field-invalid">sentiment_very_dissatisfied</i>
 
                     <q-field
                       class="full-width"
@@ -133,7 +132,6 @@ ISSUES:
                     </q-field>
 
                     <q-field
-                      icon="fingerprint"
                       dense-horizontal
                       class="full-width" target-width="grow"
                       label="Nickname"
@@ -190,6 +188,7 @@ ISSUES:
                         type="number"
                         class="w20 text-center"
                         v-model="example.areaCode"
+                        maxlength="3"
                     />
                     </q-field>
                     <q-field
@@ -1082,7 +1081,7 @@ export default {
         detectiveName: '',
         mobile: '',
         phone: '',
-        areaCode: '02',
+        areaCode: '61',
         favouriteDetective: '',
         email: '',
         amount1: '',
@@ -1741,11 +1740,11 @@ for num in (0..20)
       padding 8px 4px 4px 8px
       color $white
       background-color $item-primary-secondary-color
-  > .field-icon:first-child
+  > .field-icon-before
     margin-right 36px
     &.icon-inverse
       margin-right 20px
-  > .field-icon:last-child
+  > .field-icon-after
     margin-left 36px
     &.icon-inverse
       margin-left 20px
