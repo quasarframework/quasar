@@ -2,11 +2,11 @@
   <div>
     <div class="layout-padding">
       <q-transition name="slide">
-        <q-stepper @finish="finish()" ref="stepper" v-show="!finished">
+        <q-stepper @finish="finish()" ref="stepper" v-show="!finished" color="green">
           <q-step title="Select campaign settings">
             For each ad campaign that you create, you can control how much you're willing to spend on clicks and conversions, which networks and geographical locations you want your ads to show on, and more.
           </q-step>
-          <q-step title="Create an ad group" :ready="ready">
+          <q-step title="Create an ad group" icon="alarm" :ready="ready">
             An ad group contains one or more ads which target a shared set of keywords.
             <br><br>
             <label>

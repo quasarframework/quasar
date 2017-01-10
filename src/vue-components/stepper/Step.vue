@@ -4,10 +4,11 @@
     :class="{incomplete: step > stepper.currentStep}"
   >
     <div class="timeline-badge">
-      <i v-show="step < stepper.currentStep">
+      <i v-show="!done">
         done
       </i>
-      <span v-show="step >= stepper.currentStep">
+      <i v-if="icon && done">{{ icon }}</i>
+      <span v-show="!icon && done">
         {{ step }}
       </span>
     </div>
@@ -20,14 +21,14 @@
         <slot></slot>
         <div class="group" style="margin-top: 1rem; margin-left: -5px;">
           <button
-            class="primary"
-            :class="{disabled: !ready}"
+            :class="[color, !ready ? 'disabled' : '']"
             @click="nextStep()"
           >
             {{ stepper && step === stepper.steps ? $parent.finishLabel : $parent.nextLabel }}
           </button>
           <button
-            class="primary clear"
+            class="clear"
+            :class="color"
             v-if="step > 1"
             @click="previousStep()"
             v-html="$parent.backLabel"
@@ -52,7 +53,8 @@ export default {
     beforeNext: {
       type: Function,
       default: null
-    }
+    },
+    icon: String
   },
   data () {
     return {
@@ -62,18 +64,24 @@ export default {
   computed: {
     stepper () {
       return this.$parent.config
+    },
+    done () {
+      return this.step >= this.stepper.currentStep
+    },
+    color () {
+      return this.$parent.color
     }
   },
   methods: {
     nextStep () {
-      if (this.ready) {
-        if (this.beforeNext) {
-          this.beforeNext(this.$parent.nextStep)
-        }
-        else {
-          this.$parent.nextStep()
-        }
+      if (!this.ready) {
+        return
       }
+      if (this.beforeNext) {
+        this.beforeNext(this.$parent.nextStep)
+        return
+      }
+      this.$parent.nextStep()
     },
     previousStep () {
       this.$parent.previousStep()
