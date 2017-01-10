@@ -175,11 +175,11 @@ export default {
       this.$emit('input', this.model)
     },
     __normalizeAndEmit () {
-      if (this.value) {
-        this.$nextTick(() => {
+      this.$nextTick(() => {
+        if (this.value) {
           this.$emit('input', this.__normalizeValue(moment(this.value)).format(this.format))
-        })
-      }
+        }
+      })
     }
   }
 }

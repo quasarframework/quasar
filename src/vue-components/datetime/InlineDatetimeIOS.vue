@@ -458,7 +458,9 @@ export default {
       return value
     },
     __updateModel () {
-      this.model = this.__normalizeValue(this.date).toISOString()
+      if (this.date) {
+        this.model = this.__normalizeValue(this.date).toISOString()
+      }
     }
   },
   mounted () {
