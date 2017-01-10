@@ -80,30 +80,26 @@ ISSUES:
           </div>
           <div class='card-content'>
 
-            <q-field no-target validate class="grid row wrap" style="padding-left: 0; padding-right: 0; ">
+            <!-- 'Root' Field -->
+            <q-field no-target validate class="grid small-gutter row wrap">
 
+                <!-- Form Title -->
                 <div class="width-1of1 row">
                   <q-field
                     no-target
                     class="full-width"
                   >
-                    <i slot="before" class="field-icon icon-inverse bg-primary text-white">fingerprint</i>
-                    <h5 class="field-valid-text-valid" style="margin-top:12px">New Player</h5>
-
+                    <i class="field-icon icon-inverse bg-primary text-white">person_pin</i>
+                    <h5>New Player</h5>
                   </q-field>
                 </div>
 
-                <!-- <div class="width-1of1">
-                  <div class="quote" style="margin 0 0 0 10px">
-                    Enter the required information below and press 'Register' to register a new player.
-                  </div>
-                </div> -->
-
-                <!-- Player First & Last Names -->
+                <!-- First & Last Names -->
                 <div class="width-1of1">
 
                   <q-field ref="playerName"
                     no-underline
+                    label=""
                     label-layout="inline"
                     validate
                     validate-msg="Both names are required."
@@ -112,7 +108,7 @@ ISSUES:
                   >
                     <i slot="before" class="field-icon field-icon-before color-if-field-valid hidden show-if-field-valid">sentiment_very_satisfied</i>
                     <i slot="before" class="field-icon field-icon-before text-primary hide-if-field-valid hide-if-field-invalid">sentiment_neutral</i>
-                    <i slot="before" class="field-icon field-icon-before color-if-field-invalid hidden show-if-field-invalid">sentiment_very_dissatisfied</i>
+                    <i slot="before" class="field-icon field-icon-before hidden show-if-field-invalid">sentiment_very_dissatisfied</i>
 
                     <q-field
                       class="full-width"
@@ -131,29 +127,23 @@ ISSUES:
                       <input type="text" v-model="example.lastName" class="w50" required />
                     </q-field>
 
-                    <q-field
-                      dense-horizontal
-                      class="full-width" target-width="grow"
-                      label="Nickname"
-                    >
-                        <input type="text" readonly v-model="myUserName" class="w100"  />
-                    </q-field>
 
                   </q-field>
-
 
                 </div>
 
 
+                <!-- 2nd Row -->
+
                 <!-- Email -->
-                <div class="width-1of3 sm-width-1of2">
+                <div class="width-2of3 sm-width-1of2">
                   <q-field
                     label="Email"
                     icon="mail_outline"
                     validate
                     target-width="grow"
                     validate="lazy-at-first"
-                    validate-msg="Email address isn't valid."
+                    validate-msg="That email address is bogus!"
                     class="full-width"
                   >
                     <input
@@ -164,9 +154,75 @@ ISSUES:
                   </q-field>
                 </div>
 
+                <!-- Code Name -->
+                <div class="width-1of3">
 
+                  <q-field
+                    slot="after"
+                    dense-horizontal
+                    icon="fingerprint"
+                    label="Code Name"
+                    hint="(Read-only)"
+                  >
+                    <input type="text" readonly v-model="myUserName" class="w110"  />
+                  </q-field>
+
+
+                </div>
+
+
+
+
+                <!-- User ID -->
+  <!--               <div class="width-1of4">
+
+                </div> -->
+
+                <!-- Character -->
+<!--                 <div class="width-1of1 row">
+                  <q-field :targeted="false" class="full-width">
+                    <i class="field-icon icon-inverse bg-primary text-white">search</i>
+                    <h6 class="field-valid-text-valid" style="margin-top:12px">Character</h6>
+                  </q-field>
+                </div> -->
+
+
+                <!-- GAME CHARACTER -->
+
+                <!-- Form Title -->
+                <!-- <div class="width-1of1 row">
+                  <q-field
+                    no-target
+                    class="full-width"
+                  >
+                    <i class="field-icon icon-inverse bg-primary text-white">person_outline</i>
+                    <h5 class="field-valid-text-valid" style="margin-top:12px">Player Character</h5>
+                  </q-field>
+                </div>
+ -->
+                <div class="width-1of1 sm-width-1of1">
+
+                  <!-- Character DDL -->
+                  <q-field
+                    label="Game Character"
+                    class="field-focus" icon-inverse
+                    icon="person_outline"
+                    target-width="shrink"
+                    hint="This is the player's charracter."
+                  >
+
+                    <q-select
+                      type="radio"
+                      style="width:140px"
+                      class="text-bold"
+                      v-model="example.detectiveName"
+                      :options="ddl_suspects"
+                    ></q-select>
+                  </q-field>
+
+                </div>
                 <!-- Phone -->
-                <div class="width-1of3 sm-width-1of2">
+<!--                 <div class="width-1of3 sm-width-1of2">
                   <q-field
                     label="Phone"
                     label-layout="stacked"
@@ -185,7 +241,8 @@ ISSUES:
                       postfix=")"
                     >
                       <input
-                        type="number"
+                        type="text"
+                        pattern="[0-9 ]+"
                         class="w20 text-center"
                         v-model="example.areaCode"
                         maxlength="3"
@@ -193,21 +250,22 @@ ISSUES:
                     </q-field>
                     <q-field
                       validate
+                      pattern="[0-9 ]+"
                       :validate-msg='false'
                     >
                       <input
-                        type="number"
+                        type="text"
+                        pattern="[0-9 ]+"
                         class="w60"
                         v-model="example.mobile"
                     />
                     </q-field>
                 </div>
-
+ -->
 
                 <!-- Birthday -->
                 <div class="width-1of3 sm-width-1of2">
                   <q-field
-                    dense-horizontal
                     label="Birthday"
                     label-layout="stacked"
                     icon="cake"
@@ -219,43 +277,53 @@ ISSUES:
                   </q-field>
                 </div>
 
-
-                <!-- User ID -->
-  <!--               <div class="width-1of4">
-
-                </div> -->
-
-                <!-- Character -->
-<!--                 <div class="width-1of1 row">
-                  <q-field :targeted="false" class="full-width">
-                    <i class="field-icon icon-inverse bg-primary text-white">search</i>
-                    <h6 class="field-valid-text-valid" style="margin-top:12px">Character</h6>
-                  </q-field>
-                </div> -->
-
-                <div class="width-1of1 sm-width-1of1">
-
+                <!-- Starting Amount -->
+                <div class="width-1of3">
                   <q-field
-                    label="Game Character"
-                    label-layout="stacked"
-                    class="field-focus"
-                    icon="search" icon-inverse
+                    label="Starting Amount"
+                    prefix="$" postfix=".00"
                     target-width="shrink"
+                    validate
+                    layout="floating"
                   >
-                    <q-select
-                      type="radio"
-                      style="width:140px"
-                      class="text-bold"
-                      v-model="example.detectiveName"
-                      :options="ddl_suspects"
-                    ></q-select>
+                    <input type="text" class="w60 text-right" numeric v-model="example.amount1"  required />
                   </q-field>
+                </div>
 
+
+                <div class="width-2of4">
+                  <q-field label="Normal Field"
+                    counter :maxlength="4"
+                    validate
+                    layout="floating"
+                    icon2="plus_one"
+                    prefix="$" postfix=".00"
+                  >
+                    <input type="text" v-model="example.firstName"  required />
+                  </q-field>
+                </div>
+
+
+                </div>
+
+                <!-- Birthday -->
+                <div class="width-1of3 sm-width-1of2">
+                  <q-field
+                    label="Birthday"
+                    label-layout="stacked"
+                    icon="cake"
+                  >
+                    <q-datetime
+                      v-model="example.birthday"
+                      type="date"
+                    ></q-datetime>
+                  </q-field>
                 </div>
 
                 <div class="width-1of4">
                   <q-field
                     label="Starting Amount"
+                    dense-horizontal
                     prefix="$" postfix=".00"
                     target-width="shrink"
                     validate
@@ -873,16 +941,20 @@ export default {
   computed: {
     myUserName () {
       function cap (str) {
-        return str.charAt(0).toUpperCase() + str.slice(1)
+        str = str.replace(/\s/g, '')
+        str = str.toLowerCase().charAt(0).toUpperCase() + str.slice(1)
+        return str
       }
       let
-        l1 = Math.min(this.example.lastName.length, 4),
+        l1 = Math.min(this.example.lastName.length, 3),
+        l11 = Math.min(this.example.lastName.length, 1),
         l2 = Math.min(this.example.firstName.length, 1),
         l3 = Math.min(this.example.firstName.length, 3),
-        word1 = this.example.lastName.substring(0, l1) + 'Banana'.substring(l1),
-        word2 = this.example.firstName.substring(0, l2) + 'Fo'.substring(l2),
+        word1 = this.example.lastName.substring(0, l1) + 'Bana'.substring(l1),
+        word11 = this.example.lastName.substring(0, l11) + 'na'.substring(l11),
+        word2 = this.example.firstName.substring(0, l2) + 'fo'.substring(l2),
         word3 = this.example.firstName.substring(0, l3) + 'Fana'.substring(l3),
-        out = cap(word1) + cap(word3) + cap(word2)
+        out = cap(word1) + cap(word11).toLowerCase() + ' ' + cap(word3) + word2.toLowerCase()
       return out
     },
     playerNameValidIcon () {
@@ -1694,10 +1766,22 @@ for num in (0..20)
 
 
 .field:after
-    position: absolute
-    top: 0
-    left: 0
-    color: red
+  position: absolute
+  top: 0
+  left: 0
+  color: red
+
+
+// Nested / Inline Fields
+.field > .field,
+.field > .field-target > .field-input > .field
+  min-height initial
+  padding-top 0
+  padding-bottom 0
+
+.field + .field
+  margin-left 16px !important
+
 
 // Field
 .field
@@ -1709,16 +1793,14 @@ for num in (0..20)
   flex-direction row
   align-items flex-start
   margin 0px
-  &.pad-left
-    padding-left 16px
-  &.inset
-    padding-left 72px
-  &.pad-right
-    padding-right 16px
 
-  xbackground #f0f0f0
-  xmargin-bottom 1px
-  xborder 1px dotted blue
+  // Global adjustment
+  .pad-left
+    padding-left 16px
+  .inset
+    padding-left 72px
+  .pad-right
+    padding-right 16px
 
   // Icons
   > .field-icon
@@ -1827,15 +1909,6 @@ for num in (0..20)
           transition-duration .2s
           transition-timing-function cubic-bezier(.4, 0, .2, 1)
 
-      // Nested Field
-      > .field
-        min-height initial
-        padding-top 0
-        padding-bottom 0
-        &.pad-left
-          padding-left 0
-        &.pad-right
-          padding-right 0
 
       // Text Inputs & Sub-Components
       > input, > textarea, > div
@@ -1935,7 +2008,7 @@ for num in (0..20)
   // Invalid
   //
   &.field-invalid
-    > .field-icon:first-child   // <--- TOO MUCH RED?  DELETE THESE, OR MAKE OPTIONAL?
+    > .field-icon-before  // <--- TOO MUCH RED?  DELETE THESE, OR MAKE OPTIONAL?
       color $has-error !important
       &.icon-inverse
         color $white !important

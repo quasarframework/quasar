@@ -31,37 +31,37 @@ TODO:
 <q-field targetType="text|textarea"
 
   -->
-  <div class='field row' :class='css_Field'>
-    <i v-if='draw_Icon' class="field-icon field-icon-before" :class='css_Icon1'>{{ icon }}</i>
-    <label v-if='txt_InlineLabel' :style='style_InlineLabel' class='field-label-inline' :for='inputId'>{{ txt_InlineLabel }}:</label>
+  <div class='field row' :class='css_Field'><!--
+
+      'Before':
+    --><i v-if='draw_Icon' class="field-icon field-icon-before" :class='css_Icon1'>{{ icon }}</i>
     <slot name="before"></slot>
-    <span v-if="before">{{ before }}</span>
-    <slot v-if="noTarget"></slot>
-    <div v-else class="field-target" :class='css_FieldTarget' :style='style_FieldTarget' ref="ref_FieldTarget">
-      <div class="field-input row" :class='css_FieldInput'><!--
-     --><span v-if="prefix">{{ prefix }}</span><label v-if='txt_FloatLabel' :style='style_FloatLabel' class='field-label-float' :class='css_FloatLabel' :for='inputId' ><span v-if="prefix">{{ prefix }}</span>{{ txt_FloatLabel }}<div v-if="draw_Required">*</div><span v-if="postfix">{{ postfix }}</span></label><slot></slot><span v-if="postfix">{{ postfix }}</span><!--
-   --></div>
+    <span v-if="before">{{ before }}</span><!--
+
+      Inline Label:
+    --><label v-if='txt_InlineLabel' :style='style_InlineLabel' class='field-label-inline' :for='inputId'>{{ txt_InlineLabel }}:</label><!--
+
+      Targetless Content...
+    -->
+    <slot v-if="noTarget"></slot><!--
+
+      ...or, Target:
+    -->
+    <div v-else class="field-target" @input="__onInput" :class='css_FieldTarget' :style='style_FieldTarget' ref="ref_FieldTarget">
+      <div class="field-input row" :class='css_FieldInput'>
+      <span v-if="prefix">{{ prefix }}</span><label v-if='txt_FloatLabel' :style='style_FloatLabel' class='field-label-float' :class='css_FloatLabel' :for='inputId' ><span v-if="prefix">{{ prefix }}</span>{{ txt_FloatLabel }}<div v-if="draw_Required">*</div><span v-if="postfix">{{ postfix }}</span></label><slot></slot><span v-if="postfix">{{ postfix }}</span>
+    </div>
       <div v-if='txt_Counter' class="field-counter">{{ txt_Counter }}</div>
       <div v-if='txt_Hint' class="field-hint">{{ hint }}</div>
       <div v-if='txt_ValidateMsg' class="field-validate-msg">{{ txt_ValidateMsg }}</div>
-    </div>
+    </div><!--
+
+      'After':
+    -->
     <span v-if="after">{{ after }}</span>
     <slot name="after"></slot>
     <i v-if='draw_Icon2' class="field-icon field-icon-after" :class='css_Icon2'>{{ icon2 }}</i>
   </div>
-  <!--
-    <i v-if='draw_Icon' class="item-primary">{{ icon }}</i>
-    <div class="item-content" :class='css_FieldContent'>
-      <div class="field-target" :class='css_FieldTarget' :style='style_FieldTarget' ref="ref_FieldTarget">
-        <label v-if='txt_Float' :style='style_FieldLabel' class='field-label' :class='css_Float' :for='inputId'>{{ txt_Float }}</label><slot></slot>
-        <div class='field-swoosh'></div>
-        <span v-if='draw_Counter' class="field-counter">{{ txt_Counter }}</span>
-        <span v-if='txt_Hint' class="field-hint">{{ hint }}</span>
-        <span v-if='draw_Validate' class="field-validate-msg">{{ txt_ValidateMsg }}</span>
-      </div>
-    </div>
-    <i v-if='draw_Icon2' class="item-secondary" >{{ icon2 }}</i>  -->
-
 </template>
 
 <script>
@@ -475,6 +475,7 @@ export default {
       }
     },
     __onActivate (e) {
+      console.log('o__onActivaten', e)
       // "activate" is click (touch??) anywhere on field.
       // Focus is placed on first available input or child field.
       // (TODO: Make optional)
@@ -490,16 +491,22 @@ export default {
       }
     },
     __onInput (e) {
-      if (e) {
+      console.log('on input', e)
+      // What's this for...
+      if (e.stopPropagation) {
         e.stopPropagation()
         e.cancelBubble = true
       }
+
+      // ?
       this.hasTouched = true
       this.__updateState_value()
       if (this.myValidate === 'eager') {
         this.__updateState_validity()
       }
-      this.__updateState_counter()
+      if (this.counter) {
+        this.__updateState_counter()
+      }
     },
     // State maintenance
     // NB: These can't go in computed/watchers as they rely on changes to <input> attrs.
@@ -593,11 +600,10 @@ export default {
     if (elms.length === 0) {
       this.isSingleInput = false
       this.input = null
-      console.warn('<q-field> missing content', this)
+      console.warn('<q-field> is missing content.', this)
       return
     } else if (elms.length === 1 && elms[0].elm && TEXT_INPUT_TYPES.includes(elms[0].elm.type+'')) {
-      console.log('<q-field> found 1 text input: ', this.inputType)
-
+      //
       // Case A) 1 child = <input|textarea>.  Target it.
       this.isSingleInput = true
       this.isTextInput = true // true = input|textarea
@@ -610,20 +616,28 @@ export default {
       if (this.validateImmediate) {
         this.__updateState_validity()
       }
-    } else if (elms.length === 1) {
 
+    } else if (elms.length === 1) {
+      //
+      // Case B) 1 child = <xxx></xxx>  Target it (could be a vue component!)
       if (this.$children.length) {
         this.isTextInput = false // false = some component
-        this.input = this.$children[0] // input = component
-
+        this.input = 'value' in this.$children[0] ? this.$children[0] : null // input = anything that has a 'value' property
+        if (this.input) {
+          this.input.$on('input', this.__onInput)
+          this.__initState()
+          this.__updateState_value()
+          this.myValidate = false   // <-- // TODO: Interact with components *properly*...
+        }
       }
-      // Case B) 1 child = other component/element.  Target it.
+      // Case C) 1 child = other component/element.  Target it.
       this.isSingleInput = true
       this.isTextInput = false
 
     } else {
 
-      // > 1 child. Target them.
+      // Case D) 2+ children. Target none of them, but listen to fieldEvents from all child <q-fields>
+      // TODO: Target none, OR the first of any content found wrapped in a <field-target> component.
       this.isTextInput = false
       this.input = elms[0].elm
 
@@ -640,6 +654,7 @@ export default {
       // DEPRECATED: If all children are <q-fields>...
       // this.isTargeted = (this.numChildFields === this.$children.length)
       console.log('child, ', this.numChildFields, this.$children.length)
+
     }
 
     // Id
@@ -668,13 +683,15 @@ export default {
       this.myFloatHint = this.label
     }
 
-    // add events
-    if (this.input && this.isTextInput === true) {
+    // add native event handlers to <input> and <textarea> elements
+    if (this.isTextInput === true) {
       this.$el.addEventListener('click', this.__onActivate, true)
       this.input.addEventListener('focus', this.__onFocus, true)
       this.input.addEventListener('blur', this.__onBlur, true)
       this.input.addEventListener('input', this.__onInput, true)
     } else if (this.input && this.isTextInput === false) {
+      console.log('aaaaa');
+      this.$el.addEventListener('input', this.__onInput, true)
       // TODO: Handle non-textual components properly!!
       // this.input.elm.addEventListener('focusin', this.__onFocus, true)
       // this.input.elm.addEventListener('focusout', this.__onBlur, true)
