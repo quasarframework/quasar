@@ -17,6 +17,7 @@
         @blur="blur()"
         :disabled="disable"
         :readonly="readonly"
+        tabindex="0"
       >
       <button
         class="q-search-clear"

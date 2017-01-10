@@ -6,7 +6,8 @@
     :placeholder="placeholder"
     :static-label="staticLabel"
     :value="actualValue"
-    @click.native="__open()"
+    @click.native="__open"
+    @keydown.native.enter="open"
   >
     <q-popover
       v-if="desktop"
