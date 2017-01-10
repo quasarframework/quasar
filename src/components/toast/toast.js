@@ -3,6 +3,7 @@ import Toast from './Toast.vue'
 
 let
   toast,
+  defaults,
   types = [
     {
       name: 'positive',
@@ -47,13 +48,21 @@ export function install (_Vue) {
     let node = document.createElement('div')
     document.body.appendChild(node)
     toast = new _Vue(Toast).$mount(node)
+    if (defaults) {
+      toast.setDefaults(defaults)
+    }
   })
 }
 
 export default {
   create,
   setDefaults (opts) {
-    toast.setDefaults(opts)
+    if (toast) {
+      toast.setDefaults(opts)
+    }
+    else {
+      defaults = opts
+    }
   },
   install
 }
