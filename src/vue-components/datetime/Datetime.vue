@@ -14,7 +14,7 @@
       @open="__setModel()"
       :disable="disable || readonly"
     >
-      <q-inline-datetime v-model="model" :type="type" :min="min" :max="max">
+      <q-inline-datetime v-model="model" :type="type" :min="min" :max="max" class="no-border">
         <div class="modal-buttons row full-width">
           <button v-if="!noClear" @click="clear()" class="primary clear" v-html="clearLabel"></button>
           <div class="auto"></div>
