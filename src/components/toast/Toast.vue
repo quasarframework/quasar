@@ -4,7 +4,7 @@
     :class="{active: active}"
   >
     <div
-      class="q-toast row no-wrap items-center non-selectable"
+      class="q-toast row inline no-wrap items-center non-selectable"
       v-if="stack[0]"
       :style="{color: stack[0].color, background: stack[0].bgColor}"
       :class="classes"
