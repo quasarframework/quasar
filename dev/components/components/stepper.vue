@@ -2,7 +2,7 @@
   <div>
     <div class="layout-padding">
       <q-transition name="slide">
-        <q-stepper @finish="finish()" @step="onStep($event)" ref="stepper" v-show="!finished" color="green">
+        <q-stepper @finish="finish()" @step="onStep" ref="stepper" v-show="!finished" color="green">
           <q-step title="Select campaign settings">
             For each ad campaign that you create, you can control how much you're willing to spend on clicks and conversions, which networks and geographical locations you want your ads to show on, and more.
           </q-step>
