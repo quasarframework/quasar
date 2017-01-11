@@ -29,7 +29,7 @@
       </div>
 
       <span class="label bg-amber fixed-bottom-left" style="left: 18px; bottom: 18px;">
-        <span class="left-detail">Step</span> {{ currentStep }}
+        <span class="left-detail">Step</span> {{ currentStep }} {{ stepMessage }}
       </span>
 
     </div>
@@ -42,7 +42,8 @@ export default {
     return {
       ready: false,
       finished: false,
-      currentStep: 0
+      currentStep: 0,
+      stepMessage: ''
     }
   },
   methods: {
@@ -51,6 +52,23 @@ export default {
     },
     onStep (currentStep) {
       this.currentStep = currentStep
+      switch (this.currentStep) {
+        case 1:
+          this.stepMessage = 'started'
+          break
+        case 2:
+          this.stepMessage = 'second step'
+          break
+        case 3:
+          this.stepMessage = 'next to finish'
+          break
+        case 4:
+          this.stepMessage = 'done!'
+          break
+        default:
+          this.stepMessage = ''
+          break
+      }
     },
     reset () {
       this.$refs.stepper.reset()
