@@ -60,6 +60,9 @@
       <p class="caption">With Placeholder</p>
       <q-datetime v-model="model" type="date" placeholder="Pick Date"></q-datetime>
 
+      <p class="caption">With Static Label</p>
+      <q-datetime v-model="model" type="date" static-label="Party Date"></q-datetime>
+
       <p class="caption">Disabled State</p>
       <q-datetime disable v-model="model" type="datetime"></q-datetime>
 
@@ -71,10 +74,6 @@
 
       <p class="caption">Min & Max</p>
       <q-datetime type="datetime" v-model="minMaxModel" :min="min" :max="max"></q-datetime>
-
-      <p class="caption">Range</p>
-      <q-datetime type="datetime" v-model="range.start" :min="range.min" :max="range.end"></q-datetime>
-      <q-datetime type="datetime" v-model="range.end" :min="range.start" :max="range.max"></q-datetime>
 
       <p class="caption">Inside of a List</p>
       <div class="list">
@@ -147,10 +146,6 @@
 
       <p class="caption">Min & Max</p>
       <q-inline-datetime type="datetime" v-model="minMaxModel" :min="min" :max="max"></q-inline-datetime>
-
-      <p class="caption">Range</p>
-      <q-inline-datetime type="datetime" v-model="range.start" :min="range.min" :max="range.end"></q-inline-datetime>
-      <q-inline-datetime type="datetime" v-model="range.end" :min="range.start" :max="range.max"></q-inline-datetime>
     </div>
   </div>
 </template>
@@ -164,13 +159,7 @@ export default {
       model: '2016-09-18T10:45:00.000Z',
       minMaxModel: '2016-10-24T10:40:14.674Z',
       min: moment('2016-10-24T10:40:14.674Z').subtract(5, 'days').format(),
-      max: moment('2016-10-24T10:40:14.674Z').add(4, 'hours').add(10, 'minutes').format(),
-      range: {
-        start: moment('2016-10-24T10:40:14.674Z').subtract(3, 'days').format(),
-        end: moment('2016-10-24T10:40:14.674Z').add(4, 'hours').add(10, 'minutes').add(1, 'month').format(),
-        min: moment('2016-10-24T10:40:14.674Z').subtract(3, 'days').format(),
-        max: moment('2016-10-24T10:40:14.674Z').add(4, 'hours').add(10, 'minutes').add(1, 'month').format()// .add(1, 'month').add(1, 'year')
-      }
+      max: moment('2016-10-24T10:40:14.674Z').add(4, 'hours').add(10, 'minutes').add(1, 'month').format()
     }
   }
 }

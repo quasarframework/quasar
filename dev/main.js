@@ -2,9 +2,7 @@ import Vue from 'vue'
 import Quasar from 'quasar'
 import router from './router'
 
-import moment from 'moment'
-moment.locale('de')
-
+require('../src/themes/quasar.' + __THEME + '.styl')
 Vue.use(Quasar) // Install Quasar Framework
 
 Quasar.start(() => {

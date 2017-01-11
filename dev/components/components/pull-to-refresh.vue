@@ -1,6 +1,8 @@
 <template>
   <q-layout>
-    <div class="toolbar" slot="header">Pull To Refresh</div>
+    <div class="toolbar" slot="header">
+      <q-toolbar-title>Pull To Refresh</q-toolbar-title>
+    </div>
 
     <div class="layout-view">
       <q-pull-to-refresh :handler="refresher">

@@ -4,8 +4,9 @@
     :readonly="readonly"
     :label="label"
     :placeholder="placeholder"
-    :fixed-label="fixedLabel"
+    :static-label="staticLabel"
     :value="actualValue"
+    @keydown.native.enter="open"
   >
     <q-popover ref="popover" :disable="disable || readonly">
       <div class="q-select-popover list highlight">
@@ -13,18 +14,34 @@
           <div class="item-primary">
             <q-radio v-model="model" :val="radio.value"></q-radio>
           </div>
-          <div class="item-content" v-html="radio.label"></div>
+          <div class="item-content">
+            <div v-html="radio.label"></div>
+          </div>
         </label>
+
+        <div v-if="type === 'list'" class="list no-border highlight" :class="{'item-delimiter': delimiter}" style="min-width: 100px;">
+          <q-list-item
+            v-for="opt in options"
+            :item="opt"
+            link
+            :active="model === opt.value"
+            @click.native="__setAndClose(opt.value)"
+          ></q-list-item>
+        </div>
 
         <label v-if="type === 'checkbox'" v-for="(checkbox, index) in options" class="item">
           <div class="item-primary">
             <q-checkbox :value="optModel[index]" @input="toggleValue(checkbox.value)"></q-checkbox>
           </div>
-          <div class="item-content" v-html="checkbox.label"></div>
+          <div class="item-content">
+            <div v-html="checkbox.label"></div>
+          </div>
         </label>
 
         <label v-if="type === 'toggle'" v-for="(toggle, index) in options" class="item">
-          <div class="item-content has-secondary" v-html="toggle.label"></div>
+          <div class="item-content has-secondary">
+            <div v-html="toggle.label"></div>
+          </div>
           <div class="item-secondary">
             <q-toggle :value="optModel[index]" @input="toggleValue(toggle.value)"></q-toggle>
           </div>
@@ -44,8 +61,8 @@ export default {
       type: Array,
       required: true,
       validator (options) {
-        return !options.some(option =>
-          typeof option.label === 'undefined' || typeof option.value === 'undefined'
+        return !options.some(opt =>
+          typeof opt.label === 'undefined' || typeof opt.value === 'undefined'
         )
       }
     },
@@ -53,18 +70,22 @@ export default {
       type: String,
       required: true,
       validator (value) {
-        return ['radio', 'checkbox', 'toggle'].includes(value)
+        return ['radio', 'list', 'checkbox', 'toggle'].includes(value)
       }
     },
     label: String,
     placeholder: String,
-    fixedLabel: String,
+    staticLabel: String,
     readonly: Boolean,
-    disable: Boolean
+    disable: Boolean,
+    delimiter: Boolean
   },
   computed: {
     model: {
       get () {
+        if (this.multipleSelection && !Array.isArray(this.value)) {
+          console.error('Select model needs to be an array when using multiple selection.')
+        }
         return this.value
       },
       set (value) {
@@ -75,15 +96,18 @@ export default {
       /* Used by multiple selection only */
       return this.options.map(opt => this.model.includes(opt.value))
     },
+    multipleSelection () {
+      return ['checkbox', 'toggle'].includes(this.type)
+    },
     actualValue () {
-      if (this.type === 'radio') {
+      if (!this.multipleSelection) {
         let option = this.options.find(option => option.value === this.model)
         return option ? option.label : ''
       }
 
       let options = this.options
-        .filter(option => this.model.includes(option.value))
-        .map(option => option.label)
+        .filter(opt => this.model.includes(opt.value))
+        .map(opt => opt.label)
 
       return !options.length ? '' : options.join(', ')
     }
@@ -105,6 +129,11 @@ export default {
       else {
         this.model.push(value)
       }
+    },
+
+    __setAndClose (val) {
+      this.model = val
+      this.close()
     }
   }
 }

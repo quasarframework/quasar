@@ -2,22 +2,24 @@
   <table class="q-table horizontal-delimiter">
     <colgroup>
       <col v-if="selection" style="width: 45px;" />
-      <col v-for="col in cols" :style="col.style" />
+      <col v-for="col in cols" :style="{width: col.width}" />
     </colgroup>
-    <thead>
+    <thead v-if="!noHeader">
       <tr>
-        <th v-if="selection"></th>
+        <th v-if="selection">&nbsp;</th>
         <th
           v-for="(col, index) in cols"
           :class="{invisible: hidden(index), sortable: col.sort}"
           @click="sort(col)"
         >
-          <span v-html="col.label"></span>
-          <sort-icon
-            v-if="col.sort"
-            :field="col.field"
-            :sorting="sorting"
-          ></sort-icon>
+          <template v-if="!hidden(index)">
+            <sort-icon
+              v-if="col.sort"
+              :field="col.field"
+              :sorting="sorting"
+            ></sort-icon>
+            <span v-html="col.label"></span>
+          </template>
         </th>
       </tr>
     </thead>
@@ -36,6 +38,7 @@ export default {
     stickyCols: Number,
     cols: Array,
     head: Boolean,
+    noHeader: Boolean,
     right: Boolean,
     sorting: Object,
     scroll: Object,
@@ -55,7 +58,7 @@ export default {
     },
     sort (col) {
       if (col.sort) {
-        this.$emit('sort', col.field)
+        this.$emit('sort', col)
       }
     }
   },

@@ -1,5 +1,5 @@
 <template>
-  <div class="q-datetime inline column gt-md-row" :class="{disabled: disable, readonly}">
+  <div class="q-datetime inline column gt-md-row" :class="{disabled: disable, readonly: readonly}">
     <div class="q-datetime-header column justify-center" v-if="!value">&nbsp;</div>
     <div class="q-datetime-header column justify-center" v-else>
       <div v-if="typeHasDate">
@@ -366,21 +366,23 @@ export default {
       if (!this.pmax || this.pmax.month() !== this.date.month() || this.pmax.year() !== this.date.year()) {
         return false
       }
-      return this.date.daysInMonth() - this.maxDay
+      return this.daysInMonth - this.maxDay
     },
     maxDay () {
-      return this.pmax ? this.pmax.date() : this.date.daysInMonth()
+      return this.pmax ? this.pmax.date() : this.daysInMonth
     },
     daysInterval () {
-      let days = this.date.daysInMonth()
-      let max = !this.pmax || this.pmax.month() !== this.date.month() || this.pmax.year() !== this.date.year() ? 0 : days - this.pmax.date()
+      let max = !this.pmax || this.pmax.month() !== this.date.month() || this.pmax.year() !== this.date.year() ? 0 : this.daysInMonth - this.pmax.date()
       if (this.beforeMinDays || max) {
         let min = this.beforeMinDays ? this.beforeMinDays + 1 : 1
-        return Array.apply(null, {length: days - min - max + 1}).map((day, index) => {
+        return Array.apply(null, {length: this.daysInMonth - min - max + 1}).map((day, index) => {
           return index + min
         })
       }
-      return days
+      return this.daysInMonth
+    },
+    daysInMonth () {
+      return this.date.daysInMonth()
     },
 
     hour () {
@@ -523,19 +525,19 @@ export default {
     },
     __parseTypeValue (type, value) {
       if (type === 'month') {
-        return Math.max(1, Math.min(12, value))
+        return Utils.format.between(value, 1, 12)
       }
       if (type === 'date') {
-        return Math.max(1, Math.min(this.date.daysInMonth(), value))
+        return Utils.format.between(value, 1, this.daysInMonth)
       }
       if (type === 'year') {
-        return Math.max(1950, Math.min(2050, value))
+        return Utils.format.between(value, 1950, 2050)
       }
       if (type === 'hour') {
-        return Math.max(0, Math.min(23, value))
+        return Utils.format.between(value, 0, 23)
       }
       if (type === 'minute') {
-        return Math.max(0, Math.min(59, value))
+        return Utils.format.between(value, 0, 59)
       }
     },
 
@@ -550,7 +552,9 @@ export default {
       return value
     },
     __updateModel () {
-      this.model = this.__normalizeValue(this.date).toISOString()
+      if (this.date) {
+        this.model = this.__normalizeValue(this.date).toISOString()
+      }
     }
   }
 }

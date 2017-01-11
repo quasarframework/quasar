@@ -23,7 +23,7 @@
       <div
         class="q-range-handle"
         :style="{left: percentage}"
-        :class="{dragging, 'handle-at-minimum': value === min}"
+        :class="{dragging: dragging, 'handle-at-minimum': value === min}"
       >
         <div
           class="q-range-label"
@@ -122,12 +122,12 @@ export default {
       }
 
       let
-        percentage = Math.min(1, Math.max(0, (Utils.event.position(event).left - this.dragging.left) / this.dragging.width)),
+        percentage = Utils.format.between((Utils.event.position(event).left - this.dragging.left) / this.dragging.width, 0, 1),
         model = this.min + percentage * (this.max - this.min),
         modulo = (model - this.min) % this.step
 
       this.currentPercentage = percentage
-      this.$emit('input', Math.min(this.max, Math.max(this.min, model - modulo + (Math.abs(modulo) >= this.step / 2 ? (modulo < 0 ? -1 : 1) * this.step : 0))))
+      this.$emit('input', Utils.format.between(model - modulo + (Math.abs(modulo) >= this.step / 2 ? (modulo < 0 ? -1 : 1) * this.step : 0), this.min, this.max))
     },
     __end () {
       this.dragging = false

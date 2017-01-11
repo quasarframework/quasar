@@ -6,8 +6,6 @@
 </template>
 
 <script>
-require('../src/themes/quasar.' + __THEME + '.styl')
-
 export default {
   mounted () {
     window.bar = this.$refs.bar

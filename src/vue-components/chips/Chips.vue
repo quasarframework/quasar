@@ -2,7 +2,7 @@
   <div
     class="q-chips group textfield"
     @click="focus"
-    :class="{active, disabled: disable, readonly}"
+    :class="{active: active, disabled: disable, readonly: readonly}"
   >
     <span
       class="chip label bg-light text-grey-9"

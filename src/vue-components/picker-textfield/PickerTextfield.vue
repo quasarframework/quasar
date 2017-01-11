@@ -1,7 +1,8 @@
 <template>
   <div
     class="q-picker-textfield cursor-pointer textfield caret"
-    :class="{disabled: disable, readonly, active, 'with-label': label}"
+    :class="{disabled: disable, readonly: readonly, active: active, 'with-label': label}"
+    tabindex="0"
   >
     <div class="q-picker-textfield-label ellipsis" v-html="label"></div>
     <div class="q-picker-textfield-value ellipsis" v-html="actualValue"></div>
@@ -14,7 +15,7 @@ export default {
   props: {
     label: String,
     placeholder: String,
-    fixedLabel: String,
+    staticLabel: String,
     value: String,
     disable: Boolean,
     readonly: Boolean
@@ -24,7 +25,7 @@ export default {
       return this.value.length > 0
     },
     actualValue () {
-      return this.fixedLabel || (this.label ? this.value : this.value || this.placeholder)
+      return this.staticLabel || (this.label ? this.value : this.value || this.placeholder)
     }
   }
 }

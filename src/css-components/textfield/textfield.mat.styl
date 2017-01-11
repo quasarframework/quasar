@@ -8,27 +8,25 @@
 // // $textfield-padding-horizontal ?= 0
 // // $textfield-padding-vertical   ?= 8px
 
-// // $caret-color                  ?= $grey-9
-
-// // input, textarea, .textfield
-// //   &:not(.no-style)
-// //     background none
-// //     font-size $textfield-font-size
-// //     max-width 100%
-// //     margin-bottom 2px
-// //     padding $textfield-padding-vertical $textfield-padding-horizontal
-// //     border 0
-// //     outline 0
-// //     transition all .3s
-// //     border-bottom $textfield-border-size $textfield-border-style $textfield-border-color
-// //     &:focus, &:hover, .active
-// //       border-bottom $textfield-border-size $textfield-border-style $textfield-focus-border-color
-// //     &[disabled], &.disabled
-// //       border-bottom-color darken($form-darker-color, 20%)
-// //     &[disabled], &.disabled, &[readonly], &.readonly
-// //       border-bottom-style dotted
-// //     &.has-error
-// //       border-bottom $textfield-border-size $textfield-border-style $has-error !important
+input, textarea, .textfield
+  &:not(.no-style)
+    background none
+    font-size $textfield-font-size
+    max-width 100%
+    margin-bottom 2px
+    padding $textfield-padding-vertical $textfield-padding-horizontal
+    border 0
+    outline 0
+    transition all .3s
+    border-bottom $textfield-border-size $textfield-border-style $textfield-border-color
+    &:focus, &:hover, .active
+      border-bottom $textfield-border-size $textfield-border-style $textfield-focus-border-color
+    &[disabled], &.disabled
+      border-bottom-color darken($form-darker-color, 20%)
+    &[disabled], &.disabled, &[readonly], &.readonly
+      border-bottom-style dotted
+    &.has-error
+      border-bottom $textfield-border-size $textfield-border-style $has-error !important
 
 // // label
 // //   font-size $label-font-size

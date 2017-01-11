@@ -1,0 +1,28 @@
+$uploader-font-size          ?= .8rem
+$uploader-progressbar-height ?= 3px
+$uploader-img-max-height     ?= 200px
+$uploader-file-max-width     ?= 200px
+$uploader-failed-color       ?= white
+$uploader-failed-background  ?= $negative
+
+.q-uploader
+  .card
+    max-width $uploader-file-max-width
+    img
+      max-height $uploader-img-max-height
+  .card-title, .card-content
+    font-size $uploader-font-size
+  .card-content
+    padding 10px
+  input
+    display none
+  .q-progress
+    margin 0
+    height $uploader-progressbar-height !important
+  .q-spinner
+    margin 0 10px
+.q-uploader-failed
+  background $uploader-failed-background
+  color $uploader-failed-color
+  padding 10px 0
+  text-align center

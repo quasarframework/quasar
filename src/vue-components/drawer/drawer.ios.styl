@@ -26,13 +26,14 @@ body.drawer-opened
   width 15px
 
 .drawer-content
-  will-change transform
   background $drawer-background
   top 0
   bottom 0
-  height 100vh
   width $drawer-width
   font-size $drawer-font-size
+  overflow-y auto
+  -webkit-overflow-scrolling touch
+  will-change scroll-position, transform
 
   &.left-side
     left 0
@@ -75,10 +76,10 @@ swipe-behavior()
     &.right-side
       transform translateX($drawer-width)
 
-@media screen and (max-width: $layout-small-max)
+@media screen and (max-width: $layout-medium-max)
   swipe-behavior()
 
-@media screen and (min-width: $layout-medium-min)
+@media screen and (min-width: $layout-big-min)
   .hide-on-drawer-visible
     display none !important
   .drawer

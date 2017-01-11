@@ -23,6 +23,7 @@ let routes = [
     component: load('test-layout/layout'),
     children: [
       {path: 'about', component: load('test-layout/about')},
+      {path: 'layout', redirect: '/test-layout/about'},
       {path: 'toolbar', component: load('test-layout/toolbar')},
       {path: 'tabs', component: load('test-layout/tabs')},
       {path: 'drawer', component: load('test-layout/drawer')}

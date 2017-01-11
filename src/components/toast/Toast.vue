@@ -1,7 +1,7 @@
 <template>
   <div
     class="q-toast-container"
-    :class="{active}"
+    :class="{active: active}"
   >
     <div
       class="q-toast row no-wrap items-center non-selectable"

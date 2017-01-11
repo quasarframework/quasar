@@ -14,9 +14,7 @@
 
       <div style="margin-top: 40px;width: 200px; height: 70px;background-color: #26A69A;">
         &nbsp;
-        <q-tooltip>
-          Quasar Rulz!
-        </q-tooltip>
+        <q-tooltip>Quasar Rulz!</q-tooltip>
       </div>
       <br><br>
       <div class="group">

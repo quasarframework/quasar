@@ -11,6 +11,8 @@
 </template>
 
 <script>
+import Utils from '../../utils'
+
 export default {
   props: {
     value: {
@@ -48,7 +50,7 @@ export default {
   methods: {
     set (value) {
       if (!this.disable) {
-        this.model = Math.min(this.max, Math.max(1, parseInt(value, 10)))
+        this.model = Utils.format.between(parseInt(value, 10), 1, this.max)
       }
     },
     __setHoverValue (value) {

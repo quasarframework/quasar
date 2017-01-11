@@ -1,30 +1,28 @@
 <template>
   <div class="q-data-table shadow-1">
-    <div v-if="hasToolbar && toolbar === ''" class="q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end">
-      <div v-if="config.title" class="q-data-table-title ellipsis auto" v-html="config.title"></div>
-      <div class="row items-center">
-        <button v-if="config.refresh && !refreshing" class="primary clear" @click="refresh">
-          <i>refresh</i>
-        </button>
-        <button v-if="refreshing" class="disabled">
-          <i class="animate-spin-reverse">cached</i>
-        </button>
-        <button v-if="config.filter" class="primary clear" @click="toolbar = 'filter'">
-          <i>filter_list</i>
-        </button>
-        <q-select
-          type="toggle"
-          v-if="config.columnPicker"
-          v-model="columnSelection"
-          :options="columnSelectionOptions"
-          fixed-label="Columns"
-          class="text-right"
-          style="margin-left: 10px"
-        ></q-select>
+    <template v-if="hasToolbar && toolbar === ''">
+      <div class="q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end">
+        <div v-if="config.title" class="q-data-table-title ellipsis auto" v-html="config.title"></div>
+        <div class="row items-end">
+          <button v-if="config.refresh && !refreshing" class="primary clear" @click="refresh">
+            <i>refresh</i>
+          </button>
+          <button v-if="refreshing" class="disabled">
+            <i class="animate-spin-reverse">cached</i>
+          </button>
+          <q-select
+            type="toggle"
+            v-if="config.columnPicker"
+            v-model="columnSelection"
+            :options="columnSelectionOptions"
+            :static-label="labels.columns"
+            class="text-right"
+            style="margin-left: 10px"
+          ></q-select>
+        </div>
       </div>
-    </div>
+    </template>
 
-    <table-filter v-if="toolbar === 'filter'" :filtering="filtering" :columns="cols" @close="toolbar = ''"></table-filter>
     <div class="q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end q-data-table-selection" v-show="toolbar === 'selection'">
       <div class="auto">
         {{ rowsSelected }} item<span v-show="rowsSelected > 1">s</span> selected.
@@ -35,26 +33,31 @@
       </div>
     </div>
 
+    <table-filter v-if="filteringCols.length" :filtering="filtering" :columns="filteringCols" :labels="labels"></table-filter>
+
     <template v-if="responsive">
       <div v-if="message" class="q-data-table-message row items-center justify-center" v-html="message"></div>
-      <table v-else class="q-table horizontal-delimiter responsive" ref="body">
-        <tbody>
-          <tr v-for="(row, index) in rows">
-            <td v-if="config.selection">
-              <q-checkbox v-if="config.selection === 'multiple'" v-model="rowSelection[index]"></q-checkbox>
-              <q-radio v-else v-model="rowSelection[0]" :val="index"></q-radio>
-            </td>
-            <td v-for="col in cols" :data-th="col.label">
-              <span v-if="!$scopedSlots['col-'+col.field]" v-html="format(row, col)"></span>
-              <slot v-if="$scopedSlots['col-'+col.field]" :name="'col-'+col.field" :row="row" :col="col" :data="row[col.field]"></slot>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div v-else :style="bodyStyle" style="overflow: auto">
+        <table class="q-table horizontal-delimiter responsive" ref="body">
+          <tbody>
+            <tr v-for="(row, index) in rows">
+              <td v-if="config.selection">
+                <q-checkbox v-if="config.selection === 'multiple'" v-model="rowSelection[index]"></q-checkbox>
+                <q-radio v-else v-model="rowSelection[0]" :val="index"></q-radio>
+              </td>
+              <td v-for="col in cols" :data-th="col.label" :style="formatStyle(col, row[col.field])" :class="formatClass(col, row[col.field])">
+                <slot :name="'col-'+col.field" :row="row" :col="col" :data="row[col.field]">
+                  <span v-html="format(row, col)"></span>
+                </slot>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </template>
 
-    <div v-else class="q-data-table-container" @mousewheel="mouseWheel" @dommousescroll="mouseWheel">
-      <div class="q-data-table-head" ref="head" :style="{marginRight: scroll.vert}">
+    <div v-else class="q-data-table-container" @mousewheel="mouseWheel" @DOMMouseScroll="mouseWheel">
+      <div v-if="hasHeader" class="q-data-table-head" ref="head" :style="{marginRight: scroll.vert}">
         <table-content head :cols="cols" :sorting="sorting" :scroll="scroll" :selection="config.selection" @sort="setSortField"></table-content>
       </div>
       <div
@@ -67,12 +70,13 @@
         <table-content v-else :cols="cols" :selection="config.selection">
           <tr v-for="row in rows" :style="rowStyle">
             <td v-if="config.selection"></td>
-            <td v-for="n in leftStickyColumns"></td>
-            <td v-for="col in regularCols">
-              <span v-if="!$scopedSlots['col-'+col.field]" v-html="format(row, col)"></span>
-              <slot v-if="$scopedSlots['col-'+col.field]" :name="'col-'+col.field" :row="row" :col="col" :data="row[col.field]"></slot>
+            <td v-if="leftStickyColumns" :colspan="leftStickyColumns"></td>
+            <td v-for="col in regularCols" :style="formatStyle(col, row[col.field])" :class="formatClass(col, row[col.field])">
+              <slot :name="'col-'+col.field" :row="row" :col="col" :data="row[col.field]">
+                <span v-html="format(row, col)"></span>
+              </slot>
             </td>
-            <td v-for="n in rightStickyColumns"></td>
+            <td v-if="rightStickyColumns" :colspan="rightStickyColumns"></td>
           </tr>
         </table-content>
       </div>
@@ -83,20 +87,21 @@
           ref="stickyLeft"
           :style="{bottom: scroll.horiz}"
         >
-          <table-sticky :sticky-cols="leftStickyColumns" :cols="cols" :sorting="sorting" :selection="config.selection">
+          <table-sticky :no-header="!hasHeader" :sticky-cols="leftStickyColumns" :cols="cols" :sorting="sorting" :selection="config.selection">
             <tr v-for="(row, index) in rows" :style="rowStyle">
               <td v-if="config.selection">
                 <q-checkbox v-if="config.selection === 'multiple'" v-model="rowSelection[index]"></q-checkbox>
                 <q-radio v-else v-model="rowSelection[0]" :val="index"></q-radio>
               </td>
-              <td v-for="n in leftStickyColumns">
-                <span v-if="!$scopedSlots['col-'+cols[n-1].field]" v-html="format(row, cols[n-1])"></span>
-                <slot v-if="$scopedSlots['col-'+cols[n-1].field]" :name="'col-'+cols[n-1].field" :row="row" :col="cols[n-1]" :data="row[cols[n-1].field]"></slot>
+              <td v-for="col in leftCols" :style="formatStyle(col, row[col.field])" :class="formatClass(col, row[col.field])">
+                <slot :name="'col-'+col.field" :row="row" :col="col" :data="row[col.field]">
+                  <span v-html="format(row, col)"></span>
+                </slot>
               </td>
             </tr>
           </table-sticky>
         </div>
-        <div class="q-data-table-sticky-left" :style="{bottom: scroll.horiz}">
+        <div v-if="hasHeader" class="q-data-table-sticky-left" :style="{bottom: scroll.horiz}">
           <table-sticky head :sticky-cols="leftStickyColumns" :scroll="scroll" :cols="cols" :sorting="sorting" @sort="setSortField" :selection="config.selection"></table-sticky>
         </div>
       </template>
@@ -107,24 +112,25 @@
           ref="stickyRight"
           :style="{right: scroll.vert, bottom: scroll.horiz}"
         >
-          <table-sticky right :sticky-cols="rightStickyColumns" :cols="cols" :sorting="sorting" :selection="config.selection">
+          <table-sticky :no-header="!hasHeader" right :sticky-cols="rightStickyColumns" :cols="cols" :sorting="sorting" :selection="config.selection">
             <tr v-for="row in rows" :style="rowStyle">
               <td v-if="config.selection" class="invisible"></td>
-              <td v-for="n in cols.length - rightStickyColumns" class="invisible"></td>
-              <td v-for="n in rightStickyColumns">
-                <span v-if="!$scopedSlots['col-'+rightCols[n-1].field]" v-html="format(row, rightCols[n-1])"></span>
-                <slot v-if="$scopedSlots['col-'+rightCols[n-1].field]" :name="'col-'+rightCols[n-1].field" :row="row" :col="rightCols[n-1]" :data="row[rightCols[n-1].field]"></slot>
+              <td :colspan="cols.length - rightStickyColumns" class="invisible"></td>
+              <td v-for="col in rightCols" :style="formatStyle(col, row[col.field])" :class="formatClass(col, row[col.field])">
+                <slot :name="'col-'+col.field" :row="row" :col="col" :data="row[col.field]">
+                  <span v-html="format(row, col)"></span>
+                </slot>
               </td>
             </tr>
           </table-sticky>
         </div>
-        <div class="q-data-table-sticky-right" :style="{right: scroll.vert}">
+        <div v-if="hasHeader" class="q-data-table-sticky-right" :style="{right: scroll.vert}">
           <table-sticky right head :sticky-cols="rightStickyColumns" :scroll="scroll" :cols="cols" :sorting="sorting" @sort="setSortField" :selection="config.selection"></table-sticky>
         </div>
       </template>
     </div>
 
-    <table-pagination v-if="config.pagination" :pagination="pagination" :entries="pagination.entries"></table-pagination>
+    <table-pagination v-if="config.pagination" :pagination="pagination" :entries="pagination.entries" :labels="labels"></table-pagination>
   </div>
 </template>
 
@@ -133,6 +139,7 @@ import Utils from '../../utils'
 
 import ColumnSelection from './plugins/column-selection/column-selection'
 import Filter from './plugins/filter/filter'
+import I18n from './plugins/i18n/i18n'
 import Pagination from './plugins/pagination/pagination'
 import Responsive from './plugins/responsive/responsive'
 import RowSelection from './plugins/row-selection/row-selection'
@@ -143,7 +150,7 @@ import StickyColumns from './plugins/sticky-cols/sticky-cols'
 import TableContent from './TableContent.vue'
 
 export default {
-  mixins: [ColumnSelection, Filter, Pagination, Responsive, RowSelection, Scroll, Sort, StickyColumns],
+  mixins: [ColumnSelection, Filter, I18n, Pagination, Responsive, RowSelection, Scroll, Sort, StickyColumns],
   props: {
     data: {
       type: Array,
@@ -167,6 +174,12 @@ export default {
   },
   computed: {
     rows () {
+      let length = this.data.length
+
+      if (!length) {
+        return []
+      }
+
       let rows = Utils.clone(this.data)
 
       rows.forEach((row, i) => {
@@ -182,7 +195,6 @@ export default {
       }
 
       this.pagination.entries = rows.length
-
       if (this.pagination.rowsPerPage > 0) {
         rows = this.paginate(rows)
       }
@@ -197,19 +209,11 @@ export default {
     bodyStyle () {
       return this.config.bodyStyle || {}
     },
-    message () {
-      if (this.rows.length) {
-        return false
-      }
-
-      if (this.filtering.terms) {
-        return this.config.messages.noDataAfterFiltering || '<i>warning</i> No results. Please refine your search terms.'
-      }
-
-      return this.config.message.noData || '<i>warning</i> No data available to show.'
-    },
     hasToolbar () {
-      return this.config.title || this.config.filter || this.config.columnPicker || this.config.refresh
+      return this.config.title || this.filteringCols.length || this.config.columnPicker || this.config.refresh
+    },
+    hasHeader () {
+      return !this.config.noHeader
     }
   },
   methods: {
@@ -227,7 +231,6 @@ export default {
     refresh (state) {
       if (state === false) {
         this.refreshing = false
-        return
       }
       else if (state === true || !this.refreshing) {
         this.refreshing = true
@@ -235,6 +238,12 @@ export default {
           this.refreshing = false
         })
       }
+    },
+    formatStyle (col, value) {
+      return typeof col.style === 'function' ? col.style(value) : col.style
+    },
+    formatClass (col, value) {
+      return typeof col.classes === 'function' ? col.classes(value) : col.classes
     }
   },
   components: {

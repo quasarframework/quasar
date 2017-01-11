@@ -19,6 +19,10 @@ export default {
       default: 'bottom middle',
       validator: Utils.popup.positionValidator
     },
+    offset: {
+      type: Array,
+      validator: Utils.popup.offsetValidator
+    },
     maxHeight: String,
     disable: Boolean
   },
@@ -57,6 +61,7 @@ export default {
       document.body.appendChild(this.$el)
       Utils.popup.setPosition({
         el: this.$el,
+        offset: this.offset,
         anchorEl: this.anchorEl,
         anchorOrigin: this.anchorOrigin,
         selfOrigin: this.selfOrigin,

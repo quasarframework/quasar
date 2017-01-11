@@ -31,7 +31,7 @@
         <img
           :src="img"
           :class="{active: currentSlide === index}"
-          @click="selectImage(index)"
+          @click="__selectImage(index)"
         >
       </div>
     </div>
@@ -56,8 +56,11 @@ export default {
     toggleQuickView () {
       this.quickView = !this.quickView
     },
-    selectImage (index) {
-      this.$refs.slider.goToSlide(index, true)
+    goToSlide (index, noAnimation) {
+      this.$refs.slider.goToSlide(index, noAnimation)
+    },
+    __selectImage (index) {
+      this.goToSlide(index, true)
       this.toggleQuickView()
     },
     __updateCurrentSlide (value) {

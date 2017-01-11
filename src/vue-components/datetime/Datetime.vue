@@ -4,9 +4,10 @@
     :readonly="readonly"
     :label="label"
     :placeholder="placeholder"
-    :fixed-label="fixedLabel"
+    :static-label="staticLabel"
     :value="actualValue"
-    @click.native="__open()"
+    @click.native="__open"
+    @keydown.native.enter="open"
   >
     <q-popover
       v-if="desktop"
@@ -14,7 +15,7 @@
       @open="__setModel()"
       :disable="disable || readonly"
     >
-      <q-inline-datetime v-model="model" :type="type" :min="min" :max="max">
+      <q-inline-datetime v-model="model" :type="type" :min="min" :max="max" class="no-border">
         <div class="modal-buttons row full-width">
           <button v-if="!noClear" @click="clear()" class="primary clear" v-html="clearLabel"></button>
           <div class="auto"></div>
@@ -97,7 +98,7 @@ export default {
     },
     label: String,
     placeholder: String,
-    fixedLabel: String,
+    staticLabel: String,
     readonly: Boolean,
     disable: Boolean
   },
@@ -105,7 +106,7 @@ export default {
     let data = Platform.is.desktop ? {} : {
       css: contentCSS[theme],
       position: theme === 'ios' ? 'items-end justify-center' : 'items-center justify-center',
-      transition: theme === 'ios' ? 'q-modal-actions' : 'q-modal',
+      transition: theme === 'ios' ? 'q-modal-bottom' : 'q-modal',
       classNames: theme === 'ios' ? '' : 'minimized'
     }
     data.model = this.value || ''
@@ -130,6 +131,14 @@ export default {
       }
 
       return this.value ? moment(this.value).format(format) : ''
+    }
+  },
+  watch: {
+    min () {
+      this.__normalizeAndEmit()
+    },
+    max () {
+      this.__normalizeAndEmit()
     }
   },
   methods: {
@@ -165,6 +174,13 @@ export default {
     },
     __update () {
       this.$emit('input', this.model)
+    },
+    __normalizeAndEmit () {
+      this.$nextTick(() => {
+        if (this.value) {
+          this.$emit('input', this.__normalizeValue(moment(this.value)).format(this.format))
+        }
+      })
     }
   }
 }

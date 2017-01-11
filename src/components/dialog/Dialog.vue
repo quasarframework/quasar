@@ -18,6 +18,11 @@
           <label v-html="el.label"></label>
         </div>
 
+        <div v-if="el.type === 'password'" class="floating-label" style="margin-bottom: 10px">
+          <input type="password" class="full-width" v-model="el.model" :placeholder="el.placeholder" required>
+          <label v-html="el.label"></label>
+        </div>
+
         <div v-if="el.type === 'textarea'" class="floating-label" style="margin-bottom: 10px">
           <textarea type="text" class="full-width" v-model="el.model" :placeholder="el.placeholder" required></textarea>
           <label v-html="el.label"></label>
@@ -94,8 +99,9 @@
     >
       <button
         v-for="button in buttons"
-        class="primary clear"
-        @click="trigger(button.handler)"
+        @click="trigger(button.handler, button.preventClose)"
+        :class="button.classes || 'primary clear'"
+        :style="button.style"
         v-html="typeof button === 'string' ? button : button.label"
       ></button>
     </div>
@@ -127,12 +133,19 @@ export default {
     }
   },
   methods: {
-    trigger (handler) {
-      this.close(() => {
-        if (typeof handler === 'function') {
-          handler(this.getFormData())
-        }
-      })
+    trigger (handler, preventClose) {
+      const handlerFn = typeof handler === 'function'
+      if (!handlerFn) {
+        this.close()
+        return
+      }
+
+      if (preventClose) {
+        handler(this.getFormData(), this.close)
+      }
+      else {
+        this.close(() => { handler(this.getFormData()) })
+      }
     },
     getFormData () {
       if (!this.form) {
@@ -173,11 +186,6 @@ export default {
   mounted () {
     this.$refs.dialog.open()
     this.$root.quasarClose = this.close
-  },
-  destroyed () {
-    if (document.body.contains(this.$el)) {
-      document.body.removeChild(this.$el)
-    }
   }
 }
 </script>

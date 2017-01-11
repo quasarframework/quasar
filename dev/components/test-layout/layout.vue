@@ -17,7 +17,7 @@
     </div>
 
     <q-tabs slot="navigation">
-      <q-tab icon="view_quilt" route="/test-layout/about" exact replace>About</q-tab>
+      <q-tab icon="view_quilt" :route="{path: '/test-layout/about'}" replace>About</q-tab>
       <q-tab icon="view_day" route="/test-layout/toolbar" replace>Toolbar</q-tab>
       <q-tab icon="view_day" route="/test-layout/tabs" replace>Tabs</q-tab>
       <q-tab icon="input" route="/test-layout/drawer" replace>Drawer</q-tab>
@@ -26,12 +26,12 @@
     <q-drawer ref="leftDrawer">
       <div class="toolbar light">
         <q-toolbar-title :padding="1">
-            Drawer
+          Drawer
         </q-toolbar-title>
       </div>
 
       <div class="list no-border platform-delimiter">
-        <q-drawer-link icon="view_quilt" to="/test-layout/about">
+        <q-drawer-link icon="view_quilt" :to="{path: '/test-layout', exact: true}">
           About Layout
         </q-drawer-link>
         <hr>
@@ -64,12 +64,10 @@
     </q-drawer>
 
     <div slot="footer" class="toolbar">
-      <q-toolbar-title :padding="0">
-        <router-link tag="button" to="/">
-          <i class="on-left">keyboard_arrow_left</i>
-          Back to Index
-        </router-link>
-      </q-toolbar-title>
+      <router-link tag="button" to="/" exact>
+        <i class="on-left">keyboard_arrow_left</i>
+        Back to Index
+      </router-link>
     </div>
   </q-layout>
 </template>

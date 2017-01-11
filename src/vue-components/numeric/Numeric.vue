@@ -1,5 +1,5 @@
 <template>
-  <div class="q-numeric textfield row inline items-center" :class="{disabled: disable, readonly}">
+  <div class="q-numeric textfield row inline items-center" :class="{disabled: disable, readonly: readonly}">
     <i @click="__setByOffset(-1)">remove</i>
     <input
       class="no-style auto q-input-field"
@@ -13,6 +13,7 @@
       :disabled="disable"
       :readonly="readonly"
       :style="{width: (''+model).length * .7 + 'em'}"
+      tabindex="0"
     >
     <i v-show="value !== model && model !== ''">check</i>
     <i @click="__setByOffset(1)">add</i>
@@ -33,7 +34,11 @@ export default {
     min: Number,
     max: Number,
     readonly: Boolean,
-    disable: Boolean
+    disable: Boolean,
+    maxDecimals: {
+      type: Number,
+      default: 0
+    }
   },
   watch: {
     value () {
@@ -53,7 +58,8 @@ export default {
       else if (typeof this.max === 'number' && value > this.max) {
         return this.max
       }
-      return value
+
+      return parseFloat(this.maxDecimals ? parseFloat(value).toFixed(this.maxDecimals) : value)
     },
     __updateValue () {
       this.model = this.__normalize(this.model)

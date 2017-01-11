@@ -17,13 +17,13 @@
       ></div>
       <div
         class="q-range-track active-track"
-        :class="{dragging, 'track-draggable': dragRange}"
+        :class="{dragging: dragging, 'track-draggable': dragRange}"
         :style="{left: percentageMin * 100 + '%', width: activeTrackWidth}"
       ></div>
       <div
         class="q-range-handle q-range-handle-min"
         :style="{left: percentageMin * 100 + '%'}"
-        :class="{dragging, 'handle-at-minimum': value.min === min, undraggable: disableMin}"
+        :class="{dragging: dragging, 'handle-at-minimum': value.min === min, undraggable: disableMin}"
       >
         <div
           class="q-range-label"
@@ -34,7 +34,7 @@
       <div
         class="q-range-handle q-range-handle-max"
         :style="{left: percentageMax * 100 + '%'}"
-        :class="{dragging, 'handle-at-maximum': value.max === max, undraggable: disableMax}"
+        :class="{dragging: dragging, 'handle-at-maximum': value.max === max, undraggable: disableMax}"
       >
         <div
           class="q-range-label"

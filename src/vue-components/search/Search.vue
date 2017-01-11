@@ -1,7 +1,7 @@
 <template>
   <div
     class="q-search"
-    :class="{'q-search-centered': centered, disabled: disable, readonly}"
+    :class="{'q-search-centered': centered, disabled: disable, readonly: readonly}"
   >
     <div class="q-search-input-container">
       <button class="q-search-icon">
@@ -17,6 +17,7 @@
         @blur="blur()"
         :disabled="disable"
         :readonly="readonly"
+        tabindex="0"
       >
       <button
         class="q-search-clear"

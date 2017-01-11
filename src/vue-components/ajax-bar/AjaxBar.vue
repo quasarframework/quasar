@@ -5,6 +5,8 @@
 </template>
 
 <script>
+import Utils from '../../utils'
+
 const
   xhr = XMLHttpRequest,
   send = xhr.prototype.send
@@ -15,12 +17,12 @@ function translate ({p, pos, active, horiz, reverse}) {
   if (horiz) {
     if (reverse) { x = -1 }
     if (pos === 'bottom') { y = -1 }
-    return `translate3d(${x * (p - 100)}%, ${active ? 0 : y * -200}%, 0)`
+    return Utils.dom.cssTransform(`translate3d(${x * (p - 100)}%, ${active ? 0 : y * -200}%, 0)`)
   }
 
   if (reverse) { y = -1 }
   if (pos === 'right') { x = -1 }
-  return `translate3d(${active ? 0 : x * -200}%, ${y * (p - 100)}%, 0)`
+  return Utils.dom.cssTransform(`translate3d(${active ? 0 : x * -200}%, ${y * (p - 100)}%, 0)`)
 }
 
 function inc (p, amount) {
@@ -41,7 +43,7 @@ function inc (p, amount) {
       amount = 0
     }
   }
-  return Math.max(0, Math.min(100, p + amount))
+  return Utils.format.between(p + amount, 0, 100)
 }
 
 function highjackAjax (startHandler, endHandler) {
@@ -100,16 +102,15 @@ export default {
   },
   computed: {
     containerStyle () {
-      return {
-        [this.sizeProp]: this.size,
-        transform: translate({
-          p: this.progress,
-          pos: this.position,
-          active: this.active,
-          horiz: this.horizontal,
-          reverse: this.reverse
-        })
-      }
+      let o = translate({
+        p: this.progress,
+        pos: this.position,
+        active: this.active,
+        horiz: this.horizontal,
+        reverse: this.reverse
+      })
+      o[this.sizeProp] = this.size
+      return o
     },
     innerStyle () {
       return {background: this.color}
@@ -128,6 +129,7 @@ export default {
         this.progress = 0
         this.active = true
         this.animate = false
+        this.$emit('start')
         this.timer = setTimeout(() => {
           this.animate = true
           this.move()
@@ -159,6 +161,7 @@ export default {
       }
       this.closing = true
       this.progress = 100
+      this.$emit('stop')
       this.timer = setTimeout(() => {
         this.closing = false
         this.active = false

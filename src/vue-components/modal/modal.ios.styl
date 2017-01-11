@@ -120,12 +120,29 @@ maximized-modal()
     border-radius 0
     &:last-child
       font-weight bold
-    &:hover, &:active
-      color white !important
-      background rgba(0, 0, 0, .3) !important
   &.row
     button + button
       border-left 1px solid $form-darker-color
   &.column
     button + button
       border-top 1px solid $form-darker-color
+
+.q-modal-bottom-enter, .q-modal-bottom-leave-active
+  opacity 0
+  .modal-content
+    transform translateY(101%)
+
+.q-modal-top-enter, .q-modal-top-leave-active
+  opacity 0
+  .modal-content
+    transform translateY(-101%)
+
+.q-modal-right-enter, .q-modal-right-leave-active
+  opacity 0
+  .modal-content
+    transform translateX(101%)
+
+.q-modal-left-enter, .q-modal-left-leave-active
+  opacity 0
+  .modal-content
+    transform translateX(-101%)

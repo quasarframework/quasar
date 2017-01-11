@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding">
+    <div>
       <div class="column group" style="margin-bottom: 50px">
         <div class="floating-label">
           <input v-model="config.title" required>
@@ -8,10 +8,6 @@
         </div>
 
         <div class="column group gt-sm-row">
-          <label>
-            <q-checkbox v-model="config.filter" />
-            Filter
-          </label>
           <label>
             <q-checkbox v-model="config.refresh" />
             Refresh
@@ -27,6 +23,10 @@
           <label>
             <q-checkbox v-model="config.responsive" />
             Responsive
+          </label>
+          <label>
+            <q-checkbox v-model="config.noHeader" />
+            No Header
           </label>
         </div>
 
@@ -125,7 +125,7 @@
 
 <script>
 import { Utils } from 'quasar'
-import table from '../../table-data.json'
+import table from 'data/table.json'
 
 export default {
   methods: {
@@ -155,8 +155,8 @@ export default {
       table,
       config: {
         title: 'Data Table',
-        filter: true,
         refresh: true,
+        noHeader: false,
         columnPicker: true,
         leftStickyColumns: 0,
         rightStickyColumns: 2,
@@ -173,15 +173,25 @@ export default {
         messages: {
           noData: '<i>warning</i> No data available to show.',
           noDataAfterFiltering: '<i>warning</i> No results. Please refine your search terms.'
+        },
+        labels: {
+          columns: 'Coluuuuumns',
+          allCols: 'Eeeeeeeeevery Cols',
+          rows: 'Rooows'
         }
       },
       columns: [
         {
           label: 'Date',
           field: 'isodate',
-          style: {width: '120px'},
+          width: '120px',
+          classes: 'bg-orange-2',
+          filter: true,
+          sort (a, b) {
+            return (new Date(a)) - (new Date(b))
+          },
           format (value) {
-            return new Date(value).toLocaleString()
+            return (new Date(value).toLocaleString()) + (new Date(value).toLocaleString())
           }
         },
         {
@@ -193,26 +203,38 @@ export default {
             }
             return value
           },
-          style: {width: '80px'},
+          width: '80px',
           classes: 'text-center'
+        },
+        {
+          label: 'Time Range',
+          field: 'timerange',
+          width: '120px',
+          sort: true,
+          type: 'number'
         },
         {
           label: 'Message',
           field: 'message',
+          filter: true,
+          classes (val) {
+            return val.charAt(0) === 'L' ? 'bg-red' : 'bg-yellow'
+          },
           sort: true,
-          style: {width: '500px'}
+          width: '500px'
         },
         {
           label: 'Source',
           field: 'source',
+          filter: true,
           sort: true,
-          style: {width: '120px'}
+          width: '120px'
         },
         {
           label: 'Log Number',
           field: 'log_number',
           sort: true,
-          style: {width: '100px'}
+          width: '100px'
         }
       ],
 

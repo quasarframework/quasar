@@ -1,18 +1,29 @@
 import extend from './extend'
 import { position as eventPosition } from './event'
 
-export function getAnchorPosition (el) {
-  const
-    rect = el.getBoundingClientRect(),
+export function getAnchorPosition (el, offset) {
+  let
+    {top, left, right, bottom} = el.getBoundingClientRect(),
     a = {
-      top: rect.top,
-      left: rect.left,
+      top,
+      left,
       width: el.offsetWidth,
       height: el.offsetHeight
     }
 
-  a.right = rect.right || a.left + a.width
-  a.bottom = rect.bottom || a.top + a.height
+  if (offset) {
+    a.top += offset[1]
+    a.left += offset[0]
+    if (bottom) {
+      bottom += offset[1]
+    }
+    if (right) {
+      right += offset[0]
+    }
+  }
+
+  a.right = right || a.left + a.width
+  a.bottom = bottom || a.top + a.height
   a.middle = a.left + ((a.right - a.left) / 2)
   a.center = a.top + ((a.bottom - a.top) / 2)
 
@@ -118,7 +129,7 @@ export function getTransformProperties ({selfOrigin}) {
   }
 }
 
-export function setPosition ({el, anchorEl, anchorOrigin, selfOrigin, maxHeight, event, anchorClick, touchPosition}) {
+export function setPosition ({el, anchorEl, anchorOrigin, selfOrigin, maxHeight, event, anchorClick, touchPosition, offset}) {
   let anchor
 
   if (event && (!anchorClick || touchPosition)) {
@@ -126,7 +137,7 @@ export function setPosition ({el, anchorEl, anchorOrigin, selfOrigin, maxHeight,
     anchor = {top, left, width: 1, height: 1, right: left + 1, center: top, middle: left, bottom: top + 1}
   }
   else {
-    anchor = getAnchorPosition(anchorEl)
+    anchor = getAnchorPosition(anchorEl, offset)
   }
 
   let target = getTargetPosition(el)
@@ -148,9 +159,20 @@ export function positionValidator (pos) {
     return false
   }
   if (!['top', 'center', 'bottom'].includes(parts[0])) {
+    console.error('Anchor/Self position must start with one of top/center/bottom')
     return false
   }
   if (!['left', 'middle', 'right'].includes(parts[1])) {
+    console.error('Anchor/Self position must end with one of left/middle/right')
+    return false
+  }
+  return true
+}
+
+export function offsetValidator (val) {
+  if (!val) { return true }
+  if (val.length !== 2) { return false }
+  if (typeof val[0] !== 'number' || typeof val[1] !== 'number') {
     return false
   }
   return true

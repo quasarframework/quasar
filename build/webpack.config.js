@@ -31,7 +31,8 @@ module.exports = {
     alias: {
       quasar: path.resolve(__dirname, '../src/index.es6'),
       assets: path.resolve(__dirname, '../dev/assets'),
-      components: path.resolve(__dirname, '../dev/components')
+      components: path.resolve(__dirname, '../dev/components'),
+      data: path.resolve(__dirname, '../dev/data')
     }
   },
   module: {
@@ -112,5 +113,8 @@ module.exports = {
     new ProgressBarPlugin({
       format: ' [:bar] ' + ':percent'.bold + ' (:msg)'
     })
-  ]
+  ],
+  performance: {
+    hints: false
+  }
 }

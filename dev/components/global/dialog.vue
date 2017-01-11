@@ -81,6 +81,27 @@ export default {
           }
         },
         {
+          label: 'Custom CSS classes & style to buttons',
+          icon: 'format_color_fill',
+          handler () {
+            Dialog.create({
+              title: 'Confirm',
+              message: 'Custom button classes.',
+              buttons: [
+                {
+                  label: 'Disagree',
+                  classes: 'negative clear',
+                  style: 'text-decoration: underline'
+                },
+                {
+                  label: 'Agree',
+                  classes: 'positive'
+                }
+              ]
+            })
+          }
+        },
+        {
           label: 'Stacked Buttons Example',
           icon: 'reorder',
           handler () {
@@ -111,6 +132,39 @@ export default {
                   label: 'No Thanks',
                   handler () {
                     console.log('Ok, no superhero.')
+                  }
+                }
+              ]
+            })
+          }
+        },
+        {
+          label: 'Prevent Close on Button',
+          icon: 'clear',
+          handler () {
+            Dialog.create({
+              title: 'Prevent Close',
+              message: 'Having "Prevent" checkbox ticked and then hitting "Try to Close" button will prevent the dialog from closing.',
+              form: {
+                prevent: {
+                  type: 'checkbox',
+                  items: [
+                    {label: 'Prevent dialog close', value: 'prevent', model: true}
+                  ]
+                }
+              },
+              buttons: [
+                {
+                  label: 'Try to Close',
+                  preventClose: true,
+                  handler (data, close) {
+                    if (!data.prevent.length) {
+                      close(() => {
+                        Toast.create(`Finally. It's closed now.`)
+                      })
+                      return
+                    }
+                    Toast.create('Untick "Prevent" checkbox to be able to close the Dialog.')
                   }
                 }
               ]

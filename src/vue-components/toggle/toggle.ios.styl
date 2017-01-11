@@ -53,7 +53,7 @@ $toggle-area-active-left = ($toggle-width - $toggle-handle-size - 2 * $toggle-bo
     &:after
       border-radius 50%
       top $toggle-handle-top
-      left 0
+      left 1px
       width $toggle-handle-size
       height $toggle-handle-size
       box-shadow $form-shadow
@@ -66,7 +66,7 @@ $toggle-area-active-left = ($toggle-width - $toggle-handle-size - 2 * $toggle-bo
 
     &:after
       box-shadow $shadow-1
-      transform translateX($toggle-area-active-left)
+      transform translateX($toggle-area-active-left - 1px)
 
   input:checked ~ i
     color $form-active-color

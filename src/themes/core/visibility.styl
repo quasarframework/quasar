@@ -10,6 +10,8 @@
   animation q-scale .2s
 .animate-fade
   animation q-fade .2s
+.animate-bounce
+  animation q-bounce 2s infinite
 
 @keyframes q-blink
   to
@@ -44,6 +46,14 @@
   100%
     opacity 1
     transform scale(1)
+
+@keyframes q-bounce
+  0%, 20%, 50%, 80%, 100%
+    transform translateY(0)
+  40%
+    transform translateY(-30px)
+  60%
+    transform translateY(-15px)
 
 .no-margin
   margin 0 !important
@@ -117,7 +127,7 @@ body
   100%
     transform rotate(360deg)
 
-for type in desktop mobile cordova electron ios mat touch no-touch within-iframe
+for type in desktop mobile cordova electron ios mat touch no-touch within-iframe platform-ios platform-android
   body:not(.{type}) .{type}-only,
   body.{type} .{type}-hide
     display none !important

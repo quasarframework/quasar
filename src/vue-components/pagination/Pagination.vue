@@ -14,6 +14,7 @@
       :style="{width: inputPlaceholder.length * 10 + 'px'}"
       :placeholder="inputPlaceholder"
       :disabled="disable"
+      tabindex="0"
     >
 
     <button :class="{disabled: value === max}" class="primary clear small" @click="setByOffset(1)">
@@ -26,6 +27,8 @@
 </template>
 
 <script>
+import Utils from '../../utils'
+
 export default {
   props: {
     value: {
@@ -59,7 +62,7 @@ export default {
       }
     },
     __normalize (value) {
-      return Math.min(this.max, Math.max(1, parseInt(value, 10)))
+      return Utils.format.between(parseInt(value, 10), 1, this.max)
     }
   },
   watch: {

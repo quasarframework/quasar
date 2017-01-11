@@ -1,5 +1,5 @@
 <template>
-  <button class="q-progress-button" :class="{active, indeterminate}">
+  <button class="q-progress-button" :class="{active: active, indeterminate: indeterminate}">
     <span
       v-if="!indeterminate"
       class="q-progress-button-filler"

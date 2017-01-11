@@ -1,7 +1,7 @@
 <template>
   <div class="q-data-table-toolbar bottom-toolbar row reverse-wrap items-baseline justify-end">
     <div>
-      Rows
+      {{labels.rows}}
       <q-select
         type="radio"
         v-model="pagination.rowsPerPage"
@@ -19,7 +19,7 @@
 
 <script>
 export default {
-  props: ['pagination', 'entries'],
+  props: ['pagination', 'entries', 'labels'],
   watch: {
     entries () {
       this.resetPage()

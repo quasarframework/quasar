@@ -70,10 +70,10 @@ swipe-behavior()
     &.right-side
       transform translateX($drawer-width)
 
-@media screen and (max-width: $layout-small-max)
+@media screen and (max-width: $layout-medium-max)
   swipe-behavior()
 
-@media screen and (min-width: $layout-medium-min)
+@media screen and (min-width: $layout-big-min)
   .hide-on-drawer-visible
     display none !important
   .drawer

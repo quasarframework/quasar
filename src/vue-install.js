@@ -3,8 +3,9 @@ import { install as eventsInstall } from './features/events'
 import { install as toastInstall } from './components/toast/toast'
 import { current as theme } from './features/theme'
 
-import Transition from './vue-transitions/transition'
+import Transition from './vue-transitions/index'
 
+import dBackToTop from './vue-directives/back-to-top'
 import dGoBack from './vue-directives/go-back'
 import dLink from './vue-directives/link'
 import dScrollFire from './vue-directives/scroll-fire'
@@ -14,6 +15,7 @@ import dTouchPan from './vue-directives/touch-pan'
 import dTouchSwipe from './vue-directives/touch-swipe'
 
 import AjaxBar from './vue-components/ajax-bar/AjaxBar.vue'
+import Autocomplete from './vue-components/autocomplete/Autocomplete.vue'
 import Checkbox from './vue-components/checkbox/Checkbox.vue'
 import Chips from './vue-components/chips/Chips.vue'
 import Collapsible from './vue-components/collapsible/Collapsible.vue'
@@ -21,6 +23,7 @@ import ContextMenuDesktop from './vue-components/context-menu/ContextMenuDesktop
 import ContextMenuMobile from './vue-components/context-menu/ContextMenuMobile.vue'
 import DataTable from './vue-components/data-table/DataTable.vue'
 import Datetime from './vue-components/datetime/Datetime.vue'
+import DatetimeRange from './vue-components/datetime/DatetimeRange.vue'
 import InlineDatetimeMaterial from './vue-components/datetime/InlineDatetimeMat.vue'
 import InlineDatetimeIOS from './vue-components/datetime/InlineDatetimeIOS.vue'
 import Drawer from './vue-components/drawer/Drawer.vue'
@@ -35,6 +38,7 @@ import GallerySlider from './vue-components/gallery/GallerySlider.vue'
 import InfiniteScroll from './vue-components/infinite-scroll/InfiniteScroll.vue'
 import Knob from './vue-components/knob/Knob.vue'
 import Layout from './vue-components/layout/Layout.vue'
+import ListItem from './vue-components/list-item/ListItem.vue'
 import ToolbarTitle from './vue-components/layout/ToolbarTitle.vue'
 import Modal from './vue-components/modal/Modal.vue'
 import Numeric from './vue-components/numeric/Numeric.vue'
@@ -62,10 +66,12 @@ import Tabs from './vue-components/tab/Tabs.vue'
 import Toggle from './vue-components/toggle/Toggle.vue'
 import Tooltip from './vue-components/tooltip/Tooltip.vue'
 import Tree from './vue-components/tree/Tree.vue'
+import Uploader from './vue-components/uploader/Uploader.vue'
 import Video from './vue-components/video/Video.vue'
 
 function registerDirectives (_Vue) {
   [
+    ['back-to-top', dBackToTop],
     ['go-back', dGoBack],
     ['link', dLink],
     ['scroll-fire', dScrollFire],
@@ -84,6 +90,7 @@ function registerComponents (_Vue) {
 
   ;[
     ['ajax-bar', AjaxBar],
+    ['autocomplete', Autocomplete],
     ['checkbox', Checkbox],
     ['chips', Chips],
     ['collapsible', Collapsible],
@@ -91,6 +98,7 @@ function registerComponents (_Vue) {
     ['data-table', DataTable],
     ['inline-datetime', theme === 'ios' ? InlineDatetimeIOS : InlineDatetimeMaterial],
     ['datetime', Datetime],
+    ['datetime-range', DatetimeRange],
     ['drawer', Drawer],
     ['drawer-link', DrawerLink],
     ['fab', Fab],
@@ -104,6 +112,7 @@ function registerComponents (_Vue) {
     ['infinite-scroll', InfiniteScroll],
     ['knob', Knob],
     ['layout', Layout],
+    ['list-item', ListItem],
     ['toolbar-title', ToolbarTitle],
     ['modal', Modal],
     ['numeric', Numeric],
@@ -130,6 +139,7 @@ function registerComponents (_Vue) {
     ['toggle', Toggle],
     ['tooltip', Tooltip],
     ['tree', Tree],
+    ['uploader', Uploader],
     ['video', Video]
   ].forEach(c => {
     _Vue.component('q-' + c[0], c[1])

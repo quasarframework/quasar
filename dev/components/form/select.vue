@@ -7,12 +7,19 @@
       <q-select type="checkbox" v-model="multipleSelect" :options="selectOptions"></q-select>
       <p class="caption">With Toggles</p>
       <q-select type="toggle" v-model="multipleSelect" :options="selectOptions"></q-select>
+      <p class="caption">With List</p>
+      <q-select type="list" v-model="select" :options="selectOptions"></q-select>
+      <q-select type="list" v-model="select" :options="selectOptions" delimiter></q-select>
+      <q-select type="list" v-model="select" :options="selectListOptions" delimiter></q-select>
 
       <p class="caption">With Label</p>
       <q-select type="checkbox" v-model="multipleSelect" :options="selectOptions" label="Pick Company"></q-select>
 
       <p class="caption">With Placeholder</p>
       <q-select type="checkbox" v-model="multipleSelect" :options="selectOptions" placeholder="Pick Company"></q-select>
+
+      <p class="caption">With Static Label</p>
+      <q-select type="checkbox" v-model="multipleSelect" :options="selectOptions" static-label="Company"></q-select>
 
       <p class="caption">Disabled State</p>
       <q-select disable type="radio" v-model="select" :options="selectOptions"></q-select>
@@ -91,6 +98,35 @@ export default {
         },
         {
           label: 'Oracle',
+          value: 'ora'
+        }
+      ],
+      selectListOptions: [
+        {
+          label: 'Google',
+          icon: 'email',
+          value: 'goog'
+        },
+        {
+          label: 'Facebook',
+          secondLabel: 'Enables communication',
+          value: 'fb'
+        },
+        {
+          label: 'Twitter',
+          secondIcon: 'alarm',
+          value: 'twtr'
+        },
+        {
+          label: 'Apple Inc.',
+          stamp: '10 min',
+          value: 'appl'
+        },
+        {
+          label: 'Oracle',
+          secondLabel: 'Some Java for today?',
+          icon: 'mail',
+          secondIcon: 'alarm',
           value: 'ora'
         }
       ]

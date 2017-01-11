@@ -1,23 +1,18 @@
 <template>
-  <div class="q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end">
-    <q-search v-model="filtering.terms" style="min-width: 250px"></q-search>
-    <div class="row items-center group">
-      <q-select
-        v-model="filtering.field"
-        type="radio"
-        :options="filterFields"
-        class="text-right"
-      ></q-select>
-      <button class="primary clear" @click="close()">
-        <i>close</i>
-      </button>
-    </div>
+  <div class="q-data-table-toolbar upper-toolbar row auto items-center">
+    <q-search class="auto" v-model="filtering.terms"></q-search>
+    <q-select
+      v-model="filtering.field"
+      type="list"
+      :options="filterFields"
+      class="text-right"
+    ></q-select>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['filtering', 'columns'],
+  props: ['filtering', 'columns', 'labels'],
   computed: {
     filterFields () {
       let cols = this.columns.map(col => {
@@ -27,13 +22,7 @@ export default {
         }
       })
 
-      return [{label: 'All Fields', value: ''}].concat(cols)
-    }
-  },
-  methods: {
-    close () {
-      this.filtering.terms = ''
-      this.$emit('close')
+      return [{label: this.labels.allCols, value: ''}].concat(cols)
     }
   }
 }

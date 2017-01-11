@@ -5,8 +5,14 @@
         Model <span class="right-detail"><em>{{number}}</em> &nbsp;&nbsp;({{min}}-{{max}})</span>
       </div>
 
-      <p class="caption">Standalone</p>
+      <p class="caption">Default</p>
       <q-numeric v-model="number" :min="min" :max="max"></q-numeric>
+
+      <p class="caption">With Step 4</p>
+      <q-numeric v-model="number" :min="min" :max="max" :step="4"></q-numeric>
+
+      <p class="caption">With Step 0.2 & Maximum decimals 2</p>
+      <q-numeric v-model="numberPrecision" :min="min" :max="max" :step="0.2" :max-decimals="2"></q-numeric>
 
       <p class="caption">Disabled State</p>
       <q-numeric v-model="number" :min="min" :max="max" disable></q-numeric>
@@ -44,6 +50,7 @@ export default {
   data () {
     return {
       number: 3,
+      numberPrecision: 5.15,
       min: 1,
       max: 1017
     }
