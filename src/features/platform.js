@@ -145,12 +145,11 @@ function getPlatform () {
   browser.name = matched.browser
   browser.platform = matched.platform
 
-  if (window._cordovaNative) {
-    browser.cordova = true
-  }
-
   if (window && window.process && window.process.versions && window.process.versions.electron) {
     browser.electron = true
+  }
+  else if (window._cordovaNative || document.location.href.indexOf('http') !== 0) {
+    browser.cordova = true
   }
 
   return browser
