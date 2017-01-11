@@ -6,7 +6,8 @@
     :placeholder="placeholder"
     :static-label="staticLabel"
     :value="actualValue"
-    @click.native="__open()"
+    @click.native="__open"
+    @keydown.native.enter="open"
   >
     <q-popover
       v-if="desktop"
@@ -14,7 +15,7 @@
       @open="__setModel()"
       :disable="disable || readonly"
     >
-      <q-inline-datetime v-model="model" :type="type" :min="min" :max="max">
+      <q-inline-datetime v-model="model" :type="type" :min="min" :max="max" class="no-border">
         <div class="modal-buttons row full-width">
           <button v-if="!noClear" @click="clear()" class="primary clear" v-html="clearLabel"></button>
           <div class="auto"></div>
@@ -175,11 +176,11 @@ export default {
       this.$emit('input', this.model)
     },
     __normalizeAndEmit () {
-      if (this.value) {
-        this.$nextTick(() => {
+      this.$nextTick(() => {
+        if (this.value) {
           this.$emit('input', this.__normalizeValue(moment(this.value)).format(this.format))
-        })
-      }
+        }
+      })
     }
   }
 }

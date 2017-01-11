@@ -1,6 +1,5 @@
 $timeline-badge-size         ?= 3rem
-$timeline-badge-space        ?= $timeline-badge-size
-$timeline-item-margin-bottom ?= 1rem
+$timeline-item-padding       ?= 0 0 1rem
 $timeline-border-width       ?= .2rem
 $timeline-color              ?= $grey-6
 $timeline-light-color        ?= lighten($timeline-color, 50%)
@@ -21,11 +20,10 @@ $timeline-light-color        ?= lighten($timeline-color, 50%)
 
   for $name, $color in $colors
     &.{$name}
-      &:before
-        background composite-color($color)
       .timeline-badge
         background $color
-        box-shadow 0 0 0 $timeline-border-width composite-color($color)
+      &.incomplete .timeline-badge
+        background lighten($color, 50%)
       .timeline-date, .timeline-label
         color $color
 
@@ -44,7 +42,7 @@ $timeline-light-color        ?= lighten($timeline-color, 50%)
   box-shadow 0 0 0 $timeline-border-width $timeline-light-color, $shadow-2
 
   i
-    font-size 1.5rem
+    font-size 1.1rem
   img
     max-width 100%
 
@@ -53,15 +51,13 @@ $timeline-light-color        ?= lighten($timeline-color, 50%)
   display flex
   flex-direction column
   justify-content center
-  margin-bottom 1rem
 .timeline-title
   font-weight 700
+  margin-bottom 1rem
 .timeline-date
   color $timeline-color
 .timeline-title + .timeline-date // @stylint ignore
   min-height 0
-.timeline-content
-  margin-top 1rem
 
 .timeline-label
   position relative
@@ -70,53 +66,49 @@ $timeline-light-color        ?= lighten($timeline-color, 50%)
 
 .timeline-item
   position relative
-  margin-bottom $timeline-item-margin-bottom
+  padding $timeline-item-padding
 
   &:last-child
-    margin-bottom 0
+    padding-bottom 0
   &.incomplete
     .timeline-badge
       background darken($timeline-light-color, 10%) !important
-      box-shadow 0 0 0 $timeline-border-width $timeline-light-color !important
     .timeline-date, .timeline-title
-      color $timeline-light-color
+      color darken($timeline-light-color, 10%) !important
 
 @media only screen and (max-width $layout-small-max)
   .timeline
     &:before
       left ($timeline-badge-size / 2)
   .timeline-item
-    margin-left (1.3 * $timeline-badge-space)
+    margin-left (1.3 * $timeline-badge-size)
   .timeline-date
     position relative
   .timeline-badge
-    left (-1.3 * $timeline-badge-space)
-  .timeline-label
-    margin-bottom $timeline-item-margin-bottom
+    left (-1.3 * $timeline-badge-size)
 
 @media only screen and (min-width $layout-medium-min)
   .timeline:before
     left 50%
 
   .timeline-item
-    width 'calc(50% - %s)' % $timeline-badge-space
+    width 'calc(50% - %s)' % $timeline-badge-size
 
     &:nth-child(odd):not(.on-right), &.on-left
       .timeline-badge
-        right (- $timeline-badge-size / 2 - $timeline-badge-space)
+        right (- $timeline-badge-size / 2 - $timeline-badge-size)
       .timeline-title
         text-align right
       .timeline-date
         text-align right
-        left 'calc(100% + %s)' % (2 * $timeline-badge-space)
+        left 'calc(100% + %s)' % (2 * $timeline-badge-size)
 
     &:nth-child(even):not(.on-left), &.on-right
       margin-left auto
       .timeline-badge
-        left (- $timeline-badge-size / 2 - $timeline-badge-space)
+        left (- $timeline-badge-size / 2 - $timeline-badge-size)
       .timeline-date
-        right 'calc(100% + %s)' % (2 * $timeline-badge-space)
+        right 'calc(100% + %s)' % (2 * $timeline-badge-size)
 
   .timeline-label
-    margin-bottom $timeline-item-margin-bottom
     text-align center

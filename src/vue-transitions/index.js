@@ -19,16 +19,18 @@ export default {
     appear: Boolean
   },
   render (h, context) {
-    if (!transitions[context.props.name]) {
+    const config = transitions[context.props.name]
+    if (!config) {
       throw new Error(`Quasar Transition ${context.props.name} is unknown.`)
     }
     var data = {
       props: {
         name: 'q-transition',
         mode: 'out-in',
+        css: false,
         appear: context.props.appear
       },
-      on: transitions[context.props.name]
+      on: config
     }
     return h('transition', data, context.children)
   }

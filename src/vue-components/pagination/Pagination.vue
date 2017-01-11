@@ -14,6 +14,7 @@
       :style="{width: inputPlaceholder.length * 10 + 'px'}"
       :placeholder="inputPlaceholder"
       :disabled="disable"
+      tabindex="0"
     >
 
     <button :class="{disabled: value === max}" class="primary clear small" @click="setByOffset(1)">

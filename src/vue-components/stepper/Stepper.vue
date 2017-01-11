@@ -1,5 +1,5 @@
 <template>
-  <div class="q-stepper timeline primary">
+  <div class="q-stepper timeline" :class="color">
     <slot></slot>
   </div>
 </template>
@@ -7,6 +7,10 @@
 <script>
 export default {
   props: {
+    color: {
+      type: String,
+      default: 'primary'
+    },
     backLabel: {
       type: String,
       default: 'Back'

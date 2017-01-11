@@ -13,6 +13,7 @@
       :disabled="disable"
       :readonly="readonly"
       :style="{width: (''+model).length * .7 + 'em'}"
+      tabindex="0"
     >
     <i v-show="value !== model && model !== ''">check</i>
     <i @click="__setByOffset(1)">add</i>

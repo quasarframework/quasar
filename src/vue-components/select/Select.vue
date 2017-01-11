@@ -6,6 +6,7 @@
     :placeholder="placeholder"
     :static-label="staticLabel"
     :value="actualValue"
+    @keydown.native.enter="open"
   >
     <q-popover ref="popover" :disable="disable || readonly">
       <div class="q-select-popover list highlight">

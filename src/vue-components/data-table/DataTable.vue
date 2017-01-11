@@ -21,7 +21,6 @@
           ></q-select>
         </div>
       </div>
-      <table-filter v-if="filteringCols.length" :filtering="filtering" :columns="filteringCols" :labels="labels"></table-filter>
     </template>
 
     <div class="q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end q-data-table-selection" v-show="toolbar === 'selection'">
@@ -33,6 +32,8 @@
         <slot name="selection" :rows="selectedRows"></slot>
       </div>
     </div>
+
+    <table-filter v-if="filteringCols.length" :filtering="filtering" :columns="filteringCols" :labels="labels"></table-filter>
 
     <template v-if="responsive">
       <div v-if="message" class="q-data-table-message row items-center justify-center" v-html="message"></div>

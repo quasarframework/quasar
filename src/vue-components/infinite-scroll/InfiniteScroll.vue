@@ -3,7 +3,6 @@
     <div ref="content" class="q-infinite-scroll-content">
       <slot></slot>
     </div>
-    <br>
     <div class="q-infinite-scroll-message" v-show="fetching">
       <slot name="message"></slot>
     </div>

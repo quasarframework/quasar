@@ -6,7 +6,8 @@
     :placeholder="placeholder"
     :static-label="staticLabel"
     :value="actualValue"
-    @click.native="pick()"
+    @click.native="pick"
+    @keydown.native.enter="pick"
   ></q-picker-textfield>
 </template>
 
