@@ -32,9 +32,9 @@ TODO:
 
   -->
   <div class='field row' :data-field-id="fieldId" :class='css_Field'><!--
-
+{{ fieldId}}  validate[{{ typeof validate + '-' + validate}}] myValidate[{{ myValidate }}] canValidate[{{ canValidate }}]
       'Before':
-    -->{{ myTarget }}<i v-if='draw_Icon' class="field-icon field-icon-before" :class='css_Icon1'>{{ icon }}</i>
+    --><i v-if='draw_Icon' class="field-icon field-icon-before" :class='css_Icon1'>{{ icon }}</i>{{ fieldId}}
     <slot name="before"></slot>
     <span v-if="before">{{ before }}</span><!--
 
@@ -152,8 +152,7 @@ export default {
       type: String
     },
     counter: {
-      type: Boolean,
-      default: true
+      type: Boolean
     },
     dense: {
       type: Boolean,
@@ -225,8 +224,7 @@ export default {
       default: false
     },
     validate: {
-      type: [String, Boolean], // false (default) | 'immediate' | 'eager' true | 'lazy' | 'submit' (TBA)
-      default: false
+      type: [String, Boolean] // false (default) | 'immediate' | 'eager' true | 'lazy' | 'submit' (TBA)
     },
     validateImmediate: {
       type: Boolean, // false (default)
@@ -244,15 +242,15 @@ export default {
       myLabel: null,
       myFloat: null,
       myLabelLayout: null,
-      isInline: null,
       fieldId: 'x',
       // derived properties
       target: null,
       input: null,
       inputId: null,
+      isInline: null,
       isTextInput: null,
       numChildFields: 0,
-      // childFields: [], <-- can't be responsive data apparently
+      // childFields: [], <-- can't be responsive data. TODO: Investigate
       // field state
       state: {
         hasFocus: null,
@@ -281,12 +279,14 @@ export default {
       return !this.isTextInput ? 0 : this.maxlength ? parseInt(this.maxlength, 10) : this.input.hasAttribute('maxlength') ? this.input.maxlength : 0
     },
     myValidate () {
-      // validate + input =>  'eager' | 'lazy' | 'form' | false
-      return !this.validate || !this.isTextInput ? false : this.validate === true ? 'eager' : (this.validate === 'lazy-at-first' && this.state.hasBeenInvalid) ? 'eager' : this.validate
+      // validate + text input =>  'eager' | 'lazy' | 'lazy-at-first' | form' | false
+      console.log(out)
+      let out =  this.validate === false || !this.isTextInput ? false : this.validate === '' ? 'eager' : (this.validate === 'lazy-at-first' && this.state.hasBeenInvalid) ? 'eager' : this.validate
+      return out
     },
     canValidate () {
       // potentially validate?
-      return this.validateImmediate || !!this.myValidate
+      return (this.validateImmediate || this.myValidate) && (this.isTextInput || this.numChildFields)
     },
     myTargetWidth () {
       // NB: field=true defaults to width='grow'
@@ -415,16 +415,17 @@ export default {
     }
   },
   watch: {
-    'state.hasInvalid':  {
-      handler: function(newValue, oldValue) {
-        console.log('watched. fieldEvent #'+this.fieldId, {'hasInvalid': newValue})
-        this.$emit('fieldEvent', {'hasInvalid': newValue})
-      }
-      // ,
-      // immediate: true
-    },
+    // 'state.hasInvalid':  {
+    //   handler: function(newValue, oldValue) {
+    //     console.log('watched. fieldEvent #'+this.fieldId, {type: '__onValidate'})
+    //     this.$emit('fieldEvent', {type: '__onValidate'})
+    //   }
+    //   // ,
+    //   // immediate: true
+    // },
     counter () {
       // TODO: Tidy up all these misc. prop changes with a proper (!) interface for controlling component instances.
+      // (This is only needed to turn counter on/off after component initialised...)
       this.__updateState_counter()
     },
   },
@@ -443,46 +444,85 @@ export default {
     },
     // Events
     __onFieldEvent (e) {
-      console.log('__onFieldEvent #'+this.fieldId, e)
-      if('hasInvalid' in e) {
-        this.__updateState_validity()
-      } else if ('focus' in e) {
-        this.__onFocus()
-      } else if ('blur' in e) {
-        this.__onBlur()
-      } else if ('activate' in e) {
-        this.__onActivate()
-      }
+      console.log('#' + this.fieldId + 'RECEIVED: FieldEvent ', e)
+      this[e.type]()  // focus | blur | activate | input | validate
     },
     __onClick (e) {
-      console.log('__onClick #'+this.fieldId, e)
     },
     __onFocus (e) {
-      console.log('__onFocus #'+this.fieldId, e)
       this.state.hasFocus = true
-
-      console.log('fieldEvent #'+this.fieldId, {'focus': true})
-      this.$emit('fieldEvent', {'focus': true})
+      this.$emit('fieldEvent', {type: '__onFocus', from: this.fieldId})
     },
     __onBlur (e) {
-      console.log('__onBlur #'+this.fieldId, e)
-      // Numeric input display value workaround (a bit hacky)
-      if (this.input.type === 'number' && !this.input.value && !this.input.ignoreBlur && (this.myValidate === 'lazy' || this.myValidate === 'eager')) {
-        this.input.value = ''
-        this.input.ignoreBlur = true
-        this.input.blur()
-        this.input.ignoreBlur = false
-        this.__updateState_validity()
-      }
       this.state.hasFocus = false
       this.state.hasTouched = true
 
-      if (this.myValidate === 'eager' || this.myValidate === 'lazy' || this.myValidate === 'lazy-at-first') {
-        this.__updateState_validity()
+      if (this.input) {
+
+        if (this.input.type === 'number' && !this.input.value && !this.input.ignoreBlur && (this.myValidate === 'lazy' || this.myValidate === 'eager')) {
+          // type=number value workaround (a bit hacky)
+          this.input.value = ''
+          this.input.ignoreBlur = true
+          this.input.blur()
+          this.input.ignoreBlur = false
+          // this.__onValidate()
+        }
+        if (this.myValidate === 'eager' || this.myValidate === 'lazy' || this.myValidate === 'lazy-at-first') {
+          this.__onValidate()
+        }
       }
 
-      console.log('fieldEvent #'+this.fieldId, {'blur': true})
-      this.$emit('fieldEvent', {'blur': true})
+      this.$emit('fieldEvent', {type: '__onBlur', from: this.fieldId})
+    },
+    __onInput (e) {
+      if (e) {
+        // Native  event
+        if (e.stopPropagation) {
+          e.stopPropagation()
+        }
+        if (e.cancelBubble) {
+          e.cancelBubble = true
+        }
+      }
+      this.__updateState_value
+      if (this.myValidate === 'eager') {
+        this.__onValidate()
+      }
+      if (this.counter) {
+        this.__updateState_counter()
+      }
+
+      this.$emit('fieldEvent', {type: '__onInput', from: this.fieldId})
+    },
+    __onValidate (e) {
+      if (!this.canValidate) return
+
+      let oldValue = this.state.hasInvalid
+
+      if (this.input) {
+
+        // Leaf Field - Invalid if input .validity==false or .hasTooLong==true
+        this.state.hasInvalid = this.state.hasTooLong ? true : !this.input.validity.valid // && (this.state.hasValue || this.state.hasTouched)
+
+      } else if (this.numChildFields) {
+
+        // Branch Field - Invalid if there are none which have yet to be validated and at least one invalid.
+        if (!this.childFields.some(e => e.canValidate && e.state.hasInvalid === null)) {
+          this.state.hasInvalid = this.childFields.some(e => {
+            return e.state.hasInvalid === true
+          })
+        }
+
+      }
+
+      if (this.state.hasInvalid === true) {
+        this.state.hasBeenInvalid = true
+      }
+
+      if (this.state.hasInvalid != oldValue) {
+        this.$emit('fieldEvent', {type: '__onValidate', from: this.fieldId})
+      }
+
     },
     __onActivate (e) {
       console.log('__onActivate #'+this.fieldId, e)
@@ -497,98 +537,28 @@ export default {
           this.childFields.find(e => {return e.isTextInput && !e.state.hasDisabled}).input.focus()
         } catch (e) {
           // Do nothing
+          console.log(e)
         }
       }
-      console.log('fieldEvent #'+this.fieldId, {'activate': true})
-      this.$emit('fieldEvent', {'activate': true})
-    },
-    __onInput (e) {
-      console.log('__onInput #'+this.fieldId, e)
-      // What's this for...
-      // if (e.stopPropagation) {
-      //   e.stopPropagation()
-      //   e.cancelBubble = true
-      // }
 
-      // ?
-      this.hasTouched = true
-      this.__updateState_value()
-      if (this.myValidate === 'eager') {
-        this.__updateState_validity()
-      }
-      if (this.counter) {
-        this.__updateState_counter()
-      }
-      console.log('fieldEvent #'+this.fieldId, {'validate': true})
-      this.$emit('fieldEvent', {'validate': true})
+      this.$emit('fieldEvent', {type: '__onActivate', from: this.fieldId})
     },
     // State maintenance
     // NB: These can't go in computed/watchers as they rely on changes to <input> attrs.
-    __initState () {
+    __initInputState () {
       // TODO: Enable change after render...
       this.state.hasRequired = this.input.required
       this.state.hasReadOnly = this.input.readOnly
       this.state.hasDisabled = this.input.disabled
+      this.__updateState_value()
     },
     __updateState_value() {
-      this.state.hasValue = this.input.value ? true : false
+      this.state.hasValue = this.input && this.input.value ? true : false
     },
     __updateState_counter () {
-      console.log('__updateState_counter #'+this.fieldId)
       this.state.currentChars = this.input.value.length
       this.state.hasTooLong = this.counter && this.myMaxlength && this.state.currentChars > this.myMaxlength ? true : false
       this.state.hasInvalid = this.state.hasTooLong ? true : this.state.hasInvalid
-    },
-    __updateState_validity () {
-      // TODO: input.validity: {
-      //   valid,
-      //   badInput, customError, patternMismatch, rangeOverflow, rangeUnderflow, stepMismatch, tooLong, tooShort,typeMismatch, valueMissing
-
-      /*
-        'lazy' - validate on blur
-        'eager' - validate on input
-        'lazy-at-first' - validate on blur until error, then validate on input until clean
-
-        validate (prop):                            false* | true/'eager' | 'lazy' | 'lazy-at-first' | 'form'
-        myValidate (computed): validate + input =>  'eager' | 'lazy' | 'lazy-at-first' | 'form' : false
-        validateImmediate (prop):                   false* | true
-
-        state.hasTouched
-
-                  >     myValidate=             validateImmediate=
-          @initial      *                       true
-          @input        'eager'|'laf'+touched
-          @valueChange  ''
-          @blur         'lazy'|'eager'|'laf'
-
-        __updateState_validity():
-          => state.hasInvalid:  input.validity + (state.hasValue || state.hasTouched) => true | false
-      */
-
-      console.log('__updateState_validity #'+this.fieldId)
-
-      if (!this.numChildFields) {
-        console.log('...no child fields.  Get validity from input. #'+this.fieldId)
-
-        // Leaf Field - invalid if input .validity==false or .hasTooLong==true
-        this.state.hasInvalid = this.state.hasTooLong ? true : !this.input.validity.valid // && (this.state.hasValue || this.state.hasTouched)
-      } else {
-        // Branch Field - invalid if there are none which have yet to be validated and at least one invalid.
-        console.log('#'+this.fieldId+' A) Checking kids: ', this.childFields)
-        if (!this.childFields.some(e => e.canValidate && e.state.hasInvalid === null)) {
-          console.log('#'+this.fieldId+' B) None that havent been validated, so...: ')
-          this.state.hasInvalid = this.childFields.some(e => {
-            console.log('C) Checking ', e)
-            return e.state.hasInvalid === true
-          })
-          console.log('D) RESULT:',  this.state.hasInvalid)
-        } else {
-          console.log("B) Some children havent been validated yet, so I'm null")
-        }
-      }
-      if (this.state.hasInvalid === true) {
-        this.state.hasBeenInvalid = true
-      }
     }
   },
   mounted () {
@@ -622,15 +592,14 @@ export default {
 
       if (this.input) {
 
-        this.__initState()
-        this.__updateState_value()
+        this.__initInputState()
 
         if (this.isTextInput) {
 
           this.__updateState_counter()
           this.input.checkValidity()
           if (this.validateImmediate) {
-            this.__updateState_validity()
+            this.__onValidate()
           }
 
         }
@@ -649,8 +618,7 @@ export default {
         this.input = 'value' in this.$children[0] ? this.$children[0] : null // input = anything that has a 'value' property
         if (this.input) {
           this.input.$on('input', this.__onInput)
-          this.__initState()
-          this.__updateState_value()
+          this.__initInputState()
           this.myValidate = false   // <-- // TODO: Interact with components *properly*...
         }
       }

@@ -26,7 +26,7 @@ ISSUES:
 <template>
   <div>
 
-    <div class="layout-header fixed-top hidden">
+    <div class="layout-header fixed-top">
     <!-- TITLE -->
       <div class="toolbar primary">
         <div class="toolbar-content">
@@ -89,8 +89,8 @@ ISSUES:
                     no-target
                     class="full-width"
                   >
-                    <i class="field-icon icon-inverse bg-primary text-white">person_pin</i>
-                    <h5>New</h5>
+                    <i class="field-icon icon-before icon-inverse bg-primary text-white">person_pin</i>
+                    <h5>New Player</h5>
                   </q-field>
                 </div>
 
@@ -101,7 +101,7 @@ ISSUES:
                     no-underline
                     label=""
                     label-layout="inline"
-                    validate
+                    validate="lazy-at-first"
                     validate-msg="Both names are required."
                     hint="Use the player's real name here."
                     target-width="grow"
@@ -276,6 +276,9 @@ ISSUES:
                     ></q-datetime>
                   </q-field>
                 </div>
+
+
+
 
                 <!-- Starting Amount -->
                 <div class="width-1of3">
@@ -1760,16 +1763,16 @@ for num in (0..20)
 
 
 //
-// NEW Demo styles ------------------------------------------------^^^^^
-// NEW Demo styles ------------------------------------------------vvvv
+// Demo styles ------------------------------------------------^^^^^
+
+
+
+// TODO: Some of the more complex rules below could be done better with pre-calculated CSS matching esp. inline margins, padding w/o icons etc. (Micro-optimisation?)
+
+
+
+// NEW MATERIAL styles ------------------------------------------------vvvv
 //
-
-
-/*.field::before
-  position relative
-  top 2px
-  left 0
-  color: red*/
 
 
 // Nested / Inline Fields
@@ -1780,7 +1783,8 @@ for num in (0..20)
   padding-bottom 0
 
 .field + .field
-  margin-left 16px !important
+  margin-left 8px !important
+
 
 
 // Field
@@ -1909,25 +1913,18 @@ for num in (0..20)
           transition-duration .2s
           transition-timing-function cubic-bezier(.4, 0, .2, 1)
 
-
       // Text Inputs & Sub-Components
       > input, > textarea, > div
         border-bottom 0 !important
-        margin-bottom 0 !important
         max-width 100% !important
-        font-size $
       > div:not(.field)
         padding-top 8px
         padding-bottom 8px
-        xmargin 8px 0 0 0
+        margin 8px 0 0 0
       > input, > textarea
-        line-height 32px
-        font-size $textfield-font-size
-        xpadding-top 0px
-        xpadding-bottom 0px
-        xmargin 8px 0 0 0 !important
+        margin 8px 0 0 0 !important
         line-height 16px
-        xpadding-bottom 7px !important
+        padding-bottom 7px !important
         box-shadow none
       &.field-input-grow
         > input, > textarea, > div
@@ -1955,7 +1952,6 @@ for num in (0..20)
       position absolute
       color $has-error !important
       opacity 0
-
 
 
 // Layout Modifiers / CSS Flags
@@ -2009,7 +2005,6 @@ for num in (0..20)
           visibility visible
           width 100%
           left 0
-
 
   // Invalid
   //
@@ -2066,25 +2061,25 @@ for num in (0..20)
 // Float/Float-Label Mixins
 // -------------------------
 
-// Label not displayed
+// No Label
 &.field-label-nolabel
   > .field-label-inline,
   > .field-target > .field-input > .field-label-float
     display none
 
-// Label vanished
+// Label vanishes
 &.field-label-inplace.field-active, &.field-label-placeholder
   > .field-label-inline,
   > .field-target > .field-input > .field-label-float
     opacity 0
 
-// Label visible
+// Label appears
 &.field-label-stacked, &.field-label-floating, &.field-label-placeholder.field-active.field-value
   > .field-label-inline,
   > .field-target > .field-input > .field-label-float
     opacity 1
 
-// Label above input
+// Label goes above input
 &.field-label-stacked, &.field-label-floating.field-active, &.field-label-placeholder
   > .field-label-inline,
   > .field-target > .field-input > .field-label-float
