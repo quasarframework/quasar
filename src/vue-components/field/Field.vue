@@ -31,10 +31,10 @@ TODO:
 <q-field targetType="text|textarea"
 
   -->
-  <div class='field row' :class='css_Field'><!--
+  <div class='field row' :data-field-id="fieldId" :class='css_Field'><!--
 
       'Before':
-    --><i v-if='draw_Icon' class="field-icon field-icon-before" :class='css_Icon1'>{{ icon }}</i>
+    -->{{ fieldId }}<i v-if='draw_Icon' class="field-icon field-icon-before" :class='css_Icon1'>{{ icon }}</i>
     <slot name="before"></slot>
     <span v-if="before">{{ before }}</span><!--
 
@@ -75,6 +75,7 @@ TODO:
   */
 import { Utils } from 'quasar'
 let TEXT_INPUT_TYPES = ['textarea','text','input','password','datetime','email','number','search','time','week','date','datetime-local','month','tel','url']
+let fieldId = 0
 export default {
     components: {
       'q-field-container': {
@@ -244,6 +245,7 @@ export default {
       myFloat: null,
       myLabelLayout: null,
       myTarget: null,
+      fieldId: 'x',
       // derived properties
       input: null,
       inputType: null,
@@ -416,7 +418,7 @@ export default {
   watch: {
     'state.hasInvalid':  {
       handler: function(newValue, oldValue) {
-        console.log('emit fieldevent --> ', {'hasInvalid': newValue})
+        console.log('watched. fieldEvent #'+this.fieldId, {'hasInvalid': newValue})
         this.$emit('fieldEvent', {'hasInvalid': newValue})
       }
       // ,
@@ -441,24 +443,30 @@ export default {
       return style
     },
     // Events
-    handleClick (e) {
-      console.log('HANDLE CLICK')
-    },
     __onFieldEvent (e) {
-      console.log('Handle Q-Field Event', e)
+      console.log('__onFieldEvent #'+this.fieldId, e)
       if('hasInvalid' in e) {
         this.__updateState_validity()
       } else if ('focus' in e) {
         this.__onFocus()
       } else if ('blur' in e) {
         this.__onBlur()
+      } else if ('activate' in e) {
+        this.__onActivate()
       }
     },
+    __onClick (e) {
+      console.log('__onClick #'+this.fieldId, e)
+    },
     __onFocus (e) {
+      console.log('__onFocus #'+this.fieldId, e)
       this.state.hasFocus = true
+
+      console.log('fieldEvent #'+this.fieldId, {'focus': true})
       this.$emit('fieldEvent', {'focus': true})
     },
     __onBlur (e) {
+      console.log('__onBlur #'+this.fieldId, e)
       // Numeric input display value workaround (a bit hacky)
       if (this.input.type === 'number' && !this.input.value && !this.input.ignoreBlur && (this.myValidate === 'lazy' || this.myValidate === 'eager')) {
         this.input.value = ''
@@ -469,13 +477,16 @@ export default {
       }
       this.state.hasFocus = false
       this.state.hasTouched = true
-      this.$emit('fieldEvent', {'blur': true})
+
       if (this.myValidate === 'eager' || this.myValidate === 'lazy' || this.myValidate === 'lazy-at-first') {
         this.__updateState_validity()
       }
+
+      console.log('fieldEvent #'+this.fieldId, {'blur': true})
+      this.$emit('fieldEvent', {'blur': true})
     },
     __onActivate (e) {
-      console.log('o__onActivaten', e)
+      console.log('__onActivate #'+this.fieldId, e)
       // "activate" is click (touch??) anywhere on field.
       // Focus is placed on first available input or child field.
       // (TODO: Make optional)
@@ -489,14 +500,16 @@ export default {
           // Do nothing
         }
       }
+      console.log('fieldEvent #'+this.fieldId, {'activate': true})
+      this.$emit('fieldEvent', {'activate': true})
     },
     __onInput (e) {
-      console.log('on input', e)
+      console.log('__onInput #'+this.fieldId, e)
       // What's this for...
-      if (e.stopPropagation) {
-        e.stopPropagation()
-        e.cancelBubble = true
-      }
+      // if (e.stopPropagation) {
+      //   e.stopPropagation()
+      //   e.cancelBubble = true
+      // }
 
       // ?
       this.hasTouched = true
@@ -507,6 +520,8 @@ export default {
       if (this.counter) {
         this.__updateState_counter()
       }
+      console.log('fieldEvent #'+this.fieldId, {'validate': true})
+      this.$emit('fieldEvent', {'validate': true})
     },
     // State maintenance
     // NB: These can't go in computed/watchers as they rely on changes to <input> attrs.
@@ -520,6 +535,7 @@ export default {
       this.state.hasValue = this.input.value ? true : false
     },
     __updateState_counter () {
+      console.log('__updateState_counter #'+this.fieldId)
       this.state.currentChars = this.input.value.length
       this.state.hasTooLong = this.counter && this.myMaxlength && this.state.currentChars > this.myMaxlength ? true : false
       this.state.hasInvalid = this.state.hasTooLong ? true : this.state.hasInvalid
@@ -550,19 +566,25 @@ export default {
           => state.hasInvalid:  input.validity + (state.hasValue || state.hasTouched) => true | false
       */
 
+      console.log('__updateState_validity #'+this.fieldId)
+
       if (!this.numChildFields) {
+        console.log('...no child fields.  Get validity from input. #'+this.fieldId)
+
         // Leaf Field - invalid if input .validity==false or .hasTooLong==true
         this.state.hasInvalid = this.state.hasTooLong ? true : !this.input.validity.valid // && (this.state.hasValue || this.state.hasTouched)
       } else {
         // Branch Field - invalid if there are none which have yet to be validated and at least one invalid.
-        console.log('A) Checking kids: ', this.childFields)
+        console.log('#'+this.fieldId+' A) Checking kids: ', this.childFields)
         if (!this.childFields.some(e => e.canValidate && e.state.hasInvalid === null)) {
-          console.log('B) None yet to validate, so...: ')
+          console.log('#'+this.fieldId+' B) None that havent been validated, so...: ')
           this.state.hasInvalid = this.childFields.some(e => {
             console.log('C) Checking ', e)
             return e.state.hasInvalid === true
           })
           console.log('D) RESULT:',  this.state.hasInvalid)
+        } else {
+          console.log("B) Some children havent been validated yet, so I'm null")
         }
       }
       if (this.state.hasInvalid === true) {
@@ -594,6 +616,7 @@ export default {
     //   <other></other>[...] =>         isTargeted = false, isSingleInput = false, isTextInput = false
     // </q-field>
 
+    this.fieldId = fieldId++
 
     let elms = this.$slots.default.filter(vnode => { return !!vnode.tag })
 

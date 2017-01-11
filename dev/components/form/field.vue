@@ -26,7 +26,7 @@ ISSUES:
 <template>
   <div>
 
-    <div class="layout-header fixed-top">
+    <div class="layout-header fixed-top hidden">
     <!-- TITLE -->
       <div class="toolbar primary">
         <div class="toolbar-content">
@@ -90,7 +90,7 @@ ISSUES:
                     class="full-width"
                   >
                     <i class="field-icon icon-inverse bg-primary text-white">person_pin</i>
-                    <h5>New Player</h5>
+                    <h5>New</h5>
                   </q-field>
                 </div>
 
@@ -1765,11 +1765,11 @@ for num in (0..20)
 //
 
 
-.field:after
-  position: absolute
-  top: 0
-  left: 0
-  color: red
+/*.field::before
+  position relative
+  top 2px
+  left 0
+  color: red*/
 
 
 // Nested / Inline Fields
@@ -1913,15 +1913,21 @@ for num in (0..20)
       // Text Inputs & Sub-Components
       > input, > textarea, > div
         border-bottom 0 !important
+        margin-bottom 0 !important
         max-width 100% !important
+        font-size $
       > div:not(.field)
         padding-top 8px
         padding-bottom 8px
-        margin 8px 0 0 0
+        xmargin 8px 0 0 0
       > input, > textarea
-        margin 8px 0 0 0 !important
+        line-height 32px
+        font-size $textfield-font-size
+        xpadding-top 0px
+        xpadding-bottom 0px
+        xmargin 8px 0 0 0 !important
         line-height 16px
-        padding-bottom 7px !important
+        xpadding-bottom 7px !important
         box-shadow none
       &.field-input-grow
         > input, > textarea, > div
