@@ -34,7 +34,7 @@ TODO:
   <div class='field row' :data-field-id="fieldId" :class='css_Field'><!--
 
       'Before':
-    -->{{ fieldId }}<i v-if='draw_Icon' class="field-icon field-icon-before" :class='css_Icon1'>{{ icon }}</i>
+    -->{{ myTarget }}<i v-if='draw_Icon' class="field-icon field-icon-before" :class='css_Icon1'>{{ icon }}</i>
     <slot name="before"></slot>
     <span v-if="before">{{ before }}</span><!--
 
@@ -244,16 +244,15 @@ export default {
       myLabel: null,
       myFloat: null,
       myLabelLayout: null,
-      myTarget: null,
+      isInline: null,
       fieldId: 'x',
       // derived properties
+      target: null,
       input: null,
-      inputType: null,
       inputId: null,
       isTextInput: null,
-      isSingleInput: null,
       numChildFields: 0,
-      isInline: null,
+      // childFields: [], <-- can't be responsive data apparently
       // field state
       state: {
         hasFocus: null,
@@ -283,7 +282,7 @@ export default {
     },
     myValidate () {
       // validate + input =>  'eager' | 'lazy' | 'form' | false
-      return !this.validate ? false : this.validate === true ? 'eager' : (this.validate === 'lazy-at-first' && this.state.hasBeenInvalid) ? 'eager' : this.validate
+      return !this.validate || !this.isTextInput ? false : this.validate === true ? 'eager' : (this.validate === 'lazy-at-first' && this.state.hasBeenInvalid) ? 'eager' : this.validate
     },
     canValidate () {
       // potentially validate?
@@ -596,53 +595,55 @@ export default {
     //
     // Identify Target, inputs, etc...
 
-    // Case A:
-    // <q-field>
-    //   <input|textarea>  =>            isTargeted = true, isSingleInput = true, isTextInput = true
-    // </q-field>
-
-    // Case B:
-    // <q-field>
-    //   <q-field></q-field>[...] =>     isTargeted = true, isSingleInput = false, isTextInput = false
-    // </q-field>
-
-    // Case C:
-    // <q-field>
-    //   <otherComponent></otherComponent>[...] =>         isTargeted = true, isSingleInput = false, isTextInput = false
-    // </q-field>
-
-    // Case D:
-    // <q-field>
-    //   <other></other>[...] =>         isTargeted = false, isSingleInput = false, isTextInput = false
-    // </q-field>
-
     this.fieldId = fieldId++
 
-    let elms = this.$slots.default.filter(vnode => { return !!vnode.tag })
 
-    if (elms.length === 0) {
-      this.isSingleInput = false
+    // 1. IDENTIFY: target, input
+
+    let vnodes = this.$slots.default.filter(vnode => { return !!vnode.tag })
+
+    if (vnodes.length === 0) {
+
+      // a) NO VNODES
+
+      this.target = null
       this.input = null
+      this.isTextInput = false
       console.warn('<q-field> is missing content.', this)
       return
-    } else if (elms.length === 1 && elms[0].elm && TEXT_INPUT_TYPES.includes(elms[0].elm.type+'')) {
-      //
-      // Case A) 1 child = <input|textarea>.  Target it.
-      this.isSingleInput = true
-      this.isTextInput = true // true = input|textarea
-      this.input = elms[0].elm // input = <input|textarea>
-      this.inputType = this.input.type
-      this.__initState()
-      this.__updateState_value()
-      this.__updateState_counter()
-      this.input.checkValidity()
-      if (this.validateImmediate) {
-        this.__updateState_validity()
+
+    } else if (vnodes.length === 1) {
+
+      // b) SINGLE VNODES
+
+      this.target = !this.noTarget  // Single elements are automatically targeted (unless user specificed 'no-target')
+      this.input = 'value' in vnodes[0].elm ? vnodes[0].elm : null // Any element with a 'value' property (i.e. <input> <textarea> <q-select> etc. )
+      this.isTextInput = this.input && TEXT_INPUT_TYPES.includes(vnodes[0].elm.type+'') // input is <input type='x'> or <textarea>
+
+      if (this.input) {
+
+        this.__initState()
+        this.__updateState_value()
+
+        if (this.isTextInput) {
+
+          this.__updateState_counter()
+          this.input.checkValidity()
+          if (this.validateImmediate) {
+            this.__updateState_validity()
+          }
+
+        }
+
       }
 
-    } else if (elms.length === 1) {
-      //
-      // Case B) 1 child = <xxx></xxx>  Target it (could be a vue component!)
+    } else {
+
+      // c) MULTIPLE VNODES
+
+      // input = first vnode whose element has a 'value'
+      // target IF input!=null
+
       if (this.$children.length) {
         this.isTextInput = false // false = some component
         this.input = 'value' in this.$children[0] ? this.$children[0] : null // input = anything that has a 'value' property
@@ -654,31 +655,23 @@ export default {
         }
       }
       // Case C) 1 child = other component/element.  Target it.
-      this.isSingleInput = true
       this.isTextInput = false
-
-    } else {
-
-      // Case D) 2+ children. Target none of them, but listen to fieldEvents from all child <q-fields>
-      // TODO: Target none, OR the first of any content found wrapped in a <field-target> component.
-      this.isTextInput = false
-      this.input = elms[0].elm
-
-      // Add field event listeners to child <q-fields>.  They will tell me when to update my state.
-      this.childFields = []
-      this.$children.forEach(c => {
-        if (c.$options._componentTag === 'q-field') {
-          c.$on('fieldEvent', this.__onFieldEvent)
-          this.childFields.push(c)  // <-- NB: Not watched due to recursion (apparently, reports Vue)
-          this.numChildFields++
-        }
-      })
-
-      // DEPRECATED: If all children are <q-fields>...
-      // this.isTargeted = (this.numChildFields === this.$children.length)
-      console.log('child, ', this.numChildFields, this.$children.length)
 
     }
+
+
+    // 2. IDENTIFY: Child <q-field> components
+    //
+    this.childFields = []
+    vnodes.forEach(vnode => {
+      if (vnode.componentOptions && vnode.componentOptions.tag === 'q-field') {
+        vnode.child.$on('fieldEvent', this.__onFieldEvent)
+        this.childFields.push(vnode)  // <-- NB: Not watched due to recursion (apparently, reports Vue)
+        this.numChildFields++
+      }
+    })
+
+
 
     // Id
     if (this.input) {
