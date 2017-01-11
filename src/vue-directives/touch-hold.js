@@ -25,10 +25,8 @@ export default {
         ctx.start(evt)
       },
       abort (evt) {
-        if (ctx.timer) {
-          clearTimeout(ctx.timer)
-          ctx.timer = null
-        }
+        clearTimeout(ctx.timer)
+        ctx.timer = null
       },
       mouseAbort (evt) {
         document.removeEventListener('mousemove', ctx.mouseAbort)

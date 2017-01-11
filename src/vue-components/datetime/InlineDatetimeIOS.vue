@@ -443,10 +443,8 @@ export default {
       }
     },
     __dragCleanup () {
-      if (this.timeout) {
-        clearTimeout(this.timeout)
-        this.timeout = null
-      }
+      clearTimeout(this.timeout)
+      this.timeout = null
     },
     __normalizeValue (value) {
       if (this.pmin) {

@@ -146,9 +146,7 @@ export default {
     }
   },
   beforeDestroy () {
-    if (this.timeout) {
-      clearTimeout(this.timeout)
-    }
+    clearTimeout(this.timeout)
   },
   data () {
     return {
