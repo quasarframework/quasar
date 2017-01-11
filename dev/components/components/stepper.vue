@@ -2,7 +2,7 @@
   <div>
     <div class="layout-padding">
       <q-transition name="slide">
-        <q-stepper @finish="finish()" ref="stepper" v-show="!finished" color="green">
+        <q-stepper @finish="finish()" @step="onStep" ref="stepper" v-show="!finished" color="green">
           <q-step title="Select campaign settings">
             For each ad campaign that you create, you can control how much you're willing to spend on clicks and conversions, which networks and geographical locations you want your ads to show on, and more.
           </q-step>
@@ -26,7 +26,12 @@
           <span>Finished. Well done!</span>
         </p>
         <button class="primary" @click="reset()">Reset</button>
-      </p>
+      </div>
+
+      <span class="label bg-amber fixed-bottom-left" style="left: 18px; bottom: 18px;">
+        <span class="left-detail">Step</span> {{ currentStep }} {{ stepMessage }}
+      </span>
+
     </div>
   </div>
 </template>
@@ -36,12 +41,34 @@ export default {
   data () {
     return {
       ready: false,
-      finished: false
+      finished: false,
+      currentStep: 0,
+      stepMessage: ''
     }
   },
   methods: {
     finish () {
       this.finished = true
+    },
+    onStep (currentStep) {
+      this.currentStep = currentStep
+      switch (this.currentStep) {
+        case 1:
+          this.stepMessage = 'started'
+          break
+        case 2:
+          this.stepMessage = 'second step'
+          break
+        case 3:
+          this.stepMessage = 'next to finish'
+          break
+        case 4:
+          this.stepMessage = 'done!'
+          break
+        default:
+          this.stepMessage = ''
+          break
+      }
     },
     reset () {
       this.$refs.stepper.reset()
