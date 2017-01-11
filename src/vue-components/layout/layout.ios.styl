@@ -1,6 +1,7 @@
 $layout-border             ?= 1px solid $toolbar-faded-color
-$layout-toolbar-min-height ?= 50px
-$toolbar-title-font-size   ?= 1.2rem
+$layout-toolbar-min-height ?= 40px
+$toolbar-title-font-size   ?= .95rem
+$toolbar-padding           ?= 4px 10px
 
 .layout
   position absolute
@@ -44,7 +45,7 @@ body.desktop
   z-index $z-marginals
 
 .toolbar
-  padding 4px
+  padding $toolbar-padding
   min-height $layout-toolbar-min-height
   display flex
   overflow hidden
@@ -83,7 +84,7 @@ body.desktop
   &.inverted
     background white
 
-  button
+  > button
     margin 0 .2rem
     padding .2rem
     text-shadow none
@@ -134,8 +135,9 @@ body.desktop
     > div
       text-align right
 
-body.cordova .layout-header > .toolbar:first-child
+body.cordova.platform-ios .layout-header > .toolbar:first-child
   padding-top 20px
+  min-height ($layout-toolbar-min-height + 20px)
   .toolbar-title
     padding-top 20px
 
