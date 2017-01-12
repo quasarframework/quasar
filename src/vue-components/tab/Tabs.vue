@@ -131,9 +131,7 @@ export default {
     })
   },
   beforeDestroy () {
-    if (this.scrollTimer) {
-      clearInterval(this.scrollTimer)
-    }
+    clearInterval(this.scrollTimer)
     this.$refs.scroller.removeEventListener('scroll', this.__updateScrollIndicator)
     window.removeEventListener('resize', this.__redraw)
   },
@@ -198,10 +196,7 @@ export default {
       }
     },
     __animScrollTo (value) {
-      if (this.scrollTimer) {
-        clearInterval(this.scrollTimer)
-      }
-
+      clearInterval(this.scrollTimer)
       this.__scrollTowards(value)
       this.scrollTimer = setInterval(() => {
         if (this.__scrollTowards(value)) {

@@ -152,9 +152,9 @@ export default {
       if (this.calls > 0) {
         return
       }
-      if (this.timer) {
-        clearTimeout(this.timer)
-      }
+
+      clearTimeout(this.timer)
+
       if (!this.animate) {
         this.active = false
         return
@@ -178,9 +178,7 @@ export default {
     highjackAjax(this.start, this.stop)
   },
   beforeDestroy () {
-    if (this.timer) {
-      clearTimeout(this.timer)
-    }
+    clearTimeout(this.timer)
     restoreAjax()
   }
 }

@@ -49,10 +49,8 @@ export default {
       }
       this.cleanup = () => {
         this.target.classList.remove('non-selectable')
-        if (this.touchTimer) {
-          clearTimeout(this.touchTimer)
-          this.touchTimer = null
-        }
+        clearTimeout(this.touchTimer)
+        this.touchTimer = null
       }
       this.target.addEventListener('touchstart', this.touchStartHandler)
       this.target.addEventListener('touchcancel', this.cleanup)
