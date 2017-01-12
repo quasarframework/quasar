@@ -405,7 +405,7 @@ export default {
       return this.hint // (this.draw_TargetOnly?'draw_TargetOnly=true':'draw_TargetOnly=false') + (this.draw_TargetOnly && !this.item ?' (pseudo)':'')  // this.hint
     },
     txt_ValidateMsg () {
-      return !this.validate || !this.input || this.validateMsg === false ? false : this.validateMsg ? this.validateMsg : this.isTextInput && this.input.validity.valueMissing ? 'Please enter a value.' : 'Please enter a valid value.'
+      return !this.myValidate || this.validateMsg === false ? false : this.validateMsg ? this.validateMsg : this.isTextInput && this.input.validity.valueMissing ? 'Please enter a value.' : 'Please enter a valid value.'
       // TODO: Allow msg update / multiple msgs / `vee-validate` integration?
     }
   },
