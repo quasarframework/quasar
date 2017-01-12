@@ -1,5 +1,13 @@
 <template>
   <!--
+
+
+BIG TODO:
+- prop to render as item.
+- input props (esp. 'value') to be controleld via the field.
+- <field-target> child component to enable user-specified target and more flexibile configuration
+
+
       Target Only:
       HAD TO DISABLE for now: Can't find method of keeping events when then <input> element is completely replaced
   -->
@@ -33,21 +41,28 @@ TODO:
   -->
   <div class='field row' :data-field-id="fieldId" :class='css_Field'><!--
 {{ fieldId}}  validate[{{ typeof validate + '-' + validate}}] myValidate[{{ myValidate }}]
+
       'Before':
-    --><i v-if='draw_Icon' class="field-icon field-icon-before" :class='css_Icon1'>{{ icon }}</i>{{ fieldId}}
+
+    -->
+    <i v-if='draw_Icon' class="field-icon field-icon-before" :class='css_Icon1'>{{ icon }}</i>
     <slot name="before"></slot>
     <span v-if="before">{{ before }}</span><!--
 
       Inline Label:
-    --><label v-if='txt_InlineLabel' :style='style_InlineLabel' class='field-label-inline' :for='inputId'>{{ txt_InlineLabel }}:</label><!--
 
-      Targetless Content...
+    -->
+    <label v-if='txt_InlineLabel' :style='style_InlineLabel' class='field-label-inline' :for='inputId'>{{ txt_InlineLabel }}:</label><!--
+
+      Targetless content...
+
     -->
     <slot v-if="noTarget"></slot><!--
 
-      ...or, Target:
+      ...or, 'Target':    (TODO: Make this a sub-component)
+
     -->
-    <div v-else class="field-target" @input="__onInput" :class='css_FieldTarget' :style='style_FieldTarget' ref="ref_FieldTarget">
+    <div v-else class="field-target" :class='css_FieldTarget' :style='style_FieldTarget' ref="ref_FieldTarget">
       <div class="field-input row" :class='css_FieldInput'>
       <span v-if="prefix">{{ prefix }}</span><label v-if='txt_FloatLabel' :style='style_FloatLabel' class='field-label-float' :class='css_FloatLabel' :for='inputId' ><span v-if="prefix">{{ prefix }}</span>{{ txt_FloatLabel }}<div v-if="draw_Required">*</div><span v-if="postfix">{{ postfix }}</span></label><slot></slot><span v-if="postfix">{{ postfix }}</span>
     </div>
@@ -57,6 +72,7 @@ TODO:
     </div><!--
 
       'After':
+
     -->
     <span v-if="after">{{ after }}</span>
     <slot name="after"></slot>
@@ -440,7 +456,7 @@ export default {
     // Events
     __onFieldEvent (e) {
       console.log('#' + this.fieldId + 'RECEIVED: FieldEvent ', e)
-      this[e.type]()  // focus | blur | activate | input | validate
+      this[e.type](e)  // focus | blur | activate | input | validate
     },
     __onClick (e) {
       console.log(this.fieldId + '.__onClick')
@@ -475,22 +491,28 @@ export default {
       this.$emit('fieldEvent', {type: '__onBlur', from: this.fieldId})
     },
     __onInput (e) {
-      console.log(this.fieldId + '.__onInput')
-      if (e) {
-        // Native  event
-        if (e.stopPropagation) {
-          e.stopPropagation()
-        }
-        if (e.cancelBubble) {
-          e.cancelBubble = true
-        }
+      console.log(this.fieldId + '.__onInput', e, typeof e)
+
+      // Called 1 of 3 ways:
+      if (e.type === 'input') {
+        // 1. Native input Event from <input|textarea>
+        if (e.stopPropagation) e.stopPropagation()
+        if (e.cancelBubble) e.cancelBubble = true
+        this.__updateState_value()
       }
-      this.__updateState_value()
+      if (typeof e === 'string') {
+        // 2. Vue @input event from Vue component (not <q-field>, though)
+        this.input.value = e
+        this.__updateState_value(e) // <-- pass value directly so as not to lag behind component update.
+      }
+      else if (e.type === '__onInput') {
+        // 3. Field Event from child <q-field>
+        // (No real use for this yet)
+      }
+
+
       if (this.myValidate === 'eager') {
         this.__onValidate()
-      }
-      if (this.counter) {
-        this.__updateState_counter()
       }
 
       this.$emit('fieldEvent', {type: '__onInput', from: this.fieldId})
@@ -560,18 +582,24 @@ export default {
     },
     // State maintenance
     // NB: These can't go in computed/watchers as they rely on changes to <input> attrs.
-    __initInputState () {
-      // TODO: Enable change after render...
+    __initState () {
+      if (!this.input) return
+      // TODO: Enable change after render...]
       this.state.hasRequired = this.input.required
       this.state.hasReadOnly = this.input.readOnly
       this.state.hasDisabled = this.input.disabled
       this.__updateState_value()
     },
-    __updateState_value() {
-      this.state.hasValue = this.input && this.input.value ? true : false
-    },
-    __updateState_counter () {
-      this.state.currentChars = this.input.value.length
+    __updateState_value(theValue) {
+      // Value may be passed by arg, but defaults to input.value
+      theValue = typeof theValue !== 'undefined' ? theValue : this.input ? this.input.value : undefined
+      this.state.hasValue = theValue ? true : false
+
+      // Update counter
+        console.log(this.state.currentChars + " ---- " + theValue.length)
+      if (!this.counter || !this.myMaxLength) return
+        console.log(this.state.currentChars + " ---- " + theValue.length)
+      this.state.currentChars = theValue.length
       this.state.hasTooLong = this.counter && this.myMaxlength && this.state.currentChars > this.myMaxlength ? true : false
       this.state.hasInvalid = this.state.hasTooLong ? true : this.state.hasInvalid
     }
@@ -588,9 +616,7 @@ export default {
     // !input + <q-field(s)>      => numChildFields
     let vnodes = this.$slots.default // .filter(vnode => { return !!vnode.tag })
 
-    console.log(this.fieldId +'.vnodes', vnodes)
-
-    // Identify input (first element with a 'value' property)
+    // Identify input (first element found with a 'value' property)
     if (!this.noTarget) {
 
       let candidate = vnodes.find(vnode => {
@@ -599,16 +625,12 @@ export default {
           // Native element.value
           this.input = vnode.elm
           this.isTextInput = true
-
-          console.log("FOUND input.value in vnodes:", this.input)
           return true
         }
 
         if (vnode.child && 'value' in vnode.child) {
           // Vue component.value
           this.input = vnode.child
-
-          console.log("FOUND component.value in vnodes:", this.input)
           return true
         }
 
@@ -619,138 +641,66 @@ export default {
     }
 
     if (this.input) {
-      // Found an input - so ignore child fields.
 
-      console.log("INPUT = TRUE")
+      // Found an input (so ignore child fields)
 
+      // Event Listeners
+      //
       if (this.isTextInput) {
         // Native HTML <input> or <textarea>
 
-        // this.$el.addEventListener('click', this.__onClick, true)
         this.input.addEventListener('focus', this.__onFocus, true)
         this.input.addEventListener('blur', this.__onBlur, true)
-        // this.input.$on('input', this.__onInput)
         this.input.addEventListener('input', this.__onInput, true)
+        // this.$el.addEventListener('click', this.__onClick, true)
 
       } else {
         // Vue component
+
         this.input.$on('input', this.__onInput)
+        this.input.$on('open', this.__onFocus)
+        this.input.$on('close', this.__onBlur)
 
       }
 
-    } else {
-
-      console.log("INPUT = FALSE")
-
-      console.log("Kids are: " + this.$children)
-
-      this.childFields = []
-
-      // Identify childFields, and add fieldEvent handlers
-      this.$children.forEach(child => {
-        console.log("CHECK KID", child)
-        if (child.$options._componentTag === 'q-field') {
-          console.log("FOUND Child q-field:", child)
-          child.$on('fieldEvent', this.__onFieldEvent)
-          this.childFields.push(child)  // <-- NB:  this.childFields not watched due to recursion (apparently, reports Vue)
-          this.numChildFields++
-        }
-      })
-
-
-    }
-
-
-    //   if (vnodes.$children.length) {
-    //     this.isTextInput = false // false = some component
-    //     this.input = 'value' in this.$children[0] ? this.$children[0] : null // input = anything that has a 'value' property
-    //     if (this.input) {
-    //       this.input.$on('input', this.__onInput)
-    //       this.__initInputState()
-    //       this.myValidate = false   // <-- // TODO: Interact with components *properly*...
-    //     }
-    //   }
-    //   // Case C) 1 child = other component/element.  Target it.
-    //   this.isTextInput = false
-
-
-    // if (vnodes.length === 0) {
-
-    //   // a) NO VNODES
-
-    //   // this.target = null
-    //   // this.input = null
-    //   // this.isTextInput = false
-    //   console.warn('<q-field> is missing content.', this)
-    //   return
-
-    // } else if (vnodes.length === 1111) {
-
-    //   // b) SINGLE VNODE
-
-    //   if (!this.noTarget) {
-
-    //     this.target = true  // Single elements are automatically targeted (unless user specificed 'no-target')
-    //     this.input = 'value' in vnodes[0].elm ? vnodes[0].elm : null // Any element with a 'value' property (i.e. <input> <textarea> <q-select> etc. )
-    //     this.isTextInput = this.input && TEXT_INPUT_TYPES.includes(vnodes[0].elm.type+'') // input is <input type='x'> or <textarea>
-
-    //     if (this.input) {
-
-    //       this.__initInputState()
-
-    //       if (this.isTextInput) {
-
-    //         this.__updateState_counter()
-    //         this.input.checkValidity()
-    //         if (this.validateImmediate) {
-    //           this.__onValidate()
-    //         }
-
-    //       }
-
-    //     }
-
-    //   }
-
-    // } else {
-
-    //   // c) MULTIPLE VNODES
-
-    //   // input = first vnode whose element has a 'value'
-    //   // target IF input!=null
-    //   console.log('mounting: ' + this.fieldId)
-
-    //   if (vnodes.$children.length) {
-    //     this.isTextInput = false // false = some component
-    //     this.input = 'value' in this.$children[0] ? this.$children[0] : null // input = anything that has a 'value' property
-    //     if (this.input) {
-    //       this.input.$on('input', this.__onInput)
-    //       this.__initInputState()
-    //       this.myValidate = false   // <-- // TODO: Interact with components *properly*...
-    //     }
-    //   }
-    //   // Case C) 1 child = other component/element.  Target it.
-    //   this.isTextInput = false
-
-    // }
-
-
-    // // 2. IDENTIFY: Child <q-field> components
-    // //
-    // this.childFields = []
-
-
-    // Id
-    if (this.input) {
+      // ID
+      //
       if (this.input.id) {
         this.inputId = this.input.id
       } else {
         this.inputId = Utils.uid()
         this.input.id = this.inputId
       }
+
+
+    }
+    else {
+
+      // No Input, look for child fields
+      //
+      this.childFields = []
+
+      this.$children.forEach(child => {
+
+        if (child.$options._componentTag === 'q-field') {
+          child.$on('fieldEvent', this.__onFieldEvent)
+          this.childFields.push(child)  // <-- NB:  this.childFields not watched due to recursion (apparently, reports Vue)
+          this.numChildFields++
+        }
+      })
+
     }
 
-    // Inline/Float Label Layout
+
+    // Initialise state
+    this.__initState()
+
+    if (this.validateImmediate) {
+      this.__onValidate()
+    }
+
+
+    // Sanitise Inline/Float Label Layouts
     if (!this.labelLayout || this.labelLayout === 'inline') {
       // label-inline is main Label, float functions as optional msg.
       this.isInline = true
@@ -766,31 +716,41 @@ export default {
       this.myFloatHint = this.label
     }
 
-    // add native event handlers to <input> and <textarea> elements
-    // if (this.isTextInput === true) {
-    //   this.$el.addEventListener('click', this.__onActivate, true)
-    //   this.input.addEventListener('focus', this.__onFocus, true)
-    //   this.input.addEventListener('blur', this.__onBlur, true)
-    //   this.input.addEventListener('input', this.__onInput, true)
-    // } else if (this.input && this.isTextInput === false) {
-    //   console.log('aaaaa');
-    //   this.$el.addEventListener('input', this.__onInput, true)
-    //   // TODO: Handle non-textual components properly!!
-    //   // this.input.elm.addEventListener('focusin', this.__onFocus, true)
-    //   // this.input.elm.addEventListener('focusout', this.__onBlur, true)
-    // }
   },
   beforeDestroy () {
     // remove events
-    if (this.input && this.isTextInput === true) {
-      this.$el.removeEventListener('click', this.__onActivate, true)
-      this.input.removeEventListener('focus', this.__onFocus, true)
-      this.input.removeEventListener('blur', this.__onBlur, true)
-      this.input.removeEventListener('input', this.__onInput, true)
-    } else if (this.input && this.isTextInput === false) {
-      // this.input.elm.removeEventListener('deactivate', this.__onFocus, true)
-      // this.input.elm.removeEventListener('deactivate', this.__onBlur, true)
+
+    if (this.input) {
+
+      if (this.isTextInput) {
+        // Native HTML <input> or <textarea>
+
+        this.input.removeEventListener('focus', this.__onFocus, true)
+        this.input.removeEventListener('blur', this.__onBlur, true)
+        this.input.removeEventListener('input', this.__onInput, true)
+        // this.$el.addEventListener('click', this.__onClick, true)
+
+      } else {
+        // Vue component
+
+        this.input.$off('input', this.__onInput)
+        this.input.$off('open', this.__onFocus)
+        this.input.$off('close', this.__onBlur)
+
+      }
+
+
     }
+    else {
+
+      // Child fields
+
+      this.childFields$children.forEach(child => {
+        child.$off('fieldEvent', this.__onFieldEvent)
+      })
+
+    }
+
   }
 }
 </script>

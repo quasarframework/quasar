@@ -166,12 +166,38 @@ ISSUES:
                   >
                     <input type="text" readonly v-model="myUserName" class="w110"  />
                   </q-field>
-
-
                 </div>
 
 
-
+                <!-- Email -->
+                <div class="width-2of3 sm-width-1of2">
+                  <q-field
+                    label="Suspect List"
+                    icon="person"
+                    validate
+                    target-width="grow"
+                    validate="lazy-at-first"
+                    validate-msg="That email address is bogus!"
+                    class="full-width"
+                  >
+                    <q-chips v-model="example.rooms" placeholder="Type some names"></q-chips>
+                  </q-field>
+                </div>
+                <div class="width-2of3 sm-width-1of2">
+                  <q-field
+                    label="Suspect List"
+                    icon="person"
+                    validate
+                    target-width="grow"
+                    validate="lazy-at-first"
+                    validate-msg="That email address is bogus!"
+                    class="full-width"
+                  >
+                    <q-search
+                      v-model="example.search"
+                    ></q-search>
+                  </q-field>
+                </div>
 
                 <!-- User ID -->
   <!--               <div class="width-1of4">
@@ -221,7 +247,13 @@ ISSUES:
                   </q-field>
 
                 </div>
-                <!-- Phone -->
+
+
+
+
+
+
+               <!-- Phone -->
 <!--                 <div class="width-1of3 sm-width-1of2">
                   <q-field
                     label="Phone"
@@ -267,7 +299,6 @@ ISSUES:
                 <div class="width-1of3 sm-width-1of2">
                   <q-field
                     label="Birthday"
-                    label-layout="stacked"
                     icon="cake"
                   >
                     <q-datetime
@@ -313,7 +344,6 @@ ISSUES:
                 <div class="width-1of3 sm-width-1of2">
                   <q-field
                     label="Birthday"
-                    label-layout="stacked"
                     icon="cake"
                   >
                     <q-datetime
@@ -1154,6 +1184,7 @@ export default {
         userName: '',
         birthday: '',
         detectiveName: '',
+        rooms: ['Conservatory', 'Billiard Room', 'Library', 'Cellar', 'Hall'],
         mobile: '',
         phone: '',
         areaCode: '61',
@@ -1168,7 +1199,8 @@ export default {
         password: '',
         fave_room: '',
         description1: '',
-        description2: ''
+        description2: '',
+        search: ''
       },
       // Models
       //
@@ -1895,8 +1927,11 @@ for num in (0..20)
     > .field-input
       position relative
       min-height 40px
+      transition-duration .2s
+      transition-timing-function cubic-bezier(.4, 0, .2, 1)
       > :not(:last-child):not(label)
         margin-right 2px !important
+
       &.underline
         margin-bottom 3px
         border-bottom $textfield-border-size $textfield-border-style $textfield-border-color
@@ -1983,7 +2018,7 @@ for num in (0..20)
         display inline-block
         padding-left 2px
 
-  // Focus / Hover
+  // Hover & Focus
   //
   &.field-focus,
   &.field:hover:not(.field-disabled)
@@ -1997,6 +2032,10 @@ for num in (0..20)
       color $form-active-color
       > div
         color $required-color
+    > .field-target > .field-input
+      &.underline
+        border-bottom $textfield-border-size $textfield-border-style $form-active-color
+  &.field-focus
     > .field-target > .field-input
       &.underline
         border-bottom $textfield-border-size $textfield-border-style $form-active-color
