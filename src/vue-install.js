@@ -14,6 +14,8 @@ import dTouchHold from './vue-directives/touch-hold'
 import dTouchPan from './vue-directives/touch-pan'
 import dTouchSwipe from './vue-directives/touch-swipe'
 
+import Accordion from './vue-components/accordion/Accordion.vue'
+import AccordionItem from './vue-components/accordion/Accordion-Item.vue'
 import AjaxBar from './vue-components/ajax-bar/AjaxBar.vue'
 import Autocomplete from './vue-components/autocomplete/Autocomplete.vue'
 import Checkbox from './vue-components/checkbox/Checkbox.vue'
@@ -86,6 +88,8 @@ function registerComponents (_Vue) {
   _Vue.component('q-transition', Transition)
 
   ;[
+    ['accordion', Accordion],
+    ['accordion-item', AccordionItem],
     ['ajax-bar', AjaxBar],
     ['autocomplete', Autocomplete],
     ['checkbox', Checkbox],
