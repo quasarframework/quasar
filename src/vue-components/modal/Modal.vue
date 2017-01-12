@@ -82,7 +82,7 @@ export default {
       default: 'items-center justify-center'
     },
     contentClasses: [Object, String],
-    contentCss: Object,
+    contentCss: [Object, String],
     noBackdropDismiss: {
       type: Boolean,
       default: false
@@ -118,13 +118,16 @@ export default {
   },
   methods: {
     open (onShow) {
-      if (this.active) {
-        return
-      }
-
       if (this.minimized && this.maximized) {
         throw new Error('Modal cannot be minimized & maximized simultaneously.')
       }
+      if (this.active) {
+        onShow && onShow()
+        return
+      }
+
+      this.$el.parentNode.removeChild(this.$el)
+      document.body.append(this.$el)
 
       document.body.classList.add('with-modal')
       EscapeKey.register(() => {
@@ -190,6 +193,7 @@ export default {
     },
     close (onClose) {
       if (!this.active) {
+        onClose && onClose()
         return
       }
 
@@ -217,13 +221,7 @@ export default {
       this.close(onClick)
     }
   },
-  mounted () {
-    this.$nextTick(() => {
-      this.$el.parentNode.removeChild(this.$el)
-      document.body.append(this.$el)
-    })
-  },
-  destroyed () {
+  beforeDestroy () {
     this.$el.parentNode.removeChild(this.$el)
   }
 }

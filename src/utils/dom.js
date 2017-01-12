@@ -62,7 +62,7 @@ export function ready (fn) {
 }
 
 export function getScrollTarget (el) {
-  return el.closest('.layout-view') || window
+  return el.closest('.layout-view,.scroll') || window
 }
 
 export function getScrollPosition (scrollTarget) {

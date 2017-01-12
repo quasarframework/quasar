@@ -68,7 +68,7 @@ export default {
     },
     type: {
       type: String,
-      required: true,
+      default: 'list',
       validator (value) {
         return ['radio', 'list', 'checkbox', 'toggle'].includes(value)
       }
