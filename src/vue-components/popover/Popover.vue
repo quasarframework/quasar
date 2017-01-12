@@ -1,9 +1,5 @@
 <template>
-  <div
-    class="q-popover animate-scale"
-    @click.stop
-    :style="transformCSS"
-  >
+  <div class="q-popover animate-scale" :style="transformCSS" @click.stop>
     <slot></slot>
   </div>
 </template>
@@ -97,17 +93,20 @@ export default {
       EscapeKey.register(() => { this.close() })
       this.scrollTarget = Utils.dom.getScrollTarget(this.anchorEl)
       this.scrollTarget.addEventListener('scroll', this.close)
-      document.addEventListener('click', this.close)
-      this.$nextTick(() => {
+      this.timer = setTimeout(() => {
+        this.timer = null
+        document.addEventListener('click', this.close, true)
         this.__updatePosition(event)
         this.$emit('open')
-      })
+      }, 1)
     },
     close (fn) {
-      if (!this.opened || this.progress) {
+      if (!this.opened || this.progress || (fn && fn.target && this.$el.contains(fn.target))) {
         return
       }
-      document.removeEventListener('click', this.close)
+
+      clearTimeout(this.timer)
+      document.removeEventListener('click', this.close, true)
       this.scrollTarget.removeEventListener('scroll', this.close)
       EscapeKey.pop()
       this.progress = true
