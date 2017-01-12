@@ -26,7 +26,7 @@ ISSUES:
 <template>
   <div>
 
-    <div class="layout-header fixed-top">
+    <div class="layout-header fixed-top hidden">
     <!-- TITLE -->
       <div class="toolbar primary">
         <div class="toolbar-content">
@@ -90,7 +90,7 @@ ISSUES:
                     class="full-width"
                   >
                     <i class="field-icon icon-before icon-inverse bg-primary text-white">person_pin</i>
-                    <h5>New Player</h5>
+                    <h5>New</h5>
                   </q-field>
                 </div>
 
@@ -101,7 +101,7 @@ ISSUES:
                     no-underline
                     label=""
                     label-layout="inline"
-                    validate="lazy-at-first"
+                    validate
                     validate-msg="Both names are required."
                     hint="Use the player's real name here."
                     target-width="grow"
@@ -204,7 +204,7 @@ ISSUES:
 
                   <!-- Character DDL -->
                   <q-field
-                    label="Game Character"
+                    label="Role"
                     class="field-focus" icon-inverse
                     icon="person_outline"
                     target-width="shrink"

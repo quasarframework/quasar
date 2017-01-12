@@ -32,7 +32,7 @@ TODO:
 
   -->
   <div class='field row' :data-field-id="fieldId" :class='css_Field'><!--
-{{ fieldId}}  validate[{{ typeof validate + '-' + validate}}] myValidate[{{ myValidate }}] canValidate[{{ canValidate }}]
+{{ fieldId}}  validate[{{ typeof validate + '-' + validate}}] myValidate[{{ myValidate }}]
       'Before':
     --><i v-if='draw_Icon' class="field-icon field-icon-before" :class='css_Icon1'>{{ icon }}</i>{{ fieldId}}
     <slot name="before"></slot>
@@ -280,13 +280,8 @@ export default {
     },
     myValidate () {
       // validate + text input =>  'eager' | 'lazy' | 'lazy-at-first' | form' | false
-      console.log(out)
-      let out =  this.validate === false || !this.isTextInput ? false : this.validate === '' ? 'eager' : (this.validate === 'lazy-at-first' && this.state.hasBeenInvalid) ? 'eager' : this.validate
+      let out =  this.validate === false ? false : this.validate === '' ? 'eager' : (this.validate === 'lazy-at-first' && this.state.hasBeenInvalid) ? 'eager' : this.validate
       return out
-    },
-    canValidate () {
-      // potentially validate?
-      return (this.validateImmediate || this.myValidate) && (this.isTextInput || this.numChildFields)
     },
     myTargetWidth () {
       // NB: field=true defaults to width='grow'
@@ -332,8 +327,8 @@ export default {
           'field-focus': s.hasFocus,
           'field-value': s.hasValue,
           'field-was-invalid': s.hasBeenInvalid,
-          'field-invalid': this.validate && s.hasInvalid === true,
-          'field-valid': this.validate && s.hasInvalid === false,
+          'field-invalid': this.myValidate && s.hasInvalid === true,
+          'field-valid': this.myValidate && s.hasInvalid === false,
           'field-pristine': this.state.hasTouched !== true,
           'field-dirty': this.state.hasTouched === true,
           'field-invalid-too-long': s.hasTooLong,
@@ -448,17 +443,21 @@ export default {
       this[e.type]()  // focus | blur | activate | input | validate
     },
     __onClick (e) {
+      console.log(this.fieldId + '.__onClick')
     },
     __onFocus (e) {
+      console.log(this.fieldId + '.__onFocus')
       this.state.hasFocus = true
       this.$emit('fieldEvent', {type: '__onFocus', from: this.fieldId})
     },
     __onBlur (e) {
+      console.log(this.fieldId + '.__onBlur')
       this.state.hasFocus = false
       this.state.hasTouched = true
 
       if (this.input) {
 
+        console.log(this.fieldId + '.__onBlur')
         if (this.input.type === 'number' && !this.input.value && !this.input.ignoreBlur && (this.myValidate === 'lazy' || this.myValidate === 'eager')) {
           // type=number value workaround (a bit hacky)
           this.input.value = ''
@@ -472,9 +471,11 @@ export default {
         }
       }
 
+      console.log(this.fieldId + '.__onBlur')
       this.$emit('fieldEvent', {type: '__onBlur', from: this.fieldId})
     },
     __onInput (e) {
+      console.log(this.fieldId + '.__onInput')
       if (e) {
         // Native  event
         if (e.stopPropagation) {
@@ -484,7 +485,7 @@ export default {
           e.cancelBubble = true
         }
       }
-      this.__updateState_value
+      this.__updateState_value()
       if (this.myValidate === 'eager') {
         this.__onValidate()
       }
@@ -495,19 +496,24 @@ export default {
       this.$emit('fieldEvent', {type: '__onInput', from: this.fieldId})
     },
     __onValidate (e) {
-      if (!this.canValidate) return
+      console.log(this.fieldId + '.__onValidate')
+      if (!this.myValidate) return
+
+      console.log(this.fieldId + '.__onValidate')
 
       let oldValue = this.state.hasInvalid
 
-      if (this.input) {
+      if (this.isTextInput) {
 
         // Leaf Field - Invalid if input .validity==false or .hasTooLong==true
         this.state.hasInvalid = this.state.hasTooLong ? true : !this.input.validity.valid // && (this.state.hasValue || this.state.hasTouched)
 
       } else if (this.numChildFields) {
 
+        console.log("in on validate with child fields")
+
         // Branch Field - Invalid if there are none which have yet to be validated and at least one invalid.
-        if (!this.childFields.some(e => e.canValidate && e.state.hasInvalid === null)) {
+        if (!this.childFields.some(e => e.myValidate && e.state.hasInvalid === null)) {
           this.state.hasInvalid = this.childFields.some(e => {
             return e.state.hasInvalid === true
           })
@@ -520,6 +526,7 @@ export default {
       }
 
       if (this.state.hasInvalid != oldValue) {
+        console.log(this.fieldId + '.$emit fieldEvent - __onValidate')
         this.$emit('fieldEvent', {type: '__onValidate', from: this.fieldId})
       }
 
@@ -528,16 +535,24 @@ export default {
       console.log('__onActivate #'+this.fieldId, e)
       // "activate" is click (touch??) anywhere on field.
       // Focus is placed on first available input or child field.
-      // (TODO: Make optional)
-      if (this.numChildFields === 0 && this.isTextInput && !this.state.hasDisabled) {
-        this.input.focus()
-      } else {
+      // (TODO: Make this behaviour optional)
+
+      if (e) {
+        // Try-catch ~ too many reasons focus() isn't allowed!?
         try {
-          // Try-catch ~ too many reasons focus() isn't allowed!?
-          this.childFields.find(e => {return e.isTextInput && !e.state.hasDisabled}).input.focus()
+          if (this.isTextInput && !this.state.hasDisabled) {
+            this.input.focus()
+          } else if (this.numChildFields) {
+            let input = this.childFields.find(e => {
+              return e.isTextInput && !e.state.hasDisabled
+            })
+            if (input) {
+              input.focus()
+            }
+          }
         } catch (e) {
-          // Do nothing
-          console.log(e)
+            // Do nothing
+            console.log(e)
         }
       }
 
@@ -562,83 +577,167 @@ export default {
     }
   },
   mounted () {
-    //
-    // Identify Target, inputs, etc...
 
+    // Field UID (interal use only)
     this.fieldId = fieldId++
 
+    // Identify target, input, isTextInput, child <q-field>s:
+    //
+    // !noTarget && <elem>.value  => input
+    // noTarget || !<elem>.value  => !input
+    // !input + <q-field(s)>      => numChildFields
+    let vnodes = this.$slots.default // .filter(vnode => { return !!vnode.tag })
 
-    // 1. IDENTIFY: target, input
+    console.log(this.fieldId +'.vnodes', vnodes)
 
-    let vnodes = this.$slots.default.filter(vnode => { return !!vnode.tag })
+    // Identify input (first element with a 'value' property)
+    if (!this.noTarget) {
 
-    if (vnodes.length === 0) {
+      let candidate = vnodes.find(vnode => {
 
-      // a) NO VNODES
+        if (vnode.elm && TEXT_INPUT_TYPES.includes(vnode.elm.type+'')) {
+          // Native element.value
+          this.input = vnode.elm
+          this.isTextInput = true
 
-      this.target = null
-      this.input = null
-      this.isTextInput = false
-      console.warn('<q-field> is missing content.', this)
-      return
-
-    } else if (vnodes.length === 1) {
-
-      // b) SINGLE VNODES
-
-      this.target = !this.noTarget  // Single elements are automatically targeted (unless user specificed 'no-target')
-      this.input = 'value' in vnodes[0].elm ? vnodes[0].elm : null // Any element with a 'value' property (i.e. <input> <textarea> <q-select> etc. )
-      this.isTextInput = this.input && TEXT_INPUT_TYPES.includes(vnodes[0].elm.type+'') // input is <input type='x'> or <textarea>
-
-      if (this.input) {
-
-        this.__initInputState()
-
-        if (this.isTextInput) {
-
-          this.__updateState_counter()
-          this.input.checkValidity()
-          if (this.validateImmediate) {
-            this.__onValidate()
-          }
-
+          console.log("FOUND input.value in vnodes:", this.input)
+          return true
         }
+
+        if (vnode.child && 'value' in vnode.child) {
+          // Vue component.value
+          this.input = vnode.child
+
+          console.log("FOUND component.value in vnodes:", this.input)
+          return true
+        }
+
+        return false
+      })
+
+
+    }
+
+    if (this.input) {
+      // Found an input - so ignore child fields.
+
+      console.log("INPUT = TRUE")
+
+      if (this.isTextInput) {
+        // Native HTML <input> or <textarea>
+
+        // this.$el.addEventListener('click', this.__onClick, true)
+        this.input.addEventListener('focus', this.__onFocus, true)
+        this.input.addEventListener('blur', this.__onBlur, true)
+        // this.input.$on('input', this.__onInput)
+        this.input.addEventListener('input', this.__onInput, true)
+
+      } else {
+        // Vue component
+        this.input.$on('input', this.__onInput)
 
       }
 
     } else {
 
-      // c) MULTIPLE VNODES
+      console.log("INPUT = FALSE")
 
-      // input = first vnode whose element has a 'value'
-      // target IF input!=null
+      console.log("Kids are: " + this.$children)
 
-      if (this.$children.length) {
-        this.isTextInput = false // false = some component
-        this.input = 'value' in this.$children[0] ? this.$children[0] : null // input = anything that has a 'value' property
-        if (this.input) {
-          this.input.$on('input', this.__onInput)
-          this.__initInputState()
-          this.myValidate = false   // <-- // TODO: Interact with components *properly*...
+      this.childFields = []
+
+      // Identify childFields, and add fieldEvent handlers
+      this.$children.forEach(child => {
+        console.log("CHECK KID", child)
+        if (child.$options._componentTag === 'q-field') {
+          console.log("FOUND Child q-field:", child)
+          child.$on('fieldEvent', this.__onFieldEvent)
+          this.childFields.push(child)  // <-- NB:  this.childFields not watched due to recursion (apparently, reports Vue)
+          this.numChildFields++
         }
-      }
-      // Case C) 1 child = other component/element.  Target it.
-      this.isTextInput = false
+      })
+
 
     }
 
 
-    // 2. IDENTIFY: Child <q-field> components
-    //
-    this.childFields = []
-    vnodes.forEach(vnode => {
-      if (vnode.componentOptions && vnode.componentOptions.tag === 'q-field') {
-        vnode.child.$on('fieldEvent', this.__onFieldEvent)
-        this.childFields.push(vnode)  // <-- NB: Not watched due to recursion (apparently, reports Vue)
-        this.numChildFields++
-      }
-    })
+    //   if (vnodes.$children.length) {
+    //     this.isTextInput = false // false = some component
+    //     this.input = 'value' in this.$children[0] ? this.$children[0] : null // input = anything that has a 'value' property
+    //     if (this.input) {
+    //       this.input.$on('input', this.__onInput)
+    //       this.__initInputState()
+    //       this.myValidate = false   // <-- // TODO: Interact with components *properly*...
+    //     }
+    //   }
+    //   // Case C) 1 child = other component/element.  Target it.
+    //   this.isTextInput = false
 
+
+    // if (vnodes.length === 0) {
+
+    //   // a) NO VNODES
+
+    //   // this.target = null
+    //   // this.input = null
+    //   // this.isTextInput = false
+    //   console.warn('<q-field> is missing content.', this)
+    //   return
+
+    // } else if (vnodes.length === 1111) {
+
+    //   // b) SINGLE VNODE
+
+    //   if (!this.noTarget) {
+
+    //     this.target = true  // Single elements are automatically targeted (unless user specificed 'no-target')
+    //     this.input = 'value' in vnodes[0].elm ? vnodes[0].elm : null // Any element with a 'value' property (i.e. <input> <textarea> <q-select> etc. )
+    //     this.isTextInput = this.input && TEXT_INPUT_TYPES.includes(vnodes[0].elm.type+'') // input is <input type='x'> or <textarea>
+
+    //     if (this.input) {
+
+    //       this.__initInputState()
+
+    //       if (this.isTextInput) {
+
+    //         this.__updateState_counter()
+    //         this.input.checkValidity()
+    //         if (this.validateImmediate) {
+    //           this.__onValidate()
+    //         }
+
+    //       }
+
+    //     }
+
+    //   }
+
+    // } else {
+
+    //   // c) MULTIPLE VNODES
+
+    //   // input = first vnode whose element has a 'value'
+    //   // target IF input!=null
+    //   console.log('mounting: ' + this.fieldId)
+
+    //   if (vnodes.$children.length) {
+    //     this.isTextInput = false // false = some component
+    //     this.input = 'value' in this.$children[0] ? this.$children[0] : null // input = anything that has a 'value' property
+    //     if (this.input) {
+    //       this.input.$on('input', this.__onInput)
+    //       this.__initInputState()
+    //       this.myValidate = false   // <-- // TODO: Interact with components *properly*...
+    //     }
+    //   }
+    //   // Case C) 1 child = other component/element.  Target it.
+    //   this.isTextInput = false
+
+    // }
+
+
+    // // 2. IDENTIFY: Child <q-field> components
+    // //
+    // this.childFields = []
 
 
     // Id
@@ -668,18 +767,18 @@ export default {
     }
 
     // add native event handlers to <input> and <textarea> elements
-    if (this.isTextInput === true) {
-      this.$el.addEventListener('click', this.__onActivate, true)
-      this.input.addEventListener('focus', this.__onFocus, true)
-      this.input.addEventListener('blur', this.__onBlur, true)
-      this.input.addEventListener('input', this.__onInput, true)
-    } else if (this.input && this.isTextInput === false) {
-      console.log('aaaaa');
-      this.$el.addEventListener('input', this.__onInput, true)
-      // TODO: Handle non-textual components properly!!
-      // this.input.elm.addEventListener('focusin', this.__onFocus, true)
-      // this.input.elm.addEventListener('focusout', this.__onBlur, true)
-    }
+    // if (this.isTextInput === true) {
+    //   this.$el.addEventListener('click', this.__onActivate, true)
+    //   this.input.addEventListener('focus', this.__onFocus, true)
+    //   this.input.addEventListener('blur', this.__onBlur, true)
+    //   this.input.addEventListener('input', this.__onInput, true)
+    // } else if (this.input && this.isTextInput === false) {
+    //   console.log('aaaaa');
+    //   this.$el.addEventListener('input', this.__onInput, true)
+    //   // TODO: Handle non-textual components properly!!
+    //   // this.input.elm.addEventListener('focusin', this.__onFocus, true)
+    //   // this.input.elm.addEventListener('focusout', this.__onBlur, true)
+    // }
   },
   beforeDestroy () {
     // remove events
