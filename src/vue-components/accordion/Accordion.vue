@@ -15,19 +15,40 @@ export default {
     }
   },
   methods: {
-    toggle () {
+    checkFirst () {
+      let currentOpened = 0
+      this.$children.forEach(child => {
+        if (child.active) {
+          if (currentOpened === 0) {
+            currentOpened = child.element
+          }
+          else {
+            child.active = false
+          }
+        }
+      })
+      if (currentOpened !== 0) {
+        this.config.currentElement = currentOpened
+      }
+    },
+    checkOpened () {
       let current = this.config.currentElement
       this.$children.forEach(child => {
         if (child.element !== current) {
           child.active = false
         }
       })
-      this.$emit('toggle', current)
+    },
+    toggle () {
+      this.checkOpened()
+      this.$emit('toggle', this.config.currentElement)
     },
     open () {
+      this.checkOpened()
       this.$emit('open', this.config.currentElement)
     },
     close () {
+      this.checkOpened()
       this.$emit('close', this.config.currentElement)
     }
   },
@@ -40,6 +61,8 @@ export default {
       child.element = element
       element++
     })
+    this.checkFirst()
+    this.checkOpened()
   }
 }
 </script>

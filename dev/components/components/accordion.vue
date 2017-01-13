@@ -38,7 +38,7 @@
         </q-accordion-item>
       </q-accordion>
 
-      <p class="caption">Preselected/Opened Collapsible</p>
+      <p class="caption">Preselected/Opened Accordion</p>
       <q-accordion class="list item-delimiter">
         <q-accordion-item icon="explore" label="First">
           <div>
@@ -50,7 +50,7 @@
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
           </div>
         </q-accordion-item>
-        <q-accordion-item icon="shopping_cart" label="Third">
+        <q-accordion-item icon="shopping_cart" label="Third" opened>
           <div>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
           </div>
