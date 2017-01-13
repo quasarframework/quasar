@@ -185,7 +185,10 @@ $item-label-color             ?= rgba(0, 0, 0, .54)
 .item + .item,
 .item + .q-collapsible,
 .q-collapsible + .item,
-.q-collapsible + .q-collapsible
+.q-collapsible + .q-collapsible,
+.item + .q-accordion-item,
+.q-accordion-item + .item,
+.q-accordion-item + .q-accordion-item
   &.item-delimiter
     border-top 1px solid rgb(224, 224, 224)
   &.item-inset-delimiter
@@ -205,7 +208,7 @@ body.desktop .item.item-link:hover
   text-align left
   border 1px solid rgb(224, 224, 224)
 
-  > .item, > .q-collapsible
+  > .item, > .q-collapsible, > .q-accordion-item
     &:first-child
       margin-top 8px
     &:last-child
@@ -244,13 +247,19 @@ body.desktop .item.item-link:hover
     .item + .item,
     .item + .q-collapsible,
     .q-collapsible + .item,
-    .q-collapsible + .q-collapsible
+    .q-collapsible + .q-collapsible,
+    .item + .q-accordion-item,
+    .q-accordion-item + .item,
+    .q-accordion-item + .q-accordion-item
       border-top 1px solid rgb(224, 224, 224)
   &.item-inset-delimiter
     .item + .item,
     .item + .q-collapsible,
     .q-collapsible + .item,
-    .q-collapsible + .q-collapsible
+    .q-collapsible + .q-collapsible,
+    .item + .q-accordion-item,
+    .q-accordion-item + .item,
+    .q-accordion-item + .q-accordion-item
       &:after
         content ''
         position absolute
