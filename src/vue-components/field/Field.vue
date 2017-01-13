@@ -1,66 +1,17 @@
 <template>
-  <!--
-
-
-BIG TODO:
-- prop to render as item.
-- input props (esp. 'value') to be controleld via the field.
-- <field-target> child component to enable user-specified target and more flexibile configuration
-
-
-      Target Only:
-      HAD TO DISABLE for now: Can't find method of keeping events when then <input> element is completely replaced
-  -->
-  <!--  -->
-  <!-- <div class='field field-target' :class='css_Field' :style="style_FieldTarget" ref="ref_FieldTarget">
-    <label v-if='txt_Float' class='field-label' :class='css_Float' :for='inputId'>{{ txt_Float }}</label><slot></slot>
-    <div class='field-swoosh'></div>
-    <span v-if='draw_Counter' class="field-counter">{{ txt_Counter }}</span>
-    <span v-if='txt_Hint' class="field-hint"><pre>{{ css_Field }}</pre></span>
-    <span v-if='draw_Validate' class="field-validate-msg">{{ txt_ValidateMsg }}</span>
-  </div> -->
-
-  <!--
-    One Size Fits All!
-    ==================
-    NB: This layout uses (more-or-less) the Quasar standards for HTML & CSS while accommodating all permutations of labels, icons, inputs & list-items.
-
-    However, it will render up to two extra containing <div>s every time, even though these are only required for fields with one or more of these options:
-      - icon or icon2 (needs outer div A)
-      - lineline-label (needs outer div A)
-      - list-item (needs outer div A & B)
-
-    TODO: Divert to leaner alternative HTML structures where possible
-
-NEW
-
-
-TODO:
-<q-field targetType="text|textarea"
-
-  -->
   <div class='field row' :data-field-id="fieldId" :class='css_Field'><!--
-{{ fieldId}}  validate[{{ typeof validate + '-' + validate}}] myValidate[{{ myValidate }}]
-
       'Before':
-
     -->
     <i v-if='draw_Icon' class="field-icon field-icon-before" :class='css_Icon1'>{{ icon }}</i>
     <slot name="before"></slot>
     <span v-if="before">{{ before }}</span><!--
-
       Inline Label:
-
     -->
     <label v-if='txt_InlineLabel' :style='style_InlineLabel' class='field-label-inline' :for='inputId'>{{ txt_InlineLabel }}:</label><!--
-
       Targetless content...
-
     -->
     <slot v-if="noTarget"></slot><!--
-
       ...or, 'Target':    (TODO: Make this a sub-component)
-
     -->
     <div v-else class="field-target" :class='css_FieldTarget' :style='style_FieldTarget' ref="ref_FieldTarget">
       <div class="field-input row" :class='css_FieldInput'>
@@ -70,9 +21,7 @@ TODO:
       <div v-if='txt_Hint' class="field-hint">{{ hint }}</div>
       <div v-if='txt_ValidateMsg' class="field-validate-msg">{{ txt_ValidateMsg }}</div>
     </div><!--
-
       'After':
-
     -->
     <span v-if="after">{{ after }}</span>
     <slot name="after"></slot>
@@ -82,57 +31,10 @@ TODO:
 
 <script>
 /* eslint-disable */
-  /**
-    TODO:
-    - React to changes in input attributes: disabled/readonly/value, etc.
-    - iOS styles
-    - multiple validation messages
-    - width handling
-  */
 import { Utils } from 'quasar'
 let TEXT_INPUT_TYPES = ['textarea','text','input','password','datetime','email','number','search','time','week','date','datetime-local','month','tel','url']
 let fieldId = 0
 export default {
-    components: {
-      'q-field-container': {
-        render (createElement) {
-          debugger
-          return createElement(
-            'div',
-            [
-              createElement('a', {
-                attrs: {
-                  name: 'test',
-                  href: '#' + 'test'
-                }
-              }, this.$slots.default)
-            ]
-          )
-        },
-        data () {
-          console.log('SUB SUB')
-          return { a: 123}
-        }
-      }
-    // ,
-    // 'field-target': {
-
-    // }
-    },
-    render: function (createElement) {
-    // create kebabCase id
-    debugger
-    // var headingId = getChildrenTextContent(this.$slots.default)
-    //   .toLowerCase()
-    //   .replace(/\W+/g, '-')
-    //   .replace(/(^\-|\-$)/g, '')
-    return createElement('a', {
-          attrs: {
-            name: headingId,
-            href: '#' + headingId
-          }
-        }, this.$slots.default)
-  },
   name: 'q-field',
   props: {
     item: {
@@ -208,16 +110,13 @@ export default {
       default: null // default=null='left' | 'right' | 'center'
     },
     icon: {
-      // todo: field-icon
       type: String
     },
     iconInverse: {
-      // todo: field-icon-inverse
       type: Boolean,
       default: false
     },
     icon2: {
-      // todo: field-icon2
       type: String
     },
     icon2Inverse: {
@@ -480,7 +379,6 @@ export default {
           this.input.ignoreBlur = true
           this.input.blur()
           this.input.ignoreBlur = false
-          // this.__onValidate()
         }
         if (this.myValidate === 'eager' || this.myValidate === 'lazy' || this.myValidate === 'lazy-at-first') {
           this.__onValidate()
@@ -502,7 +400,6 @@ export default {
       }
       if (typeof e === 'string') {
         // 2. Vue @input event from Vue component (not <q-field>, though)
-        this.input.value = e
         this.__updateState_value(e) // <-- pass value directly so as not to lag behind component update.
       }
       else if (e.type === '__onInput') {
@@ -518,29 +415,19 @@ export default {
       this.$emit('fieldEvent', {type: '__onInput', from: this.fieldId})
     },
     __onValidate (e) {
-      console.log(this.fieldId + '.__onValidate')
       if (!this.myValidate) return
-
-      console.log(this.fieldId + '.__onValidate')
-
       let oldValue = this.state.hasInvalid
-
       if (this.isTextInput) {
-
         // Leaf Field - Invalid if input .validity==false or .hasTooLong==true
         this.state.hasInvalid = this.state.hasTooLong ? true : !this.input.validity.valid // && (this.state.hasValue || this.state.hasTouched)
-
       } else if (this.numChildFields) {
-
         console.log("in on validate with child fields")
-
         // Branch Field - Invalid if there are none which have yet to be validated and at least one invalid.
         if (!this.childFields.some(e => e.myValidate && e.state.hasInvalid === null)) {
           this.state.hasInvalid = this.childFields.some(e => {
             return e.state.hasInvalid === true
           })
         }
-
       }
 
       if (this.state.hasInvalid === true) {
@@ -593,7 +480,7 @@ export default {
     __updateState_value(theValue) {
       // Value may be passed by arg, but defaults to input.value
       theValue = typeof theValue !== 'undefined' ? theValue : this.input ? this.input.value : undefined
-      this.state.hasValue = theValue ? true : false
+      this.state.hasValue = theValue && theValue.length ? true : false
 
       // Update counter
         console.log(this.state.currentChars + " ---- " + theValue.length)
@@ -647,20 +534,20 @@ export default {
       // Event Listeners
       //
       if (this.isTextInput) {
-        // Native HTML <input> or <textarea>
-
-        this.input.addEventListener('focus', this.__onFocus, true)
-        this.input.addEventListener('blur', this.__onBlur, true)
         this.input.addEventListener('input', this.__onInput, true)
-        // this.$el.addEventListener('click', this.__onClick, true)
-
       } else {
-        // Vue component
-
         this.input.$on('input', this.__onInput)
-        this.input.$on('open', this.__onFocus)
-        this.input.$on('close', this.__onBlur)
-
+      }
+      // let pickerTextfield = this.isTextInput ? null : this.input.$children.find(c=>c.$options._componentTag === 'q-picker-textfield')
+      let pickerTextfield = this.isTextInput ? null : this.input.$children.find(c=>c.$options._componentTag === 'q-picker-textfield')
+      if (pickerTextfield) {
+        console.log("BINOG", pickerTextfield)
+        let popOver = pickerTextfield.$children.find(c=>c.$options._componentTag === 'q-popover')
+        popOver.$on('open', this.__onFocus)
+        popOver.$on('close', this.__onBlur)
+      } else {
+        this.$el.addEventListener('focus', this.__onFocus, true)
+        this.$el.addEventListener('blur', this.__onBlur, true)
       }
 
       // ID
@@ -725,9 +612,9 @@ export default {
       if (this.isTextInput) {
         // Native HTML <input> or <textarea>
 
+        this.input.removeEventListener('input', this.__onInput, true)
         this.input.removeEventListener('focus', this.__onFocus, true)
         this.input.removeEventListener('blur', this.__onBlur, true)
-        this.input.removeEventListener('input', this.__onInput, true)
         // this.$el.addEventListener('click', this.__onClick, true)
 
       } else {
@@ -739,13 +626,12 @@ export default {
 
       }
 
-
     }
     else {
 
       // Child fields
 
-      this.childFields$children.forEach(child => {
+      this.childFields.forEach(child => {
         child.$off('fieldEvent', this.__onFieldEvent)
       })
 

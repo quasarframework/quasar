@@ -1,32 +1,8 @@
-<!--
-ISSUES:
-  #174 - Floating label won't float if input is disabled (even if it contains value)
-  #237 - Floating label doesn't work on input[type=email] when value is not valid e.g...
-        <div class="floating-label">
-          <input required="required" type="email" class="full-width">
-        <label>Email</label></div>
-
-  NB: Valid, disabled, focusded
-  NB: textarea, text[type=input, password, ], ...
-        color
-        date
-        datetime
-        datetime-local
-       *email
-        month
-        number
-        range
-        search
-        tel
-        time
-        url
-        week
--->
-
 <template>
   <div>
 
     <div class="layout-header fixed-top hidden">
+
     <!-- TITLE -->
       <div class="toolbar primary">
         <div class="toolbar-content">
@@ -36,10 +12,7 @@ ISSUES:
         </div>
       </div>
 
-
-
       <!-- Tabs -->
-
       <q-tabs
         class="primary"
         :refs="$refs"
@@ -101,10 +74,10 @@ ISSUES:
                     no-underline
                     label=""
                     label-layout="inline"
+                    target-width="grow"
                     validate
                     validate-msg="Both names are required."
                     hint="Use the player's real name here."
-                    target-width="grow"
                   >
                     <i slot="before" class="field-icon field-icon-before color-if-field-valid hidden show-if-field-valid">sentiment_very_satisfied</i>
                     <i slot="before" class="field-icon field-icon-before text-primary hide-if-field-valid hide-if-field-invalid">sentiment_neutral</i>
@@ -170,15 +143,12 @@ ISSUES:
 
 
                 <!-- Email -->
-                <div class="width-2of3 sm-width-1of2">
+                <div class="width-3of3 sm-width-1of2">
                   <q-field
-                    label="Suspect List"
+                    label="Favourite Rooms"
                     icon="person"
-                    validate
                     target-width="grow"
                     validate="lazy-at-first"
-                    validate-msg="That email address is bogus!"
-                    class="full-width"
                   >
                     <q-chips v-model="example.rooms" placeholder="Type some names"></q-chips>
                   </q-field>
@@ -231,8 +201,8 @@ ISSUES:
                   <!-- Character DDL -->
                   <q-field
                     label="Role"
-                    class="field-focus" icon-inverse
                     icon="person_outline"
+                    icon-inverse
                     target-width="shrink"
                     hint="This is the player's charracter."
                   >
@@ -312,7 +282,7 @@ ISSUES:
 
 
                 <!-- Starting Amount -->
-                <div class="width-1of3">
+                <div class="width-3of3">
                   <q-field
                     label="Starting Amount"
                     prefix="$" postfix=".00"
@@ -325,7 +295,7 @@ ISSUES:
                 </div>
 
 
-                <div class="width-2of4">
+                <div class="width-3of3">
                   <q-field label="Normal Field"
                     counter :maxlength="4"
                     validate
@@ -334,6 +304,23 @@ ISSUES:
                     prefix="$" postfix=".00"
                   >
                     <input type="text" v-model="example.firstName"  required />
+                  </q-field>
+                </div>
+
+
+                <div class="width-3of3">
+                  <q-field label="Normal Field"
+                    counter :maxlength="4"
+                    validate
+                    layout="floating"
+                    icon2="plus_one"
+                    prefix="$" postfix=".00"
+                  >
+                    <q-rating
+                      class="orange"
+                      v-model="example.rating"
+                      :max="5"
+                    ></q-rating>
                   </q-field>
                 </div>
 
@@ -913,11 +900,11 @@ ISSUES:
 
           <div class="list item-delimiter">
 
-              <q-field item label="Plain Text" icon="text_fields">
+              <q-field  label="Plain Text" icon="text_fields">
                 <input type="text" />
               </q-field>
 
-              <q-field item label="Email" icon="email" validate validate-msg="Invalid email address">
+              <q-field  label="Email" icon="email" validate validate-msg="Invalid email address">
                 <input type="email" />
               </q-field>
 
@@ -1200,7 +1187,8 @@ export default {
         fave_room: '',
         description1: '',
         description2: '',
-        search: ''
+        search: '',
+        rating: 0
       },
       // Models
       //
@@ -1817,6 +1805,12 @@ for num in (0..20)
 .field + .field
   margin-left 8px !important
 
+// Vue Component Adjustments
+.q-chips
+  margin 8px 0 0 0
+  padding 8px 0 7px 0
+  .q-chips-input
+    margin-bottom 0
 
 
 // Field
@@ -1954,11 +1948,11 @@ for num in (0..20)
         max-width 100% !important
       > div:not(.field)
         padding-top 8px
-        padding-bottom 8px
+        padding-bottom 7px !important
         margin 8px 0 0 0
       > input, > textarea
-        margin 8px 0 0 0 !important
         line-height 16px
+        margin 8px 0 0 0 !important
         padding-bottom 7px !important
         box-shadow none
       &.field-input-grow

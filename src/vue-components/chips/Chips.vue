@@ -21,6 +21,7 @@
         @keyup.enter="add()"
         @focus="active = true"
         @blur="active = false"
+        @input="$emit('input', value)"
         :disabled="disable"
         :placeholder="placeholder"
       >
