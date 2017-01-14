@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <div class="layout-header fixed-top hidden">
+    <div class="layout-header fixed-top">
 
     <!-- TITLE -->
       <div class="toolbar primary">
@@ -56,6 +56,9 @@
             <!-- 'Root' Field -->
             <q-field no-target validate class="grid small-gutter row wrap">
 
+
+                <!-- Row 0 -->
+
                 <!-- Form Title -->
                 <div class="width-1of1 row">
                   <q-field
@@ -63,39 +66,41 @@
                     class="full-width"
                   >
                     <i class="field-icon icon-before icon-inverse bg-primary text-white">person_pin</i>
-                    <h5>New</h5>
+                    <h5>New Player</h5>
                   </q-field>
                 </div>
+
+
+
+                <!-- Row 1 -->
 
                 <!-- First & Last Names -->
                 <div class="width-1of1">
 
                   <q-field ref="playerName"
                     no-underline
-                    label=""
-                    label-layout="inline"
-                    target-width="grow"
-                    validate
-                    validate-msg="Both names are required."
+                    validate validate-msg="Both names are required."
                     hint="Use the player's real name here."
+                    target-width="grow"
                   >
                     <i slot="before" class="field-icon field-icon-before color-if-field-valid hidden show-if-field-valid">sentiment_very_satisfied</i>
                     <i slot="before" class="field-icon field-icon-before text-primary hide-if-field-valid hide-if-field-invalid">sentiment_neutral</i>
                     <i slot="before" class="field-icon field-icon-before hidden show-if-field-invalid">sentiment_very_dissatisfied</i>
 
                     <q-field
-                      class="full-width"
-                      target-width="grow"
                       label="First Name"
                       validate :validate-msg="false"
+                      class="full-width"
+                      target-width="grow"
                     >
                       <input type="text" v-model="example.firstName" class="w50" required />
                     </q-field>
 
                     <q-field
-                      class="full-width" target-width="grow"
                       label="Last Name"
                       validate :validate-msg="false"
+                      class="full-width"
+                      target-width="grow"
                     >
                       <input type="text" v-model="example.lastName" class="w50" required />
                     </q-field>
@@ -106,10 +111,10 @@
                 </div>
 
 
-                <!-- 2nd Row -->
+                <!-- Row -->
 
                 <!-- Email -->
-                <div class="width-2of3 sm-width-1of2">
+                <div class="width-2of3">
                   <q-field
                     label="Email"
                     icon="mail_outline"
@@ -127,260 +132,185 @@
                   </q-field>
                 </div>
 
-                <!-- Code Name -->
+
+
+                <!-- Birthday -->
                 <div class="width-1of3">
+                  <q-field
+                    label="Birthday"
+                    icon="cake"
+                  >
+                    <q-datetime
+                      v-model="example.birthday"
+                      type="date"
+                    ></q-datetime>
+                  </q-field>
+                </div>
+
+
+                <!-- Row -->
+
+
+                <!-- Password -->
+                <div class="width-2of3 sm-width-1of1">
+                  <q-field
+                    icon="lock_outline"
+                    validate="lazy-at-first"
+                    validate-msg="Passwords must match."
+                    class="full-width"
+                    target-width="grow"
+                    no-underline
+                  >
+
+                    <q-field
+                      label="Password"
+                      validate
+                      :validate-msg="false"
+                      class="full-width"
+                      target-width="grow"
+                    >
+                      <input type="password" v-model="example.password" class="w120" />
+                    </q-field>
+
+                    <q-field
+                      class="full-width"
+                      validate
+                      :validate-msg="false"
+                      target-width="grow"
+                      label="Confirm Password"
+                    >
+                      <input type="password" v-model="example.passwordConfirm" class="w120" />
+                    </q-field>
+
+                  </q-field>
+                </div>
+
+
+                <!-- Code Name -->
+                <div class="width-1of3 sm-width-1of2">
 
                   <q-field
-                    slot="after"
-                    dense-horizontal
-                    icon="fingerprint"
                     label="Code Name"
+                    slot="after"
+                    icon="fingerprint"
                     hint="(Read-only)"
                   >
                     <input type="text" readonly v-model="myUserName" class="w110"  />
                   </q-field>
+
                 </div>
 
 
-                <!-- Email -->
-                <div class="width-3of3 sm-width-1of2">
-                  <q-field
-                    label="Favourite Rooms"
-                    icon="person"
-                    target-width="grow"
-                    validate="lazy-at-first"
-                  >
-                    <q-chips v-model="example.rooms" placeholder="Type some names"></q-chips>
-                  </q-field>
-                </div>
-                <div class="width-2of3 sm-width-1of2">
-                  <q-field
-                    label="Suspect List"
-                    icon="person"
-                    validate
-                    target-width="grow"
-                    validate="lazy-at-first"
-                    validate-msg="That email address is bogus!"
-                    class="full-width"
-                  >
-                    <q-search
-                      v-model="example.search"
-                    ></q-search>
-                  </q-field>
-                </div>
-
-                <!-- User ID -->
-  <!--               <div class="width-1of4">
-
-                </div> -->
-
-                <!-- Character -->
-<!--                 <div class="width-1of1 row">
-                  <q-field :targeted="false" class="full-width">
-                    <i class="field-icon icon-inverse bg-primary text-white">search</i>
-                    <h6 class="field-valid-text-valid" style="margin-top:12px">Character</h6>
-                  </q-field>
-                </div> -->
 
 
-                <!-- GAME CHARACTER -->
+                <!-- Row  -->
 
-                <!-- Form Title -->
-                <!-- <div class="width-1of1 row">
-                  <q-field
-                    no-target
-                    class="full-width"
-                  >
-                    <i class="field-icon icon-inverse bg-primary text-white">person_outline</i>
-                    <h5 class="field-valid-text-valid" style="margin-top:12px">Player Character</h5>
-                  </q-field>
-                </div>
- -->
-                <div class="width-1of1 sm-width-1of1">
-
-                  <!-- Character DDL -->
+                <!-- Character DDL -->
+                <div class="width-1of1">
                   <q-field
                     label="Role"
                     icon="person_outline"
                     icon-inverse
                     target-width="shrink"
-                    hint="This is the player's charracter."
+                    hint="This is the player's character."
                   >
 
                     <q-select
                       type="radio"
-                      style="width:140px"
-                      class="text-bold"
+                      class="text-bold w200"
                       v-model="example.detectiveName"
                       :options="ddl_suspects"
                     ></q-select>
                   </q-field>
-
                 </div>
 
 
 
 
+                <!-- Row  -->
 
-
-               <!-- Phone -->
-<!--                 <div class="width-1of3 sm-width-1of2">
+                <!-- Weapons -->
+                <div class="width-1of1">
                   <q-field
-                    label="Phone"
-                    label-layout="stacked"
-                    icon="phone"
-                    class="full-width"
+                    label="Preferred Weapons"
+                    icon="usb"
                     target-width="grow"
-                    dense-horizontal
-                    no-underline
-                    validate
                   >
-                    <q-field
-                      target-width="shrink"
-                      validate
-                      :validate-msg='false'
-                      prefix="("
-                      postfix=")"
-                    >
-                      <input
-                        type="text"
-                        pattern="[0-9 ]+"
-                        class="w20 text-center"
-                        v-model="example.areaCode"
-                        maxlength="3"
-                    />
-                    </q-field>
-                    <q-field
-                      validate
-                      pattern="[0-9 ]+"
-                      :validate-msg='false'
-                    >
-                      <input
-                        type="text"
-                        pattern="[0-9 ]+"
-                        class="w60"
-                        v-model="example.mobile"
-                    />
-                    </q-field>
-                </div>
- -->
 
-                <!-- Birthday -->
-                <div class="width-1of3 sm-width-1of2">
-                  <q-field
-                    label="Birthday"
-                    icon="cake"
-                  >
-                    <q-datetime
-                      v-model="example.birthday"
-                      type="date"
-                    ></q-datetime>
+                    <q-select
+                      type="toggle"
+                      v-model="example.weapons"
+                      :options="ddl_weapons"
+                    ></q-select>
                   </q-field>
                 </div>
 
 
+                <!-- Row -->
 
+                <!-- Character Description -->
+                <div class="width-1of1 sm-width-1of1">
+                  <div class="width-1of3">
+                    <q-field
+                      label="Character Description"
+                      icon="face"
+                      hint="Enter a description of the character here."
+                      :maxlength="200"
+                      validate counter
+                      target-width="grow"
+                    >
+                      <textarea disabled rows="4" v-model="example.description1"></textarea>
+                    </q-field>
+                </div>
+
+
+
+                <!-- Character Description -->
+                <div class="width-1of1 sm-width-1of1">
+                  <div class="width-1of3">
+                    <q-field
+                      label="Detective Notes"
+                      icon="notes"
+                      hint="Enter a description of the character here."
+                      :maxlength="200"
+                      validate counter
+                      target-width="grow"
+                    >
+                      <textarea rows="4" v-model="example.description1"></textarea>
+                    </q-field>
+                </div>
 
                 <!-- Starting Amount -->
                 <div class="width-3of3">
                   <q-field
                     label="Starting Amount"
-                    prefix="$" postfix=".00"
-                    target-width="shrink"
-                    validate
-                    layout="floating"
-                  >
-                    <input type="text" class="w60 text-right" numeric v-model="example.amount1"  required />
-                  </q-field>
-                </div>
-
-
-                <div class="width-3of3">
-                  <q-field label="Normal Field"
-                    counter :maxlength="4"
+                    label-layout="inline"
+                    icon="monetization_on"
                     validate
                     layout="floating"
                     icon2="plus_one"
                     prefix="$" postfix=".00"
                   >
-                    <input type="text" v-model="example.firstName"  required />
+                    <input type="number" v-model="example.firstName"  required />
                   </q-field>
                 </div>
 
 
-                <div class="width-3of3">
-                  <q-field label="Normal Field"
-                    counter :maxlength="4"
-                    validate
-                    layout="floating"
-                    icon2="plus_one"
-                    prefix="$" postfix=".00"
-                  >
-                    <q-rating
-                      class="orange"
-                      v-model="example.rating"
-                      :max="5"
-                    ></q-rating>
-                  </q-field>
-                </div>
+                <!-- Row -->
 
-
-                </div>
-
-                <!-- Birthday -->
-                <div class="width-1of3 sm-width-1of2">
+                <!-- Hangouts -->
+                <div class="width-1of1">
                   <q-field
-                    label="Birthday"
-                    icon="cake"
+                    label="Favourite Hangouts"
+                    float="Type some rooms"
+                    icon="favorite_border"
+                    target-width="grow"
+                    hint="Rooms this character likes to hang out in."
                   >
-                    <q-datetime
-                      v-model="example.birthday"
-                      type="date"
-                    ></q-datetime>
+                    <q-chips v-model="example.rooms" placeholder="Type more rooms..."></q-chips>
                   </q-field>
                 </div>
 
-                <div class="width-1of4">
-                  <q-field
-                    label="Starting Amount"
-                    dense-horizontal
-                    prefix="$" postfix=".00"
-                    target-width="shrink"
-                    validate
-                    layout="floating"
-
-                  >
-                    <input type="text" class="w60 text-right" numeric v-model="example.amount1"  required />
-                  </q-field>
-                </div>
-
-                <div class="width-2of4">
-                  <q-field label="Normal Field"
-                    counter :maxlength="4"
-                    validate
-                    layout="floating"
-                    icon2="plus_one"
-                    prefix="$" postfix=".00"
-                  >
-                    <input type="text" v-model="example.firstName"  required />
-                  </q-field>
-                </div>
-
-                <div class="width-2of4 sm-width-1of1" >
-                  <q-field item label="Detective Name" :maxlength="5" validate hint='E.g. "Sam Spade"' icon="search">
-                    <input type="text" class="demoInputWidth" v-model="example.detectiveName" required />
-                  </q-field>
-                </div>
-
-                <div class="width-1of4">
-                  <q-field item label="Password" validate icon="lock_outline" :maxlength="5">
-                    <input type="password" style="width: 50px;" maxlength="4" counter v-model="example.password" required />
-                  </q-field>
-                </div>
-
-                <div class="width-2of4 sm-width-1of1">
-
-                </div>
 
               </q-field>
 
@@ -388,113 +318,8 @@
 
 
 
-            <div class="width-3of6 sm-width-1of1">
-              <q-field item label="Disabled" icon="gesture" width="grow">
-                <input type="text" value="The Rope" disabled>
-              </q-field>
-            </div>
-            <div class="width-2of6 sm-width-1of1">
-              <q-field item label="Required" icon="face" target-width="grow" validate>
-                <input type="text" required >
-              </q-field>
-            </div>
-
           </div>
-<!--
-          <div class="card-title">
-            Usage
-          </div>
-         <div class="card-content">
-            Insert a nice-looking example using fields.
 
-            <table class="q-table compact striped border horizontal-delimiter highlight">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Type</th>
-                  <th>Description</th>
-                </tr>
-              </thead>
-
-
-              <tbody>
-                <tr>
-                  <td>item</td>
-                  <td><pre>Boolean</pre></td>
-                  <td>xx</td>
-                </tr>
-                <tr>
-                  <td>layout</td>
-                  <td><pre>String</pre></td>
-                  <td>xx</td>
-                </tr>
-                <tr>
-                  <td>dense</td>
-                  <td>Boolean</td>
-                  <td>xx</td>
-                </tr>
-                <tr>
-                  <td>icon</td>
-                  <td>String</td>
-                  <td>xx</td>
-                </tr>
-                <tr>
-                  <td>icon2</td>
-                  <td>String</td>
-                  <td>xx</td>
-                </tr>
-                <tr>
-                  <td>hint</td>
-                  <td>String</td>
-                  <td>xx</td>
-                </tr>
-                <tr>
-                  <td>targetWidth</td>
-                  <td>String</td>
-                  <td>xx</td>
-                </tr>
-                <tr>
-                  <td>targetAlign</td>
-                  <td>String</td>
-                  <td>xx</td>
-                </tr>
-                <tr>
-                  <td>labelWidth</td>
-                  <td>String</td>
-                  <td>xx</td>
-                </tr>
-                <tr>
-                  <td>labelAlign</td>
-                  <td>String</td>
-                  <td>xx</td>
-                </tr>
-                <tr>
-                  <td>maxlength</td>
-                  <td>Number</td>
-                  <td>Specify maximum value length for field validation. <br />NB: The value's length is validated, but data-entry is not restricted to valid lengths.  This method provides an alternative to using <pre>&lt;input maxlength="..." /&gt;</pre> wherein maxlength is enforced.</td>
-                </tr>
-                <tr>
-                  <td>validate</td>
-                  <td>String</td>
-                  <td>Perform validation
-                    <pre>false (default) - Don't validate.</pre>
-                    <pre>`eager` | true - Validate on input event.</pre>
-                    <pre>`lazy` -  Validate on blur event.</pre>
-                  </td>
-                </tr>
-                <tr>
-                  <td>validate-msg</td>
-                  <td>String</td>
-                  <td>Text to override the generic validation error message.</td>
-                </tr>
-                <tr>
-                  <td>validate-immediate</td>
-                  <td>Boolean</td>
-                  <td>If true, validation will be invoked when the field is first rendered, before user input.</td>
-                </tr>
-              </tbody>
-            </table>
-          </div> -->
         </div>
       </div>
 
@@ -1171,7 +996,9 @@ export default {
         userName: '',
         birthday: '',
         detectiveName: '',
+        notes: '',
         rooms: ['Conservatory', 'Billiard Room', 'Library', 'Cellar', 'Hall'],
+        weapons: [],
         mobile: '',
         phone: '',
         areaCode: '61',
@@ -1184,6 +1011,7 @@ export default {
         amount5: '',
         amount6: '',
         password: '',
+        passwordConfirm: '',
         fave_room: '',
         description1: '',
         description2: '',
@@ -1424,6 +1252,32 @@ export default {
         {
           label: 'Mrs. Peacock',
           value: 'peacock'
+        }
+      ],
+      ddl_weapons: [
+        {
+          label: 'Revolver',
+          value: 'Revolver'
+        },
+        {
+          label: 'Rope',
+          value: 'Rope'
+        },
+        {
+          label: 'Candlestick',
+          value: 'Candlestick'
+        },
+        {
+          label: 'Dagger',
+          value: 'Dagger'
+        },
+        {
+          label: 'Lead Pipe',
+          value: 'LeadPipe'
+        },
+        {
+          label: 'Spanner',
+          value: 'Spanner'
         }
       ]
     }
@@ -1805,13 +1659,6 @@ for num in (0..20)
 .field + .field
   margin-left 8px !important
 
-// Vue Component Adjustments
-.q-chips
-  margin 8px 0 0 0
-  padding 8px 0 7px 0
-  .q-chips-input
-    margin-bottom 0
-
 
 // Field
 .field
@@ -1967,6 +1814,7 @@ for num in (0..20)
       font-size 12px
       pointer-events none
       transition opacity .3s
+      top 0
 
     > .field-counter
       float right
@@ -1974,11 +1822,11 @@ for num in (0..20)
       color $dark
 
     > .field-hint
-      position absolute
+      position relative
       color $dark
 
     > .field-validate-msg  // (TODO: Multiple validate msgs)
-      position absolute
+      position relative
       color $has-error !important
       opacity 0
 
@@ -2125,6 +1973,11 @@ for num in (0..20)
     > .field-label-inline,
     > .field-target > .field-input > .field-label-float
         transform translateY(-14px) scale(.8)
+
+
+// Vue Component Adjustments
+.field > .field-target > .field-input > div.q-chips
+    padding-bottom 0 !important
 
 
 // Field State CSS Styles

@@ -157,7 +157,7 @@ export default {
       myLabel: null,
       myFloat: null,
       myLabelLayout: null,
-      fieldId: 'x',
+      fieldId: '',
       // derived properties
       target: null,
       input: null,
@@ -384,6 +384,7 @@ export default {
           this.__onValidate()
         }
       }
+      this.__updateState_value()
 
       console.log(this.fieldId + '.__onBlur')
       this.$emit('fieldEvent', {type: '__onBlur', from: this.fieldId})
@@ -480,12 +481,14 @@ export default {
     __updateState_value(theValue) {
       // Value may be passed by arg, but defaults to input.value
       theValue = typeof theValue !== 'undefined' ? theValue : this.input ? this.input.value : undefined
+
+      console.log('testing ', theValue)
+
+
       this.state.hasValue = theValue && theValue.length ? true : false
 
       // Update counter
-        console.log(this.state.currentChars + " ---- " + theValue.length)
       if (!this.counter || !this.myMaxLength) return
-        console.log(this.state.currentChars + " ---- " + theValue.length)
       this.state.currentChars = theValue.length
       this.state.hasTooLong = this.counter && this.myMaxlength && this.state.currentChars > this.myMaxlength ? true : false
       this.state.hasInvalid = this.state.hasTooLong ? true : this.state.hasInvalid
@@ -538,10 +541,9 @@ export default {
       } else {
         this.input.$on('input', this.__onInput)
       }
-      // let pickerTextfield = this.isTextInput ? null : this.input.$children.find(c=>c.$options._componentTag === 'q-picker-textfield')
+
       let pickerTextfield = this.isTextInput ? null : this.input.$children.find(c=>c.$options._componentTag === 'q-picker-textfield')
       if (pickerTextfield) {
-        console.log("BINOG", pickerTextfield)
         let popOver = pickerTextfield.$children.find(c=>c.$options._componentTag === 'q-popover')
         popOver.$on('open', this.__onFocus)
         popOver.$on('close', this.__onBlur)
@@ -549,7 +551,7 @@ export default {
         this.$el.addEventListener('focus', this.__onFocus, true)
         this.$el.addEventListener('blur', this.__onBlur, true)
       }
-
+this.$el.tabindex = 0
       // ID
       //
       if (this.input.id) {
