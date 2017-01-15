@@ -9,6 +9,10 @@
    Encoding: UTF-8 (No BOM)  Notation (in 5th position):
      * Change, ! Fix, % Optimization, + Addition, - Removal, ; Comment
  */
+2017-01-15 13:12 UTC+0100 Francesco Saverio Giudice (info/at/fsgiudice.com)
+  * src\vue-directives\resize.js
+    * Cleaned and fixed comments
+
 2017-01-15 12:27 UTC+0100 Francesco Saverio Giudice (info/at/fsgiudice.com)
   * dev\components\test-navbar\layout.vue
     * [WIP] - make changes to handle displayed objects using mediasize
