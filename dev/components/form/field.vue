@@ -41,7 +41,7 @@
 
     <div class="layout-padding short-textboxes">
 
-      <div style="height:120px;"></div>
+      <div style="height: 90px;"></div>
 
       <!-- USAGE -->
       <div ref="tab-usage">
@@ -54,7 +54,11 @@
           <div class='card-content'>
 
             <!-- 'Root' Field -->
-            <q-field no-target validate class="grid small-gutter row wrap">
+            <q-field
+              no-target
+              validate
+              class="grid small-gutter row wrap"
+            >
 
 
                 <!-- Row 0 -->
@@ -64,6 +68,7 @@
                   <q-field
                     no-target
                     class="full-width"
+                    :dense-vertical='options.fieldOpts.denseVertical'
                   >
                     <i class="field-icon icon-before icon-inverse bg-primary text-white">person_pin</i>
                     <h5>New Player</h5>
@@ -82,6 +87,7 @@
                     validate validate-msg="Both names are required."
                     hint="Use the player's real name here."
                     target-width="grow"
+                    :dense-vertical='options.fieldOpts.denseVertical'
                   >
                     <i slot="before" class="field-icon field-icon-before color-if-field-valid hidden show-if-field-valid">sentiment_very_satisfied</i>
                     <i slot="before" class="field-icon field-icon-before text-primary hide-if-field-valid hide-if-field-invalid">sentiment_neutral</i>
@@ -92,6 +98,7 @@
                       validate :validate-msg="false"
                       class="full-width"
                       target-width="grow"
+                      :dense-vertical='options.fieldOpts.denseVertical'
                     >
                       <input type="text" v-model="example.firstName" class="w50" required />
                     </q-field>
@@ -101,6 +108,7 @@
                       validate :validate-msg="false"
                       class="full-width"
                       target-width="grow"
+                      :dense-vertical='options.fieldOpts.denseVertical'
                     >
                       <input type="text" v-model="example.lastName" class="w50" required />
                     </q-field>
@@ -123,6 +131,7 @@
                     validate="lazy-at-first"
                     validate-msg="That email address is bogus!"
                     class="full-width"
+                    :dense-vertical='options.fieldOpts.denseVertical'
                   >
                     <input
                       type="email"
@@ -139,6 +148,7 @@
                   <q-field
                     label="Birthday"
                     icon="cake"
+                    :dense-vertical='options.fieldOpts.denseVertical'
                   >
                     <q-datetime
                       v-model="example.birthday"
@@ -160,6 +170,7 @@
                     class="full-width"
                     target-width="grow"
                     no-underline
+                    :dense-vertical='options.fieldOpts.denseVertical'
                   >
 
                     <q-field
@@ -168,6 +179,7 @@
                       :validate-msg="false"
                       class="full-width"
                       target-width="grow"
+                      :dense-vertical='options.fieldOpts.denseVertical'
                     >
                       <input type="password" v-model="example.password" class="w120" />
                     </q-field>
@@ -178,6 +190,7 @@
                       :validate-msg="false"
                       target-width="grow"
                       label="Confirm Password"
+                      :dense-vertical='options.fieldOpts.denseVertical'
                     >
                       <input type="password" v-model="example.passwordConfirm" class="w120" />
                     </q-field>
@@ -194,6 +207,7 @@
                     slot="after"
                     icon="fingerprint"
                     hint="(Read-only)"
+                    :dense-vertical='options.fieldOpts.denseVertical'
                   >
                     <input type="text" readonly v-model="myUserName" class="w110"  />
                   </q-field>
@@ -208,11 +222,12 @@
                 <!-- Character DDL -->
                 <div class="width-1of1">
                   <q-field
-                    label="Role"
+                    label="Character"
                     icon="person_outline"
                     icon-inverse
                     target-width="shrink"
                     hint="This is the player's character."
+                    :dense-vertical='options.fieldOpts.denseVertical'
                   >
 
                     <q-select
@@ -225,6 +240,21 @@
                 </div>
 
 
+                <!-- Row  -->
+
+                <!-- Character Description -->
+                <div class="width-1of1">
+                    <q-field
+                      label="Description"
+                      icon="face"
+                      hint="Description of the player's character goes here."
+                      :maxlength="200"
+                      validate counter
+                      target-width="grow"
+                    >
+                      <textarea rows="2" v-model="example.description1"></textarea>
+                    </q-field>
+                </div>
 
 
                 <!-- Row  -->
@@ -233,10 +263,9 @@
                 <div class="width-1of1">
                   <q-field
                     label="Preferred Weapons"
-                    icon="usb"
+                    icon="gesture"
                     target-width="grow"
                   >
-
                     <q-select
                       type="toggle"
                       v-model="example.weapons"
@@ -248,37 +277,6 @@
 
                 <!-- Row -->
 
-                <!-- Character Description -->
-                <div class="width-1of1 sm-width-1of1">
-                  <div class="width-1of3">
-                    <q-field
-                      label="Character Description"
-                      icon="face"
-                      hint="Enter a description of the character here."
-                      :maxlength="200"
-                      validate counter
-                      target-width="grow"
-                    >
-                      <textarea disabled rows="4" v-model="example.description1"></textarea>
-                    </q-field>
-                </div>
-
-
-
-                <!-- Character Description -->
-                <div class="width-1of1 sm-width-1of1">
-                  <div class="width-1of3">
-                    <q-field
-                      label="Detective Notes"
-                      icon="notes"
-                      hint="Enter a description of the character here."
-                      :maxlength="200"
-                      validate counter
-                      target-width="grow"
-                    >
-                      <textarea rows="4" v-model="example.description1"></textarea>
-                    </q-field>
-                </div>
 
                 <!-- Starting Amount -->
                 <div class="width-3of3">
@@ -291,7 +289,7 @@
                     icon2="plus_one"
                     prefix="$" postfix=".00"
                   >
-                    <input type="number" v-model="example.firstName"  required />
+                    <input type="number" class="w80 text-right" v-model="example.amount1"  required />
                   </q-field>
                 </div>
 
@@ -335,42 +333,17 @@
 
           </div>
 
-              <div class="settings card-actions wrap ">
+          <div class="settings card-actions wrap ">
+            <div class="row justify-between width-3of5">
+              <!-- field options -->
+               <label v-for="opt in ddl_fieldOpts" class="text-center w60">
+                <q-checkbox v-model="options.fieldOpts[opt.value]"></q-checkbox><br />
+                {{ opt.label }}
+              </label>
+            </div>
+          </div>
 
-                <div class="row width-2of5 justify-between">
-<!--                   <q-select
-                    label="Render"
-                    type="radio"
-                    v-model="options.structure"
-                    :options="ddl_structures"
-                  ></q-select> -->
-                  <!-- layout -->
-                  <q-select
-                    label="Example"
-                    style="width:140px"
-                    type="radio"
-                    v-model="options.layout"
-                    :options="ddl_layouts"
-                  ></q-select>
-                  <!-- display -->
-<!--                   <q-select
-                    label="Display"
-                    type="radio"
-                    v-model="options.display"
-                    :options="ddl_displays"
-                  ></q-select> -->
-                </div>
-                <div class="row justify-between width-3of5">
-                  <!-- field options -->
-                   <label v-for="opt in ddl_fieldOpts" style="width:40px;" class="text-center">
-                    <q-checkbox label="asd" v-model="options.fieldOpts[opt.value]"></q-checkbox><br />
-                    {{ opt.label }}
-                  </label>
-
-                </div>
-                <p v-if="(options.layout.indexOf('items-')>-1)" class="no-padding"><strong>Item defaults:</strong> Full-width block; Target  grows.</p>
-                <p v-if="(options.layout.indexOf('fields-')>-1)" class="no-padding"><strong>Field defaults:</strong> No-width inline; Target  shrinks.</p>
-              </div><!-- /card-actions -->
+          <div class="card-content">
 
 
             <template v-for="(demoFields, key, index) in demo_fields">
@@ -395,21 +368,7 @@
                     v-for="field in demoFields"
                     :class="options.grid_cols === 'custom' ? field.colWidth : options.grid_cols"
                   >
-                <!-- Birthday -->
-                <div class="width-1of3 sm-width-1of2">
-                  <q-field
-                    dense-horizontal
-                    label="Birthday"
-                    label-layout="stacked"
-                    icon="cake"
-                  >
-                    <q-datetime
 
-                      v-model="example.birthday"
-                      type="date"
-                    ></q-datetime>
-                  </q-field>
-                </div>
 
                     <q-field
                       :data-target-info="'Width ' + (options.field.targetWidth?options.field.targetWidth:field.targetWidth) + ', Align ' + (options.field.targetAlign?options.field.targetAlign:field.targetAlign)"
@@ -422,7 +381,11 @@
                       :icon='options.fieldOpts.icon?field.icon:null'
                       :icon2='options.fieldOpts.icon2?field.icon2:null'
                       :hint='options.fieldOpts.hint?field.hint:null'
-                      :dense='options.fieldOpts.dense'
+                      :dense-horizontal='options.fieldOpts.denseHorizontal'
+                      :dense-vertical='options.fieldOpts.denseVertical'
+                      :iconInverse='options.fieldOpts.iconInverse'
+                      :icon2Inverse='options.fieldOpts.icon2Inverse'
+                      :inset='options.fieldOpts.inset'
                       :counter='options.fieldOpts.counter'
                       :maxlength='15'
                     >
@@ -463,6 +426,9 @@
             </template>
 
           </div>
+
+        </div>
+
       </div><!-- / tab-2 -->
 
       <!-- Sizing  (   Width &amp; Alignment) -->
@@ -483,13 +449,13 @@
                       <th class='text-center'>Label<br /><q-checkbox v-model="options.debugLabel"></q-checkbox></th>
                       <td><q-select
                             type="radio"
-                            label="Width"
+                            label="label-width"
                             v-model="options.field.labelWidth"
                             :options="ddl_widths"
                           ></q-select></td>
                       <td><q-select
                             type="radio"
-                            label="Align"
+                            label="label-align"
                             v-model="options.field.labelAlign"
                             :options="ddl_alignments"
                           ></q-select></td>
@@ -505,13 +471,13 @@
                       <th class='text-center'>Target<br /><q-checkbox v-model="options.debugTarget"></q-checkbox></th>
                       <td><q-select
                             type="radio"
-                            label="Width"
+                            label="target-width"
                             v-model="options.field.targetWidth"
                             :options="ddl_widths"
                           ></q-select></td>
                       <td><q-select
                             type="radio"
-                            label="Align"
+                            label="target-align"
                             v-model="options.field.targetAlign"
                             :options="ddl_alignments"
                           ></q-select></td>
@@ -540,6 +506,8 @@
                     :label-width='options.field.labelWidth'
                     :target-align='options.field.targetAlign'
                     :label-align='options.field.labelAlign'
+                    :prefix="options.field.prefix?'>>':''"
+                    :postfix="options.field.postfix?'<<':''"
                   >
                     <input type="text" />
                   </q-field>
@@ -573,7 +541,7 @@
 
                 <div class="width-1of1">
                   <q-field label="Inline Label"
-                    layout="inline"
+                    label-layout="inline"
                     style="min-height:72px;padding-top: 10px;"
                     class='shadow-1 full-width'
                     icon="label_outline"
@@ -590,7 +558,6 @@
 
                 <div class="width-1of1">
                   <q-field label="Floating Label"
-
                     label-layout="stacked"
                     style="min-height:72px;padding-top: 10px;"
                     class='shadow-1 full-width'
@@ -802,6 +769,10 @@ export default {
         out = cap(word1) + cap(word11).toLowerCase() + ' ' + cap(word3) + word2.toLowerCase()
       return out
     },
+    characterDescription () {
+      if (!this.example.detectiveName) return 'Select a character.'
+      return 'Anyone who trifles with ' + this.example.detectiveName + ' gets their just desserts.'
+    },
     playerNameValidIcon () {
       if (!this.$refs.playerName) {
         return 'clear'
@@ -982,9 +953,17 @@ export default {
           background: false,
           icon: false,
           icon2: false,
+          iconInverse: false,
+          icon2Inverse: false,
+          inset: false,
           hint: false,
-          dense: false,
-          counter: false
+          denseVertical: false,
+          denseHorizontal: false,
+          counter: false,
+          prefix: false,
+          postfix: false,
+          before: false,
+          after: false
         }
       },
       // Example form
@@ -1092,16 +1071,32 @@ export default {
           value: 'background'
         },
         {
-          label: 'Dense',
-          value: 'dense'
+          label: 'Dense-H',
+          value: 'denseHorizontal'
+        },
+        {
+          label: 'Dense-V',
+          value: 'denseVertical'
         },
         {
           label: 'Icon',
           value: 'icon'
         },
         {
+          label: 'Inverse',
+          value: 'iconInverse'
+        },
+        {
           label: 'Icon 2',
           value: 'icon2'
+        },
+        {
+          label: 'Inverse',
+          value: 'icon2Inverse'
+        },
+        {
+          label: 'Inset',
+          value: 'inset'
         },
         {
           label: 'Hint',
@@ -1110,6 +1105,14 @@ export default {
         {
           label: 'Counter',
           value: 'counter'
+        },
+        {
+          label: 'Prefix',
+          value: 'prefix'
+        },
+        {
+          label: 'Postfix',
+          value: 'postfix'
         }
       ],
       ddl_layout_list_options: [
@@ -1234,15 +1237,15 @@ export default {
       ],
       ddl_suspects: [
         {
-          label: 'Col. Mustard',
+          label: 'Colonel Mustard',
           value: 'mustard'
         },
         {
-          label: 'Prof. Plum',
+          label: 'Professor Plum',
           value: 'plum'
         },
         {
-          label: 'Rev. Green',
+          label: 'Reverend Green',
           value: 'green'
         },
         {
@@ -1544,6 +1547,9 @@ $grid-large-gutter  ?= 3.5rem
 //
 
 
+.field
+  transition all .3s
+
 label
 .stacked-label, .floating-label
   label
@@ -1555,8 +1561,8 @@ label
 
 .settings
   .q-picker-textfield
-    min-width 60px
-    width 65px
+    xmin-width 60px
+    xwidth 65px
 
 .card .card-actions
   xbackground-color #4DB6AC !important
@@ -1580,24 +1586,19 @@ label
   background #f8f8f8
 
 .bg-target .field-target
-  xbackground-color #C5CAE9
-.bg-label .field-label
-  xbackground-color #B2DFDB
-
-.bg-target .field-target
-.bg-label .field-float-label
-.bg-label .item-label
+.bg-label label.field-label-float
+.bg-label label.field-label-inline
   position relative
   overflow visible !important
+  z-index 10
 
 .bg-target .field-target:before
-.bg-label .field-float-label:before
-.bg-label .item-label:before
+.bg-label label.field-label-float:before
+.bg-label label.field-label-inline:before
   position absolute
   width 100%
   left 0
   top -7px
-  height 100%
   box-sizing border-box
   height 100%
   vertical-align top
@@ -1608,19 +1609,22 @@ label
   z-index 9
   border-top 2px solid white
   transition all .3s !important
-.bg-label .field-float-label:before
-.bg-label .item-label:before
+.bg-label label.field-label-float:before
+.bg-label label.field-label-inline:before
   text-align left
   background-color #2196F3
-  height 25px
   content 'LABEL'
-.bg-label .label-align-right label:before
+  height 22px
+.bg-label label.field-label-inline:before
+  margin-top 4px
+.bg-label label.label-right:before
   text-align right
-.bg-label .label-align-center label:before
+.bg-label label.label-center:before
   text-align center
 .bg-target .field-target:before
-  margin-top 8px
-  height 25px
+  margin-top 20px
+  height 22px
+  vertical-align bottom
   background-color #66BB6A
   content 'TARGET'
 
@@ -1635,6 +1639,9 @@ for num in (0..20)
   .w{num*10+10}
     width (num*10+10)px
 
+
+.field .field
+  xbackground #B2EBF2
 
 //
 // Demo styles ------------------------------------------------^^^^^
@@ -1670,13 +1677,12 @@ for num in (0..20)
   flex-direction row
   align-items flex-start
   margin 0px
-
   // Global adjustment
-  .pad-left
+  &.pad-left
     padding-left 16px
-  .inset
+  &.inset
     padding-left 72px
-  .pad-right
+  &.pad-right
     padding-right 16px
 
   // Icons
@@ -1745,11 +1751,6 @@ for num in (0..20)
   &.label-right
     text-align right
     transform-origin right top
-  &.target-center
-    margin-left auto
-    margin-right auto
-  &.target-right
-    margin-left auto
 
   // Prefix/Postfix Before/After Spans
   > span,
@@ -1762,7 +1763,12 @@ for num in (0..20)
 
   // Target
   > .field-target
-    xborder 1px dotted red
+
+    &.target-center
+      margin-left auto
+      margin-right auto
+    &.target-right
+      margin-left auto
 
     // Input
     > .field-input
@@ -1774,7 +1780,7 @@ for num in (0..20)
         margin-right 2px !important
 
       &.underline
-        margin-bottom 3px
+        xmargin-bottom 3px
         border-bottom $textfield-border-size $textfield-border-style $textfield-border-color
         &:after
           content ''
@@ -1814,7 +1820,6 @@ for num in (0..20)
       font-size 12px
       pointer-events none
       transition opacity .3s
-      top 0
 
     > .field-counter
       float right
@@ -1826,7 +1831,7 @@ for num in (0..20)
       color $dark
 
     > .field-validate-msg  // (TODO: Multiple validate msgs)
-      position relative
+      position absolute
       color $has-error !important
       opacity 0
 
@@ -1837,6 +1842,7 @@ for num in (0..20)
   // Dense-vertical
   &.field-dense-vertical
     min-height  60px
+    padding-top 2px
 
   // Dense-horizonal
   &.field-dense-horizontal
@@ -1966,10 +1972,9 @@ for num in (0..20)
   > .field-target > .field-input > .field-label-float
     transform translateY(-18px) scale(.8)
     > span
-      // transform scale(0.5)
       font-size 0
       padding 0
-  &.field-dense
+  &.field-dense-vertical
     > .field-label-inline,
     > .field-target > .field-input > .field-label-float
         transform translateY(-14px) scale(.8)

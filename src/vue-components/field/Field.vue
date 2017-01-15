@@ -7,7 +7,7 @@
     <span v-if="before">{{ before }}</span><!--
       Inline Label:
     -->
-    <label v-if='txt_InlineLabel' :style='style_InlineLabel' class='field-label-inline' :for='inputId'>{{ txt_InlineLabel }}:</label><!--
+    <label v-if='txt_InlineLabel' :style='style_InlineLabel' :class='css_InlineLabel' class='field-label-inline' :for='inputId'>{{ txt_InlineLabel }}<div v-if="draw_Required">*</div>:</label><!--
       Targetless content...
     -->
     <slot v-if="noTarget"></slot><!--
@@ -177,7 +177,7 @@ export default {
         hasDisabled: null,
         hasRequired: null,
         hasBeenInvalid: null,
-        currentChars: null
+        currentChars: 0
       }
     }
   },
@@ -264,34 +264,28 @@ export default {
       let css = {}
       return css
     },
-    css_FieldContent () {
-      let css = {}
-      return css
+    css_InlineLabel () {
+      return {
+        'field-label-as-text': this.inlineText,
+        ['label-' + this.labelAlign]: !!this.labelAlign
+      }
+    },
+    css_FloatLabel () {
+      return {
+        'field-label-as-text': this.floatText,
+        ['label-' + this.labelAlign]: !!this.labelAlign
+      }
     },
     css_FieldTarget () {
-      // if container defines a size then <input> with match container. (If not, container will match <input> so leave it alone.)
       return {
-        ['target-align-' + this.targetAlign]: !!this.targetAlign
+        ['target-' + this.targetAlign]: !!this.targetAlign
       }
     },
     css_FieldInput () {
       // if container defines a size then <input> with match container. (If not, container will match <input> so leave it alone.)
       return {
         'field-input-grow': this.myTargetWidth && this.myTargetWidth !== 'shrink',
-        ['target-align-' + this.targetAlign]: !!this.targetAlign,
         'underline': !this.noUnderline
-      }
-    },
-    css_InlineLabel () {
-      return {
-        'field-label-as-text': this.inlineText,
-        ['label-align-' + this.labelAlign]: !!this.labelAlign
-      }
-    },
-    css_FloatLabel () {
-      return {
-        'field-label-as-text': this.floatText,
-        ['label-align-' + this.labelAlign]: !!this.labelAlign
       }
     },
     // View rules
@@ -336,7 +330,7 @@ export default {
     counter () {
       // TODO: Tidy up all these misc. prop changes with a proper (!) interface for controlling component instances.
       // (This is only needed to turn counter on/off after component initialised...)
-      this.__updateState_counter()
+      this.__updateState_value()
     },
   },
   methods: {
@@ -484,14 +478,12 @@ export default {
 
       console.log('testing ', theValue)
 
-
       this.state.hasValue = theValue && theValue.length ? true : false
 
       // Update counter
-      if (!this.counter || !this.myMaxLength) return
+      if (!this.counter || !this.myMaxlength) return
       this.state.currentChars = theValue.length
       this.state.hasTooLong = this.counter && this.myMaxlength && this.state.currentChars > this.myMaxlength ? true : false
-      this.state.hasInvalid = this.state.hasTooLong ? true : this.state.hasInvalid
     }
   },
   mounted () {
