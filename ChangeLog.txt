@@ -1,0 +1,118 @@
+/*
+ * $Id:  $
+ */
+
+/* Use this format for entry headers:
+   YYYY-MM-DD HH:MM UTC[-|+]hhmm Your Full Name (your_email address)
+   2013-12-31 13:59 UTC+0100 Foo Bar (foo.bar foobar.org)
+   See copyright/license at the end of the file.
+   Encoding: UTF-8 (No BOM)  Notation (in 5th position):
+     * Change, ! Fix, % Optimization, + Addition, - Removal, ; Comment
+ */
+
+2017-01-15 09:46 UTC+0100 Francesco Saverio Giudice (info/at/fsgiudice.com)
+  + ChangeLog.txt
+    + Added this ChangeLog
+      Borrowed from harbour language project
+      https://github.com/harbour/core
+      it's a useful way to keep track of all changes made on repo.
+      Another useful doc: https://github.com/harbour/core/blob/master/doc/howtorep.txt
+      Both files are released with Creative Common license, as stated at the end of this file
+      Please use adding in reverse order, on top last change.
+
+  + src\vue-directives\click-outside.js
+    + New directive 'v-click-outside'
+      This checks if you click outside the element where you have attached directive.
+      Syntax:
+        v-click-outside[:args[.id|.selectorName[.subSelectorName]]]
+        where
+          args: none | id | selector
+          none     - it will be checked that click is outside element and his childrens
+          id       - check if click if outside element and, popping up, parents until the specified id
+          selector - check if click if outside element and, popping up, parents until the specified selector
+      Examples:
+      // simple assignment
+      <div class="layout">
+        <p>Sample text outside</p>
+        <div v-if="showingGroup" v-click-outside="hideDivGroup">
+          <p>Sample text</p>
+          <p>Another Sample text</p>
+        </div>
+        <button @click="showDivGroup" class="pull-right">
+          <i>assignment</i>
+        </button>
+      </div>
+
+      // with id
+      <div class="layout">
+        <div class="container" id="containerid">
+          <p>Sample text outside</p>
+          <div
+            v-if="showingGroup"
+            v-click-outside:id.containerid="hideDivGroup">
+
+            <p>Sample text</p>
+            <p>Another Sample text</p>
+          </div>
+        </div>
+        <button @click="showDivGroup" class="pull-right">
+          <i>assignment</i>
+        </button>
+      </div>
+
+      // with selector
+      <div class="layout">
+        <div class="container">
+          <p>Sample text outside</p>
+          <div
+            v-if="showingGroup"
+            v-click-outside:selector.div.container="hideDivGroup">
+
+            <p>Sample text</p>
+            <p>Another Sample text</p>
+          </div>
+        </div>
+        <button @click="showDivGroup" class="pull-right">
+          <i>assignment</i>
+        </button>
+      </div>
+
+  + src\vue-directives\resize.js
+    + new directive 'v-resize'
+      This directive checks if the element is resized or, using arg windows
+      (i.e.: v-resize:window="onResize"), the entire window and fires the
+      function passed as message
+
+  * src\utils\dom.js
+    + isParentId (el, id, stopSelector)
+      return true if current element or one of its parents (until stopSelector if passed) has the passed id
+    + isClosest (el, selector, stopSelector)
+      return true if current element or one of its parents (until stopSelector if passed) matches with passed selector
+    + isSelfOrChild (el, target, stopSelector)
+      return true if current element or one of its children (until stopSelector if passed) is equal to the passed target
+    + isScreenMediaSize (mediaSize, paramWidth)
+      return true if paramWidth or viewport().width are correspondant to mediaSize strings- like CSS media sizes
+      mediaSize strings: lt-sm, sm, gt-sm, lt-md, md, gt-md, lt-bg, bg, gt-lg, lg
+
+  * src\vue-install.js
+    + New directives: v-click-outside, v-resize
+    + [WIP] new component: NavBarTitle
+
+  + dev\components\test-navbar\about.vue
+  + dev\components\test-navbar\layout.vue
+  + src\vue-components\layout\NavbarTitle.vue
+    + [WIP] Testing pages for new NavBar component
+
+  * dev\router.js
+    + [WIP] Added paths for test-navbar pages
+
+/*
+   This work is licensed under the Creative Commons Attribution-ShareAlike
+   License. To view a copy of this license, visit
+   http://creativecommons.org/licenses/by-sa/3.0/ or send a letter to
+   Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305,
+   USA.  A summary of the license and the full legal text is included
+   in file: COPYING.txt.  If you wish to distribute some or all of this
+   work under different terms, please contact respective author(s).
+   The license applies to all entries newer than 2009-04-28.
+ */

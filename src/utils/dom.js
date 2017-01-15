@@ -112,3 +112,86 @@ export function cssTransform (val) {
   })
   return o
 }
+
+export function isParentId (el, id, stopSelector) {
+  let retval = null
+  while (el) {
+    if (el.id === id) {
+      retval = el.id
+      break
+    }
+    else if (stopSelector && el.matches(stopSelector)) {
+      break
+    }
+    el = el.parentElement
+  }
+  return retval
+}
+
+export function isClosest (el, selector, stopSelector) {
+  let retval = null
+  while (el) {
+    if (el.matches(selector)) {
+      retval = el
+      break
+    }
+    else if (stopSelector && el.matches(stopSelector)) {
+      break
+    }
+    el = el.parentElement
+  }
+  return retval
+}
+
+export function isSelfOrChild (el, target, stopSelector) {
+  let retval = null
+  while (el) {
+    if (el === target) {
+      retval = el
+      break
+    }
+    else if (stopSelector && el.matches(stopSelector)) {
+      break
+    }
+    el = el.parentElement
+  }
+  return retval
+}
+
+export function isScreenMediaSize (mediaSize, paramWidth) {
+  const
+    sm = 600,
+    md = 920,
+    bg = 1280,
+    lg = 9999
+  // debugger
+
+  let width = (paramWidth || viewport().width)
+  let isMedia
+
+  switch (mediaSize) {
+    case 'lt-sm':
+      isMedia = (width >= 0 && width < sm)
+      break
+    case 'sm':
+    case 'lt-md':
+      isMedia = (width >= sm && width < md)
+      break
+    case 'md':
+    case 'gt-sm':
+    case 'lt-bg':
+      isMedia = (width >= md && width < bg)
+      break
+    case 'bg':
+    case 'gt-md':
+    case 'lt-lg':
+      isMedia = (width >= bg && width < lg)
+      break
+    case 'lg':
+    case 'gt-bg':
+      isMedia = (width >= lg)
+      break
+  }
+  return isMedia
+}
+

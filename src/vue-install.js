@@ -6,8 +6,10 @@ import { current as theme } from './features/theme'
 import Transition from './vue-transitions/index'
 
 import dBackToTop from './vue-directives/back-to-top'
+import dClickOutside from './vue-directives/click-outside'
 import dGoBack from './vue-directives/go-back'
 import dLink from './vue-directives/link'
+import dResize from './vue-directives/resize'
 import dScrollFire from './vue-directives/scroll-fire'
 import dScroll from './vue-directives/scroll'
 import dTouchHold from './vue-directives/touch-hold'
@@ -39,6 +41,7 @@ import Knob from './vue-components/knob/Knob.vue'
 import Layout from './vue-components/layout/Layout.vue'
 import ListItem from './vue-components/list-item/ListItem.vue'
 import ToolbarTitle from './vue-components/layout/ToolbarTitle.vue'
+import NavbarTitle from './vue-components/layout/NavbarTitle.vue'
 import Modal from './vue-components/modal/Modal.vue'
 import Numeric from './vue-components/numeric/Numeric.vue'
 import Pagination from './vue-components/pagination/Pagination.vue'
@@ -71,8 +74,10 @@ import Video from './vue-components/video/Video.vue'
 function registerDirectives (_Vue) {
   [
     ['back-to-top', dBackToTop],
+    ['click-outside', dClickOutside],
     ['go-back', dGoBack],
     ['link', dLink],
+    ['resize', dResize],
     ['scroll-fire', dScrollFire],
     ['scroll', dScroll],
     ['touch-hold', dTouchHold],
@@ -112,6 +117,7 @@ function registerComponents (_Vue) {
     ['layout', Layout],
     ['list-item', ListItem],
     ['toolbar-title', ToolbarTitle],
+    ['navbar-title', NavbarTitle],
     ['modal', Modal],
     ['numeric', Numeric],
     ['pagination', Pagination],
