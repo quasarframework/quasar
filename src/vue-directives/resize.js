@@ -29,7 +29,7 @@ export default {
         if (arg) {
           // v-ckick-outside:id.elementId
           if (arg === 'window') {
-            width = Utils.dom.width(window)
+            width = Utils.dom.viewport().width
           }
         }
           // v-ckick-outside - not self

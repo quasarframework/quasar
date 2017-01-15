@@ -169,29 +169,46 @@ export function isScreenMediaSize (mediaSize, paramWidth) {
   let width = (paramWidth || viewport().width)
   let isMedia
 
+  // console.log('mediaSize ' + mediaSize)
+  // console.log('width ' + width)
+
   switch (mediaSize) {
     case 'lt-sm':
-      isMedia = (width >= 0 && width < sm)
+      isMedia = (width < sm)
       break
     case 'sm':
-    case 'lt-md':
       isMedia = (width >= sm && width < md)
       break
-    case 'md':
     case 'gt-sm':
-    case 'lt-bg':
+      isMedia = (width > sm)
+      break
+    case 'lt-md':
+      isMedia = (width < md)
+      break
+    case 'md':
       isMedia = (width >= md && width < bg)
       break
-    case 'bg':
     case 'gt-md':
-    case 'lt-lg':
+      isMedia = (width > md)
+      break
+    case 'lt-bg':
+      isMedia = (width < bg)
+      break
+    case 'bg':
       isMedia = (width >= bg && width < lg)
       break
+    case 'lt-lg':
+      isMedia = (width < lg)
+      break
     case 'lg':
-    case 'gt-bg':
       isMedia = (width >= lg)
       break
+    case 'gt-lg':
+      isMedia = (width > lg)
+      break
   }
+  // console.log('isMedia ' + isMedia)
+
   return isMedia
 }
 

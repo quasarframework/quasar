@@ -9,6 +9,15 @@
    Encoding: UTF-8 (No BOM)  Notation (in 5th position):
      * Change, ! Fix, % Optimization, + Addition, - Removal, ; Comment
  */
+2017-01-15 12:27 UTC+0100 Francesco Saverio Giudice (info/at/fsgiudice.com)
+  * dev\components\test-navbar\layout.vue
+    * [WIP] - make changes to handle displayed objects using mediasize
+  * src\utils\dom.js
+    ! fixed isScreenMediaSize function to correct return sizes
+  * src\vue-components\drawer\Drawer.vue
+    ! fixed error on missing content
+  * src\vue-directives\resize.js
+    ! Changed Utils.dom.width(window) to Utils.dom.viewport().width
 
 2017-01-15 09:46 UTC+0100 Francesco Saverio Giudice (info/at/fsgiudice.com)
   + ChangeLog.txt

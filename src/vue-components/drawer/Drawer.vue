@@ -234,21 +234,23 @@ export default {
   mounted () {
     this.$nextTick(() => {
       const content = this.$refs.content
-      this.width = Utils.dom.width(content)
+      if (content) {
+        this.width = Utils.dom.width(content)
 
-      if (this.$quasar.theme === 'ios') {
-        this.layoutContainer = this.$el.closest('.layout') || document.getElementById('q-app')
-      }
-      else {
-        this.nodePosition = this.width * (this.rightSide ? 1 : -1)
-      }
+        if (this.$quasar.theme === 'ios') {
+          this.layoutContainer = this.$el.closest('.layout') || document.getElementById('q-app')
+        }
+        else {
+          this.nodePosition = this.width * (this.rightSide ? 1 : -1)
+        }
 
-      ;[].slice.call(content.getElementsByClassName('drawer-closer')).forEach(el => {
-        el.addEventListener('click', (event) => {
-          event.stopPropagation()
-          this.setState(false)
+        ;[].slice.call(content.getElementsByClassName('drawer-closer')).forEach(el => {
+          el.addEventListener('click', (event) => {
+            event.stopPropagation()
+            this.setState(false)
+          })
         })
-      })
+      }
 
       if (this.swipeOnly) {
         this.$el.classList.add('swipe-only')

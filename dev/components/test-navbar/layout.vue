@@ -40,7 +40,7 @@
       </div>
     </template>
 
-    <q-drawer ref="leftDrawer" class="swipe-only hide-on-menu-visible">
+    <q-drawer v-if="responsive" ref="leftDrawer" class="swipe-only hide-on-menu-visible">
       <div class="toolbar light">
         <q-toolbar-title :padding="1">
           Left Drawer
@@ -84,7 +84,7 @@
     <div slot="footer" class="toolbar">
       <router-link tag="button" to="/" exact>
         <i class="on-left">keyboard_arrow_left</i>
-        Back to Index
+        Back to Index - {{ mediaSize }}
       </router-link>
     </div>
   </q-layout>
@@ -97,7 +97,8 @@ export default {
     return {
       showSearch: false,
       search: '',
-      responsive: false
+      responsive: false,
+      mediaSize: 0
     }
   },
   methods: {
@@ -108,8 +109,13 @@ export default {
       }
     },
     isResponsive (width) {
+      this.mediaSize = width
       this.responsive = Utils.dom.isScreenMediaSize('lt-sm', width)
     }
+  },
+  mounted () {
+    this.mediaSize = Utils.dom.viewport(window).width
+    this.responsive = Utils.dom.isScreenMediaSize('lt-sm', this.mediaSize)
   }
 }
 </script>
