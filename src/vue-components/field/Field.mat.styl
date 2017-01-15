@@ -1,385 +1,355 @@
-// <!--
-// ISSUES:
-//   #174 - Floating label won't float if input is disabled (even if it contains value)
-//   #237 - Floating label doesn't work on input[type=email] when value is not valid e.g...
-//         <div class="floating-label">
-//           <input required="required" type="email" class="full-width">
-//         <label>Email</label></div>
-
-//   NB: Valid, disabled, focusded
-//   NB: textarea, text[type=input, password, ], ...
-//         color
-//         date
-//         datetime
-//         datetime-local
-//        *email
-//         month
-//         number
-//         range
-//         search
-//         tel
-//         time
-//         url
-//         week
-// -->
 
-// <template>
-//   <div>
-
-//     <div class="layout-padding">
-
-//       <p class="caption strong">Floating Labels</p>
-
-
-
-//       <div class="card">
-//         <div class="card-title">
-//           Layouts
-//         </div>
-//         <div class="card-content">
-
-//           <!-- Layouts -->
-//           <q-float-label label="Basic Floating Label" >
-//             <input class="full-width">
-//           </q-float-label>
-
-//           <q-float-label label="Placeholder Layout" layout="inline">
-//             <input class="full-width">
-//           </q-float-label>
-
-//           <q-float-label label="Stacked Layout" layout="stacked">
-//             <input class="full-width">
-//           </q-float-label>
-
-//           <q-float-label label="Inline Layout" layout="stacked">
-//             <input class="full-width">
-//           </q-float-label>
-
-//           <q-float-label label="Nolabel Layout" layout="stacked">
-//             <input class="full-width">
-//           </q-float-label>
-
-//           <q-float-label label="Custom Layout" layout="stacked">
-//             <input class="full-width">
-//           </q-float-label>
-
-//           <!-- Layouts + Icon -->
-//           <q-float-label label="Floating Label + Icon" icon="face">
-//             <input class="full-width">
-//           </q-float-label>
-
-//           <q-float-label label="Inline Layout + Icon" layout="inline" icon="mail_outline">
-//             <input class="full-width">
-//           </q-float-label>
-
-//           <q-float-label label="Stacked Layout + Icon" layout="stacked" icon="phone">
-//             <input class="full-width">
-//           </q-float-label>
-
-//         </div>
-
-//       </div>
-
-
-
-//       <div class="card">
-//         <div class="card-title">
-//           Input Types
-//         </div>
-//         <div class="card-content">
-
-//           <q-float-label label="Email" icon="mail_outline">
-//             <input type="email" class="full-width">
-//           </q-float-label>
-
-//           <q-float-label label="Password" icon="lock">
-//             <input type="password" class="full-width">
-//           </q-float-label>
-
-//           <q-float-label label="Disabled (Text)">
-//             <input type="text" disabled class="full-width" icon="">
-//           </q-float-label>
-
-//           <q-float-label label="Readonly (Email)">
-//             <input type="email" readonly value="professor.plum@study.com" class="full-width">
-//           </q-float-label>
-
-//           <q-float-label label="Required (Text)">
-//             <input type="text" required class="full-width">
-//           </q-float-label>
-
-//           <q-float-label label="Text (has-error)" icon="build">
-//             <input type="text" value="The Revolver" class="full-width has-error">
-//           </q-float-label>
-
-
-//         </div>
-
-//       </div>
-
-
-
-
-
-//       <p class="caption">Input Types</p>
-
-
-
-//       <p class="caption">Textareas</p>
-
-//       <q-float-label label="Textarea">
-//         <textarea class="full-width"></textarea>
-//       </q-float-label>
-
-//       <q-float-label label="Textarea + Icon" icon="comments">
-//         <textarea rows="5" class="full-width">If you end your movement in a room, you get to make a suggestion. To do this, name a suspect, a murder weapon, and the room you just entered. For example, if you just entered the lounge, you might say, "I suggest the crime was committed by Colonel Mustard, in the lounge, with a dagger." The named suspect and murder weapon are both moved into your current room.</textarea>
-//       </q-float-label>
-
-
-//       <q-float-label label="Textarea + Icon + Dense (has-error)" icon="fingerprint" :dense="true">
-//         <textarea rows="5" class="full-width has-error">The player to your left must disprove your suggestion by showing you one card from her hand that matches your suggestion. If that player can't do so, the player to her left must disprove your suggestion by showing you one card from his hand. This responsibility passes clockwise until someone shows you a card, or until all players have passed.</textarea>
-//       </q-float-label>
-
-//       <q-float-label label="Textarea (readonly)">
-//         <textarea rows="4" readonly class="full-width">If someone shows you a card, you should cross it off on your detective notebook as a possibility. Any cards you hold should also be crossed off as possibilities. Don't let other players see your notebook.</textarea>
-//       </q-float-label>
-
-//       <q-float-label label="Textarea (disabled)">
-//         <textarea rows="4" disabled class="full-width">If you think you have solved the case by eliminating all the false possibilities and have not just had your suggestion disproved this turn, you can end your turn by making an accusation. Announce that you are making an accusation, and state your final guess of the murderer, the murder weapon, and the murder location.</textarea>
-//       </q-float-label>
-
-//   </div>
-// </template>
-// <style lang='stylus'>
-// $grey = #9e9e9e
-// $grey-1 = #fafafa
-// $grey-2 = #f5f5f5
-// $grey-3 = #eeeeee
-// $grey-4 = #e0e0e0
-// $grey-5 = #bdbdbd
-// $grey-6 = #9e9e9e
-// $grey-7 = #757575
-// $grey-8 = #616161
-// $grey-9 = #424242
-// $grey-10 = #212121
-// $grey-11 = #f5f5f5
-// $grey-12 = #eeeeee
-// $grey-13 = #bdbdbd
-// $grey-14 = #616161
-
-// $form-darker-color    ?= $grey-5
-// $form-lighter-color   ?= $grey-3
-// $form-active-color    ?= $primary
-// $form-border          ?= 3px solid $form-darker-color
-// $form-border-radius   ?= $generic-border-radius
-// $form-shadow          ?= 0 1px 3px 1px rgba(0, 0, 0, .4)
-
-
-// $textfield-border-size        ?= 2px
-// $textfield-border-style       ?= solid
-// $textfield-border-color       ?= $form-lighter-color
-// $textfield-focus-border-color ?= $form-active-color
-// $textfield-font-size          ?= .9rem
-// $label-font-size              ?= $textfield-font-size
-// $textfield-font-size          ?= .9rem
-
-// $textfield-padding-horizontal ?= 0
-// $textfield-padding-vertical   ?= 8px
-
-// $caret-color                  ?= $grey-9
-
-// input, textarea, .textfield
-//   &:not(.no-style)
-//     background none
-//     font-size $textfield-font-size
-//     max-width 100%
-//     margin-bottom 2px
-//     padding $textfield-padding-vertical $textfield-padding-horizontal
-//     border 0
-//     outline 0
-//     transition all .3s
-//     border-bottom $textfield-border-size $textfield-border-style $textfield-border-color
-//     &:focus, &:hover, .active
-//       border-bottom $textfield-border-size $textfield-border-style $textfield-focus-border-color
-//     &[disabled], &.disabled
-//       border-bottom-color darken($form-darker-color, 20%)
-//     &[disabled], &.disabled, &[readonly], &.readonly
-//       border-bottom-style dotted
-//     &.has-error
-//       border-bottom $textfield-border-size $textfield-border-style $has-error !important
-
-// label
-//   font-size $label-font-size
-// /*
-// .stacked-label, .floating-label
-//   position relative
-//   display inline-block
-//   width 100%
-//   label
-//     position absolute
-//     pointer-events none
-//     top 0
-//     left 0
-//     transform-origin left top
-//     color rgba(0, 0, 0, .54)
-
-// .stacked-label
-//   label
-//     display block
-//     transform scale(.8)
-//   input
-//     padding-top 1.4rem
-//   textarea
-//     margin-top 1.4rem
-//   input:focus + label, textarea:focus + label
-//     color $form-active-color
-
-// .floating-label
-//   label
-//     bottom $textfield-padding-vertical
-//     transition transform .15s ease-in-out, color .3s
-//   input + label, textarea + label
-//     transform translateY(1.7rem) scale(1)
-//   input
-//     padding-top 1.4rem
-//   textarea
-//     margin-top 1.4rem
-// &.label-active
-//   input ~ label, textarea ~ label
-//     transform translateY(0) scale(.8)
-// &.label-focus
-//   input ~ label, textarea ~ label
-//     color $form-active-color
-
-// */
-
-// // ^^--- textfield.mat.styl
-
-// $form-active-color = #027be3
-
-// $label-nudge-top ?= 0
-// $label-nudge-left ?= 0
-
-
-
-// .fl-container
-//   position relative
-//   display inline-block
-//   box-sizing border-box
-//   width 100%
-//   min-height 72px
-//   border 1px solid blue
-//   margin-bottom 5px
-
-//   & > span
-//     &:before
-//       background-color red
-//       display inline-block
-//       content ''
-//       height 2px
-//       left 45%
-//       width 20px
-//       position absolute
-//       transition-duration .2s
-//       transition-timing-function cubic-bezier(.4, 0, .2, 1)
-//       visibility xhidden
-//       width 100%
-//       left 0
-
-//   & > label
-//     padding-top $label-nudge-top
-//     padding-left $label-nudge-left
-//     position absolute
-//     pointer-events none
-//     color rgba(0, 0, 0, .54)
-//     top 1.8rem
-//     left 0
-//     transform-origin left top
-//     transition transform .15s ease-in-out, color .3s, opacity .3s
-
-
-//   & > input
-//     padding-top 1.8rem
-//     xxmargin-bottom 17px
-
-//   & > textarea
-//     margin-top 1.8rem
-//     xxmargin-bottom 13px
-
-//   & > i
-//     position absolute
-//     font-size 24px
-//     padding 12px
-//     top 12px
-//     left 0
-//     transition color .3s
-
-
-// // Layout Modifiers -------------------------
-
-// // With Icon
-// &.fl-icon
-//   padding-left 48px
-//   & > label
-
-//     left 48px
-
-// // With Dense
-// &.fl-dense
-//   & > label
-//     top 1.5rem
-//   & > input
-//     padding-top 1.45rem
-//     margin-bottom 10px
-//   & > textarea
-//     margin-top 1.45rem
-//     margin-bottom 6px
-
-// // Has focus
-// &.fl-focus
-//   & > label
-//   & > i
-//     color $form-active-color
-//   & > span
-//     &:before
-//       left 0
-//       width 100%
-//       visibility visible
-
-
-// // Label Position Mixins -------------------------
-
-// // Label above input
-// &.fl-layout-stacked,
-// &.fl-layout-floating.fl-active
-//   > label
-//     transform translateY(-22px) scale(.8)
-
-// // Label vanished
-// &.fl-layout-inline.fl-active
-//   > label
-//     opacity 0
-//     transform-origin left 50%
-//     xtransform scaleY(-1)
-//     color $form-active-color
-
-// // Label not displayed
-// &.fl-layout-nolabel
-//   > label
-//     display none
-
-
-// </style>
-//       padding-top 0 // 1.8rem
-// <script>
-// export default {
-//   data () {
-//     return {
-//     }
-//   }
-// }
-// </script>
-
-
-
+// Nested / Inline Fields
+.field > .field,
+.field > .field-target > .field-input > .field
+  min-height initial
+  padding-top 0
+  padding-bottom 0
+
+.field + .field
+  margin-left 8px
+
+.list > .field
+  margin-left 0
+  padding-left 10px
+  padding-right 10px
+
+
+// Field
+.field
+  position relative
+  display flex
+  min-height 72px
+  padding-top 10px
+  padding-bottom 0
+  flex-direction row
+  align-items flex-start
+  xsmargin 0px
+  // Global adjustment
+  &.pad-left
+    padding-left 16px
+  &.inset
+    padding-left 72px
+  &.pad-right
+    padding-right 16px
+
+  // Icons
+  > .field-icon
+    color $item-primary-secondary-color
+    transition color .3s
+    height 24px
+    width 24px
+    min-width 24px
+    margin 16px 12px 0 12px
+    font-size 24px
+    line-height 24px
+    border-radius 50%
+    transition all .45s cubic-bezier(0.25, 0.8, 0.25, 1)
+    &.icon-inverse
+      margin-top 8px
+      height 28px
+      width 28px
+      min-width 28px
+      padding 8px 4px 4px 8px
+      color $white
+      background-color $item-primary-secondary-color
+  > .field-icon-before
+    margin-right 36px
+    &.icon-inverse
+      margin-right 20px
+  > .field-icon-after
+    margin-left 36px
+    &.icon-inverse
+      margin-left 20px
+
+  // Labels
+  > .field-label-inline,
+  > .field-target > .field-input > .field-label-float
+    transition all .3s cubic-bezier(0.25, 0.8, 0.25, 1)
+    transform-origin left top
+    color rgba(0, 0, 0, .54)
+    left 0
+    line-height 16px
+    margin-top 16px
+    pointer-events none
+    text-overflow ellipsis
+    white-space nowrap
+    overflow hidden
+  > label.field-label-inline
+    margin-right 10px
+  > .field-target > .field-input > label.field-label-float
+    width 100%
+    position absolute
+    > span
+      transition inherit
+      visibility hidden
+      font-size $textfield-font-size
+      &:first-child
+        padding-right 5px
+      &:last-child
+        padding-left 5px
+
+  > label.field-label-inline
+  > .field-target > .field-input > label.field-label-float
+    &.label-as-text // render inline or float label as plain text (no required indicator or active color, italics)
+      font-style italic
+      padding-right 5px
+    &.label-center
+      text-align center
+      transform-origin center top
+    &.label-right
+      text-align right
+      transform-origin right top
+
+  // Prefix/Postfix Before/After Spans
+  > span,
+  > .field-target > .field-input > span
+    margin 16px 0 0 0
+    border-bottom 0 !important
+    line-height 16px
+    font-size $textfield-font-size
+    white-space nowrap
+
+  // Target
+  > .field-target
+
+    &.target-center
+      margin-left auto
+      margin-right auto
+    &.target-right
+      margin-left auto
+
+    // Input
+    > .field-input
+      position relative
+      min-height 40px
+      transition-duration .2s
+      transition-timing-function cubic-bezier(.4, 0, .2, 1)
+      > :not(:last-child):not(label)
+        margin-right 2px !important
+
+      &.underline
+        margin-bottom 3px
+        border-bottom $textfield-border-size $textfield-border-style $textfield-border-color
+        &:after
+          content ''
+          display block
+          position absolute
+          visibility hidden
+          bottom -2px
+          width 2px
+          height $textfield-border-size + 1
+          left 49%
+          background-color $form-active-color
+          transition-duration .2s
+          transition-timing-function cubic-bezier(.4, 0, .2, 1)
+
+      // Text Inputs & Sub-Components
+      > input, > textarea, > div
+        border-bottom 0 !important
+        max-width 100% !important
+      > div:not(.field)
+        padding-top 8px
+        padding-bottom 7px !important
+        margin 8px 0 0 0
+      > input, > textarea
+        line-height 16px
+        margin 8px 0 0 0 !important
+        padding-bottom 7px !important
+        box-shadow none
+      &.field-input-grow
+        > input, > textarea, > div
+          flex-grow 1
+
+    // Counter / Hint / Validate Msg
+    > .field-counter,
+    > .field-hint,
+    > .field-validate-msg
+      display block
+      font-size 12px
+      pointer-events none
+      transition opacity .3s
+
+    > .field-counter
+      float right
+      color rgba(0,0,0,.38)
+      color $dark
+
+    > .field-hint
+      position relative
+      color $dark
+
+    > .field-validate-msg  // (TODO: Multiple validate msgs)
+      position absolute
+      color $has-error !important
+      opacity 0
+
+
+// Layout Modifiers / CSS Flags
+// ----------------------------
+.field
+  // Dense-vertical
+  &.field-dense-vertical
+    min-height  60px
+    padding-top 2px
+
+  // Dense-horizonal
+  &.field-dense-horizontal
+    > .field-icon:first-child
+      margin-right 12px
+    > .field-icon:last-child
+      margin-left 12px
+
+  // Required
+  //
+  &.field-required
+    > .field-label-inline,
+    > .field-target > .field-input > .field-label-float
+      > div
+        display inline-block
+        padding-left 2px
+
+  // Hover & Focus
+  //
+  &.field-focus,
+  &.field:hover:not(.field-disabled)
+    > .field-icon
+      color $form-active-color
+      &.icon-inverse
+        color $white !important
+        background-color $form-active-color
+    > .field-label-inline,
+    > .field-target > .field-input > .field-label-float
+      color $form-active-color
+      > div
+        color $required-color
+    > .field-target > .field-input
+      &.underline
+        border-bottom $textfield-border-size $textfield-border-style $form-active-color
+  &.field-focus
+    > .field-target > .field-input
+      &.underline
+        border-bottom $textfield-border-size $textfield-border-style $form-active-color
+        &:after
+          background-color $form-active-color
+          visibility visible
+          width 100%
+          left 0
+
+  // Invalid
+  //
+  &.field-invalid
+    > .field-icon-before  // <--- TOO MUCH RED?  DELETE THESE, OR MAKE OPTIONAL?
+      color $has-error !important
+      &.icon-inverse
+        color $white !important
+        background-color $has-error !important
+    > .field-label-inline,
+    > .field-target > .field-input > .field-label-float
+      color $has-error !important
+    > .field-target > .field-input
+      &.underline
+        border-bottom $textfield-border-size $textfield-border-style $has-error !important
+        &:after
+          background-color $has-error !important
+    > .field-target
+      > .field-validate-msg
+        opacity 1
+        position relative
+      > .field-hint
+        opacity 0
+        position absolute
+
+  // Too-Long
+  // ['pseuedo-invalid'; can trigger independently of 'field-invalid' for counter & underline turning red, and that is all.]
+  //
+  &.field-invalid-too-long
+    > .field-target > .field-input
+      &.underline
+        border-bottom $textfield-border-size $textfield-border-style $has-error !important
+        &:after
+          background-color $has-error
+    > .field-target
+      > .field-counter
+        color $has-error
+
+  // Disabled
+  //
+  &.field-disabled
+    > .field-target > .field-input
+      border-bottom-style dotted
+
+  // Readonly
+  //
+  &.field-read-only
+    > .field-target > .field-input
+      border-bottom-style dotted
+      &:after
+        height 1px
+
+
+// Float/Float-Label Mixins
+// -------------------------
+
+// No Label
+&.field-label-nolabel
+  > .field-label-inline,
+  > .field-target > .field-input > .field-label-float
+    display none
+
+// Label vanishes
+&.field-label-inplace.field-active, &.field-label-placeholder
+  > .field-label-inline,
+  > .field-target > .field-input > .field-label-float
+    opacity 0
+
+// Label appears
+&.field-label-stacked, &.field-label-floating, &.field-label-placeholder.field-active.field-value
+  > .field-label-inline,
+  > .field-target > .field-input > .field-label-float
+    opacity 1
+
+// Label goes above input
+&.field-label-stacked, &.field-label-floating.field-active, &.field-label-placeholder
+  > .field-label-inline,
+  > .field-target > .field-input > .field-label-float
+    transform translateY(-18px) scale(.8)
+    > span
+      font-size 0
+      padding 0
+  &.field-dense-vertical
+    > .field-label-inline,
+    > .field-target > .field-input > .field-label-float
+        transform translateY(-14px) scale(.8)
+
+
+// Vue Component Adjustments
+.field > .field-target > .field-input > div.q-chips
+    padding-bottom 0 !important
+
+
+// Field State CSS Styles
+// -------------------------
+
+fieldStates ?= ('field-valid' 'field-invalid' 'field-active' 'field-focus' 'field-disabled' 'field-pristine' 'field-dirty')
+fieldColors ?= $positive $has-error $primary $primary $light $light
+
+for state, i in fieldStates
+  color = fieldColors[i]
+  .{state}
+    > .color-if-{state}
+    :not(.field) .color-if-{state}
+      color color !important
+  .{state}
+    > .bg-if-{state}
+    :not(.field) .bg-if-{state}
+      background-color color !important
+  .{state}
+    > .show-if-{state}
+    :not(.field) .show-if-{state}
+      display block !important
+  .{state}
+    > .hide-if-{state}
+    :not(.field) .hide-if-{state}
+      display none !important
 

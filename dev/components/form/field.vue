@@ -165,7 +165,7 @@
                 <div class="width-2of3 sm-width-1of1">
                   <q-field
                     icon="lock_outline"
-                    validate="lazy-at-first"
+                    validate
                     validate-msg="Passwords must match."
                     class="full-width"
                     target-width="grow"
@@ -175,13 +175,12 @@
 
                     <q-field
                       label="Password"
-                      validate
-                      :validate-msg="false"
                       class="full-width"
                       target-width="grow"
                       :dense-vertical='options.fieldOpts.denseVertical'
+                      counter
                     >
-                      <input type="password" v-model="example.password" class="w120" />
+                      <input type="password" v-model="example.password" maxlength="8" class="w120" />
                     </q-field>
 
                     <q-field
@@ -191,8 +190,9 @@
                       target-width="grow"
                       label="Confirm Password"
                       :dense-vertical='options.fieldOpts.denseVertical'
+                      counter
                     >
-                      <input type="password" v-model="example.passwordConfirm" class="w120" />
+                      <input type="password" v-model="example.passwordConfirm" maxlength="8" :pattern="example.password" class="w120" />
                     </q-field>
 
                   </q-field>
@@ -333,10 +333,10 @@
 
           </div>
 
-          <div class="settings card-actions wrap ">
-            <div class="row justify-between width-3of5">
+          <div class="settings card-actions">
+            <div class="row wrap">
               <!-- field options -->
-               <label v-for="opt in ddl_fieldOpts" class="text-center w60">
+              <label v-for="opt in ddl_fieldOpts" class="text-center w60">
                 <q-checkbox v-model="options.fieldOpts[opt.value]"></q-checkbox><br />
                 {{ opt.label }}
               </label>
@@ -388,6 +388,10 @@
                       :inset='options.fieldOpts.inset'
                       :counter='options.fieldOpts.counter'
                       :maxlength='15'
+                      :prefix="options.fieldOpts.prefix?'$':''"
+                      :postfix="options.fieldOpts.postfix?'.00':''"
+                      :before="options.fieldOpts.before?'[Before]':''"
+                      :after="options.fieldOpts.after?'[After]':''"
                     >
                       <input type="text" class="w90" v-model='field.model' :placeholder='field.placeholder'/>
                     </q-field>
@@ -506,8 +510,6 @@
                     :label-width='options.field.labelWidth'
                     :target-align='options.field.targetAlign'
                     :label-align='options.field.labelAlign'
-                    :prefix="options.field.prefix?'>>':''"
-                    :postfix="options.field.postfix?'<<':''"
                   >
                     <input type="text" />
                   </q-field>
@@ -629,25 +631,36 @@
           </div>
           <div class='card-content'>
             <div class="grid row wrap small-gutter">
-
               <div class="width-1of2 sm-width-1of1">
-                <q-field item label="Eager" icon="mail_outline" hint="(Default validate)" validate>
-                  <input type="email">
-                </q-field>
-              </div>
-              <div class="width-1of2 sm-width-1of1">
-                <q-field item label="Lazy" icon="mail_outline" validate="lazy" hint="(validate='lazy')">
-                  <input type="email">
-                </q-field>
-              </div>
-              <div class="width-1of2 sm-width-1of1">
-                <q-field item label="Custom Validation Message" icon="mail_outline" validate validate-msg="That ain't no email address, pal!" hint="(validate-msg='...')">
+                <q-field item label="No validation" icon="mail_outline" validate>
                   <input type="email">
                 </q-field>
               </div>
 
               <div class="width-1of2 sm-width-1of1">
-                <q-field item label="Immediate Validation" icon="mail_outline" validate validate-immediate hint='(validate-immediate)'>
+                <q-field item label="Eager" icon="mail_outline" validate>
+                  <input type="email">
+                </q-field>
+              </div>
+              <div class="width-1of2 sm-width-1of1">
+                <q-field item label="Lazy" icon="mail_outline" validate="lazy">
+                  <input type="email">
+                </q-field>
+              </div>
+
+              <div class="width-1of2 sm-width-1of1">
+                <q-field item label="Lazy at First" icon="mail_outline" validate="lazy-at-first">
+                  <input type="email">
+                </q-field>
+              </div>
+              <div class="width-1of2 sm-width-1of1">
+                <q-field item label="Custom Validation Message" icon="mail_outline" validate validate-msg="That ain't no email address, pal!">
+                  <input type="email">
+                </q-field>
+              </div>
+
+              <div class="width-1of2 sm-width-1of1">
+                <q-field item label="Immediate Validation" icon="mail_outline" validate validate-immediate>
                   <input type="email" value="bogus.email%com">
                 </q-field>
               </div>
@@ -704,7 +717,7 @@
                 <input type="password" :maxlength="8"  />
               </q-field>
 
-              <q-field item label="Number" icon="looks_one" validate validate-msg="Not a number" >
+              <q-field item label="Number" icon="looks_one" validate validate-msg="Not a number" target-width="shrink">
                 <input type="number" />
               </q-field>
 
@@ -724,6 +737,31 @@
 
 
           <div class="list item-delimiter">
+
+
+            <q-field item label="Select" icon="search" validate>
+              <q-select
+                type="radio"
+                v-model="models.select"
+                :options="ddl_weapons"
+              ></q-select>
+            </q-field>
+
+            <q-field item label="Multi-Select" icon="search" validate>
+              <q-select
+                type="toggle"
+                v-model="models.multiSelect"
+                :options="ddl_detectives"
+              ></q-select>
+            </q-field>
+
+            <q-field item label="DateTime" icon="search" validate>
+              <q-datetime
+                v-model="models.date"
+                type="date"
+              ></q-datetime>
+            </q-field>
+
             <q-field item label="Numeric" label-layout="inline" icon="looks_two">
               <q-numeric
                 v-model="models.numeric"
@@ -976,7 +1014,7 @@ export default {
         birthday: '',
         detectiveName: '',
         notes: '',
-        rooms: ['Conservatory', 'Billiard Room', 'Library', 'Cellar', 'Hall'],
+        rooms: ['Library', 'Cellar', 'Billiard Room'],
         weapons: [],
         mobile: '',
         phone: '',
@@ -1002,8 +1040,10 @@ export default {
       models: {
         range: 7,
         numeric: 99,
+        select: '',
         chips: ['Rope', 'Candlestick', 'Lead Pipe', 'Revolver'],
-        multiSelect: []
+        multiSelect: [],
+        date: ''
       },
       ddl_structures: [
         {
@@ -1034,10 +1074,6 @@ export default {
         }
       ],
       ddl_layouts: [
-        // {
-        //   label: 'in a Row',
-        //   value: 'row'
-        // },
         {
           label: 'Items in a Grid',
           value: 'items-grid'
@@ -1071,14 +1107,6 @@ export default {
           value: 'background'
         },
         {
-          label: 'Dense-H',
-          value: 'denseHorizontal'
-        },
-        {
-          label: 'Dense-V',
-          value: 'denseVertical'
-        },
-        {
           label: 'Icon',
           value: 'icon'
         },
@@ -1095,10 +1123,6 @@ export default {
           value: 'icon2Inverse'
         },
         {
-          label: 'Inset',
-          value: 'inset'
-        },
-        {
           label: 'Hint',
           value: 'hint'
         },
@@ -1113,6 +1137,26 @@ export default {
         {
           label: 'Postfix',
           value: 'postfix'
+        },
+        {
+          label: 'Before',
+          value: 'before'
+        },
+        {
+          label: 'After',
+          value: 'after'
+        },
+        {
+          label: 'Dense-H',
+          value: 'denseHorizontal'
+        },
+        {
+          label: 'Dense-V',
+          value: 'denseVertical'
+        },
+        {
+          label: 'Inset',
+          value: 'inset'
         }
       ],
       ddl_layout_list_options: [
@@ -1287,271 +1331,24 @@ export default {
   }
 }
 </script>
-field-active-primary
-field-active-secondary
-field-active-tertiary
-field-active-show
-field-active-hide
-
-label-color
-has-error
-
-
-// list styl
-$item-primary-secondary-color ?= rgb(117, 117, 117)
-$item-content-label-color     ?= rgba(0, 0, 0, .87)
-$item-label-color             ?= rgba(0, 0, 0, .54)
-
 <style lang='styl'>
-$layout-small  ?= 600px
-$grey = #9e9e9e
-$grey-1 = #fafafa
-$grey-2 = #f5f5f5
-$grey-3 = #eeeeee
-$grey-4 = #e0e0e0
-$grey-5 = #bdbdbd
-$grey-6 = #9e9e9e
-$grey-7 = #757575
-$grey-8 = #616161
-$grey-9 = #424242
-$grey-10 = #212121
-$grey-11 = #f5f5f5
-$grey-12 = #eeeeee
-$grey-13 = #bdbdbd
-$grey-14 = #616161
-
-$primary   ?= #027be3
-$secondary ?= #26A69A
-$tertiary  ?= #555
-
-$positive  ?= #21BA45
-$negative  ?= #DB2828
-$info      ?= #31CCEC
-$warning   ?= #F2C037
-
-$white     ?= #fff
-$light     ?= #f4f4f4
-$dark      ?= #333
-$faded     ?= #777
-
-$has-error ?= $negative
-
-$form-darker-color    ?= $grey-5
-$form-lighter-color   ?= $grey-4
-$form-active-color    ?= $primary
-$form-border          ?= 3px solid $form-darker-color
-$form-border-radius   ?= $generic-border-radius
-$form-shadow          ?= 0 1px 3px 1px rgba(0, 0, 0, .4)
 
 
-$textfield-border-size        ?= 1px
-$textfield-border-style       ?= solid
-$textfield-border-color       ?= #cccccc
-$textfield-focus-border-color ?= $form-active-color
-$textfield-font-size          ?= .9rem
-$label-font-size              ?= $textfield-font-size
-
-$textfield-padding-horizontal ?= 0
-$textfield-padding-vertical   ?= 8px
-
-$caret-color                  ?= $grey-9
-$required-color               ?= $negative
-
-
-// list styl
-$item-primary-secondary-color ?= rgb(117, 117, 117)
-$item-content-label-color     ?= rgba(0, 0, 0, .87)
-$item-label-color             ?= rgba(0, 0, 0, .54)
-
-
-// typography.mat.styl
-
-h1, h2, h3, h4, h5, h6
-  font-weight 400
-  line-height 110%
-  -webkit-font-smoothing antialised
-
-h1
-  font-size 4.2rem
-  letter-spacing -.04em
-  margin 2.1rem 0 1.68rem
-  font-weight 300
-
-h2
-  font-size 3.56rem
-  letter-spacing -.02em
-  margin 1.78rem 0 1.424rem
-
-h3
-  font-size 2.92rem
-  margin 1.46rem 0 1.168rem
-
-h4
-  font-size 2.28rem
-  margin 1.14rem 0 .912rem
-
-h5
-  font-size 1.64rem
-  margin .82rem 0 .656rem
-  -moz-osx-font-smoothing grayscale
-
-h6
-  font-size 1rem
-  letter-spacing .02em
-  margin .5rem 0 .4rem
-  font-weight 500
-
-p
-  font-size 1rem
-  letter-spacing 0
-  margin 0 0 1rem
-  line-height 24px
-  padding 0
-  -webkit-font-smoothing antialiased
-  &.caption
-    font-weight 300
-    &:not(:first-child)
-      margin-top 2rem
-
-
-// -------------------------------------------------------------------vvvv
-// textfield.mat.styl ------------------------------------------------vvvv
 //
-
-$textfield-border-size        ?= 2px
-$textfield-border-style       ?= solid
-$textfield-border-color       ?= $form-lighter-color
-$textfield-focus-border-color ?= $form-active-color
-$textfield-font-size          ?= .9rem
-$label-font-size              ?= $textfield-font-size
-
-$textfield-padding-horizontal ?= 0
-$textfield-padding-vertical   ?= 8px
-
-$caret-color                  ?= $grey-9
-
-input, textarea, .textfield
-  &:not(.no-style)
-    background none
-    font-size $textfield-font-size
-    max-width 100%
-    margin-bottom 2px
-    padding $textfield-padding-vertical $textfield-padding-horizontal
-    border 0
-    outline 0
-    transition all .3s
-    border-bottom $textfield-border-size $textfield-border-style $textfield-border-color
-    &:focus, &:hover, .active
-      border-bottom $textfield-border-size $textfield-border-style $textfield-focus-border-color
-    &[disabled], &.disabled
-      border-bottom-color darken($form-darker-color, 20%)
-    &[disabled], &.disabled, &[readonly], &.readonly
-      border-bottom-style dotted
-    &.has-error
-      border-bottom $textfield-border-size $textfield-border-style $has-error !important
-
-label
-  font-size $label-font-size
-
-.stacked-label, .floating-label
-  position relative
-  display inline-block
-  width 100%
-  label
-    position absolute
-    pointer-events none
-    top 0
-    left 0
-    transform-origin left top
-    color rgba(255, 255, 255, .54)
-
-
-.stacked-label
-  label
-    display block
-    transform scale(.8)
-  input
-    padding-top 1.4rem
-  textarea
-    margin-top 1.4rem
-  input:focus + label, textarea:focus + label
-    color $form-active-color
-
-.floating-label
-  label
-    bottom $textfield-padding-vertical
-    transition transform .15s ease-in-out, color .3s
-  input + label, textarea + label
-    transform translateY(1.7rem) scale(1)
-  input
-    padding-top 1.4rem
-  textarea
-    margin-top 1.4rem
-&.label-active
-  input ~ label, textarea ~ label
-    transform translateY(0) scale(.8)
-&.label-focus
-  input ~ label, textarea ~ label
-    color $form-active-color
-
-
-// textfield.mat.styl ------------------------------------------------^^^^
-// -------------------------------------------------------------------^^^^
+// Demo styles ------------------------------------------------vvvv
+//
 
 $grid-small-gutter  ?= .5rem
 $grid-medium-gutter ?= 1rem
 $grid-big-gutter    ?= 2.5rem
 $grid-large-gutter  ?= 3.5rem
 
-// flex.variables.styl ------------------------------------------------^^^^
-// -------------------------------------------------------------------^^^^
-
-
-
-// NICE ICONS TO USE
-/*
-  storage (list)
-
-  email
-  mail_outline
-  message
-  chat
-  create (pencil)
-
-  account_box
-  account_circle
-
-  extension     jigsaw
-  event_seat
-  weekend (couch)
-  build (wrench
-  fingerprint
-  gavel
-  usb (candleabra)
-  gesture (rope)
-  person
-  person_outline (torso)
-  vpn_key
-
-  toys (pinwheel)
-
-  face
-  favorite        : heart;
-  favorite_border
-*/
-
-
-
-//
-// OLD Demo styles ------------------------------------------------vvvv
-//
-
-
 .field
   transition all .3s
 
 label
-.stacked-label, .floating-label
+.stacked-label
+.floating-label
   label
     color rgba(255, 255, 255, .54)
 .card-actions .q-picker-textfield-label .ellipsis
@@ -1563,18 +1360,6 @@ label
   .q-picker-textfield
     xmin-width 60px
     xwidth 65px
-
-.card .card-actions
-  xbackground-color #4DB6AC !important
-
-
-.demoInputWidth
-  width 80px
-.field-label-inline
-  .demoInputWidth
-    width 70px
-
-
 
 // Label & Target Debug -----------------v
 .bg-field .grid .field
@@ -1638,377 +1423,6 @@ label
 for num in (0..20)
   .w{num*10+10}
     width (num*10+10)px
-
-
-.field .field
-  xbackground #B2EBF2
-
-//
-// Demo styles ------------------------------------------------^^^^^
-
-
-
-// TODO: Some of the more complex rules below could be done better with pre-calculated CSS matching esp. inline margins, padding w/o icons etc. (Micro-optimisation?)
-
-
-
-// NEW MATERIAL styles ------------------------------------------------vvvv
-//
-
-
-// Nested / Inline Fields
-.field > .field,
-.field > .field-target > .field-input > .field
-  min-height initial
-  padding-top 0
-  padding-bottom 0
-
-.field + .field
-  margin-left 8px !important
-
-
-// Field
-.field
-  position relative
-  display flex
-  min-height 72px
-  padding-top 10px
-  padding-bottom 0
-  flex-direction row
-  align-items flex-start
-  margin 0px
-  // Global adjustment
-  &.pad-left
-    padding-left 16px
-  &.inset
-    padding-left 72px
-  &.pad-right
-    padding-right 16px
-
-  // Icons
-  > .field-icon
-    color $item-primary-secondary-color
-    transition color .3s
-    height 24px
-    width 24px
-    min-width 24px
-    margin 16px 12px 0 12px
-    font-size 24px
-    line-height 24px
-    border-radius 50%
-    transition all .45s cubic-bezier(0.25, 0.8, 0.25, 1)
-    &.icon-inverse
-      margin-top 8px
-      height 28px
-      width 28px
-      min-width 28px
-      padding 8px 4px 4px 8px
-      color $white
-      background-color $item-primary-secondary-color
-  > .field-icon-before
-    margin-right 36px
-    &.icon-inverse
-      margin-right 20px
-  > .field-icon-after
-    margin-left 36px
-    &.icon-inverse
-      margin-left 20px
-
-  // Labels
-  > .field-label-inline,
-  > .field-target > .field-input > .field-label-float
-    // transition transform .5s cubic-bezier(0.25, 0.8, 0.25, 1), color .3s, font-size .5s, opacity .3s, padding .5s cubic-bezier(0.25, 1, 0.25, 0.8)
-    transition all .3s cubic-bezier(0.25, 0.8, 0.25, 1)
-    transform-origin left top
-    color rgba(0, 0, 0, .54)
-    left 0
-    line-height 16px
-    margin-top 16px
-    pointer-events none
-    text-overflow ellipsis
-    white-space nowrap
-    overflow hidden
-  > .field-label-inline
-    margin-right 10px
-  > .field-target > .field-input > .field-label-float
-    width 100%
-    position absolute
-    > span
-      transition inherit
-      visibility hidden
-      font-size $textfield-font-size
-      &:first-child
-        padding-right 5px
-      &:last-child
-        padding-left 5px
-
-  &.label-as-text // render inline or float label as plain text (no required indicator or active color, italics)
-    font-style italic
-    padding-right 5px
-  &.label-center
-    text-align center
-    transform-origin center top
-  &.label-right
-    text-align right
-    transform-origin right top
-
-  // Prefix/Postfix Before/After Spans
-  > span,
-  > .field-target > .field-input > span
-    margin 16px 0 0 0 !important
-    border-bottom 0 !important
-    line-height 16px
-    font-size $textfield-font-size
-    white-space nowrap
-
-  // Target
-  > .field-target
-
-    &.target-center
-      margin-left auto
-      margin-right auto
-    &.target-right
-      margin-left auto
-
-    // Input
-    > .field-input
-      position relative
-      min-height 40px
-      transition-duration .2s
-      transition-timing-function cubic-bezier(.4, 0, .2, 1)
-      > :not(:last-child):not(label)
-        margin-right 2px !important
-
-      &.underline
-        xmargin-bottom 3px
-        border-bottom $textfield-border-size $textfield-border-style $textfield-border-color
-        &:after
-          content ''
-          display block
-          position absolute
-          visibility hidden
-          bottom -2px
-          width 2px
-          height $textfield-border-size + 1
-          left 49%
-          background-color $form-active-color
-          transition-duration .2s
-          transition-timing-function cubic-bezier(.4, 0, .2, 1)
-
-      // Text Inputs & Sub-Components
-      > input, > textarea, > div
-        border-bottom 0 !important
-        max-width 100% !important
-      > div:not(.field)
-        padding-top 8px
-        padding-bottom 7px !important
-        margin 8px 0 0 0
-      > input, > textarea
-        line-height 16px
-        margin 8px 0 0 0 !important
-        padding-bottom 7px !important
-        box-shadow none
-      &.field-input-grow
-        > input, > textarea, > div
-          flex-grow 1
-
-    // Counter / Hint / Validate Msg
-    > .field-counter,
-    > .field-hint,
-    > .field-validate-msg
-      display block
-      font-size 12px
-      pointer-events none
-      transition opacity .3s
-
-    > .field-counter
-      float right
-      color rgba(0,0,0,.38)
-      color $dark
-
-    > .field-hint
-      position relative
-      color $dark
-
-    > .field-validate-msg  // (TODO: Multiple validate msgs)
-      position absolute
-      color $has-error !important
-      opacity 0
-
-
-// Layout Modifiers / CSS Flags
-// ----------------------------
-.field
-  // Dense-vertical
-  &.field-dense-vertical
-    min-height  60px
-    padding-top 2px
-
-  // Dense-horizonal
-  &.field-dense-horizontal
-    > .field-icon:first-child
-      margin-right 12px
-    > .field-icon:last-child
-      margin-left 12px
-/*
-    &.inset
-      padding-left 48px
-    &.pad-left
-      padding-left 8px
-    &.pad-right
-      padding-right 8px*/
-  // Required
-  //
-  &.field-required
-    > .field-label-inline,
-    > .field-target > .field-input > .field-label-float
-      > div
-        display inline-block
-        padding-left 2px
-
-  // Hover & Focus
-  //
-  &.field-focus,
-  &.field:hover:not(.field-disabled)
-    > .field-icon
-      color $form-active-color
-      &.icon-inverse
-        color $white !important
-        background-color $form-active-color
-    > .field-label-inline,
-    > .field-target > .field-input > .field-label-float
-      color $form-active-color
-      > div
-        color $required-color
-    > .field-target > .field-input
-      &.underline
-        border-bottom $textfield-border-size $textfield-border-style $form-active-color
-  &.field-focus
-    > .field-target > .field-input
-      &.underline
-        border-bottom $textfield-border-size $textfield-border-style $form-active-color
-        &:after
-          background-color $form-active-color
-          visibility visible
-          width 100%
-          left 0
-
-  // Invalid
-  //
-  &.field-invalid
-    > .field-icon-before  // <--- TOO MUCH RED?  DELETE THESE, OR MAKE OPTIONAL?
-      color $has-error !important
-      &.icon-inverse
-        color $white !important
-        background-color $has-error !important
-    > .field-label-inline,
-    > .field-target > .field-input > .field-label-float
-      color $has-error !important
-    > .field-target > .field-input
-      &.underline
-        border-bottom $textfield-border-size $textfield-border-style $has-error !important
-        &:after
-          background-color $has-error !important
-    > .field-target
-      > .field-validate-msg
-        opacity 1
-        position relative
-      > .field-hint
-        opacity 0
-        position absolute
-
-  // Too-Long
-  // ['pseuedo-invalid'; can trigger independently of 'field-invalid' for counter & underline turning red, and that is all.]
-  //
-  &.field-invalid-too-long
-    > .field-target > .field-input
-      &.underline
-        border-bottom $textfield-border-size $textfield-border-style $has-error !important
-        &:after
-          background-color $has-error
-    > .field-target
-      > .field-counter
-        color $has-error
-
-  // Disabled
-  //
-  &.field-disabled
-    > .field-target > .field-input
-      border-bottom-style dotted
-
-  // Readonly
-  //
-  &.field-read-only
-    > .field-target > .field-input
-      border-bottom-style dotted
-      &:after
-        height 1px
-
-
-// Float/Float-Label Mixins
-// -------------------------
-
-// No Label
-&.field-label-nolabel
-  > .field-label-inline,
-  > .field-target > .field-input > .field-label-float
-    display none
-
-// Label vanishes
-&.field-label-inplace.field-active, &.field-label-placeholder
-  > .field-label-inline,
-  > .field-target > .field-input > .field-label-float
-    opacity 0
-
-// Label appears
-&.field-label-stacked, &.field-label-floating, &.field-label-placeholder.field-active.field-value
-  > .field-label-inline,
-  > .field-target > .field-input > .field-label-float
-    opacity 1
-
-// Label goes above input
-&.field-label-stacked, &.field-label-floating.field-active, &.field-label-placeholder
-  > .field-label-inline,
-  > .field-target > .field-input > .field-label-float
-    transform translateY(-18px) scale(.8)
-    > span
-      font-size 0
-      padding 0
-  &.field-dense-vertical
-    > .field-label-inline,
-    > .field-target > .field-input > .field-label-float
-        transform translateY(-14px) scale(.8)
-
-
-// Vue Component Adjustments
-.field > .field-target > .field-input > div.q-chips
-    padding-bottom 0 !important
-
-
-// Field State CSS Styles
-// -------------------------
-
-fieldStates ?= ('field-valid' 'field-invalid' 'field-active' 'field-focus' 'field-disabled' 'field-pristine' 'field-dirty')
-fieldColors ?= $positive $has-error $primary $primary $light $light
-
-for state, i in fieldStates
-  color = fieldColors[i]
-  .{state}
-    > .color-if-{state}
-    :not(.field) .color-if-{state}
-      color color !important
-  .{state}
-    > .bg-if-{state}
-    :not(.field) .bg-if-{state}
-      background-color color !important
-  .{state}
-    > .show-if-{state}
-    :not(.field) .show-if-{state}
-      display block !important
-  .{state}
-    > .hide-if-{state}
-    :not(.field) .hide-if-{state}
-      display none !important
 
 
 </style>

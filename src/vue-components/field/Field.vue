@@ -311,7 +311,7 @@ export default {
       return !this.isInline ? this.myLabel : this.myFloat
     },
     txt_Hint () {
-      return this.hint // (this.draw_TargetOnly?'draw_TargetOnly=true':'draw_TargetOnly=false') + (this.draw_TargetOnly && !this.item ?' (pseudo)':'')  // this.hint
+      return this.hint
     },
     txt_ValidateMsg () {
       return !this.myValidate || this.validateMsg === false ? false : this.validateMsg ? this.validateMsg : this.isTextInput && this.input.validity.valueMissing ? 'Please enter a value.' : 'Please enter a valid value.'
@@ -319,14 +319,6 @@ export default {
     }
   },
   watch: {
-    // 'state.hasInvalid':  {
-    //   handler: function(newValue, oldValue) {
-    //     console.log('watched. fieldEvent #'+this.fieldId, {type: '__onValidate'})
-    //     this.$emit('fieldEvent', {type: '__onValidate'})
-    //   }
-    //   // ,
-    //   // immediate: true
-    // },
     counter () {
       // TODO: Tidy up all these misc. prop changes with a proper (!) interface for controlling component instances.
       // (This is only needed to turn counter on/off after component initialised...)
@@ -348,25 +340,19 @@ export default {
     },
     // Events
     __onFieldEvent (e) {
-      console.log('#' + this.fieldId + 'RECEIVED: FieldEvent ', e)
       this[e.type](e)  // focus | blur | activate | input | validate
     },
     __onClick (e) {
-      console.log(this.fieldId + '.__onClick')
     },
     __onFocus (e) {
-      console.log(this.fieldId + '.__onFocus')
       this.state.hasFocus = true
       this.$emit('fieldEvent', {type: '__onFocus', from: this.fieldId})
     },
     __onBlur (e) {
-      console.log(this.fieldId + '.__onBlur')
       this.state.hasFocus = false
       this.state.hasTouched = true
 
       if (this.input) {
-
-        console.log(this.fieldId + '.__onBlur')
         if (this.input.type === 'number' && !this.input.value && !this.input.ignoreBlur && (this.myValidate === 'lazy' || this.myValidate === 'eager')) {
           // type=number value workaround (a bit hacky)
           this.input.value = ''
@@ -379,13 +365,9 @@ export default {
         }
       }
       this.__updateState_value()
-
-      console.log(this.fieldId + '.__onBlur')
       this.$emit('fieldEvent', {type: '__onBlur', from: this.fieldId})
     },
     __onInput (e) {
-      console.log(this.fieldId + '.__onInput', e, typeof e)
-
       // Called 1 of 3 ways:
       if (e.type === 'input') {
         // 1. Native input Event from <input|textarea>
@@ -416,7 +398,6 @@ export default {
         // Leaf Field - Invalid if input .validity==false or .hasTooLong==true
         this.state.hasInvalid = this.state.hasTooLong ? true : !this.input.validity.valid // && (this.state.hasValue || this.state.hasTouched)
       } else if (this.numChildFields) {
-        console.log("in on validate with child fields")
         // Branch Field - Invalid if there are none which have yet to be validated and at least one invalid.
         if (!this.childFields.some(e => e.myValidate && e.state.hasInvalid === null)) {
           this.state.hasInvalid = this.childFields.some(e => {
@@ -430,37 +411,9 @@ export default {
       }
 
       if (this.state.hasInvalid != oldValue) {
-        console.log(this.fieldId + '.$emit fieldEvent - __onValidate')
         this.$emit('fieldEvent', {type: '__onValidate', from: this.fieldId})
       }
 
-    },
-    __onActivate (e) {
-      console.log('__onActivate #'+this.fieldId, e)
-      // "activate" is click (touch??) anywhere on field.
-      // Focus is placed on first available input or child field.
-      // (TODO: Make this behaviour optional)
-
-      if (e) {
-        // Try-catch ~ too many reasons focus() isn't allowed!?
-        try {
-          if (this.isTextInput && !this.state.hasDisabled) {
-            this.input.focus()
-          } else if (this.numChildFields) {
-            let input = this.childFields.find(e => {
-              return e.isTextInput && !e.state.hasDisabled
-            })
-            if (input) {
-              input.focus()
-            }
-          }
-        } catch (e) {
-            // Do nothing
-            console.log(e)
-        }
-      }
-
-      this.$emit('fieldEvent', {type: '__onActivate', from: this.fieldId})
     },
     // State maintenance
     // NB: These can't go in computed/watchers as they rely on changes to <input> attrs.
@@ -475,9 +428,6 @@ export default {
     __updateState_value(theValue) {
       // Value may be passed by arg, but defaults to input.value
       theValue = typeof theValue !== 'undefined' ? theValue : this.input ? this.input.value : undefined
-
-      console.log('testing ', theValue)
-
       this.state.hasValue = theValue && theValue.length ? true : false
 
       // Update counter
@@ -487,12 +437,10 @@ export default {
     }
   },
   mounted () {
-
     // Field UID (interal use only)
     this.fieldId = fieldId++
 
     // Identify target, input, isTextInput, child <q-field>s:
-    //
     // !noTarget && <elem>.value  => input
     // noTarget || !<elem>.value  => !input
     // !input + <q-field(s)>      => numChildFields
@@ -543,7 +491,7 @@ export default {
         this.$el.addEventListener('focus', this.__onFocus, true)
         this.$el.addEventListener('blur', this.__onBlur, true)
       }
-this.$el.tabindex = 0
+
       // ID
       //
       if (this.input.id) {
@@ -569,9 +517,7 @@ this.$el.tabindex = 0
           this.numChildFields++
         }
       })
-
     }
-
 
     // Initialise state
     this.__initState()
@@ -579,7 +525,6 @@ this.$el.tabindex = 0
     if (this.validateImmediate) {
       this.__onValidate()
     }
-
 
     // Sanitise Inline/Float Label Layouts
     if (!this.labelLayout || this.labelLayout === 'inline') {
@@ -596,41 +541,35 @@ this.$el.tabindex = 0
       this.myLabelLayout = this.labelLayout
       this.myFloatHint = this.label
     }
-
   },
   beforeDestroy () {
     // remove events
-
     if (this.input) {
 
       if (this.isTextInput) {
-        // Native HTML <input> or <textarea>
-
         this.input.removeEventListener('input', this.__onInput, true)
-        this.input.removeEventListener('focus', this.__onFocus, true)
-        this.input.removeEventListener('blur', this.__onBlur, true)
-        // this.$el.addEventListener('click', this.__onClick, true)
-
       } else {
-        // Vue component
-
         this.input.$off('input', this.__onInput)
-        this.input.$off('open', this.__onFocus)
-        this.input.$off('close', this.__onBlur)
-
       }
 
+      let pickerTextfield = this.isTextInput ? null : this.input.$children.find(c=>c.$options._componentTag === 'q-picker-textfield')
+      if (pickerTextfield) {
+        let popOver = pickerTextfield.$children.find(c=>c.$options._componentTag === 'q-popover')
+        popOver.$off('open', this.__onFocus)
+        popOver.$off('close', this.__onBlur)
+      } else {
+        this.$el.removeEventListener('focus', this.__onFocus, true)
+        this.$el.removeEventListener('blur', this.__onBlur, true)
+      }
     }
     else {
 
       // Child fields
-
       this.childFields.forEach(child => {
         child.$off('fieldEvent', this.__onFieldEvent)
       })
 
     }
-
   }
 }
 </script>
