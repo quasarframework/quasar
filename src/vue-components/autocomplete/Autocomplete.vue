@@ -16,7 +16,7 @@
           :item="result"
           link
           :active="selectedIndex === index"
-          @click.native="setValue(result.value)"
+          @click.native="setValue(result)"
         ></q-list-item>
       </div>
     </q-popover>
@@ -135,8 +135,9 @@ export default {
       this.results = []
       this.selectedIndex = -1
     },
-    setValue (val) {
-      this.model = val
+    setValue (result) {
+      this.model = result.value
+      this.$emit('selected', result)
       this.close()
     },
     move (offset) {
@@ -144,7 +145,7 @@ export default {
     },
     setCurrentSelection () {
       if (this.selectedIndex >= 0) {
-        this.setValue(this.results[this.selectedIndex].value)
+        this.setValue(this.results[this.selectedIndex])
       }
     },
     __updateDelay () {
