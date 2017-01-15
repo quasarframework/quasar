@@ -17,7 +17,6 @@ export default {
       context: vnode.context,
       action: binding.expression,
       hookEvent: Utils.debounce((event) => {
-
         let arg = binding.arg
         let width
         // console.log('event resize')
