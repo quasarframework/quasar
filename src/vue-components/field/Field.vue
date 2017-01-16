@@ -15,11 +15,13 @@
     -->
     <div v-else class="field-target" :class='css_FieldTarget' :style='style_FieldTarget' ref="ref_FieldTarget">
       <div class="field-input row" :class='css_FieldInput'>
-      <span v-if="prefix">{{ prefix }}</span><label v-if='txt_FloatLabel' :style='style_FloatLabel' class='field-label-float' :class='css_FloatLabel' :for='inputId' ><span v-if="prefix">{{ prefix }}</span>{{ txt_FloatLabel }}<div v-if="draw_Required">*</div><span v-if="postfix">{{ postfix }}</span></label><slot></slot><span v-if="postfix">{{ postfix }}</span>
-    </div>
-      <div v-if='txt_Counter' class="field-counter">{{ txt_Counter }}</div>
-      <div v-if='txt_Hint' class="field-hint">{{ hint }}</div>
-      <div v-if='txt_ValidateMsg' class="field-validate-msg">{{ txt_ValidateMsg }}</div>
+        <span v-if="prefix">{{ prefix }}</span><label v-if='txt_FloatLabel' :style='style_FloatLabel' class='field-label-float' :class='css_FloatLabel' :for='inputId' ><span v-if="prefix">{{ prefix }}</span>{{ txt_FloatLabel }}<div v-if="draw_Required">*</div><span v-if="postfix">{{ postfix }}</span></label><slot></slot><span v-if="postfix">{{ postfix }}</span>
+      </div>
+      <div class="field-msgs">
+        <div v-if='txt_Counter' class="field-counter">{{ txt_Counter }}</div>
+        <div v-if='txt_ValidateMsg' class="field-validate-msg">{{ txt_ValidateMsg }}</div>
+        <div v-if='txt_Hint' class="field-hint">{{ hint }}</div>
+      </div>
     </div><!--
       'After':
     -->

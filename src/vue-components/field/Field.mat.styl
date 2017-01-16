@@ -161,27 +161,31 @@
           flex-grow 1
 
     // Counter / Hint / Validate Msg
-    > .field-counter,
-    > .field-hint,
-    > .field-validate-msg
-      display block
-      font-size 12px
-      pointer-events none
-      transition opacity .3s
-
-    > .field-counter
-      float right
-      color rgba(0,0,0,.38)
-      color $dark
-
-    > .field-hint
+    > .field-msgs
       position relative
-      color $dark
 
-    > .field-validate-msg  // (TODO: Multiple validate msgs)
-      position absolute
-      color $has-error !important
-      opacity 0
+      > .field-counter,
+      > .field-hint,
+      > .field-validate-msg
+        display block
+        font-size 12px
+        pointer-events none
+        transition all .3s
+
+      > .field-counter
+        float right
+        color rgba(0,0,0,.38)
+        color $dark
+
+      > .field-hint
+        color $dark
+        position relative
+
+      > .field-validate-msg  // (TODO: Multiple validate msgs)
+        color $has-error !important
+        opacity 0
+        top 0
+        position absolute
 
 
 // Layout Modifiers / CSS Flags
@@ -251,13 +255,14 @@
         border-bottom $textfield-border-size $textfield-border-style $has-error !important
         &:after
           background-color $has-error !important
-    > .field-target
+    > .field-target > .field-msgs
+      > .field-hint
+        opacity 0
+        top 0
+        position absolute
       > .field-validate-msg
         opacity 1
         position relative
-      > .field-hint
-        opacity 0
-        position absolute
 
   // Too-Long
   // ['pseuedo-invalid'; can trigger independently of 'field-invalid' for counter & underline turning red, and that is all.]
@@ -268,7 +273,7 @@
         border-bottom $textfield-border-size $textfield-border-style $has-error !important
         &:after
           background-color $has-error
-    > .field-target
+    > .field-target > .field-msgs
       > .field-counter
         color $has-error
 
