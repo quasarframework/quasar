@@ -177,10 +177,8 @@ export default {
       }, 500)
     },
     stopWorkButton () {
-      if (this.workingButton) {
-        clearInterval(this.workingButton)
-        this.workingButton = null
-      }
+      clearInterval(this.workingButton)
+      this.workingButton = null
     }
   }
 }

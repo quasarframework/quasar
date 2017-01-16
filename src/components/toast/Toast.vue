@@ -111,11 +111,8 @@ export default {
     },
     dismiss (done) {
       this.active = false
-
-      if (this.timer) {
-        clearTimeout(this.timer)
-        this.timer = null
-      }
+      clearTimeout(this.timer)
+      this.timer = null
 
       setTimeout(() => {
         if (typeof this.stack[0].onDismiss === 'function') {

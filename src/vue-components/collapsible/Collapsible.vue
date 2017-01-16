@@ -22,6 +22,7 @@ export default {
   props: {
     opened: Boolean,
     icon: String,
+    group: String,
     img: String,
     avatar: String,
     label: String,
@@ -35,6 +36,13 @@ export default {
   watch: {
     opened (value) {
       this.active = value
+    },
+    active (value) {
+      if (value && this.group && this.group.length > 0) {
+        this.$parent.$children.filter(c => c !== this && c.group && c.group === this.group).forEach(c => {
+          c.close()
+        })
+      }
     }
   },
   methods: {

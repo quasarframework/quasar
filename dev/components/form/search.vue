@@ -7,7 +7,7 @@
 
       <br><br>
 
-      <div class="group">
+      <div class="column small-gutter">
         <q-search v-model="search"></q-search>
         <q-search v-model="search" class="orange"></q-search>
         <q-search v-model="search" class="secondary" icon="explore" placeholder="PlacesPlacesPlacesPlacesPlacesPlacesPlaces"></q-search>

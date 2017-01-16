@@ -13,7 +13,7 @@
     </div>
 
     <div slot="header" class="toolbar primary">
-      <q-search :model.sync="search" class="primary"></q-search>
+      <q-search v-model="search" class="primary"></q-search>
     </div>
 
     <q-tabs slot="navigation">
