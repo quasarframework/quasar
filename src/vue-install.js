@@ -19,7 +19,6 @@ import Autocomplete from './vue-components/autocomplete/Autocomplete.vue'
 import Checkbox from './vue-components/checkbox/Checkbox.vue'
 import Chips from './vue-components/chips/Chips.vue'
 import Collapsible from './vue-components/collapsible/Collapsible.vue'
-import CollapsibleAccordion from './vue-components/collapsible/CollapsibleAccordion.js'
 import ContextMenuDesktop from './vue-components/context-menu/ContextMenuDesktop.vue'
 import ContextMenuMobile from './vue-components/context-menu/ContextMenuMobile.vue'
 import DataTable from './vue-components/data-table/DataTable.vue'
@@ -92,7 +91,6 @@ function registerComponents (_Vue) {
     ['checkbox', Checkbox],
     ['chips', Chips],
     ['collapsible', Collapsible],
-    ['collapsible-accordion', CollapsibleAccordion],
     ['context-menu', Platform.is.desktop ? ContextMenuDesktop : ContextMenuMobile],
     ['data-table', DataTable],
     ['inline-datetime', theme === 'ios' ? InlineDatetimeIOS : InlineDatetimeMaterial],
