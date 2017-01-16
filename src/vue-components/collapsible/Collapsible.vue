@@ -35,6 +35,13 @@ export default {
   watch: {
     opened (value) {
       this.active = value
+    },
+    active (value) {
+      if (value && this.$parent.collapsibleAccordion) {
+        this.$parent.$children.filter(c => c !== this).forEach(c => {
+          c.close()
+        })
+      }
     }
   },
   methods: {
