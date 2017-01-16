@@ -249,32 +249,27 @@
 
 // No Label
 &.field-label-nolabel
-  > .field-label-inline,
   > .field-target > .field-input > .field-label-float
     display none
 
 // Label vanishes
 &.field-label-inplace.field-active, &.field-label-placeholder
-  > .field-label-inline,
   > .field-target > .field-input > .field-label-float
     opacity 0
 
 // Label appears
 &.field-label-stacked, &.field-label-floating, &.field-label-placeholder.field-active.field-value
-  > .field-label-inline,
   > .field-target > .field-input > .field-label-float
     opacity 1
 
 // Label goes above input
 &.field-label-stacked, &.field-label-floating.field-active, &.field-label-placeholder
-  > .field-label-inline,
   > .field-target > .field-input > .field-label-float
     transform translateY(-1.7rem) scale(.8)
     > span
       font-size 0
       padding 0
   &.field-dense-vertical
-    > .field-label-inline,
     > .field-target > .field-input > .field-label-float
         transform translateY(-1.6rem) scale(.8)
 

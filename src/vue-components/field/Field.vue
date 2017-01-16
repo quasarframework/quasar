@@ -1,5 +1,5 @@
 <template>
-  <div class='field row' :data-field-id="fieldId" :class='css_Field'><!--
+  <div class='field row' :class='css_Field'><!--
       'Before':
     -->
     <i v-if='draw_Icon' class="field-icon field-icon-before" :class='css_Icon1'>{{ icon }}</i>
@@ -7,7 +7,7 @@
     <span v-if="before">{{ before }}</span><!--
       Inline Label:
     -->
-    <label v-if='txt_InlineLabel' :style='style_InlineLabel' :class='css_InlineLabel' class='field-label-inline' :for='inputId'>{{ txt_InlineLabel }}<div v-if="draw_Required">*</div>:</label><!--
+    <label v-if='txt_InlineLabel' :style='style_InlineLabel' :class='css_InlineLabel' class='field-label-inline' :for='inputId'>{{ txt_InlineLabel }}:<div v-if="draw_Required">*</div></label><!--
       Targetless content...
     -->
     <slot v-if="noTarget"></slot><!--
@@ -44,14 +44,14 @@ export default {
       type: String
     },
     labelLayout: {
-      type: String, // 'floating' | 'stacked' | 'inplace' | 'placeholder' | 'inline' | +/'list-item' | +/custom
+      type: String, // 'floating' | 'stacked' | 'inplace' | 'placeholder' | 'inline' | +/custom
       default: 'floating'
     },
     float: {
       type: String
     },
     floatLayout: {
-      type: String, // 'floating' | 'stacked' | 'inplace' | 'placeholder' | 'inline' | +/'list-item' | +/custom
+      type: String, // 'floating' | 'stacked' | 'inplace' | 'placeholder' | 'inline' | +/custom
       default: 'inplace'
     },
     hint: {
@@ -105,7 +105,6 @@ export default {
       default: null // default=null='left' | 'right' | 'center'
     },
     labelAlign: {
-      // todo: inline-align
       type: String,
       default: null // default=null='left' | 'right' | 'center'
     },
@@ -194,9 +193,8 @@ export default {
       return !this.isTextInput ? 0 : this.maxlength ? parseInt(this.maxlength, 10) : this.input.hasAttribute('maxlength') ? this.input.maxlength : 0
     },
     myValidate () {
-      // validate + text input =>  'eager' | 'lazy' | 'lazy-at-first' | form' | false
-      let out =  this.validate === false ? false : this.validate === '' ? 'eager' : (this.validate === 'lazy-at-first' && this.state.hasBeenInvalid) ? 'eager' : this.validate
-      return out
+      // validate + text input =>  'eager' | 'lazy' | 'lazy-at-first' | 'form' (TBA) | false
+      return this.validate === false ? false : this.validate === '' ? 'eager' : (this.validate === 'lazy-at-first' && this.state.hasBeenInvalid) ? 'eager' : this.validate
     },
     myTargetWidth () {
       // NB: field=true defaults to width='grow'
@@ -204,20 +202,12 @@ export default {
     },
     myUnderline () {
       // NB: Can't use 'childFields[]' here because of recursion; use numChildFields instead.
-      let out = this.myUnderline = this.underline !== null ? this.underline : this.numChildFields > 0 ? false : true
-      return out
+      return this.underline !== null ? this.underline : this.numChildFields > 0 ? false : true
     },
     // Label & Target - Width / Align
     style_FieldTarget () {
       // shrink / grow / size <input> container
-      let style = this.calcWidthStyle(this.myTargetWidth)
-      // if (this.targetAlign === 'center' || this.targetAlign === 'right') {
-      //   style['margin-left'] = 'auto'
-      // }
-      // if (this.targetAlign === 'center' || this.targetAlign === 'left') {
-      //   style['margin-right'] = 'auto'
-      // }
-      return style
+      return this.calcWidthStyle(this.myTargetWidth)
     },
     style_InlineLabel () {
       // if used as Label, then shrink / grow / size inline <label.item-label>
@@ -353,7 +343,7 @@ export default {
       this.state.hasTouched = true
 
       if (this.input) {
-        if (this.input.type === 'number' && !this.input.value && !this.input.ignoreBlur && (this.myValidate === 'lazy' || this.myValidate === 'eager')) {
+        if (this.input.type === 'number' && !this.input.value && !this.input.ignoreBlur && ['lazy', 'lazy-at-first', 'eager'].includes(this.myValidate)) {
           // type=number value workaround (a bit hacky)
           this.input.value = ''
           this.input.ignoreBlur = true
@@ -531,15 +521,15 @@ export default {
       // label-inline is main Label, float functions as optional msg.
       this.isInline = true
       this.myLabel = this.label
-      // Option: Spare float label can now serve as extra hint text, using 'floatHint' and 'floatLayout'
-      this.myLabelLayout = this.floatHint ? this.floatLayout : this.labelLayout
-      this.myFloatHint = this.floatHint ? this.floatHint : null
+      // Option: Spare float label can now serve as extra hint text, using 'float' and 'floatLayout'
+      this.myLabelLayout = this.float ? this.floatLayout : this.labelLayout
+      this.myFloat = this.float ? this.float : null
     } else {
       // label-float is the main Label
       this.isInline = false
       this.myLabel = this.label
       this.myLabelLayout = this.labelLayout
-      this.myFloatHint = this.label
+      this.myFloat = this.label
     }
   },
   beforeDestroy () {

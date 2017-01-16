@@ -300,6 +300,7 @@
                 <div class="width-1of1">
                   <q-field
                     label="Favourite Hangouts"
+                    label-layout="stacked"
                     float="Type some rooms"
                     icon="favorite_border"
                     target-width="grow"
@@ -1338,28 +1339,8 @@ export default {
 // Demo styles ------------------------------------------------vvvv
 //
 
-$grid-small-gutter  ?= .5rem
-$grid-medium-gutter ?= 1rem
-$grid-big-gutter    ?= 2.5rem
-$grid-large-gutter  ?= 3.5rem
-
 .field
   transition all .3s
-
-label
-.stacked-label
-.floating-label
-  label
-    color rgba(255, 255, 255, .54)
-.card-actions .q-picker-textfield-label .ellipsis
-  color rgba(255, 255, 255, .54)
-.card-acrtions .q-picker-textfield-label.active .q-picker-textfield-label .ellipsis
-  color rgba(255, 255, 255, .54)
-
-.settings
-  .q-picker-textfield
-    xmin-width 60px
-    xwidth 65px
 
 // Label & Target Debug -----------------v
 .bg-field .grid .field
@@ -1413,17 +1394,9 @@ label
   background-color #66BB6A
   content 'TARGET'
 
-
-@media only screen and (max-width 600px)
-  .grid
-    .field-label-inline
-      input[type=text]:not(.field-grow-input input), textarea:not(.field-grow-input textarea)
-        width 55px
-
 for num in (0..20)
   .w{num*10+10}
     width (num*10+10)px
-
 
 </style>
 
