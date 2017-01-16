@@ -171,6 +171,7 @@
                     target-width="grow"
                     no-underline
                     :dense-vertical='options.fieldOpts.denseVertical'
+                    @input='v => {example.passwordConfirm = ""}'
                   >
 
                     <q-field
@@ -828,6 +829,10 @@ export default {
     }
   },
   methods: {
+    clearPW () {
+      console.log('hi')
+      this.example.passwordConfirm = ''
+    },
     doClick () {
       console.log('ckicklckl')
     }

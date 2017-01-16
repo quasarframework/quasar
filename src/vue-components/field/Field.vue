@@ -380,8 +380,8 @@ export default {
       if (this.myValidate === 'eager') {
         this.__onValidate()
       }
-
-      this.$emit('fieldEvent', {type: '__onInput', from: this.fieldId})
+      this.$emit('input', this.value)
+      // this.$emit('fieldEvent', {type: '__onInput', from: this.fieldId})
     },
     __onValidate (e) {
       if (!this.myValidate) return
