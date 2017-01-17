@@ -2,6 +2,7 @@ import install from './vue-install'
 import start from './start'
 import standaloneInstall from './standalone-install'
 import * as theme from './features/theme'
+import { version } from '../package.json'
 
 import './features/body-classes'
 import './features/polyfills'
@@ -23,7 +24,7 @@ import Utils from './utils'
 import { LocalStorage, SessionStorage } from './features/web-storage'
 
 let Quasar = {
-  version: '0.13.0',
+  version,
   install,
   start,
   theme,

@@ -2,6 +2,7 @@ import Platform from './features/platform'
 import { install as eventsInstall } from './features/events'
 import { install as toastInstall } from './components/toast/toast'
 import { current as theme } from './features/theme'
+import { version } from '../package.json'
 
 import Transition from './vue-transitions/index'
 
@@ -156,6 +157,7 @@ export default function (_Vue) {
   toastInstall(_Vue)
 
   _Vue.prototype.$quasar = {
+    version,
     platform: Platform,
     theme
   }

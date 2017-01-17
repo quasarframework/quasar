@@ -79,6 +79,7 @@
     "roboto-fontface": "^0.6.0",
     "rollup": "^0.37.0",
     "rollup-plugin-babel": "^2.6.1",
+    "rollup-plugin-json": "^2.1.0",
     "rollup-plugin-string": "^2.0.2",
     "rollup-plugin-vue": "2.2.14",
     "shelljs": "^0.7.0",

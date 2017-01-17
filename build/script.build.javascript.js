@@ -7,10 +7,10 @@ var
   uglify = require('uglify-js'),
   babel = require('rollup-plugin-babel'),
   string = require('rollup-plugin-string'),
+  json = require('rollup-plugin-json'),
   vue = require('rollup-plugin-vue'),
   nonStandalone = process.argv[2] === 'simple' || process.argv[3] === 'simple',
   version = process.env.VERSION || require('../package.json').version,
-  file,
   banner =
     '/*!\n' +
     ' * Quasar Framework v' + version + '\n' +
@@ -37,16 +37,9 @@ var
   },
   rollupConfig = {
     entry: 'src/index.js',
-    plugins: [vue(vueConfig), string(stringConfig), babel(babelConfig)],
+    plugins: [json(), vue(vueConfig), string(stringConfig), babel(babelConfig)],
     external: external
   }
-
-'index index.es6'.split(' ').forEach(function (name) { // eslint-disable-line
-  file = fs
-    .readFileSync('src/' + name + '.js', 'utf-8')
-    .replace(/version: '[\d\.]+'/, "version: '" + version + "'")
-  fs.writeFileSync('src/' + name + '.js', file)
-})
 
 // CommonJS build.
 rollup
@@ -64,7 +57,7 @@ rollup
   return rollup
     .rollup({
       entry: 'src/index.es6.js',
-      plugins: [vue(vueConfig), string(stringConfig)],
+      plugins: [json(), vue(vueConfig), string(stringConfig)],
       external: external
     })
     .then(function (bundle) {
