@@ -23,7 +23,7 @@
       <q-tab icon="input" route="/test-layout/drawer" replace>Drawer</q-tab>
     </q-tabs>
 
-    <q-drawer ref="leftDrawer">
+    <q-drawer ref="leftDrawer" :backdrop-opacity="1">
       <div class="toolbar light">
         <q-toolbar-title :padding="1">
           Drawer

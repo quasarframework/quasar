@@ -26,20 +26,25 @@
 
 <script>
 import Utils from '../../utils'
-import Platform from '../../features/platform'
-
-const backdropOpacity = {mat: 0.7, ios: 0.2}
+import { current as theme } from '../../features/theme'
 
 export default {
   props: {
-    'right-side': Boolean,
-    'swipe-only': Boolean
+    rightSide: Boolean,
+    swipeOnly: Boolean,
+    backdropOpacity: {
+      type: Number,
+      validator (v) {
+        return v >= 0 && v <= 1
+      },
+      default: theme === 'ios' ? 0.2 : 0.7
+    }
   },
   data () {
     return {
       opened: false,
       nodePosition: 0,
-      backPosition: 0.01,
+      backPosition: 0,
       nodeAnimUid: Utils.uid(),
       backAnimUid: Utils.uid()
     }
@@ -85,7 +90,7 @@ export default {
 
       if (this.opened) {
         backdrop.classList.add('active')
-        if (Platform.has.popstate) {
+        if (this.$quasar.platform.has.popstate) {
           if (!window.history.state) {
             window.history.replaceState({__quasar_drawer: true}, '')
           }
@@ -101,7 +106,7 @@ export default {
       }
       else {
         window.removeEventListener('resize', this.close)
-        if (Platform.has.popstate) {
+        if (this.$quasar.platform.has.popstate) {
           window.removeEventListener('popstate', this.__popState)
           if (window.history.state && !window.history.state.__quasar_drawer) {
             window.history.go(-1)
@@ -112,7 +117,7 @@ export default {
       Utils.animate({
         name: this.backAnimUid,
         pos: this.backPosition,
-        finalPos: this.opened ? backdropOpacity[this.$quasar.theme] : 0.01,
+        finalPos: this.opened ? this.backdropOpacity : 0,
         apply: (pos) => {
           this.backPosition = pos
         },
@@ -130,7 +135,7 @@ export default {
     },
     __openByTouch (event) {
       // interferes with browser's back/forward swipe feature
-      if (Platform.is.ios) {
+      if (this.$quasar.platform.is.ios) {
         return
       }
 
@@ -164,7 +169,7 @@ export default {
         backdrop.classList.add('active')
       }
       this.nodePosition = position
-      this.backPosition = percentage * backdropOpacity[this.$quasar.theme]
+      this.backPosition = percentage * this.backdropOpacity
 
       if (event.isFinal) {
         this.__animate()
@@ -196,7 +201,7 @@ export default {
       }
 
       this.nodePosition = position
-      this.backPosition = percentage * backdropOpacity[this.$quasar.theme]
+      this.backPosition = percentage * this.backdropOpacity
 
       if (event.isFinal) {
         this.__animate()
@@ -217,7 +222,7 @@ export default {
       this.__animate(done)
     },
     __popState () {
-      if (Platform.has.popstate && window.history.state && window.history.state.__quasar_drawer) {
+      if (this.$quasar.platform.has.popstate && window.history.state && window.history.state.__quasar_drawer) {
         this.setState(false)
       }
     },
