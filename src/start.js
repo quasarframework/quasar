@@ -1,5 +1,4 @@
 import Platform from './features/platform'
-import { ready } from './utils/dom'
 
 export default function (callback = function () {}) {
   /*
@@ -18,5 +17,5 @@ export default function (callback = function () {}) {
     return
   }
 
-  ready(callback)
+  callback()
 }

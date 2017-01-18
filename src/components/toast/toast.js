@@ -4,6 +4,7 @@ import Toast from './Toast.vue'
 let
   toast,
   defaults,
+  toastStack = [],
   types = [
     {
       name: 'positive',
@@ -36,6 +37,11 @@ function create (opts, defaults) {
     )
   }
 
+  if (!toast) {
+    toastStack.push(opts)
+    return
+  }
+
   toast.create(opts)
 }
 
@@ -50,6 +56,11 @@ export function install (_Vue) {
     toast = new _Vue(Toast).$mount(node)
     if (defaults) {
       toast.setDefaults(defaults)
+    }
+    if (toastStack.length) {
+      toastStack.forEach(opts => {
+        toast.create(opts)
+      })
     }
   })
 }
