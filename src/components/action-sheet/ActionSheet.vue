@@ -15,7 +15,9 @@
             v-for="button in actions"
             class="cursor-pointer column inline items-center justify-center"
             @click="close(button.handler)"
+            @keydown.enter="close(button.handler)"
             :class="button.classes"
+            tabindex="0"
           >
             <i v-if="button.icon">{{ button.icon }}</i>
             <img v-if="button.avatar" :src="button.avatar" class="avatar">
@@ -28,7 +30,9 @@
             v-for="button in actions"
             class="item item-link"
             @click="close(button.handler)"
+            @keydown.enter="close(button.handler)"
             :class="button.classes"
+            tabindex="0"
           >
             <i v-if="button.icon" class="item-primary">{{ button.icon }}</i>
             <img v-if="button.avatar" :src="button.avatar" class="item-primary">
@@ -43,7 +47,9 @@
         <div
           class="item item-link"
           @click="close()"
+          @keydown.enter="close()"
           :class="dismiss.classes"
+          tabindex="0"
         >
           <i v-if="dismiss.icon" class="item-primary">{{ dismiss.icon }}</i>
           <div class="item-content inset">
@@ -64,7 +70,9 @@
               v-for="button in actions"
               class="cursor-pointer column inline items-center justify-center"
               @click="close(button.handler)"
+              @keydown.enter="close(button.handler)"
               :class="button.classes"
+              tabindex="0"
             >
               <i v-if="button.icon">{{ button.icon }}</i>
               <img v-if="button.avatar" :src="button.avatar" class="avatar">
@@ -77,7 +85,9 @@
               v-for="button in actions"
               class="item item-link"
               @click="close(button.handler)"
+              @keydown.enter="close(button.handler)"
               :class="button.classes"
+              tabindex="0"
             >
               <i v-if="button.icon" class="item-primary">{{ button.icon}}</i>
               <img v-if="button.avatar" :src="button.avatar" class="item-primary">
@@ -93,7 +103,9 @@
         <div
           class="item item-link"
           @click="close()"
+          @keydown.enter="close()"
           :class="dismiss.classes"
+          tabindex="0"
         >
           <div class="item-content row justify-center">
             {{ dismiss.label }}

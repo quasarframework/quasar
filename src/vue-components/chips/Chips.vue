@@ -24,6 +24,7 @@
         @input="$emit('input', value)"
         :disabled="disable"
         :placeholder="placeholder"
+        tabindex="0"
       >
       <button class="small" @click="add()" :class="{invisible: !input.length}">
         <i>send</i>

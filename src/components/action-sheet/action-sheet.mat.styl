@@ -5,8 +5,9 @@ $action-sheet-hover-background ?= #d0d0d0
   > div
     padding $action-sheet-avatar-padding
     transition all .3s
-    &:hover
+    &:hover, &:focus
       background $action-sheet-hover-background
+      outline 0
   i, img
     font-size 2rem
     margin-bottom 5px
