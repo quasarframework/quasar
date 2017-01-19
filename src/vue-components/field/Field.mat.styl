@@ -135,7 +135,7 @@
           display block
           position absolute
           visibility hidden
-          bottom -2px
+          bottom -($textfield-border-size + 1)
           width 2px
           height $textfield-border-size + 1
           left 49%
@@ -181,7 +181,7 @@
         color $dark
         position relative
 
-      > .field-validate-msg  // (TODO: Multiple validate msgs)
+      > .field-validate-msg
         color $has-error !important
         opacity 0
         top 0
@@ -191,12 +191,15 @@
 // Layout Modifiers / CSS Flags
 // ----------------------------
 .field
+
   // Dense-vertical
+  //
   &.field-dense-vertical
     min-height  60px
     padding-top 2px
 
   // Dense-horizonal
+  //
   &.field-dense-horizontal
     > .field-icon:first-child
       margin-right 12px
