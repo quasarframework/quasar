@@ -10,10 +10,9 @@
 <script>
 export default {
   props: {
-    icon: {
-      type: String
-    }, 
+    icon: String,
     to: {
+      type: [Object, String],
       required: true
     }
   }
