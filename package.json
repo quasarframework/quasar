@@ -9,12 +9,11 @@
     "src"
   ],
   "scripts": {
-    "deploy": "bash build/shell.deploy.sh",
     "clean": "node build/script.clean.js",
     "dev": "node build/script.dev.js",
     "build": "node build/script.build.js",
     "lint": "eslint --ext .js,.vue src dev",
-    "edge": "npm run build simple && rm -rf deploy && mkdir deploy && cp -R dist src LICENSE package.json deploy && cp build/README-edge.md deploy/README.md && node_modules/git-directory-deploy/bin/git-directory-deploy.sh -ddeploy -bmaster -rgit@github.com:quasarframework/quasar-edge.git && rm -rf deploy"
+    "deploy": "npm run build simple && rm -rf deploy && mkdir deploy && cp -R dist src LICENSE package.json deploy && cp build/README-edge.md deploy/README.md && node_modules/git-directory-deploy/bin/git-directory-deploy.sh -ddeploy -bmaster -rgit@github.com:quasarframework/quasar-edge.git && rm -rf deploy"
   },
   "repository": {
     "type": "git",
