@@ -94,7 +94,9 @@ export default {
     },
     optModel () {
       /* Used by multiple selection only */
-      return this.options.map(opt => this.model.includes(opt.value))
+      if (this.multipleSelection) {
+        return this.options.map(opt => this.model.includes(opt.value))
+      }
     },
     multipleSelection () {
       return ['checkbox', 'toggle'].includes(this.type)
