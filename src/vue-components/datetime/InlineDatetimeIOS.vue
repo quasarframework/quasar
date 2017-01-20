@@ -436,7 +436,8 @@ export default {
     },
     __updateModel () {
       if (this.date) {
-        this.model = this.__normalizeValue(this.date).toISOString()
+        this.date = this.__normalizeValue(this.date)
+        this.model = this.date.toISOString()
       }
     }
   },
