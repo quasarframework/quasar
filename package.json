@@ -87,15 +87,15 @@
     "stylus": "^0.54.5",
     "stylus-loader": "^2.1.1",
     "url-loader": "^0.5.7",
-    "vue": "^2.1.6",
+    "vue": "^2.1.10",
     "vue-loader": "^10.0.0",
     "vue-router": "^2.0.0",
     "vue-style-loader": "^1.0.0",
-    "vue-template-compiler": "^2.1.6",
-    "webpack": "^2.1.0-beta.27",
+    "vue-template-compiler": "^2.1.10",
+    "webpack": "^2.2.0",
     "webpack-dev-middleware": "^1.8.4",
     "webpack-hot-middleware": "^2.13.2",
-    "webpack-merge": "^1.0.2"
+    "webpack-merge": "^2.4.0"
   },
   "peerDependencies": {
     "fastclick": "1.x",

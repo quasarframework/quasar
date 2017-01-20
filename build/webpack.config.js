@@ -95,7 +95,7 @@ module.exports = {
       },
       '__THEME': '"' + env.platform.theme + '"'
     }),
-    new webpack.NoErrorsPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'dev/index.html',
