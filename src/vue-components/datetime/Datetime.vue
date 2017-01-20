@@ -50,6 +50,8 @@
 import moment from 'moment'
 import Platform from '../../features/platform'
 import { current as theme } from '../../features/theme'
+import extend from '../../utils/extend'
+import { input as props } from './datetime-props'
 
 let contentCSS = {
   ios: {
@@ -65,43 +67,12 @@ let contentCSS = {
 }
 
 export default {
-  props: {
-    type: {
-      type: String,
-      default: 'date'
-    },
+  props: extend({
     value: {
       type: String,
       required: true
-    },
-    min: {
-      type: String,
-      default: ''
-    },
-    max: {
-      type: String,
-      default: ''
-    },
-    format: String,
-    noClear: Boolean,
-    clearLabel: {
-      type: String,
-      default: 'Clear'
-    },
-    okLabel: {
-      type: String,
-      default: 'Set'
-    },
-    cancelLabel: {
-      type: String,
-      default: 'Cancel'
-    },
-    label: String,
-    placeholder: String,
-    staticLabel: String,
-    readonly: Boolean,
-    disable: Boolean
-  },
+    }
+  }, props),
   data () {
     let data = Platform.is.desktop ? {} : {
       css: contentCSS[theme],
@@ -109,7 +80,7 @@ export default {
       transition: theme === 'ios' ? 'q-modal-bottom' : 'q-modal',
       classNames: theme === 'ios' ? '' : 'minimized'
     }
-    data.model = this.value || ''
+    data.model = this.value
     data.desktop = Platform.is.desktop
     return data
   },
@@ -170,7 +141,7 @@ export default {
       return value
     },
     __setModel () {
-      this.model = this.value || this.__normalizeValue(moment()).format(this.format)
+      this.model = this.value || this.__normalizeValue(moment(this.defaultSelection)).format(this.format)
     },
     __update () {
       this.$emit('input', this.model)
