@@ -112,3 +112,103 @@ export function cssTransform (val) {
   })
   return o
 }
+
+export function isParentId (el, id, stopSelector) {
+  let retval = null
+  while (el) {
+    if (el.id === id) {
+      retval = el.id
+      break
+    }
+    else if (stopSelector && el.matches(stopSelector)) {
+      break
+    }
+    el = el.parentElement
+  }
+  return retval
+}
+
+export function isClosest (el, selector, stopSelector) {
+  let retval = null
+  while (el) {
+    if (el.matches(selector)) {
+      retval = el
+      break
+    }
+    else if (stopSelector && el.matches(stopSelector)) {
+      break
+    }
+    el = el.parentElement
+  }
+  return retval
+}
+
+export function isSelfOrChild (el, target, stopSelector) {
+  let retval = null
+  while (el) {
+    if (el === target) {
+      retval = el
+      break
+    }
+    else if (stopSelector && el.matches(stopSelector)) {
+      break
+    }
+    el = el.parentElement
+  }
+  return retval
+}
+
+export function isScreenMediaSize (mediaSize, paramWidth) {
+  const
+    sm = 600,
+    md = 920,
+    bg = 1280,
+    lg = 9999
+  // debugger
+
+  let width = (paramWidth || viewport().width)
+  let isMedia
+
+  // console.log('mediaSize ' + mediaSize)
+  // console.log('width ' + width)
+
+  switch (mediaSize) {
+    case 'lt-sm':
+      isMedia = (width < sm)
+      break
+    case 'sm':
+      isMedia = (width >= sm && width < md)
+      break
+    case 'gt-sm':
+      isMedia = (width > sm)
+      break
+    case 'lt-md':
+      isMedia = (width < md)
+      break
+    case 'md':
+      isMedia = (width >= md && width < bg)
+      break
+    case 'gt-md':
+      isMedia = (width > md)
+      break
+    case 'lt-bg':
+      isMedia = (width < bg)
+      break
+    case 'bg':
+      isMedia = (width >= bg && width < lg)
+      break
+    case 'lt-lg':
+      isMedia = (width < lg)
+      break
+    case 'lg':
+      isMedia = (width >= lg)
+      break
+    case 'gt-lg':
+      isMedia = (width > lg)
+      break
+  }
+  // console.log('isMedia ' + isMedia)
+
+  return isMedia
+}
+

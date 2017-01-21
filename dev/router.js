@@ -28,6 +28,14 @@ let routes = [
       {path: 'tabs', component: load('test-layout/tabs')},
       {path: 'drawer', component: load('test-layout/drawer')}
     ]
+  },
+  {
+    path: '/test-navbar',
+    component: load('test-navbar/layout'),
+    children: [
+      {path: 'about', component: load('test-navbar/about')},
+      {path: 'layout', redirect: '/test-navbar/about'}
+    ]
   }
 ]
 
