@@ -20,6 +20,7 @@ export default {
       default: 'top left',
       validator: Utils.popup.positionValidator
     },
+    fit: Boolean,
     maxHeight: String,
     touchPosition: Boolean,
     anchorClick: {
@@ -93,10 +94,13 @@ export default {
       EscapeKey.register(() => { this.close() })
       this.scrollTarget = Utils.dom.getScrollTarget(this.anchorEl)
       this.scrollTarget.addEventListener('scroll', this.close)
+      if (this.fit) {
+        this.$el.style.minWidth = Utils.dom.width(this.anchorEl) + 'px'
+      }
+      this.__updatePosition(event)
       this.timer = setTimeout(() => {
         this.timer = null
         document.addEventListener('click', this.close, true)
-        this.__updatePosition(event)
         this.$emit('open')
       }, 1)
     },

@@ -8,7 +8,7 @@
     :value="actualValue"
     @keydown.native.enter="open"
   >
-    <q-popover ref="popover" :disable="disable || readonly">
+    <q-popover ref="popover" :disable="disable || readonly" fit>
       <div class="q-select-popover list highlight">
         <label v-if="type === 'radio'" v-for="radio in options" class="item" @click="close">
           <div class="item-primary">
