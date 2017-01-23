@@ -65,6 +65,7 @@ export default {
     },
     __updateCurrentSlide (value) {
       this.currentSlide = value
+      this.$emit('slide', value)
     }
   }
 }

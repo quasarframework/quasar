@@ -166,14 +166,12 @@ for $pos in 0..12
     top (((1 + sin($degree * 1deg)) * 100%) / 2)
     left (((1 + cos($degree * 1deg)) * 100%) / 2)
 
-.q-datetime-range
-  &.space-between
-    > div + div
-      margin-left $datetime-range-space
-  &.full-width
+.q-datetime-range.full-width
     display flex
     > div
       flex 1 1 auto
+    > div + div
+      margin-left $datetime-range-space
 
 @media (max-width $layout-medium-max)
   .q-datetime-ampm

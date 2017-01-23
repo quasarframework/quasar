@@ -47,6 +47,11 @@
         Time Range
       </p>
       <q-datetime-range type="time" v-model="second.range" :min="second.min" :max="second.max" />
+
+      <br>
+      <h5>Optional CSS</h5>
+      <p class="caption">CSS class 'full-width'</p>
+      <q-datetime-range class="full-width" type="time" v-model="second.range" :min="second.min" :max="second.max" />
     </div>
   </div>
 </template>
