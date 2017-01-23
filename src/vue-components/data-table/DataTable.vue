@@ -226,7 +226,7 @@ export default {
       this.pagination.page = 1
     },
     format (row, col) {
-      return col.format ? col.format(row[col.field]) : row[col.field]
+      return col.format ? col.format(row[col.field], row) : row[col.field]
     },
     refresh (state) {
       if (state === false) {
