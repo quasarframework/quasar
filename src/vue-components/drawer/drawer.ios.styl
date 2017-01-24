@@ -4,20 +4,9 @@ $drawer-icon-font-size   ?= 1.8rem
 $drawer-background       ?= white
 $drawer-header-font-size ?= .9rem
 
-body.drawer-opened
-  overflow-x hidden !important
-
-.drawer
-  position relative
-  .list
-    margin 0
-
 .drawer-backdrop
   display none
-  height 100vh
   z-index $z-drawer
-  &.active
-    display block
 
 .drawer-opener
   z-index ($z-marginals + 1)
@@ -25,6 +14,8 @@ body.drawer-opened
   width 15px
 
 .drawer-content
+  z-index $z-drawer
+  position fixed
   background $drawer-background
   top 0
   bottom 0
@@ -36,8 +27,10 @@ body.drawer-opened
 
   &.left-side
     left 0
+    transform translateX(- $drawer-width)
   &.right-side
     right 0
+    transform translateX($drawer-width)
 
 body
   &.cordova.platform-ios, &.demo-site.within-iframe
@@ -51,7 +44,6 @@ body
   position relative
   margin-bottom 8px
   padding 16px
-  background-size 100% 100%, cover
   font-size $drawer-header-font-size
 
   > img
@@ -73,29 +65,24 @@ body
     margin-bottom 25px
     border-radius 50%
 
-swipe-behavior()
-  .drawer-content
-    z-index $z-drawer
-    position fixed
-    &.left-side
-      transform translateX(- $drawer-width)
-    &.right-side
-      transform translateX($drawer-width)
-
-@media screen and (max-width: $layout-medium-max)
-  swipe-behavior()
+.drawer
+  position relative
+  .list
+    margin 0
+  &.active
+    .drawer-backdrop
+      display block
+    .drawer-opener
+      display none
 
 @media screen and (min-width: $layout-big-min)
   .hide-on-drawer-visible
     display none !important
-  .drawer
-    &.swipe-only
-      swipe-behavior()
-    &:not(.swipe-only)
-      flex 0 0 $drawer-width
-
-      .drawer-content
-        left 0
-        right 0
-        position absolute !important
-        transform translateX(0) !important
+  .drawer:not(.active):not(.swipe-only)
+    flex 0 0 $drawer-width
+    .drawer-content
+      z-index inherit
+      left 0
+      right 0
+      position absolute !important
+      transform translateX(0) !important
