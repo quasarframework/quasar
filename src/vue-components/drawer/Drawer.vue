@@ -72,6 +72,9 @@ export default {
         complete = () => {
           if (!this.opened) {
             backdrop.classList.remove('active')
+            if (this.$quasar.theme === 'ios') {
+              document.body.classList.remove('with-drawer-opened')
+            }
           }
           else {
             window.addEventListener('resize', this.close)
@@ -83,6 +86,9 @@ export default {
 
       if (this.$quasar.theme === 'ios') {
         finalPos = this.opened ? (this.rightSide ? -1 : 1) * this.width : 0
+        if (this.opened) {
+          document.body.classList.add('with-drawer-opened')
+        }
       }
       else {
         finalPos = this.opened ? 0 : (this.rightSide ? 1 : -1) * this.width
@@ -265,6 +271,9 @@ export default {
     })
   },
   beforeDestroy () {
+    if (this.opened && this.$quasar.theme === 'ios') {
+      document.body.classList.remove('with-drawer-opened')
+    }
     this.setState(false)
   }
 }

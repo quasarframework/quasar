@@ -22,11 +22,6 @@ $toolbar-padding           ?= 4px 10px
 .layout-footer > .toolbar
   border-top $layout-border
 
-body.desktop
-  .layout-header, .layout-footer
-    button:hover i
-      animation q-rotate .25s ease-out
-
 .layout-content
   display flex
   flex 1 1 auto
@@ -135,11 +130,17 @@ body.desktop
     > div
       text-align right
 
-body.cordova.platform-ios .layout-header > .toolbar:first-child
-  padding-top 20px
-  min-height ($layout-toolbar-min-height + 20px)
-  .toolbar-title
-    padding-top 20px
+body
+  &.desktop
+    .layout-header, .layout-footer
+      button:hover i
+        animation q-rotate .25s ease-out
+  &.cordova.platform-ios, &.demo-site.within-iframe
+    .layout-header > .toolbar:first-child
+      padding-top $ios-statusbar-height
+      min-height ($layout-toolbar-min-height + $ios-statusbar-height)
+      .toolbar-title
+        padding-top $ios-statusbar-height
 
 .layout-padding
   @media only screen and (max-width $layout-small-max)

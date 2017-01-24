@@ -122,7 +122,6 @@ export default {
         throw new Error('Modal cannot be minimized & maximized simultaneously.')
       }
       if (this.active) {
-        onShow && onShow()
         return
       }
 
@@ -193,7 +192,6 @@ export default {
     },
     close (onClose) {
       if (!this.active) {
-        onClose && onClose()
         return
       }
 

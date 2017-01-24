@@ -39,6 +39,13 @@ body.drawer-opened
   &.right-side
     right 0
 
+body
+  &.cordova.platform-ios, &.demo-site.within-iframe
+    .drawer-content
+      padding-top $ios-statusbar-height
+  &.with-drawer-opened
+    overflow hidden
+
 .drawer-header
   overflow hidden
   position relative
