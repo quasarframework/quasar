@@ -1,5 +1,5 @@
 $layout-border             ?= 1px solid $toolbar-faded-color
-$layout-toolbar-min-height ?= 45px
+$layout-toolbar-min-height ?= 48px
 $toolbar-title-font-size   ?= .95rem
 $toolbar-padding           ?= 4px 10px
 
@@ -14,12 +14,10 @@ $toolbar-padding           ?= 4px 10px
   display flex
   flex-direction column
 
-.layout-header > .toolbar
+.layout-header
   border-bottom $layout-border
-  &:first-child
-    align-items end
 
-.layout-footer > .toolbar
+.layout-footer
   border-top $layout-border
 
 .layout-content
