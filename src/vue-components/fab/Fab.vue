@@ -18,6 +18,13 @@
 import Utils from '../../utils'
 import Platform from '../../features/platform'
 
+function iosFixNeeded (el) {
+  if (Platform.is.mobile && Platform.is.ios) {
+    const style = window.getComputedStyle(el)
+    return ['fixed', 'absolute'].includes(style.position)
+  }
+}
+
 export default {
   props: {
     classNames: {
@@ -42,7 +49,8 @@ export default {
       backdrop: {
         top: 0,
         left: 0
-      }
+      },
+      mounted: false
     }
   },
   methods: {
@@ -58,7 +66,8 @@ export default {
     },
     toggle (fromBackdrop) {
       this.opened = !this.opened
-      if (this.opened) {
+
+      if (iosFixNeeded(this.$el)) {
         this.__repositionBackdrop()
       }
 
@@ -67,16 +76,19 @@ export default {
       }
     },
     __repositionBackdrop () {
-      if (Platform.is.mobile && Platform.is.ios) {
-        const {top, left} = Utils.dom.offset(this.$el)
-        this.backdrop.top = top
-        this.backdrop.left = left
-      }
+      const {top, left} = Utils.dom.offset(this.$el)
+      this.backdrop.top = top
+      this.backdrop.left = left
     }
+  },
+  mounted () {
+    this.$nextTick(() => {
+      this.mounted = true
+    })
   },
   computed: {
     backdropPosition () {
-      if (Platform.is.mobile && Platform.is.ios) {
+      if (this.mounted && iosFixNeeded(this.$el)) {
         return Utils.dom.cssTransform(`translate3d(${-this.backdrop.left}px, ${-this.backdrop.top}px, 0)`)
       }
     }
