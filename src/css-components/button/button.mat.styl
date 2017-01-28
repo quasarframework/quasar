@@ -102,7 +102,9 @@ button
   for $name, $color in $colors
     &.{$name}
       background $color
-      text-shadow 0 0 2px black
+      
+      //Material guidelines does not show text-shadow in buttons
+      //text-shadow 0 0 2px black
 
       if $name != 'light' && $name != 'white'
         color white
