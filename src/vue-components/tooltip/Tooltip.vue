@@ -77,6 +77,13 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
+      /*
+        The following is intentional.
+        Fixes a bug in Chrome regarding offsetHeight by requiring browser
+        to calculate this before removing from DOM and using it for first time.
+      */
+      this.$el.offsetHeight
+
       this.anchorEl = this.$el.parentNode
       this.anchorEl.removeChild(this.$el)
       this.anchorEl.addEventListener('mouseenter', this.open)
