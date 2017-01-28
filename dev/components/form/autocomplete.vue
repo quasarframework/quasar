@@ -88,7 +88,7 @@ export default {
     search (terms, done) {
       setTimeout(() => {
         done(Utils.filter(terms, {field: 'value', list: parseCountries()}))
-      }, 1000)
+      }, 500)
     },
     selected (item) {
       Toast.create(`Selected suggestion "${item.label}"`)
