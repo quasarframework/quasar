@@ -2,10 +2,8 @@
   <div
     class="q-range non-selectable"
     :class="{disabled: disable}"
-    @mousedown.prevent="__setActive"
-    @touchstart.prevent="__setActive"
-    @touchend.prevent="__end"
-    @touchmove.prevent="__update"
+    @click="__click"
+    v-touch-pan.horizontal="__pan"
   >
     <div ref="handle" class="q-range-handle-container">
       <div class="q-range-track"></div>
@@ -37,7 +35,6 @@
 
 <script>
 import Utils from '../../utils'
-import Platform from '../../features/platform'
 
 export default {
   props: {
@@ -103,11 +100,28 @@ export default {
     }
   },
   methods: {
-    __setActive (event) {
+    __pan (event) {
       if (this.disable) {
         return
       }
-
+      if (event.isFinal) {
+        this.__end(event.evt)
+      }
+      else if (event.isFirst) {
+        this.__setActive(event.evt)
+      }
+      else {
+        this.__update(event.evt)
+      }
+    },
+    __click (event) {
+      if (this.disable) {
+        return
+      }
+      this.__setActive(event)
+      this.__end(event)
+    },
+    __setActive (event) {
       let container = this.$refs.handle
 
       this.dragging = {
@@ -117,10 +131,6 @@ export default {
       this.__update(event)
     },
     __update (event) {
-      if (!this.dragging) {
-        return
-      }
-
       let
         percentage = Utils.format.between((Utils.event.position(event).left - this.dragging.left) / this.dragging.width, 0, 1),
         model = this.min + percentage * (this.max - this.min),
@@ -144,16 +154,6 @@ export default {
   },
   created () {
     this.__validateProps()
-    if (Platform.is.desktop) {
-      document.body.addEventListener('mousemove', this.__update)
-      document.body.addEventListener('mouseup', this.__end)
-    }
-  },
-  beforeDestroy () {
-    if (Platform.is.dekstop) {
-      document.body.removeEventListener('mousemove', this.__update)
-      document.body.removeEventListener('mouseup', this.__end)
-    }
   }
 }
 </script>

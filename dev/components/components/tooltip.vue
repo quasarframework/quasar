@@ -16,30 +16,31 @@
         &nbsp;
         <q-tooltip>Quasar Rulz!</q-tooltip>
       </div>
-      <br><br>
+
+      <p class="caption">With offset</p>
       <div class="group">
         <button class="indigo">
           Hover
           <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, -10]">
-            Tooltip on Top (<i>keyboard_arrow_up</i>)
+            <strong>Tooltip</strong> on <em>top</em> (<i>keyboard_arrow_up</i>)
           </q-tooltip>
         </button>
         <button class="red">
           Over
           <q-tooltip anchor="center right" self="center left" :offset="[10, 0]">
-            Tooltip on Right (<i>keyboard_arrow_right</i>)
+            <strong>Tooltip</strong> on <em>right</em> (<i>keyboard_arrow_right</i>)
           </q-tooltip>
         </button>
         <button class="purple">
           These
           <q-tooltip anchor="center left" self="center right" :offset="[-10, 0]">
-            Tooltip on Left (<i>keyboard_arrow_left</i>)
+            <strong>Tooltip</strong> on <em>left</em> (<i>keyboard_arrow_left</i>)
           </q-tooltip>
         </button>
         <button class="amber">
           Buttons
           <q-tooltip anchor="bottom middle" self="top middle" :offset="[0, 10]">
-            Tooltip on Bottom (<i>keyboard_arrow_down</i>)
+            <strong>Tooltip</strong> on <em>bottom</em> (<i>keyboard_arrow_down</i>)
           </q-tooltip>
         </button>
       </div>
