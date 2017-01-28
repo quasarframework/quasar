@@ -1,13 +1,13 @@
 <template>
   <div class="q-collapsible">
-    <div class="item item-link non-selectable item-collapsible" @click="__toggleItem()">
+    <div class="item item-link non-selectable item-collapsible" @click="__toggleItem">
       <i class="item-primary" v-if="icon" v-text="icon"></i>
       <img class="item-primary thumbnail" v-if="img" :src="img"></i>
       <img class="item-primary" v-if="avatar" :src="avatar"></i>
       <div class="item-content has-secondary">
         <div>{{ label }}</div>
       </div>
-      <i class="item-secondary" :class="{'rotate-180': active}" @click.stop="toggle()">keyboard_arrow_down</i>
+      <i class="item-secondary" :class="{'rotate-180': active}" @click.stop="toggle">keyboard_arrow_down</i>
     </div>
     <q-transition name="slide">
       <div class="q-collapsible-sub-item" v-show="active">
