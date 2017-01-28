@@ -140,51 +140,32 @@
           </div>
         </div>
 
-        <br><br>
-        <span>
-          <img ref="target3" src="~assets/map.png" class="responsive">
-          <q-popover anchor-ref="target3" ref="popover3" touch-position>
-            <div class="list highlight" style="min-width: 200px; max-height: 300px;">
-              <div
-                class="item item-link item-delimiter"
-                v-for="n in 20"
-                @click="showToast(), $refs.popover3.close()"
-              >
-                <i class="item-primary">share</i>
-                <div class="item-content">
-                  Share
-                </div>
-              </div>
-            </div>
-          </q-popover>
-        </span>
-
         <div style="margin-bottom: 700px;"></div>
 
-        <button class="secondary absolute-top-right" style="top: 10px; right: 10px; right: 16px;">
+        <button class="secondary fixed-top-right" style="top: 65px; right: 10px; right: 16px;">
           <i>directions</i>
 
-          <q-popover ref="popover5">
+          <q-popover ref="popover3">
             <img
               src="~assets/map.png"
               style="height: 150px; width: 200px;"
-              @click="showToast(), $refs.popover5.close()"
+              @click="showToast(), $refs.popover3.close()"
             >
           </q-popover>
         </button>
 
-        <button class="tertiary absolute-bottom-right" style="bottom: 10px; right: 16px;">
+        <button class="tertiary fixed-bottom-right" style="bottom: 10px; right: 16px;">
           <i>plus_one</i>
 
-          <q-popover ref="popover6">
+          <q-popover ref="popover4">
             <div class="group" style="width: 200px; height: 50px; text-align: center;">
-              <button class="primary clear" @click="showToast(), $refs.popover6.close()">
+              <button class="primary clear" @click="showToast(), $refs.popover4.close()">
                 <i>thumb_up</i>
               </button>
-              <button class="primary clear" @click="showToast(), $refs.popover6.close()">
+              <button class="primary clear" @click="showToast(), $refs.popover4.close()">
                 <i>thumb_down</i>
               </button>
-              <button class="secondary clear" @click="showToast(), $refs.popover6.close()">
+              <button class="secondary clear" @click="showToast(), $refs.popover4.close()">
                 <i>share</i>
               </button>
             </div>
@@ -192,15 +173,15 @@
         </button>
       </div>
 
-      <button class="primary absolute-bottom-left" style="bottom: 10px; left: 10px;">
+      <button class="primary fixed-bottom-left" style="bottom: 10px; left: 10px;">
         <i>menu</i>
 
-        <q-popover ref="popover7">
+        <q-popover ref="popover5">
           <div class="list highlight" style="min-width: 150px">
             <div
               class="item item-link two-lines item-delimiter"
               v-for="n in 20"
-              @click="showToast(), $refs.popover7.close()"
+              @click="showToast(), $refs.popover5.close()"
               >
               <div class="item-content">
                 <div>Label</div>
