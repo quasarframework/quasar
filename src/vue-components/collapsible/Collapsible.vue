@@ -18,6 +18,9 @@
 </template>
 
 <script>
+import Events from '../../features/events'
+const eventName = 'q:collapsible:close'
+
 export default {
   props: {
     opened: Boolean,
@@ -38,10 +41,8 @@ export default {
       this.active = value
     },
     active (value) {
-      if (value && this.group && this.group.length > 0) {
-        this.$parent.$children.filter(c => c !== this && c.group && c.group === this.group).forEach(c => {
-          c.close()
-        })
+      if (value && this.group) {
+        Events.$emit(eventName, this)
       }
     }
   },
@@ -59,7 +60,18 @@ export default {
       if (!this.iconToggle) {
         this.toggle()
       }
+    },
+    __eventHandler (comp) {
+      if (this.group && this !== comp && comp.group === this.group) {
+        this.close()
+      }
     }
+  },
+  created () {
+    Events.$on(eventName, this.__eventHandler)
+  },
+  beforeDestroy () {
+    Events.$off(eventName, this.__eventHandler)
   }
 }
 </script>
