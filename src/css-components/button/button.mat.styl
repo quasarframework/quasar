@@ -102,12 +102,9 @@ button
   for $name, $color in $colors
     &.{$name}
       background $color
-      text-shadow 0 0 2px black
 
       if $name != 'light' && $name != 'white'
         color white
-      else
-        text-shadow none
 
       &:active:not(.disabled)
         background active-color($color) !important
@@ -138,7 +135,6 @@ button
 
   &.clear, &.outline
     background transparent
-    text-shadow none
     &:active:not(.disabled)
       color white
 
