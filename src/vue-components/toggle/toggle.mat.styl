@@ -24,7 +24,7 @@ $toggle-area-active-left = ($toggle-width - $toggle-handle-size)
     position absolute
     top 0
     bottom 0
-    left (.185 * $toggle-handle-size)
+    left (.25 * $toggle-handle-size)
     transition all .3s ease
 
   div
@@ -60,7 +60,7 @@ $toggle-area-active-left = ($toggle-width - $toggle-handle-size)
 
   input:checked ~ i
     color white
-    transform translateX($toggle-area-active-left)
+    transform translateX(($toggle-area-active-left - 1.6px))
 
 
   for $name, $color in $colors
