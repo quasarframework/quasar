@@ -59,6 +59,20 @@ export default {
       }
       this.opened = true
       document.body.appendChild(this.$el)
+      this.scrollTarget = Utils.dom.getScrollTarget(this.anchorEl)
+      this.scrollTarget.addEventListener('scroll', this.close)
+      window.addEventListener('resize', this.__debouncedUpdatePosition)
+      this.__updatePosition()
+    },
+    close () {
+      if (this.opened) {
+        this.opened = false
+        this.scrollTarget.removeEventListener('scroll', this.close)
+        window.removeEventListener('resize', this.__debouncedUpdatePosition)
+        document.body.removeChild(this.$el)
+      }
+    },
+    __updatePosition () {
       Utils.popup.setPosition({
         el: this.$el,
         offset: this.offset,
@@ -67,13 +81,12 @@ export default {
         selfOrigin: this.selfOrigin,
         maxHeight: this.maxHeight
       })
-    },
-    close () {
-      if (this.opened) {
-        this.opened = false
-        document.body.removeChild(this.$el)
-      }
     }
+  },
+  created () {
+    this.__debouncedUpdatePosition = Utils.debounce(() => {
+      this.__updatePosition()
+    }, 70)
   },
   mounted () {
     this.$nextTick(() => {

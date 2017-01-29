@@ -54,6 +54,11 @@ export default {
       return Utils.popup.parsePosition(this.self)
     }
   },
+  created () {
+    this.__debouncedUpdatePosition = Utils.debounce(() => {
+      this.__updatePosition()
+    }, 70)
+  },
   mounted () {
     this.$nextTick(() => {
       this.anchorEl = this.$el.parentNode
@@ -94,6 +99,7 @@ export default {
       EscapeKey.register(() => { this.close() })
       this.scrollTarget = Utils.dom.getScrollTarget(this.anchorEl)
       this.scrollTarget.addEventListener('scroll', this.close)
+      window.addEventListener('resize', this.__debouncedUpdatePosition)
       if (this.fit) {
         this.$el.style.minWidth = Utils.dom.width(this.anchorEl) + 'px'
       }
@@ -112,6 +118,7 @@ export default {
       clearTimeout(this.timer)
       document.removeEventListener('click', this.close, true)
       this.scrollTarget.removeEventListener('scroll', this.close)
+      window.removeEventListener('resize', this.__debouncedUpdatePosition)
       EscapeKey.pop()
       this.progress = true
 
