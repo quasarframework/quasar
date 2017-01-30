@@ -130,7 +130,7 @@ export default {
 
       let options = Utils.clone(this.options)
 
-      if (this.filtering) {
+      if (this.filtering.terms) {
         options = this.filter(options)
       }
 
@@ -150,7 +150,8 @@ export default {
       let index = this.model.indexOf(value)
       if (index >= 0) {
         this.model.splice(index, 1)
-      } else {
+      }
+      else {
         this.model.push(value)
       }
     },
