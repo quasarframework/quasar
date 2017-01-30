@@ -1,8 +1,18 @@
 <template>
-  <label class="q-checkbox" :class="{disabled: disable}">
-    <input type="checkbox" v-model="model" :disabled="disable">
+  <span
+    class="q-checkbox cursor-pointer"
+    :class="{disabled: disable}"
+    @click.stop.prevent="toggle"
+  >
+    <input
+      type="checkbox"
+      v-model="model"
+      :disabled="disable"
+      @click.stop
+      @change="__change"
+    >
     <div></div>
-  </label>
+  </span>
 </template>
 
 <script>
@@ -21,6 +31,18 @@ export default {
       },
       set (value) {
         this.$emit('input', value)
+      }
+    }
+  },
+  methods: {
+    toggle () {
+      if (!this.disable) {
+        this.model = !this.model
+      }
+    },
+    __change (e) {
+      if (this.$quasar.platform.is.ios) {
+        this.toggle()
       }
     }
   }

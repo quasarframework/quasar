@@ -1,13 +1,20 @@
 <template>
-  <label
-    class="q-toggle"
+  <span
+    class="q-toggle cursor-pointer"
     :class="{disabled: disable}"
-    v-touch-swipe.horizontal="__toggle"
+    v-touch-swipe.horizontal="__swipe"
+    @click.stop.prevent="toggle"
   >
-    <input type="checkbox" v-model="model" :disabled="disable">
+    <input
+      type="checkbox"
+      v-model="model"
+      :disabled="disable"
+      @click.stop
+      @change="__change"
+    >
     <div></div>
     <i v-if="icon">{{ icon }}</i>
-  </label>
+  </span>
 </template>
 
 <script>
@@ -26,12 +33,24 @@ export default {
         return this.value
       },
       set (value) {
-        this.$emit('input', value)
+        if (value !== this.value) {
+          this.$emit('input', value)
+        }
       }
     }
   },
   methods: {
-    __toggle (evt) {
+    toggle () {
+      if (!this.disable) {
+        this.model = !this.model
+      }
+    },
+    __change (e) {
+      if (this.$quasar.platform.is.ios) {
+        this.toggle()
+      }
+    },
+    __swipe (evt) {
       if (!this.disable) {
         if (this.model && evt.direction === 'left') {
           this.model = false

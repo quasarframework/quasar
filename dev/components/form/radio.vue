@@ -7,17 +7,18 @@
 
       <p class="caption">Standalone</p>
       <div class="column group">
+        <q-radio v-model="option" val="opt1" style="margin-bottom: 15px"></q-radio>
         <label>
-          <q-radio v-model="option" val="opt1"></q-radio>
-          Option 1
-        </label>
-        <label>
-          <q-radio v-model="option" val="opt2" class="teal"></q-radio>
+          <q-radio v-model="option" val="opt2"></q-radio>
           Option 2
         </label>
         <label>
-          <q-radio v-model="option" val="opt3" class="orange"></q-radio>
+          <q-radio v-model="option" val="opt3" class="teal"></q-radio>
           Option 3
+        </label>
+        <label>
+          <q-radio v-model="option" val="opt4" class="orange"></q-radio>
+          Option 4
         </label>
       </div>
 

@@ -7,6 +7,7 @@
 
       <p class="caption">Standalone</p>
       <div class="column group">
+        <q-checkbox v-model="checked" style="margin-bottom: 15px"></q-checkbox>
         <label>
           <q-checkbox v-model="checked"></q-checkbox>
           Checkbox Label

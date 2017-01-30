@@ -7,6 +7,7 @@
 
       <p class="caption">Standalone</p>
       <div class="column group">
+        <q-toggle v-model="checked" style="margin-bottom: 15px"></q-toggle>
         <label>
           <q-toggle v-model="checked"></q-toggle>
           Toggle Label
