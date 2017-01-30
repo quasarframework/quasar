@@ -66,6 +66,9 @@ export default {
         .map(option => option.label)
 
       return !options.length ? '' : options.join(', ')
+    },
+    multipleSelection () {
+      return ['checkbox', 'toggle'].includes(this.type)
     }
   },
   methods: {
@@ -74,28 +77,26 @@ export default {
         return
       }
 
-      let
-        self = this,
-        options = this.options.map(option => {
-          return {
-            value: option.value,
-            label: option.label,
-            model: this.value.includes(option.value)
-          }
-        })
+      let options = this.options.map(option => {
+        return {
+          value: option.value,
+          label: option.label,
+          model: this.multipleSelection ? this.value.includes(option.value) : this.value === option.value
+        }
+      })
 
       Dialog.create({
-        title: self.title,
-        message: self.message,
+        title: this.title,
+        message: this.message,
         form: {
-          select: {type: self.type, model: self.value, items: options}
+          select: {type: this.type, model: this.value, items: options}
         },
         buttons: [
-          self.cancelLabel,
+          this.cancelLabel,
           {
-            label: self.okLabel,
-            handler (data) {
-              self.$emit('input', data.select)
+            label: this.okLabel,
+            handler: data => {
+              this.$emit('input', data.select)
             }
           }
         ]

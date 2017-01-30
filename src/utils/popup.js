@@ -131,6 +131,7 @@ export function getTransformProperties ({selfOrigin}) {
 
 export function setPosition ({el, anchorEl, anchorOrigin, selfOrigin, maxHeight, event, anchorClick, touchPosition, offset}) {
   let anchor
+  el.style.maxHeight = this.maxHeight || window.innerHeight * 0.9 + 'px'
 
   if (event && (!anchorClick || touchPosition)) {
     const {top, left} = eventPosition(event)
@@ -150,7 +151,6 @@ export function setPosition ({el, anchorEl, anchorOrigin, selfOrigin, maxHeight,
 
   el.style.top = Math.max(0, targetPosition.top) + 'px'
   el.style.left = Math.max(0, targetPosition.left) + 'px'
-  el.style.maxHeight = this.maxHeight || window.innerHeight * 0.9 + 'px'
 }
 
 export function positionValidator (pos) {

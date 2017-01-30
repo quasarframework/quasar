@@ -102,12 +102,9 @@ button
   for $name, $color in $colors
     &.{$name}
       background $color
-      text-shadow 0 0 2px black
 
       if $name != 'light' && $name != 'white'
         color white
-      else
-        text-shadow none
 
       &:active:not(.disabled)
         background active-color($color) !important
@@ -138,7 +135,6 @@ button
 
   &.clear, &.outline
     background transparent
-    text-shadow none
     &:active:not(.disabled)
       color white
 
@@ -163,17 +159,21 @@ button
 
 body.desktop button
   &.raised
-    &:hover:not(.disabled)
-      box-shadow $shadow-3
+    &:not(.disabled)
+      &:hover, &:focus
+        box-shadow $shadow-3
 
   for $name, $color in $colors
     &.{$name}:not(.disabled)
-      &:hover:not(.clear)
-        background hover-color($color)
-        &:not(.push)
-          box-shadow $button-box-shadow
-      &.clear:hover
-        background lighten($color, 70%)
+      &:not(.clear)
+        &:hover, &:focus
+          background hover-color($color)
+          &:not(.push)
+            box-shadow $button-box-shadow
+      &.clear
+        &:hover, &:focus
+          background lighten($color, 70%)
 
-  &.outline:hover
-    color white
+  &.outline
+    &:hover, &:focus
+      color white

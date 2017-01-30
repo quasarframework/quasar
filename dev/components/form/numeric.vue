@@ -1,11 +1,17 @@
 <template>
   <div>
     <div class="layout-padding">
+
+      <p class="caption">Default (no min-max)</p>
+      <div style="margin-bottom: 25px">
+        <q-numeric v-model="freeNumber"></q-numeric>
+      </div>
+
       <div class="label bg-secondary text-white">
         Model <span class="right-detail"><em>{{number}}</em> &nbsp;&nbsp;({{min}}-{{max}})</span>
       </div>
 
-      <p class="caption">Default</p>
+      <p class="caption">Default (with min-max)</p>
       <q-numeric v-model="number" :min="min" :max="max"></q-numeric>
 
       <p class="caption">With Step 4</p>
@@ -49,10 +55,11 @@
 export default {
   data () {
     return {
+      freeNumber: undefined,
       number: 3,
-      numberPrecision: 5.15,
-      min: 1,
-      max: 1017
+      numberPrecision: 5.2,
+      min: 2,
+      max: 117
     }
   }
 }

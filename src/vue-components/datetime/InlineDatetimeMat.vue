@@ -200,6 +200,7 @@
 
 <script>
 import moment from 'moment'
+import { inline as props } from './datetime-props'
 import Utils from '../../utils'
 
 function convertToAmPm (hour) {
@@ -207,29 +208,7 @@ function convertToAmPm (hour) {
 }
 
 export default {
-  props: {
-    value: {
-      type: String,
-      required: true
-    },
-    type: {
-      type: String,
-      default: 'date',
-      validator (value) {
-        return ['date', 'time', 'datetime'].includes(value)
-      }
-    },
-    min: {
-      type: String,
-      default: ''
-    },
-    max: {
-      type: String,
-      default: ''
-    },
-    readonly: Boolean,
-    disable: Boolean
-  },
+  props,
   data () {
     let view
 
@@ -553,7 +532,8 @@ export default {
     },
     __updateModel () {
       if (this.date) {
-        this.model = this.__normalizeValue(this.date).toISOString()
+        this.date = this.__normalizeValue(this.date)
+        this.model = this.date.toISOString()
       }
     }
   }

@@ -119,11 +119,9 @@ body.desktop .q-datetime-col-wrapper
       padding 0 6px
       text-align center
 
-.q-datetime-range
-  &.space-between
-    > div + div
-      margin-left $datetime-range-space
-  &.full-width
+.q-datetime-range.full-width
     display flex
     > div
       flex 1 1 auto
+    > div + div
+      margin-left $datetime-range-space

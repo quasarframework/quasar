@@ -12,6 +12,9 @@ export default {
       type: Boolean,
       required: true
     }
+  },
+  beforeCreate () {
+    console.warn('[Quasar] State component has been deprecated and will be soon removed. Use Vue v-if directive instead.')
   }
 }
 </script>

@@ -20,6 +20,7 @@ export default {
       default: 'top left',
       validator: Utils.popup.positionValidator
     },
+    fit: Boolean,
     maxHeight: String,
     touchPosition: Boolean,
     anchorClick: {
@@ -52,6 +53,11 @@ export default {
     selfOrigin () {
       return Utils.popup.parsePosition(this.self)
     }
+  },
+  created () {
+    this.__debouncedUpdatePosition = Utils.debounce(() => {
+      this.__updatePosition()
+    }, 70)
   },
   mounted () {
     this.$nextTick(() => {
@@ -93,10 +99,14 @@ export default {
       EscapeKey.register(() => { this.close() })
       this.scrollTarget = Utils.dom.getScrollTarget(this.anchorEl)
       this.scrollTarget.addEventListener('scroll', this.close)
+      window.addEventListener('resize', this.__debouncedUpdatePosition)
+      if (this.fit) {
+        this.$el.style.minWidth = Utils.dom.width(this.anchorEl) + 'px'
+      }
+      this.__updatePosition(event)
       this.timer = setTimeout(() => {
         this.timer = null
         document.addEventListener('click', this.close, true)
-        this.__updatePosition(event)
         this.$emit('open')
       }, 1)
     },
@@ -108,6 +118,7 @@ export default {
       clearTimeout(this.timer)
       document.removeEventListener('click', this.close, true)
       this.scrollTarget.removeEventListener('scroll', this.close)
+      window.removeEventListener('resize', this.__debouncedUpdatePosition)
       EscapeKey.pop()
       this.progress = true
 

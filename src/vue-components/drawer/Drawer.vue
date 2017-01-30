@@ -1,5 +1,5 @@
 <template>
-  <div class="drawer" :class="{'left-side': !rightSide, 'right-side': rightSide}">
+  <div class="drawer" :class="{'left-side': !rightSide, 'right-side': rightSide, active: active, 'swipe-only': swipeOnly}">
     <div
       class="drawer-opener touch-only mobile-only"
       v-touch-pan.horizontal="__openByTouch"
@@ -26,20 +26,26 @@
 
 <script>
 import Utils from '../../utils'
-import Platform from '../../features/platform'
-
-const backdropOpacity = {mat: 0.7, ios: 0.2}
+import { current as theme } from '../../features/theme'
 
 export default {
   props: {
-    'right-side': Boolean,
-    'swipe-only': Boolean
+    rightSide: Boolean,
+    swipeOnly: Boolean,
+    backdropOpacity: {
+      type: Number,
+      validator (v) {
+        return v >= 0 && v <= 1
+      },
+      default: theme === 'ios' ? 0.2 : 0.7
+    }
   },
   data () {
     return {
+      active: false,
       opened: false,
       nodePosition: 0,
-      backPosition: 0.01,
+      backPosition: 0,
       nodeAnimUid: Utils.uid(),
       backAnimUid: Utils.uid()
     }
@@ -59,22 +65,22 @@ export default {
       return {background: `rgba(0,0,0,${this.backPosition})`}
     }
   },
+  watch: {
+    active (val) {
+      document.body.classList[val ? 'add' : 'remove']('with-drawer-opened')
+    }
+  },
   methods: {
     __animate (done) {
       let finalPos
-      const
-        backdrop = this.$refs.backdrop,
-        complete = () => {
-          if (!this.opened) {
-            backdrop.classList.remove('active')
-          }
-          else {
-            window.addEventListener('resize', this.close)
-          }
-          if (typeof done === 'function') {
-            done()
-          }
+      const complete = () => {
+        if (!this.opened) {
+          this.active = false
         }
+        if (typeof done === 'function') {
+          done()
+        }
+      }
 
       if (this.$quasar.theme === 'ios') {
         finalPos = this.opened ? (this.rightSide ? -1 : 1) * this.width : 0
@@ -84,8 +90,8 @@ export default {
       }
 
       if (this.opened) {
-        backdrop.classList.add('active')
-        if (Platform.has.popstate) {
+        this.active = true
+        if (this.$quasar.platform.has.popstate) {
           if (!window.history.state) {
             window.history.replaceState({__quasar_drawer: true}, '')
           }
@@ -100,8 +106,7 @@ export default {
         }
       }
       else {
-        window.removeEventListener('resize', this.close)
-        if (Platform.has.popstate) {
+        if (this.$quasar.platform.has.popstate) {
           window.removeEventListener('popstate', this.__popState)
           if (window.history.state && !window.history.state.__quasar_drawer) {
             window.history.go(-1)
@@ -112,7 +117,7 @@ export default {
       Utils.animate({
         name: this.backAnimUid,
         pos: this.backPosition,
-        finalPos: this.opened ? backdropOpacity[this.$quasar.theme] : 0.01,
+        finalPos: this.opened ? this.backdropOpacity : 0,
         apply: (pos) => {
           this.backPosition = pos
         },
@@ -128,25 +133,19 @@ export default {
         done: complete
       })
     },
-    __openByTouch (event) {
-      // interferes with browser's back/forward swipe feature
-      if (Platform.is.ios) {
-        return
-      }
+    __openByTouch (evt) {
+      const content = this.$refs.content
 
-      const
-        content = this.$refs.content,
-        backdrop = this.$refs.backdrop
-
-      if (Utils.dom.style(content, 'position') !== 'fixed') {
+      // on iOS platform it interferes with browser's back/forward swipe feature
+      if (this.$quasar.platform.is.ios || Utils.dom.style(content, 'position') !== 'fixed') {
         return
       }
 
       let
-        position = event.distance.x,
+        position = evt.distance.x,
         percentage
 
-      if (event.isFinal) {
+      if (evt.isFinal) {
         this.opened = position > 75
       }
 
@@ -160,17 +159,17 @@ export default {
         percentage = (this.width - Math.abs(position)) / this.width
       }
 
-      if (event.isFirst) {
-        backdrop.classList.add('active')
+      if (evt.isFirst) {
+        this.active = true
       }
       this.nodePosition = position
-      this.backPosition = percentage * backdropOpacity[this.$quasar.theme]
+      this.backPosition = percentage * this.backdropOpacity
 
-      if (event.isFinal) {
+      if (evt.isFinal) {
         this.__animate()
       }
     },
-    __closeByTouch (event) {
+    __closeByTouch (evt) {
       const content = this.$refs.content
       let percentage, position, initialPosition
 
@@ -180,10 +179,10 @@ export default {
 
       initialPosition = (this.rightSide ? -1 : 1) * this.width
       position = this.rightSide
-        ? Utils.format.between((event.direction === 'left' ? -1 : 1) * event.distance.x, 0, this.width)
-        : Utils.format.between((event.direction === 'left' ? -1 : 1) * event.distance.x, -this.width, 0)
+        ? Utils.format.between((evt.direction === 'left' ? -1 : 1) * evt.distance.x, 0, this.width)
+        : Utils.format.between((evt.direction === 'left' ? -1 : 1) * evt.distance.x, -this.width, 0)
 
-      if (event.isFinal) {
+      if (evt.isFinal) {
         this.opened = Math.abs(position) <= 75
       }
 
@@ -196,28 +195,23 @@ export default {
       }
 
       this.nodePosition = position
-      this.backPosition = percentage * backdropOpacity[this.$quasar.theme]
+      this.backPosition = percentage * this.backdropOpacity
 
-      if (event.isFinal) {
+      if (evt.isFinal) {
         this.__animate()
       }
     },
     setState (state, done) {
-      if (
-        (!this.swipeOnly && Utils.dom.viewport().width > 920) ||
-        (typeof state === 'boolean' && this.opened === state)
-      ) {
-        if (typeof done === 'function') {
-          done()
-        }
+      if (this.active === state || this.active !== this.opened) {
         return
       }
 
       this.opened = !this.opened
+      this.active = true
       this.__animate(done)
     },
     __popState () {
-      if (Platform.has.popstate && window.history.state && window.history.state.__quasar_drawer) {
+      if (this.$quasar.platform.has.popstate && window.history.state && window.history.state.__quasar_drawer) {
         this.setState(false)
       }
     },
@@ -249,14 +243,6 @@ export default {
           this.setState(false)
         })
       })
-
-      if (this.swipeOnly) {
-        this.$el.classList.add('swipe-only')
-      }
-
-      this.__eventHandler = handler => {
-        this.close(handler)
-      }
     })
   },
   beforeDestroy () {

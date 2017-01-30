@@ -1,13 +1,13 @@
 <template>
   <div class="q-collapsible">
-    <div class="item item-link non-selectable item-collapsible" @click="__toggleItem()">
+    <div class="item item-link non-selectable item-collapsible" @click="__toggleItem">
       <i class="item-primary" v-if="icon" v-text="icon"></i>
       <img class="item-primary thumbnail" v-if="img" :src="img"></i>
       <img class="item-primary" v-if="avatar" :src="avatar"></i>
       <div class="item-content has-secondary">
         <div>{{ label }}</div>
       </div>
-      <i class="item-secondary" :class="{'rotate-180': active}" @click.stop="toggle()">keyboard_arrow_down</i>
+      <i class="item-secondary" :class="{'rotate-180': active}" @click.stop="toggle">keyboard_arrow_down</i>
     </div>
     <q-transition name="slide">
       <div class="q-collapsible-sub-item" v-show="active">
@@ -18,10 +18,14 @@
 </template>
 
 <script>
+import Events from '../../features/events'
+const eventName = 'q:collapsible:close'
+
 export default {
   props: {
     opened: Boolean,
     icon: String,
+    group: String,
     img: String,
     avatar: String,
     label: String,
@@ -35,6 +39,11 @@ export default {
   watch: {
     opened (value) {
       this.active = value
+    },
+    active (value) {
+      if (value && this.group) {
+        Events.$emit(eventName, this)
+      }
     }
   },
   methods: {
@@ -51,7 +60,18 @@ export default {
       if (!this.iconToggle) {
         this.toggle()
       }
+    },
+    __eventHandler (comp) {
+      if (this.group && this !== comp && comp.group === this.group) {
+        this.close()
+      }
     }
+  },
+  created () {
+    Events.$on(eventName, this.__eventHandler)
+  },
+  beforeDestroy () {
+    Events.$off(eventName, this.__eventHandler)
   }
 }
 </script>

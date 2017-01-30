@@ -14,23 +14,23 @@
         <h6 v-if="el.type === 'heading'" v-html="el.label"></h6>
 
         <div v-if="el.type === 'textbox'" class="floating-label" style="margin-bottom: 10px">
-          <input type="text" class="full-width" v-model="el.model" :placeholder="el.placeholder" required>
+          <input type="text" class="full-width" v-model="el.model" :placeholder="el.placeholder" required tabindex="0">
           <label v-html="el.label"></label>
         </div>
 
         <div v-if="el.type === 'password'" class="floating-label" style="margin-bottom: 10px">
-          <input type="password" class="full-width" v-model="el.model" :placeholder="el.placeholder" required>
+          <input type="password" class="full-width" v-model="el.model" :placeholder="el.placeholder" required tabindex="0">
           <label v-html="el.label"></label>
         </div>
 
         <div v-if="el.type === 'textarea'" class="floating-label" style="margin-bottom: 10px">
-          <textarea type="text" class="full-width" v-model="el.model" :placeholder="el.placeholder" required></textarea>
+          <textarea type="text" class="full-width" v-model="el.model" :placeholder="el.placeholder" required tabindex="0"></textarea>
           <label v-html="el.label"></label>
         </div>
 
         <div v-if="el.type === 'numeric'" style="margin-bottom: 10px">
           <label v-html="el.label"></label>
-          <q-numeric v-model="el.model" :min="el.min" :max="el.max" :step="el.step"></q-numeric>
+          <q-numeric v-model="el.model" :min="el.min" :max="el.max" :step="el.step" tabindex="0"></q-numeric>
         </div>
 
         <div v-if="el.type === 'chips'" style="margin-bottom: 10px">
@@ -103,10 +103,11 @@
         :class="button.classes || 'primary clear'"
         :style="button.style"
         v-html="typeof button === 'string' ? button : button.label"
+        tabindex="0"
       ></button>
     </div>
     <div class="modal-buttons row" v-if="!buttons && !nobuttons">
-      <button class="primary clear" @click="close()">OK</button>
+      <button class="primary clear" @click="close()" tabindex="0">OK</button>
     </div>
   </q-modal>
 </template>
@@ -184,7 +185,23 @@ export default {
     }
   },
   mounted () {
-    this.$refs.dialog.open()
+    this.$refs.dialog.open(() => {
+      if (!this.$quasar.platform.is.desktop) {
+        return
+      }
+
+      const node = this.$refs.dialog.$el.getElementsByTagName(this.form ? 'INPUT' : 'BUTTON')
+      if (!node.length) {
+        return
+      }
+
+      if (this.form) {
+        node[0].focus()
+      }
+      else {
+        node[node.length - 1].focus()
+      }
+    })
     this.$root.quasarClose = this.close
   }
 }

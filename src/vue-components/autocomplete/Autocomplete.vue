@@ -7,16 +7,13 @@
       />
     </slot>
     <q-popover ref="popover" :anchor-click="false">
-      <div v-if="searching" class="row justify-center" :style="{minWidth: width, padding: '3px 10px'}">
-        <spinner name="dots" :size="40"></spinner>
-      </div>
-      <div v-else class="list no-border" :class="{'item-delimiter': delimiter}" :style="computedWidth">
+      <div class="list no-border" :class="{'item-delimiter': delimiter}" :style="computedWidth">
         <q-list-item
           v-for="(result, index) in computedResults"
           :item="result"
           link
           :active="selectedIndex === index"
-          @click.native="setValue(result.value)"
+          @click.native="setValue(result)"
         ></q-list-item>
       </div>
     </q-popover>
@@ -87,47 +84,39 @@ export default {
   methods: {
     trigger () {
       this.width = Utils.dom.width(this.inputEl) + 'px'
-      this.$nextTick(() => {
-        const searchId = Utils.uid()
-        this.searchId = searchId
+      const searchId = Utils.uid()
+      this.searchId = searchId
 
-        if (this.model.length < this.minCharacters) {
+      if (this.model.length < this.minCharacters) {
+        this.searchId = ''
+        this.close()
+        return
+      }
+
+      if (this.staticData) {
+        this.searchId = ''
+        this.results = Utils.filter(this.model, this.staticData)
+        this.$refs.popover.open()
+        return
+      }
+
+      this.$emit('search', this.model, results => {
+        if (results && this.searchId === searchId) {
           this.searchId = ''
-          this.close()
-          return
-        }
-
-        this.$refs.popover.close()
-        setTimeout(() => {
-          if (this.staticData) {
-            this.searchId = ''
-            this.results = Utils.filter(this.model, this.staticData)
-            this.$refs.popover.open()
+          if (this.results === results) {
             return
           }
 
-          this.$refs.popover.open()
-          this.$emit('search', this.model, results => {
-            if (results && this.searchId === searchId) {
-              this.searchId = ''
-
-              if (Array.isArray(results) && results.length > 0) {
-                this.$refs.popover.close()
-                this.$nextTick(() => {
-                  this.results = results
-                  setTimeout(() => {
-                    if (this.$refs && this.$refs.popover) {
-                      this.$refs.popover.open()
-                    }
-                  }, 10)
-                })
-                return
-              }
-
-              this.close()
+          if (Array.isArray(results) && results.length > 0) {
+            this.results = results
+            if (this.$refs && this.$refs.popover) {
+              this.$refs.popover.open()
             }
-          })
-        }, 10)
+            return
+          }
+
+          this.close()
+        }
       })
     },
     close () {
@@ -135,8 +124,9 @@ export default {
       this.results = []
       this.selectedIndex = -1
     },
-    setValue (val) {
-      this.model = val
+    setValue (result) {
+      this.model = result.value
+      this.$emit('selected', result)
       this.close()
     },
     move (offset) {
@@ -144,7 +134,7 @@ export default {
     },
     setCurrentSelection () {
       if (this.selectedIndex >= 0) {
-        this.setValue(this.results[this.selectedIndex].value)
+        this.setValue(this.results[this.selectedIndex])
       }
     },
     __updateDelay () {

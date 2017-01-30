@@ -1,8 +1,12 @@
 <template>
-  <div class="q-rating" :class="{disabled: disable}">
+  <div class="q-rating" :class="{disabled: disable, editable: editable}">
     <i
       v-for="index in max"
-      :class="{active: (!mouseModel && model >= index) || (mouseModel && mouseModel >= index)}"
+      :class="{
+        active: (!mouseModel && model >= index) || (mouseModel && mouseModel >= index),
+        exselected: mouseModel && model >= index && mouseModel < index,
+        hovered: mouseModel === index
+      }"
       @click="set(index)"
       @mouseover="__setHoverValue(index)"
       @mouseout="mouseModel = 0"
@@ -28,6 +32,7 @@ export default {
       type: String,
       default: 'grade'
     },
+    readonly: Boolean,
     disable: Boolean
   },
   data () {
@@ -45,16 +50,20 @@ export default {
           this.$emit('input', value)
         }
       }
+    },
+    editable () {
+      return !this.readonly && !this.disable
     }
   },
   methods: {
     set (value) {
-      if (!this.disable) {
+      if (this.editable) {
         this.model = Utils.format.between(parseInt(value, 10), 1, this.max)
+        this.mouseModel = 0
       }
     },
     __setHoverValue (value) {
-      if (!this.disable) {
+      if (this.editable) {
         this.mouseModel = value
       }
     }

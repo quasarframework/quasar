@@ -1,22 +1,26 @@
 <template>
-  <div class="q-numeric textfield row inline items-center" :class="{disabled: disable, readonly: readonly}">
+  <div
+    class="q-numeric textfield row inline items-center"
+    :class="{disabled: disable, readonly: readonly, 'has-error': hasError}"
+  >
     <i @click="__setByOffset(-1)">remove</i>
     <input
       class="no-style auto q-input-field"
       type="number"
       v-model.number="model"
-      @blur="__updateValue()"
-      @keydown.enter="__updateValue()"
-      @keydown.up="__setByOffset(1)"
-      @keydown.down="__setByOffset(-1)"
+      @blur="__updateValue"
+      @keydown.up="__updateValue"
+      @keydown.down="__updateValue"
+      @keydown.enter="__updateValue"
       @keydown.esc="model = value"
       :disabled="disable"
       :readonly="readonly"
-      :style="{width: (''+model).length * .7 + 'em'}"
+      :style="{width: width}"
       tabindex="0"
-      step="any"
+      :step="step"
+      :min="min"
+      :max="max"
     >
-    <i v-show="value !== model && model !== ''">check</i>
     <i @click="__setByOffset(1)">add</i>
   </div>
 </template>
@@ -25,8 +29,7 @@
 export default {
   props: {
     value: {
-      type: Number,
-      default: 0
+      required: true
     },
     step: {
       type: Number,
@@ -51,41 +54,74 @@ export default {
       model: this.value
     }
   },
+  computed: {
+    hasMin () {
+      return this.has(this.min)
+    },
+    hasMax () {
+      return this.has(this.max)
+    },
+    hasError () {
+      return (
+        this.has(this.model) &&
+        (
+          (this.hasMin && this.model < this.min) ||
+          (this.hasMax && this.model > this.max)
+        )
+      )
+    },
+    width () {
+      return (this.has(this.model) ? ('' + this.model).length : 1) * 0.7 + 'em'
+    }
+  },
   methods: {
+    has (val) {
+      return typeof val !== 'undefined'
+    },
     __normalize (value) {
-      if (typeof this.min === 'number' && value < this.min) {
+      if (!this.has(value)) {
+        value = this.hasMin ? this.min : 0
+      }
+      if (this.hasMin && value < this.min) {
         return this.min
       }
-      else if (typeof this.max === 'number' && value > this.max) {
+      else if (this.hasMax && value > this.max) {
         return this.max
       }
 
       return parseFloat(this.maxDecimals ? parseFloat(value).toFixed(this.maxDecimals) : value)
     },
     __updateValue () {
-      this.model = this.__normalize(this.model)
-      if (!this.disable && !this.readonly && this.value !== this.model) {
-        this.$emit('input', this.model)
-      }
+      this.$nextTick(() => {
+        this.model = this.__normalize(this.model)
+        if (!this.disable && !this.readonly && this.value !== this.model) {
+          this.$emit('input', this.model)
+        }
+      })
     },
     __setByOffset (direction) {
       if (this.disable || this.readonly) {
         return
       }
 
-      let newValue = this.model + direction * this.step
-      if (typeof this.min === 'number' && newValue < this.min && this.model === this.min) {
-        return
+      let newValue
+
+      if (!this.has(this.model)) {
+        newValue = this.__normalize(0)
       }
-      if (typeof this.max === 'number' && newValue > this.max && this.model === this.max) {
-        return
+      else {
+        newValue = this.model + direction * this.step
+        if (this.hasMin && newValue < this.min && this.model === this.min) {
+          return
+        }
+        if (this.hasMax && newValue > this.max && this.model === this.max) {
+          return
+        }
       }
+
       this.model = newValue
       this.__updateValue()
     }
-  },
-  created () {
-    this.__updateValue()
   }
 }
 </script>

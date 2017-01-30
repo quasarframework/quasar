@@ -15,7 +15,7 @@ var
   port = process.env.PORT || 8080,
   uri = 'http://localhost:' + port
 
-console.log(' Starting dev server with "' + (process.argv[2] || 'mat').bold + '" theme...')
+console.log(' Starting dev server with "' + (process.argv[2] || env.platform.theme).bold + '" theme...')
 console.log(' Will listen at ' + uri.bold)
 console.log(' Browser will open when build is ready.\n')
 

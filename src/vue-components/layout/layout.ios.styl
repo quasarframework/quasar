@@ -1,5 +1,5 @@
 $layout-border             ?= 1px solid $toolbar-faded-color
-$layout-toolbar-min-height ?= 40px
+$layout-toolbar-min-height ?= 48px
 $toolbar-title-font-size   ?= .95rem
 $toolbar-padding           ?= 4px 10px
 
@@ -13,19 +13,13 @@ $toolbar-padding           ?= 4px 10px
   width 100vw
   display flex
   flex-direction column
+  flex-shrink 0
 
-.layout-header > .toolbar
+.layout-header
   border-bottom $layout-border
-  &:first-child
-    align-items end
 
-.layout-footer > .toolbar
+.layout-footer
   border-top $layout-border
-
-body.desktop
-  .layout-header, .layout-footer
-    button:hover i
-      animation q-rotate .25s ease-out
 
 .layout-content
   display flex
@@ -135,11 +129,17 @@ body.desktop
     > div
       text-align right
 
-body.cordova.platform-ios .layout-header > .toolbar:first-child
-  padding-top 20px
-  min-height ($layout-toolbar-min-height + 20px)
-  .toolbar-title
-    padding-top 20px
+body
+  &.desktop
+    .layout-header, .layout-footer
+      button:hover i
+        animation q-rotate .25s ease-out
+  &.cordova.platform-ios, &.demo-site.within-iframe
+    .layout-header > .toolbar:first-child
+      padding-top $ios-statusbar-height
+      min-height ($layout-toolbar-min-height + $ios-statusbar-height)
+      .toolbar-title
+        padding-top $ios-statusbar-height
 
 .layout-padding
   @media only screen and (max-width $layout-small-max)
