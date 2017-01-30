@@ -80,7 +80,7 @@
     "rollup-plugin-babel": "^2.6.1",
     "rollup-plugin-json": "^2.1.0",
     "rollup-plugin-string": "^2.0.2",
-    "rollup-plugin-vue": "2.2.18",
+    "rollup-plugin-vue": "2.2.19",
     "shelljs": "^0.7.0",
     "stylint": "^1.5.6",
     "stylus": "^0.54.5",

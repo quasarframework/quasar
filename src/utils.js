@@ -24,6 +24,7 @@ export default {
   extend,
   filter,
   format,
+  noop () {},
   openURL,
   popup,
   scrollbar,
