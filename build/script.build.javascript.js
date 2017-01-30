@@ -62,6 +62,7 @@ rollup
     })
     .then(function (bundle) {
       return write('dist/quasar.es6.js', bundle.generate({
+        format: 'es',
         exports: 'named',
         banner: banner,
         globals: globals,
