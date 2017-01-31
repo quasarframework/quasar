@@ -6,14 +6,14 @@
         On desktop, Escape key closes the suggestions popover and you can navigate with keyboard arrow keys. Selection is made with either mouse/finger tap or by Enter key.
       </p>
 
-      <q-autocomplete v-model="terms" @search="search" set-width @selected="selected">
+      <q-autocomplete v-model="terms" @search="search" @selected="selected" :debounce="0">
         <q-search v-model="terms" placeholder="Start typing a country name" />
       </q-autocomplete>
 
       <br>
 
       <p class="caption">Maximum of 2 results at a time</p>
-      <q-autocomplete v-model="terms" @search="search" set-width :max-results="2" @selected="selected">
+      <q-autocomplete v-model="terms" @search="search" :max-results="2" @selected="selected" :debounce="0">
         <q-search v-model="terms" />
       </q-autocomplete>
 
@@ -32,14 +32,14 @@
       <br>
 
       <p class="caption">Static List</p>
-      <q-autocomplete v-model="terms" set-width :static-data="{field: 'value', list: countries}" @selected="selected">
+      <q-autocomplete v-model="terms" :static-data="{field: 'value', list: countries}" @selected="selected" :debounce="0">
         <q-search v-model="terms" placeholder="Featuring static data" />
       </q-autocomplete>
 
       <br>
 
       <p class="caption">Delimiter between results</p>
-      <q-autocomplete v-model="terms" set-width delimiter @search="search" @selected="selected">
+      <q-autocomplete v-model="terms" delimiter @search="search" @selected="selected" :debounce="0">
         <q-search v-model="terms" />
       </q-autocomplete>
     </div>

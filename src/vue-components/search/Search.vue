@@ -32,8 +32,6 @@
 </template>
 
 <script>
-import Utils from '../../utils'
-
 export default {
   props: {
     value: {
@@ -58,12 +56,8 @@ export default {
   data () {
     return {
       focused: false,
-      hasText: this.value.length > 0
-    }
-  },
-  watch: {
-    debounce (value) {
-      this.__createDebouncedTrigger(value)
+      hasText: this.value.length > 0,
+      timer: null
     }
   },
   computed: {
@@ -74,7 +68,16 @@ export default {
       },
       set (value) {
         this.hasText = value.length > 0
-        this.__update(value)
+        clearTimeout(this.timer)
+        if (this.value !== value) {
+          if (!this.hasText) {
+            this.$emit('input', '')
+            return
+          }
+          this.timer = setTimeout(() => {
+            this.$emit('input', value)
+          }, this.debounce)
+        }
       }
     },
     centered () {
@@ -84,15 +87,8 @@ export default {
   methods: {
     clear () {
       if (!this.disable && !this.readonly) {
-        this.$emit('input', '')
+        this.model = ''
       }
-    },
-    __createDebouncedTrigger (debounce) {
-      this.__update = Utils.debounce(value => {
-        if (this.value !== value) {
-          this.$emit('input', value)
-        }
-      }, debounce)
     },
     focus () {
       if (!this.disable && !this.readonly) {
@@ -103,8 +99,8 @@ export default {
       this.focused = false
     }
   },
-  created () {
-    this.__createDebouncedTrigger(this.debounce)
+  beforeDestroy () {
+    clearTimeout(this.timer)
   }
 }
 </script>

@@ -23,6 +23,11 @@
 <script>
 import Utils from '../../utils'
 
+function prevent (e) {
+  e.preventDefault()
+  e.stopPropagation()
+}
+
 export default {
   props: {
     value: {
@@ -37,12 +42,11 @@ export default {
       type: Number,
       default: 6
     },
-    delay: {
+    debounce: {
       type: Number,
       default: 500
     },
     staticData: Object,
-    setWidth: Boolean,
     delimiter: Boolean
   },
   data () {
@@ -50,17 +54,22 @@ export default {
       searchId: '',
       results: [],
       selectedIndex: -1,
-      width: 0
-    }
-  },
-  watch: {
-    delay (val) {
-      this.__updateDelay(val)
+      width: 0,
+      timer: null,
+      avoidTrigger: false
     }
   },
   computed: {
     model: {
       get () {
+        if (!this.avoidTrigger) {
+          if (document.activeElement === this.inputEl) {
+            this.__delayTrigger()
+          }
+        }
+        else {
+          this.avoidTrigger = false
+        }
         return this.value
       },
       set (val) {
@@ -73,9 +82,7 @@ export default {
       }
     },
     computedWidth () {
-      if (this.setWidth) {
-        return {minWidth: this.width}
-      }
+      return {minWidth: this.width}
     },
     searching () {
       return this.searchId.length > 0
@@ -96,27 +103,35 @@ export default {
       if (this.staticData) {
         this.searchId = ''
         this.results = Utils.filter(this.model, this.staticData)
+        if (this.$quasar.platform.is.desktop) {
+          this.selectedIndex = 0
+        }
         this.$refs.popover.open()
         return
       }
 
       this.$emit('search', this.model, results => {
-        if (results && this.searchId === searchId) {
-          this.searchId = ''
-          if (this.results === results) {
-            return
-          }
-
-          if (Array.isArray(results) && results.length > 0) {
-            this.results = results
-            if (this.$refs && this.$refs.popover) {
-              this.$refs.popover.open()
-            }
-            return
-          }
-
-          this.close()
+        if (!results || this.searchId !== searchId) {
+          return
         }
+
+        this.searchId = ''
+        if (this.results === results) {
+          return
+        }
+
+        if (Array.isArray(results) && results.length > 0) {
+          this.results = results
+          if (this.$refs && this.$refs.popover) {
+            if (this.$quasar.platform.is.desktop) {
+              this.selectedIndex = 0
+            }
+            this.$refs.popover.open()
+          }
+          return
+        }
+
+        this.close()
       })
     },
     close () {
@@ -125,39 +140,52 @@ export default {
       this.selectedIndex = -1
     },
     setValue (result) {
+      this.avoidTrigger = true
       this.model = result.value
       this.$emit('selected', result)
       this.close()
     },
     move (offset) {
-      this.selectedIndex = Utils.format.between(this.selectedIndex + offset, -1, this.computedResults.length - 1)
+      const size = this.computedResults.length
+      let index = (this.selectedIndex + offset) % this.computedResults.length
+      if (index < 0) {
+        index = size + index
+      }
+      this.selectedIndex = index
     },
     setCurrentSelection () {
       if (this.selectedIndex >= 0) {
         this.setValue(this.results[this.selectedIndex])
       }
     },
-    __updateDelay () {
-      this.inputEl.removeEventListener('input', this.delayedTrigger)
-      this.delayedTrigger = this.delay ? Utils.debounce(this.trigger, this.delay) : this.trigger
-      this.inputEl.addEventListener('input', this.delayedTrigger)
+    __delayTrigger () {
+      clearTimeout(this.timer)
+      this.timer = setTimeout(this.trigger, this.staticData ? 0 : this.debounce)
     },
-    handleKeydown (e) {
+    __handleKeypress (e) {
       switch (e.keyCode || e.which) {
         case 38: // up
-          this.move(-1)
+          this.__moveCursor(-1, e)
           break
         case 40: // down
-          if (!this.$refs.popover.opened) {
-            this.trigger()
-          }
-          else {
-            this.move(1)
-          }
+          this.__moveCursor(1, e)
           break
         case 13: // enter
           this.setCurrentSelection()
+          prevent(e)
           break
+        default:
+          this.close()
+      }
+    },
+    __moveCursor (offset, e) {
+      prevent(e)
+
+      if (!this.$refs.popover.opened) {
+        this.trigger()
+      }
+      else {
+        this.move(offset)
       }
     }
   },
@@ -168,14 +196,13 @@ export default {
         console.error('Autocomplete needs to contain one input field in its slot.')
         return
       }
-      this.__updateDelay()
-      this.inputEl.addEventListener('keydown', this.handleKeydown)
+      this.inputEl.addEventListener('keydown', this.__handleKeypress)
     })
   },
   beforeDestroy () {
+    clearTimeout(this.timer)
+    this.inputEl.removeEventListener('keydown', this.__handleKeypress)
     this.close()
-    this.inputEl.removeEventListener('input', this.delayedTrigger)
-    this.inputEl.removeEventListener('keydown', this.handleKeydown)
   }
 }
 </script>
