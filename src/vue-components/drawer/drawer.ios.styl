@@ -4,6 +4,7 @@ $drawer-icon-font-size         ?= 1.8rem
 $drawer-background             ?= white
 $drawer-header-font-size       ?= .9rem
 $drawer-screen-width-threshold ?= $layout-big-min
+$drawer-border                 ?= 1px solid $toolbar-faded-color
 
 .drawer-backdrop
   display none
@@ -87,3 +88,7 @@ body
       right 0
       position absolute !important
       transform translateX(0) !important
+      &.left-side
+        border-right $drawer-border
+      &.right-side
+        border-left $drawer-border
