@@ -6,7 +6,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 
 ### $2000
 
-Currently vacant. It could be you!
+Currently vacant. It could be you or your organization!
 
 ---
 
@@ -44,6 +44,7 @@ It could be you!
 - Samuel Lin
 - Andrea Salvatore
 - Matsumoto Takamasa
+- Keith Bailey
 
 ---
 
