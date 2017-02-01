@@ -36,7 +36,7 @@
         </div>
         <div class="row items-center">
           <slot name="action"></slot>
-          <i v-if="fullscreen" @click="toggleFullscreen()">
+          <i v-if="fullscreen" @click="toggleFullscreen">
             <span v-show="!inFullscreen">fullscreen</span>
             <span v-show="inFullscreen">fullscreen_exit</span>
           </i>
@@ -127,7 +127,7 @@ export default {
     toggleFullscreen () {
       if (this.inFullscreen) {
         if (!Platform.has.popstate) {
-          this.inFullscreen = false
+          this.__setFullscreen(false)
         }
         else {
           window.history.go(-1)
@@ -135,15 +135,30 @@ export default {
         return
       }
 
-      this.inFullscreen = true
+      this.__setFullscreen(true)
       if (Platform.has.popstate) {
         window.history.pushState({}, '')
         window.addEventListener('popstate', this.__popState)
       }
     },
+    __setFullscreen (state) {
+      if (this.inFullscreen === state) {
+        return
+      }
+
+      if (state) {
+        this.container.replaceChild(this.fillerNode, this.$el)
+        document.body.appendChild(this.$el)
+        this.inFullscreen = true
+        return
+      }
+
+      this.inFullscreen = false
+      this.container.replaceChild(this.$el, this.fillerNode)
+    },
     __popState () {
       if (this.inFullscreen) {
-        this.inFullscreen = false
+        this.__setFullscreen(false)
       }
       window.removeEventListener('popstate', this.__popState)
     },
@@ -153,6 +168,8 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
+      this.fillerNode = document.createElement('span')
+      this.container = this.$el.parentNode
       this.slidesNumber = this.$refs.track.children.length
     })
   },
