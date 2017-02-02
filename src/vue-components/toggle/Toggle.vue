@@ -46,7 +46,7 @@ export default {
       }
     },
     __change (e) {
-      if (this.$quasar.platform.is.ios) {
+      if (this.$q.platform.is.ios) {
         this.toggle()
       }
     },

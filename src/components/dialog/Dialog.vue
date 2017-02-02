@@ -186,7 +186,7 @@ export default {
   },
   mounted () {
     this.$refs.dialog.open(() => {
-      if (!this.$quasar.platform.is.desktop) {
+      if (!this.$q.platform.is.desktop) {
         return
       }
 

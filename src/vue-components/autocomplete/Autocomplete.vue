@@ -103,7 +103,7 @@ export default {
       if (this.staticData) {
         this.searchId = ''
         this.results = Utils.filter(this.model, this.staticData)
-        if (this.$quasar.platform.is.desktop) {
+        if (this.$q.platform.is.desktop) {
           this.selectedIndex = 0
         }
         this.$refs.popover.open()
@@ -123,7 +123,7 @@ export default {
         if (Array.isArray(results) && results.length > 0) {
           this.results = results
           if (this.$refs && this.$refs.popover) {
-            if (this.$quasar.platform.is.desktop) {
+            if (this.$q.platform.is.desktop) {
               this.selectedIndex = 0
             }
             this.$refs.popover.open()

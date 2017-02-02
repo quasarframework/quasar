@@ -53,7 +53,7 @@ export default {
   computed: {
     nodeStyle () {
       let css = Utils.dom.cssTransform(`translateX(${this.nodePosition}px)`)
-      if (this.$quasar.theme === 'ios') {
+      if (this.$q.theme === 'ios') {
         if (this.layoutContainer) {
           Utils.dom.css(this.layoutContainer, css)
         }
@@ -82,7 +82,7 @@ export default {
         }
       }
 
-      if (this.$quasar.theme === 'ios') {
+      if (this.$q.theme === 'ios') {
         finalPos = this.opened ? (this.rightSide ? -1 : 1) * this.width : 0
       }
       else {
@@ -91,7 +91,7 @@ export default {
 
       if (this.opened) {
         this.active = true
-        if (this.$quasar.platform.has.popstate) {
+        if (this.$q.platform.has.popstate) {
           if (!window.history.state) {
             window.history.replaceState({__quasar_drawer: true}, '')
           }
@@ -106,7 +106,7 @@ export default {
         }
       }
       else {
-        if (this.$quasar.platform.has.popstate) {
+        if (this.$q.platform.has.popstate) {
           window.removeEventListener('popstate', this.__popState)
           if (window.history.state && !window.history.state.__quasar_drawer) {
             window.history.go(-1)
@@ -137,7 +137,7 @@ export default {
       const content = this.$refs.content
 
       // on iOS platform it interferes with browser's back/forward swipe feature
-      if (this.$quasar.platform.is.ios || Utils.dom.style(content, 'position') !== 'fixed') {
+      if (this.$q.platform.is.ios || Utils.dom.style(content, 'position') !== 'fixed') {
         return
       }
 
@@ -149,7 +149,7 @@ export default {
         this.opened = position > 75
       }
 
-      if (this.$quasar.theme === 'ios') {
+      if (this.$q.theme === 'ios') {
         position = Math.min(position, this.width)
         percentage = 1.0 - (this.width - Math.abs(position)) / this.width
         position = (this.rightSide ? -1 : 1) * position
@@ -186,7 +186,7 @@ export default {
         this.opened = Math.abs(position) <= 75
       }
 
-      if (this.$quasar.theme === 'ios') {
+      if (this.$q.theme === 'ios') {
         position = initialPosition + position
         percentage = (this.rightSide ? -1 : 1) * position / this.width
       }
@@ -211,7 +211,7 @@ export default {
       this.__animate(done)
     },
     __popState () {
-      if (this.$quasar.platform.has.popstate && window.history.state && window.history.state.__quasar_drawer) {
+      if (this.$q.platform.has.popstate && window.history.state && window.history.state.__quasar_drawer) {
         this.setState(false)
       }
     },
@@ -230,7 +230,7 @@ export default {
       const content = this.$refs.content
       this.width = Utils.dom.width(content)
 
-      if (this.$quasar.theme === 'ios') {
+      if (this.$q.theme === 'ios') {
         this.layoutContainer = this.$el.closest('.layout') || document.getElementById('q-app')
       }
       else {

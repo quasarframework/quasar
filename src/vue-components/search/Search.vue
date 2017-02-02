@@ -6,13 +6,13 @@
     <div class="q-search-input-container">
       <button class="q-search-icon">
         <i class="on-left">{{ icon }}</i>
-        <span v-show="$quasar.theme === 'ios' && isEmpty">{{placeholder}}</span>
+        <span v-show="$q.theme === 'ios' && isEmpty">{{placeholder}}</span>
       </button>
       <input
         v-if="numeric"
         type="number"
         class="q-search-input no-style"
-        :placeholder="$quasar.theme === 'mat' ? placeholder : ''"
+        :placeholder="$q.theme === 'mat' ? placeholder : ''"
         v-model="model"
         @focus="focus"
         @blur="blur"
@@ -24,7 +24,7 @@
         v-else
         type="text"
         class="q-search-input no-style"
-        :placeholder="$quasar.theme === 'mat' ? placeholder : ''"
+        :placeholder="$q.theme === 'mat' ? placeholder : ''"
         v-model="model"
         @focus="focus"
         @blur="blur"

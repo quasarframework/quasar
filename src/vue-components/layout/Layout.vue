@@ -2,7 +2,7 @@
   <div class="layout">
     <div class="layout-header">
       <slot name="header"></slot>
-      <slot v-if="$quasar.theme !== 'ios'" name="navigation"></slot>
+      <slot v-if="$q.theme !== 'ios'" name="navigation"></slot>
     </div>
 
     <div class="layout-content">
@@ -11,7 +11,7 @@
 
     <div class="layout-footer">
       <slot name="footer"></slot>
-      <slot v-if="$quasar.theme === 'ios'" name="navigation"></slot>
+      <slot v-if="$q.theme === 'ios'" name="navigation"></slot>
     </div>
   </div>
 </template>

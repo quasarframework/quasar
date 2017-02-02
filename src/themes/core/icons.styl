@@ -5,7 +5,7 @@ $icon-text-transform ?= none
 $icon-letter-spacing ?= normal
 
 if $icon-font-family == 'Material Icons'
-  if $quasar-dont-import-fonts != true
+  if $quasar-dont-import-fonts != true && $quasar-dont-import-material-icons != true
     @font-face
       font-family 'Material Icons'
       font-style normal

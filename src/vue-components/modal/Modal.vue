@@ -108,8 +108,8 @@ export default {
       if (this.position) {
         return Utils.extend(
           {},
-          positionCSS[this.$quasar.theme],
-          additionalCSS(this.$quasar.theme, this.position),
+          positionCSS[this.$q.theme],
+          additionalCSS(this.$q.theme, this.position),
           this.contentCss
         )
       }

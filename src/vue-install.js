@@ -1,5 +1,5 @@
 import Platform from './features/platform'
-import { install as eventsInstall } from './features/events'
+import events, { install as eventsInstall } from './features/events'
 import { install as toastInstall } from './components/toast/toast'
 import { current as theme } from './features/theme'
 import { version } from '../package.json'
@@ -156,9 +156,10 @@ export default function (_Vue) {
   registerComponents(_Vue)
   toastInstall(_Vue)
 
-  _Vue.prototype.$quasar = {
+  _Vue.prototype.$q = {
     version,
     platform: Platform,
-    theme
+    theme,
+    events
   }
 }

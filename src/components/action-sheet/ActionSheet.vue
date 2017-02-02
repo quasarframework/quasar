@@ -6,7 +6,7 @@
     @close="__dismiss()"
   >
     <!-- Material -->
-    <div v-once v-if="$quasar.theme === 'mat'">
+    <div v-once v-if="$q.theme === 'mat'">
       <div v-if="title" class="modal-header" v-html="title"></div>
 
       <div class="modal-scroll">
@@ -60,7 +60,7 @@
     </div>
 
     <!-- iOS -->
-    <div v-once v-if="$quasar.theme === 'ios'">
+    <div v-once v-if="$q.theme === 'ios'">
       <div class="q-action-sheet">
         <div v-if="title" class="modal-header" v-html="title"></div>
 
@@ -138,7 +138,7 @@ export default {
       return this.buttons[this.buttons.length - 1]
     },
     contentCss () {
-      if (this.$quasar.theme === 'ios') {
+      if (this.$q.theme === 'ios') {
         return {backgroundColor: 'transparent'}
       }
     }
