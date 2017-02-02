@@ -33,7 +33,6 @@
         <div class="column gt-sm-row group">
           <q-select
             v-model="config.selection"
-            type="radio"
             label="Selection"
             :options="[
               {label: 'None', value: false},
@@ -44,7 +43,6 @@
 
           <q-select
             v-model="config.leftStickyColumns"
-            type="radio"
             label="Left Sticky Columns"
             :options="[
               {label: 'None', value: 0},
@@ -55,7 +53,6 @@
 
           <q-select
             v-model="config.rightStickyColumns"
-            type="radio"
             label="Right Sticky Columns"
             :options="[
               {label: 'None', value: 0},
@@ -75,7 +72,6 @@
           <h6>
             Table body
             <q-select
-              type="radio"
               v-model="bodyHeightProp"
               :options="[
                 {label: 'Auto', value: 'auto'},

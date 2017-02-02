@@ -28,7 +28,7 @@ $datatable-font-size ?= 85%
       border-bottom 2px solid $grey-5 !important
 
 .q-data-table-toolbar
-  padding 5px 10px
+  padding .25rem .5rem
   font-weight 300
   &.upper-toolbar
     min-height 50px
@@ -37,8 +37,7 @@ $datatable-font-size ?= 85%
   > div:not(:first-of-type):not(:last-of-type)
     margin 0 30px
   input, .q-picker-textfield
-    &, &:hover
-      border-bottom transparent
+    border-bottom 0 !important
   .q-search
     width auto
     margin 0 15px 0 0
