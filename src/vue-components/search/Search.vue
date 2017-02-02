@@ -5,23 +5,36 @@
   >
     <div class="q-search-input-container">
       <button class="q-search-icon">
-        <i>{{ icon }}</i>
-        <span v-show="$quasar.theme === 'ios' && this.value === '' && !hasText">{{placeholder}}</span>
+        <i class="on-left">{{ icon }}</i>
+        <span v-show="$quasar.theme === 'ios' && isEmpty">{{placeholder}}</span>
       </button>
       <input
+        v-if="numeric"
+        type="number"
+        class="q-search-input no-style"
+        :placeholder="$quasar.theme === 'mat' ? placeholder : ''"
+        v-model="model"
+        @focus="focus"
+        @blur="blur"
+        :disabled="disable"
+        :readonly="readonly"
+        tabindex="0"
+      >
+      <input
+        v-else
         type="text"
         class="q-search-input no-style"
         :placeholder="$quasar.theme === 'mat' ? placeholder : ''"
         v-model="model"
-        @focus="focus()"
-        @blur="blur()"
+        @focus="focus"
+        @blur="blur"
         :disabled="disable"
         :readonly="readonly"
         tabindex="0"
       >
       <button
         class="q-search-clear"
-        @click="clear()"
+        @click="clear"
         :class="{hidden: this.model === ''}"
       >
         <i class="mat-only">clear</i>
@@ -35,9 +48,10 @@
 export default {
   props: {
     value: {
-      type: String,
+      type: [String, Number],
       default: ''
     },
+    numeric: Boolean,
     debounce: {
       type: Number,
       default: 300
@@ -56,42 +70,46 @@ export default {
   data () {
     return {
       focused: false,
-      hasText: this.value.length > 0,
-      timer: null
+      timer: null,
+      isEmpty: !this.value && this.value !== 0
     }
   },
   computed: {
     model: {
       get () {
-        this.hasText = this.value.length > 0
+        this.isEmpty = !this.value && this.value !== 0
         return this.value
       },
       set (value) {
-        this.hasText = value.length > 0
         clearTimeout(this.timer)
-        if (this.value !== value) {
-          if (!this.hasText) {
-            this.$emit('input', '')
-            return
-          }
-          this.timer = setTimeout(() => {
-            this.$emit('input', value)
-          }, this.debounce)
+        this.isEmpty = !value && value !== 0
+        if (this.value === value) {
+          return
         }
+        if (this.isEmpty) {
+          this.$emit('input', '')
+          return
+        }
+        this.timer = setTimeout(() => {
+          this.$emit('input', value)
+        }, this.debounce)
       }
     },
     centered () {
       return !this.focused && this.value === ''
+    },
+    editable () {
+      return !this.disable && !this.readonly
     }
   },
   methods: {
     clear () {
-      if (!this.disable && !this.readonly) {
+      if (this.editable) {
         this.model = ''
       }
     },
     focus () {
-      if (!this.disable && !this.readonly) {
+      if (this.editable) {
         this.focused = true
       }
     },
