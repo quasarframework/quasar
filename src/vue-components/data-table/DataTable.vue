@@ -1,5 +1,5 @@
 <template>
-  <div class="q-data-table shadow-1">
+  <div class="q-data-table">
     <template v-if="hasToolbar && toolbar === ''">
       <div class="q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end">
         <div v-if="config.title" class="q-data-table-title ellipsis auto" v-html="config.title"></div>
