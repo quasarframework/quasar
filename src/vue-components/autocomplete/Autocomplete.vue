@@ -42,7 +42,7 @@ export default {
       type: Number,
       default: 6
     },
-    debounce: {
+    delay: {
       type: Number,
       default: 500
     },
@@ -160,7 +160,7 @@ export default {
     },
     __delayTrigger () {
       clearTimeout(this.timer)
-      this.timer = setTimeout(this.trigger, this.staticData ? 0 : this.debounce)
+      this.timer = setTimeout(this.trigger, this.staticData ? 0 : this.delay)
     },
     __handleKeypress (e) {
       switch (e.keyCode || e.which) {
