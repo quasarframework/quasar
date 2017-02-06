@@ -11,6 +11,7 @@
       <input
         v-if="numeric"
         type="number"
+        pattern="[0-9]*"
         class="q-search-input no-style"
         :placeholder="$q.theme === 'mat' ? placeholder : ''"
         v-model="model"

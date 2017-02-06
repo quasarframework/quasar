@@ -10,6 +10,7 @@
     <input
       ref="input"
       type="number"
+      pattern="[0-9]*"
       v-model.number.lazy="newPage"
       :style="{width: inputPlaceholder.length * 10 + 'px'}"
       :placeholder="inputPlaceholder"

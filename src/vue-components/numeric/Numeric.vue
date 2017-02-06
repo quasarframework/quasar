@@ -8,6 +8,7 @@
       class="no-style auto q-input-field"
       type="number"
       v-model.number="model"
+      pattern="[0-9]*"
       @blur="__updateValue"
       @keydown.up="__updateValue"
       @keydown.down="__updateValue"
