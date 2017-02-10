@@ -1,18 +1,22 @@
 <template>
-  <q-picker-textfield
-    :disable="disable"
+  <q-input
+    ref="input"
+    :disabled="disable"
     :readonly="readonly"
-    :label="label"
     :placeholder="placeholder"
-    :static-label="staticLabel"
     :value="actualValue"
+    :float-label="floatLabel"
+    :stacked-label="stackedLabel"
+    dropdown
     @click.native="__open"
     @keydown.native.enter="open"
   >
     <q-popover
       v-if="desktop"
       ref="popup"
-      @open="__setModel()"
+      @open="__openedPopover"
+      @close="$refs.input.__blur()"
+      :offset="[0, 8]"
       :disable="disable || readonly"
     >
       <q-inline-datetime v-model="model" :type="type" :min="min" :max="max" class="no-border">
@@ -118,6 +122,10 @@ export default {
         this.__setModel()
         this.$refs.popup.open()
       }
+    },
+    __openedPopover () {
+      this.__setModel()
+      this.$refs.input.__focus()
     },
     close (fn) {
       this.$refs.popup.close(fn)

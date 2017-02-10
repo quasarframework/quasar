@@ -26,7 +26,8 @@ export const input = {
     default: 'Cancel'
   },
   defaultSelection: String,
-  label: String,
+  floatLabel: String,
+  stackedLabel: String,
   placeholder: String,
   staticLabel: String,
   readonly: Boolean,

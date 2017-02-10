@@ -12,14 +12,16 @@ export function getAnchorPosition (el, offset) {
     }
 
   if (offset) {
-    a.top += offset[1]
-    a.left += offset[0]
+    a.top -= offset[1]
+    a.left -= offset[0]
     if (bottom) {
       bottom += offset[1]
     }
     if (right) {
       right += offset[0]
     }
+    a.width + offset[0]
+    a.height + offset[1]
   }
 
   a.right = right || a.left + a.width

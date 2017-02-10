@@ -1,0 +1,82 @@
+$field-primary-color          ?= $primary
+$field-icon-color             ?= rgba(0, 0, 0, .38)
+$field-helper-color           ?= rgba(0, 0, 0, .38)
+$field-label-color            ?= rgba(0, 0, 0, .54)
+
+.q-field-icon
+  width 1.75rem
+  min-width 1.75rem
+  font-size 1.75rem
+  line-height 1.75rem
+  border-radius 50%
+  cursor default
+  margin 0 12px
+
+.q-field-label
+  cursor pointer
+  margin .3rem 5px 0 0
+  font-size small
+
+.q-field-label, .q-field-count
+  transition color .3s ease-out
+  color $field-label-color
+
+.q-field-content
+  width 66%
+
+.q-field-error
+  color $negative
+
+.q-field-bottom
+  margin-top 8px
+  > div
+    font-size small
+
+.q-field-helper, .q-field-icon
+  transition color .3s ease-out
+.q-field-helper
+  color $field-helper-color
+.q-field-icon
+  color $field-icon-color
+
+vertical-field()
+  .q-field-label, .q-field.floating .q-field-label
+    margin 0 0 8px
+  .q-field-container
+    flex-direction column
+  .q-field-content
+    width 100% !important
+
+.q-field
+  padding 15px 0
+
+  .q-input
+    margin-top 0
+    margin-bottom 0
+
+  &.floating
+    .q-field-icon
+      margin-top 1rem
+    .q-field-label
+      margin-top 1.4rem
+  &:hover, &.focused
+    .q-field-icon, .q-field-label
+      color $field-primary-color
+
+  &.has-error
+    .q-field-label, .q-field-icon
+      color $negative
+    /* if you change this, make same changes to q-input file */
+    .q-input
+      border-bottom 1px solid $has-error
+      .q-input-label, .q-input-comp
+        color $negative
+      .q-input-border
+        background $has-error
+
+  &.vertical
+    vertical-field()
+
+@media (max-width $layout-small-max)
+  .q-field:not(.horizontal)
+    vertical-field()

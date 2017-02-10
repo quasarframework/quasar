@@ -1,14 +1,23 @@
 <template>
-  <q-picker-textfield
-    :disable="disable"
+  <q-input
+    ref="input"
+    :disabled="disable"
     :readonly="readonly"
-    :label="label"
     :placeholder="placeholder"
-    :static-label="staticLabel"
     :value="actualValue"
+    :float-label="floatLabel"
+    :stacked-label="stackedLabel"
+    dropdown
     @keydown.native.enter="open"
   >
-    <q-popover ref="popover" :disable="disable || readonly" fit>
+    <q-popover
+      ref="popover"
+      fit
+      :disable="disable || readonly"
+      @open="$refs.input.__focus()"
+      @close="$refs.input.__blur()"
+      :offset="[0, 8]"
+    >
       <div class="q-select-popover list highlight">
         <label v-if="type === 'radio'" v-for="radio in options" class="item" @click="close">
           <div class="item-primary">
@@ -48,7 +57,7 @@
         </label>
       </div>
     </q-popover>
-  </q-picker-textfield>
+  </q-input>
 </template>
 
 <script>
@@ -73,9 +82,10 @@ export default {
         return ['radio', 'list', 'checkbox', 'toggle'].includes(value)
       }
     },
-    label: String,
     placeholder: String,
     staticLabel: String,
+    floatLabel: String,
+    stackedLabel: String,
     readonly: Boolean,
     disable: Boolean,
     delimiter: Boolean
@@ -102,6 +112,9 @@ export default {
       return ['checkbox', 'toggle'].includes(this.type)
     },
     actualValue () {
+      if (this.staticLabel) {
+        return this.staticLabel
+      }
       if (!this.multipleSelection) {
         let option = this.options.find(option => option.value === this.model)
         return option ? option.label : ''

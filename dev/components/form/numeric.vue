@@ -2,6 +2,13 @@
   <div>
     <div class="layout-padding">
 
+      <q-input type="number" v-model="freeNumber" />
+      <q-input type="number" v-model="freeNumber" :min="5" :max="15" :step="2" />
+
+      <q-field icon="cloud" label="Number" error-label="Minimum 5. Maximum 15">
+        <q-input float-label="Volume" type="number" v-model="freeNumber" :min="5" :max="15" :step="0.15" :max-decimals="2" />
+      </q-field>
+
       <p class="caption">Default (no min-max)</p>
       <div style="margin-bottom: 25px">
         <q-numeric v-model="freeNumber"></q-numeric>

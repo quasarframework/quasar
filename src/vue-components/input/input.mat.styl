@@ -1,0 +1,127 @@
+$textfield-border-size        ?= 2px
+$textfield-border-style       ?= solid
+$textfield-border-color       ?= $form-lighter-color
+$textfield-focus-border-color ?= $form-active-color
+
+$textfield-padding-horizontal ?= 0
+$textfield-padding-vertical   ?= 8px
+
+$input-primary-color          ?= $primary
+$input-icon-color             ?= rgba(0, 0, 0, .38)
+$input-label-color            ?= rgba(0, 0, 0, .54)
+
+input, textarea
+  border 0
+  outline 0
+  padding 0
+  max-width 100%
+  background transparent
+
+  &:not(.no-style)
+    padding 0 $textfield-padding-horizontal $textfield-padding-vertical
+    transition all .3s
+    border-bottom $textfield-border-size $textfield-border-style $textfield-border-color
+    &:focus, &:hover, &.active
+      border-bottom $textfield-border-size $textfield-border-style $textfield-focus-border-color
+    &[disabled], &.disabled, &[readonly], &.readonly
+      border-bottom-color darken($form-darker-color, 20%)
+      border-bottom-style dotted
+    &[readonly], &.readonly
+      font-style italic
+    &.has-error
+      border-bottom $textfield-border-size $textfield-border-style $has-error !important
+
+.caret
+  display inline-block
+  width 0
+  height 0
+  vertical-align middle
+  border-top 4px solid $input-icon-color
+  border-right 4px solid transparent
+  border-left 4px solid transparent
+
+.q-input-label
+  cursor pointer
+  transition all .3s ease-out
+  color $input-label-color
+  position absolute
+  &:not(.above)
+    cursor text
+  &.above
+    left 0
+    font-size small
+    transform translateY(-1.3rem)
+
+.q-input-border
+  position absolute
+  left 50%
+  right 0
+  bottom -1px
+  height 2px
+  background $field-primary-color
+  width 0
+  transform translateX(-50%)
+  transition width .3s ease-out
+
+.q-input-comp
+  cursor default
+.q-input-faded
+  color $faded
+.q-input-small
+  font-size small
+.q-input-button
+  color $faded
+  cursor pointer
+  padding 0 5px
+
+.q-input
+  position relative
+  border-bottom 1px solid $grey-4
+  transition border-color .3s ease-out
+  margin-top 1rem
+  margin-bottom .5rem
+
+  &.dropdown:not(.disabled):not(.readonly)
+    cursor pointer !important
+    input, textarea, .q-input-comp, .q-input-label
+      cursor pointer !important
+      font-style normal
+
+  &:not(.textarea)
+    padding-bottom 8px
+
+  > .q-input-comp + .q-input-comp
+    margin-left 4px
+
+  &:not(.disabled):not(.readonly):not(.has-error)
+    &:hover, &.focused
+      .q-input-label
+        color $input-primary-color
+
+  &.disabled, &.readonly
+    border-bottom-style dotted
+    border-bottom-width 2px
+  &.readonly
+    input, textarea
+      font-style italic
+
+  input
+    width 100%
+  textarea
+    width 100%
+    min-height 2rem
+    resize vertical
+
+  &.focused .q-input-border
+    width 100%
+
+  &.has-label
+    padding-top 1.25rem
+
+  /* if you change this, make same changes to q-field file */
+  &.has-error
+    border-bottom 1px solid $has-error
+    .q-input-label, .q-input-comp
+      color $negative
+    .q-input-border
+      background $has-error

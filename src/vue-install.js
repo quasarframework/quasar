@@ -30,10 +30,12 @@ import InlineDatetimeIOS from './vue-components/datetime/InlineDatetimeIOS.vue'
 import Drawer from './vue-components/drawer/Drawer.vue'
 import DrawerLink from './vue-components/drawer/DrawerLink.vue'
 import Fab from './vue-components/fab/Fab.vue'
+import Field from './vue-components/field/Field.vue'
 import SmallFab from './vue-components/fab/SmallFab.vue'
 import Gallery from './vue-components/gallery/Gallery.vue'
 import GallerySlider from './vue-components/gallery/GallerySlider.vue'
 import InfiniteScroll from './vue-components/infinite-scroll/InfiniteScroll.vue'
+import Input from './vue-components/input/Input.vue'
 import Knob from './vue-components/knob/Knob.vue'
 import Layout from './vue-components/layout/Layout.vue'
 import ListItem from './vue-components/list-item/ListItem.vue'
@@ -100,11 +102,13 @@ function registerComponents (_Vue) {
     ['drawer', Drawer],
     ['drawer-link', DrawerLink],
     ['fab', Fab],
+    ['field', Field],
     ['small-fab', SmallFab],
     ['gallery', Gallery],
     ['gallery-slider', GallerySlider],
     ['checkbox', Checkbox],
     ['infinite-scroll', InfiniteScroll],
+    ['input', Input],
     ['knob', Knob],
     ['layout', Layout],
     ['list-item', ListItem],

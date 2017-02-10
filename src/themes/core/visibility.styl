@@ -71,14 +71,11 @@
   white-space nowrap
   overflow hidden
 
-.readonly, [readonly]
+.readonly, [readonly], .disabled, [disabled]
   &, * // @stylint ignore
     cursor not-allowed !important
-    font-style italic !important
 .disabled, [disabled]
   opacity .6 !important
-  &, * // @stylint ignore
-    cursor not-allowed !important
 
 .hidden
   display none !important

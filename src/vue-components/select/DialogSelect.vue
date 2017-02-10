@@ -1,14 +1,16 @@
 <template>
-  <q-picker-textfield
-    :disable="disable"
+  <q-input
+    ref="input"
+    :disabled="disable"
     :readonly="readonly"
-    :label="label"
     :placeholder="placeholder"
-    :static-label="staticLabel"
     :value="actualValue"
+    :float-label="floatLabel"
+    :stacked-label="stackedLabel"
+    dropdown
     @click.native="pick"
     @keydown.native.enter="pick"
-  ></q-picker-textfield>
+  />
 </template>
 
 <script>
@@ -48,14 +50,18 @@ export default {
       default: 'Select'
     },
     message: String,
-    label: String,
     placeholder: String,
     staticLabel: String,
+    floatLabel: String,
+    stackedLabel: String,
     readonly: Boolean,
     disable: Boolean
   },
   computed: {
     actualValue () {
+      if (this.staticLabel) {
+        return this.staticLabel
+      }
       if (this.type === 'radio') {
         let option = this.options.find(option => option.value === this.value)
         return option ? option.label : ''
@@ -85,9 +91,13 @@ export default {
         }
       })
 
+      this.$refs.input.__focus()
       Dialog.create({
         title: this.title,
         message: this.message,
+        onDismiss: () => {
+          this.$refs.input.__blur()
+        },
         form: {
           select: {type: this.type, model: this.value, items: options}
         },

@@ -21,25 +21,25 @@
       <div class="group">
         <button class="indigo">
           Hover
-          <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, -10]">
+          <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
             <strong>Tooltip</strong> on <em>top</em> (<i>keyboard_arrow_up</i>)
           </q-tooltip>
         </button>
         <button class="red">
           Over
-          <q-tooltip anchor="center right" self="center left" :offset="[10, 0]">
+          <q-tooltip anchor="center right" self="center left" :offset="[10, 10]">
             <strong>Tooltip</strong> on <em>right</em> (<i>keyboard_arrow_right</i>)
           </q-tooltip>
         </button>
         <button class="purple">
           These
-          <q-tooltip anchor="center left" self="center right" :offset="[-10, 0]">
+          <q-tooltip anchor="center left" self="center right" :offset="[10, 10]">
             <strong>Tooltip</strong> on <em>left</em> (<i>keyboard_arrow_left</i>)
           </q-tooltip>
         </button>
         <button class="amber">
           Buttons
-          <q-tooltip anchor="bottom middle" self="top middle" :offset="[0, 10]">
+          <q-tooltip anchor="bottom middle" self="top middle" :offset="[10, 10]">
             <strong>Tooltip</strong> on <em>bottom</em> (<i>keyboard_arrow_down</i>)
           </q-tooltip>
         </button>
