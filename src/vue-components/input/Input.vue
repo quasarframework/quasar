@@ -107,6 +107,7 @@
       <span class="caret"></span>
     </span>
     <div v-if="$q.theme === 'mat'" class="q-input-border"></div>
+    <slot></slot>
   </div>
 </template>
 
