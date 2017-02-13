@@ -20,27 +20,29 @@
         :class="{dragging: dragging, 'track-draggable': dragRange}"
         :style="{left: percentageMin * 100 + '%', width: activeTrackWidth}"
       ></div>
-      <div
-        class="q-range-handle q-range-handle-min"
-        :style="{left: percentageMin * 100 + '%'}"
-        :class="{dragging: dragging, 'handle-at-minimum': value.min === min, undraggable: disableMin}"
-      >
+      <div class="q-range-handler">
         <div
-          class="q-range-label"
-          :class="{'label-always': labelAlways}"
-          v-if="label || labelAlways"
-        >{{ value.min }}</div>
-      </div>
-      <div
-        class="q-range-handle q-range-handle-max"
-        :style="{left: percentageMax * 100 + '%'}"
-        :class="{dragging: dragging, 'handle-at-maximum': value.max === max, undraggable: disableMax}"
-      >
+          class="q-range-handle q-range-handle-min"
+          :style="{left: percentageMin * 100 + '%'}"
+          :class="{dragging: dragging, 'handle-at-minimum': value.min === min, undraggable: disableMin}"
+        >
+          <div
+            class="q-range-label"
+            :class="{'label-always': labelAlways}"
+            v-if="label || labelAlways"
+          >{{ value.min }}</div>
+        </div>
         <div
-          class="q-range-label"
-          :class="{'label-always': labelAlways}"
-          v-if="label || labelAlways"
-        >{{ value.max }}</div>
+          class="q-range-handle q-range-handle-max"
+          :style="{left: percentageMax * 100 + '%'}"
+          :class="{dragging: dragging, 'handle-at-maximum': value.max === max, undraggable: disableMax}"
+        >
+          <div
+            class="q-range-label"
+            :class="{'label-always': labelAlways}"
+            v-if="label || labelAlways"
+          >{{ value.max }}</div>
+        </div>
       </div>
     </div>
   </div>
