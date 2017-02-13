@@ -60,6 +60,13 @@
       <q-range class="orange" v-model="standalone" :min="0" :max="50" label></q-range>
       <q-range class="dark" v-model="standalone" :min="0" :max="50" label></q-range>
 
+      <q-field
+        label="Range label"
+        icon="cloud"
+      >
+        <q-range class="dark" v-model="standalone" :min="0" :max="50" label></q-range>
+      </q-field>
+
       <p class="caption">Inside of a List</p>
       <div class="list">
         <div class="item two-lines">

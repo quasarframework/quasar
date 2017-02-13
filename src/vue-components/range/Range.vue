@@ -1,7 +1,7 @@
 <template>
   <div
     class="q-range non-selectable"
-    :class="{disabled: disable}"
+    :class="{disabled: disable, 'label-always': labelAlways}"
     @click="__click"
     v-touch-pan.horizontal="__pan"
   >
@@ -18,16 +18,18 @@
         :style="{width: percentage}"
         :class="{'no-transition': dragging, 'handle-at-minimum': value === min}"
       ></div>
-      <div
-        class="q-range-handle"
-        :style="{left: percentage}"
-        :class="{dragging: dragging, 'handle-at-minimum': value === min}"
-      >
+      <div class="q-range-handler">
         <div
-          class="q-range-label"
-          :class="{'label-always': labelAlways}"
-          v-if="label || labelAlways"
-        >{{ value }}</div>
+          class="q-range-handle"
+          :style="{left: percentage}"
+          :class="{dragging: dragging, 'handle-at-minimum': value === min}"
+        >
+          <div
+            class="q-range-label"
+            :class="{'label-always': labelAlways}"
+            v-if="label || labelAlways"
+          >{{ value }}</div>
+        </div>
       </div>
     </div>
   </div>
@@ -125,8 +127,8 @@ export default {
       let container = this.$refs.handle
 
       this.dragging = {
-        left: container.getBoundingClientRect().left,
-        width: container.offsetWidth
+        left: container.getBoundingClientRect().left + 10,
+        width: container.offsetWidth - 20
       }
       this.__update(event)
     },

@@ -41,19 +41,17 @@ $range-handle-box-shadow   ?= 0 1px 3px 1px rgba(0, 0, 0, .4)
 .q-range-handle-container
   position relative
   height 100%
-  margin-left ($range-handle-size / 2)
-  margin-right ($range-handle-size / 2)
 
 .q-range-label
   position relative
-  top (- $range-handle-size / 1.5)
-  left 0
+  top (- $range-handle-size / 1.2)
+  left (- $range-handle-size / 4)
   padding 8px 0
   opacity 0
   text-align center
   transform translateY(0) scale(.1)
   transition all .3s ease
-  width $range-handle-size
+  width (1.5 * $range-handle-size)
   height ($range-handle-size / 2)
   font-size ($range-handle-size / 2)
   line-height ($range-handle-size / 2.1)
@@ -61,8 +59,15 @@ $range-handle-box-shadow   ?= 0 1px 3px 1px rgba(0, 0, 0, .4)
   background rgba(0, 0, 0, .8)
   border-radius $generic-border-radius
   &.label-always
-    opacity 1
+    opacity .9
     transform translateY(-50%) scale(.7)
+
+.q-range-handler
+  position relative
+  width 'calc(100% - %s)' % $range-handle-size
+  height 100%
+  margin-left ($range-handle-size / 2)
+  margin-right ($range-handle-size / 2)
 
 .q-range-handle
   position absolute
@@ -80,7 +85,7 @@ $range-handle-box-shadow   ?= 0 1px 3px 1px rgba(0, 0, 0, .4)
     transform translate3d(-50%, -50%, 0)
     transition opacity .3s ease, transform .3s ease
     .q-range-label
-      opacity 1
+      opacity .9
       transform translateY(-50%)
   &.undraggable
     background lighten($range-color, 20%)
@@ -90,6 +95,9 @@ $range-handle-box-shadow   ?= 0 1px 3px 1px rgba(0, 0, 0, .4)
   height $range-height
   width 100%
   cursor pointer
+
+  &.label-always
+    padding-top (1.75 * $range-handle-size)
 
   for $name, $color in $colors
     &.{$name} .q-range-track.active-track

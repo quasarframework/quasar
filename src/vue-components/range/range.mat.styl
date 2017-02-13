@@ -5,10 +5,10 @@ $range-active-color        ?= $form-active-color
 $range-track-height        ?= 2px
 $range-mark-height         ?= 10px
 
-$range-handle-size         ?= 20px
+$range-handle-size         ?= 18px
 $range-handle-radius       ?= 50%
 
-
+$range-label-size = (1.5 * $range-handle-size)
 
 .q-range-track
   position absolute
@@ -41,8 +41,6 @@ $range-handle-radius       ?= 50%
 .q-range-handle-container
   position relative
   height 100%
-  margin-left ($range-handle-size / 2)
-  margin-right ($range-handle-size / 2)
 
 .q-range-label
   position relative
@@ -53,8 +51,8 @@ $range-handle-radius       ?= 50%
   text-align center
   transform translateY(0) scale(.1)
   transition all .3s ease
-  width (1.5 * $range-handle-size)
-  height (1.5 * $range-handle-size)
+  width $range-label-size
+  height $range-label-size
   font-size ($range-handle-size / 2)
   line-height ($range-handle-size / 3)
   color white
@@ -76,10 +74,17 @@ $range-handle-radius       ?= 50%
 .q-range-handle.undraggable>.q-range-label
   top (- $range-handle-size - ($range-handle-size * .75))
 
+.q-range-handler
+  position relative
+  width 'calc(100% - %s)' % $range-handle-size
+  height 100%
+  margin-left ($range-handle-size / 2)
+  margin-right ($range-handle-size / 2)
+
 .q-range-handle
   position absolute
   top 50%
-  transform translate3d(-50%, -50%, 0) scale(.67)
+  transform translate3d(-50%, -50%, 0)
   transform-origin center
   transition all .3s ease
   width $range-handle-size
@@ -87,7 +92,7 @@ $range-handle-radius       ?= 50%
   border-radius $range-handle-radius
   box-sizing content-box
   &.dragging
-    transform translate3d(-50%, -50%, 0) scale(1)
+    transform translate3d(-50%, -50%, 0) scale(1.3)
     transition opacity .3s ease, transform .3s ease
     .q-range-label
       opacity 1
@@ -130,6 +135,9 @@ $range-handle-radius       ?= 50%
   height $range-height
   width 100%
   cursor pointer
+
+  &.label-always
+    padding-top (1.8 * $range-label-size)
 
   for $name, $color in $colors
     &.{$name}
