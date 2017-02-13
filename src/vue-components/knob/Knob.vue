@@ -2,14 +2,12 @@
   <div
     class="q-knob non-selectable"
     :class="{disabled: disable, 'cursor-pointer': !readonly}"
-    @mousedown="__dragStart"
-    @mousemove="__dragMove"
-    @mouseup="__dragStop"
-    @touchstart="__dragStart"
-    @touchmove="__dragMove"
-    @touchend="__dragStop"
+    :style="{width: size, height: size}"
   >
-    <div :style="{width: size, height: size}">
+    <div
+      @click="__onInput"
+      v-touch-pan="__pan"
+    >
       <svg viewBox="0 0 100 100">
         <path
           d="M 50,50 m 0,-47
@@ -89,8 +87,8 @@ export default {
         'transition': this.dragging ? '' : 'stroke-dashoffset 0.6s ease 0s, stroke 0.6s ease'
       }
     },
-    disabled () {
-      return this.disable || this.readonly
+    editable () {
+      return !this.disable && !this.readonly
     }
   },
   data () {
@@ -109,54 +107,66 @@ export default {
     }
   },
   methods: {
+    __pan (event) {
+      if (!this.editable) {
+        return
+      }
+      if (event.isFinal) {
+        this.__dragStop(event.evt)
+      }
+      else if (event.isFirst) {
+        this.__dragStart(event.evt)
+      }
+      else {
+        this.__dragMove(event.evt)
+      }
+    },
     __dragStart (ev) {
-      if (this.disabled) {
+      if (!this.editable) {
         return
       }
       ev.stopPropagation()
       ev.preventDefault()
 
-      let knobOffset = Utils.dom.offset(this.$el)
-
-      this.centerPosition = {
-        top: knobOffset.top + Utils.dom.height(this.$el) / 2,
-        left: knobOffset.left + Utils.dom.width(this.$el) / 2
-      }
+      this.centerPosition = this.__getCenterPosition()
 
       this.dragging = true
       this.__onInput(ev)
     },
     __dragMove (ev) {
-      if (!this.dragging || this.disabled) {
+      if (!this.dragging || !this.editable) {
         return
       }
       ev.stopPropagation()
       ev.preventDefault()
-      this.__onInput(ev)
+      this.__onInput(ev, this.centerPosition)
     },
     __dragStop (ev) {
-      if (this.disabled) {
+      if (!this.editable) {
         return
       }
       ev.stopPropagation()
       ev.preventDefault()
       this.dragging = false
     },
-    __onInput (ev) {
+    __onInput (ev, centerPosition = this.__getCenterPosition()) {
+      if (!this.editable) {
+        return
+      }
       let
         position = Utils.event.position(ev),
-        height = Math.abs(position.top - this.centerPosition.top),
+        height = Math.abs(position.top - centerPosition.top),
         distance = Math.sqrt(
-          Math.pow(Math.abs(position.top - this.centerPosition.top), 2) +
-          Math.pow(Math.abs(position.left - this.centerPosition.left), 2)
+          Math.pow(Math.abs(position.top - centerPosition.top), 2) +
+          Math.pow(Math.abs(position.left - centerPosition.left), 2)
         ),
         angle = Math.asin(height / distance) * (180 / Math.PI)
 
-      if (position.top < this.centerPosition.top) {
-        angle = this.centerPosition.left < position.left ? 90 - angle : 270 + angle
+      if (position.top < centerPosition.top) {
+        angle = centerPosition.left < position.left ? 90 - angle : 270 + angle
       }
       else {
-        angle = this.centerPosition.left < position.left ? angle + 90 : 270 - angle
+        angle = centerPosition.left < position.left ? angle + 90 : 270 - angle
       }
 
       let
@@ -164,6 +174,13 @@ export default {
         modulo = model % this.step
 
       this.$emit('input', Utils.format.between(model - modulo + (Math.abs(modulo) >= this.step / 2 ? (modulo < 0 ? -1 : 1) * this.step : 0), this.min, this.max))
+    },
+    __getCenterPosition () {
+      let knobOffset = Utils.dom.offset(this.$el)
+      return {
+        top: knobOffset.top + Utils.dom.height(this.$el) / 2,
+        left: knobOffset.left + Utils.dom.width(this.$el) / 2
+      }
     }
   }
 }

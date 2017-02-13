@@ -159,6 +159,23 @@
       <q-input v-model="model" :count="10" inline-count />
       <q-input type="textarea" v-model="model" :count="10" inline-count />
 
+      <q-field label="With Tooltip">
+        <q-input v-model="model" :count="10">
+          <q-tooltip :offset="[0, 10]">
+            Some tooltip
+          </q-tooltip>
+        </q-input>
+      </q-field>
+      <q-field label="With Popover">
+        <q-input v-model="model" :count="10">
+          <q-popover>
+            <div style="padding: 10px" class="bg-primary text-white">
+              Some tooltip
+            </div>
+          </q-popover>
+        </q-input>
+      </q-field>
+
       <q-field>
         <q-input v-model="model" :count="10" />
       </q-field>

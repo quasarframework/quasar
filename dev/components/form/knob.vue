@@ -73,6 +73,20 @@
         :placeholder="'<i>volume_up</i> ' + model"
         disable
       ></q-knob>
+
+      <p class="caption">Inside Field</p>
+      <q-field
+        label="Knob"
+        helper="Touch to change"
+        icon="cake"
+      >
+        <q-knob
+          v-model="model"
+          :min="min"
+          :max="max"
+          :placeholder="'<i>volume_up</i> ' + model"
+        ></q-knob>
+      </q-field>
     </div>
   </div>
 </template>
