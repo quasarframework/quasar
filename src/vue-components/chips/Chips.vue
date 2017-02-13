@@ -1,35 +1,24 @@
 <template>
-  <div
-    class="q-chips group textfield"
-    @click="focus"
-    :class="{active: active, disabled: disable, readonly: readonly}"
+  <q-input
+    ref="input"
+    v-model="input"
+    @keydown="__handleKey"
+    :disabled="disable"
+    :readonly="readonly"
+    :placeholder="placeholder"
+    :error="error"
+    @click.native="focus"
+    class="q-chips"
   >
-    <span
-      class="chip label bg-light text-grey-9"
-      v-for="(label, index) in value"
-      :key="index"
-    >
+    <div slot="flow-before" v-for="(label, index) in value" :key="index" class="chip label bg-light text-grey-9">
       {{ label }}
       <i class="on-right" @click="remove(index)">close</i>
-    </span>
-    <div class="q-chips-input chip label text-grey-9">
-      <input
-        type="text"
-        class="no-style"
-        ref="input"
-        v-model="input"
-        @keyup.enter="add()"
-        @focus="active = true"
-        @blur="active = false"
-        :disabled="disable"
-        :placeholder="placeholder"
-        tabindex="0"
-      >
-      <button class="small" @click="add()" :class="{invisible: !input.length}">
-        <i>send</i>
-      </button>
     </div>
-  </div>
+
+    <i slot="after" class="self-end q-chips-button" @click="add()" :class="{invisible: !input.length}">
+      send
+    </i>
+  </q-input>
 </template>
 
 <script>
@@ -41,11 +30,11 @@ export default {
     },
     disable: Boolean,
     readonly: Boolean,
+    error: Boolean,
     placeholder: String
   },
   data () {
     return {
-      active: false,
       input: ''
     }
   },
@@ -65,6 +54,19 @@ export default {
     },
     focus () {
       this.$refs.input.focus()
+    },
+    __handleKey (e) {
+      // ENTER key
+      if (e.which === 13 || e.keyCode === 13) {
+        this.add()
+      }
+      // Backspace key
+      else if (e.which === 8 || e.keyCode === 8) {
+        const length = this.value.length
+        if (!this.input.length && length) {
+          this.remove(length - 1)
+        }
+      }
     }
   }
 }

@@ -20,16 +20,21 @@
       <span v-if="prefix" class="q-input-comp" v-html="prefix"></span>
     </slot>
     <div
-      class="q-input-target q-input-comp auto"
-      :class="{'relative-position': floatLabel && !labelIsAbove}"
+      class="q-input-target q-input-comp auto row"
+      :class="{
+        'relative-position': floatLabel && !labelIsAbove,
+        flow: $slots['flow-before'] || $slots['flow-after']
+      }"
     >
-      <div
-        v-if="label"
-        class="q-input-label ellipsis full-width"
-        :class="{above: labelIsAbove}"
-        v-html="label"
-        @click="focus"
-      ></div>
+      <slot name="flow-before">
+        <div
+          v-if="label"
+          class="q-input-label ellipsis full-width"
+          :class="{above: labelIsAbove}"
+          v-html="label"
+          @click="focus"
+        ></div>
+      </slot>
 
       <textarea
         v-if="isTextarea"
@@ -40,6 +45,8 @@
         @focus="__focus"
         @blur="__blur"
         @mousedown="__mousedown"
+        @keydown="__keydown"
+        @keyup="__keyup"
         :name="name"
         :autofocus="autofocus"
         :pattern="pattern"
@@ -48,7 +55,7 @@
         :readonly="readonly || dropdown"
         :required="required"
         :maxlength="maxlength"
-        class="no-style full-width"
+        class="no-style"
       ></textarea>
       <input
         v-else
@@ -59,6 +66,8 @@
         @focus="__focus"
         @blur="__blur"
         @mousedown="__mousedown"
+        @keydown="__keydown"
+        @keyup="__keyup"
         :name="name"
         :autofocus="autofocus"
         :pattern="inputPattern"
@@ -70,8 +79,10 @@
         :min="min"
         :max="max"
         :step="step"
-        class="no-style full-width"
+        class="no-style"
       >
+
+      <slot name="flow-after"></slot>
     </div>
     <slot name="after">
       <span v-if="suffix" class="q-input-comp" v-html="suffix"></span>
@@ -96,7 +107,6 @@
       <span class="caret"></span>
     </span>
     <div v-if="$q.theme === 'mat'" class="q-input-border"></div>
-    <slot></slot>
   </div>
 </template>
 
@@ -176,7 +186,7 @@ export default {
         return this.value
       },
       set (val) {
-        if (this.value !== val) {
+        if (this.editable && this.value !== val) {
           this.$emit('input', val)
         }
       }
@@ -261,7 +271,6 @@ export default {
         this.$refs.input.focus()
         return
       }
-      this.__focus()
     },
     togglePassVisibility () {
       this.showPass = !this.showPass
@@ -280,6 +289,12 @@ export default {
       this.focused = false
       this.$emit('blur')
     },
+    __keydown (e) {
+      this.$emit('keydown', e)
+    },
+    __keyup (e) {
+      this.$emit('keyup', e)
+    },
     __notify (type, value) {
       if (!this.field) {
         return
@@ -287,7 +302,7 @@ export default {
 
       this.$nextTick(() => {
         if (type === 'error') {
-          this.field.__setError(this.hasError)
+          this.field.__setError(value !== false && this.hasError)
         }
         else if (type === 'focus') {
           this.field.__setFocus(this.focused)
@@ -301,7 +316,7 @@ export default {
       })
     },
     __mousedown (e) {
-      if (!this.editable && this.$q.platform.is.ios) {
+      if (!this.editable) {
         e.preventDefault()
       }
     }
@@ -315,6 +330,7 @@ export default {
   beforeDestroy () {
     this.__notify('count')
     this.__notify('floating', false)
+    this.__notify('error', false)
   }
 }
 </script>

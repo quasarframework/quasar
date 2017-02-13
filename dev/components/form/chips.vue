@@ -21,7 +21,17 @@
       <q-chips v-model="model" readonly></q-chips>
 
       <p class="caption">Error State</p>
-      <q-chips v-model="model" class="has-error"></q-chips>
+      <q-chips v-model="model" error></q-chips>
+
+      <p class="caption">Inside Field</p>
+      <q-field
+        icon="account_box"
+        label="Birthday"
+        helper="Some helper here"
+        :content-width="80"
+      >
+        <q-chips v-model="model" :count="10"></q-chips>
+      </q-field>
 
       <p class="caption">Inside of a List</p>
       <div class="list">

@@ -63,6 +63,17 @@ input, textarea
   transform translateX(-50%)
   transition width .3s ease-out
 
+.q-input-target
+  &.flow
+    flex-wrap wrap
+    input
+      display inline
+      flex 1 1 auto
+      width auto
+  &:not(.flow)
+    input, textarea
+      width 100%
+
 .q-input-comp
   cursor default
 .q-input-faded
@@ -105,10 +116,7 @@ input, textarea
     input, textarea
       font-style italic
 
-  input
-    width 100%
   textarea
-    width 100%
     min-height 2rem
     resize vertical
 

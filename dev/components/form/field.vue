@@ -249,6 +249,16 @@
 
       <q-field
         icon="cloud"
+        helper="Helper Helper Helper Helper Helper Helper Helper Helper Helper"
+        label="Horizontal Horizontal Horizontal Horizontal Horizontal Horizontal"
+        orientation="horizontal"
+        error-label="Max 10 characters!"
+      >
+        <q-input v-model="model" :count="10" float-label="Float label Float label Float label Float label Float label Float label" />
+      </q-field>
+
+      <q-field
+        icon="cloud"
         helper="Horizontal"
         orientation="horizontal"
       >

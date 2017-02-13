@@ -47,7 +47,7 @@ export default {
     },
     contentWidth: {
       type: Number,
-      default: 66,
+      default: 70,
       validator (val) {
         return val > 0 && val < 100
       }
@@ -78,7 +78,9 @@ export default {
       return (this.hasError && this.errorLabel) || this.helper || this.counter
     },
     contentStyle () {
-      return this.label || this.insetLabel ? `width: ${this.contentWidth}%` : `width: 100%`
+      return this.label || this.insetLabel
+        ? {width: `${this.contentWidth}%`, minWidth: `${this.contentWidth}%`}
+        : `width: 100%`
     },
     insetIcon () {
       return ['icon', 'full'].includes(this.inset)
