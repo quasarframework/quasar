@@ -1,6 +1,6 @@
 <template>
-  <span
-    class="q-checkbox cursor-pointer"
+  <div
+    class="q-checkbox cursor-pointer inline"
     :class="{disabled: disable}"
     @click.stop.prevent="toggle"
   >
@@ -12,7 +12,7 @@
       @change="__change"
     >
     <div></div>
-  </span>
+  </div>
 </template>
 
 <script>

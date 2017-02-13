@@ -6,7 +6,8 @@
       floating: floating,
       vertical: vertical,
       horizontal: horizontal,
-      focused: focused
+      focused: focused,
+      'with-icon': icon
     }"
   >
     <i v-if="icon || insetIcon" class="q-field-icon">{{ icon }}</i>

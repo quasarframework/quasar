@@ -28,6 +28,56 @@
         Option 1
       </label>
 
+      <q-field
+        icon="cloud"
+        helper="Helper"
+        label="Horizontal"
+        error-label="Max 10 characters!"
+      >
+        <q-radio-group
+          v-model="option"
+          :options="[
+            { label: 'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ', value: 'op2' },
+            { label: 'Option 3', value: 'op3' },
+            { label: 'Option 4', value: 'op4' }
+          ]"
+        />
+      </q-field>
+
+      <q-field
+        icon="cloud"
+        helper="Helper"
+        label="Horizontal"
+        error-label="Max 10 characters!"
+      >
+        <q-radio-group
+          inline
+          v-model="option"
+          :options="[
+            { label: 'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ', value: 'op2' },
+            { label: 'Option 3', value: 'op3' },
+            { label: 'Option 4', value: 'op4' }
+          ]"
+        />
+      </q-field>
+
+      <q-field
+        icon="cloud"
+        helper="Helper"
+        label="Horizontal"
+        error-label="Max 10 characters!"
+      >
+        <q-radio-group
+          v-model="option"
+          inline
+          :options="[
+            { label: 'Option 2', value: 'op2' },
+            { label: 'Option 3', value: 'op3' },
+            { label: 'Option 4', value: 'op4' }
+          ]"
+        />
+      </q-field>
+
       <p class="caption">Inside of a List</p>
       <div class="list">
         <label class="item">

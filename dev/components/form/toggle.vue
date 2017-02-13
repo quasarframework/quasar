@@ -47,6 +47,41 @@
         Toggle Label
       </label>
 
+      <q-field
+        icon="cloud"
+        helper="Helper"
+        label="Horizontal"
+        error-label="Max 10 characters!"
+      >
+        <q-input-group
+          inline
+          type="toggle"
+          v-model="group"
+          :options="[
+            { label: 'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ', value: 'op2' },
+            { label: 'Option 3', value: 'op3' },
+            { label: 'Option 4', value: 'op4' }
+          ]"
+        />
+      </q-field>
+
+      <q-field
+        icon="cloud"
+        helper="Helper"
+        label="Horizontal"
+        error-label="Max 10 characters!"
+      >
+        <q-input-group
+          type="toggle"
+          v-model="group"
+          :options="[
+            { label: 'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ', value: 'op2' },
+            { label: 'Option 3', value: 'op3' },
+            { label: 'Option 4', value: 'op4' }
+          ]"
+        />
+      </q-field>
+
       <p class="caption">Inside of a List</p>
       <div class="list">
         <label class="item">
@@ -84,7 +119,8 @@
 export default {
   data () {
     return {
-      checked: true
+      checked: true,
+      group: [true, false, false]
     }
   }
 }

@@ -1,6 +1,6 @@
 <template>
-  <span
-    class="q-toggle cursor-pointer"
+  <div
+    class="q-toggle cursor-pointer inline"
     :class="{disabled: disable}"
     v-touch-swipe.horizontal="__swipe"
     @click.stop.prevent="toggle"
@@ -14,7 +14,7 @@
     >
     <div></div>
     <i v-if="icon">{{ icon }}</i>
-  </span>
+  </div>
 </template>
 
 <script>

@@ -1,6 +1,6 @@
 <template>
-  <span
-    class="q-radio cursor-pointer"
+  <div
+    class="q-radio cursor-pointer inline"
     :class="{disabled: disable}"
     @click.stop.prevent="select"
   >
@@ -13,7 +13,7 @@
       @change="__change"
     >
     <div></div>
-  </span>
+  </div>
 </template>
 
 <script>

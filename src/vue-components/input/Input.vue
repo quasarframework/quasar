@@ -84,6 +84,12 @@
 
       <slot name="flow-after"></slot>
     </div>
+    <i
+      v-if="isPassword"
+      class="q-input-comp q-input-button self-center"
+      @click="togglePassVisibility"
+      v-text="showPass ? 'visibility' : 'visibility_off'"
+    ></i>
     <slot name="after">
       <span v-if="suffix" class="q-input-comp" v-html="suffix"></span>
     </slot>
@@ -97,12 +103,6 @@
       class="q-input-comp q-input-small self-center"
       v-html="counterLabel"
     ></span>
-    <i
-      v-if="isPassword"
-      class="q-input-comp q-input-button self-center"
-      @click="togglePassVisibility"
-      v-text="showPass ? 'visibility' : 'visibility_off'"
-    ></i>
     <span v-if="dropdown" class="q-input-comp q-input-button">
       <span class="caret"></span>
     </span>

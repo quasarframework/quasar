@@ -36,6 +36,7 @@ import Gallery from './vue-components/gallery/Gallery.vue'
 import GallerySlider from './vue-components/gallery/GallerySlider.vue'
 import InfiniteScroll from './vue-components/infinite-scroll/InfiniteScroll.vue'
 import Input from './vue-components/input/Input.vue'
+import InputGroup from './vue-components/input-group/InputGroup.vue'
 import Knob from './vue-components/knob/Knob.vue'
 import Layout from './vue-components/layout/Layout.vue'
 import ListItem from './vue-components/list-item/ListItem.vue'
@@ -109,6 +110,7 @@ function registerComponents (_Vue) {
     ['checkbox', Checkbox],
     ['infinite-scroll', InfiniteScroll],
     ['input', Input],
+    ['input-group', InputGroup],
     ['knob', Knob],
     ['layout', Layout],
     ['list-item', ListItem],
