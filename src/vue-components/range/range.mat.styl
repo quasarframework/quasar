@@ -41,6 +41,8 @@ $range-label-size = (1.5 * $range-handle-size)
 .q-range-handle-container
   position relative
   height 100%
+  margin-left ($range-handle-size / 2)
+  margin-right ($range-handle-size / 2)
 
 .q-range-label
   position relative
@@ -71,16 +73,6 @@ $range-label-size = (1.5 * $range-handle-size)
     opacity 1
     transform translateY(-50%) scale(1)
 
-.q-range-handle.undraggable>.q-range-label
-  top (- $range-handle-size - ($range-handle-size * .75))
-
-.q-range-handler
-  position relative
-  width 'calc(100% - %s)' % $range-handle-size
-  height 100%
-  margin-left ($range-handle-size / 2)
-  margin-right ($range-handle-size / 2)
-
 .q-range-handle
   position absolute
   top 50%
@@ -97,39 +89,14 @@ $range-label-size = (1.5 * $range-handle-size)
     .q-range-label
       opacity 1
       transform translateY(-50%) scale(1)
-  &:not(.undraggable)
-    background $range-active-color
-    &.handle-at-minimum
-      background white
-      border 2px solid $range-color
-      .q-range-label
-        color black
-        &:before
-          background $range-color
-  &.undraggable
-    background transparent
-    &.handle-at-minimum
-      .q-range-label
-        color black
-        &:before
-          background $range-color
-    &:before
-      content ''
-      display block
-      width 0
-      height 0
-      border-top ($range-handle-size / 2) solid transparent
-      border-bottom ($range-handle-size / 2) solid transparent
-
-.q-range-handle-min.undraggable:before
-  border-left $range-handle-size solid $range-active-color
-  margin-left ($range-handle-size * .35)
-.q-range-handle-min.handle-at-minimum.undraggable:before
-  border-left-color $range-color
-
-.q-range-handle-max.undraggable:before
-  border-right $range-handle-size solid $range-active-color
-  margin-left ($range-handle-size * -.35)
+  background $range-active-color
+  &.handle-at-minimum
+    background white
+    border 2px solid $range-color
+    .q-range-label
+      color black
+      &:before
+        background $range-color
 
 .q-range
   height $range-height

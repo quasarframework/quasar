@@ -50,8 +50,6 @@
       </p>
       <q-double-range v-model="label" :min="-20" :max="20" :step="4" label-always></q-double-range>
 
-
-
       <p class="caption">
         Drag Range
         <span class="label inline bg-secondary text-white">
@@ -63,17 +61,18 @@
       <p class="caption">
         Drag Range + Snap to Step
         <span class="label inline bg-secondary text-white">
-          Model <span class="right-detail"><em>{{range.min}} to {{range.max}}</em> &nbsp;&nbsp;(0 to 100, step 5)</span>
+          Model <span class="right-detail"><em>{{rangeSnap.min}} to {{rangeSnap.max}}</em> &nbsp;&nbsp;(0 to 100, step 5)</span>
         </span>
       </p>
-      <q-double-range v-model="range" :min="0" :max="100" :step="5" drag-range label markers snap></q-double-range>
+      <q-double-range v-model="rangeSnap" :min="0" :max="100" :step="5" drag-range label markers snap></q-double-range>
 
-      <p class="caption">Disable Min + Drag Range</p>
-      <q-double-range v-model="range" :min="0" :max="100" disable-min drag-range label></q-double-range>
-
-      <p class="caption">Disable Max + Drag Range + With Step</p>
-      <q-double-range v-model="range" :min="0" :max="100" :step="5" markers disable-max drag-range label-always></q-double-range>
-
+      <p class="caption">
+        Drag Only Range (Fixed Interval)
+        <span class="label inline bg-secondary text-white">
+          Model <span class="right-detail"><em>{{onlyRange.min}} to {{onlyRange.max}}</em> &nbsp;&nbsp;(0 to 100, step 5)</span>
+        </span>
+      </p>
+      <q-double-range v-model="onlyRange" :min="0" :max="100" :step="5" drag-only-range label></q-double-range>
 
       <p class="caption">Disabled State</p>
       <q-double-range v-model="standalone" :min="0" :max="50" disable></q-double-range>
@@ -137,6 +136,16 @@ export default {
       range: {
         min: 20,
         max: 65
+      },
+
+      rangeSnap: {
+        min: 35,
+        max: 60
+      },
+
+      onlyRange: {
+        min: 10,
+        max: 35
       }
     }
   }

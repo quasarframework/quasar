@@ -18,49 +18,35 @@
         :style="{width: percentage}"
         :class="{'no-transition': dragging, 'handle-at-minimum': value === min}"
       ></div>
-      <div class="q-range-handler">
+      <div
+        class="q-range-handle"
+        :style="{left: percentage}"
+        :class="{dragging: dragging, 'handle-at-minimum': value === min}"
+      >
         <div
-          class="q-range-handle"
-          :style="{left: percentage}"
-          :class="{dragging: dragging, 'handle-at-minimum': value === min}"
-        >
-          <div
-            class="q-range-label"
-            :class="{'label-always': labelAlways}"
-            v-if="label || labelAlways"
-          >{{ value }}</div>
-        </div>
+          class="q-range-label"
+          :class="{'label-always': labelAlways}"
+          v-if="label || labelAlways"
+        >{{ value }}</div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Utils from '../../utils'
+import {
+  getModel,
+  getPercentage,
+  mixin
+} from './range-utils'
 
 export default {
+  mixins: [mixin],
   props: {
     value: {
       type: Number,
       required: true
-    },
-    min: {
-      type: Number,
-      default: 1
-    },
-    max: {
-      type: Number,
-      default: 5
-    },
-    step: {
-      type: Number,
-      default: 1
-    },
-    snap: Boolean,
-    markers: Boolean,
-    label: Boolean,
-    labelAlways: Boolean,
-    disable: Boolean
+    }
   },
   data () {
     return {
@@ -102,44 +88,22 @@ export default {
     }
   },
   methods: {
-    __pan (event) {
-      if (this.disable) {
-        return
-      }
-      if (event.isFinal) {
-        this.__end(event.evt)
-      }
-      else if (event.isFirst) {
-        this.__setActive(event.evt)
-      }
-      else {
-        this.__update(event.evt)
-      }
-    },
-    __click (event) {
-      if (this.disable) {
-        return
-      }
-      this.__setActive(event)
-      this.__end(event)
-    },
     __setActive (event) {
       let container = this.$refs.handle
 
       this.dragging = {
-        left: container.getBoundingClientRect().left + 10,
-        width: container.offsetWidth - 20
+        left: container.getBoundingClientRect().left,
+        width: container.offsetWidth
       }
       this.__update(event)
     },
     __update (event) {
       let
-        percentage = Utils.format.between((Utils.event.position(event).left - this.dragging.left) / this.dragging.width, 0, 1),
-        model = this.min + percentage * (this.max - this.min),
-        modulo = (model - this.min) % this.step
+        percentage = getPercentage(event, this.dragging),
+        model = getModel(percentage, this.min, this.max, this.step)
 
       this.currentPercentage = percentage
-      this.$emit('input', Utils.format.between(model - modulo + (Math.abs(modulo) >= this.step / 2 ? (modulo < 0 ? -1 : 1) * this.step : 0), this.min, this.max))
+      this.$emit('input', model)
     },
     __end () {
       this.dragging = false
@@ -153,9 +117,6 @@ export default {
         console.error('Range error: step must be a divisor of max - min', this.$el, this.min, this.max, this.step)
       }
     }
-  },
-  created () {
-    this.__validateProps()
   }
 }
 </script>

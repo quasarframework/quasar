@@ -41,6 +41,8 @@ $range-handle-box-shadow   ?= 0 1px 3px 1px rgba(0, 0, 0, .4)
 .q-range-handle-container
   position relative
   height 100%
+  margin-left ($range-handle-size / 2)
+  margin-right ($range-handle-size / 2)
 
 .q-range-label
   position relative
@@ -62,13 +64,6 @@ $range-handle-box-shadow   ?= 0 1px 3px 1px rgba(0, 0, 0, .4)
     opacity .9
     transform translateY(-50%) scale(.7)
 
-.q-range-handler
-  position relative
-  width 'calc(100% - %s)' % $range-handle-size
-  height 100%
-  margin-left ($range-handle-size / 2)
-  margin-right ($range-handle-size / 2)
-
 .q-range-handle
   position absolute
   top 50%
@@ -87,9 +82,6 @@ $range-handle-box-shadow   ?= 0 1px 3px 1px rgba(0, 0, 0, .4)
     .q-range-label
       opacity .9
       transform translateY(-50%)
-  &.undraggable
-    background lighten($range-color, 20%)
-    cursor pointer
 
 .q-range
   height $range-height
