@@ -48,6 +48,7 @@
 
 <script>
 import { between } from '../../utils/format'
+import extend from '../../utils/extend'
 import {
   getModel,
   getPercentage,
@@ -158,13 +159,12 @@ export default {
       else if (percentage < this.currentMaxPercentage - sensitivity) {
         if (this.dragRange || this.dragOnlyRange) {
           type = dragType.RANGE
-          this.dragging = {
-            ...this.dragging,
+          extend(this.dragging, {
             offsetPercentage: percentage,
             offsetModel: getModel(percentage, this.min, this.max, this.step),
             rangeValue: this.dragging.valueMax - this.dragging.valueMin,
             rangePercentage: this.currentMaxPercentage - this.currentMinPercentage
-          }
+          })
         }
         else {
           type = this.currentMaxPercentage - percentage < percentage - this.currentMinPercentage

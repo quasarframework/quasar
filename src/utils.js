@@ -13,7 +13,7 @@ import * as scrollbar from './utils/scrollbar'
 import * as store from './utils/store'
 import throttle from './utils/throttle'
 import uid from './utils/uid'
-import vue from './utils/vue'
+import * as vue from './utils/vue'
 
 export default {
   animate,

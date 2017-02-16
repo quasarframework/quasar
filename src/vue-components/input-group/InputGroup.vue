@@ -7,7 +7,7 @@
         :val="opt.value"
         :disable="disable"
         :class="color"
-      />
+      ></component>
 
       <div class="auto">{{ opt.label }}</div>
     </label>
