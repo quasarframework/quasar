@@ -55,6 +55,7 @@
         :readonly="readonly || dropdown"
         :required="required"
         :maxlength="maxlength"
+        tabindex="0"
         class="no-style"
       ></textarea>
       <input
@@ -79,6 +80,7 @@
         :min="min"
         :max="max"
         :step="step"
+        tabindex="0"
         class="no-style"
       >
 
@@ -126,9 +128,9 @@ export default {
     },
     type: {
       type: String,
-      default: 'input',
+      default: 'text',
       validator (t) {
-        return ['input', 'textarea', 'email', 'tel', 'file', 'number', 'password', 'url']
+        return ['text', 'textarea', 'email', 'tel', 'file', 'number', 'password', 'url']
       }
     },
     autofocus: Boolean,
@@ -240,13 +242,16 @@ export default {
     },
     inputType () {
       return this.isPassword
-        ? (this.showPass ? 'input' : 'password')
+        ? (this.showPass ? 'text' : 'password')
         : this.type
     },
     inputPattern () {
       if (this.isNumber) {
         return this.pattern || '[0-9]*'
       }
+    },
+    inputEl () {
+      return this.$refs.input
     }
   },
   methods: {
@@ -268,9 +273,10 @@ export default {
       this.model = parseFloat(val).toFixed(this.maxDecimals)
     },
     focus () {
-      if (this.editable) {
+      console.log('focusing')
+      if (this.editable || this.dropdown) {
+        console.log('calling focus')
         this.$refs.input.focus()
-        return
       }
     },
     togglePassVisibility () {

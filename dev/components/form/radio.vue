@@ -34,7 +34,8 @@
         label="Horizontal"
         error-label="Max 10 characters!"
       >
-        <q-radio-group
+        <q-input-group
+          type="radio"
           v-model="option"
           :options="[
             { label: 'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ', value: 'op2' },
@@ -50,7 +51,7 @@
         label="Horizontal"
         error-label="Max 10 characters!"
       >
-        <q-radio-group
+        <q-input-group
           inline
           v-model="option"
           :options="[
@@ -67,7 +68,7 @@
         label="Horizontal"
         error-label="Max 10 characters!"
       >
-        <q-radio-group
+        <q-input-group
           v-model="option"
           inline
           :options="[

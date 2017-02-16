@@ -18,7 +18,7 @@ function getHeight (el, style) {
   return parseFloat(height, 10)
 }
 
-function parsePadding (padding) {
+function parseSize (padding) {
   return padding.split(' ').map(t => {
     let unit = t.match(/[a-zA-Z]+/) || ''
     if (unit) {
@@ -40,7 +40,8 @@ function toggleSlide (el, showing, done) {
         store.pos = pos
         css(el, {
           maxHeight: `${store.height * pos / 100}px`,
-          padding: store.padding ? store.padding.map(t => (t[0] * pos / 100) + t[1]).join(' ') : ''
+          padding: store.padding ? store.padding.map(t => (t[0] * pos / 100) + t[1]).join(' ') : '',
+          margin: store.margin ? store.margin.map(t => (t[0] * pos / 100) + t[1]).join(' ') : ''
         })
       },
       done () {
@@ -61,11 +62,15 @@ function toggleSlide (el, showing, done) {
   store.css = {
     overflowY: el.style.overflowY,
     maxHeight: el.style.maxHeight,
-    padding: el.style.padding
+    padding: el.style.padding,
+    margin: el.style.margin
   }
   let style = window.getComputedStyle(el)
   if (style.padding && style.padding !== '0px') {
-    store.padding = parsePadding(style.padding)
+    store.padding = parseSize(style.padding)
+  }
+  if (style.margin && style.margin !== '0px') {
+    store.margin = parseSize(style.margin)
   }
   store.height = getHeight(el, style)
   store.pos = null

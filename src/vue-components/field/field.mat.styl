@@ -1,21 +1,21 @@
 $field-primary-color          ?= $primary
 $field-icon-color             ?= rgba(0, 0, 0, .38)
+$field-icon-size              ?= 1.75rem
 $field-helper-color           ?= rgba(0, 0, 0, .38)
 $field-label-color            ?= rgba(0, 0, 0, .54)
 
 .q-field-icon
-  width 1.75rem
-  min-width 1.75rem
-  font-size 1.75rem
-  line-height 1.75rem
+  width $field-icon-size
+  min-width $field-icon-size
+  font-size $field-icon-size
+  line-height $field-icon-size
   border-radius 50%
   cursor default
   margin 0 12px
 
 .q-field-label
   cursor pointer
-  margin .5rem 5px 0 0
-  font-size small
+  margin .3rem .25rem 0 0
 
 .q-field-label, .q-field-count
   transition color .3s ease-out
@@ -23,6 +23,10 @@ $field-label-color            ?= rgba(0, 0, 0, .54)
 
 .q-field-content
   width 66%
+  margin-top .3rem
+.q-field-content-inner
+  display flex
+  align-items center
 
 .q-field-error
   color $negative
@@ -41,9 +45,7 @@ $field-label-color            ?= rgba(0, 0, 0, .54)
 
 vertical-field()
   .q-field-label, .q-field.floating .q-field-label
-    margin 0 0 8px
-  &.with-icon:not(.floating) .q-field-label
-    margin-top .5rem
+    margin 0
   .q-field-container
     flex-direction column
   .q-field-content
@@ -60,7 +62,7 @@ vertical-field()
     .q-field-icon
       margin-top 1rem
     .q-field-label
-      margin-top 1.5rem
+      margin-top 1.3rem
   &:hover, &.focused
     .q-field-icon, .q-field-label
       color $field-primary-color

@@ -14,8 +14,8 @@
     <div class="q-field-container flex auto">
       <div
         v-if="label || insetLabel"
-        v-html="label"
         class="q-field-label auto"
+        v-html="computedLabel"
         @click="focus"
       ></div>
 
@@ -62,7 +62,8 @@ export default {
     error: Boolean,
     errorLabel: String,
     helper: String,
-    icon: String
+    icon: String,
+    required: Boolean
   },
   data () {
     return {
@@ -97,6 +98,11 @@ export default {
     },
     hasError () {
       return this.childError || this.error
+    },
+    computedLabel () {
+      if (this.label) {
+        return `${this.required ? '* ' : ''}${this.label}`
+      }
     }
   },
   methods: {

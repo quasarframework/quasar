@@ -275,6 +275,31 @@
       </q-field>
 
       <q-field
+        icon="account_balance"
+        label="Some label"
+      >
+        Some text
+      </q-field>
+      <q-field
+        icon="account_balance"
+        label="Some label Some label Some label Some label Some label Some label"
+      >
+        Some text
+      </q-field>
+      <q-field
+        inset="icon"
+        label="Some label"
+      >
+        Some text
+      </q-field>
+      <q-field
+        inset="icon"
+        label="Some label Some label Some label Some label Some label Some label Some label"
+      >
+        Some text
+      </q-field>
+
+      <q-field
         icon="cloud"
         helper="Horizontal"
         orientation="horizontal"

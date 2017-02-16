@@ -1,9 +1,17 @@
 <template>
   <div class="q-input-group" :class="{'inline-opts': inline}">
     <label class="row no-wrap" v-for="(opt, index) in options">
+      <q-radio
+        v-if="single"
+        v-model="model"
+        :val="opt.value"
+        :disable="disable"
+        :class="color"
+      ></q-radio>
       <component
+        v-else
         :is="component"
-        v-model="single ? model : model[index]"
+        v-model="model[index]"
         :val="opt.value"
         :disable="disable"
         :class="color"
