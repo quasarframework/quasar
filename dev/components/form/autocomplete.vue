@@ -21,7 +21,7 @@
 
       <p class="caption">Minimum 3 characters to trigger search</p>
       <q-autocomplete v-model="terms" @search="search" :minCharacters="3" @selected="selected">
-        <input v-model="terms" class="full-width" placeholder="Type 'fre'" />
+        <q-input v-model="terms" placeholder="Type 'fre'" />
       </q-autocomplete>
 
       <br>

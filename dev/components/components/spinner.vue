@@ -11,10 +11,11 @@
 
         <i class="text-grey-7" style="font-size: 2rem">palette</i>
         <label for="color-spinner" class="auto">Color</label>
-        <input id="color-spinner" v-model="color" style="width: 80px; text-align: center; margin-right: 10px;">
+        <q-input id="color-spinner" class="inline" v-model="color" style="width: 80px; text-align: center; margin-right: 10px;" />
         <q-dialog-select
           type="radio"
           v-model="color"
+          class="inline"
           :options="colorOptions"
           ok-label="Pick"
           title="Spinner Color"

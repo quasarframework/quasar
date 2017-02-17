@@ -1,6 +1,6 @@
 $field-primary-color          ?= $primary
-$field-icon-color             ?= rgba(0, 0, 0, .38)
 $field-icon-size              ?= 1.75rem
+$field-icon-color             ?= rgba(0, 0, 0, .38)
 $field-helper-color           ?= rgba(0, 0, 0, .38)
 $field-label-color            ?= rgba(0, 0, 0, .54)
 
@@ -16,10 +16,13 @@ $field-label-color            ?= rgba(0, 0, 0, .54)
 .q-field-label
   cursor pointer
   margin .3rem .25rem 0 0
+  color $field-label-color
+
+.q-field-count
+  color $field-helper-color
 
 .q-field-label, .q-field-count
   transition color .3s ease-out
-  color $field-label-color
 
 .q-field-content
   width 66%

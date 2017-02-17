@@ -1,14 +1,14 @@
 <template>
   <q-input
     ref="input"
+    type="dropdown"
     :disabled="disable"
     :readonly="readonly"
     :placeholder="placeholder"
     :value="actualValue"
     :float-label="floatLabel"
     :stacked-label="stackedLabel"
-    dropdown
-    @keydown.native.enter="open"
+    @open="open"
   >
     <q-popover
       ref="popover"

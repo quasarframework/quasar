@@ -8,17 +8,18 @@
       'has-error': hasError,
       'has-label': label,
       textarea: isTextarea,
-      dropdown: dropdown
+      dropdown: isDropdown
     }"
+    @click="__click"
+    @keydown.enter="__openDropdown"
   >
     <i
-      v-if="isNumber"
+      v-if="isNumber && !noExtras"
       class="q-input-comp q-input-button"
       @click="setNumberByOffset(-step)"
     >remove</i>
-    <slot name="before">
-      <span v-if="prefix" class="q-input-comp" v-html="prefix"></span>
-    </slot>
+    <slot name="before"></slot>
+    <span v-if="prefix" class="q-input-comp" v-html="prefix"></span>
     <div
       class="q-input-target q-input-comp auto row"
       :class="{
@@ -52,11 +53,11 @@
         :pattern="pattern"
         :placeholder="placeholder"
         :disabled="disabled"
-        :readonly="readonly || dropdown"
+        :readonly="readonly"
         :required="required"
         :maxlength="maxlength"
-        tabindex="0"
         class="no-style"
+        tabindex="0"
       ></textarea>
       <input
         v-else
@@ -74,38 +75,42 @@
         :pattern="inputPattern"
         :placeholder="placeholder"
         :disabled="disabled"
-        :readonly="readonly || dropdown"
+        :readonly="readonly || isDropdown"
         :required="required"
         :maxlength="maxlength"
         :min="min"
         :max="max"
-        :step="step"
-        tabindex="0"
+        :step="computedStep"
         class="no-style"
+        tabindex="0"
       >
 
       <slot name="flow-after"></slot>
     </div>
     <i
-      v-if="isPassword"
-      class="q-input-comp q-input-button self-center"
+      v-if="isPassword && !noExtras"
+      class="q-input-comp q-input-button"
       @click="togglePassVisibility"
       v-text="showPass ? 'visibility' : 'visibility_off'"
     ></i>
-    <slot name="after">
-      <span v-if="suffix" class="q-input-comp" v-html="suffix"></span>
-    </slot>
+    <span v-if="suffix" class="q-input-comp" v-html="suffix"></span>
     <i
-      v-if="isNumber"
+      v-if="hasClearIcon"
+      class="q-input-comp q-input-button"
+      @click="clear"
+    >clear</i>
+    <slot name="after"></slot>
+    <i
+      v-if="isNumber && !noExtras"
       class="q-input-comp q-input-button"
       @click="setNumberByOffset(step)"
     >add</i>
     <span
       v-if="hasInlineCounter"
-      class="q-input-comp q-input-small self-center"
+      class="q-input-comp q-input-small"
       v-html="counterLabel"
     ></span>
-    <span v-if="dropdown" class="q-input-comp q-input-button">
+    <span v-if="isDropdown" class="q-input-comp q-input-button">
       <span class="caret"></span>
     </span>
     <div v-if="$q.theme === 'mat'" class="q-input-border"></div>
@@ -117,7 +122,7 @@
 import { getParent } from '../../utils/vue'
 
 function exists (val) {
-  return typeof val !== 'undefined'
+  return typeof val !== 'undefined' && val !== null
 }
 
 export default {
@@ -130,7 +135,11 @@ export default {
       type: String,
       default: 'text',
       validator (t) {
-        return ['text', 'textarea', 'email', 'tel', 'file', 'number', 'password', 'url']
+        return [
+          'text', 'textarea', 'email',
+          'tel', 'file', 'number',
+          'password', 'url', 'dropdown'
+        ].includes(t)
       }
     },
     autofocus: Boolean,
@@ -146,10 +155,11 @@ export default {
       default: false
     },
     maxlength: [Number, String],
-    dropdown: Boolean,
     required: Boolean,
     disabled: Boolean,
     readonly: Boolean,
+    noExtras: Boolean,
+    clearable: Boolean,
     min: Number,
     max: Number,
     step: {
@@ -209,7 +219,7 @@ export default {
       return this.type === 'number'
     },
     editable () {
-      return !this.disabled && !this.readonly && !this.dropdown
+      return !this.disabled && !this.readonly && !this.isDropdown
     },
     length () {
       return exists(this.value) ? ('' + this.value).length : 0
@@ -217,13 +227,16 @@ export default {
     counterLabel () {
       return `${this.length}${this.count !== true && this.count > 0 ? ` / ${this.count}` : ''}`
     },
+    hasClearIcon () {
+      return this.clearable && this.length
+    },
     hasCountError () {
       if (this.count !== true && this.count > 0) {
         return this.length > this.count
       }
     },
     hasInvalidNumber () {
-      return (
+      return this.value !== '' && (
         (exists(this.min) && this.value < this.min) ||
         (exists(this.max) && this.value > this.max)
       )
@@ -240,10 +253,13 @@ export default {
     isPassword () {
       return this.type === 'password'
     },
+    isDropdown () {
+      return this.type === 'dropdown'
+    },
     inputType () {
       return this.isPassword
         ? (this.showPass ? 'text' : 'password')
-        : this.type
+        : (this.isDropdown ? 'text' : this.type)
     },
     inputPattern () {
       if (this.isNumber) {
@@ -252,6 +268,11 @@ export default {
     },
     inputEl () {
       return this.$refs.input
+    },
+    computedStep () {
+      if (this.isNumer) {
+        return this.step
+      }
     }
   },
   methods: {
@@ -273,24 +294,32 @@ export default {
       this.model = parseFloat(val).toFixed(this.maxDecimals)
     },
     focus () {
-      console.log('focusing')
-      if (this.editable || this.dropdown) {
-        console.log('calling focus')
+      if (this.editable || this.isDropdown) {
         this.$refs.input.focus()
+      }
+    },
+    blur () {
+      if (this.editable || this.isDropdown) {
+        this.$refs.input.blur()
+      }
+    },
+    clear () {
+      if (this.editable) {
+        this.model = null
       }
     },
     togglePassVisibility () {
       this.showPass = !this.showPass
     },
     __focus (e) {
-      if (this.dropdown && e) {
+      if (this.$q.platform.is.mobile && this.isDropdown && e) {
         return
       }
       this.focused = true
       this.$emit('focus')
     },
     __blur (e) {
-      if (this.dropdown && e) {
+      if (this.$q.platform.is.mobile && this.isDropdown && e) {
         return
       }
       this.focused = false
@@ -301,6 +330,17 @@ export default {
     },
     __keyup (e) {
       this.$emit('keyup', e)
+    },
+    __click (e) {
+      if (this.isDropdown) {
+        document.activeElement.blur()
+      }
+      this.$emit('click', e)
+    },
+    __openDropdown (e) {
+      if (this.isDropdown) {
+        this.$emit('open', e)
+      }
     },
     __notify (type, value) {
       if (!this.field) {

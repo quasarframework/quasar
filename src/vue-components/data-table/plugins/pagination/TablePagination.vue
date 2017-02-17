@@ -7,7 +7,7 @@
         v-model="pagination.rowsPerPage"
         :options="pagination.options"
         @input="resetPage"
-        class="text-right"
+        class="text-right inline"
       ></q-select>
     </div>
     <div v-if="entries > 0">

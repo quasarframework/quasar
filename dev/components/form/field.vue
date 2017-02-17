@@ -4,6 +4,10 @@
       <q-input
         v-model="model"
       />
+      {{nullModel}}
+      <q-input
+        v-model="nullModel"
+      />
       <q-input
         v-model="model"
         float-label="Floating Label"
@@ -29,6 +33,57 @@
         stacked-label="Stacked Label"
         prefix="$"
         suffix=".00"
+      />
+
+      <q-input
+        v-model="model"
+        prefix="$"
+        suffix=".00"
+        clearable
+      />
+      <q-input
+        v-model="model"
+        float-label="Clearable"
+        prefix="$"
+        suffix=".00"
+        clearable
+      />
+      <q-input
+        v-model="model"
+        type="number"
+        float-label="Clearable"
+        prefix="$"
+        suffix=".00"
+        clearable
+      />
+      <q-input
+        type="textarea"
+        v-model="model"
+        float-label="Clearable"
+        prefix="$"
+        suffix=".00"
+        clearable
+      />
+
+      <q-input
+        v-model="model"
+        type="number"
+        stacked-label="Stacked Label"
+        prefix="$"
+        :min="5"
+        :max="15"
+        suffix=".00"
+      />
+
+      <q-input
+        v-model="model"
+        type="number"
+        stacked-label="Stacked Label"
+        prefix="$"
+        :min="5"
+        :max="15"
+        suffix=".00"
+        no-extras
       />
 
       <!--
@@ -368,16 +423,12 @@
 </template>
 
 <script>
-import { LocalStorage } from '../../../src/features/web-storage'
-LocalStorage.set('somekey', 'val')
-let item = LocalStorage.get.item('somekey')
-console.log(item)
-
 export default {
   data () {
     return {
       error: true,
-      model: 'Some input'
+      model: 'Some input',
+      nullModel: null
     }
   }
 }

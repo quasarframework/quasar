@@ -7,16 +7,20 @@
       <i>keyboard_arrow_left</i>
     </button>
 
-    <input
+    <q-input
       ref="input"
+      class="inline"
       type="number"
-      pattern="[0-9]*"
-      v-model.number.lazy="newPage"
+      v-model="newPage"
+      no-extras
+      :min="min"
+      :max="max"
       :style="{width: inputPlaceholder.length * 10 + 'px'}"
       :placeholder="inputPlaceholder"
       :disabled="disable"
-      tabindex="0"
-    >
+      @keyup.enter="__update"
+      @blur="__update"
+    ></q-input>
 
     <button :class="{disabled: value === max}" class="primary clear small" @click="setByOffset(1)">
       <i>keyboard_arrow_right</i>
@@ -28,7 +32,7 @@
 </template>
 
 <script>
-import Utils from '../../utils'
+import { between } from '../../utils/format'
 
 export default {
   props: {
@@ -63,14 +67,14 @@ export default {
       }
     },
     __normalize (value) {
-      return Utils.format.between(parseInt(value, 10), 1, this.max)
-    }
-  },
-  watch: {
-    newPage (value) {
-      var parsed = parseInt(value, 10)
+      return between(parseInt(value, 10), 1, this.max)
+    },
+    __update () {
+      var parsed = parseInt(this.newPage, 10)
+      console.log('__onBlur', parsed)
 
       if (parsed) {
+        console.log('blurring and setting model')
         this.model = parsed
         this.$refs.input.blur()
       }
@@ -81,13 +85,19 @@ export default {
   computed: {
     model: {
       get () {
-        return this.__normalize(this.value)
+        console.log('getter')
+        return this.value
       },
       set (value) {
-        if (this.value !== value) {
-          this.$emit('input', this.__normalize(value))
+        if (!value) {
+          return
         }
-        this.$refs.input.blur()
+        if (value < this.min || value > this.max) {
+          return
+        }
+        if (this.value !== value) {
+          this.$emit('input', value)
+        }
       }
     },
     inputPlaceholder () {

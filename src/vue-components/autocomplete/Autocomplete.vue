@@ -1,10 +1,7 @@
 <template>
   <span>
     <slot>
-      <input
-        type="text"
-        v-model="model"
-      />
+      <q-input v-model="model"></q-input>
     </slot>
     <q-popover ref="popover" :anchor-click="false">
       <div class="list no-border" :class="{'item-delimiter': delimiter}" :style="computedWidth">
