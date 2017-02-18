@@ -45,14 +45,15 @@ It could be you!
 - Andrea Salvatore
 - Matsumoto Takamasa
 - Keith Bailey
+- Borris Barroso
+- Sven Delueg
+- Josh Bodine
 
 ---
 
-### One time
+### Notable one time
 
 - Robert Preston $250
 - Remo Laubacher $200
 - Musicformellons $100
 - Gerard Eviston $50
-- Mickaël Le Normand $15
-- Tommy Carlsson $10
