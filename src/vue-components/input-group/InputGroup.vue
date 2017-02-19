@@ -1,24 +1,26 @@
 <template>
-  <div class="q-input-group" :class="{'inline-opts': inline}">
-    <label class="row no-wrap" v-for="(opt, index) in options">
-      <q-radio
-        v-if="single"
-        v-model="model"
-        :val="opt.value"
-        :disable="disable"
-        :class="color"
-      ></q-radio>
-      <component
-        v-else
-        :is="component"
-        v-model="model[index]"
-        :val="opt.value"
-        :disable="disable"
-        :class="color"
-      ></component>
+  <div class="q-input-group small-gutter" :class="{'inline-opts': inline}">
+    <div v-for="(opt, index) in options" class="no-wrap">
+      <label class="row inline">
+        <q-radio
+          v-if="single"
+          v-model="model"
+          :val="opt.value"
+          :disable="disable"
+          :class="color"
+        ></q-radio>
+        <component
+          v-else
+          :is="component"
+          v-model="model[index]"
+          :val="opt.value"
+          :disable="disable"
+          :class="color"
+        ></component>
 
-      <div class="auto">{{ opt.label }}</div>
-    </label>
+        <span>{{ opt.label }}</span>
+      </label>
+    </div>
   </div>
 </template>
 

@@ -45,7 +45,6 @@ import Modal from './vue-components/modal/Modal.vue'
 import Numeric from './vue-components/numeric/Numeric.vue'
 import Pagination from './vue-components/pagination/Pagination.vue'
 import Parallax from './vue-components/parallax/Parallax.vue'
-import PickerTextfield from './vue-components/picker-textfield/PickerTextfield.vue'
 import Popover from './vue-components/popover/Popover.vue'
 import Progress from './vue-components/progress/Progress.vue'
 import ProgressButton from './vue-components/progress-button/ProgressButton.vue'
@@ -119,7 +118,6 @@ function registerComponents (_Vue) {
     ['numeric', Numeric],
     ['pagination', Pagination],
     ['parallax', Parallax],
-    ['picker-textfield', PickerTextfield],
     ['popover', Popover],
     ['progress', Progress],
     ['progress-button', ProgressButton],

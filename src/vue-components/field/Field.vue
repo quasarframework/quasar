@@ -7,7 +7,8 @@
       vertical: vertical,
       horizontal: horizontal,
       focused: focused,
-      'with-icon': icon
+      'with-icon': icon,
+      'with-label': label
     }"
   >
     <i v-if="icon || insetIcon" class="q-field-icon">{{ icon }}</i>
@@ -19,7 +20,7 @@
         @click="focus"
       ></div>
 
-      <div class="q-field-content column" :style="contentStyle">
+      <div class="q-field-content" :style="contentStyle">
         <slot></slot>
         <div v-if="hasBottom" class="q-field-bottom">
           <div

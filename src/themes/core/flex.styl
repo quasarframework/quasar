@@ -25,26 +25,25 @@
   &.inline
     display inline-flex
 
-.flex, .row, .column
-  &.small-gutter
-    margin (- $grid-small-gutter) 0 $grid-small-gutter (- $grid-small-gutter)
-    > div
-      padding $grid-small-gutter 0 0 $grid-small-gutter
+&.small-gutter
+  margin (- $grid-small-gutter) 0 $grid-small-gutter (- $grid-small-gutter)
+  > div
+    padding $grid-small-gutter 0 0 $grid-small-gutter
 
-  &.medium-gutter, &.gutter
-    margin (- $grid-medium-gutter) 0 $grid-medium-gutter (- $grid-medium-gutter)
-    > div
-      padding $grid-medium-gutter 0 0 $grid-medium-gutter
+&.medium-gutter, &.gutter
+  margin (- $grid-medium-gutter) 0 $grid-medium-gutter (- $grid-medium-gutter)
+  > div
+    padding $grid-medium-gutter 0 0 $grid-medium-gutter
 
-  &.big-gutter
-    margin (- $grid-big-gutter) 0 $grid-big-gutter (- $grid-big-gutter)
-    > div
-      padding $grid-big-gutter 0 0 $grid-big-gutter
+&.big-gutter
+  margin (- $grid-big-gutter) 0 $grid-big-gutter (- $grid-big-gutter)
+  > div
+    padding $grid-big-gutter 0 0 $grid-big-gutter
 
-  &.large-gutter
-    margin (- $grid-large-gutter) 0 $grid-large-gutter (- $grid-large-gutter)
-    > div
-      padding $grid-large-gutter 0 0 $grid-large-gutter
+&.large-gutter
+  margin (- $grid-large-gutter) 0 $grid-large-gutter (- $grid-large-gutter)
+  > div
+    padding $grid-large-gutter 0 0 $grid-large-gutter
 
 
 .order-first
@@ -190,23 +189,22 @@ flex-media-query($type)
     &.inline
       display inline-flex
 
-  .flex, .row, .column
-    &.{$type}-small-gutter
-      margin (- $grid-small-gutter) 0 $grid-small-gutter (- $grid-small-gutter)
-      > div
-        padding $grid-small-gutter 0 0 $grid-small-gutter
-    &.{$type}-medium-gutter, &.{$type}-gutter
-      margin (- $grid-medium-gutter) 0 $grid-medium-gutter (- $grid-medium-gutter)
-      > div
-        padding $grid-medium-gutter 0 0 $grid-medium-gutter
-    &.{$type}-big-gutter
-      margin (- $grid-big-gutter) 0 $grid-big-gutter (- $grid-big-gutter)
-      > div
-        padding $grid-big-gutter 0 0 $grid-big-gutter
-    &.{$type}-large-gutter
-      margin (- $grid-large-gutter) 0 $grid-large-gutter (- $grid-large-gutter)
-      > div
-        padding $grid-large-gutter 0 0 $grid-large-gutter
+  &.{$type}-small-gutter
+    margin (- $grid-small-gutter) 0 $grid-small-gutter (- $grid-small-gutter)
+    > div
+      padding $grid-small-gutter 0 0 $grid-small-gutter
+  &.{$type}-medium-gutter, &.{$type}-gutter
+    margin (- $grid-medium-gutter) 0 $grid-medium-gutter (- $grid-medium-gutter)
+    > div
+      padding $grid-medium-gutter 0 0 $grid-medium-gutter
+  &.{$type}-big-gutter
+    margin (- $grid-big-gutter) 0 $grid-big-gutter (- $grid-big-gutter)
+    > div
+      padding $grid-big-gutter 0 0 $grid-big-gutter
+  &.{$type}-large-gutter
+    margin (- $grid-large-gutter) 0 $grid-large-gutter (- $grid-large-gutter)
+    > div
+      padding $grid-large-gutter 0 0 $grid-large-gutter
 
 @media only screen and (max-width $layout-small-max)
   flex-media-query('sm')

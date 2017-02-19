@@ -16,7 +16,7 @@
       ref="popup"
       @open="__openedPopover"
       @close="$refs.input.__blur()"
-      :offset="[0, 8]"
+      :offset="[0, 4]"
       :disable="disable || readonly"
     >
       <q-inline-datetime v-model="model" :type="type" :min="min" :max="max" class="no-border">
@@ -47,7 +47,7 @@
         </div>
       </q-inline-datetime>
     </q-modal>
-  </q-picker-textfield>
+  </q-input>
 </template>
 
 <script>

@@ -403,6 +403,13 @@
       >
         <q-input v-model="model" stacked-label="Stacked $ Label" />
       </q-field>
+      <q-field
+        icon="cloud"
+        helper="Helper"
+        label="Label"
+      >
+        <q-input v-model="model" float-label="Float $ Label" />
+      </q-field>
 
       <q-field
         icon="cloud"
@@ -410,8 +417,8 @@
         label="Label"
       >
         <div class="row">
-          <q-input v-model="model" stacked-label="Stacked $ Label" />
-          <q-input v-model="model" stacked-label="Stacked $ Label" />
+          <q-input class="auto" v-model="model" stacked-label="Stacked $ Label" />
+          <q-input class="auto" v-model="model" stacked-label="Stacked $ Label" />
         </div>
       </q-field>
     </div>
@@ -436,7 +443,7 @@ export default {
 
 <style lang="styl">
 .q-field
-  // border 1px solid black
+  border 1px solid black
   // padding 15px
 
 .q-input

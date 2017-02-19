@@ -3,6 +3,10 @@ $field-icon-size              ?= 1.75rem
 $field-icon-color             ?= rgba(0, 0, 0, .38)
 $field-helper-color           ?= rgba(0, 0, 0, .38)
 $field-label-color            ?= rgba(0, 0, 0, .54)
+$field-gutter                 ?= .6rem
+
+.q-field-helper, .q-field-icon
+  transition color .3s ease-out
 
 .q-field-icon
   width $field-icon-size
@@ -11,11 +15,12 @@ $field-label-color            ?= rgba(0, 0, 0, .54)
   line-height $field-icon-size
   border-radius 50%
   cursor default
-  margin 0 12px
+  margin-right $field-gutter
+  color $field-icon-color
 
 .q-field-label
   cursor pointer
-  margin .3rem .25rem 0 0
+  margin-right $field-gutter
   color $field-label-color
 
 .q-field-count
@@ -26,7 +31,7 @@ $field-label-color            ?= rgba(0, 0, 0, .54)
 
 .q-field-content
   width 66%
-  margin-top .3rem
+
 .q-field-content-inner
   display flex
   align-items center
@@ -39,20 +44,29 @@ $field-label-color            ?= rgba(0, 0, 0, .54)
   > div
     font-size small
 
-.q-field-helper, .q-field-icon
-  transition color .3s ease-out
 .q-field-helper
   color $field-helper-color
-.q-field-icon
-  color $field-icon-color
 
 vertical-field()
-  .q-field-label, .q-field.floating .q-field-label
-    margin 0
+  &.floating .q-field-label
+    margin-top 0
+  .q-field-label
+    margin-right 0
   .q-field-container
     flex-direction column
   .q-field-content
     width 100% !important
+  &.with-label
+    .q-field-icon
+      margin-top 0
+    .q-field-label
+      margin-bottom .3rem
+  &.with-icon
+    .q-field-label
+      margin-top .25rem
+    &.with-label
+      .q-field-content
+        margin-top 0
 
 .q-field
   padding 15px 0
@@ -61,18 +75,24 @@ vertical-field()
     margin-top 0
     margin-bottom 0
 
+  &.with-icon
+    .q-field-label, .q-field-content
+      margin-top .25rem
+
   &.floating
     .q-field-icon
       margin-top 1rem
     .q-field-label
-      margin-top 1.3rem
+      margin-top 1.25rem
+    .q-field-content
+      margin-top 0
   &:hover, &.focused
     .q-field-icon, .q-field-label
       color $field-primary-color
 
   &.has-error
     .q-field-label, .q-field-icon
-      color $negative
+      color $has-error
     /* if you change this, make same changes to q-input file */
     .q-input
       border-bottom 1px solid $has-error

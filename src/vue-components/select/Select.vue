@@ -16,7 +16,7 @@
       :disable="disable || readonly"
       @open="$refs.input.__focus()"
       @close="$refs.input.__blur()"
-      :offset="[0, 8]"
+      :offset="[0, 4]"
     >
       <div class="q-select-popover list highlight">
         <label v-if="type === 'radio'" v-for="radio in options" class="item" @click="close">

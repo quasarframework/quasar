@@ -50,7 +50,7 @@ input, textarea
   &.above
     left 0
     font-size small
-    transform translateY(-1.05rem)
+    transform translateY(-1.25rem)
 
 .q-input-border
   position absolute
@@ -63,16 +63,9 @@ input, textarea
   transform translateX(-50%)
   transition width .3s ease-out
 
-.q-input-target
-  &.flow
-    flex-wrap wrap
-    input
-      display inline
-      flex 1 1 auto
-      width auto
-  &:not(.flow)
-    input, textarea
-      width 100%
+.q-input-target.flow
+  flex-wrap wrap
+  align-items center
 
 .q-input-comp
   cursor default
@@ -117,6 +110,8 @@ input, textarea
     input, textarea
       font-style italic
 
+  input, textarea
+    flex 1 1 auto
   textarea
     min-height 2rem
     resize vertical
@@ -125,7 +120,7 @@ input, textarea
     width 100%
 
   &.has-label
-    padding-top 1rem
+    padding-top 1.25rem
 
   /* if you change this, make same changes to q-field file */
   &.has-error

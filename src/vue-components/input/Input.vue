@@ -335,6 +335,7 @@ export default {
       if (this.isDropdown) {
         document.activeElement.blur()
       }
+      this.focus()
       this.$emit('click', e)
     },
     __openDropdown (e) {
