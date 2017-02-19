@@ -7,7 +7,8 @@ var
   ProgressBarPlugin = require('progress-bar-webpack-plugin'),
   projectRoot = path.resolve(__dirname, '../'),
   entry = ['./build/hot-reload', './dev/main.js'],
-  merge = require('webpack-merge')
+  merge = require('webpack-merge'),
+  FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 
 module.exports = {
   devtool: '#eval-source-map',
@@ -112,7 +113,8 @@ module.exports = {
     }),
     new ProgressBarPlugin({
       format: ' [:bar] ' + ':percent'.bold + ' (:msg)'
-    })
+    }),
+    new FriendlyErrorsPlugin()
   ],
   performance: {
     hints: false
