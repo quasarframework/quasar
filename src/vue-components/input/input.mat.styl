@@ -53,15 +53,21 @@ input, textarea
     transform translateY(-1.25rem)
 
 .q-input-border
-  position absolute
-  left 50%
-  right 0
-  bottom -1px
-  height 2px
-  background $field-primary-color
-  width 0
-  transform translateX(-50%)
-  transition width .3s ease-out
+  background $grey-4
+  height 1px
+  left 0
+  &, &:after
+    position absolute
+    right 0
+    bottom 0
+  &:after
+    content ''
+    left 50%
+    height 2px
+    background $input-primary-color
+    width 0
+    transform translateX(-50%)
+    transition width .3s ease-out
 
 .q-input-target.flow
   flex-wrap wrap
@@ -77,12 +83,9 @@ input, textarea
   color $faded
   cursor pointer
   padding 0 5px
-  font-size 1rem
 
 .q-input
   position relative
-  border-bottom 1px solid $grey-4
-  transition border-color .3s ease-out
   margin-top 1rem
   margin-bottom .5rem
 
@@ -104,28 +107,32 @@ input, textarea
         color $input-primary-color
 
   &.disabled, &.readonly
-    border-bottom-style dotted
-    border-bottom-width 2px
+    border-bottom 2px dotted $grey-4
+    .q-input-border
+      display none
   &.readonly
     input, textarea
       font-style italic
 
-  input, textarea
-    flex 1 1 auto
   textarea
     min-height 2rem
     resize vertical
+  input, textarea
+    flex 1 1 auto
+    /* workarounds for flex issues */
+    max-width 100%
+    width 100%
 
-  &.focused .q-input-border
+  &.focused .q-input-border:after
     width 100%
 
   &.has-label
     padding-top 1.25rem
 
-  /* if you change this, make same changes to q-field file */
+.q-input, .q-field
   &.has-error
-    border-bottom 1px solid $has-error
     .q-input-label, .q-input-comp
-      color $negative
+      color $has-error
     .q-input-border
-      background $has-error
+      &, &:after
+        background $has-error

@@ -14,7 +14,7 @@
     @keydown.enter="__openDropdown"
   >
     <i
-      v-if="isNumber && !noExtras"
+      v-if="isNumber && !noExtraIcons"
       class="q-input-comp q-input-button"
       @click="setNumberByOffset(-step)"
     >remove</i>
@@ -88,7 +88,7 @@
       <slot name="flow-after"></slot>
     </div>
     <i
-      v-if="isPassword && !noExtras"
+      v-if="isPassword && !noExtraIcons"
       class="q-input-comp q-input-button"
       @click="togglePassVisibility"
       v-text="showPass ? 'visibility' : 'visibility_off'"
@@ -101,13 +101,13 @@
     >clear</i>
     <slot name="after"></slot>
     <i
-      v-if="isNumber && !noExtras"
+      v-if="isNumber && !noExtraIcons"
       class="q-input-comp q-input-button"
       @click="setNumberByOffset(step)"
     >add</i>
     <span
       v-if="hasInlineCounter"
-      class="q-input-comp q-input-small"
+      class="q-input-comp q-input-faded q-input-small"
       v-html="counterLabel"
     ></span>
     <span v-if="isDropdown" class="q-input-comp q-input-button">
@@ -158,7 +158,7 @@ export default {
     required: Boolean,
     disabled: Boolean,
     readonly: Boolean,
-    noExtras: Boolean,
+    noExtraIcons: Boolean,
     clearable: Boolean,
     min: Number,
     max: Number,

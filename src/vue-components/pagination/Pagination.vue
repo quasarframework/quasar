@@ -12,7 +12,7 @@
       class="inline"
       type="number"
       v-model="newPage"
-      no-extras
+      no-extra-icons
       :min="min"
       :max="max"
       :style="{width: inputPlaceholder.length * 10 + 'px'}"

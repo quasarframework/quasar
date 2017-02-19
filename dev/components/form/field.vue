@@ -83,7 +83,7 @@
         :min="5"
         :max="15"
         suffix=".00"
-        no-extras
+        no-extra-icons
       />
 
       <!--
@@ -232,11 +232,11 @@
       </q-field>
 
       <q-field>
-        <q-input v-model="model" :count="10" />
+        <q-input suffix="#" prefix="@" v-model="model" :count="10" />
       </q-field>
 
       <q-field>
-        <q-input v-model="model" :count="10" inline-count />
+        <q-input suffix="#" prefix="@" v-model="model" :count="10" inline-count />
       </q-field>
 
       <q-field>
@@ -244,39 +244,24 @@
       </q-field>
 
       <q-field>
-        <q-input type="password" v-model="model" count />
+        <q-input suffix="#" prefix="@" type="password" v-model="model" count />
       </q-field>
 
       <q-field>
-        <q-input type="textarea" v-model="model" :count="10" />
+        <q-input suffix="#" prefix="@" type="textarea" v-model="model" :count="10" />
       </q-field>
 
       <q-field
         icon="cloud"
       >
-        <q-input v-model="model" />
-      </q-field>
-
-      <q-field
-        icon="cloud"
-        helper="Helper"
-      >
-        <q-input v-model="model" :count="10" />
-      </q-field>
-
-      <q-field
-        icon="cloud"
-        helper="Helper"
-        label="Label"
-      >
-        <q-input v-model="model" />
+        <q-input suffix="#" prefix="@" v-model="model" />
       </q-field>
 
       <q-field
         icon="cloud"
         helper="Helper"
       >
-        <q-input v-model="model" float-label="Float Label" />
+        <q-input suffix="#" prefix="@" v-model="model" :count="10" />
       </q-field>
 
       <q-field
@@ -284,7 +269,22 @@
         helper="Helper"
         label="Label"
       >
-        <q-input v-model="model" stacked-label="Stacked Label" />
+        <q-input suffix="#" prefix="@" v-model="model" />
+      </q-field>
+
+      <q-field
+        icon="cloud"
+        helper="Helper"
+      >
+        <q-input suffix="#" prefix="@" v-model="model" float-label="Float Label" />
+      </q-field>
+
+      <q-field
+        icon="cloud"
+        helper="Helper"
+        label="Label"
+      >
+        <q-input suffix="#" prefix="@" v-model="model" stacked-label="Stacked Label" />
       </q-field>
 
       <q-field
@@ -295,7 +295,7 @@
         label="Horizontal"
         orientation="horizontal"
       >
-        <q-input v-model="model" :count="10" />
+        <q-input suffix="#" prefix="@" v-model="model" :count="10" />
       </q-field>
 
       <q-field
@@ -306,7 +306,7 @@
         label="Vertical"
         orientation="vertical"
       >
-        <q-input v-model="model" :count="10" />
+        <q-input suffix="#" prefix="@" v-model="model" :count="10" />
       </q-field>
 
       <q-field
@@ -316,7 +316,7 @@
         orientation="horizontal"
         error-label="Max 10 characters!"
       >
-        <q-input v-model="model" :count="10" />
+        <q-input suffix="#" prefix="@" v-model="model" :count="10" />
       </q-field>
 
       <q-field
@@ -326,7 +326,7 @@
         orientation="horizontal"
         error-label="Max 10 characters!"
       >
-        <q-input v-model="model" :count="10" float-label="Float label Float label Float label Float label Float label Float label" />
+        <q-input suffix="#" prefix="@" v-model="model" :count="10" float-label="Float label Float label Float label Float label Float label Float label" />
       </q-field>
 
       <q-field
@@ -359,7 +359,7 @@
         helper="Horizontal"
         orientation="horizontal"
       >
-        <q-input v-model="model" float-label="Floating $ Label" />
+        <q-input v-model="model" float-label="Floating $ Label" suffix="#" prefix="@" />
       </q-field>
 
       <q-field
@@ -368,24 +368,22 @@
         label="Horizontal"
         orientation="horizontal"
       >
-        <q-input v-model="model" float-label="Floating $ Label" />
+        <q-input v-model="model" float-label="Floating $ Label" suffix="#" prefix="@"/>
       </q-field>
 
       <q-field
         helper="Helper"
         label="Label"
         inset="icon"
-        inset-right
       >
-        <q-input v-model="model" float-label="Floating $ Label" />
+        <q-input v-model="model" float-label="Floating $ Label" suffix="#" prefix="@" />
       </q-field>
 
       <q-field
         helper="Helper"
         inset="full"
-        inset-right
       >
-        <q-input v-model="model" float-label="Floating $ Label" />
+        <q-input v-model="model" float-label="Floating $ Label" suffix="#" prefix="@" />
       </q-field>
 
       <q-field
@@ -393,7 +391,7 @@
         :content-width="30"
         inset="label"
       >
-        <q-input v-model="model" float-label="Floating $ Label" />
+        <q-input v-model="model" float-label="Floating $ Label" suffix="#" prefix="@" />
       </q-field>
 
       <q-field
@@ -401,14 +399,14 @@
         helper="Helper"
         label="Label"
       >
-        <q-input v-model="model" stacked-label="Stacked $ Label" />
+        <q-input v-model="model" stacked-label="Stacked $ Label" suffix="#" prefix="@" />
       </q-field>
       <q-field
         icon="cloud"
         helper="Helper"
         label="Label"
       >
-        <q-input v-model="model" float-label="Float $ Label" />
+        <q-input v-model="model" float-label="Float $ Label" suffix="#" prefix="@" />
       </q-field>
 
       <q-field
@@ -417,8 +415,8 @@
         label="Label"
       >
         <div class="row">
-          <q-input class="auto" v-model="model" stacked-label="Stacked $ Label" />
-          <q-input class="auto" v-model="model" stacked-label="Stacked $ Label" />
+          <q-input v-model="model" stacked-label="Stacked $ Label" suffix="#" prefix="@" :inline-count="10"/>
+          <q-input v-model="model" stacked-label="Stacked $ Label" suffix="#" prefix="@" :inline-count="10"/>
         </div>
       </q-field>
     </div>
