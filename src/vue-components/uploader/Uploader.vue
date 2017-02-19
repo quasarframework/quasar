@@ -82,6 +82,12 @@ export default {
       type: String,
       required: true
     },
+    additionalFields: {
+      type: Array,
+      default () {
+        return []
+      }
+    },
     buttonClass: {
       type: String,
       default: 'primary'
@@ -173,6 +179,9 @@ export default {
       try {
         form.append('Content-Type', file.type || 'application/octet-stream')
         form.append('file', file)
+        for (let i = 0; i < this.additionalFields.length; i++) {
+          form.append(this.additionalFields[i].name, this.additionalFields[i].value)
+        }
       }
       catch (e) {
         return
