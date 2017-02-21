@@ -84,9 +84,7 @@ export default {
     },
     additionalFields: {
       type: Array,
-      default () {
-        return []
-      }
+      default: () => []
     },
     buttonClass: {
       type: String,
@@ -179,9 +177,9 @@ export default {
       try {
         form.append('Content-Type', file.type || 'application/octet-stream')
         form.append('file', file)
-        for (let i = 0; i < this.additionalFields.length; i++) {
-          form.append(this.additionalFields[i].name, this.additionalFields[i].value)
-        }
+        this.additionalFields.forEach(field => {
+          form.append(field.name, field.value)
+        })
       }
       catch (e) {
         return
