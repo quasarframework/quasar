@@ -290,6 +290,13 @@
       <q-field
         icon="cloud"
         helper="Helper"
+      >
+        <q-input suffix="#" prefix="@" v-model="model" stacked-label="Stacked Label" />
+      </q-field>
+
+      <q-field
+        icon="cloud"
+        helper="Helper"
         label="Horizontal"
         error-label="Max 10 characters!"
       >
