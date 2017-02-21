@@ -1,6 +1,6 @@
 <template>
   <div class="q-data-table-toolbar upper-toolbar row auto items-center">
-    <q-search class="auto" v-model="filtering.terms"></q-search>
+    <q-search class="auto" v-model="filtering.terms" :placeholder="labels.search"></q-search>
     <q-select
       v-model="filtering.field"
       type="list"
