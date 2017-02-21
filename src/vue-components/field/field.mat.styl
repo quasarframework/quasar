@@ -3,6 +3,8 @@ $field-icon-size              ?= 1.75rem
 $field-icon-color             ?= rgba(0, 0, 0, .38)
 $field-helper-color           ?= rgba(0, 0, 0, .38)
 $field-label-color            ?= rgba(0, 0, 0, .54)
+$field-label-hint-color       ?= $secondary
+$field-required-label-weight  ?= bold
 $field-gutter                 ?= .6rem
 
 .q-field-helper, .q-field-icon
@@ -22,6 +24,12 @@ $field-gutter                 ?= .6rem
   cursor pointer
   margin-right $field-gutter
   color $field-label-color
+  &.required-label
+    font-weight $field-required-label-weight
+
+.q-field-label-hint
+  color $field-label-hint-color
+  margin 0 5px
 
 .q-field-count
   color $field-helper-color

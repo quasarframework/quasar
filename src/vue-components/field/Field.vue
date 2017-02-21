@@ -14,11 +14,23 @@
     <i v-if="icon || insetIcon" class="q-field-icon">{{ icon }}</i>
     <div class="q-field-container flex auto">
       <div
-        v-if="label || insetLabel"
+        v-if="hasLabel"
         class="q-field-label auto"
-        v-html="computedLabel"
+        :class="{'required-label': required}"
         @click="focus"
-      ></div>
+      >
+        <slot name="label">
+          <span v-html="label"></span>
+        </slot>
+        <i v-if="hasLabelHint" class="q-field-label-hint">
+          help
+          <q-tooltip>
+            <slot name="labelHint">
+              <span v-html="labelHint"></span>
+            </slot>
+          <q-tooltip>
+        </i>
+      </div>
 
       <div class="q-field-content" :style="contentStyle">
         <slot></slot>
@@ -41,6 +53,7 @@
 export default {
   props: {
     label: String,
+    labelHint: String,
     orientation: {
       type: String,
       validator (val) {
@@ -77,11 +90,17 @@ export default {
     }
   },
   computed: {
+    hasLabel () {
+      return this.label || this.insetLabel || this.$slots.label || this.hasLabelHint
+    },
+    hasLabelHint () {
+      return this.labelHint || this.$slots.labelHint
+    },
     hasBottom () {
       return (this.hasError && this.errorLabel) || this.helper || this.counter
     },
     contentStyle () {
-      return this.label || this.insetLabel
+      return this.hasLabel
         ? {width: `${this.contentWidth}%`, minWidth: `${this.contentWidth}%`}
         : `width: 100%`
     },
@@ -99,11 +118,6 @@ export default {
     },
     hasError () {
       return this.childError || this.error
-    },
-    computedLabel () {
-      if (this.label) {
-        return `${this.required ? '* ' : ''}${this.label}`
-      }
     }
   },
   methods: {
