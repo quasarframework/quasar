@@ -290,6 +290,23 @@
       <q-field
         icon="cloud"
         helper="Helper"
+        label="Horizontal"
+        error-label="Max 10 characters!"
+      >
+        <q-input-group
+          type="radio"
+          v-model="option"
+          :options="[
+            { label: 'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ', value: 'op2' },
+            { label: 'Option 3', value: 'op3' },
+            { label: 'Option 4', value: 'op4' }
+          ]"
+        />
+      </q-field>
+
+      <q-field
+        icon="cloud"
+        helper="Helper"
         error="error"
         error-label="Error!"
         label="Horizontal"
@@ -431,6 +448,7 @@
 export default {
   data () {
     return {
+      option: '',
       error: true,
       model: 'Some input',
       nullModel: null
