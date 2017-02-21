@@ -70,10 +70,6 @@ for $cols in (1..5)
     &.offset-{$parts}of{$cols}
       margin-left ($parts / $cols * 100)%
 
-
-.sm, .gt-sm, .md, .lt-md, .gt-md, .bg, .lt-bg, .gt-bg, .lg, .lt-lg
-  display none
-
 .wrap
   flex-wrap wrap
 .no-wrap
@@ -131,15 +127,6 @@ for $cols in (1..5)
 
 
 flex-media-query($type)
-  .{$type}
-    display block
-    &.inline
-      display inline-block
-    &.flex
-      display flex
-      &.inline
-        display inline-flex
-
   .{$type}-hide
     display none
 
@@ -207,25 +194,45 @@ flex-media-query($type)
       padding $grid-large-gutter 0 0 $grid-large-gutter
 
 @media only screen and (max-width $layout-small-max)
+  .gt-sm, .md, .gt-md, .bg, .gt-bg, .lg
+    display none
   flex-media-query('sm')
 @media only screen and (min-width $layout-medium-min)
+  .sm, .lt-md
+    display none
   flex-media-query('gt-sm')
 
 @media only screen and (min-width $layout-medium-min) and (max-width $layout-medium-max)
+  .sm, .lt-md, .gt-md, .bg, .gt-bg, .lg
+    display none
   flex-media-query('md')
 @media only screen and (min-width $layout-big-min)
+  .sm, .lt-md, .md, .lt-bg
+    display none
   flex-media-query('gt-md')
 @media only screen and (max-width $layout-small-max)
+  .md, .gt-sm, .gt-md, .gt-bg, .bg, .lg
+    display none
   flex-media-query('lt-md')
 
 @media only screen and (min-width $layout-big-min) and (max-width $layout-big-max)
+  .sm, .lt-md, .lt-bg, .md, .gt-bg, .lg
+    display none
   flex-media-query('bg')
 @media only screen and (min-width $layout-large-min)
+  .sm, .lt-md, .md, .lt-mg, .bg, .lt-lg
+    display none
   flex-media-query('gt-bg')
 @media only screen and (max-width $layout-medium-max)
+  .bg, .gt-md, .gt-bg, .lg
+    display none
   flex-media-query('lt-bg')
 
 @media only screen and (min-width $layout-large-min)
+  .sm, .lt-md, .lt-bg, .lt-lg, .md, .bg
+    display none
   flex-media-query('lg')
 @media only screen and (max-width $layout-big-max)
+  .lg
+    display none
   flex-media-query('lt-lg')
