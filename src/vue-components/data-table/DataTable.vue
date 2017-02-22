@@ -25,8 +25,10 @@
 
     <div class="q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end q-data-table-selection" v-show="toolbar === 'selection'">
       <div class="auto">
-        {{ rowsSelected }} item<span v-show="rowsSelected > 1">s</span> selected.
-        <button class="primary clear small" @click="clearSelection()">Clear</button>
+        {{ rowsSelected }}
+        <span v-if="rowsSelected === 1">{{ labels.selected.singular }}</span>
+        <span v-else>{{ labels.selected.plural }}</span>
+        <button class="primary clear small" @click="clearSelection()">{{ labels.clear }}</button>
       </div>
       <div>
         <slot name="selection" :rows="selectedRows"></slot>

@@ -2,7 +2,14 @@ import Utils from '../../../../utils'
 const labels = {
   columns: 'Columns',
   allCols: 'All Columns',
-  rows: 'Rows'
+  rows: 'Rows',
+  selected: {
+    singular: 'item selected.',
+    plural: 'items selected.'
+  },
+  clear: 'Clear',
+  search: 'Search',
+  all: 'All'
 }
 
 export default {
