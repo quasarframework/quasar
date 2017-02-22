@@ -25,10 +25,11 @@ minimized-modal()
   max-height 80vh
 
 maximized-modal()
-  width 100vw
-  height 100vh
-  max-width 100vw
-  max-height 100vh
+  position fixed
+  top 0
+  right 0
+  bottom 0
+  left 0
   border-radius 0
 
 .modal-content
@@ -38,7 +39,7 @@ maximized-modal()
   box-shadow $shadow-4
   overflow-y auto
   min-width 280px
-  max-height 80vh
+  max-height 100vh
 
   .layout
     width 100%
