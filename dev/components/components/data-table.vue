@@ -171,7 +171,14 @@ export default {
         labels: {
           columns: 'Coluuuuumns',
           allCols: 'Eeeeeeeeevery Cols',
-          rows: 'Rooows'
+          rows: 'Rooows',
+          selected: {
+            singular: 'item selected.',
+            plural: 'items selected.'
+          },
+          clear: 'clear',
+          search: 'Search',
+          all: 'All'
         }
       },
       columns: [
