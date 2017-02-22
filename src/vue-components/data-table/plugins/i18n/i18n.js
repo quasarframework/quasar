@@ -7,7 +7,7 @@ const labels = {
     singular: 'item selected.',
     plural: 'items selected.'
   },
-  clear: 'clear',
+  clear: 'Clear',
   search: 'Search',
   all: 'All'
 }
