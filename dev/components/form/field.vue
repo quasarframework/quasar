@@ -419,6 +419,22 @@
       </q-field>
 
       <q-field
+        helper="Helper"
+        label="Label with Hint"
+        label-hint="Label Hint"
+      >
+        <q-input v-model="model" float-label="Floating $ Label" suffix="#" prefix="@" />
+      </q-field>
+
+      <q-field
+        helper="Helper"
+        label="Label with Hint"
+      >
+        <span slot="labelHint">Label Hint with slot</span>
+        <q-input v-model="model" float-label="Floating $ Label" suffix="#" prefix="@" />
+      </q-field>
+
+      <q-field
         icon="cloud"
         helper="Helper"
         label="Label"

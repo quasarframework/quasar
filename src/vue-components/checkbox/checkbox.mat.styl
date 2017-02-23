@@ -54,3 +54,6 @@ $checkbox-tick-height     = (.55 * $checkbox-size)
     &.{$name} input:checked + div:before
       background $color
       border-color $color
+
+body.desktop .q-checkbox:focus input + div:before
+  box-shadow $form-focus-box-shadow

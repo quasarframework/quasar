@@ -8,16 +8,16 @@
     :value="actualValue"
     :float-label="floatLabel"
     :stacked-label="stackedLabel"
-    @click="__open"
     @open="open"
+    @focus="$emit('focus')"
+    @blur="__blur"
   >
     <q-popover
       v-if="desktop"
       ref="popup"
-      @open="__openedPopover"
-      @close="$refs.input.__blur()"
       :offset="[0, 4]"
       :disable="disable || readonly"
+      :anchor-click="false"
     >
       <q-inline-datetime v-model="model" :type="type" :min="min" :max="max" class="no-border">
         <div class="modal-buttons row full-width">
@@ -123,10 +123,6 @@ export default {
         this.$refs.popup.open()
       }
     },
-    __openedPopover () {
-      this.__setModel()
-      this.$refs.input.__focus()
-    },
     close (fn) {
       this.$refs.popup.close(fn)
     },
@@ -134,10 +130,13 @@ export default {
       this.$refs.popup.close()
       this.$emit('input', '')
     },
-    __open () {
-      if (!this.desktop) {
-        this.open()
-      }
+    __blur (e) {
+      this.$emit('blur')
+      setTimeout(() => {
+        if (document.activeElement !== document.body && !this.$refs.popup.$el.contains(document.activeElement)) {
+          this.close()
+        }
+      }, 1)
     },
     __normalizeValue (value) {
       if (this.min) {

@@ -92,8 +92,9 @@
       <p>
 
       <p class="caption">Block Buttons</p>
+      <i style="font-size: 1.5rem">alarm</i> Block
       <div class="group">
-        <button tabindex="0" class="primary block">Block</button>
+        <button tabindex="0" class="primary block"><i>alarm</i> Block</button>
         <button tabindex="0" class="secondary block">Block</button>
       </div>
 

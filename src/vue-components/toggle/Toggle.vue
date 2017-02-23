@@ -1,9 +1,13 @@
 <template>
   <div
-    class="q-toggle cursor-pointer inline"
+    class="q-toggle cursor-pointer inline no-outline"
     :class="{disabled: disable}"
     v-touch-swipe.horizontal="__swipe"
     @click.stop.prevent="toggle"
+    tabindex="0"
+    @focus="$emit('focus')"
+    @blur="$emit('blur')"
+    @keydown.space.enter.prevent="toggle"
   >
     <input
       type="checkbox"
@@ -43,6 +47,7 @@ export default {
     toggle () {
       if (!this.disable) {
         this.model = !this.model
+        this.$el.focus()
       }
     },
     __change (e) {

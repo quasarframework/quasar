@@ -1,5 +1,6 @@
 $popover-background   ?= white
 $popover-box-shadow   ?= $shadow-1
+$popover-max-width    ?= 90vw
 
 .q-popover
   position fixed
@@ -8,3 +9,4 @@ $popover-box-shadow   ?= $shadow-1
   z-index $z-popover
   overflow-y auto
   overflow-x hidden
+  max-width $popover-max-width

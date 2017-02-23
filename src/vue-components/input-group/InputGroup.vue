@@ -8,6 +8,8 @@
           :val="opt.value"
           :disable="disable"
           :class="color"
+          @focus="$emit('focus')"
+          @blur="$emit('blur')"
         ></q-radio>
         <component
           v-else
@@ -16,6 +18,8 @@
           :val="opt.value"
           :disable="disable"
           :class="color"
+          @focus="$emit('focus')"
+          @blur="$emit('blur')"
         ></component>
 
         <span>{{ opt.label }}</span>

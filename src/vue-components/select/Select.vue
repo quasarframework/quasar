@@ -9,14 +9,15 @@
     :float-label="floatLabel"
     :stacked-label="stackedLabel"
     @open="open"
+    @focus="$emit('focus')"
+    @blur="__blur"
   >
     <q-popover
       ref="popover"
       fit
       :disable="disable || readonly"
-      @open="$refs.input.__focus()"
-      @close="$refs.input.__blur()"
       :offset="[0, 4]"
+      :anchor-click="false"
     >
       <div class="q-select-popover list highlight">
         <label v-if="type === 'radio'" v-for="radio in options" class="item" @click="close">
@@ -130,7 +131,7 @@ export default {
   methods: {
     open (event) {
       if (!this.disable && !this.readonly) {
-        this.$refs.popover.open(event)
+        this.$refs.popover.open()
       }
     },
     close () {
@@ -146,6 +147,14 @@ export default {
       }
     },
 
+    __blur (e) {
+      this.$emit('blur')
+      setTimeout(() => {
+        if (document.activeElement !== document.body && !this.$refs.popover.$el.contains(document.activeElement)) {
+          this.close()
+        }
+      }, 1)
+    },
     __setAndClose (val) {
       this.model = val
       this.close()

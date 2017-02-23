@@ -1,8 +1,12 @@
 <template>
   <div
-    class="q-radio cursor-pointer inline"
+    class="q-radio cursor-pointer inline no-outline"
     :class="{disabled: disable}"
     @click.stop.prevent="select"
+    tabindex="0"
+    @focus="$emit('focus')"
+    @blur="$emit('blur')"
+    @keydown.space.enter.prevent="select"
   >
     <input
       type="radio"
@@ -43,6 +47,7 @@ export default {
     select () {
       if (!this.disable) {
         this.model = this.val
+        this.$el.focus()
       }
     },
     __change (e) {

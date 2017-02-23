@@ -11,7 +11,7 @@
       dropdown: isDropdown
     }"
     @click="__click"
-    @keydown.enter="__openDropdown"
+    @keydown.space.enter.prevent="__open"
   >
     <i
       v-if="isNumber && !noExtraIcons"
@@ -49,16 +49,27 @@
         @keydown="__keydown"
         @keyup="__keyup"
         :name="name"
-        :autofocus="autofocus"
         :pattern="pattern"
         :placeholder="placeholder"
         :disabled="disabled"
         :readonly="readonly"
         :required="required"
         :maxlength="maxlength"
-        class="no-style"
+        class="no-style auto"
         tabindex="0"
       ></textarea>
+      <div
+        ref="input"
+        v-if="isDropdown"
+        v-text="model"
+        @focus="__focus"
+        @blur="__blur"
+        @mousedown="__mousedown"
+        @keydown="__keydown"
+        @keyup="__keyup"
+        tabindex="0"
+        class="auto no-outline ellipsis q-input-dropdown"
+      ></div>
       <input
         v-else
         ref="input"
@@ -71,7 +82,6 @@
         @keydown="__keydown"
         @keyup="__keyup"
         :name="name"
-        :autofocus="autofocus"
         :pattern="inputPattern"
         :placeholder="placeholder"
         :disabled="disabled"
@@ -81,7 +91,7 @@
         :min="min"
         :max="max"
         :step="computedStep"
-        class="no-style"
+        class="no-style auto"
         tabindex="0"
       >
 
@@ -312,16 +322,10 @@ export default {
       this.showPass = !this.showPass
     },
     __focus (e) {
-      if (this.$q.platform.is.mobile && this.isDropdown && e) {
-        return
-      }
       this.focused = true
       this.$emit('focus')
     },
     __blur (e) {
-      if (this.$q.platform.is.mobile && this.isDropdown && e) {
-        return
-      }
       this.focused = false
       this.$emit('blur')
     },
@@ -333,12 +337,15 @@ export default {
     },
     __click (e) {
       if (this.isDropdown) {
-        document.activeElement.blur()
+        this.__open(e)
       }
-      this.focus()
+      else {
+        this.focus()
+      }
       this.$emit('click', e)
     },
-    __openDropdown (e) {
+    __open (e) {
+      this.focus()
       if (this.isDropdown) {
         this.$emit('open', e)
       }
@@ -373,6 +380,9 @@ export default {
     this.$nextTick(() => {
       this.field = getParent(this.$parent, 'is_q_field')
       this.__notify('count')
+      if (this.autofocus) {
+        this.focus()
+      }
     })
   },
   beforeDestroy () {
