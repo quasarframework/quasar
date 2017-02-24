@@ -15,6 +15,7 @@ export default function (VueComponent) {
       })
 
       return {
+        vm,
         close (fn) {
           vm.quasarClose(fn)
         }

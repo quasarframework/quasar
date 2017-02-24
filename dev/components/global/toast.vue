@@ -3,62 +3,62 @@
     <div class="layout-padding">
       <p class="caption">Basic Toasts</p>
       <p class="group">
-        <button class="primary" @click="basicToast()">
+        <q-btn class="primary" @click="basicToast()">
           Default Toast
-        </button>
+        </q-btn>
 
-        <button class="primary" @click="basicToastWithLongMessage()">
+        <q-btn class="primary" @click="basicToastWithLongMessage()">
           Default Toast with Long Message
-        </button>
+        </q-btn>
       </p>
 
       <p class="caption">Types of Toasts</p>
       <p class="group">
-        <button
+        <q-btn
           v-for="type in types"
           :class="type"
           @click="toastWithType(type)"
         >
           {{ capitalize(type) }} Toast
-        </button>
+        </q-btn>
       </p>
 
       <p class="caption">Toasts with Options</p>
       <p class="group">
-        <button class="primary" @click="toastWithIcon()">
+        <q-btn class="primary" @click="toastWithIcon()">
           Toast With an Icon
-        </button>
+        </q-btn>
 
-        <button class="primary" @click="toastWithButton()">
+        <q-btn class="primary" @click="toastWithButton()">
           Toast With a Button
-        </button>
+        </q-btn>
 
-        <button class="primary" @click="toastWithImage()">
+        <q-btn class="primary" @click="toastWithImage()">
           Toast With an Image
-        </button>
+        </q-btn>
 
-        <button class="purple" @click="toastWithStyle()">
+        <q-btn class="purple" @click="toastWithStyle()">
           Styled Toast
-        </button>
+        </q-btn>
 
-        <button class="orange" @click="toastWithButtonAndStyle()">
+        <q-btn class="orange" @click="toastWithButtonAndStyle()">
           Styled Toast with Button
-        </button>
+        </q-btn>
 
-        <button class="primary" @click="toastWithTimeout()">
+        <q-btn class="primary" @click="toastWithTimeout()">
           Toast With Custom Timeout
-        </button>
+        </q-btn>
 
-        <button class="primary" @click="toastWithOnDismiss()">
+        <q-btn class="primary" @click="toastWithOnDismiss()">
           Toast With Dismiss Trigger
-        </button>
+        </q-btn>
       </p>
 
       <p class="caption">Simultaneous Multiple Toasts</p>
       <p class="group">
-        <button class="primary" @click="showMultipleToasts()">
+        <q-btn class="primary" @click="showMultipleToasts()">
           Show Multiple Toasts
-        </button>
+        </q-btn>
       </p>
     </div>
   </div>

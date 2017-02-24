@@ -44,18 +44,18 @@
 
       <p class="caption">Control Progress with Buttons below</p>
       <div class="group">
-        <button class="secondary clear" @click="stopWorkButton()">
+        <q-btn class="secondary clear" @click="stopWorkButton()">
           Stop
-        </button>
-        <button class="secondary clear" @click="progressBtn = -1">
+        </q-btn>
+        <q-btn class="secondary clear" @click="progressBtn = -1">
           Error
-        </button>
-        <button class="secondary clear" @click="progressBtn = 100">
+        </q-btn>
+        <q-btn class="secondary clear" @click="progressBtn = 100">
           Success
-        </button>
-        <button class="secondary clear" @click="progressBtn = 0">
+        </q-btn>
+        <q-btn class="secondary clear" @click="progressBtn = 0">
           Reset
-        </button>
+        </q-btn>
         <div class="label tag bg-light">{{ progressBtn }}</div>
       </div>
     </div>

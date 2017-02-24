@@ -8,15 +8,15 @@
         <i class="text-grey-5">error_outline</i>
         <p class="caption text-center">Oops. Nothing here...</p>
         <p class="text-center group">
-          <button v-if="canGoBack" class="grey push small" @click="goBack">
+          <q-btn v-if="canGoBack" class="grey push small" @click="goBack">
             <i class="on-left">keyboard_arrow_left</i>
             Go back
-          </button>
+          </q-btn>
           <router-link to="/">
-            <button class="grey push small">
+            <q-btn class="grey push small">
               Go home
               <i class="on-right">home</i>
-            </button>
+            </q-btn>
           </router-link>
         </p>
       </div>

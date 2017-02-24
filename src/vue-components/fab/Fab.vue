@@ -4,10 +4,10 @@
     :class="{opened: opened}"
   >
     <div class="backdrop animate-fade" @click="toggle(true)" :style="backdropPosition"></div>
-    <button class="circular raised" @click="toggle()" :class="classNames">
+    <q-btn class="circular raised" @click="toggle()" :class="classNames">
       <i class="q-fab-icon">{{icon}}</i>
       <i class="q-fab-active-icon">{{activeIcon}}</i>
-    </button>
+    </q-btn>
     <div class="q-fab-actions flex inline items-center" :class="[direction]">
       <slot></slot>
     </div>

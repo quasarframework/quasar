@@ -1,6 +1,6 @@
 <template>
   <div class="q-collapsible">
-    <div class="item item-link non-selectable item-collapsible" @click="__toggleItem">
+    <div class="item item-link non-selectable item-collapsible" v-ripple @click="__toggleItem">
       <i class="item-primary" v-if="icon" v-text="icon"></i>
       <img class="item-primary thumbnail" v-if="img" :src="img"></i>
       <img class="item-primary" v-if="avatar" :src="avatar"></i>

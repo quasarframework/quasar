@@ -9,13 +9,13 @@
       After another 500px another element will appear on the left.
     </p>
 
-    <button
+    <q-btn
       v-back-to-top.animate="{offset: 500, duration: 200}"
       class="primary circular fixed-bottom-right animate-pop"
       style="margin: 0 15px 15px 0"
     >
       <i>keyboard_arrow_up</i>
-    </button>
+    </q-btn>
 
     <a
       v-back-to-top.animate="1000"

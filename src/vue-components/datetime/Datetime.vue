@@ -8,7 +8,7 @@
     :value="actualValue"
     :float-label="floatLabel"
     :stacked-label="stackedLabel"
-    @open="open"
+    @click="open"
     @focus="$emit('focus')"
     @blur="__blur"
   >
@@ -21,10 +21,10 @@
     >
       <q-inline-datetime v-model="model" :type="type" :min="min" :max="max" class="no-border">
         <div class="modal-buttons row full-width">
-          <button v-if="!noClear" @click="clear()" class="primary clear" v-html="clearLabel"></button>
+          <q-btn v-if="!noClear" @click="clear()" class="primary clear" v-html="clearLabel"></q-btn>
           <div class="auto"></div>
-          <button @click="close()" class="primary clear" v-html="cancelLabel"></button>
-          <button @click="close(__update)" class="primary clear" v-html="okLabel"></button>
+          <q-btn @click="close()" class="primary clear" v-html="cancelLabel"></q-btn>
+          <q-btn @click="close(__update)" class="primary clear" v-html="okLabel"></q-btn>
         </div>
       </q-inline-datetime>
     </q-popover>
@@ -40,10 +40,10 @@
     >
       <q-inline-datetime v-model="model" :type="type" :min="min" :max="max" class="no-border full-width">
         <div class="modal-buttons row full-width">
-          <button v-if="!noClear" @click="clear()" class="primary clear" v-html="clearLabel"></button>
+          <q-btn v-if="!noClear" @click="clear()" class="primary clear" v-html="clearLabel"></q-btn>
           <div class="auto"></div>
-          <button @click="close()" class="primary clear" v-html="cancelLabel"></button>
-          <button @click="close(__update)" class="primary clear" v-html="okLabel"></button>
+          <q-btn @click="close()" class="primary clear" v-html="cancelLabel"></q-btn>
+          <q-btn @click="close(__update)" class="primary clear" v-html="okLabel"></q-btn>
         </div>
       </q-inline-datetime>
     </q-modal>

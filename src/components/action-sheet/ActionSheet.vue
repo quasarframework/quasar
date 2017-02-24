@@ -18,6 +18,7 @@
             @keydown.enter="close(button.handler)"
             :class="button.classes"
             tabindex="0"
+            v-ripple
           >
             <i v-if="button.icon">{{ button.icon }}</i>
             <img v-if="button.avatar" :src="button.avatar" class="avatar">
@@ -33,6 +34,7 @@
             @keydown.enter="close(button.handler)"
             :class="button.classes"
             tabindex="0"
+            v-ripple
           >
             <i v-if="button.icon" class="item-primary">{{ button.icon }}</i>
             <img v-if="button.avatar" :src="button.avatar" class="item-primary">
@@ -50,6 +52,7 @@
           @keydown.enter="close()"
           :class="dismiss.classes"
           tabindex="0"
+          v-ripple
         >
           <i v-if="dismiss.icon" class="item-primary">{{ dismiss.icon }}</i>
           <div class="item-content inset">
@@ -73,6 +76,7 @@
               @keydown.enter="close(button.handler)"
               :class="button.classes"
               tabindex="0"
+              v-ripple
             >
               <i v-if="button.icon">{{ button.icon }}</i>
               <img v-if="button.avatar" :src="button.avatar" class="avatar">
@@ -88,6 +92,7 @@
               @keydown.enter="close(button.handler)"
               :class="button.classes"
               tabindex="0"
+              v-ripple
             >
               <i v-if="button.icon" class="item-primary">{{ button.icon}}</i>
               <img v-if="button.avatar" :src="button.avatar" class="item-primary">
@@ -106,6 +111,7 @@
           @keydown.enter="close()"
           :class="dismiss.classes"
           tabindex="0"
+          v-ripple
         >
           <div class="item-content row justify-center">
             {{ dismiss.label }}

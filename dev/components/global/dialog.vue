@@ -12,6 +12,7 @@
           class="item item-link"
           v-for="dialog in types"
           @click="dialog.handler()"
+          v-ripple
         >
           <i class="item-primary">{{dialog.icon}}</i>
           <div class="item-content has-secondary">
@@ -25,6 +26,7 @@
           class="item item-link"
           v-for="dialog in form"
           @click="dialog.handler()"
+          v-ripple
         >
           <i class="item-primary">{{dialog.icon}}</i>
           <div class="item-content has-secondary">
@@ -241,7 +243,7 @@ export default {
               message: 'Modern HTML5 Single Page Application front-end framework on steroids.',
               form: {
                 name: {
-                  type: 'textbox',
+                  type: 'input',
                   label: 'Textbox',
                   model: ''
                 },

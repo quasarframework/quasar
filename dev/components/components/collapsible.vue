@@ -100,7 +100,7 @@
           <div class="card">
             <div class="card-media">
               <img src="~assets/map.png">
-              <button class="primary circular"><i>explore</i></button>
+              <q-btn class="primary circular"><i>explore</i></q-btn>
             </div>
             <div class="card-content">
               <div class="item two-lines">
@@ -133,10 +133,10 @@
                 (1 mile)
               </div>
               <div class="auto"></div>
-              <button class="primary clear small">
+              <q-btn class="primary clear small">
                 <i class="on-left">directions</i>
                 Start
-              </button>
+              </q-btn>
             </div>
           </div>
         </q-collapsible>

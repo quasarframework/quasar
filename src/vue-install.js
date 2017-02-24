@@ -9,6 +9,7 @@ import Transition from './vue-transitions/index'
 import dBackToTop from './vue-directives/back-to-top'
 import dGoBack from './vue-directives/go-back'
 import dLink from './vue-directives/link'
+import dRipple from './vue-directives/ripple'
 import dScrollFire from './vue-directives/scroll-fire'
 import dScroll from './vue-directives/scroll'
 import dTouchHold from './vue-directives/touch-hold'
@@ -17,6 +18,7 @@ import dTouchSwipe from './vue-directives/touch-swipe'
 
 import AjaxBar from './vue-components/ajax-bar/AjaxBar.vue'
 import Autocomplete from './vue-components/autocomplete/Autocomplete.vue'
+import Btn from './vue-components/btn/Btn.vue'
 import Checkbox from './vue-components/checkbox/Checkbox.vue'
 import Chips from './vue-components/chips/Chips.vue'
 import Collapsible from './vue-components/collapsible/Collapsible.vue'
@@ -42,7 +44,6 @@ import Layout from './vue-components/layout/Layout.vue'
 import ListItem from './vue-components/list-item/ListItem.vue'
 import ToolbarTitle from './vue-components/layout/ToolbarTitle.vue'
 import Modal from './vue-components/modal/Modal.vue'
-import Numeric from './vue-components/numeric/Numeric.vue'
 import Pagination from './vue-components/pagination/Pagination.vue'
 import Parallax from './vue-components/parallax/Parallax.vue'
 import Popover from './vue-components/popover/Popover.vue'
@@ -58,7 +59,6 @@ import Select from './vue-components/select/Select.vue'
 import DialogSelect from './vue-components/select/DialogSelect.vue'
 import Slider from './vue-components/slider/Slider.vue'
 import Spinner from './vue-components/spinner/Spinner.vue'
-import State from './vue-components/state/State.vue'
 import Stepper from './vue-components/stepper/Stepper.vue'
 import Step from './vue-components/stepper/Step.vue'
 import Tab from './vue-components/tab/Tab.vue'
@@ -74,6 +74,7 @@ function registerDirectives (_Vue) {
     ['back-to-top', dBackToTop],
     ['go-back', dGoBack],
     ['link', dLink],
+    ['ripple', dRipple],
     ['scroll-fire', dScrollFire],
     ['scroll', dScroll],
     ['touch-hold', dTouchHold],
@@ -91,6 +92,7 @@ function registerComponents (_Vue) {
   ;[
     ['ajax-bar', AjaxBar],
     ['autocomplete', Autocomplete],
+    ['btn', Btn],
     ['checkbox', Checkbox],
     ['chips', Chips],
     ['collapsible', Collapsible],
@@ -115,7 +117,6 @@ function registerComponents (_Vue) {
     ['list-item', ListItem],
     ['toolbar-title', ToolbarTitle],
     ['modal', Modal],
-    ['numeric', Numeric],
     ['pagination', Pagination],
     ['parallax', Parallax],
     ['popover', Popover],
@@ -130,7 +131,6 @@ function registerComponents (_Vue) {
     ['select', Select],
     ['dialog-select', DialogSelect],
     ['slider', Slider],
-    ['state', State],
     ['stepper', Stepper],
     ['step', Step],
     ['tab', Tab],

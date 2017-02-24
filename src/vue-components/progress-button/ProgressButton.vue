@@ -1,5 +1,5 @@
 <template>
-  <button class="q-progress-button" :class="{active: active, indeterminate: indeterminate}">
+  <q-btn class="q-progress-button" :class="{active: active, indeterminate: indeterminate}">
     <span
       v-if="!indeterminate"
       class="q-progress-button-filler"
@@ -20,7 +20,7 @@
         <i>{{ successIcon }}</i>
       </div>
     </div>
-  </button>
+  </q-btn>
 </template>
 
 <script>

@@ -1,8 +1,8 @@
 <template>
-  <button class="circular small raised" @click="$parent.close()">
+  <q-btn class="circular small raised" @click="$parent.close()">
     <i>{{icon}}</i>
     <slot></slot>
-  </button>
+  </q-btn>
 </template>
 
 <script>

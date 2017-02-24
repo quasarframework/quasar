@@ -105,12 +105,12 @@
         </template>
 
         <template slot="selection" scope="props">
-          <button class="primary clear" @click="changeMessage(props)">
+          <q-btn class="primary clear" @click="changeMessage(props)">
             <i>edit</i>
-          </button>
-          <button class="primary clear" @click="deleteRow(props)">
+          </q-btn>
+          <q-btn class="primary clear" @click="deleteRow(props)">
             <i>delete</i>
-          </button>
+          </q-btn>
         </template>
       </q-data-table>
 

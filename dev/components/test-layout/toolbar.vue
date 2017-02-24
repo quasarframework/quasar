@@ -7,15 +7,15 @@
       </p>
 
       <div class="toolbar">
-        <button class="left-drawer-opener">
+        <q-btn class="left-drawer-opener">
           <i>menu</i>
-        </button>
+        </q-btn>
         <q-toolbar-title :padding="1">
           Toolbar
         </q-toolbar-title>
-        <button class="right-drawer-opener">
+        <q-btn class="right-drawer-opener">
           <i>more_vert</i>
-        </button>
+        </q-btn>
       </div>
 
       <p class="caption">
@@ -23,58 +23,58 @@
       </p>
 
       <div class="toolbar secondary">
-        <button><i>assignment_ind</i></button>
+        <q-btn><i>assignment_ind</i></q-btn>
         <q-toolbar-title :padding="2">
           Toolbar
         </q-toolbar-title>
-        <button><i>sim_card</i></button>
-        <button><i>gamepad</i></button>
+        <q-btn><i>sim_card</i></q-btn>
+        <q-btn><i>gamepad</i></q-btn>
       </div>
       <div class="toolbar orange">
-        <button><i>mail</i></button>
+        <q-btn><i>mail</i></q-btn>
         <q-toolbar-title :padding="3">
           Long title for Toolbar. Very very very very very very long title.
         </q-toolbar-title>
-        <button><i>alarm</i></button>
-        <button><i>router</i></button>
-        <button><i>keyboard</i></button>
+        <q-btn><i>alarm</i></q-btn>
+        <q-btn><i>router</i></q-btn>
+        <q-btn><i>keyboard</i></q-btn>
       </div>
       <div class="toolbar dark">
-        <button><i>menu</i></button>
-        <button><i>security</i></button>
+        <q-btn><i>menu</i></q-btn>
+        <q-btn><i>security</i></q-btn>
         <q-toolbar-title :padding="2">
           Toolbar
         </q-toolbar-title>
-        <button><i>headset</i></button>
-        <button><i>tv</i></button>
+        <q-btn><i>headset</i></q-btn>
+        <q-btn><i>tv</i></q-btn>
       </div>
 
       <p class="caption">
         And also "inverted".
       </p>
       <div class="toolbar purple inverted">
-        <button><i>menu</i></button>
+        <q-btn><i>menu</i></q-btn>
         <q-toolbar-title :padding="2">
           Toolbar
         </q-toolbar-title>
-        <button><i>supervisor_account</i></button>
-        <button><i>more_vert</i></button>
+        <q-btn><i>supervisor_account</i></q-btn>
+        <q-btn><i>more_vert</i></q-btn>
       </div>
       <div class="toolbar amber inverted">
-        <button><i>menu</i></button>
+        <q-btn><i>menu</i></q-btn>
         <q-toolbar-title :padding="2">
           Toolbar
         </q-toolbar-title>
-        <button><i>supervisor_account</i></button>
-        <button><i>more_vert</i></button>
+        <q-btn><i>supervisor_account</i></q-btn>
+        <q-btn><i>more_vert</i></q-btn>
       </div>
       <div class="toolbar red inverted">
-        <button><i>menu</i></button>
+        <q-btn><i>menu</i></q-btn>
         <q-toolbar-title :padding="2">
           Toolbar
         </q-toolbar-title>
-        <button><i>supervisor_account</i></button>
-        <button><i>more_vert</i></button>
+        <q-btn><i>supervisor_account</i></q-btn>
+        <q-btn><i>more_vert</i></q-btn>
       </div>
     </div>
   </div>

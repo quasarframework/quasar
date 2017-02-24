@@ -14,19 +14,19 @@
       </span>
     </div>
     <div v-else class="group">
-      <button
+      <q-btn
         :class="buttonClass"
         v-html="computedLabel.add"
         @click="$refs.file.click()"
         :disabled="addButtonDisabled"
-      ></button>
-      <button
+      ></q-btn>
+      <q-btn
         v-if="!hideUploadButton"
         :class="buttonClass"
         :disabled="files.length === 0"
         v-html="computedLabel.upload"
         @click="upload"
-      ></button>
+      ></q-btn>
     </div>
 
     <div class="row wrap items-center group">
@@ -39,12 +39,12 @@
           <div class="row items-center">
             <span class="text-faded">{{ img.__file.__size }}</span>
             <div class="auto"></div>
-            <button
+            <q-btn
               v-show="!uploading"
               class="primary clear small"
               @click="__remove(img.name)"
               v-html="computedLabel.remove"
-            ></button>
+            ></q-btn>
           </div>
         </div>
         <q-progress v-if="img.__file.__progress" :percentage="img.__file.__progress"></q-progress>
@@ -57,12 +57,12 @@
           <div class="row items-center">
             <span class="text-faded">{{ file.__size }}</span>
             <div class="auto"></div>
-            <button
+            <q-btn
               v-show="!uploading"
               class="primary clear small"
               @click="__remove(file.name)"
               v-html="computedLabel.remove"
-            ></button>
+            ></q-btn>
           </div>
         </div>
         <q-progress v-if="file.__progress" :percentage="file.__progress"></q-progress>

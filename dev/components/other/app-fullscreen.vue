@@ -8,13 +8,13 @@
       </p>
 
       <p>
-        <button
+        <q-btn
           class="secondary"
           @click="toggleFullscreen()"
         >
           <i class="on-left">zoom_out_map</i>
           Toggle Fullscreen
-        </button>
+        </q-btn>
       </p>
 
       <p class="caption">

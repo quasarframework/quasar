@@ -25,7 +25,7 @@
           <i class="text-primary" style="font-size: 2rem; margin-right: 1rem;">check</i>
           <span>Finished. Well done!</span>
         </p>
-        <button class="primary" @click="reset()">Reset</button>
+        <q-btn class="primary" @click="reset()">Reset</q-btn>
       </div>
 
       <span class="label bg-amber fixed-bottom-left" style="left: 18px; bottom: 18px;">

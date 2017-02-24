@@ -9,15 +9,15 @@
 
       <p class="caption">Floating Labels</p>
       <p>
-        <button class="light relative-position">
+        <q-btn class="light relative-position">
           Inbox
           <span class="floating label circular bg-primary text-white">22</span>
-        </button>
+        </q-btn>
         &nbsp;&nbsp;
-        <button class="red relative-position">
+        <q-btn class="red relative-position">
           Inbox
           <span class="floating label bg-dark">22</span>
-        </button>
+        </q-btn>
       </p>
 
       <p class="caption">Chip Labels</p>

@@ -3,7 +3,7 @@
     class="q-search"
     :class="{'q-search-centered': centered, disabled: disable, readonly: readonly}"
   >
-    <div class="q-search-input-container">
+    <div class="q-search-input-container" v-ripple>
       <button class="q-search-icon">
         <i class="on-left">{{ icon }}</i>
         <span v-show="$q.theme === 'ios' && isEmpty">{{placeholder}}</span>

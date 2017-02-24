@@ -69,28 +69,28 @@
           v-if="view === 'year'"
           class="q-datetime-view-year full-width full-height"
         >
-          <button
+          q-btn
             v-for="n in yearInterval"
             class="primary clear full-width"
             :class="{active: n + yearMin === year}"
             @click="setYear(n + yearMin)"
           >
             {{ n + yearMin }}
-          </button>
+          </q-btn>
         </div>
 
         <div
           v-if="view === 'month'"
           class="q-datetime-view-month full-width full-height"
         >
-          <button
+          <q-btn
             v-for="index in monthInterval"
             class="primary clear full-width"
             :class="{active: month === index + monthMin}"
             @click="setMonth(index + monthMin, true)"
           >
             {{ monthsList[index + monthMin - 1] }}
-          </button>
+          </q-btn>
         </div>
 
         <div
@@ -98,21 +98,21 @@
           class="q-datetime-view-day q-datetime-animate"
         >
           <div class="row items-center content-center">
-            <button
+            <q-btn
               class="primary clear"
               @click="setMonth(month - 1, true)"
             >
               <i>keyboard_arrow_left</i>
-            </button>
+            </q-btn>
             <div class="auto">
               {{ monthStamp }}
             </div>
-            <button
+            <q-btn
               class="primary clear"
               @click="setMonth(month + 1, true)"
             >
               <i>keyboard_arrow_right</i>
-            </button>
+            </q-btn>
           </div>
           <div class="q-datetime-weekdays row items-center justify-start">
             <div v-for="day in daysList">{{day}}</div>

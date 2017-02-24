@@ -11,7 +11,6 @@
       dropdown: isDropdown
     }"
     @click="__click"
-    @keydown.space.enter="__open"
   >
     <i
       v-if="isNumber && !noExtraIcons"
@@ -130,6 +129,7 @@
 
 <script>
 import { getParent } from '../../utils/vue'
+import inputTypes from './input-types'
 
 function exists (val) {
   return typeof val !== 'undefined' && val !== null
@@ -145,11 +145,7 @@ export default {
       type: String,
       default: 'text',
       validator (t) {
-        return [
-          'text', 'textarea', 'email',
-          'tel', 'file', 'number',
-          'password', 'url', 'dropdown'
-        ].includes(t)
+        return inputTypes.includes(t)
       }
     },
     autofocus: Boolean,
@@ -336,20 +332,8 @@ export default {
       this.$emit('keyup', e)
     },
     __click (e) {
-      if (this.isDropdown) {
-        this.__open(e)
-      }
-      else {
-        this.focus()
-      }
-      this.$emit('click', e)
-    },
-    __open (e) {
       this.focus()
-      if (this.isDropdown) {
-        e.preventDefault()
-        this.$emit('open', e)
-      }
+      this.$emit('click', e)
     },
     __notify (type, value) {
       if (!this.field) {

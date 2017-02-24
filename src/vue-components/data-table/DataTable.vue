@@ -4,12 +4,12 @@
       <div class="q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end">
         <div v-if="config.title" class="q-data-table-title ellipsis auto" v-html="config.title"></div>
         <div class="row items-end">
-          <button v-if="config.refresh && !refreshing" class="primary clear" @click="refresh">
+          <q-btn v-if="config.refresh && !refreshing" class="primary clear" @click="refresh">
             <i>refresh</i>
-          </button>
-          <button v-if="refreshing" class="disabled">
+          </q-btn>
+          <q-btn v-if="refreshing" class="disabled">
             <i class="animate-spin-reverse">cached</i>
-          </button>
+          </q-btn>
           <q-select
             type="toggle"
             v-if="config.columnPicker"
@@ -26,7 +26,7 @@
     <div class="q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end q-data-table-selection" v-show="toolbar === 'selection'">
       <div class="auto">
         {{ rowsSelected }} item<span v-show="rowsSelected > 1">s</span> selected.
-        <button class="primary clear small" @click="clearSelection()">Clear</button>
+        <q-btn class="primary clear small" @click="clearSelection()">Clear</q-btn>
       </div>
       <div>
         <slot name="selection" :rows="selectedRows"></slot>

@@ -1,5 +1,5 @@
 <template>
-  <div class="item" :class="itemClass">
+  <div class="item" :class="itemClass" v-ripple>
     <i v-if="item.icon" class="item-primary">{{item.icon}}</i>
     <img v-if="item.img" class="item-primary thumbnail" :src="item.img" />
 

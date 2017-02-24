@@ -1,15 +1,16 @@
 <template>
   <q-input
     ref="input"
+    type="dropdown"
     :disabled="disable"
     :readonly="readonly"
     :placeholder="placeholder"
     :value="actualValue"
     :float-label="floatLabel"
     :stacked-label="stackedLabel"
-    dropdown
-    @click.native="pick"
-    @keydown.native.enter="pick"
+    @click="pick"
+    @focus="$emit('focus')"
+    @blur="__blur"
   />
 </template>
 
@@ -91,12 +92,11 @@ export default {
         }
       })
 
-      this.$refs.input.__focus()
-      Dialog.create({
+      const vm = Dialog.create({
         title: this.title,
         message: this.message,
         onDismiss: () => {
-          this.$refs.input.__blur()
+          this.dialogElement = null
         },
         form: {
           select: {type: this.type, model: this.value, items: options}
@@ -111,6 +111,17 @@ export default {
           }
         ]
       })
+
+      this.dialogElement = vm.$el
+    },
+
+    __blur (e) {
+      this.$emit('blur')
+      setTimeout(() => {
+        if (this.dialogElement && document.activeElement !== document.body && !this.dialogElement.contains(document.activeElement)) {
+          this.close()
+        }
+      }, 1)
     }
   }
 }

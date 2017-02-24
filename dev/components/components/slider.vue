@@ -69,22 +69,22 @@
       <p class="caption">
         Launch Slider on Fullscreen
       </p>
-      <button class="primary glossy" @click="$refs.modal.open()">
+      <q-btn class="primary glossy" @click="$refs.modal.open()">
         Launch
-      </button>
+      </q-btn>
       <q-modal ref="modal" class="maximized">
         <q-slider arrows dots class="text-white full-height">
           <div slot="slide" class="bg-primary centered">
             <h1>Slide 1</h1>
-            <button class="dark glossy" @click="$refs.modal.close()">Close Me</button>
+            <q-btn class="dark glossy" @click="$refs.modal.close()">Close Me</q-btn>
           </div>
           <div slot="slide" class="bg-secondary centered">
             <h1>Slide 2</h1>
-            <button class="dark glossy" @click="$refs.modal.close()">Close Me</button>
+            <q-btn class="dark glossy" @click="$refs.modal.close()">Close Me</q-btn>
           </div>
           <div slot="slide" class="bg-tertiary centered">
             <h1>Slide 3</h1>
-            <button class="dark glossy" @click="$refs.modal.close()">Close Me</button>
+            <q-btn class="dark glossy" @click="$refs.modal.close()">Close Me</q-btn>
           </div>
         </q-slider>
       </q-modal>

@@ -8,7 +8,7 @@
       </p>
 
       <div>
-        <button class="primary">
+        <q-btn class="primary">
           <i>assignment</i>
 
           <q-popover ref="popover1">
@@ -25,19 +25,19 @@
               </div>
             </div>
           </q-popover>
-        </button>
+        </q-btn>
 
-        <button ref="target4" class="negative">
+        <q-btn ref="target4" class="negative">
           Disabled Popover
 
           <q-popover disable>
             This Popover content won't be shown because of "disable"
           </q-popover>
-        </button>
+        </q-btn>
 
         <div class="card" style="margin-top: 75px">
           <div class="card-title bg-primary text-center">
-            <button class="orange push">
+            <q-btn class="orange push">
               Tap Me
 
               <q-popover
@@ -57,7 +57,7 @@
                   </div>
                 </div>
               </q-popover>
-            </button>
+            </q-btn>
           </div>
 
           <p class="caption text-center">Configure the Popover for button above.</p>
@@ -142,7 +142,7 @@
 
         <div style="margin-bottom: 700px;"></div>
 
-        <button class="secondary fixed-top-right" style="top: 65px; right: 10px; right: 16px;">
+        <q-btn class="secondary fixed-top-right" style="top: 65px; right: 10px; right: 16px;">
           <i>directions</i>
 
           <q-popover ref="popover3">
@@ -152,28 +152,28 @@
               @click="showToast(), $refs.popover3.close()"
             >
           </q-popover>
-        </button>
+        </q-btn>
 
-        <button class="tertiary fixed-bottom-right" style="bottom: 10px; right: 16px;">
+        <q-btn class="tertiary fixed-bottom-right" style="bottom: 10px; right: 16px;">
           <i>plus_one</i>
 
           <q-popover ref="popover4">
             <div class="group" style="width: 200px; height: 50px; text-align: center;">
-              <button class="primary clear" @click="showToast(), $refs.popover4.close()">
+              <q-btn class="primary clear" @click="showToast(), $refs.popover4.close()">
                 <i>thumb_up</i>
-              </button>
-              <button class="primary clear" @click="showToast(), $refs.popover4.close()">
+              </q-btn>
+              <q-btn class="primary clear" @click="showToast(), $refs.popover4.close()">
                 <i>thumb_down</i>
-              </button>
-              <button class="secondary clear" @click="showToast(), $refs.popover4.close()">
+              </q-btn>
+              <q-btn class="secondary clear" @click="showToast(), $refs.popover4.close()">
                 <i>share</i>
-              </button>
+              </q-btn>
             </div>
           </q-popover>
-        </button>
+        </q-btn>
       </div>
 
-      <button class="primary fixed-bottom-left" style="bottom: 10px; left: 10px;">
+      <q-btn class="primary fixed-bottom-left" style="bottom: 10px; left: 10px;">
         <i>menu</i>
 
         <q-popover ref="popover5">
@@ -190,7 +190,7 @@
             </div>
           </div>
         </q-popover>
-      </button>
+      </q-btn>
     </div>
   </div>
 </template>

@@ -1,15 +1,15 @@
 <template>
   <q-layout>
     <div slot="header" class="toolbar">
-      <button class="hide-on-drawer-visible" @click="$refs.leftDrawer.open()">
+      <q-btn class="hide-on-drawer-visible" @click="$refs.leftDrawer.open()">
         <i>menu</i>
-      </button>
+      </q-btn>
       <q-toolbar-title :padding="1">
         Quasar Layout
       </q-toolbar-title>
-      <button @click="$refs.rightDrawer.open()">
+      <q-btn @click="$refs.rightDrawer.open()">
         <i>assignment</i>
-      </button>
+      </q-btn>
     </div>
 
     <div slot="header" class="toolbar primary">

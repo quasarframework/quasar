@@ -45,7 +45,7 @@
       <div class="card" style="max-width: 600px;">
         <div class="card-media">
           <img src="~assets/map.png">
-          <button class="primary circular"><i>place</i></button>
+          <q-btn class="primary circular"><i>place</i></q-btn>
         </div>
         <div class="card-content list no-border highlight">
           <div class="item two-lines">
@@ -78,7 +78,7 @@
             (1 mile)
           </div>
           <div class="auto"></div>
-          <button class="primary clear small"><i class="on-left">directions</i> Start</button>
+          <q-btn class="primary clear small"><i class="on-left">directions</i> Start</q-btn>
         </div>
       </div>
 
@@ -143,7 +143,7 @@
           <div class="video">
             <iframe src="https://www.youtube.com/embed/k3_tw44QsZQ?rel=0" frameborder="0" allowfullscreen></iframe>
           </div>
-          <button class="primary circular"><i>share</i></button>
+          <q-btn class="primary circular"><i>share</i></q-btn>
         </div>
         <div class="card-content">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
