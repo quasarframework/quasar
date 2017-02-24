@@ -11,7 +11,7 @@
       dropdown: isDropdown
     }"
     @click="__click"
-    @keydown.space.enter.prevent="__open"
+    @keydown.space.enter="__open"
   >
     <i
       v-if="isNumber && !noExtraIcons"
@@ -347,6 +347,7 @@ export default {
     __open (e) {
       this.focus()
       if (this.isDropdown) {
+        e.preventDefault()
         this.$emit('open', e)
       }
     },
