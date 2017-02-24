@@ -2,6 +2,7 @@ import { cssTransform, css } from '../utils/dom'
 import Platform from '../features/platform'
 import { position } from '../utils/event'
 import * as store from '../utils/store'
+import { current as theme } from '../features/theme'
 
 function showRipple (evt, el) {
   var container = document.createElement('span')
@@ -54,6 +55,10 @@ function hideRipple (el) {
 
 export default {
   bind (el) {
+    if (theme !== 'mat') {
+      return
+    }
+
     function show (evt) { showRipple(evt, el) }
     function hide () { hideRipple(el) }
 
@@ -77,6 +82,10 @@ export default {
     el.classList.add('q-ripple')
   },
   unbind (el) {
+    if (theme !== 'mat') {
+      return
+    }
+
     const ctx = store.get('ripple', el)
     Object.keys(ctx).forEach(evt => {
       el.removeEventListener(evt, ctx[evt], false)

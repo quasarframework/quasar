@@ -1,11 +1,12 @@
 <template>
   <li class="q-tree-item">
     <div
+      class="row items-center"
       :class="{'q-tree-expandable-item': isExpandable, 'q-tree-link': model.handler}"
       @click="toggle"
     >
       <i v-if="model.icon">{{model.icon}}</i>
-      <span class="q-tree-label">{{model.title}}</span>
+      <span class="q-tree-label relative-position" v-ripple>{{model.title}}</span>
       <span v-if="isExpandable" v-html="model.expanded ? contractHtml : expandHtml"></span>
     </div>
     <q-transition name="slide">

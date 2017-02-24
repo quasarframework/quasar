@@ -7,7 +7,7 @@
     :append="append"
     :exact="exact"
     tag="div"
-    class="q-tab items-center justify-center"
+    class="q-tab items-center justify-center relative-position"
     :class="{
       active: isActive,
       hidden: hidden,
@@ -16,6 +16,7 @@
       hideLabel: hide === 'label'
     }"
     @click.stop.prevent="activate()"
+    v-ripple
   >
     <i v-if="icon" class="q-tabs-icon">{{icon}}</i>
     <span class="q-tab-label">
@@ -24,7 +25,7 @@
   </router-link>
   <div
     v-else
-    class="q-tab items-center justify-center"
+    class="q-tab items-center justify-center relative-position"
     :class="{
       active: isActive,
       hidden: hidden,
@@ -33,6 +34,7 @@
       hideLabel: hide === 'label'
     }"
     @click="activate()"
+    v-ripple
   >
     <i v-if="icon" class="q-tabs-icon">{{icon}}</i>
     <span class="q-tab-label">
