@@ -16,7 +16,7 @@
       hideLabel: hide === 'label'
     }"
     @click.stop.prevent="activate()"
-    v-ripple
+    v-ripple.mat
   >
     <i v-if="icon" class="q-tabs-icon">{{icon}}</i>
     <span class="q-tab-label">
@@ -34,7 +34,7 @@
       hideLabel: hide === 'label'
     }"
     @click="activate()"
-    v-ripple
+    v-ripple.mat
   >
     <i v-if="icon" class="q-tabs-icon">{{icon}}</i>
     <span class="q-tab-label">

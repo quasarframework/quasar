@@ -1,5 +1,5 @@
 <template>
-  <div class="item item-link drawer-closer" v-link.delay="to" v-ripple>
+  <div class="item item-link drawer-closer" v-link.delay="to" v-ripple.mat>
     <i v-if="icon" class="item-primary">{{icon}}</i>
     <div class="item-content">
       <div>

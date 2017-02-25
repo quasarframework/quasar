@@ -12,7 +12,7 @@
           class="item item-link"
           v-for="dialog in types"
           @click="dialog.handler()"
-          v-ripple
+          v-ripple.mat
         >
           <i class="item-primary">{{dialog.icon}}</i>
           <div class="item-content has-secondary">
@@ -26,7 +26,7 @@
           class="item item-link"
           v-for="dialog in form"
           @click="dialog.handler()"
-          v-ripple
+          v-ripple.mat
         >
           <i class="item-primary">{{dialog.icon}}</i>
           <div class="item-content has-secondary">

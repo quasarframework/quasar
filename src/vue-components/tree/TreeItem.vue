@@ -6,7 +6,7 @@
       @click="toggle"
     >
       <i v-if="model.icon">{{model.icon}}</i>
-      <span class="q-tree-label relative-position" v-ripple>{{model.title}}</span>
+      <span class="q-tree-label relative-position" v-ripple.mat>{{model.title}}</span>
       <span v-if="isExpandable" v-html="model.expanded ? contractHtml : expandHtml"></span>
     </div>
     <q-transition name="slide">

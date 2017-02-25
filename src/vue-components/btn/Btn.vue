@@ -1,8 +1,7 @@
 <template>
   <button
-    v-ripple
+    v-ripple.mat
     @click="__click"
-    tabindex="0"
   >
     <slot></slot>
   </button>

@@ -12,7 +12,7 @@
           class="item item-link"
           v-for="dialog in types"
           @click="dialog.handler()"
-          v-ripple
+          v-ripple.mat
         >
           <i class="item-primary">settings</i>
           <div class="item-content has-secondary">

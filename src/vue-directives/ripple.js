@@ -53,9 +53,18 @@ function hideRipple (el) {
   }, Math.max(0, 400 - diff))
 }
 
+function shouldAbort (mod) {
+  if (mod.mat && theme !== 'mat') {
+    return true
+  }
+  if (mod.ios && theme !== 'ios') {
+    return true
+  }
+}
+
 export default {
-  bind (el) {
-    if (theme !== 'mat') {
+  bind (el, {modifiers}) {
+    if (shouldAbort(modifiers)) {
       return
     }
 
@@ -81,8 +90,8 @@ export default {
     })
     el.classList.add('q-ripple')
   },
-  unbind (el) {
-    if (theme !== 'mat') {
+  unbind (el, {modifiers}) {
+    if (shouldAbort(modifiers)) {
       return
     }
 

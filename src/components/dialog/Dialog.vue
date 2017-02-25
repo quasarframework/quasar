@@ -27,21 +27,21 @@
           <q-chips v-model="el.model"></q-chips>
         </div>
 
-        <label v-if="el.type === 'radio'" v-for="radio in el.items" class="item" v-ripple>
+        <label v-if="el.type === 'radio'" v-for="radio in el.items" class="item" v-ripple.mat>
           <div class="item-primary">
             <q-radio v-model="el.model" :val="radio.value"></q-radio>
           </div>
           <div class="item-content" v-html="radio.label"></div>
         </label>
 
-        <label v-if="el.type === 'checkbox'" v-for="checkbox in el.items" class="item" v-ripple>
+        <label v-if="el.type === 'checkbox'" v-for="checkbox in el.items" class="item" v-ripple.mat>
           <div class="item-primary">
             <q-checkbox v-model="checkbox.model"></q-checkbox>
           </div>
           <div class="item-content" v-html="checkbox.label"></div>
         </label>
 
-        <label v-if="el.type === 'toggle'" v-for="toggle in el.items" class="item" v-ripple>
+        <label v-if="el.type === 'toggle'" v-for="toggle in el.items" class="item" v-ripple.mat>
           <div class="item-content has-secondary" v-html="toggle.label"></div>
           <div class="item-secondary">
             <q-toggle v-model="toggle.model"></q-toggle>
