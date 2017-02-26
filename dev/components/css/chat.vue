@@ -151,7 +151,7 @@
         </div>
         <div class="chat-message">
           <p>
-            <spinner name="dots" color="#fff" :size="30"></spinner>
+            <spinner name="dots" style="color: #fff" :size="30"></spinner>
           </p>
         </div>
       </div>

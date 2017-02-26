@@ -8,6 +8,16 @@
         <q-btn class="secondary circular"><i>card_giftcard</i></q-btn>
       </p>
 
+      <p class="group">
+        <q-btn>Button</q-btn>
+        <q-btn spinner  @click="simulateProgress" class="primary">Button</q-btn>
+        <q-btn spinner="audio" class="orange" @click="simulateProgress">Button</q-btn>
+        <q-btn spinner="oval" class="secondary" @click="simulateProgress">Button</q-btn>
+        <q-btn spinner="radio" class="amber" @click="simulateProgress">Button</q-btn>
+        <q-btn spinner="oval" class="dark small" @click="simulateProgress">Button</q-btn>
+        <q-btn class="negative" @click="stopProgress">Stop</q-btn>
+      </p>
+
       <p class="caption">Small, Medium (default) and Big</p>
       <p class="group">
         <q-btn class="primary small">Button</q-btn>
@@ -155,24 +165,18 @@ export default {
         'light-green', 'lime', 'yellow', 'amber', 'orange', 'deep-orange', 'brown', 'grey', 'blue-grey'
       ],
       extras: ['raised', 'clear', 'outline', 'round', 'push', 'glossy'],
-      progressBtn: 0
+      done: []
     }
   },
   methods: {
-    workButton () {
-      this.stopWorkButton()
-
-      this.progressBtn = 0
-      this.workingButton = setInterval(() => {
-        this.progressBtn += 16
-        if (this.progressBtn >= 100) {
-          this.stopWorkButton()
-        }
-      }, 500)
+    simulateProgress (e, done) {
+      this.done.push(done)
     },
-    stopWorkButton () {
-      clearInterval(this.workingButton)
-      this.workingButton = null
+    stopProgress () {
+      if (this.done.length) {
+        this.done.forEach(d => d())
+      }
+      this.done = []
     }
   }
 }

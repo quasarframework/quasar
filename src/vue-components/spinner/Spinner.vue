@@ -1,5 +1,5 @@
 <template>
-  <component :is="'s-' + name" :size="size" :color="color"></component>
+  <component :is="'s-' + name" :size="size"></component>
 </template>
 
 <script>
@@ -33,10 +33,6 @@ export default {
     size: {
       type: Number,
       default: 64
-    },
-    color: {
-      type: String,
-      default: '#000'
     }
   },
   components: {

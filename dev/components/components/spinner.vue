@@ -27,20 +27,19 @@
         Hover over them to see their names
       </p>
 
-      <div style="margin-top: 20px" class="group">
+      <div style="margin-top: 20px" class="group" :style="{color: color}">
         <div v-for="spinner in spinners" class="inline-block">
           <spinner
             :name="spinner"
-            :color="color"
             :size="size"
           ></spinner>
           <q-tooltip>{{spinner}}</q-tooltip>
         </div>
       </div>
 
-      <p class="caption">
+      <p class="caption" :style="{color: color}">
         Default Theme Spinner:
-        <spinner :color="color" :size="size" style="margin-left: 1rem;"></spinner>
+        <spinner :size="size" style="margin-left: 1rem;"></spinner>
       </p>
     </div>
   </div>
