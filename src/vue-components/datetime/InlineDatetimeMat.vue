@@ -69,28 +69,28 @@
           v-if="view === 'year'"
           class="q-datetime-view-year full-width full-height"
         >
-          q-btn
+          <button
             v-for="n in yearInterval"
             class="primary clear full-width"
             :class="{active: n + yearMin === year}"
             @click="setYear(n + yearMin)"
           >
             {{ n + yearMin }}
-          </q-btn>
+          </button>
         </div>
 
         <div
           v-if="view === 'month'"
           class="q-datetime-view-month full-width full-height"
         >
-          <q-btn
+          <button
             v-for="index in monthInterval"
             class="primary clear full-width"
             :class="{active: month === index + monthMin}"
             @click="setMonth(index + monthMin, true)"
           >
             {{ monthsList[index + monthMin - 1] }}
-          </q-btn>
+          </button>
         </div>
 
         <div
@@ -394,6 +394,7 @@ export default {
       if (!this.editable) {
         return
       }
+      this.view = 'day'
       this.date.year(this.__parseTypeValue('year', value))
       this.__updateModel()
     },
@@ -401,6 +402,7 @@ export default {
       if (!this.editable) {
         return
       }
+      this.view = 'day'
       this.date.month((force ? value : this.__parseTypeValue('month', value)) - 1)
       this.__updateModel()
     },
@@ -428,6 +430,7 @@ export default {
       if (!this.editable) {
         return
       }
+      this.view = 'minute'
       value = this.__parseTypeValue('hour', value) % 12
 
       if (!this.am) {

@@ -25,17 +25,16 @@ if (Platform.is.mobile && !Platform.is.cordova) {
       // <meta name="msapplication-navbutton-color" content="#4285f4">
       metaTag.setAttribute('name', 'msapplication-navbutton-color')
     }
-
     // Chrome, Firefox OS, Opera, Vivaldi
     if (Platform.is.webkit || Platform.is.vivaldi) {
       // <meta name="theme-color" content="#4285f4">
       metaTag.setAttribute('name', 'theme-color')
     }
-
     if (Platform.is.safari) {
       // <meta name="apple-mobile-web-app-status-bar-style" content="#4285f4">
       metaTag.setAttribute('name', 'apple-mobile-web-app-status-bar-style')
     }
+
     metaTag.setAttribute('content', hex)
 
     document.getElementsByTagName('head')[0].appendChild(metaTag)
