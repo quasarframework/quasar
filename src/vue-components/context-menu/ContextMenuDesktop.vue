@@ -13,10 +13,20 @@ export default {
     close () {
       this.$refs.popover.close()
     },
-    __open (event) {
-      if (!this.disable) {
-        this.$refs.popover.open(event)
+    __open (evt) {
+      if (this.disable) {
+        return
       }
+      this.close()
+      evt.preventDefault()
+      evt.stopPropagation()
+      /*
+        Opening with a timeout for
+        Firefox workaround
+       */
+      setTimeout(() => {
+        this.$refs.popover.open(evt)
+      }, 100)
     }
   },
   mounted () {
@@ -24,7 +34,7 @@ export default {
     this.target.addEventListener('contextmenu', this.__open)
   },
   beforeDestroy () {
-    this.target.removeEventListener('contexmenu', this.handler)
+    this.target.removeEventListener('contexmenu', this.__open)
   }
 }
 </script>
