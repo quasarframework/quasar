@@ -11,6 +11,12 @@
         :min="min"
         :max="max"
       ></q-knob>
+      <q-knob
+        class="text-primary"
+        v-model="model"
+        :min="min"
+        :max="max"
+      ></q-knob>
 
       <p class="caption">With Step</p>
       <div class="group">

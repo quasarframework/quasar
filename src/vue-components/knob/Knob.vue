@@ -2,7 +2,7 @@
   <div
     class="q-knob non-selectable"
     :class="{disabled: disable, 'cursor-pointer': !readonly}"
-    :style="{width: size, height: size}"
+    :style="{width: size, height: size, color: color}"
   >
     <div
       @click="__onInput"
@@ -23,7 +23,7 @@
           d="M 50,50 m 0,-47
              a 47,47 0 1 1 0,94
              a 47,47 0 1 1 0,-94"
-          :stroke="color"
+          stroke="currentColor"
           :stroke-width="lineWidth"
           :style="svgStyle"
         ></path>
@@ -31,7 +31,6 @@
 
       <div
         class="q-knob-label row items-center justify-center content-center"
-        :style="{color: color}"
         v-html="placeholder || value"
       ></div>
     </div>
@@ -55,10 +54,7 @@ export default {
       type: Number,
       default: 100
     },
-    color: {
-      type: String,
-      default: '#027be3'
-    },
+    color: String,
     trackColor: {
       type: String,
       default: '#ececec'
