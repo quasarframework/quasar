@@ -29,8 +29,8 @@ $button-big-circular-size   ?= 72px
 $button-border-radius       ?= $generic-border-radius
 $button-box-shadow          ?= none
 $button-font-weight         ?= normal
-$button-text-transform      ?= none
 $button-margin              ?= 0
+$button-round-padding       ?= 0 2.6rem
 
 
 button
@@ -48,12 +48,10 @@ button
   vertical-align middle
   color inherit
   background transparent
-  line-height 1
   transition all .12s ease-in
   -webkit-appearance button
 
   border-radius $button-border-radius
-  text-transform $button-text-transform
 
   margin $button-margin
   padding $button-padding
@@ -80,19 +78,16 @@ button
 
   &.round
     border-radius 64px
-    padding 0 2.6rem
+    padding $button-round-padding
 
   &.raised
     box-shadow $shadow-2
     &:active:not(.disabled)
       box-shadow $shadow-3
 
-  &.bordered
-    border 3px solid
-
   &.push
-    transition none
     box-shadow $shadow-2
+    border-bottom 3px solid rgba(0, 0, 0, .15)
     &:active:not(.disabled)
       border-bottom 0
       box-shadow none !important
@@ -102,21 +97,12 @@ button
   for $name, $color in $colors
     &.{$name}
       background $color
-      text-shadow 0 0 2px black
 
       if $name != 'light' && $name != 'white'
         color white
-      else
-        text-shadow none
 
-      &:active:not(.disabled)
+      &:not(.push):active:not(.disabled)
         background active-color($color) !important
-
-      &.outline
-        border 1px solid $color
-
-      &.glossy
-        border-color darken($color, 10%) darken($color, 15%) darken($color, 15%)
 
       if $name != 'light' && $name != 'white'
         &.clear, &.outline
@@ -124,23 +110,15 @@ button
           &:active:not(.disabled)
             background $color !important
 
-      &.bordered
-        border-color active-color($color)
-
-      &.push
-        border-bottom 3px solid dark-active-color($color)
-
   &.glossy
-    border 1px solid
     background-image linear-gradient(to bottom, rgba(white, .3), rgba(white, 0) 50%, rgba(black, .12) 51%, rgba(black, .04))
-    &:active:not(.disabled)
-      box-shadow inset 0 1px 3px rgba(black, .2), 0 1px rgba(white, .4)
 
   &.clear, &.outline
     background transparent
-    text-shadow none
     &:active:not(.disabled)
       color white
+  &.outline
+    border 1px solid currentColor
 
   &.circular
     text-align center
@@ -162,11 +140,6 @@ button
     border-radius 0
 
 body.desktop button
-  &.raised
-    &:not(.disabled)
-      &:hover, &:focus
-        box-shadow $shadow-3
-
   for $name, $color in $colors
     &.{$name}:not(.disabled)
       &:not(.clear)

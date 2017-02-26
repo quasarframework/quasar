@@ -3,6 +3,7 @@
     <div class="layout-padding">
       <p class="caption">Regular (rectangle) and Circular</p>
       <p class="group">
+        <q-btn>Button</q-btn>
         <q-btn class="primary">Button</q-btn>
         <q-btn class="secondary circular"><i>card_giftcard</i></q-btn>
       </p>
@@ -70,12 +71,6 @@
         <q-btn class="circular primary push"><i>card_giftcard</i></q-btn>
       <p>
 
-      <p class="caption">Bordered Buttons</p>
-      <p class="group">
-        <q-btn class="light bordered">Bordered</q-btn>
-        <q-btn class="circular light bordered"><i>card_giftcard</i></q-btn>
-      <p>
-
       <p class="caption">Round Buttons (applies only to regular shaped)</p>
       <p class="group">
         <q-btn class="primary round">Round</q-btn>
@@ -133,7 +128,6 @@
         <q-btn :class="color">{{color}}</q-btn>
         <q-btn :class="color"><i class="on-left">{{icon}}</i>{{color}}</q-btn>
         <q-btn :class="color"><i>{{icon}}</i></q-btn>
-        text
         <q-btn class="disabled" :class="color"><i>{{icon}}</i></q-btn>
         <q-btn v-for="extra in extras" :class="[color, extra]">{{color}}-{{extra}}</q-btn>
       </template>
@@ -142,7 +136,6 @@
       <template v-for="color in colors">
         <h4 class="capitalize">{{color}}</h4>
         <q-btn class="circular" :class="color"><i>{{icon}}</i></q-btn>
-        text
         <q-btn class="circular disabled" :class="color"><i>{{icon}}</i></q-btn>
         <q-btn v-for="extra in extras" class="circular" :class="[color, extra]"><i>{{icon}}</i></q-btn>
       </template>
@@ -161,7 +154,7 @@ export default {
         'red', 'pink', 'purple', 'deep-purple', 'indigo', 'blue', 'light-blue', 'cyan', 'teal', 'green',
         'light-green', 'lime', 'yellow', 'amber', 'orange', 'deep-orange', 'brown', 'grey', 'blue-grey'
       ],
-      extras: ['raised', 'clear', 'outline', 'round', 'bordered', 'push', 'glossy'],
+      extras: ['raised', 'clear', 'outline', 'round', 'push', 'glossy'],
       progressBtn: 0
     }
   },

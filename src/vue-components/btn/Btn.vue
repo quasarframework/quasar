@@ -14,6 +14,9 @@ export default {
   },
   methods: {
     __click (e) {
+      if (this.$q.platform.is.desktop) {
+        this.$el.blur()
+      }
       if (!this.disable) {
         this.$emit('click', e)
       }
