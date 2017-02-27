@@ -4,7 +4,11 @@ import { position } from '../utils/event'
 import * as store from '../utils/store'
 import { current as theme } from '../features/theme'
 
-function showRipple (evt, el) {
+function showRipple (evt, el, stopPropagation) {
+  if (stopPropagation) {
+    evt.stopPropagation()
+  }
+
   var container = document.createElement('span')
   var animNode = document.createElement('span')
 
@@ -67,7 +71,7 @@ export default {
       return
     }
 
-    function show (evt) { showRipple(evt, el) }
+    function show (evt) { showRipple(evt, el, bindings.modifiers.stop) }
     function hide () { hideRipple(el) }
 
     const ctx = {}
@@ -87,8 +91,6 @@ export default {
     Object.keys(ctx).forEach(evt => {
       el.addEventListener(evt, ctx[evt], false)
     })
-
-    el.classList.add('q-ripple')
   },
   unbind (el, bindings) {
     if (shouldAbort(bindings)) {
@@ -100,6 +102,5 @@ export default {
       el.removeEventListener(evt, ctx[evt], false)
     })
     store.remove('ripple', el)
-    el.classList.remove('q-ripple')
   }
 }

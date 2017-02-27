@@ -71,8 +71,6 @@ export default {
     },
     __update () {
       var parsed = parseInt(this.newPage, 10)
-      console.log('__onBlur', parsed)
-
       if (parsed) {
         console.log('blurring and setting model')
         this.model = parsed

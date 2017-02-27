@@ -5,13 +5,13 @@
     </slot>
     <q-popover ref="popover" :anchor-click="false">
       <div class="list no-border" :class="{'item-delimiter': delimiter}" :style="computedWidth">
-        <q-list-item
+        <q-item
           v-for="(result, index) in computedResults"
-          :item="result"
+          :cfg="result"
           link
           :active="selectedIndex === index"
           @click.native="setValue(result)"
-        ></q-list-item>
+        ></q-item>
       </div>
     </q-popover>
   </span>

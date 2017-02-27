@@ -39,9 +39,9 @@ import GallerySlider from './vue-components/gallery/GallerySlider.vue'
 import InfiniteScroll from './vue-components/infinite-scroll/InfiniteScroll.vue'
 import Input from './vue-components/input/Input.vue'
 import InputGroup from './vue-components/input-group/InputGroup.vue'
+import Item from './vue-components/list/Item.vue'
 import Knob from './vue-components/knob/Knob.vue'
 import Layout from './vue-components/layout/Layout.vue'
-import ListItem from './vue-components/list-item/ListItem.vue'
 import ToolbarTitle from './vue-components/layout/ToolbarTitle.vue'
 import Modal from './vue-components/modal/Modal.vue'
 import Pagination from './vue-components/pagination/Pagination.vue'
@@ -112,9 +112,9 @@ function registerComponents (_Vue) {
     ['infinite-scroll', InfiniteScroll],
     ['input', Input],
     ['input-group', InputGroup],
+    ['item', Item],
     ['knob', Knob],
     ['layout', Layout],
-    ['list-item', ListItem],
     ['toolbar-title', ToolbarTitle],
     ['modal', Modal],
     ['pagination', Pagination],

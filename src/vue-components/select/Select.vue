@@ -30,13 +30,13 @@
         </label>
 
         <div v-if="type === 'list'" class="list no-border highlight" :class="{'item-delimiter': delimiter}" style="min-width: 100px;">
-          <q-list-item
+          <q-item
             v-for="opt in options"
-            :item="opt"
+            :cfg="opt"
             link
             :active="model === opt.value"
             @click.native="__setAndClose(opt.value)"
-          ></q-list-item>
+          ></q-item>
         </div>
 
         <label v-if="type === 'checkbox'" v-for="(checkbox, index) in options" class="item">

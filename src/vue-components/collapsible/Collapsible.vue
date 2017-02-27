@@ -1,14 +1,28 @@
 <template>
-  <div class="q-collapsible">
-    <div class="item item-link non-selectable item-collapsible" v-ripple.mat @click="__toggleItem">
-      <i class="item-primary" v-if="icon" v-text="icon"></i>
-      <img class="item-primary thumbnail" v-if="img" :src="img"></i>
-      <img class="item-primary" v-if="avatar" :src="avatar"></i>
-      <div class="item-content has-secondary">
+  <div class="q-collapsible item-like">
+    <q-item
+      :link="!iconToggle"
+      class="non-selectable item-collapsible"
+      @click.native="__toggleItem"
+      :icon="icon"
+      :img="img"
+      :avatar="avatar"
+      :letter="letter"
+      text
+      :no-ripple="iconToggle"
+    >
+      <i
+        slot="secondary"
+        class="relative-position cursor-pointer"
+        :class="{'rotate-90': active}"
+        @click.stop="toggle"
+        v-ripple.mat.stop="!iconToggle"
+      >{{ arrowIcon }}</i>
+
+      <slot name="label">
         <div>{{ label }}</div>
-      </div>
-      <i class="item-secondary" :class="{'rotate-180': active}" @click.stop="toggle">keyboard_arrow_down</i>
-    </div>
+      </slot>
+    </q-item>
     <q-transition name="slide">
       <div class="q-collapsible-sub-item" v-show="active">
         <slot></slot>
@@ -18,7 +32,6 @@
 </template>
 
 <script>
-import Events from '../../features/events'
 const eventName = 'q:collapsible:close'
 
 export default {
@@ -29,7 +42,12 @@ export default {
     img: String,
     avatar: String,
     label: String,
-    iconToggle: Boolean
+    letter: String,
+    iconToggle: Boolean,
+    arrowIcon: {
+      type: String,
+      default: 'keyboard_arrow_down'
+    }
   },
   data () {
     return {
@@ -42,7 +60,7 @@ export default {
     },
     active (value) {
       if (value && this.group) {
-        Events.$emit(eventName, this)
+        this.$q.events.$emit(eventName, this)
       }
     }
   },
@@ -68,10 +86,10 @@ export default {
     }
   },
   created () {
-    Events.$on(eventName, this.__eventHandler)
+    this.$q.events.$on(eventName, this.__eventHandler)
   },
   beforeDestroy () {
-    Events.$off(eventName, this.__eventHandler)
+    this.$q.events.$off(eventName, this.__eventHandler)
   }
 }
 </script>
