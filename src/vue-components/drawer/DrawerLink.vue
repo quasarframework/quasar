@@ -1,8 +1,8 @@
 <template>
-  <div class="item item-link drawer-closer" v-link.delay="to" v-ripple.mat>
-    <i v-if="icon" class="item-primary">{{icon}}</i>
-    <div class="item-content">
-      <div>
+  <div class="item link drawer-closer" v-link.delay="to" v-ripple.mat>
+    <div v-if="icon" class="item-primary"><i>{{icon}}</i></div>
+    <div class="item-content text">
+      <div class="ellipsis">
         <slot></slot>
       </div>
     </div>

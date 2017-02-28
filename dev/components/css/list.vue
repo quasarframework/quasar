@@ -15,9 +15,18 @@
         </div>
       </div>
 
-      <p class="caption">Basic List - Dense</p>
+      <p class="caption">Dense List</p>
+      <div class="list dense">
+        <div class="item dense" v-for="n in 3">
+          <div class="item-content">
+            List Item
+          </div>
+        </div>
+      </div>
+
+      <p class="caption">Large List</p>
       <div class="list">
-        <div class="item dense" v-for="n in 2">
+        <div class="item large" v-for="n in 3">
           <div class="item-content">
             List Item
           </div>
@@ -78,8 +87,8 @@
       </div>
 
       <p class="caption">Inset Delimiter within Items</p>
-      <div class="list">
-        <div class="item inset-delimiter" v-for="n in 3">
+      <div class="list inset-delimiter">
+        <div class="item" v-for="n in 3">
           <div class="item-content inset">
             List Item
           </div>
@@ -157,8 +166,8 @@
           </span>
         </small>
       </p>
-      <div class="list">
-        <div class="item item-link" v-for="n in 2">
+      <div class="list link">
+        <div class="item" v-for="n in 2">
           <div class="item-content">
             List Item
           </div>
@@ -182,6 +191,28 @@
         <div class="item">
           <div class="item-primary"><span class="item-letter">Q</span></div>
           <div class="item-content">One character as Primary</div>
+        </div>
+      </div>
+      <div class="list item-inset-delimiter">
+        <div class="item">
+          <div class="item-primary"><i>assignment_ind</i></div>
+          <div class="item-content">Icon as Primary</div>
+        </div>
+        <div class="item">
+          <div class="item-primary"><i>cloud</i></div>
+          <div class="item-content">Icon as Primary</div>
+        </div>
+        <div class="item">
+          <div class="item-primary"><i>wifi</i></div>
+          <div class="item-content">Icon as Primary</div>
+        </div>
+        <div class="item">
+          <div class="item-primary"><i>bluetooth</i></div>
+          <div class="item-content">Icon as Primary</div>
+        </div>
+        <div class="item">
+          <div class="item-primary"><i>data_usage</i></div>
+          <div class="item-content">Icon as Primary</div>
         </div>
       </div>
 
@@ -267,28 +298,11 @@
           <div class="item-secondary"><img class="avatar" src="/statics/boy-avatar.png"></div>
         </div>
         <div class="item">
-          <div class="item-primary"><div class="item-letter">J</div></div>
-          <div class="item-content">John Doe</div>
-          <div class="item-secondary"><img class="avatar" src="/statics/guy-avatar.png"></div>
-        </div>
-      </div>
-      <div class="list item-inset-delimiter">
-        <div class="item dense">
-          <div class="item-primary"><img class="avatar" src="/statics/boy-avatar.png"></div>
-          <div class="item-content">Jack</div>
-          <div class="item-secondary"><i>chat_bubble</i></div>
-        </div>
-        <div class="item dense">
-          <div class="item-primary"><img class="avatar" src="/statics/linux-avatar.png"></div>
-          <div class="item-content">Jim's Photos</div>
-          <div class="item-secondary"><img src="/statics/mountains.jpg"></div>
-        </div>
-        <div class="item dense">
-          <div class="item-primary"><i>voice_chat</i></div>
+          <div class="item-primary"><i class="inverted bg-primary">voice_chat</i></div>
           <div class="item-content">Voice Chat with Joe</div>
           <div class="item-secondary"><img class="avatar" src="/statics/boy-avatar.png"></div>
         </div>
-        <div class="item dense">
+        <div class="item">
           <div class="item-primary"><div class="item-letter">J</div></div>
           <div class="item-content">John Doe</div>
           <div class="item-secondary"><img class="avatar" src="/statics/guy-avatar.png"></div>
@@ -296,7 +310,8 @@
       </div>
 
       <p class="caption">Stamp and Truncated Content</p>
-      <div class="list" style="max-width: 400px">
+      <div class="list highlight" style="max-width: 400px" v-for="n in ['', 'dense', 'large']" :class="n">
+        <div class="list-label capitalize" v-if="n !== ''">{{ n }}</div>
         <div class="item">
           <div class="item-primary"><img class="avatar" src="/statics/boy-avatar.png"></div>
           <div class="item-content ellipsis">
@@ -361,7 +376,7 @@
       </div>
 
       <p class="caption">Item with different secondaries</p>
-      <div class="list">
+      <div class="list inset-delimiter">
         <div class="item">
           <div class="item-primary"><img class="avatar" src="/statics/boy-avatar.png"></div>
           <div class="item-content">
@@ -373,13 +388,13 @@
 
               <q-popover ref="popover">
                 <div class="list">
-                  <div class="item item-link" @click="$refs.popover.close()">
+                  <div class="item link" @click="$refs.popover.close()">
                     <div class="item-content">Reply</div>
                   </div>
-                  <div class="item item-link" @click="$refs.popover.close()">
+                  <div class="item link" @click="$refs.popover.close()">
                     <div class="item-content">Forward</div>
                   </div>
-                  <div class="item item-link" @click="$refs.popover.close()">
+                  <div class="item link" @click="$refs.popover.close()">
                     <div class="item-content">Delete</div>
                   </div>
                 </div>
@@ -427,6 +442,12 @@
               </div>
             </div>
           </q-collapsible>
+          <div class="item">
+            <div class="item-primary"><i>mail</i></div>
+            <div class="item-content">
+              Email
+            </div>
+          </div>
         </q-collapsible>
         <q-collapsible icon="send" label="Sent">
           <div class="item" v-for="n in 3">
@@ -439,6 +460,68 @@
         <q-collapsible icon="delete" label="Trash">
           <div class="item" v-for="n in 3">
             <div class="item-primary"><i>mail</i></div>
+            <div class="item-content">
+              Email {{ n + 1 }}
+            </div>
+          </div>
+        </q-collapsible>
+      </div>
+
+      <div class="list">
+        <q-collapsible icon="inbox" label="Inbox">
+          <div class="item" v-for="n in 3">
+            <div class="item-content">
+              Email {{ n + 1 }}
+            </div>
+          </div>
+          <q-collapsible icon="favorite" label="Favorites">
+            <div class="item" v-for="n in 3">
+              <div class="item-content">
+                Favorite {{ n + 1 }}
+              </div>
+            </div>
+          </q-collapsible>
+        </q-collapsible>
+        <q-collapsible icon="send" label="Sent">
+          <div class="item" v-for="n in 3">
+            <div class="item-content">
+              Email {{ n + 1 }}
+            </div>
+          </div>
+        </q-collapsible>
+        <q-collapsible icon="delete" label="Trash">
+          <div class="item" v-for="n in 3">
+            <div class="item-content">
+              Email {{ n + 1 }}
+            </div>
+          </div>
+        </q-collapsible>
+      </div>
+
+      <div class="list">
+        <q-collapsible label="Inbox">
+          <div class="item" v-for="n in 3">
+            <div class="item-content">
+              Email {{ n + 1 }}
+            </div>
+          </div>
+          <q-collapsible icon="favorite" label="Favorites">
+            <div class="item" v-for="n in 3">
+              <div class="item-content">
+                Favorite {{ n + 1 }}
+              </div>
+            </div>
+          </q-collapsible>
+        </q-collapsible>
+        <q-collapsible label="Sent">
+          <div class="item" v-for="n in 3">
+            <div class="item-content">
+              Email {{ n + 1 }}
+            </div>
+          </div>
+        </q-collapsible>
+        <q-collapsible label="Trash">
+          <div class="item" v-for="n in 3">
             <div class="item-content">
               Email {{ n + 1 }}
             </div>

@@ -1,62 +1,36 @@
-$item-min-height            ?= 56px
-$item-dense-min-height      ?= 40px
-$item-base-color            ?= $grey-5
-$item-highlight-color       ?= alpha($item-base-color, 50%)
-$item-stripe-color          ?= alpha($item-base-color, 65%)
-$item-active-color          ?= alpha($item-base-color, 40%)
-$item-primary-secondary-size          ?= 40px
-$item-big-primary-secondary-size      ?= 75px
-$item-primary-color         ?= $grey-6
-$item-secondary-color       ?= $grey-6
-$item-padding               ?= 16px
-$item-label-color           ?= $grey-7
+$item-dense-factor                 ?= .2
+$item-large-factor                 ?= 1.4
+
+$item-base-color                   ?= $grey-5
+$item-highlight-color              ?= alpha($item-base-color, 50%)
+$item-stripe-color                 ?= alpha($item-base-color, 65%)
+$item-active-color                 ?= alpha($item-base-color, 40%)
+$item-primary-color                ?= rgba(0, 0, 0, .54)
+$item-secondary-color              ?= $item-primary-color
+$item-label-color                  ?= $grey-7
 $item-content-secondary-text-color ?= $grey-7
-$item-delimiter-color       ?= rgb(224, 224, 224)
+$item-delimiter-color              ?= rgb(224, 224, 224)
 
-.item, .item-like
-  position relative
-
-.item + .item,
-.item + .item-like,
-.item-like + .item,
-.item-like + .item-like
-  &.delimiter
-    border-top 1px solid $item-delimiter-color
-  &.inset-delimiter, &.big-inset-delimiter
-    &:after
-      content ''
-      position absolute
-      top 0
-      right 0
-      left (2 * $item-padding + $item-primary-secondary-size)
-      height 1px
-      background $item-delimiter-color
-  &.big-inset-delimiter:after
-    left (2 * $item-padding + $item-big-primary-secondary-size)
-
-.item-link
-  cursor pointer
+$item-min-height                   ?= 40px
+$item-padding                      ?= 16px
+$item-inside-padding               ?= 10px
+$item-primary-size                 ?= 38px
+$item-inverted-icon-size           ?= round($item-primary-size * .52)
+$item-icon-size                    ?= round($item-primary-size * .63)
+$item-image-size                   ?= round(3 * $item-primary-size)
+$item-stamp-font-size              ?= .8rem
+$item-font-size                    ?= 1rem
+$item-big-window-font-size         ?= .8rem
 
 .item-stamp
-  font-size .8rem
-  line-height .8rem
+  font-size $item-stamp-font-size
+  line-height $item-stamp-font-size
   white-space nowrap
   margin .3rem 0
 
-.item-link, .highlight
-  &:active
-    background $item-highlight-color
-
-
-
 .item-primary
   color $item-primary-color
-  min-width $item-primary-secondary-size
-  .item-letter, i
-    font-size ($item-primary-secondary-size * .8)
-    line-height ($item-primary-secondary-size * .8)
-  &.big
-    min-width $item-big-primary-secondary-size
+  min-width $item-primary-size
 
 .item-secondary
   text-align right
@@ -64,31 +38,24 @@ $item-delimiter-color       ?= rgb(224, 224, 224)
   display flex
   flex-direction column
   align-items flex-end
-  .item-letter, i
-    font-size ($item-primary-secondary-size * .6)
-    line-height ($item-primary-secondary-size * .6)
 
 .item-primary, .item-secondary
-  img, img.avatar
-    max-width $item-primary-secondary-size
-    max-height $item-primary-secondary-size
-  > i
+  img
+    max-width $item-image-size
+    max-height $item-image-size
+  img.avatar
+    max-width $item-primary-size
+    max-height $item-primary-size
+  .item-letter, i
+    font-size $item-icon-size
+  i
     border-radius 50%
     cursor default
     &.inverted
-      font-size ($item-primary-secondary-size * .6)
-      line-height ($item-primary-secondary-size * .6)
+      font-size $item-inverted-icon-size
+      line-height $item-inverted-icon-size
       color white
       padding 9px
-
-  &.big
-    .item-letter, i
-      font-size ($item-big-primary-secondary-size * .8)
-      line-height ($item-big-primary-secondary-size * .8)
-
-    img, img.avatar
-      max-width $item-big-primary-secondary-size
-      max-height $item-big-primary-secondary-size
 
   img.avatar
     border-radius 50%
@@ -101,9 +68,7 @@ $item-delimiter-color       ?= rgb(224, 224, 224)
   min-width 0
 
   &.inset
-    margin-left ($item-padding + $item-primary-secondary-size)
-  &.big-inset
-    margin-left ($item-padding + $item-big-primary-secondary-size)
+    margin-left ($item-inside-padding + $item-primary-size)
 
   &.text
     > div:first-child
@@ -118,20 +83,16 @@ $item-delimiter-color       ?= rgb(224, 224, 224)
 
 .item-primary + .item-content,
 .item-content + .item-secondary
-  margin-left $item-padding
-
-body.desktop .item-link:hover
-  background $item-highlight-color
+  margin-left $item-inside-padding
 
 .item
+  position relative
   display flex
   align-items center
+  font-size $item-font-size
 
   padding ($item-padding / 2) $item-padding
   min-height $item-min-height
-  &.dense
-    padding ($item-padding / 4) $item-padding
-    min-height $item-dense-min-height
 
   &.active, &.router-link-active, &:focus
     background $item-active-color
@@ -139,10 +100,36 @@ body.desktop .item-link:hover
   &:focus
     outline 0
 
-  &.multiple-lines
-    align-items flex-start
+.list.multiple-lines > .item, .item.multiple-lines
+  align-items flex-start
 
+.list.link > .item, .item.link
+  cursor pointer
 
+.list.highlight > .item, .item.highlight,
+.list.link > .item, .item.link
+  &:hover
+    background $item-highlight-color
+
+.list.delimiter > .item, .item.delimiter
+  &:not(:first-child)
+    border-top 1px solid $item-delimiter-color
+.list.inset-delimiter > .item, .item.inset-delimiter
+  &:not(:first-child):after
+    content ''
+    position absolute
+    top 0
+    right 0
+    left ($item-padding + $item-inside-padding + $item-primary-size)
+    height 1px
+    background $item-delimiter-color
+
+.list.dense > .item, .item.dense
+  padding round($item-padding * $item-dense-factor) $item-padding
+  min-height round($item-min-height * $item-dense-factor)
+.list.large > .item, .item.large
+  padding ($item-padding * $item-large-factor) $item-padding
+  min-height ($item-min-height * $item-large-factor)
 
 .list
   border 1px solid $item-delimiter-color
@@ -154,9 +141,6 @@ body.desktop .item-link:hover
   &.striped .item:nth-child(even)
     background-color $item-stripe-color
 
-  &.highlight .item:hover
-    background-color $item-highlight-color
-
   hr
     margin ($item-padding / 2) 0
     height 1px
@@ -165,9 +149,7 @@ body.desktop .item-link:hover
     &:last-child
       display none
     &.inset
-      margin-left (2 * $item-padding + $item-primary-secondary-size)
-    &.big-inset
-      margin-left (2 * $item-padding + $item-big-primary-secondary-size)
+      margin-left ($item-padding + $item-inside-padding + $item-primary-size)
 
   .list-label
     color $item-label-color
@@ -177,16 +159,7 @@ body.desktop .item-link:hover
     width 100%
     margin-left $item-padding
     &.inset
-      margin-left (2 * $item-padding + $item-primary-secondary-size)
-    &.big-inset
-      margin-left (2 * $item-padding + $item-big-primary-secondary-size)
+      margin-left ($item-padding + $item-inside-padding + $item-primary-size)
 
   hr + .list-label
     margin-top (- $item-padding / 2)
-
-  &.item-delimiter
-    .item + .item,
-    .item + .item-like,
-    .item-like + .item,
-    .item-like + .q-collapsible
-      border-top 1px solid $item-delimiter-color

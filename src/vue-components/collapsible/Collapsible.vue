@@ -1,5 +1,5 @@
 <template>
-  <div class="q-collapsible item-like">
+  <div class="q-collapsible">
     <q-item
       :link="!iconToggle"
       class="non-selectable item-collapsible"
@@ -14,7 +14,7 @@
       <i
         slot="secondary"
         class="relative-position cursor-pointer"
-        :class="{'rotate-90': active}"
+        :class="{'rotate-180': active}"
         @click.stop="toggle"
         v-ripple.mat.stop="!iconToggle"
       >{{ arrowIcon }}</i>
@@ -23,6 +23,7 @@
         <div>{{ label }}</div>
       </slot>
     </q-item>
+
     <q-transition name="slide">
       <div class="q-collapsible-sub-item" v-show="active">
         <slot></slot>

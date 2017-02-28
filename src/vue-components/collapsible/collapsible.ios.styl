@@ -1,5 +1,11 @@
+$collapsible-padding       ?= 4px 4px 4px ($item-primary-size + $item-inside-padding)
+$collapsible-active-color  ?= $item-active-color
+
 .q-collapsible-sub-item
-  padding 8px 8px 8px 18px
+  padding $collapsible-padding
 
   .card
     margin-bottom 0
+
+.q-collapsible.router-link-active > .item
+    background $collapsible-active-color

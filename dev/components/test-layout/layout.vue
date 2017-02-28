@@ -31,7 +31,7 @@
       </div>
 
       <div class="list no-border platform-delimiter" v-for="n in 10">
-        <q-drawer-link icon="view_quilt" :to="{path: '/test-layout', exact: true}">
+        <q-drawer-link icon="view_quilt" to="/test-layout/about">
           About Layout
         </q-drawer-link>
         <hr>

@@ -1,10 +1,10 @@
 <template>
   <div class="q-tabs row">
-    <div ref="leftScroll" class="row items-center justify-center left-scroll">
-      <i>chevron_left</i>
-    </div>
     <div ref="scroller" class="q-tabs-scroller row">
       <slot></slot>
+    </div>
+    <div ref="leftScroll" class="row items-center justify-center left-scroll">
+      <i>chevron_left</i>
     </div>
     <div ref="rightScroll" class="row items-center justify-center right-scroll">
       <i>chevron_right</i>

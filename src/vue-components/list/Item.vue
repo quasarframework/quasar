@@ -4,13 +4,14 @@
     :class="{
       active: active || cfg.active,
       dense: dense || cfg.dense,
-      'item-link': link || cfg.link,
-      'highlight': highlight || cfg.highlight,
+      large: large || cfg.large,
+      link: link || cfg.link,
+      highlight: highlight || cfg.highlight,
       'multiple-lines': multipleLines || cfg.multipleLines,
     }"
     v-ripple.mat="noRipple"
   >
-    <div v-if="$slots.primary" class="item-primary" :class="{big: bigPrimary || cfg.bigPrimary}">
+    <div v-if="hasPrimary" class="item-primary">
       <slot name="primary">
         <i v-if="icon">{{ icon }}</i>
         <div v-else-if="letter" class="item-letter">{{ letter }}</div>
@@ -23,15 +24,13 @@
       :class="{
         text: text || cfg.text,
         inset: inset || cfg.inset,
-        'big-inset': bigInset || cfg.bigInset,
         delimiter: delimiter || cfg.delimiter,
-        'inset-delimiter': insetDelimiter || cfg.insetDelimiter,
-        'big-inset-delimiter': bigInsetDelimiter || cfg.bigInsetDelimiter
+        'inset-delimiter': insetDelimiter || cfg.insetDelimiter
       }"
     >
       <slot></slot>
     </div>
-    <div v-if="$slots.secondary" class="item-secondary" :class="{big: bigSecondary || cfg.bigSecondary}">
+    <div v-if="hasSecondary" class="item-secondary">
       <slot name="secondary">
         <div v-if="stamp" class="item-stamp">{{ stamp}}</div>
         <i v-if="secondIcon">{{ secondIcon }}</i>
@@ -57,14 +56,11 @@ export default {
     multipleLines: Boolean,
     text: Boolean,
     dense: Boolean,
+    large: Boolean,
     delimiter: Boolean,
     inset: Boolean,
-    bigInset: Boolean,
     insetDelimiter: Boolean,
-    bigInsetDelimiter: Boolean,
     active: Boolean,
-    bigPrimary: Boolean,
-    bigSecondary: Boolean,
     noRipple: Boolean,
 
     icon: String,
@@ -76,6 +72,14 @@ export default {
     letter: String,
     secondLetter: String,
     stamp: String
+  },
+  computed: {
+    hasPrimary () {
+      return this.$slots.primary || this.icon || this.avatar || this.img || this.letter
+    },
+    hasSecondary () {
+      return this.$slots.secondary || this.secondIcon || this.secondAvatar || this.secondImg || this.secondLetter
+    }
   }
 }
 </script>
