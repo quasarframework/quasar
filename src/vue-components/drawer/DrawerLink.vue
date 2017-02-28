@@ -11,12 +11,14 @@
     v-ripple.mat
     @click.native="__trigger"
   >
-    <div v-if="icon" class="item-primary"><i>{{icon}}</i></div>
-    <div class="item-content text">
-      <div class="ellipsis">
-        <slot></slot>
+    <slot name="item">
+      <div v-if="icon" class="item-primary"><i>{{icon}}</i></div>
+      <div class="item-content text">
+        <div class="ellipsis">
+          <slot></slot>
+        </div>
       </div>
-    </div>
+    </slot>
   </router-link>
 </template>
 

@@ -71,7 +71,6 @@ export default {
     }
   },
   provide () {
-    console.log(this)
     return {
       closeDrawer: this.close
     }
