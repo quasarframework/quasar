@@ -70,6 +70,12 @@ export default {
       document.body.classList[val ? 'add' : 'remove']('with-drawer-opened')
     }
   },
+  provide () {
+    console.log(this)
+    return {
+      closeDrawer: this.close
+    }
+  },
   methods: {
     __animate (done) {
       let finalPos
@@ -201,8 +207,11 @@ export default {
         this.__animate()
       }
     },
-    setState (state, done) {
+    setState (state, done, forceDone) {
       if (this.active === state || this.active !== this.opened) {
+        if (forceDone && done) {
+          done()
+        }
         return
       }
 
@@ -215,14 +224,14 @@ export default {
         this.setState(false)
       }
     },
-    open (done) {
-      this.setState(true, done)
+    open (done, forceDone) {
+      this.setState(true, done, forceDone)
     },
-    close (done) {
-      this.setState(false, done)
+    close (done, forceDone) {
+      this.setState(false, done, forceDone)
     },
-    toggle (done) {
-      this.setState(!this.opened, done)
+    toggle (done, forceDone) {
+      this.setState(!this.opened, done, forceDone)
     }
   },
   mounted () {

@@ -53,7 +53,7 @@
             <q-tooltip :anchor="anchor" :self="self">
               <div>Quasar is <strong>great</strong>!</div>
               <div class="text-center">Try it.</div>
-            </q-popover>
+            </q-tooltip>
           </q-btn>
         </div>
 

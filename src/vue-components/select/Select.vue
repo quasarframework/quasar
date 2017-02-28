@@ -32,6 +32,7 @@
         <div v-if="type === 'list'" class="list no-border highlight" :class="{'item-delimiter': delimiter}" style="min-width: 100px;">
           <q-item
             v-for="opt in options"
+            :key="opt"
             :cfg="opt"
             link
             :active="model === opt.value"

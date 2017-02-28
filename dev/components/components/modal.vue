@@ -9,7 +9,7 @@
 
       <div class="list" style="max-width: 600px;">
         <div
-          class="item item-link"
+          class="item link"
           v-for="modal in types"
           @click="$refs[modal.ref].open()"
         >
@@ -24,7 +24,7 @@
       <p class="caption">Appear from Edges</p>
       <div class="list" style="max-width: 600px;">
         <div
-          class="item item-link"
+          class="item link"
           v-for="position in ['top', 'bottom', 'left', 'right']"
           @click="openSpecialPosition(position)"
         >

@@ -117,14 +117,14 @@
         <q-btn class="primary" :class="size"><i>{{ icon}}</i></q-btn>
         text
         <q-btn class="primary disabled" :class="size">Disabled</q-btn>
-        <q-btn v-for="extra in extras" class="primary" :class="[size, extra]">{{ extra}}</q-btn>
+        <q-btn v-for="extra in extras" :key="extra" class="primary" :class="[size, extra]">{{ extra}}</q-btn>
       </template>
       <template v-for="size in sizes">
         <h3 class="capitalize">{{ size}}</h3>
         <q-btn class="primary circular" :class="size"><i>{{ icon}}</i></q-btn>
         text
         <q-btn class="primary circular disabled" :class="size"><i>{{ icon}}</i></q-btn>
-        <q-btn v-for="extra in extras" class="primary circular" :class="[size, extra]"><i>{{ icon}}</i></q-btn>
+        <q-btn v-for="extra in extras" :key="extra" class="primary circular" :class="[size, extra]"><i>{{ icon}}</i></q-btn>
       </template>
       <br>
       <p>Block also adds 'display: block'</p>
@@ -139,7 +139,7 @@
         <q-btn :class="color"><i class="on-left">{{icon}}</i>{{color}}</q-btn>
         <q-btn :class="color"><i>{{icon}}</i></q-btn>
         <q-btn class="disabled" :class="color"><i>{{icon}}</i></q-btn>
-        <q-btn v-for="extra in extras" :class="[color, extra]">{{color}}-{{extra}}</q-btn>
+        <q-btn v-for="extra in extras" :key="extra" :class="[color, extra]">{{color}}-{{extra}}</q-btn>
       </template>
 
       <h3 class="capitalize">Circular</h3>
@@ -147,7 +147,7 @@
         <h4 class="capitalize">{{color}}</h4>
         <q-btn class="circular" :class="color"><i>{{icon}}</i></q-btn>
         <q-btn class="circular disabled" :class="color"><i>{{icon}}</i></q-btn>
-        <q-btn v-for="extra in extras" class="circular" :class="[color, extra]"><i>{{icon}}</i></q-btn>
+        <q-btn v-for="extra in extras" :key="extra" class="circular" :class="[color, extra]"><i>{{icon}}</i></q-btn>
       </template>
     </div>
   </div>

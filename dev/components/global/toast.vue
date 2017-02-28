@@ -16,6 +16,7 @@
       <p class="group">
         <q-btn
           v-for="type in types"
+          :key="type"
           :class="type"
           @click="toastWithType(type)"
         >

@@ -28,7 +28,7 @@
             <slot name="labelHint">
               <span v-html="labelHint"></span>
             </slot>
-          <q-tooltip>
+          </q-tooltip>
         </i>
       </div>
 

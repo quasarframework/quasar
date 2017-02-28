@@ -33,7 +33,7 @@
     <q-context-menu ref="context">
       <div class="list highlight" style="min-width: 150px; max-height: 300px;">
         <div
-          class="item item-link two-lines item-delimiter"
+          class="item link two-lines item-delimiter"
           v-for="n in 10"
           @click="showToast(), $refs.context.close()"
         >

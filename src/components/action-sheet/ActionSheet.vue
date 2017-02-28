@@ -29,7 +29,7 @@
         <div v-else class="list no-border">
           <div
             v-for="button in actions"
-            class="item item-link"
+            class="item link"
             @click="close(button.handler)"
             @keydown.enter="close(button.handler)"
             :class="button.classes"
@@ -47,7 +47,7 @@
 
       <div v-if="dismiss" class="list no-border">
         <div
-          class="item item-link"
+          class="item link"
           @click="close()"
           @keydown.enter="close()"
           :class="dismiss.classes"
@@ -87,7 +87,7 @@
           <div v-else class="list no-border">
             <div
               v-for="button in actions"
-              class="item item-link"
+              class="item link"
               @click="close(button.handler)"
               @keydown.enter="close(button.handler)"
               :class="button.classes"
@@ -106,7 +106,7 @@
 
       <div v-if="dismiss" class="q-action-sheet">
         <div
-          class="item item-link"
+          class="item link"
           @click="close()"
           @keydown.enter="close()"
           :class="dismiss.classes"

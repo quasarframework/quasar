@@ -9,7 +9,7 @@
 
       <div class="list" style="max-width: 600px;">
         <div
-          class="item item-link"
+          class="item link"
           v-for="dialog in types"
           @click="dialog.handler()"
           v-ripple.mat

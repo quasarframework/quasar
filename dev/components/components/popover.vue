@@ -14,7 +14,7 @@
           <q-popover ref="popover1">
             <div class="list scroll highlight" style="min-width: 150px; max-height: 500px;">
               <div
-                class="item item-link two-lines item-delimiter"
+                class="item link two-lines item-delimiter"
                 v-for="n in 20"
                 @click="showToast(), $refs.popover1.close()"
               >
@@ -47,7 +47,7 @@
               >
                 <div class="list highlight" style="min-width: 100px">
                   <div
-                    class="item item-link item-delimiter"
+                    class="item link item-delimiter"
                     v-for="n in 3"
                     @click="showToast(), $refs.popover2.close()"
                   >
@@ -179,7 +179,7 @@
         <q-popover ref="popover5">
           <div class="list highlight" style="min-width: 150px">
             <div
-              class="item item-link two-lines item-delimiter"
+              class="item link two-lines item-delimiter"
               v-for="n in 20"
               @click="showToast(), $refs.popover5.close()"
               >

@@ -3,6 +3,7 @@
     <ul>
       <q-tree-item
         v-for="item in model"
+        :key="item"
         :model="item"
         :contract-html="contractHtml"
         :expand-html="expandHtml"
