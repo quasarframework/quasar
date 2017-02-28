@@ -1,28 +1,33 @@
 <template>
   <div class="q-collapsible">
-    <q-item
-      :link="!iconToggle"
-      class="non-selectable item-collapsible"
-      @click.native="__toggleItem"
-      :icon="icon"
-      :img="img"
-      :avatar="avatar"
-      :letter="letter"
-      text
-      :no-ripple="iconToggle"
-    >
-      <i
-        slot="secondary"
-        class="relative-position cursor-pointer"
-        :class="{'rotate-180': active}"
-        @click.stop="toggle"
-        v-ripple.mat.stop="!iconToggle"
-      >{{ arrowIcon }}</i>
+    <slot name="header">
+      <q-item
+        :link="!iconToggle"
+        class="non-selectable item-collapsible"
+        @click.native="__toggleItem"
+        :icon="icon"
+        :img="img"
+        :avatar="avatar"
+        :letter="letter"
+        text
+        :no-ripple="iconToggle"
+      >
+        <i
+          slot="secondary"
+          class="relative-position cursor-pointer"
+          :class="{'rotate-180': active}"
+          @click.stop="toggle"
+          v-ripple.mat.stop="!iconToggle"
+        >{{ arrowIcon }}</i>
 
-      <slot name="label">
-        <div>{{ label }}</div>
-      </slot>
-    </q-item>
+        <slot name="label">
+          <div class="ellipsis">{{ label }}</div>
+        </slot>
+        <slot name="description">
+          <div v-if="description" class="ellipsis">{{ description }}</div>
+        </slot>
+      </q-item>
+    </slot>
 
     <q-transition name="slide">
       <div class="q-collapsible-sub-item" v-show="active">
@@ -43,6 +48,7 @@ export default {
     img: String,
     avatar: String,
     label: String,
+    description: String,
     letter: String,
     iconToggle: Boolean,
     arrowIcon: {

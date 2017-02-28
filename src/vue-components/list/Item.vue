@@ -11,12 +11,14 @@
     }"
     v-ripple.mat="noRipple"
   >
+    <slot name="img">
+      <img v-if="img" :src="img" />
+    </slot>
     <div v-if="hasPrimary" class="item-primary">
       <slot name="primary">
         <i v-if="icon">{{ icon }}</i>
         <div v-else-if="letter" class="item-letter">{{ letter }}</div>
-        <img v-else-if="avatar" class="avatar" :src="avatar" />
-        <img v-else-if="img" :src="img" />
+        <img v-else-if="avatar" :src="avatar" />
       </slot>
     </div>
     <div
@@ -30,13 +32,15 @@
     >
       <slot></slot>
     </div>
+    <slot name="secondImg">
+      <img v-if="secondImg" :src="secondImg" />
+    </slot>
     <div v-if="hasSecondary" class="item-secondary">
       <slot name="secondary">
         <div v-if="stamp" class="item-stamp">{{ stamp}}</div>
         <i v-if="secondIcon">{{ secondIcon }}</i>
         <div v-else-if="secondLetter" class="item-letter">{{ secondLetter }}</div>
         <img v-else-if="secondAvatar" class="avatar" :src="secondAvatar" />
-        <img v-else-if="secondImg" :src="secondImg" />
       </slot>
     </div>
   </div>
@@ -75,10 +79,10 @@ export default {
   },
   computed: {
     hasPrimary () {
-      return this.$slots.primary || this.icon || this.avatar || this.img || this.letter
+      return this.$slots.primary || this.icon || this.avatar || this.letter
     },
     hasSecondary () {
-      return this.$slots.secondary || this.secondIcon || this.secondAvatar || this.secondImg || this.secondLetter
+      return this.$slots.secondary || this.secondIcon || this.secondAvatar || this.secondLetter
     }
   }
 }

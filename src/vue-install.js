@@ -8,7 +8,6 @@ import Transition from './vue-transitions/index'
 
 import dBackToTop from './vue-directives/back-to-top'
 import dGoBack from './vue-directives/go-back'
-import dLink from './vue-directives/link'
 import dRipple from './vue-directives/ripple'
 import dScrollFire from './vue-directives/scroll-fire'
 import dScroll from './vue-directives/scroll'
@@ -73,7 +72,6 @@ function registerDirectives (_Vue) {
   [
     ['back-to-top', dBackToTop],
     ['go-back', dGoBack],
-    ['link', dLink],
     ['ripple', dRipple],
     ['scroll-fire', dScrollFire],
     ['scroll', dScroll],

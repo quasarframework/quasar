@@ -181,12 +181,8 @@
           <div class="item-content">Icon as Primary</div>
         </div>
         <div class="item">
-          <div class="item-primary"><img class="avatar" src="/statics/boy-avatar.png"></div>
+          <div class="item-primary"><img src="/statics/boy-avatar.png"></div>
           <div class="item-content">Avatar as Primary</div>
-        </div>
-        <div class="item">
-          <div class="item-primary"><img src="/statics/mountains.jpg"></div>
-          <div class="item-content">Thumbnail as Primary</div>
         </div>
         <div class="item">
           <div class="item-primary"><span class="item-letter">Q</span></div>
@@ -222,12 +218,8 @@
           <div class="item-content">Icon as Primary</div>
         </div>
         <div class="item">
-          <div class="item-primary big"><img class="avatar" src="/statics/boy-avatar.png"></div>
+          <div class="item-primary big"><img src="/statics/boy-avatar.png"></div>
           <div class="item-content">Avatar as Primary</div>
-        </div>
-        <div class="item">
-          <div class="item-primary big"><img src="/statics/mountains.jpg"></div>
-          <div class="item-content">Thumbnail as Primary</div>
         </div>
         <div class="item">
           <div class="item-primary big"><span class="item-letter">Q</span></div>
@@ -244,12 +236,7 @@
         <hr>
         <div class="item">
           <div class="item-content">Avatar as Secondary</div>
-          <div class="item-secondary"><img class="avatar" src="/statics/boy-avatar.png"></div>
-        </div>
-        <hr>
-        <div class="item">
-          <div class="item-content">Thumbnail as Secondary</div>
-          <div class="item-secondary"><img src="/statics/mountains.jpg"></div>
+          <div class="item-secondary"><img src="/statics/boy-avatar.png"></div>
         </div>
         <hr>
         <div class="item">
@@ -266,12 +253,7 @@
         <hr>
         <div class="item">
           <div class="item-content">Avatar as Secondary</div>
-          <div class="big item-secondary"><img class="avatar" src="/statics/boy-avatar.png"></div>
-        </div>
-        <hr>
-        <div class="item">
-          <div class="item-content">Thumbnail as Secondary</div>
-          <div class="big item-secondary"><img src="/statics/mountains.jpg"></div>
+          <div class="big item-secondary"><img src="/statics/boy-avatar.png"></div>
         </div>
         <hr>
         <div class="item">
@@ -283,29 +265,29 @@
       <p class="caption">Example Items with Primary and Secondary</p>
       <div class="list item-inset-delimiter">
         <div class="item">
-          <div class="item-primary"><img class="avatar" src="/statics/boy-avatar.png"></div>
+          <div class="item-primary"><img src="/statics/boy-avatar.png"></div>
           <div class="item-content">Jack</div>
           <div class="item-secondary"><i>chat_bubble</i></div>
         </div>
         <div class="item">
-          <div class="item-primary"><img class="avatar" src="/statics/linux-avatar.png"></div>
+          <div class="item-primary"><img src="/statics/linux-avatar.png"></div>
           <div class="item-content">Jim's Photos</div>
           <div class="item-secondary"><img src="/statics/mountains.jpg"></div>
         </div>
         <div class="item">
           <div class="item-primary"><i>voice_chat</i></div>
           <div class="item-content">Voice Chat with Joe</div>
-          <div class="item-secondary"><img class="avatar" src="/statics/boy-avatar.png"></div>
+          <div class="item-secondary"><img src="/statics/boy-avatar.png"></div>
         </div>
         <div class="item">
           <div class="item-primary"><i class="inverted bg-primary">voice_chat</i></div>
           <div class="item-content">Voice Chat with Joe</div>
-          <div class="item-secondary"><img class="avatar" src="/statics/boy-avatar.png"></div>
+          <div class="item-secondary"><img src="/statics/boy-avatar.png"></div>
         </div>
         <div class="item">
           <div class="item-primary"><div class="item-letter">J</div></div>
           <div class="item-content">John Doe</div>
-          <div class="item-secondary"><img class="avatar" src="/statics/guy-avatar.png"></div>
+          <div class="item-secondary"><img src="/statics/guy-avatar.png"></div>
         </div>
       </div>
 
@@ -313,7 +295,7 @@
       <div class="list highlight" style="max-width: 400px" v-for="n in ['', 'dense', 'large']" :class="n">
         <div class="list-label capitalize" v-if="n !== ''">{{ n }}</div>
         <div class="item">
-          <div class="item-primary"><img class="avatar" src="/statics/boy-avatar.png"></div>
+          <div class="item-primary"><img src="/statics/boy-avatar.png"></div>
           <div class="item-content ellipsis">
             Brunch this weekend? Brunch this weekend? Brunch this weekend?
           </div>
@@ -322,7 +304,7 @@
           </div>
         </div>
         <div class="item multiple-lines">
-          <div class="item-primary"><img class="avatar" src="/statics/boy-avatar.png"></div>
+          <div class="item-primary"><img src="/statics/boy-avatar.png"></div>
           <div class="item-content text">
             <div class="ellipsis">Brunch this weekend? Brunch this weekend? Brunch this weekend?</div>
             <div>John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe </div>
@@ -333,7 +315,7 @@
         </div>
 
         <div class="item multiple-lines">
-          <div class="item-primary"><img class="avatar" src="/statics/boy-avatar.png"></div>
+          <div class="item-primary"><img src="/statics/boy-avatar.png"></div>
           <div class="item-content text">
             <div class="ellipsis">Brunch <span>5</span></div>
             <div class="ellipsis">John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe </div>
@@ -344,7 +326,7 @@
         </div>
 
         <div class="item multiple-lines">
-          <div class="item-primary"><img class="avatar" src="/statics/boy-avatar.png"></div>
+          <div class="item-primary"><img src="/statics/boy-avatar.png"></div>
           <div class="item-content text">
             <div>Brunch this weekend? Yeah, this weekend. Really. This one.</div>
             <div>
@@ -359,7 +341,7 @@
           </div>
         </div>
         <div class="item multiple-lines">
-          <div class="item-primary"><img class="avatar" src="/statics/boy-avatar.png"></div>
+          <div class="item-primary"><img src="/statics/boy-avatar.png"></div>
           <div class="item-content text">
             <div class="ellipsis">Brunch this weekend? Yeah, this weekend. Really. This one.</div>
             <div class="ellipsis-2-lines">
@@ -378,7 +360,7 @@
       <p class="caption">Item with different secondaries</p>
       <div class="list inset-delimiter">
         <div class="item">
-          <div class="item-primary"><img class="avatar" src="/statics/boy-avatar.png"></div>
+          <div class="item-primary"><img src="/statics/boy-avatar.png"></div>
           <div class="item-content">
             <div class="ellipsis">Brunch this weekend?</div>
           </div>
@@ -403,7 +385,7 @@
           </div>
         </div>
         <div class="item">
-          <div class="item-primary"><img class="avatar" src="/statics/boy-avatar.png"></div>
+          <div class="item-primary"><img src="/statics/boy-avatar.png"></div>
           <div class="item-content">
             <div class="ellipsis">Brunch this weekend?</div>
           </div>
@@ -412,7 +394,7 @@
           </div>
         </div>
         <div class="item">
-          <div class="item-primary"><img class="avatar" src="/statics/boy-avatar.png"></div>
+          <div class="item-primary"><img src="/statics/boy-avatar.png"></div>
           <div class="item-content">
             <div class="ellipsis">Brunch this weekend?</div>
           </div>
@@ -427,7 +409,7 @@
       </div>
 
       <div class="list">
-        <q-collapsible icon="inbox" label="Inbox">
+        <q-collapsible icon="inbox" label="Inbox" description="Where your email is">
           <div class="item" v-for="n in 3">
             <div class="item-primary"><i>mail</i></div>
             <div class="item-content">
@@ -532,7 +514,7 @@
       <div class="list">
         <div class="list-label">Recent chats</div>
         <div class="item" v-for="n in 3">
-          <div class="item-primary"><img class="avatar" src="/statics/boy-avatar.png"></div>
+          <div class="item-primary"><img src="/statics/boy-avatar.png"></div>
           <div class="item-content">
             John Doe
           </div>
@@ -541,7 +523,7 @@
         <hr>
         <div class="list-label">Previous chats</div>
         <div class="item" v-for="n in 3">
-          <div class="item-primary"><img class="avatar" src="/statics/guy-avatar.png"></div>
+          <div class="item-primary"><img src="/statics/guy-avatar.png"></div>
           <div class="item-content">
             Jack Doe
           </div>
@@ -554,7 +536,7 @@
           <div class="item-content inset">
             John Joe
           </div>
-          <div class="item-secondary"><img class="avatar" src="/statics/boy-avatar.png"></div>
+          <div class="item-secondary"><img src="/statics/boy-avatar.png"></div>
         </div>
         <hr class="inset">
         <div class="item" v-for="n in 3">
@@ -562,7 +544,7 @@
           <div class="item-content inset">
             John Joe
           </div>
-          <div class="item-secondary"><img class="avatar" src="/statics/boy-avatar.png"></div>
+          <div class="item-secondary"><img src="/statics/boy-avatar.png"></div>
         </div>
       </div>
 
@@ -765,7 +747,7 @@
       <div class="list">
         <div class="list-label">Today</div>
         <div class="item inset-delimiter">
-          <div class="item-primary"><img class="avatar" src="/statics/boy-avatar.png"></div>
+          <div class="item-primary"><img src="/statics/boy-avatar.png"></div>
           <div class="item-content text">
             <div>Brunch this weekend?</div>
             <div class="ellipsis-2-lines">
@@ -780,7 +762,7 @@
         </div>
         <hr class="inset">
         <div class="item inset-delimiter">
-          <div class="item-primary"><img class="avatar" src="/statics/boy-avatar.png"></div>
+          <div class="item-primary"><img src="/statics/boy-avatar.png"></div>
           <div class="item-content text">
             <div>Brunch this weekend?</div>
             <div class="ellipsis-2-lines">
@@ -797,7 +779,7 @@
         <hr>
         <div class="list-label">Yesterday</div>
         <div class="item inset-delimiter">
-          <div class="item-primary"><img class="avatar" src="/statics/boy-avatar.png"></div>
+          <div class="item-primary"><img src="/statics/boy-avatar.png"></div>
           <div class="item-content text">
             <div>Brunch this weekend?</div>
             <div class="ellipsis-2-lines">
@@ -812,7 +794,7 @@
           </div>
         </div>
         <div class="item inset-delimiter">
-          <div class="item-primary"><img class="avatar" src="/statics/boy-avatar.png"></div>
+          <div class="item-primary"><img src="/statics/boy-avatar.png"></div>
           <div class="item-content text">
             <div>Brunch this weekend?</div>
             <div class="ellipsis-2-lines">
@@ -832,14 +814,14 @@
       <div class="list">
         <div class="list-label">Movies</div>
         <div class="item">
-          <div class="item-primary big"><img src="/statics/mountains.jpg"></div>
+          <img src="/statics/mountains.jpg">
           <div class="item-content text">
             <div>Mountains Documentary</div>
           </div>
           <div class="item-secondary"><i>movie</i></div>
         </div>
         <div class="item">
-          <div class="item-primary big"><img src="/statics/mountains.jpg"></div>
+          <img src="/statics/mountains.jpg">
           <div class="item-content text">
             <div>Mountains Documentary</div>
             <div>For passionates only</div>
@@ -847,7 +829,7 @@
           <div class="item-secondary"><i>movie</i></div>
         </div>
         <div class="item multiple-lines">
-          <div class="item-primary big"><img src="/statics/mountains.jpg"></div>
+          <img src="/statics/mountains.jpg">
           <div class="item-content text">
             <div>Mountains Documentary</div>
             <div>For passionates only For passionates only For passionates only For passionates only For passionates only </div>
@@ -859,14 +841,14 @@
       <div class="list">
         <div class="list-label">People</div>
         <div class="item">
-          <div class="item-primary"><img class="avatar" src="/statics/boy-avatar.png"></div>
+          <div class="item-primary"><img src="/statics/boy-avatar.png"></div>
           <div class="item-content text">
             John
           </div>
           <div class="item-secondary"><i>chat_bubble</i></div>
         </div>
         <div class="item two-lines">
-          <div class="item-primary"><img class="avatar" src="/statics/boy-avatar.png"></div>
+          <div class="item-primary"><img src="/statics/boy-avatar.png"></div>
           <div class="item-content text">
             <div>Jim</div>
             <div>Javascript wiz kid</div>
@@ -874,7 +856,7 @@
           <div class="item-secondary"><i>chat_bubble</i></div>
         </div>
         <div class="item three-lines">
-          <div class="item-primary"><img class="avatar" src="/statics/boy-avatar.png"></div>
+          <div class="item-primary"><img src="/statics/boy-avatar.png"></div>
           <div class="item-content text">
             <div>Jake</div>
             <div>Passionate about Quasar</div>

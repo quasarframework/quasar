@@ -13,14 +13,13 @@ $item-delimiter-color              ?= rgb(224, 224, 224)
 
 $item-min-height                   ?= 40px
 $item-padding                      ?= 16px
-$item-inside-padding               ?= 10px
+$item-gutter                       ?= 10px
 $item-primary-size                 ?= 38px
 $item-inverted-icon-size           ?= round($item-primary-size * .52)
 $item-icon-size                    ?= round($item-primary-size * .63)
 $item-image-size                   ?= round(3 * $item-primary-size)
-$item-stamp-font-size              ?= .8rem
 $item-font-size                    ?= 1rem
-$item-big-window-font-size         ?= .8rem
+$item-stamp-font-size              ?= .8rem
 
 .item-stamp
   font-size $item-stamp-font-size
@@ -41,11 +40,9 @@ $item-big-window-font-size         ?= .8rem
 
 .item-primary, .item-secondary
   img
-    max-width $item-image-size
-    max-height $item-image-size
-  img.avatar
-    max-width $item-primary-size
-    max-height $item-primary-size
+    width $item-primary-size
+    height $item-primary-size
+    border-radius 50%
   .item-letter, i
     font-size $item-icon-size
   i
@@ -57,18 +54,12 @@ $item-big-window-font-size         ?= .8rem
       color white
       padding 9px
 
-  img.avatar
-    border-radius 50%
-
-
-
-
 .item-content
   flex 1 1 auto
   min-width 0
 
   &.inset
-    margin-left ($item-inside-padding + $item-primary-size)
+    margin-left ($item-gutter + $item-primary-size)
 
   &.text
     > div:first-child
@@ -82,8 +73,10 @@ $item-big-window-font-size         ?= .8rem
         font-weight 500
 
 .item-primary + .item-content,
-.item-content + .item-secondary
-  margin-left $item-inside-padding
+.item-content + .item-secondary,
+img + .item-content,
+.item-content + img
+  margin-left $item-gutter
 
 .item
   position relative
@@ -100,6 +93,11 @@ $item-big-window-font-size         ?= .8rem
   &:focus
     outline 0
 
+  > img
+    min-width $item-image-size
+    max-width $item-image-size
+    max-height $item-image-size
+
 .list.multiple-lines > .item, .item.multiple-lines
   align-items flex-start
 
@@ -111,16 +109,15 @@ $item-big-window-font-size         ?= .8rem
   &:hover
     background $item-highlight-color
 
-.list.delimiter > .item, .item.delimiter
-  &:not(:first-child)
-    border-top 1px solid $item-delimiter-color
-.list.inset-delimiter > .item, .item.inset-delimiter
+.list.delimiter > .item + .item, .item + .item.delimiter
+  border-top 1px solid $item-delimiter-color
+.list.inset-delimiter > .item, .item + .item.inset-delimiter
   &:not(:first-child):after
     content ''
     position absolute
     top 0
     right 0
-    left ($item-padding + $item-inside-padding + $item-primary-size)
+    left ($item-padding + $item-gutter + $item-primary-size)
     height 1px
     background $item-delimiter-color
 
@@ -149,7 +146,7 @@ $item-big-window-font-size         ?= .8rem
     &:last-child
       display none
     &.inset
-      margin-left ($item-padding + $item-inside-padding + $item-primary-size)
+      margin-left ($item-padding + $item-gutter + $item-primary-size)
 
 .list-label
   color $item-label-color
@@ -158,7 +155,7 @@ $item-big-window-font-size         ?= .8rem
   line-height 48px
   padding-left $item-padding
   &.inset
-    padding-left ($item-padding + $item-inside-padding + $item-primary-size)
+    padding-left ($item-padding + $item-gutter + $item-primary-size)
 
 hr + .list-label
   margin-top (- $item-padding / 2)
