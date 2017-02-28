@@ -59,7 +59,7 @@
       ></textarea>
       <div
         ref="input"
-        v-if="isDropdown"
+        v-else-if="isDropdown"
         v-text="model"
         @focus="__focus"
         @blur="__blur"
@@ -128,7 +128,6 @@
 </template>
 
 <script>
-import { getParent } from '../../utils/vue'
 import inputTypes from './input-types'
 
 function exists (val) {
@@ -248,7 +247,7 @@ export default {
       )
     },
     hasInlineCounter () {
-      return this.count && !this.field
+      return this.count && !this.hasField
     },
     hasError () {
       if (this.isNumber && this.hasInvalidNumber) {
@@ -281,6 +280,7 @@ export default {
       }
     }
   },
+  inject: ['hasField', '__setFieldFocus', '__setFieldCounter', '__setFieldFloating', '__setFieldError'],
   methods: {
     setValue (val) {
       this.model = val.target ? val.target.value : val
@@ -336,22 +336,22 @@ export default {
       this.$emit('click', e)
     },
     __notify (type, value) {
-      if (!this.field) {
+      if (!this.hasField) {
         return
       }
 
       this.$nextTick(() => {
         if (type === 'error') {
-          this.field.__setError(value !== false && this.hasError)
+          this.__setFieldError(value !== false && this.hasError)
         }
         else if (type === 'focus') {
-          this.field.__setFocus(this.focused)
+          this.__setFieldFocus(this.focused)
         }
         else if (type === 'count') {
-          this.field.__setCounter(!this.count ? false : this.counterLabel, this.hasCountError)
+          this.__setFieldCounter(!this.count ? false : this.counterLabel, this.hasCountError)
         }
         else if (type === 'floating') {
-          this.field.__setFloating(value)
+          this.__setFieldFloating(value)
         }
       })
     },
@@ -363,7 +363,6 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
-      this.field = getParent(this.$parent, 'is_q_field')
       this.__notify('count')
       if (this.autofocus) {
         this.focus()

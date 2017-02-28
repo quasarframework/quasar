@@ -120,25 +120,30 @@ export default {
       return this.childError || this.error
     }
   },
+  provide () {
+    return {
+      hasField: true,
+      __setFieldFocus: set => {
+        this.focused = set
+      },
+      __setFieldCounter: (counter, error = false) => {
+        this.counter = counter
+        this.counterError = error
+      },
+      __setFieldFloating: floating => {
+        this.floating = floating
+      },
+      __setFieldError: error => {
+        this.childError = error
+      }
+    }
+  },
   methods: {
     focus () {
       const target = this.$el.querySelector('input, textarea')
       if (target) {
         target.focus()
       }
-    },
-    __setFocus (set) {
-      this.focused = set
-    },
-    __setCounter (counter, error = false) {
-      this.counter = counter
-      this.counterError = error
-    },
-    __setFloating (floating) {
-      this.floating = floating
-    },
-    __setError (error) {
-      this.childError = error
     }
   }
 }
