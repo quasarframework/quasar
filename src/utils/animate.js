@@ -20,7 +20,7 @@ function animate ({id, finalPos, pos, threshold, factor, done, apply}) {
 export default function start ({name, finalPos, pos, threshold = 1, factor = 5, done, apply}) {
   let id = name
   if (id) {
-    stop(id)
+    start.stop(id)
   }
   else {
     id = uid()
