@@ -21,16 +21,14 @@
         >{{ arrowIcon }}</i>
 
         <slot name="label">
-          <div class="ellipsis">{{ label }}</div>
-        </slot>
-        <slot name="description">
-          <div v-if="description" class="ellipsis">{{ description }}</div>
+          <div class="ellipsis" v-html="label"></div>
+          <div v-if="description" class="ellipsis" v-html="description"></div>
         </slot>
       </q-item>
     </slot>
 
     <q-transition name="slide">
-      <div class="q-collapsible-sub-item" v-show="active">
+      <div class="q-collapsible-sub-item" v-show="active" :class="{menu: menu}">
         <slot></slot>
       </div>
     </q-transition>
@@ -43,6 +41,7 @@ const eventName = 'q:collapsible:close'
 export default {
   props: {
     opened: Boolean,
+    menu: Boolean,
     icon: String,
     group: String,
     img: String,

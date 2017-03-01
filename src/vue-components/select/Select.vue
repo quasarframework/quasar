@@ -19,8 +19,18 @@
       :offset="[0, 4]"
       :anchor-click="false"
     >
-      <div class="q-select-popover list highlight">
-        <label v-if="type === 'radio'" v-for="radio in options" class="item" @click="close">
+      <div
+        class="list link no-border"
+        :class="{delimiter: delimiter}"
+      >
+        <label
+          v-if="type === 'radio'"
+          v-for="radio in options"
+          :key="radio"
+          class="item"
+          @click="close"
+          v-ripple.mat
+        >
           <div class="item-primary">
             <q-radio v-model="model" :val="radio.value"></q-radio>
           </div>
@@ -29,18 +39,23 @@
           </div>
         </label>
 
-        <div v-if="type === 'list'" class="list no-border highlight" :class="{'item-delimiter': delimiter}" style="min-width: 100px;">
-          <q-item
-            v-for="opt in options"
-            :key="opt"
-            :cfg="opt"
-            link
-            :active="model === opt.value"
-            @click.native="__setAndClose(opt.value)"
-          ></q-item>
-        </div>
+        <q-item
+          v-if="type === 'list'"
+          class="item"
+          v-for="opt in options"
+          :key="opt"
+          :cfg="opt"
+          :active="model === opt.value"
+          @click.native="__setAndClose(opt.value)"
+        ></q-item>
 
-        <label v-if="type === 'checkbox'" v-for="(checkbox, index) in options" class="item">
+        <label
+          v-if="type === 'checkbox'"
+          v-for="(checkbox, index) in options"
+          :key="checkbox"
+          class="item"
+          v-ripple.mat
+        >
           <div class="item-primary">
             <q-checkbox :value="optModel[index]" @input="toggleValue(checkbox.value)"></q-checkbox>
           </div>
@@ -49,8 +64,14 @@
           </div>
         </label>
 
-        <label v-if="type === 'toggle'" v-for="(toggle, index) in options" class="item">
-          <div class="item-content has-secondary">
+        <label
+          v-if="type === 'toggle'"
+          v-for="(toggle, index) in options"
+          :key="toggle"
+          class="item"
+          v-ripple.mat
+        >
+          <div class="item-content text">
             <div v-html="toggle.label"></div>
           </div>
           <div class="item-secondary">

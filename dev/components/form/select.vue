@@ -10,7 +10,7 @@
       <p class="caption">With List</p>
       <q-select type="list" v-model="select" :options="selectOptions"></q-select>
       <q-select type="list" v-model="select" :options="selectOptions" delimiter></q-select>
-      <q-select type="list" v-model="select" :options="selectListOptions" delimiter></q-select>
+      <q-select type="list" v-model="select" :options="selectListOptions"></q-select>
 
       <p class="caption">With Label</p>
       <q-select type="checkbox" v-model="multipleSelect" :options="selectOptions" label="Pick Company"></q-select>
@@ -109,7 +109,7 @@ export default {
         },
         {
           label: 'Facebook',
-          secondLabel: 'Enables communication',
+          description: 'Enables communication',
           value: 'fb'
         },
         {
@@ -124,7 +124,7 @@ export default {
         },
         {
           label: 'Oracle',
-          secondLabel: 'Some Java for today?',
+          description: 'Some Java for today?',
           icon: 'mail',
           secondIcon: 'alarm',
           value: 'ora'
