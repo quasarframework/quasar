@@ -30,6 +30,7 @@ export const input = {
   stackedLabel: String,
   placeholder: String,
   staticLabel: String,
+  simple: Boolean,
   readonly: Boolean,
   disable: Boolean
 }

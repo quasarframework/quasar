@@ -36,6 +36,8 @@
       </p>
       <q-datetime v-model="model" type="date"></q-datetime>
 
+      <q-datetime simple v-model="model" type="date"></q-datetime>
+
       <p class="caption">
         Time
         <br>

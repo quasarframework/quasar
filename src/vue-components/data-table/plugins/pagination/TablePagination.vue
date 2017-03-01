@@ -1,5 +1,5 @@
 <template>
-  <div class="q-data-table-toolbar bottom-toolbar row reverse-wrap items-baseline justify-end">
+  <div class="q-data-table-toolbar bottom-toolbar row reverse-wrap items-center justify-end">
     <div>
       {{labels.rows}}
       <q-select
@@ -7,13 +7,18 @@
         v-model="pagination.rowsPerPage"
         :options="pagination.options"
         @input="resetPage"
-        class="text-right inline"
+        class="text-right inline no-margin"
+        simple
       ></q-select>
     </div>
     <div v-if="entries > 0">
       {{start}} - {{end}} / {{entries}}
     </div>
-    <q-pagination v-if="pagination.rowsPerPage > 0" v-model="pagination.page" :max="max"></q-pagination>
+    <q-pagination
+      v-if="pagination.rowsPerPage > 0"
+      v-model="pagination.page"
+      :max="max"
+    ></q-pagination>
   </div>
 </template>
 

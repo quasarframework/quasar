@@ -12,6 +12,9 @@
       <q-select type="list" v-model="select" :options="selectOptions" delimiter></q-select>
       <q-select type="list" v-model="select" :options="selectListOptions"></q-select>
 
+      <p class="caption">Simple</p>
+      <q-select simple v-model="select" :options="selectOptions"></q-select>
+
       <p class="caption">With Label</p>
       <q-select type="checkbox" v-model="multipleSelect" :options="selectOptions" label="Pick Company"></q-select>
 

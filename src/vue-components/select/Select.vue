@@ -8,6 +8,7 @@
     :value="actualValue"
     :float-label="floatLabel"
     :stacked-label="stackedLabel"
+    :simple="simple"
     @click="open"
     @focus="$emit('focus')"
     @blur="__blur"
@@ -109,6 +110,7 @@ export default {
     staticLabel: String,
     floatLabel: String,
     stackedLabel: String,
+    simple: Boolean,
     readonly: Boolean,
     disable: Boolean,
     delimiter: Boolean

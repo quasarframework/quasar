@@ -9,7 +9,7 @@
 
     <q-input
       ref="input"
-      class="inline"
+      class="inline no-margin"
       type="number"
       v-model="newPage"
       no-extra-icons

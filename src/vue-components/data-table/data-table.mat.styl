@@ -30,12 +30,12 @@ $datatable-font-size ?= 85%
 .q-data-table-toolbar
   padding .25rem .5rem
   font-weight 300
-  &.upper-toolbar
+  &.upper-toolbar, &.bottom-toolbar
     min-height 50px
   &.bottom-toolbar
     border-top 2px solid $grey-3
-  > div:not(:first-of-type):not(:last-of-type)
-    margin 0 30px
+  > div + div
+    margin-left 30px
   input, .q-input
     border-bottom 0 !important
   .q-search

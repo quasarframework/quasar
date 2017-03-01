@@ -8,6 +8,7 @@
     :value="actualValue"
     :float-label="floatLabel"
     :stacked-label="stackedLabel"
+    :simple="simple"
     @click="pick"
     @focus="$emit('focus')"
     @blur="__blur"
@@ -55,6 +56,7 @@ export default {
     staticLabel: String,
     floatLabel: String,
     stackedLabel: String,
+    simple: Boolean,
     readonly: Boolean,
     disable: Boolean
   },

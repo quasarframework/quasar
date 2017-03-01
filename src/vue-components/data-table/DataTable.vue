@@ -3,7 +3,7 @@
     <template v-if="hasToolbar && toolbar === ''">
       <div class="q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end">
         <div v-if="config.title" class="q-data-table-title ellipsis auto" v-html="config.title"></div>
-        <div class="row items-end">
+        <div class="row items-center">
           <q-btn v-if="config.refresh && !refreshing" class="primary clear" @click="refresh">
             <i>refresh</i>
           </q-btn>
@@ -16,8 +16,8 @@
             v-model="columnSelection"
             :options="columnSelectionOptions"
             :static-label="labels.columns"
-            class="text-right"
-            style="margin-left: 10px"
+            simple
+            style="margin: 0 0 0 10px"
           ></q-select>
         </div>
       </div>

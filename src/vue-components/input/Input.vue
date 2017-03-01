@@ -8,7 +8,8 @@
       'has-error': hasError,
       'has-label': label,
       textarea: isTextarea,
-      dropdown: isDropdown
+      dropdown: isDropdown,
+      simple: simple
     }"
     @click="__click"
   >
@@ -122,7 +123,7 @@
     <span v-if="isDropdown" class="q-input-comp q-input-button">
       <span class="caret"></span>
     </span>
-    <div v-if="$q.theme === 'mat'" class="q-input-border"></div>
+    <div v-if="!simple && $q.theme === 'mat'" class="q-input-border"></div>
     <slot></slot>
   </div>
 </template>
@@ -155,6 +156,7 @@ export default {
     floatLabel: String,
     stackedLabel: String,
     error: Boolean,
+    simple: Boolean,
     count: {
       type: [Number, Boolean],
       default: false

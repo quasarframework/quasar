@@ -17,6 +17,24 @@
         stacked-label="Stacked Label"
       />
 
+      <p class="caption">Clear</p>
+      <q-input
+        v-model="model"
+        clear
+      />
+      <q-input
+        v-model="model"
+        float-label="Floating Label"
+        clear
+      />
+      <q-input
+        v-model="model"
+        stacked-label="Stacked Label"
+        clear
+      />
+
+      <p class="caption">XYZ</p>
+
       <q-input
         v-model="model"
         prefix="$"
@@ -49,7 +67,7 @@
         clearable
       />
       <q-input
-        v-model="model"
+        v-model="numberModel"
         type="number"
         float-label="Clearable"
         prefix="$"
@@ -66,7 +84,7 @@
       />
 
       <q-input
-        v-model="model"
+        v-model="numberModel"
         type="number"
         stacked-label="Stacked Label"
         prefix="$"
@@ -76,7 +94,7 @@
       />
 
       <q-input
-        v-model="model"
+        v-model="numberModel"
         type="number"
         stacked-label="Stacked Label"
         prefix="$"
@@ -474,6 +492,7 @@ export default {
       option: '',
       error: true,
       model: 'Some input',
+      numberModel: 5555,
       nullModel: null
     }
   }
@@ -486,7 +505,7 @@ export default {
   // padding 15px
 
 .q-input
-  // border 1px solid black
+  border 1px solid black
 .q-input + .q-field
   margin-top 50px
 
