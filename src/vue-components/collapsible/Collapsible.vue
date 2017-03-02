@@ -28,8 +28,10 @@
     </slot>
 
     <q-transition name="slide">
-      <div class="q-collapsible-sub-item" v-show="active" :class="{menu: menu}">
-        <slot></slot>
+      <div v-show="active">
+        <div class="q-collapsible-sub-item" :class="{menu: menu}">
+          <slot></slot>
+        </div>
       </div>
     </q-transition>
   </div>

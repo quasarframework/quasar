@@ -1,7 +1,6 @@
 <template>
   <button
     v-ripple.mat
-    class="q-btn"
     @click="__click"
   >
     <spinner

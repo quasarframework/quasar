@@ -1,8 +1,6 @@
 <template>
   <div class="q-popover animate-scale" :style="transformCSS" @click.stop>
-    <div style="max-height: 50vh">
-      <slot></slot>
-    </div>
+    <slot></slot>
   </div>
 </template>
 

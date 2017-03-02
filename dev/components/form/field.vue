@@ -501,11 +501,11 @@ export default {
 
 <style lang="styl">
 .q-field
-  border 1px solid black
+  // border 1px solid black
   // padding 15px
 
 .q-input
-  border 1px solid black
+  // border 1px solid black
 .q-input + .q-field
   margin-top 50px
 
