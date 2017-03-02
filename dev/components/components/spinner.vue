@@ -19,7 +19,7 @@
           ok-label="Pick"
           title="Spinner Color"
           style="vertical-align: middle"
-        ></q-select>
+        ></q-dialog-select>
       </div>
 
       <p class="caption">
