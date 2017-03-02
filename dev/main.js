@@ -1,3 +1,5 @@
+require('es6-promise').polyfill()
+
 import Vue from 'vue'
 import Quasar from 'quasar'
 import router from './router'

@@ -131,7 +131,7 @@ export function getTransformProperties ({selfOrigin}) {
 
 export function setPosition ({el, anchorEl, anchorOrigin, selfOrigin, maxHeight, event, anchorClick, touchPosition, offset}) {
   let anchor
-  el.style.maxHeight = this.maxHeight || window.innerHeight * 0.9 + 'px'
+  el.style.maxHeight = this.maxHeight || '65vh' 
 
   if (event && (!anchorClick || touchPosition)) {
     const {top, left} = eventPosition(event)
