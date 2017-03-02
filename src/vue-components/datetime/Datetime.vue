@@ -141,7 +141,7 @@ export default {
       return value
     },
     __setModel () {
-      this.model = this.value || this.__normalizeValue(moment(this.defaultSelection)).format(this.format)
+      this.model = this.value || this.__normalizeValue(moment(this.defaultSelection)).format()
     },
     __update () {
       this.$emit('input', this.model)
