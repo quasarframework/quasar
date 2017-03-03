@@ -287,9 +287,9 @@ export default {
                   type: 'radio',
                   model: 'opt1',
                   items: [
-                    {label: 'Option 1', value: 'opt1'},
-                    {label: 'Option 2', value: 'opt2'},
-                    {label: 'Option 3', value: 'opt3'}
+                    {label: 'Option 1', value: 'opt1', disabled: false},
+                    {label: 'Option 2', value: 'opt2', disabled: true},
+                    {label: 'Option 3', value: 'opt3', disabled: false}
                   ]
                 }
               },

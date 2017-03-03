@@ -40,7 +40,7 @@
 
         <label v-if="el.type === 'radio'" v-for="radio in el.items" class="item">
           <div class="item-primary">
-            <q-radio v-model="el.model" :val="radio.value"></q-radio>
+            <q-radio v-model="el.model" :val="radio.value" :disable="radio.disabled"></q-radio>
           </div>
           <div class="item-content" v-html="radio.label"></div>
         </label>
