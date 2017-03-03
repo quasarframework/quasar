@@ -19,14 +19,30 @@ input, textarea, .textfield
     outline 0
     transition all .3s
     border-bottom $textfield-border-size $textfield-border-style $textfield-border-color
-    &:focus, &:hover, .active
-      border-bottom $textfield-border-size $textfield-border-style $textfield-focus-border-color
+    &:focus, .active
+      &:not(.border-slide)
+        border-bottom $textfield-border-size $textfield-border-style $textfield-focus-border-color
+      &.border-slide + span
+        width: 100%
     &[disabled], &.disabled
       border-bottom-color darken($form-darker-color, 20%)
     &[disabled], &.disabled, &[readonly], &.readonly
       border-bottom-style dotted
     &.has-error
       border-bottom $textfield-border-size $textfield-border-style $has-error !important
+    &.border-slide
+      width: 100%
+      & + span
+        position: relative;
+        padding: 0;
+        outline: 0;
+        margin-top: -4px;
+        display: block;        
+        width: 0;
+        border-bottom $textfield-border-size $textfield-border-style $textfield-focus-border-color
+        transition width 0.5s ease-in-out
+      &.has-error + span
+        width: 0
 
 label
   font-size $label-font-size

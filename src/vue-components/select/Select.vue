@@ -10,7 +10,10 @@
   >
     <q-popover ref="popover" :disable="disable || readonly" fit>
       <div class="q-select-popover list highlight">
-        <label v-if="type === 'radio'" v-for="radio in options" class="item" @click="close">
+
+        <select-filter v-if="search" :filtering="filtering" :placeholder="searchPlaceholder" :message="message"></select-filter>
+
+        <label v-if="type === 'radio'" v-for="radio in optionValues" class="item" @click="close">
           <div class="item-primary">
             <q-radio v-model="model" :val="radio.value"></q-radio>
           </div>
@@ -21,7 +24,7 @@
 
         <div v-if="type === 'list'" class="list no-border highlight" :class="{'item-delimiter': delimiter}" style="min-width: 100px;">
           <q-list-item
-            v-for="opt in options"
+            v-for="opt in optionValues"
             :item="opt"
             link
             :active="model === opt.value"
@@ -29,7 +32,7 @@
           ></q-list-item>
         </div>
 
-        <label v-if="type === 'checkbox'" v-for="(checkbox, index) in options" class="item">
+        <label v-if="type === 'checkbox'" v-for="(checkbox, index) in optionValues" class="item">
           <div class="item-primary">
             <q-checkbox :value="optModel[index]" @input="toggleValue(checkbox.value)"></q-checkbox>
           </div>
@@ -38,7 +41,7 @@
           </div>
         </label>
 
-        <label v-if="type === 'toggle'" v-for="(toggle, index) in options" class="item">
+        <label v-if="type === 'toggle'" v-for="(toggle, index) in optionValues" class="item">
           <div class="item-content has-secondary">
             <div v-html="toggle.label"></div>
           </div>
@@ -52,7 +55,10 @@
 </template>
 
 <script>
+import { Utils } from 'quasar-framework'
+import Filter from './plugins/filter/filter'
 export default {
+  mixins: [Filter],
   props: {
     value: {
       required: true
@@ -75,10 +81,12 @@ export default {
     },
     label: String,
     placeholder: String,
+    searchPlaceholder: String,
     staticLabel: String,
     readonly: Boolean,
     disable: Boolean,
-    delimiter: Boolean
+    delimiter: Boolean,
+    search: Boolean
   },
   computed: {
     model: {
@@ -112,6 +120,21 @@ export default {
         .map(opt => opt.label)
 
       return !options.length ? '' : options.join(', ')
+    },
+    optionValues () {
+      let length = this.options.length
+
+      if (!length) {
+        return []
+      }
+
+      let options = Utils.clone(this.options)
+
+      if (this.filtering) {
+        options = this.filter(options)
+      }
+
+      return options
     }
   },
   methods: {
@@ -127,8 +150,7 @@ export default {
       let index = this.model.indexOf(value)
       if (index >= 0) {
         this.model.splice(index, 1)
-      }
-      else {
+      } else {
         this.model.push(value)
       }
     },
