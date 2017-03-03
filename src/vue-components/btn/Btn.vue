@@ -2,14 +2,17 @@
   <button
     v-ripple.mat
     @click="__click"
+    :class="{circular: circular}"
   >
     <spinner
       v-if="spinning"
       :name="spinnerName"
       :size="16"
-      class="on-left"
     ></spinner>
-    <slot></slot>
+
+    <i v-if="icon && !spinning" class="on-left">{{ icon }}</i>
+    <slot v-if="(circular && !spinning) || !circular"></slot>
+    <i v-if="iconRight && !circular && !spinning" class="on-right">{{ iconRight }}</i>
   </button>
 </template>
 
@@ -17,7 +20,10 @@
 export default {
   props: {
     disable: Boolean,
-    spinner: [String, Boolean]
+    spinner: [Boolean, String],
+    circular: Boolean,
+    icon: String,
+    iconRight: String
   },
   data () {
     return {
@@ -26,6 +32,9 @@ export default {
   },
   computed: {
     spinnerName () {
+      if (this.spinner === '') {
+        return 'oval'
+      }
       if (this.spinner.length) {
         return this.spinner
       }
@@ -33,6 +42,7 @@ export default {
   },
   methods: {
     __click (e) {
+      console.log(this.spinner, typeof this.spinner)
       if (this.$q.platform.is.desktop) {
         this.$el.blur()
       }

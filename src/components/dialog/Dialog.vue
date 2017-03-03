@@ -29,14 +29,14 @@
 
         <label v-if="el.type === 'radio'" v-for="radio in el.items" :key="radio" class="item" v-ripple.mat>
           <div class="item-primary">
-            <q-radio v-model="el.model" :val="radio.value"></q-radio>
+            <q-radio v-model="el.model" :val="radio.value" :disable="radio.disabled"></q-radio>
           </div>
           <div class="item-content" v-html="radio.label"></div>
         </label>
 
         <label v-if="el.type === 'checkbox'" v-for="checkbox in el.items" :key="checkbox" class="item" v-ripple.mat>
           <div class="item-primary">
-            <q-checkbox v-model="checkbox.model"></q-checkbox>
+            <q-checkbox v-model="checkbox.model" :disable="checkbox.disabled"></q-checkbox>
           </div>
           <div class="item-content" v-html="checkbox.label"></div>
         </label>
@@ -44,11 +44,10 @@
         <label v-if="el.type === 'toggle'" v-for="toggle in el.items" :key="toggle" class="item" v-ripple.mat>
           <div class="item-content has-secondary" v-html="toggle.label"></div>
           <div class="item-secondary">
-            <q-toggle v-model="toggle.model"></q-toggle>
+            <q-toggle v-model="toggle.model" :disable="toggle.disabled"></q-toggle>
           </div>
         </label>
 
-        <!--
         <div v-if="el.type === 'range' || el.type === 'double-range'" style="margin-top: 15px; margin-bottom: 10px">
           <label v-html="el.label + ' (' + (el.type === 'double-range' ? el.model.min + ' to ' + el.model.max : el.model) + ')'"></label>
           <component
@@ -58,11 +57,12 @@
             :max="el.max"
             :step="el.step"
             :label="el.withLabel"
+            :label-always="el.labelAlways"
             :markers="el.markers"
             :snap="el.snap"
+            class="with-padding"
           ></component>
         </div>
-        -->
 
         <div v-if="el.type === 'rating'" style="margin-bottom: 10px">
           <label v-html="el.label"></label>

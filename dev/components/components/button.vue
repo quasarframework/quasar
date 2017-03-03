@@ -3,9 +3,37 @@
     <div class="layout-padding">
       <p class="caption">Regular (rectangle) and Circular</p>
       <p class="group">
+        <q-btn icon="alarm" class="orange">Icoon</q-btn>
+        <q-btn iconRight="check" class="orange">Icoon</q-btn>
+        <q-btn iconRight="more_horiz" class="orange">Icoon</q-btn>
+        <q-btn icon="cloud" iconRight="alarm" class="orange">Icoon</q-btn>
+        <q-btn icon="edit" iconRight="alarm" class="orange">Icoon</q-btn>
+        <q-btn icon="edit" iconRight="alarm" class="small orange">Icoon</q-btn>
+        <q-btn icon="edit" iconRight="alarm" class="big orange">Icoon</q-btn>
+
+        <q-btn class="primary small"><i>mail</i></q-btn>
+        <q-btn class="primary"><i>mail</i></q-btn>
+        <q-btn class="primary big"><i>mail</i></q-btn>
+
+        <q-btn class="circular primary small"><i>mail</i></q-btn>
+        <q-btn class="circular primary"><i>mail</i></q-btn>
+        <q-btn class="circular primary big"><i>mail</i></q-btn>
+
         <q-btn>Button</q-btn>
         <q-btn class="primary">Button</q-btn>
         <q-btn class="secondary circular"><i>card_giftcard</i></q-btn>
+        <div>
+          <i style="font-size: 1.5rem">alarm</i> Block
+        </div>
+        <button style="border: 1px solid black">
+          <i style="font-size: 1.5rem">alarm</i> Block
+        </button>
+
+        <q-btn icon="alarm" class="orange">Icoon</q-btn>
+        <q-btn iconRight="check" class="orange">Icoon</q-btn>
+        <q-btn iconRight="more_horiz" class="orange">Icoon</q-btn>
+        <q-btn icon="cloud" iconRight="alarm" class="orange">Icoon</q-btn>
+        <q-btn icon="edit" iconRight="alarm" class="orange">Icoon</q-btn>
       </p>
 
       <p class="group">
@@ -15,6 +43,9 @@
         <q-btn spinner="oval" class="secondary" @click="simulateProgress">Button</q-btn>
         <q-btn spinner="radio" class="amber" @click="simulateProgress">Button</q-btn>
         <q-btn spinner="oval" class="dark small" @click="simulateProgress">Button</q-btn>
+        <q-btn circular spinner @click="simulateProgress" class="primary small"><i>mail</i></q-btn>
+        <q-btn circular spinner @click="simulateProgress" class="primary"><i>mail</i></q-btn>
+        <q-btn circular spinner @click="simulateProgress" class="primary big"><i>mail</i></q-btn>
         <q-btn class="negative" @click="stopProgress">Stop</q-btn>
       </p>
 
@@ -23,6 +54,11 @@
         <q-btn class="primary small">Button</q-btn>
         <q-btn class="primary">Button</q-btn>
         <q-btn class="primary big">Button</q-btn>
+      </p>
+      <p class="group">
+        <q-btn icon="check" class="primary small">Button</q-btn>
+        <q-btn icon="cloud" class="primary">Button</q-btn>
+        <q-btn icon="alarm" class="primary big">Button</q-btn>
       </p>
       <p class="group">
         <q-btn class="circular primary small"><i>mail</i></q-btn>
@@ -97,7 +133,6 @@
       <p>
 
       <p class="caption">Block Buttons</p>
-      <i style="font-size: 1.5rem">alarm</i> Block
       <div class="group">
         <q-btn class="primary block"><i>alarm</i> Block</q-btn>
         <q-btn class="secondary block">Block</q-btn>

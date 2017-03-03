@@ -1,8 +1,8 @@
 /*
  * Size small
  */
-$button-small-font-size     ?= .65rem
-$button-small-icon-size     ?= (1.5 * $button-small-font-size)
+$button-small-font-size     ?= .75rem
+$button-small-icon-size     ?= 1.5 * $button-small-font-size
 $button-small-padding       ?= 0 .5rem
 $button-small-min-height    ?= 1.7rem
 $button-small-circular-size ?= 37px
@@ -11,7 +11,7 @@ $button-small-circular-size ?= 37px
  * Size default
  */
 $button-font-size           ?= .85rem
-$button-icon-size           ?= (1.5 * $button-font-size)
+$button-icon-size           ?= 1.5 * $button-font-size
 $button-padding             ?= 0 1rem
 $button-min-height          ?= 2.4rem
 $button-circular-size       ?= 56px
@@ -20,7 +20,7 @@ $button-circular-size       ?= 56px
  * Size big
  */
 $button-big-font-size       ?= 1rem
-$button-big-icon-size       ?= (1.3 * $button-big-font-size)
+$button-big-icon-size       ?= 1.5 * $button-big-font-size
 $button-big-padding         ?= 0 1.4rem
 $button-big-min-height      ?= 3rem
 $button-big-circular-size   ?= 72px
@@ -35,7 +35,9 @@ $button-round-padding       ?= 0 2.6rem
 button
   position relative
   user-select none
-  display inline
+  display inline-flex
+  align-items center
+  justify-content center
   outline 0
   border 0
   cursor pointer
@@ -61,6 +63,12 @@ button
 
   i
     font-size $button-icon-size
+  &:not(.circular)
+    i
+      &.on-left, &.on-right
+        margin-top -2px
+    .q-spinner
+      margin-right .5rem
 
   &.small
     font-size $button-small-font-size
@@ -74,6 +82,19 @@ button
     min-height $button-big-min-height
     &:not(.circular) i
       font-size $button-big-icon-size
+
+  &.circular
+    text-align center
+    border-radius 50%
+    padding 0
+    height $button-circular-size
+    width $button-circular-size
+    &.small
+      height $button-small-circular-size
+      width $button-small-circular-size
+    &.big
+      height $button-big-circular-size
+      width $button-big-circular-size
 
   &.round
     border-radius 64px
@@ -118,19 +139,6 @@ button
       color white
   &.outline
     border 1px solid currentColor
-
-  &.circular
-    text-align center
-    border-radius 50%
-    padding 0
-    height $button-circular-size
-    width $button-circular-size
-    &.small
-      height $button-small-circular-size
-      width $button-small-circular-size
-    &.big
-      height $button-big-circular-size
-      width $button-big-circular-size
 
   &.full-width
     display block

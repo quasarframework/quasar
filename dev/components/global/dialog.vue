@@ -352,7 +352,6 @@ export default {
             })
           }
         },
-        /*
         {
           label: 'Ranges',
           icon: 'help',
@@ -403,7 +402,6 @@ export default {
             })
           }
         },
-        */
         {
           label: 'Rating',
           icon: 'star_half',
