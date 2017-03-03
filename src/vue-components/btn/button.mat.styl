@@ -20,7 +20,7 @@ $button-circular-size       ?= 56px
  * Size big
  */
 $button-big-font-size       ?= 1rem
-$button-big-icon-size       ?= 1.5 * $button-big-font-size
+$button-big-icon-size       ?= 1.65 * $button-big-font-size
 $button-big-padding         ?= 0 1.4rem
 $button-big-min-height      ?= 3rem
 $button-big-circular-size   ?= 72px
@@ -84,7 +84,7 @@ button
     padding $button-big-padding
     min-height $button-big-min-height
     i
-      font-size (1.1 * $button-big-icon-size)
+      font-size $button-big-icon-size
 
   &.circular
     text-align center

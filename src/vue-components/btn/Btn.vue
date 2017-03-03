@@ -42,7 +42,6 @@ export default {
   },
   methods: {
     __click (e) {
-      console.log(this.spinner, typeof this.spinner)
       if (this.$q.platform.is.desktop) {
         this.$el.blur()
       }
@@ -52,7 +51,7 @@ export default {
       if (this.spinner !== false) {
         this.spinning = true
       }
-      this.$emit('click', e, done => {
+      this.$emit('click', e, () => {
         this.spinning = false
       })
     }
