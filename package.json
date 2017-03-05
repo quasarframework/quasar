@@ -8,6 +8,7 @@
     "dist",
     "src"
   ],
+  "typings": "types/index.d.ts",
   "scripts": {
     "clean": "node build/script.clean.js",
     "dev": "node build/script.dev.js",
