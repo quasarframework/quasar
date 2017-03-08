@@ -10,6 +10,7 @@
       <div class="list no-border" :class="{'item-delimiter': delimiter}" :style="computedWidth">
         <q-list-item
           v-for="(result, index) in computedResults"
+          :key="result"
           :item="result"
           link
           :active="selectedIndex === index"

@@ -10,7 +10,13 @@
   >
     <q-popover ref="popover" :disable="disable || readonly" fit>
       <div class="q-select-popover list highlight">
-        <label v-if="type === 'radio'" v-for="radio in options" class="item" @click="close">
+        <label
+          v-if="type === 'radio'"
+          v-for="radio in options"
+          :key="radio"
+          class="item"
+          @click="close"
+        >
           <div class="item-primary">
             <q-radio v-model="model" :val="radio.value"></q-radio>
           </div>
@@ -22,6 +28,7 @@
         <div v-if="type === 'list'" class="list no-border highlight" :class="{'item-delimiter': delimiter}" style="min-width: 100px;">
           <q-list-item
             v-for="opt in options"
+            :key="opt"
             :item="opt"
             link
             :active="model === opt.value"
@@ -29,7 +36,12 @@
           ></q-list-item>
         </div>
 
-        <label v-if="type === 'checkbox'" v-for="(checkbox, index) in options" class="item">
+        <label
+          v-if="type === 'checkbox'"
+          v-for="(checkbox, index) in options"
+          :key="checkbox"
+          class="item"
+        >
           <div class="item-primary">
             <q-checkbox :value="optModel[index]" @input="toggleValue(checkbox.value)"></q-checkbox>
           </div>
@@ -38,7 +50,12 @@
           </div>
         </label>
 
-        <label v-if="type === 'toggle'" v-for="(toggle, index) in options" class="item">
+        <label
+          v-if="type === 'toggle'"
+          v-for="(toggle, index) in options"
+          :key="toggle"
+          class="item"
+        >
           <div class="item-content has-secondary">
             <div v-html="toggle.label"></div>
           </div>

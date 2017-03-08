@@ -90,8 +90,8 @@ export default {
       let delta = (event.direction === 'left' ? -1 : 1) * event.distance.x
 
       if (
-        this.slide === 0 && delta > 0 ||
-        this.slide === this.slidesNumber - 1 && delta < 0
+        (this.slide === 0 && delta > 0) ||
+        (this.slide === this.slidesNumber - 1 && delta < 0)
       ) {
         delta = delta / 10
       }
