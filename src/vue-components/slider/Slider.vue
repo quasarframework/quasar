@@ -166,11 +166,15 @@ export default {
       Utils.animate.stop(this.animUid)
     }
   },
+  beforeUpdate () {
+    if (this.slidesNumber !== this.$slots.slide.length) {
+      this.slidesNumber = this.$slots.slide.length
+    }
+  },
   mounted () {
     this.$nextTick(() => {
       this.fillerNode = document.createElement('span')
       this.container = this.$el.parentNode
-      this.slidesNumber = this.$refs.track.children.length
     })
   },
   beforeDestroy () {
