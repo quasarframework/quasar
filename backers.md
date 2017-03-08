@@ -45,6 +45,10 @@ It could be you!
 - Andrea Salvatore
 - Matsumoto Takamasa
 - Keith Bailey
+- Borris Barroso
+- Sven Delueg
+- Josh Bodine
+- William Marques Vicente Gomes Correa
 
 ---
 
