@@ -99,6 +99,6 @@
   "peerDependencies": {
     "fastclick": "1.x",
     "moment": "2.x",
-    "vue": "^^2.2.1"
+    "vue": "^2.2.1"
   }
 }
