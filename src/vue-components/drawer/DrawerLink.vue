@@ -23,7 +23,16 @@
 </template>
 
 <script>
-const evt = new Event('drawerlinkclick')
+let evt, evtName = 'drawerlinkclick'
+
+try {
+  evt = new Event(evtName)
+}
+catch (e) {
+  // IE doesn't support `new Event()`, so...`
+  evt = document.createEvent('Event')
+  evt.initEvent(evtName, true, false)
+}
 
 export default {
   props: {

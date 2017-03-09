@@ -14,7 +14,7 @@
     @click="__click"
   >
     <i
-      v-if="isNumber && !noExtraIcons"
+      v-if="isNumber && extraIcons"
       class="q-input-comp q-input-button"
       @click="setNumberByOffset(-step)"
     >remove</i>
@@ -40,7 +40,6 @@
       <textarea
         v-if="isTextarea"
         ref="input"
-        :type="type"
         :value="model"
         @input="setValue"
         @focus="__focus"
@@ -55,6 +54,7 @@
         :readonly="readonly"
         :required="required"
         :maxlength="maxlength"
+        :class="{autogrow: autogrow}"
         class="auto"
         tabindex="0"
       ></textarea>
@@ -98,7 +98,7 @@
       <slot name="flow-after"></slot>
     </div>
     <i
-      v-if="isPassword && !noExtraIcons"
+      v-if="isPassword && extraIcons"
       class="q-input-comp q-input-button"
       @click="togglePassVisibility"
       v-text="showPass ? 'visibility' : 'visibility_off'"
@@ -111,7 +111,7 @@
     >clear</i>
     <slot name="after"></slot>
     <i
-      v-if="isNumber && !noExtraIcons"
+      v-if="isNumber && extraIcons"
       class="q-input-comp q-input-button"
       @click="setNumberByOffset(step)"
     >add</i>
@@ -149,6 +149,7 @@ export default {
       }
     },
     autofocus: Boolean,
+    autogrow: Boolean,
     pattern: String,
     prefix: String,
     suffix: String,
@@ -165,7 +166,10 @@ export default {
     required: Boolean,
     disabled: Boolean,
     readonly: Boolean,
-    noExtraIcons: Boolean,
+    extraIcons: {
+      type: Boolean,
+      default: true
+    },
     clearable: Boolean,
     min: Number,
     max: Number,
@@ -203,6 +207,7 @@ export default {
     model: {
       get () {
         this.__notify('count')
+        setTimeout(this.__grow, 0)
         return this.value
       },
       set (val) {
@@ -218,12 +223,6 @@ export default {
     },
     labelIsAbove () {
       return this.focused || this.stackedLabel || this.length > 0
-    },
-    isTextarea () {
-      return this.type === 'textarea'
-    },
-    isNumber () {
-      return this.type === 'number'
     },
     editable () {
       return !this.disabled && !this.readonly && !this.isDropdown
@@ -256,6 +255,12 @@ export default {
         return true
       }
       return this.error || this.hasCountError
+    },
+    isTextarea () {
+      return this.type === 'textarea'
+    },
+    isNumber () {
+      return this.type === 'number'
     },
     isPassword () {
       return this.type === 'password'
@@ -361,11 +366,20 @@ export default {
       if (!this.editable) {
         e.preventDefault()
       }
+    },
+    __grow () {
+      const input = this.$refs.input
+      if (!this.isTextarea || !this.autogrow || !input) {
+        return
+      }
+      input.style.height = '' // reset height
+      input.style.height = `${input.scrollHeight}px`
     }
   },
   mounted () {
     this.$nextTick(() => {
       this.__notify('count')
+      this.__grow()
       if (this.autofocus) {
         this.focus()
       }

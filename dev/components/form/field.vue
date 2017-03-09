@@ -1,6 +1,10 @@
 <template>
   <div>
     <div class="layout-padding" style="max-width: 600px;">
+      <q-input v-model="modelY" autogrow />
+      <q-input type="textarea" v-model="modelX" autogrow />
+
+
       <q-input
         v-model="model"
       />
@@ -492,6 +496,8 @@ export default {
       option: '',
       error: true,
       model: 'Some input',
+      modelX: 'sdflkjsbnfkjdabfa dfasldgfa gfg lasdfl gasdf asdfhl asdgfgasdlf hlahf lsadf asdhlf hasdhadlfasdhfadf hasdg lfasdg lfgasdfasdflasdhfgasdljfljasdh fsdkjfgasdf gjasdgfjasdljgasdjk gjlasdfa sdfgasdljf gljasdfgljasd',
+      modelY: '',
       numberModel: 5555,
       nullModel: null
     }

@@ -10,13 +10,6 @@ $input-primary-color          ?= $primary
 $input-icon-color             ?= rgba(0, 0, 0, .38)
 $input-label-color            ?= rgba(0, 0, 0, .54)
 
-input, textarea
-  border 0
-  outline 0
-  padding 0
-  max-width 100%
-  background transparent
-
 .caret
   display inline-block
   width 0
@@ -100,13 +93,23 @@ input, textarea
     input, textarea
       font-style italic
 
-  textarea
-    min-height 2rem
-    resize vertical
   input, textarea
+    border 0
+    outline 0
+    padding 0
+    max-width 100%
+    background transparent
     /* workarounds for flex issues */
     max-width 100%
     width 100%
+
+  textarea
+    min-height 2rem
+    padding-bottom 8px
+    resize vertical
+    &.autogrow
+      overflow hidden
+      resize none
 
   &.focused .q-input-border:after
     width 100%
