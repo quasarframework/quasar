@@ -76,6 +76,10 @@ $toolbar-padding           ?= 4px 12px
   > button
     margin 0 .2rem
     padding .2rem
+    &:active:not(.disabled)
+      color $toolbar-active-color
+  i
+    line-height 1
 
 .toolbar-content
   flex 1
