@@ -17,20 +17,6 @@ input, textarea
   max-width 100%
   background transparent
 
-  &:not(.no-style)
-    padding 0 $textfield-padding-horizontal $textfield-padding-vertical
-    transition all .3s
-    border-bottom $textfield-border-size $textfield-border-style $textfield-border-color
-    &:focus, &:hover, &.active
-      border-bottom $textfield-border-size $textfield-border-style $textfield-focus-border-color
-    &[disabled], &.disabled, &[readonly], &.readonly
-      border-bottom-color darken($form-darker-color, 20%)
-      border-bottom-style dotted
-    &[readonly], &.readonly
-      font-style italic
-    &.has-error
-      border-bottom $textfield-border-size $textfield-border-style $has-error !important
-
 .caret
   display inline-block
   width 0
@@ -56,18 +42,10 @@ input, textarea
   background $grey-4
   height 1px
   left 0
-  &, &:after
-    position absolute
-    right 0
-    bottom 0
-  &:after
-    content ''
-    left 50%
-    height 2px
-    background $input-primary-color
-    width 0
-    transform translateX(-50%)
-    transition width .3s ease-out
+  position absolute
+  right 0
+  bottom 0
+  transition height .5s, background-color .2s
 
 .q-input-target.flow
   flex-wrap wrap
@@ -122,8 +100,9 @@ input, textarea
     max-width 100%
     width 100%
 
-  &.focused .q-input-border:after
-    width 100%
+  &.focused .q-input-border
+    background $input-primary-color
+    height 2px
 
   &.has-label
     padding-top 1.25rem
@@ -136,8 +115,7 @@ input, textarea
     .q-input-label, .q-input-comp
       color $has-error
     .q-input-border
-      &, &:after
-        background $has-error
+      background $has-error
 
 .q-input-dropdown
   max-width 100%

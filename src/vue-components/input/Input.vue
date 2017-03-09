@@ -55,7 +55,7 @@
         :readonly="readonly"
         :required="required"
         :maxlength="maxlength"
-        class="no-style auto"
+        class="auto"
         tabindex="0"
       ></textarea>
       <div
@@ -91,7 +91,7 @@
         :min="min"
         :max="max"
         :step="computedStep"
-        class="no-style auto"
+        class="auto"
         tabindex="0"
       >
 
@@ -123,7 +123,7 @@
     <span v-if="isDropdown" class="q-input-comp q-input-button">
       <span class="caret"></span>
     </span>
-    <div v-if="!simple && $q.theme === 'mat'" class="q-input-border"></div>
+    <div v-if="!simple" class="q-input-border"></div>
     <slot></slot>
   </div>
 </template>

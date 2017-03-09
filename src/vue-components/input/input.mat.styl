@@ -17,20 +17,6 @@ input, textarea
   max-width 100%
   background transparent
 
-  &:not(.no-style)
-    padding 0 $textfield-padding-horizontal $textfield-padding-vertical
-    transition all .3s
-    border-bottom $textfield-border-size $textfield-border-style $textfield-border-color
-    &:focus, &:hover, &.active
-      border-bottom $textfield-border-size $textfield-border-style $textfield-focus-border-color
-    &[disabled], &.disabled, &[readonly], &.readonly
-      border-bottom-color darken($form-darker-color, 20%)
-      border-bottom-style dotted
-    &[readonly], &.readonly
-      font-style italic
-    &.has-error
-      border-bottom $textfield-border-size $textfield-border-style $has-error !important
-
 .caret
   display inline-block
   width 0

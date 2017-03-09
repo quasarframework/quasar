@@ -19,27 +19,29 @@
   transition all 300ms ease
   pointer-events none
   width 24px
-  text-align center
+  line-height 30px
+  i
+    margin-right .5rem
+  > span
+    display none
 .q-search-clear
   right 13px
 
 .q-search-input
+  display flex
+  align-items center
   padding 0 35px
   height 30px
   border-radius $generic-border-radius
   font-weight 400
   box-shadow $shadow-1
   width 100%
-  border 0
-  outline 0
   font-size .9rem
-  line-height 1
+  line-height 30px
   background rgba(0, 0, 0, .08)
   transition all 300ms ease
 
 .q-search
-  display flex
-  align-items center
   width 100%
   button
     text-shadow none
@@ -56,6 +58,9 @@
     .q-search-icon
       left 0
       width 100%
+      text-align center
+      > span
+        display block
 
   &.has-error
     color opposite-non-color($has-error)

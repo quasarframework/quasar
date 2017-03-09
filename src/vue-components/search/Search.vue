@@ -5,14 +5,14 @@
   >
     <div class="q-search-input-container" v-ripple.mat>
       <button class="q-search-icon">
-        <i class="on-left">{{ icon }}</i>
+        <i>{{ icon }}</i>
         <span v-show="$q.theme === 'ios' && isEmpty">{{placeholder}}</span>
       </button>
       <input
         v-if="numeric"
         type="number"
         pattern="[0-9]*"
-        class="q-search-input no-style"
+        class="q-search-input"
         :placeholder="$q.theme === 'mat' ? placeholder : ''"
         v-model="model"
         @focus="focus"
@@ -24,7 +24,7 @@
       <input
         v-else
         type="text"
-        class="q-search-input no-style"
+        class="q-search-input"
         :placeholder="$q.theme === 'mat' ? placeholder : ''"
         v-model="model"
         @focus="focus"
@@ -65,6 +65,7 @@ export default {
       type: String,
       default: 'Search'
     },
+    autofocus: Boolean,
     readonly: Boolean,
     disable: Boolean
   },

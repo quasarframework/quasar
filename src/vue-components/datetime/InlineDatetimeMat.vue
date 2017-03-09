@@ -385,7 +385,7 @@ export default {
       }
     },
     editable () {
-      return !this.disabled && !this.readonly
+      return !this.disable && !this.readonly
     }
   },
   methods: {
