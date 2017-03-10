@@ -167,7 +167,7 @@ export default {
     }
   },
   beforeUpdate () {
-    if (this.slidesNumber !== this.$slots.slide.length) {
+    if (this.$slots.slide && this.slidesNumber !== this.$slots.slide.length) {
       this.slidesNumber = this.$slots.slide.length
     }
   },
