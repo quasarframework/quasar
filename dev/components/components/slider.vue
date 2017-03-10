@@ -34,9 +34,9 @@
       </q-slider>
 
       <p class="caption">
-        Slider with Centered Content
+        Slider with Centered Content and Infinite Scrolling
       </p>
-      <q-slider arrows dots class="text-white">
+      <q-slider infinite arrows dots class="text-white">
         <div slot="slide" class="bg-primary centered">
           Slide 1
         </div>

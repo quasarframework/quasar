@@ -26,7 +26,7 @@ $slider-dots-size        ?= .9rem
   flex-wrap nowrap
   height 100%
 
-  > div
+  > div, & > span
     flex 0 0 100%
     min-height $slider-min-height
     margin 0
@@ -37,6 +37,13 @@ $slider-dots-size        ?= .9rem
       flex-direction column
       align-items center
       justify-content center
+
+  &.infinite-left > div:nth-last-child(2)
+    order -100
+    margin-left -100%
+
+  &.infinite-right > div:nth-child(2)
+    order 100
 
   &.with-arrows
     > div
