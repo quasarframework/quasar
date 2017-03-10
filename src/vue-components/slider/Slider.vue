@@ -62,7 +62,6 @@ export default {
     return {
       position: 0,
       slide: 0,
-      slidesNumber: 0,
       inFullscreen: false,
       animUid: Utils.uid()
     }
@@ -75,6 +74,9 @@ export default {
   computed: {
     toolbar () {
       return this.dots || this.fullscreen || this.actions
+    },
+    slidesNumber () {
+      return this.$slots.slide ? this.$slots.slide.length : 0
     },
     trackPosition () {
       return Utils.dom.cssTransform(`translateX(${this.position}%)`)
@@ -164,11 +166,6 @@ export default {
     },
     stopAnimation () {
       Utils.animate.stop(this.animUid)
-    }
-  },
-  beforeUpdate () {
-    if (this.$slots.slide && this.slidesNumber !== this.$slots.slide.length) {
-      this.slidesNumber = this.$slots.slide.length
     }
   },
   mounted () {
