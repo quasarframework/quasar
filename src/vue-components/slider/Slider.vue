@@ -72,6 +72,16 @@ export default {
   },
   watch: {
     slide (value) {
+      // Correct value while infinite scrolling
+      // TODO: Can this be avoided and just set slide itself to the right value
+      //       while still scrolling correctly?
+      if (value === -1) {
+        value = this.slidesNumber - 1
+      }
+      else if (value === this.slidesNumber) {
+        value = 0
+      }
+
       this.$emit('slide', value)
     }
   },
