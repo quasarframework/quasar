@@ -110,14 +110,11 @@ export default {
     __getSlidesNumber () {
       return this.$slots.slide ? this.$slots.slide.length : 0
     },
-    __normalizeSlideNumber (slide) {
-      return Utils.format.between(slide, 0, this.slidesNumber - 1)
-    },
     goToSlide (slide, noAnimation) {
       if (this.slidesNumber === 0) {
         return
       }
-      this.slide = this.__normalizeSlideNumber(slide)
+      this.slide = Utils.format.between(slide, 0, this.slidesNumber - 1)
       const pos = -this.slide * 100
       if (noAnimation) {
         this.stopAnimation()
