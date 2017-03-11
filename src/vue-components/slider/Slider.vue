@@ -115,7 +115,7 @@ export default {
         this.position = 0
         return
       }
-      this.slide = Utils.format.between(slide, 0, this.slidesNumber - 1)
+      this.slide = Utils.format.between(slide, 0, Math.max(0, this.slidesNumber - 1))
       const pos = -this.slide * 100
       if (noAnimation) {
         this.stopAnimation()
