@@ -57,8 +57,7 @@ export default {
     arrows: Boolean,
     dots: Boolean,
     fullscreen: Boolean,
-    actions: Boolean,
-    name: String
+    actions: Boolean
   },
   data () {
     return {
