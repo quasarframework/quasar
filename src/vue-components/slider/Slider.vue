@@ -1,7 +1,6 @@
 <template>
   <div class="q-slider" :class="{fullscreen: inFullscreen}">
     <div class="q-slider-inner">
-      <p class="text-dark">{{slidesNumber}}</p>
       <div
         ref="track"
         class="q-slider-track"
