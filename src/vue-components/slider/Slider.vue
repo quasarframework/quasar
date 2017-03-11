@@ -1,6 +1,7 @@
 <template>
   <div class="q-slider" :class="{fullscreen: inFullscreen}">
     <div class="q-slider-inner">
+      <p class="text-dark">{{slidesNumber}}</p>
       <div
         ref="track"
         class="q-slider-track"
@@ -56,12 +57,14 @@ export default {
     arrows: Boolean,
     dots: Boolean,
     fullscreen: Boolean,
-    actions: Boolean
+    actions: Boolean,
+    name: String
   },
   data () {
     return {
       position: 0,
       slide: 0,
+      slidesNumber: 0,
       inFullscreen: false,
       animUid: Utils.uid()
     }
@@ -74,9 +77,6 @@ export default {
   computed: {
     toolbar () {
       return this.dots || this.fullscreen || this.actions
-    },
-    slidesNumber () {
-      return this.$slots.slide ? this.$slots.slide.length : 0
     },
     trackPosition () {
       return Utils.dom.cssTransform(`translateX(${this.position}%)`)
@@ -109,8 +109,17 @@ export default {
         delete this.initialPosition
       }
     },
+    __getSlidesNumber () {
+      return this.$slots.slide ? this.$slots.slide.length : 0
+    },
+    __normalizeSlideNumber (slide) {
+      return Utils.format.between(slide, 0, this.slidesNumber - 1)
+    },
     goToSlide (slide, noAnimation) {
-      this.slide = Utils.format.between(slide, 0, this.slidesNumber - 1)
+      if (this.slidesNumber === 0) {
+        return
+      }
+      this.slide = this.__normalizeSlideNumber(slide)
       const pos = -this.slide * 100
       if (noAnimation) {
         this.stopAnimation()
@@ -121,7 +130,7 @@ export default {
         name: this.animUid,
         pos: this.position,
         finalPos: pos,
-        apply: (pos) => {
+        apply: pos => {
           this.position = pos
         }
       })
@@ -168,10 +177,18 @@ export default {
       Utils.animate.stop(this.animUid)
     }
   },
+  beforeUpdate () {
+    const slides = this.__getSlidesNumber()
+    if (slides !== this.slidesNumber) {
+      this.slidesNumber = slides
+      this.goToSlide(this.slide)
+    }
+  },
   mounted () {
     this.$nextTick(() => {
       this.fillerNode = document.createElement('span')
       this.container = this.$el.parentNode
+      this.slidesNumber = this.__getSlidesNumber()
     })
   },
   beforeDestroy () {
