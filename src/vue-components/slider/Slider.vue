@@ -112,6 +112,7 @@ export default {
     },
     goToSlide (slide, noAnimation) {
       if (this.slidesNumber === 0) {
+        this.position = 0
         return
       }
       this.slide = Utils.format.between(slide, 0, this.slidesNumber - 1)
