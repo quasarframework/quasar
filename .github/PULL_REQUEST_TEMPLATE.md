@@ -26,7 +26,9 @@ If yes, please describe the impact and migration path for existing applications:
 
 - [ ] It's submitted to the `dev` branch and _not_ the `master` branch
 - [ ] When resolving a specific issue, it's referenced in the PR's title (e.g. `fix: #xxx[,#xxx]`, where "xxx" is the issue number)
-- [ ] It's been tested with all Quasar themes _and_ on a Cordova app _and_ on Electron
+- [ ] It's been tested with all Quasar themes
+- [ ] It's been tested on a Cordova (iOS, Android) app
+- [ ] It's been tested on a Electron app
 
 If adding a **new feature**, the PR's description includes:
 - [ ] A convincing reason for adding this feature (to avoid wasting your time, it's best to open a suggestion issue first and wait for approval before working on it)
