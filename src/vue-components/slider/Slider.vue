@@ -52,20 +52,10 @@ import { cssTransform } from '../../utils/dom'
 import { between, normalizeToInterval } from '../../utils/format'
 import animate from '../../utils/animate'
 import uid from '../../utils/uid'
+import sliderMixin from './slider-mixin'
 
 export default {
-  props: {
-    arrows: Boolean,
-    dots: Boolean,
-    fullscreen: Boolean,
-    infinite: Boolean,
-    actions: Boolean,
-    animation: {
-      type: Boolean,
-      default: true
-    },
-    autoplay: [Number, Boolean]
-  },
+  mixins: [sliderMixin],
   data () {
     return {
       position: 0,

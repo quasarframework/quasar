@@ -1,7 +1,14 @@
 <template>
   <q-slider
-    ref="slider" arrows fullscreen
+    ref="slider"
     @slide="__updateCurrentSlide"
+    :dots="dots"
+    :arrows="arrows"
+    :fullscreen="fullscreen"
+    :infinite="infinite"
+    actions
+    :animation="animation"
+    :autoplay="autoplay"
     class="text-white bg-black q-gallery-slider"
   >
     <div
@@ -39,11 +46,22 @@
 </template>
 
 <script>
+import sliderMixin from '../slider/slider-mixin'
+
 export default {
+  mixins: [sliderMixin],
   props: {
     src: {
       type: Array,
       required: true
+    },
+    arrows: {
+      type: Boolean,
+      default: true
+    },
+    actions: {
+      type: Boolean,
+      default: true
     }
   },
   data () {
