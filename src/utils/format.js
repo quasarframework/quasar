@@ -12,5 +12,23 @@ export function humanStorageSize (bytes) {
 }
 
 export function between (val, min, max) {
+  if (max <= min) {
+    return min
+  }
   return Math.min(max, Math.max(min, val))
+}
+
+export function normalizeToInterval (val, min, max) {
+  if (max <= min) {
+    return min
+  }
+
+  const size = (max - min + 1)
+
+  let index = val % size
+  if (index < min) {
+    index = size + index
+  }
+
+  return index
 }

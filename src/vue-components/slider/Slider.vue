@@ -1,29 +1,26 @@
 <template>
   <div class="q-slider" :class="{fullscreen: inFullscreen}">
-    <div class="q-slider-inner">
+    <div class="q-slider-inner" v-touch-pan.horizontal="__pan">
       <div
         ref="track"
         class="q-slider-track"
         :style="trackPosition"
         :class="{'with-arrows': arrows, 'with-toolbar': toolbar, 'infinite-left': infiniteLeft, 'infinite-right': infiniteRight}"
-        v-touch-pan.horizontal="__pan"
       >
         <div v-show="infiniteRight"></div>
         <slot name="slide"></slot>
         <div v-show="infiniteLeft"></div>
       </div>
       <div
-        v-if="arrows"
+        v-show="arrows && canGoToPrevious"
         class="q-slider-left-button row items-center justify-center"
-        :class="{hidden: slide === 0 && !infinite}"
       >
-        <i @click="goToSlide(slide - 1)">keyboard_arrow_left</i>
+        <i @click="previous">keyboard_arrow_left</i>
       </div>
       <div
-        v-if="arrows"
+        v-show="arrows && canGoToNext"
         class="q-slider-right-button row items-center justify-center"
-        :class="{hidden: slide === slidesNumber - 1 && !infinite}"
-        @click="goToSlide(slide + 1)"
+        @click="next"
       >
         <i>keyboard_arrow_right</i>
       </div>
@@ -51,38 +48,40 @@
 
 <script>
 import Platform from '../../features/platform'
-import Utils from '../../utils'
+import { cssTransform } from '../../utils/dom'
+import { between, normalizeToInterval } from '../../utils/format'
+import animate from '../../utils/animate'
+import uid from '../../utils/uid'
 
 export default {
   props: {
     arrows: Boolean,
     dots: Boolean,
     fullscreen: Boolean,
+    infinite: Boolean,
     actions: Boolean,
-    infinite: Boolean
+    animation: {
+      type: Boolean,
+      default: true
+    },
+    autoplay: [Number, Boolean]
   },
   data () {
     return {
       position: 0,
       slide: 0,
+      positionSlide: 0,
       slidesNumber: 0,
       inFullscreen: false,
-      animUid: Utils.uid()
+      animUid: uid()
     }
   },
   watch: {
-    slide (value) {
-      // Correct value while infinite scrolling
-      // TODO: Can this be avoided and just set slide itself to the right value
-      //       while still scrolling correctly?
-      if (value === -1) {
-        value = this.slidesNumber - 1
-      }
-      else if (value === this.slidesNumber) {
-        value = 0
-      }
-
-      this.$emit('slide', value)
+    autoplay () {
+      this.__planAutoPlay()
+    },
+    infinite () {
+      this.__planAutoPlay()
     }
   },
   computed: {
@@ -90,70 +89,118 @@ export default {
       return this.dots || this.fullscreen || this.actions
     },
     trackPosition () {
-      return Utils.dom.cssTransform(`translateX(${this.position}%)`)
+      return cssTransform(`translateX(${this.position}%)`)
     },
     infiniteRight () {
-      return this.infinite && this.slidesNumber > 0 && this.slide >= (this.slidesNumber - 1)
+      return this.infinite && this.slidesNumber > 1 && this.positionSlide >= this.slidesNumber
     },
     infiniteLeft () {
-      return this.infinite && this.slide <= 0
+      return this.infinite && this.slidesNumber > 1 && this.positionSlide < 0
+    },
+    canGoToPrevious () {
+      return this.infinite ? this.slidesNumber > 1 : this.slide > 0
+    },
+    canGoToNext () {
+      return this.infinite ? this.slidesNumber > 1 : this.slide < this.slidesNumber - 1
     }
   },
   methods: {
     __pan (event) {
+      console.log('__pan')
+      if (this.infinite && this.animationInProgress) {
+        console.log('return', this.infinite, this.animationInProgress)
+        return
+      }
       if (!this.hasOwnProperty('initialPosition')) {
         this.initialPosition = this.position
-        this.stopAnimation()
+        this.__cleanup()
       }
 
       let delta = (event.direction === 'left' ? -1 : 1) * event.distance.x
 
       if (
-        (!this.infinite && this.slide === 0 && delta > 0) ||
-        (!this.infinite && this.slide === this.slidesNumber - 1 && delta < 0)
+        (this.infinite && this.slidesNumber < 2) ||
+        (
+          !this.infinite &&
+          (
+            (this.slide === 0 && delta > 0) ||
+            (this.slide === this.slidesNumber - 1 && delta < 0)
+          )
+        )
       ) {
         delta = delta / 10
       }
 
       this.position = this.initialPosition + delta / this.$refs.track.offsetWidth * 100
+      this.positionSlide = (event.direction === 'left' ? this.slide + 1 : this.slide - 1)
 
       if (event.isFinal) {
+        console.log('final')
         this.goToSlide(
           event.distance.x < 100
-          ? this.slide
-          : (event.direction === 'left' ? this.slide + 1 : this.slide - 1)
+            ? this.slide
+            : this.positionSlide,
+          () => {
+            console.log('deleting initialPosition')
+            delete this.initialPosition
+          }
         )
-        delete this.initialPosition
       }
     },
     __getSlidesNumber () {
       return this.$slots.slide ? this.$slots.slide.length : 0
     },
-    goToSlide (slide, noAnimation) {
-      // Quick fix for getting stuck on the moved slide
-      // Seems like animation done callback might not always be called
-      if (this.infinite) {
-        if (slide < -1) {
-          this.goToSlide(this.slidesNumber - 1, true)
-          slide = this.slidesNumber - 2
-        }
-        else if (slide > this.slidesNumber) {
-          this.goToSlide(0, true)
-          slide = 1
+    previous (done) {
+      if (this.canGoToPrevious) {
+        this.goToSlide(this.slide - 1, done)
+      }
+    },
+    next (done) {
+      if (this.canGoToNext) {
+        this.goToSlide(this.slide + 1, done)
+      }
+    },
+    goToSlide (slide, done) {
+      this.__cleanup()
+
+      const finish = () => {
+        this.$emit('slide', this.slide)
+        this.__planAutoPlay()
+        if (typeof done === 'function') {
+          done()
         }
       }
 
-      this.slide = this.infinite
-        ? Utils.format.between(slide, -1, this.slidesNumber)
-        : Utils.format.between(slide, 0, this.slidesNumber - 1)
+      if (this.slidesNumber < 2) {
+        this.slide = 0
+        this.positionSlide = 0
+      }
+      else {
+        if (!this.hasOwnProperty('initialPosition')) {
+          this.position = -this.slide * 100
+        }
 
-      const pos = -this.slide * 100
-      if (noAnimation) {
-        this.stopAnimation()
+        if (this.infinite) {
+          this.slide = normalizeToInterval(slide, 0, this.slidesNumber - 1)
+          this.positionSlide = normalizeToInterval(slide, -1, this.slidesNumber)
+        }
+        else {
+          this.slide = between(slide, 0, this.slidesNumber - 1)
+          this.positionSlide = this.slide
+        }
+      }
+
+      const pos = -this.positionSlide * 100
+
+      if (!this.animation) {
         this.position = pos
+        finish()
         return
       }
-      Utils.animate({
+
+      this.animationInProgress = true
+
+      animate({
         name: this.animUid,
         pos: this.position,
         finalPos: pos,
@@ -161,16 +208,12 @@ export default {
           this.position = pos
         },
         done: () => {
-          if (!this.infinite) {
-            return
+          if (this.infinite) {
+            this.position = -this.slide * 100
+            this.positionSlide = this.slide
           }
-
-          if (slide === -1) {
-            this.goToSlide(this.slidesNumber - 1, true)
-          }
-          else if (slide === this.slidesNumber) {
-            this.goToSlide(0, true)
-          }
+          this.animationInProgress = false
+          finish()
         }
       })
     },
@@ -213,7 +256,23 @@ export default {
       window.removeEventListener('popstate', this.__popState)
     },
     stopAnimation () {
-      Utils.animate.stop(this.animUid)
+      animate.stop(this.animUid)
+      this.animationInProgress = false
+    },
+    __cleanup () {
+      this.stopAnimation()
+      clearTimeout(this.timer)
+    },
+    __planAutoPlay () {
+      this.$nextTick(() => {
+        if (this.autoplay) {
+          clearTimeout(this.timer)
+          this.timer = setTimeout(
+            this.next,
+            typeof this.autoplay === 'number' ? this.autoplay : 5000
+          )
+        }
+      })
     }
   },
   beforeUpdate () {
@@ -228,10 +287,11 @@ export default {
       this.fillerNode = document.createElement('span')
       this.container = this.$el.parentNode
       this.slidesNumber = this.__getSlidesNumber()
+      this.__planAutoPlay()
     })
   },
   beforeDestroy () {
-    this.stopAnimation()
+    this.__cleanup()
   }
 }
 </script>

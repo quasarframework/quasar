@@ -147,12 +147,11 @@ export default {
       this.close()
     },
     move (offset) {
-      const size = this.computedResults.length
-      let index = (this.selectedIndex + offset) % this.computedResults.length
-      if (index < 0) {
-        index = size + index
-      }
-      this.selectedIndex = index
+      this.selectedIndex = Utils.format.normalizeToInterval(
+        this.selectedIndex + offset,
+        0,
+        this.computedResults.length - 1
+      )
     },
     setCurrentSelection () {
       if (this.selectedIndex >= 0) {
