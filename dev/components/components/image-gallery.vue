@@ -5,7 +5,7 @@
       <q-gallery :src="gallery"></q-gallery>
 
       <h5>Gallery Slider</h5>
-      <q-gallery-slider :src="slider"></q-gallery-slider>
+      <q-gallery-slider :src="slider" infinite autoplay></q-gallery-slider>
     </div>
   </div>
 </template>

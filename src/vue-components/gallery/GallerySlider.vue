@@ -1,6 +1,7 @@
 <template>
   <q-slider
     ref="slider" arrows fullscreen
+		infinite="infinite" autoplay="autoplay"
     @slide="__updateCurrentSlide"
     class="text-white bg-black q-gallery-slider"
   >
@@ -44,7 +45,12 @@ export default {
     src: {
       type: Array,
       required: true
-    }
+    },
+    infinite: {
+      type: Boolean,
+      default: true
+    },
+    autoplay: [Number, Boolean]
   },
   data () {
     return {
