@@ -1,35 +1,49 @@
-<!-- HAVE A QUESTION?
+<!--
 
-If it is a simple question, try our Gitter channel: https://gitter.im/quasarframework/Lobby
-If it is a complicated question, please ask in our community forum. http://forum.quasar-framework.org/
+Got a question?
+===
+The issue list of this repo is **exclusively** for bug reports and feature requests. For simple questions, please use the following resources:
 
-MAKING A SUGGESTION?
+- Read the docs: http://quasar-framework.org
+- For simple/quick questions ask in the Gitter chat room: https://gitter.im/quasarframework/Lobby
+- For complex questions or requiring help, ask on the forum: http://forum.quasar-framework.org/
 
-Delete the bug report template and explain in detail, what you think should be improved.
+Reporting a bug?
+================
+- Are you sure it isn't already reported? Do a search first! It may have already been answered or even fixed in the development branch (`dev`).
 
-If possible, offer a solution. (A PR would be fantastic!)
+- Are you sure you are reporting to the right repo? If you are not reporting an issue which deals directly with Quasar distributable, then there are [multiple Quasar repos](https://github.com/quasarframework) besides this one:
+  -- Quasar CLI: https://github.com/quasarframework/quasar-cli
+  -- Quasar Starter Kit (project folder template): https://github.com/quasarframework/app-template-default
+  -- Electron Wrapper: https://github.com/quasarframework/electron-wrapper
+  -- Quasar Play: https://github.com/quasarframework/quasar-play
+  -- Documentation Website: https://github.com/quasarframework/quasar-framework.org
 
-REPORTING A BUG?
+- Check if the issue is reproducible with the latest stable version of Quasar. If you are using a pre-release, please indicate the specific version you are using.
 
-Are you sure it isn't already reported? Do a search first!
-Are you certain, this issue deals directly with quasar and not Quasar-CLI, the template or one of the wrappers? -->
+- It is **required** that you clearly describe the steps necessary to reproduce the issue you are running into. Issues with no clear repro steps will not be triaged. If an issue labeled "need repro" receives no further input from the issue author for more than 5 days, it will be closed.
+
+- If your issue is resolved but still open, don’t hesitate to close it. In case you found a solution by yourself, it could be helpful to explain how you fixed it.
+
+Have a feature suggestion/request?
+=======================
+Remove the template from below and provide thoughtful commentary *and code samples* on what this feature means for your product. What will it allow you to do that you can't do today? How will it make current work-arounds straightforward? What potential bugs and edge cases does it help to avoid? etc. Please keep it product-centric.
+-->
 
 <!-- BUG REPORT TEMPLATE -->
-**Enter versions of software:**
+### Software version
 
+Quasar:
 OS:
 Node:
 NPM:
-Quasar-framework:
+Browsers:
+iOS:
+Android:
 Any other software related to your bug:
 
-**What did you get as the error?**
+### What did you get as the error?
 
-**What were you expecting?**
+### What were you expecting?
 
-**What steps did you take, to get the error?**
-
-
-
-
-
+### What steps did you take, to get the error?
