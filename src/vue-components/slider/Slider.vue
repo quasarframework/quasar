@@ -5,22 +5,24 @@
         ref="track"
         class="q-slider-track"
         :style="trackPosition"
-        :class="{'with-arrows': arrows, 'with-toolbar': toolbar}"
+        :class="{'with-arrows': arrows, 'with-toolbar': toolbar, 'infinite-left': infiniteLeft, 'infinite-right': infiniteRight}"
         v-touch-pan.horizontal="__pan"
       >
+        <div v-show="infiniteRight"></div>
         <slot name="slide"></slot>
+        <div v-show="infiniteLeft"></div>
       </div>
       <div
         v-if="arrows"
         class="q-slider-left-button row items-center justify-center"
-        :class="{hidden: slide === 0}"
+        :class="{hidden: slide === 0 && !infinite}"
       >
         <i @click="goToSlide(slide - 1)">keyboard_arrow_left</i>
       </div>
       <div
         v-if="arrows"
         class="q-slider-right-button row items-center justify-center"
-        :class="{hidden: slide === slidesNumber - 1}"
+        :class="{hidden: slide === slidesNumber - 1 && !infinite}"
         @click="goToSlide(slide + 1)"
       >
         <i>keyboard_arrow_right</i>
@@ -56,7 +58,8 @@ export default {
     arrows: Boolean,
     dots: Boolean,
     fullscreen: Boolean,
-    actions: Boolean
+    actions: Boolean,
+    infinite: Boolean
   },
   data () {
     return {
@@ -69,6 +72,16 @@ export default {
   },
   watch: {
     slide (value) {
+      // Correct value while infinite scrolling
+      // TODO: Can this be avoided and just set slide itself to the right value
+      //       while still scrolling correctly?
+      if (value === -1) {
+        value = this.slidesNumber - 1
+      }
+      else if (value === this.slidesNumber) {
+        value = 0
+      }
+
       this.$emit('slide', value)
     }
   },
@@ -78,6 +91,12 @@ export default {
     },
     trackPosition () {
       return Utils.dom.cssTransform(`translateX(${this.position}%)`)
+    },
+    infiniteRight () {
+      return this.infinite && this.slidesNumber > 0 && this.slide >= (this.slidesNumber - 1)
+    },
+    infiniteLeft () {
+      return this.infinite && this.slide <= 0
     }
   },
   methods: {
@@ -90,8 +109,8 @@ export default {
       let delta = (event.direction === 'left' ? -1 : 1) * event.distance.x
 
       if (
-        (this.slide === 0 && delta > 0) ||
-        (this.slide === this.slidesNumber - 1 && delta < 0)
+        (!this.infinite && this.slide === 0 && delta > 0) ||
+        (!this.infinite && this.slide === this.slidesNumber - 1 && delta < 0)
       ) {
         delta = delta / 10
       }
@@ -111,11 +130,23 @@ export default {
       return this.$slots.slide ? this.$slots.slide.length : 0
     },
     goToSlide (slide, noAnimation) {
-      if (this.slidesNumber === 0) {
-        this.position = 0
-        return
+      // Quick fix for getting stuck on the moved slide
+      // Seems like animation done callback might not always be called
+      if (this.infinite) {
+        if (slide < -1) {
+          this.goToSlide(this.slidesNumber - 1, true)
+          slide = this.slidesNumber - 2
+        }
+        else if (slide > this.slidesNumber) {
+          this.goToSlide(0, true)
+          slide = 1
+        }
       }
-      this.slide = Utils.format.between(slide, 0, Math.max(0, this.slidesNumber - 1))
+
+      this.slide = this.infinite
+        ? Utils.format.between(slide, -1, this.slidesNumber)
+        : Utils.format.between(slide, 0, this.slidesNumber - 1)
+
       const pos = -this.slide * 100
       if (noAnimation) {
         this.stopAnimation()
@@ -128,6 +159,18 @@ export default {
         finalPos: pos,
         apply: pos => {
           this.position = pos
+        },
+        done: () => {
+          if (!this.infinite) {
+            return
+          }
+
+          if (slide === -1) {
+            this.goToSlide(this.slidesNumber - 1, true)
+          }
+          else if (slide === this.slidesNumber) {
+            this.goToSlide(0, true)
+          }
         }
       })
     },
