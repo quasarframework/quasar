@@ -102,7 +102,7 @@ export default {
         Fixes a bug in Chrome regarding offsetHeight by requiring browser
         to calculate this before removing from DOM and using it for first time.
       */
-      this.$el.offsetHeight
+      this.$el.offsetHeight // eslint-disable-line
 
       this.anchorEl = this.$el.parentNode
       this.anchorEl.removeChild(this.$el)

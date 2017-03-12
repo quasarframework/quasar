@@ -37,6 +37,7 @@ $toolbar-padding           ?= 4px 10px
   color $toolbar-color
   background $toolbar-background
   z-index $z-marginals
+  flex-shrink 0
 
 .toolbar
   padding $toolbar-padding
@@ -114,6 +115,8 @@ $toolbar-padding           ?= 4px 10px
     overflow hidden
     font-size $toolbar-title-font-size
     text-align center
+  i
+    line-height 1
 .toolbar-content
   flex 1
   min-width 0

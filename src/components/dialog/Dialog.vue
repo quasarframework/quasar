@@ -40,14 +40,14 @@
 
         <label v-if="el.type === 'radio'" v-for="radio in el.items" class="item">
           <div class="item-primary">
-            <q-radio v-model="el.model" :val="radio.value"></q-radio>
+            <q-radio v-model="el.model" :val="radio.value" :disable="radio.disabled"></q-radio>
           </div>
           <div class="item-content" v-html="radio.label"></div>
         </label>
 
         <label v-if="el.type === 'checkbox'" v-for="checkbox in el.items" class="item">
           <div class="item-primary">
-            <q-checkbox v-model="checkbox.model"></q-checkbox>
+            <q-checkbox v-model="checkbox.model" :disable="checkbox.disabled"></q-checkbox>
           </div>
           <div class="item-content" v-html="checkbox.label"></div>
         </label>
@@ -55,7 +55,7 @@
         <label v-if="el.type === 'toggle'" v-for="toggle in el.items" class="item">
           <div class="item-content has-secondary" v-html="toggle.label"></div>
           <div class="item-secondary">
-            <q-toggle v-model="toggle.model"></q-toggle>
+            <q-toggle v-model="toggle.model" :disable="toggle.disabled"></q-toggle>
           </div>
         </label>
 

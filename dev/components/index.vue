@@ -10,6 +10,7 @@
         </h4>
         <router-link
           v-for="feature in category"
+          :key="feature"
           tag="div"
           class="item item-link item-delimiter"
           :to="feature.route"

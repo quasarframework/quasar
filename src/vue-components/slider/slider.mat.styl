@@ -46,6 +46,13 @@ $slider-dots-size        ?= .9rem
     > div
       padding-bottom ($slider-padding + 1rem)
 
+  &.infinite-left > div:nth-last-child(2)
+    order -1000
+    margin-left -100%
+
+  &.infinite-right > div:nth-child(2)
+    order 1000
+
 .q-slider-left-button,
 .q-slider-right-button
   position absolute

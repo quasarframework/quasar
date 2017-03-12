@@ -2,7 +2,7 @@
   <div class="q-gallery">
     <div
       v-for="(img, index) in src"
-      :key="index"
+      :key="img"
       :style="{width: width}"
     >
       <img :src="img">

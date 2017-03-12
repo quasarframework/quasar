@@ -216,7 +216,10 @@ export default {
         done = true
         scrollPosition = 0
       }
-      else if (direction === -1 && scrollPosition <= value || direction === 1 && scrollPosition >= value) {
+      else if (
+        (direction === -1 && scrollPosition <= value) ||
+        (direction === 1 && scrollPosition >= value)
+      ) {
         done = true
         scrollPosition = value
       }

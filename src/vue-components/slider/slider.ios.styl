@@ -5,7 +5,7 @@ $slider-ovelay-color     ?= rgba(0, 0, 0, .3)
 $slider-opacity          ?= .6
 $slider-opacity-active   ?= 1
 $slider-button-size      ?= 1.5rem
-$slider-dots-size        ?= .8rem
+$slider-dots-size        ?= .9rem
 
 
 .q-slider
@@ -46,6 +46,13 @@ $slider-dots-size        ?= .8rem
     > div
       padding-bottom ($slider-padding + 1rem)
 
+  &.infinite-left > div:nth-last-child(2)
+    order -1000
+    margin-left -100%
+
+  &.infinite-right > div:nth-child(2)
+    order 1000
+
 .q-slider-left-button,
 .q-slider-right-button
   position absolute
@@ -77,11 +84,11 @@ $slider-dots-size        ?= .8rem
   right 0
   margin 0
   opacity $slider-opacity
-  padding 1rem .5rem 1.2rem
+  padding .5rem .8rem
   transition opacity .3s
   i
     cursor pointer
-    margin 0 .5rem
+    padding 5px
     font-size $slider-button-size
   .q-slider-dots i
     font-size $slider-dots-size

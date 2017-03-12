@@ -6,7 +6,7 @@
   >
     <div
       v-for="(img, index) in src"
-      :key="index"
+      :key="img"
       slot="slide"
       class="no-padding flex items-center justify-center"
     >
@@ -27,7 +27,7 @@
       class="q-gallery-slider-quickview"
       :class="{active: quickView}"
     >
-      <div v-for="(img, index) in src" :key="index">
+      <div v-for="(img, index) in src" :key="img">
         <img
           :src="img"
           :class="{active: currentSlide === index}"

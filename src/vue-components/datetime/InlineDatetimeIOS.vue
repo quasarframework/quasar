@@ -259,7 +259,7 @@ export default {
       return this.__colStyle(82 - (this.minute + this.minuteDragOffset) * 36)
     },
     editable () {
-      return !this.disabled && !this.readonly
+      return !this.disable && !this.readonly
     }
   },
   methods: {

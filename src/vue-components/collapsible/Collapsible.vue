@@ -10,8 +10,10 @@
       <i class="item-secondary" :class="{'rotate-180': active}" @click.stop="toggle">keyboard_arrow_down</i>
     </div>
     <q-transition name="slide">
-      <div class="q-collapsible-sub-item" v-show="active">
-        <slot></slot>
+      <div v-show="active">
+        <div class="q-collapsible-sub-item">
+          <slot></slot>
+        </div>
       </div>
     </q-transition>
   </div>

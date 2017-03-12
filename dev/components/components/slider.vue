@@ -34,9 +34,24 @@
       </q-slider>
 
       <p class="caption">
-        Slider with Centered Content
+        Slider with Centered Content and Infinite Scroll
       </p>
-      <q-slider arrows dots class="text-white">
+      <q-slider infinite arrows dots class="text-white">
+        <div slot="slide" class="bg-primary centered">
+          Slide 1
+        </div>
+        <div slot="slide" class="bg-secondary centered">
+          Slide 2
+        </div>
+        <div slot="slide" class="bg-tertiary centered">
+          Slide 3
+        </div>
+      </q-slider>
+
+      <p class="caption">
+        Slider with Infinite Scroll and Autoplay
+      </p>
+      <q-slider infinite autoplay arrows dots class="text-white">
         <div slot="slide" class="bg-primary centered">
           Slide 1
         </div>
