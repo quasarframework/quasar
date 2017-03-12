@@ -38,13 +38,6 @@ $slider-dots-size        ?= .9rem
       align-items center
       justify-content center
 
-  &.infinite-left > div:nth-last-child(2)
-    order -100
-    margin-left -100%
-
-  &.infinite-right > div:nth-child(2)
-    order 100
-
   &.with-arrows
     > div
       padding-left 10%
@@ -52,6 +45,13 @@ $slider-dots-size        ?= .9rem
   &.with-toolbar
     > div
       padding-bottom ($slider-padding + 1rem)
+
+  &.infinite-left > div:nth-last-child(2)
+    order -1000
+    margin-left -100%
+
+  &.infinite-right > div:nth-child(2)
+    order 1000
 
 .q-slider-left-button,
 .q-slider-right-button
