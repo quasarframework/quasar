@@ -38,6 +38,13 @@ $slider-dots-size        ?= .9rem
       align-items center
       justify-content center
 
+  &.infinite-left > div:nth-last-child(2)
+    order -100
+    margin-left -100%
+
+  &.infinite-right > div:nth-child(2)
+    order 100
+
   &.with-arrows
     > div
       padding-left 10%
