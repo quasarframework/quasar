@@ -106,9 +106,7 @@ export default {
   },
   methods: {
     __pan (event) {
-      console.log('__pan')
       if (this.infinite && this.animationInProgress) {
-        console.log('return', this.infinite, this.animationInProgress)
         return
       }
       if (!this.hasOwnProperty('initialPosition')) {
@@ -135,13 +133,11 @@ export default {
       this.positionSlide = (event.direction === 'left' ? this.slide + 1 : this.slide - 1)
 
       if (event.isFinal) {
-        console.log('final')
         this.goToSlide(
           event.distance.x < 100
             ? this.slide
             : this.positionSlide,
           () => {
-            console.log('deleting initialPosition')
             delete this.initialPosition
           }
         )
