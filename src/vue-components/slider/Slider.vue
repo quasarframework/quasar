@@ -126,6 +126,9 @@ export default {
         delete this.initialPosition
       }
     },
+    __getSlidesNumber () {
+      return this.$slots.slide ? this.$slots.slide.length : 0
+    },
     goToSlide (slide, noAnimation) {
       // Quick fix for getting stuck on the moved slide
       // Seems like animation done callback might not always be called
@@ -154,7 +157,7 @@ export default {
         name: this.animUid,
         pos: this.position,
         finalPos: pos,
-        apply: (pos) => {
+        apply: pos => {
           this.position = pos
         },
         done: () => {
@@ -214,14 +217,17 @@ export default {
     }
   },
   beforeUpdate () {
-    if (this.$slots.slide && this.slidesNumber !== this.$slots.slide.length) {
-      this.slidesNumber = this.$slots.slide.length
+    const slides = this.__getSlidesNumber()
+    if (slides !== this.slidesNumber) {
+      this.slidesNumber = slides
+      this.goToSlide(this.slide)
     }
   },
   mounted () {
     this.$nextTick(() => {
       this.fillerNode = document.createElement('span')
       this.container = this.$el.parentNode
+      this.slidesNumber = this.__getSlidesNumber()
     })
   },
   beforeDestroy () {
