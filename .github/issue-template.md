@@ -1,7 +1,7 @@
 ## HAVE A QUESTION?
 
-If it is simple question, try our Gitter channel: https://gitter.im/quasarframework/Lobby
-If it is complicated question, please ask in our community forum. http://forum.quasar-framework.org/
+If it is a simple question, try our Gitter channel: https://gitter.im/quasarframework/Lobby
+If it is a complicated question, please ask in our community forum. http://forum.quasar-framework.org/
 
 ## REPORTING A BUG?
 
