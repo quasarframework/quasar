@@ -1,6 +1,6 @@
 {
   "name": "quasar-framework",
-  "version": "0.13.6",
+  "version": "0.13.7",
   "description": "Simultaneously build desktop/mobile SPA websites & phone/tablet apps with VueJS",
   "main": "dist/quasar.common.js",
   "jsnext:main": "dist/quasar.es6.js",
