@@ -4,7 +4,7 @@ let data = {}
 
 export function add (name, el, ctx) {
   let id = uid()
-  el.dataset['__' + name] = id
+  el.dataset['q_' + name] = id
   if (!data[name]) {
     data[name] = {}
   }
@@ -12,7 +12,7 @@ export function add (name, el, ctx) {
 }
 
 export function get (name, el) {
-  let id = el.dataset['__' + name]
+  let id = el.dataset['q_' + name]
   if (!id) {
     return
   }
@@ -27,7 +27,7 @@ export function get (name, el) {
 }
 
 export function remove (name, el) {
-  let id = el.dataset['__' + name]
+  let id = el.dataset['q_' + name]
   if (!id) {
     return
   }

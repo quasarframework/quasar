@@ -1,128 +1,42 @@
 <template>
-  <router-link
-    v-if="route"
-    ref="routerLink"
-    :to="route"
-    :replace="replace"
-    :append="append"
-    :exact="exact"
-    tag="div"
-    class="q-tab items-center justify-center relative-position"
-    :class="{
-      active: isActive,
-      hidden: hidden,
-      disabled: disable,
-      hideIcon: hide === 'icon',
-      hideLabel: hide === 'label'
-    }"
-    @click.stop.prevent="activate()"
-    v-ripple.mat
-  >
-    <i v-if="icon" class="q-tabs-icon">{{icon}}</i>
-    <span class="q-tab-label">
-      <slot></slot>
-    </span>
-  </router-link>
   <div
-    v-else
     class="q-tab items-center justify-center relative-position"
     :class="{
-      active: isActive,
+      active: active,
       hidden: hidden,
       disabled: disable,
-      hideIcon: hide === 'icon',
-      hideLabel: hide === 'label'
+      'icon-and-label': icon && label,
+      'hide-icon': hide === 'icon',
+      'hide-label': hide === 'label'
     }"
-    @click="activate()"
+    @click="select"
     v-ripple.mat
   >
     <i v-if="icon" class="q-tabs-icon">{{icon}}</i>
-    <span class="q-tab-label">
-      <slot></slot>
-    </span>
+    <span v-if="label" class="q-tab-label" v-html="label"></span>
+    <span v-if="count" class="floating label circular">{{count}}</span>
+    <div v-else-if="alert" class="q-dot"></div>
+    <slot></slot>
+    <div class="q-tab-border"></div>
   </div>
 </template>
 
 <script>
-import Utils from '../../utils'
+import TabMixin from './tab-mixin'
 
 export default {
+  mixins: [TabMixin],
   props: {
-    label: String,
-    icon: String,
-    disable: Boolean,
-    hidden: Boolean,
-    hide: {
-      type: String,
-      default: ''
-    },
-    name: String,
-    route: [String, Object],
-    replace: Boolean,
-    exact: Boolean,
-    append: Boolean
+    selected: Boolean
   },
-  computed: {
-    uid () {
-      return this.name || Utils.uid()
-    },
-    isActive () {
-      return this.$parent.activeTab === this.uid
-    },
-    targetElement () {
-      return this.$parent.refs && this.$parent.refs[this.uid]
-    }
-  },
-  watch: {
-    isActive (value) {
-      this.$emit('selected', value)
-      this.setTargetVisibility(value)
-    }
-  },
-  created () {
-    if (this.route) {
-      this.$watch('$route', () => {
-        this.$nextTick(() => {
-          this.__selectTabIfRouteMatches()
-        })
-      })
+  methods: {
+    select () {
+      this.selectTab(this.name)
     }
   },
   mounted () {
-    this.$nextTick(() => {
-      this.setTargetVisibility(this.isActive)
-      if (this.route) {
-        this.__selectTabIfRouteMatches()
-      }
-    })
-  },
-  methods: {
-    activate () {
-      if (!this.isActive && !this.disable) {
-        if (this.route) {
-          this.$refs.routerLink.$el.click()
-        }
-        else {
-          this.$parent.setActiveTab(this.uid)
-        }
-      }
-    },
-    deactivate () {
-      if (this.isActive && !this.disable) {
-        this.$parent.setActiveTab(false)
-      }
-    },
-    setTargetVisibility (visible) {
-      if (this.targetElement) {
-        this.targetElement.style.display = visible ? '' : 'none'
-      }
-    },
-    __selectTabIfRouteMatches () {
-      this.$nextTick(() => {
-        if (this.route && this.$refs.routerLink.$el.classList.contains('router-link-active')) {
-          this.$parent.setActiveTab(this.uid)
-        }
-      })
+    if (this.selected) {
+      this.select()
     }
   }
 }

@@ -83,7 +83,6 @@ export default {
   computed: {
     model: {
       get () {
-        console.log('getter')
         return this.value
       },
       set (value) {

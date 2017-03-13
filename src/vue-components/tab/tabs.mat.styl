@@ -1,68 +1,107 @@
-$tabs-order                   ?= -9
-$tabs-padding                 ?= 6px 10px
-$tabs-big-screen-side-padding ?= 12px
-$tabs-color                   ?= $toolbar-faded-color
-$tabs-active-color            ?= $toolbar-color
-$tabs-background              ?= $toolbar-background
-$tabs-highlight-color         ?= opposite-non-color($tabs-background)
-$tabs-min-height              ?= 47px
+$tabs-padding                  ?= 14px 12px
+$tabs-padding-with-icon        ?= 8px 10px
+$tabs-big-screen-horiz-padding ?= 25px
+$tabs-min-height               ?= 48px
+$tabs-min-height-with-icon     ?= 72px
+$tabs-pane-padding             ?= 12px
+$tabs-pane-border              ?= 1px solid rgba(0, 0, 0, .1)
 
-$tabs-font-size               ?= .95rem
-$tabs-icon-font-size          ?= 1.5rem
-$tabs-font-weight             ?= 500
+$tabs-big-screen-side-padding  ?= 12px
+$tabs-color                    ?= $toolbar-faded-color
+$tabs-active-color             ?= $toolbar-color
+$tabs-background               ?= $toolbar-background
 
-$tabs-text-transform          ?= uppercase
-$tabs-border-bottom           ?= 2px solid transparent
-$tabs-active-border-bottom    ?= 2px solid $tabs-active-color
+$tabs-font-size                ?= .95rem
+$tabs-icon-font-size           ?= 27px
+$tabs-font-weight              ?= 500
+
+$tabs-text-transform           ?= uppercase
+$tabs-border-bottom            ?= 2px solid white
 
 .q-tabs-scroller
   overflow hidden
 
+.q-tab-pane
+  padding $tabs-pane-padding
+  border $tabs-pane-border
+
+.q-tab-border
+  position absolute
+  bottom 0
+  left 0
+  right 0
+
 .q-tab
   display flex
   flex-direction column
-  min-height $tabs-min-height
-  padding $tabs-padding
   cursor pointer
-  transition all .3s
+  transition color .3s, background .3s
   white-space nowrap
   user-select none
+  padding $tabs-padding
+  min-height $tabs-min-height
+  text-transform $tabs-text-transform
+
+  &.active
+    color white
+    .q-tab-border
+      border-bottom $tabs-border-bottom
+
+  i + .q-tab-label
+    margin-top 7px
+  .q-tab-label
+    text-align center
+
+  &.icon-and-label
+    padding $tabs-padding-with-icon
+    min-height $tabs-min-height-with-icon
 
   .q-tabs-icon
     font-size $tabs-icon-font-size
-  &.active
-    color $tabs-active-color
-    border-bottom $tabs-active-border-bottom
 
-  text-transform $tabs-text-transform
-  border-bottom $tabs-border-bottom
+  .label
+    top 5px
+    right 0
+    left initial
+    color white
+    background alpha($dot-color, .75)
 
 @media only screen and (max-width $layout-small-max)
   .q-tab
-    &.hideIcon .q-tabs-icon,
-    &.hideLabel .q-tab-label
+    &.hide-icon .q-tabs-icon,
+    &.hide-label .q-tab-label
       display none !important
 
 @media only screen and (max-width $layout-medium-max)
-  .q-tabs:not(.scrollable)
+  .q-tabs-head:not(.scrollable)
     .q-tabs-scroller, .q-tab
       flex 1 1 auto
 
 @media only screen and (min-width $layout-big-min)
-  .q-tabs:not(.scrollable)
+  .q-tab, .q-tab.icon-and-label
+    padding-left $tabs-big-screen-horiz-padding
+    padding-right $tabs-big-screen-horiz-padding
+  .q-tabs-head:not(.scrollable)
     padding-left $tabs-big-screen-side-padding
     padding-right $tabs-big-screen-side-padding
 
-.q-tabs
+.q-tabs-head
   min-height $tabs-min-height
   overflow hidden
-  color $tabs-color
   background $tabs-background
   font-size $tabs-font-size
   font-weight $tabs-font-weight
   transition color .18s ease-in, box-shadow .18s ease-in
-  border-radius $generic-border-radius
   position relative
+  color rgba(255, 255, 255, .7)
+
+  &.inverted
+    color rgba(0, 0, 0, .4)
+    background inherit
+    border-radius 0
+    .q-tab.active, .q-tab.active .q-tab-border, .q-tabs-position-bar
+      color $tabs-background
+      border-color currentColor
 
   &:not(.scrollable)
     .left-scroll, .right-scroll
@@ -71,11 +110,10 @@ $tabs-active-border-bottom    ?= 2px solid $tabs-active-color
   .left-scroll, .right-scroll
     position absolute
     height 100%
-    min-width 25px
     cursor pointer
     color white
     text-shadow 0 0 10px black
-    font-size (1.4 * $tabs-icon-font-size)
+    font-size (1.2 *$tabs-icon-font-size)
 
     &.disabled
       visibility hidden
@@ -85,46 +123,40 @@ $tabs-active-border-bottom    ?= 2px solid $tabs-active-color
   .right-scroll
     right 0
 
-  &.inverted
-    background white
-    border-radius 0
-
-  &.justified
+  &.align-justify
     .q-tabs-scroller, .q-tab
       flex 1 1 auto
+  &.align-center
+    justify-content center
+  &.align-right
+    justify-content flex-end
 
+.q-tabs-position-bar
+  position absolute
+  height 0
+  width 1px
+  bottom 0
+  left 0
+  border-bottom $tabs-border-bottom
+  transform scale(0)
+  transform-origin left center
+  transition transform
+
+  &.expand
+    transition-duration .15s
+    transition-timing-function cubic-bezier(.4, .0, 1, 1)
+  &.contract
+    transition-duration .18s
+    transition-timing-function cubic-bezier(.0, .0, .2, 1)
+
+.q-tabs
   for $name, $color in $colors
-    if $name == 'light' || $name == 'white'
-      &.{$name}
-        color composite-color($color)
+    &.{$name} .q-tabs-head
+      &:not(.inverted)
         background $color
-        .q-tab
-          &.active
-            color $grey-8
-            border-bottom 2px solid $grey-8
-        &.inverted
+      &.inverted
+        .q-tab.active, .q-tab.active .q-tab-border, .q-tabs-position-bar
           color $color
-          background composite-color($color)
-          .q-tab
-            &.active
-              color white
-              border-bottom 2px solid white
-    if $name != 'light' && $name != 'white'
-      &.{$name}
-        &.inverted
-          color lighten($color, 30%)
-        &:not(.inverted)
-          color composite-color($color)
-          background $color
-
-        &.inverted .q-tab
-          &.active
-            color $color
-            border-bottom 2px solid $color
-        &:not(.inverted) .q-tab
-          &.active
-            color white
-            border-bottom 2px solid white
 
 body.mobile .q-tabs-scroller
   overflow-y hidden

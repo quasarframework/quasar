@@ -7,9 +7,9 @@
     :append="append"
     :replace="replace"
     class="item link"
-    event="drawerlinkclick"
+    :event="routerLinkEventName"
     v-ripple.mat
-    @click.native="__trigger"
+    @click.native="trigger"
   >
     <slot name="item">
       <div v-if="icon" class="item-primary"><i>{{icon}}</i></div>
@@ -23,33 +23,18 @@
 </template>
 
 <script>
-let evt, evtName = 'drawerlinkclick'
-
-try {
-  evt = new Event(evtName)
-}
-catch (e) {
-  // IE doesn't support `new Event()`, so...`
-  evt = document.createEvent('Event')
-  evt.initEvent(evtName, true, false)
-}
+import { RouterLinkMixin, routerLinkEvent } from '../../utils/router-link'
 
 export default {
+  mixins: [RouterLinkMixin],
   props: {
-    icon: String,
-    to: {
-      type: [String, Object],
-      required: true
-    },
-    exact: Boolean,
-    append: Boolean,
-    replace: Boolean
+    icon: String
   },
   inject: ['closeDrawer'],
   methods: {
-    __trigger () {
+    trigger () {
       this.closeDrawer(() => {
-        this.$el.dispatchEvent(evt)
+        this.$el.dispatchEvent(routerLinkEvent)
       }, true)
     }
   }

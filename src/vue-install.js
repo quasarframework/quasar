@@ -60,8 +60,10 @@ import Slider from './vue-components/slider/Slider.vue'
 import Spinner from './vue-components/spinner/Spinner.vue'
 import Stepper from './vue-components/stepper/Stepper.vue'
 import Step from './vue-components/stepper/Step.vue'
-import Tab from './vue-components/tab/Tab.vue'
 import Tabs from './vue-components/tab/Tabs.vue'
+import Tab from './vue-components/tab/Tab.vue'
+import RouteTab from './vue-components/tab/RouteTab.vue'
+import TabPane from './vue-components/tab/TabPane.vue'
 import Toggle from './vue-components/toggle/Toggle.vue'
 import Tooltip from './vue-components/tooltip/Tooltip.vue'
 import Tree from './vue-components/tree/Tree.vue'
@@ -131,8 +133,10 @@ function registerComponents (_Vue) {
     ['slider', Slider],
     ['stepper', Stepper],
     ['step', Step],
-    ['tab', Tab],
     ['tabs', Tabs],
+    ['tab', Tab],
+    ['route-tab', RouteTab],
+    ['tab-pane', TabPane],
     ['toggle', Toggle],
     ['tooltip', Tooltip],
     ['tree', Tree],
