@@ -22,6 +22,7 @@
     <span v-if="label" class="q-tab-label" v-html="label"></span>
     <div v-if="alert" class="q-dot"></div>
     <slot></slot>
+    <div class="q-tab-border"></div>
   </router-link>
 </template>
 

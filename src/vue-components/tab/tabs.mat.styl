@@ -8,6 +8,7 @@ $tabs-pane-border              ?= 1px solid rgba(0, 0, 0, .1)
 
 $tabs-big-screen-side-padding  ?= 12px
 $tabs-color                    ?= $toolbar-faded-color
+$tabs-inverted-color           ?= $toolbar-inverted-faded-color
 $tabs-active-color             ?= $toolbar-color
 $tabs-background               ?= $toolbar-background
 
@@ -16,7 +17,7 @@ $tabs-icon-font-size           ?= 27px
 $tabs-font-weight              ?= 500
 
 $tabs-text-transform           ?= uppercase
-$tabs-border-bottom            ?= 2px solid white
+$tabs-border                   ?= 2px solid white
 
 .q-tabs-scroller
   overflow hidden
@@ -27,7 +28,6 @@ $tabs-border-bottom            ?= 2px solid white
 
 .q-tab-border
   position absolute
-  bottom 0
   left 0
   right 0
 
@@ -44,8 +44,6 @@ $tabs-border-bottom            ?= 2px solid white
 
   &.active
     color white
-    .q-tab-border
-      border-bottom $tabs-border-bottom
 
   i + .q-tab-label
     margin-top 7px
@@ -93,15 +91,7 @@ $tabs-border-bottom            ?= 2px solid white
   font-weight $tabs-font-weight
   transition color .18s ease-in, box-shadow .18s ease-in
   position relative
-  color rgba(255, 255, 255, .7)
-
-  &.inverted
-    color rgba(0, 0, 0, .4)
-    background inherit
-    border-radius 0
-    .q-tab.active, .q-tab.active .q-tab-border, .q-tabs-position-bar
-      color $tabs-background
-      border-color currentColor
+  color $tabs-color
 
   &:not(.scrollable)
     .left-scroll, .right-scroll
@@ -135,9 +125,7 @@ $tabs-border-bottom            ?= 2px solid white
   position absolute
   height 0
   width 1px
-  bottom 0
   left 0
-  border-bottom $tabs-border-bottom
   transform scale(0)
   transform-origin left center
   transition transform
@@ -150,11 +138,52 @@ $tabs-border-bottom            ?= 2px solid white
     transition-timing-function cubic-bezier(.0, .0, .2, 1)
 
 .q-tabs
+  &.position-top
+    .q-tab.active .q-tab-border
+        border-bottom $tabs-border
+    .q-tab-border
+      bottom 0
+    .q-tabs-position-bar
+      bottom 0
+      border-bottom $tabs-border
+
+  &.position-bottom
+    .q-tab.active .q-tab-border
+        border-top $tabs-border
+    .q-tab-border
+      top 0
+    .q-tabs-position-bar
+      top 0
+      border-top $tabs-border
+    .q-tabs-panes
+      order -1
+
+
+  &.inverted
+    .q-tabs-head
+      color $tabs-inverted-color
+      background inherit
+      .q-tab.active, .q-tab.active .q-tab-border, .q-tabs-position-bar
+        color $tabs-background
+        border-color currentColor
+
+    &.position-top
+      .q-tabs-panes
+        border-top $tabs-pane-border
+      .q-tab-pane
+        border-top 0
+
+    &.position-bottom
+      .q-tabs-panes
+        border-bottom $tabs-pane-border
+      .q-tab-pane
+        border-bottom 0
+
   for $name, $color in $colors
-    &.{$name} .q-tabs-head
-      &:not(.inverted)
+    &.{$name}
+      &:not(.inverted) .q-tabs-head
         background $color
-      &.inverted
+      &.inverted .q-tabs-head
         .q-tab.active, .q-tab.active .q-tab-border, .q-tabs-position-bar
           color $color
 

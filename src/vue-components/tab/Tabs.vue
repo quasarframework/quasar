@@ -1,13 +1,14 @@
 <template>
-  <div class="q-tabs">
+  <div class="q-tabs column" :class="[`position-${position}`]">
     <div
       class="q-tabs-head row"
       ref="tabs"
-      :class="[`align-${align}`, inverted ? 'inverted' : '']"
+      :class="[`align-${align}`]"
     >
       <div ref="scroller" class="q-tabs-scroller row">
-        <div class="relative-position" style="height: 100%">
+        <div class="relative-position self-stretch">
           <div
+            v-if="$q.theme === 'mat'"
             ref="posbar"
             class="q-tabs-position-bar"
             @transitionend="__updatePosbarTransition"
@@ -57,9 +58,13 @@ export default {
     align: {
       type: String,
       default: 'left',
-      validator: val => ['left', 'center', 'right', 'justify'].includes(val)
+      validator: v => ['left', 'center', 'right', 'justify'].includes(v)
     },
-    inverted: Boolean
+    position: {
+      type: String,
+      default: 'top',
+      validator: v => ['top', 'bottom'].includes(v)
+    }
   },
   data () {
     return {
@@ -86,10 +91,11 @@ export default {
         return
       }
 
+      clearTimeout(this.timer)
       const el = this.__getTabElByName(name)
 
       if (this.$q.theme === 'ios') {
-        this.__setTab(name, {el})
+        this.__setTab({name, el})
         return
       }
 
@@ -98,26 +104,31 @@ export default {
 
       if (!el) {
         this.__setPositionBar(0, 0)
-        this.__setTab(name, {})
+        this.__setTab({name})
         return
       }
 
       const
+        offsetReference = this.$refs.posbar.parentNode.offsetLeft,
         width = el.getBoundingClientRect().width,
-        offsetLeft = el.offsetLeft,
+        offsetLeft = el.offsetLeft - offsetReference,
         index = this.$children.findIndex(child => child.name === name)
 
-      setTimeout(() => {
+      this.timer = setTimeout(() => {
         if (!this.tab.el) {
           posbarClass.add('invisible')
-          this.__setTab(name, {el, width, offsetLeft, index})
+          this.__setTab({name, el, width, offsetLeft, index})
           return
         }
+
+        this.tab.width = this.tab.el.getBoundingClientRect().width
+        this.tab.offsetLeft = this.tab.el.offsetLeft - offsetReference
+        this.tab.index = this.$children.findIndex(child => child.name === this.tab.name)
 
         this.__setPositionBar(this.tab.width, this.tab.offsetLeft)
         posbarClass.remove('invisible')
 
-        setTimeout(() => {
+        this.timer = setTimeout(() => {
           posbarClass.add('expand')
 
           if (this.tab.index < index) {
@@ -134,17 +145,17 @@ export default {
           }
 
           this.__beforePositionContract = () => {
-            this.__setTab(name, {el, width, offsetLeft, index})
+            this.__setTab({name, el, width, offsetLeft, index})
           }
         }, 30)
       }, 30)
     },
-    __setTab (name, data = {}) {
-      this.data.tabName = name
-      this.__scrollToTab(data.el)
-      this.tab = data
+    __setTab (data) {
+      this.data.tabName = data.name
       this.$emit('input', name)
       this.$emit('select', name)
+      this.__scrollToTab(data.el)
+      this.tab = data
     },
     __setPositionBar (width = 0, left = 0) {
       css(this.$refs.posbar, cssTransform(`translateX(${left}px) scaleX(${width})`))
@@ -293,6 +304,7 @@ export default {
     })
   },
   beforeDestroy () {
+    clearTimeout(this.timer)
     this.__stopAnimScroll()
     this.$refs.scroller.removeEventListener('scroll', this.__updateScrollIndicator)
     window.removeEventListener('resize', this.__redraw)
