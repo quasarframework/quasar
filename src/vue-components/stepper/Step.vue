@@ -1,93 +1,72 @@
 <template>
   <div
-    class="timeline-item"
-    :class="{incomplete: step > stepper.currentStep}"
+    class="q-stepper-step row items-center"
+    :class="{
+      'step-selected': selected,
+      'step-inactive': inactive,
+      'step-done': done,
+      disabled: disabled,
+      'step-error': error,
+      'cursor-pointer': editable,
+      'cursor-not-allowed': !editable
+    }"
+    @click="select"
+    v-ripple.mat
   >
-    <div class="timeline-badge">
-      <i v-show="!done">
-        done
-      </i>
-      <i v-if="icon && done">{{ icon }}</i>
-      <span v-show="!icon && done">
-        {{ step }}
-      </span>
+    <div class="q-stepper-identity flex items-center justify-center">
+      <i v-if="stepIcon">{{ stepIcon }}</i>
+      <template v-else>{{ step }}</template>
     </div>
-    <div class="timeline-title text-bold" v-html="title"></div>
-    <q-transition name="slide">
-      <div
-        class="timeline-content"
-        v-show="stepper && step === stepper.currentStep"
-      >
-        <slot></slot>
-        <div class="group" style="margin-top: 1rem; margin-left: -5px;">
-          <button
-            :class="[color, !ready ? 'disabled' : '']"
-            @click="nextStep()"
-          >
-            {{ stepper && step === stepper.steps ? $parent.finishLabel : $parent.nextLabel }}
-          </button>
-          <button
-            class="clear"
-            :class="color"
-            v-if="step > 1"
-            @click="previousStep()"
-            v-html="$parent.backLabel"
-          ></button>
-        </div>
-      </div>
-    </q-transition>
+    <div class="q-stepper-label column">
+      <slot></slot>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   props: {
-    title: {
-      type: String,
+    step: {
+      type: Number,
       required: true
     },
-    ready: {
-      type: Boolean,
-      default: true
-    },
-    beforeNext: {
-      type: Function,
-      default: null
-    },
-    icon: String
+    icon: String,
+    error: Boolean,
+    disabled: Boolean
   },
-  data () {
-    return {
-      step: -1
-    }
-  },
+  inject: ['data', 'goToStep'],
   computed: {
-    stepper () {
-      return this.$parent.config
+    selected () {
+      return this.data.step === this.step
+    },
+    inactive () {
+      return this.data.step < this.step
     },
     done () {
-      return this.step >= this.stepper.currentStep
+      return this.data.step > this.step
     },
-    color () {
-      return this.$parent.color
+    stepIcon () {
+      if (this.selected && this.data.selectedIcon !== false) {
+        return this.data.selectedIcon || 'edit'
+      }
+      if (this.error && this.data.errorIcon !== false) {
+        return this.data.errorIcon || 'warning'
+      }
+      if (this.done && this.data.doneIcon !== false) {
+        return this.data.doneIcon || 'check'
+      }
+
+      return this.icon
+    },
+    editable () {
+      return this.data.maxEditableStep >= this.step
     }
   },
   methods: {
-    nextStep () {
-      if (!this.ready) {
-        return
+    select () {
+      if (!this.disabled && this.editable) {
+        this.goToStep(this.step)
       }
-      if (this.beforeNext) {
-        this.beforeNext(this.$parent.nextStep)
-        return
-      }
-      this.$parent.nextStep()
-    },
-    previousStep () {
-      this.$parent.previousStep()
-    },
-    finish () {
-      this.$parent.finish()
     }
   }
 }

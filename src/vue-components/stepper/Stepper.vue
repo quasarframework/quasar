@@ -1,5 +1,8 @@
 <template>
-  <div class="q-stepper timeline" :class="color">
+  <div
+    class="q-stepper shadow-1"
+    :class="{vertical: data.vertical, horizontal: !data.vertical, alternative: !data.vertical && alternative}"
+  >
     <slot></slot>
   </div>
 </template>
@@ -7,62 +10,85 @@
 <script>
 export default {
   props: {
-    color: {
-      type: String,
-      default: 'primary'
+    value: Number,
+    alternative: Boolean,
+    doneIcon: {
+      type: [String, Boolean],
+      default: 'check'
     },
-    backLabel: {
-      type: String,
-      default: 'Back'
+    selectedIcon: {
+      type: [String, Boolean],
+      default: 'edit'
     },
-    nextLabel: {
-      type: String,
-      default: 'Continue'
+    errorIcon: {
+      type: [String, Boolean],
+      default: 'warning'
+    }
+  },
+  watch: {
+    value (name) {
+      this.goToStep(name)
     },
-    finishLabel: {
-      type: String,
-      default: 'Finish'
+    doneIcon (i) {
+      this.data.doneIcon = i
+    },
+    selectedIcon (i) {
+      this.data.selectedIcon = i
+    },
+    errorIcon (i) {
+      this.data.errorIcon = i
     }
   },
   data () {
     return {
-      config: {
-        steps: 0,
-        currentStep: 0
+      data: {
+        step: 1,
+        maxEditableStep: 1,
+        vertical: true,
+        doneIcon: this.doneIcon,
+        selectedIcon: this.selectedIcon,
+        errorIcon: this.errorIcon
       }
+    }
+  },
+  provide () {
+    return {
+      data: this.data,
+      goToStep: this.goToStep,
+      setVerticality: this.__setVerticality
     }
   },
   methods: {
-    reset () {
-      this.config.currentStep = 1
-      this.$emit('step', this.config.currentStep)
-    },
-    nextStep () {
-      this.config.currentStep++
-      this.$emit('step', this.config.currentStep)
-      if (this.config.currentStep > this.config.steps) {
-        this.$emit('finish')
+    goToStep (step) {
+      if (this.data.step !== step) {
+        this.data.step = step
+        if (step > this.data.maxEditableStep) {
+          this.data.maxEditableStep = step
+        }
+        this.$emit('input', step)
+        this.$emit('step', step)
       }
     },
-    previousStep () {
-      this.config.currentStep--
-      this.$emit('step', this.config.currentStep)
+    previous () {
+      if (this.data.step > 1) {
+        this.goToStep(this.data.step - 1)
+      }
     },
-    finish () {
-      this.config.currentStep = this.config.steps + 1
-      this.$emit('step', this.config.currentStep)
-      this.$emit('finish')
+    next () {
+      this.goToStep(this.data.step + 1)
+    },
+    __setVerticality (bool) {
+      this.data.vertical = bool
+    },
+    reset () {
+      this.data.maxEditableStep = 1
+      this.data.step = 1
     }
   },
   mounted () {
-    let step = 1
-    this.config.currentStep = this.config.currentStep || 1
-    this.config.steps = this.$children.length
-    this.$emit('step', this.config.currentStep)
-    this.$children.forEach(child => {
-      child.step = step
-      step++
-    })
+    if (this.data.step === 0 && this.value) {
+      this.goToStep(this.value)
+    }
   }
 }
 </script>

@@ -59,7 +59,9 @@ import DialogSelect from './vue-components/select/DialogSelect.vue'
 import Slider from './vue-components/slider/Slider.vue'
 import Spinner from './vue-components/spinner/Spinner.vue'
 import Stepper from './vue-components/stepper/Stepper.vue'
+import StepperHeader from './vue-components/stepper/StepperHeader.vue'
 import Step from './vue-components/stepper/Step.vue'
+import StepPane from './vue-components/stepper/StepPane.vue'
 import Tabs from './vue-components/tab/Tabs.vue'
 import Tab from './vue-components/tab/Tab.vue'
 import RouteTab from './vue-components/tab/RouteTab.vue'
@@ -132,7 +134,9 @@ function registerComponents (_Vue) {
     ['dialog-select', DialogSelect],
     ['slider', Slider],
     ['stepper', Stepper],
+    ['stepper-header', StepperHeader],
     ['step', Step],
+    ['step-pane', StepPane],
     ['tabs', Tabs],
     ['tab', Tab],
     ['route-tab', RouteTab],

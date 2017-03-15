@@ -1,0 +1,152 @@
+$stepper-color                 ?= $primary
+$stepper-divider-color         ?= rgba(0, 0, 0, .12)
+$stepper-label-color           ?= rgba(0, 0, 0, .72)
+$stepper-label-inactive-color  ?= rgba(0, 0, 0, .38)
+
+$stepper-identity-size = 24px
+
+.q-stepper-identity
+  background $stepper-label-color
+  border-radius 50%
+  color white
+  font-size 12px
+  height $stepper-identity-size
+  width $stepper-identity-size
+  margin-right 8px
+  position relative
+  i
+    font-size 14px
+
+.q-stepper-step
+  padding 24px
+  position relative
+  color $stepper-color
+  overflow hidden
+  flex 1 1 auto
+
+  &.step-selected
+    .q-stepper-identity
+      background $stepper-color
+    .q-stepper-label
+      text-shadow 0 0 0 black
+
+  &.step-inactive
+    .q-stepper-label
+      color $stepper-label-inactive-color
+
+    .q-stepper-identity
+      color opposite-non-color($stepper-label-inactive-color)
+      background $stepper-label-inactive-color
+
+  &.step-done
+    .q-stepper-identity
+      background $stepper-color
+
+  &.step-error
+    color $negative
+
+    .q-stepper-identity
+      background transparent
+      color $negative
+      position relative
+      i
+        font-size 24px
+
+    .q-stepper-label
+      color $negative
+
+.q-stepper-label
+  position relative
+  color $stepper-label-color
+  align-items flex-start
+  small
+    font-size 12px
+    font-weight 300
+
+.q-stepper-pane
+  top initial
+  bottom 0
+  padding 16px
+  overflow hidden
+  flex 1
+  width 100%
+
+.q-stepper
+  overflow hidden
+  position relative
+
+  .divider
+    height 1px
+    flex 1
+    align-self center
+    margin 0 -16px
+    background $stepper-divider-color
+    display block
+
+  &.vertical
+    padding-bottom 32px
+
+    .q-stepper-pane
+      margin -8px 0 -16px 36px
+      padding 16px 60px 16px 23px
+      width auto
+
+      &:not(:last-child)
+        border-left 1px solid $stepper-divider-color
+
+    .q-stepper-step
+      padding 24px 24px 16px
+
+    .q-stepper-identity
+      margin-right 12px
+
+  &.horizontal
+    .q-stepper-label:after, .q-stepper-identity:before, .q-stepper-identity:after
+      position absolute
+      top 50%
+      height 1px
+      width 100vw
+      background $stepper-divider-color
+
+    .q-stepper-step:not(:first-child)
+      .q-stepper-identity:before
+        content ''
+        right ($stepper-identity-size + 8px)
+
+    &:not(.alternative)
+      .q-stepper-step:not(:last-child)
+        .q-stepper-label:after
+          content ''
+          left calc(100% + 8px)
+
+    &.alternative
+      .q-stepper-step:not(:last-child)
+        .q-stepper-identity:after
+          content ''
+          left ($stepper-identity-size + 8px)
+
+  &.alternative
+    .divider
+      margin 35px -67px 0
+      align-self flex-start
+
+    .q-stepper-identity
+      margin-right 0
+
+    .q-stepper-step
+      flex-direction column
+      align-items center
+      justify-content flex-start
+
+    .q-stepper-label
+      margin-right 0
+      margin-top 12px
+      align-items center
+      text-align center
+
+@media (max-width $layout-small-max)
+  .q-stepper.horizontal
+    .q-stepper-label
+      display none
+    .q-stepper-identity
+      margin-right 0
