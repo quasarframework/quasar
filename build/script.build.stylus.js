@@ -8,6 +8,7 @@ var
   themes = ['ios', 'mat'],
   nonStandalone = process.argv[2] === 'simple' || process.argv[3] === 'simple',
   version = process.env.VERSION || require('../package.json').version,
+  pathList = [path.join(__dirname, '../src/themes/')],
   banner =
     '/*!\n' +
     ' * Quasar Framework v' + version + '\n' +
@@ -22,7 +23,7 @@ themes.forEach(function (theme) {
     data
 
   deps = stylus(readFile(src))
-    .set('paths', [path.join(__dirname, '../src/themes/')])
+    .set('paths', pathList)
     .deps()
 
   data = compile([src].concat(deps))
@@ -31,30 +32,32 @@ themes.forEach(function (theme) {
   writeFile('dist/quasar.' + theme + '.styl', data)
 
   // write compiled CSS file
-  stylus(data).render(function (err, css) {
-    if (err) {
-      logError('Stylus could not compile ' + src.gray + ' file...')
-      throw err
-    }
+  stylus(data)
+    .set('paths', pathList)
+    .render(function (err, css) {
+      if (err) {
+        logError('Stylus could not compile ' + src.gray + ' file...')
+        throw err
+      }
 
-    // write unprefixed non-standalone version
-    writeFile('dist/quasar.' + theme + '.css', css)
+      // write unprefixed non-standalone version
+      writeFile('dist/quasar.' + theme + '.css', css)
 
-    if (nonStandalone) {
-      return
-    }
+      if (nonStandalone) {
+        return
+      }
 
-    // write auto-prefixed standalone version
-    postcss([autoprefixer]).process(css).then(function (result) {
-      result.warnings().forEach(function (warn) {
-        console.warn(warn.toString())
-      })
-      writeFile('dist/quasar.' + theme + '.standalone.css', result.css)
-      cssnano.process(result.css).then(function (result) {
-        writeFile('dist/quasar.' + theme + '.standalone.min.css', result.css)
+      // write auto-prefixed standalone version
+      postcss([autoprefixer]).process(css).then(function (result) {
+        result.warnings().forEach(function (warn) {
+          console.warn(warn.toString())
+        })
+        writeFile('dist/quasar.' + theme + '.standalone.css', result.css)
+        cssnano.process(result.css).then(function (result) {
+          writeFile('dist/quasar.' + theme + '.standalone.min.css', result.css)
+        })
       })
     })
-  })
 })
 
 function logError (err) {
