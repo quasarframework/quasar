@@ -5,8 +5,8 @@ $tabs-min-height               ?= 48px
 $tabs-min-height-with-icon     ?= 72px
 $tabs-pane-padding             ?= 12px
 $tabs-pane-border              ?= 1px solid rgba(0, 0, 0, .1)
-
 $tabs-big-screen-side-padding  ?= 12px
+
 $tabs-color                    ?= $toolbar-faded-color
 $tabs-inverted-color           ?= $toolbar-inverted-faded-color
 $tabs-active-color             ?= $toolbar-color
@@ -17,7 +17,7 @@ $tabs-icon-font-size           ?= 27px
 $tabs-font-weight              ?= 500
 
 $tabs-text-transform           ?= uppercase
-$tabs-border                   ?= 2px solid white
+$tabs-border                   ?= 2px solid $tabs-active-color
 
 .q-tabs-scroller
   overflow hidden
@@ -43,9 +43,9 @@ $tabs-border                   ?= 2px solid white
   text-transform $tabs-text-transform
 
   &.active
-    color white
+    color $tabs-active-color
 
-  i + .q-tab-label
+  > i + .q-tab-label
     margin-top 7px
   .q-tab-label
     text-align center
@@ -138,9 +138,18 @@ $tabs-border                   ?= 2px solid white
     transition-timing-function cubic-bezier(.0, .0, .2, 1)
 
 .q-tabs
+  &.two-lines
+    .q-tab
+      white-space normal
+    .q-tab-label
+      overflow hidden
+      display -webkit-box
+      -webkit-box-orient vertical
+      -webkit-line-clamp 2
+
   &.position-top
     .q-tab.active .q-tab-border
-        border-bottom $tabs-border
+      border-bottom $tabs-border
     .q-tab-border
       bottom 0
     .q-tabs-position-bar
@@ -149,7 +158,7 @@ $tabs-border                   ?= 2px solid white
 
   &.position-bottom
     .q-tab.active .q-tab-border
-        border-top $tabs-border
+      border-top $tabs-border
     .q-tab-border
       top 0
     .q-tabs-position-bar
@@ -181,11 +190,12 @@ $tabs-border                   ?= 2px solid white
 
   for $name, $color in $colors
     &.{$name}
-      &:not(.inverted) .q-tabs-head
-        background $color
-      &.inverted .q-tabs-head
-        .q-tab.active, .q-tab.active .q-tab-border, .q-tabs-position-bar
-          color $color
+      if $name != 'light' && $name != 'white'
+        &:not(.inverted) .q-tabs-head
+          background $color
+        &.inverted .q-tabs-head
+          .q-tab.active, .q-tab.active .q-tab-border, .q-tabs-position-bar
+            color $color
 
 body.mobile .q-tabs-scroller
   overflow-y hidden

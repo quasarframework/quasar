@@ -20,7 +20,8 @@
   >
     <i v-if="icon" class="q-tabs-icon">{{icon}}</i>
     <span v-if="label" class="q-tab-label" v-html="label"></span>
-    <div v-if="alert" class="q-dot"></div>
+    <span v-if="count" class="floating label circular">{{count}}</span>
+    <div v-else-if="alert" class="q-dot"></div>
     <slot></slot>
     <div class="q-tab-border"></div>
   </router-link>

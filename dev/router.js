@@ -28,6 +28,15 @@ let routes = [
       {path: 'tabs', component: load('test-layout/tabs')},
       {path: 'drawer', component: load('test-layout/drawer')}
     ]
+  },
+  {
+    path: '/lay',
+    component: load('web-tests/layout'),
+    children: [
+      {path: 'a', component: load('web-tests/a')},
+      {path: 'b', component: load('web-tests/b')},
+      {path: 'c', component: load('web-tests/c')}
+    ]
   }
 ]
 

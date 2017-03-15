@@ -31,7 +31,7 @@
       <q-tab selected slot="title" label="Gigiiiiiiiii sdfsdfs aadsf asfsda" />
     </q-tabs>
 
-    <q-tabs align="center">
+    <q-tabs align="center" class="two-lines">
       <q-tab alert slot="title" v-if="third"label="Oaua" />
       <q-tab count="5" slot="title" label="Gogu" />
       <q-tab slot="title" label="Some Tab" />
@@ -91,7 +91,7 @@
     >
       <q-tab :alert="alert" selected slot="title" v-if="third" name="three" icon="bluetooth" />
       <q-tab count="22" alert slot="title" name="one" icon="wifi" />
-      <q-tab alert slot="title" name="two" icon="important_devices" />
+      <q-tab slot="title" name="two" icon="important_devices" />
 
       <q-tab-pane name="one">Tab One</q-tab-pane>
       <q-tab-pane name="two">Tab Two</q-tab-pane>
