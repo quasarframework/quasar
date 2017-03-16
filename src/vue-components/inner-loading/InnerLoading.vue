@@ -1,7 +1,7 @@
 <template>
   <div
-    v-if="show"
-    class="q-inner-loading absolute-full row items-center justify-center"
+    v-if="visible"
+    class="q-inner-loading animate-fade absolute-full column items-center justify-center"
     :class="{dark: dark}"
   >
     <spinner :name="spinner"></spinner>
@@ -13,7 +13,7 @@ export default {
   props: {
     spinner: String,
     dark: Boolean,
-    show: Boolean
+    visible: Boolean
   }
 }
 </script>

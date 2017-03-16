@@ -7,7 +7,7 @@
     }"
   >
     <slot></slot>
-    <q-inner-loading :show="inProgress" />
+    <q-inner-loading :visible="inProgress" />
   </div>
 </template>
 
