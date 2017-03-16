@@ -1,19 +1,14 @@
 $progress-track-height         ?= 4px
 $progress-track-color          ?= rgba(0, 0, 0, .15)
 $progress-default-track-color  ?= $primary
-$progress-border-radius        ?= $generic-border-radius
-$progress-margin               ?= .5rem 0 1rem 0
 $progress-transition           ?= width .3s linear
-$progress-track-desktop-height ?= 15px
 
 .q-progress
   position relative
   height $progress-track-height
   display block
   width 100%
-  border-radius $progress-border-radius
   background-clip padding-box
-  margin $progress-margin
   overflow hidden
 
   &:not(.indeterminate) .q-progress-model
@@ -74,9 +69,6 @@ $progress-track-desktop-height ?= 15px
   transition $progress-transition
   position absolute
   bottom 0
-
-body.desktop .q-progress
-  height $progress-track-desktop-height
 
 @keyframes q-progress-indeterminate
   0%

@@ -15,6 +15,7 @@ import SHearts from './svg-spinners/hearts.vue'
 import SHourglass from './svg-spinners/hourglass.vue'
 import SInfinity from './svg-spinners/infinity.vue'
 import SIos from './svg-spinners/ios.vue'
+import SMat from './svg-spinners/mat.vue'
 import SOval from './svg-spinners/oval.vue'
 import SPie from './svg-spinners/pie.vue'
 import SPuff from './svg-spinners/puff.vue'
@@ -28,7 +29,7 @@ export default {
   props: {
     name: {
       type: String,
-      default: theme === 'ios' ? 'ios' : 'tail'
+      default: theme === 'ios' ? 'ios' : 'mat'
     },
     size: {
       type: Number,
@@ -49,6 +50,7 @@ export default {
     SHourglass,
     SInfinity,
     SIos,
+    SMat,
     SOval,
     SPie,
     SPuff,

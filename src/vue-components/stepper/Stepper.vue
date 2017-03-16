@@ -1,9 +1,13 @@
 <template>
   <div
     class="q-stepper shadow-1"
-    :class="{vertical: data.vertical, horizontal: !data.vertical, alternative: !data.vertical && alternative}"
+    :class="{
+      vertical: data.vertical,
+      horizontal: !data.vertical
+    }"
   >
     <slot></slot>
+    <q-inner-loading :show="inProgress" />
   </div>
 </template>
 
@@ -11,7 +15,7 @@
 export default {
   props: {
     value: Number,
-    alternative: Boolean,
+    inProgress: Boolean,
     doneIcon: {
       type: [String, Boolean],
       default: 'check'

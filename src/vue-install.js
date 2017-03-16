@@ -36,6 +36,7 @@ import SmallFab from './vue-components/fab/SmallFab.vue'
 import Gallery from './vue-components/gallery/Gallery.vue'
 import GallerySlider from './vue-components/gallery/GallerySlider.vue'
 import InfiniteScroll from './vue-components/infinite-scroll/InfiniteScroll.vue'
+import InnerLoading from './vue-components/inner-loading/InnerLoading.vue'
 import Input from './vue-components/input/Input.vue'
 import InputGroup from './vue-components/input-group/InputGroup.vue'
 import Item from './vue-components/list/Item.vue'
@@ -62,6 +63,7 @@ import Stepper from './vue-components/stepper/Stepper.vue'
 import StepperHeader from './vue-components/stepper/StepperHeader.vue'
 import Step from './vue-components/stepper/Step.vue'
 import StepPane from './vue-components/stepper/StepPane.vue'
+import StepperNavigation from './vue-components/stepper/StepperNavigation.vue'
 import Tabs from './vue-components/tab/Tabs.vue'
 import Tab from './vue-components/tab/Tab.vue'
 import RouteTab from './vue-components/tab/RouteTab.vue'
@@ -112,6 +114,7 @@ function registerComponents (_Vue) {
     ['gallery-slider', GallerySlider],
     ['checkbox', Checkbox],
     ['infinite-scroll', InfiniteScroll],
+    ['inner-loading', InnerLoading],
     ['input', Input],
     ['input-group', InputGroup],
     ['item', Item],
@@ -137,6 +140,7 @@ function registerComponents (_Vue) {
     ['stepper-header', StepperHeader],
     ['step', Step],
     ['step-pane', StepPane],
+    ['stepper-navigation', StepperNavigation],
     ['tabs', Tabs],
     ['tab', Tab],
     ['route-tab', RouteTab],
