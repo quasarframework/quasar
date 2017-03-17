@@ -3,6 +3,7 @@ $stepper-divider-color         ?= rgba(0, 0, 0, .12)
 $stepper-label-color           ?= rgba(0, 0, 0, .72)
 $stepper-label-inactive-color  ?= rgba(0, 0, 0, .38)
 $stepper-pane-padding          ?= 16px
+$stepper-hover-color           ?= rgba(0, 0, 0, .05)
 
 $stepper-identity-size = 24px
 
@@ -25,14 +26,9 @@ $stepper-identity-size = 24px
   overflow hidden
   flex 1 1 auto
   transition background .28s
+  cursor not-allowed
 
-  &.step-selected
-    .q-stepper-identity
-      background $stepper-color
-    .q-stepper-label
-      text-shadow 0 0 0 black
-
-  &.step-inactive
+  &:not(.step-editable)
     .q-stepper-label
       color $stepper-label-inactive-color
 
@@ -43,6 +39,15 @@ $stepper-identity-size = 24px
   &.step-done
     .q-stepper-identity
       background $stepper-color
+
+
+  &.step-editable, &.step-selected
+    cursor pointer
+    .q-stepper-identity
+      background $stepper-color
+  &.step-selected
+    .q-stepper-label
+      text-shadow 0 0 0 black
 
   &.step-error
     color $negative
@@ -57,8 +62,8 @@ $stepper-identity-size = 24px
     .q-stepper-label
       color $negative
 
-body.desktop .q-stepper-step:hover
-  background rgba(0, 0, 0, .05)
+body.desktop .q-stepper-step.step-editable:hover
+  background $stepper-hover-color
 
 .q-stepper-label
   position relative
@@ -118,19 +123,19 @@ body.desktop .q-stepper-step:hover
         content ''
         right ($stepper-identity-size + 8px)
 
-    .q-stepper-header:not(.alternative)
+    .q-stepper-header:not(.alternative-labels)
       .q-stepper-step:not(:last-child)
         .q-stepper-label:after
           content ''
           left calc(100% + 8px)
 
-    .q-stepper-header.alternative
+    .q-stepper-header.alternative-labels
       .q-stepper-step:not(:last-child)
         .q-stepper-identity:after
           content ''
           left ($stepper-identity-size + 8px)
 
-.q-stepper-header.alternative
+.q-stepper-header.alternative-labels
   .q-stepper-identity
     margin-right 0
 

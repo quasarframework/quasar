@@ -1,7 +1,7 @@
 <template>
   <div
     class="q-stepper-header flex items-stretch justify-between wrap shadow-1"
-    :class="{alternative: alternative}"
+    :class="{'alternative-labels': alternativeLabels}"
   >
     <slot></slot>
   </div>
@@ -10,7 +10,7 @@
 <script>
 export default {
   props: {
-    alternative: Boolean
+    alternativeLabels: Boolean
   },
   inject: ['setVerticality'],
   mounted () {

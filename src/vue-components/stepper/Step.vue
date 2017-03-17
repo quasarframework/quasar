@@ -3,12 +3,9 @@
     class="q-stepper-step row items-center"
     :class="{
       'step-selected': selected,
-      'step-inactive': inactive,
-      'step-done': done,
-      disabled: disabled,
+      'step-editable': editable || isEditable,
+      'step-done': done || isDone,
       'step-error': error,
-      'cursor-pointer': editable,
-      'cursor-not-allowed': !editable
     }"
     @click="select"
     v-ripple.mat
@@ -27,23 +24,24 @@
 export default {
   props: {
     step: {
-      type: Number,
+      type: [Number, String],
       required: true
     },
+    done: Boolean,
+    editable: Boolean,
     icon: String,
-    error: Boolean,
-    disabled: Boolean
+    error: Boolean
   },
-  inject: ['data', 'goToStep'],
+  inject: ['data', 'goToStep', 'registerStep', 'unregisterStep'],
+  data () {
+    return {
+      isEditable: false,
+      isDone: false
+    }
+  },
   computed: {
     selected () {
       return this.data.step === this.step
-    },
-    inactive () {
-      return this.data.step < this.step
-    },
-    done () {
-      return this.data.step > this.step
     },
     stepIcon () {
       if (this.selected && this.data.selectedIcon !== false) {
@@ -57,17 +55,26 @@ export default {
       }
 
       return this.icon
-    },
-    editable () {
-      return this.data.maxEditableStep >= this.step
     }
   },
   methods: {
     select () {
-      if (!this.disabled && this.editable) {
+      if (this.editable || this.isEditable) {
         this.goToStep(this.step)
       }
+    },
+    setEditable (val = true) {
+      this.isEditable = val
+    },
+    setDone (val = true) {
+      this.done = val
     }
+  },
+  mounted () {
+    this.registerStep(this)
+  },
+  beforeDestroy () {
+    this.unregisterStep(this)
   }
 }
 </script>

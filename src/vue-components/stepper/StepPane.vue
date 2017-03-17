@@ -10,7 +10,7 @@
 export default {
   props: {
     step: {
-      type: Number,
+      type: [Number, String],
       required: true
     }
   },

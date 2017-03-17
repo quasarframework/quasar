@@ -7,7 +7,7 @@
     }"
   >
     <slot></slot>
-    <q-inner-loading :visible="inProgress" />
+    <q-inner-loading :visible="loading" />
   </div>
 </template>
 
@@ -15,7 +15,7 @@
 export default {
   props: {
     value: Number,
-    inProgress: Boolean,
+    loading: Boolean,
     doneIcon: {
       type: [String, Boolean],
       default: 'check'
@@ -46,53 +46,81 @@ export default {
   data () {
     return {
       data: {
-        step: 1,
-        maxEditableStep: 1,
+        step: null,
         vertical: true,
         doneIcon: this.doneIcon,
         selectedIcon: this.selectedIcon,
         errorIcon: this.errorIcon
-      }
+      },
+      steps: []
     }
   },
   provide () {
     return {
       data: this.data,
       goToStep: this.goToStep,
-      setVerticality: this.__setVerticality
+      setVerticality: this.__setVerticality,
+      registerStep: this.__registerStep,
+      unregisterStep: this.__unregisterStep
     }
   },
   methods: {
     goToStep (step) {
-      if (this.data.step !== step) {
-        this.data.step = step
-        if (step > this.data.maxEditableStep) {
-          this.data.maxEditableStep = step
-        }
+      if (this.data.step === step || typeof step === 'undefined') {
+        return
+      }
+
+      this.data.step = step
+
+      if (this.value !== step) {
         this.$emit('input', step)
         this.$emit('step', step)
       }
     },
-    previous () {
-      if (this.data.step > 1) {
-        this.goToStep(this.data.step - 1)
+    next (step) {
+      if (step) {
+        this.goToStep(step)
+        return
+      }
+
+      let index = this.__getStepIndex(this.data.step)
+      if (index !== -1 && index + 1 < this.steps.length) {
+        this.goToStep(this.steps[index + 1].step)
       }
     },
-    next () {
-      this.goToStep(this.data.step + 1)
+    previous () {
+      let index = this.__getStepIndex(this.data.step)
+      if (index !== -1 && index > 0) {
+        this.goToStep(this.steps[index - 1].step)
+      }
     },
+    reset () {
+      if (this.steps.length > 0) {
+        this.goToStep(this.steps[0].name)
+      }
+    },
+
     __setVerticality (bool) {
       this.data.vertical = bool
     },
-    reset () {
-      this.data.maxEditableStep = 1
-      this.data.step = 1
+    __registerStep (vm) {
+      this.steps.push(vm)
+    },
+    __unregisterStep (vm) {
+      this.steps.splice(this.steps.indexOf(vm), 1)
+    },
+    __getStepIndex (step) {
+      return this.steps.findIndex(vm => vm.step === step)
     }
   },
   mounted () {
-    if (this.data.step === 0 && this.value) {
-      this.goToStep(this.value)
-    }
+    this.$nextTick(() => {
+      if (this.value) {
+        this.goToStep(this.value)
+        return
+      }
+      this.reset()
+    })
   }
 }
 </script>
