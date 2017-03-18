@@ -18,6 +18,7 @@ import dTouchSwipe from './vue-directives/touch-swipe'
 import AjaxBar from './vue-components/ajax-bar/AjaxBar.vue'
 import Autocomplete from './vue-components/autocomplete/Autocomplete.vue'
 import Btn from './vue-components/btn/Btn.vue'
+import ChatMessage from './vue-components/chat/ChatMessage.vue'
 import Checkbox from './vue-components/checkbox/Checkbox.vue'
 import Chips from './vue-components/chips/Chips.vue'
 import Collapsible from './vue-components/collapsible/Collapsible.vue'
@@ -97,6 +98,7 @@ function registerComponents (_Vue) {
     ['ajax-bar', AjaxBar],
     ['autocomplete', Autocomplete],
     ['btn', Btn],
+    ['chat-message', ChatMessage],
     ['checkbox', Checkbox],
     ['chips', Chips],
     ['collapsible', Collapsible],
