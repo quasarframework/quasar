@@ -45,6 +45,7 @@ import Knob from './vue-components/knob/Knob.vue'
 import Layout from './vue-components/layout/Layout.vue'
 import ToolbarTitle from './vue-components/layout/ToolbarTitle.vue'
 import Modal from './vue-components/modal/Modal.vue'
+import ResizeObservable from './vue-components/observables/ResizeObservable.vue'
 import Pagination from './vue-components/pagination/Pagination.vue'
 import Parallax from './vue-components/parallax/Parallax.vue'
 import Popover from './vue-components/popover/Popover.vue'
@@ -124,6 +125,7 @@ function registerComponents (_Vue) {
     ['layout', Layout],
     ['toolbar-title', ToolbarTitle],
     ['modal', Modal],
+    ['resize-observable', ResizeObservable],
     ['pagination', Pagination],
     ['parallax', Parallax],
     ['popover', Popover],

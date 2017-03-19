@@ -1,5 +1,6 @@
 <template>
   <q-layout>
+    <q-resize-observable @resize="resize" slot="header" />
     <div slot="header" class="toolbar">
       <q-btn class="hide-on-drawer-visible" @click="$refs.leftDrawer.open()">
         <i>menu</i>
@@ -10,17 +11,18 @@
       <q-btn @click="$refs.rightDrawer.open()">
         <i>assignment</i>
       </q-btn>
+      <q-checkbox v-model="todo" />
     </div>
 
-    <div slot="header" class="toolbar primary">
+    <div v-if="todo" slot="header" class="toolbar primary">
       <q-search v-model="search" class="primary"></q-search>
     </div>
 
     <q-tabs slot="navigation">
-      <q-tab icon="view_quilt" :route="{path: '/test-layout/about'}" replace hide="icon">About</q-tab>
-      <q-tab icon="view_day" route="/test-layout/toolbar" replace hide="icon">Toolbar</q-tab>
-      <q-tab icon="view_day" route="/test-layout/tabs" replace>Tabs</q-tab>
-      <q-tab icon="input" route="/test-layout/drawer" replace>Drawer</q-tab>
+      <q-route-tab slot="title" icon="view_quilt" to="/test-layout/about" replace hide="icon">About</q-route-tab>
+      <q-route-tab slot="title" icon="view_day" to="/test-layout/toolbar" replace hide="icon">Toolbar</q-route-tab>
+      <q-route-tab slot="title" icon="view_day" to="/test-layout/tabs" replace>Tabs</q-route-tab>
+      <q-route-tab slot="title" icon="input" to="/test-layout/drawer" replace>Drawer</q-route-tab>
     </q-tabs>
 
     <q-drawer ref="leftDrawer">
@@ -76,7 +78,13 @@
 export default {
   data () {
     return {
-      search: ''
+      search: '',
+      todo: true
+    }
+  },
+  methods: {
+    resize (size) {
+      console.log(`resized to ${size.width} - ${size.height}`)
     }
   }
 }
