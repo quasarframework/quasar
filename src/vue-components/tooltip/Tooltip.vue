@@ -60,7 +60,7 @@ export default {
       }
       this.opened = true
       document.body.appendChild(this.$el)
-      this.scrollTarget = Utils.dom.getScrollTarget(this.anchorEl)
+      this.scrollTarget = Utils.scroll.getScrollTarget(this.anchorEl)
       this.scrollTarget.addEventListener('scroll', this.close)
       window.addEventListener('resize', this.__debouncedUpdatePosition)
       if (Platform.is.mobile) {

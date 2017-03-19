@@ -97,7 +97,7 @@ export default {
       this.container = this.$el
       this.image = this.$refs.img
 
-      this.scrollTarget = Utils.dom.getScrollTarget(this.$el)
+      this.scrollTarget = Utils.scroll.getScrollTarget(this.$el)
       this.resizeHandler = Utils.debounce(this.__processResize, 50)
 
       window.addEventListener('resize', this.resizeHandler)

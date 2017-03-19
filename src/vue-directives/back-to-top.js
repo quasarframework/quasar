@@ -1,4 +1,6 @@
-import Utils from '../utils'
+import debounce from '../utils/debounce'
+import * as store from '../utils/store'
+import { getScrollPosition, setScrollPosition, getScrollTarget } from '../utils/scroll'
 
 function updateBinding (el, { value, modifiers }, ctx) {
   if (!value) {
@@ -40,23 +42,23 @@ export default {
     let ctx = {
       offset: 200,
       duration: 300,
-      update: Utils.debounce(() => {
-        const trigger = Utils.dom.getScrollPosition(ctx.scrollTarget) > ctx.offset
+      update: debounce(() => {
+        const trigger = getScrollPosition(ctx.scrollTarget) > ctx.offset
         if (ctx.visible !== trigger) {
           ctx.visible = trigger
           el.classList[trigger ? 'remove' : 'add']('hidden')
         }
       }, 25),
       goToTop () {
-        Utils.dom.setScrollPosition(ctx.scrollTarget, 0, ctx.animate ? ctx.duration : 0)
+        setScrollPosition(ctx.scrollTarget, 0, ctx.animate ? ctx.duration : 0)
       }
     }
     el.classList.add('hidden')
-    Utils.store.add('backtotop', el, ctx)
+    store.add('backtotop', el, ctx)
   },
   inserted (el, binding) {
-    let ctx = Utils.store.get('backtotop', el)
-    ctx.scrollTarget = Utils.dom.getScrollTarget(el)
+    let ctx = store.get('backtotop', el)
+    ctx.scrollTarget = getScrollTarget(el)
     ctx.animate = binding.modifiers.animate
     updateBinding(el, binding, ctx)
     ctx.scrollTarget.addEventListener('scroll', ctx.update)
@@ -65,14 +67,14 @@ export default {
   },
   update (el, binding) {
     if (binding.oldValue !== binding.value) {
-      updateBinding(el, binding, Utils.store.get('backtotop', el))
+      updateBinding(el, binding, store.get('backtotop', el))
     }
   },
   unbind (el) {
-    let ctx = Utils.store.get('backtotop', el)
+    let ctx = store.get('backtotop', el)
     ctx.scrollTarget.removeEventListener('scroll', ctx.update)
     window.removeEventListener('resize', ctx.update)
     el.removeEventListener('click', ctx.goToTop)
-    Utils.store.remove('backtotop', el)
+    store.remove('backtotop', el)
   }
 }

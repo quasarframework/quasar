@@ -1,6 +1,5 @@
 <template>
-  <q-layout>
-    <q-resize-observable @resize="resize" slot="header" />
+  <q-layout view="LHh lpR lff">
     <div slot="header" class="toolbar">
       <q-btn class="hide-on-drawer-visible" @click="$refs.leftDrawer.open()">
         <i>menu</i>
@@ -25,6 +24,9 @@
       <q-route-tab slot="title" icon="input" to="/test-layout/drawer" replace>Drawer</q-route-tab>
     </q-tabs>
 
+    <div slot="left" style="width: 200px;background: grey;">LEFT</div>
+    <div slot="right" style="width: 200px;background: yellow;">RIGHT</div>
+    <!--
     <q-drawer ref="leftDrawer">
       <div class="toolbar light">
         <q-toolbar-title :padding="1">
@@ -49,9 +51,11 @@
         </q-drawer-link>
       </div>
     </q-drawer>
+    -->
 
     <router-view class="layout-view"></router-view>
 
+    <!--
     <q-drawer right-side swipe-only ref="rightDrawer">
       <div class="toolbar light">
         <q-toolbar-title :padding="1">
@@ -64,7 +68,11 @@
         bigger screens.
       </p>
     </q-drawer>
+    -->
 
+    <div v-if="todo" slot="footer" class="toolbar">
+      sdsfssdfs
+    </div>
     <div slot="footer" class="toolbar">
       <router-link tag="button" to="/" exact>
         <i class="on-left">keyboard_arrow_left</i>
@@ -80,11 +88,6 @@ export default {
     return {
       search: '',
       todo: true
-    }
-  },
-  methods: {
-    resize (size) {
-      console.log(`resized to ${size.width} - ${size.height}`)
     }
   }
 }

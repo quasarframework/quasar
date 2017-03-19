@@ -101,7 +101,7 @@ export default {
       document.body.click() // close other Popovers
       document.body.appendChild(this.$el)
       EscapeKey.register(() => { this.close() })
-      this.scrollTarget = Utils.dom.getScrollTarget(this.anchorEl)
+      this.scrollTarget = Utils.scroll.getScrollTarget(this.anchorEl)
       this.scrollTarget.addEventListener('scroll', this.close)
       window.addEventListener('resize', this.__debouncedPositionUpdate)
       if (this.fit) {

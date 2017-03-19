@@ -107,7 +107,7 @@ export default {
         return true
       }
 
-      let top = Utils.dom.getScrollPosition(this.scrollContainer)
+      let top = Utils.scroll.getScrollPosition(this.scrollContainer)
       if (top !== 0 || (top === 0 && event.direction !== 'down')) {
         this.scrolling = true
         if (this.pulling) {
@@ -153,7 +153,7 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
-      this.scrollContainer = this.inline ? this.$el.parentNode : Utils.dom.getScrollTarget(this.$el)
+      this.scrollContainer = this.inline ? this.$el.parentNode : Utils.scroll.getScrollTarget(this.$el)
     })
   }
 }

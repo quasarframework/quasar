@@ -9,6 +9,7 @@ import filter from './utils/filter'
 import * as format from './utils/format'
 import openURL from './utils/open-url'
 import * as popup from './utils/popup'
+import * as scroll from './utils/scroll'
 import * as scrollbar from './utils/scrollbar'
 import * as store from './utils/store'
 import throttle from './utils/throttle'
@@ -27,6 +28,7 @@ export default {
   noop () {},
   openURL,
   popup,
+  scroll,
   scrollbar,
   store,
   throttle,

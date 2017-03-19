@@ -64,7 +64,6 @@ export default {
     },
     __trigger () {
       this.timer = null
-      alert('resize')
       this.$emit('resize', this.size)
     },
     __reset () {
@@ -76,8 +75,12 @@ export default {
     }
   },
   mounted () {
-    this.size = getSize(this.$el.parentNode)
-    this.__reset()
+    this.$nextTick(() => {
+      this.onScroll()
+    })
+  },
+  beforeDestroy () {
+    this.$emit('resize', {width: 0, height: 0})
   }
 }
 </script>

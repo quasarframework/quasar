@@ -41,7 +41,7 @@ export default {
   },
   inserted (el, binding) {
     let ctx = Utils.store.get('scrollfire', el)
-    ctx.scrollTarget = Utils.dom.getScrollTarget(el)
+    ctx.scrollTarget = Utils.scroll.getScrollTarget(el)
     updateBinding(el, binding, ctx)
   },
   update (el, binding) {

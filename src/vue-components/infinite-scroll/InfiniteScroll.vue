@@ -82,7 +82,7 @@ export default {
       this.poll = Utils.debounce(this.poll, 50)
       this.element = this.$refs.content
 
-      this.scrollContainer = this.inline ? this.$el : Utils.dom.getScrollTarget(this.$el)
+      this.scrollContainer = this.inline ? this.$el : Utils.scroll.getScrollTarget(this.$el)
       if (this.working) {
         this.scrollContainer.addEventListener('scroll', this.poll)
       }

@@ -17,14 +17,14 @@ export default {
   bind (el, binding) {
     let ctx = {
       scroll () {
-        ctx.handler(Utils.dom.getScrollPosition(ctx.scrollTarget))
+        ctx.handler(Utils.scroll.getScrollPosition(ctx.scrollTarget))
       }
     }
     Utils.store.add('scroll', el, ctx)
   },
   inserted (el, binding) {
     let ctx = Utils.store.get('scroll', el)
-    ctx.scrollTarget = Utils.dom.getScrollTarget(el)
+    ctx.scrollTarget = Utils.scroll.getScrollTarget(el)
     updateBinding(el, binding, ctx)
   },
   update (el, binding) {

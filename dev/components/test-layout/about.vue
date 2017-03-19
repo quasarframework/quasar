@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="layout-padding">
-      <p>
+      <p v-for="n in 50">
         Layouts are the elements that wrap page content, like navigational bar,
         drawer, header or footer. Multiple pages can share the same Layout, which
         is one of the main reason for their existence.
@@ -16,6 +16,20 @@
       <p>
         Use it wisely with Vue Router.
       </p>
+
+      <q-scroll-observable @scroll="scroll" />
+
+      <q-btn class="fixed-bottom-right primary">Btn</q-btn>
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  methods: {
+    scroll (e) {
+      console.log(e)
+    }
+  }
+}
+</script>
