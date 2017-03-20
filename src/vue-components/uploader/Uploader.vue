@@ -177,7 +177,6 @@ export default {
 
       try {
         form.append('Content-Type', file.type || 'application/octet-stream')
-        console.log(this.name)
         form.append(this.name || 'file', file)
         this.additionalFields.forEach(field => {
           form.append(field.name, field.value)
