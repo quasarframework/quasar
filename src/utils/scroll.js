@@ -2,6 +2,10 @@ export function getScrollTarget (el) {
   return el.closest('.scroll') || window
 }
 
+export function getScrollHeight (el) {
+  return (el === window ? document.body : el).scrollHeight
+}
+
 export function getScrollPosition (scrollTarget) {
   if (scrollTarget === window) {
     return window.pageYOffset || window.scrollY || document.body.scrollTop || 0

@@ -1,5 +1,12 @@
 <template>
   <div>
+    <q-fixed-position corner="top-right" :offset="{top: '18px', right: '18px'}">
+      <q-btn class="primary circular" @click="alert"><i>alarm</i></q-btn>
+    </q-fixed-position>
+    <q-fixed-position corner="bottom-right" :offset="{right: '18px', bottom: '18px'}">
+      <q-btn class="primary circular" @click="alert"><i>cloud</i></q-btn>
+    </q-fixed-position>
+
     <div class="layout-padding">
       <p v-for="n in 50">
         Layouts are the elements that wrap page content, like navigational bar,
@@ -16,8 +23,16 @@
       <p>
         Use it wisely with Vue Router.
       </p>
-
-      <q-btn class="fixed-bottom-right primary">Btn</q-btn>
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  methods: {
+    alert () {
+      alert('aa')
+    }
+  }
+}
+</script>

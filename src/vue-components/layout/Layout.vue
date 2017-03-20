@@ -52,7 +52,7 @@
       <q-resize-observable @resize="onFooterResize" />
     </footer>
 
-    <q-scroll-observable v-if="reveal" @scroll="onPageScroll" />
+    <q-scroll-observable v-if="reveal || scrollNeeded" @scroll="onPageScroll" />
   </div>
 </template>
 
@@ -75,7 +75,14 @@ export default {
         right: {height: 0, width: 0},
         footer: {height: 0, width: 0}
       },
-      headerOnScreen: true
+      headerOnScreen: true,
+      scroll: {},
+      scrollNeeded: 0
+    }
+  },
+  provide () {
+    return {
+      layout: this
     }
   },
   computed: {
@@ -96,9 +103,9 @@ export default {
       }
     },
     pageStyle () {
-      const view = this.layout
-      let css = {}
-      // let height = 0
+      const
+        view = this.layout,
+        css = {}
 
       if (!view.top.includes('p') && this.fixed.header) {
         css.marginTop = this.size.header.height + 'px'
@@ -116,12 +123,14 @@ export default {
       css.minHeight = `calc(100vh - ${this.size.header.height}px - ${this.size.footer.height}px)`
       return css
     },
+    showHeader () {
+      return this.headerOnScreen || !this.reveal
+    },
     headerStyle () {
       const
         view = this.layout,
-        offset = this.headerOnScreen || !this.reveal ? 0 : -this.size.header.height
-
-      let css = cssTransform(`translateY(${offset}px)`)
+        offset = this.showHeader ? 0 : -this.size.header.height,
+        css = cssTransform(`translateY(${offset}px)`)
 
       if (view.top[0] === 'l') {
         css.marginLeft = this.size.left.width + 'px'
@@ -133,8 +142,9 @@ export default {
       return css
     },
     footerStyle () {
-      const view = this.layout
-      let css = {}
+      const
+        view = this.layout,
+        css = {}
 
       if (view.bottom[0] === 'l') {
         css.marginLeft = this.size.left.width + 'px'
@@ -146,8 +156,9 @@ export default {
       return css
     },
     leftStyle () {
-      const view = this.layout
-      let css = {}
+      const
+        view = this.layout,
+        css = {}
 
       if (view.top[0] !== 'l') {
         css.top = this.size.header.height + 'px'
@@ -159,8 +170,9 @@ export default {
       return css
     },
     rightStyle () {
-      const view = this.layout
-      let css = {}
+      const
+        view = this.layout,
+        css = {}
 
       if (view.top[2] !== 'r') {
         css.top = this.size.header.height + 'px'
@@ -190,17 +202,21 @@ export default {
       this.size[type].height = size.height
     },
     onPageScroll (data) {
-      let visible = true
-
-      if (
-        data.position > this.size.header.height &&
-        data.direction === 'down' && data.position - data.inflexionPosition >= 100
-      ) {
-        visible = false
+      if (this.scrollNeeded) {
+        this.scroll = data
       }
 
-      if (this.headerOnScreen !== visible) {
-        this.headerOnScreen = visible
+      if (this.reveal) {
+        let visible = true
+        if (
+          data.position > this.size.header.height &&
+          data.direction === 'down' && data.position - data.inflexionPosition >= 100
+        ) {
+          visible = false
+        }
+        if (this.headerOnScreen !== visible) {
+          this.headerOnScreen = visible
+        }
       }
     }
   }

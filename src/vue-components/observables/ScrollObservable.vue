@@ -1,5 +1,5 @@
 <script>
-import { getScrollPosition } from '../../utils/scroll'
+import { getScrollPosition, getScrollHeight, getScrollTarget } from '../../utils/scroll'
 
 export default {
   render () {},
@@ -17,7 +17,8 @@ export default {
         position: this.pos,
         direction: this.dir,
         directionChanged: this.dirChanged,
-        inflexionPosition: this.dirChangePos
+        inflexionPosition: this.dirChangePos,
+        scrollHeight: getScrollHeight(this.target)
       }
     },
     __trigger () {
@@ -43,7 +44,7 @@ export default {
     }
   },
   mounted () {
-    this.target = window
+    this.target = getScrollTarget(this.$el.parentNode)
     this.target.addEventListener('scroll', this.__trigger)
     this.__trigger()
   },

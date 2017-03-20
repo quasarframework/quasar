@@ -33,6 +33,7 @@ import Drawer from './vue-components/drawer/Drawer.vue'
 import DrawerLink from './vue-components/drawer/DrawerLink.vue'
 import Fab from './vue-components/fab/Fab.vue'
 import Field from './vue-components/field/Field.vue'
+import FixedPosition from './vue-components/fixed-position/FixedPosition.vue'
 import SmallFab from './vue-components/fab/SmallFab.vue'
 import Gallery from './vue-components/gallery/Gallery.vue'
 import GallerySlider from './vue-components/gallery/GallerySlider.vue'
@@ -114,6 +115,7 @@ function registerComponents (_Vue) {
     ['drawer-link', DrawerLink],
     ['fab', Fab],
     ['field', Field],
+    ['fixed-position', FixedPosition],
     ['small-fab', SmallFab],
     ['gallery', Gallery],
     ['gallery-slider', GallerySlider],
