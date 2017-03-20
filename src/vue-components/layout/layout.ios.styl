@@ -8,13 +8,20 @@ $toolbar-padding           ?= 4px 10px
 
 .layout-header
   border-bottom $layout-border
+  &.fixed-top
+    z-index $z-marginals
 
 .layout-footer
   border-top $layout-border
+  &.fixed-bottom
+    z-index $z-marginals
 
-.layout-header, .layout-footer, .layout-aside
+.layout-aside
+  &.fixed-left, &.fixed-right
+    z-index $z-marginals
+
+main, .layout-header, .layout-footer, .layout-aside
   position relative
-  z-index $z-marginals
 
 .layout-header, .layout-footer
   color $toolbar-color
