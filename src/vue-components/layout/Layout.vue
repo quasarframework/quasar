@@ -98,20 +98,22 @@ export default {
     pageStyle () {
       const view = this.layout
       let css = {}
+      // let height = 0
 
       if (!view.top.includes('p') && this.fixed.header) {
-        css['margin-top'] = this.size.header.height + 'px'
+        css.marginTop = this.size.header.height + 'px'
       }
       if (!view.bottom.includes('p') && this.fixed.footer) {
-        css['margin-bottom'] = this.size.footer.height + 'px'
+        css.marginBottom = this.size.footer.height + 'px'
       }
       if (view.middle[0] !== 'p') {
-        css['margin-left'] = this.size.left.width + 'px'
+        css.marginLeft = this.size.left.width + 'px'
       }
       if (view.middle[2] !== 'p') {
-        css['margin-right'] = this.size.right.width + 'px'
+        css.marginRight = this.size.right.width + 'px'
       }
 
+      css.minHeight = `calc(100vh - ${this.size.header.height}px - ${this.size.footer.height}px)`
       return css
     },
     headerStyle () {
@@ -122,10 +124,10 @@ export default {
       let css = cssTransform(`translateY(${offset}px)`)
 
       if (view.top[0] === 'l') {
-        css['margin-left'] = this.size.left.width + 'px'
+        css.marginLeft = this.size.left.width + 'px'
       }
       if (view.top[2] === 'r') {
-        css['margin-right'] = this.size.right.width + 'px'
+        css.marginRight = this.size.right.width + 'px'
       }
 
       return css
@@ -135,10 +137,10 @@ export default {
       let css = {}
 
       if (view.bottom[0] === 'l') {
-        css['margin-left'] = this.size.left.width + 'px'
+        css.marginLeft = this.size.left.width + 'px'
       }
       if (view.bottom[2] === 'r') {
-        css['margin-right'] = this.size.right.width + 'px'
+        css.marginRight = this.size.right.width + 'px'
       }
 
       return css
@@ -148,10 +150,10 @@ export default {
       let css = {}
 
       if (view.top[0] !== 'l') {
-        css['margin-top'] = this.size.header.height + 'px'
+        css.top = this.size.header.height + 'px'
       }
       if (view.bottom[0] !== 'l') {
-        css['margin-bottom'] = this.size.footer.height + 'px'
+        css.bottom = this.size.footer.height + 'px'
       }
 
       return css
@@ -161,10 +163,10 @@ export default {
       let css = {}
 
       if (view.top[2] !== 'r') {
-        css['margin-top'] = this.size.header.height + 'px'
+        css.top = this.size.header.height + 'px'
       }
       if (view.bottom[2] !== 'r') {
-        css['margin-bottom'] = this.size.footer.height + 'px'
+        css.bottom = this.size.footer.height + 'px'
       }
 
       return css

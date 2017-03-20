@@ -4,16 +4,7 @@ $toolbar-title-font-size   ?= .95rem
 $toolbar-padding           ?= 4px 10px
 
 .layout
-  position absolute
-  top 0
-  right 0
-  bottom 0
-  left 0
-  height 100vh
-  width 100vw
-  display flex
-  flex-direction column
-  flex-shrink 0
+  width 100%
 
 .layout-header
   border-bottom $layout-border
@@ -21,23 +12,17 @@ $toolbar-padding           ?= 4px 10px
 .layout-footer
   border-top $layout-border
 
-.layout-content
-  display flex
-  flex 1 1 auto
-  overflow hidden
+.layout-header, .layout-footer, .layout-aside
   position relative
-
-.layout-view
-  overflow auto
-  width 100%
-  -webkit-overflow-scrolling touch
-  will-change scroll-position
+  z-index $z-marginals
 
 .layout-header, .layout-footer
   color $toolbar-color
   background $toolbar-background
-  z-index $z-marginals
-  flex-shrink 0
+  transition transform .3s
+
+
+
 
 .toolbar
   padding $toolbar-padding

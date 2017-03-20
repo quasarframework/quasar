@@ -5,13 +5,11 @@ $toolbar-title-font-size   ?= 1.15rem
 $toolbar-padding           ?= 4px 12px
 
 .layout
-  height 100%
   width 100%
 
 .layout-header
   box-shadow $layout-header-shadow
-  &.fixed-top
-    transition transform .3s
+
 .layout-footer
   box-shadow $layout-footer-shadow
 
@@ -19,12 +17,14 @@ $toolbar-padding           ?= 4px 12px
   position relative
   z-index $z-marginals
 
-.layout-aside
-  background rgba(255, 255, 0, .5)
-
 .layout-header, .layout-footer
   color $toolbar-color
   background $toolbar-background
+  transition transform .3s
+
+
+
+
 
 .toolbar
   padding $toolbar-padding
@@ -84,7 +84,7 @@ body.cordova.platform-ios .layout-header > .toolbar:first-child
   padding-top $ios-statusbar-height
   min-height ($layout-toolbar-min-height + $ios-statusbar-height)
 
-main
+.layout-padding
   @media only screen and (max-width $layout-small-max)
     padding 1.5rem .5rem
     &.horizontal
