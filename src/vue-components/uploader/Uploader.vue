@@ -77,6 +77,7 @@ import Utils from '../../utils'
 
 export default {
   props: {
+    name: String,
     headers: Object,
     url: {
       type: String,
@@ -176,7 +177,8 @@ export default {
 
       try {
         form.append('Content-Type', file.type || 'application/octet-stream')
-        form.append('file', file)
+        console.log(this.name)
+        form.append(this.name || 'file', file)
         this.additionalFields.forEach(field => {
           form.append(field.name, field.value)
         })
