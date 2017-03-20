@@ -1,5 +1,5 @@
 export function getScrollTarget (el) {
-  return el.closest('.layout-view,.scroll') || window
+  return el.closest('.scroll') || window
 }
 
 export function getScrollPosition (scrollTarget) {

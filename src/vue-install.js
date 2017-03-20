@@ -57,6 +57,7 @@ import Radio from './vue-components/radio/Radio.vue'
 import Range from './vue-components/range/Range.vue'
 import DoubleRange from './vue-components/range/DoubleRange.vue'
 import Rating from './vue-components/rating/Rating.vue'
+import ScrollArea from './vue-components/scroll-area/ScrollArea.vue'
 import Search from './vue-components/search/Search.vue'
 import Select from './vue-components/select/Select.vue'
 import DialogSelect from './vue-components/select/DialogSelect.vue'
@@ -138,6 +139,7 @@ function registerComponents (_Vue) {
     ['range', Range],
     ['double-range', DoubleRange],
     ['rating', Rating],
+    ['scroll-area', ScrollArea],
     ['search', Search],
     ['select', Select],
     ['dialog-select', DialogSelect],

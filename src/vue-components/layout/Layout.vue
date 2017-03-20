@@ -2,30 +2,28 @@
   <div class="layout">
     <aside
       ref="left"
-      class="layout-aside"
+      class="layout-aside layout-aside-left"
       :class="{
         'absolute-left': !this.fixed.left,
         'fixed-left': this.fixed.left
       }"
       :style="leftStyle"
     >
-      <q-resize-observable @resize="onLeftAsideResize" />
-
       <slot name="left"></slot>
+      <q-resize-observable @resize="onLeftAsideResize" />
     </aside>
 
     <aside
       ref="right"
-      class="layout-aside"
+      class="layout-aside layout-aside-right"
       :class="{
         'absolute-right': !this.fixed.right,
         'fixed-right': this.fixed.right
       }"
       :style="rightStyle"
     >
-      <q-resize-observable @resize="onRightAsideResize" />
-
       <slot name="right"></slot>
+      <q-resize-observable @resize="onRightAsideResize" />
     </aside>
 
     <header
@@ -34,13 +32,12 @@
       :class="{'fixed-top': fixed.header}"
       :style="headerStyle"
     >
-      <q-resize-observable @resize="onHeaderResize" />
-
       <slot name="header"></slot>
       <slot v-if="$q.theme !== 'ios'" name="navigation"></slot>
+      <q-resize-observable @resize="onHeaderResize" />
     </header>
 
-    <main class="layout-content" :style="pageStyle">
+    <main :style="pageStyle">
       <slot></slot>
     </main>
 
@@ -50,21 +47,25 @@
       :class="{'fixed-bottom': fixed.footer}"
       :style="footerStyle"
     >
-      <q-resize-observable @resize="onFooterResize" />
-
       <slot name="footer"></slot>
       <slot v-if="$q.theme === 'ios'" name="navigation"></slot>
+      <q-resize-observable @resize="onFooterResize" />
     </footer>
+
+    <q-scroll-observable v-if="reveal" @scroll="onPageScroll" />
   </div>
 </template>
 
 <script>
+import { cssTransform } from '../../utils/dom'
+
 export default {
   props: {
     view: {
       type: String,
       default: 'hhh lpr fff'
-    }
+    },
+    reveal: Boolean
   },
   data () {
     return {
@@ -73,13 +74,14 @@ export default {
         left: {height: 0, width: 0},
         right: {height: 0, width: 0},
         footer: {height: 0, width: 0}
-      }
+      },
+      headerOnScreen: true
     }
   },
   computed: {
     fixed () {
       return {
-        header: this.view.indexOf('H') > -1,
+        header: this.reveal || this.view.indexOf('H') > -1,
         footer: this.view.indexOf('F') > -1,
         left: this.view.indexOf('L') > -1,
         right: this.view.indexOf('R') > -1
@@ -113,8 +115,11 @@ export default {
       return css
     },
     headerStyle () {
-      const view = this.layout
-      let css = {}
+      const
+        view = this.layout,
+        offset = this.headerOnScreen || !this.reveal ? 0 : -this.size.header.height
+
+      let css = cssTransform(`translateY(${offset}px)`)
 
       if (view.top[0] === 'l') {
         css['margin-left'] = this.size.left.width + 'px'
@@ -181,6 +186,20 @@ export default {
     __updateSize (type, size) {
       this.size[type].width = size.width
       this.size[type].height = size.height
+    },
+    onPageScroll (data) {
+      let visible = true
+
+      if (
+        data.position > this.size.header.height &&
+        data.direction === 'down' && data.position - data.inflexionPosition >= 100
+      ) {
+        visible = false
+      }
+
+      if (this.headerOnScreen !== visible) {
+        this.headerOnScreen = visible
+      }
     }
   }
 }

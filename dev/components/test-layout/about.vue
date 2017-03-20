@@ -17,19 +17,7 @@
         Use it wisely with Vue Router.
       </p>
 
-      <q-scroll-observable @scroll="scroll" />
-
       <q-btn class="fixed-bottom-right primary">Btn</q-btn>
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  methods: {
-    scroll (e) {
-      console.log(e)
-    }
-  }
-}
-</script>
