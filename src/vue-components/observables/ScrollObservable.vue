@@ -11,6 +11,11 @@ export default {
       dirChangePos: 0
     }
   },
+  watch: {
+    $route () {
+      this.$nextTick(this.__trigger)
+    }
+  },
   methods: {
     getPosition () {
       return {

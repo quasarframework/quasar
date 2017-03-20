@@ -9,17 +9,14 @@ $toolbar-padding           ?= 4px 12px
 
 .layout-header
   box-shadow $layout-header-shadow
-  &.fixed-top
-    z-index $z-marginals
 
 .layout-footer
   box-shadow $layout-footer-shadow
-  &.fixed-bottom
-    z-index $z-marginals
 
 .layout-aside
   &.fixed-left, &.fixed-right
-    z-index $z-marginals
+    overflow-y auto
+    z-index $z-side
 
 main, .layout-header, .layout-footer, .layout-aside
   position relative
@@ -27,6 +24,9 @@ main, .layout-header, .layout-footer, .layout-aside
 .layout-header, .layout-footer
   color $toolbar-color
   background $toolbar-background
+  z-index $z-marginals
+
+.layout-header, .layout-footer
   transition transform .3s
 
 

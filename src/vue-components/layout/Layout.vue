@@ -52,12 +52,12 @@
       <q-resize-observable @resize="onFooterResize" />
     </footer>
 
-    <q-scroll-observable v-if="reveal || scrollNeeded" @scroll="onPageScroll" />
+    <q-scroll-observable @scroll="onPageScroll" />
   </div>
 </template>
 
 <script>
-import { cssTransform } from '../../utils/dom'
+import { viewport, cssTransform } from '../../utils/dom'
 
 export default {
   props: {
@@ -76,8 +76,7 @@ export default {
         footer: {height: 0, width: 0}
       },
       headerOnScreen: true,
-      scroll: {},
-      scrollNeeded: 0
+      scroll: {}
     }
   },
   provide () {
@@ -155,16 +154,39 @@ export default {
 
       return css
     },
+    offsetTop () {
+      return !this.fixed.header
+        ? this.size.header.height - this.scroll.position
+        : 0
+    },
+    offsetBottom () {
+      if (!this.fixed.footer) {
+        let translate = this.scroll.scrollHeight - viewport().height - this.scroll.position - this.size.footer.height
+        if (translate < 0) {
+          return translate
+        }
+      }
+    },
     leftStyle () {
       const
         view = this.layout,
         css = {}
 
       if (view.top[0] !== 'l') {
-        css.top = this.size.header.height + 'px'
+        if (this.fixed.left && this.offsetTop) {
+          css.top = Math.max(0, this.offsetTop) + 'px'
+        }
+        else if (this.showHeader) {
+          css.top = this.size.header.height + 'px'
+        }
       }
       if (view.bottom[0] !== 'l') {
-        css.bottom = this.size.footer.height + 'px'
+        if (this.fixed.left && this.offsetBottom) {
+          css.bottom = -this.offsetBottom + 'px'
+        }
+        else if (this.fixed.footer) {
+          css.bottom = this.size.footer.height + 'px'
+        }
       }
 
       return css
@@ -174,7 +196,7 @@ export default {
         view = this.layout,
         css = {}
 
-      if (view.top[2] !== 'r') {
+      if (view.top[2] !== 'r' && this.showHeader) {
         css.top = this.size.header.height + 'px'
       }
       if (view.bottom[2] !== 'r') {
@@ -202,9 +224,7 @@ export default {
       this.size[type].height = size.height
     },
     onPageScroll (data) {
-      if (this.scrollNeeded) {
-        this.scroll = data
-      }
+      this.scroll = data
 
       if (this.reveal) {
         let visible = true

@@ -1,5 +1,12 @@
 <template>
   <div>
+    <q-fixed-position corner="top-right" :offset="{top: '18px', right: '18px'}">
+      <q-btn class="primary" circular icon="alarm" />
+    </q-fixed-position>
+    <q-fixed-position corner="bottom-right" :offset="{right: '18px', bottom: '18px'}">
+      <q-btn class="primary" circular icon="cloud" />
+    </q-fixed-position>
+
     <div class="layout-padding">
       <blockquote>
         <small>

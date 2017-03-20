@@ -1,10 +1,10 @@
 <template>
   <div>
     <q-fixed-position corner="top-right" :offset="{top: '18px', right: '18px'}">
-      <q-btn class="primary circular" @click="alert"><i>alarm</i></q-btn>
+      <q-btn class="primary" circular @click="alert" icon="alarm" />
     </q-fixed-position>
     <q-fixed-position corner="bottom-right" :offset="{right: '18px', bottom: '18px'}">
-      <q-btn class="primary circular" @click="alert"><i>cloud</i></q-btn>
+      <q-btn class="primary" circular @click="alert" icon="cloud" />
     </q-fixed-position>
 
     <div class="layout-padding">

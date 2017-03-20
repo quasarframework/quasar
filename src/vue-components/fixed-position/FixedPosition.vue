@@ -1,12 +1,12 @@
 <template>
-  <div class="z-marginals animate-pop" :class="className" :style="style">
+  <div class="z-fixed animate-pop" :class="className" :style="style">
     <slot></slot>
   </div>
 </template>
 
 <script>
 import extend from '../../utils/extend'
-import { viewport, cssTransform } from '../../utils/dom'
+import { cssTransform } from '../../utils/dom'
 
 export default {
   props: {
@@ -37,54 +37,38 @@ export default {
       }
     },
     style () {
-      if (!this.pos.top && !this.pos.right && !this.pos.bottom && !this.pos.left) {
-        return
-      }
-
       const
         css = extend({}, this.offset),
         page = this.layout.pageStyle,
-        scroll = this.layout.scroll,
-        fixed = this.layout.fixed,
         size = this.layout.size
 
       if (this.animated && !this.layout.showHeader) {
         extend(css, cssTransform(`translateY(${-size.header.height}px)`))
       }
-      else if (!fixed.header && this.pos.top) {
-        let translate = scroll.position - size.header.height
-        if (translate < 0) {
-          extend(css, cssTransform(`translateY(${-translate}px)`))
+      else if (this.pos.top && this.layout.offsetTop) {
+        if (this.layout.offsetTop > 0) {
+          extend(css, cssTransform(`translateY(${this.layout.offsetTop}px)`))
         }
       }
-      else if (!fixed.footer && this.pos.bottom) {
-        let translate = scroll.scrollHeight - viewport().height - scroll.position - size.footer.height
-        if (translate < 0) {
-          extend(css, cssTransform(`translateY(${translate}px)`))
-        }
+      else if (this.pos.bottom && this.layout.offsetBottom) {
+        extend(css, cssTransform(`translateY(${this.layout.offsetBottom}px)`))
       }
 
       if (this.pos.top && page.marginTop) {
-        css.top = css.top ? `calc(${page.marginTop} + ${css.top || 0})` : page.marginTop
+        css.top = css.top ? `calc(${page.marginTop} + ${css.top})` : page.marginTop
       }
       if (this.pos.right && page.marginRight) {
-        css.right = css.right ? `calc(${page.marginRight} + ${css.right || 0})` : page.marginRight
+        css.right = css.right ? `calc(${page.marginRight} + ${css.right})` : page.marginRight
       }
       if (this.pos.bottom && page.marginBottom) {
-        css.bottom = css.bottom ? `calc(${page.marginBottom} + ${css.bottom || 0})` : page.marginBottom
+        css.bottom = css.bottom ? `calc(${page.marginBottom} + ${css.bottom})` : page.marginBottom
       }
       if (this.pos.left && page.marginLeft) {
-        css.left = css.left ? `calc(${page.marginLeft} + ${css.left || 0})` : page.marginLeft
+        css.left = css.left ? `calc(${page.marginLeft} + ${css.left})` : page.marginLeft
       }
 
       return css
     }
-  },
-  mounted () {
-    this.layout.scrollNeeded++
-  },
-  beforeDestroy () {
-    this.layout.scrollNeeded--
   }
 }
 </script>
