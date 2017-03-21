@@ -54,6 +54,12 @@
       <p class="caption">Date & Time</p>
       <q-datetime v-model="model" type="datetime"></q-datetime>
 
+      <p class="caption">Date with number model, specified display format, min and max values</p>
+      <q-datetime v-model="numModel" type="date" :min="dateMin" :max="numMax" format="L"></q-datetime>
+
+      <p class="caption">Time with Date model</p>
+      <q-datetime v-model="dateModel" type="time"></q-datetime>
+
       <p class="caption">With Label</p>
       <q-datetime v-model="model" type="date" label="Pick Date"></q-datetime>
 
@@ -157,6 +163,10 @@ export default {
   data () {
     return {
       model: '2016-09-18T10:45:00.000Z',
+      dateModel: new Date(2016, 1, 15, 11, 22),
+      numModel: new Date(2017, 2, 15).getTime(),
+      dateMin: new Date(2017, 2, 10),
+      numMax: new Date(2018, 2, 10).getTime(),
       minMaxModel: '2016-10-24T10:40:14.674Z',
       min: moment('2016-10-24T10:40:14.674Z').subtract(5, 'days').format(),
       max: moment('2016-10-24T10:40:14.674Z').add(4, 'hours').add(10, 'minutes').add(1, 'month').format()
