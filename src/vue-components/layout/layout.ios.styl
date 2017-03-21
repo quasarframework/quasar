@@ -5,20 +5,18 @@ $toolbar-padding           ?= 4px 10px
 
 .layout
   width 100%
+  min-height 100vh
 
 .layout-header
   border-bottom $layout-border
-  &.fixed-top
-    z-index $z-marginals
 
 .layout-footer
   border-top $layout-border
-  &.fixed-bottom
-    z-index $z-marginals
 
 .layout-aside
+  overflow-y auto
   &.fixed-left, &.fixed-right
-    z-index $z-marginals
+    z-index $z-side
 
 main, .layout-header, .layout-footer, .layout-aside
   position relative
@@ -26,6 +24,9 @@ main, .layout-header, .layout-footer, .layout-aside
 .layout-header, .layout-footer
   color $toolbar-color
   background $toolbar-background
+  z-index $z-marginals
+
+.layout-header, .layout-footer
   transition transform .3s
 
 

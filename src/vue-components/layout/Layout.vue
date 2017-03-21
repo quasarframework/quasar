@@ -35,14 +35,18 @@
       :class="{'fixed-top': fixed.header}"
       :style="headerStyle"
     >
+      {{size.layout}}<br>{{scroll}}
+
       <slot name="header"></slot>
       <slot v-if="$q.theme !== 'ios'" name="navigation"></slot>
       <q-resize-observable @resize="onHeaderResize" />
     </header>
 
-    <main :style="pageStyle">
-      <slot></slot>
-    </main>
+    <div :style="pageStyle">
+      <main :style="mainStyle">
+        <slot></slot>
+      </main>
+    </div>
 
     <footer
       ref="footer"
@@ -63,6 +67,7 @@
 
 <script>
 import { viewport, cssTransform } from '../../utils/dom'
+import { getScrollHeight } from '../../utils/scroll'
 
 function updateSize (obj, size) {
   if (obj.width !== size.width) {
@@ -117,7 +122,7 @@ export default {
     fixed () {
       return {
         header: this.reveal || this.view.indexOf('H') > -1,
-        footer: this.view.indexOf('F') > -1,
+        footer: this.view.indexOf('F') > -1 || this.scroll.scrollHeight < this.size.layout.height,
         left: this.view.indexOf('L') > -1,
         right: this.view.indexOf('R') > -1
       }
@@ -136,20 +141,24 @@ export default {
         css = {}
 
       if (!view.top.includes('p') && this.fixed.header) {
-        css.marginTop = this.size.header.height + 'px'
+        css.paddingTop = this.size.header.height + 'px'
       }
       if (!view.bottom.includes('p') && this.fixed.footer) {
-        css.marginBottom = this.size.footer.height + 'px'
+        css.paddingBottom = this.size.footer.height + 'px'
       }
       if (view.middle[0] !== 'p') {
-        css.marginLeft = this.size.left.width + 'px'
+        css.paddingLeft = this.size.left.width + 'px'
       }
       if (view.middle[2] !== 'p') {
-        css.marginRight = this.size.right.width + 'px'
+        css.paddingRight = this.size.right.width + 'px'
       }
 
-      css.minHeight = `calc(100vh - ${this.size.header.height}px - ${this.size.footer.height}px)`
       return css
+    },
+    mainStyle () {
+      return {
+        minHeight: `calc(100vh - ${this.size.header.height}px - ${this.size.footer.height}px)`
+      }
     },
     showHeader () {
       return this.headerOnScreen || !this.reveal
@@ -225,11 +234,21 @@ export default {
         view = this.layout,
         css = {}
 
-      if (view.top[2] !== 'r' && this.showHeader) {
-        css.top = this.size.header.height + 'px'
+      if (view.top[2] !== 'r') {
+        if (this.fixed.right && this.offsetTop) {
+          css.top = Math.max(0, this.offsetTop) + 'px'
+        }
+        else if (this.showHeader) {
+          css.top = this.size.header.height + 'px'
+        }
       }
       if (view.bottom[2] !== 'r') {
-        css.bottom = this.size.footer.height + 'px'
+        if (this.offsetBottom) {
+          css.bottom = -this.offsetBottom + 'px'
+        }
+        else if (this.fixed.footer) {
+          css.bottom = this.size.footer.height + 'px'
+        }
       }
 
       return css
@@ -249,6 +268,7 @@ export default {
       updateSize(this.size.right, size)
     },
     onLayoutResize (size) {
+      updateObject(this.scroll, {scrollHeight: getScrollHeight(this.$el)})
       updateSize(this.size.layout, size)
     },
     onPageScroll (data) {

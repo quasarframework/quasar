@@ -1,5 +1,5 @@
 <script>
-import { getScrollPosition, getScrollHeight, getScrollTarget } from '../../utils/scroll'
+import { getScrollPosition, getScrollTarget } from '../../utils/scroll'
 
 export default {
   render () {},
@@ -11,19 +11,13 @@ export default {
       dirChangePos: 0
     }
   },
-  watch: {
-    $route () {
-      this.$nextTick(this.__trigger)
-    }
-  },
   methods: {
     getPosition () {
       return {
         position: this.pos,
         direction: this.dir,
         directionChanged: this.dirChanged,
-        inflexionPosition: this.dirChangePos,
-        scrollHeight: getScrollHeight(this.target)
+        inflexionPosition: this.dirChangePos
       }
     },
     __trigger () {

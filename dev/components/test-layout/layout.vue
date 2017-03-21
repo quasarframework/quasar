@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="Hhr Lpr fff">
+  <q-layout view="lhh Lpr fff" reveal>
     <div slot="header" class="toolbar">
       <q-btn class="hide-on-drawer-visible" @click="$refs.leftDrawer.open()">
         <i>menu</i>
@@ -25,11 +25,15 @@
       <q-route-tab slot="title" icon="input" to="/test-layout/drawer" replace>Drawer</q-route-tab>
     </q-tabs>
 
-    <div slot="left" style="width: 150px;background: grey;">
+    <div slot="left" style="width: 50px;background: grey;">
+      <div>First</div>
       <div v-for="n in 60">LEFT</div>
+      <div>Last</div>
     </div>
-    <div v-if="right" slot="right" style="width: 150px;background: yellow;">
-      <div v-for="n in 30">RIGHT</div>
+    <div v-if="right" slot="right" style="width: 50px;background: yellow;">
+      <div>First</div>
+      <div v-for="n in 60">Right</div>
+      <div>Last</div>
     </div>
 
     <!--

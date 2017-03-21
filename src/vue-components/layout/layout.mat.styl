@@ -4,8 +4,14 @@ $layout-footer-shadow      ?= $shadow-up-2
 $toolbar-title-font-size   ?= 1.15rem
 $toolbar-padding           ?= 4px 12px
 
+.layout-header, .layout-footer, .layout-aside
+  opacity .5
+main
+  background grey
+
 .layout
   width 100%
+  min-height 100vh
 
 .layout-header
   box-shadow $layout-header-shadow
@@ -14,11 +20,11 @@ $toolbar-padding           ?= 4px 12px
   box-shadow $layout-footer-shadow
 
 .layout-aside
+  overflow-y auto
   &.fixed-left, &.fixed-right
-    overflow-y auto
     z-index $z-side
 
-main, .layout-header, .layout-footer, .layout-aside
+main, .layout, .layout-header, .layout-footer, .layout-aside
   position relative
 
 .layout-header, .layout-footer

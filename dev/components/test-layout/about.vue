@@ -7,6 +7,8 @@
       <q-btn class="primary" circular @click="alert" icon="cloud" />
     </q-fixed-position>
 
+    <q-btn class="primary absolute-top-left" circular @click="alert" icon="wifi" />
+
     <div class="layout-padding">
       <p v-for="n in 50">
         Layouts are the elements that wrap page content, like navigational bar,

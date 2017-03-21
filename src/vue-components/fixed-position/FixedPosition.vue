@@ -57,7 +57,7 @@ export default {
       }
 
       sides.forEach(side => {
-        let prop = `margin${side.charAt(0).toUpperCase() + side.slice(1)}`
+        let prop = `padding${side.charAt(0).toUpperCase() + side.slice(1)}`
         if (this.pos[side] && page[prop]) {
           css[side] = css[side] ? `calc(${page[prop]} + ${css[side]})` : page[prop]
         }
