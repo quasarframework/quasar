@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hhr Lpr fff" reveal>
+  <q-layout view="Hhr Lpr fff">
     <div slot="header" class="toolbar">
       <q-btn class="hide-on-drawer-visible" @click="$refs.leftDrawer.open()">
         <i>menu</i>
@@ -11,6 +11,7 @@
         <i>assignment</i>
       </q-btn>
       <q-checkbox v-model="todo" />
+      <q-checkbox v-model="right" />
     </div>
 
     <div v-if="todo" slot="header" class="toolbar primary">
@@ -24,10 +25,10 @@
       <q-route-tab slot="title" icon="input" to="/test-layout/drawer" replace>Drawer</q-route-tab>
     </q-tabs>
 
-    <div slot="left" style="width: 50px;background: grey;">
+    <div slot="left" style="width: 150px;background: grey;">
       <div v-for="n in 60">LEFT</div>
     </div>
-    <div slot="right" style="width: 50px;background: yellow;">
+    <div v-if="right" slot="right" style="width: 150px;background: yellow;">
       <div v-for="n in 30">RIGHT</div>
     </div>
 
@@ -92,6 +93,7 @@ export default {
   data () {
     return {
       search: '',
+      right: true,
       todo: true
     }
   }

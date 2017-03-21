@@ -8,6 +8,8 @@
 import extend from '../../utils/extend'
 import { cssTransform } from '../../utils/dom'
 
+const sides = ['top', 'right', 'bottom', 'left']
+
 export default {
   props: {
     corner: {
@@ -54,18 +56,12 @@ export default {
         extend(css, cssTransform(`translateY(${this.layout.offsetBottom}px)`))
       }
 
-      if (this.pos.top && page.marginTop) {
-        css.top = css.top ? `calc(${page.marginTop} + ${css.top})` : page.marginTop
-      }
-      if (this.pos.right && page.marginRight) {
-        css.right = css.right ? `calc(${page.marginRight} + ${css.right})` : page.marginRight
-      }
-      if (this.pos.bottom && page.marginBottom) {
-        css.bottom = css.bottom ? `calc(${page.marginBottom} + ${css.bottom})` : page.marginBottom
-      }
-      if (this.pos.left && page.marginLeft) {
-        css.left = css.left ? `calc(${page.marginLeft} + ${css.left})` : page.marginLeft
-      }
+      sides.forEach(side => {
+        let prop = `margin${side.charAt(0).toUpperCase() + side.slice(1)}`
+        if (this.pos[side] && page[prop]) {
+          css[side] = css[side] ? `calc(${page[prop]} + ${css[side]})` : page[prop]
+        }
+      })
 
       return css
     }

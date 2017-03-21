@@ -2,6 +2,7 @@
   <div class="layout">
     <aside
       ref="left"
+      v-if="$slots.left"
       class="layout-aside layout-aside-left"
       :class="{
         'absolute-left': !this.fixed.left,
@@ -15,6 +16,7 @@
 
     <aside
       ref="right"
+      v-if="$slots.right"
       class="layout-aside layout-aside-right"
       :class="{
         'absolute-right': !this.fixed.right,
@@ -28,6 +30,7 @@
 
     <header
       ref="header"
+      v-if="$slots.header || ($q.theme !== 'ios' && $slots.navigation)"
       class="layout-header"
       :class="{'fixed-top': fixed.header}"
       :style="headerStyle"
@@ -43,6 +46,7 @@
 
     <footer
       ref="footer"
+      v-if="$slots.header || ($q.theme === 'ios' && $slots.navigation)"
       class="layout-footer"
       :class="{'fixed-bottom': fixed.footer}"
       :style="footerStyle"
@@ -53,11 +57,29 @@
     </footer>
 
     <q-scroll-observable @scroll="onPageScroll" />
+    <q-resize-observable @resize="onLayoutResize" />
   </div>
 </template>
 
 <script>
 import { viewport, cssTransform } from '../../utils/dom'
+
+function updateSize (obj, size) {
+  if (obj.width !== size.width) {
+    obj.width = size.width
+  }
+  if (obj.height !== size.height) {
+    obj.height = size.height
+  }
+}
+
+function updateObject (obj, data) {
+  Object.keys(data).forEach(key => {
+    if (obj[key] !== data[key]) {
+      obj[key] = data[key]
+    }
+  })
+}
 
 export default {
   props: {
@@ -73,10 +95,17 @@ export default {
         header: {height: 0, width: 0},
         left: {height: 0, width: 0},
         right: {height: 0, width: 0},
-        footer: {height: 0, width: 0}
+        footer: {height: 0, width: 0},
+        layout: {height: 0, width: 0}
       },
       headerOnScreen: true,
-      scroll: {}
+      scroll: {
+        position: 0,
+        direction: '',
+        directionChanged: false,
+        inflexionPosition: 0,
+        scrollHeight: 0
+      }
     }
   },
   provide () {
@@ -208,23 +237,22 @@ export default {
   },
   methods: {
     onHeaderResize (size) {
-      this.__updateSize('header', size)
+      updateSize(this.size.header, size)
     },
     onFooterResize (size) {
-      this.__updateSize('footer', size)
+      updateSize(this.size.footer, size)
     },
     onLeftAsideResize (size) {
-      this.__updateSize('left', size)
+      updateSize(this.size.left, size)
     },
     onRightAsideResize (size) {
-      this.__updateSize('right', size)
+      updateSize(this.size.right, size)
     },
-    __updateSize (type, size) {
-      this.size[type].width = size.width
-      this.size[type].height = size.height
+    onLayoutResize (size) {
+      updateSize(this.size.layout, size)
     },
     onPageScroll (data) {
-      this.scroll = data
+      updateObject(this.scroll, data)
 
       if (this.reveal) {
         let visible = true
