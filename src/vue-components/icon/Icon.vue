@@ -12,14 +12,14 @@ export default {
     let name, text
 
     if (icon.startsWith('fa-')) {
-      name = `fa ${icon}`
+      name = `icon fa ${icon}`
     }
     else if (icon.startsWith('ion-')) {
-      name = icon
+      name = `icon ${icon}`
     }
     else {
       name = 'material-icons'
-      text = icon
+      text = icon.replace(/ /g, '_')
     }
 
     if (ctx.data.staticClass) {
@@ -29,7 +29,7 @@ export default {
       ctx.data.staticClass = `${name}`
     }
 
-    return h('i', ctx.data, text)
+    return h('i', ctx.data, text ? [text, ctx.children] : ctx.children)
   }
 }
 </script>

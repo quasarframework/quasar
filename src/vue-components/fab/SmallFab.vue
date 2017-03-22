@@ -1,6 +1,6 @@
 <template>
   <q-btn class="circular small raised" @click="$parent.close()">
-    <i>{{icon}}</i>
+    <q-icon :name="icon"></q-icon>
     <slot></slot>
   </q-btn>
 </template>

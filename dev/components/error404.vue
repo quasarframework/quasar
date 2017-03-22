@@ -5,17 +5,15 @@
     </div>
     <div>
       <div class="error-card card bg-white column items-center justify-center">
-        <i class="text-grey-5">error_outline</i>
+        <q-icon class="text-grey-5" name="error_outline" />
         <p class="caption text-center">Oops. Nothing here...</p>
         <p class="text-center group">
-          <q-btn v-if="canGoBack" class="grey push small" @click="goBack">
-            <i class="on-left">keyboard_arrow_left</i>
+          <q-btn v-if="canGoBack" class="grey push small" @click="goBack" icon="keyboard_arrow_left">
             Go back
           </q-btn>
           <router-link to="/">
-            <q-btn class="grey push small">
+            <q-btn class="grey push small" iconRight="home">
               Go home
-              <i class="on-right">home</i>
             </q-btn>
           </router-link>
         </p>

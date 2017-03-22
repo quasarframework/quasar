@@ -5,10 +5,10 @@
         <div v-if="config.title" class="q-data-table-title ellipsis auto" v-html="config.title"></div>
         <div class="row items-center">
           <q-btn v-if="config.refresh && !refreshing" class="primary clear" @click="refresh">
-            <i>refresh</i>
+            <q-icon name="refresh"></q-icon>
           </q-btn>
           <q-btn v-if="refreshing" class="disabled">
-            <i class="animate-spin-reverse">cached</i>
+            <q-icon name="cached" class="animate-spin-reverse"></q-icon>
           </q-btn>
           <q-select
             type="toggle"

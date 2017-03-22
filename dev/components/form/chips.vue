@@ -36,7 +36,7 @@
       <p class="caption">Inside of a List</p>
       <div class="list">
         <div class="item multiple-lines">
-          <i class="item-primary">edit</i>
+          <q-icon class="item-primary" name="edit" />
           <div class="item-content">
             <q-chips v-model="model" placeholder="Type names"></q-chips>
           </div>

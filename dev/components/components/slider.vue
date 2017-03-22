@@ -76,9 +76,9 @@
         <div slot="slide" class="bg-tertiary">
           Slide 3
         </div>
-        <i slot="action">camera_enhance</i>
-        <i slot="action">bookmark_border</i>
-        <i slot="action">add_shopping_cart</i>
+        <q-icon slot="action" name="camera_enhance" />
+        <q-icon slot="action" name="bookmark_border" />
+        <q-icon slot="action" name="add_shopping_cart" />
       </q-slider>
 
       <p class="caption">

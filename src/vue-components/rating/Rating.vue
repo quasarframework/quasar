@@ -1,7 +1,9 @@
 <template>
   <div class="q-rating" :class="{disabled: disable, editable: editable}">
-    <i
+    <q-icon
       v-for="index in max"
+      :key="index"
+      :name="icon"
       :class="{
         active: (!mouseModel && model >= index) || (mouseModel && mouseModel >= index),
         exselected: mouseModel && model >= index && mouseModel < index,
@@ -10,7 +12,7 @@
       @click="set(index)"
       @mouseover="__setHoverValue(index)"
       @mouseout="mouseModel = 0"
-    >{{ icon }}</i>
+    ></q-icon>
   </div>
 </template>
 

@@ -5,8 +5,8 @@
   >
     <div class="backdrop animate-fade" @click="toggle(true)" :style="backdropPosition"></div>
     <q-btn class="circular raised" @click="toggle()" :class="classNames">
-      <i class="q-fab-icon">{{icon}}</i>
-      <i class="q-fab-active-icon">{{activeIcon}}</i>
+      <q-icon :name="icon" class="q-fab-icon"></q-icon>
+      <q-icon :name="activeIcon" class="q-fab-active-icon"></q-icon>
     </q-btn>
     <div class="q-fab-actions flex inline items-center" :class="[direction]">
       <slot></slot>

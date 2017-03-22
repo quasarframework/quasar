@@ -14,11 +14,15 @@
           @click="dialog.handler()"
           v-ripple.mat
         >
-          <i class="item-primary">{{dialog.icon}}</i>
-          <div class="item-content has-secondary">
+          <div class="item-primary">
+            <q-icon :name="dialog.icon" />
+          </div>
+          <div class="item-content">
             <div>{{dialog.label}}</div>
           </div>
-          <i class="item-secondary">keyboard_arrow_right</i>
+          <div class="item-secondary">
+            <q-icon name="keyboard_arrow_right" />
+          </div>
         </div>
         <hr>
         <div class="list-label">With Form Components</div>
@@ -28,11 +32,15 @@
           @click="dialog.handler()"
           v-ripple.mat
         >
-          <i class="item-primary">{{dialog.icon}}</i>
+          <div class="item-primary">
+            <q-icon :name="dialog.icon" />
+          </div>
           <div class="item-content has-secondary">
             <div>{{dialog.label}}</div>
           </div>
-          <i class="item-secondary">keyboard_arrow_right</i>
+          <div class="item-secondary">
+            <q-icon name="keyboard_arrow_right" />
+          </div>
         </div>
       </div>
 

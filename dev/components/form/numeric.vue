@@ -38,16 +38,20 @@
 
       <p class="caption">Inside of a List</p>
       <div class="list">
-        <div class="item two-lines">
-          <i class="item-primary">edit</i>
+        <div class="item">
+          <div class="item-primary">
+            <q-icon name="edit" />
+          </div>
           <div class="item-content">
             <span class="item-label">Number: </span>
             <q-numeric v-model="number" :min="min" :max="max"></q-numeric>
           </div>
         </div>
         <hr class="inset">
-        <div class="item two-lines">
-          <i class="item-primary">edit</i>
+        <div class="item">
+          <div class="item-primary">
+            <q-icon name="edit" />
+          </div>
           <div class="item-content">
             <span class="item-label">Number: </span>
             <q-numeric v-model="number" :min="min" :max="max"></q-numeric>

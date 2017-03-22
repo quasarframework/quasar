@@ -11,13 +11,13 @@
       :class="stateClass"
     >
       <div class="q-progress-button-error">
-        <i>{{ errorIcon }}</i>
+        <q-icon :name="errorIcon"></q-icon>
       </div>
       <div class="q-progress-button-label">
         <slot></slot>
       </div>
       <div class="q-progress-button-success">
-        <i>{{ successIcon }}</i>
+        <q-icon :name="successIcon"></q-icon>
       </div>
     </div>
   </q-btn>

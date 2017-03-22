@@ -101,25 +101,31 @@
           <div class="card">
             <div class="card-media">
               <img src="~assets/map.png">
-              <q-btn class="primary circular"><i>explore</i></q-btn>
+              <q-btn class="primary circular"><q-icon name="explore" /></q-btn>
             </div>
             <div class="card-content">
-              <div class="item two-lines">
-                <i class="item-primary">local_bar</i>
+              <div class="item">
+                <div class="item-primary">
+                  <q-icon name="local_bar" />
+                </div>
                 <div class="item-content">
                   <div>Bar XYZ</div>
                   <div>Have a drink.</div>
                 </div>
               </div>
               <div class="item two-lines">
-                <i class="item-primary">local_gas_station</i>
+                <div class="item-primary">
+                  <q-icon name="local_gas_station" />
+                </div>
                 <div class="item-content">
                   <div>Gas Station</div>
                   <div>Fill your gas tank.</div>
                 </div>
               </div>
               <div class="item two-lines">
-                <i class="item-primary">local_movies</i>
+                <div class="item-primary">
+                  <q-icon name="local_movies" />
+                </div>
                 <div class="item-content">
                   <div>Cinema XYZ</div>
                   <div>Watch a movie.</div>
@@ -134,8 +140,7 @@
                 (1 mile)
               </div>
               <div class="auto"></div>
-              <q-btn class="primary clear small">
-                <i class="on-left">directions</i>
+              <q-btn class="primary clear small" icon="directions">
                 Start
               </q-btn>
             </div>

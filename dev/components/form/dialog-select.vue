@@ -30,7 +30,7 @@
       <div class="list">
         <div class="list-label">Single Selection</div>
         <div class="item two-lines">
-          <i class="item-primary">supervisor_account</i>
+          <div class="item-primary"><q-icon name="supervisor_account" /></div>
           <div class="item-content row items-center">
             <label style="margin-right: 10px;">Radio:</label>
             <br>
@@ -38,7 +38,7 @@
           </div>
         </div>
         <div class="item two-lines">
-          <i class="item-primary">supervisor_account</i>
+          <div class="item-primary"><q-icon name="supervisor_account" /></div>
           <div class="item-content row items-center">
             <label style="margin-right: 10px;">Radio:</label>
             <q-dialog-select class="auto" type="radio" v-model="select" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Company"></q-dialog-select>
@@ -47,14 +47,14 @@
         <hr>
         <div class="list-label">Multiple Selection</div>
         <div class="item two-lines">
-          <i class="item-primary">supervisor_account</i>
+          <div class="item-primary"><q-icon name="supervisor_account" /></div>
           <div class="item-content row items-center">
             <label style="margin-right: 10px;">Checkbox:</label>
             <q-dialog-select class="auto" type="checkbox" v-model="multipleSelect" :options="selectOptions" ok-label="Pick" title="Companies"></q-dialog-select>
           </div>
         </div>
         <div class="item two-lines">
-          <i class="item-primary">supervisor_account</i>
+          <div class="item-primary"><q-icon name="supervisor_account" /></div>
           <div class="item-content row items-center">
             <label style="margin-right: 10px;">Toggle:</label>
             <q-dialog-select class="auto" type="toggle" v-model="multipleSelect" :options="selectOptions" ok-label="Pick" title="Companies"></q-dialog-select>

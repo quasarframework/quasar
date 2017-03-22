@@ -27,9 +27,9 @@
           <div class="chip label bg-teal text-white"><img src="~assets/boy-avatar.png"> Joe</div>
           <div class="chip label bg-black text-white"><img src="~assets/boy-avatar.png"> Jim</div>
           <br>
-          <div class="chip label bg-light"><img src="~assets/boy-avatar.png"> John <i class="on-right">close</i></div>
-          <div class="chip label bg-red text-white"><img src="~assets/boy-avatar.png"> Joe <i class="on-right">close</i></div>
-          <div class="chip label bg-primary text-white"><img src="~assets/boy-avatar.png"> Jim <i class="on-right">close</i></div>
+          <div class="chip label bg-light"><img src="~assets/boy-avatar.png"> John <q-icon class="on-right" name="close" /></div>
+          <div class="chip label bg-red text-white"><img src="~assets/boy-avatar.png"> Joe <q-icon class="on-right" name="close" /></div>
+          <div class="chip label bg-primary text-white"><img src="~assets/boy-avatar.png"> Jim <q-icon class="on-right" name="close" /></div>
           <br>
           <div class="chip label bg-grey-4">John</div>
           <div class="chip label bg-teal text-white">Joe</div>
@@ -39,7 +39,7 @@
 
       <p class="caption">Tag Labels</p>
       <p>
-        <span class="tag label tag bg-light">New <i class="on-right">mail</i></span>
+        <span class="tag label tag bg-light">New <q-icon class="on-right" name="mail" /></span>
       </p>
       <p>
         <span class="tag label bg-red text-white">Upcoming</span>
@@ -59,12 +59,12 @@
       <p class="caption">With Icons</p>
       <p>
         <span class="label bg-primary text-white">
-          <i class="on-left">mail</i>
+          <q-icon class="on-left" name="mail" />
           10
         </span>
         <span class="label bg-tertiary text-white">
           10
-          <i class="on-right">mail</i>
+          <q-icon class="on-right" name="mail" />
         </span>
       </p>
 
@@ -79,10 +79,10 @@
       </p>
       <p>
         <span class="label bg-orange text-white">
-          <i class="left-detail">mail</i> 10
+          <q-icon class="left-detail" name="mail" /> 10
         </span>
         <span class="label bg-orange text-white">
-          10 <i class="right-detail">mail</i>
+          10 <q-icon class="right-detail" name="mail" />
         </span>
       </p>
 

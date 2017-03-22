@@ -177,7 +177,7 @@
       <p class="caption">Primary</p>
       <div class="list item-inset-delimiter">
         <div class="item">
-          <div class="item-primary"><i>assignment_ind</i></div>
+          <div class="item-primary"><q-icon name="assignment_ind" /></div>
           <div class="item-content">Icon as Primary</div>
         </div>
         <div class="item">
@@ -191,30 +191,30 @@
       </div>
       <div class="list item-inset-delimiter">
         <div class="item">
-          <div class="item-primary"><i>assignment_ind</i></div>
+          <div class="item-primary"><q-icon name="assignment_ind" /></div>
           <div class="item-content">Icon as Primary</div>
         </div>
         <div class="item">
-          <div class="item-primary"><i>cloud</i></div>
+          <div class="item-primary"><q-icon name="cloud" /></div>
           <div class="item-content">Icon as Primary</div>
         </div>
         <div class="item">
-          <div class="item-primary"><i>wifi</i></div>
+          <div class="item-primary"><q-icon name="wifi" /></div>
           <div class="item-content">Icon as Primary</div>
         </div>
         <div class="item">
-          <div class="item-primary"><i>bluetooth</i></div>
+          <div class="item-primary"><q-icon name="bluetooth" /></div>
           <div class="item-content">Icon as Primary</div>
         </div>
         <div class="item">
-          <div class="item-primary"><i>data_usage</i></div>
+          <div class="item-primary"><q-icon name="data_usage" /></div>
           <div class="item-content">Icon as Primary</div>
         </div>
       </div>
 
       <div class="list item-inset-delimiter big-inset">
         <div class="item">
-          <div class="item-primary big"><i>assignment_ind</i></div>
+          <div class="item-primary big"><q-icon name="assignment_ind" /></div>
           <div class="item-content">Icon as Primary</div>
         </div>
         <div class="item">
@@ -231,7 +231,7 @@
       <div class="list">
         <div class="item">
           <div class="item-content">Icon as Secondary</div>
-          <div class="item-secondary"><i>info</i></div>
+          <div class="item-secondary"><q-icon name="info" /></div>
         </div>
         <hr>
         <div class="item">
@@ -248,7 +248,7 @@
       <div class="list">
         <div class="item">
           <div class="item-content">Icon as Secondary</div>
-          <div class="big item-secondary"><i>info</i></div>
+          <div class="big item-secondary"><q-icon name="info" /></div>
         </div>
         <hr>
         <div class="item">
@@ -267,7 +267,7 @@
         <div class="item">
           <div class="item-primary"><img src="/statics/boy-avatar.png"></div>
           <div class="item-content">Jack</div>
-          <div class="item-secondary"><i>chat_bubble</i></div>
+          <div class="item-secondary"><q-icon name="chat_bubble" /></div>
         </div>
         <div class="item">
           <div class="item-primary"><img src="/statics/linux-avatar.png"></div>
@@ -275,12 +275,12 @@
           <div class="item-secondary"><img src="/statics/mountains.jpg"></div>
         </div>
         <div class="item">
-          <div class="item-primary"><i>voice_chat</i></div>
+          <div class="item-primary"><q-icon name="voice_chat" /></div>
           <div class="item-content">Voice Chat with Joe</div>
           <div class="item-secondary"><img src="/statics/boy-avatar.png"></div>
         </div>
         <div class="item">
-          <div class="item-primary"><i class="inverted bg-primary">voice_chat</i></div>
+          <div class="item-primary"><q-icon name="voice_chat" class="inverted bg-primary" /></div>
           <div class="item-content">Voice Chat with Joe</div>
           <div class="item-secondary"><img src="/statics/boy-avatar.png"></div>
         </div>
@@ -337,7 +337,7 @@
           </div>
           <div class="item-secondary">
             <div class="item-stamp">2 years</div>
-            <i>mail</i>
+            <q-icon name="mail" />
           </div>
         </div>
         <div class="item multiple-lines">
@@ -352,7 +352,7 @@
           </div>
           <div class="item-secondary">
             <div class="item-stamp">2 years</div>
-            <i>mail</i>
+            <q-icon name="mail" />
           </div>
         </div>
       </div>
@@ -365,7 +365,7 @@
             <div class="ellipsis">Brunch this weekend?</div>
           </div>
           <div class="item-secondary">
-            <i>
+            <q-icon name="
               more_vert
 
               <q-popover ref="popover">
@@ -381,7 +381,7 @@
                   </div>
                 </div>
               </q-popover>
-            </i>
+            " />
           </div>
         </div>
         <div class="item">
@@ -401,8 +401,8 @@
           <div class="item-secondary">
             <div class="item-stamp">10 min ago</div>
             <span class="text-amber">
-              <i>star</i>
-              <i>star</i>
+              <q-icon name="star" />
+              <q-icon name="star" />
             </span>
           </div>
         </div>
@@ -411,21 +411,21 @@
       <div class="list">
         <q-collapsible icon="inbox" label="Inbox" description="Where your email is">
           <div class="item" v-for="n in 3">
-            <div class="item-primary"><i>mail</i></div>
+            <div class="item-primary"><q-icon name="mail" /></div>
             <div class="item-content">
               Email {{ n + 1 }}
             </div>
           </div>
           <q-collapsible icon="favorite" label="Favorites">
             <div class="item" v-for="n in 3">
-              <div class="item-primary"><i>mail</i></div>
+              <div class="item-primary"><q-icon name="mail" /></div>
               <div class="item-content">
                 Favorite {{ n + 1 }}
               </div>
             </div>
           </q-collapsible>
           <div class="item">
-            <div class="item-primary"><i>mail</i></div>
+            <div class="item-primary"><q-icon name="mail" /></div>
             <div class="item-content">
               Email
             </div>
@@ -433,7 +433,7 @@
         </q-collapsible>
         <q-collapsible icon="send" label="Sent">
           <div class="item" v-for="n in 3">
-            <div class="item-primary"><i>mail</i></div>
+            <div class="item-primary"><q-icon name="mail" /></div>
             <div class="item-content">
               Email {{ n + 1 }}
             </div>
@@ -441,7 +441,7 @@
         </q-collapsible>
         <q-collapsible icon="delete" label="Trash">
           <div class="item" v-for="n in 3">
-            <div class="item-primary"><i>mail</i></div>
+            <div class="item-primary"><q-icon name="mail" /></div>
             <div class="item-content">
               Email {{ n + 1 }}
             </div>
@@ -518,7 +518,7 @@
           <div class="item-content">
             John Doe
           </div>
-          <div class="item-secondary"><i>chat_bubble</i></div>
+          <div class="item-secondary"><q-icon name="chat_bubble" /></div>
         </div>
         <hr>
         <div class="list-label">Previous chats</div>
@@ -532,7 +532,7 @@
 
       <div class="list">
         <div class="item" v-for="n in 3">
-          <div class="item-primary" v-if="n === 1"><i class="text-pink">star</i></div>
+          <div class="item-primary" v-if="n === 1"><q-icon name="star" class="text-pink" /></div>
           <div class="item-content inset">
             John Joe
           </div>
@@ -552,25 +552,25 @@
         <div class="list-label inset">Folders</div>
         <div class="item" v-for="n in 3">
           <div class="item-primary">
-            <i class="bg-grey-6 inverted">folder</i>
+            <q-icon name="folder" class="bg-grey-6 inverted" />
           </div>
           <div class="item-content text">
             <div>Photos</div>
             <div>February 22, 2016</div>
           </div>
-          <div class="item-secondary"><i>info</i></div>
+          <div class="item-secondary"><q-icon name="info" /></div>
         </div>
         <hr class="inset">
         <div class="list-label inset">Files</div>
         <div class="item" v-for="n in 3">
           <div class="item-primary">
-            <i class="bg-primary inverted">assignment</i>
+            <q-icon name="assignment" class="bg-primary inverted" />
           </div>
           <div class="item-content text">
             <div>Vacation</div>
             <div>February 22, 2016</div>
           </div>
-          <div class="item-secondary"><i>info</i></div>
+          <div class="item-secondary"><q-icon name="info" /></div>
         </div>
       </div>
 
@@ -668,7 +668,7 @@
       <div class="list">
         <div class="list-label">Single Selection</div>
         <div class="item">
-          <div class="item-primary"><i>supervisor_account</i></div>
+          <div class="item-primary"><q-icon name="supervisor_account" /></div>
           <div class="item-content">
             <q-select class="full-width" type="radio" v-model="select" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Company"></q-select>
           </div>
@@ -676,13 +676,13 @@
         <hr>
         <div class="list-label">Multiple Selection</div>
         <div class="item">
-          <div class="item-primary"><i>supervisor_account</i></div>
+          <div class="item-primary"><q-icon name="supervisor_account" /></div>
           <div class="item-content">
             <q-select class="full-width" type="checkbox" v-model="multipleSelect" :options="selectOptions" ok-label="Pick" title="Companies"></q-select>
           </div>
         </div>
         <div class="item">
-          <div class="item-primary"><i>supervisor_account</i></div>
+          <div class="item-primary"><q-icon name="supervisor_account" /></div>
           <div class="item-content">
             <q-select class="full-width" type="toggle" v-model="multipleSelect" :options="selectOptions" ok-label="Pick" title="Companies"></q-select>
           </div>
@@ -692,13 +692,13 @@
       <p class="caption">Ranges</p>
       <div class="list">
         <div class="item two-lines">
-          <div class="item-primary"><i>volume_up</i></div>
+          <div class="item-primary"><q-icon name="volume_up" /></div>
           <div class="item-content">
             <q-range v-model="range" :min="0" :max="50" label></q-range>
           </div>
         </div>
         <div class="item two-lines">
-          <div class="item-primary"><i>brightness_medium</i></div>
+          <div class="item-primary"><q-icon name="brightness_medium" /></div>
           <div class="item-content">
             <q-range v-model="range" :min="0" :max="50" label></q-range>
           </div>
@@ -706,13 +706,13 @@
         <hr>
         <div class="list-label">Double Range</div>
         <div class="item two-lines">
-          <div class="item-primary"><i>local_atm</i></div>
+          <div class="item-primary"><q-icon name="local_atm" /></div>
           <div class="item-content">
             <q-double-range v-model="doubleRange" :min="0" :max="50" label></q-double-range>
           </div>
         </div>
         <div class="item two-lines">
-          <div class="item-primary"><i>euro_symbol</i></div>
+          <div class="item-primary"><q-icon name="euro_symbol" /></div>
           <div class="item-content">
             <q-double-range v-model="doubleRange" :min="0" :max="50" label></q-double-range>
           </div>
@@ -723,13 +723,13 @@
       <div class="list">
         <div class="list-label">Date or Time</div>
         <div class="item two-lines">
-          <div class="item-primary"><i>access_time</i></div>
+          <div class="item-primary"><q-icon name="access_time" /></div>
           <div class="item-content">
             <q-datetime class="full-width" v-model="timestamp" type="time"></q-datetime>
           </div>
         </div>
         <div class="item two-lines">
-          <div class="item-primary"><i>update</i></div>
+          <div class="item-primary"><q-icon name="update" /></div>
           <div class="item-content row items-baseline">
             <q-datetime class="full-width" v-model="timestamp" type="date"></q-datetime>
           </div>
@@ -737,7 +737,7 @@
         <hr>
         <div class="list-label">Date & Time</div>
         <div class="item two-lines">
-          <div class="item-primary"><i>notifications</i></div>
+          <div class="item-primary"><q-icon name="notifications" /></div>
           <div class="item-content row items-baseline">
             <q-datetime class="full-width" v-model="timestamp" type="datetime"></q-datetime>
           </div>
@@ -773,7 +773,7 @@
           </div>
           <div class="item-secondary">
             <div class="item-stamp">1 week</div>
-            <i>info</i>
+            <q-icon name="info" />
           </div>
         </div>
         <hr>
@@ -790,7 +790,7 @@
           </div>
           <div class="item-secondary">
             <div class="item-stamp">1 week</div>
-            <i>info</i>
+            <q-icon name="info" />
           </div>
         </div>
         <div class="item inset-delimiter">
@@ -806,7 +806,7 @@
           </div>
           <div class="item-secondary">
             <div class="item-stamp">1 week</div>
-            <i>more_vert</i>
+            <q-icon name="more_vert" />
           </div>
         </div>
       </div>
@@ -818,7 +818,7 @@
           <div class="item-content text">
             <div>Mountains Documentary</div>
           </div>
-          <div class="item-secondary"><i>movie</i></div>
+          <div class="item-secondary"><q-icon name="movie" /></div>
         </div>
         <div class="item">
           <img src="/statics/mountains.jpg">
@@ -826,7 +826,7 @@
             <div>Mountains Documentary</div>
             <div>For passionates only</div>
           </div>
-          <div class="item-secondary"><i>movie</i></div>
+          <div class="item-secondary"><q-icon name="movie" /></div>
         </div>
         <div class="item multiple-lines">
           <img src="/statics/mountains.jpg">
@@ -834,7 +834,7 @@
             <div>Mountains Documentary</div>
             <div>For passionates only For passionates only For passionates only For passionates only For passionates only </div>
           </div>
-          <div class="item-secondary"><i>movie</i></div>
+          <div class="item-secondary"><q-icon name="movie" /></div>
         </div>
       </div>
 
@@ -845,7 +845,7 @@
           <div class="item-content text">
             John
           </div>
-          <div class="item-secondary"><i>chat_bubble</i></div>
+          <div class="item-secondary"><q-icon name="chat_bubble" /></div>
         </div>
         <div class="item two-lines">
           <div class="item-primary"><img src="/statics/boy-avatar.png"></div>
@@ -853,7 +853,7 @@
             <div>Jim</div>
             <div>Javascript wiz kid</div>
           </div>
-          <div class="item-secondary"><i>chat_bubble</i></div>
+          <div class="item-secondary"><q-icon name="chat_bubble" /></div>
         </div>
         <div class="item three-lines">
           <div class="item-primary"><img src="/statics/boy-avatar.png"></div>
@@ -861,22 +861,22 @@
             <div>Jake</div>
             <div>Passionate about Quasar</div>
           </div>
-          <div class="item-secondary"><i>chat_bubble</i></div>
+          <div class="item-secondary"><q-icon name="chat_bubble" /></div>
         </div>
       </div>
 
       <div class="list">
         <div class="item" v-for="n in 3">
-          <i class="item-primary" v-if="n === 0">phone</i>
+          <q-icon name="phone" class="item-primary" v-if="n === 0" />
           <div class="item-content inset text">
             <div>(650) 555 - 1234</div>
             <div>Mobile</div>
           </div>
-          <div class="item-secondary"><i>chat_bubble</i></div>
+          <div class="item-secondary"><q-icon name="chat_bubble" /></div>
         </div>
         <hr class="inset">
         <div class="item" v-for="n in 3">
-          <div class="item-primary"><i>mail</i></div>
+          <div class="item-primary"><q-icon name="mail" /></div>
           <div class="item-content text">
             <div>john@doe.com</div>
             <div>Personal</div>
@@ -886,19 +886,19 @@
 
       <div class="list">
         <div class="item">
-          <div class="item-primary"><i>inbox</i></div>
+          <div class="item-primary"><q-icon name="inbox" /></div>
           <div class="item-content">
             Inbox
           </div>
         </div>
         <div class="item">
-          <div class="item-primary"><i>send</i></div>
+          <div class="item-primary"><q-icon name="send" /></div>
           <div class="item-content">
             Sent
           </div>
         </div>
         <div class="item">
-          <div class="item-primary"><i>delete</i></div>
+          <div class="item-primary"><q-icon name="delete" /></div>
           <div class="item-content">
             Trash
           </div>
@@ -908,19 +908,19 @@
           <div class="item-content">
             Inbox
           </div>
-          <div class="item-secondary"><i>inbox</i></div>
+          <div class="item-secondary"><q-icon name="inbox" /></div>
         </div>
         <div class="item">
           <div class="item-content">
             Sent
           </div>
-          <div class="item-secondary"><i>send</i></div>
+          <div class="item-secondary"><q-icon name="send" /></div>
         </div>
         <div class="item">
           <div class="item-content">
             Trash
           </div>
-          <div class="item-secondary"><i>delete</i></div>
+          <div class="item-secondary"><q-icon name="delete" /></div>
         </div>
       </div>
 
@@ -928,7 +928,7 @@
       <div class="list">
         <div class="list-label">Chips Textbox</div>
         <div class="item multiple-lines">
-          <div class="item-primary"><i>edit</i></div>
+          <div class="item-primary"><q-icon name="edit" /></div>
           <div class="item-content">
             <q-chips v-model="chips" class="no-margin" placeholder="Type names"></q-chips>
           </div>

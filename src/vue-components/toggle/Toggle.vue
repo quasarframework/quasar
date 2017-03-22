@@ -17,7 +17,7 @@
       @change="__change"
     >
     <div></div>
-    <i v-if="icon">{{ icon }}</i>
+    <q-icon v-if="icon" :name="icon"></q-icon>
   </div>
 </template>
 

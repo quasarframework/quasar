@@ -1,5 +1,5 @@
 <template>
-  <i class="cursor-pointer">{{icon}}</i>
+  <q-icon :name="icon" class="cursor-pointer"></q-icon>
 </template>
 
 <script>

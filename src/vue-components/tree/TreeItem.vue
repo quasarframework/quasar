@@ -5,7 +5,7 @@
       :class="{'q-tree-expandable-item': isExpandable, 'q-tree-link': model.handler}"
       @click="toggle"
     >
-      <i v-if="model.icon">{{model.icon}}</i>
+      <q-icon v-if="model.icon" :name="model.icon"></q-icon>
       <span class="q-tree-label relative-position" v-ripple.mat>{{model.title}}</span>
       <span v-if="isExpandable" v-html="model.expanded ? contractHtml : expandHtml"></span>
     </div>

@@ -9,7 +9,7 @@
 
       <div>
         <q-btn class="primary">
-          <i>assignment</i>
+          <q-icon name="assignment" />
 
           <q-popover ref="popover1">
             <div class="list scroll highlight link delimiter no-border" style="min-width: 150px;">
@@ -143,7 +143,7 @@
         <div style="margin-bottom: 700px;"></div>
 
         <q-btn class="secondary fixed-top-right" style="top: 65px; right: 10px; right: 16px;">
-          <i>directions</i>
+          <q-icon name="directions" />
 
           <q-popover ref="popover3">
             <img
@@ -155,18 +155,18 @@
         </q-btn>
 
         <q-btn class="tertiary fixed-bottom-right" style="bottom: 10px; right: 16px;">
-          <i>plus_one</i>
+          <q-icon name="plus_one" />
 
           <q-popover ref="popover4">
             <div class="group" style="width: 200px; height: 50px; text-align: center;">
               <q-btn class="primary clear" @click="showToast(), $refs.popover4.close()">
-                <i>thumb_up</i>
+                <q-icon name="thumb_up" />
               </q-btn>
               <q-btn class="primary clear" @click="showToast(), $refs.popover4.close()">
-                <i>thumb_down</i>
+                <q-icon name="thumb_down" />
               </q-btn>
               <q-btn class="secondary clear" @click="showToast(), $refs.popover4.close()">
-                <i>share</i>
+                <q-icon name="share" />
               </q-btn>
             </div>
           </q-popover>
@@ -174,7 +174,7 @@
       </div>
 
       <q-btn class="primary fixed-bottom-left" style="bottom: 10px; left: 10px;">
-        <i>menu</i>
+        <q-icon name="menu" />
 
         <q-popover ref="popover5">
           <div class="list link delimiter no-border" style="min-width: 150px">

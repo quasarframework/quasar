@@ -9,7 +9,7 @@
           <q-range label v-model="size" :min="20" :max="256"></q-range>
         </div>
 
-        <i class="text-grey-7" style="font-size: 2rem">palette</i>
+        <q-icon class="text-grey-7" style="font-size: 2rem" name="palette" />
         <label for="color-spinner" class="auto">Color</label>
         <q-input id="color-spinner" class="inline" v-model="color" style="width: 80px; text-align: center; margin-right: 10px;" />
         <q-dialog-select

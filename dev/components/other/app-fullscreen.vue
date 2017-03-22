@@ -12,7 +12,7 @@
           class="secondary"
           @click="toggleFullscreen()"
         >
-          <i class="on-left">zoom_out_map</i>
+          <q-icon class="on-left" name="zoom_out_map" />
           Toggle Fullscreen
         </q-btn>
       </p>

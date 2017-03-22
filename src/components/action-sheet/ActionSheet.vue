@@ -20,7 +20,7 @@
             tabindex="0"
             v-ripple.mat
           >
-            <i v-if="button.icon">{{ button.icon }}</i>
+            <q-icon v-if="button.icon" :name="button.icon"></q-icon>
             <img v-if="button.avatar" :src="button.avatar" class="avatar">
 
             <span>{{ button.label }}</span>
@@ -36,7 +36,7 @@
             tabindex="0"
             v-ripple.mat
           >
-            <i v-if="button.icon" class="item-primary">{{ button.icon }}</i>
+            <q-icon v-if="button.icon" :name="button.icon" class="item-primary"></q-icon>
             <img v-if="button.avatar" :src="button.avatar" class="item-primary">
             <div class="item-content inset">
               {{ button.label }}
@@ -54,7 +54,7 @@
           tabindex="0"
           v-ripple.mat
         >
-          <i v-if="dismiss.icon" class="item-primary">{{ dismiss.icon }}</i>
+          <q-icon v-if="dismiss.icon" :name="dismiss.icon" class="item-primary"></q-icon>
           <div class="item-content inset">
             {{ dismiss.label }}
           </div>
@@ -78,7 +78,7 @@
               tabindex="0"
               v-ripple.mat
             >
-              <i v-if="button.icon">{{ button.icon }}</i>
+              <q-icon v-if="button.icon" :name="button.icon"></q-icon>
               <img v-if="button.avatar" :src="button.avatar" class="avatar">
 
               <span>{{ button.label }}</span>
@@ -94,7 +94,7 @@
               tabindex="0"
               v-ripple.mat
             >
-              <i v-if="button.icon" class="item-primary">{{ button.icon}}</i>
+              <q-icon v-if="button.icon" :name="button.icon" class="item-primary"></q-icon>
               <img v-if="button.avatar" :src="button.avatar" class="item-primary">
               <div class="item-content inset">
                 {{ button.label}}

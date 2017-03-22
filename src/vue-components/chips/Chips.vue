@@ -12,12 +12,16 @@
   >
     <div slot="flow-before" v-for="(label, index) in value" :key="index" class="chip label bg-light text-grey-9">
       {{ label }}
-      <i class="on-right" @click="remove(index)">close</i>
+      <q-icon name="close" class="on-right" @click="remove(index)"></q-icon>
     </div>
 
-    <i slot="after" class="self-end q-chips-button" @click="add()" :class="{invisible: !input.length}">
-      send
-    </i>
+    <q-icon
+      name="send"
+      slot="after"
+      class="self-end q-chips-button"
+      @click="add()"
+      :class="{invisible: !input.length}"
+    ></q-icon>
   </q-input>
 </template>
 

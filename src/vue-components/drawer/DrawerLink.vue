@@ -12,7 +12,9 @@
     @click.native="trigger"
   >
     <slot name="item">
-      <div v-if="icon" class="item-primary"><i>{{icon}}</i></div>
+      <div v-if="icon" class="item-primary">
+        <q-icon :name="icon"></q-icon>
+      </div>
       <div class="item-content text">
         <div class="ellipsis">
           <slot></slot>

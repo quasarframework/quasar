@@ -59,6 +59,7 @@ export default {
         return
       }
       this.opened = true
+      console.log('open')
       document.body.appendChild(this.$el)
       this.scrollTarget = Utils.scroll.getScrollTarget(this.anchorEl)
       this.scrollTarget.addEventListener('scroll', this.close)
@@ -73,6 +74,7 @@ export default {
         this.opened = false
         this.scrollTarget.removeEventListener('scroll', this.close)
         window.removeEventListener('resize', this.__debouncedUpdatePosition)
+        console.log('close removing', this.$el.parentNode)
         document.body.removeChild(this.$el)
         if (Platform.is.mobile) {
           document.body.removeEventListener('click', this.close, true)
@@ -104,8 +106,15 @@ export default {
       */
       this.$el.offsetHeight
 
-      this.anchorEl = this.$el.parentNode
-      this.anchorEl.removeChild(this.$el)
+      console.log('mounted')
+      if (!this.anchorEl) {
+        console.log('setting anchorel')
+        this.anchorEl = this.$el.parentNode
+      }
+      if (this.anchorEl) {
+        console.log('anchor removing', this.anchorEl)
+        this.anchorEl.removeChild(this.$el)
+      }
       if (Platform.is.mobile) {
         this.anchorEl.addEventListener('click', this.open)
       }
@@ -118,6 +127,7 @@ export default {
     })
   },
   beforeDestroy () {
+    console.log('beforeDestroy')
     if (Platform.is.mobile) {
       this.anchorEl.removeEventListener('click', this.open)
     }

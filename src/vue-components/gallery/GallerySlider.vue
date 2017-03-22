@@ -28,7 +28,7 @@
       @click="toggleQuickView()"
     ></div>
 
-    <i slot="action" @click="toggleQuickView()">view_carousel</i>
+    <q-icon name="view_carousel" slot="action" @click="toggleQuickView()"></q-icon>
 
     <div
       class="q-gallery-slider-quickview"

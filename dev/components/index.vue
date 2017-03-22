@@ -18,7 +18,9 @@
           <div class="item-content">
             <div>{{ feature.title }}</div>
           </div>
-          <div class="item-secondary"><i>chevron_right</i></div>
+          <div class="item-secondary">
+            <q-icon name="chevron_right"></q-icon>
+          </div>
         </router-link>
       </div>
     </div>

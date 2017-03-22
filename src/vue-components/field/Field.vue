@@ -11,7 +11,7 @@
       'with-label': label
     }"
   >
-    <i v-if="icon || insetIcon" class="q-field-icon">{{ icon }}</i>
+    <q-icon :name="icon" v-if="icon || insetIcon" class="q-field-icon"></q-icon>
     <div class="q-field-container flex auto">
       <div
         v-if="hasLabel"
@@ -22,14 +22,13 @@
         <slot name="label">
           <span v-html="label"></span>
         </slot>
-        <i v-if="hasLabelHint" class="q-field-label-hint">
-          help
+        <q-icon v-if="hasLabelHint" class="q-field-label-hint" name="help">
           <q-tooltip>
             <slot name="labelHint">
               <span v-html="labelHint"></span>
             </slot>
           </q-tooltip>
-        </i>
+        </q-icon>
       </div>
 
       <div class="q-field-content" :style="contentStyle">

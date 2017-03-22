@@ -2,13 +2,13 @@
   <q-layout view="hhh Lpr fff" reveal>
     <div slot="header" class="toolbar">
       <q-btn class="hide-on-drawer-visible" @click="$refs.leftDrawer.open()">
-        <i>menu</i>
+        <q-icon name="menu" />
       </q-btn>
       <q-toolbar-title :padding="1">
         Quasar Layout
       </q-toolbar-title>
       <q-btn @click="$refs.rightDrawer.open()">
-        <i>assignment</i>
+        <q-icon name="assignment" />
       </q-btn>
       <q-checkbox v-model="todo" />
       <q-checkbox v-model="right" />
@@ -85,7 +85,7 @@
     </div>
     <div slot="footer" class="toolbar">
       <router-link tag="button" to="/" exact>
-        <i class="on-left">keyboard_arrow_left</i>
+        <q-icon name="keyboard arrow left" class="on-left" />
         Back to Index
       </router-link>
     </div>

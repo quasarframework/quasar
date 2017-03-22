@@ -80,22 +80,28 @@
       <p class="caption">Inside of a List</p>
       <div class="list">
         <div class="list-label">Date or Time</div>
-        <div class="item two-lines">
-          <i class="item-primary">access_time</i>
+        <div class="item">
+          <div class="item-primary">
+            <q-icon name="access_time" />
+          </div>
           <div class="item-content">
             <q-datetime class="full-width" v-model="model" type="time"></q-datetime>
           </div>
         </div>
-        <div class="item two-lines">
-          <i class="item-primary">update</i>
+        <div class="item">
+          <div class="item-primary">
+            <q-icon name="update" />
+          </div>
           <div class="item-content row items-baseline">
             <q-datetime class="full-width" v-model="model" type="date"></q-datetime>
           </div>
         </div>
         <hr>
         <div class="list-label">Date & Time</div>
-        <div class="item two-lines">
-          <i class="item-primary">notifications</i>
+        <div class="item">
+          <div class="item-primary">
+            <q-icon name="notifications" />
+          </div>
           <div class="item-content row items-baseline">
             <q-datetime class="full-width" v-model="model" type="datetime"></q-datetime>
           </div>

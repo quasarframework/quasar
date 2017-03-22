@@ -106,10 +106,10 @@
 
         <template slot="selection" scope="props">
           <q-btn class="primary clear" @click="changeMessage(props)">
-            <i>edit</i>
+            <q-icon name="edit" />
           </q-btn>
           <q-btn class="primary clear" @click="deleteRow(props)">
-            <i>delete</i>
+            <q-icon name="delete" />
           </q-btn>
         </template>
       </q-data-table>
@@ -165,8 +165,8 @@ export default {
         },
         selection: 'multiple',
         messages: {
-          noData: '<i>warning</i> No data available to show.',
-          noDataAfterFiltering: '<i>warning</i> No results. Please refine your search terms.'
+          noData: '<i class="material-icons">warning</i> No data available to show.',
+          noDataAfterFiltering: '<i class="material-icons">warning</i> No results. Please refine your search terms.'
         },
         labels: {
           columns: 'Coluuuuumns',
@@ -200,7 +200,7 @@ export default {
           field: 'serviceable',
           format (value) {
             if (value === 'Informational') {
-              return '<i class="text-positive">info</i>'
+              return '<i class="material-icons text-positive">info</i>'
             }
             return value
           },

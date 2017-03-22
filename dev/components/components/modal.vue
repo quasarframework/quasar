@@ -13,11 +13,15 @@
           v-for="modal in types"
           @click="$refs[modal.ref].open()"
         >
-          <i class="item-primary">open_in_new</i>
+          <div class="item-primary">
+            <q-icon name="open_in_new" />
+          </div>
           <div class="item-content has-secondary">
             <div>{{modal.label}}</div>
           </div>
-          <i class="item-secondary">keyboard_arrow_right</i>
+          <div class="item-secondary">
+            <q-icon name="keyboard_arrow_right" />
+          </div>
         </div>
       </div>
 
@@ -28,11 +32,15 @@
           v-for="position in ['top', 'bottom', 'left', 'right']"
           @click="openSpecialPosition(position)"
         >
-          <i class="item-primary">open_in_new</i>
+          <div class="item-primary">
+            <q-icon name="open_in_new" />
+          </div>
           <div class="item-content has-secondary">
             <div>Modal from {{position}}</div>
           </div>
-          <i class="item-secondary">keyboard_arrow_right</i>
+          <div class="item-secondary">
+            <q-icon name="keyboard_arrow_right" />
+          </div>
         </div>
       </div>
     </div>
@@ -59,7 +67,7 @@
       <q-layout>
         <div slot="header" class="toolbar">
           <q-btn @click="$refs.layoutModal.close()">
-            <i>keyboard_arrow_left</i>
+            <q-icon name="keyboard_arrow_left" />
           </q-btn>
           <q-toolbar-title :padding="1">
             Header

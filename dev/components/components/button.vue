@@ -11,22 +11,22 @@
         <q-btn icon="edit" iconRight="alarm" class="small orange">Icoon</q-btn>
         <q-btn icon="edit" iconRight="alarm" class="big orange">Icoon</q-btn>
 
-        <q-btn class="primary small"><i>mail</i></q-btn>
-        <q-btn class="primary"><i>mail</i></q-btn>
-        <q-btn class="primary big"><i>mail</i></q-btn>
+        <q-btn class="primary small"><q-icon name="mail" /></q-btn>
+        <q-btn class="primary"><q-icon name="mail" /></q-btn>
+        <q-btn class="primary big"><q-icon name="mail" /></q-btn>
 
-        <q-btn class="circular primary small"><i>mail</i></q-btn>
-        <q-btn class="circular primary"><i>mail</i></q-btn>
-        <q-btn class="circular primary big"><i>mail</i></q-btn>
+        <q-btn class="circular primary small"><q-icon name="mail" /></q-btn>
+        <q-btn class="circular primary"><q-icon name="mail" /></q-btn>
+        <q-btn class="circular primary big"><q-icon name="mail" /></q-btn>
 
         <q-btn>Button</q-btn>
         <q-btn class="primary">Button</q-btn>
-        <q-btn class="secondary circular"><i>card_giftcard</i></q-btn>
+        <q-btn class="secondary circular"><q-icon name="card_giftcard" /></q-btn>
         <div>
-          <i style="font-size: 1.5rem">alarm</i> Block
+          <q-icon name="alarm" style="font-size: 1.5rem" /> Block
         </div>
         <button style="border: 1px solid black">
-          <i style="font-size: 1.5rem">alarm</i> Block
+          <q-icon name="alarm" style="font-size: 1.5rem" /> Block
         </button>
 
         <q-btn icon="alarm" class="orange">Icoon</q-btn>
@@ -43,9 +43,9 @@
         <q-btn spinner="oval" class="secondary" @click="simulateProgress">Button</q-btn>
         <q-btn spinner="radio" class="amber" @click="simulateProgress">Button</q-btn>
         <q-btn spinner="oval" class="dark small" @click="simulateProgress">Button</q-btn>
-        <q-btn circular spinner @click="simulateProgress" class="primary small"><i>mail</i></q-btn>
-        <q-btn circular spinner @click="simulateProgress" class="primary"><i>mail</i></q-btn>
-        <q-btn circular spinner @click="simulateProgress" class="primary big"><i>mail</i></q-btn>
+        <q-btn circular spinner @click="simulateProgress" class="primary small"><q-icon name="mail" /></q-btn>
+        <q-btn circular spinner @click="simulateProgress" class="primary"><q-icon name="mail" /></q-btn>
+        <q-btn circular spinner @click="simulateProgress" class="primary big"><q-icon name="mail" /></q-btn>
         <q-btn class="negative" @click="stopProgress">Stop</q-btn>
       </p>
 
@@ -61,18 +61,18 @@
         <q-btn icon="alarm" class="primary big">Button</q-btn>
       </p>
       <p class="group">
-        <q-btn class="circular primary small"><i>mail</i></q-btn>
-        <q-btn class="circular primary"><i>mail</i></q-btn>
-        <q-btn class="circular primary big"><i>mail</i></q-btn>
+        <q-btn class="circular primary small"><q-icon name="mail" /></q-btn>
+        <q-btn class="circular primary"><q-icon name="mail" /></q-btn>
+        <q-btn class="circular primary big"><q-icon name="mail" /></q-btn>
       </p>
 
       <p class="caption">Regular with Icons</p>
       <p class="group">
-        <q-btn class="primary">
-          <i class="on-left">mail</i> On Left
+        <q-btn class="primary" icon="mail">
+          On Left
         </q-btn>
-        <q-btn class="secondary">
-          On Right <i class="on-right">mail</i>
+        <q-btn class="secondary" iconRight="mail">
+          On Right
         </q-btn>
       </p>
 
@@ -84,37 +84,37 @@
         <q-btn class="light">Light</q-btn>
         <q-btn class="indigo">Indigo</q-btn>
         <q-btn class="red">Red</q-btn>
-        <q-btn class="teal circular"><i>alarm</i></q-btn>
+        <q-btn class="teal circular"><q-icon name="alarm" /></q-btn>
       </p>
 
       <p class="caption">Disabled Buttons</p>
       <p class="group">
         <q-btn class="primary disabled">Disabled</q-btn>
-        <q-btn class="circular primary disabled"><i>card_giftcard</i></q-btn>
+        <q-btn class="circular primary disabled"><q-icon name="card_giftcard" /></q-btn>
       <p>
 
       <p class="caption">Raised Buttons</p>
       <p class="group">
         <q-btn class="primary raised">Raised</q-btn>
-        <q-btn class="circular primary raised"><i>card_giftcard</i></q-btn>
+        <q-btn class="circular primary raised"><q-icon name="card_giftcard" /></q-btn>
       <p>
 
       <p class="caption">Clear Buttons</p>
       <p class="group">
         <q-btn class="primary clear">Clear</q-btn>
-        <q-btn class="circular primary clear"><i>card_giftcard</i></q-btn>
+        <q-btn class="circular primary clear"><q-icon name="card_giftcard" /></q-btn>
       <p>
 
       <p class="caption">Outline Buttons</p>
       <p class="group">
         <q-btn class="primary outline">Outline</q-btn>
-        <q-btn class="circular primary outline"><i>card_giftcard</i></q-btn>
+        <q-btn class="circular primary outline"><q-icon name="card_giftcard" /></q-btn>
       <p>
 
       <p class="caption">Push Buttons</p>
       <p class="group">
         <q-btn class="primary push">Push</q-btn>
-        <q-btn class="circular primary push"><i>card_giftcard</i></q-btn>
+        <q-btn class="circular primary push"><q-icon name="card_giftcard" /></q-btn>
       <p>
 
       <p class="caption">Round Buttons (applies only to regular shaped)</p>
@@ -127,14 +127,14 @@
         <q-btn class="primary glossy">Glossy</q-btn>
         <q-btn class="secondary glossy">Glossy</q-btn>
         <q-btn class="deep-orange glossy">Glossy</q-btn>
-        <q-btn class="circular primary glossy"><i>card_giftcard</i></q-btn>
-        <q-btn class="circular secondary glossy"><i>card_giftcard</i></q-btn>
-        <q-btn class="circular deep-orange glossy"><i>card_giftcard</i></q-btn>
+        <q-btn class="circular primary glossy"><q-icon name="card_giftcard" /></q-btn>
+        <q-btn class="circular secondary glossy"><q-icon name="card_giftcard" /></q-btn>
+        <q-btn class="circular deep-orange glossy"><q-icon name="card_giftcard" /></q-btn>
       <p>
 
       <p class="caption">Block Buttons</p>
       <div class="group">
-        <q-btn class="primary block"><i>alarm</i> Block</q-btn>
+        <q-btn class="primary block"><q-icon name="alarm" /> Block</q-btn>
         <q-btn class="secondary block">Block</q-btn>
       </div>
 
@@ -148,18 +148,18 @@
       <template v-for="size in sizes">
         <h3 class="capitalize">{{size}}</h3>
         <q-btn class="primary" :class="size">Btn</q-btn>
-        <q-btn class="primary" :class="size"><i class="on-left">{{ icon}}</i>Btn</q-btn>
-        <q-btn class="primary" :class="size"><i>{{ icon}}</i></q-btn>
+        <q-btn class="primary" :class="size" :icon="icon">Btn</q-btn>
+        <q-btn class="primary" :class="size"><q-icon :name="icon" /></q-btn>
         text
         <q-btn class="primary disabled" :class="size">Disabled</q-btn>
         <q-btn v-for="extra in extras" :key="extra" class="primary" :class="[size, extra]">{{ extra}}</q-btn>
       </template>
       <template v-for="size in sizes">
         <h3 class="capitalize">{{ size}}</h3>
-        <q-btn class="primary circular" :class="size"><i>{{ icon}}</i></q-btn>
+        <q-btn class="primary circular" :class="size"><q-icon :name="icon" /></q-btn>
         text
-        <q-btn class="primary circular disabled" :class="size"><i>{{ icon}}</i></q-btn>
-        <q-btn v-for="extra in extras" :key="extra" class="primary circular" :class="[size, extra]"><i>{{ icon}}</i></q-btn>
+        <q-btn class="primary circular disabled" :class="size"><q-icon :name="icon" /></q-btn>
+        <q-btn v-for="extra in extras" :key="extra" class="primary circular" :class="[size, extra]"><q-icon :name="icon" /></q-btn>
       </template>
       <br>
       <p>Block also adds 'display: block'</p>
@@ -171,18 +171,18 @@
       <template v-for="color in colors">
         <h4 class="capitalize">{{color}}</h4>
         <q-btn :class="color">{{color}}</q-btn>
-        <q-btn :class="color"><i class="on-left">{{icon}}</i>{{color}}</q-btn>
-        <q-btn :class="color"><i>{{icon}}</i></q-btn>
-        <q-btn class="disabled" :class="color"><i>{{icon}}</i></q-btn>
+        <q-btn :class="color" :icon="icon">{{color}}</q-btn>
+        <q-btn :class="color"><q-icon :name="icon" /></q-btn>
+        <q-btn class="disabled" :class="color"><q-icon :name="icon" /></q-btn>
         <q-btn v-for="extra in extras" :key="extra" :class="[color, extra]">{{color}}-{{extra}}</q-btn>
       </template>
 
       <h3 class="capitalize">Circular</h3>
       <template v-for="color in colors">
         <h4 class="capitalize">{{color}}</h4>
-        <q-btn class="circular" :class="color"><i>{{icon}}</i></q-btn>
-        <q-btn class="circular disabled" :class="color"><i>{{icon}}</i></q-btn>
-        <q-btn v-for="extra in extras" :key="extra" class="circular" :class="[color, extra]"><i>{{icon}}</i></q-btn>
+        <q-btn class="circular" :class="color"><q-icon :name="icon" /></q-btn>
+        <q-btn class="circular disabled" :class="color"><q-icon :name="icon" /></q-btn>
+        <q-btn v-for="extra in extras" :key="extra" class="circular" :class="[color, extra]"><q-icon :name="icon" /></q-btn>
       </template>
     </div>
   </div>

@@ -11,9 +11,9 @@
       :size="16"
     ></spinner>
 
-    <i v-if="icon && !spinning" :class="{'on-left': !circular}">{{ icon }}</i>
+    <q-icon v-if="icon && !spinning" :name="icon" :class="{'on-left': !circular}"></q-icon>
     <slot v-if="(circular && !spinning) || !circular"></slot>
-    <i v-if="iconRight && !circular && !spinning" class="on-right">{{ iconRight }}</i>
+    <q-icon v-if="iconRight && !circular && !spinning" :name="iconRight" class="on-right"></q-icon>
   </button>
 </template>
 

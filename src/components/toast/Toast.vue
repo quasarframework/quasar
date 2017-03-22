@@ -9,7 +9,7 @@
       :style="{color: stack[0].color, background: stack[0].bgColor}"
       :class="classes"
     >
-      <i v-if="stack[0].icon">{{ stack[0].icon }}</i>
+      <q-icon v-if="stack[0].icon" :name="stack[0].icon"></q-icon>
       <img v-if="stack[0].image" :src="stack[0].image">
 
       <div class="q-toast-message auto" v-html="stack[0].html"></div>
@@ -26,7 +26,7 @@
         @click="dismiss()"
         :style="{color: stack[0].button.color}"
       >
-        <i>close</i>
+        <q-icon name="close"></q-icon>
       </a>
     </div>
   </div>

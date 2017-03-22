@@ -87,14 +87,18 @@
 
       <p class="caption">Inside of a List</p>
       <div class="list">
-        <div class="item two-lines">
-          <i class="item-primary">local_atm</i>
+        <div class="item">
+          <div class="item-primary">
+            <q-icon name="local_atm" />
+          </div>
           <div class="item-content">
             <q-double-range v-model="standalone" :min="0" :max="50" label></q-double-range>
           </div>
         </div>
         <div class="item two-lines">
-          <i class="item-primary">euro_symbol</i>
+          <div class="item-primary">
+            <q-icon name="euro symbol" />
+          </div>
           <div class="item-content">
             <q-double-range v-model="standalone" :min="0" :max="50" label></q-double-range>
           </div>

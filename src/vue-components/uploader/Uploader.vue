@@ -124,10 +124,10 @@ export default {
     },
     computedLabel () {
       return Utils.extend({
-        add: this.multiple ? '<i>add</i> Add Files' : '<i>add</i> Pick File',
-        remove: '<i>clear</i> Remove',
-        upload: '<i>file_upload</i> Upload',
-        failed: '<i>warning</i> Failed',
+        add: this.multiple ? '<i class="material-icons">add</i> Add Files' : '<i class="material-icons">add</i> Pick File',
+        remove: '<i class="material-icons">clear</i> Remove',
+        upload: '<i class="material-icons">file_upload</i> Upload',
+        failed: '<i class="material-icons">warning</i> Failed',
         uploading: 'Uploading...'
       }, this.labels)
     },

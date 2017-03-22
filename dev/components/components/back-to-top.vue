@@ -1,7 +1,7 @@
 <template>
   <div class="layout-padding">
     <p class="caption">
-      Scroll down <i style="font-size: 3rem" class="animate-bounce">keyboard_arrow_down</i>
+      Scroll down <q-icon style="font-size: 3rem" class="animate-bounce" name="keyboard_arrow_down" />
     </p>
     <p class="caption">
       A circular button is set to appear after scrolling 500px.
@@ -14,7 +14,7 @@
       class="primary circular fixed-bottom-right animate-pop"
       style="margin: 0 15px 15px 0"
     >
-      <i>keyboard_arrow_up</i>
+      <q-icon name="keyboard_arrow_up" />
     </q-btn>
 
     <a

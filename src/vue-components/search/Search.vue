@@ -5,7 +5,7 @@
   >
     <div class="q-search-input-container" v-ripple.mat>
       <button class="q-search-icon">
-        <i>{{ icon }}</i>
+        <q-icon :name="icon"></q-icon>
         <span v-show="$q.theme === 'ios' && isEmpty">{{placeholder}}</span>
       </button>
       <input
@@ -38,8 +38,8 @@
         @click="clear"
         :class="{hidden: this.model === ''}"
       >
-        <i class="mat-only">clear</i>
-        <i class="ios-only">cancel</i>
+        <q-icon name="clear" class="mat-only"></q-icon>
+        <q-icon name="cancel" class="ios-only"></q-icon>
       </button>
     </div>
   </div>

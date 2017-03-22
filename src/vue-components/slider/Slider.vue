@@ -15,30 +15,32 @@
         v-show="arrows && canGoToPrevious"
         class="q-slider-left-button row items-center justify-center"
       >
-        <i @click="previous">keyboard_arrow_left</i>
+        <q-icon name="keyboard_arrow_left" @click="previous"></q-icon>
       </div>
       <div
         v-show="arrows && canGoToNext"
         class="q-slider-right-button row items-center justify-center"
         @click="next"
       >
-        <i>keyboard_arrow_right</i>
+        <q-icon name="keyboard_arrow_right"></q-icon>
       </div>
       <div v-if="toolbar" class="q-slider-toolbar row items-center justify-end">
         <div class="q-slider-dots auto row items-center justify-center">
-          <i
+          <q-icon
             v-if="dots"
             v-for="n in slidesNumber"
+            :key="n"
             @click="goToSlide(n - 1)"
-            v-text="(n - 1) !== slide ? 'panorama_fish_eye' : 'lens'"
-          ></i>
+            :name="(n - 1) !== slide ? 'panorama_fish_eye' : 'lens'"
+          ></q-icon>
         </div>
         <div class="row items-center">
           <slot name="action"></slot>
-          <i v-if="fullscreen" @click="toggleFullscreen">
-            <span v-show="!inFullscreen">fullscreen</span>
-            <span v-show="inFullscreen">fullscreen_exit</span>
-          </i>
+          <q-icon
+            v-if="fullscreen"
+            @click="toggleFullscreen"
+            :name="inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
+          ></q-icon>
         </div>
       </div>
       <slot></slot>

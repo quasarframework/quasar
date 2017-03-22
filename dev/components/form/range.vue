@@ -70,19 +70,25 @@
       <p class="caption">Inside of a List</p>
       <div class="list">
         <div class="item two-lines">
-          <i class="item-primary">volume_up</i>
+          <div class="item-primary">
+            <q-icon name="volume_up" />
+          </div>
           <div class="item-content">
             <q-range v-model="standalone" :min="0" :max="50" label></q-range>
           </div>
         </div>
         <div class="item two-lines">
-          <i class="item-primary">brightness_medium</i>
+          <div class="item-primary">
+            <q-icon name="brightness_medium" />
+          </div>
           <div class="item-content">
             <q-range v-model="standalone" :min="0" :max="50" label></q-range>
           </div>
         </div>
         <div class="item two-lines">
-          <i class="item-primary">mic</i>
+          <div class="item-primary">
+            <q-icon name="mic" />
+          </div>
           <div class="item-content">
             <q-range v-model="standalone" :min="0" :max="50" label></q-range>
           </div>

@@ -37,7 +37,7 @@
       <div class="list">
         <div class="list-label">Single Selection</div>
         <div class="item two-lines">
-          <i class="item-primary">supervisor_account</i>
+          <div class="item-primary"><q-icon name="supervisor_account" /></div>
           <div class="item-content">
             <q-select
               class="full-width"
@@ -50,7 +50,7 @@
         <hr>
         <div class="list-label">Multiple Selection</div>
         <div class="item two-lines">
-          <i class="item-primary">supervisor_account</i>
+          <div class="item-primary"><q-icon name="supervisor_account" /></div>
           <div class="item-content">
             <q-select
               class="full-width"
@@ -61,7 +61,7 @@
           </div>
         </div>
         <div class="item two-lines">
-          <i class="item-primary">supervisor_account</i>
+          <div class="item-primary"><q-icon name="supervisor_account" /></div>
           <div class="item-content">
             <q-select
               class="full-width"

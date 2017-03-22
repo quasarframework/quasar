@@ -12,7 +12,7 @@
     @click="select"
     v-ripple.mat
   >
-    <i v-if="icon" class="q-tabs-icon">{{icon}}</i>
+    <q-icon v-if="icon" :name="icon" class="q-tabs-icon"></q-icon>
     <span v-if="label" class="q-tab-label" v-html="label"></span>
     <span v-if="count" class="floating label circular">{{count}}</span>
     <div v-else-if="alert" class="q-dot"></div>

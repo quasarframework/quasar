@@ -2,8 +2,13 @@
   <div class="layout-padding">
     <p class="caption">To fully test, go to /dev/index.html and uncomment the style tags.</p>
     <div>
-      <q-icon :name="icon" class="gigi" style="font-size: 5rem;" />
-      <span style="margin-left: 15px">{{icon}}</span>
+      <q-icon :name="icon" class="gigi" style="font-size: 5rem;" @click="clicked" />
+      <span style="margin-left: 15px;">{{icon}}</span>
+      <!-- TODO
+      <q-icon :name="icon" class="gigi" style="font-size: 5rem;">
+        <q-tooltip>{{icon}}</q-tooltip>
+      </q-icon>
+      -->
     </div>
     <q-input-group
       type="radio"
@@ -23,6 +28,11 @@ export default {
   data () {
     return {
       icon: 'cloud'
+    }
+  },
+  methods: {
+    clicked () {
+      console.log('clicked')
     }
   }
 }
