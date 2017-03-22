@@ -1,14 +1,17 @@
 <template>
   <div class="layout-padding">
+    <p class="caption">To fully test, go to /dev/index.html and uncomment the style tags.</p>
     <div>
-      <q-icon :icon="icon" class="gigi" style="font-size: 3rem;" /> Text
+      <q-icon :name="icon" class="gigi" style="font-size: 5rem;" />
+      <span style="margin-left: 15px">{{icon}}</span>
     </div>
     <q-input-group
       type="radio"
       v-model="icon"
       :options="[
         {value: 'cloud', label: 'A Material icon'},
-        {value: 'fa-github', label: 'A Font Awesome icon'}
+        {value: 'fa-github', label: 'A Font Awesome icon'},
+        {value: 'ion-social-apple-outline', label: 'A Ionicon'}
       ]"
       style="margin-top: 25px"
     />

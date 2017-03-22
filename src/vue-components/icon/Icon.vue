@@ -2,21 +2,34 @@
 export default {
   functional: true,
   props: {
-    icon: {
+    name: {
       type: String,
       required: true
     }
   },
   render (h, ctx) {
-    const icon = ctx.props.icon
+    const icon = ctx.props.name
+    let name, text
 
     if (icon.startsWith('fa-')) {
-      ctx.data.staticClass += ` fa ${icon}`
-      return h('i', ctx.data)
+      name = `fa ${icon}`
+    }
+    else if (icon.startsWith('ion-')) {
+      name = icon
+    }
+    else {
+      name = 'material-icons'
+      text = icon
     }
 
-    ctx.data.staticClass += ' material-icons'
-    return h('i', ctx.data, icon)
+    if (ctx.data.staticClass) {
+      ctx.data.staticClass += ` ${name}`
+    }
+    else {
+      ctx.data.staticClass = `${name}`
+    }
+
+    return h('i', ctx.data, text)
   }
 }
 </script>
