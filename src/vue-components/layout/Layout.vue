@@ -42,7 +42,7 @@
       <q-resize-observable @resize="onHeaderResize" />
     </header>
 
-    <div :style="pageStyle">
+    <div ref="main" :style="pageStyle">
       <main :style="mainStyle">
         <slot></slot>
       </main>
@@ -62,11 +62,12 @@
 
     <q-scroll-observable @scroll="onPageScroll" />
     <q-resize-observable @resize="onLayoutResize" />
+    <q-window-resize-observable @resize="onWindowResize" />
   </div>
 </template>
 
 <script>
-import { viewport, cssTransform } from '../../utils/dom'
+import { cssTransform } from '../../utils/dom'
 import { getScrollHeight } from '../../utils/scroll'
 
 function updateSize (obj, size) {
@@ -122,7 +123,7 @@ export default {
     fixed () {
       return {
         header: this.reveal || this.view.indexOf('H') > -1,
-        footer: this.view.indexOf('F') > -1 || this.scroll.scrollHeight < this.size.layout.height,
+        footer: this.view.indexOf('F') > -1,
         left: this.view.indexOf('L') > -1,
         right: this.view.indexOf('R') > -1
       }
@@ -199,7 +200,7 @@ export default {
     },
     offsetBottom () {
       if (!this.fixed.footer) {
-        let translate = this.scroll.scrollHeight - viewport().height - this.scroll.position - this.size.footer.height
+        let translate = this.scroll.scrollHeight - this.size.layout.height - this.scroll.position - this.size.footer.height
         if (translate < 0) {
           return translate
         }
@@ -219,11 +220,11 @@ export default {
         }
       }
       if (view.bottom[0] !== 'l') {
-        if (this.fixed.left && this.offsetBottom) {
-          css.bottom = -this.offsetBottom + 'px'
-        }
-        else if (this.fixed.footer) {
+        if (this.fixed.footer) {
           css.bottom = this.size.footer.height + 'px'
+        }
+        else if (this.offsetBottom) {
+          css.bottom = -this.offsetBottom + 'px'
         }
       }
 
@@ -243,11 +244,11 @@ export default {
         }
       }
       if (view.bottom[2] !== 'r') {
-        if (this.offsetBottom) {
-          css.bottom = -this.offsetBottom + 'px'
-        }
-        else if (this.fixed.footer) {
+        if (this.fixed.footer) {
           css.bottom = this.size.footer.height + 'px'
+        }
+        else if (this.offsetBottom) {
+          css.bottom = -this.offsetBottom + 'px'
         }
       }
 
@@ -267,8 +268,10 @@ export default {
     onRightAsideResize (size) {
       updateSize(this.size.right, size)
     },
-    onLayoutResize (size) {
+    onLayoutResize () {
       updateObject(this.scroll, {scrollHeight: getScrollHeight(this.$el)})
+    },
+    onWindowResize (size) {
       updateSize(this.size.layout, size)
     },
     onPageScroll (data) {

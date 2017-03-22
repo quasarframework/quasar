@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lhh Lpr fff" reveal>
+  <q-layout view="hhh Lpr fff" reveal>
     <div slot="header" class="toolbar">
       <q-btn class="hide-on-drawer-visible" @click="$refs.leftDrawer.open()">
         <i>menu</i>
@@ -27,12 +27,12 @@
 
     <div slot="left" style="width: 50px;background: grey;">
       <div>First</div>
-      <div v-for="n in 60">LEFT</div>
+      <div v-for="n in 60">left{{n}}</div>
       <div>Last</div>
     </div>
     <div v-if="right" slot="right" style="width: 50px;background: yellow;">
       <div>First</div>
-      <div v-for="n in 60">Right</div>
+      <div v-for="n in 60">right{{n}}</div>
       <div>Last</div>
     </div>
 

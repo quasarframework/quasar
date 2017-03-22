@@ -26,47 +26,31 @@ function getSize (el) {
 }
 
 export default {
-  props: {
-    detect: {
-      type: String,
-      validator: v => ['both', 'width', 'height'].includes(v),
-      default: 'both'
-    }
-  },
   data () {
     return {
       size: {}
     }
   },
-  computed: {
-    detectWidth () {
-      return ['both', 'width'].includes(this.detect)
-    },
-    detectHeight () {
-      return ['both', 'height'].includes(this.detect)
-    }
-  },
   methods: {
     onScroll () {
-      const
-        size = getSize(this.$el.parentNode),
-        w = size.width !== this.size.width,
-        h = size.height !== this.size.height
+      const size = getSize(this.$el.parentNode)
 
-      if (!this.timer && ((this.detectWidth && w) || (this.detectHeight && h))) {
-        this.timer = window.requestAnimationFrame(this.__trigger)
+      if (size.width === this.size.width && size.height === this.size.height) {
+        return
       }
 
-      if (w || h) {
-        this.size = size
-        this.__reset()
+      if (!this.timer) {
+        this.timer = window.requestAnimationFrame(this.emit)
       }
+
+      this.size = size
+      this.reset()
     },
-    __trigger () {
+    emit () {
       this.timer = null
       this.$emit('resize', this.size)
     },
-    __reset () {
+    reset () {
       const ref = this.$refs
       ref.expand.scrollLeft = 100000
       ref.expand.scrollTop = 100000
@@ -80,7 +64,8 @@ export default {
     })
   },
   beforeDestroy () {
-    this.$emit('resize', {width: 0, height: 0})
+    this.size = {width: 0, height: 0}
+    this.emit()
   }
 }
 </script>

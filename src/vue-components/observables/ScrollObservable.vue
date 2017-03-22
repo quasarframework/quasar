@@ -20,12 +20,12 @@ export default {
         inflexionPosition: this.dirChangePos
       }
     },
-    __trigger () {
+    trigger () {
       if (!this.timer) {
-        this.timer = requestAnimationFrame(this.__emit)
+        this.timer = requestAnimationFrame(this.emit)
       }
     },
-    __emit () {
+    emit () {
       const
         pos = getScrollPosition(this.target),
         delta = pos - this.pos,
@@ -44,11 +44,11 @@ export default {
   },
   mounted () {
     this.target = getScrollTarget(this.$el.parentNode)
-    this.target.addEventListener('scroll', this.__trigger)
-    this.__trigger()
+    this.target.addEventListener('scroll', this.trigger)
+    this.trigger()
   },
   beforeDestroy () {
-    this.target.removeEventListener('scroll', this.__trigger)
+    this.target.removeEventListener('scroll', this.trigger)
   }
 }
 </script>
