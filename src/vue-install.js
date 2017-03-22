@@ -37,6 +37,7 @@ import FixedPosition from './vue-components/fixed-position/FixedPosition.vue'
 import SmallFab from './vue-components/fab/SmallFab.vue'
 import Gallery from './vue-components/gallery/Gallery.vue'
 import GallerySlider from './vue-components/gallery/GallerySlider.vue'
+import Icon from './vue-components/icon/Icon.vue'
 import InfiniteScroll from './vue-components/infinite-scroll/InfiniteScroll.vue'
 import InnerLoading from './vue-components/inner-loading/InnerLoading.vue'
 import Input from './vue-components/input/Input.vue'
@@ -120,6 +121,7 @@ function registerComponents (_Vue) {
     ['small-fab', SmallFab],
     ['gallery', Gallery],
     ['gallery-slider', GallerySlider],
+    ['icon', Icon],
     ['checkbox', Checkbox],
     ['infinite-scroll', InfiniteScroll],
     ['inner-loading', InnerLoading],
