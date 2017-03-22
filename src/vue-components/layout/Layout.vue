@@ -219,7 +219,7 @@ export default {
         }
       }
       if (view.bottom[0] !== 'l') {
-        if (this.fixed.footer) {
+        if (this.fixed.footer || !this.fixed.left) {
           css.bottom = this.footer.h + 'px'
         }
         else if (this.offsetBottom) {
@@ -243,7 +243,7 @@ export default {
         }
       }
       if (view.bottom[2] !== 'r') {
-        if (this.fixed.footer) {
+        if (this.fixed.footer || !this.fixed.right) {
           css.bottom = this.footer.h + 'px'
         }
         else if (this.offsetBottom) {
