@@ -35,7 +35,7 @@
       :class="{'fixed-top': fixed.header}"
       :style="headerStyle"
     >
-      {{size.layout}}<br>{{scroll}}
+      {{layout}}<br>{{scroll}}
 
       <slot name="header"></slot>
       <slot v-if="$q.theme !== 'ios'" name="navigation"></slot>
@@ -71,11 +71,11 @@ import { cssTransform } from '../../utils/dom'
 import { getScrollHeight } from '../../utils/scroll'
 
 function updateSize (obj, size) {
-  if (obj.width !== size.width) {
-    obj.width = size.width
+  if (obj.w !== size.width) {
+    obj.w = size.width
   }
-  if (obj.height !== size.height) {
-    obj.height = size.height
+  if (obj.h !== size.height) {
+    obj.h = size.height
   }
 }
 
@@ -97,14 +97,12 @@ export default {
   },
   data () {
     return {
-      size: {
-        header: {height: 0, width: 0},
-        left: {height: 0, width: 0},
-        right: {height: 0, width: 0},
-        footer: {height: 0, width: 0},
-        layout: {height: 0, width: 0}
-      },
       headerOnScreen: true,
+      header: {h: 0, w: 0},
+      left: {h: 0, w: 0},
+      right: {h: 0, w: 0},
+      footer: {h: 0, w: 0},
+      layout: {h: 0, w: 0},
       scroll: {
         position: 0,
         direction: '',
@@ -128,7 +126,7 @@ export default {
         right: this.view.indexOf('R') > -1
       }
     },
-    layout () {
+    rows () {
       const rows = this.view.toLowerCase().split(' ')
       return {
         top: rows[0].split(''),
@@ -138,27 +136,27 @@ export default {
     },
     pageStyle () {
       const
-        view = this.layout,
+        view = this.rows,
         css = {}
 
       if (!view.top.includes('p') && this.fixed.header) {
-        css.paddingTop = this.size.header.height + 'px'
+        css.paddingTop = this.header.h + 'px'
       }
       if (!view.bottom.includes('p') && this.fixed.footer) {
-        css.paddingBottom = this.size.footer.height + 'px'
+        css.paddingBottom = this.footer.h + 'px'
       }
       if (view.middle[0] !== 'p') {
-        css.paddingLeft = this.size.left.width + 'px'
+        css.paddingLeft = this.left.w + 'px'
       }
       if (view.middle[2] !== 'p') {
-        css.paddingRight = this.size.right.width + 'px'
+        css.paddingRight = this.right.w + 'px'
       }
 
       return css
     },
     mainStyle () {
       return {
-        minHeight: `calc(100vh - ${this.size.header.height}px - ${this.size.footer.height}px)`
+        minHeight: `calc(100vh - ${this.header.h + this.footer.h}px)`
       }
     },
     showHeader () {
@@ -166,41 +164,42 @@ export default {
     },
     headerStyle () {
       const
-        view = this.layout,
-        offset = this.showHeader ? 0 : -this.size.header.height,
-        css = cssTransform(`translateY(${offset}px)`)
+        view = this.rows,
+        css = this.showHeader
+          ? {}
+          : cssTransform(`translateY(${-this.header.h}px)`)
 
       if (view.top[0] === 'l') {
-        css.marginLeft = this.size.left.width + 'px'
+        css.marginLeft = this.left.w + 'px'
       }
       if (view.top[2] === 'r') {
-        css.marginRight = this.size.right.width + 'px'
+        css.marginRight = this.right.w + 'px'
       }
 
       return css
     },
     footerStyle () {
       const
-        view = this.layout,
+        view = this.rows,
         css = {}
 
       if (view.bottom[0] === 'l') {
-        css.marginLeft = this.size.left.width + 'px'
+        css.marginLeft = this.left.w + 'px'
       }
       if (view.bottom[2] === 'r') {
-        css.marginRight = this.size.right.width + 'px'
+        css.marginRight = this.right.w + 'px'
       }
 
       return css
     },
     offsetTop () {
       return !this.fixed.header
-        ? this.size.header.height - this.scroll.position
+        ? this.header.h - this.scroll.position
         : 0
     },
     offsetBottom () {
       if (!this.fixed.footer) {
-        let translate = this.scroll.scrollHeight - this.size.layout.height - this.scroll.position - this.size.footer.height
+        let translate = this.scroll.scrollHeight - this.layout.h - this.scroll.position - this.footer.h
         if (translate < 0) {
           return translate
         }
@@ -208,7 +207,7 @@ export default {
     },
     leftStyle () {
       const
-        view = this.layout,
+        view = this.rows,
         css = {}
 
       if (view.top[0] !== 'l') {
@@ -216,12 +215,12 @@ export default {
           css.top = Math.max(0, this.offsetTop) + 'px'
         }
         else if (this.showHeader) {
-          css.top = this.size.header.height + 'px'
+          css.top = this.header.h + 'px'
         }
       }
       if (view.bottom[0] !== 'l') {
         if (this.fixed.footer) {
-          css.bottom = this.size.footer.height + 'px'
+          css.bottom = this.footer.h + 'px'
         }
         else if (this.offsetBottom) {
           css.bottom = -this.offsetBottom + 'px'
@@ -232,7 +231,7 @@ export default {
     },
     rightStyle () {
       const
-        view = this.layout,
+        view = this.rows,
         css = {}
 
       if (view.top[2] !== 'r') {
@@ -240,12 +239,12 @@ export default {
           css.top = Math.max(0, this.offsetTop) + 'px'
         }
         else if (this.showHeader) {
-          css.top = this.size.header.height + 'px'
+          css.top = this.header.h + 'px'
         }
       }
       if (view.bottom[2] !== 'r') {
         if (this.fixed.footer) {
-          css.bottom = this.size.footer.height + 'px'
+          css.bottom = this.footer.h + 'px'
         }
         else if (this.offsetBottom) {
           css.bottom = -this.offsetBottom + 'px'
@@ -257,34 +256,32 @@ export default {
   },
   methods: {
     onHeaderResize (size) {
-      updateSize(this.size.header, size)
+      updateSize(this.header, size)
     },
     onFooterResize (size) {
-      updateSize(this.size.footer, size)
+      updateSize(this.footer, size)
     },
     onLeftAsideResize (size) {
-      updateSize(this.size.left, size)
+      updateSize(this.left, size)
     },
     onRightAsideResize (size) {
-      updateSize(this.size.right, size)
+      updateSize(this.right, size)
     },
     onLayoutResize () {
       updateObject(this.scroll, {scrollHeight: getScrollHeight(this.$el)})
     },
     onWindowResize (size) {
-      updateSize(this.size.layout, size)
+      updateSize(this.layout, size)
     },
     onPageScroll (data) {
       updateObject(this.scroll, data)
 
       if (this.reveal) {
-        let visible = true
-        if (
-          data.position > this.size.header.height &&
+        const visible = !(
+          data.position > this.header.h &&
           data.direction === 'down' && data.position - data.inflexionPosition >= 100
-        ) {
-          visible = false
-        }
+        )
+
         if (this.headerOnScreen !== visible) {
           this.headerOnScreen = visible
         }

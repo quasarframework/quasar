@@ -84,12 +84,11 @@
           </q-toolbar-title>
         </div>
 
-        <div class="layout-view">
-          <div class="layout-padding">
-            <h1>Modal</h1>
-            <q-btn class="primary" @click="$refs.layoutModal.close()">Close</q-btn>
-            <p class="caption" v-for="n in 15">This is a Modal presenting a Layout.</p>
-          </div>
+        <div class="layout-padding">
+          <h1>Modal</h1>
+
+          <q-btn class="primary" @click="$refs.layoutModal.close()">Close</q-btn>
+          <p class="caption" v-for="n in 15">This is a Modal presenting a Layout.</p>
         </div>
       </q-layout>
     </q-modal>

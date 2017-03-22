@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hhh Lpr fff" reveal>
+  <q-layout view="hhr Lpr fff" reveal>
     <div slot="header" class="toolbar">
       <q-btn class="hide-on-drawer-visible" @click="$refs.leftDrawer.open()">
         <q-icon name="menu" />

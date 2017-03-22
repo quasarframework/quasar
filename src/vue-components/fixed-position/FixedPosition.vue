@@ -41,19 +41,19 @@ export default {
     style () {
       const
         css = extend({}, this.offset),
-        page = this.layout.pageStyle,
-        size = this.layout.size
+        layout = this.layout,
+        page = layout.pageStyle
 
-      if (this.animated && !this.layout.showHeader) {
-        extend(css, cssTransform(`translateY(${-size.header.height}px)`))
+      if (this.animated && !layout.showHeader) {
+        extend(css, cssTransform(`translateY(${-layout.header.h}px)`))
       }
-      else if (this.pos.top && this.layout.offsetTop) {
-        if (this.layout.offsetTop > 0) {
-          extend(css, cssTransform(`translateY(${this.layout.offsetTop}px)`))
+      else if (this.pos.top && layout.offsetTop) {
+        if (layout.offsetTop > 0) {
+          extend(css, cssTransform(`translateY(${layout.offsetTop}px)`))
         }
       }
-      else if (this.pos.bottom && this.layout.offsetBottom) {
-        extend(css, cssTransform(`translateY(${this.layout.offsetBottom}px)`))
+      else if (this.pos.bottom && layout.offsetBottom) {
+        extend(css, cssTransform(`translateY(${layout.offsetBottom}px)`))
       }
 
       sides.forEach(side => {

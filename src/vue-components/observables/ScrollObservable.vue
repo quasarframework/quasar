@@ -27,7 +27,7 @@ export default {
     },
     emit () {
       const
-        pos = getScrollPosition(this.target),
+        pos = Math.max(0, getScrollPosition(this.target)),
         delta = pos - this.pos,
         dir = delta < 0 ? 'up' : 'down'
 
