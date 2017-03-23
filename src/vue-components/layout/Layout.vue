@@ -1,14 +1,38 @@
 <template>
   <div class="layout">
+    <div
+      v-if="$slots.left && !leftConfig.onLayout"
+      class="layout-side-opener fixed-left"
+      v-touch-pan.horizontal="__openLeft"
+    ></div>
+    <div
+      v-if="$slots.left && !leftConfig.onLayout"
+      ref="backdrop"
+      class="fullscreen layout-backdrop"
+      :class="{
+        'transition-generic': !leftState.inTransit,
+        'no-pointer-events': !leftState.inTransit && !leftState.opened,
+      }"
+      :style="{
+        opacity: leftState.percentage,
+        hidden: !leftState.inTransit && !leftState.opened,
+      }"
+      @click="closeSide"
+      v-touch-pan.horizontal="__closeLeft"
+    ></div>
+
     <aside
       ref="left"
       v-if="$slots.left"
       class="layout-aside layout-aside-left"
       :class="{
-        'absolute-left': !this.fixed.left,
-        'fixed-left': this.fixed.left
+        'absolute-left': !fixed.left && leftConfig.onLayout,
+        'fixed-left': fixed.left || !leftConfig.onLayout,
+        'on-top': !leftConfig.onLayout,
+        'transition-generic': !leftState.inTransit
       }"
       :style="leftStyle"
+      v-touch-pan.horizontal="__closeLeft"
     >
       <slot name="left"></slot>
       <q-resize-observable @resize="onLeftAsideResize" />
@@ -17,7 +41,7 @@
     <aside
       ref="right"
       v-if="$slots.right"
-      class="layout-aside layout-aside-right"
+      class="layout-aside layout-aside-right transition-generic"
       :class="{
         'absolute-right': !this.fixed.right,
         'fixed-right': this.fixed.right
@@ -35,6 +59,9 @@
       :class="{'fixed-top': fixed.header}"
       :style="headerStyle"
     >
+      <div class="row justify-center" @click="toggleLeft">
+        <q-btn class="white text-black">Toggle</q-btn>
+      </div>
       <slot name="header"></slot>
       <slot v-if="$q.theme !== 'ios'" name="navigation"></slot>
       <q-resize-observable @resize="onHeaderResize" />
@@ -67,6 +94,7 @@
 <script>
 import { cssTransform } from '../../utils/dom'
 import { getScrollHeight } from '../../utils/scroll'
+import SideMixin from './side-mixin'
 
 function updateSize (obj, size) {
   if (obj.w !== size.width) {
@@ -86,6 +114,7 @@ function updateObject (obj, data) {
 }
 
 export default {
+  mixins: [SideMixin],
   props: {
     view: {
       type: String,
@@ -144,7 +173,7 @@ export default {
       if (!view.bottom.includes('p') && this.fixed.footer) {
         css.paddingBottom = this.footer.h + 'px'
       }
-      if (view.middle[0] !== 'p') {
+      if (view.middle[0] !== 'p' && this.leftConfig.onLayout) {
         css.paddingLeft = this.left.w + 'px'
       }
       if (view.middle[2] !== 'p') {
@@ -168,7 +197,7 @@ export default {
           ? {}
           : cssTransform(`translateY(${-this.header.h}px)`)
 
-      if (view.top[0] === 'l') {
+      if (view.top[0] === 'l' && this.leftConfig.onLayout) {
         css.marginLeft = this.left.w + 'px'
       }
       if (view.top[2] === 'r') {
@@ -182,7 +211,7 @@ export default {
         view = this.rows,
         css = {}
 
-      if (view.bottom[0] === 'l') {
+      if (view.bottom[0] === 'l' && this.leftConfig.onLayout) {
         css.marginLeft = this.left.w + 'px'
       }
       if (view.bottom[2] === 'r') {
@@ -205,6 +234,12 @@ export default {
       }
     },
     leftStyle () {
+      if (!this.leftConfig.onLayout) {
+        return this.leftState.inTransit
+          ? cssTransform(`translateX(${this.leftState.position}px)`)
+          : cssTransform(`translateX(${this.leftState.opened ? 0 : '-100%'})`)
+      }
+
       const
         view = this.rows,
         css = {}
