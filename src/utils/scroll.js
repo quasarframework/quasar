@@ -20,7 +20,7 @@ function animScrollTo (el, to, duration) {
 
   const pos = getScrollPosition(el)
 
-  requestAnimationFrame(() => {
+  window.requestAnimationFrame(() => {
     setScroll(el, pos + (to - pos) / duration * 16)
     if (el.scrollTop !== to) {
       animScrollTo(el, to, duration - 16)

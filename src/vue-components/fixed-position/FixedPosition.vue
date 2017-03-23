@@ -1,5 +1,5 @@
 <template>
-  <div class="z-fixed animate-pop" :class="className" :style="style">
+  <div class="z-fixed" :class="[`fixed-${corner}`]" :style="style">
     <slot></slot>
   </div>
 </template>
@@ -26,9 +26,6 @@ export default {
   computed: {
     animated () {
       return this.pos.top && this.layout.reveal
-    },
-    className () {
-      return `fixed${this.corner ? `-${this.corner}` : ''}${this.animated ? ' transition-generic' : ''}`
     },
     pos () {
       return {

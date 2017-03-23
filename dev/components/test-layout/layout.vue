@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hhr Lpr fff">
+  <q-layout view="hhr Lpr fff" reveal>
     <div slot="header" class="toolbar">
       <q-btn class="hide-on-drawer-visible" @click="$refs.leftDrawer.open()">
         <q-icon name="menu" />
@@ -29,6 +29,11 @@
       <div>First</div>
       <div v-for="n in 60">left{{n}}</div>
       <div>Last</div>
+      <div class="absolute-bottom">
+        <div class="fixed bg-red" style="transform: translateY(-100%);">
+          Bottomlkljkjh
+        </div>
+      </div>
     </div>
     <div v-if="right" slot="right" style="width: 50px;background: yellow;">
       <div>First</div>

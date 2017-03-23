@@ -3,9 +3,11 @@
     <q-fixed-position corner="top-right" :offset="{top: '18px', right: '18px'}">
       <q-btn class="primary" circular @click="alert" icon="alarm" />
     </q-fixed-position>
+    <!--
     <q-fixed-position corner="bottom-right" :offset="{right: '18px', bottom: '18px'}">
       <q-btn class="primary" circular @click="alert" icon="cloud" />
     </q-fixed-position>
+    -->
 
     <q-btn class="primary absolute-top-left" circular @click="alert" icon="wifi" />
 
@@ -30,10 +32,12 @@
 </template>
 
 <script>
+import { Toast } from 'quasar'
+
 export default {
   methods: {
     alert () {
-      alert('aa')
+      Toast.create('aaaa')
     }
   }
 }

@@ -1,8 +1,8 @@
 <template>
   <button
+    class="q-btn"
     v-ripple.mat
     @click="__click"
-    class="q-btn"
     :class="{circular: circular}"
   >
     <spinner

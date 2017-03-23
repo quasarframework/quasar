@@ -16,7 +16,7 @@ export default {
         left = e.currentTarget.scrollLeft,
         top = e.currentTarget.scrollTop
 
-      requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
         if (this.$refs.head) {
           this.$refs.head.scrollLeft = left
         }
@@ -36,7 +36,7 @@ export default {
     },
     resize () {
       this.$nextTick(() => {
-        requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => {
           if (this.responsive) {
             return
           }

@@ -131,12 +131,12 @@ export default {
       this.pullPosition -= (this.pullPosition - target) / 7
 
       if (this.pullPosition - target > 1) {
-        this.animating = requestAnimationFrame(() => {
+        this.animating = window.requestAnimationFrame(() => {
           this.__animateTo(target, done, true)
         })
       }
       else {
-        this.animating = requestAnimationFrame(() => {
+        this.animating = window.requestAnimationFrame(() => {
           this.pullPosition = target
           this.animating = false
           done && done()

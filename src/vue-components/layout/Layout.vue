@@ -35,8 +35,6 @@
       :class="{'fixed-top': fixed.header}"
       :style="headerStyle"
     >
-      {{layout}}<br>{{scroll}}
-
       <slot name="header"></slot>
       <slot v-if="$q.theme !== 'ios'" name="navigation"></slot>
       <q-resize-observable @resize="onHeaderResize" />
@@ -91,7 +89,8 @@ export default {
   props: {
     view: {
       type: String,
-      default: 'hhh lpr fff'
+      default: 'hhh lpr fff',
+      validator: v => /^(h|H|L|l)(h|H)(h|H|R|r) (L|l|p)p(R|r|p) (f|F|L|l)(f|F)(f|F|R|r)$/.test(v)
     },
     reveal: Boolean
   },

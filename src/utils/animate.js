@@ -3,7 +3,7 @@ import uid from './uid'
 let ids = {}
 
 function animate ({id, finalPos, pos, threshold, factor, done, apply}) {
-  ids[id] = requestAnimationFrame(() => {
+  ids[id] = window.requestAnimationFrame(() => {
     let diff = (finalPos - pos)
     if (Math.abs(diff) < threshold) {
       delete ids[id]

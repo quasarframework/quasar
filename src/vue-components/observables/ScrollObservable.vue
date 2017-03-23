@@ -22,7 +22,7 @@ export default {
     },
     trigger () {
       if (!this.timer) {
-        this.timer = requestAnimationFrame(this.emit)
+        this.timer = window.requestAnimationFrame(this.emit)
       }
     },
     emit () {

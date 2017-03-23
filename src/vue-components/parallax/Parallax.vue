@@ -86,7 +86,7 @@ export default {
       if (bottom > containerTop && top < containerBottom) {
         let percentScrolled = (containerBottom - top) / (this.height + containerHeight)
         let imageOffset = Math.round((this.imageHeight - this.height) * percentScrolled * this.speed)
-        requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => {
           this.$refs.img.style.transform = 'translate3D(-50%,' + imageOffset + 'px, 0)'
         })
       }

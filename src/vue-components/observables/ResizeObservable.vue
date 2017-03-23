@@ -26,11 +26,6 @@ function getSize (el) {
 }
 
 export default {
-  data () {
-    return {
-      size: {}
-    }
-  },
   methods: {
     onScroll () {
       const size = getSize(this.$el.parentNode)
@@ -44,10 +39,10 @@ export default {
       }
 
       this.size = size
-      this.reset()
     },
     emit () {
       this.timer = null
+      this.reset()
       this.$emit('resize', this.size)
     },
     reset () {
@@ -60,12 +55,12 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
+      this.size = {}
       this.onScroll()
     })
   },
   beforeDestroy () {
-    this.size = {width: 0, height: 0}
-    this.emit()
+    this.emit('resize', {width: 0, height: 0})
   }
 }
 </script>
