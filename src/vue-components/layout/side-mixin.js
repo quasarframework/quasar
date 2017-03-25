@@ -12,6 +12,7 @@ export default {
         openedBig: true,
 
         inTransit: false,
+        touchEvent: false,
         position: 0,
         percentage: 0
       }
@@ -38,10 +39,32 @@ export default {
         this.openLeft()
       }
     },
+    __popState () {
+      console.log('popstate')
+      if (this.$q.platform.has.popstate && window.history.state && window.history.state.__quasar_layout_overlay) {
+        window.removeEventListener('popstate', this.__popState)
+        this.__closeSide()
+      }
+    },
+    __closeSide () {
+      this.leftState.openedSmall = false
+      this.leftState.percentage = 0
+    },
     closeSide () {
+      if (this.leftState.touchEvent) {
+        this.leftState.touchEvent = false
+        return
+      }
+      console.log('closeSide')
       if (this.leftState.openedSmall) {
-        this.leftState.openedSmall = false
-        this.leftState.percentage = 0
+        if (this.$q.platform.has.popstate) {
+          if (window.history.state && !window.history.state.__quasar_layout_overlay) {
+            window.history.go(-1)
+          }
+        }
+        else {
+          this.__closeSide()
+        }
       }
       else {
         this.leftState.openedBig = false
@@ -52,6 +75,19 @@ export default {
         this.leftState.openedBig = true
       }
       else {
+        if (this.$q.platform.has.popstate) {
+          if (!window.history.state) {
+            window.history.replaceState({__quasar_layout_overlay: true}, '')
+          }
+          else {
+            window.history.state.__quasar_layout_overlay = true
+          }
+          let state = window.history.state || {}
+          state.__quasar_layout_overlay = true
+          window.history.replaceState(state, '')
+          window.history.pushState({}, '')
+          window.addEventListener('popstate', this.__popState)
+        }
         this.leftState.openedSmall = true
         this.leftState.percentage = 1
       }
@@ -61,9 +97,13 @@ export default {
 
       if (evt.isFinal) {
         const opened = position > 75
-        this.leftState.openedSmall = opened
-        this.leftState.percentage = opened ? 1 : 0
         this.leftState.inTransit = false
+        if (opened) {
+          this.openLeft()
+        }
+        else {
+          this.leftState.percentage = 0
+        }
         return
       }
 
@@ -75,7 +115,7 @@ export default {
       }
     },
     __closeLeft (evt) {
-      if (this.leftState.openedBig) {
+      if (this.leftOnLayout) {
         return
       }
       const position = evt.direction === 'left'
@@ -84,9 +124,13 @@ export default {
 
       if (evt.isFinal) {
         const opened = Math.abs(position) <= 75
-        this.leftState.openedSmall = opened
-        this.leftState.percentage = opened ? 1 : 0
         this.leftState.inTransit = false
+        if (!opened) {
+          this.closeSide()
+        }
+        else {
+          this.leftState.percentage = 1
+        }
         return
       }
 
@@ -95,6 +139,7 @@ export default {
 
       if (evt.isFirst) {
         this.leftState.inTransit = true
+        this.leftState.touchEvent = true
       }
     }
   }
