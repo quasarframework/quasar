@@ -3,22 +3,22 @@
     <div
       v-if="!$q.platform.is.ios && $slots.left && !leftState.openedSmall"
       class="layout-side-opener fixed-left"
-      v-touch-pan.horizontal="__openLeft"
+      v-touch-pan.horizontal="__openLeftByTouch"
     ></div>
     <div
       v-if="$slots.left"
       ref="backdrop"
       class="fullscreen layout-backdrop"
       :class="{
-        'transition-generic': !leftState.inTransit,
-        'no-pointer-events': !leftState.openedSmall,
+        'transition-generic': !backdrop.inTransit,
+        'no-pointer-events': hideBackdrop,
       }"
       :style="{
-        opacity: leftState.percentage,
-        hidden: !leftBackdrop
+        opacity: backdrop.percentage,
+        hidden: hideBackdrop
       }"
-      @click="closeSide"
-      v-touch-pan.horizontal="__closeLeft"
+      @click="hideLeft"
+      v-touch-pan.horizontal="__closeLeftByTouch"
     ></div>
 
     <aside
@@ -29,10 +29,10 @@
         'absolute-left': !fixed.left && leftOnLayout,
         'fixed-left': fixed.left || !leftOnLayout,
         'on-top': !leftBreakpoint,
-        'transition-generic': !leftState.inTransit
+        'transition-generic': !backdrop.inTransit
       }"
       :style="leftStyle"
-      v-touch-pan.horizontal="__closeLeft"
+      v-touch-pan.horizontal="__closeLeftByTouch"
     >
       <slot name="left"></slot>
       <q-resize-observable @resize="onLeftAsideResize" />
@@ -60,7 +60,7 @@
       :style="headerStyle"
     >
       <div class="row justify-center">
-        <q-btn class="white text-black" @click="toggleLeft">Toggle</q-btn> {{leftBreakpoint}} {{leftState}}
+        <q-btn class="white text-black" @click="toggleLeft">Toggle Left</q-btn>
       </div>
       <slot name="header"></slot>
       <slot v-if="$q.theme !== 'ios'" name="navigation"></slot>
@@ -235,7 +235,7 @@ export default {
     },
     leftStyle () {
       if (!this.leftOnLayout) {
-        return this.leftState.inTransit
+        return this.backdrop.inTransit
           ? cssTransform(`translateX(${this.leftState.position}px)`)
           : cssTransform(`translateX(${this.leftState.openedSmall ? 0 : '-100%'})`)
       }
