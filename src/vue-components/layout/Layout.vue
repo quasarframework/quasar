@@ -1,21 +1,21 @@
 <template>
   <div class="layout">
     <div
-      v-if="$slots.left && !leftConfig.onLayout"
+      v-if="!$q.platform.is.ios && $slots.left && !leftState.openedSmall"
       class="layout-side-opener fixed-left"
       v-touch-pan.horizontal="__openLeft"
     ></div>
     <div
-      v-if="$slots.left && !leftConfig.onLayout"
+      v-if="$slots.left"
       ref="backdrop"
       class="fullscreen layout-backdrop"
       :class="{
         'transition-generic': !leftState.inTransit,
-        'no-pointer-events': !leftState.inTransit && !leftState.opened,
+        'no-pointer-events': !leftState.openedSmall,
       }"
       :style="{
         opacity: leftState.percentage,
-        hidden: !leftState.inTransit && !leftState.opened,
+        hidden: !leftBackdrop
       }"
       @click="closeSide"
       v-touch-pan.horizontal="__closeLeft"
@@ -26,9 +26,9 @@
       v-if="$slots.left"
       class="layout-aside layout-aside-left"
       :class="{
-        'absolute-left': !fixed.left && leftConfig.onLayout,
-        'fixed-left': fixed.left || !leftConfig.onLayout,
-        'on-top': !leftConfig.onLayout,
+        'absolute-left': !fixed.left && leftOnLayout,
+        'fixed-left': fixed.left || !leftOnLayout,
+        'on-top': !leftBreakpoint,
         'transition-generic': !leftState.inTransit
       }"
       :style="leftStyle"
@@ -59,8 +59,8 @@
       :class="{'fixed-top': fixed.header}"
       :style="headerStyle"
     >
-      <div class="row justify-center" @click="toggleLeft">
-        <q-btn class="white text-black">Toggle</q-btn>
+      <div class="row justify-center">
+        <q-btn class="white text-black" @click="toggleLeft">Toggle</q-btn> {{leftBreakpoint}} {{leftState}}
       </div>
       <slot name="header"></slot>
       <slot v-if="$q.theme !== 'ios'" name="navigation"></slot>
@@ -173,7 +173,7 @@ export default {
       if (!view.bottom.includes('p') && this.fixed.footer) {
         css.paddingBottom = this.footer.h + 'px'
       }
-      if (view.middle[0] !== 'p' && this.leftConfig.onLayout) {
+      if (view.middle[0] !== 'p' && this.leftOnLayout) {
         css.paddingLeft = this.left.w + 'px'
       }
       if (view.middle[2] !== 'p') {
@@ -197,7 +197,7 @@ export default {
           ? {}
           : cssTransform(`translateY(${-this.header.h}px)`)
 
-      if (view.top[0] === 'l' && this.leftConfig.onLayout) {
+      if (view.top[0] === 'l' && this.leftOnLayout) {
         css.marginLeft = this.left.w + 'px'
       }
       if (view.top[2] === 'r') {
@@ -211,7 +211,7 @@ export default {
         view = this.rows,
         css = {}
 
-      if (view.bottom[0] === 'l' && this.leftConfig.onLayout) {
+      if (view.bottom[0] === 'l' && this.leftOnLayout) {
         css.marginLeft = this.left.w + 'px'
       }
       if (view.bottom[2] === 'r') {
@@ -234,10 +234,10 @@ export default {
       }
     },
     leftStyle () {
-      if (!this.leftConfig.onLayout) {
+      if (!this.leftOnLayout) {
         return this.leftState.inTransit
           ? cssTransform(`translateX(${this.leftState.position}px)`)
-          : cssTransform(`translateX(${this.leftState.opened ? 0 : '-100%'})`)
+          : cssTransform(`translateX(${this.leftState.openedSmall ? 0 : '-100%'})`)
       }
 
       const

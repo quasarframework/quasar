@@ -2,14 +2,24 @@
 export default {
   functional: true,
   props: {
-    name: {
-      type: String,
-      required: true
-    }
+    name: String,
+    mat: String,
+    ios: String
   },
   render (h, ctx) {
-    const icon = ctx.props.name
     let name, text
+    const
+      props = ctx.props,
+      theme = ctx.parent.$q.theme
+
+    const icon = props.mat && theme === 'mat'
+      ? props.mat
+      : (props.ios && theme === 'ios' ? props.ios : ctx.props.name)
+
+    if (!icon) {
+      console.error('q-icon has no icon to display for current theme; set "name" or both "mat" and "ios" props')
+      return
+    }
 
     if (icon.startsWith('fa-')) {
       name = `icon fa ${icon}`

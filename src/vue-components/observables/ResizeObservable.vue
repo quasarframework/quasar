@@ -60,7 +60,7 @@ export default {
     })
   },
   beforeDestroy () {
-    this.emit('resize', {width: 0, height: 0})
+    this.$emit('resize', {width: 0, height: 0})
   }
 }
 </script>

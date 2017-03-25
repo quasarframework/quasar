@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hhr lpr lFf" reveal>
+  <q-layout view="hhr Lpr lFf" reveal>
     <div slot="header" class="toolbar">
       <q-btn class="hide-on-drawer-visible" @click="$refs.leftDrawer.open()">
         <q-icon name="menu" />
@@ -28,6 +28,7 @@
     <div slot="left" style="width: 200px;background: yellow;">
       <div>First</div>
       <div v-for="n in 60">left{{n}}</div>
+      <q-input v-model="gigi" />
       <div>Last</div>
     </div>
     <div v-if="right" slot="right" style="width: 50px;background: yellow;">
@@ -98,7 +99,8 @@ export default {
     return {
       search: '',
       right: true,
-      todo: true
+      todo: true,
+      gigi: ''
     }
   }
 }
