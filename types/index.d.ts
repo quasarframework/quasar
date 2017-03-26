@@ -78,6 +78,7 @@ export interface IDialog {
 interface DialogOptionsButtons {
   label: string
   preventClose?: boolean
+  classes?: string
 }
 
 interface DialogOptionsButtonsHandler extends DialogOptionsButtons {
