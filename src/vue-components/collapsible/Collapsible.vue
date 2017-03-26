@@ -10,7 +10,7 @@
       <i class="item-secondary" :class="{'rotate-180': active}" @click.stop="toggle">keyboard_arrow_down</i>
     </div>
     <q-transition name="slide">
-      <div v-show="active">
+      <div v-if="active">
         <div class="q-collapsible-sub-item">
           <slot></slot>
         </div>
@@ -45,6 +45,13 @@ export default {
     active (value) {
       if (value && this.group) {
         Events.$emit(eventName, this)
+      }
+
+      if (value) {
+        this.$emit('open')
+      }
+      else {
+        this.$emit('close')
       }
     }
   },
