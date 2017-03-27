@@ -148,6 +148,9 @@ function getPlatform () {
   if (window && window.process && window.process.versions && window.process.versions.electron) {
     browser.electron = true
   }
+  else if (document.location.href.indexOf('chrome-extension://') === 0) {
+    browser.chromeExt = true
+  }
   else if (window._cordovaNative || document.location.href.indexOf('http') !== 0) {
     browser.cordova = true
   }
