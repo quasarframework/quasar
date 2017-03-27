@@ -62,6 +62,7 @@ export default {
       }
 
       if (this.leftState.openedSmall) {
+        document.body.classList.remove('with-layout-side-opened')
         if (this.$q.platform.has.popstate) {
           if (window.history.state && !window.history.state.__quasar_layout_overlay) {
             window.history.go(-1)
@@ -93,6 +94,7 @@ export default {
           window.history.pushState({}, '')
           window.addEventListener('popstate', this.__popState)
         }
+        document.body.classList.add('with-layout-side-opened')
         this.leftState.openedSmall = true
         this.backdrop.percentage = 1
       }
@@ -116,6 +118,7 @@ export default {
       this.backdrop.percentage = between(position / this.left.w, 0, 1)
 
       if (evt.isFirst) {
+        document.body.classList.add('with-layout-side-opened')
         this.backdrop.inTransit = true
       }
     },
