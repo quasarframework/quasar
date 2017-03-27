@@ -77,6 +77,15 @@
         </q-collapsible>
       </div>
 
+      <p class="caption">use open and close emit</p>
+      <div class="list">
+        <q-collapsible group="somegroup" icon="explore" label="counter" @open="counter_start" @close="counter_stop">
+          <div>Will only count when opened, using the open and close event to control count timer</div>
+          <label>Counter : {{counter}}</label>
+        </q-collapsible>
+      </div>
+
+
       <p class="caption">Ubiquity. Using Cards as content.</p>
       <div class="list item-delimiter">
         <q-collapsible icon="explore" label="First Card">
@@ -150,3 +159,29 @@
     </div>
   </div>
 </template>
+<script>
+  export default {
+    hndl: 0,
+
+    data () {
+      return {
+        counter: 0
+      }
+    },
+
+    methods: {
+      counter_start () {
+        console.log('counter start')
+
+        this.hndl = setInterval(() => {
+          this.counter++
+        }, 1000)
+      },
+      counter_stop () {
+        console.log('counter stop')
+
+        clearInterval(this.hndl)
+      }
+    }
+  }
+</script>

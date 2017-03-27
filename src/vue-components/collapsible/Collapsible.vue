@@ -67,10 +67,12 @@ export default {
     opened (value) {
       this.active = value
     },
-    active (value) {
-      if (value && this.group) {
+    active (val) {
+      if (val && this.group) {
         this.$q.events.$emit(eventName, this)
       }
+
+      this.$emit(val ? 'open' : 'close')
     }
   },
   methods: {
