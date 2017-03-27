@@ -167,6 +167,7 @@ export default {
       })
       this.otherFiles = this.otherFiles.concat(files.filter(file => !file.type.startsWith('image')))
       this.files = this.files.concat(files)
+      this.$refs.file.value = ''
     },
     __remove (name, done, response) {
       this.$emit(done ? 'upload' : 'remove', name, response)
