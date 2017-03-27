@@ -78,7 +78,7 @@
 
       <p class="caption">use open and close emit</p>
       <div class="list">
-        <q-collapsible group="somegroup" icon="explore" label="counter" @open='counter_start' @close='counter_stop'>
+        <q-collapsible group="somegroup" icon="explore" label="counter" @open="counter_start" @close="counter_stop">
           <div>Will only count when opened, using the open and close event to control count timer</div>
           <label>Counter : {{counter}}</label>
         </q-collapsible>
