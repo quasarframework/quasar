@@ -1,112 +1,114 @@
 import { between } from '../../utils/format'
 
 export default {
-  props: {
-    leftSide: {
-      type: Object,
-      default: () => ({})
-    }
-  },
-  data () {
-    return {
-      backdrop: {
-        inTransit: false,
-        touchEvent: false,
-        percentage: 0
-      },
-
-      leftState: {
-        position: 0,
-        openedSmall: false,
-        openedBig: 'showDefault' in this.leftSide
-          ? this.leftSide.hideOnStart
-          : true
-      }
-    }
-  },
-  computed: {
-    leftBreakpoint () {
-      const breakpoint = this.leftSide.breakpoint || 996
-      return !this.leftState.openedSmall && this.layout.w >= breakpoint
-    },
-    leftOnLayout () {
-      return this.leftBreakpoint && this.leftState.openedBig
-    },
-    hideBackdrop () {
-      return !this.backdrop.inTransit && !this.leftState.openedSmall
-    }
-  },
   methods: {
     toggleLeft () {
-      if (this.leftState.openedSmall || (this.leftBreakpoint && this.leftState.openedBig)) {
-        this.hideLeft()
+      this.__toggle('left')
+    },
+    toggleRight () {
+      this.__toggle('right')
+    },
+    showLeft () {
+      this.__show('left')
+    },
+    showRight () {
+      this.__show('right')
+    },
+    hideLeft () {
+      this.__hide('left')
+    },
+    hideRight () {
+      this.__hide('right')
+    },
+
+    __toggle (side) {
+      const state = this[side + 'State']
+      if (state.openedSmall || (this[side + 'Breakpoint'] && state.openedBig)) {
+        this.__hide(side)
       }
       else {
-        this.showLeft()
+        this.__show(side)
       }
     },
     __popState () {
       if (this.$q.platform.has.popstate && window.history.state && window.history.state.__quasar_layout_overlay) {
         window.removeEventListener('popstate', this.__popState)
-        this.__hideLeft()
+        this.__hideSmall()
       }
     },
-    __hideLeft () {
+    __hideSmall () {
+      this.rightState.openedSmall = false
       this.leftState.openedSmall = false
       this.backdrop.percentage = 0
     },
-    hideLeft () {
-      if (this.backdrop.touchEvent) {
-        this.backdrop.touchEvent = false
+    __hide (side) {
+      if (typeof side !== 'string') {
+        if (this.backdrop.touchEvent) {
+          this.backdrop.touchEvent = false
+          return
+        }
+        side = this.leftState.openedSmall ? 'left' : 'right'
+      }
+
+      const state = this[side + 'State']
+
+      if (!state.openedSmall) {
+        state.openedBig = false
         return
       }
 
-      if (this.leftState.openedSmall) {
-        document.body.classList.remove('with-layout-side-opened')
-        if (this.$q.platform.has.popstate) {
-          if (window.history.state && !window.history.state.__quasar_layout_overlay) {
-            window.history.go(-1)
-          }
+      document.body.classList.remove('with-layout-side-opened')
+      if (this.$q.platform.has.popstate) {
+        if (window.history.state && !window.history.state.__quasar_layout_overlay) {
+          window.history.go(-1)
+        }
+      }
+      else {
+        this.__hideSmall()
+      }
+    },
+    __show (side) {
+      const state = this[side + 'State']
+      if (this[side + 'Breakpoint']) {
+        state.openedBig = true
+        return
+      }
+
+      if (this.$q.platform.has.popstate) {
+        if (!window.history.state) {
+          window.history.replaceState({__quasar_layout_overlay: true}, '')
         }
         else {
-          this.__hideLeft()
+          window.history.state.__quasar_layout_overlay = true
         }
+        let hist = window.history.state || {}
+        hist.__quasar_layout_overlay = true
+        window.history.replaceState(hist, '')
+        window.history.pushState({}, '')
+        window.addEventListener('popstate', this.__popState)
       }
-      else {
-        this.leftState.openedBig = false
-      }
-    },
-    showLeft () {
-      if (this.leftBreakpoint) {
-        this.leftState.openedBig = true
-      }
-      else {
-        if (this.$q.platform.has.popstate) {
-          if (!window.history.state) {
-            window.history.replaceState({__quasar_layout_overlay: true}, '')
-          }
-          else {
-            window.history.state.__quasar_layout_overlay = true
-          }
-          let state = window.history.state || {}
-          state.__quasar_layout_overlay = true
-          window.history.replaceState(state, '')
-          window.history.pushState({}, '')
-          window.addEventListener('popstate', this.__popState)
-        }
-        document.body.classList.add('with-layout-side-opened')
-        this.leftState.openedSmall = true
-        this.backdrop.percentage = 1
-      }
+
+      document.body.classList.add('with-layout-side-opened')
+      state.openedSmall = true
+      this.backdrop.percentage = 1
     },
     __openLeftByTouch (evt) {
-      const position = between(evt.distance.x, 0, this.left.w)
+      this.__openByTouch(evt, 'left')
+    },
+    __openRightByTouch (evt) {
+      this.__openByTouch(evt, 'right', true)
+    },
+    __openByTouch (evt, side, right) {
+      const
+        width = this[side].w,
+        position = between(evt.distance.x, 0, width)
 
       if (evt.isFinal) {
-        const opened = position > 75
+        const opened = position >= Math.min(75, width)
         this.backdrop.inTransit = false
+        this[side + 'InTransit'] = false
         if (opened) {
-          this.showLeft()
+          this.__show(side)
         }
         else {
           this.backdrop.percentage = 0
@@ -114,27 +116,38 @@ export default {
         return
       }
 
-      this.leftState.position = Math.min(0, position - this.left.w)
-      this.backdrop.percentage = between(position / this.left.w, 0, 1)
+      this[side + 'State'].position = right
+        ? Math.max(width - position, 0)
+        : Math.min(0, position - width)
+
+      this.backdrop.percentage = between(position / width, 0, 1)
 
       if (evt.isFirst) {
         document.body.classList.add('with-layout-side-opened')
-        this.backdrop.inTransit = true
+        this.backdrop.inTransit = side
+        this[side + 'InTransit'] = true
       }
     },
-    __closeLeftByTouch (evt) {
-      if (this.leftOnLayout) {
+    __closeByTouch (evt) {
+      const
+        right = this.rightState.openedSmall,
+        side = right ? 'right' : 'left',
+        width = this[side].w
+
+      if (this[side + 'OnLayout']) {
         return
       }
-      const position = evt.direction === 'left'
-        ? between(evt.distance.x, 0, this.left.w)
+
+      const position = evt.direction === side
+        ? between(evt.distance.x, 0, width)
         : 0
 
       if (evt.isFinal) {
-        const opened = Math.abs(position) <= 75
+        const opened = Math.abs(position) < Math.min(75, width)
         this.backdrop.inTransit = false
+        this[side + 'InTransit'] = false
         if (!opened) {
-          this.hideLeft()
+          this.__hide(side)
         }
         else {
           this.backdrop.percentage = 1
@@ -142,11 +155,12 @@ export default {
         return
       }
 
-      this.leftState.position = -position
-      this.backdrop.percentage = between(1 + position / this.left.w, 0, 1)
+      this[side + 'State'].position = (right ? 1 : -1) * position
+      this.backdrop.percentage = between(1 + (right ? -1 : 1) * position / width, 0, 1)
 
       if (evt.isFirst) {
         this.backdrop.inTransit = true
+        this[side + 'InTransit'] = true
         this.backdrop.touchEvent = true
       }
     }

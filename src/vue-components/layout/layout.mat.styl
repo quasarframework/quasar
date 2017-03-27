@@ -1,15 +1,10 @@
 $layout-toolbar-min-height ?= 50px
 $layout-header-shadow      ?= $shadow-2
 $layout-footer-shadow      ?= $shadow-up-2
+$layout-aside-shadow       ?= $shadow-2
+
 $toolbar-title-font-size   ?= 1.15rem
 $toolbar-padding           ?= 4px 12px
-
-/*
-.layout-header, .layout-footer, .layout-aside
-  opacity .5
-main
-  background #39dcba // @stylint ignore
-*/
 
 .layout
   width 100%
@@ -23,12 +18,20 @@ main
 
 .layout-aside
   overflow-y auto
-  &.fixed-left, &.fixed-right
+  position absolute
+  top 0
+  bottom 0
+  &.fixed
     z-index $z-side
+    box-shadow $layout-aside-shadow
   &.on-top
     z-index $z-fixed-side
+.layout-aside-left
+  left 0
+.layout-aside-right
+  right 0
 
-main, .layout, .layout-header, .layout-footer, .layout-aside
+main, .layout, .layout-header, .layout-footer
   position relative
 
 .layout-header, .layout-footer

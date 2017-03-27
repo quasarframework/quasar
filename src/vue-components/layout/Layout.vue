@@ -6,7 +6,12 @@
       v-touch-pan.horizontal="__openLeftByTouch"
     ></div>
     <div
-      v-if="$slots.left"
+      v-if="!$q.platform.is.ios && $slots.right && !rightState.openedSmall"
+      class="layout-side-opener fixed-right"
+      v-touch-pan.horizontal="__openRightByTouch"
+    ></div>
+    <div
+      v-if="$slots.left || $slots.right"
       ref="backdrop"
       class="fullscreen layout-backdrop"
       :class="{
@@ -17,8 +22,8 @@
         opacity: backdrop.percentage,
         hidden: hideBackdrop
       }"
-      @click="hideLeft"
-      v-touch-pan.horizontal="__closeLeftByTouch"
+      @click="__hide"
+      v-touch-pan.horizontal="__closeByTouch"
     ></div>
 
     <aside
@@ -26,13 +31,12 @@
       v-if="$slots.left"
       class="layout-aside layout-aside-left"
       :class="{
-        'absolute-left': !fixed.left && leftOnLayout,
-        'fixed-left': fixed.left || !leftOnLayout,
+        'fixed': fixed.left || !leftOnLayout,
         'on-top': !leftBreakpoint,
-        'transition-generic': !backdrop.inTransit
+        'transition-generic': !leftInTransit
       }"
       :style="leftStyle"
-      v-touch-pan.horizontal="__closeLeftByTouch"
+      v-touch-pan.horizontal="__closeByTouch"
     >
       <slot name="left"></slot>
       <q-resize-observable @resize="onLeftAsideResize" />
@@ -41,12 +45,14 @@
     <aside
       ref="right"
       v-if="$slots.right"
-      class="layout-aside layout-aside-right transition-generic"
+      class="layout-aside layout-aside-right"
       :class="{
-        'absolute-right': !this.fixed.right,
-        'fixed-right': this.fixed.right
+        'fixed': fixed.right || !rightOnLayout,
+        'on-top': !rightBreakpoint,
+        'transition-generic': !rightInTransit
       }"
       :style="rightStyle"
+      v-touch-pan.horizontal="__closeByTouch"
     >
       <slot name="right"></slot>
       <q-resize-observable @resize="onRightAsideResize" />
@@ -61,6 +67,7 @@
     >
       <div class="row justify-center">
         <q-btn class="white text-black" @click="toggleLeft">Toggle Left</q-btn>
+        <q-btn class="white text-black" @click="toggleRight">Toggle Right</q-btn>
       </div>
       <slot name="header"></slot>
       <slot v-if="$q.theme !== 'ios'" name="navigation"></slot>
@@ -121,22 +128,55 @@ export default {
       default: 'hhh lpr fff',
       validator: v => /^(h|H|L|l)(h|H)(h|H|R|r) (L|l|p)p(R|r|p) (f|F|L|l)(f|F)(f|F|R|r)$/.test(v)
     },
-    reveal: Boolean
+    reveal: Boolean,
+    leftSide: {
+      type: Object,
+      default: () => ({})
+    },
+    rightSide: {
+      type: Object,
+      default: () => ({})
+    }
   },
   data () {
     return {
       headerOnScreen: true,
+      leftInTransit: false,
+      rightInTransit: false,
+
       header: {h: 0, w: 0},
       left: {h: 0, w: 0},
       right: {h: 0, w: 0},
       footer: {h: 0, w: 0},
       layout: {h: 0, w: 0},
+
       scroll: {
         position: 0,
         direction: '',
         directionChanged: false,
         inflexionPosition: 0,
         scrollHeight: 0
+      },
+
+      backdrop: {
+        inTransit: false,
+        touchEvent: false,
+        percentage: 0
+      },
+
+      leftState: {
+        position: 0,
+        openedSmall: false,
+        openedBig: 'showDefault' in this.leftSide
+          ? this.leftSide.hideOnStart
+          : true
+      },
+      rightState: {
+        position: 0,
+        openedSmall: false,
+        openedBig: 'showDefault' in this.rightSide
+          ? this.rightSide.hideOnStart
+          : true
       }
     }
   },
@@ -146,6 +186,23 @@ export default {
     }
   },
   computed: {
+    leftBreakpoint () {
+      const breakpoint = this.leftSide.breakpoint || 996
+      return !this.leftState.openedSmall && this.layout.w >= breakpoint
+    },
+    leftOnLayout () {
+      return this.leftBreakpoint && this.leftState.openedBig
+    },
+    rightBreakpoint () {
+      const breakpoint = this.rightSide.breakpoint || 996
+      return !this.rightState.openedSmall && this.layout.w >= breakpoint
+    },
+    rightOnLayout () {
+      return this.rightBreakpoint && this.rightState.openedBig
+    },
+    hideBackdrop () {
+      return !this.backdrop.inTransit && !this.leftState.openedSmall && !this.rightState.openedSmall
+    },
     fixed () {
       return {
         header: this.reveal || this.view.indexOf('H') > -1,
@@ -176,7 +233,7 @@ export default {
       if (view.middle[0] !== 'p' && this.leftOnLayout) {
         css.paddingLeft = this.left.w + 'px'
       }
-      if (view.middle[2] !== 'p') {
+      if (view.middle[2] !== 'p' && this.rightOnLayout) {
         css.paddingRight = this.right.w + 'px'
       }
 
@@ -200,7 +257,7 @@ export default {
       if (view.top[0] === 'l' && this.leftOnLayout) {
         css.marginLeft = this.left.w + 'px'
       }
-      if (view.top[2] === 'r') {
+      if (view.top[2] === 'r' && this.rightOnLayout) {
         css.marginRight = this.right.w + 'px'
       }
 
@@ -214,7 +271,7 @@ export default {
       if (view.bottom[0] === 'l' && this.leftOnLayout) {
         css.marginLeft = this.left.w + 'px'
       }
-      if (view.bottom[2] === 'r') {
+      if (view.bottom[2] === 'r' && this.rightOnLayout) {
         css.marginRight = this.right.w + 'px'
       }
 
@@ -235,7 +292,7 @@ export default {
     },
     leftStyle () {
       if (!this.leftOnLayout) {
-        return this.backdrop.inTransit
+        return this.leftInTransit
           ? cssTransform(`translateX(${this.leftState.position}px)`)
           : cssTransform(`translateX(${this.leftState.openedSmall ? 0 : '-100%'})`)
       }
@@ -264,6 +321,12 @@ export default {
       return css
     },
     rightStyle () {
+      if (!this.rightOnLayout) {
+        return this.rightInTransit
+          ? cssTransform(`translateX(${this.rightState.position}px)`)
+          : cssTransform(`translateX(${this.rightState.openedSmall ? 0 : '100%'})`)
+      }
+
       const
         view = this.rows,
         css = {}
