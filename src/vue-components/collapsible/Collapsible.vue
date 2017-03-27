@@ -12,13 +12,14 @@
         text
         :no-ripple="iconToggle"
       >
-        <i
+        <q-icon
           slot="secondary"
+          :name="arrowIcon"
           class="relative-position cursor-pointer"
           :class="{'rotate-180': active}"
           @click.stop="toggle"
           v-ripple.mat.stop="!iconToggle"
-        >{{ arrowIcon }}</i>
+        ></q-icon>
 
         <slot name="label">
           <div class="ellipsis" v-html="label"></div>

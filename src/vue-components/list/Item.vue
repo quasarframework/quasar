@@ -16,7 +16,7 @@
     </slot>
     <div v-if="hasPrimary" class="item-primary">
       <slot name="primary">
-        <q-icon name="cIcon" v-if="cIcon"></q-icon>
+        <q-icon :name="cIcon" v-if="cIcon"></q-icon>
         <div v-else-if="cLetter" class="item-letter">{{ cLetter }}</div>
         <img v-else-if="cAvatar" :src="cAvatar" />
       </slot>
@@ -47,7 +47,7 @@
     <div v-if="hasSecondary" class="item-secondary">
       <slot name="secondary">
         <div v-if="cStamp" class="item-stamp" v-html="cStamp"></div>
-        <q-icon name="cSecondIcon" v-if="cSecondIcon"></q-icon>
+        <q-icon :name="cSecondIcon" v-if="cSecondIcon"></q-icon>
         <div v-else-if="cSecondLetter" class="item-letter">{{ cSecondLetter }}</div>
         <img v-else-if="cSecondAvatar" class="avatar" :src="cSecondAvatar" />
       </slot>
