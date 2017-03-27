@@ -47,7 +47,7 @@ export default {
         Events.$emit(eventName, this)
       }
 
-      this.$emit(val ? 'open' : 'close)
+      this.$emit(val ? 'open' : 'close')
     }
   },
   methods: {
