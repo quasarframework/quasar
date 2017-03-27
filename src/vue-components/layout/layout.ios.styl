@@ -1,5 +1,6 @@
+$layout-toolbar-min-height ?= 50px
 $layout-border             ?= 1px solid $toolbar-faded-color
-$layout-toolbar-min-height ?= 48px
+
 $toolbar-title-font-size   ?= .95rem
 $toolbar-padding           ?= 4px 10px
 
@@ -15,10 +16,21 @@ $toolbar-padding           ?= 4px 10px
 
 .layout-aside
   overflow-y auto
-  &.fixed-left, &.fixed-right
+  position absolute
+  top 0
+  bottom 0
+  background white
+  &.fixed
     z-index $z-side
+    border $layout-border
+  &.on-top
+    z-index $z-fixed-side
+.layout-aside-left
+  left 0
+.layout-aside-right
+  right 0
 
-main, .layout-header, .layout-footer, .layout-aside
+main, .layout, .layout-header, .layout-footer
   position relative
 
 .layout-header, .layout-footer
@@ -28,6 +40,18 @@ main, .layout-header, .layout-footer, .layout-aside
 
 .layout-header, .layout-footer
   transition transform .3s
+
+.layout-backdrop
+  z-index ($z-fixed-side - 1)
+  background $dimmed-background
+
+.layout-side-opener
+  z-index ($z-marginals + 1)
+  height 100vh
+  width 15px
+
+body.with-layout-side-opened
+  overflow hidden
 
 
 

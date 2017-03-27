@@ -21,6 +21,7 @@ $toolbar-padding           ?= 4px 12px
   position absolute
   top 0
   bottom 0
+  background white
   &.fixed
     z-index $z-side
     box-shadow $layout-aside-shadow
@@ -41,9 +42,6 @@ main, .layout, .layout-header, .layout-footer
 
 .layout-header, .layout-footer
   transition transform .3s
-
-
-
 
 .layout-backdrop
   z-index ($z-fixed-side - 1)

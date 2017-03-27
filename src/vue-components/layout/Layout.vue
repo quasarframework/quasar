@@ -28,7 +28,6 @@
 
     <aside
       ref="left"
-      v-if="$slots.left"
       class="layout-aside layout-aside-left"
       :class="{
         'fixed': fixed.left || !leftOnLayout,
@@ -39,12 +38,11 @@
       v-touch-pan.horizontal="__closeByTouch"
     >
       <slot name="left"></slot>
-      <q-resize-observable @resize="onLeftAsideResize" />
+      <q-resize-observable v-if="$slots.left" @resize="onLeftAsideResize" />
     </aside>
 
     <aside
       ref="right"
-      v-if="$slots.right"
       class="layout-aside layout-aside-right"
       :class="{
         'fixed': fixed.right || !rightOnLayout,
@@ -55,7 +53,7 @@
       v-touch-pan.horizontal="__closeByTouch"
     >
       <slot name="right"></slot>
-      <q-resize-observable @resize="onRightAsideResize" />
+      <q-resize-observable v-if="$slots.right" @resize="onRightAsideResize" />
     </aside>
 
     <header
