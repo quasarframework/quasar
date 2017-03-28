@@ -29,8 +29,6 @@ import Datetime from './vue-components/datetime/Datetime.vue'
 import DatetimeRange from './vue-components/datetime/DatetimeRange.vue'
 import InlineDatetimeMaterial from './vue-components/datetime/InlineDatetimeMat.vue'
 import InlineDatetimeIOS from './vue-components/datetime/InlineDatetimeIOS.vue'
-import Drawer from './vue-components/drawer/Drawer.vue'
-import DrawerLink from './vue-components/drawer/DrawerLink.vue'
 import Fab from './vue-components/fab/Fab.vue'
 import Field from './vue-components/field/Field.vue'
 import FixedPosition from './vue-components/fixed-position/FixedPosition.vue'
@@ -45,6 +43,7 @@ import InputGroup from './vue-components/input-group/InputGroup.vue'
 import Item from './vue-components/list/Item.vue'
 import Knob from './vue-components/knob/Knob.vue'
 import Layout from './vue-components/layout/Layout.vue'
+import SideLink from './vue-components/layout/SideLink.vue'
 import ToolbarTitle from './vue-components/layout/ToolbarTitle.vue'
 import Modal from './vue-components/modal/Modal.vue'
 import ResizeObservable from './vue-components/observables/ResizeObservable.vue'
@@ -113,8 +112,6 @@ function registerComponents (_Vue) {
     ['inline-datetime', theme === 'ios' ? InlineDatetimeIOS : InlineDatetimeMaterial],
     ['datetime', Datetime],
     ['datetime-range', DatetimeRange],
-    ['drawer', Drawer],
-    ['drawer-link', DrawerLink],
     ['fab', Fab],
     ['field', Field],
     ['fixed-position', FixedPosition],
@@ -129,8 +126,11 @@ function registerComponents (_Vue) {
     ['input-group', InputGroup],
     ['item', Item],
     ['knob', Knob],
+
     ['layout', Layout],
+    ['side-link', SideLink],
     ['toolbar-title', ToolbarTitle],
+
     ['modal', Modal],
     ['resize-observable', ResizeObservable],
     ['window-resize-observable', WindowResizeObservable],

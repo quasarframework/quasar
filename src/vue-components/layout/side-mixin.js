@@ -2,28 +2,39 @@ import { between } from '../../utils/format'
 
 export default {
   methods: {
-    toggleLeft () {
-      this.__toggle('left')
+    toggleLeft (fn) {
+      this.__toggle('left', fn)
     },
-    toggleRight () {
-      this.__toggle('right')
+    toggleRight (fn) {
+      this.__toggle('right', fn)
     },
-    showLeft () {
-      this.__show('left')
+    showLeft (fn) {
+      this.__show('left', fn)
     },
-    showRight () {
-      this.__show('right')
+    showRight (fn) {
+      this.__show('right', fn)
     },
-    hideLeft () {
-      this.__hide('left')
+    hideLeft (fn) {
+      this.__hide('left', fn)
     },
-    hideRight () {
-      this.__hide('right')
+    hideRight (fn) {
+      this.__hide('right', fn)
+    },
+    hideCurrentSide (fn) {
+      if (this.leftState.openedSmall) {
+        this.hideLeft(fn)
+      }
+      else if (this.rightState.openedSmall) {
+        this.hideRight(fn)
+      }
+      else if (typeof fn === 'function') {
+        fn()
+      }
     },
 
     __toggle (side) {
       const state = this[side + 'State']
-      if (state.openedSmall || (this[side + 'Breakpoint'] && state.openedBig)) {
+      if (state.openedSmall || (this[side + 'OverBreakpoint'] && state.openedBig)) {
         this.__hide(side)
       }
       else {
@@ -33,15 +44,19 @@ export default {
     __popState () {
       if (this.$q.platform.has.popstate && window.history.state && window.history.state.__quasar_layout_overlay) {
         window.removeEventListener('popstate', this.__popState)
-        this.__hideSmall()
+        this.__hideSmall(this.popStateCallback)
+        this.popStateCallback = null
       }
     },
-    __hideSmall () {
+    __hideSmall (fn) {
       this.rightState.openedSmall = false
       this.leftState.openedSmall = false
       this.backdrop.percentage = 0
+      if (typeof fn === 'function') {
+        setTimeout(fn, 310)
+      }
     },
-    __hide (side) {
+    __hide (side, fn) {
       if (typeof side !== 'string') {
         if (this.backdrop.touchEvent) {
           this.backdrop.touchEvent = false
@@ -59,18 +74,26 @@ export default {
 
       document.body.classList.remove('with-layout-side-opened')
       if (this.$q.platform.has.popstate) {
+        this.popStateCallback = fn
         if (window.history.state && !window.history.state.__quasar_layout_overlay) {
           window.history.go(-1)
         }
       }
       else {
-        this.__hideSmall()
+        this.__hideSmall(fn)
       }
     },
-    __show (side) {
+    __show (side, fn) {
       const state = this[side + 'State']
-      if (this[side + 'Breakpoint']) {
+      if (this[side + 'OverBreakpoint']) {
         state.openedBig = true
+        if (typeof fn === 'function') {
+          fn()
+        }
+        return
+      }
+
+      if (!this.$slots[side]) {
         return
       }
 
@@ -91,6 +114,9 @@ export default {
       document.body.classList.add('with-layout-side-opened')
       state.openedSmall = true
       this.backdrop.percentage = 1
+      if (typeof fn === 'function') {
+        fn()
+      }
     },
     __openLeftByTouch (evt) {
       this.__openByTouch(evt, 'left')

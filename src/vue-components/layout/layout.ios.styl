@@ -1,5 +1,6 @@
 $layout-toolbar-min-height ?= 50px
 $layout-border             ?= 1px solid $toolbar-faded-color
+$layout-aside-background   ?= white
 
 $toolbar-title-font-size   ?= .95rem
 $toolbar-padding           ?= 4px 10px
@@ -19,16 +20,19 @@ $toolbar-padding           ?= 4px 10px
   position absolute
   top 0
   bottom 0
-  background white
+  background $layout-aside-background
   &.fixed
     z-index $z-side
-    border $layout-border
   &.on-top
     z-index $z-fixed-side
 .layout-aside-left
   left 0
+  &.fixed
+    border-right $layout-border
 .layout-aside-right
   right 0
+  &.fixed
+    border-left $layout-border
 
 main, .layout, .layout-header, .layout-footer
   position relative

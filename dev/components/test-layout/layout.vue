@@ -1,14 +1,20 @@
 <template>
-  <q-layout view="hhr LpR lFf" reveal :right-side="{breakpoint: 900}">
+  <q-layout ref="layout" view="hhr Lpr lFf" reveal v-model="sides" :right-breakpoint="900">
     <div slot="header" class="toolbar">
-      <q-btn class="hide-on-drawer-visible" @click="$refs.leftDrawer.open()">
+      <q-btn @click="$refs.layout.toggleLeft()">
+        <q-icon name="menu" />
+      </q-btn>
+      <q-btn @click="sides.left = !sides.left">
         <q-icon name="menu" />
       </q-btn>
       <q-toolbar-title :padding="1">
-        Quasar Layout
+        Quasar Layout {{sides}}
       </q-toolbar-title>
-      <q-btn @click="$refs.rightDrawer.open()">
-        <q-icon name="assignment" />
+      <q-btn @click="sides.right = !sides.right">
+        <q-icon name="menu" />
+      </q-btn>
+      <q-btn @click="$refs.layout.toggleRight()">
+        <q-icon name="menu" />
       </q-btn>
       <q-checkbox v-model="todo" />
       <q-checkbox v-model="right" />
@@ -27,6 +33,10 @@
 
     <div slot="left" style="width: 200px;">
       <div>FirstL</div>
+      <q-side-link class="item link" to="/test-layout/about">About</q-side-link>
+      <q-side-link class="item link" to="/test-layout/toolbar">Toolbar</q-side-link>
+      <q-side-link class="item link" to="/test-layout/tabs">Tabs</q-side-link>
+      <q-side-link class="item link" to="/test-layout/drawer">Drawer</q-side-link>
       <div v-for="n in 60">left{{n}}</div>
       <q-input v-model="gigi" />
       <div>Last</div>
@@ -100,7 +110,11 @@ export default {
       search: '',
       right: true,
       todo: true,
-      gigi: ''
+      gigi: '',
+      sides: {
+        left: true,
+        right: false
+      }
     }
   }
 }

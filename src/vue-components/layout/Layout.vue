@@ -31,7 +31,7 @@
       class="layout-aside layout-aside-left"
       :class="{
         'fixed': fixed.left || !leftOnLayout,
-        'on-top': !leftBreakpoint,
+        'on-top': !leftOverBreakpoint,
         'transition-generic': !leftInTransit
       }"
       :style="leftStyle"
@@ -46,7 +46,7 @@
       class="layout-aside layout-aside-right"
       :class="{
         'fixed': fixed.right || !rightOnLayout,
-        'on-top': !rightBreakpoint,
+        'on-top': !rightOverBreakpoint,
         'transition-generic': !rightInTransit
       }"
       :style="rightStyle"
@@ -63,10 +63,6 @@
       :class="{'fixed-top': fixed.header}"
       :style="headerStyle"
     >
-      <div class="row justify-center">
-        <q-btn class="white text-black" @click="toggleLeft">Toggle Left</q-btn>
-        <q-btn class="white text-black" @click="toggleRight">Toggle Right</q-btn>
-      </div>
       <slot name="header"></slot>
       <slot v-if="$q.theme !== 'ios'" name="navigation"></slot>
       <q-resize-observable @resize="onHeaderResize" />
@@ -121,19 +117,29 @@ function updateObject (obj, data) {
 export default {
   mixins: [SideMixin],
   props: {
+    value: {
+      type: Object,
+      validator: v => 'left' in v && 'right' in v,
+      default () {
+        return {
+          left: true,
+          right: true
+        }
+      }
+    },
     view: {
       type: String,
       default: 'hhh lpr fff',
       validator: v => /^(h|H|L|l)(h|H)(h|H|R|r) (L|l|p)p(R|r|p) (f|F|L|l)(f|F)(f|F|R|r)$/.test(v)
     },
     reveal: Boolean,
-    leftSide: {
-      type: Object,
-      default: () => ({})
+    leftBreakpoint: {
+      type: Number,
+      default: 996
     },
-    rightSide: {
-      type: Object,
-      default: () => ({})
+    rightBreakpoint: {
+      type: Number,
+      default: 996
     }
   },
   data () {
@@ -165,16 +171,12 @@ export default {
       leftState: {
         position: 0,
         openedSmall: false,
-        openedBig: 'showDefault' in this.leftSide
-          ? this.leftSide.hideOnStart
-          : true
+        openedBig: this.value.left
       },
       rightState: {
         position: 0,
         openedSmall: false,
-        openedBig: 'showDefault' in this.rightSide
-          ? this.rightSide.hideOnStart
-          : true
+        openedBig: this.value.right
       }
     }
   },
@@ -183,20 +185,43 @@ export default {
       layout: this
     }
   },
+  watch: {
+    value: {
+      deep: true,
+      handler (val) {
+        if (val.left !== this.leftState.openedBig) {
+          this.leftState.openedBig = val.left
+        }
+        if (val.right !== this.rightState.openedBig) {
+          this.rightState.openedBig = val.right
+        }
+      }
+    },
+    'leftState.openedBig' (v) {
+      this.$emit('input', {
+        left: v,
+        right: this.rightState.openedBig
+      })
+    },
+    'rightState.openedBig' (v) {
+      this.$emit('input', {
+        left: this.leftState.openedBig,
+        right: v
+      })
+    }
+  },
   computed: {
-    leftBreakpoint () {
-      const breakpoint = this.leftSide.breakpoint || 996
-      return !this.leftState.openedSmall && this.layout.w >= breakpoint
+    leftOverBreakpoint () {
+      return !this.leftState.openedSmall && this.layout.w >= this.leftBreakpoint
     },
     leftOnLayout () {
-      return this.leftBreakpoint && this.leftState.openedBig
+      return this.leftOverBreakpoint && this.leftState.openedBig
     },
-    rightBreakpoint () {
-      const breakpoint = this.rightSide.breakpoint || 996
-      return !this.rightState.openedSmall && this.layout.w >= breakpoint
+    rightOverBreakpoint () {
+      return !this.rightState.openedSmall && this.layout.w >= this.rightBreakpoint
     },
     rightOnLayout () {
-      return this.rightBreakpoint && this.rightState.openedBig
+      return this.rightOverBreakpoint && this.rightState.openedBig
     },
     hideBackdrop () {
       return !this.backdrop.inTransit && !this.leftState.openedSmall && !this.rightState.openedSmall
