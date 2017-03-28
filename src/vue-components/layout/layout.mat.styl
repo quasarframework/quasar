@@ -55,14 +55,6 @@ body.with-layout-side-opened
   overflow hidden
 
 
-
-
-
-
-
-
-
-
 .toolbar
   padding $toolbar-padding
   min-height $layout-toolbar-min-height
@@ -70,7 +62,6 @@ body.with-layout-side-opened
   overflow hidden
   flex-direction row
   align-items center
-  justify-content space-between
   width 100%
   position relative
   color $toolbar-color
@@ -92,34 +83,31 @@ body.with-layout-side-opened
           background composite-color($color)
 
   &.inverted
-    background white
+    background transparent
 
-  > button
+  > .q-btn
     margin 0 .2rem
     padding .2rem
 
   i
     line-height 1
 
-.toolbar-content
+.toolbar-title
   flex 1
   min-width 0
   max-width 100%
-.toolbar-title
-  flex 1
   align-items center
   font-size $toolbar-title-font-size
   font-weight 500
-  > div
-    padding 0 12px
-    width 100%
-    text-overflow ellipsis
-    white-space nowrap
-    overflow hidden
+  text-overflow ellipsis
+  white-space nowrap
+  overflow hidden
+  padding 0 12px
 
-body.cordova.platform-ios .layout-header > .toolbar:first-child
-  padding-top $ios-statusbar-height
-  min-height ($layout-toolbar-min-height + $ios-statusbar-height)
+body.cordova.platform-ios
+  .layout-header, .layout-aside
+    padding-top $ios-statusbar-height
+    min-height ($layout-toolbar-min-height + $ios-statusbar-height)
 
 .layout-padding
   @media only screen and (max-width $layout-small-max)

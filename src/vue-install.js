@@ -44,7 +44,6 @@ import Item from './vue-components/list/Item.vue'
 import Knob from './vue-components/knob/Knob.vue'
 import Layout from './vue-components/layout/Layout.vue'
 import SideLink from './vue-components/layout/SideLink.vue'
-import ToolbarTitle from './vue-components/layout/ToolbarTitle.vue'
 import Modal from './vue-components/modal/Modal.vue'
 import ResizeObservable from './vue-components/observables/ResizeObservable.vue'
 import WindowResizeObservable from './vue-components/observables/WindowResizeObservable.vue'
@@ -126,11 +125,8 @@ function registerComponents (_Vue) {
     ['input-group', InputGroup],
     ['item', Item],
     ['knob', Knob],
-
     ['layout', Layout],
     ['side-link', SideLink],
-    ['toolbar-title', ToolbarTitle],
-
     ['modal', Modal],
     ['resize-observable', ResizeObservable],
     ['window-resize-observable', WindowResizeObservable],

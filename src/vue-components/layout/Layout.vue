@@ -76,7 +76,7 @@
 
     <footer
       ref="footer"
-      v-if="$slots.header || ($q.theme === 'ios' && $slots.navigation)"
+      v-if="$slots.footer || ($q.theme === 'ios' && $slots.navigation)"
       class="layout-footer"
       :class="{'fixed-bottom': fixed.footer}"
       :style="footerStyle"
@@ -116,8 +116,11 @@ function updateObject (obj, data) {
 
 export default {
   mixins: [SideMixin],
+  model: {
+    prop: 'sides'
+  },
   props: {
-    value: {
+    sides: {
       type: Object,
       validator: v => 'left' in v && 'right' in v,
       default () {
@@ -171,12 +174,12 @@ export default {
       leftState: {
         position: 0,
         openedSmall: false,
-        openedBig: this.value.left
+        openedBig: this.sides.left
       },
       rightState: {
         position: 0,
         openedSmall: false,
-        openedBig: this.value.right
+        openedBig: this.sides.right
       }
     }
   },
@@ -186,7 +189,7 @@ export default {
     }
   },
   watch: {
-    value: {
+    sides: {
       deep: true,
       handler (val) {
         if (val.left !== this.leftState.openedBig) {

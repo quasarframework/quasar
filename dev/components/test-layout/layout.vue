@@ -7,9 +7,9 @@
       <q-btn @click="sides.left = !sides.left">
         <q-icon name="menu" />
       </q-btn>
-      <q-toolbar-title :padding="1">
+      <div class="toolbar-title">
         Quasar Layout {{sides}}
-      </q-toolbar-title>
+      </div>
       <q-btn @click="sides.right = !sides.right">
         <q-icon name="menu" />
       </q-btn>
@@ -47,49 +47,7 @@
       <div>Last</div>
     </div>
 
-    <!--
-    <q-drawer ref="leftDrawer">
-      <div class="toolbar light">
-        <q-toolbar-title :padding="1">
-          Drawer
-        </q-toolbar-title>
-      </div>
-
-      <div class="list no-border platform-delimiter" v-for="n in 10">
-        <q-drawer-link icon="view_quilt" to="/test-layout/about">
-          About Layout
-        </q-drawer-link>
-        <hr>
-        <div class="list-label">Layout Components</div>
-        <q-drawer-link icon="build" to="/test-layout/toolbar">
-          Toolbar
-        </q-drawer-link>
-        <q-drawer-link icon="tab" to="/test-layout/tabs">
-          Tabs
-        </q-drawer-link>
-        <q-drawer-link icon="compare_arrows" to="/test-layout/drawer">
-          Layout Drawer
-        </q-drawer-link>
-      </div>
-    </q-drawer>
-    -->
-
     <router-view></router-view>
-
-    <!--
-    <q-drawer right-side swipe-only ref="rightDrawer">
-      <div class="toolbar light">
-        <q-toolbar-title :padding="1">
-            Right-side Drawer
-        </q-toolbar-title>
-      </div>
-
-      <p style="padding: 25px;" class="text-grey-7">
-        This is yet another Drawer that does not gets displayed alongside content on
-        bigger screens.
-      </p>
-    </q-drawer>
-    -->
 
     <div v-if="todo" slot="footer" class="toolbar">
       sdsfssdfs
