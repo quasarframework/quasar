@@ -1,7 +1,7 @@
 <template>
   <q-layout>
     <div class="toolbar" slot="header">
-      <q-toolbar-title>Pull To Refresh</q-toolbar-title>
+      <div class="toolbar-title">Pull To Refresh</div>
     </div>
 
     <div class="layout-view">

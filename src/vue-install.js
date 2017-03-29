@@ -8,6 +8,7 @@ import Transition from './vue-transitions/index'
 
 import dBackToTop from './vue-directives/back-to-top'
 import dGoBack from './vue-directives/go-back'
+import dMove from './vue-directives/move'
 import dRipple from './vue-directives/ripple'
 import dScrollFire from './vue-directives/scroll-fire'
 import dScroll from './vue-directives/scroll'
@@ -45,6 +46,7 @@ import Knob from './vue-components/knob/Knob.vue'
 import Layout from './vue-components/layout/Layout.vue'
 import SideLink from './vue-components/layout/SideLink.vue'
 import Modal from './vue-components/modal/Modal.vue'
+import MoveMarker from './vue-components/move/MoveMarker.vue'
 import ResizeObservable from './vue-components/observables/ResizeObservable.vue'
 import WindowResizeObservable from './vue-components/observables/WindowResizeObservable.vue'
 import ScrollObservable from './vue-components/observables/ScrollObservable.vue'
@@ -83,6 +85,7 @@ function registerDirectives (_Vue) {
   [
     ['back-to-top', dBackToTop],
     ['go-back', dGoBack],
+    ['move', dMove],
     ['ripple', dRipple],
     ['scroll-fire', dScrollFire],
     ['scroll', dScroll],
@@ -128,6 +131,7 @@ function registerComponents (_Vue) {
     ['layout', Layout],
     ['side-link', SideLink],
     ['modal', Modal],
+    ['move-marker', MoveMarker],
     ['resize-observable', ResizeObservable],
     ['window-resize-observable', WindowResizeObservable],
     ['scroll-observable', ScrollObservable],

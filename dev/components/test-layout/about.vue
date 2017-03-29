@@ -11,7 +11,14 @@
 
     <q-btn class="primary absolute-top-left" circular @click="alert" icon="wifi" />
 
+    <!--
+    <q-move selector="#gigi">
+      <div>{{text}}</div>
+    </q-move>
+    -->
+    <span v-move="'#gigi'">{{text}}</span>
     <div class="layout-padding">
+      <q-input v-model="text" />
       <p v-for="n in 50">
         Layouts are the elements that wrap page content, like navigational bar,
         drawer, header or footer. Multiple pages can share the same Layout, which
@@ -35,6 +42,11 @@
 import { Toast } from 'quasar'
 
 export default {
+  data () {
+    return {
+      text: 'Hey man!'
+    }
+  },
   methods: {
     alert () {
       Toast.create('aaaa')

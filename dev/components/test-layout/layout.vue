@@ -1,5 +1,5 @@
 <template>
-  <q-layout ref="layout" view="hhr Lpr lFf" reveal v-model="sides" :right-breakpoint="900">
+  <q-layout ref="layout" view="hHr LpR lFf" v-model="sides" :right-breakpoint="900">
     <div slot="header" class="toolbar">
       <q-btn @click="$refs.layout.toggleLeft()">
         <q-icon name="menu" />
@@ -8,7 +8,7 @@
         <q-icon name="menu" />
       </q-btn>
       <div class="toolbar-title">
-        Quasar Layout {{sides}}
+        Quasar Layout
       </div>
       <q-btn @click="sides.right = !sides.right">
         <q-icon name="menu" />
@@ -43,6 +43,8 @@
     </div>
     <div v-if="right" slot="right" style="width: 150px;">
       <div>FirstR</div>
+      <span id="gigi" class="bg-white text-black"></span>
+      <span id="gogu"></span>
       <div v-for="n in 60">right{{n}}</div>
       <div>Last</div>
     </div>
@@ -70,8 +72,8 @@ export default {
       todo: true,
       gigi: '',
       sides: {
-        left: true,
-        right: false
+        left: false,
+        right: true
       }
     }
   }
