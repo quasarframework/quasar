@@ -32,14 +32,21 @@
 
     <div
       class="q-gallery-slider-quickview"
-      :class="{active: quickView}"
+      :class="{active: quickView, row: horizontalQuickView, horizontal: horizontalQuickView}"
+      @touchstart.capture.stop
+      @touchmove.capture.stop
+      @touchend.capture.stop
+      @mousedown.capture.stop
+      @mousemove.capture.stop
+      @mouseend.capture.stop
     >
-      <div v-for="(img, index) in src" :key="index">
-        <img
-          :src="img"
-          :class="{active: currentSlide === index}"
-          @click="__selectImage(index)"
-        >
+        <div v-for="(img, index) in src" :key="index">
+          <img
+            :src="img"
+            :class="{active: currentSlide === index}"
+            @click="__selectImage(index)"
+          >
+        </div>
       </div>
     </div>
   </q-slider>
@@ -62,7 +69,8 @@ export default {
     actions: {
       type: Boolean,
       default: true
-    }
+    },
+    horizontalQuickView: Boolean
   },
   data () {
     return {

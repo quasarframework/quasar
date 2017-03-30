@@ -50,6 +50,9 @@
 
   &.active
     transform translateY(0)
+  &.horizontal
+    overflow-y auto
+    max-height 95px
 
   img
     opacity .5
@@ -60,6 +63,7 @@
   div
     margin 1px 2px
     width 100px
+    min-width 100px
     display inline-block
 
     &.active img, img.active

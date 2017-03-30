@@ -7,6 +7,9 @@
       <p class="caption">Gallery Slider</p>
       <q-gallery-slider :src="slider"></q-gallery-slider>
 
+      <p class="caption">Gallery Slider</p>
+      <q-gallery-slider :src="slider" horizontal-quick-view></q-gallery-slider>
+
       <p class="caption">Gallery Slider with Infinite Scroll & Autoplay</p>
       <q-gallery-slider dots infinite autoplay :src="secondSlider"></q-gallery-slider>
     </div>
@@ -26,6 +29,21 @@ export default {
         'statics/mountains.jpg'
       ],
       slider: [
+        'statics/mountains.jpg',
+        'statics/parallax1.jpg',
+        'statics/parallax2.jpg',
+        'statics/mountains.jpg',
+        'statics/parallax1.jpg',
+        'statics/parallax2.jpg',
+        'statics/mountains.jpg',
+        'statics/parallax1.jpg',
+        'statics/parallax2.jpg',
+        'statics/mountains.jpg',
+        'statics/parallax1.jpg',
+        'statics/parallax2.jpg',
+        'statics/mountains.jpg',
+        'statics/parallax1.jpg',
+        'statics/parallax2.jpg',
         'statics/mountains.jpg',
         'statics/parallax1.jpg',
         'statics/parallax2.jpg'
