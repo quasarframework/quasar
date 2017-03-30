@@ -31,11 +31,13 @@ export default {
   },
   methods: {
     select () {
-      this.selectTab(this.name)
+      if (!this.disable) {
+        this.selectTab(this.name)
+      }
     }
   },
   mounted () {
-    if (this.selected) {
+    if (this.selected && !this.disable) {
       this.select()
     }
   }

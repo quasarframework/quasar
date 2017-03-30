@@ -105,7 +105,7 @@
         :min="5"
         :max="15"
         suffix=".00"
-        no-extra-icons
+        :extra-icons="false"
       />
 
       <!--

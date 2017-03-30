@@ -40,8 +40,10 @@ export default {
   },
   methods: {
     select () {
-      this.$el.dispatchEvent(routerLinkEvent)
-      this.selectTab(this.name)
+      if (!this.disable) {
+        this.$el.dispatchEvent(routerLinkEvent)
+        this.selectTab(this.name)
+      }
     },
     checkIfSelected () {
       this.$nextTick(() => {

@@ -13,11 +13,12 @@
     }"
     @click="__click"
   >
-    <i
+    <q-icon
       v-if="isNumber && extraIcons"
       class="q-input-comp q-input-button"
       @click="setNumberByOffset(-step)"
-    >remove</i>
+      name="remove"
+    ></q-icon>
     <slot name="before"></slot>
     <span v-if="prefix" class="q-input-comp" v-html="prefix"></span>
     <div
@@ -97,24 +98,26 @@
 
       <slot name="flow-after"></slot>
     </div>
-    <i
+    <q-icon
       v-if="isPassword && extraIcons"
       class="q-input-comp q-input-button"
       @click="togglePassVisibility"
-      v-text="showPass ? 'visibility' : 'visibility_off'"
-    ></i>
+      :name="showPass ? 'visibility' : 'visibility_off'"
+    ></q-icon>
     <span v-if="suffix" class="q-input-comp" v-html="suffix"></span>
-    <i
+    <q-icon
       v-if="hasClearIcon"
       class="q-input-comp q-input-button"
       @click="clear"
-    >clear</i>
+      name="clear"
+    ></q-icon>
     <slot name="after"></slot>
-    <i
+    <q-icon
       v-if="isNumber && extraIcons"
       class="q-input-comp q-input-button"
       @click="setNumberByOffset(step)"
-    >add</i>
+      name="add"
+    ></q-icon>
     <span
       v-if="hasInlineCounter"
       class="q-input-comp q-input-faded q-input-small"

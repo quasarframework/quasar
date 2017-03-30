@@ -11,7 +11,8 @@
       'with-label': label
     }"
   >
-    <q-icon :name="icon" v-if="icon || insetIcon" class="q-field-icon"></q-icon>
+    <q-icon :name="icon" v-if="icon" class="q-field-icon"></q-icon>
+    <i v-else-if="insetIcon"></i>
     <div class="q-field-container flex auto">
       <div
         v-if="hasLabel"

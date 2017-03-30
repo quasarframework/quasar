@@ -15,7 +15,7 @@
 
       <q-tabs>
         <q-tab slot="title" icon="mail">Mails</q-tab>
-        <q-tab slot="title" icon="alarm">Alarms</q-tab>
+        <q-tab slot="title" icon="alarm" disable>Alarms</q-tab>
         <q-tab slot="title" icon="movie">Movies</q-tab>
         <q-tab slot="title" icon="mail">Mails</q-tab>
         <q-tab slot="title" icon="alarm">Alarms</q-tab>

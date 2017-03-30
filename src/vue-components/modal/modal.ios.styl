@@ -112,7 +112,7 @@ maximized-modal()
 .modal-buttons
   padding $modal-buttons-padding
   border-top 1px solid $form-darker-color
-  button
+  .q-btn
     flex 1 1 auto
     font-size 110%
     margin 0
@@ -121,10 +121,10 @@ maximized-modal()
     &:last-child
       font-weight bold
   &.row
-    button + button
+    .q-btn + .q-btn
       border-left 1px solid $form-darker-color
   &.column
-    button + button
+    .q-btn + .q-btn
       border-top 1px solid $form-darker-color
 
 .q-modal-bottom-enter, .q-modal-bottom-leave-active
