@@ -29,6 +29,26 @@
         </label>
       </div>
 
+      <p class="caption">Array Model</p>
+      <div class="column group">
+        <div class="label bg-secondary text-white">
+          Model <span class="right-detail"><em>{{selection}}</em></span>
+        </div>
+
+        <label>
+          <q-checkbox v-model="selection" val="one"></q-checkbox>
+          One
+        </label>
+        <label>
+          <q-checkbox v-model="selection" val="two"></q-checkbox>
+          Two
+        </label>
+        <label>
+          <q-checkbox v-model="selection" val="three"></q-checkbox>
+          Three
+        </label>
+      </div>
+
       <p class="caption">Disabled State</p>
       <label>
         <q-checkbox v-model="checked" disable></q-checkbox>
@@ -109,7 +129,8 @@ export default {
   data () {
     return {
       checked: true,
-      group: [true, false, false]
+      group: ['op2'],
+      selection: ['one', 'two', 'three']
     }
   }
 }

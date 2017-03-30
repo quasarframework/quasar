@@ -29,6 +29,26 @@
         </label>
       </div>
 
+      <p class="caption">Array Model</p>
+      <div class="column group">
+        <div class="label bg-secondary text-white">
+          Model <span class="right-detail"><em>{{selection}}</em></span>
+        </div>
+
+        <label>
+          <q-toggle v-model="selection" val="one"></q-toggle>
+          One
+        </label>
+        <label>
+          <q-toggle v-model="selection" val="two"></q-toggle>
+          Two
+        </label>
+        <label>
+          <q-toggle v-model="selection" val="three"></q-toggle>
+          Three
+        </label>
+      </div>
+
       <p class="caption">With Icon</p>
       <div class="column group">
         <label>
@@ -120,7 +140,8 @@ export default {
   data () {
     return {
       checked: true,
-      group: [true, false, false]
+      group: ['op3'],
+      selection: ['two']
     }
   }
 }

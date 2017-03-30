@@ -12,6 +12,7 @@
     <input
       type="checkbox"
       v-model="model"
+      :value="val"
       :disabled="disable"
       @click.stop
       @change="__change"
@@ -22,47 +23,20 @@
 </template>
 
 <script>
+import Checkbox from '../checkbox/checkbox-controller'
+
 export default {
+  mixins: [Checkbox],
   props: {
-    value: {
-      type: Boolean,
-      required: true
-    },
-    disable: Boolean,
     icon: String
   },
-  computed: {
-    model: {
-      get () {
-        return this.value
-      },
-      set (value) {
-        if (value !== this.value) {
-          this.$emit('input', value)
-        }
-      }
-    }
-  },
   methods: {
-    toggle () {
-      if (!this.disable) {
-        this.model = !this.model
-        this.$el.focus()
-      }
-    },
-    __change (e) {
-      if (this.$q.platform.is.ios) {
-        this.toggle()
-      }
-    },
     __swipe (evt) {
-      if (!this.disable) {
-        if (this.model && evt.direction === 'left') {
-          this.model = false
-        }
-        else if (!this.model && evt.direction === 'right') {
-          this.model = true
-        }
+      if (evt.direction === 'left') {
+        this.unselect()
+      }
+      else if (evt.direction === 'right') {
+        this.select()
       }
     }
   }

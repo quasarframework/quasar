@@ -11,6 +11,7 @@
     <input
       type="checkbox"
       v-model="model"
+      :value="val"
       :disabled="disable"
       @click.stop
       @change="__change"
@@ -20,36 +21,6 @@
 </template>
 
 <script>
-export default {
-  props: {
-    value: {
-      type: Boolean,
-      required: true
-    },
-    disable: Boolean
-  },
-  computed: {
-    model: {
-      get () {
-        return this.value
-      },
-      set (value) {
-        this.$emit('input', value)
-      }
-    }
-  },
-  methods: {
-    toggle () {
-      if (!this.disable) {
-        this.model = !this.model
-        this.$el.focus()
-      }
-    },
-    __change (e) {
-      if (this.$q.platform.is.ios) {
-        this.toggle()
-      }
-    }
-  }
-}
+import Checkbox from './checkbox-controller'
+export default Checkbox
 </script>

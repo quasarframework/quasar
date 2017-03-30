@@ -47,7 +47,6 @@ export default {
     select () {
       if (!this.disable) {
         this.model = this.val
-        this.$el.focus()
       }
     },
     __change (e) {

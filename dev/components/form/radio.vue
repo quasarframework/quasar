@@ -36,7 +36,7 @@
       >
         <q-input-group
           type="radio"
-          v-model="option"
+          v-model="group"
           :options="[
             { label: 'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ', value: 'op2' },
             { label: 'Option 3', value: 'op3' },
@@ -53,7 +53,7 @@
       >
         <q-input-group
           inline
-          v-model="option"
+          v-model="group"
           :options="[
             { label: 'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ', value: 'op2' },
             { label: 'Option 3', value: 'op3' },
@@ -69,7 +69,7 @@
         error-label="Max 10 characters!"
       >
         <q-input-group
-          v-model="option"
+          v-model="group"
           inline
           :options="[
             { label: 'Option 2', value: 'op2' },
@@ -116,7 +116,8 @@
 export default {
   data () {
     return {
-      option: 'opt1'
+      option: 'opt1',
+      group: 'op3'
     }
   }
 }

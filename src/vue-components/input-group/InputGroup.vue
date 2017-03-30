@@ -2,19 +2,9 @@
   <div class="q-input-group small-gutter" :class="{'inline-opts': inline}">
     <div v-for="(opt, index) in options" class="no-wrap">
       <label class="row inline">
-        <q-radio
-          v-if="single"
-          v-model="model"
-          :val="opt.value"
-          :disable="disable"
-          :class="color"
-          @focus="$emit('focus')"
-          @blur="$emit('blur')"
-        ></q-radio>
         <component
-          v-else
           :is="component"
-          v-model="model[index]"
+          v-model="model"
           :val="opt.value"
           :disable="disable"
           :class="color"
@@ -50,10 +40,18 @@ export default {
     inline: Boolean,
     disable: Boolean
   },
+  created () {
+    const isArray = Array.isArray(this.value)
+    if (this.type === 'radio') {
+      if (isArray) {
+        console.error('q-radio: model should not be array')
+      }
+    }
+    else if (!isArray) {
+      console.error('q-radio: model should be array')
+    }
+  },
   computed: {
-    single () {
-      return this.type === 'radio'
-    },
     component () {
       return `q-${this.type}`
     },
@@ -62,9 +60,7 @@ export default {
         return this.value
       },
       set (value) {
-        if (value !== this.value) {
-          this.$emit('input', value)
-        }
+        this.$emit('input', value)
       }
     }
   }
