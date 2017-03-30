@@ -5,10 +5,16 @@ export function getPercentage (event, dragging) {
   return between((position(event).left - dragging.left) / dragging.width, 0, 1)
 }
 
-export function getModel (percentage, min, max, step) {
+export function precision (number, decimals) {
+  return decimals > 0
+    ? parseFloat(number.toFixed(decimals))
+    : number
+}
+
+export function getModel (percentage, min, max, step, decimals) {
   let
-    model = min + percentage * (max - min),
-    modulo = (model - min) % step
+    model = precision(min + percentage * (max - min), decimals),
+    modulo = precision((model - min) % step, decimals)
 
   return between(
     model - modulo + (Math.abs(modulo) >= step / 2 ? (modulo < 0 ? -1 : 1) * step : 0),
@@ -30,6 +36,10 @@ export let mixin = {
     step: {
       type: Number,
       default: 1
+    },
+    decimals: {
+      type: Number,
+      default: 0
     },
     snap: Boolean,
     markers: Boolean,

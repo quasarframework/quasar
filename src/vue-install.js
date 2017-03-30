@@ -46,7 +46,6 @@ import Knob from './vue-components/knob/Knob.vue'
 import Layout from './vue-components/layout/Layout.vue'
 import SideLink from './vue-components/layout/SideLink.vue'
 import Modal from './vue-components/modal/Modal.vue'
-import MoveMarker from './vue-components/move/MoveMarker.vue'
 import ResizeObservable from './vue-components/observables/ResizeObservable.vue'
 import WindowResizeObservable from './vue-components/observables/WindowResizeObservable.vue'
 import ScrollObservable from './vue-components/observables/ScrollObservable.vue'
@@ -131,7 +130,6 @@ function registerComponents (_Vue) {
     ['layout', Layout],
     ['side-link', SideLink],
     ['modal', Modal],
-    ['move-marker', MoveMarker],
     ['resize-observable', ResizeObservable],
     ['window-resize-observable', WindowResizeObservable],
     ['scroll-observable', ScrollObservable],

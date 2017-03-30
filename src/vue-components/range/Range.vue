@@ -37,6 +37,7 @@
 import {
   getModel,
   getPercentage,
+  precision,
   mixin
 } from './range-utils'
 
@@ -100,7 +101,7 @@ export default {
     __update (event) {
       let
         percentage = getPercentage(event, this.dragging),
-        model = getModel(percentage, this.min, this.max, this.step)
+        model = getModel(percentage, this.min, this.max, this.step, this.decimals)
 
       this.currentPercentage = percentage
       this.$emit('input', model)
@@ -110,11 +111,12 @@ export default {
       this.currentPercentage = (this.value - this.min) / (this.max - this.min)
     },
     __validateProps () {
+      console.log(this.decimals, precision((this.max - this.min) % this.step, this.decimals))
       if (this.min >= this.max) {
         console.error('Range error: min >= max', this.$el, this.min, this.max)
       }
-      else if ((this.max - this.min) % this.step !== 0) {
-        console.error('Range error: step must be a divisor of max - min', this.$el, this.min, this.max, this.step)
+      else if (precision((this.max - this.min) % this.step, this.decimals) !== 0) {
+        console.error('Range error: step must be a divisor of max - min', this.min, this.max, this.step, this.decimals)
       }
     }
   }

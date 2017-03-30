@@ -39,7 +39,7 @@ export default {
       ctx.data.staticClass = `${name}`
     }
 
-    return h('i', ctx.data, text ? [text, ctx.children] : ctx.children)
+    return h('i', ctx.data, text ? [text, ctx.children] : [' ', ctx.children])
   }
 }
 </script>
