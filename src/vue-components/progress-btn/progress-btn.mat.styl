@@ -1,4 +1,4 @@
-.q-progress-button
+.q-progress-btn
   overflow hidden
 
   &.active.indeterminate:before
@@ -12,17 +12,17 @@
     background-size 40px 40px
     animation q-progress-stripes 2s linear infinite
 
-.q-progress-button-content
+.q-progress-btn-content
   transition all .3s
   transform translateY(0)
 
-  &.q-progress-button-complete
+  &.q-progress-btn-complete
     transform translateY(-3.25rem)
-  &.q-progress-button-incomplete
+  &.q-progress-btn-incomplete
     transform translateY(2.75rem)
 
-.q-progress-button-error,
-.q-progress-button-success
+.q-progress-btn-error,
+.q-progress-btn-success
   position absolute
   text-align center
   top 0
@@ -31,13 +31,13 @@
     min-height 1.275rem
     line-height 1.275rem
 
-.q-progress-button-error
+.q-progress-btn-error
   transform translateX(-50%) translateY(-3rem)
 
-.q-progress-button-success
+.q-progress-btn-success
   transform translateX(-50%) translateY(3rem)
 
-.q-progress-button-filler
+.q-progress-btn-filler
   transition all .3s
   position absolute
   left 0
@@ -45,5 +45,5 @@
   bottom 0
   height 100%
   background rgba(255, 255, 255, .25)
-  &.q-progress-button-dark-filler
+  &.q-progress-btn-dark-filler
     background rgba(0, 0, 0, .2)

@@ -1,22 +1,22 @@
 <template>
-  <q-btn class="q-progress-button" :class="{active: active, indeterminate: indeterminate}">
+  <q-btn class="q-progress-btn" :class="{active: active, indeterminate: indeterminate}">
     <span
       v-if="!indeterminate"
-      class="q-progress-button-filler"
-      :class="{'q-progress-button-dark-filler': darkFiller}"
+      class="q-progress-btn-filler"
+      :class="{'q-progress-btn-dark-filler': darkFiller}"
       :style="{width: computedPercentage}"
     ></span>
     <div
-      class="q-progress-button-content"
+      class="q-progress-btn-content"
       :class="stateClass"
     >
-      <div class="q-progress-button-error">
+      <div class="q-progress-btn-error">
         <q-icon :name="errorIcon"></q-icon>
       </div>
-      <div class="q-progress-button-label">
+      <div class="q-progress-btn-label">
         <slot></slot>
       </div>
-      <div class="q-progress-button-success">
+      <div class="q-progress-btn-success">
         <q-icon :name="successIcon"></q-icon>
       </div>
     </div>
@@ -53,12 +53,12 @@ export default {
     },
     stateClass () {
       if (this.percentage >= 100) {
-        return 'q-progress-button-complete'
+        return 'q-progress-btn-complete'
       }
       if (this.percentage < 0) {
-        return 'q-progress-button-incomplete'
+        return 'q-progress-btn-incomplete'
       }
-      return 'q-progress-button-default'
+      return 'q-progress-btn-default'
     },
     computedPercentage () {
       if (this.percentage >= 100) {

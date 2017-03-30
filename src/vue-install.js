@@ -54,7 +54,7 @@ import Pagination from './vue-components/pagination/Pagination.vue'
 import Parallax from './vue-components/parallax/Parallax.vue'
 import Popover from './vue-components/popover/Popover.vue'
 import Progress from './vue-components/progress/Progress.vue'
-import ProgressButton from './vue-components/progress-button/ProgressButton.vue'
+import ProgressBtn from './vue-components/progress-btn/ProgressBtn.vue'
 import PullToRefresh from './vue-components/pull-to-refresh/PullToRefresh.vue'
 import Radio from './vue-components/radio/Radio.vue'
 import Range from './vue-components/range/Range.vue'
@@ -139,7 +139,7 @@ function registerComponents (_Vue) {
     ['parallax', Parallax],
     ['popover', Popover],
     ['progress', Progress],
-    ['progress-button', ProgressButton],
+    ['progress-btn', ProgressBtn],
     ['pull-to-refresh', PullToRefresh],
     ['radio', Radio],
     ['range', Range],
