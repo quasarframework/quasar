@@ -23,6 +23,8 @@ export default {
     },
     rowSelection () {
       this.$nextTick(() => {
+        this.$emit('selection', this.rowsSelected, this.selectedRows)
+
         if (this.rowsSelected) {
           this.toolbar = 'selection'
           return

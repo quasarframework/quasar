@@ -92,6 +92,7 @@
         :config="config"
         :columns="columns"
         @refresh="refresh"
+        @selection="selection"
       >
         <template slot="col-message" scope="cell">
           <span class="light-paragraph">{{cell.data}}</span>
@@ -139,6 +140,9 @@ export default {
       this.timeout = setTimeout(() => {
         done()
       }, 5000)
+    },
+    selection (number, rows) {
+      console.log(`selected ${number}: ${rows}`)
     }
   },
   beforeDestroy () {
