@@ -35,22 +35,20 @@ function read (string) {
   return string
 }
 
-function set (key, value, options = {}) {
-  let
-    days = options.expires,
-    time
+function set (key, val, opts = {}) {
+  let time = opts.expires
 
-  if (typeof options.expires === 'number') {
+  if (typeof opts.expires === 'number') {
     time = new Date()
-    time.setMilliseconds(time.getMilliseconds() + days * 864e+5)
+    time.setMilliseconds(time.getMilliseconds() + opts.expires * 864e+5)
   }
 
   document.cookie = [
-    encode(key), '=', stringifyCookieValue(value),
+    encode(key), '=', stringifyCookieValue(val),
     time ? '; expires=' + time.toUTCString() : '', // use expires attribute, max-age is not supported by IE
-    options.path ? '; path=' + options.path : '',
-    options.domain ? '; domain=' + options.domain : '',
-    options.secure ? '; secure' : ''
+    opts.path ? '; path=' + opts.path : '',
+    opts.domain ? '; domain=' + opts.domain : '',
+    opts.secure ? '; secure' : ''
   ].join('')
 }
 
