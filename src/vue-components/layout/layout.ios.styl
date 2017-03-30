@@ -107,7 +107,7 @@ body.with-layout-side-opened
 
 body
   &.cordova.platform-ios, &.demo-site.within-iframe
-    .layout-header, .layout-aside
+    .layout-header > .toolbar:first-child, .layout-aside.top-padding
       padding-top $ios-statusbar-height
       min-height ($layout-toolbar-min-height + $ios-statusbar-height)
 

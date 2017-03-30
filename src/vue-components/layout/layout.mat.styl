@@ -105,7 +105,7 @@ body.with-layout-side-opened
   padding 0 12px
 
 body.cordova.platform-ios
-  .layout-header, .layout-aside
+  .layout-header > .toolbar:first-child, .layout-aside.top-padding
     padding-top $ios-statusbar-height
     min-height ($layout-toolbar-min-height + $ios-statusbar-height)
 

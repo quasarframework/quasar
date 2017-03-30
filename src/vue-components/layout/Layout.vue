@@ -32,7 +32,8 @@
       :class="{
         'fixed': fixed.left || !leftOnLayout,
         'on-top': !leftOverBreakpoint,
-        'transition-generic': !leftInTransit
+        'transition-generic': !leftInTransit,
+        'top-padding': fixed.left || rows.top[0] === 'l'
       }"
       :style="leftStyle"
       v-touch-pan.horizontal="__closeByTouch"
@@ -47,7 +48,8 @@
       :class="{
         'fixed': fixed.right || !rightOnLayout,
         'on-top': !rightOverBreakpoint,
-        'transition-generic': !rightInTransit
+        'transition-generic': !rightInTransit,
+        'top-padding': fixed.right || rows.top[2] === 'r'
       }"
       :style="rightStyle"
       v-touch-pan.horizontal="__closeByTouch"
