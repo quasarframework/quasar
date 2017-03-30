@@ -72,6 +72,9 @@ export default {
         return
       }
       this.rowSelection = this.rows.map(() => false)
+    },
+    emitRowClick (row) {
+      this.$emit('rowclick', row)
     }
   }
 }

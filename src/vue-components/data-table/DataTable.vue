@@ -42,7 +42,7 @@
       <div v-else :style="bodyStyle" style="overflow: auto">
         <table class="q-table horizontal-delimiter responsive" ref="body">
           <tbody>
-            <tr v-for="(row, index) in rows">
+            <tr v-for="(row, index) in rows" @click="emitRowClick(row)">
               <td v-if="config.selection">
                 <q-checkbox v-if="config.selection === 'multiple'" v-model="rowSelection[index]"></q-checkbox>
                 <q-radio v-else v-model="rowSelection[0]" :val="index"></q-radio>
@@ -70,7 +70,7 @@
       >
         <div v-if="message" class="q-data-table-message row items-center justify-center" v-html="message"></div>
         <table-content v-else :cols="cols" :selection="config.selection">
-          <tr v-for="row in rows" :style="rowStyle">
+          <tr v-for="row in rows" :style="rowStyle" @click="emitRowClick(row)">
             <td v-if="config.selection"></td>
             <td v-if="leftStickyColumns" :colspan="leftStickyColumns"></td>
             <td v-for="col in regularCols" :style="formatStyle(col, row[col.field])" :class="formatClass(col, row[col.field])">
@@ -90,7 +90,7 @@
           :style="{bottom: scroll.horiz}"
         >
           <table-sticky :no-header="!hasHeader" :sticky-cols="leftStickyColumns" :cols="cols" :sorting="sorting" :selection="config.selection">
-            <tr v-for="(row, index) in rows" :style="rowStyle">
+            <tr v-for="(row, index) in rows" :style="rowStyle" @click="emitRowClick(row)">
               <td v-if="config.selection">
                 <q-checkbox v-if="config.selection === 'multiple'" v-model="rowSelection[index]"></q-checkbox>
                 <q-radio v-else v-model="rowSelection[0]" :val="index"></q-radio>
@@ -115,7 +115,7 @@
           :style="{right: scroll.vert, bottom: scroll.horiz}"
         >
           <table-sticky :no-header="!hasHeader" right :sticky-cols="rightStickyColumns" :cols="cols" :sorting="sorting" :selection="config.selection">
-            <tr v-for="row in rows" :style="rowStyle">
+            <tr v-for="row in rows" :style="rowStyle" @click="emitRowClick(row)">
               <td v-if="config.selection" class="invisible"></td>
               <td :colspan="cols.length - rightStickyColumns" class="invisible"></td>
               <td v-for="col in rightCols" :style="formatStyle(col, row[col.field])" :class="formatClass(col, row[col.field])">

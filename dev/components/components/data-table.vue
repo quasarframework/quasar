@@ -93,6 +93,7 @@
         :columns="columns"
         @refresh="refresh"
         @selection="selection"
+        @rowclick="rowClick"
       >
         <template slot="col-message" scope="cell">
           <span class="light-paragraph">{{cell.data}}</span>
@@ -143,6 +144,9 @@ export default {
     },
     selection (number, rows) {
       console.log(`selected ${number}: ${rows}`)
+    },
+    rowClick (row) {
+      console.log('clicked on a row', row)
     }
   },
   beforeDestroy () {
