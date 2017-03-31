@@ -8,8 +8,8 @@ import './features/body-classes'
 import './features/polyfills'
 import './features/error-handler'
 import './features/fastclick'
-import './features/addressbar-color'
 
+import AddressbarColor from './features/addressbar-color'
 import ActionSheet from './components/action-sheet/action-sheet'
 import Dialog from './components/dialog/dialog'
 import Toast from './components/toast/toast'
@@ -31,6 +31,7 @@ let Quasar = {
 }
 
 export {
+  AddressbarColor,
   ActionSheet,
   Dialog,
   AppFullscreen,
