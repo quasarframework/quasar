@@ -51,6 +51,7 @@
 
 <script>
 export default {
+  name: 'q-field',
   props: {
     label: String,
     labelHint: String,

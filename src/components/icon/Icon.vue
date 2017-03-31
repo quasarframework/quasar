@@ -1,5 +1,6 @@
 <script>
 export default {
+  name: 'q-icon',
   functional: true,
   props: {
     name: String,

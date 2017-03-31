@@ -35,6 +35,7 @@
 import { between } from '../../utils/format'
 
 export default {
+  name: 'q-pagination',
   props: {
     value: {
       type: Number,

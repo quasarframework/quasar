@@ -139,6 +139,7 @@ function exists (val) {
 }
 
 export default {
+  name: 'q-input',
   props: {
     name: String,
     value: {

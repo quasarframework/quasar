@@ -42,6 +42,7 @@
 const eventName = 'q:collapsible:close'
 
 export default {
+  name: 'q-collapsible',
   props: {
     opened: Boolean,
     menu: Boolean,

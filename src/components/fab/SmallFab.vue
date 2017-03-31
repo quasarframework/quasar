@@ -7,6 +7,7 @@
 
 <script>
 export default {
+  name: 'q-small-fab',
   props: {
     icon: {
       type: String,

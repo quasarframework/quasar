@@ -117,6 +117,7 @@ function updateObject (obj, data) {
 }
 
 export default {
+  name: 'q-layout',
   mixins: [SideMixin],
   model: {
     prop: 'sides'

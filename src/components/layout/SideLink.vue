@@ -18,6 +18,7 @@
 import { RouterLinkMixin, routerLinkEvent } from '../../utils/router-link'
 
 export default {
+  name: 'q-side-link',
   mixins: [RouterLinkMixin],
   props: {
     tag: {

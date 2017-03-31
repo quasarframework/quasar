@@ -5,5 +5,7 @@
 </template>
 
 <script>
-export default {}
+export default {
+  name: 'q-scroll-area'
+}
 </script>

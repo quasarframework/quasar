@@ -3,6 +3,7 @@ import slide from './slide-toggle'
 let transitions = {slide}
 
 export default {
+  name: 'q-transition',
   functional: true,
   props: {
     name: {

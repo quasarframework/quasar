@@ -22,6 +22,7 @@
 import Utils from '../../utils'
 
 export default {
+  name: 'q-pull-to-refresh',
   props: {
     handler: {
       type: Function,

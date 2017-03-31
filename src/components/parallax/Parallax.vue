@@ -20,6 +20,7 @@
 import Utils from '../../utils'
 
 export default {
+  name: 'q-parallax',
   props: {
     src: {
       type: String,

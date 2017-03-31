@@ -41,6 +41,7 @@
 import Utils from '../../utils'
 
 export default {
+  name: 'q-knob',
   props: {
     value: {
       type: Number,

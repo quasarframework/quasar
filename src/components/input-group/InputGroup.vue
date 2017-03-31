@@ -20,6 +20,7 @@
 
 <script>
 export default {
+  name: 'q-input-group',
   props: {
     value: {
       required: true

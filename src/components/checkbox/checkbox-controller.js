@@ -1,4 +1,5 @@
 export default {
+  name: 'q-checkbox',
   props: {
     value: {
       type: [Boolean, Array],

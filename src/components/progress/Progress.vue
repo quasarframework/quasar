@@ -14,6 +14,7 @@ function width (val) {
 }
 
 export default {
+  name: 'q-progress',
   props: {
     percentage: {
       type: Number,

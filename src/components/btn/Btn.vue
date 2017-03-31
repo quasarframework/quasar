@@ -19,6 +19,7 @@
 
 <script>
 export default {
+  name: 'q-btn',
   props: {
     disable: Boolean,
     spinner: [Boolean, String],

@@ -22,6 +22,7 @@
 
 <script>
 export default {
+  name: 'q-radio',
   props: {
     value: {
       required: true

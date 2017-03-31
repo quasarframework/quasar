@@ -19,6 +19,7 @@
 import Dialog from '../../components/dialog/dialog'
 
 export default {
+  name: 'q-dialog-select',
   props: {
     value: {
       required: true

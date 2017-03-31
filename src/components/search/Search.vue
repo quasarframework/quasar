@@ -47,6 +47,7 @@
 
 <script>
 export default {
+  name: 'q-search',
   props: {
     value: {
       type: [String, Number],

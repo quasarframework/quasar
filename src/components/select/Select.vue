@@ -56,6 +56,7 @@
 
 <script>
 export default {
+  name: 'q-select',
   props: {
     value: {
       required: true

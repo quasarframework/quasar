@@ -11,6 +11,7 @@ import { cssTransform } from '../../utils/dom'
 const sides = ['top', 'right', 'bottom', 'left']
 
 export default {
+  name: 'q-fixed-position',
   props: {
     corner: {
       type: String,

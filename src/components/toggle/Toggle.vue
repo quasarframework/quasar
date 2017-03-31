@@ -26,6 +26,7 @@
 import Checkbox from '../checkbox/checkbox-controller'
 
 export default {
+  name: 'q-toggle',
   mixins: [Checkbox],
   props: {
     icon: String

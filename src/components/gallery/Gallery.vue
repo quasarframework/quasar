@@ -12,6 +12,7 @@
 
 <script>
 export default {
+  name: 'q-gallery',
   props: {
     src: {
       type: Array,

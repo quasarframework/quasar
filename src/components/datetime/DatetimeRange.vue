@@ -51,6 +51,7 @@ import extend from '../../utils/extend'
 import { input as props } from './datetime-props'
 
 export default {
+  name: 'q-datetime-range',
   props: extend({
     value: {
       type: Object,

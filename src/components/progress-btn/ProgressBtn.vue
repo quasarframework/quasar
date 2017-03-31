@@ -25,6 +25,7 @@
 
 <script>
 export default {
+  name: 'q-progress-btn',
   props: {
     percentage: {
       type: Number,

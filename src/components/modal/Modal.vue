@@ -65,6 +65,7 @@ let
   openedModalNumber = 0
 
 export default {
+  name: 'q-modal',
   props: {
     position: {
       type: String,

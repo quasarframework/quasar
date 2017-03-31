@@ -63,6 +63,7 @@ const dragType = {
 }
 
 export default {
+  name: 'q-double-range',
   mixins: [mixin],
   props: {
     value: {

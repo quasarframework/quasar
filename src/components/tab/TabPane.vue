@@ -6,6 +6,7 @@
 
 <script>
 export default {
+  name: 'q-tab-pane',
   props: {
     name: {
       type: String,

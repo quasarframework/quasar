@@ -53,6 +53,7 @@ const
   debounceDelay = 50 // in ms
 
 export default {
+  name: 'q-tabs',
   props: {
     value: String,
     align: {

@@ -22,6 +22,7 @@
 
 <script>
 export default {
+  name: 'q-step',
   props: {
     step: {
       type: [Number, String],

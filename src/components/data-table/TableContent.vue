@@ -33,6 +33,7 @@
 import SortIcon from './plugins/sort/SortIcon.vue'
 
 export default {
+  name: 'q-table-content',
   props: {
     cols: Array,
     head: Boolean,

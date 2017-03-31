@@ -9,6 +9,7 @@ import Utils from '../../utils'
 import Platform from '../../features/platform'
 
 export default {
+  name: 'q-tooltip',
   props: {
     anchor: {
       type: String,

@@ -10,6 +10,7 @@
 
 <script>
 export default {
+  name: 'q-loading',
   props: {
     message: [String, Boolean],
     spinner: String,

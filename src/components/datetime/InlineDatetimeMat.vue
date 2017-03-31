@@ -208,6 +208,7 @@ function convertToAmPm (hour) {
 }
 
 export default {
+  name: 'q-inline-datetime',
   props,
   data () {
     let view

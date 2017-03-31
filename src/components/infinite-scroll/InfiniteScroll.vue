@@ -13,6 +13,7 @@
 import Utils from '../../utils'
 
 export default {
+  name: 'q-infinite-scroll',
   props: {
     handler: {
       type: Function,

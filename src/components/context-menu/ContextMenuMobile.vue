@@ -6,6 +6,7 @@
 
 <script>
 export default {
+  name: 'q-context-menu',
   props: {
     disable: Boolean
   },

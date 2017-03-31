@@ -25,6 +25,7 @@
 import TabMixin from './tab-mixin'
 
 export default {
+  name: 'q-tab',
   mixins: [TabMixin],
   props: {
     selected: Boolean

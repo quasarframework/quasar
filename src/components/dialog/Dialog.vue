@@ -106,6 +106,7 @@
 import inputTypes from '../input/input-types'
 
 export default {
+  name: 'q-dialog',
   props: {
     title: String,
     message: String,

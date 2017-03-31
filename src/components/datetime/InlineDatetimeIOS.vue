@@ -125,6 +125,7 @@ import { inline as props } from './datetime-props'
 import Utils from '../../utils'
 
 export default {
+  name: 'q-inline-datetime',
   props,
   data () {
     this.$nextTick(() => {

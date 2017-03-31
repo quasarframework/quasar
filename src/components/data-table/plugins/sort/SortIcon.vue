@@ -4,6 +4,7 @@
 
 <script>
 export default {
+  name: 'q-sort-icon',
   props: {
     field: String,
     sorting: Object

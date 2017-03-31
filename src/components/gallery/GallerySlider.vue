@@ -56,6 +56,7 @@
 import sliderMixin from '../slider/slider-mixin'
 
 export default {
+  name: 'q-gallery-slider',
   mixins: [sliderMixin],
   props: {
     src: {

@@ -32,6 +32,7 @@
 
 <script>
 export default {
+  name: 'q-chat-message',
   props: {
     sent: Boolean,
     label: String,

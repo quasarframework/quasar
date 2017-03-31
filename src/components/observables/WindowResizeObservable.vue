@@ -2,6 +2,7 @@
 import { viewport } from '../../utils/dom'
 
 export default {
+  name: 'q-window-resize-observable',
   render () {},
   methods: {
     trigger () {

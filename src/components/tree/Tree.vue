@@ -16,6 +16,7 @@
 import QTreeItem from './TreeItem.vue'
 
 export default {
+  name: 'q-tree',
   props: {
     model: {
       type: Array,

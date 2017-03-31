@@ -76,6 +76,7 @@
 import Utils from '../../utils'
 
 export default {
+  name: 'q-uploader',
   props: {
     name: {
       type: String,

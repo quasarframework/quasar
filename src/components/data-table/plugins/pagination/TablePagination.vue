@@ -23,6 +23,7 @@
 
 <script>
 export default {
+  name: 'q-table-pagination',
   props: ['pagination', 'entries', 'labels'],
   watch: {
     entries () {

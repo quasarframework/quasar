@@ -10,6 +10,7 @@
 
 <script>
 export default {
+  name: 'q-inner-loading',
   props: {
     spinner: String,
     dark: Boolean,

@@ -8,6 +8,7 @@
 
 <script>
 export default {
+  name: 'q-step-pane',
   props: {
     step: {
       type: [Number, String],

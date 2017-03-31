@@ -26,6 +26,7 @@ import STail from './svg-spinners/tail.vue'
 import { current as theme } from '../../features/theme'
 
 export default {
+  name: 'q-spinner',
   props: {
     name: {
       type: String,

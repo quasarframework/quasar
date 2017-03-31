@@ -6,6 +6,7 @@
 
 <script>
 export default {
+  name: 'q-video',
   props: ['src']
 }
 </script>

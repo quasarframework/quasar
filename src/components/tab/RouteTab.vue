@@ -32,6 +32,7 @@ import { RouterLinkMixin, routerLinkEvent } from '../../utils/router-link'
 import TabMixin from './tab-mixin'
 
 export default {
+  name: 'q-route-tab',
   mixins: [TabMixin, RouterLinkMixin],
   watch: {
     $route () {

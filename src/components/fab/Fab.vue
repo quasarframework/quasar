@@ -26,6 +26,7 @@ function iosFixNeeded (el) {
 }
 
 export default {
+  name: 'q-fab',
   props: {
     classNames: {
       default: 'primary'

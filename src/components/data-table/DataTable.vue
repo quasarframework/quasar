@@ -153,6 +153,7 @@ import StickyColumns from './plugins/sticky-cols/sticky-cols'
 import TableContent from './TableContent.vue'
 
 export default {
+  name: 'q-data-table',
   mixins: [ColumnSelection, Filter, I18n, Pagination, Responsive, RowSelection, Scroll, Sort, StickyColumns],
   props: {
     data: {

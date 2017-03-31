@@ -27,6 +27,7 @@ function prevent (e) {
 }
 
 export default {
+  name: 'q-autocomplete',
   props: {
     value: {
       type: String,

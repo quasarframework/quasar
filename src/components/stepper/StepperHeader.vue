@@ -9,6 +9,7 @@
 
 <script>
 export default {
+  name: 'q-stepper-header',
   props: {
     alternativeLabels: Boolean
   },

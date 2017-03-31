@@ -57,6 +57,7 @@
 
 <script>
 export default {
+  name: 'q-item',
   props: {
     cfg: {
       type: Object,

@@ -57,6 +57,7 @@ import uid from '../../utils/uid'
 import sliderMixin from './slider-mixin'
 
 export default {
+  name: 'q-slider',
   mixins: [sliderMixin],
   data () {
     return {

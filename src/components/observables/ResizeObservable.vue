@@ -26,6 +26,7 @@ function getSize (el) {
 }
 
 export default {
+  name: 'q-resize-observable',
   methods: {
     onScroll () {
       const size = getSize(this.$el.parentNode)

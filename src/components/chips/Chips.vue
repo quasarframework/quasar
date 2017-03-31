@@ -27,6 +27,7 @@
 
 <script>
 export default {
+  name: 'q-chips',
   props: {
     value: {
       type: Array,

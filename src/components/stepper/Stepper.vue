@@ -13,6 +13,7 @@
 
 <script>
 export default {
+  name: 'q-stepper',
   props: {
     value: Number,
     loading: Boolean,

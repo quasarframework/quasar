@@ -18,6 +18,7 @@ import { width, viewport } from '../../utils/dom'
 import EscapeKey from '../../features/escape-key'
 
 export default {
+  name: 'q-popover',
   props: {
     anchor: {
       type: String,

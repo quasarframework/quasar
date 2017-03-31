@@ -16,6 +16,7 @@
 
 <script>
 export default {
+  name: 'q-table-filter',
   props: ['filtering', 'columns', 'labels'],
   computed: {
     filterFields () {

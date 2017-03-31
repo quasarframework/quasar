@@ -60,6 +60,7 @@ function parseOptions (opts, defaults) {
 }
 
 export default {
+  name: 'q-toast',
   data () {
     return {
       active: false,

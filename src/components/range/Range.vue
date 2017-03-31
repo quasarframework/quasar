@@ -42,6 +42,7 @@ import {
 } from './range-utils'
 
 export default {
+  name: 'q-range',
   mixins: [mixin],
   props: {
     value: {

@@ -72,6 +72,7 @@ let contentCSS = {
 }
 
 export default {
+  name: 'q-datetime',
   props: extend({
     value: {
       type: String,

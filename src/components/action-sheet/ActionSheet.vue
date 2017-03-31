@@ -124,6 +124,7 @@
 
 <script>
 export default {
+  name: 'q-action-sheet',
   props: {
     title: String,
     gallery: Boolean,
