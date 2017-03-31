@@ -93,24 +93,24 @@ export function applyAutoPositionIfNeeded (anchor, target, selfOrigin, anchorOri
   if (targetPosition.top < 0 || targetPosition.top + target.bottom > window.innerHeight) {
     let newTop = anchor[anchorPos.vertical] - target[positions.y[0]]
     if (newTop + target.bottom <= window.innerHeight) {
-      targetPosition.top = Math.max(0, newTop)
+      targetPosition.top = newTop
     }
     else {
       newTop = anchor[anchorPos.vertical] - target[positions.y[1]]
       if (newTop + target.bottom <= window.innerHeight) {
-        targetPosition.top = Math.max(0, newTop)
+        targetPosition.top = newTop
       }
     }
   }
   if (targetPosition.left < 0 || targetPosition.left + target.right > window.innerWidth) {
     let newLeft = anchor[anchorPos.horizontal] - target[positions.x[0]]
     if (newLeft + target.right <= window.innerWidth) {
-      targetPosition.left = Math.max(0, newLeft)
+      targetPosition.left = newLeft
     }
     else {
       newLeft = anchor[anchorPos.horizontal] - target[positions.x[1]]
       if (newLeft + target.right <= window.innerWidth) {
-        targetPosition.left = Math.max(0, newLeft)
+        targetPosition.left = newLeft
       }
     }
   }
@@ -133,7 +133,7 @@ export function getTransformProperties ({selfOrigin}) {
 
 export function setPosition ({el, anchorEl, anchorOrigin, selfOrigin, maxHeight, event, anchorClick, touchPosition, offset}) {
   let anchor
-  el.style.maxHeight = this.maxHeight || '65vh'
+  el.style.maxHeight = maxHeight || '65vh'
 
   if (event && (!anchorClick || touchPosition)) {
     const {top, left} = eventPosition(event)
@@ -151,8 +151,8 @@ export function setPosition ({el, anchorEl, anchorOrigin, selfOrigin, maxHeight,
 
   targetPosition = applyAutoPositionIfNeeded(anchor, target, selfOrigin, anchorOrigin, targetPosition)
 
-  el.style.top = Math.max(0, targetPosition.top) + 'px'
-  el.style.left = Math.max(0, targetPosition.left) + 'px'
+  el.style.top = targetPosition.top + 'px'
+  el.style.left = targetPosition.left + 'px'
 }
 
 export function positionValidator (pos) {

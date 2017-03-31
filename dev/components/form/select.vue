@@ -1,47 +1,52 @@
 <template>
   <div>
     <div class="layout-padding">
-      <p class="caption">With Radios</p>
-      <q-select type="radio" v-model="select" :options="selectOptions"></q-select>
-      <p class="caption">With Checkboxes</p>
-      <q-select type="checkbox" v-model="multipleSelect" :options="selectOptions"></q-select>
-      <p class="caption">With Toggles</p>
-      <q-select type="toggle" v-model="multipleSelect" :options="selectOptions" @input="inputChange"></q-select>
-      <p class="caption">With List</p>
-      <q-select type="list" v-model="select" :options="selectOptions"></q-select>
-      <q-select type="list" v-model="select" :options="selectOptions" delimiter></q-select>
-      <q-select type="list" v-model="select" :options="selectListOptions"></q-select>
+      <p class="caption">Single Selection</p>
+      <q-select v-model="select" :options="selectOptions"></q-select>
+      <q-select v-model="select" :options="selectOptions" delimiter></q-select>
+      <q-select v-model="select" :options="selectListOptions"></q-select>
+
+      <p class="caption">Single Selection with Radio</p>
+      <q-select radio v-model="select" :options="selectListOptions"></q-select>
+
+      <p class="caption">Multiple Selection</p>
+      <q-select multiple v-model="multipleSelect" :options="selectListOptions"></q-select>
+
+      <p class="caption">Multiple Selection with Checkboxes</p>
+      <q-select multiple checkbox v-model="multipleSelect" :options="selectListOptions"></q-select>
+
+      <p class="caption">Multiple Selection with Toggle</p>
+      <q-select multiple toggle v-model="multipleSelect" :options="selectListOptions"></q-select>
 
       <p class="caption">Simple</p>
       <q-select simple v-model="select" :options="selectOptions"></q-select>
 
       <p class="caption">With Label</p>
-      <q-select type="checkbox" v-model="multipleSelect" :options="selectOptions" label="Pick Company"></q-select>
+      <q-select multiple v-model="multipleSelect" :options="selectOptions" label="Pick Company"></q-select>
 
       <p class="caption">With Placeholder</p>
-      <q-select type="checkbox" v-model="multipleSelect" :options="selectOptions" placeholder="Pick Company"></q-select>
+      <q-select multiple v-model="multipleSelect" :options="selectOptions" placeholder="Pick Company"></q-select>
 
       <p class="caption">With Static Label</p>
-      <q-select type="checkbox" v-model="multipleSelect" :options="selectOptions" static-label="Company"></q-select>
+      <q-select multiple v-model="multipleSelect" :options="selectOptions" static-label="Company"></q-select>
 
       <p class="caption">Disabled State</p>
-      <q-select disable type="radio" v-model="select" :options="selectOptions"></q-select>
+      <q-select disable multiple v-model="multipleSelect" :options="selectOptions"></q-select>
 
       <p class="caption">Readonly State</p>
-      <q-select readonly type="radio" v-model="select" :options="selectOptions"></q-select>
+      <q-select readonly multiple v-model="multipleSelect" :options="selectOptions"></q-select>
 
       <p class="caption">Error State</p>
-      <q-select class="has-error" type="radio" v-model="select" :options="selectOptions"></q-select>
+      <q-select class="has-error" multiple v-model="multipleSelect" :options="selectOptions"></q-select>
 
       <p class="caption">Inside of a List</p>
       <div class="list">
         <div class="list-label">Single Selection</div>
-        <div class="item two-lines">
+        <div class="item">
           <div class="item-primary"><q-icon name="supervisor_account" /></div>
           <div class="item-content">
             <q-select
               class="full-width"
-              type="radio"
               v-model="select"
               :options="selectOptions"
             ></q-select>
@@ -49,23 +54,11 @@
         </div>
         <hr>
         <div class="list-label">Multiple Selection</div>
-        <div class="item two-lines">
+        <div class="item">
           <div class="item-primary"><q-icon name="supervisor_account" /></div>
           <div class="item-content">
             <q-select
-              class="full-width"
-              type="checkbox"
-              v-model="multipleSelect"
-              :options="selectOptions"
-            ></q-select>
-          </div>
-        </div>
-        <div class="item two-lines">
-          <div class="item-primary"><q-icon name="supervisor_account" /></div>
-          <div class="item-content">
-            <q-select
-              class="full-width"
-              type="toggle"
+              multiple
               v-model="multipleSelect"
               :options="selectOptions"
             ></q-select>

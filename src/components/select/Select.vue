@@ -24,61 +24,31 @@
         class="list link no-border"
         :class="{delimiter: delimiter}"
       >
-        <label
-          v-if="type === 'radio'"
-          v-for="radio in options"
-          :key="radio"
-          class="item"
-          @click="close"
-          v-ripple.mat
-        >
-          <div class="item-primary">
-            <q-radio v-model="model" :val="radio.value"></q-radio>
-          </div>
-          <div class="item-content">
-            <div v-html="radio.label"></div>
-          </div>
-        </label>
-
-        <q-item
-          v-if="type === 'list'"
-          class="item"
-          v-for="opt in options"
-          :key="opt"
-          :cfg="opt"
-          :active="model === opt.value"
-          @click.native="__setAndClose(opt.value)"
-        ></q-item>
-
-        <label
-          v-if="type === 'checkbox'"
-          v-for="(checkbox, index) in options"
-          :key="checkbox"
-          class="item"
-          v-ripple.mat
-        >
-          <div class="item-primary">
-            <q-checkbox :value="optModel[index]" @input="toggleValue(checkbox.value)"></q-checkbox>
-          </div>
-          <div class="item-content">
-            <div v-html="checkbox.label"></div>
-          </div>
-        </label>
-
-        <label
-          v-if="type === 'toggle'"
-          v-for="(toggle, index) in options"
-          :key="toggle"
-          class="item"
-          v-ripple.mat
-        >
-          <div class="item-content text">
-            <div v-html="toggle.label"></div>
-          </div>
-          <div class="item-secondary">
-            <q-toggle :value="optModel[index]" @input="toggleValue(toggle.value)"></q-toggle>
-          </div>
-        </label>
+        <template v-if="multiple">
+          <q-item
+            class="item"
+            v-for="(opt, index) in options"
+            :key="opt"
+            :cfg="opt"
+            :active="!checkbox && !toggle && optModel[index]"
+            @click.native="__toggle(opt.value)"
+          >
+            <q-checkbox v-if="checkbox" slot="primary" :value="optModel[index]"></q-checkbox>
+            <q-toggle v-if="toggle" slot="secondary" :value="optModel[index]"></q-toggle>
+          </q-item>
+        </template>
+        <template v-else>
+          <q-item
+            class="item"
+            v-for="opt in options"
+            :key="opt"
+            :cfg="opt"
+            :active="model === opt.value"
+            @click.native="__select(opt.value)"
+          >
+            <q-radio v-if="radio" slot="primary" :value="model" :val="opt.value"></q-radio>
+          </q-item>
+        </template>
       </div>
     </q-popover>
   </q-input>
@@ -99,13 +69,10 @@ export default {
         )
       }
     },
-    type: {
-      type: String,
-      default: 'list',
-      validator (value) {
-        return ['radio', 'list', 'checkbox', 'toggle'].includes(value)
-      }
-    },
+    multiple: Boolean,
+    radio: Boolean,
+    checkbox: Boolean,
+    toggle: Boolean,
     placeholder: String,
     staticLabel: String,
     floatLabel: String,
@@ -126,7 +93,7 @@ export default {
   computed: {
     model: {
       get () {
-        if (this.multipleSelection && !Array.isArray(this.value)) {
+        if (this.multiple && !Array.isArray(this.value)) {
           console.error('Select model needs to be an array when using multiple selection.')
         }
         return this.value
@@ -137,18 +104,15 @@ export default {
     },
     optModel () {
       /* Used by multiple selection only */
-      if (this.multipleSelection) {
+      if (this.multiple) {
         return this.options.map(opt => this.model.includes(opt.value))
       }
-    },
-    multipleSelection () {
-      return ['checkbox', 'toggle'].includes(this.type)
     },
     actualValue () {
       if (this.staticLabel) {
         return this.staticLabel
       }
-      if (!this.multipleSelection) {
+      if (!this.multiple) {
         let option = this.options.find(option => option.value === this.model)
         return option ? option.label : ''
       }
@@ -169,16 +133,20 @@ export default {
     close () {
       this.$refs.popover.close()
     },
-    toggleValue (value) {
+
+    __toggle (value) {
       let index = this.model.indexOf(value)
-      if (index >= 0) {
+      if (index > -1) {
         this.model.splice(index, 1)
       }
       else {
         this.model.push(value)
       }
     },
-
+    __select (val) {
+      this.model = val
+      this.close()
+    },
     __blur (e) {
       this.$emit('blur')
       setTimeout(() => {
@@ -186,10 +154,6 @@ export default {
           this.close()
         }
       }, 1)
-    },
-    __setAndClose (val) {
-      this.model = val
-      this.close()
     }
   }
 }

@@ -39,3 +39,22 @@ export default function (fn, wait = 250, immediate) {
     return result
   }
 }
+
+export function frameDebounce (fn) {
+  let
+    wait = false,
+    param
+
+  return function (...args) {
+    param = args
+    if (wait) {
+      return
+    }
+
+    wait = true
+    window.requestAnimationFrame(() => {
+      fn.apply(this, param)
+      wait = false
+    })
+  }
+}

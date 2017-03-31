@@ -5,7 +5,16 @@
 </template>
 
 <script>
-import Utils from '../../utils'
+import {
+  positionValidator,
+  offsetValidator,
+  getTransformProperties,
+  parsePosition,
+  setPosition
+} from '../../utils/popup'
+import { frameDebounce } from '../../utils/debounce'
+import { getScrollTarget } from '../../utils/scroll'
+import { width, viewport } from '../../utils/dom'
 import EscapeKey from '../../features/escape-key'
 
 export default {
@@ -13,12 +22,12 @@ export default {
     anchor: {
       type: String,
       default: 'bottom left',
-      validator: Utils.popup.positionValidator
+      validator: positionValidator
     },
     self: {
       type: String,
       default: 'top left',
-      validator: Utils.popup.positionValidator
+      validator: positionValidator
     },
     fit: Boolean,
     maxHeight: String,
@@ -33,7 +42,7 @@ export default {
     },
     offset: {
       type: Array,
-      validator: Utils.popup.offsetValidator
+      validator: offsetValidator
     },
     disable: Boolean
   },
@@ -45,19 +54,17 @@ export default {
   },
   computed: {
     transformCSS () {
-      return Utils.popup.getTransformProperties({selfOrigin: this.selfOrigin})
+      return getTransformProperties({selfOrigin: this.selfOrigin})
     },
     anchorOrigin () {
-      return Utils.popup.parsePosition(this.anchor)
+      return parsePosition(this.anchor)
     },
     selfOrigin () {
-      return Utils.popup.parsePosition(this.self)
+      return parsePosition(this.self)
     }
   },
   created () {
-    this.__debouncedPositionUpdate = Utils.debounce(() => {
-      this.reposition()
-    }, 70)
+    this.__updatePosition = frameDebounce(() => { this.reposition() })
   },
   mounted () {
     this.$nextTick(() => {
@@ -89,7 +96,7 @@ export default {
         return
       }
       if (this.opened) {
-        this.reposition()
+        this.__updatePosition()
         return
       }
       if (event) {
@@ -101,13 +108,10 @@ export default {
       document.body.click() // close other Popovers
       document.body.appendChild(this.$el)
       EscapeKey.register(() => { this.close() })
-      this.scrollTarget = Utils.scroll.getScrollTarget(this.anchorEl)
-      this.scrollTarget.addEventListener('scroll', this.close)
-      window.addEventListener('resize', this.__debouncedPositionUpdate)
-      if (this.fit) {
-        this.$el.style.minWidth = Utils.dom.width(this.anchorEl) + 'px'
-      }
-      this.reposition(event)
+      this.scrollTarget = getScrollTarget(this.anchorEl)
+      this.scrollTarget.addEventListener('scroll', this.__updatePosition)
+      window.addEventListener('resize', this.__updatePosition)
+      this.reposition()
       this.timer = setTimeout(() => {
         this.timer = null
         document.addEventListener('click', this.close, true)
@@ -121,8 +125,8 @@ export default {
 
       clearTimeout(this.timer)
       document.removeEventListener('click', this.close, true)
-      this.scrollTarget.removeEventListener('scroll', this.close)
-      window.removeEventListener('resize', this.__debouncedPositionUpdate)
+      this.scrollTarget.removeEventListener('scroll', this.__updatePosition)
+      window.removeEventListener('resize', this.__updatePosition)
       EscapeKey.pop()
       this.progress = true
 
@@ -140,10 +144,18 @@ export default {
         }
       }, 1)
     },
-    reposition (event) {
+    reposition () {
       this.$nextTick(() => {
-        Utils.popup.setPosition({
-          event,
+        if (this.fit) {
+          this.$el.style.minWidth = width(this.anchorEl) + 'px'
+        }
+        const {top, bottom} = this.anchorEl.getBoundingClientRect()
+        const {height} = viewport()
+        console.log(top, bottom, height)
+        if (top < 0 || top > height) {
+          return this.close()
+        }
+        setPosition({
           el: this.$el,
           offset: this.offset,
           anchorEl: this.anchorEl,
