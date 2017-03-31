@@ -3,7 +3,6 @@
     <div>
       {{labels.rows}}
       <q-select
-        type="list"
         v-model="pagination.rowsPerPage"
         :options="pagination.options"
         @input="resetPage"

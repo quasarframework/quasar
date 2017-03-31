@@ -670,7 +670,7 @@
         <div class="item">
           <div class="item-primary"><q-icon name="supervisor_account" /></div>
           <div class="item-content">
-            <q-select class="full-width" type="radio" v-model="select" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Company"></q-select>
+            <q-select class="full-width" v-model="select" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Company"></q-select>
           </div>
         </div>
         <hr>
@@ -678,13 +678,13 @@
         <div class="item">
           <div class="item-primary"><q-icon name="supervisor_account" /></div>
           <div class="item-content">
-            <q-select class="full-width" type="checkbox" v-model="multipleSelect" :options="selectOptions" ok-label="Pick" title="Companies"></q-select>
+            <q-select class="full-width" multiple checkbox v-model="multipleSelect" :options="selectOptions" ok-label="Pick" title="Companies"></q-select>
           </div>
         </div>
         <div class="item">
           <div class="item-primary"><q-icon name="supervisor_account" /></div>
           <div class="item-content">
-            <q-select class="full-width" type="toggle" v-model="multipleSelect" :options="selectOptions" ok-label="Pick" title="Companies"></q-select>
+            <q-select class="full-width" multiple toggle v-model="multipleSelect" :options="selectOptions" ok-label="Pick" title="Companies"></q-select>
           </div>
         </div>
       </div>

@@ -11,7 +11,8 @@
             <q-icon name="cached" class="animate-spin-reverse"></q-icon>
           </q-btn>
           <q-select
-            type="toggle"
+            multiple
+            toggle
             v-if="config.columnPicker"
             v-model="columnSelection"
             :options="columnSelectionOptions"

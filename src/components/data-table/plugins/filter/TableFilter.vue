@@ -7,7 +7,6 @@
     ></q-search>
     <q-select
       v-model="filtering.field"
-      type="list"
       :options="filterFields"
       class="no-margin text-right"
       simple
