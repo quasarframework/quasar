@@ -1,4 +1,4 @@
-import ModalGenerator from '../modal-generator'
+import Modal from '../../utils/modal'
 import Dialog from './Dialog.vue'
 
-export default ModalGenerator(Dialog)
+export default Modal(Dialog)

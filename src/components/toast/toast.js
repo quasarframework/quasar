@@ -1,4 +1,5 @@
-import Utils from '../../utils'
+import extend from '../../utils/extend'
+import { ready } from '../../utils/dom'
 import Toast from './Toast.vue'
 
 let
@@ -30,7 +31,7 @@ function create (opts, defaults) {
   }
 
   if (defaults) {
-    opts = Utils.extend(
+    opts = extend(
       true,
       typeof opts === 'string' ? {html: opts} : opts,
       defaults
@@ -50,7 +51,7 @@ types.forEach(type => {
 })
 
 export function install (_Vue) {
-  Utils.dom.ready(() => {
+  ready(() => {
     let node = document.createElement('div')
     document.body.appendChild(node)
     toast = new _Vue(Toast).$mount(node)

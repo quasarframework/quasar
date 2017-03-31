@@ -103,7 +103,7 @@
 </template>
 
 <script>
-import inputTypes from '../../vue-components/input/input-types'
+import inputTypes from '../input/input-types'
 
 export default {
   props: {

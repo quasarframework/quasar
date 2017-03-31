@@ -83,7 +83,7 @@ $ npm run lint
 
 - **`src`**: contains the source code, obviously. The codebase is written in ES2015.
 
-  - **`components`**: contains global features (Dialog, Toast, ...)
+  - **`components`**: JS and Stylus files (one for each theme) for Quasar Vue components
 
   - **`css-components`**: Stylus code that accompanies HTML markup for non-components
 
@@ -93,11 +93,9 @@ $ npm run lint
 
   - **`utils`**: utilities used by the framework and exported to the public API
 
-  - **`vue-components`**: JS and Stylus files (one for each theme) for Quasar components
+  - **`directives`**: Vue directives supplied by Quasar
 
-  - **`vue-directives`**: Vue directives supplied by Quasar
-
-  - **`vue-transitions`**: JS transitions through `q-transition` component
+  - **`transitions`**: JS Vue transitions through `q-transition` component
 
   - **`index.js`/`index.es6.js`**: starting point for Quasar
 
