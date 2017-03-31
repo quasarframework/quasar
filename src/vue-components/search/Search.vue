@@ -113,10 +113,12 @@ export default {
     focus () {
       if (this.editable) {
         this.focused = true
+        this.$emit('focus')
       }
     },
     blur () {
       this.focused = false
+      this.$emit('blur')
     }
   },
   beforeDestroy () {
