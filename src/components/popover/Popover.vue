@@ -149,9 +149,8 @@ export default {
         if (this.fit) {
           this.$el.style.minWidth = width(this.anchorEl) + 'px'
         }
-        const {top, bottom} = this.anchorEl.getBoundingClientRect()
-        const {height} = viewport()
-        console.log(top, bottom, height)
+        const { top } = this.anchorEl.getBoundingClientRect()
+        const { height } = viewport()
         if (top < 0 || top > height) {
           return this.close()
         }
