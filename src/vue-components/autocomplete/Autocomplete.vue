@@ -90,10 +90,10 @@ export default {
     }
   },
   methods: {
-    popopen() {
+    popopen () {
       this.$emit('open')
     },
-    popclose() {
+    popclose () {
       this.$emit('close')
     },
     trigger () {
