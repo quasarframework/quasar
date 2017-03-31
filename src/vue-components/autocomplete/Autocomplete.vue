@@ -3,7 +3,7 @@
     <slot>
       <q-input v-model="model"></q-input>
     </slot>
-    <q-popover ref="popover" :anchor-click="false">
+    <q-popover @close="popclose" @open="popopen" ref="popover" :anchor-click="false">
       <div class="list no-border" :class="{'item-delimiter': delimiter}" :style="computedWidth">
         <q-item
           v-for="(result, index) in computedResults"
@@ -87,6 +87,12 @@ export default {
     }
   },
   methods: {
+    popopen() {
+      this.$emit('open')
+    },
+    popclose() {
+      this.$emit('close')
+    },
     trigger () {
       this.width = Utils.dom.width(this.inputEl) + 'px'
       const searchId = Utils.uid()
