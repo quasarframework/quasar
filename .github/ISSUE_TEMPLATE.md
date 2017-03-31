@@ -14,7 +14,7 @@ Reporting a bug?
 
 - Are you sure you are reporting to the right repo? If you are not reporting an issue which deals directly with Quasar distributable, then there are [multiple Quasar repos](https://github.com/quasarframework) besides this one:
   -- Quasar CLI: https://github.com/quasarframework/quasar-cli
-  -- Quasar Starter Kit (project folder template): https://github.com/quasarframework/app-template-default
+  -- Quasar Starter Kit (project folder template): https://github.com/quasarframework/quasar-template-default
   -- Electron Wrapper: https://github.com/quasarframework/electron-wrapper
   -- Quasar Play: https://github.com/quasarframework/quasar-play
   -- Documentation Website: https://github.com/quasarframework/quasar-framework.org
