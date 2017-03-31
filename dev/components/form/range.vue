@@ -15,7 +15,7 @@
           Model <span class="right-detail"><em>{{precision}}</em> &nbsp;&nbsp;(0.1 to 1.0)</span>
         </span>
       </p>
-      <q-range v-model="precision" :min="0.1" :max="1.0" :step="0.1" :decimals="1"></q-range>
+      <q-range v-model="precision" :min="0.1" :max="1" :step="0.1" :decimals="1"></q-range>
 
       <p class="caption">
         With Step
@@ -111,7 +111,7 @@ export default {
   data () {
     return {
       standalone: 20,
-      precision: 0.1,
+      precision: 0.4,
       step: 30,
       label: 5,
       snap: 2,

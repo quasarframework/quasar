@@ -37,7 +37,7 @@
 import {
   getModel,
   getPercentage,
-  precision,
+  notDivides,
   mixin
 } from './range-utils'
 
@@ -111,11 +111,10 @@ export default {
       this.currentPercentage = (this.value - this.min) / (this.max - this.min)
     },
     __validateProps () {
-      console.log(this.decimals, precision((this.max - this.min) % this.step, this.decimals))
       if (this.min >= this.max) {
         console.error('Range error: min >= max', this.$el, this.min, this.max)
       }
-      else if (precision((this.max - this.min) % this.step, this.decimals) !== 0) {
+      else if (notDivides((this.max - this.min) / this.step, this.decimals)) {
         console.error('Range error: step must be a divisor of max - min', this.min, this.max, this.step, this.decimals)
       }
     }

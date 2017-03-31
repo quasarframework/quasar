@@ -52,6 +52,7 @@ import extend from '../../utils/extend'
 import {
   getModel,
   getPercentage,
+  notDivides,
   mixin
 } from './range-utils'
 
@@ -161,7 +162,7 @@ export default {
           type = dragType.RANGE
           extend(this.dragging, {
             offsetPercentage: percentage,
-            offsetModel: getModel(percentage, this.min, this.max, this.step),
+            offsetModel: getModel(percentage, this.min, this.max, this.step, this.decimals),
             rangeValue: this.dragging.valueMax - this.dragging.valueMin,
             rangePercentage: this.currentMaxPercentage - this.currentMinPercentage
           })
@@ -187,7 +188,7 @@ export default {
     __update (event) {
       let
         percentage = getPercentage(event, this.dragging),
-        model = getModel(percentage, this.min, this.max, this.step),
+        model = getModel(percentage, this.min, this.max, this.step, this.decimals),
         pos
 
       switch (this.dragging.type) {
@@ -261,14 +262,14 @@ export default {
       if (this.min >= this.max) {
         console.error('Range error: min >= max', this.$el, this.min, this.max)
       }
-      else if ((this.max - this.min) % this.step !== 0) {
-        console.error('Range error: step must be a divisor of max - min', this.$el, this.min, this.max, this.step)
+      else if (notDivides((this.max - this.min) / this.step, this.decimals)) {
+        console.error('Range error: step must be a divisor of max - min', this.min, this.max, this.step)
       }
-      else if ((this.value.min - this.min) % this.step !== 0) {
-        console.error('Range error: step must be a divisor of initial value.min - min', this.$el, this.value.min, this.min, this.step)
+      else if (notDivides((this.value.min - this.min) / this.step, this.decimals)) {
+        console.error('Range error: step must be a divisor of initial value.min - min', this.value.min, this.min, this.step)
       }
-      else if ((this.value.max - this.min) % this.step !== 0) {
-        console.error('Range error: step must be a divisor of initial value.max - min', this.$el, this.value.max, this.max, this.step)
+      else if (notDivides((this.value.max - this.min) / this.step, this.decimals)) {
+        console.error('Range error: step must be a divisor of initial value.max - min', this.value.max, this.max, this.step)
       }
     }
   }
