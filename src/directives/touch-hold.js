@@ -1,4 +1,4 @@
-import Utils from '../utils'
+import { add, get, remove } from '../utils/store'
 
 let defaultDuration = 800
 
@@ -35,7 +35,7 @@ export default {
       }
     }
 
-    Utils.store.add('touchhold', el, ctx)
+    add('touchhold', el, ctx)
     updateBinding(el, binding, ctx)
     el.addEventListener('touchstart', ctx.start)
     el.addEventListener('touchmove', ctx.abort)
@@ -43,16 +43,16 @@ export default {
     el.addEventListener('mousedown', ctx.mouseStart)
   },
   update (el, binding) {
-    updateBinding(el, binding, Utils.store.get('touchhold', el))
+    updateBinding(el, binding, get('touchhold', el))
   },
   unbind (el, binding) {
-    let ctx = Utils.store.get('touchhold', el)
+    let ctx = get('touchhold', el)
     el.removeEventListener('touchstart', ctx.start)
     el.removeEventListener('touchmove', ctx.abort)
     el.removeEventListener('touchend', ctx.abort)
     el.removeEventListener('mousedown', ctx.mouseStart)
     document.removeEventListener('mousemove', ctx.mouseAbort)
     document.removeEventListener('mouseup', ctx.mouseAbort)
-    Utils.store.remove('touchhold', el)
+    remove('touchhold', el)
   }
 }

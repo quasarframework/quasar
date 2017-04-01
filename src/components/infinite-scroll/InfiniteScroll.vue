@@ -10,7 +10,9 @@
 </template>
 
 <script>
-import Utils from '../../utils'
+import { height, offset } from '../../utils/dom'
+import { debounce } from '../../utils/debounce'
+import { getScrollTarget } from '../../utils/scroll'
 
 export default {
   name: 'q-infinite-scroll',
@@ -39,9 +41,9 @@ export default {
       }
 
       let
-        containerHeight = Utils.dom.height(this.scrollContainer),
-        containerBottom = Utils.dom.offset(this.scrollContainer).top + containerHeight,
-        triggerPosition = Utils.dom.offset(this.element).top + Utils.dom.height(this.element) - (this.offset || containerHeight)
+        containerHeight = height(this.scrollContainer),
+        containerBottom = offset(this.scrollContainer).top + containerHeight,
+        triggerPosition = offset(this.element).top + height(this.element) - (this.offset || containerHeight)
 
       if (triggerPosition < containerBottom) {
         this.loadMore()
@@ -80,10 +82,10 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
-      this.poll = Utils.debounce(this.poll, 50)
+      this.poll = debounce(this.poll, 50)
       this.element = this.$refs.content
 
-      this.scrollContainer = this.inline ? this.$el : Utils.scroll.getScrollTarget(this.$el)
+      this.scrollContainer = this.inline ? this.$el : getScrollTarget(this.$el)
       if (this.working) {
         this.scrollContainer.addEventListener('scroll', this.poll)
       }

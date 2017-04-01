@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import Utils from '../../utils'
+import { offset, cssTransform } from '../../utils/dom'
 import Platform from '../../features/platform'
 
 function iosFixNeeded (el) {
@@ -77,7 +77,7 @@ export default {
       }
     },
     __repositionBackdrop () {
-      const {top, left} = Utils.dom.offset(this.$el)
+      const {top, left} = offset(this.$el)
       this.backdrop.top = top
       this.backdrop.left = left
     }
@@ -90,7 +90,7 @@ export default {
   computed: {
     backdropPosition () {
       if (this.mounted && iosFixNeeded(this.$el)) {
-        return Utils.dom.cssTransform(`translate3d(${-this.backdrop.left}px, ${-this.backdrop.top}px, 0)`)
+        return cssTransform(`translate3d(${-this.backdrop.left}px, ${-this.backdrop.top}px, 0)`)
       }
     }
   }

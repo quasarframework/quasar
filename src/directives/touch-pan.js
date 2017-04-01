@@ -1,4 +1,5 @@
-import Utils from '../utils'
+import { add, get, remove } from '../utils/store'
+import { position } from '../utils/event'
 
 function getDirection (mod) {
   if (Object.keys(mod).length === 0) {
@@ -37,9 +38,9 @@ function updateClasses (el, dir, scroll) {
 function processChanges (evt, ctx, isFinal) {
   let
     direction,
-    position = Utils.event.position(evt),
-    distX = position.left - ctx.event.x,
-    distY = position.top - ctx.event.y,
+    pos = position(evt),
+    distX = pos.left - ctx.event.x,
+    distY = pos.top - ctx.event.y,
     absDistX = Math.abs(distX),
     absDistY = Math.abs(distY)
 
@@ -58,7 +59,7 @@ function processChanges (evt, ctx, isFinal) {
 
   return {
     evt,
-    position,
+    position: pos,
     direction,
     isFirst: ctx.event.isFirst,
     isFinal: Boolean(isFinal),
@@ -68,8 +69,8 @@ function processChanges (evt, ctx, isFinal) {
       y: absDistY
     },
     delta: {
-      x: position.left - ctx.event.lastX,
-      y: position.top - ctx.event.lastY
+      x: pos.left - ctx.event.lastX,
+      y: pos.top - ctx.event.lastY
     }
   }
 }
@@ -99,16 +100,16 @@ export default {
         ctx.start(evt)
       },
       start (evt) {
-        let position = Utils.event.position(evt)
+        let pos = position(evt)
         ctx.event = {
-          x: position.left,
-          y: position.top,
+          x: pos.left,
+          y: pos.top,
           time: new Date().getTime(),
           detected: false,
           prevent: ctx.direction.horizontal && ctx.direction.vertical,
           isFirst: true,
-          lastX: position.left,
-          lastY: position.top
+          lastX: pos.left,
+          lastY: pos.top
         }
       },
       mouseMove (evt) {
@@ -135,9 +136,9 @@ export default {
 
         ctx.event.detected = true
         let
-          position = Utils.event.position(evt),
-          distX = position.left - ctx.event.x,
-          distY = position.top - ctx.event.y
+          pos = position(evt),
+          distX = pos.left - ctx.event.x,
+          distY = pos.top - ctx.event.y
 
         if (ctx.direction.horizontal && !ctx.direction.vertical) {
           if (Math.abs(distX) > Math.abs(distY)) {
@@ -163,7 +164,7 @@ export default {
       }
     }
 
-    Utils.store.add('touchpan', el, ctx)
+    add('touchpan', el, ctx)
     updateClasses(el, ctx.direction, ctx.scroll)
     el.addEventListener('touchstart', ctx.start)
     el.addEventListener('mousedown', ctx.mouseStart)
@@ -172,15 +173,15 @@ export default {
   },
   update (el, binding) {
     if (binding.oldValue !== binding.value) {
-      Utils.store.get('touchpan', el).handler = binding.value
+      get('touchpan', el).handler = binding.value
     }
   },
   unbind (el, binding) {
-    let ctx = Utils.store.get('touchpan', el)
+    let ctx = get('touchpan', el)
     el.removeEventListener('touchstart', ctx.start)
     el.removeEventListener('mousedown', ctx.mouseStart)
     el.removeEventListener('touchmove', ctx.move)
     el.removeEventListener('touchend', ctx.end)
-    Utils.store.remove('touchpan', el)
+    remove('touchpan', el)
   }
 }

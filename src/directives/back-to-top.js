@@ -1,5 +1,5 @@
-import debounce from '../utils/debounce'
-import * as store from '../utils/store'
+import { debounce } from '../utils/debounce'
+import { add, get, remove } from '../utils/store'
 import { getScrollPosition, setScrollPosition, getScrollTarget } from '../utils/scroll'
 
 function updateBinding (el, { value, modifiers }, ctx) {
@@ -54,10 +54,10 @@ export default {
       }
     }
     el.classList.add('hidden')
-    store.add('backtotop', el, ctx)
+    add('backtotop', el, ctx)
   },
   inserted (el, binding) {
-    let ctx = store.get('backtotop', el)
+    let ctx = get('backtotop', el)
     ctx.scrollTarget = getScrollTarget(el)
     ctx.animate = binding.modifiers.animate
     updateBinding(el, binding, ctx)
@@ -67,14 +67,14 @@ export default {
   },
   update (el, binding) {
     if (binding.oldValue !== binding.value) {
-      updateBinding(el, binding, store.get('backtotop', el))
+      updateBinding(el, binding, get('backtotop', el))
     }
   },
   unbind (el) {
-    let ctx = store.get('backtotop', el)
+    let ctx = get('backtotop', el)
     ctx.scrollTarget.removeEventListener('scroll', ctx.update)
     window.removeEventListener('resize', ctx.update)
     el.removeEventListener('click', ctx.goToTop)
-    store.remove('backtotop', el)
+    remove('backtotop', el)
   }
 }

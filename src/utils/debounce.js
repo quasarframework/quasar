@@ -1,7 +1,7 @@
 
-let now = Date.now
+const now = Date.now
 
-export default function (fn, wait = 250, immediate) {
+export function debounce (fn, wait = 250, immediate) {
   let
     timeout, params, context, timestamp, result,
     later = () => {

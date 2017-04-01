@@ -64,22 +64,3 @@ export function getMouseWheelDirection (e) {
   e = getEvent(e)
   return Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)))
 }
-
-export function listener (action, el, events, handler, options) {
-  if (!['add', 'remove'].includes(action)) {
-    console.error(`[Utils.dom.listener] action (${action}) can only be "add" or "remove".`)
-    return
-  }
-  if (!el) {
-    console.error(`[Utils.dom.listener] needs an element.`)
-    return
-  }
-  if (typeof handler !== 'function') {
-    console.error(`[Utils.dom.listener] needs a handler fn`)
-    return
-  }
-  const method = action + 'EventListener'
-  events.split(' ').forEach(event, () => {
-    el[method](event, handler, options)
-  })
-}

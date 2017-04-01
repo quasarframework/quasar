@@ -1,15 +1,14 @@
 <template>
-  <div class="q-parallax column items-center justify-center" :style="{height: height + 'px'}">
-    <div class="q-parallax-image">
+  <div class="q-parallax" :style="{height: height + 'px'}">
+    <div class="q-parallax-image absolute-full">
       <img
         ref="img"
         :src="src"
         @load="__processImage()"
         :class="{ready: imageHasBeenLoaded}"
-        style="transform: translate3D(-50%, 0, 0)"
       >
     </div>
-    <div class="q-parallax-text">
+    <div class="q-parallax-text absolute-full column items-center justify-center">
       <slot name="loading" v-if="!imageHasBeenLoaded"></slot>
       <slot v-else></slot>
     </div>
@@ -17,7 +16,9 @@
 </template>
 
 <script>
-import Utils from '../../utils'
+import { height, viewport, offset, css, cssTransform } from '../../utils/dom'
+import { debounce, frameDebounce } from '../../utils/debounce'
+import { getScrollTarget } from '../../utils/scroll'
 
 export default {
   name: 'q-parallax',
@@ -40,7 +41,8 @@ export default {
   },
   data () {
     return {
-      imageHasBeenLoaded: false
+      imageHasBeenLoaded: false,
+      scrolling: false
     }
   },
   watch: {
@@ -48,23 +50,26 @@ export default {
       this.imageHasBeenLoaded = false
     },
     height () {
-      this.__updatePosition()
+      this.__updatePos()
     }
   },
   methods: {
     __processImage () {
       this.imageHasBeenLoaded = true
-      this.__processResize()
+      this.__onResize()
     },
-    __processResize () {
+    __onResize () {
       if (!this.imageHasBeenLoaded || !this.scrollTarget) {
         return
       }
 
-      this.imageHeight = Utils.dom.height(this.image)
-      this.__updatePosition()
+      if (this.scrollTarget === window) {
+        this.viewportHeight = viewport().height
+      }
+      this.imageHeight = height(this.image)
+      this.__updatePos()
     },
-    __updatePosition () {
+    __updatePos () {
       if (!this.imageHasBeenLoaded) {
         return
       }
@@ -73,42 +78,45 @@ export default {
 
       if (this.scrollTarget === window) {
         containerTop = 0
-        containerHeight = Utils.dom.viewport().height
+        containerHeight = this.viewportHeight
         containerBottom = containerHeight
       }
       else {
-        containerTop = Utils.dom.offset(this.scrollTarget).top
-        containerHeight = Utils.dom.height(this.scrollTarget)
+        containerTop = offset(this.scrollTarget).top
+        containerHeight = height(this.scrollTarget)
         containerBottom = containerTop + containerHeight
       }
-      top = Utils.dom.offset(this.container).top
+      top = offset(this.container).top
       bottom = top + this.height
 
       if (bottom > containerTop && top < containerBottom) {
-        let percentScrolled = (containerBottom - top) / (this.height + containerHeight)
-        let imageOffset = Math.round((this.imageHeight - this.height) * percentScrolled * this.speed)
-        window.requestAnimationFrame(() => {
-          this.$refs.img.style.transform = 'translate3D(-50%,' + imageOffset + 'px, 0)'
-        })
+        const percentScrolled = (containerBottom - top) / (this.height + containerHeight)
+        this.__setPos(Math.round((this.imageHeight - this.height) * percentScrolled * this.speed))
       }
+    },
+    __setPos (offset) {
+      css(this.$refs.img, cssTransform(`translate3D(-50%,${offset}px, 0)`))
     }
+  },
+  created () {
+    this.__setPos = frameDebounce(this.__setPos)
   },
   mounted () {
     this.$nextTick(() => {
       this.container = this.$el
       this.image = this.$refs.img
 
-      this.scrollTarget = Utils.scroll.getScrollTarget(this.$el)
-      this.resizeHandler = Utils.debounce(this.__processResize, 50)
+      this.scrollTarget = getScrollTarget(this.$el)
+      this.resizeHandler = debounce(this.__onResize, 50)
 
       window.addEventListener('resize', this.resizeHandler)
-      this.scrollTarget.addEventListener('scroll', this.__updatePosition)
-      this.__processResize()
+      this.scrollTarget.addEventListener('scroll', this.__updatePos)
+      this.__onResize()
     })
   },
   beforeDestroy () {
     window.removeEventListener('resize', this.resizeHandler)
-    this.scrollTarget.removeEventListener('scroll', this.__updatePosition)
+    this.scrollTarget.removeEventListener('scroll', this.__updatePos)
   }
 }
 </script>

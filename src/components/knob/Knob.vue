@@ -31,14 +31,18 @@
 
       <div
         class="q-knob-label row items-center justify-center content-center"
-        v-html="placeholder || value"
-      ></div>
+      >
+        <span v-if="!$slots.default">{{ value }}</span>
+        <slot v-else></slot>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import Utils from '../../utils'
+import { position } from '../../utils/event'
+import { between } from '../../utils/format'
+import { offset, height, width } from '../../utils/dom'
 
 export default {
   name: 'q-knob',
@@ -73,8 +77,7 @@ export default {
       default: 1
     },
     disable: Boolean,
-    readonly: Boolean,
-    placeholder: String
+    readonly: Boolean
   },
   computed: {
     svgStyle () {
@@ -125,7 +128,7 @@ export default {
       ev.stopPropagation()
       ev.preventDefault()
 
-      this.centerPosition = this.__getCenterPosition()
+      this.centerPosition = this.__getCenter()
 
       this.dragging = true
       this.__onInput(ev)
@@ -146,37 +149,41 @@ export default {
       ev.preventDefault()
       this.dragging = false
     },
-    __onInput (ev, centerPosition = this.__getCenterPosition()) {
+    __onInput (ev, center = this.__getCenter()) {
       if (!this.editable) {
         return
       }
       let
-        position = Utils.event.position(ev),
-        height = Math.abs(position.top - centerPosition.top),
+        pos = position(ev),
+        height = Math.abs(pos.top - center.top),
         distance = Math.sqrt(
-          Math.pow(Math.abs(position.top - centerPosition.top), 2) +
-          Math.pow(Math.abs(position.left - centerPosition.left), 2)
+          Math.pow(Math.abs(pos.top - center.top), 2) +
+          Math.pow(Math.abs(pos.left - center.left), 2)
         ),
         angle = Math.asin(height / distance) * (180 / Math.PI)
 
-      if (position.top < centerPosition.top) {
-        angle = centerPosition.left < position.left ? 90 - angle : 270 + angle
+      if (pos.top < center.top) {
+        angle = center.left < pos.left ? 90 - angle : 270 + angle
       }
       else {
-        angle = centerPosition.left < position.left ? angle + 90 : 270 - angle
+        angle = center.left < pos.left ? angle + 90 : 270 - angle
       }
 
       let
         model = this.min + (angle / 360) * (this.max - this.min),
         modulo = model % this.step
 
-      this.$emit('input', Utils.format.between(model - modulo + (Math.abs(modulo) >= this.step / 2 ? (modulo < 0 ? -1 : 1) * this.step : 0), this.min, this.max))
+      this.$emit('input', between(
+        model - modulo + (Math.abs(modulo) >= this.step / 2 ? (modulo < 0 ? -1 : 1) * this.step : 0),
+        this.min,
+        this.max
+      ))
     },
-    __getCenterPosition () {
-      let knobOffset = Utils.dom.offset(this.$el)
+    __getCenter () {
+      let knobOffset = offset(this.$el)
       return {
-        top: knobOffset.top + Utils.dom.height(this.$el) / 2,
-        left: knobOffset.left + Utils.dom.width(this.$el) / 2
+        top: knobOffset.top + height(this.$el) / 2,
+        left: knobOffset.left + width(this.$el) / 2
       }
     }
   }

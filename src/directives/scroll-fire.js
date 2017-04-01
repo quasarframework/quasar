@@ -1,4 +1,7 @@
-import Utils from '../utils'
+import { debounce } from '../utils/debounce'
+import { viewport, height, offset } from '../utils/dom'
+import { add, get, remove } from '../utils/store'
+import { getScrollTarget } from '../utils/scroll'
 
 function updateBinding (el, binding, ctx) {
   if (typeof binding.value !== 'function') {
@@ -17,16 +20,16 @@ function updateBinding (el, binding, ctx) {
 export default {
   bind (el, binding) {
     let ctx = {
-      scroll: Utils.debounce(() => {
+      scroll: debounce(() => {
         let containerBottom, elementBottom, fire
 
         if (ctx.scrollTarget === window) {
           elementBottom = el.getBoundingClientRect().bottom
-          fire = elementBottom < Utils.dom.viewport().height
+          fire = elementBottom < viewport().height
         }
         else {
-          containerBottom = Utils.dom.offset(ctx.scrollTarget).top + Utils.dom.height(ctx.scrollTarget)
-          elementBottom = Utils.dom.offset(el).top + Utils.dom.height(el)
+          containerBottom = offset(ctx.scrollTarget).top + height(ctx.scrollTarget)
+          elementBottom = offset(el).top + height(el)
           fire = elementBottom < containerBottom
         }
 
@@ -37,21 +40,21 @@ export default {
       }, 25)
     }
 
-    Utils.store.add('scrollfire', el, ctx)
+    add('scrollfire', el, ctx)
   },
   inserted (el, binding) {
-    let ctx = Utils.store.get('scrollfire', el)
-    ctx.scrollTarget = Utils.scroll.getScrollTarget(el)
+    let ctx = get('scrollfire', el)
+    ctx.scrollTarget = getScrollTarget(el)
     updateBinding(el, binding, ctx)
   },
   update (el, binding) {
     if (binding.value !== binding.oldValue) {
-      updateBinding(el, binding, Utils.store.get('scrollfire', el))
+      updateBinding(el, binding, get('scrollfire', el))
     }
   },
   unbind (el) {
-    let ctx = Utils.store.get('scrollfire', el)
+    let ctx = get('scrollfire', el)
     ctx.scrollTarget.removeEventListener('scroll', ctx.scroll)
-    Utils.store.remove('scrollfire', el)
+    remove('scrollfire', el)
   }
 }

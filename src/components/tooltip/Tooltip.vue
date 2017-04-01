@@ -5,7 +5,15 @@
 </template>
 
 <script>
-import Utils from '../../utils'
+import { debounce } from '../../utils/debounce'
+import { getScrollTarget } from '../../utils/scroll'
+import {
+  positionValidator,
+  offsetValidator,
+  parsePosition,
+  getTransformProperties,
+  setPosition
+} from '../../utils/popup'
 import Platform from '../../features/platform'
 
 export default {
@@ -14,16 +22,16 @@ export default {
     anchor: {
       type: String,
       default: 'top middle',
-      validator: Utils.popup.positionValidator
+      validator: positionValidator
     },
     self: {
       type: String,
       default: 'bottom middle',
-      validator: Utils.popup.positionValidator
+      validator: positionValidator
     },
     offset: {
       type: Array,
-      validator: Utils.popup.offsetValidator
+      validator: offsetValidator
     },
     maxHeight: String,
     disable: Boolean
@@ -35,13 +43,13 @@ export default {
   },
   computed: {
     anchorOrigin () {
-      return Utils.popup.parsePosition(this.anchor)
+      return parsePosition(this.anchor)
     },
     selfOrigin () {
-      return Utils.popup.parsePosition(this.self)
+      return parsePosition(this.self)
     },
     transformCSS () {
-      return Utils.popup.getTransformProperties({
+      return getTransformProperties({
         selfOrigin: this.selfOrigin
       })
     }
@@ -61,7 +69,7 @@ export default {
       }
       this.opened = true
       document.body.appendChild(this.$el)
-      this.scrollTarget = Utils.scroll.getScrollTarget(this.anchorEl)
+      this.scrollTarget = getScrollTarget(this.anchorEl)
       this.scrollTarget.addEventListener('scroll', this.close)
       window.addEventListener('resize', this.__debouncedUpdatePosition)
       if (Platform.is.mobile) {
@@ -81,7 +89,7 @@ export default {
       }
     },
     __updatePosition () {
-      Utils.popup.setPosition({
+      setPosition({
         el: this.$el,
         offset: this.offset,
         anchorEl: this.anchorEl,
@@ -92,7 +100,7 @@ export default {
     }
   },
   created () {
-    this.__debouncedUpdatePosition = Utils.debounce(() => {
+    this.__debouncedUpdatePosition = debounce(() => {
       this.__updatePosition()
     }, 70)
   },

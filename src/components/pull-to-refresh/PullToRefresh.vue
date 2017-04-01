@@ -6,8 +6,8 @@
       v-touch-pan.vertical.scroll="__pull"
     >
       <div class="pull-to-refresh-message row items-center justify-center">
-        <i v-show="state !== 'refreshing'" :class="{'rotate-180': state === 'pulled'}">arrow_downward</i>
-        <i v-show="state === 'refreshing'" class="animate-spin">{{refreshIcon}}</i>
+        <q-icon v-show="state !== 'refreshing'" :class="{'rotate-180': state === 'pulled'}" name="arrow_downward"></q-icon>
+        <q-icon v-show="state === 'refreshing'" class="animate-spin" :name="refreshIcon"></q-icon>
 
         &nbsp;&nbsp;
         <span v-html="message"></span>
@@ -19,7 +19,8 @@
 </template>
 
 <script>
-import Utils from '../../utils'
+import { getScrollTarget, getScrollPosition } from '../../utils/scroll'
+import { cssTransform } from '../../utils/dom'
 
 export default {
   name: 'q-pull-to-refresh',
@@ -76,7 +77,7 @@ export default {
       }
     },
     style () {
-      return Utils.dom.cssTransform(`translateY(${this.pullPosition}px)`)
+      return cssTransform(`translateY(${this.pullPosition}px)`)
     }
   },
   methods: {
@@ -108,7 +109,7 @@ export default {
         return true
       }
 
-      let top = Utils.scroll.getScrollPosition(this.scrollContainer)
+      let top = getScrollPosition(this.scrollContainer)
       if (top !== 0 || (top === 0 && event.direction !== 'down')) {
         this.scrolling = true
         if (this.pulling) {
@@ -154,7 +155,7 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
-      this.scrollContainer = this.inline ? this.$el.parentNode : Utils.scroll.getScrollTarget(this.$el)
+      this.scrollContainer = this.inline ? this.$el.parentNode : getScrollTarget(this.$el)
     })
   }
 }

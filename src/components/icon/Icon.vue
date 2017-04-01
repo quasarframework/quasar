@@ -23,10 +23,10 @@ export default {
     }
 
     if (icon.startsWith('fa-')) {
-      name = `icon fa ${icon}`
+      name = `fa ${icon}`
     }
     else if (icon.startsWith('ion-')) {
-      name = `icon ${icon}`
+      name = `${icon}`
     }
     else {
       name = 'material-icons'
@@ -34,10 +34,10 @@ export default {
     }
 
     if (ctx.data.staticClass) {
-      ctx.data.staticClass += ` ${name}`
+      ctx.data.staticClass += ` q-icon ${name}`
     }
     else {
-      ctx.data.staticClass = `${name}`
+      ctx.data.staticClass = `q-icon ${name}`
     }
 
     return h('i', ctx.data, text ? [text, ctx.children] : [' ', ctx.children])

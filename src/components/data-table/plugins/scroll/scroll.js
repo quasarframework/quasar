@@ -1,4 +1,6 @@
-import Utils from '../../../../utils'
+import { getMouseWheelDirection } from '../../../../utils/event'
+import { width as scrollbarWidth } from '../../../../utils/scroll'
+
 const wheelOffset = 40
 
 export default {
@@ -29,7 +31,7 @@ export default {
       }
 
       let body = this.$refs.body
-      body.scrollTop -= Utils.event.getMouseWheelDirection(e) * wheelOffset
+      body.scrollTop -= getMouseWheelDirection(e) * wheelOffset
       if (body.scrollTop > 0 && body.scrollTop + body.clientHeight < body.scrollHeight) {
         e.preventDefault()
       }
@@ -42,7 +44,7 @@ export default {
           }
           const
             body = this.$refs.body,
-            size = Utils.scrollbar.width()
+            size = scrollbarWidth()
 
           this.scroll.horiz = size && body.clientWidth < body.scrollWidth ? size + 'px' : 0
           this.scroll.vert = size && body.scrollHeight > body.clientHeight ? size + 'px' : 0

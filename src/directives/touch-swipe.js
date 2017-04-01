@@ -1,4 +1,5 @@
-import Utils from '../utils'
+import { add, get, remove } from '../utils/store'
+import { position } from '../utils/event'
 
 function getDirection (mod) {
   if (Object.keys(mod).length === 0) {
@@ -50,10 +51,10 @@ export default {
       direction: getDirection(binding.modifiers),
 
       start (evt) {
-        let position = Utils.event.position(evt)
+        let pos = position(evt)
         ctx.event = {
-          x: position.left,
-          y: position.top,
+          x: pos.left,
+          y: pos.top,
           time: new Date().getTime(),
           detected: false,
           prevent: ctx.direction.horizontal && ctx.direction.vertical
@@ -63,9 +64,9 @@ export default {
       },
       move (evt) {
         let
-          position = Utils.event.position(evt),
-          distX = position.left - ctx.event.x,
-          distY = position.top - ctx.event.y
+          pos = position(evt),
+          distX = pos.left - ctx.event.x,
+          distY = pos.top - ctx.event.y
 
         if (ctx.event.prevent) {
           evt.preventDefault()
@@ -95,9 +96,9 @@ export default {
 
         let
           direction,
-          position = Utils.event.position(evt),
-          distX = position.left - ctx.event.x,
-          distY = position.top - ctx.event.y
+          pos = position(evt),
+          distX = pos.left - ctx.event.x,
+          distY = pos.top - ctx.event.y
 
         if (distX !== 0 || distY !== 0) {
           if (Math.abs(distX) >= Math.abs(distY)) {
@@ -122,7 +123,7 @@ export default {
       }
     }
 
-    Utils.store.add('touchswipe', el, ctx)
+    add('touchswipe', el, ctx)
     updateClasses(el, ctx.direction)
     el.addEventListener('touchstart', ctx.start)
     el.addEventListener('mousedown', ctx.start)
@@ -131,16 +132,16 @@ export default {
   },
   update (el, binding) {
     if (binding.oldValue !== binding.value) {
-      let ctx = Utils.store.get('touchswipe', el)
+      let ctx = get('touchswipe', el)
       ctx.handler = binding.value
     }
   },
   unbind (el, binding) {
-    let ctx = Utils.store.get('touchswipe', el)
+    let ctx = get('touchswipe', el)
     el.removeEventListener('touchstart', ctx.start)
     el.removeEventListener('mousedown', ctx.start)
     el.removeEventListener('touchmove', ctx.move)
     el.removeEventListener('touchend', ctx.end)
-    Utils.store.remove('touchswipe', el)
+    remove('touchswipe', el)
   }
 }

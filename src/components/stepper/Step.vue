@@ -11,7 +11,7 @@
     v-ripple.mat
   >
     <div class="q-stepper-identity flex items-center justify-center">
-      <q-icon name="stepIcon" v-if="stepIcon"></q-icon>
+      <q-icon :name="stepIcon" v-if="stepIcon"></q-icon>
       <template v-else>{{ step }}</template>
     </div>
     <div class="q-stepper-label column">

@@ -138,7 +138,7 @@
 </template>
 
 <script>
-import Utils from '../../utils'
+import { clone } from '../../utils/clone'
 
 import ColumnSelection from './plugins/column-selection/column-selection'
 import Filter from './plugins/filter/filter'
@@ -184,7 +184,7 @@ export default {
         return []
       }
 
-      let rows = Utils.clone(this.data)
+      let rows = clone(this.data)
 
       rows.forEach((row, i) => {
         row.__index = i

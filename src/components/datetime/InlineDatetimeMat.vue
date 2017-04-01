@@ -201,7 +201,9 @@
 <script>
 import moment from 'moment'
 import { inline as props } from './datetime-props'
-import Utils from '../../utils'
+import { height, width, offset } from '../../utils/dom'
+import { between } from '../../utils/format'
+import { position } from '../../utils/event'
 
 function convertToAmPm (hour) {
   return hour === 0 ? 12 : (hour >= 13 ? hour - 12 : hour)
@@ -230,7 +232,7 @@ export default {
       view,
       date: moment(this.value || undefined),
       dragging: false,
-      centerClockPosition: 0,
+      centerClockPos: 0,
       firstDayOfWeek: moment.localeData().firstDayOfWeek(),
       daysList: moment.weekdaysShort(true),
       monthsList: moment.months()
@@ -265,7 +267,7 @@ export default {
         rows = value === 'year' ? this.year - this.yearMin : this.month - this.monthMin
 
       this.$nextTick(() => {
-        view.scrollTop = rows * Utils.dom.height(view.children[0].children[0]) - Utils.dom.height(view) / 2.5
+        view.scrollTop = rows * height(view.children[0].children[0]) - height(view) / 2.5
       })
     }
   },
@@ -459,11 +461,11 @@ export default {
 
       let
         clock = this.$refs.clock,
-        clockOffset = Utils.dom.offset(clock)
+        clockOffset = offset(clock)
 
-      this.centerClockPosition = {
-        top: clockOffset.top + Utils.dom.height(clock) / 2,
-        left: clockOffset.left + Utils.dom.width(clock) / 2
+      this.centerClockPos = {
+        top: clockOffset.top + height(clock) / 2,
+        left: clockOffset.left + width(clock) / 2
       }
 
       this.dragging = true
@@ -484,19 +486,19 @@ export default {
     },
     __updateClock (ev) {
       let
-        position = Utils.event.position(ev),
-        height = Math.abs(position.top - this.centerClockPosition.top),
+        pos = position(ev),
+        height = Math.abs(pos.top - this.centerClockPos.top),
         distance = Math.sqrt(
-          Math.pow(Math.abs(position.top - this.centerClockPosition.top), 2) +
-          Math.pow(Math.abs(position.left - this.centerClockPosition.left), 2)
+          Math.pow(Math.abs(pos.top - this.centerClockPos.top), 2) +
+          Math.pow(Math.abs(pos.left - this.centerClockPos.left), 2)
         ),
         angle = Math.asin(height / distance) * (180 / Math.PI)
 
-      if (position.top < this.centerClockPosition.top) {
-        angle = this.centerClockPosition.left < position.left ? 90 - angle : 270 + angle
+      if (pos.top < this.centerClockPos.top) {
+        angle = this.centerClockPos.left < pos.left ? 90 - angle : 270 + angle
       }
       else {
-        angle = this.centerClockPosition.left < position.left ? angle + 90 : 270 - angle
+        angle = this.centerClockPos.left < pos.left ? angle + 90 : 270 - angle
       }
 
       if (this.view === 'hour') {
@@ -508,19 +510,19 @@ export default {
     },
     __parseTypeValue (type, value) {
       if (type === 'month') {
-        return Utils.format.between(value, 1, 12)
+        return between(value, 1, 12)
       }
       if (type === 'date') {
-        return Utils.format.between(value, 1, this.daysInMonth)
+        return between(value, 1, this.daysInMonth)
       }
       if (type === 'year') {
-        return Utils.format.between(value, 1950, 2050)
+        return between(value, 1950, 2050)
       }
       if (type === 'hour') {
-        return Utils.format.between(value, 0, 23)
+        return between(value, 0, 23)
       }
       if (type === 'minute') {
-        return Utils.format.between(value, 0, 59)
+        return between(value, 0, 59)
       }
     },
 

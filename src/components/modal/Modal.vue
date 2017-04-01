@@ -16,7 +16,7 @@
 <script>
 import Platform from '../../features/platform'
 import EscapeKey from '../../features/escape-key'
-import Utils from '../../utils'
+import extend from '../../utils/extend'
 
 const positions = {
   top: 'items-start justify-center with-backdrop',
@@ -107,7 +107,7 @@ export default {
     },
     modalCss () {
       if (this.position) {
-        return Utils.extend(
+        return extend(
           {},
           positionCSS[this.$q.theme],
           additionalCSS(this.$q.theme, this.position),

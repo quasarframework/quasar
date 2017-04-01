@@ -19,7 +19,10 @@
 </template>
 
 <script>
-import Utils from '../../utils'
+import { width } from '../../utils/dom'
+import filter from '../../utils/filter'
+import uid from '../../utils/uid'
+import { normalizeToInterval } from '../../utils/format'
 
 function prevent (e) {
   e.preventDefault()
@@ -95,8 +98,8 @@ export default {
       this.$emit('close')
     },
     trigger () {
-      this.width = Utils.dom.width(this.inputEl) + 'px'
-      const searchId = Utils.uid()
+      this.width = width(this.inputEl) + 'px'
+      const searchId = uid()
       this.searchId = searchId
 
       if (this.model.length < this.minCharacters) {
@@ -107,7 +110,7 @@ export default {
 
       if (this.staticData) {
         this.searchId = ''
-        this.results = Utils.filter(this.model, this.staticData)
+        this.results = filter(this.model, this.staticData)
         if (this.$q.platform.is.desktop) {
           this.selectedIndex = 0
         }
@@ -151,7 +154,7 @@ export default {
       this.close()
     },
     move (offset) {
-      this.selectedIndex = Utils.format.normalizeToInterval(
+      this.selectedIndex = normalizeToInterval(
         this.selectedIndex + offset,
         0,
         this.computedResults.length - 1

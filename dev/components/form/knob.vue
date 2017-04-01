@@ -36,8 +36,9 @@
           track-color="white"
           :min="min"
           :max="max"
-          :placeholder="'$ ' + model"
-        ></q-knob>
+        >
+          $ {{model}}
+        </q-knob>
 
         <q-knob
           v-model="model"
@@ -58,8 +59,9 @@
           :min="min"
           :max="max"
           :step="5"
-          :placeholder="'<i>euro_symbol</i> ' + model"
-        ></q-knob>
+        >
+          <q-icon class="on-left" name="euro_symbol" /> {{model}}
+        </q-knob>
       </div>
 
       <p class="caption">Readonly state</p>
@@ -67,18 +69,20 @@
         v-model="model"
         :min="min"
         :max="max"
-        :placeholder="'<i>volume_up</i> ' + model"
         readonly
-      ></q-knob>
+      >
+        <q-icon class="on-left" name="volume_up" /> {{model}}
+      </q-knob>
 
       <p class="caption">Disabled state</p>
       <q-knob
         v-model="model"
         :min="min"
         :max="max"
-        :placeholder="'<i>volume_up</i> ' + model"
         disable
-      ></q-knob>
+      >
+        <q-icon class="on-left" name="volume_up" /> {{model}}
+      </q-knob>
 
       <p class="caption">Inside Field</p>
       <q-field
@@ -90,8 +94,9 @@
           v-model="model"
           :min="min"
           :max="max"
-          :placeholder="'<i>volume_up</i> ' + model"
-        ></q-knob>
+        >
+          <q-icon class="on-left" name="volume_up" /> {{model}}
+        </q-knob>
       </q-field>
     </div>
   </div>

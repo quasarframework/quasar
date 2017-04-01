@@ -51,10 +51,7 @@
 
           <div class="auto column items-center">
             <div class="flex">
-              <div class="floating-label">
-                <input required v-model="color">
-                <label>Color</label>
-              </div>
+              <q-input float-label="Color" v-model="color" />
             </div>
           </div>
         </div>

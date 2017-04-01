@@ -14,8 +14,8 @@
 
       <q-tree
         :model="treeModel"
-        contract-html="<i>remove_circle</i>"
-        expand-html="<i>add_circle</i>"
+        contract-html="<i class='material-icons'>remove_circle</i>"
+        expand-html="<i class='material-icons'>add_circle</i>"
       ></q-tree>
     </div>
   </div>
@@ -31,6 +31,7 @@ export default {
         {
           title: 'Item 1',
           expanded: true,
+          icon: 'alarm',
           children: [
             {
               title: 'Item 1.1',

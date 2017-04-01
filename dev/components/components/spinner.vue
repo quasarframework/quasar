@@ -33,7 +33,7 @@
             :name="spinner"
             :size="size"
           ></spinner>
-          <q-tooltip>{{spinner}}</q-tooltip>
+          <q-tooltip :offset="[0, 8]">{{spinner}}</q-tooltip>
         </div>
       </div>
 

@@ -1,4 +1,4 @@
-import Utils from '../../../../utils'
+import { viewport } from '../../../../utils/dom'
 
 export default {
   data () {
@@ -14,7 +14,7 @@ export default {
           return
         }
       }
-      this.responsive = Utils.dom.viewport().width <= 600
+      this.responsive = viewport().width <= 600
     }
   },
   watch: {

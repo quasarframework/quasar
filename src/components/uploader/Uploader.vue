@@ -73,7 +73,8 @@
 </template>
 
 <script>
-import Utils from '../../utils'
+import extend from '../../utils/extend'
+import { humanStorageSize } from '../../utils/format'
 
 export default {
   name: 'q-uploader',
@@ -124,7 +125,7 @@ export default {
       return this.totalSize ? (this.uploadedSize / this.totalSize * 100).toFixed(2) : 0
     },
     computedLabel () {
-      return Utils.extend({
+      return extend({
         add: this.multiple ? '<i class="material-icons">add</i> Add Files' : '<i class="material-icons">add</i> Pick File',
         remove: '<i class="material-icons">clear</i> Remove',
         upload: '<i class="material-icons">file_upload</i> Upload',
@@ -151,7 +152,7 @@ export default {
           file.__failed = false
           file.__uploaded = 0
           file.__progress = 0
-          file.__size = Utils.format.humanStorageSize(file.size)
+          file.__size = humanStorageSize(file.size)
           return file
         })
 

@@ -5,7 +5,8 @@
 </template>
 
 <script>
-import Utils from '../../utils'
+import { cssTransform } from '../../utils/dom'
+import { between } from '../../utils/format'
 
 const
   xhr = XMLHttpRequest,
@@ -17,12 +18,12 @@ function translate ({p, pos, active, horiz, reverse}) {
   if (horiz) {
     if (reverse) { x = -1 }
     if (pos === 'bottom') { y = -1 }
-    return Utils.dom.cssTransform(`translate3d(${x * (p - 100)}%, ${active ? 0 : y * -200}%, 0)`)
+    return cssTransform(`translate3d(${x * (p - 100)}%, ${active ? 0 : y * -200}%, 0)`)
   }
 
   if (reverse) { y = -1 }
   if (pos === 'right') { x = -1 }
-  return Utils.dom.cssTransform(`translate3d(${active ? 0 : x * -200}%, ${y * (p - 100)}%, 0)`)
+  return cssTransform(`translate3d(${active ? 0 : x * -200}%, ${y * (p - 100)}%, 0)`)
 }
 
 function inc (p, amount) {
@@ -43,7 +44,7 @@ function inc (p, amount) {
       amount = 0
     }
   }
-  return Utils.format.between(p + amount, 0, 100)
+  return between(p + amount, 0, 100)
 }
 
 function highjackAjax (startHandler, endHandler) {

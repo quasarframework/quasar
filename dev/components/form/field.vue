@@ -245,9 +245,9 @@
       </q-field>
       <q-field label="With Popover">
         <q-input v-model="model" :count="10">
-          <q-popover>
+          <q-popover fit>
             <div style="padding: 10px" class="bg-primary text-white">
-              Some tooltip
+              Some Popover
             </div>
           </q-popover>
         </q-input>

@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import Utils from '../../utils'
+import { between } from '../../utils/format'
 
 export default {
   name: 'q-rating',
@@ -61,7 +61,7 @@ export default {
   methods: {
     set (value) {
       if (this.editable) {
-        this.model = Utils.format.between(parseInt(value, 10), 1, this.max)
+        this.model = between(parseInt(value, 10), 1, this.max)
         this.mouseModel = 0
       }
     },

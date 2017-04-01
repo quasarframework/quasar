@@ -1,7 +1,7 @@
 import animate from './utils/animate'
 import clone from './utils/clone'
 import * as colors from './utils/colors'
-import debounce from './utils/debounce'
+import { debounce, frameDebounce } from './utils/debounce'
 import * as dom from './utils/dom'
 import * as event from './utils/event'
 import extend from './utils/extend'
@@ -20,6 +20,7 @@ export default {
   clone,
   colors,
   debounce,
+  frameDebounce,
   dom,
   event,
   extend,

@@ -122,7 +122,9 @@
 <script>
 import moment from 'moment'
 import { inline as props } from './datetime-props'
-import Utils from '../../utils'
+import { between } from '../../utils/format'
+import { position } from '../../utils/event'
+import { css } from '../../utils/dom'
 
 export default {
   name: 'q-inline-datetime',
@@ -304,19 +306,19 @@ export default {
     },
     __parseTypeValue (type, value) {
       if (type === 'month') {
-        return Utils.format.between(value, 1, 12)
+        return between(value, 1, 12)
       }
       if (type === 'date') {
-        return Utils.format.between(value, 1, this.daysInMonth)
+        return between(value, 1, this.daysInMonth)
       }
       if (type === 'year') {
-        return Utils.format.between(value, 1950, 2050)
+        return between(value, 1950, 2050)
       }
       if (type === 'hour') {
-        return Utils.format.between(value, 0, 23)
+        return between(value, 0, 23)
       }
       if (type === 'minute') {
-        return Utils.format.between(value, 0, 59)
+        return between(value, 0, 59)
       }
     },
     __updateAllPositions () {
@@ -350,7 +352,7 @@ export default {
       }
 
       ;[].slice.call(root.children).forEach(item => {
-        Utils.dom.css(item, this.__itemStyle(value * 36, Utils.format.between(delta * -18, -180, 180)))
+        css(item, this.__itemStyle(value * 36, between(delta * -18, -180, 180)))
         delta++
       })
     },
@@ -387,7 +389,7 @@ export default {
       }
 
       this.dragging = type
-      this.__dragPosition = Utils.event.position(ev).top
+      this.__dragPosition = position(ev).top
     },
     __dragMove (ev, type) {
       if (this.dragging !== type || !this.editable) {
@@ -395,7 +397,7 @@ export default {
       }
       ev.stopPropagation()
       ev.preventDefault()
-      this[type + 'DragOffset'] = (this.__dragPosition - Utils.event.position(ev).top) / 36
+      this[type + 'DragOffset'] = (this.__dragPosition - position(ev).top) / 36
       this.__updatePositions(type, this.date[type]() + this[type + 'DragOffset'])
     },
     __dragStop (ev, type) {

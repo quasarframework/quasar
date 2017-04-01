@@ -46,7 +46,7 @@
 
 <script>
 import { width, css, cssTransform } from '../../utils/dom'
-import debounce from '../../utils/debounce'
+import { debounce } from '../../utils/debounce'
 
 const
   scrollNavigationSpeed = 5, // in pixels

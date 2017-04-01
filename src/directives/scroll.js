@@ -1,4 +1,5 @@
-import Utils from '../utils'
+import { add, get, remove } from '../utils/store'
+import { getScrollPosition, getScrollTarget } from '../utils/scroll'
 
 function updateBinding (el, binding, ctx) {
   if (typeof binding.value !== 'function') {
@@ -17,24 +18,24 @@ export default {
   bind (el, binding) {
     let ctx = {
       scroll () {
-        ctx.handler(Utils.scroll.getScrollPosition(ctx.scrollTarget))
+        ctx.handler(getScrollPosition(ctx.scrollTarget))
       }
     }
-    Utils.store.add('scroll', el, ctx)
+    add('scroll', el, ctx)
   },
   inserted (el, binding) {
-    let ctx = Utils.store.get('scroll', el)
-    ctx.scrollTarget = Utils.scroll.getScrollTarget(el)
+    let ctx = get('scroll', el)
+    ctx.scrollTarget = getScrollTarget(el)
     updateBinding(el, binding, ctx)
   },
   update (el, binding) {
     if (binding.oldValue !== binding.value) {
-      updateBinding(el, binding, Utils.store.get('scroll', el))
+      updateBinding(el, binding, get('scroll', el))
     }
   },
   unbind (el) {
-    let ctx = Utils.store.get('scroll', el)
+    let ctx = get('scroll', el)
     ctx.scrollTarget.removeEventListener('scroll', ctx.scroll)
-    Utils.store.remove('scroll', el)
+    remove('scroll', el)
   }
 }

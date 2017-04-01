@@ -34,7 +34,7 @@
 
 <script>
 import Events from '../../features/events'
-import Utils from '../../utils'
+import extend from '../../utils/extend'
 
 let
   transitionDuration = 300, // in ms
@@ -45,7 +45,7 @@ function parseOptions (opts, defaults) {
     throw new Error('Missing toast options.')
   }
 
-  let options = Utils.extend(
+  let options = extend(
     true,
     {},
     defaults,
@@ -133,7 +133,7 @@ export default {
       }, transitionDuration + 50)
     },
     setDefaults (opts) {
-      Utils.extend(true, this.defaults, opts)
+      extend(true, this.defaults, opts)
     }
   }
 }

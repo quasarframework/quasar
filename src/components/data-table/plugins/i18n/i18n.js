@@ -1,4 +1,5 @@
-import Utils from '../../../../utils'
+import extend from '../../../../utils/extend'
+
 const labels = {
   columns: 'Columns',
   allCols: 'All Columns',
@@ -16,7 +17,7 @@ export default {
   computed: {
     labels () {
       if (this.config && this.config.labels) {
-        return Utils.extend({}, labels, this.config.labels)
+        return extend({}, labels, this.config.labels)
       }
       return labels
     },

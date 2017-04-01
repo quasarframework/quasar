@@ -1,5 +1,5 @@
 import Platform from '../features/platform'
-import Utils from '../utils'
+import { add, get, remove } from '../utils/store'
 
 export default {
   bind (el, { value, modifiers }, vnode) {
@@ -16,17 +16,17 @@ export default {
       }
     }
 
-    Utils.store.add('goback', el, ctx)
+    add('goback', el, ctx)
     el.addEventListener('click', ctx.goBack)
   },
   update (el, binding) {
     if (binding.oldValue !== binding.value) {
-      let ctx = Utils.store.get('goback', el)
+      let ctx = get('goback', el)
       ctx.value = binding.value
     }
   },
   unbind (el) {
-    el.removeEventListener('click', Utils.store.get('goback', el).goBack)
-    Utils.store.remove('goback', el)
+    el.removeEventListener('click', get('goback', el).goBack)
+    remove('goback', el)
   }
 }
