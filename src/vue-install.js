@@ -75,6 +75,7 @@ import RouteTab from './components/tab/RouteTab.vue'
 import TabPane from './components/tab/TabPane.vue'
 import Toggle from './components/toggle/Toggle.vue'
 import Tooltip from './components/tooltip/Tooltip.vue'
+import Transition from './components/transition/Transition'
 import Tree from './components/tree/Tree.vue'
 import Uploader from './components/uploader/Uploader.vue'
 import Video from './components/video/Video.vue'
@@ -158,6 +159,7 @@ function registerComponents (_Vue) {
     TabPane,
     Toggle,
     Tooltip,
+    Transition,
     Tree,
     Uploader,
     Video
