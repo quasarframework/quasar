@@ -23,6 +23,7 @@
 <script>
 import Checkbox from './checkbox-controller'
 export default {
+  name: 'q-checkbox',
   mixins: [Checkbox]
 }
 </script>
