@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="layout-padding">
-      <input type="text" v-model="url" />
+      <q-input v-model="url" />
       <p class="caption">Single File Upload</p>
       <q-uploader :url="url" />
       <p class="caption">Multiple File Upload</p>

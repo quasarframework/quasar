@@ -29,7 +29,8 @@ var
   },
   external = [
     'fastclick',
-    'moment'
+    'moment',
+    'animate.css'
   ],
   globals = {
     fastclick: 'FastClick',

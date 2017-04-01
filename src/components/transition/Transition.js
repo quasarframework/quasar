@@ -12,7 +12,6 @@ export default {
       prop = ctx.props,
       data = ctx.data
 
-    data.name = prop.name || 'q-transition'
     data.props = {
       enterActiveClass: `animated ${prop.enter}`,
       leaveActiveClass: `animated ${prop.leave}`

@@ -210,15 +210,18 @@ export default {
           }
           if (xhr.status && xhr.status < 400) {
             this.__remove(file.name, true, xhr.response)
+            this.$emit('uploaded', file.name, xhr)
             resolve(file)
           }
           else {
             file.__failed = true
+            this.$emit('fail', file.name, xhr)
             reject(xhr)
           }
         }
 
         xhr.onerror = () => {
+          this.$emit('fail', file.name, xhr)
           reject(xhr)
         }
 
