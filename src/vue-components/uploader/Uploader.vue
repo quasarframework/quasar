@@ -213,6 +213,7 @@ export default {
           else {
             file.__failed = true
             reject(xhr)
+            this.$emit('fail', file.name, xhr)
           }
         }
 
