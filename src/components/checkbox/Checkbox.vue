@@ -22,5 +22,7 @@
 
 <script>
 import Checkbox from './checkbox-controller'
-export default Checkbox
+export default {
+  mixins: [Checkbox]
+}
 </script>

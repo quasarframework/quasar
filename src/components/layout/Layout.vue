@@ -39,7 +39,10 @@
       v-touch-pan.horizontal="__closeByTouch"
     >
       <slot name="left"></slot>
-      <q-resize-observable v-if="$slots.left" @resize="onLeftAsideResize" />
+      <q-resize-observable
+        v-if="$slots.left"
+        @resize="onLeftAsideResize"
+      ></q-resize-observable>
     </aside>
 
     <aside
@@ -55,7 +58,10 @@
       v-touch-pan.horizontal="__closeByTouch"
     >
       <slot name="right"></slot>
-      <q-resize-observable v-if="$slots.right" @resize="onRightAsideResize" />
+      <q-resize-observable
+        v-if="$slots.right"
+        @resize="onRightAsideResize"
+      ></q-resize-observable>
     </aside>
 
     <header
@@ -67,7 +73,7 @@
     >
       <slot name="header"></slot>
       <slot v-if="$q.theme !== 'ios'" name="navigation"></slot>
-      <q-resize-observable @resize="onHeaderResize" />
+      <q-resize-observable @resize="onHeaderResize"></q-resize-observable>
     </header>
 
     <div ref="main" :style="pageStyle">
@@ -85,12 +91,14 @@
     >
       <slot name="footer"></slot>
       <slot v-if="$q.theme === 'ios'" name="navigation"></slot>
-      <q-resize-observable @resize="onFooterResize" />
+      <q-resize-observable @resize="onFooterResize"></q-resize-observable>
     </footer>
 
-    <q-scroll-observable @scroll="onPageScroll" />
-    <q-resize-observable @resize="onLayoutResize" />
-    <q-window-resize-observable @resize="onWindowResize" />
+    <q-scroll-observable @scroll="onPageScroll"></q-scroll-observable>
+    <q-resize-observable @resize="onLayoutResize"></q-resize-observable>
+    <q-window-resize-observable
+      @resize="onWindowResize"
+    ></q-window-resize-observable>
   </div>
 </template>
 
