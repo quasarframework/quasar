@@ -64,7 +64,7 @@ for i in 0..10
 .offset-0
   margin-left 0
 
-for $cols in (1..5)
+for $cols in (1..12)
   for $parts in (1..$cols)
     &.width-{$parts}of{$cols}
       flex 0 1 ($parts / $cols * 100)%
@@ -149,7 +149,7 @@ flex-media-query($type)
   .{$type}-offset-0
     margin-left 0
 
-  for $cols in (1..5)
+  for $cols in (1..12)
     for $parts in (1..$cols)
       .{$type}-width-{$parts}of{$cols}
         flex 0 1 ($parts / $cols * 100)%
