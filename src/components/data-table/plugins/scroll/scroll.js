@@ -1,5 +1,5 @@
 import { getMouseWheelDirection } from '../../../../utils/event'
-import { width as scrollbarWidth } from '../../../../utils/scroll'
+import { getScrollbarWidth } from '../../../../utils/scroll'
 
 const wheelOffset = 40
 
@@ -44,7 +44,7 @@ export default {
           }
           const
             body = this.$refs.body,
-            size = scrollbarWidth()
+            size = getScrollbarWidth()
 
           this.scroll.horiz = size && body.clientWidth < body.scrollWidth ? size + 'px' : 0
           this.scroll.vert = size && body.scrollHeight > body.clientHeight ? size + 'px' : 0

@@ -138,7 +138,7 @@
 </template>
 
 <script>
-import { clone } from '../../utils/clone'
+import clone from '../../utils/clone'
 
 import ColumnSelection from './plugins/column-selection/column-selection'
 import Filter from './plugins/filter/filter'

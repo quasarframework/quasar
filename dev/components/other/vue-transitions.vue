@@ -15,14 +15,14 @@
         </label>
       </p>
 
-      <q-transition name="slide">
+      <q-slide-transition>
         <p v-show="visible" style="margin: 0">
           <img
             class="responsive"
             src="~assets/quasar.jpg"
           >
         </p>
-      </q-transition>
+      </q-slide-transition>
     </div>
   </div>
 </template>

@@ -4,8 +4,6 @@ import { install as toastInstall } from './components/toast/toast'
 import { current as theme } from './features/theme'
 import { version } from '../package.json'
 
-import Transition from './transitions/index'
-
 import dBackToTop from './directives/back-to-top'
 import dGoBack from './directives/go-back'
 import dMove from './directives/move'
@@ -63,6 +61,7 @@ import ScrollArea from './components/scroll-area/ScrollArea.vue'
 import Search from './components/search/Search.vue'
 import Select from './components/select/Select.vue'
 import DialogSelect from './components/select/DialogSelect.vue'
+import SlideTransition from './components/slide-transition/SlideTransition'
 import Slider from './components/slider/Slider.vue'
 import Spinner from './components/spinner/Spinner.vue'
 import Stepper from './components/stepper/Stepper.vue'
@@ -98,7 +97,6 @@ function registerDirectives (_Vue) {
 
 function registerComponents (_Vue) {
   _Vue.component('spinner', Spinner)
-  _Vue.component('q-transition', Transition)
 
   ;[
     AjaxBar,
@@ -147,6 +145,7 @@ function registerComponents (_Vue) {
     Search,
     Select,
     DialogSelect,
+    SlideTransition,
     Slider,
     Stepper,
     StepperHeader,

@@ -10,7 +10,6 @@ import * as format from './utils/format'
 import openURL from './utils/open-url'
 import * as popup from './utils/popup'
 import * as scroll from './utils/scroll'
-import * as scrollbar from './utils/scrollbar'
 import * as store from './utils/store'
 import throttle from './utils/throttle'
 import uid from './utils/uid'
@@ -30,7 +29,6 @@ export default {
   openURL,
   popup,
   scroll,
-  scrollbar,
   store,
   throttle,
   uid

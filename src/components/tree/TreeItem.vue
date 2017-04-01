@@ -11,11 +11,11 @@
       </div>
       <span v-if="isExpandable" class="on-right" v-html="model.expanded ? contractHtml : expandHtml"></span>
     </div>
-    <q-transition name="slide">
+    <q-slide-transition>
       <ul v-show="isExpandable && model.expanded">
         <q-tree-item v-for="item in model.children" :key="item" :model="item" :contract-html="contractHtml" :expand-html="expandHtml"></q-tree-item>
       </ul>
-    </q-transition>
+    </q-slide-transition>
   </li>
 </template>
 
