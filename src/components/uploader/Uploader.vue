@@ -75,9 +75,15 @@
 <script>
 import extend from '../../utils/extend'
 import { humanStorageSize } from '../../utils/format'
+import { QBtn } from '../btn'
+import { QProgress } from '../progress'
 
 export default {
   name: 'q-uploader',
+  components: {
+    QBtn,
+    QProgress
+  },
   props: {
     name: {
       type: String,

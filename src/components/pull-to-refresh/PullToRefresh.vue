@@ -21,9 +21,13 @@
 <script>
 import { getScrollTarget, getScrollPosition } from '../../utils/scroll'
 import { cssTransform } from '../../utils/dom'
+import { QIcon } from '../icon'
 
 export default {
   name: 'q-pull-to-refresh',
+  components: {
+    QIcon
+  },
   props: {
     handler: {
       type: Function,

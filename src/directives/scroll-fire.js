@@ -18,6 +18,7 @@ function updateBinding (el, binding, ctx) {
 }
 
 export default {
+  name: 'scroll-fire',
   bind (el, binding) {
     let ctx = {
       scroll: debounce(() => {

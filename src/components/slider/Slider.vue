@@ -55,9 +55,13 @@ import { between, normalizeToInterval } from '../../utils/format'
 import animate from '../../utils/animate'
 import uid from '../../utils/uid'
 import sliderMixin from './slider-mixin'
+import { QIcon } from '../icon'
 
 export default {
   name: 'q-slider',
+  components: {
+    QIcon
+  },
   mixins: [sliderMixin],
   data () {
     return {

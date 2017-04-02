@@ -45,6 +45,7 @@ function updateClasses (el, dir) {
 }
 
 export default {
+  name: 'touch-swipe',
   bind (el, binding) {
     let ctx = {
       handler: binding.value,

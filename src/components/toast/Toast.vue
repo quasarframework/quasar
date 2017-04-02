@@ -35,6 +35,7 @@
 <script>
 import Events from '../../features/events'
 import extend from '../../utils/extend'
+import { QIcon } from '../icon'
 
 let
   transitionDuration = 300, // in ms
@@ -61,6 +62,9 @@ function parseOptions (opts, defaults) {
 
 export default {
   name: 'q-toast',
+  components: {
+    QIcon
+  },
   data () {
     return {
       active: false,

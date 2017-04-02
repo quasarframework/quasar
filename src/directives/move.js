@@ -19,6 +19,7 @@ function updateBinding (el, selector) {
 }
 
 export default {
+  name: 'move',
   bind (el, { value }) {
     add('move', el, {})
   },

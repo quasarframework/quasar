@@ -9,8 +9,13 @@
 </template>
 
 <script>
+import { QSpinner } from '../spinner'
+
 export default {
   name: 'q-inner-loading',
+  components: {
+    QSpinner
+  },
   props: {
     spinner: String,
     dark: Boolean,

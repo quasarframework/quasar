@@ -16,10 +16,14 @@
 </template>
 
 <script>
-import Dialog from '../../components/dialog/dialog'
+import Dialog from '../dialog'
+import { QInput } from '../input'
 
 export default {
   name: 'q-dialog-select',
+  components: {
+    QInput
+  },
   props: {
     value: {
       required: true

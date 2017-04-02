@@ -66,6 +66,7 @@ function shouldAbort ({modifiers, value}) {
 }
 
 export default {
+  name: 'ripple',
   bind (el, bindings) {
     if (shouldAbort(bindings)) {
       return

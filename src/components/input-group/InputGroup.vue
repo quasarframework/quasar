@@ -19,8 +19,17 @@
 </template>
 
 <script>
+import { QRadio } from '../radio'
+import { QCheckbox } from '../checkbox'
+import { QToggle } from '../toggle'
+
 export default {
   name: 'q-input-group',
+  components: {
+    QRadio,
+    QCheckbox,
+    QToggle
+  },
   props: {
     value: {
       required: true

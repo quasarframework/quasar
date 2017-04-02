@@ -40,9 +40,13 @@ import {
   notDivides,
   mixin
 } from './range-utils'
+import TouchPan from '../../directives/touch-pan'
 
 export default {
   name: 'q-range',
+  directives: {
+    TouchPan
+  },
   mixins: [mixin],
   props: {
     value: {

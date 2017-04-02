@@ -39,10 +39,23 @@
 </template>
 
 <script>
+import { QItem } from '../item'
+import { QIcon } from '../icon'
+import { QSlideTransition } from '../slide-transition'
+import Ripple from '../../directives/ripple'
+
 const eventName = 'q:collapsible:close'
 
 export default {
   name: 'q-collapsible',
+  components: {
+    QItem,
+    QIcon,
+    QSlideTransition
+  },
+  directives: {
+    Ripple
+  },
   props: {
     opened: Boolean,
     menu: Boolean,

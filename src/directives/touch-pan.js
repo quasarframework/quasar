@@ -88,6 +88,7 @@ function shouldTrigger (ctx, changes) {
 }
 
 export default {
+  name: 'touch-pan',
   bind (el, binding) {
     let ctx = {
       handler: binding.value,

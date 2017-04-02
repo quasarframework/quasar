@@ -73,7 +73,7 @@ function generateFunctions (fn) {
   }
 }
 
-let
+const
   hasStorageItem = generateFunctions(
     (type) => (key) => window[type + 'Storage'].getItem(key) !== null
   ),
@@ -149,7 +149,7 @@ let
     return () => getLengthFn() === 0
   })
 
-export var LocalStorage = {
+export const LocalStorage = {
   has: hasStorageItem.local,
   get: {
     length: getStorageLength.local,
@@ -163,7 +163,7 @@ export var LocalStorage = {
   isEmpty: storageIsEmpty.local
 }
 
-export var SessionStorage = { // eslint-disable-line one-var
+export const SessionStorage = { // eslint-disable-line one-var
   has: hasStorageItem.session,
   get: {
     length: getStorageLength.session,

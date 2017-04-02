@@ -20,8 +20,8 @@ export function getAnchorPosition (el, offset) {
     if (right) {
       right += offset[0]
     }
-    a.width + offset[0]
-    a.height + offset[1]
+    a.width += offset[0]
+    a.height += offset[1]
   }
 
   a.right = right || a.left + a.width

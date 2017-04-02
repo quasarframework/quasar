@@ -43,9 +43,13 @@
 import { position } from '../../utils/event'
 import { between } from '../../utils/format'
 import { offset, height, width } from '../../utils/dom'
+import TouchPan from '../../directives/touch-pan'
 
 export default {
   name: 'q-knob',
+  directives: {
+    TouchPan
+  },
   props: {
     value: {
       type: Number,

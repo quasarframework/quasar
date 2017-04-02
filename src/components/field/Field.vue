@@ -50,8 +50,15 @@
 </template>
 
 <script>
+import { QIcon } from '../icon'
+import { QTooltip } from '../tooltip'
+
 export default {
   name: 'q-field',
+  components: {
+    QIcon,
+    QTooltip
+  },
   props: {
     label: String,
     labelHint: String,

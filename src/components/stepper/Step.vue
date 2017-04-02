@@ -21,8 +21,17 @@
 </template>
 
 <script>
+import { QIcon } from '../icon'
+import Ripple from '../../directives/ripple'
+
 export default {
   name: 'q-step',
+  components: {
+    QIcon
+  },
+  directives: {
+    Ripple
+  },
   props: {
     step: {
       type: [Number, String],

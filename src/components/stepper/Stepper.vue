@@ -12,8 +12,13 @@
 </template>
 
 <script>
+import { QInnerLoading } from '../inner-loading'
+
 export default {
   name: 'q-stepper',
+  components: {
+    QInnerLoading
+  },
   props: {
     value: Number,
     loading: Boolean,

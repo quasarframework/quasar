@@ -1,49 +1,30 @@
-import install from './vue-install'
+/*
+import install from './install'
 import start from './start'
-import standaloneInstall from './standalone-install'
 import * as theme from './features/theme'
 import { version } from '../package.json'
 
-import './features/body-classes'
-import './features/polyfills'
-import './features/error-handler'
-import './features/fastclick'
+export * from './components'
+export * from './directives'
+export * from './features'
+export * from './globals'
+export * from './utils'
 
-import AddressbarColor from './features/addressbar-color'
-import ActionSheet from './components/action-sheet/action-sheet'
-import Dialog from './components/dialog/dialog'
-import Toast from './components/toast/toast'
+import { Components } from './components'
+import { Directives } from './directives'
+import { Features } from './features'
+import { Globals } from './globals'
+import { Utils } from './utils'
 
-import AppFullscreen from './features/app-fullscreen'
-import AppVisibility from './features/app-visibility'
-import Cookies from './features/cookies'
-import Platform from './features/platform'
-import Events from './features/events'
-import Loading from './components/loading/loading.js'
-import Utils from './utils'
-import { LocalStorage, SessionStorage } from './features/web-storage'
-
-let Quasar = {
+export default {
   version,
   install,
   start,
   theme,
-
-  AddressbarColor,
-  ActionSheet,
-  Dialog,
-  AppFullscreen,
-  AppVisibility,
-  Cookies,
-  Platform,
-  Events,
-  Loading,
-  Toast,
-  Utils,
-  LocalStorage,
-  SessionStorage
+  Components,
+  Directives,
+  Features,
+  Globals,
+  Utils
 }
-
-standaloneInstall(Quasar)
-
-export default Quasar
+*/

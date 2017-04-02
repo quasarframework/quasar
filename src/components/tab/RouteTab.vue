@@ -30,9 +30,17 @@
 <script>
 import { RouterLinkMixin, routerLinkEvent } from '../../utils/router-link'
 import TabMixin from './tab-mixin'
+import Ripple from '../../directives/ripple'
+import { QIcon } from '../icon'
 
 export default {
   name: 'q-route-tab',
+  components: {
+    QIcon
+  },
+  directives: {
+    Ripple
+  },
   mixins: [TabMixin, RouterLinkMixin],
   watch: {
     $route () {

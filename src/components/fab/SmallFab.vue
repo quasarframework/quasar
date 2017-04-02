@@ -6,8 +6,15 @@
 </template>
 
 <script>
+import { QBtn } from '../btn'
+import { QIcon } from '../icon'
+
 export default {
   name: 'q-small-fab',
+  components: {
+    QBtn,
+    QIcon
+  },
   props: {
     icon: {
       type: String,

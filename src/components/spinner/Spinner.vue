@@ -1,63 +1,25 @@
 <template>
-  <component :is="'s-' + name" :size="size" :style="{color: color}"></component>
+  <component :is="'q-spinner-' + name" :size="size" :color="color"></component>
 </template>
 
 <script>
-import SAudio from './svg-spinners/audio.vue'
-import SBall from './svg-spinners/ball.vue'
-import SBars from './svg-spinners/bars.vue'
-import SCircles from './svg-spinners/circles.vue'
-import SDots from './svg-spinners/dots.vue'
-import SFacebook from './svg-spinners/facebook.vue'
-import SGears from './svg-spinners/gears.vue'
-import SGrid from './svg-spinners/grid.vue'
-import SHearts from './svg-spinners/hearts.vue'
-import SHourglass from './svg-spinners/hourglass.vue'
-import SInfinity from './svg-spinners/infinity.vue'
-import SIos from './svg-spinners/ios.vue'
-import SMat from './svg-spinners/mat.vue'
-import SOval from './svg-spinners/oval.vue'
-import SPie from './svg-spinners/pie.vue'
-import SPuff from './svg-spinners/puff.vue'
-import SRadio from './svg-spinners/radio.vue'
-import SRings from './svg-spinners/rings.vue'
-import STail from './svg-spinners/tail.vue'
+import QSpinnerIos from './list/ios.vue'
+import QSpinnerMat from './list/mat.vue'
+import mixin from './spinner-mixin'
 
 import { current as theme } from '../../features/theme'
 
 export default {
   name: 'q-spinner',
-  props: {
-    name: {
-      type: String,
-      default: theme === 'ios' ? 'ios' : 'mat'
-    },
-    size: {
-      type: Number,
-      default: 64
-    },
-    color: String
+  mixins: [mixin],
+  computed: {
+    name () {
+      return theme === 'ios' ? 'ios' : 'mat'
+    }
   },
   components: {
-    SAudio,
-    SBall,
-    SBars,
-    SCircles,
-    SDots,
-    SFacebook,
-    SGears,
-    SGrid,
-    SHearts,
-    SHourglass,
-    SInfinity,
-    SIos,
-    SMat,
-    SOval,
-    SPie,
-    SPuff,
-    SRadio,
-    SRings,
-    STail
+    QSpinnerIos,
+    QSpinnerMat
   }
 }
 </script>

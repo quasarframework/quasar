@@ -96,9 +96,7 @@
 
     <q-scroll-observable @scroll="onPageScroll"></q-scroll-observable>
     <q-resize-observable @resize="onLayoutResize"></q-resize-observable>
-    <q-window-resize-observable
-      @resize="onWindowResize"
-    ></q-window-resize-observable>
+    <q-window-resize-observable @resize="onWindowResize"></q-window-resize-observable>
   </div>
 </template>
 
@@ -106,6 +104,8 @@
 import { cssTransform } from '../../utils/dom'
 import { getScrollHeight } from '../../utils/scroll'
 import SideMixin from './side-mixin'
+import TouchPan from '../../directives/touch-pan'
+import { QResizeObservable, QWindowResizeObservable, QScrollObservable } from '../observables'
 
 function updateSize (obj, size) {
   if (obj.w !== size.width) {
@@ -126,6 +126,14 @@ function updateObject (obj, data) {
 
 export default {
   name: 'q-layout',
+  components: {
+    QResizeObservable,
+    QWindowResizeObservable,
+    QScrollObservable
+  },
+  directives: {
+    TouchPan
+  },
   mixins: [SideMixin],
   model: {
     prop: 'sides'

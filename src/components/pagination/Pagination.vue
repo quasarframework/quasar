@@ -33,9 +33,17 @@
 
 <script>
 import { between } from '../../utils/format'
+import { QBtn } from '../btn'
+import { QInput } from '../input'
+import { QIcon } from '../icon'
 
 export default {
   name: 'q-pagination',
+  components: {
+    QBtn,
+    QInput,
+    QIcon
+  },
   props: {
     value: {
       type: Number,

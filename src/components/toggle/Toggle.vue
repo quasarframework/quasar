@@ -24,9 +24,17 @@
 
 <script>
 import Checkbox from '../checkbox/checkbox-controller'
+import { QIcon } from '../icon'
+import TouchSwipe from '../../directives/touch-swipe'
 
 export default {
   name: 'q-toggle',
+  components: {
+    QIcon
+  },
+  directives: {
+    TouchSwipe
+  },
   mixins: [Checkbox],
   props: {
     icon: String

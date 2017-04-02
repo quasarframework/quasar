@@ -10,6 +10,7 @@ function updateBinding (el, binding, ctx) {
 }
 
 export default {
+  name: 'touch-hold',
   bind (el, binding) {
     let ctx = {
       start (evt) {

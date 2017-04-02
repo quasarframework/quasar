@@ -104,9 +104,32 @@
 
 <script>
 import inputTypes from '../input/input-types'
+import { QModal } from '../modal'
+import { QInput } from '../input'
+import { QChips } from '../chips'
+import { QRadio } from '../radio'
+import { QCheckbox } from '../checkbox'
+import { QToggle } from '../toggle'
+import { QRange, QDoubleRange } from '../range'
+import { QRating } from '../rating'
+import { QProgress } from '../progress'
+import { QBtn } from '../btn'
 
 export default {
   name: 'q-dialog',
+  components: {
+    QModal,
+    QInput,
+    QChips,
+    QRadio,
+    QCheckbox,
+    QToggle,
+    QRange,
+    QDoubleRange,
+    QRating,
+    QProgress,
+    QBtn
+  },
   props: {
     title: String,
     message: String,

@@ -133,6 +133,7 @@
 
 <script>
 import inputTypes from './input-types'
+import { QIcon } from '../icon'
 
 function exists (val) {
   return typeof val !== 'undefined' && val !== null
@@ -140,6 +141,9 @@ function exists (val) {
 
 export default {
   name: 'q-input',
+  components: {
+    QIcon
+  },
   props: {
     name: String,
     value: {

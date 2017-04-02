@@ -24,8 +24,15 @@
 </template>
 
 <script>
+import { QBtn } from '../btn'
+import { QIcon } from '../icon'
+
 export default {
   name: 'q-progress-btn',
+  components: {
+    QBtn,
+    QIcon
+  },
   props: {
     percentage: {
       type: Number,

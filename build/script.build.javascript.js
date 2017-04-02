@@ -9,6 +9,7 @@ var
   string = require('rollup-plugin-string'),
   json = require('rollup-plugin-json'),
   vue = require('rollup-plugin-vue'),
+  localResolve = require('rollup-plugin-local-resolve'),
   nonStandalone = process.argv[2] === 'simple' || process.argv[3] === 'simple',
   version = process.env.VERSION || require('../package.json').version,
   banner =
@@ -29,8 +30,7 @@ var
   },
   external = [
     'fastclick',
-    'moment',
-    'animate.css'
+    'moment'
   ],
   globals = {
     fastclick: 'FastClick',
@@ -38,13 +38,19 @@ var
   },
   rollupConfig = {
     entry: 'src/index.js',
-    plugins: [json(), vue(vueConfig), string(stringConfig), babel(babelConfig)],
+    plugins: [
+      json(),
+      vue(vueConfig),
+      string(stringConfig),
+      babel(babelConfig)
+    ],
     external: external
   }
 
 // CommonJS build.
 rollup
 .rollup(rollupConfig)
+/*
 .then(function (bundle) {
   return write('dist/quasar.common.js', bundle.generate({
     format: 'cjs',
@@ -53,12 +59,13 @@ rollup
     useStrict: false
   }).code)
 })
+*/
 // ES6 Dev Build
 .then(function () {
   return rollup
     .rollup({
       entry: 'src/index.es6.js',
-      plugins: [json(), vue(vueConfig), string(stringConfig)],
+      plugins: [localResolve(), json(), vue(vueConfig), string(stringConfig)],
       external: external
     })
     .then(function (bundle) {

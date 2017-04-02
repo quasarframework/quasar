@@ -2,6 +2,7 @@ import Platform from '../features/platform'
 import { add, get, remove } from '../utils/store'
 
 export default {
+  name: 'go-back',
   bind (el, { value, modifiers }, vnode) {
     let ctx = { value, position: window.history.length - 1, single: modifiers.single }
 

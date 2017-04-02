@@ -38,6 +38,7 @@ function updateBinding (el, { value, modifiers }, ctx) {
 }
 
 export default {
+  name: 'back-to-top',
   bind (el) {
     let ctx = {
       offset: 200,

@@ -18,8 +18,19 @@
 </template>
 
 <script>
+import Ripple from '../../directives/ripple'
+import { QSpinner } from '../spinner'
+import { QIcon } from '../icon'
+
 export default {
   name: 'q-btn',
+  components: {
+    QSpinner,
+    QIcon
+  },
+  directives: {
+    Ripple
+  },
   props: {
     disable: Boolean,
     spinner: [Boolean, String],

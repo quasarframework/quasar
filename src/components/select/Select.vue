@@ -55,8 +55,23 @@
 </template>
 
 <script>
+import { QInput } from '../input'
+import { QPopover } from '../popover'
+import { QItem } from '../item'
+import { QCheckbox } from '../checkbox'
+import { QRadio } from '../radio'
+import { QToggle } from '../toggle'
+
 export default {
   name: 'q-select',
+  components: {
+    QInput,
+    QPopover,
+    QItem,
+    QCheckbox,
+    QRadio,
+    QToggle
+  },
   props: {
     value: {
       required: true

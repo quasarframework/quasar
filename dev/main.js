@@ -1,9 +1,12 @@
 import Vue from 'vue'
-import Quasar, { AddressbarColor } from 'quasar'
+import Quasar, { AddressbarColor, Components, Directives } from 'quasar'
 import router from './router'
 
 require('../src/themes/quasar.' + __THEME + '.styl')
-Vue.use(Quasar) // Install Quasar Framework
+Vue.use(Quasar, {
+  components: Components,
+  directives: Directives
+})
 AddressbarColor.set()
 
 Quasar.start(() => {

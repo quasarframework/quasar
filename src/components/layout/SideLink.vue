@@ -16,9 +16,13 @@
 
 <script>
 import { RouterLinkMixin, routerLinkEvent } from '../../utils/router-link'
+import Ripple from '../../directives/ripple'
 
 export default {
   name: 'q-side-link',
+  directives: {
+    Ripple
+  },
   mixins: [RouterLinkMixin],
   props: {
     tag: {

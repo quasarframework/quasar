@@ -17,6 +17,9 @@ import QTreeItem from './TreeItem.vue'
 
 export default {
   name: 'q-tree',
+  components: {
+    QTreeItem
+  },
   props: {
     model: {
       type: Array,
@@ -32,9 +35,6 @@ export default {
       required: true,
       default: '<i class="material-icons">add_circle</i>'
     }
-  },
-  components: {
-    QTreeItem
   }
 }
 </script>

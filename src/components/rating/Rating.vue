@@ -18,9 +18,13 @@
 
 <script>
 import { between } from '../../utils/format'
+import { QIcon } from '../icon'
 
 export default {
   name: 'q-rating',
+  components: {
+    QIcon
+  },
   props: {
     value: {
       type: Number,

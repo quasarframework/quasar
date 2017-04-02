@@ -17,6 +17,8 @@
 <script>
 import { offset, cssTransform } from '../../utils/dom'
 import Platform from '../../features/platform'
+import { QBtn } from '../btn'
+import { QIcon } from '../icon'
 
 function iosFixNeeded (el) {
   if (Platform.is.mobile && Platform.is.ios) {
@@ -27,6 +29,10 @@ function iosFixNeeded (el) {
 
 export default {
   name: 'q-fab',
+  components: {
+    QBtn,
+    QIcon
+  },
   props: {
     classNames: {
       default: 'primary'

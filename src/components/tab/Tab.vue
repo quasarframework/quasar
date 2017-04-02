@@ -23,9 +23,17 @@
 
 <script>
 import TabMixin from './tab-mixin'
+import Ripple from '../../directives/ripple'
+import { QIcon } from '../icon'
 
 export default {
   name: 'q-tab',
+  components: {
+    QIcon
+  },
+  directives: {
+    Ripple
+  },
   mixins: [TabMixin],
   props: {
     selected: Boolean

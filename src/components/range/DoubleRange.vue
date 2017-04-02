@@ -55,6 +55,7 @@ import {
   notDivides,
   mixin
 } from './range-utils'
+import TouchPan from '../../directives/touch-pan'
 
 const dragType = {
   MIN: 0,
@@ -64,6 +65,9 @@ const dragType = {
 
 export default {
   name: 'q-double-range',
+  directives: {
+    TouchPan
+  },
   mixins: [mixin],
   props: {
     value: {

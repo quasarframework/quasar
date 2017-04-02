@@ -40,13 +40,12 @@
       @mousemove.capture.stop
       @mouseend.capture.stop
     >
-        <div v-for="(img, index) in src" :key="index">
-          <img
-            :src="img"
-            :class="{active: currentSlide === index}"
-            @click="__selectImage(index)"
-          >
-        </div>
+      <div v-for="(img, index) in src" :key="index">
+        <img
+          :src="img"
+          :class="{active: currentSlide === index}"
+          @click="__selectImage(index)"
+        >
       </div>
     </div>
   </q-slider>
@@ -54,9 +53,15 @@
 
 <script>
 import sliderMixin from '../slider/slider-mixin'
+import { QSlider } from '../slider'
+import { QIcon } from '../icon'
 
 export default {
   name: 'q-gallery-slider',
+  components: {
+    QSlider,
+    QIcon
+  },
   mixins: [sliderMixin],
   props: {
     src: {

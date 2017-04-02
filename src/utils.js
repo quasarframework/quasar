@@ -14,7 +14,9 @@ import * as store from './utils/store'
 import throttle from './utils/throttle'
 import uid from './utils/uid'
 
-export default {
+function noop () {}
+
+export {
   animate,
   clone,
   colors,
@@ -25,7 +27,27 @@ export default {
   extend,
   filter,
   format,
-  noop () {},
+  noop,
+  openURL,
+  popup,
+  scroll,
+  store,
+  throttle,
+  uid
+}
+
+export const Utils = {
+  animate,
+  clone,
+  colors,
+  debounce,
+  frameDebounce,
+  dom,
+  event,
+  extend,
+  filter,
+  format,
+  noop,
   openURL,
   popup,
   scroll,

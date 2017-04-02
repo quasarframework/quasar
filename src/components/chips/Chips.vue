@@ -26,8 +26,15 @@
 </template>
 
 <script>
+import { QInput } from '../input'
+import { QIcon } from '../icon'
+
 export default {
   name: 'q-chips',
+  components: {
+    QInput,
+    QIcon
+  },
   props: {
     value: {
       type: Array,

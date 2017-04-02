@@ -1,5 +1,5 @@
 import Platform from '../features/platform'
-import Dialog from '../components/dialog/dialog'
+import Dialog from '../components/dialog/index'
 
 /* istanbul ignore next */
 export default (url) => {

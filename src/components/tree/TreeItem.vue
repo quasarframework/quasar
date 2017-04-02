@@ -20,8 +20,15 @@
 </template>
 
 <script>
+import { QIcon } from '../icon'
+import { QSlideTransition } from '../slide-transition'
+
 export default {
   name: 'q-tree-item',
+  components: {
+    QIcon,
+    QSlideTransition
+  },
   props: ['model', 'contract-html', 'expand-html'],
   methods: {
     toggle () {

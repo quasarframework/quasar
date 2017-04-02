@@ -47,6 +47,7 @@
 <script>
 import { width, css, cssTransform } from '../../utils/dom'
 import { debounce } from '../../utils/debounce'
+import { QIcon } from '../icon'
 
 const
   scrollNavigationSpeed = 5, // in pixels
@@ -54,6 +55,9 @@ const
 
 export default {
   name: 'q-tabs',
+  components: {
+    QIcon
+  },
   props: {
     value: String,
     align: {
