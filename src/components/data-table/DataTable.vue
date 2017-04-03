@@ -163,7 +163,8 @@ export default {
     QBtn,
     QIcon,
     QCheckbox,
-    QRadio
+    QRadio,
+    TableContent
   },
   mixins: [ColumnSelection, Filter, I18n, Pagination, Responsive, RowSelection, Scroll, Sort, StickyColumns],
   props: {
@@ -260,9 +261,6 @@ export default {
     formatClass (col, value) {
       return typeof col.classes === 'function' ? col.classes(value) : col.classes
     }
-  },
-  components: {
-    TableContent
   }
 }
 </script>

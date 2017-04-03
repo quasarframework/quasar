@@ -315,7 +315,7 @@ export default {
         let
           min = this.pmin ? this.pmin.year() : 1950,
           max = this.pmax ? this.pmax.year() : 2050
-        return Utils.format.between(value, min, max)
+        return between(value, min, max)
       }
       if (type === 'hour') {
         return between(value, 0, 23)
