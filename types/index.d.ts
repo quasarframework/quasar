@@ -313,6 +313,92 @@ export interface IEvents {
   $emit(name: string, payload: any): void
 }
 
+export interface IUtils {
+  openUrl(url: string): void
+  debounce(fn: Function, milliseconds_to_wait: number, immediate: boolean): Function
+  throttle(fn: Function, milliseconds_to_wait: number): Function
+  extend<T>(deepCopyOrTarget: boolean| T, target: object, ...object: Object): T
+  uid(): string
+  animate: IUtilsAnimate
+  colors: IUtilsColors
+  format: IUtilsFormat
+  dom: IUtilsDom
+  event: IUtilsEvent
+  filter(terms: string,options: IUtilsFilterOptions)
+}
+
+interface IUtilsFilterOptions {
+  field: string
+  list: object[]
+}
+
+interface IUtilsAnimate {
+  start(option: IUtilsAnimateOptions): string
+  /* Stop an animation using its name or id returned from start */
+  stop(idOrName: string): void
+}
+
+interface IUtilsAnimateOptions {
+  /* optional, if none is supplied a unique one is created and returned */
+  name?: string
+  finalPos: number
+  /* current position */
+  pos: number
+  /* on each step, it adds (finalPosition - currentPosition) / factor */
+  factor: number
+  /* function to call when animation is done */
+  done: (finalPosition: number) => void
+  /* function called on each step so you can apply changes */
+  apply: (currentPosition: number) => void
+  /* if Math.abs(finalPosition - currentPosition) < threshold then stop and we're done */
+  treshhold: number
+}
+
+interface IUtilsColors {
+  rgbToHex(red: number, green: number, blue: number)
+  hexToRgb(hex: string): number[]
+}
+
+interface IUtilsFormat {
+  humanStorageSize(size: number): string
+}
+
+interface IUtilsDom {
+  offset(el: HTMLElement): {top: number, left: number}
+  style(el: HTMLElement, property: string): string
+  height(el: HTMLElement): number
+  width(el: HTMLElement): number
+  css(el: HTMLElement,css: object)
+  viewport(): {width: number, height: number}
+  ready(fn: Function): void
+  getScrollTarget(el: HTMLElement): HTMLElement
+  getScrollPosition(scrollTarget: HTMLElement): number
+  setScrollPosition(scrollTarget: HTMLElement, offset: number, duration: number)
+  cssTransform(val: string): object
+}
+
+interface IUtilsEvent {
+  rightClick(e: MouseEvent): boolean
+  position(e: MouseEvent|TouchEvent): {top: number, left: number}
+  targetElement(e: MouseEvent| TouchEvent): HTMLElement
+}
+
+export interface IWebStorage {
+  set(key: string, value: any): void
+  get: IWebStorageGet
+  remove(key: string)
+  clear(): void
+  isEmpty(): boolean
+  has(key: string): boolean
+}
+
+interface IWebStorageGet {
+  item(key: string): any
+  all(): object
+  length(): number
+  index(index: number): any
+}
+
 export interface IPlateforme {
   is: {
     mobile: boolean
@@ -359,13 +445,13 @@ export const Platform: IPlateforme
 export const Events: IEvents
 export const Loading: ILoading
 export const Toast: IToast
-export const Utils: any
-export const LocalStorage: any
-export const SessionStorage: any
+export const Utils: IUtils
+export const LocalStorage: IWebStorage
+export const SessionStorage: IWebStorage
 
 interface Quasar {
   version: string
-  install(Vue: Vue): void
+  install: Vue.PluginFunction<never>
   start(callback: Function): void
   theme: string
 
@@ -378,9 +464,9 @@ interface Quasar {
   Events: IEvents
   Loading: ILoading
   Toast: IToast
-  Utils: any
-  LocalStorage: any
-  SessionStorage: any
+  Utils: IUtils
+  LocalStorage: IWebStorage
+  SessionStorage: IWebStorage
 }
 declare let Quasar: Quasar
 export default Quasar
