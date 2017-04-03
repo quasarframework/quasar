@@ -5,8 +5,13 @@
 </template>
 
 <script>
+import { QPopover } from '../popover'
+
 export default {
   name: 'q-context-menu',
+  components: {
+    QPopover
+  },
   props: {
     disable: Boolean
   },

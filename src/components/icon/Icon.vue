@@ -11,11 +11,11 @@ export default {
     let name, text
     const
       props = ctx.props,
-      theme = ctx.parent.$q.theme
-
-    const icon = props.mat && theme === 'mat'
-      ? props.mat
-      : (props.ios && theme === 'ios' ? props.ios : ctx.props.name)
+      theme = ctx.parent.$q.theme,
+      classes = ctx.data.staticClass,
+      icon = props.mat && theme === 'mat'
+        ? props.mat
+        : (props.ios && theme === 'ios' ? props.ios : ctx.props.name)
 
     if (!icon) {
       console.error('q-icon has no icon to display for current theme; set "name" or both "mat" and "ios" props')
@@ -33,13 +33,7 @@ export default {
       text = icon.replace(/ /g, '_')
     }
 
-    if (ctx.data.staticClass) {
-      ctx.data.staticClass += ` q-icon ${name}`
-    }
-    else {
-      ctx.data.staticClass = `q-icon ${name}`
-    }
-
+    ctx.data.staticClass = `${classes ? ' ' : ''}q-icon ${name}`
     return h('i', ctx.data, text ? [text, ctx.children] : [' ', ctx.children])
   }
 }

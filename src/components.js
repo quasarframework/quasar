@@ -7,7 +7,7 @@ import { QChips } from './components/chips'
 import { QCollapsible } from './components/collapsible'
 import { QContextMenu } from './components/context-menu'
 import { QDataTable } from './components/data-table'
-import { QDatetime, QDatetimeRange, QInlineDatetimeMaterial, QInlineDatetimeIOS } from './components/datetime'
+import { QDatetime, QDatetimeRange, QInlineDatetime } from './components/datetime'
 import { QFab, QSmallFab } from './components/fab'
 import { QField } from './components/field'
 import { QFixedPosition } from './components/fixed-position'
@@ -56,7 +56,7 @@ export const Components = {
   QCollapsible,
   QContextMenu,
   QDataTable,
-  QDatetime, QDatetimeRange, QInlineDatetimeMaterial, QInlineDatetimeIOS, // eslint-disable-line
+  QDatetime, QDatetimeRange, QInlineDatetime, // eslint-disable-line
   QFab, QSmallFab, // eslint-disable-line
   QField,
   QFixedPosition,
@@ -107,7 +107,7 @@ export {
   QCollapsible,
   QContextMenu,
   QDataTable,
-  QDatetime, QDatetimeRange, QInlineDatetimeMaterial, QInlineDatetimeIOS,
+  QDatetime, QDatetimeRange, QInlineDatetime,
   QFab, QSmallFab,
   QField,
   QFixedPosition,

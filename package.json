@@ -2,8 +2,7 @@
   "name": "quasar-framework",
   "version": "0.14.0",
   "description": "Simultaneously build desktop/mobile SPA websites & phone/tablet apps with VueJS",
-  "main": "dist/quasar.es6.js",
-  "jsnext:main": "dist/quasar.es6.js",
+  "main": "dist/quasar.esm.js",
   "files": [
     "dist",
     "src"
@@ -80,7 +79,7 @@
     "rollup": "^0.41.4",
     "rollup-plugin-babel": "^2.6.1",
     "rollup-plugin-json": "^2.1.0",
-    "rollup-plugin-string": "^2.0.2",
+    "rollup-plugin-local-resolve": "^1.0.7",
     "rollup-plugin-vue": "2.3.1",
     "shelljs": "^0.7.0",
     "stylint": "^1.5.6",

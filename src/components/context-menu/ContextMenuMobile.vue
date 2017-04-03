@@ -5,8 +5,13 @@
 </template>
 
 <script>
+import { QModal } from '../modal'
+
 export default {
   name: 'q-context-menu',
+  components: {
+    QModal
+  },
   props: {
     disable: Boolean
   },

@@ -34,6 +34,9 @@ import SortIcon from './plugins/sort/SortIcon.vue'
 
 export default {
   name: 'q-table-content',
+  components: {
+    SortIcon
+  },
   props: {
     cols: Array,
     head: Boolean,
@@ -54,9 +57,6 @@ export default {
         this.$emit('sort', col)
       }
     }
-  },
-  components: {
-    SortIcon
   }
 }
 </script>

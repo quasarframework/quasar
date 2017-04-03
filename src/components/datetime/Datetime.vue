@@ -52,11 +52,15 @@
 </template>
 
 <script>
-import moment from 'moment'
+import { moment } from '../../install'
 import Platform from '../../features/platform'
 import { current as theme } from '../../features/theme'
 import extend from '../../utils/extend'
 import { input as props } from './datetime-props'
+import { QInput } from '../input'
+import { QPopover } from '../popover'
+import QInlineDatetime from './InlineDatetime'
+import { QBtn } from '../btn'
 
 let contentCSS = {
   ios: {
@@ -73,6 +77,12 @@ let contentCSS = {
 
 export default {
   name: 'q-datetime',
+  components: {
+    QInput,
+    QPopover,
+    QInlineDatetime,
+    QBtn
+  },
   props: extend({
     value: {
       type: String,

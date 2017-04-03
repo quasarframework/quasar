@@ -22,8 +22,15 @@
 </template>
 
 <script>
+import { QSelect } from '../../../select'
+import { QPagination } from '../../../pagination'
+
 export default {
   name: 'q-table-pagination',
+  components: {
+    QSelect,
+    QPagination
+  },
   props: ['pagination', 'entries', 'labels'],
   watch: {
     entries () {

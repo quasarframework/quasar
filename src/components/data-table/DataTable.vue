@@ -29,7 +29,7 @@
         {{ rowsSelected }}
         <span v-if="rowsSelected === 1">{{ labels.selected.singular }}</span>
         <span v-else>{{ labels.selected.plural }}</span>
-        <button class="primary clear small" @click="clearSelection()">{{ labels.clear }}</button>
+        <q-btn class="primary clear small" @click="clearSelection">{{ labels.clear }}</q-btn>
       </div>
       <div>
         <slot name="selection" :rows="selectedRows"></slot>
@@ -149,11 +149,22 @@ import RowSelection from './plugins/row-selection/row-selection'
 import Scroll from './plugins/scroll/scroll'
 import Sort from './plugins/sort/sort'
 import StickyColumns from './plugins/sticky-cols/sticky-cols'
-
 import TableContent from './TableContent.vue'
+import { QSelect } from '../select'
+import { QBtn } from '../btn'
+import { QIcon } from '../icon'
+import { QCheckbox } from '../checkbox'
+import { QRadio } from '../radio'
 
 export default {
   name: 'q-data-table',
+  components: {
+    QSelect,
+    QBtn,
+    QIcon,
+    QCheckbox,
+    QRadio
+  },
   mixins: [ColumnSelection, Filter, I18n, Pagination, Responsive, RowSelection, Scroll, Sort, StickyColumns],
   props: {
     data: {

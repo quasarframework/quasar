@@ -1,4 +1,4 @@
-import moment from 'moment'
+import { moment } from '../../../../install'
 
 const sortMethod = {
   string: (a, b) => a.localeCompare(b),

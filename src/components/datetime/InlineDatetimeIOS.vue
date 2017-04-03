@@ -120,7 +120,7 @@
 </template>
 
 <script>
-import moment from 'moment'
+import { moment } from '../../install'
 import { inline as props } from './datetime-props'
 import { between } from '../../utils/format'
 import { position } from '../../utils/event'
@@ -312,7 +312,10 @@ export default {
         return between(value, 1, this.daysInMonth)
       }
       if (type === 'year') {
-        return between(value, 1950, 2050)
+        let
+          min = this.pmin ? this.pmin.year() : 1950,
+          max = this.pmax ? this.pmax.year() : 2050
+        return Utils.format.between(value, min, max)
       }
       if (type === 'hour') {
         return between(value, 0, 23)

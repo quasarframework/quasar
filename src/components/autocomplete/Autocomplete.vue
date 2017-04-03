@@ -23,6 +23,9 @@ import { width } from '../../utils/dom'
 import filter from '../../utils/filter'
 import uid from '../../utils/uid'
 import { normalizeToInterval } from '../../utils/format'
+import { QInput } from '../input'
+import { QPopover } from '../popover'
+import { QItem } from '../item'
 
 function prevent (e) {
   e.preventDefault()
@@ -31,6 +34,11 @@ function prevent (e) {
 
 export default {
   name: 'q-autocomplete',
+  components: {
+    QInput,
+    QPopover,
+    QItem
+  },
   props: {
     value: {
       type: String,

@@ -123,8 +123,19 @@
 </template>
 
 <script>
+import { QModal } from '../modal'
+import { QIcon } from '../icon'
+import Ripple from '../../directives/ripple'
+
 export default {
   name: 'q-action-sheet',
+  components: {
+    QModal,
+    QIcon
+  },
+  directives: {
+    Ripple
+  },
   props: {
     title: String,
     gallery: Boolean,

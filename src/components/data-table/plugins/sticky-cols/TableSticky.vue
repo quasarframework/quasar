@@ -35,6 +35,9 @@ import SortIcon from '../sort/SortIcon.vue'
 
 export default {
   name: 'q-table-sticky',
+  components: {
+    SortIcon
+  },
   props: {
     stickyCols: Number,
     cols: Array,
@@ -62,9 +65,6 @@ export default {
         this.$emit('sort', col)
       }
     }
-  },
-  components: {
-    SortIcon
   }
 }
 </script>

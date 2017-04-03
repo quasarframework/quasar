@@ -3,8 +3,13 @@
 </template>
 
 <script>
+import { QIcon } from '../../../icon'
+
 export default {
   name: 'q-sort-icon',
+  components: {
+    QIcon
+  },
   props: {
     field: String,
     sorting: Object

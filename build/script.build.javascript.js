@@ -6,7 +6,6 @@ var
   rollup = require('rollup'),
   uglify = require('uglify-js'),
   babel = require('rollup-plugin-babel'),
-  string = require('rollup-plugin-string'),
   json = require('rollup-plugin-json'),
   vue = require('rollup-plugin-vue'),
   localResolve = require('rollup-plugin-local-resolve'),
@@ -15,7 +14,7 @@ var
   banner =
     '/*!\n' +
     ' * Quasar Framework v' + version + '\n' +
-    ' * (c) ' + new Date().getFullYear() + ' Razvan Stoenescu\n' +
+    ' * (c) 2016-present Razvan Stoenescu\n' +
     ' * Released under the MIT License.\n' +
     ' */',
   vueConfig = {
@@ -29,61 +28,62 @@ var
     include: ['**/*.svg', '**/*.html']
   },
   external = [
-    'fastclick',
-    'moment'
+    'fastclick'
   ],
   globals = {
-    fastclick: 'FastClick',
-    moment: 'moment'
+    fastclick: 'FastClick'
   },
   rollupConfig = {
-    entry: 'src/index.js',
+    entry: 'src/index.esm.js',
     plugins: [
+      localResolve(),
       json(),
       vue(vueConfig),
-      string(stringConfig),
       babel(babelConfig)
     ],
     external: external
   }
 
-// CommonJS build.
+// ESM build.
 rollup
-.rollup(rollupConfig)
-/*
+.rollup({
+  entry: 'src/index.esm.js',
+  plugins: rollupConfig.plugins,
+  external: external
+})
 .then(function (bundle) {
-  return write('dist/quasar.common.js', bundle.generate({
-    format: 'cjs',
+  return write('dist/quasar.esm.js', bundle.generate({
+    format: 'es',
+    exports: 'named',
     banner: banner,
     globals: globals,
     useStrict: false
   }).code)
 })
-*/
-// ES6 Dev Build
+// Commonjs Build
 .then(function () {
+  if (nonStandalone) {
+    return
+  }
   return rollup
-    .rollup({
-      entry: 'src/index.es6.js',
-      plugins: [localResolve(), json(), vue(vueConfig), string(stringConfig)],
-      external: external
-    })
-    .then(function (bundle) {
-      return write('dist/quasar.es6.js', bundle.generate({
-        format: 'es',
-        exports: 'named',
-        banner: banner,
-        globals: globals,
-        useStrict: false
-      }).code)
-    })
+  .rollup(rollupConfig)
+  .then(function (bundle) {
+    write('dist/quasar.common.js', bundle.generate({
+      format: 'cjs',
+      exports: 'named',
+      banner: banner,
+      globals: globals,
+      useStrict: false
+    }).code)
+  })
 })
 // Standalone Dev Build
 .then(function () {
   if (nonStandalone) {
     return
   }
-  return rollup.rollup(rollupConfig)
+  return rollup
+  .rollup(rollupConfig)
   .then(function (bundle) {
     return write('dist/quasar.standalone.js', bundle.generate({
       format: 'umd',
@@ -99,7 +99,8 @@ rollup
   if (nonStandalone) {
     return
   }
-  return rollup.rollup(rollupConfig)
+  return rollup
+  .rollup(rollupConfig)
   .then(function (bundle) {
     var code, res, map
 

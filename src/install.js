@@ -4,13 +4,18 @@ import { install as toastInstall } from './components/toast/index.js'
 import { current as theme } from './features/theme'
 import { version } from '../package.json'
 
-export var Vue
+export let Vue
+export let moment
 
 export default function (_Vue, opts = {}) {
   if (this.installed) {
     return
   }
   this.installed = true
+
+  if (opts.deps && opts.deps.moment) {
+    moment = opts.deps.moment
+  }
 
   if (opts.directives) {
     if (Array.isArray(opts.directives)) {

@@ -15,8 +15,15 @@
 </template>
 
 <script>
+import { QSearch } from '../../../search'
+import { QSelect } from '../../../select'
+
 export default {
   name: 'q-table-filter',
+  components: {
+    QSearch,
+    QSelect
+  },
   props: ['filtering', 'columns', 'labels'],
   computed: {
     filterFields () {

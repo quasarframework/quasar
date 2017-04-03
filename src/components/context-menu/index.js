@@ -1,4 +1,4 @@
-import QContextMenu from './ContextMenuDesktop.vue'
+import QContextMenu from './ContextMenu'
 
 export {
   QContextMenu

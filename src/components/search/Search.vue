@@ -46,8 +46,13 @@
 </template>
 
 <script>
+import { QIcon } from '../icon'
+
 export default {
   name: 'q-search',
+  components: {
+    QIcon
+  },
   props: {
     value: {
       type: [String, Number],

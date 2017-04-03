@@ -102,9 +102,9 @@ $ npm run lint
   - **`vue-install.js`**: where all components get injected into Vue
 
 - **`dist`**: contains built files for distribution (only after a build). Note this directory is only updated when a release happens; they do not reflect the latest changes in development branches.
-  - **`quasar.common.js`**: Common JS formatted Quasar JS distributable. **This is set as the `main` field in `package.json` so it is the default export when you import Vue as an NPM package.**
+  - **`quasar.esm.js`**: ES6 formatted Quasar JS distributable. **This is set as the `main` field in `package.json` so it is the default export when you import Vue as an NPM package.**
 
-  - **`quasar.es6.js`**: ES6 formatted Quasar JS distributable.
+  - **`quasar.common.js`**: Common JS formatted Quasar JS distributable.
 
   - **`quasar.standalone.js`**: Standalone version of Quasar (_not yet ready_)
 
