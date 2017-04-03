@@ -5,11 +5,11 @@
     @click="__click"
     :class="{circular: circular}"
   >
-    <spinner
+    <q-spinner
       v-if="spinning"
       :name="spinnerName"
       :size="16"
-    ></spinner>
+    ></q-spinner>
 
     <q-icon v-if="icon && !spinning" :name="icon" :class="{'on-left': !circular}"></q-icon>
     <slot v-if="(circular && !spinning) || !circular"></slot>

@@ -35,23 +35,3 @@ export {
   throttle,
   uid
 }
-
-export const Utils = {
-  animate,
-  clone,
-  colors,
-  debounce,
-  frameDebounce,
-  dom,
-  event,
-  extend,
-  filter,
-  format,
-  noop,
-  openURL,
-  popup,
-  scroll,
-  store,
-  throttle,
-  uid
-}

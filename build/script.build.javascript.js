@@ -24,9 +24,6 @@ var
   babelConfig = {
     exclude: 'node_modules/**'
   },
-  stringConfig = {
-    include: ['**/*.svg', '**/*.html']
-  },
   external = [
     'fastclick'
   ],

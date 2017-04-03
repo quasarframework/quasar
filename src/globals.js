@@ -9,10 +9,3 @@ export {
   Loading,
   Toast
 }
-
-export const Globals = {
-  ActionSheet,
-  Dialog,
-  Loading,
-  Toast
-}

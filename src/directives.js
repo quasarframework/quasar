@@ -19,15 +19,3 @@ export {
   TouchPan,
   TouchSwipe
 }
-
-export const Directives = {
-  BackToTop,
-  GoBack,
-  Move,
-  Ripple,
-  ScrollFire,
-  Scroll,
-  TouchHold,
-  TouchPan,
-  TouchSwipe
-}

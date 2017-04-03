@@ -46,57 +46,6 @@ import { QTree } from './components/tree'
 import { QUploader } from './components/uploader'
 import { QVideo } from './components/video'
 
-export const Components = {
-  QAjaxBar,
-  QAutocomplete,
-  QBtn,
-  QChatMessage,
-  QCheckbox,
-  QChips,
-  QCollapsible,
-  QContextMenu,
-  QDataTable,
-  QDatetime, QDatetimeRange, QInlineDatetime, // eslint-disable-line
-  QFab, QSmallFab, // eslint-disable-line
-  QField,
-  QFixedPosition,
-  QGallery,
-  QGallerySlider,
-  QIcon,
-  QInfiniteScroll,
-  QInnerLoading,
-  QInput,
-  QInputGroup,
-  QItem,
-  QKnob,
-  QLayout, QSideLink, // eslint-disable-line
-  QModal,
-  QResizeObservable, QWindowResizeObservable, QScrollObservable, // eslint-disable-line
-  QPagination,
-  QParallax,
-  QPopover,
-  QProgress,
-  QProgressBtn,
-  QPullToRefresh,
-  QRadio,
-  QRange, QDoubleRange, // eslint-disable-line
-  QRating,
-  QScrollArea,
-  QSearch,
-  QSelect, QDialogSelect, // eslint-disable-line
-  QSlideTransition,
-  QSlider,
-  QSpinner,
-  QStepper, QStepperHeader, QStep, QStepPane, QStepperNavigation, // eslint-disable-line
-  QTabs, QTab, QRouteTab, QTabPane, // eslint-disable-line
-  QToggle,
-  QTooltip,
-  QTransition,
-  QTree,
-  QUploader,
-  QVideo
-}
-
 export {
   QAjaxBar,
   QAutocomplete,
