@@ -317,14 +317,14 @@ export interface IUtils {
   openUrl(url: string): void
   debounce(fn: Function, milliseconds_to_wait: number, immediate: boolean): Function
   throttle(fn: Function, milliseconds_to_wait: number): Function
-  extend<T>(deepCopyOrTarget: boolean| T, target: object, ...object: Object): T
+  extend<T>(deepCopyOrTarget: boolean| T, target: object, ...object: Object[]): T
   uid(): string
   animate: IUtilsAnimate
   colors: IUtilsColors
   format: IUtilsFormat
   dom: IUtilsDom
   event: IUtilsEvent
-  filter(terms: string,options: IUtilsFilterOptions)
+  filter(terms: string,options: IUtilsFilterOptions): object[]
 }
 
 interface IUtilsFilterOptions {
@@ -355,7 +355,7 @@ interface IUtilsAnimateOptions {
 }
 
 interface IUtilsColors {
-  rgbToHex(red: number, green: number, blue: number)
+  rgbToHex(red: number, green: number, blue: number): string
   hexToRgb(hex: string): number[]
 }
 
@@ -368,12 +368,12 @@ interface IUtilsDom {
   style(el: HTMLElement, property: string): string
   height(el: HTMLElement): number
   width(el: HTMLElement): number
-  css(el: HTMLElement,css: object)
+  css(el: HTMLElement,css: object): void
   viewport(): {width: number, height: number}
   ready(fn: Function): void
   getScrollTarget(el: HTMLElement): HTMLElement
   getScrollPosition(scrollTarget: HTMLElement): number
-  setScrollPosition(scrollTarget: HTMLElement, offset: number, duration: number)
+  setScrollPosition(scrollTarget: HTMLElement, offset: number, duration: number): void
   cssTransform(val: string): object
 }
 
@@ -386,7 +386,7 @@ interface IUtilsEvent {
 export interface IWebStorage {
   set(key: string, value: any): void
   get: IWebStorageGet
-  remove(key: string)
+  remove(key: string): void
   clear(): void
   isEmpty(): boolean
   has(key: string): boolean
