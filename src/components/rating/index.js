@@ -1,4 +1,4 @@
-import QRating from './Rating.vue'
+import QRating from './QRating.vue'
 
 export {
   QRating

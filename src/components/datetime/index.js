@@ -1,6 +1,6 @@
-import QDatetime from './Datetime.vue'
-import QDatetimeRange from './DatetimeRange.vue'
-import QInlineDatetime from './InlineDatetime'
+import QDatetime from './QDatetime.vue'
+import QDatetimeRange from './QDatetimeRange.vue'
+import QInlineDatetime from './QInlineDatetime'
 
 export {
   QDatetime,

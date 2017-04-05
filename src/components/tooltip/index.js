@@ -1,4 +1,4 @@
-import QTooltip from './Tooltip.vue'
+import QTooltip from './QTooltip.vue'
 
 export {
   QTooltip

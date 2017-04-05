@@ -11,7 +11,7 @@ export default {
   },
   render (h, ctx) {
     const classes = ctx.data.staticClass
-    ctx.data.staticClass = `${classes ? ' ' : ''}${scrollClasses}`
+    ctx.data.staticClass = `${classes ? classes + ' ' : ''}${scrollClasses}`
     return h(ctx.props.tag, ctx.data, ctx.children)
   }
 }

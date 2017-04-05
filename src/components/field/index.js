@@ -1,4 +1,4 @@
-import QField from './Field.vue'
+import QField from './QField.vue'
 
 export {
   QField

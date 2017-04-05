@@ -1,4 +1,3 @@
-<script>
 export default {
   name: 'q-icon',
   functional: true,
@@ -33,8 +32,7 @@ export default {
       text = icon.replace(/ /g, '_')
     }
 
-    ctx.data.staticClass = `${classes ? ' ' : ''}q-icon ${name}`
+    ctx.data.staticClass = `${classes ? classes + ' ' : ''}q-icon ${name}`
     return h('i', ctx.data, text ? [text, ctx.children] : [' ', ctx.children])
   }
 }
-</script>

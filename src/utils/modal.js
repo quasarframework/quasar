@@ -1,6 +1,6 @@
-import { Vue } from '../install'
+import { Vue } from '../deps'
 
-export default function (VueComponent) {
+export default function (component) {
   return {
     create (props) {
       const node = document.createElement('div')
@@ -11,7 +11,7 @@ export default function (VueComponent) {
         data () {
           return {props}
         },
-        render: h => h(VueComponent, {props})
+        render: h => h(component, {props})
       })
 
       return {

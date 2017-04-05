@@ -120,7 +120,7 @@
 </template>
 
 <script>
-import { moment } from '../../install'
+import { moment } from '../../deps'
 import { inline as props } from './datetime-props'
 import { between } from '../../utils/format'
 import { position } from '../../utils/event'

@@ -17,6 +17,7 @@
         v-model="model"
         @focus="focus"
         @blur="blur"
+        @keyup.enter="__enter"
         :disabled="disable"
         :readonly="readonly"
         tabindex="0"
@@ -29,6 +30,7 @@
         v-model="model"
         @focus="focus"
         @blur="blur"
+        @keyup.enter="__enter"
         :disabled="disable"
         :readonly="readonly"
         tabindex="0"
@@ -47,11 +49,15 @@
 
 <script>
 import { QIcon } from '../icon'
+import Ripple from '../../directives/ripple'
 
 export default {
   name: 'q-search',
   components: {
     QIcon
+  },
+  directives: {
+    Ripple
   },
   props: {
     value: {
@@ -125,6 +131,9 @@ export default {
     blur () {
       this.focused = false
       this.$emit('blur')
+    },
+    __enter () {
+      this.$emit('enter', this.model)
     }
   },
   beforeDestroy () {

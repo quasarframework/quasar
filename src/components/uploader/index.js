@@ -1,4 +1,4 @@
-import QUploader from './Uploader.vue'
+import QUploader from './QUploader.vue'
 
 export {
   QUploader

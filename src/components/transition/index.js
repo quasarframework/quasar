@@ -1,4 +1,4 @@
-import QTransition from './Transition'
+import QTransition from './QTransition'
 
 export {
   QTransition

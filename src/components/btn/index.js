@@ -1,4 +1,4 @@
-import QBtn from './Btn.vue'
+import QBtn from './QBtn.vue'
 
 export {
   QBtn

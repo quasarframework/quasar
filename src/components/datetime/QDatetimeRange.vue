@@ -49,7 +49,7 @@
 <script>
 import extend from '../../utils/extend'
 import { input as props } from './datetime-props'
-import QDatetime from './Datetime.vue'
+import QDatetime from './QDatetime.vue'
 
 export default {
   name: 'q-datetime-range',

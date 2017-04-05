@@ -1,6 +1,6 @@
-import QResizeObservable from './ResizeObservable.vue'
-import QScrollObservable from './ScrollObservable.vue'
-import QWindowResizeObservable from './WindowResizeObservable.vue'
+import QResizeObservable from './QResizeObservable.vue'
+import QScrollObservable from './QScrollObservable.vue'
+import QWindowResizeObservable from './QWindowResizeObservable.vue'
 
 export {
   QResizeObservable,

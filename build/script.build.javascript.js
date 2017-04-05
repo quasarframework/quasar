@@ -2,14 +2,15 @@ process.env.BABEL_ENV = 'production'
 
 var
   fs = require('fs'),
+  path = require('path'),
   zlib = require('zlib'),
   rollup = require('rollup'),
   uglify = require('uglify-js'),
-  babel = require('rollup-plugin-babel'),
+  buble = require('rollup-plugin-buble'),
+  cjs = require('rollup-plugin-commonjs'),
   json = require('rollup-plugin-json'),
   vue = require('rollup-plugin-vue'),
   localResolve = require('rollup-plugin-local-resolve'),
-  nonStandalone = process.argv[2] === 'simple' || process.argv[3] === 'simple',
   version = process.env.VERSION || require('../package.json').version,
   banner =
     '/*!\n' +
@@ -21,142 +22,108 @@ var
     compileTemplate: true,
     htmlMinifier: {collapseBooleanAttributes: false}
   },
-  babelConfig = {
-    exclude: 'node_modules/**'
-  },
   external = [
     'fastclick'
   ],
   globals = {
     fastclick: 'FastClick'
-  },
-  rollupConfig = {
-    entry: 'src/index.esm.js',
+  }
+
+function resolve (_path) {
+  return path.resolve(__dirname, '..', _path)
+}
+
+build([
+  {
+    dest: resolve('dist/quasar.esm.js'),
+    format: 'es'
+  }
+].map(genConfig))
+
+function build (builds) {
+  var
+    built = 0,
+    total = builds.length
+
+  function next () {
+    buildEntry(builds[built]).then(function () {
+      built++
+      if (built < total) {
+        next()
+      }
+    }).catch(logError)
+  }
+
+  next()
+}
+
+function genConfig (opts) {
+  return {
+    entry: resolve('src/index.esm.js'),
+    dest: opts.dest,
+    format: opts.format,
+    banner: banner,
+    moduleName: 'Quasar',
+    external: external,
+    globals: globals,
     plugins: [
       localResolve(),
       json(),
       vue(vueConfig),
-      babel(babelConfig)
-    ],
-    external: external
-  }
-
-// ESM build.
-rollup
-.rollup({
-  entry: 'src/index.esm.js',
-  plugins: rollupConfig.plugins,
-  external: external
-})
-.then(function (bundle) {
-  return write('dist/quasar.esm.js', bundle.generate({
-    format: 'es',
-    exports: 'named',
-    banner: banner,
-    globals: globals,
-    useStrict: false
-  }).code)
-})
-// Commonjs Build
-.then(function () {
-  if (nonStandalone) {
-    return
-  }
-  return rollup
-  .rollup(rollupConfig)
-  .then(function (bundle) {
-    write('dist/quasar.common.js', bundle.generate({
-      format: 'cjs',
-      exports: 'named',
-      banner: banner,
-      globals: globals,
-      useStrict: false
-    }).code)
-  })
-})
-// Standalone Dev Build
-.then(function () {
-  if (nonStandalone) {
-    return
-  }
-  return rollup
-  .rollup(rollupConfig)
-  .then(function (bundle) {
-    return write('dist/quasar.standalone.js', bundle.generate({
-      format: 'umd',
-      banner: banner,
-      moduleName: 'Quasar',
-      globals: globals,
-      useStrict: false
-    }).code)
-  })
-})
-// Standalone Production Build
-.then(function () {
-  if (nonStandalone) {
-    return
-  }
-  return rollup
-  .rollup(rollupConfig)
-  .then(function (bundle) {
-    var code, res, map
-
-    code = bundle.generate({
-      format: 'umd',
-      moduleName: 'Quasar',
-      banner: banner,
-      globals: globals,
-      useStrict: false
-    }).code
-
-    res = uglify.minify(code, {
-      fromString: true,
-      outSourceMap: 'quasar.standalone.min.js.map',
-      output: {
-        preamble: banner,
-        ascii_only: true
-      }
-    })
-
-    // fix uglifyjs sourcemap
-    map = JSON.parse(res.map)
-    map.sources = ['quasar.standalone.js']
-    map.sourcesContent = [code]
-    map.file = 'quasar.standalone.min.js'
-
-    return [
-      write('dist/quasar.standalone.min.js', res.code),
-      write('dist/quasar.standalone.min.js.map', JSON.stringify(map))
+      buble()
     ]
-  })
-  .then(zip)
-})
-.catch(function (e) {
-  console.log(e)
-})
+  }
+}
 
-function write (dest, code) {
-  return new Promise(function (resolve, reject) {
-    fs.writeFile(dest, code, function (err) {
-      if (err) return reject(err)
-      console.log(dest.bold + ' ' + getSize(code).gray)
-      resolve()
-    })
+function buildEntry (config) {
+  const isProd = /min\.js$/.test(config.dest)
+  return rollup.rollup(config).then(bundle => {
+    const code = bundle.generate(config).code
+    if (isProd) {
+      var minified = (config.banner ? config.banner + '\n' : '') + uglify.minify(code, {
+        fromString: true,
+        output: {
+          screw_ie8: true,
+          ascii_only: true
+        },
+        compress: {
+          pure_funcs: ['makeMap']
+        }
+      }).code
+      return write(config.dest, minified, true)
+    }
+    else {
+      return write(config.dest, code)
+    }
   })
 }
 
-function zip () {
-  return new Promise(function (resolve, reject) {
-    fs.readFile('dist/quasar.standalone.min.js', function (err, buf) {
+function write (dest, code, zip) {
+  return new Promise((resolve, reject) => {
+    function report (extra) {
+      console.log((path.relative(process.cwd(), dest)).bold + ' ' + getSize(code).gray + (extra || ''))
+      resolve()
+    }
+
+    fs.writeFile(dest, code, err => {
       if (err) return reject(err)
-      zlib.gzip(buf, function (err, buf) {
-        if (err) return reject(err)
-        write('dist/quasar.standalone.min.js.gz', buf).then(resolve)
-      })
+      if (zip) {
+        zlib.gzip(code, (err, zipped) => {
+          if (err) return reject(err)
+          report(' (gzipped: ' + getSize(zipped) + ')')
+        })
+      }
+      else {
+        report()
+      }
     })
   })
 }
 
 function getSize (code) {
   return (code.length / 1024).toFixed(2) + 'kb'
+}
+
+function logError (e) {
+  console.log(e)
 }

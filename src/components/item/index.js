@@ -1,4 +1,4 @@
-import QItem from './Item.vue'
+import QItem from './QItem.vue'
 
 export {
   QItem

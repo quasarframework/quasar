@@ -1,4 +1,4 @@
-import { moment } from '../../../../install'
+import { moment } from '../../../../deps'
 
 const sortMethod = {
   string: (a, b) => a.localeCompare(b),
@@ -57,14 +57,11 @@ export default {
       this.sorting.fn = getSortFn(col.sort, col.type)
     },
     sort (rows) {
-      let sortFn = this.sorting.fn
+      let sortFn = this.sorting.fn || ((a, b) => a - b)
       const
         field = this.sorting.field,
         dir = this.sorting.dir
 
-      if (!sortFn) {
-        sortFn = sortMethod[typeof rows[0][field]] || ((a, b) => a - b)
-      }
       rows.sort((a, b) => dir * sortFn(a[field], b[field]))
     }
   }

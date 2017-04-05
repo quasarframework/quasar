@@ -1,4 +1,4 @@
-import QAutocomplete from './Autocomplete.vue'
+import QAutocomplete from './QAutocomplete.vue'
 
 export {
   QAutocomplete

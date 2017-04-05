@@ -1,5 +1,5 @@
-import QSelect from './Select.vue'
-import QDialogSelect from './DialogSelect.vue'
+import QSelect from './QSelect.vue'
+import QDialogSelect from './QDialogSelect.vue'
 
 export {
   QSelect,

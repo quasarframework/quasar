@@ -1,5 +1,5 @@
-import QFab from './Fab.vue'
-import QSmallFab from './SmallFab.vue'
+import QFab from './QFab.vue'
+import QSmallFab from './QSmallFab.vue'
 
 export {
   QFab,

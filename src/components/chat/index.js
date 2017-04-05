@@ -1,4 +1,4 @@
-import QChatMessage from './ChatMessage.vue'
+import QChatMessage from './QChatMessage.vue'
 
 export {
   QChatMessage

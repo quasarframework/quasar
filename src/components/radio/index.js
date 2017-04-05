@@ -1,4 +1,4 @@
-import QRadio from './Radio.vue'
+import QRadio from './QRadio.vue'
 
 export {
   QRadio

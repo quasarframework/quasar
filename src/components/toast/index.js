@@ -1,11 +1,13 @@
 import extend from '../../utils/extend'
 import { ready } from '../../utils/dom'
 import Toast from './Toast.vue'
+import { Vue } from '../../deps'
 
 let
   toast,
   defaults,
   toastStack = [],
+  installed = false,
   types = [
     {
       name: 'positive',
@@ -40,6 +42,9 @@ function create (opts, defaults) {
 
   if (!toast) {
     toastStack.push(opts)
+    if (!installed) {
+      install()
+    }
     return
   }
 
@@ -50,18 +55,21 @@ types.forEach(type => {
   create[type.name] = opts => create(opts, type.defaults)
 })
 
-export function install (_Vue) {
+function install () {
+  installed = true
   ready(() => {
     let node = document.createElement('div')
     document.body.appendChild(node)
-    toast = new _Vue(Toast).$mount(node)
+    toast = new Vue(Toast).$mount(node)
     if (defaults) {
       toast.setDefaults(defaults)
     }
     if (toastStack.length) {
-      toastStack.forEach(opts => {
-        toast.create(opts)
-      })
+      setTimeout(() => {
+        toastStack.forEach(opts => {
+          toast.create(opts)
+        })
+      }, 100)
     }
   })
 }
@@ -75,6 +83,5 @@ export default {
     else {
       defaults = opts
     }
-  },
-  install
+  }
 }

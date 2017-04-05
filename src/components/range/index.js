@@ -1,5 +1,5 @@
-import QRange from './Range.vue'
-import QDoubleRange from './DoubleRange.vue'
+import QRange from './QRange.vue'
+import QDoubleRange from './QDoubleRange.vue'
 
 export {
   QRange,

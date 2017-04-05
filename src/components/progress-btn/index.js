@@ -1,4 +1,4 @@
-import QProgressBtn from './ProgressBtn.vue'
+import QProgressBtn from './QProgressBtn.vue'
 
 export {
   QProgressBtn

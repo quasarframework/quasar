@@ -1,4 +1,4 @@
-import QIcon from './Icon.vue'
+import QIcon from './QIcon'
 
 export {
   QIcon

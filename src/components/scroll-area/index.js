@@ -1,4 +1,4 @@
-import QScrollArea from './ScrollArea'
+import QScrollArea from './QScrollArea'
 
 export {
   QScrollArea

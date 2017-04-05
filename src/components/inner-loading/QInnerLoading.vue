@@ -4,7 +4,9 @@
     class="q-inner-loading animate-fade absolute-full column items-center justify-center"
     :class="{dark: dark}"
   >
-    <spinner :name="spinner"></spinner>
+    <slot>
+      <q-spinner></q-spinner>
+    </slot>
   </div>
 </template>
 
@@ -17,7 +19,6 @@ export default {
     QSpinner
   },
   props: {
-    spinner: String,
     dark: Boolean,
     visible: Boolean
   }

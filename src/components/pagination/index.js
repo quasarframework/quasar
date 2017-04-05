@@ -1,4 +1,4 @@
-import QPagination from './Pagination.vue'
+import QPagination from './QPagination.vue'
 
 export {
   QPagination

@@ -1,4 +1,4 @@
-import QPullToRefresh from './PullToRefresh.vue'
+import QPullToRefresh from './QPullToRefresh.vue'
 
 export {
   QPullToRefresh

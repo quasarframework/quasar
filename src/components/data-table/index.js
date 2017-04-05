@@ -1,4 +1,4 @@
-import QDataTable from './DataTable.vue'
+import QDataTable from './QDataTable.vue'
 
 export {
   QDataTable

@@ -199,7 +199,7 @@
 </template>
 
 <script>
-import { moment } from '../../install'
+import { moment } from '../../deps'
 import { inline as props } from './datetime-props'
 import { height, width, offset } from '../../utils/dom'
 import { between } from '../../utils/format'

@@ -1,4 +1,4 @@
-import QKnob from './Knob.vue'
+import QKnob from './QKnob.vue'
 
 export {
   QKnob

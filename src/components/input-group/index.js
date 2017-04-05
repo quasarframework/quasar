@@ -1,4 +1,4 @@
-import QInputGroup from './InputGroup.vue'
+import QInputGroup from './QInputGroup.vue'
 
 export {
   QInputGroup

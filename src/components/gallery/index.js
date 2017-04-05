@@ -1,5 +1,5 @@
-import QGallery from './Gallery.vue'
-import QGallerySlider from './GallerySlider.vue'
+import QGallery from './QGallery.vue'
+import QGallerySlider from './QGallerySlider.vue'
 
 export {
   QGallery,

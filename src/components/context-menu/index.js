@@ -1,4 +1,4 @@
-import QContextMenu from './ContextMenu'
+import QContextMenu from './QContextMenu'
 
 export {
   QContextMenu

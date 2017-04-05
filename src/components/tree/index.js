@@ -1,4 +1,4 @@
-import QTree from './Tree.vue'
+import QTree from './QTree.vue'
 
 export {
   QTree

@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Quasar, { AddressbarColor, Components, Directives } from 'quasar'
+import Quasar, * as Everything from 'quasar'
 import router from './router'
 import moment from 'moment'
 
@@ -8,10 +8,9 @@ Vue.use(Quasar, {
   deps: {
     moment
   },
-  components: Components,
-  directives: Directives
+  components: Everything,
+  directives: Everything
 })
-AddressbarColor.set()
 
 Quasar.start(() => {
   /* eslint-disable no-new */

@@ -52,14 +52,14 @@
 </template>
 
 <script>
-import { moment } from '../../install'
+import { moment } from '../../deps'
 import Platform from '../../features/platform'
 import { current as theme } from '../../features/theme'
 import extend from '../../utils/extend'
 import { input as props } from './datetime-props'
 import { QInput } from '../input'
 import { QPopover } from '../popover'
-import QInlineDatetime from './InlineDatetime'
+import QInlineDatetime from './QInlineDatetime'
 import { QBtn } from '../btn'
 
 let contentCSS = {

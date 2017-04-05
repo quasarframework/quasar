@@ -1,4 +1,4 @@
-import QAjaxBar from './AjaxBar.vue'
+import QAjaxBar from './QAjaxBar.vue'
 
 export {
   QAjaxBar

@@ -1,4 +1,4 @@
-import QSlideTransition from './SlideTransition'
+import QSlideTransition from './QSlideTransition'
 
 export {
   QSlideTransition

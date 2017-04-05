@@ -1,4 +1,4 @@
-import QFixedPosition from './FixedPosition.vue'
+import QFixedPosition from './QFixedPosition.vue'
 
 export {
   QFixedPosition

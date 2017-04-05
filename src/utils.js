@@ -8,9 +8,7 @@ import extend from './utils/extend'
 import filter from './utils/filter'
 import * as format from './utils/format'
 import openURL from './utils/open-url'
-import * as popup from './utils/popup'
 import * as scroll from './utils/scroll'
-import * as store from './utils/store'
 import throttle from './utils/throttle'
 import uid from './utils/uid'
 
@@ -29,9 +27,7 @@ export {
   format,
   noop,
   openURL,
-  popup,
   scroll,
-  store,
   throttle,
   uid
 }

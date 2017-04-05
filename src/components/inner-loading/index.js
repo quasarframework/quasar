@@ -1,4 +1,4 @@
-import QInnerLoading from './InnerLoading.vue'
+import QInnerLoading from './QInnerLoading.vue'
 
 export {
   QInnerLoading

@@ -1,5 +1,5 @@
-import QLayout from './Layout.vue'
-import QSideLink from './SideLink.vue'
+import QLayout from './QLayout.vue'
+import QSideLink from './QSideLink.vue'
 
 export {
   QLayout,

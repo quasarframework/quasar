@@ -1,4 +1,4 @@
-import QPopover from './Popover.vue'
+import QPopover from './QPopover.vue'
 
 export {
   QPopover

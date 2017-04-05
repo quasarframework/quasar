@@ -1,5 +1,5 @@
 import { current as theme } from '../../features/theme'
-import { Vue } from '../../install'
+import { Vue } from '../../deps'
 import Events from '../../features/events'
 import Loading from './Loading.vue'
 

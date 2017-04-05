@@ -1,4 +1,4 @@
-import QModal from './Modal.vue'
+import QModal from './QModal.vue'
 
 export {
   QModal
