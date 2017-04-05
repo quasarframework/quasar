@@ -38,6 +38,22 @@
           <div class="auto"><div>auto</div></div>
         </div>
 
+        <div class="row gutter wrap justify-stretch content-center text-center">
+          <div class="width-1of2"><div>1/2</div></div>
+          <div class="width-1of3"><div>1/3</div></div>
+          <div class="width-1of6"><div>1/6</div></div>
+        </div>
+
+        <div class="row gutter wrap justify-stretch content-center text-center">
+          <div class="width-1of4"><div>1/4</div></div>
+          <div class="width-1of8"><div>1/8</div></div>
+          <div class="width-1of8"><div>1/8</div></div>
+          <div class="width-1of6"><div>1/6</div></div>
+          <div class="width-1of6"><div>1/6</div></div>
+          <div class="width-1of12"><div>1/12</div></div>
+          <div class="width-1of12"><div>1/12</div></div>
+        </div>
+
         <p class="caption">Grid in Grid in Grid</p>
         <div class="row gutter">
           <div>
