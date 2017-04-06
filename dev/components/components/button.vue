@@ -38,11 +38,14 @@
 
       <p class="group">
         <q-btn>Button</q-btn>
-        <q-btn spinner  @click="simulateProgress" class="primary">Button</q-btn>
-        <q-btn spinner="audio" class="orange" @click="simulateProgress">Button</q-btn>
-        <q-btn spinner="oval" class="secondary" @click="simulateProgress">Button</q-btn>
-        <q-btn spinner="radio" class="amber" @click="simulateProgress">Button</q-btn>
-        <q-btn spinner="oval" class="dark small" @click="simulateProgress">Button</q-btn>
+        <q-btn spinner  @click="simulateProgress" class="primary">
+          Button
+          <q-spinner-oval slot="spinner" />
+        </q-btn>
+        <q-btn spinner class="orange" @click="simulateProgress">Button</q-btn>
+        <q-btn spinner class="secondary" @click="simulateProgress">Button</q-btn>
+        <q-btn spinner class="amber" @click="simulateProgress">Button</q-btn>
+        <q-btn spinner class="dark small" @click="simulateProgress">Button</q-btn>
         <q-btn circular spinner @click="simulateProgress" class="primary small"><q-icon name="mail" /></q-btn>
         <q-btn circular spinner @click="simulateProgress" class="primary"><q-icon name="mail" /></q-btn>
         <q-btn circular spinner @click="simulateProgress" class="primary big"><q-icon name="mail" /></q-btn>

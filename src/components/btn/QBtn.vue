@@ -2,14 +2,12 @@
   <button
     class="q-btn"
     v-ripple.mat
-    @click="__click"
+    @click="click"
     :class="{circular: circular}"
   >
-    <q-spinner
-      v-if="spinning"
-      :name="spinnerName"
-      :size="16"
-    ></q-spinner>
+    <slot name="spinner" v-if="spinning">
+      <q-spinner color="currentColor" :size="18"></q-spinner>
+    </slot>
 
     <q-icon v-if="icon && !spinning" :name="icon" :class="{'on-left': !circular}"></q-icon>
     <slot v-if="(circular && !spinning) || !circular"></slot>
@@ -19,8 +17,8 @@
 
 <script>
 import Ripple from '../../directives/ripple'
-import { QSpinner } from '../spinner'
 import { QIcon } from '../icon'
+import { QSpinner } from '../spinner'
 
 export default {
   name: 'q-btn',
@@ -33,7 +31,7 @@ export default {
   },
   props: {
     disable: Boolean,
-    spinner: [Boolean, String],
+    spinner: Boolean,
     circular: Boolean,
     icon: String,
     iconRight: String
@@ -43,18 +41,8 @@ export default {
       spinning: false
     }
   },
-  computed: {
-    spinnerName () {
-      if (this.spinner === '') {
-        return 'oval'
-      }
-      if (this.spinner.length) {
-        return this.spinner
-      }
-    }
-  },
   methods: {
-    __click (e) {
+    click (e) {
       if (this.$q.platform.is.desktop) {
         this.$el.blur()
       }

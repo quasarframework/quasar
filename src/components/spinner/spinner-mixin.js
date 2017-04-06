@@ -3,7 +3,7 @@ export default {
     color: String,
     size: {
       type: Number,
-      default: 64
+      default: 16
     }
   }
 }

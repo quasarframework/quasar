@@ -2,10 +2,7 @@
   <div>
     <div>
       <div class="column group" style="margin-bottom: 50px">
-        <div class="floating-label">
-          <input v-model="config.title" required>
-          <label>Data Table Title</label>
-        </div>
+        <q-input v-model="config.title" float-label="Data Table Title" />
 
         <div class="column group gt-sm-row">
           <label>

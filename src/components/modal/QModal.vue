@@ -6,7 +6,13 @@
       :class="modalClasses"
       @click="click()"
     >
-      <div ref="content" class="modal-content scroll" @click.stop :style="modalCss" :class="contentClasses">
+      <div
+        ref="content"
+        class="modal-content scroll"
+        @click.stop
+        :style="modalCss"
+        :class="contentClasses"
+      >
         <slot></slot>
       </div>
     </div>
@@ -100,7 +106,9 @@ export default {
   },
   computed: {
     modalClasses () {
-      return this.position ? positions[this.position] : this.positionClasses
+      return this.position
+        ? positions[this.position]
+        : this.positionClasses
     },
     modalTransition () {
       return this.position ? `q-modal-${this.position}` : this.transition

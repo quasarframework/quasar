@@ -64,7 +64,7 @@
     </q-modal>
 
     <q-modal ref="layoutModal" :content-css="{minWidth: '80vw', minHeight: '80vh'}">
-      <q-layout>
+      <q-modal-layout>
         <div slot="header" class="toolbar">
           <q-btn @click="$refs.layoutModal.close()">
             <q-icon name="keyboard_arrow_left" />
@@ -90,7 +90,7 @@
           <q-btn class="primary" @click="$refs.layoutModal.close()">Close</q-btn>
           <p class="caption" v-for="n in 15">This is a Modal presenting a Layout.</p>
         </div>
-      </q-layout>
+      </q-modal-layout>
     </q-modal>
 
     <q-modal ref="minimizedModal" class="minimized" :content-css="{padding: '50px'}">

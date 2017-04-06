@@ -11,7 +11,6 @@ export default {
   name: 'q-transition',
   functional: true,
   props: {
-    name: String,
     enter: String,
     leave: String,
     group: Boolean
