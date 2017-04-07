@@ -1,4 +1,5 @@
 export * from './components/ajax-bar'
+export * from './components/alert'
 export * from './components/autocomplete'
 export * from './components/btn'
 export * from './components/chat'

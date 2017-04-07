@@ -21,12 +21,6 @@ var
   vueConfig = {
     compileTemplate: true,
     htmlMinifier: {collapseBooleanAttributes: false}
-  },
-  external = [
-    'fastclick'
-  ],
-  globals = {
-    fastclick: 'FastClick'
   }
 
 function resolve (_path) {
@@ -64,8 +58,6 @@ function genConfig (opts) {
     format: opts.format,
     banner: banner,
     moduleName: 'Quasar',
-    external: external,
-    globals: globals,
     plugins: [
       localResolve(),
       json(),
@@ -79,6 +71,7 @@ function buildEntry (config) {
   const isProd = /min\.js$/.test(config.dest)
   return rollup.rollup(config).then(bundle => {
     const code = bundle.generate(config).code
+
     if (isProd) {
       var minified = (config.banner ? config.banner + '\n' : '') + uglify.minify(code, {
         fromString: true,
@@ -92,9 +85,8 @@ function buildEntry (config) {
       }).code
       return write(config.dest, minified, true)
     }
-    else {
-      return write(config.dest, code)
-    }
+
+    return write(config.dest, code)
   })
 }
 

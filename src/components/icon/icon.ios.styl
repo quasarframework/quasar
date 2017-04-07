@@ -12,8 +12,12 @@ if $icon-font-family == 'Material Icons'
       font-weight 400
       src url('~material-design-icons/iconfont/MaterialIcons-Regular.woff') format('woff')
 
+    &.material-icons
+      font-family $icon-font-family
+      font-weight $icon-font-weight
+      font-style $icon-font-style
 i
-  &.material-icons, &.icon
+  &.material-icons, &.q-icon
     user-select none
     display inline-flex
     box-sizing content-box
@@ -34,8 +38,3 @@ i
 
     /* Support for IE. */
     font-feature-settings 'liga'
-
-  &.material-icons
-    font-family $icon-font-family
-    font-weight $icon-font-weight
-    font-style $icon-font-style

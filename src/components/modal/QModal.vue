@@ -1,5 +1,5 @@
 <template>
-  <transition :name="modalTransition">
+  <q-transition :name="modalTransition" :enter="enterClass" :leave="leaveClass">
     <div
       v-show="active"
       class="modal fullscreen flex"
@@ -16,7 +16,7 @@
         <slot></slot>
       </div>
     </div>
-  </transition>
+  </q-transition>
 </template>
 
 <script>
@@ -84,6 +84,8 @@ export default {
       type: String,
       default: 'q-modal'
     },
+    enterClass: String,
+    leaveClass: String,
     positionClasses: {
       type: String,
       default: 'items-center justify-center'

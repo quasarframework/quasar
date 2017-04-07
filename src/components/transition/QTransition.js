@@ -11,6 +11,7 @@ export default {
   name: 'q-transition',
   functional: true,
   props: {
+    name: String,
     enter: String,
     leave: String,
     group: Boolean
@@ -20,10 +21,21 @@ export default {
       prop = ctx.props,
       data = ctx.data
 
-    data.props = {
-      enterActiveClass: `animated ${prop.enter}`,
-      leaveActiveClass: `animated ${prop.leave}`
+    if (prop.name) {
+      data.props = {
+        name: prop.name
+      }
     }
+    else if (prop.enter && prop.leave) {
+      data.props = {
+        enterActiveClass: `animated ${prop.enter}`,
+        leaveActiveClass: `animated ${prop.leave}`
+      }
+    }
+    else {
+      return ctx.children
+    }
+
     return h(`transition${ctx.props.group ? '-group' : ''}`, data, ctx.children)
   }
 }

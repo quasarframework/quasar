@@ -2,6 +2,7 @@ import extend from '../../utils/extend'
 import { ready } from '../../utils/dom'
 import Toast from './Toast.vue'
 import { Vue } from '../../deps'
+import typeIcon from '../../utils/type-icons'
 
 let
   toast,
@@ -11,19 +12,19 @@ let
   types = [
     {
       name: 'positive',
-      defaults: {icon: 'check', classes: 'bg-positive'}
+      defaults: {icon: typeIcon.positive, classes: 'bg-positive'}
     },
     {
       name: 'negative',
-      defaults: {icon: 'error', classes: 'bg-negative'}
+      defaults: {icon: typeIcon.negative, classes: 'bg-negative'}
     },
     {
       name: 'info',
-      defaults: {icon: 'info', classes: 'bg-info'}
+      defaults: {icon: typeIcon.info, classes: 'bg-info'}
     },
     {
       name: 'warning',
-      defaults: {icon: 'warning', classes: 'bg-warning'}
+      defaults: {icon: typeIcon.warning, classes: 'bg-warning'}
     }
   ]
 
@@ -58,7 +59,7 @@ types.forEach(type => {
 function install () {
   installed = true
   ready(() => {
-    let node = document.createElement('div')
+    const node = document.createElement('div')
     document.body.appendChild(node)
     toast = new Vue(Toast).$mount(node)
     if (defaults) {
