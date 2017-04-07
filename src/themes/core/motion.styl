@@ -1,0 +1,96 @@
+@keyframes q-highlight
+  0%
+    background $lime-6
+  100%
+    background transparent
+
+.highlight-and-fade
+  animation q-highlight 2s
+
+@keyframes q-rotate
+  0%
+    transform rotate(0)
+  25%
+    transform rotate(90deg)
+  50%
+    transform rotate(180deg)
+  75%
+    transform rotate(270deg)
+  100%
+    transform rotate(360deg)
+
+.transition-generic
+  transition all .3s
+
+.animate-spin, .animate-spin-reverse
+  animation q-spin 2s infinite linear
+.animate-spin-reverse
+  animation-direction reverse
+.animate-blink
+  animation q-blink 1s steps(5, start) infinite
+.animate-pop
+  animation q-pop .2s
+.animate-scale
+  animation q-scale .2s
+.animate-fade
+  animation q-fade .2s
+.animate-bounce
+  animation q-bounce 2s infinite
+
+@keyframes q-blink
+  to
+    visibility hidden
+
+@keyframes q-spin
+  0%
+    transform rotate(0deg)
+  100%
+    transform rotate(359deg)
+
+@keyframes q-pop
+  0%
+    opacity 0
+    transform scale(.7)
+  70%
+    opacity 1
+    transform scale(1.07)
+  100%
+    transform scale(1)
+
+@keyframes q-fade
+  0%
+    opacity 0
+  100%
+    opacity 1
+
+@keyframes q-scale
+  0%
+    opacity 0
+    transform scale(.7)
+  100%
+    opacity 1
+    transform scale(1)
+
+@keyframes q-bounce
+  0%, 20%, 50%, 80%, 100%
+    transform translateY(0)
+  40%
+    transform translateY(-30px)
+  60%
+    transform translateY(-15px)
+
+
+.animated
+  animation-duration 1s
+  animation-fill-mode both
+
+.animated.infinite
+  animation-iteration-count infinite
+.animated.hinge
+  animation-duration 2s
+
+.animated.flipOutX,
+.animated.flipOutY,
+.animated.bounceIn,
+.animated.bounceOut
+  animation-duration .75s

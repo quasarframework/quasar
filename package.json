@@ -5,7 +5,8 @@
   "main": "dist/quasar.esm.js",
   "files": [
     "dist",
-    "src"
+    "src",
+    "animations"
   ],
   "scripts": {
     "clean": "node build/script.clean.js",

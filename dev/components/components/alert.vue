@@ -68,6 +68,10 @@
 
 <script>
 import { Alert } from 'quasar'
+import 'animations/bounceInLeft.css'
+import 'animations/bounceOutRight.css'
+import 'animations/zoomIn.css'
+import 'animations/zoomOut.css'
 
 export default {
   data () {
