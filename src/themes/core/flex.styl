@@ -63,12 +63,13 @@ for i in 0..10
 .offset-0
   margin-left 0
 
-for $cols in (1..5)
+for $cols in (1..$grid-cols)
   for $parts in (1..$cols)
-    &.width-{$parts}of{$cols}
-      flex 0 1 ($parts / $cols * 100)%
-    &.offset-{$parts}of{$cols}
-      margin-left ($parts / $cols * 100)%
+    if $cols != $parts && $parts % $cols != 0
+      &.width-{$parts}of{$cols}
+        flex 0 1 (round($parts / $cols * 100))%
+      &.offset-{$parts}of{$cols}
+        margin-left (round($parts / $cols * 100))%
 
 .wrap
   flex-wrap wrap
@@ -135,12 +136,13 @@ flex-media-query($type)
   .{$type}-offset-0
     margin-left 0
 
-  for $cols in (1..5)
+  for $cols in (1..$grid-cols)
     for $parts in (1..$cols)
-      .{$type}-width-{$parts}of{$cols}
-        flex 0 1 ($parts / $cols * 100)%
-      .{$type}-offset-{$parts}of{$cols}
-        margin-left ($parts / $cols * 100)%
+      if $cols != $parts && $parts % $cols != 0
+        .{$type}-width-{$parts}of{$cols}
+          flex 0 1 (round($parts / $cols * 100))%
+        .{$type}-offset-{$parts}of{$cols}
+          margin-left (round($parts / $cols * 100))%
 
   .{$type}-order-first
     order -1000
