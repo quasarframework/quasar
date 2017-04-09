@@ -1,0 +1,312 @@
+
+// Nested / Inline Fields
+.field > .field,
+.field > .field-target > .field-input > .field
+  min-height initial
+  padding-top 0
+  padding-bottom 0
+
+.field + .field
+  margin-left 8px
+
+.list > .field
+  margin-left 0
+  padding-left 10px
+  padding-right 10px
+
+
+// Field
+.field
+  position relative
+  display flex
+  min-height 72px
+  padding-top 10px
+  padding-bottom 0
+  flex-direction row
+  align-items flex-start
+  xsmargin 0px
+  // Global adjustment
+  &.pad-left
+    padding-left 16px
+  &.inset
+    padding-left 72px
+  &.pad-right
+    padding-right 16px
+
+  // Icons
+  > .field-icon
+    color $item-primary-secondary-color
+    transition color .3s
+    height 24px
+    width 24px
+    min-width 24px
+    margin 16px 12px 0 12px
+    font-size 24px
+    line-height 24px
+    border-radius 50%
+    transition all .45s cubic-bezier(0.25, 0.8, 0.25, 1)
+    &.icon-inverse
+      margin-top 8px
+      height 28px
+      width 28px
+      min-width 28px
+      padding 8px 4px 4px 8px
+      color $white
+      background-color $item-primary-secondary-color
+  > .field-icon-before
+    margin-right 36px
+    &.icon-inverse
+      margin-right 20px
+  > .field-icon-after
+    margin-left 36px
+    &.icon-inverse
+      margin-left 20px
+
+  // Labels
+  > .field-label-inline,
+  > .field-target > .field-input > .field-label-float
+    transition all .3s cubic-bezier(0.25, 0.8, 0.25, 1)
+    transform-origin left top
+    color rgba(0, 0, 0, .54)
+    left 0
+    line-height 16px
+    margin-top 16px
+    pointer-events none
+    text-overflow ellipsis
+    white-space nowrap
+    overflow hidden
+  > label.field-label-inline
+    margin-right 10px
+  > .field-target > .field-input > label.field-label-float
+    width 100%
+    position absolute
+    padding-left 8px
+    padding-right 8px
+    > span
+      transition inherit
+      visibility hidden
+      font-size $textfield-font-size
+      &:first-child
+        padding-right 5px
+      &:last-child
+        padding-left 5px
+
+  > label.field-label-inline
+  > .field-target > .field-input > label.field-label-float
+    &.label-as-text // render inline or float label as plain text (no required indicator or active color, italics)
+      font-style italic
+      padding-right 5px
+    &.label-center
+      text-align center
+      transform-origin center top
+    &.label-right
+      text-align right
+      transform-origin right top
+
+  // Prefix/Postfix Before/After Spans
+  > span,
+  > .field-target > .field-input > span
+    margin 16px 0 0 0
+    line-height 16px
+    font-size $textfield-font-size
+    white-space nowrap
+
+  // Target
+  > .field-target
+
+    &.target-center
+      margin-left auto
+      margin-right auto
+    &.target-right
+      margin-left auto
+
+    // Input
+    > .field-input
+      position relative
+      min-height 40px
+      transition-duration .2s
+      transition-timing-function cubic-bezier(.4, 0, .2, 1)
+      margin-bottom 3px
+      > :not(:last-child):not(label)
+        margin-right 2px !important
+
+      // Text Inputs & Sub-Components
+      > input, > textarea, > div
+        max-width 100% !important
+      > div:not(.field)
+        padding-top 8px
+        padding-bottom 7px !important
+        margin 8px 0 0 0
+      > input, > textarea
+        line-height 16px
+        margin 8px 0 0 0 !important
+        padding-bottom 7px !important
+        box-shadow none
+      &.field-input-grow
+        > input, > textarea, > div
+          flex-grow 1
+
+    // Counter / Hint / Validate Msg
+    > .field-msgs
+      position relative
+
+      > .field-counter,
+      > .field-hint,
+      > .field-validate-msg
+        display block
+        font-size 12px
+        pointer-events none
+        transition all .3s
+
+      > .field-counter
+        float right
+        color rgba(0,0,0,.38)
+        color $dark
+
+      > .field-hint
+        color $dark
+        position relative
+
+      > .field-validate-msg  // (TODO: Multiple validate msgs)
+        color $has-error !important
+        opacity 0
+        top 0
+        position absolute
+
+
+// Layout Modifiers / CSS Flags
+// ----------------------------
+.field
+  // Dense-vertical
+  &.field-dense-vertical
+    min-height  60px
+    padding-top 2px
+
+  // Dense-horizonal
+  &.field-dense-horizontal
+    > .field-icon:first-child
+      margin-right 12px
+    > .field-icon:last-child
+      margin-left 12px
+
+  // Required
+  //
+  &.field-required
+    > .field-label-inline,
+    > .field-target > .field-input > .field-label-float
+      > div
+        display inline-block
+        padding-left 2px
+
+  // Hover & Focus
+  //
+  &.field-focus,
+  &.field:hover:not(.field-disabled)
+    > .field-icon
+      color $form-active-color
+      &.icon-inverse
+        color $white !important
+        background-color $form-active-color
+    > .field-label-inline,
+    > .field-target > .field-input > .field-label-float
+      color $form-active-color
+      > div
+        color $required-color
+
+  // Invalid
+  //
+  &.field-invalid
+    > .field-icon-before  // <--- TOO MUCH RED?  DELETE THESE, OR MAKE OPTIONAL?
+      color $has-error !important
+      &.icon-inverse
+        color $white !important
+        background-color $has-error !important
+    > .field-label-inline,
+    > .field-target > .field-input > .field-label-float
+      color $has-error !important
+    > .field-target > .field-msgs
+      > .field-hint
+        opacity 0
+        top 0
+        position absolute
+      > .field-validate-msg
+        opacity 1
+        position relative
+
+  // Too-Long
+  // ['pseuedo-invalid'; can trigger independently of 'field-invalid' for counter & underline turning red, and that is all.]
+  //
+  &.field-invalid-too-long
+    > .field-target
+      > .field-counter
+        color $has-error
+
+  // Disabled
+  //
+
+
+  // Readonly
+  //
+
+
+// Float/Float-Label Mixins
+// -------------------------
+
+// No Label
+&.field-label-nolabel
+  > .field-target > .field-input > .field-label-float
+    display none
+
+// Label vanishes
+&.field-label-inplace.field-active, &.field-label-placeholder
+  > .field-target > .field-input > .field-label-float
+    opacity 0
+
+// Label appears
+&.field-label-stacked, &.field-label-floating, &.field-label-placeholder.field-active.field-value
+  > .field-target > .field-input > .field-label-float
+    opacity 1
+
+// Label goes above input
+&.field-label-stacked, &.field-label-floating.field-active, &.field-label-placeholder
+  > .field-target > .field-input > .field-label-float
+    transform translateY(-1.7rem) scale(.8)
+    > span
+      font-size 0
+      padding 0
+  &.field-dense-vertical
+    > .field-target > .field-input > .field-label-float
+        transform translateY(-1.6rem) scale(.8)
+
+
+// Vue Component Adjustments
+.field > .field-target > .field-input > div.q-chips
+    padding-bottom 0 !important
+
+
+// Field State CSS Styles
+// -------------------------
+
+fieldStates ?= ('field-valid' 'field-invalid' 'field-active' 'field-focus' 'field-disabled' 'field-pristine' 'field-dirty')
+fieldColors ?= $positive $has-error $primary $primary $light $light
+
+for state, i in fieldStates
+  color = fieldColors[i]
+  .{state}
+    > .color-if-{state}
+    :not(.field) .color-if-{state}
+      color color !important
+  .{state}
+    > .bg-if-{state}
+    :not(.field) .bg-if-{state}
+      background-color color !important
+  .{state}
+    > .show-if-{state}
+    :not(.field) .show-if-{state}
+      display block !important
+  .{state}
+    > .hide-if-{state}
+    :not(.field) .hide-if-{state}
+      display none !important
+
+

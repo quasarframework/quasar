@@ -12,7 +12,7 @@ var
   opn = require('opn'),
   webpackConfig = require('./webpack.config'),
   app = express(),
-  port = process.env.PORT || 8080,
+  port = process.env.PORT || 8081,
   uri = 'http://localhost:' + port
 
 console.log(' Starting dev server with "' + (process.argv[2] || env.platform.theme).bold + '" theme...')
