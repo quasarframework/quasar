@@ -300,7 +300,20 @@ export default {
       }
     }
   },
-  inject: ['hasField', '__setFieldFocus', '__setFieldCounter', '__setFieldFloating', '__setFieldError'],
+  inject: [
+    'hasField', '__setFieldFocus', '__setFieldCounter',
+    '__setFieldFloating', '__setFieldError'
+  ],
+  provide () {
+    return {
+      getInputEl: () => {
+        return this.$refs.input
+      },
+      setInputValue: val => {
+        this.model = val
+      }
+    }
+  },
   methods: {
     setValue (val) {
       this.model = val.target ? val.target.value : val

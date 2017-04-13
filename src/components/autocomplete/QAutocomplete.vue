@@ -1,27 +1,29 @@
 <template>
-  <span>
-    <slot>
-      <q-input v-model="model"></q-input>
-    </slot>
-    <q-popover @close="popclose" @open="popopen" ref="popover" :anchor-click="false">
-      <div class="list no-border" :class="{'item-delimiter': delimiter}" :style="computedWidth">
-        <q-item
-          v-for="(result, index) in computedResults"
-          :key="result"
-          :cfg="result"
-          link
-          :active="selectedIndex === index"
-          @click.native="setValue(result)"
-        ></q-item>
-      </div>
-    </q-popover>
-  </span>
+  <q-popover
+    fit
+    @close="$emit('close')"
+    @open="$emit('show')"
+    ref="popover"
+    :anchor-click="false"
+  >
+    <div class="list no-border" :class="{'item-delimiter': delimiter}" :style="computedWidth">
+      <q-item
+        v-for="(result, index) in computedResults"
+        :key="result"
+        :cfg="result"
+        link
+        :active="selectedIndex === index"
+        @click.native="setValue(result)"
+      ></q-item>
+    </div>
+  </q-popover>
 </template>
 
 <script>
 import { width } from '../../utils/dom'
 import filter from '../../utils/filter'
 import uid from '../../utils/uid'
+import { isPrintableChar } from '../../utils/is'
 import { normalizeToInterval } from '../../utils/format'
 import { QInput } from '../input'
 import { QPopover } from '../popover'
@@ -40,10 +42,6 @@ export default {
     QItem
   },
   props: {
-    value: {
-      type: String,
-      required: true
-    },
     minCharacters: {
       type: Number,
       default: 1
@@ -59,33 +57,17 @@ export default {
     staticData: Object,
     delimiter: Boolean
   },
+  inject: ['getInputEl', 'setInputValue'],
   data () {
     return {
       searchId: '',
       results: [],
       selectedIndex: -1,
       width: 0,
-      timer: null,
-      avoidTrigger: false
+      timer: null
     }
   },
   computed: {
-    model: {
-      get () {
-        if (!this.avoidTrigger) {
-          if (document.activeElement === this.inputEl) {
-            this.__delayTrigger()
-          }
-        }
-        else {
-          this.avoidTrigger = false
-        }
-        return this.value
-      },
-      set (val) {
-        this.$emit('input', val)
-      }
-    },
     computedResults () {
       if (this.maxResults && this.results.length > 0) {
         return this.results.slice(0, this.maxResults)
@@ -99,18 +81,13 @@ export default {
     }
   },
   methods: {
-    popopen () {
-      this.$emit('open')
-    },
-    popclose () {
-      this.$emit('close')
-    },
     trigger () {
+      const terms = this.inputEl.value
       this.width = width(this.inputEl) + 'px'
       const searchId = uid()
       this.searchId = searchId
 
-      if (this.model.length < this.minCharacters) {
+      if (terms.length < this.minCharacters) {
         this.searchId = ''
         this.close()
         return
@@ -118,7 +95,7 @@ export default {
 
       if (this.staticData) {
         this.searchId = ''
-        this.results = filter(this.model, this.staticData)
+        this.results = filter(terms, this.staticData)
         if (this.$q.platform.is.desktop) {
           this.selectedIndex = 0
         }
@@ -126,7 +103,7 @@ export default {
         return
       }
 
-      this.$emit('search', this.model, results => {
+      this.$emit('search', terms, results => {
         if (!results || this.searchId !== searchId) {
           return
         }
@@ -156,8 +133,7 @@ export default {
       this.selectedIndex = -1
     },
     setValue (result) {
-      this.avoidTrigger = true
-      this.model = result.value
+      this.setInputValue(result.value)
       this.$emit('selected', result)
       this.close()
     },
@@ -175,10 +151,15 @@ export default {
     },
     __delayTrigger () {
       clearTimeout(this.timer)
-      this.timer = setTimeout(this.trigger, this.staticData ? 0 : this.delay)
+      if (this.staticData) {
+        this.$nextTick(this.trigger)
+        return
+      }
+      this.timer = setTimeout(this.trigger, this.delay)
     },
     __handleKeypress (e) {
-      switch (e.keyCode || e.which) {
+      const key = e.keyCode || e.which
+      switch (key) {
         case 38: // up
           this.__moveCursor(-1, e)
           break
@@ -189,8 +170,16 @@ export default {
           this.setCurrentSelection()
           prevent(e)
           break
+        case 27: // escape
+          break
         default:
-          this.close()
+          if (
+            key === 8 || // backspace
+            key === 46 || // delete
+            isPrintableChar(key)
+          ) {
+            this.__delayTrigger()
+          }
       }
     },
     __moveCursor (offset, e) {
@@ -205,19 +194,21 @@ export default {
     }
   },
   mounted () {
+    if (!this.getInputEl) {
+      console.error('Autocomplete needs to be inserted into an input.')
+      return
+    }
     this.$nextTick(() => {
-      this.inputEl = this.$el.querySelector('input')
-      if (!this.inputEl) {
-        console.error('Autocomplete needs to contain one input field in its slot.')
-        return
-      }
+      this.inputEl = this.getInputEl()
       this.inputEl.addEventListener('keydown', this.__handleKeypress)
     })
   },
   beforeDestroy () {
     clearTimeout(this.timer)
-    this.inputEl.removeEventListener('keydown', this.__handleKeypress)
-    this.close()
+    if (this.inputEl) {
+      this.inputEl.removeEventListener('keydown', this.__handleKeypress)
+      this.close()
+    }
   }
 }
 </script>

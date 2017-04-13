@@ -17,6 +17,7 @@
     v-ripple.mat
   >
     <q-icon slot="before" :name="icon" class="q-input-comp"></q-icon>
+    <slot></slot>
   </q-input>
 </template>
 
