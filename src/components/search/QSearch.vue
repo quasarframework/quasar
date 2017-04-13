@@ -1,60 +1,35 @@
 <template>
-  <div
+  <q-input
+    v-model="model"
+    :type="type"
+    :autofocus="autofocus"
+    :pattern="pattern"
+    :placeholder="placeholder"
+    @focus="focus"
+    @blur="blur"
+    @keyup.enter="__enter"
+    :disabled="disable"
+    :readonly="readonly"
+    clearable
+    complex
+    :extra-icons="false"
     class="q-search"
-    :class="{'q-search-centered': centered, disabled: disable, readonly: readonly}"
+    v-ripple.mat
   >
-    <div class="q-search-input-container" v-ripple.mat>
-      <button class="q-search-icon">
-        <q-icon :name="icon"></q-icon>
-        <span v-show="$q.theme === 'ios' && isEmpty">{{placeholder}}</span>
-      </button>
-      <input
-        v-if="numeric"
-        type="number"
-        pattern="[0-9]*"
-        class="q-search-input"
-        :placeholder="$q.theme === 'mat' ? placeholder : ''"
-        v-model="model"
-        @focus="focus"
-        @blur="blur"
-        @keyup.enter="__enter"
-        :disabled="disable"
-        :readonly="readonly"
-        tabindex="0"
-      >
-      <input
-        v-else
-        type="text"
-        class="q-search-input"
-        :placeholder="$q.theme === 'mat' ? placeholder : ''"
-        v-model="model"
-        @focus="focus"
-        @blur="blur"
-        @keyup.enter="__enter"
-        :disabled="disable"
-        :readonly="readonly"
-        tabindex="0"
-      >
-      <button
-        class="q-search-clear"
-        @click="clear"
-        :class="{hidden: this.model === ''}"
-      >
-        <q-icon name="clear" class="mat-only"></q-icon>
-        <q-icon name="cancel" class="ios-only"></q-icon>
-      </button>
-    </div>
-  </div>
+    <q-icon slot="before" :name="icon" class="q-input-comp"></q-icon>
+  </q-input>
 </template>
 
 <script>
 import { QIcon } from '../icon'
+import { QInput } from '../input'
 import Ripple from '../../directives/ripple'
 
 export default {
   name: 'q-search',
   components: {
-    QIcon
+    QIcon,
+    QInput
   },
   directives: {
     Ripple
@@ -64,7 +39,8 @@ export default {
       type: [String, Number],
       default: ''
     },
-    numeric: Boolean,
+    type: String,
+    pattern: String,
     debounce: {
       type: Number,
       default: 300

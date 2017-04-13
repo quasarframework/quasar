@@ -20,8 +20,8 @@
       <q-checkbox v-model="right" />
     </div>
 
-    <div v-if="todo" slot="header" class="toolbar primary">
-      <q-search v-model="search" class="primary"></q-search>
+    <div v-if="todo" slot="header" class="toolbar amber">
+      <q-search v-model="search" class="text-black"></q-search>
     </div>
 
     <q-tabs slot="navigation">

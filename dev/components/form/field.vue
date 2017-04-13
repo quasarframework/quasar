@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="layout-padding" style="max-width: 600px;">
-      <q-input v-model="modelY" autogrow />
-      <q-input type="textarea" v-model="modelX" autogrow />
+      <q-input v-model="modelY" />
+      <q-input type="textarea" v-model="modelX" :rows="5" />
 
 
       <q-input

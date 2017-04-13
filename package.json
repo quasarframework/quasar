@@ -3,6 +3,8 @@
   "version": "0.14.0",
   "description": "Simultaneously build desktop/mobile SPA websites & phone/tablet apps with VueJS",
   "main": "dist/quasar.esm.js",
+  "module": "dist/quasar.esm.js",
+  "jsnext:main": "dist/quasar.esm.js",
   "files": [
     "dist",
     "src",

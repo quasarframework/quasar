@@ -51,7 +51,6 @@ $input-label-color            ?= rgba(0, 0, 0, .54)
 .q-input-small
   font-size small
 .q-input-button
-  color $faded
   cursor pointer
   padding 0 5px
 
@@ -96,11 +95,7 @@ $input-label-color            ?= rgba(0, 0, 0, .54)
     width 100%
 
   textarea
-    min-height 2rem
     resize vertical
-    &.autogrow
-      overflow hidden
-      resize none
 
   &.focused .q-input-border
     background $input-primary-color
@@ -111,6 +106,21 @@ $input-label-color            ?= rgba(0, 0, 0, .54)
 
   &.simple
     padding-bottom 0
+
+  &.complex
+    border-bottom 0
+    border-radius $generic-border-radius
+    box-shadow $shadow-1
+    padding 0
+    align-items center !important
+    font-size 90%
+    &, .q-input-target
+      height 30px
+    input
+      line-height 1
+    .q-icon
+      font-size 22px
+      padding 0 8px
 
 .q-input, .q-field
   &.has-error

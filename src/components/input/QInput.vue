@@ -9,7 +9,8 @@
       'has-label': label,
       textarea: isTextarea,
       dropdown: isDropdown,
-      simple: simple
+      simple: simple,
+      complex: complex
     }"
     @click="__click"
   >
@@ -55,7 +56,7 @@
         :readonly="readonly"
         :required="required"
         :maxlength="maxlength"
-        :class="{autogrow: autogrow}"
+        :rows="rows"
         class="auto"
         tabindex="0"
       ></textarea>
@@ -92,7 +93,7 @@
         :min="min"
         :max="max"
         :step="computedStep"
-        class="auto"
+        class="auto q-placeholder"
         tabindex="0"
       >
 
@@ -126,7 +127,7 @@
     <span v-if="isDropdown" class="q-input-comp q-input-button">
       <span class="caret"></span>
     </span>
-    <div v-if="!simple" class="q-input-border"></div>
+    <div v-if="!simple && !complex" class="q-input-border"></div>
     <slot></slot>
   </div>
 </template>
@@ -157,7 +158,6 @@ export default {
       }
     },
     autofocus: Boolean,
-    autogrow: Boolean,
     pattern: String,
     prefix: String,
     suffix: String,
@@ -166,6 +166,8 @@ export default {
     stackedLabel: String,
     error: Boolean,
     simple: Boolean,
+    complex: Boolean,
+    color: String,
     count: {
       type: [Number, Boolean],
       default: false
@@ -188,6 +190,10 @@ export default {
     maxDecimals: {
       type: Number,
       default: 0
+    },
+    rows: {
+      type: Number,
+      default: 3
     }
   },
   data () {
@@ -215,7 +221,6 @@ export default {
     model: {
       get () {
         this.__notify('count')
-        setTimeout(this.__grow, 0)
         return this.value
       },
       set (val) {
@@ -374,20 +379,11 @@ export default {
       if (!this.editable) {
         e.preventDefault()
       }
-    },
-    __grow () {
-      const input = this.$refs.input
-      if (!this.isTextarea || !this.autogrow || !input) {
-        return
-      }
-      input.style.height = '' // reset height
-      input.style.height = `${input.scrollHeight}px`
     }
   },
   mounted () {
     this.$nextTick(() => {
       this.__notify('count')
-      this.__grow()
       if (this.autofocus) {
         this.focus()
       }
