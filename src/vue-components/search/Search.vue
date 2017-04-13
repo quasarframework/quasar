@@ -29,6 +29,7 @@
         v-model="model"
         @focus="focus"
         @blur="blur"
+        @keyup.enter="enter"
         :disabled="disable"
         :readonly="readonly"
         tabindex="0"
@@ -112,10 +113,15 @@ export default {
     focus () {
       if (this.editable) {
         this.focused = true
+        this.$emit('focus')
       }
     },
     blur () {
       this.focused = false
+      this.$emit('blur')
+    },
+    enter () {
+      this.$emit('enter')
     }
   },
   beforeDestroy () {
