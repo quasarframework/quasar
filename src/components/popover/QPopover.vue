@@ -92,7 +92,7 @@ export default {
         this.open(event)
       }
     },
-    open (event) {
+    open (evt) {
       if (this.disable) {
         return
       }
@@ -100,9 +100,9 @@ export default {
         this.__updatePosition()
         return
       }
-      if (event) {
-        event.stopPropagation()
-        event.preventDefault()
+      if (evt) {
+        evt.stopPropagation()
+        evt.preventDefault()
       }
 
       this.opened = true
@@ -112,7 +112,7 @@ export default {
       this.scrollTarget = getScrollTarget(this.anchorEl)
       this.scrollTarget.addEventListener('scroll', this.__updatePosition)
       window.addEventListener('resize', this.__updatePosition)
-      this.reposition()
+      this.reposition(evt)
       this.timer = setTimeout(() => {
         this.timer = null
         document.addEventListener('click', this.close, true)
@@ -145,7 +145,7 @@ export default {
         }
       }, 1)
     },
-    reposition () {
+    reposition (evt) {
       this.$nextTick(() => {
         if (this.fit) {
           this.$el.style.minWidth = width(this.anchorEl) + 'px'
@@ -156,6 +156,7 @@ export default {
           return this.close()
         }
         setPosition({
+          evt,
           el: this.$el,
           offset: this.offset,
           anchorEl: this.anchorEl,
