@@ -1,4 +1,4 @@
-import animate from './utils/animate'
+import * as animate from './utils/animate'
 import clone from './utils/clone'
 import * as colors from './utils/colors'
 import { debounce, frameDebounce } from './utils/debounce'

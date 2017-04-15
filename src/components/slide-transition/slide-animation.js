@@ -1,6 +1,6 @@
 import { css } from '../../utils/dom'
 import { get, add } from '../../utils/store'
-import animate from '../../utils/animate'
+import { start, stop } from '../../utils/animate'
 
 function getHeight (el, style) {
   let initial = {
@@ -31,11 +31,9 @@ function parseSize (padding) {
 function toggleSlide (el, showing, done) {
   let store = get('slidetoggle', el) || {}
   function anim () {
-    store.uid = animate({
+    store.uid = start({
       finalPos: showing ? 100 : 0,
       pos: store.pos !== null ? store.pos : showing ? 0 : 100,
-      factor: 10,
-      threshold: 0.5,
       apply (pos) {
         store.pos = pos
         css(el, {
@@ -55,7 +53,7 @@ function toggleSlide (el, showing, done) {
   }
 
   if (store.uid) {
-    animate.stop(store.uid)
+    stop(store.uid)
     return anim()
   }
 

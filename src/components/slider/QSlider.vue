@@ -52,7 +52,7 @@
 import Platform from '../../features/platform'
 import { cssTransform } from '../../utils/dom'
 import { between, normalizeToInterval } from '../../utils/format'
-import animate from '../../utils/animate'
+import { start, stop } from '../../utils/animate'
 import uid from '../../utils/uid'
 import sliderMixin from './slider-mixin'
 import { QIcon } from '../icon'
@@ -193,7 +193,7 @@ export default {
 
       this.animationInProgress = true
 
-      animate({
+      start({
         name: this.animUid,
         pos: this.position,
         finalPos: pos,
@@ -249,7 +249,7 @@ export default {
       window.removeEventListener('popstate', this.__popState)
     },
     stopAnimation () {
-      animate.stop(this.animUid)
+      stop(this.animUid)
       this.animationInProgress = false
     },
     __cleanup () {
