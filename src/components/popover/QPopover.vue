@@ -145,7 +145,7 @@ export default {
         }
       }, 1)
     },
-    reposition (evt) {
+    reposition (event) {
       this.$nextTick(() => {
         if (this.fit) {
           this.$el.style.minWidth = width(this.anchorEl) + 'px'
@@ -156,7 +156,7 @@ export default {
           return this.close()
         }
         setPosition({
-          evt,
+          event,
           el: this.$el,
           offset: this.offset,
           anchorEl: this.anchorEl,
