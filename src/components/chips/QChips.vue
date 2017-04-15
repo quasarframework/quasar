@@ -10,10 +10,17 @@
     @click.native="focus"
     class="q-chips"
   >
-    <div slot="flow-before" v-for="(label, index) in value" :key="index" class="chip label bg-light text-grey-9">
+    <q-chip
+      small
+      :closable="editable"
+      slot="flow-before"
+      v-for="(label, index) in value"
+      :key="index"
+      :class="chipClasses"
+      @close="remove(index)"
+    >
       {{ label }}
-      <q-icon name="close" class="on-right" @click="remove(index)"></q-icon>
-    </div>
+    </q-chip>
 
     <q-icon
       name="send"
@@ -22,18 +29,22 @@
       @click="add()"
       :class="{invisible: !input.length}"
     ></q-icon>
+
+    <slot></slot>
   </q-input>
 </template>
 
 <script>
 import { QInput } from '../input'
 import { QIcon } from '../icon'
+import { QChip } from '../chip'
 
 export default {
   name: 'q-chips',
   components: {
     QInput,
-    QIcon
+    QIcon,
+    QChip
   },
   props: {
     value: {
@@ -43,11 +54,17 @@ export default {
     disable: Boolean,
     readonly: Boolean,
     error: Boolean,
-    placeholder: String
+    placeholder: String,
+    chipClasses: [String, Object, Array]
   },
   data () {
     return {
       input: ''
+    }
+  },
+  computed: {
+    editable () {
+      return !this.disable && !this.readonly
     }
   },
   methods: {

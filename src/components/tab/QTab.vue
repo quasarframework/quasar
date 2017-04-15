@@ -14,7 +14,7 @@
   >
     <q-icon v-if="icon" :name="icon" class="q-tabs-icon"></q-icon>
     <span v-if="label" class="q-tab-label" v-html="label"></span>
-    <span v-if="count" class="floating label circular">{{count}}</span>
+    <q-chip v-if="count" floating>{{count}}</q-chip>
     <div v-else-if="alert" class="q-dot"></div>
     <slot></slot>
     <div class="q-tab-border"></div>

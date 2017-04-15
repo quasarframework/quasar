@@ -7,7 +7,7 @@
       <q-select v-model="select" :options="selectListOptions"></q-select>
 
       <p class="caption">Single Selection with Radio</p>
-      <q-select radio v-model="select" :options="selectListOptions"></q-select>
+      <q-select v-model="select" :options="selectListOptions"></q-select>
 
       <p class="caption">Multiple Selection</p>
       <q-select multiple v-model="multipleSelect" :options="selectListOptions"></q-select>
@@ -26,6 +26,10 @@
 
       <p class="caption">With Placeholder</p>
       <q-select multiple v-model="multipleSelect" :options="selectOptions" placeholder="Pick Company"></q-select>
+
+      <p class="caption">With Filter</p>
+      <q-select filter v-model="select" :options="selectListOptions"></q-select>
+      <q-select filter multiple checkbox v-model="multipleSelect" :options="selectListOptions"></q-select>
 
       <p class="caption">With Static Label</p>
       <q-select multiple v-model="multipleSelect" :options="selectOptions" static-label="Company"></q-select>

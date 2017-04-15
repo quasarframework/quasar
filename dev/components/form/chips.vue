@@ -13,6 +13,7 @@
         on Chips Textbox below to start adding Chips.
       </p>
       <q-chips v-model="model"></q-chips>
+      <q-chips chip-classes="bg-primary text-white" v-model="model"></q-chips>
 
       <p class="caption">Disabled State</p>
       <q-chips v-model="model" disable></q-chips>

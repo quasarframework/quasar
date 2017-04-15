@@ -3,93 +3,136 @@
     <div class="layout-padding">
       <p class="caption">Basic Labels</p>
       <p>
-        <span class="label bg-primary text-white">label</span>
-        <span class="label bg-secondary text-white shadow-1">10k</span>
+        Text
+        <q-chip class="bg-primary text-white">
+          <q-icon name="alarm" slot="left" />
+          q-chip
+        </q-chip>
+      </p>
+      <p>
+        <q-chip class="bg-primary text-white">
+          <q-icon name="alarm" />
+          q-chip
+        </q-chip>
+        <q-chip class="bg-primary text-white">
+          q-chip
+          <q-icon name="alarm" />
+        </q-chip>
+      </p>
+      <p>
+        <q-chip class="bg-primary text-white">q-chip</q-chip>
+        <q-chip class="bg-secondary text-white shadow-1">10k</q-chip>
+        <q-chip small class="bg-secondary text-white shadow-1">10k</q-chip>
+        <q-chip class="bg-primary text-white">
+          <q-icon name="alarm" slot="left" />
+          q-chip
+        </q-chip>
+        <q-chip class="bg-primary text-white">
+          q-chip
+          <q-icon name="alarm" class="on-right" />
+        </q-chip>
+        <q-chip class="bg-primary text-white">
+          <q-icon name="alarm" slot="left" />
+          q-chip
+          <q-icon name="alarm" class="on-right" />
+        </q-chip>
+        <q-chip class="bg-secondary text-white shadow-1">10k</q-chip>
+      </p>
+      <p>
+        <q-chip square class="bg-primary text-white">q-chip</q-chip>
+        <q-chip square class="bg-secondary text-white shadow-1">10k</q-chip>
+        <q-chip square small class="bg-secondary text-white shadow-1">10k</q-chip>
+        <q-chip square class="bg-primary text-white">
+          <q-icon name="alarm" slot="left" />
+          q-chip
+        </q-chip>
+        <q-chip square class="bg-primary text-white">
+          q-chip
+          <q-icon name="alarm" class="on-right" />
+        </q-chip>
+        <q-chip square class="bg-primary text-white">
+          <q-icon name="alarm" slot="left" />
+          q-chip
+          <q-icon name="alarm" class="on-right" />
+        </q-chip>
+        <q-chip square class="bg-secondary text-white shadow-1">10k</q-chip>
       </p>
 
       <p class="caption">Floating Labels</p>
       <p>
         <q-btn class="light relative-position">
           Inbox
-          <span class="floating label circular bg-primary text-white">22</span>
+          <q-chip label floating  class="bg-primary text-white">22</q-chip>
         </q-btn>
         &nbsp;&nbsp;
         <q-btn class="red relative-position">
           Inbox
-          <span class="floating label bg-dark">22</span>
+          <q-chip label floating class="bg-dark">22</q-chip>
         </q-btn>
       </p>
 
       <p class="caption">Chip Labels</p>
       <p>
         <div class="group">
-          <div class="chip label bg-grey-4"><img src="~assets/boy-avatar.png"> John</div>
-          <div class="chip label bg-teal text-white"><img src="~assets/boy-avatar.png"> Joe</div>
-          <div class="chip label bg-black text-white"><img src="~assets/boy-avatar.png"> Jim</div>
+          <q-chip class="bg-grey-4"><img slot="left" src="~assets/boy-avatar.png"> John</q-chip>
+          <q-chip class="bg-teal text-white"><img slot="left" src="~assets/boy-avatar.png"> Joe</q-chip>
+          <q-chip class="bg-black text-white"><img slot="left" src="~assets/boy-avatar.png"> Jim</q-chip>
+          <q-chip small class="bg-teal text-white"><img slot="left" src="~assets/boy-avatar.png"> Joe</q-chip>
           <br>
-          <div class="chip label bg-light"><img src="~assets/boy-avatar.png"> John <q-icon class="on-right" name="close" /></div>
-          <div class="chip label bg-red text-white"><img src="~assets/boy-avatar.png"> Joe <q-icon class="on-right" name="close" /></div>
-          <div class="chip label bg-primary text-white"><img src="~assets/boy-avatar.png"> Jim <q-icon class="on-right" name="close" /></div>
+          <q-chip closable class="bg-light"><img slot="left" src="~assets/boy-avatar.png">John</q-chip>
+          <q-chip closable class="bg-red text-white"><img slot="left" src="~assets/boy-avatar.png">Joe</q-chip>
+          <q-chip closable class="bg-primary text-white"><img slot="left" src="~assets/boy-avatar.png">Jim</q-chip>
+          <q-chip small closable class="bg-red text-white"><img slot="left" src="~assets/boy-avatar.png">Joe</q-chip>
           <br>
-          <div class="chip label bg-grey-4">John</div>
-          <div class="chip label bg-teal text-white">Joe</div>
-          <div class="chip label bg-black text-white">Jim</div>
+          <q-chip class="bg-grey-4">John</q-chip>
+          <q-chip class="bg-teal text-white">Joe</q-chip>
+          <q-chip class="bg-black text-white">Jim</q-chip>
+          <q-chip small class="bg-teal text-white">Joe</q-chip>
         </div>
       </p>
 
       <p class="caption">Tag Labels</p>
       <p>
-        <span class="tag label tag bg-light">New <q-icon class="on-right" name="mail" /></span>
+        <q-chip tag class="bg-light">New <q-icon class="on-right" name="mail" /></q-chip>
       </p>
       <p>
-        <span class="tag label bg-red text-white">Upcoming</span>
+        <q-chip tag closable class="bg-red text-white">Upcoming</q-chip>
       </p>
       <p>
-        <span class="tag label bg-primary text-white">Featured</span>
+        <q-chip tag square class="bg-primary text-white">Featured</q-chip>
       </p>
 
       <p class="caption">Pointing Labels</p>
       <p>
-        <span class="label pointing-up bg-primary text-white">up</span>
-        <span class="label pointing-down bg-primary text-white">down</span>
-        <span class="label pointing-right bg-primary text-white">right</span>
-        <span class="label pointing-left bg-primary text-white">left</span>
+        <q-chip pointing="up" class="pointing-up bg-primary text-white">Pointing Up</q-chip>
+        <q-chip pointing="down" class="pointing-down bg-primary text-white">Pointing Down</q-chip>
+        <q-chip pointing="right" class="pointing-right bg-primary text-white">Pointing Right</q-chip>
+        <q-chip pointing="left" class="pointing-left bg-primary text-white">Pointing Left</q-chip>
+      </p>
+      <p>
+        <q-chip square pointing="up" class="bg-primary text-white">Pointing Up</q-chip>
+        <q-chip square pointing="down" class="pointing-down bg-primary text-white">Pointing Down</q-chip>
+        <q-chip square pointing="right" class="pointing-right bg-primary text-white">Pointing Right</q-chip>
+        <q-chip square pointing="left" class="pointing-left bg-primary text-white">Pointing Left</q-chip>
       </p>
 
       <p class="caption">With Icons</p>
       <p>
-        <span class="label bg-primary text-white">
-          <q-icon class="on-left" name="mail" />
+        <q-chip class="bg-primary text-white">
+          <q-icon slot="left" name="mail" />
           10
-        </span>
-        <span class="label bg-tertiary text-white">
+        </q-chip>
+        <q-chip class="bg-tertiary text-white">
           10
           <q-icon class="on-right" name="mail" />
-        </span>
+        </q-chip>
       </p>
 
-      <p class="caption">With Text or Icon Detail</p>
+      <p class="caption">With Detail</p>
       <p>
-        <span class="label bg-amber">
-          <span class="left-detail">Left</span> Detail
-        </span>
-        <span class="label bg-secondary text-white">
-          Right <span class="right-detail">Detail</span>
-        </span>
-      </p>
-      <p>
-        <span class="label bg-orange text-white">
-          <q-icon class="left-detail" name="mail" /> 10
-        </span>
-        <span class="label bg-orange text-white">
-          10 <q-icon class="right-detail" name="mail" />
-        </span>
-      </p>
-
-      <p class="caption">Circular/Oval Labels</p>
-      <p>
-        <span class="label circular bg-primary text-white">2</span>
-        <span class="label circular bg-secondary text-white shadow-1">10k</span>
+        <q-chip detail>
+          <q-icon name="email" slot="left" /> Detail
+        </q-chip>
       </p>
     </div>
   </div>

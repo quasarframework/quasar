@@ -19,28 +19,37 @@
       :disable="disable || readonly"
       :offset="[0, 4]"
       :anchor-click="false"
+      @close="__resetFilter"
     >
+      <q-search
+        v-if="filter"
+        v-model="terms"
+        :placeholder="filterPlaceholder"
+        :debounce="50"
+      ></q-search>
+
       <div
         class="list link no-border"
         :class="{delimiter: delimiter}"
       >
+
         <template v-if="multiple">
           <q-item
             class="item"
-            v-for="(opt, index) in options"
+            v-for="opt in visibleOptions"
             :key="opt"
             :cfg="opt"
-            :active="!checkbox && !toggle && optModel[index]"
+            :active="!checkbox && !toggle && optModel[opt.index]"
             @click.native="__toggle(opt.value)"
           >
-            <q-checkbox v-if="checkbox" slot="primary" :value="optModel[index]"></q-checkbox>
-            <q-toggle v-if="toggle" slot="secondary" :value="optModel[index]"></q-toggle>
+            <q-checkbox v-if="checkbox" slot="primary" :value="optModel[opt.index]"></q-checkbox>
+            <q-toggle v-if="toggle" slot="secondary" :value="optModel[opt.index]"></q-toggle>
           </q-item>
         </template>
         <template v-else>
           <q-item
             class="item"
-            v-for="opt in options"
+            v-for="opt in visibleOptions"
             :key="opt"
             :cfg="opt"
             :active="model === opt.value"
@@ -56,16 +65,22 @@
 
 <script>
 import { QInput } from '../input'
+import { QSearch } from '../search'
 import { QPopover } from '../popover'
 import { QItem } from '../item'
 import { QCheckbox } from '../checkbox'
 import { QRadio } from '../radio'
 import { QToggle } from '../toggle'
 
+function defaultFilterFn (terms, obj) {
+  return obj.label.toLowerCase().startsWith(terms)
+}
+
 export default {
   name: 'q-select',
   components: {
     QInput,
+    QSearch,
     QPopover,
     QItem,
     QCheckbox,
@@ -89,6 +104,11 @@ export default {
     radio: Boolean,
     checkbox: Boolean,
     toggle: Boolean,
+    filter: [Function, Boolean],
+    filterPlaceholder: {
+      type: String,
+      default: 'Filter'
+    },
     placeholder: String,
     staticLabel: String,
     floatLabel: String,
@@ -104,6 +124,11 @@ export default {
       handler (val) {
         this.$emit('input', val)
       }
+    }
+  },
+  data () {
+    return {
+      terms: ''
     }
   },
   computed: {
@@ -124,6 +149,19 @@ export default {
         return this.options.map(opt => this.model.includes(opt.value))
       }
     },
+    visibleOptions () {
+      let opts = this.options.map((opt, index) => {
+        return {
+          index,
+          ...opt
+        }
+      })
+      if (this.filter && this.terms.length) {
+        const lowerTerms = this.terms.toLowerCase()
+        opts = opts.filter(opt => this.filterFn(lowerTerms, opt))
+      }
+      return opts
+    },
     actualValue () {
       if (this.staticLabel) {
         return this.staticLabel
@@ -138,6 +176,11 @@ export default {
         .map(opt => opt.label)
 
       return !options.length ? '' : options.join(', ')
+    },
+    filterFn () {
+      return typeof this.filter === 'boolean'
+        ? defaultFilterFn
+        : this.filter
     }
   },
   methods: {
@@ -170,6 +213,9 @@ export default {
           this.close()
         }
       }, 1)
+    },
+    __resetFilter () {
+      this.terms = ''
     }
   }
 }
