@@ -32,8 +32,8 @@ function toggleSlide (el, showing, done) {
   let store = get('slidetoggle', el) || {}
   function anim () {
     store.uid = start({
-      finalPos: showing ? 100 : 0,
-      pos: store.pos !== null ? store.pos : showing ? 0 : 100,
+      to: showing ? 100 : 0,
+      from: store.pos !== null ? store.pos : showing ? 0 : 100,
       apply (pos) {
         store.pos = pos
         css(el, {
