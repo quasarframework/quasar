@@ -1,9 +1,14 @@
 $alert-padding = .7rem
+$alert-color ?= white
+$alert-background ?= $negative
+$alert-border-radius ?= $generic-border-radius
+$alert-min-width ?= 200px
 
 .q-alert
-  color white
-  border-radius $generic-border-radius
-  min-width 200px
+  color $alert-color
+  background $alert-background
+  border-radius $alert-border-radius
+  min-width $alert-min-width
 
 .q-alert-icon, .q-alert-content
   padding $alert-padding

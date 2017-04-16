@@ -25,6 +25,7 @@
       dismissible
       @dismiss="$refs.destroyableAlert.destroy()"
       style="margin-bottom: 1.5rem"
+      :buttons="[{label: 'Snooze', handler () {}}]"
     >
       Dest. Lorem ipsum dolor sit amet.
     </q-alert>

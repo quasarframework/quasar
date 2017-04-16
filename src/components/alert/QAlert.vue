@@ -2,7 +2,7 @@
   <div
     v-if="active"
     class="q-alert row"
-    :class="`bg-${color}`"
+    :class="[`bg-${color}`, position ? `fixed-${position}` : '', position ? 'shadow-2' : '']"
   >
     <div class="q-alert-icon flex items-center justify-center">
       <slot name="left">
@@ -11,6 +11,18 @@
     </div>
     <div class="q-alert-content auto self-center">
       <slot></slot>
+      <div
+        v-if="buttons && buttons.length"
+        class="q-alert-actions row items-center justify-between"
+      >
+        <span
+          v-for="btn in buttons"
+          :key="btn"
+          @click="dismiss(btn.handler)"
+          v-html="btn.label"
+          class="uppercase"
+        ></span>
+      </div>
     </div>
     <div
       v-if="dismissible"
@@ -41,7 +53,15 @@ export default {
       default: 'negative'
     },
     icon: String,
-    dismissible: Boolean
+    dismissible: Boolean,
+    buttons: Array,
+    position: {
+      type: String,
+      validator: v => [
+        'top', 'top-right', 'right', 'bottom-right',
+        'bottom', 'bottom-left', 'left', 'top-left'
+      ].includes(v)
+    }
   },
   data () {
     return {

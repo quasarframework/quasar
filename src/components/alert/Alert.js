@@ -5,19 +5,7 @@ import extend from '../../utils/extend'
 function create (opts) {
   const node = document.createElement('div')
   document.body.appendChild(node)
-  let
-    active = true,
-    position = opts.position
-
-  if (
-    ![
-      'top', 'top-right', 'right', 'bottom-right',
-      'bottom', 'bottom-left', 'left', 'top-left'
-    ].includes(position)
-  ) {
-    console.error(`[Alert] wrong position ${position}`)
-    return
-  }
+  let active = true
 
   const vm = new Vue(extend({
     data () {
