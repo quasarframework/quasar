@@ -71,6 +71,7 @@ import { QItem } from '../item'
 import { QCheckbox } from '../checkbox'
 import { QRadio } from '../radio'
 import { QToggle } from '../toggle'
+import clone from '../../utils/clone'
 
 function defaultFilterFn (terms, obj) {
   return obj.label.toLowerCase().startsWith(terms)
@@ -150,11 +151,9 @@ export default {
       }
     },
     visibleOptions () {
-      let opts = this.options.map((opt, index) => {
-        return {
-          index,
-          ...opt
-        }
+      let opts = clone(this.options).map((opt, index) => {
+        opt.index = index
+        return opt
       })
       if (this.filter && this.terms.length) {
         const lowerTerms = this.terms.toLowerCase()

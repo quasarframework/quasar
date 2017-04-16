@@ -14,19 +14,25 @@
       </span>
     </div>
     <div v-else class="group">
-      <q-btn
-        :class="buttonClass"
-        v-html="computedLabel.add"
-        @click="$refs.file.click()"
-        :disabled="addButtonDisabled"
-      ></q-btn>
-      <q-btn
-        v-if="!hideUploadButton"
-        :class="buttonClass"
-        :disabled="files.length === 0"
-        v-html="computedLabel.upload"
-        @click="upload"
-      ></q-btn>
+      <slot
+        :pick="__pick"
+        :upload="upload"
+        :upload-disabled="files.length === 0"
+      >
+        <q-btn
+          :class="buttonClass"
+          v-html="computedLabel.add"
+          @click="__pick"
+          :disabled="addButtonDisabled"
+        ></q-btn>
+        <q-btn
+          v-if="!hideUploadButton"
+          :class="buttonClass"
+          :disabled="files.length === 0"
+          v-html="computedLabel.upload"
+          @click="upload"
+        ></q-btn>
+      </slot>
     </div>
 
     <div class="row wrap items-center group">
@@ -182,6 +188,9 @@ export default {
       this.images = this.images.filter(file => file.name !== name)
       this.otherFiles = this.otherFiles.filter(file => file.name !== name)
       this.files = this.files.filter(file => file.name !== name)
+    },
+    __pick () {
+      this.$refs.file.click()
     },
     __getUploadPromise (file) {
       var form = new FormData()
