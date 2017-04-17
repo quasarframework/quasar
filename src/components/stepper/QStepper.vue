@@ -7,7 +7,7 @@
     }"
   >
     <slot></slot>
-    <q-inner-loading :visible="loading"></q-inner-loading>
+    <q-inner-loading :visible="loading" :size="50"></q-inner-loading>
   </div>
 </template>
 

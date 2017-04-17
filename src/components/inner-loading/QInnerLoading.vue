@@ -5,7 +5,7 @@
     :class="{dark: dark}"
   >
     <slot>
-      <q-spinner></q-spinner>
+      <q-spinner :size="size"></q-spinner>
     </slot>
   </div>
 </template>
@@ -20,7 +20,11 @@ export default {
   },
   props: {
     dark: Boolean,
-    visible: Boolean
+    visible: Boolean,
+    size: {
+      type: Number,
+      default: 42
+    }
   }
 }
 </script>
