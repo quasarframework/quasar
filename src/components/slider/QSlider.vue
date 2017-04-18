@@ -15,14 +15,14 @@
         v-show="arrows && canGoToPrevious"
         class="q-slider-left-button row items-center justify-center"
       >
-        <q-icon name="keyboard_arrow_left" @click="previous"></q-icon>
+        <q-icon name="&#xE314;" @click="previous"></q-icon>
       </div>
       <div
         v-show="arrows && canGoToNext"
         class="q-slider-right-button row items-center justify-center"
         @click="next"
       >
-        <q-icon name="keyboard_arrow_right"></q-icon>
+        <q-icon name="&#xE315;"></q-icon>
       </div>
       <div v-if="toolbar" class="q-slider-toolbar row items-center justify-end">
         <div class="q-slider-dots auto row items-center justify-center">
