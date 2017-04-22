@@ -52,6 +52,10 @@ export default {
       this.config.currentStep = this.config.steps + 1
       this.$emit('step', this.config.currentStep)
       this.$emit('finish')
+    },
+    goToStep (i) {
+      this.config.currentStep = i
+      this.$emit('step', this.config.currentStep)
     }
   },
   mounted () {

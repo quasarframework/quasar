@@ -3,7 +3,7 @@
     class="timeline-item"
     :class="{incomplete: step > stepper.currentStep}"
   >
-    <div class="timeline-badge">
+    <div class="timeline-badge" @click="goToStep()">
       <i v-show="!done">
         done
       </i>
@@ -73,6 +73,12 @@ export default {
     }
   },
   methods: {
+    goToStep () {
+      if (!this.ready) {
+        return
+      }
+      this.$parent.goToStep(this.step)
+    },
     nextStep () {
       if (!this.ready) {
         return
