@@ -70,7 +70,7 @@ export default {
   },
   computed: {
     alertIcon () {
-      return typeIcon[this.color] || typeIcon.info
+      return typeIcon[this.color] || typeIcon.warning
     }
   },
   methods: {
