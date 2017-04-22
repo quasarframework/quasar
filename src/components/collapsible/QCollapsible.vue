@@ -70,7 +70,7 @@ export default {
     iconToggle: Boolean,
     arrowIcon: {
       type: String,
-      default: 'keyboard_arrow_down'
+      default: '&#xE313;'
     }
   },
   data () {
