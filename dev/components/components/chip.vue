@@ -1,9 +1,8 @@
 <template>
   <div>
     <div class="layout-padding">
-      <p class="caption">Basic Labels</p>
+      <p class="caption">Basic Label Chips</p>
       <p>
-        Text
         <q-chip class="bg-primary text-white">
           <q-icon name="alarm" slot="left" />
           q-chip
@@ -58,7 +57,7 @@
         <q-chip square class="bg-secondary text-white shadow-1">10k</q-chip>
       </p>
 
-      <p class="caption">Floating Labels</p>
+      <p class="caption">Floating Label Chips</p>
       <p>
         <q-btn class="light relative-position">
           Inbox
@@ -71,7 +70,7 @@
         </q-btn>
       </p>
 
-      <p class="caption">Chip Labels</p>
+      <p class="caption">Advanced Label Chips</p>
       <p>
         <div class="group">
           <q-chip class="bg-grey-4"><img slot="left" src="~assets/boy-avatar.png"> John</q-chip>
@@ -91,7 +90,7 @@
         </div>
       </p>
 
-      <p class="caption">Tag Labels</p>
+      <p class="caption">Tag Label Chips</p>
       <p>
         <q-chip tag class="bg-light">New <q-icon class="on-right" name="mail" /></q-chip>
       </p>
@@ -102,7 +101,7 @@
         <q-chip tag square class="bg-primary text-white">Featured</q-chip>
       </p>
 
-      <p class="caption">Pointing Labels</p>
+      <p class="caption">Pointing Label Chips</p>
       <p>
         <q-chip pointing="up" class="pointing-up bg-primary text-white">Pointing Up</q-chip>
         <q-chip pointing="down" class="pointing-down bg-primary text-white">Pointing Down</q-chip>
