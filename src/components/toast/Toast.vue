@@ -26,7 +26,7 @@
         @click="dismiss()"
         :style="{color: stack[0].button.color}"
       >
-        <q-icon name="close"></q-icon>
+        <q-icon name="&#xE5CD;"></q-icon>
       </a>
     </div>
   </div>

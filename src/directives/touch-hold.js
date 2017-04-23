@@ -1,4 +1,5 @@
 import { add, get, remove } from '../utils/store'
+import { position } from '../utils/event'
 
 let defaultDuration = 800
 
@@ -14,10 +15,16 @@ export default {
   bind (el, binding) {
     let ctx = {
       start (evt) {
+        const startTime = new Date().getTime()
         ctx.timer = setTimeout(() => {
           document.removeEventListener('mousemove', ctx.mouseAbort)
           document.removeEventListener('mouseup', ctx.mouseAbort)
-          ctx.handler()
+
+          ctx.handler({
+            evt,
+            position: position(evt),
+            duration: new Date().getTime() - startTime
+          })
         }, ctx.duration)
       },
       mouseStart (evt) {

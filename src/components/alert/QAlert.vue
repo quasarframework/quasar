@@ -29,7 +29,7 @@
       class="q-alert-close self-top"
     >
       <q-icon
-        name="close"
+        name="&#xE5CD;"
         class="cursor-pointer"
         @click="dismiss"
       ></q-icon>

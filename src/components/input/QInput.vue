@@ -319,9 +319,10 @@ export default {
       this.model = val.target ? val.target.value : val
     },
     setNumberByOffset (offset = 0) {
-      let val = exists(this.value)
-        ? this.value + offset
-        : (exists(this.min) ? this.min : 0)
+      let val = parseFloat(this.value)
+      val = isNaN(val)
+        ? (exists(this.min) ? this.min : 0)
+        : val + offset
 
       if (exists(this.min) && val < this.min) {
         val = this.min

@@ -1,10 +1,10 @@
 <template>
   <div class="q-pagination" :class="{disabled: disable}">
     <q-btn :class="{disabled: value === min}" class="primary clear small" @click="set(min)">
-      <q-icon name="first_page"></q-icon>
+      <q-icon name="&#xE5DC;"></q-icon>
     </q-btn>
     <q-btn :class="{disabled: value === min}" class="primary clear small" @click="setByOffset(-1)">
-      <q-icon name="keyboard_arrow_left"></q-icon>
+      <q-icon name="&#xE314;"></q-icon>
     </q-btn>
 
     <q-input
@@ -23,10 +23,10 @@
     ></q-input>
 
     <q-btn :class="{disabled: value === max}" class="primary clear small" @click="setByOffset(1)">
-      <q-icon name="keyboard_arrow_right"></q-icon>
+      <q-icon name="&#xE315;"></q-icon>
     </q-btn>
     <q-btn :class="{disabled: value === max}" class="primary clear small" @click="set(max)">
-      <q-icon name="last_page"></q-icon>
+      <q-icon name="&#xE5DD;"></q-icon>
     </q-btn>
   </div>
 </template>
