@@ -4,14 +4,11 @@
       <div class="card-title bg-primary text-center">
         <q-btn class="orange push" @click="show = !show">Toggle</q-btn>
       </div>
-
-      <div class="card-content group column">
-        <div class="auto column items-center">
-          <div class="flex">
-            <q-input float-label="Enter Class" v-model="enter" />
-            <q-input float-label="Leave Class" v-model="leave" />
-          </div>
-        </div>
+      <div class="card-content">
+          <p class="caption">Enter CSS Class</p>
+          <q-select filter v-model="enter" :options="enterSelectOptions"></q-select>
+          <p class="caption">Leave CSS Class</p>
+          <q-select filter v-model="leave" :options="leaveSelectOptions"></q-select>
       </div>
     </div>
 
@@ -21,6 +18,7 @@
       </div>
       <div class="card-content overflow-hidden">
         <q-transition
+          appear
           :enter="enter"
           :leave="leave"
           :disable="disable"
@@ -56,9 +54,31 @@
 </template>
 
 <script>
+import { generalAnimations, inAnimations, outAnimations } from '../../../animations/animationList'
+
+var enterSelectOptions = Array.from(generalAnimations).concat(inAnimations)
+var leaveSelectOptions = Array.from(generalAnimations).concat(outAnimations)
+
+// Since the animations are arrays of objects, we need to compare the label properties,
+// in order to sort alphabetically on them
+function alphabetically (a, b) {
+  if (a.label < b.label) {
+    return -1
+  }
+  if (a.label > b.label) {
+    return 1
+  }
+  return 0
+}
+
+enterSelectOptions.sort(alphabetically)
+leaveSelectOptions.sort(alphabetically)
+
 export default {
   data () {
     return {
+      enterSelectOptions,
+      leaveSelectOptions,
       enter: 'bounceInLeft',
       leave: 'bounceOutRight',
       show: true,
