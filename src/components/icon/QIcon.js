@@ -18,11 +18,9 @@ export default {
         : (props.ios && theme === 'ios' ? props.ios : ctx.props.name)
 
     if (!icon) {
-      console.error('q-icon has no icon to display for current theme; set "name" or both "mat" and "ios" props')
-      return
+      name = ''
     }
-
-    if (icon.startsWith('fa-')) {
+    else if (icon.startsWith('fa-')) {
       name = `fa ${icon}`
     }
     else if (icon.startsWith('ion-')) {
@@ -33,9 +31,8 @@ export default {
       text = icon.replace(/ /g, '_')
     }
 
-    data.staticClass = `${classes ? classes + ' ' : ''}q-icon ${name}`
+    data.staticClass = `${classes ? classes + ' ' : ''}q-icon${name.length ? ` ${name}` : ''}`
     data.attrs['aria-hidden'] = 'true'
-
     return h('i', data, text ? [text, ctx.children] : [' ', ctx.children])
   }
 }
