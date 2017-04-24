@@ -7,8 +7,8 @@
       vertical: vertical,
       horizontal: horizontal,
       focused: focused,
-      'with-icon': icon,
-      'with-label': label
+      'with-icon': icon || insetIcon,
+      'with-label': label || insetLabel
     }"
   >
     <q-icon :name="icon" v-if="icon" class="q-field-icon"></q-icon>

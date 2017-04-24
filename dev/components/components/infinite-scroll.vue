@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { QSpinner } from '../spinner'
+import { QSpinner } from 'quasar'
 
 export default {
   components: {
