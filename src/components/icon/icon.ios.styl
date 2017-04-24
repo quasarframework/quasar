@@ -1,7 +1,6 @@
 $icon-font-family    ?= 'Material Icons'
 $icon-font-weight    ?= normal
 $icon-font-style     ?= normal
-$icon-text-transform ?= none
 $icon-letter-spacing ?= normal
 
 if $icon-font-family == 'Material Icons'
@@ -16,25 +15,25 @@ if $icon-font-family == 'Material Icons'
       font-family $icon-font-family
       font-weight $icon-font-weight
       font-style $icon-font-style
+
+      /* Support for all WebKit browsers. */
+      -webkit-font-smoothing antialiased
+      /* Support for Safari and Chrome. */
+      text-rendering optimizeLegibility
+      /* Support for Firefox. */
+      -moz-osx-font-smoothing grayscale
+      /* Support for IE. */
+      font-feature-settings 'liga'
+
 i
   &.material-icons, &.q-icon
-    user-select none
-    display inline-flex
-    box-sizing content-box
-    text-transform $icon-text-transform
-    vertical-align middle
+    line-height 1
     letter-spacing normal
-    word-wrap normal
+    text-transform none
     white-space nowrap
+    word-wrap normal
     direction ltr
 
-    /* Support for all WebKit browsers. */
-    -webkit-font-smoothing antialiased
-    /* Support for Safari and Chrome. */
-    text-rendering optimizeLegibility
-
-    /* Support for Firefox. */
-    -moz-osx-font-smoothing grayscale
-
-    /* Support for IE. */
-    font-feature-settings 'liga'
+    user-select none
+    display inline-flex
+    vertical-align middle

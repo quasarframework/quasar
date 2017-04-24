@@ -10,6 +10,7 @@ export default {
     let name, text
     const
       props = ctx.props,
+      data = ctx.data,
       theme = ctx.parent.$q.theme,
       classes = ctx.data.staticClass,
       icon = props.mat && theme === 'mat'
@@ -32,7 +33,9 @@ export default {
       text = icon.replace(/ /g, '_')
     }
 
-    ctx.data.staticClass = `${classes ? classes + ' ' : ''}q-icon ${name}`
-    return h('i', ctx.data, text ? [text, ctx.children] : [' ', ctx.children])
+    data.staticClass = `${classes ? classes + ' ' : ''}q-icon ${name}`
+    data.attrs['aria-hidden'] = 'true'
+
+    return h('i', data, text ? [text, ctx.children] : [' ', ctx.children])
   }
 }

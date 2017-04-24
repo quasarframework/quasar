@@ -102,7 +102,7 @@
               class="primary clear"
               @click="setMonth(month - 1, true)"
             >
-              <q-icon name="&#xE314;"></q-icon>
+              <q-icon name="keyboard_arrow_left"></q-icon>
             </q-btn>
             <div class="auto">
               {{ monthStamp }}
@@ -111,7 +111,7 @@
               class="primary clear"
               @click="setMonth(month + 1, true)"
             >
-              <q-icon name="&#xE315;"></q-icon>
+              <q-icon name="keyboard_arrow_right"></q-icon>
             </q-btn>
           </div>
           <div class="q-datetime-weekdays row items-center justify-start">

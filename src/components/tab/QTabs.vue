@@ -24,7 +24,7 @@
         @mouseup="__stopAnimScroll"
         @touchend="__stopAnimScroll"
       >
-        <q-icon name="&#xE5CB;"></q-icon>
+        <q-icon name="chevron_left"></q-icon>
       </div>
       <div
         ref="rightScroll"
@@ -34,7 +34,7 @@
         @mouseup="__stopAnimScroll"
         @touchend="__stopAnimScroll"
       >
-        <q-icon name="&#xE5CC;"></q-icon>
+        <q-icon name="chevron_right"></q-icon>
       </div>
     </div>
 
