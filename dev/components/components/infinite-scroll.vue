@@ -13,7 +13,7 @@
         </p>
 
         <div class="row justify-center" style="margin-bottom: 50px;">
-          <spinner name="dots" slot="message" :size="40"></spinner>
+          <q-spinner name="dots" slot="message" :size="40"></q-spinner>
         </div>
       </q-infinite-scroll>
     </div>
@@ -21,7 +21,12 @@
 </template>
 
 <script>
+import { QSpinner } from '../spinner'
+
 export default {
+  components: {
+    QSpinner
+  },
   data () {
     return {
       items: [{}, {}, {}, {}, {}]

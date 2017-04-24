@@ -1,6 +1,6 @@
 <template>
   <div class="q-loading animate-fade fullscreen column items-center justify-center z-absolute">
-    <spinner :name="spinner" :style="{color: spinnerColor}" :size="spinnerSize"></spinner>
+    <q-spinner :name="spinner" :color="spinnerColor" :size="spinnerSize"></q-spinner>
     <div
       v-if="message"
       :style="{color: messageColor}"

@@ -204,6 +204,7 @@ import { inline as props } from './datetime-props'
 import { height, width, offset } from '../../utils/dom'
 import { between } from '../../utils/format'
 import { position } from '../../utils/event'
+import { QIcon } from '../icon'
 
 function convertToAmPm (hour) {
   return hour === 0 ? 12 : (hour >= 13 ? hour - 12 : hour)
@@ -211,6 +212,9 @@ function convertToAmPm (hour) {
 
 export default {
   name: 'q-inline-datetime',
+  components: {
+    QIcon
+  },
   props,
   data () {
     let view

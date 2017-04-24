@@ -10,7 +10,9 @@
 
     <div v-if="uploading">
       <span class="chip label bg-light q-uploader-progress">
-        <span v-html="computedLabel.uploading"></span> <spinner :size="15"></spinner> {{ progress }}%
+        <span v-html="computedLabel.uploading"></span>
+        <q-spinner :size="15"></q-spinner>
+        {{ progress }}%
       </span>
     </div>
     <div v-else class="group">
@@ -83,12 +85,14 @@ import extend from '../../utils/extend'
 import { humanStorageSize } from '../../utils/format'
 import { QBtn } from '../btn'
 import { QProgress } from '../progress'
+import { QSpinner } from '../spinner'
 
 export default {
   name: 'q-uploader',
   components: {
     QBtn,
-    QProgress
+    QProgress,
+    QSpinner
   },
   props: {
     name: {

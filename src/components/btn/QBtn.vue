@@ -30,6 +30,7 @@ export default {
     Ripple
   },
   props: {
+    value: Boolean,
     disable: Boolean,
     spinner: Boolean,
     circular: Boolean,
@@ -38,7 +39,14 @@ export default {
   },
   data () {
     return {
-      spinning: false
+      spinning: this.value || false
+    }
+  },
+  watch: {
+    value (val) {
+      if (this.spinning !== val) {
+        this.spinning = val
+      }
     }
   },
   methods: {
@@ -51,9 +59,11 @@ export default {
       }
       if (this.spinner !== false) {
         this.spinning = true
+        this.$emit('input', true)
       }
       this.$emit('click', e, () => {
         this.spinning = false
+        this.$emit('input', false)
       })
     }
   }
