@@ -1,0 +1,51 @@
+$radio-size         ?= $generic-input-size
+$radio-border-width ?= $generic-input-border-width
+
+
+.q-radio
+  display inline-block
+  height $radio-size
+  width $radio-size
+  min-width $radio-size
+  vertical-align middle
+
+  input
+    display none !important
+
+  input + div
+    position relative
+
+    &:before, &:after
+      content ''
+      position absolute
+      top 0
+      left 0
+      border-radius 50%
+      transition .3s ease
+
+    &:before
+      width $radio-size
+      height $radio-size
+      border $radio-border-width solid $form-darker-color
+    &:after
+      transform scale(0)
+      margin (2.5 * $radio-border-width)
+      width ($radio-size - 5 * $radio-border-width)
+      height ($radio-size - 5 * $radio-border-width)
+
+  input:checked + div
+    &:before
+      border $radio-border-width solid $form-active-color
+    &:after
+      background $form-active-color
+      transform scale(1.02)
+
+  for $name, $color in $colors
+    &.{$name} input:checked + div
+      &:before
+        border-color $color
+      &:after
+        background $color
+
+body.desktop .q-radio:focus input + div:before
+  box-shadow $form-focus-box-shadow

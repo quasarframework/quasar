@@ -9,12 +9,13 @@
           <q-range label v-model="size" :min="20" :max="256"></q-range>
         </div>
 
-        <i class="text-grey-7" style="font-size: 2rem">palette</i>
+        <q-icon class="text-grey-7" style="font-size: 2rem" name="palette" />
         <label for="color-spinner" class="auto">Color</label>
-        <input id="color-spinner" v-model="color" style="width: 80px; text-align: center; margin-right: 10px;">
+        <q-input id="color-spinner" class="inline" v-model="color" style="width: 80px; text-align: center; margin-right: 10px;" />
         <q-dialog-select
           type="radio"
           v-model="color"
+          class="inline"
           :options="colorOptions"
           ok-label="Pick"
           title="Spinner Color"
@@ -26,20 +27,19 @@
         Hover over them to see their names
       </p>
 
-      <div style="margin-top: 20px" class="group">
+      <div style="margin-top: 20px" class="group" :style="{color: color}">
         <div v-for="spinner in spinners" class="inline-block">
           <spinner
             :name="spinner"
-            :color="color"
             :size="size"
           ></spinner>
-          <q-tooltip>{{spinner}}</q-tooltip>
+          <q-tooltip :offset="[0, 8]">{{spinner}}</q-tooltip>
         </div>
       </div>
 
-      <p class="caption">
+      <p class="caption" :style="{color: color}">
         Default Theme Spinner:
-        <spinner :color="color" :size="size" style="margin-left: 1rem;"></spinner>
+        <spinner :size="size" style="margin-left: 1rem;"></spinner>
       </p>
     </div>
   </div>

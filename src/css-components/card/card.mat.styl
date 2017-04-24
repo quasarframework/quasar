@@ -42,7 +42,7 @@ $card-padding-vertical   ?= 13px
   font-weight 500
   padding $card-padding-horizontal
 
-  button
+  .q-btn
     margin 0
 
 .card-actions
@@ -56,10 +56,11 @@ $card-padding-vertical   ?= 13px
 
 .card-media
   position relative
-  > button
+  > .q-btn
     margin 0
     position absolute
-    bottom - ($button-circular-size / 2)
+    bottom 0
+    transform translateY(50%)
     right (2 * $card-padding-horizontal)
 
 .card-no-top-padding

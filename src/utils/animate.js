@@ -2,37 +2,60 @@ import uid from './uid'
 
 let ids = {}
 
-function animate ({id, finalPos, pos, threshold, factor, done, apply}) {
-  ids[id] = requestAnimationFrame(() => {
-    let diff = (finalPos - pos)
-    if (Math.abs(diff) < threshold) {
-      delete ids[id]
-      apply(finalPos)
-      done && done(finalPos)
-      return
-    }
-    let newPos = pos + (finalPos - pos) / factor
-    apply(newPos)
-    animate({id, finalPos, pos: newPos, threshold, done, factor, apply})
-  })
+function defaultEasing (progress) {
+  return progress
 }
 
-export default function start ({name, finalPos, pos, threshold = 1, factor = 5, done, apply}) {
+export function start ({name, duration = 300, to, from, apply, done, cancel, easing}) {
   let id = name
+  const start = performance.now()
+
   if (id) {
-    start.stop(id)
+    stop(id)
   }
   else {
     id = uid()
   }
-  animate({id, finalPos, pos, threshold, factor, done, apply})
+
+  const delta = easing || defaultEasing
+  const handler = () => {
+    let progress = (performance.now() - start) / duration
+    if (progress > 1) {
+      progress = 1
+    }
+
+    const newPos = from + (to - from) * delta(progress)
+    apply(newPos, progress)
+
+    if (progress === 1) {
+      delete ids[id]
+      done && done(newPos)
+      return
+    }
+
+    anim.last = {
+      pos: newPos,
+      progress
+    }
+    anim.timer = window.requestAnimationFrame(handler)
+  }
+
+  const anim = ids[id] = {
+    cancel,
+    timer: window.requestAnimationFrame(handler)
+  }
+
   return id
 }
 
-start.stop = id => {
-  let timer = ids[id]
-  if (timer) {
-    cancelAnimationFrame(timer)
+export function stop (id) {
+  if (!id) {
+    return
+  }
+  let anim = ids[id]
+  if (anim && anim.timer) {
+    cancelAnimationFrame(anim.timer)
+    anim.cancel && anim.cancel(anim.last)
     delete ids[id]
   }
 }

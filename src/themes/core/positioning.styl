@@ -7,6 +7,7 @@
   position relative !important
 
 .fixed,
+.fullscreen,
 .fixed-bottom,
 .fixed-left,
 .fixed-right,
@@ -17,6 +18,8 @@
 .fixed-bottom-right
   position fixed !important
 
+.absolute,
+.absolute-full,
 .absolute-bottom,
 .absolute-left,
 .absolute-right,
@@ -57,8 +60,7 @@
   bottom 0
   right 0
 
-.fullscreen
-  position fixed !important
+.absolute-full, .fullscreen
   top 0
   right 0
   bottom 0
@@ -79,6 +81,6 @@
     vertical-align bottom !important
 
 &.on-left
-  margin-right .5rem !important
+  margin-right .3rem !important
 &.on-right
-  margin-left .5rem !important
+  margin-left .3rem !important

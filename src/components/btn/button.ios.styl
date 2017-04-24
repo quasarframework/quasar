@@ -1,0 +1,163 @@
+/*
+ * Size small
+ */
+$button-small-font-size     ?= .75rem
+$button-small-icon-size     ?= 1.5 * $button-small-font-size
+$button-small-padding       ?= 0 .5rem
+$button-small-min-height    ?= 1.7rem
+$button-small-circular-size ?= 37px
+
+/*
+ * Size default
+ */
+$button-font-size           ?= .85rem
+$button-icon-size           ?= 1.5 * $button-font-size
+$button-padding             ?= 0 1rem
+$button-min-height          ?= 2.4rem
+$button-circular-size       ?= 56px
+
+/*
+ * Size big
+ */
+$button-big-font-size       ?= .9rem
+$button-big-icon-size       ?= 1.5 * $button-big-font-size
+$button-big-padding         ?= 0 1.4rem
+$button-big-min-height      ?= 3.5rem
+$button-big-circular-size   ?= 72px
+
+
+$button-border-radius       ?= $generic-border-radius
+$button-box-shadow          ?= none
+$button-font-weight         ?= normal
+$button-margin              ?= 0
+$button-round-padding       ?= 0 2.6rem
+
+button
+  position relative
+  user-select none
+  display inline-flex
+  align-items center
+  justify-content center
+  outline 0
+  border 0
+  cursor pointer
+  text-decoration none
+  font-style normal
+  text-align center
+  text-overflow ellipsis
+  white-space nowrap
+  vertical-align middle
+  color inherit
+  background transparent
+  transition all .12s ease-in
+  -webkit-appearance button
+
+  border-radius $button-border-radius
+
+  margin $button-margin
+  padding $button-padding
+  min-height $button-min-height
+
+  font-weight $button-font-weight
+  font-size $button-font-size
+
+  i
+    font-size $button-icon-size
+  &:not(.circular)
+    i
+      &.on-left, &.on-right
+        margin-top -1px
+    .q-spinner
+      margin-right .5rem
+
+  &.small
+    font-size $button-small-font-size
+    padding $button-small-padding
+    min-height $button-small-min-height
+    &:not(.circular) i
+      font-size $button-small-icon-size
+  &.big
+    font-size $button-big-font-size
+    padding $button-big-padding
+    min-height $button-big-min-height
+    i
+      font-size $button-big-icon-size
+
+  &.circular
+    text-align center
+    border-radius 50%
+    padding 0
+    height $button-circular-size
+    width $button-circular-size
+    &.small
+      height $button-small-circular-size
+      width $button-small-circular-size
+    &.big
+      height $button-big-circular-size
+      width $button-big-circular-size
+
+  &.round
+    border-radius 64px
+    padding $button-round-padding
+
+  &.raised
+    box-shadow $shadow-2
+    &:active:not(.disabled)
+      box-shadow $shadow-3
+
+  &.push
+    box-shadow $shadow-2
+    border-bottom 3px solid rgba(0, 0, 0, .15)
+    &:active:not(.disabled)
+      border-bottom 0
+      box-shadow none !important
+    &:not(.circular)
+      border-radius 7px
+
+  for $name, $color in $colors
+    &.{$name}
+      background $color
+
+      if $name != 'light' && $name != 'white'
+        color white
+
+      &:not(.push):active:not(.disabled)
+        background active-color($color) !important
+
+      if $name != 'light' && $name != 'white'
+        &.clear, &.outline
+          color $color
+          &:active:not(.disabled)
+            background $color !important
+
+  &.glossy
+    background-image linear-gradient(to bottom, rgba(white, .3), rgba(white, 0) 50%, rgba(black, .12) 51%, rgba(black, .04))
+
+  &.clear, &.outline
+    background transparent
+    &:active:not(.disabled)
+      color white
+  &.outline
+    border 1px solid currentColor
+
+  &.full-width
+    display block
+    margin-left 0
+    margin-right 0
+    border-radius 0
+
+body.desktop button
+  for $name, $color in $colors
+    &.{$name}:not(.disabled)
+      &:not(.clear)
+        &:hover, &:focus
+          background hover-color($color)
+          &:not(.push)
+            box-shadow $button-box-shadow
+      &.clear
+        &:hover, &:focus
+          background lighten($color, 70%)
+
+  &.outline
+    &:hover, &:focus
+      color white

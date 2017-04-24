@@ -1,0 +1,133 @@
+$layout-toolbar-min-height ?= 50px
+$layout-border             ?= 1px solid $toolbar-faded-color
+$layout-aside-background   ?= white
+
+$toolbar-title-font-size   ?= .95rem
+$toolbar-padding           ?= 4px 10px
+
+.layout
+  width 100%
+  min-height 100vh
+
+.layout-header
+  border-bottom $layout-border
+
+.layout-footer
+  border-top $layout-border
+
+.layout-aside
+  overflow-y auto
+  position absolute
+  top 0
+  bottom 0
+  background $layout-aside-background
+  &.fixed
+    z-index $z-side
+  &.on-top
+    z-index $z-fixed-side
+.layout-aside-left
+  left 0
+  &.fixed
+    border-right $layout-border
+.layout-aside-right
+  right 0
+  &.fixed
+    border-left $layout-border
+
+main, .layout, .layout-header, .layout-footer
+  position relative
+
+.layout-header, .layout-footer
+  color $toolbar-color
+  background $toolbar-background
+  z-index $z-marginals
+  transition transform .3s
+
+.layout-backdrop
+  z-index ($z-fixed-side - 1)
+  background $dimmed-background
+
+.layout-side-opener
+  z-index ($z-marginals + 1)
+  height 100vh
+  width 15px
+
+body.with-layout-side-opened
+  overflow hidden
+
+
+.toolbar
+  padding $toolbar-padding
+  min-height $layout-toolbar-min-height
+  display flex
+  overflow hidden
+  flex-direction row
+  align-items center
+  width 100%
+  position relative
+  color $toolbar-color
+  background $toolbar-background
+
+  for $name, $color in $colors
+    if $name != 'light' && $name != 'white'
+      &.{$name}
+        color white
+        background $color
+        &.inverted
+          color $color
+    if $name == 'light' || $name == 'white'
+      &.{$name}
+        color composite-color($color)
+        background $color
+        &.inverted
+          color $color
+          background composite-color($color)
+
+  &.inverted
+    background transparent
+
+  > .q-btn
+    margin 0 .2rem
+    padding .2rem
+    &:active:not(.disabled)
+      color $toolbar-active-color
+
+.toolbar-title
+  flex 1
+  min-width 0
+  max-width 100%
+  font-weight 600
+  text-overflow ellipsis
+  white-space nowrap
+  overflow hidden
+  font-size $toolbar-title-font-size
+  text-align center
+  i
+    line-height 1
+
+body
+  &.cordova.platform-ios, &.demo-site.within-iframe
+    .layout-header > .toolbar:first-child, .layout-aside.top-padding
+      padding-top $ios-statusbar-height
+      min-height ($layout-toolbar-min-height + $ios-statusbar-height)
+
+.layout-padding
+  @media only screen and (max-width $layout-small-max)
+    padding 1.5rem .5rem
+    &.horizontal
+      padding 0 .5rem
+  @media only screen and (min-width $layout-medium-min) and (max-width $layout-medium-max)
+    padding 1.5rem 2rem
+    margin auto
+    &.horizontal
+      padding 0 2rem
+  @media only screen and (min-width $layout-big-min) and (max-width $layout-big-max)
+    padding 2.5rem 3rem
+    margin auto
+    &.horizontal
+      padding 0 3rem
+  @media only screen and (min-width $layout-large-min)
+    padding 3rem 4rem
+    margin auto
+    &.horizontal
+      padding 0 4rem

@@ -1,4 +1,5 @@
 /* eslint-disable no-useless-escape */
+/* eslint-disable no-mixed-operators */
 
 function getUserAgent () {
   return (navigator.userAgent || navigator.vendor || window.opera).toLowerCase()
@@ -15,8 +16,8 @@ function getMatch (userAgent, platformMatch) {
     /(webkit)[\/]([\w.]+)/.exec(userAgent) ||
     /(opera)(?:.*version|)[\/]([\w.]+)/.exec(userAgent) ||
     /(msie) ([\w.]+)/.exec(userAgent) ||
-    (userAgent.indexOf('trident') >= 0 && /(rv)(?::| )([\w.]+)/.exec(userAgent)) ||
-    (userAgent.indexOf('compatible') < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(userAgent)) ||
+    userAgent.indexOf('trident') >= 0 && /(rv)(?::| )([\w.]+)/.exec(userAgent) ||
+    userAgent.indexOf('compatible') < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(userAgent) ||
     []
 
   return {
@@ -101,7 +102,7 @@ function getPlatform () {
   }
 
   // Blackberry browsers are marked as Safari on BlackBerry
-  if ((browser.safari && browser.blackberry) || browser.bb) {
+  if (browser.safari && browser.blackberry || browser.bb) {
     matched.browser = 'blackberry'
     browser.blackberry = true
   }

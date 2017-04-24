@@ -1,0 +1,49 @@
+.q-progress-btn
+  overflow hidden
+
+  &.active.indeterminate:before
+    content ''
+    position absolute
+    top 0
+    left 0
+    right 0
+    bottom 0
+    background-image linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent)
+    background-size 40px 40px
+    animation q-progress-stripes 2s linear infinite
+
+.q-progress-btn-content
+  transition all .3s
+  transform translateY(0)
+
+  &.q-progress-btn-complete
+    transform translateY(-3.25rem)
+  &.q-progress-btn-incomplete
+    transform translateY(2.75rem)
+
+.q-progress-btn-error,
+.q-progress-btn-success
+  position absolute
+  text-align center
+  top 0
+  left 50%
+  div
+    min-height 1.275rem
+    line-height 1.275rem
+
+.q-progress-btn-error
+  transform translateX(-50%) translateY(-3rem)
+
+.q-progress-btn-success
+  transform translateX(-50%) translateY(3rem)
+
+.q-progress-btn-filler
+  transition all .3s
+  position absolute
+  left 0
+  top 0
+  bottom 0
+  height 100%
+  background rgba(255, 255, 255, .25)
+  &.q-progress-btn-dark-filler
+    background rgba(0, 0, 0, .2)

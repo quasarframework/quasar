@@ -33,7 +33,7 @@
       <p class="caption">Inside of a List</p>
       <div class="list">
         <div class="item two-lines">
-          <i class="item-primary">edit</i>
+          <div class="item-primary"><q-icon name="edit" /></div>
           <div class="item-content">
             <input class="full-width">
           </div>
@@ -41,7 +41,7 @@
 
         <hr>
         <div class="item two-lines">
-          <i class="item-primary">edit</i>
+          <div class="item-primary"><q-icon name="edit" /></div>
           <div class="item-content">
             <input placeholder="Placeholder" class="full-width">
           </div>
@@ -49,7 +49,7 @@
 
         <hr>
         <div class="item two-lines">
-          <i class="item-primary">edit</i>
+          <div class="item-primary"><q-icon name="edit" /></div>
           <div class="item-content row items-center wrap">
             <div style="margin-right: 10px;" class="item-label">Label:</div>
             <input class="auto">
@@ -58,7 +58,7 @@
 
         <hr>
         <div class="item multiple-lines">
-          <i class="item-primary">edit</i>
+          <div class="item-primary"><q-icon name="edit" /></div>
           <div class="item-content">
             <div class="stacked-label">
               <input class="full-width">
@@ -69,7 +69,7 @@
 
         <hr>
         <div class="item multiple-lines">
-          <i class="item-primary">edit</i>
+          <div class="item-primary"><q-icon name="edit" /></div>
           <div class="item-content">
             <div class="floating-label">
               <input required class="full-width">

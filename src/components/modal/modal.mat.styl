@@ -1,0 +1,143 @@
+$modal-background        ?= white
+$modal-border-radius     ?= $generic-border-radius
+
+$modal-width             ?= 80vw
+$modal-max-width         ?= 1000px
+
+$modal-height            ?= 80vh
+$modal-max-height        ?= 1000px
+
+$modal-header-font-size  ?= 1.6rem
+$modal-header-padding    ?= 24px 24px 20px 24px
+$modal-header-text-align ?= left
+$modal-body-text-align   ?= left
+$modal-body-color        ?= rgba(0, 0, 0, .5)
+$modal-body-padding      ?= 0 24px 24px 24px
+$modal-slim-body-padding ?= 0 24px
+$modal-scroll-size       ?= 240px
+$modal-buttons-padding   ?= 8px 8px 12px 24px
+
+body.with-modal
+  overflow hidden !important
+
+minimized-modal()
+  max-width 80vw
+  max-height 80vh
+
+maximized-modal()
+  width 100%
+  height 100%
+  max-width 100%
+  max-height 100%
+  border-radius 0
+
+.modal-content
+  position relative
+  background $modal-background
+  border-radius $modal-border-radius
+  box-shadow $shadow-4
+  overflow-y auto
+  min-width 280px
+  max-height 80vh
+
+  .layout
+    width 100%
+    height 100%
+
+.modal
+  z-index $z-modal
+  &.minimized, &.with-backdrop
+    background $dimmed-background
+  &.minimized .modal-content
+    minimized-modal()
+  &.maximized .modal-content
+    maximized-modal()
+
+.q-modal-enter, .q-modal-leave-active
+  opacity 0
+
+@media screen and (min-width $layout-medium-min)
+  .modal:not(.maximized)
+    background $dimmed-background
+    &.q-modal-enter .modal-content
+      transform scale(1.2)
+    &.q-modal-leave-active .modal-content
+      transform scale(.8)
+  .modal.maximized
+    &.q-modal-enter, &.q-modal-leave-active
+      .modal-content
+        transform translateX(101%)
+
+@media screen and (max-width $layout-small-max)
+  .modal:not(.minimized)
+    .modal-content
+      maximized-modal()
+    &.q-modal-enter, &.q-modal-leave-active
+      .modal-content
+        transform translateX(101%)
+  .modal.minimized
+    &.q-modal-enter .modal-content
+      transform scale(1.2)
+    &.q-modal-leave-active .modal-content
+      transform scale(.8)
+
+
+.modal, .modal-content
+  transition all .2s ease-in-out
+
+.modal-header
+  text-align $modal-header-text-align
+  padding $modal-header-padding
+  font-size $modal-header-font-size
+  font-weight 500
+
+.modal-body
+  padding $modal-body-padding
+.modal-slim-body
+  padding $modal-slim-body-padding
+.modal-body, .modal-slim-body
+  text-align $modal-body-text-align
+  color $modal-body-color
+
+.small-modal-scroll, .modal-scroll, .big-modal-scroll
+  overflow auto
+  -webkit-overflow-scrolling touch
+  will-change scroll-position
+.small-modal-scroll
+  max-height (.65 * $modal-scroll-size)
+.modal-scroll
+  max-height $modal-scroll-size
+.big-modal-scroll
+  max-height (2 * $modal-scroll-size)
+
+
+.modal-buttons
+  padding $modal-buttons-padding
+  justify-content flex-end
+  &.row
+    .q-btn + .q-btn
+      margin-left 8px
+  &.column
+    align-items flex-end
+    .q-btn + .q-btn
+      margin-top 8px
+
+.q-modal-bottom-enter, .q-modal-bottom-leave-active
+  opacity 0
+  .modal-content
+    transform translateY(101%)
+
+.q-modal-top-enter, .q-modal-top-leave-active
+  opacity 0
+  .modal-content
+    transform translateY(-101%)
+
+.q-modal-right-enter, .q-modal-right-leave-active
+  opacity 0
+  .modal-content
+    transform translateX(101%)
+
+.q-modal-left-enter, .q-modal-left-leave-active
+  opacity 0
+  .modal-content
+    transform translateX(-101%)

@@ -6,25 +6,25 @@
         There is also the <em>progress</em> Dialog type you can use.
       </p>
       <div class="group">
-        <button class="light push" @click="noMessage()">
+        <q-btn class="light push" @click="noMessage()">
           Show
-        </button>
-        <button class="primary push" @click="withMessage()">
+        </q-btn>
+        <q-btn class="primary push" @click="withMessage()">
           Show With Message
-        </button>
+        </q-btn>
       </div>
       <p class="caption">
         You can use a custom spinner.
       </p>
-      <button class="light push" @click="customSpinner()">
+      <q-btn class="light push" @click="customSpinner()">
         Custom Spinner
-      </button>
+      </q-btn>
       <p class="caption">
         ...with a custom color and spinner size.
       </p>
-      <button class="light push" @click="customColorSpinner()">
+      <q-btn class="light push" @click="customColorSpinner()">
         Custom Color and Size Spinner
-      </button>
+      </q-btn>
     </div>
   </div>
 </template>

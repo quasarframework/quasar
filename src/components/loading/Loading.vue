@@ -1,6 +1,6 @@
 <template>
   <div class="q-loading animate-fade fullscreen column items-center justify-center z-absolute">
-    <spinner :name="spinner" :color="spinnerColor" :size="spinnerSize"></spinner>
+    <spinner :name="spinner" :style="{color: spinnerColor}" :size="spinnerSize"></spinner>
     <div
       v-if="message"
       :style="{color: messageColor}"
@@ -9,7 +9,13 @@
 </template>
 
 <script>
+import { QSpinner } from '../spinner'
+
 export default {
+  name: 'q-loading',
+  components: {
+    QSpinner
+  },
   props: {
     message: [String, Boolean],
     spinner: String,

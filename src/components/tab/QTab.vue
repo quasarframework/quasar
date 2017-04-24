@@ -1,0 +1,54 @@
+<template>
+  <div
+    class="q-tab items-center justify-center relative-position"
+    :class="{
+      active: active,
+      hidden: hidden,
+      disabled: disable,
+      'icon-and-label': icon && label,
+      'hide-icon': hide === 'icon',
+      'hide-label': hide === 'label'
+    }"
+    @click="select"
+    v-ripple.mat
+  >
+    <q-icon v-if="icon" :name="icon" class="q-tabs-icon"></q-icon>
+    <span v-if="label" class="q-tab-label" v-html="label"></span>
+    <q-chip v-if="count" floating>{{count}}</q-chip>
+    <div v-else-if="alert" class="q-dot"></div>
+    <slot></slot>
+    <div class="q-tab-border"></div>
+  </div>
+</template>
+
+<script>
+import TabMixin from './tab-mixin'
+import Ripple from '../../directives/ripple'
+import { QIcon } from '../icon'
+
+export default {
+  name: 'q-tab',
+  components: {
+    QIcon
+  },
+  directives: {
+    Ripple
+  },
+  mixins: [TabMixin],
+  props: {
+    selected: Boolean
+  },
+  methods: {
+    select () {
+      if (!this.disable) {
+        this.selectTab(this.name)
+      }
+    }
+  },
+  mounted () {
+    if (this.selected && !this.disable) {
+      this.select()
+    }
+  }
+}
+</script>

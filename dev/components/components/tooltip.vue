@@ -19,42 +19,42 @@
 
       <p class="caption">With offset</p>
       <div class="group">
-        <button class="indigo">
+        <q-btn class="indigo">
           Hover
-          <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, -10]">
-            <strong>Tooltip</strong> on <em>top</em> (<i>keyboard_arrow_up</i>)
+          <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
+            <strong>Tooltip</strong> on <em>top</em> (<q-icon name="keyboard_arrow_up" />)
           </q-tooltip>
-        </button>
-        <button class="red">
+        </q-btn>
+        <q-btn class="red">
           Over
-          <q-tooltip anchor="center right" self="center left" :offset="[10, 0]">
-            <strong>Tooltip</strong> on <em>right</em> (<i>keyboard_arrow_right</i>)
+          <q-tooltip anchor="center right" self="center left" :offset="[10, 10]">
+            <strong>Tooltip</strong> on <em>right</em> (<q-icon name="keyboard_arrow_right" />)
           </q-tooltip>
-        </button>
-        <button class="purple">
+        </q-btn>
+        <q-btn class="purple">
           These
-          <q-tooltip anchor="center left" self="center right" :offset="[-10, 0]">
-            <strong>Tooltip</strong> on <em>left</em> (<i>keyboard_arrow_left</i>)
+          <q-tooltip anchor="center left" self="center right" :offset="[10, 10]">
+            <strong>Tooltip</strong> on <em>left</em> (<q-icon name="keyboard_arrow_left" />)
           </q-tooltip>
-        </button>
-        <button class="amber">
+        </q-btn>
+        <q-btn class="amber">
           Buttons
-          <q-tooltip anchor="bottom middle" self="top middle" :offset="[0, 10]">
-            <strong>Tooltip</strong> on <em>bottom</em> (<i>keyboard_arrow_down</i>)
+          <q-tooltip anchor="bottom middle" self="top middle" :offset="[10, 10]">
+            <strong>Tooltip</strong> on <em>bottom</em> (<q-icon name="keyboard_arrow_down" />)
           </q-tooltip>
-        </button>
+        </q-btn>
       </div>
 
       <div class="card" style="margin-top: 75px">
         <div class="card-title bg-primary text-center">
-          <button class="orange push">
+          <q-btn class="orange push">
             Mouse Hover
 
             <q-tooltip :anchor="anchor" :self="self">
               <div>Quasar is <strong>great</strong>!</div>
               <div class="text-center">Try it.</div>
             </q-tooltip>
-          </button>
+          </q-btn>
         </div>
 
         <p class="caption text-center">Configure the Tooltip for button above.</p>

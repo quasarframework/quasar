@@ -8,36 +8,36 @@
       </p>
 
       <div>
-        <button class="primary">
-          <i>assignment</i>
+        <q-btn class="primary">
+          <q-icon name="assignment" />
 
           <q-popover ref="popover1">
-            <div class="list scroll highlight" style="min-width: 150px; max-height: 500px;">
+            <div class="list scroll highlight link delimiter no-border" style="min-width: 150px;">
               <div
-                class="item item-link two-lines item-delimiter"
+                class="item"
                 v-for="n in 20"
                 @click="showToast(), $refs.popover1.close()"
               >
-                <div class="item-content">
+                <div class="item-content text">
                   <div>Label</div>
                   <div>Value</div>
                 </div>
               </div>
             </div>
           </q-popover>
-        </button>
+        </q-btn>
 
-        <button ref="target4" class="negative">
+        <q-btn ref="target4" class="negative">
           Disabled Popover
 
           <q-popover disable>
             This Popover content won't be shown because of "disable"
           </q-popover>
-        </button>
+        </q-btn>
 
         <div class="card" style="margin-top: 75px">
           <div class="card-title bg-primary text-center">
-            <button class="orange push">
+            <q-btn class="orange push">
               Tap Me
 
               <q-popover
@@ -45,9 +45,9 @@
                 :anchor="anchor"
                 :self="self"
               >
-                <div class="list highlight" style="min-width: 100px">
+                <div class="list highlight link delimiter no-border" style="min-width: 100px">
                   <div
-                    class="item item-link item-delimiter"
+                    class="item"
                     v-for="n in 3"
                     @click="showToast(), $refs.popover2.close()"
                   >
@@ -57,7 +57,7 @@
                   </div>
                 </div>
               </q-popover>
-            </button>
+            </q-btn>
           </div>
 
           <p class="caption text-center">Configure the Popover for button above.</p>
@@ -142,8 +142,8 @@
 
         <div style="margin-bottom: 700px;"></div>
 
-        <button class="secondary fixed-top-right" style="top: 65px; right: 10px; right: 16px;">
-          <i>directions</i>
+        <q-btn class="secondary fixed-top-right" style="top: 65px; right: 10px; right: 16px;">
+          <q-icon name="directions" />
 
           <q-popover ref="popover3">
             <img
@@ -152,45 +152,45 @@
               @click="showToast(), $refs.popover3.close()"
             >
           </q-popover>
-        </button>
+        </q-btn>
 
-        <button class="tertiary fixed-bottom-right" style="bottom: 10px; right: 16px;">
-          <i>plus_one</i>
+        <q-btn class="tertiary fixed-bottom-right" style="bottom: 10px; right: 16px;">
+          <q-icon name="plus_one" />
 
           <q-popover ref="popover4">
             <div class="group" style="width: 200px; height: 50px; text-align: center;">
-              <button class="primary clear" @click="showToast(), $refs.popover4.close()">
-                <i>thumb_up</i>
-              </button>
-              <button class="primary clear" @click="showToast(), $refs.popover4.close()">
-                <i>thumb_down</i>
-              </button>
-              <button class="secondary clear" @click="showToast(), $refs.popover4.close()">
-                <i>share</i>
-              </button>
+              <q-btn class="primary clear" @click="showToast(), $refs.popover4.close()">
+                <q-icon name="thumb_up" />
+              </q-btn>
+              <q-btn class="primary clear" @click="showToast(), $refs.popover4.close()">
+                <q-icon name="thumb_down" />
+              </q-btn>
+              <q-btn class="secondary clear" @click="showToast(), $refs.popover4.close()">
+                <q-icon name="share" />
+              </q-btn>
             </div>
           </q-popover>
-        </button>
+        </q-btn>
       </div>
 
-      <button class="primary fixed-bottom-left" style="bottom: 10px; left: 10px;">
-        <i>menu</i>
+      <q-btn class="primary fixed-bottom-left" style="bottom: 10px; left: 10px;">
+        <q-icon name="menu" />
 
         <q-popover ref="popover5">
-          <div class="list highlight" style="min-width: 150px">
+          <div class="list link delimiter no-border" style="min-width: 150px">
             <div
-              class="item item-link two-lines item-delimiter"
+              class="item"
               v-for="n in 20"
               @click="showToast(), $refs.popover5.close()"
               >
-              <div class="item-content">
+              <div class="item-content text">
                 <div>Label</div>
                 <div>Value</div>
               </div>
             </div>
           </div>
         </q-popover>
-      </button>
+      </q-btn>
     </div>
   </div>
 </template>

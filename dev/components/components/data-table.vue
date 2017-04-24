@@ -2,10 +2,7 @@
   <div>
     <div>
       <div class="column group" style="margin-bottom: 50px">
-        <div class="floating-label">
-          <input v-model="config.title" required>
-          <label>Data Table Title</label>
-        </div>
+        <q-input v-model="config.title" float-label="Data Table Title" />
 
         <div class="column group gt-sm-row">
           <label>
@@ -92,6 +89,8 @@
         :config="config"
         :columns="columns"
         @refresh="refresh"
+        @selection="selection"
+        @rowclick="rowClick"
       >
         <template slot="col-message" scope="cell">
           <span class="light-paragraph">{{cell.data}}</span>
@@ -105,12 +104,12 @@
         </template>
 
         <template slot="selection" scope="props">
-          <button class="primary clear" @click="changeMessage(props)">
-            <i>edit</i>
-          </button>
-          <button class="primary clear" @click="deleteRow(props)">
-            <i>delete</i>
-          </button>
+          <q-btn class="primary clear" @click="changeMessage(props)">
+            <q-icon name="edit" />
+          </q-btn>
+          <q-btn class="primary clear" @click="deleteRow(props)">
+            <q-icon name="delete" />
+          </q-btn>
         </template>
       </q-data-table>
 
@@ -139,6 +138,12 @@ export default {
       this.timeout = setTimeout(() => {
         done()
       }, 5000)
+    },
+    selection (number, rows) {
+      console.log(`selected ${number}: ${rows}`)
+    },
+    rowClick (row) {
+      console.log('clicked on a row', row)
     }
   },
   beforeDestroy () {
@@ -165,8 +170,8 @@ export default {
         },
         selection: 'multiple',
         messages: {
-          noData: '<i>warning</i> No data available to show.',
-          noDataAfterFiltering: '<i>warning</i> No results. Please refine your search terms.'
+          noData: '<i class="material-icons">warning</i> No data available to show.',
+          noDataAfterFiltering: '<i class="material-icons">warning</i> No results. Please refine your search terms.'
         },
         labels: {
           columns: 'Coluuuuumns',
@@ -200,7 +205,7 @@ export default {
           field: 'serviceable',
           format (value) {
             if (value === 'Informational') {
-              return '<i class="text-positive">info</i>'
+              return '<i class="material-icons text-positive">info</i>'
             }
             return value
           },

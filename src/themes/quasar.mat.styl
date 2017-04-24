@@ -1,13 +1,13 @@
 $generic-border-radius         ?= 2px
-$generic-input-size            ?= 22px
+$generic-input-size            ?= 19px
 $generic-input-border-width    ?= 2px
 
 $typography-font-family        ?= 'Roboto'
 
 $toolbar-color                 ?= white
 $toolbar-background            ?= $primary
-$toolbar-active-color          ?= $primary
-$toolbar-faded-color           ?= composite-color($primary)
+$toolbar-faded-color           ?= rgba(255, 255, 255, .7)
+$toolbar-inverted-faded-color  ?= rgba(0, 0, 0, .4)
 
 if $typography-font-family == 'Roboto' && $quasar-dont-import-fonts != true && $quasar-dont-import-roboto != true
   @font-face
@@ -37,8 +37,7 @@ if $typography-font-family == 'Roboto' && $quasar-dont-import-fonts != true && $
 
 @import './quasar.core.variables'
 
-@import '../components/*/*.mat'
 @import '../css-components/*/*.mat'
-@import '../vue-components/*/*.mat'
+@import '../components/*/*.mat'
 
 @import './quasar.core.definitions'

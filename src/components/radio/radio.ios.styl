@@ -1,0 +1,41 @@
+$radio-size           ?= $generic-input-size
+$radio-tick-thickness ?= 2px
+$radio-border         ?= 1px solid $form-darker-color
+
+.q-radio
+  display inline-block
+  height $radio-size
+  width $radio-size
+  min-width $radio-size
+  vertical-align middle
+  border 1px solid $form-darker-color
+  border-radius $generic-border-radius
+
+  input
+    display none !important
+
+  input + div
+    position relative
+
+    &:after
+      content ''
+      position absolute
+      opacity 0
+      top 0
+      left ($radio-size / 3)
+      width (.36 * $radio-size)
+      height (.75 * $radio-size)
+      border-top none
+      border-left none
+      border-right $radio-tick-thickness solid $form-active-color
+      border-bottom $radio-tick-thickness solid $form-active-color
+      transform rotate(45deg)
+      transition all .3s ease
+
+  for $name, $color in $colors
+    &.{$name} input:checked + div:after
+      border-color $color
+
+input:checked + div
+  &:after
+    opacity 1

@@ -1,0 +1,32 @@
+$alert-padding = .7rem
+$alert-color ?= white
+$alert-background ?= $negative
+$alert-border-radius ?= $generic-border-radius
+$alert-min-width ?= 200px
+
+.q-alert
+  color $alert-color
+  background $alert-background
+  border-radius $alert-border-radius
+  min-width $alert-min-width
+
+.q-alert-icon, .q-alert-content
+  padding $alert-padding
+
+.q-alert-icon
+  font-size 150%
+  background rgba(0, 0, 0, .2)
+
+.q-alert-close
+  padding 0
+  .q-icon
+    padding .9rem
+
+.q-alert-actions
+  margin-top .5rem
+  color rgba(0, 0, 0, .4)
+  border-top 1px solid rgba(0, 0, 0, .2)
+  padding-top .5rem
+  font-size .8rem
+  span
+    cursor pointer

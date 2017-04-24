@@ -1,0 +1,75 @@
+$toggle-size             ?= $generic-input-size
+$toggle-width-factor     ?= 1.8
+
+$toggle-height           = $toggle-size
+$toggle-width            = $toggle-width-factor * $toggle-size
+
+$toggle-handle-size      = $toggle-size
+$toggle-area-width       = $toggle-width
+$toggle-area-active-left = ($toggle-width - $toggle-handle-size)
+
+.q-toggle
+  display inline-block
+  height $toggle-height
+  width $toggle-width
+  min-width $toggle-width
+  vertical-align middle
+  position relative
+
+  input
+    display none
+  i
+    color $grey-7
+    line-height $toggle-size
+    font-size (.65 * $toggle-size)
+    position absolute
+    top 0
+    bottom 0
+    left (.25 * $toggle-handle-size)
+    transition all .3s ease
+
+  div
+    position relative
+    &:before, &:after
+      content ''
+      position absolute
+      transition all .3s ease
+    &:before
+      vertical-align middle
+      top (.15 * $toggle-height)
+      left 0
+      width $toggle-area-width
+      height (.7 * $toggle-height)
+      border-radius 16px
+      background $form-lighter-color
+    &:after
+      border-radius 50%
+      top 0
+      left 2px
+      width $toggle-handle-size
+      height $toggle-handle-size
+      background white
+      box-shadow $form-shadow
+      transform translateX(0)
+
+  input:checked + div
+    &:before
+      background lighten($form-active-color, 60%)
+    &:after
+      transform translateX(($toggle-area-active-left - 2px))
+      background $form-active-color
+
+  input:checked ~ i
+    color white
+    transform translateX(($toggle-area-active-left - 1.6px))
+
+
+  for $name, $color in $colors
+    &.{$name} input:checked + div
+      &:before
+        background lighten($color, 60%)
+      &:after
+        background $color
+
+body.desktop .q-toggle:focus input + div:before
+  box-shadow $form-focus-box-shadow

@@ -1,14 +1,10 @@
 import Platform from '../features/platform'
-import Dialog from '../components/dialog/dialog'
 
-/* istanbul ignore next */
-export default (url) => {
+export default (url, reject) => {
   if (Platform.is.cordova) {
-    navigator.app.loadUrl(url, {
+    return navigator.app.loadUrl(url, {
       openExternal: true
     })
-
-    return
   }
 
   let win = window.open(url, '_blank')
@@ -17,9 +13,6 @@ export default (url) => {
     win.focus()
   }
   else {
-    Dialog.create({
-      title: 'Cannot Open Window',
-      message: 'Please allow popups first, then please try again.'
-    }).show()
+    reject()
   }
 }

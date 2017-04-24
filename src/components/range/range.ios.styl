@@ -1,0 +1,103 @@
+$range-height              ?= 36px
+$range-color               ?= $grey-4
+$range-active-color        ?= $form-active-color
+
+$range-track-height        ?= 1px
+$range-mark-height         ?= 10px
+
+$range-handle-size         ?= 25px
+$range-handle-radius       ?= 50%
+$range-handle-box-shadow   ?= 0 1px 3px 1px rgba(0, 0, 0, .4)
+
+
+.q-range-track
+  position absolute
+  top 50%
+  left 0
+  transform translateY(-50%)
+  height $range-track-height
+  width 100%
+  background $range-color
+  &:not(.dragging)
+    transition all .3s ease
+  &.active-track
+    background $range-active-color
+  &.track-draggable.dragging
+    height ($range-track-height * 2)
+    transition height .3s ease
+  &.handle-at-minimum
+    background transparent
+  &.handle-at-maximum
+    background solid
+
+.q-range-mark
+  position absolute
+  top 50%
+  height $range-mark-height
+  width 1px
+  background $range-color
+  transform translateX(-50%) translateY(-50%)
+
+.q-range-handle-container
+  position relative
+  height 100%
+  margin-left ($range-handle-size / 2)
+  margin-right ($range-handle-size / 2)
+
+.q-range-label
+  position relative
+  top (- $range-handle-size / 1.2)
+  left (- $range-handle-size / 4)
+  padding 8px 0
+  opacity 0
+  text-align center
+  transform translateY(0) scale(.1)
+  transition all .3s ease
+  width (1.5 * $range-handle-size)
+  height ($range-handle-size / 2)
+  font-size ($range-handle-size / 2)
+  line-height ($range-handle-size / 2.1)
+  color white
+  background rgba(0, 0, 0, .8)
+  border-radius $generic-border-radius
+  &.label-always
+    opacity .9
+    transform translateY(-50%) scale(.7)
+
+.q-range-handle
+  position absolute
+  top 50%
+  transform translate3d(-50%, -50%, 0)
+  transform-origin center
+  transition all .3s ease
+  width $range-handle-size
+  height $range-handle-size
+  border-radius $range-handle-radius
+  background white
+  box-shadow $range-handle-box-shadow
+  box-sizing content-box
+  &.dragging
+    transform translate3d(-50%, -50%, 0)
+    transition opacity .3s ease, transform .3s ease
+    .q-range-label
+      opacity .9
+      transform translateY(-50%)
+
+.q-range
+  height $range-height
+  width 100%
+  cursor pointer
+
+  &.label-always, &.with-padding
+    padding-top (1.75 * $range-handle-size)
+    padding-bottom (.5 * $range-handle-size)
+
+  for $name, $color in $colors
+    &.{$name} .q-range-track.active-track
+      background $color
+
+  &.has-error
+    .q-range-track
+      background alpha($has-error, 50%)
+    .q-range-handle, .q-range-track.active-track
+      background lighten($has-error, 20%)

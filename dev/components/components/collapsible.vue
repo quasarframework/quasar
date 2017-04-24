@@ -2,6 +2,7 @@
   <div>
     <div class="layout-padding" style="max-width: 600px;">
       <div class="list">
+        <q-item icon="mail">Label</q-item>
         <q-collapsible icon="explore" label="First">
           <div>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -109,25 +110,31 @@
           <div class="card">
             <div class="card-media">
               <img src="~assets/map.png">
-              <button class="primary circular"><i>explore</i></button>
+              <q-btn class="primary circular"><q-icon name="explore" /></q-btn>
             </div>
             <div class="card-content">
-              <div class="item two-lines">
-                <i class="item-primary">local_bar</i>
+              <div class="item">
+                <div class="item-primary">
+                  <q-icon name="local_bar" />
+                </div>
                 <div class="item-content">
                   <div>Bar XYZ</div>
                   <div>Have a drink.</div>
                 </div>
               </div>
               <div class="item two-lines">
-                <i class="item-primary">local_gas_station</i>
+                <div class="item-primary">
+                  <q-icon name="local_gas_station" />
+                </div>
                 <div class="item-content">
                   <div>Gas Station</div>
                   <div>Fill your gas tank.</div>
                 </div>
               </div>
               <div class="item two-lines">
-                <i class="item-primary">local_movies</i>
+                <div class="item-primary">
+                  <q-icon name="local_movies" />
+                </div>
                 <div class="item-content">
                   <div>Cinema XYZ</div>
                   <div>Watch a movie.</div>
@@ -142,10 +149,9 @@
                 (1 mile)
               </div>
               <div class="auto"></div>
-              <button class="primary clear small">
-                <i class="on-left">directions</i>
+              <q-btn class="primary clear small" icon="directions">
                 Start
-              </button>
+              </q-btn>
             </div>
           </div>
         </q-collapsible>

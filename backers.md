@@ -30,15 +30,13 @@ It could be you!
 
 ### $50+
 
-- Peter Thaleikis
-- Kristian Mandrup
+It could be you!
 
 ---
 
 ### $10+
 
 - Valerian Cure ($25)
-- Aaryn Bryanton
 - Maarten Berkenbosch
 - Marek Urbanowicz
 - Samuel Lin
@@ -46,17 +44,20 @@ It could be you!
 - Matsumoto Takamasa
 - Keith Bailey
 - Borris Barroso
-- Sven Delueg
 - Josh Bodine
 - William Marques Vicente Gomes Correa
 - Anderson Guilherme Porto
-- Jeremy DeYoung
+- Harlon Norse ($20)
+- Max Matteo Staack
 
 ---
 
-### Notable one time
+### One time
 
+- Jurgen Hollfelder 500 EUR
 - Robert Preston $250
 - Remo Laubacher $200
 - Musicformellons $100
 - Gerard Eviston $50
+- Mickaël Le Normand $15
+- Tommy Carlsson $10

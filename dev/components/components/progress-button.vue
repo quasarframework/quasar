@@ -5,57 +5,57 @@
 
       <p class="caption">Determined Progress</p>
       <div class="group">
-        <q-progress-button
+        <q-progress-btn
           class="yellow"
           :percentage="progressBtn"
           @click.native="workButton()"
           dark-filler
         >
           Work it!
-        </q-progress-button>
-        <q-progress-button
+        </q-progress-btn>
+        <q-progress-btn
           class="dark"
           :percentage="progressBtn"
           @click.native="workButton()"
         >
           Work it!
-        </q-progress-button>
+        </q-progress-btn>
       </div>
 
       <p class="caption">Indetermined Progress</p>
       <div class="group">
-        <q-progress-button
+        <q-progress-btn
           class="primary"
           indeterminate
           :percentage="progressBtn"
           @click.native="workButton()"
         >
           Work it!
-        </q-progress-button>
-        <q-progress-button
+        </q-progress-btn>
+        <q-progress-btn
           class="negative"
           indeterminate
           :percentage="progressBtn"
           @click.native="workButton()"
         >
           Work it!
-        </q-progress-button>
+        </q-progress-btn>
       </div>
 
       <p class="caption">Control Progress with Buttons below</p>
       <div class="group">
-        <button class="secondary clear" @click="stopWorkButton()">
+        <q-btn class="secondary clear" @click="stopWorkButton()">
           Stop
-        </button>
-        <button class="secondary clear" @click="progressBtn = -1">
+        </q-btn>
+        <q-btn class="secondary clear" @click="progressBtn = -1">
           Error
-        </button>
-        <button class="secondary clear" @click="progressBtn = 100">
+        </q-btn>
+        <q-btn class="secondary clear" @click="progressBtn = 100">
           Success
-        </button>
-        <button class="secondary clear" @click="progressBtn = 0">
+        </q-btn>
+        <q-btn class="secondary clear" @click="progressBtn = 0">
           Reset
-        </button>
+        </q-btn>
         <div class="label tag bg-light">{{ progressBtn }}</div>
       </div>
     </div>

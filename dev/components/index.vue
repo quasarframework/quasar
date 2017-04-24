@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding">
+    <div class="layout-padding" style="max-width: 500px">
       <div
         class="list no-border"
         v-for="(category, title) in list"
@@ -12,13 +12,15 @@
           v-for="feature in category"
           :key="feature"
           tag="div"
-          class="item item-link item-delimiter"
+          class="item link"
           :to="feature.route"
         >
-          <div class="item-content has-secondary">
+          <div class="item-content">
             <div>{{ feature.title }}</div>
           </div>
-          <i class="item-secondary">chevron_right</i>
+          <div class="item-secondary">
+            <q-icon name="chevron_right"></q-icon>
+          </div>
         </router-link>
       </div>
     </div>

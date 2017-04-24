@@ -1,0 +1,93 @@
+$datatable-border    ?= 1px solid $grey-4
+$datatable-font-size ?= 85%
+
+.q-data-table
+  font-size $datatable-font-size
+  border $datatable-border
+  table
+    width 100%
+    table-layout fixed
+    empty-cells hide
+    tr
+      background white
+    td, th
+      text-overflow ellipsis
+      white-space nowrap
+      overflow hidden
+    tbody tr:nth-child(odd)
+      background $grey-3
+    thead tr
+      border-bottom 2px solid $grey-3
+      min-height 56px
+      th
+        color rgba(0, 0, 0, .54)
+        vertical-align middle
+        &.sortable
+          cursor pointer
+    &:not(.responsive) th
+      border-bottom 2px solid $grey-5 !important
+
+.q-data-table-toolbar
+  padding .25rem .5rem
+  font-weight 300
+  &.upper-toolbar, &.bottom-toolbar
+    min-height 50px
+  &.bottom-toolbar
+    border-top 2px solid $grey-3
+  > div + div
+    margin-left 30px
+  input, .q-input
+    border-bottom 0 !important
+  .q-search
+    width auto
+    margin 0 15px 0 0
+  @media (max-width $layout-small-max)
+    flex-wrap wrap-reverse
+    padding 5px 10px
+    .q-btn
+      padding 0 5px
+    > div:not(:first-of-type):not(:last-of-type)
+      margin 10px
+
+.q-data-table-message
+  min-height 64px
+  i
+    font-size 200%
+    margin 10px
+
+.q-data-table-title
+  letter-spacing .005rem
+  font-size 120%
+  font-weight 300
+
+.q-data-table-container
+  position relative
+  overflow hidden
+  margin-top 5px
+
+.q-data-table-head
+  overflow hidden
+
+.q-data-table-body
+  overflow auto
+
+.q-data-table-sticky-left, .q-data-table-sticky-right
+  position absolute
+  top 0
+  pointer-events none
+  overflow hidden
+  th, td
+    &:not(.invisible)
+      pointer-events all
+
+.q-data-table-sticky-left
+  left 0
+.q-data-table-sticky-right
+  right 0
+
+.q-data-table-spinner
+  margin-top 25px
+
+.q-data-table-selection
+  color $primary
+  background alpha($primary, 20%)

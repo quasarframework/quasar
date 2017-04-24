@@ -42,7 +42,7 @@ export default function extend () {
     i = 2
   }
 
-  if (typeof target !== 'object' && type(target) !== 'function') {
+  if (Object(target) !== target && type(target) !== 'function') {
     target = {}
   }
 

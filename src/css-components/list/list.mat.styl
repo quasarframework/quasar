@@ -1,263 +1,161 @@
-$item-primary-secondary-color ?= rgb(117, 117, 117)
-$item-content-label-color     ?= rgba(0, 0, 0, .87)
-$item-label-color             ?= rgba(0, 0, 0, .54)
+$item-dense-factor                 ?= .2
+$item-large-factor                 ?= 1.4
+
+$item-base-color                   ?= $grey-5
+$item-highlight-color              ?= alpha($item-base-color, 50%)
+$item-stripe-color                 ?= alpha($item-base-color, 65%)
+$item-active-color                 ?= alpha($item-base-color, 40%)
+$item-primary-color                ?= rgba(0, 0, 0, .54)
+$item-secondary-color              ?= $item-primary-color
+$item-label-color                  ?= $grey-7
+$item-content-secondary-text-color ?= $grey-7
+$item-delimiter-color              ?= rgb(224, 224, 224)
+
+$item-min-height                   ?= 40px
+$item-padding                      ?= 16px
+$item-gutter                       ?= 10px
+$item-primary-size                 ?= 38px
+$item-inverted-icon-size           ?= round($item-primary-size * .52)
+$item-icon-size                    ?= round($item-primary-size * .63)
+$item-image-size                   ?= round(3 * $item-primary-size)
+$item-font-size                    ?= 1rem
+$item-stamp-font-size              ?= .8rem
+
+.item-stamp
+  font-size $item-stamp-font-size
+  line-height $item-stamp-font-size
+  white-space nowrap
+  margin .3rem 0
+
+.item-primary
+  color $item-primary-color
+  min-width $item-primary-size
+
+.item-secondary
+  text-align right
+  color $item-secondary-color
+  display flex
+  flex-direction column
+  align-items flex-end
+
+.item-primary, .item-secondary
+  img
+    width $item-primary-size
+    height $item-primary-size
+    border-radius 50%
+  .item-letter, i
+    font-size $item-icon-size
+  i
+    border-radius 50%
+    cursor default
+    &.inverted
+      font-size $item-inverted-icon-size
+      line-height $item-inverted-icon-size
+      color white
+      padding 9px
+
+.item-content
+  flex 1 1 auto
+  min-width 0
+
+  &.inset
+    margin-left ($item-gutter + $item-primary-size)
+
+  &.text
+    > div:first-child
+      > span
+        color $item-content-secondary-text-color
+    > div:not(:first-child)
+      color $item-content-secondary-text-color
+      font-size 90%
+      margin-top .2rem
+      > span
+        font-weight 500
+
+.item-primary + .item-content,
+.item-content + .item-secondary,
+img + .item-content,
+.item-content + img
+  margin-left $item-gutter
 
 .item
-  height 48px
   position relative
-  display block
-  margin 0
-  padding 0
-  font-size 16px
-  line-height 16px
-  transition all .45s cubic-bezier(.23, 1, .32, 1) 0ms
-  background none
+  display flex
+  align-items center
+  font-size $item-font-size
+
+  padding ($item-padding / 2) $item-padding
+  min-height $item-min-height
+
   &.active, &.router-link-active, &:focus
-    background rgba(0, 0, 0, .2)
+    background $item-active-color
+
   &:focus
     outline 0
 
-  &.item-link
-    cursor pointer
-    &:active
-      background rgba(0, 0, 0, .3)
+  > img
+    min-width $item-image-size
+    max-width $item-image-size
+    max-height $item-image-size
 
-  > .item-primary
-    color $item-primary-secondary-color
-  > div.item-primary
+.list.multiple-lines > .item, .item.multiple-lines
+  align-items flex-start
+
+.list.link > .item, .item.link
+  cursor pointer
+
+.list.highlight > .item, .item.highlight,
+.list.link > .item, .item.link
+  &:hover
+    background $item-highlight-color
+
+.list.delimiter > .item + .item, .item + .item.delimiter
+  border-top 1px solid $item-delimiter-color
+.list.inset-delimiter > .item, .item + .item.inset-delimiter
+  &:not(:first-child):after
+    content ''
     position absolute
     top 0
-    margin 4px 12px
-    height 40px
-    width 40px
-    text-align center
-    line-height 40px
-    padding 0
-    border-radius 50%
-    font-size 20px
-    > * // @stylint ignore
-      margin-top -4px
-      font-size 24px
-      line-height 30px
-  > i.item-primary
-    position absolute
-    top 0
-    margin 12px
-    left 4px
-    height 24px
-    width 24px
-    font-size 24px
-    line-height 24px
-    border-radius 50%
-  > img.item-primary
-    display inline-flex
-    align-items center
-    justify-content center
-    font-size 20px
-    height 40px
-    width 40px
-    position absolute
-    top 4px
-    left 16px
-    user-select none
-    &:not(.thumbnail)
-      border-radius 50%
+    right 0
+    left ($item-padding + $item-gutter + $item-primary-size)
+    height 1px
+    background $item-delimiter-color
 
-  > .item-content
-    padding 16px 0
-    margin-left 16px
-    margin-right 16px
-    position relative
-    &.inset
-      margin-left 72px
-    &.has-secondary
-      margin-right 72px
-    &:not(.no-style)
-      > span, > div > span
-        color $item-content-label-color
-
-  > .item-primary ~ .item-content
-    margin-left 72px
-
-  > .item-secondary
-    color $item-primary-secondary-color
-    position absolute
-    top 0
-    margin 12px
-    right 4px
-    height 24px
-    width 40px
-    line-height 24px
-    font-size 24px
-    text-align right
-
-    &.stamp
-      width 55px
-      margin-left 0
-      text-align right
-      font-size 12px
-      overflow hidden
-      text-overflow ellipsis
-      white-space nowrap
-  > i.item-secondary
-    width 24px
-  > img.item-secondary
-    margin 4px 12px
-    height 40px
-    &:not(.thumbnail)
-      border-radius 50%
-  > * // @stylint ignore
-    text-align left
-
-  &:not(.two-lines):not(.three-lines):not(.multiple-lines) > .item-content > div:not(.stacked-label):not(.floating-label):not([class^='q-'])
-    overflow hidden
-    text-overflow ellipsis
-    white-space nowrap
-
-  &.two-lines
-    height 72px
-    > .item-primary
-      top 14px
-    > img.item-primary
-      top 18px
-    > .item-secondary
-      top 12px
-      &.stamp
-        top 4px
-    > .item-content
-      padding-top 20px
-      padding-bottom 16px
-
-      &:not(.no-style)
-        > div:not(.stacked-label):not(.floating-label):not([class^='q-'])
-          overflow hidden
-          text-overflow ellipsis
-          white-space nowrap
-
-        > div:not(:first-of-type):not([class^='q-'])
-          font-size 14px
-          line-height 16px
-          height 16px
-          margin 4px 0 0
-          color $item-label-color
-
-  &.three-lines
-    height 88px
-    > .item-primary
-      top 14px
-    > .item-secondary:not(.stamp)
-      top 3px
-    > .item-secondary.stamp + .item-secondary
-      top 30px
-    > .item-content
-      padding-top 16px
-      padding-bottom 16px
-
-      &:not(.no-style)
-        > div:not(.stacked-label):not(.floating-label):not([class^='q-'])
-          overflow hidden
-          text-overflow ellipsis
-
-        > div:first-of-type:not([class^='q-'])
-          white-space nowrap
-
-        > div:not(:first-of-type):not([class^='q-'])
-          font-size 14px
-          line-height 18px
-          height 36px
-          margin 4px 0 0
-          color $item-label-color
-          overflow hidden
-          text-overflow ellipsis
-          display -webkit-box
-          -webkit-line-clamp 2
-          -webkit-box-orient vertical
-
-  &.multiple-lines
-    height auto
-    > .item-content
-      position static
-      padding-top 16px
-
-  .item-label
-    color $item-label-color !important
-  .item-smaller
-    font-size 14px
-
-.item + .item,
-.item + .q-collapsible,
-.q-collapsible + .item,
-.q-collapsible + .q-collapsible
-  &.item-delimiter
-    border-top 1px solid rgb(224, 224, 224)
-  &.item-inset-delimiter
-    &:after
-      content ''
-      position absolute
-      top 0
-      left 72px
-      right 0
-      height 1px
-      background rgb(224, 224, 224)
-
-body.desktop .item.item-link:hover
-  background rgba(0, 0, 0, .2)
+.list.dense > .item, .item.dense
+  padding round($item-padding * $item-dense-factor) $item-padding
+  min-height round($item-min-height * $item-dense-factor)
+.list.large > .item, .item.large
+  padding ($item-padding * $item-large-factor) $item-padding
+  min-height ($item-min-height * $item-large-factor)
 
 .list
-  text-align left
-  border 1px solid rgb(224, 224, 224)
+  border 1px solid $item-delimiter-color
+  padding ($item-padding / 2) 0
 
-  > .item, > .q-collapsible
-    &:first-child
-      margin-top 8px
-    &:last-child
-      margin-bottom 8px
-
-  hr
-    margin 8px 0
-    height 1px
-    border 0
-    background-color rgb(224, 224, 224)
-    &.inset
-      margin-left 72px
-    &:last-child
-      visibility hidden
-
-  .list-label
-    color $item-label-color
-    font-size 14px
-    font-weight 500
-    line-height 48px
-    padding-left 16px
-    width 100%
-    &.inset
-      padding-left 72px
-
-  hr + .list-label
-    margin-top -8px
+  & + .list
+    margin-top 32px
 
   &.striped .item:nth-child(even)
-    background-color rgba(0, 0, 0, .05)
+    background-color $item-stripe-color
 
-  &.highlight .item:hover
-    background-color rgba(0, 0, 0, .1)
+  hr
+    margin ($item-padding / 2) 0
+    height 1px
+    border 0
+    background-color $item-delimiter-color
+    &:last-child
+      display none
+    &.inset
+      margin-left ($item-padding + $item-gutter + $item-primary-size)
 
-  &.item-delimiter
-    .item + .item,
-    .item + .q-collapsible,
-    .q-collapsible + .item,
-    .q-collapsible + .q-collapsible
-      border-top 1px solid rgb(224, 224, 224)
-  &.item-inset-delimiter
-    .item + .item,
-    .item + .q-collapsible,
-    .q-collapsible + .item,
-    .q-collapsible + .q-collapsible
-      &:after
-        content ''
-        position absolute
-        top 0
-        left 72px
-        right 0
-        height 1px
-        background rgb(224, 224, 224)
+.list-label
+  color $item-label-color
+  font-size 14px
+  font-weight 500
+  line-height 48px
+  padding-left $item-padding
+  &.inset
+    padding-left ($item-padding + $item-gutter + $item-primary-size)
+
+hr + .list-label
+  margin-top (- $item-padding / 2)

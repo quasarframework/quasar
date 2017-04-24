@@ -1,19 +1,19 @@
 $generic-border-radius      ?= 4px
 
-$generic-input-size         ?= 27px
+$generic-input-size         ?= 19px
 $generic-input-border-width ?= 2px
 
 $typography-font-family     ?= '-apple-system', 'Helvetica Neue', Helvetica, Arial, sans-serif
 
-$toolbar-color              ?= #424242
-$toolbar-background         ?= $light
-$toolbar-active-color       ?= $light
-$toolbar-faded-color        ?= composite-color($toolbar-color)
+$toolbar-color                 ?= #424242
+$toolbar-background            ?= $light
+$toolbar-active-color          ?= $primary
+$toolbar-faded-color           ?= rgba(0, 0, 0, .4)
+$toolbar-inverted-faded-color  ?= rgba(0, 0, 0, .4)
 
 @import './quasar.core.variables'
 
-@import '../components/*/*.ios'
 @import '../css-components/*/*.ios'
-@import '../vue-components/*/*.ios'
+@import '../components/*/*.ios'
 
 @import './quasar.core.definitions'

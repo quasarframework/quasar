@@ -10,6 +10,14 @@
       </p>
       <q-double-range v-model="standalone" :min="0" :max="50"></q-double-range>
 
+      <p class="caption">
+        With Floating Point Precision
+        <span class="label inline bg-secondary text-white">
+          Model <span class="right-detail"><em>{{precision}}</em> &nbsp;&nbsp;(0.1 to 1.0)</span>
+        </span>
+      </p>
+      <q-double-range v-model="precision" :min="0.1" :max="1.0" :step="0.1" :decimals="1"></q-double-range>
+
        <p class="caption">
         With Label
         <span class="label inline bg-secondary text-white">
@@ -50,8 +58,6 @@
       </p>
       <q-double-range v-model="label" :min="-20" :max="20" :step="4" label-always></q-double-range>
 
-
-
       <p class="caption">
         Drag Range
         <span class="label inline bg-secondary text-white">
@@ -63,17 +69,18 @@
       <p class="caption">
         Drag Range + Snap to Step
         <span class="label inline bg-secondary text-white">
-          Model <span class="right-detail"><em>{{range.min}} to {{range.max}}</em> &nbsp;&nbsp;(0 to 100, step 5)</span>
+          Model <span class="right-detail"><em>{{rangeSnap.min}} to {{rangeSnap.max}}</em> &nbsp;&nbsp;(0 to 100, step 5)</span>
         </span>
       </p>
-      <q-double-range v-model="range" :min="0" :max="100" :step="5" drag-range label markers snap></q-double-range>
+      <q-double-range v-model="rangeSnap" :min="0" :max="100" :step="5" drag-range label markers snap></q-double-range>
 
-      <p class="caption">Disable Min + Drag Range</p>
-      <q-double-range v-model="range" :min="0" :max="100" disable-min drag-range label></q-double-range>
-
-      <p class="caption">Disable Max + Drag Range + With Step</p>
-      <q-double-range v-model="range" :min="0" :max="100" :step="5" markers disable-max drag-range label-always></q-double-range>
-
+      <p class="caption">
+        Drag Only Range (Fixed Interval)
+        <span class="label inline bg-secondary text-white">
+          Model <span class="right-detail"><em>{{onlyRange.min}} to {{onlyRange.max}}</em> &nbsp;&nbsp;(0 to 100, step 5)</span>
+        </span>
+      </p>
+      <q-double-range v-model="onlyRange" :min="0" :max="100" :step="5" drag-only-range label></q-double-range>
 
       <p class="caption">Disabled State</p>
       <q-double-range v-model="standalone" :min="0" :max="50" disable></q-double-range>
@@ -88,14 +95,18 @@
 
       <p class="caption">Inside of a List</p>
       <div class="list">
-        <div class="item two-lines">
-          <i class="item-primary">local_atm</i>
+        <div class="item">
+          <div class="item-primary">
+            <q-icon name="local_atm" />
+          </div>
           <div class="item-content">
             <q-double-range v-model="standalone" :min="0" :max="50" label></q-double-range>
           </div>
         </div>
         <div class="item two-lines">
-          <i class="item-primary">euro_symbol</i>
+          <div class="item-primary">
+            <q-icon name="euro symbol" />
+          </div>
           <div class="item-content">
             <q-double-range v-model="standalone" :min="0" :max="50" label></q-double-range>
           </div>
@@ -112,6 +123,11 @@ export default {
       standalone: {
         min: 10,
         max: 35
+      },
+
+      precision: {
+        min: 0.2,
+        max: 0.7
       },
 
       step: {
@@ -137,6 +153,16 @@ export default {
       range: {
         min: 20,
         max: 65
+      },
+
+      rangeSnap: {
+        min: 35,
+        max: 60
+      },
+
+      onlyRange: {
+        min: 10,
+        max: 35
       }
     }
   }

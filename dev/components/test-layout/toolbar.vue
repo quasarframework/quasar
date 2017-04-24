@@ -1,81 +1,114 @@
 <template>
   <div>
     <div class="layout-padding">
+      <q-input-group v-model="sel" :options="[
+        {label: 'A', value: 'a'}, {label: 'B', value: 'b'}, {label: 'C', value: 'c'},
+        {label: 'Bogus', value: 'bogus'}
+      ]" />
+
+      <span v-if="sel === 'a'" v-move="'#gigi'" tag="span">
+        Toolbar A dddX
+      </span>
+      <span v-else-if="sel === 'b'" v-move="'#gigi'" tag="span">
+        Toolbar B
+      </span>
+      <!--
+      <span v-else-if="sel === 'c'" v-move="'#gigi'" tag="span">
+        Toolbar C ggg <span class="bg-yellow">Vivi</span>
+      </span>
+      -->
+
       <p class="caption">
         Toolbars are mainly used in Layout headers and footers, but they can be used
         in your Page view too.
       </p>
 
       <div class="toolbar">
-        <button class="left-drawer-opener">
-          <i>menu</i>
-        </button>
-        <q-toolbar-title :padding="1">
+        <q-btn class="left-drawer-opener">
+          <q-icon name="menu" />
+        </q-btn>
+        <div class="toolbar-title">
           Toolbar
-        </q-toolbar-title>
-        <button class="right-drawer-opener">
-          <i>more_vert</i>
-        </button>
+        </div>
+        <q-btn class="right-drawer-opener">
+          <q-icon name="more_vert" />
+        </q-btn>
       </div>
 
       <p class="caption">
         They come in all colors.
       </p>
 
+      <!--
+      <q-move selector="#gogu" tag="span">
+        Gogu
+      </q-move>
+      -->
+
       <div class="toolbar secondary">
-        <button><i>assignment_ind</i></button>
-        <q-toolbar-title :padding="2">
+        <q-btn><q-icon name="assignment_ind" /></q-btn>
+        <div class="toolbar-title">
           Toolbar
-        </q-toolbar-title>
-        <button><i>sim_card</i></button>
-        <button><i>gamepad</i></button>
+        </div>
+        <q-btn><q-icon name="sim_card" /></q-btn>
+        <q-btn><q-icon name="gamepad" /></q-btn>
       </div>
       <div class="toolbar orange">
-        <button><i>mail</i></button>
-        <q-toolbar-title :padding="3">
+        <q-btn><q-icon name="mail" /></q-btn>
+        <div class="toolbar-title">
           Long title for Toolbar. Very very very very very very long title.
-        </q-toolbar-title>
-        <button><i>alarm</i></button>
-        <button><i>router</i></button>
-        <button><i>keyboard</i></button>
+        </div>
+        <q-btn><q-icon name="alarm" /></q-btn>
+        <q-btn><q-icon name="router" /></q-btn>
+        <q-btn><q-icon name="keyboard" /></q-btn>
       </div>
       <div class="toolbar dark">
-        <button><i>menu</i></button>
-        <button><i>security</i></button>
-        <q-toolbar-title :padding="2">
+        <q-btn><q-icon name="menu" /></q-btn>
+        <q-btn><q-icon name="security" /></q-btn>
+        <div class="toolbar-title">
           Toolbar
-        </q-toolbar-title>
-        <button><i>headset</i></button>
-        <button><i>tv</i></button>
+        </div>
+        <q-btn><q-icon name="headset" /></q-btn>
+        <q-btn><q-icon name="tv" /></q-btn>
       </div>
 
       <p class="caption">
         And also "inverted".
       </p>
       <div class="toolbar purple inverted">
-        <button><i>menu</i></button>
-        <q-toolbar-title :padding="2">
+        <q-btn><q-icon name="menu" /></q-btn>
+        <div class="toolbar-title">
           Toolbar
-        </q-toolbar-title>
-        <button><i>supervisor_account</i></button>
-        <button><i>more_vert</i></button>
+        </div>
+        <q-btn><q-icon name="supervisor_account" /></q-btn>
+        <q-btn><q-icon name="more_vert" /></q-btn>
       </div>
       <div class="toolbar amber inverted">
-        <button><i>menu</i></button>
-        <q-toolbar-title :padding="2">
+        <q-btn><q-icon name="menu" /></q-btn>
+        <div class="toolbar-title">
           Toolbar
-        </q-toolbar-title>
-        <button><i>supervisor_account</i></button>
-        <button><i>more_vert</i></button>
+        </div>
+        <q-btn><q-icon name="supervisor_account" /></q-btn>
+        <q-btn><q-icon name="more_vert" /></q-btn>
       </div>
       <div class="toolbar red inverted">
-        <button><i>menu</i></button>
-        <q-toolbar-title :padding="2">
+        <q-btn><q-icon name="menu" /></q-btn>
+        <div class="toolbar-title">
           Toolbar
-        </q-toolbar-title>
-        <button><i>supervisor_account</i></button>
-        <button><i>more_vert</i></button>
+        </div>
+        <q-btn><q-icon name="supervisor_account" /></q-btn>
+        <q-btn><q-icon name="more_vert" /></q-btn>
       </div>
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  data () {
+    return {
+      sel: 'a'
+    }
+  }
+}
+</script>

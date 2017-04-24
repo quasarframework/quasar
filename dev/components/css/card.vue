@@ -45,25 +45,31 @@
       <div class="card" style="max-width: 600px;">
         <div class="card-media">
           <img src="~assets/map.png">
-          <button class="primary circular"><i>place</i></button>
+          <q-btn class="primary circular"><q-icon name="place" /></q-btn>
         </div>
         <div class="card-content list no-border highlight">
           <div class="item two-lines">
-            <i class="item-primary">local_bar</i>
+            <div class="item-primary">
+              <q-icon name="local bar" />
+            </div>
             <div class="item-content">
               <div class="item-title">Bar XYZ</div>
               <div>Have a drink.</div>
             </div>
           </div>
           <div class="item two-lines">
-            <i class="item-primary">local_gas_station</i>
+            <div class="item-primary">
+              <q-icon name="local gas station" />
+            </div>
             <div class="item-content">
               <div class="item-title">Gas Station</div>
               <div>Fill your gas tank.</div>
             </div>
           </div>
           <div class="item two-lines">
-            <i class="item-primary">local_movies</i>
+            <div class="item-primary">
+              <q-icon name="local movies" />
+            </div>
             <div class="item-content">
               <div class="item-title">Cinema XYZ</div>
               <div>Watch a movie.</div>
@@ -78,7 +84,7 @@
             (1 mile)
           </div>
           <div class="auto"></div>
-          <button class="primary clear small"><i class="on-left">directions</i> Start</button>
+          <q-btn class="primary clear small"><q-icon name="directions" class="on-left" /> Start</q-btn>
         </div>
       </div>
 
@@ -98,10 +104,10 @@
         </div>
         <div class="card-actions">
           <div class="text-primary">
-            <i>thumb_up</i> 11k likes
+            <q-icon name="thumb_up" /> 11k likes
           </div>
           <div class="text-primary">
-            <i>mode_comment</i> 8 comments
+            <q-icon name="mode_comment" /> 8 comments
           </div>
           <div class="auto"></div>
           <div class="text-grey-6">
@@ -143,7 +149,7 @@
           <div class="video">
             <iframe src="https://www.youtube.com/embed/k3_tw44QsZQ?rel=0" frameborder="0" allowfullscreen></iframe>
           </div>
-          <button class="primary circular"><i>share</i></button>
+          <q-btn class="primary circular"><q-icon name="share" /></q-btn>
         </div>
         <div class="card-content">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
@@ -180,12 +186,16 @@
           Card with List
         </div>
         <div class="list no-border">
-          <div class="item item-link" v-for="n in 4">
-            <i class="item-primary">mail</i>
+          <div class="item link" v-for="n in 4">
+            <div class="item-primary">
+              <q-icon name="mail" />
+            </div>
             <div class="item-content has-secondary">
               Quasar Framework
             </div>
-            <i class="item-secondary">keyboard_arrow_right</i>
+            <div class="item-secondary">
+              <q-icon name="keyboard_arrow_right" />
+            </div>
           </div>
         </div>
       </div>
@@ -195,12 +205,16 @@
           Card with List
         </div>
         <div class="list item-delimiter">
-          <div class="item item-link" v-for="n in 4">
-            <i class="item-primary">mail</i>
+          <div class="item link" v-for="n in 4">
+            <div class="item-primary">
+              <q-icon name="mail" />
+            </div>
             <div class="item-content has-secondary">
               Quasar Framework
             </div>
-            <i class="item-secondary">keyboard_arrow_right</i>
+            <div class="item-secondary">
+              <q-icon name="keyboard_arrow_right" />
+            </div>
           </div>
         </div>
       </div>
@@ -210,12 +224,16 @@
           Card with List
         </div>
         <div class="list item-inset-delimiter">
-          <div class="item item-link" v-for="n in 4">
-            <i class="item-primary">mail</i>
+          <div class="item link" v-for="n in 4">
+            <div class="item-primary">
+              <q-icon name="mail" />
+            </div>
             <div class="item-content has-secondary">
               Quasar Framework
             </div>
-            <i class="item-secondary">keyboard_arrow_right</i>
+            <div class="item-secondary">
+              <q-icon name="keyboard_arrow_right" />
+            </div>
           </div>
         </div>
       </div>

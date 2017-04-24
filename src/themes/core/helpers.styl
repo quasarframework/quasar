@@ -13,13 +13,10 @@
     display block
     background $backdrop-background
 
-.background-cover
-  background-repeat no-repeat
-  background-size cover
-  background-position center center
-
 .no-border
   border 0 !important
+.no-outline
+  outline 0 !important
 .round-borders
   border-radius $generic-border-radius !important
 
@@ -28,3 +25,17 @@
 
 .no-transition
   transition none !important
+
+.transition-0
+  transition 0s !important
+
+.q-placeholder
+  &::-webkit-input-placeholder
+    color inherit
+    opacity .8
+  &::-moz-placeholder
+    color inherit
+    opacity .8
+  &:-ms-input-placeholder
+    color inherit
+    opacity .8

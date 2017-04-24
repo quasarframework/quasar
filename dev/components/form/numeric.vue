@@ -2,6 +2,13 @@
   <div>
     <div class="layout-padding">
 
+      <q-input type="number" v-model="freeNumber" />
+      <q-input type="number" v-model="freeNumber" :min="5" :max="15" :step="2" />
+
+      <q-field icon="cloud" label="Number" error-label="Minimum 5. Maximum 15">
+        <q-input float-label="Volume" type="number" v-model="freeNumber" :min="5" :max="15" :step="0.15" :max-decimals="2" />
+      </q-field>
+
       <p class="caption">Default (no min-max)</p>
       <div style="margin-bottom: 25px">
         <q-numeric v-model="freeNumber"></q-numeric>
@@ -31,16 +38,20 @@
 
       <p class="caption">Inside of a List</p>
       <div class="list">
-        <div class="item two-lines">
-          <i class="item-primary">edit</i>
+        <div class="item">
+          <div class="item-primary">
+            <q-icon name="edit" />
+          </div>
           <div class="item-content">
             <span class="item-label">Number: </span>
             <q-numeric v-model="number" :min="min" :max="max"></q-numeric>
           </div>
         </div>
         <hr class="inset">
-        <div class="item two-lines">
-          <i class="item-primary">edit</i>
+        <div class="item">
+          <div class="item-primary">
+            <q-icon name="edit" />
+          </div>
           <div class="item-content">
             <span class="item-label">Number: </span>
             <q-numeric v-model="number" :min="min" :max="max"></q-numeric>

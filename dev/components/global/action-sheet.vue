@@ -9,15 +9,16 @@
 
       <div class="list" style="max-width: 600px;">
         <div
-          class="item item-link"
+          class="item link"
           v-for="dialog in types"
           @click="dialog.handler()"
+          v-ripple.mat
         >
-          <i class="item-primary">settings</i>
+          <q-icon class="item-primary" name="settings" />
           <div class="item-content has-secondary">
             <div>{{dialog.label}}</div>
           </div>
-          <i class="item-secondary">keyboard_arrow_right</i>
+          <q-icon class="item-secondary" name="keyboard_arrow_right" />
         </div>
       </div>
     </div>

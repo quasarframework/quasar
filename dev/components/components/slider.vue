@@ -7,7 +7,7 @@
       </p>
       <q-slider class="text-white">
         <div slot="slide" class="bg-primary">
-          Slide 1
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
         </div>
         <div slot="slide" class="bg-secondary">
           Slide 2
@@ -76,30 +76,30 @@
         <div slot="slide" class="bg-tertiary">
           Slide 3
         </div>
-        <i slot="action">camera_enhance</i>
-        <i slot="action">bookmark_border</i>
-        <i slot="action">add_shopping_cart</i>
+        <q-icon slot="action" name="camera_enhance" />
+        <q-icon slot="action" name="bookmark_border" />
+        <q-icon slot="action" name="add_shopping_cart" />
       </q-slider>
 
       <p class="caption">
         Launch Slider on Fullscreen
       </p>
-      <button class="primary glossy" @click="$refs.modal.open()">
+      <q-btn class="primary glossy" @click="$refs.modal.open()">
         Launch
-      </button>
+      </q-btn>
       <q-modal ref="modal" class="maximized">
         <q-slider arrows dots class="text-white full-height">
           <div slot="slide" class="bg-primary centered">
             <h1>Slide 1</h1>
-            <button class="dark glossy" @click="$refs.modal.close()">Close Me</button>
+            <q-btn class="dark glossy" @click="$refs.modal.close()">Close Me</q-btn>
           </div>
           <div slot="slide" class="bg-secondary centered">
             <h1>Slide 2</h1>
-            <button class="dark glossy" @click="$refs.modal.close()">Close Me</button>
+            <q-btn class="dark glossy" @click="$refs.modal.close()">Close Me</q-btn>
           </div>
           <div slot="slide" class="bg-tertiary centered">
             <h1>Slide 3</h1>
-            <button class="dark glossy" @click="$refs.modal.close()">Close Me</button>
+            <q-btn class="dark glossy" @click="$refs.modal.close()">Close Me</q-btn>
           </div>
         </q-slider>
       </q-modal>

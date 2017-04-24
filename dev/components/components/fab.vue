@@ -46,10 +46,10 @@
         style="right: 18px; bottom: 18px;"
       >
         <q-small-fab class="purple" @click.native="toast('mail')" icon="mail">
-          <q-tooltip anchor="center left" self="center right" :offset="[-20, 0]">Mail</q-tooltip>
+          <q-tooltip anchor="center left" self="center right" :offset="[20, 0]">Mail</q-tooltip>
         </q-small-fab>
         <q-small-fab class="secondary" @click.native="toast('alarm')" icon="alarm">
-          <q-tooltip anchor="center left" self="center right" :offset="[-20, 0]">Alarm</q-tooltip>
+          <q-tooltip anchor="center left" self="center right" :offset="[20, 0]">Alarm</q-tooltip>
         </q-small-fab>
       </q-fab>
 

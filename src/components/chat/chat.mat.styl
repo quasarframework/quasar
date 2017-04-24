@@ -1,0 +1,85 @@
+$chat-message-faded-color ?= rgba(0, 0, 0, .51)
+$chat-message-sent-background  ?= $green-3
+$chat-message-sent-color ?= opposite-non-color($chat-message-sent-background)
+$chat-message-received-background ?= $grey-3
+$chat-message-received-color ?= opposite-non-color($chat-message-received-background)
+$chat-message-avatar-size ?= 48px
+$chat-message-border-radius ?= $generic-border-radius
+$chat-message-distance ?= 8px
+$chat-message-text-padding ?= 8px
+
+.q-message-name, .q-message-stamp, .q-message-label
+  font-size small
+  color $chat-message-faded-color
+
+.q-message-label
+  margin (3 * $chat-message-distance) 0
+
+.q-message-stamp
+  color inherit
+  margin-top 4px
+  opacity .6
+  display none
+
+.q-message-avatar
+  border-radius 50%
+  width $chat-message-avatar-size
+  height $chat-message-avatar-size
+
+.q-message
+  margin-bottom $chat-message-distance
+
+  &:first-child .q-message-label
+    margin-top 0
+
+  &.message-received
+    .q-message-avatar
+      margin-right 8px
+    .q-message-text
+      color $chat-message-received-color
+      background $chat-message-received-background
+      border-radius $chat-message-border-radius $chat-message-border-radius $chat-message-border-radius 0
+      &:last-child:before
+        right 100%
+        border-right 0 solid transparent
+        border-left 8px solid transparent
+        border-bottom 8px solid $chat-message-received-background
+
+  &.message-sent
+    .q-message-name
+      text-align right
+    .q-message-avatar
+      margin-left 8px
+    .q-message-container
+      flex-direction row-reverse
+    .q-message-text
+      color $chat-message-sent-color
+      background $chat-message-sent-background
+      border-radius $chat-message-border-radius $chat-message-border-radius 0 $chat-message-border-radius
+      &:last-child:before
+        left 100%
+        border-left 0 solid transparent
+        border-right 8px solid transparent
+        border-bottom 8px solid $chat-message-sent-background
+
+.q-message-text
+  padding $chat-message-text-padding
+  line-height 1.2
+  word-break break-word
+  position relative
+  transform translate3d(0, 0, 0)
+
+  & + &
+    margin-top 3px
+
+  &:last-child
+    min-height $chat-message-avatar-size
+
+    .q-message-stamp
+      display block
+    &:before
+      content ''
+      position absolute
+      bottom 0
+      width 0
+      height 0

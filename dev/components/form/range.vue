@@ -10,6 +10,14 @@
       <q-range v-model="standalone" :min="0" :max="50"></q-range>
 
       <p class="caption">
+        With Floating Point Precision
+        <span class="label inline bg-secondary text-white">
+          Model <span class="right-detail"><em>{{precision}}</em> &nbsp;&nbsp;(0.1 to 1.0)</span>
+        </span>
+      </p>
+      <q-range v-model="precision" :min="0.1" :max="1" :step="0.1" :decimals="1"></q-range>
+
+      <p class="caption">
         With Step
         <span class="label inline bg-secondary text-white">
           Model <span class="right-detail"><em>{{step}}</em> &nbsp;&nbsp;(0 to 45, step 5)</span>
@@ -60,22 +68,35 @@
       <q-range class="orange" v-model="standalone" :min="0" :max="50" label></q-range>
       <q-range class="dark" v-model="standalone" :min="0" :max="50" label></q-range>
 
+      <q-field
+        label="Range label"
+        icon="cloud"
+      >
+        <q-range class="dark" v-model="standalone" :min="0" :max="50" label></q-range>
+      </q-field>
+
       <p class="caption">Inside of a List</p>
       <div class="list">
         <div class="item two-lines">
-          <i class="item-primary">volume_up</i>
+          <div class="item-primary">
+            <q-icon name="volume_up" />
+          </div>
           <div class="item-content">
             <q-range v-model="standalone" :min="0" :max="50" label></q-range>
           </div>
         </div>
         <div class="item two-lines">
-          <i class="item-primary">brightness_medium</i>
+          <div class="item-primary">
+            <q-icon name="brightness_medium" />
+          </div>
           <div class="item-content">
             <q-range v-model="standalone" :min="0" :max="50" label></q-range>
           </div>
         </div>
         <div class="item two-lines">
-          <i class="item-primary">mic</i>
+          <div class="item-primary">
+            <q-icon name="mic" />
+          </div>
           <div class="item-content">
             <q-range v-model="standalone" :min="0" :max="50" label></q-range>
           </div>
@@ -90,6 +111,7 @@ export default {
   data () {
     return {
       standalone: 20,
+      precision: 0.4,
       step: 30,
       label: 5,
       snap: 2,

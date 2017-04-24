@@ -1,0 +1,118 @@
+$chip-border             ?= #e0e0e0
+$chip-border-radius      ?= 2rem
+$chip-font-size          ?= 14px
+$chip-padding-horizontal ?= 0
+$chip-padding-vertical   ?= 12px
+$chip-height             ?= 32px
+$chip-icon-size          ?= 24px
+$chip-small-height       ?= 26px
+
+.q-chip
+  height $chip-height
+  padding $chip-padding-horizontal $chip-padding-vertical
+  font-size $chip-font-size
+  border $chip-border
+  border-radius $chip-border-radius
+  cursor default
+  white-space nowrap
+  vertical-align middle
+  background $light
+
+  .q-icon
+    font-size $chip-icon-size
+    line-height 1
+
+  .q-chip-side
+    border-radius 50%
+    height $chip-height
+    width $chip-height
+    min-width $chip-height
+    overflow hidden
+
+    img
+      width 100%
+      height 100%
+
+    &.chip-left
+      margin-left -12px
+      margin-right 8px
+    &.chip-right
+      margin-left 2px
+      margin-right -12px
+
+  &.square
+    border-radius 2px
+
+  &.floating
+    position absolute
+    top -.7rem
+    left 100%
+    margin 0 0 0 -1.5rem !important
+    pointer-events none
+
+  &.tag
+    position relative
+    padding-left 1.7rem
+    &:after
+      content ''
+      position absolute
+      top 50%
+      left .5rem
+      margin-top -.25rem
+      background white
+      width .5rem
+      height .5rem
+      box-shadow 0 -1px 1px 0 rgba(0, 0, 0, .3)
+      border-radius 50%
+
+  &.pointing
+    position relative
+    &:before
+      content ''
+      z-index -1
+      background inherit
+      width 9px
+      height 9px
+      position absolute
+      transform translateX(-50%) translateY(-50%) rotate(45deg)
+  &.pointing-up
+    margin-top .8rem
+    &:before
+      top 0
+      left 50%
+  &.pointing-down
+    margin-bottom .8rem
+    &:before
+      right auto
+      top 100%
+      left 50%
+  &.pointing-right
+    margin-right .8rem
+    &:before
+      top 50%
+      right 2px
+      bottom auto
+      left auto
+      transform translateX(50%) translateY(-50%) rotate(45deg)
+  &.pointing-left
+    margin-left .8rem
+    &:before
+      top 50%
+      left 2px
+      bottom auto
+      right auto
+
+  .chip-detail
+    background rgba(0, 0, 0, .1)
+    opacity .8
+    padding 0 5px
+    border-top-right-radius 0
+    border-bottom-right-radius 0
+
+  &.small
+    height $chip-small-height
+
+    .q-chip-side
+      height $chip-small-height
+      width $chip-small-height
+      min-width $chip-small-height

@@ -5,19 +5,19 @@
         Model <span class="right-detail"><em>{{stringModel}}</em></span>
       </div>
 
-      <div class="column small-gutter" style="margin-top: 15px">
+      <div style="margin-top: 15px">
         <q-search v-model="search"></q-search>
         <q-search v-model="search" class="orange"></q-search>
-        <q-search v-model="search" class="secondary" icon="explore" placeholder="PlacesPlacesPlacesPlacesPlacesPlacesPlaces"></q-search>
-        <q-search v-model="search" class="primary" icon="local_airport" placeholder="Airports"></q-search>
-        <q-search v-model="search" class="dark" icon="local_hotel" placeholder="Hotels"></q-search>
+        <q-search v-model="search" class="text-white bg-secondary" icon="explore" placeholder="PlacesPlacesPlacesPlacesPlacesPlacesPlaces"></q-search>
+        <q-search v-model="search" class="text-white bg-primary" icon="local_airport" placeholder="Airports"></q-search>
+        <q-search v-model="search" class="text-white bg-dark" icon="local_hotel" placeholder="Hotels"></q-search>
       </div>
 
       <p class="caption">Numeric Format</p>
       <div class="label bg-secondary text-white">
         Model <span class="right-detail"><em>{{numberModel}}</em></span>
       </div>
-      <q-search v-model="number" numeric class="positive" style="margin-top: 15px"></q-search>
+      <q-search v-model="number" type="number" class="positive" style="margin-top: 15px"></q-search>
 
       <p class="caption">Disabled State</p>
       <q-search v-model="search" class="primary" disable></q-search>

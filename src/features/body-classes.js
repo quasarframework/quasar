@@ -1,11 +1,11 @@
 import Platform from './platform'
-import Utils from '../utils'
+import { ready } from '../utils/dom'
 
 function addClass (className) {
   document.body.classList.add(className)
 }
 
-Utils.dom.ready(() => {
+ready(() => {
   addClass(Platform.is.desktop ? 'desktop' : 'mobile')
   addClass(Platform.has.touch ? 'touch' : 'no-touch')
 

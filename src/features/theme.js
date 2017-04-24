@@ -1,10 +1,10 @@
-import Utils from '../utils'
+import { ready } from '../utils/dom'
 
 export function set (theme) {
   const currentTheme = current
   current = theme
 
-  Utils.dom.ready(() => {
+  ready(() => {
     if (currentTheme) {
       document.body.classList.remove(current)
     }

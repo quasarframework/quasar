@@ -1,4 +1,4 @@
-import Utils from '../utils'
+import extend from '../utils/extend'
 
 function encode (string) {
   return encodeURIComponent(string)
@@ -80,7 +80,7 @@ function get (key) {
 }
 
 function remove (key, options) {
-  set(key, '', Utils.extend(true, {}, options, {
+  set(key, '', extend(true, {}, options, {
     expires: -1
   }))
 }

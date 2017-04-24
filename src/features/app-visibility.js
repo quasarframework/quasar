@@ -1,5 +1,5 @@
 import Events from './events'
-import Utils from '../utils'
+import { ready } from '../utils/dom'
 
 let
   hidden = 'hidden',
@@ -32,7 +32,7 @@ function onchange (evt) {
   Events.$emit('app:visibility', state)
 }
 
-Utils.dom.ready(() => {
+ready(() => {
   // Standards:
   if (hidden in document) {
     document.addEventListener('visibilitychange', onchange)
