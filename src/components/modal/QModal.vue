@@ -23,6 +23,7 @@
 import Platform from '../../features/platform'
 import EscapeKey from '../../features/escape-key'
 import extend from '../../utils/extend'
+import { QTransition } from '../transition'
 
 const positions = {
   top: 'items-start justify-center with-backdrop',
@@ -72,6 +73,9 @@ let
 
 export default {
   name: 'q-modal',
+  components: {
+    QTransition
+  },
   props: {
     position: {
       type: String,
