@@ -75,7 +75,7 @@ export default {
     return {
       tab: {},
       data: {
-        tabName: ''
+        tabName: this.value || ''
       }
     }
   },
