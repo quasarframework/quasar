@@ -157,8 +157,8 @@ export default {
     },
     __setTab (data) {
       this.data.tabName = data.name
-      this.$emit('input', name)
-      this.$emit('select', name)
+      this.$emit('input', data.name)
+      this.$emit('select', data.name)
       this.__scrollToTab(data.el)
       this.tab = data
     },

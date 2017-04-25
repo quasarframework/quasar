@@ -47,20 +47,20 @@
       <q-tab selected slot="title" label="Gigiiiiiiiii sdfsdfs aadsf asfsda" />
     </q-tabs>
 
-    <q-tabs v-model="tab">
-      <q-tab alert slot="title" v-if="third" name="three" label="Oaua" />
-      <q-tab count="5" slot="title" name="one" label="Gogu" />
-      <q-tab selected slot="title" name="two" label="Gigiiiiiiiii sdfsdfs aadsf asfsda" />
+    <q-tabs class="brown" position="bottom">
+      <q-tab selected slot="title" v-if="third" name="three" label="Oaua" />
+      <q-tab slot="title" name="one" label="Gogu" />
+      <q-tab slot="title" name="two" label="Gigiiiiiiiii sdfsdfs aadsf asfsda" />
 
       <q-tab-pane name="one">Tab One</q-tab-pane>
       <q-tab-pane name="two">Tab Two</q-tab-pane>
       <q-tab-pane name="three">Tab Three</q-tab-pane>
     </q-tabs>
 
-    <q-tabs class="brown" position="bottom">
-      <q-tab selected slot="title" v-if="third" name="three" label="Oaua" />
-      <q-tab slot="title" name="one" label="Gogu" />
-      <q-tab slot="title" name="two" label="Gigiiiiiiiii sdfsdfs aadsf asfsda" />
+    <q-tabs v-model="tab">
+      <q-tab alert slot="title" v-if="third" name="three" label="Oaua" />
+      <q-tab count="5" slot="title" name="one" label="Gogu" />
+      <q-tab selected slot="title" name="two" label="Gigiiiiiiiii sdfsdfs aadsf asfsda" />
 
       <q-tab-pane name="one">Tab One</q-tab-pane>
       <q-tab-pane name="two">Tab Two</q-tab-pane>
