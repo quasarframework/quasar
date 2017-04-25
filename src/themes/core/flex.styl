@@ -151,11 +151,10 @@ flex-media-query($type)
 
   for $cols in (1..$grid-cols)
     for $parts in (1..$cols)
-      if $cols != $parts && $parts % $cols != 0
-        .{$type}-width-{$parts}of{$cols}
-          flex 0 1 (round($parts / $cols * 100))%
-        .{$type}-offset-{$parts}of{$cols}
-          margin-left (round($parts / $cols * 100))%
+      .{$type}-width-{$parts}of{$cols}
+        flex 0 1 (round($parts / $cols * 100))%
+      .{$type}-offset-{$parts}of{$cols}
+        margin-left (round($parts / $cols * 100))%
 
   .{$type}-order-first
     order -1000
