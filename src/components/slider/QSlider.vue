@@ -153,10 +153,11 @@ export default {
       }
     },
     goToSlide (slide, done) {
+      let direction = ''
       this.__cleanup()
 
       const finish = () => {
-        this.$emit('slide', this.slide)
+        this.$emit('slide', this.slide, direction)
         this.__planAutoPlay()
         if (typeof done === 'function') {
           done()
@@ -171,7 +172,7 @@ export default {
         if (!this.hasOwnProperty('initialPosition')) {
           this.position = -this.slide * 100
         }
-
+        direction = slide > this.slide ? 'next' : 'previous'
         if (this.infinite) {
           this.slide = normalizeToInterval(slide, 0, this.slidesNumber - 1)
           this.positionSlide = normalizeToInterval(slide, -1, this.slidesNumber)
