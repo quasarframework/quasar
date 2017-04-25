@@ -31,7 +31,7 @@ export default {
       default: theme === 'ios' ? 'ios' : 'tail'
     },
     size: {
-      type: Number,
+      type: [Number, String],
       default: 64
     },
     color: {
