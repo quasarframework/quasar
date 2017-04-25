@@ -23,11 +23,11 @@
         in your Page view too.
       </p>
 
-      <div class="toolbar">
+      <div class="q-toolbar">
         <q-btn class="left-drawer-opener">
           <q-icon name="menu" />
         </q-btn>
-        <div class="toolbar-title">
+        <div class="q-toolbar-title">
           Toolbar
         </div>
         <q-btn class="right-drawer-opener">
@@ -45,59 +45,31 @@
       </q-move>
       -->
 
-      <div class="toolbar secondary">
+      <div class="q-toolbar bg-secondary">
         <q-btn><q-icon name="assignment_ind" /></q-btn>
-        <div class="toolbar-title">
+        <div class="q-toolbar-title">
           Toolbar
         </div>
         <q-btn><q-icon name="sim_card" /></q-btn>
         <q-btn><q-icon name="gamepad" /></q-btn>
       </div>
-      <div class="toolbar orange">
+      <div class="q-toolbar bg-orange">
         <q-btn><q-icon name="mail" /></q-btn>
-        <div class="toolbar-title">
+        <div class="q-toolbar-title">
           Long title for Toolbar. Very very very very very very long title.
         </div>
         <q-btn><q-icon name="alarm" /></q-btn>
         <q-btn><q-icon name="router" /></q-btn>
         <q-btn><q-icon name="keyboard" /></q-btn>
       </div>
-      <div class="toolbar dark">
+      <div class="q-toolbar bg-dark">
         <q-btn><q-icon name="menu" /></q-btn>
         <q-btn><q-icon name="security" /></q-btn>
-        <div class="toolbar-title">
+        <div class="q-toolbar-title">
           Toolbar
         </div>
         <q-btn><q-icon name="headset" /></q-btn>
         <q-btn><q-icon name="tv" /></q-btn>
-      </div>
-
-      <p class="caption">
-        And also "inverted".
-      </p>
-      <div class="toolbar purple inverted">
-        <q-btn><q-icon name="menu" /></q-btn>
-        <div class="toolbar-title">
-          Toolbar
-        </div>
-        <q-btn><q-icon name="supervisor_account" /></q-btn>
-        <q-btn><q-icon name="more_vert" /></q-btn>
-      </div>
-      <div class="toolbar amber inverted">
-        <q-btn><q-icon name="menu" /></q-btn>
-        <div class="toolbar-title">
-          Toolbar
-        </div>
-        <q-btn><q-icon name="supervisor_account" /></q-btn>
-        <q-btn><q-icon name="more_vert" /></q-btn>
-      </div>
-      <div class="toolbar red inverted">
-        <q-btn><q-icon name="menu" /></q-btn>
-        <div class="toolbar-title">
-          Toolbar
-        </div>
-        <q-btn><q-icon name="supervisor_account" /></q-btn>
-        <q-btn><q-icon name="more_vert" /></q-btn>
       </div>
     </div>
   </div>

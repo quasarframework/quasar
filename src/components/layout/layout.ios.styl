@@ -56,7 +56,7 @@ body.with-layout-side-opened
   overflow hidden
 
 
-.toolbar
+.q-toolbar
   padding $toolbar-padding
   min-height $layout-toolbar-min-height
   display flex
@@ -68,21 +68,6 @@ body.with-layout-side-opened
   color $toolbar-color
   background $toolbar-background
 
-  for $name, $color in $colors
-    if $name != 'light' && $name != 'white'
-      &.{$name}
-        color white
-        background $color
-        &.inverted
-          color $color
-    if $name == 'light' || $name == 'white'
-      &.{$name}
-        color composite-color($color)
-        background $color
-        &.inverted
-          color $color
-          background composite-color($color)
-
   &.inverted
     background transparent
 
@@ -92,7 +77,7 @@ body.with-layout-side-opened
     &:active:not(.disabled)
       color $toolbar-active-color
 
-.toolbar-title
+.q-toolbar-title
   flex 1
   min-width 0
   max-width 100%
