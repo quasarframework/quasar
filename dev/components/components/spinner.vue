@@ -6,7 +6,7 @@
           Size: {{ size }}px
         </div>
         <div>
-          <q-range label v-model="size" :min="20" :max="256"></q-range>
+          <q-range label v-model="size" :min="20" :max="256" />
         </div>
 
         <q-icon class="text-grey-7" style="font-size: 2rem" name="palette" />
@@ -27,19 +27,20 @@
         Hover over them to see their names
       </p>
 
-      <div style="margin-top: 20px" class="group" :style="{color: color}">
+      <div style="margin-top: 20px" class="group">
         <div v-for="spinner in spinners" class="inline-block">
-          <spinner
-            :name="spinner"
+          <component
+            :is="`q-spinner-${spinner}`"
             :size="size"
-          ></spinner>
+            :color="color"
+          ></component>
           <q-tooltip :offset="[0, 8]">{{spinner}}</q-tooltip>
         </div>
       </div>
 
       <p class="caption" :style="{color: color}">
         Default Theme Spinner:
-        <spinner :size="size" style="margin-left: 1rem;"></spinner>
+        <q-spinner :size="size" style="margin-left: 1rem;"></q-spinner>
       </p>
     </div>
   </div>
