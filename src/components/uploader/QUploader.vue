@@ -229,7 +229,7 @@ export default {
           }
           if (xhr.status && xhr.status < 400) {
             this.__remove(file.name, true, xhr.response)
-            this.$emit('uploaded', file.name, xhr)
+            this.$emit('uploaded', file, xhr)
             resolve(file)
           }
           else {
