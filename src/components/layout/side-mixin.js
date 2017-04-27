@@ -154,11 +154,18 @@ export default {
         this[side + 'InTransit'] = true
       }
     },
-    __closeByTouch (evt) {
-      const
-        right = this.rightState.openedSmall,
-        side = right ? 'right' : 'left',
-        width = this[side].w
+    __closeLeftByTouch (evt) {
+      this.__closeByTouch(evt, 'left')
+    },
+    __closeRightByTouch (evt) {
+      this.__closeByTouch(evt, 'right', true)
+    },
+    __closeByTouch (evt, side, right) {
+      if (typeof side === 'undefined') {
+        right = this.rightState.openedSmall
+        side = right ? 'right' : 'left'
+      }
+      const width = this[side].w
 
       if (this[side + 'OnLayout']) {
         return

@@ -31,7 +31,7 @@
       class="layout-aside layout-aside-left"
       :class="computedLeftClass"
       :style="computedLeftStyle"
-      v-touch-pan.horizontal="__closeByTouch"
+      v-touch-pan.horizontal="__closeLeftByTouch"
     >
       <slot name="left"></slot>
       <q-resize-observable
@@ -45,7 +45,7 @@
       class="layout-aside layout-aside-right"
       :class="computedRightClass"
       :style="computedRightStyle"
-      v-touch-pan.horizontal="__closeByTouch"
+      v-touch-pan.horizontal="__closeRightByTouch"
     >
       <slot name="right"></slot>
       <q-resize-observable
