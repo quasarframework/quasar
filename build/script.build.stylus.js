@@ -87,11 +87,11 @@ function compile (src) {
 
   return data
     // remove imports
-    .replace(/@import '[^']+'\n/g, '')
+    .replace(/@import\s+'[^']+'[\s\r\n]+/g, '')
     // remove comments
-    .replace(/(\/\*[\w'-\.,`\s\r\n\*@]*\*\/)|(\/\/[^\n]*)/g, '')
+    .replace(/(\/\*[\w'-.,`\s\r\n*@]*\*\/)|(\/\/[^\r\n]*)/g, '')
     // remove unnecessary newlines
-    .replace(/\n[\n]+/g, '\n')
+    .replace(/[\r\n]+/g, '\n')
 }
 
 function getSize (code) {
