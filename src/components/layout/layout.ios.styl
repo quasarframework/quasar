@@ -1,6 +1,8 @@
 $layout-toolbar-min-height ?= 50px
 $layout-border             ?= 1px solid $toolbar-faded-color
 $layout-aside-background   ?= white
+$layout-aside-left-width   ?= 280px
+$layout-aside-right-width  ?= 280px
 
 $toolbar-title-font-size   ?= .95rem
 $toolbar-padding           ?= 4px 10px
@@ -27,10 +29,12 @@ $toolbar-padding           ?= 4px 10px
     z-index $z-fixed-side
 .layout-aside-left
   left 0
+  width $layout-aside-left-width
   &.fixed
     border-right $layout-border
 .layout-aside-right
   right 0
+  width $layout-aside-right-width
   &.fixed
     border-left $layout-border
 

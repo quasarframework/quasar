@@ -3,6 +3,8 @@ $layout-header-shadow      ?= $shadow-2
 $layout-footer-shadow      ?= $shadow-up-2
 $layout-aside-shadow       ?= $shadow-2
 $layout-aside-background   ?= white
+$layout-aside-left-width   ?= 300px
+$layout-aside-right-width  ?= 300px
 
 $toolbar-title-font-size   ?= 1.15rem
 $toolbar-padding           ?= 4px 12px
@@ -30,8 +32,10 @@ $toolbar-padding           ?= 4px 12px
     z-index $z-fixed-side
 .layout-aside-left
   left 0
+  width $layout-aside-left-width
 .layout-aside-right
   right 0
+  width $layout-aside-right-width
 
 main, .layout, .layout-header, .layout-footer
   position relative
