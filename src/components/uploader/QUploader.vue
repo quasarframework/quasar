@@ -53,7 +53,7 @@
             <q-btn
               v-show="!uploading"
               class="primary clear small"
-              @click="__remove(img.name)"
+              @click="__remove(img)"
               :icon="computedIcons.remove"
             >
               {{ computedLabel.remove }}
@@ -76,7 +76,7 @@
             <q-btn
               v-show="!uploading"
               class="primary clear small"
-              @click="__remove(file.name)"
+              @click="__remove(file)"
               :icon="computedIcons.remove"
             >
               {{ computedLabel.remove }}
@@ -219,11 +219,11 @@ export default {
       this.files = this.files.concat(files)
       this.$refs.file.value = ''
     },
-    __remove (name, done, response) {
-      this.$emit(done ? 'upload' : 'remove', name, response)
-      this.images = this.images.filter(file => file.name !== name)
-      this.otherFiles = this.otherFiles.filter(file => file.name !== name)
-      this.files = this.files.filter(file => file.name !== name)
+    __remove (file, done, xhr) {
+      this.$emit(done ? 'upload' : 'remove', file, xhr)
+      this.images = this.images.filter(obj => obj.name !== file.name)
+      this.otherFiles = this.otherFiles.filter(obj => obj.name !== file.name)
+      this.files = this.files.filter(obj => obj.name !== file.name)
     },
     __pick () {
       if (this.$q.platform.is.mozilla) {
@@ -262,8 +262,7 @@ export default {
             return
           }
           if (xhr.status && xhr.status < 400) {
-            this.__remove(file.name, true, xhr.response)
-            this.$emit('uploaded', file, xhr)
+            this.__remove(file.name, true, xhr)
             resolve(file)
           }
           else {
