@@ -42,8 +42,19 @@
             :active="!checkbox && !toggle && optModel[opt.index]"
             @click.native="__toggle(opt.value)"
           >
-            <q-checkbox v-if="checkbox" slot="primary" :value="optModel[opt.index]"></q-checkbox>
-            <q-toggle v-if="toggle" slot="secondary" :value="optModel[opt.index]"></q-toggle>
+            <q-checkbox
+              v-if="checkbox"
+              slot="primary"
+              :value="optModel[opt.index]"
+              @click.native="__toggle(opt.value)"
+            ></q-checkbox>
+
+            <q-toggle
+              v-if="toggle"
+              slot="secondary"
+              :value="optModel[opt.index]"
+              @click.native="__toggle(opt.value)"
+            ></q-toggle>
           </q-item>
         </template>
         <template v-else>

@@ -13,7 +13,7 @@
       <q-select multiple v-model="multipleSelect" :options="selectListOptions"></q-select>
 
       <p class="caption">Multiple Selection with Checkboxes</p>
-      <q-select multiple checkbox v-model="multipleSelect" :options="selectListOptions"></q-select>
+      <q-select multiple checkbox v-model="multipleSelect" :options="selectListOptions" @input="inputChange"></q-select>
 
       <p class="caption">Multiple Selection with Toggle</p>
       <q-select multiple toggle v-model="multipleSelect" :options="selectListOptions"></q-select>
