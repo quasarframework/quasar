@@ -427,9 +427,9 @@ export default {
           ? cssTransform(`translateX(${this.rightState.position}px)`)
           : cssTransform(`translateX(${this.rightState.openedSmall ? 0 : '100%'})`)
 
-          return this.rightStyle
-            ? extend({}, this.rightStyle, style)
-            : style
+        return this.rightStyle
+          ? extend({}, this.rightStyle, style)
+          : style
       }
 
       const
