@@ -220,10 +220,11 @@ export default {
       this.$refs.file.value = ''
     },
     __remove (file, done, xhr) {
+      const name = file.name
       this.$emit(done ? 'upload' : 'remove', file, xhr)
-      this.images = this.images.filter(obj => obj.name !== file.name)
-      this.otherFiles = this.otherFiles.filter(obj => obj.name !== file.name)
-      this.files = this.files.filter(obj => obj.name !== file.name)
+      this.images = this.images.filter(obj => obj.name !== name)
+      this.otherFiles = this.otherFiles.filter(obj => obj.name !== name)
+      this.files = this.files.filter(obj => obj.name !== name)
     },
     __pick () {
       if (this.$q.platform.is.mozilla) {
@@ -262,7 +263,7 @@ export default {
             return
           }
           if (xhr.status && xhr.status < 400) {
-            this.__remove(file.name, true, xhr)
+            this.__remove(file, true, xhr)
             resolve(file)
           }
           else {
