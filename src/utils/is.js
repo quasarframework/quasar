@@ -20,7 +20,7 @@ export function isRegexp (v) {
 }
 
 export function isNumber (v) {
-  return typeof v === 'boolean'
+  return !isNaN(parseFloat(v)) && isFinite(v);
 }
 
 export function isString (v) {
