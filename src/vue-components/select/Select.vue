@@ -97,6 +97,14 @@ export default {
     disable: Boolean,
     delimiter: Boolean
   },
+  watch: {
+    model: {
+      deep: true,
+      handler (val) {
+        this.$emit('input', val)
+      }
+    }
+  },
   computed: {
     model: {
       get () {

@@ -2,9 +2,9 @@
   <div>
     <div class="layout-padding">
       <p class="caption">With Radios</p>
-      <q-select type="radio" v-model="select" :options="selectOptions"></q-select>
+      <q-select type="radio" v-model="select" :options="selectOptions" @input="inputChanged"></q-select>
       <p class="caption">With Checkboxes</p>
-      <q-select type="checkbox" v-model="multipleSelect" :options="selectOptions"></q-select>
+      <q-select type="checkbox" v-model="multipleSelect" :options="selectOptions" @input="inputChanged"></q-select>
       <p class="caption">With Toggles</p>
       <q-select type="toggle" v-model="multipleSelect" :options="selectOptions"></q-select>
       <p class="caption">With List</p>
@@ -130,6 +130,11 @@ export default {
           value: 'ora'
         }
       ]
+    }
+  },
+  methods: {
+    inputChanged (v) {
+      console.log('input:', v)
     }
   }
 }
