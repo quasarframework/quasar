@@ -31,7 +31,7 @@
       <q-route-tab slot="title" icon="input" to="/test-layout/drawer" replace>Drawer</q-route-tab>
     </q-tabs>
 
-    <div slot="left" style="width: 200px;">
+    <div slot="left">
       <div>FirstL</div>
       <q-side-link class="item link" to="/test-layout/about">About</q-side-link>
       <q-side-link class="item link" to="/test-layout/toolbar">Toolbar</q-side-link>
@@ -41,7 +41,7 @@
       <q-input v-model="gigi" />
       <div>Last</div>
     </div>
-    <div v-if="right" slot="right" style="width: 150px;">
+    <div v-if="right" slot="right">
       <div>FirstR</div>
       <span id="gigi" class="bg-white text-black"></span>
       <span id="gogu"></span>

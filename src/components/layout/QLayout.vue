@@ -173,8 +173,6 @@ export default {
   data () {
     return {
       headerOnScreen: true,
-      leftInTransit: false,
-      rightInTransit: false,
 
       header: {h: 0, w: 0},
       left: {h: 0, w: 0},
@@ -198,11 +196,13 @@ export default {
 
       leftState: {
         position: 0,
+        inTransit: false,
         openedSmall: false,
         openedBig: this.sides.left
       },
       rightState: {
         position: 0,
+        inTransit: false,
         openedSmall: false,
         openedBig: this.sides.right
       }
@@ -236,6 +236,12 @@ export default {
         left: this.leftState.openedBig,
         right: v
       })
+    },
+    leftOverBreakpoint (v) {
+      this.$emit('left-breakpoint', v)
+    },
+    rightOverBreakpoint (v) {
+      this.$emit('right-breakpoint', v)
     }
   },
   computed: {
@@ -339,8 +345,8 @@ export default {
     computedLeftClass () {
       const classes = {
         'fixed': this.fixed.left || !this.leftOnLayout,
-        'on-top': !this.leftOverBreakpoint,
-        'transition-generic': !this.leftInTransit,
+        'on-top': !this.leftOverBreakpoint || this.leftState.inTransit,
+        'transition-generic': !this.leftState.inTransit,
         'top-padding': this.fixed.left || this.rows.top[0] === 'l'
       }
 
@@ -351,8 +357,8 @@ export default {
     computedRightClass () {
       const classes = {
         'fixed': this.fixed.right || !this.rightOnLayout,
-        'on-top': !this.rightOverBreakpoint,
-        'transition-generic': !this.rightInTransit,
+        'on-top': !this.rightOverBreakpoint || this.rightState.inTransit,
+        'transition-generic': !this.rightState.inTransit,
         'top-padding': this.fixed.right || this.rows.top[2] === 'r'
       }
 
@@ -387,7 +393,7 @@ export default {
     },
     computedLeftStyle () {
       if (!this.leftOnLayout) {
-        const style = this.leftInTransit
+        const style = this.leftState.inTransit
           ? cssTransform(`translateX(${this.leftState.position}px)`)
           : cssTransform(`translateX(${this.leftState.openedSmall ? 0 : '-100%'})`)
 
@@ -423,7 +429,7 @@ export default {
     },
     computedRightStyle () {
       if (!this.rightOnLayout) {
-        const style = this.rightInTransit
+        const style = this.rightState.inTransit
           ? cssTransform(`translateX(${this.rightState.position}px)`)
           : cssTransform(`translateX(${this.rightState.openedSmall ? 0 : '100%'})`)
 
@@ -476,6 +482,7 @@ export default {
     },
     onWindowResize (size) {
       updateSize(this.layout, size)
+      this.$emit('resize', size)
     },
     onPageScroll (data) {
       updateObject(this.scroll, data)
@@ -490,6 +497,8 @@ export default {
           this.headerOnScreen = visible
         }
       }
+
+      this.$emit('scroll', data)
     }
   }
 }
