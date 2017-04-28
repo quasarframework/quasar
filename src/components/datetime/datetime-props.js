@@ -31,6 +31,7 @@ export const input = {
   placeholder: String,
   staticLabel: String,
   simple: Boolean,
+  align: String,
   readonly: Boolean,
   disable: Boolean
 }

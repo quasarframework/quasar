@@ -9,6 +9,7 @@
     :float-label="floatLabel"
     :stacked-label="stackedLabel"
     :simple="simple"
+    :align="align"
     @click="open"
     @focus="$emit('focus')"
     @blur="__blur"
