@@ -4,7 +4,10 @@
     :style="headerStyle"
     :class="headerClass"
   >
-    <div class="layout-header">
+    <div
+      v-if="$slots.header || ($q.theme === 'ios' && $slots.navigation)"
+      class="layout-header"
+    >
       <slot name="header"></slot>
       <slot v-if="$q.theme !== 'ios'" name="navigation"></slot>
     </div>
@@ -18,6 +21,7 @@
     </div>
 
     <div
+      v-if="$slots.footer || ($q.theme === 'ios' && $slots.navigation)"
       class="layout-footer"
       :style="footerStyle"
       :class="footerClass"
