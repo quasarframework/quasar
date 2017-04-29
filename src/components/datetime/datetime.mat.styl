@@ -163,8 +163,14 @@ body.desktop .q-datetime-clock-position:not(.active):hover
 for $pos in 0..12
   $degree = (270 + 30 * $pos)
   .q-datetime-clock-pos-{$pos}
-    top (((1 + sin($degree * 1deg)) * 100%) / 2)
-    left (((1 + cos($degree * 1deg)) * 100%) / 2)
+    top round(((1 + sin($degree * 1deg)) * 100%) / 2, 2)
+    left round(((1 + cos($degree * 1deg)) * 100%) / 2, 2)
+
+for $pos in 0..23
+  $degree = (270 + 15 * $pos)
+  .q-datetime-clock-pos-{$pos}.fmt24
+    top round(((1 + sin($degree * 1deg)) * 100%) / 2, 2)
+    left round(((1 + cos($degree * 1deg)) * 100%) / 2, 2)
 
 .q-datetime-range
     display flex
