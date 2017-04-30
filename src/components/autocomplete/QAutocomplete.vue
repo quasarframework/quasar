@@ -6,7 +6,7 @@
     ref="popover"
     :anchor-click="false"
   >
-    <div class="list no-border" :class="{'item-delimiter': delimiter}" :style="computedWidth">
+    <div class="list no-border" :class="{delimiter: delimiter}" :style="computedWidth">
       <q-item
         v-for="(result, index) in computedResults"
         :key="result"
