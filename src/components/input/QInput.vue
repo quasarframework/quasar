@@ -58,6 +58,7 @@
         :maxlength="maxlength"
         :rows="rows"
         class="auto"
+        :class="`text-${align}`"
         tabindex="0"
       ></textarea>
       <div
@@ -71,6 +72,7 @@
         @keyup="__keyup"
         tabindex="0"
         class="auto no-outline ellipsis q-input-dropdown"
+        :class="`text-${align}`"
       ></div>
       <input
         v-else
@@ -94,6 +96,7 @@
         :max="max"
         :step="computedStep"
         class="auto q-placeholder"
+        :class="`text-${align}`"
         tabindex="0"
       >
 
@@ -194,6 +197,11 @@ export default {
     rows: {
       type: Number,
       default: 3
+    },
+    align: {
+      type: String,
+      default: 'left',
+      validator: v => ['left', 'center', 'right'].includes(v)
     }
   },
   data () {

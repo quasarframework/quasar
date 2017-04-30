@@ -49,7 +49,7 @@
             {{ __pad(minute) }}
           </span>
         </div>
-        <div class="q-datetime-ampm column justify-around">
+        <div v-if="!format24h" class="q-datetime-ampm column justify-around">
           <div
             :class="{active: am}"
             class="q-datetime-link"
@@ -156,12 +156,23 @@
               <div class="q-datetime-clock-pointer" :style="clockPointerStyle" :class="{hidden: !value}">
                 <span></span>
               </div>
-              <div
-                v-for="n in 12"
-                class="q-datetime-clock-position"
-                :class="['q-datetime-clock-pos-' + n, value && n === hour ? 'active' : '']"
-              >
-                {{ n }}
+              <div v-if="format24h">
+                <div
+                  v-for="n in 24"
+                  class="q-datetime-clock-position fmt24"
+                  :class="[`q-datetime-clock-pos-${n-1}`, value && (n - 1) === hour ? 'active' : '']"
+                >
+                  {{ n - 1 }}
+                </div>
+              </div>
+              <div v-else>
+                <div
+                  v-for="n in 12"
+                  class="q-datetime-clock-position"
+                  :class="['q-datetime-clock-pos-' + n, value && n === hour ? 'active' : '']"
+                >
+                  {{ n }}
+                </div>
               </div>
             </div>
           </div>
@@ -201,10 +212,11 @@
 <script>
 import { moment } from '../../deps'
 import { inline as props } from './datetime-props'
-import { height, width, offset } from '../../utils/dom'
+import { height, width, offset, cssTransform } from '../../utils/dom'
 import { between } from '../../utils/format'
 import { position } from '../../utils/event'
 import { QIcon } from '../icon'
+import { QBtn } from '../btn'
 
 function convertToAmPm (hour) {
   return hour === 0 ? 12 : (hour >= 13 ? hour - 12 : hour)
@@ -213,7 +225,8 @@ function convertToAmPm (hour) {
 export default {
   name: 'q-inline-datetime',
   components: {
-    QIcon
+    QIcon,
+    QBtn
   },
   props,
   data () {
@@ -372,7 +385,10 @@ export default {
     },
 
     hour () {
-      return convertToAmPm(this.date.hour())
+      const h = this.date.hour()
+      return this.format24h
+        ? h
+        : convertToAmPm(h)
     },
     minute () {
       return this.date.minute()
@@ -382,14 +398,10 @@ export default {
     },
     clockPointerStyle () {
       let
-        divider = this.view === 'minute' ? 60 : 12,
+        divider = this.view === 'minute' ? 60 : (this.format24h ? 24 : 12),
         degrees = Math.round((this.view === 'minute' ? this.minute : this.hour) * (360 / divider)) - 180
 
-      return {
-        '-webkit-transform': 'rotate(' + degrees + 'deg)',
-        '-ms-transform': 'rotate(' + degrees + 'deg)',
-        'transform': 'rotate(' + degrees + 'deg)'
-      }
+      return cssTransform(`rotate(${degrees}deg)`)
     },
     editable () {
       return !this.disable && !this.readonly
@@ -437,11 +449,16 @@ export default {
       if (!this.editable) {
         return
       }
-      this.view = 'minute'
-      value = this.__parseTypeValue('hour', value) % 12
+      value = this.__parseTypeValue('hour', value)
 
-      if (!this.am) {
-        value += 12
+      if (this.format24h) {
+        value = value % 24
+      }
+      else {
+        value = value % 12
+        if (!this.am) {
+          value += 12
+        }
       }
 
       this.date.hour(value)
@@ -487,6 +504,7 @@ export default {
       ev.stopPropagation()
       ev.preventDefault()
       this.dragging = false
+      this.view = 'minute'
     },
     __updateClock (ev) {
       let
@@ -506,7 +524,7 @@ export default {
       }
 
       if (this.view === 'hour') {
-        this.setHour(Math.round(angle / 30))
+        this.setHour(Math.round(angle / (this.format24h ? 15 : 30)))
       }
       else {
         this.setMinute(Math.round(angle / 6))

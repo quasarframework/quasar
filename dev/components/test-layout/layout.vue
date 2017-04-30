@@ -1,13 +1,13 @@
 <template>
   <q-layout ref="layout" view="hHr LpR lFf" v-model="sides" :right-breakpoint="900">
-    <div slot="header" class="toolbar">
+    <div slot="header" class="q-toolbar">
       <q-btn @click="$refs.layout.toggleLeft()">
         <q-icon name="menu" />
       </q-btn>
       <q-btn @click="sides.left = !sides.left">
         <q-icon name="menu" />
       </q-btn>
-      <div class="toolbar-title">
+      <div class="q-toolbar-title">
         Quasar Layout
       </div>
       <q-btn @click="sides.right = !sides.right">
@@ -20,8 +20,8 @@
       <q-checkbox v-model="right" />
     </div>
 
-    <div v-if="todo" slot="header" class="toolbar amber">
-      <q-search v-model="search" class="text-black"></q-search>
+    <div v-if="todo" slot="header" class="q-toolbar bg-amber">
+      <q-search v-model="search" class="text-black auto"></q-search>
     </div>
 
     <q-tabs slot="navigation">
@@ -31,7 +31,7 @@
       <q-route-tab slot="title" icon="input" to="/test-layout/drawer" replace>Drawer</q-route-tab>
     </q-tabs>
 
-    <div slot="left" style="width: 200px;">
+    <div slot="left">
       <div>FirstL</div>
       <q-side-link class="item link" to="/test-layout/about">About</q-side-link>
       <q-side-link class="item link" to="/test-layout/toolbar">Toolbar</q-side-link>
@@ -41,7 +41,7 @@
       <q-input v-model="gigi" />
       <div>Last</div>
     </div>
-    <div v-if="right" slot="right" style="width: 150px;">
+    <div v-if="right" slot="right">
       <div>FirstR</div>
       <span id="gigi" class="bg-white text-black"></span>
       <span id="gogu"></span>
@@ -51,10 +51,10 @@
 
     <router-view></router-view>
 
-    <div v-if="todo" slot="footer" class="toolbar">
+    <div v-if="todo" slot="footer" class="q-toolbar">
       sdsfssdfs
     </div>
-    <div slot="footer" class="toolbar">
+    <div slot="footer" class="q-toolbar">
       <router-link tag="button" to="/" exact>
         <q-icon name="keyboard arrow left" class="on-left" />
         Back to Index

@@ -13,6 +13,10 @@
         v-model="nullModel"
       />
       <q-input
+        value=""
+        placeholder="Placeholder"
+      />
+      <q-input
         v-model="model"
         float-label="Floating Label"
       />

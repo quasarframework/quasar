@@ -29,14 +29,9 @@
     <aside
       ref="left"
       class="layout-aside layout-aside-left"
-      :class="{
-        'fixed': fixed.left || !leftOnLayout,
-        'on-top': !leftOverBreakpoint,
-        'transition-generic': !leftInTransit,
-        'top-padding': fixed.left || rows.top[0] === 'l'
-      }"
-      :style="leftStyle"
-      v-touch-pan.horizontal="__closeByTouch"
+      :class="computedLeftClass"
+      :style="computedLeftStyle"
+      v-touch-pan.horizontal="__closeLeftByTouch"
     >
       <slot name="left"></slot>
       <q-resize-observable
@@ -48,14 +43,9 @@
     <aside
       ref="right"
       class="layout-aside layout-aside-right"
-      :class="{
-        'fixed': fixed.right || !rightOnLayout,
-        'on-top': !rightOverBreakpoint,
-        'transition-generic': !rightInTransit,
-        'top-padding': fixed.right || rows.top[2] === 'r'
-      }"
-      :style="rightStyle"
-      v-touch-pan.horizontal="__closeByTouch"
+      :class="computedRightClass"
+      :style="computedRightStyle"
+      v-touch-pan.horizontal="__closeRightByTouch"
     >
       <slot name="right"></slot>
       <q-resize-observable
@@ -68,16 +58,16 @@
       ref="header"
       v-if="$slots.header || ($q.theme !== 'ios' && $slots.navigation)"
       class="layout-header"
-      :class="{'fixed-top': fixed.header}"
-      :style="headerStyle"
+      :class="computedHeaderClass"
+      :style="computedHeaderStyle"
     >
       <slot name="header"></slot>
       <slot v-if="$q.theme !== 'ios'" name="navigation"></slot>
       <q-resize-observable @resize="onHeaderResize"></q-resize-observable>
     </header>
 
-    <div ref="main" :style="pageStyle">
-      <main :style="mainStyle">
+    <div ref="main" :style="computedPageStyle">
+      <main :style="mainStyle" :class="pageClass">
         <slot></slot>
       </main>
     </div>
@@ -86,8 +76,8 @@
       ref="footer"
       v-if="$slots.footer || ($q.theme === 'ios' && $slots.navigation)"
       class="layout-footer"
-      :class="{'fixed-bottom': fixed.footer}"
-      :style="footerStyle"
+      :class="computedFooterClass"
+      :style="computedFooterStyle"
     >
       <slot name="footer"></slot>
       <slot v-if="$q.theme === 'ios'" name="navigation"></slot>
@@ -101,6 +91,7 @@
 </template>
 
 <script>
+import extend from '../../utils/extend'
 import { cssTransform } from '../../utils/dom'
 import { getScrollHeight } from '../../utils/scroll'
 import SideMixin from './side-mixin'
@@ -152,23 +143,36 @@ export default {
     view: {
       type: String,
       default: 'hhh lpr fff',
-      validator: v => /^(h|H|L|l)(h|H)(h|H|R|r) (L|l|p)p(R|r|p) (f|F|L|l)(f|F)(f|F|R|r)$/.test(v)
+      validator: v => /^(h|l)h(h|r) (l|p)p(r|p) (f|l)f(f|r)$/.test(v.toLowerCase())
     },
     reveal: Boolean,
+
     leftBreakpoint: {
       type: Number,
       default: 996
     },
+    leftStyle: Object,
+    leftClass: Object,
+
     rightBreakpoint: {
       type: Number,
       default: 996
-    }
+    },
+    rightStyle: Object,
+    rightClass: Object,
+
+    headerStyle: Object,
+    headerClass: Object,
+
+    footerStyle: Object,
+    footerClass: Object,
+
+    pageStyle: Object,
+    pageClass: Object
   },
   data () {
     return {
       headerOnScreen: true,
-      leftInTransit: false,
-      rightInTransit: false,
 
       header: {h: 0, w: 0},
       left: {h: 0, w: 0},
@@ -192,11 +196,13 @@ export default {
 
       leftState: {
         position: 0,
+        inTransit: false,
         openedSmall: false,
         openedBig: this.sides.left
       },
       rightState: {
         position: 0,
+        inTransit: false,
         openedSmall: false,
         openedBig: this.sides.right
       }
@@ -230,6 +236,12 @@ export default {
         left: this.leftState.openedBig,
         right: v
       })
+    },
+    leftOverBreakpoint (v) {
+      this.$emit('left-breakpoint', v)
+    },
+    rightOverBreakpoint (v) {
+      this.$emit('right-breakpoint', v)
     }
   },
   computed: {
@@ -264,7 +276,7 @@ export default {
         bottom: rows[2].split('')
       }
     },
-    pageStyle () {
+    computedPageStyle () {
       const
         view = this.rows,
         css = {}
@@ -285,14 +297,18 @@ export default {
       return css
     },
     mainStyle () {
-      return {
+      const css = {
         minHeight: `calc(100vh - ${this.header.h + this.footer.h}px)`
       }
+
+      return this.pageStyle
+        ? extend({}, this.pageStyle, css)
+        : css
     },
     showHeader () {
       return this.headerOnScreen || !this.reveal
     },
-    headerStyle () {
+    computedHeaderStyle () {
       const
         view = this.rows,
         css = this.showHeader
@@ -306,9 +322,11 @@ export default {
         css.marginRight = this.right.w + 'px'
       }
 
-      return css
+      return this.headerStyle
+        ? extend({}, this.headerStyle, css)
+        : css
     },
-    footerStyle () {
+    computedFooterStyle () {
       const
         view = this.rows,
         css = {}
@@ -320,7 +338,45 @@ export default {
         css.marginRight = this.right.w + 'px'
       }
 
-      return css
+      return this.footerStyle
+        ? extend({}, this.footerStyle, css)
+        : css
+    },
+    computedLeftClass () {
+      const classes = {
+        'fixed': this.fixed.left || !this.leftOnLayout,
+        'on-top': !this.leftOverBreakpoint || this.leftState.inTransit,
+        'transition-generic': !this.leftState.inTransit,
+        'top-padding': this.fixed.left || this.rows.top[0] === 'l'
+      }
+
+      return this.leftClass
+        ? extend({}, this.leftClass, classes)
+        : classes
+    },
+    computedRightClass () {
+      const classes = {
+        'fixed': this.fixed.right || !this.rightOnLayout,
+        'on-top': !this.rightOverBreakpoint || this.rightState.inTransit,
+        'transition-generic': !this.rightState.inTransit,
+        'top-padding': this.fixed.right || this.rows.top[2] === 'r'
+      }
+
+      return this.rightClass
+        ? extend({}, this.rightClass, classes)
+        : classes
+    },
+    computedHeaderClass () {
+      const classes = {'fixed-top': this.fixed.header}
+      return this.headerClass
+        ? extend({}, this.headerClass, classes)
+        : classes
+    },
+    computedFooterClass () {
+      const classes = {'fixed-bottom': this.fixed.footer}
+      return this.footerClass
+        ? extend({}, this.footerClass, classes)
+        : classes
     },
     offsetTop () {
       return !this.fixed.header
@@ -335,11 +391,15 @@ export default {
         }
       }
     },
-    leftStyle () {
+    computedLeftStyle () {
       if (!this.leftOnLayout) {
-        return this.leftInTransit
+        const style = this.leftState.inTransit
           ? cssTransform(`translateX(${this.leftState.position}px)`)
           : cssTransform(`translateX(${this.leftState.openedSmall ? 0 : '-100%'})`)
+
+        return this.leftStyle
+          ? extend({}, this.leftStyle, style)
+          : style
       }
 
       const
@@ -363,13 +423,19 @@ export default {
         }
       }
 
-      return css
+      return this.leftStyle
+        ? extend({}, this.leftStyle, css)
+        : css
     },
-    rightStyle () {
+    computedRightStyle () {
       if (!this.rightOnLayout) {
-        return this.rightInTransit
+        const style = this.rightState.inTransit
           ? cssTransform(`translateX(${this.rightState.position}px)`)
           : cssTransform(`translateX(${this.rightState.openedSmall ? 0 : '100%'})`)
+
+        return this.rightStyle
+          ? extend({}, this.rightStyle, style)
+          : style
       }
 
       const
@@ -393,7 +459,9 @@ export default {
         }
       }
 
-      return css
+      return this.rightStyle
+        ? extend({}, this.rightStyle, css)
+        : css
     }
   },
   methods: {
@@ -414,6 +482,7 @@ export default {
     },
     onWindowResize (size) {
       updateSize(this.layout, size)
+      this.$emit('resize', size)
     },
     onPageScroll (data) {
       updateObject(this.scroll, data)
@@ -428,6 +497,8 @@ export default {
           this.headerOnScreen = visible
         }
       }
+
+      this.$emit('scroll', data)
     }
   }
 }

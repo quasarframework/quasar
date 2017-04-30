@@ -9,6 +9,7 @@
     :float-label="floatLabel"
     :stacked-label="stackedLabel"
     :simple="simple"
+    :align="align"
     @click="open"
     @focus="$emit('focus')"
     @blur="__blur"
@@ -20,7 +21,14 @@
       :disable="disable || readonly"
       :anchor-click="false"
     >
-      <q-inline-datetime v-model="model" :type="type" :min="min" :max="max" class="no-border">
+      <q-inline-datetime
+        v-model="model"
+        :type="type"
+        :min="min"
+        :max="max"
+        :format24h="format24h"
+        class="no-border"
+      >
         <div class="modal-buttons row full-width">
           <q-btn v-if="!noClear" @click="clear()" class="primary clear" v-html="clearLabel"></q-btn>
           <div class="auto"></div>
@@ -39,7 +47,14 @@
       :position-classes="position"
       :content-css="css"
     >
-      <q-inline-datetime v-model="model" :type="type" :min="min" :max="max" class="no-border full-width">
+      <q-inline-datetime
+        v-model="model"
+        :type="type"
+        :min="min"
+        :max="max"
+        :format24h="format24h"
+        class="no-border full-width"
+      >
         <div class="modal-buttons row full-width">
           <q-btn v-if="!noClear" @click="clear()" class="primary clear" v-html="clearLabel"></q-btn>
           <div class="auto"></div>

@@ -127,12 +127,14 @@ export default {
     __openByTouch (evt, side, right) {
       const
         width = this[side].w,
-        position = between(evt.distance.x, 0, width)
+        position = between(evt.distance.x, 0, width),
+        state = this[side + 'State'],
+        withBackdrop = !this[side + 'OverBreakpoint']
 
       if (evt.isFinal) {
         const opened = position >= Math.min(75, width)
         this.backdrop.inTransit = false
-        this[side + 'InTransit'] = false
+        state.inTransit = false
         if (opened) {
           this.__show(side)
         }
@@ -142,23 +144,36 @@ export default {
         return
       }
 
-      this[side + 'State'].position = right
+      state.position = right
         ? Math.max(width - position, 0)
         : Math.min(0, position - width)
 
-      this.backdrop.percentage = between(position / width, 0, 1)
+      if (withBackdrop) {
+        this.backdrop.percentage = between(position / width, 0, 1)
+      }
 
       if (evt.isFirst) {
         document.body.classList.add('with-layout-side-opened')
-        this.backdrop.inTransit = side
-        this[side + 'InTransit'] = true
+        if (withBackdrop) {
+          this.backdrop.inTransit = side
+        }
+        state.inTransit = true
       }
     },
-    __closeByTouch (evt) {
+    __closeLeftByTouch (evt) {
+      this.__closeByTouch(evt, 'left')
+    },
+    __closeRightByTouch (evt) {
+      this.__closeByTouch(evt, 'right', true)
+    },
+    __closeByTouch (evt, side, right) {
+      if (typeof side === 'undefined') {
+        right = this.rightState.openedSmall
+        side = right ? 'right' : 'left'
+      }
       const
-        right = this.rightState.openedSmall,
-        side = right ? 'right' : 'left',
-        width = this[side].w
+        width = this[side].w,
+        state = this[side + 'State']
 
       if (this[side + 'OnLayout']) {
         return
@@ -171,7 +186,7 @@ export default {
       if (evt.isFinal) {
         const opened = Math.abs(position) < Math.min(75, width)
         this.backdrop.inTransit = false
-        this[side + 'InTransit'] = false
+        state.inTransit = false
         if (!opened) {
           this.__hide(side)
         }
@@ -181,12 +196,12 @@ export default {
         return
       }
 
-      this[side + 'State'].position = (right ? 1 : -1) * position
+      state.position = (right ? 1 : -1) * position
       this.backdrop.percentage = between(1 + (right ? -1 : 1) * position / width, 0, 1)
 
       if (evt.isFirst) {
         this.backdrop.inTransit = true
-        this[side + 'InTransit'] = true
+        state.inTransit = true
         this.backdrop.touchEvent = true
       }
     }

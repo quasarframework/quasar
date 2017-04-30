@@ -9,6 +9,7 @@
     :float-label="floatLabel"
     :stacked-label="stackedLabel"
     :simple="simple"
+    :align="align"
     @click="open"
     @focus="$emit('focus')"
     @blur="__blur"
@@ -42,8 +43,19 @@
             :active="!checkbox && !toggle && optModel[opt.index]"
             @click.native="__toggle(opt.value)"
           >
-            <q-checkbox v-if="checkbox" slot="primary" :value="optModel[opt.index]"></q-checkbox>
-            <q-toggle v-if="toggle" slot="secondary" :value="optModel[opt.index]"></q-toggle>
+            <q-checkbox
+              v-if="checkbox"
+              slot="primary"
+              :value="optModel[opt.index]"
+              @click.native="__toggle(opt.value)"
+            ></q-checkbox>
+
+            <q-toggle
+              v-if="toggle"
+              slot="secondary"
+              :value="optModel[opt.index]"
+              @click.native="__toggle(opt.value)"
+            ></q-toggle>
           </q-item>
         </template>
         <template v-else>
@@ -115,6 +127,7 @@ export default {
     floatLabel: String,
     stackedLabel: String,
     simple: Boolean,
+    align: String,
     readonly: Boolean,
     disable: Boolean,
     delimiter: Boolean

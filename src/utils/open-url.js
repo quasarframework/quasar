@@ -1,7 +1,7 @@
 import Platform from '../features/platform'
 
 export default (url, reject) => {
-  if (Platform.is.cordova) {
+  if (Platform.is.cordova && navigator && navigator.app) {
     return navigator.app.loadUrl(url, {
       openExternal: true
     })
@@ -11,6 +11,7 @@ export default (url, reject) => {
 
   if (win) {
     win.focus()
+    return win
   }
   else {
     reject()

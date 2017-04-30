@@ -3,6 +3,8 @@ $layout-header-shadow      ?= $shadow-2
 $layout-footer-shadow      ?= $shadow-up-2
 $layout-aside-shadow       ?= $shadow-2
 $layout-aside-background   ?= white
+$layout-aside-left-width   ?= 300px
+$layout-aside-right-width  ?= 300px
 
 $toolbar-title-font-size   ?= 1.15rem
 $toolbar-padding           ?= 4px 12px
@@ -30,8 +32,10 @@ $toolbar-padding           ?= 4px 12px
     z-index $z-fixed-side
 .layout-aside-left
   left 0
+  width $layout-aside-left-width
 .layout-aside-right
   right 0
+  width $layout-aside-right-width
 
 main, .layout, .layout-header, .layout-footer
   position relative
@@ -55,7 +59,7 @@ body.with-layout-side-opened
   overflow hidden
 
 
-.toolbar
+.q-toolbar
   padding $toolbar-padding
   min-height $layout-toolbar-min-height
   display flex
@@ -67,21 +71,6 @@ body.with-layout-side-opened
   color $toolbar-color
   background $toolbar-background
 
-  for $name, $color in $colors
-    if $name != 'light' && $name != 'white'
-      &.{$name}
-        color white
-        background $color
-        &.inverted
-          color $color
-    if $name == 'light' || $name == 'white'
-      &.{$name}
-        color composite-color($color)
-        background $color
-        &.inverted
-          color $color
-          background composite-color($color)
-
   &.inverted
     background transparent
 
@@ -92,7 +81,7 @@ body.with-layout-side-opened
   i
     line-height 1
 
-.toolbar-title
+.q-toolbar-title
   flex 1
   min-width 0
   max-width 100%

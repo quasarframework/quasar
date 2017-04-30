@@ -12,7 +12,7 @@
             Go back
           </q-btn>
           <router-link to="/">
-            <q-btn class="grey push small" iconRight="home">
+            <q-btn class="grey push small" icon-right="home">
               Go home
             </q-btn>
           </router-link>

@@ -1,40 +1,43 @@
 <template>
   <div class="q-uploader">
-    <input
-      type="file"
-      ref="file"
-      :accept="extensions"
-      :multiple="multiple"
-      @change="__add"
-    >
-
     <div v-if="uploading">
-      <span class="chip label bg-light q-uploader-progress">
+      <q-chip
+        closable
+        class="bg-light q-uploader-progress"
+        @close="abort"
+      >
         <span v-html="computedLabel.uploading"></span>
         <q-spinner :size="15"></q-spinner>
         {{ progress }}%
-      </span>
+      </q-chip>
     </div>
     <div v-else class="group">
-      <slot
-        :pick="__pick"
-        :upload="upload"
-        :upload-disabled="files.length === 0"
+      <q-btn
+        class="q-uploader-pick-button overflow-hidden"
+        :class="buttonClass"
+        :icon="computedIcons.add"
+        @click="__pick"
+        :disabled="addButtonDisabled"
       >
-        <q-btn
-          :class="buttonClass"
-          v-html="computedLabel.add"
-          @click="__pick"
-          :disabled="addButtonDisabled"
-        ></q-btn>
-        <q-btn
-          v-if="!hideUploadButton"
-          :class="buttonClass"
-          :disabled="files.length === 0"
-          v-html="computedLabel.upload"
-          @click="upload"
-        ></q-btn>
-      </slot>
+        {{ computedLabel.add }}
+        <input
+          type="file"
+          ref="file"
+          class="q-uploader-input absolute-full cursor-pointer"
+          :accept="extensions"
+          :multiple="multiple"
+          @change="__add"
+        >
+      </q-btn>
+      <q-btn
+        v-if="!hideUploadButton"
+        :class="buttonClass"
+        :disabled="files.length === 0"
+        :icon="computedIcons.upload"
+        @click="upload"
+      >
+        {{ computedLabel.upload }}
+      </q-btn>
     </div>
 
     <div class="row wrap items-center group">
@@ -50,13 +53,18 @@
             <q-btn
               v-show="!uploading"
               class="primary clear small"
-              @click="__remove(img.name)"
-              v-html="computedLabel.remove"
-            ></q-btn>
+              @click="__remove(img)"
+              :icon="computedIcons.remove"
+            >
+              {{ computedLabel.remove }}
+            </q-btn>
           </div>
         </div>
-        <q-progress v-if="img.__file.__progress" :percentage="img.__file.__progress"></q-progress>
-        <div v-if="img.__file.__failed" class="q-uploader-failed" v-html="computedLabel.failed"></div>
+        <q-progress v-if="uploading && img.__file.__progress" :percentage="img.__file.__progress"></q-progress>
+        <div v-if="img.__file.__failed" class="q-uploader-failed">
+          <q-icon :name="computedIcons.failed"></q-icon>
+          <span v-html="computedLabel.failed"></span>
+        </div>
       </div>
 
       <div v-for="file in otherFiles" :key="file.name" class="card">
@@ -68,13 +76,18 @@
             <q-btn
               v-show="!uploading"
               class="primary clear small"
-              @click="__remove(file.name)"
-              v-html="computedLabel.remove"
-            ></q-btn>
+              @click="__remove(file)"
+              :icon="computedIcons.remove"
+            >
+              {{ computedLabel.remove }}
+            </q-btn>
           </div>
         </div>
-        <q-progress v-if="file.__progress" :percentage="file.__progress"></q-progress>
-        <div v-if="file.__failed" class="q-uploader-failed" v-html="computedLabel.failed"></div>
+        <q-progress v-if="uploading && file.__progress" :percentage="file.__progress"></q-progress>
+        <div v-if="file.__failed" class="q-uploader-failed">
+          <q-icon :name="computedIcons.failed"></q-icon>
+          <span v-html="computedLabel.failed"></span>
+        </div>
       </div>
     </div>
   </div>
@@ -86,13 +99,17 @@ import { humanStorageSize } from '../../utils/format'
 import { QBtn } from '../btn'
 import { QProgress } from '../progress'
 import { QSpinner } from '../spinner'
+import { QIcon } from '../icon'
+import { QChip } from '../chip'
 
 export default {
   name: 'q-uploader',
   components: {
     QBtn,
     QProgress,
-    QSpinner
+    QSpinner,
+    QIcon,
+    QChip
   },
   props: {
     name: {
@@ -118,6 +135,12 @@ export default {
         return {}
       }
     },
+    icons: {
+      type: Object,
+      default () {
+        return {}
+      }
+    },
     method: {
       type: String,
       default: 'POST'
@@ -133,19 +156,28 @@ export default {
       uploadedSize: 0,
       totalSize: 0,
       images: [],
-      otherFiles: []
+      otherFiles: [],
+      xhrs: []
     }
   },
   computed: {
     progress () {
       return this.totalSize ? (this.uploadedSize / this.totalSize * 100).toFixed(2) : 0
     },
+    computedIcons () {
+      return extend({
+        add: 'add',
+        remove: 'clear',
+        upload: 'file_upload',
+        failed: 'warning'
+      }, this.icons)
+    },
     computedLabel () {
       return extend({
-        add: this.multiple ? '<i class="material-icons">add</i> Add Files' : '<i class="material-icons">add</i> Pick File',
-        remove: '<i class="material-icons">clear</i> Remove',
-        upload: '<i class="material-icons">file_upload</i> Upload',
-        failed: '<i class="material-icons">warning</i> Failed',
+        add: this.multiple ? 'Add Files' : 'Pick File',
+        remove: 'Remove',
+        upload: 'Upload',
+        failed: 'Failed',
         uploading: 'Uploading...'
       }, this.labels)
     },
@@ -187,14 +219,17 @@ export default {
       this.files = this.files.concat(files)
       this.$refs.file.value = ''
     },
-    __remove (name, done, response) {
-      this.$emit(done ? 'upload' : 'remove', name, response)
-      this.images = this.images.filter(file => file.name !== name)
-      this.otherFiles = this.otherFiles.filter(file => file.name !== name)
-      this.files = this.files.filter(file => file.name !== name)
+    __remove (file, done, xhr) {
+      const name = file.name
+      this.$emit(done ? 'upload' : 'remove', file, xhr)
+      this.images = this.images.filter(obj => obj.name !== name)
+      this.otherFiles = this.otherFiles.filter(obj => obj.name !== name)
+      this.files = this.files.filter(obj => obj.name !== name)
     },
     __pick () {
-      this.$refs.file.click()
+      if (this.$q.platform.is.mozilla) {
+        this.$refs.file.click()
+      }
     },
     __getUploadPromise (file) {
       var form = new FormData()
@@ -228,19 +263,18 @@ export default {
             return
           }
           if (xhr.status && xhr.status < 400) {
-            this.__remove(file.name, true, xhr.response)
-            this.$emit('uploaded', file.name, xhr)
+            this.__remove(file, true, xhr)
             resolve(file)
           }
           else {
             file.__failed = true
-            this.$emit('fail', file.name, xhr)
+            this.$emit('fail', file, xhr)
             reject(xhr)
           }
         }
 
         xhr.onerror = () => {
-          this.$emit('fail', file.name, xhr)
+          this.$emit('fail', file, xhr)
           reject(xhr)
         }
 
@@ -250,6 +284,8 @@ export default {
             xhr.setRequestHeader(key, this.headers[key])
           })
         }
+
+        this.xhrs.push(xhr)
         xhr.send(form)
       })
     },
@@ -264,12 +300,14 @@ export default {
       this.uploadedSize = 0
       this.totalSize = this.files.map(file => file.size).reduce((total, size) => total + size)
       this.uploading = true
+      this.xhrs = []
       this.$emit('start')
 
       let solved = () => {
         filesDone++
         if (filesDone === length) {
           this.uploading = false
+          this.xhrs = []
           this.$emit('finish')
         }
       }
@@ -277,6 +315,9 @@ export default {
       this.files.map(file => this.__getUploadPromise(file)).forEach(promise => {
         promise.then(solved).catch(solved)
       })
+    },
+    abort () {
+      this.xhrs.forEach(xhr => { xhr.abort() })
     }
   }
 }

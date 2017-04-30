@@ -13,6 +13,7 @@
     clearable
     complex
     :extra-icons="false"
+    :align="align"
     class="q-search"
     v-ripple.mat
   >
@@ -55,6 +56,7 @@ export default {
       default: 'Search'
     },
     autofocus: Boolean,
+    align: String,
     readonly: Boolean,
     disable: Boolean
   },

@@ -14,15 +14,24 @@ $uploader-failed-background  ?= $negative
     font-size $uploader-font-size
   .card-content
     padding 10px
-  input
-    display none
   .q-progress
     margin 0
     height $uploader-progressbar-height !important
   .q-spinner
     margin 0 10px
+
 .q-uploader-failed
   background $uploader-failed-background
   color $uploader-failed-color
   padding 10px 0
   text-align center
+
+.q-uploader-input
+  opacity 0
+  max-width 100%
+  height 100%
+  width 100%
+  font-size 0
+
+.q-uploader-pick-button[disabled] .q-uploader-input
+  display none

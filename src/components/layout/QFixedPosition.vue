@@ -40,7 +40,7 @@ export default {
       const
         css = extend({}, this.offset),
         layout = this.layout,
-        page = layout.pageStyle
+        page = layout.computedPageStyle
 
       if (this.animated && !layout.showHeader) {
         extend(css, cssTransform(`translateY(${-layout.header.h}px)`))

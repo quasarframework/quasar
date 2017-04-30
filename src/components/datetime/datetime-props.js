@@ -25,12 +25,14 @@ export const input = {
     type: String,
     default: 'Cancel'
   },
+  format24h: Boolean,
   defaultSelection: String,
   floatLabel: String,
   stackedLabel: String,
   placeholder: String,
   staticLabel: String,
   simple: Boolean,
+  align: String,
   readonly: Boolean,
   disable: Boolean
 }
@@ -55,6 +57,7 @@ export const inline = {
     type: String,
     default: ''
   },
+  format24h: Boolean,
   readonly: Boolean,
   disable: Boolean
 }
