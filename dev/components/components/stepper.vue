@@ -32,7 +32,7 @@
 
         <q-step-pane :step="1">
           <p>
-            Hi ! This is the first step. Usually it is for giving instructions for the rest of the wizzard.
+            Hi ! This is the first step. Usually it is for giving instructions for the rest of the wizard.
             Go ahead and press "Continue" to move to the next step. If you want to go back a step in the process, press "Back".
           </p>
           <div style="margin-top: 35px">
