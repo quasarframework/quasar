@@ -1,6 +1,5 @@
 <template>
   <div class="layout-padding">
-    <p class="caption">To fully test, go to /dev/index.html and uncomment the style tags.</p>
     <div>
       <q-icon :name="icon" class="gigi" style="font-size: 5rem;" @click="clicked" />
       <span style="margin: 0 15px;">{{icon}}</span>
@@ -18,6 +17,10 @@
       ]"
       style="margin-top: 25px"
     />
+    <div>
+      <q-icon name="thumb_up" class="big-btn" />
+    </div>
+  </div>
   </div>
 </template>
 
@@ -35,3 +38,8 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus">
+.big-btn
+  font-size: 5rem
+</style>

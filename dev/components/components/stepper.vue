@@ -5,65 +5,88 @@
         <q-stepper-header :alternative-labels="alternativeLabels">
           <q-step :step="1" icon="alarm" :editable="editable[1]">
             Step 1
+          <small v-show="step === 1">Let's get going!</small>
           </q-step>
 
           <q-step :step="2" :editable="editable[2]">
             Step 2
-            <small>Almost there</small>
+            <small v-show="step === 2">One small step for man!</small>
           </q-step>
 
           <q-step :step="3" icon="bluetooth" error :editable="editable[3]">
             Step 3
+            <small v-show="step === 3">One giant step for mankind!</small>
           </q-step>
 
           <q-step :step="4" icon="bluetooth" :editable="editable[4]">
             Step 4
+            <small v-show="step === 4">Almost there!</small>
           </q-step>
 
           <q-step :step="5" icon="wifi" :editable="editable[5]">
-            Step 5 Step 4 Step 4 Step 4 Step 4 Step 4
+            Step 5
+            <small v-show="step === 5">Well Done!</small>
           </q-step>
 
         </q-stepper-header>
 
         <q-step-pane :step="1">
-          For each ad campaign that you create, you can control how much you're willing to spend on clicks and conversions, which networks and geographical locations you want your ads to show on, and more.
-
+          <p>
+            Hi ! This is the first step. Usually it is for giving instructions for the rest of the wizzard.
+            Go ahead and press "Continue" to move to the next step. If you want to go back a step in the process, press "Back".
+          </p>
           <div style="margin-top: 35px">
-            <q-btn class="primary" @click="next">Continue</q-btn>
+            <q-btn class="primary" @click="next">{{ buttonText }}</q-btn>
           </div>
         </q-step-pane>
         <q-step-pane :step="2">
-          An ad group contains one or more ads which target a shared set of keywords.
-
+          <p>
+            Great! You made it a step further. Usually you'd have some sort of form for the user to add input here.
+            You would also probably have some logic, which would stop the user from continuing, should he or she not add the right input.
+          </p>
+          <label>
+            <q-toggle v-model="toggeledOn"></q-toggle>
+            Check to Continue
+          </label>
           <div style="margin-top: 35px">
-            <q-btn class="primary" @click="next">Continue</q-btn>
+            <q-btn :disable="toggeled" :class="buttonClasses" @click="next">{{ buttonText }}</q-btn>
             <q-btn class="primary clear" @click="$refs.stepper1.previous()">Back</q-btn>
           </div>
         </q-step-pane>
         <q-step-pane :step="3">
-          Try out different ad text to see what brings in the most customers, and learn how to enhance your ads using features like ad extensions. If you run into any problems with your ads, find out how to tell if they're running and how to resolve approval issues.
-
+          <p>
+            Now were gaining momentum! Notice how the steps in the header are "clickable", once you get past that step.
+            Cool huh? Go ahead with the "Continue" button. Or go back. It's nice to be able to go back too, isn't it?
+          </p>
           <div style="margin-top: 35px">
-            <q-btn class="primary" @click="next">Continue</q-btn>
+            <q-btn class="primary" @click="next">{{ buttonText }}</q-btn>
             <q-btn class="primary clear" @click="$refs.stepper1.previous()">Back</q-btn>
           </div>
         </q-step-pane>
 
         <q-step-pane :step="4">
-          Try out different ad text to see what brings in the most customers, and learn how to enhance your ads using features like ad extensions. If you run into any problems with your ads, find out how to tell if they're running and how to resolve approval issues.
+          <p>
+            Let's get some more input. Notice the "Continue" button is once again disabled. Go ahead and add your first name.
+          </p>
+          <p class="caption">First Name:</p>
+          <input v-model="firstName" placeholder="Add your first name here!">
 
           <div style="margin-top: 35px">
-            <q-btn class="primary" @click="next">Continue</q-btn>
+            <q-btn :disable="buttonDisabled" :class="buttonClasses" @click="next">{{ buttonText }}</q-btn>
             <q-btn class="primary clear" @click="$refs.stepper1.previous()">Back</q-btn>
           </div>
         </q-step-pane>
 
         <q-step-pane :step="5">
-          Try out different ad text to see what brings in the most customers, and learn how to enhance your ads using features like ad extensions. If you run into any problems with your ads, find out how to tell if they're running and how to resolve approval issues.
-
+          <p>
+            All right {{ firstName }}! You've just enjoyed the coolness of Quasar's stepper component.
+            If you click "Finish", you'll be taken back to step one again and everything will be reset.
+          </p>
+          <p>
+            Enjoy Quasar and have fun!
+          </p>
           <div style="margin-top: 35px">
-            <q-btn class="primary" @click="$refs.stepper1.goToStep(1)">Continue</q-btn>
+            <q-btn class="primary" @click="reset()">{{ buttonText }}</q-btn>
             <q-btn class="primary clear" @click="$refs.stepper1.previous()">Back</q-btn>
           </div>
         </q-step-pane>
@@ -108,7 +131,7 @@
         <q-stepper-navigation>
           <q-btn slot="left" class="primary clear" :disabled="step < 2" @click="$refs.stepper2.previous()">Back</q-btn>
           <q-btn class="primary clear">Cancel</q-btn>
-          <q-btn class="primary" @click="$refs.stepper2.next()">Continue</q-btn>
+          <q-btn class="primary" @click="$refs.stepper2.next()">{{ buttonText }}</q-btn>
         </q-stepper-navigation>
       </q-stepper>
 
@@ -185,18 +208,47 @@
 </template>
 
 <script>
+
 export default {
   data () {
     return {
       step: 1,
+      lastStep: 5,
       alternativeLabels: true,
       loading: false,
+      firstName: '',
+      toggeledOn: false,
       editable: {1: true, 2: false, 3: false, 4: false, 5: false}
     }
   },
   computed: {
     stepMessage () {
       return `Step ${this.step}`
+    },
+    buttonText () {
+      return this.step !== this.lastStep
+      ? 'Continue'
+      : 'Finish'
+    },
+    buttonClasses () {
+      if ((this.step === 2 && !this.toggeledOn) ||
+          (this.step === 4 && this.firstName === '')) {
+        return 'primary disabled'
+      }
+      return 'primary'
+    },
+    buttonDisabled () {
+      return this.step === 4 && this.firstName === ''
+    },
+    toggeled () {
+      if (this.toggeledOn) {
+        this.editable = {1: true, 2: true, 3: true, 4: false, 5: false}
+        return false
+      }
+      else {
+        this.editable = {1: true, 2: true, 3: false, 4: false, 5: false}
+        return true
+      }
     }
   },
   methods: {
@@ -207,6 +259,10 @@ export default {
     reset () {
       this.$refs.stepper1.reset()
       this.$refs.stepper2.reset()
+      this.step = 1
+      this.firstName = ''
+      this.toggeledOn = false
+      this.editable = {1: true, 2: false, 3: false, 4: false, 5: false}
     }
   }
 }
