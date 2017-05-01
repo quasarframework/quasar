@@ -2,7 +2,7 @@
   <div>
     <div class="layout-padding">
       <q-stepper v-model="step" ref="stepper1" :loading="loading">
-        <q-stepper-header :alternative-labels="alternativeLabels" setVerticality>
+        <q-stepper-header :alternative-labels="alternativeLabels">
           <q-step :done="done[1]"  :step="1" icon="alarm" :editable="editable[1]">
             Step 1
           <small v-show="step === 1">Let's get going!</small>
