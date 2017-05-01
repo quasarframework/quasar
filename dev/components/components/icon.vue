@@ -17,10 +17,6 @@
       ]"
       style="margin-top: 25px"
     />
-    <div>
-      <q-icon name="thumb_up" class="big-btn" />
-    </div>
-  </div>
   </div>
 </template>
 

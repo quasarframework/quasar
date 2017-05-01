@@ -3,22 +3,22 @@
     <div class="layout-padding">
       <q-stepper v-model="step" ref="stepper1" :loading="loading">
         <q-stepper-header :alternative-labels="alternativeLabels">
-          <q-step :step="1" icon="alarm" :editable="editable[1]">
+          <q-step :done="done[1]"  :step="1" icon="alarm" :editable="editable[1]">
             Step 1
           <small v-show="step === 1">Let's get going!</small>
           </q-step>
 
-          <q-step :step="2" :editable="editable[2]">
+          <q-step :done="done[2]" :step="2" icon="compare_arrows" :editable="editable[2]">
             Step 2
             <small v-show="step === 2">One small step for man!</small>
           </q-step>
 
-          <q-step :step="3" icon="bluetooth" error :editable="editable[3]">
+          <q-step :done="done[3]" :step="3" icon="accessibility" :error="option === 'opt2'" :editable="editable[3]">
             Step 3
             <small v-show="step === 3">One giant step for mankind!</small>
           </q-step>
 
-          <q-step :step="4" icon="bluetooth" :editable="editable[4]">
+          <q-step :done="done[4]" :step="4" icon="bluetooth" :editable="editable[4]">
             Step 4
             <small v-show="step === 4">Almost there!</small>
           </q-step>
@@ -56,10 +56,26 @@
         <q-step-pane :step="3">
           <p>
             Now were gaining momentum! Notice how the steps in the header are "clickable", once you get past that step.
-            Cool huh? Go ahead with the "Continue" button. Or go back. It's nice to be able to go back too, isn't it?
+            Cool huh? Play with the selection below. See the icon change?
           </p>
+
+          <div class="column group">
+            <label>
+              <q-radio v-model="option" val="opt1"></q-radio>
+              Pick this one!
+            </label>
+            <label>
+              <q-radio v-model="option" val="opt2"></q-radio>
+              Don't pick this one!
+            </label>
+          </div>
+          </br/>
+          <p>
+            Go ahead now with the "Continue" button. Or go back. It's nice to be able to go back too, isn't it?
+          </p>
+
           <div style="margin-top: 35px">
-            <q-btn class="primary" @click="next">{{ buttonText }}</q-btn>
+            <q-btn :disable="buttonDisabled" :class="buttonClasses" @click="next">{{ buttonText }}</q-btn>
             <q-btn class="primary clear" @click="$refs.stepper1.previous()">Back</q-btn>
           </div>
         </q-step-pane>
@@ -105,7 +121,7 @@
             <small>Almost there</small>
           </q-step>
 
-          <q-step :step="3" icon="bluetooth" error>
+          <q-step :step="3" icon="bluetooth">
             Step 3
           </q-step>
 
@@ -214,11 +230,13 @@ export default {
     return {
       step: 1,
       lastStep: 5,
-      alternativeLabels: true,
+      alternativeLabels: false,
       loading: false,
       firstName: '',
       toggeledOn: false,
-      editable: {1: true, 2: false, 3: false, 4: false, 5: false}
+      editable: {1: true, 2: false, 3: false, 4: false, 5: false},
+      done: {1: false, 2: false, 3: false, 4: false, 5: false},
+      option: ''
     }
   },
   computed: {
@@ -232,27 +250,34 @@ export default {
     },
     buttonClasses () {
       if ((this.step === 2 && !this.toggeledOn) ||
-          (this.step === 4 && this.firstName === '')) {
+          (this.step === 3 && this.option === 'opt2') ||
+          (this.step === 4 && this.firstName === '')
+          ) {
         return 'primary disabled'
       }
       return 'primary'
     },
     buttonDisabled () {
-      return this.step === 4 && this.firstName === ''
+      if ((this.step === 3 && this.option === 'opt2') ||
+          (this.step === 4 && this.firstName === '')) {
+        return true
+      }
+      return false
     },
     toggeled () {
       if (this.toggeledOn) {
-        this.editable = {1: true, 2: true, 3: true, 4: false, 5: false}
+        this.editable = {1: true, 3: true}
         return false
       }
-      else {
-        this.editable = {1: true, 2: true, 3: false, 4: false, 5: false}
+      else if (this.step === 2) {
+        this.editable = {1: true, 3: false}
         return true
       }
     }
   },
   methods: {
     next () {
+      this.done[this.step] = true
       this.editable[this.step] = true
       this.$refs.stepper1.next()
     },
@@ -262,7 +287,8 @@ export default {
       this.step = 1
       this.firstName = ''
       this.toggeledOn = false
-      this.editable = {1: true, 2: false, 3: false, 4: false, 5: false}
+      this.editable = {1: false, 2: false, 3: false, 4: false, 5: false}
+      this.done = {1: false, 2: false, 3: false, 4: false, 5: false}
     }
   }
 }
