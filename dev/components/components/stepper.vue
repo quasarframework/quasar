@@ -70,6 +70,7 @@
             </label>
           </div>
           <br/>
+
           <p>
             Go ahead now with the "Continue" button. Or go back. It's nice to be able to go back too, isn't it?
           </p>
