@@ -69,7 +69,8 @@
               Don't pick this one!
             </label>
           </div>
-          </br/>
+          <br/>
+
           <p>
             Go ahead now with the "Continue" button. Or go back. It's nice to be able to go back too, isn't it?
           </p>
@@ -212,9 +213,21 @@
         Reset
       </q-btn>
 
-      <q-toggle v-model="loading" class="fixed-top-left" style="top: 18px; left: 18px;"/>
+      <div class="fixed-top-left">
+        <q-toggle v-model="loading"  style="top: 18px; left: 18px;"/>
+         <q-tooltip anchor="bottom right" self="center left" :offset="[10, 10]">
+           Turn on to see the progress spinners.
+         </q-tooltip>
+      </div>
 
-      <q-toggle v-model="alternativeLabels" class="fixed-top-right" style="top: 18px; right: 18px;"/>
+      <div class="fixed-top-right">
+        <q-toggle v-model="alternativeLabels" style="top: 18px; right: 18px;"/>
+         <q-tooltip anchor="bottom left" self="center right" :offset="[10, 10]">
+           Turn on to see the alternative lables.
+         </q-tooltip>
+      </div>
+
+
 
       <span class="label bg-amber fixed-bottom-left" style="left: 18px; bottom: 18px;">
         <span class="left-detail">Step</span> {{ step }} {{ stepMessage }}
@@ -230,7 +243,7 @@ export default {
     return {
       step: 1,
       lastStep: 5,
-      alternativeLabels: false,
+      alternativeLabels: true,
       loading: false,
       firstName: '',
       toggeledOn: false,
