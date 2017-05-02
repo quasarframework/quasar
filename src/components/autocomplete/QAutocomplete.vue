@@ -50,7 +50,7 @@ export default {
       type: Number,
       default: 6
     },
-    delay: {
+    debounce: {
       type: Number,
       default: 500
     },
@@ -155,7 +155,7 @@ export default {
         this.$nextTick(this.trigger)
         return
       }
-      this.timer = setTimeout(this.trigger, this.delay)
+      this.timer = setTimeout(this.trigger, this.debounce)
     },
     __handleKeypress (e) {
       const key = e.keyCode || e.which

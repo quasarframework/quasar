@@ -16,7 +16,7 @@
       </q-search>
 
       <q-search v-model="terms" placeholder="Start typing a country name">
-        <q-autocomplete v-model="terms" @search="search" @selected="selected" :delay="0" />
+        <q-autocomplete v-model="terms" @search="search" @selected="selected" :debounce="0" />
       </q-search>
 
       <br>
@@ -28,7 +28,7 @@
           @search="search"
           :max-results="2"
           @selected="selected"
-          :delay="0"
+          :debounce="0"
         />
       </q-search>
 
@@ -52,7 +52,7 @@
           v-model="terms"
           :static-data="{field: 'value', list: countries}"
           @selected="selected"
-          :delay="0"
+          :debounce="0"
         />
       </q-search>
 
@@ -65,7 +65,7 @@
           delimiter
           @search="search"
           @selected="selected"
-          :delay="0"
+          :debounce="0"
         />
       </q-search>
     </div>
