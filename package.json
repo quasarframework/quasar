@@ -71,7 +71,6 @@
     "html-webpack-plugin": "^2.22.0",
     "json-loader": "^0.5.4",
     "material-design-icons": "^3.0.1",
-    "moment": "^2.15.1",
     "opn": "^4.0.2",
     "parse5": "^2.1.0",
     "postcss-loader": "^1.0.0",
@@ -90,7 +89,7 @@
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
     "url-loader": "^0.5.7",
-    "vue": "^2.2.6",
+    "vue": "^2.3.0",
     "vue-loader": "11.1.4",
     "vue-router": "^2.0.0",
     "vue-style-loader": "^2.0.0",
@@ -101,6 +100,6 @@
     "webpack-merge": "^4.1.0"
   },
   "peerDependencies": {
-    "vue": "^2.2.0"
+    "vue": "^2.3.0"
   }
 }

@@ -2,7 +2,7 @@ import Platform from './features/platform'
 import { install as eventsInstall } from './features/events'
 import { current as theme } from './features/theme'
 import { version } from '../package.json'
-import { setVue, setDeps } from './deps'
+import { setVue } from './deps'
 
 export default function (_Vue, opts = {}) {
   if (this.installed) {
@@ -11,9 +11,6 @@ export default function (_Vue, opts = {}) {
   this.installed = true
 
   setVue(_Vue)
-  if (opts.deps && opts.deps.moment) {
-    setDeps(opts.deps)
-  }
 
   if (opts.directives) {
     Object.keys(opts.directives).forEach(key => {

@@ -1,16 +1,60 @@
-export const input = {
+import {
+  dayNames, dayShortNames, monthNames, monthShortNames
+} from '../../utils/date'
+import { isDate } from '../../utils/is'
+
+export const modelValidator = v => {
+  const type = typeof v
+  return (
+    v === null || v === undefined ||
+    type === 'number' || type === 'string' ||
+    isDate(v)
+  )
+}
+
+export const inline = {
+  value: {
+    validator: modelValidator,
+    required: true
+  },
   type: {
     type: String,
-    default: 'date'
+    default: 'date',
+    validator (value) {
+      return ['date', 'time', 'datetime'].includes(value)
+    }
   },
   min: {
-    type: String,
-    default: ''
+    validator: modelValidator,
+    default: null
   },
   max: {
-    type: String,
-    default: ''
+    validator: modelValidator,
+    default: null
   },
+  monthNames: {
+    type: Array,
+    default: () => monthNames
+  },
+  monthShortNames: {
+    type: Array,
+    default: () => monthShortNames
+  },
+  dayNames: {
+    type: Array,
+    default: () => dayNames
+  },
+  dayShortNames: {
+    type: Array,
+    default: () => dayShortNames
+  },
+  mondayFirst: Boolean,
+  format24h: Boolean,
+  readonly: Boolean,
+  disable: Boolean
+}
+
+export const input = {
   format: String,
   noClear: Boolean,
   clearLabel: {
@@ -25,39 +69,13 @@ export const input = {
     type: String,
     default: 'Cancel'
   },
-  format24h: Boolean,
-  defaultSelection: String,
+  defaultSelection: [String, Number, Date],
   floatLabel: String,
   stackedLabel: String,
   placeholder: String,
   staticLabel: String,
   simple: Boolean,
   align: String,
-  readonly: Boolean,
-  disable: Boolean
-}
-
-export const inline = {
-  value: {
-    type: String,
-    required: true
-  },
-  type: {
-    type: String,
-    default: 'date',
-    validator (value) {
-      return ['date', 'time', 'datetime'].includes(value)
-    }
-  },
-  min: {
-    type: String,
-    default: ''
-  },
-  max: {
-    type: String,
-    default: ''
-  },
-  format24h: Boolean,
   readonly: Boolean,
   disable: Boolean
 }

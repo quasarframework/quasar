@@ -74,6 +74,7 @@
             class="primary clear full-width"
             :class="{active: n + yearMin === year}"
             @click="setYear(n + yearMin)"
+            v-ripple.mat
           >
             {{ n + yearMin }}
           </button>
@@ -89,7 +90,7 @@
             :class="{active: month === index + monthMin}"
             @click="setMonth(index + monthMin, true)"
           >
-            {{ monthsList[index + monthMin - 1] }}
+            {{ monthNames[index + monthMin - 1] }}
           </button>
         </div>
 
@@ -99,7 +100,8 @@
         >
           <div class="row items-center content-center">
             <q-btn
-              class="primary clear"
+              circular
+              class="primary clear small"
               @click="setMonth(month - 1, true)"
             >
               <q-icon name="keyboard_arrow_left"></q-icon>
@@ -108,14 +110,15 @@
               {{ monthStamp }}
             </div>
             <q-btn
-              class="primary clear"
+              circular
+              class="primary clear small"
               @click="setMonth(month + 1, true)"
             >
               <q-icon name="keyboard_arrow_right"></q-icon>
             </q-btn>
           </div>
           <div class="q-datetime-weekdays row items-center justify-start">
-            <div v-for="day in daysList">{{day}}</div>
+            <div v-for="day in headerDayNames">{{day}}</div>
           </div>
           <div class="q-datetime-days row wrap items-center justify-start content-center">
             <div v-for="fillerDay in fillerDays" class="q-datetime-fillerday"></div>
@@ -210,13 +213,14 @@
 </template>
 
 <script>
-import { moment } from '../../deps'
-import { inline as props } from './datetime-props'
 import { height, width, offset, cssTransform } from '../../utils/dom'
-import { between } from '../../utils/format'
+import { formatDate } from '../../utils/format'
 import { position } from '../../utils/event'
 import { QIcon } from '../icon'
 import { QBtn } from '../btn'
+import { isOfSameDate } from '../../utils/date'
+import mixin from './datetime-mixin'
+import Ripple from '../../directives/ripple'
 
 function convertToAmPm (hour) {
   return hour === 0 ? 12 : (hour >= 13 ? hour - 12 : hour)
@@ -224,11 +228,14 @@ function convertToAmPm (hour) {
 
 export default {
   name: 'q-inline-datetime',
+  mixins: [mixin],
   components: {
     QIcon,
     QBtn
   },
-  props,
+  directives: {
+    Ripple
+  },
   data () {
     let view
 
@@ -242,17 +249,10 @@ export default {
         break
     }
 
-    this.$nextTick(() => {
-      this.date = this.__normalizeValue(this.date)
-    })
     return {
       view,
-      date: moment(this.value || undefined),
       dragging: false,
-      centerClockPos: 0,
-      firstDayOfWeek: moment.localeData().firstDayOfWeek(),
-      daysList: moment.weekdaysShort(true),
-      monthsList: moment.months()
+      centerClockPos: 0
     }
   },
   watch: {
@@ -260,19 +260,6 @@ export default {
       if (!val) {
         this.view = ['date', 'datetime'].includes(this.type) ? 'day' : 'hour'
       }
-    },
-    model (value) {
-      this.date = this.__normalizeValue(moment(value || undefined))
-    },
-    min () {
-      this.$nextTick(() => {
-        this.__updateModel()
-      })
-    },
-    max () {
-      this.$nextTick(() => {
-        this.__updateModel()
-      })
     },
     view (value) {
       if (value !== 'year' && value !== 'month') {
@@ -289,89 +276,48 @@ export default {
     }
   },
   computed: {
-    model: {
-      get () {
-        return this.value || undefined
-      },
-      set (value) {
-        this.$emit('input', value)
-      }
+    firstDayOfWeek () {
+      return this.mondayFirst ? 1 : 0
     },
-    pmin () {
-      return this.min ? moment(this.min) : ''
-    },
-    pmax () {
-      return this.max ? moment(this.max) : ''
-    },
-    typeHasDate () {
-      return this.type === 'date' || this.type === 'datetime'
-    },
-    typeHasTime () {
-      return this.type === 'time' || this.type === 'datetime'
+    headerDayNames () {
+      return this.mondayFirst
+        ? this.dayShortNames.slice(1, 7).concat(this.dayShortNames[0])
+        : this.dayShortNames
     },
 
-    year () {
-      return this.date.year()
-    },
-    month () {
-      return this.date.month() + 1
-    },
-    day () {
-      return this.date.date()
-    },
     dayString () {
-      return this.date.format('Do')
+      return formatDate(this.model, 'D')
     },
     monthString () {
-      return this.date.format('MMM')
+      return formatDate(this.model, 'MMM')
     },
     monthStamp () {
-      return this.date.format('MMMM YYYY')
+      return formatDate(this.model, 'MMMM YYYY')
     },
     weekDayString () {
-      return this.date.format('dddd')
-    },
-
-    yearInterval () {
-      let
-        min = this.pmin ? this.pmin.year() : 1950,
-        max = this.pmax ? this.pmax.year() : 2050
-      return Math.max(1, max - min + 1)
-    },
-    yearMin () {
-      return this.pmin ? this.pmin.year() - 1 : 1949
-    },
-
-    monthInterval () {
-      let
-        min = this.pmin && this.pmin.isSame(this.date, 'year') ? this.pmin.month() : 0,
-        max = this.pmax && this.pmax.isSame(this.date, 'year') ? this.pmax.month() : 11
-      return Math.max(1, max - min + 1)
-    },
-    monthMin () {
-      return this.pmin && this.pmin.isSame(this.date, 'year') ? this.pmin.month() : 0
+      return formatDate(this.model, 'dddd')
     },
 
     fillerDays () {
-      return Math.max(0, this.date.clone().date(1).day() - this.firstDayOfWeek)
+      return Math.max(0, (new Date(this.model.getFullYear(), this.model.getMonth(), 1).getDay() - this.firstDayOfWeek))
     },
     beforeMinDays () {
-      if (!this.pmin || this.pmin.month() !== this.date.month() || this.pmin.year() !== this.date.year()) {
+      if (this.pmin === null || !isOfSameDate(this.pmin, this.model, 'month')) {
         return false
       }
-      return this.pmin.date() - 1
+      return this.pmin.getDate() - 1
     },
     aferMaxDays () {
-      if (!this.pmax || this.pmax.month() !== this.date.month() || this.pmax.year() !== this.date.year()) {
+      if (this.pmax === null || !isOfSameDate(this.pmax, this.model, 'month')) {
         return false
       }
       return this.daysInMonth - this.maxDay
     },
     maxDay () {
-      return this.pmax ? this.pmax.date() : this.daysInMonth
+      return this.pmax !== null ? this.pmax.getDate() : this.daysInMonth
     },
     daysInterval () {
-      let max = !this.pmax || this.pmax.month() !== this.date.month() || this.pmax.year() !== this.date.year() ? 0 : this.daysInMonth - this.pmax.date()
+      let max = this.afterMaxDays === false || this.pmax === null ? 0 : this.daysInMonth - this.pmax.getDate()
       if (this.beforeMinDays || max) {
         let min = this.beforeMinDays ? this.beforeMinDays + 1 : 1
         return Array.apply(null, {length: this.daysInMonth - min - max + 1}).map((day, index) => {
@@ -380,21 +326,18 @@ export default {
       }
       return this.daysInMonth
     },
-    daysInMonth () {
-      return this.date.daysInMonth()
-    },
 
     hour () {
-      const h = this.date.hour()
+      const h = this.model.getHours()
       return this.format24h
         ? h
         : convertToAmPm(h)
     },
     minute () {
-      return this.date.minute()
+      return this.model.getMinutes()
     },
     am () {
-      return this.date.hour() <= 11
+      return this.model.getHours() <= 11
     },
     clockPointerStyle () {
       let
@@ -402,49 +345,28 @@ export default {
         degrees = Math.round((this.view === 'minute' ? this.minute : this.hour) * (360 / divider)) - 180
 
       return cssTransform(`rotate(${degrees}deg)`)
-    },
-    editable () {
-      return !this.disable && !this.readonly
     }
   },
   methods: {
     /* date */
     setYear (value) {
-      if (!this.editable) {
-        return
+      if (this.editable) {
+        this.view = 'day'
+        this.model = new Date(this.model.setFullYear(this.__parseTypeValue('year', value)))
       }
-      this.view = 'day'
-      this.date.year(this.__parseTypeValue('year', value))
-      this.__updateModel()
     },
     setMonth (value, force) {
-      if (!this.editable) {
-        return
+      if (this.editable) {
+        this.view = 'day'
+        this.model = new Date(this.model.setMonth((force ? value : this.__parseTypeValue('month', value)) - 1))
       }
-      this.view = 'day'
-      this.date.month((force ? value : this.__parseTypeValue('month', value)) - 1)
-      this.__updateModel()
     },
     setDay (value) {
-      if (!this.editable) {
-        return
+      if (this.editable) {
+        this.model = new Date(this.model.setDate(this.__parseTypeValue('date', value)))
       }
-      this.date.date(this.__parseTypeValue('date', value))
-      this.__updateModel()
     },
 
-    /* time */
-    toggleAmPm () {
-      if (!this.editable) {
-        return
-      }
-      let
-        hour = this.date.hour(),
-        offset = this.am ? 12 : -12
-
-      this.date.hour(hour + offset)
-      this.__updateModel()
-    },
     setHour (value) {
       if (!this.editable) {
         return
@@ -461,15 +383,14 @@ export default {
         }
       }
 
-      this.date.hour(value)
-      this.__updateModel()
+      this.model = new Date(this.model.setHours(value))
     },
     setMinute (value) {
       if (!this.editable) {
         return
       }
-      this.date.minute(this.__parseTypeValue('minute', value))
-      this.__updateModel()
+
+      this.model = new Date(this.model.setMinutes(this.__parseTypeValue('minute', value)))
     },
 
     /* helpers */
@@ -528,43 +449,6 @@ export default {
       }
       else {
         this.setMinute(Math.round(angle / 6))
-      }
-    },
-    __parseTypeValue (type, value) {
-      if (type === 'month') {
-        return between(value, 1, 12)
-      }
-      if (type === 'date') {
-        return between(value, 1, this.daysInMonth)
-      }
-      if (type === 'year') {
-        let
-          min = this.pmin ? this.pmin.year() : 1950,
-          max = this.pmax ? this.pmax.year() : 2050
-        return between(value, min, max)
-      }
-      if (type === 'hour') {
-        return between(value, 0, 23)
-      }
-      if (type === 'minute') {
-        return between(value, 0, 59)
-      }
-    },
-
-    /* common */
-    __normalizeValue (value) {
-      if (this.pmin) {
-        value = moment.max(this.pmin.clone(), value)
-      }
-      if (this.pmax) {
-        value = moment.min(this.pmax.clone(), value)
-      }
-      return value
-    },
-    __updateModel () {
-      if (this.date) {
-        this.date = this.__normalizeValue(this.date)
-        this.model = this.date.toISOString()
       }
     }
   }

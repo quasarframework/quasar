@@ -1,6 +1,7 @@
 import * as animate from './utils/animate'
 import clone from './utils/clone'
 import * as colors from './utils/colors'
+import * as date from './utils/date'
 import { debounce, frameDebounce } from './utils/debounce'
 import * as dom from './utils/dom'
 import * as event from './utils/event'
@@ -18,6 +19,7 @@ export {
   animate,
   clone,
   colors,
+  date,
   debounce,
   frameDebounce,
   dom,

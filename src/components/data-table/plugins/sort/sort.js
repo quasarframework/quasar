@@ -1,10 +1,7 @@
-import { moment } from '../../../../deps'
-
 const sortMethod = {
   string: (a, b) => a.localeCompare(b),
   number: (a, b) => a - b,
   date: (a, b) => (new Date(a)) - (new Date(b)),
-  moment: (a, b) => moment(a) - moment(b),
   boolean: (a, b) => {
     if (a && !b) { return -1 }
     if (!a && b) { return 1 }

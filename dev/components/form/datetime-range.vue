@@ -57,25 +57,25 @@
 </template>
 
 <script>
-import moment from 'moment'
+const day = new Date('2016-10-24T10:40:14.674Z')
 
 export default {
   data () {
     return {
       first: {
-        min: moment('2016-10-24T10:40:14.674Z').subtract(5, 'days').format(),
-        max: moment('2016-10-24T10:40:14.674Z').add(4, 'hours').add(10, 'minutes').add(1, 'day').add(1, 'month').format(),
+        min: new Date(day).setDate(day.getDate() - 5),
+        max: new Date(new Date(new Date(day).setDate(day.getDate() + 1)).setHours(day.getHours() + 4)).setMinutes(day.getMinutes() + 10),
         range: {
-          from: moment('2016-10-24T10:40:14.674Z').subtract(3, 'days').format(),
-          to: moment('2016-10-24T10:40:14.674Z').add(4, 'hours').add(10, 'minutes').add(1, 'month').format()
+          from: new Date(day).setDate(day.getDate() - 3),
+          to: new Date(new Date(new Date(day).setMonth(day.getMonth() + 1)).setHours(day.getHours() + 4)).setMinutes(day.getMinutes() + 10)
         }
       },
       second: {
-        min: moment().hour(3).minute(15).format(),
-        max: moment().hour(22).minute(32).format(),
+        min: new Date(new Date().setHours(3)).setMinutes(15),
+        max: new Date(new Date().setHours(22)).setMinutes(32),
         range: {
-          from: '',
-          to: ''
+          from: null,
+          to: null
         }
       }
     }
