@@ -3,6 +3,7 @@ export default {
     arrows: Boolean,
     dots: Boolean,
     fullscreen: Boolean,
+    initfullscreen: Boolean,
     infinite: Boolean,
     actions: Boolean,
     animation: {
