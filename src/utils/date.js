@@ -44,6 +44,10 @@ export function isValid (date) {
   return isNaN(t) === false
 }
 
+export function buildDate (mod, utc) {
+  return adjustDate(new Date(), mod, utc)
+}
+
 export function getDayOfWeek (date) {
   const dow = new Date(date).getDay()
   return dow === 0 ? 7 : dow
@@ -71,7 +75,7 @@ export function getWeekOfYear (date) {
   return 1 + Math.floor(weekDiff)
 }
 
-export function isBetween (date, from, to) {
+export function isBetweenDates (date, from, to) {
   const
     d1 = new Date(from).getTime(),
     d2 = new Date(to).getTime(),
@@ -87,7 +91,7 @@ export function subtractFromDate (date, mod) {
   return getChange(date, mod, false)
 }
 
-export function set (date, mod, utc) {
+export function adjustDate (date, mod, utc) {
   const
     t = new Date(date),
     prefix = `set${utc ? 'UTC' : ''}`
