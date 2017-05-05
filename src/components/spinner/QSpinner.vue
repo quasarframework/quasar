@@ -14,7 +14,7 @@ export default {
   mixins: [mixin],
   computed: {
     name () {
-      return theme === 'ios' ? 'ios' : 'mat'
+      return theme
     }
   },
   components: {

@@ -228,10 +228,14 @@ export function getDateBetween (date, min, max) {
   return t
 }
 
-export function isSameDate (date, date2, unit = 'second') {
+export function isSameDate (date, date2, unit) {
   const
     t = new Date(date),
     d = new Date(date2)
+
+  if (typeof unit === 'undefined') {
+    return t.getTime() === d.getTime()
+  }
 
   switch (unit) {
     case 'second':
