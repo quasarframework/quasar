@@ -1,16 +1,16 @@
 import { between } from '../../utils/format'
 import { inline as props } from './datetime-props'
-import { convertDateToFormat, normalizeDate } from '../../utils/date'
+import { convertDateToFormat, getDateBetween } from '../../utils/date'
 
 export default {
   props,
   computed: {
     model: {
       get () {
-        return normalizeDate(this.value ? new Date(this.value) : new Date(), this.pmin, this.pmax)
+        return getDateBetween(this.value ? new Date(this.value) : new Date(), this.pmin, this.pmax)
       },
       set (val) {
-        const date = normalizeDate(val, this.pmin, this.pmax)
+        const date = getDateBetween(val, this.pmin, this.pmax)
         if ((new Date(this.value)).getTime() !== date.getTime()) {
           this.$emit('input', convertDateToFormat(date, this.value))
         }

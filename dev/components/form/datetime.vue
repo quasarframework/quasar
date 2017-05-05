@@ -34,9 +34,9 @@
           </span>
         </small>
       </p>
-      <q-datetime v-model="model" type="date"></q-datetime>
+      <q-datetime v-model="model" type="date" />
 
-      <q-datetime simple v-model="model" type="date"></q-datetime>
+      <q-datetime simple v-model="model" type="date" />
 
       <p class="caption">
         Time
@@ -51,34 +51,34 @@
           <span class="mat-only">inside of the clock</span>.
         </small>
       </p>
-      <q-datetime v-model="model" type="time"></q-datetime>
+      <q-datetime v-model="model" type="time" />
 
       <p class="caption">Time 24hr Format</p>
-      <q-datetime v-model="model" type="time" format24h></q-datetime>
+      <q-datetime v-model="model" type="time" format24h />
 
       <p class="caption">Date & Time</p>
-      <q-datetime v-model="model" type="datetime"></q-datetime>
+      <q-datetime v-model="model" type="datetime" />
 
       <p class="caption">With Label</p>
-      <q-datetime v-model="model" type="date" label="Pick Date"></q-datetime>
+      <q-datetime v-model="model" type="date" label="Pick Date" />
 
       <p class="caption">With Placeholder</p>
-      <q-datetime v-model="model" type="date" placeholder="Pick Date"></q-datetime>
+      <q-datetime v-model="model" type="date" placeholder="Pick Date" />
 
       <p class="caption">With Static Label</p>
-      <q-datetime v-model="model" type="date" static-label="Party Date"></q-datetime>
+      <q-datetime v-model="model" type="date" static-label="Party Date" />
 
       <p class="caption">Disabled State</p>
-      <q-datetime disable v-model="model" type="datetime"></q-datetime>
+      <q-datetime disable v-model="model" type="datetime" />
 
       <p class="caption">Readonly State</p>
-      <q-datetime readonly v-model="model" type="datetime"></q-datetime>
+      <q-datetime readonly v-model="model" type="datetime" />
 
       <p class="caption">Error State</p>
-      <q-datetime class="has-error" v-model="model" type="datetime"></q-datetime>
+      <q-datetime class="has-error" v-model="model" type="datetime" />
 
       <p class="caption">Min & Max</p>
-      <q-datetime type="datetime" v-model="minMaxModel" :min="min" :max="max"></q-datetime>
+      <q-datetime type="datetime" v-model="minMaxModel" :min="min" :max="max" />
 
       <p class="caption">Inside of a List</p>
       <div class="list">
@@ -88,7 +88,7 @@
             <q-icon name="access_time" />
           </div>
           <div class="item-content">
-            <q-datetime class="full-width" v-model="model" type="time"></q-datetime>
+            <q-datetime class="full-width" v-model="model" type="time" />
           </div>
         </div>
         <div class="item">
@@ -96,7 +96,7 @@
             <q-icon name="update" />
           </div>
           <div class="item-content row items-baseline">
-            <q-datetime class="full-width" v-model="model" type="date"></q-datetime>
+            <q-datetime class="full-width" v-model="model" type="date" />
           </div>
         </div>
         <hr>
@@ -106,7 +106,7 @@
             <q-icon name="notifications" />
           </div>
           <div class="item-content row items-baseline">
-            <q-datetime class="full-width" v-model="model" type="datetime"></q-datetime>
+            <q-datetime class="full-width" v-model="model" type="datetime" />
           </div>
         </div>
       </div>
@@ -129,7 +129,7 @@
           </span>
         </small>
       </p>
-      <q-inline-datetime v-model="model" type="date"></q-inline-datetime>
+      <q-inline-datetime v-model="model" type="date" />
 
       <p class="caption">
         Time
@@ -144,31 +144,32 @@
           <span class="mat-only">inside of the clock</span>.
         </small>
       </p>
-      <q-inline-datetime v-model="model" type="time"></q-inline-datetime>
+      <q-inline-datetime v-model="model" type="time" />
 
       <p class="caption">Time 24hr Format</p>
-      <q-inline-datetime v-model="model" type="time" format24h></q-inline-datetime>
+      <q-inline-datetime v-model="model" type="time" format24h />
 
       <p class="caption">Date & Time</p>
-      <q-inline-datetime v-model="model" type="datetime"></q-inline-datetime>
+      <q-inline-datetime v-model="model" type="datetime" />
 
       <p class="caption">Date - Monday as First</p>
-      <q-inline-datetime v-model="model" monday-first type="date"></q-inline-datetime>
+      <q-inline-datetime v-model="model" monday-first type="date" />
 
       <p class="caption">Disabled State</p>
-      <q-inline-datetime disable v-model="model" type="datetime"></q-inline-datetime>
+      <q-inline-datetime disable v-model="model" type="datetime" />
 
       <p class="caption">Readonly State</p>
-      <q-inline-datetime readonly v-model="model" type="datetime"></q-inline-datetime>
-
+      <q-inline-datetime readonly v-model="model" type="datetime" />
       <p class="caption">Min & Max</p>
-      <q-inline-datetime type="datetime" v-model="minMaxModel" :min="min" :max="max"></q-inline-datetime>
+      <q-inline-datetime type="datetime" v-model="minMaxModel" :min="min" :max="max" />
     </div>
   </div>
 </template>
 
 <script>
-const day = new Date('2016-10-24T10:40:14.674Z')
+import { date } from 'quasar'
+
+const day = '2016-10-24T10:40:14.674Z'
 
 export default {
   data () {
@@ -176,9 +177,10 @@ export default {
       // model: '2016-09-18T10:45:00.000Z',
       model: undefined,
 
-      minMaxModel: day,
-      min: new Date(day).setDate(day.getDate() - 5),
-      max: new Date(new Date(day).setHours(day.getHours() + 4)).setMonth(day.getMonth() + 1)
+      minMaxModel: date.formatDate(day),
+
+      min: date.subtractFromDate(day, {days: 5}),
+      max: date.addToDate(day, {days: 4, month: 1, minutes: 10})
     }
   }
 }
