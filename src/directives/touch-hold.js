@@ -1,8 +1,10 @@
-import { add, get, remove } from '../utils/store'
 import { position } from '../utils/event'
 
-function updateBinding (el, binding, ctx) {
+function updateBinding (el, binding) {
+  const ctx = el.__qtouchhold
+
   ctx.duration = parseInt(binding.arg, 10) || 800
+
   if (binding.oldValue !== binding.value) {
     ctx.handler = binding.value
   }
@@ -41,24 +43,24 @@ export default {
       }
     }
 
-    add('touchhold', el, ctx)
-    updateBinding(el, binding, ctx)
+    el.__qtouchhold = ctx
+    updateBinding(el, binding)
     el.addEventListener('touchstart', ctx.start)
     el.addEventListener('touchmove', ctx.abort)
     el.addEventListener('touchend', ctx.abort)
     el.addEventListener('mousedown', ctx.mouseStart)
   },
   update (el, binding) {
-    updateBinding(el, binding, get('touchhold', el))
+    updateBinding(el, binding)
   },
   unbind (el, binding) {
-    let ctx = get('touchhold', el)
+    let ctx = el.__qtouchhold
     el.removeEventListener('touchstart', ctx.start)
     el.removeEventListener('touchmove', ctx.abort)
     el.removeEventListener('touchend', ctx.abort)
     el.removeEventListener('mousedown', ctx.mouseStart)
     document.removeEventListener('mousemove', ctx.mouseAbort)
     document.removeEventListener('mouseup', ctx.mouseAbort)
-    remove('touchhold', el)
+    delete el.__qtouchhold
   }
 }

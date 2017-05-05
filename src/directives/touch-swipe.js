@@ -1,4 +1,3 @@
-import { add, get, remove } from '../utils/store'
 import { position } from '../utils/event'
 
 function getDirection (mod) {
@@ -124,7 +123,7 @@ export default {
       }
     }
 
-    add('touchswipe', el, ctx)
+    el.__qtouchswipe = ctx
     updateClasses(el, ctx.direction)
     el.addEventListener('touchstart', ctx.start)
     el.addEventListener('mousedown', ctx.start)
@@ -133,16 +132,15 @@ export default {
   },
   update (el, binding) {
     if (binding.oldValue !== binding.value) {
-      let ctx = get('touchswipe', el)
-      ctx.handler = binding.value
+      el.__qtouchswipe.handler = binding.value
     }
   },
   unbind (el, binding) {
-    let ctx = get('touchswipe', el)
+    let ctx = el.__qtouchswipe
     el.removeEventListener('touchstart', ctx.start)
     el.removeEventListener('mousedown', ctx.start)
     el.removeEventListener('touchmove', ctx.move)
     el.removeEventListener('touchend', ctx.end)
-    remove('touchswipe', el)
+    delete el.__qtouchswipe
   }
 }
