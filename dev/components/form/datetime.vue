@@ -152,6 +152,9 @@
       <p class="caption">Date & Time</p>
       <q-inline-datetime v-model="model" type="datetime"></q-inline-datetime>
 
+      <p class="caption">Date - Monday as First</p>
+      <q-inline-datetime v-model="model" monday-first type="date"></q-inline-datetime>
+
       <p class="caption">Disabled State</p>
       <q-inline-datetime disable v-model="model" type="datetime"></q-inline-datetime>
 
@@ -165,15 +168,17 @@
 </template>
 
 <script>
-import moment from 'moment'
+const day = new Date('2016-10-24T10:40:14.674Z')
 
 export default {
   data () {
     return {
-      model: '2016-09-18T10:45:00.000Z',
-      minMaxModel: '2016-10-24T10:40:14.674Z',
-      min: moment('2016-10-24T10:40:14.674Z').subtract(5, 'days').format(),
-      max: moment('2016-10-24T10:40:14.674Z').add(4, 'hours').add(10, 'minutes').add(1, 'month').format()
+      // model: '2016-09-18T10:45:00.000Z',
+      model: undefined,
+
+      minMaxModel: day,
+      min: new Date(day).setDate(day.getDate() - 5),
+      max: new Date(new Date(day).setHours(day.getHours() + 4)).setMonth(day.getMonth() + 1)
     }
   }
 }

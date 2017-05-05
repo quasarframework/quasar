@@ -24,6 +24,7 @@ $datetime-range-space    ?= 10px
   text-align right
   position relative
   padding 0
+  background rgba(0, 0, 0, .1)
 
 .q-datetime-mask
   position absolute
@@ -85,31 +86,13 @@ body.desktop .q-datetime-col-wrapper
   height 36px
   position absolute
   left 0
+  right 0
   width 100%
   top 50%
   margin-top -18px
   pointer-events none
-  transition background .9s
-
-  &:before, &:after
-    content ''
-    position absolute
-    transform scaleY(.5)
-    left 0
-    right auto
-    height 1px
-    width 100%
-    background $grey-5
-    display block
-    transform-origin 50% 0
-
-  &:before
-    top 0
-    bottom auto
-
-  &:after
-    bottom 0
-    top auto
+  border-top 1px solid rgba(0, 0, 0, .2)
+  border-bottom 1px solid rgba(0, 0, 0, .2)
 
   &.q-datetime-no-selection
     letter-spacing 3px

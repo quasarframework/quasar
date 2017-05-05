@@ -19,6 +19,7 @@
       :disable="disable"
       :align="align"
       :format24h="format24h"
+      :monday-first="mondayFirst"
       class="inline"
       :class="className"
       :style="css"
@@ -43,6 +44,7 @@
       :disable="disable"
       :align="align"
       :format24h="format24h"
+      :monday-first="mondayFirst"
       class="inline"
       :class="className"
       :style="css"
@@ -52,7 +54,7 @@
 
 <script>
 import extend from '../../utils/extend'
-import { input as props } from './datetime-props'
+import { input, inline } from './datetime-props'
 import QDatetime from './QDatetime.vue'
 
 export default {
@@ -60,21 +62,15 @@ export default {
   components: {
     QDatetime
   },
-  props: extend({
+  props: extend({}, input, inline, {
     value: {
       type: Object,
-      validator (val) {
-        if (typeof val.from !== 'string' || typeof val.to !== 'string') {
-          console.error('DatetimeRange requires a valid {from, to} model.')
-          return false
-        }
-        return true
-      },
+      validator: val => 'from' in val && 'to' in val,
       required: true
     },
     className: [String, Object],
     css: [String, Object]
-  }, props),
+  }),
   computed: {
     model: {
       get () {

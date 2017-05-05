@@ -20,7 +20,8 @@
 </template>
 
 <script>
-import moment from 'moment'
+import { format } from 'quasar'
+const { formatDate } = format
 
 export default {
   data () {
@@ -169,7 +170,7 @@ export default {
           text: [this.message],
           sent: true,
           avatar: '/statics/linux-avatar.png',
-          stamp: moment().format('HH:mm')
+          stamp: formatDate(new Date(), 'HH:mm')
         })
       }
     }

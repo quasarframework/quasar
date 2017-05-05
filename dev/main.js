@@ -3,12 +3,8 @@ require('../src/themes/quasar.' + __THEME + '.styl')
 import Vue from 'vue'
 import Quasar, * as Everything from 'quasar'
 import router from './router'
-import moment from 'moment'
 
 Vue.use(Quasar, {
-  deps: {
-    moment
-  },
   components: Everything,
   directives: Everything
 })
