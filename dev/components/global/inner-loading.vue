@@ -13,8 +13,8 @@
       style="height: 450px; width: 600px; background-color: lightgrey; padding: 15px;">
       <q-transition
         appear
-        :enter="'fadeIn'"
-        :leave="'fadeOut'"
+        enter="fadeIn"
+        leave="fadeOut"
         :disable="false"
       >
         <div v-show="showSimulatedReturnData">
