@@ -9,9 +9,16 @@
         Show Text Loading
       </q-btn>
     </div>
-    <div class="layout-padding relative-position" style="height: 450px; width: 600px; background-color: lightgrey; padding: 15px;">
-      <div v-show="showSimulatedReturnData">
-        <h4>Lorem Ipsum</h4>
+    <div class="layout-padding relative-position"
+      style="height: 450px; width: 600px; background-color: lightgrey; padding: 15px;">
+      <q-transition
+        appear
+        :enter="'fadeIn'"
+        :leave="'fadeOut'"
+        :disable="false"
+      >
+        <div v-show="showSimulatedReturnData">
+          <h4>Lorem Ipsum</h4>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vel magna eu risus laoreet tristique. Nulla ut fermentum elit, nec consequat augue. Morbi et dolor nec metus tincidunt pellentesque. Nullam non semper ante. Fusce pellentesque sagittis felis quis porta. Aenean condimentum neque sed erat suscipit malesuada. Nulla eget rhoncus enim. Duis dictum interdum eros.
           </p>
@@ -19,10 +26,10 @@
             Duis bibendum mi nec lacus cursus fermentum. Ut elit odio, iaculis nec rutrum sollicitudin, sodales non neque. Nulla sit amet ex dui. Pellentesque nec feugiat magna. Aenean tempus mattis consectetur. Nam fermentum velit mi, nec aliquet lorem dictum in. Nulla placerat elit rhoncus condimentum accumsan. Integer sit amet metus sit amet metus commodo bibendum non vel mauris. Morbi ligula augue, tincidunt eget sagittis vitae, consectetur in quam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed facilisis elit id mauris porttitor tincidunt.
           </p>
         </div>
-        <q-inner-loading :visible="visible" >
-          <q-spinner-gears :size="50" :color="'blue'"></q-spinner-gears>
-        </q-inner-loading>
-      </div>
+      </q-transition>
+      <q-inner-loading :visible="visible" >
+        <q-spinner-gears :size="50" :color="'#027be3'"></q-spinner-gears>
+      </q-inner-loading>
     </div>
   </div>
 </template>
@@ -50,7 +57,7 @@ export default {
       setTimeout(() => {
         this.visible = false
         this.showSimulatedReturnData = true
-      }, 13000)
+      }, 3000)
     }
   }
 }
