@@ -1,4 +1,3 @@
-import { add, get, remove } from '../utils/store'
 import { position } from '../utils/event'
 
 function getDirection (mod) {
@@ -165,7 +164,7 @@ export default {
       }
     }
 
-    add('touchpan', el, ctx)
+    el.__qtouchpan = ctx
     updateClasses(el, ctx.direction, ctx.scroll)
     el.addEventListener('touchstart', ctx.start)
     el.addEventListener('mousedown', ctx.mouseStart)
@@ -174,15 +173,15 @@ export default {
   },
   update (el, binding) {
     if (binding.oldValue !== binding.value) {
-      get('touchpan', el).handler = binding.value
+      el.__qtouchpan.handler = binding.value
     }
   },
   unbind (el, binding) {
-    let ctx = get('touchpan', el)
+    let ctx = el.__qtouchpan
     el.removeEventListener('touchstart', ctx.start)
     el.removeEventListener('mousedown', ctx.mouseStart)
     el.removeEventListener('touchmove', ctx.move)
     el.removeEventListener('touchend', ctx.end)
-    remove('touchpan', el)
+    delete el.__qtouchpan
   }
 }

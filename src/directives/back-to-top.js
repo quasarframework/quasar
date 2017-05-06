@@ -1,8 +1,9 @@
 import { debounce } from '../utils/debounce'
-import { add, get, remove } from '../utils/store'
 import { getScrollPosition, setScrollPosition, getScrollTarget } from '../utils/scroll'
 
-function updateBinding (el, { value, modifiers }, ctx) {
+function updateBinding (el, { value, modifiers }) {
+  const ctx = el.__qbacktotop
+
   if (!value) {
     ctx.update()
     return
@@ -55,27 +56,27 @@ export default {
       }
     }
     el.classList.add('hidden')
-    add('backtotop', el, ctx)
+    el.__qbacktotop = ctx
   },
   inserted (el, binding) {
-    let ctx = get('backtotop', el)
+    let ctx = el.__qbacktotop
     ctx.scrollTarget = getScrollTarget(el)
     ctx.animate = binding.modifiers.animate
-    updateBinding(el, binding, ctx)
+    updateBinding(el, binding)
     ctx.scrollTarget.addEventListener('scroll', ctx.update)
     window.addEventListener('resize', ctx.update)
     el.addEventListener('click', ctx.goToTop)
   },
   update (el, binding) {
     if (binding.oldValue !== binding.value) {
-      updateBinding(el, binding, get('backtotop', el))
+      updateBinding(el, binding)
     }
   },
   unbind (el) {
-    let ctx = get('backtotop', el)
+    let ctx = el.__qbacktotop
     ctx.scrollTarget.removeEventListener('scroll', ctx.update)
     window.removeEventListener('resize', ctx.update)
     el.removeEventListener('click', ctx.goToTop)
-    remove('backtotop', el)
+    delete el.__qbacktotop
   }
 }

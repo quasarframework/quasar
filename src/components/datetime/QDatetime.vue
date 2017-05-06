@@ -27,13 +27,14 @@
         :min="min"
         :max="max"
         :format24h="format24h"
+        :monday-first="mondayFirst"
         class="no-border"
       >
         <div class="modal-buttons row full-width">
-          <q-btn v-if="!noClear" @click="clear()" class="primary clear" v-html="clearLabel"></q-btn>
+          <q-btn v-if="!noClear && model" @click="clear()" class="primary clear" v-html="clearLabel"></q-btn>
           <div class="auto"></div>
           <q-btn @click="close()" class="primary clear" v-html="cancelLabel"></q-btn>
-          <q-btn @click="close(__update)" class="primary clear" v-html="okLabel"></q-btn>
+          <q-btn v-if="model" @click="close(__update)" class="primary clear" v-html="okLabel"></q-btn>
         </div>
       </q-inline-datetime>
     </q-popover>
@@ -53,13 +54,14 @@
         :min="min"
         :max="max"
         :format24h="format24h"
+        :monday-first="mondayFirst"
         class="no-border full-width"
       >
         <div class="modal-buttons row full-width">
-          <q-btn v-if="!noClear" @click="clear()" class="primary clear" v-html="clearLabel"></q-btn>
+          <q-btn v-if="!noClear && model" @click="clear()" class="primary clear" v-html="clearLabel"></q-btn>
           <div class="auto"></div>
           <q-btn @click="close()" class="primary clear" v-html="cancelLabel"></q-btn>
-          <q-btn @click="close(__update)" class="primary clear" v-html="okLabel"></q-btn>
+          <q-btn v-if="model" @click="close(__update)" class="primary clear" v-html="okLabel"></q-btn>
         </div>
       </q-inline-datetime>
     </q-modal>
@@ -75,7 +77,7 @@ import { QInput } from '../input'
 import { QPopover } from '../popover'
 import QInlineDatetime from './QInlineDatetime'
 import { QBtn } from '../btn'
-import { formatDate } from '../../utils/format'
+import { formatDate } from '../../utils/date'
 
 let contentCSS = {
   ios: {
@@ -112,6 +114,10 @@ export default {
   },
   computed: {
     actualValue () {
+      if (!this.value) {
+        return ''
+      }
+
       let format
 
       if (this.format) {
@@ -127,9 +133,7 @@ export default {
         format = 'YYYY-MM-DD HH:mm:ss'
       }
 
-      return this.value
-        ? formatDate(this.value, format)
-        : ''
+      return formatDate(this.value, format)
     }
   },
   methods: {

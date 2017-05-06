@@ -1,5 +1,5 @@
 import {
-  dayNames, dayShortNames, monthNames, monthShortNames
+  dayNames, monthNames
 } from '../../utils/date'
 import { isDate } from '../../utils/is'
 
@@ -36,17 +36,9 @@ export const inline = {
     type: Array,
     default: () => monthNames
   },
-  monthShortNames: {
-    type: Array,
-    default: () => monthShortNames
-  },
   dayNames: {
     type: Array,
     default: () => dayNames
-  },
-  dayShortNames: {
-    type: Array,
-    default: () => dayShortNames
   },
   mondayFirst: Boolean,
   format24h: Boolean,

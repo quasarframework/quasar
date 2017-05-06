@@ -104,7 +104,7 @@
 import { between } from '../../utils/format'
 import { position } from '../../utils/event'
 import { css } from '../../utils/dom'
-import { isOfSameDate } from '../../utils/date'
+import { isSameDate } from '../../utils/date'
 import mixin from './datetime-mixin'
 
 export default {
@@ -127,12 +127,12 @@ export default {
   },
   computed: {
     dayMin () {
-      return this.pmin !== null && isOfSameDate(this.pmin, this.model, 'month')
+      return this.pmin !== null && isSameDate(this.pmin, this.model, 'month')
         ? this.pmin.getDate()
         : 1
     },
     dayMax () {
-      return this.pmax !== null && isOfSameDate(this.pmax, this.model, 'month')
+      return this.pmax !== null && isSameDate(this.pmax, this.model, 'month')
         ? this.pmax.getDate()
         : this.daysInMonth
     },
@@ -144,17 +144,17 @@ export default {
       return this.model.getHours()
     },
     hourMin () {
-      return this.pmin && isOfSameDate(this.pmin, this.model, 'day') ? this.pmin.getHours() : 0
+      return this.pmin && isSameDate(this.pmin, this.model, 'day') ? this.pmin.getHours() : 0
     },
     hourInterval () {
-      return (this.pmax && isOfSameDate(this.pmax, this.model, 'day') ? this.pmax.getHours() : 23) - this.hourMin + 1
+      return (this.pmax && isSameDate(this.pmax, this.model, 'day') ? this.pmax.getHours() : 23) - this.hourMin + 1
     },
 
     minuteMin () {
-      return this.pmin && isOfSameDate(this.pmin, this.model, 'hour') ? this.pmin.getMinutes() : 0
+      return this.pmin && isSameDate(this.pmin, this.model, 'hour') ? this.pmin.getMinutes() : 0
     },
     minuteInterval () {
-      return (this.pmax && isOfSameDate(this.pmax, this.model, 'hour') ? this.pmax.getMinutes() : 59) - this.minuteMin + 1
+      return (this.pmax && isSameDate(this.pmax, this.model, 'hour') ? this.pmax.getMinutes() : 59) - this.minuteMin + 1
     },
 
     __monthStyle () {

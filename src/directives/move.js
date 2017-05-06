@@ -1,8 +1,6 @@
-import { add, get, remove } from '../utils/store'
-
 function updateBinding (el, selector) {
   const
-    ctx = get('move', el),
+    ctx = el.__qmove,
     parent = el.parentNode
 
   if (!ctx.target) {
@@ -21,12 +19,11 @@ function updateBinding (el, selector) {
 export default {
   name: 'move',
   bind (el, { value }) {
-    add('move', el, {})
+    el.__qmove = {}
   },
   update (el, { oldValue, value }) {
     if (oldValue !== value) {
-      const ctx = get('move', el)
-      ctx.target = document.querySelector(value)
+      el.__qmove.target = document.querySelector(value)
     }
     updateBinding(el, value)
   },
@@ -38,6 +35,6 @@ export default {
     if (parent) {
       parent.removeChild(el)
     }
-    remove('move', el)
+    delete el.__qmove
   }
 }

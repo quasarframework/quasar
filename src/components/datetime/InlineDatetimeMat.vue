@@ -214,11 +214,10 @@
 
 <script>
 import { height, width, offset, cssTransform } from '../../utils/dom'
-import { formatDate } from '../../utils/format'
 import { position } from '../../utils/event'
 import { QIcon } from '../icon'
 import { QBtn } from '../btn'
-import { isOfSameDate } from '../../utils/date'
+import { formatDate, isSameDate } from '../../utils/date'
 import mixin from './datetime-mixin'
 import Ripple from '../../directives/ripple'
 
@@ -280,9 +279,10 @@ export default {
       return this.mondayFirst ? 1 : 0
     },
     headerDayNames () {
+      const days = this.dayNames.map(day => day.slice(0, 3))
       return this.mondayFirst
-        ? this.dayShortNames.slice(1, 7).concat(this.dayShortNames[0])
-        : this.dayShortNames
+        ? days.slice(1, 7).concat(days[0])
+        : days
     },
 
     dayString () {
@@ -302,13 +302,13 @@ export default {
       return Math.max(0, (new Date(this.model.getFullYear(), this.model.getMonth(), 1).getDay() - this.firstDayOfWeek))
     },
     beforeMinDays () {
-      if (this.pmin === null || !isOfSameDate(this.pmin, this.model, 'month')) {
+      if (this.pmin === null || !isSameDate(this.pmin, this.model, 'month')) {
         return false
       }
       return this.pmin.getDate() - 1
     },
     aferMaxDays () {
-      if (this.pmax === null || !isOfSameDate(this.pmax, this.model, 'month')) {
+      if (this.pmax === null || !isSameDate(this.pmax, this.model, 'month')) {
         return false
       }
       return this.daysInMonth - this.maxDay
@@ -317,10 +317,10 @@ export default {
       return this.pmax !== null ? this.pmax.getDate() : this.daysInMonth
     },
     daysInterval () {
-      let max = this.afterMaxDays === false || this.pmax === null ? 0 : this.daysInMonth - this.pmax.getDate()
-      if (this.beforeMinDays || max) {
+      let after = this.pmax === null || this.afterMaxDays === false ? 0 : this.aferMaxDays
+      if (this.beforeMinDays || after) {
         let min = this.beforeMinDays ? this.beforeMinDays + 1 : 1
-        return Array.apply(null, {length: this.daysInMonth - min - max + 1}).map((day, index) => {
+        return Array.apply(null, {length: this.daysInMonth - min - after + 1}).map((day, index) => {
           return index + min
         })
       }
@@ -371,16 +371,11 @@ export default {
       if (!this.editable) {
         return
       }
+
       value = this.__parseTypeValue('hour', value)
 
-      if (this.format24h) {
-        value = value % 24
-      }
-      else {
-        value = value % 12
-        if (!this.am) {
-          value += 12
-        }
+      if (!this.format24h && value < 12 && !this.am) {
+        value += 12
       }
 
       this.model = new Date(this.model.setHours(value))

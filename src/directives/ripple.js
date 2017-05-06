@@ -1,7 +1,6 @@
 import { cssTransform, css } from '../utils/dom'
 import Platform from '../features/platform'
 import { position } from '../utils/event'
-import { add, get, remove } from '../utils/store'
 import { current as theme } from '../features/theme'
 
 function showRipple (evt, el, stopPropagation) {
@@ -88,7 +87,7 @@ export default {
       ctx.touchcancel = hide
     }
 
-    add('ripple', el, ctx)
+    el.__qripple = ctx
     Object.keys(ctx).forEach(evt => {
       el.addEventListener(evt, ctx[evt], false)
     })
@@ -98,10 +97,10 @@ export default {
       return
     }
 
-    const ctx = get('ripple', el)
+    const ctx = el.__qripple
     Object.keys(ctx).forEach(evt => {
       el.removeEventListener(evt, ctx[evt], false)
     })
-    remove('ripple', el)
+    delete el.__qripple
   }
 }

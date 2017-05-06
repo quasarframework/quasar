@@ -1,7 +1,8 @@
-import { add, get, remove } from '../utils/store'
 import { getScrollPosition, getScrollTarget } from '../utils/scroll'
 
-function updateBinding (el, binding, ctx) {
+function updateBinding (el, binding) {
+  const ctx = el.__qscroll
+
   if (typeof binding.value !== 'function') {
     ctx.scrollTarget.removeEventListener('scroll', ctx.scroll)
     console.error('v-scroll requires a function as parameter', el)
@@ -22,21 +23,21 @@ export default {
         ctx.handler(getScrollPosition(ctx.scrollTarget))
       }
     }
-    add('scroll', el, ctx)
+    el.__qscroll = ctx
   },
   inserted (el, binding) {
-    let ctx = get('scroll', el)
+    let ctx = el.__qscroll
     ctx.scrollTarget = getScrollTarget(el)
-    updateBinding(el, binding, ctx)
+    updateBinding(el, binding)
   },
   update (el, binding) {
     if (binding.oldValue !== binding.value) {
-      updateBinding(el, binding, get('scroll', el))
+      updateBinding(el, binding)
     }
   },
   unbind (el) {
-    let ctx = get('scroll', el)
+    let ctx = el.__qscroll
     ctx.scrollTarget.removeEventListener('scroll', ctx.scroll)
-    remove('scroll', el)
+    delete el.__qscroll
   }
 }

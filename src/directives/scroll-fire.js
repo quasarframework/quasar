@@ -1,9 +1,10 @@
 import { debounce } from '../utils/debounce'
 import { viewport, height, offset } from '../utils/dom'
-import { add, get, remove } from '../utils/store'
 import { getScrollTarget } from '../utils/scroll'
 
-function updateBinding (el, binding, ctx) {
+function updateBinding (el, binding) {
+  const ctx = el.__qscrollfire
+
   if (typeof binding.value !== 'function') {
     ctx.scrollTarget.removeEventListener('scroll', ctx.scroll)
     console.error('v-scroll-fire requires a function as parameter', el)
@@ -41,21 +42,21 @@ export default {
       }, 25)
     }
 
-    add('scrollfire', el, ctx)
+    el.__qscrollfire = ctx
   },
   inserted (el, binding) {
-    let ctx = get('scrollfire', el)
+    let ctx = el.__qscrollfire
     ctx.scrollTarget = getScrollTarget(el)
-    updateBinding(el, binding, ctx)
+    updateBinding(el, binding)
   },
   update (el, binding) {
     if (binding.value !== binding.oldValue) {
-      updateBinding(el, binding, get('scrollfire', el))
+      updateBinding(el, binding)
     }
   },
   unbind (el) {
-    let ctx = get('scrollfire', el)
+    let ctx = el.__qscrollfire
     ctx.scrollTarget.removeEventListener('scroll', ctx.scroll)
-    remove('scrollfire', el)
+    delete el.__qscrollfire
   }
 }
