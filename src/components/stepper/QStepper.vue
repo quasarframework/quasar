@@ -72,7 +72,7 @@ export default {
   },
   methods: {
     goToStep (step) {
-      if (this.data.step === step || typeof step === 'undefined') {
+      if (this.data.step === step || step === void 0) {
         return
       }
 

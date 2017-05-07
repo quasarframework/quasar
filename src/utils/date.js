@@ -233,7 +233,7 @@ export function isSameDate (date, date2, unit) {
     t = new Date(date),
     d = new Date(date2)
 
-  if (typeof unit === 'undefined') {
+  if (unit === void 0) {
     return t.getTime() === d.getTime()
   }
 

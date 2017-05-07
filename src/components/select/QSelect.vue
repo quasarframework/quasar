@@ -107,11 +107,7 @@ export default {
     options: {
       type: Array,
       required: true,
-      validator (options) {
-        return !options.some(opt =>
-          typeof opt.label === 'undefined' || typeof opt.value === 'undefined'
-        )
-      }
+      validator: v => v.every(o => 'label' in o && 'value' in o)
     },
     multiple: Boolean,
     radio: Boolean,
