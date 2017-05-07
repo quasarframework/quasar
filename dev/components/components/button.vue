@@ -49,6 +49,15 @@
         <q-btn circular spinner @click="simulateProgress" class="primary small"><q-icon name="mail" /></q-btn>
         <q-btn circular spinner @click="simulateProgress" class="primary"><q-icon name="mail" /></q-btn>
         <q-btn circular spinner @click="simulateProgress" class="primary big"><q-icon name="mail" /></q-btn>
+
+        <q-btn class="dark small" @click="simulateProgress" iconRight="alarm">
+          Button
+          <q-spinner-audio slot="spinner" />
+        </q-btn>
+        <q-btn circular @click="simulateProgress" class="primary big">
+          <q-spinner-audio slot="spinner" />
+          <q-icon name="alarm" />
+        </q-btn>
         <q-btn class="negative" @click="stopProgress">Stop</q-btn>
       </p>
 

@@ -11,7 +11,7 @@
 
     <q-icon v-if="icon && !spinning" :name="icon" :class="{'on-left': !circular}"></q-icon>
     <slot v-if="(circular && !spinning) || !circular"></slot>
-    <q-icon v-if="iconRight && !circular && !spinning" :name="iconRight" class="on-right"></q-icon>
+    <q-icon v-if="iconRight && !circular" :name="iconRight" class="on-right"></q-icon>
   </button>
 </template>
 
@@ -57,7 +57,7 @@ export default {
       if (this.disable || this.spinning) {
         return
       }
-      if (this.spinner !== false) {
+      if (this.spinner !== false || this.$slots.spinner) {
         this.spinning = true
         this.$emit('input', true)
       }
