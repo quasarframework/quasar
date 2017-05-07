@@ -167,7 +167,7 @@ export default {
       this.__closeByTouch(evt, 'right', true)
     },
     __closeByTouch (evt, side, right) {
-      if (typeof side === 'undefined') {
+      if (side === void 0) {
         right = this.rightState.openedSmall
         side = right ? 'right' : 'left'
       }

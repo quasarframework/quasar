@@ -32,18 +32,12 @@ export default {
     options: {
       type: Array,
       required: true,
-      validator (options) {
-        return !options.some(option =>
-          typeof option.label === 'undefined' || typeof option.value === 'undefined'
-        )
-      }
+      validator: v => v.every(o => 'label' in o && 'value' in o)
     },
     type: {
       type: String,
       required: true,
-      validator (value) {
-        return ['radio', 'checkbox', 'toggle'].includes(value)
-      }
+      validator: v => ['radio', 'checkbox', 'toggle'].includes(v)
     },
     okLabel: {
       type: String,
