@@ -78,6 +78,7 @@ import { QPopover } from '../popover'
 import QInlineDatetime from './QInlineDatetime'
 import { QBtn } from '../btn'
 import { formatDate } from '../../utils/date'
+import { QModal } from '../modal'
 
 let contentCSS = {
   ios: {
@@ -97,6 +98,7 @@ export default {
   components: {
     QInput,
     QPopover,
+    QModal,
     QInlineDatetime,
     QBtn
   },
