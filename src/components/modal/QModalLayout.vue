@@ -1,12 +1,12 @@
 <template>
   <div
     class="q-modal-layout column absolute-full"
-    :style="headerStyle"
-    :class="headerClass"
   >
     <div
       v-if="$slots.header || ($q.theme === 'ios' && $slots.navigation)"
       class="layout-header"
+      :style="headerStyle"
+      :class="headerClass"
     >
       <slot name="header"></slot>
       <slot v-if="$q.theme !== 'ios'" name="navigation"></slot>
