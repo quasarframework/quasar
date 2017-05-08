@@ -153,8 +153,8 @@ export default {
       }
 
       if (evt.isFirst) {
-        document.body.classList.add('with-layout-side-opened')
         if (withBackdrop) {
+          document.body.classList.add('with-layout-side-opened')
           this.backdrop.inTransit = side
         }
         state.inTransit = true
