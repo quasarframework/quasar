@@ -48,10 +48,14 @@ export default {
     },
     reset () {
       const ref = this.$refs
-      ref.expand.scrollLeft = 100000
-      ref.expand.scrollTop = 100000
-      ref.shrink.scrollLeft = 100000
-      ref.shrink.scrollTop = 100000
+      if (ref.expand) {
+        ref.expand.scrollLeft = 100000
+        ref.expand.scrollTop = 100000
+      }
+      if (ref.shrink) {
+        ref.shrink.scrollLeft = 100000
+        ref.shrink.scrollTop = 100000
+      }
     }
   },
   mounted () {
