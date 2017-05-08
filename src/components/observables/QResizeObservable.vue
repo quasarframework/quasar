@@ -65,6 +65,7 @@ export default {
     })
   },
   beforeDestroy () {
+    window.cancelAnimationFrame(this.timer)
     this.$emit('resize', {width: 0, height: 0})
   }
 }
