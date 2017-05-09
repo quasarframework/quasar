@@ -27,8 +27,7 @@
     ></div>
 
     <aside
-      ref="left"
-      class="layout-aside layout-aside-left"
+      class="layout-aside layout-aside-left scroll"
       :class="computedLeftClass"
       :style="computedLeftStyle"
       v-touch-pan.horizontal="__closeLeftByTouch"
@@ -41,8 +40,7 @@
     </aside>
 
     <aside
-      ref="right"
-      class="layout-aside layout-aside-right"
+      class="layout-aside layout-aside-right scroll"
       :class="computedRightClass"
       :style="computedRightStyle"
       v-touch-pan.horizontal="__closeRightByTouch"

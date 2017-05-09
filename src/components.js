@@ -37,7 +37,7 @@ export * from './components/search'
 export * from './components/select'
 export * from './components/slide-transition'
 export * from './components/slider'
-export * from './components/spinner' // ?
+export * from './components/spinner'
 export * from './components/stepper'
 export * from './components/tab'
 export * from './components/toggle'

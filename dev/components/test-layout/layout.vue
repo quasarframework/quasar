@@ -31,7 +31,7 @@
       <q-route-tab slot="title" icon="input" to="/test-layout/drawer" replace>Drawer</q-route-tab>
     </q-tabs>
 
-    <div slot="left">
+    <q-scroll-area slot="left" style="width: 100%; height: 100%;">
       <div>FirstL</div>
       <q-side-link class="item link" to="/test-layout/about">About</q-side-link>
       <q-side-link class="item link" to="/test-layout/toolbar">Toolbar</q-side-link>
@@ -40,9 +40,11 @@
       <div v-for="n in 60">left{{n}}</div>
       <q-input v-model="gigi" />
       <div>Last</div>
-    </div>
-    <div v-if="right" slot="right">
+    </q-scroll-area>
+
+    <div slot="right">
       <div>FirstR</div>
+      <q-side-link class="item link" to="/test-layout/about">About</q-side-link>
       <span id="gigi" class="bg-white text-black"></span>
       <span id="gogu"></span>
       <div v-for="n in 60">right{{n}}</div>

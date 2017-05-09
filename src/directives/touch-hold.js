@@ -13,12 +13,16 @@ function updateBinding (el, binding) {
 export default {
   name: 'touch-hold',
   bind (el, binding) {
+    const mouse = !binding.modifiers.nomouse
+
     let ctx = {
       start (evt) {
         const startTime = new Date().getTime()
         ctx.timer = setTimeout(() => {
-          document.removeEventListener('mousemove', ctx.mouseAbort)
-          document.removeEventListener('mouseup', ctx.mouseAbort)
+          if (mouse) {
+            document.removeEventListener('mousemove', ctx.mouseAbort)
+            document.removeEventListener('mouseup', ctx.mouseAbort)
+          }
 
           ctx.handler({
             evt,
@@ -28,8 +32,10 @@ export default {
         }, ctx.duration)
       },
       mouseStart (evt) {
-        document.addEventListener('mousemove', ctx.mouseAbort)
-        document.addEventListener('mouseup', ctx.mouseAbort)
+        if (mouse) {
+          document.addEventListener('mousemove', ctx.mouseAbort)
+          document.addEventListener('mouseup', ctx.mouseAbort)
+        }
         ctx.start(evt)
       },
       abort (evt) {
@@ -37,8 +43,10 @@ export default {
         ctx.timer = null
       },
       mouseAbort (evt) {
-        document.removeEventListener('mousemove', ctx.mouseAbort)
-        document.removeEventListener('mouseup', ctx.mouseAbort)
+        if (mouse) {
+          document.removeEventListener('mousemove', ctx.mouseAbort)
+          document.removeEventListener('mouseup', ctx.mouseAbort)
+        }
         ctx.abort(evt)
       }
     }
@@ -46,9 +54,11 @@ export default {
     el.__qtouchhold = ctx
     updateBinding(el, binding)
     el.addEventListener('touchstart', ctx.start)
-    el.addEventListener('touchmove', ctx.abort)
     el.addEventListener('touchend', ctx.abort)
-    el.addEventListener('mousedown', ctx.mouseStart)
+    if (mouse) {
+      el.addEventListener('touchmove', ctx.abort)
+      el.addEventListener('mousedown', ctx.mouseStart)
+    }
   },
   update (el, binding) {
     updateBinding(el, binding)
@@ -56,8 +66,8 @@ export default {
   unbind (el, binding) {
     let ctx = el.__qtouchhold
     el.removeEventListener('touchstart', ctx.start)
-    el.removeEventListener('touchmove', ctx.abort)
     el.removeEventListener('touchend', ctx.abort)
+    el.removeEventListener('touchmove', ctx.abort)
     el.removeEventListener('mousedown', ctx.mouseStart)
     document.removeEventListener('mousemove', ctx.mouseAbort)
     document.removeEventListener('mouseup', ctx.mouseAbort)

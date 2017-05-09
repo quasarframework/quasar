@@ -89,14 +89,18 @@ function shouldTrigger (ctx, changes) {
 export default {
   name: 'touch-pan',
   bind (el, binding) {
+    const mouse = !binding.modifiers.nomouse
+
     let ctx = {
       handler: binding.value,
       scroll: binding.modifiers.scroll,
       direction: getDirection(binding.modifiers),
 
       mouseStart (evt) {
-        document.addEventListener('mousemove', ctx.mouseMove)
-        document.addEventListener('mouseup', ctx.mouseEnd)
+        if (mouse) {
+          document.addEventListener('mousemove', ctx.mouseMove)
+          document.addEventListener('mouseup', ctx.mouseEnd)
+        }
         ctx.start(evt)
       },
       start (evt) {
@@ -151,8 +155,10 @@ export default {
         }
       },
       mouseEnd (evt) {
-        document.removeEventListener('mousemove', ctx.mouseMove)
-        document.removeEventListener('mouseup', ctx.mouseEnd)
+        if (mouse) {
+          document.removeEventListener('mousemove', ctx.mouseMove)
+          document.removeEventListener('mouseup', ctx.mouseEnd)
+        }
         ctx.end(evt)
       },
       end (evt) {
@@ -166,8 +172,10 @@ export default {
 
     el.__qtouchpan = ctx
     updateClasses(el, ctx.direction, ctx.scroll)
+    if (mouse) {
+      el.addEventListener('mousedown', ctx.mouseStart)
+    }
     el.addEventListener('touchstart', ctx.start)
-    el.addEventListener('mousedown', ctx.mouseStart)
     el.addEventListener('touchmove', ctx.move)
     el.addEventListener('touchend', ctx.end)
   },

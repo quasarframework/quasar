@@ -46,6 +46,8 @@ function updateClasses (el, dir) {
 export default {
   name: 'touch-swipe',
   bind (el, binding) {
+    const mouse = !binding.modifiers.nomouse
+
     let ctx = {
       handler: binding.value,
       direction: getDirection(binding.modifiers),
@@ -59,8 +61,10 @@ export default {
           detected: false,
           prevent: ctx.direction.horizontal && ctx.direction.vertical
         }
-        document.addEventListener('mousemove', ctx.move)
-        document.addEventListener('mouseup', ctx.end)
+        if (mouse) {
+          document.addEventListener('mousemove', ctx.move)
+          document.addEventListener('mouseup', ctx.end)
+        }
       },
       move (evt) {
         let
@@ -91,8 +95,10 @@ export default {
         }
       },
       end (evt) {
-        document.removeEventListener('mousemove', ctx.move)
-        document.removeEventListener('mouseup', ctx.end)
+        if (mouse) {
+          document.removeEventListener('mousemove', ctx.move)
+          document.removeEventListener('mouseup', ctx.end)
+        }
 
         let
           direction,
@@ -125,8 +131,10 @@ export default {
 
     el.__qtouchswipe = ctx
     updateClasses(el, ctx.direction)
+    if (mouse) {
+      el.addEventListener('mousedown', ctx.start)
+    }
     el.addEventListener('touchstart', ctx.start)
-    el.addEventListener('mousedown', ctx.start)
     el.addEventListener('touchmove', ctx.move)
     el.addEventListener('touchend', ctx.end)
   },

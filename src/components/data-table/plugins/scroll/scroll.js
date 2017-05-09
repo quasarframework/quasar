@@ -1,7 +1,5 @@
-import { getMouseWheelDirection } from '../../../../utils/event'
+import { getMouseWheelDistance } from '../../../../utils/event'
 import { getScrollbarWidth } from '../../../../utils/scroll'
-
-const wheelOffset = 40
 
 export default {
   data () {
@@ -31,7 +29,7 @@ export default {
       }
 
       let body = this.$refs.body
-      body.scrollTop -= getMouseWheelDirection(e) * wheelOffset
+      body.scrollTop += getMouseWheelDistance(e).pixelY
       if (body.scrollTop > 0 && body.scrollTop + body.clientHeight < body.scrollHeight) {
         e.preventDefault()
       }
