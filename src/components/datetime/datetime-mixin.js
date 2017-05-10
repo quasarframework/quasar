@@ -1,13 +1,21 @@
 import { between } from '../../utils/format'
 import { inline as props } from './datetime-props'
-import { convertDateToFormat, getDateBetween } from '../../utils/date'
+import { convertDateToFormat, getDateBetween, startOfDate } from '../../utils/date'
 
 export default {
   props,
   computed: {
     model: {
       get () {
-        return getDateBetween(this.value ? new Date(this.value) : new Date(), this.pmin, this.pmax)
+        let date = this.value
+          ? new Date(this.value)
+          : (this.defaultSelection ? new Date(this.defaultSelection) : startOfDate(new Date(), 'day'))
+
+        return getDateBetween(
+          date,
+          this.pmin,
+          this.pmax
+        )
       },
       set (val) {
         const date = getDateBetween(val, this.pmin, this.pmax)

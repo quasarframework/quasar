@@ -66,7 +66,7 @@ export default {
     delay: {
       type: Number,
       default: 1000
-    },
+    }
   },
   data () {
     return {

@@ -94,7 +94,7 @@
 
       </div>
 
-      <div class="q-datetime-highlight" v-if="value"></div>
+      <div class="q-datetime-highlight"></div>
       <div class="q-datetime-mask"></div>
     </div>
   </div>
@@ -110,6 +110,9 @@ import mixin from './datetime-mixin'
 export default {
   name: 'q-inline-datetime',
   mixins: [mixin],
+  props: {
+    defaultSelection: [String, Number, Date]
+  },
   data () {
     return {
       monthDragOffset: 0,

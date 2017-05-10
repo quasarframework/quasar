@@ -59,6 +59,10 @@
       <p class="caption">Date & Time</p>
       <q-datetime v-model="model" type="datetime" />
 
+      <p class="caption">Default Selection</p>
+      <q-datetime v-model="model" :default-selection="defaultSelection" type="datetime" />
+      <q-datetime v-model="model" :default-selection="defaultSelection" type="time" />
+
       <p class="caption">With Label</p>
       <q-datetime v-model="model" type="date" label="Pick Date" />
 
@@ -176,6 +180,7 @@ export default {
     return {
       // model: '2016-09-18T10:45:00.000Z',
       model: undefined,
+      defaultSelection: '2016-09-18T10:45:00.000Z',
 
       minMaxModel: date.formatDate(day),
 

@@ -1,7 +1,6 @@
 <template>
   <div class="q-datetime inline column gt-md-row" :class="{disabled: disable, readonly: readonly}">
-    <div class="q-datetime-header column justify-center" v-if="!value">&nbsp;</div>
-    <div class="q-datetime-header column justify-center" v-else>
+    <div class="q-datetime-header column justify-center">
       <div v-if="typeHasDate">
         <div class="q-datetime-weekdaystring">{{ weekDayString }}</div>
         <div class="q-datetime-datestring row gt-md-column items-center justify-center">
@@ -128,7 +127,7 @@
             <div
               v-for="monthDay in daysInterval"
               class="flex items-center content-center justify-center cursor-pointer"
-              :class="{active: value && monthDay === day}"
+              :class="{active: monthDay === day}"
               @click="setDay(monthDay)"
             >
               {{ monthDay }}
@@ -156,14 +155,14 @@
           >
             <div class="q-datetime-clock-circle full-width full-height">
               <div class="q-datetime-clock-center"></div>
-              <div class="q-datetime-clock-pointer" :style="clockPointerStyle" :class="{hidden: !value}">
+              <div class="q-datetime-clock-pointer" :style="clockPointerStyle">
                 <span></span>
               </div>
               <div v-if="format24h">
                 <div
                   v-for="n in 24"
                   class="q-datetime-clock-position fmt24"
-                  :class="[`q-datetime-clock-pos-${n-1}`, value && (n - 1) === hour ? 'active' : '']"
+                  :class="[`q-datetime-clock-pos-${n-1}`, (n - 1) === hour ? 'active' : '']"
                 >
                   {{ n - 1 }}
                 </div>
@@ -172,7 +171,7 @@
                 <div
                   v-for="n in 12"
                   class="q-datetime-clock-position"
-                  :class="['q-datetime-clock-pos-' + n, value && n === hour ? 'active' : '']"
+                  :class="['q-datetime-clock-pos-' + n, n === hour ? 'active' : '']"
                 >
                   {{ n }}
                 </div>
@@ -228,6 +227,9 @@ function convertToAmPm (hour) {
 export default {
   name: 'q-inline-datetime',
   mixins: [mixin],
+  props: {
+    defaultSelection: [String, Number, Date]
+  },
   components: {
     QIcon,
     QBtn

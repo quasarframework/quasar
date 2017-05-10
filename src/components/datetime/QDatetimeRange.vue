@@ -2,7 +2,7 @@
   <div class="q-datetime-range">
     <q-datetime
       v-model="model.from"
-      :default-selection="defaultSelection"
+      :default-selection="defaultFrom"
       :type="type"
       :min="min"
       :max="model.to || max"
@@ -27,7 +27,7 @@
 
     <q-datetime
       v-model="model.to"
-      :default-selection="defaultSelection"
+      :default-selection="defaultTo"
       :type="type"
       :min="model.from || min"
       :max="max"
@@ -62,15 +62,21 @@ export default {
   components: {
     QDatetime
   },
-  props: extend({}, input, inline, {
-    value: {
-      type: Object,
-      validator: val => 'from' in val && 'to' in val,
-      required: true
-    },
-    className: [String, Object],
-    css: [String, Object]
-  }),
+  props: extend(
+    input,
+    inline,
+    {
+      value: {
+        type: Object,
+        validator: val => 'from' in val && 'to' in val,
+        required: true
+      },
+      className: [String, Object],
+      css: [String, Object],
+      defaultFrom: [String, Number, Date],
+      defaultTo: [String, Number, Date]
+    }
+  ),
   computed: {
     model: {
       get () {

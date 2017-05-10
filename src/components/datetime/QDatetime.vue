@@ -22,7 +22,9 @@
       :anchor-click="false"
     >
       <q-inline-datetime
+        ref="target"
         v-model="model"
+        :default-selection="defaultSelection"
         :type="type"
         :min="min"
         :max="max"
@@ -34,7 +36,7 @@
           <q-btn v-if="!noClear && model" @click="clear()" class="primary clear" v-html="clearLabel"></q-btn>
           <div class="auto"></div>
           <q-btn @click="close()" class="primary clear" v-html="cancelLabel"></q-btn>
-          <q-btn v-if="model" @click="close(__update)" class="primary clear" v-html="okLabel"></q-btn>
+          <q-btn @click="close(__update)" class="primary clear" v-html="okLabel"></q-btn>
         </div>
       </q-inline-datetime>
     </q-popover>
@@ -49,7 +51,9 @@
       :content-css="css"
     >
       <q-inline-datetime
+        ref="target"
         v-model="model"
+        :default-selection="defaultSelection"
         :type="type"
         :min="min"
         :max="max"
@@ -61,7 +65,7 @@
           <q-btn v-if="!noClear && model" @click="clear()" class="primary clear" v-html="clearLabel"></q-btn>
           <div class="auto"></div>
           <q-btn @click="close()" class="primary clear" v-html="cancelLabel"></q-btn>
-          <q-btn v-if="model" @click="close(__update)" class="primary clear" v-html="okLabel"></q-btn>
+          <q-btn @click="close(__update)" class="primary clear" v-html="okLabel"></q-btn>
         </div>
       </q-inline-datetime>
     </q-modal>
@@ -102,7 +106,7 @@ export default {
     QInlineDatetime,
     QBtn
   },
-  props: extend({}, input, inline),
+  props: extend({defaultSelection: [String, Number, Date]}, input, inline),
   data () {
     let data = Platform.is.desktop ? {} : {
       css: contentCSS[theme],
@@ -161,10 +165,10 @@ export default {
       }, 1)
     },
     __setModel () {
-      this.model = this.value || this.defaultSelection
+      this.model = this.value
     },
     __update () {
-      this.$emit('input', this.model)
+      this.$emit('input', this.model || this.$refs.target.model)
     }
   }
 }

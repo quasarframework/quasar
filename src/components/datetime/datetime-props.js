@@ -61,7 +61,6 @@ export const input = {
     type: String,
     default: 'Cancel'
   },
-  defaultSelection: [String, Number, Date],
   floatLabel: String,
   stackedLabel: String,
   placeholder: String,

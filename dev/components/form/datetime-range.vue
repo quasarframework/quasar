@@ -21,10 +21,23 @@
         Date Range
       </p>
       <q-datetime-range type="date" v-model="first.range" :min="first.min" :max="first.max" />
+
       <p class="caption">
         Datetime Range
       </p>
       <q-datetime-range type="datetime" v-model="first.range" :min="first.min" :max="first.max" />
+
+      <p class="caption">
+        Datetime Range with Default Selection
+      </p>
+      <q-datetime-range
+        type="datetime"
+        v-model="defaults.range"
+        :min="defaults.min"
+        :max="defaults.max"
+        :default-from="defaults.from"
+        :default-to="defaults.to"
+      />
 
       <br>
       <h5>Time</h5>
@@ -69,6 +82,16 @@ export default {
           from: new Date(day).setDate(day.getDate() - 3),
           to: new Date(new Date(new Date(day).setMonth(day.getMonth() + 1)).setHours(day.getHours() + 4)).setMinutes(day.getMinutes() + 10)
         }
+      },
+      defaults: {
+        min: new Date(day).setDate(day.getDate() - 5),
+        max: new Date(new Date(new Date(day).setDate(day.getDate() + 1)).setHours(day.getHours() + 4)).setMinutes(day.getMinutes() + 10),
+        range: {
+          from: null,
+          to: null
+        },
+        from: '2016-10-22T10:10:00.000Z',
+        to: '2016-10-24T23:23:00.000Z'
       },
       second: {
         min: new Date(new Date().setHours(3)).setMinutes(15),
