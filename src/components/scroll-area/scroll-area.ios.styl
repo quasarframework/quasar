@@ -1,9 +1,11 @@
 .q-scrollarea-thumb
   background black
-  opacity 0
+  right 2px
+  width 10px
+  opacity .25
   transition opacity .3s
-  &.visible
-    opacity .25
+  &.invisible-thumb
+    opacity 0 !important
 
 .q-scrollarea > .absolute
   width 100%

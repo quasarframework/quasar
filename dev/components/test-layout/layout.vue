@@ -31,7 +31,7 @@
       <q-route-tab slot="title" icon="input" to="/test-layout/drawer" replace>Drawer</q-route-tab>
     </q-tabs>
 
-    <q-scroll-area slot="left" style="width: 100%; height: 100%;">
+    <q-scroll-area slot="left" style="width: 100%; height: 100%;" :thumb-style="{right: '4px', borderRadius: '5px', background: 'red', opacity: 1}">
       <div>FirstL</div>
       <q-side-link class="item link" to="/test-layout/about">About</q-side-link>
       <q-side-link class="item link" to="/test-layout/toolbar">Toolbar</q-side-link>

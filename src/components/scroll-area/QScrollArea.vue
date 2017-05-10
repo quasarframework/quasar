@@ -16,8 +16,8 @@
     <q-resize-observable @resize="__updateContainer"></q-resize-observable>
     <div
       class="q-scrollarea-thumb absolute-right"
-      :style="thumbStyle"
-      :class="{visible: thumbVisible}"
+      :style="style"
+      :class="{'invisible-thumb': thumbHidden}"
       v-touch-pan.vertical="__panThumb"
     ></div>
   </div>
@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import extend from '../../utils/extend'
 import { between } from '../../utils/format'
 import { getMouseWheelDistance } from '../../utils/event'
 import { QResizeObservable, QScrollObservable } from '../observables'
@@ -45,9 +46,11 @@ export default {
     TouchPan
   },
   props: {
-    width: {
-      type: String,
-      default: '10px'
+    thumbStyle: {
+      type: Object,
+      default () {
+        return {}
+      }
     },
     delay: {
       type: Number,
@@ -64,22 +67,21 @@ export default {
     }
   },
   computed: {
-    thumbVisible () {
-      return this.thumbHeight < this.scrollHeight && (this.active || this.hover)
+    thumbHidden () {
+      return this.thumbHeight >= this.scrollHeight || (!this.active && !this.hover)
     },
     thumbHeight () {
       return Math.round(Math.max(20, this.containerHeight * this.containerHeight / this.scrollHeight))
     },
-    thumbStyle () {
+    style () {
       const top = Math.min(
         this.scrollPosition + (this.scrollPercentage * (this.containerHeight - this.thumbHeight)),
         this.scrollHeight - this.thumbHeight
       )
-      return {
+      return extend({}, this.thumbStyle, {
         top: `${top}px`,
-        width: this.width,
         height: `${this.thumbHeight}px`
-      }
+      })
     },
     scrollPercentage () {
       const p = between(this.scrollPosition / (this.scrollHeight - this.containerHeight), 0, 1)
