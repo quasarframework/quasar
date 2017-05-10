@@ -7,7 +7,7 @@
     @mouseenter="hover = true"
     @mouseleave="hover = false"
   >
-    <div class="absolute" v-touch-pan.vertical.nomouse="__panContainer">
+    <div class="absolute" v-touch-pan.vertical.nomouse="__panContainer" :style="mainStyle">
       <slot></slot>
       <q-resize-observable @resize="__updateScrollHeight"></q-resize-observable>
       <q-scroll-observable @scroll="__updateScroll"></q-scroll-observable>
@@ -24,6 +24,7 @@
   <div
     v-else
     class="scroll relative-position"
+    :style="contentStyle"
   >
     <slot></slot>
   </div>
@@ -48,14 +49,21 @@ export default {
   props: {
     thumbStyle: {
       type: Object,
-      default () {
-        return {}
-      }
+      default: () => ({})
     },
+    contentStyle: {
+      type: Object,
+      default: () => ({})
+    },
+    thumbWidth: {
+      type: Number,
+      default: 10
+    },
+    noOverlap: Boolean,
     delay: {
       type: Number,
       default: 1000
-    }
+    },
   },
   data () {
     return {
@@ -78,10 +86,17 @@ export default {
         this.scrollPosition + (this.scrollPercentage * (this.containerHeight - this.thumbHeight)),
         this.scrollHeight - this.thumbHeight
       )
-      return extend({}, this.thumbStyle, {
+      return extend({width: '10px', right: '0px'}, this.thumbStyle, {
         top: `${top}px`,
         height: `${this.thumbHeight}px`
       })
+    },
+    mainStyle () {
+      return extend(
+        {},
+        this.contentStyle,
+        this.noOverlap && !this.thumbHidden ? {paddingRight: `calc(${this.style.width} + ${this.style.right})`} : {}
+      )
     },
     scrollPercentage () {
       const p = between(this.scrollPosition / (this.scrollHeight - this.containerHeight), 0, 1)
@@ -123,6 +138,10 @@ export default {
       this.$el.scrollTop = this.refPos + sign * e.distance.y * multiplier
     },
     __panContainer (e) {
+      if (e.evt.target.closest('.scroll') !== this.$el) {
+        return
+      }
+
       if (e.isFirst) {
         this.refPos = this.scrollPosition
         this.__setActive(true, true)
@@ -139,6 +158,9 @@ export default {
     },
     __mouseWheel (e) {
       const el = this.$el
+      if (e.target.closest('.scroll') !== el) {
+        return
+      }
       el.scrollTop += getMouseWheelDistance(e).pixelY
       if (el.scrollTop > 0 && el.scrollTop + this.containerHeight < this.scrollHeight) {
         e.preventDefault()
