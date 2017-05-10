@@ -55,11 +55,14 @@ export default {
       type: Object,
       default: () => ({})
     },
+    contentActiveStyle: {
+      type: Object,
+      default: () => ({})
+    },
     thumbWidth: {
       type: Number,
       default: 10
     },
-    noOverlap: Boolean,
     delay: {
       type: Number,
       default: 1000
@@ -86,17 +89,13 @@ export default {
         this.scrollPosition + (this.scrollPercentage * (this.containerHeight - this.thumbHeight)),
         this.scrollHeight - this.thumbHeight
       )
-      return extend({width: '10px', right: '0px'}, this.thumbStyle, {
+      return extend({}, this.thumbStyle, {
         top: `${top}px`,
         height: `${this.thumbHeight}px`
       })
     },
     mainStyle () {
-      return extend(
-        {},
-        this.contentStyle,
-        this.noOverlap && !this.thumbHidden ? {paddingRight: `calc(${this.style.width} + ${this.style.right})`} : {}
-      )
+      return this.thumbHidden ? this.contentStyle : this.contentActiveStyle
     },
     scrollPercentage () {
       const p = between(this.scrollPosition / (this.scrollHeight - this.containerHeight), 0, 1)
