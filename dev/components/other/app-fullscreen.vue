@@ -9,7 +9,7 @@
 
       <p>
         <q-btn
-          class="secondary"
+          color="secondary"
           @click="toggleFullscreen()"
         >
           <q-icon class="on-left" name="zoom_out_map" />

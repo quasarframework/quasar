@@ -1,15 +1,15 @@
 <template>
   <div>
     <q-fixed-position corner="top-right" :offset="{top: '18px', right: '18px'}">
-      <q-btn class="primary" circular @click="alert" icon="alarm" />
+      <q-btn round color="primary" @click="alert" icon="alarm" />
     </q-fixed-position>
     <!--
     <q-fixed-position corner="bottom-right" :offset="{right: '18px', bottom: '18px'}">
-      <q-btn class="primary" circular @click="alert" icon="cloud" />
+      <q-btn color="primary" round @click="alert" icon="cloud" />
     </q-fixed-position>
     -->
 
-    <q-btn class="primary absolute-top-left" circular @click="alert" icon="wifi" />
+    <q-btn color="primary" round class="absolute-top-left" @click="alert" icon="wifi" />
 
     <!--
     <q-move selector="#gigi">

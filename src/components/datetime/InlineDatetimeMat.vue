@@ -99,8 +99,10 @@
         >
           <div class="row items-center content-center">
             <q-btn
-              circular
-              class="primary clear small"
+              round
+              small
+              flat
+              color="primary"
               @click="setMonth(month - 1, true)"
             >
               <q-icon name="keyboard_arrow_left"></q-icon>
@@ -109,8 +111,10 @@
               {{ monthStamp }}
             </div>
             <q-btn
-              circular
-              class="primary clear small"
+              round
+              small
+              flat
+              color="primary"
               @click="setMonth(month + 1, true)"
             >
               <q-icon name="keyboard_arrow_right"></q-icon>

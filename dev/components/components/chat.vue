@@ -13,7 +13,7 @@
       />
       <div class="row">
         <q-input v-model="message" />
-        <q-btn class="primary" @click="send">Send</q-btn>
+        <q-btn color="primary" @click="send">Send</q-btn>
       </div>
     </div>
   </div>

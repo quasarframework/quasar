@@ -4,7 +4,15 @@
     :class="{opened: opened}"
   >
     <div class="backdrop animate-fade" @click="toggle(true)" :style="backdropPosition"></div>
-    <q-btn class="circular raised" @click="toggle()" :class="classNames">
+    <q-btn
+      @click="toggle()"
+      round
+      :class="classNames"
+      :outline="outline"
+      :push="push"
+      :flat="flat"
+      :color="color"
+    >
       <q-icon :name="icon" class="q-fab-icon"></q-icon>
       <q-icon :name="activeIcon" class="q-fab-active-icon"></q-icon>
     </q-btn>
@@ -19,6 +27,7 @@ import { offset, cssTransform } from '../../utils/dom'
 import Platform from '../../features/platform'
 import { QBtn } from '../btn'
 import { QIcon } from '../icon'
+import FabMixin from './fab-mixin'
 
 function iosFixNeeded (el) {
   if (Platform.is.mobile && Platform.is.ios) {
@@ -29,14 +38,13 @@ function iosFixNeeded (el) {
 
 export default {
   name: 'q-fab',
+  mixins: [FabMixin],
   components: {
     QBtn,
     QIcon
   },
   props: {
-    classNames: {
-      default: 'primary'
-    },
+    classNames: String,
     icon: {
       type: String,
       default: 'add'

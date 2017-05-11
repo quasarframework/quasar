@@ -110,7 +110,7 @@
           <div class="card">
             <div class="card-media">
               <img src="~assets/map.png">
-              <q-btn class="primary circular"><q-icon name="explore" /></q-btn>
+              <q-btn color="primary" round><q-icon name="explore" /></q-btn>
             </div>
             <div class="card-content">
               <div class="item">
@@ -149,7 +149,7 @@
                 (1 mile)
               </div>
               <div class="auto"></div>
-              <q-btn class="primary clear small" icon="directions">
+              <q-btn flat color="primary" small icon="directions">
                 Start
               </q-btn>
             </div>

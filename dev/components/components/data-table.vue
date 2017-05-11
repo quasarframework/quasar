@@ -104,10 +104,10 @@
         </template>
 
         <template slot="selection" scope="props">
-          <q-btn class="primary clear" @click="changeMessage(props)">
+          <q-btn flat color="primary" @click="changeMessage(props)">
             <q-icon name="edit" />
           </q-btn>
-          <q-btn class="primary clear" @click="deleteRow(props)">
+          <q-btn flat color="primary" @click="deleteRow(props)">
             <q-icon name="delete" />
           </q-btn>
         </template>

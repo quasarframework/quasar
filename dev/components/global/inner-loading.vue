@@ -5,7 +5,7 @@
         Click or tap below, to see the innerLoading component work with a div.
         It is simulating a delay from a server reply.
       </p>
-      <q-btn class="primary" @click="showTextLoading()">
+      <q-btn color="primary" @click="showTextLoading()">
         Show Text Loading
       </q-btn>
     </div>

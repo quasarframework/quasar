@@ -55,7 +55,7 @@ export default {
       spinners: [
         'audio', 'ball', 'bars', 'circles', 'dots',
         'facebook', 'gears', 'grid', 'hearts',
-        'hourglass', 'infinity', 'ios', 'oval',
+        'hourglass', 'infinity', 'ios', 'mat', 'oval',
         'pie', 'puff', 'radio', 'rings', 'tail'
       ],
       colorOptions: [

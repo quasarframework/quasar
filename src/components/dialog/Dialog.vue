@@ -90,14 +90,19 @@
         v-for="button in buttons"
         :key="button"
         @click="trigger(button.handler, button.preventClose)"
-        :class="button.classes || 'primary clear'"
+        :class="button.classes"
         :style="button.style"
-        v-html="typeof button === 'string' ? button : button.label"
-        tabindex="0"
-      ></q-btn>
+        :color="button.color"
+        :flat="button.flat || !button.raised && !button.push && !button.outline && !button.rounded"
+        :push="button.push"
+        :rounded="button.rounded"
+        :outline="button.outline"
+      >
+        <span v-html="typeof button === 'string' ? button : button.label"></span>
+      </q-btn>
     </div>
     <div class="modal-buttons row" v-if="!buttons && !nobuttons">
-      <q-btn class="primary clear" @click="close()" tabindex="0">OK</q-btn>
+      <q-btn flat @click="close()">OK</q-btn>
     </div>
   </q-modal>
 </template>

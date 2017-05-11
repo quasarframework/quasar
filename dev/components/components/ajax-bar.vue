@@ -6,7 +6,7 @@
 
       <div class="card" style="margin-top: 25px">
         <div class="card-title bg-primary text-center">
-          <q-btn class="orange push" @click="trigger()">Trigger Event</q-btn>
+          <q-btn push color="orange" @click="trigger()">Trigger Event</q-btn>
         </div>
 
         <p class="caption text-center">Try out some combinations for Ajax Bar.</p>

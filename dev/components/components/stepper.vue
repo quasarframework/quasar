@@ -36,7 +36,7 @@
             Go ahead and press "Continue" to move to the next step. If you want to go back a step in the process, press "Back".
           </p>
           <div style="margin-top: 35px">
-            <q-btn class="primary" @click="next">{{ buttonText }}</q-btn>
+            <q-btn color="primary" @click="next">{{ buttonText }}</q-btn>
           </div>
         </q-step-pane>
         <q-step-pane :step="2">
@@ -49,8 +49,8 @@
             Check to Continue
           </label>
           <div style="margin-top: 35px">
-            <q-btn :disable="toggeled" :class="buttonClasses" @click="next">{{ buttonText }}</q-btn>
-            <q-btn class="primary clear" @click="$refs.stepper1.previous()">Back</q-btn>
+            <q-btn :disable="toggeled || buttonDisabled2" color="primary" @click="next">{{ buttonText }}</q-btn>
+            <q-btn flat color="primary" @click="$refs.stepper1.previous()">Back</q-btn>
           </div>
         </q-step-pane>
         <q-step-pane :step="3">
@@ -76,8 +76,8 @@
           </p>
 
           <div style="margin-top: 35px">
-            <q-btn :disable="buttonDisabled" :class="buttonClasses" @click="next">{{ buttonText }}</q-btn>
-            <q-btn class="primary clear" @click="$refs.stepper1.previous()">Back</q-btn>
+            <q-btn :disable="buttonDisabled2" color="primary" @click="next">{{ buttonText }}</q-btn>
+            <q-btn flat color="primary" @click="$refs.stepper1.previous()">Back</q-btn>
           </div>
         </q-step-pane>
 
@@ -89,8 +89,8 @@
           <input v-model="firstName" placeholder="Add your first name here!">
 
           <div style="margin-top: 35px">
-            <q-btn :disable="buttonDisabled" :class="buttonClasses" @click="next">{{ buttonText }}</q-btn>
-            <q-btn class="primary clear" @click="$refs.stepper1.previous()">Back</q-btn>
+            <q-btn :disable="buttonDisabled || buttonDisabled2" color="primary" @click="next">{{ buttonText }}</q-btn>
+            <q-btn flat color="primary" @click="$refs.stepper1.previous()">Back</q-btn>
           </div>
         </q-step-pane>
 
@@ -103,8 +103,8 @@
             Enjoy Quasar and have fun!
           </p>
           <div style="margin-top: 35px">
-            <q-btn class="primary" @click="reset()">{{ buttonText }}</q-btn>
-            <q-btn class="primary clear" @click="$refs.stepper1.previous()">Back</q-btn>
+            <q-btn color="primary" @click="reset()">{{ buttonText }}</q-btn>
+            <q-btn flat color="primary" @click="$refs.stepper1.previous()">Back</q-btn>
           </div>
         </q-step-pane>
       </q-stepper>
@@ -146,9 +146,9 @@
         </q-step-pane>
 
         <q-stepper-navigation>
-          <q-btn slot="left" class="primary clear" :disabled="step < 2" @click="$refs.stepper2.previous()">Back</q-btn>
-          <q-btn class="primary clear">Cancel</q-btn>
-          <q-btn class="primary" @click="$refs.stepper2.next()">{{ buttonText }}</q-btn>
+          <q-btn slot="left" flat color="primary" :disabled="step < 2" @click="$refs.stepper2.previous()">Back</q-btn>
+          <q-btn flat color="primary">Cancel</q-btn>
+          <q-btn color="primary" @click="$refs.stepper2.next()">{{ buttonText }}</q-btn>
         </q-stepper-navigation>
       </q-stepper>
 
@@ -162,7 +162,7 @@
           For each ad campaign that you create, you can control how much you're willing to spend on clicks and conversions, which networks and geographical locations you want your ads to show on, and more.
 
           <div style="margin-top: 35px">
-            <q-btn class="primary" @click="$refs.stepper3.next()">Continue</q-btn>
+            <q-btn color="primary" @click="$refs.stepper3.next()">Continue</q-btn>
           </div>
         </q-step-pane>
 
@@ -174,8 +174,8 @@
           An ad group contains one or more ads which target a shared set of keywords.
 
           <div style="margin-top: 35px">
-            <q-btn class="primary" @click="$refs.stepper3.next()">Continue</q-btn>
-            <q-btn class="primary clear" @click="$refs.stepper3.previous()">Back</q-btn>
+            <q-btn color="primary" @click="$refs.stepper3.next()">Continue</q-btn>
+            <q-btn flat color="primary" @click="$refs.stepper3.previous()">Back</q-btn>
           </div>
         </q-step-pane>
 
@@ -186,8 +186,8 @@
           Try out different ad text to see what brings in the most customers, and learn how to enhance your ads using features like ad extensions. If you run into any problems with your ads, find out how to tell if they're running and how to resolve approval issues.
 
           <div style="margin-top: 35px">
-            <q-btn class="primary" @click="$refs.stepper3.next()">Continue</q-btn>
-            <q-btn class="primary clear" @click="$refs.stepper3.previous()">Back</q-btn>
+            <q-btn color="primary" @click="$refs.stepper3.next()">Continue</q-btn>
+            <q-btn flat color="primary" @click="$refs.stepper3.previous()">Back</q-btn>
           </div>
         </q-step-pane>
 
@@ -199,14 +199,16 @@
           Try out different ad text to see what brings in the most customers, and learn how to enhance your ads using features like ad extensions. If you run into any problems with your ads, find out how to tell if they're running and how to resolve approval issues.
 
           <div style="margin-top: 35px">
-            <q-btn class="primary" @click="$refs.stepper3.goToStep(1)">Continue</q-btn>
-            <q-btn class="primary clear" @click="$refs.stepper3.previous()">Back</q-btn>
+            <q-btn color="primary" @click="$refs.stepper3.goToStep(1)">Continue</q-btn>
+            <q-btn flat color="primary" @click="$refs.stepper3.previous()">Back</q-btn>
           </div>
         </q-step-pane>
       </q-stepper>
 
       <q-btn
-        class="primary small fixed-bottom-right"
+        color="primary"
+        small
+        class="fixed-bottom-right"
         style="right: 18px; bottom: 18px;"
         @click="reset"
       >
@@ -261,14 +263,12 @@ export default {
       ? 'Continue'
       : 'Finish'
     },
-    buttonClasses () {
-      if ((this.step === 2 && !this.toggeledOn) ||
-          (this.step === 3 && this.option === 'opt2') ||
-          (this.step === 4 && this.firstName === '')
-          ) {
-        return 'primary disabled'
-      }
-      return 'primary'
+    buttonDisabled2 () {
+      return (
+        (this.step === 2 && !this.toggeledOn) ||
+        (this.step === 3 && this.option === 'opt2') ||
+        (this.step === 4 && this.firstName === '')
+      )
     },
     buttonDisabled () {
       if ((this.step === 3 && this.option === 'opt2') ||

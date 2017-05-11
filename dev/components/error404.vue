@@ -8,11 +8,11 @@
         <q-icon class="text-grey-5" name="error_outline" />
         <p class="caption text-center">Oops. Nothing here...</p>
         <p class="text-center group">
-          <q-btn v-if="canGoBack" class="grey push small" @click="goBack" icon="keyboard_arrow_left">
+          <q-btn v-if="canGoBack" push small color="grey" @click="goBack" icon="keyboard_arrow_left">
             Go back
           </q-btn>
           <router-link to="/">
-            <q-btn class="grey push small" icon-right="home">
+            <q-btn color="grey" push small icon-right="home">
               Go home
             </q-btn>
           </router-link>

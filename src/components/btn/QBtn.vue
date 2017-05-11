@@ -1,17 +1,32 @@
 <template>
   <button
-    class="q-btn"
     v-ripple.mat
     @click="click"
-    :class="{circular: circular}"
+    class="q-btn row inline items-center justify-center"
+    :class="{
+      disabled: disable || loading,
+      'q-btn-outline': outline,
+      'q-btn-flat': flat,
+      'q-btn-rounded': rounded,
+      'q-btn-push': push,
+      [shape]: true,
+      [size]: true,
+      [`bg-${color}`]: color && !flat && !outline,
+      [`text-${flat || outline ? color : 'white'}`]: color
+    }"
   >
-    <slot name="spinner" v-if="spinning">
-      <q-spinner color="currentColor" :size="18"></q-spinner>
-    </slot>
+    <div class="q-btn-active absolute-full"></div>
+    <span class="q-btn-inner flex auto items-center justify-center">
+      <slot v-if="loading" name="loading">
+        <q-spinner color="currentColor"></q-spinner>
+      </slot>
 
-    <q-icon v-if="icon && !spinning" :name="icon" :class="{'on-left': !circular}"></q-icon>
-    <slot v-if="(circular && !spinning) || !circular"></slot>
-    <q-icon v-if="iconRight && !circular" :name="iconRight" class="on-right"></q-icon>
+      <template v-else>
+        <q-icon v-if="icon" :name="icon" :class="{'on-left': !round}"></q-icon>
+        <slot></slot>
+        <q-icon v-if="!round && iconRight" :name="iconRight" class="on-right"></q-icon>
+      </template>
+    </span>
   </button>
 </template>
 
@@ -32,37 +47,51 @@ export default {
   props: {
     value: Boolean,
     disable: Boolean,
-    spinner: Boolean,
-    circular: Boolean,
+    loader: Boolean,
     icon: String,
-    iconRight: String
+    iconRight: String,
+    round: Boolean,
+    outline: Boolean,
+    flat: Boolean,
+    rounded: Boolean,
+    push: Boolean,
+    small: Boolean,
+    big: Boolean,
+    color: String
   },
   data () {
     return {
-      spinning: this.value || false
+      loading: this.value || false
     }
   },
   watch: {
     value (val) {
-      if (this.spinning !== val) {
-        this.spinning = val
+      if (this.loading !== val) {
+        this.loading = val
       }
+    }
+  },
+  computed: {
+    size () {
+      return `q-btn-${this.small ? 'small' : (this.big ? 'big' : 'standard')}`
+    },
+    shape () {
+      return `q-btn-${this.round ? 'round' : 'rectangle'}`
     }
   },
   methods: {
     click (e) {
-      if (this.$q.platform.is.desktop) {
-        this.$el.blur()
-      }
-      if (this.disable || this.spinning) {
+      this.$el.blur()
+
+      if (this.disable || this.loading) {
         return
       }
-      if (this.spinner !== false || this.$slots.spinner) {
-        this.spinning = true
+      if (this.loader !== false || this.$slots.loading) {
+        this.loading = true
         this.$emit('input', true)
       }
       this.$emit('click', e, () => {
-        this.spinning = false
+        this.loading = false
         this.$emit('input', false)
       })
     }

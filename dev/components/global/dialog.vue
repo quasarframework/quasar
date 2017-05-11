@@ -82,6 +82,7 @@ export default {
                 },
                 {
                   label: 'Agree',
+                  raised: true,
                   handler () {
                     Toast.create('Agreed!')
                   }
@@ -96,16 +97,17 @@ export default {
           handler () {
             Dialog.create({
               title: 'Confirm',
-              message: 'Custom button classes.',
+              message: 'Customized buttons.',
               buttons: [
                 {
                   label: 'Disagree',
-                  classes: 'negative clear',
+                  color: 'negative',
+                  outline: true,
                   style: 'text-decoration: underline'
                 },
                 {
                   label: 'Agree',
-                  classes: 'positive'
+                  color: 'positive'
                 }
               ]
             })
@@ -140,6 +142,8 @@ export default {
                 },
                 {
                   label: 'No Thanks',
+                  color: 'primary',
+                  raised: true,
                   handler () {
                     console.log('Ok, no superhero.')
                   }

@@ -1,5 +1,5 @@
 <template>
-  <q-btn class="circular small raised" @click="$parent.close()">
+  <q-btn round small @click="click" :outline="outline" :push="push" :flat="flat" :color="color">
     <q-icon :name="icon"></q-icon>
     <slot></slot>
   </q-btn>
@@ -8,9 +8,11 @@
 <script>
 import { QBtn } from '../btn'
 import { QIcon } from '../icon'
+import FabMixin from './fab-mixin'
 
 export default {
   name: 'q-small-fab',
+  mixins: [FabMixin],
   components: {
     QBtn,
     QIcon
@@ -19,6 +21,12 @@ export default {
     icon: {
       type: String,
       required: true
+    }
+  },
+  methods: {
+    click (e) {
+      this.$parent.close()
+      this.$emit('click', e)
     }
   }
 }

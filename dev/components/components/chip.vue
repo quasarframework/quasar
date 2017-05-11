@@ -10,12 +10,12 @@
       </p>
       <p>
         <q-chip class="bg-primary text-white">
-          <q-icon name="alarm" />
+          <q-icon name="alarm" class="on-left" />
           q-chip
         </q-chip>
         <q-chip class="bg-primary text-white">
           q-chip
-          <q-icon name="alarm" />
+          <q-icon name="alarm" class="on-right" />
         </q-chip>
       </p>
       <p>
@@ -59,12 +59,12 @@
 
       <p class="caption">Floating Label Chips</p>
       <p>
-        <q-btn class="light relative-position">
+        <q-btn color="light" class="text-black relative-position">
           Inbox
           <q-chip label floating  class="bg-primary text-white">22</q-chip>
         </q-btn>
         &nbsp;&nbsp;
-        <q-btn class="red relative-position">
+        <q-btn color="red" class="relative-position">
           Inbox
           <q-chip label floating class="bg-dark">22</q-chip>
         </q-btn>

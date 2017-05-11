@@ -48,7 +48,7 @@
     <q-modal ref="basicModal" :content-css="{padding: '50px', minWidth: '50vw'}">
       <h4>Basic Modal</h4>
       <p v-for="n in 25">Scroll down to close</p>
-      <q-btn class="primary" @click="$refs.basicModal.close()">Close</q-btn>
+      <q-btn color="primary" @click="$refs.basicModal.close()">Close</q-btn>
     </q-modal>
 
     <q-modal
@@ -60,13 +60,13 @@
     >
       <h4>Modal with Events</h4>
       <p v-for="n in 25">Scroll down to close</p>
-      <q-btn class="primary" @click="$refs.eventsModal.close()">Close</q-btn>
+      <q-btn color="primary" @click="$refs.eventsModal.close()">Close</q-btn>
     </q-modal>
 
     <q-modal ref="layoutModal" :content-css="{minWidth: '80vw', minHeight: '80vh'}">
       <q-modal-layout>
         <div slot="header" class="q-toolbar">
-          <q-btn @click="$refs.layoutModal.close()">
+          <q-btn flat @click="$refs.layoutModal.close()">
             <q-icon name="keyboard_arrow_left" />
           </q-btn>
           <div class="q-toolbar-title">
@@ -87,7 +87,7 @@
         <div class="layout-padding">
           <h1>Modal</h1>
 
-          <q-btn class="primary" @click="$refs.layoutModal.close()">Close</q-btn>
+          <q-btn color="primary" @click="$refs.layoutModal.close()">Close</q-btn>
           <p class="caption" v-for="n in 15">This is a Modal presenting a Layout.</p>
         </div>
       </q-modal-layout>
@@ -96,17 +96,17 @@
     <q-modal ref="minimizedModal" class="minimized" :content-css="{padding: '50px'}">
       <h4>Minimized Modal</h4>
       <p>This one has backdrop on small screens too.</p>
-      <q-btn class="red" @click="$refs.minimizedModal.close()">Close Me</q-btn>
+      <q-btn color="red" @click="$refs.minimizedModal.close()">Close Me</q-btn>
     </q-modal>
 
     <q-modal ref="maximizedModal" class="maximized" :content-css="{padding: '50px'}">
       <h4>Maximized Modal</h4><p>This one is maximized on bigger screens too.</p>
-      <q-btn class="tertiary" @click="$refs.maximizedModal.close()">Close Me</q-btn>
+      <q-btn color="tertiary" @click="$refs.maximizedModal.close()">Close Me</q-btn>
     </q-modal>
 
     <q-modal ref="positionModal" :position="position" :content-css="{padding: '20px'}">
       <h4>Modal</h4><p>This one gets displayed from {{position}}.</p>
-      <q-btn class="orange" @click="$refs.positionModal.close()">Close Me</q-btn>
+      <q-btn color="orange" @click="$refs.positionModal.close()">Close Me</q-btn>
     </q-modal>
   </div>
 </template>

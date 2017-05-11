@@ -2,7 +2,7 @@
   <div class="layout-padding" style="max-width: 600px;">
     <div class="card" style="margin-top: 25px">
       <div class="card-title bg-primary text-center">
-        <q-btn class="orange push" @click="show = !show">Toggle</q-btn>
+        <q-btn push color="orange" @click="show = !show">Toggle</q-btn>
       </div>
       <div class="card-content">
           <p class="caption">Enter CSS Class</p>

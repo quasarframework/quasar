@@ -8,7 +8,7 @@
       </p>
 
       <div>
-        <q-btn class="primary">
+        <q-btn color="primary">
           <q-icon name="assignment" />
 
           <q-popover ref="popover1">
@@ -27,7 +27,7 @@
           </q-popover>
         </q-btn>
 
-        <q-btn ref="target4" class="negative">
+        <q-btn ref="target4" color="negative">
           Disabled Popover
 
           <q-popover disable>
@@ -37,7 +37,7 @@
 
         <div class="card" style="margin-top: 75px">
           <div class="card-title bg-primary text-center">
-            <q-btn class="orange push">
+            <q-btn push color="orange">
               Tap Me
 
               <q-popover
@@ -142,7 +142,7 @@
 
         <div style="margin-bottom: 700px;"></div>
 
-        <q-btn class="secondary fixed-top-right" style="top: 65px; right: 10px; right: 16px;">
+        <q-btn color="secondary" class="fixed-top-right" style="top: 65px; right: 10px; right: 16px;">
           <q-icon name="directions" />
 
           <q-popover ref="popover3">
@@ -154,18 +154,18 @@
           </q-popover>
         </q-btn>
 
-        <q-btn class="tertiary fixed-bottom-right" style="bottom: 10px; right: 16px;">
+        <q-btn color="tertiary" class="fixed-bottom-right" style="bottom: 10px; right: 16px;">
           <q-icon name="plus_one" />
 
           <q-popover ref="popover4">
             <div class="group" style="width: 200px; height: 50px; text-align: center;">
-              <q-btn class="primary clear" @click="showToast(), $refs.popover4.close()">
+              <q-btn flat color="primary" @click="showToast(), $refs.popover4.close()">
                 <q-icon name="thumb_up" />
               </q-btn>
-              <q-btn class="primary clear" @click="showToast(), $refs.popover4.close()">
+              <q-btn flat color="primary" @click="showToast(), $refs.popover4.close()">
                 <q-icon name="thumb_down" />
               </q-btn>
-              <q-btn class="secondary clear" @click="showToast(), $refs.popover4.close()">
+              <q-btn flat color="secondary" @click="showToast(), $refs.popover4.close()">
                 <q-icon name="share" />
               </q-btn>
             </div>
@@ -173,7 +173,7 @@
         </q-btn>
       </div>
 
-      <q-btn class="primary fixed-bottom-left" style="bottom: 10px; left: 10px;">
+      <q-btn color="primary" class="fixed-bottom-left" style="bottom: 10px; left: 10px;">
         <q-icon name="menu" />
 
         <q-popover ref="popover5">

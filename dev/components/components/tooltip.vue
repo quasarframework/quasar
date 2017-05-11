@@ -19,25 +19,25 @@
 
       <p class="caption">With offset</p>
       <div class="group">
-        <q-btn class="indigo">
+        <q-btn color="indigo">
           Hover
           <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
             <strong>Tooltip</strong> on <em>top</em> (<q-icon name="keyboard_arrow_up" />)
           </q-tooltip>
         </q-btn>
-        <q-btn class="red">
+        <q-btn color="red">
           Over
           <q-tooltip anchor="center right" self="center left" :offset="[10, 10]">
             <strong>Tooltip</strong> on <em>right</em> (<q-icon name="keyboard_arrow_right" />)
           </q-tooltip>
         </q-btn>
-        <q-btn class="purple">
+        <q-btn color="purple">
           These
           <q-tooltip anchor="center left" self="center right" :offset="[10, 10]">
             <strong>Tooltip</strong> on <em>left</em> (<q-icon name="keyboard_arrow_left" />)
           </q-tooltip>
         </q-btn>
-        <q-btn class="amber">
+        <q-btn color="amber">
           Buttons
           <q-tooltip anchor="bottom middle" self="top middle" :offset="[10, 10]">
             <strong>Tooltip</strong> on <em>bottom</em> (<q-icon name="keyboard_arrow_down" />)
@@ -47,7 +47,7 @@
 
       <div class="card" style="margin-top: 75px">
         <div class="card-title bg-primary text-center">
-          <q-btn class="orange push">
+          <q-btn push color="orange">
             Mouse Hover
 
             <q-tooltip :anchor="anchor" :self="self">

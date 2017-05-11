@@ -24,13 +24,13 @@
       </p>
 
       <div class="q-toolbar">
-        <q-btn class="left-drawer-opener">
+        <q-btn flat>
           <q-icon name="menu" />
         </q-btn>
         <div class="q-toolbar-title">
           Toolbar
         </div>
-        <q-btn class="right-drawer-opener">
+        <q-btn flat>
           <q-icon name="more_vert" />
         </q-btn>
       </div>
@@ -46,30 +46,30 @@
       -->
 
       <div class="q-toolbar bg-secondary">
-        <q-btn><q-icon name="assignment_ind" /></q-btn>
+        <q-btn flat><q-icon name="assignment_ind" /></q-btn>
         <div class="q-toolbar-title">
           Toolbar
         </div>
-        <q-btn><q-icon name="sim_card" /></q-btn>
-        <q-btn><q-icon name="gamepad" /></q-btn>
+        <q-btn flat><q-icon name="sim_card" /></q-btn>
+        <q-btn flat><q-icon name="gamepad" /></q-btn>
       </div>
       <div class="q-toolbar bg-orange">
-        <q-btn><q-icon name="mail" /></q-btn>
+        <q-btn flat><q-icon name="mail" /></q-btn>
         <div class="q-toolbar-title">
           Long title for Toolbar. Very very very very very very long title.
         </div>
-        <q-btn><q-icon name="alarm" /></q-btn>
-        <q-btn><q-icon name="router" /></q-btn>
-        <q-btn><q-icon name="keyboard" /></q-btn>
+        <q-btn flat><q-icon name="alarm" /></q-btn>
+        <q-btn flat><q-icon name="router" /></q-btn>
+        <q-btn flat><q-icon name="keyboard" /></q-btn>
       </div>
       <div class="q-toolbar bg-dark">
-        <q-btn><q-icon name="menu" /></q-btn>
-        <q-btn><q-icon name="security" /></q-btn>
+        <q-btn flat><q-icon name="menu" /></q-btn>
+        <q-btn flat><q-icon name="security" /></q-btn>
         <div class="q-toolbar-title">
           Toolbar
         </div>
-        <q-btn><q-icon name="headset" /></q-btn>
-        <q-btn><q-icon name="tv" /></q-btn>
+        <q-btn flat><q-icon name="headset" /></q-btn>
+        <q-btn flat><q-icon name="tv" /></q-btn>
       </div>
     </div>
   </div>

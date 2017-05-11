@@ -1,19 +1,19 @@
 <template>
   <q-layout ref="layout" view="hHr LpR lFf" v-model="sides" :right-breakpoint="900">
     <div slot="header" class="q-toolbar">
-      <q-btn @click="$refs.layout.toggleLeft()">
+      <q-btn flat @click="$refs.layout.toggleLeft()">
         <q-icon name="menu" />
       </q-btn>
-      <q-btn @click="sides.left = !sides.left">
+      <q-btn flat @click="sides.left = !sides.left">
         <q-icon name="menu" />
       </q-btn>
       <div class="q-toolbar-title">
         Quasar Layout
       </div>
-      <q-btn @click="sides.right = !sides.right">
+      <q-btn flat @click="sides.right = !sides.right">
         <q-icon name="menu" />
       </q-btn>
-      <q-btn @click="$refs.layout.toggleRight()">
+      <q-btn flat @click="$refs.layout.toggleRight()">
         <q-icon name="menu" />
       </q-btn>
       <q-checkbox v-model="todo" />

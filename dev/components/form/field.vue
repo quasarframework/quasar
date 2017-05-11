@@ -119,7 +119,7 @@
         prefix="$"
         suffix=".00"
       >
-        <q-btn slot="after" class="primary clear small">Cancel</q-btn>
+        <q-btn slot="after" flat small color="primary">Cancel</q-btn>
       </q-input>
       -->
 

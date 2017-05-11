@@ -1,10 +1,10 @@
 <template>
   <div class="layout-padding">
-    <q-btn class="primary raised fixed" style="right: 18px; bottom: 18px" @click="reset">Reset</q-btn>
+    <q-btn color="primary" class="fixed" style="right: 18px; bottom: 18px" @click="reset">Reset</q-btn>
 
-    <q-btn style="margin-bottom: 25px" class="primary" @click="alertAsMethod">Show Alert as Method</q-btn>
+    <q-btn style="margin-bottom: 25px" color="primary" @click="alertAsMethod">Show Alert as Method</q-btn>
 
-    <q-btn style="margin-bottom: 25px" class="primary" @click="alertAsComponent">Show Alert as Component</q-btn>
+    <q-btn style="margin-bottom: 25px" color="primary" @click="alertAsComponent">Show Alert as Component</q-btn>
 
     <q-transition
       enter="bounceInLeft"
