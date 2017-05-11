@@ -22,22 +22,20 @@
         <q-btn>Button</q-btn>
         <q-btn class="primary">Button</q-btn>
         <q-btn class="secondary circular"><q-icon name="card_giftcard" /></q-btn>
-        <div>
-          <q-icon name="alarm" style="font-size: 1.5rem" /> Block
-        </div>
-        <button style="border: 1px solid black">
-          <q-icon name="alarm" style="font-size: 1.5rem" /> Block
-        </button>
-
-        <q-btn icon="alarm" class="orange">Icoon</q-btn>
-        <q-btn iconRight="check" class="orange">Icoon</q-btn>
-        <q-btn iconRight="more_horiz" class="orange">Icoon</q-btn>
-        <q-btn icon="cloud" iconRight="alarm" class="orange">Icoon</q-btn>
-        <q-btn icon="edit" iconRight="alarm" class="orange">Icoon</q-btn>
       </p>
 
+      <p class="caption">Customized icon</p>
+      <button style="border: 1px solid black">
+        <q-icon name="alarm" style="font-size: 1.5rem" /> Block
+      </button>
+
+      <q-btn class="circular primary big">
+        <q-icon name="mail" style="font-size:3rem"/>
+      </q-btn>
+
+      <p class="caption">With Spinners <q-btn class="negative" @click="stopProgress">Stop</q-btn></p>
       <p class="group">
-        <q-btn>Button</q-btn>
+        <q-btn spinner  @click="simulateProgress">Button</q-btn>
         <q-btn spinner  @click="simulateProgress" class="primary">
           Button
           <q-spinner-oval slot="spinner" />
@@ -49,6 +47,13 @@
         <q-btn circular spinner @click="simulateProgress" class="primary small"><q-icon name="mail" /></q-btn>
         <q-btn circular spinner @click="simulateProgress" class="primary"><q-icon name="mail" /></q-btn>
         <q-btn circular spinner @click="simulateProgress" class="primary big"><q-icon name="mail" /></q-btn>
+      </p>
+      <p class="caption">With Custom Spinners</p>
+      <p class="group">
+        <q-btn icon="mail" class="orange" @click="simulateProgress">
+          <q-spinner-facebook slot="spinner" size="20" />
+          Get Mail
+        </q-btn>
 
         <q-btn class="dark small" @click="simulateProgress" iconRight="alarm">
           Button
@@ -58,7 +63,6 @@
           <q-spinner-audio slot="spinner" />
           <q-icon name="alarm" />
         </q-btn>
-        <q-btn class="negative" @click="stopProgress">Stop</q-btn>
       </p>
 
       <p class="caption">Small, Medium (default) and Big</p>
