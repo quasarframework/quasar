@@ -11,7 +11,7 @@
       'with-label': label
     }"
   >
-    <q-icon :name="icon" v-if="icon || insetIcon" class="q-field-icon"></q-icon>
+    <q-icon :name="icon" v-if="icon || insetIcon" class="q-field-icon self-start"></q-icon>
 
     <div class="q-field-container flex auto">
       <div

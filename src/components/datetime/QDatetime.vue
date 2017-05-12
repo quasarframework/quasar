@@ -33,10 +33,10 @@
         class="no-border"
       >
         <div class="modal-buttons row full-width">
-          <q-btn v-if="!noClear && model" @click="clear()" flat color="primary" v-html="clearLabel"></q-btn>
+          <q-btn v-if="!noClear && model" @click="clear()" flat v-html="clearLabel"><span v-html="clearLabel"></span></q-btn>
           <div class="auto"></div>
-          <q-btn @click="close()" flat color="primary" v-html="cancelLabel"></q-btn>
-          <q-btn @click="close(__update)" flat color="primary" v-html="okLabel"></q-btn>
+          <q-btn @click="close()" flat><span v-html="cancelLabel"></span></q-btn>
+          <q-btn @click="close(__update)" flat><span v-html="okLabel"></span></q-btn>
         </div>
       </q-inline-datetime>
     </q-popover>
@@ -62,10 +62,10 @@
         class="no-border full-width"
       >
         <div class="modal-buttons row full-width">
-          <q-btn v-if="!noClear && model" @click="clear()" flat color="primary" v-html="clearLabel"></q-btn>
+          <q-btn v-if="!noClear && model" @click="clear()" flat v-html="clearLabel"><span v-html="clearLabel"></span></q-btn>
           <div class="auto"></div>
-          <q-btn @click="close()" flat color="primary" v-html="cancelLabel"></q-btn>
-          <q-btn @click="close(__update)" flat color="primary" v-html="okLabel"></q-btn>
+          <q-btn @click="close()" flat><span v-html="cancelLabel"></span></q-btn>
+          <q-btn @click="close(__update)" flat><span v-html="okLabel"></span></q-btn>
         </div>
       </q-inline-datetime>
     </q-modal>
