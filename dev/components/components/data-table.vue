@@ -232,7 +232,7 @@ export default {
           width: '120px'
         },
         {
-          label: 'Log Number',
+          label: 'Log Number <i>Wow</i>',
           field: 'log_number',
           sort: true,
           width: '100px'
