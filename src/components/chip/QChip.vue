@@ -1,14 +1,17 @@
 <template>
   <div
     class="q-chip row inline items-center"
-    :class="[{
+    :class="{
       tag: tag,
       outline: outline,
       square: square,
       floating: floating,
       pointing: pointing,
-      small: small || floating
-    }, pointing ? `pointing-${pointing}` : '']"
+      small: small || floating,
+      [`pointing-${pointing}`]: poiting,
+      [`bg-${color}`]: color,
+      'text-white': color
+    }"
   >
     <div
       v-if="$slots.left"
@@ -49,6 +52,7 @@ export default {
       type: String,
       validator: v => ['up', 'right', 'down', 'left'].includes(v)
     },
+    color: String,
     closable: Boolean,
     detail: Boolean
   }

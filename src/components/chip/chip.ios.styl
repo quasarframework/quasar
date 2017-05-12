@@ -6,6 +6,8 @@ $chip-padding-vertical   ?= 12px
 $chip-height             ?= 32px
 $chip-icon-size          ?= 24px
 $chip-small-height       ?= 26px
+$chip-color              ?= black
+$chip-background         ?= $light
 
 .q-chip
   height $chip-height
@@ -16,7 +18,8 @@ $chip-small-height       ?= 26px
   cursor default
   white-space nowrap
   vertical-align middle
-  background $light
+  color $chip-color
+  background $chip-background
 
   .q-icon
     font-size $chip-icon-size

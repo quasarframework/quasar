@@ -3,7 +3,8 @@
     <div v-if="uploading">
       <q-chip
         closable
-        class="bg-light q-uploader-progress"
+        color="light"
+        class="text-white q-uploader-progress"
         @close="abort"
       >
         <span v-html="computedLabel.uploading"></span>
