@@ -132,7 +132,9 @@ export default {
     model: {
       deep: true,
       handler (val) {
-        this.$emit('input', val)
+        if (this.multiple) {
+          this.$emit('input', val)
+        }
       }
     }
   },

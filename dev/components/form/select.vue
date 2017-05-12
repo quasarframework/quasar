@@ -2,7 +2,7 @@
   <div>
     <div class="layout-padding">
       <p class="caption">Single Selection</p>
-      <q-select v-model="select" :options="selectOptions"></q-select>
+      <q-select v-model="select" :options="selectOptions" @input="inputChange"></q-select>
       <q-select v-model="select" :options="selectOptions" delimiter></q-select>
       <q-select v-model="select" :options="selectListOptions"></q-select>
 
