@@ -1,5 +1,13 @@
 <template>
-  <div class="q-rating" :class="{disabled: disable, editable: editable}">
+  <div
+    class="q-rating"
+    :class="{
+      disabled: disable,
+      editable: editable,
+      [`text-${color}`]: color
+    }"
+    :style="size ? `font-size: ${size}` : ''"
+  >
     <q-icon
       v-for="index in max"
       :key="index"
@@ -39,6 +47,8 @@ export default {
       type: String,
       default: 'grade'
     },
+    color: String,
+    size: String,
     readonly: Boolean,
     disable: Boolean
   },

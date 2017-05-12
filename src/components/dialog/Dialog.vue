@@ -73,8 +73,10 @@
     <div v-if="progress" class="modal-body">
       <q-progress
         :percentage="progress.model"
-        class="primary stripe animate"
-        :class="{indeterminate: progress.indeterminate}"
+        color="primary"
+        animate
+        stripe
+        :indeterminate="progress.indeterminate"
       ></q-progress>
       <span v-if="!progress.indeterminate">
         {{progress.model}} %

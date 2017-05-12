@@ -8,7 +8,7 @@
       floating: floating,
       pointing: pointing,
       small: small || floating,
-      [`pointing-${pointing}`]: poiting,
+      [`pointing-${pointing}`]: pointing,
       [`bg-${color}`]: color,
       'text-white': color
     }"

@@ -1,6 +1,7 @@
-$progress-track-height         ?= 4px
-$progress-track-color          ?= rgba(0, 0, 0, .15)
-$progress-default-track-color  ?= $primary
+$progress-track-height         ?= 5px
+$progress-track-color          ?= currentColor
+$progress-color                ?= $primary
+$progress-track-opacity        ?= .2
 $progress-transition           ?= width .3s linear
 
 .q-progress
@@ -10,65 +11,59 @@ $progress-transition           ?= width .3s linear
   width 100%
   background-clip padding-box
   overflow hidden
+  color $progress-color
 
-  &:not(.indeterminate) .q-progress-model
+.q-progress-model
+  background currentColor
+
+  &.animate
+    animation q-progress-stripes 2s linear infinite
+
+  &:not(.indeterminate)
     position absolute
     top 0
     bottom 0
-    background $primary
     border-radius $progress-border-radius
     transition $progress-transition
 
-  &.animate .q-progress-model
-    animation q-progress-stripes 2s linear infinite
-
   &.indeterminate
-    .q-progress-buffer
-      display none
-    .q-progress-model
-      background $progress-default-track-color
+    &:before, &:after
+      content ''
+      position absolute
+      background inherit
+      top 0
+      left 0
+      bottom 0
+      will-change left, right
 
-      &:before, &:after
-        content ''
-        position absolute
-        background inherit
-        top 0
-        left 0
-        bottom 0
-        will-change left, right
+    &:before
+      animation q-progress-indeterminate 2.1s cubic-bezier(.65, .815, .735, .395) infinite
+    &:after
+      animation q-progress-indeterminate-short 2.1s cubic-bezier(.165, .84, .44, 1) infinite
+      animation-delay 1.15s
 
-      &:before
-        animation q-progress-indeterminate 2.1s cubic-bezier(.65, .815, .735, .395) infinite
-      &:after
-        animation q-progress-indeterminate-short 2.1s cubic-bezier(.165, .84, .44, 1) infinite
-        animation-delay 1.15s
-
-  &.stripe .q-progress-model
+  &.stripe
     &, &:before, &:after
-      background-image linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent)
-      background-size 40px 40px
-
-  for $name, $color in $colors
-    &.{$name} .q-progress-model
-      background-color $color
+      background-image linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent) !important
+      background-size 40px 40px !important
 
 .q-progress-track
-  background $progress-track-color
-  left 0
   top 0
+  left 0
+  bottom 0
+  transition $progress-transition
 
 .q-progress-buffer
-  right 0
   top 50%
   transform translateY(-50%)
   height 4px
-  background $progress-track-color
+  right 0
   mask url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIj8+Cjxzdmcgd2lkdGg9IjEyIiBoZWlnaHQ9IjQiIHZpZXdQb3J0PSIwIDAgMTIgNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogIDxlbGxpcHNlIGN4PSIyIiBjeT0iMiIgcng9IjIiIHJ5PSIyIj4KICAgIDxhbmltYXRlIGF0dHJpYnV0ZU5hbWU9ImN4IiBmcm9tPSIyIiB0bz0iLTEwIiBkdXI9IjAuNnMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIiAvPgogIDwvZWxsaXBzZT4KICA8ZWxsaXBzZSBjeD0iMTQiIGN5PSIyIiByeD0iMiIgcnk9IjIiIGNsYXNzPSJsb2FkZXIiPgogICAgPGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iY3giIGZyb209IjE0IiB0bz0iMiIgZHVyPSIwLjZzIiByZXBlYXRDb3VudD0iaW5kZWZpbml0ZSIgLz4KICA8L2VsbGlwc2U+Cjwvc3ZnPgo=") // @stylint ignore
 
 .q-progress-track, .q-progress-buffer
-  transition $progress-transition
+  background $progress-track-color
+  opacity $progress-track-opacity
   position absolute
-  bottom 0
 
 @keyframes q-progress-indeterminate
   0%

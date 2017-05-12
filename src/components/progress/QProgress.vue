@@ -1,8 +1,20 @@
 <template>
-  <div class="q-progress">
+  <div class="q-progress" :class="color ? `text-${color}` : ''">
+    <div
+      v-if="buffer && !indeterminate"
+      class="q-progress-buffer"
+      :style="bufferStyle"
+    >&nbsp;</div>
     <div class="q-progress-track" :style="trackStyle">&nbsp;</div>
-    <div v-if="buffer" class="q-progress-buffer" :style="bufferStyle">&nbsp;</div>
-    <div class="q-progress-model" :style="modelStyle">&nbsp;</div>
+    <div
+      class="q-progress-model"
+      :style="modelStyle"
+      :class="{
+        animate: animate,
+        stripe: stripe,
+        indeterminate: indeterminate
+      }"
+    >&nbsp;</div>
   </div>
 </template>
 
@@ -20,6 +32,10 @@ export default {
       type: Number,
       default: 0
     },
+    color: String,
+    stripe: Boolean,
+    animate: Boolean,
+    indeterminate: Boolean,
     buffer: Number
   },
   computed: {
