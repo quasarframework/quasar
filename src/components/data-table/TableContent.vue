@@ -19,6 +19,7 @@
             :sorting="sorting"
           ></sort-icon>
           <span v-html="col.label"></span>
+          <q-tooltip v-html="col.label"></q-tooltip>
         </th>
         <th v-if="head && scroll.horiz"></th>
       </tr>
@@ -31,11 +32,13 @@
 
 <script>
 import SortIcon from './plugins/sort/SortIcon.vue'
+import { QTooltip } from '../tooltip'
 
 export default {
   name: 'q-table-content',
   components: {
-    SortIcon
+    SortIcon,
+    QTooltip
   },
   props: {
     cols: Array,

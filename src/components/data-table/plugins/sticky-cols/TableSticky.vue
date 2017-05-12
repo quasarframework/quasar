@@ -19,6 +19,7 @@
               :sorting="sorting"
             ></sort-icon>
             <span v-html="col.label"></span>
+            <q-tooltip v-html="col.label"></q-tooltip>
           </template>
         </th>
       </tr>
@@ -32,11 +33,13 @@
 
 <script>
 import SortIcon from '../sort/SortIcon.vue'
+import { QTooltip } from '../../../tooltip'
 
 export default {
   name: 'q-table-sticky',
   components: {
-    SortIcon
+    SortIcon,
+    QTooltip
   },
   props: {
     stickyCols: Number,
