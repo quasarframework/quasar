@@ -33,6 +33,10 @@ export default {
       type: Array,
       validator: offsetValidator
     },
+    delay: {
+      type: Number,
+      default: 0
+    },
     maxHeight: String,
     disable: Boolean
   },
@@ -67,6 +71,7 @@ export default {
       if (this.disable) {
         return
       }
+      clearTimeout(this.timer)
       this.opened = true
       document.body.appendChild(this.$el)
       this.scrollTarget = getScrollTarget(this.anchorEl)
@@ -78,6 +83,7 @@ export default {
       this.__updatePosition()
     },
     close () {
+      clearTimeout(this.timer)
       if (this.opened) {
         this.opened = false
         this.scrollTarget.removeEventListener('scroll', this.close)
@@ -97,6 +103,10 @@ export default {
         selfOrigin: this.selfOrigin,
         maxHeight: this.maxHeight
       })
+    },
+    __delayOpen () {
+      clearTimeout(this.timer)
+      this.timer = setTimeout(this.open, this.delay)
     }
   },
   created () {
@@ -115,12 +125,15 @@ export default {
 
       this.anchorEl = this.$el.parentNode
       this.anchorEl.removeChild(this.$el)
+      if (this.anchorEl.classList.contains('q-btn-inner')) {
+        this.anchorEl = this.anchorEl.parentNode
+      }
       if (Platform.is.mobile) {
         this.anchorEl.addEventListener('click', this.open)
       }
       else {
-        this.anchorEl.addEventListener('mouseenter', this.open)
-        this.anchorEl.addEventListener('focus', this.open)
+        this.anchorEl.addEventListener('mouseenter', this.__delayOpen)
+        this.anchorEl.addEventListener('focus', this.__delayOpen)
         this.anchorEl.addEventListener('mouseleave', this.close)
         this.anchorEl.addEventListener('blur', this.close)
       }
@@ -131,8 +144,8 @@ export default {
       this.anchorEl.removeEventListener('click', this.open)
     }
     else {
-      this.anchorEl.removeEventListener('mouseenter', this.open)
-      this.anchorEl.removeEventListener('click', this.open)
+      this.anchorEl.removeEventListener('mouseenter', this.__delayOpen)
+      this.anchorEl.removeEventListener('focus', this.__delayOpen)
       this.anchorEl.removeEventListener('mouseleave', this.close)
       this.anchorEl.removeEventListener('blur', this.close)
     }

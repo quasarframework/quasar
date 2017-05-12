@@ -71,6 +71,9 @@ export default {
     this.$nextTick(() => {
       this.anchorEl = this.$el.parentNode
       this.anchorEl.removeChild(this.$el)
+      if (this.anchorEl.classList.contains('q-btn-inner')) {
+        this.anchorEl = this.anchorEl.parentNode
+      }
       if (this.anchorClick) {
         this.anchorEl.classList.add('cursor-pointer')
         this.anchorEl.addEventListener('click', this.toggle)
