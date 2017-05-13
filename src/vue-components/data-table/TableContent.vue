@@ -19,7 +19,7 @@
             :sorting="sorting"
           ></sort-icon>
           <span v-html="col.label"></span>
-          <q-tooltip v-html="col.label"></q-tooltip>
+          <q-tooltip v-if="col.label" v-html="col.label"></q-tooltip>
         </th>
         <th v-if="head && scroll.horiz"></th>
       </tr>
