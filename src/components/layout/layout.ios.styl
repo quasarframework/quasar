@@ -1,11 +1,10 @@
-$layout-toolbar-min-height ?= 50px
-$layout-border             ?= 1px solid $toolbar-faded-color
 $layout-aside-background   ?= white
 $layout-aside-left-width   ?= 280px
 $layout-aside-right-width  ?= 280px
 
-$toolbar-title-font-size   ?= .95rem
-$toolbar-padding           ?= 4px 10px
+$toolbar-min-height        ?= 50px
+$layout-border-color       ?= rgba(0, 0, 0, .4)
+$layout-border             ?= 1px solid $layout-border-color
 
 .layout
   width 100%
@@ -58,50 +57,11 @@ main, .layout, .layout-header, .layout-footer
 body.with-layout-side-opened
   overflow hidden
 
-
-.q-toolbar
-  padding $toolbar-padding
-  min-height $layout-toolbar-min-height
-  display flex
-  overflow hidden
-  flex-direction row
-  align-items center
-  width 100%
-  position relative
-  color $toolbar-color
-  background $toolbar-background
-
-  &.inverted
-    background transparent
-
-  > .q-btn
-    margin 0 .2rem
-    padding .2rem
-    &:active:not(.disabled)
-      color $toolbar-active-color
-    &:first-child
-      margin-left 0
-    &:last-child
-      margin-right 0
-
-.q-toolbar-title
-  flex 1
-  min-width 0
-  max-width 100%
-  font-weight 600
-  text-overflow ellipsis
-  white-space nowrap
-  overflow hidden
-  font-size $toolbar-title-font-size
-  text-align center
-  i
-    line-height 1
-
 body
   &.cordova.platform-ios, &.demo-site.within-iframe
-    .layout-header > .toolbar:first-child, .layout-aside.top-padding
+    .layout-header > .q-toolbar:first-child, .layout-aside.top-padding
       padding-top $ios-statusbar-height
-      min-height ($layout-toolbar-min-height + $ios-statusbar-height)
+      min-height ($toolbar-min-height + $ios-statusbar-height)
 
 .layout-padding
   @media only screen and (max-width $layout-small-max)

@@ -1,0 +1,38 @@
+$toolbar-title-font-size   ?= .95rem
+$toolbar-padding           ?= 4px 10px
+
+.q-toolbar
+  padding $toolbar-padding
+  min-height $toolbar-min-height
+  display flex
+  overflow hidden
+  flex-direction row
+  align-items center
+  width 100%
+  position relative
+  color $toolbar-color
+  background $toolbar-background
+
+  > .q-btn
+    margin 0 .2rem
+    padding .2rem
+    &:first-child
+      margin-left 0
+    &:last-child
+      margin-right 0
+
+.q-toolbar-inverted
+  background transparent
+
+.q-toolbar-title
+  flex 1
+  min-width 0
+  max-width 100%
+  font-weight 600
+  text-overflow ellipsis
+  white-space nowrap
+  overflow hidden
+  font-size $toolbar-title-font-size
+  text-align center
+  i
+    line-height 1

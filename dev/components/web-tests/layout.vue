@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-tabs class="secondary" inverted>
+    <q-tabs color="secondary" inverted>
       <q-route-tab
         v-for="route in ['a', 'b', 'c']"
         :key="route"
@@ -8,9 +8,10 @@
         :name="route"
         :to="`/lay/${route}`"
         :label="`Route ${route}`"
+        replace
         icon="receipt"
       />
-      <q-tab slot="title" name="link" label="Link" icon="cloud" />
+      <q-tab slot="title" name="link" label="Link" icon="cloud" color="amber" />
 
       <q-tab-pane name="link">
         Link Tab

@@ -1,24 +1,37 @@
 <template>
-  <div class="q-tabs column" :class="[`position-${position}`]">
+  <div
+    class="q-tabs column"
+    :class="[
+      `q-tabs-position-${position}`,
+      `q-tabs-${inverted ? 'inverted' : 'normal'}`,
+      twoLines ? 'q-tabs-two-lines' : ''
+    ]"
+  >
     <div
       class="q-tabs-head row"
       ref="tabs"
-      :class="[`align-${align}`]"
+      :class="{
+        [`q-tabs-align-${align}`]: true,
+        [`bg-${color}`]: !inverted && color
+      }"
     >
       <div ref="scroller" class="q-tabs-scroller row">
-        <div class="relative-position self-stretch">
+        <slot name="title"></slot>
+        <div
+          v-if="$q.theme !== 'ios'"
+          class="relative-position self-stretch"
+        >
           <div
-            v-if="$q.theme === 'mat'"
             ref="posbar"
             class="q-tabs-position-bar"
+            :class="{[`text-${color}`]: inverted && color}"
             @transitionend="__updatePosbarTransition"
           ></div>
         </div>
-        <slot name="title"></slot>
       </div>
       <div
         ref="leftScroll"
-        class="row items-center justify-center left-scroll"
+        class="row items-center justify-center q-tabs-left-scroll"
         @mousedown="__animScrollTo(0)"
         @touchstart="__animScrollTo(0)"
         @mouseup="__stopAnimScroll"
@@ -28,7 +41,7 @@
       </div>
       <div
         ref="rightScroll"
-        class="row items-center justify-center right-scroll"
+        class="row items-center justify-center q-tabs-right-scroll"
         @mousedown="__animScrollTo(9999)"
         @touchstart="__animScrollTo(9999)"
         @mouseup="__stopAnimScroll"
@@ -69,19 +82,30 @@ export default {
       type: String,
       default: 'top',
       validator: v => ['top', 'bottom'].includes(v)
-    }
+    },
+    color: String,
+    inverted: Boolean,
+    twoLines: Boolean
   },
   data () {
     return {
       tab: {},
       data: {
-        tabName: this.value || ''
+        tabName: this.value || '',
+        color: this.color,
+        inverted: this.inverted
       }
     }
   },
   watch: {
     value (name) {
       this.selectTab(name)
+    },
+    color (v) {
+      this.data.color = v
+    },
+    inverted (v) {
+      this.data.inverted = v
     }
   },
   provide () {

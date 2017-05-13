@@ -1,13 +1,12 @@
-$layout-toolbar-min-height ?= 50px
-$layout-header-shadow      ?= $shadow-2
-$layout-footer-shadow      ?= $shadow-up-2
-$layout-aside-shadow       ?= $shadow-2
 $layout-aside-background   ?= white
 $layout-aside-left-width   ?= 300px
 $layout-aside-right-width  ?= 300px
 
-$toolbar-title-font-size   ?= 1.15rem
-$toolbar-padding           ?= 4px 12px
+$toolbar-min-height        ?= 50px
+
+$layout-header-shadow      ?= $shadow-2
+$layout-footer-shadow      ?= $shadow-up-2
+$layout-aside-shadow       ?= $shadow-2
 
 .layout
   width 100%
@@ -40,8 +39,6 @@ main, .layout, .layout-header, .layout-footer
   position relative
 
 .layout-header, .layout-footer
-  color $toolbar-color
-  background $toolbar-background
   z-index $z-marginals
   transition transform .3s
 
@@ -57,49 +54,10 @@ main, .layout, .layout-header, .layout-footer
 body.with-layout-side-opened
   overflow hidden
 
-
-.q-toolbar
-  padding $toolbar-padding
-  min-height $layout-toolbar-min-height
-  display flex
-  overflow hidden
-  flex-direction row
-  align-items center
-  width 100%
-  position relative
-  color $toolbar-color
-  background $toolbar-background
-
-  &.inverted
-    background transparent
-
-  > .q-btn
-    margin 0 .2rem
-    padding .2rem
-    &:first-child
-      margin-left 0
-    &:last-child
-      margin-right 0
-
-  i
-    line-height 1
-
-.q-toolbar-title
-  flex 1
-  min-width 0
-  max-width 100%
-  align-items center
-  font-size $toolbar-title-font-size
-  font-weight 500
-  text-overflow ellipsis
-  white-space nowrap
-  overflow hidden
-  padding 0 12px
-
 body.cordova.platform-ios
-  .layout-header > .toolbar:first-child, .layout-aside.top-padding
+  .layout-header > .q-toolbar:first-child, .layout-aside.top-padding
     padding-top $ios-statusbar-height
-    min-height ($layout-toolbar-min-height + $ios-statusbar-height)
+    min-height ($toolbar-min-height + $ios-statusbar-height)
 
 .layout-padding
   @media only screen and (max-width $layout-small-max)

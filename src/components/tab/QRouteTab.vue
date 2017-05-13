@@ -7,23 +7,18 @@
     :exact="exact"
     :event="routerLinkEventName"
     class="q-tab items-center justify-center relative-position"
-    :class="{
-      active: active,
-      hidden: hidden,
-      disabled: disable,
-      'icon-and-label': icon && label,
-      'hide-icon': hide === 'icon',
-      'hide-label': hide === 'label'
-    }"
+    :class="classes"
     v-ripple.mat
     @click.native="select"
   >
-    <q-icon :name="icon" v-if="icon" class="q-tabs-icon"></q-icon>
+    <q-icon :name="icon" v-if="icon" class="q-tab-icon"></q-icon>
     <span v-if="label" class="q-tab-label" v-html="label"></span>
     <span v-if="count" class="floating label circular">{{count}}</span>
     <div v-else-if="alert" class="q-dot"></div>
+
     <slot></slot>
-    <div class="q-tab-border"></div>
+
+    <div class="q-tab-border" :class="borderClasses"></div>
   </router-link>
 </template>
 

@@ -1,23 +1,22 @@
 <template>
   <div
     class="q-tab items-center justify-center relative-position"
-    :class="{
-      active: active,
-      hidden: hidden,
-      disabled: disable,
-      'icon-and-label': icon && label,
-      'hide-icon': hide === 'icon',
-      'hide-label': hide === 'label'
-    }"
+    :class="classes"
     @click="select"
     v-ripple.mat
   >
-    <q-icon v-if="icon" :name="icon" class="q-tabs-icon"></q-icon>
+    <q-icon v-if="icon" :name="icon" class="q-tab-icon"></q-icon>
     <span v-if="label" class="q-tab-label" v-html="label"></span>
     <q-chip v-if="count" floating>{{count}}</q-chip>
     <div v-else-if="alert" class="q-dot"></div>
+
     <slot></slot>
-    <div class="q-tab-border"></div>
+
+    <div
+      v-if="$q.theme !== 'ios'"
+      class="q-tab-border"
+      :class="borderClasses"
+    ></div>
   </div>
 </template>
 

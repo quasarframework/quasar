@@ -1,6 +1,6 @@
 <template>
   <q-layout ref="layout" view="hHr LpR lFf" v-model="sides" :right-breakpoint="900">
-    <div slot="header" class="q-toolbar">
+    <q-toolbar slot="header">
       <q-btn flat @click="$refs.layout.toggleLeft()">
         <q-icon name="menu" />
       </q-btn>
@@ -18,11 +18,11 @@
       </q-btn>
       <q-checkbox v-model="todo" />
       <q-checkbox v-model="right" />
-    </div>
+    </q-toolbar>
 
-    <div v-if="todo" slot="header" class="q-toolbar bg-amber">
+    <q-toolbar v-if="todo" slot="header" color="amber">
       <q-search v-model="search" class="text-black auto"></q-search>
-    </div>
+    </q-toolbar>
 
     <q-tabs slot="navigation">
       <q-route-tab slot="title" icon="view_quilt" to="/test-layout/about" replace hide="icon">About</q-route-tab>
@@ -53,15 +53,14 @@
 
     <router-view></router-view>
 
-    <div v-if="todo" slot="footer" class="q-toolbar">
+    <q-toolbar v-if="todo" slot="footer" color="secondary">
       sdsfssdfs
-    </div>
-    <div slot="footer" class="q-toolbar">
-      <router-link tag="button" to="/" exact>
-        <q-icon name="keyboard arrow left" class="on-left" />
+    </q-toolbar>
+    <q-toolbar slot="footer">
+      <q-btn flat @click="$router.push('/')" icon="keyboard arrow left">
         Back to Index
-      </router-link>
-    </div>
+      </q-btn>
+    </q-toolbar>
   </q-layout>
 </template>
 
