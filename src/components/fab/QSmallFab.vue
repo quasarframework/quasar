@@ -17,6 +17,7 @@ export default {
     QBtn,
     QIcon
   },
+  inject: ['__qFabClose'],
   props: {
     icon: {
       type: String,
@@ -25,8 +26,9 @@ export default {
   },
   methods: {
     click (e) {
-      this.$parent.close()
-      this.$emit('click', e)
+      this.__qFabClose(() => {
+        this.$emit('click', e)
+      })
     }
   }
 }

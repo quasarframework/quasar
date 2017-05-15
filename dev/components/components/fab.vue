@@ -12,21 +12,42 @@
         <q-fab color="purple" icon="keyboard_arrow_up" direction="up">
           <q-small-fab @click="toast('mail')" icon="mail"></q-small-fab>
           <q-small-fab @click="toast('alarm')" icon="alarm"></q-small-fab>
+          <q-small-fab @click="toast('alarm')" icon="alarm"></q-small-fab>
+          <q-small-fab @click="toast('alarm')" icon="alarm"></q-small-fab>
+          <q-small-fab @click="toast('alarm')" icon="alarm"></q-small-fab>
         </q-fab>
+
+        <br>
 
         <q-fab icon="keyboard_arrow_left" direction="left">
           <q-small-fab @click="toast('mail')" icon="mail"></q-small-fab>
           <q-small-fab @click="toast('alarm')" icon="alarm"></q-small-fab>
+          <q-small-fab @click="toast('alarm')" icon="alarm"></q-small-fab>
+          <q-small-fab @click="toast('alarm')" icon="alarm"></q-small-fab>
+          <q-small-fab @click="toast('alarm')" icon="alarm"></q-small-fab>
+          <q-small-fab @click="toast('alarm')" icon="alarm"></q-small-fab>
         </q-fab>
+
+        <br>
 
         <q-fab color="secondary" push icon="keyboard_arrow_right" direction="right">
           <q-small-fab color="primary" @click="toast('mail')" icon="mail"></q-small-fab>
           <q-small-fab @click="toast('alarm')" icon="alarm"></q-small-fab>
+          <q-small-fab @click="toast('alarm')" icon="alarm"></q-small-fab>
+          <q-small-fab @click="toast('alarm')" icon="alarm"></q-small-fab>
+          <q-small-fab @click="toast('alarm')" icon="alarm"></q-small-fab>
+          <q-small-fab @click="toast('alarm')" icon="alarm"></q-small-fab>
         </q-fab>
 
+        <br>
+
         <q-fab color="tertiary" classNames="glossy" icon="keyboard_arrow_down" direction="down">
-          <q-small-fab @click="toast('mail')" icon="mail"></q-small-fab>
-          <q-small-fab @click="toast('alarm')" icon="alarm"></q-small-fab>
+          <q-small-fab color="amber" @click="toast('mail')" icon="mail"></q-small-fab>
+          <q-small-fab color="amber" @click="toast('alarm')" icon="alarm"></q-small-fab>
+          <q-small-fab color="amber" @click="toast('alarm')" icon="alarm"></q-small-fab>
+          <q-small-fab color="amber" @click="toast('alarm')" icon="alarm"></q-small-fab>
+          <q-small-fab color="amber" @click="toast('alarm')" icon="alarm"></q-small-fab>
+          <q-small-fab color="amber" @click="toast('alarm')" icon="alarm"></q-small-fab>
         </q-fab>
       </div>
 
@@ -38,7 +59,6 @@
       </p>
 
       <q-fab
-        @click="alert()"
         color="primary"
         active-icon="alarm"
         direction="up"

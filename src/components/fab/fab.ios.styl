@@ -1,15 +1,8 @@
-$fab-size       = 56px
-$fab-translate  = 2 * $fab-size
 $fab-margin    ?= 5px
 
 .q-fab
-  height $fab-size
-  width $fab-size
   position relative
   vertical-align middle
-
-  .q-btn
-    margin $fab-margin
 
   &.opened
     z-index $z-fab
@@ -24,9 +17,6 @@ $fab-margin    ?= 5px
     .q-fab-active-icon
       transform rotate3d(0, 0, 1, 0deg)
       opacity 1
-    .backdrop
-      display block
-      background rgba(255, 255, 255, .5)
 
 .q-fab-icon, .q-fab-active-icon
   position absolute
@@ -42,35 +32,38 @@ $fab-margin    ?= 5px
 
 .q-fab-actions
   position absolute
-  margin 0
   opacity 0
   transition all .2s ease-in
   pointer-events none
+  .q-btn
+    margin $fab-margin
 
-  &.right
-    transform scaleX(.4) scaleY(.4) translateX(- $fab-translate)
-    height $fab-size
-    left $fab-size
-    flex-direction row
-  &.left
-    transform scaleX(.4) scaleY(.4) translateX($fab-translate)
-    height $fab-size
-    right $fab-size
-    flex-direction row-reverse
-  &.up
-    transform scaleX(.4) scaleY(.4) translateY($fab-translate)
-    width $fab-size
-    flex-direction column-reverse
-    justify-content center
-    bottom $fab-size
-    right 0
-  &.down
-    transform scaleX(.4) scaleY(.4) translateY(- $fab-translate)
-    width $fab-size
-    flex-direction column
-    justify-content center
-    top $fab-size
-    left 0
+.q-fab-right
+  transform scaleX(.4) scaleY(.4) translateX(-100%)
+  top 0
+  bottom 0
+  left 120%
+  flex-direction row
+.q-fab-left
+  transform scaleX(.4) scaleY(.4) translateX(100%)
+  top 0
+  bottom 0
+  right 120%
+  flex-direction row-reverse
+.q-fab-up
+  transform scaleX(.4) scaleY(.4) translateY(100%)
+  flex-direction column-reverse
+  justify-content center
+  bottom 120%
+  left 0
+  right 0
+.q-fab-down
+  transform scaleX(.4) scaleY(.4) translateY(-100%)
+  flex-direction column
+  justify-content center
+  top 120%
+  left 0
+  right 0
 
 body.platform-ios .q-fab
   &[class*='absolute-bottom-'], &[class*='fixed-bottom-']
