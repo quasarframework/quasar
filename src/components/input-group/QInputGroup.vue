@@ -1,19 +1,21 @@
 <template>
-  <div class="q-input-group small-gutter" :class="{'inline-opts': inline}">
+  <div class="q-input-group small-gutter" :class="{'q-input-group-inline-opts': inline}">
     <div v-for="(opt, index) in options" class="no-wrap">
-      <label class="row inline">
+      <q-label>
         <component
           :is="component"
           v-model="model"
           :val="opt.value"
           :disable="disable"
-          :class="color"
+          :color="opt.color || color"
+          :checked-icon="opt.checkedIcon"
+          :unchecked-icon="opt.uncheckedIcon"
           @focus="$emit('focus')"
           @blur="$emit('blur')"
         ></component>
 
         <span>{{ opt.label }}</span>
-      </label>
+      </q-label>
     </div>
   </div>
 </template>
@@ -22,13 +24,15 @@
 import { QRadio } from '../radio'
 import { QCheckbox } from '../checkbox'
 import { QToggle } from '../toggle'
+import { QLabel } from '../label'
 
 export default {
   name: 'q-input-group',
   components: {
     QRadio,
     QCheckbox,
-    QToggle
+    QToggle,
+    QLabel
   },
   props: {
     value: {

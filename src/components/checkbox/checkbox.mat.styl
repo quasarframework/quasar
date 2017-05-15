@@ -1,59 +1,23 @@
-$checkbox-size           ?= $generic-input-size
-$checkbox-border-radius  ?= $generic-border-radius
-$checkbox-border-width   ?= $generic-input-border-width
-$checkbox-tick-thickness ?= 2px
+$checkbox-size           ?= 24px
 
-$checkbox-tick-top        = ($checkbox-size / 6)
-$checkbox-tick-left       = ($checkbox-size / 6)
-$checkbox-tick-width      = (.26 * $checkbox-size)
-$checkbox-tick-height     = (.55 * $checkbox-size)
+.q-checkbox-unchecked, .q-checkbox-checked
+  height $checkbox-size
+  width $checkbox-size
+  font-size $checkbox-size
+  opacity 0
 
 .q-checkbox
   display inline-block
+  vertical-align middle
   height $checkbox-size
   width $checkbox-size
-  min-width $checkbox-size
-  vertical-align middle
+  color $grey-7
+
+  &.active
+    color $primary
 
   input
     display none !important
-
-  input + div
-    position relative
-
-    &:before
-      border $checkbox-border-width solid $form-darker-color
-    &:before, &:after
-      content ''
-      position absolute
-      top 0
-      left 0
-      width $checkbox-size
-      height $checkbox-size
-      transition all .3s ease
-      border-radius $checkbox-border-radius
-
-  input:checked + div
-    &:before
-      background $form-active-color
-      border $checkbox-border-width solid $form-active-color
-    &:after
-      top $checkbox-tick-top
-      left $checkbox-tick-left
-      width $checkbox-tick-width
-      height $checkbox-tick-height
-      border-top none
-      border-left none
-      border-right $checkbox-tick-thickness solid white
-      border-bottom $checkbox-tick-thickness solid white
-      transform rotate(45deg)
-      transform-origin 100% 100%
-      border-radius 0
-
-  for $name, $color in $colors
-    &.{$name} input:checked + div:before
-      background $color
-      border-color $color
 
 body.desktop .q-checkbox:focus input + div:before
   box-shadow $form-focus-box-shadow

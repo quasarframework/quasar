@@ -13,11 +13,11 @@
           Option 2
         </label>
         <label>
-          <q-radio v-model="option" val="opt3" class="teal"></q-radio>
+          <q-radio v-model="option" val="opt3" color="teal"></q-radio>
           Option 3
         </label>
         <label>
-          <q-radio v-model="option" val="opt4" class="orange"></q-radio>
+          <q-radio v-model="option" val="opt4" color="orange"></q-radio>
           Option 4
         </label>
       </div>

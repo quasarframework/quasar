@@ -301,7 +301,7 @@ export default {
                   type: 'radio',
                   model: 'opt1',
                   items: [
-                    {label: 'Option 1', value: 'opt1'},
+                    {label: 'Option 1', value: 'opt1', color: 'secondary'},
                     {label: 'Option 2', value: 'opt2'},
                     {label: 'Option 3', value: 'opt3'}
                   ]
@@ -335,8 +335,8 @@ export default {
                   type: 'checkbox',
                   items: [
                     {label: 'Option 1', value: 'opt1', model: true},
-                    {label: 'Option 2', value: 'opt2', model: false},
-                    {label: 'Option 3', value: 'opt3', model: false}
+                    {label: 'Option 2', value: 'opt2', model: false, color: 'secondary'},
+                    {label: 'Option 3', value: 'opt3', model: false, color: 'amber'}
                   ]
                 },
                 header2: {
@@ -347,8 +347,8 @@ export default {
                   type: 'toggle',
                   items: [
                     {label: 'Option 1', value: 'opt1', model: true},
-                    {label: 'Option 2', value: 'opt2', model: false},
-                    {label: 'Option 3', value: 'opt3', model: false}
+                    {label: 'Option 2', value: 'opt2', model: false, color: 'secondary'},
+                    {label: 'Option 3', value: 'opt3', model: false, color: 'amber'}
                   ]
                 }
               },

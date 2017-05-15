@@ -28,21 +28,7 @@ $button-round-sizes = {
   white-space nowrap
   color inherit
   background transparent
-
-  &, .q-btn-active
-    transition $button-transition
-
-  .q-btn-active
-    pointer-events none
-    border-radius inherit
-    background currentColor
-    opacity 0
-
-  &:hover, &:focus
-    .q-btn-active
-      opacity .15
-  &:active .q-btn-active
-    opacity .3
+  transition $button-transition
 
   &.full-width
     border-radius 0 !important

@@ -2,7 +2,7 @@
   <button
     v-ripple.mat
     @click="click"
-    class="q-btn row inline items-center justify-center"
+    class="q-btn row inline items-center justify-center q-focusable q-hoverable"
     :class="{
       disabled: disable || loading,
       'q-btn-outline': outline,
@@ -15,7 +15,8 @@
       [`text-${flat || outline ? color : 'white'}`]: color
     }"
   >
-    <div class="q-btn-active absolute-full"></div>
+    <div class="q-focus-helper"></div>
+
     <span class="q-btn-inner flex auto items-center justify-center">
       <slot v-if="loading" name="loading">
         <q-spinner color="currentColor"></q-spinner>

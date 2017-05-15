@@ -72,3 +72,23 @@ for type in desktop mobile cordova electron ios mat touch no-touch within-iframe
 @media all and (orientation landscape)
   .orientation-portrait
     display none !important
+
+
+.q-focus-helper
+  position absolute
+  top 0
+  right 0
+  bottom 0
+  left 0
+  pointer-events none
+  border-radius inherit
+  background currentColor
+  opacity 0
+  transition opacity .12s ease-in
+
+.q-focusable:focus, .q-hoverable:hover
+  .q-focus-helper
+    opacity .15
+
+body.ios .q-hoverable:active .q-focus-helper
+  opacity .3

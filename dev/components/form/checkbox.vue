@@ -6,6 +6,10 @@
       </div>
 
       <p class="caption">Standalone</p>
+      <q-checkbox v-model="checked" checked-icon="sentiment very satisfied" unchecked-icon="sentiment very dissatisfied"></q-checkbox>
+      <q-checkbox v-model="checked" checked-icon="visibility" unchecked-icon="visibility_off" style="margin-left: 50px"></q-checkbox>
+
+      <br><br>
       <div class="column group">
         <q-checkbox v-model="checked" style="margin-bottom: 15px"></q-checkbox>
         <label>
@@ -14,17 +18,17 @@
         </label>
 
         <label>
-          <q-checkbox v-model="checked" class="teal"></q-checkbox>
+          <q-checkbox v-model="checked" color="teal"></q-checkbox>
           Checkbox Label
         </label>
 
         <label>
-          <q-checkbox v-model="checked" class="orange"></q-checkbox>
+          <q-checkbox v-model="checked" color="orange"></q-checkbox>
           Checkbox Label
         </label>
 
         <label>
-          <q-checkbox v-model="checked" class="dark"></q-checkbox>
+          <q-checkbox v-model="checked" color="dark"></q-checkbox>
           Checkbox Label
         </label>
       </div>

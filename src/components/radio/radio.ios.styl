@@ -1,41 +1,32 @@
-$radio-size           ?= $generic-input-size
-$radio-tick-thickness ?= 2px
-$radio-border         ?= 1px solid $form-darker-color
+$radio-size         ?= 24px
+
+.q-radio-unchecked, .q-radio-checked
+  height $radio-size
+  width $radio-size
+  font-size $radio-size
+  transition all .45s cubic-bezier(.23, 1, .32, 1)
+  opacity 0
+
+.q-radio-checked
+  transform-origin 50% 50% 0
+  transform scale(0)
 
 .q-radio
   display inline-block
+  vertical-align middle
   height $radio-size
   width $radio-size
   min-width $radio-size
-  vertical-align middle
-  border 1px solid $form-darker-color
-  border-radius $generic-border-radius
+  color $grey-7
+
+  &.active
+    color $primary
+    .q-radio-checked
+      transform scale(1)
+      opacity 1
 
   input
     display none !important
 
-  input + div
-    position relative
-
-    &:after
-      content ''
-      position absolute
-      opacity 0
-      top 0
-      left ($radio-size / 3)
-      width (.36 * $radio-size)
-      height (.75 * $radio-size)
-      border-top none
-      border-left none
-      border-right $radio-tick-thickness solid $form-active-color
-      border-bottom $radio-tick-thickness solid $form-active-color
-      transform rotate(45deg)
-      transition all .3s ease
-
-  for $name, $color in $colors
-    &.{$name} input:checked + div:after
-      border-color $color
-
-input:checked + div
-  &:after
-    opacity 1
+body.desktop .q-radio:focus input + div:before
+  box-shadow $form-focus-box-shadow

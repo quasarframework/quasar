@@ -30,3 +30,34 @@
 
     &-visible
       opacity .3
+
+.q-radial-ripple
+  overflow hidden
+  transform translate3d(-25%, -25%, 0)
+  width 200%
+  height 200%
+  border-radius 50%
+  pointer-events none
+
+  &, &:after
+    position absolute
+    top 0
+    right 0
+    bottom 0
+    left 0
+  &:after
+    content ''
+    display block
+    width 100%
+    height 100%
+    background-image radial-gradient(circle, currentColor 10%, transparent 10.01%)
+    background-repeat no-repeat
+    background-position 50%
+    transform scale(10, 10)
+    opacity 0
+    transition transform .5s, opacity 1s
+
+  &.active:after
+    transform scale(0, 0)
+    opacity .2
+    transition 0s

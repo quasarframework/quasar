@@ -1,12 +1,25 @@
-$toggle-size             ?= $generic-input-size
-$toggle-width-factor     ?= 1.8
+$toggle-width           = 44px
+$toggle-height          = 24px
+$toggle-handle-size     = round($toggle-width / 2)
 
-$toggle-height           = $toggle-size
-$toggle-width            = $toggle-width-factor * $toggle-size
+.q-toggle-base
+  transition all .45s cubic-bezier(.23, 1, .32, 1)
+  width 100%
+  height 14px
+  border-radius 30px
+  background-color currentColor
+  opacity .5
 
-$toggle-handle-size      = $toggle-size
-$toggle-area-width       = $toggle-width
-$toggle-area-active-left = ($toggle-width - $toggle-handle-size)
+.q-toggle-handle
+  background-color rgb(245, 245, 245)
+  transition all 450ms cubic-bezier(.23, 1, .32, 1)
+  border-radius 50%
+  position absolute
+  top 1px
+  left 0
+  width $toggle-handle-size
+  height $toggle-handle-size
+  line-height $toggle-handle-size
 
 .q-toggle
   display inline-block
@@ -14,62 +27,19 @@ $toggle-area-active-left = ($toggle-width - $toggle-handle-size)
   width $toggle-width
   min-width $toggle-width
   vertical-align middle
-  position relative
+  padding 5px 0
+  color $grey-7
+
+  &.active
+    color $primary
+    .q-toggle-handle
+      background-color currentColor
+      left ($toggle-width - $toggle-handle-size)
+    .q-toggle-icon
+      color white
 
   input
     display none
-  i
-    color $grey-7
-    line-height $toggle-size
-    font-size (.65 * $toggle-size)
-    position absolute
-    top 0
-    bottom 0
-    left (.25 * $toggle-handle-size)
-    transition all .3s ease
-
-  div
-    position relative
-    &:before, &:after
-      content ''
-      position absolute
-      transition all .3s ease
-    &:before
-      vertical-align middle
-      top (.15 * $toggle-height)
-      left 0
-      width $toggle-area-width
-      height (.7 * $toggle-height)
-      border-radius 16px
-      background $form-lighter-color
-    &:after
-      border-radius 50%
-      top 0
-      left 2px
-      width $toggle-handle-size
-      height $toggle-handle-size
-      background white
-      box-shadow $form-shadow
-      transform translateX(0)
-
-  input:checked + div
-    &:before
-      background lighten($form-active-color, 60%)
-    &:after
-      transform translateX(($toggle-area-active-left - 2px))
-      background $form-active-color
-
-  input:checked ~ i
-    color white
-    transform translateX(($toggle-area-active-left - 1.6px))
-
-
-  for $name, $color in $colors
-    &.{$name} input:checked + div
-      &:before
-        background lighten($color, 60%)
-      &:after
-        background $color
 
 body.desktop .q-toggle:focus input + div:before
   box-shadow $form-focus-box-shadow

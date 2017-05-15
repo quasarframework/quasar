@@ -1,18 +1,31 @@
-$toggle-size           ?= $generic-input-size
-$toggle-width-factor   ?= 1.8
-$toggle-border-color   ?= #e6e6e6
+$toggle-width           = 51px
+$toggle-height          = 32px
+$toggle-span            = 2px
+$toggle-handle-size     = $toggle-height - 2 * $toggle-span
 
-$toggle-height          = $toggle-size
-$toggle-width           = $toggle-width-factor * $toggle-size
-$toggle-border-size     = 1px
+.q-toggle-base
+  transition all .45s cubic-bezier(.23, 1, .32, 1)
+  width 100%
+  height $toggle-height
+  color white
+  background-color currentColor
+  border-radius 16px
+  border 2px solid $grey-3
 
-$toggle-handle-size     = ($toggle-size - 2 * $toggle-border-size)
-$toggle-handle-top      = $toggle-border-size
-$toggle-handle-left     = $toggle-border-size
+.q-toggle-handle
+  background-color white
+  border 1px solid $grey-3
+  transition all 450ms cubic-bezier(.23, 1, .32, 1)
+  border-radius 50%
+  position absolute
+  top $toggle-span
+  left $toggle-span
+  width $toggle-handle-size
+  height $toggle-handle-size
+  line-height $toggle-handle-size
 
-$toggle-area-width      = ($toggle-width - $toggle-border-size)
-$toggle-area-height     = $toggle-height
-$toggle-area-active-left = ($toggle-width - $toggle-handle-size - 2 * $toggle-border-size)
+.q-toggle-icon
+  color currentColor
 
 .q-toggle
   display inline-block
@@ -20,63 +33,19 @@ $toggle-area-active-left = ($toggle-width - $toggle-handle-size - 2 * $toggle-bo
   width $toggle-width
   min-width $toggle-width
   vertical-align middle
-  position relative
+  color $grey-7
+
+  &.active
+    color $primary
+
+    .q-toggle-base
+      color currentColor
+      border 0
+    .q-toggle-handle
+      left ($toggle-width - $toggle-handle-size - $toggle-span)
 
   input
     display none
-  i
-    color $grey-6
-    line-height $toggle-size
-    font-size (.65 * $toggle-size)
-    position absolute
-    top 0
-    bottom 0
-    left (.2 * $toggle-handle-size)
-    transition all .3s ease
 
-  div
-    position relative
-
-    &:before, &:after
-      content ''
-      position absolute
-      transition all .3s ease
-      background white
-
-    &:before
-      vertical-align middle
-      top 0
-      left 0
-      width $toggle-area-width
-      height $toggle-area-height
-      border-radius $toggle-handle-size
-      border $toggle-border-size solid $toggle-border-color
-
-    &:after
-      border-radius 50%
-      top $toggle-handle-top
-      left 0
-      width $toggle-handle-size
-      height $toggle-handle-size
-      box-shadow $shadow-1
-      transform translateX($toggle-handle-left)
-
-  input:checked + div
-    &:before
-      background $form-active-color
-      border $toggle-border-size solid $form-active-color
-
-    &:after
-      transform translateX($toggle-area-active-left)
-
-  input:checked ~ i
-    color $form-active-color
-    transform translateX($toggle-area-active-left - 1px)
-
-  for $name, $color in $colors
-    &.{$name} input:checked
-      & + div:before
-        background $color
-        border-color $color
-      & ~ i
-        color $color
+body.desktop .q-toggle:focus input + div:before
+  box-shadow $form-focus-box-shadow

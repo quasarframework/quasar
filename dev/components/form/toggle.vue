@@ -14,17 +14,17 @@
         </label>
 
         <label>
-          <q-toggle v-model="checked" class="orange"></q-toggle>
+          <q-toggle v-model="checked" color="orange"></q-toggle>
           Toggle Label
         </label>
 
         <label>
-          <q-toggle v-model="checked" class="teal"></q-toggle>
+          <q-toggle v-model="checked" color="teal"></q-toggle>
           Toggle Label
         </label>
 
         <label>
-          <q-toggle v-model="checked" class="dark"></q-toggle>
+          <q-toggle v-model="checked" color="dark"></q-toggle>
           Toggle Label
         </label>
       </div>
@@ -56,7 +56,11 @@
           Toggle Label
         </label>
         <label>
-          <q-toggle v-model="checked" icon="mail" class="secondary"></q-toggle>
+          <q-toggle v-model="checked" icon="mail" color="secondary"></q-toggle>
+          Toggle Label
+        </label>
+        <label>
+          <q-toggle v-model="checked" unchecked-icon="visibility_off" checked-icon="visibility" color="red"></q-toggle>
           Toggle Label
         </label>
       </div>

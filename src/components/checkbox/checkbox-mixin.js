@@ -5,6 +5,7 @@ export default {
       required: true
     },
     val: {},
+    color: String,
     disable: Boolean
   },
   computed: {
@@ -23,10 +24,30 @@ export default {
       if (this.isArray) {
         return this.model.indexOf(this.val)
       }
+    },
+    isActive () {
+      return this.isArray
+        ? this.model.indexOf(this.val) > -1
+        : this.model
+    }
+  },
+  watch: {
+    isActive () {
+      const ref = this.$refs.ripple
+      if (ref) {
+        ref.classList.add('active')
+        setTimeout(() => {
+          ref.classList.remove('active')
+        }, 10)
+      }
     }
   },
   methods: {
-    toggle () {
+    toggle (withBlur) {
+      if (withBlur !== false) {
+        this.$el.blur()
+      }
+
       if (this.disable) {
         return
       }
