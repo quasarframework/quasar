@@ -68,29 +68,34 @@
           v-if="view === 'year'"
           class="q-datetime-view-year full-width full-height"
         >
-          <button
+          <q-btn
             v-for="n in yearInterval"
-            class="primary clear full-width"
+            :key="n"
+            flat
+            color="black"
+            class="q-datetime-btn full-width"
             :class="{active: n + yearMin === year}"
             @click="setYear(n + yearMin)"
-            v-ripple.mat
           >
             {{ n + yearMin }}
-          </button>
+          </q-btn>
         </div>
 
         <div
           v-if="view === 'month'"
           class="q-datetime-view-month full-width full-height"
         >
-          <button
+          <q-btn
             v-for="index in monthInterval"
-            class="primary clear full-width"
+            :key="index"
+            flat
+            color="black"
+            class="q-datetime-btn full-width"
             :class="{active: month === index + monthMin}"
             @click="setMonth(index + monthMin, true)"
           >
             {{ monthNames[index + monthMin - 1] }}
-          </button>
+          </q-btn>
         </div>
 
         <div
