@@ -303,7 +303,7 @@ export default {
       return this.$refs.input
     },
     computedStep () {
-      if (this.isNumer) {
+      if (this.isNumber) {
         return this.step
       }
     }
