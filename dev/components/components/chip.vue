@@ -103,6 +103,12 @@
 
       <p class="caption">Pointing Label Chips</p>
       <p>
+        <q-chip pointing="up" class="pointing-up bg-primary text-white">1</q-chip>
+        <q-chip pointing="down" class="pointing-down bg-primary text-white">2</q-chip>
+        <q-chip pointing="right" class="pointing-right bg-primary text-white">3</q-chip>
+        <q-chip pointing="left" class="pointing-left bg-primary text-white">4</q-chip>
+      </p>
+      <p>
         <q-chip pointing="up" class="pointing-up bg-primary text-white">Pointing Up</q-chip>
         <q-chip pointing="down" class="pointing-down bg-primary text-white">Pointing Down</q-chip>
         <q-chip pointing="right" class="pointing-right bg-primary text-white">Pointing Right</q-chip>

@@ -1,7 +1,7 @@
 <template>
   <div
     class="q-range non-selectable"
-    :class="{disabled: disable, 'label-always': labelAlways}"
+    :class="classes"
     @click="__click"
     v-touch-pan.horizontal="__pan"
   >
@@ -20,14 +20,21 @@
       ></div>
       <div
         class="q-range-handle"
-        :style="{left: percentage}"
+        :style="{left: percentage, borderRadius: square ? '0' : '50%'}"
         :class="{dragging: dragging, 'handle-at-minimum': value === min}"
       >
-        <div
-          class="q-range-label"
+        <q-chip
+          pointing="down"
+          square
+          :color="labelColor"
+          class="q-range-label no-pointer-events"
           :class="{'label-always': labelAlways}"
           v-if="label || labelAlways"
-        >{{ value }}</div>
+        >
+          {{ value }}
+        </q-chip>
+
+        <div v-if="$q.theme !== 'ios'" class="q-range-ring"></div>
       </div>
     </div>
   </div>

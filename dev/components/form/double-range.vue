@@ -9,6 +9,7 @@
         </span>
       </p>
       <q-double-range v-model="standalone" :min="0" :max="50"></q-double-range>
+      <q-double-range v-model="standalone" :min="0" :max="50" square></q-double-range>
 
       <p class="caption">
         With Floating Point Precision
@@ -86,12 +87,13 @@
       <q-double-range v-model="standalone" :min="0" :max="50" disable></q-double-range>
 
       <p class="caption">Error State</p>
-      <q-double-range class="has-error" v-model="standalone" :min="0" :max="50"></q-double-range>
+      <q-double-range error v-model="standalone" :min="0" :max="50"></q-double-range>
+      <q-double-range error label-always v-model="standalone" :min="0" :max="50"></q-double-range>
 
       <p class="caption">Coloring</p>
-      <q-double-range class="secondary" v-model="standalone" :min="0" :max="50" label></q-double-range>
-      <q-double-range class="orange" v-model="standalone" :min="0" :max="50" label></q-double-range>
-      <q-double-range class="dark" v-model="standalone" :min="0" :max="50" label></q-double-range>
+      <q-double-range color="secondary" v-model="standalone" :min="0" :max="50" label></q-double-range>
+      <q-double-range color="orange" v-model="standalone" :min="0" :max="50" label></q-double-range>
+      <q-double-range color="dark" v-model="standalone" :min="0" :max="50" label></q-double-range>
 
       <p class="caption">Inside of a List</p>
       <div class="list">

@@ -1,5 +1,6 @@
 import { between } from '../../utils/format'
 import { position } from '../../utils/event'
+import { QChip } from '../chip'
 
 export function getPercentage (event, dragging) {
   return between((position(event).left - dragging.left) / dragging.width, 0, 1)
@@ -28,6 +29,9 @@ export function getModel (percentage, min, max, step, decimals) {
 }
 
 export let mixin = {
+  components: {
+    QChip
+  },
   props: {
     min: {
       type: Number,
@@ -49,7 +53,25 @@ export let mixin = {
     markers: Boolean,
     label: Boolean,
     labelAlways: Boolean,
+    square: Boolean,
+    color: String,
+    error: Boolean,
     disable: Boolean
+  },
+  computed: {
+    classes () {
+      return {
+        disabled: this.disable,
+        'label-always': this.labelAlways,
+        'has-error': this.error,
+        [`text-${this.color}`]: !this.error && this.color
+      }
+    },
+    labelColor () {
+      return this.error
+        ? 'negative'
+        : this.color || 'primary'
+    }
   },
   methods: {
     __pan (event) {

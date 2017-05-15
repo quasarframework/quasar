@@ -60,6 +60,8 @@
             :label-always="el.labelAlways"
             :markers="el.markers"
             :snap="el.snap"
+            :square="el.square"
+            :color="el.color"
             class="with-padding"
           ></component>
         </div>

@@ -15,6 +15,7 @@ $modal-body-padding      ?= 0 16px 21px
 $modal-slim-body-padding ?= 0 16px 16px 16px
 $modal-scroll-size       ?= 240px
 $modal-buttons-padding   ?= 0
+$modal-border-radius     ?= 13px
 
 body.with-modal
   overflow hidden !important
@@ -28,14 +29,16 @@ maximized-modal()
   height 100%
   max-width 100%
   max-height 100%
+  border-radius 0
 
 .modal-content
   position relative
   background $modal-background
-  box-shadow $shadow-4
+  box-shadow $shadow-3
   overflow-y auto
   min-width 280px
   max-height 80vh
+  border-radius $modal-border-radius
 
   .layout
     width 100%

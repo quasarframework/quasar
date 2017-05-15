@@ -377,7 +377,8 @@ export default {
                   min: 10,
                   max: 20,
                   withLabel: true,
-                  model: 12
+                  model: 12,
+                  color: 'secondary'
                 },
                 doubleRange: {
                   type: 'double-range',

@@ -8,6 +8,7 @@
         </span>
       </p>
       <q-range v-model="standalone" :min="0" :max="50"></q-range>
+      <q-range v-model="standalone" :min="0" :max="50" square></q-range>
 
       <p class="caption">
         With Floating Point Precision
@@ -61,12 +62,13 @@
       <q-range v-model="standalone" :min="0" :max="50" disable></q-range>
 
       <p class="caption">Error State</p>
-      <q-range class="has-error" v-model="standalone" :min="0" :max="50"></q-range>
+      <q-range error v-model="standalone" :min="0" :max="50"></q-range>
+      <q-range error v-model="standalone" :min="0" :max="50" label-always></q-range>
 
       <p class="caption">Coloring</p>
-      <q-range class="secondary" v-model="standalone" :min="0" :max="50" label></q-range>
-      <q-range class="orange" v-model="standalone" :min="0" :max="50" label></q-range>
-      <q-range class="dark" v-model="standalone" :min="0" :max="50" label></q-range>
+      <q-range color="secondary" v-model="standalone" :min="0" :max="50" label></q-range>
+      <q-range color="orange" v-model="standalone" :min="0" :max="50" label></q-range>
+      <q-range color="dark" v-model="standalone" :min="0" :max="50" label></q-range>
 
       <q-field
         label="Range label"

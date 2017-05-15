@@ -74,21 +74,22 @@ $chip-background         ?= $light
       content ''
       z-index -1
       background inherit
-      width 9px
-      height 9px
+      width 16px
+      height 16px
       position absolute
-      transform translateX(-50%) translateY(-50%) rotate(45deg)
   &.pointing-up
     margin-top .8rem
     &:before
       top 0
       left 50%
+      transform translateX(-50%) translateY(-22%) rotate(45deg)
   &.pointing-down
     margin-bottom .8rem
     &:before
       right auto
       top 100%
       left 50%
+      transform translateX(-50%) translateY(-78%) rotate(45deg)
   &.pointing-right
     margin-right .8rem
     &:before
@@ -96,7 +97,7 @@ $chip-background         ?= $light
       right 2px
       bottom auto
       left auto
-      transform translateX(50%) translateY(-50%) rotate(45deg)
+      transform translateX(33%) translateY(-50%) rotate(45deg)
   &.pointing-left
     margin-left .8rem
     &:before
@@ -104,6 +105,7 @@ $chip-background         ?= $light
       left 2px
       bottom auto
       right auto
+      transform translateX(-33%) translateY(-50%) rotate(45deg)
 
   .chip-detail
     background rgba(0, 0, 0, .1)
