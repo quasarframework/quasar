@@ -60,12 +60,17 @@ export let mixin = {
   },
   computed: {
     classes () {
-      return {
+      const cls = {
         disabled: this.disable,
         'label-always': this.labelAlways,
-        'has-error': this.error,
-        [`text-${this.color}`]: !this.error && this.color
+        'has-error': this.error
       }
+
+      if (!this.error && this.color) {
+        cls[`text-${this.color}`] = true
+      }
+
+      return cls
     },
     labelColor () {
       return this.error
