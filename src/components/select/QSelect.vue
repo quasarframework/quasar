@@ -164,6 +164,7 @@ export default {
     visibleOptions () {
       let opts = clone(this.options).map((opt, index) => {
         opt.index = index
+        opt.value = this.options[index].value
         return opt
       })
       if (this.filter && this.terms.length) {
