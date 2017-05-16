@@ -151,8 +151,8 @@ export function setPosition ({el, anchorEl, anchorOrigin, selfOrigin, maxHeight,
 
   targetPosition = applyAutoPositionIfNeeded(anchor, target, selfOrigin, anchorOrigin, targetPosition)
 
-  el.style.top = targetPosition.top + 'px'
-  el.style.left = targetPosition.left + 'px'
+  el.style.top = Math.max(0, targetPosition.top) + 'px'
+  el.style.left = Math.max(0, targetPosition.left) + 'px'
 }
 
 export function positionValidator (pos) {
