@@ -15,7 +15,7 @@ export default {
   props: {
     corner: {
       type: String,
-      required: true,
+      default: 'bottom-right',
       validator: v => ['top-right', 'top-left', 'bottom-right', 'bottom-left'].includes(v)
     },
     offset: {
