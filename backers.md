@@ -22,9 +22,9 @@ It could be you!
 
 ---
 
-### $100
+### $100+
 
-It could be you!
+- picktype.com (100 EUR)
 
 ---
 
@@ -42,13 +42,14 @@ It could be you!
 - Samuel Lin
 - Andrea Salvatore
 - Matsumoto Takamasa
-- Keith Bailey
 - Borris Barroso
 - Josh Bodine
 - William Marques Vicente Gomes Correa
-- Anderson Guilherme Porto
 - Harlon Norse ($20)
 - Max Matteo Staack
+- Samuel Desconsi
+
+- Rogério Queiroz ($3)
 
 ---
 
