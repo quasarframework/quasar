@@ -1,6 +1,6 @@
 <template>
   <div
-    class="q-rating"
+    class="q-rating row inline items-center no-wrap"
     :class="{
       disabled: disable,
       editable: editable,

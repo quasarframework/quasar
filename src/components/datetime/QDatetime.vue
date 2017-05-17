@@ -32,9 +32,11 @@
         :monday-first="mondayFirst"
         class="no-border"
       >
-        <div class="modal-buttons row full-width">
-          <q-btn v-if="!noClear && model" @click="clear()" flat v-html="clearLabel"><span v-html="clearLabel"></span></q-btn>
-          <div class="auto"></div>
+        <div class="modal-buttons row">
+          <q-btn v-if="!noClear && model" @click="clear()" flat>
+            <span v-html="clearLabel"></span>
+          </q-btn>
+          <div class="col"></div>
           <q-btn @click="close()" flat><span v-html="cancelLabel"></span></q-btn>
           <q-btn @click="close(__update)" flat><span v-html="okLabel"></span></q-btn>
         </div>
@@ -62,7 +64,9 @@
         class="no-border full-width"
       >
         <div class="modal-buttons row full-width">
-          <q-btn v-if="!noClear && model" @click="clear()" flat v-html="clearLabel"><span v-html="clearLabel"></span></q-btn>
+          <q-btn v-if="!noClear && model" @click="clear()" flat>
+            <span v-html="clearLabel"></span>
+          </q-btn>
           <div class="auto"></div>
           <q-btn @click="close()" flat><span v-html="cancelLabel"></span></q-btn>
           <q-btn @click="close(__update)" flat><span v-html="okLabel"></span></q-btn>

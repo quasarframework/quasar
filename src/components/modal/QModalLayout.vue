@@ -13,7 +13,7 @@
     </div>
 
     <div
-      class="q-modal-layout-content auto scroll"
+      class="q-modal-layout-content col scroll"
       :style="contentStyle"
       :class="contentClass"
     >

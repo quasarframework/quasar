@@ -1,6 +1,6 @@
 <template>
   <div
-    class="q-stepper-header flex items-stretch justify-between wrap shadow-1"
+    class="q-stepper-header row items-stretch justify-between wrap shadow-1"
     :class="{'alternative-labels': alternativeLabels}"
   >
     <slot></slot>

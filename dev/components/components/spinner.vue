@@ -61,18 +61,22 @@ export default {
       colorOptions: [
         {
           label: 'Black',
+          color: 'black',
           value: '#000000'
         },
         {
           label: 'Red',
+          color: 'red',
           value: '#ff0000'
         },
         {
           label: 'Green',
+          color: 'green',
           value: '#00ff00'
         },
         {
           label: 'Blue',
+          color: 'blue',
           value: '#0000ff'
         }
       ]

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding" style="max-width: 600px;">
+    <div class="layout-padding" style="max-width: 600px; border: 1px solid black;">
       <q-input v-model="modelY" />
       <q-input type="textarea" v-model="modelX" :rows="5" />
 
@@ -435,10 +435,11 @@
       >
         <q-input v-model="model" float-label="Floating $ Label" suffix="#" prefix="@" />
       </q-field>
-
+XXX
       <q-field
         helper="Helper"
-        :content-width="30"
+        :label-width="2"
+        label="Label width 2"
         inset="label"
       >
         <q-input v-model="model" float-label="Floating $ Label" suffix="#" prefix="@" />
@@ -481,8 +482,8 @@
         label="Label"
       >
         <div class="row">
-          <q-input v-model="model" stacked-label="Stacked $ Label" suffix="#" prefix="@" :inline-count="10"/>
-          <q-input v-model="model" stacked-label="Stacked $ Label" suffix="#" prefix="@" :inline-count="10"/>
+          <q-input class="col" v-model="model" stacked-label="Stacked $ Label" suffix="#" prefix="@" :inline-count="10"/>
+          <q-input class="col" v-model="model" stacked-label="Stacked $ Label" suffix="#" prefix="@" :inline-count="10"/>
         </div>
       </q-field>
     </div>
@@ -512,7 +513,7 @@ export default {
 <style lang="styl">
 .q-field
   // border 1px solid black
-  // padding 15px
+  // padding 0
 
 .q-input
   // border 1px solid black

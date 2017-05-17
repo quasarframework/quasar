@@ -25,7 +25,7 @@
         <q-icon name="keyboard_arrow_right"></q-icon>
       </div>
       <div v-if="toolbar" class="q-slider-toolbar row items-center justify-end">
-        <div class="q-slider-dots auto row items-center justify-center">
+        <div class="q-slider-dots col row items-center justify-center">
           <q-icon
             v-if="dots"
             v-for="n in slidesNumber"

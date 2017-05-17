@@ -1,6 +1,6 @@
 <template>
   <div
-    class="q-input row items-start"
+    class="q-input row"
     :class="{
       disabled: disabled,
       readonly: readonly,
@@ -10,7 +10,9 @@
       textarea: isTextarea,
       dropdown: isDropdown,
       simple: simple,
-      complex: complex
+      complex: complex,
+      'items-start': isTextarea,
+      'items-center': !isTextarea
     }"
     @click="__click"
   >
@@ -23,7 +25,7 @@
     <slot name="before"></slot>
     <span v-if="prefix" class="q-input-comp" v-html="prefix"></span>
     <div
-      class="q-input-target q-input-comp auto row"
+      class="q-input-target q-input-comp col row"
       :class="{
         'relative-position': floatLabel && !labelIsAbove,
         flow: $slots['flow-before'] || $slots['flow-after']
@@ -71,7 +73,7 @@
         @keydown="__keydown"
         @keyup="__keyup"
         tabindex="0"
-        class="auto no-outline ellipsis q-input-dropdown"
+        class="col no-outline ellipsis q-input-dropdown"
         :class="`text-${align}`"
       ></div>
       <input
@@ -95,7 +97,7 @@
         :min="min"
         :max="max"
         :step="computedStep"
-        class="auto q-placeholder"
+        class="col q-placeholder"
         :class="`text-${align}`"
         tabindex="0"
       >

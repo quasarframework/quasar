@@ -1,26 +1,26 @@
 <template>
-  <div class="q-datetime inline column gt-md-row" :class="{disabled: disable, readonly: readonly}">
-    <div class="q-datetime-header column justify-center">
+  <div class="q-datetime inline row" :class="{disabled: disable, readonly: readonly}">
+    <div class="q-datetime-header column col-xs-12 col-md-4 justify-center">
       <div v-if="typeHasDate">
-        <div class="q-datetime-weekdaystring">{{ weekDayString }}</div>
-        <div class="q-datetime-datestring row gt-md-column items-center justify-center">
+        <div class="q-datetime-weekdaystring col-12">{{ weekDayString }}</div>
+        <div class="q-datetime-datestring row items-center justify-center">
           <span
             :class="{active: view === 'month'}"
-            class="q-datetime-link small"
+            class="q-datetime-link small col-auto col-md-12"
             @click="view = 'month'"
           >
             {{ monthString }}
           </span>
           <span
             :class="{active: view === 'day'}"
-            class="q-datetime-link"
+            class="q-datetime-link col-auto col-md-12"
             @click="view = 'day'"
           >
             {{ dayString }}
           </span>
           <span
             :class="{active: view === 'year'}"
-            class="q-datetime-link small"
+            class="q-datetime-link small col-auto col-md-12"
             @click="view = 'year'"
           >
             {{ year }}
@@ -29,12 +29,12 @@
       </div>
       <div
         v-if="typeHasTime"
-        class="q-datetime-time row gt-md-column items-center justify-center"
+        class="q-datetime-time row items-center justify-center"
       >
-        <div class="q-datetime-clockstring">
+        <div class="q-datetime-clockstring col-auto col-md-12">
           <span
             :class="{active: view === 'hour'}"
-            class="q-datetime-link"
+            class="q-datetime-link col-auto col-md-12"
             @click="view = 'hour'"
           >
             {{ __pad(hour, '&nbsp;&nbsp;') }}
@@ -42,13 +42,13 @@
           <span style="opacity: 0.6">:</span>
           <span
             :class="{active: view === 'minute'}"
-            class="q-datetime-link"
+            class="q-datetime-link col-auto col-md-12"
             @click="view = 'minute'"
           >
             {{ __pad(minute) }}
           </span>
         </div>
-        <div v-if="!format24h" class="q-datetime-ampm column justify-around">
+        <div v-if="!format24h" class="q-datetime-ampm column col-auto col-md-12 justify-around">
           <div
             :class="{active: am}"
             class="q-datetime-link"
@@ -62,7 +62,7 @@
         </div>
       </div>
     </div>
-    <div class="q-datetime-content auto column">
+    <div class="q-datetime-content col column">
       <div ref="selector" class="q-datetime-selector auto row items-center justify-center">
         <div
           v-if="view === 'year'"
@@ -112,7 +112,7 @@
             >
               <q-icon name="keyboard_arrow_left"></q-icon>
             </q-btn>
-            <div class="auto">
+            <div class="col">
               {{ monthStamp }}
             </div>
             <q-btn
@@ -130,18 +130,18 @@
           </div>
           <div class="q-datetime-days row wrap items-center justify-start content-center">
             <div v-for="fillerDay in fillerDays" class="q-datetime-fillerday"></div>
-            <div v-if="min" v-for="fillerDay in beforeMinDays" class="flex items-center content-center justify-center disabled">
+            <div v-if="min" v-for="fillerDay in beforeMinDays" class="row items-center content-center justify-center disabled">
               {{ fillerDay }}
             </div>
             <div
               v-for="monthDay in daysInterval"
-              class="flex items-center content-center justify-center cursor-pointer"
+              class="row items-center content-center justify-center cursor-pointer"
               :class="{active: monthDay === day}"
               @click="setDay(monthDay)"
             >
               {{ monthDay }}
             </div>
-            <div v-if="max" v-for="fillerDay in aferMaxDays" class="flex items-center content-center justify-center disabled">
+            <div v-if="max" v-for="fillerDay in aferMaxDays" class="row items-center content-center justify-center disabled">
               {{ fillerDay + maxDay }}
             </div>
           </div>

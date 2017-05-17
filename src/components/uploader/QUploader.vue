@@ -4,7 +4,7 @@
       <q-chip
         closable
         color="light"
-        class="text-white q-uploader-progress"
+        class="text-black q-uploader-progress"
         @close="abort"
       >
         <span v-html="computedLabel.uploading"></span>
@@ -49,11 +49,11 @@
         </div>
         <div class="card-content">
           <div class="row items-center">
-            <span class="text-faded">{{ img.__file.__size }}</span>
-            <div class="auto"></div>
+            <span class="text-faded col">{{ img.__file.__size }}</span>
             <q-btn
               v-show="!uploading"
-              class="primary clear small"
+              flat
+              small
               @click="__remove(img)"
               :icon="computedIcons.remove"
             >
@@ -75,11 +75,11 @@
         <div class="card-title">{{ file.name }}</div>
         <div class="card-content">
           <div class="row items-center">
-            <span class="text-faded">{{ file.__size }}</span>
-            <div class="auto"></div>
+            <span class="text-faded col">{{ file.__size }}</span>
             <q-btn
               v-show="!uploading"
-              class="primary clear small"
+              flat
+              small
               @click="__remove(file)"
               :icon="computedIcons.remove"
             >

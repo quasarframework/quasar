@@ -4,20 +4,18 @@
     :class="{
       'has-error': hasError,
       floating: floating,
-      vertical: vertical,
-      horizontal: horizontal,
       focused: focused,
       'with-icon': icon,
       'with-label': label
     }"
   >
-    <q-icon :name="icon" v-if="icon || insetIcon" class="q-field-icon self-start"></q-icon>
+    <q-icon :name="icon" v-if="icon || insetIcon" class="q-field-icon col-auto self-start"></q-icon>
 
-    <div class="q-field-container flex auto">
+    <div class="q-field-container row col">
       <div
         v-if="hasLabel"
-        class="q-field-label auto"
-        :class="{'required-label': required}"
+        class="q-field-label col-xs-12"
+        :class="labelClass"
         @click="focus"
       >
         <slot name="label">
@@ -32,7 +30,7 @@
         </q-icon>
       </div>
 
-      <div class="q-field-content" :style="contentStyle">
+      <div class="q-field-content col-xs-12 col-sm">
         <slot></slot>
         <div v-if="hasBottom" class="q-field-bottom">
           <div
@@ -68,11 +66,11 @@ export default {
         return !val ? true : ['vertical', 'horizontal'].includes(val)
       }
     },
-    contentWidth: {
+    labelWidth: {
       type: Number,
-      default: 70,
+      default: 5,
       validator (val) {
-        return val > 0 && val < 100
+        return val >= 1 && val <= 12
       }
     },
     inset: {
@@ -107,25 +105,21 @@ export default {
     hasBottom () {
       return (this.hasError && this.errorLabel) || this.helper || this.counter
     },
-    contentStyle () {
-      return this.hasLabel
-        ? {width: `${this.contentWidth}%`, minWidth: `${this.contentWidth}%`}
-        : `width: 100%`
-    },
     insetIcon () {
       return ['icon', 'full'].includes(this.inset)
     },
     insetLabel () {
       return ['label', 'full'].includes(this.inset)
     },
-    vertical () {
-      return this.orientation === 'vertical'
-    },
-    horizontal () {
-      return this.orientation === 'horizontal'
-    },
     hasError () {
       return this.childError || this.error
+    },
+    labelClass () {
+      const cls = [`col-sm-${this.labelWidth}`]
+      if (this.required) {
+        cls.push('required-label')
+      }
+      return cls
     }
   },
   provide () {

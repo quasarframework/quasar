@@ -25,7 +25,7 @@
     <q-icon
       name="send"
       slot="after"
-      class="self-end q-chips-button"
+      class="self-end q-chips-button cursor-pointer"
       @click="add()"
       :class="{invisible: !input.length}"
     ></q-icon>

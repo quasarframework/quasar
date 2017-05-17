@@ -8,10 +8,7 @@
     stroke-dasharray 1, 200
     stroke-dashoffset 0
     stroke-linecap round
-  &.one-color .path
     animation q-mat-dash 1.5s ease-in-out infinite
-  &:not(.one-color) .path
-    animation q-mat-dash 1.5s ease-in-out infinite, q-mat-color 6s ease-in-out infinite
 
 @keyframes q-mat-dash
   0%
@@ -23,13 +20,3 @@
   100%
     stroke-dasharray 89, 200
     stroke-dashoffset -124px
-
-@keyframes q-mat-color
-  100%, 0%
-    stroke $red
-  40%
-    stroke $blue
-  66%
-    stroke $green
-  80%, 90%
-    stroke $yellow

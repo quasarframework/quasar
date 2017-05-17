@@ -2,7 +2,7 @@
   <div class="q-data-table">
     <template v-if="hasToolbar && toolbar === ''">
       <div class="q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end">
-        <div v-if="config.title" class="q-data-table-title ellipsis auto" v-html="config.title"></div>
+        <div v-if="config.title" class="q-data-table-title ellipsis col" v-html="config.title"></div>
         <div class="row items-center">
           <q-btn v-if="config.refresh && !refreshing" flat color="primary" @click="refresh">
             <q-icon name="refresh"></q-icon>
@@ -25,7 +25,7 @@
     </template>
 
     <div class="q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end q-data-table-selection" v-show="toolbar === 'selection'">
-      <div class="auto">
+      <div class="col">
         {{ rowsSelected }}
         <span v-if="rowsSelected === 1">{{ labels.selected.singular }}</span>
         <span v-else>{{ labels.selected.plural }}</span>

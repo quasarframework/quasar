@@ -38,8 +38,10 @@
               tabindex="0"
               v-ripple.mat
             >
-              <q-icon v-if="button.icon" :name="button.icon" class="item-primary"></q-icon>
-              <img v-if="button.avatar" :src="button.avatar" class="item-primary">
+              <div v-if="button.icon || button.avatar" class="item-primary">
+                <q-icon :name="button.icon"></q-icon>
+                <img v-if="button.avatar" :src="button.avatar" class="avatar">
+              </div>
               <div class="item-content inset">
                 {{ button.label}}
               </div>
@@ -63,7 +65,7 @@
         </div>
       </div>
     </div>
-    
+
     <!-- Material/Default for custom theme -->
     <div v-once v-else>
       <div v-if="title" class="modal-header" v-html="title"></div>
@@ -95,8 +97,10 @@
             tabindex="0"
             v-ripple.mat
           >
-            <q-icon v-if="button.icon" :name="button.icon" class="item-primary"></q-icon>
-            <img v-if="button.avatar" :src="button.avatar" class="item-primary">
+            <div v-if="button.icon || button.avatar" class="item-primary">
+              <q-icon :name="button.icon"></q-icon>
+              <img v-if="button.avatar" :src="button.avatar" class="avatar">
+            </div>
             <div class="item-content inset">
               {{ button.label }}
             </div>

@@ -178,12 +178,12 @@ export default {
           allCols: 'Eeeeeeeeevery Cols',
           rows: 'Rooows',
           selected: {
-            singular: 'item selected.',
-            plural: 'items selected.'
+            singular: 'item selecteeed.',
+            plural: 'items selecteeed.'
           },
-          clear: 'clear',
-          search: 'Search',
-          all: 'All'
+          clear: 'cleeeear',
+          search: 'Seaaaarch',
+          all: 'AAAll'
         }
       },
       columns: [

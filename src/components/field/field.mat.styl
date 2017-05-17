@@ -22,7 +22,7 @@ $field-gutter                 ?= .6rem
 
 .q-field-label
   cursor pointer
-  margin-right $field-gutter
+  padding-right $field-gutter
   color $field-label-color
   &.required-label
     font-weight $field-required-label-weight
@@ -39,13 +39,6 @@ $field-gutter                 ?= .6rem
 .q-field-label, .q-field-count
   transition color .3s ease-out
 
-.q-field-content
-  width 66%
-
-.q-field-content-inner
-  display flex
-  align-items center
-
 .q-field-error
   color $negative
 
@@ -57,29 +50,11 @@ $field-gutter                 ?= .6rem
 .q-field-helper
   color $field-helper-color
 
-vertical-field()
-  &.floating .q-field-label
-    margin-top 0
-  .q-field-label
-    margin-right 0
-  .q-field-container
-    flex-direction column
-  .q-field-content
-    width 100% !important
-  &.with-label
-    .q-field-icon
-      margin-top 0
-    .q-field-label
-      margin-bottom .7rem
-  &.with-icon
-    .q-field-label
-      margin-top .25rem
-    &.with-label
-      .q-field-content
-        margin-top 0
-
 .q-field
   padding 15px 0
+
+  .q-input-group
+    margin-bottom 13px
 
   .q-input
     margin-top 0
@@ -92,8 +67,6 @@ vertical-field()
   &.floating
     .q-field-icon
       margin-top 1rem
-    .q-field-label
-      margin-top 1.25rem
     .q-field-content
       margin-top 0
   &:hover, &.focused
@@ -104,9 +77,23 @@ vertical-field()
     .q-field-label, .q-field-icon
       color $has-error
 
-  &.vertical
-    vertical-field()
+@media (min-width 576px)
+  .q-field.floating .q-field-label
+    margin-top 1.25rem
 
-@media (max-width $layout-small-max)
-  .q-field:not(.horizontal)
-    vertical-field()
+@media (max-width 575px)
+  .q-field-label
+    padding-right 0
+
+  .q-field
+    &:not(.with-label)
+      .q-field-label
+        display none
+    &.with-label
+      .q-field-icon
+        margin-top 0
+      .q-field-label
+        margin-bottom .7rem
+      &.with-icon
+        .q-field-content
+          margin-top 0

@@ -29,7 +29,7 @@
         icon="account_box"
         label="Birthday"
         helper="Some helper here"
-        :content-width="80"
+        :label-width="3"
       >
         <q-chips v-model="model" :count="10"></q-chips>
       </q-field>

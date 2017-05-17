@@ -1,7 +1,7 @@
 <template>
-  <div class="q-data-table-toolbar upper-toolbar row auto items-center">
+  <div class="q-data-table-toolbar upper-toolbar row col items-center">
     <q-search
-      class="auto"
+      class="col"
       v-model="filtering.terms"
       :placeholder="labels.search"
     ></q-search>

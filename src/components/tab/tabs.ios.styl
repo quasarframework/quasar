@@ -32,8 +32,6 @@ $tabs-text-transform           ?= uppercase
   opacity $tabs-unselected-opacity
 
 .q-tab
-  display flex
-  flex-direction column
   cursor pointer
   transition color .3s, background .3s
   white-space nowrap
@@ -71,18 +69,18 @@ $tabs-text-transform           ?= uppercase
   &:active
     background rgba(255, 255, 255, .3)
 
-@media only screen and (max-width $layout-small-max)
+@media (max-width $breakpoint-sm-max)
   .q-tab
     &.hide-icon .q-tab-icon,
     &.hide-label .q-tab-label
       display none !important
 
-@media only screen and (max-width $layout-medium-max)
+@media (max-width $breakpoint-md-max)
   .q-tabs-head:not(.scrollable)
     .q-tabs-scroller, .q-tab
       flex 1 1 auto
 
-@media only screen and (min-width $layout-big-min)
+@media (min-width $breakpoint-lg-min)
   .q-tab, .q-tab.icon-and-label
     padding-left $tabs-big-screen-horiz-padding
     padding-right $tabs-big-screen-horiz-padding

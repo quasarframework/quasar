@@ -4,7 +4,6 @@ $stepper-label-color           ?= rgba(0, 0, 0, .72)
 $stepper-label-inactive-color  ?= rgba(0, 0, 0, .38)
 $stepper-pane-padding          ?= 16px
 $stepper-hover-color           ?= rgba(0, 0, 0, .05)
-$stepper-active-color          ?= rgba(0, 0, 0, .15)
 
 $stepper-identity-size = 24px
 
@@ -63,11 +62,8 @@ $stepper-identity-size = 24px
     .q-stepper-label
       color $negative
 
-body.desktop .q-stepper-step.step-editable
-  &:hover
-    background $stepper-hover-color
-  &:active
-    background $stepper-active-color
+body.desktop .q-stepper-step.step-editable:hover
+  background $stepper-hover-color
 
 .q-stepper-label
   position relative
@@ -154,7 +150,7 @@ body.desktop .q-stepper-step.step-editable
     align-items center
     text-align center
 
-@media (max-width $layout-small-max)
+@media (max-width $breakpoint-sm-max)
   .q-stepper.horizontal
     .q-stepper-label
       display none

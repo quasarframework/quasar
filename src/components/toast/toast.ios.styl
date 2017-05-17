@@ -7,7 +7,7 @@
   z-index $z-toast
   will-change transform
   transform translateY(101%)
-  transition all .3s ease-in
+  transition transform .3s ease-in
   margin 10px
   border-radius $generic-border-radius
 
@@ -40,12 +40,12 @@
 .q-toast-message
   padding 20px 0
 
-@media (min-width $layout-medium-min)
+@media (min-width $breakpoint-md-min)
   .q-toast
     display inline-flex !important
     font-size 1.1rem
     border-radius $generic-border-radius
-    max-width $layout-medium-min
+    max-width $breakpoint-md-min
     margin 24px auto
     box-shadow $shadow-3
 

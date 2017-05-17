@@ -1,0 +1,187 @@
+.row, .column, .flex
+  display flex
+  flex-wrap wrap
+  &.inline
+    display inline-flex
+
+.row.reverse
+  flex-direction row-reverse
+
+.column
+  flex-direction column
+  &.reverse
+    flex-direction column-reverse
+
+.wrap
+  flex-wrap wrap
+.no-wrap
+  flex-wrap nowrap
+.reverse-wrap
+  flex-wrap wrap-reverse
+
+.col
+  flex-basis 0
+  flex-grow 1
+  min-height 1px
+
+.row
+  > .col
+    max-width 100%
+    width 100%
+
+for $name, $size in $sizes
+  .row > .col-{$name}
+    width 100%
+  .col-{$name}
+    min-height 1px
+  for $i in (1..$grid-cols)
+    .row > .col-{$name}-{$i}
+      width 100%
+    .col-{$name}-{$i}
+      min-height 1px
+
+.row > .col-auto
+  width auto
+.col-auto
+  flex 0 0 auto
+
+.order-first
+  order -10000
+.order-last
+  order 10000
+.order-none
+  order 0
+
+.justify-
+  &start
+    justify-content flex-start
+  &end
+    justify-content flex-end
+  &center
+    justify-content center
+  &between
+    justify-content space-between
+  &around
+    justify-content space-around
+
+.items-
+  &start
+    align-items flex-start
+  &end
+    align-items flex-end
+  &center
+    align-items center
+  &baseline
+    align-items baseline
+  &stretch
+    align-items stretch
+
+.content-
+  &start
+    align-content flex-start
+  &end
+    align-content flex-end
+  &center
+    align-content center
+  &between
+    align-content space-between
+  &around
+    align-content space-around
+
+.self-
+  &start
+    align-self flex-start
+  &end
+    align-self flex-end
+  &center
+    align-self center
+  &baseline
+    align-self baseline
+  &stretch
+    align-self stretch
+
+for $i in (1..$grid-cols)
+  .col-{$i}
+    flex 0 0 (round($i / $grid-cols * 100, 5))%
+  .row > .col-{$i}
+    max-width (round($i / $grid-cols * 100, 5))%
+  .offset-{$i}
+    margin-left (round($i / $grid-cols * 100, 5))%
+
+for $name, $size in $sizes
+  @media (min-width $size)
+    .justify-{$name}-
+      &start
+        justify-content flex-start
+      &end
+        justify-content flex-end
+      &center
+        justify-content center
+      &between
+        justify-content space-between
+      &around
+        justify-content space-around
+
+    .items-{$name}-
+      &start
+        align-items flex-start
+      &end
+        align-items flex-end
+      &center
+        align-items center
+      &baseline
+        align-items baseline
+      &stretch
+        align-items stretch
+
+    .content-{$name}-
+      &start
+        align-content flex-start
+      &end
+        align-content flex-end
+      &center
+        align-content center
+      &between
+        align-content space-between
+      &around
+        align-content space-around
+
+    .self-{$name}-
+      &start
+        align-self flex-start
+      &end
+        align-self flex-end
+      &center
+        align-self center
+      &baseline
+        align-self baseline
+      &stretch
+        align-self stretch
+
+    .row
+      > .col-{$name}
+        max-width 100%
+      > .col-{$name}-auto
+        width auto
+
+    .col-{$name}-auto
+      flex 0 0 auto
+
+    for $i in (1..$grid-cols)
+      .col-{$name}-{$i}
+        flex 0 0 (round($i / $grid-cols * 100, 5))%
+      .row > .col-{$name}-{$i}
+        max-width (round($i / $grid-cols * 100, 5))%
+      .offset-{$name}-{$i}
+        margin-left (round($i / $grid-cols * 100, 5))%
+
+    .col-{$name}
+      flex-basis 0
+      flex-grow 1
+
+    .order-first
+      order -10000
+    .order-last
+      order 10000
+    .order-none
+      order 0

@@ -2,14 +2,18 @@
   <div
     v-if="active"
     class="q-alert row"
-    :class="[`bg-${color}`, position ? `fixed-${position}` : '', position ? 'shadow-2' : '']"
+    :class="[
+      `bg-${color}`,
+      position ? `fixed-${position}` : '',
+      position ? 'shadow-2' : ''
+    ]"
   >
-    <div class="q-alert-icon flex items-center justify-center">
+    <div class="q-alert-icon row col-auto items-center justify-center">
       <slot name="left">
         <q-icon :name="alertIcon"></q-icon>
       </slot>
     </div>
-    <div class="q-alert-content auto self-center">
+    <div class="q-alert-content col self-center">
       <slot></slot>
       <div
         v-if="buttons && buttons.length"
@@ -26,7 +30,7 @@
     </div>
     <div
       v-if="dismissible"
-      class="q-alert-close self-top"
+      class="q-alert-close self-top col-auto"
     >
       <q-icon
         name="close"

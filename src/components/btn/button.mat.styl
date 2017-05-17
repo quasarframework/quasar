@@ -26,16 +26,19 @@ $button-round-sizes = {
   -webkit-appearance button
   padding $button-padding
   font-weight $button-font-weight
-  text-transform uppercase
   text-decoration none
   white-space nowrap
   color inherit
   background transparent
   box-shadow $shadow-1
   transition $button-transition
+  text-transform uppercase
 
   &.full-width
     border-radius 0 !important
+
+.q-btn-no-uppercase
+  text-transform none
 
 .q-btn-rectangle
   border-radius $button-border-radius

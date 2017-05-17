@@ -1,6 +1,6 @@
 <template>
   <div
-    class="q-fab flex inline justify-center"
+    class="q-fab row inline justify-center"
     :class="{opened: opened}"
   >
     <q-btn
@@ -14,7 +14,7 @@
       <q-icon :name="icon" class="q-fab-icon"></q-icon>
       <q-icon :name="activeIcon" class="q-fab-active-icon"></q-icon>
     </q-btn>
-    <div class="q-fab-actions flex inline items-center" :class="`q-fab-${direction}`">
+    <div class="q-fab-actions flex no-wrap inline items-center" :class="`q-fab-${direction}`">
       <slot></slot>
     </div>
   </div>

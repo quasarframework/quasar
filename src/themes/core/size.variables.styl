@@ -1,15 +1,31 @@
-$layout-small  ?= 600px
-$layout-medium ?= 920px
-$layout-big    ?= 1280px
+// Max width at which point
+// current size ends
+$breakpoint-xs ?= 575px
+$breakpoint-sm ?= 767px
+$breakpoint-md ?= 991px
+$breakpoint-lg ?= 1199px
 
-$layout-small-min = 0
-$layout-small-max = $layout-small
+$grid-cols = 12
 
-$layout-medium-min = $layout-small-max + 1
-$layout-medium-max = $layout-medium
+$sizes = {
+  xs: 0,
+  sm: $breakpoint-xs + 1, // Extra small screen / phone
+  md: $breakpoint-sm + 1, // Small screen / phone
+  lg: $breakpoint-md + 1, // Medium screen / tablet
+  xl: $breakpoint-lg + 1  // Large screen / desktop
+}
 
-$layout-big-min = $layout-medium-max + 1
-$layout-big-max = $layout-big
+$breakpoint-xs-min = 0
+$breakpoint-xs-max = $breakpoint-xs
 
-$layout-large-min = $layout-big-max + 1
-$layout-large-max = 9999px
+$breakpoint-sm-min = $sizes[sm]
+$breakpoint-sm-max = $breakpoint-sm
+
+$breakpoint-md-min = $sizes[md]
+$breakpoint-md-max = $breakpoint-md
+
+$breakpoint-lg-min = $sizes[lg]
+$breakpoint-lg-max = $breakpoint-lg
+
+$breakpoint-xl-min = $sizes[xl]
+$breakpoint-xl-max = 9999px

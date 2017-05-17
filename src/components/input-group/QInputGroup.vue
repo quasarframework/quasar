@@ -1,6 +1,6 @@
 <template>
-  <div class="q-input-group small-gutter" :class="{'q-input-group-inline-opts': inline}">
-    <div v-for="(opt, index) in options" class="no-wrap">
+  <div class="q-input-group group" :class="{'q-input-group-inline-opts': inline}">
+    <div v-for="(opt, index) in options" class="no-wrap row items-center">
       <q-label>
         <component
           :is="component"
@@ -14,7 +14,7 @@
           @blur="$emit('blur')"
         ></component>
 
-        <span>{{ opt.label }}</span>
+        <span class="col">{{ opt.label }}</span>
       </q-label>
     </div>
   </div>

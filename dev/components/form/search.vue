@@ -6,10 +6,14 @@
       </div>
 
       <div style="margin-top: 15px">
-        <q-search v-model="search"></q-search>
+        <q-search v-model="search" style="width: 300px"></q-search>
+        <br>
         <q-search v-model="search" class="orange"></q-search>
+        <br>
         <q-search v-model="search" class="text-white bg-secondary" icon="explore" placeholder="PlacesPlacesPlacesPlacesPlacesPlacesPlaces"></q-search>
+        <br>
         <q-search v-model="search" class="text-white bg-primary" icon="local_airport" placeholder="Airports"></q-search>
+        <br>
         <q-search v-model="search" class="text-white bg-dark" icon="local_hotel" placeholder="Hotels"></q-search>
       </div>
 

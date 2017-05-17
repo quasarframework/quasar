@@ -178,7 +178,7 @@ for $pos in 0..23
     > div + div
       margin-left $datetime-range-space
 
-@media (max-width $layout-medium-max)
+@media (max-width $breakpoint-sm-max)
   .q-datetime-ampm
     margin-left 1.5rem
   .q-datetime-datestring span
@@ -192,7 +192,7 @@ for $pos in 0..23
       border-style solid
       border-color $grey-4
 
-@media (min-width $layout-big-min)
+@media (min-width $breakpoint-md-min)
   .q-datetime-datestring
     padding 10px 0
   .q-datetime-ampm
@@ -210,7 +210,7 @@ for $pos in 0..23
   .q-datetime-content
     width 290px
   .q-datetime
-    width 520px
+    width 480px
     &:not(.no-border) .q-datetime-content
       border-width 1px 1px 1px 0
       border-style solid

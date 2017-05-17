@@ -2,7 +2,7 @@
   <q-transition :name="modalTransition" :enter="enterClass" :leave="leaveClass">
     <div
       v-show="active"
-      class="modal fullscreen flex"
+      class="modal fullscreen row"
       :class="modalClasses"
       @click="click()"
     >

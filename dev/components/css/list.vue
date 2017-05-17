@@ -365,9 +365,7 @@
             <div class="ellipsis">Brunch this weekend?</div>
           </div>
           <div class="item-secondary">
-            <q-icon name="
-              more_vert
-
+            <q-icon name="more_vert">
               <q-popover ref="popover">
                 <div class="list">
                   <div class="item link" @click="$refs.popover.close()">
@@ -381,7 +379,7 @@
                   </div>
                 </div>
               </q-popover>
-            " />
+            </q-icon>
           </div>
         </div>
         <div class="item">

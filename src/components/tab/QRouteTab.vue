@@ -6,7 +6,7 @@
     :append="append"
     :exact="exact"
     :event="routerLinkEventName"
-    class="q-tab items-center justify-center relative-position"
+    class="q-tab column items-center justify-center relative-position"
     :class="classes"
     v-ripple.mat
     @click.native="select"

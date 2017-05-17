@@ -56,7 +56,7 @@ maximized-modal()
 .q-modal-enter, .q-modal-leave-active
   opacity 0
 
-@media screen and (min-width $layout-medium-min)
+@media (min-width $breakpoint-md-min)
   .modal:not(.maximized)
     background $dimmed-background
     &.q-modal-enter .modal-content
@@ -68,7 +68,7 @@ maximized-modal()
       .modal-content
         transform translateX(101%)
 
-@media screen and (max-width $layout-small-max)
+@media (max-width $breakpoint-sm-max)
   .modal:not(.minimized)
     .modal-content
       maximized-modal()

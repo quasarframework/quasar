@@ -3,7 +3,7 @@ $layout-aside-left-width   ?= 280px
 $layout-aside-right-width  ?= 280px
 
 $toolbar-min-height        ?= 50px
-$layout-border-color       ?= rgba(0, 0, 0, .4)
+$layout-border-color       ?= $grey-5
 $layout-border             ?= 1px solid $layout-border-color
 
 .layout
@@ -64,21 +64,21 @@ body
       min-height ($toolbar-min-height + $ios-statusbar-height)
 
 .layout-padding
-  @media only screen and (max-width $layout-small-max)
+  @media (max-width $breakpoint-sm-max)
     padding 1.5rem .5rem
     &.horizontal
       padding 0 .5rem
-  @media only screen and (min-width $layout-medium-min) and (max-width $layout-medium-max)
+  @media (min-width $breakpoint-md-min) and (max-width $breakpoint-md-max)
     padding 1.5rem 2rem
     margin auto
     &.horizontal
       padding 0 2rem
-  @media only screen and (min-width $layout-big-min) and (max-width $layout-big-max)
+  @media (min-width $breakpoint-lg-min) and (max-width $breakpoint-lg-max)
     padding 2.5rem 3rem
     margin auto
     &.horizontal
       padding 0 3rem
-  @media only screen and (min-width $layout-large-min)
+  @media (min-width $breakpoint-xl-min)
     padding 3rem 4rem
     margin auto
     &.horizontal

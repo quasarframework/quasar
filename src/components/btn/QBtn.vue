@@ -9,6 +9,7 @@
       'q-btn-flat': flat,
       'q-btn-rounded': rounded,
       'q-btn-push': push,
+      'q-btn-no-uppercase': noUppercase,
       [shape]: true,
       [size]: true,
       [`bg-${color}`]: color && !flat && !outline,
@@ -17,7 +18,7 @@
   >
     <div class="q-focus-helper"></div>
 
-    <span class="q-btn-inner flex auto items-center justify-center">
+    <span class="q-btn-inner row col items-center justify-center">
       <slot v-if="loading" name="loading">
         <q-spinner color="currentColor"></q-spinner>
       </slot>
@@ -49,6 +50,10 @@ export default {
     value: Boolean,
     disable: Boolean,
     loader: Boolean,
+    noUppercase: {
+      type: Boolean,
+      default: false
+    },
     icon: String,
     iconRight: String,
     round: Boolean,

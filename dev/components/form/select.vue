@@ -7,7 +7,7 @@
       <q-select v-model="select" :options="selectListOptions"></q-select>
 
       <p class="caption">Single Selection with Radio</p>
-      <q-select v-model="select" :options="selectListOptions"></q-select>
+      <q-select v-model="select" radio :options="selectListOptions"></q-select>
 
       <p class="caption">Multiple Selection</p>
       <q-select multiple v-model="multipleSelect" :options="selectListOptions"></q-select>

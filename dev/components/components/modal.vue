@@ -75,7 +75,7 @@
         </div>
 
         <div slot="header" class="q-toolbar">
-          <q-search class="bg-blue-6 auto"></q-search>
+          <q-search class="bg-blue-6 col"></q-search>
         </div>
 
         <div slot="footer" class="q-toolbar">

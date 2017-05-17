@@ -44,8 +44,6 @@ $tabs-border-width             ?= 2px
   right 0
 
 .q-tab
-  display flex
-  flex-direction column
   cursor pointer
   transition color .3s, background .3s
   white-space nowrap
@@ -77,18 +75,18 @@ $tabs-border-width             ?= 2px
     .q-tab-icon, .q-tab-label
       opacity 1
 
-@media only screen and (max-width $layout-small-max)
+@media (max-width $breakpoint-sm-max)
   .q-tab
     &.hide-icon .q-tab-icon,
     &.hide-label .q-tab-label
       display none !important
 
-@media only screen and (max-width $layout-medium-max)
+@media (max-width $breakpoint-md-max)
   .q-tabs-head:not(.scrollable)
     .q-tabs-scroller, .q-tab
       flex 1 1 auto
 
-@media only screen and (min-width $layout-big-min)
+@media (min-width $breakpoint-lg-min)
   .q-tab, .q-tab.icon-and-label
     padding-left $tabs-big-screen-horiz-padding
     padding-right $tabs-big-screen-horiz-padding

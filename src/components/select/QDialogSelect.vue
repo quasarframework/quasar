@@ -87,11 +87,12 @@ export default {
         return
       }
 
-      let options = this.options.map(option => {
+      let options = this.options.map(opt => {
         return {
-          value: option.value,
-          label: option.label,
-          model: this.multipleSelection ? this.value.includes(option.value) : this.value === option.value
+          value: opt.value,
+          label: opt.label,
+          color: opt.color,
+          model: this.multipleSelection ? this.value.includes(opt.value) : this.value === opt.value
         }
       })
 

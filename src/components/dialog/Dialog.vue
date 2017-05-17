@@ -67,7 +67,7 @@
         </div>
 
         <div v-if="el.type === 'rating'" style="margin-bottom: 10px">
-          <label v-html="el.label"></label>
+          <label class="block" v-html="el.label"></label>
           <q-rating v-model="el.model" :max="el.max" :icon="el.icon" :style="{fontSize: el.size || '2rem'}" :color="el.color"></q-rating>
         </div>
       </template>

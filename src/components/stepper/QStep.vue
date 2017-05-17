@@ -10,7 +10,7 @@
     @click="select"
     v-ripple.mat
   >
-    <div class="q-stepper-identity flex items-center justify-center">
+    <div class="q-stepper-identity row items-center justify-center">
       <q-icon :name="stepIcon" v-if="stepIcon"></q-icon>
       <template v-else>{{ step }}</template>
     </div>

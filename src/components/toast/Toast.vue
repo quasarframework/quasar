@@ -12,7 +12,7 @@
       <q-icon v-if="stack[0].icon" :name="stack[0].icon"></q-icon>
       <img v-if="stack[0].image" :src="stack[0].image">
 
-      <div class="q-toast-message auto" v-html="stack[0].html"></div>
+      <div class="q-toast-message col" v-html="stack[0].html"></div>
 
       <a
         v-if="stack[0].button && stack[0].button.label"
@@ -75,7 +75,7 @@ export default {
         color: 'white',
         bgColor: '#323232',
         button: {
-          color: 'yellow'
+          color: 'inherit'
         }
       }
     }
@@ -97,7 +97,9 @@ export default {
         return
       }
 
-      this.active = true
+      this.activeTimer = setTimeout(() => {
+        this.active = true
+      }, 10)
       this.inTransition = true
 
       this.__show()
@@ -115,8 +117,9 @@ export default {
       }, transitionDuration + (this.stack[0].timeout || displayDuration))
     },
     dismiss (done) {
-      this.active = false
       clearTimeout(this.timer)
+      clearTimeout(this.activeTimer)
+      this.active = false
       this.timer = null
 
       setTimeout(() => {

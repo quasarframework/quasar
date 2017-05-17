@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-padding">
+  <div class="layout-padding tabs-playground">
     <!--
       This is for fast tests.
       Use this page but don't add it into your commits (leave it outside
@@ -206,6 +206,6 @@ export default {
 </script>
 
 <style lang="styl">
-.q-tabs
+.tabs-playground .q-tabs
   margin-bottom 25px
 </style>

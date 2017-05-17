@@ -15,7 +15,7 @@
         [`bg-${color}`]: !inverted && color
       }"
     >
-      <div ref="scroller" class="q-tabs-scroller row">
+      <div ref="scroller" class="q-tabs-scroller row no-wrap">
         <slot name="title"></slot>
         <div
           v-if="$q.theme !== 'ios'"

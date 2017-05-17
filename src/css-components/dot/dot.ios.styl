@@ -1,4 +1,5 @@
-$dot-color             ?= alpha($red, .75)
+$dot-color             ?= $red
+$dot-opacity           ?= .8
 $dot-size              ?= 10px
 $dot-position-top      ?= 10px
 $dot-position-right    ?= 10px
@@ -11,3 +12,4 @@ $dot-position-right    ?= 10px
   width $dot-size
   border-radius 50%
   background $dot-color
+  opacity $dot-opacity
