@@ -16,8 +16,8 @@
       <q-btn flat @click="$refs.layout.toggleRight()">
         <q-icon name="menu" />
       </q-btn>
-      <q-checkbox v-model="todo" />
-      <q-checkbox v-model="right" />
+      <q-checkbox color="white" v-model="todo" />
+      <q-checkbox color="white" v-model="right" />
     </q-toolbar>
 
     <q-toolbar v-if="todo" slot="header" color="amber">

@@ -27,29 +27,25 @@
     ></div>
 
     <aside
+      v-if="$slots.left"
       class="layout-aside layout-aside-left scroll"
       :class="computedLeftClass"
       :style="computedLeftStyle"
       v-touch-pan.horizontal="__closeLeftByTouch"
     >
       <slot name="left"></slot>
-      <q-resize-observable
-        v-if="$slots.left"
-        @resize="onLeftAsideResize"
-      ></q-resize-observable>
+      <q-resize-observable @resize="onLeftAsideResize"></q-resize-observable>
     </aside>
 
     <aside
+      v-if="$slots.right"
       class="layout-aside layout-aside-right scroll"
       :class="computedRightClass"
       :style="computedRightStyle"
       v-touch-pan.horizontal="__closeRightByTouch"
     >
       <slot name="right"></slot>
-      <q-resize-observable
-        v-if="$slots.right"
-        @resize="onRightAsideResize"
-      ></q-resize-observable>
+      <q-resize-observable @resize="onRightAsideResize"></q-resize-observable>
     </aside>
 
     <header
@@ -64,8 +60,8 @@
       <q-resize-observable @resize="onHeaderResize"></q-resize-observable>
     </header>
 
-    <div ref="main" :style="computedPageStyle">
-      <main :style="mainStyle" :class="pageClass">
+    <div class="layout-page-container" ref="main" :style="computedPageStyle">
+      <main class="layout-page" :style="mainStyle" :class="pageClass">
         <slot></slot>
       </main>
     </div>

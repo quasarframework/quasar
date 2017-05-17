@@ -24,8 +24,8 @@ export default {
   update (el, { oldValue, value }) {
     if (oldValue !== value) {
       el.__qmove.target = document.querySelector(value)
+      updateBinding(el, value)
     }
-    updateBinding(el, value)
   },
   inserted (el, { value }) {
     updateBinding(el, value)
