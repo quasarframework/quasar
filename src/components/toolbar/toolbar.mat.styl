@@ -1,15 +1,13 @@
-$toolbar-title-font-size   ?= 1.15rem
 $toolbar-padding           ?= 4px 12px
+$toolbar-title-font-size   ?= 1.15rem
+$toolbar-title-font-weight ?= 500
+$toolbar-title-padding     ?= 0 12px
 
 .q-toolbar
   padding $toolbar-padding
   min-height $toolbar-min-height
-  display flex
   overflow hidden
-  flex-direction row
-  align-items center
   width 100%
-  position relative
   color $toolbar-color
   background $toolbar-background
 
@@ -21,9 +19,6 @@ $toolbar-padding           ?= 4px 12px
     &:last-child
       margin-right 0
 
-  i
-    line-height 1
-
 .q-toolbar-inverted
   color $toolbar-background
   background transparent
@@ -34,8 +29,8 @@ $toolbar-padding           ?= 4px 12px
   max-width 100%
   align-items center
   font-size $toolbar-title-font-size
-  font-weight 500
+  font-weight $toolbar-title-font-weight
   text-overflow ellipsis
   white-space nowrap
   overflow hidden
-  padding 0 12px
+  padding $toolbar-title-padding

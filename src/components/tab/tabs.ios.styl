@@ -1,8 +1,8 @@
-$tabs-padding                  ?= 14px 12px
-$tabs-padding-with-icon        ?= 8px 10px
+$tabs-padding                  ?= 12px 12px
+$tabs-padding-with-icon        ?= 6px 10px
 $tabs-big-screen-horiz-padding ?= 25px
-$tabs-min-height               ?= 48px
-$tabs-min-height-with-icon     ?= 72px
+$tabs-min-height               ?= 50px
+$tabs-min-height-with-icon     ?= 62px
 $tabs-big-screen-side-padding  ?= 12px
 $tabs-pane-padding             ?= 12px
 
@@ -40,9 +40,9 @@ $tabs-text-transform           ?= uppercase
   min-height $tabs-min-height
   text-transform $tabs-text-transform
 
-  > i, .q-tab-label
+  > .q-icon, .q-tab-label
     transition transform .2s
-  > i + .q-tab-label
+  > .q-icon + .q-tab-label
     margin-top 7px
   .q-tab-label
     text-align center
@@ -62,7 +62,7 @@ $tabs-text-transform           ?= uppercase
     background alpha($dot-color, .75)
 
   &.active
-    > i, .q-tab-label
+    > .q-icon, .q-tab-label
       transform scale(1.1)
     .q-tab-icon, .q-tab-label
       opacity 1

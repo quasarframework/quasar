@@ -1,5 +1,5 @@
 <template>
-  <div class="q-toolbar" :class="classes">
+  <div class="q-toolbar row items-center relative-position" :class="classes">
     <slot></slot>
   </div>
 </template>

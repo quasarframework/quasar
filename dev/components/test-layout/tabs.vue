@@ -14,44 +14,63 @@
       </p>
 
       <q-tabs>
-        <q-tab slot="title" icon="mail">Mails</q-tab>
-        <q-tab slot="title" icon="alarm" disable>Alarms</q-tab>
-        <q-tab slot="title" icon="movie">Movies</q-tab>
-        <q-tab slot="title" icon="mail">Mails</q-tab>
-        <q-tab slot="title" icon="alarm">Alarms</q-tab>
-        <q-tab slot="title" icon="movie">Movies</q-tab>
-        <q-tab slot="title" icon="mail">Mails</q-tab>
-        <q-tab slot="title" icon="alarm">Alarms</q-tab>
-        <q-tab slot="title" icon="movie">Movies</q-tab>
-        <q-tab slot="title" icon="mail">Mails</q-tab>
-        <q-tab slot="title" icon="alarm">Alarms</q-tab>
-        <q-tab slot="title" icon="movie">Movies</q-tab>
-        <q-tab slot="title" icon="mail">Mails</q-tab>
-        <q-tab slot="title" icon="alarm">Alarms</q-tab>
-        <q-tab slot="title" icon="movie">Movies</q-tab>
-        <q-tab slot="title" icon="mail">Mails</q-tab>
-        <q-tab slot="title" icon="alarm">Alarms</q-tab>
-        <q-tab slot="title" icon="movie">Movies</q-tab>
+        <q-tab slot="title" icon="mail" label="Mails" />
+        <q-tab slot="title" icon="alarm" disable label="Alarms" />
+        <q-tab slot="title" icon="movie" label="Movies" />
+        <q-tab slot="title" icon="mail" label="Mails" />
+        <q-tab slot="title" icon="alarm" label="Alarms" />
+        <q-tab slot="title" icon="movie" label="Movies" />
+        <q-tab slot="title" icon="mail" label="Mails" />
+        <q-tab slot="title" icon="alarm" label="Alarms" />
+        <q-tab slot="title" icon="movie" label="Movies" />
+        <q-tab slot="title" icon="mail" label="Mails" />
+        <q-tab slot="title" icon="alarm" label="Alarms" />
+        <q-tab slot="title" icon="movie" label="Movies" />
+        <q-tab slot="title" icon="mail" label="Mails" />
+        <q-tab slot="title" icon="alarm" label="Alarms" />
+        <q-tab slot="title" icon="movie" label="Movies" />
+        <q-tab slot="title" icon="mail" label="Mails" />
+        <q-tab slot="title" icon="alarm" label="Alarms" />
+        <q-tab slot="title" icon="movie" label="Movies" />
+      </q-tabs>
+
+      <br>
+      <q-tabs>
+        <q-tab slot="title" label="Mails" />
+        <q-tab slot="title" label="Alarms" />
+        <q-tab slot="title" label="Movies" />
+      </q-tabs>
+
+      <br>
+      <q-tabs>
+        <q-tab slot="title" icon="mail" />
+        <q-tab slot="title" icon="alarm" />
+        <q-tab slot="title" icon="movie" />
       </q-tabs>
 
       <p class="caption">
         They come in all colors.
       </p>
       <div class="group">
-        <q-tabs class="primary">
-          <q-tab slot="title" icon="mail">Mails</q-tab>
-          <q-tab slot="title" icon="alarm">Alarms</q-tab>
-          <q-tab slot="title" icon="movie">Movies</q-tab>
+        <q-tabs color="secondary">
+          <q-tab slot="title" icon="mail" label="Mails" />
+          <q-tab slot="title" icon="alarm" label="Alarms" />
+          <q-tab slot="title" icon="movie" label="Movies" />
         </q-tabs>
-        <q-tabs class="amber clear">
-          <q-tab slot="title" icon="mail">Mails</q-tab>
-          <q-tab slot="title" icon="alarm">Alarms</q-tab>
-          <q-tab slot="title" icon="movie">Movies</q-tab>
+        <q-tabs color="amber">
+          <q-tab slot="title" icon="mail" label="Mails" />
+          <q-tab slot="title" icon="alarm" label="Alarms" />
+          <q-tab slot="title" icon="movie" label="Movies" />
         </q-tabs>
-        <q-tabs class="secondary">
-          <q-tab slot="title" icon="mail">Mails</q-tab>
-          <q-tab slot="title" icon="alarm">Alarms</q-tab>
-          <q-tab slot="title" icon="movie">Movies</q-tab>
+        <q-tabs color="tertiary">
+          <q-tab slot="title" icon="mail" label="Mails" />
+          <q-tab slot="title" icon="alarm" label="Alarms" />
+          <q-tab slot="title" icon="movie" label="Movies" />
+        </q-tabs>
+        <q-tabs color="tertiary">
+          <q-tab slot="title" label="Mails" />
+          <q-tab slot="title" label="Alarms" />
+          <q-tab slot="title" label="Movies" />
         </q-tabs>
       </div>
 
@@ -59,20 +78,20 @@
         And also "inverted".
       </p>
       <div class="group">
-        <q-tabs class="orange inverted">
-          <q-tab slot="title" icon="mail">Mails</q-tab>
-          <q-tab slot="title" icon="alarm">Alarms</q-tab>
-          <q-tab slot="title" icon="movie">Movies</q-tab>
+        <q-tabs color="secondary" inverted>
+          <q-tab slot="title" icon="mail" label="Mails" />
+          <q-tab slot="title" icon="alarm" label="Alarms" />
+          <q-tab slot="title" icon="movie" label="Movies" />
         </q-tabs>
-        <q-tabs class="secondary inverted">
-          <q-tab slot="title" icon="mail">Mails</q-tab>
-          <q-tab slot="title" icon="alarm">Alarms</q-tab>
-          <q-tab slot="title" icon="movie">Movies</q-tab>
+        <q-tabs color="amber" inverted>
+          <q-tab slot="title" icon="mail" label="Mails" />
+          <q-tab slot="title" icon="alarm" label="Alarms" />
+          <q-tab slot="title" icon="movie" label="Movies" />
         </q-tabs>
-        <q-tabs class="dark inverted">
-          <q-tab slot="title" icon="mail">Mails</q-tab>
-          <q-tab slot="title" icon="alarm">Alarms</q-tab>
-          <q-tab slot="title" icon="movie">Movies</q-tab>
+        <q-tabs color="tertiary" inverted>
+          <q-tab slot="title" icon="mail" label="Mails" />
+          <q-tab slot="title" icon="alarm" label="Alarms" />
+          <q-tab slot="title" icon="movie" label="Movies" />
         </q-tabs>
       </div>
 
@@ -90,9 +109,9 @@
         <div style="margin-left: 15px">on desktop too.</div>
       </div>
       <q-tabs :align="align">
-        <q-tab slot="title" icon="mail">Mails</q-tab>
-        <q-tab slot="title" icon="alarm">Alarms</q-tab>
-        <q-tab slot="title" icon="movie">Movies</q-tab>
+        <q-tab slot="title" icon="mail" label="Mails" />
+        <q-tab slot="title" icon="alarm" label="Alarms" />
+        <q-tab slot="title" icon="movie" label="Movies" />
       </q-tabs>
 
       <p class="caption">
@@ -101,12 +120,12 @@
         on next Tabs to see target below them swapping views.
       </p>
 
-      <q-tabs class="primary">
-        <q-tab slot="title" name="tab-1" icon="message">Tab 1</q-tab>
-        <q-tab slot="title" name="tab-2" disable icon="fingerprint">Tab 2</q-tab>
-        <q-tab slot="title" name="tab-3" icon="alarm">Tab 3</q-tab>
-        <q-tab slot="title" selected name="tab-4" icon="accessibility">Tab 4</q-tab>
-        <q-tab slot="title" name="tab-5" hidden icon="accessibility">Tab 5</q-tab>
+      <q-tabs>
+        <q-tab slot="title" name="tab-1" icon="message" label="Tab 1" />
+        <q-tab slot="title" name="tab-2" disable icon="fingerprint" label="Tab 2" />
+        <q-tab slot="title" name="tab-3" icon="alarm" label="Tab 3" />
+        <q-tab slot="title" selected name="tab-4" icon="accessibility" label="Tab 4" />
+        <q-tab slot="title" name="tab-5" hidden icon="accessibility" label="Tab 5" />
 
         <q-tab-pane name="tab-1">
           <div v-for="n in 5">Tab 1</div>
@@ -126,17 +145,17 @@
       </q-tabs>
 
       <br><br>
-      <div class="flex items-center">
+      <div class="row items-center">
         <div style="margin-right: 10px">Programmatic select tab:</div>
         <q-select v-model="xTabsModel" :options="xTabsOptions" />
       </div>
       <q-tabs
         v-model="xTabsModel"
-        class="orange"
+        color="orange"
       >
-        <q-tab slot="title" name="xtab-1" icon="message">Tab 1</q-tab>
-        <q-tab slot="title" name="xtab-2" icon="alarm">Tab 2</q-tab>
-        <q-tab slot="title" name="xtab-3" icon="accessibility">Tab 3</q-tab>
+        <q-tab slot="title" name="xtab-1" icon="message" label="Tab 1" />
+        <q-tab slot="title" name="xtab-2" icon="alarm" label="Tab 2" />
+        <q-tab slot="title" name="xtab-3" icon="accessibility" label="Tab 3" />
 
         <q-tab-pane name="xtab-1">
           <div v-for="n in 5">Tab 1</div>
