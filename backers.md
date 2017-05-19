@@ -50,6 +50,7 @@ It could be you!
 - Max Matteo Staack
 - Samuel Desconsi
 
+- Ken ($5)
 - Rogério Queiroz ($3)
 
 ---
