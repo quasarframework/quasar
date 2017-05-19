@@ -65,24 +65,24 @@
 
     <q-modal ref="layoutModal" :content-css="{minWidth: '80vw', minHeight: '80vh'}">
       <q-modal-layout>
-        <div slot="header" class="q-toolbar">
+        <q-toolbar slot="header">
           <q-btn flat @click="$refs.layoutModal.close()">
             <q-icon name="keyboard_arrow_left" />
           </q-btn>
           <div class="q-toolbar-title">
             Header
           </div>
-        </div>
+        </q-toolbar>
 
-        <div slot="header" class="q-toolbar">
+        <q-toolbar slot="header">
           <q-search class="bg-blue-6 col"></q-search>
-        </div>
+        </q-toolbar>
 
-        <div slot="footer" class="q-toolbar">
+        <q-toolbar slot="footer">
           <div class="q-toolbar-title">
             Footer
           </div>
-        </div>
+        </q-toolbar>
 
         <div class="layout-padding">
           <h1>Modal</h1>

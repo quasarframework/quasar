@@ -4,8 +4,7 @@
     class="q-alert row"
     :class="[
       `bg-${color}`,
-      position ? `fixed-${position}` : '',
-      position ? 'shadow-2' : ''
+      position ? `fixed-${position} shadow-2 z-alert` : '',
     ]"
   >
     <div class="q-alert-icon row col-auto items-center justify-center">

@@ -102,86 +102,26 @@ for $name, $size in $sizes
 
 for $i in (1..$grid-cols)
   .col-{$i}
-    flex 0 0 (round($i / $grid-cols * 100, 5))%
+    flex 0 0 (round($i / $grid-cols * 100, 4))%
   .row > .col-{$i}
-    max-width (round($i / $grid-cols * 100, 5))%
+    max-width (round($i / $grid-cols * 100, 4))%
   .offset-{$i}
-    margin-left (round($i / $grid-cols * 100, 5))%
+    margin-left (round($i / $grid-cols * 100, 4))%
 
 for $name, $size in $sizes
   @media (min-width $size)
-    .justify-{$name}-
-      &start
-        justify-content flex-start
-      &end
-        justify-content flex-end
-      &center
-        justify-content center
-      &between
-        justify-content space-between
-      &around
-        justify-content space-around
-
-    .items-{$name}-
-      &start
-        align-items flex-start
-      &end
-        align-items flex-end
-      &center
-        align-items center
-      &baseline
-        align-items baseline
-      &stretch
-        align-items stretch
-
-    .content-{$name}-
-      &start
-        align-content flex-start
-      &end
-        align-content flex-end
-      &center
-        align-content center
-      &between
-        align-content space-between
-      &around
-        align-content space-around
-
-    .self-{$name}-
-      &start
-        align-self flex-start
-      &end
-        align-self flex-end
-      &center
-        align-self center
-      &baseline
-        align-self baseline
-      &stretch
-        align-self stretch
-
-    .row
-      > .col-{$name}
-        max-width 100%
-      > .col-{$name}-auto
-        width auto
-
+    .col-{$name}
+      max-width 100%
+      flex-basis 0
+      flex-grow 1
     .col-{$name}-auto
+      width auto
       flex 0 0 auto
 
     for $i in (1..$grid-cols)
       .col-{$name}-{$i}
-        flex 0 0 (round($i / $grid-cols * 100, 5))%
+        flex 0 0 (round($i / $grid-cols * 100, 4))%
       .row > .col-{$name}-{$i}
-        max-width (round($i / $grid-cols * 100, 5))%
+        max-width (round($i / $grid-cols * 100, 4))%
       .offset-{$name}-{$i}
-        margin-left (round($i / $grid-cols * 100, 5))%
-
-    .col-{$name}
-      flex-basis 0
-      flex-grow 1
-
-    .order-first
-      order -10000
-    .order-last
-      order 10000
-    .order-none
-      order 0
+        margin-left (round($i / $grid-cols * 100, 4))%
