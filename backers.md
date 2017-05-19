@@ -24,6 +24,7 @@ It could be you!
 
 ### $100+
 
+- Laurent ($115)
 - picktype.com (100 EUR)
 
 ---
