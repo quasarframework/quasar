@@ -64,7 +64,7 @@
       <br>
       <h5>Optional CSS</h5>
       <p class="caption">CSS class 'full-width'</p>
-      <q-datetime-range class="full-width" type="time" v-model="second.range" :min="second.min" :max="second.max" />
+      <q-datetime-range class="full-width" type="datetime" v-model="second.range" :min="second.min" :max="second.max" />
     </div>
   </div>
 </template>

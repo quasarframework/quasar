@@ -42,13 +42,13 @@ export const inline = {
   },
   mondayFirst: Boolean,
   format24h: Boolean,
-  readonly: Boolean,
-  disable: Boolean
+  readonly: Boolean
 }
 
 export const input = {
   format: String,
   noClear: Boolean,
+  placeholder: String,
   clearLabel: {
     type: String,
     default: 'Clear'
@@ -61,12 +61,5 @@ export const input = {
     type: String,
     default: 'Cancel'
   },
-  floatLabel: String,
-  stackedLabel: String,
-  placeholder: String,
-  staticLabel: String,
-  simple: Boolean,
-  align: String,
-  readonly: Boolean,
-  disable: Boolean
+  readonly: Boolean
 }

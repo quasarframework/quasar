@@ -9,15 +9,14 @@
 
     <q-input
       ref="input"
-      class="inline no-margin"
+      class="inline q-input-no-native-addons"
       type="number"
       v-model="newPage"
-      :extra-icons="false"
       :min="min"
       :max="max"
-      :style="{width: inputPlaceholder.length * 10 + 'px'}"
+      :style="{width: `${inputPlaceholder.length * 10}px`}"
       :placeholder="inputPlaceholder"
-      :disabled="disable"
+      :disable="disable"
       @keyup.enter="__update"
       @blur="__update"
     ></q-input>

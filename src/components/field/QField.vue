@@ -1,46 +1,32 @@
 <template>
   <div
-    class="q-field row"
+    class="q-field row no-wrap items-start"
     :class="{
-      'has-error': hasError,
-      floating: floating,
-      focused: focused,
-      'with-icon': icon,
-      'with-label': label
+      'q-field-floating': childHasLabel,
+      'q-field-with-error': hasError
     }"
   >
-    <q-icon :name="icon" v-if="icon || insetIcon" class="q-field-icon col-auto self-start"></q-icon>
+    <q-icon v-if="icon" :name="icon" class="q-field-icon"></q-icon>
+    <div v-else-if="insetIcon" class="q-field-icon"></div>
 
-    <div class="q-field-container row col">
+    <div class="row col">
       <div
         v-if="hasLabel"
         class="q-field-label col-xs-12"
-        :class="labelClass"
-        @click="focus"
+        :class="`col-sm-${labelWidth}`"
       >
-        <slot name="label">
-          <span v-html="label"></span>
-        </slot>
-        <q-icon v-if="hasLabelHint" class="q-field-label-hint" name="help">
-          <q-tooltip>
-            <slot name="labelHint">
-              <span v-html="labelHint"></span>
-            </slot>
-          </q-tooltip>
-        </q-icon>
+        <div class="q-field-label-inner row items-center">
+          <span v-if="label" v-html="label"></span>
+          <slot name="label"></slot>
+        </div>
       </div>
 
-      <div class="q-field-content col-xs-12 col-sm">
+      <div class="col-xs-12 col-sm">
         <slot></slot>
         <div v-if="hasBottom" class="q-field-bottom">
-          <div
-            v-if="counter"
-            class="q-field-count float-right"
-            :class="{'text-negative': counterError}"
-            v-html="counter"
-          ></div>
-          <div v-if="hasError && errorLabel" class="q-field-error" v-html="errorLabel"></div>
-          <div v-else-if="helper" class="q-field-helper" v-html="helper"></div>
+          <div v-if="hasError && errorLabel" class="q-field-error col" v-html="errorLabel"></div>
+          <div v-else-if="helper" class="q-field-helper col" v-html="helper"></div>
+          <div v-if="counter" class="q-field-counter col-auto float-right">{{ counter }}</div>
         </div>
       </div>
     </div>
@@ -49,23 +35,13 @@
 
 <script>
 import { QIcon } from '../icon'
-import { QTooltip } from '../tooltip'
 
 export default {
   name: 'q-field',
   components: {
-    QIcon,
-    QTooltip
+    QIcon
   },
   props: {
-    label: String,
-    labelHint: String,
-    orientation: {
-      type: String,
-      validator (val) {
-        return !val ? true : ['vertical', 'horizontal'].includes(val)
-      }
-    },
     labelWidth: {
       type: Number,
       default: 5,
@@ -79,73 +55,57 @@ export default {
         return ['icon', 'label', 'full'].includes(val)
       }
     },
+    label: String,
+    count: {
+      type: [Number, Boolean],
+      default: false
+    },
     error: Boolean,
     errorLabel: String,
     helper: String,
-    icon: String,
-    required: Boolean
+    icon: String
   },
   data () {
     return {
-      is_q_field: true,
-      focused: false,
-      counter: false,
-      counterError: false,
-      childError: false,
-      floating: false
+      input: {}
     }
   },
   computed: {
-    hasLabel () {
-      return this.label || this.insetLabel || this.$slots.label || this.hasLabelHint
-    },
-    hasLabelHint () {
-      return this.labelHint || this.$slots.labelHint
+    hasError () {
+      return this.input.error || this.error
     },
     hasBottom () {
-      return (this.hasError && this.errorLabel) || this.helper || this.counter
+      return (this.hasError && this.errorLabel) || this.helper || this.count
+    },
+    hasLabel () {
+      return this.label || this.$slots.label || ['label', 'full'].includes(this.inset)
+    },
+    childHasLabel () {
+      return this.input.floatLabel || this.input.stackLabel
     },
     insetIcon () {
       return ['icon', 'full'].includes(this.inset)
     },
-    insetLabel () {
-      return ['label', 'full'].includes(this.inset)
-    },
-    hasError () {
-      return this.childError || this.error
-    },
-    labelClass () {
-      const cls = [`col-sm-${this.labelWidth}`]
-      if (this.required) {
-        cls.push('required-label')
+    counter () {
+      if (this.count) {
+        const length = this.input.length || '0'
+        return Number.isInteger(this.count)
+          ? `${length} / ${this.count}`
+          : length
       }
-      return cls
     }
   },
   provide () {
     return {
-      hasField: true,
-      __setFieldFocus: set => {
-        this.focused = set
-      },
-      __setFieldCounter: (counter, error = false) => {
-        this.counter = counter
-        this.counterError = error
-      },
-      __setFieldFloating: floating => {
-        this.floating = floating
-      },
-      __setFieldError: error => {
-        this.childError = error
-      }
+      __field: this
     }
   },
   methods: {
-    focus () {
-      const target = this.$el.querySelector('input, textarea')
-      if (target) {
-        target.focus()
-      }
+    __registerInput (vm) {
+      this.input = vm
+    },
+    __unregisterInput () {
+      this.input = {}
     }
   }
 }

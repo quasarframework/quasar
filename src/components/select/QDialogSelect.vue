@@ -1,38 +1,55 @@
 <template>
-  <q-input
+  <q-input-frame
     ref="input"
-    type="dropdown"
-    :disabled="disable"
-    :readonly="readonly"
-    :placeholder="placeholder"
-    :value="actualValue"
+    class="q-select"
+
+    :prefix="prefix"
+    :suffix="suffix"
+    :stack-label="stackLabel"
     :float-label="floatLabel"
-    :stacked-label="stackedLabel"
-    :simple="simple"
-    :align="align"
-    @click="pick"
-    @focus="$emit('focus')"
-    @blur="__blur"
-  />
+    :error="error"
+    :disable="disable"
+
+    :focused="focused"
+    focusable
+    :length="length"
+
+    @click.native="pick"
+    @focus.native="__onFocus"
+    @blur.native="__onBlur"
+  >
+    <div class="col row group">
+      <template v-if="hasChips">
+        <q-chip
+          v-for="{label, value} in selectedOptions"
+          :key="label"
+          small
+          :closable="!disable"
+          color="primary"
+          @click.native.stop
+          @close="__toggle(value)"
+        >
+          {{ label }}
+        </q-chip>
+      </template>
+
+      <div v-else :class="[`text-${align}`]">{{ actualValue }}</div>
+    </div>
+
+    <q-icon slot="control" name="arrow_drop_down" class="q-if-control"></q-icon>
+  </q-input-frame>
 </template>
 
 <script>
 import Dialog from '../dialog'
-import { QInput } from '../input'
+import SelectMixin from './select-mixin'
 
 export default {
   name: 'q-dialog-select',
-  components: {
-    QInput
-  },
+  mixins: [SelectMixin],
   props: {
     value: {
       required: true
-    },
-    options: {
-      type: Array,
-      required: true,
-      validator: v => v.every(o => 'label' in o && 'value' in o)
     },
     type: {
       type: String,
@@ -51,39 +68,38 @@ export default {
       type: String,
       default: 'Select'
     },
-    message: String,
-    placeholder: String,
-    staticLabel: String,
-    floatLabel: String,
-    stackedLabel: String,
-    simple: Boolean,
-    align: String,
-    readonly: Boolean,
-    disable: Boolean
+    message: String
+  },
+  data () {
+    return {
+      focused: false
+    }
   },
   computed: {
     actualValue () {
-      if (this.staticLabel) {
-        return this.staticLabel
-      }
-      if (this.type === 'radio') {
-        let option = this.options.find(option => option.value === this.value)
-        return option ? option.label : ''
-      }
-
-      let options = this.options
+      if (this.multiple) {
+        let options = this.options
         .filter(option => this.value.includes(option.value))
         .map(option => option.label)
 
-      return !options.length ? '' : options.join(', ')
+        return !options.length ? '' : options.join(', ')
+      }
+
+      let option = this.options.find(option => option.value === this.value)
+      return option ? option.label : ''
     },
-    multipleSelection () {
+    selectedOptions () {
+      if (this.multiple) {
+        return this.options.filter(opt => this.value.includes(opt.value))
+      }
+    },
+    multiple () {
       return ['checkbox', 'toggle'].includes(this.type)
     }
   },
   methods: {
     pick () {
-      if (this.disable || this.readonly) {
+      if (this.disable) {
         return
       }
 
@@ -92,15 +108,15 @@ export default {
           value: opt.value,
           label: opt.label,
           color: opt.color,
-          model: this.multipleSelection ? this.value.includes(opt.value) : this.value === opt.value
+          model: this.multiple ? this.value.includes(opt.value) : this.value === opt.value
         }
       })
 
-      const vm = Dialog.create({
+      this.dialog = Dialog.create({
         title: this.title,
         message: this.message,
         onDismiss: () => {
-          this.dialogElement = null
+          this.dialog = null
         },
         form: {
           select: {type: this.type, model: this.value, items: options}
@@ -115,17 +131,34 @@ export default {
           }
         ]
       })
-
-      this.dialogElement = vm.$el
+    },
+    close () {
+      if (this.dialog) {
+        this.dialog.close()
+      }
     },
 
-    __blur (e) {
+    __toggle (value) {
+      const
+        index = this.value.indexOf(value),
+        model = this.value.slice(0)
+
+      if (index > -1) {
+        model.splice(index, 1)
+      }
+      else {
+        model.push(value)
+      }
+
+      this.$emit('input', model)
+    },
+    __onFocus () {
+      this.focused = true
+      this.$emit('focus')
+    },
+    __onBlur (e) {
+      this.focused = false
       this.$emit('blur')
-      setTimeout(() => {
-        if (this.dialogElement && document.activeElement !== document.body && !this.dialogElement.contains(document.activeElement)) {
-          this.close()
-        }
-      }, 1)
     }
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="q-input-group group" :class="{'q-input-group-inline-opts': inline}">
+  <div class="q-option-group group" :class="{'q-option-group-inline-opts': inline}">
     <div v-for="(opt, index) in options" class="no-wrap row items-center">
       <q-label>
         <component
@@ -27,7 +27,7 @@ import { QToggle } from '../toggle'
 import { QLabel } from '../label'
 
 export default {
-  name: 'q-input-group',
+  name: 'q-option-group',
   components: {
     QRadio,
     QCheckbox,

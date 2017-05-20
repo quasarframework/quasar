@@ -7,10 +7,17 @@
       <q-select v-model="select" :options="selectListOptions"></q-select>
 
       <p class="caption">Single Selection with Radio</p>
-      <q-select v-model="select" radio :options="selectListOptions"></q-select>
+      <q-field label="gogu">
+        <q-select v-model="select" float-label="Gogu" radio :options="selectListOptions" :count="10"></q-select>
+      </q-field>
 
       <p class="caption">Multiple Selection</p>
       <q-select multiple v-model="multipleSelect" :options="selectListOptions"></q-select>
+
+      <p class="caption">Multiple Selection with Chips</p>
+      <q-field label="gogu" :count="10">
+        <q-select multiple chips v-model="multipleSelect" :options="selectListOptions" float-label="Some label" max-height="36px"></q-select>
+      </q-field>
 
       <p class="caption">Multiple Selection with Checkboxes</p>
       <q-select multiple checkbox v-model="multipleSelect" :options="selectListOptions" @input="inputChange"></q-select>
@@ -35,13 +42,10 @@
       <q-select multiple v-model="multipleSelect" :options="selectOptions" static-label="Company"></q-select>
 
       <p class="caption">Disabled State</p>
-      <q-select disable multiple v-model="multipleSelect" :options="selectOptions"></q-select>
-
-      <p class="caption">Readonly State</p>
-      <q-select readonly multiple v-model="multipleSelect" :options="selectOptions"></q-select>
+      <q-select disable float-label="Disabled Select" multiple v-model="multipleSelect" :options="selectOptions"></q-select>
 
       <p class="caption">Error State</p>
-      <q-select class="has-error" multiple v-model="multipleSelect" :options="selectOptions"></q-select>
+      <q-select error multiple v-model="multipleSelect" :options="selectOptions"></q-select>
 
       <p class="caption">Inside of a List</p>
       <div class="list">

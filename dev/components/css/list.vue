@@ -928,7 +928,7 @@
         <div class="item multiple-lines">
           <div class="item-primary"><q-icon name="edit" /></div>
           <div class="item-content">
-            <q-chips v-model="chips" class="no-margin" placeholder="Type names"></q-chips>
+            <q-chips-input v-model="chips" placeholder="Type names" />
           </div>
         </div>
       </div>

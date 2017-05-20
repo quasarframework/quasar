@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="layout-padding">
-      <q-input-group v-model="sel" :options="[
+      <q-option-group v-model="sel" :options="[
         {label: 'A', value: 'a'}, {label: 'B', value: 'b'}, {label: 'C', value: 'c'},
         {label: 'Bogus', value: 'bogus'}
       ]" />

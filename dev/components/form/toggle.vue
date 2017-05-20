@@ -77,7 +77,7 @@
         label="Horizontal"
         error-label="Max 10 characters!"
       >
-        <q-input-group
+        <q-option-group
           inline
           type="toggle"
           v-model="group"
@@ -95,7 +95,7 @@
         label="Horizontal"
         error-label="Max 10 characters!"
       >
-        <q-input-group
+        <q-option-group
           type="toggle"
           v-model="group"
           :options="[

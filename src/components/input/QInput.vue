@@ -1,422 +1,207 @@
 <template>
-  <div
-    class="q-input row"
-    :class="{
-      disabled: disabled,
-      readonly: readonly,
-      focused: focused,
-      'has-error': hasError,
-      'has-label': label,
-      textarea: isTextarea,
-      dropdown: isDropdown,
-      simple: simple,
-      complex: complex,
-      'items-start': isTextarea,
-      'items-center': !isTextarea
-    }"
-    @click="__click"
+  <q-input-frame
+    class="q-input"
+
+    :prefix="prefix"
+    :suffix="suffix"
+    :stack-label="stackLabel"
+    :float-label="floatLabel"
+    :error="error"
+    :disable="disable"
+
+    :focused="focused"
+    :length="length"
+    :top-addons="isTextarea"
+
+    @click="__onClick"
   >
-    <q-icon
-      v-if="isNumber && extraIcons"
-      class="q-input-comp q-input-button"
-      @click="setNumberByOffset(-step)"
-      name="remove"
-    ></q-icon>
-    <slot name="before"></slot>
-    <span v-if="prefix" class="q-input-comp" v-html="prefix"></span>
-    <div
-      class="q-input-target q-input-comp col row"
-      :class="{
-        'relative-position': floatLabel && !labelIsAbove,
-        flow: $slots['flow-before'] || $slots['flow-after']
-      }"
-    >
-      <slot name="flow-before">
-        <div
-          v-if="label"
-          class="q-input-label ellipsis full-width"
-          :class="{above: labelIsAbove}"
-          v-html="label"
-          @click="focus"
-        ></div>
-      </slot>
+    <template v-if="isTextarea">
+      <div class="col row relative-position">
+        <q-resize-observable @resize="__updateArea()"></q-resize-observable>
+        <textarea
+          class="col q-input-target q-input-shadow absolute-top"
+          ref="shadow"
+          :value="value"
+          :rows="minRows"
+        ></textarea>
 
-      <textarea
-        v-if="isTextarea"
-        ref="input"
-        :value="model"
-        @input="setValue"
-        @focus="__focus"
-        @blur="__blur"
-        @mousedown="__mousedown"
-        @keydown="__keydown"
-        @keyup="__keyup"
-        :name="name"
-        :pattern="pattern"
-        :placeholder="placeholder"
-        :disabled="disabled"
-        :readonly="readonly"
-        :required="required"
-        :maxlength="maxlength"
-        :rows="rows"
-        class="auto"
-        :class="`text-${align}`"
-        tabindex="0"
-      ></textarea>
-      <div
-        ref="input"
-        v-else-if="isDropdown"
-        v-text="model"
-        @focus="__focus"
-        @blur="__blur"
-        @mousedown="__mousedown"
-        @keydown="__keydown"
-        @keyup="__keyup"
-        tabindex="0"
-        class="col no-outline ellipsis q-input-dropdown"
-        :class="`text-${align}`"
-      ></div>
-      <input
-        v-else
-        ref="input"
-        :type="inputType"
-        :value="model"
-        @input="setValue"
-        @focus="__focus"
-        @blur="__blur"
-        @mousedown="__mousedown"
-        @keydown="__keydown"
-        @keyup="__keyup"
-        :name="name"
-        :pattern="inputPattern"
-        :placeholder="placeholder"
-        :disabled="disabled"
-        :readonly="readonly || isDropdown"
-        :required="required"
-        :maxlength="maxlength"
-        :min="min"
-        :max="max"
-        :step="computedStep"
-        class="col q-placeholder"
-        :class="`text-${align}`"
-        tabindex="0"
-      >
+        <textarea
+          ref="input"
+          class="col q-input-target q-input-area"
 
-      <slot name="flow-after"></slot>
-    </div>
+          :name="name"
+          :placeholder="inputPlaceholder"
+          :disabled="disable"
+          :maxlength="maxlength"
+          :rows="minRows"
+
+          :value="value"
+          @input="__set"
+
+          @focus="__onFocus"
+          @blur="__onBlur"
+          @keydown="__onKeydown"
+          @keyup="__onKeyup"
+        ></textarea>
+      </div>
+    </template>
+
+    <input
+      v-else
+      ref="input"
+      class="col q-input-target"
+      :class="[`text-${align}`]"
+
+      :name="name"
+      :placeholder="inputPlaceholder"
+      :pattern="inputPattern"
+      :disabled="disable"
+      :maxlength="maxlength"
+
+      :min="min"
+      :max="max"
+      :step="inputStep"
+
+      :type="inputType"
+      :value="value"
+      @input="__set"
+
+      @focus="__onFocus"
+      @blur="__onBlur"
+      @keydown="__onKeydown"
+      @keyup="__onKeyup"
+    />
+
     <q-icon
-      v-if="isPassword && extraIcons"
-      class="q-input-comp q-input-button"
-      @click="togglePassVisibility"
+      v-if="isPassword && length"
+      slot="control"
       :name="showPass ? 'visibility' : 'visibility_off'"
-    ></q-icon>
-    <span v-if="suffix" class="q-input-comp" v-html="suffix"></span>
+      class="q-if-control"
+      @click="togglePass"
+    />
+
     <q-icon
-      v-if="hasClearIcon"
-      class="q-input-comp q-input-button"
+      v-if="clearable && length"
+      slot="control"
+      name="cancel"
+      class="q-if-control"
       @click="clear"
-      name="clear"
-    ></q-icon>
-    <slot name="after"></slot>
-    <q-icon
-      v-if="isNumber && extraIcons"
-      class="q-input-comp q-input-button"
-      @click="setNumberByOffset(step)"
-      name="add"
-    ></q-icon>
-    <span
-      v-if="hasInlineCounter"
-      class="q-input-comp q-input-faded q-input-small"
-      v-html="counterLabel"
-    ></span>
-    <span v-if="isDropdown" class="q-input-comp q-input-button">
-      <span class="caret"></span>
-    </span>
-    <div v-if="!simple && !complex" class="q-input-border"></div>
-    <slot></slot>
-  </div>
+    />
+  </q-input-frame>
 </template>
 
 <script>
+import FrameMixin from '../input-frame/input-frame-mixin'
+import InputMixin from '../input/input-mixin'
 import inputTypes from './input-types'
+import { frameDebounce } from '../../utils/debounce'
+import { between } from '../../utils/format'
+import { QInputFrame } from '../input-frame'
 import { QIcon } from '../icon'
-
-function exists (val) {
-  return typeof val !== 'undefined' && val !== null
-}
+import { QResizeObservable } from '../observables'
 
 export default {
   name: 'q-input',
+  mixins: [FrameMixin, InputMixin],
   components: {
-    QIcon
+    QInputFrame,
+    QIcon,
+    QResizeObservable
   },
   props: {
-    name: String,
-    value: {
-      required: true
-    },
+    value: { required: true },
     type: {
       type: String,
       default: 'text',
-      validator (t) {
-        return inputTypes.includes(t)
-      }
+      validator: t => inputTypes.includes(t)
     },
-    autofocus: Boolean,
-    pattern: String,
-    prefix: String,
-    suffix: String,
-    placeholder: String,
-    floatLabel: String,
-    stackedLabel: String,
-    error: Boolean,
-    simple: Boolean,
-    complex: Boolean,
-    color: String,
-    count: {
-      type: [Number, Boolean],
-      default: false
-    },
-    maxlength: [Number, String],
-    required: Boolean,
-    disabled: Boolean,
-    readonly: Boolean,
-    extraIcons: {
-      type: Boolean,
-      default: true
-    },
+    minRows: Number,
     clearable: Boolean,
+
     min: Number,
     max: Number,
     step: {
       type: Number,
       default: 1
     },
-    maxDecimals: {
-      type: Number,
-      default: 0
-    },
-    rows: {
-      type: Number,
-      default: 3
-    },
-    align: {
-      type: String,
-      default: 'left',
-      validator: v => ['left', 'center', 'right'].includes(v)
-    }
+    maxDecimals: Number
   },
   data () {
     return {
       focused: false,
-      showPass: false,
-      field: false
-    }
-  },
-  watch: {
-    count () {
-      this.__notify('count')
-    },
-    inlineCount () {
-      this.__notify('count')
-    },
-    hasError () {
-      this.__notify('error')
-    },
-    focused () {
-      this.__notify('focus')
+      showPass: false
     }
   },
   computed: {
-    model: {
-      get () {
-        this.__notify('count')
-        return this.value
-      },
-      set (val) {
-        if (this.editable && this.value !== val) {
-          this.$emit('input', val)
-        }
-      }
-    },
-    label () {
-      const label = this.stackedLabel || this.floatLabel
-      this.__notify('floating', Boolean(label))
-      return label
-    },
-    labelIsAbove () {
-      return this.focused || this.stackedLabel || this.length > 0
-    },
-    editable () {
-      return !this.disabled && !this.readonly && !this.isDropdown
-    },
-    length () {
-      return exists(this.value) ? ('' + this.value).length : 0
-    },
-    counterLabel () {
-      return `${this.length}${this.count !== true && this.count > 0 ? ` / ${this.count}` : ''}`
-    },
-    hasClearIcon () {
-      return this.clearable && this.length
-    },
-    hasCountError () {
-      if (this.count !== true && this.count > 0) {
-        return this.length > this.count
-      }
-    },
-    hasInvalidNumber () {
-      return this.value !== '' && (
-        (exists(this.min) && this.value < this.min) ||
-        (exists(this.max) && this.value > this.max)
-      )
-    },
-    hasInlineCounter () {
-      return this.count && !this.hasField
-    },
-    hasError () {
-      if (this.isNumber && this.hasInvalidNumber) {
-        return true
-      }
-      return this.error || this.hasCountError
-    },
-    isTextarea () {
-      return this.type === 'textarea'
-    },
     isNumber () {
       return this.type === 'number'
     },
     isPassword () {
       return this.type === 'password'
     },
-    isDropdown () {
-      return this.type === 'dropdown'
-    },
-    inputType () {
-      return this.isPassword
-        ? (this.showPass ? 'text' : 'password')
-        : (this.isDropdown ? 'text' : this.type)
+    isTextarea () {
+      return this.type === 'textarea'
     },
     inputPattern () {
       if (this.isNumber) {
         return this.pattern || '[0-9]*'
       }
     },
-    inputEl () {
-      return this.$refs.input
-    },
-    computedStep () {
+    inputStep () {
       if (this.isNumber) {
         return this.step
       }
-    }
-  },
-  inject: [
-    'hasField', '__setFieldFocus', '__setFieldCounter',
-    '__setFieldFloating', '__setFieldError'
-  ],
-  provide () {
-    return {
-      getInputEl: () => {
-        return this.$refs.input
-      },
-      setInputValue: val => {
-        this.model = val
-      }
+    },
+    inputType () {
+      return this.isPassword
+        ? (this.showPass ? 'text' : 'password')
+        : this.type
+    },
+    length () {
+      return this.value
+        ? ('' + this.value).length
+        : 0
     }
   },
   methods: {
-    setValue (val) {
-      this.model = val.target ? val.target.value : val
-    },
-    setNumberByOffset (offset = 0) {
-      let val = parseFloat(this.value)
-      val = isNaN(val)
-        ? (exists(this.min) ? this.min : 0)
-        : val + offset
-
-      if (exists(this.min) && val < this.min) {
-        val = this.min
-      }
-      else if (exists(this.max) && val > this.max) {
-        val = this.max
-      }
-
-      this.model = parseFloat(val).toFixed(this.maxDecimals)
-    },
-    focus () {
-      if (this.editable || this.isDropdown) {
-        this.$refs.input.focus()
-      }
-    },
-    blur () {
-      if (this.editable || this.isDropdown) {
-        this.$refs.input.blur()
-      }
-    },
-    clear () {
-      if (this.editable) {
-        this.model = null
-      }
-    },
-    togglePassVisibility () {
+    togglePass () {
       this.showPass = !this.showPass
     },
-    __focus (e) {
-      this.focused = true
-      this.$emit('focus')
-    },
-    __blur (e) {
-      this.focused = false
-      this.$emit('blur')
-    },
-    __keydown (e) {
-      this.$emit('keydown', e)
-    },
-    __keyup (e) {
-      this.$emit('keyup', e)
-    },
-    __click (e) {
-      this.focus()
-      this.$emit('click', e)
-    },
-    __notify (type, value) {
-      if (!this.hasField) {
-        return
+    clear () {
+      if (!this.disable) {
+        this.$emit('input', null)
       }
-
-      this.$nextTick(() => {
-        if (type === 'error') {
-          this.__setFieldError(value !== false && this.hasError)
-        }
-        else if (type === 'focus') {
-          this.__setFieldFocus(this.focused)
-        }
-        else if (type === 'count') {
-          this.__setFieldCounter(!this.count ? false : this.counterLabel, this.hasCountError)
-        }
-        else if (type === 'floating') {
-          this.__setFieldFloating(value)
-        }
-      })
     },
-    __mousedown (e) {
-      if (!this.editable) {
-        e.preventDefault()
+
+    __set (e) {
+      let val = e.target ? e.target.value : e
+      if (val !== this.value) {
+        if (this.isNumber && Number.isInteger(this.maxDecimals)) {
+          val = parseFloat(val).toFixed(this.maxDecimals)
+        }
+        this.$emit('input', val)
+      }
+    },
+    __updateArea () {
+      const shadow = this.$refs.shadow
+      if (shadow) {
+        let h = shadow.scrollHeight
+        const max = this.maxHeight || h
+        this.$refs.input.style.minHeight = `${between(h, 19, max)}px`
       }
     }
   },
   mounted () {
-    this.$nextTick(() => {
-      this.__notify('count')
-      if (this.autofocus) {
-        this.focus()
-      }
-    })
+    this.__updateArea = frameDebounce(this.__updateArea)
+    if (this.isTextarea) {
+      this.__updateArea()
+      this.watcher = this.$watch('value', this.__updateArea)
+    }
   },
   beforeDestroy () {
-    this.__notify('count')
-    this.__notify('floating', false)
-    this.__notify('error', false)
+    if (this.watcher !== void 0) {
+      this.watcher()
+    }
   }
 }
 </script>

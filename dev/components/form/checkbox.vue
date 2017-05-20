@@ -65,7 +65,7 @@
         label="Horizontal"
         error-label="Max 10 characters!"
       >
-        <q-input-group
+        <q-option-group
           inline
           type="checkbox"
           color="secondary"
@@ -84,7 +84,7 @@
         label="Horizontal"
         error-label="Max 10 characters!"
       >
-        <q-input-group
+        <q-option-group
           type="checkbox"
           v-model="group"
           :options="[

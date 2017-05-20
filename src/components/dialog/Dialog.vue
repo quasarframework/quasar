@@ -18,13 +18,14 @@
           :type="el.type"
           style="margin-bottom: 10px"
           v-model="el.model"
+          :color="el.color"
           :placeholder="el.placeholder"
           :float-label="el.label"
         ></q-input>
 
         <div v-if="el.type === 'chips'" style="margin-bottom: 10px">
           <label v-html="el.label"></label>
-          <q-chips v-model="el.model"></q-chips>
+          <q-chips-input v-model="el.model" :color="el.color"></q-chips-input>
         </div>
 
         <label v-if="el.type === 'radio'" v-for="radio in el.items" :key="radio" class="item">
@@ -75,7 +76,7 @@
     <div v-if="progress" class="modal-body">
       <q-progress
         :percentage="progress.model"
-        color="primary"
+        color="progress.color || primary"
         animate
         stripe
         :indeterminate="progress.indeterminate"
@@ -115,7 +116,7 @@
 import inputTypes from '../input/input-types'
 import { QModal } from '../modal'
 import { QInput } from '../input'
-import { QChips } from '../chips'
+import { QChipsInput } from '../chips-input'
 import { QRadio } from '../radio'
 import { QCheckbox } from '../checkbox'
 import { QToggle } from '../toggle'
@@ -129,7 +130,7 @@ export default {
   components: {
     QModal,
     QInput,
-    QChips,
+    QChipsInput,
     QRadio,
     QCheckbox,
     QToggle,

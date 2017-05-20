@@ -1,0 +1,101 @@
+$input-transition = all .45s cubic-bezier(.23, 1, .32, 1)
+
+.q-if
+  font-size 16px
+  min-height 24px
+  margin-top 16px
+  margin-bottom 8px
+  padding-bottom 8px
+
+  &:before, &:after
+    content ''
+    position absolute
+    bottom 0
+    left 0
+    right 0
+    transition $input-transition
+    background currentColor
+  &:before
+    height 1px
+    color rgba(0, 0, 0, .12)
+    transform scaleY(1)
+  &:after
+    left 50%
+    width 0
+    height 2px
+    color $primary
+    transform translateX(-50%)
+
+  &:hover:before
+    color rgba(0, 0, 0, .36)
+
+  .group
+    margin -5px
+
+.q-if-focusable
+  outline 0
+  cursor pointer
+
+.q-if-inner
+  min-height 19px !important
+
+.q-if-has-label
+  min-height 44px
+  .q-if-inner
+    min-height 39px !important
+    padding-top 20px
+
+.q-if-label
+  color rgba(0, 0, 0, .46)
+  pointer-events none
+  user-select none
+  top 20px
+  left 0
+  right 0
+  transform-origin left top 0
+  transform scale(1) translate(0, 0)
+  transition $input-transition
+.q-if-label-above
+  transform scale(.75) translate(0, -27px)
+
+.q-if-addon
+  pointer-events none
+  color rgba(0, 0, 0, .46)
+  opacity 0
+  transition $input-transition
+.q-if-addon-left
+  padding-right 8px
+.q-if-addon-right
+  padding-left 8px
+.q-if-addon-visible
+  opacity 1
+
+.q-if-control
+  cursor pointer
+  margin-left 8px
+  color rgba(0, 0, 0, .54)
+  font-size 22px
+
+.q-if-focused
+  &:after
+    width 100%
+  .q-if-label
+    color $primary
+
+.q-if-error
+  &:before, &:after, .q-if-label, .q-if-addon
+    color $has-error
+  &:hover:before
+    color lighten($has-error, 26%)
+
+.q-if-disabled
+  cursor not-allowed !important
+  .q-if-label, .q-if-control
+    opacity .6
+    cursor not-allowed !important
+  &:before
+    background-image linear-gradient(90deg, rgba(0, 0, 0, .38) 0, rgba(0, 0, 0, .38) 33%, transparent 0)
+    background-color transparent
+    background-position bottom
+    background-size 3px 1px
+    background-repeat repeat-x

@@ -36,7 +36,8 @@
       </p>
       <q-datetime v-model="model" type="date" />
 
-      <q-datetime simple v-model="model" type="date" />
+      <q-datetime stack-label="Stack Label" v-model="model" type="date" />
+      <q-datetime float-label="Float Label" v-model="model" type="date" />
 
       <p class="caption">
         Time
@@ -75,11 +76,8 @@
       <p class="caption">Disabled State</p>
       <q-datetime disable v-model="model" type="datetime" />
 
-      <p class="caption">Readonly State</p>
-      <q-datetime readonly v-model="model" type="datetime" />
-
       <p class="caption">Error State</p>
-      <q-datetime class="has-error" v-model="model" type="datetime" />
+      <q-datetime error v-model="model" type="datetime" />
 
       <p class="caption">Min & Max</p>
       <q-datetime type="datetime" v-model="minMaxModel" :min="min" :max="max" />

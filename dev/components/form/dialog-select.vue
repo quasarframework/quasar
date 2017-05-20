@@ -11,20 +11,20 @@
       <p class="caption">With Label</p>
       <q-dialog-select type="checkbox" v-model="multipleSelect" :options="selectOptions" label="Pick Company"></q-dialog-select>
 
-      <p class="caption">With Placeholder</p>
-      <q-dialog-select type="radio" v-model="select" :options="selectOptions" placeholder="Pick Company"></q-dialog-select>
+      <p class="caption">With Float Label</p>
+      <q-dialog-select float-label="Float Label" type="checkbox" v-model="multipleSelect" :options="selectOptions" placeholder="Pick Company"></q-dialog-select>
 
-      <p class="caption">With Static Label</p>
-      <q-dialog-select type="radio" v-model="select" :options="selectOptions" static-label="Company"></q-dialog-select>
+      <p class="caption">With Stack Label</p>
+      <q-dialog-select stack-label="Stack Label" type="radio" v-model="select" :options="selectOptions" static-label="Company"></q-dialog-select>
+
+      <p class="caption">With Chips</p>
+      <q-dialog-select chips float-label="Float Label" type="checkbox" v-model="multipleSelect" :options="selectOptions" placeholder="Pick Company"></q-dialog-select>
 
       <p class="caption">Disabled State</p>
       <q-dialog-select disable type="radio" v-model="select" :options="selectOptions"></q-dialog-select>
 
-      <p class="caption">Readonly State</p>
-      <q-dialog-select readonly type="radio" v-model="select" :options="selectOptions"></q-dialog-select>
-
       <p class="caption">Error State</p>
-      <q-dialog-select class="has-error" type="radio" v-model="select" :options="selectOptions"></q-dialog-select>
+      <q-dialog-select error type="radio" v-model="select" :options="selectOptions"></q-dialog-select>
 
       <p class="caption">Inside of a List</p>
       <div class="list">

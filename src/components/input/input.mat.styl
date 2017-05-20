@@ -1,142 +1,21 @@
-$textfield-border-size        ?= 2px
-$textfield-border-style       ?= solid
-$textfield-border-color       ?= $form-lighter-color
-$textfield-focus-border-color ?= $form-active-color
+.q-input-no-native-addons
+  .q-input-target::-webkit-outer-spin-button,
+  .q-input-target::-webkit-inner-spin-button
+    -webkit-appearance none
 
-$textfield-padding-horizontal ?= 0
-$textfield-padding-vertical   ?= 8px
+.q-input-target, .q-input-shadow
+  border 0
+  outline 0
+  padding 0
+  color inherit
+  background transparent
+  font-size inherit
+  min-width 70px
+  overflow hidden
+  resize none
 
-$input-primary-color          ?= $primary
-$input-icon-color             ?= rgba(0, 0, 0, .38)
-$input-label-color            ?= rgba(0, 0, 0, .54)
-
-.caret
-  display inline-block
-  width 0
-  height 0
-  vertical-align middle
-  border-top 4px solid $input-icon-color
-  border-right 4px solid transparent
-  border-left 4px solid transparent
-
-.q-input-label
-  cursor pointer
-  transition all .3s ease-out
-  color $input-label-color
-  position absolute
-  &:not(.above)
-    cursor text
-  &.above
-    left 0
-    font-size small
-    transform translateY(-1.25rem)
-
-.q-input-border
-  background $grey-4
-  height 1px
-  left 0
-  &, &:after
-    position absolute
-    right 0
-    bottom 0
-  &:after
-    content ''
-    left 50%
-    height 2px
-    background $input-primary-color
-    width 0
-    transform translateX(-50%)
-    transition width .3s ease-out
-
-.q-input-target.flow
-  flex-wrap wrap
-  align-items center
-
-.q-input-comp
-  cursor default
-.q-input-faded
-  color $faded
-.q-input-small
-  font-size small
-.q-input-button
-  cursor pointer
-  padding 0 5px
-
-.q-input
-  position relative
-  margin-top 1rem
-  margin-bottom .5rem
-
-  &.dropdown:not(.disabled):not(.readonly)
-    cursor pointer !important
-    input, textarea, .q-input-comp, .q-input-label
-      cursor pointer !important
-      font-style normal
-
-  &:not(.textarea)
-    padding-bottom 8px
-
-  > .q-input-comp + .q-input-comp
-    margin-left 4px
-
-  &:not(.disabled):not(.readonly):not(.has-error)
-    &:hover, &.focused
-      .q-input-label
-        color $input-primary-color
-
-  &.disabled, &.readonly
-    border-bottom 2px dotted $grey-4
-    .q-input-border
-      display none
-  &.readonly
-    input, textarea
-      font-style italic
-
-  input, textarea
-    border 0
-    outline 0
-    padding 0
-    color inherit
-    background transparent
-    /* workarounds for flex issues */
-    max-width 100%
-    width 100%
-
-  textarea
-    margin-bottom 8px
-    resize vertical
-
-  &.focused .q-input-border:after
-    width 100%
-
-  &.has-label
-    padding-top 1.25rem
-
-  &.simple
-    padding-bottom 0
-
-  &.complex
-    border-bottom 0
-    border-radius $generic-border-radius
-    box-shadow $shadow-1
-    padding 0
-    align-items center !important
-    &, .q-input-target
-      height 38px
-    input
-      line-height 1
-    .q-icon
-      font-size 22px
-      padding 0 8px
-
-.q-input, .q-field
-  &.has-error
-    .q-input-label, .q-input-comp
-      color $has-error
-    .q-input-border
-      &, &:after
-        background $has-error
-
-.q-input-dropdown
-  max-width 100%
-  width 100px
+.q-input-shadow
+  overflow hidden
+  visibility hidden
+  pointer-events none
+  height auto

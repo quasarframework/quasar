@@ -12,10 +12,8 @@
       :ok-label="okLabel"
       :cancel-label="cancelLabel"
       :float-label="floatLabel"
-      :stacked-label="stackedLabel"
-      :static-label="staticLabel"
+      :stack-label="stackLabel"
       :placeholder="placeholder"
-      :readonly="readonly"
       :disable="disable"
       :align="align"
       :format24h="format24h"
@@ -37,10 +35,8 @@
       :ok-label="okLabel"
       :cancel-label="cancelLabel"
       :float-label="floatLabel"
-      :stacked-label="stackedLabel"
-      :static-label="staticLabel"
+      :stack-label="stackLabel"
       :placeholder="placeholder"
-      :readonly="readonly"
       :disable="disable"
       :align="align"
       :format24h="format24h"
@@ -53,12 +49,14 @@
 </template>
 
 <script>
+import FrameMixin from '../input-frame/input-frame-mixin'
 import extend from '../../utils/extend'
 import { input, inline } from './datetime-props'
 import QDatetime from './QDatetime.vue'
 
 export default {
   name: 'q-datetime-range',
+  mixins: [FrameMixin],
   components: {
     QDatetime
   },

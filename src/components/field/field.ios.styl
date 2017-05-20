@@ -1,99 +1,48 @@
-$field-primary-color          ?= $primary
-$field-icon-size              ?= 1.75rem
-$field-icon-color             ?= rgba(0, 0, 0, .38)
-$field-helper-color           ?= rgba(0, 0, 0, .38)
-$field-label-color            ?= rgba(0, 0, 0, .54)
-$field-label-hint-color       ?= $secondary
-$field-required-label-weight  ?= 500
-$field-gutter                 ?= .6rem
+$field-icon-size   ?= 28px
+$field-label-color ?= rgba(0, 0, 0, .54)
 
-.q-field-helper, .q-field-icon
-  transition color .3s ease-out
+.q-field
+  margin-top 16px
+  margin-bottom 8px
+  .q-if
+    margin-top 0 !important
+    margin-bottom 0 !important
 
 .q-field-icon
   width $field-icon-size
+  height $field-icon-size
   min-width $field-icon-size
   font-size $field-icon-size
-  line-height $field-icon-size
-  border-radius 50%
-  cursor default
-  margin-right $field-gutter
-  color $field-icon-color
+  margin-right 16px
+  color $field-label-color
 
 .q-field-label
-  cursor pointer
-  padding-right $field-gutter
+  padding-right 8px
   color $field-label-color
-  &.required-label
-    font-weight $field-required-label-weight
-
+.q-field-label-inner
+  min-height $field-icon-size
 .q-field-label-hint
-  color $field-label-hint-color
-  font-size 120%
-  margin 0 5px
-  vertical-align -5px
+  padding-left 8px
 
-.q-field-count
-  color $field-helper-color
-
-.q-field-label, .q-field-count
-  transition color .3s ease-out
-
-.q-field-error
-  color $negative
+.q-field-label-focusable .q-field-label-inner
+  cursor pointer
 
 .q-field-bottom
-  margin-top 8px
-  > div
-    font-size small
-
+  font-size 12px
+  padding-top 8px
+.q-field-error
+  color $has-error
 .q-field-helper
-  color $field-helper-color
+  color rgba(0, 0, 0, .46)
+.q-field-counter
+  color $field-label-color
+  padding-left 8px
 
-.q-field
-  padding 15px 0
+.q-field-with-error
+  .q-field-icon, .q-field-label
+    color $has-error
 
-  .q-input-group
-    margin-bottom 13px
-
-  .q-input
-    margin-top 0
-    margin-bottom 0
-
-  &.with-icon
-    .q-field-label, .q-field-content
-      margin-top .25rem
-
-  &.floating
-    .q-field-icon
-      margin-top 1rem
-    .q-field-content
-      margin-top 0
-  &:hover, &.focused
+@media (min-width $breakpoint-sm-min)
+  .q-field-floating
     .q-field-icon, .q-field-label
-      color $field-primary-color
-
-  &.has-error
-    .q-field-label, .q-field-icon
-      color $has-error
-
-@media (min-width 576px)
-  .q-field.floating .q-field-label
-    margin-top 1.25rem
-
-@media (max-width 575px)
-  .q-field-label
-    padding-right 0
-
-  .q-field
-    &:not(.with-label)
-      .q-field-label
-        display none
-    &.with-label
-      .q-field-icon
-        margin-top 0
-      .q-field-label
-        margin-bottom .7rem
-      &.with-icon
-        .q-field-content
-          margin-top 0
+      margin-top 18px

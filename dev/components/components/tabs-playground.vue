@@ -9,7 +9,7 @@
       make a new *.vue file here or in another folder under /dev/components.
     -->
     <div class="group">
-      <q-input-group
+      <q-option-group
         type="radio"
         v-model="tab"
         :options="[

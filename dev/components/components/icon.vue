@@ -7,7 +7,7 @@
         <q-tooltip>{{icon}}</q-tooltip>
       </q-icon>
     </div>
-    <q-input-group
+    <q-option-group
       type="radio"
       v-model="icon"
       :options="[

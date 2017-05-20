@@ -1,26 +1,51 @@
 <template>
-  <q-input
+  <q-input-frame
     ref="input"
-    type="dropdown"
-    :disabled="disable"
-    :readonly="readonly"
-    :placeholder="placeholder"
-    :value="actualValue"
+    class="q-select"
+
+    :prefix="prefix"
+    :suffix="suffix"
+    :stack-label="stackLabel"
     :float-label="floatLabel"
-    :stacked-label="stackedLabel"
-    :simple="simple"
-    :align="align"
-    @click="open"
-    @focus="$emit('focus')"
-    @blur="__blur"
+    :error="error"
+    :disable="disable"
+
+    :focused="focused"
+    focusable
+    :length="length"
+
+    @click.native="open"
+    @focus.native="__onOpen"
+    @blur.native="__onBlur"
   >
+    <div class="col row group">
+      <template v-if="hasChips">
+        <q-chip
+          v-for="{label, value} in selectedOptions"
+          :key="label"
+          small
+          :closable="!disable"
+          color="primary"
+          @click.native.stop
+          @close="__toggle(value)"
+        >
+          {{ label }}
+        </q-chip>
+      </template>
+
+      <div v-else :class="[`text-${align}`]">{{ actualValue }}</div>
+    </div>
+
+    <q-icon slot="control" name="arrow_drop_down" class="q-if-control"></q-icon>
+
     <q-popover
       ref="popover"
       fit
-      :disable="disable || readonly"
-      :offset="[0, 4]"
+      :disable="disable"
+      :offset="[0, 10]"
       :anchor-click="false"
-      @close="__resetFilter"
+      @open="__onOpen"
+      @close="__onClose"
     >
       <q-search
         v-if="filter"
@@ -40,22 +65,21 @@
             v-for="opt in visibleOptions"
             :key="opt"
             :cfg="opt"
-            :active="!checkbox && !toggle && optModel[opt.index]"
             @click.native="__toggle(opt.value)"
+            no-ripple
           >
-            <q-checkbox
-              v-if="checkbox"
-              slot="primary"
-              :value="optModel[opt.index]"
-              @click.native="__toggle(opt.value)"
-            ></q-checkbox>
-
             <q-toggle
               v-if="toggle"
               slot="secondary"
               :value="optModel[opt.index]"
               @click.native="__toggle(opt.value)"
             ></q-toggle>
+            <q-checkbox
+              v-else
+              slot="primary"
+              :value="optModel[opt.index]"
+              @click.native="__toggle(opt.value)"
+            ></q-checkbox>
           </q-item>
         </template>
         <template v-else>
@@ -66,23 +90,25 @@
             :cfg="opt"
             :active="model === opt.value"
             @click.native="__select(opt.value)"
+            no-ripple
           >
             <q-radio v-if="radio" slot="primary" :value="model" :val="opt.value"></q-radio>
           </q-item>
         </template>
       </div>
     </q-popover>
-  </q-input>
+  </q-input-frame>
 </template>
 
 <script>
-import { QInput } from '../input'
 import { QSearch } from '../search'
 import { QPopover } from '../popover'
 import { QItem } from '../item'
 import { QCheckbox } from '../checkbox'
 import { QRadio } from '../radio'
 import { QToggle } from '../toggle'
+import { QChip } from '../chip'
+import SelectMixin from './select-mixin'
 import clone from '../../utils/clone'
 
 function defaultFilterFn (terms, obj) {
@@ -91,40 +117,31 @@ function defaultFilterFn (terms, obj) {
 
 export default {
   name: 'q-select',
+  mixins: [SelectMixin],
   components: {
-    QInput,
     QSearch,
     QPopover,
     QItem,
     QCheckbox,
     QRadio,
-    QToggle
+    QToggle,
+    QChip
   },
   props: {
     value: {
       required: true
     },
-    options: {
-      type: Array,
-      required: true,
-      validator: v => v.every(o => 'label' in o && 'value' in o)
-    },
     multiple: Boolean,
     radio: Boolean,
-    checkbox: Boolean,
     toggle: Boolean,
+    chips: Boolean,
     filter: [Function, Boolean],
     filterPlaceholder: {
       type: String,
       default: 'Filter'
     },
     placeholder: String,
-    staticLabel: String,
-    floatLabel: String,
-    stackedLabel: String,
-    simple: Boolean,
     align: String,
-    readonly: Boolean,
     disable: Boolean,
     delimiter: Boolean
   },
@@ -132,15 +149,14 @@ export default {
     model: {
       deep: true,
       handler (val) {
+        const popover = this.$refs.popover
+        if (popover.opened) {
+          popover.reposition()
+        }
         if (this.multiple) {
           this.$emit('input', val)
         }
       }
-    }
-  },
-  data () {
-    return {
-      terms: ''
     }
   },
   computed: {
@@ -155,10 +171,24 @@ export default {
         this.$emit('input', value)
       }
     },
+    actualValue () {
+      if (!this.multiple) {
+        let option = this.options.find(option => option.value === this.model)
+        return option ? option.label : ''
+      }
+
+      let options = this.selectedOptions.map(opt => opt.label)
+      return !options.length ? '' : options.join(', ')
+    },
     optModel () {
       /* Used by multiple selection only */
       if (this.multiple) {
         return this.options.map(opt => this.model.includes(opt.value))
+      }
+    },
+    selectedOptions () {
+      if (this.multiple) {
+        return this.options.filter(opt => this.model.includes(opt.value))
       }
     },
     visibleOptions () {
@@ -173,21 +203,6 @@ export default {
       }
       return opts
     },
-    actualValue () {
-      if (this.staticLabel) {
-        return this.staticLabel
-      }
-      if (!this.multiple) {
-        let option = this.options.find(option => option.value === this.model)
-        return option ? option.label : ''
-      }
-
-      let options = this.options
-        .filter(opt => this.model.includes(opt.value))
-        .map(opt => opt.label)
-
-      return !options.length ? '' : options.join(', ')
-    },
     filterFn () {
       return typeof this.filter === 'boolean'
         ? defaultFilterFn
@@ -196,7 +211,7 @@ export default {
   },
   methods: {
     open (event) {
-      if (!this.disable && !this.readonly) {
+      if (!this.disable) {
         this.$refs.popover.open()
       }
     },
@@ -204,6 +219,15 @@ export default {
       this.$refs.popover.close()
     },
 
+    __onOpen () {
+      this.focused = true
+      this.$emit('focus')
+    },
+    __onClose () {
+      this.focused = false
+      this.$emit('blur')
+      this.terms = ''
+    },
     __toggle (value) {
       let index = this.model.indexOf(value)
       if (index > -1) {
@@ -217,16 +241,12 @@ export default {
       this.model = val
       this.close()
     },
-    __blur (e) {
-      this.$emit('blur')
+    __onBlur (e) {
       setTimeout(() => {
         if (document.activeElement !== document.body && !this.$refs.popover.$el.contains(document.activeElement)) {
           this.close()
         }
       }, 1)
-    },
-    __resetFilter () {
-      this.terms = ''
     }
   }
 }

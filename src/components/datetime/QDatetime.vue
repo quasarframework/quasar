@@ -1,25 +1,32 @@
 <template>
-  <q-input
-    ref="input"
-    type="dropdown"
-    :disabled="disable"
-    :readonly="readonly"
-    :placeholder="placeholder"
-    :value="actualValue"
+  <q-input-frame
+    class="q-datetime-input"
+
+    :prefix="prefix"
+    :suffix="suffix"
+    :stack-label="stackLabel"
     :float-label="floatLabel"
-    :stacked-label="stackedLabel"
-    :simple="simple"
-    :align="align"
-    @click="open"
-    @focus="$emit('focus')"
-    @blur="__blur"
+    :error="error"
+    :disable="disable"
+
+    :focused="focused"
+    focusable
+    :length="actualValue.length"
+
+    @click.native="open"
+    @focus.native="__onFocus"
+    @blur.native="__onBlur"
   >
+    <div class="col" :class="[`text-${align}`]">{{ actualValue }}</div>
+
     <q-popover
       v-if="desktop"
       ref="popup"
-      :offset="[0, 4]"
+      :offset="[0, 10]"
       :disable="disable || readonly"
       :anchor-click="false"
+      @open="__onOpen"
+      @close="__onClose"
     >
       <q-inline-datetime
         ref="target"
@@ -51,6 +58,8 @@
       :transition="transition"
       :position-classes="position"
       :content-css="css"
+      @open="__onOpen"
+      @close="__onClose"
     >
       <q-inline-datetime
         ref="target"
@@ -67,21 +76,25 @@
           <q-btn v-if="!noClear && model" @click="clear()" flat>
             <span v-html="clearLabel"></span>
           </q-btn>
-          <div class="auto"></div>
+          <div class="col"></div>
           <q-btn @click="close()" flat><span v-html="cancelLabel"></span></q-btn>
           <q-btn @click="close(__update)" flat><span v-html="okLabel"></span></q-btn>
         </div>
       </q-inline-datetime>
     </q-modal>
-  </q-input>
+
+    <q-icon slot="control" name="arrow_drop_down" class="q-if-control"></q-icon>
+  </q-input-frame>
 </template>
 
 <script>
+import FrameMixin from '../input-frame/input-frame-mixin'
 import Platform from '../../features/platform'
 import extend from '../../utils/extend'
 import { current as theme } from '../../features/theme'
 import { input, inline } from './datetime-props'
-import { QInput } from '../input'
+import { QIcon } from '../icon'
+import { QInputFrame } from '../input-frame'
 import { QPopover } from '../popover'
 import QInlineDatetime from './QInlineDatetime'
 import { QBtn } from '../btn'
@@ -103,8 +116,10 @@ let contentCSS = {
 
 export default {
   name: 'q-datetime',
+  mixins: [FrameMixin],
   components: {
-    QInput,
+    QIcon,
+    QInputFrame,
     QPopover,
     QModal,
     QInlineDatetime,
@@ -120,12 +135,13 @@ export default {
     }
     data.model = this.value
     data.desktop = Platform.is.desktop
+    data.focused = false
     return data
   },
   computed: {
     actualValue () {
       if (!this.value) {
-        return ''
+        return this.placeholder || ''
       }
 
       let format
@@ -154,19 +170,31 @@ export default {
       }
     },
     close (fn) {
+      this.focused = false
       this.$refs.popup.close(fn)
     },
     clear () {
       this.$refs.popup.close()
       this.$emit('input', '')
     },
-    __blur (e) {
-      this.$emit('blur')
+    __onFocus () {
+      this.focused = true
+      this.$emit('focus')
+    },
+    __onBlur (e) {
+      this.__onClose()
       setTimeout(() => {
         if (document.activeElement !== document.body && !this.$refs.popup.$el.contains(document.activeElement)) {
           this.close()
         }
       }, 1)
+    },
+    __onOpen () {
+      this.__onFocus()
+    },
+    __onClose () {
+      this.focused = false
+      this.$emit('blur')
     },
     __setModel () {
       this.model = this.value

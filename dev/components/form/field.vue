@@ -326,7 +326,7 @@
         label="Horizontal"
         error-label="Max 10 characters!"
       >
-        <q-input-group
+        <q-option-group
           type="radio"
           v-model="option"
           :options="[
