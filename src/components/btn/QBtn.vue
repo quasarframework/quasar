@@ -9,7 +9,7 @@
       'q-btn-flat': flat,
       'q-btn-rounded': rounded,
       'q-btn-push': push,
-      'q-btn-no-uppercase': noUppercase,
+      'q-btn-no-uppercase': noCaps,
       [shape]: true,
       [size]: true,
       [`bg-${color}`]: color && !flat && !outline,
@@ -50,7 +50,7 @@ export default {
     value: Boolean,
     disable: Boolean,
     loader: Boolean,
-    noUppercase: {
+    noCaps: {
       type: Boolean,
       default: false
     },
