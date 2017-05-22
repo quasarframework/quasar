@@ -518,7 +518,7 @@ export default {
 .q-input
   // border 1px solid black
 .q-input + .q-field
-  margin-top 50px
+  // margin-top 50px
 
 .inline-example
   margin 13px 0

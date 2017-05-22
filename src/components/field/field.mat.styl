@@ -38,9 +38,12 @@ $field-label-color ?= rgba(0, 0, 0, .54)
   color $field-label-color
   padding-left 8px
 
+.q-field-dark
+  .q-field-label, .q-field-icon, .q-field-helper, .q-field-counter
+    color rgba(255, 255, 255, 60%)
 .q-field-with-error
   .q-field-icon, .q-field-label
-    color $has-error
+    color $negative
 
 @media (min-width $breakpoint-sm-min)
   .q-field-floating

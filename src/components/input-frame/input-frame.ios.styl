@@ -1,4 +1,7 @@
-$input-transition = all .45s cubic-bezier(.23, 1, .32, 1)
+$input-transition ?= all .45s cubic-bezier(.23, 1, .32, 1)
+
+.q-if, .q-if:before, .q-if:after, .q-if-label, .q-if-addon, .q-field-icon, .q-field-label, .q-if-control
+  transition $input-transition
 
 .q-if
   font-size 16px
@@ -6,6 +9,7 @@ $input-transition = all .45s cubic-bezier(.23, 1, .32, 1)
   margin-top 16px
   margin-bottom 8px
   padding-bottom 8px
+  color $primary
 
   &:before, &:after
     content ''
@@ -13,7 +17,6 @@ $input-transition = all .45s cubic-bezier(.23, 1, .32, 1)
     bottom 0
     left 0
     right 0
-    transition $input-transition
     background currentColor
   &:before
     height 1px
@@ -23,7 +26,7 @@ $input-transition = all .45s cubic-bezier(.23, 1, .32, 1)
     left 50%
     width 0
     height 2px
-    color $primary
+    color currentColor
     transform translateX(-50%)
 
   &:hover:before
@@ -54,7 +57,6 @@ $input-transition = all .45s cubic-bezier(.23, 1, .32, 1)
   right 0
   transform-origin left top 0
   transform scale(1) translate(0, 0)
-  transition $input-transition
 .q-if-label-above
   transform scale(.75) translate(0, -27px)
 
@@ -62,7 +64,6 @@ $input-transition = all .45s cubic-bezier(.23, 1, .32, 1)
   pointer-events none
   color rgba(0, 0, 0, .46)
   opacity 0
-  transition $input-transition
 .q-if-addon-left
   padding-right 8px
 .q-if-addon-right
@@ -75,18 +76,42 @@ $input-transition = all .45s cubic-bezier(.23, 1, .32, 1)
   margin-left 8px
   color rgba(0, 0, 0, .54)
   font-size 22px
+  &:hover
+    opacity .7
+.q-if-control-before
+  margin-left 0
+  margin-right 8px
+
+.q-if-dark
+  &:before, .q-if-label, .q-if-control
+    color rgba(255, 255, 255, 70%)
+  &:hover:before, .q-if-addon
+    color rgba(255, 255, 255, 90%)
 
 .q-if-focused
   &:after
     width 100%
   .q-if-label
-    color $primary
+    color currentColor
+
+.q-if-inverted
+  min-height 38px
+  border-radius 2px
+  padding-top 8px
+  box-shadow $shadow-1
+  &:before, &:after
+    display none
+  .q-if-control
+    color white
+  .q-if-control, .q-if-inner
+    margin-left 8px
+    margin-right 8px
 
 .q-if-error
-  &:before, &:after, .q-if-label, .q-if-addon
+  &:before, &:after, &:not(.q-if-inverted) .q-if-label, .q-if-addon
     color $has-error
   &:hover:before
-    color lighten($has-error, 26%)
+    color lighten($negative, 26%)
 
 .q-if-disabled
   cursor not-allowed !important

@@ -7,12 +7,35 @@
   border 0
   outline 0
   padding 0
-  color inherit
+  color black
   background transparent
   font-size inherit
   min-width 70px
   overflow hidden
   resize none
+
+.q-if-dark
+  .q-input-target
+    color white
+
+    &::-webkit-input-placeholder /* Chrome/Opera/Safari */
+      color rgba(255, 255, 255, .6) !important
+    &::-moz-placeholder /* Firefox 19+ */
+      color rgba(255, 255, 255, .6) !important
+    &:-ms-input-placeholder /* IE 10+ */
+      color rgba(255, 255, 255, .6) !important
+
+    &::selection
+      background white
+      color black
+
+
+/*
+ * Remove browser controller for input type="number" */
+.q-if
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button // @stylint ignore
+    -webkit-appearance none
 
 .q-input-shadow
   overflow hidden

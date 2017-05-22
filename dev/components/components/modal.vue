@@ -75,7 +75,7 @@
         </q-toolbar>
 
         <q-toolbar slot="header">
-          <q-search class="bg-blue-6 col"></q-search>
+          <q-search v-model="search" color="none"></q-search>
         </q-toolbar>
 
         <q-toolbar slot="footer">
@@ -117,6 +117,7 @@ import { Toast } from 'quasar'
 export default {
   data () {
     return {
+      search: '',
       types: [
         {
           label: 'Basic',

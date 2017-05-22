@@ -1,15 +1,20 @@
 <template>
   <div
     class="q-if row no-wrap items-center relative-position"
-    :class="{
-      'q-if-has-label': label,
-      'q-if-focused': focused,
-      'q-if-error': hasError,
-      'q-if-disabled': disable,
-      'q-if-focusable': focusable && !disable
-    }"
+    :class="classes"
     :tabindex="focusable && !disable ? 0 : null"
   >
+    <template v-if="before">
+      <q-icon
+        v-for="item in before"
+        :key="item"
+        class="q-if-control"
+        :class="{hidden: item.content && !length}"
+        :name="item.icon"
+        @click="item.handler"
+      ></q-icon>
+    </template>
+
     <div
       class="q-if-inner col row no-wrap items-center relative-position"
       @click="__onClick"
@@ -39,6 +44,16 @@
     </div>
 
     <slot name="control"></slot>
+    <template v-if="after">
+      <q-icon
+        v-for="item in after"
+        :key="item"
+        class="q-if-control"
+        :class="{hidden: (item.content && !length) || (!!item.error !== hasError)}"
+        :name="item.icon"
+        @click="item.handler"
+      ></q-icon>
+    </template>
   </div>
 </template>
 
@@ -70,8 +85,31 @@ export default {
         'self-start': this.topAddons
       }
     },
+    classes () {
+      const cls = [{
+        'q-if-has-label': this.label,
+        'q-if-focused': this.focused,
+        'q-if-error': this.hasError,
+        'q-if-disabled': this.disable,
+        'q-if-focusable': this.focusable && !this.disable,
+        'q-if-inverted': this.inverted,
+        'q-if-dark': this.dark || this.inverted
+      }]
+
+      const color = this.hasError ? 'negative' : this.color
+      if (color) {
+        if (this.inverted) {
+          cls.push(`bg-${color}`)
+          cls.push(`text-white`)
+        }
+        else {
+          cls.push(`text-${color}`)
+        }
+      }
+      return cls
+    },
     hasError () {
-      return this.field.error || this.error
+      return !!(this.field.error || this.error)
     }
   },
   methods: {

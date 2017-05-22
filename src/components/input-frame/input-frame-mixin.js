@@ -1,3 +1,8 @@
+const marginal = {
+  type: Array,
+  validator: v => v.every(i => 'icon' in i && 'handler' in i)
+}
+
 export default {
   props: {
     prefix: String,
@@ -6,7 +11,14 @@ export default {
     floatLabel: String,
     error: Boolean,
     disable: Boolean,
-    color: String,
+    color: {
+      type: String,
+      default: 'primary'
+    },
+    dark: Boolean,
+    before: marginal,
+    after: marginal,
+    inverted: Boolean,
     align: {
       type: String,
       default: 'left',

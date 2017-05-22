@@ -1,9 +1,9 @@
 $range-color              ?= $primary
 
-$range-height              = 40px
-$range-track-height        = 1px
+$range-height              = 28px
+$range-track-height        = 2px
 $range-mark-height         = 10px
-$range-handle-size         = 25px
+$range-handle-size         = 12px
 $range-label-transform     = translateX(-50%) translateY(-139%) scale(1)
 
 .q-range-track, .q-range-mark
@@ -16,16 +16,16 @@ $range-label-transform     = translateX(-50%) translateY(-139%) scale(1)
   left 0
   transform translateY(-50%)
   height $range-track-height
-  background $grey
   width 100%
   &:not(.dragging)
     transition all .3s ease
   &.active-track
     opacity 1
-    background currentColor
   &.track-draggable.dragging
     height ($range-track-height * 2)
     transition height .3s ease
+  &.handle-at-minimum
+    background transparent
 
 .q-range-mark
   position absolute
@@ -59,19 +59,50 @@ $range-label-transform     = translateX(-50%) translateY(-139%) scale(1)
   transition all .3s ease
   width $range-handle-size
   height $range-handle-size
-  background white
-  box-shadow 0 1px 5px 1px rgba(0, 0, 0, .25)
   &.dragging
-    transform translate3d(-50%, -50%, 0)
+    transform translate3d(-50%, -50%, 0) scale(1.3)
     transition opacity .3s ease, transform .3s ease
     .q-range-label
       opacity 1
       transform $range-label-transform
+  background currentColor
+  &.handle-at-minimum
+    background white
+    &:after
+      content ''
+      position absolute
+      top 0
+      right 0
+      bottom 0
+      left 0
+      background transparent
+      border-radius inherit
+      border 2px solid currentColor
+
+.q-range-ring
+  position absolute
+  top -50%
+  left -50%
+  width 200%
+  height 200%
+  border-radius inherit
+  pointer-events none
+  opacity 0
+  transform scale(0)
+  transition all .2s ease-in
+  background currentColor
+
+.q-range:not(.disabled)
+  &:focus, &:hover
+    .q-range-ring
+      opacity .4
+      transform scale(1)
 
 .q-range.disabled
   .q-range-handle
-    width round(.7 * $range-handle-size)
-    height round(.7 * $range-handle-size)
+    border 2px solid white
+  .q-range-handle.handle-at-minimum
+    background currentColor
 
 .q-range
   height $range-height
@@ -80,10 +111,8 @@ $range-label-transform     = translateX(-50%) translateY(-139%) scale(1)
   cursor pointer
 
   &.label-always, &.with-padding
-    padding-top 40px
-    height 80px
+    padding 55px 0 5px
+    height 85px
 
   &.has-error
     color $has-error
-    .q-range-handle
-      background $has-error

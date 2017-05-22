@@ -10,6 +10,38 @@
       <q-input v-model="text" type="password" float-label="Password" />
 
       <q-input disable v-model="text" float-label="Float Label" placeholder="Gigi" />
+      <q-input inverted disable v-model="text" float-label="Float Label" placeholder="Gigi" clearable />
+
+      <q-input v-model="text" float-label="Colored" color="amber" />
+      <q-input v-model="text" float-label="Colored" color="amber" error />
+
+      <p class="caption">Solo Inputs</p>
+      <q-input v-model="text" :error="error" inverted color="secondary" type="password" clearable placeholder="Some placeholder" :after="[{icon: 'warning', error: true, handler () {}}]" />
+      <q-input v-model="text" inverted stack-label="Colored" color="amber" />
+      <q-input v-model="text" inverted stack-label="Colored" :after="[{icon: 'arrow_forward', content: true, handler () {}}]"/>
+      <q-input v-model="text" inverted type="textarea" stack-label="Colored" color="tertiary" :min-rows="5" />
+
+      <p class="caption">On dark background</p>
+      <div class="bg-grey-9" style="width: 500px; padding: 25px">
+        <q-input v-model="text" float-label="Colored" dark prefix="$" suffix="TSP" />
+        <q-input v-model="text" float-label="Colored" dark color="amber" prefix="$" suffix="TSP" />
+
+        <q-field
+          icon="wifi"
+          label="Some Label"
+          :count="10"
+          helper="Some helper"
+          :error="error"
+          error-label="Some error"
+        >
+          <q-input
+            v-model="text"
+            dark
+            color="yellow"
+            float-label="Textfield"
+          />
+        </q-field>
+      </div>
 
       <br><br>
 
@@ -17,15 +49,36 @@
         icon="wifi"
         label="Some Label"
         :count="10"
-        labelHint="Some Label Hint"
         helper="Some helper"
-        :error="error"
         error-label="Some error"
       >
         <q-input
           v-model="text"
+          :error="error"
           float-label="Textfield"
         />
+      </q-field>
+
+      <q-field
+        icon="wifi"
+        label="Some Label"
+        :count="10"
+        helper="Some helper"
+        :error="error"
+        error-label="Some error"
+      >
+        <q-input v-model="text" inverted placeholder="On Field" :after="[{icon: 'arrow_forward', content: true, handler () {}}]"/>
+      </q-field>
+
+      <q-field
+        icon="wifi"
+        label="Some Label"
+        :count="10"
+        helper="Some helper"
+        :error="error"
+        error-label="Some error"
+      >
+        <q-input v-model="text" color="amber" inverted stack-label="Stack Label" :after="[{icon: 'arrow_forward', content: true, handler () {}}]"/>
       </q-field>
 
       <q-field
@@ -45,9 +98,7 @@
 
       <q-input v-model="area" type="textarea" float-label="Textarea" :max-height="100" :min-rows="3" />
 
-      <br><br><br>
-      <q-btn color="primary" @click="add">Add</q-btn>
-      <q-label>
+      <q-label class="fixed" style="bottom: 16px; right: 16px;">
         <q-checkbox v-model="error" />
         <span>Error</span>
       </q-label>
@@ -63,21 +114,12 @@ export default {
       number: null,
       area: '',
       focus: false,
-      error: false,
-      chips: ['Apple', 'Google', 'Microsoft', 'Gigi', 'Gogu', 'Lulu']
+      error: false
     }
   },
   computed: {
     length () {
       return this.text.length
-    }
-  },
-  methods: {
-    add () {
-      this.chips.push('Google')
-    },
-    remove (index) {
-      this.chips.splice(index, 1)
     }
   }
 }
@@ -85,7 +127,7 @@ export default {
 
 <style lang="stylus">
 .q-field
-  border 1px solid black
+  // border 1px solid black
 .q-input
   // border 1px solid black
 </style>

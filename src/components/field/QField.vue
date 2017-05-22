@@ -3,7 +3,8 @@
     class="q-field row no-wrap items-start"
     :class="{
       'q-field-floating': childHasLabel,
-      'q-field-with-error': hasError
+      'q-field-with-error': hasError,
+      'q-field-dark': isDark
     }"
   >
     <q-icon v-if="icon" :name="icon" class="q-field-icon"></q-icon>
@@ -23,10 +24,10 @@
 
       <div class="col-xs-12 col-sm">
         <slot></slot>
-        <div v-if="hasBottom" class="q-field-bottom">
+        <div v-if="hasBottom" class="q-field-bottom row no-wrap">
           <div v-if="hasError && errorLabel" class="q-field-error col" v-html="errorLabel"></div>
           <div v-else-if="helper" class="q-field-helper col" v-html="helper"></div>
-          <div v-if="counter" class="q-field-counter col-auto float-right">{{ counter }}</div>
+          <div v-if="counter" class="q-field-counter col-auto">{{ counter }}</div>
         </div>
       </div>
     </div>
@@ -63,7 +64,8 @@ export default {
     error: Boolean,
     errorLabel: String,
     helper: String,
-    icon: String
+    icon: String,
+    dark: Boolean
   },
   data () {
     return {
@@ -82,6 +84,9 @@ export default {
     },
     childHasLabel () {
       return this.input.floatLabel || this.input.stackLabel
+    },
+    isDark () {
+      return this.input.dark || this.dark
     },
     insetIcon () {
       return ['icon', 'full'].includes(this.inset)

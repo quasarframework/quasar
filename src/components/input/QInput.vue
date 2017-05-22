@@ -8,13 +8,21 @@
     :float-label="floatLabel"
     :error="error"
     :disable="disable"
+    :inverted="inverted"
+    :dark="dark"
+    :before="before"
+    :after="after"
+    :color="color"
 
     :focused="focused"
     :length="length"
     :top-addons="isTextarea"
 
     @click="__onClick"
+    v-ripple.mat="!inverted"
   >
+    <slot name="before"></slot>
+
     <template v-if="isTextarea">
       <div class="col row relative-position">
         <q-resize-observable @resize="__updateArea()"></q-resize-observable>
@@ -78,7 +86,7 @@
       :name="showPass ? 'visibility' : 'visibility_off'"
       class="q-if-control"
       @click="togglePass"
-    />
+    ></q-icon>
 
     <q-icon
       v-if="clearable && length"
@@ -86,7 +94,9 @@
       name="cancel"
       class="q-if-control"
       @click="clear"
-    />
+    ></q-icon>
+
+    <slot name="after"></slot>
   </q-input-frame>
 </template>
 

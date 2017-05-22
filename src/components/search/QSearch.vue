@@ -1,25 +1,29 @@
 <template>
   <q-input
+    ref="input"
+    class="q-search"
+
     v-model="model"
     :type="type"
     :autofocus="autofocus"
     :pattern="pattern"
     :placeholder="placeholder"
-    @focus="focus"
-    @blur="blur"
-    @keyup.enter="__enter"
-    :disabled="disable"
-    :readonly="readonly"
-    clearable
-    complex
-    :extra-icons="false"
+    :disable="disable"
+    :error="error"
     :align="align"
-    class="q-search"
-    v-ripple.mat
-  >
-    <q-icon slot="before" :name="icon" class="q-input-comp"></q-icon>
-    <slot></slot>
-  </q-input>
+    :float-label="floatLabel"
+    :stack-label="stackLabel"
+    :prefix="prefix"
+    :suffix="suffix"
+    inverted
+
+    :color="color"
+    :before="controlBefore"
+    :after="controlAfter"
+
+    @focus="__onFocus"
+    @blur="__onBlur"
+  ></q-input>
 </template>
 
 <script>
@@ -37,10 +41,7 @@ export default {
     Ripple
   },
   props: {
-    value: {
-      type: [String, Number],
-      default: ''
-    },
+    value: { required: true },
     type: String,
     pattern: String,
     debounce: {
@@ -55,14 +56,18 @@ export default {
       type: String,
       default: 'Search'
     },
+    prefix: String,
+    suffix: String,
+    floatLabel: String,
+    stackLabel: String,
     autofocus: Boolean,
     align: String,
-    readonly: Boolean,
-    disable: Boolean
+    disable: Boolean,
+    error: Boolean,
+    color: String
   },
   data () {
     return {
-      focused: false,
       timer: null,
       isEmpty: !this.value && this.value !== 0
     }
@@ -88,27 +93,36 @@ export default {
         }, this.debounce)
       }
     },
-    centered () {
-      return !this.focused && this.value === ''
+    controlBefore () {
+      return [{icon: this.icon, handler: this.focus}]
     },
-    editable () {
-      return !this.disable && !this.readonly
+    controlAfter () {
+      return [{icon: 'clear', content: true, handler: this.clearAndFocus}]
     }
   },
   methods: {
     clear () {
-      if (this.editable) {
+      if (!this.disable) {
         this.model = ''
       }
     },
+    clearAndFocus () {
+      this.clear()
+      this.focus()
+    },
     focus () {
-      if (this.editable) {
-        this.focused = true
+      this.$refs.input.focus()
+    },
+    blur () {
+      this.$refs.input.blur()
+    },
+
+    __onFocus () {
+      if (!this.disable) {
         this.$emit('focus')
       }
     },
-    blur () {
-      this.focused = false
+    __onBlur () {
       this.$emit('blur')
     },
     __enter () {
