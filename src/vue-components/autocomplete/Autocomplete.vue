@@ -142,7 +142,7 @@ export default {
     },
     setValue (result) {
       this.avoidTrigger = true
-      this.model = result.value
+      this.model = (this.staticData ? result[staticData.field] : result.value)
       this.$emit('selected', result)
       this.close()
     },
