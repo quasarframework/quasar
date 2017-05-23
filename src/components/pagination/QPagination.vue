@@ -14,7 +14,7 @@
       v-model="newPage"
       :min="min"
       :max="max"
-      :style="{width: `${inputPlaceholder.length * 10}px`}"
+      :style="{width: `${inputPlaceholder.length}rem`}"
       :placeholder="inputPlaceholder"
       :disable="disable"
       @keyup.enter="__update"
