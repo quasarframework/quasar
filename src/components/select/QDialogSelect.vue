@@ -39,7 +39,7 @@
         </q-chip>
       </template>
 
-      <div v-else class="q-input-target" :class="[`text-${align}`]">{{ actualValue }}</div>
+      <div v-else class="q-input-target" :class="[`text-${align}`]" v-html="actualValue"></div>
     </div>
 
     <q-icon slot="control" name="arrow_drop_down" class="q-if-control"></q-icon>

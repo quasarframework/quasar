@@ -65,10 +65,7 @@ export default {
     disable: Boolean,
     error: Boolean,
     color: String,
-    inverted: {
-      type: Boolean,
-      default: true
-    }
+    inverted: Boolean
   },
   data () {
     return {

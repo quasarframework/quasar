@@ -21,7 +21,7 @@
     </q-toolbar>
 
     <q-toolbar v-if="todo" slot="header" color="secondary">
-      <q-search v-model="search" color="none"></q-search>
+      <q-search inverted v-model="search" color="none"></q-search>
     </q-toolbar>
 
     <q-tabs slot="navigation">
