@@ -15,7 +15,7 @@
     :stack-label="stackLabel"
     :prefix="prefix"
     :suffix="suffix"
-    inverted
+    :inverted="inverted"
 
     :color="color"
     :before="controlBefore"
@@ -64,7 +64,11 @@ export default {
     align: String,
     disable: Boolean,
     error: Boolean,
-    color: String
+    color: String,
+    inverted: {
+      type: Boolean,
+      default: true
+    }
   },
   data () {
     return {
