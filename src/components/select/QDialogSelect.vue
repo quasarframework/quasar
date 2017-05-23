@@ -9,6 +9,12 @@
     :float-label="floatLabel"
     :error="error"
     :disable="disable"
+    :inverted="inverted"
+    :dark="dark"
+    :before="before"
+    :after="after"
+    :color="frameColor"
+    :align="align"
 
     :focused="focused"
     focusable
@@ -25,7 +31,7 @@
           :key="label"
           small
           :closable="!disable"
-          color="primary"
+          color="color"
           @click.native.stop
           @close="__toggle(value)"
         >
@@ -33,7 +39,7 @@
         </q-chip>
       </template>
 
-      <div v-else :class="[`text-${align}`]">{{ actualValue }}</div>
+      <div v-else class="q-input-target" :class="[`text-${align}`]">{{ actualValue }}</div>
     </div>
 
     <q-icon slot="control" name="arrow_drop_down" class="q-if-control"></q-icon>

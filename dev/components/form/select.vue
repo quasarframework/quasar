@@ -6,6 +6,11 @@
       <q-select v-model="select" :options="selectOptions" delimiter></q-select>
       <q-select v-model="select" :options="selectListOptions"></q-select>
 
+      <p class="caption">Coloring</p>
+      <q-select color="amber" v-model="select" :options="selectListOptions"></q-select>
+      <q-select inverted color="secondary" v-model="select" :options="selectListOptions"></q-select>
+      <q-select inverted float-label="Float Label" color="amber" v-model="select" :options="selectListOptions"></q-select>
+
       <p class="caption">Single Selection with Radio</p>
       <q-field label="gogu">
         <q-select v-model="select" float-label="Gogu" radio :options="selectListOptions" :count="10"></q-select>
@@ -18,6 +23,7 @@
       <q-field label="gogu" :count="10">
         <q-select multiple chips v-model="multipleSelect" :options="selectListOptions" float-label="Some label" max-height="36px"></q-select>
       </q-field>
+      <q-select inverted color="dark" bgColor="amber" multiple chips v-model="multipleSelect" :options="selectListOptions" float-label="Some label" max-height="36px"></q-select>
 
       <p class="caption">Multiple Selection with Checkboxes</p>
       <q-select multiple checkbox v-model="multipleSelect" :options="selectListOptions" @input="inputChange"></q-select>

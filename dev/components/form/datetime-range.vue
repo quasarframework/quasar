@@ -21,6 +21,10 @@
         Date Range
       </p>
       <q-datetime-range type="date" v-model="first.range" :min="first.min" :max="first.max" />
+      <div class="bg-grey-8" style="width: 300px; padding: 25px">
+        <q-datetime-range color="secondary" dark type="date" v-model="first.range" :min="first.min" :max="first.max" />
+      </div>
+      <q-datetime-range inverted color="amber" type="date" v-model="first.range" :min="first.min" :max="first.max" />
 
       <p class="caption">
         Datetime Range

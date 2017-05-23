@@ -8,6 +8,11 @@
     :float-label="floatLabel"
     :error="error"
     :disable="disable"
+    :inverted="inverted"
+    :dark="dark"
+    :before="before"
+    :after="after"
+    :color="inverted ? bgColor || color : color"
 
     :focused="focused"
     :length="length"
@@ -50,7 +55,7 @@
       name="send"
       slot="control"
       class="q-if-control self-end"
-      :class="{hidden: !input.length}"
+      :class="{invisible: !input.length}"
       @click="add()"
     ></q-icon>
   </q-input-frame>
@@ -75,7 +80,8 @@ export default {
     value: {
       type: Array,
       required: true
-    }
+    },
+    bgColor: String
   },
   data () {
     return {

@@ -13,6 +13,7 @@
         on Chips Textbox below to start adding Chips.
       </p>
       <q-chips-input color="secondary" float-label="Float Label" v-model="model" placeholder="Some placeholder" />
+      <q-chips-input inverted color="dark" bg-color="amber" float-label="Float Label" v-model="model" placeholder="Some placeholder" />
       <!--
       <q-chips-input chip-classes="bg-primary text-white" v-model="model"/>
 

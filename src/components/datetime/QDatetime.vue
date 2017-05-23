@@ -8,6 +8,11 @@
     :float-label="floatLabel"
     :error="error"
     :disable="disable"
+    :inverted="inverted"
+    :dark="dark"
+    :before="before"
+    :after="after"
+    :color="color"
 
     :focused="focused"
     focusable
@@ -17,7 +22,7 @@
     @focus.native="__onFocus"
     @blur.native="__onBlur"
   >
-    <div class="col" :class="[`text-${align}`]">{{ actualValue }}</div>
+    <div class="col q-input-target" :class="[`text-${align}`]">{{ actualValue }}</div>
 
     <q-popover
       v-if="desktop"

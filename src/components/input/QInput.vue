@@ -13,6 +13,7 @@
     :before="before"
     :after="after"
     :color="color"
+    :align="align"
 
     :focused="focused"
     :length="length"
@@ -109,6 +110,7 @@ import { between } from '../../utils/format'
 import { QInputFrame } from '../input-frame'
 import { QIcon } from '../icon'
 import { QResizeObservable } from '../observables'
+import Ripple from '../../directives/ripple'
 
 export default {
   name: 'q-input',
@@ -117,6 +119,9 @@ export default {
     QInputFrame,
     QIcon,
     QResizeObservable
+  },
+  directives: {
+    Ripple
   },
   props: {
     value: { required: true },

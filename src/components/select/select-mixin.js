@@ -14,7 +14,8 @@ export default {
       required: true,
       validator: v => v.every(o => 'label' in o && 'value' in o)
     },
-    chips: Boolean
+    chips: Boolean,
+    bgColor: String
   },
   data () {
     return {
@@ -30,6 +31,11 @@ export default {
       return this.multiple
         ? this.value.length
         : 1
+    },
+    frameColor () {
+      return this.hasChips && this.inverted
+        ? this.bgColor || this.color
+        : this.color
     }
   }
 }

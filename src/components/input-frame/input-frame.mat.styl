@@ -11,6 +11,11 @@ $input-transition ?= all .45s cubic-bezier(.23, 1, .32, 1)
   padding-bottom 8px
   color $primary
 
+  /* Remove browser controller for input type="number" */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button // @stylint ignore
+    -webkit-appearance none
+
   &:before, &:after
     content ''
     position absolute
