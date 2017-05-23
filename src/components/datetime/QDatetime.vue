@@ -25,7 +25,7 @@
     <div class="col q-input-target" :class="[`text-${align}`]">{{ actualValue }}</div>
 
     <q-popover
-      v-if="desktop"
+      v-if="$q.platform.is.desktop"
       ref="popup"
       :offset="[0, 10]"
       :disable="disable || readonly"
@@ -75,7 +75,7 @@
         :max="max"
         :format24h="format24h"
         :monday-first="mondayFirst"
-        class="no-border full-width"
+        class="no-border"
       >
         <div class="modal-buttons row full-width">
           <q-btn v-if="!noClear && model" @click="clear()" flat>
@@ -94,7 +94,6 @@
 
 <script>
 import FrameMixin from '../input-frame/input-frame-mixin'
-import Platform from '../../features/platform'
 import extend from '../../utils/extend'
 import { current as theme } from '../../features/theme'
 import { input, inline } from './datetime-props'
@@ -132,14 +131,13 @@ export default {
   },
   props: extend({defaultSelection: [String, Number, Date]}, input, inline),
   data () {
-    let data = Platform.is.desktop ? {} : {
+    let data = this.$q.platform.is.desktop ? {} : {
       css: contentCSS[theme],
       position: theme === 'ios' ? 'items-end justify-center' : 'items-center justify-center',
       transition: theme === 'ios' ? 'q-modal-bottom' : 'q-modal',
       classNames: theme === 'ios' ? '' : 'minimized'
     }
     data.model = this.value
-    data.desktop = Platform.is.desktop
     data.focused = false
     return data
   },

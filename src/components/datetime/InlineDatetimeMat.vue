@@ -62,7 +62,7 @@
         </div>
       </div>
     </div>
-    <div class="q-datetime-content col column">
+    <div class="q-datetime-content col-xs-12 col-md-8 column">
       <div ref="selector" class="q-datetime-selector auto row items-center justify-center">
         <div
           v-if="view === 'year'"
