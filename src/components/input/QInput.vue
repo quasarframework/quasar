@@ -108,7 +108,6 @@ import inputTypes from './input-types'
 import { frameDebounce } from '../../utils/debounce'
 import { between } from '../../utils/format'
 import { QInputFrame } from '../input-frame'
-import { QIcon } from '../icon'
 import { QResizeObservable } from '../observables'
 import Ripple from '../../directives/ripple'
 
@@ -117,7 +116,6 @@ export default {
   mixins: [FrameMixin, InputMixin],
   components: {
     QInputFrame,
-    QIcon,
     QResizeObservable
   },
   directives: {

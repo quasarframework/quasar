@@ -65,7 +65,6 @@
 import FrameMixin from '../input-frame/input-frame-mixin'
 import InputMixin from '../input/input-mixin'
 import { QInputFrame } from '../input-frame'
-import { QIcon } from '../icon'
 import { QChip } from '../chip'
 
 export default {
@@ -73,7 +72,6 @@ export default {
   mixins: [FrameMixin, InputMixin],
   components: {
     QInputFrame,
-    QIcon,
     QChip
   },
   props: {

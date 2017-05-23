@@ -97,7 +97,6 @@ import FrameMixin from '../input-frame/input-frame-mixin'
 import extend from '../../utils/extend'
 import { current as theme } from '../../features/theme'
 import { input, inline } from './datetime-props'
-import { QIcon } from '../icon'
 import { QInputFrame } from '../input-frame'
 import { QPopover } from '../popover'
 import QInlineDatetime from './QInlineDatetime'
@@ -122,7 +121,6 @@ export default {
   name: 'q-datetime',
   mixins: [FrameMixin],
   components: {
-    QIcon,
     QInputFrame,
     QPopover,
     QModal,

@@ -1,9 +1,14 @@
+import { QIcon } from '../icon'
+
 const marginal = {
   type: Array,
   validator: v => v.every(i => 'icon' in i && 'handler' in i)
 }
 
 export default {
+  components: {
+    QIcon
+  },
   props: {
     prefix: String,
     suffix: String,
