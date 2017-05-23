@@ -97,7 +97,11 @@ export default {
       return [{icon: this.icon, handler: this.focus}]
     },
     controlAfter () {
-      return [{icon: 'clear', content: true, handler: this.clearAndFocus}]
+      return [{
+        icon: this.inverted ? 'clear' : 'cancel',
+        content: true,
+        handler: this.clearAndFocus
+      }]
     }
   },
   methods: {

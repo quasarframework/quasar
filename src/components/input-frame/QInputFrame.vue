@@ -8,7 +8,7 @@
       <q-icon
         v-for="item in before"
         :key="item"
-        class="q-if-control"
+        class="q-if-control q-if-control-before"
         :class="{hidden: item.content && !length}"
         :name="item.icon"
         @click="item.handler"
