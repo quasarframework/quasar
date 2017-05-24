@@ -79,6 +79,15 @@
           </div>
         </div>
       </div>
+
+
+      <p class="caption">Scroll into view</p>
+      <q-select v-model="select" :options="selectLongListOptions"></q-select>
+      <q-select multiple v-model="multipleSelect" :options="selectLongListOptions"></q-select>
+      <q-select multiple toggle v-model="multipleSelect" :options="selectLongListOptions"></q-select>
+      <q-select filter v-model="select" :options="selectLongListOptions"></q-select>
+      <q-select filter multiple v-model="multipleSelect" :options="selectLongListOptions"></q-select>
+      <q-select filter multiple toggle v-model="multipleSelect" :options="selectLongListOptions"></q-select>
     </div>
   </div>
 </template>
@@ -138,6 +147,143 @@ export default {
           icon: 'mail',
           secondIcon: 'alarm',
           value: 'ora'
+        }
+      ],
+      selectLongListOptions: [
+        {
+          label: 'Google',
+          icon: 'email',
+          value: 'goog'
+        },
+        {
+          label: 'Facebook',
+          description: 'Enables communication',
+          value: 'fb'
+        },
+        {
+          label: 'Twitter',
+          secondIcon: 'alarm',
+          value: 'twtr'
+        },
+        {
+          label: 'Apple Inc.',
+          stamp: '10 min',
+          value: 'appl'
+        },
+        {
+          label: 'Oracle',
+          description: 'Some Java for today?',
+          icon: 'mail',
+          secondIcon: 'alarm',
+          value: 'ora'
+        },
+        {
+          label: 'Google - again',
+          icon: 'email',
+          value: 'goog-a'
+        },
+        {
+          label: 'Facebook - again',
+          description: 'Enables communication',
+          value: 'fb-a'
+        },
+        {
+          label: 'Twitter - again',
+          secondIcon: 'alarm',
+          value: 'twtr-a'
+        },
+        {
+          label: 'Apple Inc. - again',
+          stamp: '10 min',
+          value: 'appl-a'
+        },
+        {
+          label: 'Oracle - again',
+          description: 'Some Java for today?',
+          icon: 'mail',
+          secondIcon: 'alarm',
+          value: 'ora-a'
+        },
+        {
+          label: 'Google - trice',
+          icon: 'email',
+          value: 'goog-b'
+        },
+        {
+          label: 'Facebook - trice',
+          description: 'Enables communication',
+          value: 'fb-b'
+        },
+        {
+          label: 'Twitter - trice',
+          secondIcon: 'alarm',
+          value: 'twtr-b'
+        },
+        {
+          label: 'Apple Inc. - trice',
+          stamp: '10 min',
+          value: 'appl-b'
+        },
+        {
+          label: 'Oracle - trice',
+          description: 'Some Java for today?',
+          icon: 'mail',
+          secondIcon: 'alarm',
+          value: 'ora-b'
+        },
+        {
+          label: 'Google - more',
+          icon: 'email',
+          value: 'goog-c'
+        },
+        {
+          label: 'Facebook - more',
+          description: 'Enables communication',
+          value: 'fb-c'
+        },
+        {
+          label: 'Twitter - more',
+          secondIcon: 'alarm',
+          value: 'twtr-c'
+        },
+        {
+          label: 'Apple Inc. - more',
+          stamp: '10 min',
+          value: 'appl-c'
+        },
+        {
+          label: 'Oracle - more',
+          description: 'Some Java for today?',
+          icon: 'mail',
+          secondIcon: 'alarm',
+          value: 'ora-c'
+        },
+        {
+          label: 'Google - extra',
+          icon: 'email',
+          value: 'goog-d'
+        },
+        {
+          label: 'Facebook - extra',
+          description: 'Enables communication',
+          value: 'fb-d'
+        },
+        {
+          label: 'Twitter - extra',
+          secondIcon: 'alarm',
+          value: 'twtr-d'
+        },
+        {
+          label: 'Apple Inc. - extra',
+          stamp: '10 min',
+          value: 'appl-d'
+        },
+        {
+          label: 'Oracle - extra',
+          description: 'Some Java for today?',
+          icon: 'mail',
+          secondIcon: 'alarm',
+          value: 'ora-d'
         }
       ]
     }
