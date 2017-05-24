@@ -211,6 +211,15 @@ export default {
       return typeof this.filter === 'boolean'
         ? defaultFilterFn
         : this.filter
+    },
+    activeItemSelector () {
+      if (this.multiple) {
+        if (this.toggle) {
+          return '.item-secondary > .active'
+        }
+        return '.item-primary > .active'
+      }
+      return '.item.active'
     }
   },
   methods: {
@@ -226,6 +235,10 @@ export default {
     __onOpen () {
       this.focused = true
       this.$emit('focus')
+      const selected = this.$refs.popover.$el.querySelector(this.activeItemSelector)
+      if (selected) {
+        selected.scrollIntoView()
+      }
     },
     __onClose () {
       this.focused = false
