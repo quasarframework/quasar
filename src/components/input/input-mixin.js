@@ -5,7 +5,8 @@ export default {
     name: String,
     maxlength: Number,
     maxHeight: Number,
-    placeholder: String
+    placeholder: String,
+    loading: Boolean
   },
   computed: {
     inputPlaceholder () {

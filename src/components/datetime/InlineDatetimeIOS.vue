@@ -111,7 +111,8 @@ export default {
   name: 'q-inline-datetime',
   mixins: [mixin],
   props: {
-    defaultSelection: [String, Number, Date]
+    defaultSelection: [String, Number, Date],
+    readonly: Boolean
   },
   data () {
     return {

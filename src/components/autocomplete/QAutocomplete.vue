@@ -57,7 +57,7 @@ export default {
     staticData: Object,
     delimiter: Boolean
   },
-  inject: ['__input'],
+  inject: ['__input', '__inputParent'],
   data () {
     return {
       searchId: '',
@@ -103,6 +103,7 @@ export default {
 
       if (terms.length < this.minCharacters) {
         this.searchId = ''
+        this.__clearSearch()
         this.close()
         return
       }
@@ -117,12 +118,15 @@ export default {
         return
       }
 
+      this.close()
+      this.__input.loading = true
       this.$emit('search', terms, results => {
         if (!results || this.searchId !== searchId) {
           return
         }
 
-        this.searchId = ''
+        this.__clearSearch()
+
         if (this.results === results) {
           return
         }
@@ -146,9 +150,17 @@ export default {
       this.results = []
       this.selectedIndex = -1
     },
+    __clearSearch () {
+      clearTimeout(this.timer)
+      this.__input.loading = false
+      this.searchId = ''
+    },
     setValue (result) {
-      this.__input.set(result.value)
+      const suffix = this.__inputParent ? 'Parent' : ''
+      this[`__input${suffix}`].set(result.value)
+
       this.$emit('selected', result)
+      this.__clearSearch()
       this.close()
     },
     move (offset) {
@@ -187,6 +199,9 @@ export default {
           this.setCurrentSelection()
           prevent(e)
           break
+        case 27: // escape
+          this.__clearSearch()
+          break
       }
     },
     __moveCursor (offset, e) {
@@ -206,14 +221,20 @@ export default {
       return
     }
     this.__input.register()
+    if (this.__inputParent) {
+      this.__inputParent.setChildDebounce(true)
+    }
     this.$nextTick(() => {
       this.inputEl = this.__input.getEl()
-      this.inputEl.addEventListener('keydown', this.__handleKeypress)
+      this.inputEl.addEventListener('keyup', this.__handleKeypress)
     })
   },
   beforeDestroy () {
-    clearTimeout(this.timer)
+    this.__clearSearch()
     this.__input.unregister()
+    if (this.__inputParent) {
+      this.__inputParent.setChildDebounce(false)
+    }
     if (this.inputEl) {
       this.inputEl.removeEventListener('keydown', this.__handleKeypress)
       this.close()

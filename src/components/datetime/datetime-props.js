@@ -41,8 +41,7 @@ export const inline = {
     default: () => dayNames
   },
   mondayFirst: Boolean,
-  format24h: Boolean,
-  readonly: Boolean
+  format24h: Boolean
 }
 
 export const input = {
@@ -60,6 +59,5 @@ export const input = {
   cancelLabel: {
     type: String,
     default: 'Cancel'
-  },
-  readonly: Boolean
+  }
 }

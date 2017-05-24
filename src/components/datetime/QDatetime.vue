@@ -22,13 +22,13 @@
     @focus.native="__onFocus"
     @blur.native="__onBlur"
   >
-    <div class="col q-input-target" :class="[`text-${align}`]">{{ actualValue }}</div>
+    <div class="col row items-center q-input-target" :class="[`text-${align}`]">{{ actualValue }}</div>
 
     <q-popover
       v-if="$q.platform.is.desktop"
       ref="popup"
       :offset="[0, 10]"
-      :disable="disable || readonly"
+      :disable="disable"
       :anchor-click="false"
       @open="__onOpen"
       @close="__onClose"
@@ -165,7 +165,7 @@ export default {
   },
   methods: {
     open () {
-      if (!this.disable && !this.readonly) {
+      if (!this.disable) {
         this.__setModel()
         this.$refs.popup.open()
       }

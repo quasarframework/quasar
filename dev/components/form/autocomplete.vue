@@ -8,14 +8,12 @@
 
 
       <q-search v-model="terms" placeholder="Start typing a country name">
-        <q-autocomplete @search="search" @selected="selected" :debounce="0" />
+        <q-autocomplete @search="search" @selected="selected" />
       </q-search>
 
       <q-search inverted v-model="terms" placeholder="Start typing a country name">
-        <q-autocomplete @search="search" @selected="selected" :debounce="0" />
+        <q-autocomplete @search="search" @selected="selected"  />
       </q-search>
-
-      <br>
 
       <p class="caption">Maximum of 2 results at a time</p>
       <q-search inverted color="amber" v-model="terms">
@@ -23,11 +21,8 @@
           @search="search"
           :max-results="2"
           @selected="selected"
-          :debounce="0"
         />
       </q-search>
-
-      <br>
 
       <p class="caption">Minimum 3 characters to trigger search</p>
       <q-input color="amber" v-model="terms" placeholder="Type 'fre'">
@@ -38,18 +33,22 @@
         />
       </q-input>
 
-      <br>
+      <p class="caption">Custom debounce before triggering search</p>
+      <q-input color="amber" v-model="terms" placeholder="One second debounce">
+        <q-autocomplete
+          @search="search"
+          :debounce="1000"
+          @selected="selected"
+        />
+      </q-input>
 
       <p class="caption">Static List</p>
       <q-search inverted color="secondary" v-model="terms" placeholder="Featuring static data">
         <q-autocomplete
           :static-data="{field: 'value', list: countries}"
           @selected="selected"
-          :debounce="0"
         />
       </q-search>
-
-      <br>
 
       <p class="caption">Delimiter between results</p>
       <q-search v-model="terms">
@@ -57,7 +56,6 @@
           delimiter
           @search="search"
           @selected="selected"
-          :debounce="0"
         />
       </q-search>
     </div>
@@ -106,7 +104,7 @@ export default {
     search (terms, done) {
       setTimeout(() => {
         done(filter(terms, {field: 'value', list: parseCountries()}))
-      }, 500)
+      }, 1000)
     },
     selected (item) {
       Toast.create(`Selected suggestion "${item.label}"`)

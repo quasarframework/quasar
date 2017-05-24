@@ -23,6 +23,9 @@
       <q-field label="gogu" :count="10">
         <q-select multiple chips v-model="multipleSelect" :options="selectListOptions" float-label="Some label" max-height="36px"></q-select>
       </q-field>
+      <q-field label="gogu" :count="10">
+        <q-select multiple v-model="multipleSelect" :options="selectListOptions" float-label="Some label" max-height="36px"></q-select>
+      </q-field>
       <q-select inverted color="dark" bgColor="amber" multiple chips v-model="multipleSelect" :options="selectListOptions" float-label="Some label" max-height="36px"></q-select>
 
       <p class="caption">Multiple Selection with Checkboxes</p>

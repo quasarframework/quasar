@@ -24,7 +24,7 @@
     @focus.native="__onOpen"
     @blur.native="__onBlur"
   >
-    <div v-if="hasChips" class="col row group">
+    <div v-if="hasChips" class="col row items-center group q-input-chips">
       <q-chip
         v-for="{label, value} in selectedOptions"
         :key="label"
@@ -38,7 +38,12 @@
       </q-chip>
     </div>
 
-    <div v-else class="col row q-input-target" :class="[`text-${align}`]" v-html="actualValue"></div>
+    <div
+      v-else
+      class="col row items-center q-input-target"
+      :class="[`text-${align}`]"
+      v-html="actualValue"
+    ></div>
 
     <q-icon slot="control" name="arrow_drop_down" class="q-if-control"></q-icon>
 
@@ -145,8 +150,6 @@ export default {
       default: 'Filter'
     },
     placeholder: String,
-    align: String,
-    disable: Boolean,
     delimiter: Boolean
   },
   watch: {

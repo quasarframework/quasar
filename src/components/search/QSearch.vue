@@ -16,6 +16,8 @@
     :prefix="prefix"
     :suffix="suffix"
     :inverted="inverted"
+    :maxlength="maxlength"
+    :max-height="maxHeight"
 
     :color="color"
     :before="controlBefore"
@@ -23,6 +25,8 @@
 
     @focus="__onFocus"
     @blur="__onBlur"
+    @keyup="__onKeyup"
+    @keydown="__onKeydown"
   >
     <slot></slot>
   </q-input>
@@ -31,10 +35,13 @@
 <script>
 import { QIcon } from '../icon'
 import { QInput } from '../input'
+import InputMixin from '../input/input-mixin'
+import FrameMixin from '../input-frame/input-frame-mixin'
 import Ripple from '../../directives/ripple'
 
 export default {
   name: 'q-search',
+  mixins: [FrameMixin, InputMixin],
   components: {
     QIcon,
     QInput
@@ -45,7 +52,6 @@ export default {
   props: {
     value: { required: true },
     type: String,
-    pattern: String,
     debounce: {
       type: Number,
       default: 300
@@ -57,44 +63,54 @@ export default {
     placeholder: {
       type: String,
       default: 'Search'
-    },
-    prefix: String,
-    suffix: String,
-    floatLabel: String,
-    stackLabel: String,
-    autofocus: Boolean,
-    align: String,
-    disable: Boolean,
-    error: Boolean,
-    color: String,
-    inverted: Boolean
+    }
   },
   data () {
     return {
+      model: this.value,
+      focused: false,
+      childDebounce: false,
       timer: null,
       isEmpty: !this.value && this.value !== 0
     }
   },
-  computed: {
-    model: {
-      get () {
-        this.isEmpty = !this.value && this.value !== 0
-        return this.value
-      },
-      set (value) {
-        clearTimeout(this.timer)
-        this.isEmpty = !value && value !== 0
-        if (this.value === value) {
-          return
+  provide () {
+    return {
+      __inputParent: {
+        set: value => {
+          if (this.value !== value) {
+            this.$emit('input', value)
+          }
+        },
+        setChildDebounce: v => {
+          this.childDebounce = v
         }
-        if (this.isEmpty) {
-          this.$emit('input', '')
-          return
-        }
-        this.timer = setTimeout(() => {
-          this.$emit('input', value)
-        }, this.debounce)
       }
+    }
+  },
+  watch: {
+    value (v) {
+      this.model = v
+    },
+    model (value) {
+      clearTimeout(this.timer)
+      if (this.value === value) {
+        return
+      }
+      if (!value && value !== 0) {
+        this.$emit('input', '')
+        return
+      }
+      this.timer = setTimeout(() => {
+        this.$emit('input', value)
+      }, this.debounceValue)
+    }
+  },
+  computed: {
+    debounceValue () {
+      return this.childDebounce
+        ? 0
+        : this.debounce
     },
     controlBefore () {
       return [{icon: this.icon, handler: this.focus}]
@@ -117,21 +133,7 @@ export default {
       this.clear()
       this.focus()
     },
-    focus () {
-      this.$refs.input.focus()
-    },
-    blur () {
-      this.$refs.input.blur()
-    },
 
-    __onFocus () {
-      if (!this.disable) {
-        this.$emit('focus')
-      }
-    },
-    __onBlur () {
-      this.$emit('blur')
-    },
     __enter () {
       this.$emit('enter', this.model)
     }

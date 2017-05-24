@@ -24,23 +24,26 @@
     @focus.native="__onFocus"
     @blur.native="__onBlur"
   >
-    <div class="col row group">
-      <template v-if="hasChips">
-        <q-chip
-          v-for="{label, value} in selectedOptions"
-          :key="label"
-          small
-          :closable="!disable"
-          color="color"
-          @click.native.stop
-          @close="__toggle(value)"
-        >
-          {{ label }}
-        </q-chip>
-      </template>
-
-      <div v-else class="q-input-target" :class="[`text-${align}`]" v-html="actualValue"></div>
+    <div v-if="hasChips" class="col row items-center group q-input-chips">
+      <q-chip
+        v-for="{label, value} in selectedOptions"
+        :key="label"
+        small
+        :closable="!disable"
+        color="color"
+        @click.native.stop
+        @close="__toggle(value)"
+      >
+        {{ label }}
+      </q-chip>
     </div>
+
+    <div
+      v-else
+      class="col row items-center q-input-target"
+      :class="[`text-${align}`]"
+      v-html="actualValue"
+    ></div>
 
     <q-icon slot="control" name="arrow_drop_down" class="q-if-control"></q-icon>
   </q-input-frame>

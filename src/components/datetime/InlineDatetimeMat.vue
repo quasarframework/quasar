@@ -238,7 +238,8 @@ export default {
   mixins: [mixin],
   props: {
     defaultSelection: [String, Number, Date],
-    disable: Boolean
+    disable: Boolean,
+    readonly: Boolean
   },
   components: {
     QIcon,

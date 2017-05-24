@@ -97,6 +97,13 @@
       @click="clear"
     ></q-icon>
 
+    <q-spinner
+      v-if="isLoading"
+      slot="control"
+      size="24px"
+      class="q-if-control"
+    ></q-spinner>
+
     <slot name="after"></slot>
     <slot></slot>
   </q-input-frame>
@@ -110,6 +117,7 @@ import { frameDebounce } from '../../utils/debounce'
 import { between } from '../../utils/format'
 import { QInputFrame } from '../input-frame'
 import { QResizeObservable } from '../observables'
+import { QSpinner } from '../spinner'
 import Ripple from '../../directives/ripple'
 
 export default {
@@ -117,6 +125,7 @@ export default {
   mixins: [FrameMixin, InputMixin],
   components: {
     QInputFrame,
+    QSpinner,
     QResizeObservable
   },
   directives: {
@@ -147,6 +156,7 @@ export default {
       shadow: {
         val: this.value,
         set: this.__set,
+        loading: false,
         hasFocus: () => {
           return document.activeElement === this.$refs.input
         },
@@ -178,6 +188,9 @@ export default {
     },
     isTextarea () {
       return this.type === 'textarea'
+    },
+    isLoading () {
+      return this.loading || this.shadow.loading
     },
     inputPattern () {
       if (this.isNumber) {

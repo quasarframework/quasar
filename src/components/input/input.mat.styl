@@ -1,7 +1,6 @@
-.q-input-no-native-addons
-  .q-input-target::-webkit-outer-spin-button,
-  .q-input-target::-webkit-inner-spin-button
-    -webkit-appearance none
+.q-input-target::-webkit-outer-spin-button,
+.q-input-target::-webkit-inner-spin-button
+  -webkit-appearance none
 
 .q-input-target, .q-input-shadow
   border 0
@@ -10,10 +9,18 @@
   color black
   background transparent
   min-width 70px
+  min-height 18px !important
   font-size inherit
   line-height 1
   overflow hidden
   resize none
+  display flex
+  align-items center
+
+input.q-input-target
+  height 18px
+.q-input-chips
+  min-height 36px !important
 
 .q-if-dark .q-input-target
   color white

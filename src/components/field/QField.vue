@@ -27,6 +27,7 @@
         <div v-if="hasBottom" class="q-field-bottom row no-wrap">
           <div v-if="hasError && errorLabel" class="q-field-error col" v-html="errorLabel"></div>
           <div v-else-if="helper" class="q-field-helper col" v-html="helper"></div>
+          <div v-else class="col"></div>
           <div v-if="counter" class="q-field-counter col-auto">{{ counter }}</div>
         </div>
       </div>

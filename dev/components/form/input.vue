@@ -15,7 +15,7 @@
       <q-input v-model="text" float-label="Colored" color="amber" />
       <q-input v-model="text" float-label="Colored" color="amber" error />
 
-      <p class="caption">Solo Inputs</p>
+      <p class="caption">Inverted Inputs</p>
       <q-input v-model="text" :error="error" inverted color="secondary" type="password" clearable placeholder="Some placeholder" :after="[{icon: 'warning', error: true, handler () {}}]" />
       <q-input v-model="text" inverted stack-label="Colored" color="amber" />
       <q-input v-model="text" inverted stack-label="Colored" :after="[{icon: 'arrow_forward', content: true, handler () {}}]"/>
@@ -43,7 +43,16 @@
         </q-field>
       </div>
 
-      <br><br>
+      <p class="caption">With loading state</p>
+      <q-label>
+        <q-checkbox v-model="loading" />
+        <span>Loading (click me)</span>
+      </q-label>
+      <q-input :loading="loading" v-model="text" placeholder="Gigi" />
+      <q-input :loading="loading" v-model="text" stack-label="Float Label" placeholder="Gigi" />
+      <q-input :loading="loading" inverted v-model="text" stack-label="Float Label" placeholder="Gigi" />
+
+      <p class="caption">Along Fields</p>
 
       <q-field
         icon="wifi"
@@ -114,7 +123,8 @@ export default {
       number: null,
       area: '',
       focus: false,
-      error: false
+      error: false,
+      loading: false
     }
   },
   computed: {

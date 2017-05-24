@@ -19,7 +19,7 @@
 
     @click="__onClick"
   >
-    <div class="col row group">
+    <div class="col row items-center group">
       <q-chip
         small
         :closable="!disable"

@@ -34,6 +34,7 @@
 
       <p class="caption">Error State</p>
       <q-search v-model="search" error></q-search>
+      <q-search inverted v-model="search" error></q-search>
     </div>
   </div>
 </template>
