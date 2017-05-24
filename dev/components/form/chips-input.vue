@@ -14,14 +14,9 @@
       </p>
       <q-chips-input color="secondary" float-label="Float Label" v-model="model" placeholder="Some placeholder" />
       <q-chips-input inverted color="dark" bg-color="amber" float-label="Float Label" v-model="model" placeholder="Some placeholder" />
-      <!--
-      <q-chips-input chip-classes="bg-primary text-white" v-model="model"/>
 
       <p class="caption">Disabled State</p>
       <q-chips-input v-model="model" disable/>
-
-      <p class="caption">Readonly State</p>
-      <q-chips-input v-model="model" readonly/>
 
       <p class="caption">Error State</p>
       <q-chips-input v-model="model" error/>
@@ -30,10 +25,11 @@
       <q-field
         icon="account_box"
         label="Birthday"
+        :count="10"
         helper="Some helper here"
         :label-width="3"
       >
-        <q-chips-input v-model="model" :count="10"/>
+        <q-chips-input float-label="Float Label" v-model="model" :count="10"/>
       </q-field>
 
       <p class="caption">Inside of a List</p>
@@ -45,7 +41,6 @@
           </div>
         </div>
       </div>
-    -->
     </div>
   </div>
 </template>

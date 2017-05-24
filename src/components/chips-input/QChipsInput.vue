@@ -44,7 +44,7 @@
         :maxlength="maxlength"
 
         @focus="__onFocus"
-        @blur="__onBlur"
+        @blur="__onInputBlur"
         @keydown="__handleKey"
         @keyup="__onKeyup"
       />
@@ -107,6 +107,10 @@ export default {
         value.splice(index, 1)
         this.$emit('input', value)
       }
+    },
+    __onInputBlur (e) {
+      this.input = ''
+      this.__onBlur(e)
     },
     __handleKey (e) {
       // ENTER key
