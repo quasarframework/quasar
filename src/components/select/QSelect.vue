@@ -213,13 +213,9 @@ export default {
         : this.filter
     },
     activeItemSelector () {
-      if (this.multiple) {
-        if (this.toggle) {
-          return '.item-secondary > .active'
-        }
-        return '.item-primary > .active'
-      }
-      return '.item.active'
+      return this.multiple
+        ? `.item-${this.toggle ? 'secondary' : 'primary'} > .active`
+        : `.item.active`
     }
   },
   methods: {
