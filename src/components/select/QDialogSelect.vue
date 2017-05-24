@@ -62,7 +62,7 @@ export default {
     },
     type: {
       type: String,
-      required: true,
+      default: 'radio',
       validator: v => ['radio', 'checkbox', 'toggle'].includes(v)
     },
     okLabel: {

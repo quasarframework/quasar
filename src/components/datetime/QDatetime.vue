@@ -30,7 +30,7 @@
       :offset="[0, 10]"
       :disable="disable"
       :anchor-click="false"
-      @open="__onOpen"
+      @open="__onFocus"
       @close="__onClose"
     >
       <q-inline-datetime
@@ -63,7 +63,7 @@
       :transition="transition"
       :position-classes="position"
       :content-css="css"
-      @open="__onOpen"
+      @open="__onFocus"
       @close="__onClose"
     >
       <q-inline-datetime
@@ -178,6 +178,7 @@ export default {
       this.$refs.popup.close()
       this.$emit('input', '')
     },
+
     __onFocus () {
       this.focused = true
       this.$emit('focus')
@@ -185,13 +186,11 @@ export default {
     __onBlur (e) {
       this.__onClose()
       setTimeout(() => {
-        if (document.activeElement !== document.body && !this.$refs.popup.$el.contains(document.activeElement)) {
+        const el = document.activeElement
+        if (el !== document.body && !this.$refs.popup.$el.contains(el)) {
           this.close()
         }
       }, 1)
-    },
-    __onOpen () {
-      this.__onFocus()
     },
     __onClose () {
       this.focused = false

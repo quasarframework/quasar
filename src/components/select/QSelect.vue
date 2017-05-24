@@ -21,7 +21,7 @@
     :length="length"
 
     @click.native="open"
-    @focus.native="__onOpen"
+    @focus.native="__onFocus"
     @blur.native="__onBlur"
   >
     <div v-if="hasChips" class="col row items-center group q-input-chips">
@@ -53,7 +53,7 @@
       :disable="disable"
       :offset="[0, 10]"
       :anchor-click="false"
-      @open="__onOpen"
+      @open="__onFocus"
       @close="__onClose"
     >
       <q-search
@@ -231,13 +231,22 @@ export default {
       this.$refs.popover.close()
     },
 
-    __onOpen () {
+    __onFocus () {
       this.focused = true
       this.$emit('focus')
       const selected = this.$refs.popover.$el.querySelector(this.activeItemSelector)
       if (selected) {
         selected.scrollIntoView()
       }
+    },
+    __onBlur (e) {
+      this.__onClose()
+      setTimeout(() => {
+        const el = document.activeElement
+        if (el !== document.body && !this.$refs.popover.$el.contains(el)) {
+          this.close()
+        }
+      }, 1)
     },
     __onClose () {
       this.focused = false
@@ -256,13 +265,6 @@ export default {
     __select (val) {
       this.model = val
       this.close()
-    },
-    __onBlur (e) {
-      setTimeout(() => {
-        if (document.activeElement !== document.body && !this.$refs.popover.$el.contains(document.activeElement)) {
-          this.close()
-        }
-      }, 1)
     }
   }
 }
