@@ -176,8 +176,11 @@ export default {
       }
     },
     actualValue () {
+      if (this.customValue) {
+        return this.customValue
+      }
       if (!this.multiple) {
-        let option = this.options.find(option => option.value === this.model)
+        let option = this.options.find(option => option.value === this.value)
         return option ? option.label : ''
       }
 

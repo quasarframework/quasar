@@ -81,13 +81,17 @@
       </div>
 
 
-      <p class="caption">Scroll into view</p>
+      <p class="caption">Scroll into View</p>
       <q-select v-model="select" :options="selectLongListOptions"></q-select>
       <q-select multiple v-model="multipleSelect" :options="selectLongListOptions"></q-select>
       <q-select multiple toggle v-model="multipleSelect" :options="selectLongListOptions"></q-select>
       <q-select filter v-model="select" :options="selectLongListOptions"></q-select>
       <q-select filter multiple v-model="multipleSelect" :options="selectLongListOptions"></q-select>
       <q-select filter multiple toggle v-model="multipleSelect" :options="selectLongListOptions"></q-select>
+
+      <p class="caption">Custom Value</p>
+      <q-select multiple v-model="multipleSelect" :options="selectLongListOptions" :custom-value="`${ multipleSelect.length } item${ multipleSelect.length !== 1 ? 's' : '' } selected`"></q-select>
+      <q-select multiple toggle v-model="multipleSelect" :options="selectLongListOptions" :custom-value="`${ multipleSelect.length } item${ multipleSelect.length !== 1 ? 's' : '' } selected`"></q-select>
     </div>
   </div>
 </template>

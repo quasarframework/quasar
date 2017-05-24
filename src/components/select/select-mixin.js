@@ -15,7 +15,8 @@ export default {
       validator: v => v.every(o => 'label' in o && 'value' in o)
     },
     chips: Boolean,
-    bgColor: String
+    bgColor: String,
+    customValue: String
   },
   data () {
     return {

@@ -83,16 +83,16 @@ export default {
   },
   computed: {
     actualValue () {
-      if (this.multiple) {
-        let options = this.options
-        .filter(option => this.value.includes(option.value))
-        .map(option => option.label)
-
-        return !options.length ? '' : options.join(', ')
+      if (this.customValue) {
+        return this.customValue
+      }
+      if (!this.multiple) {
+        let option = this.options.find(option => option.value === this.value)
+        return option ? option.label : ''
       }
 
-      let option = this.options.find(option => option.value === this.value)
-      return option ? option.label : ''
+      let options = this.selectedOptions.map(opt => opt.label)
+      return !options.length ? '' : options.join(', ')
     },
     selectedOptions () {
       if (this.multiple) {
