@@ -23,7 +23,9 @@
 
     @focus="__onFocus"
     @blur="__onBlur"
-  ></q-input>
+  >
+    <slot></slot>
+  </q-input>
 </template>
 
 <script>

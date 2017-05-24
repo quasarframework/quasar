@@ -98,6 +98,7 @@
     ></q-icon>
 
     <slot name="after"></slot>
+    <slot></slot>
   </q-input-frame>
 </template>
 
@@ -142,7 +143,30 @@ export default {
   data () {
     return {
       focused: false,
-      showPass: false
+      showPass: false,
+      shadow: {
+        val: this.value,
+        set: this.__set,
+        hasFocus: () => {
+          return document.activeElement === this.$refs.input
+        },
+        register: () => {
+          this.watcher = this.$watch('value', val => {
+            this.shadow.val = val
+          })
+        },
+        unregister: () => {
+          this.watcher()
+        },
+        getEl: () => {
+          return this.$refs.input
+        }
+      }
+    }
+  },
+  provide () {
+    return {
+      __input: this.shadow
     }
   },
   computed: {
@@ -182,7 +206,7 @@ export default {
     },
     clear () {
       if (!this.disable) {
-        this.$emit('input', null)
+        this.$emit('input', '')
       }
     },
 

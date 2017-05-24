@@ -3,6 +3,7 @@
     fit
     @close="$emit('close')"
     @open="$emit('show')"
+    :offset="[0, 10]"
     ref="popover"
     :anchor-click="false"
   >
@@ -23,7 +24,6 @@
 import { width } from '../../utils/dom'
 import filter from '../../utils/filter'
 import uid from '../../utils/uid'
-import { isPrintableChar } from '../../utils/is'
 import { normalizeToInterval } from '../../utils/format'
 import { QInput } from '../input'
 import { QPopover } from '../popover'
@@ -57,14 +57,25 @@ export default {
     staticData: Object,
     delimiter: Boolean
   },
-  inject: ['getInputEl', 'setInputValue'],
+  inject: ['__input'],
   data () {
     return {
       searchId: '',
       results: [],
       selectedIndex: -1,
       width: 0,
+      enterKey: false,
       timer: null
+    }
+  },
+  watch: {
+    '__input.val' () {
+      if (this.enterKey) {
+        this.enterKey = false
+      }
+      else {
+        this.__delayTrigger()
+      }
     }
   },
   computed: {
@@ -82,7 +93,10 @@ export default {
   },
   methods: {
     trigger () {
-      const terms = this.inputEl.value
+      if (!this.__input.hasFocus()) {
+        return
+      }
+      const terms = this.__input.val
       this.width = width(this.inputEl) + 'px'
       const searchId = uid()
       this.searchId = searchId
@@ -133,7 +147,7 @@ export default {
       this.selectedIndex = -1
     },
     setValue (result) {
-      this.setInputValue(result.value)
+      this.__input.set(result.value)
       this.$emit('selected', result)
       this.close()
     },
@@ -145,21 +159,24 @@ export default {
       )
     },
     setCurrentSelection () {
+      this.enterKey = true
       if (this.selectedIndex >= 0) {
         this.setValue(this.results[this.selectedIndex])
       }
     },
     __delayTrigger () {
       clearTimeout(this.timer)
+      if (!this.__input.hasFocus()) {
+        return
+      }
       if (this.staticData) {
-        this.$nextTick(this.trigger)
+        this.trigger()
         return
       }
       this.timer = setTimeout(this.trigger, this.debounce)
     },
     __handleKeypress (e) {
-      const key = e.keyCode || e.which
-      switch (key) {
+      switch (e.keyCode || e.which) {
         case 38: // up
           this.__moveCursor(-1, e)
           break
@@ -170,16 +187,6 @@ export default {
           this.setCurrentSelection()
           prevent(e)
           break
-        case 27: // escape
-          break
-        default:
-          if (
-            key === 8 || // backspace
-            key === 46 || // delete
-            isPrintableChar(key)
-          ) {
-            this.__delayTrigger()
-          }
       }
     },
     __moveCursor (offset, e) {
@@ -194,17 +201,19 @@ export default {
     }
   },
   mounted () {
-    if (!this.getInputEl) {
-      console.error('Autocomplete needs to be inserted into an input.')
+    if (this.__input === void 0) {
+      console.error('Autocomplete needs to be inserted into an input form component.')
       return
     }
+    this.__input.register()
     this.$nextTick(() => {
-      this.inputEl = this.getInputEl()
+      this.inputEl = this.__input.getEl()
       this.inputEl.addEventListener('keydown', this.__handleKeypress)
     })
   },
   beforeDestroy () {
     clearTimeout(this.timer)
+    this.__input.unregister()
     if (this.inputEl) {
       this.inputEl.removeEventListener('keydown', this.__handleKeypress)
       this.close()

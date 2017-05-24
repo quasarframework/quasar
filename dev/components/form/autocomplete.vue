@@ -8,23 +8,18 @@
 
 
       <q-search v-model="terms" placeholder="Start typing a country name">
-        <q-popover fit>
-          <div style="padding: 10px" class="bg-primary text-white">
-            Some Popover
-          </div>
-        </q-popover>
+        <q-autocomplete @search="search" @selected="selected" :debounce="0" />
       </q-search>
 
-      <q-search v-model="terms" placeholder="Start typing a country name">
-        <q-autocomplete v-model="terms" @search="search" @selected="selected" :debounce="0" />
+      <q-search inverted v-model="terms" placeholder="Start typing a country name">
+        <q-autocomplete @search="search" @selected="selected" :debounce="0" />
       </q-search>
 
       <br>
 
       <p class="caption">Maximum of 2 results at a time</p>
-      <q-search v-model="terms">
+      <q-search inverted color="amber" v-model="terms">
         <q-autocomplete
-          v-model="terms"
           @search="search"
           :max-results="2"
           @selected="selected"
@@ -35,9 +30,8 @@
       <br>
 
       <p class="caption">Minimum 3 characters to trigger search</p>
-      <q-input v-model="terms" placeholder="Type 'fre'">
+      <q-input color="amber" v-model="terms" placeholder="Type 'fre'">
         <q-autocomplete
-          v-model="terms"
           @search="search"
           :min-characters="3"
           @selected="selected"
@@ -47,9 +41,8 @@
       <br>
 
       <p class="caption">Static List</p>
-      <q-search v-model="terms" placeholder="Featuring static data">
+      <q-search inverted color="secondary" v-model="terms" placeholder="Featuring static data">
         <q-autocomplete
-          v-model="terms"
           :static-data="{field: 'value', list: countries}"
           @selected="selected"
           :debounce="0"
@@ -61,7 +54,6 @@
       <p class="caption">Delimiter between results</p>
       <q-search v-model="terms">
         <q-autocomplete
-          v-model="terms"
           delimiter
           @search="search"
           @selected="selected"
