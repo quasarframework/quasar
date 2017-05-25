@@ -20,7 +20,7 @@
     :top-addons="isTextarea"
 
     @click="__onClick"
-    v-ripple.mat="!inverted"
+    v-ripple.mat="inverted"
   >
     <slot name="before"></slot>
 

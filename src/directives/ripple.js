@@ -56,25 +56,32 @@ function hideRipple (el) {
   }, Math.max(0, 400 - diff))
 }
 
-function shouldAbort ({modifiers, value}) {
+function shouldAbort ({mat, ios}) {
   return (
-    value ||
-    (modifiers.mat && theme !== 'mat') ||
-    (modifiers.ios && theme !== 'ios')
+    (mat && theme !== 'mat') ||
+    (ios && theme !== 'ios')
   )
 }
 
 export default {
   name: 'ripple',
-  bind (el, bindings) {
-    if (shouldAbort(bindings)) {
+  inserted (el, { value, modifiers }) {
+    if (shouldAbort(modifiers)) {
       return
     }
 
-    function show (evt) { showRipple(evt, el, bindings.modifiers.stop) }
-    function hide () { hideRipple(el) }
+    function show (evt) {
+      if (ctx.enabled) {
+        showRipple(evt, el, modifiers.stop)
+      }
+    }
+    function hide () {
+      if (ctx.enabled) {
+        hideRipple(el)
+      }
+    }
 
-    const ctx = {}
+    const ctx = {enabled: value !== false}
 
     if (Platform.is.desktop) {
       ctx.mousedown = show
@@ -91,6 +98,11 @@ export default {
     Object.keys(ctx).forEach(evt => {
       el.addEventListener(evt, ctx[evt], false)
     })
+  },
+  update (el, { value, oldValue }) {
+    if (value !== oldValue) {
+      el.__qripple.enabled = value !== false
+    }
   },
   unbind (el, bindings) {
     if (shouldAbort(bindings)) {

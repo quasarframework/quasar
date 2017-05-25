@@ -9,7 +9,7 @@
         v-for="item in before"
         :key="item"
         class="q-if-control q-if-control-before"
-        :class="{hidden: item.content && !length}"
+        :class="{hidden: (item.content !== void 0 && !item.content === length > 0) || (item.error !== void 0 && !item.error === hasError)}"
         :name="item.icon"
         @click="item.handler"
       ></q-icon>
@@ -49,7 +49,7 @@
         v-for="item in after"
         :key="item"
         class="q-if-control"
-        :class="{hidden: (item.content && !length) || (!!item.error !== hasError)}"
+        :class="{hidden: (item.content !== void 0 && !item.content === length > 0) || (item.error !== void 0 && !item.error === hasError)}"
         :name="item.icon"
         @click="item.handler"
       ></q-icon>

@@ -9,7 +9,7 @@
       highlight: __prop('highlight'),
       'multiple-lines': __prop('multipleLines'),
     }"
-    v-ripple.mat="noRipple"
+    v-ripple.mat="!noRipple"
   >
     <slot name="img">
       <img v-if="cImg" :src="cImg" />

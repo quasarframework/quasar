@@ -105,6 +105,17 @@
 
       <q-field
         icon="wifi"
+        label="Some Label"
+        :count="10"
+        helper="Some helper"
+        :error="error"
+        error-label="Some error"
+      >
+        <q-input v-model="text" color="amber" :inverted="error" float-label="Float Label" :after="[{icon: 'arrow_forward', content: true, handler () {}}]"/>
+      </q-field>
+
+      <q-field
+        icon="wifi"
         helper="Some helper"
         :error="error"
         error-label="Some error"
