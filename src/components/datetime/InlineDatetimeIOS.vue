@@ -91,27 +91,27 @@
             </div>
           </div>
         </template>
-
       </div>
 
-      <div class="q-datetime-highlight"></div>
       <div class="q-datetime-mask"></div>
+      <div class="q-datetime-highlight"></div>
     </div>
   </div>
 </template>
 
 <script>
-import { between } from '../../utils/format'
+import { between, capitalize } from '../../utils/format'
 import { position } from '../../utils/event'
 import { css } from '../../utils/dom'
 import { isSameDate } from '../../utils/date'
-import mixin from './datetime-mixin'
+import DateMixin from './datetime-mixin'
 
 export default {
   name: 'q-inline-datetime',
-  mixins: [mixin],
+  mixins: [DateMixin],
   props: {
     defaultSelection: [String, Number, Date],
+    disable: Boolean,
     readonly: Boolean
   },
   data () {
@@ -267,28 +267,26 @@ export default {
         return
       }
 
-      this.__dragCleanup()
-      ;['month', 'date', 'year', 'hour', 'minute'].forEach(type => {
-        this[type + 'DragOffset'] = 0
-      })
       ev.stopPropagation()
       ev.preventDefault()
 
-      if (!this.value) {
-        this.__updateModel()
-      }
-
+      this[type + 'DragOffset'] = 0
       this.dragging = type
+      this.__actualType = type === 'date' ? 'day' : type
+      this.__typeOffset = type === 'month' ? -1 : 0
       this.__dragPosition = position(ev).top
     },
     __dragMove (ev, type) {
       if (this.dragging !== type || !this.editable) {
         return
       }
+
       ev.stopPropagation()
       ev.preventDefault()
-      this[type + 'DragOffset'] = (this.__dragPosition - position(ev).top) / 36
-      this.__updatePositions(type, this.date[type]() + this[type + 'DragOffset'])
+
+      const offset = (this.__dragPosition - position(ev).top) / 36
+      this[type + 'DragOffset'] = offset
+      this.__updatePositions(type, this[this.__actualType] + offset + this.__typeOffset)
     },
     __dragStop (ev, type) {
       if (this.dragging !== type || !this.editable) {
@@ -300,30 +298,21 @@ export default {
 
       let
         offset = Math.round(this[type + 'DragOffset']),
-        newValue = this.__parseTypeValue(type, this[type === 'date' ? 'day' : type] + offset),
-        actualType = type === 'date' ? 'day' : type
+        newValue = this.__parseTypeValue(type, this[this.__actualType] + offset)
 
-      if (newValue !== this[actualType]) {
-        this['set' + actualType.charAt(0).toUpperCase() + actualType.slice(1)](newValue)
-        this[type + 'DragOffset'] = 0
+      if (newValue !== this[this.__actualType]) {
+        this[`set${capitalize(this.__actualType)}`](newValue)
       }
       else {
-        this.__updatePositions(type, this.date[type]())
-        this.timeout = setTimeout(() => {
-          this[type + 'DragOffset'] = 0
-        }, 150)
+        this.__updatePositions(type, this[this.__actualType] + this.__typeOffset)
       }
-    },
-    __dragCleanup () {
-      clearTimeout(this.timeout)
-      this.timeout = null
+      this.$nextTick(() => {
+        this[type + 'DragOffset'] = 0
+      })
     }
   },
   mounted () {
     this.$nextTick(this.__updateAllPositions)
-  },
-  beforeDestroy () {
-    this.__dragCleanup()
   }
 }
 </script>

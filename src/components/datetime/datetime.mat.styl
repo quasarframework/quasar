@@ -1,20 +1,25 @@
-$datetime-color           ?= $primary
 $datetime-range-space     ?= 10px
 $datetime-input-min-width ?= 70px
 
 .q-datetime-input
   min-width $datetime-input-min-width
 
+.q-datetime-controls
+  padding 0 10px 8px
+
 .q-datetime
-  color rgba(0, 0, 0, .87)
   font-size 1rem
   text-align center
   user-select none
   line-height initial
 
+.q-datetime-dark
+  color black
+
 .q-datetime-header
-  color opposite-non-color($datetime-color)
-  background $datetime-color
+  background currentColor
+  > div
+    color white
 
 .q-datetime-weekdaystring
   font-size .8rem
@@ -45,19 +50,15 @@ div + .q-datetime-time
   font-size 2.7rem
 
 .q-datetime-selector
-  height 330px
+  height 310px
   overflow auto
-
-.q-datetime-animate
-  animation q-scale-in .4s
-.modal .q-datetime-animate
-  animation initial
 
 .q-datetime-view-day
   width 250px
   height 300px
 
 .q-datetime-weekdays
+  color rgba(0, 0, 0, .87)
   font-size .75rem
   margin-top 10px
   margin-bottom 5px
@@ -72,28 +73,29 @@ div + .q-datetime-time
     min-height 0
     background transparent
 
-.q-datetime-days
+.q-datetime-days div
   font-size 12px
-  div
-    width 35px
-    height 35px
-    &:not(.q-datetime-fillerday):not(.disabled)
-      border-radius 50%
-      transition all .3s
-      &:hover
-        background $grey-4
-      &.active
-        animation q-pop-in .5s
-        color opposite-non-color($datetime-color)
-        background $datetime-color
+  width 35px
+  height 35px
+  border-radius 50%
+
+  &:not(.active)
+    color black
+  &.active
+    background currentColor
+    > span
+      color white
+  &:not(.q-datetime-fillerday):not(.disabled):not(.active):hover
+    background $grey-4
 
 .q-datetime-btn
   font-weight normal
+  &:not(.active)
+    color black !important
   &.active
     font-size 1.5rem
     padding-top 1rem
     padding-bottom 1rem
-    color $primary !important
 
 .q-datetime-clock
   width 250px
@@ -117,8 +119,7 @@ div + .q-datetime-time
   left 0
   right 0
   bottom 0
-  color opposite-non-color($datetime-color)
-  background $datetime-color
+  background currentColor
 
 .q-datetime-clock-pointer
   width 1px
@@ -130,7 +131,7 @@ div + .q-datetime-time
   left 0
   right 0
   bottom 0
-  background $datetime-color
+  background currentColor
   span
     position absolute
     border-radius 50%
@@ -141,7 +142,7 @@ div + .q-datetime-time
     min-width 0
     min-height 0
     transform translate(-50%, -50%)
-    background $datetime-color
+    background currentColor
 
 body.desktop .q-datetime-clock-position:not(.active):hover
   background $grey-2 !important
@@ -157,9 +158,12 @@ body.desktop .q-datetime-clock-position:not(.active):hover
   padding 0
   transform translate(-50%, -50%)
   border-radius 50%
+  &:not(.active)
+    color black
   &.active
-    color opposite-non-color($datetime-color)
-    background $datetime-color !important
+    background currentColor
+    > span
+      color white
 
 for $pos in 0..12
   $degree = (270 + 30 * $pos)

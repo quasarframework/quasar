@@ -28,18 +28,6 @@ $datetime-input-min-width ?= 70px
   text-align right
   position relative
   padding 0
-  background rgba(0, 0, 0, .1)
-
-.q-datetime-mask
-  position absolute
-  top 0
-  right 0
-  bottom 0
-  left 0
-  height 100%
-  width 100%
-  background linear-gradient(to top, white, transparent 50%, white)
-  pointer-events none
 
 .q-datetime-col
   display block
@@ -86,6 +74,17 @@ body.desktop .q-datetime-col-wrapper
   backface-visibility hidden
   transform-origin center center -110px
 
+.q-datetime-mask
+  position absolute
+  top 0
+  right 0
+  bottom 0
+  left 0
+  height 100%
+  width 100%
+  background linear-gradient(to top, white, transparent 50%, white)
+  pointer-events none
+
 .q-datetime-highlight
   height 36px
   position absolute
@@ -95,22 +94,14 @@ body.desktop .q-datetime-col-wrapper
   top 50%
   margin-top -18px
   pointer-events none
-  border-top 1px solid rgba(0, 0, 0, .2)
-  border-bottom 1px solid rgba(0, 0, 0, .2)
-
-  &.q-datetime-no-selection
-    letter-spacing 3px
-    background white
-    color $grey-6
-    > div
-      padding 0 6px
-      text-align center
+  border-top 1px solid $grey-5
+  border-bottom 1px solid $grey-5
 
 .q-datetime-range
-    display flex
-    > div
-      flex 0 1 auto
-    &.full-width > div
-      flex-grow 1
-    > div + div
-      margin-left $datetime-range-space
+  display flex
+  > div
+    flex 0 1 auto
+  &.full-width > div
+    flex-grow 1
+  > div + div
+    margin-left $datetime-range-space

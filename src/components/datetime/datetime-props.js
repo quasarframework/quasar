@@ -24,6 +24,10 @@ export const inline = {
       return ['date', 'time', 'datetime'].includes(value)
     }
   },
+  color: {
+    type: String,
+    default: 'primary'
+  },
   min: {
     validator: modelValidator,
     default: null

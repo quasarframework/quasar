@@ -1,5 +1,5 @@
 <template>
-  <div class="q-datetime inline row" :class="{disabled: disable, readonly: readonly}">
+  <div class="q-datetime inline row" :class="classes">
     <div class="q-datetime-header column col-xs-12 col-md-4 justify-center">
       <div v-if="typeHasDate">
         <div class="q-datetime-weekdaystring col-12">{{ weekDayString }}</div>
@@ -72,7 +72,6 @@
             v-for="n in yearInterval"
             :key="n"
             flat
-            color="black"
             class="q-datetime-btn full-width"
             :class="{active: n + yearMin === year}"
             @click="setYear(n + yearMin)"
@@ -89,7 +88,6 @@
             v-for="index in monthInterval"
             :key="index"
             flat
-            color="black"
             class="q-datetime-btn full-width"
             :class="{active: month === index + monthMin}"
             @click="setMonth(index + monthMin, true)"
@@ -100,26 +98,26 @@
 
         <div
           v-if="view === 'day'"
-          class="q-datetime-view-day q-datetime-animate"
+          class="q-datetime-view-day"
         >
           <div class="row items-center content-center">
             <q-btn
               round
               small
               flat
-              color="primary"
+              :color="color"
               @click="setMonth(month - 1, true)"
             >
               <q-icon name="keyboard_arrow_left"></q-icon>
             </q-btn>
-            <div class="col">
+            <div class="col q-datetime-dark">
               {{ monthStamp }}
             </div>
             <q-btn
               round
               small
               flat
-              color="primary"
+              :color="color"
               @click="setMonth(month + 1, true)"
             >
               <q-icon name="keyboard_arrow_right"></q-icon>
@@ -139,7 +137,7 @@
               :class="{active: monthDay === day}"
               @click="setDay(monthDay)"
             >
-              {{ monthDay }}
+              <span>{{ monthDay }}</span>
             </div>
             <div v-if="max" v-for="fillerDay in aferMaxDays" class="row items-center content-center justify-center disabled">
               {{ fillerDay + maxDay }}
@@ -173,7 +171,7 @@
                   class="q-datetime-clock-position fmt24"
                   :class="[`q-datetime-clock-pos-${n-1}`, (n - 1) === hour ? 'active' : '']"
                 >
-                  {{ n - 1 }}
+                  <span>{{ n - 1 }}</span>
                 </div>
               </div>
               <div v-else>
@@ -182,7 +180,7 @@
                   class="q-datetime-clock-position"
                   :class="['q-datetime-clock-pos-' + n, n === hour ? 'active' : '']"
                 >
-                  {{ n }}
+                  <span>{{ n }}</span>
                 </div>
               </div>
             </div>
@@ -208,7 +206,7 @@
                 class="q-datetime-clock-position"
                 :class="['q-datetime-clock-pos-' + (n - 1), (n - 1) * 5 === minute ? 'active' : '']"
               >
-                {{ (n - 1) * 5 }}
+                <span>{{ (n - 1) * 5 }}</span>
               </div>
             </div>
           </div>
@@ -226,7 +224,7 @@ import { position } from '../../utils/event'
 import { QIcon } from '../icon'
 import { QBtn } from '../btn'
 import { formatDate, isSameDate } from '../../utils/date'
-import mixin from './datetime-mixin'
+import DateMixin from './datetime-mixin'
 import Ripple from '../../directives/ripple'
 
 function convertToAmPm (hour) {
@@ -235,7 +233,7 @@ function convertToAmPm (hour) {
 
 export default {
   name: 'q-inline-datetime',
-  mixins: [mixin],
+  mixins: [DateMixin],
   props: {
     defaultSelection: [String, Number, Date],
     disable: Boolean,
@@ -288,6 +286,19 @@ export default {
     }
   },
   computed: {
+    classes () {
+      const cls = []
+      if (this.disable) {
+        cls.push('disabled')
+      }
+      if (this.readonly) {
+        cls.push('readonly')
+      }
+      if (this.color) {
+        cls.push(`text-${this.color}`)
+      }
+      return cls
+    },
     firstDayOfWeek () {
       return this.mondayFirst ? 1 : 0
     },

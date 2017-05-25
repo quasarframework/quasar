@@ -109,7 +109,7 @@ maximized-modal()
 .big-modal-scroll
   max-height (2 * $modal-scroll-size)
 
-.modal-buttons
+.modal-buttons:not(.modal-buttons-top)
   padding $modal-buttons-padding
   border-top 1px solid $form-darker-color
   color $primary
@@ -127,6 +127,10 @@ maximized-modal()
   &.column
     .q-btn + .q-btn
       border-top 1px solid $form-darker-color
+
+.modal-buttons-top
+  background $grey-2
+  height 45px
 
 .q-modal-bottom-enter, .q-modal-bottom-leave-active
   opacity 0

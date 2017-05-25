@@ -155,7 +155,7 @@
       <q-inline-datetime v-model="model" type="time" format24h />
 
       <p class="caption">Date & Time</p>
-      <q-inline-datetime v-model="model" type="datetime" />
+      <q-inline-datetime color="secondary" v-model="model" type="datetime" />
 
       <p class="caption">Date - Monday as First</p>
       <q-inline-datetime v-model="model" monday-first type="date" />
