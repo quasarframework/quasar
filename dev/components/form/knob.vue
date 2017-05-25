@@ -43,7 +43,7 @@
         <q-knob
           v-model="model"
           style="font-size: 3rem"
-          color="#26a69a"
+          color="amber-7"
           :min="min"
           :max="max"
           :step="5"
@@ -53,8 +53,8 @@
           v-model="model"
           size="120px"
           style="font-size: 1.5rem"
-          color="rgba(0, 0, 0, .8)"
-          track-color="yellow"
+          color="secondary"
+          track-color="yellow-3"
           line-width="5px"
           :min="min"
           :max="max"
@@ -69,6 +69,7 @@
         v-model="model"
         :min="min"
         :max="max"
+        color="primary"
         readonly
       >
         <q-icon class="on-left" name="volume_up" /> {{model}}

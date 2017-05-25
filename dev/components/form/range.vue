@@ -63,7 +63,7 @@
 
       <p class="caption">Error State</p>
       <q-range error v-model="standalone" :min="0" :max="50"></q-range>
-      <q-range error v-model="standalone" :min="0" :max="50" label-always></q-range>
+      <q-range error color="amber" v-model="standalone" :min="0" :max="50" label-always></q-range>
 
       <p class="caption">Coloring</p>
       <q-range color="secondary" v-model="standalone" :min="0" :max="50" label></q-range>

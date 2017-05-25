@@ -64,6 +64,19 @@
         <q-input
           v-model="text"
           :error="error"
+        />
+      </q-field>
+
+      <q-field
+        icon="wifi"
+        label="Some Label"
+        :count="10"
+        helper="Some helper"
+        error-label="Some error"
+      >
+        <q-input
+          v-model="text"
+          :error="error"
           float-label="Textfield"
         />
       </q-field>

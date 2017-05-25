@@ -22,9 +22,12 @@
         </div>
       </div>
 
-      <div class="col-xs-12 col-sm">
+      <div class="q-field-content col-xs-12 col-sm" :class="{'q-field-no-input': hasNoInput}">
         <slot></slot>
-        <div v-if="hasBottom" class="q-field-bottom row no-wrap">
+        <div
+          v-if="hasBottom"
+          class="q-field-bottom row no-wrap"
+        >
           <div v-if="hasError && errorLabel" class="q-field-error col" v-html="errorLabel"></div>
           <div v-else-if="helper" class="q-field-helper col" v-html="helper"></div>
           <div v-else class="col"></div>
@@ -91,6 +94,9 @@ export default {
     },
     insetIcon () {
       return ['icon', 'full'].includes(this.inset)
+    },
+    hasNoInput () {
+      return !this.input.$options
     },
     counter () {
       if (this.count) {

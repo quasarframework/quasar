@@ -370,6 +370,39 @@
       </q-field>
 
       <q-field
+        label="Knob"
+        helper="Touch to change"
+        icon="cake"
+        :error="error"
+      >
+        <q-knob
+          v-model="knob"
+          :min="knobMin"
+          :max="knobMax"
+        >
+          <q-icon class="on-left" name="volume_up" /> {{knob}}
+        </q-knob>
+      </q-field>
+
+      <div class="bg-grey-9" style="padding: 10px">
+        <q-field
+          label="Knob"
+          helper="Touch to change"
+          dark
+          icon="cake"
+          :error="error"
+        >
+          <q-knob
+            v-model="knob"
+            :min="knobMin"
+            :max="knobMax"
+          >
+            <q-icon class="on-left" name="volume_up" /> {{knob}}
+          </q-knob>
+        </q-field>
+      </div>
+
+      <q-field
         icon="cloud"
         helper="Helper Helper Helper Helper Helper Helper Helper Helper Helper"
         label="Horizontal Horizontal Horizontal Horizontal Horizontal Horizontal"
@@ -435,7 +468,7 @@
       >
         <q-input v-model="model" float-label="Floating $ Label" suffix="#" prefix="@" />
       </q-field>
-XXX
+
       <q-field
         helper="Helper"
         :label-width="2"
@@ -504,7 +537,10 @@ export default {
       modelX: 'sdflkjsbnfkjdabfa dfasldgfa gfg lasdfl gasdf asdfhl asdgfgasdlf hlahf lsadf asdhlf hasdhadlfasdhfadf hasdg lfasdg lfgasdfasdflasdhfgasdljfljasdh fsdkjfgasdf gjasdgfjasdljgasdjk gjlasdfa sdfgasdljf gljasdfgljasd',
       modelY: '',
       numberModel: 5555,
-      nullModel: null
+      nullModel: null,
+      knob: 10,
+      knobMin: 0,
+      knobMax: 30
     }
   }
 }

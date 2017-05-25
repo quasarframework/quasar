@@ -1,6 +1,6 @@
 $input-transition ?= all .45s cubic-bezier(.23, 1, .32, 1)
 
-.q-if, .q-if:before, .q-if:after, .q-if-label, .q-if-addon, .q-field-icon, .q-field-label, .q-if-control
+.q-if, .q-if:before, .q-if:after, .q-if-label, .q-if-addon, .q-field-icon, .q-field-label, .q-if-control, .q-field-bottom
   transition $input-transition
 
 .q-if
@@ -89,9 +89,9 @@ $input-transition ?= all .45s cubic-bezier(.23, 1, .32, 1)
 
 .q-if-dark
   &:before, .q-if-label, .q-if-control
-    color rgba(255, 255, 255, 70%)
+    color rgba(255, 255, 255, .7)
   &:hover:before, .q-if-addon
-    color rgba(255, 255, 255, 90%)
+    color rgba(255, 255, 255, .9)
 
 .q-if-focused
   &:after
@@ -114,7 +114,7 @@ $input-transition ?= all .45s cubic-bezier(.23, 1, .32, 1)
 
 .q-if-error
   &:before, &:after, &:not(.q-if-inverted) .q-if-label, .q-if-addon
-    color $has-error
+    color $negative
   &:hover:before
     color lighten($negative, 26%)
 

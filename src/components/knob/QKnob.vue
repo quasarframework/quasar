@@ -1,8 +1,8 @@
 <template>
   <div
     class="q-knob non-selectable"
-    :class="{disabled: disable, 'cursor-pointer': !readonly}"
-    :style="{width: size, height: size, color: color}"
+    :class="classes"
+    :style="{width: size, height: size}"
   >
     <div
       @click="__onInput"
@@ -13,7 +13,8 @@
           d="M 50,50 m 0,-47
              a 47,47 0 1 1 0,94
              a 47,47 0 1 1 0,-94"
-          :stroke="trackColor"
+          :class="`text-${trackColor}`"
+          stroke="currentColor"
           :stroke-width="lineWidth"
           fill-opacity="0"
         ></path>
@@ -66,7 +67,7 @@ export default {
     color: String,
     trackColor: {
       type: String,
-      default: '#ececec'
+      default: 'grey-3'
     },
     lineWidth: {
       type: String,
@@ -84,6 +85,19 @@ export default {
     readonly: Boolean
   },
   computed: {
+    classes () {
+      const cls = []
+      if (this.disable) {
+        cls.push('disabled')
+      }
+      if (!this.readonly) {
+        cls.push('cursor-pointer')
+      }
+      if (this.color) {
+        cls.push(`text-${this.color}`)
+      }
+      return cls
+    },
     svgStyle () {
       return {
         'stroke-dasharray': '295.31px, 295.31px',

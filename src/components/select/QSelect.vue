@@ -67,7 +67,6 @@
         class="list link no-border"
         :class="{delimiter: delimiter}"
       >
-
         <template v-if="multiple">
           <q-item
             class="item"
