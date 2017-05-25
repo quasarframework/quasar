@@ -1,245 +1,6 @@
 <template>
   <div>
     <div class="layout-padding" style="max-width: 600px; border: 1px solid black;">
-      <q-input v-model="modelY" />
-      <q-input type="textarea" v-model="modelX" :rows="5" />
-
-
-      <q-input
-        v-model="model"
-      />
-      {{nullModel}}
-      <q-input
-        v-model="nullModel"
-      />
-      <q-input
-        value=""
-        placeholder="Placeholder"
-      />
-      <q-input
-        v-model="model"
-        float-label="Floating Label"
-      />
-      <q-input
-        v-model="model"
-        stacked-label="Stacked Label"
-      />
-
-      <p class="caption">Clear</p>
-      <q-input
-        v-model="model"
-        clear
-      />
-      <q-input
-        v-model="model"
-        float-label="Floating Label"
-        clear
-      />
-      <q-input
-        v-model="model"
-        stacked-label="Stacked Label"
-        clear
-      />
-
-      <p class="caption">XYZ</p>
-
-      <q-input
-        v-model="model"
-        prefix="$"
-        suffix=".00"
-      />
-      <q-input
-        v-model="model"
-        float-label="Floating Label"
-        prefix="$"
-        suffix=".00"
-      />
-      <q-input
-        v-model="model"
-        stacked-label="Stacked Label"
-        prefix="$"
-        suffix=".00"
-      />
-
-      <q-input
-        v-model="model"
-        prefix="$"
-        suffix=".00"
-        clearable
-      />
-      <q-input
-        v-model="model"
-        float-label="Clearable"
-        prefix="$"
-        suffix=".00"
-        clearable
-      />
-      <q-input
-        v-model="numberModel"
-        type="number"
-        float-label="Clearable"
-        prefix="$"
-        suffix=".00"
-        clearable
-      />
-      <q-input
-        type="textarea"
-        v-model="model"
-        float-label="Clearable"
-        prefix="$"
-        suffix=".00"
-        clearable
-      />
-
-      <q-input
-        v-model="numberModel"
-        type="number"
-        stacked-label="Stacked Label"
-        prefix="$"
-        :min="5"
-        :max="15"
-        suffix=".00"
-      />
-
-      <q-input
-        v-model="numberModel"
-        type="number"
-        stacked-label="Stacked Label"
-        prefix="$"
-        :min="5"
-        :max="15"
-        suffix=".00"
-        :extra-icons="false"
-      />
-
-      <!--
-      <q-input
-        v-model="model"
-        float-label="Floating Label"
-        prefix="$"
-        suffix=".00"
-      >
-        <q-btn slot="after" flat small color="primary">Cancel</q-btn>
-      </q-input>
-      -->
-
-      <q-input
-        v-model="model"
-        stacked-label="Stacked Label"
-        prefix="$"
-        suffix=".00"
-        disabled
-      />
-      <q-input
-        v-model="model"
-        stacked-label="Stacked Label"
-        prefix="$"
-        suffix=".00"
-        readonly
-      />
-
-      <q-input
-        v-model="model"
-        float-label="Floating Label"
-        prefix="$"
-        suffix=".00"
-        error
-      />
-
-
-
-
-
-
-
-
-
-
-
-      <q-input
-        v-model="model"
-        type="textarea"
-      />
-      <q-input
-        v-model="model"
-        type="textarea"
-        float-label="Floating Label"
-      />
-      <q-input
-        v-model="model"
-        type="textarea"
-        stacked-label="Stacked Label"
-      />
-
-      <q-input
-        v-model="model"
-        type="textarea"
-        prefix="$"
-        suffix=".00"
-      />
-      <q-input
-        v-model="model"
-        type="textarea"
-        float-label="Floating Label"
-        prefix="$"
-        suffix=".00"
-      />
-      <q-input
-        v-model="model"
-        type="textarea"
-        stacked-label="Stacked Label"
-        prefix="$"
-        suffix=".00"
-      />
-
-      <q-input
-        v-model="model"
-        type="textarea"
-        stacked-label="Stacked Label"
-        prefix="$"
-        suffix=".00"
-        disabled
-      />
-      <q-input
-        v-model="model"
-        type="textarea"
-        stacked-label="Stacked Label"
-        prefix="$"
-        suffix=".00"
-        readonly
-      />
-
-      <q-input
-        v-model="model"
-        type="textarea"
-        float-label="Floating Label"
-        prefix="$"
-        suffix=".00"
-        error
-      />
-
-
-
-
-
-
-
-
-
-
-      <div class="inline-example">Some text <q-input class="inline" v-model="model" /></div>
-      <div class="inline-example">Some text <q-input type="textarea" class="inline" v-model="model" /></div>
-      <div class="inline-example">Some text <q-field class="inline">
-        <q-input v-model="model" :count="10" />
-      </q-field></div>
-
-
-      <q-input v-model="model" type="password" />
-      <q-input v-model="model" type="password" suffix="$" />
-      <q-input v-model="model" type="password" prefix="$" suffix="$" error />
-      <q-input v-model="model" :count="10" inline-count />
-      <q-input type="textarea" v-model="model" :count="10" inline-count />
-
       <q-field label="With Tooltip">
         <q-input v-model="model" :count="10">
           <q-tooltip :offset="[0, 10]">
@@ -249,7 +10,7 @@
       </q-field>
       <q-field label="With Popover">
         <q-input v-model="model" :count="10">
-          <q-popover fit>
+          <q-popover fit :offset="[0, 10]">
             <div style="padding: 10px" class="bg-primary text-white">
               Some Popover
             </div>
@@ -258,23 +19,15 @@
       </q-field>
 
       <q-field>
-        <q-input suffix="#" prefix="@" v-model="model" :count="10" />
+        <q-input v-model="model" />
       </q-field>
 
-      <q-field>
-        <q-input suffix="#" prefix="@" v-model="model" :count="10" inline-count />
+      <q-field count>
+        <q-input suffix="#" prefix="@" type="password" v-model="model" />
       </q-field>
 
-      <q-field>
-        <q-input v-model="model" count />
-      </q-field>
-
-      <q-field>
-        <q-input suffix="#" prefix="@" type="password" v-model="model" count />
-      </q-field>
-
-      <q-field>
-        <q-input suffix="#" prefix="@" type="textarea" v-model="model" :count="10" />
+      <q-field :count="10">
+        <q-input suffix="#" prefix="@" type="textarea" v-model="model" />
       </q-field>
 
       <q-field
@@ -310,14 +63,14 @@
         helper="Helper"
         label="Label"
       >
-        <q-input suffix="#" prefix="@" v-model="model" stacked-label="Stacked Label" />
+        <q-input suffix="#" prefix="@" v-model="model" stack-label="Stacked Label" />
       </q-field>
 
       <q-field
         icon="cloud"
         helper="Helper"
       >
-        <q-input suffix="#" prefix="@" v-model="model" stacked-label="Stacked Label" />
+        <q-input suffix="#" prefix="@" v-model="model" stack-label="Stacked Label" />
       </q-field>
 
       <q-field
@@ -499,7 +252,7 @@
         helper="Helper"
         label="Label"
       >
-        <q-input v-model="model" stacked-label="Stacked $ Label" suffix="#" prefix="@" />
+        <q-input v-model="model" stack-label="Stacked $ Label" suffix="#" prefix="@" />
       </q-field>
       <q-field
         icon="cloud"
@@ -515,8 +268,8 @@
         label="Label"
       >
         <div class="row">
-          <q-input class="col" v-model="model" stacked-label="Stacked $ Label" suffix="#" prefix="@" :inline-count="10"/>
-          <q-input class="col" v-model="model" stacked-label="Stacked $ Label" suffix="#" prefix="@" :inline-count="10"/>
+          <q-input class="col" v-model="model" stack-label="Stacked $ Label" suffix="#" prefix="@" :inline-count="10"/>
+          <q-input class="col" v-model="model" stack-label="Stacked $ Label" suffix="#" prefix="@" :inline-count="10"/>
         </div>
       </q-field>
     </div>

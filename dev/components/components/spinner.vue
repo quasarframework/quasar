@@ -1,27 +1,31 @@
 <template>
   <div>
     <div class="layout-padding">
-      <div>
-        <div class="light-paragraph">
-          Size: {{ size }}px
-        </div>
-        <div>
-          <q-range label v-model="size" :min="20" :max="256" />
-        </div>
+      <q-field
+        icon="format size"
+        :label="`Size: ${size}px`"
+      >
+        <q-range label v-model="size" :min="20" :max="256" />
+      </q-field>
 
-        <q-icon class="text-grey-7" style="font-size: 2rem" name="palette" />
-        <label for="color-spinner" class="auto">Color</label>
-        <q-input id="color-spinner" class="inline" v-model="color" style="width: 80px; text-align: center; margin-right: 10px;" />
-        <q-dialog-select
-          type="radio"
-          v-model="color"
-          class="inline"
-          :options="colorOptions"
-          ok-label="Pick"
-          title="Spinner Color"
-          style="vertical-align: middle"
-        ></q-dialog-select>
-      </div>
+      <q-field
+        icon="palette"
+        label="Color"
+      >
+        <div class="row no-wrap">
+          <q-input
+            v-model="color"
+            class="col"
+            float-label="Color Palette"
+          />
+          <q-select
+            class="col"
+            v-model="color"
+            float-label="Quick Pick"
+            :options="colorOptions"
+          />
+        </div>
+      </q-field>
 
       <p class="caption">
         Hover over them to see their names
@@ -38,9 +42,9 @@
         </div>
       </div>
 
-      <p class="caption" :style="{color: color}">
+      <p class="caption">
         Default Theme Spinner:
-        <q-spinner :size="size" style="margin-left: 1rem;"></q-spinner>
+        <q-spinner :color="color" :size="size" style="margin-left: 1rem;" />
       </p>
     </div>
   </div>
@@ -51,7 +55,7 @@ export default {
   data () {
     return {
       size: 36,
-      color: '#00ff00',
+      color: 'primary',
       spinners: [
         'audio', 'ball', 'bars', 'circles', 'dots',
         'facebook', 'gears', 'grid', 'hearts',
@@ -62,22 +66,32 @@ export default {
         {
           label: 'Black',
           color: 'black',
-          value: '#000000'
+          value: 'black'
+        },
+        {
+          label: 'Primary',
+          color: 'primary',
+          value: 'primary'
+        },
+        {
+          label: 'Secondary',
+          color: 'secondary',
+          value: 'secondary'
         },
         {
           label: 'Red',
           color: 'red',
-          value: '#ff0000'
+          value: 'red'
         },
         {
           label: 'Green',
           color: 'green',
-          value: '#00ff00'
+          value: 'green'
         },
         {
           label: 'Blue',
           color: 'blue',
-          value: '#0000ff'
+          value: 'blue'
         }
       ]
     }

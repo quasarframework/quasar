@@ -3,17 +3,18 @@
     class="q-field row no-wrap items-start"
     :class="{
       'q-field-floating': childHasLabel,
+      'q-field-no-label': !this.label && !this.$slots.label,
       'q-field-with-error': hasError,
       'q-field-dark': isDark
     }"
   >
-    <q-icon v-if="icon" :name="icon" class="q-field-icon"></q-icon>
+    <q-icon v-if="icon" :name="icon" class="q-field-icon q-field-margin"></q-icon>
     <div v-else-if="insetIcon" class="q-field-icon"></div>
 
     <div class="row col">
       <div
         v-if="hasLabel"
-        class="q-field-label col-xs-12"
+        class="q-field-label col-xs-12  q-field-margin"
         :class="`col-sm-${labelWidth}`"
       >
         <div class="q-field-label-inner row items-center">
@@ -22,10 +23,11 @@
         </div>
       </div>
 
-      <div class="q-field-content col-xs-12 col-sm" :class="{'q-field-no-input': hasNoInput}">
+      <div class="q-field-content col-xs-12 col-sm">
         <slot></slot>
         <div
           v-if="hasBottom"
+          :class="{'q-field-no-input': hasNoInput}"
           class="q-field-bottom row no-wrap"
         >
           <div v-if="hasError && errorLabel" class="q-field-error col" v-html="errorLabel"></div>

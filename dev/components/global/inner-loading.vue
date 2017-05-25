@@ -27,8 +27,8 @@
           </p>
         </div>
       </q-transition>
-      <q-inner-loading :visible="visible" >
-        <q-spinner-gears :size="50" :color="'#027be3'"></q-spinner-gears>
+      <q-inner-loading :visible="visible">
+        <q-spinner-gears :size="50" color="primary"></q-spinner-gears>
       </q-inner-loading>
     </div>
   </div>

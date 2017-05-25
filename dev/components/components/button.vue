@@ -44,10 +44,10 @@
           Button
           <span slot="loading">Loading...</span>
         </q-btn>
-        <q-btn loader class="orange" @click="simulateProgress">Button</q-btn>
-        <q-btn loader class="secondary" @click="simulateProgress">Button</q-btn>
-        <q-btn loader class="amber" @click="simulateProgress">Button</q-btn>
-        <q-btn loader class="dark small" @click="simulateProgress">Button</q-btn>
+        <q-btn loader color="orange" @click="simulateProgress">Button</q-btn>
+        <q-btn loader color="secondary" @click="simulateProgress">Button</q-btn>
+        <q-btn loader color="amber" @click="simulateProgress">Button</q-btn>
+        <q-btn loader color="dark" small @click="simulateProgress">Button</q-btn>
         <q-btn small round loader @click="simulateProgress" color="primary"><q-icon name="mail" /></q-btn>
         <q-btn round loader @click="simulateProgress" color="primary"><q-icon name="mail" /></q-btn>
         <q-btn big round loader @click="simulateProgress" color="primary"><q-icon name="mail" /></q-btn>

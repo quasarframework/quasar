@@ -217,14 +217,14 @@
 
       <div class="fixed-top-left">
         <q-toggle v-model="loading"  style="top: 18px; left: 18px;"/>
-         <q-tooltip anchor="bottom right" self="center left" :offset="[10, 10]">
+         <q-tooltip anchor="bottom right" self="center left" :offset="[20, 10]">
            Turn on to see the progress spinners.
          </q-tooltip>
       </div>
 
       <div class="fixed-top-right">
         <q-toggle v-model="alternativeLabels" style="top: 18px; right: 18px;"/>
-         <q-tooltip anchor="bottom left" self="center right" :offset="[10, 10]">
+         <q-tooltip anchor="bottom left" self="center right" :offset="[20, 10]">
            Turn on to see the alternative lables.
          </q-tooltip>
       </div>

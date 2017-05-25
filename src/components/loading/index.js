@@ -1,4 +1,3 @@
-import { current as theme } from '../../features/theme'
 import { Vue } from '../../deps'
 import Events from '../../features/events'
 import Loading from './Loading.vue'
@@ -15,13 +14,11 @@ function isActive () {
 
 function show ({
   delay = 500,
-  spinner = theme === 'ios' ? 'ios' : 'tail',
   message = false,
   spinnerSize,
   spinnerColor,
   messageColor
 } = {}) {
-  props.spinner = spinner
   props.message = message
   props.spinnerSize = spinnerSize
   props.spinnerColor = spinnerColor

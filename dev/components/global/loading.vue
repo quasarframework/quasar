@@ -14,13 +14,7 @@
         </q-btn>
       </div>
       <p class="caption">
-        You can use a custom spinner.
-      </p>
-      <q-btn push color="light" class="text-dark" @click="customSpinner()">
-        Custom Spinner
-      </q-btn>
-      <p class="caption">
-        ...with a custom color and spinner size.
+        ...with a custom colors and spinner size.
       </p>
       <q-btn push color="light" class="text-dark" @click="customColorSpinner()">
         Custom Color and Size Spinner
@@ -45,16 +39,12 @@ export default {
     noMessage () {
       show()
     },
-    customSpinner () {
-      show({spinner: 'facebook'})
-    },
     customColorSpinner () {
       show({
-        spinner: 'pie',
-        spinnerColor: '#027be3',
+        spinnerColor: 'yellow',
         spinnerSize: 220,
         message: 'Some important process is in progress. Hang on...',
-        messageColor: '#ef0'
+        messageColor: 'teal-3'
       })
     },
     withMessage () {

@@ -20,7 +20,7 @@
 
     <span class="q-btn-inner row col items-center justify-center">
       <slot v-if="loading" name="loading">
-        <q-spinner color="currentColor"></q-spinner>
+        <q-spinner></q-spinner>
       </slot>
 
       <template v-else>

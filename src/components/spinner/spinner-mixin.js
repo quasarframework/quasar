@@ -3,7 +3,14 @@ export default {
     color: String,
     size: {
       type: [Number, String],
-      default: 16
+      default: '1rem'
+    }
+  },
+  computed: {
+    classes () {
+      if (this.color) {
+        return `text-${this.color}`
+      }
     }
   }
 }
