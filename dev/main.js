@@ -1,3 +1,4 @@
+require('es6-promise').polyfill()
 require('../src/themes/quasar.' + __THEME + '.styl')
 
 import Vue from 'vue'
