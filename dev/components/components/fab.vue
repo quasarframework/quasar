@@ -41,7 +41,7 @@
 
         <br>
 
-        <q-fab color="tertiary" classNames="glossy" icon="keyboard_arrow_down" direction="down">
+        <q-fab color="tertiary" glossy icon="keyboard_arrow_down" direction="down">
           <q-small-fab color="amber" @click="toast('mail')" icon="mail"></q-small-fab>
           <q-small-fab color="amber" @click="toast('alarm')" icon="alarm"></q-small-fab>
           <q-small-fab color="amber" @click="toast('alarm')" icon="alarm"></q-small-fab>

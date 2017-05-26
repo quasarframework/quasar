@@ -139,12 +139,12 @@
 
       <p class="caption">Glossy Buttons</p>
       <p class="group">
-        <q-btn color="primary" class="glossy">Glossy</q-btn>
-        <q-btn color="secondary" class="glossy">Glossy</q-btn>
-        <q-btn color="deep-orange" class="glossy">Glossy</q-btn>
-        <q-btn round color="primary" class="glossy"><q-icon name="card_giftcard" /></q-btn>
-        <q-btn round color="secondary" class="glossy"><q-icon name="card_giftcard" /></q-btn>
-        <q-btn round color="deep-orange" class="glossy"><q-icon name="card_giftcard" /></q-btn>
+        <q-btn color="primary" glossy>Glossy</q-btn>
+        <q-btn color="secondary" glossy>Glossy</q-btn>
+        <q-btn color="deep-orange" glossy>Glossy</q-btn>
+        <q-btn round color="primary" glossy><q-icon name="card_giftcard" /></q-btn>
+        <q-btn round color="secondary" glossy><q-icon name="card_giftcard" /></q-btn>
+        <q-btn round color="deep-orange" glossy><q-icon name="card_giftcard" /></q-btn>
       <p>
 
       <p class="caption">Block Buttons</p>
@@ -177,7 +177,7 @@
           :outline="extra === 'outline'"
           :push="extra === 'push'"
           :rounded="extra === 'rounded'"
-          :class="{glossy: extra === 'glossy'}"
+          :glossy="extra === 'glossy'"
         >{{extra}}</q-btn>
       </template>
       <template v-for="size in sizes">
@@ -215,7 +215,7 @@
           :outline="extra === 'outline'"
           :push="extra === 'push'"
           :rounded="extra === 'rounded'"
-          :class="{glossy: extra === 'glossy'}"
+          :glossy="extra === 'glossy'"
         >{{color}}-{{extra}}</q-btn>
       </template>
 
@@ -233,7 +233,7 @@
           :outline="extra === 'outline'"
           :push="extra === 'push'"
           :rounded="extra === 'rounded'"
-          :class="{glossy: extra === 'glossy'}"
+          :glossy="extra === 'glossy'"
           icon="wifi"
         ></q-btn>
       </template>

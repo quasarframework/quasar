@@ -3,6 +3,7 @@ export default {
     outline: Boolean,
     push: Boolean,
     flat: Boolean,
-    color: String
+    color: String,
+    glossy: Boolean
   }
 }

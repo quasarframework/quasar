@@ -1,7 +1,7 @@
 <template>
   <div
     class="q-fab row inline justify-center"
-    :class="{opened: opened}"
+    :class="{'q-fab-opened': opened}"
   >
     <q-btn
       @click="toggle"
@@ -10,6 +10,7 @@
       :push="push"
       :flat="flat"
       :color="color"
+      :class="{glossy: glossy}"
     >
       <q-icon :name="icon" class="q-fab-icon"></q-icon>
       <q-icon :name="activeIcon" class="q-fab-active-icon"></q-icon>

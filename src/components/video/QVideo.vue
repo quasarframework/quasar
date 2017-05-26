@@ -1,5 +1,5 @@
 <template>
-  <div class="video">
+  <div class="q-video">
     <iframe :src="src" frameborder="0" allowfullscreen></iframe>
   </div>
 </template>

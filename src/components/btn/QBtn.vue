@@ -52,7 +52,8 @@ export default {
     push: Boolean,
     small: Boolean,
     big: Boolean,
-    color: String
+    color: String,
+    glossy: Boolean
   },
   data () {
     return {
@@ -91,6 +92,7 @@ export default {
 
       this.noCaps && cls.push('q-btn-no-uppercase')
       this.rounded && cls.push('q-btn-rounded')
+      this.glossy && cls.push('glossy')
 
       if (this.color) {
         if (this.flat || this.outline) {

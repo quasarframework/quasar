@@ -4,24 +4,22 @@ $fab-margin    ?= 5px
   position relative
   vertical-align middle
 
-  &.opened
-    z-index $z-fab
-
-    .q-fab-actions
-      opacity 1
-      transform scaleX(1) scaleY(1) translateX(0) translateY(0)
-      pointer-events all
-    .q-fab-icon
-      transform rotate3d(0, 0, 1, 180deg)
-      opacity 0
-    .q-fab-active-icon
-      transform rotate3d(0, 0, 1, 0deg)
-      opacity 1
+.q-fab-opened
+  .q-fab-actions
+    opacity 1
+    transform scaleX(1) scaleY(1) translateX(0) translateY(0)
+    pointer-events all
+  .q-fab-icon
+    transform rotate3d(0, 0, 1, 180deg)
+    opacity 0
+  .q-fab-active-icon
+    transform rotate3d(0, 0, 1, 0deg)
+    opacity 1
 
 .q-fab-icon, .q-fab-active-icon
   position absolute
-  top 16px
-  left 16px
+  top 15px
+  left 15px
   transition opacity .4s, transform .4s
 .q-fab-icon
   opacity 1
@@ -65,5 +63,5 @@ $fab-margin    ?= 5px
   right 0
 
 body.platform-ios .q-fab
-  &[class*='absolute-bottom-'], &[class*='fixed-bottom-']
+  &[class*='absolute-'], &[class*='fixed-']
     transform translate3d(0, -50px, 0)
