@@ -6,23 +6,18 @@
         :key="msg"
         :label="msg.label"
         :sent="msg.sent"
+        :text-color="msg.textColor"
+        :bg-color="msg.bgColor"
         :name="msg.name"
         :avatar="msg.avatar"
         :text="msg.text"
         :stamp="msg.stamp"
       />
-      <div class="row">
-        <q-input v-model="message" />
-        <q-btn color="primary" @click="send">Send</q-btn>
-      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { date } from 'quasar'
-const { format } = date
-
 export default {
   data () {
     return {
@@ -41,6 +36,8 @@ export default {
           name: 'Jane',
           text: ['I\'m good, thank you!', 'And you?'],
           sent: true,
+          textColor: 'white',
+          bgColor: 'black',
           avatar: '/statics/linux-avatar.png',
           stamp: 'Yesterday at 13:50'
         },
@@ -56,6 +53,8 @@ export default {
         },
         {
           name: 'Vladimir',
+          bgColor: 'amber',
+          textColor: 'white',
           text: ['Fine. Nice weather today, right?', 'Hmm...'],
           avatar: '/statics/boy-avatar.png',
           stamp: '13:55'
@@ -160,19 +159,6 @@ export default {
           stamp: '13:55'
         }
       ]
-    }
-  },
-  methods: {
-    send () {
-      if (this.message.length) {
-        this.messages.push({
-          name: 'Jane',
-          text: [this.message],
-          sent: true,
-          avatar: '/statics/linux-avatar.png',
-          stamp: format(new Date(), 'HH:mm')
-        })
-      }
     }
   }
 }

@@ -8,8 +8,6 @@
       For some test that you think it should be persistent,
       make a new *.vue file here or in another folder under /dev/components.
     -->
-    <q-checkbox v-model="enable" />
-    <div class="bg-grey-9 relative-position" style="width: 200px; height: 200px" v-ripple></div>
   </div>
 </template>
 
@@ -17,7 +15,6 @@
 export default {
   data () {
     return {
-      enable: false
     }
   },
   methods: {

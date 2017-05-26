@@ -2,8 +2,8 @@
   <div
     class="q-message"
     :class="{
-      'message-sent': sent,
-      'message-received': !sent
+      'q-message-sent': sent,
+      'q-message-received': !sent
     }"
   >
     <p v-if="label" class="q-message-label text-center" v-html="label"></p>
@@ -18,9 +18,12 @@
           v-for="(msg, index) in text"
           :key="msg"
           class="q-message-text"
+          :class="messageClass"
         >
-          <div v-html="msg"></div>
-          <div class="q-message-stamp" v-html="stamp"></div>
+          <span class="q-message-text-content" :class="textClass">
+            <div v-html="msg"></div>
+            <div class="q-message-stamp" v-html="stamp"></div>
+          </span>
         </div>
         <div v-if="$slots.default" class="q-message-text">
           <slot></slot>
@@ -37,10 +40,26 @@ export default {
     sent: Boolean,
     label: String,
 
+    bgColor: String,
+    textColor: String,
+
     name: String,
     avatar: String,
     text: Array,
     stamp: String
+  },
+  inject: ['__chat'],
+  computed: {
+    textClass () {
+      if (this.textColor) {
+        return `text-${this.textColor}`
+      }
+    },
+    messageClass () {
+      if (this.bgColor) {
+        return `text-${this.bgColor}`
+      }
+    }
   }
 }
 </script>
