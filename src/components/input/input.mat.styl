@@ -1,3 +1,7 @@
+@-webkit-keyframes autofill
+  to
+    background transparent
+
 .q-input-target::-webkit-outer-spin-button,
 .q-input-target::-webkit-inner-spin-button
   -webkit-appearance none
@@ -16,6 +20,13 @@
   resize none
   display flex
   align-items center
+  &:-webkit-autofill
+    -webkit-animation-name autofill
+    -webkit-animation-fill-mode both
+  &::-ms-clear, &::-ms-reveal
+    display none
+    width 0
+    height 0
 
 input.q-input-target
   height 18px
