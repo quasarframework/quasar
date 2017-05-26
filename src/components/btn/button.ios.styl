@@ -16,6 +16,7 @@ $button-round-sizes = {
 .q-btn
   position relative
   display inline-flex
+  flex-direction column
   align-items center
   justify-content center
   outline 0
@@ -55,8 +56,9 @@ $button-round-sizes = {
 
 for $name, $size in $button-sizes
   .q-btn-{$name}
-    min-height $size
     font-size round($size * .38)
+    .q-btn-inner
+      flex-basis $size
     .q-icon
       font-size round($size * .68)
     .q-spinner
