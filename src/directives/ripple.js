@@ -104,8 +104,8 @@ export default {
       el.__qripple.enabled = value !== false
     }
   },
-  unbind (el, bindings) {
-    if (shouldAbort(bindings)) {
+  unbind (el, { modifiers }) {
+    if (shouldAbort(modifiers)) {
       return
     }
 
