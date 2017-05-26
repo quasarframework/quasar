@@ -53,6 +53,12 @@ if (!String.prototype.endsWith) {
   }
 }
 
+Number.isInteger = Number.isInteger || function (value) {
+  return typeof value === 'number' &&
+    isFinite(value) &&
+    Math.floor(value) === value
+}
+
 if (typeof Element.prototype.matches !== 'function') {
   Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.mozMatchesSelector || Element.prototype.webkitMatchesSelector || function matches (selector) {
     let
@@ -80,6 +86,22 @@ if (typeof Element.prototype.closest !== 'function') {
     return null
   }
 }
+
+(function (arr) {
+  arr.forEach(function (item) {
+    if (item.hasOwnProperty('remove')) {
+      return
+    }
+    Object.defineProperty(item, 'remove', {
+      configurable: true,
+      enumerable: true,
+      writable: true,
+      value: function remove () {
+        return this.parentNode ? this.parentNode.removeChild(this) : this
+      }
+    })
+  })
+})([Element.prototype, CharacterData.prototype, DocumentType.prototype])
 
 if (!Array.prototype.find) {
   Object.defineProperty(Array.prototype, 'find', {
