@@ -39,7 +39,7 @@ button-round-factor($size)
   transition $button-transition
   text-transform uppercase
 
-  &:active
+  &:not([disabled]):active
     box-shadow $shadow-8
   &.full-width
     border-radius 0 !important
