@@ -14,8 +14,15 @@
       <br><br>
       <q-radio v-model="option" val="opt4" color="orange" label="Option 4" />
 
+      <p class="caption">Label on the left side</p>
+      <q-radio v-model="option" val="opt2" left-label label="Option 2" />
+      <br><br>
+      <q-radio v-model="option" val="opt3" left-label color="teal" label="Option 3" />
+      <br><br>
+      <q-radio v-model="option" val="opt4" left-label color="orange" label="Option 4" />
+
       <p class="caption">Disabled State</p>
-      <q-radio v-model="option" val="opt1" disable label="Option 1 - Disabled" />
+      <q-radio v-model="option" val="opt1" disable label="Disabled Option 1" />
 
       <q-field
         icon="cloud"

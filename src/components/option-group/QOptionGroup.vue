@@ -7,6 +7,7 @@
         :val="opt.value"
         :disable="disable"
         :label="opt.label"
+        :left-label="leftLabel"
         :color="opt.color || color"
         :checked-icon="opt.checkedIcon"
         :unchecked-icon="opt.uncheckedIcon"
@@ -46,6 +47,7 @@ export default {
         return opts.every(opt => 'value' in opt && 'label' in opt)
       }
     },
+    leftLabel: Boolean,
     inline: Boolean,
     disable: Boolean
   },

@@ -16,6 +16,13 @@
       <br><br>
       <q-toggle v-model="checked" color="dark" label="Toggle Label" />
 
+      <p class="caption">Label on the left side</p>
+      <q-toggle v-model="checked" color="orange" left-label label="Toggle Label" />
+      <br><br>
+      <q-toggle v-model="checked" color="teal" left-label label="Toggle Label" />
+      <br><br>
+      <q-toggle v-model="checked" color="dark" left-label label="Toggle Label" />
+
       <p class="caption">Array Model</p>
       <div class="label bg-secondary text-white">
         Model <span class="right-detail"><em>{{selection}}</em></span>

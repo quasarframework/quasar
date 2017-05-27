@@ -1,6 +1,7 @@
 export default {
   props: {
     label: String,
+    leftLabel: Boolean,
     color: String,
     disable: Boolean
   },

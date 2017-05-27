@@ -1,7 +1,7 @@
 <template>
   <div
     class="q-toggle q-option cursor-pointer no-outline q-focusable row inline no-wrap items-center"
-    :class="{disabled: disable}"
+    :class="{disabled: disable, reverse: leftLabel}"
     v-touch-swipe.horizontal="__swipe"
     @click.stop.prevent="toggle"
     tabindex="0"

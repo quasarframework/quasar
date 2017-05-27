@@ -23,6 +23,13 @@
       <br><br>
       <q-checkbox v-model="checked" color="dark" label="Checkbox Label" />
 
+      <p class="caption">Label on the left side</p>
+      <q-checkbox v-model="checked" color="teal" left-label label="Checkbox Label" />
+      <br><br>
+      <q-checkbox v-model="checked" color="orange" left-label label="Checkbox Label" />
+      <br><br>
+      <q-checkbox v-model="checked" color="dark" left-label label="Checkbox Label" />
+
       <p class="caption">Array Model</p>
       <div class="label bg-secondary text-white">
         Model <span class="right-detail"><em>{{selection}}</em></span>
