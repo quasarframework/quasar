@@ -234,13 +234,13 @@ export default {
           }
           else {
             file.__failed = true
-            this.$emit('fail', file.name, xhr)
+            this.$emit('fail', file, xhr)
             reject(xhr)
           }
         }
 
         xhr.onerror = () => {
-          this.$emit('fail', file.name, xhr)
+          this.$emit('fail', file, xhr)
           reject(xhr)
         }
 
