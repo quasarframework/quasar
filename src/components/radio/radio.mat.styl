@@ -1,8 +1,9 @@
-$radio-size         ?= 19px
+$radio-size = 19px
 
-.q-radio-unchecked, .q-radio-checked
+.q-radio-unchecked, .q-radio-checked, .q-radio .q-option-inner
   height $checkbox-size
   width $checkbox-size
+  min-width $checkbox-size
   font-size $checkbox-size
   transition all .45s cubic-bezier(.23, 1, .32, 1)
   opacity 1
@@ -13,24 +14,9 @@ $radio-size         ?= 19px
   transform-origin 50% 50% 0
   transform scale(0)
 
-.q-radio
-  display inline-block
-  vertical-align middle
-  height $checkbox-size
-  width $checkbox-size
-  color $grey-7
-
-  &.active
-    color $primary
-
-    .q-radio-unchecked
-      opacity 0
-      transform scale(0)
-    .q-radio-checked
-      transform scale(1)
-
-  input
-    display none !important
-
-body.desktop .q-radio:focus input + div:before
-  box-shadow $form-focus-box-shadow
+.q-radio .q-option-inner.active
+  .q-radio-unchecked
+    opacity 0
+    transform scale(0)
+  .q-radio-checked
+    transform scale(1)

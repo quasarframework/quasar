@@ -6,27 +6,16 @@
       </div>
 
       <p class="caption">Standalone</p>
-      <div class="column group">
-        <q-radio v-model="option" val="opt1" style="margin-bottom: 15px"></q-radio>
-        <label>
-          <q-radio v-model="option" val="opt2"></q-radio>
-          Option 2
-        </label>
-        <label>
-          <q-radio v-model="option" val="opt3" color="teal"></q-radio>
-          Option 3
-        </label>
-        <label>
-          <q-radio v-model="option" val="opt4" color="orange"></q-radio>
-          Option 4
-        </label>
-      </div>
+      <q-radio v-model="option" val="opt1" />
+      <br><br>
+      <q-radio v-model="option" val="opt2" label="Option 2" />
+      <br><br>
+      <q-radio v-model="option" val="opt3" color="teal" label="Option 3" />
+      <br><br>
+      <q-radio v-model="option" val="opt4" color="orange" label="Option 4" />
 
       <p class="caption">Disabled State</p>
-      <label>
-        <q-radio v-model="option" val="opt1" disable></q-radio>
-        Option 1
-      </label>
+      <q-radio v-model="option" val="opt1" disable label="Option 1 - Disabled" />
 
       <q-field
         icon="cloud"
@@ -39,8 +28,8 @@
           v-model="group"
           :options="[
             { label: 'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ', value: 'op2' },
-            { label: 'Option 3', value: 'op3' },
-            { label: 'Option 4', value: 'op4' }
+            { label: 'Option 3', value: 'op3', color: 'secondary' },
+            { label: 'Option 4', value: 'op4', color: 'amber' }
           ]"
         />
       </q-field>
@@ -56,8 +45,8 @@
           v-model="group"
           :options="[
             { label: 'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ', value: 'op2' },
-            { label: 'Option 3', value: 'op3' },
-            { label: 'Option 4', value: 'op4' }
+            { label: 'Option 3', value: 'op3', color: 'secondary' },
+            { label: 'Option 4', value: 'op4', color: 'amber' }
           ]"
         />
       </q-field>
@@ -73,8 +62,8 @@
           inline
           :options="[
             { label: 'Option 2', value: 'op2' },
-            { label: 'Option 3', value: 'op3' },
-            { label: 'Option 4', value: 'op4' }
+            { label: 'Option 3', value: 'op3', color: 'secondary' },
+            { label: 'Option 4', value: 'op4', color: 'amber' }
           ]"
         />
       </q-field>
@@ -89,20 +78,20 @@
             Option 1
           </div>
         </label>
-        <label class="item two-lines">
+        <label class="item">
           <div class="item-primary">
             <q-radio v-model="option" val="opt2"></q-radio>
           </div>
-          <div class="item-content">
+          <div class="item-content text">
             <div>Option 2</div>
             <div>Allows notifications</div>
           </div>
         </label>
-        <label class="item three-lines">
+        <label class="item">
           <div class="item-primary">
             <q-radio v-model="option" val="opt3"></q-radio>
           </div>
-          <div class="item-content">
+          <div class="item-content text">
             <div>Option 3</div>
             <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
           </div>

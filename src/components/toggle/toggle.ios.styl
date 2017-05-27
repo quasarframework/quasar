@@ -24,28 +24,13 @@ $toggle-handle-size     = $toggle-height - 2 * $toggle-span
   height $toggle-handle-size
   line-height $toggle-handle-size
 
-.q-toggle-icon
-  color currentColor
-
-.q-toggle
-  display inline-block
+.q-toggle .q-option-inner
   height $toggle-height
   width $toggle-width
   min-width $toggle-width
-  vertical-align middle
-  color $grey-7
-
   &.active
-    color $primary
-
     .q-toggle-base
       color currentColor
       border 0
     .q-toggle-handle
       left ($toggle-width - $toggle-handle-size - $toggle-span)
-
-  input
-    display none
-
-body.desktop .q-toggle:focus input + div:before
-  box-shadow $form-focus-box-shadow

@@ -6,58 +6,36 @@
       </div>
 
       <p class="caption">Standalone</p>
-      <q-checkbox v-model="checked" checked-icon="sentiment very satisfied" unchecked-icon="sentiment very dissatisfied"></q-checkbox>
-      <q-checkbox v-model="checked" checked-icon="visibility" unchecked-icon="visibility_off" style="margin-left: 50px"></q-checkbox>
+      <q-checkbox v-model="checked" checked-icon="sentiment very satisfied" unchecked-icon="sentiment very dissatisfied" />
+      <q-checkbox v-model="checked" checked-icon="visibility" unchecked-icon="visibility_off" style="margin-left: 50px" />
 
       <br><br>
-      <div class="column group">
-        <q-checkbox v-model="checked" style="margin-bottom: 15px"></q-checkbox>
-        <label>
-          <q-checkbox v-model="checked"></q-checkbox>
-          Checkbox Label
-        </label>
+      <q-checkbox v-model="checked" />
+      <br><br>
+      <q-checkbox v-model="checked" label="Label" />
+      <br><br>
 
-        <label>
-          <q-checkbox v-model="checked" color="teal"></q-checkbox>
-          Checkbox Label
-        </label>
-
-        <label>
-          <q-checkbox v-model="checked" color="orange"></q-checkbox>
-          Checkbox Label
-        </label>
-
-        <label>
-          <q-checkbox v-model="checked" color="dark"></q-checkbox>
-          Checkbox Label
-        </label>
-      </div>
+      <q-checkbox v-model="checked" label="Checkbox Label" />
+      <br><br>
+      <q-checkbox v-model="checked" color="teal" label="Checkbox Label" />
+      <br><br>
+      <q-checkbox v-model="checked" color="orange" label="Checkbox Label" />
+      <br><br>
+      <q-checkbox v-model="checked" color="dark" label="Checkbox Label" />
 
       <p class="caption">Array Model</p>
-      <div class="column group">
-        <div class="label bg-secondary text-white">
-          Model <span class="right-detail"><em>{{selection}}</em></span>
-        </div>
-
-        <label>
-          <q-checkbox v-model="selection" val="one"></q-checkbox>
-          One
-        </label>
-        <label>
-          <q-checkbox v-model="selection" val="two"></q-checkbox>
-          Two
-        </label>
-        <label>
-          <q-checkbox v-model="selection" val="three"></q-checkbox>
-          Three
-        </label>
+      <div class="label bg-secondary text-white">
+        Model <span class="right-detail"><em>{{selection}}</em></span>
       </div>
 
+      <q-checkbox v-model="selection" val="one" label="One" />
+      <br><br>
+      <q-checkbox v-model="selection" val="two" label="Two" />
+      <br><br>
+      <q-checkbox v-model="selection" val="three" label="Three" />
+
       <p class="caption">Disabled State</p>
-      <label>
-        <q-checkbox v-model="checked" disable></q-checkbox>
-        Checkbox Label
-      </label>
+      <q-checkbox v-model="checked" disable label="Disabled Checkbox" />
 
       <q-field
         icon="cloud"
@@ -105,20 +83,20 @@
             Notifications
           </div>
         </label>
-        <label class="item two-lines">
+        <label class="item">
           <div class="item-primary">
             <q-checkbox v-model="checked"></q-checkbox>
           </div>
-          <div class="item-content">
+          <div class="item-content text">
             <div>Notifications</div>
             <div>Allow notifications</div>
           </div>
         </label>
-        <label class="item three-lines">
+        <label class="item">
           <div class="item-primary">
             <q-checkbox v-model="checked"></q-checkbox>
           </div>
-          <div class="item-content">
+          <div class="item-content text">
             <div>Notifications</div>
             <div>Allow notifications Allow notifications Allow notifications Allow notifications Allow notifications </div>
           </div>

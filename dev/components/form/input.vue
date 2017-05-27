@@ -44,10 +44,7 @@
       </div>
 
       <p class="caption">With loading state</p>
-      <q-label>
-        <q-checkbox v-model="loading" />
-        <span>Loading (click me)</span>
-      </q-label>
+      <q-checkbox v-model="loading" label="Loading (click me)" />
       <q-input :loading="loading" v-model="text" placeholder="Gigi" />
       <q-input :loading="loading" v-model="text" stack-label="Float Label" placeholder="Gigi" />
       <q-input :loading="loading" inverted v-model="text" stack-label="Float Label" placeholder="Gigi" />
@@ -131,10 +128,9 @@
 
       <q-input v-model="area" type="textarea" float-label="Textarea" :max-height="100" :min-rows="3" />
 
-      <q-label class="fixed" style="bottom: 16px; right: 16px;">
-        <q-checkbox v-model="error" />
-        <span>Error</span>
-      </q-label>
+      <div class="fixed" style="bottom: 16px; right: 16px;">
+        <q-checkbox v-model="error" label="Error" />
+      </div>
     </div>
   </div>
 </template>

@@ -1,21 +1,18 @@
 <template>
   <div class="q-option-group group" :class="{'q-option-group-inline-opts': inline}">
-    <div v-for="(opt, index) in options" class="no-wrap row items-center">
-      <q-label>
-        <component
-          :is="component"
-          v-model="model"
-          :val="opt.value"
-          :disable="disable"
-          :color="opt.color || color"
-          :checked-icon="opt.checkedIcon"
-          :unchecked-icon="opt.uncheckedIcon"
-          @focus="$emit('focus')"
-          @blur="$emit('blur')"
-        ></component>
-
-        <span class="col">{{ opt.label }}</span>
-      </q-label>
+    <div v-for="(opt, index) in options">
+      <component
+        :is="component"
+        v-model="model"
+        :val="opt.value"
+        :disable="disable"
+        :label="opt.label"
+        :color="opt.color || color"
+        :checked-icon="opt.checkedIcon"
+        :unchecked-icon="opt.uncheckedIcon"
+        @focus="$emit('focus')"
+        @blur="$emit('blur')"
+      ></component>
     </div>
   </div>
 </template>
@@ -24,15 +21,13 @@
 import { QRadio } from '../radio'
 import { QCheckbox } from '../checkbox'
 import { QToggle } from '../toggle'
-import { QLabel } from '../label'
 
 export default {
   name: 'q-option-group',
   components: {
     QRadio,
     QCheckbox,
-    QToggle,
-    QLabel
+    QToggle
   },
   props: {
     value: {

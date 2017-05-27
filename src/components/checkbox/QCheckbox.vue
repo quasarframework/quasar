@@ -1,28 +1,32 @@
 <template>
   <div
-    class="q-checkbox cursor-pointer relative-position no-outline q-focusable"
-    :class="{disabled: disable, active: isActive, [`text-${color}`]: isActive && color}"
+    class="q-checkbox q-option cursor-pointer no-outline q-focusable row inline no-wrap items-center"
+    :class="{disabled: disable}"
     @click.stop.prevent="toggle"
     tabindex="0"
     @focus="$emit('focus')"
     @blur="$emit('blur')"
     @keydown.space.enter.prevent="toggle(false)"
   >
-    <input
-      type="checkbox"
-      v-model="model"
-      :value="val"
-      :disabled="disable"
-      @click.stop
-      @change="__change"
-    >
+    <div class="q-option-inner relative-position" :class="classes">
+      <input
+        type="checkbox"
+        v-model="model"
+        :value="val"
+        :disabled="disable"
+        @click.stop
+        @change="__change"
+      >
 
-    <div class="q-focus-helper"></div>
+      <div class="q-focus-helper"></div>
 
-    <q-icon class="q-checkbox-unchecked cursor-pointer" :name="uncheckedIcon" :style="uncheckedStyle"></q-icon>
-    <q-icon class="q-checkbox-checked cursor-pointer absolute-full" :name="checkedIcon" :style="checkedStyle"></q-icon>
+      <q-icon class="q-checkbox-unchecked cursor-pointer" :name="uncheckedIcon" :style="uncheckedStyle"></q-icon>
+      <q-icon class="q-checkbox-checked cursor-pointer absolute-full" :name="checkedIcon" :style="checkedStyle"></q-icon>
 
-    <div v-if="$q.theme !== 'ios'" ref="ripple" class="q-radial-ripple"></div>
+      <div v-if="$q.theme !== 'ios'" ref="ripple" class="q-radial-ripple"></div>
+    </div>
+
+    <span class="q-option-label" v-if="label" v-html="label"></span>
     <slot></slot>
   </div>
 </template>
@@ -30,11 +34,12 @@
 <script>
 import { current as theme } from '../../features/theme'
 import Mixin from './checkbox-mixin'
+import OptionMixin from '../option-group/option-mixin'
 import { QIcon } from '../icon'
 
 export default {
   name: 'q-checkbox',
-  mixins: [Mixin],
+  mixins: [Mixin, OptionMixin],
   components: {
     QIcon
   },

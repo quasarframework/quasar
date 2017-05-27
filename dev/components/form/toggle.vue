@@ -6,70 +6,36 @@
       </div>
 
       <p class="caption">Standalone</p>
-      <div class="column group">
-        <q-toggle v-model="checked" style="margin-bottom: 15px"></q-toggle>
-        <label>
-          <q-toggle v-model="checked"></q-toggle>
-          Toggle Label
-        </label>
-
-        <label>
-          <q-toggle v-model="checked" color="orange"></q-toggle>
-          Toggle Label
-        </label>
-
-        <label>
-          <q-toggle v-model="checked" color="teal"></q-toggle>
-          Toggle Label
-        </label>
-
-        <label>
-          <q-toggle v-model="checked" color="dark"></q-toggle>
-          Toggle Label
-        </label>
-      </div>
+      <q-toggle v-model="checked" />
+      <br><br>
+      <q-toggle v-model="checked" label="Toggle Label" />
+      <br><br>
+      <q-toggle v-model="checked" color="orange" label="Toggle Label" />
+      <br><br>
+      <q-toggle v-model="checked" color="teal" label="Toggle Label" />
+      <br><br>
+      <q-toggle v-model="checked" color="dark" label="Toggle Label" />
 
       <p class="caption">Array Model</p>
-      <div class="column group">
-        <div class="label bg-secondary text-white">
-          Model <span class="right-detail"><em>{{selection}}</em></span>
-        </div>
-
-        <label>
-          <q-toggle v-model="selection" val="one"></q-toggle>
-          One
-        </label>
-        <label>
-          <q-toggle v-model="selection" val="two"></q-toggle>
-          Two
-        </label>
-        <label>
-          <q-toggle v-model="selection" val="three"></q-toggle>
-          Three
-        </label>
+      <div class="label bg-secondary text-white">
+        Model <span class="right-detail"><em>{{selection}}</em></span>
       </div>
+
+      <q-toggle v-model="selection" val="one" label="One" />
+      <br><br>
+      <q-toggle v-model="selection" val="two" label="Two" />
+      <br><br>
+      <q-toggle v-model="selection" val="three" label="Three" />
 
       <p class="caption">With Icon</p>
-      <div class="column group">
-        <label>
-          <q-toggle v-model="checked" icon="alarm"></q-toggle>
-          Toggle Label
-        </label>
-        <label>
-          <q-toggle v-model="checked" icon="mail" color="secondary"></q-toggle>
-          Toggle Label
-        </label>
-        <label>
-          <q-toggle v-model="checked" unchecked-icon="visibility_off" checked-icon="visibility" color="red"></q-toggle>
-          Toggle Label
-        </label>
-      </div>
+      <q-toggle v-model="checked" icon="alarm" label="Toggle Label" />
+      <br><br>
+      <q-toggle v-model="checked" icon="mail" color="secondary" label="Toggle Label" />
+      <br><br>
+      <q-toggle v-model="checked" unchecked-icon="visibility_off" checked-icon="visibility" color="red" label="Toggle Label" />
 
       <p class="caption">Disabled State</p>
-      <label>
-        <q-toggle v-model="checked" disable></q-toggle>
-        Toggle Label
-      </label>
+      <q-toggle v-model="checked" disable label="Toggle Label" />
 
       <q-field
         icon="cloud"
@@ -83,8 +49,8 @@
           v-model="group"
           :options="[
             { label: 'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ', value: 'op2' },
-            { label: 'Option 3', value: 'op3' },
-            { label: 'Option 4', value: 'op4' }
+            { label: 'Option 3', value: 'op3', color: 'secondary' },
+            { label: 'Option 4', value: 'op4', color: 'tertiary' }
           ]"
         />
       </q-field>

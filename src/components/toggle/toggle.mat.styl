@@ -1,6 +1,6 @@
-$toggle-width           = 44px
-$toggle-height          = 24px
-$toggle-handle-size     = round($toggle-width / 2)
+$toggle-width       = 44px
+$toggle-height      = 24px
+$toggle-handle-size = round($toggle-width / 2)
 
 .q-toggle-base
   transition all .45s cubic-bezier(.23, 1, .32, 1)
@@ -21,25 +21,14 @@ $toggle-handle-size     = round($toggle-width / 2)
   height $toggle-handle-size
   line-height $toggle-handle-size
 
-.q-toggle
-  display inline-block
+.q-toggle .q-option-inner
   height $toggle-height
   width $toggle-width
   min-width $toggle-width
-  vertical-align middle
   padding 5px 0
-  color $grey-7
-
   &.active
-    color $primary
     .q-toggle-handle
       background-color currentColor
       left ($toggle-width - $toggle-handle-size)
     .q-toggle-icon
       color white
-
-  input
-    display none
-
-body.desktop .q-toggle:focus input + div:before
-  box-shadow $form-focus-box-shadow

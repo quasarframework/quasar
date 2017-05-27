@@ -9,10 +9,7 @@
         on the Toggle below to see the transition in action.
       </p>
       <p>
-        <q-label>
-          <q-toggle v-model="visible"></q-toggle>
-          <span>Visible image</span>
-        </q-label>
+        <q-toggle v-model="visible" label="Visible image" />
       </p>
 
       <q-slide-transition>

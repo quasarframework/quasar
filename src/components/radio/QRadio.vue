@@ -1,38 +1,44 @@
 <template>
   <div
-    class="q-radio cursor-pointer relative-position no-outline q-focusable"
-    :class="{disabled: disable, active: isActive, [`text-${color}`]: isActive && color}"
+    class="q-radio q-option cursor-pointer no-outline q-focusable row inline no-wrap items-center"
+    :class="{disabled: disable}"
     @click.stop.prevent="select"
     tabindex="0"
     @focus="$emit('focus')"
     @blur="$emit('blur')"
     @keydown.space.enter.prevent="select(false)"
   >
-    <input
-      type="radio"
-      v-model="model"
-      :value="val"
-      :disabled="disable"
-      @click.stop
-      @change="__change"
-    >
+    <div class="q-option-inner relative-position" :class="classes">
+      <input
+        type="radio"
+        v-model="model"
+        :value="val"
+        :disabled="disable"
+        @click.stop
+        @change="__change"
+      >
 
-    <div class="q-focus-helper"></div>
+      <div class="q-focus-helper"></div>
 
-    <q-icon v-if="$q.theme !== 'ios'" class="q-radio-unchecked cursor-pointer" :name="uncheckedIcon"></q-icon>
-    <q-icon class="q-radio-checked cursor-pointer absolute-full" :name="checkedIcon"></q-icon>
+      <q-icon v-if="$q.theme !== 'ios'" class="q-radio-unchecked absolute-full cursor-pointer" :name="uncheckedIcon"></q-icon>
+      <q-icon class="q-radio-checked cursor-pointer absolute-full" :name="checkedIcon"></q-icon>
 
-    <div v-if="$q.theme !== 'ios'" ref="ripple" class="q-radial-ripple"></div>
+      <div v-if="$q.theme !== 'ios'" ref="ripple" class="q-radial-ripple"></div>
+    </div>
+
+    <span class="q-option-label" v-if="label" v-html="label"></span>
     <slot></slot>
   </div>
 </template>
 
 <script>
 import { current as theme } from '../../features/theme'
+import OptionMixin from '../option-group/option-mixin'
 import { QIcon } from '../icon'
 
 export default {
   name: 'q-radio',
+  mixins: [OptionMixin],
   components: {
     QIcon
   },
@@ -43,7 +49,6 @@ export default {
     val: {
       required: true
     },
-    color: String,
     checkedIcon: {
       type: String,
       default: theme === 'ios' ? 'check' : 'radio_button_checked'
@@ -51,8 +56,7 @@ export default {
     uncheckedIcon: {
       type: String,
       default: 'radio_button_unchecked'
-    },
-    disable: Boolean
+    }
   },
   watch: {
     isActive (v) {

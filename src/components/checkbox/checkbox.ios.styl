@@ -1,23 +1,7 @@
-$checkbox-size           ?= 24px
+$checkbox-size = 24px
 
 .q-checkbox-unchecked, .q-checkbox-checked
   height $checkbox-size
   width $checkbox-size
   font-size $checkbox-size
   opacity 0
-
-.q-checkbox
-  display inline-block
-  vertical-align middle
-  height $checkbox-size
-  width $checkbox-size
-  color $grey-5
-
-  &.active
-    color $primary
-
-  input
-    display none !important
-
-body.desktop .q-checkbox:focus input + div:before
-  box-shadow $form-focus-box-shadow

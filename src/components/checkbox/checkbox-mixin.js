@@ -4,9 +4,7 @@ export default {
       type: [Boolean, Array],
       required: true
     },
-    val: {},
-    color: String,
-    disable: Boolean
+    val: {}
   },
   computed: {
     model: {
@@ -51,41 +49,40 @@ export default {
       if (this.disable) {
         return
       }
-      if (!this.isArray) {
-        this.model = !this.model
+      if (this.isArray) {
+        if (this.index !== -1) {
+          this.unselect()
+        }
+        else {
+          this.select()
+        }
         return
       }
-
-      if (this.index !== -1) {
-        this.unselect()
-      }
-      else {
-        this.select()
-      }
+      this.model = !this.model
     },
     select () {
       if (this.disable) {
         return
       }
       if (this.isArray) {
-        this.model = true
+        if (this.index === -1) {
+          this.model.push(this.val)
+        }
         return
       }
-      if (this.index === -1) {
-        this.model.push(this.val)
-      }
+      this.model = true
     },
     unselect () {
       if (this.disable) {
         return
       }
       if (this.isArray) {
-        this.model = false
+        if (this.index > -1) {
+          this.model.splice(this.index, 1)
+        }
         return
       }
-      if (this.index > -1) {
-        this.model.splice(this.index, 1)
-      }
+      this.model = false
     },
     __change (e) {
       if (this.$q.platform.is.ios) {
