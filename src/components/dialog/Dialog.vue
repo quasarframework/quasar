@@ -23,31 +23,20 @@
           :float-label="el.label"
         ></q-input>
 
-        <div v-if="el.type === 'chips'" style="margin-bottom: 10px">
-          <label v-html="el.label"></label>
-          <q-chips-input v-model="el.model" :color="el.color"></q-chips-input>
-        </div>
+        <q-chips-input
+          v-else-if="el.type === 'chips'"
+          v-model="el.model"
+          :color="el.color"
+          :float-label="el.label"
+        ></q-chips-input>
 
-        <label v-if="el.type === 'radio'" v-for="radio in el.items" :key="radio" class="item">
-          <div class="item-primary">
-            <q-radio v-model="el.model" :val="radio.value" :disable="radio.disabled" :color="radio.color || el.color"></q-radio>
-          </div>
-          <div class="item-content" v-html="radio.label"></div>
-        </label>
-
-        <label v-if="el.type === 'checkbox'" v-for="checkbox in el.items" :key="checkbox" class="item">
-          <div class="item-primary">
-            <q-checkbox v-model="checkbox.model" :disable="checkbox.disabled" :color="checkbox.color || el.color"></q-checkbox>
-          </div>
-          <div class="item-content" v-html="checkbox.label"></div>
-        </label>
-
-        <label v-if="el.type === 'toggle'" v-for="toggle in el.items" :key="toggle" class="item">
-          <div class="item-content has-secondary" v-html="toggle.label"></div>
-          <div class="item-secondary">
-            <q-toggle v-model="toggle.model" :disable="toggle.disabled" :color="toggle.color || el.color"></q-toggle>
-          </div>
-        </label>
+        <q-option-group
+          v-else-if="['radio', 'checkbox', 'toggle'].includes(el.type)"
+          :type="el.type"
+          v-model="el.model"
+          :color="el.color"
+          :options="el.items"
+        ></q-option-group>
 
         <div v-if="el.type === 'range' || el.type === 'double-range'" style="margin-top: 15px; margin-bottom: 10px">
           <label v-html="el.label + ' (' + (el.type === 'double-range' ? el.model.min + ' to ' + el.model.max : el.model) + ')'"></label>
@@ -182,11 +171,8 @@ export default {
       let data = {}
 
       Object.keys(this.form).forEach(name => {
-        let el = this.form[name]
-        if (['checkbox', 'toggle'].includes(el.type)) {
-          data[name] = el.items.filter(item => item.model).map(item => item.value)
-        }
-        else if (el.type !== 'heading') {
+        const el = this.form[name]
+        if (el.type !== 'heading') {
           data[name] = el.model
         }
       })

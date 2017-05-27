@@ -333,10 +333,11 @@ export default {
                 },
                 group1: {
                   type: 'checkbox',
+                  model: ['opt3'],
                   items: [
-                    {label: 'Option 1', value: 'opt1', model: true},
-                    {label: 'Option 2', value: 'opt2', model: false, color: 'secondary'},
-                    {label: 'Option 3', value: 'opt3', model: false, color: 'amber'}
+                    {label: 'Option 1', value: 'opt1'},
+                    {label: 'Option 2', value: 'opt2', color: 'secondary'},
+                    {label: 'Option 3', value: 'opt3', color: 'amber'}
                   ]
                 },
                 header2: {
@@ -345,10 +346,11 @@ export default {
                 },
                 group2: {
                   type: 'toggle',
+                  model: ['opt1'],
                   items: [
-                    {label: 'Option 1', value: 'opt1', model: true},
-                    {label: 'Option 2', value: 'opt2', model: false, color: 'secondary'},
-                    {label: 'Option 3', value: 'opt3', model: false, color: 'amber'}
+                    {label: 'Option 1', value: 'opt1'},
+                    {label: 'Option 2', value: 'opt2', color: 'secondary'},
+                    {label: 'Option 3', value: 'opt3', color: 'amber'}
                   ]
                 }
               },

@@ -30,7 +30,7 @@
         :key="label"
         small
         :closable="!disable"
-        color="color"
+        :color="color"
         @click.native.stop
         @close="__toggle(value)"
       >
@@ -50,6 +50,7 @@
 </template>
 
 <script>
+import clone from '../../utils/clone'
 import Dialog from '../dialog'
 import SelectMixin from './select-mixin'
 
@@ -112,15 +113,6 @@ export default {
         return
       }
 
-      let options = this.options.map(opt => {
-        return {
-          value: opt.value,
-          label: opt.label,
-          color: opt.color,
-          model: this.multiple ? this.value.includes(opt.value) : this.value === opt.value
-        }
-      })
-
       this.dialog = Dialog.create({
         title: this.title,
         message: this.message,
@@ -128,7 +120,11 @@ export default {
           this.dialog = null
         },
         form: {
-          select: {type: this.type, model: this.value, items: options}
+          select: {
+            type: this.type,
+            model: clone(this.value),
+            items: this.options
+          }
         },
         buttons: [
           this.cancelLabel,
