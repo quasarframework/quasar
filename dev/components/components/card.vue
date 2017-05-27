@@ -110,19 +110,6 @@
 
       <q-card>
         <q-card-media>
-          <img src="~assets/mountains.jpg">
-        </q-card-media>
-        <q-card-title>
-          Title
-          <span slot="subtitle">Subtitle</span>
-        </q-card-title>
-        <q-card-main>
-          {{lorem}}
-        </q-card-main>
-      </q-card>
-
-      <q-card>
-        <q-card-media>
           <img src="~assets/parallax2.jpg">
 
           <q-card-title slot="overlay">
