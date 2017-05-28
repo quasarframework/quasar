@@ -157,7 +157,7 @@ export default {
     },
     setValue (result) {
       const suffix = this.__inputParent ? 'Parent' : ''
-      this[`__input${suffix}`].set(result.value)
+      this[`__input${suffix}`].set(this.staticData ? result[staticData.field] : result.value)
 
       this.$emit('selected', result)
       this.__clearSearch()
