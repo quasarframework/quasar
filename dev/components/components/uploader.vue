@@ -3,13 +3,14 @@
     <div class="layout-padding">
       <q-input v-model="url" />
       <p class="caption">Single File Upload</p>
-      <q-uploader color="amber" stack-label="Stack Label" :url="url" />
+      <q-uploader style="max-width: 320px" color="amber" stack-label="Stack Label" :url="url" />
 
       <p class="caption">No Thumbnails</p>
-      <q-uploader no-thumbnails color="amber" :url="url" />
+      <q-uploader style="max-width: 320px" no-thumbnails color="amber" :url="url" />
 
       <p class="caption">Multiple File Upload</p>
       <q-uploader
+        style="max-width: 320px"
         float-label="Upload files"
         multiple
         :url="url"
