@@ -48,6 +48,7 @@ It could be you!
 - Harlon Norse ($20)
 - Max Matteo Staack
 - Samuel Desconsi
+- Jonas Viczian ($15)
 
 - Ken ($5)
 - Rogério Queiroz ($3)
