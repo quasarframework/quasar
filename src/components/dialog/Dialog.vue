@@ -106,9 +106,7 @@ import inputTypes from '../input/input-types'
 import { QModal } from '../modal'
 import { QInput } from '../input'
 import { QChipsInput } from '../chips-input'
-import { QRadio } from '../radio'
-import { QCheckbox } from '../checkbox'
-import { QToggle } from '../toggle'
+import { QOptionGroup } from '../option-group'
 import { QRange, QDoubleRange } from '../range'
 import { QRating } from '../rating'
 import { QProgress } from '../progress'
@@ -120,9 +118,7 @@ export default {
     QModal,
     QInput,
     QChipsInput,
-    QRadio,
-    QCheckbox,
-    QToggle,
+    QOptionGroup,
     QRange,
     QDoubleRange,
     QRating,

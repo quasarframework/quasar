@@ -16,6 +16,7 @@
 
     :focused="focused"
     :length="length"
+    :additional-length="input.length > 0"
 
     @click="__onClick"
   >
@@ -109,7 +110,6 @@ export default {
       }
     },
     __onInputBlur (e) {
-      this.input = ''
       this.__onBlur(e)
     },
     __handleKey (e) {

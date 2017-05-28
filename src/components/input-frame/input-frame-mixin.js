@@ -32,7 +32,7 @@ export default {
   },
   computed: {
     labelIsAbove () {
-      return this.focused || this.length || this.stackLabel
+      return this.focused || this.length || this.additionalLength || this.stackLabel
     }
   }
 }

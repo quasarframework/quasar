@@ -4,7 +4,8 @@ export default {
   props: {
     name: String,
     mat: String,
-    ios: String
+    ios: String,
+    color: String
   },
   render (h, ctx) {
     let name, text
@@ -31,7 +32,7 @@ export default {
       text = icon.replace(/ /g, '_')
     }
 
-    data.staticClass = `${classes ? classes + ' ' : ''}q-icon${name.length ? ` ${name}` : ''}`
+    data.staticClass = `${classes ? classes + ' ' : ''}q-icon${name.length ? ` ${name}` : ''}${props.color ? ` text-${props.color}` : ''}`
     data.attrs['aria-hidden'] = 'true'
     return h('i', data, text ? [text, ctx.children] : [' ', ctx.children])
   }

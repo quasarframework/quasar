@@ -67,7 +67,8 @@ export default {
     topAddons: Boolean,
     focused: Boolean,
     length: Number,
-    focusable: Boolean
+    focusable: Boolean,
+    additionalLength: Boolean
   },
   data () {
     return {

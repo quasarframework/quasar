@@ -1,26 +1,52 @@
 <template>
   <div class="q-uploader">
-    <div v-if="uploading">
-      <q-chip
-        closable
-        color="light"
-        class="text-black q-uploader-progress"
-        @close="abort"
-      >
-        <span v-html="computedLabel.uploading"></span>
-        <q-spinner :size="15"></q-spinner>
-        {{ progress }}%
-      </q-chip>
-    </div>
-    <div v-else class="group">
-      <q-btn
-        class="q-uploader-pick-button overflow-hidden"
-        :class="buttonClass"
-        :icon="computedIcons.add"
+    <q-input-frame
+      ref="input"
+      class="no-margin"
+
+      :prefix="prefix"
+      :suffix="suffix"
+      :stack-label="stackLabel"
+      :float-label="floatLabel"
+      :error="error"
+      :disable="disable"
+      inverted
+      :before="before"
+      :after="after"
+      :color="color"
+      :align="align"
+
+      :length="length"
+      additionalLength
+    >
+      <div
+        class="col row items-center q-input-target"
+        v-html="label"
+      ></div>
+
+      <q-spinner
+        v-if="uploading"
+        slot="control"
+        size="24px"
+        class="q-if-control"
+      ></q-spinner>
+
+      <q-icon
+        v-if="uploading"
+        slot="control"
+        class="q-if-control"
+        name="clear"
+        @click="abort"
+      ></q-icon>
+
+      <q-icon
+        v-if="!uploading"
+        slot="control"
+        name="add"
+        class="q-uploader-pick-button q-if-control relative-position overflow-hidden"
         @click="__pick"
-        :disabled="addButtonDisabled"
+        :disabled="addDisabled"
       >
-        {{ computedLabel.add }}
         <input
           type="file"
           ref="file"
@@ -29,71 +55,48 @@
           :multiple="multiple"
           @change="__add"
         >
-      </q-btn>
-      <q-btn
-        v-if="!hideUploadButton"
-        :class="buttonClass"
-        :disabled="files.length === 0"
-        :icon="computedIcons.upload"
+      </q-icon>
+
+      <q-icon
+        v-if="!uploading"
+        slot="control"
+        name="cloud_upload"
+        class="q-if-control"
+        :disabled="length === 0"
         @click="upload"
+      ></q-icon>
+    </q-input-frame>
+
+    <div class="q-uploader-files scroll">
+      <div
+        v-for="file in files"
+        :key="file.name"
+        class="q-uploader-file item"
       >
-        {{ computedLabel.upload }}
-      </q-btn>
-    </div>
-
-    <div class="row wrap items-center group">
-      <div v-for="img in images" :key="img.name" class="card">
-        <div class="card-title">{{ img.name }}</div>
-        <div class="card-media">
-          <img :src="img.src">
-        </div>
-        <div class="card-content">
-          <div class="row items-center">
-            <span class="text-faded col">{{ img.__file.__size }}</span>
-            <q-btn
-              v-show="!uploading"
-              flat
-              small
-              @click="__remove(img)"
-              :icon="computedIcons.remove"
-            >
-              {{ computedLabel.remove }}
-            </q-btn>
-          </div>
-        </div>
         <q-progress
-          v-if="uploading && img.__file.__progress"
-          :percentage="img.__file.__progress"
-        ></q-progress>
-        <div v-if="img.__file.__failed" class="q-uploader-failed">
-          <q-icon :name="computedIcons.failed"></q-icon>
-          <span v-html="computedLabel.failed"></span>
-        </div>
-      </div>
-
-      <div v-for="file in otherFiles" :key="file.name" class="card">
-        <div class="card-title">{{ file.name }}</div>
-        <div class="card-content">
-          <div class="row items-center">
-            <span class="text-faded col">{{ file.__size }}</span>
-            <q-btn
-              v-show="!uploading"
-              flat
-              small
-              @click="__remove(file)"
-              :icon="computedIcons.remove"
-            >
-              {{ computedLabel.remove }}
-            </q-btn>
-          </div>
-        </div>
-        <q-progress
-          v-if="uploading && file.__progress"
+          class="q-uploader-progress-bg absolute-full"
+          :color="file.__failed ? 'negative' : 'grey'"
           :percentage="file.__progress"
         ></q-progress>
-        <div v-if="file.__failed" class="q-uploader-failed">
-          <q-icon :name="computedIcons.failed"></q-icon>
-          <span v-html="computedLabel.failed"></span>
+        <div class="q-uploader-progress-text absolute">
+          {{ file.__progress }}%
+        </div>
+
+        <img v-if="file.__img" :src="file.__img.src">
+        <div v-else class="item-primary">
+          <q-icon :color="color" name="insert_drive_file"></q-icon>
+        </div>
+        <div class="item-content text">
+          <div>{{ file.name }}</div>
+          <div>{{ file.__size }}</div>
+        </div>
+        <div class="item-secondary">
+          <q-icon
+            class="cursor-pointer"
+            :color="color"
+            :name="file.__doneUploading ? 'done' : 'clear'"
+            @click="__remove(file)"
+          />
         </div>
       </div>
     </div>
@@ -101,22 +104,28 @@
 </template>
 
 <script>
-import extend from '../../utils/extend'
+import { QInputFrame } from '../input-frame'
+import FrameMixin from '../input-frame/input-frame-mixin'
 import { humanStorageSize } from '../../utils/format'
-import { QBtn } from '../btn'
-import { QProgress } from '../progress'
 import { QSpinner } from '../spinner'
 import { QIcon } from '../icon'
-import { QChip } from '../chip'
+import { QProgress } from '../progress'
+
+function initFile (file) {
+  file.__doneUploading = false
+  file.__failed = false
+  file.__uploaded = 0
+  file.__progress = 0
+}
 
 export default {
   name: 'q-uploader',
+  mixins: [FrameMixin],
   components: {
-    QBtn,
-    QProgress,
+    QInputFrame,
     QSpinner,
     QIcon,
-    QChip
+    QProgress
   },
   props: {
     name: {
@@ -132,109 +141,119 @@ export default {
       type: Array,
       default: () => []
     },
-    buttonClass: {
-      type: String,
-      default: 'primary'
-    },
-    labels: {
-      type: Object,
-      default () {
-        return {}
-      }
-    },
-    icons: {
-      type: Object,
-      default () {
-        return {}
-      }
-    },
     method: {
       type: String,
       default: 'POST'
     },
     extensions: String,
     multiple: Boolean,
-    hideUploadButton: Boolean
+    hideUploadButton: Boolean,
+    noThumbnails: Boolean,
+
+    color: {
+      type: String,
+      default: 'primary'
+    }
   },
   data () {
     return {
+      queue: [],
       files: [],
       uploading: false,
       uploadedSize: 0,
       totalSize: 0,
-      images: [],
-      otherFiles: [],
-      xhrs: []
+      xhrs: [],
+      focused: false
     }
   },
   computed: {
+    length () {
+      return this.queue.length
+    },
+    label () {
+      const total = humanStorageSize(this.totalSize)
+      return this.uploading
+        ? `${(this.progress).toFixed(2)}% (${humanStorageSize(this.uploadedSize)} / ${total})`
+        : `${this.length} (${total})`
+    },
     progress () {
-      return this.totalSize ? (this.uploadedSize / this.totalSize * 100).toFixed(2) : 0
+      return this.totalSize ? Math.min(99.99, this.uploadedSize / this.totalSize * 100) : 0
     },
-    computedIcons () {
-      return extend({
-        add: 'add',
-        remove: 'clear',
-        upload: 'file_upload',
-        failed: 'warning'
-      }, this.icons)
-    },
-    computedLabel () {
-      return extend({
-        add: this.multiple ? 'Add Files' : 'Pick File',
-        remove: 'Remove',
-        upload: 'Upload',
-        failed: 'Failed',
-        uploading: 'Uploading...'
-      }, this.labels)
-    },
-    addButtonDisabled () {
-      return !this.multiple && this.files.length >= 1
+    addDisabled () {
+      return !this.multiple && this.length >= 1
     }
   },
   methods: {
     __add (e) {
-      if (!this.multiple && this.files.length >= 1) {
+      if (this.addDisabled) {
         return
       }
 
       let files = Array.prototype.slice.call(e.target.files)
-      this.$emit('add', files)
+      this.$refs.file.value = ''
 
       files = files
-        .filter(file => !this.files.some(f => file.name === f.name))
-        .map(file => {
-          file.__failed = false
-          file.__uploaded = 0
-          file.__progress = 0
-          file.__size = humanStorageSize(file.size)
-          return file
-        })
+      .filter(file => !this.queue.some(f => file.name === f.name))
+      .map(file => {
+        initFile(file)
+        file.__size = humanStorageSize(file.size)
 
-      files.filter(file => file.type.startsWith('image')).forEach((file, index) => {
-        var reader = new FileReader()
-        reader.onload = (e) => {
-          let img = new Image()
-          img.src = e.target.result
-          img.name = file.name
-          img.__file = file
-          this.images.push(img)
+        if (this.noThumbnails || !file.type.startsWith('image')) {
+          this.queue.push(file)
         }
-        reader.readAsDataURL(file)
+        else {
+          var reader = new FileReader()
+          reader.onload = (e) => {
+            let img = new Image()
+            img.src = e.target.result
+            file.__img = img
+            this.queue.push(file)
+            this.__computeTotalSize()
+          }
+          reader.readAsDataURL(file)
+        }
+
+        return file
       })
-      this.otherFiles = this.otherFiles.concat(files.filter(file => !file.type.startsWith('image')))
+
       this.files = this.files.concat(files)
-      this.$refs.file.value = ''
+      this.$emit('add', files)
+      this.__computeTotalSize()
     },
-    __remove (file, done, xhr) {
-      const name = file.name
-      this.$emit(done ? 'upload' : 'remove', file, xhr)
-      this.images = this.images.filter(obj => obj.name !== name)
-      this.otherFiles = this.otherFiles.filter(obj => obj.name !== name)
+    __computeTotalSize () {
+      this.totalSize = this.length
+        ? this.queue.map(f => f.size).reduce((total, size) => total + size)
+        : 0
+    },
+    __remove (file) {
+      console.log('__remove', file.name)
+      const
+        name = file.name,
+        done = file.__doneUploading
+
+      if (this.uploading && !done) {
+        this.$emit('remove:abort', file, file.xhr)
+        file.xhr.abort()
+        this.uploadedSize -= file.__uploaded
+      }
+      else {
+        this.$emit(`remove:${done ? 'done' : 'cancel'}`, file, file.xhr)
+      }
+
+      if (!done) {
+        this.queue = this.queue.filter(obj => obj.name !== name)
+      }
+
+      file.__removed = true
       this.files = this.files.filter(obj => obj.name !== name)
+      this.__computeTotalSize()
+    },
+    __removeUploaded () {
+      this.files = this.files.filter(f => !f.__doneUploading)
+      this.__computeTotalSize()
     },
     __pick () {
-      if (this.$q.platform.is.mozilla) {
+      if (!this.addDisabled && this.$q.platform.is.mozilla) {
         this.$refs.file.click()
       }
     },
@@ -253,16 +272,16 @@ export default {
         return
       }
 
-      file.__uploaded = 0
-      file.__progress = 0
-      file.__failed = false
+      initFile(file)
+      file.xhr = xhr
       return new Promise((resolve, reject) => {
         xhr.upload.addEventListener('progress', e => {
+          if (file.__removed) { return }
           e.percent = e.total ? e.loaded / e.total : 0
           let uploaded = e.percent * file.size
           this.uploadedSize += uploaded - file.__uploaded
           file.__uploaded = uploaded
-          file.__progress = parseInt(e.percent * 100, 10)
+          file.__progress = Math.min(99, parseInt(e.percent * 100, 10))
         }, false)
 
         xhr.onreadystatechange = () => {
@@ -270,7 +289,9 @@ export default {
             return
           }
           if (xhr.status && xhr.status < 400) {
-            this.__remove(file, true, xhr)
+            file.__doneUploading = true
+            file.__progress = 100
+            this.$emit('uploaded', file, xhr)
             resolve(file)
           }
           else {
@@ -281,6 +302,7 @@ export default {
         }
 
         xhr.onerror = () => {
+          file.__failed = true
           this.$emit('fail', file, xhr)
           reject(xhr)
         }
@@ -297,15 +319,13 @@ export default {
       })
     },
     upload () {
-      let filesDone = 0
-      const length = this.files.length
-
-      if (!length) {
+      const length = this.length
+      if (length === 0) {
         return
       }
 
+      let filesDone = 0
       this.uploadedSize = 0
-      this.totalSize = this.files.map(file => file.size).reduce((total, size) => total + size)
       this.uploading = true
       this.xhrs = []
       this.$emit('start')
@@ -315,11 +335,15 @@ export default {
         if (filesDone === length) {
           this.uploading = false
           this.xhrs = []
+          this.queue = this.queue.filter(f => !f.__doneUploading)
+          this.__computeTotalSize()
           this.$emit('finish')
         }
       }
 
-      this.files.map(file => this.__getUploadPromise(file)).forEach(promise => {
+      this.queue
+      .map(file => this.__getUploadPromise(file))
+      .forEach(promise => {
         promise.then(solved).catch(solved)
       })
     },
