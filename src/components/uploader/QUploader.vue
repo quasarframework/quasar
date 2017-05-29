@@ -58,7 +58,7 @@
       </q-icon>
 
       <q-icon
-        v-if="!uploading"
+        v-if="!hideUploadButton && !uploading"
         slot="control"
         name="cloud_upload"
         class="q-if-control"
@@ -73,12 +73,12 @@
         :key="file.name"
         class="q-uploader-file item"
       >
-        <q-progress
+        <q-progress v-if="!hideUploadProgress"
           class="q-uploader-progress-bg absolute-full"
           :color="file.__failed ? 'negative' : 'grey'"
           :percentage="file.__progress"
         ></q-progress>
-        <div class="q-uploader-progress-text absolute">
+        <div class="q-uploader-progress-text absolute" v-if="!hideUploadProgress">
           {{ file.__progress }}%
         </div>
 
@@ -148,6 +148,7 @@ export default {
     extensions: String,
     multiple: Boolean,
     hideUploadButton: Boolean,
+    hideUploadProgress: Boolean,
     noThumbnails: Boolean,
 
     color: {
