@@ -23,6 +23,51 @@
         @remove:cancel="removeCancel"
       />
 
+      <p class="caption">Single File Upload - No Upload Button</p>
+      <q-uploader style="max-width: 320px" hide-upload-button color="amber" stack-label="Stack Label" :url="url" />
+
+      <p class="caption">No Thumbnails - No Upload Button</p>
+      <q-uploader style="max-width: 320px" hide-upload-button no-thumbnails color="amber" :url="url" />
+
+      <p class="caption">Multiple File Upload - No Upload Button</p>
+      <q-uploader
+        style="max-width: 320px"
+        float-label="Upload files"
+        multiple
+        hide-upload-button
+        :url="url"
+        @start="emit('start')"
+        @finish="emit('finish')"
+        @uploaded="uploaded"
+        @add="add"
+        @remove:done="removeDone"
+        @remove:abort="removeAbort"
+        @remove:cancel="removeCancel"
+      />
+
+      <p class="caption">Single File Upload - No Upload Button - No Upload Progress</p>
+      <q-uploader style="max-width: 320px" hide-upload-button hide-upload-progress color="amber" stack-label="Stack Label" :url="url" />
+
+      <p class="caption">No Thumbnails - No Upload Button - No Upload Progress</p>
+      <q-uploader style="max-width: 320px" hide-upload-button hide-upload-progress no-thumbnails color="amber" :url="url" />
+
+      <p class="caption">Multiple File Upload - No Upload Button - No Upload Progress</p>
+      <q-uploader
+        style="max-width: 320px"
+        float-label="Upload files"
+        multiple
+        hide-upload-button
+        hide-upload-progress
+        :url="url"
+        @start="emit('start')"
+        @finish="emit('finish')"
+        @uploaded="uploaded"
+        @add="add"
+        @remove:done="removeDone"
+        @remove:abort="removeAbort"
+        @remove:cancel="removeCancel"
+      />
+
       <div class="absolute-right no-pointer-events">
         <q-btn @click="clear" style="pointer-events: all" color="primary">Clear Debug Log</q-btn>
         <div v-for="evt in events" :key="evt">
