@@ -14,7 +14,9 @@
 
       <template v-else>
         <q-icon v-if="icon" :name="icon" :class="{'on-left': !round}"></q-icon>
-        <slot></slot>
+        <span class="q-btn-inner-content" v-if="!!$slots.default">
+          <slot></slot>
+        </span>
         <q-icon v-if="!round && iconRight" :name="iconRight" class="on-right"></q-icon>
       </template>
     </span>
