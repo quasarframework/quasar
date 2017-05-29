@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="layout-padding card-examples">
-      <q-card class="bigger">
+      <q-card inline class="bigger">
         <q-card-media>
           <img src="~assets/donuts.png">
         </q-card-media>
@@ -26,13 +26,13 @@
         </q-card-actions>
       </q-card>
 
-      <q-card>
+      <q-card inline>
         <q-card-main>
           {{lorem}}
         </q-card-main>
       </q-card>
 
-      <q-card>
+      <q-card inline>
         <q-card-title>
           Title
           <span slot="subtitle">Subtitle</span>
@@ -42,7 +42,7 @@
         </q-card-main>
       </q-card>
 
-      <q-card>
+      <q-card inline>
         <q-card-title>
           Title
           <span slot="subtitle">Subtitle</span>
@@ -72,7 +72,7 @@
         </q-card-actions>
       </q-card>
 
-      <q-card>
+      <q-card inline>
         <q-card-title>
           Title
           <span slot="subtitle">Subtitle</span>
@@ -84,7 +84,7 @@
         </q-card-actions>
       </q-card>
 
-      <q-card>
+      <q-card inline>
         <q-card-title>
           Title
           <span slot="subtitle">Subtitle</span>
@@ -95,7 +95,7 @@
         </q-card-actions>
       </q-card>
 
-      <q-card>
+      <q-card inline>
         <q-card-media>
           <img src="~assets/mountains.jpg">
         </q-card-media>
@@ -108,7 +108,7 @@
         </q-card-main>
       </q-card>
 
-      <q-card>
+      <q-card inline>
         <q-card-media>
           <img src="~assets/parallax2.jpg">
 
@@ -118,7 +118,7 @@
         </q-card-media>
       </q-card>
 
-      <q-card>
+      <q-card inline>
         <q-card-media>
           <img src="~assets/parallax2.jpg">
 
@@ -132,7 +132,7 @@
         </q-card-main>
       </q-card>
 
-      <q-card>
+      <q-card inline>
         <q-card-media overlay-position="top">
           <img src="~assets/parallax2.jpg">
 
@@ -143,7 +143,7 @@
         </q-card-media>
       </q-card>
 
-      <q-card>
+      <q-card inline>
         <q-card-media overlay-position="top">
           <img src="~assets/parallax2.jpg">
 
@@ -153,7 +153,7 @@
         </q-card-media>
       </q-card>
 
-      <q-card>
+      <q-card inline>
         <q-card-media overlay-position="full">
           <img src="~assets/parallax2.jpg">
 
@@ -164,7 +164,7 @@
         </q-card-media>
       </q-card>
 
-      <q-card>
+      <q-card inline>
         <q-card-media>
           <img src="~assets/parallax2.jpg">
 
@@ -179,7 +179,7 @@
         </q-card-actions>
       </q-card>
 
-      <q-card>
+      <q-card inline>
         <q-card-media>
           <q-parallax :src="'statics/parallax1.jpg'" :height="150">
             <div slot="loading">Loading...</div>
@@ -196,7 +196,7 @@
         </q-card-actions>
       </q-card>
 
-      <q-card>
+      <q-card inline>
         <div class="item">
           <div class="item-primary">
             <img src="~assets/boy-avatar.png">
@@ -219,7 +219,7 @@
         </q-card-actions>
       </q-card>
 
-      <q-card>
+      <q-card inline>
         <q-card-media>
           <img src="~assets/parallax2.jpg">
         </q-card-media>
@@ -254,7 +254,7 @@
         </q-card-list>
       </q-card>
 
-      <q-card>
+      <q-card inline>
         <q-card-media>
           <q-video src="https://www.youtube.com/embed/k3_tw44QsZQ?rel=0" />
         </q-card-media>
@@ -267,7 +267,7 @@
         </q-card-main>
       </q-card>
 
-      <q-card>
+      <q-card inline>
         <q-card-title>
           Title
         </q-card-title>
@@ -280,7 +280,7 @@
         </q-card-main>
       </q-card>
 
-      <q-card>
+      <q-card inline>
         <q-card-media>
           <img src="~assets/mountains.jpg">
         </q-card-media>
@@ -291,7 +291,7 @@
         </q-card-actions>
       </q-card>
 
-      <q-card>
+      <q-card inline>
         <q-card-media>
           <img src="~assets/mountains.jpg">
         </q-card-media>

@@ -6,7 +6,7 @@
       'no-shadow': flat,
       row: horizontal,
       column: !horizontal,
-      inline: !block
+      inline: inline
     }"
   >
     <slot></slot>
@@ -20,7 +20,7 @@ export default {
     square: Boolean,
     flat: Boolean,
     horizontal: Boolean,
-    block: Boolean
+    inline: Boolean
   }
 }
 </script>
