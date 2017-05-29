@@ -29,7 +29,7 @@ export default {
     QIcon,
     QSlideTransition
   },
-  props: ['model', 'contract-html', 'expand-html'],
+  props: ['model', 'contractHtml', 'expandHtml'],
   methods: {
     toggle () {
       if (this.isExpandable) {
