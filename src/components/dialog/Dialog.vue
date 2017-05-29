@@ -95,7 +95,7 @@
         <span v-html="typeof button === 'string' ? button : button.label"></span>
       </q-btn>
     </div>
-    <div class="modal-buttons row" v-if="!buttons && !nobuttons">
+    <div class="modal-buttons row" v-if="!buttons && !noButtons">
       <q-btn flat @click="close()">OK</q-btn>
     </div>
   </q-modal>
@@ -131,7 +131,7 @@ export default {
     form: Object,
     stackButtons: Boolean,
     buttons: Array,
-    nobuttons: Boolean,
+    noButtons: Boolean,
     progress: Object,
     onDismiss: Function,
     noBackdropDismiss: Boolean,

@@ -17,7 +17,7 @@
       :align="align"
 
       :length="length"
-      additionalLength
+      additional-length
     >
       <div
         class="col row items-center q-input-target"

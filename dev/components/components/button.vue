@@ -7,12 +7,12 @@
         <q-btn icon="alarm" color="orange">Icoon</q-btn>
         <q-btn icon="ion-shuffle">Icoon</q-btn>
         <q-btn icon="fa-bath">Icoon</q-btn>
-        <q-btn iconRight="check">Icoon</q-btn>
-        <q-btn iconRight="more_horiz">Icoon</q-btn>
-        <q-btn icon="cloud" iconRight="alarm">Icoon</q-btn>
-        <q-btn icon="edit" iconRight="alarm">Icoon</q-btn>
-        <q-btn icon="edit" iconRight="alarm" small>Icoon</q-btn>
-        <q-btn icon="edit" iconRight="alarm" big color="amber">Icoon</q-btn>
+        <q-btn icon-right="check">Icoon</q-btn>
+        <q-btn icon-right="more_horiz">Icoon</q-btn>
+        <q-btn icon="cloud" icon-right="alarm">Icoon</q-btn>
+        <q-btn icon="edit" icon-right="alarm">Icoon</q-btn>
+        <q-btn icon="edit" icon-right="alarm" small>Icoon</q-btn>
+        <q-btn icon="edit" icon-right="alarm" big color="amber">Icoon</q-btn>
 
         <q-btn small color="primary"><q-icon name="mail" /></q-btn>
         <q-btn color="primary"><q-icon name="mail" /></q-btn>
@@ -27,12 +27,12 @@
         <q-btn round color="secondary"><q-icon name="card_giftcard" /></q-btn>
 
         <q-btn icon="alarm">Icoon</q-btn>
-        <q-btn iconRight="check">Icoon</q-btn>
+        <q-btn icon-right="check">Icoon</q-btn>
         <q-btn icon="ion-shuffle">Icoon</q-btn>
         <q-btn icon="fa-bath">Icoon</q-btn>
-        <q-btn iconRight="more_horiz">Icoon</q-btn>
-        <q-btn icon="cloud" iconRight="alarm">Icoon</q-btn>
-        <q-btn icon="edit" iconRight="alarm">Icoon</q-btn>
+        <q-btn icon-right="more_horiz">Icoon</q-btn>
+        <q-btn icon="cloud" icon-right="alarm">Icoon</q-btn>
+        <q-btn icon="edit" icon-right="alarm">Icoon</q-btn>
       </p>
 
       <p class="group">
@@ -52,7 +52,7 @@
         <q-btn round loader @click="simulateProgress" color="primary"><q-icon name="mail" /></q-btn>
         <q-btn big round loader @click="simulateProgress" color="primary"><q-icon name="mail" /></q-btn>
 
-        <q-btn color="dark" small @click="simulateProgress" iconRight="alarm">
+        <q-btn color="dark" small @click="simulateProgress" icon-right="alarm">
           Button
           <q-spinner-audio slot="spinner" />
         </q-btn>
@@ -85,7 +85,7 @@
         <q-btn color="primary" icon="mail">
           On Left
         </q-btn>
-        <q-btn color="secondary" iconRight="mail">
+        <q-btn color="secondary" icon-right="mail">
           On Right
         </q-btn>
       </p>
