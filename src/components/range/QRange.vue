@@ -29,7 +29,7 @@
           :color="labelColor"
           class="q-range-label no-pointer-events"
           :class="{'label-always': labelAlways}"
-          :style="{width: `calc( 5px + ${ String(value.max).length }em )`}"
+          :style="{'min-width': `calc( 18px + ${ String(value).length * .55 }em )`}"
           v-if="label || labelAlways"
         >
           {{ value }}
