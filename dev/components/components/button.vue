@@ -7,12 +7,12 @@
         <q-btn icon="alarm" color="orange">Icoon</q-btn>
         <q-btn icon="ion-shuffle">Icoon</q-btn>
         <q-btn icon="fa-bath">Icoon</q-btn>
-        <q-btn iconRight="check">Icoon</q-btn>
-        <q-btn iconRight="more_horiz">Icoon</q-btn>
-        <q-btn icon="cloud" iconRight="alarm">Icoon</q-btn>
-        <q-btn icon="edit" iconRight="alarm">Icoon</q-btn>
-        <q-btn icon="edit" iconRight="alarm" small>Icoon</q-btn>
-        <q-btn icon="edit" iconRight="alarm" big color="amber">Icoon</q-btn>
+        <q-btn icon-right="check">Icoon</q-btn>
+        <q-btn icon-right="more_horiz">Icoon</q-btn>
+        <q-btn icon="cloud" icon-right="alarm">Icoon</q-btn>
+        <q-btn icon="edit" icon-right="alarm">Icoon</q-btn>
+        <q-btn icon="edit" icon-right="alarm" small>Icoon</q-btn>
+        <q-btn icon="edit" icon-right="alarm" big color="amber">Icoon</q-btn>
 
         <q-btn small color="primary"><q-icon name="mail" /></q-btn>
         <q-btn color="primary"><q-icon name="mail" /></q-btn>
@@ -27,12 +27,12 @@
         <q-btn round color="secondary"><q-icon name="card_giftcard" /></q-btn>
 
         <q-btn icon="alarm">Icoon</q-btn>
-        <q-btn iconRight="check">Icoon</q-btn>
+        <q-btn icon-right="check">Icoon</q-btn>
         <q-btn icon="ion-shuffle">Icoon</q-btn>
         <q-btn icon="fa-bath">Icoon</q-btn>
-        <q-btn iconRight="more_horiz">Icoon</q-btn>
-        <q-btn icon="cloud" iconRight="alarm">Icoon</q-btn>
-        <q-btn icon="edit" iconRight="alarm">Icoon</q-btn>
+        <q-btn icon-right="more_horiz">Icoon</q-btn>
+        <q-btn icon="cloud" icon-right="alarm">Icoon</q-btn>
+        <q-btn icon="edit" icon-right="alarm">Icoon</q-btn>
       </p>
 
       <p class="group">
@@ -52,7 +52,7 @@
         <q-btn round loader @click="simulateProgress" color="primary"><q-icon name="mail" /></q-btn>
         <q-btn big round loader @click="simulateProgress" color="primary"><q-icon name="mail" /></q-btn>
 
-        <q-btn color="dark" small @click="simulateProgress" iconRight="alarm">
+        <q-btn color="dark" small @click="simulateProgress" icon-right="alarm">
           Button
           <q-spinner-audio slot="spinner" />
         </q-btn>
@@ -85,7 +85,7 @@
         <q-btn color="primary" icon="mail">
           On Left
         </q-btn>
-        <q-btn color="secondary" iconRight="mail">
+        <q-btn color="secondary" icon-right="mail">
           On Right
         </q-btn>
       </p>
@@ -158,8 +158,8 @@
         <q-btn color="primary" class="full-width">Full-width</q-btn>
         <q-btn color="secondary" class="full-width">Full-width</q-btn>
         <q-btn color="primary" icon="alarm" class="full-width">Full-width</q-btn>
-        <q-btn color="secondary" iconRight="alarm" class="full-width">Full-width</q-btn>
-        <q-btn color="secondary" icon="lock" iconRight="alarm" class="full-width">Full-width</q-btn>
+        <q-btn color="secondary" icon-right="alarm" class="full-width">Full-width</q-btn>
+        <q-btn color="secondary" icon="lock" icon-right="alarm" class="full-width">Full-width</q-btn>
       </div>
 
       <p class="caption">Multiline Buttons</p>
@@ -170,27 +170,27 @@
         <q-btn color="primary" icon="alarm" small>Small<br/>Multiline<br/>Button</q-btn>
         <q-btn color="primary" icon="alarm">Normal<br/>Multiline<br/>Button</q-btn>
         <q-btn color="primary" icon="alarm" big>Big<br/>Multiline<br/>Button</q-btn>
-        <q-btn color="primary" iconRight="alarm" small>Small<br/>Multiline<br/>Button</q-btn>
-        <q-btn color="primary" iconRight="alarm">Normal<br/>Multiline<br/>Button</q-btn>
-        <q-btn color="primary" iconRight="alarm" big>Big<br/>Multiline<br/>Button</q-btn>
-        <q-btn color="primary" icon="lock" iconRight="alarm" small>Small<br/>Multiline<br/>Button</q-btn>
-        <q-btn color="primary" icon="lock" iconRight="alarm">Normal<br/>Multiline<br/>Button</q-btn>
-        <q-btn color="primary" icon="lock" iconRight="alarm" big>Big<br/>Multiline<br/>Button</q-btn>
-        <q-btn color="primary" class="full-width" icon="lock" iconRight="alarm" small>Very long text that should wrap on the next line. I really mean it, it's a very long text. Maybe it's not clear, but it should be very, very long, so long that even a fullscreen width is not enough. I know it's not easy, but we should try.</q-btn>
-        <q-btn color="primary" class="full-width" icon="lock" iconRight="alarm">Very long text that should wrap on the next line. I really mean it, it's a very long text. Maybe it's not clear, but it should be very, very long, so long that even a fullscreen width is not enough. I know it's not easy, but we should try.</q-btn>
-        <q-btn color="primary" class="full-width" icon="lock" iconRight="alarm" big>Very long text that should wrap on the next line. I really mean it, it's a very long text. Maybe it's not clear, but it should be very, very long, so long that even a fullscreen width is not enough. I know it's not easy, but we should try.</q-btn>
+        <q-btn color="primary" icon-right="alarm" small>Small<br/>Multiline<br/>Button</q-btn>
+        <q-btn color="primary" icon-right="alarm">Normal<br/>Multiline<br/>Button</q-btn>
+        <q-btn color="primary" icon-right="alarm" big>Big<br/>Multiline<br/>Button</q-btn>
+        <q-btn color="primary" icon="lock" icon-right="alarm" small>Small<br/>Multiline<br/>Button</q-btn>
+        <q-btn color="primary" icon="lock" icon-right="alarm">Normal<br/>Multiline<br/>Button</q-btn>
+        <q-btn color="primary" icon="lock" icon-right="alarm" big>Big<br/>Multiline<br/>Button</q-btn>
+        <q-btn color="primary" class="full-width" icon="lock" icon-right="alarm" small>Very long text that should wrap on the next line. I really mean it, it's a very long text. Maybe it's not clear, but it should be very, very long, so long that even a fullscreen width is not enough. I know it's not easy, but we should try.</q-btn>
+        <q-btn color="primary" class="full-width" icon="lock" icon-right="alarm">Very long text that should wrap on the next line. I really mean it, it's a very long text. Maybe it's not clear, but it should be very, very long, so long that even a fullscreen width is not enough. I know it's not easy, but we should try.</q-btn>
+        <q-btn color="primary" class="full-width" icon="lock" icon-right="alarm" big>Very long text that should wrap on the next line. I really mean it, it's a very long text. Maybe it's not clear, but it should be very, very long, so long that even a fullscreen width is not enough. I know it's not easy, but we should try.</q-btn>
         <q-btn color="primary" small class="full-width">Small Full-width<br/>Multiline<br/>Button</q-btn>
         <q-btn color="primary" class="full-width">Normal Full-width<br/>Multiline<br/>Button</q-btn>
         <q-btn color="primary" big class="full-width">Big Full-width<br/>Multiline<br/>Button</q-btn>
         <q-btn color="primary" icon="alarm" small class="full-width">Small Full-width<br/>Multiline<br/>Button</q-btn>
         <q-btn color="primary" icon="alarm" class="full-width">Normal Full-width<br/>Multiline<br/>Button</q-btn>
         <q-btn color="primary" icon="alarm" big class="full-width">Big Full-width<br/>Multiline<br/>Button</q-btn>
-        <q-btn color="primary" iconRight="alarm" small class="full-width">Small Full-width<br/>Multiline<br/>Button</q-btn>
-        <q-btn color="primary" iconRight="alarm" class="full-width">Normal Full-width<br/>Multiline<br/>Button</q-btn>
-        <q-btn color="primary" iconRight="alarm" big class="full-width">Big Full-width<br/>Multiline<br/>Button</q-btn>
-        <q-btn color="primary" icon="lock" iconRight="alarm" small class="full-width">Small Full-width<br/>Multiline<br/>Button</q-btn>
-        <q-btn color="primary" icon="lock" iconRight="alarm" class="full-width">Normal Full-width<br/>Multiline<br/>Button</q-btn>
-        <q-btn color="primary" icon="lock" iconRight="alarm" big class="full-width">Big Full-width<br/>Multiline<br/>Button</q-btn>
+        <q-btn color="primary" icon-right="alarm" small class="full-width">Small Full-width<br/>Multiline<br/>Button</q-btn>
+        <q-btn color="primary" icon-right="alarm" class="full-width">Normal Full-width<br/>Multiline<br/>Button</q-btn>
+        <q-btn color="primary" icon-right="alarm" big class="full-width">Big Full-width<br/>Multiline<br/>Button</q-btn>
+        <q-btn color="primary" icon="lock" icon-right="alarm" small class="full-width">Small Full-width<br/>Multiline<br/>Button</q-btn>
+        <q-btn color="primary" icon="lock" icon-right="alarm" class="full-width">Normal Full-width<br/>Multiline<br/>Button</q-btn>
+        <q-btn color="primary" icon="lock" icon-right="alarm" big class="full-width">Big Full-width<br/>Multiline<br/>Button</q-btn>
       </div>
 
       <h2>Sizes</h2>
