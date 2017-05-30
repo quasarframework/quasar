@@ -4,6 +4,7 @@
     :class="[
       `q-tabs-position-${position}`,
       `q-tabs-${inverted ? 'inverted' : 'normal'}`,
+      noPaneBorder ? 'q-tabs-no-pane-border' : '',
       twoLines ? 'q-tabs-two-lines' : ''
     ]"
   >
@@ -85,7 +86,8 @@ export default {
     },
     color: String,
     inverted: Boolean,
-    twoLines: Boolean
+    twoLines: Boolean,
+    noPaneBorder: Boolean
   },
   data () {
     return {
