@@ -28,7 +28,7 @@
       <div class="col row relative-position">
         <q-resize-observable @resize="__updateArea()"></q-resize-observable>
         <textarea
-          class="col q-input-target q-input-shadow absolute-top"
+          class="col-grow q-input-target q-input-shadow absolute-top"
           ref="shadow"
           :value="value"
           :rows="minRows"
@@ -36,7 +36,7 @@
 
         <textarea
           ref="input"
-          class="col q-input-target q-input-area"
+          class="col-grow q-input-target q-input-area"
 
           :name="name"
           :placeholder="inputPlaceholder"
@@ -58,7 +58,7 @@
     <input
       v-else
       ref="input"
-      class="col q-input-target"
+      class="col-grow q-input-target"
       :class="[`text-${align}`]"
 
       :name="name"

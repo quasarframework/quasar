@@ -40,7 +40,7 @@
 
     <div
       v-else
-      class="col row items-center q-input-target"
+      class="col-grow row items-center q-input-target"
       :class="[`text-${align}`]"
       v-html="actualValue"
     ></div>

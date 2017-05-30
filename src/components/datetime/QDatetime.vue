@@ -22,7 +22,7 @@
     @focus.native="__onFocus"
     @blur.native="__onBlur"
   >
-    <div class="col row items-center q-input-target" :class="[`text-${align}`]">{{ actualValue }}</div>
+    <div class="col-grow row items-center q-input-target" :class="[`text-${align}`]">{{ actualValue }}</div>
 
     <q-popover
       v-if="$q.platform.is.desktop"

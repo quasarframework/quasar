@@ -20,7 +20,7 @@
       additional-length
     >
       <div
-        class="col row items-center q-input-target"
+        class="col-grow row items-center q-input-target"
         v-html="label"
       ></div>
 

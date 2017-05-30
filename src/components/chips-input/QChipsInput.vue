@@ -34,7 +34,7 @@
 
       <input
         ref="input"
-        class="col q-input-target"
+        class="col-grow q-input-target"
         :class="[`text-${align}`]"
         v-model="input"
 
