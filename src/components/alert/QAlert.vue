@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="active"
-    class="q-alert row"
+    class="q-alert row no-wrap"
     :class="[
       `bg-${color}`,
       position ? `fixed-${position} shadow-2 z-alert` : '',
@@ -12,7 +12,7 @@
         <q-icon :name="alertIcon"></q-icon>
       </slot>
     </div>
-    <div class="q-alert-content col self-center">
+    <div class="q-alert-content col-grow self-center">
       <slot></slot>
       <div
         v-if="buttons && buttons.length"
