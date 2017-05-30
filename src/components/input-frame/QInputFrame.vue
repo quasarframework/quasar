@@ -16,7 +16,7 @@
     </template>
 
     <div
-      class="q-if-inner col row no-wrap items-center relative-position"
+      class="q-if-inner col-grow row no-wrap items-center relative-position"
       @click="__onClick"
     >
       <div

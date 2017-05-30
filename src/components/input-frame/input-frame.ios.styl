@@ -44,14 +44,18 @@ $input-transition ?= all .45s cubic-bezier(.23, 1, .32, 1)
   outline 0
   cursor pointer
 
-.q-if-inner
-  min-height 24px !important
+.q-if-inner:before
+  content ""
+  height 24px
+  display inline-block
+  vertical-align middle
 
 .q-if-has-label
   min-height 41px
   .q-if-inner
-    min-height 34px !important
     padding-top 15px
+    &:before
+      height 19px
 
 .q-if-label
   color rgba(0, 0, 0, .46)
