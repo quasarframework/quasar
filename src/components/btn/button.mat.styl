@@ -19,7 +19,6 @@ $button-round-sizes = {
   display inline-flex
   align-items center
   justify-content center
-  flex-direction column
   outline 0
   border 0
   vertical-align middle
@@ -40,8 +39,8 @@ $button-round-sizes = {
     align-items stretch
 
   .q-btn-inner
-    flex-wrap nowrap
     flex 1 0 auto
+    flex-wrap nowrap
     white-space normal
 
     &> :not(.q-btn-inner-content)
@@ -81,7 +80,6 @@ $button-round-sizes = {
 
 for $name, $size in $button-sizes
   .q-btn-{$name}
-    min-height $size
     font-size round($size * .38)
     .q-btn-inner:before
       content ""
