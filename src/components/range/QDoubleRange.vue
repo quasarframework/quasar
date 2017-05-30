@@ -31,6 +31,7 @@
           :color="labelColor"
           class="q-range-label no-pointer-events"
           :class="{'label-always': labelAlways}"
+          :style="{width: `calc( 5px + ${ String(value.min).length }em )`}"
           v-if="label || labelAlways"
         >
           {{ value.min }}
@@ -49,6 +50,7 @@
           :color="labelColor"
           class="q-range-label no-pointer-events"
           :class="{'label-always': labelAlways}"
+          :style="{width: `calc( 5px + ${ String(value.max).length }em )`}"
           v-if="label || labelAlways"
         >
           {{ value.max }}
