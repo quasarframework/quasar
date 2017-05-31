@@ -96,7 +96,9 @@ export default {
 
     el.__qripple = ctx
     Object.keys(ctx).forEach(evt => {
-      el.addEventListener(evt, ctx[evt], false)
+      if (evt !== 'enabled') {
+        el.addEventListener(evt, ctx[evt], false)
+      }
     })
   },
   update (el, { value, oldValue }) {
