@@ -113,7 +113,9 @@ export default {
 
     const ctx = el.__qripple
     Object.keys(ctx).forEach(evt => {
-      el.removeEventListener(evt, ctx[evt], false)
+      if (evt !== 'enabled') {
+        el.removeEventListener(evt, ctx[evt], false)
+      }
     })
     delete el.__qripple
   }
