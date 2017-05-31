@@ -1,15 +1,15 @@
 function getEvent (e) {
-  return !e ? window.event : e
+  return e || window.event
 }
 
 export function rightClick (e) {
   e = getEvent(e)
 
   if (e.which) {
-    return e.which == 3 // eslint-disable-line
+    return e.which === 3 // eslint-disable-line
   }
   if (e.button) {
-    return e.button == 2 // eslint-disable-line
+    return e.button === 2 // eslint-disable-line
   }
 
   return false

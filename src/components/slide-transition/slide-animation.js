@@ -7,15 +7,10 @@ function getHeight (el, style) {
     visibility: el.style.visibility,
     maxHeight: el.style.maxHeight
   }
-
-  css(el, {
-    visibility: 'hidden',
-    maxHeight: ''
-  })
   const height = style.height
   css(el, initial)
 
-  return parseFloat(height, 10)
+  return parseFloat(height)
 }
 
 function parseSize (padding) {
@@ -24,7 +19,7 @@ function parseSize (padding) {
     if (unit) {
       unit = unit[0]
     }
-    return [parseFloat(t, 10), unit]
+    return [parseFloat(t), unit]
   })
 }
 
