@@ -70,7 +70,7 @@ export default {
     },
     computedPercentage () {
       if (this.percentage >= 100) {
-        return '100%'
+        return '0%'
       }
 
       return Math.max(0, this.percentage) + '%'
