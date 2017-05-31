@@ -1,22 +1,11 @@
 <template>
   <div>
-    <q-fixed-position corner="top-right" :offset="{top: '18px', right: '18px'}">
+    <q-fixed-position corner="top-right" :offset="[18, 18]">
       <q-btn round color="primary" @click="alert" icon="alarm" />
     </q-fixed-position>
-    <!--
-    <q-fixed-position corner="bottom-right" :offset="{right: '18px', bottom: '18px'}">
-      <q-btn color="primary" round @click="alert" icon="cloud" />
-    </q-fixed-position>
-    -->
 
     <q-btn color="primary" round class="absolute-top-left" @click="alert" icon="wifi" />
 
-    <!--
-    <q-move selector="#gigi">
-      <div>{{text}}</div>
-    </q-move>
-    -->
-    <span v-move="'#gigi'">{{text}}</span>
     <div class="layout-padding">
       <q-input v-model="text" />
       <p v-for="n in 50">

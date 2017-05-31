@@ -1,6 +1,6 @@
-.pull-left
+.pull-left, .float-left
   float left !important
-.pull-right
+.pull-right, .float-right
   float right !important
 
 .relative-position
@@ -66,21 +66,15 @@
   bottom 0
   left 0
 
-+prefix-classes('float-')
-  .left
-    float left !important
-  .right
-    float right !important
-
-+prefix-classes('vertical-')
-  .top
+.vertical-
+  &top
     vertical-align top !important
-  .middle
+  &middle
     vertical-align middle !important
-  .bottom
+  &bottom
     vertical-align bottom !important
 
-&.on-left
+.on-left
   margin-right 12px !important
-&.on-right
+.on-right
   margin-left 12px !important

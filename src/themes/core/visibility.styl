@@ -60,7 +60,7 @@ body
 .z-absolute
   z-index $z-absolute !important
 
-for type in desktop mobile cordova electron ios mat touch no-touch within-iframe platform-ios platform-android
+for type in desktop mobile cordova electron ios mat touch within-iframe platform-ios platform-android
   body:not(.{type}) .{type}-only,
   body.{type} .{type}-hide
     display none !important
