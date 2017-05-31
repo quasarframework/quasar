@@ -78,9 +78,8 @@ export default {
       return between(parseInt(value, 10), 1, this.max)
     },
     __update () {
-      var parsed = parseInt(this.newPage, 10)
+      let parsed = parseInt(this.newPage, 10)
       if (parsed) {
-        console.log('blurring and setting model')
         this.model = parsed
         this.$refs.input.blur()
       }

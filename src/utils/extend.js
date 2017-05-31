@@ -8,7 +8,7 @@ let
 })
 
 function type (obj) {
-  return obj == null ? String(obj) : class2type[toString.call(obj)] || 'object'
+  return obj === null ? String(obj) : class2type[toString.call(obj)] || 'object'
 }
 
 function isPlainObject (obj) {
@@ -52,7 +52,7 @@ export default function extend () {
   }
 
   for (; i < length; i++) {
-    if ((options = arguments[i]) != null) {
+    if ((options = arguments[i]) !== null) {
       for (name in options) {
         src = target[name]
         copy = options[name]

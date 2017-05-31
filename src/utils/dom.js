@@ -15,14 +15,14 @@ export function height (el) {
   if (el === window) {
     return viewport().height
   }
-  return parseFloat(window.getComputedStyle(el).getPropertyValue('height'), 10)
+  return parseFloat(style(el, 'height'))
 }
 
 export function width (el) {
   if (el === window) {
     return viewport().width
   }
-  return parseFloat(window.getComputedStyle(el).getPropertyValue('width'), 10)
+  return parseFloat(style(el, 'width'))
 }
 
 export function css (element, css) {

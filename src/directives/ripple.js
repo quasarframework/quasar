@@ -8,8 +8,8 @@ function showRipple (evt, el, stopPropagation) {
     evt.stopPropagation()
   }
 
-  var container = document.createElement('span')
-  var animNode = document.createElement('span')
+  let container = document.createElement('span')
+  let animNode = document.createElement('span')
 
   container.appendChild(animNode)
   container.className = 'q-ripple-container'
