@@ -12,7 +12,7 @@
       <q-icon v-if="stack[0].icon" :name="stack[0].icon"></q-icon>
       <img v-if="stack[0].image" :src="stack[0].image">
 
-      <div class="q-toast-message col" v-html="stack[0].html"></div>
+      <div class="q-toast-message col-grow" v-html="stack[0].html"></div>
 
       <a
         v-if="stack[0].button && stack[0].button.label"
