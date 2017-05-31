@@ -8,9 +8,9 @@ function getHeight (el, style) {
     maxHeight: el.style.maxHeight
   }
 
-  css(el, {		
-    visibility: 'hidden',		
-    maxHeight: ''		
+  css(el, {
+    visibility: 'hidden',
+    maxHeight: ''
   })
   const height = style.height
   css(el, initial)
