@@ -7,6 +7,7 @@ function getHeight (el, style) {
     visibility: el.style.visibility,
     maxHeight: el.style.maxHeight
   }
+
   css(el, {		
     visibility: 'hidden',		
     maxHeight: ''		
