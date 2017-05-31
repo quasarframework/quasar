@@ -312,15 +312,11 @@ export default {
           reject(xhr)
         }
 
-        let resolver
-        if (this.urlFactory) {
-          resolver = this.urlFactory()
-        }
-        else {
-          resolver = Promise.resolve(this.url)
-        }
+        const resolver = this.urlFactory
+          ? this.urlFactory(file)
+          : Promise.resolve(this.url)
 
-        resolver.then((url) => {
+        resolver.then(url => {
           xhr.open(this.method, url, true)
           if (this.headers) {
             Object.keys(this.headers).forEach(key => {
