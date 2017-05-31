@@ -74,6 +74,9 @@ export default {
       if (this.anchorEl.classList.contains('q-btn-inner')) {
         this.anchorEl = this.anchorEl.parentNode
       }
+      if (this.anchorEl.classList.contains('q-btn-inner-content')) {
+        this.anchorEl = this.anchorEl.parentNode.parentNode
+      }
       if (this.anchorClick) {
         this.anchorEl.classList.add('cursor-pointer')
         this.anchorEl.addEventListener('click', this.toggle)

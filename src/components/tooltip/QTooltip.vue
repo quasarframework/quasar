@@ -128,6 +128,9 @@ export default {
       if (this.anchorEl.classList.contains('q-btn-inner')) {
         this.anchorEl = this.anchorEl.parentNode
       }
+      if (this.anchorEl.classList.contains('q-btn-inner-content')) {
+        this.anchorEl = this.anchorEl.parentNode.parentNode
+      }
       if (Platform.is.mobile) {
         this.anchorEl.addEventListener('click', this.open)
       }
