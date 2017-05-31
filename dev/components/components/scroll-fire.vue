@@ -28,7 +28,7 @@ export default {
         if (document.body.contains(el)) {
           el.classList.remove('animate-bounce')
         }
-      }, 2050)
+      }, 2000)
     }
   }
 }
