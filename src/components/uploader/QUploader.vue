@@ -231,7 +231,6 @@ export default {
         : 0
     },
     __remove (file) {
-      console.log('__remove', file.name)
       const
         name = file.name,
         done = file.__doneUploading

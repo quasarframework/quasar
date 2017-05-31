@@ -23,7 +23,11 @@ export default {
   inject: ['data', 'selectTab'],
   computed: {
     active () {
-      return this.data.tabName === this.name
+      const sel = this.data.tabName === this.name
+      if (sel) {
+        this.$emit('select', this.name)
+      }
+      return sel
     },
     classes () {
       const cls = {
