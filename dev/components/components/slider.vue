@@ -87,7 +87,7 @@
       <q-btn color="primary" class="glossy" @click="$refs.modal.open()">
         Launch
       </q-btn>
-      <q-modal ref="modal" class="maximized">
+      <q-modal ref="modal" maximized>
         <q-slider arrows dots class="text-white full-height">
           <div slot="slide" class="bg-primary centered">
             <h1>Slide 1</h1>

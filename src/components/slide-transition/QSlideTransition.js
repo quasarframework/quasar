@@ -6,15 +6,15 @@ export default {
   props: {
     appear: Boolean
   },
-  render (h, context) {
+  render (h, ctx) {
     var data = {
       props: {
         mode: 'out-in',
         css: false,
-        appear: context.props.appear
+        appear: ctx.props.appear
       },
       on: slideAnimation
     }
-    return h('transition', data, context.children)
+    return h('transition', data, ctx.children)
   }
 }
