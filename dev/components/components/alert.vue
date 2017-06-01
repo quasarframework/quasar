@@ -69,7 +69,7 @@ export default {
   },
   methods: {
     alertAsMethod () {
-      const alert = Alert.create({
+      Alert.create({
         enter: 'bounceInRight',
         leave: 'bounceOutRight',
         color: 'warning',
