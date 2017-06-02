@@ -16,7 +16,7 @@ export default {
     },
     chips: Boolean,
     bgColor: String,
-    customValue: String
+    displayValue: String
   },
   data () {
     return {
