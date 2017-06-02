@@ -59,10 +59,6 @@ export default {
       type: Object,
       default: () => ({})
     },
-    thumbWidth: {
-      type: Number,
-      default: 10
-    },
     delay: {
       type: Number,
       default: 1000
