@@ -87,12 +87,12 @@ export default {
         return this.customValue
       }
       if (!this.multiple) {
-        let option = this.options.find(option => option.value === this.value)
-        return option ? option.label : ''
+        const opt = this.options.find(opt => opt.value === this.value)
+        return opt ? opt.label : ''
       }
 
-      let options = this.selectedOptions.map(opt => opt.label)
-      return !options.length ? '' : options.join(', ')
+      let opt = this.selectedOptions.map(opt => opt.label)
+      return opt.length ? opt.join(', ') : ''
     },
     selectedOptions () {
       if (this.multiple) {
