@@ -83,8 +83,8 @@ export default {
   },
   computed: {
     actualValue () {
-      if (this.customValue) {
-        return this.customValue
+      if (this.displayValue) {
+        return this.displayValue
       }
       if (!this.multiple) {
         const opt = this.options.find(opt => opt.value === this.value)
