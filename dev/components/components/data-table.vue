@@ -227,6 +227,7 @@ export default {
             return val.charAt(0) === 'L' ? 'bg-red' : 'bg-yellow'
           },
           sort: true,
+          type: 'string',
           width: '500px'
         },
         {
@@ -234,12 +235,14 @@ export default {
           field: 'source',
           filter: true,
           sort: true,
+          type: 'string',
           width: '120px'
         },
         {
           label: 'Log Number <i>Wow</i>',
           field: 'log_number',
           sort: true,
+          type: 'string',
           width: '100px'
         }
       ],
