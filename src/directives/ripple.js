@@ -100,7 +100,7 @@ export default {
     ctx.h = h
     el.__qripple = ctx
     Object.keys(h).forEach(evt => {
-      el.addEventListener(evt, ctx[evt], false)
+      el.addEventListener(evt, h[evt], false)
     })
   },
   update (el, { value, oldValue }) {
@@ -115,7 +115,7 @@ export default {
 
     const ctx = el.__qripple
     Object.keys(ctx.h).forEach(evt => {
-      el.removeEventListener(evt, ctx[evt], false)
+      el.removeEventListener(evt, ctx.h[evt], false)
     })
     delete el.__qripple
   }

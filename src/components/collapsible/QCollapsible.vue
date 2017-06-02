@@ -30,7 +30,7 @@
 
     <q-slide-transition>
       <div v-show="active">
-        <div class="q-collapsible-sub-item" :class="{menu: menu}">
+        <div class="q-collapsible-sub-item" :class="{indent: indent}">
           <slot></slot>
         </div>
       </div>
@@ -59,7 +59,7 @@ export default {
   },
   props: {
     opened: Boolean,
-    menu: Boolean,
+    indent: Boolean,
     icon: String,
     group: String,
     img: String,
