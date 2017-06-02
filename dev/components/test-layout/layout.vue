@@ -9,6 +9,7 @@
       </q-btn>
       <q-toolbar-title>
         Quasar Layout
+        <span slot="subtitle">The Subtiiiitleeee</span>
       </q-toolbar-title>
       <q-btn flat @click="sides.right = !sides.right">
         <q-icon name="menu" />
@@ -18,6 +19,14 @@
       </q-btn>
       <q-checkbox color="white" v-model="todo" />
       <q-checkbox color="white" v-model="right" />
+    </q-toolbar>
+    <q-toolbar slot="header">
+      <q-btn flat round small>
+        <q-icon name="mail" />
+      </q-btn>
+      <q-toolbar-title>
+        Quasar Layout
+      </q-toolbar-title>
     </q-toolbar>
 
     <q-toolbar v-if="todo" slot="header" color="secondary">

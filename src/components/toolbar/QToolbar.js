@@ -15,7 +15,7 @@ export default {
       classes += ` ${prop.inverted ? 'text' : 'bg'}-${prop.color}`
     }
 
-    ctx.data.staticClass = `q-toolbar row items-center relative-position ${classes}${cls ? ` ${cls}` : ''}`
+    ctx.data.staticClass = `q-toolbar row no-wrap items-center relative-position ${classes}${cls ? ` ${cls}` : ''}`
 
     return h(
       'div',
