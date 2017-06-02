@@ -19,6 +19,7 @@
     :focused="focused"
     focusable
     :length="length"
+    :additionalLength="additionalLength"
 
     @click.native="pick"
     @focus.native="__onFocus"

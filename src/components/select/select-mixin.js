@@ -33,6 +33,9 @@ export default {
         ? this.value.length
         : ([null, undefined, ''].includes(this.value) ? 0 : 1)
     },
+    additionalLength () {
+      return this.displayValue && this.displayValue.length > 0
+    },
     frameColor () {
       return this.hasChips && this.inverted
         ? this.bgColor || this.color
