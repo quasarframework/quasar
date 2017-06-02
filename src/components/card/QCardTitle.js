@@ -3,12 +3,14 @@ export default {
   functional: true,
   render (h, ctx) {
     const
+      data = ctx.data,
       cls = ctx.data.staticClass,
       slots = ctx.slots()
 
+    data.staticClass = `q-card-primary q-card-container row no-wrap${cls ? ` ${cls}` : ''}`
     return h(
       'div',
-      { staticClass: `q-card-primary q-card-container row no-wrap${cls ? ` ${cls}` : ''}` },
+      data,
       [
         h('div', {staticClass: 'col column'}, [
           h('div', {staticClass: 'q-card-title'}, slots.default),

@@ -7,9 +7,9 @@
       <q-btn flat @click="sides.left = !sides.left">
         <q-icon name="menu" />
       </q-btn>
-      <div class="q-toolbar-title">
+      <q-toolbar-title>
         Quasar Layout
-      </div>
+      </q-toolbar-title>
       <q-btn flat @click="sides.right = !sides.right">
         <q-icon name="menu" />
       </q-btn>
@@ -76,6 +76,11 @@ export default {
         left: false,
         right: true
       }
+    }
+  },
+  methods: {
+    alertMe () {
+      console.log('clicked')
     }
   }
 }

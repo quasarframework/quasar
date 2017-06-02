@@ -2,12 +2,12 @@ export default {
   name: 'q-card-main',
   functional: true,
   render (h, ctx) {
-    const cls = ctx.data.staticClass
-    return h(
-      'div', {
-        staticClass: `q-card-main q-card-container${cls ? ` ${cls}` : ''}`
-      },
-      ctx.children
-    )
+    const
+      data = ctx.data,
+      cls = data.staticClass
+
+    data.staticClass = `q-card-main q-card-container${cls ? ` ${cls}` : ''}`
+
+    return h('div', data, ctx.children)
   }
 }

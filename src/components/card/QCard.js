@@ -9,24 +9,29 @@ export default {
   },
   render (h, ctx) {
     const
-      cls = ctx.data.staticClass,
+      data = ctx.data,
+      classes = data.staticClass,
       prop = ctx.props
 
-    const classes = [{
-      'no-border-radius': prop.square,
-      'no-shadow': prop.flat,
-      inline: prop.inline
-    }]
-    if (prop.color) {
-      classes.push(`bg-${prop.color} text-white q-card-dark`)
+    let cls = ['q-card column']
+    if (prop.square) {
+      cls.push('no-border-radius')
     }
+    if (prop.flat) {
+      cls.push('no-shadow')
+    }
+    if (prop.inline) {
+      cls.push('inline')
+    }
+    if (prop.color) {
+      cls.push(`bg-${prop.color} text-white q-card-dark`)
+    }
+
+    data.staticClass = `${cls.join(' ')}${classes ? ` ${classes}` : ''}`
 
     return h(
       'div',
-      {
-        'class': classes,
-        staticClass: `q-card column${cls ? ` ${cls}` : ''}`
-      },
+      data,
       ctx.children
     )
   }

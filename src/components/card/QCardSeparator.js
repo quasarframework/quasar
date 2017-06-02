@@ -5,10 +5,12 @@ export default {
     inset: Boolean
   },
   render (h, ctx) {
-    const cls = ctx.data.staticClass
-    return h('div', {
-      class: {inset: ctx.props.inset},
-      staticClass: `q-card-separator${cls ? ` ${cls}` : ''}`
-    })
+    const
+      data = ctx.data,
+      cls = data.staticClass
+
+    data.staticClass = `q-card-separator${ctx.props.inset ? ' inset' : ''}${cls ? ` ${cls}` : ''}`
+
+    return h('div', data, ctx.children)
   }
 }

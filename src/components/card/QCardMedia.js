@@ -10,25 +10,23 @@ export default {
   },
   render (h, ctx) {
     const
-      cls = ctx.data.staticClass,
+      data = ctx.data,
+      cls = data.staticClass,
       slots = ctx.slots()
     let child = [slots.default]
+
+    data.staticClass = `q-card-media relative-position${cls ? ` ${cls}` : ''}`
 
     if (slots.overlay) {
       child.push(h(
         'div',
         {
-          'class': `absolute-${ctx.props.overlayPosition}`,
-          staticClass: 'q-card-media-overlay'
+          staticClass: `q-card-media-overlay absolute-${ctx.props.overlayPosition}`
         },
         slots.overlay
       ))
     }
 
-    return h(
-      'div',
-      { staticClass: `q-card-media relative-position${cls ? ` ${cls}` : ''}` },
-      child
-    )
+    return h('div', data, child)
   }
 }

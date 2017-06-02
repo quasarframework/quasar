@@ -11,18 +11,15 @@ export default {
   },
   render (h, ctx) {
     const
-      cls = ctx.data.staticClass,
+      data = ctx.data,
+      classes = data.staticClass,
       prop = ctx.props
 
-    return h(
-      'div', {
-        'class': [
-          `q-card-actions-${prop.vertical ? 'vert column justify-start' : 'horiz row'}`,
-          `${prop.vertical ? 'items' : 'justify'}-${prop.align}`
-        ],
-        staticClass: `q-card-actions${cls ? ` ${cls}` : ''}`
-      },
-      ctx.children
-    )
+    data.staticClass = `q-card-actions ` +
+      `q-card-actions-${prop.vertical ? 'vert column justify-start' : 'horiz row'} ` +
+      `${prop.vertical ? 'items' : 'justify'}-${prop.align}` +
+      `${classes ? ` ${classes}` : ''}`
+
+    return h('div', data, ctx.children)
   }
 }

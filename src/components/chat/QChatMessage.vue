@@ -48,7 +48,6 @@ export default {
     text: Array,
     stamp: String
   },
-  inject: ['__chat'],
   computed: {
     textClass () {
       if (this.textColor) {
