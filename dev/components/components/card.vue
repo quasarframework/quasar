@@ -16,7 +16,7 @@
           <p>$・Italian, Cafe</p>
           <p class="text-faded">Small plates, salads & sandwiches in an intimate setting.</p>
         </q-card-main>
-        <hr>
+        <q-card-separator />
         <q-card-actions>
           <q-btn flat round small><q-icon name="event" /></q-btn>
           <q-btn flat>5:30PM</q-btn>
@@ -42,6 +42,22 @@
         </q-card-main>
       </q-card>
 
+      <q-card inline color="secondary">
+        <q-card-title>
+          Title
+          <span slot="subtitle">Subtitle</span>
+          <q-icon slot="right" name="alarm" />
+        </q-card-title>
+        <q-card-main>
+          {{lorem}}
+        </q-card-main>
+        <q-card-separator />
+        <q-card-actions>
+          <q-btn flat>Action 1</q-btn>
+          <q-btn flat>Action 2</q-btn>
+        </q-card-actions>
+      </q-card>
+
       <q-card inline>
         <q-card-title>
           Title
@@ -65,7 +81,7 @@
         <q-card-main>
           {{lorem}}
         </q-card-main>
-        <hr>
+        <q-card-separator />
         <q-card-actions>
           <q-btn flat>Action 1</q-btn>
           <q-btn flat>Action 2</q-btn>
@@ -77,7 +93,7 @@
           Title
           <span slot="subtitle">Subtitle</span>
         </q-card-title>
-        <hr>
+        <q-card-separator />
         <q-card-actions vertical>
           <q-btn flat>Action 1</q-btn>
           <q-btn flat>Action 2</q-btn>
@@ -189,7 +205,7 @@
           Parallax
           <span slot="subtitle">Subtitle</span>
         </q-card-title>
-        <hr>
+        <q-card-separator />
         <q-card-actions>
           <q-btn flat>Action 1</q-btn>
           <q-btn flat>Action 2</q-btn>
@@ -255,6 +271,32 @@
       </q-card>
 
       <q-card inline>
+        <q-card-title>
+          Title
+        </q-card-title>
+        <q-card-separator />
+        <q-card-list>
+          <q-collapsible icon="explore" label="First">
+            <div>
+              Lorem ipsum dolor sit amet...
+            </div>
+          </q-collapsible>
+
+          <q-collapsible icon="perm_identity" label="Second">
+            <div>
+              Lorem ipsum dolor sit amet...
+            </div>
+          </q-collapsible>
+
+          <q-collapsible icon="shopping_cart" label="Third">
+            <div>
+              Lorem ipsum dolor sit amet...
+            </div>
+          </q-collapsible>
+        </q-card-list>
+      </q-card>
+
+      <q-card inline>
         <q-card-media>
           <q-video src="https://www.youtube.com/embed/k3_tw44QsZQ?rel=0" />
         </q-card-media>
@@ -274,7 +316,7 @@
         <q-card-main>
           {{lorem}}
         </q-card-main>
-        <hr class="inset">
+        <q-card-separator inset />
         <q-card-main>
           {{lorem}}
         </q-card-main>

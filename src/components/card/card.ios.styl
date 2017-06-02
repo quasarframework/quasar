@@ -1,7 +1,14 @@
+$card-faded-color          ?= rgba(0, 0, 0, .4)
+$card-separator-color      ?= rgba(0, 0, 0, .1)
+$card-overlay-color        ?= rgba(0, 0, 0, .47)
+$card-shadow               ?= $shadow-2
+
+$card-dark-faded-color     ?= rgba(255, 255, 255, .6)
+$card-dark-separator-color ?= rgba(255, 255, 255, .2)
 
 .q-card
   border-radius 2px
-  box-shadow $shadow-2
+  box-shadow $card-shadow
   margin 8px
   vertical-align top
 
@@ -12,13 +19,11 @@
     border-bottom-left-radius inherit
     border-bottom-right-radius inherit
 
-  hr
-    background rgba(0, 0, 0, .1)
-    border 0
-    margin 0
-    height 1px
-    &.inset
-      margin 0 16px
+.q-card-separator
+  background $card-separator-color
+  height 1px
+  &.inset
+    margin 0 16px
 
 .q-card-container
   padding 16px
@@ -32,7 +37,7 @@
     display none
 .q-card-subtitle, .q-card-title-extra
   font-size 14px
-  color $faded
+  color $card-faded-color
   .q-icon
     font-size 24px
 
@@ -61,6 +66,12 @@
     border 0
 .q-card-media-overlay
   color white
-  background rgba(0, 0, 0, .47)
+  background $card-overlay-color
   .q-card-subtitle
     color white
+
+.q-card-dark
+  .q-card-separator
+    background $card-dark-separator-color
+  .q-card-subtitle, .q-card-title-extra
+    color $card-dark-faded-color
