@@ -176,8 +176,8 @@ export default {
       }
     },
     actualValue () {
-      if (this.customValue) {
-        return this.customValue
+      if (this.displayValue) {
+        return this.displayValue
       }
       if (!this.multiple) {
         let option = this.options.find(option => option.value === this.value)
