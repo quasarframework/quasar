@@ -18,7 +18,11 @@ export default {
       active: false,
       go () {
         const fn = () => {
-          vnode.context.$router[ctx.route.replace ? 'replace' : 'push'](ctx.route)
+          let action = 'push'
+          if (typeof ctx.route !== 'string' && ctx.route.replace) {
+            action = 'replace'
+          }
+          vnode.context.$router[action](ctx.route)
         }
         if (ctx.delay) {
           setTimeout(fn, 100)
