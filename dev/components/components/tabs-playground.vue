@@ -28,7 +28,7 @@
       <q-tab count="5" slot="title" label="Gogu" />
       <q-tab slot="title" label="Some Tab" />
       <q-tab slot="title" label="Other Tab" />
-      <q-tab selected slot="title" label="Gigiiiiiiiii sdfsdfs aadsf asfsda" />
+      <q-tab default slot="title" label="Gigiiiiiiiii sdfsdfs aadsf asfsda" />
     </q-tabs>
 
     <q-tabs inverted>
@@ -36,7 +36,7 @@
       <q-tab count="5" slot="title" label="Gogu" />
       <q-tab slot="title" label="Some Tab" />
       <q-tab slot="title" label="Other Tab" />
-      <q-tab selected slot="title" label="Gigiiiiiiiii sdfsdfs aadsf asfsda" />
+      <q-tab default slot="title" label="Gigiiiiiiiii sdfsdfs aadsf asfsda" />
     </q-tabs>
 
     <p>Two lines</p>
@@ -45,7 +45,7 @@
       <q-tab count="5" slot="title" label="Gogu" />
       <q-tab slot="title" label="Some Tab" />
       <q-tab slot="title" label="Other Tab" />
-      <q-tab selected slot="title" label="Gigiiiiiiiii sdfsdfs aadsf asfsda" />
+      <q-tab default slot="title" label="Gigiiiiiiiii sdfsdfs aadsf asfsda" />
     </q-tabs>
 
     <q-tabs align="right">
@@ -53,11 +53,11 @@
       <q-tab count="5" slot="title" label="Gogu" />
       <q-tab slot="title" label="Some Tab" />
       <q-tab slot="title" label="Other Tab" />
-      <q-tab selected slot="title" label="Gigiiiiiiiii sdfsdfs aadsf asfsda" />
+      <q-tab default slot="title" label="Gigiiiiiiiii sdfsdfs aadsf asfsda" />
     </q-tabs>
 
     <q-tabs color="brown" position="bottom">
-      <q-tab selected slot="title" v-if="third" name="three" label="Oaua" />
+      <q-tab default slot="title" v-if="third" name="three" label="Oaua" />
       <q-tab slot="title" name="one" label="Gogu" />
       <q-tab slot="title" name="two" label="Gigiiiiiiiii sdfsdfs aadsf asfsda" />
 
@@ -69,7 +69,7 @@
     <q-tabs v-model="tab">
       <q-tab alert slot="title" v-if="third" name="three" label="Oaua" />
       <q-tab count="5" slot="title" name="one" label="Gogu" />
-      <q-tab selected slot="title" name="two" label="Gigiiiiiiiii sdfsdfs aadsf asfsda" />
+      <q-tab default slot="title" name="two" label="Gigiiiiiiiii sdfsdfs aadsf asfsda" />
 
       <q-tab-pane name="one">Tab One</q-tab-pane>
       <q-tab-pane name="two">Tab Two</q-tab-pane>
@@ -98,7 +98,7 @@
       :align="align"
       color="secondary"
     >
-      <q-tab :alert="alert" selected slot="title" v-if="third" name="three" icon="bluetooth" />
+      <q-tab :alert="alert" default slot="title" v-if="third" name="three" icon="bluetooth" />
       <q-tab count="22" alert slot="title" name="one" icon="wifi" />
       <q-tab slot="title" name="two" icon="important_devices" />
 
@@ -113,7 +113,7 @@
       :align="align"
       color="amber"
     >
-      <q-tab :alert="alert" selected slot="title" v-if="third" name="three" label="Oaua" icon="bluetooth" />
+      <q-tab :alert="alert" default slot="title" v-if="third" name="three" label="Oaua" icon="bluetooth" />
       <q-tab color="red" alert slot="title" name="one" label="Gogu" icon="wifi" />
       <q-tab color="black" alert slot="title" name="two" label="Gigiiiiiiiii sdfsdfs aadsf asfsda" icon="important_devices" />
 
@@ -125,7 +125,7 @@
     <q-tabs v-model="tab" inverted>
       <q-tab alert slot="title" v-if="third" name="three" label="Oaua" />
       <q-tab count="5" slot="title" name="one" label="Gogu" />
-      <q-tab color="red" selected slot="title" name="two" label="Gigiiiiiiiii sdfsdfs aadsf asfsda" />
+      <q-tab color="red" default slot="title" name="two" label="Gigiiiiiiiii sdfsdfs aadsf asfsda" />
 
       <q-tab-pane name="one">Tab One</q-tab-pane>
       <q-tab-pane name="two">Tab Two</q-tab-pane>
@@ -135,7 +135,7 @@
     <q-tabs inverted position="bottom">
       <q-tab alert slot="title" v-if="third" name="three" label="Oaua" />
       <q-tab count="5" slot="title" name="one" label="Gogu" />
-      <q-tab selected slot="title" name="two" label="Gigiiiiiiiii sdfsdfs aadsf asfsda" />
+      <q-tab default slot="title" name="two" label="Gigiiiiiiiii sdfsdfs aadsf asfsda" />
 
       <q-tab-pane name="one">Tab One</q-tab-pane>
       <q-tab-pane name="two">Tab Two</q-tab-pane>
@@ -166,7 +166,7 @@
       color="secondary"
       inverted
     >
-      <q-tab :alert="alert" selected slot="title" v-if="third" name="three" icon="bluetooth" />
+      <q-tab :alert="alert" default slot="title" v-if="third" name="three" icon="bluetooth" />
       <q-tab count="22" alert slot="title" name="one" icon="wifi" />
       <q-tab color="red" alert slot="title" name="two" icon="important_devices" />
 
@@ -182,7 +182,7 @@
       color="amber"
       inverted
     >
-      <q-tab :alert="alert" selected slot="title" v-if="third" name="three" label="Oaua" icon="bluetooth" />
+      <q-tab :alert="alert" default slot="title" v-if="third" name="three" label="Oaua" icon="bluetooth" />
       <q-tab alert slot="title" name="one" label="Gogu" icon="wifi" />
       <q-tab color="red" alert slot="title" name="two" label="Gigiiiiiiiii sdfsdfs aadsf asfsda" icon="important_devices" />
 

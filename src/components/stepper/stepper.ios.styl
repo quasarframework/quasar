@@ -1,158 +1,169 @@
 $stepper-color                 ?= $primary
 $stepper-divider-color         ?= rgba(0, 0, 0, .12)
-$stepper-label-color           ?= rgba(0, 0, 0, .72)
-$stepper-label-inactive-color  ?= rgba(0, 0, 0, .38)
+$stepper-label-color           ?= rgba(0, 0, 0, .56)
+$stepper-label-inactive-color  ?= rgba(0, 0, 0, .42)
+$stepper-hover-background      ?= rgba(0, 0, 0, .05)
+$stepper-active-background     ?= rgba(0, 0, 0, .17)
 $stepper-pane-padding          ?= 16px
-$stepper-hover-color           ?= rgba(0, 0, 0, .05)
+$stepper-border-radius         ?= $generic-border-radius
 
-$stepper-identity-size = 24px
-
-.q-stepper-identity
-  background $stepper-label-color
-  border-radius 50%
-  color white
-  font-size 12px
-  height $stepper-identity-size
-  width $stepper-identity-size
-  margin-right 8px
-  position relative
-  i
-    font-size 14px
-
-.q-stepper-step
-  padding 24px
-  position relative
+.q-stepper
   color $stepper-color
-  overflow hidden
-  flex 1 1 auto
-  transition background .28s
-  cursor not-allowed
+  border-radius $generic-border-radius
+  box-shadow $shadow-2
 
-  &:not(.step-editable)
-    .q-stepper-label
+.q-stepper-title
+  font-size 14px
+.q-stepper-subtitle
+  font-size 12px
+  opacity .7
+
+.q-stepper-dot
+  margin-right 8px
+  font-size 14px
+  width 24px
+  height 24px
+  border-radius 50%
+  background currentColor
+  span
+    color white
+
+.q-stepper-tab
+  padding 24px
+  font-size 14px
+  flex-direction row
+  transition color .28s, background .28s
+
+  &.step-waiting
+    color black
+    .q-stepper-dot
       color $stepper-label-inactive-color
-
-    .q-stepper-identity
-      color opposite-non-color($stepper-label-inactive-color)
-      background $stepper-label-inactive-color
-
   &.step-done
-    .q-stepper-identity
-      background $stepper-color
-
-
-  &.step-editable, &.step-selected
     cursor pointer
-    .q-stepper-identity
-      background $stepper-color
-  &.step-selected
-    .q-stepper-label
-      text-shadow 0 0 0 black
-
+    user-select none
+    &:active
+      background $stepper-active-background !important
+  &.step-color
+    color currentColor
+  &.step-active .q-stepper-title
+    font-weight bold
+  &.step-disabled
+    color $stepper-label-inactive-color
   &.step-error
     color $negative
-
-    .q-stepper-identity
+    .q-stepper-dot
       background transparent
-      color $negative
-      position relative
-      i
+      span
+        color $negative
         font-size 24px
 
+.q-stepper-header
+  min-height 72px
+  &:not(.alternative-labels)
+    .q-stepper-tab
+      justify-content center
+    .q-stepper-dot:after
+      display none
+  &.alternative-labels
+    min-height 104px
+    .q-stepper-tab
+      padding 24px 32px
+      flex-direction column
+      justify-content flex-start
+    .q-stepper-dot
+      margin-right 0
     .q-stepper-label
-      color $negative
+      margin-top 8px
+      text-align center
+      &:before, &:after
+        display none
 
-body.desktop .q-stepper-step.step-editable:hover
-  background $stepper-hover-color
+.q-stepper-step-content
+  color black
 
-.q-stepper-label
-  position relative
-  color $stepper-label-color
-  align-items flex-start
-  small
-    font-size 12px
-    font-weight 300
-
-.q-stepper-pane
-  top initial
-  bottom 0
-  padding $stepper-pane-padding
-  overflow hidden
-  flex 1
-  width 100%
-
-.q-stepper-navigation
-  padding $stepper-pane-padding
+.q-stepper-nav
+  height 48px
   .q-btn + .q-btn
     margin-left 8px
 
-.q-stepper
-  overflow hidden
-  position relative
+.q-stepper-horizontal
+  .q-stepper-step-inner
+    padding 24px
+  .q-stepper-nav
+    margin 0 16px 8px
+  .q-stepper-step .q-stepper-nav
+    margin 16px 0 0
+    > div.col
+      display none
 
-  &.vertical
-    padding 12px 0 8px
-
-    .q-stepper-pane
-      margin -8px 0 -16px 36px
-      padding $stepper-pane-padding 60px $stepper-pane-padding 23px
-      width auto
-
-      &:not(:last-child)
-        border-left 1px solid $stepper-divider-color
-
-    .q-stepper-step
-      padding 16px 24px
-
-    .q-stepper-inner
-      padding-bottom 30px
-
-    .q-stepper-identity
-      margin-right 12px
-
-  &.horizontal
-    .q-stepper-label:after, .q-stepper-identity:before, .q-stepper-identity:after
+  .q-stepper-tab
+    overflow hidden
+    &:first-child .q-stepper-dot:before,
+    &:last-child .q-stepper-label:after,
+    &:last-child .q-stepper-dot:after
+      display none
+  .q-stepper-line
+    &:before, &:after
       position absolute
       top 50%
       height 1px
       width 100vw
       background $stepper-divider-color
+  .q-stepper-label:after, .q-stepper-dot:after
+    content ''
+    left 100%
+    margin-left 8px
+  .q-stepper-dot:before
+    content ''
+    right 100%
+    margin-right 8px
 
-    .q-stepper-step:not(:first-child)
-      .q-stepper-identity:before
-        content ''
-        right ($stepper-identity-size + 8px)
-
-    .q-stepper-header:not(.alternative-labels)
-      .q-stepper-step:not(:last-child)
-        .q-stepper-label:after
-          content ''
-          left calc(100% + 8px)
-
-    .q-stepper-header.alternative-labels
-      .q-stepper-step:not(:last-child)
-        .q-stepper-identity:after
-          content ''
-          left ($stepper-identity-size + 8px)
-
-.q-stepper-header.alternative-labels
-  .q-stepper-identity
-    margin-right 0
+.q-stepper-vertical
+  padding 8px 0 18px
+  .q-stepper-tab
+    padding 12px 16px
+  .q-stepper-label
+    padding-top 4px
+  .q-stepper-title
+    line-height 18px
+  .q-stepper-step-inner
+    padding 0 24px 24px 48px
+  .q-stepper-nav
+    margin-top 16px
+    > div.col
+      display none
 
   .q-stepper-step
-    flex-direction column
-    align-items center
-    justify-content flex-start
+    overflow hidden
+    &:first-child .q-stepper-dot:before
+    &:last-child .q-stepper-dot:after
+      display none
+  .q-stepper-dot
+    &:before, &:after
+      content ''
+      position absolute
+      left 50%
+      width 1px
+      height 100vh
+      background $stepper-divider-color
+  .q-stepper-dot:before
+    bottom 100%
+    margin-bottom 8px
+  .q-stepper-dot:after
+    top 100%
+    margin-top 8px
 
-  .q-stepper-label
-    margin-right 0
-    margin-top 12px
-    align-items center
-    text-align center
+body.desktop .q-stepper-tab.step-done:hover
+  background $stepper-hover-background
 
 @media (max-width $breakpoint-sm-max)
-  .q-stepper.horizontal
+  .q-stepper-horizontal.q-stepper-contractable
+    .q-stepper-header
+      min-height 72px
+    .q-stepper-tab:not(:last-child)
+      .q-stepper-dot:after
+        display block !important
+    .q-stepper-dot
+      margin 0
     .q-stepper-label
       display none
-    .q-stepper-identity
-      margin-right 0

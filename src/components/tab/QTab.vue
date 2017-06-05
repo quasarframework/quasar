@@ -35,7 +35,7 @@ export default {
   },
   mixins: [TabMixin],
   props: {
-    selected: Boolean
+    default: Boolean
   },
   methods: {
     select () {
@@ -45,7 +45,7 @@ export default {
     }
   },
   mounted () {
-    if (this.selected && !this.disable) {
+    if (this.default && !this.disable) {
       this.select()
     }
   }

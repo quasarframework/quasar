@@ -1,32 +1,45 @@
 <template>
   <div
-    class="q-stepper shadow-1"
-    :class="{
-      vertical: data.vertical,
-      horizontal: !data.vertical
-    }"
+    class="q-stepper column overflow-hidden"
+    :class="classes"
   >
+    <div
+      v-if="!vertical"
+      class="q-stepper-header row items-stretch justify-between shadow-1"
+      :class="{'alternative-labels': alternativeLabels}"
+    >
+      <step-tab
+        v-for="(step, index) in steps"
+        :key="step"
+        :vm="step"
+      ></step-tab>
+    </div>
+
     <slot></slot>
-    <q-inner-loading :visible="loading" :size="50"></q-inner-loading>
   </div>
 </template>
 
 <script>
-import { QInnerLoading } from '../inner-loading'
+import StepTab from './StepTab.vue'
+import { frameDebounce } from '../../utils/debounce'
 
 export default {
   name: 'q-stepper',
   components: {
-    QInnerLoading
+    StepTab
   },
   props: {
-    value: Number,
-    loading: Boolean,
+    value: [Number, String],
+    color: String,
+    vertical: Boolean,
+    alternativeLabels: Boolean,
+    contractable: Boolean,
+    flat: Boolean,
     doneIcon: {
       type: [String, Boolean],
       default: 'check'
     },
-    selectedIcon: {
+    activeIcon: {
       type: [String, Boolean],
       default: 'edit'
     },
@@ -35,98 +48,123 @@ export default {
       default: 'warning'
     }
   },
-  watch: {
-    value (name) {
-      this.goToStep(name)
-    },
-    doneIcon (i) {
-      this.data.doneIcon = i
-    },
-    selectedIcon (i) {
-      this.data.selectedIcon = i
-    },
-    errorIcon (i) {
-      this.data.errorIcon = i
-    }
-  },
   data () {
     return {
-      data: {
-        step: null,
-        vertical: true,
-        doneIcon: this.doneIcon,
-        selectedIcon: this.selectedIcon,
-        errorIcon: this.errorIcon
-      },
+      step: this.value || null,
       steps: []
     }
   },
   provide () {
     return {
-      data: this.data,
-      goToStep: this.goToStep,
-      setVerticality: this.__setVerticality,
-      registerStep: this.__registerStep,
-      unregisterStep: this.__unregisterStep
+      __stepper: this
+    }
+  },
+  watch: {
+    value (v) {
+      this.goToStep(v)
+    }
+  },
+  computed: {
+    classes () {
+      const cls = [
+        `q-stepper-${this.vertical ? 'vertical' : 'horizontal'}`
+      ]
+      if (this.color) {
+        cls.push(`text-${this.color}`)
+      }
+      if (this.contractable) {
+        cls.push(`q-stepper-contractable`)
+      }
+      return cls
+    },
+    hasSteps () {
+      return this.steps.length > 0
+    },
+    currentStep () {
+      if (this.hasSteps) {
+        return this.steps.find(step => step.name === this.step)
+      }
+    },
+    currentOrder () {
+      if (this.currentStep) {
+        return this.currentStep.actualOrder
+      }
+    },
+    length () {
+      return this.steps.length
     }
   },
   methods: {
     goToStep (step) {
-      if (this.data.step === step || step === void 0) {
+      if (this.step === step || step === void 0) {
         return
       }
 
-      this.data.step = step
+      this.step = step
 
       if (this.value !== step) {
         this.$emit('input', step)
         this.$emit('step', step)
       }
     },
-    next (step) {
-      if (step) {
-        this.goToStep(step)
-        return
-      }
-
-      let index = this.__getStepIndex(this.data.step)
-      if (index !== -1 && index + 1 < this.steps.length) {
-        this.goToStep(this.steps[index + 1].step)
+    next () {
+      if (this.currentOrder < this.length - 2) {
+        this.__go(1)
       }
     },
     previous () {
-      let index = this.__getStepIndex(this.data.step)
-      if (index !== -1 && index > 0) {
-        this.goToStep(this.steps[index - 1].step)
+      if (this.currentOrder > 0) {
+        this.__go(-1)
       }
     },
     reset () {
-      if (this.steps.length > 0) {
-        this.goToStep(this.steps[0].name)
+      if (this.hasSteps) {
+        this.gotToStep(this.steps[0].name)
       }
     },
 
-    __setVerticality (bool) {
-      this.data.vertical = bool
+    __go (offset) {
+      let
+        name,
+        index = this.currentOrder
+
+      if (index === void 0) {
+        if (!this.hasSteps) {
+          return
+        }
+        name = this.steps[0].name
+      }
+      else {
+        do {
+          index += offset
+        } while (index >= 0 && index < this.length - 1 && this.steps[index].disable)
+        if (index < 0 || index > this.length || this.steps[index].disable) {
+          return
+        }
+        name = this.steps[index].name
+      }
+
+      this.goToStep(name)
+    },
+    __sortSteps () {
+      this.steps.sort((a, b) => {
+        return a.actualOrder - b.actualOrder
+      })
+      this.steps.forEach((step, index) => {
+        step.innerOrder = index
+      })
     },
     __registerStep (vm) {
       this.steps.push(vm)
+      this.__sortSteps()
+      return this
     },
     __unregisterStep (vm) {
-      this.steps.splice(this.steps.indexOf(vm), 1)
-    },
-    __getStepIndex (step) {
-      return this.steps.findIndex(vm => vm.step === step)
+      this.steps = this.steps.filter(step => step !== vm)
     }
   },
-  mounted () {
-    this.$nextTick(() => {
-      if (this.value) {
-        this.goToStep(this.value)
-        return
-      }
-      this.reset()
-    })
+  created () {
+    this.__sortSteps = frameDebounce(this.__sortSteps)
   }
 }
 </script>
