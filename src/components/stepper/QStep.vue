@@ -1,5 +1,8 @@
 <template>
-  <div class="q-stepper-step">
+  <div
+    class="q-stepper-step"
+    :style="style"
+  >
     <step-tab
       v-if="__stepper.vertical"
       :vm="this"
@@ -54,7 +57,9 @@ export default {
   },
   data () {
     return {
-      innerOrder: 0
+      innerOrder: 0,
+      first: false,
+      last: false
     }
   },
   computed: {
@@ -80,10 +85,18 @@ export default {
       return this.__stepper.step === this.name
     },
     done () {
-      return !this.disable && this.__stepper.currentOrder > this.actualOrder
+      return !this.disable && this.__stepper.currentOrder > this.innerOrder
     },
     waiting () {
-      return !this.disable && this.__stepper.currentOrder < this.actualOrder
+      return !this.disable && this.__stepper.currentOrder < this.innerOrder
+    },
+    style () {
+      const ord = this.actualOrder
+      return {
+        '-webkit-box-ordinal-group': ord,
+        '-ms-flex-order': ord,
+        order: ord
+      }
     }
   },
   methods: {

@@ -34,7 +34,6 @@ export default {
     vertical: Boolean,
     alternativeLabels: Boolean,
     contractable: Boolean,
-    flat: Boolean,
     doneIcon: {
       type: [String, Boolean],
       default: 'check'
@@ -87,7 +86,7 @@ export default {
     },
     currentOrder () {
       if (this.currentStep) {
-        return this.currentStep.actualOrder
+        return this.currentStep.innerOrder
       }
     },
     length () {
@@ -108,14 +107,10 @@ export default {
       }
     },
     next () {
-      if (this.currentOrder < this.length - 2) {
-        this.__go(1)
-      }
+      this.__go(1)
     },
     previous () {
-      if (this.currentOrder > 0) {
-        this.__go(-1)
-      }
+      this.__go(-1)
     },
     reset () {
       if (this.hasSteps) {
@@ -138,7 +133,7 @@ export default {
         do {
           index += offset
         } while (index >= 0 && index < this.length - 1 && this.steps[index].disable)
-        if (index < 0 || index > this.length || this.steps[index].disable) {
+        if (index < 0 || index > this.length - 1 || this.steps[index].disable) {
           return
         }
         name = this.steps[index].name
@@ -150,8 +145,16 @@ export default {
       this.steps.sort((a, b) => {
         return a.actualOrder - b.actualOrder
       })
+      const last = this.steps.length - 1
       this.steps.forEach((step, index) => {
         step.innerOrder = index
+        step.first = index === 0
+        step.last = index === last
+      })
+      this.$nextTick(() => {
+        if (!this.steps.some(step => step.active)) {
+          this.goToStep(this.steps[0].name)
+        }
       })
     },
     __registerStep (vm) {

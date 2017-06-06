@@ -10,7 +10,9 @@
       'step-disabled': vm.disable,
       'step-colored': vm.active || vm.done,
       'items-center': !vm.__stepper.vertical,
-      'items-start': vm.__stepper.vertical
+      'items-start': vm.__stepper.vertical,
+      'q-stepper-first': vm.first,
+      'q-stepper-last': vm.last
     }"
     @click="__select"
     v-ripple.mat="vm.done"
