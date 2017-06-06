@@ -19,7 +19,7 @@
     :focused="focused"
     focusable
     :length="length"
-    :additionalLength="additionalLength"
+    :additional-length="additionalLength"
 
     @click.native="pick"
     @focus.native="__onFocus"
@@ -96,7 +96,7 @@ export default {
         return opt ? opt.label : ''
       }
 
-      let opt = this.selectedOptions.map(opt => opt.label)
+      const opt = this.selectedOptions.map(opt => opt.label)
       return opt.length ? opt.join(', ') : ''
     },
     selectedOptions () {
