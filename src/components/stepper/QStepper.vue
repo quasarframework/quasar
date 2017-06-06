@@ -34,7 +34,6 @@ export default {
     vertical: Boolean,
     alternativeLabels: Boolean,
     contractable: Boolean,
-    flat: Boolean,
     doneIcon: {
       type: [String, Boolean],
       default: 'check'
@@ -108,7 +107,7 @@ export default {
       }
     },
     next () {
-      if (this.currentOrder < this.length - 2) {
+      if (this.currentOrder < this.length - 1) {
         this.__go(1)
       }
     },
