@@ -40,7 +40,6 @@
 
         :name="name"
         :placeholder="inputPlaceholder"
-        :pattern="pattern"
         :disabled="disable"
         :maxlength="maxlength"
 

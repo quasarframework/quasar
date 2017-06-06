@@ -6,7 +6,6 @@
     v-model="model"
     :type="type"
     :autofocus="autofocus"
-    :pattern="pattern"
     :placeholder="placeholder"
     :disable="disable"
     :error="error"

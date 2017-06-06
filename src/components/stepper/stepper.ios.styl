@@ -96,12 +96,12 @@ $stepper-border-radius         ?= $generic-border-radius
     > div.col
       display none
 
+  .q-stepper-first .q-stepper-dot:before,
+  .q-stepper-last .q-stepper-label:after,
+  .q-stepper-last .q-stepper-dot:after
+    display none
   .q-stepper-tab
     overflow hidden
-    &:first-child .q-stepper-dot:before,
-    &:last-child .q-stepper-label:after,
-    &:last-child .q-stepper-dot:after
-      display none
   .q-stepper-line
     &:before, &:after
       position absolute
@@ -133,11 +133,11 @@ $stepper-border-radius         ?= $generic-border-radius
     > div.col
       display none
 
+  .q-stepper-first .q-stepper-dot:before,
+  .q-stepper-last .q-stepper-dot:after
+    display none
   .q-stepper-step
     overflow hidden
-    &:first-child .q-stepper-dot:before
-    &:last-child .q-stepper-dot:after
-      display none
   .q-stepper-dot
     &:before, &:after
       content ''
