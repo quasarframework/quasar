@@ -3,14 +3,14 @@
     <div
       ref="expand"
       class="absolute-full overflow-hidden invisible"
-      @scroll="onScroll"
+      @scroll="onResize"
     >
       <div ref="expandChild" class="absolute-top-left transition-0" style="width: 100000px; height: 100000px;"></div>
     </div>
     <div
       ref="shrink"
       class="absolute-full overflow-hidden invisible"
-      @scroll="onScroll"
+      @scroll="onResize"
     >
       <div class="absolute-top-left transition-0" style="width: 200%; height: 200%;"></div>
     </div>
@@ -28,7 +28,7 @@ function getSize (el) {
 export default {
   name: 'q-resize-observable',
   methods: {
-    onScroll () {
+    onResize () {
       const size = getSize(this.$el.parentNode)
 
       if (size.width === this.size.width && size.height === this.size.height) {
@@ -61,7 +61,7 @@ export default {
   mounted () {
     this.$nextTick(() => {
       this.size = {}
-      this.onScroll()
+      this.onResize()
     })
   },
   beforeDestroy () {

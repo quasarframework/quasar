@@ -1,9 +1,9 @@
 <template>
   <div>
-    <q-fixed-position corner="top-right" :offset="{top: '18px', right: '18px'}">
+    <q-fixed-position corner="top-right" :offset="[18, 18]">
       <q-btn color="primary" round icon="alarm" />
     </q-fixed-position>
-    <q-fixed-position corner="bottom-right" :offset="{right: '18px', bottom: '18px'}">
+    <q-fixed-position corner="bottom-right" :offset="[18, 18]">
       <q-btn color="primary" round icon="cloud" />
     </q-fixed-position>
 

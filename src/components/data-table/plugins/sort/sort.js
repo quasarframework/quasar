@@ -19,9 +19,7 @@ function getSortFn (sort, type) {
   if (typeof sort === 'function') {
     return sort
   }
-  if (type && sortMethod[type]) {
-    return sortMethod[type]
-  }
+  return sortMethod[type] || sortMethod.number
 }
 
 export default {

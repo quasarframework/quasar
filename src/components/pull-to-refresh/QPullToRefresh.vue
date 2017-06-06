@@ -91,14 +91,11 @@ export default {
       }
 
       if (event.isFinal) {
-        if (this.scrolling) {
-          this.scrolling = false
-          this.pulling = false
-          return
-        }
         this.scrolling = false
         this.pulling = false
-
+        if (this.scrolling) {
+          return
+        }
         if (this.state === 'pulled') {
           this.state = 'refreshing'
           this.__animateTo(0)

@@ -19,8 +19,8 @@ export default {
       validator: v => ['top-right', 'top-left', 'bottom-right', 'bottom-left'].includes(v)
     },
     offset: {
-      type: Object,
-      default: () => ({})
+      type: Array,
+      validator: v => v.length === 2
     }
   },
   inject: ['layout'],
@@ -38,10 +38,13 @@ export default {
     },
     style () {
       const
-        css = extend({}, this.offset),
+        css = {},
         layout = this.layout,
         page = layout.computedPageStyle
 
+      if (this.offset) {
+        css.margin = `${this.offset[1]}px ${this.offset[0]}px`
+      }
       if (this.animated && !layout.showHeader) {
         extend(css, cssTransform(`translateY(${-layout.header.h}px)`))
       }

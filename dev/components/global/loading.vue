@@ -19,6 +19,12 @@
       <q-btn push color="light" class="text-dark" @click="customColorSpinner()">
         Custom Color and Size Spinner
       </q-btn>
+      <p class="caption">
+        Change Message while Being Displayed
+      </p>
+      <q-btn push color="secondary" @click="changeMessage()">
+        Show & Change
+      </q-btn>
     </div>
   </div>
 </template>
@@ -49,6 +55,15 @@ export default {
     },
     withMessage () {
       show({message: 'Some important process is in progress. Hang on...'})
+    },
+    changeMessage () {
+      Loading.show({message: 'First message. Gonna change it in 3 seconds...'})
+      setTimeout(() => {
+        show({
+          spinnerColor: 'red',
+          message: 'Updated message'
+        })
+      }, 3000)
     }
   }
 }

@@ -1,7 +1,6 @@
 import './features/body-classes'
 import './features/polyfills'
 import './features/error-handler'
-// import './features/fastclick'
 
 import AddressbarColor from './features/addressbar-color'
 import Alert from './components/alert/Alert'

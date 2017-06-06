@@ -1,90 +1,106 @@
 <template>
-  <div
-    class="q-stepper-step row items-center"
-    :class="{
-      'step-selected': selected,
-      'step-editable': editable || isEditable,
-      'step-done': done || isDone,
-      'step-error': error,
-    }"
-    @click="select"
-    v-ripple.mat
-  >
-    <div class="q-stepper-identity row items-center justify-center">
-      <q-icon :name="stepIcon" v-if="stepIcon"></q-icon>
-      <template v-else>{{ step }}</template>
-    </div>
-    <div class="q-stepper-label column">
-      <slot></slot>
-    </div>
+  <div class="q-stepper-step">
+    <step-tab
+      v-if="__stepper.vertical"
+      :vm="this"
+    ></step-tab>
+
+    <q-slide-transition>
+      <div v-if="active" class="q-stepper-step-content">
+        <div class="q-stepper-step-inner">
+          <slot></slot>
+        </div>
+      </div>
+    </q-slide-transition>
   </div>
 </template>
 
 <script>
-import { QIcon } from '../icon'
-import Ripple from '../../directives/ripple'
+import { QSlideTransition } from '../slide-transition'
+import StepTab from './StepTab.vue'
+import uid from '../../utils/uid'
 
 export default {
   name: 'q-step',
   components: {
-    QIcon
-  },
-  directives: {
-    Ripple
+    QSlideTransition,
+    StepTab
   },
   props: {
-    step: {
+    name: {
       type: [Number, String],
+      default () {
+        return uid()
+      }
+    },
+    default: Boolean,
+    title: {
+      type: String,
       required: true
     },
-    done: Boolean,
-    editable: Boolean,
+    subtitle: String,
     icon: String,
-    error: Boolean
+    order: [Number, String],
+    error: Boolean,
+    activeIcon: String,
+    errorIcon: String,
+    disable: Boolean
   },
-  inject: ['data', 'goToStep', 'registerStep', 'unregisterStep'],
+  inject: ['__stepper'],
+  watch: {
+    order () {
+      this.__stepper.__sortSteps()
+    }
+  },
   data () {
     return {
-      isEditable: false,
-      isDone: false
+      innerOrder: 0
     }
   },
   computed: {
-    selected () {
-      return this.data.step === this.step
-    },
     stepIcon () {
-      if (this.selected && this.data.selectedIcon !== false) {
-        return this.data.selectedIcon || 'edit'
+      const data = this.__stepper
+
+      if (this.active) {
+        return this.activeIcon || data.activeIcon
       }
-      if (this.error && this.data.errorIcon !== false) {
-        return this.data.errorIcon || 'warning'
+      if (this.error) {
+        return this.errorIcon || data.errorIcon
       }
-      if (this.done && this.data.doneIcon !== false) {
-        return this.data.doneIcon || 'check'
+      if (this.done && !this.disable) {
+        return this.doneIcon || data.doneIcon
       }
 
       return this.icon
+    },
+    actualOrder () {
+      return parseInt(this.order || this.innerOrder, 10)
+    },
+    active () {
+      return this.__stepper.step === this.name
+    },
+    done () {
+      return !this.disable && this.__stepper.currentOrder > this.actualOrder
+    },
+    waiting () {
+      return !this.disable && this.__stepper.currentOrder < this.actualOrder
     }
   },
   methods: {
     select () {
-      if (this.editable || this.isEditable) {
-        this.goToStep(this.step)
+      if (this.done) {
+        this.__stepper.goToStep(this.name)
       }
-    },
-    setEditable (val = true) {
-      this.isEditable = val
-    },
-    setDone (val = true) {
-      this.done = val
     }
   },
   mounted () {
-    this.registerStep(this)
+    this.__stepper.__registerStep(this)
+    if (this.default) {
+      this.select()
+    }
   },
   beforeDestroy () {
-    this.unregisterStep(this)
+    this.__stepper.__unregisterStep(this)
   }
 }
 </script>

@@ -63,7 +63,7 @@
 
       :name="name"
       :placeholder="inputPlaceholder"
-      :pattern="inputPattern"
+      :pattern="pattern"
       :disabled="disable"
       :maxlength="maxlength"
 
@@ -192,9 +192,9 @@ export default {
     isLoading () {
       return this.loading || this.shadow.loading
     },
-    inputPattern () {
+    pattern () {
       if (this.isNumber) {
-        return this.pattern || '[0-9]*'
+        return '[0-9]*'
       }
     },
     inputStep () {

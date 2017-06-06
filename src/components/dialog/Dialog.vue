@@ -1,6 +1,6 @@
 <template>
   <q-modal
-    class="minimized"
+    minimized
     ref="dialog"
     @close="__dismiss()"
     :no-backdrop-dismiss="noBackdropDismiss"

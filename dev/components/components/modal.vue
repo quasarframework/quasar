@@ -93,13 +93,13 @@
       </q-modal-layout>
     </q-modal>
 
-    <q-modal ref="minimizedModal" class="minimized" :content-css="{padding: '50px'}">
+    <q-modal ref="minimizedModal" minimized :content-css="{padding: '50px'}">
       <h4>Minimized Modal</h4>
       <p>This one has backdrop on small screens too.</p>
       <q-btn color="red" @click="$refs.minimizedModal.close()">Close Me</q-btn>
     </q-modal>
 
-    <q-modal ref="maximizedModal" class="maximized" :content-css="{padding: '50px'}">
+    <q-modal ref="maximizedModal" maximized :content-css="{padding: '50px'}">
       <h4>Maximized Modal</h4><p>This one is maximized on bigger screens too.</p>
       <q-btn color="tertiary" @click="$refs.maximizedModal.close()">Close Me</q-btn>
     </q-modal>

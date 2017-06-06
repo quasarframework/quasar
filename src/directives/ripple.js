@@ -8,8 +8,9 @@ function showRipple (evt, el, stopPropagation) {
     evt.stopPropagation()
   }
 
-  var container = document.createElement('span')
-  var animNode = document.createElement('span')
+  let
+    container = document.createElement('span'),
+    animNode = document.createElement('span')
 
   container.appendChild(animNode)
   container.className = 'q-ripple-container'
@@ -81,22 +82,25 @@ export default {
       }
     }
 
-    const ctx = {enabled: value !== false}
+    const
+      ctx = {enabled: value !== false},
+      h = {}
 
     if (Platform.is.desktop) {
-      ctx.mousedown = show
-      ctx.mouseup = hide
-      ctx.mouseleave = hide
+      h.mousedown = show
+      h.mouseup = hide
+      h.mouseleave = hide
     }
     if (Platform.has.touch) {
-      ctx.touchstart = show
-      ctx.touchend = hide
-      ctx.touchcancel = hide
+      h.touchstart = show
+      h.touchend = hide
+      h.touchcancel = hide
     }
 
+    ctx.h = h
     el.__qripple = ctx
-    Object.keys(ctx).forEach(evt => {
-      el.addEventListener(evt, ctx[evt], false)
+    Object.keys(h).forEach(evt => {
+      el.addEventListener(evt, h[evt], false)
     })
   },
   update (el, { value, oldValue }) {
@@ -110,8 +114,8 @@ export default {
     }
 
     const ctx = el.__qripple
-    Object.keys(ctx).forEach(evt => {
-      el.removeEventListener(evt, ctx[evt], false)
+    Object.keys(ctx.h).forEach(evt => {
+      el.removeEventListener(evt, ctx.h[evt], false)
     })
     delete el.__qripple
   }

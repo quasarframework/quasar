@@ -137,6 +137,10 @@ export default {
       type: String,
       required: true
     },
+    urlFactory: {
+      type: Function,
+      required: false
+    },
     additionalFields: {
       type: Array,
       default: () => []
@@ -227,7 +231,6 @@ export default {
         : 0
     },
     __remove (file) {
-      console.log('__remove', file.name)
       const
         name = file.name,
         done = file.__doneUploading
@@ -308,15 +311,21 @@ export default {
           reject(xhr)
         }
 
-        xhr.open(this.method, this.url, true)
-        if (this.headers) {
-          Object.keys(this.headers).forEach(key => {
-            xhr.setRequestHeader(key, this.headers[key])
-          })
-        }
+        const resolver = this.urlFactory
+          ? this.urlFactory(file)
+          : Promise.resolve(this.url)
 
-        this.xhrs.push(xhr)
-        xhr.send(form)
+        resolver.then(url => {
+          xhr.open(this.method, url, true)
+          if (this.headers) {
+            Object.keys(this.headers).forEach(key => {
+              xhr.setRequestHeader(key, this.headers[key])
+            })
+          }
+
+          this.xhrs.push(xhr)
+          xhr.send(form)
+        })
       })
     },
     upload () {

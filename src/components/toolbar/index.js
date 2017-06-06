@@ -1,5 +1,7 @@
-import QToolbar from './QToolbar.vue'
+import QToolbar from './QToolbar'
+import QToolbarTitle from './QToolbarTitle'
 
 export {
-  QToolbar
+  QToolbar,
+  QToolbarTitle
 }

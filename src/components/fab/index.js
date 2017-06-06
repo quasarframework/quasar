@@ -1,7 +1,7 @@
 import QFab from './QFab.vue'
-import QSmallFab from './QSmallFab.vue'
+import QFabAction from './QFabAction.vue'
 
 export {
   QFab,
-  QSmallFab
+  QFabAction
 }

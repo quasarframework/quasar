@@ -19,6 +19,7 @@
     :focused="focused"
     focusable
     :length="length"
+    :additional-length="additionalLength"
 
     @click.native="open"
     @focus.native="__onFocus"
@@ -178,13 +179,16 @@ export default {
       }
     },
     actualValue () {
+      if (this.displayValue) {
+        return this.displayValue
+      }
       if (!this.multiple) {
-        let option = this.options.find(option => option.value === this.model)
-        return option ? option.label : ''
+        const opt = this.options.find(opt => opt.value === this.value)
+        return opt ? opt.label : ''
       }
 
-      let options = this.selectedOptions.map(opt => opt.label)
-      return !options.length ? '' : options.join(', ')
+      const opt = this.selectedOptions.map(opt => opt.label)
+      return opt.length ? opt.join(', ') : ''
     },
     optModel () {
       /* Used by multiple selection only */

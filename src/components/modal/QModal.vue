@@ -103,7 +103,9 @@ export default {
     noEscDismiss: {
       type: Boolean,
       default: false
-    }
+    },
+    minimized: Boolean,
+    maximized: Boolean
   },
   data () {
     return {
@@ -112,9 +114,16 @@ export default {
   },
   computed: {
     modalClasses () {
-      return this.position
+      const cls = this.position
         ? positions[this.position]
         : this.positionClasses
+      if (this.maximized) {
+        return ['maximized', cls]
+      }
+      else if (this.minimized) {
+        return ['minimized', cls]
+      }
+      return cls
     },
     modalTransition () {
       return this.position ? `q-modal-${this.position}` : this.transition
@@ -133,9 +142,6 @@ export default {
   },
   methods: {
     open (onShow) {
-      if (this.minimized && this.maximized) {
-        throw new Error('Modal cannot be minimized & maximized simultaneously.')
-      }
       if (this.active) {
         return
       }

@@ -61,6 +61,10 @@
           </div>
         </div>
       </div>
+
+      <p class="caption">Display Value</p>
+      <q-dialog-select type="checkbox" v-model="multipleSelect" :options="selectOptions" float-label="Gigi" ok-label="Pick" cancel-label="Neah" title="Checkboxes" :display-value="`${ multipleSelect.length } item${ multipleSelect.length !== 1 ? 's' : '' } selected`"></q-dialog-select>
+      <q-dialog-select type="toggle" v-model="multipleSelect" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Toggles" :display-value="`${ multipleSelect.length } item${ multipleSelect.length !== 1 ? 's' : '' } selected`"></q-dialog-select>
     </div>
   </div>
 </template>

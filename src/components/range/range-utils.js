@@ -8,7 +8,7 @@ export function getPercentage (event, dragging) {
 
 export function notDivides (res, decimals) {
   let number = decimals
-    ? parseFloat(res.toFixed(decimals), 10)
+    ? parseFloat(res.toFixed(decimals))
     : res
 
   return number !== parseInt(number, 10)

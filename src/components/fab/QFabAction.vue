@@ -11,7 +11,7 @@ import { QIcon } from '../icon'
 import FabMixin from './fab-mixin'
 
 export default {
-  name: 'q-small-fab',
+  name: 'q-fab-action',
   mixins: [FabMixin],
   components: {
     QBtn,

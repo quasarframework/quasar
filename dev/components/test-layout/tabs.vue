@@ -124,7 +124,7 @@
         <q-tab slot="title" name="tab-1" icon="message" label="Tab 1" />
         <q-tab slot="title" name="tab-2" disable icon="fingerprint" label="Tab 2" />
         <q-tab slot="title" name="tab-3" icon="alarm" label="Tab 3" />
-        <q-tab slot="title" selected name="tab-4" icon="accessibility" label="Tab 4" />
+        <q-tab slot="title" default name="tab-4" icon="accessibility" label="Tab 4" />
         <q-tab slot="title" name="tab-5" hidden icon="accessibility" label="Tab 5" />
 
         <q-tab-pane name="tab-1">

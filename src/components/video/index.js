@@ -1,4 +1,4 @@
-import QVideo from './QVideo.vue'
+import QVideo from './QVideo'
 
 export {
   QVideo

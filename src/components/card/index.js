@@ -1,9 +1,10 @@
-import QCard from './QCard.vue'
-import QCardTitle from './QCardTitle.vue'
-import QCardMain from './QCardMain.vue'
-import QCardActions from './QCardActions.vue'
-import QCardMedia from './QCardMedia.vue'
-import QCardList from './QCardList.vue'
+import QCard from './QCard'
+import QCardTitle from './QCardTitle'
+import QCardMain from './QCardMain'
+import QCardActions from './QCardActions'
+import QCardMedia from './QCardMedia'
+import QCardList from './QCardList'
+import QCardSeparator from './QCardSeparator'
 
 export {
   QCard,
@@ -11,5 +12,6 @@ export {
   QCardMain,
   QCardActions,
   QCardMedia,
-  QCardList
+  QCardList,
+  QCardSeparator
 }

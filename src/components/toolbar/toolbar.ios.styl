@@ -1,7 +1,8 @@
-$toolbar-padding           ?= 4px 10px
-$toolbar-title-font-size   ?= .95rem
-$toolbar-title-font-weight ?= 600
-$toolbar-title-padding     ?= 0 5px
+$toolbar-padding            ?= 4px 10px
+$toolbar-title-font-size    ?= 16px
+$toolbar-subtitle-font-size ?= 12px
+$toolbar-title-font-weight  ?= 600
+$toolbar-title-padding      ?= 0 5px
 
 .q-toolbar
   padding $toolbar-padding
@@ -25,13 +26,19 @@ $toolbar-title-padding     ?= 0 5px
 
 .q-toolbar-title
   flex 1
-  min-width 0
+  min-width 1px
   max-width 100%
   align-items center
   font-size $toolbar-title-font-size
   font-weight $toolbar-title-font-weight
   padding $toolbar-title-padding
+  text-align center
+
+.q-toolbar-subtitle
+  font-size $toolbar-subtitle-font-size
+  opacity .7
+
+.q-toolbar-title, .q-toolbar-subtitle
   text-overflow ellipsis
   white-space nowrap
   overflow hidden
-  text-align center

@@ -49,6 +49,8 @@ It could be you!
 - Max Matteo Staack
 - Samuel Desconsi
 - Jonas Viczian ($15)
+- Klemens Witting ($10)
+- John (JCharante) ($10)
 
 - Ken ($5)
 - Rogério Queiroz ($3)
