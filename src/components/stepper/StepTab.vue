@@ -9,7 +9,9 @@
       'step-disabled': vm.disable,
       'step-colored': vm.active || vm.done,
       'items-center': !vm.__stepper.vertical,
-      'items-start': vm.__stepper.vertical
+      'items-start': vm.__stepper.vertical,
+      'q-stepper-first': vm.first,
+      'q-stepper-last': vm.last
     }"
     @click="__select"
     v-ripple.mat="vm.done"
@@ -17,7 +19,7 @@
     <div class="q-stepper-dot row items-center justify-center q-stepper-line relative-position">
       <span class="row items-center justify-center">
         <q-icon v-if="vm.stepIcon" :name="vm.stepIcon"></q-icon>
-        <span v-else>{{ vm.actualOrder + 1 }}</span>
+        <span v-else>{{ vm.innerOrder + 1 }}</span>
       </span>
     </div>
     <div v-if="vm.title" class="q-stepper-label q-stepper-line relative-position">

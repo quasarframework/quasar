@@ -11,14 +11,14 @@
             <q-btn :color="color" @click="$refs.stepper.next()">Continue</q-btn>
           </q-stepper-navigation>
         </q-step>
-        <q-step error name="second" title="Custom channels" subtitle="Alert message">
+        <q-step error title="Custom channels" subtitle="Alert message">
           <div v-for="n in 10">Step 2</div>
           <q-stepper-navigation>
             <q-btn :color="color" @click="$refs.stepper.next()">Next</q-btn>
             <q-btn :color="color" flat @click="$refs.stepper.previous()">Back</q-btn>
           </q-stepper-navigation>
         </q-step>
-        <q-step name="third" title="Get code">
+        <q-step title="Get code">
           <div v-for="n in 3">Step 3</div>
           <q-stepper-navigation>
             <q-btn :color="color" @click="$refs.stepper.next()">Next</q-btn>
