@@ -5,7 +5,6 @@
       'step-error': vm.error,
       'step-active': vm.active,
       'step-done': vm.done,
-      'step-error': vm.error,
       'step-waiting': vm.waiting,
       'step-disabled': vm.disable,
       'step-colored': vm.active || vm.done,
