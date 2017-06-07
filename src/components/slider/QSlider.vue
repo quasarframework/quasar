@@ -68,7 +68,7 @@ export default {
       slide: 0,
       positionSlide: 0,
       slidesNumber: 0,
-      inFullscreen: false,
+      inFullscreen: initfullscreen,
       animUid: false
     }
   },
@@ -235,10 +235,12 @@ export default {
         this.container.replaceChild(this.fillerNode, this.$el)
         document.body.appendChild(this.$el)
         this.inFullscreen = true
+        this.$emit('inFullscreen', this.inFullscreen)
         return
       }
 
       this.inFullscreen = false
+      this.$emit('inFullscreen', this.inFullscreen)
       this.container.replaceChild(this.$el, this.fillerNode)
     },
     __popState () {
