@@ -1,5 +1,10 @@
 <template>
-  <q-popover ref="popover" :anchor-click="false">
+  <q-popover
+    ref="popover"
+    :anchor-click="false"
+    @open="$emit('open')"
+    @close="$emit('close')"
+  >
     <slot></slot>
   </q-popover>
 </template>

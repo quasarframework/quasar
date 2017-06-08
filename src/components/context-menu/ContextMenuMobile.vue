@@ -1,5 +1,10 @@
 <template>
-  <q-modal class="minimized" ref="dialog">
+  <q-modal
+    ref="dialog"
+    minimized
+    @open="$emit('open')"
+    @close="$emit('close')"
+  >
     <slot></slot>
   </q-modal>
 </template>
