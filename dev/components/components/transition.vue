@@ -1,22 +1,20 @@
 <template>
   <div class="layout-padding" style="max-width: 600px;">
-    <div class="card" style="margin-top: 25px">
-      <div class="card-title bg-primary text-center">
+    <q-card style="margin-top: 25px">
+      <q-card-title class="bg-primary text-center">
         <q-btn push color="orange" @click="show = !show">Toggle</q-btn>
-      </div>
-      <div class="card-content">
-          <p class="caption">Enter CSS Class</p>
-          <q-select filter v-model="enter" :options="enterSelectOptions"></q-select>
-          <p class="caption">Leave CSS Class</p>
-          <q-select filter v-model="leave" :options="leaveSelectOptions"></q-select>
-      </div>
-    </div>
+      </q-card-title>
+      <q-card-main>
+        <q-select filter v-model="enter" :options="enterSelectOptions" stack-label="CSS Enter Class" />
+        <q-select filter v-model="leave" :options="leaveSelectOptions" stack-label="CSS Leave Class" />
+      </q-card-main>
+    </q-card>
 
-    <div class="card" style="margin-top: 25px">
-      <div class="card-title text-center">
+    <q-card style="margin-top: 25px" class="overflow-hidden">
+      <q-card-title class="text-center">
         Single
-      </div>
-      <div class="card-content overflow-hidden">
+      </q-card-title>
+      <q-card-main>
         <q-transition
           appear
           :enter="enter"
@@ -25,14 +23,14 @@
         >
           <div v-if="show" v-html="loremipsum"></div>
         </q-transition>
-      </div>
-    </div>
+      </q-card-main>
+    </q-card>
 
-    <div class="card" style="margin-top: 25px">
-      <div class="card-title text-center">
+    <q-card style="margin-top: 25px" class="overflow-hidden">
+      <q-card-title class="text-center">
         Group
-      </div>
-      <div class="card-content overflow-hidden">
+      </q-card-title>
+      <q-card-main>
         <q-transition
           group
           appear
@@ -48,8 +46,8 @@
             v-html="loremipsum"
           ></div>
         </q-transition>
-      </div>
-    </div>
+      </q-card-main>
+    </q-card>
   </div>
 </template>
 

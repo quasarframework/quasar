@@ -96,24 +96,20 @@
       <q-double-range color="dark" v-model="standalone" :min="0" :max="50" label></q-double-range>
 
       <p class="caption">Inside of a List</p>
-      <div class="list">
-        <div class="item">
-          <div class="item-primary">
-            <q-icon name="local_atm" />
-          </div>
-          <div class="item-content">
-            <q-double-range v-model="standalone" :min="0" :max="50" label></q-double-range>
-          </div>
-        </div>
-        <div class="item two-lines">
-          <div class="item-primary">
-            <q-icon name="euro symbol" />
-          </div>
-          <div class="item-content">
-            <q-double-range v-model="standalone" :min="0" :max="50" label></q-double-range>
-          </div>
-        </div>
-      </div>
+      <q-list>
+        <q-item>
+          <q-item-side icon="local_atm" />
+          <q-item-main>
+            <q-double-range v-model="standalone" :min="0" :max="50" label />
+          </q-item-main>
+        </q-item>
+        <q-item>
+          <q-item-side icon="euro symbol" />
+          <q-item-main>
+            <q-double-range v-model="standalone" :min="0" :max="50" label />
+          </q-item-main>
+        </q-item>
+      </q-list>
     </div>
   </div>
 </template>

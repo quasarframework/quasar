@@ -1,0 +1,48 @@
+export function textStyle (n) {
+  return n === void 0 || n < 2
+    ? {}
+    : {overflow: 'hidden', display: '-webkit-box', '-webkit-box-orient': 'vertical', '-webkit-line-clamp': n}
+}
+
+const list = ['icon', 'label', 'sublabel', 'image', 'avatar', 'letter', 'stamp']
+
+export function getType (prop) {
+  for (let t of list) {
+    if (prop[t]) {
+      return t
+    }
+  }
+  return ''
+}
+
+export function itemClasses (prop) {
+  return {
+    'q-item': true,
+    'q-item-division': true,
+    'relative-position': true,
+    'q-item-dark': prop.dark,
+    'q-item-dense': prop.dense,
+    'q-item-sparse': prop.sparse,
+    'q-item-delimiter': prop.delimiter,
+    'q-item-inset-delimiter': prop.insetDelimiter,
+    'q-item-multiline': prop.multiline,
+    'q-item-highlight': prop.highlight,
+    'q-item-link': prop.to || prop.link
+  }
+}
+
+export const ItemMixin = {
+  props: {
+    dark: Boolean,
+    dense: Boolean,
+    sparse: Boolean,
+    delimiter: Boolean,
+    insetDelimiter: Boolean,
+    multiline: Boolean,
+    highlight: Boolean,
+    tag: {
+      type: String,
+      default: 'div'
+    }
+  }
+}

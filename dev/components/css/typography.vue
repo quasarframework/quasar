@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="layout-padding">
-      <div class="card">
-        <div class="card-title">
+      <q-card>
+        <q-card-title>
           Headings
-        </div>
-        <div class="card-content">
+        </q-card-title>
+        <q-card-main>
           <h1>Header 1</h1>
           <p>Text</p>
 
@@ -23,14 +23,14 @@
 
           <h6>Header 6</h6>
           <p>Text</p>
-        </div>
-      </div>
+        </q-card-main>
+      </q-card>
 
-      <div class="card">
-        <div class="card-title">
+      <q-card>
+        <q-card-title>
           Text & Paragraphs
-        </div>
-        <div class="card-content">
+        </q-card-title>
+        <q-card-main>
           <div>
             <small>Small Text</small>
             Normal Text
@@ -52,14 +52,14 @@
 
           <p class="caption">Tokens</p>
           Some <span class="token">token</span> and <span class="token">other token</span>
-        </div>
-      </div>
+        </q-card-main>
+      </q-card>
 
-      <div class="card">
-        <div class="card-title">
+      <q-card>
+        <q-card-title>
           Blockquotes
-        </div>
-        <div class="card-content">
+        </q-card-title>
+        <q-card-main>
           <blockquote>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
             <small>Someone famous for <cite title="Quasar Framework">Quasar Framework</cite></small>
@@ -69,14 +69,14 @@
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
             <small>Someone famous for <cite title="Quasar Framework">Quasar Framework</cite></small>
           </blockquote>
-        </div>
-      </div>
+        </q-card-main>
+      </q-card>
 
-      <div class="card">
-        <div class="card-title">
+      <q-card>
+        <q-card-title>
           Definition Lists
-        </div>
-        <div class="card-content">
+        </q-card-title>
+        <q-card-main>
           <p class="caption">Vertical</p>
 
           <dl>
@@ -99,17 +99,17 @@
             <dt>Malesuada porta</dt>
             <dd>Etiam porta sem malesuada magna mollis euismod.</dd>
           </dl>
-        </div>
-      </div>
+        </q-card-main>
+      </q-card>
 
-      <div class="card">
-        <div class="card-title">
+      <q-card>
+        <q-card-title>
           Links
-        </div>
-        <div class="card-content">
+        </q-card-title>
+        <q-card-main>
           <p>Links: <a>Some link</a> and <a>Some other link</a>.</p>
-        </div>
-      </div>
+        </q-card-main>
+      </q-card>
     </div>
   </div>
 </template>

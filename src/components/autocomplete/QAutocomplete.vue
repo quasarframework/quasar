@@ -8,14 +8,14 @@
     :anchor-click="false"
   >
     <div class="list no-border" :class="{delimiter: delimiter}" :style="computedWidth">
-      <q-item
+      <q-item-wrapper
         v-for="(result, index) in computedResults"
         :key="result"
         :cfg="result"
         link
         :active="selectedIndex === index"
-        @click.native="setValue(result)"
-      ></q-item>
+        @click="setValue(result)"
+      ></q-item-wrapper>
     </div>
   </q-popover>
 </template>
@@ -27,7 +27,7 @@ import uid from '../../utils/uid'
 import { normalizeToInterval } from '../../utils/format'
 import { QInput } from '../input'
 import { QPopover } from '../popover'
-import { QItem } from '../item'
+import { QItemWrapper } from '../list'
 
 function prevent (e) {
   e.preventDefault()
@@ -39,7 +39,7 @@ export default {
   components: {
     QInput,
     QPopover,
-    QItem
+    QItemWrapper
   },
   props: {
     minCharacters: {

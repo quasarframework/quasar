@@ -4,58 +4,42 @@
     <div class="layout-padding" style="max-width: 600px;">
       <p class="caption">Ajax Bar component captures Ajax calls automatically. This page here triggers events manually for demonstrating purposes only.</p>
 
-      <div class="card" style="margin-top: 25px">
-        <div class="card-title bg-primary text-center">
+      <q-card style="margin-top: 25px">
+        <q-card-title class="bg-primary text-center">
           <q-btn push color="orange" @click="trigger()">Trigger Event</q-btn>
-        </div>
+        </q-card-title>
 
         <p class="caption text-center">Try out some combinations for Ajax Bar.</p>
-        <div class="card-content group column">
+        <q-card-main class="group column">
           <div class="auto column items-center">
             <div class="flex">
               <div class="column group">
-                <label>
-                  <q-radio v-model="position" val="top"></q-radio>
-                  Top
-                </label>
-                <label>
-                  <q-radio v-model="position" val="bottom"></q-radio>
-                  Bottom
-                </label>
+                <q-radio v-model="position" val="top" label="Top" />
+                <q-radio v-model="position" val="bottom" label="Bottom" />
               </div>
 
               <div class="column group">
-                <label>
-                  <q-radio v-model="position" val="right"></q-radio>
-                  Right
-                </label>
-                <label>
-                  <q-radio v-model="position" val="left"></q-radio>
-                  Left
-                </label>
+                <q-radio v-model="position" val="right" label="Right" />
+                <q-radio v-model="position" val="left" label="Left" />
               </div>
             </div>
           </div>
 
           <div class="row justify-center" style="margin-top: 15px;">
-            <label style="white-space: nowrap;">
-              <q-checkbox v-model="reverse"></q-checkbox>
-              Reverse Direction
-            </label>
+            <q-checkbox v-model="reverse" label="Reverse Direction" />
           </div>
 
-          <div>
-            <span>Size (<em>{{size}}px</em>)</span>
-            <q-range v-model="size" :min="2" :max="20" label-always style="margin-top: 25px;"></q-range>
-          </div>
+          <q-field :label="`Size (<em>${size}px</em>)`">
+            <q-range v-model="size" :min="2" :max="20" label-always />
+          </q-field>
 
           <div class="auto column items-center">
             <div class="flex">
               <q-input float-label="Color" v-model="color" />
             </div>
           </div>
-        </div>
-      </div>
+        </q-card-main>
+      </q-card>
     </div>
   </div>
 </template>

@@ -27,40 +27,35 @@
       <q-dialog-select error type="radio" v-model="select" :options="selectOptions"></q-dialog-select>
 
       <p class="caption">Inside of a List</p>
-      <div class="list">
-        <div class="list-label">Single Selection</div>
-        <div class="item two-lines">
-          <div class="item-primary"><q-icon name="supervisor_account" /></div>
-          <div class="item-content row items-center">
-            <label style="margin-right: 10px;">Radio:</label>
-            <br>
-            <q-dialog-select class="auto" type="radio" v-model="select" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Company"></q-dialog-select>
-          </div>
-        </div>
-        <div class="item two-lines">
-          <div class="item-primary"><q-icon name="supervisor_account" /></div>
-          <div class="item-content row items-center">
-            <label style="margin-right: 10px;">Radio:</label>
-            <q-dialog-select class="auto" type="radio" v-model="select" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Company"></q-dialog-select>
-          </div>
-        </div>
-        <hr>
-        <div class="list-label">Multiple Selection</div>
-        <div class="item two-lines">
-          <div class="item-primary"><q-icon name="supervisor_account" /></div>
-          <div class="item-content row items-center">
-            <label style="margin-right: 10px;">Checkbox:</label>
-            <q-dialog-select class="auto" type="checkbox" v-model="multipleSelect" :options="selectOptions" ok-label="Pick" title="Companies"></q-dialog-select>
-          </div>
-        </div>
-        <div class="item two-lines">
-          <div class="item-primary"><q-icon name="supervisor_account" /></div>
-          <div class="item-content row items-center">
-            <label style="margin-right: 10px;">Toggle:</label>
-            <q-dialog-select class="auto" type="toggle" v-model="multipleSelect" :options="selectOptions" ok-label="Pick" title="Companies"></q-dialog-select>
-          </div>
-        </div>
-      </div>
+      <q-list>
+        <q-list-header>Single Selection</q-list-header>
+        <q-item>
+          <q-item-side icon="supervisor_account" />
+          <q-item-main>
+            <q-dialog-select class="no-margin" type="radio" v-model="select" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Company" />
+          </q-item-main>
+        </q-item>
+        <q-item>
+          <q-item-side icon="supervisor_account" />
+          <q-item-main>
+            <q-dialog-select class="no-margin" type="radio" v-model="select" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Company" />
+          </q-item-main>
+        </q-item>
+        <q-item-delimiter />
+        <q-list-header>Multiple Selection</q-list-header>
+        <q-item>
+          <q-item-side icon="supervisor_account" />
+          <q-item-main>
+            <q-dialog-select class="no-margin" type="checkbox" v-model="multipleSelect" :options="selectOptions" ok-label="Pick" title="Companies" />
+          </q-item-main>
+        </q-item>
+        <q-item>
+          <q-item-side icon="supervisor_account" />
+          <q-item-main>
+            <q-dialog-select class="no-margin" type="toggle" v-model="multipleSelect" :options="selectOptions" ok-label="Pick" title="Companies" />
+          </q-item-main>
+        </q-item>
+      </q-list>
 
       <p class="caption">Display Value</p>
       <q-dialog-select type="checkbox" v-model="multipleSelect" :options="selectOptions" float-label="Gigi" ok-label="Pick" cancel-label="Neah" title="Checkboxes" :display-value="`${ multipleSelect.length } item${ multipleSelect.length !== 1 ? 's' : '' } selected`"></q-dialog-select>

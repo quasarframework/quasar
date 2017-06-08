@@ -33,14 +33,14 @@
       </q-field>
 
       <p class="caption">Inside of a List</p>
-      <div class="list">
-        <div class="item multiple-lines">
-          <q-icon class="item-primary" name="edit" />
-          <div class="item-content">
-            <q-chips-input v-model="model" placeholder="Type names"/>
-          </div>
-        </div>
-      </div>
+      <q-list>
+        <q-item multiline>
+          <q-item-side icon="edit" />
+          <q-item-main>
+            <q-chips-input v-model="model" class="no-margin" placeholder="Type names"/>
+          </q-item-main>
+        </q-item>
+      </q-list>
     </div>
   </div>
 </template>

@@ -80,34 +80,34 @@
       </q-field>
 
       <p class="caption">Inside of a List</p>
-      <div class="list">
-        <label class="item">
-          <div class="item-content has-secondary">
-            Events and reminders
-          </div>
-          <div class="item-secondary">
-            <q-toggle v-model="checked"></q-toggle>
-          </div>
-        </label>
-        <label class="item two-lines">
-          <div class="item-content has-secondary">
-            <div>Events and reminders</div>
-            <div>Lorem ipsum</div>
-          </div>
-          <div class="item-secondary">
-            <q-toggle v-model="checked" class="purple"></q-toggle>
-          </div>
-        </label>
-        <label class="item three-lines">
-          <div class="item-content has-secondary">
-            <div>Events and reminders</div>
-            <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
-          </div>
-          <div class="item-secondary">
-            <q-toggle v-model="checked" class="red"></q-toggle>
-          </div>
-        </label>
-      </div>
+      <q-list link>
+        <q-item tag="label">
+          <q-item-main>
+            <q-item-tile label>Events and reminders</q-item-tile>
+          </q-item-main>
+          <q-item-side right>
+            <q-toggle v-model="checked" />
+          </q-item-side>
+        </q-item>
+        <q-item tag="label" multiline>
+          <q-item-main>
+            <q-item-tile label>Events and reminders</q-item-tile>
+            <q-item-tile sublabel>Lorem ipsum</q-item-tile>
+          </q-item-main>
+          <q-item-side right>
+            <q-toggle v-model="checked" class="purple" />
+          </q-item-side>
+        </q-item>
+        <q-item tag="label" multiline>
+          <q-item-main>
+            <q-item-tile label>Events and reminders</q-item-tile>
+            <q-item-tile sublabel>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</q-item-tile>
+          </q-item-main>
+          <q-item-side right>
+            <q-toggle v-model="checked" class="red" />
+          </q-item-side>
+        </q-item>
+      </q-list>
     </div>
   </div>
 </template>

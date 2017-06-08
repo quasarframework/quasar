@@ -85,7 +85,7 @@ function parseCountries () {
   return countries.map(country => {
     return {
       label: country,
-      secondLabel: getRandomSecondLabel(),
+      sublabel: getRandomSecondLabel(),
       icon: getRandomIcon(),
       stamp: getRandomStamp(),
       value: country

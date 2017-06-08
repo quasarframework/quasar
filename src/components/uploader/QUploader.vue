@@ -68,10 +68,10 @@
     </q-input-frame>
 
     <div class="q-uploader-files scroll">
-      <div
+      <q-item
         v-for="file in files"
         :key="file.name"
-        class="q-uploader-file item"
+        class="q-uploader-file"
       >
         <q-progress v-if="!hideUploadProgress"
           class="q-uploader-progress-bg absolute-full"
@@ -82,23 +82,20 @@
           {{ file.__progress }}%
         </div>
 
-        <img v-if="file.__img" :src="file.__img.src">
-        <div v-else class="item-primary">
-          <q-icon :color="color" name="insert_drive_file"></q-icon>
-        </div>
-        <div class="item-content text">
-          <div>{{ file.name }}</div>
-          <div>{{ file.__size }}</div>
-        </div>
-        <div class="item-secondary">
-          <q-icon
-            class="cursor-pointer"
+        <q-item-side v-if="file.__img" :image="file.__img.src"></q-item-side>
+        <q-item-side v-else icon="insert_drive_file" :color="color"></q-item-side>
+
+        <q-item-main :label="file.name" :sublabel="file.__size"></q-item-main>
+
+        <q-item-side right>
+          <q-item-tile
+            :icon="file.__doneUploading ? 'done' : 'clear'"
             :color="color"
-            :name="file.__doneUploading ? 'done' : 'clear'"
+            class="cursor-pointer"
             @click="__remove(file)"
-          />
-        </div>
-      </div>
+          ></q-item-tile>
+        </q-item-side>
+      </q-item>
     </div>
   </div>
 </template>
@@ -110,6 +107,7 @@ import { humanStorageSize } from '../../utils/format'
 import { QSpinner } from '../spinner'
 import { QIcon } from '../icon'
 import { QProgress } from '../progress'
+import { QItem, QItemSide, QItemMain, QItemTile } from '../list'
 
 function initFile (file) {
   file.__doneUploading = false
@@ -125,7 +123,11 @@ export default {
     QInputFrame,
     QSpinner,
     QIcon,
-    QProgress
+    QProgress,
+    QItem,
+    QItemSide,
+    QItemMain,
+    QItemTile
   },
   props: {
     name: {

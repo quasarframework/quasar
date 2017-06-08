@@ -1,5 +1,5 @@
 $item-dense-factor                 ?= .2
-$item-large-factor                 ?= 1.4
+$item-sparse-factor                ?= 1.4
 
 $item-base-color                   ?= $grey-5
 $item-highlight-color              ?= alpha($item-base-color, 50%)
@@ -21,63 +21,55 @@ $item-image-size                   ?= round(3 * $item-primary-size)
 $item-font-size                    ?= 1rem
 $item-stamp-font-size              ?= .8rem
 
-.item-stamp
+.q-item-stamp
   font-size $item-stamp-font-size
   line-height $item-stamp-font-size
   white-space nowrap
   margin .3rem 0
 
-.item-primary
-  color $item-primary-color
-  min-width $item-primary-size
-
-.item-secondary
+.q-item-side-right
   text-align right
   color $item-secondary-color
   display flex
   flex-direction column
   align-items flex-end
 
-.item-primary, .item-secondary
-  img
-    width $item-primary-size
-    height $item-primary-size
-    border-radius 50%
-  .item-letter, .q-icon
-    font-size $item-icon-size
-  .q-icon
-    border-radius 50%
-    &.inverted
-      font-size $item-inverted-icon-size
-      line-height $item-inverted-icon-size
-      color white
-      padding 9px
+.q-item-side
+  color $item-primary-color
+  min-width $item-primary-size
+.q-item-avatar, .q-item-avatar img
+  width $item-primary-size
+  height $item-primary-size
+  border-radius 50%
 
-.item-content
+.q-item-letter, .q-item-icon
+  font-size $item-icon-size
+.q-item-icon-inverted
+  border-radius 50%
+  font-size $item-inverted-icon-size
+  color white
+  background $primary
+  padding 9px
+
+.q-item-main
   flex 1 1 auto
   min-width 0
+.q-item-main-inset
+  margin-left ($item-gutter + $item-primary-size)
 
-  &.inset
-    margin-left ($item-gutter + $item-primary-size)
+.q-item-label > span
+  color $item-content-secondary-text-color
+.q-item-sublabel
+  color $item-content-secondary-text-color
+  font-size 90%
+  margin-top .2rem
+  > span
+    font-weight 500
 
-  &.text
-    > div:first-child
-      > span
-        color $item-content-secondary-text-color
-    > div:not(:first-child)
-      color $item-content-secondary-text-color
-      font-size 90%
-      margin-top .2rem
-      > span
-        font-weight 500
-
-.item-primary + .item-content,
-.item-content + .item-secondary,
-img + .item-content,
-.item-content + img
+.q-item-section + .q-item-section
   margin-left $item-gutter
 
-.item
+.q-item
   position relative
   display flex
   align-items center
@@ -93,26 +85,26 @@ img + .item-content,
   &:focus
     outline 0
 
-  > img
-    min-width $item-image-size
-    max-width $item-image-size
-    max-height $item-image-size
+.q-item-image
+  min-width $item-image-size
+  max-width $item-image-size
+  max-height $item-image-size
 
-.list.multiple-lines > .item, .item.multiple-lines
+.q-list-multiline > .q-item, .q-item-multiline
   align-items flex-start
 
-.list.link > .item, .item.link
+.q-list-link > .q-item, .q-item-link
   cursor pointer
 
-.list.highlight > .item, .item.highlight,
-.list.link > .item, .item.link
+.q-list-highlight > .q-item, .q-item-highlight,
+.q-list-link > .q-item, .q-item-link
   &:hover
     background $item-highlight-color
 
-.list.delimiter > .item + .item, .item + .item.delimiter
+.q-list-delimiter > .q-item-division + .q-item-division, .q-item-division + .q-item-delimiter
   border-top 1px solid $item-delimiter-color
-.list.inset-delimiter > .item, .item + .item.inset-delimiter
-  &:not(:first-child):after
+.q-list-inset-delimiter > .q-item-division + .q-item-division, .q-item-division + .q-item-inset-delimiter
+  &:after
     content ''
     position absolute
     top 0
@@ -121,41 +113,42 @@ img + .item-content,
     height 1px
     background $item-delimiter-color
 
-.list.dense > .item, .item.dense
+.q-list-dense > .q-item, .q-item-dense
   padding round($item-padding * $item-dense-factor) $item-padding
   min-height round($item-min-height * $item-dense-factor)
-.list.large > .item, .item.large
-  padding ($item-padding * $item-large-factor) $item-padding
-  min-height ($item-min-height * $item-large-factor)
+.q-list-sparse > .q-item, .q-item-sparse
+  padding ($item-padding * $item-sparse-factor) $item-padding
+  min-height ($item-min-height * $item-sparse-factor)
 
-.list
+.q-list-striped .q-item:nth-child(even)
+  background-color $item-stripe-color
+.q-list-striped-odd .q-item:nth-child(odd)
+  background-color $item-stripe-color
+
+.q-list
   border 1px solid $item-delimiter-color
   padding ($item-padding / 2) 0
 
-  & + .list
+  & + .q-list
     margin-top 32px
 
-  &.striped .item:nth-child(even)
-    background-color $item-stripe-color
+.q-item-delimiter-component
+  margin ($item-padding / 2) 0
+  height 1px
+  border 0
+  background-color $item-delimiter-color
+  &:last-child
+    display none
+  & + .q-list-header
+    margin-top (- $item-padding / 2)
+.q-item-delimiter-inset-component
+  margin-left ($item-padding + $item-gutter + $item-primary-size)
 
-  hr
-    margin ($item-padding / 2) 0
-    height 1px
-    border 0
-    background-color $item-delimiter-color
-    &:last-child
-      display none
-    &.inset
-      margin-left ($item-padding + $item-gutter + $item-primary-size)
-
-.list-label
+.q-list-header
   color $item-label-color
   font-size 14px
   font-weight 500
   line-height 48px
   padding-left $item-padding
-  &.inset
-    padding-left ($item-padding + $item-gutter + $item-primary-size)
-
-hr + .list-label
-  margin-top (- $item-padding / 2)
+.q-list-header-inset
+  padding-left ($item-padding + $item-gutter + $item-primary-size)

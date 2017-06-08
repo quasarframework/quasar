@@ -64,47 +64,46 @@
         :debounce="50"
       ></q-search>
 
-      <div
-        class="list link no-border"
-        :class="{delimiter: delimiter}"
+      <q-list
+        link
+        :delimiter="delimiter"
+        class="no-border"
       >
         <template v-if="multiple">
-          <q-item
-            class="item"
+          <q-item-wrapper
             v-for="opt in visibleOptions"
             :key="opt"
             :cfg="opt"
-            @click.native="__toggle(opt.value)"
-            no-ripple
+            slot-replace
+            @click="__toggle(opt.value)"
           >
             <q-toggle
               v-if="toggle"
-              slot="secondary"
+              slot="right"
               :value="optModel[opt.index]"
               @click.native="__toggle(opt.value)"
             ></q-toggle>
             <q-checkbox
               v-else
-              slot="primary"
+              slot="left"
               :value="optModel[opt.index]"
               @click.native="__toggle(opt.value)"
             ></q-checkbox>
-          </q-item>
+          </q-item-wrapper>
         </template>
         <template v-else>
-          <q-item
-            class="item"
+          <q-item-wrapper
             v-for="opt in visibleOptions"
             :key="opt"
             :cfg="opt"
+            slot-replace
             :active="model === opt.value"
-            @click.native="__select(opt.value)"
-            no-ripple
+            @click="__select(opt.value)"
           >
             <q-radio v-if="radio" slot="primary" :value="model" :val="opt.value"></q-radio>
-          </q-item>
+          </q-item-wrapper>
         </template>
-      </div>
+      </q-list>
     </q-popover>
   </q-input-frame>
 </template>
@@ -112,7 +111,7 @@
 <script>
 import { QSearch } from '../search'
 import { QPopover } from '../popover'
-import { QItem } from '../item'
+import { QList, QItemWrapper } from '../list'
 import { QCheckbox } from '../checkbox'
 import { QRadio } from '../radio'
 import { QToggle } from '../toggle'
@@ -130,7 +129,8 @@ export default {
   components: {
     QSearch,
     QPopover,
-    QItem,
+    QList,
+    QItemWrapper,
     QCheckbox,
     QRadio,
     QToggle,

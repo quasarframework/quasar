@@ -1,4 +1,4 @@
-$collapsible-padding             ?= 4px 16px
+$collapsible-padding             ?= 8px 16px
 $collapsible-indent-left-padding ?= ($item-primary-size + $item-gutter)
 $collapsible-active-color        ?= $item-active-color
 
@@ -8,8 +8,8 @@ $collapsible-active-color        ?= $item-active-color
     padding-left $collapsible-menu-left-padding
     padding-right 0
 
-  .card
+  .q-card
     margin-bottom 0
 
-.q-collapsible.router-link-active > .item
-    background $collapsible-active-color
+.q-collapsible.router-link-active > .q-item
+  background $collapsible-active-color

@@ -57,31 +57,32 @@
       <q-select error multiple v-model="multipleSelect" :options="selectOptions"></q-select>
 
       <p class="caption">Inside of a List</p>
-      <div class="list">
-        <div class="list-label">Single Selection</div>
-        <div class="item">
-          <div class="item-primary"><q-icon name="supervisor_account" /></div>
-          <div class="item-content">
+      <q-list>
+        <q-list-header>Single Selection</q-list-header>
+        <q-item>
+          <q-item-side icon="supervisor_account" />
+          <q-item-main>
             <q-select
-              class="full-width"
+              class="no-margin"
               v-model="select"
               :options="selectOptions"
-            ></q-select>
-          </div>
-        </div>
-        <hr>
-        <div class="list-label">Multiple Selection</div>
-        <div class="item">
-          <div class="item-primary"><q-icon name="supervisor_account" /></div>
-          <div class="item-content">
+            />
+          </q-item-main>
+        </q-item>
+        <q-item-delimiter />
+        <q-list-header>Multiple Selection</q-list-header>
+        <q-item>
+          <q-item-side icon="supervisor_account" />
+          <q-item-main>
             <q-select
               multiple
+              class="no-margin"
               v-model="multipleSelect"
               :options="selectOptions"
-            ></q-select>
-          </div>
-        </div>
-      </div>
+            />
+          </q-item-main>
+        </q-item>
+      </q-list>
 
 
       <p class="caption">Scroll into View</p>

@@ -7,20 +7,19 @@
         on each type to see an Action Sheet in action.
       </p>
 
-      <div class="list" style="max-width: 600px;">
-        <div
-          class="item link"
+      <q-list style="max-width: 600px;">
+        <q-item
+          link
           v-for="dialog in types"
+          :key="dialog"
           @click="dialog.handler()"
           v-ripple.mat
         >
-          <q-icon class="item-primary" name="settings" />
-          <div class="item-content has-secondary">
-            <div>{{dialog.label}}</div>
-          </div>
-          <q-icon class="item-secondary" name="keyboard_arrow_right" />
-        </div>
-      </div>
+          <q-item-side icon="settings" />
+          <q-item-main :label="dialog.label" />
+          <q-item-side right icon="keyboard_arrow_right" />
+        </q-item>
+      </q-list>
     </div>
   </div>
 </template>
@@ -64,8 +63,6 @@ function showActionSheetWithIcons (gallery) {
     ],
     dismiss: {
       label: 'Cancel',
-      icon: 'cancel',
-      classes: 'text-primary',
       handler () {
         Toast.create('Cancelled...')
       }
@@ -109,8 +106,6 @@ function showActionSheetWithAvatar (gallery) {
     ],
     dismiss: {
       label: 'Cancel',
-      icon: 'cancel',
-      classes: 'text-primary',
       handler () {
         Toast.create('Cancelled...')
       }

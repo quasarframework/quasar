@@ -81,34 +81,34 @@
       </q-field>
 
       <p class="caption">Inside of a List</p>
-      <div class="list">
-        <label class="item">
-          <div class="item-primary">
+      <q-list link>
+        <q-item tag="label">
+          <q-item-side>
             <q-checkbox v-model="checked"></q-checkbox>
-          </div>
-          <div class="item-content">
-            Notifications
-          </div>
-        </label>
-        <label class="item">
-          <div class="item-primary">
+          </q-item-side>
+          <q-item-main>
+            <q-item-tile title>Notification</q-item-tile>
+          </q-item-main>
+        </q-item>
+        <q-item tag="label">
+          <q-item-side>
             <q-checkbox v-model="checked"></q-checkbox>
-          </div>
-          <div class="item-content text">
-            <div>Notifications</div>
-            <div>Allow notifications</div>
-          </div>
-        </label>
-        <label class="item">
-          <div class="item-primary">
+          </q-item-side>
+          <q-item-main>
+            <q-item-tile label>Notification</q-item-tile>
+            <q-item-tile sublabel>Allow notification</q-item-tile>
+          </q-item-main>
+        </q-item>
+        <q-item tag="label">
+          <q-item-side>
             <q-checkbox v-model="checked"></q-checkbox>
-          </div>
-          <div class="item-content text">
-            <div>Notifications</div>
-            <div>Allow notifications Allow notifications Allow notifications Allow notifications Allow notifications </div>
-          </div>
-        </label>
-      </div>
+          </q-item-side>
+          <q-item-main>
+            <q-item-tile label>Notification</q-item-tile>
+            <q-item-tile sublabel>Allow notifications Allow notifications Allow notifications Allow notifications Allow notifications</q-item-tile>
+          </q-item-main>
+        </q-item>
+      </q-list>
     </div>
   </div>
 </template>

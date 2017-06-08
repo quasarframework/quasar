@@ -33,6 +33,9 @@ export default {
     }
 
     data.staticClass = `${cls ? cls + ' ' : ''}q-icon${name.length ? ` ${name}` : ''}${prop.color ? ` text-${prop.color}` : ''}`
+    if (!data.hasOwnProperty('attrs')) {
+      data.attrs = {}
+    }
     data.attrs['aria-hidden'] = 'true'
     return h('i', data, text ? [text, ctx.children] : [' ', ctx.children])
   }

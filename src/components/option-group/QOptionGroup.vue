@@ -55,11 +55,11 @@ export default {
     const isArray = Array.isArray(this.value)
     if (this.type === 'radio') {
       if (isArray) {
-        console.error('q-radio: model should not be array')
+        console.error('q-option-group: model should not be array')
       }
     }
     else if (!isArray) {
-      console.error('q-radio: model should be array')
+      console.error('q-option-group: model should be array in your case')
     }
   },
   computed: {

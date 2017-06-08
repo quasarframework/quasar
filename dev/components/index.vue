@@ -12,15 +12,11 @@
           v-for="feature in category"
           :key="feature"
           tag="div"
-          class="item link"
+          class="q-item q-item-link"
           :to="feature.route"
         >
-          <div class="item-content">
-            <div>{{ feature.title }}</div>
-          </div>
-          <div class="item-secondary">
-            <q-icon name="chevron_right"></q-icon>
-          </div>
+          <q-item-main :label="feature.title" />
+          <q-item-side right icon="chevron_right" />
         </router-link>
       </div>
     </div>

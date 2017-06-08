@@ -12,18 +12,15 @@
           <q-icon name="assignment" />
 
           <q-popover ref="popover1">
-            <div class="list scroll highlight link delimiter no-border" style="min-width: 150px;">
-              <div
-                class="item"
+            <q-list link delimiter class="scroll" style="min-width: 100px">
+              <q-item
                 v-for="n in 20"
+                :key="n"
                 @click="showToast(), $refs.popover1.close()"
               >
-                <div class="item-content text">
-                  <div>Label</div>
-                  <div>Value</div>
-                </div>
-              </div>
-            </div>
+                <q-item-main label="Label" sublabel="Click me" />
+              </q-item>
+            </q-list>
           </q-popover>
         </q-btn>
 
@@ -35,8 +32,8 @@
           </q-popover>
         </q-btn>
 
-        <div class="card" style="margin-top: 75px">
-          <div class="card-title bg-primary text-center">
+        <q-card style="margin-top: 75px">
+          <q-card-title class="bg-primary text-center">
             <q-btn push color="orange">
               Tap Me
 
@@ -45,100 +42,62 @@
                 :anchor="anchor"
                 :self="self"
               >
-                <div class="list highlight link delimiter no-border" style="min-width: 100px">
-                  <div
-                    class="item"
+                <q-list link style="min-width: 100px">
+                  <q-item
                     v-for="n in 3"
+                    :key="n"
                     @click="showToast(), $refs.popover2.close()"
                   >
-                    <div class="item-content">
-                      Label
-                    </div>
-                  </div>
-                </div>
+                    <q-item-main label="Label" />
+                  </q-item>
+                </q-list>
               </q-popover>
             </q-btn>
-          </div>
+          </q-card-title>
 
           <p class="caption text-center">Configure the Popover for button above.</p>
           <p class="text-center">
-            <span class="tag label bg-light">anchor="{{anchor}}"</span>
-            <span class="tag label bg-light">self="{{self}}"</span>
+            <q-chip tag color="primary">anchor="{{anchor}}"</q-chip>
+            <q-chip tag color="primary">self="{{self}}"</q-chip>
           </p>
-          <div class="card-content group row sm-column">
-            <div class="auto column items-center">
+          <q-card-main class="row">
+            <div class="column items-center col-6">
               <p class="caption">Anchor Origin</p>
               <div class="flex">
                 <div class="column group">
                   <div>Vertical</div>
-                  <label>
-                    <q-radio v-model="anchorOrigin.vertical" val="top"></q-radio>
-                    Top
-                  </label>
-                  <label>
-                    <q-radio v-model="anchorOrigin.vertical" val="center"></q-radio>
-                    Center
-                  </label>
-                  <label>
-                    <q-radio v-model="anchorOrigin.vertical" val="bottom"></q-radio>
-                    Bottom
-                  </label>
+                  <q-radio v-model="anchorOrigin.vertical" val="top" label="Top" />
+                  <q-radio v-model="anchorOrigin.vertical" val="center" label="Center" />
+                  <q-radio v-model="anchorOrigin.vertical" val="bottom" label="Bottom" />
                 </div>
                 <div class="column group">
                   <div>Horizontal</div>
-                  <label>
-                    <q-radio v-model="anchorOrigin.horizontal" val="left"></q-radio>
-                    Left
-                  </label>
-                  <label>
-                    <q-radio v-model="anchorOrigin.horizontal" val="middle"></q-radio>
-                    Middle
-                  </label>
-                  <label>
-                    <q-radio v-model="anchorOrigin.horizontal" val="right"></q-radio>
-                    Right
-                  </label>
+                  <q-radio v-model="anchorOrigin.horizontal" val="left" label="Left" />
+                  <q-radio v-model="anchorOrigin.horizontal" val="middle" label="Middle" />
+                  <q-radio v-model="anchorOrigin.horizontal" val="right" label="Right" />
                 </div>
               </div>
             </div>
 
-            <div class="auto column items-center">
+            <div class="column items-center col-6">
               <p class="caption">Self Origin</p>
               <div class="flex">
                 <div class="column group">
                   <div>Vertical</div>
-                  <label>
-                    <q-radio v-model="selfOrigin.vertical" val="top"></q-radio>
-                    Top
-                  </label>
-                  <label>
-                    <q-radio v-model="selfOrigin.vertical" val="center"></q-radio>
-                    Center
-                  </label>
-                  <label>
-                    <q-radio v-model="selfOrigin.vertical" val="bottom"></q-radio>
-                    Bottom
-                  </label>
+                  <q-radio v-model="selfOrigin.vertical" val="top" label="Top" />
+                  <q-radio v-model="selfOrigin.vertical" val="center" label="Center" />
+                  <q-radio v-model="selfOrigin.vertical" val="bottom" label="Bottom" />
                 </div>
                 <div class="column group">
                   <div>Horizontal</div>
-                  <label>
-                    <q-radio v-model="selfOrigin.horizontal" val="left"></q-radio>
-                    Left
-                  </label>
-                  <label>
-                    <q-radio v-model="selfOrigin.horizontal" val="middle"></q-radio>
-                    Middle
-                  </label>
-                  <label>
-                    <q-radio v-model="selfOrigin.horizontal" val="right"></q-radio>
-                    Right
-                  </label>
+                  <q-radio v-model="selfOrigin.horizontal" val="left" label="Left" />
+                  <q-radio v-model="selfOrigin.horizontal" val="middle" label="Middle" />
+                  <q-radio v-model="selfOrigin.horizontal" val="right" label="Right" />
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+          </q-card-main>
+        </q-card>
 
         <div style="margin-bottom: 700px;"></div>
 
@@ -158,7 +117,7 @@
           <q-icon name="plus_one" />
 
           <q-popover ref="popover4">
-            <div class="group" style="width: 200px; height: 50px; text-align: center;">
+            <div class="group" style="width: 220px; text-align: center;">
               <q-btn flat color="primary" @click="showToast(), $refs.popover4.close()">
                 <q-icon name="thumb_up" />
               </q-btn>
@@ -177,18 +136,15 @@
         <q-icon name="menu" />
 
         <q-popover ref="popover5">
-          <div class="list link delimiter no-border" style="min-width: 150px">
-            <div
-              class="item"
+          <q-list link delimiter class="scroll" style="min-width: 200px">
+            <q-item
               v-for="n in 20"
+              :key="n"
               @click="showToast(), $refs.popover5.close()"
-              >
-              <div class="item-content text">
-                <div>Label</div>
-                <div>Value</div>
-              </div>
-            </div>
-          </div>
+            >
+              <q-item-main label="Label" sublabel="Click me" />
+            </q-item>
+          </q-list>
         </q-popover>
       </q-btn>
     </div>

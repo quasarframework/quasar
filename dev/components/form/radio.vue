@@ -76,34 +76,34 @@
       </q-field>
 
       <p class="caption">Inside of a List</p>
-      <div class="list">
-        <label class="item">
-          <div class="item-primary">
-            <q-radio v-model="option" val="opt1"></q-radio>
-          </div>
-          <div class="item-content">
-            Option 1
-          </div>
-        </label>
-        <label class="item">
-          <div class="item-primary">
-            <q-radio v-model="option" val="opt2"></q-radio>
-          </div>
-          <div class="item-content text">
-            <div>Option 2</div>
-            <div>Allows notifications</div>
-          </div>
-        </label>
-        <label class="item">
-          <div class="item-primary">
-            <q-radio v-model="option" val="opt3"></q-radio>
-          </div>
-          <div class="item-content text">
-            <div>Option 3</div>
-            <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
-          </div>
-        </label>
-      </div>
+      <q-list link>
+        <q-item tag="label">
+          <q-item-side>
+            <q-radio v-model="option" val="opt1" />
+          </q-item-side>
+          <q-item-main>
+            <q-item-tile label>Option 1</q-item-tile>
+          </q-item-main>
+        </q-item>
+        <q-item tag="label">
+          <q-item-side>
+            <q-radio v-model="option" val="opt2" />
+          </q-item-side>
+          <q-item-main>
+            <q-item-tile label>Option 2</q-item-tile>
+            <q-item-tile sublabel>Allows notifications</q-item-tile>
+          </q-item-main>
+        </q-item>
+        <q-item tag="label">
+          <q-item-side>
+            <q-radio v-model="option" val="opt3" />
+          </q-item-side>
+          <q-item-main>
+            <q-item-tile label>Option 3</q-item-tile>
+            <q-item-tile sublabel>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</q-item-tile>
+          </q-item-main>
+        </q-item>
+      </q-list>
     </div>
   </div>
 </template>

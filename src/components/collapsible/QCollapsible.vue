@@ -1,36 +1,26 @@
 <template>
-  <div class="q-collapsible">
-    <slot name="header">
-      <q-item
-        :link="!iconToggle"
-        class="non-selectable item-collapsible"
-        @click.native="__toggleItem"
-        :icon="icon"
-        :img="img"
-        :avatar="avatar"
-        :letter="letter"
-        text
-        :no-ripple="iconToggle"
+  <div
+    class="q-collapsible q-item-division relative-position"
+    :class="{ 'q-item-delimiter': delimiter, 'q-item-inset-delimiter': insetDelimiter }"
+  >
+    <q-item-wrapper :cfg="cfg" @click="__toggleItem" v-ripple.mat="!iconToggle">
+      <div
+        slot="right"
+        class="cursor-pointer relative-position inline-block"
+        @click.stop="toggle"
+        v-ripple.mat.stop="iconToggle"
       >
-        <q-icon
-          slot="secondary"
-          :name="arrowIcon"
-          class="relative-position cursor-pointer"
+        <q-item-tile
+          icon="keyboard_arrow_down"
+          class="transition-generic"
           :class="{'rotate-180': active}"
-          @click.stop="toggle"
-          v-ripple.mat.stop="!iconToggle"
-        ></q-icon>
-
-        <slot name="label">
-          <div class="ellipsis" v-html="label"></div>
-          <div v-if="description" class="ellipsis" v-html="description"></div>
-        </slot>
-      </q-item>
-    </slot>
+        ></q-item-tile>
+      </div>
+    </q-item-wrapper>
 
     <q-slide-transition>
       <div v-show="active">
-        <div class="q-collapsible-sub-item" :class="{indent: indent}">
+        <div class="q-collapsible-sub-item relative-position" :class="{indent: indent}">
           <slot></slot>
         </div>
       </div>
@@ -39,8 +29,7 @@
 </template>
 
 <script>
-import { QItem } from '../item'
-import { QIcon } from '../icon'
+import { QItemWrapper, QItemTile } from '../list'
 import { QSlideTransition } from '../slide-transition'
 import Ripple from '../../directives/ripple'
 import Events from '../../features/events'
@@ -50,8 +39,8 @@ const eventName = 'q:collapsible:close'
 export default {
   name: 'q-collapsible',
   components: {
-    QItem,
-    QIcon,
+    QItemWrapper,
+    QItemTile,
     QSlideTransition
   },
   directives: {
@@ -60,18 +49,23 @@ export default {
   props: {
     opened: Boolean,
     indent: Boolean,
-    icon: String,
     group: String,
-    img: String,
-    avatar: String,
-    label: String,
-    description: String,
-    letter: String,
     iconToggle: Boolean,
-    arrowIcon: {
-      type: String,
-      default: 'keyboard_arrow_down'
-    }
+
+    dense: Boolean,
+    sparse: Boolean,
+    multiline: Boolean,
+    delimiter: Boolean,
+    insetDelimiter: Boolean,
+
+    icon: String,
+    image: String,
+    avatar: String,
+    letter: String,
+    label: String,
+    sublabel: String,
+    labelLines: [String, Number],
+    sublabelLines: [String, Number]
   },
   data () {
     return {
@@ -88,6 +82,28 @@ export default {
       }
 
       this.$emit(val ? 'open' : 'close')
+    }
+  },
+  computed: {
+    cfg () {
+      return {
+        link: !this.iconToggle,
+
+        dark: this.dark,
+        dense: this.dense,
+        sparse: this.sparse,
+        multiline: this.multiline,
+
+        icon: this.icon,
+        image: this.image,
+        avatar: this.avatar,
+        letter: this.letter,
+
+        label: this.label,
+        sublabel: this.sublabel,
+        labelLines: this.labelLines,
+        sublabelLines: this.sublabelLines
+      }
     }
   },
   methods: {

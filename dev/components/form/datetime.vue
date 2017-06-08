@@ -86,35 +86,29 @@
       <q-datetime type="datetime" v-model="minMaxModel" :min="min" :max="max" />
 
       <p class="caption">Inside of a List</p>
-      <div class="list">
-        <div class="list-label">Date or Time</div>
-        <div class="item">
-          <div class="item-primary">
-            <q-icon name="access_time" />
-          </div>
-          <div class="item-content">
-            <q-datetime class="full-width" v-model="model" type="time" />
-          </div>
-        </div>
-        <div class="item">
-          <div class="item-primary">
-            <q-icon name="update" />
-          </div>
-          <div class="item-content row items-baseline">
-            <q-datetime class="full-width" v-model="model" type="date" />
-          </div>
-        </div>
-        <hr>
-        <div class="list-label">Date & Time</div>
-        <div class="item">
-          <div class="item-primary">
-            <q-icon name="notifications" />
-          </div>
-          <div class="item-content row items-baseline">
-            <q-datetime class="full-width" v-model="model" type="datetime" />
-          </div>
-        </div>
-      </div>
+      <q-list>
+        <q-list-header>Date or Time</q-list-header>
+        <q-item>
+          <q-item-side icon="access_time" />
+          <q-item-main>
+            <q-datetime class="no-margin" v-model="model" type="time" />
+          </q-item-main>
+        </q-item>
+        <q-item>
+          <q-item-side icon="update" />
+          <q-item-main>
+            <q-datetime class="no-margin" v-model="model" type="date" />
+          </q-item-main>
+        </q-item>
+        <q-list-delimiter />
+        <q-list-header>Date & Time</q-list-header>
+        <q-item>
+          <q-item-side icon="notifications" />
+          <q-item-main>
+            <q-datetime class="no-margin" v-model="model" type="datetime" />
+          </q-item-main>
+        </q-item>
+      </q-list>
 
       <p class="caption">
         Date

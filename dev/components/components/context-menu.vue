@@ -31,18 +31,15 @@
     </div>
 
     <q-context-menu ref="context">
-      <div class="list highlight link delimiter no-border" style="min-width: 150px; max-height: 300px;">
-        <div
-          class="item"
+      <q-list link delimiter style="min-width: 150px; max-height: 300px;">
+        <q-item
           v-for="n in 10"
+          :key="n"
           @click="showToast(), $refs.context.close()"
         >
-          <div class="item-content text">
-            <div>Label</div>
-            <div>Value</div>
-          </div>
-        </div>
-      </div>
+          <q-item-main label="Label" sublabel="Value" />
+        </q-item>
+      </q-list>
     </q-context-menu>
   </div>
 </template>

@@ -7,42 +7,32 @@
         on each type to see it in action.
       </p>
 
-      <div class="list" style="max-width: 600px;">
-        <div
-          class="item link"
+      <q-list style="max-width: 600px;">
+        <q-item
+          link
           v-for="dialog in types"
+          :key="dialog"
           @click="dialog.handler()"
           v-ripple.mat
         >
-          <div class="item-primary">
-            <q-icon :name="dialog.icon" />
-          </div>
-          <div class="item-content">
-            <div>{{dialog.label}}</div>
-          </div>
-          <div class="item-secondary">
-            <q-icon name="keyboard_arrow_right" />
-          </div>
-        </div>
-        <hr>
-        <div class="list-label">With Form Components</div>
-        <div
-          class="item link"
+          <q-item-side :icon="dialog.icon" />
+          <q-item-main :label="dialog.label" />
+          <q-item-side right icon="keyboard_arrow_right" />
+        </q-item>
+        <q-item-delimiter />
+        <q-list-header>With Form Components</q-list-header>
+        <q-item
+          link
           v-for="dialog in form"
+          :key="dialog"
           @click="dialog.handler()"
           v-ripple.mat
         >
-          <div class="item-primary">
-            <q-icon :name="dialog.icon" />
-          </div>
-          <div class="item-content has-secondary">
-            <div>{{dialog.label}}</div>
-          </div>
-          <div class="item-secondary">
-            <q-icon name="keyboard_arrow_right" />
-          </div>
-        </div>
-      </div>
+          <q-item-side :icon="dialog.icon" />
+          <q-item-main :label="dialog.label" />
+          <q-item-side right icon="keyboard_arrow_right" />
+        </q-item>
+      </q-list>
 
       <p class="caption">Form components can be combined and named however you wish. Check source code.</p>
     </div>

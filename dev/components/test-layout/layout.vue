@@ -42,10 +42,14 @@
 
     <q-scroll-area slot="left" style="width: 100%; height: 100%;" :thumb-style="{right: '4px', borderRadius: '5px', background: 'red', opacity: 1}">
       <div>FirstL</div>
-      <q-side-link class="item link" to="/test-layout/about">About</q-side-link>
-      <q-side-link class="item link" to="/test-layout/toolbar">Toolbar</q-side-link>
-      <q-side-link class="item link" to="/test-layout/tabs">Tabs</q-side-link>
-      <q-side-link class="item link" to="/test-layout/drawer">Drawer</q-side-link>
+      <q-side-link item to="/test-layout/about">
+        <q-item-side icon="account circle" />
+        <q-item-main label="About" sublabel="What about it?" />
+        <q-item-side right stamp="New" />
+      </q-side-link>
+      <q-side-link item to="/test-layout/toolbar">Toolbar</q-side-link>
+      <q-side-link item to="/test-layout/tabs">Tabs</q-side-link>
+      <q-side-link item to="/test-layout/drawer">Drawer</q-side-link>
       <div v-for="n in 60">left{{n}}</div>
       <q-input v-model="gigi" />
       <div>Last</div>
@@ -53,7 +57,7 @@
 
     <div slot="right">
       <div>FirstR</div>
-      <q-side-link class="item link" to="/test-layout/about">About</q-side-link>
+      <q-side-link item to="/test-layout/about">About</q-side-link>
       <span id="gigi" class="bg-white text-black"></span>
       <span id="gogu"></span>
       <div v-for="n in 60">right{{n}}</div>

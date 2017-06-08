@@ -7,42 +7,34 @@
         on each type to see it in action.
       </p>
 
-      <div class="list" style="max-width: 600px;">
-        <div
-          class="item link"
+      <q-list style="max-width: 600px;">
+        <q-item
+          link
           v-for="modal in types"
+          :key="modal"
           @click="$refs[modal.ref].open()"
+          v-ripple.mat
         >
-          <div class="item-primary">
-            <q-icon name="open_in_new" />
-          </div>
-          <div class="item-content has-secondary">
-            <div>{{modal.label}}</div>
-          </div>
-          <div class="item-secondary">
-            <q-icon name="keyboard_arrow_right" />
-          </div>
-        </div>
-      </div>
+          <q-item-side icon="open_in_new" />
+          <q-item-main :label="modal.label" />
+          <q-item-side right icon="keyboard_arrow_right" />
+        </q-item>
+      </q-list>
 
       <p class="caption">Appear from Edges</p>
-      <div class="list" style="max-width: 600px;">
-        <div
-          class="item link"
+      <q-list style="max-width: 600px;">
+        <q-item
+          link
           v-for="position in ['top', 'bottom', 'left', 'right']"
+          :key="position"
           @click="openSpecialPosition(position)"
+          v-ripple.mat
         >
-          <div class="item-primary">
-            <q-icon name="open_in_new" />
-          </div>
-          <div class="item-content has-secondary">
-            <div>Modal from {{position}}</div>
-          </div>
-          <div class="item-secondary">
-            <q-icon name="keyboard_arrow_right" />
-          </div>
-        </div>
-      </div>
+          <q-item-side icon="open_in_new" />
+          <q-item-main :label="`Modal from ${position}`" />
+          <q-item-side right icon="keyboard_arrow_right" />
+        </q-item>
+      </q-list>
     </div>
 
     <q-modal ref="basicModal" :content-css="{padding: '50px', minWidth: '50vw'}">
