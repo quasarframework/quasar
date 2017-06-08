@@ -54,7 +54,7 @@ export default {
       type: Number,
       default: 500
     },
-    staticData: Object,
+    staticData: Array,
     delimiter: Boolean
   },
   inject: ['__input', '__inputParent'],
@@ -110,7 +110,7 @@ export default {
 
       if (this.staticData) {
         this.searchId = ''
-        this.results = filter(terms, this.staticData)
+        this.results = filter(terms, {field: 'value', list: this.staticData})
         if (this.$q.platform.is.desktop) {
           this.selectedIndex = 0
         }
@@ -157,7 +157,7 @@ export default {
     },
     setValue (result) {
       const suffix = this.__inputParent ? 'Parent' : ''
-      this[`__input${suffix}`].set(this.staticData ? result[this.staticData.field] : result.value)
+      this[`__input${suffix}`].set(result.value)
 
       this.$emit('selected', result)
       this.__clearSearch()
