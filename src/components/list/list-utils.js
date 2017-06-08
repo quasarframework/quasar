@@ -7,9 +7,10 @@ export function textStyle (n) {
 const list = ['icon', 'label', 'sublabel', 'image', 'avatar', 'letter', 'stamp']
 
 export function getType (prop) {
-  for (let t of list) {
-    if (prop[t]) {
-      return t
+  const len = list.length
+  for (let i = 0; i < len; i++) {
+    if (prop[list[i]]) {
+      return list[i]
     }
   }
   return ''

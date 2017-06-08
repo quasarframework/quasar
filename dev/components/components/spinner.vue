@@ -57,8 +57,8 @@ export default {
       size: 36,
       color: 'primary',
       spinners: [
-        'audio', 'ball', 'bars', 'circles', 'dots',
-        'facebook', 'gears', 'grid', 'hearts',
+        'audio', 'ball', 'bars', 'circles', 'comment',
+        'cube', 'dots', 'facebook', 'gears', 'grid', 'hearts',
         'hourglass', 'infinity', 'ios', 'mat', 'oval',
         'pie', 'puff', 'radio', 'rings', 'tail'
       ],

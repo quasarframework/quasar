@@ -3,6 +3,8 @@ import QSpinnerAudio from './list/audio.vue'
 import QSpinnerBall from './list/ball.vue'
 import QSpinnerBars from './list/bars.vue'
 import QSpinnerCircles from './list/circles.vue'
+import QSpinnerComment from './list/comment.vue'
+import QSpinnerCube from './list/cube.vue'
 import QSpinnerDots from './list/dots.vue'
 import QSpinnerFacebook from './list/facebook.vue'
 import QSpinnerGears from './list/gears.vue'
@@ -26,6 +28,8 @@ export {
   QSpinnerBall,
   QSpinnerBars,
   QSpinnerCircles,
+  QSpinnerComment,
+  QSpinnerCube,
   QSpinnerDots,
   QSpinnerFacebook,
   QSpinnerGears,

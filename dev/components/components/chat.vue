@@ -13,6 +13,13 @@
         :text="msg.text"
         :stamp="msg.stamp"
       />
+
+      <q-chat-message
+        name="Vladimir"
+        avatar="/statics/boy-avatar.png"
+      >
+        <q-spinner-dots size="2rem" />
+      </q-chat-message>
     </div>
   </div>
 </template>

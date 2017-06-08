@@ -1,6 +1,6 @@
 import { ItemMixin, itemClasses } from './list-utils'
 import { RouterLinkMixin } from '../../utils/router-link'
-import { Ripple } from '../../directives/ripple'
+import Ripple from '../../directives/ripple'
 
 export default {
   name: 'q-item',
