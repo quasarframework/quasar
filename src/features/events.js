@@ -1,7 +1,8 @@
 let bus
 
-export function install (_Vue) {
+export function installEvents (_Vue) {
   bus = new _Vue()
+  return bus
 }
 
 export default {

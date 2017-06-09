@@ -360,7 +360,7 @@
       </q-list>
 
       <q-list>
-        <q-collapsible icon="inbox" label="Inbox" description="Where your email is">
+        <q-collapsible icon="inbox" label="Inbox" sublabel="Where your email is">
           <q-item v-for="n in 3" :key="n">
             <q-item-side icon="mail" />
             <q-item-main :label="`Email ${n + 1}`" />

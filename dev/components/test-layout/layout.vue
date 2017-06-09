@@ -30,7 +30,7 @@
     </q-toolbar>
 
     <q-toolbar v-if="todo" slot="header" color="secondary">
-      <q-search inverted v-model="search" color="none"></q-search>
+      <q-search inverted v-model="search" color="none" />
     </q-toolbar>
 
     <q-tabs slot="navigation">

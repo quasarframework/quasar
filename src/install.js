@@ -1,5 +1,5 @@
 import Platform from './features/platform'
-import { install as eventsInstall } from './features/events'
+import { installEvents } from './features/events'
 import { current as theme } from './features/theme'
 import { version } from '../package.json'
 import { setVue } from './deps'
@@ -29,11 +29,12 @@ export default function (_Vue, opts = {}) {
     })
   }
 
-  eventsInstall(_Vue)
+  const events = installEvents(_Vue)
 
   _Vue.prototype.$q = {
     version,
     platform: Platform,
-    theme
+    theme,
+    events
   }
 }

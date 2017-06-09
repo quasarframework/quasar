@@ -8,7 +8,8 @@ module.exports = {
     browser: true
   },
   globals: {
-    '__THEME': true
+    '__THEME': true,
+    'cordova': true
   },
   // https://github.com/feross/standard/blob/master/RULES.md#javascript-standard-style
   extends: 'standard',
