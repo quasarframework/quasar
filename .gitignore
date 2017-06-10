@@ -1,5 +1,5 @@
-**/.DS_Store
-**/Thumbs.db
+.DS_Store
+.Thumbs.db
 node_modules/
 dist/
 deploy/
