@@ -137,7 +137,7 @@ export default {
     view: {
       type: String,
       default: 'hhh lpr fff',
-      validator: v => /^(h|l)h(h|r) (l|p)p(r|p) (f|l)f(f|r)$/.test(v.toLowerCase())
+      validator: v => /^(h|l)h(h|r) lpr (f|l)f(f|r)$/.test(v.toLowerCase())
     },
     reveal: Boolean,
 

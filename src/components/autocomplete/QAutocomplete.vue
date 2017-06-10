@@ -2,7 +2,7 @@
   <q-popover
     fit
     @close="$emit('close')"
-    @open="$emit('show')"
+    @open="$emit('open')"
     :offset="[0, 10]"
     ref="popover"
     :anchor-click="false"
