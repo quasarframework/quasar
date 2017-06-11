@@ -3,7 +3,6 @@
     class="q-chip row inline items-center"
     :class="{
       tag: tag,
-      outline: outline,
       square: square,
       floating: floating,
       pointing: pointing,
@@ -14,14 +13,17 @@
     }"
   >
     <div
-      v-if="$slots.left"
+      v-if="icon || avatar"
       class="q-chip-side chip-left row items-center justify-center"
       :class="{'chip-detail': detail}"
     >
-      <slot name="left"></slot>
+      <q-icon v-if="icon" :name="icon"></q-icon>
+      <img v-else-if="avatar" :src="avatar" />
     </div>
 
     <slot></slot>
+
+    <q-icon v-if="iconRight" :name="iconRight" class="on-right"></q-icon>
 
     <div v-if="closable" class="q-chip-side chip-right row items-center justify-center">
       <q-icon
@@ -45,7 +47,6 @@ export default {
   props: {
     small: Boolean,
     tag: Boolean,
-    outline: Boolean,
     square: Boolean,
     floating: Boolean,
     pointing: {
@@ -53,6 +54,9 @@ export default {
       validator: v => ['up', 'right', 'down', 'left'].includes(v)
     },
     color: String,
+    icon: String,
+    iconRight: String,
+    avatar: String,
     closable: Boolean,
     detail: Boolean
   }
