@@ -97,7 +97,9 @@ export function adjustDate (date, mod, utc) {
     prefix = `set${utc ? 'UTC' : ''}`
 
   Object.keys(mod).forEach(key => {
-    const op = key.charAt(0).toUpperCase() + key.slice(1)
+    const op = key === 'year'
+      ? 'FullYear'
+      : key.charAt(0).toUpperCase() + key.slice(1)
     t[`${prefix}${op}`](mod[key])
   })
   return t
@@ -275,6 +277,16 @@ export function daysInMonth (date) {
 }
 
 export const formatter = {
+  // Year: 00, 01, ..., 99
+  YY (date) {
+    return pad(date.getFullYear(), 4).substr(2)
+  },
+
+  // Year: 1900, 1901, ..., 2099
+  YYYY (date) {
+    return pad(date.getFullYear(), 4)
+  },
+
   // Month: 1, 2, ..., 12
   M (date) {
     return date.getMonth() + 1
@@ -285,24 +297,14 @@ export const formatter = {
     return pad(date.getMonth() + 1)
   },
 
-  // Day of week: Sun, Mon, ...
+  // Month Short Name: Jan, Feb, ...
   MMM (date) {
     return this.MMMM(date).slice(0, 3)
   },
 
-  // Day of week: Sunday, Monday, ...
+  // Month Name: January, February, ...
   MMMM (date) {
     return monthNames[date.getMonth()]
-  },
-
-  // Minute: 0, 1, ..., 59
-  m (date) {
-    return date.getMinutes()
-  },
-
-  // Minute: 00, 01, ..., 59
-  mm (date) {
-    return pad(date.getMinutes())
   },
 
   // Quarter: 1, 2, 3, 4
@@ -365,16 +367,6 @@ export const formatter = {
     return pad(getWeekOfYear(date))
   },
 
-  // Year: 00, 01, ..., 99
-  YY (date) {
-    return pad(date.getFullYear(), 4).substr(2)
-  },
-
-  // Year: 1900, 1901, ..., 2099
-  YYYY (date) {
-    return pad(date.getFullYear(), 4)
-  },
-
   // Hour: 0, 1, ... 23
   H (date) {
     return date.getHours()
@@ -400,6 +392,16 @@ export const formatter = {
   // Hour: 01, 02, ..., 12
   hh (date) {
     return pad(this.h(date))
+  },
+
+  // Minute: 0, 1, ..., 59
+  m (date) {
+    return date.getMinutes()
+  },
+
+  // Minute: 00, 01, ..., 59
+  mm (date) {
+    return pad(date.getMinutes())
   },
 
   // Second: 0, 1, ..., 59
