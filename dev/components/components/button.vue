@@ -54,10 +54,10 @@
 
         <q-btn color="dark" small @click="simulateProgress" icon-right="alarm">
           Button
-          <q-spinner-audio slot="spinner" />
+          <q-spinner-audio slot="loading" />
         </q-btn>
         <q-btn round @click="simulateProgress" color="primary" big>
-          <q-spinner-audio slot="spinner" />
+          <q-spinner-audio slot="loading" />
           <q-icon name="alarm" />
         </q-btn>
         <q-btn color="negative" @click="stopProgress">Stop</q-btn>
