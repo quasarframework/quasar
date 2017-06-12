@@ -232,7 +232,7 @@ export default {
       this.$refs.rightScroll.classList[action]('disabled')
     },
     __getTabElByName (value) {
-      const tab = this.$children.find(child => child.name === value)
+      const tab = this.$children.find(child => child.nodeType === 1 && child.name === value)
       if (tab) {
         return tab.$el
       }
