@@ -56,18 +56,30 @@
       :anchor-click="false"
       @open="__onFocus"
       @close="__onClose"
+      class="column no-wrap"
     >
-      <q-search
-        v-if="filter"
-        v-model="terms"
-        :placeholder="filterPlaceholder"
-        :debounce="50"
-      ></q-search>
+      <q-toolbar v-if="hasToolbar" :color="color" :inverted="!inverted">
+        <q-search
+          v-if="filter"
+          v-model="terms"
+          :placeholder="filterPlaceholder"
+          :debounce="50"
+          :color="color"
+          :inverted="inverted"
+        ></q-search>
+        <q-toolbar-title v-if="!filter"></q-toolbar-title>
+        <q-btn flat v-if="multipleToggle" @click="__toggleAll(false)">
+          <q-icon name="check_box_outline_blank" />
+        </q-btn>
+        <q-btn flat v-if="multipleToggle" @click="__toggleAll(true)">
+          <q-icon name="check_box" />
+        </q-btn>
+      </q-toolbar>
 
       <q-list
         link
         :delimiter="delimiter"
-        class="no-border"
+        class="no-border scroll"
       >
         <template v-if="multiple">
           <q-item-wrapper
@@ -141,6 +153,7 @@ export default {
       required: true
     },
     multiple: Boolean,
+    multipleToggle: Boolean,
     radio: Boolean,
     toggle: Boolean,
     chips: Boolean,
@@ -222,6 +235,9 @@ export default {
       return this.multiple
         ? `.q-item-side > ${this.toggle ? '.q-toggle' : '.q-checkbox'} > .active`
         : `.q-item.active`
+    },
+    hasToolbar () {
+      return this.filter || (this.multiple && this.multipleToggle)
     }
   },
   methods: {
@@ -257,14 +273,21 @@ export default {
       this.$emit('blur')
       this.terms = ''
     },
-    __toggle (value) {
+    __toggle (value, select) {
       let index = this.model.indexOf(value)
       if (index > -1) {
-        this.model.splice(index, 1)
+        if (select !== true) {
+          this.model.splice(index, 1)
+        }
       }
       else {
-        this.model.push(value)
+        if (select !== false) {
+          this.model.push(value)
+        }
       }
+    },
+    __toggleAll (status) {
+      this.visibleOptions.forEach(opt => this.__toggle(opt.value, status))
     },
     __select (val) {
       this.model = val
