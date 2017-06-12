@@ -254,7 +254,6 @@ export default {
       this.focused = true
       this.$emit('focus')
       const selected = this.$refs.popover.$el.querySelector(this.activeItemSelector)
-      console.log(selected, this.activeItemSelector)
       if (selected) {
         selected.scrollIntoView()
       }
