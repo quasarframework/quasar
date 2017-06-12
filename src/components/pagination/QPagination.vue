@@ -1,9 +1,9 @@
 <template>
   <div class="q-pagination" :class="{disabled: disable}">
-    <q-btn :disable="value === min" color="primary" flat small @click="set(min)">
+    <q-btn :disable="value === min" :color="color" flat small @click="set(min)">
       <q-icon name="first_page"></q-icon>
     </q-btn>
-    <q-btn :disable="value === min" color="primary" flat small @click="setByOffset(-1)">
+    <q-btn :disable="value === min" :color="color" flat small @click="setByOffset(-1)">
       <q-icon name="keyboard_arrow_left"></q-icon>
     </q-btn>
 
@@ -14,6 +14,7 @@
       v-model="newPage"
       :min="min"
       :max="max"
+      :color="color"
       :style="{width: `${inputPlaceholder.length}rem`}"
       :placeholder="inputPlaceholder"
       :disable="disable"
@@ -21,10 +22,10 @@
       @blur="__update"
     ></q-input>
 
-    <q-btn :disable="value === max" color="primary" flat small @click="setByOffset(1)">
+    <q-btn :disable="value === max" :color="color" flat small @click="setByOffset(1)">
       <q-icon name="keyboard_arrow_right"></q-icon>
     </q-btn>
-    <q-btn :disable="value === max" color="primary" flat small @click="set(max)">
+    <q-btn :disable="value === max" :color="color" flat small @click="set(max)">
       <q-icon name="last_page"></q-icon>
     </q-btn>
   </div>
@@ -55,6 +56,10 @@ export default {
     max: {
       type: Number,
       required: true
+    },
+    color: {
+      type: String,
+      default: 'primary'
     },
     disable: Boolean
   },
