@@ -163,14 +163,24 @@ export default {
           posbarClass.add('expand')
 
           if (this.tab.index < index) {
+            const calcWidth = offsetLeft + width - this.tab.offsetLeft
+            if (calcWidth === this.tab.width) {
+              this.__setTab({name, el, width, offsetLeft, index})
+              return
+            }
             this.__setPositionBar(
-              offsetLeft + width - this.tab.offsetLeft,
+              calcWidth,
               this.tab.offsetLeft
             )
           }
           else {
+            const calcWidth = this.tab.offsetLeft + this.tab.width - offsetLeft
+            if (calcWidth === this.tab.width && offsetLeft === this.tab.offsetLeft) {
+              this.__setTab({name, el, width, offsetLeft, index})
+              return
+            }
             this.__setPositionBar(
-              this.tab.offsetLeft + this.tab.width - offsetLeft,
+              calcWidth,
               offsetLeft
             )
           }
