@@ -101,7 +101,7 @@ export default {
   },
   watch: {
     value (name) {
-      this.selectTab(name)
+      this.selectTab(name, true)
     },
     color (v) {
       this.data.color = v
@@ -117,7 +117,7 @@ export default {
     }
   },
   methods: {
-    selectTab (name) {
+    selectTab (name, instantSet) {
       if (this.data.tabName === name) {
         return
       }
@@ -159,12 +159,15 @@ export default {
         this.__setPositionBar(this.tab.width, this.tab.offsetLeft)
         posbarClass.remove('invisible')
 
+        if (instantSet) {
+          this.__setTab({name, el, width, offsetLeft, index})
+        }
         this.timer = setTimeout(() => {
           posbarClass.add('expand')
 
           if (this.tab.index < index) {
             const calcWidth = offsetLeft + width - this.tab.offsetLeft
-            if (calcWidth === this.tab.width) {
+            if (!instantSet && calcWidth === this.tab.width) {
               this.__setTab({name, el, width, offsetLeft, index})
               return
             }
@@ -175,7 +178,7 @@ export default {
           }
           else {
             const calcWidth = this.tab.offsetLeft + this.tab.width - offsetLeft
-            if (calcWidth === this.tab.width && offsetLeft === this.tab.offsetLeft) {
+            if (!instantSet && calcWidth === this.tab.width && offsetLeft === this.tab.offsetLeft) {
               this.__setTab({name, el, width, offsetLeft, index})
               return
             }
@@ -185,6 +188,10 @@ export default {
             )
           }
 
+          if (instantSet) {
+            this.__beforePositionContract = () => {}
+            return
+          }
           this.__beforePositionContract = () => {
             this.__setTab({name, el, width, offsetLeft, index})
           }
@@ -334,7 +341,7 @@ export default {
       window.addEventListener('resize', this.__redraw)
 
       if (this.data.tabName !== '' && this.value) {
-        this.selectTab(this.value)
+        this.selectTab(this.value, true)
       }
 
       // let browser drawing stabilize then
