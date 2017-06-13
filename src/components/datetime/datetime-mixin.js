@@ -88,6 +88,13 @@ export default {
   },
 
   methods: {
+    clear () {
+      if (this.value !== '') {
+        this.$emit('input', '')
+        this.$emit('change', '')
+      }
+    },
+
     toggleAmPm () {
       if (!this.editable) {
         return

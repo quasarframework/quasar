@@ -84,9 +84,7 @@ export default {
       className: [String, Object],
       css: [String, Object],
       defaultFrom: [String, Number, Date],
-      defaultTo: [String, Number, Date],
-      color: String,
-      disable: Boolean
+      defaultTo: [String, Number, Date]
     }
   ),
   methods: {
