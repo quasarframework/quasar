@@ -8,7 +8,9 @@ function push (child, h, name, slot, replace, conf) {
     return
   }
   const props = Object.values(conf).some(p => p !== void 0 && p !== true)
-  child.push(h(name, props ? {props: conf} : {}, slot))
+  if (props || slot) {
+    child.push(h(name, props ? {props: conf} : {}, slot))
+  }
 }
 
 export default {

@@ -139,16 +139,19 @@ export default {
         },
         {
           label: 'Facebook',
+          inset: true,
           description: 'Enables communication',
           value: 'fb'
         },
         {
           label: 'Twitter',
+          inset: true,
           secondIcon: 'alarm',
           value: 'twtr'
         },
         {
           label: 'Apple Inc.',
+          inset: true,
           stamp: '10 min',
           value: 'appl'
         },
@@ -168,21 +171,25 @@ export default {
         },
         {
           label: 'Facebook',
+          inset: true,
           description: 'Enables communication',
           value: 'fb'
         },
         {
           label: 'Twitter',
+          inset: true,
           secondIcon: 'alarm',
           value: 'twtr'
         },
         {
           label: 'Apple Inc.',
+          inset: true,
           stamp: '10 min',
           value: 'appl'
         },
         {
           label: 'Oracle',
+          inset: true,
           description: 'Some Java for today?',
           icon: 'mail',
           secondIcon: 'alarm',
@@ -195,16 +202,19 @@ export default {
         },
         {
           label: 'Facebook - again',
+          inset: true,
           description: 'Enables communication',
           value: 'fb-a'
         },
         {
           label: 'Twitter - again',
+          inset: true,
           secondIcon: 'alarm',
           value: 'twtr-a'
         },
         {
           label: 'Apple Inc. - again',
+          inset: true,
           stamp: '10 min',
           value: 'appl-a'
         },
@@ -222,16 +232,19 @@ export default {
         },
         {
           label: 'Facebook - trice',
+          inset: true,
           description: 'Enables communication',
           value: 'fb-b'
         },
         {
           label: 'Twitter - trice',
+          inset: true,
           secondIcon: 'alarm',
           value: 'twtr-b'
         },
         {
           label: 'Apple Inc. - trice',
+          inset: true,
           stamp: '10 min',
           value: 'appl-b'
         },
@@ -249,16 +262,19 @@ export default {
         },
         {
           label: 'Facebook - more',
+          inset: true,
           description: 'Enables communication',
           value: 'fb-c'
         },
         {
           label: 'Twitter - more',
+          inset: true,
           secondIcon: 'alarm',
           value: 'twtr-c'
         },
         {
           label: 'Apple Inc. - more',
+          inset: true,
           stamp: '10 min',
           value: 'appl-c'
         },
@@ -276,16 +292,19 @@ export default {
         },
         {
           label: 'Facebook - extra',
+          inset: true,
           description: 'Enables communication',
           value: 'fb-d'
         },
         {
           label: 'Twitter - extra',
+          inset: true,
           secondIcon: 'alarm',
           value: 'twtr-d'
         },
         {
           label: 'Apple Inc. - extra',
+          inset: true,
           stamp: '10 min',
           value: 'appl-d'
         },
