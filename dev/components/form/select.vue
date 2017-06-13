@@ -92,20 +92,6 @@
       <q-select filter v-model="select" :options="selectLongListOptions"></q-select>
       <q-select filter multiple v-model="multipleSelect" :options="selectLongListOptions"></q-select>
       <q-select filter multiple toggle v-model="multipleSelect" :options="selectLongListOptions"></q-select>
-      <q-select multiple multipleToggle v-model="multipleSelect" :options="selectLongListOptions"></q-select>
-      <q-select multiple multipleToggle toggle v-model="multipleSelect" :options="selectLongListOptions"></q-select>
-      <q-select filter multiple multipleToggle v-model="multipleSelect" :options="selectLongListOptions"></q-select>
-      <q-select filter multiple multipleToggle toggle v-model="multipleSelect" :options="selectLongListOptions"></q-select>
-      <q-select inverted multiple multipleToggle v-model="multipleSelect" :options="selectLongListOptions"></q-select>
-      <q-select inverted multiple multipleToggle toggle v-model="multipleSelect" :options="selectLongListOptions"></q-select>
-      <q-select inverted filter v-model="select" :options="selectLongListOptions"></q-select>
-      <q-select inverted filter multiple multipleToggle v-model="multipleSelect" :options="selectLongListOptions"></q-select>
-      <q-select inverted filter multiple multipleToggle toggle v-model="multipleSelect" :options="selectLongListOptions"></q-select>
-      <q-select color="orange" inverted multiple multipleToggle v-model="multipleSelect" :options="selectLongListOptions"></q-select>
-      <q-select color="orange" inverted multiple multipleToggle toggle v-model="multipleSelect" :options="selectLongListOptions"></q-select>
-      <q-select color="orange" inverted filter v-model="select" :options="selectLongListOptions"></q-select>
-      <q-select color="orange" inverted filter multiple multipleToggle v-model="multipleSelect" :options="selectLongListOptions"></q-select>
-      <q-select color="orange" inverted filter multiple multipleToggle toggle v-model="multipleSelect" :options="selectLongListOptions"></q-select>
 
       <p class="caption">Display Value</p>
       <q-select multiple v-model="multipleSelect" float-label="Gigi" :options="selectLongListOptions" :display-value="`${ multipleSelect.length } item${ multipleSelect.length !== 1 ? 's' : '' } selected`"></q-select>
