@@ -54,20 +54,26 @@
       :disable="disable"
       :offset="[0, 10]"
       :anchor-click="false"
+      class="column no-wrap"
       @open="__onFocus"
       @close="__onClose"
     >
       <q-search
         v-if="filter"
         v-model="terms"
+        @input="reposition"
         :placeholder="filterPlaceholder"
-        :debounce="50"
+        :debounce="100"
+        :color="color"
+        icon="filter_list"
+        class="no-margin"
+        style="min-height: 50px; padding: 10px;"
       ></q-search>
 
       <q-list
         link
         :delimiter="delimiter"
-        class="no-border"
+        class="no-border scroll"
       >
         <template v-if="multiple">
           <q-item-wrapper
@@ -120,7 +126,7 @@ import SelectMixin from './select-mixin'
 import clone from '../../utils/clone'
 
 function defaultFilterFn (terms, obj) {
-  return obj.label.toLowerCase().startsWith(terms)
+  return obj.label.toLowerCase().indexOf(terms) > -1
 }
 
 export default {
@@ -156,10 +162,7 @@ export default {
     model: {
       deep: true,
       handler (val) {
-        const popover = this.$refs.popover
-        if (popover.opened) {
-          popover.reposition()
-        }
+        this.reposition()
         if (this.multiple) {
           this.$emit('input', val)
         }
@@ -232,6 +235,12 @@ export default {
     },
     close () {
       this.$refs.popover.close()
+    },
+    reposition () {
+      const popover = this.$refs.popover
+      if (popover.opened) {
+        popover.reposition()
+      }
     },
 
     __onFocus () {
