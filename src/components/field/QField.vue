@@ -53,7 +53,7 @@ export default {
       type: Number,
       default: 5,
       validator (val) {
-        return val >= 1 && val <= 12
+        return val >= 1 && val < 12
       }
     },
     inset: {

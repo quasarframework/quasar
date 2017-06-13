@@ -15,7 +15,7 @@
     :prefix="prefix"
     :suffix="suffix"
     :inverted="inverted"
-    :maxlength="maxlength"
+    :max-length="maxLength"
 
     :color="color"
     :before="controlBefore"

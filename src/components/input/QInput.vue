@@ -41,7 +41,7 @@
           :name="name"
           :placeholder="inputPlaceholder"
           :disabled="disable"
-          :maxlength="maxlength"
+          :maxlength="maxLength"
           :rows="minRows"
 
           :value="value"
@@ -65,7 +65,7 @@
       :placeholder="inputPlaceholder"
       :pattern="pattern"
       :disabled="disable"
-      :maxlength="maxlength"
+      :maxlength="maxLength"
 
       :min="min"
       :max="max"

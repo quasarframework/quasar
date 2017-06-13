@@ -2,7 +2,7 @@ export default {
   props: {
     autofocus: Boolean,
     name: String,
-    maxlength: Number,
+    maxLength: [Number, String],
     maxHeight: Number,
     placeholder: String,
     loading: Boolean

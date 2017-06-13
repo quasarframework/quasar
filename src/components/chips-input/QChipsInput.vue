@@ -41,7 +41,7 @@
         :name="name"
         :placeholder="inputPlaceholder"
         :disabled="disable"
-        :maxlength="maxlength"
+        :max-length="maxLength"
 
         @focus="__onFocus"
         @blur="__onInputBlur"
