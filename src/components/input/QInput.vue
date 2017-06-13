@@ -13,7 +13,6 @@
     :before="before"
     :after="after"
     :color="color"
-    :align="align"
 
     :focused="focused"
     :length="length"
