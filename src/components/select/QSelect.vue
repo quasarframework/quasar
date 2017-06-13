@@ -223,8 +223,8 @@ export default {
     },
     activeItemSelector () {
       return this.multiple
-        ? `.item-${this.toggle ? 'secondary' : 'primary'} > .active`
-        : `.item.active`
+        ? `.q-item-side > ${this.toggle ? '.q-toggle' : '.q-checkbox'} > .active`
+        : `.q-item.active`
     }
   },
   methods: {
