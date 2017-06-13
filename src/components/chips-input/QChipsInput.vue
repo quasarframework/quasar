@@ -12,7 +12,7 @@
     :dark="dark"
     :before="before"
     :after="after"
-    :color="inverted ? bgColor || color : color"
+    :color="inverted ? frameColor || color : color"
 
     :focused="focused"
     :length="length"
@@ -79,7 +79,7 @@ export default {
       type: Array,
       required: true
     },
-    bgColor: String
+    frameColor: String
   },
   data () {
     return {

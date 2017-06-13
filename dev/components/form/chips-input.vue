@@ -13,7 +13,11 @@
         on Chips Textbox below to start adding Chips.
       </p>
       <q-chips-input color="secondary" float-label="Float Label" v-model="model" placeholder="Some placeholder" />
-      <q-chips-input inverted color="dark" bg-color="amber" float-label="Float Label" v-model="model" placeholder="Some placeholder" />
+      <q-chips-input inverted color="dark" frame-color="amber" float-label="Float Label" v-model="model" placeholder="Some placeholder" />
+
+      <div class="bg-grey-9" style="padding: 15px">
+        <q-chips-input dark color="amber" float-label="Float Label" v-model="model" placeholder="Some placeholder" />
+      </div>
 
       <p class="caption">Disabled State</p>
       <q-chips-input v-model="model" disable/>
