@@ -118,7 +118,8 @@ export default {
       this.reposition(evt)
       this.timer = setTimeout(() => {
         this.timer = null
-        document.addEventListener('click', this.close, true)
+        document.body.addEventListener('click', this.close, true)
+        document.body.addEventListener('touchstart', this.close, true)
         this.$emit('open')
       }, 1)
     },
@@ -128,7 +129,8 @@ export default {
       }
 
       clearTimeout(this.timer)
-      document.removeEventListener('click', this.close, true)
+      document.body.removeEventListener('click', this.close, true)
+      document.body.removeEventListener('touchstart', this.close, true)
       this.scrollTarget.removeEventListener('scroll', this.__updatePosition)
       window.removeEventListener('resize', this.__updatePosition)
       EscapeKey.pop()
