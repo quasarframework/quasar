@@ -86,7 +86,6 @@ export default {
       let parsed = parseInt(this.newPage, 10)
       if (parsed) {
         this.model = parsed
-        this.$refs.input.blur()
       }
 
       this.newPage = ''
@@ -106,6 +105,7 @@ export default {
         }
         if (this.value !== value) {
           this.$emit('input', value)
+          this.$emit('change', value)
         }
       }
     },

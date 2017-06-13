@@ -104,7 +104,7 @@ import { QInputFrame } from '../input-frame'
 import { QPopover } from '../popover'
 import QInlineDatetime from './QInlineDatetime'
 import { QBtn } from '../btn'
-import { formatDate } from '../../utils/date'
+import { formatDate, isSameDate } from '../../utils/date'
 import { QModal } from '../modal'
 
 let contentCSS = {
@@ -179,7 +179,10 @@ export default {
     },
     clear () {
       this.$refs.popup.close()
-      this.$emit('input', '')
+      if (this.value !== '') {
+        this.$emit('input', '')
+        this.$emit('change', '')
+      }
     },
 
     __onFocus () {
@@ -203,7 +206,11 @@ export default {
       this.model = this.value
     },
     __update () {
-      this.$emit('input', this.model || this.$refs.target.model)
+      const val = this.model || this.$refs.target.model
+      if (!isSameDate(this.value, val)) {
+        this.$emit('input', val)
+        this.$emit('change', val)
+      }
     }
   }
 }

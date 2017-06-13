@@ -15,7 +15,7 @@ export default {
       validator: v => v.every(o => 'label' in o && 'value' in o)
     },
     chips: Boolean,
-    bgColor: String,
+    frameColor: String,
     displayValue: String
   },
   data () {
@@ -35,11 +35,22 @@ export default {
     },
     additionalLength () {
       return this.displayValue && this.displayValue.length > 0
-    },
-    frameColor () {
-      return this.hasChips && this.inverted
-        ? this.bgColor || this.color
-        : this.color
+    }
+  },
+  methods: {
+    __toggle (value) {
+      const
+        model = this.value,
+        index = model.indexOf(value)
+
+      if (index > -1) {
+        model.splice(index, 1)
+      }
+      else {
+        model.push(value)
+      }
+
+      this.$emit('change', model)
     }
   }
 }

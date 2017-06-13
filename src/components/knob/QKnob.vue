@@ -191,11 +191,16 @@ export default {
         model = this.min + (angle / 360) * (this.max - this.min),
         modulo = model % this.step
 
-      this.$emit('input', between(
+      const val = between(
         model - modulo + (Math.abs(modulo) >= this.step / 2 ? (modulo < 0 ? -1 : 1) * this.step : 0),
         this.min,
         this.max
-      ))
+      )
+
+      if (this.value !== val) {
+        this.$emit('input', val)
+        this.$emit('change', val)
+      }
     },
     __getCenter () {
       let knobOffset = offset(this.$el)

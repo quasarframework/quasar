@@ -10,6 +10,7 @@
         v-model="model"
         :min="min"
         :max="max"
+        @change="onChange"
       ></q-knob>
       <q-knob
         class="text-primary"
@@ -110,6 +111,11 @@ export default {
       model: 30,
       min: 0,
       max: 50
+    }
+  },
+  methods: {
+    onChange (val) {
+      console.log('@change', val)
     }
   }
 }

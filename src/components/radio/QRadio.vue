@@ -58,25 +58,15 @@ export default {
       default: 'radio_button_unchecked'
     }
   },
-  watch: {
-    isActive (v) {
-      const ref = this.$refs.ripple
-      if (v && ref) {
-        ref.classList.add('active')
-        setTimeout(() => {
-          ref.classList.remove('active')
-        }, 10)
-      }
-    }
-  },
   computed: {
     model: {
       get () {
         return this.value
       },
-      set (value) {
-        if (value !== this.value) {
-          this.$emit('input', value)
+      set (val) {
+        if (val !== this.value) {
+          this.$emit('input', val)
+          this.__onChange(val)
         }
       }
     },
@@ -90,12 +80,26 @@ export default {
         this.$el.blur()
       }
 
-      if (!this.disable) {
+      if (!this.disable && this.model !== this.val) {
         this.model = this.val
+        this.__onChange(this.val)
       }
     },
     __change (e) {
-      this.model = this.val
+      if (this.model !== this.val) {
+        this.__onChange(this.val)
+        this.model = this.val
+      }
+    },
+    __onChange (val) {
+      const ref = this.$refs.ripple
+      if (val && ref) {
+        ref.classList.add('active')
+        setTimeout(() => {
+          ref.classList.remove('active')
+        }, 10)
+      }
+      this.$emit('change', val)
     }
   }
 }

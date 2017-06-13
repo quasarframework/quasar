@@ -6,7 +6,7 @@
       </div>
 
       <p class="caption">Standalone</p>
-      <q-toggle v-model="checked" />
+      <q-toggle @change="onChange" v-model="checked" />
       <br><br>
       <q-toggle v-model="checked" label="Toggle Label" />
       <br><br>
@@ -28,11 +28,11 @@
         Model <span class="right-detail"><em>{{selection}}</em></span>
       </div>
 
-      <q-toggle v-model="selection" val="one" label="One" />
+      <q-toggle @change="onChange" v-model="selection" val="one" label="One" />
       <br><br>
-      <q-toggle v-model="selection" val="two" label="Two" />
+      <q-toggle @change="onChange" v-model="selection" val="two" label="Two" />
       <br><br>
-      <q-toggle v-model="selection" val="three" label="Three" />
+      <q-toggle @change="onChange" v-model="selection" val="three" label="Three" />
 
       <p class="caption">With Icon</p>
       <q-toggle v-model="checked" icon="alarm" label="Toggle Label" />
@@ -54,6 +54,7 @@
           inline
           type="toggle"
           v-model="group"
+          @change="onChange"
           :options="[
             { label: 'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ', value: 'op2' },
             { label: 'Option 3', value: 'op3', color: 'secondary' },
@@ -119,6 +120,11 @@ export default {
       checked: true,
       group: ['op3'],
       selection: ['two']
+    }
+  },
+  methods: {
+    onChange (val) {
+      console.log('@change', val)
     }
   }
 }

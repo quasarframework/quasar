@@ -29,7 +29,7 @@
       <p class="caption">
         Datetime Range
       </p>
-      <q-datetime-range type="datetime" v-model="first.range" :min="first.min" :max="first.max" />
+      <q-datetime-range @change="onChange" type="datetime" v-model="first.range" :min="first.min" :max="first.max" />
 
       <p class="caption">
         Datetime Range with Default Selection
@@ -105,6 +105,11 @@ export default {
           to: null
         }
       }
+    }
+  },
+  methods: {
+    onChange (val) {
+      console.log('@change', val.from, val.to)
     }
   }
 }

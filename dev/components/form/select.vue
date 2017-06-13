@@ -2,7 +2,7 @@
   <div>
     <div class="layout-padding">
       <p class="caption">Single Selection</p>
-      <q-select v-model="select" :options="selectOptions" @input="inputChange"></q-select>
+      <q-select v-model="select" :options="selectOptions"></q-select>
       <q-select v-model="select" :options="selectOptions" delimiter></q-select>
       <q-select v-model="select" :options="selectListOptions"></q-select>
 
@@ -13,23 +13,23 @@
 
       <p class="caption">Single Selection with Radio</p>
       <q-field label="gogu">
-        <q-select v-model="select" float-label="Gogu" radio :options="selectListOptions" :count="10"></q-select>
+        <q-select @change="onChange" v-model="select" float-label="Gogu" radio :options="selectListOptions" :count="10"></q-select>
       </q-field>
 
       <p class="caption">Multiple Selection</p>
-      <q-select multiple v-model="multipleSelect" :options="selectListOptions"></q-select>
+      <q-select @change="onChange" multiple v-model="multipleSelect" :options="selectListOptions"></q-select>
 
       <p class="caption">Multiple Selection with Chips</p>
       <q-field label="gogu" :count="10">
-        <q-select multiple chips v-model="multipleSelect" :options="selectListOptions" float-label="Some label" max-height="36px"></q-select>
+        <q-select @change="onChange" multiple chips v-model="multipleSelect" :options="selectListOptions" float-label="Some label" max-height="36px"></q-select>
       </q-field>
       <q-field label="gogu" :count="10">
-        <q-select multiple v-model="multipleSelect" :options="selectListOptions" float-label="Some label" max-height="36px"></q-select>
+        <q-select @change="onChange" multiple v-model="multipleSelect" :options="selectListOptions" float-label="Some label" max-height="36px"></q-select>
       </q-field>
-      <q-select inverted color="dark" bg-color="amber" multiple chips v-model="multipleSelect" :options="selectListOptions" float-label="Some label" max-height="36px"></q-select>
+      <q-select inverted color="dark" frame-color="amber" multiple chips v-model="multipleSelect" :options="selectListOptions" float-label="Some label" max-height="36px"></q-select>
 
       <p class="caption">Multiple Selection with Checkboxes</p>
-      <q-select multiple checkbox v-model="multipleSelect" :options="selectListOptions" @input="inputChange"></q-select>
+      <q-select multiple checkbox v-model="multipleSelect" :options="selectListOptions"></q-select>
 
       <p class="caption">Multiple Selection with Toggle</p>
       <q-select multiple toggle v-model="multipleSelect" :options="selectListOptions"></q-select>
@@ -319,8 +319,8 @@ export default {
     }
   },
   methods: {
-    inputChange (inp) {
-      console.log(inp)
+    onChange (v) {
+      console.log('@change', v)
     }
   }
 }

@@ -13,7 +13,7 @@
     :dark="dark"
     :before="before"
     :after="after"
-    :color="frameColor"
+    :color="frameColor || color"
     :align="align"
 
     :focused="focused"
@@ -81,19 +81,17 @@
             :key="opt"
             :cfg="opt"
             slot-replace
-            @click="__toggle(opt.value)"
+            @click.capture="__toggle(opt.value)"
           >
             <q-toggle
               v-if="toggle"
               slot="right"
               :value="optModel[opt.index]"
-              @click.native="__toggle(opt.value)"
             ></q-toggle>
             <q-checkbox
               v-else
               slot="left"
               :value="optModel[opt.index]"
-              @click.native="__toggle(opt.value)"
             ></q-checkbox>
           </q-item-wrapper>
         </template>
@@ -103,10 +101,10 @@
             :key="opt"
             :cfg="opt"
             slot-replace
-            :active="model === opt.value"
-            @click="__select(opt.value)"
+            :active="value === opt.value"
+            @click.capture="__select(opt.value)"
           >
-            <q-radio v-if="radio" slot="primary" :value="model" :val="opt.value"></q-radio>
+            <q-radio v-if="radio" slot="left" :value="value" :val="opt.value"></q-radio>
           </q-item-wrapper>
         </template>
       </q-list>
@@ -158,29 +156,7 @@ export default {
     placeholder: String,
     delimiter: Boolean
   },
-  watch: {
-    model: {
-      deep: true,
-      handler (val) {
-        this.reposition()
-        if (this.multiple) {
-          this.$emit('input', val)
-        }
-      }
-    }
-  },
   computed: {
-    model: {
-      get () {
-        if (this.multiple && !Array.isArray(this.value)) {
-          console.error('Select model needs to be an array when using multiple selection.')
-        }
-        return this.value
-      },
-      set (value) {
-        this.$emit('input', value)
-      }
-    },
     actualValue () {
       if (this.displayValue) {
         return this.displayValue
@@ -196,12 +172,12 @@ export default {
     optModel () {
       /* Used by multiple selection only */
       if (this.multiple) {
-        return this.options.map(opt => this.model.includes(opt.value))
+        return this.options.map(opt => this.value.includes(opt.value))
       }
     },
     selectedOptions () {
       if (this.multiple) {
-        return this.options.filter(opt => this.model.includes(opt.value))
+        return this.options.filter(opt => this.value.includes(opt.value))
       }
     },
     visibleOptions () {
@@ -265,17 +241,11 @@ export default {
       this.$emit('blur')
       this.terms = ''
     },
-    __toggle (value) {
-      let index = this.model.indexOf(value)
-      if (index > -1) {
-        this.model.splice(index, 1)
-      }
-      else {
-        this.model.push(value)
-      }
-    },
     __select (val) {
-      this.model = val
+      if (this.value !== val) {
+        this.$emit('input', val)
+        this.$emit('change', val)
+      }
       this.close()
     }
   }

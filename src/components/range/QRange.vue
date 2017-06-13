@@ -116,7 +116,10 @@ export default {
         model = getModel(percentage, this.min, this.max, this.step, this.decimals)
 
       this.currentPercentage = percentage
-      this.$emit('input', model)
+      if (model !== this.value) {
+        this.$emit('input', model)
+        this.$emit('change', model)
+      }
     },
     __end () {
       this.dragging = false

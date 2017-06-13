@@ -11,8 +11,9 @@
         :color="opt.color || color"
         :checked-icon="opt.checkedIcon"
         :unchecked-icon="opt.uncheckedIcon"
-        @focus="$emit('focus')"
-        @blur="$emit('blur')"
+        @focus="__onFocus"
+        @blur="__onBlur"
+        @change="__onChange"
       ></component>
     </div>
   </div>
@@ -73,6 +74,19 @@ export default {
       set (value) {
         this.$emit('input', value)
       }
+    }
+  },
+  methods: {
+    __onChange () {
+      this.$nextTick(() => {
+        this.$emit('change', this.model)
+      })
+    },
+    __onFocus () {
+      this.$emit('focus')
+    },
+    __onBlur () {
+      this.$emit('blur')
     }
   }
 }

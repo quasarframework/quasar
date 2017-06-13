@@ -13,7 +13,7 @@
     :dark="dark"
     :before="before"
     :after="after"
-    :color="frameColor"
+    :color="frameColor || color"
     :align="align"
 
     :focused="focused"
@@ -132,7 +132,10 @@ export default {
           {
             label: this.okLabel,
             handler: data => {
-              this.$emit('input', data.select)
+              if (JSON.stringify(this.value) !== JSON.stringify(data.select)) {
+                this.$emit('input', data.select)
+                this.$emit('change', data.select)
+              }
             }
           }
         ]
@@ -144,20 +147,6 @@ export default {
       }
     },
 
-    __toggle (value) {
-      const
-        index = this.value.indexOf(value),
-        model = this.value.slice(0)
-
-      if (index > -1) {
-        model.splice(index, 1)
-      }
-      else {
-        model.push(value)
-      }
-
-      this.$emit('input', model)
-    },
     __onFocus () {
       this.focused = true
       this.$emit('focus')

@@ -8,7 +8,7 @@
           Model <span class="right-detail"><em>{{standalone.min}} to {{standalone.max}}</em> &nbsp;&nbsp;(0 to 50)</span>
         </span>
       </p>
-      <q-double-range v-model="standalone" :min="0" :max="50"></q-double-range>
+      <q-double-range @change="onChange" v-model="standalone" :min="0" :max="50"></q-double-range>
       <q-double-range v-model="standalone" :min="0" :max="50" square></q-double-range>
 
       <p class="caption">
@@ -162,6 +162,11 @@ export default {
         min: 10,
         max: 35
       }
+    }
+  },
+  methods: {
+    onChange (val) {
+      console.log('@change', val.min, val.max)
     }
   }
 }

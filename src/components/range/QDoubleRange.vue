@@ -275,7 +275,11 @@ export default {
       this.currentMaxPercentage = (this.value.max - this.min) / (this.max - this.min)
     },
     __updateInput ({min = this.value.min, max = this.value.max}) {
-      this.$emit('input', {min, max})
+      const val = {min, max}
+      if (this.value.min !== min || this.value.max !== max) {
+        this.$emit('input', val)
+        this.$emit('change', val)
+      }
     },
     __validateProps () {
       if (this.min >= this.max) {

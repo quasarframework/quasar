@@ -1,6 +1,11 @@
 import { between } from '../../utils/format'
 import { inline as props } from './datetime-props'
-import { convertDateToFormat, getDateBetween, startOfDate } from '../../utils/date'
+import {
+  convertDateToFormat,
+  getDateBetween,
+  startOfDate,
+  isSameDate
+} from '../../utils/date'
 
 export default {
   props,
@@ -19,8 +24,10 @@ export default {
       },
       set (val) {
         const date = getDateBetween(val, this.pmin, this.pmax)
-        if ((new Date(this.value)).getTime() !== date.getTime()) {
-          this.$emit('input', convertDateToFormat(date, this.value))
+        if (!isSameDate(this.value, date)) {
+          const val = convertDateToFormat(date, this.value)
+          this.$emit('input', val)
+          this.$emit('change', val)
         }
       }
     },

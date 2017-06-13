@@ -13,7 +13,7 @@
         then hit &lt;ENTER&gt;
       </p>
 
-      <q-pagination v-model="page" :max="17"></q-pagination>
+      <q-pagination @change="onChange" v-model="page" :max="17"></q-pagination>
 
       <p class="caption">Disabled State</p>
       <q-pagination v-model="page" :max="17" disable></q-pagination>
@@ -26,6 +26,11 @@ export default {
   data () {
     return {
       page: 1
+    }
+  },
+  methods: {
+    onChange (val) {
+      console.log('@change', val)
     }
   }
 }

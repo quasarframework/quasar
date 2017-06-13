@@ -62,9 +62,10 @@ export default {
       get () {
         return this.value
       },
-      set (value) {
-        if (this.value !== value) {
-          this.$emit('input', value)
+      set (val) {
+        if (this.value !== val) {
+          this.$emit('input', val)
+          this.$emit('change', val)
         }
       }
     },

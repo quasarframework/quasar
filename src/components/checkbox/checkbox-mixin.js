@@ -11,8 +11,10 @@ export default {
       get () {
         return this.value
       },
-      set (value) {
-        this.$emit('input', value)
+      set (val) {
+        if (this.value !== val) {
+          this.$emit('input', val)
+        }
       }
     },
     isArray () {
@@ -27,17 +29,6 @@ export default {
       return this.isArray
         ? this.model.indexOf(this.val) > -1
         : this.model
-    }
-  },
-  watch: {
-    isActive () {
-      const ref = this.$refs.ripple
-      if (ref) {
-        ref.classList.add('active')
-        setTimeout(() => {
-          ref.classList.remove('active')
-        }, 10)
-      }
     }
   },
   methods: {
@@ -59,6 +50,7 @@ export default {
         return
       }
       this.model = !this.model
+      this.__onChange()
     },
     select () {
       if (this.disable) {
@@ -67,10 +59,12 @@ export default {
       if (this.isArray) {
         if (this.index === -1) {
           this.model.push(this.val)
+          this.__onChange()
         }
         return
       }
       this.model = true
+      this.__onChange()
     },
     unselect () {
       if (this.disable) {
@@ -79,15 +73,30 @@ export default {
       if (this.isArray) {
         if (this.index > -1) {
           this.model.splice(this.index, 1)
+          this.__onChange()
         }
         return
       }
       this.model = false
+      this.__onChange()
     },
     __change (e) {
       if (this.$q.platform.is.ios) {
         this.toggle()
       }
+      else {
+        this.__onChange()
+      }
+    },
+    __onChange () {
+      const ref = this.$refs.ripple
+      if (ref) {
+        ref.classList.add('active')
+        setTimeout(() => {
+          ref.classList.remove('active')
+        }, 10)
+      }
+      this.$emit('change', this.model)
     }
   }
 }

@@ -2,9 +2,9 @@
   <div>
     <div class="layout-padding">
       <p class="caption">With Radios</p>
-      <q-dialog-select type="radio" v-model="select" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Radios"></q-dialog-select>
+      <q-dialog-select @change="onChange" type="radio" v-model="select" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Radios"></q-dialog-select>
       <p class="caption">With Checkboxes</p>
-      <q-dialog-select type="checkbox" v-model="multipleSelect" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Checkboxes"></q-dialog-select>
+      <q-dialog-select @change="onChange" type="checkbox" v-model="multipleSelect" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Checkboxes"></q-dialog-select>
       <p class="caption">With Toggles</p>
       <q-dialog-select type="toggle" v-model="multipleSelect" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Toggles"></q-dialog-select>
 
@@ -18,7 +18,7 @@
       <q-dialog-select stack-label="Stack Label" type="radio" v-model="select" :options="selectOptions" static-label="Company"></q-dialog-select>
 
       <p class="caption">With Chips</p>
-      <q-dialog-select chips float-label="Float Label" type="checkbox" v-model="multipleSelect" :options="selectOptions" placeholder="Pick Company"></q-dialog-select>
+      <q-dialog-select @change="onChange" chips float-label="Float Label" type="checkbox" v-model="multipleSelect" :options="selectOptions" placeholder="Pick Company"></q-dialog-select>
 
       <p class="caption">Disabled State</p>
       <q-dialog-select disable type="radio" v-model="select" :options="selectOptions"></q-dialog-select>
@@ -92,6 +92,11 @@ export default {
           value: 'ora'
         }
       ]
+    }
+  },
+  methods: {
+    onChange (val) {
+      console.log('@change', val)
     }
   }
 }

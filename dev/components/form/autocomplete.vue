@@ -7,7 +7,7 @@
       </p>
 
 
-      <q-search v-model="terms" placeholder="Start typing a country name">
+      <q-search @change="onChange" v-model="terms" placeholder="Start typing a country name">
         <q-autocomplete @search="search" @selected="selected" />
       </q-search>
 
@@ -108,6 +108,9 @@ export default {
     },
     selected (item) {
       Toast.create(`Selected suggestion "${item.label}"`)
+    },
+    onChange (val) {
+      console.log('@change', val)
     }
   }
 }

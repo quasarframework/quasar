@@ -75,9 +75,10 @@ export default {
   provide () {
     return {
       __inputParent: {
-        set: value => {
-          if (this.value !== value) {
-            this.$emit('input', value)
+        set: val => {
+          if (this.value !== val) {
+            this.$emit('input', val)
+            this.$emit('change', val)
           }
         },
         setChildDebounce: v => {
@@ -90,17 +91,19 @@ export default {
     value (v) {
       this.model = v
     },
-    model (value) {
+    model (val) {
       clearTimeout(this.timer)
-      if (this.value === value) {
+      if (this.value === val) {
         return
       }
-      if (!value && value !== 0) {
+      if (!val && val !== 0) {
         this.$emit('input', '')
+        this.$emit('change', '')
         return
       }
       this.timer = setTimeout(() => {
-        this.$emit('input', value)
+        this.$emit('input', val)
+        this.$emit('change', val)
       }, this.debounceValue)
     }
   },

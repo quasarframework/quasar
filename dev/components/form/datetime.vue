@@ -61,7 +61,7 @@
       <q-datetime v-model="model" type="time" format24h />
 
       <p class="caption">Date & Time</p>
-      <q-datetime v-model="model" type="datetime" />
+      <q-datetime @change="onChange" v-model="model" type="datetime" />
 
       <p class="caption">Default Selection</p>
       <q-datetime v-model="model" :default-selection="defaultSelection" type="datetime" />
@@ -100,7 +100,7 @@
             <q-datetime class="no-margin" v-model="model" type="date" />
           </q-item-main>
         </q-item>
-        <q-list-delimiter />
+        <q-item-delimiter />
         <q-list-header>Date & Time</q-list-header>
         <q-item>
           <q-item-side icon="notifications" />
@@ -149,7 +149,7 @@
       <q-inline-datetime v-model="model" type="time" format24h />
 
       <p class="caption">Date & Time</p>
-      <q-inline-datetime color="secondary" v-model="model" type="datetime" />
+      <q-inline-datetime @change="onChange" color="secondary" v-model="model" type="datetime" />
 
       <p class="caption">Date - Monday as First</p>
       <q-inline-datetime v-model="model" monday-first type="date" />
@@ -181,6 +181,11 @@ export default {
 
       min: date.subtractFromDate(day, {days: 5}),
       max: date.addToDate(day, {days: 4, month: 1, minutes: 10})
+    }
+  },
+  methods: {
+    onChange (val) {
+      console.log('@change', val)
     }
   }
 }

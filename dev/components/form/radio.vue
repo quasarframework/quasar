@@ -6,13 +6,13 @@
       </div>
 
       <p class="caption">Standalone</p>
-      <q-radio v-model="option" val="opt1" />
+      <q-radio @change="onChange" v-model="option" val="opt1" />
       <br><br>
-      <q-radio v-model="option" val="opt2" label="Option 2" />
+      <q-radio @change="onChange" v-model="option" val="opt2" label="Option 2" />
       <br><br>
-      <q-radio v-model="option" val="opt3" color="teal" label="Option 3" />
+      <q-radio @change="onChange" v-model="option" val="opt3" color="teal" label="Option 3" />
       <br><br>
-      <q-radio v-model="option" val="opt4" color="orange" label="Option 4" />
+      <q-radio @change="onChange" v-model="option" val="opt4" color="orange" label="Option 4" />
 
       <p class="caption">Label on the left side</p>
       <q-radio v-model="option" val="opt2" left-label label="Option 2" />
@@ -33,6 +33,7 @@
         <q-option-group
           type="radio"
           v-model="group"
+          @change="onChange"
           :options="[
             { label: 'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ', value: 'op2' },
             { label: 'Option 3', value: 'op3', color: 'secondary' },
@@ -79,7 +80,7 @@
       <q-list link>
         <q-item tag="label">
           <q-item-side>
-            <q-radio v-model="option" val="opt1" />
+            <q-radio @change="onChange" v-model="option" val="opt1" />
           </q-item-side>
           <q-item-main>
             <q-item-tile label>Option 1</q-item-tile>
@@ -87,7 +88,7 @@
         </q-item>
         <q-item tag="label">
           <q-item-side>
-            <q-radio v-model="option" val="opt2" />
+            <q-radio @change="onChange" v-model="option" val="opt2" />
           </q-item-side>
           <q-item-main>
             <q-item-tile label>Option 2</q-item-tile>
@@ -96,7 +97,7 @@
         </q-item>
         <q-item tag="label">
           <q-item-side>
-            <q-radio v-model="option" val="opt3" />
+            <q-radio @change="onChange" v-model="option" val="opt3" />
           </q-item-side>
           <q-item-main>
             <q-item-tile label>Option 3</q-item-tile>
@@ -114,6 +115,11 @@ export default {
     return {
       option: 'opt1',
       group: 'op3'
+    }
+  },
+  methods: {
+    onChange (v) {
+      console.log('@change', v)
     }
   }
 }

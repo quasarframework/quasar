@@ -7,7 +7,7 @@
           Model <span class="right-detail"><em>{{standalone}}</em> &nbsp;&nbsp;(0 to 50)</span>
         </span>
       </p>
-      <q-range v-model="standalone" :min="0" :max="50"></q-range>
+      <q-range @change="onChange" v-model="standalone" :min="0" :max="50"></q-range>
       <q-range v-model="standalone" :min="0" :max="50" square></q-range>
 
       <p class="caption">
@@ -112,6 +112,11 @@ export default {
       label: 5,
       snap: 2,
       marker: 6
+    }
+  },
+  methods: {
+    onChange (val) {
+      console.log('@change', val)
     }
   }
 }

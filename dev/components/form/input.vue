@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="layout-padding input-example" style="max-width: 600px;">
-      <q-input v-model="text" />
+      <q-input @change="onChange" v-model="text" />
       <q-input v-model="text" stack-label="Stack Label" />
       <q-input v-model="text" float-label="Float Label" placeholder="Gigi" />
 
@@ -150,6 +150,11 @@ export default {
   computed: {
     length () {
       return this.text.length
+    }
+  },
+  methods: {
+    onChange (val) {
+      console.log('@change', val)
     }
   }
 }

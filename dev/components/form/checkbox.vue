@@ -10,7 +10,7 @@
       <q-checkbox v-model="checked" checked-icon="visibility" unchecked-icon="visibility_off" style="margin-left: 50px" />
 
       <br><br>
-      <q-checkbox v-model="checked" />
+      <q-checkbox @change="onChange" v-model="checked" />
       <br><br>
       <q-checkbox v-model="checked" label="Label" />
       <br><br>
@@ -35,11 +35,11 @@
         Model <span class="right-detail"><em>{{selection}}</em></span>
       </div>
 
-      <q-checkbox v-model="selection" val="one" label="One" />
+      <q-checkbox @change="onChange" v-model="selection" val="one" label="One" />
       <br><br>
-      <q-checkbox v-model="selection" val="two" label="Two" />
+      <q-checkbox @change="onChange" v-model="selection" val="two" label="Two" />
       <br><br>
-      <q-checkbox v-model="selection" val="three" label="Three" />
+      <q-checkbox @change="onChange" v-model="selection" val="three" label="Three" />
 
       <p class="caption">Disabled State</p>
       <q-checkbox v-model="checked" disable label="Disabled Checkbox" />
@@ -55,6 +55,7 @@
           type="checkbox"
           color="secondary"
           v-model="group"
+          @change="onChange"
           :options="[
             { label: 'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ', value: 'op2' },
             { label: 'Option 3', value: 'op3' },
@@ -72,6 +73,8 @@
         <q-option-group
           type="checkbox"
           v-model="group"
+          @focus="onFocus"
+          @blur="onBlur"
           :options="[
             { label: 'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ', value: 'op2' },
             { label: 'Option 3', value: 'op3' },
@@ -110,6 +113,14 @@
         </q-item>
       </q-list>
     </div>
+    <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+    <label for="jack">Jack</label>
+    <input type="checkbox" id="john" value="John" v-model="checkedNames">
+    <label for="john">John</label>
+    <input type="checkbox" id="mike" value="Mike" v-model="checkedNames" style="width:100px;height:100px;">
+    <label for="mike">Mike</label>
+    <br>
+    <span>Checked names: {{ checkedNames }}</span>
   </div>
 </template>
 
@@ -119,7 +130,19 @@ export default {
     return {
       checked: true,
       group: ['op2'],
-      selection: ['one', 'two', 'three']
+      selection: ['one', 'two', 'three'],
+      checkedNames: []
+    }
+  },
+  methods: {
+    onChange (val) {
+      console.log('@change', val)
+    },
+    onFocus () {
+      console.log('focused')
+    },
+    onBlur () {
+      console.log('blur')
     }
   }
 }

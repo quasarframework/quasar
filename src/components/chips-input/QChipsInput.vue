@@ -97,15 +97,15 @@ export default {
   methods: {
     add (value = this.input) {
       if (!this.disable && value) {
-        this.$emit('input', this.value.concat([value]))
+        this.value.push(value)
+        this.$emit('change', this.value)
         this.input = ''
       }
     },
     remove (index) {
       if (!this.disable && index >= 0 && index < this.length) {
-        let value = this.value.slice(0)
-        value.splice(index, 1)
-        this.$emit('input', value)
+        this.value.splice(index, 1)
+        this.$emit('change', this.value)
       }
     },
     __onInputBlur (e) {

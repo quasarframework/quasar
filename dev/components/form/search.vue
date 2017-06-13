@@ -6,7 +6,7 @@
       </div>
 
       <div style="margin-top: 15px">
-        <q-search v-model="search" align="right" suffix="Quasar" style="width: 300px"></q-search>
+        <q-search @change="onChange" v-model="search" align="right" suffix="Quasar" style="width: 300px"></q-search>
         <q-search v-model="search" color="orange"></q-search>
         <q-search v-model="search" color="secondary" icon="explore" placeholder="PlacesPlacesPlacesPlacesPlacesPlacesPlaces"></q-search>
         <q-search v-model="search" color="primary" icon="local_airport" placeholder="Airports"></q-search>
@@ -53,6 +53,11 @@ export default {
     },
     numberModel () {
       return this.number || this.number === 0 ? this.number : 'None'
+    }
+  },
+  methods: {
+    onChange (val) {
+      console.log('@change', val)
     }
   }
 }
