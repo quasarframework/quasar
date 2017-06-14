@@ -1,31 +1,4 @@
-$icon-font-family    ?= 'Material Icons'
-$icon-font-weight    ?= normal
-$icon-font-style     ?= normal
-$icon-letter-spacing ?= normal
-
-if $icon-font-family == 'Material Icons'
-  if $quasar-dont-import-fonts != true && $quasar-dont-import-material-icons != true
-    @font-face
-      font-family 'Material Icons'
-      font-style normal
-      font-weight 400
-      src url('~material-design-icons/iconfont/MaterialIcons-Regular.woff') format('woff')
-
-    &.material-icons
-      font-family $icon-font-family
-      font-weight $icon-font-weight
-      font-style $icon-font-style
-
-      /* Support for all WebKit browsers. */
-      -webkit-font-smoothing antialiased
-      /* Support for Safari and Chrome. */
-      text-rendering optimizeLegibility
-      /* Support for Firefox. */
-      -moz-osx-font-smoothing grayscale
-      /* Support for IE. */
-      font-feature-settings 'liga'
-
-&.material-icons, &.q-icon
+.q-icon
   line-height 1
   letter-spacing normal
   text-transform none
@@ -33,6 +6,7 @@ if $icon-font-family == 'Material Icons'
   word-wrap normal
   direction ltr
 
+.q-icon, .material-icons
   user-select none
   cursor inherit
   display inline-flex

@@ -1,5 +1,5 @@
-$toggle-width           = 51px
-$toggle-height          = 32px
+$toggle-width           = 42px
+$toggle-height          = 24px
 $toggle-span            = 2px
 $toggle-handle-size     = $toggle-height - 2 * $toggle-span
 
@@ -23,6 +23,9 @@ $toggle-handle-size     = $toggle-height - 2 * $toggle-span
   width $toggle-handle-size
   height $toggle-handle-size
   line-height $toggle-handle-size
+
+.q-toggle-icon
+  font-size round($toggle-height / 1.7)
 
 .q-toggle .q-option-inner
   height $toggle-height

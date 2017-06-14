@@ -1,10 +1,5 @@
 $label-offset ?= 8px
 
-.q-option
-  vertical-align middle
-  input
-    display none !important
-
 .q-option-inner
   display inline-block
   color $grey-7
@@ -13,6 +8,14 @@ $label-offset ?= 8px
     color $primary
   & + .q-option-label
     margin-left $label-offset
+
+.q-option
+  vertical-align middle
+  input
+    display none !important
+  &.reverse .q-option-inner + .q-option-label
+    margin-right $label-offset
+    margin-left 0
 
 .q-option-group-inline-opts > div
   display inline-flex

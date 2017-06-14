@@ -1,11 +1,12 @@
-$toggle-width       = 44px
-$toggle-height      = 24px
-$toggle-handle-size = round($toggle-width / 2)
+$toggle-width       = 40px
+$toggle-height      = 20px
+$toggle-handle-size = $toggle-height
+$toggle-base-height = round($toggle-handle-size / 1.7)
 
 .q-toggle-base
   transition all .45s cubic-bezier(.23, 1, .32, 1)
   width 100%
-  height 14px
+  height $toggle-base-height
   border-radius 30px
   background-color currentColor
   opacity .5
@@ -15,17 +16,20 @@ $toggle-handle-size = round($toggle-width / 2)
   transition all 450ms cubic-bezier(.23, 1, .32, 1)
   border-radius 50%
   position absolute
-  top 1px
+  top 0
   left 0
   width $toggle-handle-size
   height $toggle-handle-size
   line-height $toggle-handle-size
 
+.q-toggle-icon
+  font-size round($toggle-height / 1.4)
+
 .q-toggle .q-option-inner
   height $toggle-height
   width $toggle-width
   min-width $toggle-width
-  padding 5px 0
+  padding round(($toggle-height - $toggle-base-height) / 2) 0
   &.active
     .q-toggle-handle
       background-color currentColor
