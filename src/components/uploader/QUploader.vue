@@ -209,7 +209,7 @@ export default {
           this.queue.push(file)
         }
         else {
-          var reader = new FileReader()
+          const reader = new FileReader()
           reader.onload = (e) => {
             let img = new Image()
             img.src = e.target.result
@@ -264,8 +264,9 @@ export default {
       }
     },
     __getUploadPromise (file) {
-      var form = new FormData()
-      var xhr = new XMLHttpRequest()
+      const
+        form = new FormData(),
+        xhr = new XMLHttpRequest()
 
       try {
         form.append('Content-Type', file.type || 'application/octet-stream')

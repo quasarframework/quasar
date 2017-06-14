@@ -51,7 +51,7 @@
     <header
       ref="header"
       v-if="$slots.header || ($q.theme !== 'ios' && $slots.navigation)"
-      class="layout-header"
+      class="layout-header transition-generic"
       :class="computedHeaderClass"
       :style="computedHeaderStyle"
     >
@@ -60,7 +60,7 @@
       <q-resize-observable @resize="onHeaderResize"></q-resize-observable>
     </header>
 
-    <div class="layout-page-container" ref="main" :style="computedPageStyle">
+    <div class="layout-page-container transition-generic" ref="main" :style="computedPageStyle">
       <main class="layout-page" :style="mainStyle" :class="pageClass">
         <slot></slot>
       </main>
@@ -69,7 +69,7 @@
     <footer
       ref="footer"
       v-if="$slots.footer || ($q.theme === 'ios' && $slots.navigation)"
-      class="layout-footer"
+      class="layout-footer transition-generic"
       :class="computedFooterClass"
       :style="computedFooterStyle"
     >

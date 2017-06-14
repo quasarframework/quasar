@@ -91,12 +91,14 @@ if (!Array.prototype.find) {
       if (typeof predicate !== 'function') {
         throw new TypeError('predicate must be a function')
       }
-      var list = Object(this)
-      var length = list.length >>> 0
-      var thisArg = arguments[1]
-      var value
 
-      for (var i = 0; i < length; i++) {
+      let value
+      const
+        list = Object(this),
+        length = list.length >>> 0,
+        thisArg = arguments[1]
+
+      for (let i = 0; i < length; i++) {
         value = list[i]
         if (predicate.call(thisArg, value, i, list)) {
           return value

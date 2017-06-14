@@ -6,7 +6,7 @@ function getUserAgent () {
 }
 
 function getMatch (userAgent, platformMatch) {
-  var match = /(edge)\/([\w.]+)/.exec(userAgent) ||
+  const match = /(edge)\/([\w.]+)/.exec(userAgent) ||
     /(opr)[\/]([\w.]+)/.exec(userAgent) ||
     /(vivaldi)[\/]([\w.]+)/.exec(userAgent) ||
     /(chrome)[\/]([\w.]+)/.exec(userAgent) ||

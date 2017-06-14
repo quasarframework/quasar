@@ -18,12 +18,13 @@ export const monthNames = [
   'July', 'August', 'September', 'October', 'November', 'December'
 ]
 
-function formatTimezone (offset, delimeter) {
-  delimeter = delimeter || ''
-  var sign = offset > 0 ? '-' : '+'
-  var absOffset = Math.abs(offset)
-  var hours = Math.floor(absOffset / 60)
-  var minutes = absOffset % 60
+function formatTimezone (offset, delimeter = '') {
+  const
+    sign = offset > 0 ? '-' : '+',
+    absOffset = Math.abs(offset),
+    hours = Math.floor(absOffset / 60),
+    minutes = absOffset % 60
+
   return sign + pad(hours) + delimeter + pad(minutes)
 }
 
@@ -379,7 +380,7 @@ export const formatter = {
 
   // Hour: 1, 2, ..., 12
   h (date) {
-    var hours = date.getHours()
+    const hours = date.getHours()
     if (hours === 0) {
       return 12
     }

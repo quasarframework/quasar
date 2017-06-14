@@ -11,7 +11,7 @@ export default function (cb = function () {}) {
     return
   }
 
-  var tag = document.createElement('script')
+  const tag = document.createElement('script')
 
   document.addEventListener('deviceready', () => {
     Vue.prototype.$cordova = cordova

@@ -12,7 +12,7 @@ export function set (theme) {
   })
 }
 
-export var current
+export let current
 
 if (typeof __THEME !== 'undefined') {
   set(__THEME)

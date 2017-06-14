@@ -7,7 +7,7 @@ export default {
     appear: Boolean
   },
   render (h, ctx) {
-    var data = {
+    const data = {
       props: {
         mode: 'out-in',
         css: false,

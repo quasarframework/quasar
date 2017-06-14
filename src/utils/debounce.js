@@ -22,8 +22,6 @@ export function debounce (fn, wait = 250, immediate) {
     }
 
   return function (...args) {
-    var callNow = immediate && !timeout
-
     context = this
     timestamp = now()
     params = args
@@ -31,7 +29,7 @@ export function debounce (fn, wait = 250, immediate) {
     if (!timeout) {
       timeout = setTimeout(later, wait)
     }
-    if (callNow) {
+    if (immediate && !timeout) {
       result = fn.apply(context, args)
       context = params = null
     }
