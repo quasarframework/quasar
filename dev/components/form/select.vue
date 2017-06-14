@@ -37,12 +37,6 @@
       <p class="caption">Simple</p>
       <q-select simple v-model="select" :options="selectOptions"></q-select>
 
-      <p class="caption">With Label</p>
-      <q-select multiple v-model="multipleSelect" :options="selectOptions" label="Pick Company"></q-select>
-
-      <p class="caption">With Placeholder</p>
-      <q-select multiple v-model="multipleSelect" :options="selectOptions" placeholder="Pick Company"></q-select>
-
       <p class="caption">With Filter</p>
       <q-select filter v-model="select" :options="selectListOptions"></q-select>
       <q-select filter v-model="select" :options="selectLongListOptions"></q-select>
@@ -146,7 +140,7 @@ export default {
         {
           label: 'Twitter',
           inset: true,
-          secondIcon: 'alarm',
+          rightIcon: 'alarm',
           value: 'twtr'
         },
         {
@@ -159,7 +153,7 @@ export default {
           label: 'Oracle',
           description: 'Some Java for today?',
           icon: 'mail',
-          secondIcon: 'alarm',
+          rightIcon: 'alarm',
           value: 'ora'
         }
       ],
@@ -178,7 +172,7 @@ export default {
         {
           label: 'Twitter',
           inset: true,
-          secondIcon: 'alarm',
+          rightIcon: 'alarm',
           value: 'twtr'
         },
         {
@@ -189,10 +183,11 @@ export default {
         },
         {
           label: 'Oracle',
+          sublabel: 'Oracle that is',
           inset: true,
           description: 'Some Java for today?',
           icon: 'mail',
-          secondIcon: 'alarm',
+          rightIcon: 'alarm',
           value: 'ora'
         },
         {
@@ -209,7 +204,7 @@ export default {
         {
           label: 'Twitter - again',
           inset: true,
-          secondIcon: 'alarm',
+          rightIcon: 'alarm',
           value: 'twtr-a'
         },
         {
@@ -222,7 +217,7 @@ export default {
           label: 'Oracle - again',
           description: 'Some Java for today?',
           icon: 'mail',
-          secondIcon: 'alarm',
+          rightIcon: 'alarm',
           value: 'ora-a'
         },
         {
@@ -239,7 +234,7 @@ export default {
         {
           label: 'Twitter - trice',
           inset: true,
-          secondIcon: 'alarm',
+          rightIcon: 'alarm',
           value: 'twtr-b'
         },
         {
@@ -252,7 +247,7 @@ export default {
           label: 'Oracle - trice',
           description: 'Some Java for today?',
           icon: 'mail',
-          secondIcon: 'alarm',
+          rightIcon: 'alarm',
           value: 'ora-b'
         },
         {
@@ -269,7 +264,7 @@ export default {
         {
           label: 'Twitter - more',
           inset: true,
-          secondIcon: 'alarm',
+          rightIcon: 'alarm',
           value: 'twtr-c'
         },
         {
@@ -282,7 +277,7 @@ export default {
           label: 'Oracle - more',
           description: 'Some Java for today?',
           icon: 'mail',
-          secondIcon: 'alarm',
+          rightIcon: 'alarm',
           value: 'ora-c'
         },
         {
@@ -299,7 +294,7 @@ export default {
         {
           label: 'Twitter - extra',
           inset: true,
-          secondIcon: 'alarm',
+          rightIcon: 'alarm',
           value: 'twtr-d'
         },
         {
@@ -312,7 +307,7 @@ export default {
           label: 'Oracle - extra',
           description: 'Some Java for today?',
           icon: 'mail',
-          secondIcon: 'alarm',
+          rightIcon: 'alarm',
           value: 'ora-d'
         }
       ]
