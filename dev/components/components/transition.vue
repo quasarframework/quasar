@@ -52,31 +52,26 @@
 </template>
 
 <script>
-import { generalAnimations, inAnimations, outAnimations } from '../../../animations/animationList'
+import { generalAnimations, inAnimations, outAnimations } from 'quasar-extras/animate/animate-list.js'
 
-var enterSelectOptions = Array.from(generalAnimations).concat(inAnimations)
-var leaveSelectOptions = Array.from(generalAnimations).concat(outAnimations)
-
-// Since the animations are arrays of objects, we need to compare the label properties,
-// in order to sort alphabetically on them
 function alphabetically (a, b) {
-  if (a.label < b.label) {
-    return -1
+  return a.localeCompare(b)
+}
+function generateOptions (name) {
+  return {
+    label: name,
+    value: name
   }
-  if (a.label > b.label) {
-    return 1
-  }
-  return 0
 }
 
-enterSelectOptions.sort(alphabetically)
-leaveSelectOptions.sort(alphabetically)
+const enter = generalAnimations.concat(inAnimations).sort(alphabetically)
+const leave = generalAnimations.concat(outAnimations).sort(alphabetically)
 
 export default {
   data () {
     return {
-      enterSelectOptions,
-      leaveSelectOptions,
+      enterSelectOptions: enter.map(generateOptions),
+      leaveSelectOptions: leave.map(generateOptions),
       enter: 'bounceInLeft',
       leave: 'bounceOutRight',
       show: true,

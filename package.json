@@ -7,8 +7,7 @@
   "jsnext:main": "dist/quasar.esm.js",
   "files": [
     "dist",
-    "src",
-    "animations"
+    "src"
   ],
   "scripts": {
     "clean": "node build/script.clean.js",

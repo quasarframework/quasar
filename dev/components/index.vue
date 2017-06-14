@@ -1,6 +1,9 @@
 <template>
   <div>
     <div class="layout-padding" style="max-width: 500px">
+      <div class="row justify-center" style="padding-bottom: 25px">
+        <img src="statics/quasar-logo.png">
+      </div>
       <div
         class="list no-border"
         v-for="(category, title) in list"
