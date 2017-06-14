@@ -87,7 +87,7 @@
       <q-list link>
         <q-item tag="label">
           <q-item-side>
-            <q-checkbox v-model="checked"></q-checkbox>
+            <q-checkbox @change="onChange" v-model="checked"></q-checkbox>
           </q-item-side>
           <q-item-main>
             <q-item-tile title>Notification</q-item-tile>
@@ -95,7 +95,7 @@
         </q-item>
         <q-item tag="label">
           <q-item-side>
-            <q-checkbox v-model="checked"></q-checkbox>
+            <q-checkbox @change="onChange" v-model="checked"></q-checkbox>
           </q-item-side>
           <q-item-main>
             <q-item-tile label>Notification</q-item-tile>
@@ -104,7 +104,7 @@
         </q-item>
         <q-item tag="label">
           <q-item-side>
-            <q-checkbox v-model="checked"></q-checkbox>
+            <q-checkbox @change="onChange" v-model="checked"></q-checkbox>
           </q-item-side>
           <q-item-main>
             <q-item-tile label>Notification</q-item-tile>
@@ -113,14 +113,6 @@
         </q-item>
       </q-list>
     </div>
-    <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
-    <label for="jack">Jack</label>
-    <input type="checkbox" id="john" value="John" v-model="checkedNames">
-    <label for="john">John</label>
-    <input type="checkbox" id="mike" value="Mike" v-model="checkedNames" style="width:100px;height:100px;">
-    <label for="mike">Mike</label>
-    <br>
-    <span>Checked names: {{ checkedNames }}</span>
   </div>
 </template>
 
@@ -130,8 +122,7 @@ export default {
     return {
       checked: true,
       group: ['op2'],
-      selection: ['one', 'two', 'three'],
-      checkedNames: []
+      selection: ['one', 'two', 'three']
     }
   },
   methods: {

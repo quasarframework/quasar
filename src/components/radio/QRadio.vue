@@ -66,7 +66,6 @@ export default {
       set (val) {
         if (val !== this.value) {
           this.$emit('input', val)
-          this.__onChange(val)
         }
       }
     },
@@ -86,10 +85,7 @@ export default {
       }
     },
     __change (e) {
-      if (this.model !== this.val) {
-        this.__onChange(this.val)
-        this.model = this.val
-      }
+      this.__onChange(this.value)
     },
     __onChange (val) {
       const ref = this.$refs.ripple

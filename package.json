@@ -76,7 +76,7 @@
     "parse5": "^2.1.0",
     "postcss-loader": "^1.0.0",
     "progress-bar-webpack-plugin": "^1.9.0",
-    "quasar-extras": "0.0.1",
+    "quasar-extras": "0.x",
     "raw-loader": "^0.5.1",
     "rollup": "^0.41.4",
     "rollup-plugin-babel": "^2.6.1",
@@ -102,6 +102,6 @@
   },
   "peerDependencies": {
     "vue": "^2.3.0",
-    "quasar-extras": "^0.0.1"
+    "quasar-extras": "0.x"
   }
 }
