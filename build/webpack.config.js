@@ -31,7 +31,6 @@ module.exports = {
     ],
     alias: {
       quasar: path.resolve(__dirname, '../src/index.esm'),
-      animations: path.resolve(__dirname, '../animations'),
       assets: path.resolve(__dirname, '../dev/assets'),
       components: path.resolve(__dirname, '../dev/components'),
       data: path.resolve(__dirname, '../dev/data')

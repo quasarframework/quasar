@@ -53,9 +53,9 @@
 
 <script>
 import { Alert } from 'quasar'
-import 'animations/bounceInLeft.css'
-import 'animations/bounceInRight.css'
-import 'animations/bounceOutRight.css'
+// import 'quasar-extras/animate/bounceInLeft.css'
+// import 'quasar-extras/animate/bounceInRight.css'
+// import 'quasar-extras/animate/bounceOutRight.css'
 
 Alert.create({html: 'Warning, warning Will Robinson!'})
 

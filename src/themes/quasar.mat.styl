@@ -1,35 +1,7 @@
-$generic-border-radius         ?= 2px
-
-$typography-font-family        ?= 'Roboto'
-
-$toolbar-color                 ?= white
-$toolbar-background            ?= $primary
-
-if $typography-font-family == 'Roboto' && $quasar-dont-import-fonts != true && $quasar-dont-import-roboto != true
-  @font-face
-    font-family 'Roboto'
-    font-weight 200
-    src url('~roboto-fontface/fonts/Roboto/Roboto-Thin.woff') format('woff')
-
-  @font-face
-    font-family 'Roboto'
-    font-weight 300
-    src url('~roboto-fontface/fonts/Roboto/Roboto-Light.woff') format('woff')
-
-  @font-face
-    font-family 'Roboto'
-    font-weight 400
-    src url('~roboto-fontface/fonts/Roboto/Roboto-Regular.woff') format('woff')
-
-  @font-face
-    font-family 'Roboto'
-    font-weight 500
-    src url('~roboto-fontface/fonts/Roboto/Roboto-Medium.woff') format('woff')
-
-  @font-face
-    font-family 'Roboto'
-    font-weight 700
-    src url('~roboto-fontface/fonts/Roboto/Roboto-Bold.woff') format('woff')
+$generic-border-radius       ?= 2px
+$toolbar-color               ?= white
+$toolbar-background          ?= $primary
+$typography-font-family      ?= 'Roboto', '-apple-system', 'Helvetica Neue', Helvetica, Arial, sans-serif
 
 @import './quasar.core.variables'
 
