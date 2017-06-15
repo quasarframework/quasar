@@ -118,7 +118,7 @@ export default {
   },
   methods: {
     selectTab (name) {
-      if (this.data.tabName === name) {
+      if (this.value === name && this.data.tabName === name) {
         return
       }
 
@@ -134,7 +134,7 @@ export default {
       posbarClass.remove('expand', 'contract')
 
       if (!el) {
-        this.__setPositionBar(0, 0)
+        posbarClass.add('invisible')
         this.__setTab({name})
         return
       }
@@ -157,18 +157,24 @@ export default {
         this.tab.index = this.$children.findIndex(child => child.name === this.tab.name)
 
         this.__setPositionBar(this.tab.width, this.tab.offsetLeft)
-        posbarClass.remove('invisible')
 
         this.timer = setTimeout(() => {
+          posbarClass.remove('invisible')
           posbarClass.add('expand')
 
           if (this.tab.index < index) {
+            if (offsetLeft + width - this.tab.offsetLeft === this.tab.offsetLeft) {
+              return this.__setTab({name, el, width, offsetLeft, index})
+            }
             this.__setPositionBar(
               offsetLeft + width - this.tab.offsetLeft,
               this.tab.offsetLeft
             )
           }
           else {
+            if (this.tab.offsetLeft === offsetLeft) {
+              return this.__setTab({name, el, width, offsetLeft, index})
+            }
             this.__setPositionBar(
               this.tab.offsetLeft + this.tab.width - offsetLeft,
               offsetLeft
@@ -176,14 +182,18 @@ export default {
           }
 
           this.__beforePositionContract = () => {
-            this.__setTab({name, el, width, offsetLeft, index})
+            if (this.timer) {
+              this.__setTab({name, el, width, offsetLeft, index})
+            }
           }
         }, 30)
       }, 30)
     },
     __setTab (data) {
       this.data.tabName = data.name
-      this.$emit('input', data.name)
+      if (this.value !== data.name) {
+        this.$emit('input', data.name)
+      }
       this.$emit('select', data.name)
       this.__scrollToTab(data.el)
       this.tab = data
@@ -203,7 +213,6 @@ export default {
       else if (cls.contains('contract')) {
         cls.remove('contract')
         cls.add('invisible')
-        this.__setPositionBar(0, 0)
       }
     },
     __redraw () {
@@ -232,7 +241,7 @@ export default {
       this.$refs.rightScroll.classList[action]('disabled')
     },
     __getTabElByName (value) {
-      const tab = this.$children.find(child => child.name === value)
+      const tab = this.$children.find(child => child.name === value && child.$el && child.$el.nodeType === 1)
       if (tab) {
         return tab.$el
       }
