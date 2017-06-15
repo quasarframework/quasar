@@ -120,15 +120,17 @@ export default {
   },
   methods: {
     selectTab (name) {
-      if (this.value === name && this.data.tabName === name) {
+      let emitInput = this.value !== name
+      if (!emitInput && this.data.tabName === name) {
         return
       }
 
       clearTimeout(this.timer)
+      this.__beforePositionContract = () => {}
       const el = this.__getTabElByName(name)
 
       if (this.$q.theme === 'ios') {
-        this.__setTab({name, el})
+        this.__setTab({name, el}, emitInput)
         return
       }
 
@@ -137,7 +139,7 @@ export default {
 
       if (!el) {
         posbarClass.add('invisible')
-        this.__setTab({name})
+        this.__setTab({name}, emitInput)
         return
       }
 
@@ -150,7 +152,7 @@ export default {
       this.timer = setTimeout(() => {
         if (!this.tab.el) {
           posbarClass.add('invisible')
-          this.__setTab({name, el, width, offsetLeft, index})
+          this.__setTab({name, el, width, offsetLeft, index}, emitInput)
           return
         }
 
@@ -166,7 +168,7 @@ export default {
 
           if (this.tab.index < index) {
             if (offsetLeft + width - this.tab.offsetLeft === this.tab.offsetLeft) {
-              return this.__setTab({name, el, width, offsetLeft, index})
+              return this.__setTab({name, el, width, offsetLeft, index}, emitInput)
             }
             this.__setPositionBar(
               offsetLeft + width - this.tab.offsetLeft,
@@ -184,16 +186,14 @@ export default {
           }
 
           this.__beforePositionContract = () => {
-            if (this.timer) {
-              this.__setTab({name, el, width, offsetLeft, index})
-            }
+            this.__setTab({name, el, width, offsetLeft, index}, emitInput)
           }
         }, 30)
       }, 30)
     },
-    __setTab (data) {
+    __setTab (data, emitInput) {
       this.data.tabName = data.name
-      if (this.value !== data.name) {
+      if (emitInput) {
         this.$emit('input', data.name)
       }
       this.$emit('select', data.name)
