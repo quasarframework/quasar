@@ -243,8 +243,8 @@ export default {
       this.$refs.rightScroll.classList[action]('disabled')
     },
     __getTabElByName (value) {
-      const tab = this.$children.find(child => child.name === value)
-      if (tab && tab.$el && tab.$el.nodeType === 1) {
+      const tab = this.$children.find(child => child.name === value && child.$el && child.$el.nodeType === 1)
+      if (tab) {
         return tab.$el
       }
     },
