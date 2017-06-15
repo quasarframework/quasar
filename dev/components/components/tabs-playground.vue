@@ -66,7 +66,7 @@
       <q-tab-pane name="three">Tab Three</q-tab-pane>
     </q-tabs>
 
-    <q-tabs v-model="tab">
+    <q-tabs v-model="tab" @select="onSelect('blue', $event)" @input="onInput('blue', $event)">
       <q-tab alert slot="title" v-if="third" name="three" label="Oaua" />
       <q-tab count="5" slot="title" name="one" label="Gogu" />
       <q-tab default slot="title" name="two" label="Gigiiiiiiiii sdfsdfs aadsf asfsda" />
@@ -82,6 +82,7 @@
       v-model="tab"
       :align="align"
       color="purple"
+       @select="onSelect(`purple_${ align }`, $event)" @input="onInput(`purple_${ align }`, $event)"
     >
       <q-tab slot="title" v-if="third" name="three" label="Oaua" />
       <q-tab slot="title" name="one" label="Gogu" />
@@ -201,11 +202,19 @@ export default {
       third: true,
       alert: true
     }
+  },
+  methods: {
+    onSelect (source, payload) {
+      console.log('selected', source, payload)
+    },
+    onInput (source, payload) {
+      console.log('input', source, payload)
+    }
   }
 }
 </script>
 
-<style lang="styl">
-.tabs-playground .q-tabs
-  margin-bottom 25px
+<style lang="stylus">
+  .tabs-playground .q-tabs
+    margin-bottom 25px
 </style>
