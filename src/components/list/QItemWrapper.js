@@ -15,11 +15,6 @@ function push (child, h, name, slot, replace, conf) {
 
 export default {
   name: 'q-item-wrapper',
-  components: {
-    QItem,
-    QItemMain,
-    QItemSide
-  },
   functional: true,
   props: {
     cfg: {
@@ -37,14 +32,14 @@ export default {
       slot = ctx.slots(),
       child = []
 
-    push(child, h, 'q-item-side', slot.left, replace, {
+    push(child, h, QItemSide, slot.left, replace, {
       icon: cfg.icon,
       avatar: cfg.avatar,
       letter: cfg.letter,
       image: cfg.image
     })
 
-    push(child, h, 'q-item-main', slot.main, replace, {
+    push(child, h, QItemMain, slot.main, replace, {
       label: cfg.label,
       sublabel: cfg.sublabel,
       labelLines: cfg.labelLines,
@@ -52,7 +47,7 @@ export default {
       inset: cfg.inset
     })
 
-    push(child, h, 'q-item-side', slot.right, replace, {
+    push(child, h, QItemSide, slot.right, replace, {
       right: true,
       icon: cfg.rightIcon,
       avatar: cfg.rightAvatar,
@@ -66,6 +61,6 @@ export default {
     }
 
     ctx.data.props = cfg
-    return h('q-item', ctx.data, child)
+    return h(QItem, ctx.data, child)
   }
 }

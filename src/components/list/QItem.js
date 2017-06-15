@@ -19,7 +19,7 @@ export default {
       prop = ctx.props,
       cls = itemClasses(prop)
 
-    if (prop.to !== void 0) {
+    if (prop.to !== void 0 || prop.link) {
       data.props = prop
       data.directives = data.directives || []
       data.directives.push({

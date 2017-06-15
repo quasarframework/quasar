@@ -4,9 +4,6 @@ import { textStyle, getType } from './list-utils'
 export default {
   name: 'q-item-tile',
   functional: true,
-  components: {
-    QIcon
-  },
   props: {
     icon: String,
     inverted: Boolean,
@@ -41,7 +38,7 @@ export default {
       if (prop.inverted) {
         data.staticClass += ' q-item-icon-inverted'
       }
-      return h('q-icon', data, ctx.children)
+      return h(QIcon, data, ctx.children)
     }
     if ((prop.label || prop.sublabel) && prop.lines) {
       if (prop.lines === '1' || prop.lines === 1) {

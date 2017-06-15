@@ -3,9 +3,6 @@ import { QIcon } from '../icon'
 export default {
   name: 'q-item-side',
   functional: true,
-  components: {
-    QIcon
-  },
   props: {
     right: Boolean,
 
@@ -54,7 +51,7 @@ export default {
       }))
     }
     if (prop.icon) {
-      child.push(h('q-icon', {
+      child.push(h(QIcon, {
         props: { name: prop.icon },
         staticClass: 'q-item-icon',
         class: { 'q-item-icon-inverted': prop.inverted }

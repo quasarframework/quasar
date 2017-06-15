@@ -9,13 +9,10 @@ function create (opts) {
   const state = extend({position: 'top-right'}, opts, {value: true, appear: true, dismissible: !opts.actions || !opts.actions.length})
 
   const vm = new Vue({
-    components: {
-      QAlert
-    },
     functional: true,
     render (h, ctx) {
       return h(
-        'q-alert', {
+        QAlert, {
           style: {
             margin: '18px'
           },

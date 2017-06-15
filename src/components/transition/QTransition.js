@@ -2,9 +2,7 @@
  * Also import the necessary CSS into the app.
  *
  * Example:
- * import 'animate.css/source/_base.css'
- * import 'animate.css/source/bouncing_entrances/bounceInLeft.css'
- * import 'animate.css/source/bouncing_exits/bounceOutRight.css'
+ * import 'quasar-extras/animate/bounceInLeft.css'
  */
 
 export default {
