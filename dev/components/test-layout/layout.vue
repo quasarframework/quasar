@@ -29,7 +29,7 @@
       </q-toolbar-title>
     </q-toolbar>
 
-    <q-toolbar v-if="todo" slot="header" color="secondary">
+    <q-toolbar v-if="todo" slot="header" color="secondary" glossy>
       <q-search inverted v-model="search" color="none" />
     </q-toolbar>
 

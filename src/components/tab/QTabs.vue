@@ -13,6 +13,7 @@
       ref="tabs"
       :class="{
         [`q-tabs-align-${align}`]: true,
+        glossy: glossy,
         [`bg-${color}`]: !inverted && color
       }"
     >
@@ -87,7 +88,8 @@ export default {
     color: String,
     inverted: Boolean,
     twoLines: Boolean,
-    noPaneBorder: Boolean
+    noPaneBorder: Boolean,
+    glossy: Boolean
   },
   data () {
     return {

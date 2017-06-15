@@ -3,7 +3,8 @@ export default {
   functional: true,
   props: {
     color: String,
-    inverted: Boolean
+    inverted: Boolean,
+    glossy: Boolean
   },
   render (h, ctx) {
     const
@@ -13,6 +14,9 @@ export default {
     let classes = `q-toolbar-${prop.inverted ? 'inverted' : 'normal'}`
     if (prop.color) {
       classes += ` ${prop.inverted ? 'text' : 'bg'}-${prop.color}`
+    }
+    if (prop.glossy) {
+      classes += ` glossy`
     }
 
     ctx.data.staticClass = `q-toolbar row no-wrap items-center relative-position ${classes}${cls ? ` ${cls}` : ''}`
