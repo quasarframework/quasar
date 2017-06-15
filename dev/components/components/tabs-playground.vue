@@ -82,7 +82,7 @@
       v-model="tab"
       :align="align"
       color="purple"
-       @select="onSelect(`purple_${ align }`, $event)" @input="onInput(`purple_${ align }`, $event)"
+      @select="onSelect(`purple_${ align }`, $event)" @input="onInput(`purple_${ align }`, $event)"
     >
       <q-tab slot="title" v-if="third" name="three" label="Oaua" />
       <q-tab slot="title" name="one" label="Gogu" />
