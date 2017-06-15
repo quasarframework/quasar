@@ -118,18 +118,15 @@ export default {
   },
   methods: {
     selectTab (name) {
-      clearTimeout(this.timer)
-      this.__beforePositionContract = () => {}
-
-      const emitInput = this.value !== name
-      if (!emitInput && this.data.tabName === name) {
+      if (this.value === name && this.data.tabName === name) {
         return
       }
 
+      clearTimeout(this.timer)
       const el = this.__getTabElByName(name)
 
       if (this.$q.theme === 'ios') {
-        this.__setTab({name, el}, emitInput)
+        this.__setTab({name, el})
         return
       }
 
@@ -137,8 +134,8 @@ export default {
       posbarClass.remove('expand', 'contract')
 
       if (!el) {
-        this.__setPositionBar(0, 0)
-        this.__setTab({name}, emitInput)
+        posbarClass.add('invisible')
+        this.__setTab({name})
         return
       }
 
@@ -151,7 +148,7 @@ export default {
       this.timer = setTimeout(() => {
         if (!this.tab.el) {
           posbarClass.add('invisible')
-          this.__setTab({name, el, width, offsetLeft, index}, emitInput)
+          this.__setTab({name, el, width, offsetLeft, index})
           return
         }
 
@@ -160,14 +157,14 @@ export default {
         this.tab.index = this.$children.findIndex(child => child.name === this.tab.name)
 
         this.__setPositionBar(this.tab.width, this.tab.offsetLeft)
-        posbarClass.remove('invisible')
 
         this.timer = setTimeout(() => {
+          posbarClass.remove('invisible')
           posbarClass.add('expand')
 
           if (this.tab.index < index) {
             if (offsetLeft + width - this.tab.offsetLeft === this.tab.offsetLeft) {
-              return this.__setTab({name, el, width, offsetLeft, index}, emitInput)
+              return this.__setTab({name, el, width, offsetLeft, index})
             }
             this.__setPositionBar(
               offsetLeft + width - this.tab.offsetLeft,
@@ -176,7 +173,7 @@ export default {
           }
           else {
             if (this.tab.offsetLeft === offsetLeft) {
-              return this.__setTab({name, el, width, offsetLeft, index}, emitInput)
+              return this.__setTab({name, el, width, offsetLeft, index})
             }
             this.__setPositionBar(
               this.tab.offsetLeft + this.tab.width - offsetLeft,
@@ -185,14 +182,16 @@ export default {
           }
 
           this.__beforePositionContract = () => {
-            this.__setTab({name, el, width, offsetLeft, index}, emitInput)
+            if (this.timer) {
+              this.__setTab({name, el, width, offsetLeft, index})
+            }
           }
         }, 30)
       }, 30)
     },
-    __setTab (data, emitInput) {
+    __setTab (data) {
       this.data.tabName = data.name
-      if (emitInput) {
+      if (this.value !== data.name) {
         this.$emit('input', data.name)
       }
       this.$emit('select', data.name)
@@ -214,7 +213,6 @@ export default {
       else if (cls.contains('contract')) {
         cls.remove('contract')
         cls.add('invisible')
-        this.__setPositionBar(0, 0)
       }
     },
     __redraw () {
