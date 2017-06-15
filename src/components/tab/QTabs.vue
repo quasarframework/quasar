@@ -120,7 +120,7 @@ export default {
   },
   methods: {
     selectTab (name) {
-      let emitInput = this.value !== name
+      const emitInput = this.value !== name
       if (!emitInput && this.data.tabName === name) {
         return
       }
@@ -177,7 +177,7 @@ export default {
           }
           else {
             if (this.tab.offsetLeft === offsetLeft) {
-              return this.__setTab({name, el, width, offsetLeft, index})
+              return this.__setTab({name, el, width, offsetLeft, index}, emitInput)
             }
             this.__setPositionBar(
               this.tab.offsetLeft + this.tab.width - offsetLeft,
