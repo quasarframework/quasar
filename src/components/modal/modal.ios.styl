@@ -1,22 +1,3 @@
-$modal-background        ?= white
-
-$modal-width             ?= 80vw
-$modal-max-width         ?= 1000px
-
-$modal-height            ?= 80vh
-$modal-max-height        ?= 1000px
-
-$modal-header-font-size  ?= 1.3rem
-$modal-header-padding    ?= 20px 16px 7px
-$modal-header-text-align ?= center
-$modal-body-text-align   ?= center
-$modal-body-color        ?= black
-$modal-body-padding      ?= 0 16px 21px
-$modal-slim-body-padding ?= 0 16px 16px 16px
-$modal-scroll-size       ?= 240px
-$modal-buttons-padding   ?= 0
-$modal-border-radius     ?= 13px
-
 body.with-modal
   overflow hidden !important
 
@@ -111,7 +92,7 @@ maximized-modal()
 
 .modal-buttons:not(.modal-buttons-top)
   padding $modal-buttons-padding
-  border-top 1px solid $form-darker-color
+  border-top 1px solid $grey-5
   color $primary
   .q-btn
     flex 1 1 auto
@@ -123,10 +104,10 @@ maximized-modal()
       font-weight bold
   &.row
     .q-btn + .q-btn
-      border-left 1px solid $form-darker-color
+      border-left 1px solid $grey-5
   &.column
     .q-btn + .q-btn
-      border-top 1px solid $form-darker-color
+      border-top 1px solid $grey-5
 
 .modal-buttons-top
   background $grey-2

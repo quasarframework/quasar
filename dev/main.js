@@ -1,4 +1,4 @@
-require('../src/themes/quasar.' + __THEME + '.styl')
+require('../src/css/' + __THEME + '.styl')
 
 import Vue from 'vue'
 

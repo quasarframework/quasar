@@ -3,12 +3,13 @@ var
   path = require('path'),
   stylus = require('stylus'),
   postcss = require('postcss'),
+  shell = require('shelljs'),
   cssnano = require('cssnano'),
   autoprefixer = require('autoprefixer'),
   themes = ['ios', 'mat'],
   nonStandalone = process.argv[2] === 'simple' || process.argv[3] === 'simple',
   version = process.env.VERSION || require('../package.json').version,
-  pathList = [path.join(__dirname, '../src/themes/')],
+  pathList = [path.join(__dirname, '../src/css/')],
   banner =
     '/*!\n' +
     ' * Quasar Framework v' + version + '\n' +
@@ -16,9 +17,15 @@ var
     ' * Released under the MIT License.\n' +
     ' */\n'
 
+/* copy core.variables.styl */
+shell.cp(
+  path.join(__dirname, '../src/css/core.variables.styl'),
+  path.join(__dirname, '../dist')
+)
+
 themes.forEach(function (theme) {
   var
-    src = 'src/themes/quasar.' + theme + '.styl',
+    src = 'src/css/' + theme + '.styl',
     deps,
     data
 
@@ -36,7 +43,8 @@ themes.forEach(function (theme) {
     .set('paths', pathList)
     .render(function (err, css) {
       if (err) {
-        logError('Stylus could not compile ' + src.gray + ' file...')
+        console.log()
+        logError('Stylus could not compile ' + src.gray + ' file...\n')
         throw err
       }
 

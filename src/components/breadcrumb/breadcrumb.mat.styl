@@ -1,19 +1,8 @@
-$breadcrumb-radius    ?= $generic-border-radius
-$breadcrumb-height    ?= 34px
-$breadcrumb-separator ?= 15px
-
-$breadcrumb-primary   ?= $primary
-$breadcrumb-secondary ?= lighten($breadcrumb-primary, 10%)
-
-$breadcrumb-hover     ?= $tertiary
-$breadcrumb-active    ?= darken($breadcrumb-hover, 15%)
-
-
 ul.breadcrumb
   list-style none
   display inline-flex
   flex-wrap nowrap
-  margin ($breadcrumb-height / 3) 0 0 0
+  margin round($breadcrumb-height / 3) 0 0 0
   padding 0
 
   i
@@ -21,7 +10,7 @@ ul.breadcrumb
 
   li
     float left
-    margin-bottom ($breadcrumb-height / 3)
+    margin-bottom round($breadcrumb-height / 3)
     a
       color white
       display block
@@ -62,7 +51,7 @@ ul.breadcrumb
         top 0
         bottom 0
         border 0 solid $breadcrumb-primary
-        border-width ($breadcrumb-height / 2) 10px
+        border-width round($breadcrumb-height / 2) 10px
 
       &:before
         left (- $breadcrumb-separator)

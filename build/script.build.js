@@ -21,7 +21,7 @@ if (!type || type === 'simple') {
   shell.mkdir('-p', path.join(__dirname, '../dist/'))
 }
 
-console.log(' Building...')
+console.log(' Building...\n')
 
 if (!type || type === 'js' || type === 'simple') {
   require('./script.build.javascript')

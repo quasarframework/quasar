@@ -1,0 +1,211 @@
+$generic-border-radius       ?= 2px
+$typography-font-family      ?= 'Roboto', '-apple-system', 'Helvetica Neue', Helvetica, Arial, sans-serif
+
+$action-sheet-avatar-padding   ?= .6rem 1.2rem
+$action-sheet-hover-background ?= #d0d0d0
+
+$alert-padding       ?= .7rem
+$alert-color         ?= white
+$alert-background    ?= $negative
+$alert-border-radius ?= $generic-border-radius
+$alert-min-width     ?= 200px
+
+$breadcrumb-radius    ?= $generic-border-radius
+$breadcrumb-height    ?= 34px
+$breadcrumb-separator ?= 15px
+$breadcrumb-primary   ?= $primary
+$breadcrumb-secondary ?= lighten($breadcrumb-primary, 10%)
+$breadcrumb-hover     ?= $tertiary
+$breadcrumb-active    ?= darken($breadcrumb-hover, 15%)
+
+$button-border-radius ?= $generic-border-radius
+$button-padding       ?= 0 16px
+$button-transition    ?= .12s ease-in
+$button-font-weight   ?= 500
+$button-sizes = {
+  small: 28px,
+  standard: 36px,
+  big: 44px
+}
+$button-round-sizes = {
+  small: 40px,
+  standard: 56px,
+  big: 72px
+}
+
+$card-faded-color          ?= rgba(0, 0, 0, .4)
+$card-separator-color      ?= rgba(0, 0, 0, .1)
+$card-overlay-color        ?= rgba(0, 0, 0, .47)
+$card-shadow               ?= $shadow-2
+$card-dark-faded-color     ?= rgba(255, 255, 255, .6)
+$card-dark-separator-color ?= rgba(255, 255, 255, .2)
+
+$chat-message-received-color     ?= black
+$chat-message-received-bg        ?= $green-4
+$chat-message-sent-color         ?= black
+$chat-message-sent-bg            ?= $grey-4
+
+$chat-message-avatar-size        ?= 48px
+$chat-message-border-radius      ?= $generic-border-radius
+$chat-message-distance           ?= 8px
+$chat-message-text-padding       ?= 8px
+
+$chip-border             ?= #e0e0e0
+$chip-border-radius      ?= 2rem
+$chip-font-size          ?= 14px
+$chip-padding-horizontal ?= 0
+$chip-padding-vertical   ?= 12px
+$chip-height             ?= 32px
+$chip-icon-size          ?= 24px
+$chip-small-height       ?= 26px
+$chip-color              ?= black
+$chip-background         ?= $light
+
+$item-dense-factor                 ?= .2
+$item-sparse-factor                ?= 1.4
+$item-base-color                   ?= $grey-5
+$item-highlight-color              ?= alpha($item-base-color, 50%)
+$item-stripe-color                 ?= alpha($item-base-color, 65%)
+$item-active-color                 ?= alpha($item-base-color, 40%)
+$item-primary-color                ?= rgba(0, 0, 0, .54)
+$item-secondary-color              ?= $item-primary-color
+$item-label-color                  ?= $grey-7
+$item-content-secondary-text-color ?= $grey-7
+$item-delimiter-color              ?= rgb(224, 224, 224)
+$item-min-height                   ?= 40px
+$item-padding                      ?= 16px
+$item-gutter                       ?= 10px
+$item-primary-size                 ?= 38px
+$item-inverted-icon-size           ?= round($item-primary-size * .52)
+$item-icon-size                    ?= round($item-primary-size * .63)
+$item-image-size                   ?= round(3 * $item-primary-size)
+$item-font-size                    ?= 1rem
+$item-stamp-font-size              ?= .8rem
+
+$collapsible-padding             ?= 8px 16px
+$collapsible-indent-left-padding ?= ($item-primary-size + $item-gutter)
+$collapsible-active-color        ?= $item-active-color
+
+$datatable-border    ?= 1px solid $grey-4
+$datatable-font-size ?= 85%
+
+$datetime-range-space     ?= 10px
+$datetime-input-min-width ?= 70px
+
+$dot-color             ?= $red
+$dot-opacity           ?= .8
+$dot-size              ?= 10px
+$dot-position-top      ?= 10px
+$dot-position-right    ?= 10px
+
+$fab-margin    ?= 5px
+
+$field-icon-size   ?= 28px
+$field-label-color ?= rgba(0, 0, 0, .54)
+
+$table-stripe-color          ?= rgba(0, 0, 0, .07)
+$table-highlight-color       ?= rgba(0, 0, 0, .14)
+$table-border                ?= 1px solid rgba(0, 0, 0, .12)
+
+$input-frame-transition ?= all .45s cubic-bezier(.23, 1, .32, 1)
+
+$toolbar-color              ?= white
+$toolbar-background         ?= $primary
+$toolbar-min-height         ?= 50px
+$toolbar-padding            ?= 4px 12px
+$toolbar-title-font-size    ?= 18px
+$toolbar-subtitle-font-size ?= 12px
+$toolbar-title-font-weight  ?= 500
+$toolbar-title-padding      ?= 0 12px
+
+$layout-aside-background   ?= white
+$layout-aside-left-width   ?= 300px
+$layout-aside-right-width  ?= 300px
+$layout-header-shadow      ?= $shadow-4
+$layout-footer-shadow      ?= $shadow-up-4
+$layout-aside-shadow       ?= $shadow-8
+
+$loading-background ?= $dimmed-background
+
+$modal-background        ?= white
+$modal-width             ?= 80vw
+$modal-max-width         ?= 1000px
+$modal-height            ?= 80vh
+$modal-max-height        ?= 1000px
+$modal-header-font-size  ?= 1.6rem
+$modal-header-padding    ?= 24px 24px 20px 24px
+$modal-header-text-align ?= left
+$modal-body-text-align   ?= left
+$modal-body-color        ?= rgba(0, 0, 0, .5)
+$modal-body-padding      ?= 5px 24px 24px 24px
+$modal-slim-body-padding ?= 0 24px
+$modal-scroll-size       ?= 240px
+$modal-buttons-padding   ?= 8px 8px 12px 24px
+
+$label-offset ?= 8px
+
+$paralax-text-shadow ?= 0 0 5px white
+
+$popover-background   ?= white
+$popover-box-shadow   ?= $shadow-24
+$popover-max-width    ?= 100vw
+
+$progress-track-height         ?= 5px
+$progress-track-color          ?= currentColor
+$progress-color                ?= $primary
+$progress-track-opacity        ?= .2
+$progress-transition           ?= width .3s linear
+
+$pull-to-refresh-color              ?= $primary
+$pull-to-refresh-font-size          ?= 1rem
+$pull-to-refresh-icon-size          ?= 2rem
+
+$rating-grade-color     ?= $yellow
+$rating-shadow          ?= 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24)
+
+$slider-min-height       ?= 200px
+$slider-padding          ?= 2.3rem
+$slider-arrow-size       ?= 2rem
+$slider-ovelay-color     ?= rgba(0, 0, 0, .3)
+$slider-opacity          ?= .6
+$slider-opacity-active   ?= 1
+$slider-button-size      ?= 1.5rem
+$slider-dots-size        ?= .9rem
+
+$stepper-color                 ?= $primary
+$stepper-divider-color         ?= rgba(0, 0, 0, .12)
+$stepper-label-color           ?= rgba(0, 0, 0, .56)
+$stepper-label-inactive-color  ?= rgba(0, 0, 0, .42)
+$stepper-hover-background      ?= rgba(0, 0, 0, .05)
+$stepper-pane-padding          ?= 16px
+$stepper-border-radius         ?= $generic-border-radius
+
+$tabs-padding                  ?= 14px 12px
+$tabs-padding-with-icon        ?= 8px 10px
+$tabs-big-screen-horiz-padding ?= 25px
+$tabs-min-height               ?= 48px
+$tabs-min-height-with-icon     ?= 72px
+$tabs-big-screen-side-padding  ?= 12px
+$tabs-pane-padding             ?= 12px
+$tabs-color                    ?= $toolbar-color
+$tabs-background               ?= $toolbar-background
+$tabs-pane-border              ?= 1px solid rgba(0, 0, 0, .1)
+$tabs-unselected-opacity       ?= .7
+$tabs-font-size                ?= .95rem
+$tabs-icon-font-size           ?= 27px
+$tabs-font-weight              ?= 500
+$tabs-text-transform           ?= uppercase
+$tabs-border-width             ?= 2px
+
+$tooltip-color         ?= #fafafa
+$tooltip-background    ?= #747474
+$tooltip-box-shadow    ?= $shadow-6
+$tooltip-padding       ?= 10px
+$tooltip-border-radius ?= $generic-border-radius
+
+$tree-connector-color            ?= #ccc
+$tree-label-padding              ?= 5px
+$tree-label-border-radius        ?= $generic-border-radius
+$tree-highlight-color            ?= inherit
+$tree-highlight-background       ?= $tree-connector-color
+$tree-label-icon-font-size       ?= 1.3rem
