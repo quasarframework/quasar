@@ -43,6 +43,15 @@
       <q-btn flat><q-icon name="sim_card" /></q-btn>
       <q-btn flat><q-icon name="gamepad" /></q-btn>
     </q-toolbar>
+    <q-toolbar color="yellow" class="text-dark">
+      <q-btn flat><q-icon name="assignment_ind" /></q-btn>
+      <q-toolbar-title>
+        Toolbar
+        <span slot="subtitle">Subtitle</span>
+      </q-toolbar-title>
+      <q-btn flat><q-icon name="sim_card" /></q-btn>
+      <q-btn flat><q-icon name="gamepad" /></q-btn>
+    </q-toolbar>
     <q-toolbar color="orange">
       <q-btn flat><q-icon name="mail" /></q-btn>
       <q-toolbar-title>
@@ -74,6 +83,15 @@
       <q-btn flat><q-icon name="sim_card" /></q-btn>
       <q-btn flat><q-icon name="gamepad" /></q-btn>
     </q-toolbar>
+    <q-toolbar inverted color="grey">
+      <q-btn flat><q-icon name="assignment_ind" /></q-btn>
+      <q-toolbar-title>
+        Toolbar
+        <span slot="subtitle">Subtitle</span>
+      </q-toolbar-title>
+      <q-btn flat><q-icon name="sim_card" /></q-btn>
+      <q-btn flat><q-icon name="gamepad" /></q-btn>
+    </q-toolbar>
     <q-toolbar inverted color="orange">
       <q-btn flat><q-icon name="mail" /></q-btn>
       <q-toolbar-title>
@@ -94,8 +112,3 @@
     </q-toolbar>
   </div>
 </template>
-
-<script>
-export default {
-}
-</script>

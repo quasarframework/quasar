@@ -24,11 +24,13 @@
 import TabMixin from './tab-mixin'
 import Ripple from '../../directives/ripple'
 import { QIcon } from '../icon'
+import { QChip } from '../chip'
 
 export default {
   name: 'q-tab',
   components: {
-    QIcon
+    QIcon,
+    QChip
   },
   directives: {
     Ripple
