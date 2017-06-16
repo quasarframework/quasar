@@ -120,13 +120,14 @@ export default {
   },
   methods: {
     selectTab (name) {
+      clearTimeout(this.timer)
+      this.__beforePositionContract = () => {}
+
       const emitInput = this.value !== name
       if (!emitInput && this.data.tabName === name) {
         return
       }
 
-      clearTimeout(this.timer)
-      this.__beforePositionContract = () => {}
       const el = this.__getTabElByName(name)
 
       if (this.$q.theme === 'ios') {
