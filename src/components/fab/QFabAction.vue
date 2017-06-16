@@ -1,5 +1,14 @@
 <template>
-  <q-btn round small @click="click" :outline="outline" :push="push" :flat="flat" :color="color">
+  <q-btn
+    round
+    small
+    @click="click"
+    :outline="outline"
+    :push="push"
+    :flat="flat"
+    :color="color"
+    :glossy="glossy"
+  >
     <q-icon :name="icon"></q-icon>
     <slot></slot>
   </q-btn>
