@@ -11,7 +11,7 @@
       <div
         v-if="active"
         class="q-alert row"
-        :class="classes"
+        :class="`bg-${this.color}`"
       >
         <div class="q-alert-icon row col-auto items-center justify-center">
           <q-icon :name="alertIcon"></q-icon>
@@ -97,15 +97,8 @@ export default {
     },
     containerClass () {
       if (this.position) {
-        return `fixed-${this.position}`
+        return `fixed-${this.position} shadow-2 z-alert`
       }
-    },
-    classes () {
-      let cls = `bg-${this.color}`
-      if (this.position) {
-        cls += ' shadow-2 z-alert'
-      }
-      return cls
     }
   },
   methods: {

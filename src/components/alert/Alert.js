@@ -6,7 +6,15 @@ function create (opts) {
   const node = document.createElement('div')
   document.body.appendChild(node)
 
-  const state = extend({position: 'top-right'}, opts, {value: true, appear: true, dismissible: !opts.actions || !opts.actions.length})
+  const state = extend(
+    {position: 'top-right'},
+    opts,
+    {
+      value: true,
+      appear: true,
+      dismissible: !opts.actions || !opts.actions.length
+    }
+  )
 
   const vm = new Vue({
     functional: true,
