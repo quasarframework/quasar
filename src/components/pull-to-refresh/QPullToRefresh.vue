@@ -22,11 +22,15 @@
 import { getScrollTarget, getScrollPosition } from '../../utils/scroll'
 import { cssTransform } from '../../utils/dom'
 import { QIcon } from '../icon'
+import TouchPan from '../../directives/touch-pan'
 
 export default {
   name: 'q-pull-to-refresh',
   components: {
     QIcon
+  },
+  directives: {
+    TouchPan
   },
   props: {
     handler: {
