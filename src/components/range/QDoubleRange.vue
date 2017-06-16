@@ -25,16 +25,18 @@
         :style="{left: `${percentageMin * 100}%`, borderRadius: square ? '0' : '50%'}"
         :class="{dragging: dragging, 'handle-at-minimum': value.min === min}"
       >
-        <q-chip
-          pointing="down"
-          square
-          :color="labelColor"
-          class="q-range-label no-pointer-events"
-          :class="{'label-always': labelAlways}"
-          v-if="label || labelAlways"
-        >
-          {{ value.min }}
-        </q-chip>
+        <div class="q-range-chip">
+          <q-chip
+            pointing="down"
+            square
+            :color="labelColor"
+            class="q-range-label no-pointer-events"
+            :class="{'label-always': labelAlways}"
+            v-if="label || labelAlways"
+          >
+            {{ value.min }}
+          </q-chip>
+        </div>
 
         <div v-if="$q.theme !== 'ios'" class="q-range-ring"></div>
       </div>
@@ -43,16 +45,18 @@
         :style="{left: `${percentageMax * 100}%`, borderRadius: square ? '0' : '50%'}"
         :class="{dragging: dragging, 'handle-at-maximum': value.max === max}"
       >
-        <q-chip
-          pointing="down"
-          square
-          :color="labelColor"
-          class="q-range-label no-pointer-events"
-          :class="{'label-always': labelAlways}"
-          v-if="label || labelAlways"
-        >
-          {{ value.max }}
-        </q-chip>
+        <div class="q-range-chip">
+          <q-chip
+            pointing="down"
+            square
+            :color="labelColor"
+            class="q-range-label no-pointer-events"
+            :class="{'label-always': labelAlways}"
+            v-if="label || labelAlways"
+          >
+            {{ value.max }}
+          </q-chip>
+        </div>
 
         <div v-if="$q.theme !== 'ios'" class="q-range-ring"></div>
       </div>
