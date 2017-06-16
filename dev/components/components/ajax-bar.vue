@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-ajax-bar ref="bar" :position="position" :reverse="reverse" :size="computedSize" :color="color"></q-ajax-bar>
+    <q-ajax-bar ref="bar" :position="position" :reverse="reverse" :size="computedSize" :color="color" />
     <div class="layout-padding" style="max-width: 600px;">
       <p class="caption">Ajax Bar component captures Ajax calls automatically. This page here triggers events manually for demonstrating purposes only.</p>
 
@@ -10,9 +10,11 @@
         </q-card-title>
 
         <p class="caption text-center">Try out some combinations for Ajax Bar.</p>
-        <q-card-main class="group column">
-          <div class="auto column items-center">
-            <div class="flex">
+        <q-card-main>
+          <q-field
+            label="Position"
+          >
+            <div class="flex" style="margin: -5px">
               <div class="column group">
                 <q-radio v-model="position" val="top" label="Top" />
                 <q-radio v-model="position" val="bottom" label="Bottom" />
@@ -23,21 +25,21 @@
                 <q-radio v-model="position" val="left" label="Left" />
               </div>
             </div>
-          </div>
+          </q-field>
 
-          <div class="row justify-center" style="margin-top: 15px;">
+          <q-field
+            label="Reverse?"
+          >
             <q-checkbox v-model="reverse" label="Reverse Direction" />
-          </div>
+          </q-field>
 
           <q-field :label="`Size (<em>${size}px</em>)`">
             <q-range v-model="size" :min="2" :max="20" label-always />
           </q-field>
 
-          <div class="auto column items-center">
-            <div class="flex">
-              <q-input float-label="Color" v-model="color" />
-            </div>
-          </div>
+          <q-field label="Color">
+            <q-input v-model="color" />
+          </q-field>
         </q-card-main>
       </q-card>
     </div>

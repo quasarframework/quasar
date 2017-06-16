@@ -22,12 +22,16 @@
 <script>
 import { QIcon } from '../icon'
 import { QSlideTransition } from '../slide-transition'
+import Ripple from '../../directives/ripple'
 
 export default {
   name: 'q-tree-item',
   components: {
     QIcon,
     QSlideTransition
+  },
+  directives: {
+    Ripple
   },
   props: ['model', 'contractHtml', 'expandHtml'],
   methods: {
