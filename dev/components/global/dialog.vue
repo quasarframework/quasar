@@ -152,8 +152,9 @@ export default {
               form: {
                 prevent: {
                   type: 'checkbox',
+                  model: ['prevent'],
                   items: [
-                    {label: 'Prevent dialog close', value: 'prevent', model: true}
+                    {label: 'Prevent dialog close', value: 'prevent'}
                   ]
                 }
               },
