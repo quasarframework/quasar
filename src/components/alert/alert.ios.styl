@@ -25,3 +25,10 @@
     cursor pointer
   span + span
     margin-left 16px
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none)
+  .q-alert-container
+    max-width 100%
+  .row > .col.q-alert-content
+    flex-basis auto
+    width auto

@@ -22,7 +22,7 @@ function create (opts) {
       return h(
         QAlert, {
           style: {
-            margin: '18px'
+            padding: '18px'
           },
           props: state,
           on: {
