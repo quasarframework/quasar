@@ -1,3 +1,4 @@
+require('./polyfills')
 require('../src/css/' + __THEME + '.styl')
 
 import Vue from 'vue'
