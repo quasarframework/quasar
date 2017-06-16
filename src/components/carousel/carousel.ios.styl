@@ -1,13 +1,13 @@
-.q-slider
+.q-carousel
   overflow hidden
   &.fullscreen
     z-index $z-absolute
 
-.q-slider-inner
+.q-carousel-inner
   position relative
   height 100%
 
-.q-slider-track
+.q-carousel-track
   padding 0
   margin 0
   will-change transform
@@ -43,8 +43,8 @@
   &.infinite-right > div:nth-child(2)
     order 1000
 
-.q-slider-left-button,
-.q-slider-right-button
+.q-carousel-left-button,
+.q-carousel-right-button
   position absolute
   top 0
   bottom 0
@@ -62,12 +62,12 @@
     transition opacity .3s
     &:hover
       opacity $slider-opacity-active
-.q-slider-left-button
+.q-carousel-left-button
   left 0
-.q-slider-right-button
+.q-carousel-right-button
   right 0
 
-.q-slider-toolbar
+.q-carousel-toolbar
   position absolute
   bottom 0
   left 0
@@ -80,5 +80,5 @@
     cursor pointer
     padding 5px
     font-size $slider-button-size
-  .q-slider-dots i
+  .q-carousel-dots i
     font-size $slider-dots-size

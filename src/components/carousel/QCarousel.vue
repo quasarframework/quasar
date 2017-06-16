@@ -1,9 +1,9 @@
 <template>
-  <div class="q-slider" :class="{fullscreen: inFullscreen}">
-    <div class="q-slider-inner" v-touch-pan.horizontal="__pan">
+  <div class="q-carousel" :class="{fullscreen: inFullscreen}">
+    <div class="q-carousel-inner" v-touch-pan.horizontal="__pan">
       <div
         ref="track"
-        class="q-slider-track"
+        class="q-carousel-track"
         :style="trackPosition"
         :class="{'with-arrows': arrows, 'with-toolbar': toolbar, 'infinite-left': infiniteLeft, 'infinite-right': infiniteRight}"
       >
@@ -13,19 +13,19 @@
       </div>
       <div
         v-show="arrows && canGoToPrevious"
-        class="q-slider-left-button row items-center justify-center"
+        class="q-carousel-left-button row items-center justify-center"
       >
         <q-icon name="keyboard_arrow_left" @click="previous"></q-icon>
       </div>
       <div
         v-show="arrows && canGoToNext"
-        class="q-slider-right-button row items-center justify-center"
+        class="q-carousel-right-button row items-center justify-center"
         @click="next"
       >
         <q-icon name="keyboard_arrow_right"></q-icon>
       </div>
-      <div v-if="toolbar" class="q-slider-toolbar row items-center justify-end">
-        <div class="q-slider-dots col row items-center justify-center">
+      <div v-if="toolbar" class="q-carousel-toolbar row items-center justify-end">
+        <div class="q-carousel-dots col row items-center justify-center">
           <q-icon
             v-if="dots"
             v-for="n in slidesNumber"
@@ -50,18 +50,22 @@
 
 <script>
 import Platform from '../../features/platform'
+import TouchPan from '../../directives/touch-pan'
 import { cssTransform } from '../../utils/dom'
 import { between, normalizeToInterval } from '../../utils/format'
 import { start, stop } from '../../utils/animate'
-import sliderMixin from './slider-mixin'
+import CarouselMixin from './carousel-mixin'
 import { QIcon } from '../icon'
 
 export default {
-  name: 'q-slider',
+  name: 'q-carousel',
   components: {
     QIcon
   },
-  mixins: [sliderMixin],
+  directives: {
+    TouchPan
+  },
+  mixins: [CarouselMixin],
   data () {
     return {
       position: 0,

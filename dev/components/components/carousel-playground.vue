@@ -7,26 +7,26 @@
     </div>
 
     <p class="caption">Empty</p>
-    <q-slider :infinite="infinite" :autoplay="autoplay" arrows dots fullscreen class="text-white shadow-2" name="empty"/>
+    <q-carousel :infinite="infinite" :autoplay="autoplay" arrows dots fullscreen class="text-white shadow-2" name="empty"/>
 
     <p class="caption">Only if checked</p>
-    <q-slider :infinite="infinite" :autoplay="autoplay" arrows dots fullscreen class="text-white shadow-2" name="only if checked">
+    <q-carousel :infinite="infinite" :autoplay="autoplay" arrows dots fullscreen class="text-white shadow-2" name="only if checked">
       <div v-if="checked" slot="slide" class="bg-primary">
         <div>v-if checked</div>
         <div v-for="n in 12">Line {{(n+2)}}</div>
       </div>
-    </q-slider>
+    </q-carousel>
 
     <p class="caption">Only if NOT checked</p>
-    <q-slider :infinite="infinite" :autoplay="autoplay" arrows dots fullscreen class="text-white shadow-2" name="only if not checked">
+    <q-carousel :infinite="infinite" :autoplay="autoplay" arrows dots fullscreen class="text-white shadow-2" name="only if not checked">
       <div v-if="!checked" slot="slide" class="bg-primary">
         <div>v-if !checked</div>
         <div v-for="n in 12">Line {{(n+2)}}</div>
       </div>
-    </q-slider>
+    </q-carousel>
 
     <p class="caption">Checked + slide</p>
-    <q-slider :infinite="infinite" :autoplay="autoplay" arrows dots fullscreen class="text-white shadow-2" name="checked + slide">
+    <q-carousel :infinite="infinite" :autoplay="autoplay" arrows dots fullscreen class="text-white shadow-2" name="checked + slide">
       <div v-if="checked" slot="slide" class="bg-primary">
         <div>v-if checked + slide</div>
         <div v-for="n in 12">Line {{(n+2)}}</div>
@@ -35,10 +35,10 @@
         <div>Slide 2</div>
         <div v-for="n in 12">Line {{(n+2)}}</div>
       </div>
-    </q-slider>
+    </q-carousel>
 
     <p class="caption">NOT checked + slide</p>
-    <q-slider :infinite="infinite" :autoplay="autoplay" arrows dots fullscreen class="text-white shadow-2" name="NOT checked + slide">
+    <q-carousel :infinite="infinite" :autoplay="autoplay" arrows dots fullscreen class="text-white shadow-2" name="NOT checked + slide">
       <div v-if="!checked" slot="slide" class="bg-primary">
         <div>v-if !checked + slide</div>
         <div v-for="n in 12">Line {{(n+2)}}</div>
@@ -47,18 +47,18 @@
         <div>Slide 2</div>
         <div v-for="n in 12">Line {{(n+2)}}</div>
       </div>
-    </q-slider>
+    </q-carousel>
 
     <p class="caption">1 slides</p>
-    <q-slider :infinite="infinite" :autoplay="autoplay" arrows dots fullscreen class="text-white shadow-2">
+    <q-carousel :infinite="infinite" :autoplay="autoplay" arrows dots fullscreen class="text-white shadow-2">
       <div slot="slide" class="bg-primary">
         <div>Slide 1</div>
         <div v-for="n in 12">Line {{(n+2)}}</div>
       </div>
-    </q-slider>
+    </q-carousel>
 
     <p class="caption">2 slides</p>
-    <q-slider :infinite="infinite" :autoplay="autoplay" arrows dots fullscreen class="text-white shadow-2">
+    <q-carousel :infinite="infinite" :autoplay="autoplay" arrows dots fullscreen class="text-white shadow-2">
       <div slot="slide" class="bg-primary">
         <div>Slide 1</div>
         <div v-for="n in 12">Line {{(n+2)}}</div>
@@ -67,10 +67,10 @@
         <div>Slide 2</div>
         <div v-for="n in 12">Line {{(n+2)}}</div>
       </div>
-    </q-slider>
+    </q-carousel>
 
     <p class="caption">3 slides</p>
-    <q-slider :infinite="infinite" :autoplay="autoplay" arrows dots fullscreen class="text-white shadow-2">
+    <q-carousel :infinite="infinite" :autoplay="autoplay" arrows dots fullscreen class="text-white shadow-2">
       <div slot="slide" class="bg-primary">
         <div>Slide 1</div>
         <div v-for="n in 12">Line {{(n+2)}}</div>
@@ -83,7 +83,7 @@
         <div>Slide 3</div>
         <div v-for="n in 12">Line {{(n+2)}}</div>
       </div>
-    </q-slider>
+    </q-carousel>
   </div>
 </template>
 

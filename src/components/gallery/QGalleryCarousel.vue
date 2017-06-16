@@ -1,5 +1,5 @@
 <template>
-  <q-slider
+  <q-carousel
     ref="slider"
     @slide="__updateCurrentSlide"
     :dots="dots"
@@ -9,7 +9,7 @@
     actions
     :animation="animation"
     :autoplay="autoplay"
-    class="text-white bg-black q-gallery-slider"
+    class="text-white bg-black q-gallery-carousel"
   >
     <div
       v-for="(img, index) in src"
@@ -23,7 +23,7 @@
     </div>
 
     <div
-      class="q-gallery-slider-overlay"
+      class="q-gallery-carousel-overlay"
       :class="{active: quickView}"
       @click="toggleQuickView()"
     ></div>
@@ -31,7 +31,7 @@
     <q-icon name="view_carousel" slot="action" @click="toggleQuickView()"></q-icon>
 
     <div
-      class="q-gallery-slider-quickview"
+      class="q-gallery-carousel-quickview"
       :class="{active: quickView, row: horizontalQuickView, horizontal: horizontalQuickView}"
       @touchstart.capture.stop
       @touchmove.capture.stop
@@ -48,21 +48,21 @@
         >
       </div>
     </div>
-  </q-slider>
+  </q-carousel>
 </template>
 
 <script>
-import sliderMixin from '../slider/slider-mixin'
-import { QSlider } from '../slider'
+import CarouselMixin from '../carousel/carousel-mixin'
+import { QCarousel } from '../carousel'
 import { QIcon } from '../icon'
 
 export default {
-  name: 'q-gallery-slider',
+  name: 'q-gallery-carousel',
   components: {
-    QSlider,
+    QCarousel,
     QIcon
   },
-  mixins: [sliderMixin],
+  mixins: [CarouselMixin],
   props: {
     src: {
       type: Array,
