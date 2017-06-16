@@ -70,3 +70,18 @@ for $name, $size in $button-round-sizes
       height round(button-round-factor($name) * $size)
       width round(button-round-factor($name) * $size)
       font-size round(button-round-factor($name) * $size)
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none)
+  .q-btn
+    .q-btn-inner
+      flex-basis auto
+      height 0
+  for $name, $size in $button-sizes
+    .q-btn-{$name}:not(.q-btn-round)
+      .q-btn-inner
+        min-height $size
+      &.q-btn-push .q-btn-inner
+        min-height $size - 3
+        padding-top 1px
+      &.q-btn-outline .q-btn-inner
+        min-height $size - 2
