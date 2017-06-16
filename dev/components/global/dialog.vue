@@ -245,12 +245,12 @@ export default {
               message: 'Modern HTML5 Single Page Application front-end framework on steroids.',
               form: {
                 name: {
-                  type: 'input',
+                  type: 'text',
                   label: 'Textbox',
                   model: ''
                 },
                 age: {
-                  type: 'numeric',
+                  type: 'number',
                   label: 'Numeric',
                   model: 10,
                   min: 5,

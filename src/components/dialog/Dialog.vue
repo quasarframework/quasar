@@ -6,7 +6,7 @@
     :no-backdrop-dismiss="noBackdropDismiss"
     :no-esc-dismiss="noEscDismiss"
   >
-    <div class="modal-header" v-html="title || ''"></div>
+    <div v-if="title" class="modal-header" v-html="title"></div>
     <div v-if="message" class="modal-body modal-scroll" v-html="message"></div>
 
     <div v-if="form" class="modal-body modal-scroll">

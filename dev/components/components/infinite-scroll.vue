@@ -21,13 +21,7 @@
 </template>
 
 <script>
-import { QSpinner, QChip } from 'quasar'
-
 export default {
-  components: {
-    QSpinner,
-    QChip
-  },
   data () {
     return {
       items: [{}, {}, {}, {}, {}]

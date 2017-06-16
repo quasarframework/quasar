@@ -1,126 +1,109 @@
 <template>
   <div>
-    <div>
-      <div class="column group" style="margin-bottom: 50px">
-        <q-input v-model="config.title" float-label="Data Table Title" />
+    <div class="column group" style="margin-bottom: 50px">
+      <q-input v-model="config.title" float-label="Data Table Title" />
 
-        <div class="column group gt-sm-row">
-          <label>
-            <q-checkbox v-model="config.refresh" />
-            Refresh
-          </label>
-          <label>
-            <q-checkbox v-model="config.columnPicker" />
-            Column Picker
-          </label>
-          <label>
-            <q-checkbox v-model="pagination" />
-            Pagination
-          </label>
-          <label>
-            <q-checkbox v-model="config.responsive" />
-            Responsive
-          </label>
-          <label>
-            <q-checkbox v-model="config.noHeader" />
-            No Header
-          </label>
-        </div>
-
-        <div class="column gt-sm-row group">
-          <q-select
-            v-model="config.selection"
-            label="Selection"
-            :options="[
-              {label: 'None', value: false},
-              {label: 'Single', value: 'single'},
-              {label: 'Multiple', value: 'multiple'}
-            ]"
-          />
-
-          <q-select
-            v-model="config.leftStickyColumns"
-            label="Left Sticky Columns"
-            :options="[
-              {label: 'None', value: 0},
-              {label: '1', value: 1},
-              {label: '2', value: 2}
-            ]"
-          />
-
-          <q-select
-            v-model="config.rightStickyColumns"
-            label="Right Sticky Columns"
-            :options="[
-              {label: 'None', value: 0},
-              {label: '1', value: 1},
-              {label: '2', value: 2}
-            ]"
-          />
-        </div>
-
-        <div>
-          <h6>Row height ({{rowHeight}}px)</h6>
-          <br>
-          <q-range v-model="rowHeight" :min="50" :max="200" label-always />
-        </div>
-
-        <div>
-          <h6>
-            Table body
-            <q-select
-              v-model="bodyHeightProp"
-              :options="[
-                {label: 'Auto', value: 'auto'},
-                {label: 'Height', value: 'height'},
-                {label: 'Min Height', value: 'minHeight'},
-                {label: 'Max Height', value: 'maxHeight'}
-              ]"
-            />
-            <span :style="{fontStyle: bodyHeightProp === 'auto' ? 'italic' : ''}">({{bodyHeight}}px)</span>
-          </h6>
-          <br>
-          <q-range v-model="bodyHeight" :min="100" :max="700" label-always :disable="bodyHeightProp === 'auto'" />
-        </div>
+      <div class="column group gt-sm-row">
+        <q-checkbox v-model="config.refresh" label="Refresh" />
+        <q-checkbox v-model="config.columnPicker" label="Column Picker" />
+        <q-checkbox v-model="pagination" label="Pagination" />
+        <q-checkbox v-model="config.responsive" label="Responsive" />
+        <q-checkbox v-model="config.noHeader" label="No Header" />
       </div>
 
-      <q-data-table
-        :data="table"
-        :config="config"
-        :columns="columns"
-        @refresh="refresh"
-        @selection="selection"
-        @rowclick="rowClick"
-      >
-        <template slot="col-message" scope="cell">
-          <span class="light-paragraph">{{cell.data}}</span>
-        </template>
-        <template slot="col-source" scope="cell">
-          <span v-if="cell.data === 'Audit'" class="label text-white bg-primary">
-            Audit
-            <q-tooltip>Some data</q-tooltip>
-          </span>
-          <span v-else class="label text-white bg-negative">{{cell.data}}</span>
-        </template>
+      <div class="column gt-sm-row group">
+        <q-select
+          v-model="config.selection"
+          label="Selection"
+          :options="[
+            {label: 'None', value: false},
+            {label: 'Single', value: 'single'},
+            {label: 'Multiple', value: 'multiple'}
+          ]"
+        />
 
-        <template slot="selection" scope="props">
-          <q-btn flat color="primary" @click="changeMessage(props)">
-            <q-icon name="edit" />
-          </q-btn>
-          <q-btn flat color="primary" @click="deleteRow(props)">
-            <q-icon name="delete" />
-          </q-btn>
-        </template>
-      </q-data-table>
+        <q-select
+          v-model="config.leftStickyColumns"
+          label="Left Sticky Columns"
+          :options="[
+            {label: 'None', value: 0},
+            {label: '1', value: 1},
+            {label: '2', value: 2}
+          ]"
+        />
 
-      <div style="height: 100vh; margin-top: 50px;">Page has intended scroll.</div>
+        <q-select
+          v-model="config.rightStickyColumns"
+          label="Right Sticky Columns"
+          :options="[
+            {label: 'None', value: 0},
+            {label: '1', value: 1},
+            {label: '2', value: 2}
+          ]"
+        />
+      </div>
+
+      <div>
+        <h6>Row height ({{rowHeight}}px)</h6>
+        <br>
+        <q-range v-model="rowHeight" :min="50" :max="200" label-always />
+      </div>
+
+      <div>
+        <h6>
+          Table body
+          <q-select
+            v-model="bodyHeightProp"
+            :options="[
+              {label: 'Auto', value: 'auto'},
+              {label: 'Height', value: 'height'},
+              {label: 'Min Height', value: 'minHeight'},
+              {label: 'Max Height', value: 'maxHeight'}
+            ]"
+          />
+          <span :style="{fontStyle: bodyHeightProp === 'auto' ? 'italic' : ''}">({{bodyHeight}}px)</span>
+        </h6>
+        <br>
+        <q-range v-model="bodyHeight" :min="100" :max="700" label-always :disable="bodyHeightProp === 'auto'" />
+      </div>
     </div>
+
+    <q-data-table
+      :data="table"
+      :config="config"
+      :columns="columns"
+      @refresh="refresh"
+      @selection="selection"
+      @rowclick="rowClick"
+    >
+      <template slot="col-message" scope="cell">
+        <span class="light-paragraph">{{cell.data}}</span>
+      </template>
+      <template slot="col-source" scope="cell">
+        <span v-if="cell.data === 'Audit'" class="label text-white bg-primary">
+          Audit
+          <q-tooltip>Some data</q-tooltip>
+        </span>
+        <span v-else class="label text-white bg-negative">{{cell.data}}</span>
+      </template>
+
+      <template slot="selection" scope="props">
+        <q-btn flat color="primary" @click="changeMessage(props)">
+          <q-icon name="edit" />
+        </q-btn>
+        <q-btn flat color="primary" @click="deleteRow(props)">
+          <q-icon name="delete" />
+        </q-btn>
+      </template>
+    </q-data-table>
+
+    <div style="height: 100vh; margin-top: 50px;">Page has intended scroll.</div>
   </div>
 </template>
 
 <script>
-import { Utils } from 'quasar'
 import table from 'data/table.json'
+import { clone } from 'quasar'
 
 export default {
   methods: {
@@ -256,7 +239,7 @@ export default {
   watch: {
     pagination (value) {
       if (!value) {
-        this.oldPagination = Utils.clone(this.config.pagination)
+        this.oldPagination = clone(this.config.pagination)
         this.config.pagination = false
         return
       }

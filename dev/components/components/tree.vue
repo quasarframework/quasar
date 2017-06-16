@@ -16,7 +16,7 @@
         :model="treeModel"
         contract-html="<i class='material-icons'>remove_circle</i>"
         expand-html="<i class='material-icons'>add_circle</i>"
-      ></q-tree>
+      />
     </div>
   </div>
 </template>

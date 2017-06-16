@@ -61,9 +61,9 @@
           <q-btn flat @click="$refs.layoutModal.close()">
             <q-icon name="keyboard_arrow_left" />
           </q-btn>
-          <div class="q-toolbar-title">
+          <q-toolbar-title>
             Header
-          </div>
+          </q-toolbar-title>
         </q-toolbar>
 
         <q-toolbar slot="header">
@@ -71,9 +71,9 @@
         </q-toolbar>
 
         <q-toolbar slot="footer">
-          <div class="q-toolbar-title">
+          <q-toolbar-title>
             Footer
-          </div>
+          </q-toolbar-title>
         </q-toolbar>
 
         <div class="layout-padding">

@@ -172,29 +172,28 @@
     </div>
   </div>
 </template>
+
 <script>
-  export default {
-    hndl: 0,
+export default {
+  data () {
+    return {
+      counter: 0
+    }
+  },
 
-    data () {
-      return {
-        counter: 0
-      }
+  methods: {
+    counter_start () {
+      console.log('counter start')
+
+      this.hndl = setInterval(() => {
+        this.counter++
+      }, 1000)
     },
+    counter_stop () {
+      console.log('counter stop')
 
-    methods: {
-      counter_start () {
-        console.log('counter start')
-
-        this.hndl = setInterval(() => {
-          this.counter++
-        }, 1000)
-      },
-      counter_stop () {
-        console.log('counter stop')
-
-        clearInterval(this.hndl)
-      }
+      clearInterval(this.hndl)
     }
   }
+}
 </script>

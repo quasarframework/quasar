@@ -46,27 +46,3 @@ export {
   QSpinnerRings,
   QSpinnerTail
 }
-
-export default {
-  QSpinner,
-
-  QSpinnerAudio,
-  QSpinnerBall,
-  QSpinnerBars,
-  QSpinnerCircles,
-  QSpinnerDots,
-  QSpinnerFacebook,
-  QSpinnerGears,
-  QSpinnerGrid,
-  QSpinnerHearts,
-  QSpinnerHourglass,
-  QSpinnerInfinity,
-  QSpinnerIos,
-  QSpinnerMat,
-  QSpinnerOval,
-  QSpinnerPie,
-  QSpinnerPuff,
-  QSpinnerRadio,
-  QSpinnerRings,
-  QSpinnerTail
-}
