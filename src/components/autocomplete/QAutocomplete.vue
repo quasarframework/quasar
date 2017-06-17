@@ -13,7 +13,7 @@
         :key="result"
         :cfg="result"
         link
-        :active="selectedIndex === index"
+        :class="{active: selectedIndex === index}"
         @click="setValue(result)"
       ></q-item-wrapper>
     </div>
@@ -164,6 +164,7 @@ export default {
       this.close()
     },
     move (offset) {
+      console.log('move', this.selectedIndex, this.computedResults.length)
       this.selectedIndex = normalizeToInterval(
         this.selectedIndex + offset,
         0,
