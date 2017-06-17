@@ -226,8 +226,10 @@ export default {
     __set (e) {
       let val = e.target ? e.target.value : e
       if (val !== this.value) {
-        if (this.isNumber && Number.isInteger(this.maxDecimals)) {
-          val = parseFloat(val).toFixed(this.maxDecimals)
+        if (this.isNumber) {
+          val = Number.isInteger(this.maxDecimals)
+            ? parseFloat(val).toFixed(this.maxDecimals)
+            : parseFloat(val)
         }
         this.$emit('input', val)
         this.$emit('change', val)
