@@ -1,6 +1,6 @@
 <template>
   <div
-    class="q-stepper column overflow-hidden"
+    class="q-stepper column overflow-hidden relative-position"
     :class="classes"
   >
     <div
