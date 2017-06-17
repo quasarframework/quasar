@@ -164,7 +164,6 @@ export default {
       this.close()
     },
     move (offset) {
-      console.log('move', this.selectedIndex, this.computedResults.length)
       this.selectedIndex = normalizeToInterval(
         this.selectedIndex + offset,
         0,
