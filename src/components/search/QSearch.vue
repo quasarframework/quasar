@@ -15,6 +15,7 @@
     :prefix="prefix"
     :suffix="suffix"
     :inverted="inverted"
+    :dark="dark"
     :max-length="maxLength"
 
     :color="color"
