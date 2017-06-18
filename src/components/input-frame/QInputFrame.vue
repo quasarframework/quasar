@@ -10,7 +10,7 @@
         v-for="item in before"
         :key="item"
         class="q-if-control q-if-control-before"
-        :class="{hidden: (item.content !== void 0 && !item.content === length > 0) || (item.error !== void 0 && !item.error === hasError)}"
+        :class="{hidden: __additionalHidden(item, hasError, length)}"
         :name="item.icon"
         @click="item.handler"
       ></q-icon>
@@ -41,13 +41,13 @@
       ></span>
     </div>
 
-    <slot name="control"></slot>
+    <slot name="after"></slot>
     <template v-if="after">
       <q-icon
         v-for="item in after"
         :key="item"
         class="q-if-control"
-        :class="{hidden: (item.content !== void 0 && !item.content === length > 0) || (item.error !== void 0 && !item.error === hasError)}"
+        :class="{hidden: __additionalHidden(item, hasError, length)}"
         :name="item.icon"
         @click="item.handler"
       ></q-icon>
@@ -114,6 +114,15 @@ export default {
   methods: {
     __onClick (e) {
       this.$emit('click', e)
+    },
+    __additionalHidden (item, hasError, length) {
+      if (item.condition !== void 0) {
+        return item.condition === false
+      }
+      return (
+        (item.content !== void 0 && !item.content === (length > 0)) ||
+        (item.error !== void 0 && !item.error === hasError)
+      )
     }
   },
   created () {

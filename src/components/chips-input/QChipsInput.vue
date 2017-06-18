@@ -53,7 +53,7 @@
     <q-icon
       v-if="!disable"
       name="send"
-      slot="control"
+      slot="after"
       class="q-if-control self-end"
       :class="{invisible: !input.length}"
       @click="add()"

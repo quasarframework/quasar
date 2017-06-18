@@ -82,7 +82,7 @@
 
     <q-icon
       v-if="isPassword && length"
-      slot="control"
+      slot="after"
       :name="showPass ? 'visibility' : 'visibility_off'"
       class="q-if-control"
       @click="togglePass"
@@ -90,7 +90,7 @@
 
     <q-icon
       v-if="clearable && length"
-      slot="control"
+      slot="after"
       name="cancel"
       class="q-if-control"
       @click="clear"
@@ -98,7 +98,7 @@
 
     <q-spinner
       v-if="isLoading"
-      slot="control"
+      slot="after"
       size="24px"
       class="q-if-control"
     ></q-spinner>
@@ -227,9 +227,14 @@ export default {
       let val = e.target ? e.target.value : e
       if (val !== this.value) {
         if (this.isNumber) {
-          val = Number.isInteger(this.maxDecimals)
-            ? parseFloat(val).toFixed(this.maxDecimals)
-            : parseFloat(val)
+          if (val === '') {
+            val = null
+          }
+          else {
+            val = Number.isInteger(this.maxDecimals)
+              ? parseFloat(val).toFixed(this.maxDecimals)
+              : parseFloat(val)
+          }
         }
         this.$emit('input', val)
         this.$emit('change', val)

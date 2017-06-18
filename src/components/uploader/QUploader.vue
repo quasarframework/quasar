@@ -26,14 +26,14 @@
 
       <q-spinner
         v-if="uploading"
-        slot="control"
+        slot="after"
         size="24px"
         class="q-if-control"
       ></q-spinner>
 
       <q-icon
         v-if="uploading"
-        slot="control"
+        slot="after"
         class="q-if-control"
         name="clear"
         @click="abort"
@@ -41,7 +41,7 @@
 
       <q-icon
         v-if="!uploading"
-        slot="control"
+        slot="after"
         name="add"
         class="q-uploader-pick-button q-if-control relative-position overflow-hidden"
         @click="__pick"
@@ -59,7 +59,7 @@
 
       <q-icon
         v-if="!hideUploadButton && !uploading"
-        slot="control"
+        slot="after"
         name="cloud_upload"
         class="q-if-control"
         :disabled="length === 0"

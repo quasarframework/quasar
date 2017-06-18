@@ -46,7 +46,7 @@
       v-html="actualValue"
     ></div>
 
-    <q-icon slot="control" name="arrow_drop_down" class="q-if-control"></q-icon>
+    <q-icon slot="after" name="arrow_drop_down" class="q-if-control"></q-icon>
 
     <q-popover
       ref="popover"
