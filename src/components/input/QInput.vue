@@ -19,7 +19,6 @@
     :top-addons="isTextarea"
 
     @click="__onClick"
-    v-ripple.mat="inverted"
   >
     <slot name="before"></slot>
 
@@ -117,7 +116,6 @@ import { between } from '../../utils/format'
 import { QInputFrame } from '../input-frame'
 import { QResizeObservable } from '../observables'
 import { QSpinner } from '../spinner'
-import Ripple from '../../directives/ripple'
 
 export default {
   name: 'q-input',
@@ -126,9 +124,6 @@ export default {
     QInputFrame,
     QSpinner,
     QResizeObservable
-  },
-  directives: {
-    Ripple
   },
   props: {
     value: { required: true },

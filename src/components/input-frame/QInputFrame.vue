@@ -4,6 +4,7 @@
     :class="classes"
     :tabindex="focusable && !disable ? 0 : null"
     @click="__onClick"
+    v-ripple.mat="inverted"
   >
     <template v-if="before">
       <q-icon
@@ -57,10 +58,14 @@
 
 <script>
 import Mixin from './input-frame-mixin'
+import Ripple from '../../directives/ripple'
 
 export default {
   name: 'q-input-frame',
   mixins: [Mixin],
+  directives: {
+    Ripple
+  },
   props: {
     topAddons: Boolean,
     focused: Boolean,
