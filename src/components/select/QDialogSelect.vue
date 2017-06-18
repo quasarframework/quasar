@@ -59,14 +59,6 @@ export default {
   name: 'q-dialog-select',
   mixins: [SelectMixin],
   props: {
-    value: {
-      required: true
-    },
-    type: {
-      type: String,
-      default: 'radio',
-      validator: v => ['radio', 'checkbox', 'toggle'].includes(v)
-    },
     okLabel: {
       type: String,
       default: 'OK'
@@ -87,25 +79,10 @@ export default {
     }
   },
   computed: {
-    actualValue () {
-      if (this.displayValue) {
-        return this.displayValue
-      }
-      if (!this.multiple) {
-        const opt = this.options.find(opt => opt.value === this.value)
-        return opt ? opt.label : ''
-      }
-
-      const opt = this.selectedOptions.map(opt => opt.label)
-      return opt.length ? opt.join(', ') : ''
-    },
-    selectedOptions () {
-      if (this.multiple) {
-        return this.options.filter(opt => this.value.includes(opt.value))
-      }
-    },
-    multiple () {
-      return ['checkbox', 'toggle'].includes(this.type)
+    type () {
+      return this.multiple
+        ? (this.toggle ? 'toggle' : 'checkbox')
+        : 'radio'
     }
   },
   methods: {
@@ -124,13 +101,18 @@ export default {
           select: {
             type: this.type,
             model: clone(this.value),
+            color: this.color,
             items: this.options
           }
         },
         buttons: [
-          this.cancelLabel,
+          {
+            label: this.cancelLabel,
+            color: this.color
+          },
           {
             label: this.okLabel,
+            color: this.color,
             handler: data => {
               if (JSON.stringify(this.value) !== JSON.stringify(data.select)) {
                 this.$emit('input', data.select)

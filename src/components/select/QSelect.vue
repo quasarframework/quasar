@@ -86,11 +86,13 @@
             <q-toggle
               v-if="toggle"
               slot="right"
+              :color="color"
               :value="optModel[opt.index]"
             ></q-toggle>
             <q-checkbox
               v-else
               slot="left"
+              :color="color"
               :value="optModel[opt.index]"
             ></q-checkbox>
           </q-item-wrapper>
@@ -104,7 +106,13 @@
             :active="value === opt.value"
             @click.capture="__select(opt.value)"
           >
-            <q-radio v-if="radio" slot="left" :value="value" :val="opt.value"></q-radio>
+            <q-radio
+              v-if="radio"
+              :color="color"
+              slot="left"
+              :value="value"
+              :val="opt.value"
+            ></q-radio>
           </q-item-wrapper>
         </template>
       </q-list>
@@ -119,7 +127,6 @@ import { QList, QItemWrapper } from '../list'
 import { QCheckbox } from '../checkbox'
 import { QRadio } from '../radio'
 import { QToggle } from '../toggle'
-import { QChip } from '../chip'
 import SelectMixin from './select-mixin'
 import clone from '../../utils/clone'
 
@@ -137,47 +144,22 @@ export default {
     QItemWrapper,
     QCheckbox,
     QRadio,
-    QToggle,
-    QChip
+    QToggle
   },
   props: {
-    value: {
-      required: true
-    },
-    multiple: Boolean,
-    radio: Boolean,
-    toggle: Boolean,
-    chips: Boolean,
     filter: [Function, Boolean],
     filterPlaceholder: {
       type: String,
       default: 'Filter'
     },
+    radio: Boolean,
     placeholder: String,
     delimiter: Boolean
   },
   computed: {
-    actualValue () {
-      if (this.displayValue) {
-        return this.displayValue
-      }
-      if (!this.multiple) {
-        const opt = this.options.find(opt => opt.value === this.value)
-        return opt ? opt.label : ''
-      }
-
-      const opt = this.selectedOptions.map(opt => opt.label)
-      return opt.length ? opt.join(', ') : ''
-    },
     optModel () {
-      /* Used by multiple selection only */
       if (this.multiple) {
         return this.options.map(opt => this.value.includes(opt.value))
-      }
-    },
-    selectedOptions () {
-      if (this.multiple) {
-        return this.options.filter(opt => this.value.includes(opt.value))
       }
     },
     visibleOptions () {

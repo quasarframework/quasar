@@ -1,20 +1,27 @@
 import { QIcon } from '../icon'
 import { QInputFrame } from '../input-frame'
+import { QChip } from '../chip'
 import FrameMixin from '../input-frame/input-frame-mixin'
 
 export default {
   components: {
     QIcon,
-    QInputFrame
+    QInputFrame,
+    QChip
   },
   mixins: [FrameMixin],
   props: {
+    value: {
+      required: true
+    },
+    multiple: Boolean,
+    toggle: Boolean,
+    chips: Boolean,
     options: {
       type: Array,
       required: true,
       validator: v => v.every(o => 'label' in o && 'value' in o)
     },
-    chips: Boolean,
     frameColor: String,
     displayValue: String
   },
@@ -25,6 +32,23 @@ export default {
     }
   },
   computed: {
+    actualValue () {
+      if (this.displayValue) {
+        return this.displayValue
+      }
+      if (!this.multiple) {
+        const opt = this.options.find(opt => opt.value === this.value)
+        return opt ? opt.label : ''
+      }
+
+      const opt = this.selectedOptions.map(opt => opt.label)
+      return opt.length ? opt.join(', ') : ''
+    },
+    selectedOptions () {
+      if (this.multiple) {
+        return this.options.filter(opt => this.value.includes(opt.value))
+      }
+    },
     hasChips () {
       return this.multiple && this.chips
     },
