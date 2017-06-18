@@ -3,6 +3,7 @@
     class="q-if row no-wrap items-center relative-position"
     :class="classes"
     :tabindex="focusable && !disable ? 0 : null"
+    @click="__onClick"
   >
     <template v-if="before">
       <q-icon
@@ -15,10 +16,7 @@
       ></q-icon>
     </template>
 
-    <div
-      class="q-if-inner col row no-wrap items-center relative-position"
-      @click="__onClick"
-    >
+    <div class="q-if-inner col row no-wrap items-center relative-position">
       <div
         v-if="label"
         class="q-if-label ellipsis full-width absolute self-start"

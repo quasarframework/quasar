@@ -36,7 +36,7 @@
       </p>
 
       <p class="group">
-        <q-btn loader  @click="simulateProgress">
+        <q-btn loader @click="simulateProgress">
           Button
           <q-spinner-oval slot="loading" />
         </q-btn>
