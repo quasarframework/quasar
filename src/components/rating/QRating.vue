@@ -41,7 +41,7 @@ export default {
     },
     max: {
       type: Number,
-      required: true
+      default: 5
     },
     icon: {
       type: String,

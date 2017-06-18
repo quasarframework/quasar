@@ -98,7 +98,7 @@ export default {
       return ['icon', 'full'].includes(this.inset)
     },
     hasNoInput () {
-      return !this.input.$options
+      return !this.input.$options || this.input.__needsBottom
     },
     counter () {
       if (this.count) {
@@ -115,7 +115,8 @@ export default {
     }
   },
   methods: {
-    __registerInput (vm) {
+    __registerInput (vm, needsBottom) {
+      vm.__needsBottom = needsBottom
       this.input = vm
     },
     __unregisterInput () {

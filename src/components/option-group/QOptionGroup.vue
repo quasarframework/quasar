@@ -52,17 +52,7 @@ export default {
     inline: Boolean,
     disable: Boolean
   },
-  created () {
-    const isArray = Array.isArray(this.value)
-    if (this.type === 'radio') {
-      if (isArray) {
-        console.error('q-option-group: model should not be array')
-      }
-    }
-    else if (!isArray) {
-      console.error('q-option-group: model should be array in your case')
-    }
-  },
+  inject: ['__field'],
   computed: {
     component () {
       return `q-${this.type}`
@@ -74,6 +64,11 @@ export default {
       set (value) {
         this.$emit('input', value)
       }
+    },
+    length () {
+      return this.value
+        ? (this.type === 'radio' ? 1 : this.value.length)
+        : 0
     }
   },
   methods: {
@@ -87,6 +82,26 @@ export default {
     },
     __onBlur () {
       this.$emit('blur')
+    }
+  },
+  created () {
+    const isArray = Array.isArray(this.value)
+    if (this.type === 'radio') {
+      if (isArray) {
+        console.error('q-option-group: model should not be array')
+      }
+    }
+    else if (!isArray) {
+      console.error('q-option-group: model should be array in your case')
+    }
+    if (this.__field) {
+      this.field = this.__field
+      this.field.__registerInput(this, true)
+    }
+  },
+  beforeDestroy () {
+    if (this.__field) {
+      this.field.__unregisterInput()
     }
   }
 }
