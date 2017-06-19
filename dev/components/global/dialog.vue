@@ -358,11 +358,11 @@ export default {
           }
         },
         {
-          label: 'Ranges',
+          label: 'Slider & Range',
           icon: 'help',
           handler () {
             Dialog.create({
-              title: 'Ranges',
+              title: 'Slider & Range',
               form: {
                 slider: {
                   type: 'slider',
