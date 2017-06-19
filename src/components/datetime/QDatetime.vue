@@ -130,7 +130,14 @@ export default {
     QInlineDatetime,
     QBtn
   },
-  props: extend({defaultSelection: [String, Number, Date]}, input, inline),
+  props: extend(
+    {
+      defaultSelection: [String, Number, Date],
+      displayValue: String
+    },
+    input,
+    inline
+  ),
   data () {
     let data = this.$q.platform.is.desktop ? {} : {
       css: contentCSS[theme],
@@ -144,6 +151,9 @@ export default {
   },
   computed: {
     actualValue () {
+      if (this.displayValue) {
+        return this.displayValue
+      }
       if (!this.value) {
         return this.placeholder || ''
       }
