@@ -46,7 +46,7 @@
       <div>
         <h6>Row height ({{rowHeight}}px)</h6>
         <br>
-        <q-range v-model="rowHeight" :min="50" :max="200" label-always />
+        <q-slider v-model="rowHeight" :min="50" :max="200" label-always />
       </div>
 
       <div>
@@ -64,7 +64,7 @@
           <span :style="{fontStyle: bodyHeightProp === 'auto' ? 'italic' : ''}">({{bodyHeight}}px)</span>
         </h6>
         <br>
-        <q-range v-model="bodyHeight" :min="100" :max="700" label-always :disable="bodyHeightProp === 'auto'" />
+        <q-slider v-model="bodyHeight" :min="100" :max="700" label-always :disable="bodyHeightProp === 'auto'" />
       </div>
     </div>
 

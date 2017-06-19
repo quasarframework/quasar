@@ -5,7 +5,7 @@
         icon="format size"
         :label="`Size: ${size}px`"
       >
-        <q-range label v-model="size" :min="20" :max="256" />
+        <q-slider label v-model="size" :min="20" :max="256" />
       </q-field>
 
       <q-field

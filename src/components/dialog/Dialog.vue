@@ -38,8 +38,8 @@
           :options="el.items"
         ></q-option-group>
 
-        <div v-if="el.type === 'range' || el.type === 'double-range'" style="margin-top: 15px; margin-bottom: 10px">
-          <label v-html="el.label + ' (' + (el.type === 'double-range' ? el.model.min + ' to ' + el.model.max : el.model) + ')'"></label>
+        <div v-if="el.type === 'slider' || el.type === 'range'" style="margin-top: 15px; margin-bottom: 10px">
+          <label v-html="el.label + ' (' + (el.type === 'range' ? el.model.min + ' to ' + el.model.max : el.model) + ')'"></label>
           <component
             :is="'q-' + el.type"
             v-model="el.model"
@@ -107,7 +107,8 @@ import { QModal } from '../modal'
 import { QInput } from '../input'
 import { QChipsInput } from '../chips-input'
 import { QOptionGroup } from '../option-group'
-import { QRange, QDoubleRange } from '../range'
+import { QSlider } from '../slider'
+import { QRange } from '../range'
 import { QRating } from '../rating'
 import { QProgress } from '../progress'
 import { QBtn } from '../btn'
@@ -119,8 +120,8 @@ export default {
     QInput,
     QChipsInput,
     QOptionGroup,
+    QSlider,
     QRange,
-    QDoubleRange,
     QRating,
     QProgress,
     QBtn

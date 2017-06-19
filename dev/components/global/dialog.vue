@@ -364,18 +364,18 @@ export default {
             Dialog.create({
               title: 'Ranges',
               form: {
-                range: {
-                  type: 'range',
-                  label: 'Range',
+                slider: {
+                  type: 'slider',
+                  label: 'Slider',
                   min: 10,
                   max: 20,
                   withLabel: true,
                   model: 12,
                   color: 'secondary'
                 },
-                doubleRange: {
-                  type: 'double-range',
-                  label: 'Double Range',
+                slider: {
+                  type: 'slider',
+                  label: 'Slider',
                   model: {
                     min: 7,
                     max: 12
@@ -385,7 +385,7 @@ export default {
                   withLabel: true
                 },
                 step: {
-                  type: 'range',
+                  type: 'slider',
                   label: 'With step & snap',
                   model: -6,
                   min: -10,
