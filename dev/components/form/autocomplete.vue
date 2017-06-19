@@ -50,10 +50,10 @@
         />
       </q-search>
 
-      <p class="caption">Delimiter between results</p>
+      <p class="caption">Separator between results</p>
       <q-search v-model="terms">
         <q-autocomplete
-          delimiter
+          separator
           @search="search"
           @selected="selected"
         />

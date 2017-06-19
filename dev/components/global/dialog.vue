@@ -19,7 +19,7 @@
           <q-item-main :label="dialog.label" />
           <q-item-side right icon="keyboard_arrow_right" />
         </q-item>
-        <q-item-delimiter />
+        <q-item-separator />
         <q-list-header>With Form Components</q-list-header>
         <q-item
           link

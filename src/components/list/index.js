@@ -1,5 +1,5 @@
 import QItem from './QItem'
-import QItemDelimiter from './QItemDelimiter'
+import QItemSeparator from './QItemSeparator'
 import QItemMain from './QItemMain'
 import QItemSide from './QItemSide'
 import QItemTile from './QItemTile'
@@ -9,7 +9,7 @@ import QListHeader from './QListHeader'
 
 export {
   QItem,
-  QItemDelimiter,
+  QItemSeparator,
   QItemMain,
   QItemSide,
   QItemTile,

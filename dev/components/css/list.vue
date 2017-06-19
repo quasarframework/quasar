@@ -62,43 +62,43 @@
         </q-item>
       </q-list>
 
-      <p class="caption">Delimiter Between Items</p>
+      <p class="caption">Separator Between Items</p>
       <q-list>
         <q-item>
           <q-item-main label="List Item" />
         </q-item>
-        <q-item-delimiter />
+        <q-item-separator />
         <q-item>
           <q-item-main label="List Item" />
         </q-item>
-        <q-item-delimiter />
+        <q-item-separator />
         <q-item>
           <q-item-main label="List Item" />
         </q-item>
       </q-list>
 
-      <p class="caption">Delimiter within Items</p>
-      <q-list delimiter>
+      <p class="caption">Separator within Items</p>
+      <q-list separator>
         <q-item :key="n" v-for="n in 3">
           <q-item-main label="List Item" />
         </q-item>
       </q-list>
 
       <q-list>
-        <q-item :key="n" v-for="n in 3" delimiter>
+        <q-item :key="n" v-for="n in 3" separator>
           <q-item-main label="List Item" />
         </q-item>
       </q-list>
 
-      <p class="caption">Inset Delimiter within Items</p>
-      <q-list inset-delimiter>
+      <p class="caption">Inset Separator within Items</p>
+      <q-list inset-separator>
         <q-item :key="n" v-for="n in 3">
           <q-item-main inset label="List Item" />
         </q-item>
       </q-list>
 
       <q-list>
-        <q-item :key="n" v-for="n in 3" inset-delimiter>
+        <q-item :key="n" v-for="n in 3" inset-separator>
           <q-item-main inset label="List Item" />
         </q-item>
       </q-list>
@@ -116,24 +116,24 @@
         <q-item :key="n" v-for="n in 2">
           <q-item-main label="List Item" />
         </q-item>
-        <q-item-delimiter />
+        <q-item-separator />
         <q-list-header>Another List Label</q-list-header>
         <q-item :key="n" v-for="n in 3">
           <q-item-main label="List Item" />
         </q-item>
       </q-list>
 
-      <p class="caption">Inset: Items, Delimiters and Labels</p>
+      <p class="caption">Inset: Items, Separators and Labels</p>
       <q-list>
         <q-item>
           <q-item-main inset label="List Item" />
         </q-item>
-        <q-item-delimiter inset />
+        <q-item-separator inset />
         <q-list-header inset>Inset List Label</q-list-header>
         <q-item :key="n" v-for="n in 2">
           <q-item-main inset label="List Item" />
         </q-item>
-        <q-item-delimiter inset />
+        <q-item-separator inset />
         <q-item>
           <q-item-main inset label="List Item" />
         </q-item>
@@ -176,7 +176,7 @@
       </q-list>
 
       <p class="caption">Primary</p>
-      <q-list inset-delimiter>
+      <q-list inset-separator>
         <q-item>
           <q-item-side icon="assignment_ind" />
           <q-item-main label="Icon as Primary" />
@@ -190,7 +190,7 @@
           <q-item-main label="One character as Primary" />
         </q-item>
       </q-list>
-      <q-list inset-delimiter>
+      <q-list inset-separator>
         <q-item>
           <q-item-side icon="assignment_ind" />
           <q-item-main label="Icon as Primary" />
@@ -219,12 +219,12 @@
           <q-item-main label="Icon as Secondary" />
           <q-item-side right icon="info" />
         </q-item>
-        <q-item-delimiter />
+        <q-item-separator />
         <q-item>
           <q-item-main label="Icon as Secondary" />
           <q-item-side right avatar="/statics/boy-avatar.png" />
         </q-item>
-        <q-item-delimiter />
+        <q-item-separator />
         <q-item>
           <q-item-main label="Icon as Secondary" />
           <q-item-side right letter="Q" />
@@ -232,7 +232,7 @@
       </q-list>
 
       <p class="caption">Example Items with Primary and Secondary</p>
-      <q-list inset-delimiter>
+      <q-list inset-separator>
         <q-item>
           <q-item-side avatar="/statics/boy-avatar.png" />
           <q-item-main label="Jack" />
@@ -261,7 +261,7 @@
       </q-list>
 
       <p class="caption">Stamp and Truncated Content</p>
-      <q-list highlight inset-delimiter style="max-width: 400px">
+      <q-list highlight inset-separator style="max-width: 400px">
         <q-item>
           <q-item-side avatar="/statics/boy-avatar.png" />
           <q-item-main label="Brunch this weekend? Brunch this weekend? Brunch this weekend?" label-lines="1" />
@@ -320,7 +320,7 @@
       </q-list>
 
       <p class="caption">Item with different secondaries</p>
-      <q-list inset-delimiter>
+      <q-list inset-separator>
         <q-item>
           <q-item-side avatar="/statics/boy-avatar.png" />
           <q-item-main label="Brunch this weekend?" />
@@ -404,7 +404,7 @@
           <q-item-main label="John Doe" />
           <q-item-side right icon="chat_bubble" />
         </q-item>
-        <q-item-delimiter />
+        <q-item-separator />
         <q-list-header>Previous chats</q-list-header>
         <q-item v-for="n in 3" :key="n">
           <q-item-side avatar="/statics/guy-avatar.png" />
@@ -422,7 +422,7 @@
             </q-item-tile>
           </q-item-side>
         </q-item>
-        <q-item-delimiter inset />
+        <q-item-separator inset />
         <q-item v-for="n in 3" :key="n">
           <q-item-side letter="A" />
           <q-item-main label="John Joe" />
@@ -440,7 +440,7 @@
           </q-item-main>
           </q-item-side right icon="info" />
         </q-item>
-        <q-item-delimiter inset />
+        <q-item-separator inset />
         <q-list-header inset>Files</q-list-header>
         <q-item v-for="n in 3" :key="n">
           <q-item-side icon="assignment" inverted color="grey-6" />
@@ -467,7 +467,7 @@
             <q-item-tile sublabel>Require password for purchase or use password to restrict purchase</q-item-tile>
           </q-item-main>
         </q-item>
-        <q-item-delimiter />
+        <q-item-separator />
         <q-list-header>General</q-list-header>
         <q-item tag="label">
           <q-item-side>
@@ -571,7 +571,7 @@
           </q-item-main>
         </q-item>
 
-        <q-item-delimiter />
+        <q-item-separator />
         <q-list-header>Ranges</q-list-header>
         <q-item>
           <q-item-side icon="volume_down" />
@@ -660,7 +660,7 @@
           </q-item-main>
           <q-item-side right icon="chat_bubble" />
         </q-item>
-        <q-item-delimiter inset />
+        <q-item-separator inset />
         <q-item v-for="n in 3" :key="n">
           <q-item-side icon="mail" color="primary" v-if="n === 1" />
           <q-item-main :inset="n > 1">
@@ -683,7 +683,7 @@
           <q-item-side icon="delete" />
           <q-item-main label="Trash" />
         </q-item>
-        <q-item-delimiter />
+        <q-item-separator />
         <q-item>
           <q-item-main label="Inbox" />
           <q-item-side right icon="inbox" />

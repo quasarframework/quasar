@@ -1,5 +1,5 @@
 export default {
-  name: 'q-item-delimiter',
+  name: 'q-item-separator',
   functional: true,
   props: {
     inset: Boolean
@@ -9,7 +9,7 @@ export default {
       data = ctx.data,
       cls = data.staticClass
 
-    data.staticClass = `q-item-delimiter-component${ctx.props.inset ? ' q-item-delimiter-inset-component' : ''}${cls ? ` ${cls}` : ''}`
+    data.staticClass = `q-item-separator-component${ctx.props.inset ? ' q-item-separator-inset-component' : ''}${cls ? ` ${cls}` : ''}`
 
     return h('div', data, ctx.children)
   }

@@ -3,7 +3,7 @@
     <div class="layout-padding">
       <p class="caption">Single Selection</p>
       <q-select v-model="select" :options="selectOptions"></q-select>
-      <q-select v-model="select" :options="selectOptions" delimiter></q-select>
+      <q-select v-model="select" :options="selectOptions" separator></q-select>
       <q-select v-model="select" :options="selectListOptions"></q-select>
 
       <p class="caption">Coloring</p>
@@ -66,7 +66,7 @@
             />
           </q-item-main>
         </q-item>
-        <q-item-delimiter />
+        <q-item-separator />
         <q-list-header>Multiple Selection</q-list-header>
         <q-item>
           <q-item-side icon="supervisor_account" />

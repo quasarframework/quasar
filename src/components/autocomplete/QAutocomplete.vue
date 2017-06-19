@@ -7,7 +7,7 @@
     ref="popover"
     :anchor-click="false"
   >
-    <div class="list no-border" :class="{delimiter: delimiter}" :style="computedWidth">
+    <div class="list no-border" :class="{separator: separator}" :style="computedWidth">
       <q-item-wrapper
         v-for="(result, index) in computedResults"
         :key="result"
@@ -55,7 +55,7 @@ export default {
       default: 500
     },
     staticData: Object,
-    delimiter: Boolean
+    separator: Boolean
   },
   inject: ['__input', '__inputParent'],
   data () {

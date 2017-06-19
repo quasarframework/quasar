@@ -12,7 +12,7 @@
           <q-icon name="assignment" />
 
           <q-popover ref="popover1">
-            <q-list link delimiter class="scroll" style="min-width: 100px">
+            <q-list link separator class="scroll" style="min-width: 100px">
               <q-item
                 v-for="n in 20"
                 :key="n"
@@ -136,7 +136,7 @@
         <q-icon name="menu" />
 
         <q-popover ref="popover5">
-          <q-list link delimiter class="scroll" style="min-width: 200px">
+          <q-list link separator class="scroll" style="min-width: 200px">
             <q-item
               v-for="n in 20"
               :key="n"

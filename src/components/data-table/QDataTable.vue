@@ -41,7 +41,7 @@
     <template v-if="responsive">
       <div v-if="message" class="q-data-table-message row items-center justify-center" v-html="message"></div>
       <div v-else :style="bodyStyle" style="overflow: auto">
-        <table class="q-table horizontal-delimiter responsive" ref="body">
+        <table class="q-table horizontal-separator responsive" ref="body">
           <tbody>
             <tr v-for="(row, index) in rows" @click="emitRowClick(row)">
               <td v-if="config.selection">

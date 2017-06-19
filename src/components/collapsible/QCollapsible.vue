@@ -1,7 +1,7 @@
 <template>
   <div
     class="q-collapsible q-item-division relative-position"
-    :class="{ 'q-item-delimiter': delimiter, 'q-item-inset-delimiter': insetDelimiter }"
+    :class="{ 'q-item-separator': separator, 'q-item-inset-separator': insetSeparator }"
   >
     <q-item-wrapper :cfg="cfg" @click="__toggleItem" v-ripple.mat="!iconToggle">
       <div
@@ -55,8 +55,8 @@ export default {
     dense: Boolean,
     sparse: Boolean,
     multiline: Boolean,
-    delimiter: Boolean,
-    insetDelimiter: Boolean,
+    separator: Boolean,
+    insetSeparator: Boolean,
 
     icon: String,
     image: String,

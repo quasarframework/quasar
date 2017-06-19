@@ -22,15 +22,15 @@ table.q-table
     th, td
       padding 1rem
 
-  &.bordered, &.cell-delimiter:not(.responsive):not(.flipped)
+  &.bordered, &.cell-separator:not(.responsive):not(.flipped)
     border $table-border
 
   &:not(.responsive):not(.flipped)
-    &.horizontal-delimiter, &.cell-delimiter
+    &.horizontal-separator, &.cell-separator
       th, td
         border-bottom $table-border
 
-    &.vertical-delimiter, &.cell-delimiter
+    &.vertical-separator, &.cell-separator
       th, td
         border-left $table-border
         &:last-child
@@ -76,12 +76,12 @@ table.q-table
     td:not(:last-child)
       border-bottom 0
 
-    &.horizontal-delimiter, &.cell-delimiter
+    &.horizontal-separator, &.cell-separator
       tr
         border-left $table-border
         border-right $table-border
 
-    &.vertical-delimiter, &.cell-delimiter
+    &.vertical-separator, &.cell-separator
       th, td
         border-top $table-border
         &:last-child
@@ -101,15 +101,15 @@ table.q-table
         text-align left
         font-weight bold
 
-      &.horizontal-delimiter
+      &.horizontal-separator
         tr:not(:last-child)
           border-bottom $table-border
 
-      &.cell-delimiter
+      &.cell-separator
         tr
           border $table-border
 
-      &.vertical-delimiter, &.cell-delimiter
+      &.vertical-separator, &.cell-separator
         th, td
           border-left $table-border
           border-right $table-border

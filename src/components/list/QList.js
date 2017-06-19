@@ -8,8 +8,8 @@ export default {
     sparse: Boolean,
     striped: Boolean,
     stripedOdd: Boolean,
-    delimiter: Boolean,
-    insetDelimiter: Boolean,
+    separator: Boolean,
+    insetSeparator: Boolean,
     multiline: Boolean,
     highlight: Boolean,
     link: Boolean
@@ -27,8 +27,8 @@ export default {
       'q-list-sparse': prop.sparse,
       'q-list-striped': prop.striped,
       'q-list-striped-odd': prop.stripedOdd,
-      'q-list-delimiter': prop.delimiter,
-      'q-list-inset-delimiter': prop.insetDelimiter,
+      'q-list-separator': prop.separator,
+      'q-list-inset-separator': prop.insetSeparator,
       'q-list-multiline': prop.multiline,
       'q-list-highlight': prop.highlight,
       'q-list-link': prop.link

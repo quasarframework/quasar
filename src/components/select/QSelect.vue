@@ -72,7 +72,7 @@
 
       <q-list
         link
-        :delimiter="delimiter"
+        :separator="separator"
         class="no-border scroll"
       >
         <template v-if="multiple">
@@ -154,7 +154,7 @@ export default {
     },
     radio: Boolean,
     placeholder: String,
-    delimiter: Boolean
+    separator: Boolean
   },
   computed: {
     optModel () {

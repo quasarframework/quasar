@@ -19,8 +19,8 @@
         </q-collapsible>
       </q-list>
 
-      <p class="caption">With Item Delimiters</p>
-      <q-list inset-delimiter>
+      <p class="caption">With Item Separators</p>
+      <q-list inset-separator>
         <q-collapsible icon="mail" label="Inbox" sublabel="5 unread emails">
           <div>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -39,7 +39,7 @@
       </q-list>
 
       <p class="caption">Toggle only on icon (on right)</p>
-      <q-list delimiter>
+      <q-list separator>
         <q-collapsible icon-toggle icon="mail" label="Inbox" sublabel="5 unread emails">
           <div>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -58,7 +58,7 @@
       </q-list>
 
       <p class="caption">Preselected/Opened Collapsible</p>
-      <q-list delimiter>
+      <q-list separator>
         <q-collapsible icon="explore" label="First">
           <div>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -105,7 +105,7 @@
 
 
       <p class="caption">Ubiquity. Using Cards as content.</p>
-      <q-list delimiter>
+      <q-list separator>
         <q-collapsible icon="explore" label="First Card">
           <q-card color="primary">
             <q-card-title>

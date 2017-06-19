@@ -1,5 +1,5 @@
 <template>
-  <table class="q-table horizontal-delimiter">
+  <table class="q-table horizontal-separator">
     <colgroup>
       <col v-if="selection" style="width: 45px;" />
       <col v-for="col in cols" :style="{width: col.width}" />

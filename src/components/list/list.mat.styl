@@ -78,9 +78,9 @@
   &:hover
     background $item-highlight-color
 
-.q-list-delimiter > .q-item-division + .q-item-division, .q-item-division + .q-item-delimiter
-  border-top 1px solid $item-delimiter-color
-.q-list-inset-delimiter > .q-item-division + .q-item-division, .q-item-division + .q-item-inset-delimiter
+.q-list-separator > .q-item-division + .q-item-division, .q-item-division + .q-item-separator
+  border-top 1px solid $item-separator-color
+.q-list-inset-separator > .q-item-division + .q-item-division, .q-item-division + .q-item-inset-separator
   &:after
     content ''
     position absolute
@@ -88,7 +88,7 @@
     right 0
     left ($item-padding + $item-gutter + $item-primary-size)
     height 1px
-    background $item-delimiter-color
+    background $item-separator-color
 
 .q-list-dense > .q-item, .q-item-dense
   padding round($item-padding * $item-dense-factor) $item-padding
@@ -103,22 +103,22 @@
   background-color $item-stripe-color
 
 .q-list
-  border 1px solid $item-delimiter-color
+  border 1px solid $item-separator-color
   padding ($item-padding / 2) 0
 
   & + .q-list
     margin-top 32px
 
-.q-item-delimiter-component
+.q-item-separator-component
   margin ($item-padding / 2) 0
   height 1px
   border 0
-  background-color $item-delimiter-color
+  background-color $item-separator-color
   &:last-child
     display none
   & + .q-list-header
     margin-top (- $item-padding / 2)
-.q-item-delimiter-inset-component
+.q-item-separator-inset-component
   margin-left ($item-padding + $item-gutter + $item-primary-size)
 
 .q-list-header

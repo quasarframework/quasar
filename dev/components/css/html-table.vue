@@ -5,10 +5,10 @@
       <q-checkbox v-model="highlight" label="Highlight" />
 
       <div class="column gt-md-row">
-        <q-radio v-model="delimiter" val="none" label="No delimiter" />
-        <q-radio v-model="delimiter" val="horizontal" label="Horizontal delimiter" />
-        <q-radio v-model="delimiter" val="vertical" label="Vertical delimiter" />
-        <q-radio v-model="delimiter" val="cell" label="Cell delimiter" />
+        <q-radio v-model="separator" val="none" label="No separator" />
+        <q-radio v-model="separator" val="horizontal" label="Horizontal separator" />
+        <q-radio v-model="separator" val="vertical" label="Vertical separator" />
+        <q-radio v-model="separator" val="cell" label="Cell separator" />
       </div>
 
       <div class="column gt-md-row">
@@ -72,9 +72,9 @@ export default {
       styles: [
         '',
         'bordered',
-        'horizontal-delimiter',
-        'vertical-delimiter',
-        'cell-delimiter',
+        'horizontal-separator',
+        'vertical-separator',
+        'cell-separator',
         'striped-odd',
         'striped-even',
         'highlight',
@@ -84,7 +84,7 @@ export default {
       ],
       bordered: false,
       highlight: false,
-      delimiter: 'none',
+      separator: 'none',
       stripe: 'none',
       type: 'none',
       gutter: 'none'
@@ -100,8 +100,8 @@ export default {
       if (this.highlight) {
         classes.push('highlight')
       }
-      if (this.delimiter !== 'none') {
-        classes.push(this.delimiter + '-delimiter')
+      if (this.separator !== 'none') {
+        classes.push(this.separator + '-separator')
       }
       if (this.stripe !== 'none') {
         classes.push('striped-' + this.stripe)

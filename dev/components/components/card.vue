@@ -272,7 +272,7 @@
         <q-card-title>
           Title
         </q-card-title>
-        <q-list delimiter>
+        <q-list separator>
           <q-collapsible icon="explore" label="First">
             <div>
               Lorem ipsum dolor sit amet...

@@ -24,8 +24,8 @@ export function itemClasses (prop) {
     'q-item-dark': prop.dark,
     'q-item-dense': prop.dense,
     'q-item-sparse': prop.sparse,
-    'q-item-delimiter': prop.delimiter,
-    'q-item-inset-delimiter': prop.insetDelimiter,
+    'q-item-separator': prop.separator,
+    'q-item-inset-separator': prop.insetSeparator,
     'q-item-multiline': prop.multiline,
     'q-item-highlight': prop.highlight,
     'q-item-link': prop.to || prop.link
@@ -37,8 +37,8 @@ export const ItemMixin = {
     dark: Boolean,
     dense: Boolean,
     sparse: Boolean,
-    delimiter: Boolean,
-    insetDelimiter: Boolean,
+    separator: Boolean,
+    insetSeparator: Boolean,
     multiline: Boolean,
     highlight: Boolean,
     tag: {
