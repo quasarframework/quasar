@@ -96,8 +96,9 @@ export default {
       return this.icon || typeIcon[this.color] || typeIcon.warning
     },
     containerClass () {
-      if (this.position) {
-        return `fixed-${this.position} z-alert`
+      const pos = this.position
+      if (pos) {
+        return `fixed-${pos}${pos === 'left' || pos === 'right' ? ' row items-center' : ''} z-alert`
       }
     },
     classes () {
