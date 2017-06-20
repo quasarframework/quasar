@@ -90,10 +90,14 @@ import { position } from '../../utils/event'
 import { css } from '../../utils/dom'
 import { isSameDate } from '../../utils/date'
 import DateMixin from './datetime-mixin'
+import TouchPan from '../../directives/touch-pan'
 
 export default {
   name: 'q-inline-datetime',
   mixins: [DateMixin],
+  directives: {
+    TouchPan
+  },
   props: {
     defaultSelection: [String, Number, Date],
     disable: Boolean,
