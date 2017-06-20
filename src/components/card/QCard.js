@@ -13,7 +13,7 @@ export default {
       classes = data.staticClass,
       prop = ctx.props
 
-    let cls = ['q-card column']
+    let cls = ['q-card column no-wrap']
     if (prop.square) {
       cls.push('no-border-radius')
     }
