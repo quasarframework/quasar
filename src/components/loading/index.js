@@ -1,12 +1,14 @@
 import { Vue } from '../../deps'
 import Events from '../../features/events'
-import Loading from './Loading.vue'
+import { QSpinner } from '../spinner'
 
 let
   vm,
   appIsInProgress = false,
   timeout,
   props = {}
+
+const staticClass = 'q-loading animate-fade fullscreen column items-center justify-center z-absolute'
 
 function isActive () {
   return appIsInProgress
@@ -15,10 +17,12 @@ function isActive () {
 function show ({
   delay = 500,
   message = false,
-  spinnerSize,
-  spinnerColor,
-  messageColor
+  spinnerSize = 80,
+  spinnerColor = 'white',
+  messageColor = 'white',
+  spinner = QSpinner
 } = {}) {
+  props.spinner = spinner
   props.message = message
   props.spinnerSize = spinnerSize
   props.spinnerColor = spinnerColor
@@ -37,8 +41,28 @@ function show ({
     document.body.classList.add('with-loading')
 
     vm = new Vue({
+      name: 'q-loading',
       el: node,
-      render: h => h(Loading, {props})
+      functional: true,
+      render (h) {
+        const child = [
+          h(props.spinner, {props: {
+            color: props.spinnerColor,
+            size: props.spinnerSize
+          }})
+        ]
+
+        if (message) {
+          child.push(h('div', {
+            staticClass: `text-${props.messageColor}`,
+            domProps: {
+              innerHTML: props.message
+            }
+          }))
+        }
+
+        return h('div', {staticClass}, child)
+      }
     })
   }, delay)
 

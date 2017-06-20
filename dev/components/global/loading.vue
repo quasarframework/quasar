@@ -14,10 +14,10 @@
         </q-btn>
       </div>
       <p class="caption">
-        ...with a custom colors and spinner size.
+        ...with a custom spinner, colors and size.
       </p>
-      <q-btn push color="light" class="text-dark" @click="customColorSpinner()">
-        Custom Color and Size Spinner
+      <q-btn push color="light" class="text-dark" @click="customLoading()">
+        Show custom Loading
       </q-btn>
       <p class="caption">
         Change Message while Being Displayed
@@ -30,7 +30,11 @@
 </template>
 
 <script>
-import { Loading } from 'quasar'
+import {
+  Loading,
+  QSpinnerFacebook,
+  QSpinnerGears
+} from 'quasar'
 
 function show (options) {
   Loading.show(options)
@@ -45,12 +49,13 @@ export default {
     noMessage () {
       show()
     },
-    customColorSpinner () {
+    customLoading () {
       show({
-        spinnerColor: 'yellow',
-        spinnerSize: 220,
+        spinner: QSpinnerFacebook,
+        spinnerColor: 'amber',
+        spinnerSize: 140,
         message: 'Some important process is in progress. Hang on...',
-        messageColor: 'teal-3'
+        messageColor: 'orange'
       })
     },
     withMessage () {
@@ -60,6 +65,7 @@ export default {
       Loading.show({message: 'First message. Gonna change it in 3 seconds...'})
       setTimeout(() => {
         show({
+          spinner: QSpinnerGears,
           spinnerColor: 'red',
           message: 'Updated message'
         })

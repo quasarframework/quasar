@@ -373,9 +373,9 @@ export default {
                   model: 12,
                   color: 'secondary'
                 },
-                slider: {
-                  type: 'slider',
-                  label: 'Slider',
+                range: {
+                  type: 'range',
+                  label: 'Range',
                   model: {
                     min: 7,
                     max: 12
