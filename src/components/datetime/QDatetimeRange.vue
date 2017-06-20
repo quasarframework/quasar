@@ -1,5 +1,5 @@
 <template>
-  <div class="q-datetime-range">
+  <div class="q-datetime-range no-wrap" :class="classes">
     <q-datetime
       v-model="value.from"
       :default-selection="defaultFrom"
@@ -24,7 +24,7 @@
       :align="align"
       :format24h="format24h"
       :monday-first="mondayFirst"
-      class="inline"
+      class="col q-datetime-range-left"
       :class="className"
       :style="css"
       @change="__onChange"
@@ -54,7 +54,7 @@
       :align="align"
       :format24h="format24h"
       :monday-first="mondayFirst"
-      class="inline"
+      class="col q-datetime-range-right"
       :class="className"
       :style="css"
       @change="__onChange"
@@ -86,9 +86,15 @@ export default {
       className: [String, Object],
       css: [String, Object],
       defaultFrom: [String, Number, Date],
-      defaultTo: [String, Number, Date]
+      defaultTo: [String, Number, Date],
+      vertical: Boolean
     }
   ),
+  computed: {
+    classes () {
+      return this.vertical ? 'column' : 'row'
+    }
+  },
   methods: {
     __onChange () {
       this.$nextTick(() => {

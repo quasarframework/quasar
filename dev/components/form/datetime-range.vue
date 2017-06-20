@@ -20,7 +20,7 @@
       <p class="caption">
         Date Range
       </p>
-      <q-datetime-range type="date" v-model="first.range" :min="first.min" :max="first.max" />
+      <q-datetime-range vertical type="date" v-model="first.range" :min="first.min" :max="first.max" />
       <div class="bg-grey-8" style="width: 300px; padding: 25px">
         <q-datetime-range color="secondary" dark type="date" v-model="first.range" :min="first.min" :max="first.max" />
       </div>
@@ -64,11 +64,6 @@
         Time Range
       </p>
       <q-datetime-range type="time" v-model="second.range" :min="second.min" :max="second.max" />
-
-      <br>
-      <h5>Optional CSS</h5>
-      <p class="caption">CSS class 'full-width'</p>
-      <q-datetime-range class="full-width" type="datetime" v-model="second.range" :min="second.min" :max="second.max" />
     </div>
   </div>
 </template>
