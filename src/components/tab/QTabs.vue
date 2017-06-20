@@ -63,6 +63,7 @@
 import { width, css, cssTransform } from '../../utils/dom'
 import { debounce } from '../../utils/debounce'
 import { QIcon } from '../icon'
+import { current as theme } from '../../features/theme'
 
 const
   scrollNavigationSpeed = 5, // in pixels
@@ -77,7 +78,7 @@ export default {
     value: String,
     align: {
       type: String,
-      default: 'left',
+      default: theme === 'ios' ? 'center' : 'left',
       validator: v => ['left', 'center', 'right', 'justify'].includes(v)
     },
     position: {
