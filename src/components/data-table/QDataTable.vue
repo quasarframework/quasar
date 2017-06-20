@@ -16,7 +16,7 @@
             v-if="config.columnPicker"
             v-model="columnSelection"
             :options="columnSelectionOptions"
-            :static-label="labels.columns"
+            :display-value="labels.columns"
             simple
             style="margin: 0 0 0 10px"
           ></q-select>
