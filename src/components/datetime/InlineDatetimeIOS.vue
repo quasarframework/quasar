@@ -2,19 +2,16 @@
   <div class="q-datetime" :class="['type-' + type, disable ? 'disabled' : '', readonly ? 'readonly' : '']">
     <slot></slot>
     <div class="q-datetime-content non-selectable">
-      <div class="q-datetime-inner full-height flex justify-center">
+      <div class="q-datetime-inner full-height flex justify-center" @touchstart.stop.prevent>
         <template v-if="typeHasDate">
           <div
             class="q-datetime-col q-datetime-col-month"
-            @touchstart="__dragStart($event, 'month')"
-            @touchmove="__dragMove($event, 'month')"
-            @touchend="__dragStop($event, 'month')"
+            v-touch-pan.vertical="__dragMonth"
           >
             <div ref="month" class="q-datetime-col-wrapper" :style="__monthStyle">
               <div
                 v-for="index in monthInterval"
                 class="q-datetime-item"
-                @click="setMonth(index + monthMin)"
               >
                 {{ monthNames[index + monthMin - 1] }}
               </div>
@@ -23,15 +20,12 @@
 
           <div
             class="q-datetime-col q-datetime-col-day"
-            @touchstart="__dragStart($event, 'date')"
-            @touchmove="__dragMove($event, 'date')"
-            @touchend="__dragStop($event, 'date')"
+            v-touch-pan.vertical="__dragDate"
           >
             <div ref="date" class="q-datetime-col-wrapper" :style="__dayStyle">
               <div
                 v-for="index in daysInterval"
                 class="q-datetime-item"
-                @click="setDay(index + dayMin - 1)"
               >
                 {{ index + dayMin - 1 }}
               </div>
@@ -40,15 +34,12 @@
 
           <div
             class="q-datetime-col q-datetime-col-year"
-            @touchstart="__dragStart($event, 'year')"
-            @touchmove="__dragMove($event, 'year')"
-            @touchend="__dragStop($event, 'year')"
+            v-touch-pan.vertical="__dragYear"
           >
             <div ref="year" class="q-datetime-col-wrapper" :style="__yearStyle">
               <div
                 v-for="n in yearInterval"
                 class="q-datetime-item"
-                @click="setYear(n + yearMin)"
               >
                 {{ n + yearMin }}
               </div>
@@ -59,15 +50,12 @@
         <template v-if="typeHasTime">
           <div
             class="q-datetime-col q-datetime-col-hour"
-            @touchstart="__dragStart($event, 'hour')"
-            @touchmove="__dragMove($event, 'hour')"
-            @touchend="__dragStop($event, 'hour')"
+            v-touch-pan.vertical="__dragHour"
           >
             <div ref="hour" class="q-datetime-col-wrapper" :style="__hourStyle">
               <div
                 v-for="n in hourInterval"
                 class="q-datetime-item"
-                @click="setHour(n + hourMin - 1)"
               >
                 {{ n + hourMin - 1 }}
               </div>
@@ -76,15 +64,12 @@
 
           <div
             class="q-datetime-col q-datetime-col-minute"
-            @touchstart="__dragStart($event, 'minute')"
-            @touchmove="__dragMove($event, 'minute')"
-            @touchend="__dragStop($event, 'minute')"
+            v-touch-pan.vertical="__dragMinute"
           >
             <div ref="minute" class="q-datetime-col-wrapper" :style="__minuteStyle">
               <div
                 v-for="n in minuteInterval"
                 class="q-datetime-item"
-                @click="setMinute(n + minuteMin - 1)"
               >
                 {{ __pad(n + minuteMin - 1) }}
               </div>
@@ -178,6 +163,28 @@ export default {
     }
   },
   methods: {
+    __dragMonth (e) {
+      this.__drag(e, 'month')
+    },
+    __dragDate (e) {
+      this.__drag(e, 'date')
+    },
+    __dragYear (e) {
+      this.__drag(e, 'year')
+    },
+    __dragHour (e) {
+      this.__drag(e, 'hour')
+    },
+    __dragMinute (e) {
+      this.__drag(e, 'minute')
+    },
+    __drag (e, type) {
+      const method = e.isFirst
+        ? '__dragStart' : (e.isFinal ? '__dragStop' : '__dragMove')
+
+      this[method](e.evt, type)
+    },
+
     /* date */
     setYear (value) {
       if (this.editable) {
