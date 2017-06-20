@@ -6,10 +6,10 @@ export function rightClick (e) {
   e = getEvent(e)
 
   if (e.which) {
-    return e.which === 3 // eslint-disable-line
+    return e.which === 3
   }
   if (e.button) {
-    return e.button === 2 // eslint-disable-line
+    return e.button === 2
   }
 
   return false
@@ -68,8 +68,8 @@ const
 
 export function getMouseWheelDistance (e) {
   var
-    sX = 0, sY = 0,       // spinX, spinY
-    pX = 0, pY = 0        // pixelX, pixelY
+    sX = 0, sY = 0, // spinX, spinY
+    pX = 0, pY = 0 // pixelX, pixelY
 
   // Legacy
   if ('detail' in e) { sY = e.detail }
@@ -90,11 +90,11 @@ export function getMouseWheelDistance (e) {
   if ('deltaX' in e) { pX = e.deltaX }
 
   if ((pX || pY) && e.deltaMode) {
-    if (e.deltaMode === 1) {          // delta in LINE units
+    if (e.deltaMode === 1) { // delta in LINE units
       pX *= LINE_HEIGHT
       pY *= LINE_HEIGHT
     }
-    else {                             // delta in PAGE units
+    else { // delta in PAGE units
       pX *= PAGE_HEIGHT
       pY *= PAGE_HEIGHT
     }
