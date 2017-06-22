@@ -21,6 +21,7 @@
           :color="el.color"
           :placeholder="el.placeholder"
           :float-label="el.label"
+          :no-pass-toggle="el.noPassToggle"
         ></q-input>
 
         <q-chips-input

@@ -8,6 +8,7 @@
       <q-input v-model="number" type="number" prefix="$" float-label="Number" />
       <q-input v-model="text" suffix="@gmail.com" float-label="Clearable" clearable />
       <q-input v-model="text" type="password" float-label="Password" />
+      <q-input v-model="text" type="password" float-label="Password & no-pass-toggle" no-pass-toggle />
 
       <q-input disable v-model="text" float-label="Float Label" placeholder="Gigi" />
       <q-input inverted disable v-model="text" float-label="Float Label" placeholder="Gigi" clearable />

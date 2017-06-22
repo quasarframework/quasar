@@ -80,7 +80,7 @@
     />
 
     <q-icon
-      v-if="isPassword && length"
+      v-if="isPassword && !noPassToggle && length"
       slot="after"
       :name="showPass ? 'visibility' : 'visibility_off'"
       class="q-if-control"
@@ -134,6 +134,7 @@ export default {
     },
     minRows: Number,
     clearable: Boolean,
+    noPassToggle: Boolean,
 
     min: Number,
     max: Number,
