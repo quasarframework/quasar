@@ -363,6 +363,7 @@ export default {
     width 300px
   .bigger
     width 450px
-  .card-double
-    width 600px
+  @media (max-width $breakpoint-xs-max)
+    .q-card
+      width 100%
 </style>
