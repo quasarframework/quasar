@@ -13,7 +13,7 @@ export default {
       classes = data.staticClass,
       prop = ctx.props
 
-    let cls = ['q-card column no-wrap']
+    let cls = ['q-card']
     if (prop.square) {
       cls.push('no-border-radius')
     }
@@ -21,7 +21,7 @@ export default {
       cls.push('no-shadow')
     }
     if (prop.inline) {
-      cls.push('inline')
+      cls.push('inline-block')
     }
     if (prop.color) {
       cls.push(`bg-${prop.color} text-white q-card-dark`)
