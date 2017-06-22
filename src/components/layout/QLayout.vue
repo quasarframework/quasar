@@ -338,6 +338,7 @@ export default {
     },
     computedLeftClass () {
       const classes = {
+        'on-layout': this.leftOnLayout,
         'fixed': this.fixed.left || !this.leftOnLayout,
         'on-top': !this.leftOverBreakpoint || this.leftState.inTransit,
         'transition-generic': !this.leftState.inTransit,
@@ -350,6 +351,7 @@ export default {
     },
     computedRightClass () {
       const classes = {
+        'on-layout': this.rightOnLayout,
         'fixed': this.fixed.right || !this.rightOnLayout,
         'on-top': !this.rightOverBreakpoint || this.rightState.inTransit,
         'transition-generic': !this.rightState.inTransit,

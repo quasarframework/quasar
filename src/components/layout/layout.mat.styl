@@ -15,7 +15,8 @@
   background $layout-aside-background
   &.fixed
     z-index $z-side
-    box-shadow $layout-aside-shadow
+    &.on-layout
+      box-shadow $layout-aside-shadow
   &.on-top
     z-index $z-fixed-side
 .layout-aside-left
