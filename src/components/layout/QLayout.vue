@@ -143,14 +143,14 @@ export default {
 
     leftBreakpoint: {
       type: Number,
-      default: 996
+      default: 992
     },
     leftStyle: Object,
     leftClass: Object,
 
     rightBreakpoint: {
       type: Number,
-      default: 996
+      default: 992
     },
     rightStyle: Object,
     rightClass: Object,
