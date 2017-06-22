@@ -31,7 +31,7 @@
           :class="{'label-always': labelAlways}"
           v-if="label || labelAlways"
         >
-          {{ value }}
+          {{ displayValue }}
         </q-chip>
 
         <div v-if="$q.theme !== 'ios'" class="q-slider-ring"></div>
@@ -59,7 +59,8 @@ export default {
     value: {
       type: Number,
       required: true
-    }
+    },
+    labelValue: String
   },
   data () {
     return {
@@ -73,6 +74,11 @@ export default {
         return (this.value - this.min) / (this.max - this.min) * 100 + '%'
       }
       return 100 * this.currentPercentage + '%'
+    },
+    displayValue () {
+      return this.labelValue !== void 0
+        ? this.labelValue
+        : this.value
     }
   },
   watch: {

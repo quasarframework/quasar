@@ -60,6 +60,14 @@
       <q-range v-model="label" :min="-20" :max="20" :step="4" label-always></q-range>
 
       <p class="caption">
+        With custom values for labels
+        <span class="label inline bg-secondary text-white">
+          Model <span class="right-detail"><em>{{label.min}} to {{label.max}}</em> &nbsp;&nbsp;(-20 to 20, step 4)</span>
+        </span>
+      </p>
+      <q-range v-model="label" :min="-20" :max="20" :step="4" label-always :left-label-value="`${label.min}px`" :right-label-value="`${label.max}px`"></q-range>
+
+      <p class="caption">
         Drag Range
         <span class="label inline bg-secondary text-white">
           Model <span class="right-detail"><em>{{range.min}} to {{range.max}}</em> &nbsp;&nbsp;(0 to 100, step 1)</span>

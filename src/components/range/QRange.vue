@@ -33,7 +33,7 @@
           :class="{'label-always': labelAlways}"
           v-if="label || labelAlways"
         >
-          {{ value.min }}
+          {{ leftDisplayValue }}
         </q-chip>
 
         <div v-if="$q.theme !== 'ios'" class="q-slider-ring"></div>
@@ -51,7 +51,7 @@
           :class="{'label-always': labelAlways}"
           v-if="label || labelAlways"
         >
-          {{ value.max }}
+          {{ rightDisplayValue }}
         </q-chip>
 
         <div v-if="$q.theme !== 'ios'" class="q-slider-ring"></div>
@@ -92,7 +92,9 @@ export default {
       }
     },
     dragRange: Boolean,
-    dragOnlyRange: Boolean
+    dragOnlyRange: Boolean,
+    leftLabelValue: String,
+    rightLabelValue: String
   },
   data () {
     return {
@@ -110,6 +112,16 @@ export default {
     },
     activeTrackWidth () {
       return 100 * (this.percentageMax - this.percentageMin) + '%'
+    },
+    leftDisplayValue () {
+      return this.leftLabelValue !== void 0
+        ? this.leftLabelValue
+        : this.value.min
+    },
+    rightDisplayValue () {
+      return this.rightLabelValue !== void 0
+        ? this.rightLabelValue
+        : this.value.max
     }
   },
   watch: {
