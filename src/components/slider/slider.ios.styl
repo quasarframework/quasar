@@ -1,7 +1,7 @@
 $slider-height              = 28px
 $slider-track-height        = 2px
 $slider-mark-height         = 10px
-$slider-handle-size         = 12px
+$slider-handle-size         = 22px
 $slider-label-transform     = translateX(-50%) translateY(-139%) scale(1)
 
 .q-slider-track, .q-slider-mark
@@ -57,25 +57,14 @@ $slider-label-transform     = translateX(-50%) translateY(-139%) scale(1)
   transition all .3s ease
   width $slider-handle-size
   height $slider-handle-size
+  background white
+  box-shadow $shadow-3
   &.dragging
-    transform translate3d(-50%, -50%, 0) scale(1.3)
+    transform translate3d(-50%, -50%, 0)
     transition opacity .3s ease, transform .3s ease
     .q-slider-label
       opacity 1
       transform $slider-label-transform
-  background currentColor
-  &.handle-at-minimum
-    background white
-    &:after
-      content ''
-      position absolute
-      top 0
-      right 0
-      bottom 0
-      left 0
-      background transparent
-      border-radius inherit
-      border 2px solid currentColor
 
 .q-slider-ring
   position absolute
