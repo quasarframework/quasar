@@ -54,6 +54,7 @@ It could be you!
 - Joe L Wroten
 
 - Ken ($5)
+- Bryson Thill ($5)
 - Rogério Queiroz ($3)
 
 ---
@@ -64,6 +65,7 @@ It could be you!
 - Robert Preston $250
 - Remo Laubacher $200
 - Musicformellons $100
+- Kyle Tippetts $100
 - Gerard Eviston $50
 - Mickaël Le Normand $15
 - Tommy Carlsson $10
