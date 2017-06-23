@@ -1,11 +1,17 @@
 <template>
   <button
-    v-ripple.mat
+    v-ripple.mat="!isDisabled"
     @click="click"
-    class="q-btn row inline items-center justify-center q-focusable q-hoverable"
+    class="q-btn row inline items-center justify-center q-focusable q-hoverable relative-position"
     :class="classes"
   >
     <div class="q-focus-helper"></div>
+    <div
+      v-if="loading && hasPercentage"
+      class="q-btn-progress absolute-full"
+      :class="{'q-btn-dark-progress': darkPercentage}"
+      :style="{width: width}"
+    ></div>
 
     <span class="q-btn-inner row col items-center justify-center">
       <slot v-if="loading" name="loading">
@@ -25,6 +31,7 @@
 import Ripple from '../../directives/ripple'
 import { QIcon } from '../icon'
 import { QSpinner } from '../spinner'
+import { between } from '../../utils/format'
 
 export default {
   name: 'q-btn',
@@ -38,7 +45,6 @@ export default {
   props: {
     value: Boolean,
     disable: Boolean,
-    loader: Boolean,
     noCaps: {
       type: Boolean,
       default: false
@@ -53,7 +59,11 @@ export default {
     small: Boolean,
     big: Boolean,
     color: String,
-    glossy: Boolean
+    glossy: Boolean,
+
+    loader: Boolean,
+    percentage: [Number, String],
+    darkPercentage: Boolean
   },
   data () {
     return {
@@ -74,12 +84,18 @@ export default {
     shape () {
       return `q-btn-${this.round ? 'round' : 'rectangle'}`
     },
+    hasPercentage () {
+      return this.percentage !== void 0
+    },
+    width () {
+      return `${between(this.percentage, 0, 100)}%`
+    },
+    isDisabled () {
+      return this.disable || this.loading
+    },
     classes () {
       const cls = [this.shape, this.size]
 
-      if (this.disable || this.loading) {
-        cls.push('disabled')
-      }
       if (this.flat) {
         cls.push('q-btn-flat')
       }
@@ -90,6 +106,7 @@ export default {
         cls.push('q-btn-push')
       }
 
+      this.isDisabled && cls.push('disabled')
       this.noCaps && cls.push('q-btn-no-uppercase')
       this.rounded && cls.push('q-btn-rounded')
       this.glossy && cls.push('glossy')
@@ -111,7 +128,7 @@ export default {
     click (e) {
       this.$el.blur()
 
-      if (this.disable || this.loading) {
+      if (this.isDisabled) {
         return
       }
       if (this.loader !== false || this.$slots.loading) {

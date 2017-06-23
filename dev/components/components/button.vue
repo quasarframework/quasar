@@ -63,6 +63,18 @@
         <q-btn color="negative" @click="stopProgress">Stop</q-btn>
       </p>
 
+      <p class="group">
+        <q-btn loader :percentage="percentage" color="primary" @click="startProgress">
+          Btn with progress
+          <span slot="loading">
+            <q-spinner class="on-left" />
+            Computing...
+          </span>
+        </q-btn>
+
+        <q-btn round loader :percentage="percentage" color="primary" @click="startProgress" icon="wifi" />
+      </p>
+
       <p class="caption">Small, Medium (default) and Big</p>
       <p class="group">
         <q-btn small color="primary">Button</q-btn>
@@ -253,10 +265,21 @@ export default {
         'light-green', 'lime', 'yellow', 'amber', 'orange', 'deep-orange', 'brown', 'grey', 'blue-grey'
       ],
       extras: ['flat', 'outline', 'round', 'rounded', 'push', 'glossy'],
-      done: []
+      done: [],
+      percentage: 0
     }
   },
   methods: {
+    startProgress (e, done) {
+      this.percentage = 0
+      this.interval = setInterval(() => {
+        this.percentage += Math.floor(Math.random() * 8 + 10)
+        if (this.percentage >= 100) {
+          clearInterval(this.interval)
+          done()
+        }
+      }, 700)
+    },
     simulateProgress (e, done) {
       this.done.push(done)
     },
@@ -266,6 +289,9 @@ export default {
       }
       this.done = []
     }
+  },
+  beforeDestroy () {
+    clearInterval(this.interval)
   }
 }
 </script>
