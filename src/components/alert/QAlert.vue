@@ -5,7 +5,6 @@
       :enter="enter"
       :leave="leave"
       :duration="duration"
-      @after-leave="__dismissed"
       :appear="appear"
     >
       <div
@@ -88,6 +87,9 @@ export default {
     value (v) {
       if (v !== this.active) {
         this.active = v
+        if (!v) {
+          this.$emit('dismiss')
+        }
       }
     }
   },
@@ -106,15 +108,12 @@ export default {
     }
   },
   methods: {
-    __dismissed () {
-      this.$emit('dismiss')
-      this.__onDismiss && this.__onDismiss()
-    },
     dismiss (fn) {
       this.active = false
       this.$emit('input', false)
+      this.$emit('dismiss')
       if (typeof fn === 'function') {
-        this.__onDismiss = fn
+        fn()
       }
     }
   }

@@ -30,6 +30,18 @@
       Lorem ipsum dolor sit amet.
     </q-alert>
 
+    <q-toggle v-model="diss" label="Dismiss next one" />
+    <q-alert
+      type="negative"
+      style="margin-bottom: 1.5rem"
+      dismissible
+      v-model="diss"
+      @dismiss="dismissed"
+      :actions="actions"
+    >
+      No anim, dismiss test.
+    </q-alert>
+
     <q-alert
       v-for="type in ['positive', 'info', 'negative', 'warning']"
       :key="type"
@@ -64,10 +76,20 @@ export default {
   data () {
     return {
       visible: true,
-      visible2: true
+      visible2: true,
+      diss: true,
+      actions: [{
+        label: 'Snooze',
+        handler () {
+          console.log('dismissed')
+        }
+      }]
     }
   },
   methods: {
+    dismissed () {
+      console.log('@dismiss')
+    },
     alertAsMethod () {
       Alert.create({
         enter: 'bounceInRight',
