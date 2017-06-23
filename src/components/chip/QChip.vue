@@ -11,6 +11,7 @@
       [`bg-${color}`]: color,
       'text-white': color
     }"
+    @click="__onClick"
   >
     <div
       v-if="icon || avatar"
@@ -30,7 +31,7 @@
         v-if="closable"
         name="cancel"
         class="cursor-pointer"
-        @click="$emit('close')"
+        @click.stop="$emit('close')"
       ></q-icon>
     </div>
   </div>
@@ -59,6 +60,11 @@ export default {
     avatar: String,
     closable: Boolean,
     detail: Boolean
+  },
+  methods: {
+    __onClick (e) {
+      this.$emit('click', e)
+    }
   }
 }
 </script>

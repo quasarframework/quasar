@@ -79,6 +79,8 @@
         </div>
       </p>
 
+      <q-chip avatar="/statics/boy-avatar.png" closable color="primary" @click="clickable">Jim</q-chip>
+
       <p class="caption">Tag Label Chips</p>
       <p>
         <q-chip tag icon-right="mail" color="light" class="text-black">New</q-chip>
@@ -127,3 +129,13 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  methods: {
+    clickable () {
+      console.log('@click')
+    }
+  }
+}
+</script>
