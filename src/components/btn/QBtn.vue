@@ -62,7 +62,7 @@ export default {
     glossy: Boolean,
 
     loader: Boolean,
-    percentage: [Number, String],
+    percentage: Number,
     darkPercentage: Boolean
   },
   data () {
