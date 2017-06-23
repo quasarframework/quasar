@@ -6,10 +6,11 @@
       :leave="leave"
       :duration="duration"
       :appear="appear"
+      @after-leave="$emit('dismiss-end')"
     >
       <div
         v-if="active"
-        class="q-alert row"
+        class="q-alert row no-wrap"
         :class="classes"
       >
         <div class="q-alert-icon row col-auto items-center justify-center">

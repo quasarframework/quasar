@@ -19,21 +19,22 @@ function create (opts) {
   const vm = new Vue({
     functional: true,
     render (h, ctx) {
+      const on = {}
+      on[opts.leave === void 0 ? 'dismiss' : 'dismiss-end'] = () => {
+        vm.$destroy()
+        vm.$el.parentNode.removeChild(vm.$el)
+        if (opts.onDismiss) {
+          opts.onDismiss()
+        }
+      }
+
       return h(
         QAlert, {
           style: {
-            margin: '18px'
+            padding: '18px'
           },
-          props: state,
-          on: {
-            dismiss () {
-              vm.$destroy()
-              vm.$el.parentNode.removeChild(vm.$el)
-              if (opts.onDismiss) {
-                opts.onDismiss()
-              }
-            }
-          }
+          on,
+          props: state
         },
         opts.html
       )
