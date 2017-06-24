@@ -42,6 +42,7 @@
         :max="max"
         :format24h="format24h"
         :monday-first="mondayFirst"
+        :saturday-first="saturdayFirst"
         :color="color"
         class="no-border"
       >
@@ -76,6 +77,7 @@
         :max="max"
         :format24h="format24h"
         :monday-first="mondayFirst"
+        :saturday-first="saturdayFirst"
         :color="color"
         class="no-border"
         :class="{'full-width': $q.theme === 'ios'}"

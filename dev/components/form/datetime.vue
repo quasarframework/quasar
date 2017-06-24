@@ -153,6 +153,8 @@
 
       <p class="caption">Date - Monday as First</p>
       <q-inline-datetime v-model="model" monday-first type="date" />
+      <p class="caption">Date - Saturday as First</p>
+      <q-inline-datetime v-model="model" saturday-first type="date" />
 
       <p class="caption">Disabled State</p>
       <q-inline-datetime disable v-model="model" type="datetime" />

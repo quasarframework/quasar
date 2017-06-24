@@ -45,6 +45,7 @@ export const inline = {
     default: () => dayNames
   },
   mondayFirst: Boolean,
+  saturdayFirst: Boolean,
   format24h: Boolean
 }
 

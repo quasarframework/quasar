@@ -300,12 +300,17 @@ export default {
       return cls
     },
     firstDayOfWeek () {
-      return this.mondayFirst ? 1 : 0
+      return this.mondayFirst
+        ? 1
+        : (this.saturdayFirst ? 6 : 0)
     },
     headerDayNames () {
-      const days = this.dayNames.map(day => day.slice(0, 3))
-      return this.mondayFirst
-        ? days.slice(1, 7).concat(days[0])
+      const
+        days = this.dayNames.map(day => day.slice(0, 3)),
+        first = this.firstDayOfWeek
+
+      return first > 0
+        ? days.slice(first, 7).concat(days.slice(0, first))
         : days
     },
 
@@ -323,7 +328,11 @@ export default {
     },
 
     fillerDays () {
-      return Math.max(0, (new Date(this.model.getFullYear(), this.model.getMonth(), 1).getDay() - this.firstDayOfWeek))
+      let days = (new Date(this.model.getFullYear(), this.model.getMonth(), 1).getDay() - this.firstDayOfWeek)
+      if (days < 0) {
+        days += 7
+      }
+      return days
     },
     beforeMinDays () {
       if (this.pmin === null || !isSameDate(this.pmin, this.model, 'month')) {
