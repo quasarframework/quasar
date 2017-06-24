@@ -1,6 +1,6 @@
 <template>
   <div
-    class="q-tabs"
+    class="q-tabs flex no-wrap"
     :class="[
       `q-tabs-position-${position}`,
       `q-tabs-${inverted ? 'inverted' : 'normal'}`,
