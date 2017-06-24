@@ -4,20 +4,25 @@
   transition all .2s cubic-bezier(0, 0, .2, 1)
 
   &.top
+    left 0
+    right 0
     top 0
     width 100%
   &.bottom
-    bottom 0
-    width 100%
-  &.right
-    top 0
+    left 0
     right 0
     bottom 0
+    width 100%
+
+  &.right
+    top 0
+    bottom 0
+    right 0
     height 100%
   &.left
     top 0
-    left 0
     bottom 0
+    left 0
     height 100%
 
   .q-loading-bar-inner
