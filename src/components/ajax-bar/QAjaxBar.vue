@@ -1,6 +1,6 @@
 <template>
   <div class="q-loading-bar shadow-1" :class="[position, animate ? '' : 'no-transition']" :style="containerStyle">
-    <div class="q-loading-bar-inner" :style="innerStyle"></div>
+    <div class="q-loading-bar-inner" :class="`bg-${color}`"></div>
   </div>
 </template>
 
@@ -34,7 +34,7 @@ function inc (p, amount) {
     else if (p < 65) {
       amount = Math.random() * 3
     }
-    else if (p < 90) {
+    else if (p < 85) {
       amount = Math.random() * 2
     }
     else if (p < 99) {
@@ -82,7 +82,7 @@ export default {
     },
     color: {
       type: String,
-      default: '#e21b0c'
+      default: 'red'
     },
     speed: {
       type: Number,
@@ -113,9 +113,6 @@ export default {
       })
       o[this.sizeProp] = this.size
       return o
-    },
-    innerStyle () {
-      return {background: this.color}
     },
     horizontal () {
       return this.position === 'top' || this.position === 'bottom'

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-ajax-bar ref="bar" :position="position" :reverse="reverse" :size="computedSize" :color="color" />
+    <q-ajax-bar ref="bar" :position="position" :reverse="reverse" :size="computedSize" />
     <div class="layout-padding" style="max-width: 600px;">
       <p class="caption">Ajax Bar component captures Ajax calls automatically. This page here triggers events manually for demonstrating purposes only.</p>
 
@@ -33,12 +33,8 @@
             <q-checkbox v-model="reverse" label="Reverse Direction" />
           </q-field>
 
-          <q-field :label="`Size (<em>${size}px</em>)`">
-            <q-slider v-model="size" :min="2" :max="20" label-always />
-          </q-field>
-
-          <q-field label="Color">
-            <q-input v-model="color" />
+          <q-field label="Size">
+            <q-slider v-model="size" :min="2" :max="20" label-always :label-value="`${size}px`" />
           </q-field>
         </q-card-main>
       </q-card>
@@ -53,7 +49,6 @@ export default {
       position: 'bottom',
       reverse: false,
       size: 8,
-      color: '#e21b0c',
 
       timeouts: []
     }
