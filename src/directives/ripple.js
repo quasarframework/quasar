@@ -104,7 +104,7 @@ export default {
     })
   },
   update (el, { value, oldValue }) {
-    if (value !== oldValue && el.__qripple) {
+    if (el.__qripple && value !== oldValue) {
       el.__qripple.enabled = value !== false
     }
   },
