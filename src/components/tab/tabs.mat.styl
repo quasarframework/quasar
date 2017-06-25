@@ -16,19 +16,10 @@
   display none
 
 .q-tabs-normal
+  .q-tabs-bar
+    color white
   .q-tab-icon, .q-tab-label
     opacity $tabs-unselected-opacity
-
-.q-tab-border, .q-tabs-position-bar
-  color $tabs-color
-  border $tabs-border-width solid currentColor
-  border-width 0
-
-.q-tab-border
-  border-width 0
-  position absolute
-  left 0
-  right 0
 
 .q-tab
   cursor pointer
@@ -123,21 +114,26 @@
 .q-tabs-align-right
   justify-content flex-end
 
-.q-tabs-position-bar
+.q-tabs-bar
+  border $tabs-border-width solid currentColor
+  border-width 0
   position absolute
   height 0
-  width 1px
   left 0
+  right 0
+.q-tabs-global-bar
+  width 1px
   transform scale(0)
   transform-origin left center
   transition transform
-
-  &.expand
-    transition-duration .15s
-    transition-timing-function cubic-bezier(.4, .0, 1, 1)
+  transition-duration .15s
+  transition-timing-function cubic-bezier(.4, .0, 1, 1)
   &.contract
     transition-duration .18s
     transition-timing-function cubic-bezier(.0, .0, .2, 1)
+
+.q-tabs-global-bar-container.highlight > .q-tabs-global-bar
+  display none
 
 .q-tabs-two-lines .q-tab
   white-space normal
@@ -148,25 +144,16 @@
     -webkit-line-clamp 2
 
 .q-tabs-position-top
-  .q-tab.active .q-tab-border
-    border-bottom-width $tabs-border-width
-  .q-tab-border
-    bottom 0
-  .q-tabs-position-bar
+  .q-tabs-bar
     bottom 0
     border-bottom-width $tabs-border-width
 
 .q-tabs-position-bottom
-  .q-tab.active .q-tab-border
-    border-top-width $tabs-border-width
-  .q-tab-border
-    top 0
-  .q-tabs-position-bar
+  .q-tabs-bar
     top 0
     border-top-width $tabs-border-width
   .q-tabs-panes
     order -1
-
 
 .q-tabs-inverted
   .q-tabs-scroller
@@ -179,9 +166,6 @@
 
   .q-tabs-head
     background transparent
-
-  .q-tabs-position-bar, .q-tab-border
-    color $tabs-background
 
   &.q-tabs-position-top
     .q-tabs-panes

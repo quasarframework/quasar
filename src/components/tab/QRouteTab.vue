@@ -18,7 +18,11 @@
 
     <slot></slot>
 
-    <div class="q-tab-border" :class="borderClasses"></div>
+    <div
+      v-if="$q.theme !== 'ios'"
+      class="q-tabs-bar"
+      :style="barStyle"
+    ></div>
   </router-link>
 </template>
 

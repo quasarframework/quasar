@@ -49,9 +49,9 @@ export default {
 
       return cls
     },
-    borderClasses () {
-      if (this.data.inverted && this.data.color) {
-        return `text-${this.data.color}`
+    barStyle () {
+      if (!this.active || !this.data.highlight) {
+        return 'display: none;'
       }
     }
   }

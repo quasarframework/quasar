@@ -125,7 +125,7 @@
 
     <q-tabs v-model="tab" inverted>
       <q-tab alert slot="title" v-if="third" name="three" label="Oaua" />
-      <q-tab count="5" slot="title" name="one" label="Gogu" />
+      <q-tab color="brown" count="5" slot="title" name="one" label="Gogu" />
       <q-tab color="red" default slot="title" name="two" label="Gigiiiiiiiii sdfsdfs aadsf asfsda" />
 
       <q-tab-pane name="one">Tab One</q-tab-pane>

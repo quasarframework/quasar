@@ -14,8 +14,8 @@
 
     <div
       v-if="$q.theme !== 'ios'"
-      class="q-tab-border"
-      :class="borderClasses"
+      class="q-tabs-bar"
+      :style="barStyle"
     ></div>
   </div>
 </template>

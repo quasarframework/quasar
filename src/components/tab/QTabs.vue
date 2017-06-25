@@ -21,12 +21,12 @@
         <slot name="title"></slot>
         <div
           v-if="$q.theme !== 'ios'"
-          class="relative-position self-stretch"
+          class="relative-position self-stretch q-tabs-global-bar-container"
+          :class="[inverted && color ? `text-${color}` : '', data.highlight ? 'highlight' : '']"
         >
           <div
             ref="posbar"
-            class="q-tabs-position-bar"
-            :class="{[`text-${color}`]: inverted && color}"
+            class="q-tabs-bar q-tabs-global-bar"
             @transitionend="__updatePosbarTransition"
           ></div>
         </div>
@@ -94,8 +94,13 @@ export default {
   },
   data () {
     return {
-      tab: {},
+      currentEl: null,
+      posbar: {
+        width: 0,
+        left: 0
+      },
       data: {
+        highlight: true,
         tabName: this.value || '',
         color: this.color,
         inverted: this.inverted
@@ -121,103 +126,96 @@ export default {
   },
   methods: {
     selectTab (name) {
-      clearTimeout(this.timer)
-      this.__beforePositionContract = () => {}
-
-      const emitInput = this.value !== name
-      if (!emitInput && this.data.tabName === name) {
+      if (this.data.tabName === name) {
         return
+      }
+
+      this.data.tabName = name
+      this.$emit('select', name)
+
+      if (this.value !== name) {
+        this.$emit('input', name)
       }
 
       const el = this.__getTabElByName(name)
 
-      if (this.$q.theme === 'ios') {
-        this.__setTab({name, el}, emitInput)
-        return
+      if (el) {
+        this.__scrollToTab(el)
       }
 
-      const posbarClass = this.$refs.posbar.classList
-      posbarClass.remove('expand', 'contract')
+      if (this.$q.theme !== 'ios') {
+        this.currentEl = el
+        this.__repositionBar()
+      }
+    },
+    __repositionBar () {
+      clearTimeout(this.timer)
+
+      let needsUpdate = false
+      const
+        ref = this.$refs.posbar,
+        el = this.currentEl
+
+      if (this.data.highlight !== false) {
+        this.data.highlight = false
+        needsUpdate = true
+      }
 
       if (!el) {
-        posbarClass.add('invisible')
-        this.__setTab({name}, emitInput)
+        this.finalPosbar = {width: 0, left: 0}
+        this.__setPositionBar(0, 0)
         return
       }
 
-      const
-        offsetReference = this.$refs.posbar.parentNode.offsetLeft,
-        width = el.getBoundingClientRect().width,
-        offsetLeft = el.offsetLeft - offsetReference,
-        index = this.$children.findIndex(child => child.name === name)
+      const offsetReference = ref.parentNode.offsetLeft
+
+      if (needsUpdate && this.oldEl) {
+        this.__setPositionBar(
+          this.oldEl.getBoundingClientRect().width,
+          this.oldEl.offsetLeft - offsetReference
+        )
+      }
 
       this.timer = setTimeout(() => {
-        if (!this.tab.el) {
-          posbarClass.add('invisible')
-          this.__setTab({name, el, width, offsetLeft, index}, emitInput)
-          return
-        }
+        const
+          width = el.getBoundingClientRect().width,
+          left = el.offsetLeft - offsetReference
 
-        this.tab.width = this.tab.el.getBoundingClientRect().width
-        this.tab.offsetLeft = this.tab.el.offsetLeft - offsetReference
-        this.tab.index = this.$children.findIndex(child => child.name === this.tab.name)
-
-        this.__setPositionBar(this.tab.width, this.tab.offsetLeft)
-
-        this.timer = setTimeout(() => {
-          posbarClass.remove('invisible')
-          posbarClass.add('expand')
-
-          if (this.tab.index < index) {
-            if (offsetLeft + width - this.tab.offsetLeft === this.tab.offsetLeft) {
-              return this.__setTab({name, el, width, offsetLeft, index}, emitInput)
-            }
-            this.__setPositionBar(
-              offsetLeft + width - this.tab.offsetLeft,
-              this.tab.offsetLeft
-            )
-          }
-          else {
-            if (this.tab.offsetLeft === offsetLeft) {
-              return this.__setTab({name, el, width, offsetLeft, index}, emitInput)
-            }
-            this.__setPositionBar(
-              this.tab.offsetLeft + this.tab.width - offsetLeft,
-              offsetLeft
-            )
-          }
-
-          this.__beforePositionContract = () => {
-            this.__setTab({name, el, width, offsetLeft, index}, emitInput)
-          }
-        }, 30)
-      }, 30)
-    },
-    __setTab (data, emitInput) {
-      this.data.tabName = data.name
-      if (emitInput) {
-        this.$emit('input', data.name)
-      }
-      this.$emit('select', data.name)
-      this.__scrollToTab(data.el)
-      this.tab = data
+        ref.classList.remove('contract')
+        this.oldEl = el
+        this.finalPosbar = {width, left}
+        this.__setPositionBar(
+          this.posbar.left < left
+            ? left + width - this.posbar.left
+            : this.posbar.left + this.posbar.width - left,
+          this.posbar.left < left
+            ? this.posbar.left
+            : left
+        )
+      }, 20)
     },
     __setPositionBar (width = 0, left = 0) {
+      if (this.posbar.width === width && this.posbar.left === left) {
+        this.__updatePosbarTransition()
+        return
+      }
+      this.posbar = {width, left}
       css(this.$refs.posbar, cssTransform(`translateX(${left}px) scaleX(${width})`))
     },
     __updatePosbarTransition () {
-      const cls = this.$refs.posbar.classList
+      if (
+        this.finalPosbar.width === this.posbar.width &&
+        this.finalPosbar.left === this.posbar.left
+      ) {
+        this.posbar = {}
+        if (this.data.highlight !== true) {
+          this.data.highlight = true
+        }
+        return
+      }
 
-      if (cls.contains('expand')) {
-        this.__beforePositionContract()
-        cls.remove('expand')
-        cls.add('contract')
-        this.__setPositionBar(this.tab.width, this.tab.offsetLeft)
-      }
-      else if (cls.contains('contract')) {
-        cls.remove('contract')
-        cls.add('invisible')
-      }
+      this.$refs.posbar.classList.add('contract')
+      this.__setPositionBar(this.finalPosbar.width, this.finalPosbar.left)
     },
     __redraw () {
       if (!this.$q.platform.is.desktop) {
