@@ -54,6 +54,10 @@ export default {
       type: Number,
       default: 500
     },
+    filter: {
+      type: Function,
+      default: filter
+    },
     staticData: Object,
     separator: Boolean
   },
@@ -110,7 +114,7 @@ export default {
 
       if (this.staticData) {
         this.searchId = ''
-        this.results = filter(terms, this.staticData)
+        this.results = this.filter(terms, this.staticData)
         if (this.$q.platform.is.desktop) {
           this.selectedIndex = 0
         }
