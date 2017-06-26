@@ -1,20 +1,27 @@
 <template>
   <div
     v-if="$q.platform.is.desktop"
-    class="q-scrollarea scroll relative-position overflow-hidden"
-    @wheel="__mouseWheel"
-    @mousewheel="__mouseWheel"
-    @DOMMouseScroll="__mouseWheel"
+    class="q-scrollarea relative-position"
     @mouseenter="hover = true"
     @mouseleave="hover = false"
   >
-    <div class="absolute" v-touch-pan.vertical.nomouse="__panContainer" :style="mainStyle">
-      <slot></slot>
-      <q-resize-observable @resize="__updateScrollHeight"></q-resize-observable>
-      <q-scroll-observable @scroll="__updateScroll"></q-scroll-observable>
+    <div
+      ref="target"
+      class="scroll relative-position overflow-hidden full-height full-width"
+      @wheel="__mouseWheel"
+      @mousewheel="__mouseWheel"
+      @DOMMouseScroll="__mouseWheel"
+      v-touch-pan.vertical.nomouse="__panContainer"
+    >
+      <div class="absolute full-width" :style="mainStyle">
+        <slot></slot>
+        <q-resize-observable class="resize-obs" @resize="__updateScrollHeight"></q-resize-observable>
+      </div>
+      <q-scroll-observable class="scroll-obs" @scroll="__updateScroll"></q-scroll-observable>
     </div>
 
-    <q-resize-observable @resize="__updateContainer"></q-resize-observable>
+    <q-resize-observable class="main-resize-obs" @resize="__updateContainer"></q-resize-observable>
+
     <div
       class="q-scrollarea-thumb absolute-right"
       :style="style"
@@ -24,7 +31,7 @@
   </div>
   <div
     v-else
-    class="scroll relative-position"
+    class="q-scroll-area scroll relative-position"
     :style="contentStyle"
   >
     <slot></slot>
@@ -76,16 +83,13 @@ export default {
   },
   computed: {
     thumbHidden () {
-      return this.thumbHeight >= this.scrollHeight || (!this.active && !this.hover)
+      return this.scrollHeight <= this.containerHeight || (!this.active && !this.hover)
     },
     thumbHeight () {
-      return Math.round(Math.max(20, this.containerHeight * this.containerHeight / this.scrollHeight))
+      return Math.round(between(this.containerHeight * this.containerHeight / this.scrollHeight, 50, this.containerHeight))
     },
     style () {
-      const top = Math.min(
-        this.scrollPosition + (this.scrollPercentage * (this.containerHeight - this.thumbHeight)),
-        this.scrollHeight - this.thumbHeight
-      )
+      const top = this.scrollPercentage * (this.containerHeight - this.thumbHeight)
       return extend({}, this.thumbStyle, {
         top: `${top}px`,
         height: `${this.thumbHeight}px`
@@ -119,25 +123,28 @@ export default {
       }
     },
     __panThumb (e) {
+      e.evt.preventDefault()
+
       if (e.isFirst) {
         this.refPos = this.scrollPosition
         this.__setActive(true, true)
+        document.body.classList.add('non-selectable')
+        if (document.selection) {
+          document.selection.empty()
+        }
+        else if (window.getSelection) {
+          window.getSelection().removeAllRanges()
+        }
       }
       if (e.isFinal) {
         this.__setActive(false)
+        document.body.classList.remove('non-selectable')
       }
 
-      const
-        sign = (e.direction === 'down' ? 1 : -1),
-        multiplier = (this.scrollHeight - this.containerHeight) / (this.containerHeight - this.thumbHeight)
-
-      this.$el.scrollTop = this.refPos + sign * e.distance.y * multiplier
+      const multiplier = (this.scrollHeight - this.containerHeight) / (this.containerHeight - this.thumbHeight)
+      this.$refs.target.scrollTop = this.refPos + (e.direction === 'down' ? 1 : -1) * e.distance.y * multiplier
     },
     __panContainer (e) {
-      if (e.evt.target.closest('.scroll') !== this.$el) {
-        return
-      }
-
       if (e.isFirst) {
         this.refPos = this.scrollPosition
         this.__setActive(true, true)
@@ -146,17 +153,15 @@ export default {
         this.__setActive(false)
       }
 
-      const el = this.$el
-      el.scrollTop = this.refPos + (e.direction === 'down' ? -1 : 1) * e.distance.y
-      if (el.scrollTop > 0 && el.scrollTop + this.containerHeight < this.scrollHeight) {
+      const pos = this.refPos + (e.direction === 'down' ? -1 : 1) * e.distance.y
+      this.$refs.target.scrollTop = pos
+
+      if (pos > 0 && pos + this.containerHeight < this.scrollHeight) {
         e.evt.preventDefault()
       }
     },
     __mouseWheel (e) {
-      const el = this.$el
-      if (e.target.closest('.scroll') !== el) {
-        return
-      }
+      const el = this.$refs.target
       el.scrollTop += getMouseWheelDistance(e).pixelY
       if (el.scrollTop > 0 && el.scrollTop + this.containerHeight < this.scrollHeight) {
         e.preventDefault()
