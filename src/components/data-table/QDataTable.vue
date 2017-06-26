@@ -226,7 +226,7 @@ export default {
       return this.config.bodyStyle || {}
     },
     hasToolbar () {
-      return this.config.title || this.filteringCols.length || this.config.columnPicker || this.config.refresh
+      return this.config.title || this.config.columnPicker || this.config.refresh
     },
     hasHeader () {
       return !this.config.noHeader
