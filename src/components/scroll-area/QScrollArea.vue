@@ -2,6 +2,7 @@
   <div
     v-if="$q.platform.is.desktop"
     class="q-scrollarea scroll relative-position overflow-hidden"
+    @wheel="__mouseWheel"
     @mousewheel="__mouseWheel"
     @DOMMouseScroll="__mouseWheel"
     @mouseenter="hover = true"
