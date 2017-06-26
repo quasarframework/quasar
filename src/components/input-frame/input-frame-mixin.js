@@ -5,6 +5,12 @@ const marginal = {
   validator: v => v.every(i => 'icon' in i && 'handler' in i)
 }
 
+const align = {
+  left: 'start',
+  center: 'center',
+  right: 'end'
+}
+
 export default {
   components: {
     QIcon
@@ -33,6 +39,9 @@ export default {
   computed: {
     labelIsAbove () {
       return this.focused || this.length || this.additionalLength || this.stackLabel
+    },
+    alignClass () {
+      return `justify-${align[this.align]}`
     }
   }
 }

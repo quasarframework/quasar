@@ -6,7 +6,8 @@
         v-model="pagination.rowsPerPage"
         :options="pagination.options"
         @input="resetPage"
-        class="text-right inline no-margin"
+        class="inline no-margin"
+        align="right"
         simple
       ></q-select>
     </div>

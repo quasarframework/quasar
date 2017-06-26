@@ -12,7 +12,7 @@
         <span class="mobile-only">Tap</span>
         on Chips Textbox below to start adding Chips.
       </p>
-      <q-chips-input @change="onChange" color="secondary" float-label="Float Label" v-model="model" placeholder="Some placeholder" />
+      <q-chips-input align="right" @change="onChange" color="secondary" float-label="Float Label" v-model="model" placeholder="Some placeholder" />
       <q-chips-input inverted color="dark" frame-color="amber" float-label="Float Label" v-model="model" placeholder="Some placeholder" />
 
       <div class="bg-grey-9" style="padding: 15px">

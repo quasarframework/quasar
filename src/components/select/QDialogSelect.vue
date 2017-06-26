@@ -14,7 +14,6 @@
     :before="before"
     :after="after"
     :color="frameColor || color"
-    :align="align"
 
     :focused="focused"
     focusable
@@ -25,7 +24,11 @@
     @focus.native="__onFocus"
     @blur.native="__onBlur"
   >
-    <div v-if="hasChips" class="col row items-center group q-input-chips">
+    <div
+      v-if="hasChips"
+      class="col row items-center group q-input-chips"
+      :class="alignClass"
+    >
       <q-chip
         v-for="{label, value} in selectedOptions"
         :key="label"
@@ -42,7 +45,7 @@
     <div
       v-else
       class="col row items-center q-input-target"
-      :class="[`text-${align}`]"
+      :class="alignClass"
       v-html="actualValue"
     ></div>
 
