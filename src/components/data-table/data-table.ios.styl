@@ -5,14 +5,14 @@
     width 100%
     table-layout fixed
     empty-cells hide
-    tr
-      background white
     td, th
+      background white
       text-overflow ellipsis
       white-space nowrap
       overflow hidden
     tbody tr:nth-child(odd)
-      background $grey-3
+      td, th
+        background $grey-3
     thead tr
       border-bottom 2px solid $grey-3
       min-height 56px
