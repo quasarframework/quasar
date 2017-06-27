@@ -1,0 +1,57 @@
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none)
+
+  /* QAlert */
+  .q-alert-container
+    max-width 100%
+  .row > .col
+    &.q-alert-content
+      flex-basis auto
+      width auto
+
+  /* QInput */
+  .row > .col
+    &.q-if-inner
+      flex-basis auto
+      width auto
+      height 0
+
+  /* QToast */
+  .q-toast
+    a
+      white-space nowrap
+  .col.q-toast-message
+    flex-basis auto
+    width auto
+
+  /* QSlider, QRange */
+  .q-slider-handle
+    > .q-chip.inline.row
+      display -ms-inline-grid
+
+  /* QBtn */
+  .q-btn.row
+    &:not(.q-btn-round)
+      &.inline
+        display inline-block
+      &.block
+        display block
+    &:active
+      .q-btn-inner
+        margin -1px 1px 1px -1px
+      &.q-btn-push .q-btn-inner
+        margin 0 1px 0 -1px
+
+  /* QChip */
+  .q-btn
+    .q-chip
+      display inline-block
+  .q-tab
+    .q-chip
+      left auto
+
+  /* QFab */
+  .q-fab-actions
+    &.q-fab-left
+    &.q-fab-right
+      display block
+      white-space nowrap
