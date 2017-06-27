@@ -34,7 +34,7 @@ for $name, $size in $sizes
     width 100%
   .col-{$name}
     min-height 1px
-  for $i in (1..$grid-cols)
+  for $i in (1..$flex-cols)
     .row > .col-{$name}-{$i}
       width 100%
     .col-{$name}-{$i}
@@ -102,13 +102,19 @@ for $name, $size in $sizes
   &stretch
     align-self stretch
 
-for $i in (1..$grid-cols)
+for $i in (1..$flex-cols)
   .col-{$i}
-    flex 0 0 (round($i / $grid-cols * 100, 4))%
+    flex 0 0 (round($i / $flex-cols * 100, 4))%
   .row > .col-{$i}
-    max-width (round($i / $grid-cols * 100, 4))%
+    max-width (round($i / $flex-cols * 100, 4))%
   .offset-{$i}
-    margin-left (round($i / $grid-cols * 100, 4))%
+    margin-left (round($i / $flex-cols * 100, 4))%
+
+for $name, $size in $flex-gutter
+  .{$name}-gutter
+    margin (- $size) 0 0 (- $size)
+    > div
+      padding $size 0 0 $size
 
 for $name, $size in $sizes
   @media (min-width $size)
@@ -120,10 +126,10 @@ for $name, $size in $sizes
       width auto
       flex 0 0 auto
 
-    for $i in (1..$grid-cols)
+    for $i in (1..$flex-cols)
       .col-{$name}-{$i}
-        flex 0 0 (round($i / $grid-cols * 100, 4))%
+        flex 0 0 (round($i / $flex-cols * 100, 4))%
       .row > .col-{$name}-{$i}
-        max-width (round($i / $grid-cols * 100, 4))%
+        max-width (round($i / $flex-cols * 100, 4))%
       .offset-{$name}-{$i}
-        margin-left (round($i / $grid-cols * 100, 4))%
+        margin-left (round($i / $flex-cols * 100, 4))%

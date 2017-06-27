@@ -5,8 +5,20 @@ $breakpoint-sm ?= 767px
 $breakpoint-md ?= 991px
 $breakpoint-lg ?= 1199px
 
-$grid-cols ?= 12
+$flex-cols      ?= 12
+$flex-gutter-xs ?= 8px
+$flex-gutter-sm ?= 16px
+$flex-gutter-md ?= 32px
+$flex-gutter-lg ?= 48px
+$flex-gutter-xl ?= 64px
 
+$flex-gutter = {
+  xs: $flex-gutter-xs,
+  sm: $flex-gutter-sm,
+  md: $flex-gutter-md,
+  lg: $flex-gutter-lg,
+  xl: $flex-gutter-xl
+}
 $sizes = {
   xs: 0,
   sm: $breakpoint-xs + 1, // Extra small screen / phone
