@@ -46,7 +46,7 @@ It could be you!
 - Josh Bodine
 - William Marques Vicente Gomes Correa
 - Harlon Norse ($20)
-- Max Matteo Staack
+- Max Matteo Staack ($35)
 - Samuel Desconsi
 - Jonas Viczian ($15)
 - John (JCharante) ($10)
