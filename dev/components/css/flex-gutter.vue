@@ -3,7 +3,7 @@
     <h1>Default</h1>
     <div class="my-container" v-for="n in ['xs', 'sm', 'md', 'lg', 'xl']">
       <div class="row" :class="`${n}-gutter`">
-        <div class="col-md-4" v-for="n in 5">
+        <div class="col-4" v-for="n in 5">
           <div class="my-content">&nbsp;</div>
         </div>
       </div>
@@ -12,7 +12,7 @@
     <h1>No vertical gutter</h1>
     <div class="my-container" v-for="n in ['xs', 'sm', 'md', 'lg', 'xl']">
       <div class="row no-vert-gutter" :class="`${n}-gutter`">
-        <div class="col-md-4" v-for="n in 5">
+        <div class="col-4" v-for="n in 5">
           <div class="my-content">&nbsp;</div>
         </div>
       </div>
@@ -21,7 +21,7 @@
     <h1>No horizontal gutter</h1>
     <div class="my-container" v-for="n in ['xs', 'sm', 'md', 'lg', 'xl']">
       <div class="row no-horiz-gutter" :class="`${n}-gutter`">
-        <div class="col-md-4" v-for="n in 5">
+        <div class="col-4" v-for="n in 5">
           <div class="my-content">&nbsp;</div>
         </div>
       </div>
