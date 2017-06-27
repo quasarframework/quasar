@@ -85,21 +85,15 @@ $ npm run lint
 
   - **`components`**: JS and Stylus files (one for each theme) for Quasar Vue components
 
-  - **`css-components`**: Stylus code that accompanies HTML markup for non-components
+  - **`directives`**: Vue directives supplied by Quasar
 
   - **`features`**: code for global features outside of the components
 
-  - **`themes`**: Stylus definitions and code for Quasar themes
+  - **`css`**: Stylus definitions and core code for Quasar themes
 
   - **`utils`**: utilities used by the framework and exported to the public API
 
-  - **`directives`**: Vue directives supplied by Quasar
-
-  - **`transitions`**: JS Vue transitions through `q-transition` component
-
-  - **`index.js`/`index.es6.js`**: starting point for Quasar
-
-  - **`vue-install.js`**: where all components get injected into Vue
+  - **`index.js`**: starting point for Quasar
 
 - **`dist`**: contains built files for distribution (only after a build). Note this directory is only updated when a release happens; they do not reflect the latest changes in development branches.
   - **`quasar.esm.js`**: ES6 formatted Quasar JS distributable. **This is set as the `main` field in `package.json` so it is the default export when you import Vue as an NPM package.**
