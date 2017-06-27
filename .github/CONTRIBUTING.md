@@ -98,9 +98,9 @@ $ npm run lint
 - **`dist`**: contains built files for distribution (only after a build). Note this directory is only updated when a release happens; they do not reflect the latest changes in development branches.
   - **`quasar.esm.js`**: ES6 formatted Quasar JS distributable. **This is set as the `main` field in `package.json` so it is the default export when you import Vue as an NPM package.**
 
-  - **`quasar.common.js`**: Common JS formatted Quasar JS distributable.
+  - **`quasar.esm.js`**: JS entry point for Quasar distributable.
 
-  - **`quasar.standalone.js`**: Standalone version of Quasar (_not yet ready_)
+  - **`core.variables.styl`**: Core Quasar Stylus variables (which you can import in a style tag of your App Vue component files).
 
   - **`quasar.*.css`**: Compiled CSS from Stylus Quasar source code. It's imported into apps when NOT using a custom theme build.
 
