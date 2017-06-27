@@ -12,8 +12,8 @@
       :color="color"
       :class="{glossy: glossy}"
     >
-      <q-icon :name="icon" class="q-fab-icon"></q-icon>
-      <q-icon :name="activeIcon" class="q-fab-active-icon"></q-icon>
+      <q-icon :name="icon" class="q-fab-icon absolute-full row items-center justify-center full-width full-height"></q-icon>
+      <q-icon :name="activeIcon" class="q-fab-active-icon absolute-full row items-center justify-center full-width full-height"></q-icon>
     </q-btn>
     <div class="q-fab-actions flex no-wrap inline items-center" :class="`q-fab-${direction}`">
       <slot></slot>

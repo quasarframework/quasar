@@ -23,18 +23,24 @@ $breadcrumb-secondary ?= lighten($breadcrumb-primary, 10%)
 $breadcrumb-hover     ?= $tertiary
 $breadcrumb-active    ?= darken($breadcrumb-hover, 15%)
 
-$button-border-radius ?= $generic-border-radius
-$button-padding       ?= 0 16px
-$button-transition    ?= .12s ease-in
+$button-border-radius  ?= $generic-border-radius
+$button-padding        ?= 0 16px
+$button-transition     ?= .12s ease-in
+$button-small          ?= 28px
+$button-standard       ?= 36px
+$button-big            ?= 44px
+$button-round-small    ?= 40px
+$button-round-standard ?= 56px
+$button-round-big      ?= 72px
 $button-sizes = {
-  small: 28px,
-  standard: 36px,
-  big: 44px
+  small: $button-small,
+  standard: $button-standard,
+  big: $button-big
 }
 $button-round-sizes = {
-  small: 40px,
-  standard: 56px,
-  big: 72px
+  small: $button-round-small,
+  standard: $button-round-standard,
+  big: $button-round-big
 }
 
 $card-faded-color          ?= rgba(0, 0, 0, .4)
