@@ -1,4 +1,6 @@
+require('../src/ie-compat/ie')
 require('../src/css/' + __THEME + '.styl')
+require('../src/ie-compat/ie.' + __THEME + '.styl')
 
 import Vue from 'vue'
 
