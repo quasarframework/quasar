@@ -8,7 +8,7 @@
   >
     <p v-if="label" class="q-message-label text-center" v-html="label"></p>
 
-    <div v-if="avatar" class="q-message-container row items-end">
+    <div v-if="avatar" class="q-message-container row items-end no-wrap">
       <slot name="avatar">
         <img class="q-message-avatar" :src="avatar">
       </slot>
