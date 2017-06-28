@@ -8,7 +8,7 @@
         :class="{ready: imageHasBeenLoaded}"
       >
     </div>
-    <div class="q-parallax-text absolute-full column items-center justify-center">
+    <div class="q-parallax-text absolute-full column flex-center">
       <slot name="loading" v-if="!imageHasBeenLoaded"></slot>
       <slot v-else></slot>
     </div>

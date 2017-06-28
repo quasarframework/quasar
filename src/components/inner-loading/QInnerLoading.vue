@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="visible"
-    class="q-inner-loading animate-fade absolute-full column items-center justify-center"
+    class="q-inner-loading animate-fade absolute-full column flex-center"
     :class="{dark: dark}"
   >
     <slot>

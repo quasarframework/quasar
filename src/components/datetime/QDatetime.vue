@@ -143,7 +143,7 @@ export default {
   data () {
     let data = this.usingPopover ? {} : {
       css: contentCSS[theme],
-      position: theme === 'ios' ? 'items-end justify-center' : 'items-center justify-center',
+      position: theme === 'ios' ? 'items-end justify-center' : 'flex-center',
       transition: theme === 'ios' ? 'q-modal-bottom' : 'q-modal',
       classNames: theme === 'ios' ? '' : 'minimized'
     }

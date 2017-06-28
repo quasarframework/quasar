@@ -15,7 +15,7 @@
   >
     <div
       v-if="icon || avatar"
-      class="q-chip-side chip-left row items-center justify-center"
+      class="q-chip-side chip-left row flex-center"
       :class="{'chip-detail': detail}"
     >
       <q-icon v-if="icon" :name="icon"></q-icon>
@@ -26,7 +26,7 @@
 
     <q-icon v-if="iconRight" :name="iconRight" class="on-right"></q-icon>
 
-    <div v-if="closable" class="q-chip-side chip-right row items-center justify-center">
+    <div v-if="closable" class="q-chip-side chip-right row flex-center">
       <q-icon
         v-if="closable"
         name="cancel"

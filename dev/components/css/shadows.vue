@@ -1,11 +1,11 @@
 <template>
   <div class="layout-padding">
     <p class="caption text-left">Standard shadows</p>
-    <div class="flex inline shadow-box items-center justify-center" v-for="n in 24" :class="['shadow-' + n]">.shadow-{{n}}</div>
+    <div class="flex inline shadow-box flex-center" v-for="n in 24" :class="['shadow-' + n]">.shadow-{{n}}</div>
     <p class="caption text-left">Shadows pointing up</p>
-    <div class="flex inline shadow-box items-center justify-center" v-for="n in 24" :class="['shadow-up-' + n]">.shadow-up-{{n}}</div>
+    <div class="flex inline shadow-box flex-center" v-for="n in 24" :class="['shadow-up-' + n]">.shadow-up-{{n}}</div>
     <p class="caption text-left">Inset Shadow</p>
-    <div class="flex inline shadow-box items-center justify-center inset-shadow">.inset-shadow</div>
+    <div class="flex inline shadow-box flex-center inset-shadow">.inset-shadow</div>
   </div>
 </template>
 

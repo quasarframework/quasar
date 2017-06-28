@@ -15,7 +15,7 @@
       v-for="(img, index) in src"
       :key="index"
       slot="slide"
-      class="no-padding row items-center justify-center"
+      class="no-padding row flex-center"
     >
       <div class="full-width">
         <img :src="img">

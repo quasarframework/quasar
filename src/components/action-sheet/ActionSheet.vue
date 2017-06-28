@@ -12,11 +12,11 @@
         <div v-if="title" class="modal-header" v-html="title"></div>
 
         <div class="modal-scroll">
-          <div v-if="gallery" class="q-action-sheet-gallery row wrap items-center justify-center">
+          <div v-if="gallery" class="q-action-sheet-gallery row wrap flex-center">
             <div
               v-for="button in actions"
               :key="button"
-              class="cursor-pointer relative-position column inline items-center justify-center"
+              class="cursor-pointer relative-position column inline flex-center"
               @click="close(button.handler)"
               @keydown.enter="close(button.handler)"
               :class="button.classes"
@@ -67,11 +67,11 @@
       <div v-if="title" class="modal-header" v-html="title"></div>
 
       <div class="modal-scroll">
-        <div v-if="gallery" class="q-action-sheet-gallery row wrap items-center justify-center">
+        <div v-if="gallery" class="q-action-sheet-gallery row wrap flex-center">
           <div
             v-for="button in actions"
             :key="button"
-            class="cursor-pointer relative-position column inline items-center justify-center"
+            class="cursor-pointer relative-position column inline flex-center"
             @click="close(button.handler)"
             @keydown.enter="close(button.handler)"
             :class="button.classes"

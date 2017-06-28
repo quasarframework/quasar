@@ -13,7 +13,7 @@
         class="q-alert row no-wrap"
         :class="classes"
       >
-        <div class="q-alert-icon row col-auto items-center justify-center">
+        <div class="q-alert-icon row col-auto flex-center">
           <q-icon :name="alertIcon"></q-icon>
         </div>
         <div class="q-alert-content col self-center">
@@ -68,6 +68,7 @@ export default {
       type: String,
       default: 'negative'
     },
+    inline: Boolean,
     icon: String,
     dismissible: Boolean,
     actions: Array,
@@ -99,10 +100,16 @@ export default {
       return this.icon || typeIcon[this.color] || typeIcon.warning
     },
     containerClass () {
-      const pos = this.position
+      const
+        cls = [],
+        pos = this.position
       if (pos) {
-        return `fixed-${pos}${pos === 'left' || pos === 'right' ? ' row items-center' : ''} z-alert`
+        cls.push(`fixed-${pos}${pos === 'left' || pos === 'right' ? ' row items-center' : ''} z-alert`)
       }
+      if (this.inline) {
+        cls.push('inline-block')
+      }
+      return cls
     },
     classes () {
       return `shadow-2 bg-${this.color}`

@@ -31,7 +31,7 @@
       </svg>
 
       <div
-        class="q-knob-label row items-center justify-center content-center"
+        class="q-knob-label row flex-center content-center"
       >
         <span v-if="!$slots.default">{{ value }}</span>
         <slot v-else></slot>

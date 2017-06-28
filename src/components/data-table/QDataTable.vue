@@ -39,7 +39,7 @@
     <table-filter v-if="filteringCols.length" :filtering="filtering" :columns="filteringCols" :labels="labels"></table-filter>
 
     <template v-if="responsive">
-      <div v-if="message" class="q-data-table-message row items-center justify-center" v-html="message"></div>
+      <div v-if="message" class="q-data-table-message row flex-center" v-html="message"></div>
       <div v-else :style="bodyStyle" style="overflow: auto">
         <table class="q-table horizontal-separator responsive" ref="body">
           <tbody>
@@ -69,7 +69,7 @@
         ref="body"
         @scroll="scrollHandler"
       >
-        <div v-if="message" class="q-data-table-message row items-center justify-center" v-html="message"></div>
+        <div v-if="message" class="q-data-table-message row flex-center" v-html="message"></div>
         <table-content v-else :cols="cols" :selection="config.selection">
           <tr v-for="row in rows" :style="rowStyle" @click="emitRowClick(row)">
             <td v-if="config.selection"></td>

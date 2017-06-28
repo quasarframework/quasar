@@ -1,6 +1,6 @@
 <template>
   <div
-    class="q-tab column items-center justify-center relative-position"
+    class="q-tab column flex-center relative-position"
     :class="classes"
     @click="select"
     v-ripple.mat

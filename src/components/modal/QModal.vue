@@ -92,7 +92,7 @@ export default {
     leaveClass: String,
     positionClasses: {
       type: String,
-      default: 'items-center justify-center'
+      default: 'flex-center'
     },
     contentClasses: [Object, String],
     contentCss: [Object, String],

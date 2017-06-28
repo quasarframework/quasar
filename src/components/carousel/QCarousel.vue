@@ -13,19 +13,19 @@
       </div>
       <div
         v-show="arrows && canGoToPrevious"
-        class="q-carousel-left-button row items-center justify-center"
+        class="q-carousel-left-button row flex-center"
       >
         <q-icon name="keyboard_arrow_left" @click="previous"></q-icon>
       </div>
       <div
         v-show="arrows && canGoToNext"
-        class="q-carousel-right-button row items-center justify-center"
+        class="q-carousel-right-button row flex-center"
         @click="next"
       >
         <q-icon name="keyboard_arrow_right"></q-icon>
       </div>
       <div v-if="toolbar" class="q-carousel-toolbar row items-center justify-end">
-        <div class="q-carousel-dots col row items-center justify-center">
+        <div class="q-carousel-dots col row flex-center">
           <q-icon
             v-if="dots"
             v-for="n in slidesNumber"

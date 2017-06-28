@@ -33,7 +33,7 @@
       </div>
       <div
         ref="leftScroll"
-        class="row items-center justify-center q-tabs-left-scroll"
+        class="row flex-center q-tabs-left-scroll"
         @mousedown="__animScrollTo(0)"
         @touchstart="__animScrollTo(0)"
         @mouseup="__stopAnimScroll"
@@ -43,7 +43,7 @@
       </div>
       <div
         ref="rightScroll"
-        class="row items-center justify-center q-tabs-right-scroll"
+        class="row flex-center q-tabs-right-scroll"
         @mousedown="__animScrollTo(9999)"
         @touchstart="__animScrollTo(9999)"
         @mouseup="__stopAnimScroll"

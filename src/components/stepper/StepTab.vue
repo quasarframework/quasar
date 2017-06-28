@@ -16,8 +16,8 @@
     @click="__select"
     v-ripple.mat="vm.done"
   >
-    <div class="q-stepper-dot row items-center justify-center q-stepper-line relative-position">
-      <span class="row items-center justify-center">
+    <div class="q-stepper-dot row flex-center q-stepper-line relative-position">
+      <span class="row flex-center">
         <q-icon v-if="vm.stepIcon" :name="vm.stepIcon"></q-icon>
         <span v-else>{{ vm.innerOrder + 1 }}</span>
       </span>

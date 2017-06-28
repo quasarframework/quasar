@@ -3,7 +3,7 @@
     <div class="q-datetime-header column col-xs-12 col-md-4 justify-center">
       <div v-if="typeHasDate">
         <div class="q-datetime-weekdaystring col-12">{{ weekDayString }}</div>
-        <div class="q-datetime-datestring row items-center justify-center">
+        <div class="q-datetime-datestring row flex-center">
           <span
             :class="{active: view === 'month'}"
             class="q-datetime-link small col-auto col-md-12"
@@ -29,7 +29,7 @@
       </div>
       <div
         v-if="typeHasTime"
-        class="q-datetime-time row items-center justify-center"
+        class="q-datetime-time row flex-center"
       >
         <div class="q-datetime-clockstring col-auto col-md-12">
           <span
@@ -63,7 +63,7 @@
       </div>
     </div>
     <div class="q-datetime-content col-xs-12 col-md-8 column">
-      <div ref="selector" class="q-datetime-selector auto row items-center justify-center">
+      <div ref="selector" class="q-datetime-selector auto row flex-center">
         <div
           v-if="view === 'year'"
           class="q-datetime-view-year full-width full-height"

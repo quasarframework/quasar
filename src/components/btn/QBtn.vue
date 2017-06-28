@@ -2,7 +2,7 @@
   <button
     v-ripple.mat="!isDisabled"
     @click="click"
-    class="q-btn row inline items-center justify-center q-focusable q-hoverable relative-position"
+    class="q-btn row inline flex-center q-focusable q-hoverable relative-position"
     :class="classes"
   >
     <div class="q-focus-helper"></div>
@@ -13,7 +13,7 @@
       :style="{width: width}"
     ></div>
 
-    <span class="q-btn-inner row col items-center justify-center">
+    <span class="q-btn-inner row col flex-center">
       <slot v-if="loading" name="loading">
         <q-spinner></q-spinner>
       </slot>

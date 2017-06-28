@@ -8,7 +8,7 @@ let
   timeout,
   props = {}
 
-const staticClass = 'q-loading animate-fade fullscreen column items-center justify-center z-absolute'
+const staticClass = 'q-loading animate-fade fullscreen column flex-center z-absolute'
 
 function isActive () {
   return appIsInProgress

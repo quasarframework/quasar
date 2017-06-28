@@ -5,7 +5,7 @@
       :style="style"
       v-touch-pan.vertical.scroll="__pull"
     >
-      <div class="pull-to-refresh-message row items-center justify-center">
+      <div class="pull-to-refresh-message row flex-center">
         <q-icon v-show="state !== 'refreshing'" :class="{'rotate-180': state === 'pulled'}" name="arrow_downward"></q-icon>
         <q-icon v-show="state === 'refreshing'" class="animate-spin" :name="refreshIcon"></q-icon>
 

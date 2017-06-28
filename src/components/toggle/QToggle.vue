@@ -20,7 +20,7 @@
       >
       <div class="q-focus-helper"></div>
       <div class="q-toggle-base"></div>
-      <div class="q-toggle-handle shadow-1 row items-center justify-center">
+      <div class="q-toggle-handle shadow-1 row flex-center">
         <q-icon v-if="currentIcon" class="q-toggle-icon" :name="currentIcon"></q-icon>
         <div v-if="$q.theme !== 'ios'" ref="ripple" class="q-radial-ripple"></div>
       </div>
