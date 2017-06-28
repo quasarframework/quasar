@@ -3,7 +3,7 @@
     <div class="column group" style="margin-bottom: 50px">
       <q-input v-model="config.title" float-label="Data Table Title" />
 
-      <div class="column group gt-sm-row">
+      <div class="column group">
         <q-checkbox v-model="config.refresh" label="Refresh" />
         <q-checkbox v-model="config.columnPicker" label="Column Picker" />
         <q-checkbox v-model="pagination" label="Pagination" />
@@ -11,7 +11,7 @@
         <q-checkbox v-model="config.noHeader" label="No Header" />
       </div>
 
-      <div class="column gt-sm-row group">
+      <div class="column group">
         <q-select
           v-model="config.selection"
           label="Selection"
