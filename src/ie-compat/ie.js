@@ -2,10 +2,6 @@
 
 require('es6-promise').polyfill()
 
-if (!Object.values) {
-  require('object.values').shim()
-}
-
 if (!Number.isInteger) {
   Number.isInteger = function (value) {
     return typeof value === 'number' &&

@@ -7,7 +7,18 @@ function push (child, h, name, slot, replace, conf) {
     child.push(h(name, slot))
     return
   }
-  const props = Object.values(conf).some(p => p !== void 0 && p !== true)
+  let props, v = false
+  if (!slot) {
+    for (let p in conf) {
+      if (conf.hasOwnProperty(p)) {
+        v = conf[p]
+        if (v !== void 0 && v !== true) {
+          props = true
+          break
+        }
+      }
+    }
+  }
   if (props || slot) {
     child.push(h(name, props ? {props: conf} : {}, slot))
   }

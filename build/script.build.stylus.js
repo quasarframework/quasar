@@ -2,12 +2,11 @@ var
   fs = require('fs'),
   path = require('path'),
   stylus = require('stylus'),
-  postcss = require('postcss'),
   shell = require('shelljs'),
-  cssnano = require('cssnano'),
-  autoprefixer = require('autoprefixer'),
+  // postcss = require('postcss'),
+  // cssnano = require('cssnano'),
+  // autoprefixer = require('autoprefixer'),
   themes = ['ios', 'mat'],
-  nonStandalone = process.argv[2] === 'simple' || process.argv[3] === 'simple',
   version = process.env.VERSION || require('../package.json').version,
   pathList = [path.join(__dirname, '../src/css/')],
   banner =
@@ -26,6 +25,7 @@ shell.cp(
 themes.forEach(function (theme) {
   var
     src = 'src/css/' + theme + '.styl',
+    ieSrc = 'src/ie-compat/ie.' + theme + '.styl',
     deps,
     data
 
@@ -51,10 +51,7 @@ themes.forEach(function (theme) {
       // write unprefixed non-standalone version
       writeFile('dist/quasar.' + theme + '.css', css)
 
-      if (nonStandalone) {
-        return
-      }
-
+      /*
       // write auto-prefixed standalone version
       postcss([autoprefixer]).process(css).then(function (result) {
         result.warnings().forEach(function (warn) {
@@ -65,6 +62,19 @@ themes.forEach(function (theme) {
           writeFile('dist/quasar.' + theme + '.standalone.min.css', result.css)
         })
       })
+      */
+    })
+
+  // write IE compatibility css file
+  stylus(readFile(ieSrc))
+    .render(function (err, css) {
+      if (err) {
+        console.log()
+        logError('Stylus could not compile ' + ieSrc.gray + ' file...\n')
+        throw err
+      }
+
+      writeFile('dist/quasar.ie.' + theme + '.css', css)
     })
 })
 

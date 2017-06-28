@@ -7,7 +7,6 @@ var
   rollup = require('rollup'),
   uglify = require('uglify-js'),
   buble = require('rollup-plugin-buble'),
-  cjs = require('rollup-plugin-commonjs'),
   json = require('rollup-plugin-json'),
   vue = require('rollup-plugin-vue'),
   localResolve = require('rollup-plugin-local-resolve'),
@@ -29,7 +28,13 @@ function resolve (_path) {
 
 build([
   {
+    entry: resolve('src/index.esm.js'),
     dest: resolve('dist/quasar.esm.js'),
+    format: 'es'
+  },
+  {
+    entry: resolve('src/ie-compat/ie.js'),
+    dest: resolve('dist/quasar.ie.js'),
     format: 'es'
   }
 ].map(genConfig))
@@ -55,7 +60,7 @@ function build (builds) {
 
 function genConfig (opts) {
   return {
-    entry: resolve('src/index.esm.js'),
+    entry: opts.entry,
     dest: opts.dest,
     format: opts.format,
     banner: banner,
