@@ -8,20 +8,85 @@
       For some test that you think it should be persistent,
       make a new *.vue file here or in another folder under /dev/components.
     -->
-    <div class="group">
-      <q-option-group
-        type="radio"
-        v-model="tab"
-        :options="[
-          {label: 'Oaua', value: 'three'},
-          {label: 'Gogu', value: 'one'},
-          {label: 'Gigi', value: 'two'},
-          {label: 'Bogus', value: 'bogus'}
-        ]"
-      />
-      <q-checkbox v-model="third" />
-      <q-checkbox v-model="alert" />
+    <div class="row">
+      <div class="group">
+        <q-option-group
+          type="radio"
+          v-model="tab"
+          :options="[
+            {label: 'Oaua', value: 'three'},
+            {label: 'Gogu', value: 'one'},
+            {label: 'Gigi', value: 'two'},
+            {label: 'Bogus', value: 'bogus'}
+          ]"
+        />
+        <q-checkbox v-model="third" />
+        <q-checkbox v-model="alert" />
+      </div>
+      <div class="group">
+        <q-option-group
+          type="radio"
+          v-model="align"
+          :options="[
+            {label: 'Left', value: 'left'},
+            {label: 'Center', value: 'center'},
+            {label: 'Right', value: 'right'},
+            {label: 'Justify', value: 'justify'}
+          ]"
+        />
+        <q-option-group
+          type="radio"
+          v-model="position"
+          :options="[
+            {label: 'Top', value: 'top'},
+            {label: 'Bottom', value: 'bottom'}
+          ]"
+        />
+      </div>
+      <div class="group">
+        <div class="q-option-group group">
+          <div>
+            <q-checkbox v-model="inverted">Inverted</q-checkbox>
+          </div>
+          <div>
+            <q-checkbox v-model="twoLines">Two Lines</q-checkbox>
+          </div>
+          <div>
+            <q-checkbox v-model="noPaneBorder">No Border</q-checkbox>
+          </div>
+          <div>
+            <q-checkbox v-model="glossy">Glossy</q-checkbox>
+          </div>
+        </div>
+      </div>
+      <div class="group">
+        <q-input type="number" v-model="tabStyles.height" stack-label="Tab height" />
+        <q-input type="number" v-model="tabStyles.minHeight" stack-label="Tab min-height" />
+        <q-input type="number" v-model="tabStyles.maxHeight" stack-label="Tab max-height" />
+      </div>
     </div>
+
+    <q-tabs :style="calcTabStyles(tabStyles)"
+      :align="align"
+      :position="position"
+      :inverted="inverted"
+      :twoLines="twoLines"
+      :noPaneBorder="noPaneBorder"
+      :glossy="glossy"
+    >
+      <template v-for="(tab, name) in tabs">
+        <q-tab slot="title" :name="name" :label="tab.name" />
+        <q-tab-pane :name="name" :style="calcTabStyles(tab.tabStyles)">
+          <div class="group">
+            <q-input type="number" v-model="tab.tabStyles.height" stack-label="Tab height" />
+            <q-input type="number" v-model="tab.tabStyles.minHeight" stack-label="Tab min-height" />
+            <q-input type="number" v-model="tab.tabStyles.maxHeight" stack-label="Tab max-height" />
+            <q-input type="number" v-model="tab.count" stack-label="Rows" />
+          </div>
+          <div v-for="n in tab.count">{{n}} - tab.name</div>
+        </q-tab-pane>
+      </template>
+    </q-tabs>
 
     <q-tabs>
       <q-tab alert slot="title" v-if="third" label="Oaua" />
@@ -200,7 +265,47 @@ export default {
     return {
       tab: 'one',
       third: true,
-      alert: true
+      alert: true,
+      align: 'left',
+      position: 'top',
+      inverted: true,
+      twoLines: false,
+      noPaneBorder: false,
+      glossy: false,
+      tabStyles: {
+        height: null,
+        minHeight: null,
+        maxHeight: null
+      },
+      tabs: {
+        tab1: {
+          tabStyles: {
+            height: null,
+            minHeight: null,
+            maxHeight: null
+          },
+          name: 'Tab 1',
+          count: 1
+        },
+        tab2: {
+          tabStyles: {
+            height: null,
+            minHeight: null,
+            maxHeight: null
+          },
+          name: 'Tab 2',
+          count: 10
+        },
+        tab3: {
+          tabStyles: {
+            height: null,
+            minHeight: null,
+            maxHeight: null
+          },
+          name: 'Tab 3',
+          count: 100
+        }
+      }
     }
   },
   methods: {
@@ -209,6 +314,14 @@ export default {
     },
     onInput (source, payload) {
       console.log('input', source, payload)
+    },
+    calcTabStyles (styles) {
+      return Object.keys(styles).reduce((acc, k) => {
+        if (styles[k] !== null) {
+          acc[k] = `${styles[k]}px`
+        }
+        return acc
+      }, {})
     }
   }
 }
