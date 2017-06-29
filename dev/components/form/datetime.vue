@@ -163,6 +163,11 @@
       <q-inline-datetime readonly v-model="model" type="datetime" />
       <p class="caption">Min & Max</p>
       <q-inline-datetime type="datetime" v-model="minMaxModel" :min="min" :max="max" />
+
+
+      <p class="caption">I18n</p>
+      <q-datetime inverted v-model="model" type="date" monday-first :day-names="dayNames" :month-names="monthNames" />
+      <q-inline-datetime v-model="model" monday-first type="date" :day-names="dayNames" :month-names="monthNames" />
     </div>
   </div>
 </template>
@@ -182,7 +187,10 @@ export default {
       minMaxModel: date.formatDate(day),
 
       min: date.subtractFromDate(day, {days: 5}),
-      max: date.addToDate(day, {days: 4, month: 1, minutes: 10})
+      max: date.addToDate(day, {days: 4, month: 1, minutes: 10}),
+
+      dayNames: ['Duminica', 'Luni', 'Marti', 'Miercuri', 'Joi', 'Vineri', 'Sambata'],
+      monthNames: ['Ianuarie', 'Februarie', 'Martie', 'Aprilie', 'Mai', 'Iunie', 'Iulie', 'August', 'Septembrie', 'Octombrie', 'Noiembrie', 'Decembrie']
     }
   },
   methods: {

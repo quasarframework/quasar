@@ -43,6 +43,8 @@
         :format24h="format24h"
         :monday-first="mondayFirst"
         :saturday-first="saturdayFirst"
+        :month-names="monthNames"
+        :day-names="dayNames"
         :color="color"
         class="no-border"
       >
@@ -78,6 +80,8 @@
         :format24h="format24h"
         :monday-first="mondayFirst"
         :saturday-first="saturdayFirst"
+        :month-names="monthNames"
+        :day-names="dayNames"
         :color="color"
         class="no-border"
         :class="{'full-width': $q.theme === 'ios'}"

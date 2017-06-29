@@ -64,6 +64,10 @@
         Time Range
       </p>
       <q-datetime-range type="time" v-model="second.range" :min="second.min" :max="second.max" />
+
+
+      <p class="caption">I18n</p>
+      <q-datetime-range inverted color="amber" type="date" v-model="first.range" :day-names="dayNames" :month-names="monthNames" />
     </div>
   </div>
 </template>
@@ -99,7 +103,10 @@ export default {
           from: null,
           to: null
         }
-      }
+      },
+
+      dayNames: ['Duminica', 'Luni', 'Marti', 'Miercuri', 'Joi', 'Vineri', 'Sambata'],
+      monthNames: ['Ianuarie', 'Februarie', 'Martie', 'Aprilie', 'Mai', 'Iunie', 'Iulie', 'August', 'Septembrie', 'Octombrie', 'Noiembrie', 'Decembrie']
     }
   },
   methods: {

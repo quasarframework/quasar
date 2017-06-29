@@ -16,7 +16,7 @@
             class="q-datetime-link col-auto col-md-12"
             @click="view = 'day'"
           >
-            {{ dayString }}
+            {{ day }}
           </span>
           <span
             :class="{active: view === 'year'}"
@@ -318,13 +318,13 @@ export default {
       return formatDate(this.model, 'D')
     },
     monthString () {
-      return formatDate(this.model, 'MMM')
+      return `${this.monthNames[this.month - 1].slice(0, 3)}`
     },
     monthStamp () {
-      return formatDate(this.model, 'MMMM YYYY')
+      return `${this.monthNames[this.month - 1]} ${this.year}`
     },
     weekDayString () {
-      return formatDate(this.model, 'dddd')
+      return this.dayNames[this.model.getDay()]
     },
 
     fillerDays () {
