@@ -59,7 +59,7 @@
           </div>
         </div>
       </div>
-      <div class="group">
+      <div class="col group">
         <q-input type="number" v-model="tabStyles.height" stack-label="Tab height" />
         <q-input type="number" v-model="tabStyles.minHeight" stack-label="Tab min-height" />
         <q-input type="number" v-model="tabStyles.maxHeight" stack-label="Tab max-height" />
