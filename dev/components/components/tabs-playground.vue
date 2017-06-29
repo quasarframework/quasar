@@ -83,7 +83,7 @@
             <q-input type="number" v-model="tab.tabStyles.maxHeight" stack-label="Tab max-height" />
             <q-input type="number" v-model="tab.count" stack-label="Rows" />
           </div>
-          <div v-for="n in tab.count">{{n}} - tab.name</div>
+          <div v-for="n in tab.count">{{n}} - {{tab.name}}</div>
         </q-tab-pane>
       </template>
     </q-tabs>
