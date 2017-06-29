@@ -53,7 +53,7 @@
       </div>
     </div>
 
-    <div class="q-tabs-panes">
+    <div class="q-tabs-panes column col-grow">
       <slot></slot>
     </div>
   </div>

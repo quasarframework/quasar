@@ -1,5 +1,5 @@
 <template>
-  <div v-if="active" class="q-tab-pane">
+  <div v-if="active" class="q-tab-pane col-grow scroll">
     <slot></slot>
   </div>
 </template>
