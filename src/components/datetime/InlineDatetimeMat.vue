@@ -223,7 +223,7 @@ import { height, width, offset, cssTransform } from '../../utils/dom'
 import { position } from '../../utils/event'
 import { QIcon } from '../icon'
 import { QBtn } from '../btn'
-import { formatDate, isSameDate } from '../../utils/date'
+import { isSameDate } from '../../utils/date'
 import DateMixin from './datetime-mixin'
 import Ripple from '../../directives/ripple'
 
@@ -314,9 +314,6 @@ export default {
         : days
     },
 
-    dayString () {
-      return formatDate(this.model, 'D')
-    },
     monthString () {
       return `${this.monthNames[this.month - 1].slice(0, 3)}`
     },
