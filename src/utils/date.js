@@ -304,8 +304,8 @@ export const formatter = {
   },
 
   // Month Name: January, February, ...
-  MMMM (date) {
-    return monthNames[date.getMonth()]
+  MMMM (date, opts = {}) {
+    return (opts.monthNames || monthNames)[date.getMonth()]
   },
 
   // Quarter: 1, 2, 3, 4
@@ -349,8 +349,8 @@ export const formatter = {
   },
 
   // Day of week: Sunday, Monday, ...
-  dddd (date) {
-    return dayNames[date.getDay()]
+  dddd (date, opts = {}) {
+    return (opts.dayNames || dayNames)[date.getDay()]
   },
 
   // Day of ISO week: 1, 2, ..., 7
@@ -451,7 +451,7 @@ export const formatter = {
   }
 }
 
-export function formatDate (val, mask = 'YYYY-MM-DDTHH:mm:ss.SSSZ') {
+export function formatDate (val, mask = 'YYYY-MM-DDTHH:mm:ss.SSSZ', opts) {
   if (!val) {
     return
   }
@@ -460,7 +460,7 @@ export function formatDate (val, mask = 'YYYY-MM-DDTHH:mm:ss.SSSZ') {
 
   return mask.replace(token, function (match) {
     if (match in formatter) {
-      return formatter[match](date)
+      return formatter[match](date, opts)
     }
     return match
   })

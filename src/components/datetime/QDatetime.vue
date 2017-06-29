@@ -182,7 +182,10 @@ export default {
         format = 'YYYY-MM-DD HH:mm:ss'
       }
 
-      return formatDate(this.value, format)
+      return formatDate(this.value, format, {
+        dayNames: this.dayNames,
+        monthNames: this.monthNames
+      })
     }
   },
   methods: {

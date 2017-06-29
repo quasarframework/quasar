@@ -34,7 +34,7 @@
           </span>
         </small>
       </p>
-      <q-datetime v-model="model" type="date" align="right" />
+      <q-datetime format="YYYY-MMMM-dddd" v-model="model" type="date" align="right" />
       <q-datetime stack-label="Stack Label" v-model="model" type="date" />
       <q-datetime float-label="Float Label" v-model="model" type="date" />
 
@@ -166,7 +166,7 @@
 
 
       <p class="caption">I18n</p>
-      <q-datetime inverted v-model="model" type="date" monday-first :day-names="dayNames" :month-names="monthNames" />
+      <q-datetime inverted format="YYYY-MMMM-dddd" v-model="model" type="date" monday-first :day-names="dayNames" :month-names="monthNames" />
       <q-inline-datetime v-model="model" monday-first type="date" :day-names="dayNames" :month-names="monthNames" />
     </div>
   </div>
