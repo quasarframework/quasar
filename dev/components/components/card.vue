@@ -5,7 +5,9 @@
         <q-card-media>
           <img src="~assets/donuts.png">
         </q-card-media>
-        <q-card-title>
+        <q-card-title class="relative-position">
+          <q-btn round color="primary" icon="place" class="absolute" style="top: 0; right: 8px; transform: translateY(-50%);" />
+
           Cafe Basilico
           <q-rating slot="subtitle" v-model="stars" :max="5" />
           <div slot="right" class="row items-center">
