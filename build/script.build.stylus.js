@@ -3,6 +3,7 @@ var
   path = require('path'),
   stylus = require('stylus'),
   shell = require('shelljs'),
+  rtlcss = require('rtlcss'),
   // postcss = require('postcss'),
   // cssnano = require('cssnano'),
   // autoprefixer = require('autoprefixer'),
@@ -50,6 +51,7 @@ themes.forEach(function (theme) {
 
       // write unprefixed non-standalone version
       writeFile('dist/quasar.' + theme + '.css', css)
+      writeFile('dist/quasar.' + theme + '.rtl.css', rtlcss.process(css, {}))
 
       /*
       // write auto-prefixed standalone version

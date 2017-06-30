@@ -2,6 +2,7 @@
 // at least not in this way!
 require('../src/ie-compat/ie')
 require('../src/css/' + __THEME + '.styl')
+// require('../dist/quasar.' + __THEME + '.rtl.css')
 require('../src/ie-compat/ie.' + __THEME + '.styl')
 
 import Vue from 'vue'

@@ -83,6 +83,7 @@
     "rollup-plugin-json": "^2.1.0",
     "rollup-plugin-local-resolve": "^1.0.7",
     "rollup-plugin-vue": "2.3.1",
+    "rtlcss": "^2.2.0",
     "shelljs": "^0.7.0",
     "stylint": "^1.5.6",
     "stylus": "^0.54.5",
