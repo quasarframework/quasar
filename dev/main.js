@@ -4,6 +4,7 @@ require('../src/ie-compat/ie')
 require('../src/css/' + __THEME + '.styl')
 // require('../dist/quasar.' + __THEME + '.rtl.css')
 require('../src/ie-compat/ie.' + __THEME + '.styl')
+// require('../src/ie-compat/ie.' + __THEME + '.rtl.css')
 
 import Vue from 'vue'
 

@@ -51,7 +51,7 @@ themes.forEach(function (theme) {
 
       // write unprefixed non-standalone version
       writeFile('dist/quasar.' + theme + '.css', css)
-      writeFile('dist/quasar.' + theme + '.rtl.css', rtlcss.process(css, {}))
+      writeFile('dist/quasar.' + theme + '.rtl.css', rtlcss.process(css))
 
       /*
       // write auto-prefixed standalone version
@@ -77,6 +77,7 @@ themes.forEach(function (theme) {
       }
 
       writeFile('dist/quasar.ie.' + theme + '.css', css)
+      writeFile('dist/quasar.ie.' + theme + '.rtl.css', rtlcss.process(css))
     })
 })
 
