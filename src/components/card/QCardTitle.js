@@ -1,13 +1,22 @@
 export default {
   name: 'q-card-title',
   functional: true,
+  props: {
+    color: String
+  },
   render (h, ctx) {
     const
       data = ctx.data,
-      cls = ctx.data.staticClass,
+      classes = ctx.data.staticClass,
+      prop = ctx.props,
       slots = ctx.slots()
 
-    data.staticClass = `q-card-primary q-card-container row no-wrap${cls ? ` ${cls}` : ''}`
+    let cls = ['q-card-primary', 'q-card-container', 'row', 'no-wrap']
+    if (prop.color) {
+      cls.push(`bg-${prop.color} text-white q-card-dark`)
+    }
+
+    data.staticClass = `${cls.join(' ')}${classes ? ` ${classes}` : ''}`
     return h(
       'div',
       data,
