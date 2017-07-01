@@ -47,7 +47,6 @@
       <q-card inline>
         <q-card-title>
           Title
-          <!--<span slot="subtitle">Subtitle</span> -->
         </q-card-title>
         <q-card-main color="secondary">
           {{lorem}}
