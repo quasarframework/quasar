@@ -1,7 +1,8 @@
 <template>
   <div>
     <div class="layout-padding input-example" style="max-width: 600px;">
-      <q-input @change="onChange" v-model="text" />
+      <q-input ref="xi" @change="onChange" v-model="text" />
+      <q-btn @click="$refs.xi.select()">Select</q-btn>
       <q-input v-model="text" stack-label="Stack Label" />
       <q-input v-model="text" float-label="Float Label" placeholder="Gigi" />
 
