@@ -27,19 +27,24 @@
   font-size 18px
   font-weight 400
   letter-spacing normal
-  line-height 2rem
   &:empty
     display none
 .q-card-subtitle, .q-card-title-extra
   font-size 14px
   color $card-faded-color
+  padding-top 12px
   .q-icon
     font-size 24px
 
 .q-card-main
   font-size 14px
-.q-card-primary + .q-card-main
-  padding-top 8px
+.q-card-primary 
+  + .q-card-main
+    padding-top 0px
+    ^[0].q-card-dark &
+    &.q-card-dark
+      padding-top 13px
+      padding-bottom 13px
 
 .q-card-actions
   padding 8px

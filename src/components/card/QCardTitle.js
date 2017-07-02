@@ -17,13 +17,15 @@ export default {
     }
 
     data.staticClass = `${cls.join(' ')}${classes ? ` ${classes}` : ''}`
+
+    const subtitle = slots.subtitle ? [h('div', {staticClass: 'q-card-subtitle'}, slots.subtitle)] : []
     return h(
       'div',
       data,
       [
         h('div', {staticClass: 'col column'}, [
           h('div', {staticClass: 'q-card-title'}, slots.default),
-          h('div', {staticClass: 'q-card-subtitle'}, slots.subtitle)
+          ...subtitle
         ]),
         h('div', {staticClass: 'col-auto self-center q-card-title-extra'}, slots.right)
       ]
