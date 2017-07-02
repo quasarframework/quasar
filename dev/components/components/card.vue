@@ -44,6 +44,16 @@
         </q-card-main>
       </q-card>
 
+      <q-card inline>
+        <q-card-title color="primary">
+          Title
+          <span slot="subtitle">Subtitle</span>
+        </q-card-title>
+        <q-card-main color="secondary">
+          {{lorem}}
+        </q-card-main>
+      </q-card>
+
       <q-card inline color="secondary">
         <q-card-title>
           Title
