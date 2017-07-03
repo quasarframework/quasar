@@ -1,5 +1,4 @@
-@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none)
-
+ie_style = @block
   /* QAlert */
   .q-alert-container
     max-width 100%
@@ -46,3 +45,9 @@
     &.q-fab-right
       display block
       white-space nowrap
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none)
+  {ie_style}
+
+@supports (-ms-ime-align:auto)
+  {ie_style}
