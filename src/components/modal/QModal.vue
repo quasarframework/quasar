@@ -126,10 +126,10 @@ export default {
       if (this.position) {
         return `q-modal-${this.position}`
       }
-      else if (this.enterClass && this.leaveClass) {
-        return this.transition
+      else if (!this.transition && !(this.enterClass && this.leaveClass)) {
+        return 'q-modal'
       }
-      return 'q-modal'
+      return this.transition
     },
     modalCss () {
       if (this.position) {
