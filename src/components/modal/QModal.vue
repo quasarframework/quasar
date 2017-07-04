@@ -84,10 +84,7 @@ export default {
         return val === '' || ['top', 'bottom', 'left', 'right'].includes(val)
       }
     },
-    transition: {
-      type: String,
-      default: 'q-modal'
-    },
+    transition: String,
     enterClass: String,
     leaveClass: String,
     positionClasses: {
@@ -126,7 +123,13 @@ export default {
       return cls
     },
     modalTransition () {
-      return this.position ? `q-modal-${this.position}` : this.transition
+      if (this.position) {
+        return `q-modal-${this.position}`
+      }
+      else if (this.enterClass && this.leaveClass) {
+        return this.transition
+      }
+      return 'q-modal'
     },
     modalCss () {
       if (this.position) {
