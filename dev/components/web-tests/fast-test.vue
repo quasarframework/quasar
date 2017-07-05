@@ -1,23 +1,32 @@
 <template>
-  <div class="layout-padding">
-    <!--
-      This is for fast tests.
-      Use this page but don't add it into your commits (leave it outside
-      of your commit).
-
-      For some test that you think it should be persistent,
-      make a new *.vue file here or in another folder under /dev/components.
-    -->
+  <div>
+    <q-btn @click="handleClick">True</q-btn>
+    <q-btn @click="handleClick2">False</q-btn>
+    <q-btn @click="handleClick3">0 delay</q-btn>
   </div>
 </template>
 
 <script>
-export default {
-  data () {
-    return {
+  import {
+    QBtn,
+    debounce
+  } from 'quasar'
+
+  export default {
+    methods: {
+      handleClick: debounce(function () {
+        console.log('tClick handled')
+      }, 1000, true),
+      handleClick2: debounce(function () {
+        console.log('fClick handled')
+      }, 1000, false),
+      handleClick3: debounce(function () {
+        console.log('fClick handled')
+      }, 0, true)
+    },
+
+    components: {
+      QBtn
     }
-  },
-  methods: {
   }
-}
 </script>
