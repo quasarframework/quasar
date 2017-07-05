@@ -49,9 +49,10 @@ It could be you!
 - Max Matteo Staack ($35)
 - Samuel Desconsi
 - Jonas Viczian ($15)
-- John (JCharante) ($10)
+- John (JCharante)
 - Joe L Wroten
 - MSG Group ($20)
+- Florent Peyrard
 
 - Ken ($5)
 - Bryson Thill ($5)
