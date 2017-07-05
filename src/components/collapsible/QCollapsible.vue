@@ -3,7 +3,7 @@
     class="q-collapsible q-item-division relative-position"
     :class="{ 'q-item-separator': separator, 'q-item-inset-separator': insetSeparator }"
   >
-    <q-item-wrapper :cfg="cfg" @click="__toggleItem" v-ripple.mat="!iconToggle">
+    <q-item-wrapper :class="{disabled: disable}" :cfg="cfg" @click="__toggleItem" v-ripple.mat="!iconToggle && !disable">
       <div
         slot="right"
         class="cursor-pointer relative-position inline-block"
@@ -13,7 +13,7 @@
         <q-item-tile
           icon="keyboard_arrow_down"
           class="transition-generic"
-          :class="{'rotate-180': active}"
+          :class="{'rotate-180': active, invisible: disable}"
         ></q-item-tile>
       </div>
     </q-item-wrapper>
@@ -48,6 +48,7 @@ export default {
   },
   props: {
     opened: Boolean,
+    disable: Boolean,
     indent: Boolean,
     group: String,
     iconToggle: Boolean,
@@ -108,7 +109,9 @@ export default {
   },
   methods: {
     toggle () {
-      this.active = !this.active
+      if (!this.disable) {
+        this.active = !this.active
+      }
     },
     open () {
       this.active = true
