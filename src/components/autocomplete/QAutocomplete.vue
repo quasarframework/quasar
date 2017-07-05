@@ -181,7 +181,7 @@ export default {
       }
     },
     __delayTrigger () {
-      clearTimeout(this.timer)
+      this.__clearSearch()
       if (!this.__input.hasFocus()) {
         return
       }
