@@ -30,7 +30,7 @@ It could be you!
 
 ### $50+
 
-It could be you!
+- Colin Mollenhour
 
 ---
 
@@ -57,6 +57,7 @@ It could be you!
 - Ken ($5)
 - Bryson Thill ($5)
 - Rogério Queiroz ($3)
+- Oliver ($5)
 
 ---
 
