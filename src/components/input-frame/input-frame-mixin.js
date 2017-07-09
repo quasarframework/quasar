@@ -2,7 +2,7 @@ import { QIcon } from '../icon'
 
 const marginal = {
   type: Array,
-  validator: v => v.every(i => 'icon' in i && 'handler' in i)
+  validator: v => v.every(i => 'icon' in i)
 }
 
 const align = {

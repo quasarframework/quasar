@@ -13,7 +13,7 @@
         class="q-if-control q-if-control-before"
         :class="{hidden: __additionalHidden(item, hasError, length)}"
         :name="item.icon"
-        @click="item.handler"
+        @click="item.handler || __defaultHander"
       ></q-icon>
     </template>
 
@@ -50,7 +50,7 @@
         class="q-if-control"
         :class="{hidden: __additionalHidden(item, hasError, length)}"
         :name="item.icon"
-        @click="item.handler"
+        @click="item.handler || __defaultHandler"
       ></q-icon>
     </template>
   </div>
@@ -128,7 +128,8 @@ export default {
         (item.content !== void 0 && !item.content === (length > 0)) ||
         (item.error !== void 0 && !item.error === hasError)
       )
-    }
+    },
+    __defaultHandler () {}
   },
   created () {
     if (this.__field) {
