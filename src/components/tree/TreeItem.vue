@@ -7,7 +7,8 @@
     >
       <div class="q-tree-label relative-position row items-center" v-ripple.mat>
         <q-icon v-if="model.icon" :name="model.icon" class="on-left"></q-icon>
-        <span v-html="model.title"></span>
+        <span v-if="model.safe" v-html="model.title"></span>
+        <span v-else>{{model.title}}</span>
       </div>
       <span v-if="isExpandable" class="on-right" v-html="model.expanded ? contractHtml : expandHtml"></span>
     </div>

@@ -26,7 +26,10 @@
       <div v-if="$q.theme !== 'ios'" ref="ripple" class="q-radial-ripple"></div>
     </div>
 
-    <span class="q-option-label" v-if="label" v-html="label"></span>
+    <template v-if="label">
+      <span class="q-option-label" v-if="safe" v-html="label"></span>
+      <span class="q-option-label" v-else>{{label}}</span>
+    </template>
     <slot></slot>
   </div>
 </template>

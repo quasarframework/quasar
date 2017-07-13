@@ -23,7 +23,8 @@ export default {
       validator: v => v.every(o => 'label' in o && 'value' in o)
     },
     frameColor: String,
-    displayValue: String
+    displayValue: String,
+    safe: Boolean
   },
   data () {
     return {

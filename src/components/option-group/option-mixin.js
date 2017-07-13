@@ -2,6 +2,7 @@ export default {
   props: {
     label: String,
     leftLabel: Boolean,
+    safe: Boolean,
     color: String,
     disable: Boolean
   },
