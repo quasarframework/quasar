@@ -13,7 +13,7 @@
         class="q-if-control q-if-control-before"
         :class="{hidden: __additionalHidden(item, hasError, length)}"
         :name="item.icon"
-        @click="item.handler || __defaultHander"
+        @click="(item.handler || __defaultHandler)($event)"
       ></q-icon>
     </template>
 
@@ -50,7 +50,7 @@
         class="q-if-control"
         :class="{hidden: __additionalHidden(item, hasError, length)}"
         :name="item.icon"
-        @click="item.handler || __defaultHandler"
+        @click="(item.handler || __defaultHandler)($event)"
       ></q-icon>
     </template>
   </div>
