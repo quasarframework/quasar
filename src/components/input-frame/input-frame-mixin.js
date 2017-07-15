@@ -24,7 +24,7 @@ export default {
     disable: Boolean,
     color: {
       type: String,
-      default: 'primary'
+      default: 'input-frame-color'
     },
     dark: Boolean,
     before: marginal,
