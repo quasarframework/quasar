@@ -203,7 +203,7 @@ export default {
         : this.type
     },
     length () {
-      return this.value
+      return this.value || (this.isNumber && this.value !== null)
         ? ('' + this.value).length
         : 0
     }
