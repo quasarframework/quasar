@@ -81,7 +81,7 @@
         <template v-if="multiple">
           <q-item-wrapper
             v-for="opt in visibleOptions"
-            :key="opt.value"
+            :key="JSON.stringify(opt)"
             :cfg="opt"
             slot-replace
             @click.capture="__toggle(opt.value)"
@@ -103,7 +103,7 @@
         <template v-else>
           <q-item-wrapper
             v-for="opt in visibleOptions"
-            :key="opt.value"
+            :key="JSON.stringify(opt)"
             :cfg="opt"
             slot-replace
             :active="value === opt.value"
