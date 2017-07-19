@@ -3,7 +3,7 @@
     <ul>
       <q-tree-item
         v-for="item in model"
-        :key="item"
+        :key="JSON.stringify(item)"
         :model="item"
         :contract-html="contractHtml"
         :expand-html="expandHtml"

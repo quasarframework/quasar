@@ -83,7 +83,7 @@
     >
       <q-btn
         v-for="button in buttons"
-        :key="button"
+        :key="JSON.stringify(button)"
         @click="trigger(button.handler, button.preventClose)"
         :class="button.classes"
         :style="button.style"
