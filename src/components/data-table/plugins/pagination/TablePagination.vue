@@ -1,7 +1,7 @@
 <template>
   <div class="q-data-table-toolbar bottom-toolbar row reverse-wrap items-center justify-end">
     <div>
-      {{labels.rows}}
+      <span class="q-data-table-row-label">{{labels.rows}}</span>
       <q-select
         v-model="pagination.rowsPerPage"
         :options="pagination.options"
