@@ -31,7 +31,7 @@
     >
       <q-chip
         v-for="{label, value} in selectedOptions"
-        :key="label"
+        :key="`${ label }-${ value.id || JSON.stringify(value) }`"
         small
         :closable="!disable"
         :color="color"
@@ -81,7 +81,7 @@
         <template v-if="multiple">
           <q-item-wrapper
             v-for="opt in visibleOptions"
-            :key="opt"
+            :key="JSON.stringify(opt)"
             :cfg="opt"
             slot-replace
             @click.capture="__toggle(opt.value)"
@@ -103,7 +103,7 @@
         <template v-else>
           <q-item-wrapper
             v-for="opt in visibleOptions"
-            :key="opt"
+            :key="JSON.stringify(opt)"
             :cfg="opt"
             slot-replace
             :active="value === opt.value"
