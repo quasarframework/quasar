@@ -10,7 +10,7 @@
     >
       <step-tab
         v-for="(step, index) in steps"
-        :key="step"
+        :key="step.name"
         :vm="step"
       ></step-tab>
     </div>
