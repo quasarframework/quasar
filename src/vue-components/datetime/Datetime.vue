@@ -149,7 +149,7 @@ export default {
     __normalizeAndEmit () {
       this.$nextTick(() => {
         if (this.value) {
-          this.$emit('input', this.__normalizeValue(moment(this.value)).format(this.format))
+          this.$emit('input', this.__normalizeValue(moment(this.value)).format())
         }
       })
     }
