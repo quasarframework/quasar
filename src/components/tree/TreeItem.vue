@@ -36,13 +36,12 @@ export default {
   props: ['model', 'contractHtml', 'expandHtml'],
   methods: {
     toggle () {
-      if (this.isExpandable) {
-        this.model.expanded = !this.model.expanded
-        return
-      }
-
       if (typeof this.model.handler === 'function') {
         this.model.handler(this.model)
+      }
+      
+      if (this.isExpandable) {
+        this.model.expanded = !this.model.expanded
       }
     }
   },
