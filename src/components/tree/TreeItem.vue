@@ -3,13 +3,12 @@
     <div
       class="row inline items-center"
       :class="{'q-tree-link': model.handler || isExpandable}"
-      @click="tap"
     >
-      <div class="q-tree-label relative-position row items-center" v-ripple.mat>
+      <div @click="tap" class="q-tree-label relative-position row items-center" v-ripple.mat>
         <q-icon v-if="model.icon" :name="model.icon" class="on-left"></q-icon>
         <span v-html="model.title"></span>
       </div>
-      <span v-if="isExpandable" @click.prevent="toggle" class="on-right" v-html="model.expanded ? contractHtml : expandHtml"></span>
+      <span v-if="isExpandable" @click="toggle" class="on-right" v-html="model.expanded ? contractHtml : expandHtml"></span>
     </div>
     <q-slide-transition>
       <ul v-show="isExpandable && model.expanded">
