@@ -4,12 +4,14 @@
       v-show="active"
       class="modal fullscreen row"
       :class="modalClasses"
-      @click="click()"
+      @mousedown="__dismiss()"
+      @touchstart="__dismiss()"
     >
       <div
         ref="content"
         class="modal-content scroll"
-        @click.stop
+        @mousedown.stop
+        @touchstart.stop
         :style="modalCss"
         :class="contentClasses"
       >
@@ -231,7 +233,7 @@ export default {
         this.open(done)
       }
     },
-    click (onClick) {
+    __dismiss (onClick) {
       if (this.noBackdropDismiss) {
         return
       }
