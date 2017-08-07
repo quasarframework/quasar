@@ -76,7 +76,8 @@ export default {
       type: String,
       validator: v => [
         'top', 'top-right', 'right', 'bottom-right',
-        'bottom', 'bottom-left', 'left', 'top-left'
+        'bottom', 'bottom-left', 'left', 'top-left',
+        'top-center', 'bottom-center'
       ].includes(v)
     }
   },
@@ -100,10 +101,14 @@ export default {
       return this.icon || typeIcon[this.color] || typeIcon.warning
     },
     containerClass () {
-      const
-        cls = [],
-        pos = this.position
+      const cls = []
+      let pos = this.position
+
       if (pos) {
+        if (pos.indexOf('center') > -1) {
+          cls.push('row justify-center')
+          pos = pos.split('-')[0]
+        }
         cls.push(`fixed-${pos}${pos === 'left' || pos === 'right' ? ' row items-center' : ''} z-alert`)
       }
       if (this.inline) {
