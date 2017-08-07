@@ -11,7 +11,7 @@
         <q-item
           link
           v-for="modal in types"
-          :key="modal"
+          :key="modal.label"
           @click="$refs[modal.ref].open()"
           v-ripple.mat
         >

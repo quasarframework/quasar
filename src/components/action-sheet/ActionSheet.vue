@@ -14,8 +14,8 @@
         <div class="modal-scroll">
           <div v-if="gallery" class="q-action-sheet-gallery row wrap flex-center">
             <div
-              v-for="button in actions"
-              :key="button.id || JSON.stringify(button)"
+              v-for="(button, index) in actions"
+              :key="index"
               class="cursor-pointer relative-position column inline flex-center"
               @click="close(button.handler)"
               @keydown.enter="close(button.handler)"
@@ -31,8 +31,8 @@
           </div>
           <q-list link v-else class="no-border">
             <q-item
-              v-for="button in actions"
-              :key="button.id || JSON.stringify(button)"
+              v-for="(button, index) in actions"
+              :key="index"
               @click="close(button.handler)"
               @keydown.enter="close(button.handler)"
               tabindex="0"
@@ -69,8 +69,8 @@
       <div class="modal-scroll">
         <div v-if="gallery" class="q-action-sheet-gallery row wrap flex-center">
           <div
-            v-for="button in actions"
-            :key="button.id || JSON.stringify(button)"
+            v-for="(button, index) in actions"
+            :key="index"
             class="cursor-pointer relative-position column inline flex-center"
             @click="close(button.handler)"
             @keydown.enter="close(button.handler)"
@@ -86,8 +86,8 @@
         </div>
         <q-list link v-else class="no-border">
           <q-item
-            v-for="button in actions"
-            :key="button.id || JSON.stringify(button)"
+            v-for="(button, index) in actions"
+            :key="index"
             @click="close(button.handler)"
             @keydown.enter="close(button.handler)"
             :class="button.classes"

@@ -13,7 +13,7 @@
         </h4>
         <router-link
           v-for="feature in category"
-          :key="`${ feature.route }${ feature.title }`"
+          :key="`${feature.route}${feature.title}`"
           tag="div"
           class="q-item q-item-link"
           :to="feature.route"

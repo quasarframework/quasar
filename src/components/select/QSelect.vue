@@ -31,7 +31,7 @@
     >
       <q-chip
         v-for="{label, value} in selectedOptions"
-        :key="`${ label }-${ value.id || JSON.stringify(value) }`"
+        :key="label"
         small
         :closable="!disable"
         :color="color"

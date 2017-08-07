@@ -24,7 +24,7 @@
           >
             <span
               v-for="btn in actions"
-              :key="btn.id || JSON.stringify(btn)"
+              :key="btn.label"
               @click="dismiss(btn.handler)"
               v-html="btn.label"
               class="uppercase"

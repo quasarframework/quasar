@@ -25,7 +25,7 @@
         small
         :closable="!disable"
         v-for="(label, index) in value"
-        :key="index"
+        :key="label"
         :color="color"
         @close="remove(index)"
       >

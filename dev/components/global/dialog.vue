@@ -11,7 +11,7 @@
         <q-item
           link
           v-for="dialog in types"
-          :key="dialog"
+          :key="dialog.label"
           @click="dialog.handler()"
           v-ripple.mat
         >
@@ -24,7 +24,7 @@
         <q-item
           link
           v-for="dialog in form"
-          :key="dialog"
+          :key="dialog.label"
           @click="dialog.handler()"
           v-ripple.mat
         >

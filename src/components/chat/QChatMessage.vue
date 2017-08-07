@@ -15,7 +15,7 @@
       <div class="column">
         <div v-if="name" class="q-message-name" v-html="name"></div>
         <div
-          v-for="(msg, index) in text"
+          v-for="msg in text"
           :key="msg"
           class="q-message-text"
           :class="messageClass"

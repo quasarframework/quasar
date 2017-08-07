@@ -82,8 +82,8 @@
       :class="{row: !stackButtons, column: stackButtons}"
     >
       <q-btn
-        v-for="button in buttons"
-        :key="button.id || JSON.stringify(button)"
+        v-for="(button, index) in buttons"
+        :key="index"
         @click="trigger(button.handler, button.preventClose)"
         :class="button.classes"
         :style="button.style"

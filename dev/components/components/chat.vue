@@ -3,7 +3,7 @@
     <div class="layout-padding" style="max-width: 500px;">
       <q-chat-message
         v-for="msg in messages"
-        :key="msg"
+        :key="msg.label"
         :label="msg.label"
         :sent="msg.sent"
         :text-color="msg.textColor"

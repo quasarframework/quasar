@@ -9,7 +9,7 @@
     <template v-if="before">
       <q-icon
         v-for="item in before"
-        :key="item.id || JSON.stringify(item)"
+        :key="item.icon"
         class="q-if-control q-if-control-before"
         :class="{hidden: __additionalHidden(item, hasError, length)}"
         :name="item.icon"
@@ -46,7 +46,7 @@
     <template v-if="after">
       <q-icon
         v-for="item in after"
-        :key="item.id || JSON.stringify(item)"
+        :key="item.icon"
         class="q-if-control"
         :class="{hidden: __additionalHidden(item, hasError, length)}"
         :name="item.icon"

@@ -12,8 +12,8 @@
     class="text-white bg-black q-gallery-carousel"
   >
     <div
-      v-for="(img, index) in src"
-      :key="index"
+      v-for="img in src"
+      :key="img"
       slot="slide"
       class="no-padding row flex-center"
     >
@@ -40,7 +40,7 @@
       @mousemove.capture.stop
       @mouseend.capture.stop
     >
-      <div v-for="(img, index) in src" :key="index">
+      <div v-for="(img, index) in src" :key="img">
         <img
           :src="img"
           :class="{active: currentSlide === index}"
