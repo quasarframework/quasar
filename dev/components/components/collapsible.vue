@@ -7,12 +7,12 @@
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
           </div>
         </q-collapsible>
-        <q-collapsible icon="perm_identity" label="Second">
+        <q-collapsible icon="perm_identity" label="Second" @open="disable_third" @close="enable_third">
           <div>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
           </div>
         </q-collapsible>
-        <q-collapsible icon="shopping_cart" label="Third">
+        <q-collapsible icon="shopping_cart" label="Third (disabled when Second is open)" :disable="third_disabled">
           <div>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
           </div>
@@ -177,10 +177,10 @@
 export default {
   data () {
     return {
-      counter: 0
+      counter: 0,
+      third_disabled: false
     }
   },
-
   methods: {
     counter_start () {
       console.log('counter start')
@@ -193,6 +193,12 @@ export default {
       console.log('counter stop')
 
       clearInterval(this.hndl)
+    },
+    enable_third () {
+      this.third_disabled = false
+    },
+    disable_third () {
+      this.third_disabled = true
     }
   }
 }
