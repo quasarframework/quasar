@@ -31,6 +31,8 @@ It could be you!
 ### $50+
 
 - Colin Mollenhour
+- ShipStream.io
+- Fabio Migliorini
 
 ---
 
@@ -40,24 +42,24 @@ It could be you!
 - Maarten Berkenbosch
 - Marek Urbanowicz
 - Samuel Lin
-- Andrea Salvatore
 - Matsumoto Takamasa
 - Borris Barroso
 - Josh Bodine
 - William Marques Vicente Gomes Correa
-- Harlon Norse ($20)
 - Max Matteo Staack ($35)
 - Samuel Desconsi
 - Jonas Viczian ($15)
 - John (JCharante)
-- Joe L Wroten
 - MSG Group ($20)
 - Florent Peyrard
+- Jacob Heruty
 
 - Ken ($5)
-- Bryson Thill ($5)
-- Rogério Queiroz ($3)
 - Oliver ($5)
+- Mahesh Narayanamurthi ($5)
+- Rogério Queiroz ($3)
+- Joe L Wroten ($1)
+- Yasuhiro Kawagoe ($1)
 
 ---
 
@@ -69,5 +71,6 @@ It could be you!
 - Musicformellons $100
 - Kyle Tippetts $100
 - Gerard Eviston $50
+- Jacob Heruty $50
 - Mickaël Le Normand $15
 - Tommy Carlsson $10
