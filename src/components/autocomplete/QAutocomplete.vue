@@ -10,7 +10,7 @@
     <div class="list no-border" :class="{separator: separator}" :style="computedWidth">
       <q-item-wrapper
         v-for="(result, index) in computedResults"
-        :key="result"
+        :key="result.id || JSON.stringify(result)"
         :cfg="result"
         link
         :class="{active: selectedIndex === index}"
