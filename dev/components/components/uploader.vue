@@ -14,6 +14,7 @@
         float-label="Upload files"
         multiple
         :url="url"
+        ref="upld"
         @start="emit('start')"
         @finish="emit('finish')"
         @uploaded="uploaded"
@@ -22,6 +23,8 @@
         @remove:abort="removeAbort"
         @remove:cancel="removeCancel"
       />
+
+      <q-btn color="primary" @click="reset" style="margin-top: 15px">Reset the above Uploader</q-btn>
 
       <p class="caption">Single File Upload - No Upload Button</p>
       <q-uploader style="max-width: 320px" hide-upload-button color="amber" stack-label="Stack Label" :url="url" />
@@ -107,6 +110,10 @@ export default {
     },
     removeDone (file) {
       this.events.push(`remove:done ${file.name}`)
+    },
+
+    reset () {
+      this.$refs.upld.reset()
     }
   }
 }

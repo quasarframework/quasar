@@ -362,6 +362,13 @@ export default {
     },
     abort () {
       this.xhrs.forEach(xhr => { xhr.abort() })
+    },
+    reset () {
+      this.abort()
+      this.files = []
+      this.queue = []
+      this.__computeTotalSize()
+      this.$emit('reset')
     }
   }
 }
