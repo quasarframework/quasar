@@ -240,13 +240,13 @@ export default {
   },
   computed: {
     leftOverBreakpoint () {
-      return !this.leftState.openedSmall && this.layout.w >= this.leftBreakpoint
+      return !this.leftState.openedSmall && this.leftBreakpoint !== 0 && this.layout.w >= this.leftBreakpoint
     },
     leftOnLayout () {
       return this.leftOverBreakpoint && this.leftState.openedBig
     },
     rightOverBreakpoint () {
-      return !this.rightState.openedSmall && this.layout.w >= this.rightBreakpoint
+      return !this.rightState.openedSmall && this.rightBreakPoint !== 0 && this.layout.w >= this.rightBreakpoint
     },
     rightOnLayout () {
       return this.rightOverBreakpoint && this.rightState.openedBig
