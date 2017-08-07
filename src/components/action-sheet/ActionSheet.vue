@@ -15,7 +15,7 @@
           <div v-if="gallery" class="q-action-sheet-gallery row wrap flex-center">
             <div
               v-for="button in actions"
-              :key="button"
+              :key="JSON.stringify(button)"
               class="cursor-pointer relative-position column inline flex-center"
               @click="close(button.handler)"
               @keydown.enter="close(button.handler)"
@@ -32,7 +32,7 @@
           <q-list link v-else class="no-border">
             <q-item
               v-for="button in actions"
-              :key="button"
+              :key="JSON.stringify(button)"
               @click="close(button.handler)"
               @keydown.enter="close(button.handler)"
               tabindex="0"
@@ -70,7 +70,7 @@
         <div v-if="gallery" class="q-action-sheet-gallery row wrap flex-center">
           <div
             v-for="button in actions"
-            :key="button"
+            :key="JSON.stringify(button)"
             class="cursor-pointer relative-position column inline flex-center"
             @click="close(button.handler)"
             @keydown.enter="close(button.handler)"
@@ -87,7 +87,7 @@
         <q-list link v-else class="no-border">
           <q-item
             v-for="button in actions"
-            :key="button"
+            :key="JSON.stringify(button)"
             @click="close(button.handler)"
             @keydown.enter="close(button.handler)"
             :class="button.classes"

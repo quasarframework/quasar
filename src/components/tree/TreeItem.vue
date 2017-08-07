@@ -12,7 +12,7 @@
     </div>
     <q-slide-transition>
       <ul v-show="isExpandable && model.expanded">
-        <q-tree-item v-for="item in model.children" :key="item" :model="item" :contract-html="contractHtml" :expand-html="expandHtml"></q-tree-item>
+        <q-tree-item v-for="item in model.children" :key="JSON.stringify(item)" :model="item" :contract-html="contractHtml" :expand-html="expandHtml"></q-tree-item>
       </ul>
     </q-slide-transition>
   </li>
