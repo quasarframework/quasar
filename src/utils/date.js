@@ -7,7 +7,7 @@ const
   MILLISECONDS_IN_DAY = 86400000,
   MILLISECONDS_IN_HOUR = 3600000,
   MILLISECONDS_IN_MINUTE = 60000,
-  token = /d{1,4}|M{1,4}|m{1,2}|w{1,2}|D{1,4}|YY(?:YY)?|H{1,2}|h{1,2}|s{1,2}|S{1,3}|Z{1,2}|[QExX]'/g
+  token = /d{1,4}|M{1,4}|m{1,2}|w{1,2}|D{1,4}|YY(?:YY)?|H{1,2}|h{1,2}|s{1,2}|S{1,3}|Z{1,2}|a{1,2}|[AQExX]/g
 
 export const dayNames = [
   'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
@@ -428,6 +428,21 @@ export const formatter = {
   // Millisecond: 000, 001, ..., 999
   SSS (date) {
     return pad(date.getMilliseconds(), 3)
+  },
+
+  // Meridiem: AM, PM
+  A (date) {
+    return this.H(date) < 12 ? 'AM' : 'PM'
+  },
+
+  // Meridiem: am, pm
+  a (date) {
+    return this.H(date) < 12 ? 'am' : 'pm'
+  },
+
+  // Meridiem: a.m., p.m
+  aa (date) {
+    return this.H(date) < 12 ? 'a.m.' : 'p.m.'
   },
 
   // Timezone: -01:00, +00:00, ... +12:00
