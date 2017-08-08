@@ -55,6 +55,7 @@ export let mixin = {
     labelAlways: Boolean,
     square: Boolean,
     color: String,
+    fillHandleAlways: Boolean,
     error: Boolean,
     disable: Boolean
   },

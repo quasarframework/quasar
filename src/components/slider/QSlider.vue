@@ -21,7 +21,7 @@
       <div
         class="q-slider-handle"
         :style="{left: percentage, borderRadius: square ? '0' : '50%'}"
-        :class="{dragging: dragging, 'handle-at-minimum': value === min}"
+        :class="{dragging: dragging, 'handle-at-minimum': !fillHandleAlways && value === min}"
       >
         <q-chip
           pointing="down"
