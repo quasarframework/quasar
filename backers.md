@@ -38,6 +38,7 @@ It could be you!
 
 ### $10+
 
+- Max Matteo Staack ($40)
 - Valerian Cure ($25)
 - Maarten Berkenbosch
 - Marek Urbanowicz
@@ -46,7 +47,6 @@ It could be you!
 - Borris Barroso
 - Josh Bodine
 - William Marques Vicente Gomes Correa
-- Max Matteo Staack ($35)
 - Samuel Desconsi
 - Jonas Viczian ($15)
 - John (JCharante)
