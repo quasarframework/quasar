@@ -32,6 +32,20 @@
           <q-item-main :label="dialog.label" />
           <q-item-side right icon="keyboard_arrow_right" />
         </q-item>
+        <q-item-separator />
+        <q-list-header>Appear from Edges</q-list-header>
+        <q-item
+          link
+          v-for="position in ['top', 'bottom', 'left', 'right']"
+          :key="position"
+          :position="position"
+          @click="showFromEdge(position)"
+          v-ripple.mat
+        >
+          <q-item-side icon="open_with" />
+          <q-item-main :label="`Dialog from ${position}`" />
+          <q-item-side right icon="keyboard_arrow_right" />
+        </q-item>
       </q-list>
 
       <p class="caption">Form components can be combined and named however you wish. Check source code.</p>
@@ -43,6 +57,15 @@
 import { Dialog, Toast } from 'quasar'
 
 export default {
+  methods: {
+    showFromEdge (position) {
+      Dialog.create({
+        title: 'Positioned',
+        message: `This dialog appears from ${position}.`,
+        position
+      })
+    }
+  },
   data () {
     return {
       types: [

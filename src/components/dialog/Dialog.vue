@@ -5,6 +5,7 @@
     @close="__dismiss()"
     :no-backdrop-dismiss="noBackdropDismiss"
     :no-esc-dismiss="noEscDismiss"
+    :position="position"
   >
     <div v-if="title" class="modal-header" v-html="title"></div>
     <div v-if="message" class="modal-body modal-scroll" v-html="message"></div>
@@ -137,7 +138,8 @@ export default {
     progress: Object,
     onDismiss: Function,
     noBackdropDismiss: Boolean,
-    noEscDismiss: Boolean
+    noEscDismiss: Boolean,
+    position: String
   },
   computed: {
     opened () {
