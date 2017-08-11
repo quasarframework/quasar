@@ -107,6 +107,7 @@
               flat
               :color="color"
               @click="setMonth(month - 1, true)"
+              :disabled="beforeMinDays"
             >
               <q-icon name="keyboard_arrow_left"></q-icon>
             </q-btn>
@@ -119,6 +120,7 @@
               flat
               :color="color"
               @click="setMonth(month + 1, true)"
+              :disabled="afterMaxDays"
             >
               <q-icon name="keyboard_arrow_right"></q-icon>
             </q-btn>
@@ -139,7 +141,7 @@
             >
               <span>{{ monthDay }}</span>
             </div>
-            <div v-if="max" v-for="fillerDay in aferMaxDays" class="row items-center content-center justify-center disabled">
+            <div v-if="max" v-for="fillerDay in afterMaxDays" class="row items-center content-center justify-center disabled">
               {{ fillerDay + maxDay }}
             </div>
           </div>
@@ -337,7 +339,7 @@ export default {
       }
       return this.pmin.getDate() - 1
     },
-    aferMaxDays () {
+    afterMaxDays () {
       if (this.pmax === null || !isSameDate(this.pmax, this.model, 'month')) {
         return false
       }
@@ -347,7 +349,7 @@ export default {
       return this.pmax !== null ? this.pmax.getDate() : this.daysInMonth
     },
     daysInterval () {
-      let after = this.pmax === null || this.afterMaxDays === false ? 0 : this.aferMaxDays
+      let after = this.pmax === null || this.afterMaxDays === false ? 0 : this.afterMaxDays
       if (this.beforeMinDays || after) {
         let min = this.beforeMinDays ? this.beforeMinDays + 1 : 1
         return Array.apply(null, {length: this.daysInMonth - min - after + 1}).map((day, index) => {
