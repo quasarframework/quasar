@@ -61,17 +61,18 @@
       @open="__onFocus"
       @close="__onClose"
     >
-      <q-search
-        v-if="filter"
-        v-model="terms"
-        @input="reposition"
-        :placeholder="filterPlaceholder"
-        :debounce="100"
-        :color="color"
-        icon="filter_list"
-        class="no-margin"
-        style="min-height: 50px; padding: 10px;"
-      ></q-search>
+      <q-field class="no-margin" style="min-height: 50px;">
+        <q-search
+          v-if="filter"
+          v-model="terms"
+          @input="reposition"
+          :placeholder="filterPlaceholder"
+          :debounce="100"
+          :color="color"
+          icon="filter_list"
+          style="min-height: 50px; padding: 10px;"
+        ></q-search>
+      </q-field>
 
       <q-list
         link
@@ -124,6 +125,7 @@
 </template>
 
 <script>
+import { QField } from '../field'
 import { QSearch } from '../search'
 import { QPopover } from '../popover'
 import { QList, QItemWrapper } from '../list'
@@ -141,6 +143,7 @@ export default {
   name: 'q-select',
   mixins: [SelectMixin],
   components: {
+    QField,
     QSearch,
     QPopover,
     QList,
