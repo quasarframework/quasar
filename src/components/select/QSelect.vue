@@ -61,18 +61,17 @@
       @open="__onFocus"
       @close="__onClose"
     >
-      <q-field class="no-margin" style="min-height: 50px;">
-        <q-search
-          v-if="filter"
-          v-model="terms"
-          @input="reposition"
-          :placeholder="filterPlaceholder"
-          :debounce="100"
-          :color="color"
-          icon="filter_list"
-          style="min-height: 50px; padding: 10px;"
-        ></q-search>
-      </q-field>
+      <q-search
+        v-if="filter"
+        v-model="terms"
+        @input="reposition"
+        :placeholder="filterPlaceholder"
+        :debounce="100"
+        :color="color"
+        icon="filter_list"
+        class="no-margin"
+        style="min-height: 50px; padding: 10px;"
+      ></q-search>
 
       <q-list
         link
@@ -189,6 +188,11 @@ export default {
       return this.multiple
         ? `.q-item-side > ${this.toggle ? '.q-toggle' : '.q-checkbox'} > .active`
         : `.q-item.active`
+    }
+  },
+  provide () {
+    return {
+      __field: undefined
     }
   },
   methods: {
