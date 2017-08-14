@@ -56,7 +56,7 @@ export default {
     },
     checkIfSelected () {
       this.$nextTick(() => {
-        if (this.$el.classList.contains('router-link-active')) {
+        if (this.$el.classList.contains('router-link-active') || this.$el.classList.contains('router-link-exact-active')) {
           this.selectTab(this.name)
         }
       })
