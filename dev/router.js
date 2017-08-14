@@ -6,13 +6,13 @@ import pages from './pages'
 Vue.use(VueRouter)
 
 function load (component) {
-  return () => System.import(`./components/${component}.vue`)
+  return () => import(`./components/${component}.vue`)
 }
 
 function component (path) {
   return {
     path: '/' + path.slice(0, path.length - 4),
-    component: () => System.import(`./components/${path}`)
+    component: () => import(`./components/${path}`)
   }
 }
 

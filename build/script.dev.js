@@ -58,7 +58,7 @@ app.use(express.static(env.platform.cordovaAssets))
 module.exports = app.listen(port, function (err) {
   if (err) {
     console.log(err)
-    return
+    process.exit(1)
   }
 
   devMiddleware.waitUntilValid(function () {

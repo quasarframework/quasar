@@ -23,9 +23,9 @@ if (!type || type === 'simple') {
 
 console.log(' Building...\n')
 
-if (!type || type === 'js' || type === 'simple') {
+if (!type || type === 'js') {
   require('./script.build.javascript')
 }
-if (!type || type === 'css' || type === 'simple') {
+if (!type || type === 'css') {
   require('./script.build.stylus')
 }

@@ -199,29 +199,28 @@ export default {
       let files = Array.prototype.slice.call(e.target.files)
       this.$refs.file.value = ''
 
-      files = files
-      .filter(file => !this.queue.some(f => file.name === f.name))
-      .map(file => {
-        initFile(file)
-        file.__size = humanStorageSize(file.size)
+      files = files.filter(file => !this.queue.some(f => file.name === f.name))
+        .map(file => {
+          initFile(file)
+          file.__size = humanStorageSize(file.size)
 
-        if (this.noThumbnails || !file.type.startsWith('image')) {
-          this.queue.push(file)
-        }
-        else {
-          const reader = new FileReader()
-          reader.onload = (e) => {
-            let img = new Image()
-            img.src = e.target.result
-            file.__img = img
+          if (this.noThumbnails || !file.type.startsWith('image')) {
             this.queue.push(file)
-            this.__computeTotalSize()
           }
-          reader.readAsDataURL(file)
-        }
+          else {
+            const reader = new FileReader()
+            reader.onload = (e) => {
+              let img = new Image()
+              img.src = e.target.result
+              file.__img = img
+              this.queue.push(file)
+              this.__computeTotalSize()
+            }
+            reader.readAsDataURL(file)
+          }
 
-        return file
-      })
+          return file
+        })
 
       this.files = this.files.concat(files)
       this.$emit('add', files)
@@ -354,11 +353,10 @@ export default {
         }
       }
 
-      this.queue
-      .map(file => this.__getUploadPromise(file))
-      .forEach(promise => {
-        promise.then(solved).catch(solved)
-      })
+      this.queue.map(file => this.__getUploadPromise(file))
+        .forEach(promise => {
+          promise.then(solved).catch(solved)
+        })
     },
     abort () {
       this.xhrs.forEach(xhr => { xhr.abort() })
