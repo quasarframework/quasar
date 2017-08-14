@@ -42,6 +42,7 @@ export default {
   methods: {
     select () {
       if (!this.disable) {
+        this.$emit('click', this.name)
         this.selectTab(this.name)
       }
     }
