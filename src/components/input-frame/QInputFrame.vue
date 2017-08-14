@@ -101,14 +101,12 @@ export default {
       }]
 
       const color = this.hasError ? 'negative' : this.color
-      if (color) {
-        if (this.inverted) {
-          cls.push(`bg-${color}`)
-          cls.push(`text-white`)
-        }
-        else {
-          cls.push(`text-${color}`)
-        }
+      if (this.inverted) {
+        cls.push(`bg-${color}`)
+        cls.push(`text-white`)
+      }
+      else {
+        cls.push(`text-${color}`)
       }
       return cls
     },
