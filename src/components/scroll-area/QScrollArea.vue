@@ -42,6 +42,7 @@
 import extend from '../../utils/extend'
 import { between } from '../../utils/format'
 import { getMouseWheelDistance } from '../../utils/event'
+import { setScrollPosition } from '../../utils/scroll'
 import { QResizeObservable, QScrollObservable } from '../observables'
 import TouchPan from '../../directives/touch-pan'
 
@@ -104,6 +105,9 @@ export default {
     }
   },
   methods: {
+    setScrollPosition (offset, duration) {
+      setScrollPosition(this.$refs.target, offset, duration)
+    },
     __updateContainer (size) {
       if (this.containerHeight !== size.height) {
         this.containerHeight = size.height
