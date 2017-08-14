@@ -48,8 +48,8 @@ export default {
   },
   methods: {
     select () {
+      this.$emit('click', this.name)
       if (!this.disable) {
-        this.$emit('click', this.name)
         this.$el.dispatchEvent(routerLinkEvent)
         this.selectTab(this.name)
       }
