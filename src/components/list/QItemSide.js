@@ -29,7 +29,7 @@ export default {
       prop = ctx.props,
       cls = data.staticClass
 
-    data.staticClass = `q-item-side q-item-section${prop.color ? ` text-${prop.color}` : ''}${prop.right ? ' q-item-side-right' : ''}${cls ? ` ${cls}` : ''}`
+    data.staticClass = `q-item-side q-item-side-${prop.right ? 'right' : 'left'} q-item-section${prop.color ? ` text-${prop.color}` : ''}${cls ? ` ${cls}` : ''}`
 
     if (prop.image) {
       if (!data.hasOwnProperty('attrs')) {
