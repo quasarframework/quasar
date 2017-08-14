@@ -124,6 +124,7 @@
 </template>
 
 <script>
+import { QField } from '../field'
 import { QSearch } from '../search'
 import { QPopover } from '../popover'
 import { QList, QItemWrapper } from '../list'
@@ -141,6 +142,7 @@ export default {
   name: 'q-select',
   mixins: [SelectMixin],
   components: {
+    QField,
     QSearch,
     QPopover,
     QList,
