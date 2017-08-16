@@ -272,6 +272,31 @@
           <q-input class="col" v-model="model" stack-label="Stacked $ Label" suffix="#" prefix="@" :inline-count="10"/>
         </div>
       </q-field>
+
+      <q-field icon="cloud">
+        <q-select filter v-model="select" :options="selectListOptions" stack-label="Stack label with filter"></q-select>
+      </q-field>
+      <q-field icon="cloud">
+        <q-select filter inverted v-model="select" :options="selectListOptions" stack-label="Stack label with filter"></q-select>
+      </q-field>
+      <q-field icon="cloud">
+        <q-select filter v-model="select" :options="selectListOptions" float-label="Float label with filter"></q-select>
+      </q-field>
+      <q-field icon="cloud">
+        <q-select filter inverted v-model="select" :options="selectListOptions" float-label="Float label with filter"></q-select>
+      </q-field>
+      <q-field icon="cloud">
+        <q-select v-model="select" :options="selectListOptions" stack-label="Stack label without filter"></q-select>
+      </q-field>
+      <q-field icon="cloud">
+        <q-select inverted v-model="select" :options="selectListOptions" stack-label="Stack label without filter"></q-select>
+      </q-field>
+      <q-field icon="cloud">
+        <q-select v-model="select" :options="selectListOptions" float-label="Float label without filter"></q-select>
+      </q-field>
+      <q-field icon="cloud">
+        <q-select inverted v-model="select" :options="selectListOptions" float-label="Float label without filter"></q-select>
+      </q-field>
     </div>
     <label class="fixed-bottom-right">
       <q-checkbox v-model="error" />
@@ -293,7 +318,40 @@ export default {
       nullModel: null,
       knob: 10,
       knobMin: 0,
-      knobMax: 30
+      knobMax: 30,
+      select: undefined,
+      selectListOptions: [
+        {
+          label: 'Google',
+          icon: 'email',
+          value: 'goog'
+        },
+        {
+          label: 'Facebook',
+          inset: true,
+          description: 'Enables communication',
+          value: 'fb'
+        },
+        {
+          label: 'Twitter',
+          inset: true,
+          rightIcon: 'alarm',
+          value: 'twtr'
+        },
+        {
+          label: 'Apple Inc.',
+          inset: true,
+          stamp: '10 min',
+          value: 'appl'
+        },
+        {
+          label: 'Oracle',
+          description: 'Some Java for today?',
+          icon: 'mail',
+          rightIcon: 'alarm',
+          value: 'ora'
+        }
+      ]
     }
   }
 }
