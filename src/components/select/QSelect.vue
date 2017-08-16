@@ -61,7 +61,7 @@
       @open="__onFocus"
       @close="__onClose"
     >
-      <q-field-reset class="no-margin" style="min-height: 50px;">
+      <q-field-reset>
         <q-search
           v-if="filter"
           v-model="terms"
@@ -70,6 +70,7 @@
           :debounce="100"
           :color="color"
           icon="filter_list"
+          class="no-margin"
           style="min-height: 50px; padding: 10px;"
         ></q-search>
       </q-field-reset>
