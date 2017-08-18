@@ -1,6 +1,6 @@
 <template>
   <div
-    class="q-chip row inline items-center"
+    class="q-chip row no-wrap inline items-center"
     :class="{
       tag: tag,
       square: square,
@@ -22,7 +22,11 @@
       <img v-else-if="avatar" :src="avatar" />
     </div>
 
-    <slot></slot>
+    <div
+      class="q-chip-main"
+    >
+      <slot></slot>
+    </div>
 
     <q-icon v-if="iconRight" :name="iconRight" class="on-right"></q-icon>
 
