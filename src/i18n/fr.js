@@ -1,7 +1,7 @@
 export const i18n = {
-  dayNames: 'dimanche_lundi_mardi_mercredi_jeudi_vendredi_samedi'.split('_'),
-  monthNames: 'janvier_février_mars_avril_mai_juin_juillet_août_septembre_octobre_novembre_décembre'.split('_'),
-  clearLabel: 'Clair',
+  dayNames: 'Dimanche_Lundi_Mardi_Mercredi_Jeudi_Vendredi_Samedi'.split('_'),
+  monthNames: 'Janvier_Février_Mars_Avril_Mai_Juin_Juillet_Août_Septembre_Octobre_Novembre_Décembre'.split('_'),
+  clearLabel: 'Effacer',
   okLabel: 'Ensemble',
   cancelLabel: 'Annuler',
   selectLabel: 'Sélectionner',
@@ -13,10 +13,10 @@ export const i18n = {
       singular: 'élément sélectionné.',
       plural: 'éléments sélectionnés.'
     },
-    clear: 'Clair',
+    clear: 'Effacer',
     search: 'Rechercher',
     all: 'Tout',
     noDataAfterFiltering: '<i class="material-icons">warning</i> Aucun résultat. Veuillez affiner les termes de votre recherche.',
-    noData: '<i class="material-icons">warning</i> Aucune donnée disponible pour montrer.'
+    noData: '<i class="material-icons">warning</i> Aucune donnée à afficher.'
   }
 }
