@@ -465,7 +465,7 @@ export const formatter = {
     return date.getTime()
   },
 
-  // Date suffix
+  // Date suffix (1st, 2nd, 3rd, etc.)
   '^': (date) => {
     console.log(pad(date.getDate()).toString().split(''))
     const [ d1, d2 ] = pad(date.getDate()).toString().split('')
