@@ -7,7 +7,7 @@ const
   MILLISECONDS_IN_DAY = 86400000,
   MILLISECONDS_IN_HOUR = 3600000,
   MILLISECONDS_IN_MINUTE = 60000,
-  token = /d{1,4}|M{1,4}|m{1,2}|w{1,2}|D{1,4}|YY(?:YY)?|H{1,2}|h{1,2}|s{1,2}|S{1,3}|Z{1,2}|a{1,2}|[AQExX]/g
+  token = /d{1,4}|M{1,4}|m{1,2}|w{1,2}|D{1,4}|YY(?:YY)?|H{1,2}|h{1,2}|s{1,2}|S{1,3}|Z{1,2}|a{1,2}|[AQExX^]/g
 
 export const dayNames = [
   'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
@@ -463,7 +463,30 @@ export const formatter = {
   // Milliseconds timestamp: 512969520900
   x (date) {
     return date.getTime()
+  },
+
+  // Date suffix
+  '^': (date) => {
+    console.log(pad(date.getDate()).toString().split(''))
+    const [ d1, d2 ] = pad(date.getDate()).toString().split('')
+    console.log(d1, d2)
+    if (d1 === '1') {
+      return 'ᵗʰ'
+    }
+    else {
+      switch (d2) {
+        case '1':
+          return 'ˢᵗ'
+        case '2':
+          return 'ⁿᵈ'
+        case '3':
+          return 'ʳᵈ'
+        default:
+          return 'ᵗʰ'
+      }
+    }
   }
+
 }
 
 export function formatDate (val, mask = 'YYYY-MM-DDTHH:mm:ss.SSSZ', opts) {
