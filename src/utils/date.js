@@ -467,9 +467,7 @@ export const formatter = {
 
   // Date suffix (1st, 2nd, 3rd, etc.)
   '^': (date) => {
-    console.log(pad(date.getDate()).toString().split(''))
     const [ d1, d2 ] = pad(date.getDate()).toString().split('')
-    console.log(d1, d2)
     if (d1 === '1') {
       return 'ᵗʰ'
     }
