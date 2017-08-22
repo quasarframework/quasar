@@ -3,6 +3,7 @@ import { installEvents } from './features/events'
 import { current as theme } from './features/theme'
 import { version } from '../package.json'
 import { setVue } from './deps'
+import { i18n } from './i18n/en'
 
 export default function (_Vue, opts = {}) {
   if (this.installed) {
@@ -25,6 +26,13 @@ export default function (_Vue, opts = {}) {
       let c = opts.components[key]
       if (c.name !== undefined && c.name.startsWith('q-')) {
         _Vue.component(c.name, c)
+      }
+    })
+  }
+  if (opts.i18n) {
+    Object.keys(i18n).forEach(function (key) {
+      if (opts.i18n[key] !== undefined) {
+        i18n[key] = opts.i18n[key]
       }
     })
   }

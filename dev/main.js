@@ -22,9 +22,12 @@ import 'quasar-extras/ionicons'
 import 'quasar-extras/fontawesome'
 import 'quasar-extras/animate'
 
+import {i18n as ptBR} from '../src/i18n/pt-BR'
+
 Vue.use(Quasar, {
   components: Everything,
-  directives: Everything
+  directives: Everything,
+  i18n: ptBR
 })
 
 Quasar.start(() => {

@@ -2,21 +2,13 @@
 
 import { isDate } from './is'
 import { pad, capitalize } from './format'
+import { i18n } from '../i18n/en'
 
 const
   MILLISECONDS_IN_DAY = 86400000,
   MILLISECONDS_IN_HOUR = 3600000,
   MILLISECONDS_IN_MINUTE = 60000,
   token = /d{1,4}|M{1,4}|m{1,2}|w{1,2}|D{1,4}|YY(?:YY)?|H{1,2}|h{1,2}|s{1,2}|S{1,3}|Z{1,2}|a{1,2}|[AQExX]/g
-
-export const dayNames = [
-  'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
-]
-
-export const monthNames = [
-  'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December'
-]
 
 function formatTimezone (offset, delimeter = '') {
   const
@@ -305,7 +297,7 @@ export const formatter = {
 
   // Month Name: January, February, ...
   MMMM (date, opts = {}) {
-    return (opts.monthNames || monthNames)[date.getMonth()]
+    return (opts.monthNames || i18n.monthNames)[date.getMonth()]
   },
 
   // Quarter: 1, 2, 3, 4
@@ -350,7 +342,7 @@ export const formatter = {
 
   // Day of week: Sunday, Monday, ...
   dddd (date, opts = {}) {
-    return (opts.dayNames || dayNames)[date.getDay()]
+    return (opts.dayNames || i18n.dayNames)[date.getDay()]
   },
 
   // Day of ISO week: 1, 2, ..., 7

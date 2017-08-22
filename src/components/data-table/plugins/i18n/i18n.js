@@ -1,25 +1,13 @@
 import extend from '../../../../utils/extend'
-
-const labels = {
-  columns: 'Columns',
-  allCols: 'All Columns',
-  rows: 'Rows',
-  selected: {
-    singular: 'item selected.',
-    plural: 'items selected.'
-  },
-  clear: 'Clear',
-  search: 'Search',
-  all: 'All'
-}
+import { i18n } from '../../../../i18n/en'
 
 export default {
   computed: {
     labels () {
       if (this.config && this.config.labels) {
-        return extend({}, labels, this.config.labels)
+        return extend({}, i18n.dataTable, this.config.labels)
       }
-      return labels
+      return i18n.dataTable
     },
     message () {
       if (this.rows.length) {
@@ -27,10 +15,10 @@ export default {
       }
 
       if (this.filtering.terms) {
-        return (this.config.messages && this.config.messages.noDataAfterFiltering) || '<i class="material-icons">warning</i> No results. Please refine your search terms.'
+        return (this.config.messages && this.config.messages.noDataAfterFiltering) || i18n.dataTable.noDataAfterFiltering
       }
 
-      return (this.config.messages && this.config.messages.noData) || '<i class="material-icons">warning</i> No data available to show.'
+      return (this.config.messages && this.config.messages.noData) || i18n.dataTable.noData
     }
   }
 }
