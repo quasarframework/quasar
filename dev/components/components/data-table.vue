@@ -155,18 +155,6 @@ export default {
         messages: {
           noData: '<i class="material-icons">warning</i> No data available to show.',
           noDataAfterFiltering: '<i class="material-icons">warning</i> No results. Please refine your search terms.'
-        },
-        labels: {
-          columns: 'Coluuuuumns',
-          allCols: 'Eeeeeeeeevery Cols',
-          rows: 'Rooows',
-          selected: {
-            singular: 'item selecteeed.',
-            plural: 'items selecteeed.'
-          },
-          clear: 'cleeeear',
-          search: 'Seaaaarch',
-          all: 'AAAll'
         }
       },
       columns: [

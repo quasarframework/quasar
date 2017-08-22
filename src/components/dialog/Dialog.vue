@@ -98,7 +98,9 @@
       </q-btn>
     </div>
     <div class="modal-buttons row" v-if="!buttons && !noButtons">
-      <q-btn flat @click="close()">OK</q-btn>
+      <q-btn flat @click="close()">
+        {{ $q.i18n.okLabel }}
+      </q-btn>
     </div>
   </q-modal>
 </template>

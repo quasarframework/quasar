@@ -1,4 +1,3 @@
-import { i18n } from '../../i18n/en'
 import { isDate } from '../../utils/is'
 
 export const modelValidator = v => {
@@ -36,11 +35,11 @@ export const inline = {
   },
   monthNames: {
     type: Array,
-    default: () => i18n.monthNames
+    default () { return this.$q.i18n.monthNames }
   },
   dayNames: {
     type: Array,
-    default: () => i18n.dayNames
+    default () { return this.$q.i18n.dayNames }
   },
   mondayFirst: Boolean,
   saturdayFirst: Boolean,
@@ -53,14 +52,14 @@ export const input = {
   placeholder: String,
   clearLabel: {
     type: String,
-    default: () => i18n.clearLabel
+    default () { return this.$q.i18n.clearLabel }
   },
   okLabel: {
     type: String,
-    default: () => i18n.okLabel
+    default () { return this.$q.i18n.okLabel }
   },
   cancelLabel: {
     type: String,
-    default: () => i18n.cancelLabel
+    default () { return this.$q.i18n.cancelLabel }
   }
 }

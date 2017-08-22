@@ -2,7 +2,7 @@
 
 import { isDate } from './is'
 import { pad, capitalize } from './format'
-import { i18n } from '../i18n/en'
+import i18n from '../../i18n/en'
 
 const
   MILLISECONDS_IN_DAY = 86400000,

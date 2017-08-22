@@ -1,4 +1,4 @@
-export const i18n = {
+export default {
   dayNames: 'Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday'.split('_'),
   monthNames: 'January_February_March_April_May_June_July_August_September_October_November_December'.split('_'),
   clearLabel: 'Clear',

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <q-btn @click="changeLang">Change Lang</q-btn>
     <div class="layout-padding">
       <p class="caption">
         <span class="desktop-only">
@@ -173,7 +174,8 @@
 </template>
 
 <script>
-import { date } from 'quasar'
+import Quasar, { date } from 'quasar'
+import ptBR from 'quasar/i18n/pt-BR'
 
 const day = '2016-10-24T10:40:14.674Z'
 
@@ -196,6 +198,9 @@ export default {
   methods: {
     onChange (val) {
       console.log('@change', val)
+    },
+    changeLang () {
+      Quasar.i18n.set(ptBR)
     }
   }
 }

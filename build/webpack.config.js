@@ -30,6 +30,7 @@ module.exports = {
       'node_modules'
     ],
     alias: {
+      'quasar/i18n': path.resolve(__dirname, '../i18n'),
       quasar: path.resolve(__dirname, '../src/index.esm'),
       assets: path.resolve(__dirname, '../dev/assets'),
       components: path.resolve(__dirname, '../dev/components'),

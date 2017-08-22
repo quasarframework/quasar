@@ -2,6 +2,7 @@ import install from './install'
 import start from './start'
 import * as theme from './features/theme'
 import { version } from '../package.json'
+import * as i18n from './features/i18n'
 
 export * from './components'
 export * from './directives'
@@ -13,5 +14,6 @@ export default {
   version,
   install,
   start,
-  theme
+  theme,
+  i18n
 }
