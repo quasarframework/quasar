@@ -57,7 +57,6 @@
 import clone from '../../utils/clone'
 import Dialog from '../dialog'
 import SelectMixin from './select-mixin'
-import { i18n } from '../../i18n/en'
 
 export default {
   name: 'q-dialog-select',
@@ -65,15 +64,15 @@ export default {
   props: {
     okLabel: {
       type: String,
-      default: () => i18n.okLabel
+      default: 'OK'
     },
     cancelLabel: {
       type: String,
-      default: () => i18n.cancelLabel
+      default: 'Cancel'
     },
     title: {
       type: String,
-      default: () => i18n.selectLabel
+      default: 'Select'
     },
     message: String
   },
