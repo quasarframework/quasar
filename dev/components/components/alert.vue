@@ -96,7 +96,7 @@ export default {
         leave: 'bounceOutRight',
         color: 'warning',
         icon: 'wifi',
-        html: `A text with your alert's awesome message`,
+        html: `A text with your alert's<br><strong>awesome</strong> message`,
         position: 'top-right',
         actions: [
           {

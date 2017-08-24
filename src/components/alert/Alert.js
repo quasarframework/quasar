@@ -36,7 +36,13 @@ function create (opts) {
           on,
           props: state
         },
-        opts.html
+        [
+          h('span', {
+            domProps: {
+              innerHTML: opts.html
+            }
+          })
+        ]
       )
     }
   })
