@@ -33,12 +33,12 @@ It could be you!
 - Colin Mollenhour
 - ShipStream.io
 - Fabio Migliorini
+- Max Matteo Staack
 
 ---
 
 ### $10+
 
-- Max Matteo Staack ($40)
 - Valerian Cure ($25)
 - Maarten Berkenbosch
 - Marek Urbanowicz
@@ -55,6 +55,7 @@ It could be you!
 - Jacob Heruty
 - Scott Ward
 - Robin Schreiner
+- Simon Hedberg
 
 - Ken ($5)
 - Oliver ($5)
