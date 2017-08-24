@@ -20,7 +20,7 @@
       <p class="caption">
         Carousel with Arrows, Dots and Fullscreen controls.
       </p>
-      <q-carousel arrows dots fullscreen class="text-white">
+      <q-carousel arrows dots fullscreen class="text-white" handle-arrow-keys>
         <div slot="slide" class="bg-primary">
           <div>Slide 1</div>
           <div v-for="n in 12">Line {{(n+2)}}</div>

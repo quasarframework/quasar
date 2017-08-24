@@ -9,6 +9,7 @@
     actions
     :animation="animation"
     :autoplay="autoplay"
+    :handle-arrow-keys="handleArrowKeys"
     class="text-white bg-black q-gallery-carousel"
   >
     <div

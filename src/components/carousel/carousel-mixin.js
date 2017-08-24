@@ -9,6 +9,7 @@ export default {
       type: Boolean,
       default: true
     },
+    handleArrowKeys: Boolean,
     autoplay: [Number, Boolean]
   }
 }

@@ -54,6 +54,7 @@ import TouchPan from '../../directives/touch-pan'
 import { cssTransform } from '../../utils/dom'
 import { between, normalizeToInterval } from '../../utils/format'
 import { start, stop } from '../../utils/animate'
+import { getEventKey } from '../../utils/event'
 import CarouselMixin from './carousel-mixin'
 import { QIcon } from '../icon'
 
@@ -82,6 +83,9 @@ export default {
     },
     infinite () {
       this.__planAutoPlay()
+    },
+    handleArrowKeys (v) {
+      this.__setArrowKeys(v)
     }
   },
   computed: {
@@ -269,6 +273,20 @@ export default {
           )
         }
       })
+    },
+    __handleArrowKey (e) {
+      const key = getEventKey(e)
+
+      if (key === 37) { // left arrow key
+        this.previous()
+      }
+      else if (key === 39) { // right arrow key
+        this.next()
+      }
+    },
+    __setArrowKeys (/* boolean */ state) {
+      const op = `${state === true ? 'add' : 'remove'}EventListener`
+      document[op]('keydown', this.__handleArrowKey)
     }
   },
   beforeUpdate () {
@@ -284,10 +302,16 @@ export default {
       this.container = this.$el.parentNode
       this.slidesNumber = this.__getSlidesNumber()
       this.__planAutoPlay()
+      if (this.handleArrowKeys) {
+        this.__setArrowKeys(true)
+      }
     })
   },
   beforeDestroy () {
     this.__cleanup()
+    if (this.handleArrowKeys) {
+      this.__setArrowKeys(false)
+    }
   }
 }
 </script>

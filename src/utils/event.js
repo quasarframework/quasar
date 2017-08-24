@@ -15,6 +15,11 @@ export function rightClick (e) {
   return false
 }
 
+export function getEventKey (e) {
+  e = getEvent(e)
+  return e.which || e.keyCode
+}
+
 export function position (e) {
   let posx, posy
   e = getEvent(e)

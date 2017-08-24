@@ -5,7 +5,7 @@
       <q-gallery :src="gallery"></q-gallery>
 
       <p class="caption">Gallery Carousel</p>
-      <q-gallery-carousel :src="slider"></q-gallery-carousel>
+      <q-gallery-carousel handle-arrow-keys :src="slider"></q-gallery-carousel>
 
       <p class="caption">Gallery Carousel</p>
       <q-gallery-carousel :src="slider" horizontal-quick-view></q-gallery-carousel>
