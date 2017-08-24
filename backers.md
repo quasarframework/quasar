@@ -71,6 +71,7 @@ It could be you!
 - Jurgen Hollfelder 500 EUR
 - Robert Preston $250
 - Remo Laubacher $200
+- Max Matteo Staack 150 EUR
 - Musicformellons $100
 - Kyle Tippetts $100
 - Gerard Eviston $50
