@@ -1,7 +1,13 @@
 <template>
   <div
     class="q-collapsible q-item-division relative-position"
-    :class="{ 'q-item-separator': separator, 'q-item-inset-separator': insetSeparator }"
+    :class="[
+      `q-collapsible-${active ? 'opened' : 'closed'}`,
+      {
+        'q-item-separator': separator,
+        'q-item-inset-separator': insetSeparator
+      }
+    ]"
   >
     <q-item-wrapper :class="{disabled: disable}" :cfg="cfg" @click="__toggleItem" v-ripple.mat="!iconToggle && !disable">
       <div
