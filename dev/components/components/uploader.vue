@@ -73,6 +73,8 @@
       />
 
       <p class="caption"><big>With Firebase Storage</big></p>
+      <div class="text-bold warning" v-for="alert in missingFirebaseFiles" :key="alert" v-html="alert">
+      </div>
       <p class="caption">Multiple File Upload</p>
       <q-uploader
         style="max-width: 320px"
@@ -149,12 +151,20 @@
 </template>
 
 <script>
-import firebaseStorageConfig from 'data/firebase-storage.json'
-const firebase = require('firebase')
-console.log(firebaseStorageConfig)
-firebase.initializeApp(firebaseStorageConfig)
-const storage = firebase.storage()
-const storageRef = storage.ref('quasar-uploader-test')
+let firebase, firebaseStorageConfig, storageRef, missingFirebaseFiles = []
+try { firebaseStorageConfig = require('data/firebase-storage.json') }
+catch (e) {
+  missingFirebaseFiles.push('<b>Missing file data/firebase-storage.json.</b><br>Please copy firebase-storage-example.json as firebase-storage.json and fill it with your Firebase credentials.')
+}
+try { firebase = require('firebase') }
+catch (e) {
+  missingFirebaseFiles.push('<b>Missing firebase package</b><br>Please do npm install firebase')
+}
+if (firebase && firebaseStorageConfig) {
+  firebase.initializeApp(firebaseStorageConfig)
+  const storage = firebase.storage()
+  storageRef = storage.ref('quasar-uploader-test')
+}
 export default {
   data () {
     return {
@@ -164,7 +174,8 @@ export default {
       additionalFields: [
         { name: 'foo', value: 'bar' },
         { name: 'quasar', value: 'framework' }
-      ]
+      ],
+      missingFirebaseFiles
     }
   },
   methods: {
