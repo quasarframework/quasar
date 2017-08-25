@@ -1,6 +1,24 @@
 <template>
   <div>
     <div class="layout-padding">
+      <h3>With Firebase Storage</h3>
+      <p class="caption">Multiple File Upload</p>
+      <q-uploader
+        style="max-width: 320px"
+        float-label="Upload files"
+        multiple
+        :firebase-storage-ref="storageRef"
+        ref="upld"
+        @start="emit('start')"
+        @finish="emit('finish')"
+        @uploaded="uploaded"
+        @add="add"
+        @remove:done="removeDone"
+        @remove:abort="removeAbort"
+        @remove:cancel="removeCancel"
+      />
+
+      <h3>With URL</h3>
       <q-input v-model="url" />
       <p class="caption">Single File Upload</p>
       <q-uploader style="max-width: 320px" color="amber" stack-label="Stack Label" :url="url" />
@@ -82,11 +100,18 @@
 </template>
 
 <script>
+import firebaseStorageConfig from 'data/firebase-storage.json'
+const firebase = require('firebase')
+console.log(firebaseStorageConfig)
+firebase.initializeApp(firebaseStorageConfig)
+const storage = firebase.storage()
+const storageRef = storage.ref('quasar-uploader-test')
 export default {
   data () {
     return {
       url: 'http://1.1.1.195/upload.php',
-      events: []
+      events: [],
+      storageRef
     }
   },
   methods: {

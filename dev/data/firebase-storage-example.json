@@ -1,0 +1,5 @@
+{
+"apiKey":"your-api-key",
+"authDomain":"<your-project>.firebaseapp.com",
+"storageBucket":"<your-project>.appspot.com"
+}

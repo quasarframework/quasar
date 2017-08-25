@@ -135,9 +135,13 @@ export default {
       default: 'file'
     },
     headers: Object,
+    firebaseStorageRef: {
+      type: Object,
+      required: false
+    },
     url: {
       type: String,
-      required: true
+      required: false
     },
     urlFactory: {
       type: Function,
