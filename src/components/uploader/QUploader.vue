@@ -174,6 +174,7 @@ export default {
       uploadedSize: 0,
       totalSize: 0,
       xhrs: [],
+      firebaseStorageUploadTasks: [],
       focused: false
     }
   },
@@ -334,6 +335,34 @@ export default {
         })
       })
     },
+    __getFirebaseUploadPromise (file) {
+      const metadata = {}
+      this.additionalFields.forEach(field => {
+        metadata[field.name] = field.value
+      })
+      initFile(file)
+      const uploadTask = this.firebaseStorageRef.child(file.name).put(file, metadata)
+      // file.uploadTask = uploadTask
+      return new Promise((resolve, reject) => {
+        uploadTask.on('state_changed', snapshot => {
+          if (file.__removed) { return }
+          const uploaded = snapshot.bytesTransferred
+          this.uploadedSize += uploaded - file.__uploaded
+          file.__uploaded = uploaded
+          file.__progress = Math.min(99, parseInt((snapshot.bytesTransferred / snapshot.totalBytes) * 100, 10))
+        }, error => {
+          file.__failed = true
+          this.$emit('fail', file, uploadTask, error)
+          reject(uploadTask)
+        }, () => { // upload successful
+          file.__doneUploading = true
+          file.__progress = 100
+          this.$emit('uploaded', file, uploadTask)
+          resolve(file)
+        })
+        this.firebaseStorageUploadTasks.push(uploadTask)
+      })
+    },
     upload () {
       const length = this.length
       if (length === 0) {
@@ -344,6 +373,7 @@ export default {
       this.uploadedSize = 0
       this.uploading = true
       this.xhrs = []
+      this.firebaseStorageUploadTasks = []
       this.$emit('start')
 
       let solved = () => {
@@ -351,19 +381,29 @@ export default {
         if (filesDone === length) {
           this.uploading = false
           this.xhrs = []
+          this.firebaseStorageUploadTasks = []
           this.queue = this.queue.filter(f => !f.__doneUploading)
           this.__computeTotalSize()
           this.$emit('finish')
         }
       }
-
-      this.queue.map(file => this.__getUploadPromise(file))
-        .forEach(promise => {
-          promise.then(solved).catch(solved)
-        })
+      const { url, firebaseStorageRef } = this
+      if (url) {
+        this.queue.map(file => this.__getUploadPromise(file))
+          .forEach(promise => {
+            promise.then(solved).catch(solved)
+          })
+      }
+      else if (firebaseStorageRef) {
+        this.queue.map(file => this.__getFirebaseUploadPromise(file))
+          .forEach(promise => {
+            promise.then(solved).catch(solved)
+          })
+      }
     },
     abort () {
       this.xhrs.forEach(xhr => { xhr.abort() })
+      this.firebaseStorageUploadTasks.forEach(uploadTask => { uploadTask.cancel() })
     },
     reset () {
       this.abort()
