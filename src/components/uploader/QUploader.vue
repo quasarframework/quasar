@@ -210,7 +210,7 @@ export default {
       }
 
       let files = Array.prototype.slice.call(e.target.files)
-      
+
       // allow filtering the files
       if (typeof this.fileFilter === 'function') {
         files = files.filter(this.fileFilter)
