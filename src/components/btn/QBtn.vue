@@ -5,7 +5,7 @@
     class="q-btn row inline flex-center q-focusable q-hoverable relative-position"
     :class="classes"
   >
-    <div class="q-focus-helper"></div>
+    <div class="desktop-only q-focus-helper"></div>
     <div
       v-if="loading && hasPercentage"
       class="q-btn-progress absolute-full"
