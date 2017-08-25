@@ -85,7 +85,7 @@
         <q-item-side v-if="file.__img" :image="file.__img.src"></q-item-side>
         <q-item-side v-else icon="insert_drive_file" :color="color"></q-item-side>
 
-        <q-item-main :label="file.name" :sublabel="file.__size"></q-item-main>
+        <q-item-main :label="file.originalName || file.name" :sublabel="file.__size"></q-item-main>
 
         <q-item-side right>
           <q-item-tile
@@ -137,6 +137,14 @@ export default {
     headers: Object,
     firebaseStorageRef: {
       type: Object,
+      required: false
+    },
+    fileFilter: {
+      type: Function,
+      required: false
+    },
+    fileRenamer: {
+      type: Function,
       required: false
     },
     url: {
@@ -202,8 +210,24 @@ export default {
       }
 
       let files = Array.prototype.slice.call(e.target.files)
-      this.$refs.file.value = ''
+      
+      // allow filtering the files
+      if (typeof this.fileFilter === 'function') {
+        files = files.filter(this.fileFilter)
+      }
 
+      /* Allow renaming the files under the hoods
+         Original name will still appear in the UI
+         Useful for Firbase to avoid erasing an existing StorageRef */
+      if (typeof this.fileRenamer === 'function') {
+        files = files.map(file => {
+          file.originalName = file.name
+          file.name = this.fileRenamer(file.name)
+          return file
+        })
+      }
+
+      this.$refs.file.value = ''
       files = files.filter(file => !this.queue.some(f => file.name === f.name))
         .map(file => {
           initFile(file)
@@ -337,24 +361,32 @@ export default {
     },
     __getFirebaseUploadPromise (file) {
       const metadata = {}
+
+      // If the file was renamed by this.fileRenamer, we will save the original name in metadata
+      if (file.originalName) metadata.originalName = file.originalName
+
+      // We reuse the additionalFields prop to populate metadata
       this.additionalFields.forEach(field => {
         metadata[field.name] = field.value
       })
+
       initFile(file)
       const uploadTask = this.firebaseStorageRef.child(file.name).put(file, metadata)
-      // file.uploadTask = uploadTask
       return new Promise((resolve, reject) => {
         uploadTask.on('state_changed', snapshot => {
+          // upload in progresss
           if (file.__removed) { return }
           const uploaded = snapshot.bytesTransferred
           this.uploadedSize += uploaded - file.__uploaded
           file.__uploaded = uploaded
           file.__progress = Math.min(99, parseInt((snapshot.bytesTransferred / snapshot.totalBytes) * 100, 10))
         }, error => {
+          // error while uploading
           file.__failed = true
           this.$emit('fail', file, uploadTask, error)
           reject(uploadTask)
-        }, () => { // upload successful
+        }, () => {
+          // upload successful
           file.__doneUploading = true
           file.__progress = 100
           this.$emit('uploaded', file, uploadTask)
@@ -387,6 +419,8 @@ export default {
           this.$emit('finish')
         }
       }
+
+      // we need to figure out if we're using 'url' or 'Firebase' method
       const { url, firebaseStorageRef } = this
       if (url) {
         this.queue.map(file => this.__getUploadPromise(file))
