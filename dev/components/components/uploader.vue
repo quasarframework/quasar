@@ -78,7 +78,7 @@
         style="max-width: 320px"
         float-label="Upload files"
         multiple
-        :firebase-storage-ref="storageRef"
+        :firebase-storage="storageRef"
         @start="emit('start')"
         @finish="emit('finish')"
         @uploaded="uploaded"
