@@ -75,6 +75,9 @@
       <p class="caption"><big>With Firebase Storage</big></p>
       <div class="text-bold warning" v-for="alert in missingFirebaseFiles" :key="alert" v-html="alert">
       </div>
+      <div class="text-bold warning" v-if="missingFirebaseFiles.length">
+        You may have to restart your dev server after that.
+      </div>
       <p class="caption">Multiple File Upload</p>
       <q-uploader
         style="max-width: 320px"
@@ -168,7 +171,7 @@ if (firebase && firebaseStorageConfig) {
 export default {
   data () {
     return {
-      url: 'http://1.1.1.195/upload.php',
+      url: 'https://posttestserver.com/post.php',
       events: [],
       storageRef,
       additionalFields: [
