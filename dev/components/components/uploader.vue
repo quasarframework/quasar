@@ -121,7 +121,7 @@
         @filtered="filtered"
       />
       <p class="caption">Multiple File Upload and additionalFields</p>
-      <p>additionalFields will be user to populate customMetadata</p>
+      <p>additionalFields will be used to populate customMetadata</p>
       <q-uploader
         style="max-width: 320px"
         float-label="Upload files"

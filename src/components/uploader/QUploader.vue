@@ -85,7 +85,7 @@
         <q-item-side v-if="file.__img" :image="file.__img.src"></q-item-side>
         <q-item-side v-else icon="insert_drive_file" :color="color"></q-item-side>
 
-        <q-item-main :label="file.originalName || file.name" :sublabel="file.__size"></q-item-main>
+        <q-item-main :label="file.name" :sublabel="file.__size"></q-item-main>
 
         <q-item-side right>
           <q-item-tile
@@ -215,17 +215,6 @@ export default {
           this.$emit('filtered', files.filter(file => !~filteredFiles.indexOf(file)))
           files = filteredFiles
         }
-      }
-
-      /* Allow renaming the files under the hoods
-         Original name will still appear in the UI
-         Useful for Firbase to avoid erasing an existing StorageRef */
-      if (typeof this.fileRenamer === 'function') {
-        files = files.map(file => {
-          file.originalName = file.name
-          file.name = this.fileRenamer(file.name)
-          return file
-        })
       }
 
       this.$refs.file.value = ''
