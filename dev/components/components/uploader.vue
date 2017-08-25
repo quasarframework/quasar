@@ -1,24 +1,7 @@
 <template>
   <div>
     <div class="layout-padding">
-      <h3>With Firebase Storage</h3>
-      <p class="caption">Multiple File Upload</p>
-      <q-uploader
-        style="max-width: 320px"
-        float-label="Upload files"
-        multiple
-        :firebase-storage-ref="storageRef"
-        ref="upld"
-        @start="emit('start')"
-        @finish="emit('finish')"
-        @uploaded="uploaded"
-        @add="add"
-        @remove:done="removeDone"
-        @remove:abort="removeAbort"
-        @remove:cancel="removeCancel"
-      />
-
-      <h3>With URL</h3>
+      <p class="caption"><big>With URL</big></p>
       <q-input v-model="url" />
       <p class="caption">Single File Upload</p>
       <q-uploader style="max-width: 320px" color="amber" stack-label="Stack Label" :url="url" />
@@ -89,6 +72,72 @@
         @remove:cancel="removeCancel"
       />
 
+      <p class="caption"><big>With Firebase Storage</big></p>
+      <p class="caption">Multiple File Upload</p>
+      <q-uploader
+        style="max-width: 320px"
+        float-label="Upload files"
+        multiple
+        :firebase-storage-ref="storageRef"
+        @start="emit('start')"
+        @finish="emit('finish')"
+        @uploaded="uploaded"
+        @add="add"
+        @remove:done="removeDone"
+        @remove:abort="removeAbort"
+        @remove:cancel="removeCancel"
+      />
+      <p class="caption">Multiple File Upload and File Filter</p>
+      <p>Accept only *.png files</p>
+      <q-uploader
+        style="max-width: 320px"
+        float-label="Upload files"
+        multiple
+        :firebase-storage="storageRef"
+        :file-filter="file => /.+\.png$/.exec(file.name)"
+        @start="emit('start')"
+        @finish="emit('finish')"
+        @uploaded="uploaded"
+        @add="add"
+        @remove:done="removeDone"
+        @remove:abort="removeAbort"
+        @remove:cancel="removeCancel"
+        @filtered="filtered"
+      />
+      <p class="caption">Multiple File Upload and custom UploadTask</p>
+      <p>Here, the UploadTask's file name is suffixed with a timestamp</p>
+      <q-uploader
+        style="max-width: 320px"
+        float-label="Upload files"
+        multiple
+        :firebase-storage="makeUploadTaskWithTimestamp"
+        @start="emit('start')"
+        @finish="emit('finish')"
+        @uploaded="uploaded"
+        @add="add"
+        @remove:done="removeDone"
+        @remove:abort="removeAbort"
+        @remove:cancel="removeCancel"
+        @filtered="filtered"
+      />
+      <p class="caption">Multiple File Upload and additionalFields</p>
+      <p>additionalFields will be user to populate customMetadata</p>
+      <q-uploader
+        style="max-width: 320px"
+        float-label="Upload files"
+        multiple
+        :firebase-storage="storageRef"
+        :additionalFields="additionalFields"
+        @start="emit('start')"
+        @finish="emit('finish')"
+        @uploaded="uploaded"
+        @add="add"
+        @remove:done="removeDone"
+        @remove:abort="removeAbort"
+        @remove:cancel="removeCancel"
+        @filtered="filtered"
+      />
+
       <div class="absolute-right no-pointer-events">
         <q-btn @click="clear" style="pointer-events: all" color="primary">Clear Debug Log</q-btn>
         <div v-for="evt in events" :key="evt">
@@ -111,7 +160,11 @@ export default {
     return {
       url: 'http://1.1.1.195/upload.php',
       events: [],
-      storageRef
+      storageRef,
+      additionalFields: [
+        { name: 'foo', value: 'bar' },
+        { name: 'quasar', value: 'framework' }
+      ]
     }
   },
   methods: {
@@ -136,9 +189,21 @@ export default {
     removeDone (file) {
       this.events.push(`remove:done ${file.name}`)
     },
-
+    filtered (files) {
+      this.events.push(`${files.length} files didn't pass the filter`)
+    },
     reset () {
       this.$refs.upld.reset()
+    },
+    makeUploadTaskWithTimestamp (file) {
+      const originalName = file.name
+      const newFilename = `${Date.now()}.${file.name}`
+      const metadata = {
+        customMetadata: {
+          originalName
+        }
+      }
+      return this.storageRef.child(newFilename).put(file, metadata)
     }
   }
 }

@@ -135,15 +135,11 @@ export default {
       default: 'file'
     },
     headers: Object,
-    firebaseStorageRef: {
-      type: Object,
+    firebaseStorage: {
+      type: [Object, Function],
       required: false
     },
     fileFilter: {
-      type: Function,
-      required: false
-    },
-    fileRenamer: {
       type: Function,
       required: false
     },
@@ -213,7 +209,12 @@ export default {
 
       // allow filtering the files
       if (typeof this.fileFilter === 'function') {
-        files = files.filter(this.fileFilter)
+        const filteredFiles = files.filter(this.fileFilter)
+        const amountOfDiscardedFiles = files.length - filteredFiles.length
+        if (amountOfDiscardedFiles > 0) {
+          this.$emit('filtered', files.filter(file => !~filteredFiles.indexOf(file)))
+          files = filteredFiles
+        }
       }
 
       /* Allow renaming the files under the hoods
@@ -360,18 +361,29 @@ export default {
       })
     },
     __getFirebaseUploadPromise (file) {
-      const metadata = {}
-
-      // If the file was renamed by this.fileRenamer, we will save the original name in metadata
-      if (file.originalName) metadata.originalName = file.originalName
-
-      // We reuse the additionalFields prop to populate metadata
-      this.additionalFields.forEach(field => {
-        metadata[field.name] = field.value
-      })
-
       initFile(file)
-      const uploadTask = this.firebaseStorageRef.child(file.name).put(file, metadata)
+      let uploadTask
+
+      // simplest usage : provide a Firebase Storage Ref
+      if (typeof this.firebaseStorage === 'object') {
+        // Firebase Storage allows custom String props to be written in metadata.customMdetadata
+        const metadata = {
+          customMetadata: {}
+        }
+        // We reuse the additionalFields prop to populate metadata
+        this.additionalFields.forEach(field => {
+          metadata.customMetadata[field.name] = field.value
+        })
+        uploadTask = this.firebaseStorage.child(file.name).put(file, metadata)
+      }
+      /* alternative : provide a function that returns a Firebase Storage Ref
+         i.e. if the files need to be renamed before upload */
+      else if (typeof this.firebaseStorage === 'function') {
+        uploadTask = this.firebaseStorage(file)
+      }
+      else {
+        return
+      }
       return new Promise((resolve, reject) => {
         uploadTask.on('state_changed', snapshot => {
           // upload in progresss
@@ -421,14 +433,14 @@ export default {
       }
 
       // we need to figure out if we're using 'url' or 'Firebase' method
-      const { url, firebaseStorageRef } = this
+      const { url, firebaseStorage } = this
       if (url) {
         this.queue.map(file => this.__getUploadPromise(file))
           .forEach(promise => {
             promise.then(solved).catch(solved)
           })
       }
-      else if (firebaseStorageRef) {
+      else if (firebaseStorage) {
         this.queue.map(file => this.__getFirebaseUploadPromise(file))
           .forEach(promise => {
             promise.then(solved).catch(solved)
