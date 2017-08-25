@@ -352,12 +352,12 @@ export default {
           file.__progress = Math.min(99, parseInt((snapshot.bytesTransferred / snapshot.totalBytes) * 100, 10))
         }, error => {
           file.__failed = true
-          this.$emit('fail', file, uploadTask, snapshot, error)
+          this.$emit('fail', file, uploadTask, error)
           reject(uploadTask)
         }, () => { // upload successful
           file.__doneUploading = true
           file.__progress = 100
-          this.$emit('uploaded', file, uploadTask, snapshot)
+          this.$emit('uploaded', file, uploadTask)
           resolve(file)
         })
         this.firebaseStorageUploadTasks.push(uploadTask)
