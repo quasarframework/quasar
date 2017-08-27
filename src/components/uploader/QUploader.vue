@@ -20,9 +20,11 @@
       :length="length"
       additional-length
     >
+      <div v-if="files.length"
         class="col row items-center q-input-target"
         v-html="label"
       ></div>
+      <!--<q-btn v-if="!label">Joindre des fichiers</q-btn>-->
 
       <q-spinner
         v-if="uploading"
