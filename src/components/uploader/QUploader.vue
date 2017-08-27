@@ -44,7 +44,7 @@
       <q-icon
         v-if="!uploading"
         slot="after"
-        name="add"
+        :name="addIconName"
         class="q-uploader-pick-button q-if-control relative-position overflow-hidden"
         @click="__pick"
         :disabled="addDisabled"
@@ -91,7 +91,7 @@
 
         <q-item-side right>
           <q-item-tile
-            :icon="file.__doneUploading ? 'done' : 'clear'"
+            :icon="file.__doneUploading ? doneIconName : 'clear'"
             :color="color"
             class="cursor-pointer"
             @click="__remove(file)"
@@ -178,6 +178,18 @@ export default {
     dark: {
       type: Boolean,
       default: false
+    },
+    addIconName: {
+      type: String,
+      default: 'add'
+    },
+    doneIconName: {
+      type: String,
+      default: 'done'
+    },
+    doneHandler: {
+      type: Function,
+      required: false
     }
   },
   data () {
@@ -263,27 +275,36 @@ export default {
         ? this.queue.map(f => f.size).reduce((total, size) => total + size)
         : 0
     },
-    __remove (file) {
-      const
-        name = file.name,
-        done = file.__doneUploading
-
-      if (this.uploading && !done) {
-        this.$emit('remove:abort', file, file.xhr)
-        file.xhr.abort()
-        this.uploadedSize -= file.__uploaded
+    __remove (file, confirmed) {
+      if (!confirmed && file.__doneUploading && this.doneHandler) {
+        const vm = this
+        this.doneHandler({
+          file,
+          confirm: () => { vm.__remove(file, true) }
+        })
       }
       else {
-        this.$emit(`remove:${done ? 'done' : 'cancel'}`, file, file.xhr)
-      }
+        const
+          name = file.name,
+          done = file.__doneUploading
 
-      if (!done) {
-        this.queue = this.queue.filter(obj => obj.name !== name)
-      }
+        if (this.uploading && !done) {
+          this.$emit('remove:abort', file, file.xhr)
+          file.xhr.abort()
+          this.uploadedSize -= file.__uploaded
+        }
+        else {
+          this.$emit(`remove:${done ? 'done' : 'cancel'}`, file, file.xhr)
+        }
 
-      file.__removed = true
-      this.files = this.files.filter(obj => obj.name !== name)
-      this.__computeTotalSize()
+        if (!done) {
+          this.queue = this.queue.filter(obj => obj.name !== name)
+        }
+
+        file.__removed = true
+        this.files = this.files.filter(obj => obj.name !== name)
+        this.__computeTotalSize()
+      }
     },
     __removeUploaded () {
       this.files = this.files.filter(f => !f.__doneUploading)
