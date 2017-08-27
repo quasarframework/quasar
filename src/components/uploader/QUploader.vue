@@ -10,16 +10,16 @@
       :float-label="floatLabel"
       :error="error"
       :disable="disable"
-      inverted
+      :inverted="inverted"
       :before="before"
       :after="after"
       :color="color"
       :align="align"
+      :dark="dark"
 
       :length="length"
       additional-length
     >
-      <div
         class="col row items-center q-input-target"
         v-html="label"
       ></div>
@@ -168,6 +168,14 @@ export default {
     color: {
       type: String,
       default: 'primary'
+    },
+    inverted: {
+      type: Boolean,
+      default: false
+    },
+    dark: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -187,10 +195,13 @@ export default {
       return this.queue.length
     },
     label () {
-      const total = humanStorageSize(this.totalSize)
-      return this.uploading
-        ? `${(this.progress).toFixed(2)}% (${humanStorageSize(this.uploadedSize)} / ${total})`
-        : `${this.length} (${total})`
+      if (this.totalSize > 0) {
+        const total = humanStorageSize(this.totalSize)
+        return this.uploading
+          ? `${(this.progress).toFixed(2)}% (${humanStorageSize(this.uploadedSize)} / ${total})`
+          : `${this.length} pièces jointes (${total})`
+      }
+      return null
     },
     progress () {
       return this.totalSize ? Math.min(99.99, this.uploadedSize / this.totalSize * 100) : 0
