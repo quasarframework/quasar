@@ -10,19 +10,21 @@
       :float-label="floatLabel"
       :error="error"
       :disable="disable"
-      inverted
+      :inverted="inverted"
       :before="before"
       :after="after"
       :color="color"
       :align="align"
+      :dark="dark"
 
       :length="length"
       additional-length
     >
-      <div
+      <div v-if="files.length"
         class="col row items-center q-input-target"
         v-html="label"
       ></div>
+      <!--<q-btn v-if="!label">Joindre des fichiers</q-btn>-->
 
       <q-spinner
         v-if="uploading"
@@ -42,7 +44,7 @@
       <q-icon
         v-if="!uploading"
         slot="after"
-        name="add"
+        :name="addIconName"
         class="q-uploader-pick-button q-if-control relative-position overflow-hidden"
         @click="__pick"
         :disabled="addDisabled"
@@ -89,7 +91,7 @@
 
         <q-item-side right>
           <q-item-tile
-            :icon="file.__doneUploading ? 'done' : 'clear'"
+            :icon="file.__doneUploading ? doneIconName : 'clear'"
             :color="color"
             class="cursor-pointer"
             @click="__remove(file)"
@@ -168,6 +170,26 @@ export default {
     color: {
       type: String,
       default: 'primary'
+    },
+    inverted: {
+      type: Boolean,
+      default: false
+    },
+    dark: {
+      type: Boolean,
+      default: false
+    },
+    addIconName: {
+      type: String,
+      default: 'add'
+    },
+    doneIconName: {
+      type: String,
+      default: 'done'
+    },
+    doneHandler: {
+      type: Function,
+      required: false
     }
   },
   data () {
@@ -187,10 +209,13 @@ export default {
       return this.queue.length
     },
     label () {
-      const total = humanStorageSize(this.totalSize)
-      return this.uploading
-        ? `${(this.progress).toFixed(2)}% (${humanStorageSize(this.uploadedSize)} / ${total})`
-        : `${this.length} (${total})`
+      if (this.totalSize > 0) {
+        const total = humanStorageSize(this.totalSize)
+        return this.uploading
+          ? `${(this.progress).toFixed(2)}% (${humanStorageSize(this.uploadedSize)} / ${total})`
+          : `${this.length} pièces jointes (${total})`
+      }
+      return null
     },
     progress () {
       return this.totalSize ? Math.min(99.99, this.uploadedSize / this.totalSize * 100) : 0
@@ -250,27 +275,36 @@ export default {
         ? this.queue.map(f => f.size).reduce((total, size) => total + size)
         : 0
     },
-    __remove (file) {
-      const
-        name = file.name,
-        done = file.__doneUploading
-
-      if (this.uploading && !done) {
-        this.$emit('remove:abort', file, file.xhr)
-        file.xhr.abort()
-        this.uploadedSize -= file.__uploaded
+    __remove (file, confirmed) {
+      if (!confirmed && file.__doneUploading && this.doneHandler) {
+        const vm = this
+        this.doneHandler({
+          file,
+          confirm: () => { vm.__remove(file, true) }
+        })
       }
       else {
-        this.$emit(`remove:${done ? 'done' : 'cancel'}`, file, file.xhr)
-      }
+        const
+          name = file.name,
+          done = file.__doneUploading
 
-      if (!done) {
-        this.queue = this.queue.filter(obj => obj.name !== name)
-      }
+        if (this.uploading && !done) {
+          this.$emit('remove:abort', file, file.xhr)
+          file.xhr.abort()
+          this.uploadedSize -= file.__uploaded
+        }
+        else {
+          this.$emit(`remove:${done ? 'done' : 'cancel'}`, file, file.xhr)
+        }
 
-      file.__removed = true
-      this.files = this.files.filter(obj => obj.name !== name)
-      this.__computeTotalSize()
+        if (!done) {
+          this.queue = this.queue.filter(obj => obj.name !== name)
+        }
+
+        file.__removed = true
+        this.files = this.files.filter(obj => obj.name !== name)
+        this.__computeTotalSize()
+      }
     },
     __removeUploaded () {
       this.files = this.files.filter(f => !f.__doneUploading)
