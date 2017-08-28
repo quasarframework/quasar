@@ -219,6 +219,18 @@ export default {
         }
       }
     },
+    'leftState.openedSmall' (v) {
+      this.$emit('input', {
+        left: v,
+        right: this.rightState.openedSmall
+      })
+    },
+    'rightState.openedSmall' (v) {
+      this.$emit('input', {
+        left: this.leftState.openedSmall,
+        right: v
+      })
+    },
     'leftState.openedBig' (v) {
       this.$emit('input', {
         left: v,
