@@ -7,7 +7,7 @@ const
   MILLISECONDS_IN_DAY = 86400000,
   MILLISECONDS_IN_HOUR = 3600000,
   MILLISECONDS_IN_MINUTE = 60000,
-  token = /d{1,4}|M{1,4}|m{1,2}|w{1,2}|D{1,4}|YY(?:YY)?|H{1,2}|h{1,2}|s{1,2}|S{1,3}|Z{1,2}|a{1,2}|[AQExX^]/g
+  token = /d{1,4}|M{1,4}|m{1,2}|w{1,2}|Do|D{1,4}|YY(?:YY)?|H{1,2}|h{1,2}|s{1,2}|S{1,3}|Z{1,2}|a{1,2}|[AQExX]/g
 
 export const dayNames = [
   'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
@@ -17,6 +17,25 @@ export const monthNames = [
   'January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December'
 ]
+
+export const dateSuffix = d => {
+  const [ d1, d2 ] = pad(d).toString().split('')
+  if (d1 === '1') {
+    return d + 'ᵗʰ'
+  }
+  else {
+    switch (d2) {
+      case '1':
+        return d + 'ˢᵗ'
+      case '2':
+        return d + 'ⁿᵈ'
+      case '3':
+        return d + 'ʳᵈ'
+      default:
+        return d + 'ᵗʰ'
+    }
+  }
+}
 
 function formatTimezone (offset, delimeter = '') {
   const
@@ -333,6 +352,11 @@ export const formatter = {
     return pad(getDayOfYear(date), 3)
   },
 
+  // Date with suffix (1st, 2nd, 3rd, etc.)
+  Do (date, opts = {}) {
+    return (opts.dateSuffix ? opts.dateSuffix(date.getDate()) : dateSuffix(date.getDate()))
+  },
+
   // Day of week: 0, 1, ..., 6
   d (date) {
     return date.getDay()
@@ -463,26 +487,6 @@ export const formatter = {
   // Milliseconds timestamp: 512969520900
   x (date) {
     return date.getTime()
-  },
-
-  // Date suffix (1st, 2nd, 3rd, etc.)
-  '^': (date) => {
-    const [ d1, d2 ] = pad(date.getDate()).toString().split('')
-    if (d1 === '1') {
-      return 'ᵗʰ'
-    }
-    else {
-      switch (d2) {
-        case '1':
-          return 'ˢᵗ'
-        case '2':
-          return 'ⁿᵈ'
-        case '3':
-          return 'ʳᵈ'
-        default:
-          return 'ᵗʰ'
-      }
-    }
   }
 
 }

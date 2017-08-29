@@ -5,7 +5,7 @@
         <img src="statics/quasar-logo.png">
       </div>
       <h4 class="uppercase">Date Ordinals:</h4>
-      <p v-for="date in dateList">{{date}}: {{ fmt(date, 'D^ MMMM YYYY') }}</p>
+      <p v-for="date in dateList">{{date}}: {{ fmt(date, 'Do MMMM YYYY') }}</p>
       <div
         class="list no-border"
         v-for="(category, title) in list"
