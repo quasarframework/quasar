@@ -1,0 +1,24 @@
+.q-btn-group
+  border-radius $button-border-radius
+  box-shadow $button-shadow
+  .q-btn
+    box-shadow none !important
+  .q-btn:not(:last-child)
+    border-top-right-radius 0
+    border-bottom-right-radius 0
+  .q-btn + .q-btn
+    border-top-left-radius 0
+    border-bottom-left-radius 0
+.q-btn-group-push
+  border-radius $button-push-border-radius
+.q-btn-group-rounded
+  border-radius $button-rounded-border-radius
+.q-btn-group-flat, .q-btn-group-outline
+  box-shadow none
+.q-btn-group-outline
+  .q-btn + .q-btn
+    border-left 0
+  .q-btn:not(:first-child)
+    border-left 0
+  .q-btn:not(:last-child)
+    border-right 0
