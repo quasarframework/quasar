@@ -101,6 +101,7 @@
   },
   "peerDependencies": {
     "vue": "^2.3.0",
-    "quasar-extras": "0.x"
+    "quasar-extras": "0.x",
+    "tinycolor2": "^1.4.1"
   }
 }
