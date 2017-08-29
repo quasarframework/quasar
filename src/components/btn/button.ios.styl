@@ -40,13 +40,13 @@ button-round-factor($size)
   background transparent !important
 
 .q-btn-push
+  border-radius $button-push-border-radius
   border-bottom 3px solid rgba(0, 0, 0, .15)
-  border-radius 7px
   &:active:not(.disabled)
     border-bottom 0
 
 .q-btn-rounded
-  border-radius 28px
+  border-radius $button-rounded-border-radius
 
 .q-btn-round
   border-radius 50%
@@ -69,3 +69,23 @@ for $name, $size in $button-round-sizes
       height round(button-round-factor($name) * $size)
       width round(button-round-factor($name) * $size)
       font-size round(button-round-factor($name) * $size)
+
+.q-btn-group
+  border-radius $button-border-radius
+  .q-btn:not(:last-child)
+    border-top-right-radius 0
+    border-bottom-right-radius 0
+  .q-btn + .q-btn
+    border-top-left-radius 0
+    border-bottom-left-radius 0
+.q-btn-group-push
+  border-radius $button-push-border-radius
+.q-btn-group-rounded
+  border-radius $button-rounded-border-radius
+.q-btn-group-outline
+  .q-btn + .q-btn
+    border-left 0
+  .q-btn:not(:first-child)
+    border-left 0
+  .q-btn:not(:last-child)
+    border-right 0

@@ -18,7 +18,7 @@ button-round-factor($size)
   text-decoration none
   color inherit
   background transparent
-  box-shadow $shadow-2
+  box-shadow $button-shadow
   transition $button-transition
   text-transform uppercase
 
@@ -51,19 +51,19 @@ button-round-factor($size)
   background transparent !important
 
 .q-btn-push
+  border-radius $button-push-border-radius
   border-bottom 3px solid rgba(0, 0, 0, .15)
-  border-radius 7px
   &:active:not(.disabled)
     border-bottom 0
     box-shadow none
 
 .q-btn-rounded
-  border-radius 28px
+  border-radius $button-rounded-border-radius
 
 .q-btn-round
   border-radius 50%
   padding 0
-  box-shadow $shadow-2
+  box-shadow $button-shadow
   &:active
     box-shadow $shadow-8
 
@@ -84,3 +84,28 @@ for $name, $size in $button-round-sizes
       height round(button-round-factor($name) * $size)
       width round(button-round-factor($name) * $size)
       font-size round(button-round-factor($name) * $size)
+
+.q-btn-group
+  border-radius $button-border-radius
+  box-shadow $button-shadow
+  .q-btn
+    box-shadow none !important
+  .q-btn:not(:last-child)
+    border-top-right-radius 0
+    border-bottom-right-radius 0
+  .q-btn + .q-btn
+    border-top-left-radius 0
+    border-bottom-left-radius 0
+.q-btn-group-push
+  border-radius $button-push-border-radius
+.q-btn-group-rounded
+  border-radius $button-rounded-border-radius
+.q-btn-group-flat, .q-btn-group-outline
+  box-shadow none
+.q-btn-group-outline
+  .q-btn + .q-btn
+    border-left 0
+  .q-btn:not(:first-child)
+    border-left 0
+  .q-btn:not(:last-child)
+    border-right 0
