@@ -1,5 +1,6 @@
 import BtnMixin from './btn-mixin'
-import { QBtn, QBtnGroup } from './index'
+import QBtn from './QBtn.vue'
+import QBtnGroup from './QBtnGroup'
 import { QPopover } from '../popover'
 
 export default {
@@ -62,6 +63,7 @@ export default {
             disable: this.disable,
             noCaps: this.noCaps,
             icon: this.icon,
+            label: this.label,
             iconRight: this.split ? this.iconRight : null,
             round: this.round,
             outline: this.outline,
@@ -82,18 +84,12 @@ export default {
             }
           }
         },
-        this.split
-          ? (this.label ? [this.label] : null)
-          : child
+        this.split ? null : child
       )
     }
 
     if (!this.split) {
-      child.unshift(Icon)
-      if (this.label) {
-        child.unshift(this.label)
-      }
-
+      child.push(Icon)
       return getBtn()
     }
 

@@ -108,9 +108,8 @@
               :color="color"
               @click="setMonth(month - 1, true)"
               :disabled="beforeMinDays"
-            >
-              <q-icon name="keyboard_arrow_left"></q-icon>
-            </q-btn>
+              icon="keyboard_arrow_left"
+            ></q-btn>
             <div class="col q-datetime-dark">
               {{ monthStamp }}
             </div>
@@ -121,9 +120,8 @@
               :color="color"
               @click="setMonth(month + 1, true)"
               :disabled="afterMaxDays"
-            >
-              <q-icon name="keyboard_arrow_right"></q-icon>
-            </q-btn>
+              icon="keyboard_arrow_right"
+            ></q-btn>
           </div>
           <div class="q-datetime-weekdays row items-center justify-start">
             <div v-for="day in headerDayNames">{{day}}</div>
@@ -223,7 +221,6 @@
 <script>
 import { height, width, offset, cssTransform } from '../../utils/dom'
 import { position } from '../../utils/event'
-import { QIcon } from '../icon'
 import { QBtn } from '../btn'
 import { isSameDate } from '../../utils/date'
 import DateMixin from './datetime-mixin'
@@ -242,7 +239,6 @@ export default {
     readonly: Boolean
   },
   components: {
-    QIcon,
     QBtn
   },
   directives: {

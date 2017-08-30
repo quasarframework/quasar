@@ -8,23 +8,21 @@
     :flat="flat"
     :color="color"
     :glossy="glossy"
+    :icon="icon"
   >
-    <q-icon :name="icon"></q-icon>
     <slot></slot>
   </q-btn>
 </template>
 
 <script>
 import { QBtn } from '../btn'
-import { QIcon } from '../icon'
 import FabMixin from './fab-mixin'
 
 export default {
   name: 'q-fab-action',
   mixins: [FabMixin],
   components: {
-    QBtn,
-    QIcon
+    QBtn
   },
   inject: ['__qFabClose'],
   props: {

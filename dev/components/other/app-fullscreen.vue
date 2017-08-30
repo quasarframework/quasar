@@ -11,10 +11,9 @@
         <q-btn
           color="secondary"
           @click="toggleFullscreen()"
-        >
-          <q-icon class="on-left" name="zoom_out_map" />
-          Toggle Fullscreen
-        </q-btn>
+          icon="zoom_out_map"
+          label="Toggle Fullscreen"
+        />
       </p>
 
       <p class="caption">

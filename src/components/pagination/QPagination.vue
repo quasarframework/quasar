@@ -1,11 +1,7 @@
 <template>
   <div class="q-pagination" :class="{disabled: disable}">
-    <q-btn :disable="value === min" :color="color" flat small @click="set(min)">
-      <q-icon name="first_page"></q-icon>
-    </q-btn>
-    <q-btn :disable="value === min" :color="color" flat small @click="setByOffset(-1)">
-      <q-icon name="keyboard_arrow_left"></q-icon>
-    </q-btn>
+    <q-btn :disable="value === min" :color="color" flat small @click="set(min)" icon="first_page"></q-btn>
+    <q-btn :disable="value === min" :color="color" flat small @click="setByOffset(-1)" icon="keyboard_arrow_left"></q-btn>
 
     <q-input
       ref="input"
@@ -22,12 +18,8 @@
       @blur="__update"
     ></q-input>
 
-    <q-btn :disable="value === max" :color="color" flat small @click="setByOffset(1)">
-      <q-icon name="keyboard_arrow_right"></q-icon>
-    </q-btn>
-    <q-btn :disable="value === max" :color="color" flat small @click="set(max)">
-      <q-icon name="last_page"></q-icon>
-    </q-btn>
+    <q-btn :disable="value === max" :color="color" flat small @click="setByOffset(1)" icon="keyboard_arrow_right"></q-btn>
+    <q-btn :disable="value === max" :color="color" flat small @click="set(max)" icon="last_page"></q-btn>
   </div>
 </template>
 
@@ -35,14 +27,12 @@
 import { between } from '../../utils/format'
 import { QBtn } from '../btn'
 import { QInput } from '../input'
-import { QIcon } from '../icon'
 
 export default {
   name: 'q-pagination',
   components: {
     QBtn,
-    QInput,
-    QIcon
+    QInput
   },
   props: {
     value: {

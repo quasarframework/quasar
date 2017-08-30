@@ -1,29 +1,19 @@
 <template>
   <q-layout ref="layout" view="hHr LpR lFf" v-model="sides" :right-breakpoint="900">
     <q-toolbar slot="header">
-      <q-btn flat @click="$refs.layout.toggleLeft()">
-        <q-icon name="menu" />
-      </q-btn>
-      <q-btn flat @click="sides.left = !sides.left">
-        <q-icon name="menu" />
-      </q-btn>
+      <q-btn flat icon="menu" @click="$refs.layout.toggleLeft()" />
+      <q-btn flat icon="menu" @click="sides.left = !sides.left" />
       <q-toolbar-title>
         Quasar Layout
         <span slot="subtitle">The Subtiiiitleeee</span>
       </q-toolbar-title>
-      <q-btn flat @click="sides.right = !sides.right">
-        <q-icon name="menu" />
-      </q-btn>
-      <q-btn flat @click="$refs.layout.toggleRight()">
-        <q-icon name="menu" />
-      </q-btn>
+      <q-btn flat icon="menu" @click="sides.right = !sides.right" />
+      <q-btn flat icon="menu" @click="$refs.layout.toggleRight()" />
       <q-checkbox color="white" v-model="todo" />
       <q-checkbox color="white" v-model="right" />
     </q-toolbar>
     <q-toolbar slot="header">
-      <q-btn flat round small>
-        <q-icon name="mail" />
-      </q-btn>
+      <q-btn flat round small icon="mail" />
       <q-toolbar-title>
         Quasar Layout
       </q-toolbar-title>
@@ -70,9 +60,7 @@
       sdsfssdfs
     </q-toolbar>
     <q-toolbar slot="footer">
-      <q-btn flat @click="$router.push('/')" icon="keyboard arrow left">
-        Back to Index
-      </q-btn>
+      <q-btn flat @click="$router.push('/')" icon="keyboard arrow left" label="Back to Index" />
     </q-toolbar>
   </q-layout>
 </template>

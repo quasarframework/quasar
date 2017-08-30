@@ -14,17 +14,15 @@
             push
             @click="goBack"
             icon="keyboard_arrow_left"
-          >
-            Go back
-          </q-btn>
+            label="Go back"
+          />
           <q-btn
             color="primary"
             push
             @click="$router.replace('/')"
             icon-right="home"
-          >
-            Go home
-          </q-btn>
+            label="Go home"
+          />
         </p>
       </div>
     </div>

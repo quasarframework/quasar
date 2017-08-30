@@ -7,7 +7,8 @@
   >
     <div class="desktop-only q-focus-helper"></div>
     <span class="q-btn-inner row col flex-center">
-      <q-icon v-if="icon" :name="icon" :class="{'on-left': !round}"></q-icon>
+      <q-icon v-if="icon" :name="icon" :class="{'on-left': label && !round}"></q-icon>
+      <span v-if="label && !round">{{ label }}</span>
       <slot></slot>
       <q-icon v-if="!round && iconRight" :name="iconRight" class="on-right"></q-icon>
     </span>

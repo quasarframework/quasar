@@ -10,6 +10,7 @@ export default {
   },
   props: {
     disable: Boolean,
+    label: String,
     noCaps: {
       type: Boolean,
       default: false

@@ -4,9 +4,7 @@
       <div class="q-data-table-toolbar upper-toolbar row reverse-wrap items-center justify-end">
         <div v-if="config.title" class="q-data-table-title ellipsis col" v-html="config.title"></div>
         <div class="row items-center">
-          <q-btn v-if="config.refresh && !refreshing" flat color="primary" @click="refresh">
-            <q-icon name="refresh"></q-icon>
-          </q-btn>
+          <q-btn v-if="config.refresh && !refreshing" flat color="primary" icon="refresh" @click="refresh"></q-btn>
           <q-btn v-if="refreshing" class="disabled">
             <q-icon name="cached" class="animate-spin-reverse"></q-icon>
           </q-btn>
@@ -29,7 +27,7 @@
         {{ rowsSelected }}
         <span v-if="rowsSelected === 1">{{ labels.selected.singular }}</span>
         <span v-else>{{ labels.selected.plural }}</span>
-        <q-btn flat small color="primary" @click="clearSelection">{{ labels.clear }}</q-btn>
+        <q-btn flat small color="primary" @click="clearSelection" :label="labels.clear"></q-btn>
       </div>
       <div>
         <slot name="selection" :rows="selectedRows"></slot>
