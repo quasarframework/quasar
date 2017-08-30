@@ -52,6 +52,18 @@
         {label: 'Three', iconRight: 'filter_3', value: 'three'}
       ]"
     />
+
+    <q-btn-toggle-group
+      v-model="model"
+      toggle-color="primary"
+      push
+      glossy
+      :options="[
+        {label: 'One', value: 'one'},
+        {label: 'Two', toggleColor: 'yellow', value: 'two'},
+        {label: 'Three', toggleColor: 'red', value: 'three'}
+      ]"
+    />
   </div>
 </template>
 
