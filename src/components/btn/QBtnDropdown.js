@@ -1,6 +1,5 @@
 import BtnMixin from './btn-mixin'
-import QBtn from './QBtn'
-import QBtnGroup from './QBtnGroup'
+import { QBtn, QBtnGroup } from './index'
 import { QPopover } from '../popover'
 
 export default {
