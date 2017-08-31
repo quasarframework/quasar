@@ -9,6 +9,25 @@
       </p>
 
       <p>
+        Keeping Tabs Alive
+      </p>
+      <q-toggle v-model="toggleA" label="Keep A alive" />
+      <q-toggle v-model="toggleB" label="Keep B live" />
+      <br><br>
+      <q-tabs>
+        <q-tab slot="title" name="tab-1" icon="message" label="Tab 1" />
+        <q-tab default slot="title" name="tab-2" icon="fingerprint" label="Tab 2" />
+
+        <q-tab-pane name="tab-1" :keep-alive="toggleA">
+          <comp-a></comp-a>
+        </q-tab-pane>
+        <q-tab-pane name="tab-2" :keep-alive="toggleB">
+          <comp-b></comp-b>
+        </q-tab-pane>
+      </q-tabs>
+      <br><br>
+
+      <p>
         Check Layout source code to see how you can link
         tabs to navigation routes.
       </p>
@@ -173,8 +192,36 @@
 
 <script>
 export default {
+  components: {
+    CompA: {
+      name: 'comp-a',
+      created () {
+        console.log('creating A')
+      },
+      beforeDestroy () {
+        console.log('destroying A')
+      },
+      render (h) {
+        return h('div', {staticClass: 'comp-a'}, 'Tab A')
+      }
+    },
+    CompB: {
+      name: 'comp-a',
+      created () {
+        console.log('creating B')
+      },
+      beforeDestroy () {
+        console.log('destroying B')
+      },
+      render (h) {
+        return h('div', {staticClass: 'comp-b'}, 'Tab B')
+      }
+    }
+  },
   data () {
     return {
+      toggleA: true,
+      toggleB: false,
       align: 'justify',
       xTabsModel: 'xtab-2',
       xTabsOptions: [
