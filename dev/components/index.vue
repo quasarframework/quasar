@@ -4,6 +4,8 @@
       <div class="row justify-center" style="padding-bottom: 25px">
         <img src="statics/quasar-logo.png">
       </div>
+      <h4 class="uppercase">Date Ordinals:</h4>
+      <p v-for="date in dateList">{{date}}: {{ fmt(date, 'Do MMMM YYYY') }}</p>
       <div
         class="list no-border"
         v-for="(category, title) in list"
@@ -28,6 +30,8 @@
 
 <script>
 import pages from '../pages'
+import { date } from 'quasar'
+const { formatDate } = date
 
 let list = {}
 pages.map(page => page.slice(0, page.length - 4)).forEach(page => {
@@ -46,6 +50,21 @@ export default {
     return {
       list
     }
+  },
+  computed: {
+    dateList () {
+      const dl = []
+      for (var i = 1; i <= 31; i++) {
+        dl.push('2017-01-' + i)
+      }
+      return dl
+    }
+  },
+  methods: {
+    fmt (date, format) {
+      return formatDate(new Date(date), format)
+    }
   }
+
 }
 </script>
