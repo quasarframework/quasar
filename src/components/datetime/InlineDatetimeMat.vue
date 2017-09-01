@@ -386,8 +386,10 @@ export default {
     setMonth (value, force) {
       if (this.editable) {
         this.view = 'day'
-        const targetMonth = this.__mod((force ? value : this.__parseTypeValue('month', value)) - 1, 12)
-        const newDate = new Date(this.model.setMonth(targetMonth))
+        const
+          targetMonth = this.__mod((force ? value : this.__parseTypeValue('month', value)) - 1, 12),
+          newDate = new Date(this.model.setMonth(targetMonth))
+
         if (newDate.getMonth() !== targetMonth) {
           newDate.setDate(0)
         }
@@ -422,7 +424,7 @@ export default {
     },
 
     /* helpers */
-    __mod (val, m) {  // https://stackoverflow.com/a/4467559/1454454
+    __mod (val, m) { // https://stackoverflow.com/a/4467559/1454454
       return ((val % m) + m) % m
     },
     __pad (unit, filler) {
