@@ -88,7 +88,7 @@
 import { between, capitalize } from '../../utils/format'
 import { position } from '../../utils/event'
 import { css } from '../../utils/dom'
-import { isSameDate } from '../../utils/date'
+import { isSameDate, adjustDate } from '../../utils/date'
 import DateMixin from './datetime-mixin'
 import TouchPan from '../../directives/touch-pan'
 
@@ -197,7 +197,7 @@ export default {
     },
     setMonth (value) {
       if (this.editable) {
-        this.model = new Date(this.model.setMonth(this.__parseTypeValue('month', value) - 1))
+        this.model = adjustDate(this.model, {month: value})
       }
     },
     setDay (value) {

@@ -28,13 +28,28 @@ function formatTimezone (offset, delimeter = '') {
   return sign + pad(hours) + delimeter + pad(minutes)
 }
 
+function setMonth (date, newMonth /* 1-based */) {
+  const
+    test = new Date(date.getFullYear(), newMonth, 0, 0, 0, 0, 0),
+    days = test.getDate()
+
+  date.setMonth(newMonth - 1, Math.min(days, date.getDate()))
+}
+
 function getChange (date, mod, add) {
   const
     t = new Date(date),
     sign = (add ? 1 : -1)
 
   Object.keys(mod).forEach(key => {
-    const op = capitalize(key === 'days' ? 'date' : key)
+    if (key === 'month') {
+      setMonth(t, t.getMonth() + 1 + sign * mod.month)
+      return
+    }
+
+    const op = key === 'year'
+      ? 'FullYear'
+      : capitalize(key === 'days' ? 'date' : key)
     t[`set${op}`](t[`get${op}`]() + sign * mod[key])
   })
   return t
@@ -98,6 +113,11 @@ export function adjustDate (date, mod, utc) {
     prefix = `set${utc ? 'UTC' : ''}`
 
   Object.keys(mod).forEach(key => {
+    if (key === 'month') {
+      setMonth(t, mod.month)
+      return
+    }
+
     const op = key === 'year'
       ? 'FullYear'
       : key.charAt(0).toUpperCase() + key.slice(1)
