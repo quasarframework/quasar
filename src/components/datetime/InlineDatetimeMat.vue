@@ -106,7 +106,7 @@
               small
               flat
               :color="color"
-              @click="setMonth(month - 1, true)"
+              @click="setMonth(month - 1)"
               :disabled="beforeMinDays"
             >
               <q-icon name="keyboard_arrow_left"></q-icon>
@@ -119,7 +119,7 @@
               small
               flat
               :color="color"
-              @click="setMonth(month + 1, true)"
+              @click="setMonth(month + 1)"
               :disabled="afterMaxDays"
             >
               <q-icon name="keyboard_arrow_right"></q-icon>
@@ -225,7 +225,7 @@ import { height, width, offset, cssTransform } from '../../utils/dom'
 import { position } from '../../utils/event'
 import { QIcon } from '../icon'
 import { QBtn } from '../btn'
-import { isSameDate } from '../../utils/date'
+import { isSameDate, adjustDate } from '../../utils/date'
 import DateMixin from './datetime-mixin'
 import Ripple from '../../directives/ripple'
 
@@ -387,10 +387,10 @@ export default {
         this.model = new Date(this.model.setFullYear(this.__parseTypeValue('year', value)))
       }
     },
-    setMonth (value, force) {
+    setMonth (value) {
       if (this.editable) {
         this.view = 'day'
-        this.model = new Date(this.model.setMonth((force ? value : this.__parseTypeValue('month', value)) - 1))
+        this.model = adjustDate(this.model, {month: value})
       }
     },
     setDay (value) {
