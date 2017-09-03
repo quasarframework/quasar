@@ -1,4 +1,4 @@
-import QEditor from './QEditor.vue'
+import QEditor from './QEditor'
 
 export {
   QEditor
