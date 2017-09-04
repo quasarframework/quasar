@@ -95,7 +95,7 @@ export class Caret {
       sel.addRange(r)
     }
     else {
-      sel.selectAllChildren(this.element)
+      sel.selectAllChildren(this.el)
       sel.collapseToEnd()
     }
   }
@@ -119,7 +119,6 @@ export class Caret {
 
   is (name) {
     if (['BLOCKQUOTE', 'DIV', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'A', 'IMG'].includes(name)) {
-      console.log('HIIIT')
       return this.hasParent(name)
     }
     return document.queryCommandState(name)

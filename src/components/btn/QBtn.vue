@@ -13,7 +13,10 @@
       :style="{width: width}"
     ></div>
 
-    <span class="q-btn-inner row col flex-center">
+    <span
+      class="q-btn-inner row col flex-center"
+      :class="{'no-wrap': noWrap}"
+    >
       <slot v-if="loading" name="loading">
         <q-spinner></q-spinner>
       </slot>

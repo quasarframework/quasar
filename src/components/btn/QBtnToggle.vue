@@ -6,7 +6,10 @@
     :class="classes"
   >
     <div class="desktop-only q-focus-helper"></div>
-    <span class="q-btn-inner row col flex-center">
+    <span
+      class="q-btn-inner row col flex-center"
+      :class="{'no-wrap': noWrap}"
+    >
       <q-icon v-if="icon" :name="icon" :class="{'on-left': label && !round}"></q-icon>
       <span v-if="label && !round">{{ label }}</span>
       <slot></slot>

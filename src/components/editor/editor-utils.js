@@ -41,8 +41,14 @@ function getBtn (h, vm, btn) {
     }, child)
   }
   else if (Array.isArray(btn)) {
+    let sel = ''
+
     const Items = btn.map(item => {
-      return h(QItem, [
+      const active = vm.attrib[item.test || item.cmd]
+      if (active) {
+        sel = item.tip
+      }
+      return h(QItem, {props: {active}}, [
         h(QItemMain, {
           props: {
             label: item.tip
@@ -51,6 +57,7 @@ function getBtn (h, vm, btn) {
             click () {
               instance.componentInstance.close()
               vm.$refs.content.focus()
+              vm.caret.restore()
               vm.runCmd(item.cmd, item.param)
             }
           }
@@ -58,7 +65,7 @@ function getBtn (h, vm, btn) {
       ])
     })
 
-    const instance = h(QBtnDropdown, { props: { split: true, label: 'Select' } }, [
+    const instance = h(QBtnDropdown, { props: { noCaps: true, noWrap: true, label: sel } }, [
       h(QList, { props: { link: true, separator: true } }, [
         Items
       ])

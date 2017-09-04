@@ -11,10 +11,8 @@ export default {
   props: {
     disable: Boolean,
     label: String,
-    noCaps: {
-      type: Boolean,
-      default: false
-    },
+    noCaps: Boolean,
+    noWrap: Boolean,
     icon: String,
     iconRight: String,
     round: Boolean,

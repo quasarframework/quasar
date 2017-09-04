@@ -50,8 +50,11 @@ export default {
     },
     buttons () {
       const getBtn = name => {
-        const btn = this.definitions[name] || buttons[name]
-        if (btn.type === 'toggle' || btn.disable) {
+        const
+          btn = this.definitions[name] || buttons[name],
+          state = this.attrib[btn.test || btn.cmd]
+
+        if (state === void 0 && (btn.type === 'toggle' || btn.disable)) {
           this.attrib[btn.test || btn.cmd] = false
         }
         return btn
@@ -118,7 +121,7 @@ export default {
       const key = getEventKey(e)
       this.updateAttributes()
 
-      if (!e.ctrlKey || key === 17 || key === 65) {
+      if (!e.ctrlKey || [17, 65, 67, 86].includes(key)) {
         return
       }
 
@@ -140,21 +143,29 @@ export default {
       }
     },
     updateAttributes () {
-      console.log(this.buttons)
       setTimeout(() => {
+        let change = false
         Object.keys(this.attrib).forEach(cmd => {
-          this.attrib[cmd] = this.caret.is(cmd)
+          const state = this.caret.is(cmd)
+          if (this.attrib[cmd] !== state) {
+            this.attrib[cmd] = state
+            change = true
+          }
         })
-        this.$forceUpdate()
+        if (change) {
+          console.log('forceUpdate')
+          this.$forceUpdate()
+        }
       }, 1)
     }
   },
   mounted () {
     this.$refs.content.innerHTML = this.value
     this.caret = new Caret(this.$refs.content)
-    this.runCmd('defaultParagraphSeparator', 'p')
+    document.execCommand('defaultParagraphSeparator', false, 'div')
   },
   render (h) {
+    const attr = this.attrib
     return h(
       'div',
       { staticClass: 'q-editor' },
@@ -173,10 +184,16 @@ export default {
             on: {
               input: this.onInput,
               keydown: this.onKeydown,
-              click: this.updateAttributes
+              click: this.updateAttributes,
+              blur: () => {
+                this.caret.save()
+              }
             }
           }
-        )
+        ),
+        h('div', {style: {
+          wordWrap: 'break-word'
+        }}, [JSON.stringify(attr)])
       ]
     )
   }

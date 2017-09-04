@@ -62,6 +62,7 @@ export default {
           props: {
             disable: this.disable,
             noCaps: this.noCaps,
+            noWrap: this.noWrap,
             icon: this.icon,
             label: this.label,
             iconRight: this.split ? this.iconRight : null,
@@ -102,7 +103,7 @@ export default {
           rounded: this.rounded,
           push: this.push
         },
-        staticClass: 'q-btn-dropdown q-btn-dropdown-split'
+        staticClass: 'q-btn-dropdown q-btn-dropdown-split no-wrap'
       },
       [
         getBtn(),
