@@ -3,6 +3,8 @@ import { getToolbar } from './editor-utils'
 import { buttons } from './editor-definitions'
 import { Caret } from './editor-caret'
 
+document.execCommand('defaultParagraphSeparator', false, 'div')
+
 export default {
   name: 'q-editor',
   provide () {
@@ -49,45 +51,30 @@ export default {
       return !this.readonly && !this.disable
     },
     buttons () {
-      const getBtn = name => {
-        const
-          btn = this.definitions[name] || buttons[name],
-          state = this.attrib[btn.test || btn.cmd]
-
-        if (state === void 0 && (btn.type === 'toggle' || btn.disable)) {
-          this.attrib[btn.test || btn.cmd] = false
-        }
-        return btn
-      }
-
+      const getBtn = name => this.definitions[name] || buttons[name]
       return this.toolbar.map(
-        group => group.map(name => {
-          if (Array.isArray(name)) {
-            return name.map(item => getBtn(item))
-          }
-          return getBtn(name)
-        })
+        group => group.map(name => Array.isArray(name) ? name.map(item => getBtn(item)) : getBtn(name))
       )
     },
     keys () {
-      const k = {}
-      this.buttons.forEach(group => {
-        group.forEach(btn => {
-          if (Array.isArray(btn)) {
-            btn.forEach(item => {
-              if (item.key) {
-                k[item.key] = {
-                  cmd: btn.cmd,
-                  param: btn.param
-                }
-              }
-            })
-          }
-          else if (btn.key) {
+      const
+        k = {},
+        add = btn => {
+          if (btn.key) {
             k[btn.key] = {
               cmd: btn.cmd,
               param: btn.param
             }
+          }
+        }
+
+      this.buttons.forEach(group => {
+        group.forEach(btn => {
+          if (Array.isArray(btn)) {
+            btn.forEach(add)
+          }
+          else {
+            add(btn)
           }
         })
       })
@@ -96,8 +83,7 @@ export default {
   },
   data () {
     return {
-      editWatcher: true,
-      attrib: {}
+      editWatcher: true
     }
   },
   watch: {
@@ -119,7 +105,7 @@ export default {
     },
     onKeydown (e) {
       const key = getEventKey(e)
-      this.updateAttributes()
+      this.refreshToolbar()
 
       if (!e.ctrlKey || [17, 65, 67, 86].includes(key)) {
         return
@@ -135,34 +121,26 @@ export default {
     },
     runCmd (cmd, param, update = true) {
       console.log('applying', cmd, param)
-      this.caret.apply(cmd, param)
-      this.$refs.content.focus()
+      this.caret.apply(cmd, param, () => {
+        this.$refs.content.focus()
 
-      if (update) {
-        this.updateAttributes()
-      }
-    },
-    updateAttributes () {
-      setTimeout(() => {
-        let change = false
-        Object.keys(this.attrib).forEach(cmd => {
-          const state = this.caret.is(cmd)
-          if (this.attrib[cmd] !== state) {
-            this.attrib[cmd] = state
-            change = true
-          }
-        })
-        if (change) {
-          console.log('forceUpdate')
-          this.$forceUpdate()
+        if (update) {
+          this.refreshToolbar()
         }
+      })
+    },
+    refreshToolbar () {
+      setTimeout(() => {
+        this.$forceUpdate()
       }, 1)
     }
   },
   mounted () {
-    this.$refs.content.innerHTML = this.value
-    this.caret = new Caret(this.$refs.content)
-    document.execCommand('defaultParagraphSeparator', false, 'div')
+    this.$nextTick(() => {
+      this.caret = new Caret(this.$refs.content)
+      this.$refs.content.innerHTML = this.value
+      this.$nextTick(this.refreshToolbar)
+    })
   },
   render (h) {
     const attr = this.attrib
@@ -184,7 +162,7 @@ export default {
             on: {
               input: this.onInput,
               keydown: this.onKeydown,
-              click: this.updateAttributes,
+              click: this.refreshToolbar,
               blur: () => {
                 this.caret.save()
               }

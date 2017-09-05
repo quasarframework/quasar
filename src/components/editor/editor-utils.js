@@ -4,7 +4,7 @@ import { QList, QItem, QItemMain } from '../list'
 
 function getBtn (h, vm, btn) {
   const child = []
-  if (btn.tip) {
+  if (btn.tip && vm.$q.platform.is.desktop) {
     const Key = btn.key
       ? h('div', [h('small', `(CTRL + ${String.fromCharCode(btn.key)})`)])
       : null
@@ -16,7 +16,7 @@ function getBtn (h, vm, btn) {
       props: {
         icon: btn.icon,
         label: btn.label,
-        toggled: vm.attrib[btn.test || btn.cmd],
+        toggled: vm.caret.is(btn.cmd, btn.param),
         toggleColor: 'primary'
       },
       on: {
@@ -26,7 +26,7 @@ function getBtn (h, vm, btn) {
       }
     }, child)
   }
-  else if (btn.type === 'execute') {
+  else if (btn.type === 'run') {
     return h(QBtn, {
       props: {
         icon: btn.icon,
@@ -41,12 +41,15 @@ function getBtn (h, vm, btn) {
     }, child)
   }
   else if (Array.isArray(btn)) {
-    let sel = ''
+    let label = ''
 
     const Items = btn.map(item => {
-      const active = vm.attrib[item.test || item.cmd]
+      const active = item.type === 'toggle'
+        ? vm.caret.is(item.cmd, item.param)
+        : false
+
       if (active) {
-        sel = item.tip
+        label = item.tip
       }
       return h(QItem, {props: {active}}, [
         h(QItemMain, {
@@ -65,7 +68,7 @@ function getBtn (h, vm, btn) {
       ])
     })
 
-    const instance = h(QBtnDropdown, { props: { noCaps: true, noWrap: true, label: sel } }, [
+    const instance = h(QBtnDropdown, { props: { noCaps: true, noWrap: true, label } }, [
       h(QList, { props: { link: true, separator: true } }, [
         Items
       ])
@@ -75,8 +78,10 @@ function getBtn (h, vm, btn) {
 }
 
 export function getToolbar (h, vm) {
-  return vm.buttons.map(group => h(
-    QBtnGroup,
-    group.map(btn => getBtn(h, vm, btn))
-  ))
+  if (vm.caret) {
+    return vm.buttons.map(group => h(
+      QBtnGroup,
+      group.map(btn => getBtn(h, vm, btn))
+    ))
+  }
 }

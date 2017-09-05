@@ -49,7 +49,8 @@ export default {
           staticClass: 'transition-generic',
           'class': {
             'rotate-180': this.opened,
-            'on-right': !this.split
+            'on-right': !this.split,
+            'q-btn-dropdown-arrow': !this.split
           }
         }
       ),

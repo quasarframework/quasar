@@ -1,3 +1,5 @@
+import Dialog from '../dialog'
+
 function getBlockElement (el, parent) {
   if (parent && el === parent) {
     return null
@@ -37,10 +39,10 @@ export class Caret {
   }
 
   get selection () {
-    var sel = document.getSelection()
     if (!this.el) {
-      return sel
+      return
     }
+    const sel = document.getSelection()
     // only when the selection in element
     if (isChildOf(sel.anchorNode, this.el) && isChildOf(sel.focusNode, this.el)) {
       return sel
@@ -51,7 +53,7 @@ export class Caret {
     const sel = this.selection
 
     if (!sel) {
-      return null
+      return
     }
 
     return sel.rangeCount
@@ -62,7 +64,7 @@ export class Caret {
   get parent () {
     const range = this.range
     if (!range) {
-      return null
+      return
     }
 
     const node = range.startContainer
@@ -74,7 +76,7 @@ export class Caret {
   get blockParent () {
     const parent = this.parent
     if (!parent) {
-      return null
+      return
     }
     return getBlockElement(parent, this.el)
   }
@@ -117,11 +119,27 @@ export class Caret {
       : false
   }
 
-  is (name) {
-    if (['BLOCKQUOTE', 'DIV', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'A', 'IMG'].includes(name)) {
-      return this.hasParent(name)
+  is (cmd, param) {
+    switch (cmd) {
+      case 'formatBlock':
+        if (param === 'DIV' && this.parent === this.el) {
+          return true
+        }
+        return this.hasParent(param, param === 'PRE')
+      case 'link':
+        return this.hasParent('A', true)
+      case 'fontSize':
+        return document.queryCommandValue(cmd) === param
+      default:
+        const state = document.queryCommandState(cmd)
+        return param ? state === param : state
     }
-    return document.queryCommandState(name)
+  }
+
+  getParentAttribute (attrib) {
+    if (this.parent) {
+      return this.parent.getAttribute(attrib)
+    }
   }
 
   can (name) {
@@ -141,13 +159,62 @@ export class Caret {
     }
   }
 
-  apply (cmd, param) {
-    if (cmd === 'formatBlock' && ['BLOCKQUOTE', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'A', 'IMG'].includes(param)) {
-      if (this.is(param)) {
+  apply (cmd, param, done = () => {}) {
+    if (cmd === 'formatBlock') {
+      if (['BLOCKQUOTE', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'PRE'].includes(param) && this.is(param)) {
         this.apply('outdent')
+        done()
         return
       }
     }
+    else if (cmd === 'print') {
+      const win = window.open('', '_blank', 'width=600,height=700,left=200,top=100,menubar=no,toolbar=no,location=no,scrollbars=yes')
+      win.document.open()
+      win.document.write(`<!doctype html><html><head><title>Print</title></head><body onload="print();"><div>${this.el.innerHTML}</div></body></html>`)
+      win.document.close()
+      done()
+      return
+    }
+    else if (cmd === 'link') {
+      const link = this.getParentAttribute('href')
+      if (link && this.range) {
+        this.range.selectNodeContents(this.parent)
+      }
+      this.save()
+      Dialog.create({
+        title: 'Link',
+        message: this.selection ? this.selection.toString() : null,
+        form: {
+          url: {
+            type: 'text',
+            label: 'URL',
+            model: link || 'http://'
+          }
+        },
+        buttons: [
+          {
+            label: link ? 'Remove' : 'Cancel',
+            handler: () => {
+              if (link) {
+                this.restore()
+                document.execCommand('unlink')
+                done()
+              }
+            }
+          },
+          {
+            label: link ? 'Update' : 'Create',
+            handler: data => {
+              this.restore()
+              document.execCommand('createLink', false, data.url)
+              done()
+            }
+          }
+        ]
+      })
+      return
+    }
     document.execCommand(cmd, false, param)
+    done()
   }
 }
