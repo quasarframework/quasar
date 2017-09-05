@@ -106,8 +106,8 @@ export default {
       let container = this.$refs.container,
         containerWidth = container.clientWidth,
         containerHeight = container.clientHeight,
-        xOffset = container.getBoundingClientRect().left + window.pageXOffset,
-        yOffset = container.getBoundingClientRect().top + window.pageYOffset,
+        xOffset = container.getBoundingClientRect().left,
+        yOffset = container.getBoundingClientRect().top,
         left = x - xOffset,
         top = y - yOffset
 
@@ -135,8 +135,8 @@ export default {
     __onClick (event) {
       this.__onChange(
         this.__calcSaturationAndValueFromPositionInContainer({
-          x: event.pageX,
-          y: event.pageY
+          x: event.pageX - window.pageXOffset,
+          y: event.pageY - window.pageYOffset
         })
       )
     },

@@ -1,6 +1,6 @@
 import tinycolor from 'tinycolor2'
 
-export function colorChange (data, oldHue) {
+export function colorChange (data) {
   var alpha = data && data.a
   var color
 
@@ -23,7 +23,7 @@ export function colorChange (data, oldHue) {
   var hsv = color.toHsv()
 
   if (hsl.s === 0) {
-    hsv.h = hsl.h = data.h || (data.hsl && data.hsl.h) || oldHue || 0
+    hsv.h = hsl.h = data.h || (data.hsl && data.hsl.h) || 0
   }
 
   // when the hsv.v is less than 0.0164 (base on test)
@@ -44,7 +44,6 @@ export function colorChange (data, oldHue) {
     hex: color.toHexString().toUpperCase(),
     rgba: color.toRgb(),
     hsv: hsv,
-    oldHue: data.h || oldHue || hsl.h,
     source: data.source,
     a: data.a || color.getAlpha()
   }

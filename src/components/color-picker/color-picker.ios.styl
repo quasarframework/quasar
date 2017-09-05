@@ -1,8 +1,16 @@
+.q-inline-color-picker
+  max-width 100vw
+  border 1px solid $grey-4
+  display inline-block
+  width 320px
+  padding $alert-padding
+
 .q-saturation-value-picker
   width 100%
   padding-bottom 50%
   position relative
   overflow hidden
+  border-radius $generic-border-radius
 
 .q-saturation-value-picker--white,
 .q-saturation-value-picker--black
@@ -58,3 +66,23 @@
     border-radius $generic-border-radius
   &.active-track
     opacity 0
+
+.q-color-swatch
+  position relative
+  width 58px
+  height 58px
+  border-radius $generic-border-radius
+  &:after
+    content ''
+    display block
+    position absolute
+    left 0
+    right 0
+    top 0
+    bottom 0
+    border-radius $generic-border-radius
+    z-index -1
+    background-image url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAH0lEQVQoU2NkYGAwZkAFZ5G5jPRRgOYEVDeB3EBjBQBOZwTVugIGyAAAAABJRU5ErkJggg==')
+
+.q-inline-color-picker .q-color-swatch
+  margin-right 10px
