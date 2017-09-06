@@ -2,6 +2,7 @@ import { getEventKey } from '../../utils/event'
 import { getToolbar } from './editor-utils'
 import { buttons } from './editor-definitions'
 import { Caret } from './editor-caret'
+import extend from '../../utils/extend'
 
 document.execCommand('defaultParagraphSeparator', false, 'div')
 
@@ -20,23 +21,10 @@ export default {
     readonly: Boolean,
     disable: Boolean,
     toggleColor: String,
-    definitions: {
-      type: Object,
-      default: () => ({})
-    },
+    definitions: Object,
     toolbar: {
       type: Array,
-      validator: v => {
-        const names = Object.keys(buttons)
-        return v.length > 0 && v.every(group => {
-          return group.length > 0 && group.every(btn => {
-            if (Array.isArray(btn)) {
-              return btn.every(item => names.includes(item))
-            }
-            return names.includes(btn)
-          })
-        })
-      },
+      validator: v => v.length > 0 && v.every(group => group.length),
       default () {
         return [
           ['left', 'center', 'right', 'justify'],
@@ -51,9 +39,23 @@ export default {
       return !this.readonly && !this.disable
     },
     buttons () {
-      const getBtn = name => this.definitions[name] || buttons[name]
+      let def = this.definitions
+        ? extend(true, {}, buttons, this.definitions)
+        : buttons
+
       return this.toolbar.map(
-        group => group.map(name => Array.isArray(name) ? name.map(item => getBtn(item)) : getBtn(name))
+        group => group.map(token => {
+          if (token.options) {
+            return {
+              type: 'dropdown',
+              label: token.label,
+              options: token.options.map(item => def[item])
+            }
+          }
+          return token.handler
+            ? { type: 'no-state', ...def[token] }
+            : def[token]
+        })
       )
     },
     keys () {
@@ -69,12 +71,12 @@ export default {
         }
 
       this.buttons.forEach(group => {
-        group.forEach(btn => {
-          if (Array.isArray(btn)) {
-            btn.forEach(add)
+        group.forEach(token => {
+          if (token.options) {
+            token.options.forEach(add)
           }
           else {
-            add(btn)
+            add(token)
           }
         })
       })
@@ -122,8 +124,7 @@ export default {
     runCmd (cmd, param, update = true) {
       console.log('applying', cmd, param)
       this.caret.apply(cmd, param, () => {
-        this.$refs.content.focus()
-
+        this.focus()
         if (update) {
           this.refreshToolbar()
         }
@@ -133,6 +134,9 @@ export default {
       setTimeout(() => {
         this.$forceUpdate()
       }, 1)
+    },
+    focus () {
+      this.$refs.content.focus()
     }
   },
   mounted () {
@@ -143,7 +147,6 @@ export default {
     })
   },
   render (h) {
-    const attr = this.attrib
     return h(
       'div',
       { staticClass: 'q-editor' },
@@ -168,10 +171,7 @@ export default {
               }
             }
           }
-        ),
-        h('div', {style: {
-          wordWrap: 'break-word'
-        }}, [JSON.stringify(attr)])
+        )
       ]
     )
   }

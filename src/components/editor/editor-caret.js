@@ -49,6 +49,12 @@ export class Caret {
     }
   }
 
+  get hasSelection () {
+    return this.selection
+      ? this.selection.toString().length > 0
+      : null
+  }
+
   get range () {
     const sel = this.selection
 
@@ -162,17 +168,26 @@ export class Caret {
   apply (cmd, param, done = () => {}) {
     if (cmd === 'formatBlock') {
       if (['BLOCKQUOTE', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'PRE'].includes(param) && this.is(param)) {
-        this.apply('outdent')
-        done()
-        return
+        cmd = 'outdent'
+        param = null
       }
     }
     else if (cmd === 'print') {
-      const win = window.open('', '_blank', 'width=600,height=700,left=200,top=100,menubar=no,toolbar=no,location=no,scrollbars=yes')
-      win.document.open()
-      win.document.write(`<!doctype html><html><head><title>Print</title></head><body onload="print();"><div>${this.el.innerHTML}</div></body></html>`)
-      win.document.close()
       done()
+      const win = window.open()
+      win.document.write(`
+        <!doctype html>
+        <html>
+          <head>
+            <title>Print - ${document.title}</title>
+          </head>
+          <body>
+            <div>${this.el.innerHTML}</div>
+          </body>
+        </html>
+      `)
+      win.print()
+      win.close()
       return
     }
     else if (cmd === 'link') {
@@ -214,6 +229,7 @@ export class Caret {
       })
       return
     }
+
     document.execCommand(cmd, false, param)
     done()
   }
