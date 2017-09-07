@@ -14,6 +14,9 @@ function run (btn, vm) {
 function getBtn (h, vm, btn) {
   const child = []
 
+  if (btn.type === 'slot') {
+    return vm.$slots[btn.slot]
+  }
   if (btn.type === 'dropdown') {
     let label = btn.label
 
@@ -26,11 +29,10 @@ function getBtn (h, vm, btn) {
       if (active) {
         label = btn.tip
       }
-      return h(QItem, {props: {active, link: !disable}}, [
-        h(QItemMain, {
-          props: {
-            label: btn.tip
-          },
+      return h(
+        QItem,
+        {
+          props: { active, link: !disable },
           staticClass: disable ? 'disabled' : '',
           on: {
             click () {
@@ -41,15 +43,30 @@ function getBtn (h, vm, btn) {
               run(btn, vm)
             }
           }
-        })
-      ])
+        },
+        [
+          h(QItemMain, {
+            props: {
+              label: btn.tip
+            }
+          })
+        ]
+      )
     })
 
-    const instance = h(QBtnDropdown, { props: { noCaps: true, noWrap: true, label } }, [
-      h(QList, { props: { separator: true } }, [
-        Items
-      ])
-    ])
+    const instance = h(
+      QBtnDropdown,
+      {
+        props: {
+          noCaps: true,
+          noWrap: true,
+          color: label !== btn.label ? vm.toggleColor : vm.color,
+          label,
+          ...vm.buttonProps
+        }
+      },
+      [ h(QList, { props: { separator: true } }, [ Items ]) ]
+    )
     return instance
   }
   else {
@@ -67,8 +84,10 @@ function getBtn (h, vm, btn) {
         icon: btn.icon,
         label: btn.label,
         toggled: vm.caret.is(btn.cmd, btn.param),
-        toggleColor: 'primary',
-        disable: btn.disable ? btn.disable(vm) : false
+        color: vm.color,
+        toggleColor: vm.toggleColor,
+        disable: btn.disable ? btn.disable(vm) : false,
+        ...vm.buttonProps
       },
       on: {
         click () {
@@ -81,8 +100,10 @@ function getBtn (h, vm, btn) {
     return h(QBtn, {
       props: {
         icon: btn.icon,
+        color: vm.color,
         label: btn.label,
-        disable: btn.disable ? btn.disable(vm) : false
+        disable: btn.disable ? btn.disable(vm) : false,
+        ...vm.buttonProps
       },
       on: {
         click () {
@@ -97,6 +118,7 @@ export function getToolbar (h, vm) {
   if (vm.caret) {
     return vm.buttons.map(group => h(
       QBtnGroup,
+      { props: vm.buttonProps },
       group.map(btn => getBtn(h, vm, btn))
     ))
   }

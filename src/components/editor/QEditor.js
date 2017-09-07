@@ -8,11 +8,6 @@ document.execCommand('defaultParagraphSeparator', false, 'div')
 
 export default {
   name: 'q-editor',
-  provide () {
-    return {
-      __editor: this
-    }
-  },
   props: {
     value: {
       type: String,
@@ -20,7 +15,20 @@ export default {
     },
     readonly: Boolean,
     disable: Boolean,
-    toggleColor: String,
+    minHeight: {
+      type: String,
+      default: '10rem'
+    },
+    color: String,
+    toggleColor: {
+      type: String,
+      default: 'primary'
+    },
+    outline: Boolean,
+    flat: Boolean,
+    rounded: Boolean,
+    push: Boolean,
+    glossy: Boolean,
     definitions: Object,
     toolbar: {
       type: Array,
@@ -38,6 +46,15 @@ export default {
     editable () {
       return !this.readonly && !this.disable
     },
+    buttonProps () {
+      return {
+        outline: this.outline,
+        flat: this.flat,
+        rounded: this.rounded,
+        push: this.push,
+        glossy: this.glossy
+      }
+    },
     buttons () {
       let def = this.definitions
         ? extend(true, {}, buttons, this.definitions)
@@ -52,9 +69,18 @@ export default {
               options: token.options.map(item => def[item])
             }
           }
-          return token.handler
-            ? { type: 'no-state', ...def[token] }
-            : def[token]
+          const obj = def[token]
+          if (obj) {
+            return token.handler
+              ? { type: 'no-state', ...obj }
+              : obj
+          }
+          else {
+            return {
+              type: 'slot',
+              slot: token
+            }
+          }
         })
       )
     },
@@ -113,16 +139,14 @@ export default {
         return
       }
 
-      e.preventDefault()
-      e.stopPropagation()
-
       const { cmd, param } = this.keys[key]
       if (this.keys[key] !== void 0) {
+        e.preventDefault()
+        e.stopPropagation()
         this.runCmd(cmd, param, false)
       }
     },
     runCmd (cmd, param, update = true) {
-      console.log('applying', cmd, param)
       this.caret.apply(cmd, param, () => {
         this.focus()
         if (update) {
@@ -149,9 +173,14 @@ export default {
   render (h) {
     return h(
       'div',
-      { staticClass: 'q-editor' },
+      {
+        staticClass: 'q-editor',
+        'class': {
+          disabled: this.disable
+        }
+      },
       [
-        h(
+        this.readonly ? '' : h(
           'div',
           { staticClass: 'q-editor-toolbar overflow-auto row no-wrap' },
           getToolbar(h, this)
@@ -161,6 +190,7 @@ export default {
           {
             ref: 'content',
             staticClass: 'q-editor-content',
+            style: { minHeight: this.minHeight },
             attrs: { contenteditable: this.editable },
             on: {
               input: this.onInput,
