@@ -27,6 +27,8 @@ export default {
     rounded: Boolean,
     push: Boolean,
     glossy: Boolean,
+    small: Boolean,
+    big: Boolean,
     definitions: Object,
     toolbar: {
       type: Array,
@@ -50,7 +52,9 @@ export default {
         flat: this.flat,
         rounded: this.rounded,
         push: this.push,
-        glossy: this.glossy
+        glossy: this.glossy,
+        small: this.small,
+        big: this.big
       }
     },
     buttons () {

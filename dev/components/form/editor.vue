@@ -3,29 +3,34 @@
     <q-editor
       ref="editor"
       v-model="model"
+      small
       push glossy
       :toolbar="[
-        ['bold', 'italic', 'h1', 'p', 'link', 'gigi'],
-        ['gogu', 'print', 'custom_btn'],
-        ['token'],
-        ['bullet'],
-        [{
-          label: 'Font Size',
-          options: ['size-1', 'size-2', 'size-3', 'size-4', 'size-5', 'size-6', 'size-7']
-        },
-        {
-          label: 'Formatting',
-          options: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'code']
-        },
-        {
-          label: 'Font',
-          options: ['font_arial', 'font_arial_black', 'font_courier_new', 'font_times_new_roman']
-        }],
+        ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript'],
+        ['token', 'hr', 'link', 'custom_btn'],
+        [
+          {
+            label: 'Font Size',
+            options: ['size-1', 'size-2', 'size-3', 'size-4', 'size-5', 'size-6', 'size-7']
+          },
+          {
+            label: 'Formatting',
+            options: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'code']
+          },
+          {
+            label: 'Font',
+            options: ['font_arial', 'font_arial_black', 'font_courier_new', 'font_times_new_roman']
+          },
+          'removeFormat'
+        ],
+        ['quote', 'bullet', 'number', 'outdent', 'indent'],
+        ['left', 'center', 'right', 'justify'],
+        ['print'],
+        ['undo', 'redo'],
         [{
           label: 'Dropdown Test',
           options: ['gogu', 'outdent', 'indent', 'gigi']
-        }],
-        ['undo', 'redo']
+        }]
       ]"
       :definitions="{
         gigi: {cmd: 'bold', icon: 'map', tip: 'Gigi bold'},

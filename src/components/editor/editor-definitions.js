@@ -16,7 +16,6 @@ export const buttons = {
   right: {cmd: 'justifyRight', icon: 'format_align_right', tip: 'Right align'},
   justify: {cmd: 'justifyFull', icon: 'format_align_justify', tip: 'Justify align'},
 
-  // run
   print: {type: 'no-state', cmd: 'print', icon: 'print', tip: 'Print'},
   outdent: {type: 'no-state', disable: vm => vm.caret && !vm.caret.can('outdent'), cmd: 'outdent', icon: 'format_indent_decrease', tip: 'Decrease indentation'},
   indent: {type: 'no-state', disable: vm => vm.caret && !vm.caret.can('indent'), cmd: 'indent', icon: 'format_indent_increase', tip: 'Increase indentation'},
