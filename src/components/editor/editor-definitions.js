@@ -42,17 +42,4 @@ export const buttons = {
   'size-5': {cmd: 'fontSize', param: '5', icon: 'filter_5', tip: 'Big'},
   'size-6': {cmd: 'fontSize', param: '6', icon: 'filter_6', tip: 'Very big'},
   'size-7': {cmd: 'fontSize', param: '7', icon: 'filter_7', tip: 'Maximum'}
-
-  /*
-  link: {cmd: 'link', icon: 'link', tip: 'Link', key: 76},
-
-  font_arial: {cmd: 'fontname', param: 'Arial', icon: 'font_download', tip: 'Arial'},
-  font_arial_black: {cmd: 'fontname', param: 'Arial Black', icon: 'font_download', tip: 'Arial Black'},
-  font_courier_new: {cmd: 'fontname', param: 'Courier New', icon: 'font_download', tip: 'Courier New'},
-  font_times_new_roman: {cmd: 'fontname', param: 'Times New Roman', icon: 'font_download', tip: 'Times New Roman'},
-
-  div: {cmd: 'formatBlock', param: 'DIV', icon: 'format_size', tip: 'DIV'},
-
-  heading: {cmd: 'heading', icon: 'format_size', tip: 'Heading', key: 72},
-  */
 }
