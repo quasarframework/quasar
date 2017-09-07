@@ -1,6 +1,7 @@
 import { QBtn, QBtnToggle, QBtnDropdown, QBtnGroup } from '../btn'
 import { QTooltip } from '../tooltip'
 import { QList, QItem, QItemMain } from '../list'
+import extend from '../../utils/extend'
 
 function run (btn, vm) {
   if (btn.handler) {
@@ -57,13 +58,12 @@ function getBtn (h, vm, btn) {
     const instance = h(
       QBtnDropdown,
       {
-        props: {
+        props: extend({
           noCaps: true,
           noWrap: true,
           color: label !== btn.label ? vm.toggleColor : vm.color,
-          label,
-          ...vm.buttonProps
-        }
+          label
+        }, vm.buttonProps)
       },
       [ h(QList, { props: { separator: true } }, [ Items ]) ]
     )
@@ -80,15 +80,14 @@ function getBtn (h, vm, btn) {
 
   if (btn.type === void 0) {
     return h(QBtnToggle, {
-      props: {
+      props: extend({
         icon: btn.icon,
         label: btn.label,
         toggled: vm.caret.is(btn.cmd, btn.param),
         color: vm.color,
         toggleColor: vm.toggleColor,
-        disable: btn.disable ? btn.disable(vm) : false,
-        ...vm.buttonProps
-      },
+        disable: btn.disable ? btn.disable(vm) : false
+      }, vm.buttonProps),
       on: {
         click () {
           run(btn, vm)
@@ -98,13 +97,12 @@ function getBtn (h, vm, btn) {
   }
   if (btn.type === 'no-state') {
     return h(QBtn, {
-      props: {
+      props: extend({
         icon: btn.icon,
         color: vm.color,
         label: btn.label,
-        disable: btn.disable ? btn.disable(vm) : false,
-        ...vm.buttonProps
-      },
+        disable: btn.disable ? btn.disable(vm) : false
+      }, vm.buttonProps),
       on: {
         click () {
           run(btn, vm)

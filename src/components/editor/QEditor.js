@@ -4,8 +4,6 @@ import { buttons } from './editor-definitions'
 import { Caret } from './editor-caret'
 import extend from '../../utils/extend'
 
-document.execCommand('defaultParagraphSeparator', false, 'div')
-
 export default {
   name: 'q-editor',
   props: {
@@ -69,10 +67,12 @@ export default {
               options: token.options.map(item => def[item])
             }
           }
+
           const obj = def[token]
+
           if (obj) {
             return token.handler
-              ? { type: 'no-state', ...obj }
+              ? extend(true, { type: 'no-state' }, obj)
               : obj
           }
           else {
@@ -162,6 +162,9 @@ export default {
     focus () {
       this.$refs.content.focus()
     }
+  },
+  created () {
+    document.execCommand('defaultParagraphSeparator', false, 'div')
   },
   mounted () {
     this.$nextTick(() => {
