@@ -75,7 +75,8 @@ export default {
             small: this.small,
             big: this.big,
             color: this.color,
-            glossy: this.glossy
+            glossy: this.glossy,
+            compact: this.compact
           },
           staticClass: `${this.split ? 'q-btn-dropdown-current' : 'q-btn-dropdown q-btn-dropdown-simple'}`,
           on: {

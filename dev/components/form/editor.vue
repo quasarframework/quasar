@@ -4,7 +4,9 @@
       ref="editor"
       v-model="model"
       small
-      push glossy
+      push
+      glossy
+      compact
       :toolbar="[
         ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript'],
         ['token', 'hr', 'link', 'custom_btn'],
@@ -42,8 +44,8 @@
         font_times_new_roman: {cmd: 'fontName', param: 'Times New Roman', icon: 'font_download', tip: 'Times New Roman'}
       }"
     >
-      <q-btn push glossy color="yellow" slot="custom_btn">Wow</q-btn>
-      <q-btn-dropdown push glossy ref="token" no-wrap slot="token" color="green" label="Inject token">
+      <q-btn push compact glossy color="yellow" slot="custom_btn">Wow</q-btn>
+      <q-btn-dropdown push compact glossy ref="token" no-wrap slot="token" color="green" label="Inject token">
         <q-list link>
           <q-item tag="label" @click="add('email')">
             <q-item-main label="Email" />

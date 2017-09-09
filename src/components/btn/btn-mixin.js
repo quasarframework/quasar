@@ -23,7 +23,8 @@ export default {
     small: Boolean,
     big: Boolean,
     color: String,
-    glossy: Boolean
+    glossy: Boolean,
+    compact: Boolean
   },
   computed: {
     size () {
@@ -43,6 +44,10 @@ export default {
       if (this.toggled) {
         cls.push('q-btn-toggle-active')
       }
+      if (this.compact) {
+        cls.push('q-btn-compact')
+      }
+
       if (this.flat) {
         cls.push('q-btn-flat')
       }

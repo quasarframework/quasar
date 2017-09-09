@@ -29,6 +29,7 @@ export default {
     glossy: Boolean,
     small: Boolean,
     big: Boolean,
+    compact: Boolean,
     definitions: Object,
     toolbar: {
       type: Array,
@@ -54,7 +55,8 @@ export default {
         push: this.push,
         glossy: this.glossy,
         small: this.small,
-        big: this.big
+        big: this.big,
+        compact: this.compact
       }
     },
     buttons () {

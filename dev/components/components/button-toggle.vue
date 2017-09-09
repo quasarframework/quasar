@@ -27,6 +27,35 @@
       Toggle me
     </q-btn-toggle>
 
+    <div style="margin-top: 25px">
+      <q-btn-toggle
+        compact
+        v-model="toggled"
+        toggle-color="primary"
+      >
+        Toggle me
+      </q-btn-toggle>
+
+      <q-btn-toggle
+        compact
+        v-model="toggled"
+        color="green"
+        toggle-color="red"
+      >
+        Toggle me
+      </q-btn-toggle>
+
+      <q-btn-toggle
+        compact
+        v-model="toggled"
+        color="green"
+        toggle-color="red"
+        push
+      >
+        Toggle me
+      </q-btn-toggle>
+    </div>
+
   </div>
 </template>
 
