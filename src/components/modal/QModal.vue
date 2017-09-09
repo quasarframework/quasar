@@ -93,8 +93,8 @@ export default {
       type: String,
       default: 'flex-center'
     },
-    contentClasses: [Object, String],
-    contentCss: [Object, String],
+    contentClasses: [Object, Array, String],
+    contentCss: [Object, Array, String],
     noBackdropDismiss: {
       type: Boolean,
       default: false
@@ -134,13 +134,19 @@ export default {
     },
     modalCss () {
       if (this.position) {
-        return extend(
+        const css = Array.isArray(this.contentCss)
+          ? this.contentCss
+          : [this.contentCss]
+
+        css.unshift(extend(
           {},
           positionCSS[this.$q.theme],
-          additionalCSS(this.$q.theme, this.position),
-          this.contentCss
-        )
+          additionalCSS(this.$q.theme, this.position)
+        ))
+
+        return css
       }
+
       return this.contentCss
     }
   },
