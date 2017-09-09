@@ -26,6 +26,7 @@ import Platform from '../../features/platform'
 import EscapeKey from '../../features/escape-key'
 import extend from '../../utils/extend'
 import { QTransition } from '../transition'
+import { getScrollbarWidth } from '../../utils/scroll'
 
 const positions = {
   top: 'items-start justify-center with-backdrop',
@@ -156,8 +157,12 @@ export default {
         return
       }
 
-      document.body.appendChild(this.$el)
-      document.body.classList.add('with-modal')
+      const body = document.body
+
+      body.appendChild(this.$el)
+      body.classList.add('with-modal')
+      this.bodyPadding = window.getComputedStyle(body).paddingRight
+      body.style.paddingRight = `${getScrollbarWidth()}px`
       EscapeKey.register(() => {
         if (this.noEscDismiss) {
           return
@@ -186,7 +191,8 @@ export default {
 
         setTimeout(() => {
           if (!openedModalNumber) {
-            document.body.classList.remove('with-modal')
+            body.classList.remove('with-modal')
+            body.style.paddingRight = this.bodyPadding
           }
           if (typeof this.__onClose === 'function') {
             this.__onClose()
