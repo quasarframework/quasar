@@ -10,6 +10,7 @@
           {
             label: 'Formatting',
             icon: 'text_format',
+            list: 'no-icons',
             options: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'code']
           },
           {
@@ -17,18 +18,27 @@
             icon: 'format_size',
             fixedLabel: true,
             fixedIcon: true,
+            list: 'no-icons',
             options: ['size-1', 'size-2', 'size-3', 'size-4', 'size-5', 'size-6', 'size-7']
           },
           {
             label: 'Font',
             icon: 'font_download',
             fixedIcon: true,
+            list: 'no-icons',
             options: ['font_arial', 'font_arial_black', 'font_courier_new', 'font_times_new_roman']
           },
           'removeFormat'
         ],
         ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
         [
+          {
+            label: 'Align',
+            icon: 'format_align_left',
+            fixedLabel: true,
+            list: 'only-icons',
+            options: ['left', 'center', 'right', 'justify']
+          },
           {
             label: 'Align',
             icon: 'format_align_left',
@@ -40,6 +50,7 @@
         ['undo', 'redo'],
         [{
           label: 'Dropdown Test',
+          highlight: true,
           options: ['gogu', 'outdent', 'indent', 'gigi']
         }]
       ]"
@@ -47,10 +58,10 @@
         gigi: {cmd: 'bold', icon: 'map', tip: 'Gigi bold'},
         bold: {icon: 'content_paste'},
         gogu: {tip: 'Custom', icon: 'account_balance', handler: vm => vm.runCmd('print')},
-        font_arial: {cmd: 'fontName', param: 'Arial', icon: 'font_download', tip: 'Arial'},
-        font_arial_black: {cmd: 'fontName', param: 'Arial Black', icon: 'font_download', tip: 'Arial Black'},
-        font_courier_new: {cmd: 'fontName', param: 'Courier New', icon: 'font_download', tip: 'Courier New'},
-        font_times_new_roman: {cmd: 'fontName', param: 'Times New Roman', icon: 'font_download', tip: 'Times New Roman'}
+        font_arial: {cmd: 'fontName', param: 'Arial', icon: 'font_download', tip: 'Arial', htmlTip: '<font face=\'Arial\'>Arial</font>'},
+        font_arial_black: {cmd: 'fontName', param: 'Arial Black', icon: 'font_download', tip: 'Arial Black', htmlTip: '<font face=\'Arial Black\'>Arial Black</font>'},
+        font_courier_new: {cmd: 'fontName', param: 'Courier New', icon: 'font_download', tip: 'Courier New', htmlTip: '<font face=\'Courier New\'>Courier New</font>'},
+        font_times_new_roman: {cmd: 'fontName', param: 'Times New Roman', icon: 'font_download', tip: 'Times New Roman', htmlTip: '<font face=\'Times New Roman\'>Times New Roman</font>'}
       }"
     >
       <q-btn compact small color="yellow" slot="custom_btn">Wow</q-btn>

@@ -3,26 +3,95 @@ import { QTooltip } from '../tooltip'
 import { QList, QItem, QItemSide, QItemMain } from '../list'
 import extend from '../../utils/extend'
 
-function run (btn, vm) {
+function run (e, btn, vm) {
   if (btn.handler) {
-    btn.handler(vm)
+    btn.handler(e, vm, vm.caret)
   }
   else {
     vm.runCmd(btn.cmd, btn.param)
   }
 }
 
-function getBtn (h, vm, btn) {
-  if (btn.type === 'slot') {
-    return vm.$slots[btn.slot]
+function getBtn (h, vm, btn, clickHandler) {
+  const
+    child = [],
+    events = {
+      click (e) {
+        clickHandler && clickHandler()
+        run(e, btn, vm)
+      }
+    }
+
+  if (btn.tip && vm.$q.platform.is.desktop) {
+    const Key = btn.key
+      ? h('div', [h('small', `(CTRL + ${String.fromCharCode(btn.key)})`)])
+      : null
+    child.push(h(QTooltip, { props: {delay: 1000} }, [
+      h('div', { domProps: { innerHTML: btn.tip } }),
+      Key
+    ]))
   }
 
-  if (btn.type === 'dropdown') {
-    let
-      label = btn.label,
-      icon = btn.icon
+  if (btn.type === void 0) {
+    return h(QBtnToggle, {
+      props: extend({
+        icon: btn.icon,
+        label: btn.label,
+        toggled: vm.caret.is(btn.cmd, btn.param),
+        color: vm.color,
+        toggleColor: vm.toggleColor,
+        disable: btn.disable ? btn.disable(vm) : false
+      }, vm.buttonProps),
+      on: events
+    }, child)
+  }
+  if (btn.type === 'no-state') {
+    return h(QBtn, {
+      props: extend({
+        icon: btn.icon,
+        color: vm.color,
+        label: btn.label,
+        disable: btn.disable ? btn.disable(vm) : false
+      }, vm.buttonProps),
+      on: events
+    }, child)
+  }
+}
 
-    const Items = btn.options.map(btn => {
+function getDropdown (h, vm, btn) {
+  let
+    label = btn.label,
+    icon = btn.icon,
+    noIcons = btn.list === 'no-icons',
+    onlyIcons = btn.list === 'only-icons',
+    Items
+
+  function closeDropdown () {
+    Dropdown.componentInstance.close()
+  }
+
+  if (onlyIcons) {
+    Items = btn.options.map(btn => {
+      const active = btn.type === void 0
+        ? vm.caret.is(btn.cmd, btn.param)
+        : false
+
+      if (active) {
+        label = btn.tip
+        icon = btn.icon
+      }
+      return getBtn(h, vm, btn, closeDropdown)
+    })
+    Items = [
+      h(
+        QBtnGroup,
+        { props: vm.buttonProps, staticClass: 'relative-position q-editor-toolbar-padding' },
+        Items
+      )
+    ]
+  }
+  else {
+    Items = btn.options.map(btn => {
       const disable = btn.disable ? btn.disable(vm) : false
       const active = btn.type === void 0
         ? vm.caret.is(btn.cmd, btn.param)
@@ -39,82 +108,42 @@ function getBtn (h, vm, btn) {
           props: { active, link: !disable },
           staticClass: disable ? 'disabled' : '',
           on: {
-            click () {
+            click (e) {
               if (disable) { return }
-              instance.componentInstance.close()
+              closeDropdown()
               vm.$refs.content.focus()
               vm.caret.restore()
-              run(btn, vm)
+              run(e, btn, vm)
             }
           }
         },
         [
-          h(QItemSide, {props: {icon: btn.icon}}),
+          noIcons ? '' : h(QItemSide, {props: {icon: btn.icon}}),
           h(QItemMain, {
             props: {
-              label: btn.tip
+              label: btn.htmlTip || btn.tip
             }
           })
         ]
       )
     })
-
-    const instance = h(
-      QBtnDropdown,
-      {
-        props: extend({
-          noCaps: true,
-          noWrap: true,
-          color: btn.highlight && label !== btn.label ? vm.toggleColor : vm.color,
-          label: btn.fixedLabel ? btn.label : label,
-          icon: btn.fixedIcon ? btn.icon : icon
-        }, vm.buttonProps)
-      },
-      [ h(QList, { props: { separator: true } }, [ Items ]) ]
-    )
-    return instance
+    Items = [ h(QList, { props: { separator: true } }, [ Items ]) ]
   }
 
-  const child = []
-  if (btn.tip && vm.$q.platform.is.desktop) {
-    const Key = btn.key
-      ? h('div', [h('small', `(CTRL + ${String.fromCharCode(btn.key)})`)])
-      : null
-    child.push(h(QTooltip, { props: {delay: 1000} }, [btn.tip, Key]))
-  }
-
-  if (btn.type === void 0) {
-    return h(QBtnToggle, {
+  const Dropdown = h(
+    QBtnDropdown,
+    {
       props: extend({
-        icon: btn.icon,
-        label: btn.label,
-        toggled: vm.caret.is(btn.cmd, btn.param),
-        color: vm.color,
-        toggleColor: vm.toggleColor,
-        disable: btn.disable ? btn.disable(vm) : false
-      }, vm.buttonProps),
-      on: {
-        click () {
-          run(btn, vm)
-        }
-      }
-    }, child)
-  }
-  if (btn.type === 'no-state') {
-    return h(QBtn, {
-      props: extend({
-        icon: btn.icon,
-        color: vm.color,
-        label: btn.label,
-        disable: btn.disable ? btn.disable(vm) : false
-      }, vm.buttonProps),
-      on: {
-        click () {
-          run(btn, vm)
-        }
-      }
-    }, child)
-  }
+        noCaps: true,
+        noWrap: true,
+        color: btn.highlight && label !== btn.label ? vm.toggleColor : vm.color,
+        label: btn.fixedLabel ? btn.label : label,
+        icon: btn.fixedIcon ? btn.icon : icon
+      }, vm.buttonProps)
+    },
+    Items
+  )
+  return Dropdown
 }
 
 export function getToolbar (h, vm) {
@@ -122,7 +151,17 @@ export function getToolbar (h, vm) {
     return vm.buttons.map(group => h(
       QBtnGroup,
       { props: vm.buttonProps, staticClass: 'relative-position' },
-      group.map(btn => getBtn(h, vm, btn))
+      group.map(btn => {
+        if (btn.type === 'slot') {
+          return vm.$slots[btn.slot]
+        }
+
+        if (btn.type === 'dropdown') {
+          return getDropdown(h, vm, btn)
+        }
+
+        return getBtn(h, vm, btn)
+      })
     ))
   }
 }

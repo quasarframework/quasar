@@ -69,6 +69,8 @@ export default {
               label: token.label,
               fixedLabel: token.fixedLabel,
               fixedIcon: token.fixedIcon,
+              highlight: token.highlight,
+              list: token.list,
               options: token.options.map(item => def[item])
             }
           }
@@ -140,18 +142,20 @@ export default {
       const key = getEventKey(e)
       this.refreshToolbar()
 
-      if (!e.ctrlKey || [17, 65, 67, 86].includes(key)) {
+      if (!e.ctrlKey) {
         return
       }
 
-      const { cmd, param } = this.keys[key]
-      if (this.keys[key] !== void 0) {
+      const target = this.keys[key]
+      if (target !== void 0) {
+        const { cmd, param } = target
         e.preventDefault()
         e.stopPropagation()
         this.runCmd(cmd, param, false)
       }
     },
     runCmd (cmd, param, update = true) {
+      this.focus()
       this.caret.apply(cmd, param, () => {
         this.focus()
         if (update) {
@@ -191,7 +195,7 @@ export default {
         this.readonly ? '' : h(
           'div',
           {
-            staticClass: `q-editor-toolbar overflow-auto row no-wrap bg-${this.toolbarColor}`,
+            staticClass: `q-editor-toolbar q-editor-toolbar-padding overflow-auto row no-wrap bg-${this.toolbarColor}`,
             'class': {
               'q-editor-toolbar-separator': !this.outline && !this.push
             }
@@ -214,8 +218,7 @@ export default {
               }
             }
           }
-        ),
-        h('div', {domProps: {innerHTML: JSON.stringify(this.buttons)}})
+        )
       ]
     )
   }

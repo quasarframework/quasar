@@ -177,8 +177,15 @@
 
       <p class="caption">Full Width Buttons</p>
       <div class="group">
-        <q-btn color="primary" class="full-width">Full-width</q-btn>
+        <q-btn color="primary" class="full-width">Full-width Full-width Full-width Full-width Full-width Full-width Full-width Full-width Full-width</q-btn>
         <q-btn color="secondary" class="full-width">Full-width</q-btn>
+      </div>
+
+      <p class="caption">Wrap test</p>
+      <div class="group" style="width: 610px">
+        <q-btn color="primary">Full-width Full-width Full-width Full-width Full-width Full-width Full-width Full-width Full-width</q-btn>
+        <q-btn color="primary" no-wrap>No wrap. Full-width Full-width Full-width Full-width Full-width Full-width Full-width Full-width Full-width</q-btn>
+        <q-btn color="primary" no-wrap label="No wrap with label prop. Full-width Full-width Full-width Full-width Full-width Full-width Full-width Full-width Full-width" />
       </div>
 
       <h2>Sizes</h2>

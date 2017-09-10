@@ -15,7 +15,7 @@
 
     <span
       class="q-btn-inner row col flex-center"
-      :class="{'no-wrap': noWrap}"
+      :class="{'no-wrap': noWrap, 'text-no-wrap': noWrap}"
     >
       <slot v-if="loading" name="loading">
         <q-spinner></q-spinner>

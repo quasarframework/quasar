@@ -17,6 +17,7 @@
       :icon="opt.icon"
       :icon-right="opt.iconRight"
       :no-caps="noCaps"
+      :no-wrap="noWrap"
       :outline="outline"
       :flat="flat"
       :rounded="rounded"
@@ -24,6 +25,7 @@
       :glossy="glossy"
       :small="small"
       :big="big"
+      :compact="compact"
     ></q-btn-toggle>
   </q-btn-group>
 </template>

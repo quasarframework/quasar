@@ -68,13 +68,6 @@ p
     &:not(:first-child)
       margin-top 2rem
 
-.token
-  color opposite-non-color($primary)
-  background alpha($primary, .7)
-  border-radius $generic-border-radius
-  padding 3px 5px
-  font-size 90%
-
 .uppercase
   text-transform uppercase
 .lowercase
@@ -82,21 +75,24 @@ p
 .capitalize
   text-transform capitalize
 
-+prefix-classes('text-')
-  .center
+.text-
+  &center
     text-align center
-  .left
+  &left
     text-align left
-  .right
+  &right
     text-align right
-  .justify
+  &justify
     text-align justify
     hyphens auto
 
-  .italic
+  &italic
     font-style italic
-  .bold
+  &bold
     font-weight bold
+
+  &no-wrap
+    white-space nowrap
 
 .light-paragraph
   font-weight 300
