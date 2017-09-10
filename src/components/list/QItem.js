@@ -15,7 +15,7 @@ export default {
       prop = ctx.props,
       cls = itemClasses(prop)
 
-    if (prop.to !== void 0 || prop.link) {
+    if (prop.to !== void 0) {
       data.props = prop
     }
     else {

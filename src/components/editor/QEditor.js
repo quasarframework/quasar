@@ -22,14 +22,13 @@ export default {
       type: String,
       default: 'primary'
     },
-    outline: Boolean,
+    toolbarColor: {
+      type: String,
+      default: 'grey-4'
+    },
     flat: Boolean,
-    rounded: Boolean,
+    outline: Boolean,
     push: Boolean,
-    glossy: Boolean,
-    small: Boolean,
-    big: Boolean,
-    compact: Boolean,
     definitions: Object,
     toolbar: {
       type: Array,
@@ -51,12 +50,9 @@ export default {
       return {
         outline: this.outline,
         flat: this.flat,
-        rounded: this.rounded,
         push: this.push,
-        glossy: this.glossy,
-        small: this.small,
-        big: this.big,
-        compact: this.compact
+        small: true,
+        compact: true
       }
     },
     buttons () {
@@ -69,7 +65,10 @@ export default {
           if (token.options) {
             return {
               type: 'dropdown',
+              icon: token.icon,
               label: token.label,
+              fixedLabel: token.fixedLabel,
+              fixedIcon: token.fixedIcon,
               options: token.options.map(item => def[item])
             }
           }
@@ -191,7 +190,12 @@ export default {
       [
         this.readonly ? '' : h(
           'div',
-          { staticClass: 'q-editor-toolbar overflow-auto row no-wrap' },
+          {
+            staticClass: `q-editor-toolbar overflow-auto row no-wrap bg-${this.toolbarColor}`,
+            'class': {
+              'q-editor-toolbar-separator': !this.outline && !this.push
+            }
+          },
           getToolbar(h, this)
         ),
         h(
@@ -210,7 +214,8 @@ export default {
               }
             }
           }
-        )
+        ),
+        h('div', {domProps: {innerHTML: JSON.stringify(this.buttons)}})
       ]
     )
   }

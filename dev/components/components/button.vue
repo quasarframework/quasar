@@ -89,6 +89,23 @@
         <q-btn round big icon="alarm" color="primary" />
       </p>
 
+      <p class="caption">Compact - Small, Medium (default) and Big</p>
+      <p class="group">
+        <q-btn compact small color="primary" label="Button" />
+        <q-btn compact color="primary" label="Button" />
+        <q-btn compact big color="primary" label="Button" />
+      </p>
+      <p class="group">
+        <q-btn compact icon="check" small color="primary" label="Button" />
+        <q-btn compact icon="cloud" color="primary" label="Button" />
+        <q-btn compact icon="alarm" big color="primary" label="Button" />
+      </p>
+      <p class="group">
+        <q-btn compact round small icon="check" color="primary" />
+        <q-btn compact round icon="cloud" color="primary" />
+        <q-btn compact round big icon="alarm" color="primary" />
+      </p>
+
       <p class="caption">Regular with Icons</p>
       <p class="group">
         <q-btn color="primary" icon="mail" label="On Left" />

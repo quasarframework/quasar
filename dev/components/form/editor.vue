@@ -3,30 +3,39 @@
     <q-editor
       ref="editor"
       v-model="model"
-      small
-      push
-      glossy
-      compact
       :toolbar="[
         ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript'],
         ['token', 'hr', 'link', 'custom_btn'],
         [
           {
-            label: 'Font Size',
-            options: ['size-1', 'size-2', 'size-3', 'size-4', 'size-5', 'size-6', 'size-7']
-          },
-          {
             label: 'Formatting',
+            icon: 'text_format',
             options: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'code']
           },
           {
+            label: 'Font Size',
+            icon: 'format_size',
+            fixedLabel: true,
+            fixedIcon: true,
+            options: ['size-1', 'size-2', 'size-3', 'size-4', 'size-5', 'size-6', 'size-7']
+          },
+          {
             label: 'Font',
+            icon: 'font_download',
+            fixedIcon: true,
             options: ['font_arial', 'font_arial_black', 'font_courier_new', 'font_times_new_roman']
           },
           'removeFormat'
         ],
-        ['quote', 'bullet', 'number', 'outdent', 'indent'],
-        ['left', 'center', 'right', 'justify'],
+        ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
+        [
+          {
+            label: 'Align',
+            icon: 'format_align_left',
+            fixedLabel: true,
+            options: ['left', 'center', 'right', 'justify']
+          }
+        ],
         ['print'],
         ['undo', 'redo'],
         [{
@@ -44,13 +53,15 @@
         font_times_new_roman: {cmd: 'fontName', param: 'Times New Roman', icon: 'font_download', tip: 'Times New Roman'}
       }"
     >
-      <q-btn push compact glossy color="yellow" slot="custom_btn">Wow</q-btn>
-      <q-btn-dropdown push compact glossy ref="token" no-wrap slot="token" color="green" label="Inject token">
-        <q-list link>
+      <q-btn compact small color="yellow" slot="custom_btn">Wow</q-btn>
+      <q-btn-dropdown small compact no-caps ref="token" no-wrap slot="token" color="green" label="Token">
+        <q-list link separator>
           <q-item tag="label" @click="add('email')">
+            <q-item-side icon="mail" />
             <q-item-main label="Email" />
           </q-item>
           <q-item tag="label" @click="add('title')">
+            <q-item-side icon="title" />
             <q-item-main label="Title" />
           </q-item>
         </q-list>

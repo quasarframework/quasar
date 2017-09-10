@@ -6,7 +6,6 @@
 .q-editor-content
   outline 0
   padding $editor-padding
-  min-height 10rem
 
   hr
     border 0
@@ -17,7 +16,20 @@
 
 .q-editor-toolbar
   padding 5px
+  border-bottom $editor-border
   .q-btn-group
-    background $editor-button-group-background
+    box-shadow none
   .q-btn-group + .q-btn-group
     margin-left $editor-button-gutter
+.q-editor-toolbar-separator
+  .q-btn-group + .q-btn-group
+    padding-left $editor-button-gutter
+    &:before
+      content ''
+      position absolute
+      left 0
+      top 0
+      bottom 0
+      height 100%
+      width 1px
+      background $editor-border-color

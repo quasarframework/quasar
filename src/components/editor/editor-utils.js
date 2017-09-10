@@ -1,6 +1,6 @@
 import { QBtn, QBtnToggle, QBtnDropdown, QBtnGroup } from '../btn'
 import { QTooltip } from '../tooltip'
-import { QList, QItem, QItemMain } from '../list'
+import { QList, QItem, QItemSide, QItemMain } from '../list'
 import extend from '../../utils/extend'
 
 function run (btn, vm) {
@@ -13,23 +13,26 @@ function run (btn, vm) {
 }
 
 function getBtn (h, vm, btn) {
-  const child = []
-
   if (btn.type === 'slot') {
     return vm.$slots[btn.slot]
   }
+
   if (btn.type === 'dropdown') {
-    let label = btn.label
+    let
+      label = btn.label,
+      icon = btn.icon
 
     const Items = btn.options.map(btn => {
       const disable = btn.disable ? btn.disable(vm) : false
-      const active = !disable && btn.type === void 0
+      const active = btn.type === void 0
         ? vm.caret.is(btn.cmd, btn.param)
         : false
 
       if (active) {
         label = btn.tip
+        icon = btn.icon
       }
+
       return h(
         QItem,
         {
@@ -46,6 +49,7 @@ function getBtn (h, vm, btn) {
           }
         },
         [
+          h(QItemSide, {props: {icon: btn.icon}}),
           h(QItemMain, {
             props: {
               label: btn.tip
@@ -61,21 +65,22 @@ function getBtn (h, vm, btn) {
         props: extend({
           noCaps: true,
           noWrap: true,
-          color: label !== btn.label ? vm.toggleColor : vm.color,
-          label
+          color: btn.highlight && label !== btn.label ? vm.toggleColor : vm.color,
+          label: btn.fixedLabel ? btn.label : label,
+          icon: btn.fixedIcon ? btn.icon : icon
         }, vm.buttonProps)
       },
       [ h(QList, { props: { separator: true } }, [ Items ]) ]
     )
     return instance
   }
-  else {
-    if (btn.tip && vm.$q.platform.is.desktop) {
-      const Key = btn.key
-        ? h('div', [h('small', `(CTRL + ${String.fromCharCode(btn.key)})`)])
-        : null
-      child.push(h(QTooltip, { props: {delay: 1000} }, [btn.tip, Key]))
-    }
+
+  const child = []
+  if (btn.tip && vm.$q.platform.is.desktop) {
+    const Key = btn.key
+      ? h('div', [h('small', `(CTRL + ${String.fromCharCode(btn.key)})`)])
+      : null
+    child.push(h(QTooltip, { props: {delay: 1000} }, [btn.tip, Key]))
   }
 
   if (btn.type === void 0) {
@@ -116,7 +121,7 @@ export function getToolbar (h, vm) {
   if (vm.caret) {
     return vm.buttons.map(group => h(
       QBtnGroup,
-      { props: vm.buttonProps },
+      { props: vm.buttonProps, staticClass: 'relative-position' },
       group.map(btn => getBtn(h, vm, btn))
     ))
   }

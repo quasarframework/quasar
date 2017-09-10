@@ -4,8 +4,8 @@ export const buttons = {
   italic: {cmd: 'italic', icon: 'format_italic', tip: 'Italic', key: 73},
   strike: {cmd: 'strikeThrough', icon: 'strikethrough_s', tip: 'Strikethrough', key: 83},
   underline: {cmd: 'underline', icon: 'format_underlined', tip: 'Underline', key: 85},
-  bullet: {cmd: 'insertUnorderedList', icon: 'format_list_bulleted', tip: 'Bullet list'},
-  number: {cmd: 'insertOrderedList', icon: 'format_list_numbered', tip: 'Numbered list'},
+  unordered: {cmd: 'insertUnorderedList', icon: 'format_list_bulleted', tip: 'Unordered List'},
+  ordered: {cmd: 'insertOrderedList', icon: 'format_list_numbered', tip: 'Ordered List'},
   subscript: {cmd: 'subscript', icon: 'vertical_align_bottom', tip: 'Subscript'},
   superscript: {cmd: 'superscript', icon: 'vertical_align_top', tip: 'Superscript'},
   link: {cmd: 'link', icon: 'link', tip: 'Hyperlink', key: 76},
@@ -21,7 +21,7 @@ export const buttons = {
   indent: {type: 'no-state', disable: vm => vm.caret && !vm.caret.can('indent'), cmd: 'indent', icon: 'format_indent_increase', tip: 'Increase indentation'},
   highlight: {type: 'no-state', cmd: 'hiliteColor', param: '#D4FF00', icon: 'format_color_text', tip: 'Highlight'}, // no IE
   removeFormat: {type: 'no-state', cmd: 'removeFormat', icon: 'format_clear', tip: 'Remove formatting'},
-  hr: {type: 'no-state', cmd: 'insertHorizontalRule', icon: 'remove', tip: 'Horizontal line'},
+  hr: {type: 'no-state', cmd: 'insertHorizontalRule', icon: 'remove', tip: 'Insert Horizontal Rule'},
   undo: {type: 'no-state', cmd: 'undo', icon: 'undo', tip: 'Undo', key: 90},
   redo: {type: 'no-state', cmd: 'redo', icon: 'redo', tip: 'Redo', key: 89},
 
@@ -34,11 +34,11 @@ export const buttons = {
   p: {cmd: 'formatBlock', param: 'DIV', icon: 'format_size', tip: 'Paragraph'},
   code: {cmd: 'formatBlock', param: 'PRE', icon: 'code', tip: 'Code'},
 
-  'size-1': {cmd: 'fontSize', param: '1', icon: 'filter_1', tip: 'Very small'},
-  'size-2': {cmd: 'fontSize', param: '2', icon: 'filter_2', tip: 'A bit small'},
-  'size-3': {cmd: 'fontSize', param: '3', icon: 'filter_3', tip: 'Normal'},
-  'size-4': {cmd: 'fontSize', param: '4', icon: 'filter_4', tip: 'Medium-large'},
-  'size-5': {cmd: 'fontSize', param: '5', icon: 'filter_5', tip: 'Big'},
-  'size-6': {cmd: 'fontSize', param: '6', icon: 'filter_6', tip: 'Very big'},
-  'size-7': {cmd: 'fontSize', param: '7', icon: 'filter_7', tip: 'Maximum'}
+  'size-1': {cmd: 'fontSize', param: '1', icon: 'looks_one', tip: 'Very small'},
+  'size-2': {cmd: 'fontSize', param: '2', icon: 'looks_two', tip: 'A bit small'},
+  'size-3': {cmd: 'fontSize', param: '3', icon: 'looks_3', tip: 'Normal'},
+  'size-4': {cmd: 'fontSize', param: '4', icon: 'looks_4', tip: 'Medium-large'},
+  'size-5': {cmd: 'fontSize', param: '5', icon: 'looks_5', tip: 'Big'},
+  'size-6': {cmd: 'fontSize', param: '6', icon: 'looks_6', tip: 'Very big'},
+  'size-7': {cmd: 'fontSize', param: '7', icon: 'looks_7', tip: 'Maximum'}
 }
