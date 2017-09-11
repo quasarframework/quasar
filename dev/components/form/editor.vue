@@ -22,11 +22,11 @@
             options: ['size-1', 'size-2', 'size-3', 'size-4', 'size-5', 'size-6', 'size-7']
           },
           {
-            label: 'Font',
+            label: 'Default Font',
             icon: 'font_download',
             fixedIcon: true,
             list: 'no-icons',
-            options: ['font_arial', 'font_arial_black', 'font_courier_new', 'font_times_new_roman']
+            options: ['default_font', 'arial', 'arial_black', 'comic_sans', 'courier_new', 'impact', 'lucida_grande', 'times_new_roman', 'verdana']
           },
           'removeFormat'
         ],
@@ -54,14 +54,20 @@
           options: ['gogu', 'outdent', 'indent', 'gigi']
         }]
       ]"
+      :fonts="{
+        arial: 'Arial',
+        arial_black: 'Arial Black',
+        comic_sans: 'Comic Sans MS',
+        courier_new: 'Courier New',
+        impact: 'Impact',
+        lucida_grande: 'Lucida Grande',
+        times_new_roman: 'Times New Roman',
+        verdana: 'Verdana'
+      }"
       :definitions="{
         gigi: {cmd: 'bold', icon: 'map', tip: 'Gigi bold'},
         bold: {icon: 'content_paste'},
-        gogu: {tip: 'Custom', icon: 'account_balance', handler: vm => vm.runCmd('print')},
-        font_arial: {cmd: 'fontName', param: 'Arial', icon: 'font_download', tip: 'Arial', htmlTip: '<font face=\'Arial\'>Arial</font>'},
-        font_arial_black: {cmd: 'fontName', param: 'Arial Black', icon: 'font_download', tip: 'Arial Black', htmlTip: '<font face=\'Arial Black\'>Arial Black</font>'},
-        font_courier_new: {cmd: 'fontName', param: 'Courier New', icon: 'font_download', tip: 'Courier New', htmlTip: '<font face=\'Courier New\'>Courier New</font>'},
-        font_times_new_roman: {cmd: 'fontName', param: 'Times New Roman', icon: 'font_download', tip: 'Times New Roman', htmlTip: '<font face=\'Times New Roman\'>Times New Roman</font>'}
+        gogu: {tip: 'Custom', icon: 'account_balance', handler: vm => vm.runCmd('print')}
       }"
     >
       <q-btn compact small color="yellow" slot="custom_btn">Wow</q-btn>

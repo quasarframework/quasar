@@ -1,5 +1,5 @@
 import { getEventKey } from '../../utils/event'
-import { getToolbar } from './editor-utils'
+import { getToolbar, getFonts } from './editor-utils'
 import { buttons } from './editor-definitions'
 import { Caret } from './editor-caret'
 import extend from '../../utils/extend'
@@ -30,6 +30,7 @@ export default {
     outline: Boolean,
     push: Boolean,
     definitions: Object,
+    fonts: Object,
     toolbar: {
       type: Array,
       validator: v => v.length > 0 && v.every(group => group.length),
@@ -56,8 +57,8 @@ export default {
       }
     },
     buttons () {
-      let def = this.definitions
-        ? extend(true, {}, buttons, this.definitions)
+      let def = this.definitions || this.fonts
+        ? extend(true, {}, buttons, this.definitions || {}, getFonts(this.defaultFont, this.fonts))
         : buttons
 
       return this.toolbar.map(
@@ -174,6 +175,7 @@ export default {
   },
   created () {
     document.execCommand('defaultParagraphSeparator', false, 'div')
+    this.defaultFont = window.getComputedStyle(document.body).fontFamily
   },
   mounted () {
     this.$nextTick(() => {

@@ -6,8 +6,8 @@ export const buttons = {
   underline: {cmd: 'underline', icon: 'format_underlined', tip: 'Underline', key: 85},
   unordered: {cmd: 'insertUnorderedList', icon: 'format_list_bulleted', tip: 'Unordered List'},
   ordered: {cmd: 'insertOrderedList', icon: 'format_list_numbered', tip: 'Ordered List'},
-  subscript: {cmd: 'subscript', icon: 'vertical_align_bottom', tip: 'Subscript'},
-  superscript: {cmd: 'superscript', icon: 'vertical_align_top', tip: 'Superscript'},
+  subscript: {cmd: 'subscript', icon: 'vertical_align_bottom', tip: 'Subscript', htmlTip: 'x<subscript>2</subscript>'},
+  superscript: {cmd: 'superscript', icon: 'vertical_align_top', tip: 'Superscript', htmlTip: 'x<superscript>2</superscript>'},
   link: {cmd: 'link', icon: 'link', tip: 'Hyperlink', key: 76},
 
   quote: {cmd: 'formatBlock', param: 'BLOCKQUOTE', icon: 'format_quote', tip: 'Quote', key: 81},

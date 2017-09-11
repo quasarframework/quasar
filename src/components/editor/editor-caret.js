@@ -137,7 +137,8 @@ export class Caret {
       case 'fontSize':
         return document.queryCommandValue(cmd) === param
       case 'fontName':
-        return document.queryCommandValue(cmd) === `"${param}"`
+        const res = document.queryCommandValue(cmd)
+        return res === `"${param}"` || res === param
       default:
         const state = document.queryCommandState(cmd)
         return param ? state === param : state
