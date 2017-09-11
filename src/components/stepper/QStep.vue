@@ -47,6 +47,7 @@ export default {
     error: Boolean,
     activeIcon: String,
     errorIcon: String,
+    doneIcon: String,
     disable: Boolean
   },
   inject: ['__stepper'],
