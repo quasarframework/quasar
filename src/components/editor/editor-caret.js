@@ -34,8 +34,9 @@ function isChildOf (el, parent) {
 }
 
 export class Caret {
-  constructor (el) {
+  constructor (el, vm) {
     this.el = el
+    this.vm = vm
   }
 
   get selection () {
@@ -139,6 +140,8 @@ export class Caret {
       case 'fontName':
         const res = document.queryCommandValue(cmd)
         return res === `"${param}"` || res === param
+      case 'fullscreen':
+        return this.vm.inFullscreen
       default:
         const state = document.queryCommandState(cmd)
         return param ? state === param : state
@@ -230,6 +233,11 @@ export class Caret {
           }
         ]
       })
+      return
+    }
+    else if (cmd === 'fullscreen') {
+      this.vm.toggleFullscreen()
+      done()
       return
     }
 

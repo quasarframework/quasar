@@ -3,9 +3,11 @@ import { getToolbar, getFonts } from './editor-utils'
 import { buttons } from './editor-definitions'
 import { Caret } from './editor-caret'
 import extend from '../../utils/extend'
+import FullscreenMixin from '../../utils/fullscreen-mixin'
 
 export default {
   name: 'q-editor',
+  mixins: [FullscreenMixin],
   props: {
     value: {
       type: String,
@@ -17,6 +19,8 @@ export default {
       type: String,
       default: '10rem'
     },
+    maxHeight: String,
+    height: String,
     color: String,
     toggleColor: {
       type: String,
@@ -25,6 +29,10 @@ export default {
     toolbarColor: {
       type: String,
       default: 'grey-4'
+    },
+    contentColor: {
+      type: String,
+      default: 'white'
     },
     flat: Boolean,
     outline: Boolean,
@@ -179,7 +187,7 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
-      this.caret = new Caret(this.$refs.content)
+      this.caret = new Caret(this.$refs.content, this)
       this.$refs.content.innerHTML = this.value
       this.$nextTick(this.refreshToolbar)
     })
@@ -189,8 +197,13 @@ export default {
       'div',
       {
         staticClass: 'q-editor',
+        style: {
+          height: this.inFullscreen ? '100vh' : null
+        },
         'class': {
-          disabled: this.disable
+          disabled: this.disable,
+          fullscreen: this.inFullscreen,
+          column: this.inFullscreen
         }
       },
       [
@@ -208,8 +221,14 @@ export default {
           'div',
           {
             ref: 'content',
-            staticClass: 'q-editor-content',
-            style: { minHeight: this.minHeight },
+            staticClass: `q-editor-content bg-${this.contentColor}`,
+            style: this.inFullscreen
+              ? {}
+              : { minHeight: this.minHeight, height: this.height, maxHeight: this.maxHeight },
+            class: {
+              col: this.inFullscreen,
+              'overflow-auto': this.inFullscreen
+            },
             attrs: { contenteditable: this.editable },
             on: {
               input: this.onInput,

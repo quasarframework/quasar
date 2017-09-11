@@ -6,6 +6,7 @@
       :toolbar="[
         ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript'],
         ['token', 'hr', 'link', 'custom_btn'],
+        ['print', 'fullscreen'],
         [
           {
             label: 'Formatting',
@@ -46,7 +47,6 @@
             options: ['left', 'center', 'right', 'justify']
           }
         ],
-        ['print'],
         ['undo', 'redo'],
         [{
           label: 'Dropdown Test',

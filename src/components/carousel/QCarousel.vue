@@ -49,7 +49,6 @@
 </template>
 
 <script>
-import Platform from '../../features/platform'
 import TouchPan from '../../directives/touch-pan'
 import { cssTransform } from '../../utils/dom'
 import { between, normalizeToInterval } from '../../utils/format'
@@ -57,6 +56,7 @@ import { start, stop } from '../../utils/animate'
 import { getEventKey } from '../../utils/event'
 import CarouselMixin from './carousel-mixin'
 import { QIcon } from '../icon'
+import FullscreenMixin from '../../utils/fullscreen-mixin'
 
 export default {
   name: 'q-carousel',
@@ -66,7 +66,7 @@ export default {
   directives: {
     TouchPan
   },
-  mixins: [CarouselMixin],
+  mixins: [CarouselMixin, FullscreenMixin],
   data () {
     return {
       position: 0,
@@ -217,44 +217,6 @@ export default {
         }
       })
     },
-    toggleFullscreen () {
-      if (this.inFullscreen) {
-        if (!Platform.has.popstate) {
-          this.__setFullscreen(false)
-        }
-        else {
-          window.history.go(-1)
-        }
-        return
-      }
-
-      this.__setFullscreen(true)
-      if (Platform.has.popstate) {
-        window.history.pushState({}, '')
-        window.addEventListener('popstate', this.__popState)
-      }
-    },
-    __setFullscreen (state) {
-      if (this.inFullscreen === state) {
-        return
-      }
-
-      if (state) {
-        this.container.replaceChild(this.fillerNode, this.$el)
-        document.body.appendChild(this.$el)
-        this.inFullscreen = true
-        return
-      }
-
-      this.inFullscreen = false
-      this.container.replaceChild(this.$el, this.fillerNode)
-    },
-    __popState () {
-      if (this.inFullscreen) {
-        this.__setFullscreen(false)
-      }
-      window.removeEventListener('popstate', this.__popState)
-    },
     stopAnimation () {
       stop(this.animUid)
       this.animationInProgress = false
@@ -298,8 +260,6 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
-      this.fillerNode = document.createElement('span')
-      this.container = this.$el.parentNode
       this.slidesNumber = this.__getSlidesNumber()
       this.__planAutoPlay()
       if (this.handleArrowKeys) {
