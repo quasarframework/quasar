@@ -15,9 +15,11 @@ import {
   setPosition
 } from '../../utils/popup'
 import Platform from '../../features/platform'
+import ModelToggleMixin from '../../utils/mixin-model-toggle'
 
 export default {
   name: 'q-tooltip',
+  mixins: [ModelToggleMixin],
   props: {
     anchor: {
       type: String,
@@ -80,6 +82,8 @@ export default {
       if (Platform.is.mobile) {
         document.body.addEventListener('click', this.close, true)
       }
+      this.__updateModel(true)
+      this.$emit('open')
       this.__updatePosition()
     },
     close () {
@@ -92,6 +96,8 @@ export default {
         if (Platform.is.mobile) {
           document.body.removeEventListener('click', this.close, true)
         }
+        this.__updateModel(false)
+        this.$emit('close')
       }
     },
     __updatePosition () {
