@@ -36,14 +36,14 @@ export default {
         this.container = this.$el.parentNode
         this.container.replaceChild(this.fillerNode, this.$el)
         document.body.appendChild(this.$el)
-        document.body.classList.add('with-fullscreen-mixin')
+        document.body.classList.add('with-mixin-fullscreen')
         this.inFullscreen = true
         return
       }
 
       this.inFullscreen = false
       this.container.replaceChild(this.$el, this.fillerNode)
-      document.body.classList.remove('with-fullscreen-mixin')
+      document.body.classList.remove('with-mixin-fullscreen')
     },
     __popState () {
       if (this.inFullscreen) {

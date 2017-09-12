@@ -56,7 +56,7 @@ import { start, stop } from '../../utils/animate'
 import { getEventKey } from '../../utils/event'
 import CarouselMixin from './carousel-mixin'
 import { QIcon } from '../icon'
-import FullscreenMixin from '../../utils/fullscreen-mixin'
+import FullscreenMixin from '../../utils/mixin-fullscreen'
 
 export default {
   name: 'q-carousel',
