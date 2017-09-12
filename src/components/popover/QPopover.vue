@@ -16,9 +16,11 @@ import { frameDebounce } from '../../utils/debounce'
 import { getScrollTarget } from '../../utils/scroll'
 import { width, viewport } from '../../utils/dom'
 import EscapeKey from '../../features/escape-key'
+import ModelToggleMixin from '../../utils/mixin-model-toggle'
 
 export default {
   name: 'q-popover',
+  mixins: [ModelToggleMixin],
   props: {
     anchor: {
       type: String,
@@ -120,6 +122,7 @@ export default {
         this.timer = null
         document.body.addEventListener('click', this.close, true)
         document.body.addEventListener('touchstart', this.close, true)
+        this.__updateModel(true)
         this.$emit('open')
       }, 1)
     },
@@ -144,6 +147,7 @@ export default {
         this.opened = false
         this.progress = false
         document.body.removeChild(this.$el)
+        this.__updateModel(false)
         this.$emit('close')
         if (typeof fn === 'function') {
           fn()

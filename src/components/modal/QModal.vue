@@ -25,6 +25,7 @@
 import Platform from '../../features/platform'
 import EscapeKey from '../../features/escape-key'
 import extend from '../../utils/extend'
+import ModelToggleMixin from '../../utils/mixin-model-toggle'
 import { QTransition } from '../transition'
 import { getScrollbarWidth } from '../../utils/scroll'
 
@@ -76,6 +77,7 @@ let
 
 export default {
   name: 'q-modal',
+  mixins: [ModelToggleMixin],
   components: {
     QTransition
   },
@@ -197,6 +199,7 @@ export default {
           if (typeof this.__onClose === 'function') {
             this.__onClose()
           }
+          this.__updateModel(false)
           this.$emit('close')
         }, duration)
       }
@@ -222,6 +225,7 @@ export default {
         if (typeof onShow === 'function') {
           onShow()
         }
+        this.__updateModel(true)
         this.$emit('open')
       }, duration)
     },
