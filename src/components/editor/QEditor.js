@@ -195,50 +195,57 @@ export default {
   render (h) {
     return h(
       'div',
-      {
-        staticClass: 'q-editor',
-        style: {
-          height: this.inFullscreen ? '100vh' : null
-        },
-        'class': {
-          disabled: this.disable,
-          fullscreen: this.inFullscreen,
-          column: this.inFullscreen
-        }
-      },
+      { staticClass: 'q-editor' },
       [
-        this.readonly ? '' : h(
-          'div',
-          {
-            staticClass: `q-editor-toolbar q-editor-toolbar-padding overflow-auto row no-wrap bg-${this.toolbarColor}`,
-            'class': {
-              'q-editor-toolbar-separator': !this.outline && !this.push
-            }
-          },
-          getToolbar(h, this)
-        ),
         h(
           'div',
           {
-            ref: 'content',
-            staticClass: `q-editor-content bg-${this.contentColor}`,
-            style: this.inFullscreen
-              ? {}
-              : { minHeight: this.minHeight, height: this.height, maxHeight: this.maxHeight },
-            class: {
-              col: this.inFullscreen,
-              'overflow-auto': this.inFullscreen
+            staticClass: 'q-editor-inner',
+            style: {
+              height: this.inFullscreen ? '100vh' : null
             },
-            attrs: { contenteditable: this.editable },
-            on: {
-              input: this.onInput,
-              keydown: this.onKeydown,
-              click: this.refreshToolbar,
-              blur: () => {
-                this.caret.save()
-              }
+            'class': {
+              disabled: this.disable,
+              fullscreen: this.inFullscreen,
+              column: this.inFullscreen,
+              'z-absolute': this.inFullscreen
             }
-          }
+          },
+          [
+            this.readonly ? '' : h(
+              'div',
+              {
+                staticClass: `q-editor-toolbar q-editor-toolbar-padding overflow-auto row no-wrap bg-${this.toolbarColor}`,
+                'class': {
+                  'q-editor-toolbar-separator': !this.outline && !this.push
+                }
+              },
+              getToolbar(h, this)
+            ),
+            h(
+              'div',
+              {
+                ref: 'content',
+                staticClass: `q-editor-content bg-${this.contentColor}`,
+                style: this.inFullscreen
+                  ? {}
+                  : { minHeight: this.minHeight, height: this.height, maxHeight: this.maxHeight },
+                class: {
+                  col: this.inFullscreen,
+                  'overflow-auto': this.inFullscreen
+                },
+                attrs: { contenteditable: this.editable },
+                on: {
+                  input: this.onInput,
+                  keydown: this.onKeydown,
+                  click: this.refreshToolbar,
+                  blur: () => {
+                    this.caret.save()
+                  }
+                }
+              }
+            )
+          ]
         )
       ]
     )
