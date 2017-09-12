@@ -13,6 +13,10 @@ For bleeding edge (unstable & unreleased to NPM) version of Quasar please see ht
 ## Supporting Quasar
 Quasar Framework is an MIT-licensed open source project. Its ongoing development is made possible thanks to the support by these awesome [backers](https://github.com/rstoenescu/quasar-framework/blob/dev/backers.md). If you'd like to join them, check out [Quasar Framework's Patreon campaign](https://www.patreon.com/quasarframework).
 
+### Proudly sponsored by:
+
+[![Truelogic](http://quasar-framework.org/images/truelogic_logo.png)](http://truelogic.com)
+
 ## Documentation
 
 Head on to the Quasar Framework official website: [http://quasar-framework.org](http://quasar-framework.org)
