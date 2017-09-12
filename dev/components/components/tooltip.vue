@@ -17,11 +17,12 @@
         <q-tooltip :delay="1000">Quasar Rulz!</q-tooltip>
       </div>
 
+      <q-toggle v-model="toggle" class="z-absolute fixed-top" />
       <p class="caption">With offset</p>
       <div class="group">
         <q-btn color="indigo">
           Hover
-          <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
+          <q-tooltip v-model="toggle" anchor="top middle" self="bottom middle" :offset="[10, 10]">
             <strong>Tooltip</strong> on <em>top</em> (<q-icon name="keyboard_arrow_up" />)
           </q-tooltip>
         </q-btn>
@@ -108,6 +109,7 @@
 export default {
   data () {
     return {
+      toggle: false,
       anchorOrigin: {vertical: 'bottom', horizontal: 'middle'},
       selfOrigin: {vertical: 'top', horizontal: 'middle'}
     }
