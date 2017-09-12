@@ -37,7 +37,8 @@
       </q-list>
     </div>
 
-    <q-modal ref="basicModal" :content-css="{padding: '50px', minWidth: '50vw'}">
+    <q-toggle v-model="toggle" class="z-absolute fixed-top" />
+    <q-modal v-model="toggle" ref="basicModal" :content-css="{padding: '50px', minWidth: '50vw'}">
       <h4>Basic Modal</h4>
       <p v-for="n in 25">Scroll down to close</p>
       <q-btn color="primary" @click="$refs.basicModal.close()">Close</q-btn>
@@ -110,6 +111,7 @@ export default {
   data () {
     return {
       search: '',
+      toggle: false,
       types: [
         {
           label: 'Basic',

@@ -8,10 +8,9 @@
       </p>
 
       <div>
-        <q-btn color="primary">
-          <q-icon name="assignment" />
-
-          <q-popover ref="popover1">
+        <q-toggle v-model="toggle" class="z-absolute fixed-top" />
+        <q-btn color="primary" icon="assignment">
+          <q-popover v-model="toggle" ref="popover1">
             <q-list link separator class="scroll" style="min-width: 100px">
               <q-item
                 v-for="n in 20"
@@ -157,6 +156,7 @@ import { Platform, Toast } from 'quasar'
 export default {
   data () {
     return {
+      toggle: false,
       anchorOrigin: {vertical: 'bottom', horizontal: 'left'},
       selfOrigin: {vertical: 'top', horizontal: 'left'}
     }
