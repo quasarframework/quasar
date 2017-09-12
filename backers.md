@@ -34,12 +34,14 @@ It could be you!
 - ShipStream.io
 - Fabio Migliorini
 - Max Matteo Staack
+- Moacir Schmidt
 
 ---
 
 ### $10+
 
 - Valerian Cure ($25)
+- Shawn Makinson ($25)
 - Anca-Anamaria Enache ($20)
 - Marek Urbanowicz
 - Samuel Lin
@@ -56,6 +58,7 @@ It could be you!
 - Scott Ward
 - Robin Schreiner
 - Simon Hedberg
+- Saloustros Marios
 
 - Ken ($5)
 - Oliver ($5)
@@ -63,6 +66,7 @@ It could be you!
 - Rogério Queiroz ($3)
 - Joe L Wroten ($1)
 - Yasuhiro Kawagoe ($1)
+- Luca Ban ($1)
 
 ---
 
