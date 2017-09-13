@@ -1,6 +1,7 @@
 <template>
   <div class="layout-padding">
-    BBB
+    <span>BBB</span>
+    <q-btn @click="$router.replace('/web-tests/c')">Go to C</q-btn>
   </div>
 </template>
 
