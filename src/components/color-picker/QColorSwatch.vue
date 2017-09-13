@@ -14,7 +14,7 @@ export default {
   },
   computed: {
     style () {
-      return { 'background-color': `rgba(${this.value.rgba.r}, ${this.value.rgba.g}, ${this.value.rgba.b}, ${this.value.rgba.a})` }
+      return { 'background-color': `rgba(${this.value.r}, ${this.value.g}, ${this.value.b}, ${this.value.a})` }
     }
   }
 }

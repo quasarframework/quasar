@@ -97,8 +97,7 @@
     "webpack": "^3.5.2",
     "webpack-dev-middleware": "^1.12.0",
     "webpack-hot-middleware": "^2.18.2",
-    "webpack-merge": "^4.1.0",
-    "tinycolor2": "^1.4.1"
+    "webpack-merge": "^4.1.0"
   },
   "peerDependencies": {
     "vue": "^2.3.0",

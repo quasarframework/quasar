@@ -12,7 +12,7 @@
       <q-input class="col" :value="g" @input="__onGChange" stack-label="Green" type="number" :min="0" :max="255" />
       <q-input class="col" :value="b" @input="__onBChange" stack-label="Blue" type="number" :min="0" :max="255" />
     </div>
-    <q-saturation-value-picker :value="saturationAndValue" :hue="this.value.hsv.h" @input="__onSaturationAndValueChange" />
+    <q-saturation-value-picker :value="saturationAndValue" :hue="this.value.h" @input="__onSaturationAndValueChange" />
     <q-hue-slider :value="h" @input="__onHueChange" />
     <q-alpha-slider :value="a" @input="__onAlphaChange" />
   </div>
@@ -36,7 +36,7 @@ export default {
   props: {
     value: {
       type: Object,
-      default: colorChange('#000000'),
+      default: colorChange({ hex: '#000000' }),
       required: true
     }
   },
@@ -55,73 +55,75 @@ export default {
     return data
   },
   computed: {
-    saturationAndValue () { return { s: this.value.hsv.s, v: this.value.hsv.v } },
-    r () { return this.value.rgba.r },
-    g () { return this.value.rgba.g },
-    b () { return this.value.rgba.b },
-    a () { return Math.floor(this.value.rgba.a * 100) },
-    h () { return Math.floor(this.value.hsv.h) },
+    saturationAndValue () { return { s: this.value.s, v: this.value.v } },
+    r () { return Math.floor(this.value.r) },
+    g () { return Math.floor(this.value.g) },
+    b () { return Math.floor(this.value.b) },
+    a () { return Math.floor(this.value.a * 100) },
+    h () { return Math.floor(this.value.h) },
     hex () { return this.value.hex }
   },
   methods: {
     __onSaturationAndValueChange ({s, v}) {
-      const newValue = Object.assign(
-        this.value,
-        {
-          hsv: {
-            h: this.value.hsv.h,
-            s: s,
-            v: v,
-            a: this.value.hsv.a
-          }
-        })
-
-      this.__changeColor(colorChange(newValue.hsv))
+      this.__changeColor(colorChange({
+        h: this.value.h,
+        s: s,
+        v: v,
+        a: this.value.a
+      }))
     },
     __onHueChange (h) {
       this.__changeColor(colorChange({
         h: h,
-        s: this.value.hsl.s,
-        l: this.value.hsl.l,
-        a: this.value.hsl.a
+        s: this.value.s,
+        v: this.value.v,
+        a: this.value.a
       }))
     },
     __onRChange (r) {
-      this.__changeColor(colorChange({
-        r: r,
-        g: this.value.rgba.g,
-        b: this.value.rgba.b,
-        a: this.value.rgba.a
-      }))
+      if (r && r >= 0 && r <= 255) {
+        this.__changeColor(colorChange({
+          r: r,
+          g: this.value.g,
+          b: this.value.b,
+          a: this.value.a
+        }))
+      }
     },
     __onGChange (g) {
-      this.__changeColor(colorChange({
-        r: this.value.rgba.r,
-        g: g,
-        b: this.value.rgba.b,
-        a: this.value.rgba.a
-      }))
+      if (g && g >= 0 && g <= 255) {
+        this.__changeColor(colorChange({
+          r: this.value.r,
+          g: g,
+          b: this.value.b,
+          a: this.value.a
+        }))
+      }
     },
     __onBChange (b) {
-      this.__changeColor(colorChange({
-        r: this.value.rgba.r,
-        g: this.value.rgba.g,
-        b: b,
-        a: this.value.rgba.a
-      }))
+      if (b && b >= 0 && b <= 255) {
+        this.__changeColor(colorChange({
+          r: this.value.r,
+          g: this.value.g,
+          b: b,
+          a: this.value.a
+        }))
+      }
     },
     __onAlphaChange (a) {
-      this.__changeColor(colorChange({
-        h: this.value.hsl.h,
-        s: this.value.hsl.s,
-        l: this.value.hsl.l,
-        a: a / 100
-      }))
+      if (a && a >= 0 && a <= 100) {
+        this.__changeColor(colorChange({
+          h: this.value.h,
+          s: this.value.s,
+          v: this.value.v,
+          a: a / 100
+        }))
+      }
     },
     __onHexChange (hex) {
       this.__changeColor(colorChange({
         hex: hex,
-        a: this.value.rgba.a
+        a: this.value.a
       }))
     },
     __changeColor (color) {
