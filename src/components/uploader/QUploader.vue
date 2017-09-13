@@ -52,7 +52,7 @@
           ref="file"
           class="q-uploader-input absolute-full cursor-pointer"
           :accept="extensions"
-          :multiple="multiple"
+          v-bind.prop="{multiple: multiple}"
           @change="__add"
         >
       </q-icon>
