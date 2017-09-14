@@ -9,6 +9,9 @@ export default {
       type: Boolean,
       default: true
     },
+    easing: Function,
+    swipeEasing: Function,
+    duration: Number,
     handleArrowKeys: Boolean,
     autoplay: [Number, Boolean]
   }
