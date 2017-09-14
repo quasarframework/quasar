@@ -67,9 +67,9 @@ export default {
     close (fn) {
       this.opened = false
       this.__updateModel(false)
+      this.$emit('close')
 
       if (typeof fn === 'function') {
-        this.$emit('close')
         fn()
       }
     },
