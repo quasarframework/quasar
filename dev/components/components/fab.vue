@@ -19,7 +19,8 @@
 
         <br>
 
-        <q-fab icon="keyboard_arrow_left" direction="left">
+        <q-toggle v-model="toggle" class="z-absolute fixed-top" />
+        <q-fab v-model="toggle" icon="keyboard_arrow_left" direction="left">
           <q-fab-action @click="toast('mail')" icon="mail" />
           <q-fab-action @click="toast('alarm')" icon="alarm" />
           <q-fab-action @click="toast('alarm')" icon="alarm" />
@@ -73,6 +74,15 @@
         </q-fab-action>
       </q-fab>
 
+      <q-fab color="primary" icon="up" @open="openFab">
+        <q-fab-action color="blue" class="white" icon="person add">
+          <q-tooltip ref="tooltip1" anchor="center left" self="center right" :offset="[20, 0]">Add a person</q-tooltip>
+        </q-fab-action>
+        <q-fab-action color="blue" class="white" icon="group add">
+          <q-tooltip ref="tooltip2" anchor="center left" self="center right" :offset="[20, 0]">Add a group</q-tooltip>
+        </q-fab-action>
+      </q-fab>
+
       <div style="height: 1000px">&nbsp;</div>
     </div>
   </div>
@@ -82,6 +92,11 @@
 import { Dialog, Toast } from 'quasar'
 
 export default {
+  data () {
+    return {
+      toggle: false
+    }
+  },
   methods: {
     alert () {
       Dialog.create({
@@ -94,6 +109,10 @@ export default {
         icon,
         html: 'So you want your ' + icon + 's, huh?'
       })
+    },
+    openFab () {
+      this.$refs.tooltip1.open()
+      this.$refs.tooltip2.open()
     }
   }
 }
