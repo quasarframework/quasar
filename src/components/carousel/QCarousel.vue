@@ -51,6 +51,7 @@
 <script>
 import TouchPan from '../../directives/touch-pan'
 import { cssTransform } from '../../utils/dom'
+import { isNumber } from '../../utils/is'
 import { between, normalizeToInterval } from '../../utils/format'
 import { start, stop } from '../../utils/animate'
 import { decelerate, standard } from '../../utils/easing'
@@ -206,7 +207,7 @@ export default {
       this.animUid = start({
         from: this.position,
         to: pos,
-        duration: this.duration,
+        duration: isNumber(this.animation) ? this.animation : 300,
         easing: fromSwipe
           ? this.swipeEasing || decelerate
           : this.easing || standard,
@@ -237,7 +238,7 @@ export default {
           clearTimeout(this.timer)
           this.timer = setTimeout(
             this.next,
-            typeof this.autoplay === 'number' ? this.autoplay : 5000
+            isNumber(this.autoplay) ? this.autoplay : 5000
           )
         }
       })

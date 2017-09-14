@@ -6,12 +6,11 @@ export default {
     infinite: Boolean,
     actions: Boolean,
     animation: {
-      type: Boolean,
+      type: [Number, Boolean],
       default: true
     },
     easing: Function,
     swipeEasing: Function,
-    duration: Number,
     handleArrowKeys: Boolean,
     autoplay: [Number, Boolean]
   }
