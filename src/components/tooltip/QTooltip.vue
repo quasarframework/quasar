@@ -70,7 +70,7 @@ export default {
       }
     },
     open () {
-      if (this.disable) {
+      if (this.disable || this.opened) {
         return
       }
       clearTimeout(this.timer)

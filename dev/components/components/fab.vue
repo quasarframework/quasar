@@ -74,7 +74,15 @@
         </q-fab-action>
       </q-fab>
 
-      <q-fab color="primary" icon="up" @open="openFab">
+      <q-fab
+        class="fixed-bottom-right"
+        style="right: 18px; bottom: 86px;"
+        icon="add"
+        direction="up"
+        color="primary"
+        @open="openFab"
+        @close="closeFab"
+      >
         <q-fab-action color="blue" class="white" icon="person add">
           <q-tooltip ref="tooltip1" anchor="center left" self="center right" :offset="[20, 0]">Add a person</q-tooltip>
         </q-fab-action>
@@ -111,8 +119,14 @@ export default {
       })
     },
     openFab () {
-      this.$refs.tooltip1.open()
-      this.$refs.tooltip2.open()
+      setTimeout(() => {
+        this.$refs.tooltip1.open()
+        this.$refs.tooltip2.open()
+      }, 300)
+    },
+    closeFab () {
+      this.$refs.tooltip1.close()
+      this.$refs.tooltip2.close()
     }
   }
 }
