@@ -25,10 +25,11 @@
 import { QBtn } from '../btn'
 import { QIcon } from '../icon'
 import FabMixin from './fab-mixin'
+import ModelToggleMixin from '../../utils/mixin-model-toggle'
 
 export default {
   name: 'q-fab',
-  mixins: [FabMixin],
+  mixins: [FabMixin, ModelToggleMixin],
   components: {
     QBtn,
     QIcon
@@ -60,10 +61,12 @@ export default {
   methods: {
     open () {
       this.opened = true
+      this.__updateModel(true)
       this.$emit('open')
     },
     close (fn) {
       this.opened = false
+      this.__updateModel(false)
 
       if (typeof fn === 'function') {
         this.$emit('close')
