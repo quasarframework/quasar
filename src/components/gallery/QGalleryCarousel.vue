@@ -10,6 +10,9 @@
     :animation="animation"
     :autoplay="autoplay"
     :handle-arrow-keys="handleArrowKeys"
+    :easing="easing"
+    :swipeEasing="swipeEasing"
+    :noSwipe="noSwipe"
     class="text-white bg-black q-gallery-carousel"
   >
     <div

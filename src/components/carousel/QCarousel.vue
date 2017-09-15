@@ -112,7 +112,7 @@ export default {
   },
   methods: {
     __pan (event) {
-      if (this.infinite && this.animationInProgress) {
+      if (this.noSwipe || (this.infinite && this.animationInProgress)) {
         return
       }
       if (!this.hasOwnProperty('initialPosition')) {
