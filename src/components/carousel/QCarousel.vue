@@ -52,8 +52,10 @@
 import Platform from '../../features/platform'
 import TouchPan from '../../directives/touch-pan'
 import { cssTransform } from '../../utils/dom'
+import { isNumber } from '../../utils/is'
 import { between, normalizeToInterval } from '../../utils/format'
 import { start, stop } from '../../utils/animate'
+import { decelerate, standard } from '../../utils/easing'
 import { getEventKey } from '../../utils/event'
 import CarouselMixin from './carousel-mixin'
 import { QIcon } from '../icon'
@@ -143,7 +145,8 @@ export default {
             : this.positionSlide,
           () => {
             delete this.initialPosition
-          }
+          },
+          true
         )
       }
     },
@@ -160,7 +163,7 @@ export default {
         this.goToSlide(this.slide + 1, done)
       }
     },
-    goToSlide (slide, done) {
+    goToSlide (slide, done, fromSwipe = false) {
       let direction = ''
       this.__cleanup()
 
@@ -204,6 +207,10 @@ export default {
       this.animUid = start({
         from: this.position,
         to: pos,
+        duration: isNumber(this.animation) ? this.animation : 300,
+        easing: fromSwipe
+          ? this.swipeEasing || decelerate
+          : this.easing || standard,
         apply: pos => {
           this.position = pos
         },
@@ -269,7 +276,7 @@ export default {
           clearTimeout(this.timer)
           this.timer = setTimeout(
             this.next,
-            typeof this.autoplay === 'number' ? this.autoplay : 5000
+            isNumber(this.autoplay) ? this.autoplay : 5000
           )
         }
       })
