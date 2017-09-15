@@ -30,9 +30,7 @@ export const easeInOutCirc = t => t < 0.5
   ? 0.5 * (1 - Math.sqrt(1 - 4 * t * t))
   : 0.5 * (1 + Math.sqrt(-3 + 8 * t - 4 * t * t))
 
-const dampener = t => Math.E ** (-6.3 * t)
-const bounce = t => Math.cos(5 * t)
-export const overshoot = t => -1 * dampener(t) * bounce(t) + 1
+export const overshoot = t => -1 * (Math.E ** (-6.3 * t)) * (Math.cos(5 * t)) + 1
 
 /* -- Material Design curves -- */
 
