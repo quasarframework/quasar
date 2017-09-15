@@ -7,7 +7,7 @@ export default {
   },
   computed: {
     classes () {
-      if (this.isActive) {
+      if (this.isActive || this.indeterminate) {
         const cls = []
         cls.push('active')
         if (this.color) {

@@ -11,6 +11,8 @@
         :color="opt.color || color"
         :checked-icon="opt.checkedIcon"
         :unchecked-icon="opt.uncheckedIcon"
+        :indeterminate-icon="opt.indeterminateIcon"
+        :indeterminate="indeterminate"
         @focus="__onFocus"
         @blur="__onBlur"
         @change="__onChange"
@@ -42,6 +44,7 @@ export default {
       }
     },
     color: String,
+    indeterminate: Boolean,
     options: {
       type: Array,
       validator (opts) {

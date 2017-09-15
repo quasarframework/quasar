@@ -195,7 +195,7 @@ export function getFonts (defaultFont, fonts = {}) {
   return def
 }
 
-const camelizeRE = /(?:^|[-])(\w)/g
+const camelizeRE = /-(\w)/g
 function camelize (str) {
   return str.replace(
     camelizeRE,
