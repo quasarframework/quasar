@@ -4,6 +4,7 @@ import * as colors from './utils/colors'
 import * as date from './utils/date'
 import { debounce, frameDebounce } from './utils/debounce'
 import * as dom from './utils/dom'
+import * as easing from './utils/easing'
 import * as event from './utils/event'
 import extend from './utils/extend'
 import filter from './utils/filter'
@@ -23,6 +24,7 @@ export {
   debounce,
   frameDebounce,
   dom,
+  easing,
   event,
   extend,
   filter,

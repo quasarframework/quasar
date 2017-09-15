@@ -64,9 +64,16 @@
       </q-carousel>
 
       <p class="caption">
-        Carousel with Custom Actions as Controls
+        Carousel with Custom Actions as Controls and Overshoot Easing
       </p>
-      <q-carousel arrows dots actions class="text-white">
+      <q-carousel
+        arrows
+        dots
+        actions
+        :swipe-easing="overshoot"
+        :easing="overshoot"
+        class="text-white"
+      >
         <div slot="slide" class="bg-primary">
           <div v-for="n in 20">Slide {{n}}</div>
         </div>
@@ -106,3 +113,13 @@
     </div>
   </div>
 </template>
+
+<script>
+import { easing } from 'quasar'
+
+export default {
+  data: () => ({
+    overshoot: easing.overshoot
+  })
+}
+</script>
