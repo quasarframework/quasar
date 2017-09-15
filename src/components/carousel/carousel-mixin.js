@@ -11,6 +11,7 @@ export default {
     },
     easing: Function,
     swipeEasing: Function,
+    noSwipe: Boolean,
     handleArrowKeys: Boolean,
     autoplay: [Number, Boolean]
   }
