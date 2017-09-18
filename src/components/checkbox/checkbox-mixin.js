@@ -96,7 +96,9 @@ export default {
           ref.classList.remove('active')
         }, 10)
       }
-      this.$emit('change', this.model)
+      this.$nextTick(() => {
+        this.$emit('change', this.model)
+      })
     }
   }
 }
