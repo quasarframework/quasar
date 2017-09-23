@@ -39,6 +39,7 @@
           :name="name"
           :placeholder="inputPlaceholder"
           :disabled="disable"
+          :readonly="readonly"
           :maxlength="maxLength"
           :rows="minRows"
 
@@ -63,6 +64,7 @@
       :placeholder="inputPlaceholder"
       :pattern="pattern"
       :disabled="disable"
+      :readonly="readonly"
       :maxlength="maxLength"
 
       :min="min"
@@ -135,6 +137,7 @@ export default {
     minRows: Number,
     clearable: Boolean,
     noPassToggle: Boolean,
+    readonly: Boolean,
 
     min: Number,
     max: Number,
@@ -206,6 +209,9 @@ export default {
       return this.value || (this.isNumber && this.value !== null)
         ? ('' + this.value).length
         : 0
+    },
+    editable () {
+      return !this.disable && !this.readonly
     }
   },
   methods: {
@@ -213,7 +219,7 @@ export default {
       this.showPass = !this.showPass
     },
     clear () {
-      if (!this.disable) {
+      if (this.editable) {
         this.$emit('input', '')
         this.$emit('change', '')
       }

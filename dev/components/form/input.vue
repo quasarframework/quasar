@@ -14,6 +14,9 @@
       <q-input disable v-model="text" float-label="Float Label" placeholder="Gigi" />
       <q-input inverted disable v-model="text" float-label="Float Label" placeholder="Gigi" clearable />
 
+      <q-input readonly v-model="text" float-label="Float Label" placeholder="Gigi" />
+      <q-input inverted readonly v-model="text" float-label="Float Label" placeholder="Gigi" clearable />
+
       <q-input v-model="text" float-label="Colored" color="amber" />
       <q-input v-model="text" float-label="Colored" color="amber" error />
 
