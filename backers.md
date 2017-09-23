@@ -47,6 +47,9 @@ It could be you!
 - Valerian Cure ($25)
 - Shawn Makinson ($25)
 - Anca-Anamaria Enache ($20)
+- MSG Group ($20)
+- Jonas Viczian ($15)
+- Laurent Aapro ($12)
 - Marek Urbanowicz
 - Samuel Lin
 - Matsumoto Takamasa
@@ -54,9 +57,7 @@ It could be you!
 - Josh Bodine
 - William Marques Vicente Gomes Correa
 - Samuel Desconsi
-- Jonas Viczian ($15)
 - John (JCharante)
-- MSG Group ($20)
 - Florent Peyrard
 - Jacob Heruty
 - Scott Ward
@@ -64,6 +65,7 @@ It could be you!
 - Simon Hedberg
 - Saloustros Marios
 - Guilherme S L de Souza
+- Jim O'Quinn
 
 - Ken ($5)
 - Oliver ($5)
