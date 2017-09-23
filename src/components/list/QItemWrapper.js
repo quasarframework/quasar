@@ -45,6 +45,7 @@ export default {
 
     push(child, h, QItemSide, slot.left, replace, {
       icon: cfg.icon,
+      color: cfg.iconColor,
       avatar: cfg.avatar,
       letter: cfg.letter,
       image: cfg.image
@@ -61,6 +62,7 @@ export default {
     push(child, h, QItemSide, slot.right, replace, {
       right: true,
       icon: cfg.rightIcon,
+      color: cfg.rightIconColor,
       avatar: cfg.rightAvatar,
       letter: cfg.rightLetter,
       image: cfg.rightImage,
