@@ -66,6 +66,7 @@
         class="fixed-bottom-right"
         style="right: 18px; bottom: 18px;"
       >
+        <q-tooltip ref="tooltip0" slot="tooltip" anchor="center left" self="center right" :offset="[20, 0]">Tooltip in FAB</q-tooltip>
         <q-fab-action color="purple" @click="toast('mail')" icon="mail">
           <q-tooltip anchor="center left" self="center right" :offset="[20, 0]">Mail</q-tooltip>
         </q-fab-action>
