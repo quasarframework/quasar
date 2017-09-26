@@ -168,7 +168,7 @@ export default {
   props: {
     data: {
       type: Array,
-      default: []
+      default () { return [] }
     },
     columns: {
       type: Array,
