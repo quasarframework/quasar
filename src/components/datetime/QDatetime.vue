@@ -32,6 +32,7 @@
       :anchor-click="false"
       @open="__onFocus"
       @close="__onClose"
+      max-height="100vh"
     >
       <q-inline-datetime
         ref="target"
