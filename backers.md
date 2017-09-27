@@ -37,13 +37,13 @@ It could be you!
 - Colin Mollenhour
 - ShipStream.io
 - Fabio Migliorini
-- Max Matteo Staack
 - Moacir Schmidt
 
 ---
 
 ### $10+
 
+- Max Matteo Staack ($35)
 - Valerian Cure ($25)
 - Shawn Makinson ($25)
 - Anca-Anamaria Enache ($20)
@@ -66,6 +66,7 @@ It could be you!
 - Saloustros Marios
 - Guilherme S L de Souza
 - Jim O'Quinn
+- Bert Jehoul
 
 - Ken ($5)
 - Oliver ($5)
