@@ -208,7 +208,7 @@ export default {
               disabled: this.disable,
               fullscreen: this.inFullscreen,
               column: this.inFullscreen,
-              'z-absolute': this.inFullscreen
+              'z-max': this.inFullscreen
             }
           },
           [

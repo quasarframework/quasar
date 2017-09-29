@@ -8,7 +8,7 @@
       </p>
 
       <div>
-        <q-toggle v-model="toggle" class="z-absolute fixed-top" />
+        <q-toggle v-model="toggle" class="z-max fixed-top" />
         <q-btn color="primary" icon="assignment">
           <q-popover v-model="toggle" ref="popover1">
             <q-list link separator class="scroll" style="min-width: 100px">
