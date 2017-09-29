@@ -1,6 +1,6 @@
 <template>
   <div
-    class="q-fab row inline justify-center"
+    class="q-fab z-fab row inline justify-center"
     :class="{'q-fab-opened': opened}"
   >
     <q-btn

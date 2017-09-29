@@ -37,7 +37,7 @@
       </q-list>
     </div>
 
-    <q-toggle v-model="toggle" class="z-absolute fixed-top" />
+    <q-toggle v-model="toggle" class="z-max fixed-top" />
     <q-modal v-model="toggle" ref="basicModal" :content-css="{padding: '50px', minWidth: '50vw'}">
       <h4>Basic Modal</h4>
       <p v-for="n in 25">Scroll down to close</p>

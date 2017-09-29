@@ -19,7 +19,7 @@
 
         <br>
 
-        <q-toggle v-model="toggle" class="z-absolute fixed-top" />
+        <q-toggle v-model="toggle" class="z-max fixed-top" />
         <q-fab v-model="toggle" icon="keyboard_arrow_left" direction="left">
           <q-fab-action @click="toast('mail')" icon="mail" />
           <q-fab-action @click="toast('alarm')" icon="alarm" />

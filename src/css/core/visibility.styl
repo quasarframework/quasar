@@ -57,8 +57,8 @@ body
   &.dimmed, &.light-dimmed
     &:after
       z-index $z-body-dimmed !important
-.z-absolute
-  z-index $z-absolute !important
+.z-max
+  z-index $z-max !important
 
 for type in desktop mobile cordova electron ios mat touch within-iframe platform-ios platform-android
   body:not(.{type}) .{type}-only,

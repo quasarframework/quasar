@@ -17,7 +17,7 @@
         <q-tooltip :delay="1000">Quasar Rulz!</q-tooltip>
       </div>
 
-      <q-toggle v-model="toggle" class="z-absolute fixed-top" />
+      <q-toggle v-model="toggle" class="z-max fixed-top" />
       <p class="caption">With offset</p>
       <div class="group">
         <q-btn color="indigo">
