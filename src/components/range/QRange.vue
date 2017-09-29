@@ -28,7 +28,7 @@
         <q-chip
           pointing="down"
           square
-          :color="labelColor"
+          :color="leftTooltipColor"
           class="q-slider-label no-pointer-events"
           :class="{'label-always': labelAlways}"
           v-if="label || labelAlways"
@@ -46,7 +46,7 @@
         <q-chip
           pointing="down"
           square
-          :color="labelColor"
+          :color="rightTooltipColor"
           class="q-slider-label no-pointer-events"
           :class="{'label-always': labelAlways}"
           v-if="label || labelAlways"
@@ -93,7 +93,9 @@ export default {
     },
     dragRange: Boolean,
     dragOnlyRange: Boolean,
+    leftLabelColor: String,
     leftLabelValue: String,
+    rightLabelColor: String,
     rightLabelValue: String
   },
   data () {
@@ -122,6 +124,12 @@ export default {
       return this.rightLabelValue !== void 0
         ? this.rightLabelValue
         : this.value.max
+    },
+    leftTooltipColor () {
+      return this.leftLabelColor || this.labelColor
+    },
+    rightTooltipColor () {
+      return this.rightLabelColor || this.labelColor
     }
   },
   watch: {
