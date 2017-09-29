@@ -38,6 +38,7 @@
           v-model="el.model"
           :color="el.color"
           :options="el.items"
+          :inline="el.inline"
         ></q-option-group>
 
         <div v-if="el.type === 'slider' || el.type === 'range'" style="margin-top: 15px; margin-bottom: 10px">
