@@ -1,6 +1,12 @@
 import uid from '../../utils/uid'
+import { QIcon } from '../icon'
+import { QChip } from '../chip'
+import Ripple from '../../directives/ripple'
 
 export default {
+  directives: {
+    Ripple
+  },
   props: {
     label: String,
     icon: String,
@@ -53,6 +59,48 @@ export default {
       if (!this.active || !this.data.highlight) {
         return 'display: none;'
       }
+    }
+  },
+  methods: {
+    __getTabContent (h) {
+      const child = []
+
+      this.icon && child.push(h(QIcon, {
+        staticClass: 'q-tab-icon',
+        props: {
+          name: this.icon
+        }
+      }))
+
+      this.label && child.push(h('span', {
+        staticClass: 'q-tab-label',
+        domProps: {
+          innerHTML: this.label
+        }
+      }))
+
+      if (this.count) {
+        child.push(h(QChip, {
+          props: {
+            floating: true
+          }
+        }, [ this.count ]))
+      }
+      else if (this.alert) {
+        child.push(h('div', {
+          staticClass: 'q-dot'
+        }))
+      }
+
+      child.push(this.$slots.default)
+      if (this.$q.theme !== 'ios') {
+        child.push(h('div', {
+          staticClass: 'q-tabs-bar',
+          style: this.barStyle
+        }))
+      }
+
+      return child
     }
   }
 }
