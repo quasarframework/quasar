@@ -59,6 +59,7 @@
     <q-modal ref="layoutModal" :content-css="{minWidth: '80vw', minHeight: '80vh'}">
       <q-modal-layout>
         <q-toolbar slot="header">
+          <q-icon style="font-size: 500%" class="cursor-pointer" name="map" @click="closeMe" />
           <q-btn flat @click="$refs.layoutModal.close()">
             <q-icon name="keyboard_arrow_left" />
           </q-btn>
@@ -146,6 +147,11 @@ export default {
       this.$nextTick(() => {
         this.$refs.positionModal.open()
       })
+    },
+    closeMe () {
+      console.log('click')
+      this.$refs.layoutModal.close()
+      this.$refs.layoutModal.close()
     }
   }
 }
