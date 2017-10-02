@@ -111,7 +111,8 @@ export default {
   },
   data () {
     return {
-      active: false
+      active: false,
+      toggleInProgress: false
     }
   },
   computed: {
@@ -155,10 +156,11 @@ export default {
   },
   methods: {
     open (onShow) {
-      if (this.active) {
+      if (this.active || this.toggleInProgress) {
         return
       }
 
+      this.toggleInProgress = true
       const body = document.body
 
       body.appendChild(this.$el)
@@ -199,6 +201,7 @@ export default {
           if (typeof this.__onClose === 'function') {
             this.__onClose()
           }
+          this.toggleInProgress = false
           this.__updateModel(false)
           this.$emit('close')
         }, duration)
@@ -225,15 +228,17 @@ export default {
         if (typeof onShow === 'function') {
           onShow()
         }
+        this.toggleInProgress = false
         this.__updateModel(true)
         this.$emit('open')
       }, duration)
     },
     close (onClose) {
-      if (!this.active) {
+      if (!this.active || this.toggleInProgress) {
         return
       }
 
+      this.toggleInProgress = true
       this.__onClose = onClose
 
       if (!Platform.has.popstate) {
