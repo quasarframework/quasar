@@ -64,6 +64,7 @@
       <q-field-reset>
         <q-search
           v-if="filter"
+          ref="filter"
           v-model="terms"
           @input="reposition"
           :placeholder="filterPlaceholder"
@@ -159,6 +160,7 @@ export default {
       type: String,
       default: 'Filter'
     },
+    autofocusFilter: Boolean,
     radio: Boolean,
     placeholder: String,
     separator: Boolean
@@ -210,6 +212,9 @@ export default {
 
     __onFocus () {
       this.focused = true
+      if (this.filter && this.autofocusFilter) {
+        this.$refs.filter.focus()
+      }
       this.$emit('focus')
       const selected = this.$refs.popover.$el.querySelector(this.activeItemSelector)
       if (selected) {

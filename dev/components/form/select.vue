@@ -38,9 +38,9 @@
       <q-select simple v-model="select" :options="selectOptions"></q-select>
 
       <p class="caption">With Filter</p>
-      <q-select filter v-model="select" :options="selectListOptions"></q-select>
-      <q-select filter v-model="select" :options="selectLongListOptions"></q-select>
-      <q-select filter inverted v-model="select" :options="selectListOptions"></q-select>
+      <q-select filter autofocus-filter v-model="select" :options="selectListOptions"></q-select>
+      <q-select filter autofocus-filter v-model="select" :options="selectLongListOptions"></q-select>
+      <q-select filter autofocus-filter inverted v-model="select" :options="selectListOptions"></q-select>
       <q-select filter inverted v-model="select" :options="selectLongListOptions"></q-select>
       <q-select filter multiple checkbox v-model="multipleSelect" :options="selectListOptions"></q-select>
 
