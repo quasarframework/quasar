@@ -194,3 +194,58 @@ export function getFonts (defaultFont, fonts = {}) {
 
   return def
 }
+
+const camelizeRE = /(?:^|[-])(\w)/g
+function camelize (str) {
+  return str.replace(
+    camelizeRE,
+    (_, c) => c ? c.toUpperCase() : ''
+  )
+}
+
+function getStyleObject (el) {
+  const output = {}
+
+  el.style.cssText.split(';').forEach(rule => {
+    if (rule) {
+      const parts = rule.split(':')
+      output[ camelize(parts[0].trim()) ] = parts[1].trim()
+    }
+  })
+
+  return output
+}
+
+export function getContentObject (el) {
+  if (el.nodeType === Node.TEXT_NODE) {
+    return {
+      nodeType: Node.TEXT_NODE,
+      text: el.textContent
+    }
+  }
+
+  const node = {
+    nodeType: el.nodeType,
+    tagName: el.tagName,
+    attributes: {}
+  }
+
+  Array.from(el.attributes, ({name, value}) => {
+    if (name === 'style') {
+      node.style = getStyleObject(el)
+    }
+    else {
+      node.attributes[name] = value
+    }
+  })
+
+  const children = Array.from(el.childNodes, getContentObject)
+  if (children.length === 1 && children[0].nodeType === Node.TEXT_NODE) {
+    node.text = children[0].text
+  }
+  else {
+    node.children = children
+  }
+
+  return node
+}

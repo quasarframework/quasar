@@ -1,5 +1,5 @@
 import { getEventKey } from '../../utils/event'
-import { getToolbar, getFonts } from './editor-utils'
+import { getToolbar, getFonts, getContentObject } from './editor-utils'
 import { buttons } from './editor-definitions'
 import { Caret } from './editor-caret'
 import extend from '../../utils/extend'
@@ -179,6 +179,9 @@ export default {
     },
     focus () {
       this.$refs.content.focus()
+    },
+    getContentObject () {
+      return getContentObject(this.$refs.content).children
     }
   },
   created () {
