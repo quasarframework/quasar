@@ -33,7 +33,7 @@
         <slot name="selection" :rows="selectedRows"></slot>
       </div>
     </div>
-
+    <slot name="customFilter"></slot>
     <table-filter v-if="filteringCols.length" :filtering="filtering" :columns="filteringCols" :labels="labels"></table-filter>
 
     <template v-if="responsive">
@@ -69,6 +69,7 @@
       >
         <div v-if="message" class="q-data-table-message row flex-center" v-html="message"></div>
         <table-content v-else :cols="cols" :selection="config.selection">
+          <slot name="customRow"></slot>
           <tr v-for="row in rows" :style="rowStyle" @click="emitRowClick(row)">
             <td v-if="config.selection"></td>
             <td v-if="leftStickyColumns" :colspan="leftStickyColumns"></td>
