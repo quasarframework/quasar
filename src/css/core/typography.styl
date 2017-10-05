@@ -21,52 +21,32 @@ a
   &:active, &:hover
     outline-width 0
 
-h1, h2, h3, h4, h5, h6
-  font-weight 400
-  line-height 110%
-  -webkit-font-smoothing antialised
+for $heading, $value in $h-tags
+  {$heading}
+    font-size: $value.size
+    font-weight: $value.weight
+    margin: 0 0 $spaces.regular.y
+    if $value.line-height
+      line-height: $value.line-height
+    if $value.letter-spacing
+      letter-spacing: $value.letter-spacing
+    @media screen and (max-width $breakpoints-sm-max)
+      font-size: ($value.size * .6)
 
-h1
-  font-size 4.2rem
-  letter-spacing -.04em
-  margin 2.1rem 0 1.68rem
-  font-weight 300
-
-h2
-  font-size 3.56rem
-  letter-spacing -.02em
-  margin 1.78rem 0 1.424rem
-
-h3
-  font-size 2.92rem
-  margin 1.46rem 0 1.168rem
-
-h4
-  font-size 2.28rem
-  margin 1.14rem 0 .912rem
-
-h5
-  font-size 1.64rem
-  margin .82rem 0 .656rem
-  -moz-osx-font-smoothing grayscale
-
-h6
-  font-size 1rem
-  letter-spacing .02em
-  margin .5rem 0 .4rem
-  font-weight 500
+for $heading, $value in $headings
+  .q-{$heading}-opacity
+    opacity: $value.opacity
+  .q-{$heading}
+    font-size: $value.size
+    font-weight: $value.weight
+    margin: 0 0 $spaces.regular.y
+    if $value.line-height
+      line-height: $value.line-height
+    if $value.letter-spacing
+      letter-spacing: $value.letter-spacing
 
 p
-  font-size 1rem
-  letter-spacing 0
-  margin 0 0 1rem
-  line-height 24px
-  padding 0
-  -webkit-font-smoothing antialiased
-  &.caption
-    font-weight 300
-    &:not(:first-child)
-      margin-top 2rem
+  margin: 0 0 $spaces.regular.y
 
 .uppercase
   text-transform uppercase
@@ -94,10 +74,9 @@ p
   &no-wrap
     white-space nowrap
 
-.light-paragraph
-  font-weight 300
-.thin-paragraph
-  font-weight 100
+  for $weight, $value in $text-weights
+    &weight-{$weight}
+      font-weight $value
 
 small
   font-size 80%
@@ -114,14 +93,14 @@ sup
   font-style italic
 
 blockquote
-  padding 10px 20px
-  margin 0 0 20px
-  font-size 17.5px
-  border-left 5px solid $primary
+  padding: $spaces.small.y $spaces.regular.x
+  margin 0
+  font-size 16px
+  border-left: $spaces.smaller.x solid $primary
   &.text-right
-    padding-right 15px
+    padding-right: $spaces.regular.x
     padding-left 0
-    border-right 5px solid $primary
+    border-right: $spaces.smaller.x solid $primary
     border-left 0
     text-align right
 
@@ -164,8 +143,6 @@ dl
     dd
       margin-left 30%
 
-
-
 ::-webkit-selection,
 ::-moz-selection,
 ::selection
@@ -180,7 +157,3 @@ textarea::selection,
 input::selection
   background alpha($primary, .4)
   color alpha(opposite-non-color($primary), .87)
-
-*:-webkit-full-screen // @stylint ignore
-  width 100%
-  height 100%

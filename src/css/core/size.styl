@@ -21,3 +21,27 @@
   display block !important
 .inline-block
   display inline-block !important
+
+for $space, $value in $spaces
+
+  .q-pl-{$space}
+    padding-left: $value.x
+  .q-pr-{$space}
+    padding-right: $value.x
+  .q-pt-{$space}
+    padding-top: $value.y
+  .q-pb-{$space}
+    padding-bottom: $value.y
+  .q-pa-{$space}
+    padding: $value.y $value.x
+
+  .q-ml-{$space}
+    margin-left: $value.x
+  .q-mr-{$space}
+    margin-right: $value.x
+  .q-mt-{$space}
+    margin-top: $value.y
+  .q-mb-{$space}
+    margin-bottom: $value.y
+  .q-ma-{$space}
+    margin: $value.y $value.x

@@ -1,3 +1,33 @@
+$space-base   ?= 16px
+$space-x-base ?= $space-base
+$space-y-base ?= $space-base
+$spaces = {
+  none: {
+    x: 0,
+    y: 0
+  },
+  smaller: {
+    x: ($space-x-base * .25),
+    y: ($space-y-base * .25)
+  },
+  small: {
+    x: ($space-x-base * .5),
+    y: ($space-y-base * .5)
+  },
+  regular: {
+    x: $space-x-base,
+    y: $space-y-base
+  },
+  big: {
+    x: ($space-x-base * 1.5),
+    y: ($space-y-base * 1.5)
+  },
+  bigger: {
+    x: ($space-x-base * 3),
+    y: ($space-y-base * 3)
+  }
+}
+
 // Max width at which point
 // current size ends
 $breakpoint-xs ?= 575px
@@ -47,6 +77,89 @@ $breakpoint-xl-max = 9999px
 
 $backdrop-opacity     ?= .3
 $backdrop-background  ?= rgba(0, 0, 0, $backdrop-opacity)
+
+$headings = {
+  display-4: {
+    size: 112px,
+    weight: 300,
+    opacity: .54,
+    line-height: 1,
+    letter-spacing: -.04em
+  },
+  display-3: {
+    size: 56px,
+    weight: 400,
+    opacity: .54,
+    line-height: 1.35,
+    letter-spacing: -.02em
+  },
+  display-2: {
+    size: 45px,
+    weight: 400,
+    opacity: .54,
+    line-height: 48px,
+    letter-spacing: normal
+  },
+  display-1: {
+    size: 34px,
+    weight: 400,
+    opacity: .54,
+    line-height: 40px,
+    letter-spacing: normal
+  },
+  headline: {
+    size: 24px,
+    weight: 400,
+    opacity: .87
+    line-height: 32px,
+    letter-spacing: normal
+  },
+  title: {
+    size: 20px,
+    weight: 500,
+    opacity: .87
+    line-height: 1,
+    letter-spacing: .02em
+  },
+  subheading: {
+    size: 16px,
+    weight: 400,
+    opacity: .87
+  },
+  body-2: {
+    size: 14px,
+    weight: 500,
+    opacity: .87
+  },
+  body-1: {
+    size: 14px,
+    weight: 400,
+    opacity: .87
+  },
+  caption: {
+    size: 12px,
+    weight: 400,
+    opacity: .54
+  }
+}
+
+$h-tags = {
+  h1: $headings.display-4,
+  h2: $headings.display-3,
+  h3: $headings.display-2,
+  h4: $headings.display-1,
+  h5: $headings.headline,
+  h6: $headings.title
+}
+
+$text-weights = {
+  thin: 100,
+  light: 300,
+  regular: 400,
+  medium: 500,
+  bold: 700,
+  bolder: 900
+}
 
 $primary   ?= #027be3
 $secondary ?= #26A69A
