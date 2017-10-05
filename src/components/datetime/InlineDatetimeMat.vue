@@ -137,8 +137,8 @@
               v-for="monthDay in daysInterval"
               class="row items-center content-center justify-center cursor-pointer"
               :class="{
-                active: monthDay === day, 
-                today: today.getYear() === model.getYear() && today.getMonth() === model.getMonth() && today.getDate() === monthDay
+                'q-datetime-day-active': monthDay === day,
+                'q-datetime-day-today': monthDay === today
               }"
               @click="setDay(monthDay)"
             >
@@ -267,8 +267,7 @@ export default {
     return {
       view,
       dragging: false,
-      centerClockPos: 0,
-      today: new Date()
+      centerClockPos: 0
     }
   },
   watch: {
@@ -381,6 +380,12 @@ export default {
         degrees = Math.round((this.view === 'minute' ? this.minute : this.hour) * (360 / divider)) - 180
 
       return cssTransform(`rotate(${degrees}deg)`)
+    },
+    today () {
+      const today = new Date()
+      return isSameDate(today, this.model, 'month')
+        ? today.getDate()
+        : -1
     }
   },
   methods: {

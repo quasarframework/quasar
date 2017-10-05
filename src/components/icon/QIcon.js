@@ -25,8 +25,8 @@ export default {
     else if (icon.startsWith('fa-')) {
       name = `fa ${icon}`
     }
-     else if (icon.startsWith('bt-')) {
-        name = `bt ${icon}`
+    else if (icon.startsWith('bt-')) {
+      name = `bt ${icon}`
     }
     else if (icon.startsWith('ion-') || icon.startsWith('icon-')) {
       name = `${icon}`

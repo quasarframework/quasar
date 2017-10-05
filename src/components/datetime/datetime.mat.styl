@@ -76,15 +76,17 @@ div + .q-datetime-time
   height 35px
   border-radius 50%
 
-  &:not(.active)
+  &:not(.q-datetime-day-active)
     color black
-  &.active
+  &.q-datetime-day-active
     background currentColor
     > span
       color white
-  &.today
+  &.q-datetime-day-today
     color currentColor
-  &:not(.q-datetime-fillerday):not(.disabled):not(.active):hover
+    font-weight bold
+    font-size 105%
+  &:not(.q-datetime-fillerday):not(.disabled):not(.q-datetime-day-active):hover
     background $grey-4
 
 .q-datetime-btn
