@@ -134,8 +134,10 @@
             <div
               v-for="monthDay in daysInterval"
               class="row items-center content-center justify-center cursor-pointer"
-              :class="{active: monthDay === day, 
-              today: today.getYear() === model.getYear() && today.getMonth() === model.getMonth() && today.getDate() === monthDay}"
+              :class="{
+                active: monthDay === day, 
+                today: today.getYear() === model.getYear() && today.getMonth() === model.getMonth() && today.getDate() === monthDay
+              }"
               @click="setDay(monthDay)"
             >
               <span>{{ monthDay }}</span>
@@ -257,12 +259,12 @@ export default {
         view = 'day'
         break
     }
-    let today = new Date()
+
     return {
       view,
       dragging: false,
       centerClockPos: 0,
-      today
+      today: new Date()
     }
   },
   watch: {
