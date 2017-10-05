@@ -1,6 +1,6 @@
 process.env.BABEL_ENV = 'production'
 
-var
+const
   fs = require('fs'),
   path = require('path'),
   zlib = require('zlib'),
@@ -28,13 +28,13 @@ function resolve (_path) {
 
 build([
   {
-    entry: resolve('src/index.esm.js'),
-    dest: resolve('dist/quasar.esm.js'),
+    input: resolve('src/index.esm.js'),
+    output: resolve('dist/quasar.esm.js'),
     format: 'es'
   },
   {
-    entry: resolve('src/ie-compat/ie.js'),
-    dest: resolve('dist/quasar.ie.js'),
+    input: resolve('src/ie-compat/ie.js'),
+    output: resolve('dist/quasar.ie.js'),
     format: 'es'
   }
 ].map(genConfig))
@@ -60,11 +60,11 @@ function build (builds) {
 
 function genConfig (opts) {
   return {
-    entry: opts.entry,
-    dest: opts.dest,
+    input: opts.input,
+    output: opts.output,
     format: opts.format,
     banner: banner,
-    moduleName: 'Quasar',
+    name: 'Quasar',
     plugins: [
       localResolve(),
       json(),
@@ -75,10 +75,9 @@ function genConfig (opts) {
 }
 
 function buildEntry (config) {
-  const isProd = /min\.js$/.test(config.dest)
-  return rollup.rollup(config).then(bundle => {
-    const code = bundle.generate(config).code
+  const isProd = /min\.js$/.test(config.output)
 
+  return rollup.rollup(config).then(bundle => bundle.generate(config)).then(({ code }) => {
     if (isProd) {
       var minified = (config.banner ? config.banner + '\n' : '') + uglify.minify(code, {
         fromString: true,
@@ -90,10 +89,10 @@ function buildEntry (config) {
           pure_funcs: ['makeMap']
         }
       }).code
-      return write(config.dest, minified, true)
+      return write(config.output, minified, true)
     }
 
-    return write(config.dest, code)
+    return write(config.output, code)
   })
 }
 
