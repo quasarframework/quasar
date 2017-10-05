@@ -143,10 +143,6 @@ export default {
       type: Function,
       required: false
     },
-    additionalFields: {
-      type: Array,
-      default: () => []
-    },
     method: {
       type: String,
       default: 'POST'
@@ -170,7 +166,8 @@ export default {
       uploadedSize: 0,
       totalSize: 0,
       xhrs: [],
-      focused: false
+      focused: false,
+      additionalFields: []
     }
   },
   computed: {
@@ -191,6 +188,11 @@ export default {
     }
   },
   methods: {
+    setAdditionalFields (data) {
+      if(Array.isArray(data)){
+        this.addtionalFields = data
+      }
+    },
     __add (e) {
       if (this.addDisabled) {
         return
