@@ -11,8 +11,8 @@
     :autoplay="autoplay"
     :handle-arrow-keys="handleArrowKeys"
     :easing="easing"
-    :swipeEasing="swipeEasing"
-    :noSwipe="noSwipe"
+    :swipe-easing="swipeEasing"
+    :no-swipe="noSwipe"
     class="text-white bg-black q-gallery-carousel"
   >
     <div
