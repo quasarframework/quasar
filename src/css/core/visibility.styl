@@ -73,6 +73,13 @@ for type in desktop mobile cordova electron ios mat touch within-iframe platform
   .orientation-portrait
     display none !important
 
+@media screen
+  .print-only
+    display none !important
+@media print
+  .print-hide
+    display none !important
+
 @media (max-width $breakpoint-xs-max)
   .xs-hide, .gt-xs, .sm, .gt-sm, .md, .gt-md, .lg, .gt-lg, .xl
     display none !important
