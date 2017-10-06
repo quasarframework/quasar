@@ -230,14 +230,18 @@ export function getContentObject (el) {
     attributes: {}
   }
 
-  Array.from(el.attributes, ({name, value}) => {
-    if (name === 'style') {
+  if (el.tagName === 'LI') {
+    console.log(getStyleObject(el))
+  }
+  for (let i = 0, n = el.attributes.length, att = el.attributes; i < n; i++) {
+    const { nodeName, nodeValue } = att[i]
+    if (nodeName === 'style') {
       node.style = getStyleObject(el)
     }
     else {
-      node.attributes[name] = value
+      node.attributes[nodeName] = nodeValue
     }
-  })
+  }
 
   const children = Array.from(el.childNodes, getContentObject)
   if (children.length === 1 && children[0].nodeType === Node.TEXT_NODE) {
