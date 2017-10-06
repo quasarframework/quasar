@@ -248,16 +248,13 @@ export default {
   },
   methods: {
     __onDragOver () {
-      console.log('dragover')
       this.dnd = true
     },
     __onDragLeave () {
       this.dnd = false
-      console.log('leave')
     },
     __onDrop (e) {
       this.dnd = false
-      console.log('drop')
 
       const
         files = e.dataTransfer.files,
