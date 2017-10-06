@@ -1,5 +1,8 @@
 <template>
-  <div class="q-uploader">
+  <div
+    class="q-uploader relative-position"
+    @dragover.prevent.stop="__onDragOver"
+  >
     <q-input-frame
       ref="input"
       class="no-margin"
@@ -10,13 +13,13 @@
       :float-label="floatLabel"
       :error="error"
       :disable="disable"
-      inverted
       :before="before"
       :after="after"
       :color="color"
       :align="align"
+      :inverted="inverted"
 
-      :length="length"
+      :length="queueLength"
       additional-length
     >
       <div
@@ -62,41 +65,64 @@
         slot="after"
         name="cloud_upload"
         class="q-if-control"
-        :disabled="length === 0"
+        :disabled="queueLength === 0"
         @click="upload"
+      ></q-icon>
+
+      <q-icon
+        v-if="hasExpandedContent"
+        slot="after"
+        name="keyboard_arrow_down"
+        class="q-if-control generic_transition"
+        :class="{'rotate-180': expanded}"
+        @click="expanded = !expanded"
       ></q-icon>
     </q-input-frame>
 
-    <div class="q-uploader-files scroll">
-      <q-item
-        v-for="file in files"
-        :key="file.name"
-        class="q-uploader-file"
-      >
-        <q-progress v-if="!hideUploadProgress"
-          class="q-uploader-progress-bg absolute-full"
-          :color="file.__failed ? 'negative' : 'grey'"
-          :percentage="file.__progress"
-        ></q-progress>
-        <div class="q-uploader-progress-text absolute" v-if="!hideUploadProgress">
-          {{ file.__progress }}%
+    <q-slide-transition>
+      <div v-show="expanded">
+        <div class="q-uploader-files scroll" :style="filesStyle">
+          <q-item
+            v-for="file in files"
+            :key="file.name"
+            class="q-uploader-file"
+          >
+            <q-progress v-if="!hideUploadProgress"
+              class="q-uploader-progress-bg absolute-full"
+              :color="file.__failed ? 'negative' : 'grey'"
+              :percentage="file.__progress"
+            ></q-progress>
+            <div class="q-uploader-progress-text absolute" v-if="!hideUploadProgress">
+              {{ file.__progress }}%
+            </div>
+
+            <q-item-side v-if="file.__img" :image="file.__img.src"></q-item-side>
+            <q-item-side v-else icon="insert_drive_file" :color="color"></q-item-side>
+
+            <q-item-main :label="file.name" :sublabel="file.__size"></q-item-main>
+
+            <q-item-side right>
+              <q-item-tile
+                :icon="file.__doneUploading ? 'done' : 'clear'"
+                :color="color"
+                class="cursor-pointer"
+                @click="__remove(file)"
+              ></q-item-tile>
+            </q-item-side>
+          </q-item>
         </div>
+      </div>
+    </q-slide-transition>
 
-        <q-item-side v-if="file.__img" :image="file.__img.src"></q-item-side>
-        <q-item-side v-else icon="insert_drive_file" :color="color"></q-item-side>
-
-        <q-item-main :label="file.name" :sublabel="file.__size"></q-item-main>
-
-        <q-item-side right>
-          <q-item-tile
-            :icon="file.__doneUploading ? 'done' : 'clear'"
-            :color="color"
-            class="cursor-pointer"
-            @click="__remove(file)"
-          ></q-item-tile>
-        </q-item-side>
-      </q-item>
-    </div>
+    <div
+      v-if="dnd"
+      class="q-uploader-dnd flex row items-center justify-center absolute-full"
+      :class="dndClass"
+      @dragenter.prevent.stop
+      @dragover.prevent.stop
+      @dragleave.prevent.stop="__onDragLeave"
+      @drop.prevent.stop="__onDrop"
+    ></div>
   </div>
 </template>
 
@@ -156,6 +182,9 @@ export default {
     hideUploadButton: Boolean,
     hideUploadProgress: Boolean,
     noThumbnails: Boolean,
+    autoExpand: Boolean,
+    expandStyle: [Array, String, Object],
+    expandClass: [Array, String, Object],
 
     color: {
       type: String,
@@ -170,33 +199,80 @@ export default {
       uploadedSize: 0,
       totalSize: 0,
       xhrs: [],
-      focused: false
+      focused: false,
+      dnd: false,
+      expanded: false
     }
   },
   computed: {
-    length () {
+    queueLength () {
       return this.queue.length
+    },
+    hasExpandedContent () {
+      return this.files.length > 0
     },
     label () {
       const total = humanStorageSize(this.totalSize)
       return this.uploading
         ? `${(this.progress).toFixed(2)}% (${humanStorageSize(this.uploadedSize)} / ${total})`
-        : `${this.length} (${total})`
+        : `${this.queueLength} (${total})`
     },
     progress () {
       return this.totalSize ? Math.min(99.99, this.uploadedSize / this.totalSize * 100) : 0
     },
     addDisabled () {
-      return !this.multiple && this.length >= 1
+      return !this.multiple && this.queueLength >= 1
+    },
+    filesStyle () {
+      if (this.maxHeight) {
+        return { maxHeight: this.maxHeight }
+      }
+    },
+    dndClass () {
+      const cls = [`text-${this.color}`]
+      if (this.inverted) {
+        cls.push('inverted')
+      }
+      return cls
+    }
+  },
+  watch: {
+    hasExpandedContent (v) {
+      if (v === false) {
+        this.expanded = false
+      }
+      else if (this.autoExpand) {
+        this.expanded = true
+      }
     }
   },
   methods: {
-    __add (e) {
+    __onDragOver () {
+      console.log('dragover')
+      this.dnd = true
+    },
+    __onDragLeave () {
+      this.dnd = false
+      console.log('leave')
+    },
+    __onDrop (e) {
+      this.dnd = false
+      console.log('drop')
+
+      const
+        files = e.dataTransfer.files,
+        count = files.length
+
+      if (count > 0) {
+        this.__add(null, this.multiple ? files : [ files[0] ])
+      }
+    },
+    __add (e, files) {
       if (this.addDisabled) {
         return
       }
 
-      let files = Array.prototype.slice.call(e.target.files)
+      files = Array.prototype.slice.call(files || e.target.files)
       this.$refs.file.value = ''
 
       files = files.filter(file => !this.queue.some(f => file.name === f.name))
@@ -222,12 +298,14 @@ export default {
           return file
         })
 
-      this.files = this.files.concat(files)
-      this.$emit('add', files)
-      this.__computeTotalSize()
+      if (files.length > 0) {
+        this.files = this.files.concat(files)
+        this.$emit('add', files)
+        this.__computeTotalSize()
+      }
     },
     __computeTotalSize () {
-      this.totalSize = this.length
+      this.totalSize = this.queueLength
         ? this.queue.map(f => f.size).reduce((total, size) => total + size)
         : 0
     },
@@ -331,7 +409,7 @@ export default {
       })
     },
     upload () {
-      const length = this.length
+      const length = this.queueLength
       if (length === 0) {
         return
       }
@@ -365,6 +443,7 @@ export default {
       this.abort()
       this.files = []
       this.queue = []
+      this.expanded = false
       this.__computeTotalSize()
       this.$emit('reset')
     }

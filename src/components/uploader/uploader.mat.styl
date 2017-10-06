@@ -1,10 +1,6 @@
-.q-uploader
-  border-radius 2px
-  box-shadow $shadow-1
-  overflow hidden
-  .q-if
-    border-bottom-left-radius 0
-    border-bottom-right-radius 0
+.q-uploader-expanded .q-if
+  border-bottom-left-radius 0
+  border-bottom-right-radius 0
 
 .q-uploader-input
   opacity 0
@@ -16,10 +12,11 @@
   display none
 
 .q-uploader-files
+  border 1px solid $grey-4
+  border-top 0
   font-size 14px
-  min-height 56px
   max-height 500px
-.q-uploader-file
+.q-uploader-file:not(:last-child)
   border-bottom 1px solid $grey-4
 .q-uploader-progress-bg, .q-uploader-progress-text
   pointer-events none
@@ -31,3 +28,10 @@
   opacity .1
   right 44px
   bottom 0
+
+.q-uploader-dnd
+  outline 2px dashed currentColor
+  outline-offset -6px
+  background rgba(255, 255, 255, .6)
+  &.inverted
+    background rgba(0, 0, 0, .3)

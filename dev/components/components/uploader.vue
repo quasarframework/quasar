@@ -8,8 +8,11 @@
       <p class="caption">No Thumbnails</p>
       <q-uploader style="max-width: 320px" no-thumbnails color="amber" :url="url" />
 
+      <q-toggle v-model="inverted" label="Inverted" />
       <p class="caption">Multiple File Upload</p>
       <q-uploader
+        :inverted="inverted"
+        auto-expand
         style="max-width: 320px"
         float-label="Upload files"
         multiple
@@ -86,7 +89,8 @@ export default {
   data () {
     return {
       url: 'http://1.1.1.195/upload.php',
-      events: []
+      events: [],
+      inverted: false
     }
   },
   methods: {
