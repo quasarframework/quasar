@@ -42,12 +42,19 @@
       </q-chip>
     </div>
 
-    <div
-      v-else
-      class="col row items-center q-input-target"
-      :class="alignClass"
-      v-html="actualValue"
-    ></div>
+    <template v-else>
+      <div
+        v-if="safe"
+        class="col row items-center q-input-target"
+        :class="alignClass"
+        v-html="actualValue"
+      ></div>
+      <div
+        v-else
+        class="col row items-center q-input-target"
+        :class="alignClass"
+      >{{actualValue}}</div>
+    </template>
 
     <q-icon slot="after" name="arrow_drop_down" class="q-if-control"></q-icon>
 
