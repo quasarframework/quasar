@@ -36,33 +36,27 @@ build([
     input: resolve('src/ie-compat/ie.js'),
     output: resolve('dist/quasar.ie.js'),
     format: 'es'
+  },
+  {
+    input: resolve('src/index.umd.js'),
+    output: resolve('dist/quasar.umd.js'),
+    format: 'umd'
+  },
+  {
+    input: resolve('src/ie-compat/ie.js'),
+    output: resolve('dist/quasar.ie.umd.js'),
+    format: 'umd'
   }
-].map(genConfig))
+])
 
 function build (builds) {
-  var
-    built = 0,
-    total = builds.length
-
-  function next () {
-    buildEntry(builds[built]).then(function () {
-      built++
-      if (built < total) {
-        next()
-      }
-    }).catch(function (e) {
-      console.log(e)
-    })
-  }
-
-  next()
+  Promise.all(builds.map(genConfig).map(buildEntry)).catch(function (e) {
+    console.log(e)
+  })
 }
 
 function genConfig (opts) {
-  return {
-    input: opts.input,
-    output: opts.output,
-    format: opts.format,
+  Object.assign(opts, {
     banner: banner,
     name: 'Quasar',
     plugins: [
@@ -71,36 +65,56 @@ function genConfig (opts) {
       vue(vueConfig),
       buble()
     ]
+  })
+
+  if (opts.format === 'umd') {
+    opts.globals = {vue: 'Vue'}
+    opts.external = ['vue']
   }
+
+  return opts
+}
+
+function addMinExtension (filename) {
+  const insertionPoint = filename.lastIndexOf('.')
+  return `${filename.slice(0, insertionPoint)}.min${filename.slice(insertionPoint)}`
 }
 
 function buildEntry (config) {
-  const isProd = /min\.js$/.test(config.output)
+  return rollup
+    .rollup(config)
+    .then(bundle => bundle.generate(config))
+    .then(({ code }) => {
+      return write(config.output, code)
+    })
+    .then(({ code }) => {
+      if (config.format !== 'umd') {
+        return new Promise((resolve) => resolve)
+      }
 
-  return rollup.rollup(config).then(bundle => bundle.generate(config)).then(({ code }) => {
-    if (isProd) {
-      var minified = (config.banner ? config.banner + '\n' : '') + uglify.minify(code, {
-        fromString: true,
-        output: {
-          screw_ie8: true,
-          ascii_only: true
-        },
+      const minified = uglify.minify(code, {
         compress: {
           pure_funcs: ['makeMap']
         }
-      }).code
-      return write(config.output, minified, true)
-    }
+      })
 
-    return write(config.output, code)
-  })
+      if (minified.error) {
+        return new Promise((resolve, reject) => reject(minified.error))
+      }
+
+      return write(
+        addMinExtension(config.output),
+        (config.banner ? config.banner + '\n' : '') + minified.code,
+        true
+      )
+    })
 }
 
 function write (dest, code, zip) {
   return new Promise((resolve, reject) => {
     function report (extra) {
       console.log((path.relative(process.cwd(), dest)).bold + ' ' + getSize(code).gray + (extra || ''))
-      resolve()
+      resolve({ code })
     }
 
     fs.writeFile(dest, code, err => {
