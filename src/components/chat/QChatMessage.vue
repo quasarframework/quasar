@@ -12,7 +12,7 @@
       <slot name="avatar">
         <img class="q-message-avatar" :src="avatar">
       </slot>
-      <div class="column">
+      <div :class="sizeClass">
         <div v-if="name" class="q-message-name" v-html="name"></div>
         <div
           v-for="msg in text"
@@ -49,7 +49,8 @@ export default {
     name: String,
     avatar: String,
     text: Array,
-    stamp: String
+    stamp: String,
+    size: String
   },
   computed: {
     textClass () {
@@ -60,6 +61,11 @@ export default {
     messageClass () {
       if (this.bgColor) {
         return `text-${this.bgColor}`
+      }
+    },
+    sizeClass () {
+      if (this.size) {
+        return `col-${this.size}`
       }
     }
   }
