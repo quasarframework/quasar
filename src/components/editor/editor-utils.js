@@ -230,9 +230,6 @@ export function getContentObject (el) {
     attributes: {}
   }
 
-  if (el.tagName === 'LI') {
-    console.log(getStyleObject(el))
-  }
   for (let i = 0, n = el.attributes.length, att = el.attributes; i < n; i++) {
     const { nodeName, nodeValue } = att[i]
     if (nodeName === 'style') {

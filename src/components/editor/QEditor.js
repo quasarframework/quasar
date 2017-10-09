@@ -181,7 +181,47 @@ export default {
       this.$refs.content.focus()
     },
     getContentObject () {
-      return getContentObject(this.$refs.content).children
+      const obj = getContentObject(this.$refs.content)
+
+      if (!obj.children && obj.text) {
+        return [{
+          nodeType: Node.ELEMENT_NODE,
+          tagName: 'DIV',
+          attributes: {},
+          text: obj.text
+        }]
+      }
+
+      const
+        children = obj.children || [],
+        length = children.length
+
+      let index = 0
+      while (
+        index < length && (
+          children[index].nodeType === Node.TEXT_NODE ||
+          !['DIV', 'UL', 'OL', 'BR'].includes(children[index].tagName)
+        )
+      ) {
+        index++
+      }
+
+      if (index === 0) {
+        return children
+      }
+
+      const ret = [{
+        nodeType: Node.ELEMENT_NODE,
+        tagName: 'DIV',
+        attributes: {},
+        children: children.slice(0, index)
+      }]
+
+      if (index < length) {
+        return ret.concat(children.slice(index, length))
+      }
+
+      return ret
     }
   },
   created () {
