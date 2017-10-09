@@ -28,6 +28,7 @@ It could be you!
 
 ### $100+
 
+- <a href="http://comcomservices.com/" target="_blank"><img src="http://comcomservices.com/wp-content/uploads/2016/03/Final-ComComLogo.png"></a>
 - <a href="http://picktype.com" target="_blank"><img src="https://picktype.com/wp-content/uploads/2017/04/pt-trans-full-256.png"></a>
 
 ---
@@ -36,7 +37,7 @@ It could be you!
 
 - Colin Mollenhour
 - ShipStream.io
-- Fabio Migliorini
+- MG Papelaria (company)
 - Moacir Schmidt
 
 ---
@@ -71,6 +72,7 @@ It could be you!
 - Ken ($5)
 - Oliver ($5)
 - Mahesh Narayanamurthi ($5)
+- Rodolfo Torres Jaime ($5)
 - Rogério Queiroz ($3)
 - Joe L Wroten ($1)
 - Yasuhiro Kawagoe ($1)
