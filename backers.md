@@ -8,12 +8,6 @@ Quasar Framework is an MIT licensed open source project and completely free to u
 
 You can join them in supporting Quasar development by [pledging on Patreon](https://www.patreon.com/quasarframework)! Backers in the same pledge level appear in the order of pledge date.
 
-### $2000
-
-Currently vacant. It could be you or your organization!
-
----
-
 ### $500
 
 It could be you!
@@ -22,14 +16,15 @@ It could be you!
 
 ### $250
 
-- Mike Burgh
+It could be you!
 
 ---
 
 ### $100+
 
-- <a href="http://comcomservices.com/" target="_blank"><img src="http://comcomservices.com/wp-content/uploads/2016/03/Final-ComComLogo.png"></a>
-- <a href="http://picktype.com" target="_blank"><img src="https://picktype.com/wp-content/uploads/2017/04/pt-trans-full-256.png"></a>
+<a href="http://comcomservices.com/" target="_blank"><img src="http://comcomservices.com/wp-content/uploads/2016/03/Final-ComComLogo.png" width="200px"></a>
+
+<a href="http://picktype.com" target="_blank"><img src="https://picktype.com/wp-content/uploads/2017/04/pt-trans-full-256.png" width="200px"></a>
 
 ---
 
