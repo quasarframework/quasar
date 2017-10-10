@@ -8,7 +8,7 @@
     @blur="$emit('blur')"
     @keydown.space.enter.prevent="toggle(false)"
   >
-    <div class="q-option-inner relative-position" :class="classes">
+    <div class="q-option-inner relative-position" :class="innerClasses">
       <input
         type="checkbox"
         v-model="model"

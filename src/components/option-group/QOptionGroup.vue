@@ -13,6 +13,8 @@
         :unchecked-icon="opt.uncheckedIcon"
         :indeterminate-icon="opt.indeterminateIcon"
         :indeterminate="indeterminate"
+        :dark="opt.dark || dark"
+        :keep-color="opt.keepColor || keepColor"
         @focus="__onFocus"
         @blur="__onBlur"
         @change="__onChange"
@@ -44,6 +46,8 @@ export default {
       }
     },
     color: String,
+    keepColor: Boolean,
+    dark: Boolean,
     indeterminate: Boolean,
     options: {
       type: Array,
