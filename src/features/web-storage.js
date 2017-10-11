@@ -1,3 +1,4 @@
+import { isServer } from './platform'
 
 function encode (value) {
   if (Object.prototype.toString.call(value) === '[object Date]') {
@@ -67,6 +68,12 @@ function decode (value) {
 }
 
 function generateFunctions (fn) {
+  if (isServer) {
+    return {
+      local: () => {},
+      session: () => {}
+    }
+  }
   return {
     local: fn('local'),
     session: fn('session')
@@ -75,17 +82,17 @@ function generateFunctions (fn) {
 
 const
   hasStorageItem = generateFunctions(
-    (type) => (key) => global[type + 'Storage'].getItem(key) !== null
+    (type) => (key) => window[type + 'Storage'].getItem(key) !== null
   ),
 
   getStorageLength = generateFunctions(
-    (type) => () => global[type + 'Storage'].length
+    (type) => () => window[type + 'Storage'].length
   ),
 
   getStorageItem = generateFunctions((type) => {
     let
       hasFn = hasStorageItem[type],
-      storage = global[type + 'Storage']
+      storage = window[type + 'Storage']
 
     return (key) => {
       if (hasFn(key)) {
@@ -99,7 +106,7 @@ const
     let
       lengthFn = getStorageLength[type],
       getItemFn = getStorageItem[type],
-      storage = global[type + 'Storage']
+      storage = window[type + 'Storage']
 
     return (index) => {
       if (index < lengthFn()) {
@@ -111,7 +118,7 @@ const
   getAllStorageItems = generateFunctions((type) => {
     let
       lengthFn = getStorageLength[type],
-      storage = global[type + 'Storage'],
+      storage = window[type + 'Storage'],
       getItemFn = getStorageItem[type]
 
     return () => {
@@ -130,17 +137,17 @@ const
   }),
 
   setStorageItem = generateFunctions((type) => {
-    let storage = global[type + 'Storage']
+    let storage = window[type + 'Storage']
     return (key, value) => { storage.setItem(key, encode(value)) }
   }),
 
   removeStorageItem = generateFunctions((type) => {
-    let storage = global[type + 'Storage']
+    let storage = window[type + 'Storage']
     return (key) => { storage.removeItem(key) }
   }),
 
   clearStorage = generateFunctions((type) => {
-    let storage = global[type + 'Storage']
+    let storage = window[type + 'Storage']
     return () => { storage.clear() }
   }),
 
