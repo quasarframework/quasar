@@ -1,16 +1,7 @@
 <template>
   <div
     class="q-chip row no-wrap inline items-center"
-    :class="{
-      tag: tag,
-      square: square,
-      floating: floating,
-      pointing: pointing,
-      small: small || floating,
-      [`pointing-${pointing}`]: pointing,
-      [`bg-${color}`]: color,
-      'text-white': color
-    }"
+    :class="classes"
     @click="__onClick"
   >
     <div
@@ -64,6 +55,23 @@ export default {
     avatar: String,
     closable: Boolean,
     detail: Boolean
+  },
+  computed: {
+    classes () {
+      const cls = [{
+        tag: this.tag,
+        square: this.square,
+        floating: this.floating,
+        pointing: this.pointing,
+        small: this.small || this.floating
+      }]
+      this.pointing && cls.push(`pointing-${this.pointing}`)
+      if (this.color) {
+        cls.push(`bg-${this.color}`)
+        cls.push(`text-white`)
+      }
+      return cls
+    }
   },
   methods: {
     __onClick (e) {

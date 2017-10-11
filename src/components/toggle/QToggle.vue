@@ -9,7 +9,7 @@
     @blur="$emit('blur')"
     @keydown.space.enter.prevent="toggle(false)"
   >
-    <div class="q-option-inner relative-position" :class="classes">
+    <div class="q-option-inner relative-position" :class="innerClasses">
       <input
         type="checkbox"
         v-model="model"
@@ -19,9 +19,9 @@
         @change="__change"
       >
       <div class="q-focus-helper"></div>
-      <div class="q-toggle-base"></div>
-      <div class="q-toggle-handle shadow-1 row flex-center">
-        <q-icon v-if="currentIcon" class="q-toggle-icon" :name="currentIcon"></q-icon>
+      <div class="q-toggle-base" :class="baseClass"></div>
+      <div class="q-toggle-handle row flex-center">
+        <q-icon v-if="currentIcon" class="q-toggle-icon" :name="currentIcon" :color="iconColor"></q-icon>
         <div v-if="$q.theme !== 'ios'" ref="ripple" class="q-radial-ripple"></div>
       </div>
     </div>
@@ -54,6 +54,16 @@ export default {
   computed: {
     currentIcon () {
       return (this.isActive ? this.checkedIcon : this.uncheckedIcon) || this.icon
+    },
+    iconColor () {
+      return this.$q.theme === 'ios'
+        ? 'dark'
+        : (this.isActive ? 'white' : 'dark')
+    },
+    baseClass () {
+      if (this.$q.theme === 'ios' && this.dark) {
+        return `q-toggle-base-dark`
+      }
     }
   },
   methods: {

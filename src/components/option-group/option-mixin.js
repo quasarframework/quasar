@@ -2,18 +2,25 @@ export default {
   props: {
     label: String,
     leftLabel: Boolean,
-    color: String,
+    color: {
+      type: String,
+      default: 'primary'
+    },
+    keepColor: Boolean,
+    dark: Boolean,
     disable: Boolean
   },
   computed: {
-    classes () {
+    innerClasses () {
       if (this.isActive || this.indeterminate) {
-        const cls = []
-        cls.push('active')
-        if (this.color) {
-          cls.push(`text-${this.color}`)
-        }
-        return cls
+        return ['active', `text-${this.color}`]
+      }
+      else {
+        const color = this.keepColor
+          ? this.color
+          : (this.dark ? 'light' : 'dark')
+
+        return `text-${color}`
       }
     }
   }

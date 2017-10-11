@@ -8,7 +8,7 @@
     @blur="$emit('blur')"
     @keydown.space.enter.prevent="select(false)"
   >
-    <div class="q-option-inner relative-position" :class="classes">
+    <div class="q-option-inner relative-position" :class="innerClasses">
       <input
         type="radio"
         v-model="model"
