@@ -27,11 +27,24 @@ Vue.use(Quasar, {
   directives: Everything
 })
 
-Quasar.start(() => {
-  /* eslint-disable no-new */
-  new Vue({
-    el: '#q-app',
-    router,
-    render: h => h(require('./App').default)
-  })
+const app = new Vue({
+  router,
+  render: h => h(require('./App').default)
 })
+
+if (Vue.prototype.$isServer) {
+  app.$mount('#q-app')
+}
+else {
+  Quasar.start(() => {
+    /* eslint-disable no-new */
+    router.onReady(() => {
+      app.$mount('#q-app')
+    })
+  })
+}
+
+export default {
+  router,
+  app
+}

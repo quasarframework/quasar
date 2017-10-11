@@ -41,7 +41,7 @@ module.exports.styleLoaders = function (options) {
     less: generateLoaders(['css', 'less']),
     sass: generateLoaders(['css', 'sass?indentedSyntax']),
     scss: generateLoaders(['css', 'sass']),
-    styl: generateLoaders(['css', 'stylus']),
+    styl: generateLoaders(['css', 'styl']),
     stylus: generateLoaders(['css', 'stylus'])
   }
 }
