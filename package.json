@@ -101,6 +101,8 @@
   },
   "peerDependencies": {
     "vue": "^2.3.0",
-    "quasar-extras": "0.x"
+    "quasar-extras": "0.x",
+    "xlsx": "^0.11.5",
+    "file-saver": "^1.3.3"
   }
 }
