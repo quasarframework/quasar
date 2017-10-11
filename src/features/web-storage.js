@@ -75,17 +75,17 @@ function generateFunctions (fn) {
 
 const
   hasStorageItem = generateFunctions(
-    (type) => (key) => window[type + 'Storage'].getItem(key) !== null
+    (type) => (key) => global[type + 'Storage'].getItem(key) !== null
   ),
 
   getStorageLength = generateFunctions(
-    (type) => () => window[type + 'Storage'].length
+    (type) => () => global[type + 'Storage'].length
   ),
 
   getStorageItem = generateFunctions((type) => {
     let
       hasFn = hasStorageItem[type],
-      storage = window[type + 'Storage']
+      storage = global[type + 'Storage']
 
     return (key) => {
       if (hasFn(key)) {
@@ -99,7 +99,7 @@ const
     let
       lengthFn = getStorageLength[type],
       getItemFn = getStorageItem[type],
-      storage = window[type + 'Storage']
+      storage = global[type + 'Storage']
 
     return (index) => {
       if (index < lengthFn()) {
@@ -111,7 +111,7 @@ const
   getAllStorageItems = generateFunctions((type) => {
     let
       lengthFn = getStorageLength[type],
-      storage = window[type + 'Storage'],
+      storage = global[type + 'Storage'],
       getItemFn = getStorageItem[type]
 
     return () => {
@@ -130,17 +130,17 @@ const
   }),
 
   setStorageItem = generateFunctions((type) => {
-    let storage = window[type + 'Storage']
+    let storage = global[type + 'Storage']
     return (key, value) => { storage.setItem(key, encode(value)) }
   }),
 
   removeStorageItem = generateFunctions((type) => {
-    let storage = window[type + 'Storage']
+    let storage = global[type + 'Storage']
     return (key) => { storage.removeItem(key) }
   }),
 
   clearStorage = generateFunctions((type) => {
-    let storage = window[type + 'Storage']
+    let storage = global[type + 'Storage']
     return () => { storage.clear() }
   }),
 
