@@ -20,7 +20,6 @@ Vue.use(Quasar, {
   directives: Everything
 })
 
-
 const app = new Vue({
   router,
   render: h => h(App)

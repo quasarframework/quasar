@@ -3,12 +3,17 @@ var
   path = require('path'),
   merge = require('webpack-merge'),
   cssUtils = require('./css-utils'),
+  env = require('./env-utils'),
   HtmlWebpackPlugin = require('html-webpack-plugin'),
   FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin'),
   ProgressBarPlugin = require('progress-bar-webpack-plugin'),
   WebpackCleanupPlugin = require('webpack-cleanup-plugin'),
   VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
   // ExtractTextPlugin = require('extract-text-webpack-plugin')
+
+function resolve (dir) {
+  return path.join(__dirname, '..', dir)
+}
 
 const projectRoot = path.resolve(__dirname, '../')
 
@@ -84,6 +89,20 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, '../tmp'),
     publicPath: '/'
+  },
+  resolve: {
+    extensions: [`.${env.platform.theme}.js`, '.js', `.${env.platform.theme}.vue`, '.vue'],
+    modules: [
+      resolve('src'),
+      'node_modules'
+    ],
+    alias: {
+      quasar: resolve(`src/index.esm`),
+      'quasar-css': resolve(`src/css/${env.platform.theme}.styl`),
+      assets: resolve('dev/assets'),
+      components: resolve('dev/components'),
+      data: resolve('dev/data')
+    }
   },
   plugins: [
     new webpack.DefinePlugin({
