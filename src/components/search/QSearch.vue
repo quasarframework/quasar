@@ -28,7 +28,7 @@
     @keydown="__onKeydown"
     @click="__onClick"
   >
-    <slot></slot>
+    <span><slot></slot></span>
   </q-input>
 </template>
 
