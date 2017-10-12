@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import mixin from '../spinner-mixin'
+import mixin from './spinner-mixin'
 
 export default {
   name: 'q-spinner-ios',

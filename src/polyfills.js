@@ -1,5 +1,5 @@
 /* eslint-disable no-extend-native, one-var, no-self-compare */
-import { isServer } from './platform'
+import { isServer } from './features/platform'
 
 if (!Array.prototype.includes) {
   Array.prototype.includes = function (searchEl, startFrom) {

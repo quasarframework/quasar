@@ -15,7 +15,7 @@ import {
 import { frameDebounce } from '../../utils/debounce'
 import { getScrollTarget } from '../../utils/scroll'
 import { width, viewport } from '../../utils/dom'
-import EscapeKey from '../../features/escape-key'
+import EscapeKey from '../../utils/escape-key'
 import ModelToggleMixin from '../../utils/mixin-model-toggle'
 
 export default {

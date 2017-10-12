@@ -4,7 +4,7 @@
 export const isServer = typeof window === 'undefined'
 
 function getUserAgent () {
-  if (isServer) { return 'isServer' }
+  if (isServer) { return global.userAgent || '' }
   return (navigator.userAgent || navigator.vendor || window.opera).toLowerCase()
 }
 

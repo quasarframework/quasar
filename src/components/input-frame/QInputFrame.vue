@@ -32,7 +32,7 @@
         v-html="prefix"
       ></span>
 
-      <slot></slot>
+      <span><slot></slot></span>
 
       <span
         v-if="suffix"

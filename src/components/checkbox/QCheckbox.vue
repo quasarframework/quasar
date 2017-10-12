@@ -33,7 +33,6 @@
 </template>
 
 <script>
-import { current as theme } from '../../features/theme'
 import Mixin from './checkbox-mixin'
 import OptionMixin from '../option-group/option-mixin'
 import { QIcon } from '../icon'
@@ -48,15 +47,15 @@ export default {
     indeterminate: Boolean,
     checkedIcon: {
       type: String,
-      default: theme === 'ios' ? 'check_circle' : 'check_box'
+      default: __THEME__ === 'ios' ? 'check_circle' : 'check_box'
     },
     uncheckedIcon: {
       type: String,
-      default: theme === 'ios' ? 'radio_button_unchecked' : 'check_box_outline_blank'
+      default: __THEME__ === 'ios' ? 'radio_button_unchecked' : 'check_box_outline_blank'
     },
     indeterminateIcon: {
       type: String,
-      default: theme === 'ios' ? '' : 'indeterminate_check_box'
+      default: __THEME__ === 'ios' ? '' : 'indeterminate_check_box'
     }
   },
   computed: {

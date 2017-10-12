@@ -105,7 +105,7 @@
     ></q-spinner>
 
     <slot name="after"></slot>
-    <slot></slot>
+    <span><slot></slot></span>
   </q-input-frame>
 </template>
 
