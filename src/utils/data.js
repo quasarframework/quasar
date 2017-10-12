@@ -2,9 +2,10 @@ import XLSX from 'xlsx'
 import { isObject } from './is.js'
 
 /*
- * array<object> to array<array>
+ * Convert Array<Object> to Array<Array>
+ *
  * @example
- * case 1: header will be Object.keys(aoo[0])
+ * case 1: Keys header (Object.keys(aoo[0]))
  * // input
  * [{a:1, b:2},{a:3, b:4}]
  * // output
@@ -14,7 +15,7 @@ import { isObject } from './is.js'
  *   [3,4]
  * ]
  * 
- * case 2: skip header
+ * case 2: No header
  * // input
  * [{a:1, b:2},{a:3, b:4}], {header: null}
  * // output
@@ -23,7 +24,7 @@ import { isObject } from './is.js'
  *   [3,4]
  * ]
  * 
- * case 3: header will be Object's values and order will be Object.keys
+ * case 3: Named header (Object's values)
  * // input
  * [{a:1, b:2},{a:3, b:4}], {header: {a:'foo', b:'bar'}}
  * // output
@@ -33,12 +34,31 @@ import { isObject } from './is.js'
  *   [3,4]
  * ]
  * 
- * case 4: header and order will be as options.header
+ * case 4: Keys header + Fields ordered
+ * // input
+ * [{a:1, b:2},{a:3, b:4}], {header: [{b: null}, {a: null}]}
+ * // output
+ * [
+ *   ['b', 'a'],
+ *   [1,2],
+ *   [3,4]
+ * ]
+ * 
+ * case 5: No header + Fields ordered
  * // input
  * [{a:1, b:2},{a:3, b:4}], {header: ['b', 'a']}
  * // output
  * [
- *   ['b','a'],
+ *   [2,1],
+ *   [4,3]
+ * ]
+ * 
+ * case 6: Named header + Fields ordered
+ * // input
+ * [{a:1, b:2},{a:3, b:4}], {header: [{b: 'bar'}, {a: 'foo'}]}
+ * // output
+ * [
+ *   ['bar','foo'],
  *   [2,1],
  *   [4,3]
  * ]
@@ -53,8 +73,25 @@ function ooa2aoa (ooa, options = {}) {
   }
   let order = []
   if (Array.isArray(options.header)) {
-    order = options.header
-    aoa.push(options.header)
+    let header = []
+    options.header.forEach(vOrObj => {
+      if (isObject(vOrObj)) {
+        let o = vOrObj
+        let k = Object.keys(o)[0]
+        order.push(k)
+        if (o[k] === null) {
+          header.push(k)
+        }
+        else {
+          header.push(o[k])
+        }
+        return
+      }
+      order.push(vOrObj)
+    })
+    if (header.length > 0) {
+      aoa.push(header)
+    }
   }
   else if (options.header === null) {
     order = Object.keys(ooa[0])
@@ -85,7 +122,7 @@ function ooa2aoa (ooa, options = {}) {
 }
 
 /**
- * string to array buffer
+ * Convert string to array buffer
  */
 function s2ab (s) {
   let buf = new ArrayBuffer(s.length)
@@ -97,9 +134,9 @@ function s2ab (s) {
 }
 
 /**
- * to download stream
+ * Convert string to blob for download
  */
-function s2bin (s) {
+function s2blob (s) {
   return new Blob([s2ab(s)], {type: 'application/octet-stream'})
 }
 
@@ -112,15 +149,20 @@ export function to (ext, ooa, options = {}) {
     wopts = {
       bookType: ext,
       bookSST: false,
-      type: options.type || 'binary'
+      // https://github.com/SheetJS/js-xlsx#output-type
+      type: 'binary'
     }
 
   XLSX.utils.book_append_sheet(wb, ws, sheetName)
 
   let s = XLSX.write(wb, wopts)
 
-  if (options.blob === false) {
-    return s2ab(s)
+  switch (options.type) {
+    case 'string':
+      return s
+    case 'buffer':
+      return s2ab(s)
+    default:
+      return s2blob(s)
   }
-  return s2bin(s)
 }

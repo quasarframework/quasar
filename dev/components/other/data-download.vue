@@ -17,16 +17,22 @@
           {{v}}: {{JSON.stringify(headers[i])}}
         </li>
       </ul>
-      <p
-        class="caption"
-        v-for="ext in ['csv', 'xlsx', 'txt', 'html']"
-        :key="ext"
-      >
+      <p class="caption">
         <span class="desktop-only">Click</span>
         <span class="mobile-only">Tap</span>
-        to download {{ext}}.
-        <q-btn v-for="(label, i) in labels" :key="i" :label="label" @click="download(ext, i)" />
+        to download
+        <select v-model="ext">
+          <option disabled value="">(select)</option>
+          <option v-for="v in exts" :value="v">{{v}}</option>
+        </select>
       </p>
+      <q-btn
+        v-for="(label, i) in labels"
+        :key="i"
+        :label="label"
+        @click="download(ext, i)"
+        :no-caps="true"
+      />
     </div>
   </div>
 </template>
@@ -44,6 +50,8 @@ export default {
   },
   data () {
     return {
+      exts: ['xlsx', 'csv', 'txt', 'html'],
+      ext: 'xlsx',
       data: [
         {a: 1, b: 2},
         {a: 3, b: 4}
@@ -52,13 +60,17 @@ export default {
         undefined,
         null,
         {a: 'foo', b: 'bar'},
-        ['b', 'a']
+        [{b: null}, {a: null}],
+        ['b', 'a'],
+        [{b: 'bar'}, {a: 'foo'}]
       ],
       labels: [
-        'Use keys (default)',
+        'Keys header (default)',
         'No header',
         'Named header',
-        'Fields ordered'
+        'Keys header + Fields ordered',
+        'No header + Fields ordered',
+        'Named header + Fields ordered'
       ]
     }
   },
