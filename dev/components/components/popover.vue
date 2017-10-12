@@ -51,10 +51,10 @@
           </q-card-title>
 
           <p class="caption text-center">Configure the Popover for button above.</p>
-          <p class="text-center">
+          <div class="text-center">
             <q-chip tag color="primary">anchor="{{anchor}}"</q-chip>
             <q-chip tag color="primary">self="{{self}}"</q-chip>
-          </p>
+          </div>
           <q-card-main class="row">
             <div class="column items-center col-6">
               <p class="caption">Anchor Origin</p>
