@@ -1,3 +1,15 @@
+// const { JSDOM } = require('jsdom');
+// var window = new JSDOM().window;
+// var MockBrowser = require('mock-browser').mocks.MockBrowser;
+// var mock = new MockBrowser({ window });
+// global.document = mock.getDocument();
+// global.window = mock.getWindow();
+// global.navigator = mock.getNavigator();
+// global.Element = function() {}
+// global.XMLHttpRequest = function() {
+//   this.send = () => {}
+// }
+
 module.exports = function(context) {
 
   return new Promise((resolve, reject) => {

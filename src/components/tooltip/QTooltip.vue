@@ -1,5 +1,5 @@
 <template>
-  <span class="q-tooltip animate-scale" :style="transformCSS">
+  <span class="q-tooltip animate-scale" :class="{'server-hide': $isServer}" :style="transformCSS">
     <slot></slot>
   </span>
 </template>

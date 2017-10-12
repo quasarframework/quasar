@@ -57,6 +57,7 @@
       :disable="disable"
       :offset="[0, 10]"
       :anchor-click="false"
+      :class="{'server-hide': $isServer}"
       class="column no-wrap"
       @open="__onFocus"
       @close="__onClose"
