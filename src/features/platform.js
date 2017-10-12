@@ -4,7 +4,8 @@
 export const isServer = typeof window === 'undefined'
 
 function getUserAgent () {
-  return (global.userAgent || navigator.userAgent || navigator.vendor || window.opera).toLowerCase()
+  if (isServer) { return global.userAgent || '' }
+  return (navigator.userAgent || navigator.vendor || window.opera).toLowerCase()
 }
 
 function getMatch (userAgent, platformMatch) {
