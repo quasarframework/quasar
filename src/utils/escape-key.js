@@ -1,4 +1,4 @@
-import Platform, { isServer } from './platform'
+import Platform, { isServer } from '../features/platform'
 
 let handlers = []
 

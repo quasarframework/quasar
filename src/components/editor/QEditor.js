@@ -1,5 +1,5 @@
 import { getEventKey } from '../../utils/event'
-import { getToolbar, getFonts, getContentObject } from './editor-utils'
+import { getToolbar, getFonts } from './editor-utils'
 import { buttons } from './editor-definitions'
 import { Caret } from './editor-caret'
 import extend from '../../utils/extend'
@@ -180,48 +180,8 @@ export default {
     focus () {
       this.$refs.content.focus()
     },
-    getContentObject () {
-      const obj = getContentObject(this.$refs.content)
-
-      if (!obj.children && obj.text) {
-        return [{
-          nodeType: Node.ELEMENT_NODE,
-          tagName: 'DIV',
-          attributes: {},
-          text: obj.text
-        }]
-      }
-
-      const
-        children = obj.children || [],
-        length = children.length
-
-      let index = 0
-      while (
-        index < length && (
-          children[index].nodeType === Node.TEXT_NODE ||
-          !['DIV', 'UL', 'OL', 'BR'].includes(children[index].tagName)
-        )
-      ) {
-        index++
-      }
-
-      if (index === 0) {
-        return children
-      }
-
-      const ret = [{
-        nodeType: Node.ELEMENT_NODE,
-        tagName: 'DIV',
-        attributes: {},
-        children: children.slice(0, index)
-      }]
-
-      if (index < length) {
-        return ret.concat(children.slice(index, length))
-      }
-
-      return ret
+    getContentEl () {
+      return this.$refs.content
     }
   },
   beforeMount () {

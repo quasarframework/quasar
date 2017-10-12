@@ -1,6 +1,5 @@
 import { cssTransform, css } from '../utils/dom'
 import { position } from '../utils/event'
-import { current as theme } from '../features/theme'
 
 function showRipple (evt, el, stopPropagation) {
   if (stopPropagation) {
@@ -44,8 +43,8 @@ function showRipple (evt, el, stopPropagation) {
 
 function shouldAbort ({mat, ios}) {
   return (
-    (mat && theme !== 'mat') ||
-    (ios && theme !== 'ios')
+    (mat && __THEME__ !== 'mat') ||
+    (ios && __THEME__ !== 'ios')
   )
 }
 

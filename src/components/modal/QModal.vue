@@ -23,7 +23,7 @@
 
 <script>
 import Platform from '../../features/platform'
-import EscapeKey from '../../features/escape-key'
+import EscapeKey from '../../utils/escape-key'
 import extend from '../../utils/extend'
 import ModelToggleMixin from '../../utils/mixin-model-toggle'
 import { QTransition } from '../transition'

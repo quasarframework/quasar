@@ -105,7 +105,6 @@
 <script>
 import FrameMixin from '../input-frame/input-frame-mixin'
 import extend from '../../utils/extend'
-import { current as theme } from '../../features/theme'
 import { input, inline } from './datetime-props'
 import { QInputFrame } from '../input-frame'
 import { QPopover } from '../popover'
@@ -114,18 +113,17 @@ import { QBtn } from '../btn'
 import { formatDate, isSameDate } from '../../utils/date'
 import { QModal } from '../modal'
 
-let contentCSS = {
-  ios: {
+let contentCSS = __THEME__ === 'ios'
+  ? {
     maxHeight: '80vh',
     height: 'auto',
     boxShadow: 'none',
     backgroundColor: '#e4e4e4'
-  },
-  mat: {
+  }
+  : {
     maxWidth: '95vw',
     maxHeight: '98vh'
   }
-}
 
 export default {
   name: 'q-datetime',
@@ -147,10 +145,10 @@ export default {
   ),
   data () {
     let data = this.usingPopover ? {} : {
-      css: contentCSS[theme],
-      position: theme === 'ios' ? 'items-end justify-center' : 'flex-center',
-      transition: theme === 'ios' ? 'q-modal-bottom' : 'q-modal',
-      classNames: theme === 'ios' ? '' : 'minimized'
+      css: contentCSS,
+      position: __THEME__ === 'ios' ? 'items-end justify-center' : 'flex-center',
+      transition: __THEME__ === 'ios' ? 'q-modal-bottom' : 'q-modal',
+      classNames: __THEME__ === 'ios' ? '' : 'minimized'
     }
     data.model = this.value
     data.focused = false
