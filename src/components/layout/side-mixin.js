@@ -32,13 +32,13 @@ export default {
       }
     },
 
-    __toggle (side) {
+    __toggle (side, fn) {
       const state = this[side + 'State']
       if (state.openedSmall || (this[side + 'OverBreakpoint'] && state.openedBig)) {
-        this.__hide(side)
+        this.__hide(side, fn)
       }
       else {
-        this.__show(side)
+        this.__show(side, fn)
       }
     },
     __popState () {
