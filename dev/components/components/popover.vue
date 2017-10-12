@@ -105,11 +105,13 @@
             >
           </q-popover>
         </q-btn>
-
+  
+        <!-- here -->
         <q-btn color="tertiary" class="fixed-bottom-right" icon="plus_one" style="bottom: 10px; right: 16px;">
           <q-popover ref="popover4">
             <div class="group" style="width: 220px; text-align: center;">
-              <q-btn icon="thumb_up" flat color="primary" @click="showToast(), $refs.popover4.close()" />
+              <!-- These are throwing errors -->
+              <q-btn icon="menu" flat color="primary" @click="showToast(), $refs.popover4.close()" />
               <q-btn icon="thumb_down" flat color="primary" @click="showToast(), $refs.popover4.close()" />
               <q-btn icon="share" flat color="secondary" @click="showToast(), $refs.popover4.close()" />
             </div>
