@@ -1,18 +1,18 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import pages from './pages'
-
 Vue.use(VueRouter)
 
+import pages from './pages'
+
 function load (component) {
-  return () => import(`./components/${component}.vue`)
+  return require(`./components/${component}.vue`).default
 }
 
 function component (path) {
   return {
     path: '/' + path.slice(0, path.length - 4),
-    component: () => import(`./components/${path}`)
+    component: require(`./components/${path}`).default
   }
 }
 

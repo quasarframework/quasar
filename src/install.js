@@ -1,4 +1,4 @@
-import Platform from './features/platform'
+import Platform, { isServer } from './features/platform'
 import Events, { installEvents } from './features/events'
 import { version } from '../package.json'
 import { setVue } from './deps'
@@ -21,14 +21,16 @@ function addBodyClasses () {
 }
 
 function captureErrors () {
-  window.onerror = function (message, source, lineno, colno, error) {
-    Events.$emit('app:error', {
-      message: message,
-      source: source,
-      lineno: lineno,
-      colno: colno,
-      error: error
-    })
+  if (!isServer) {
+    window.onerror = function (message, source, lineno, colno, error) {
+      Events.$emit('app:error', {
+        message: message,
+        source: source,
+        lineno: lineno,
+        colno: colno,
+        error: error
+      })
+    }
   }
 }
 

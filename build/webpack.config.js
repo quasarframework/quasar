@@ -112,7 +112,7 @@ module.exports = {
     }),
     new webpack.LoaderOptionsPlugin({
       options: {
-        context: resolve('src'),
+        context: resolve('dev'),
         eslint: {
           formatter: require('eslint-friendly-formatter')
         },

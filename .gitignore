@@ -2,6 +2,7 @@
 .Thumbs.db
 node_modules/
 dist/
+tmp/
 deploy/
 npm-debug.log
 test/unit/coverage/

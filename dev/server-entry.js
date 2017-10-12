@@ -2,6 +2,7 @@ module.exports = function(context) {
 
   return new Promise((resolve, reject) => {
 
+    global.userAgent = context.userAgent;
     var { app, router } = require('./main.js').default;
 
     // `router.push()` will load the url provided by our context and getMatchedComponents will retrieve all the associated parent and child components related to that url

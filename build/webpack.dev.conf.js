@@ -8,8 +8,8 @@ var
   FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin'),
   ProgressBarPlugin = require('progress-bar-webpack-plugin'),
   WebpackCleanupPlugin = require('webpack-cleanup-plugin'),
-  VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
-  // ExtractTextPlugin = require('extract-text-webpack-plugin')
+  VueSSRClientPlugin = require('vue-server-renderer/client-plugin'),
+  ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -33,9 +33,9 @@ module.exports = {
   },
   module: {
     rules: cssUtils.styleRules({
-      sourceMap: false,
+      sourceMap: true,
       postcss: true,
-      extract: false
+      extract: true
     }).concat([
       { // eslint
         enforce: 'pre',
@@ -59,8 +59,8 @@ module.exports = {
         options: {
           postcss: cssUtils.postcss,
           loaders: merge({js: 'babel-loader'}, cssUtils.styleLoaders({
-            sourceMap: false,
-            extract: false
+            sourceMap: true,
+            extract: true
           }))
         }
       },
@@ -111,12 +111,12 @@ module.exports = {
       },
       'DEV': true,
       'PROD': false,
-      '__THEME': '"mat"'
+      '__THEME__': JSON.stringify(env.platform.theme)
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: false,
       options: {
-        context: path.resolve(__dirname, '../dev'),
+        context: resolve('dev'),
         postcss: cssUtils.postcss
       }
     }),
@@ -128,9 +128,9 @@ module.exports = {
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
-    // new ExtractTextPlugin({
-    //   filename: '[name].[contenthash].css'
-    // }),
+    new ExtractTextPlugin({
+      filename: '[name].[contenthash].css'
+    }),
     new VueSSRClientPlugin(),
     new FriendlyErrorsPlugin({
       clearConsole: true

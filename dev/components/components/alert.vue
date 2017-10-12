@@ -69,7 +69,7 @@ import { Alert } from 'quasar'
 // import 'quasar-extras/animate/bounceInRight.css'
 // import 'quasar-extras/animate/bounceOutRight.css'
 
-Alert.create({html: 'Warning, warning Will Robinson!'})
+// Alert.create({html: 'Warning, warning Will Robinson!'})
 
 export default {
 

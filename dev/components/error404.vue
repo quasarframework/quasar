@@ -33,7 +33,7 @@
 export default {
   data () {
     return {
-      canGoBack: window.history.length > 1
+      canGoBack: !this.$isServer && window.history.length > 1
     }
   },
   methods: {

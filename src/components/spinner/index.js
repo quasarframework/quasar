@@ -1,4 +1,6 @@
-import DefaultSpinner from './QSpinner'
+
+// This should be fixed to not hardcode .mat
+import DefaultSpinner from './QSpinner.mat'
 
 import QSpinnerAudio from './list/audio.vue'
 import QSpinnerBall from './list/ball.vue'

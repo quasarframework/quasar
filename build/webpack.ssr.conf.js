@@ -10,8 +10,6 @@ var
   path = require('path'),
   FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 
-console.log(`__dirname`, __dirname)
-
 const projectRoot = path.resolve(__dirname, '../')
 
 function resolve (dir) {
@@ -33,16 +31,17 @@ module.exports = {
     publicPath: '/',
   },
   resolve: {
-    extensions: ['.js', '.vue'],
+    extensions: [`.${env.platform.theme}.js`, '.js', `.${env.platform.theme}.vue`, '.vue'],
     modules: [
-      path.join(__dirname, '../src'),
+      resolve('src'),
       'node_modules'
     ],
     alias: {
-      quasar: path.resolve(__dirname, '../src/index.esm'),
-      assets: path.resolve(__dirname, '../dev/assets'),
-      components: path.resolve(__dirname, '../dev/components'),
-      data: path.resolve(__dirname, '../dev/data')
+      quasar: resolve(`src/index.esm`),
+      'quasar-css': resolve(`src/css/${env.platform.theme}.styl`),
+      assets: resolve('dev/assets'),
+      components: resolve('dev/components'),
+      data: resolve('dev/data')
     }
   },
   // https://webpack.js.org/configuration/externals/#function
@@ -102,6 +101,19 @@ module.exports = {
   },
   plugins: [
     new VueSSRServerPlugin(),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: '"development"'
+      },
+      '__THEME__': JSON.stringify(env.platform.theme)
+    }),
+    new webpack.LoaderOptionsPlugin({
+      minimize: false,
+      options: {
+        context: resolve('dev'),
+        postcss: cssUtils.postcss
+      }
+    }),
     // new ExtractTextPlugin({
     //   filename: '[name].[contenthash].css'
     // }),
