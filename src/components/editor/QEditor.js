@@ -224,7 +224,7 @@ export default {
       return ret
     }
   },
-  created () {
+  beforeMount () {
     document.execCommand('defaultParagraphSeparator', false, 'div')
     this.defaultFont = window.getComputedStyle(document.body).fontFamily
   },
