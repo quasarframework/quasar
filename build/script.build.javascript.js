@@ -30,7 +30,7 @@ build([
   },
   {
     input: resolve('src/ie-compat/ie.js'),
-    output: resolve('dist/quasar.ie.js'),
+    output: resolve('dist/quasar.ie.polyfills.js'),
     format: 'umd'
   },
   {
