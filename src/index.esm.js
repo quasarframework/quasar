@@ -1,6 +1,5 @@
 import install from './install'
 import start from './start'
-import * as theme from './features/theme'
 import { version } from '../package.json'
 
 export * from './components'
@@ -13,5 +12,5 @@ export default {
   version,
   install,
   start,
-  theme
+  theme: __THEME__
 }

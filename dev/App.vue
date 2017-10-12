@@ -13,6 +13,8 @@ export default {
 }
 </script>
 
+<style lang="stylus" src="quasar-css"></style>
+
 <style lang="stylus">
 p.caption
   margin 35px 0
