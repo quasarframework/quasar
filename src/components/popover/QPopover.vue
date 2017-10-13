@@ -1,5 +1,5 @@
 <template>
-  <div class="q-popover animate-scale" :style="transformCSS" @click.stop>
+  <div class="q-popover animate-scale" :class="{'server-hide': $isServer}" :style="transformCSS" @click.stop>
     <slot></slot>
   </div>
 </template>
