@@ -164,6 +164,7 @@ export default {
     },
     __unregisterStep (vm) {
       this.steps = this.steps.filter(step => step !== vm)
+      this.__sortSteps()
     }
   },
   created () {
