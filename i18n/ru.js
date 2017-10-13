@@ -3,20 +3,20 @@ export default {
   monthNames: 'Январь_Февраль_Март_Апрель_Май_Июнь_Июль_Август_Сентябрь_Октябрь_Ноябрь_Декабрь'.split('_'),
   clearLabel: 'Очистить',
   okLabel: 'OK',
-  cancelLabel: 'Отменить',
+  cancelLabel: 'Отмена',
   selectLabel: 'Выбрать',
   dataTable: {
     columns: 'Колонки',
     allCols: 'Все колонки',
-    rows: 'Столбцы',
+    rows: 'Строки',
     selected: {
-      singular: 'объект выбран.',
-      plural: 'объекты выбраны.'
+      singular: 'элемент выбран.',
+      plural: 'элементов выбрано.'
     },
     clear: 'Очистить',
     search: 'Поиск',
     all: 'Все',
-    noDataAfterFiltering: '<i class="material-icons">warning</i> Результаты отсутствуют. Измените критерии поиска.',
+    noDataAfterFiltering: '<i class="material-icons">warning</i> Ничего не найдено. Измените критерии поиска.',
     noData: '<i class="material-icons">warning</i> Нет данных для отображения.'
   }
 }
