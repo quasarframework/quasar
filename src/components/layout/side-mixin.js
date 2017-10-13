@@ -84,6 +84,14 @@ export default {
       }
     },
     __show (side, fn) {
+
+      if (this.$isKeyboardOpen) {
+        setTimeout(() => {
+          this.__show(side, fn)
+        }, 100)
+        return false
+      }
+
       const state = this[side + 'State']
       if (this[side + 'OverBreakpoint']) {
         state.openedBig = true

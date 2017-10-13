@@ -1,5 +1,6 @@
 import { Vue } from './deps'
 import Platform from './features/platform'
+import throttle from './utils/throttle'
 
 export default function (cb = function () {}) {
   /*
@@ -17,6 +18,14 @@ export default function (cb = function () {}) {
     Vue.prototype.$cordova = cordova
     cb()
   }, false)
+
+  if (Platform.is.mobile) {
+    const initialScreenHeight = window.innerHeight
+
+    window.addEventListener('resize', throttle(() => {
+      Vue.prototype.$isKeyboardOpen = (window.innerHeight < initialScreenHeight)
+    }, false), 100)
+  }
 
   tag.type = 'text/javascript'
   document.body.appendChild(tag)
