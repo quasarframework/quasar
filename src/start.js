@@ -20,9 +20,14 @@ export default function (cb = function () {}) {
   }, false)
 
   if (Platform.is.mobile) {
-    const initialScreenHeight = window.innerHeight
+    let initialScreenHeight = window.innerHeight
+    let initialScreenWidth = window.innerWidth
 
     window.addEventListener('resize', throttle(() => {
+      if(window.innerWidth !== initialScreenWidth) {
+        initialScreenHeight = window.innerHeight
+        initialScreenWidth = window.innerWidth
+      }
       Vue.prototype.$isKeyboardOpen = (window.innerHeight < initialScreenHeight)
     }, false), 100)
   }
