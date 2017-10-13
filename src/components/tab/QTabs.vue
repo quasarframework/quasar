@@ -284,8 +284,6 @@ export default {
       }
     },
     __animScrollTo (value) {
-      this.__stopAnimScroll()
-
       if (this.$refs.scroller.scrollTo) {
         this.$refs.scroller.scrollTo({
           'behavior': 'smooth',
@@ -296,6 +294,7 @@ export default {
         this.__stopAnimScroll()
       }
       else {
+        this.__stopAnimScroll()
         this.__scrollTowards(value)
 
         this.scrollTimer = setInterval(() => {
