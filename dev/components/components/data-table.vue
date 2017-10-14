@@ -29,7 +29,7 @@
         :separator="separator"
         @request="request"
       >
-        <template slot="top-right" scope="props">
+        <template slot="top-right" slot-slot-scope="props">
           <q-search v-model="filter" />
         </template>
       </q-data-table>
@@ -64,16 +64,16 @@
         color="secondary"
         :separator="separator"
       >
-        <template slot="top-selection" scope="props">
+        <template slot="top-selection" slot-scope="props">
           Selection
         </template>
-        <template slot="top-left" scope="props">
+        <template slot="top-left" slot-scope="props">
           <q-btn flat color="secondary" label="Button" />
         </template>
-        <template slot="top-right" scope="props">
+        <template slot="top-right" slot-scope="props">
           <q-data-table-columns color="secondary" v-model="visibleColumns" :columns="columns" />
         </template>
-        <template slot="body-cell-desc" scope="props">
+        <template slot="body-cell-desc" slot-scope="props">
           <td :class="props.col.__tdClass">
             <q-chip color="secondary">{{ props.value }}</q-chip>
             <br>
@@ -107,18 +107,18 @@
         row-key="name"
         color="amber"
       >
-        <template slot="top-left" scope="props">
+        <template slot="top-left" slot-scope="props">
           <div>
             Top left template
           </div>
         </template>
-        <template slot="top-right" scope="props">
+        <template slot="top-right" slot-scope="props">
           <div class="row items-center">
             <q-btn flat round small color="grey-8" icon="filter_list" class="on-right" />
             <q-btn flat round small color="grey-8" icon="more_vert" class="on-right" />
           </div>
         </template>
-        <template slot="top-selection" scope="props">
+        <template slot="top-selection" slot-scope="props">
           <div>
             Selection
           </div>
@@ -135,7 +135,7 @@
         row-key="name"
         color="primary"
       >
-        <template slot="top" scope="props">
+        <template slot="top" slot-scope="props">
           <div slot="top" class="row items-center">
             Some awesome table
           </div>
@@ -150,7 +150,7 @@
         :filter="filter"
         row-key="name"
       >
-        <template slot="header-cell" scope="props">
+        <template slot="header-cell" slot-scope="props">
           <th @click="props.sort(props.col)" :class="props.col.__thClass">
             # {{props.col.label}}
              <q-icon :class="props.col.__iconClass" name="arrow_upward" />
@@ -166,7 +166,7 @@
         :title="title"
         row-key="name"
       >
-        <template slot="header" scope="props">
+        <template slot="header" slot-scope="props">
           <tr>
             <th v-for="col in props.cols" :key="col.label" @click="props.sort(col)" :class="col.__thClass">
               {{col.label}} <q-icon :class="col.__iconClass" name="arrow_upward" />
@@ -183,7 +183,7 @@
         :title="title"
         row-key="name"
       >
-        <template slot="body" scope="props">
+        <template slot="body" slot-scope="props">
           <tr :key="props.key" :class="props.__trClass">
             <td>
               {{ props.row.name }}
@@ -212,7 +212,7 @@
         :title="title"
         row-key="name"
       >
-        <template slot="body-cell" scope="props">
+        <template slot="body-cell" slot-scope="props">
           <td :class="props.col.__tdClass">!{{ props.value }}</td>
         </template>
       </q-data-table>
@@ -228,7 +228,7 @@
         <div slot="top">
           Top
         </div>
-        <template slot="top-row" scope="props">
+        <template slot="top-row" slot-scope="props">
           <tr>
             <td colspan="100%">
               Top row
@@ -236,7 +236,7 @@
           </tr>
         </template>
 
-        <template slot="bottom-row" scope="props">
+        <template slot="bottom-row" slot-scope="props">
           <tr>
             <td colspan="100%">
               Bottom row
@@ -261,7 +261,7 @@
         :visible-columns="visibleColumns"
         :title="title"
       >
-        <template slot="header" scope="props">
+        <template slot="header" slot-scope="props">
           <tr>
             <th class="q-table-select">
               <q-checkbox v-if="props.multipleSelect" v-model="props.selected" :indeterminate="props.partialSelected" :color="color" />
@@ -272,7 +272,7 @@
             </th>
           </tr>
         </template>
-        <template slot="body" scope="props">
+        <template slot="body" slot-scope="props">
           <tr :key="props.key" :class="props.__trClass">
             <td>
               <q-checkbox :color="color" v-model="props.selected" />
@@ -309,7 +309,7 @@
         :visible-columns="visibleColumns"
         :title="title"
       >
-        <template slot="header" scope="props">
+        <template slot="header" slot-scope="props">
           <tr>
             <th class="q-table-select">
               <q-checkbox v-if="props.multipleSelect" v-model="props.selected" :indeterminate="props.partialSelected" :color="color" />
@@ -320,7 +320,7 @@
             </th>
           </tr>
         </template>
-        <template slot="body" scope="props">
+        <template slot="body" slot-scope="props">
           <tr :key="props.key" :class="props.__trClass">
             <td>
               <q-checkbox :color="color" v-model="props.selected" />
@@ -341,13 +341,13 @@
         :visible-columns="visibleColumns"
         :title="title"
       >
-        <template slot="header-cell" scope="props">
+        <template slot="header-cell" slot-scope="props">
           <th @click="props.sort(props.col)" :class="props.col.__thClass">
             # {{props.col.label}}
             <q-icon :class="props.col.__iconClass" name="arrow_upward" />
           </th>
         </template>
-        <template slot="body-cell" scope="props">
+        <template slot="body-cell" slot-scope="props">
           <td :class="props.col.__tdClass">!{{ props.value }}</td>
         </template>
       </q-data-table>
