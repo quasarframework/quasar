@@ -29,7 +29,7 @@
         :separator="separator"
         @request="request"
       >
-        <template slot="top-right" slot-slot-scope="props">
+        <template slot="top-right" slot-scope="props">
           <q-search v-model="filter" />
         </template>
       </q-data-table>
