@@ -84,7 +84,6 @@ export default {
       }
     },
     __show (side, fn) {
-
       if (this.$isKeyboardOpen) {
         setTimeout(() => {
           this.__show(side, fn)

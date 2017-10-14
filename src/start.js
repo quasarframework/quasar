@@ -24,7 +24,7 @@ export default function (cb = function () {}) {
     let initialScreenWidth = window.innerWidth
 
     window.addEventListener('resize', throttle(() => {
-      if(window.innerWidth !== initialScreenWidth) {
+      if (window.innerWidth !== initialScreenWidth) {
         initialScreenHeight = window.innerHeight
         initialScreenWidth = window.innerWidth
       }
