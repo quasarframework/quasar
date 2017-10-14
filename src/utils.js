@@ -1,6 +1,7 @@
 import * as animate from './utils/animate'
 import clone from './utils/clone'
 import * as colors from './utils/colors'
+import { to as dataTo } from './utils/data'
 import * as date from './utils/date'
 import { debounce, frameDebounce } from './utils/debounce'
 import * as dom from './utils/dom'
@@ -33,5 +34,6 @@ export {
   openURL,
   scroll,
   throttle,
-  uid
+  uid,
+  dataTo
 }
