@@ -60,9 +60,7 @@ export default {
     disable: Boolean
   },
   inject: {
-    __field: {
-      default: null
-    }
+    __field: { default: null }
   },
   computed: {
     component () {
