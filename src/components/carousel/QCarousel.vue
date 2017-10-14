@@ -43,7 +43,9 @@
           ></q-icon>
         </div>
       </div>
-      <slot></slot>
+      <div>
+        <slot></slot>
+      </div>
     </div>
   </div>
 </template>

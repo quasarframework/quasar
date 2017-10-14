@@ -284,14 +284,25 @@ export default {
       }
     },
     __animScrollTo (value) {
-      this.__stopAnimScroll()
-      this.__scrollTowards(value)
+      if (this.$refs.scroller.scrollTo) {
+        this.$refs.scroller.scrollTo({
+          'behavior': 'smooth',
+          'left': value,
+          'top': 0
+        })
 
-      this.scrollTimer = setInterval(() => {
-        if (this.__scrollTowards(value)) {
-          this.__stopAnimScroll()
-        }
-      }, 5)
+        this.__stopAnimScroll()
+      }
+      else {
+        this.__stopAnimScroll()
+        this.__scrollTowards(value)
+
+        this.scrollTimer = setInterval(() => {
+          if (this.__scrollTowards(value)) {
+            this.__stopAnimScroll()
+          }
+        }, 5)
+      }
     },
     __stopAnimScroll () {
       clearInterval(this.scrollTimer)

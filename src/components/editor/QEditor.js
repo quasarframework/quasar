@@ -184,7 +184,7 @@ export default {
       return this.$refs.content
     }
   },
-  created () {
+  beforeMount () {
     document.execCommand('defaultParagraphSeparator', false, 'div')
     this.defaultFont = window.getComputedStyle(document.body).fontFamily
   },
