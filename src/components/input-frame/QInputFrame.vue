@@ -78,7 +78,9 @@ export default {
       field: {}
     }
   },
-  inject: ['__field'],
+  inject: {
+    __field: { default: null }
+  },
   computed: {
     label () {
       return this.stackLabel || this.floatLabel

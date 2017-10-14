@@ -52,7 +52,9 @@ export default {
     inline: Boolean,
     disable: Boolean
   },
-  inject: ['__field'],
+  inject: {
+    __field: { default: null }
+  },
   computed: {
     component () {
       return `q-${this.type}`
