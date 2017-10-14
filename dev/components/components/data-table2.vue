@@ -7,7 +7,7 @@
       :data="serverData"
       :columns="columns"
       title="Server side data"
-      :filter.sync="filter"
+      :filter="filter"
       selection="multiple"
       row-key="name"
       :pagination.sync="serverPagination"
@@ -74,7 +74,7 @@
     <q-data-table
       :data="data"
       :columns="columns"
-      :filter.sync="filter"
+      :filter="filter"
       :loader="loader"
       row-key="name"
       color="primary"
@@ -86,7 +86,7 @@
     <q-data-table
       :data="data"
       :columns="columns"
-      :filter.sync="filter"
+      :filter="filter"
       :loader="loader"
       row-key="name"
       color="primary"
@@ -101,7 +101,7 @@
     <q-data-table
       :data="data"
       :columns="columns"
-      :filter.sync="filter"
+      :filter="filter"
       :visible-columns="visibleColumns"
       row-key="name"
       color="primary"
