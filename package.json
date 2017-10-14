@@ -61,7 +61,7 @@
     "eslint-plugin-html": "^3.2.2",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-node": "^5.2.0",
-    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-standard": "^3.0.1",
     "eventsource-polyfill": "^0.9.6",
     "express": "^4.16.2",
@@ -90,18 +90,18 @@
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
     "url-loader": "^0.5.7",
-    "vue": "^2.5.0",
+    "vue": "^2.5.2",
     "vue-loader": "^13.3.0",
-    "vue-router": "^2.8.0",
+    "vue-router": "^3.0.1",
     "vue-style-loader": "^3.0.3",
-    "vue-template-compiler": "^2.5.0",
+    "vue-template-compiler": "^2.5.2",
     "webpack": "^3.7.1",
     "webpack-dev-middleware": "^1.12.0",
     "webpack-hot-middleware": "^2.19.1",
     "webpack-merge": "^4.1.0"
   },
   "peerDependencies": {
-    "vue": "^2.3.0",
+    "vue": "^2.5.0",
     "quasar-extras": "0.x"
   }
 }
