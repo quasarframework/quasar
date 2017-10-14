@@ -134,6 +134,7 @@ import { QSpinner } from '../spinner'
 import { QIcon } from '../icon'
 import { QProgress } from '../progress'
 import { QItem, QItemSide, QItemMain, QItemTile } from '../list'
+import { QSlideTransition } from '../slide-transition'
 
 function initFile (file) {
   file.__doneUploading = false
@@ -153,7 +154,8 @@ export default {
     QItem,
     QItemSide,
     QItemMain,
-    QItemTile
+    QItemTile,
+    QSlideTransition
   },
   props: {
     name: {
