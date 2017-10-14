@@ -79,9 +79,7 @@ export default {
     }
   },
   inject: {
-    __field: {
-      default: null
-    }
+    __field: { default: null }
   },
   computed: {
     label () {
