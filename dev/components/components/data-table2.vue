@@ -7,14 +7,14 @@
       :data="serverData"
       :columns="columns"
       title="Server side data"
-      :filter.sync="filter"
+      :filter="filter"
       selection="multiple"
       row-key="name"
       :pagination.sync="serverPagination"
       @request="request"
       :loader="loader"
     >
-      <template slot="top-right" scope="props">
+      <template slot="top-right" slot-scope="props">
         <q-search v-model="filter" />
       </template>
     </q-data-table>
@@ -74,7 +74,7 @@
     <q-data-table
       :data="data"
       :columns="columns"
-      :filter.sync="filter"
+      :filter="filter"
       :loader="loader"
       row-key="name"
       color="primary"
@@ -86,12 +86,12 @@
     <q-data-table
       :data="data"
       :columns="columns"
-      :filter.sync="filter"
+      :filter="filter"
       :loader="loader"
       row-key="name"
       color="primary"
     >
-      <template slot="top" scope="props">
+      <template slot="top" slot-scope="props">
         <q-btn flat color="primary" icon="add" label="Add row" />
         <q-btn class="on-right" flat color="primary" icon="refresh" label="Refresh" />
       </template>
@@ -101,12 +101,12 @@
     <q-data-table
       :data="data"
       :columns="columns"
-      :filter.sync="filter"
+      :filter="filter"
       :visible-columns="visibleColumns"
       row-key="name"
       color="primary"
     >
-      <template slot="top-right" scope="props">
+      <template slot="top-right" slot-scope="props">
         <q-search color="primary" v-model="filter" />
         <q-data-table-columns color="primary" class="on-right" v-model="visibleColumns" :columns="columns" />
         <q-btn color="primary" flat round small icon="more_vert" class="on-right">
@@ -134,7 +134,7 @@
       table-style="height: 400px"
       table-class="gigi"
     >
-    <template slot="header" scope="props">
+    <template slot="header" slot-scope="props">
       <tr>
         <th rowspan="2" @click="props.sort(props.cols[0].name)" :class="props.cols[0].__thClass">
           {{props.cols[0].label}} <q-icon :class="props.cols[0].__iconClass" name="arrow_upward" />
@@ -164,7 +164,7 @@
         </th>
       </tr>
     </template>
-      <template slot="body" scope="props">
+      <template slot="body" slot-scope="props">
         <tr :key="props.key" :class="props.__trClass">
           <td rowspan="2">
             {{ props.row.name }}
@@ -193,7 +193,7 @@
       <div slot="top">
         Top
       </div>
-      <template slot="top-row" scope="props">
+      <template slot="top-row" slot-scope="props">
         <tr>
           <td colspan="100%">
             <strong>Top row</strong>
@@ -201,7 +201,7 @@
         </tr>
       </template>
 
-      <template slot="bottom-row" scope="props">
+      <template slot="bottom-row" slot-scope="props">
         <tr>
           <td colspan="100%">
             <strong>Bottom row</strong>
@@ -238,7 +238,7 @@
       color="secondary"
       title="Select some rows"
     >
-      <template slot="top-selection" scope="props">
+      <template slot="top-selection" slot-scope="props">
         <q-btn color="secondary" flat label="Action 1" />
         <q-btn color="secondary" flat label="Action 2" />
         <div class="col"></div>

@@ -13,7 +13,7 @@
     "dev": "node build/script.dev.js",
     "build": "node build/script.build.js",
     "lint": "eslint --ext .js,.vue src dev",
-    "deploy": "npm run build && rm -rf deploy && mkdir deploy && cp -R dist LICENSE package.json deploy && cp build/README-edge.md deploy/README.md && node_modules/git-directory-deploy/bin/git-directory-deploy.sh -ddeploy -bmaster -rgit@github.com:quasarframework/quasar-edge.git && rm -rf deploy"
+    "deploy": "build/deploy.sh"
   },
   "repository": {
     "type": "git",
@@ -51,7 +51,7 @@
     "babel-preset-es2015-rollup": "^3.0.0",
     "babel-preset-stage-2": "^6.17.0",
     "colors": "^1.1.2",
-    "connect-history-api-fallback": "^1.3.0",
+    "connect-history-api-fallback": "^1.4.0",
     "css-loader": "^0.28.7",
     "es6-promise": "^4.1.0",
     "eslint": "^4.8.0",
@@ -61,10 +61,10 @@
     "eslint-plugin-html": "^3.2.2",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-node": "^5.2.0",
-    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-standard": "^3.0.1",
     "eventsource-polyfill": "^0.9.6",
-    "express": "^4.16.1",
+    "express": "^4.16.2",
     "extract-text-webpack-plugin": "^3.0.1",
     "file-loader": "^0.11.1",
     "friendly-errors-webpack-plugin": "^1.3.1",
@@ -83,25 +83,25 @@
     "rollup-plugin-json": "^2.1.0",
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-replace": "^2.0.0",
-    "rollup-plugin-vue": "^2.5.1",
+    "rollup-plugin-vue": "^2.5.2",
     "rtlcss": "^2.2.0",
     "shelljs": "^0.7.0",
     "stylint": "^1.5.6",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
     "url-loader": "^0.5.7",
-    "vue": "^2.4.4",
-    "vue-loader": "^13.0.5",
-    "vue-router": "^2.7.0",
+    "vue": "^2.5.2",
+    "vue-loader": "^13.3.0",
+    "vue-router": "^3.0.1",
     "vue-style-loader": "^3.0.3",
-    "vue-template-compiler": "^2.4.4",
-    "webpack": "^3.6.0",
+    "vue-template-compiler": "^2.5.2",
+    "webpack": "^3.7.1",
     "webpack-dev-middleware": "^1.12.0",
     "webpack-hot-middleware": "^2.19.1",
     "webpack-merge": "^4.1.0"
   },
   "peerDependencies": {
-    "vue": "^2.3.0",
+    "vue": "^2.5.0",
     "quasar-extras": "0.x"
   }
 }
