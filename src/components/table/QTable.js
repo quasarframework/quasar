@@ -12,7 +12,7 @@ import ColumnSelection from './table-column-selection'
 import Expand from './table-expand'
 
 export default {
-  name: 'q-data-table',
+  name: 'q-table',
   mixins: [
     Top,
     TableHeader,
@@ -99,7 +99,7 @@ export default {
       const { sortBy, descending, rowsPerPage } = this.computedPagination
 
       if (this.hasFilter && this.filter) {
-        rows = this.filterMethod(rows, this.filter, this.computedColumns)
+        rows = this.filterMethod(rows, this.filter, this.computedCols)
       }
 
       if (this.columnToSort) {
@@ -128,14 +128,14 @@ export default {
     return h('div',
       {
         'class': {
-          'q-datatable': true,
-          'q-datatable-dark': this.dark,
-          'q-datatable-compact': this.compact
+          'q-table': true,
+          'q-table-dark': this.dark,
+          'q-table-compact': this.compact
         }
       },
       [
         this.getTop(h),
-        h('div', { staticClass: 'q-datatable-middle scroll', 'class': this.tableClass, style: this.tableStyle }, [
+        h('div', { staticClass: 'q-table-middle scroll', 'class': this.tableClass, style: this.tableStyle }, [
           h('table',
             {
               'class': [

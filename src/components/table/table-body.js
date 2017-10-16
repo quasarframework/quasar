@@ -22,7 +22,8 @@ export default {
           return body(this.addBodyRowMeta({
             key,
             row,
-            cols: this.computedColumns,
+            cols: this.computedCols,
+            colsMap: this.computedColsMap,
             __trClass: selected ? 'selected' : ''
           }))
         })
@@ -33,8 +34,8 @@ export default {
             key = row[this.rowKey],
             selected = this.isRowSelected(key),
             child = bodyCell
-              ? this.computedColumns.map(col => bodyCell(this.addBodyCellMetaData({ row, col: col })))
-              : this.computedColumns.map(col => {
+              ? this.computedCols.map(col => bodyCell(this.addBodyCellMetaData({ row, col: col })))
+              : this.computedCols.map(col => {
                 const slot = this.$scopedSlots[`body-cell-${col.name}`]
                 return slot
                   ? slot(this.addBodyCellMetaData({ row, col: col }))
@@ -42,7 +43,7 @@ export default {
               })
 
           if (this.selection) {
-            child.unshift(h('td', { staticClass: 'q-table-select' }, [
+            child.unshift(h('td', { staticClass: 'q-table-col-auto-width' }, [
               h(QCheckbox, {
                 props: {
                   value: selected,
@@ -58,15 +59,15 @@ export default {
             ]))
           }
 
-          return h('tr', { key: key, 'class': { selected } }, child)
+          return h('tr', { key, 'class': { selected } }, child)
         })
       }
 
       if (topRow) {
-        child.unshift(topRow({cols: this.computedColumns}))
+        child.unshift(topRow({cols: this.computedCols}))
       }
       if (bottomRow) {
-        child.push(bottomRow({cols: this.computedColumns}))
+        child.push(bottomRow({cols: this.computedCols}))
       }
 
       return h('tbody', child)

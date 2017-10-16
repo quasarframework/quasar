@@ -3,7 +3,7 @@ export default {
     filter: String,
     filterMethod: {
       type: Function,
-      default (rows, terms, cols = this.computedColumns, cellValue = this.getCellValue) {
+      default (rows, terms, cols = this.computedCols, cellValue = this.getCellValue) {
         return rows.filter(
           row => cols.some(col => (cellValue(col, row) + '').toLowerCase().indexOf(terms) !== -1)
         )

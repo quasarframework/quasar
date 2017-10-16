@@ -53,5 +53,8 @@ export default {
         this.innerPagination = newPagination
       }
     }
+  },
+  created () {
+    this.$emit('update:pagination', Object.assign({}, this.computedPagination))
   }
 }

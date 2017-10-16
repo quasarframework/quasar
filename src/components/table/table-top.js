@@ -11,7 +11,7 @@ export default {
         topRight = this.$scopedSlots['top-right'],
         topSelection = this.$scopedSlots['top-selection'],
         hasSelection = this.selection && topSelection && this.rowsSelectedNumber > 0,
-        cls = 'q-datatable-top relative-position row no-wrap items-center',
+        cls = 'q-table-top relative-position row no-wrap items-center',
         child = [],
         props = {
           hasSelection
@@ -29,12 +29,12 @@ export default {
           child.push(topLeft(props))
         }
         else if (this.title) {
-          child.push(h('div', { staticClass: 'q-datatable-title' }, this.title))
+          child.push(h('div', { staticClass: 'q-table-title' }, this.title))
         }
       }
 
       if (topRight) {
-        child.push(h('div', { staticClass: 'q-datatable-separator col' }))
+        child.push(h('div', { staticClass: 'q-table-separator col' }))
         child.push(topRight(props))
       }
 
@@ -43,7 +43,7 @@ export default {
       }
 
       return h('div', {
-        staticClass: `${cls}${hasSelection ? ` text-${this.color} q-datatable-top-selection` : ''}`
+        staticClass: `${cls}${hasSelection ? ` text-${this.color} q-table-top-selection` : ''}`
       }, child)
     }
   }

@@ -1,6 +1,6 @@
 import { QProgress } from '../progress'
 import { QCheckbox } from '../checkbox'
-import { QIcon } from '../icon'
+import QTh from './QTh'
 
 export default {
   methods: {
@@ -12,7 +12,7 @@ export default {
       const child = [ this.getTableHeaderRow(h) ]
 
       if (this.loader) {
-        child.push(h('tr', { staticClass: 'q-datatable-progress animate-fade' }, [
+        child.push(h('tr', { staticClass: 'q-table-progress animate-fade' }, [
           h('td', { attrs: {colspan: '100%'} }, [
             h(QProgress, {
               props: {
@@ -32,35 +32,34 @@ export default {
         headerCell = this.$scopedSlots['header-cell']
 
       if (header) {
-        return header(this.addTableHeaderRowMeta({cols: this.computedColumns, sort: this.sort}))
+        return header(this.addTableHeaderRowMeta({header: true, cols: this.computedCols, sort: this.sort, colsMap: this.computedColsMap}))
       }
 
       let mapFn
 
       if (headerCell) {
-        mapFn = col => headerCell({col, cols: this.computedColumns, sort: this.sort})
+        mapFn = col => headerCell({col, cols: this.computedCols, sort: this.sort, colsMap: this.computedColsMap})
       }
       else {
-        mapFn = col => h('th',
-          {
-            staticClass: col.__thClass,
-            on: {click: () => { if (col.sortable) { this.sort(col) } }}
-          }, [
-            col.label,
-            h(QIcon, {
-              props: { name: 'arrow_upward' },
-              staticClass: col.__iconClass
-            })
-          ]
-        )
+        mapFn = col => h(QTh, {
+          key: col.name,
+          props: {
+            props: {
+              col,
+              cols: this.computedCols,
+              sort: this.sort,
+              colsMap: this.computedColsMap
+            }
+          }
+        }, col.label)
       }
-      const child = this.computedColumns.map(mapFn)
+      const child = this.computedCols.map(mapFn)
 
       if (this.singleSelection) {
-        child.unshift(h('th', [' ']))
+        child.unshift(h('th', { staticClass: 'q-table-col-auto-width' }, [' ']))
       }
       else if (this.multipleSelection) {
-        child.unshift(h('th', [
+        child.unshift(h('th', { staticClass: 'q-table-col-auto-width' }, [
           h(QCheckbox, {
             props: {
               color: this.color,
