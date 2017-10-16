@@ -96,14 +96,14 @@ export default {
         return rows
       }
 
-      const { descending, rowsPerPage } = this.computedPagination
+      const { sortBy, descending, rowsPerPage } = this.computedPagination
 
       if (this.hasFilter && this.filter) {
-        rows = this.filterMethod(rows, this.computedColumns, this.filter)
+        rows = this.filterMethod(rows, this.filter, this.computedColumns)
       }
 
       if (this.columnToSort) {
-        rows = this.sortMethod(rows, this.columnToSort, descending)
+        rows = this.sortMethod(rows, sortBy, descending)
       }
 
       if (rowsPerPage) {
@@ -163,7 +163,8 @@ export default {
       this.$nextTick(() => {
         this.$emit('request', {
           pagination: prop.pagination || this.computedPagination,
-          filter: prop.filter || this.filter
+          filter: prop.filter || this.filter,
+          getCellValue: this.getCellValue
         })
       })
     }

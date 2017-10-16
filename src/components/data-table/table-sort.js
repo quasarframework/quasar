@@ -5,7 +5,8 @@ export default {
   props: {
     sortMethod: {
       type: Function,
-      default (data, col, descending) {
+      default (data, sortBy, descending) {
+        const col = this.computedColumns.find(def => def.name === sortBy)
         if (col === null || col.field === void 0) {
           return data
         }

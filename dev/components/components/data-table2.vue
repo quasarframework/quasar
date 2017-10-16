@@ -400,11 +400,11 @@ export default {
           { page, rowsPerPage, sortBy, descending } = props.pagination
 
         if (props.filter) {
-          rows = table.filterMethod(rows, table.computedColumns, props.filter)
+          rows = table.filterMethod(rows, props.filter)
         }
 
         if (sortBy) {
-          rows = table.sortMethod(rows, table.computedColumns.find(def => def.name === sortBy), descending)
+          rows = table.sortMethod(rows, sortBy, descending)
         }
 
         if (rowsPerPage) {

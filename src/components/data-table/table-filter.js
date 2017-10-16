@@ -3,15 +3,9 @@ export default {
     filter: String,
     filterMethod: {
       type: Function,
-      default (rows, cols, terms) {
+      default (rows, terms, cols = this.computedColumns, cellValue = this.getCellValue) {
         return rows.filter(
-          row => cols.some(col => {
-            const val = typeof col.field === 'function'
-              ? col.field(row)
-              : row[col.field]
-
-            return (val + '').toLowerCase().indexOf(terms) > -1
-          })
+          row => cols.some(col => (cellValue(col, row) + '').toLowerCase().indexOf(terms) !== -1)
         )
       }
     }

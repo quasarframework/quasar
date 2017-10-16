@@ -19,7 +19,7 @@ export default {
             key = row[this.rowKey],
             selected = this.isRowSelected(key)
 
-          return body(this.addTableBodyRowMeta({
+          return body(this.addBodyRowMeta({
             key,
             row,
             cols: this.computedColumns,
@@ -33,12 +33,12 @@ export default {
             key = row[this.rowKey],
             selected = this.isRowSelected(key),
             child = bodyCell
-              ? this.computedColumns.map(col => bodyCell({ row, col: col, value: typeof col.field === 'function' ? col.field(row) : row[col.field] }))
+              ? this.computedColumns.map(col => bodyCell(this.addBodyCellMetaData({ row, col: col })))
               : this.computedColumns.map(col => {
                 const slot = this.$scopedSlots[`body-cell-${col.name}`]
                 return slot
-                  ? slot({ row, col: col, value: typeof col.field === 'function' ? col.field(row) : row[col.field] })
-                  : h('td', { staticClass: col.__tdClass }, typeof col.field === 'function' ? col.field(row) : row[col.field])
+                  ? slot(this.addBodyCellMetaData({ row, col: col }))
+                  : h('td', { staticClass: col.__tdClass }, this.getCellValue(col, row))
               })
 
           if (this.selection) {
@@ -71,7 +71,7 @@ export default {
 
       return h('tbody', child)
     },
-    addTableBodyRowMeta (data) {
+    addBodyRowMeta (data) {
       if (this.selection) {
         Object.defineProperty(data, 'selected', {
           get: () => this.isRowSelected(data.key),
@@ -91,12 +91,22 @@ export default {
       data.cols = data.cols.map(col => {
         const c = Object.assign({}, col)
         Object.defineProperty(c, 'value', {
-          get: () => typeof col.field === 'function' ? col.field(data.row) : data.row[col.field]
+          get: () => this.getCellValue(col, data.row)
         })
         return c
       })
 
       return data
+    },
+    addBodyCellMetaData (data) {
+      Object.defineProperty(data, 'value', {
+        get: () => this.getCellValue(data.col, data.row)
+      })
+      return data
+    },
+    getCellValue (col, row) {
+      const val = typeof col.field === 'function' ? col.field(row) : row[col.field]
+      return col.format ? col.format(val) : val
     }
   }
 }
