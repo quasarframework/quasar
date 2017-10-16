@@ -9,6 +9,7 @@
       title="Server side data"
       :filter="filter"
       selection="multiple"
+      :selected.sync="selected"
       row-key="name"
       :pagination.sync="serverPagination"
       @request="request"
@@ -219,6 +220,7 @@
       :columns="columns"
       row-key="name"
       selection="single"
+      :selected.sync="selected"
     />
 
     <h4>Multiple selection</h4>
@@ -227,6 +229,7 @@
       :columns="columns"
       row-key="name"
       selection="multiple"
+      :selected.sync="selected"
     />
 
     <h4>Selection actions</h4>
@@ -235,6 +238,7 @@
       :columns="columns"
       row-key="name"
       selection="multiple"
+      :selected.sync="selected"
       color="secondary"
       title="Select some rows"
     >
@@ -260,6 +264,7 @@ export default {
       serverData: [],
       loader: false,
       visibleColumns: ['desc', 'fat', 'carbs', 'protein', 'sodium', 'calcium', 'iron'],
+      selected: [],
 
       columns: [
         {

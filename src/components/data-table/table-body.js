@@ -45,19 +45,13 @@ export default {
             child.unshift(h('td', { staticClass: 'q-table-select' }, [
               h(QCheckbox, {
                 props: {
-                  value: this.multipleSelection
-                    ? this.multipleSelected[key] === true
-                    : this.singleSelected === key,
-                  color: this.color
+                  value: selected,
+                  color: this.color,
+                  dark: this.dark
                 },
                 on: {
-                  input: val => {
-                    if (this.multipleSelection) {
-                      this.$set(this.multipleSelected, key, val)
-                    }
-                    else {
-                      this.singleSelected = val ? key : null
-                    }
+                  input: adding => {
+                    this.__updateSelection([key], [row], adding)
                   }
                 }
               })
@@ -81,13 +75,8 @@ export default {
       if (this.selection) {
         Object.defineProperty(data, 'selected', {
           get: () => this.isRowSelected(data.key),
-          set: val => {
-            if (this.multipleSelection) {
-              this.$set(this.multipleSelected, data.key, val)
-            }
-            else {
-              this.singleSelected = val ? data.key : null
-            }
+          set: adding => {
+            this.__updateSelection([data.key], [data.row], adding)
           }
         })
       }

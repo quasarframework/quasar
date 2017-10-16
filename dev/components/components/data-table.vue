@@ -24,6 +24,7 @@
         :filter="filter"
         :loader="loader"
         selection="multiple"
+        :selected.sync="selected"
         row-key="name"
         :pagination.sync="serverPagination"
         :separator="separator"
@@ -38,7 +39,7 @@
       <q-data-table
         compact
         dark
-        class="bg-dark"
+        class="bg-black"
         color="grey-3"
         :separator="separator"
         :data="data"
@@ -47,6 +48,7 @@
         :filter="filter"
         :loader="loader"
         selection="multiple"
+        :selected.sync="selected"
         row-key="name"
       />
 
@@ -59,6 +61,7 @@
         :filter="filter"
         :loader="loader"
         :selection="selection"
+        :selected.sync="selected"
         :visible-columns="visibleColumns"
         row-key="name"
         color="secondary"
@@ -103,6 +106,7 @@
         :filter="filter"
         :loader="loader"
         :selection="selection"
+        :selected.sync="selected"
         :visible-columns="visibleColumns"
         row-key="name"
         color="amber"
@@ -257,6 +261,7 @@
         :color="color"
         row-key="name"
         :selection="selection"
+        :selected.sync="selected"
         :loader="loader"
         :visible-columns="visibleColumns"
         :title="title"
@@ -305,6 +310,7 @@
         :color="color"
         row-key="name"
         :selection="selection"
+        :selected.sync="selected"
         :loader="loader"
         :visible-columns="visibleColumns"
         :title="title"
@@ -337,6 +343,7 @@
         :color="color"
         row-key="name"
         :selection="selection"
+        :selected.sync="selected"
         :loader="loader"
         :visible-columns="visibleColumns"
         :title="title"
@@ -359,6 +366,7 @@
         :color="color"
         row-key="name"
         :selection="selection"
+        :selected.sync="selected"
         :loader="loader"
         :visible-columns="visibleColumns"
         :title="title"
@@ -376,6 +384,7 @@ export default {
       color: 'amber',
       visibleColumns: ['desc', 'fat', 'carbs', 'protein', 'sodium', 'calcium', 'iron'],
       separator: 'horizontal',
+      selected: [],
 
       serverPagination: {
         page: 1,

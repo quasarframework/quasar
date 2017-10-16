@@ -65,6 +65,7 @@ export default {
             props: {
               color: this.color,
               value: this.allRowsSelected,
+              dark: this.dark,
               indeterminate: this.someRowsSelected
             },
             on: {
@@ -72,9 +73,11 @@ export default {
                 if (this.someRowsSelected) {
                   val = false
                 }
-                this.computedRows.forEach(row => {
-                  this.$set(this.multipleSelected, row[this.rowKey], val)
-                })
+                this.__updateSelection(
+                  this.computedRows.map(row => row[this.rowKey]),
+                  this.computedRows,
+                  val
+                )
               }
             }
           })
@@ -91,9 +94,11 @@ export default {
             if (this.someRowsSelected) {
               val = false
             }
-            this.computedRows.forEach(row => {
-              this.$set(this.multipleSelected, row[this.rowKey], val)
-            })
+            this.__updateSelection(
+              this.computedRows.map(row => row[this.rowKey]),
+              this.computedRows,
+              val
+            )
           }
         })
         data.partialSelected = this.someRowsSelected
