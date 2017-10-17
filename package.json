@@ -1,6 +1,6 @@
 {
   "name": "quasar-framework",
-  "version": "0.14.6",
+  "version": "0.14.7",
   "description": "Simultaneously build desktop/mobile SPA websites & phone/tablet apps with VueJS",
   "main": "dist/quasar.esm.js",
   "module": "dist/quasar.esm.js",
