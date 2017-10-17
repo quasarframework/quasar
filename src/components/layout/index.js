@@ -1,6 +1,6 @@
-import QLayout from './QLayout.vue'
-import QFixedPosition from './QFixedPosition.vue'
-import QSideLink from './QSideLink.vue'
+import QLayout from './QLayout'
+import QFixedPosition from './QFixedPosition'
+import QSideLink from './QSideLink'
 
 export {
   QLayout,

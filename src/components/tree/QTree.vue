@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import QTreeItem from './TreeItem.vue'
+import QTreeItem from './TreeItem'
 
 export default {
   name: 'q-tree',

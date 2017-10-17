@@ -1,4 +1,4 @@
-import QInput from './QInput.vue'
+import QInput from './QInput'
 
 export {
   QInput

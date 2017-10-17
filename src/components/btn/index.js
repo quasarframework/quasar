@@ -1,8 +1,8 @@
-import QBtn from './QBtn.vue'
-import QBtnToggle from './QBtnToggle.vue'
+import QBtn from './QBtn'
+import QBtnToggle from './QBtnToggle'
 import QBtnGroup from './QBtnGroup'
 import QBtnDropdown from './QBtnDropdown'
-import QBtnToggleGroup from './QBtnToggleGroup.vue'
+import QBtnToggleGroup from './QBtnToggleGroup'
 
 export {
   QBtn,
