@@ -5,7 +5,7 @@ import Vue from 'vue'
 import Quasar, * as Everything from 'quasar'
 
 import App from './App'
-import router from './router'
+import router, { appContext } from './router'
 
 if (__THEME__ === 'mat') {
   require('quasar-extras/roboto-font')
@@ -39,5 +39,6 @@ else {
 
 export default {
   router,
-  app
+  app,
+  appContext
 }

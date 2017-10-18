@@ -1,21 +1,10 @@
-// const { JSDOM } = require('jsdom');
-// var window = new JSDOM().window;
-// var MockBrowser = require('mock-browser').mocks.MockBrowser;
-// var mock = new MockBrowser({ window });
-// global.document = mock.getDocument();
-// global.window = mock.getWindow();
-// global.navigator = mock.getNavigator();
-// global.Element = function() {}
-// global.XMLHttpRequest = function() {
-//   this.send = () => {}
-// }
-
 module.exports = function(context) {
 
   return new Promise((resolve, reject) => {
 
-    global.userAgent = context.userAgent;
-    var { app, router } = require('./main.js').default;
+    var { app, router, appContext } = require('./main.js').default;
+
+    appContext.userAgent = context.userAgent
 
     // `router.push()` will load the url provided by our context and getMatchedComponents will retrieve all the associated parent and child components related to that url
     router.push(context.url);

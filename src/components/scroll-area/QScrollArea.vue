@@ -1,48 +1,44 @@
 <template>
-  <no-ssr>
+  <div
+    v-if="$q.platform.is.desktop"
+    class="q-scrollarea relative-position"
+    @mouseenter="hover = true"
+    @mouseleave="hover = false"
+  >
     <div
-      v-if="$q.platform.is.desktop"
-      class="q-scrollarea relative-position"
-      @mouseenter="hover = true"
-      @mouseleave="hover = false"
+      ref="target"
+      class="scroll relative-position overflow-hidden full-height full-width"
+      @wheel="__mouseWheel"
+      @mousewheel="__mouseWheel"
+      @DOMMouseScroll="__mouseWheel"
+      v-touch-pan.vertical.nomouse="__panContainer"
     >
-      <div
-        ref="target"
-        class="scroll relative-position overflow-hidden full-height full-width"
-        @wheel="__mouseWheel"
-        @mousewheel="__mouseWheel"
-        @DOMMouseScroll="__mouseWheel"
-        v-touch-pan.vertical.nomouse="__panContainer"
-      >
-        <div class="absolute full-width" :style="mainStyle">
-          <slot></slot>
-          <q-resize-observable class="resize-obs" @resize="__updateScrollHeight"></q-resize-observable>
-        </div>
-        <q-scroll-observable class="scroll-obs" @scroll="__updateScroll"></q-scroll-observable>
+      <div class="absolute full-width" :style="mainStyle">
+        <slot></slot>
+        <q-resize-observable class="resize-obs" @resize="__updateScrollHeight"></q-resize-observable>
       </div>
-
-      <q-resize-observable class="main-resize-obs" @resize="__updateContainer"></q-resize-observable>
-
-      <div
-        class="q-scrollarea-thumb absolute-right"
-        :style="style"
-        :class="{'invisible-thumb': thumbHidden}"
-        v-touch-pan.vertical="__panThumb"
-      ></div>
+      <q-scroll-observable class="scroll-obs" @scroll="__updateScroll"></q-scroll-observable>
     </div>
-    <div
-      v-else
-      class="q-scroll-area scroll relative-position"
-      :style="contentStyle"
-    >
-      <slot></slot>
-    </div>
-  </no-ssr>
   
+    <q-resize-observable class="main-resize-obs" @resize="__updateContainer"></q-resize-observable>
+  
+    <div
+      class="q-scrollarea-thumb absolute-right"
+      :style="style"
+      :class="{'invisible-thumb': thumbHidden}"
+      v-touch-pan.vertical="__panThumb"
+    ></div>
+  </div>
+  <div
+    v-else
+    class="q-scroll-area scroll relative-position"
+    :style="contentStyle"
+  >
+    <slot></slot>
+  </div>
 </template>
 
 <script>
-import NoSSR from 'vue-no-ssr'
 import extend from '../../utils/extend'
 import { between } from '../../utils/format'
 import { getMouseWheelDistance } from '../../utils/event'
@@ -54,8 +50,7 @@ export default {
   name: 'q-scroll-area',
   components: {
     QResizeObservable,
-    QScrollObservable,
-    'no-ssr': NoSSR
+    QScrollObservable
   },
   directives: {
     TouchPan

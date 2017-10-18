@@ -20,10 +20,11 @@ function createRenderer (bundle, options) {
   // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
   return createBundleRenderer(bundle, Object.assign(options, {
     // for component caching
-    cache: isProd ? require('lru-cache')({
-      max: 1000,
-      maxAge: 1000 * 60 * 15
-    }) : undefined,
+    // We can't use cache if we are using global.userAgent
+    // cache: isProd ? require('lru-cache')({
+    //   max: 1000,
+    //   maxAge: 1000 * 60 * 15
+    // }) : undefined,
     // recommended for performance
     runInNewContext: false
   }))
