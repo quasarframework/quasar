@@ -72,7 +72,7 @@
 import FrameMixin from '../input-frame/input-frame-mixin'
 import extend from '../../utils/extend'
 import { input, inline } from './datetime-props'
-import QDatetime from './QDatetime.vue'
+import QDatetime from './QDatetime'
 
 export default {
   name: 'q-datetime-range',

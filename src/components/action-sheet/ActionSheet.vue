@@ -7,7 +7,7 @@
   >
 
     <!-- iOS -->
-    <div v-once v-if="$q.theme === 'ios'">
+    <div v-if="$q.theme === 'ios'">
       <div class="q-action-sheet">
         <div v-if="title" class="modal-header" v-html="title"></div>
 
@@ -62,8 +62,8 @@
       </div>
     </div>
 
-    <!-- Material/Default for custom theme -->
-    <div v-once v-else>
+    <!-- Material theme -->
+    <div v-else>
       <div v-if="title" class="modal-header" v-html="title"></div>
 
       <div class="modal-scroll">
@@ -133,9 +133,6 @@ export default {
     dismiss: Object
   },
   computed: {
-    opened () {
-      return this.$refs.dialog.active
-    },
     contentCss () {
       if (this.$q.theme === 'ios') {
         return {backgroundColor: 'transparent'}
@@ -144,7 +141,7 @@ export default {
   },
   methods: {
     close (fn) {
-      if (!this.opened) {
+      if (!this.$refs.dialog.active) {
         return
       }
       const hasFn = typeof fn === 'function'

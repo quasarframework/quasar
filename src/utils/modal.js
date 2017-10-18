@@ -6,7 +6,7 @@ export default function (component) {
       const node = document.createElement('div')
       document.body.appendChild(node)
 
-      let vm = new Vue({
+      const vm = new Vue({
         el: node,
         data () {
           return {props}

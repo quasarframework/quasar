@@ -1,4 +1,4 @@
-import QAlert from './QAlert.vue'
+import QAlert from './QAlert'
 
 export {
   QAlert

@@ -1,4 +1,4 @@
-import QRange from './QRange.vue'
+import QRange from './QRange'
 
 export {
   QRange

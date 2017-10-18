@@ -1,5 +1,5 @@
 import BtnMixin from './btn-mixin'
-import QBtn from './QBtn.vue'
+import QBtn from './QBtn'
 import QBtnGroup from './QBtnGroup'
 import { QPopover } from '../popover'
 

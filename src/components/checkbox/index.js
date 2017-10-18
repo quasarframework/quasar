@@ -1,4 +1,4 @@
-import QCheckbox from './QCheckbox.vue'
+import QCheckbox from './QCheckbox'
 
 export {
   QCheckbox

@@ -1,4 +1,4 @@
-import QScrollArea from './QScrollArea.vue'
+import QScrollArea from './QScrollArea'
 
 export {
   QScrollArea

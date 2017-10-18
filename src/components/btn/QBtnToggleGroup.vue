@@ -32,7 +32,7 @@
 
 <script>
 import QBtnGroup from './QBtnGroup'
-import QBtnToggle from './QBtnToggle.vue'
+import QBtnToggle from './QBtnToggle'
 
 export default {
   name: 'q-btn-toggle-group',

@@ -10,7 +10,7 @@ export default {
           ? this.noResultsLabel
           : (this.loader ? this.loaderLabel : this.noDataLabel)
 
-        return h('div', { staticClass: 'q-datatable-bottom row items-center q-datatable-nodata' }, [
+        return h('div', { staticClass: 'q-table-bottom row items-center q-table-nodata' }, [
           h(QIcon, {props: {name: 'warning'}}),
           message
         ])
@@ -20,7 +20,7 @@ export default {
         return
       }
 
-      return h('div', { staticClass: 'q-datatable-bottom row items-center' },
+      return h('div', { staticClass: 'q-table-bottom row items-center' },
         this.getPaginationRow(h)
       )
     },

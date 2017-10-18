@@ -20,7 +20,7 @@
 
 <script>
 import { QSlideTransition } from '../slide-transition'
-import StepTab from './StepTab.vue'
+import StepTab from './StepTab'
 import uid from '../../utils/uid'
 
 export default {

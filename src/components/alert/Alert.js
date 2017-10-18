@@ -1,4 +1,4 @@
-import QAlert from './QAlert.vue'
+import QAlert from './QAlert'
 import { Vue } from '../../deps'
 import extend from '../../utils/extend'
 

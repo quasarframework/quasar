@@ -16,7 +16,7 @@
       </div>
 
       <h2>Emulate server-side</h2>
-      <q-data-table
+      <q-table
         ref="server"
         :data="serverData"
         :columns="columns"
@@ -24,6 +24,7 @@
         :filter="filter"
         :loader="loader"
         selection="multiple"
+        :selected.sync="selected"
         row-key="name"
         :pagination.sync="serverPagination"
         :separator="separator"
@@ -32,13 +33,13 @@
         <template slot="top-right" slot-scope="props">
           <q-search v-model="filter" />
         </template>
-      </q-data-table>
+      </q-table>
 
       <h2>NO templates</h2>
-      <q-data-table
+      <q-table
         compact
         dark
-        class="bg-dark"
+        class="bg-black"
         color="grey-3"
         :separator="separator"
         :data="data"
@@ -47,11 +48,12 @@
         :filter="filter"
         :loader="loader"
         selection="multiple"
+        :selected.sync="selected"
         row-key="name"
       />
 
       <h2>body-cell-desc template</h2>
-      <q-data-table
+      <q-table
         compact
         :data="data"
         :columns="columns"
@@ -59,6 +61,7 @@
         :filter="filter"
         :loader="loader"
         :selection="selection"
+        :selected.sync="selected"
         :visible-columns="visibleColumns"
         row-key="name"
         color="secondary"
@@ -71,19 +74,18 @@
           <q-btn flat color="secondary" label="Button" />
         </template>
         <template slot="top-right" slot-scope="props">
-          <q-data-table-columns color="secondary" v-model="visibleColumns" :columns="columns" />
+          <q-table-columns color="secondary" v-model="visibleColumns" :columns="columns" />
         </template>
-        <template slot="body-cell-desc" slot-scope="props">
-          <td :class="props.col.__tdClass">
-            <q-chip color="secondary">{{ props.value }}</q-chip>
-            <br>
-            <q-chip color="secondary">{{ props.value }}</q-chip>
-          </td>
-        </template>
-      </q-data-table>
+
+        <q-td slot="body-cell-desc" slot-scope="props" :props="props">
+          <q-chip color="secondary">{{ props.value }}</q-chip>
+          <br>
+          <q-chip color="secondary">{{ props.value }}</q-chip>
+        </q-td>
+      </q-table>
 
       <h2>no-top, no-bottom</h2>
-      <q-data-table
+      <q-table
         :data="data"
         :columns="columns"
         :title="title"
@@ -96,37 +98,33 @@
       />
 
       <h2>top-left template</h2>
-      <q-data-table
+      <q-table
         :data="data"
         :columns="columns"
         :title="title"
         :filter="filter"
         :loader="loader"
         :selection="selection"
+        :selected.sync="selected"
         :visible-columns="visibleColumns"
         row-key="name"
         color="amber"
       >
-        <template slot="top-left" slot-scope="props">
-          <div>
-            Top left template
-          </div>
-        </template>
-        <template slot="top-right" slot-scope="props">
-          <div class="row items-center">
-            <q-btn flat round small color="grey-8" icon="filter_list" class="on-right" />
-            <q-btn flat round small color="grey-8" icon="more_vert" class="on-right" />
-          </div>
-        </template>
-        <template slot="top-selection" slot-scope="props">
-          <div>
-            Selection
-          </div>
-        </template>
-      </q-data-table>
+        <div slot="top-left" slot-scope="props">
+          Top left template
+        </div>
+
+        <div slot="top-right" slot-scope="props" class="row items-center">
+          <q-btn flat round small color="grey-8" icon="filter_list" class="on-right" />
+          <q-btn flat round small color="grey-8" icon="more_vert" class="on-right" />
+        </div>
+        <div slot="top-selection" slot-scope="props">
+          Selection
+        </div>
+      </q-table>
 
       <h2>top template</h2>
-      <q-data-table
+      <q-table
         :data="data"
         :columns="columns"
         :title="title"
@@ -135,90 +133,131 @@
         row-key="name"
         color="primary"
       >
-        <template slot="top" slot-scope="props">
-          <div slot="top" class="row items-center">
-            Some awesome table
-          </div>
-        </template>
-      </q-data-table>
+        <div slot="top" slot-scope="props" class="row items-center">
+          Some awesome table
+        </div>
+      </q-table>
 
       <h2>header-cell</h2>
-      <q-data-table
+      <q-table
         :data="data"
         :columns="columns"
         :title="title"
         :filter="filter"
         row-key="name"
       >
-        <template slot="header-cell" slot-scope="props">
-          <th @click="props.sort(props.col)" :class="props.col.__thClass">
-            # {{props.col.label}}
-             <q-icon :class="props.col.__iconClass" name="arrow_upward" />
-          </th>
-        </template>
-      </q-data-table>
+        <q-th slot="header-cell" slot-scope="props" :props="props">
+          # {{props.col.label}}
+        </q-th>
+      </q-table>
 
       <h2>header</h2>
-      <q-data-table
+      <q-table
         :data="data"
         :columns="columns"
         :filter="filter"
         :title="title"
         row-key="name"
       >
-        <template slot="header" slot-scope="props">
-          <tr>
-            <th v-for="col in props.cols" :key="col.label" @click="props.sort(col)" :class="col.__thClass">
-              {{col.label}} <q-icon :class="col.__iconClass" name="arrow_upward" />
-            </th>
-          </tr>
-        </template>
-      </q-data-table>
+        <q-tr slot="header" slot-scope="props" :props="props">
+          <q-th v-for="col in props.cols" :key="col.name" :props="props">
+            {{col.label}}
+          </q-th>
+        </q-tr>
+      </q-table>
 
-      <h2>body template</h2>
-      <q-data-table
+      <h2>header 2</h2>
+      <q-table
         :data="data"
         :columns="columns"
         :filter="filter"
         :title="title"
         row-key="name"
       >
-        <template slot="body" slot-scope="props">
-          <tr :key="props.key" :class="props.__trClass">
-            <td>
-              {{ props.row.name }}
-              <q-popover>
-                <q-input v-model="props.row.name" />
-              </q-popover>
-            </td>
-            <td class="text-right">{{ props.row.calories }}</td>
-            <td class="text-right">{{ props.row.fat }}</td>
-            <td class="text-right">{{ props.row.carbs }}</td>
-            <td class="text-right">{{ props.row.protein }}</td>
-            <td class="text-right">{{ props.row.sodium }}</td>
-            <td class="text-right">{{ props.row.calcium }}</td>
-            <td class="text-right">
-              <q-chip square color="amber">{{ props.row.iron }}</q-chip>
-            </td>
-          </tr>
-        </template>
-      </q-data-table>
+        <tr slot="header" slot-scope="props">
+          <q-th key="desc" :props="props">
+            Dessert
+          </q-th>
+          <q-th key="calories" :props="props">
+            Calo
+          </q-th>
+          <q-th key="fat" :props="props">
+            Fat
+          </q-th>
+          <q-th key="carbs" :props="props">
+            Carbs
+          </q-th>
+          <q-th key="protein" :props="props">
+            Protein
+          </q-th>
+          <q-th key="sodium" :props="props">
+            Sodium
+          </q-th>
+          <q-th key="calcium" :props="props">
+            Calcium
+          </q-th>
+          <q-th key="iron" :props="props">
+            Iron
+          </q-th>
+        </tr>
+      </q-table>
+      <h2>body template</h2>
+      <q-table
+        :data="data"
+        :columns="columns"
+        :filter="filter"
+        :title="title"
+        row-key="name"
+      >
+        <q-tr slot="body" slot-scope="props" :props="props">
+          <q-td key="desc" :props="props">
+            {{ props.row.name }}
+            <q-popover>
+              <q-input v-model="props.row.name" />
+            </q-popover>
+          </q-td>
+          <q-td key="calories" :props="props">{{ props.row.calories }}</q-td>
+          <q-td key="fat" :props="props">{{ props.row.fat }}</q-td>
+          <q-td key="carbs" :props="props">{{ props.row.carbs }}</q-td>
+          <q-td key="protein" :props="props">{{ props.row.protein }}</q-td>
+          <q-td key="sodium" :props="props">{{ props.row.sodium }}</q-td>
+          <q-td key="calcium" :props="props">{{ props.row.calcium }}</q-td>
+          <q-td key="iron" :props="props">
+            <q-chip square color="amber">{{ props.row.iron }}</q-chip>
+          </q-td>
+        </q-tr>
+      </q-table>
+
+      <h2>body template 2</h2>
+      <q-table
+        :data="data"
+        :columns="columns"
+        :filter="filter"
+        :title="title"
+        row-key="name"
+      >
+        <q-tr slot="body" slot-scope="props" :props="props">
+          <q-td v-for="col in props.cols" :key="col.name" :props="props">
+            {{ col.value }}
+          </q-td>
+        </q-tr>
+      </q-table>
 
       <h2>body-cell template</h2>
-      <q-data-table
+      <q-table
         :data="data"
         :columns="columns"
         :filter="filter"
         :title="title"
         row-key="name"
       >
-        <template slot="body-cell" slot-scope="props">
-          <td :class="props.col.__tdClass">!{{ props.value }}</td>
-        </template>
-      </q-data-table>
+        <q-td slot="body-cell" slot-scope="props" :props="props">
+          !{{ props.value }}
+        </q-td>
+      </q-table>
 
       <h2>before/after header/footer template</h2>
-      <q-data-table
+      <q-table
         :data="data"
         :columns="columns"
         :filter="filter"
@@ -228,137 +267,130 @@
         <div slot="top">
           Top
         </div>
-        <template slot="top-row" slot-scope="props">
-          <tr>
-            <td colspan="100%">
-              Top row
-            </td>
-          </tr>
-        </template>
+        <q-tr slot="top-row" slot-scope="props">
+          <q-td colspan="100%">
+            Top row
+          </q-td>
+        </q-tr>
 
-        <template slot="bottom-row" slot-scope="props">
-          <tr>
-            <td colspan="100%">
-              Bottom row
-            </td>
-          </tr>
-        </template>
+        <q-tr slot="bottom-row" slot-scope="props">
+          <q-td colspan="100%">
+            Bottom row
+          </q-td>
+        </q-tr>
+
         <div slot="bottom">
           Bottom
         </div>
-      </q-data-table>
+      </q-table>
 
       <h2>selection template</h2>
       <q-toggle v-model="selectionToggle" />
-      <q-data-table
+      <q-table
         :data="data"
         :columns="columns"
         :filter="filter"
         :color="color"
         row-key="name"
         :selection="selection"
+        :selected.sync="selected"
         :loader="loader"
         :visible-columns="visibleColumns"
         :title="title"
       >
-        <template slot="header" slot-scope="props">
-          <tr>
-            <th class="q-table-select">
-              <q-checkbox v-if="props.multipleSelect" v-model="props.selected" :indeterminate="props.partialSelected" :color="color" />
-            </th>
-            <th v-for="col in props.cols" :key="col.label" @click="props.sort(col)">
-              @ {{col.label}}
-              <q-icon :class="col.__iconClass" name="arrow_upward" />
-            </th>
-          </tr>
-        </template>
+        <q-tr slot="header" slot-scope="props">
+          <q-th auto-width>
+            <q-checkbox v-if="props.multipleSelect" v-model="props.selected" :indeterminate="props.partialSelected" :color="color" />
+          </q-th>
+          <q-th v-for="col in props.cols" :key="col.name" :props="props">
+            @ {{col.label}}
+          </q-th>
+        </q-tr>
+
         <template slot="body" slot-scope="props">
-          <tr :key="props.key" :class="props.__trClass">
-            <td>
+          <q-tr :props="props">
+            <q-td auto-width>
               <q-checkbox :color="color" v-model="props.selected" />
-            </td>
-            <td>
+            </q-td>
+            <q-td key="desc" :props="props">
               <q-checkbox :color="color" v-model="props.expand" checked-icon="remove" unchecked-icon="add" />
               %%% {{ props.row.name }} %%%
-            </td>
-            <td class="text-center">{{ props.row.calories }}</td>
-            <td class="text-right">{{ props.row.fat }}</td>
-            <td class="text-right">{{ props.row.carbs }}</td>
-            <td class="text-right">{{ props.row.protein }}</td>
-            <td class="text-right">{{ props.row.sodium }}</td>
-            <td class="text-right">{{ props.row.calcium }}</td>
-            <td class="text-right">
+            </q-td>
+            <q-td key="calories" :props="props">{{ props.row.calories }}</q-td>
+            <q-td key="fat" :props="props">{{ props.row.fat }}</q-td>
+            <q-td key="carbs" :props="props">{{ props.row.carbs }}</q-td>
+            <q-td key="protein" :props="props">{{ props.row.protein }}</q-td>
+            <q-td key="sodium" :props="props">{{ props.row.sodium }}</q-td>
+            <q-td key="calcium" :props="props">{{ props.row.calcium }}</q-td>
+            <q-td key="iron" :props="props">
               <q-chip square color="amber">{{ props.row.iron }}</q-chip>
-            </td>
-          </tr>
-          <tr v-show="props.expand" :key="`expand-${props.key}`">
-            <td colspan="100%">
-              <div class="text-center">This is expand slot for row above: {{props.row.name}}.</div>
-            </td>
-          </tr>
+            </q-td>
+          </q-tr>
+          <q-tr v-show="props.expand" :props="props">
+            <q-td colspan="100%">
+              <div class="text-left">This is expand slot for row above: {{props.row.name}}.</div>
+            </q-td>
+          </q-tr>
         </template>
-      </q-data-table>
-      <q-data-table
+      </q-table>
+      <q-table
         :data="data"
         :columns="columns"
         :filter="filter"
         :color="color"
         row-key="name"
         :selection="selection"
+        :selected.sync="selected"
         :loader="loader"
         :visible-columns="visibleColumns"
         :title="title"
       >
-        <template slot="header" slot-scope="props">
-          <tr>
-            <th class="q-table-select">
-              <q-checkbox v-if="props.multipleSelect" v-model="props.selected" :indeterminate="props.partialSelected" :color="color" />
-            </th>
-            <th v-for="col in props.cols" :key="col.label" @click="props.sort(col)" :class="col.__thClass">
-              @ {{col.label}}
-              <q-icon :class="col.__iconClass" name="arrow_upward" />
-            </th>
-          </tr>
-        </template>
-        <template slot="body" slot-scope="props">
-          <tr :key="props.key" :class="props.__trClass">
-            <td>
-              <q-checkbox :color="color" v-model="props.selected" />
-            </td>
-            <td v-for="col in props.cols" :key="col.name" :class="col.__tdClass">^{{ col.value }}</td>
-          </tr>
-        </template>
-      </q-data-table>
+        <q-tr slot="header" slot-scope="props">
+          <q-th auto-width>
+            <q-checkbox v-if="props.multipleSelect" v-model="props.selected" :indeterminate="props.partialSelected" :color="color" />
+          </q-th>
+          <q-th v-for="col in props.cols" :key="col.name" :props="props">
+            @ {{col.label}}
+          </q-th>
+        </q-tr>
+        <q-tr slot="body" slot-scope="props" :key="props.key" :props="props">
+          <q-td auto-width>
+            <q-checkbox :color="color" v-model="props.selected" />
+          </q-td>
+          <q-td v-for="col in props.cols" :key="col.name" :props="props">
+            ^{{ col.value }}
+          </q-td>
+        </q-tr>
+      </q-table>
 
-      <q-data-table
+      <q-table
         :data="data"
         :columns="columns"
         :filter="filter"
         :color="color"
         row-key="name"
         :selection="selection"
+        :selected.sync="selected"
         :loader="loader"
         :visible-columns="visibleColumns"
         :title="title"
       >
-        <template slot="header-cell" slot-scope="props">
-          <th @click="props.sort(props.col)" :class="props.col.__thClass">
-            # {{props.col.label}}
-            <q-icon :class="props.col.__iconClass" name="arrow_upward" />
-          </th>
-        </template>
-        <template slot="body-cell" slot-scope="props">
-          <td :class="props.col.__tdClass">!{{ props.value }}</td>
-        </template>
-      </q-data-table>
+        <q-th slot="header-cell" slot-scope="props" :props="props">
+          # {{props.col.label}}
+        </q-th>
+        <q-td slot="body-cell" slot-scope="props" :props="props">
+          !{{ props.value }}
+        </q-td>
+      </q-table>
 
-      <q-data-table
+      <q-table
         :data="data"
         :columns="columns"
         :filter="filter"
         :color="color"
         row-key="name"
         :selection="selection"
+        :selected.sync="selected"
         :loader="loader"
         :visible-columns="visibleColumns"
         :title="title"
@@ -376,6 +408,7 @@ export default {
       color: 'amber',
       visibleColumns: ['desc', 'fat', 'carbs', 'protein', 'sodium', 'calcium', 'iron'],
       separator: 'horizontal',
+      selected: [],
 
       serverPagination: {
         page: 1,
@@ -391,7 +424,8 @@ export default {
           required: true,
           label: 'Dessert (100g serving)',
           align: 'left',
-          field: row => `~${row.name}~`,
+          field: row => row.name,
+          format: val => `~${val}`,
           sortable: true
         },
         { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
@@ -530,11 +564,11 @@ export default {
           { page, rowsPerPage, sortBy, descending } = props.pagination
 
         if (props.filter) {
-          rows = table.filterMethod(rows, table.computedColumns, props.filter)
+          rows = table.filterMethod(rows, props.filter)
         }
 
         if (sortBy) {
-          rows = table.sortMethod(rows, table.computedColumns.find(def => def.name === sortBy), descending)
+          rows = table.sortMethod(rows, sortBy, descending)
         }
 
         if (rowsPerPage) {
@@ -547,9 +581,8 @@ export default {
     }
   },
   mounted () {
-    const table = this.$refs.server
     this.request({
-      pagination: table.computedPagination,
+      pagination: this.serverPagination,
       filter: this.filter
     })
   }
@@ -557,6 +590,6 @@ export default {
 </script>
 
 <style lang="stylus">
-.q-datatable + .q-datatable
+.q-table + .q-table
   margin-top 25px
 </style>

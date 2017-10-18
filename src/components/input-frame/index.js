@@ -1,4 +1,4 @@
-import QInputFrame from './QInputFrame.vue'
+import QInputFrame from './QInputFrame'
 
 export {
   QInputFrame

@@ -1,7 +1,5 @@
-import QDatetime from './QDatetime.vue'
-import QDatetimeRange from './QDatetimeRange.vue'
-
-// This should be fixed to not hardcode .mat
+import QDatetime from './QDatetime'
+import QDatetimeRange from './QDatetimeRange'
 import QInlineDatetime from './QInlineDatetime.mat'
 
 export {
