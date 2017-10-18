@@ -6,6 +6,7 @@ import { version } from '../package.json'
 export * from './components'
 export * from './directives'
 export * from './features'
+export { isServer, getPlatform } from './features/platform'
 export * from './globals'
 export * from './utils'
 
