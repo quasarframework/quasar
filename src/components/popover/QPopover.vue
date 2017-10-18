@@ -1,10 +1,13 @@
 <template>
-  <div class="q-popover animate-scale" :class="{'server-hide': $isServer}" :style="transformCSS" @click.stop>
-    <slot></slot>
-  </div>
+  <no-ssr>
+    <div class="q-popover animate-scale" :style="transformCSS" @click.stop>
+      <slot></slot>
+    </div>
+  </no-ssr>
 </template>
 
 <script>
+import NoSSR from 'vue-no-ssr'
 import {
   positionValidator,
   offsetValidator,
@@ -20,6 +23,9 @@ import ModelToggleMixin from '../../utils/mixin-model-toggle'
 
 export default {
   name: 'q-popover',
+  components: {
+    'no-ssr': NoSSR
+  },
   mixins: [ModelToggleMixin],
   props: {
     anchor: {

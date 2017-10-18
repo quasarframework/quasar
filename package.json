@@ -106,5 +106,8 @@
   "peerDependencies": {
     "vue": "^2.5.0",
     "quasar-extras": "0.x"
+  },
+  "dependencies": {
+    "vue-no-ssr": "^0.2.0"
   }
 }

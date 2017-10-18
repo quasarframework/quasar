@@ -1,7 +1,6 @@
 <template>
   <q-input-frame
     class="q-datetime-input"
-
     :prefix="prefix"
     :suffix="suffix"
     :stack-label="stackLabel"
@@ -23,92 +22,94 @@
     @blur.native="__onBlur"
   >
     <div class="col row items-center q-input-target" :class="alignClass" v-html="actualValue"></div>
-
-    <q-popover
-      v-if="usingPopover"
-      ref="popup"
-      :offset="[0, 10]"
-      :disable="disable"
-      :anchor-click="false"
-      @open="__onFocus"
-      @close="__onClose"
-      max-height="100vh"
-    >
-      <q-inline-datetime
-        ref="target"
-        v-model="model"
-        :default-selection="defaultSelection"
-        :type="type"
-        :min="min"
-        :max="max"
-        :format24h="format24h"
-        :monday-first="mondayFirst"
-        :saturday-first="saturdayFirst"
-        :month-names="monthNames"
-        :day-names="dayNames"
-        :color="color"
-        class="no-border"
+    
+    <no-ssr>
+      <q-popover
+        v-if="usingPopover"
+        ref="popup"
+        :offset="[0, 10]"
+        :disable="disable"
+        :anchor-click="false"
+        @open="__onFocus"
+        @close="__onClose"
       >
-        <div class="row q-datetime-controls modal-buttons-top">
-          <q-btn :color="color" v-if="!noClear && model" @click="clear()" flat>
-            <span v-html="clearLabel"></span>
-          </q-btn>
-          <div class="col"></div>
-          <q-btn :color="color" @click="close()" flat><span v-html="cancelLabel"></span></q-btn>
-          <q-btn :color="color" @click="close(__update)" flat><span v-html="okLabel"></span></q-btn>
-        </div>
-      </q-inline-datetime>
-    </q-popover>
+        <q-inline-datetime
+          ref="target"
+          v-model="model"
+          :default-selection="defaultSelection"
+          :type="type"
+          :min="min"
+          :max="max"
+          :format24h="format24h"
+          :monday-first="mondayFirst"
+          :saturday-first="saturdayFirst"
+          :month-names="monthNames"
+          :day-names="dayNames"
+          :color="color"
+          class="no-border"
+        >
+          <div class="row q-datetime-controls modal-buttons-top">
+            <q-btn :color="color" v-if="!noClear && model" @click="clear()" flat>
+              <span v-html="clearLabel"></span>
+            </q-btn>
+            <div class="col"></div>
+            <q-btn :color="color" @click="close()" flat><span v-html="cancelLabel"></span></q-btn>
+            <q-btn :color="color" @click="close(__update)" flat><span v-html="okLabel"></span></q-btn>
+          </div>
+        </q-inline-datetime>
+      </q-popover>
 
-    <q-modal
-      v-else
-      ref="popup"
-      class="with-backdrop"
-      :class="classNames"
-      :transition="transition"
-      :position-classes="position"
-      :content-css="css"
-      @open="__onFocus"
-      @close="__onClose"
-    >
-      <q-inline-datetime
-        ref="target"
-        v-model="model"
-        :default-selection="defaultSelection"
-        :type="type"
-        :min="min"
-        :max="max"
-        :format24h="format24h"
-        :monday-first="mondayFirst"
-        :saturday-first="saturdayFirst"
-        :month-names="monthNames"
-        :day-names="dayNames"
-        :color="color"
-        class="no-border"
-        :class="{'full-width': $q.theme === 'ios'}"
+      <q-modal
+        v-else
+        ref="popup"
+        class="with-backdrop"
+        :class="classNames"
+        :transition="transition"
+        :position-classes="position"
+        :content-css="css"
+        @open="__onFocus"
+        @close="__onClose"
       >
-        <div class="modal-buttons modal-buttons-top row full-width">
-          <q-btn :color="color" v-if="!noClear && model" @click="clear()" flat>
-            <span v-html="clearLabel"></span>
-          </q-btn>
-          <div class="col"></div>
-          <q-btn :color="color" @click="close()" flat><span v-html="cancelLabel"></span></q-btn>
-          <q-btn :color="color" @click="close(__update)" flat><span v-html="okLabel"></span></q-btn>
-        </div>
-      </q-inline-datetime>
-    </q-modal>
-
+        <q-inline-datetime
+          ref="target"
+          v-model="model"
+          :default-selection="defaultSelection"
+          :type="type"
+          :min="min"
+          :max="max"
+          :format24h="format24h"
+          :monday-first="mondayFirst"
+          :saturday-first="saturdayFirst"
+          :month-names="monthNames"
+          :day-names="dayNames"
+          :color="color"
+          class="no-border"
+          :class="{'full-width': $q.theme === 'ios'}"
+        >
+          <div class="modal-buttons modal-buttons-top row full-width">
+            <q-btn :color="color" v-if="!noClear && model" @click="clear()" flat>
+              <span v-html="clearLabel"></span>
+            </q-btn>
+            <div class="col"></div>
+            <q-btn :color="color" @click="close()" flat><span v-html="cancelLabel"></span></q-btn>
+            <q-btn :color="color" @click="close(__update)" flat><span v-html="okLabel"></span></q-btn>
+          </div>
+        </q-inline-datetime>
+      </q-modal>
+    </no-ssr>
     <q-icon slot="after" name="arrow_drop_down" class="q-if-control"></q-icon>
   </q-input-frame>
 </template>
 
 <script>
+import NoSSR from 'vue-no-ssr'
 import FrameMixin from '../input-frame/input-frame-mixin'
 import extend from '../../utils/extend'
+// import { current as theme } from '../../features/theme'
 import { input, inline } from './datetime-props'
 import { QInputFrame } from '../input-frame'
 import { QPopover } from '../popover'
-import QInlineDatetime from './QInlineDatetime.mat'
+import QInlineDatetime from './QInlineDatetime'
 import { QBtn } from '../btn'
 import { formatDate, isSameDate } from '../../utils/date'
 import { QModal } from '../modal'
@@ -133,7 +134,8 @@ export default {
     QPopover,
     QModal,
     QInlineDatetime,
-    QBtn
+    QBtn,
+    'no-ssr': NoSSR
   },
   props: extend(
     {

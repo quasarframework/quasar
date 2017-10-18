@@ -1,6 +1,6 @@
 
 // This should be fixed to not hardcode .mat
-import DefaultSpinner from './QSpinner.mat'
+// import DefaultSpinner from './QSpinner'
 
 import QSpinnerAudio from './list/audio'
 import QSpinnerBall from './list/ball'
@@ -25,7 +25,7 @@ import QSpinnerRings from './list/rings'
 import QSpinnerTail from './list/tail'
 
 const QSpinner = {
-  mixins: [DefaultSpinner],
+  mixins: [QSpinnerMat],
   name: 'q-spinner'
 }
 
