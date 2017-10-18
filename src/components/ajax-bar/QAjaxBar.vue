@@ -5,12 +5,16 @@
 </template>
 
 <script>
+// eslint-disable-line no-unused-vars
 import { cssTransform } from '../../utils/dom'
 import { between } from '../../utils/format'
+import { isServer } from '../../features/platform'
 
-const
-  xhr = XMLHttpRequest,
+let xhr, send
+if (!isServer) {
+  xhr = XMLHttpRequest
   send = xhr.prototype.send
+}
 
 function translate ({p, pos, active, horiz, reverse}) {
   let x = 1, y = 1
