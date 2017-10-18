@@ -1,11 +1,12 @@
 <template>
-  <div
-    v-if="$q.platform.is.desktop"
-    class="q-scrollarea relative-position"
-    @mouseenter="hover = true"
-    @mouseleave="hover = false"
+  <div 
+    class="q-scroll-area relative-position" 
+    :class="{'scroll': !$q.platform.is.desktop}"
+    @mouseenter="$q.platform.is.desktop ? hover = true : null"
+    @mouseleave="$q.platform.is.desktop ? hover = false : null"
   >
     <div
+      v-if="$q.platform.is.desktop"
       ref="target"
       class="scroll relative-position overflow-hidden full-height full-width"
       @wheel="__mouseWheel"
@@ -20,21 +21,22 @@
       <q-scroll-observable class="scroll-obs" @scroll="__updateScroll"></q-scroll-observable>
     </div>
   
-    <q-resize-observable class="main-resize-obs" @resize="__updateContainer"></q-resize-observable>
+    <q-resize-observable v-if="$q.platform.is.desktop" class="main-resize-obs" @resize="__updateContainer"></q-resize-observable>
   
     <div
+      v-if="$q.platform.is.desktop"
       class="q-scrollarea-thumb absolute-right"
       :style="style"
       :class="{'invisible-thumb': thumbHidden}"
       v-touch-pan.vertical="__panThumb"
     ></div>
-  </div>
-  <div
-    v-else
-    class="q-scroll-area scroll relative-position"
-    :style="contentStyle"
-  >
-    <slot></slot>
+    <div
+      v-else
+      class="q-scroll-area scroll relative-position"
+      :style="contentStyle"
+    >
+      <slot></slot>
+    </div>
   </div>
 </template>
 
