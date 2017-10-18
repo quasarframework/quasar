@@ -1,30 +1,28 @@
 <template>
-  <no-ssr>
-    <q-input-frame
-      class="q-datetime-input"
-      v-if="!$isServer"
-      :prefix="prefix"
-      :suffix="suffix"
-      :stack-label="stackLabel"
-      :float-label="floatLabel"
-      :error="error"
-      :disable="disable"
-      :inverted="inverted"
-      :dark="dark"
-      :before="before"
-      :after="after"
-      :color="color"
+  <q-input-frame
+    class="q-datetime-input"
+    :prefix="prefix"
+    :suffix="suffix"
+    :stack-label="stackLabel"
+    :float-label="floatLabel"
+    :error="error"
+    :disable="disable"
+    :inverted="inverted"
+    :dark="dark"
+    :before="before"
+    :after="after"
+    :color="color"
 
-      :focused="focused"
-      focusable
-      :length="actualValue.length"
+    :focused="focused"
+    focusable
+    :length="actualValue.length"
 
-      @click.native="open"
-      @focus.native="__onFocus"
-      @blur.native="__onBlur"
-    >
-      <div class="col row items-center q-input-target" :class="alignClass" v-html="actualValue"></div>
-
+    @click.native="open"
+    @focus.native="__onFocus"
+    @blur.native="__onBlur"
+  >
+    <div class="col row items-center q-input-target" :class="alignClass" v-html="actualValue"></div>
+    <no-ssr>
       <q-popover
         v-if="usingPopover"
         ref="popup"
@@ -97,10 +95,10 @@
           </div>
         </q-inline-datetime>
       </q-modal>
+    </no-ssr>
 
-      <q-icon slot="after" name="arrow_drop_down" class="q-if-control"></q-icon>
-    </q-input-frame>
-  </no-ssr>
+    <q-icon slot="after" name="arrow_drop_down" class="q-if-control"></q-icon>
+  </q-input-frame>
 </template>
 
 <script>
