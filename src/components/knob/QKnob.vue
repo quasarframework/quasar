@@ -8,27 +8,29 @@
       @click="__onInput"
       v-touch-pan="__pan"
     >
-      <svg viewBox="0 0 100 100">
-        <path
-          d="M 50,50 m 0,-47
-             a 47,47 0 1 1 0,94
-             a 47,47 0 1 1 0,-94"
-          :class="`text-${trackColor}`"
-          stroke="currentColor"
-          :stroke-width="lineWidth"
-          fill-opacity="0"
-        ></path>
-        <path
-          stroke-linecap="round"
-          fill-opacity="0"
-          d="M 50,50 m 0,-47
-             a 47,47 0 1 1 0,94
-             a 47,47 0 1 1 0,-94"
-          stroke="currentColor"
-          :stroke-width="lineWidth"
-          :style="svgStyle"
-        ></path>
-      </svg>
+      <no-ssr>
+        <svg viewBox="0 0 100 100">
+          <path
+            d="M 50,50 m 0,-47
+               a 47,47 0 1 1 0,94
+               a 47,47 0 1 1 0,-94"
+            :class="`text-${trackColor}`"
+            stroke="currentColor"
+            :stroke-width="lineWidth"
+            fill-opacity="0"
+          ></path>
+          <path
+            stroke-linecap="round"
+            fill-opacity="0"
+            d="M 50,50 m 0,-47
+               a 47,47 0 1 1 0,94
+               a 47,47 0 1 1 0,-94"
+            stroke="currentColor"
+            :stroke-width="lineWidth"
+            :style="svgStyle"
+          ></path>
+        </svg>
+      </no-ssr>
 
       <div
         class="q-knob-label row flex-center content-center"
@@ -41,6 +43,7 @@
 </template>
 
 <script>
+import noSSR from 'vue-no-ssr'
 import { position } from '../../utils/event'
 import { between } from '../../utils/format'
 import { offset, height, width } from '../../utils/dom'
@@ -48,6 +51,9 @@ import TouchPan from '../../directives/touch-pan'
 
 export default {
   name: 'q-knob',
+  components: {
+    'no-ssr': noSSR
+  },
   directives: {
     TouchPan
   },

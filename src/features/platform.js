@@ -1,8 +1,11 @@
 /* eslint-disable no-useless-escape */
 /* eslint-disable no-mixed-operators */
 
-function getUserAgent () {
-  return (navigator.userAgent || navigator.vendor || window.opera).toLowerCase()
+export const isServer = typeof window === 'undefined'
+
+function getUserAgent (providedUserAgent) {
+  if (isServer) { return (providedUserAgent || '').toLowerCase() }
+  return (providedUserAgent || navigator.userAgent || navigator.vendor || window.opera).toLowerCase()
 }
 
 function getMatch (userAgent, platformMatch) {
@@ -46,7 +49,7 @@ function getPlatformMatch (userAgent) {
     []
 }
 
-function getPlatform () {
+export function getPlatform (providedUserAgent) {
   let
     userAgent = getUserAgent(),
     platformMatch = getPlatformMatch(userAgent),
@@ -146,13 +149,13 @@ function getPlatform () {
   browser.name = matched.browser
   browser.platform = matched.platform
 
-  if (window && window.process && window.process.versions && window.process.versions.electron) {
+  if (!isServer && window && window.process && window.process.versions && window.process.versions.electron) {
     browser.electron = true
   }
-  else if (document.location.href.indexOf('chrome-extension://') === 0) {
+  else if (!isServer && document.location.href.indexOf('chrome-extension://') === 0) {
     browser.chromeExt = true
   }
-  else if (window._cordovaNative || document.location.href.indexOf('http') !== 0) {
+  else if (!isServer && (window._cordovaNative || document.location.href.indexOf('http') !== 0)) {
     browser.cordova = true
   }
 
@@ -162,10 +165,10 @@ function getPlatform () {
 const Platform = {
   is: getPlatform(),
   has: {
-    touch: (() => !!('ontouchstart' in document.documentElement) || window.navigator.msMaxTouchPoints > 0)()
+    touch: (() => !isServer && (!!('ontouchstart' in document.documentElement) || window.navigator.msMaxTouchPoints > 0))()
   },
   within: {
-    iframe: window.self !== window.top
+    iframe: !isServer && window.self !== window.top
   }
 }
 

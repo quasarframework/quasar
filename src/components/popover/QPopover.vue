@@ -1,10 +1,13 @@
 <template>
-  <div class="q-popover animate-scale" :style="transformCSS" @click.stop>
-    <slot></slot>
-  </div>
+  <no-ssr>
+    <div class="q-popover animate-scale" :style="transformCSS" @click.stop>
+      <slot></slot>
+    </div>
+  </no-ssr>
 </template>
 
 <script>
+import NoSSR from 'vue-no-ssr'
 import {
   positionValidator,
   offsetValidator,
@@ -19,6 +22,9 @@ import EscapeKey from '../../features/escape-key'
 
 export default {
   name: 'q-popover',
+  components: {
+    'no-ssr': NoSSR
+  },
   props: {
     anchor: {
       type: String,
