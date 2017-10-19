@@ -22,8 +22,8 @@ export default {
         if (this.$el.classList.contains('router-link-active') || this.$el.classList.contains('router-link-exact-active')) {
           this.selectTab(this.name)
         }
-        else if (this.data.tabName === this.name) {
-          this.selectTab('')
+        else if (this.active) {
+          this.selectTab(null)
         }
       })
     }
