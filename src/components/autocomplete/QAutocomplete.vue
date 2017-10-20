@@ -223,8 +223,8 @@ export default {
     }
   },
   mounted () {
-    if (this.__input === void 0) {
-      console.error('Autocomplete needs to be inserted into an input form component.')
+    if (this.__input === null) {
+      console.error('Autocomplete needs to be inserted into a QInput or QSearch component.')
       return
     }
     this.__input.register()
