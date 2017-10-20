@@ -58,7 +58,10 @@ export default {
     QTransition
   },
   props: {
-    value: Boolean,
+    value: {
+      type: Boolean,
+      default: true
+    },
     duration: Number,
     name: String,
     enter: String,
@@ -83,7 +86,7 @@ export default {
   },
   data () {
     return {
-      active: true
+      active: this.value
     }
   },
   watch: {

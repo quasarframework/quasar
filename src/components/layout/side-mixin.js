@@ -53,7 +53,7 @@ export default {
       this.leftState.openedSmall = false
       this.backdrop.percentage = 0
       if (typeof fn === 'function') {
-        setTimeout(fn, 310)
+        setTimeout(fn, 370)
       }
     },
     __hide (side, fn) {

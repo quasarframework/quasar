@@ -42,6 +42,7 @@
           :readonly="readonly"
           :maxlength="maxLength"
           :rows="minRows"
+          v-bind="attributes"
 
           :value="value"
           @input="__set"
@@ -66,6 +67,7 @@
       :disabled="disable"
       :readonly="readonly"
       :maxlength="maxLength"
+      v-bind="attributes"
 
       :min="min"
       :max="max"
@@ -90,7 +92,7 @@
     ></q-icon>
 
     <q-icon
-      v-if="clearable && length"
+      v-if="editable && clearable && length"
       slot="after"
       name="cancel"
       class="q-if-control"
@@ -138,6 +140,7 @@ export default {
     clearable: Boolean,
     noPassToggle: Boolean,
     readonly: Boolean,
+    attributes: Object,
 
     min: Number,
     max: Number,

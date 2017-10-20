@@ -19,6 +19,7 @@
       Lorem ipsum dolor sit amet.
     </q-alert>
 
+    <q-btn @click="visible2 = !visible2" label="Toggle HERE" />
     <q-alert
       type="negative"
       ref="destroyableAlert"
@@ -76,7 +77,7 @@ export default {
   data () {
     return {
       visible: true,
-      visible2: true,
+      visible2: false,
       diss: true,
       actions: [{
         label: 'Snooze',

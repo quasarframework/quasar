@@ -61,6 +61,9 @@ body
   z-index $z-max !important
 
 for type in desktop mobile cordova electron ios mat touch within-iframe platform-ios platform-android server
+  q-body:not(.{type}) .{type}-only,
+  q-body.{type} .{type}-hide
+    display none !important
   body:not(.{type}) .{type}-only,
   body.{type} .{type}-hide
     display none !important

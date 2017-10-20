@@ -6,7 +6,7 @@ export default {
     align: {
       type: String,
       default: 'start',
-      validator: v => ['start', 'center', 'end', 'around'].includes(v)
+      validator: v => ['start', 'center', 'end', 'around', 'between'].includes(v)
     }
   },
   render (h, ctx) {

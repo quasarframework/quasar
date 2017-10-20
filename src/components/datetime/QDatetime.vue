@@ -22,7 +22,6 @@
     @blur.native="__onBlur"
   >
     <div class="col row items-center q-input-target" :class="alignClass" v-html="actualValue"></div>
-    
     <no-ssr>
       <q-popover
         v-if="usingPopover"
@@ -32,6 +31,7 @@
         :anchor-click="false"
         @open="__onFocus"
         @close="__onClose"
+        max-height="100vh"
       >
         <q-inline-datetime
           ref="target"
