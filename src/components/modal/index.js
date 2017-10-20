@@ -1,5 +1,5 @@
-import QModal from './QModal.vue'
-import QModalLayout from './QModalLayout.vue'
+import QModal from './QModal'
+import QModalLayout from './QModalLayout'
 
 export {
   QModal,

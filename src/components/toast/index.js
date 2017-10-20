@@ -1,6 +1,6 @@
 import extend from '../../utils/extend'
 import { ready } from '../../utils/dom'
-import Toast from './Toast.vue'
+import Toast from './Toast'
 import { Vue } from '../../deps'
 import typeIcon from '../../utils/type-icons'
 

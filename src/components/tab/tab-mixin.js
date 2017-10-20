@@ -27,13 +27,16 @@ export default {
     color: String
   },
   inject: ['data', 'selectTab'],
-  computed: {
-    active () {
-      const sel = this.data.tabName === this.name
-      if (sel) {
+  watch: {
+    active (val) {
+      if (val) {
         this.$emit('select', this.name)
       }
-      return sel
+    }
+  },
+  computed: {
+    active () {
+      return this.data.tabName === this.name
     },
     classes () {
       const cls = {

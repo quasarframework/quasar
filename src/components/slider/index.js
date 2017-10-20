@@ -1,4 +1,4 @@
-import QSlider from './QSlider.vue'
+import QSlider from './QSlider'
 
 export {
   QSlider

@@ -1,5 +1,5 @@
-import QField from './QField.vue'
-import QFieldReset from './QFieldReset.vue'
+import QField from './QField'
+import QFieldReset from './QFieldReset'
 
 export {
   QField,

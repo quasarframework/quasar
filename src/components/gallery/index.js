@@ -1,5 +1,5 @@
-import QGallery from './QGallery.vue'
-import QGalleryCarousel from './QGalleryCarousel.vue'
+import QGallery from './QGallery'
+import QGalleryCarousel from './QGalleryCarousel'
 
 export {
   QGallery,

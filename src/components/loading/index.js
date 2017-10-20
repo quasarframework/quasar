@@ -20,13 +20,18 @@ function show ({
   spinnerSize = 80,
   spinnerColor = 'white',
   messageColor = 'white',
-  spinner = QSpinner
+  spinner = QSpinner,
+  customClass = false
 } = {}) {
   props.spinner = spinner
   props.message = message
   props.spinnerSize = spinnerSize
   props.spinnerColor = spinnerColor
   props.messageColor = messageColor
+
+  if (customClass && typeof customClass === 'string') {
+    props.customClass = ` ${customClass.trim()}`
+  }
 
   if (appIsInProgress) {
     vm && vm.$forceUpdate()
@@ -61,7 +66,7 @@ function show ({
           }))
         }
 
-        return h('div', {staticClass}, child)
+        return h('div', {staticClass: staticClass + props.customClass}, child)
       }
     })
   }, delay)

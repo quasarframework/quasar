@@ -1,4 +1,4 @@
-import QSearch from './QSearch.vue'
+import QSearch from './QSearch'
 
 export {
   QSearch

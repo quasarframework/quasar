@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import StepTab from './StepTab.vue'
+import StepTab from './StepTab'
 import { frameDebounce } from '../../utils/debounce'
 
 export default {
