@@ -110,7 +110,7 @@
           <q-popover ref="popover4">
             <div class="group" style="width: 220px; text-align: center;">
               <!-- Causing SSR render problems -->
-              <q-btn icon="menu" flat color="primary" @click="showToast(), $refs.popover4.close()" />
+              <q-btn flat color="primary" @click="showToast(), $refs.popover4.close()" />
               <q-btn icon="thumb_down" flat color="primary" @click="showToast(), $refs.popover4.close()" />
               <q-btn icon="share" flat color="secondary" @click="showToast(), $refs.popover4.close()" />
             </div>
