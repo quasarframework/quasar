@@ -1,7 +1,9 @@
 <template>
   <div id="q-app">
-    <router-view></router-view>
-    <q-ajax-bar ref="bar" />
+    <q-body>
+      <router-view></router-view>
+      <q-ajax-bar ref="bar" />
+    </q-body>
   </div>
 </template>
 
