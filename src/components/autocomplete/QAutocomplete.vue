@@ -7,16 +7,15 @@
     ref="popover"
     :anchor-click="false"
   >
-    <div class="list no-border" :class="{separator: separator}" :style="computedWidth">
+    <q-list no-border link :separator="separator" :style="computedWidth">
       <q-item-wrapper
         v-for="(result, index) in computedResults"
         :key="result.id || JSON.stringify(result)"
         :cfg="result"
-        link
         :class="{active: selectedIndex === index}"
         @click="setValue(result)"
       ></q-item-wrapper>
-    </div>
+    </q-list>
   </q-popover>
 </template>
 
@@ -27,7 +26,7 @@ import uid from '../../utils/uid'
 import { normalizeToInterval } from '../../utils/format'
 import { QInput } from '../input'
 import { QPopover } from '../popover'
-import { QItemWrapper } from '../list'
+import { QList, QItemWrapper } from '../list'
 
 function prevent (e) {
   e.preventDefault()
@@ -39,6 +38,7 @@ export default {
   components: {
     QInput,
     QPopover,
+    QList,
     QItemWrapper
   },
   props: {
@@ -61,7 +61,10 @@ export default {
     staticData: Object,
     separator: Boolean
   },
-  inject: ['__input', '__inputParent'],
+  inject: {
+    '__input': { default: null },
+    '__inputDebounce': { default: null }
+  },
   data () {
     return {
       searchId: '',
@@ -125,13 +128,13 @@ export default {
       this.close()
       this.__input.loading = true
       this.$emit('search', terms, results => {
-        if (!results || this.searchId !== searchId) {
+        if (this.searchId !== searchId) {
           return
         }
 
         this.__clearSearch()
 
-        if (this.results === results) {
+        if (!this.results || this.results === results) {
           return
         }
 
@@ -160,7 +163,7 @@ export default {
       this.searchId = ''
     },
     setValue (result) {
-      const suffix = this.__inputParent ? 'Parent' : ''
+      const suffix = this.__inputDebounce ? 'Debounce' : ''
       this[`__input${suffix}`].set(this.staticData ? result[this.staticData.field] : result.value)
 
       this.$emit('selected', result)
@@ -225,8 +228,8 @@ export default {
       return
     }
     this.__input.register()
-    if (this.__inputParent) {
-      this.__inputParent.setChildDebounce(true)
+    if (this.__inputDebounce) {
+      this.__inputDebounce.setChildDebounce(true)
     }
     this.$nextTick(() => {
       this.inputEl = this.__input.getEl()
@@ -236,8 +239,8 @@ export default {
   beforeDestroy () {
     this.__clearSearch()
     this.__input.unregister()
-    if (this.__inputParent) {
-      this.__inputParent.setChildDebounce(false)
+    if (this.__inputDebounce) {
+      this.__inputDebounce.setChildDebounce(false)
     }
     if (this.inputEl) {
       this.inputEl.removeEventListener('keydown', this.__handleKeypress)

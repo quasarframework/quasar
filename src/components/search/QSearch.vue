@@ -76,7 +76,7 @@ export default {
   },
   provide () {
     return {
-      __inputParent: {
+      __inputDebounce: {
         set: val => {
           if (this.value !== val) {
             this.$emit('input', val)
