@@ -4,7 +4,6 @@
     :class="classes"
     :tabindex="focusable && !disable ? 0 : null"
     @click="__onClick"
-    v-ripple.mat="inverted"
   >
     <template v-if="before">
       <q-icon
@@ -13,7 +12,7 @@
         class="q-if-control q-if-control-before"
         :class="{hidden: __additionalHidden(item, hasError, length)}"
         :name="item.icon"
-        @click="(item.handler || __defaultHandler)($event)"
+        @click="__baHandler($event, item)"
       ></q-icon>
     </template>
 
@@ -50,7 +49,7 @@
         class="q-if-control"
         :class="{hidden: __additionalHidden(item, hasError, length)}"
         :name="item.icon"
-        @click="(item.handler || __defaultHandler)($event)"
+        @click="__baHandler($event, item)"
       ></q-icon>
     </template>
   </div>
@@ -58,14 +57,10 @@
 
 <script>
 import Mixin from './input-frame-mixin'
-import Ripple from '../../directives/ripple'
 
 export default {
   name: 'q-input-frame',
   mixins: [Mixin],
-  directives: {
-    Ripple
-  },
   props: {
     topAddons: Boolean,
     focused: Boolean,
@@ -129,7 +124,14 @@ export default {
         (item.error !== void 0 && !item.error === hasError)
       )
     },
-    __defaultHandler () {}
+    __baHandler (evt, item) {
+      if (!item.allowPropagation) {
+        evt.stopPropagation()
+      }
+      if (item.handler) {
+        item.handler(evt)
+      }
+    }
   },
   created () {
     if (this.__field) {
