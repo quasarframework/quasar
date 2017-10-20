@@ -60,16 +60,13 @@ body
 .z-max
   z-index $z-max !important
 
-for type in desktop mobile cordova electron ios mat touch within-iframe platform-ios platform-android server
-  q-body:not(.{type}) .{type}-only,
-  q-body.{type} .{type}-hide
+for type in desktop mobile server cordova electron ios mat touch within-iframe platform-ios platform-android
+  #q-root-body:not(.{type}) .{type}-only,
+  #q-root-body.{type} .{type}-hide
     display none !important
   body:not(.{type}) .{type}-only,
   body.{type} .{type}-hide
     display none !important
-    
-.server-hide
-  display none !important
 
 @media all and (orientation portrait)
   .orientation-landscape

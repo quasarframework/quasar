@@ -1,5 +1,5 @@
 <template>
-  <div :class="cls">
+  <div :class="cls" id="q-root-body">
     <slot></slot>
   </div>
 </template>
@@ -17,6 +17,7 @@ export default {
       __THEME__,
       this.$q.platform.is.desktop ? 'desktop' : 'mobile',
       this.$q.platform.has.touch ? 'touch' : 'no-touch',
+      this.$isServer ? 'server' : '',
       `platform-${this.$q.platform.is.ios ? 'ios' : 'mat'}`
     ]
 
