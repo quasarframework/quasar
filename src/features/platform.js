@@ -3,9 +3,9 @@
 
 export const isServer = typeof window === 'undefined'
 
-function getUserAgent () {
-  if (isServer) { return global.userAgent || '' }
-  return (navigator.userAgent || navigator.vendor || window.opera).toLowerCase()
+function getUserAgent (providedUserAgent) {
+  if (isServer) { return (providedUserAgent || '').toLowerCase() }
+  return (providedUserAgent || navigator.userAgent || navigator.vendor || window.opera).toLowerCase()
 }
 
 function getMatch (userAgent, platformMatch) {
@@ -49,9 +49,9 @@ function getPlatformMatch (userAgent) {
     []
 }
 
-function getPlatform () {
+export function getPlatform (providedUserAgent) {
   let
-    userAgent = getUserAgent(),
+    userAgent = getUserAgent(providedUserAgent),
     platformMatch = getPlatformMatch(userAgent),
     matched = getMatch(userAgent, platformMatch),
     browser = {}

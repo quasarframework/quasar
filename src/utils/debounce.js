@@ -1,3 +1,4 @@
+import { isServer } from '../features/platform'
 
 export function debounce (fn, wait = 250, immediate) {
   let timeout
@@ -24,9 +25,15 @@ export function frameDebounce (fn) {
     if (wait) { return }
 
     wait = true
-    window.requestAnimationFrame(() => {
+    if (isServer) {
       fn.apply(this, args)
       wait = false
-    })
+    }
+    else {
+      window.requestAnimationFrame(() => {
+        fn.apply(this, args)
+        wait = false
+      })
+    }
   }
 }
