@@ -1,6 +1,6 @@
 import QDatetime from './QDatetime'
 import QDatetimeRange from './QDatetimeRange'
-import QInlineDatetime from './QInlineDatetime.mat'
+import QInlineDatetime from './QInlineDatetime'
 
 export {
   QDatetime,
