@@ -285,7 +285,7 @@ export default {
       }
     },
     __animScrollTo (value) {
-      if (this.$refs.scroller.scrollTo) {
+      if (this.$refs.scroller.scrollTo && !this.$q.platform.is.safari) {
         this.$refs.scroller.scrollTo({
           'behavior': 'smooth',
           'left': value,
