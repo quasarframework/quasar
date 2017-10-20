@@ -17,19 +17,7 @@ function addBodyClasses () {
   Platform.is.cordova && cls.push('cordova')
   Platform.is.electron && cls.push('electron')
 
-  document.body.classList.add(...cls)
-}
-
-function captureErrors () {
-  window.onerror = function (message, source, lineno, colno, error) {
-    Events.$emit('app:error', {
-      message: message,
-      source: source,
-      lineno: lineno,
-      colno: colno,
-      error: error
-    })
-  }
+  document.body.classList.add.apply(document.body.classList, cls)
 }
 
 export default function (_Vue, opts = {}) {
@@ -40,7 +28,6 @@ export default function (_Vue, opts = {}) {
 
   setVue(_Vue)
   ready(addBodyClasses)
-  captureErrors()
 
   if (opts.directives) {
     Object.keys(opts.directives).forEach(key => {

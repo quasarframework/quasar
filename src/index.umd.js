@@ -1,7 +1,6 @@
 import Vue from 'vue'
 
 import install from './install'
-import start from './start'
 import { version } from '../package.json'
 
 import * as components from './components'
@@ -17,7 +16,6 @@ Vue.use({ install }, {
 
 export default {
   version,
-  start,
   theme: __THEME__,
 
   components,
