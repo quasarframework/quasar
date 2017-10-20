@@ -30,7 +30,7 @@ export default {
   created () {
     this.setClasses()
   },
-  beforeMount () {
+  mounted () {
     this.setClasses()
   }
 }
