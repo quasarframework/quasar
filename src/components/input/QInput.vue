@@ -42,6 +42,7 @@
           :readonly="readonly"
           :maxlength="maxLength"
           :rows="minRows"
+          v-bind="attributes"
 
           :value="value"
           @input="__set"
@@ -66,7 +67,7 @@
       :disabled="disable"
       :readonly="readonly"
       :maxlength="maxLength"
-      :autocomplete="autocomplete"
+      v-bind="attributes"
 
       :min="min"
       :max="max"
@@ -139,7 +140,7 @@ export default {
     clearable: Boolean,
     noPassToggle: Boolean,
     readonly: Boolean,
-    autocomplete: String,
+    attributes: Object,
 
     min: Number,
     max: Number,
