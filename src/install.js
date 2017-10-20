@@ -1,5 +1,5 @@
 import Platform from './features/platform'
-import Events, { installEvents } from './features/events'
+import { installEvents } from './features/events'
 import { version } from '../package.json'
 import { setVue } from './deps'
 import { ready } from './utils/dom'
