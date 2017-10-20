@@ -1,15 +1,3 @@
-<template>
-  <q-popover
-    ref="popover"
-    :anchor-click="false"
-    @open="$emit('open')"
-    @close="$emit('close')"
-  >
-    <slot></slot>
-  </q-popover>
-</template>
-
-<script>
 import { QPopover } from '../popover'
 
 export default {
@@ -20,12 +8,24 @@ export default {
   props: {
     disable: Boolean
   },
+  render (h) {
+    return h(QPopover, {
+      ref: 'popover',
+      props: {
+        anchorClick: false
+      },
+      on: {
+        open: () => { this.$emit('open') },
+        close: () => { this.$emit('close') }
+      }
+    }, this.$slots.default)
+  },
   methods: {
     close () {
       this.$refs.popover.close()
     },
     __open (evt) {
-      if (this.disable) {
+      if (!evt || this.disable) {
         return
       }
       this.close()
@@ -48,4 +48,3 @@ export default {
     this.target.removeEventListener('contexmenu', this.__open)
   }
 }
-</script>

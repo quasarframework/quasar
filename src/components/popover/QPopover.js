@@ -1,13 +1,3 @@
-<template>
-  <no-ssr>
-    <div class="q-popover animate-scale" :style="transformCSS" @click.stop>
-      <slot></slot>
-    </div>
-  </no-ssr>
-</template>
-
-<script>
-import NoSSR from 'vue-no-ssr'
 import {
   positionValidator,
   offsetValidator,
@@ -23,9 +13,6 @@ import ModelToggleMixin from '../../utils/mixin-model-toggle'
 
 export default {
   name: 'q-popover',
-  components: {
-    'no-ssr': NoSSR
-  },
   mixins: [ModelToggleMixin],
   props: {
     anchor: {
@@ -72,6 +59,15 @@ export default {
       return parsePosition(this.self)
     }
   },
+  render (h) {
+    return h('div', {
+      staticClass: 'q-popover animate-scale',
+      style: this.transformCSS,
+      on: {
+        click (e) { e.stopPropagation() }
+      }
+    }, this.$slots.default)
+  },
   created () {
     this.__updatePosition = frameDebounce(() => { this.reposition() })
   },
@@ -95,12 +91,12 @@ export default {
     this.close()
   },
   methods: {
-    toggle (event) {
+    toggle (evt) {
       if (this.opened) {
         this.close()
       }
       else {
-        this.open(event)
+        this.open(evt)
       }
     },
     open (evt) {
@@ -185,4 +181,3 @@ export default {
     }
   }
 }
-</script>

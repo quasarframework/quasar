@@ -27,7 +27,7 @@
       <q-route-tab slot="title" icon="view_quilt" to="/test-layout/about" replace hide="icon" label="About" />
       <q-route-tab slot="title" icon="view_day" to="/test-layout/toolbar" replace hide="label" label="Toolbar" />
       <q-route-tab slot="title" icon="view_day" to="/test-layout/tabs" replace label="Tabs" />
-      <q-route-tab slot="title" icon="input" to="/test-layout/drawerZZZ" replace label="Drawer" />
+      <q-route-tab slot="title" icon="input" to="/test-layout/drawer" replace label="Drawer" />
     </q-tabs>
 
     <q-scroll-area slot="left" style="width: 100%; height: 100%;" :thumb-style="{right: '4px', borderRadius: '5px', background: 'red', opacity: 1}">

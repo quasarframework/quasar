@@ -1,5 +1,5 @@
-import Platform, { isServer } from './features/platform'
-import Events, { installEvents } from './features/events'
+import Platform from './features/platform'
+import { installEvents } from './features/events'
 import { version } from '../package.json'
 import { setVue } from './deps'
 import { ready } from './utils/dom'
@@ -17,21 +17,7 @@ function addBodyClasses () {
   Platform.is.cordova && cls.push('cordova')
   Platform.is.electron && cls.push('electron')
 
-  document.body.classList.add(...cls)
-}
-
-function captureErrors () {
-  if (isServer) {
-    window.onerror = function (message, source, lineno, colno, error) {
-      Events.$emit('app:error', {
-        message: message,
-        source: source,
-        lineno: lineno,
-        colno: colno,
-        error: error
-      })
-    }
-  }
+  document.body.classList.add.apply(document.body.classList, cls)
 }
 
 export default function (_Vue, opts = {}) {
@@ -42,7 +28,6 @@ export default function (_Vue, opts = {}) {
 
   setVue(_Vue)
   ready(addBodyClasses)
-  captureErrors()
 
   if (opts.directives) {
     Object.keys(opts.directives).forEach(key => {

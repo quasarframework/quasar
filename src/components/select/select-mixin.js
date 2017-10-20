@@ -23,7 +23,8 @@ export default {
       validator: v => v.every(o => 'label' in o && 'value' in o)
     },
     frameColor: String,
-    displayValue: String
+    displayValue: String,
+    clearable: Boolean
   },
   data () {
     return {
@@ -46,7 +47,9 @@ export default {
     },
     selectedOptions () {
       if (this.multiple) {
-        return this.options.filter(opt => this.value.includes(opt.value))
+        return this.length > 0
+          ? this.options.filter(opt => this.value.includes(opt.value))
+          : []
       }
     },
     hasChips () {
@@ -62,7 +65,7 @@ export default {
     }
   },
   methods: {
-    __toggle (value) {
+    __toggleMultiple (value) {
       const
         model = this.value,
         index = model.indexOf(value)
@@ -75,6 +78,15 @@ export default {
       }
 
       this.$emit('change', model)
+    },
+    __emit (val) {
+      if (this.value !== val) {
+        this.$emit('input', val)
+        this.$emit('change', val)
+      }
+    },
+    clear () {
+      this.__emit(this.multiple ? [] : null)
     }
   }
 }
