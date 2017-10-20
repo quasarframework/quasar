@@ -36,7 +36,7 @@
         :closable="!disable"
         :color="color"
         @click.native.stop
-        @close="__toggle(value)"
+        @close="__toggleMultiple(value)"
       >
         {{ label }}
       </q-chip>
@@ -49,6 +49,13 @@
       v-html="actualValue"
     ></div>
 
+    <q-icon
+      v-if="!disable && clearable && length"
+      slot="after"
+      name="cancel"
+      class="q-if-control"
+      @click.stop="clear"
+    ></q-icon>
     <q-icon slot="after" name="arrow_drop_down" class="q-if-control"></q-icon>
 
     <q-popover
@@ -87,7 +94,7 @@
             :key="JSON.stringify(opt)"
             :cfg="opt"
             slot-replace
-            @click.capture="__toggle(opt.value)"
+            @click.capture="__toggleMultiple(opt.value)"
           >
             <q-toggle
               v-if="toggle"
@@ -110,7 +117,7 @@
             :cfg="opt"
             slot-replace
             :active="value === opt.value"
-            @click.capture="__select(opt.value)"
+            @click.capture="__singleSelect(opt.value)"
           >
             <q-radio
               v-if="radio"
@@ -168,7 +175,9 @@ export default {
   computed: {
     optModel () {
       if (this.multiple) {
-        return this.options.map(opt => this.value.includes(opt.value))
+        return this.value.length > 0
+          ? this.options.map(opt => this.value.includes(opt.value))
+          : this.options.map(opt => false)
       }
     },
     visibleOptions () {
@@ -235,11 +244,8 @@ export default {
       this.$emit('blur')
       this.terms = ''
     },
-    __select (val) {
-      if (this.value !== val) {
-        this.$emit('input', val)
-        this.$emit('change', val)
-      }
+    __singleSelect (val) {
+      this.__emit(val)
       this.close()
     }
   }

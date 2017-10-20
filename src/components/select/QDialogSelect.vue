@@ -49,6 +49,13 @@
       v-html="actualValue"
     ></div>
 
+    <q-icon
+      v-if="!disable && clearable && length"
+      slot="after"
+      name="cancel"
+      class="q-if-control"
+      @click.stop="clear"
+    ></q-icon>
     <q-icon slot="after" name="arrow_drop_down" class="q-if-control"></q-icon>
   </q-input-frame>
 </template>
@@ -118,8 +125,7 @@ export default {
             color: this.color,
             handler: data => {
               if (JSON.stringify(this.value) !== JSON.stringify(data.select)) {
-                this.$emit('input', data.select)
-                this.$emit('change', data.select)
+                this.__emit(data.select)
               }
             }
           }
