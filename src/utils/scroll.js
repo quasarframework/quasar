@@ -15,7 +15,7 @@ export function getScrollPosition (scrollTarget) {
   return scrollTarget.scrollTop
 }
 
-function animScrollTo (el, to, duration) {
+export function animScrollTo (el, to, duration) {
   if (duration <= 0) {
     return
   }
