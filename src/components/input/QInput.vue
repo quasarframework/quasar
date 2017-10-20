@@ -66,6 +66,7 @@
       :disabled="disable"
       :readonly="readonly"
       :maxlength="maxLength"
+      :autocomplete="autocomplete"
 
       :min="min"
       :max="max"
@@ -138,6 +139,7 @@ export default {
     clearable: Boolean,
     noPassToggle: Boolean,
     readonly: Boolean,
+    autocomplete: String,
 
     min: Number,
     max: Number,
