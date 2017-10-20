@@ -90,7 +90,7 @@
     ></q-icon>
 
     <q-icon
-      v-if="clearable && length"
+      v-if="editable && clearable && length"
       slot="after"
       name="cancel"
       class="q-if-control"
