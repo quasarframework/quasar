@@ -21,7 +21,6 @@ export default {
         this.$isServer ? 'server' : 'browser',
         `platform-${this.$q.platform.is.ios ? 'ios' : 'mat'}`
       ]
-      console.log(`this.cls`, this.cls)
 
       this.$q.platform.within.iframe && this.cls.push('within-iframe')
       this.$q.platform.is.cordova && this.cls.push('cordova')
