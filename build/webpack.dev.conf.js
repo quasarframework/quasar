@@ -69,7 +69,11 @@ module.exports = {
         loader: 'json-loader'
       },
       {
-        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+        test: /\.svg$/,
+        loader: 'raw'
+      },
+      {
+        test: /\.(png|jpe?g|gif)(\?.*)?$/,
         loader: 'url-loader',
         options: {
           limit: 10000,
