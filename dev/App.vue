@@ -1,5 +1,6 @@
 <template>
   <div id="q-app">
+    <!-- q-body is necessary since we cannot add classes to the body element during ssr -->
     <q-body>
       <router-view></router-view>
       <q-ajax-bar ref="bar" />

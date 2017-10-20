@@ -14,13 +14,13 @@
       round
       icon="keyboard_arrow_up"
       v-back-to-top.animate="{offset: 500, duration: 200}"
-      class="fixed-bottom-right animate-pop"
+      class="fixed-bottom-right animate-pop server-hide"
       style="margin: 0 15px 15px 0"
     />
 
     <a
       v-back-to-top.animate="1000"
-      class="animate-pop play-backtotop non-selectable"
+      class="animate-pop play-backtotop non-selectable server-hide"
     >
       Back to top
     </a>
