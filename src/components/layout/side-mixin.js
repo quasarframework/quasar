@@ -53,7 +53,7 @@ export default {
       this.leftState.openedSmall = false
       this.backdrop.percentage = 0
       if (typeof fn === 'function') {
-        setTimeout(fn, 310)
+        setTimeout(fn, 370)
       }
     },
     __hide (side, fn) {
@@ -69,6 +69,7 @@ export default {
 
       if (!state.openedSmall) {
         state.openedBig = false
+        fn && fn()
         return
       }
 
@@ -87,13 +88,12 @@ export default {
       const state = this[side + 'State']
       if (this[side + 'OverBreakpoint']) {
         state.openedBig = true
-        if (typeof fn === 'function') {
-          fn()
-        }
+        fn && fn()
         return
       }
 
       if (!this.$slots[side]) {
+        fn && fn()
         return
       }
 
@@ -114,9 +114,7 @@ export default {
       document.body.classList.add('with-layout-side-opened')
       state.openedSmall = true
       this.backdrop.percentage = 1
-      if (typeof fn === 'function') {
-        fn()
-      }
+      fn && fn()
     },
     __openLeftByTouch (evt) {
       this.__openByTouch(evt, 'left')
