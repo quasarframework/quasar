@@ -37,7 +37,6 @@
 
       <h2>NO templates</h2>
       <q-table
-        compact
         dark
         class="bg-black"
         color="grey-3"
@@ -54,7 +53,6 @@
 
       <h2>body-cell-desc template</h2>
       <q-table
-        compact
         :data="data"
         :columns="columns"
         :title="title"

@@ -14,6 +14,7 @@
       :filter="filter"
       :color="color"
       row-key="name"
+      :pagination.sync="pagination"
       :selection="selection"
       :selected.sync="selected"
       :loader="loader"
@@ -25,6 +26,8 @@
 </template>
 
 <script>
+import { clone, uid } from 'quasar'
+
 export default {
   data () {
     return {
@@ -36,9 +39,9 @@ export default {
       selected: [],
       selection: 'multiple',
 
-      serverPagination: {
+      pagination: {
         page: 1,
-        rowsNumber: 10
+        rowsNumber: 50
       },
       serverData: [],
 
@@ -168,9 +171,19 @@ export default {
   },
   computed: {
     xxl () {
-      let data = this.data
-      for (let i = 0; i < 50; i++) {
-        data = data.concat(this.data)
+      const rand = () => Math.floor((Math.random() % 450) * 450)
+      let data = clone(this.data)
+      for (let i = 0; i < 500; i++) {
+        data.push({
+          name: uid(),
+          calories: rand(),
+          fat: rand(),
+          carbs: rand(),
+          protein: rand(),
+          sodium: rand(),
+          calcium: rand(),
+          iron: rand()
+        })
       }
       return data
     }

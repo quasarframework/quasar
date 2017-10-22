@@ -1,7 +1,6 @@
-.q-table
+.q-table-container
   border-radius $table-border-radius
   box-shadow $table-box-shadow
-  overflow hidden
   position relative
 
 .q-table-top
@@ -62,7 +61,6 @@
 .q-table
   width 100%
   max-width 100%
-  overflow hidden
   border-collapse collapse
   border-spacing 0
 
@@ -130,7 +128,7 @@
 /*
  * Compact size
  */
-.q-table-compact
+@media (max-width $breakpoint-sm-max)
   .q-table-top
     min-height 54px
   .q-table-top, .q-table-bottom
@@ -138,25 +136,24 @@
     padding-right 10px
   .q-table-bottom
     min-height 47px
-.q-table-compact
+
   .q-table-sort-icon
     font-size 110%
-  th, td
-    padding 5px 10px
-  thead tr
-    height 42px
-  tbody td
-    height 32px
+  .q-table
+    th, td
+      padding 5px 8px
+    thead tr, tbody td
+      height 42px
 
 /*
  * On light background
  */
-.q-table
-  color $table-color
 .q-table-bottom // @stylint ignore
   color $table-header-color
   border-top 1px solid $table-border-color
+
 .q-table // @stylint ignore
+  color $table-color
   thead, tr, th, td
     border-color $table-border-color
   th
@@ -174,10 +171,11 @@
  */
 .q-table-dark
   color $table-dark-color
-  .q-table-bottom
+
+  .q-table-bottom, .q-table-top
     color $table-dark-header-color
     border-top 1px solid $table-dark-border-color
-.q-table-dark
+
   thead, tr, th, td
     border-color $table-dark-border-color
   th

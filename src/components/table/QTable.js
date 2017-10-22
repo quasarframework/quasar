@@ -46,7 +46,6 @@ export default {
     noHeader: Boolean,
     noBottom: Boolean,
     dark: Boolean,
-    compact: Boolean,
     separator: {
       type: String,
       default: 'horizontal',
@@ -128,25 +127,14 @@ export default {
     return h('div',
       {
         'class': {
-          'q-table': true,
-          'q-table-dark': this.dark,
-          'q-table-compact': this.compact
+          'q-table-container': true,
+          'q-table-dark': this.dark
         }
       },
       [
         this.getTop(h),
         h('div', { staticClass: 'q-table-middle scroll', 'class': this.tableClass, style: this.tableStyle }, [
-          h('table',
-            {
-              'class': [
-                `q-table-${this.separator}-separator`,
-                {
-                  'q-table': true,
-                  'q-table-dark': this.dark,
-                  'q-table-compact': this.compact
-                }
-              ]
-            },
+          h('table', { staticClass: `q-table q-table-${this.separator}-separator${this.dark ? ' q-table-dark' : ''}` },
             [
               this.getTableHeader(h),
               this.getTableBody(h),

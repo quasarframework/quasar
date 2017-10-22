@@ -28,14 +28,6 @@
       row-key="name"
     />
 
-    <h4>Compact</h4>
-    <q-table
-      compact
-      :data="data"
-      :columns="columns"
-      row-key="name"
-    />
-
     <h4>Dark</h4>
     <q-table
       dark
