@@ -151,17 +151,18 @@ export default {
   },
   methods: {
     trigger (handler, preventClose) {
-      const handlerFn = typeof handler === 'function'
-      if (!handlerFn) {
+      if (typeof handler !== 'function') {
         this.close()
         return
       }
 
+      const data = this.getFormData()
+
       if (preventClose) {
-        handler(this.getFormData(), this.close)
+        handler(data, this.close)
       }
       else {
-        this.close(() => { handler(this.getFormData()) })
+        this.close(() => { handler(data) })
       }
     },
     getFormData () {
