@@ -107,7 +107,7 @@ export default {
       }
     }
   },
-  mounted () {
+  created () {
     this.__stepper.__registerStep(this)
     if (this.default) {
       this.select()

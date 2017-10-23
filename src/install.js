@@ -1,3 +1,4 @@
+
 import Platform from './features/platform'
 import { installEvents } from './features/events'
 import { version } from '../package.json'

@@ -2,8 +2,8 @@
   <div>
     <div class="layout-padding">
       <p class="caption">
-        <span class="desktop-only">Click</span>
-        <span class="mobile-only">Tap</span>
+        <span v-show="$q.platform.is.desktop">Click</span>
+        <span v-show="$q.platform.is.mobile">Tap</span>
         to switch between fullscreen mode and default mode.
       </p>
 

@@ -5,14 +5,14 @@ import Vue from 'vue'
 import Quasar, * as Everything from 'quasar'
 
 import App from './App'
-import router from './router'
+import router, { appContext } from './router'
 
 if (__THEME__ === 'mat') {
-  require('quasar-extras/roboto-font')
+  require('quasar-extras/roboto-font/roboto-font.css')
 }
-import 'quasar-extras/material-icons'
-import 'quasar-extras/ionicons'
-import 'quasar-extras/fontawesome'
+import 'quasar-extras/material-icons/material-icons.css'
+import 'quasar-extras/ionicons/ionicons.css'
+import 'quasar-extras/fontawesome/fontawesome.css'
 import 'quasar-extras/animate'
 
 Vue.use(Quasar, {
@@ -20,11 +20,25 @@ Vue.use(Quasar, {
   directives: Everything
 })
 
-Quasar.start(() => {
-  /* eslint-disable no-new */
-  new Vue({
-    el: '#q-app',
-    router,
-    render: h => h(App)
-  })
+const app = new Vue({
+  router,
+  render: h => h(App)
 })
+
+if (Vue.prototype.$isServer) {
+  app.$mount('#q-app')
+}
+else {
+  Quasar.start(() => {
+    /* eslint-disable no-new */
+    router.onReady(() => {
+      app.$mount('#q-app')
+    })
+  })
+}
+
+export default {
+  router,
+  app,
+  appContext
+}

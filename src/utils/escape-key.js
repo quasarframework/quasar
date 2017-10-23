@@ -1,8 +1,8 @@
-import Platform from '../features/platform'
+import Platform, { isServer } from '../features/platform'
 
 let handlers = []
 
-if (Platform.is.desktop) {
+if (!isServer && Platform.is.desktop) {
   window.addEventListener('keyup', evt => {
     if (handlers.length === 0) {
       return

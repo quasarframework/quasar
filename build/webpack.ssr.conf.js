@@ -1,31 +1,34 @@
-var
-  path = require('path'),
+var 
   webpack = require('webpack'),
-  cssUtils = require('./css-utils'),
   env = require('./env-utils'),
-  HtmlWebpackPlugin = require('html-webpack-plugin'),
-  ProgressBarPlugin = require('progress-bar-webpack-plugin'),
-  projectRoot = path.resolve(__dirname, '../'),
-  entry = ['./build/hot-reload', './src/ie-compat/ie.js', './dev/main.js'],
   merge = require('webpack-merge'),
+  cssUtils = require('./css-utils'),
+  { cloneDeep } = require('lodash'),
+  VueSSRServerPlugin = require('vue-server-renderer/server-plugin'),
+  nodeExternals = require('webpack-node-externals'),
+  ExtractTextPlugin = require('extract-text-webpack-plugin'),
+  path = require('path'),
   FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
+
+const projectRoot = path.resolve(__dirname, '../')
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
 module.exports = {
-  devtool: '#eval-source-map',
-  devServer: {
-    historyApiFallback: true,
-    noInfo: true
-  },
+  target: 'node',
+  watch: true,
+  devtool: env.prod
+    ? false
+    : 'source-map',
   entry: {
-    app: entry
+    app: path.resolve(__dirname, '../dev', 'server-entry.js')
   },
   output: {
+    libraryTarget: 'commonjs2',
+    path: path.resolve(__dirname, '../tmp'),
     publicPath: '/',
-    filename: '[name].js'
   },
   resolve: {
     extensions: [`.${env.platform.theme}.js`, '.js', `.${env.platform.theme}.vue`, '.vue'],
@@ -41,18 +44,22 @@ module.exports = {
       data: resolve('dev/data')
     }
   },
+  // https://webpack.js.org/configuration/externals/#function
+  // https://github.com/liady/webpack-node-externals
+  // Externalize app dependencies. This makes the server build much faster
+  // and generates a smaller bundle file.
+  // externals: nodeExternals({
+  //   // do not externalize dependencies that need to be processed by webpack.
+  //   // you can add more file types here e.g. raw *.vue files
+  //   // you should also whitelist deps that modifies `global` (e.g. polyfills)
+  //   whitelist: /(\.css$|\.less$|\.sass$|\.scss$|\.styl$|\.stylus$|\.(png|jpe?g|gif|svg)(\?.*)?$|\.(woff2?|eot|ttf|otf)(\?.*)?$)/
+  // }),
   module: {
-    rules: [
-      { // eslint
-        enforce: 'pre',
-        test: /\.(vue|js)$/,
-        loader: 'eslint-loader',
-        include: projectRoot,
-        exclude: /node_modules/,
-        options: {
-          formatter: require('eslint-friendly-formatter')
-        }
-      },
+    rules: cssUtils.styleRules({
+      sourceMap: false,
+      extract: false,
+      postcss: true
+    }).concat([
       {
         test: /\.js$/,
         loader: 'babel-loader',
@@ -64,22 +71,18 @@ module.exports = {
         loader: 'vue-loader',
         options: {
           postcss: cssUtils.postcss,
-          loaders: merge(
-            {js: 'babel-loader'},
-            cssUtils.styleLoaders({sourceMap: true})
-          )
+          loaders: merge({js: 'babel-loader'}, cssUtils.styleLoaders({
+            sourceMap: false,
+            extract: false
+          }))
         }
-      },
-      {
-        test: /\.svg$/,
-        loader: 'raw'
       },
       {
         test: /\.json$/,
         loader: 'json-loader'
       },
       {
-        test: /\.(png|jpe?g|gif)(\?.*)?$/,
+        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
         options: {
           limit: 10000,
@@ -94,35 +97,30 @@ module.exports = {
           name: 'fonts/[name].[hash:7].[ext]'
         }
       }
-    ].concat(cssUtils.styleRules({sourceMap: true, postcss: true}))
+    ])
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
+    new VueSSRServerPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: '"development"'
       },
       '__THEME__': JSON.stringify(env.platform.theme)
     }),
-    new webpack.NoEmitOnErrorsPlugin(),
-    new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: 'dev/index.html',
-      inject: true
-    }),
     new webpack.LoaderOptionsPlugin({
+      minimize: false,
       options: {
         context: resolve('dev'),
-        eslint: {
-          formatter: require('eslint-friendly-formatter')
-        },
         postcss: cssUtils.postcss
       }
     }),
-    new ProgressBarPlugin({
-      format: ' [:bar] ' + ':percent'.bold + ' (:msg)'
-    }),
-    new FriendlyErrorsPlugin()
+    // new ExtractTextPlugin({
+    //   filename: '[name].[contenthash].css'
+    // }),
+    new webpack.NoEmitOnErrorsPlugin(),
+    new FriendlyErrorsPlugin({
+      clearConsole: true
+    })
   ],
   performance: {
     hints: false

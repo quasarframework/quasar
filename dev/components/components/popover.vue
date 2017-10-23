@@ -51,10 +51,10 @@
           </q-card-title>
 
           <p class="caption text-center">Configure the Popover for button above.</p>
-          <p class="text-center">
+          <div class="text-center">
             <q-chip tag color="primary">anchor="{{anchor}}"</q-chip>
             <q-chip tag color="primary">self="{{self}}"</q-chip>
-          </p>
+          </div>
           <q-card-main class="row">
             <div class="column items-center col-6">
               <p class="caption">Anchor Origin</p>
@@ -105,11 +105,12 @@
             >
           </q-popover>
         </q-btn>
-
+  
         <q-btn color="tertiary" class="fixed-bottom-right" icon="plus_one" style="bottom: 10px; right: 16px;">
           <q-popover ref="popover4">
             <div class="group" style="width: 220px; text-align: center;">
-              <q-btn icon="thumb_up" flat color="primary" @click="showToast(), $refs.popover4.close()" />
+              <!-- Causing SSR render problems -->
+              <q-btn flat color="primary" @click="showToast(), $refs.popover4.close()" />
               <q-btn icon="thumb_down" flat color="primary" @click="showToast(), $refs.popover4.close()" />
               <q-btn icon="share" flat color="secondary" @click="showToast(), $refs.popover4.close()" />
             </div>

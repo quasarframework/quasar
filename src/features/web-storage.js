@@ -1,3 +1,4 @@
+import { isServer } from './platform'
 
 function encode (value) {
   if (Object.prototype.toString.call(value) === '[object Date]') {
@@ -67,6 +68,12 @@ function decode (value) {
 }
 
 function generateFunctions (fn) {
+  if (isServer) {
+    return {
+      local: () => {},
+      session: () => {}
+    }
+  }
   return {
     local: fn('local'),
     session: fn('session')

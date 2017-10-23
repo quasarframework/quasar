@@ -61,7 +61,7 @@ export default {
   },
   render (h) {
     return h('div', {
-      staticClass: 'q-popover animate-scale',
+      staticClass: 'q-popover animate-scale server-hide',
       style: this.transformCSS,
       on: {
         click (e) { e.stopPropagation() }

@@ -1,18 +1,22 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
-import pages from './pages'
+import {
+  Platform,
+  getPlatform
+} from 'quasar'
 
 Vue.use(VueRouter)
 
+import pages from './pages'
+
 function load (component) {
-  return () => import(`./components/${component}.vue`)
+  return require(`./components/${component}.vue`).default
 }
 
 function component (path) {
   return {
     path: '/' + path.slice(0, path.length - 4),
-    component: () => import(`./components/${path}`)
+    component: require(`./components/${path}`).default
   }
 }
 
@@ -46,7 +50,21 @@ pages.filter(page => page.indexOf('test-layout') === -1).forEach(page => {
 
 routes.push({path: '*', component: load('error404')})
 
-export default new VueRouter({
-  // mode: 'history',
+const router = new VueRouter({
+  mode: 'history',
   routes
 })
+
+var appContext = {
+  userAgent: ''
+}
+
+router.beforeEach((to, from, next) => {
+  Platform.is = getPlatform(appContext.userAgent)
+  next()
+})
+
+export default router
+export {
+  appContext
+}

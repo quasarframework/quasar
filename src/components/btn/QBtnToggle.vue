@@ -12,7 +12,7 @@
     >
       <q-icon v-if="icon" :name="icon" :class="{'on-left': label && !round}"></q-icon>
       <span v-if="label && !round">{{ label }}</span>
-      <slot></slot>
+      <span><slot></slot></span>
       <q-icon v-if="!round && iconRight" :name="iconRight" class="on-right"></q-icon>
     </span>
   </button>
