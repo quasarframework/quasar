@@ -186,7 +186,7 @@ export default {
       }
       this.$refs.dialog.close(() => {
         if (typeof fn === 'function') {
-          fn()
+          fn(this.getFormData())
         }
       })
     },
@@ -196,7 +196,7 @@ export default {
     __dismiss () {
       this.$root.$destroy()
       if (typeof this.onDismiss === 'function') {
-        this.onDismiss()
+        this.onDismiss(this.getFormData())
       }
     }
   },
