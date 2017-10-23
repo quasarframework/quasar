@@ -146,7 +146,9 @@ export default {
     })
   },
   beforeDestroy () {
-    if (!this.anchorEl) return
+    if (!this.anchorEl) {
+      return
+    }
     if (Platform.is.mobile) {
       this.anchorEl.removeEventListener('click', this.open)
     }
