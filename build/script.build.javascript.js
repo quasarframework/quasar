@@ -5,7 +5,7 @@ const
   path = require('path'),
 
   rollup = require('rollup'),
-  uglify = require('uglify-js'),
+  uglify = require('uglify-es'),
   buble = require('rollup-plugin-buble'),
   json = require('rollup-plugin-json'),
   vue = require('rollup-plugin-vue'),
