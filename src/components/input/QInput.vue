@@ -29,7 +29,7 @@
         <textarea
           class="col q-input-target q-input-shadow absolute-top"
           ref="shadow"
-          :value="value"
+          :value="model"
           :rows="minRows"
         ></textarea>
 
@@ -45,11 +45,11 @@
           :rows="minRows"
           v-bind="attributes"
 
-          :value="value"
+          :value="model"
           @input="__set"
 
           @focus="__onFocus"
-          @blur="__onBlur"
+          @blur="__onInputBlur"
           @keydown="__onKeydown"
           @keyup="__onKeyup"
         ></textarea>
@@ -75,11 +75,11 @@
       :step="inputStep"
 
       :type="inputType"
-      :value="value"
+      :value="model"
       @input="__set"
 
       @focus="__onFocus"
-      @blur="__onBlur"
+      @blur="__onInputBlur"
       @keydown="__onKeydown"
       @keyup="__onKeyup"
     />
@@ -130,6 +130,10 @@ export default {
     QSpinner,
     QResizeObservable
   },
+  model: {
+    prop: 'value',
+    event: 'input'
+  },
   props: {
     value: { required: true },
     type: {
@@ -153,17 +157,17 @@ export default {
   },
   data () {
     return {
-      focused: false,
       showPass: false,
+      model: this.value,
       shadow: {
-        val: this.value,
+        val: this.model,
         set: this.__set,
         loading: false,
         hasFocus: () => {
           return document.activeElement === this.$refs.input
         },
         register: () => {
-          this.watcher = this.$watch('value', val => {
+          this.watcher = this.$watch('model', val => {
             this.shadow.val = val
           })
         },
@@ -174,6 +178,11 @@ export default {
           return this.$refs.input
         }
       }
+    }
+  },
+  watch: {
+    value (v) {
+      this.model = v
     }
   },
   provide () {
@@ -210,8 +219,8 @@ export default {
         : this.type
     },
     length () {
-      return this.value || (this.isNumber && this.value !== null)
-        ? ('' + this.value).length
+      return this.model !== null && this.model !== undefined
+        ? ('' + this.model).length
         : 0
     },
     editable () {
@@ -223,9 +232,11 @@ export default {
       this.showPass = !this.showPass
     },
     clear () {
+      clearTimeout(this.timer)
+      this.focus()
       if (this.editable) {
+        this.model = ''
         this.$emit('input', '')
-        this.$emit('change', '')
       }
     },
 
@@ -242,8 +253,8 @@ export default {
               : parseFloat(val)
           }
         }
+        this.model = val
         this.$emit('input', val)
-        this.$emit('change', val)
       }
     },
     __updateArea () {
@@ -259,7 +270,7 @@ export default {
     this.__updateArea = frameDebounce(this.__updateArea)
     if (this.isTextarea) {
       this.__updateArea()
-      this.watcher = this.$watch('value', this.__updateArea)
+      this.watcher = this.$watch('model', this.__updateArea)
     }
   },
   beforeDestroy () {

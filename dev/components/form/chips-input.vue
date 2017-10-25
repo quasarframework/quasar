@@ -19,6 +19,9 @@
         <q-chips-input dark color="amber" float-label="Float Label" v-model="model" placeholder="Some placeholder" />
       </div>
 
+      <p class="caption">v-model.lazy</p>
+      <q-chips-input :value="model" @change="val => { model = val; onChange(val) }"/>
+
       <p class="caption">Disabled State</p>
       <q-chips-input v-model="model" disable/>
 

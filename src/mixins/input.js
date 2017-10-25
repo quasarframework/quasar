@@ -7,6 +7,12 @@ export default {
     placeholder: String,
     loading: Boolean
   },
+  data () {
+    return {
+      focused: false,
+      timer: null
+    }
+  },
   computed: {
     inputPlaceholder () {
       if ((!this.floatLabel && !this.stackLabel) || this.labelIsAbove) {
@@ -31,9 +37,19 @@ export default {
       this.focused = true
       this.$emit('focus', e)
     },
+    __onInputBlur (e) {
+      clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
+        this.__onBlur(e)
+      }, 200)
+    },
     __onBlur (e) {
       this.focused = false
       this.$emit('blur', e)
+      if (JSON.stringify(this.model) !== JSON.stringify(this.value)) {
+        this.$emit('input', this.model)
+        this.$emit('change', this.model)
+      }
     },
     __onKeydown (e) {
       this.$emit('keydown', e)
@@ -53,5 +69,8 @@ export default {
         input.focus()
       }
     })
+  },
+  beforeDestroy () {
+    clearTimeout(this.timer)
   }
 }

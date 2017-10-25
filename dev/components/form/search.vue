@@ -29,6 +29,12 @@
       </div>
       <q-search v-model="number" type="number" color="positive" style="margin-top: 15px"></q-search>
 
+      <p class="caption">v-model.lazy: "{{search}}"</p>
+      <q-search :value="search" @change="val => { search = val; onChange(val) }" color="primary"></q-search>
+
+      <p class="caption">v-model.trim: "{{search}}"</p>
+      <q-search v-model.trim="search" color="primary"></q-search>
+
       <p class="caption">Disabled State</p>
       <q-search v-model="search" color="primary" disable></q-search>
 

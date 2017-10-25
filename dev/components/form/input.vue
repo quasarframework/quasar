@@ -23,6 +23,20 @@
       <q-input v-model="text" float-label="Has warning" warning />
       <q-input v-model="text" float-label="Has both error and warning" error warning />
 
+      <p class="caption">False initial value</p>
+      <q-input v-model="textFalse" float-label="Some placeholder" />
+      <q-input v-model="textFalse" stack-label="Some placeholder" />
+
+      <p class="caption">Zero initial value</p>
+      <q-input v-model="textZero" float-label="Some placeholder" />
+      <q-input v-model="textZero" stack-label="Some placeholder" />
+
+      <p class="caption">v-model.lazy: "{{text}}"</p>
+      <q-input :value="text" @change="val => { text = val }" clearable placeholder="Some placeholder" />
+
+      <p class="caption">v-model.trim: "{{text}}"</p>
+      <q-input v-model.trim="text" clearable placeholder="Some placeholder" />
+
       <p class="caption">Inverted Inputs</p>
       <q-input v-model="text" :error="error" inverted color="secondary" type="password" clearable placeholder="Some placeholder" :after="[{icon: 'warning', error: true, handler () {}}]" />
       <q-input v-model="text" inverted stack-label="Colored" color="amber" />
@@ -148,6 +162,8 @@ export default {
   data () {
     return {
       text: '',
+      textFalse: false,
+      textZero: '0',
       number: null,
       area: '',
       focus: false,

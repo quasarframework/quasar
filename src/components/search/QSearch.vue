@@ -49,6 +49,10 @@ export default {
   directives: {
     Ripple
   },
+  model: {
+    prop: 'value',
+    event: 'input'
+  },
   props: {
     value: { required: true },
     type: String,
@@ -68,19 +72,15 @@ export default {
   data () {
     return {
       model: this.value,
-      focused: false,
-      childDebounce: false,
-      timer: null,
-      isEmpty: !this.value && this.value !== 0
+      childDebounce: false
     }
   },
   provide () {
     return {
       __inputDebounce: {
         set: val => {
-          if (this.value !== val) {
-            this.$emit('input', val)
-            this.$emit('change', val)
+          if (this.model !== val) {
+            this.model = val
           }
         },
         setChildDebounce: v => {
@@ -99,13 +99,10 @@ export default {
         return
       }
       if (!val && val !== 0) {
-        this.$emit('input', '')
-        this.$emit('change', '')
-        return
+        this.model = ''
       }
       this.timer = setTimeout(() => {
-        this.$emit('input', val)
-        this.$emit('change', val)
+        this.$emit('input', this.model)
       }, this.debounceValue)
     }
   },
@@ -122,23 +119,14 @@ export default {
       return this.after || [{
         icon: this.inverted ? 'clear' : 'cancel',
         content: true,
-        handler: this.clearAndFocus
+        handler: this.clear
       }]
     }
   },
   methods: {
     clear () {
-      if (!this.disable) {
-        this.model = ''
-      }
-    },
-    clearAndFocus () {
-      this.clear()
-      this.focus()
+      this.$refs.input.clear()
     }
-  },
-  beforeDestroy () {
-    clearTimeout(this.timer)
   }
 }
 </script>
