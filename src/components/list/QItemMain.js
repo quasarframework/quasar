@@ -21,7 +21,8 @@ export default {
     tag: {
       type: String,
       default: 'div'
-    }
+    },
+    disable: Boolean
   },
   render (h, ctx) {
     const
@@ -38,7 +39,7 @@ export default {
     }
 
     child.push(ctx.children)
-    data.staticClass = `q-item-main q-item-section${prop.inset ? ' q-item-main-inset' : ''}${classes ? ` ${classes}` : ''}`
+    data.staticClass = `q-item-main q-item-section${prop.inset ? ' q-item-main-inset' : ''}${prop.disable ? ' text-faded' : ''}${classes ? ` ${classes}` : ''}`
 
     return h(prop.tag, data, child)
   }

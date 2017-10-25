@@ -94,19 +94,21 @@
             :key="JSON.stringify(opt)"
             :cfg="opt"
             slot-replace
-            @click.capture="__toggleMultiple(opt.value)"
+            @click.capture="__toggleMultiple(opt.value, opt.disable)"
           >
             <q-toggle
               v-if="toggle"
               slot="right"
               :color="color"
               :value="optModel[opt.index]"
+              :disable="opt.disable"
             ></q-toggle>
             <q-checkbox
               v-else
               slot="left"
               :color="color"
               :value="optModel[opt.index]"
+              :disable="opt.disable"
             ></q-checkbox>
           </q-item-wrapper>
         </template>
@@ -117,7 +119,7 @@
             :cfg="opt"
             slot-replace
             :active="value === opt.value"
-            @click.capture="__singleSelect(opt.value)"
+            @click.capture="__singleSelect(opt.value, opt.disable)"
           >
             <q-radio
               v-if="radio"
@@ -125,6 +127,7 @@
               slot="left"
               :value="value"
               :val="opt.value"
+              :disable="opt.disable"
             ></q-radio>
           </q-item-wrapper>
         </template>
@@ -245,7 +248,10 @@ export default {
       this.$emit('blur')
       this.terms = ''
     },
-    __singleSelect (val) {
+    __singleSelect (val, disable) {
+      if (disable) {
+        return
+      }
       this.__emit(val)
       this.hide()
     }

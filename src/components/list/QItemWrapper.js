@@ -56,7 +56,8 @@ export default {
       sublabel: cfg.sublabel,
       labelLines: cfg.labelLines,
       sublabelLines: cfg.sublabelLines,
-      inset: cfg.inset
+      inset: cfg.inset,
+      disable: cfg.disable
     })
 
     push(child, h, QItemSide, slot.right, replace, {

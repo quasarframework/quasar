@@ -65,7 +65,10 @@ export default {
     }
   },
   methods: {
-    __toggleMultiple (value) {
+    __toggleMultiple (value, disable) {
+      if (disable) {
+        return
+      }
       const
         model = this.value,
         index = model.indexOf(value)
