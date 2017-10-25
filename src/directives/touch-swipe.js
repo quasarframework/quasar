@@ -145,8 +145,8 @@ export default {
   },
   unbind (el, binding) {
     let ctx = el.__qtouchswipe
-    el.removeEventListener('touchstart', ctx.start)
     el.removeEventListener('mousedown', ctx.start)
+    el.removeEventListener('touchstart', ctx.start)
     el.removeEventListener('touchmove', ctx.move)
     el.removeEventListener('touchend', ctx.end)
     delete el.__qtouchswipe
