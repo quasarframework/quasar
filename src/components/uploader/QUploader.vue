@@ -155,12 +155,7 @@ export default {
     multiple: Boolean,
     hideUploadButton: Boolean,
     hideUploadProgress: Boolean,
-    noThumbnails: Boolean,
-
-    color: {
-      type: String,
-      default: 'primary'
-    }
+    noThumbnails: Boolean
   },
   data () {
     return {
@@ -332,7 +327,7 @@ export default {
     },
     upload () {
       const length = this.length
-      if (length === 0) {
+      if (this.disable || length === 0) {
         return
       }
 
