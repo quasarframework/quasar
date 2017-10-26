@@ -130,10 +130,6 @@ export default {
     QSpinner,
     QResizeObservable
   },
-  model: {
-    prop: 'value',
-    event: 'input'
-  },
   props: {
     value: { required: true },
     type: {

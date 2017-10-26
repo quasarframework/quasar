@@ -49,10 +49,6 @@ export default {
   directives: {
     Ripple
   },
-  model: {
-    prop: 'value',
-    event: 'input'
-  },
   props: {
     value: { required: true },
     type: String,

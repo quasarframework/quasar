@@ -74,10 +74,6 @@ export default {
     QInputFrame,
     QChip
   },
-  model: {
-    prop: 'value',
-    event: 'input'
-  },
   props: {
     value: {
       type: Array,
