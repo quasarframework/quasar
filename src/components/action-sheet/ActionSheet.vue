@@ -6,7 +6,7 @@
     @close="__dismiss()"
   >
     <!-- Material -->
-    <div v-once v-if="$q.theme === 'mat'">
+    <div v-if="$q.theme === 'mat'">
       <div v-if="title" class="modal-header" v-html="title"></div>
 
       <div class="modal-scroll">
@@ -128,9 +128,6 @@ export default {
     dismiss: Object
   },
   computed: {
-    opened () {
-      return this.$refs.dialog.active
-    },
     actionButtons () {
       return this.buttons.slice(0, this.buttons.length - 2)
     },
@@ -145,7 +142,7 @@ export default {
   },
   methods: {
     close (fn) {
-      if (!this.opened) {
+      if (!this.$refs.dialog.active) {
         return
       }
       const hasFn = typeof fn === 'function'
