@@ -14,22 +14,22 @@
 
       <p class="caption">Single Selection with Radio</p>
       <q-field label="gogu">
-        <q-select @change="onChange" v-model="select" float-label="Gogu" radio :options="selectListOptions" :count="10"></q-select>
+        <q-select @change="onChange" @input="onInput" v-model="select" float-label="Gogu" radio :options="selectListOptions" :count="10"></q-select>
       </q-field>
       <q-field label="gogu">
-        <q-select @change="onChange" v-model="select" float-label="Gogu" radio :options="selectDisabledOptions" :count="10"></q-select>
+        <q-select @change="onChange" @input="onInput" v-model="select" float-label="Gogu" radio :options="selectDisabledOptions" :count="10"></q-select>
       </q-field>
 
       <p class="caption">Multiple Selection</p>
-      <q-select @change="onChange" multiple v-model="multipleSelect" :options="selectListOptions"></q-select>
-      <q-select @change="onChange" multiple v-model="multipleSelect" :options="selectDisabledOptions"></q-select>
+      <q-select @change="onChange" @input="onInput" multiple v-model="multipleSelect" :options="selectListOptions"></q-select>
+      <q-select @change="onChange" @input="onInput" multiple v-model="multipleSelect" :options="selectDisabledOptions"></q-select>
 
       <p class="caption">Multiple Selection with Chips</p>
       <q-field label="gogu" :count="10">
-        <q-select @change="onChange" multiple chips v-model="multipleSelect" :options="selectListOptions" float-label="Some label" max-height="36px"></q-select>
+        <q-select @change="onChange" @input="onInput" multiple chips v-model="multipleSelect" :options="selectListOptions" float-label="Some label" max-height="36px"></q-select>
       </q-field>
       <q-field label="gogu" :count="10">
-        <q-select @change="onChange" multiple v-model="multipleSelect" :options="selectListOptions" float-label="Some label" max-height="36px"></q-select>
+        <q-select @change="onChange" @input="onInput" multiple v-model="multipleSelect" :options="selectListOptions" float-label="Some label" max-height="36px"></q-select>
       </q-field>
       <q-select inverted color="dark" frame-color="amber" multiple chips v-model="multipleSelect" :options="selectListOptions" float-label="Some label" max-height="36px"></q-select>
       <q-select inverted color="dark" frame-color="amber" multiple chips v-model="multipleSelect" :options="selectDisabledOptions" float-label="Some label" max-height="36px"></q-select>
@@ -348,6 +348,9 @@ export default {
   methods: {
     onChange (v) {
       console.log('@change', v)
+    },
+    onInput (v) {
+      console.log('@input', v)
     }
   }
 }
