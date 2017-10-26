@@ -1,3 +1,5 @@
+import { isServer } from '../features/platform'
+
 export const routerLinkEventName = 'qrouterlinkclick'
 
 let evt
@@ -7,8 +9,10 @@ try {
 }
 catch (e) {
   // IE doesn't support `new Event()`, so...`
-  evt = document.createEvent('Event')
-  evt.initEvent(routerLinkEventName, true, false)
+  if (!isServer) {
+    evt = document.createEvent('Event')
+    evt.initEvent(routerLinkEventName, true, false)
+  }
 }
 
 export { evt as routerLinkEvent }

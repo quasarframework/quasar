@@ -1,3 +1,5 @@
+import { isServer } from '../features/platform'
+
 export function offset (el) {
   if (el === window) {
     return {top: 0, left: 0}
@@ -50,7 +52,7 @@ export function viewport () {
 }
 
 export function ready (fn) {
-  if (typeof fn !== 'function') {
+  if (isServer || typeof fn !== 'function') {
     return
   }
 

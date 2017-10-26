@@ -6,7 +6,7 @@ export default {
       inFullscreen: false
     }
   },
-  created () {
+  beforeMount () {
     this.fillerNode = document.createElement('span')
   },
   methods: {

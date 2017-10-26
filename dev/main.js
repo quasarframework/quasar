@@ -8,11 +8,11 @@ import App from './App'
 import router from './router'
 
 if (__THEME__ === 'mat') {
-  require('quasar-extras/roboto-font')
+  require('quasar-extras/roboto-font/roboto-font.css')
 }
-import 'quasar-extras/material-icons'
-import 'quasar-extras/ionicons'
-import 'quasar-extras/fontawesome'
+import 'quasar-extras/material-icons/material-icons.css'
+import 'quasar-extras/ionicons/ionicons.css'
+import 'quasar-extras/fontawesome/fontawesome.css'
 import 'quasar-extras/animate'
 
 Vue.use(Quasar, {

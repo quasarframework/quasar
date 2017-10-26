@@ -8,17 +8,17 @@
         <span class="mobile-only">Tap</span>
         on the Toggle below to see the transition in action.
       </p>
-      <p>
+      <div>
         <q-toggle v-model="visible" label="Visible image" />
-      </p>
+      </div>
 
       <q-slide-transition>
-        <p v-show="visible" style="margin: 0">
+        <div v-show="visible" style="margin: 0">
           <img
             class="responsive"
             src="~assets/quasar.jpg"
           >
-        </p>
+        </div>
       </q-slide-transition>
     </div>
   </div>

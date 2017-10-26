@@ -1,7 +1,6 @@
 <template>
   <q-input-frame
     class="q-datetime-input"
-
     :prefix="prefix"
     :suffix="suffix"
     :stack-label="stackLabel"
@@ -23,7 +22,6 @@
     @blur.native="__onBlur"
   >
     <div class="col row items-center q-input-target" :class="alignClass" v-html="actualValue"></div>
-
     <q-popover
       v-if="usingPopover"
       ref="popup"
@@ -97,7 +95,6 @@
         </div>
       </q-inline-datetime>
     </q-modal>
-
     <q-icon slot="after" name="arrow_drop_down" class="q-if-control"></q-icon>
   </q-input-frame>
 </template>
