@@ -84,7 +84,6 @@
       </q-field-reset>
 
       <q-list
-        link
         :separator="separator"
         class="no-border scroll"
       >
@@ -93,6 +92,8 @@
             v-for="opt in visibleOptions"
             :key="JSON.stringify(opt)"
             :cfg="opt"
+            :link="!opt.disable"
+            :class="{'text-faded': opt.disable}"
             slot-replace
             @click.capture="__toggleMultiple(opt.value, opt.disable)"
           >
@@ -117,6 +118,8 @@
             v-for="opt in visibleOptions"
             :key="JSON.stringify(opt)"
             :cfg="opt"
+            :link="!opt.disable"
+            :class="{'text-faded': opt.disable}"
             slot-replace
             :active="value === opt.value"
             @click.capture="__singleSelect(opt.value, opt.disable)"
@@ -179,7 +182,7 @@ export default {
     optModel () {
       if (this.multiple) {
         return this.value.length > 0
-          ? this.options.map(opt => this.value.includes(opt.value))
+          ? this.options.map(opt => !opt.disable && this.value.includes(opt.value))
           : this.options.map(opt => false)
       }
     },
