@@ -107,14 +107,14 @@ export default {
     __show () {
       Events.$emit('app:toast', this.stack[0].html)
 
-      this.timer = setTimeout(() => {
+      this.timer = this.stack[0].timeout !== -1 ? setTimeout(() => {
         if (this.stack.length > 0) {
           this.dismiss()
         }
         else {
           this.inTransition = false
         }
-      }, transitionDuration + (this.stack[0].timeout || displayDuration))
+      }, transitionDuration + (this.stack[0].timeout || displayDuration)) : null
     },
     dismiss (done) {
       clearTimeout(this.timer)
