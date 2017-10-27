@@ -32,16 +32,16 @@ export default {
       }
     },
     top () {
-      return this.layout.offsetTop
+      return this.layout.header.offset
     },
     right () {
-      return this.layout.offsetRight
+      return this.layout.right.offset
     },
     bottom () {
-      return this.layout.offsetBottom
+      return this.layout.footer.offset
     },
     left () {
-      return this.layout.offsetLeft
+      return this.layout.left.offset
     },
     computedStyle () {
       const

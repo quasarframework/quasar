@@ -9,45 +9,53 @@ export default {
   },
   data () {
     return {
+      size: 0,
       revealed: true
     }
   },
   watch: {
-    'layout.scroll' (data) {
-      if (!this.reveal) {
-        return
-      }
-
-      this.__update('revealed',
-        data.direction === 'up' ||
-        data.position - data.inflexionPosition < 100 ||
-        this.layout.scrollHeight - this.layout.height - data.position < this.layout.footer.size + 300
-      )
+    value (val) {
+      this.__update('space', val)
+      this.layout.__animate()
     },
-    value: {
-      handler (val) {
-        this.__update('space', val)
-      },
-      immediate: true
+    offset (val) {
+      this.__update('offset', val)
     },
-    reveal: {
-      handler (val) {
-        this.__update('reveal', val)
-      },
-      immediate: true
+    revealed () {
+      this.layout.__animate()
+    },
+    'layout.scroll' () {
+      this.__updateRevealed()
+    },
+    'layout.scrollHeight' () {
+      this.__updateRevealed()
+    },
+    size () {
+      this.__updateRevealed()
     }
   },
   computed: {
-    computedClass () {
-      let cls = this.layout.fixed.footer
-        ? 'fixed-bottom'
-        : 'absolute-bottom'
-
-      if (!this.layout.footer.space || !this.layout.footer.revealed) {
-        cls += ' q-layout-footer-hidden'
+    fixed () {
+      console.log('fixed')
+      return this.reveal || this.layout.view.indexOf('F') > -1
+    },
+    offset () {
+      if (!this.value) {
+        return 0
       }
-
-      return cls
+      if (this.fixed) {
+        return this.revealed ? this.size : 0
+      }
+      const offset = this.layout.height + this.layout.scroll.position + this.size - this.layout.scrollHeight
+      return offset > 0 ? offset : 0
+    },
+    computedClass () {
+      return {
+        'fixed-bottom': this.fixed,
+        'absolute-bottom': !this.fixed,
+        'hidden': !this.value && !this.fixed,
+        'q-layout-footer-hidden': !this.value || (this.fixed && !this.revealed)
+      }
     },
     computedStyle () {
       const
@@ -77,18 +85,42 @@ export default {
       this.$slots.default
     ])
   },
+  created () {
+    this.__update('space', this.value)
+  },
   destroyed () {
-    this.layout.footer.size = 0
-    this.layout.footer.space = false
+    this.__update('size', 0)
+    this.__update('space', false)
   },
   methods: {
     __onResize ({ height }) {
+      this.__updateLocal('size', height)
       this.__update('size', height)
     },
     __update (prop, val) {
       if (this.layout.footer[prop] !== val) {
         this.layout.footer[prop] = val
       }
+    },
+    __updateLocal (prop, val) {
+      if (this[prop] !== val) {
+        this[prop] = val
+      }
+    },
+    __updateRevealed () {
+      if (!this.reveal) {
+        return
+      }
+      const
+        scroll = this.layout.scroll,
+        scrollHeight = this.layout.scrollHeight,
+        height = this.layout.height
+
+      this.__updateLocal('revealed',
+        scroll.direction === 'up' ||
+        scroll.position - scroll.inflexionPosition < 100 ||
+        scrollHeight - height - scroll.position < this.size + 300
+      )
     }
   }
 }

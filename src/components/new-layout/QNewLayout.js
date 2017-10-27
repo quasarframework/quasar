@@ -25,22 +25,22 @@ export default {
 
       header: {
         size: 0,
-        reveal: false,
-        revealed: true,
+        offset: 0,
         space: true
       },
       right: {
         size: 0,
+        offset: 0,
         space: true
       },
       footer: {
         size: 0,
-        reveal: false,
-        revealed: true,
+        offset: 0,
         space: true
       },
       left: {
         size: 0,
+        offset: 0,
         space: true
       },
 
@@ -51,65 +51,13 @@ export default {
       }
     }
   },
-  watch: {
-    'header.revealed' () {
-      this.__animate()
-    },
-    'footer.revealed' () {
-      this.__animate()
-    },
-    'left.space' () {
-      this.__animate()
-    },
-    'right.space' () {
-      this.__animate()
-    }
-  },
   computed: {
-    fixed () {
-      return {
-        header: this.header.reveal || this.view.indexOf('H') > -1,
-        footer: this.footer.reveal || this.view.indexOf('F') > -1,
-        left: this.view.indexOf('L') > -1,
-        right: this.view.indexOf('R') > -1
-      }
-    },
     rows () {
       const rows = this.view.toLowerCase().split(' ')
       return {
         top: rows[0].split(''),
         middle: rows[1].split(''),
         bottom: rows[2].split('')
-      }
-    },
-    offsetTop () {
-      if (!this.header.space) {
-        return 0
-      }
-      if (this.fixed.header) {
-        return this.header.revealed ? this.header.size : 0
-      }
-      const offset = this.header.size - this.scroll.position
-      return offset > 0 ? offset : 0
-    },
-    offsetBottom () {
-      if (!this.footer.space) {
-        return 0
-      }
-      if (this.fixed.footer) {
-        return this.footer.revealed ? this.footer.size : 0
-      }
-      const offset = this.height + this.scroll.position + this.footer.size - this.scrollHeight
-      return offset > 0 ? offset : 0
-    },
-    offsetLeft () {
-      if (this.left.space) {
-        return this.left.size
-      }
-    },
-    offsetRight () {
-      if (this.right.space) {
-        return this.right.size
       }
     }
   },
@@ -147,6 +95,7 @@ export default {
     },
     __onLayoutResize () {
       this.scrollHeight = getScrollHeight(this.$el)
+      this.$emit('scrollHeight', this.scrollHeight)
     },
     __onWindowResize ({ height, width }) {
       if (this.height !== height) {

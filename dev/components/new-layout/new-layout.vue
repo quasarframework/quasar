@@ -1,5 +1,5 @@
 <template>
-  <q-new-layout :view="view">
+  <q-new-layout :view="view" @scroll="onScroll">
     <q-layout-header v-model="header" :reveal="headerReveal">
       <q-toolbar>
         <q-btn flat icon="menu" />
@@ -17,14 +17,14 @@
         </q-toolbar-title>
         <q-btn flat icon="menu" />
       </q-toolbar>
-      <q-toolbar>
-        <q-btn flat icon="menu" />
-        <q-toolbar-title>
-          Header
-          <span slot="subtitle">The Subtiiiitleeee</span>
-        </q-toolbar-title>
-        <q-btn flat icon="menu" />
-      </q-toolbar>
+      <!--
+      <q-tabs>
+        <q-route-tab slot="title" icon="view_quilt" to="/test-layout/about" replace hide="icon" label="About" />
+        <q-route-tab slot="title" icon="view_day" to="/test-layout/toolbar" replace hide="label" label="Toolbar" />
+        <q-route-tab slot="title" icon="view_day" to="/test-layout/tabs" replace label="Tabs" />
+        <q-route-tab slot="title" icon="input" to="/test-layout/drawer" replace label="Drawer" />
+      </q-tabs>
+      -->
     </q-layout-header>
 
     <q-layout-footer v-model="footer" :reveal="footerReveal">
@@ -42,25 +42,21 @@
         </q-toolbar-title>
         <q-btn flat icon="menu" />
       </q-toolbar>
-      <q-toolbar>
-        <q-btn flat icon="menu" />
-        <q-toolbar-title>
-          Footer
-        </q-toolbar-title>
-        <q-btn flat icon="menu" />
-      </q-toolbar>
     </q-layout-footer>
 
     <q-layout-drawer v-model="left">
-      <div v-for="n in 10">{{n}} Left drawer</div>
+      <q-scroll-area style="width: 100%; height: 100%;" :thumb-style="{right: '4px', borderRadius: '2px', background: 'blue', opacity: .6, width: '4px'}">
+        <div v-for="n in 60">{{n}} Left drawer</div>
+      </q-scroll-area>
     </q-layout-drawer>
 
-
     <q-page-container>
-      <q-layout-drawer right-side v-model="right" class="bg-teal">
+      <!--
+      <q-layout-drawer right-side v-model="right">
         sdsfs
         <div v-for="n in 60">{{n}} Right drawer</div>
       </q-layout-drawer>
+    -->
       <q-page padding class="bg-yellow text-right">
         <q-toggle v-model="header" label="Header" /><br>
         <q-toggle v-model="footer" label="Footer" /><br>
@@ -161,19 +157,6 @@
         </q-page-sticky>
       </q-page>
     </q-page-container>
-
-    <!--
-    <q-layout-footer v-model="footer" :reveal="footerReveal">
-      <q-toolbar>
-        <q-btn flat icon="menu" />
-        <q-toolbar-title>
-          Footer
-          <span slot="subtitle">The Subtiiiitleeee</span>
-        </q-toolbar-title>
-        <q-btn flat icon="menu" />
-      </q-toolbar>
-    </q-layout-footer>
-    -->
   </q-new-layout>
 </template>
 
@@ -211,6 +194,11 @@ export default {
         bottom = `${this.bottomleft}${this.bottomcenter}${this.bottomright}`
 
       return `${top} ${middle} ${bottom}`
+    }
+  },
+  methods: {
+    onScroll (data) {
+      // console.log('scroll', data.position)
     }
   }
 }

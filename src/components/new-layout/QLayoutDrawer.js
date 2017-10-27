@@ -14,6 +14,7 @@ export default {
   props: {
     value: Boolean,
     rightSide: Boolean,
+    overlay: Boolean,
     breakpoint: {
       type: Number,
       default: 992
@@ -25,6 +26,7 @@ export default {
         ? this.value
         : false,
 
+      size: 300,
       inTransit: false,
       position: 0,
       percentage: 0,
@@ -38,6 +40,9 @@ export default {
       if (this.model !== val) {
         this.model = val
       }
+    },
+    offset (val) {
+      this.__update('offset', val)
     },
     model: {
       handler (val) {
@@ -62,38 +67,36 @@ export default {
         this.percentage = 0
       }
     },
-    onLayout: {
-      handler (val) {
-        console.log('onLayout changed to', val)
-        this.__update('space', val)
-      },
-      immediate: true
+    onLayout (val) {
+      console.log('onLayout changed to', val)
+      this.__update('space', val)
+      // this.layout.__animate()
     }
   },
   computed: {
     side () {
       return this.rightSide ? 'right' : 'left'
     },
+    offset () {
+      if (this.model) {
+        return this.size
+      }
+    },
+    fixed () {
+      return this.layout.view.indexOf(this.rightSide ? 'R' : 'L') > -1
+    },
     belowBreakpoint () {
       return this.breakpoint > this.layout.width
     },
     onLayout () {
-      return this.model && !this.belowBreakpoint
+      return !this.overlay && !this.belowBreakpoint && this.model
     },
     belowClass () {
       return {
         'fixed': true,
         'on-top': true,
         'transition-generic': !this.inTransit,
-        'top-padding': this.layout.fixed[this.side] || (this.rightSide ? this.layout.rows.top[2] === 'r' : this.layout.rows.top[0] === 'l')
-      }
-    },
-    aboveClass () {
-      return {
-        'on-layout': this.onLayout,
-        'transition-drawer': !this.inTransit,
-        'fixed': this.layout.fixed[this.side] || !this.onLayout,
-        'top-padding': this.layout.fixed[this.side] || (this.rightSide ? this.layout.rows.top[2] === 'r' : this.layout.rows.top[0] === 'l')
+        'top-padding': this.fixed || (this.rightSide ? this.layout.rows.top[2] === 'r' : this.layout.rows.top[0] === 'l')
       }
     },
     belowStyle () {
@@ -102,14 +105,23 @@ export default {
         : `translateX(${this.model ? 0 : `${this.rightSide ? '' : '-'}100%`})`
       )
     },
+    aboveClass () {
+      const onLayout = this.onLayout || (this.model && this.overlay)
+      return {
+        'off-layout': !onLayout,
+        'on-layout': onLayout,
+        'fixed': this.overlay || this.fixed || !this.onLayout,
+        'top-padding': this.fixed || (this.rightSide ? this.layout.rows.top[2] === 'r' : this.layout.rows.top[0] === 'l')
+      }
+    },
     aboveStyle () {
       const
         view = this.layout.rows,
-        css = cssTransform(`translateX(${this.onLayout ? 0 : `${this.rightSide ? '' : '-'}100%`})`)
+        css = {}
 
       if (this.layout.header.space && this.rightSide ? view.top[2] !== 'r' : view.top[0] !== 'l') {
-        if (this.layout.fixed[this.side]) {
-          css.top = `${this.layout.offsetTop}px`
+        if (this.fixed) {
+          css.top = `${this.layout.header.offset}px`
         }
         else if (this.layout.header.space) {
           css.top = `${this.layout.header.size}px`
@@ -117,8 +129,8 @@ export default {
       }
 
       if (this.layout.footer.space && this.rightSide ? view.bottom[2] !== 'r' : view.bottom[0] !== 'l') {
-        if (this.layout.fixed[this.side]) {
-          css.bottom = `${this.layout.offsetBottom}px`
+        if (this.fixed) {
+          css.bottom = `${this.layout.footer.offset}px`
         }
         else if (this.layout.footer.space) {
           css.bottom = `${this.layout.footer.size}px`
@@ -165,7 +177,7 @@ export default {
       }))
     }
 
-    return h('div', child.concat([
+    return h('div', { staticClass: 'q-drawer-container' }, child.concat([
       h('aside', {
         staticClass: `q-layout-drawer q-layout-drawer-${this.side} scroll`,
         'class': this.computedClass,
@@ -183,14 +195,14 @@ export default {
       ])
     ]))
   },
-  mounted () {
+  created () {
     if (this.value !== this.model) {
       this.$emit('input', this.model)
     }
   },
   destroyed () {
-    this.layout[this.side].size = 0
-    this.layout[this.side].space = false
+    this.__update('size', 0)
+    this.__update('space', false)
   },
   methods: {
     __openByTouch (evt) {
@@ -198,8 +210,7 @@ export default {
         return
       }
       const
-        side = this.side,
-        width = this.layout[side].size,
+        width = this.size,
         position = between(evt.distance.x, 0, width)
 
       if (evt.isFinal) {
@@ -252,7 +263,7 @@ export default {
         return
       }
       const
-        width = this.layout[this.side].size,
+        width = this.size,
         position = evt.direction === this.side
           ? between(evt.distance.x, 0, width)
           : 0
@@ -309,10 +320,16 @@ export default {
 
     __onResize ({ width }) {
       this.__update('size', width)
+      this.__updateLocal('size', width)
     },
     __update (prop, val) {
       if (this.layout[this.side][prop] !== val) {
         this.layout[this.side][prop] = val
+      }
+    },
+    __updateLocal (prop, val) {
+      if (this[prop] !== val) {
+        this[prop] = val
       }
     }
   }

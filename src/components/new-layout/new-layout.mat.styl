@@ -26,9 +26,17 @@
 .q-layout-drawer-left
   left 0
   width $layout-aside-left-width
+  &.off-layout
+    transform translateX(-100%)
+  &.on-layout
+    transform translateX(0)
 .q-layout-drawer-right
   right 0
   width $layout-aside-right-width
+  &.off-layout
+    transform translateX(100%)
+  &.on-layout
+    transform translateX(0)
 
 main, .q-layout, .q-layout-header, .q-layout-footer
   position relative
