@@ -30,13 +30,13 @@
       :class="alignClass"
     >
       <q-chip
-        v-for="{label, value} in selectedOptions"
+        v-for="{label, value, disable: optDisable} in selectedOptions"
         :key="label"
         small
-        :closable="!disable"
+        :closable="!disable && !optDisable"
         :color="color"
         @click.native.stop
-        @hide="__toggleMultiple(value)"
+        @hide="__toggleMultiple(value, disable || optDisable)"
       >
         {{ label }}
       </q-chip>
@@ -182,7 +182,7 @@ export default {
     optModel () {
       if (this.multiple) {
         return this.value.length > 0
-          ? this.options.map(opt => !opt.disable && this.value.includes(opt.value))
+          ? this.options.map(opt => this.value.includes(opt.value))
           : this.options.map(opt => false)
       }
     },

@@ -38,7 +38,7 @@ export default {
         return this.displayValue
       }
       if (!this.multiple) {
-        const opt = this.options.find(opt => (!opt.disable && opt.value === this.value))
+        const opt = this.options.find(opt => opt.value === this.value)
         return opt ? opt.label : ''
       }
 
@@ -48,7 +48,7 @@ export default {
     selectedOptions () {
       if (this.multiple) {
         return this.length > 0
-          ? this.options.filter(opt => (!opt.disable && this.value.includes(opt.value)))
+          ? this.options.filter(opt => this.value.includes(opt.value))
           : []
       }
     },
