@@ -4,7 +4,7 @@ export function debounce (fn, wait = 250, immediate) {
 
   // Prevents execution of debounced function, or noop if
   // never invoked/already executed
-  function cancel() {
+  function cancel () {
     if (timeout) {
       clearTimeout(timeout)
     }
