@@ -86,6 +86,32 @@ function shouldTrigger (ctx, changes) {
   }
 }
 
+function shouldCapture (ctx, evt) {
+  return (
+    !evt._preventDirections ||
+    (
+      (!evt._preventDirections.horizontal || !ctx.direction.horizontal) &&
+      (!evt._preventDirections.vertical || !ctx.direction.vertical)
+    )
+  )
+}
+
+function preventCapturingBySimilarParents (ctx, evt) {
+  if (!evt._preventDirections) {
+    evt._preventDirections = {
+      horizontal: false,
+      vertical: false
+    }
+  }
+
+  if (ctx.direction.horizontal) {
+    evt._preventDirections.horizontal = true
+  }
+  if (ctx.direction.vertical) {
+    evt._preventDirections.vertical = true
+  }
+}
+
 export default {
   name: 'touch-pan',
   bind (el, binding) {
@@ -95,9 +121,13 @@ export default {
       handler: binding.value,
       scroll: binding.modifiers.scroll,
       direction: getDirection(binding.modifiers),
+      capturing: false,
 
       mouseStart (evt) {
-        evt.stopPropagation()
+        if (!shouldCapture(ctx, evt)) {
+          return
+        }
+
         if (mouse) {
           document.addEventListener('mousemove', ctx.mouseMove)
           document.addEventListener('mouseup', ctx.mouseEnd)
@@ -105,7 +135,12 @@ export default {
         ctx.start(evt)
       },
       start (evt) {
-        evt.stopPropagation()
+        if (!shouldCapture(ctx, evt)) {
+          return
+        }
+        ctx.capturing = true
+        preventCapturingBySimilarParents(ctx, evt)
+
         let pos = position(evt)
         ctx.event = {
           x: pos.left,
@@ -123,13 +158,17 @@ export default {
         ctx.move(evt)
       },
       move (evt) {
-        evt.stopPropagation()
+        if (!ctx.capturing) {
+          return
+        }
+
         if (ctx.event.prevent) {
           if (!ctx.scroll) {
             evt.preventDefault()
           }
           let changes = processChanges(evt, ctx, false)
           if (shouldTrigger(ctx, changes)) {
+            evt.stopPropagation()
             ctx.handler(changes)
             ctx.event.lastX = changes.position.left
             ctx.event.lastY = changes.position.top
@@ -158,17 +197,17 @@ export default {
         }
       },
       mouseEnd (evt) {
-        if (mouse) {
+        if (mouse && ctx.capturing) {
           document.removeEventListener('mousemove', ctx.mouseMove)
           document.removeEventListener('mouseup', ctx.mouseEnd)
         }
         ctx.end(evt)
       },
       end (evt) {
-        evt.stopPropagation()
-        if (!ctx.event.prevent || ctx.event.isFirst) {
+        if (!ctx.capturing || !ctx.event.prevent || ctx.event.isFirst) {
           return
         }
+        ctx.capturing = false
 
         ctx.handler(processChanges(evt, ctx, true))
       }
