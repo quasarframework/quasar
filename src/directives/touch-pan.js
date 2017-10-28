@@ -97,6 +97,7 @@ export default {
       direction: getDirection(binding.modifiers),
 
       mouseStart (evt) {
+        evt.stopPropagation()
         if (mouse) {
           document.addEventListener('mousemove', ctx.mouseMove)
           document.addEventListener('mouseup', ctx.mouseEnd)
@@ -104,6 +105,7 @@ export default {
         ctx.start(evt)
       },
       start (evt) {
+        evt.stopPropagation()
         let pos = position(evt)
         ctx.event = {
           x: pos.left,
@@ -121,6 +123,7 @@ export default {
         ctx.move(evt)
       },
       move (evt) {
+        evt.stopPropagation()
         if (ctx.event.prevent) {
           if (!ctx.scroll) {
             evt.preventDefault()
@@ -162,6 +165,7 @@ export default {
         ctx.end(evt)
       },
       end (evt) {
+        evt.stopPropagation()
         if (!ctx.event.prevent || ctx.event.isFirst) {
           return
         }
