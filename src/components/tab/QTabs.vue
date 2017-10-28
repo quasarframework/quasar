@@ -346,6 +346,8 @@ export default {
   },
   beforeDestroy () {
     clearTimeout(this.timer)
+    this.__redraw.cancel()
+    this.__updateScrollIndicator.cancel()
     this.__stopAnimScroll()
     this.$refs.scroller.removeEventListener('scroll', this.__updateScrollIndicator)
     window.removeEventListener('resize', this.__redraw)
