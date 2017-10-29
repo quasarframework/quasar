@@ -37,6 +37,15 @@ let routes = [
       {path: 'b', component: load('web-tests/b')},
       {path: 'c', component: load('web-tests/c')}
     ]
+  },
+  {
+    path: '/back',
+    component: load('new-layout/layout'),
+    children: [
+      {path: 'a', component: load('new-layout/a')},
+      {path: 'b', component: load('new-layout/b')},
+      {path: 'c', component: load('new-layout/c')}
+    ]
   }
 ]
 
