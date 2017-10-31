@@ -43,7 +43,7 @@
       </q-toolbar>
     </q-layout-footer>
 
-    <q-layout-drawer v-model="left">
+    <q-layout-drawer v-model="left" :overlay="leftOverlay">
       <q-scroll-area style="width: 100%; height: 100%;" :thumb-style="{right: '4px', borderRadius: '2px', background: 'blue', opacity: .6, width: '4px'}">
         <q-btn @click="$router.push('/layout-quick/a')">Go to A</q-btn>
         <q-btn @click="$router.push('/layout-quick/b')">Go to B</q-btn>
@@ -59,7 +59,7 @@
     </q-layout-drawer>
 
     <q-page-container>
-      <q-layout-drawer right-side v-model="right">
+      <q-layout-drawer right-side v-model="right" :overlay="rightOverlay">
         <q-btn @click="$router.push('/layout-quick/a')">Go to A</q-btn>
         <q-btn @click="$router.push('/layout-quick/b')">Go to B</q-btn>
         <q-btn @click="$router.push('/layout-quick/c')">Go to C</q-btn>
@@ -87,6 +87,8 @@
       <div>
         <q-toggle v-model="headerReveal" label="Header Reveal" /><br>
         <q-toggle v-model="footerReveal" label="Footer Reveal" /><br>
+        <q-toggle v-model="leftOverlay" label="Left as Overlay" /><br>
+        <q-toggle v-model="rightOverlay" label="Right as Overlay" /><br>
         <q-chip slot="subtitle" tag color="primary" style="margin-top: 15px">
           view: {{ view }}
         </q-chip>
@@ -167,6 +169,8 @@ export default {
 
       headerReveal: false,
       footerReveal: false,
+      leftOverlay: true,
+      rightOverlay: false,
 
       scrolling: true,
 

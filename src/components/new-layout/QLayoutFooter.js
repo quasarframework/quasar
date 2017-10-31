@@ -16,6 +16,7 @@ export default {
   watch: {
     value (val) {
       this.__update('space', val)
+      this.__updateLocal('revealed', true)
       this.layout.__animate()
     },
     offset (val) {

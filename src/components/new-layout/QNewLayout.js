@@ -87,7 +87,7 @@ export default {
       this.timer = setTimeout(() => {
         document.body.classList.remove('q-layout-animate')
         this.timer = null
-      }, 1150)
+      }, 150)
     },
     __onPageScroll (data) {
       this.scroll = data

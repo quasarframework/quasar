@@ -15,6 +15,7 @@ export default {
   },
   props: {
     value: Boolean,
+    overlay: Boolean,
     rightSide: Boolean,
     breakpoint: {
       type: Number,
@@ -53,7 +54,7 @@ export default {
           this.mobileOpened = false
           this.percentage = 0
           document.body.classList.remove(bodyClass)
-          this.__updateModel(this.belowBreakpoint ? false : this.largeScreenState)
+          this.__updateModel(this.belowBreakpoint || this.overlay ? false : this.largeScreenState)
           if (typeof this.__onClose === 'function') {
             setTimeout(() => {
               resolve()
@@ -92,12 +93,15 @@ export default {
       }
 
       if (val) { // from lg to xs
-        console.log('belowBreakpoint: from lg to xs; largeScreenState set to', this.value, 'model force to false')
-        this.largeScreenState = this.value
+        console.log('belowBreakpoint: from lg to xs; model force to false')
+        if (!this.overlay) {
+          console.log('belowBreakpoint: largeScreenState set to', this.value)
+          this.largeScreenState = this.value
+        }
         // ensure we close it for small screen
         this.__updateModel(false)
       }
-      else { // from xs to lg
+      else if (!this.overlay) { // from xs to lg
         console.log('belowBreakpoint: from xs to lg; model set to', this.largeScreenState)
         this.__updateModel(this.largeScreenState)
       }
@@ -109,8 +113,12 @@ export default {
       this.__updateLocal('belowBreakpoint', this.breakpoint > this.layout.width)
     },
     offset (val) {
-      console.log(this.side, 'OFFSET', val)
       this.__update('offset', val)
+    },
+    onScreenOverlay () {
+      if (this.animateOverlay) {
+        this.layout.__animate()
+      }
     },
     onLayout (val) {
       console.log('onLayout', val)
@@ -128,10 +136,13 @@ export default {
         : 0
     },
     fixed () {
-      return this.layout.view.indexOf(this.rightSide ? 'R' : 'L') > -1
+      return this.overlay || this.layout.view.indexOf(this.rightSide ? 'R' : 'L') > -1
     },
     onLayout () {
-      return !this.needsTouch && this.value
+      return this.value && !this.mobileView && !this.overlay
+    },
+    onScreenOverlay () {
+      return this.value && this.overlay
     },
     backdropClass () {
       return {
@@ -139,8 +150,24 @@ export default {
         'no-pointer-events': !this.inTransit && !this.value
       }
     },
-    needsTouch () {
+    mobileView () {
       return this.belowBreakpoint || this.mobileOpened
+    },
+    headerSlot () {
+      return this.overlay
+        ? false
+        : (this.rightSide
+          ? this.layout.rows.top[2] === 'r'
+          : this.layout.rows.top[0] === 'l'
+        )
+    },
+    footerSlot () {
+      return this.overlay
+        ? false
+        : (this.rightSide
+          ? this.layout.rows.bottom[2] === 'r'
+          : this.layout.rows.bottom[0] === 'l'
+        )
     },
     backdropStyle () {
       return { opacity: this.percentage }
@@ -152,7 +179,7 @@ export default {
         'on-screen': this.value,
         'off-screen': !this.value,
         'transition-generic': !this.inTransit,
-        'top-padding': this.fixed || (this.rightSide ? this.layout.rows.top[2] === 'r' : this.layout.rows.top[0] === 'l')
+        'top-padding': this.fixed || this.headerSlot
       }
     },
     belowStyle () {
@@ -161,20 +188,18 @@ export default {
       }
     },
     aboveClass () {
-      const onLayout = this.onLayout || (this.value && this.overlay)
+      const onScreen = this.onLayout || this.onScreenOverlay
       return {
-        'off-screen': !onLayout,
-        'on-screen': onLayout,
-        'fixed': this.overlay || this.fixed || !this.onLayout,
-        'top-padding': this.fixed || (this.rightSide ? this.layout.rows.top[2] === 'r' : this.layout.rows.top[0] === 'l')
+        'off-screen': !onScreen,
+        'on-screen': onScreen,
+        'fixed': this.fixed || !this.onLayout,
+        'top-padding': this.fixed || this.headerSlot
       }
     },
     aboveStyle () {
-      const
-        view = this.layout.rows,
-        css = {}
+      const css = {}
 
-      if (this.layout.header.space && this.rightSide ? view.top[2] !== 'r' : view.top[0] !== 'l') {
+      if (this.layout.header.space && !this.headerSlot) {
         if (this.fixed) {
           css.top = `${this.layout.header.offset}px`
         }
@@ -183,7 +208,7 @@ export default {
         }
       }
 
-      if (this.layout.footer.space && this.rightSide ? view.bottom[2] !== 'r' : view.bottom[0] !== 'l') {
+      if (this.layout.footer.space && !this.footerSlot) {
         if (this.fixed) {
           css.bottom = `${this.layout.footer.offset}px`
         }
@@ -195,17 +220,17 @@ export default {
       return css
     },
     computedStyle () {
-      return this.needsTouch ? this.belowStyle : this.aboveStyle
+      return this.mobileView ? this.belowStyle : this.aboveStyle
     },
     computedClass () {
-      return this.needsTouch ? this.belowClass : this.aboveClass
+      return this.mobileView ? this.belowClass : this.aboveClass
     }
   },
   render (h) {
     console.log(`drawer ${this.side} render`)
     const child = []
 
-    if (this.needsTouch) {
+    if (this.mobileView) {
       child.push(h('div', {
         staticClass: `q-layout-drawer-opener fixed-${this.side}`,
         directives: [{
@@ -232,7 +257,7 @@ export default {
         staticClass: `q-layout-drawer q-layout-drawer-${this.side} scroll q-layout-transition`,
         'class': this.computedClass,
         style: this.computedStyle,
-        directives: this.belowBreakpoint ? [{
+        directives: this.mobileView ? [{
           name: 'touch-pan',
           modifier: { horizontal: true },
           value: this.__closeByTouch
@@ -246,13 +271,17 @@ export default {
     ]))
   },
   created () {
-    if (this.belowBreakpoint) {
+    if (this.belowBreakpoint || this.overlay) {
       this.__updateModel(false)
     }
     else if (this.onLayout) {
       this.__update('space', true)
       this.__update('offset', this.offset)
     }
+
+    this.$nextTick(() => {
+      this.animateOverlay = true
+    })
   },
   destroyed () {
     this.__update('size', 0)
@@ -313,7 +342,6 @@ export default {
     },
     show (fn) {
       if (this.value === true) {
-        console.log('show return first', fn)
         if (typeof fn === 'function') {
           fn()
         }
@@ -325,7 +353,6 @@ export default {
     },
     hide (fn) {
       if (this.value === false) {
-        console.log('hide return first', fn)
         if (typeof fn === 'function') {
           fn()
         }
@@ -337,7 +364,6 @@ export default {
     },
 
     __onResize ({ width }) {
-      console.log(this.side, 'width', width)
       this.__update('size', width)
       this.__updateLocal('size', width)
     },
