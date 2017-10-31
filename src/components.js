@@ -1,3 +1,4 @@
+export * from './components/app'
 export * from './components/new-layout'
 
 export * from './components/ajax-bar'

@@ -29,9 +29,9 @@ export default {
         space: true
       },
       right: {
-        size: 0,
+        size: 300,
         offset: 0,
-        space: true
+        space: false
       },
       footer: {
         size: 0,
@@ -39,9 +39,9 @@ export default {
         space: true
       },
       left: {
-        size: 0,
+        size: 300,
         offset: 0,
-        space: true
+        space: false
       },
 
       scrollHeight: 0,
@@ -87,7 +87,7 @@ export default {
       this.timer = setTimeout(() => {
         document.body.classList.remove('q-layout-animate')
         this.timer = null
-      }, 150)
+      }, 1150)
     },
     __onPageScroll (data) {
       this.scroll = data

@@ -23,7 +23,7 @@ export default {
   },
   render (h) {
     return h('div', {
-      staticClass: 'q-layout-page-container',
+      staticClass: 'q-layout-page-container q-layout-transition',
       style: this.computedStyle
     }, [
       this.$slots.default

@@ -39,12 +39,14 @@ let routes = [
     ]
   },
   {
-    path: '/back',
-    component: load('new-layout/layout'),
+    path: '/layout-quick',
+    component: load('new-layout/new-layout'),
     children: [
-      {path: 'a', component: load('new-layout/a')},
-      {path: 'b', component: load('new-layout/b')},
-      {path: 'c', component: load('new-layout/c')}
+      {path: '', redirect: 'default'},
+      {path: 'default', component: load('new-layout/pages/default')},
+      {path: 'a', component: load('new-layout/pages/a')},
+      {path: 'b', component: load('new-layout/pages/b')},
+      {path: 'c', component: load('new-layout/pages/c')}
     ]
   }
 ]

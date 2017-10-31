@@ -36,7 +36,6 @@ export default {
   },
   computed: {
     fixed () {
-      console.log('fixed')
       return this.reveal || this.layout.view.indexOf('F') > -1
     },
     offset () {
@@ -75,7 +74,7 @@ export default {
   render (h) {
     console.log('footer render')
     return h('footer', {
-      staticClass: 'q-layout-footer',
+      staticClass: 'q-layout-footer q-layout-transition',
       'class': this.computedClass,
       style: this.computedStyle
     }, [

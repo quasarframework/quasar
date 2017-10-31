@@ -19,23 +19,23 @@
   background $layout-aside-background
   &.fixed
     z-index $z-side
-    &.on-layout
+    &.on-screen
       box-shadow $layout-aside-shadow
   &.on-top
     z-index $z-fixed-side
 .q-layout-drawer-left
   left 0
   width $layout-aside-left-width
-  &.off-layout
+  &.off-screen
     transform translateX(-100%)
-  &.on-layout
+  &.on-screen
     transform translateX(0)
 .q-layout-drawer-right
   right 0
   width $layout-aside-right-width
-  &.off-layout
+  &.off-screen
     transform translateX(100%)
-  &.on-layout
+  &.on-screen
     transform translateX(0)
 
 main, .q-layout, .q-layout-header, .q-layout-footer
@@ -43,7 +43,6 @@ main, .q-layout, .q-layout-header, .q-layout-footer
 
 .q-layout-header, .q-layout-footer
   z-index $z-marginals
-  transition transform .12s ease-in
 
 .q-layout-backdrop
   z-index ($z-fixed-side - 1)
@@ -55,9 +54,8 @@ main, .q-layout, .q-layout-header, .q-layout-footer
   width 15px
 
 body
-  &.q-layout-animate
-    .q-layout-drawer, .q-layout-page-container, .q-page-sticky
-      transition all .12s ease-in
+  &.q-layout-animate .q-layout-transition
+    transition all .12s ease-in
 
   &.with-layout-drawer-opened
     overflow hidden
