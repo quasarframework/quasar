@@ -124,6 +124,12 @@ export default {
       console.log('onLayout', val)
       this.__update('space', val)
       this.layout.__animate()
+    },
+    $route () {
+      if (this.onScreenOverlay) {
+        console.log('on screen overlay; closing')
+        this.__updateModel(false)
+      }
     }
   },
   computed: {
@@ -142,7 +148,7 @@ export default {
       return this.value && !this.mobileView && !this.overlay
     },
     onScreenOverlay () {
-      return this.value && this.overlay
+      return this.value && !this.mobileView && this.overlay
     },
     backdropClass () {
       return {

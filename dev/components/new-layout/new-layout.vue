@@ -72,7 +72,9 @@
         <div v-for="n in 60">{{n}} Right drawer</div>
       </q-layout-drawer>
 
-      <router-view />
+      <q-transition enter="fadeIn" leave="fadeOut" mode="out-in">
+        <router-view />
+      </q-transition>
     </q-page-container>
   </q-new-layout>
 
