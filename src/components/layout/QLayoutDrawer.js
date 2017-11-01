@@ -22,13 +22,16 @@ export default {
       type: Number,
       default: 992
     },
-    view: {
+    behavior: {
       type: String,
-      validator: v => ['desktop', 'mobile'].includes(v)
+      validator: v => ['default', 'desktop', 'mobile'].includes(v),
+      default: 'default'
     }
   },
   data () {
+    const belowBreakpoint = this.behavior === 'mobile' || (this.behavior !== 'desktop' && this.breakpoint >= this.layout.width)
     return {
+      belowBreakpoint,
       largeScreenState: this.value,
       mobileOpened: false,
 
@@ -109,6 +112,15 @@ export default {
         this.__updateModel(this.largeScreenState)
       }
     },
+    behavior () {
+      this.__updateLocal('belowBreakpoint', this.behavior === 'mobile' || (this.behavior !== 'desktop' && this.breakpoint >= this.layout.width))
+    },
+    breakpoint () {
+      this.__updateLocal('belowBreakpoint', this.behavior === 'mobile' || (this.behavior !== 'desktop' && this.breakpoint >= this.layout.width))
+    },
+    'layout.width' () {
+      this.__updateLocal('belowBreakpoint', this.behavior === 'mobile' || (this.behavior !== 'desktop' && this.breakpoint >= this.layout.width))
+    },
     offset (val) {
       this.__update('offset', val)
     },
@@ -130,9 +142,6 @@ export default {
     }
   },
   computed: {
-    belowBreakpoint () {
-      return this.view === 'mobile' || (this.view !== 'desktop' && this.breakpoint >= this.layout.width)
-    },
     side () {
       return this.rightSide ? 'right' : 'left'
     },

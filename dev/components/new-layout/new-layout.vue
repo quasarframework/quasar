@@ -43,7 +43,7 @@
       </q-toolbar>
     </q-layout-footer>
 
-    <q-layout-drawer v-model="left" :overlay="leftOverlay" :view="leftView" :breakpoint="leftBreakpoint">
+    <q-layout-drawer v-model="left" :overlay="leftOverlay" :behavior="leftBehavior" :breakpoint="leftBreakpoint">
       <q-scroll-area style="width: 100%; height: 100%;" :thumb-style="{right: '4px', borderRadius: '2px', background: 'blue', opacity: .6, width: '4px'}">
         <q-btn @click="$router.push('/layout-quick/a')">Go to A</q-btn>
         <q-btn @click="$router.push('/layout-quick/b')">Go to B</q-btn>
@@ -59,7 +59,7 @@
     </q-layout-drawer>
 
     <q-page-container>
-      <q-layout-drawer right-side v-model="right" :overlay="rightOverlay" :view="rightView" :breakpoint="rightBreakpoint">
+      <q-layout-drawer right-side v-model="right" :overlay="rightOverlay" :behavior="rightBehavior" :breakpoint="rightBreakpoint">
         <q-btn @click="$router.push('/layout-quick/a')">Go to A</q-btn>
         <q-btn @click="$router.push('/layout-quick/b')">Go to B</q-btn>
         <q-btn @click="$router.push('/layout-quick/c')">Go to C</q-btn>
@@ -86,7 +86,7 @@
         <br>
         <q-toggle v-model="left" label="Left Drawer" /><br>
         <q-toggle v-model="leftOverlay" label="Left as Overlay" /><br>
-        <q-select v-model="leftView" :options="drawerViewOptions" class="no-padding no-margin" />
+        <q-select v-model="leftBehavior" :options="drawerBehaviorOptions" class="no-padding no-margin" />
         <q-input type="number" align="right" prefix="Bkpt" placeholder="Bkpt" v-model="leftBreakpoint" class="no-padding no-margin" />
       </div>
       <div>
@@ -95,7 +95,7 @@
         <br>
         <q-toggle v-model="right" label="Right Drawer" /><br>
         <q-toggle v-model="rightOverlay" label="Right as Overlay" /><br>
-        <q-select v-model="rightView" :options="drawerViewOptions" class="no-padding no-margin" />
+        <q-select v-model="rightBehavior" :options="drawerBehaviorOptions" class="no-padding no-margin" />
         <q-input type="number" align="right" prefix="Bkpt" placeholder="Bkpt" v-model="rightBreakpoint" class="no-padding no-margin" />
       </div>
     </div>
@@ -181,8 +181,8 @@ export default {
       footerReveal: false,
       leftOverlay: true,
       rightOverlay: false,
-      leftView: null,
-      rightView: null,
+      leftBehavior: 'default',
+      rightBehavior: 'default',
       leftBreakpoint: 992,
       rightBreakpoint: 992,
 
@@ -197,10 +197,10 @@ export default {
       bottomleft: v[8],
       bottomcenter: v[9],
       bottomright: v[10],
-      drawerViewOptions: [
-        { label: 'View Normal', value: null },
-        { label: 'View Mobile', value: 'mobile' },
-        { label: 'View Desktop', value: 'desktop' }
+      drawerBehaviorOptions: [
+        { label: 'Behave Normal', value: 'default' },
+        { label: 'Behave Mobile', value: 'mobile' },
+        { label: 'Behave Desktop', value: 'desktop' }
       ]
     }
   },
