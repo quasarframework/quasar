@@ -1,4 +1,4 @@
-import QNewLayout from './QNewLayout'
+import QLayout from './QLayout'
 import QLayoutDrawer from './QLayoutDrawer'
 import QLayoutFooter from './QLayoutFooter'
 import QLayoutHeader from './QLayoutHeader'
@@ -7,7 +7,7 @@ import QPageContainer from './QPageContainer'
 import QPageSticky from './QPageSticky'
 
 export {
-  QNewLayout,
+  QLayout,
   QLayoutDrawer,
   QLayoutFooter,
   QLayoutHeader,
