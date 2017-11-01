@@ -3,7 +3,7 @@ import { getToolbar, getFonts } from './editor-utils'
 import { buttons } from './editor-definitions'
 import { Caret } from './editor-caret'
 import extend from '../../utils/extend'
-import FullscreenMixin from '../../utils/mixin-fullscreen'
+import FullscreenMixin from '../../mixins/fullscreen'
 
 export default {
   name: 'q-editor',

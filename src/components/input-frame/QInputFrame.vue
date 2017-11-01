@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import Mixin from './input-frame-mixin'
+import Mixin from '../../mixins/input-frame'
 
 export default {
   name: 'q-input-frame',

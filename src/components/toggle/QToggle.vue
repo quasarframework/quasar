@@ -32,8 +32,8 @@
 </template>
 
 <script>
-import Mixin from '../checkbox/checkbox-mixin'
-import OptionMixin from '../option-group/option-mixin'
+import Mixin from '../../mixins/checkbox'
+import OptionMixin from '../../mixins/option'
 import { QIcon } from '../icon'
 import TouchSwipe from '../../directives/touch-swipe'
 

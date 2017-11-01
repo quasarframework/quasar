@@ -62,8 +62,8 @@
 </template>
 
 <script>
-import FrameMixin from '../input-frame/input-frame-mixin'
-import InputMixin from '../input/input-mixin'
+import FrameMixin from '../../mixins/input-frame'
+import InputMixin from '../../mixins/input'
 import { QInputFrame } from '../input-frame'
 import { QChip } from '../chip'
 

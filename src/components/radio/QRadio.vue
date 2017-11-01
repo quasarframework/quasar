@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import OptionMixin from '../option-group/option-mixin'
+import OptionMixin from '../../mixins/option'
 import { QIcon } from '../icon'
 
 export default {

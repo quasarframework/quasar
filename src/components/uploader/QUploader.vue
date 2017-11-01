@@ -128,7 +128,7 @@
 
 <script>
 import { QInputFrame } from '../input-frame'
-import FrameMixin from '../input-frame/input-frame-mixin'
+import FrameMixin from '../../mixins/input-frame'
 import { humanStorageSize } from '../../utils/format'
 import { QSpinner } from '../spinner'
 import { QIcon } from '../icon'

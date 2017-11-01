@@ -24,7 +24,7 @@
 <script>
 import EscapeKey from '../../utils/escape-key'
 import extend from '../../utils/extend'
-import ModelToggleMixin from '../../utils/mixin-model-toggle'
+import ModelToggleMixin from '../../mixins/model-toggle'
 import { QTransition } from '../transition'
 import { getScrollbarWidth } from '../../utils/scroll'
 

@@ -35,8 +35,8 @@
 <script>
 import { QIcon } from '../icon'
 import { QInput } from '../input'
-import InputMixin from '../input/input-mixin'
-import FrameMixin from '../input-frame/input-frame-mixin'
+import InputMixin from '../../mixins/input'
+import FrameMixin from '../../mixins/input-frame'
 import Ripple from '../../directives/ripple'
 
 export default {

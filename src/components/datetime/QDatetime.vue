@@ -103,7 +103,7 @@
 </template>
 
 <script>
-import FrameMixin from '../input-frame/input-frame-mixin'
+import FrameMixin from '../../mixins/input-frame'
 import extend from '../../utils/extend'
 import { input, inline } from './datetime-props'
 import { QInputFrame } from '../input-frame'
