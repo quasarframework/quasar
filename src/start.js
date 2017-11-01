@@ -1,5 +1,5 @@
 import { Vue } from './deps'
-import Platform from './features/platform'
+import Platform from './plugins/platform'
 
 export default function (cb = function () {}) {
   /*

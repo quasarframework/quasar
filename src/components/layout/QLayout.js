@@ -3,7 +3,7 @@ import { getScrollHeight } from '../../utils/scroll'
 import { QScrollObservable, QResizeObservable, QWindowResizeObservable } from '../observables'
 
 export default {
-  name: 'q-new-layout',
+  name: 'q-layout',
   provide () {
     return {
       layout: this

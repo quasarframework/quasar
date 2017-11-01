@@ -19,17 +19,6 @@ function component (path) {
 let routes = [
   {path: '/', component: load('index')},
   {
-    path: '/test-layout',
-    component: load('test-layout/layout'),
-    children: [
-      {path: 'about', component: load('test-layout/about')},
-      {path: 'layout', redirect: '/test-layout/about'},
-      {path: 'toolbar', component: load('test-layout/toolbar')},
-      {path: 'tabs', component: load('test-layout/tabs')},
-      {path: 'drawer', component: load('test-layout/drawer')}
-    ]
-  },
-  {
     path: '/lay',
     component: load('web-tests/layout'),
     children: [
@@ -51,7 +40,7 @@ let routes = [
   }
 ]
 
-pages.filter(page => page.indexOf('test-layout') === -1).forEach(page => {
+pages.forEach(page => {
   routes.push(component(page))
 })
 

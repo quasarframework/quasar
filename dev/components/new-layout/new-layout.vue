@@ -1,6 +1,6 @@
 <template>
   <div>
-  <q-new-layout :view="view" @scroll="onScroll">
+  <q-layout :view="view" @scroll="onScroll">
     <q-layout-header v-model="header" :reveal="headerReveal">
       <q-toolbar>
         <q-btn flat icon="menu" @click="left = !left" />
@@ -76,7 +76,7 @@
         <router-view />
       </q-transition>
     </q-page-container>
-  </q-new-layout>
+  </q-layout>
 
   <div class="fixed-center bg-amber z-max">
     <div class="row">
