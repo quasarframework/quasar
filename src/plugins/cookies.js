@@ -96,7 +96,11 @@ export default {
   remove,
   all: () => get(),
 
+  __installed: false,
   install ({ Quasar }) {
+    if (this.__installed) { return }
+    this.__installed = true
+
     Quasar.cookies = this
   }
 }

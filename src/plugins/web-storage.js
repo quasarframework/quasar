@@ -178,8 +178,12 @@ export const SessionStorage = {
 }
 
 export default {
+  __installed: false,
   install ({ Quasar }) {
+    if (this.__installed) { return }
+    this.__installed = true
+
     Quasar.sessionStorage = SessionStorage
-    Quasar.localStorage = localStorage
+    Quasar.localStorage = LocalStorage
   }
 }

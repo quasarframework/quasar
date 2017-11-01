@@ -50,6 +50,7 @@ export default function (_Vue, opts = {}) {
     })
   }
   if (opts.plugins) {
+    Platform.install({ Quasar })
     Object.keys(opts.plugins).forEach(key => {
       const p = opts.plugins[key]
       if (typeof p.install === 'function') {
