@@ -1,4 +1,4 @@
-import HistoryMixin from './history-mixin'
+import { HistoryMixin } from '../../mixins/history'
 
 export default {
   name: 'q-app',

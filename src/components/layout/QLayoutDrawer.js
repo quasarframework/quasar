@@ -2,6 +2,7 @@ import TouchPan from '../../directives/touch-pan'
 import { cssTransform } from '../../utils/dom'
 import { between } from '../../utils/format'
 import { QResizeObservable } from '../observables'
+import History from '../../mixins/history'
 
 const
   bodyClass = 'with-layout-drawer-opened',
@@ -9,7 +10,7 @@ const
 
 export default {
   name: 'q-layout-drawer',
-  inject: ['layout', 'history'],
+  inject: ['layout'],
   directives: {
     TouchPan
   },
@@ -40,7 +41,7 @@ export default {
       console.log('watcher value', val)
       if (!val && this.mobileOpened) {
         console.log('watcher value: mobile opened; history remove')
-        this.history.remove()
+        History.remove()
         return
       }
 
@@ -50,7 +51,7 @@ export default {
         this.percentage = 1
         document.body.classList.add(bodyClass)
 
-        this.history.add(() => new Promise((resolve, reject) => {
+        History.add(() => new Promise((resolve, reject) => {
           this.mobileOpened = false
           this.percentage = 0
           document.body.classList.remove(bodyClass)

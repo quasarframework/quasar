@@ -27,6 +27,7 @@ import extend from '../../utils/extend'
 import ModelToggleMixin from '../../mixins/model-toggle'
 import { QTransition } from '../transition'
 import { getScrollbarWidth } from '../../utils/scroll'
+import History from '../../mixins/history'
 
 const positions = {
   top: 'items-start justify-center with-backdrop',
@@ -76,7 +77,9 @@ let
 
 export default {
   name: 'q-modal',
-  inject: ['history'],
+  inject: {
+    history: { default: History }
+  },
   mixins: [ModelToggleMixin],
   components: {
     QTransition
@@ -175,7 +178,7 @@ export default {
         }
       })
 
-      this.history.add(() => new Promise((resolve, reject) => {
+      History.add(() => new Promise((resolve, reject) => {
         EscapeKey.pop()
         openedModalNumber--
         this.active = false
@@ -224,7 +227,7 @@ export default {
       this.toggleInProgress = true
       this.__onClose = onClose
 
-      this.history.remove()
+      History.remove()
     },
     toggle (done) {
       if (this.active) {
