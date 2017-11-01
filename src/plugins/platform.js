@@ -166,6 +166,10 @@ const Platform = {
   },
   within: {
     iframe: window.self !== window.top
+  },
+
+  install ({ Quasar }) {
+    Quasar.platform = Platform
   }
 }
 

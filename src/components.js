@@ -1,3 +1,5 @@
+export * from './components/app'
+
 export * from './components/ajax-bar'
 export * from './components/alert'
 export * from './components/autocomplete'

@@ -33,7 +33,6 @@
 </template>
 
 <script>
-import Events from '../../features/events'
 import extend from '../../utils/extend'
 import { QIcon } from '../icon'
 
@@ -105,8 +104,6 @@ export default {
       this.__show()
     },
     __show () {
-      Events.$emit('app:toast', this.stack[0].html)
-
       this.timer = setTimeout(() => {
         if (this.stack.length > 0) {
           this.dismiss()

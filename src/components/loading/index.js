@@ -1,5 +1,4 @@
 import { Vue } from '../../deps'
-import Events from '../../features/events'
 import { QSpinner } from '../spinner'
 
 let
@@ -72,7 +71,6 @@ function show ({
   }, delay)
 
   appIsInProgress = true
-  Events.$emit('app:loading', true)
 }
 
 function hide () {
@@ -92,7 +90,6 @@ function hide () {
   }
 
   appIsInProgress = false
-  Events.$emit('app:loading', false)
 }
 
 export default {

@@ -1,4 +1,3 @@
-<script>
 import { viewport } from '../../utils/dom'
 
 export default {
@@ -15,12 +14,13 @@ export default {
       this.$emit('resize', viewport())
     }
   },
-  mounted () {
+  created () {
     this.emit()
+  },
+  mounted () {
     window.addEventListener('resize', this.trigger)
   },
   beforeDestroy () {
     window.removeEventListener('resize', this.trigger)
   }
 }
-</script>

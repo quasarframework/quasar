@@ -14,7 +14,6 @@ import {
   getTransformProperties,
   setPosition
 } from '../../utils/popup'
-import Platform from '../../features/platform'
 import ModelToggleMixin from '../../utils/mixin-model-toggle'
 
 export default {
@@ -79,7 +78,7 @@ export default {
       this.scrollTarget = getScrollTarget(this.anchorEl)
       this.scrollTarget.addEventListener('scroll', this.close)
       window.addEventListener('resize', this.__debouncedUpdatePosition)
-      if (Platform.is.mobile) {
+      if (this.$q.platform.is.mobile) {
         document.body.addEventListener('click', this.close, true)
       }
       this.__updateModel(true)
@@ -93,7 +92,7 @@ export default {
         this.scrollTarget.removeEventListener('scroll', this.close)
         window.removeEventListener('resize', this.__debouncedUpdatePosition)
         document.body.removeChild(this.$el)
-        if (Platform.is.mobile) {
+        if (this.$q.platform.is.mobile) {
           document.body.removeEventListener('click', this.close, true)
         }
         this.__updateModel(false)
@@ -134,7 +133,7 @@ export default {
       if (this.anchorEl.classList.contains('q-btn-inner')) {
         this.anchorEl = this.anchorEl.parentNode
       }
-      if (Platform.is.mobile) {
+      if (this.$q.platform.is.mobile) {
         this.anchorEl.addEventListener('click', this.open)
       }
       else {
@@ -149,7 +148,7 @@ export default {
     if (!this.anchorEl) {
       return
     }
-    if (Platform.is.mobile) {
+    if (this.$q.platform.is.mobile) {
       this.anchorEl.removeEventListener('click', this.open)
     }
     else {

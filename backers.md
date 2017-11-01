@@ -44,6 +44,7 @@ It could be you!
 - Shawn Makinson ($25)
 - Anca-Anamaria Enache ($20)
 - MSG Group ($20)
+- Pawel Rakowski ($20)
 - Jonas Viczian ($15)
 - Laurent Aapro ($12)
 - Marek Urbanowicz

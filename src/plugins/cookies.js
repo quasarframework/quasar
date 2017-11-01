@@ -94,5 +94,9 @@ export default {
   set,
   has,
   remove,
-  all: () => get()
+  all: () => get(),
+
+  install ({ Quasar }) {
+    Quasar.cookies = this
+  }
 }

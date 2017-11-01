@@ -186,12 +186,7 @@ export default {
     noThumbnails: Boolean,
     autoExpand: Boolean,
     expandStyle: [Array, String, Object],
-    expandClass: [Array, String, Object],
-
-    color: {
-      type: String,
-      default: 'primary'
-    }
+    expandClass: [Array, String, Object]
   },
   data () {
     return {
@@ -409,7 +404,7 @@ export default {
     },
     upload () {
       const length = this.queueLength
-      if (length === 0) {
+      if (this.disable || length === 0) {
         return
       }
 

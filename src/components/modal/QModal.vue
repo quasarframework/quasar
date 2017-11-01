@@ -22,7 +22,6 @@
 </template>
 
 <script>
-import Platform from '../../features/platform'
 import EscapeKey from '../../utils/escape-key'
 import extend from '../../utils/extend'
 import ModelToggleMixin from '../../utils/mixin-model-toggle'
@@ -77,6 +76,7 @@ let
 
 export default {
   name: 'q-modal',
+  inject: ['history'],
   mixins: [ModelToggleMixin],
   components: {
     QTransition
@@ -168,36 +168,24 @@ export default {
       this.bodyPadding = window.getComputedStyle(body).paddingRight
       body.style.paddingRight = `${getScrollbarWidth()}px`
       EscapeKey.register(() => {
-        if (this.noEscDismiss) {
-          return
+        if (!this.noEscDismiss) {
+          this.close(() => {
+            this.$emit('escape-key')
+          })
         }
-        this.close(() => {
-          this.$emit('escape-key')
-        })
       })
 
-      this.__popstate = () => {
-        if (
-          Platform.has.popstate &&
-          window.history.state &&
-          window.history.state.modalId &&
-          window.history.state.modalId >= this.__modalId
-        ) {
-          return
-        }
-        openedModalNumber--
+      this.history.add(() => new Promise((resolve, reject) => {
         EscapeKey.pop()
+        openedModalNumber--
         this.active = false
-
-        if (Platform.has.popstate) {
-          window.removeEventListener('popstate', this.__popstate)
-        }
-
         setTimeout(() => {
-          if (!openedModalNumber) {
+          if (openedModalNumber === 0) {
             body.classList.remove('with-modal')
             body.style.paddingRight = this.bodyPadding
           }
+          resolve()
+
           if (typeof this.__onClose === 'function') {
             this.__onClose()
           }
@@ -205,7 +193,7 @@ export default {
           this.__updateModel(false)
           this.$emit('close')
         }, duration)
-      }
+      }))
 
       setTimeout(() => {
         let content = this.$refs.content
@@ -218,12 +206,7 @@ export default {
       }, 10)
 
       this.active = true
-      this.__modalId = ++openedModalNumber
-      if (Platform.has.popstate) {
-        window.history.pushState({modalId: this.__modalId}, '')
-        window.addEventListener('popstate', this.__popstate)
-      }
-
+      openedModalNumber++
       setTimeout(() => {
         if (typeof onShow === 'function') {
           onShow()
@@ -241,12 +224,7 @@ export default {
       this.toggleInProgress = true
       this.__onClose = onClose
 
-      if (!Platform.has.popstate) {
-        this.__popstate()
-      }
-      else {
-        window.history.go(-1)
-      }
+      this.history.remove()
     },
     toggle (done) {
       if (this.active) {

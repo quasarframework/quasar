@@ -1,6 +1,5 @@
-import Platform from '../features/platform'
-
 export default {
+  inject: ['history'],
   data () {
     return {
       inFullscreen: false
@@ -12,20 +11,15 @@ export default {
   methods: {
     toggleFullscreen () {
       if (this.inFullscreen) {
-        if (!Platform.has.popstate) {
-          this.__setFullscreen(false)
-        }
-        else {
-          window.history.go(-1)
-        }
+        this.history.remove()
         return
       }
 
       this.__setFullscreen(true)
-      if (Platform.has.popstate) {
-        window.history.pushState({}, '')
-        window.addEventListener('popstate', this.__popState)
-      }
+      this.history.add(() => new Promise((resolve, reject) => {
+        this.__setFullscreen(false)
+        resolve()
+      }))
     },
     __setFullscreen (state) {
       if (this.inFullscreen === state) {
@@ -44,12 +38,6 @@ export default {
       this.inFullscreen = false
       this.container.replaceChild(this.$el, this.fillerNode)
       document.body.classList.remove('with-mixin-fullscreen')
-    },
-    __popState () {
-      if (this.inFullscreen) {
-        this.__setFullscreen(false)
-      }
-      window.removeEventListener('popstate', this.__popState)
     }
   }
 }

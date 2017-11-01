@@ -1,4 +1,4 @@
-import Platform from '../features/platform'
+import Platform from '../plugins/platform'
 
 export default {
   name: 'go-back',
