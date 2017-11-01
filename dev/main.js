@@ -17,7 +17,8 @@ import 'quasar-extras/animate'
 
 Vue.use(Quasar, {
   components: Everything,
-  directives: Everything
+  directives: Everything,
+  plugins: Everything
 })
 
 Quasar.start(() => {

@@ -38,7 +38,6 @@
 import { QItemWrapper, QItemTile } from '../list'
 import { QSlideTransition } from '../slide-transition'
 import Ripple from '../../directives/ripple'
-import Events from '../../features/events'
 
 const eventName = 'q:collapsible:close'
 
@@ -85,7 +84,7 @@ export default {
     },
     active (val) {
       if (val && this.group) {
-        Events.$emit(eventName, this)
+        this.$root.$emit(eventName, this)
       }
 
       this.$emit(val ? 'open' : 'close')
@@ -137,10 +136,10 @@ export default {
     }
   },
   created () {
-    Events.$on(eventName, this.__eventHandler)
+    this.$root.$on(eventName, this.__eventHandler)
   },
   beforeDestroy () {
-    Events.$off(eventName, this.__eventHandler)
+    this.$root.$off(eventName, this.__eventHandler)
   }
 }
 </script>

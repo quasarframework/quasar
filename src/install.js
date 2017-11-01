@@ -1,5 +1,4 @@
-import Platform from './features/platform'
-import { installEvents } from './features/events'
+import Platform from './plugins/platform'
 import { version } from '../package.json'
 import { setVue } from './deps'
 import { ready } from './utils/dom'
@@ -29,9 +28,14 @@ export default function (_Vue, opts = {}) {
   setVue(_Vue)
   ready(addBodyClasses)
 
+  const Quasar = {
+    version,
+    theme: __THEME__
+  }
+
   if (opts.directives) {
     Object.keys(opts.directives).forEach(key => {
-      let d = opts.directives[key]
+      const d = opts.directives[key]
       if (d.name !== undefined && !d.name.startsWith('q-')) {
         _Vue.directive(d.name, d)
       }
@@ -39,19 +43,20 @@ export default function (_Vue, opts = {}) {
   }
   if (opts.components) {
     Object.keys(opts.components).forEach(key => {
-      let c = opts.components[key]
+      const c = opts.components[key]
       if (c.name !== undefined && c.name.startsWith('q-')) {
         _Vue.component(c.name, c)
       }
     })
   }
-
-  const events = installEvents(_Vue)
-
-  _Vue.prototype.$q = {
-    version,
-    platform: Platform,
-    theme: __THEME__,
-    events
+  if (opts.plugins) {
+    Object.keys(opts.plugins).forEach(key => {
+      const p = opts.plugins[key]
+      if (typeof p.install === 'function') {
+        p.install({ Quasar, Vue: _Vue })
+      }
+    })
   }
+
+  _Vue.prototype.$q = Quasar
 }

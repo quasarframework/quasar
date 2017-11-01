@@ -82,7 +82,7 @@ const
     (type) => () => window[type + 'Storage'].length
   ),
 
-  getStorageItem = generateFunctions((type) => {
+  getStorageItem = generateFunctions(type => {
     let
       hasFn = hasStorageItem[type],
       storage = window[type + 'Storage']
@@ -95,7 +95,7 @@ const
     }
   }),
 
-  getStorageAtIndex = generateFunctions((type) => {
+  getStorageAtIndex = generateFunctions(type => {
     let
       lengthFn = getStorageLength[type],
       getItemFn = getStorageItem[type],
@@ -108,7 +108,7 @@ const
     }
   }),
 
-  getAllStorageItems = generateFunctions((type) => {
+  getAllStorageItems = generateFunctions(type => {
     let
       lengthFn = getStorageLength[type],
       storage = window[type + 'Storage'],
@@ -129,7 +129,7 @@ const
     }
   }),
 
-  setStorageItem = generateFunctions((type) => {
+  setStorageItem = generateFunctions(type => {
     let storage = window[type + 'Storage']
     return (key, value) => { storage.setItem(key, encode(value)) }
   }),
@@ -144,7 +144,7 @@ const
     return () => { storage.clear() }
   }),
 
-  storageIsEmpty = generateFunctions((type) => {
+  storageIsEmpty = generateFunctions(type => {
     let getLengthFn = getStorageLength[type]
     return () => getLengthFn() === 0
   })
@@ -163,7 +163,7 @@ export const LocalStorage = {
   isEmpty: storageIsEmpty.local
 }
 
-export const SessionStorage = { // eslint-disable-line one-var
+export const SessionStorage = {
   has: hasStorageItem.session,
   get: {
     length: getStorageLength.session,
@@ -175,4 +175,11 @@ export const SessionStorage = { // eslint-disable-line one-var
   remove: removeStorageItem.session,
   clear: clearStorage.session,
   isEmpty: storageIsEmpty.session
+}
+
+export default {
+  install ({ Quasar }) {
+    Quasar.sessionStorage = SessionStorage
+    Quasar.localStorage = localStorage
+  }
 }

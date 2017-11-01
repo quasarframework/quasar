@@ -5,13 +5,14 @@ import { version } from '../package.json'
 
 import * as components from './components'
 import * as directives from './directives'
-import * as features from './features'
+import * as plugins from './plugins'
 import * as globals from './globals'
 import * as utils from './utils'
 
 Vue.use({ install }, {
   components,
-  directives
+  directives,
+  plugins
 })
 
 export default {
@@ -20,7 +21,6 @@ export default {
 
   components,
   directives,
-  features,
   globals,
   utils
 }
