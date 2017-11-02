@@ -5,7 +5,7 @@
         :is="component"
         v-model="model"
         :val="opt.value"
-        :disable="disable||opt.disable"
+        :disable="disable || opt.disable"
         :label="opt.label"
         :left-label="leftLabel"
         :color="opt.color || color"
