@@ -23,7 +23,11 @@ export default {
     }
   },
 
+  __installed: false,
   install ({ Quasar, Vue }) {
+    if (this.__installed) { return }
+    this.__installed = true
+
     const request = [
       'requestFullscreen',
       'msRequestFullscreen', 'mozRequestFullScreen', 'webkitRequestFullscreen'

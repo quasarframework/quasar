@@ -14,7 +14,7 @@ import {
   getTransformProperties,
   setPosition
 } from '../../utils/popup'
-import ModelToggleMixin from '../../utils/mixin-model-toggle'
+import ModelToggleMixin from '../../mixins/model-toggle'
 
 export default {
   name: 'q-tooltip',

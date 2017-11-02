@@ -141,7 +141,7 @@ import { QList, QItemWrapper } from '../list'
 import { QCheckbox } from '../checkbox'
 import { QRadio } from '../radio'
 import { QToggle } from '../toggle'
-import SelectMixin from './select-mixin'
+import SelectMixin from '../../mixins/select'
 import clone from '../../utils/clone'
 
 function defaultFilterFn (terms, obj) {

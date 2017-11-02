@@ -33,13 +33,13 @@
 </template>
 
 <script>
-import Mixin from './checkbox-mixin'
-import OptionMixin from '../option-group/option-mixin'
+import Mixin from '../../mixins/checkbox'
+import OptionGroupMixin from '../../mixins/option'
 import { QIcon } from '../icon'
 
 export default {
   name: 'q-checkbox',
-  mixins: [Mixin, OptionMixin],
+  mixins: [Mixin, OptionGroupMixin],
   components: {
     QIcon
   },

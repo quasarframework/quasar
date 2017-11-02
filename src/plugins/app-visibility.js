@@ -2,7 +2,11 @@
 export default {
   isVisible: null,
 
+  __installed: false,
   install ({ Quasar, Vue }) {
+    if (this.__installed) { return }
+    this.__installed = true
+
     let prop, evt
 
     if (typeof document.hidden !== 'undefined') { // Opera 12.10 and Firefox 18 and later support

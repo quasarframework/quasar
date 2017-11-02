@@ -1,5 +1,6 @@
+import History from './history'
+
 export default {
-  inject: ['history'],
   data () {
     return {
       inFullscreen: false
@@ -11,12 +12,12 @@ export default {
   methods: {
     toggleFullscreen () {
       if (this.inFullscreen) {
-        this.history.remove()
+        History.remove()
         return
       }
 
       this.__setFullscreen(true)
-      this.history.add(() => new Promise((resolve, reject) => {
+      History.add(() => new Promise((resolve, reject) => {
         this.__setFullscreen(false)
         resolve()
       }))

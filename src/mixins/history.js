@@ -1,19 +1,13 @@
-export default {
+const History = {}
+export default History
+
+export const HistoryMixin = {
   data () {
     return {
       manualURL: false,
       to: null,
       next: null,
       callbacks: []
-    }
-  },
-  provide () {
-    return {
-      history: {
-        getLevel: () => this.callbacks.length,
-        add: this.__addToHistory,
-        remove: this.__removeFromHistory
-      }
     }
   },
   methods: {
@@ -133,6 +127,10 @@ export default {
         next()
       }
     })
+
+    History.getLevel = () => this.callbacks.length
+    History.add = this.__addToHistory
+    History.remove = this.__removeFromHistory
   },
   beforeDestroy () {
     console.log('layout beforeDestroy')

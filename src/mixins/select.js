@@ -1,7 +1,7 @@
-import { QIcon } from '../icon'
-import { QInputFrame } from '../input-frame'
-import { QChip } from '../chip'
-import FrameMixin from '../input-frame/input-frame-mixin'
+import { QIcon } from '../components/icon'
+import { QInputFrame } from '../components/input-frame'
+import { QChip } from '../components/chip'
+import FrameMixin from './input-frame'
 
 export default {
   components: {

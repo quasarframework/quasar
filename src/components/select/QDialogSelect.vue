@@ -63,7 +63,7 @@
 <script>
 import clone from '../../utils/clone'
 import Dialog from '../dialog'
-import SelectMixin from './select-mixin'
+import SelectMixin from '../../mixins/select'
 
 export default {
   name: 'q-dialog-select',

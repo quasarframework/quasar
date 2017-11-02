@@ -160,7 +160,15 @@ export const LocalStorage = {
   set: setStorageItem.local,
   remove: removeStorageItem.local,
   clear: clearStorage.local,
-  isEmpty: storageIsEmpty.local
+  isEmpty: storageIsEmpty.local,
+
+  __installed: false,
+  install ({ Quasar }) {
+    if (this.__installed) { return }
+    this.__installed = true
+
+    Quasar.localStorage = LocalStorage
+  }
 }
 
 export const SessionStorage = {
@@ -174,12 +182,13 @@ export const SessionStorage = {
   set: setStorageItem.session,
   remove: removeStorageItem.session,
   clear: clearStorage.session,
-  isEmpty: storageIsEmpty.session
-}
+  isEmpty: storageIsEmpty.session,
 
-export default {
+  __installed: false,
   install ({ Quasar }) {
+    if (this.__installed) { return }
+    this.__installed = true
+
     Quasar.sessionStorage = SessionStorage
-    Quasar.localStorage = localStorage
   }
 }

@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import CarouselMixin from '../carousel/carousel-mixin'
+import CarouselMixin from '../../mixins/carousel'
 import { QCarousel } from '../carousel'
 import { QIcon } from '../icon'
 

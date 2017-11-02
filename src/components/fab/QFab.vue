@@ -26,7 +26,7 @@
 import { QBtn } from '../btn'
 import { QIcon } from '../icon'
 import FabMixin from './fab-mixin'
-import ModelToggleMixin from '../../utils/mixin-model-toggle'
+import ModelToggleMixin from '../../mixins/model-toggle'
 
 export default {
   name: 'q-fab',

@@ -112,8 +112,8 @@
 </template>
 
 <script>
-import FrameMixin from '../input-frame/input-frame-mixin'
-import InputMixin from '../input/input-mixin'
+import FrameMixin from '../../mixins/input-frame'
+import InputMixin from '../../mixins/input'
 import inputTypes from './input-types'
 import { frameDebounce } from '../../utils/debounce'
 import { between } from '../../utils/format'

@@ -56,9 +56,9 @@ import { between, normalizeToInterval } from '../../utils/format'
 import { start, stop } from '../../utils/animate'
 import { decelerate, standard } from '../../utils/easing'
 import { getEventKey } from '../../utils/event'
-import CarouselMixin from './carousel-mixin'
+import CarouselMixin from '../../mixins/carousel'
 import { QIcon } from '../icon'
-import FullscreenMixin from '../../utils/mixin-fullscreen'
+import FullscreenMixin from '../../mixins/fullscreen'
 
 export default {
   name: 'q-carousel',

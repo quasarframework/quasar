@@ -1,4 +1,4 @@
-import { QIcon } from '../icon'
+import { QIcon } from '../components/icon'
 
 const marginal = {
   type: Array,
