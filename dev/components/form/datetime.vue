@@ -34,7 +34,7 @@
           </span>
         </small>
       </p>
-      <q-datetime format="YYYY-MMMM-dddd" v-model="model" type="date" align="right" />
+      <q-datetime format="YYYY-MMMM-dddd Do Qo Q" v-model="model" type="date" align="right" />
       <q-datetime stack-label="Stack Label" v-model="model" type="date" />
       <q-datetime float-label="Float Label" v-model="model" type="date" />
 

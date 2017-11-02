@@ -7,7 +7,7 @@ const
   MILLISECONDS_IN_DAY = 86400000,
   MILLISECONDS_IN_HOUR = 3600000,
   MILLISECONDS_IN_MINUTE = 60000,
-  token = /d{1,4}|M{1,4}|m{1,2}|w{1,2}|D{1,4}|YY(?:YY)?|H{1,2}|h{1,2}|s{1,2}|S{1,3}|Z{1,2}|a{1,2}|[AQExX]/g
+  token = /d{1,4}|M{1,4}|m{1,2}|w{1,2}|Qo|Do|D{1,4}|YY(?:YY)?|H{1,2}|h{1,2}|s{1,2}|S{1,3}|Z{1,2}|a{1,2}|[AQExX]/g
 
 export const dayNames = [
   'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
@@ -297,6 +297,18 @@ export function daysInMonth (date) {
   return (new Date(date.getFullYear(), date.getMonth() + 1, 0)).getDate()
 }
 
+function getOrdinal (n) {
+  if (n >= 11 && n <= 13) {
+    return `${n}th`
+  }
+  switch (n % 10) {
+    case 1: return `${n}st`
+    case 2: return `${n}nd`
+    case 3: return `${n}rd`
+  }
+  return `${n}th`
+}
+
 export const formatter = {
   // Year: 00, 01, ..., 99
   YY (date) {
@@ -333,9 +345,19 @@ export const formatter = {
     return Math.ceil((date.getMonth() + 1) / 3)
   },
 
+  // Quarter: 1st, 2nd, 3rd, 4th
+  Qo (date) {
+    return getOrdinal(this.Q(date))
+  },
+
   // Day of month: 1, 2, ..., 31
   D (date) {
     return date.getDate()
+  },
+
+  // Day of month: 1st, 2nd, ..., 31st
+  Do (date) {
+    return getOrdinal(date.getDate())
   },
 
   // Day of month: 01, 02, ..., 31
