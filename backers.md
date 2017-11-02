@@ -50,7 +50,6 @@ It could be you!
 - Marek Urbanowicz
 - Samuel Lin
 - Matsumoto Takamasa
-- Borris Barroso
 - Josh Bodine
 - William Marques Vicente Gomes Correa
 - Samuel Desconsi
@@ -64,6 +63,7 @@ It could be you!
 - Guilherme S L de Souza
 - Jim O'Quinn
 - Bert Jehoul
+- Derrick Bass
 
 - Ken ($5)
 - Oliver ($5)
