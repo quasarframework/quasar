@@ -1,44 +1,42 @@
 import History from './history'
 
 export default {
-  data () {
-    return {
-      inFullscreen: false
+  props: {
+    fullscreen: Boolean
+  },
+  watch: {
+    fullscreen (val) {
+      if (val) {
+        this.__goFullscreen()
+      }
+      else {
+        History.remove()
+      }
+    }
+  },
+  methods: {
+    __goFullscreen () {
+      setTimeout(() => {
+        this.container = this.$el.parentNode
+        this.container.replaceChild(this.fullscreenFillerNode, this.$el)
+        document.body.appendChild(this.$el)
+        document.body.classList.add('with-mixin-fullscreen')
+
+        History.add(() => new Promise((resolve, reject) => {
+          this.container.replaceChild(this.$el, this.fullscreenFillerNode)
+          document.body.classList.remove('with-mixin-fullscreen')
+          if (this.fullscreen !== false) {
+            this.$emit('update:fullscreen', false)
+          }
+          resolve()
+        }))
+      }, 50)
     }
   },
   created () {
-    this.fillerNode = document.createElement('span')
-  },
-  methods: {
-    toggleFullscreen () {
-      if (this.inFullscreen) {
-        History.remove()
-        return
-      }
-
-      this.__setFullscreen(true)
-      History.add(() => new Promise((resolve, reject) => {
-        this.__setFullscreen(false)
-        resolve()
-      }))
-    },
-    __setFullscreen (state) {
-      if (this.inFullscreen === state) {
-        return
-      }
-
-      if (state) {
-        this.container = this.$el.parentNode
-        this.container.replaceChild(this.fillerNode, this.$el)
-        document.body.appendChild(this.$el)
-        document.body.classList.add('with-mixin-fullscreen')
-        this.inFullscreen = true
-        return
-      }
-
-      this.inFullscreen = false
-      this.container.replaceChild(this.$el, this.fillerNode)
-      document.body.classList.remove('with-mixin-fullscreen')
+    this.fullscreenFillerNode = document.createElement('span')
+    if (this.fullscreen) {
+      this.__goFullscreen()
     }
   }
 }

@@ -37,7 +37,7 @@ function getBtn (h, vm, btn, clickHandler) {
       props: extend({
         icon: btn.icon,
         label: btn.label,
-        toggled: vm.caret.is(btn.cmd, btn.param),
+        toggled: btn.toggled ? btn.toggled(vm) : btn.cmd && vm.caret.is(btn.cmd, btn.param),
         color: vm.color,
         toggleColor: vm.toggleColor,
         disable: btn.disable ? btn.disable(vm) : false

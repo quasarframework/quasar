@@ -10,7 +10,7 @@ export default {
   },
   props: {
     disable: Boolean,
-    label: String,
+    label: [Number, String],
     noCaps: Boolean,
     noWrap: Boolean,
     icon: String,

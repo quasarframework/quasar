@@ -3,6 +3,7 @@
     <q-editor
       ref="editor"
       v-model="model"
+      :fullscreen.sync="fullscreen"
       :toolbar="[
         ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript'],
         ['token', 'hr', 'link', 'custom_btn'],
@@ -67,6 +68,7 @@
       :definitions="{
         gigi: {cmd: 'bold', icon: 'map', tip: 'Gigi bold'},
         bold: {icon: 'content_paste'},
+        fullscreen: {icon: 'fullscreen', tip: 'Fullscreen', handler: () => fullscreen = !fullscreen, toggled: () => fullscreen},
         gogu: {tip: 'Custom', icon: 'account_balance', handler: vm => vm.runCmd('print')}
       }"
     >
@@ -94,7 +96,8 @@
 export default {
   data () {
     return {
-      model: ''
+      model: '',
+      fullscreen: false
     }
   },
   methods: {

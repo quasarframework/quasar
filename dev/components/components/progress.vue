@@ -55,7 +55,7 @@
 
       <h5>Specific Height</h5>
       <p>
-        <q-progress :percentage="progress" stripe animate style="height: 45px"></q-progress>
+        <q-progress :percentage="progress" stripe animate height="45px"></q-progress>
       </p>
     </div>
   </div>
