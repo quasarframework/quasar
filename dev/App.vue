@@ -1,6 +1,8 @@
 <template>
   <q-app>
-    <router-view></router-view>
+    <q-transition enter="fadeIn" leave="fadeOut" mode="out-in" :duration="300" @leave="resetScroll">
+      <router-view></router-view>
+    </q-transition>
     <q-ajax-bar ref="bar" />
   </q-app>
 </template>
@@ -9,6 +11,13 @@
 export default {
   mounted () {
     window.bar = this.$refs.bar
+  },
+  methods: {
+    resetScroll (el, done) {
+      document.documentElement.scrollTop = 0
+      document.body.scrollTop = 0
+      done()
+    }
   }
 }
 </script>
