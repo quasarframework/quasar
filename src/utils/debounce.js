@@ -1,7 +1,16 @@
 
 export function debounce (fn, wait = 250, immediate) {
   let timeout
-  return function (...args) {
+
+  // Prevents execution of debounced function, or noop if
+  // never invoked/already executed
+  function cancel () {
+    if (timeout) {
+      clearTimeout(timeout)
+    }
+  }
+
+  function debounced (...args) {
     const later = () => {
       timeout = null
       if (!immediate) {
@@ -15,6 +24,9 @@ export function debounce (fn, wait = 250, immediate) {
     }
     timeout = setTimeout(later, wait)
   }
+
+  debounced.cancel = cancel
+  return debounced
 }
 
 export function frameDebounce (fn) {
