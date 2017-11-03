@@ -32,7 +32,7 @@ export default {
       name = `${icon}`
     }
     else if (icon.startsWith('mdi-')) {
-      name = "mdi " + icon;
+      name = `mdi ${icon}`
     }
     else {
       name = 'material-icons'

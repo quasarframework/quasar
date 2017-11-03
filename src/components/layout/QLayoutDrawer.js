@@ -35,7 +35,11 @@ export default {
     }
   },
   data () {
-    const belowBreakpoint = this.behavior === 'mobile' || (this.behavior !== 'desktop' && this.breakpoint >= this.layout.width)
+    const belowBreakpoint = (
+      this.behavior === 'mobile' ||
+      (this.behavior !== 'desktop' && this.breakpoint >= this.layout.width)
+    )
+
     return {
       belowBreakpoint,
       largeScreenState: this.value,
@@ -118,14 +122,23 @@ export default {
         this.__updateModel(this.largeScreenState)
       }
     },
-    behavior () {
-      this.__updateLocal('belowBreakpoint', this.behavior === 'mobile' || (this.behavior !== 'desktop' && this.breakpoint >= this.layout.width))
+    behavior (val) {
+      this.__updateLocal('belowBreakpoint', (
+        val === 'mobile' ||
+        (val !== 'desktop' && this.breakpoint >= this.layout.width)
+      ))
     },
-    breakpoint () {
-      this.__updateLocal('belowBreakpoint', this.behavior === 'mobile' || (this.behavior !== 'desktop' && this.breakpoint >= this.layout.width))
+    breakpoint (val) {
+      this.__updateLocal('belowBreakpoint', (
+        this.behavior === 'mobile' ||
+        (this.behavior !== 'desktop' && val >= this.layout.width)
+      ))
     },
-    'layout.width' () {
-      this.__updateLocal('belowBreakpoint', this.behavior === 'mobile' || (this.behavior !== 'desktop' && this.breakpoint >= this.layout.width))
+    'layout.width' (val) {
+      this.__updateLocal('belowBreakpoint', (
+        this.behavior === 'mobile' ||
+        (this.behavior !== 'desktop' && this.breakpoint >= val)
+      ))
     },
     offset (val) {
       this.__update('offset', val)

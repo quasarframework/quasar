@@ -78,7 +78,7 @@
     </q-page-container>
   </q-layout>
 
-  <div class="fixed-center bg-amber">
+  <div class="fixed-center bg-amber z-fullscreen">
     <div class="row group no-wrap">
       <div>
         <q-toggle v-model="header" label="Header" /><br>
