@@ -1,6 +1,12 @@
 export default {
   name: 'q-carousel-slide',
-  inject: ['carousel'],
+  inject: {
+    carousel: {
+      default () {
+        console.error('QCarouselSlide needs to be child of QCarousel')
+      }
+    }
+  },
   props: {
     imgSrc: String
   },

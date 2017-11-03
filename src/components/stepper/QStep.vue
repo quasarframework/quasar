@@ -25,6 +25,13 @@ import uid from '../../utils/uid'
 
 export default {
   name: 'q-step',
+  inject: {
+    __stepper: {
+      default () {
+        console.error('QStep needs to be child of QStepper')
+      }
+    }
+  },
   components: {
     QSlideTransition,
     StepTab
@@ -50,7 +57,6 @@ export default {
     doneIcon: String,
     disable: Boolean
   },
-  inject: ['__stepper'],
   watch: {
     order () {
       this.__stepper.__sortSteps()

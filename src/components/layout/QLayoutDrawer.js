@@ -10,7 +10,13 @@ const
 
 export default {
   name: 'q-layout-drawer',
-  inject: ['layout'],
+  inject: {
+    layout: {
+      default () {
+        console.error('QLayoutDrawer needs to be child of QLayout')
+      }
+    }
+  },
   directives: {
     TouchPan
   },

@@ -77,9 +77,6 @@ let
 
 export default {
   name: 'q-modal',
-  inject: {
-    history: { default: History }
-  },
   mixins: [ModelToggleMixin],
   components: {
     QTransition

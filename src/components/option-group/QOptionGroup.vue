@@ -30,6 +30,9 @@ import { QToggle } from '../toggle'
 
 export default {
   name: 'q-option-group',
+  inject: {
+    __field: { default: null }
+  },
   components: {
     QRadio,
     QCheckbox,
@@ -58,9 +61,6 @@ export default {
     leftLabel: Boolean,
     inline: Boolean,
     disable: Boolean
-  },
-  inject: {
-    __field: { default: null }
   },
   computed: {
     component () {

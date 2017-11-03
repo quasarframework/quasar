@@ -2,7 +2,13 @@ import { QResizeObservable } from '../observables'
 
 export default {
   name: 'q-layout-header',
-  inject: ['layout'],
+  inject: {
+    layout: {
+      default () {
+        console.error('QLayoutHeader needs to be child of QLayout')
+      }
+    }
+  },
   props: {
     value: Boolean,
     reveal: Boolean,

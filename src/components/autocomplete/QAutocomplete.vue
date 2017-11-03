@@ -62,8 +62,12 @@ export default {
     separator: Boolean
   },
   inject: {
-    '__input': { default: null },
-    '__inputDebounce': { default: null }
+    __input: {
+      default () {
+        console.error('QAutocomplete needs to be child of QInput or QSearch')
+      }
+    },
+    __inputDebounce: { default: null }
   },
   data () {
     return {
@@ -223,10 +227,6 @@ export default {
     }
   },
   mounted () {
-    if (this.__input === null) {
-      console.error('Autocomplete needs to be inserted into a QInput or QSearch component.')
-      return
-    }
     this.__input.register()
     if (this.__inputDebounce) {
       this.__inputDebounce.setChildDebounce(true)

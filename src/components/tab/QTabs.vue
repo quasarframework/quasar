@@ -70,6 +70,12 @@ const
 
 export default {
   name: 'q-tabs',
+  provide () {
+    return {
+      data: this.data,
+      selectTab: this.selectTab
+    }
+  },
   components: {
     QIcon
   },
@@ -115,12 +121,6 @@ export default {
     },
     inverted (v) {
       this.data.inverted = v
-    }
-  },
-  provide () {
-    return {
-      data: this.data,
-      selectTab: this.selectTab
     }
   },
   methods: {

@@ -2,7 +2,13 @@ import { cssTransform } from '../../utils/dom'
 
 export default {
   name: 'q-page-sticky',
-  inject: ['layout'],
+  inject: {
+    layout: {
+      default () {
+        console.error('QPageSticky needs to be child of QLayout')
+      }
+    }
+  },
   props: {
     position: {
       type: String,

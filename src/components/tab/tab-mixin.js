@@ -26,7 +26,14 @@ export default {
     count: [Number, String],
     color: String
   },
-  inject: ['data', 'selectTab'],
+  inject: {
+    data: {
+      default () {
+        console.error('QTab/QRouteTab components need to be child of QTabs')
+      }
+    },
+    selectTab: {}
+  },
   watch: {
     active (val) {
       if (val) {
