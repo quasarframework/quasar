@@ -18,6 +18,12 @@
         quick-nav
       >
         <q-carousel-slide img-src="/statics/mountains.jpg" />
+        <q-carousel-slide>
+          <q-video
+            class="absolute-full"
+            src="https://www.youtube.com/embed/k3_tw44QsZQ?rel=0"
+          />
+        </q-carousel-slide>
         <q-carousel-slide img-src="/statics/parallax1.jpg" />
         <q-carousel-slide img-src="/statics/parallax2.jpg" />
 

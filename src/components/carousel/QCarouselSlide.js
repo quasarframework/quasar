@@ -26,7 +26,7 @@ export default {
   },
   render (h) {
     return h('div', {
-      staticClass: 'q-carousel-slide scroll',
+      staticClass: 'q-carousel-slide relative-position scroll',
       style: this.computedStyle
     }, this.$slots.default)
   },
