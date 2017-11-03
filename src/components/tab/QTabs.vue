@@ -338,11 +338,8 @@ export default {
         this.selectTab(this.value)
       }
 
-      // let browser drawing stabilize then
-      setTimeout(() => {
-        this.__redraw()
-        this.__findTabAndScroll(this.data.tabName, true)
-      }, debounceDelay)
+      this.__redraw()
+      this.__findTabAndScroll(this.data.tabName, true)
     })
   },
   beforeDestroy () {
@@ -350,6 +347,8 @@ export default {
     this.__stopAnimScroll()
     this.$refs.scroller.removeEventListener('scroll', this.__updateScrollIndicator)
     window.removeEventListener('resize', this.__redraw)
+    this.__redraw.cancel()
+    this.__updateScrollIndicator.cancel()
   }
 }
 </script>
