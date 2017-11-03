@@ -53,7 +53,7 @@
     "colors": "^1.1.2",
     "connect-history-api-fallback": "^1.4.0",
     "css-loader": "^0.28.7",
-    "es6-promise": "^4.1.0",
+    "es6-promise-shim": "^0.1.1",
     "eslint": "^4.8.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-friendly-formatter": "^3.0.0",
