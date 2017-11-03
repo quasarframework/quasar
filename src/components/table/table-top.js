@@ -14,7 +14,9 @@ export default {
         cls = 'q-table-top relative-position row no-wrap items-center',
         child = [],
         props = {
-          hasSelection
+          hasSelection,
+          inFullscreen: this.inFullscreen,
+          toggleFullscreen: this.toggleFullscreen
         }
 
       if (top) {

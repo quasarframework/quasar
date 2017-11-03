@@ -9,6 +9,7 @@ export const buttons = {
   subscript: {cmd: 'subscript', icon: 'vertical_align_bottom', tip: 'Subscript', htmlTip: 'x<subscript>2</subscript>'},
   superscript: {cmd: 'superscript', icon: 'vertical_align_top', tip: 'Superscript', htmlTip: 'x<superscript>2</superscript>'},
   link: {cmd: 'link', icon: 'link', tip: 'Hyperlink', key: 76},
+  fullscreen: {cmd: 'fullscreen', icon: 'fullscreen', tip: 'Toggle Fullscreen', key: 70},
 
   quote: {cmd: 'formatBlock', param: 'BLOCKQUOTE', icon: 'format_quote', tip: 'Quote', key: 81},
   left: {cmd: 'justifyLeft', icon: 'format_align_left', tip: 'Left align'},

@@ -85,7 +85,7 @@ export default {
       return this.infinite ? this.slidesNumber > 1 : this.slide < this.slidesNumber - 1
     },
     computedStyle () {
-      if (!this.fullscreen && this.height) {
+      if (!this.inFullscreen && this.height) {
         return `height: ${this.height}`
       }
     },
@@ -100,6 +100,8 @@ export default {
         previous: this.previous,
         next: this.next,
         color: this.color,
+        inFullscreen: this.inFullscreen,
+        toggleFullscreen: this.toggleFullscreen,
         canGoToNext: this.canGoToNext,
         canGoToPrevious: this.canGoToPrevious
       }
@@ -327,7 +329,7 @@ export default {
     return h('div', {
       staticClass: 'q-carousel',
       style: this.computedStyle,
-      'class': { fullscreen: this.fullscreen }
+      'class': { fullscreen: this.inFullscreen }
     }, [
       h('div', {
         staticClass: 'q-carousel-inner',

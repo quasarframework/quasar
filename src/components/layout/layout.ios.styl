@@ -19,7 +19,7 @@
   background $layout-aside-background
   z-index $z-side
   &.on-top
-    z-index $z-fixed-side
+    z-index $z-fixed-drawer
 .q-layout-drawer-left
   left 0
   width $layout-aside-left-width
@@ -48,7 +48,7 @@ main, .q-layout, .q-layout-header, .q-layout-footer
   z-index $z-marginals
 
 .q-layout-backdrop
-  z-index ($z-fixed-side - 1)
+  z-index ($z-fixed-drawer - 1)
   background $dimmed-background
 
 .q-layout-drawer-opener

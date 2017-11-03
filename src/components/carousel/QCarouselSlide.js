@@ -12,7 +12,7 @@ export default {
         style.backgroundSize = `cover`
         style.backgroundPosition = `50%`
       }
-      if (!this.carousel.fullscreen && this.carousel.height) {
+      if (!this.carousel.inFullscreen && this.carousel.height) {
         style.maxHeight = this.carousel.height
       }
       return style

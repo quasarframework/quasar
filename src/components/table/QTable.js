@@ -10,10 +10,12 @@ import Pagination from './table-pagination'
 import RowSelection from './table-row-selection'
 import ColumnSelection from './table-column-selection'
 import Expand from './table-expand'
+import FullscreenMixin from '../../mixins/fullscreen'
 
 export default {
   name: 'q-table',
   mixins: [
+    FullscreenMixin,
     Top,
     TableHeader,
     TableBody,
@@ -128,7 +130,9 @@ export default {
       {
         'class': {
           'q-table-container': true,
-          'q-table-dark': this.dark
+          'q-table-dark': this.dark,
+          fullscreen: this.inFullscreen,
+          scroll: this.inFullscreen
         }
       },
       [

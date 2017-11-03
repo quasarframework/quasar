@@ -7,7 +7,7 @@ export default {
     },
     offset: {
       type: Array,
-      default: () => [0, 0]
+      default: () => [18, 18]
     }
   },
   computed: {

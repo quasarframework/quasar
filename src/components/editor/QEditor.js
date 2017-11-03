@@ -205,13 +205,13 @@ export default {
           {
             staticClass: 'q-editor-inner',
             style: {
-              height: this.fullscreen ? '100vh' : null
+              height: this.inFullscreen ? '100vh' : null
             },
             'class': {
               disabled: this.disable,
-              fullscreen: this.fullscreen,
-              column: this.fullscreen,
-              'z-max': this.fullscreen
+              fullscreen: this.inFullscreen,
+              column: this.inFullscreen,
+              'z-max': this.inFullscreen
             }
           },
           [
@@ -230,12 +230,12 @@ export default {
               {
                 ref: 'content',
                 staticClass: `q-editor-content bg-${this.contentColor}`,
-                style: this.fullscreen
+                style: this.inFullscreen
                   ? {}
                   : { minHeight: this.minHeight, height: this.height, maxHeight: this.maxHeight },
                 class: {
-                  col: this.fullscreen,
-                  'overflow-auto': this.fullscreen
+                  col: this.inFullscreen,
+                  'overflow-auto': this.inFullscreen
                 },
                 attrs: { contenteditable: this.editable },
                 on: {

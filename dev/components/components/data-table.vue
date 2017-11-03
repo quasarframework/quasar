@@ -69,7 +69,7 @@
           Selection
         </template>
         <template slot="top-left" slot-scope="props">
-          <q-btn flat color="secondary" label="Button" />
+          <q-btn small round flat :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen()" />
         </template>
         <template slot="top-right" slot-scope="props">
           <q-table-columns color="secondary" v-model="visibleColumns" :columns="columns" />
