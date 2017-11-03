@@ -27,10 +27,15 @@ export default {
     breakpoint: {
       type: Number,
       default: 992
+    },
+    behavior: {
+      type: String,
+      validator: v => ['default', 'desktop', 'mobile'].includes(v),
+      default: 'default'
     }
   },
   data () {
-    const belowBreakpoint = this.breakpoint >= this.layout.width
+    const belowBreakpoint = this.behavior === 'mobile' || (this.behavior !== 'desktop' && this.breakpoint >= this.layout.width)
     return {
       belowBreakpoint,
       largeScreenState: this.value,
@@ -113,11 +118,14 @@ export default {
         this.__updateModel(this.largeScreenState)
       }
     },
+    behavior () {
+      this.__updateLocal('belowBreakpoint', this.behavior === 'mobile' || (this.behavior !== 'desktop' && this.breakpoint >= this.layout.width))
+    },
     breakpoint () {
-      this.__updateLocal('belowBreakpoint', this.breakpoint > this.layout.width)
+      this.__updateLocal('belowBreakpoint', this.behavior === 'mobile' || (this.behavior !== 'desktop' && this.breakpoint >= this.layout.width))
     },
     'layout.width' () {
-      this.__updateLocal('belowBreakpoint', this.breakpoint > this.layout.width)
+      this.__updateLocal('belowBreakpoint', this.behavior === 'mobile' || (this.behavior !== 'desktop' && this.breakpoint >= this.layout.width))
     },
     offset (val) {
       this.__update('offset', val)
