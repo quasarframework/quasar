@@ -50,7 +50,6 @@
       <q-carousel
         @slides-number="val => slidesNumber = val"
         height="300px"
-        :fullscreen.sync="fullscreen"
         :infinite="infinite"
         color="white"
         arrows
