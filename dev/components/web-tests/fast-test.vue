@@ -1,23 +1,49 @@
 <template>
-  <div class="layout-padding">
-    <!--
-      This is for fast tests.
-      Use this page but don't add it into your commits (leave it outside
-      of your commit).
-
-      For some test that you think it should be persistent,
-      make a new *.vue file here or in another folder under /dev/components.
-    -->
-  </div>
+ <div>Test area</div>
 </template>
 
 <script>
+import {
+  Dialog
+} from 'quasar'
+
 export default {
-  data () {
-    return {
-    }
+  name: 'Test',
+  beforeCreate () {
+    console.log(`Quasar v${this.$q.version}`)
+    console.log('has popstate:', this.$q.platform.has.popstate)
+    window.addEventListener('popstate', () => {
+      console.log('popstate occurred')
+    })
+  },
+  created () {
+    console.log('route', this.$route)
   },
   methods: {
+    testDialog () {
+      Dialog.create({
+        title: 'Test Dialog 1',
+        buttons: [
+          {
+            label: 'Button 1',
+            preventClose: true,
+            handler (data, closeThis) {
+              console.log('Button 1 clicked')
+              closeThis()
+            }
+          },
+          {
+            label: 'Button 2',
+            handler () {
+              console.log('Button 2 clicked')
+            }
+          }
+        ]
+      })
+    }
+  },
+  mounted () {
+    this.testDialog()
   }
 }
 </script>
