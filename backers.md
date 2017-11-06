@@ -64,6 +64,8 @@ It could be you!
 - Jim O'Quinn
 - Bert Jehoul
 - Derrick Bass
+- Catalin Rogojeanu
+- William Correa
 
 - Ken ($5)
 - Oliver ($5)
