@@ -65,7 +65,7 @@ It could be you!
 - Bert Jehoul
 - Derrick Bass
 - Catalin Rogojeanu
-- William Garrido
+- William Correa
 
 - Ken ($5)
 - Oliver ($5)
@@ -78,7 +78,7 @@ It could be you!
 
 ---
 
-### One time
+### Notable one time
 
 - Jurgen Hollfelder 500 EUR
 - Robert Preston $250
@@ -88,5 +88,3 @@ It could be you!
 - Kyle Tippetts $100
 - Gerard Eviston $50
 - Jacob Heruty $50
-- Mickaël Le Normand $15
-- Tommy Carlsson $10
