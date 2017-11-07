@@ -4,7 +4,7 @@ export default {
     filterMethod: {
       type: Function,
       default (rows, terms, cols = this.computedCols, cellValue = this.getCellValue) {
-        const lowerTerms = ((terms && terms.toLocaleLowerCase()) || '');
+        const lowerTerms = ((terms && terms.toLocaleLowerCase()) || '')
         return rows.filter(
           row => cols.some(col => (cellValue(col, row) + '').toLowerCase().indexOf(lowerTerms) !== -1)
         )
