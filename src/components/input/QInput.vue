@@ -148,7 +148,11 @@ export default {
       type: Number,
       default: 1
     },
-    maxDecimals: Number
+    maxDecimals: Number,
+    upperCase: {
+      type: Boolean,
+      default: false
+    }
   },
   data () {
     return {
@@ -240,6 +244,9 @@ export default {
               ? parseFloat(val).toFixed(this.maxDecimals)
               : parseFloat(val)
           }
+        }
+        if (this.upperCase) {
+          val = val.toUpperCase()
         }
         this.$emit('input', val)
         this.$emit('change', val)
