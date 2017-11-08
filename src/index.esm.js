@@ -1,5 +1,4 @@
 import install from './install'
-import start from './start'
 import { version } from '../package.json'
 
 export * from './components'
@@ -11,6 +10,5 @@ export * from './utils'
 export default {
   version,
   install,
-  start,
   theme: __THEME__
 }
