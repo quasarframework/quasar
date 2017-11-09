@@ -21,11 +21,9 @@ Vue.use(Quasar, {
   plugins: Everything
 })
 
-Quasar.start(() => {
-  /* eslint-disable no-new */
-  new Vue({
-    el: '#q-app',
-    router,
-    render: h => h(App)
-  })
+/* eslint-disable no-new */
+new Vue({
+  el: '#q-app',
+  router,
+  render: h => h(App)
 })
