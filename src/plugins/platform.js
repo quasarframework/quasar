@@ -155,7 +155,7 @@ function getPlatform () {
   else if (
     window._cordovaNative ||
     window.cordova ||
-    document.location.href.indexOf('http://') > -1
+    document.location.href.indexOf('http://') === -1
   ) {
     browser.cordova = true
   }
