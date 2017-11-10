@@ -152,7 +152,11 @@ function getPlatform () {
   else if (document.location.href.indexOf('chrome-extension://') === 0) {
     browser.chromeExt = true
   }
-  else if (window._cordovaNative || document.location.href.indexOf('http') !== 0) {
+  else if (
+    window._cordovaNative ||
+    window.cordova ||
+    document.location.href.indexOf('http://') > -1
+  ) {
     browser.cordova = true
   }
 
