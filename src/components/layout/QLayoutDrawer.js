@@ -21,7 +21,10 @@ export default {
     TouchPan
   },
   props: {
-    value: Boolean,
+    value: {
+      type: Boolean,
+      default: true
+    },
     overlay: Boolean,
     rightSide: Boolean,
     breakpoint: {

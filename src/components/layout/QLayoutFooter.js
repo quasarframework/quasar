@@ -10,7 +10,10 @@ export default {
     }
   },
   props: {
-    value: Boolean,
+    value: {
+      type: Boolean,
+      default: true
+    },
     reveal: Boolean
   },
   data () {
