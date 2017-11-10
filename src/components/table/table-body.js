@@ -59,7 +59,7 @@ export default {
             ]))
           }
 
-          return h('tr', { key, 'class': { selected } }, child)
+          return h('tr', { key, 'class': { selected }, on: { click: this.emitRowClick.bind(null, row) } }, child)
         })
       }
 
@@ -108,6 +108,9 @@ export default {
     getCellValue (col, row) {
       const val = typeof col.field === 'function' ? col.field(row) : row[col.field]
       return col.format ? col.format(val) : val
+    },
+    emitRowClick (row) {
+      this.$emit('rowclick', row)
     }
   }
 }
