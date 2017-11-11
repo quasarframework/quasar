@@ -3,7 +3,6 @@ import Platform from './features/platform'
 import throttle from './utils/throttle'
 
 export default function (cb = function () {}) {
-
   // Handle detecting when the mobile keyboard is open or close including logic to handle device orientation changes.
   if (Platform.is.mobile) {
     var initialScreenHeight = window.innerHeight
@@ -13,9 +12,10 @@ export default function (cb = function () {}) {
       if (window.innerWidth !== initialScreenWidth) {
         initialScreenHeight = window.innerHeight
         initialScreenWidth = window.innerWidth
-      } else {
+      }
+      else {
         let isOpen = (window.innerHeight < initialScreenHeight)
-        if(Vue.prototype.$isKeyboardOpen !== isOpen) {
+        if (Vue.prototype.$isKeyboardOpen !== isOpen) {
           Vue.prototype.$isKeyboardOpen = isOpen
         }
       }
