@@ -49,6 +49,7 @@
             :min="el.min"
             :max="el.max"
             :step="el.step"
+            :decimals="el.decimals"
             :label="el.withLabel"
             :label-always="el.labelAlways"
             :markers="el.markers"
