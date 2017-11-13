@@ -112,6 +112,12 @@
   &:hover:before
     color lighten($negative, 26%)
 
+.q-if-warning
+  &:before, &:after, &:not(.q-if-inverted) .q-if-label, .q-if-addon
+    color $warning
+  &:hover:before
+    color lighten($warning, 26%)
+
 .q-if-disabled
   cursor not-allowed !important
   .q-if-label, .q-if-control
