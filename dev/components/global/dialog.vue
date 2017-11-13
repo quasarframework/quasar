@@ -396,6 +396,17 @@ export default {
                   model: 12,
                   color: 'secondary'
                 },
+                slider2: {
+                  type: 'slider',
+                  label: 'Slider2',
+                  min: 0.01,
+                  max: 1,
+                  step: 0.01,
+                  decimals: 2,
+                  withLabel: true,
+                  model: 0.01,
+                  color: 'secondary'
+                },
                 range: {
                   type: 'range',
                   label: 'Range',
