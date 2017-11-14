@@ -155,7 +155,11 @@ export default {
     multiple: Boolean,
     hideUploadButton: Boolean,
     hideUploadProgress: Boolean,
-    noThumbnails: Boolean
+    noThumbnails: Boolean,
+    sendRaw: {
+      type: Boolean,
+      default: false
+    }
   },
   data () {
     return {
@@ -321,7 +325,12 @@ export default {
           }
 
           this.xhrs.push(xhr)
-          xhr.send(form)
+          if (this.sendRaw) {
+            xhr.send(file)
+          }
+          else {
+            xhr.send(form)
+          }
         })
       })
     },
