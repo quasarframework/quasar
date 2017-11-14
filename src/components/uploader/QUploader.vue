@@ -186,7 +186,11 @@ export default {
     noThumbnails: Boolean,
     autoExpand: Boolean,
     expandStyle: [Array, String, Object],
-    expandClass: [Array, String, Object]
+    expandClass: [Array, String, Object],
+    sendRaw: {
+      type: Boolean,
+      default: false
+    }
   },
   data () {
     return {
@@ -398,7 +402,12 @@ export default {
           }
 
           this.xhrs.push(xhr)
-          xhr.send(form)
+          if (this.sendRaw) {
+            xhr.send(file)
+          }
+          else {
+            xhr.send(form)
+          }
         })
       })
     },
