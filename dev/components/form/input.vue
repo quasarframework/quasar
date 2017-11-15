@@ -20,6 +20,9 @@
       <q-input v-model="text" float-label="Colored" color="amber" />
       <q-input v-model="text" float-label="Colored" color="amber" error />
 
+      <q-input v-model="text" float-label="Has warning" warning />
+      <q-input v-model="text" float-label="Has both error and warning" error warning />
+
       <p class="caption">Inverted Inputs</p>
       <q-input v-model="text" :error="error" inverted color="secondary" type="password" clearable placeholder="Some placeholder" :after="[{icon: 'warning', error: true, handler () {}}]" />
       <q-input v-model="text" inverted stack-label="Colored" color="amber" />

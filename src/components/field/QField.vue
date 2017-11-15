@@ -5,6 +5,7 @@
       'q-field-floating': childHasLabel,
       'q-field-no-label': !this.label && !this.$slots.label,
       'q-field-with-error': hasError,
+      'q-field-with-warning': hasWarning,
       'q-field-dark': isDark
     }"
   >
@@ -31,6 +32,7 @@
           class="q-field-bottom row no-wrap"
         >
           <div v-if="hasError && errorLabel" class="q-field-error col" v-html="errorLabel"></div>
+          <div v-else-if="hasWarning && warningLabel" class="q-field-warning col" v-html="warningLabel"></div>
           <div v-else-if="helper" class="q-field-helper col" v-html="helper"></div>
           <div v-else class="col"></div>
           <div v-if="counter" class="q-field-counter col-auto">{{ counter }}</div>
@@ -69,6 +71,8 @@ export default {
     },
     error: Boolean,
     errorLabel: String,
+    warning: Boolean,
+    warningLabel: String,
     helper: String,
     icon: String,
     dark: Boolean
@@ -82,8 +86,14 @@ export default {
     hasError () {
       return this.input.error || this.error
     },
+    hasWarning () {
+      return !this.hasError && (this.input.warning || this.warning)
+    },
     hasBottom () {
-      return (this.hasError && this.errorLabel) || this.helper || this.count
+      return (this.hasError && this.errorLabel) ||
+        (this.hasWarning && this.warningLabel) ||
+        this.helper ||
+        this.count
     },
     hasLabel () {
       return this.label || this.$slots.label || ['label', 'full'].includes(this.inset)

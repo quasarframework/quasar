@@ -102,6 +102,17 @@
       </q-field>
 
       <q-field
+        icon="warning"
+        helper="Helper"
+        :warning="warning"
+        warning-label="Warning!"
+        label="Horizontal Warning"
+        orientation="horizontal"
+      >
+        <q-input suffix="#" prefix="@" v-model="model" :count="10" />
+      </q-field>
+
+      <q-field
         icon="cloud"
         helper="Helper"
         error="error"
@@ -301,6 +312,8 @@
     <label class="fixed-bottom-right">
       <q-checkbox v-model="error" />
       Error
+      <q-checkbox v-model="warning" />
+      Warning
     </label>
   </div>
 </template>
@@ -311,6 +324,7 @@ export default {
     return {
       option: '',
       error: true,
+      warning: true,
       model: 'Some input',
       modelX: 'sdflkjsbnfkjdabfa dfasldgfa gfg lasdfl gasdf asdfhl asdgfgasdlf hlahf lsadf asdhlf hasdhadlfasdhfadf hasdg lfasdg lfgasdfasdflasdhfgasdljfljasdh fsdkjfgasdf gjasdgfjasdljgasdjk gjlasdfa sdfgasdljf gljasdfgljasd',
       modelY: '',
