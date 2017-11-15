@@ -309,12 +309,16 @@
         <q-select inverted v-model="select" :options="selectListOptions" float-label="Float label without filter"></q-select>
       </q-field>
     </div>
-    <label class="fixed-bottom-right">
-      <q-checkbox v-model="error" />
-      Error
-      <q-checkbox v-model="warning" />
-      Warning
-    </label>
+    <div class="fixed-bottom-right">
+      <label>
+        <q-checkbox v-model="error" />
+        Error
+      </label>
+      <label>
+        <q-checkbox v-model="warning" />
+        Warning
+      </label>
+    </div>
   </div>
 </template>
 
