@@ -183,7 +183,7 @@ export default {
     },
     backdropClass () {
       return {
-        'transition-generic': !this.inTransit,
+        'transition-none': !this.inTransit,
         'no-pointer-events': !this.inTransit && !this.value
       }
     },
@@ -212,7 +212,7 @@ export default {
     belowClass () {
       return {
         'fixed': true,
-        'on-top': this.inTransit || this.value,
+        'on-top': true,
         'on-screen': this.value,
         'off-screen': !this.value,
         'transition-generic': !this.inTransit,
