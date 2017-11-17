@@ -39,7 +39,7 @@ It could be you!
 
 ### $10+
 
-- Max Matteo Staack ($35)
+- Max Matteo Staack ($4400)
 - Valerian Cure ($25)
 - Shawn Makinson ($25)
 - Anca-Anamaria Enache ($20)
@@ -66,6 +66,7 @@ It could be you!
 - Derrick Bass
 - Catalin Rogojeanu
 - William Correa
+- PHPZM
 
 - Ken ($5)
 - Oliver ($5)
