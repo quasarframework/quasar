@@ -183,7 +183,7 @@ export default {
     },
     backdropClass () {
       return {
-        'transition-generic': !this.inTransit,
+        'q-layout-backdrop-transition': !this.inTransit,
         'no-pointer-events': !this.inTransit && !this.value
       }
     },
@@ -207,12 +207,12 @@ export default {
         )
     },
     backdropStyle () {
-      return { opacity: this.percentage }
+      return { backgroundColor: `rgba(0,0,0,${this.percentage * 0.4})` }
     },
     belowClass () {
       return {
         'fixed': true,
-        'on-top': this.inTransit || this.value,
+        'on-top': true,
         'on-screen': this.value,
         'off-screen': !this.value,
         'transition-generic': !this.inTransit,
