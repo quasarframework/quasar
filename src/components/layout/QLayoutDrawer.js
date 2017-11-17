@@ -3,10 +3,12 @@ import { cssTransform } from '../../utils/dom'
 import { between } from '../../utils/format'
 import { QResizeObservable } from '../observables'
 import History from '../../mixins/history'
+import Platform from '../../plugins/platform'
 
 const
   bodyClass = 'with-layout-drawer-opened',
-  duration = 120 + 30
+  duration = 120 + 30,
+  isCordova = Platform.is.cordova
 
 export default {
   name: 'q-layout-drawer',
@@ -183,7 +185,8 @@ export default {
     },
     backdropClass () {
       return {
-        'transition-none': !this.inTransit,
+        'transition-none': isCordova && !this.inTransit,
+        'transition-generic': !isCordova && !this.inTransit,
         'no-pointer-events': !this.inTransit && !this.value
       }
     },
