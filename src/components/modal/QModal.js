@@ -187,11 +187,11 @@ export default {
         }, duration)
       })
     },
-    __dismiss (onClick) {
+    __dismiss () {
       if (this.noBackdropDismiss) {
         return
       }
-      this.hide(onClick)
+      this.hide()
     }
   },
   beforeDestroy () {
@@ -211,7 +211,7 @@ export default {
         staticClass: 'modal fullscreen row',
         'class': this.modalClasses,
         on: {
-          mousedown: this.__dismiss,
+          click: this.__dismiss,
           touchstart: this.__dismiss
         },
         directives: [{
@@ -225,7 +225,7 @@ export default {
           style: this.modalCss,
           'class': this.contentClasses,
           on: {
-            mousedown (e) {
+            click (e) {
               e.stopPropagation()
             },
             touchstart (e) {
