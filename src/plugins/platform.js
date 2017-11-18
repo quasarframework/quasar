@@ -181,5 +181,4 @@ const Platform = {
   }
 }
 
-Platform.has.popstate = !Platform.within.iframe && !Platform.is.electron
 export default Platform
