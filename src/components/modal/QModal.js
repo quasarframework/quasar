@@ -1,33 +1,8 @@
-<template>
-  <q-transition :name="modalTransition" :enter="enterClass" :leave="leaveClass">
-    <div
-      v-show="active"
-      class="modal fullscreen row"
-      :class="modalClasses"
-      @mousedown="__dismiss()"
-      @touchstart="__dismiss()"
-    >
-      <div
-        ref="content"
-        class="modal-content scroll"
-        @mousedown.stop
-        @touchstart.stop
-        :style="modalCss"
-        :class="contentClasses"
-      >
-        <slot></slot>
-      </div>
-    </div>
-  </q-transition>
-</template>
-
-<script>
 import EscapeKey from '../../utils/escape-key'
 import extend from '../../utils/extend'
 import ModelToggleMixin from '../../mixins/model-toggle'
 import { QTransition } from '../transition'
 import { getScrollbarWidth } from '../../utils/scroll'
-import History from '../../mixins/history'
 
 const positions = {
   top: 'items-start justify-center with-backdrop',
@@ -78,9 +53,6 @@ let
 export default {
   name: 'q-modal',
   mixins: [ModelToggleMixin],
-  components: {
-    QTransition
-  },
   props: {
     position: {
       type: String,
@@ -108,12 +80,6 @@ export default {
     },
     minimized: Boolean,
     maximized: Boolean
-  },
-  data () {
-    return {
-      active: false,
-      toggleInProgress: false
-    }
   },
   computed: {
     modalClasses () {
@@ -155,12 +121,14 @@ export default {
     }
   },
   methods: {
-    open (onShow) {
-      if (this.active || this.toggleInProgress) {
+    open (fn) {
+      if (this.active) {
+        if (typeof fn === 'function') {
+          fn()
+        }
         return
       }
 
-      this.toggleInProgress = true
       const body = document.body
 
       body.appendChild(this.$el)
@@ -175,26 +143,6 @@ export default {
         }
       })
 
-      History.add(() => new Promise((resolve, reject) => {
-        EscapeKey.pop()
-        openedModalNumber--
-        this.active = false
-        setTimeout(() => {
-          if (openedModalNumber === 0) {
-            body.classList.remove('with-modal')
-            body.style.paddingRight = this.bodyPadding
-          }
-          resolve()
-
-          if (typeof this.__onClose === 'function') {
-            this.__onClose()
-          }
-          this.toggleInProgress = false
-          this.__updateModel(false)
-          this.$emit('close')
-        }, duration)
-      }))
-
       setTimeout(() => {
         let content = this.$refs.content
         content.scrollTop = 0
@@ -205,33 +153,38 @@ export default {
         })
       }, 10)
 
-      this.active = true
+      this.__updateModel(true)
       openedModalNumber++
+
       setTimeout(() => {
-        if (typeof onShow === 'function') {
-          onShow()
+        if (typeof fn === 'function') {
+          fn()
         }
-        this.toggleInProgress = false
-        this.__updateModel(true)
         this.$emit('open')
       }, duration)
     },
-    close (onClose) {
-      if (!this.active || this.toggleInProgress) {
+    close (fn) {
+      if (!this.active) {
+        if (typeof fn === 'function') {
+          fn()
+        }
         return
       }
 
-      this.toggleInProgress = true
-      this.__onClose = onClose
+      EscapeKey.pop()
+      openedModalNumber--
+      this.__updateModel(false)
+      setTimeout(() => {
+        if (typeof fn === 'function') {
+          fn()
+        }
+        this.$emit('close')
+      }, duration)
 
-      History.remove()
-    },
-    toggle (done) {
-      if (this.active) {
-        this.close(done)
-      }
-      else {
-        this.open(done)
+      if (openedModalNumber === 0) {
+        const body = document.body
+        body.classList.remove('with-modal')
+        body.style.paddingRight = this.bodyPadding
       }
     },
     __dismiss (onClick) {
@@ -245,6 +198,44 @@ export default {
     if (this.$el.parentNode) {
       this.$el.parentNode.removeChild(this.$el)
     }
+  },
+  render (h) {
+    return h(QTransition, {
+      props: {
+        name: this.modalTransition,
+        enter: this.enterClass,
+        leave: this.leaveClass
+      }
+    }, [
+      h('div', {
+        staticClass: 'modal fullscreen row',
+        'class': this.modalClasses,
+        on: {
+          mousedown: this.__dismiss,
+          touchstart: this.__dismiss
+        },
+        directives: [{
+          name: 'show',
+          value: this.active
+        }]
+      }, [
+        h('div', {
+          ref: 'content',
+          staticClass: 'modal-content scroll',
+          style: this.modalCss,
+          'class': this.contentClasses,
+          on: {
+            mousedown (e) {
+              e.stopPropagation()
+              e.preventDefault()
+            },
+            touchstart (e) {
+              e.stopPropagation()
+              e.preventDefault()
+            }
+          }
+        }, [ this.$slots.default ])
+      ])
+    ])
   }
 }
-</script>

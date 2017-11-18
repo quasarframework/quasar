@@ -6,36 +6,51 @@ export default {
       inFullscreen: false
     }
   },
+  watch: {
+    $route () {
+      this.__exitFullscreen()
+    }
+  },
   methods: {
     toggleFullscreen () {
-      this.__setFullscreen(!this.inFullscreen)
+      if (this.inFullscreen) {
+        this.exitFullscreen()
+      }
+      else {
+        this.setFullscreen()
+      }
     },
-    __setFullscreen (val) {
-      if (this.inFullscreen === val) {
-        return
-      }
-      if (!val) {
-        History.remove()
+    setFullscreen () {
+      if (this.inFullscreen) {
         return
       }
 
-      setTimeout(() => {
-        this.inFullscreen = true
-        this.container = this.$el.parentNode
-        this.container.replaceChild(this.fullscreenFillerNode, this.$el)
-        document.body.appendChild(this.$el)
-        document.body.classList.add('with-mixin-fullscreen')
+      this.inFullscreen = true
+      this.container = this.$el.parentNode
+      this.container.replaceChild(this.fullscreenFillerNode, this.$el)
+      document.body.appendChild(this.$el)
+      document.body.classList.add('with-mixin-fullscreen')
 
-        History.add(() => new Promise((resolve, reject) => {
-          this.container.replaceChild(this.$el, this.fullscreenFillerNode)
-          document.body.classList.remove('with-mixin-fullscreen')
-          this.inFullscreen = false
-          resolve()
-        }))
-      }, 50)
+      this.__historyFullscreen = {
+        handler: this.exitFullscreen
+      }
+      History.add(this.__historyFullscreen)
+    },
+    exitFullscreen () {
+      if (!this.inFullscreen) {
+        return
+      }
+
+      History.remove(this.__historyFullscreen)
+      this.container.replaceChild(this.$el, this.fullscreenFillerNode)
+      document.body.classList.remove('with-mixin-fullscreen')
+      this.inFullscreen = false
     }
   },
   created () {
     this.fullscreenFillerNode = document.createElement('span')
+  },
+  beforeDestroy () {
+    this.__exitFullscreen()
   }
 }

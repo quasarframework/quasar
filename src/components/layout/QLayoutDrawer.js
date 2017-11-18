@@ -2,11 +2,11 @@ import TouchPan from '../../directives/touch-pan'
 import { cssTransform } from '../../utils/dom'
 import { between } from '../../utils/format'
 import { QResizeObservable } from '../observables'
-import History from '../../mixins/history'
+import ModelToggleMixin from '../../mixins/model-toggle'
 
 const
   bodyClass = 'with-layout-drawer-opened',
-  duration = 120 + 30
+  duration = 150
 
 export default {
   name: 'q-layout-drawer',
@@ -17,6 +17,7 @@ export default {
       }
     }
   },
+  mixins: [ModelToggleMixin],
   directives: {
     TouchPan
   },
@@ -55,55 +56,6 @@ export default {
     }
   },
   watch: {
-    value (val) {
-      console.log('watcher value', val)
-      if (!val && this.mobileOpened) {
-        console.log('watcher value: mobile opened; history remove')
-        History.remove()
-        return
-      }
-
-      if (val && this.belowBreakpoint) {
-        console.log('watcher value: opening mobile')
-        this.mobileOpened = true
-        this.percentage = 1
-        document.body.classList.add(bodyClass)
-
-        History.add(() => new Promise((resolve, reject) => {
-          this.mobileOpened = false
-          this.percentage = 0
-          document.body.classList.remove(bodyClass)
-          this.__updateModel(this.belowBreakpoint || this.overlay ? false : this.largeScreenState)
-          if (typeof this.__onClose === 'function') {
-            setTimeout(() => {
-              resolve()
-              this.__onClose()
-              this.__onClose = null
-            }, duration)
-          }
-          else {
-            resolve()
-          }
-        }))
-      }
-
-      if (val) {
-        console.log('watcher value: calling onshow')
-        if (typeof this.__onShow === 'function') {
-          this.__onShow()
-          this.__onShow = null
-        }
-        return
-      }
-
-      console.log('watcher value: calling onclose')
-      if (typeof this.__onClose === 'function') {
-        setTimeout(() => {
-          this.__onClose()
-          this.__onClose = null
-        }, duration)
-      }
-    },
     belowBreakpoint (val, old) {
       console.log('belowBreakpoint: change detected', val)
       if (this.mobileOpened) {
@@ -114,8 +66,8 @@ export default {
       if (val) { // from lg to xs
         console.log('belowBreakpoint: from lg to xs; model force to false')
         if (!this.overlay) {
-          console.log('belowBreakpoint: largeScreenState set to', this.value)
-          this.largeScreenState = this.value
+          console.log('belowBreakpoint: largeScreenState set to', this.active)
+          this.largeScreenState = this.active
         }
         // ensure we close it for small screen
         this.__updateModel(false)
@@ -168,7 +120,7 @@ export default {
       return this.rightSide ? 'right' : 'left'
     },
     offset () {
-      return this.value && !this.mobileOpened
+      return this.active && !this.mobileOpened
         ? this.size
         : 0
     },
@@ -176,15 +128,15 @@ export default {
       return this.overlay || this.layout.view.indexOf(this.rightSide ? 'R' : 'L') > -1
     },
     onLayout () {
-      return this.value && !this.mobileView && !this.overlay
+      return this.active && !this.mobileView && !this.overlay
     },
     onScreenOverlay () {
-      return this.value && !this.mobileView && this.overlay
+      return this.active && !this.mobileView && this.overlay
     },
     backdropClass () {
       return {
         'q-layout-backdrop-transition': !this.inTransit,
-        'no-pointer-events': !this.inTransit && !this.value
+        'no-pointer-events': !this.inTransit && !this.active
       }
     },
     mobileView () {
@@ -213,8 +165,8 @@ export default {
       return {
         'fixed': true,
         'on-top': true,
-        'on-screen': this.value,
-        'off-screen': !this.value,
+        'on-screen': this.active,
+        'off-screen': !this.active,
         'transition-generic': !this.inTransit,
         'top-padding': this.fixed || this.headerSlot
       }
@@ -320,7 +272,7 @@ export default {
       this.animateOverlay = true
     })
   },
-  destroyed () {
+  beforeDestroy () {
     this.__update('size', 0)
     this.__update('space', false)
   },
@@ -377,38 +329,65 @@ export default {
         this.inTransit = true
       }
     },
+    // alias
+    open (fn) {
+      this.show(fn)
+    },
     show (fn) {
-      if (this.value === true) {
+      console.log('show', this.active)
+      if (this.active) {
         if (typeof fn === 'function') {
           fn()
         }
         return
       }
 
-      this.__onShow = fn
+      if (this.belowBreakpoint) {
+        console.log('watcher value: opening mobile')
+        this.mobileOpened = true
+        this.percentage = 1
+        document.body.classList.add(bodyClass)
+      }
+
       this.__updateModel(true)
+      setTimeout(() => {
+        if (typeof fn === 'function') {
+          fn()
+        }
+        this.$emit('show')
+      }, duration)
+    },
+    // alias
+    close (fn) {
+      this.hide(fn)
     },
     hide (fn) {
-      if (this.value === false) {
+      console.log('hide', this.active)
+      if (!this.active) {
         if (typeof fn === 'function') {
           fn()
         }
         return
       }
 
-      this.__onClose = fn
-      this.__updateModel(false)
+      this.mobileOpened = false
+      this.percentage = 0
+      document.body.classList.remove(bodyClass)
+      this.__updateModel(
+        this.belowBreakpoint ||
+        this.overlay ? false : this.largeScreenState
+      )
+      setTimeout(() => {
+        if (typeof fn === 'function') {
+          fn()
+        }
+        this.$emit('hide')
+      }, duration)
     },
 
     __onResize ({ width }) {
       this.__update('size', width)
       this.__updateLocal('size', width)
-    },
-    __updateModel (val) {
-      if (this.value !== val) {
-        console.log('new model', val)
-        this.$emit('input', val)
-      }
     },
     __update (prop, val) {
       if (this.layout[this.side][prop] !== val) {
