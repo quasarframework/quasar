@@ -12,8 +12,10 @@ export default {
   watch: {
     value: {
       handler (val) {
-        if (val) { this.show() }
-        else { this.hide() }
+        this.$nextTick(() => {
+          if (val) { this.show() }
+          else { this.hide() }
+        })
       },
       immediate: true
     }
