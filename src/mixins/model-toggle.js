@@ -10,14 +10,9 @@ export default {
     }
   },
   watch: {
-    value: {
-      handler (val) {
-        this.$nextTick(() => {
-          if (val) { this.show() }
-          else { this.hide() }
-        })
-      },
-      immediate: true
+    value (val) {
+      if (val) { this.show() }
+      else { this.hide() }
     }
   },
   methods: {
@@ -28,7 +23,7 @@ export default {
       if (this.showing !== val) {
         this.showing = val
 
-        if (noHistory) {
+        if (noHistory !== void 0) {
           // do nothing
         }
         else if (val) {
@@ -45,6 +40,11 @@ export default {
       if (this.value !== val) {
         this.$emit('input', val)
       }
+    }
+  },
+  mounted () {
+    if (this.value) {
+      this.show()
     }
   }
 }

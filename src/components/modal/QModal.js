@@ -172,7 +172,6 @@ export default {
 
       EscapeKey.pop()
       openedModalNumber--
-      this.__updateModel(false)
 
       if (openedModalNumber === 0) {
         const body = document.body
@@ -180,6 +179,7 @@ export default {
         body.style.paddingRight = this.bodyPadding
       }
 
+      this.__updateModel(false)
       return new Promise((resolve, reject) => {
         setTimeout(() => {
           this.$emit('hide')
@@ -227,11 +227,9 @@ export default {
           on: {
             mousedown (e) {
               e.stopPropagation()
-              e.preventDefault()
             },
             touchstart (e) {
               e.stopPropagation()
-              e.preventDefault()
             }
           }
         }, [ this.$slots.default ])
