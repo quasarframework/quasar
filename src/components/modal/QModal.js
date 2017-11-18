@@ -81,6 +81,11 @@ export default {
     minimized: Boolean,
     maximized: Boolean
   },
+  watch: {
+    $route () {
+      this.hide()
+    }
+  },
   computed: {
     modalClasses () {
       const cls = this.position
@@ -121,12 +126,9 @@ export default {
     }
   },
   methods: {
-    open (fn) {
-      if (this.active) {
-        if (typeof fn === 'function') {
-          fn()
-        }
-        return
+    show () {
+      if (this.showing) {
+        return Promise.resolve()
       }
 
       const body = document.body
@@ -137,7 +139,7 @@ export default {
       body.style.paddingRight = `${getScrollbarWidth()}px`
       EscapeKey.register(() => {
         if (!this.noEscDismiss) {
-          this.close(() => {
+          this.hide().then(() => {
             this.$emit('escape-key')
           })
         }
@@ -156,42 +158,40 @@ export default {
       this.__updateModel(true)
       openedModalNumber++
 
-      setTimeout(() => {
-        if (typeof fn === 'function') {
-          fn()
-        }
-        this.$emit('open')
-      }, duration)
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          this.$emit('show')
+          resolve()
+        }, duration)
+      })
     },
-    close (fn) {
-      if (!this.active) {
-        if (typeof fn === 'function') {
-          fn()
-        }
-        return
+    hide () {
+      if (!this.showing) {
+        return Promise.resolve()
       }
 
       EscapeKey.pop()
       openedModalNumber--
       this.__updateModel(false)
-      setTimeout(() => {
-        if (typeof fn === 'function') {
-          fn()
-        }
-        this.$emit('close')
-      }, duration)
 
       if (openedModalNumber === 0) {
         const body = document.body
         body.classList.remove('with-modal')
         body.style.paddingRight = this.bodyPadding
       }
+
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          this.$emit('hide')
+          resolve()
+        }, duration)
+      })
     },
     __dismiss (onClick) {
       if (this.noBackdropDismiss) {
         return
       }
-      this.close(onClick)
+      this.hide(onClick)
     }
   },
   beforeDestroy () {
@@ -216,7 +216,7 @@ export default {
         },
         directives: [{
           name: 'show',
-          value: this.active
+          value: this.showing
         }]
       }, [
         h('div', {

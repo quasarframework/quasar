@@ -1,10 +1,3 @@
-<template>
-  <span class="q-tooltip animate-scale" :style="transformCSS">
-    <slot></slot>
-  </span>
-</template>
-
-<script>
 import { debounce } from '../../utils/debounce'
 import { getScrollTarget } from '../../utils/scroll'
 import {
@@ -41,11 +34,6 @@ export default {
     maxHeight: String,
     disable: Boolean
   },
-  data () {
-    return {
-      opened: false
-    }
-  },
   computed: {
     anchorOrigin () {
       return parsePosition(this.anchor)
@@ -60,44 +48,38 @@ export default {
     }
   },
   methods: {
-    toggle () {
-      if (this.opened) {
-        this.close()
-      }
-      else {
-        this.open()
-      }
-    },
-    open () {
-      if (this.disable || this.opened) {
-        return
+    show () {
+      if (this.disable || this.showing) {
+        return Promise.resolve()
       }
       clearTimeout(this.timer)
-      this.opened = true
       document.body.appendChild(this.$el)
       this.scrollTarget = getScrollTarget(this.anchorEl)
-      this.scrollTarget.addEventListener('scroll', this.close)
+      this.scrollTarget.addEventListener('scroll', this.hide)
       window.addEventListener('resize', this.__debouncedUpdatePosition)
       if (this.$q.platform.is.mobile) {
-        document.body.addEventListener('click', this.close, true)
+        document.body.addEventListener('click', this.hide, true)
       }
-      this.__updateModel(true)
-      this.$emit('open')
+      this.__updateModel(true, false)
+      this.$emit('show')
       this.__updatePosition()
+      return Promise.resolve()
     },
-    close () {
+    hide () {
       clearTimeout(this.timer)
-      if (this.opened) {
-        this.opened = false
-        this.scrollTarget.removeEventListener('scroll', this.close)
-        window.removeEventListener('resize', this.__debouncedUpdatePosition)
-        document.body.removeChild(this.$el)
-        if (this.$q.platform.is.mobile) {
-          document.body.removeEventListener('click', this.close, true)
-        }
-        this.__updateModel(false)
-        this.$emit('close')
+      if (!this.showing) {
+        return Promise.resolve()
       }
+
+      this.scrollTarget.removeEventListener('scroll', this.hide)
+      window.removeEventListener('resize', this.__debouncedUpdatePosition)
+      document.body.removeChild(this.$el)
+      if (this.$q.platform.is.mobile) {
+        document.body.removeEventListener('click', this.hide, true)
+      }
+      this.__updateModel(false, false)
+      this.$emit('hide')
+      return Promise.resolve()
     },
     __updatePosition () {
       setPosition({
@@ -109,10 +91,16 @@ export default {
         maxHeight: this.maxHeight
       })
     },
-    __delayOpen () {
+    __delayShow () {
       clearTimeout(this.timer)
-      this.timer = setTimeout(this.open, this.delay)
+      this.timer = setTimeout(this.show, this.delay)
     }
+  },
+  render (h) {
+    return h('span', {
+      staticClass: 'q-tooltip animate-scale',
+      style: this.transformCSS
+    }, [ this.$slots.default ])
   },
   created () {
     this.__debouncedUpdatePosition = debounce(() => {
@@ -134,13 +122,13 @@ export default {
         this.anchorEl = this.anchorEl.parentNode
       }
       if (this.$q.platform.is.mobile) {
-        this.anchorEl.addEventListener('click', this.open)
+        this.anchorEl.addEventListener('click', this.show)
       }
       else {
-        this.anchorEl.addEventListener('mouseenter', this.__delayOpen)
-        this.anchorEl.addEventListener('focus', this.__delayOpen)
-        this.anchorEl.addEventListener('mouseleave', this.close)
-        this.anchorEl.addEventListener('blur', this.close)
+        this.anchorEl.addEventListener('mouseenter', this.__delayShow)
+        this.anchorEl.addEventListener('focus', this.__delayShow)
+        this.anchorEl.addEventListener('mouseleave', this.hide)
+        this.anchorEl.addEventListener('blur', this.hide)
       }
     })
   },
@@ -149,15 +137,14 @@ export default {
       return
     }
     if (this.$q.platform.is.mobile) {
-      this.anchorEl.removeEventListener('click', this.open)
+      this.anchorEl.removeEventListener('click', this.show)
     }
     else {
-      this.anchorEl.removeEventListener('mouseenter', this.__delayOpen)
-      this.anchorEl.removeEventListener('focus', this.__delayOpen)
-      this.anchorEl.removeEventListener('mouseleave', this.close)
-      this.anchorEl.removeEventListener('blur', this.close)
+      this.anchorEl.removeEventListener('mouseenter', this.__delayShow)
+      this.anchorEl.removeEventListener('focus', this.__delayShow)
+      this.anchorEl.removeEventListener('mouseleave', this.hide)
+      this.anchorEl.removeEventListener('blur', this.hide)
     }
-    this.close()
+    this.hide()
   }
 }
-</script>

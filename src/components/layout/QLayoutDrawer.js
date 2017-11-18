@@ -22,10 +22,6 @@ export default {
     TouchPan
   },
   props: {
-    value: {
-      type: Boolean,
-      default: true
-    },
     overlay: Boolean,
     rightSide: Boolean,
     breakpoint: {
@@ -45,6 +41,7 @@ export default {
     )
 
     return {
+      showing: true,
       belowBreakpoint,
       largeScreenState: this.value,
       mobileOpened: false,
@@ -66,8 +63,8 @@ export default {
       if (val) { // from lg to xs
         console.log('belowBreakpoint: from lg to xs; model force to false')
         if (!this.overlay) {
-          console.log('belowBreakpoint: largeScreenState set to', this.active)
-          this.largeScreenState = this.active
+          console.log('belowBreakpoint: largeScreenState set to', this.showing)
+          this.largeScreenState = this.showing
         }
         // ensure we close it for small screen
         this.__updateModel(false)
@@ -109,8 +106,13 @@ export default {
       this.layout.__animate()
     },
     $route () {
+      if (this.mobileOpened) {
+        console.log('$route watch closing')
+        this.hide()
+        return
+      }
       if (this.onScreenOverlay) {
-        console.log('on screen overlay; closing')
+        console.log('$route watch updating model')
         this.__updateModel(false)
       }
     }
@@ -120,7 +122,7 @@ export default {
       return this.rightSide ? 'right' : 'left'
     },
     offset () {
-      return this.active && !this.mobileOpened
+      return this.showing && !this.mobileOpened
         ? this.size
         : 0
     },
@@ -128,15 +130,15 @@ export default {
       return this.overlay || this.layout.view.indexOf(this.rightSide ? 'R' : 'L') > -1
     },
     onLayout () {
-      return this.active && !this.mobileView && !this.overlay
+      return this.showing && !this.mobileView && !this.overlay
     },
     onScreenOverlay () {
-      return this.active && !this.mobileView && this.overlay
+      return this.showing && !this.mobileView && this.overlay
     },
     backdropClass () {
       return {
         'q-layout-backdrop-transition': !this.inTransit,
-        'no-pointer-events': !this.inTransit && !this.active
+        'no-pointer-events': !this.inTransit && !this.showing
       }
     },
     mobileView () {
@@ -165,8 +167,8 @@ export default {
       return {
         'fixed': true,
         'on-top': true,
-        'on-screen': this.active,
-        'off-screen': !this.active,
+        'on-screen': this.showing,
+        'off-screen': !this.showing,
         'transition-generic': !this.inTransit,
         'top-padding': this.fixed || this.headerSlot
       }
@@ -329,17 +331,10 @@ export default {
         this.inTransit = true
       }
     },
-    // alias
-    open (fn) {
-      this.show(fn)
-    },
-    show (fn) {
-      console.log('show', this.active)
-      if (this.active) {
-        if (typeof fn === 'function') {
-          fn()
-        }
-        return
+    show () {
+      console.log('show', this.showing)
+      if (this.showing) {
+        return Promise.resolve()
       }
 
       if (this.belowBreakpoint) {
@@ -350,39 +345,30 @@ export default {
       }
 
       this.__updateModel(true)
-      setTimeout(() => {
-        if (typeof fn === 'function') {
-          fn()
-        }
-        this.$emit('show')
-      }, duration)
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          this.$emit('show')
+          resolve()
+        }, duration)
+      })
     },
-    // alias
-    close (fn) {
-      this.hide(fn)
-    },
-    hide (fn) {
-      console.log('hide', this.active)
-      if (!this.active) {
-        if (typeof fn === 'function') {
-          fn()
-        }
-        return
+    hide () {
+      console.log('hide', this.showing)
+      if (!this.showing) {
+        return Promise.resolve()
       }
 
       this.mobileOpened = false
       this.percentage = 0
       document.body.classList.remove(bodyClass)
-      this.__updateModel(
-        this.belowBreakpoint ||
-        this.overlay ? false : this.largeScreenState
-      )
-      setTimeout(() => {
-        if (typeof fn === 'function') {
-          fn()
-        }
-        this.$emit('hide')
-      }, duration)
+      this.__updateModel(false)
+
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          this.$emit('hide')
+          resolve()
+        }, duration)
+      })
     },
 
     __onResize ({ width }) {

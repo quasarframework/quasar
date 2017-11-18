@@ -18,7 +18,7 @@
     focusable
     :length="actualValue.length"
 
-    @click.native="open"
+    @click.native="show"
     @focus.native="__onFocus"
     @blur.native="__onBlur"
   >
@@ -30,8 +30,8 @@
       :offset="[0, 10]"
       :disable="disable"
       :anchor-click="false"
-      @open="__onFocus"
-      @close="__onClose"
+      @show="__onFocus"
+      @hide="__onHide"
       max-height="100vh"
     >
       <q-inline-datetime
@@ -68,8 +68,8 @@
       :transition="transition"
       :position-classes="position"
       :content-css="css"
-      @open="__onFocus"
-      @close="__onClose"
+      @show="__onFocus"
+      @hide="__onHide"
     >
       <q-inline-datetime
         ref="target"
@@ -188,18 +188,19 @@ export default {
     }
   },
   methods: {
-    open () {
+    show () {
       if (!this.disable) {
         this.__setModel()
-        this.$refs.popup.open()
+        return this.$refs.popup.show()
       }
+      return Promise.resolve()
     },
-    close (fn) {
+    hide () {
       this.focused = false
-      this.$refs.popup.close(fn)
+      return this.$refs.popup.hide()
     },
     clear () {
-      this.$refs.popup.close()
+      this.$refs.popup.hide()
       if (this.value !== '') {
         this.$emit('input', '')
         this.$emit('change', '')
@@ -211,15 +212,15 @@ export default {
       this.$emit('focus')
     },
     __onBlur (e) {
-      this.__onClose()
+      this.__onHide()
       setTimeout(() => {
         const el = document.activeElement
         if (el !== document.body && !this.$refs.popup.$el.contains(el)) {
-          this.close()
+          this.hide()
         }
       }, 1)
     },
-    __onClose () {
+    __onHide () {
       this.focused = false
       this.$emit('blur')
     },

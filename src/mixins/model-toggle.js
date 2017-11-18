@@ -6,42 +6,39 @@ export default {
   },
   data () {
     return {
-      active: this.value
+      showing: false
     }
   },
   watch: {
     value: {
       handler (val) {
-        if (val) {
-          this.open()
-          History.add({
-            handler: this.close
-          })
-        }
-        else {
-          this.close()
-          History.remove()
-        }
+        if (val) { this.show() }
+        else { this.hide() }
       },
       immediate: true
-    },
-    $route () {
-      this.close()
     }
   },
   methods: {
-    toggle (cb) {
-      if (this.value) {
-        this.close(cb)
-      }
-      else {
-        this.open(cb)
-      }
+    toggle (evt) {
+      return this[this.showing ? 'hide' : 'show'](evt)
     },
-    __updateModel (val) {
-      console.log('X __updateModel', val)
-      if (this.active !== val) {
-        this.active = val
+    __updateModel (val, noHistory) {
+      if (this.showing !== val) {
+        this.showing = val
+
+        if (noHistory) {
+          // do nothing
+        }
+        else if (val) {
+          this.__historyEntry = {
+            handler: this.close
+          }
+          History.add(this.__historyEntry)
+        }
+        else if (this.__historyEntry) {
+          History.remove(this.__historyEntry)
+          this.__historyEntry = null
+        }
       }
       if (this.value !== val) {
         this.$emit('input', val)

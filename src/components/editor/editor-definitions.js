@@ -1,5 +1,4 @@
 export const buttons = {
-  // toggle
   bold: {cmd: 'bold', icon: 'format_bold', tip: 'Bold', key: 66},
   italic: {cmd: 'italic', icon: 'format_italic', tip: 'Italic', key: 73},
   strike: {cmd: 'strikeThrough', icon: 'strikethrough_s', tip: 'Strikethrough', key: 83},

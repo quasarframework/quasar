@@ -1,4 +1,3 @@
-<script>
 import { getScrollPosition, getScrollTarget } from '../../utils/scroll'
 
 export default {
@@ -52,4 +51,3 @@ export default {
     this.target.removeEventListener('scroll', this.trigger)
   }
 }
-</script>

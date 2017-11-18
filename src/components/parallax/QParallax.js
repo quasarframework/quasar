@@ -1,21 +1,3 @@
-<template>
-  <div class="q-parallax" :style="{height: height + 'px'}">
-    <div class="q-parallax-image absolute-full">
-      <img
-        ref="img"
-        :src="src"
-        @load="__processImage()"
-        :class="{ready: imageHasBeenLoaded}"
-      >
-    </div>
-    <div class="q-parallax-text absolute-full column flex-center">
-      <slot name="loading" v-if="!imageHasBeenLoaded"></slot>
-      <slot v-else></slot>
-    </div>
-  </div>
-</template>
-
-<script>
 import { height, viewport, offset, css, cssTransform } from '../../utils/dom'
 import { debounce, frameDebounce } from '../../utils/debounce'
 import { getScrollTarget } from '../../utils/scroll'
@@ -98,6 +80,35 @@ export default {
       css(this.$refs.img, cssTransform(`translate3D(-50%,${offset}px, 0)`))
     }
   },
+  render (h) {
+    return h('div', {
+      staticClass: 'q-parallax',
+      style: { height: `${this.height}px` }
+    }, [
+      h('div', {
+        staticClass: 'q-parallax-image absolute-full'
+      }, [
+        h('img', {
+          ref: 'img',
+          domProps: {
+            src: this.src
+          },
+          'class': { ready: this.imageHasBeenLoaded },
+          on: {
+            load: this.__processImage
+          }
+        })
+      ]),
+
+      h('div', {
+        staticClass: 'q-parallax-text absolute-full column flex-center'
+      }, [
+        this.imageHasBeenLoaded
+          ? this.$slots.default
+          : this.$slots.loading
+      ])
+    ])
+  },
   created () {
     this.__setPos = frameDebounce(this.__setPos)
   },
@@ -119,4 +130,3 @@ export default {
     this.scrollTarget.removeEventListener('scroll', this.__updatePos)
   }
 }
-</script>

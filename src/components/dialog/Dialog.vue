@@ -2,7 +2,7 @@
   <q-modal
     minimized
     ref="dialog"
-    @close="__dismiss()"
+    @hide="__dismiss()"
     :no-backdrop-dismiss="noBackdropDismiss"
     :no-esc-dismiss="noEscDismiss"
     :position="position"
@@ -102,7 +102,7 @@
       </q-btn>
     </div>
     <div class="modal-buttons row" v-if="!buttons && !noButtons">
-      <q-btn flat @click="close()">OK</q-btn>
+      <q-btn flat @click="hide()">OK</q-btn>
     </div>
   </q-modal>
 </template>
@@ -145,27 +145,20 @@ export default {
     noEscDismiss: Boolean,
     position: String
   },
-  computed: {
-    opened () {
-      if (this.$refs.dialog) {
-        return this.$refs.dialog.active
-      }
-    }
-  },
   methods: {
     trigger (handler, preventClose) {
       if (typeof handler !== 'function') {
-        this.close()
+        this.hide()
         return
       }
 
       const data = this.getFormData()
 
       if (preventClose) {
-        handler(data, this.close)
+        handler(data, this.hide)
       }
       else {
-        this.close(() => { handler(data) })
+        this.hide().then(() => { handler(data) })
       }
     },
     getFormData () {
@@ -184,11 +177,8 @@ export default {
 
       return data
     },
-    close (fn) {
-      if (!this.opened) {
-        return
-      }
-      this.$refs.dialog.close(() => {
+    hide (fn) {
+      return this.$refs.dialog.hide().then(() => {
         if (typeof fn === 'function') {
           fn(this.getFormData())
         }
@@ -205,7 +195,8 @@ export default {
     }
   },
   mounted () {
-    this.$refs.dialog.open(() => {
+    this.$root.quasarClose = this.hide
+    this.$refs.dialog.show().then(() => {
       if (!this.$q.platform.is.desktop) {
         return
       }
@@ -222,7 +213,6 @@ export default {
         node[node.length - 1].focus()
       }
     })
-    this.$root.quasarClose = this.close
   }
 }
 </script>

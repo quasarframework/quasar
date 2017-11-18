@@ -26,18 +26,23 @@ export const HistoryMixin = {
   },
   created () {
     if (!this.$q.platform.is.cordova) {
+      console.log('NOT CORDOVA')
       return
     }
 
     History.add = this.__addHistory
     History.remove = this.__removeHistory
 
+    console.log('CORDOVA adding backbutton')
     document.addEventListener('backbutton', () => {
+      console.log('backbutton', this.history.length)
       if (this.history.length) {
         const fn = this.history.pop().handler
+        console.log('executing', fn)
         fn()
       }
       else {
+        console.log('go -1')
         window.history.back()
       }
     }, false)

@@ -41,7 +41,10 @@ export default {
         return
       }
 
-      History.remove(this.__historyFullscreen)
+      if (this.__historyFullscreen) {
+        History.remove(this.__historyFullscreen)
+        this.__historyFullscreen = null
+      }
       this.container.replaceChild(this.$el, this.fullscreenFillerNode)
       document.body.classList.remove('with-mixin-fullscreen')
       this.inFullscreen = false
@@ -51,6 +54,6 @@ export default {
     this.fullscreenFillerNode = document.createElement('span')
   },
   beforeDestroy () {
-    this.__exitFullscreen()
+    this.exitFullscreen()
   }
 }

@@ -36,7 +36,7 @@
         :closable="!disable"
         :color="color"
         @click.native.stop
-        @close="__toggleMultiple(value)"
+        @hide="__toggleMultiple(value)"
       >
         {{ label }}
       </q-chip>
@@ -65,8 +65,8 @@
       :offset="[0, 10]"
       :anchor-click="false"
       class="column no-wrap"
-      @open="__onFocus"
-      @close="__onClose"
+      @show="__onFocus"
+      @hide="__onClose"
     >
       <q-field-reset>
         <q-search
@@ -204,17 +204,19 @@ export default {
     }
   },
   methods: {
-    open (event) {
+    show () {
       if (!this.disable) {
-        this.$refs.popover.open()
+        return this.$refs.popover.show()
       }
     },
     close () {
-      this.$refs.popover.close()
+      if (!this.disable) {
+        return this.$refs.popover.hide()
+      }
     },
     reposition () {
       const popover = this.$refs.popover
-      if (popover.opened) {
+      if (popover.showing) {
         popover.reposition()
       }
     },
@@ -235,7 +237,7 @@ export default {
       setTimeout(() => {
         const el = document.activeElement
         if (el !== document.body && !this.$refs.popover.$el.contains(el)) {
-          this.close()
+          this.hide()
         }
       }, 1)
     },
@@ -246,7 +248,7 @@ export default {
     },
     __singleSelect (val) {
       this.__emit(val)
-      this.close()
+      this.hide()
     }
   }
 }

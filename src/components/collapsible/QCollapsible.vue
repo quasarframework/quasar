@@ -2,7 +2,7 @@
   <div
     class="q-collapsible q-item-division relative-position"
     :class="[
-      `q-collapsible-${active ? 'opened' : 'closed'}`,
+      `q-collapsible-${showing ? 'opened' : 'closed'}`,
       {
         'q-item-separator': separator,
         'q-item-inset-separator': insetSeparator
@@ -19,13 +19,13 @@
         <q-item-tile
           icon="keyboard_arrow_down"
           class="transition-generic"
-          :class="{'rotate-180': active, invisible: disable}"
+          :class="{'rotate-180': showing, invisible: disable}"
         ></q-item-tile>
       </div>
     </q-item-wrapper>
 
     <q-slide-transition>
-      <div v-show="active">
+      <div v-show="showing">
         <div class="q-collapsible-sub-item relative-position" :class="{indent: indent}">
           <slot></slot>
         </div>
@@ -38,11 +38,13 @@
 import { QItemWrapper, QItemTile } from '../list'
 import { QSlideTransition } from '../slide-transition'
 import Ripple from '../../directives/ripple'
+import ModelToggleMixin from '../../mixins/model-toggle'
 
 const eventName = 'q:collapsible:close'
 
 export default {
   name: 'q-collapsible',
+  mixins: [ModelToggleMixin],
   components: {
     QItemWrapper,
     QItemTile,
@@ -52,7 +54,6 @@ export default {
     Ripple
   },
   props: {
-    opened: Boolean,
     disable: Boolean,
     indent: Boolean,
     group: String,
@@ -73,21 +74,11 @@ export default {
     labelLines: [String, Number],
     sublabelLines: [String, Number]
   },
-  data () {
-    return {
-      active: this.opened
-    }
-  },
   watch: {
-    opened (value) {
-      this.active = value
-    },
-    active (val) {
+    showing (val) {
       if (val && this.group) {
         this.$root.$emit(eventName, this)
       }
-
-      this.$emit(val ? 'open' : 'close')
     }
   },
   computed: {
@@ -113,16 +104,17 @@ export default {
     }
   },
   methods: {
-    toggle () {
+    show () {
       if (!this.disable) {
-        this.active = !this.active
+        this.__updateModel(true, false)
       }
+      return Promise.resolve()
     },
-    open () {
-      this.active = true
-    },
-    close () {
-      this.active = false
+    hide () {
+      if (!this.disable) {
+        this.__updateModel(false, false)
+      }
+      return Promise.resolve()
     },
     __toggleItem () {
       if (!this.iconToggle) {
@@ -131,7 +123,7 @@ export default {
     },
     __eventHandler (comp) {
       if (this.group && this !== comp && comp.group === this.group) {
-        this.close()
+        this.hide()
       }
     }
   },

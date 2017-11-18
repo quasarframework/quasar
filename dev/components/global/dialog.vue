@@ -226,7 +226,7 @@ export default {
               progress.model += Math.floor(Math.random() * 5) + 1
               if (progress.model >= 42) {
                 clearInterval(timeout)
-                dialog.close()
+                dialog.hide()
               }
             }, 500)
           }
@@ -254,7 +254,7 @@ export default {
 
             const timeout = setTimeout(() => {
               clearInterval(timeout)
-              dialog.close()
+              dialog.hide()
             }, 3000)
           }
         }

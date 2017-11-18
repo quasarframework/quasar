@@ -3,7 +3,7 @@
     ref="dialog"
     position="bottom"
     :content-css="contentCss"
-    @close="__dismiss()"
+    @hide="__dismiss()"
   >
 
     <!-- iOS -->
@@ -17,8 +17,8 @@
               v-for="(button, index) in actions"
               :key="index"
               class="cursor-pointer relative-position column inline flex-center"
-              @click="close(button.handler)"
-              @keydown.enter="close(button.handler)"
+              @click="hide(button.handler)"
+              @keydown.enter="hide(button.handler)"
               :class="button.classes"
               tabindex="0"
               v-ripple.mat
@@ -33,8 +33,8 @@
             <q-item
               v-for="(button, index) in actions"
               :key="index"
-              @click="close(button.handler)"
-              @keydown.enter="close(button.handler)"
+              @click="hide(button.handler)"
+              @keydown.enter="hide(button.handler)"
               tabindex="0"
               v-ripple.mat
             >
@@ -48,8 +48,8 @@
       <div v-if="dismiss" class="q-action-sheet">
         <q-item
           link
-          @click="close()"
-          @keydown.enter="close()"
+          @click="hide()"
+          @keydown.enter="hide()"
           tabindex="0"
           v-ripple.mat
         >
@@ -72,8 +72,8 @@
             v-for="(button, index) in actions"
             :key="index"
             class="cursor-pointer relative-position column inline flex-center"
-            @click="close(button.handler)"
-            @keydown.enter="close(button.handler)"
+            @click="hide(button.handler)"
+            @keydown.enter="hide(button.handler)"
             :class="button.classes"
             tabindex="0"
             v-ripple.mat
@@ -88,8 +88,8 @@
           <q-item
             v-for="(button, index) in actions"
             :key="index"
-            @click="close(button.handler)"
-            @keydown.enter="close(button.handler)"
+            @click="hide(button.handler)"
+            @keydown.enter="hide(button.handler)"
             :class="button.classes"
             tabindex="0"
             v-ripple.mat
@@ -140,8 +140,8 @@ export default {
     }
   },
   methods: {
-    close (fn) {
-      if (!this.$refs.dialog.active) {
+    hide (fn) {
+      if (!this.$refs.dialog.showing) {
         return
       }
       const hasFn = typeof fn === 'function'
@@ -149,7 +149,7 @@ export default {
       if (hasFn) {
         this.__runCancelHandler = false
       }
-      this.$refs.dialog.close(() => {
+      return this.$refs.dialog.hide().then(() => {
         if (hasFn) {
           fn()
         }
@@ -165,8 +165,8 @@ export default {
   mounted () {
     this.__runCancelHandler = true
     this.$nextTick(() => {
-      this.$refs.dialog.open()
-      this.$root.quasarClose = this.close
+      this.$refs.dialog.show()
+      this.$root.quasarClose = this.hide
     })
   }
 }

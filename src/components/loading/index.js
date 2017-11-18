@@ -50,10 +50,12 @@ function show ({
       functional: true,
       render (h) {
         const child = [
-          h(props.spinner, {props: {
-            color: props.spinnerColor,
-            size: props.spinnerSize
-          }})
+          h(props.spinner, {
+            props: {
+              color: props.spinnerColor,
+              size: props.spinnerSize
+            }
+          })
         ]
 
         if (message) {

@@ -36,7 +36,7 @@
         :closable="!disable"
         :color="color"
         @click.native.stop
-        @close="__toggle(value)"
+        @hide="__toggle(value)"
       >
         {{ label }}
       </q-chip>
@@ -132,10 +132,11 @@ export default {
         ]
       })
     },
-    close () {
+    hide () {
       if (this.dialog) {
-        this.dialog.close()
+        return this.dialog.hide()
       }
+      return Promise.resolve()
     },
 
     __onFocus () {

@@ -27,7 +27,7 @@
         v-for="(label, index) in value"
         :key="label"
         :color="color"
-        @close="remove(index)"
+        @hide="remove(index)"
       >
         {{ label }}
       </q-chip>

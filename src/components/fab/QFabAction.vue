@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     click (e) {
-      this.__qFabClose(() => {
+      this.__qFabClose().then(() => {
         this.$emit('click', e)
       })
     }

@@ -40,7 +40,7 @@
             <q-item
               v-for="n in 10"
               :key="n"
-              @click="showToast(), $refs.context.close()"
+              @click="showToast(), $refs.context.hide()"
             >
               <q-item-main label="Label" sublabel="Value" />
             </q-item>

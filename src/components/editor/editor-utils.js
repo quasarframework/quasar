@@ -67,7 +67,7 @@ function getDropdown (h, vm, btn) {
     Items
 
   function closeDropdown () {
-    Dropdown.componentInstance.close()
+    Dropdown.componentInstance.hide()
   }
 
   if (onlyIcons) {

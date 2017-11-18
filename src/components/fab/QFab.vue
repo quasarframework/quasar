@@ -1,7 +1,7 @@
 <template>
   <div
     class="q-fab z-fab row inline justify-center"
-    :class="{'q-fab-opened': opened}"
+    :class="{'q-fab-opened': showing}"
   >
     <q-btn
       @click="toggle"
@@ -51,36 +51,23 @@ export default {
   },
   provide () {
     return {
-      __qFabClose: this.close
-    }
-  },
-  data () {
-    return {
-      opened: false
+      __qFabClose: this.hide
     }
   },
   methods: {
-    open () {
-      this.opened = true
-      this.__updateModel(true)
-      this.$emit('open')
+    show () {
+      if (!this.showing) {
+        this.__updateModel(true)
+        this.$emit('show')
+      }
+      return Promise.resolve()
     },
-    close (fn) {
-      this.opened = false
-      this.__updateModel(false)
-      this.$emit('close')
-
-      if (typeof fn === 'function') {
-        fn()
+    hide () {
+      if (this.showing) {
+        this.__updateModel(false)
+        this.$emit('hide')
       }
-    },
-    toggle () {
-      if (this.opened) {
-        this.close()
-      }
-      else {
-        this.open()
-      }
+      return Promise.resolve()
     }
   }
 }

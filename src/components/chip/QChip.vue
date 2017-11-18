@@ -26,7 +26,7 @@
         v-if="closable"
         name="cancel"
         class="cursor-pointer"
-        @click.stop="$emit('close')"
+        @click.stop="$emit('hide')"
       ></q-icon>
     </div>
   </div>

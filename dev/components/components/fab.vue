@@ -60,6 +60,25 @@
       </p>
 
       <q-fab
+        class="fixed-bottom-right"
+        style="right: 18px; bottom: 86px;"
+        icon="add"
+        direction="up"
+        color="primary"
+        @show="openFab"
+        @hide="closeFab"
+      >
+        <q-fab-action color="blue" class="white" icon="person add">
+          <q-tooltip ref="tooltip1" anchor="center left" self="center right" :offset="[20, 0]">Add a person</q-tooltip>
+        </q-fab-action>
+        <q-fab-action color="blue" class="white" icon="group add">
+          <q-tooltip ref="tooltip2" anchor="center left" self="center right" :offset="[20, 0]">Add a group</q-tooltip>
+        </q-fab-action>
+      </q-fab>
+
+      <div style="height: 1000px">&nbsp;</div>
+
+      <q-fab
         color="primary"
         active-icon="alarm"
         direction="up"
@@ -74,25 +93,6 @@
           <q-tooltip anchor="center left" self="center right" :offset="[20, 0]">Alarm</q-tooltip>
         </q-fab-action>
       </q-fab>
-
-      <q-fab
-        class="fixed-bottom-right"
-        style="right: 18px; bottom: 86px;"
-        icon="add"
-        direction="up"
-        color="primary"
-        @open="openFab"
-        @close="closeFab"
-      >
-        <q-fab-action color="blue" class="white" icon="person add">
-          <q-tooltip ref="tooltip1" anchor="center left" self="center right" :offset="[20, 0]">Add a person</q-tooltip>
-        </q-fab-action>
-        <q-fab-action color="blue" class="white" icon="group add">
-          <q-tooltip ref="tooltip2" anchor="center left" self="center right" :offset="[20, 0]">Add a group</q-tooltip>
-        </q-fab-action>
-      </q-fab>
-
-      <div style="height: 1000px">&nbsp;</div>
     </div>
   </div>
 </template>
@@ -121,13 +121,13 @@ export default {
     },
     openFab () {
       setTimeout(() => {
-        this.$refs.tooltip1.open()
-        this.$refs.tooltip2.open()
+        this.$refs.tooltip1.show()
+        this.$refs.tooltip2.show()
       }, 300)
     },
     closeFab () {
-      this.$refs.tooltip1.close()
-      this.$refs.tooltip2.close()
+      this.$refs.tooltip1.hide()
+      this.$refs.tooltip2.hide()
     }
   }
 }

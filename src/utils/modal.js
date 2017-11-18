@@ -16,7 +16,7 @@ export default function (component) {
 
       return {
         vm,
-        close (fn) {
+        hide (fn) {
           vm.quasarClose(fn)
         }
       }

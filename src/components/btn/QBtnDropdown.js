@@ -2,18 +2,14 @@ import BtnMixin from './btn-mixin'
 import QBtn from './QBtn'
 import QBtnGroup from './QBtnGroup'
 import { QPopover } from '../popover'
+import ModelToggleMixin from '../../mixins/model-toggle'
 
 export default {
   name: 'q-btn-dropdown',
-  mixins: [BtnMixin],
+  mixins: [BtnMixin, ModelToggleMixin],
   props: {
     label: String,
     split: Boolean
-  },
-  data () {
-    return {
-      opened: false
-    }
   },
   render (h) {
     const
@@ -28,13 +24,13 @@ export default {
             self: 'top right'
           },
           on: {
-            open: e => {
-              this.opened = true
-              this.$emit('open', e)
+            show: e => {
+              this.__updateModel(true)
+              this.$emit('show', e)
             },
-            close: e => {
-              this.opened = false
-              this.$emit('close', e)
+            hide: e => {
+              this.__updateModel(false)
+              this.$emit('hide', e)
             }
           }
         },
@@ -48,7 +44,7 @@ export default {
           },
           staticClass: 'transition-generic',
           'class': {
-            'rotate-180': this.opened,
+            'rotate-180': this.showing,
             'on-right': !this.split,
             'q-btn-dropdown-arrow': !this.split
           }
@@ -126,23 +122,27 @@ export default {
             on: {
               click: () => {
                 if (!this.disable) {
-                  this.$refs.popover.open()
+                  this.$refs.popover.show()
                 }
               }
             }
           },
-          [Icon]
+          [ Icon ]
         ),
         child
       ]
     )
   },
   methods: {
-    open () {
-      this.$refs.popover.open()
+    show () {
+      return this.$refs.popover
+        ? this.$refs.popover.show()
+        : Promise.resolve()
     },
-    close () {
-      this.$refs.popover.close()
+    hide () {
+      return this.$refs.popover
+        ? this.$refs.popover.hide()
+        : Promise.resolve()
     }
   }
 }

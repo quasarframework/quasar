@@ -1,8 +1,8 @@
 <template>
   <q-popover
     fit
-    @close="$emit('close')"
-    @open="$emit('open')"
+    @show="$emit('show')"
+    @hide="$emit('hide')"
     :offset="[0, 10]"
     ref="popover"
     :anchor-click="false"
@@ -115,7 +115,7 @@ export default {
       if (terms.length < this.minCharacters) {
         this.searchId = ''
         this.__clearSearch()
-        this.close()
+        this.hide()
         return
       }
 
@@ -125,11 +125,11 @@ export default {
         if (this.$q.platform.is.desktop) {
           this.selectedIndex = 0
         }
-        this.$refs.popover.open()
+        this.$refs.popover.show()
         return
       }
 
-      this.close()
+      this.hide()
       this.__input.loading = true
       this.$emit('search', terms, results => {
         if (this.searchId !== searchId) {
@@ -148,18 +148,18 @@ export default {
             if (this.$q.platform.is.desktop) {
               this.selectedIndex = 0
             }
-            this.$refs.popover.open()
+            this.$refs.popover.show()
           }
           return
         }
 
-        this.close()
+        this.hide()
       })
     },
-    close () {
-      this.$refs.popover.close()
+    hide () {
       this.results = []
       this.selectedIndex = -1
+      return this.$refs.popover.hide()
     },
     __clearSearch () {
       clearTimeout(this.timer)
@@ -172,7 +172,7 @@ export default {
 
       this.$emit('selected', result)
       this.__clearSearch()
-      this.close()
+      this.hide()
     },
     move (offset) {
       this.selectedIndex = normalizeToInterval(
@@ -218,7 +218,7 @@ export default {
     __moveCursor (offset, e) {
       prevent(e)
 
-      if (!this.$refs.popover.opened) {
+      if (!this.$refs.popover.showing) {
         this.trigger()
       }
       else {
@@ -244,7 +244,7 @@ export default {
     }
     if (this.inputEl) {
       this.inputEl.removeEventListener('keydown', this.__handleKeypress)
-      this.close()
+      this.hide()
     }
   }
 }

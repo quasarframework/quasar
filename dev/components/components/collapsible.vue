@@ -2,12 +2,13 @@
   <div>
     <div class="layout-padding" style="max-width: 600px;">
       <q-list>
-        <q-collapsible icon="explore" label="First">
+        {{ model }}
+        <q-collapsible v-model="model" icon="explore" label="With model">
           <div>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
           </div>
         </q-collapsible>
-        <q-collapsible icon="perm_identity" label="Second" @open="disable_third" @close="enable_third">
+        <q-collapsible icon="perm_identity" label="Second" @show="disable_third" @hide="enable_third">
           <div>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
           </div>
@@ -64,7 +65,7 @@
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
           </div>
         </q-collapsible>
-        <q-collapsible icon="perm_identity" label="Second" opened>
+        <q-collapsible icon="perm_identity" label="Second" :value="true">
           <div>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
           </div>
@@ -78,7 +79,7 @@
 
       <p class="caption">Group a.k.a Accordion (opening one closes the other)</p>
       <q-list>
-        <q-collapsible group="somegroup" icon="explore" label="First" opened>
+        <q-collapsible group="somegroup" icon="explore" label="First" :value="true">
           <div>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
           </div>
@@ -95,9 +96,9 @@
         </q-collapsible>
       </q-list>
 
-      <p class="caption">use open and close emit</p>
+      <p class="caption">use show and hide emit</p>
       <q-list>
-        <q-collapsible group="somegroup" icon="explore" label="Counter" @open="counter_start" @close="counter_stop">
+        <q-collapsible group="somegroup" icon="explore" label="Counter" @show="counter_start" @hide="counter_stop">
           <div>Will only count when opened, using the open and close event to control count timer</div>
           <label>Counter: {{counter}}</label>
         </q-collapsible>
@@ -175,6 +176,7 @@
 export default {
   data () {
     return {
+      model: true,
       counter: 0,
       third_disabled: false
     }
