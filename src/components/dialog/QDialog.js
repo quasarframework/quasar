@@ -47,7 +47,7 @@ export default {
       )
     }
 
-    if (this.prompt || this.options) {
+    if (this.hasForm) {
       child.push(
         h(
           'div',
@@ -111,6 +111,11 @@ export default {
       }
     }, child)
   },
+  computed: {
+    hasForm () {
+      return this.prompt || this.options
+    }
+  },
   methods: {
     show () {
       if (this.showing) {
@@ -140,10 +145,8 @@ export default {
     hide () {
       let data
 
-      if (this.prompt || this.options) {
+      if (this.hasForm) {
         data = clone(this.__getData())
-        this.promptModel = ''
-        this.optModel = []
       }
 
       return this.showing
@@ -165,7 +168,7 @@ export default {
             noPassToggle: true
           },
           on: {
-            change: v => { this.promptModel = v }
+            change: v => { this.prompt.model = v }
           }
         })
       ]
@@ -181,9 +184,7 @@ export default {
             options: this.options.items
           },
           on: {
-            change: v => {
-              this.options.model = v
-            }
+            change: v => { this.options.model = v }
           }
         })
       ]
@@ -207,13 +208,12 @@ export default {
       return child
     },
     __onOk () {
-      const data = clone(this.__getData())
-      this.hide().then(() => {
+      return this.hide().then(data => {
         this.$emit('ok', data)
       })
     },
     __onCancel () {
-      this.hide().then(() => {
+      return this.hide().then(() => {
         this.$emit('cancel')
       })
     },

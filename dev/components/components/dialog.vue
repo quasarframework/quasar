@@ -6,7 +6,6 @@
         ref="dialog"
         title="The title"
         message="The message"
-        position="bottom"
         @show="onShow"
         @hide="onHide"
         @cancel="onCancel"
@@ -20,7 +19,8 @@
 
       {{ showDialog }}
 
-      <q-btn label="Toggle" @click="toggle" />
+      <q-btn label="Toggle ref" @click="toggle" />
+      <q-btn label="Toggle model" @click="toggle2" />
       <q-btn label="Prompt" @click="adHoc" />
       <q-btn label="Options" @click="adHoc2" />
       <q-btn label="Confirm" @click="adHoc3" />
@@ -37,8 +37,10 @@ export default {
   },
   methods: {
     toggle () {
-      console.log(this.$refs.dialog)
       this.$refs.dialog.show()
+    },
+    toggle2 () {
+      this.showDialog = !this.showDialog
     },
     onOk (data) {
       console.log('onOK', data)
