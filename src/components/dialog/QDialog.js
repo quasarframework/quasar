@@ -47,22 +47,15 @@ export default {
       )
     }
 
-    if (this.hasForm) {
-      child.push(
-        h(
-          'div',
-          { staticClass: 'modal-body modal-scroll' },
-          this.prompt ? this.__getPrompt(h) : this.__getOptions(h)
-        )
+    child.push(
+      h(
+        'div',
+        { staticClass: 'modal-body modal-scroll' },
+        this.hasForm
+          ? (this.prompt ? this.__getPrompt(h) : this.__getOptions(h))
+          : [ this.$slots.default ]
       )
-    }
-    else if (this.$slots.default) {
-      child.push(
-        h('div', {
-          staticClass: 'modal-body modal-scroll'
-        }, [ this.$slots.default ])
-      )
-    }
+    )
 
     if (this.$scopedSlots.buttons) {
       child.push(
@@ -91,7 +84,7 @@ export default {
     }
 
     return h(QModal, {
-      ref: 'dialog',
+      ref: 'modal',
       props: {
         minimized: true,
         noBackdropDismiss: this.preventClose,
@@ -122,7 +115,7 @@ export default {
         return Promise.resolve()
       }
 
-      return this.$refs.dialog.show().then(() => {
+      return this.$refs.modal.show().then(() => {
         this.$emit('show')
         this.__updateModel(true)
 
@@ -130,13 +123,13 @@ export default {
           return
         }
 
-        let node = this.$refs.dialog.$el.getElementsByTagName('INPUT')
+        let node = this.$refs.modal.$el.getElementsByTagName('INPUT')
         if (node.length) {
           node[0].focus()
           return
         }
 
-        node = this.$refs.dialog.$el.getElementsByTagName('INPUT')
+        node = this.$refs.modal.$el.getElementsByTagName('INPUT')
         if (node.length) {
           node[node.length - 1].focus()
         }
@@ -150,7 +143,7 @@ export default {
       }
 
       return this.showing
-        ? this.$refs.dialog.hide().then(() => {
+        ? this.$refs.modal.hide().then(() => {
           this.$emit('hide', data)
           this.__updateModel(false)
           return data

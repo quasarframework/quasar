@@ -1,4 +1,4 @@
-import { QDialog } from '../components/dialog'
+import { QActionSheet } from '../components/action-sheet'
 import modalFn from '../utils/modal-fn'
 
 export default {
@@ -7,6 +7,6 @@ export default {
     if (this.__installed) { return }
     this.__installed = true
 
-    Quasar.dialog = modalFn(QDialog, Vue)
+    Quasar.actionSheet = modalFn(QActionSheet, Vue)
   }
 }

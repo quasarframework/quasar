@@ -1,5 +1,6 @@
 export * from './components/app'
 
+export * from './components/action-sheet'
 export * from './components/ajax-bar'
 export * from './components/alert'
 export * from './components/autocomplete'

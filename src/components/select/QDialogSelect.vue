@@ -62,7 +62,6 @@
 
 <script>
 import clone from '../../utils/clone'
-import Dialog from '../dialog'
 import SelectMixin from '../../mixins/select'
 
 export default {
@@ -101,7 +100,8 @@ export default {
         return
       }
 
-      this.dialog = Dialog.create({
+      // TODO
+      this.dialog = this.$q.dialog({
         title: this.title,
         message: this.message,
         onDismiss: () => {
