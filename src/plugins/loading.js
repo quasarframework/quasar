@@ -9,10 +9,6 @@ let
 
 const staticClass = 'q-loading animate-fade fullscreen column flex-center z-max'
 
-function isActive () {
-  return appIsInProgress
-}
-
 function show ({
   delay = 500,
   message = false,
@@ -95,17 +91,20 @@ function hide () {
 }
 
 const Loading = {
-  isActive,
   show,
   hide,
 
   __installed: false,
-  install ({ Quasar }) {
+  install ({ Quasar, Vue }) {
     if (this.__installed) { return }
     this.__installed = true
 
     Quasar.loading = Loading
   }
 }
+
+Object.defineProperty(Loading, 'isActive', {
+  get: () => appIsInProgress
+})
 
 export default Loading
