@@ -1,4 +1,5 @@
-import Modal from '../../utils/modal'
-import Dialog from './Dialog'
+import QDialog from './QDialog'
 
-export default Modal(Dialog)
+export {
+  QDialog
+}

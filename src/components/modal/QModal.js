@@ -191,7 +191,9 @@ export default {
       if (this.noBackdropDismiss) {
         return
       }
-      this.hide()
+      this.hide().then(() => {
+        this.$emit('dismiss')
+      })
     }
   },
   beforeDestroy () {
