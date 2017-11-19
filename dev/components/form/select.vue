@@ -19,6 +19,9 @@
       <p class="caption">Multiple Selection</p>
       <q-select @change="onChange" multiple v-model="multipleSelect" :options="selectListOptions"></q-select>
 
+      <p class="caption">Multiple Selection with All Toggler</p>
+      <q-select @change="onChange" multiple all-toggler v-model="multipleSelect" :options="selectListOptions"></q-select>
+
       <p class="caption">Multiple Selection with Chips</p>
       <q-field label="gogu" :count="10">
         <q-select @change="onChange" multiple chips v-model="multipleSelect" :options="selectListOptions" float-label="Some label" max-height="36px"></q-select>
@@ -43,6 +46,9 @@
       <q-select filter autofocus-filter inverted v-model="select" :options="selectListOptions"></q-select>
       <q-select filter inverted v-model="select" :options="selectLongListOptions"></q-select>
       <q-select filter multiple checkbox v-model="multipleSelect" :options="selectListOptions"></q-select>
+
+      <p class="caption">With Filter and All Toggler</p>
+      <q-select filter multiple checkbox all-toggler v-model="multipleSelect" :options="selectListOptions"></q-select>
 
       <p class="caption">With Static Label</p>
       <q-select multiple v-model="multipleSelect" :options="selectOptions" static-label="Company"></q-select>

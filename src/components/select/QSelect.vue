@@ -90,6 +90,11 @@
       >
         <template v-if="multiple">
           <q-item-wrapper
+            v-if="allToggler"
+            :cfg="{label: allLabel, value: ''}"
+            @click="toggleAll"
+          />
+          <q-item-wrapper
             v-for="opt in visibleOptions"
             :key="JSON.stringify(opt)"
             :cfg="opt"
@@ -170,9 +175,18 @@ export default {
     autofocusFilter: Boolean,
     radio: Boolean,
     placeholder: String,
-    separator: Boolean
+    separator: Boolean,
+    allToggler: Boolean
+  },
+  data () {
+    return {
+      allChecked: false
+    }
   },
   computed: {
+    allLabel () {
+      return this.allChecked ? 'Clear' : 'All'
+    },
     optModel () {
       if (this.multiple) {
         return this.value.length > 0
@@ -204,6 +218,19 @@ export default {
     }
   },
   methods: {
+    toggleAll () {
+      this.allChecked = !this.allChecked
+      if (this.allChecked) {
+        this.options.forEach(opt => {
+          !this.value.includes(opt.value) && this.__toggleMultiple(opt.value)
+        })
+      }
+      else {
+        this.options.forEach(opt => {
+          this.value.includes(opt.value) && this.__toggleMultiple(opt.value)
+        })
+      }
+    },
     show () {
       if (!this.disable) {
         return this.$refs.popover.show()
