@@ -94,8 +94,18 @@ function hide () {
   appIsInProgress = false
 }
 
-export default {
+const Loading = {
   isActive,
   show,
-  hide
+  hide,
+
+  __installed: false,
+  install ({ Quasar }) {
+    if (this.__installed) { return }
+    this.__installed = true
+
+    Quasar.loading = Loading
+  }
 }
+
+export default Loading
