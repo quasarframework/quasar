@@ -1,10 +1,9 @@
 import { QModal } from '../modal'
 import { QInput } from '../input'
-import { QProgress } from '../progress'
 import { QBtn } from '../btn'
 import { QOptionGroup } from '../option-group'
 import ModelToggleMixin from '../../mixins/model-toggle'
-import inputTypes from '../input/input-types'
+import clone from '../../utils/clone'
 
 export default {
   name: 'q-dialog',
@@ -12,13 +11,20 @@ export default {
   props: {
     title: String,
     message: String,
-    form: Array,
+    prompt: Object,
+    options: Object,
+    ok: {
+      type: Boolean,
+      default: true
+    },
+    cancel: Boolean,
     stackButtons: Boolean,
-    noButtons: Boolean,
-    progress: Object,
-    noBackdropDismiss: Boolean,
-    noEscDismiss: Boolean,
-    position: String
+    preventClose: Boolean,
+    position: String,
+    color: {
+      type: String,
+      default: 'primary'
+    }
   },
   render (h) {
     const
@@ -41,11 +47,13 @@ export default {
       )
     }
 
-    if (this.form) {
+    if (this.prompt || this.options) {
       child.push(
-        h('div', {
-          staticClass: 'modal-body modal-scroll'
-        }, this.__getForm(h))
+        h(
+          'div',
+          { staticClass: 'modal-body modal-scroll' },
+          this.prompt ? this.__getPrompt(h) : this.__getOptions(h)
+        )
       )
     }
     else if (this.$slots.default) {
@@ -54,25 +62,6 @@ export default {
           staticClass: 'modal-body modal-scroll'
         }, [ this.$slots.default ])
       )
-    }
-
-    if (this.progress) {
-      child.push(h('div', {
-        staticClass: 'modal-body'
-      }, [
-        h(QProgress, {
-          props: {
-            percentage: this.progress.model,
-            color: this.progress.color || 'primary',
-            animate: true,
-            stripe: true,
-            indeterminate: this.progress.indeterminate
-          }
-        }),
-        this.progress.indeterminate
-          ? null
-          : h('span', [ `${this.progress.model}%` ])
-      ]))
     }
 
     if (this.$scopedSlots.buttons) {
@@ -86,36 +75,38 @@ export default {
         }, [
           this.$scopedSlots.buttons({
             ok: this.__onOk,
-            cancel: this.hide
+            cancel: this.__onCancel
           })
         ])
       )
     }
-    else if (!this.noButtons) {
-      child.push(h('div', {
-        staticClass: 'modal-buttons row'
-      }, [
-        h(QBtn, {
-          props: { flat: true, label: 'OK' },
-          on: { click: this.hide }
-        })
-      ]))
+    else if (this.ok || this.cancel) {
+      child.push(
+        h(
+          'div',
+          { staticClass: 'modal-buttons row' },
+          this.__getButtons(h)
+        )
+      )
     }
 
     return h(QModal, {
       ref: 'dialog',
       props: {
         minimized: true,
-        noBackdropDismiss: this.noBackdropDismiss,
-        noEscDismiss: this.noEscDismiss,
+        noBackdropDismiss: this.preventClose,
+        noEscDismiss: this.preventClose,
         position: this.position
       },
       on: {
         dismiss: () => {
-          this.hide().then(() => this.$emit('dismiss'))
+          this.hide().then(() => this.$emit('cancel'))
         },
         'escape-key': () => {
-          this.hide().then(() => this.$emit('escape-key'))
+          this.hide().then(() => {
+            this.$emit('escape-key')
+            this.$emit('cancel')
+          })
         }
       }
     }, child)
@@ -134,99 +125,105 @@ export default {
           return
         }
 
-        const node = this.$refs.dialog.$el.getElementsByTagName(this.form ? 'INPUT' : 'BUTTON')
-        if (!node.length) {
+        let node = this.$refs.dialog.$el.getElementsByTagName('INPUT')
+        if (node.length) {
+          node[0].focus()
           return
         }
 
-        if (this.form) {
-          node[0].focus()
-        }
-        else {
+        node = this.$refs.dialog.$el.getElementsByTagName('INPUT')
+        if (node.length) {
           node[node.length - 1].focus()
         }
       })
     },
     hide () {
-      if (this.showing) {
-        return this.$refs.dialog.hide().then(() => {
-          const data = this.__getFormData()
+      let data
+
+      if (this.prompt || this.options) {
+        data = clone(this.__getData())
+        this.promptModel = ''
+        this.optModel = []
+      }
+
+      return this.showing
+        ? this.$refs.dialog.hide().then(() => {
           this.$emit('hide', data)
           this.__updateModel(false)
           return data
         })
-      }
-      return Promise.resolve()
+        : Promise.resolve(data)
     },
-    __getForm (h) {
-      return this.form.map(el => {
-        if (el.type === 'heading') {
-          return h('h6', [ el.label ])
-        }
-        if (inputTypes.includes(el.type)) {
-          return h(QInput, {
-            style: 'margin-bottom: 10px',
-            props: {
-              value: el.model,
-              type: el.type,
-              color: el.color,
-              dark: el.dark,
-              placeholder: el.placeholder,
-              floatLabel: el.label,
-              noPassToggle: el.noPassToggle
-            },
-            on: {
-              change: v => { el.model = v }
+    __getPrompt (h) {
+      return [
+        h(QInput, {
+          style: 'margin-bottom: 10px',
+          props: {
+            value: this.prompt.model,
+            type: this.prompt.type || 'text',
+            color: this.color,
+            noPassToggle: true
+          },
+          on: {
+            change: v => { this.promptModel = v }
+          }
+        })
+      ]
+    },
+    __getOptions (h) {
+      return [
+        h(QOptionGroup, {
+          props: {
+            value: this.options.model,
+            type: this.options.type,
+            color: this.color,
+            inline: this.options.inline,
+            options: this.options.items
+          },
+          on: {
+            change: v => {
+              this.options.model = v
             }
-          })
-        }
-        if (['radio', 'checkbox', 'toggle'].includes(el.type)) {
-          return h(QOptionGroup, {
-            props: {
-              value: el.model,
-              type: el.type,
-              color: el.color,
-              dark: el.dark,
-              options: el.items,
-              inline: el.inline,
-              keepColor: el.keepColor
-            },
-            on: {
-              change: v => { el.model = v }
-            }
-          })
-        }
+          }
+        })
+      ]
+    },
+    __getButtons (h) {
+      const child = []
+
+      if (this.cancel) {
+        child.push(h(QBtn, {
+          props: { color: this.color, flat: true, label: 'Cancel' },
+          on: { click: this.__onCancel }
+        }))
+      }
+      if (this.ok) {
+        child.push(h(QBtn, {
+          props: { color: this.color, flat: true, label: 'OK' },
+          on: { click: this.__onOk }
+        }))
+      }
+
+      return child
+    },
+    __onOk () {
+      const data = clone(this.__getData())
+      this.hide().then(() => {
+        this.$emit('ok', data)
       })
     },
-    __onOk (handler, preventClose) {
-      if (typeof handler !== 'function') {
-        this.hide()
-        return
-      }
-
-      const data = this.__getFormData()
-
-      if (preventClose) {
-        handler(data, this.hide)
-      }
-      else {
-        this.hide().then(() => { handler(data) })
-      }
-    },
-    __getFormData () {
-      if (!this.form) {
-        return
-      }
-
-      let data = {}
-
-      this.form.forEach(el => {
-        if (el.name && el.type !== 'heading') {
-          data[el.name] = el.model
-        }
+    __onCancel () {
+      this.hide().then(() => {
+        this.$emit('cancel')
       })
-
-      return data
+    },
+    __getData () {
+      if (this.prompt) {
+        return this.prompt.model
+      }
+      if (this.options) {
+        return this.options.model
+      }
     }
   }
 }

@@ -7,9 +7,10 @@
         title="The title"
         message="The message"
         position="bottom"
-        :form="form"
+        @show="onShow"
         @hide="onHide"
-        @dismiss="onDismiss"
+        @cancel="onCancel"
+        @ok="onOk"
       >
         <!-- <template slot="buttons" slot-scope="props">
           <q-btn flat label="Cancel" @click="props.cancel(onCancel)" />
@@ -20,7 +21,9 @@
       {{ showDialog }}
 
       <q-btn label="Toggle" @click="toggle" />
-      <q-btn label="Adhoc dialog" @click="adHoc" />
+      <q-btn label="Prompt" @click="adHoc" />
+      <q-btn label="Options" @click="adHoc2" />
+      <q-btn label="Confirm" @click="adHoc3" />
     </div>
   </div>
 </template>
@@ -29,29 +32,7 @@
 export default {
   data () {
     return {
-      showDialog: false,
-      form: [
-        {
-          name: 'name',
-          type: 'text',
-          label: 'Textbox',
-          model: ''
-        },
-        {
-          name: 'age',
-          type: 'number',
-          label: 'Numeric',
-          model: 10,
-          min: 5,
-          max: 90
-        },
-        {
-          name: 'comments',
-          type: 'textarea',
-          label: 'Textarea',
-          model: ''
-        }
-      ]
+      showDialog: false
     }
   },
   methods: {
@@ -59,7 +40,7 @@ export default {
       console.log(this.$refs.dialog)
       this.$refs.dialog.show()
     },
-    onOK (data) {
+    onOk (data) {
       console.log('onOK', data)
     },
     onCancel (data) {
@@ -68,36 +49,60 @@ export default {
     onHide (data) {
       console.log('onHide', data)
     },
-    onDismiss (data) {
-      console.log('onDismiss', data)
+    onShow (data) {
+      console.log('onShow', data)
     },
     adHoc () {
-      // const dialog =
       this.$q.dialog({
         title: 'Prompt',
         message: 'Modern HTML5 Single Page Application front-end framework on steroids.',
-        form: this.form,
-        buttons: [
-          'CancelZ',
-          {
-            label: 'OkZ',
-            handler (data) {
-              console.log('Returned ' + JSON.stringify(data))
-            }
-          }
-        ]
+        prompt: {
+          model: '',
+          type: 'text' // optional
+        },
+        cancel: true,
+        // preventClose: true,
+        color: 'secondary'
+      }).then(data => {
+        console.log('OK, received:', data)
+      }).catch(() => {
+        console.log('dismissed')
       })
-
-      setTimeout(() => {
-        this.form[0].model = 'aaaa'
-        /*
-        setTimeout(() => {
-            dialog.hide().then(data => {
-            console.log(data)
-          })
-        }, 1000)
-        */
-      }, 1000)
+    },
+    adHoc2 () {
+      this.$q.dialog({
+        title: 'Options',
+        message: 'Modern HTML5 Single Page Application front-end framework on steroids.',
+        options: {
+          type: 'checkbox',
+          model: [],
+          // inline: true
+          items: [
+            {label: 'Option 1', value: 'opt1', color: 'secondary'},
+            {label: 'Option 2', value: 'opt2'},
+            {label: 'Option 3', value: 'opt3'}
+          ]
+        },
+        cancel: true,
+        preventClose: true,
+        color: 'secondary'
+      }).then(data => {
+        console.log('OK, received:', data)
+      }).catch(() => {
+        console.log('dismissed')
+      })
+    },
+    adHoc3 () {
+      this.$q.dialog({
+        title: 'Alert',
+        message: 'Modern HTML5 Single Page Application front-end framework on steroids.',
+        cancel: true,
+        preventClose: true
+      }).then(() => {
+        console.log('OK')
+      }).catch(() => {
+        console.log('Cancel')
+      })
     }
   }
 }
