@@ -1,7 +1,8 @@
-import Platform from './plugins/platform'
 import { version } from '../package.json'
 import { setVue } from './deps'
 import { ready } from './utils/dom'
+import Platform from './plugins/platform'
+import History from './plugins/history'
 import './polyfills'
 
 function addBodyClasses () {
@@ -20,10 +21,10 @@ function addBodyClasses () {
 }
 
 export default function (_Vue, opts = {}) {
-  if (this.installed) {
+  if (this.__installed) {
     return
   }
-  this.installed = true
+  this.__installed = true
 
   setVue(_Vue)
 
@@ -32,8 +33,11 @@ export default function (_Vue, opts = {}) {
     theme: __THEME__
   }
 
-  // required plugin
+  // required plugins
   Platform.install({ Quasar })
+  History.install()
+
+  // inject body classes
   ready(addBodyClasses)
 
   if (opts.directives) {

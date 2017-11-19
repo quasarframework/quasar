@@ -1,4 +1,4 @@
-import History from './history'
+import History from '../plugins/history'
 
 export default {
   props: {
