@@ -164,18 +164,18 @@ function getPlatform () {
 }
 
 const Platform = {
-  is: getPlatform(),
-  has: {
-    touch: (() => !!('ontouchstart' in document.documentElement) || window.navigator.msMaxTouchPoints > 0)()
-  },
-  within: {
-    iframe: window.self !== window.top
-  },
-
   __installed: false,
   install ({ Quasar }) {
     if (this.__installed) { return }
     this.__installed = true
+
+    Platform.is = getPlatform()
+    Platform.has = {
+      touch: (() => !!('ontouchstart' in document.documentElement) || window.navigator.msMaxTouchPoints > 0)()
+    }
+    Platform.within = {
+      iframe: window.self !== window.top
+    }
 
     Quasar.platform = Platform
   }

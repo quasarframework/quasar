@@ -26,12 +26,15 @@ export default function (_Vue, opts = {}) {
   this.installed = true
 
   setVue(_Vue)
-  ready(addBodyClasses)
 
   const Quasar = {
     version,
     theme: __THEME__
   }
+
+  // required plugin
+  Platform.install({ Quasar })
+  ready(addBodyClasses)
 
   if (opts.directives) {
     Object.keys(opts.directives).forEach(key => {
@@ -50,9 +53,6 @@ export default function (_Vue, opts = {}) {
     })
   }
   if (opts.plugins) {
-    // required plugin
-    Platform.install({ Quasar })
-
     Object.keys(opts.plugins).forEach(key => {
       const p = opts.plugins[key]
       if (typeof p.install === 'function') {
