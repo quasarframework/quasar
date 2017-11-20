@@ -14,24 +14,16 @@ export default {
     prompt: Object,
     options: Object,
     ok: {
-      type: Boolean,
+      type: [String, Boolean],
       default: true
     },
-    cancel: Boolean,
+    cancel: [String, Boolean],
     stackButtons: Boolean,
     preventClose: Boolean,
     position: String,
     color: {
       type: String,
       default: 'primary'
-    },
-    okLabel: {
-      type: String,
-      default: 'OK'
-    },
-    cancelLabel: {
-      type: String,
-      default: 'Cancel'
     }
   },
   render (h) {
@@ -115,6 +107,16 @@ export default {
   computed: {
     hasForm () {
       return this.prompt || this.options
+    },
+    okLabel () {
+      return this.ok === true
+        ? 'OK'
+        : this.ok
+    },
+    cancelLabel () {
+      return this.cancel === true
+        ? 'Cancel'
+        : this.cancel
     }
   },
   methods: {
