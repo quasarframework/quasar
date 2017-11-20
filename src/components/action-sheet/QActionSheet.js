@@ -92,18 +92,24 @@ export default {
   },
   methods: {
     show () {
+      console.log('AS show')
       if (this.showing) {
+        console.log('AS show already showing; promise.resolve')
         return Promise.resolve()
       }
 
       return this.$refs.modal.show().then(() => {
+        console.log('AS show emitting show')
         this.$emit('show')
         this.__updateModel(true)
       })
     },
     hide () {
+      console.log('AS hide')
+      console.log(!this.showing ? 'AS hide already hidden; promise.resolve')
       return this.showing
         ? this.$refs.modal.hide().then(() => {
+          console.log('AS hide emitting hide')
           this.$emit('hide')
           this.__updateModel(false)
         })
@@ -136,12 +142,16 @@ export default {
       )
     },
     __onOk (action) {
+      console.log('AS onOK')
       this.hide().then(() => {
+        console.log('AS onOK emitting ok')
         this.$emit('ok', action)
       })
     },
     __onCancel () {
+      console.log('AS onCancel')
       this.hide().then(() => {
+        console.log('AS onCancel emitting cancel')
         this.$emit('cancel')
       })
     }
