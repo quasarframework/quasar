@@ -20,7 +20,7 @@
     :length="length"
     :additional-length="additionalLength"
 
-    @click.native="open"
+    @click.native="show"
     @focus.native="__onFocus"
     @blur.native="__onBlur"
   >
@@ -209,7 +209,7 @@ export default {
         return this.$refs.popover.show()
       }
     },
-    close () {
+    hide () {
       if (!this.disable) {
         return this.$refs.popover.hide()
       }
