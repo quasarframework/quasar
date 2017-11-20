@@ -1,18 +1,22 @@
 import { QModal } from '../modal'
 import { QIcon } from '../icon'
 import { QList, QItem, QItemSide, QItemMain, QItemSeparator } from '../list'
-import ModelToggleMixin from '../../mixins/model-toggle'
 
 export default {
   name: 'q-action-sheet',
-  mixins: [ModelToggleMixin],
   props: {
+    value: Boolean,
     title: String,
     grid: Boolean,
     actions: Array,
     dismissLabel: {
       type: String,
       default: 'Cancel'
+    }
+  },
+  watch: {
+    value (val) {
+      this[val ? 'show' : 'hide']()
     }
   },
   computed: {
@@ -80,11 +84,22 @@ export default {
         contentCss: this.contentCss
       },
       on: {
-        dismiss: this.__onCancel,
+        show: () => {
+          this.$emit('show')
+          this.$emit('input', true)
+        },
+        hide: () => {
+          this.$emit('hide')
+          this.$emit('input', false)
+        },
+        dismiss: () => {
+          console.log('DIALOG received dismiss, hiding then emitting cancel')
+          this.__onCancel()
+        },
         'escape-key': () => {
           this.hide().then(() => {
             this.$emit('escape-key')
-            this.$emit('cancel')
+            this.__onCancel()
           })
         }
       }
@@ -93,27 +108,11 @@ export default {
   methods: {
     show () {
       console.log('AS show')
-      if (this.showing) {
-        console.log('AS show already showing; promise.resolve')
-        return Promise.resolve()
-      }
-
-      return this.$refs.modal.show().then(() => {
-        console.log('AS show emitting show')
-        this.$emit('show')
-        this.__updateModel(true)
-      })
+      return this.$refs.modal.show()
     },
     hide () {
       console.log('AS hide')
-      console.log(!this.showing ? 'AS hide already hidden; promise.resolve' : '')
-      return this.showing
-        ? this.$refs.modal.hide().then(() => {
-          console.log('AS hide emitting hide')
-          this.$emit('hide')
-          this.__updateModel(false)
-        })
-        : Promise.resolve()
+      return this.$refs.modal.hide()
     },
     __getActions (h) {
       return this.actions.map(action => action.label

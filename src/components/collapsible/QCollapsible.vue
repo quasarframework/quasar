@@ -104,17 +104,11 @@ export default {
     }
   },
   methods: {
-    show () {
-      if (!this.disable) {
-        this.__updateModel(true, false)
-      }
-      return Promise.resolve()
+    __show () {
+      this.showPromiseResolve()
     },
-    hide () {
-      if (!this.disable) {
-        this.__updateModel(false, false)
-      }
-      return Promise.resolve()
+    __hide () {
+      this.hidePromiseResolve && this.hidePromiseResolve()
     },
     __toggleItem () {
       if (!this.iconToggle) {
@@ -129,6 +123,11 @@ export default {
   },
   created () {
     this.$root.$on(eventName, this.__eventHandler)
+  },
+  mounted () {
+    if (this.value) {
+      this.show()
+    }
   },
   beforeDestroy () {
     this.$root.$off(eventName, this.__eventHandler)

@@ -55,19 +55,11 @@ export default {
     }
   },
   methods: {
-    show () {
-      if (!this.showing) {
-        this.__updateModel(true)
-        this.$emit('show')
-      }
-      return Promise.resolve()
+    __show () {
+      this.showPromiseResolve()
     },
-    hide () {
-      if (this.showing) {
-        this.__updateModel(false)
-        this.$emit('hide')
-      }
-      return Promise.resolve()
+    __hide () {
+      this.hidePromiseResolve && this.hidePromiseResolve()
     }
   }
 }

@@ -2,7 +2,6 @@ import EscapeKey from '../../utils/escape-key'
 import extend from '../../utils/extend'
 import ModelToggleMixin from '../../mixins/model-toggle'
 import { QTransition } from '../transition'
-import { getScrollbarWidth } from '../../utils/scroll'
 
 const positions = {
   top: 'items-start justify-center with-backdrop',
@@ -45,9 +44,7 @@ function additionalCSS (position) {
   return css
 }
 
-let
-  duration = 2000, // in ms -- synch with transition CSS from Modal
-  openedModalNumber = 0
+let openedModalNumber = 0
 
 export default {
   name: 'q-modal',
@@ -79,6 +76,11 @@ export default {
     },
     minimized: Boolean,
     maximized: Boolean
+  },
+  data () {
+    return {
+      withHistory: true
+    }
   },
   watch: {
     $route () {
@@ -125,74 +127,6 @@ export default {
     }
   },
   methods: {
-    show () {
-      console.log('MODAL show')
-      if (this.showing) {
-        console.log('MODAL show already showing; promise.resolve')
-        return Promise.resolve()
-      }
-
-      const body = document.body
-
-      body.appendChild(this.$el)
-      body.classList.add('with-modal')
-      this.bodyPadding = window.getComputedStyle(body).paddingRight
-      body.style.paddingRight = `${getScrollbarWidth()}px`
-      EscapeKey.register(() => {
-        if (!this.noEscDismiss) {
-          this.hide().then(() => {
-            this.$emit('escape-key')
-          })
-        }
-      })
-
-      setTimeout(() => {
-        let content = this.$refs.content
-        content.scrollTop = 0
-        ;['modal-scroll', 'layout-view'].forEach(c => {
-          [].slice.call(content.getElementsByClassName(c)).forEach(el => {
-            el.scrollTop = 0
-          })
-        })
-      }, 10)
-
-      this.__updateModel(true)
-      openedModalNumber++
-
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          console.log('MODAL show emitting show')
-          this.$emit('show')
-          resolve()
-        }, duration)
-      })
-    },
-    hide () {
-      console.log('MODAL hide')
-      if (!this.showing) {
-        console.log('MODAL hide not showing; return promise.resolve')
-        return Promise.resolve()
-      }
-
-      EscapeKey.pop()
-      openedModalNumber--
-
-      if (openedModalNumber === 0) {
-        const body = document.body
-        body.classList.remove('with-modal')
-        body.style.paddingRight = this.bodyPadding
-      }
-
-      console.log('MODAL hide update model to false')
-      this.__updateModel(false)
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          console.log('MODAL hide emitting hide')
-          this.$emit('hide')
-          resolve()
-        }, duration)
-      })
-    },
     __dismiss () {
       console.log('MODAL __dismiss')
       if (this.noBackdropDismiss) {
@@ -202,6 +136,51 @@ export default {
         console.log('MODAL __dismiss emitting dismiss')
         this.$emit('dismiss')
       })
+    },
+    __show () {
+      console.log('MODAL show')
+      const body = document.body
+
+      body.appendChild(this.$el)
+      body.classList.add('with-modal')
+
+      EscapeKey.register(() => {
+        if (!this.noEscDismiss) {
+          this.hide().then(() => {
+            this.$emit('escape-key')
+          })
+        }
+      })
+
+      this.$once('show', () => {
+        console.log('trigger')
+        let content = this.$refs.content
+        content.scrollTop = 0
+        ;['modal-scroll', 'layout-view'].forEach(c => {
+          [].slice.call(content.getElementsByClassName(c)).forEach(el => {
+            el.scrollTop = 0
+          })
+        })
+      })
+
+      openedModalNumber++
+    },
+    __hide () {
+      console.log('MODAL hide')
+      EscapeKey.pop()
+      openedModalNumber--
+
+      if (openedModalNumber === 0) {
+        const body = document.body
+
+        body.classList.remove('with-modal')
+        body.style.paddingRight = this.bodyPadding
+      }
+    }
+  },
+  mounted () {
+    if (this.value) {
+      this.show()
     }
   },
   beforeDestroy () {
@@ -215,6 +194,24 @@ export default {
         name: this.modalTransition,
         enter: this.enterClass,
         leave: this.leaveClass
+      },
+      on: {
+        afterEnter: () => {
+          console.log('show resolve')
+          this.showPromiseResolve()
+        },
+        enterCancelled: () => {
+          console.log('show cancel')
+          this.showPromiseReject()
+        },
+        afterLeave: () => {
+          console.log('hide resolve')
+          this.hidePromiseResolve()
+        },
+        leaveCancelled: () => {
+          console.log('hide reject')
+          this.hidePromiseReject()
+        }
       }
     }, [
       h('div', {

@@ -4,6 +4,7 @@ export default function (Component, Vue) {
     document.body.appendChild(node)
 
     return new Promise((resolve, reject) => {
+      console.log(Vue)
       const vm = new Vue({
         el: node,
         data () {

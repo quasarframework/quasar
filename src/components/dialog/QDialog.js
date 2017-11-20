@@ -2,13 +2,12 @@ import { QModal } from '../modal'
 import { QInput } from '../input'
 import { QBtn } from '../btn'
 import { QOptionGroup } from '../option-group'
-import ModelToggleMixin from '../../mixins/model-toggle'
 import clone from '../../utils/clone'
 
 export default {
   name: 'q-dialog',
-  mixins: [ModelToggleMixin],
   props: {
+    value: Boolean,
     title: String,
     message: String,
     prompt: Object,
@@ -24,6 +23,11 @@ export default {
     color: {
       type: String,
       default: 'primary'
+    }
+  },
+  watch: {
+    value (val) {
+      this[val ? 'show' : 'hide']()
     }
   },
   render (h) {
@@ -92,9 +96,17 @@ export default {
         position: this.position
       },
       on: {
+        show: () => {
+          this.$emit('show')
+          this.$emit('input', true)
+        },
+        hide: () => {
+          this.$emit('hide')
+          this.$emit('input', false)
+        },
         dismiss: () => {
           console.log('DIALOG received dismiss, hiding then emitting cancel')
-          this.hide().then(() => this.$emit('cancel'))
+          this.$emit('cancel')
         },
         'escape-key': () => {
           this.hide().then(() => {
@@ -123,15 +135,8 @@ export default {
   methods: {
     show () {
       console.log('DIALOG show')
-      if (this.showing) {
-        console.log('DIALOG show already showing; promise.resolve()')
-        return Promise.resolve()
-      }
-
       return this.$refs.modal.show().then(() => {
         console.log('DIALOG show emitting show')
-        this.$emit('show')
-        this.__updateModel(true)
 
         if (!this.$q.platform.is.desktop) {
           return
@@ -157,14 +162,10 @@ export default {
       }
       console.log('DIALOG hide')
 
-      return this.showing
-        ? this.$refs.modal.hide().then(() => {
-          this.$emit('DIALOG hide', data)
-          console.log('qgialod hide - update model to false')
-          this.__updateModel(false)
-          return data
-        })
-        : Promise.resolve(data)
+      return this.$refs.modal.hide().then(() => {
+        console.log('DIALOG hide', data)
+        return data
+      })
     },
     __getPrompt (h) {
       return [

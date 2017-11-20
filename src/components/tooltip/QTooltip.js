@@ -34,6 +34,11 @@ export default {
     maxHeight: String,
     disable: Boolean
   },
+  watch: {
+    $route () {
+      this.hide()
+    }
+  },
   computed: {
     anchorOrigin () {
       return parsePosition(this.anchor)
@@ -48,11 +53,7 @@ export default {
     }
   },
   methods: {
-    show () {
-      if (this.disable || this.showing) {
-        return Promise.resolve()
-      }
-      clearTimeout(this.timer)
+    __show () {
       document.body.appendChild(this.$el)
       this.scrollTarget = getScrollTarget(this.anchorEl)
       this.scrollTarget.addEventListener('scroll', this.hide)
@@ -60,16 +61,12 @@ export default {
       if (this.$q.platform.is.mobile) {
         document.body.addEventListener('click', this.hide, true)
       }
-      this.__updateModel(true, false)
-      this.$emit('show')
+
       this.__updatePosition()
-      return Promise.resolve()
+      this.showPromiseResolve()
     },
-    hide () {
+    __hide () {
       clearTimeout(this.timer)
-      if (!this.showing) {
-        return Promise.resolve()
-      }
 
       this.scrollTarget.removeEventListener('scroll', this.hide)
       window.removeEventListener('resize', this.__debouncedUpdatePosition)
@@ -77,9 +74,8 @@ export default {
       if (this.$q.platform.is.mobile) {
         document.body.removeEventListener('click', this.hide, true)
       }
-      this.__updateModel(false, false)
-      this.$emit('hide')
-      return Promise.resolve()
+
+      this.hidePromiseResolve && this.hidePromiseResolve()
     },
     __updatePosition () {
       setPosition({
@@ -130,6 +126,10 @@ export default {
         this.anchorEl.addEventListener('mouseleave', this.hide)
         this.anchorEl.addEventListener('blur', this.hide)
       }
+
+      if (this.value) {
+        this.show()
+      }
     })
   },
   beforeDestroy () {
@@ -145,6 +145,5 @@ export default {
       this.anchorEl.removeEventListener('mouseleave', this.hide)
       this.anchorEl.removeEventListener('blur', this.hide)
     }
-    this.hide()
   }
 }
