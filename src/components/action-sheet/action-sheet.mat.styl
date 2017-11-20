@@ -1,13 +1,27 @@
-.q-action-sheet-gallery
-  > div
-    padding $action-sheet-avatar-padding
-    transition all .3s
-    &:hover, &:focus
-      background $action-sheet-hover-background
-      outline 0
+.q-actionsheet-title
+  min-height 56px
+  padding 0 16px
+  color $faded
+
+.q-actionsheet-body
+  max-height 500px
+
+.q-actionsheet-grid
+  padding 8px 16px
+  .q-item-separator-component
+    margin 24px 0
+
+.q-actionsheet-grid-item
+  padding 8px 16px
+  transition background .3s
+  &:hover, &:focus
+    background $action-sheet-hover-background
+    outline 0
   i, img
-    font-size 2rem
-    margin-bottom 5px
+    font-size 48px
+    margin-bottom 8px
   .avatar
-    width 50px
-    height 50px
+    width 48px
+    height 48px
+  span
+    color $faded

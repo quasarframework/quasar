@@ -1,6 +1,6 @@
 import { QModal } from '../modal'
 import { QIcon } from '../icon'
-import { QList, QItem, QItemSide, QItemMain } from '../list'
+import { QList, QItem, QItemSide, QItemMain, QItemSeparator } from '../list'
 import ModelToggleMixin from '../../mixins/model-toggle'
 
 export default {
@@ -9,7 +9,11 @@ export default {
   props: {
     title: String,
     grid: Boolean,
-    actions: Array
+    actions: Array,
+    dismissLabel: {
+      type: String,
+      default: 'Cancel'
+    }
   },
   computed: {
     contentCss () {
@@ -26,7 +30,7 @@ export default {
     if (title) {
       child.push(
         h('div', {
-          staticClass: 'modal-header'
+          staticClass: 'q-actionsheet-title column justify-center'
         }, [ title ])
       )
     }
@@ -34,11 +38,11 @@ export default {
     child.push(
       h(
         'div',
-        { staticClass: 'modal-body modal-scroll' },
+        { staticClass: 'q-actionsheet-body scroll' },
         this.actions
           ? [
             this.grid
-              ? h('div', { staticClass: 'q-action-sheet-gallery row wrap flex-center' }, this.__getActions(h))
+              ? h('div', { staticClass: 'q-actionsheet-grid row wrap items-center justify-between' }, this.__getActions(h))
               : h(QList, { staticClass: 'no-border', props: { link: true } }, this.__getActions(h))
           ]
           : [ this.$slots.default ]
@@ -47,8 +51,8 @@ export default {
 
     if (__THEME__ === 'ios') {
       child = [
-        h('div', { staticClass: 'q-action-sheet' }, child),
-        h('div', { staticClass: 'q-action-sheet' }, [
+        h('div', { staticClass: 'q-actionsheet' }, child),
+        h('div', { staticClass: 'q-actionsheet' }, [
           h(QItem, {
             props: {
               link: true
@@ -61,8 +65,8 @@ export default {
               keydown: this.__onCancel
             }
           }, [
-            h(QItemMain, { staticClass: 'text-center' }, [
-              'Cancel'
+            h(QItemMain, { staticClass: 'text-center text-primary' }, [
+              this.dismissLabel
             ])
           ])
         ])
@@ -106,27 +110,30 @@ export default {
         : Promise.resolve()
     },
     __getActions (h) {
-      return this.actions.map(action => h(this.grid ? 'div' : QItem, {
-        staticClass: this.grid
-          ? 'cursor-pointer relative-position column inline flex-center'
-          : null,
-        'class': action.classes,
-        domProps: { tabindex: '0' },
-        on: {
-          click: () => this.__onOk(action),
-          keydown: (e) => this.__onOk(action)
-        }
-      }, this.grid
-        ? [
-          action.icon ? h(QIcon, { props: { name: action.icon } }) : null,
-          action.avatar ? h('img', { domProps: { src: action.avatar }, staticClass: 'avatar' }) : null,
-          h('span', [ action.label ])
-        ]
-        : [
-          h(QItemSide, { props: { icon: action.icon, avatar: action.avatar } }),
-          h(QItemMain, { props: { inset: true, label: action.label } })
-        ]
-      ))
+      return this.actions.map(action => action.label
+        ? h(this.grid ? 'div' : QItem, {
+          staticClass: this.grid
+            ? 'q-actionsheet-grid-item cursor-pointer relative-position column inline flex-center'
+            : null,
+          'class': action.classes,
+          domProps: { tabindex: '0' },
+          on: {
+            click: () => this.__onOk(action),
+            keydown: (e) => this.__onOk(action)
+          }
+        }, this.grid
+          ? [
+            action.icon ? h(QIcon, { props: { name: action.icon, color: action.color } }) : null,
+            action.avatar ? h('img', { domProps: { src: action.avatar }, staticClass: 'avatar' }) : null,
+            h('span', [ action.label ])
+          ]
+          : [
+            h(QItemSide, { props: { icon: action.icon, color: action.color, avatar: action.avatar } }),
+            h(QItemMain, { props: { inset: true, label: action.label } })
+          ]
+        )
+        : h(QItemSeparator, { staticClass: 'col-12' })
+      )
     },
     __onOk (action) {
       this.hide().then(() => {

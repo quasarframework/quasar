@@ -39,11 +39,13 @@
         {
           label: 'Delete',
           icon: 'delete',
+          color: 'red',
           id: 'delete'
         },
         {
           label: 'Share',
           icon: 'share',
+          color: 'primary',
           id: 'share'
         },
         {
@@ -51,6 +53,7 @@
           icon: 'gamepad',
           id: 'play'
         },
+        {},
         {
           label: 'Favorite',
           icon: 'favorite',
@@ -74,7 +77,7 @@ export default {
           }
         },
         {
-          label: 'Gallery with Icons',
+          label: 'Grid with Icons',
           handler: () => {
             this.showActionSheetWithIcons(true)
           }
@@ -86,7 +89,7 @@ export default {
           }
         },
         {
-          label: 'Gallery with Avatars',
+          label: 'Grid with Avatars',
           handler: () => {
             this.showActionSheetWithAvatar(true)
           }
@@ -113,19 +116,21 @@ export default {
     onShow (data) {
       console.log('onShow', data)
     },
-    showActionSheetWithIcons (gallery) {
+    showActionSheetWithIcons (grid) {
       this.$q.actionSheet({
         title: 'Article Actions',
-        grid: gallery,
+        grid,
         actions: [
           {
             label: 'Delete',
             icon: 'delete',
+            color: 'red',
             id: 'delete'
           },
           {
             label: 'Share',
             icon: 'share',
+            color: 'primary',
             id: 'share'
           },
           {
@@ -133,6 +138,7 @@ export default {
             icon: 'gamepad',
             id: 'play'
           },
+          {},
           {
             label: 'Favorite',
             icon: 'favorite',
@@ -145,10 +151,10 @@ export default {
         console.log('dismissed')
       })
     },
-    showActionSheetWithAvatar (gallery) {
+    showActionSheetWithAvatar (grid) {
       this.$q.actionSheet({
         title: 'Share to',
-        grid: gallery,
+        grid,
         actions: [
           {
             label: 'Joe',
@@ -165,6 +171,7 @@ export default {
             avatar: 'statics/linux-avatar.png',
             id: 'jim'
           },
+          {},
           {
             label: 'Jack',
             avatar: 'statics/guy-avatar.png',

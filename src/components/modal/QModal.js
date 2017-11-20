@@ -10,25 +10,24 @@ const positions = {
   right: 'items-center justify-end with-backdrop',
   left: 'items-center justify-start with-backdrop'
 }
-const positionCSS = {
-  mat: {
+const positionCSS = __THEME__ === 'mat'
+  ? {
     maxHeight: '80vh',
     height: 'auto'
-  },
-  ios: {
+  }
+  : {
     maxHeight: '80vh',
     height: 'auto',
     boxShadow: 'none'
   }
-}
 
-function additionalCSS (theme, position) {
+function additionalCSS (position) {
   let css = {}
 
   if (['left', 'right'].includes(position)) {
     css.maxWidth = '90vw'
   }
-  if (theme === 'ios') {
+  if (__THEME__ === 'ios') {
     if (['left', 'top'].includes(position)) {
       css.borderTopLeftRadius = 0
     }
@@ -115,8 +114,8 @@ export default {
 
         css.unshift(extend(
           {},
-          positionCSS[this.$q.theme],
-          additionalCSS(this.$q.theme, this.position)
+          positionCSS,
+          additionalCSS(this.position)
         ))
 
         return css
