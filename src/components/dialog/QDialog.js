@@ -14,10 +14,10 @@ export default {
     prompt: Object,
     options: Object,
     ok: {
-      type: Boolean,
+      type: [String, Boolean],
       default: true
     },
-    cancel: Boolean,
+    cancel: [String, Boolean],
     stackButtons: Boolean,
     preventClose: Boolean,
     position: String,
@@ -107,6 +107,16 @@ export default {
   computed: {
     hasForm () {
       return this.prompt || this.options
+    },
+    okLabel () {
+      return this.ok === true
+        ? 'OK'
+        : this.ok
+    },
+    cancelLabel () {
+      return this.cancel === true
+        ? 'Cancel'
+        : this.cancel
     }
   },
   methods: {
@@ -187,13 +197,13 @@ export default {
 
       if (this.cancel) {
         child.push(h(QBtn, {
-          props: { color: this.color, flat: true, label: 'Cancel' },
+          props: { color: this.color, flat: true, label: this.cancelLabel },
           on: { click: this.__onCancel }
         }))
       }
       if (this.ok) {
         child.push(h(QBtn, {
-          props: { color: this.color, flat: true, label: 'OK' },
+          props: { color: this.color, flat: true, label: this.okLabel },
           on: { click: this.__onOk }
         }))
       }
