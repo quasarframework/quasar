@@ -18,7 +18,7 @@ export default {
     this.remove = definition => {
       const index = this.__history.indexOf(definition)
       if (index >= 0) {
-        this.__hist.splice(index, 1)
+        this.__history.splice(index, 1)
       }
     }
 
