@@ -106,7 +106,7 @@ export default {
     },
     hide () {
       console.log('AS hide')
-      console.log(!this.showing ? 'AS hide already hidden; promise.resolve')
+      console.log(!this.showing ? 'AS hide already hidden; promise.resolve' : '')
       return this.showing
         ? this.$refs.modal.hide().then(() => {
           console.log('AS hide emitting hide')
