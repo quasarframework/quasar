@@ -126,7 +126,9 @@ export default {
   },
   methods: {
     show () {
+      console.log('MODAL show')
       if (this.showing) {
+        console.log('MODAL show already showing; promise.resolve')
         return Promise.resolve()
       }
 
@@ -159,13 +161,16 @@ export default {
 
       return new Promise((resolve, reject) => {
         setTimeout(() => {
+          console.log('MODAL show emitting show')
           this.$emit('show')
           resolve()
         }, duration)
       })
     },
     hide () {
+      console.log('MODAL hide')
       if (!this.showing) {
+        console.log('MODAL hide not showing; return promise.resolve')
         return Promise.resolve()
       }
 
@@ -178,19 +183,23 @@ export default {
         body.style.paddingRight = this.bodyPadding
       }
 
+      console.log('MODAL hide update model to false')
       this.__updateModel(false)
       return new Promise((resolve, reject) => {
         setTimeout(() => {
+          console.log('MODAL hide emitting hide')
           this.$emit('hide')
           resolve()
         }, duration)
       })
     },
     __dismiss () {
+      console.log('MODAL __dismiss')
       if (this.noBackdropDismiss) {
         return
       }
       this.hide().then(() => {
+        console.log('MODAL __dismiss emitting dismiss')
         this.$emit('dismiss')
       })
     }

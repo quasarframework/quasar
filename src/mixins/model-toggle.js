@@ -11,8 +11,15 @@ export default {
   },
   watch: {
     value (val) {
-      if (val) { this.show() }
-      else { this.hide() }
+      console.log(this.$options.name, '__updateModel watcher', val, this.showing)
+      if (val) {
+        if (!this.showing) {
+          this.show()
+        }
+      }
+      else if (this.showing) {
+        this.hide()
+      }
     }
   },
   methods: {
@@ -20,8 +27,10 @@ export default {
       return this[this.showing ? 'hide' : 'show'](evt)
     },
     __updateModel (val, noHistory) {
+      console.log(this.$options.name, '__updateModel', val)
       if (this.showing !== val) {
         this.showing = val
+        console.log(this.$options.name, '__updateModel set showing to', val)
 
         if (noHistory !== void 0) {
           // do nothing
@@ -38,6 +47,7 @@ export default {
         }
       }
       if (this.value !== val) {
+        console.log(this.$options.name, '__updateModel emitting input', val)
         this.$emit('input', val)
       }
     }

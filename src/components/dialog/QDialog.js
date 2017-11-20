@@ -93,6 +93,7 @@ export default {
       },
       on: {
         dismiss: () => {
+          console.log('DIALOG received dismiss, hiding then emitting cancel')
           this.hide().then(() => this.$emit('cancel'))
         },
         'escape-key': () => {
@@ -121,11 +122,14 @@ export default {
   },
   methods: {
     show () {
+      console.log('DIALOG show')
       if (this.showing) {
+        console.log('DIALOG show already showing; promise.resolve()')
         return Promise.resolve()
       }
 
       return this.$refs.modal.show().then(() => {
+        console.log('DIALOG show emitting show')
         this.$emit('show')
         this.__updateModel(true)
 
@@ -151,10 +155,12 @@ export default {
       if (this.hasForm) {
         data = clone(this.__getData())
       }
+      console.log('DIALOG hide')
 
       return this.showing
         ? this.$refs.modal.hide().then(() => {
-          this.$emit('hide', data)
+          this.$emit('DIALOG hide', data)
+          console.log('qgialod hide - update model to false')
           this.__updateModel(false)
           return data
         })
@@ -212,11 +218,13 @@ export default {
     },
     __onOk () {
       return this.hide().then(data => {
+        console.log('DIALOG emitting ok', data)
         this.$emit('ok', data)
       })
     },
     __onCancel () {
       return this.hide().then(() => {
+        console.log('DIALOG emitting cancel')
         this.$emit('cancel')
       })
     },
