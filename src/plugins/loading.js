@@ -1,5 +1,5 @@
-import { Vue } from '../../deps'
-import { QSpinner } from '../spinner'
+import { Vue } from '../deps'
+import { QSpinner } from '../components/spinner'
 
 let
   vm,
