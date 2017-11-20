@@ -28,7 +28,7 @@ export default {
         }
         else if (val) {
           this.__historyEntry = {
-            handler: this.close
+            handler: this.hide
           }
           History.add(this.__historyEntry)
         }
