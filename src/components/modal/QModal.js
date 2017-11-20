@@ -46,7 +46,7 @@ function additionalCSS (position) {
 }
 
 let
-  duration = 2000, // in ms -- synch with transition CSS from Modal
+  duration = 200, // in ms -- synch with transition CSS from Modal
   openedModalNumber = 0
 
 export default {
