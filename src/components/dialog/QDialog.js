@@ -24,6 +24,14 @@ export default {
     color: {
       type: String,
       default: 'primary'
+    },
+    okLabel: {
+      type: String,
+      default: 'OK'
+    },
+    cancelLabel: {
+      type: String,
+      default: 'Cancel'
     }
   },
   render (h) {
@@ -187,13 +195,13 @@ export default {
 
       if (this.cancel) {
         child.push(h(QBtn, {
-          props: { color: this.color, flat: true, label: 'Cancel' },
+          props: { color: this.color, flat: true, label: this.cancelLabel },
           on: { click: this.__onCancel }
         }))
       }
       if (this.ok) {
         child.push(h(QBtn, {
-          props: { color: this.color, flat: true, label: 'OK' },
+          props: { color: this.color, flat: true, label: this.okLabel },
           on: { click: this.__onOk }
         }))
       }
