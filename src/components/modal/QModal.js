@@ -221,8 +221,7 @@ export default {
         staticClass: 'modal fullscreen row',
         'class': this.modalClasses,
         on: {
-          click: this.__dismiss,
-          touchstart: this.__dismiss
+          click: this.__dismiss
         },
         directives: [{
           name: 'show',
