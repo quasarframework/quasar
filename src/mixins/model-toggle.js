@@ -105,8 +105,8 @@ export default {
   beforeDestroy () {
     if (this.showing) {
       console.log('beforeDestroy calling hide')
-      this.showPromiseReject && this.showPromiseReject()
-      this.hidePromiseReject && this.hidePromiseReject()
+      this.showPromise && this.showPromiseReject()
+      this.hidePromise && this.hidePromiseReject()
       this.$emit('input', false)
       this.__hide()
     }
