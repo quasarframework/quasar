@@ -17,6 +17,11 @@ export default {
   watch: {
     value (val) {
       console.log(this.$options.name, '__updateModel value watcher', val, this.showing)
+      if (this.disable) {
+        if (val) { this.$emit('input', false) }
+        return
+      }
+
       if (val !== this.showing) {
         this[val ? 'show' : 'hide']()
       }
