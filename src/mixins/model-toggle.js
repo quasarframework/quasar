@@ -15,26 +15,19 @@ export default {
     }
   },
   watch: {
-    value (val) {
+    value (val, oldVal) {
+      if (val === oldVal) {
+        return
+      }
       console.log(this.$options.name, '__updateModel value watcher', val, this.showing)
-      if (this.disable && val) {
-        this.$emit('input', false)
-        return
-      }
 
-      if (val !== this.showing) {
-        this[val ? 'show' : 'hide']()
-      }
+      this[val ? 'show' : 'hide']()
     },
-    showing (val) {
-      console.log(this.$options.name, '__updateModel showing watcher', val, this.value)
-      if (this.value !== val) {
-        this.$emit('input', val)
-      }
-
-      if (this.$options.noShowingHistory) {
+    showing (val, oldVal) {
+      if (val === oldVal || this.$options.noShowingHistory) {
         return
       }
+      console.log(this.$options.name, '__updateModel showing watcher', val, this.value)
 
       if (val) {
         this.__historyEntry = {
@@ -50,9 +43,7 @@ export default {
   },
   methods: {
     toggle (evt) {
-      if (!this.disable) {
-        return this[this.showing ? 'hide' : 'show'](evt)
-      }
+      return this[this.showing ? 'hide' : 'show'](evt)
     },
     show (evt) {
       if (this.disable) {
@@ -61,11 +52,15 @@ export default {
 
       console.log('show')
       if (this.showing) {
-        return this.showPromise || Promise.resolve()
+        return this.showPromise
+      }
+
+      if (this.hidePromise) {
+        this.hidePromiseReject()
       }
 
       this.showing = true
-      this.showPromise = new Promise((resolve, reject) => {
+      const showPromise = new Promise((resolve, reject) => {
         this.showPromiseResolve = () => {
           this.showPromise = null
           this.$emit('show')
@@ -76,17 +71,16 @@ export default {
           reject(new Error())
         }
       })
+      this.showPromise = showPromise
 
-      this.$nextTick(() => {
-        if (this.__show) {
-          this.__show(evt)
-        }
-        else {
-          this.showPromiseResolve()
-        }
-      })
+      if (this.__show) {
+        this.__show(evt)
+      }
+      else {
+        this.showPromiseResolve()
+      }
 
-      return this.showPromise
+      return showPromise
     },
     hide (evt) {
       console.log('hide')
@@ -95,8 +89,12 @@ export default {
         return this.hidePromise || Promise.resolve()
       }
 
+      if (this.showPromise) {
+        this.showPromiseReject()
+      }
+
       this.showing = false
-      this.hidePromise = new Promise((resolve, reject) => {
+      const hidePromise = new Promise((resolve, reject) => {
         this.hidePromiseResolve = () => {
           this.hidePromise = null
           this.$emit('hide')
@@ -107,15 +105,14 @@ export default {
           reject(new Error())
         }
       })
-      this.$nextTick(() => {
-        if (this.__hide) {
-          this.__hide(evt)
-        }
-        else {
-          this.hidePromiseResolve()
-        }
-      })
-      return this.hidePromise
+      this.hidePromise = hidePromise
+      if (this.__hide) {
+        this.__hide(evt)
+      }
+      else {
+        this.hidePromiseResolve()
+      }
+      return hidePromise
     }
   },
   beforeDestroy () {
