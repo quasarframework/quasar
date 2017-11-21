@@ -15,32 +15,28 @@ export default {
     }
   },
   watch: {
-    value (val, old) {
+    value (val) {
       if (this.disable && val) {
         this.$emit('input', false)
         return
       }
 
-      if (val === old) {
-        return
-      }
       console.log(this.$options.name, '__updateModel value watcher', val, this.showing)
-
       if ((val && !this.showing) || (!val && this.showing)) {
         this[val ? 'show' : 'hide']()
       }
     },
-    showing (val, old) {
-      if (this.value !== val) {
+    showing (val) {
+      if (val !== this.value) {
         this.$emit('input', val)
         return
       }
 
-      if (val === old || this.$options.noShowingHistory) {
+      if (this.$options.noShowingHistory) {
         return
       }
-      console.log(this.$options.name, '__updateModel showing watcher', val, this.value)
 
+      console.log(this.$options.name, '__updateModel showing watcher', val, this.value)
       if (val) {
         this.__historyEntry = {
           handler: this.hide
@@ -64,6 +60,7 @@ export default {
 
       console.log('show')
       if (this.showing) {
+        console.log('show already in progress')
         return this.showPromise || Promise.resolve()
       }
 
@@ -73,10 +70,10 @@ export default {
 
       this.showing = true
       const showPromise = new Promise((resolve, reject) => {
-        this.showPromiseResolve = () => {
+        this.showPromiseResolve = (evt) => {
           this.showPromise = null
           this.$emit('show')
-          resolve()
+          resolve(evt)
         }
         this.showPromiseReject = () => {
           this.showPromise = null
@@ -89,7 +86,7 @@ export default {
         this.__show(evt)
       }
       else {
-        this.showPromiseResolve()
+        this.showPromiseResolve(evt)
       }
 
       return showPromise
@@ -97,7 +94,7 @@ export default {
     hide (evt) {
       console.log('hide')
       if (!this.showing) {
-        console.log('hide aborting')
+        console.log('hide already in progress')
         return this.hidePromise || Promise.resolve()
       }
 
@@ -107,10 +104,10 @@ export default {
 
       this.showing = false
       const hidePromise = new Promise((resolve, reject) => {
-        this.hidePromiseResolve = () => {
+        this.hidePromiseResolve = (evt) => {
           this.hidePromise = null
           this.$emit('hide')
-          resolve()
+          resolve(evt)
         }
         this.hidePromiseReject = () => {
           this.hidePromise = null
@@ -122,7 +119,7 @@ export default {
         this.__hide(evt)
       }
       else {
-        this.hidePromiseResolve()
+        this.hidePromiseResolve(evt)
       }
       return hidePromise
     }
