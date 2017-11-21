@@ -52,7 +52,7 @@ export default {
 
       console.log('show')
       if (this.showing) {
-        return this.showPromise
+        return this.showPromise || Promise.resolve()
       }
 
       if (this.hidePromise) {
