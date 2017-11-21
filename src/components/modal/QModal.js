@@ -77,11 +77,6 @@ export default {
     minimized: Boolean,
     maximized: Boolean
   },
-  data () {
-    return {
-      withHistory: true
-    }
-  },
   watch: {
     $route () {
       this.hide()
@@ -198,19 +193,19 @@ export default {
       on: {
         afterEnter: () => {
           console.log('show resolve')
-          this.showPromiseResolve()
+          this.showPromise && this.showPromiseResolve()
         },
         enterCancelled: () => {
           console.log('show cancel')
-          this.showPromiseReject()
+          this.showPromise && this.showPromiseReject()
         },
         afterLeave: () => {
           console.log('hide resolve')
-          this.hidePromiseResolve()
+          this.hidePromise && this.hidePromiseResolve()
         },
         leaveCancelled: () => {
           console.log('hide reject')
-          this.hidePromiseReject()
+          this.hidePromise && this.hidePromiseReject()
         }
       }
     }, [

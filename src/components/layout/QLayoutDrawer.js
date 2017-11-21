@@ -343,7 +343,7 @@ export default {
       }
 
       setTimeout(() => {
-        this.showPromiseResolve()
+        this.showPromise && this.showPromiseResolve()
       }, duration)
     },
     __hide () {
@@ -354,7 +354,7 @@ export default {
       document.body.classList.remove(bodyClass)
 
       setTimeout(() => {
-        this.hidePromiseReject && this.hidePromiseReject()
+        this.hidePromise && this.hidePromiseResolve()
       }, duration)
     },
 

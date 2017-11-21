@@ -4,7 +4,7 @@ import History from '../plugins/history'
 // __show()
 // __hide()
 // Calling this.showPromiseResolve, this.hidePromiseResolve
-// withHistory = true scope var for cordova backbutton
+// avoid backbutton with setting noShowingHistory
 export default {
   props: {
     value: Boolean
@@ -30,19 +30,21 @@ export default {
       console.log(this.$options.name, '__updateModel showing watcher', val, this.value)
       if (this.value !== val) {
         this.$emit('input', val)
+      }
 
-        if (this.withHistory) {
-          if (val) {
-            this.__historyEntry = {
-              handler: this.hide
-            }
-            History.add(this.__historyEntry)
-          }
-          else if (this.__historyEntry) {
-            History.remove(this.__historyEntry)
-            this.__historyEntry = null
-          }
+      if (this.$options.noShowingHistory) {
+        return
+      }
+
+      if (val) {
+        this.__historyEntry = {
+          handler: this.hide
         }
+        History.add(this.__historyEntry)
+      }
+      else if (this.__historyEntry) {
+        History.remove(this.__historyEntry)
+        this.__historyEntry = null
       }
     }
   },
@@ -59,16 +61,18 @@ export default {
 
       console.log('show')
       if (this.showing) {
-        return this.showPromise
+        return this.showPromise || Promise.resolve()
       }
 
       this.showing = true
       this.showPromise = new Promise((resolve, reject) => {
         this.showPromiseResolve = () => {
+          this.showPromise = null
           this.$emit('show')
           resolve()
         }
         this.showPromiseReject = () => {
+          this.showPromise = null
           reject(new Error())
         }
       })
@@ -85,10 +89,12 @@ export default {
       this.showing = false
       this.hidePromise = new Promise((resolve, reject) => {
         this.hidePromiseResolve = () => {
+          this.hidePromise = null
           this.$emit('hide')
           resolve()
         }
         this.hidePromiseReject = () => {
+          this.hidePromise = null
           reject(new Error())
         }
       })

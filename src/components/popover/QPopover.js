@@ -110,7 +110,7 @@ export default {
         this.timer = null
         document.body.addEventListener('click', this.__bodyHide, true)
         document.body.addEventListener('touchstart', this.__bodyHide, true)
-        this.showPromiseResolve()
+        this.showPromise && this.showPromiseResolve()
       }, 1)
     },
     __bodyHide (evt) {
@@ -139,7 +139,7 @@ export default {
       */
       setTimeout(() => {
         document.body.removeChild(this.$el)
-        this.hidePromiseResolve && this.hidePromiseResolve()
+        this.hidePromise && this.hidePromiseResolve()
       }, 1)
     },
     reposition (event) {

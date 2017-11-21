@@ -56,10 +56,10 @@ export default {
   },
   methods: {
     __show () {
-      this.showPromiseResolve()
+      this.showPromise && this.showPromiseResolve()
     },
     __hide () {
-      this.hidePromiseResolve && this.hidePromiseResolve()
+      this.hidePromise && this.hidePromiseResolve()
     }
   }
 }

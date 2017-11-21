@@ -63,7 +63,7 @@ export default {
       }
 
       this.__updatePosition()
-      this.showPromiseResolve()
+      this.showPromise && this.showPromiseResolve()
     },
     __hide () {
       clearTimeout(this.timer)
@@ -75,7 +75,7 @@ export default {
         document.body.removeEventListener('click', this.hide, true)
       }
 
-      this.hidePromiseResolve && this.hidePromiseResolve()
+      this.hidePromise && this.hidePromiseResolve()
     },
     __updatePosition () {
       setPosition({
