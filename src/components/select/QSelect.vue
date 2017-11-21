@@ -205,14 +205,13 @@ export default {
   },
   methods: {
     show () {
-      if (!this.disable) {
-        return this.$refs.popover.show()
+      if (this.disable) {
+        return Promise.reject(new Error())
       }
+      return this.$refs.popover.show()
     },
     hide () {
-      if (!this.disable) {
-        return this.$refs.popover.hide()
-      }
+      return this.$refs.popover.hide()
     },
     reposition () {
       const popover = this.$refs.popover

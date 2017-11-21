@@ -133,10 +133,9 @@ export default {
       })
     },
     hide () {
-      if (this.dialog) {
-        return this.dialog.hide()
-      }
-      return Promise.resolve()
+      return this.dialog
+        ? this.dialog.hide()
+        : Promise.resolve()
     },
 
     __onFocus () {

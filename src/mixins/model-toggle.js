@@ -49,7 +49,7 @@ export default {
     },
     show (evt) {
       if (this.disable) {
-        return
+        return Promise.reject(new Error())
       }
 
       console.log('show')
@@ -71,14 +71,10 @@ export default {
       return this.showPromise
     },
     hide (evt) {
-      if (this.disable) {
-        return
-      }
-
       console.log('hide')
       if (!this.showing) {
         console.log('hide aborting')
-        return this.hidePromise
+        return this.hidePromise || Promise.resolve()
       }
 
       this.showing = false
