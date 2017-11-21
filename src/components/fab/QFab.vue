@@ -54,12 +54,9 @@ export default {
       __qFabClose: this.hide
     }
   },
-  methods: {
-    __show () {
-      this.showPromise && this.showPromiseResolve()
-    },
-    __hide () {
-      this.hidePromise && this.hidePromiseResolve()
+  mounted () {
+    if (this.value) {
+      this.show()
     }
   }
 }

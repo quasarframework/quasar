@@ -105,12 +105,6 @@ export default {
     }
   },
   methods: {
-    __show () {
-      this.showPromise && this.showPromiseResolve()
-    },
-    __hide () {
-      this.hidePromise && this.hidePromiseResolve()
-    },
     __toggleItem () {
       if (!this.iconToggle) {
         this.toggle()

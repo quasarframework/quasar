@@ -43,11 +43,6 @@ export default {
         this.$emit('click', e)
       })
     }
-  },
-  mounted () {
-    if (this.value) {
-      this.show()
-    }
   }
 }
 </script>

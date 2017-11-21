@@ -76,7 +76,16 @@ export default {
           reject(new Error())
         }
       })
-      this.__show(evt)
+
+      this.$nextTick(() => {
+        if (this.__show) {
+          this.__show(evt)
+        }
+        else {
+          this.showPromiseResolve()
+        }
+      })
+
       return this.showPromise
     },
     hide (evt) {
@@ -98,7 +107,14 @@ export default {
           reject(new Error())
         }
       })
-      this.__hide(evt)
+      this.$nextTick(() => {
+        if (this.__hide) {
+          this.__hide(evt)
+        }
+        else {
+          this.hidePromiseResolve()
+        }
+      })
       return this.hidePromise
     }
   },
@@ -108,7 +124,7 @@ export default {
       this.showPromise && this.showPromiseReject()
       this.hidePromise && this.hidePromiseReject()
       this.$emit('input', false)
-      this.__hide()
+      this.__hide && this.__hide()
     }
   }
 }
