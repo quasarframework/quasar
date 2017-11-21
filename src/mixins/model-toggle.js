@@ -15,16 +15,28 @@ export default {
     }
   },
   watch: {
-    value (val, oldVal) {
-      if (val === oldVal) {
+    value (val, old) {
+      if (this.disable && val) {
+        this.$emit('input', false)
+        return
+      }
+
+      if (val === old) {
         return
       }
       console.log(this.$options.name, '__updateModel value watcher', val, this.showing)
 
-      this[val ? 'show' : 'hide']()
+      if ((val && !this.showing) || (!val && this.showing)) {
+        this[val ? 'show' : 'hide']()
+      }
     },
-    showing (val, oldVal) {
-      if (val === oldVal || this.$options.noShowingHistory) {
+    showing (val, old) {
+      if (this.value !== val) {
+        this.$emit('input', val)
+        return
+      }
+
+      if (val === old || this.$options.noShowingHistory) {
         return
       }
       console.log(this.$options.name, '__updateModel showing watcher', val, this.value)
