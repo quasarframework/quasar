@@ -17,8 +17,8 @@ export default {
   watch: {
     value (val) {
       console.log(this.$options.name, '__updateModel value watcher', val, this.showing)
-      if (this.disable) {
-        if (val) { this.$emit('input', false) }
+      if (this.disable && val) {
+        this.$emit('input', false)
         return
       }
 
