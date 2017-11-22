@@ -13,7 +13,7 @@
       <div
         slot="right"
         class="cursor-pointer relative-position inline-block"
-        @click.stop="toggle"
+        @click.stop="__toggle"
         v-ripple.mat.stop="iconToggle"
       >
         <q-item-tile
@@ -105,8 +105,13 @@ export default {
     }
   },
   methods: {
+    __toggle () {
+      if (!this.disable) {
+        this.toggle()
+      }
+    },
     __toggleItem () {
-      if (!this.iconToggle) {
+      if (!this.iconToggle && !this.disable) {
         this.toggle()
       }
     },
