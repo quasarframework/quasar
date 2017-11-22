@@ -116,7 +116,7 @@ export default {
         cancel: true,
         cancelLabel: this.cancelLabel,
         okLabel: this.okLabel
-      }).then((data) => {
+      }).then(data => {
         if (JSON.stringify(this.value) !== JSON.stringify(data)) {
           this.$emit('input', data)
           this.$emit('change', data)
