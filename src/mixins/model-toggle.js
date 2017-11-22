@@ -7,7 +7,10 @@ import History from '../plugins/history'
 // avoid backbutton with setting noShowingHistory
 export default {
   props: {
-    value: Boolean
+    value: {
+      type: Boolean,
+      default: null
+    }
   },
   data () {
     return {
@@ -20,14 +23,15 @@ export default {
         this.$emit('input', false)
         return
       }
-
-      console.log(this.$options.name, '__updateModel value watcher', val, this.showing)
+      console.log(this.$options.name, '__updateModel [value] watcher', val, this.showing)
       if ((val && !this.showing) || (!val && this.showing)) {
         this[val ? 'show' : 'hide']()
       }
     },
     showing (val) {
-      if (val !== this.value) {
+      if (val !== this.value && this.value !== null) {
+        console.warn('Mixed showing/value', val, this.value)
+        this.showing = null
         this.$emit('input', val)
         return
       }
@@ -36,7 +40,7 @@ export default {
         return
       }
 
-      console.log(this.$options.name, '__updateModel showing watcher', val, this.value)
+      console.log(this.$options.name, '__updateModel [showing] watcher', val, this.value)
       if (val) {
         this.__historyEntry = {
           handler: this.hide
@@ -69,6 +73,7 @@ export default {
       }
 
       this.showing = true
+      this.$emit('input', true)
       const showPromise = new Promise((resolve, reject) => {
         this.showPromiseResolve = (evt) => {
           this.showPromise = null
@@ -103,6 +108,7 @@ export default {
       }
 
       this.showing = false
+      this.$emit('input', false)
       const hidePromise = new Promise((resolve, reject) => {
         this.hidePromiseResolve = (evt) => {
           this.hidePromise = null

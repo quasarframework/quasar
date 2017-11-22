@@ -178,7 +178,7 @@ export default {
             noPassToggle: true
           },
           on: {
-            change: v => { this.prompt.model = v }
+            input: v => { this.prompt.model = v }
           }
         })
       ]
