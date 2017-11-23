@@ -5,7 +5,8 @@ import { QResizeObservable } from '../observables'
 import ModelToggleMixin from '../../mixins/model-toggle'
 
 const
-  bodyClass = 'with-layout-drawer-opened',
+  bodyClassBelow = 'with-layout-drawer-opened',
+  bodyClassAbove = 'with-layout-drawer-opened-above',
   duration = 150
 
 export default {
@@ -304,7 +305,7 @@ export default {
       this.percentage = between(position / width, 0, 1)
 
       if (evt.isFirst) {
-        document.body.classList.add(bodyClass)
+        document.body.classList.add(bodyClassBelow)
         this.inTransit = true
       }
     },
@@ -340,12 +341,18 @@ export default {
         console.log('watcher value: opening mobile')
         this.mobileOpened = true
         this.percentage = 1
-        document.body.classList.add(bodyClass)
       }
+      
+      document.body.classList.add(this.belowBreakpoint ? bodyClassBelow : bodyClassAbove)
 
       clearTimeout(this.timer)
       this.timer = setTimeout(() => {
-        this.showPromise && this.showPromiseResolve()
+        if (this.showPromise) {
+          this.showPromise.then(() => {
+            document.body.classList.remove(bodyClassAbove)
+          })
+          this.showPromiseResolve()
+        }
       }, duration)
     },
     __hide () {
@@ -353,7 +360,7 @@ export default {
 
       this.mobileOpened = false
       this.percentage = 0
-      document.body.classList.remove(bodyClass)
+      document.body.classList.remove(bodyClassAbove, bodyClassBelow)
 
       clearTimeout(this.timer)
       this.timer = setTimeout(() => {
