@@ -14,12 +14,10 @@ export default function (Component, Vue) {
           ref: 'modal',
           on: {
             ok: data => {
-              console.log('modalfn received ok, destroying')
               resolve(data)
               vm.$destroy()
             },
             cancel: () => {
-              console.log('modalfn received cancel, destroying')
               reject(new Error())
               vm.$destroy()
             }

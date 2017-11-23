@@ -82,7 +82,6 @@ export default {
     }
   },
   render (h) {
-    console.log('footer render')
     return h('footer', {
       staticClass: 'q-layout-footer q-layout-transition',
       'class': this.computedClass,

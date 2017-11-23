@@ -55,23 +55,18 @@ export default {
   },
   watch: {
     belowBreakpoint (val, old) {
-      console.log('belowBreakpoint: change detected', val)
       if (this.mobileOpened) {
-        console.log('belowBreakpoint: mobile view is opened; aborting')
         return
       }
 
       if (val) { // from lg to xs
-        console.log('belowBreakpoint: from lg to xs; model force to false')
         if (!this.overlay) {
-          console.log('belowBreakpoint: largeScreenState set to', this.showing)
           this.largeScreenState = this.showing
         }
         // ensure we close it for small screen
         this.hide()
       }
       else if (!this.overlay) { // from xs to lg
-        console.log('belowBreakpoint: from xs to lg; model set to', this.largeScreenState)
         this[this.largeScreenState ? 'show' : 'hide']()
       }
     },
@@ -102,18 +97,15 @@ export default {
       }
     },
     onLayout (val) {
-      console.log('onLayout', val)
       this.__update('space', val)
       this.layout.__animate()
     },
     $route () {
       if (this.mobileOpened) {
-        console.log('$route watch closing')
         this.hide()
         return
       }
       if (this.onScreenOverlay) {
-        console.log('$route watch updating model')
         this.hide()
       }
     }
@@ -219,7 +211,6 @@ export default {
     }
   },
   render (h) {
-    console.log(`drawer ${this.side} render`)
     const child = []
 
     if (this.mobileView) {
@@ -264,7 +255,6 @@ export default {
   },
   created () {
     if (this.belowBreakpoint || this.overlay) {
-      console.log('created -- hiding')
       this.hide()
     }
     else if (this.onLayout) {
@@ -335,14 +325,11 @@ export default {
       }
     },
     __show () {
-      console.log('show', this.showing)
-
       if (this.belowBreakpoint) {
-        console.log('watcher value: opening mobile')
         this.mobileOpened = true
         this.percentage = 1
       }
-      
+
       document.body.classList.add(this.belowBreakpoint ? bodyClassBelow : bodyClassAbove)
 
       clearTimeout(this.timer)
@@ -356,8 +343,6 @@ export default {
       }, duration)
     },
     __hide () {
-      console.log('hide', this.showing)
-
       this.mobileOpened = false
       this.percentage = 0
       document.body.classList.remove(bodyClassAbove, bodyClassBelow)
