@@ -54,6 +54,9 @@ export default {
   },
   methods: {
     __show () {
+      console.log('TOOLTIP show')
+      clearTimeout(this.timer)
+
       document.body.appendChild(this.$el)
       this.scrollTarget = getScrollTarget(this.anchorEl)
       this.scrollTarget.addEventListener('scroll', this.hide)
@@ -66,6 +69,7 @@ export default {
       this.showPromise && this.showPromiseResolve()
     },
     __hide () {
+      console.log('TOOLTIP hide')
       clearTimeout(this.timer)
 
       this.scrollTarget.removeEventListener('scroll', this.hide)
@@ -88,8 +92,13 @@ export default {
       })
     },
     __delayShow () {
+      console.log('TOOLTIP delaying')
       clearTimeout(this.timer)
       this.timer = setTimeout(this.show, this.delay)
+    },
+    __delayHide () {
+      clearTimeout(this.timer)
+      this.hide()
     }
   },
   render (h) {
@@ -123,8 +132,8 @@ export default {
       else {
         this.anchorEl.addEventListener('mouseenter', this.__delayShow)
         this.anchorEl.addEventListener('focus', this.__delayShow)
-        this.anchorEl.addEventListener('mouseleave', this.hide)
-        this.anchorEl.addEventListener('blur', this.hide)
+        this.anchorEl.addEventListener('mouseleave', this.__delayHide)
+        this.anchorEl.addEventListener('blur', this.__delayHide)
       }
 
       if (this.value) {
@@ -133,6 +142,7 @@ export default {
     })
   },
   beforeDestroy () {
+    clearTimeout(this.timer)
     if (!this.anchorEl) {
       return
     }
@@ -142,8 +152,8 @@ export default {
     else {
       this.anchorEl.removeEventListener('mouseenter', this.__delayShow)
       this.anchorEl.removeEventListener('focus', this.__delayShow)
-      this.anchorEl.removeEventListener('mouseleave', this.hide)
-      this.anchorEl.removeEventListener('blur', this.hide)
+      this.anchorEl.removeEventListener('mouseleave', this.__delayHide)
+      this.anchorEl.removeEventListener('blur', this.__delayHide)
     }
   }
 }

@@ -276,6 +276,7 @@ export default {
     })
   },
   beforeDestroy () {
+    clearTimeout(this.timer)
     this.__update('size', 0)
     this.__update('space', false)
   },
@@ -342,7 +343,8 @@ export default {
         document.body.classList.add(bodyClass)
       }
 
-      setTimeout(() => {
+      clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
         this.showPromise && this.showPromiseResolve()
       }, duration)
     },
@@ -353,7 +355,8 @@ export default {
       this.percentage = 0
       document.body.classList.remove(bodyClass)
 
-      setTimeout(() => {
+      clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
         this.hidePromise && this.hidePromiseResolve()
       }, duration)
     },
