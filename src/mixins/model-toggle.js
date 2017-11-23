@@ -23,9 +23,11 @@ export default {
       }
 
       console.log(this.$options.name, '__updateModel value watcher', val, this.showing)
-      if (val !== this.showing) {
-        this[val ? 'show' : 'hide']()
-      }
+      this.$nextTick(() => {
+        if (this.value !== this.showing) {
+          this[val ? 'show' : 'hide']()
+        }
+      })
     }
   },
   methods: {
@@ -51,8 +53,8 @@ export default {
       }
 
       this.showing = true
-      if (this.value !== void 0) {
-        console.log('MODEL-TOGGLE emitting false')
+      if (this.value === false) {
+        console.log('MODEL-TOGGLE emitting true')
         this.$emit('input', true)
       }
 
@@ -103,7 +105,7 @@ export default {
       }
 
       this.showing = false
-      if (this.value !== void 0) {
+      if (this.value === true) {
         console.log('MODEL-TOGGLE emitting false')
         this.$emit('input', false)
       }
