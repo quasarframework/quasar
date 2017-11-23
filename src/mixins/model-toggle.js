@@ -16,35 +16,15 @@ export default {
   },
   watch: {
     value (val) {
-      console.log(this.$options.name, '__updateModel value watcher', val, this.showing)
       if (this.disable && val) {
+        console.log(this.$options.name, '__updateModel value watcher -- disabled, emitting false')
         this.$emit('input', false)
         return
       }
 
+      console.log(this.$options.name, '__updateModel value watcher', val, this.showing)
       if (val !== this.showing) {
         this[val ? 'show' : 'hide']()
-      }
-    },
-    showing (val) {
-      console.log(this.$options.name, '__updateModel showing watcher', val, this.value)
-      if (this.value !== val) {
-        this.$emit('input', val)
-      }
-
-      if (this.$options.noShowingHistory) {
-        return
-      }
-
-      if (val) {
-        this.__historyEntry = {
-          handler: this.hide
-        }
-        History.add(this.__historyEntry)
-      }
-      else if (this.__historyEntry) {
-        History.remove(this.__historyEntry)
-        this.__historyEntry = null
       }
     }
   },
@@ -59,68 +39,112 @@ export default {
         return Promise.reject(new Error())
       }
 
-      console.log('show')
+      console.log('MODEL-TOGGLE show')
       if (this.showing) {
-        return this.showPromise || Promise.resolve()
+        console.log('MODEL-TOGGLE show already in progress')
+        return this.showPromise || Promise.resolve(evt)
+      }
+
+      if (this.hidePromise) {
+        console.log('MODEL-TOGGLE rejecting hide promise')
+        this.hidePromiseReject()
       }
 
       this.showing = true
+      if (this.value !== void 0) {
+        console.log('MODEL-TOGGLE emitting false')
+        this.$emit('input', true)
+      }
+
+      if (this.$options.modelToggle.history) {
+        this.__historyEntry = {
+          handler: this.hide
+        }
+        History.add(this.__historyEntry)
+      }
+
+      if (!this.__show) {
+        this.$emit('show')
+        return Promise.resolve(evt)
+      }
+
       this.showPromise = new Promise((resolve, reject) => {
         this.showPromiseResolve = () => {
+          console.log('MODEL-TOGGLE showPromiseResolve')
           this.showPromise = null
           this.$emit('show')
-          resolve()
+          resolve(evt)
         }
         this.showPromiseReject = () => {
+          console.log('MODEL-TOGGLE showPromiseReject')
           this.showPromise = null
           reject(new Error())
         }
       })
 
-      this.$nextTick(() => {
-        if (this.__show) {
-          this.__show(evt)
-        }
-        else {
-          this.showPromiseResolve()
-        }
-      })
-
-      return this.showPromise
+      console.log('MODEL-TOGGLE calling __show')
+      this.__show(evt)
+      return this.showPromise || Promise.resolve(evt)
     },
     hide (evt) {
-      console.log('hide')
+      if (this.disable) {
+        return Promise.reject(new Error())
+      }
+
+      console.log('MODEL-TOGGLE hide')
       if (!this.showing) {
-        console.log('hide aborting')
+        console.log('MODEL-TOGGLE already hiding')
         return this.hidePromise || Promise.resolve()
       }
 
+      if (this.showPromise) {
+        console.log('MODEL-TOGGLE rejecting show promise')
+        this.showPromiseReject()
+      }
+
       this.showing = false
+      if (this.value !== void 0) {
+        console.log('MODEL-TOGGLE emitting false')
+        this.$emit('input', false)
+      }
+
+      if (this.__historyEntry) {
+        History.remove(this.__historyEntry)
+        this.__historyEntry = null
+      }
+
+      if (!this.__hide) {
+        this.$emit('hide')
+        return Promise.resolve()
+      }
+
       this.hidePromise = new Promise((resolve, reject) => {
         this.hidePromiseResolve = () => {
+          console.log('MODEL-TOGGLE hidePromiseResolve')
           this.hidePromise = null
           this.$emit('hide')
           resolve()
         }
         this.hidePromiseReject = () => {
+          console.log('MODEL-TOGGLE hidePromiseReject')
           this.hidePromise = null
           reject(new Error())
         }
       })
-      this.$nextTick(() => {
-        if (this.__hide) {
-          this.__hide(evt)
-        }
-        else {
-          this.hidePromiseResolve()
-        }
-      })
-      return this.hidePromise
+
+      console.log('MODEL-TOGGLE calling __hide')
+      this.__hide(evt)
+      return this.hidePromise || Promise.resolve()
+    }
+  },
+  mounted () {
+    if (this.$options.modelToggle.showOnMount && this.value) {
+      this.show()
     }
   },
   beforeDestroy () {
     if (this.showing) {
-      console.log('beforeDestroy calling hide')
+      console.log('MODEL-TOGGLE beforeDestroy calling hide')
       this.showPromise && this.showPromiseReject()
       this.hidePromise && this.hidePromiseReject()
       this.$emit('input', false)

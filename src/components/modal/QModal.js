@@ -49,6 +49,10 @@ let openedModalNumber = 0
 export default {
   name: 'q-modal',
   mixins: [ModelToggleMixin],
+  modelToggle: {
+    history: true,
+    showOnMount: true
+  },
   props: {
     position: {
       type: String,
@@ -133,7 +137,7 @@ export default {
       })
     },
     __show () {
-      console.log('MODAL show')
+      console.log('MODAL __show')
       const body = document.body
 
       body.appendChild(this.$el)
@@ -147,21 +151,18 @@ export default {
         }
       })
 
-      this.$once('show', () => {
-        console.log('trigger')
-        let content = this.$refs.content
-        content.scrollTop = 0
-        ;['modal-scroll', 'layout-view'].forEach(c => {
-          [].slice.call(content.getElementsByClassName(c)).forEach(el => {
-            el.scrollTop = 0
-          })
+      openedModalNumber++
+
+      let content = this.$refs.content
+      content.scrollTop = 0
+      ;['modal-scroll', 'layout-view'].forEach(c => {
+        [].slice.call(content.getElementsByClassName(c)).forEach(el => {
+          el.scrollTop = 0
         })
       })
-
-      openedModalNumber++
     },
     __hide () {
-      console.log('MODAL hide')
+      console.log('MODAL __hide')
       EscapeKey.pop()
       openedModalNumber--
 
@@ -171,11 +172,6 @@ export default {
         body.classList.remove('with-modal')
         body.style.paddingRight = this.bodyPadding
       }
-    }
-  },
-  mounted () {
-    if (this.value) {
-      this.show()
     }
   },
   beforeDestroy () {
@@ -192,19 +188,19 @@ export default {
       },
       on: {
         afterEnter: () => {
-          console.log('show resolve')
+          console.log('MODAL show resolve')
           this.showPromise && this.showPromiseResolve()
         },
         enterCancelled: () => {
-          console.log('show cancel')
+          console.log('MODAL show cancel')
           this.showPromise && this.showPromiseReject()
         },
         afterLeave: () => {
-          console.log('hide resolve')
+          console.log('MODAL hide resolve')
           this.hidePromise && this.hidePromiseResolve()
         },
         leaveCancelled: () => {
-          console.log('hide reject')
+          console.log('MODAL hide reject')
           this.hidePromise && this.hidePromiseReject()
         }
       }

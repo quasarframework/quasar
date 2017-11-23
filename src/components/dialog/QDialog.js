@@ -25,11 +25,6 @@ export default {
       default: 'primary'
     }
   },
-  watch: {
-    value (val) {
-      this[val ? 'show' : 'hide']()
-    }
-  },
   render (h) {
     const
       child = [],
@@ -90,19 +85,38 @@ export default {
     return h(QModal, {
       ref: 'modal',
       props: {
+        value: this.value,
         minimized: true,
         noBackdropDismiss: this.preventClose,
         noEscDismiss: this.preventClose,
         position: this.position
       },
       on: {
+        input: val => {
+          this.$emit('input', val)
+        },
         show: () => {
+          console.log('DIALOG show emitting show')
           this.$emit('show')
-          this.$emit('input', true)
+
+          if (!this.$q.platform.is.desktop) {
+            return
+          }
+
+          let node = this.$refs.modal.$el.getElementsByTagName('INPUT')
+          if (node.length) {
+            node[0].focus()
+            return
+          }
+
+          node = this.$refs.modal.$el.getElementsByTagName('INPUT')
+          if (node.length) {
+            node[node.length - 1].focus()
+          }
         },
         hide: () => {
+          console.log('DIALOG hide emitting hide')
           this.$emit('hide')
-          this.$emit('input', false)
         },
         dismiss: () => {
           console.log('DIALOG received dismiss, hiding then emitting cancel')
@@ -135,24 +149,7 @@ export default {
   methods: {
     show () {
       console.log('DIALOG show')
-      return this.$refs.modal.show().then(() => {
-        console.log('DIALOG show emitting show')
-
-        if (!this.$q.platform.is.desktop) {
-          return
-        }
-
-        let node = this.$refs.modal.$el.getElementsByTagName('INPUT')
-        if (node.length) {
-          node[0].focus()
-          return
-        }
-
-        node = this.$refs.modal.$el.getElementsByTagName('INPUT')
-        if (node.length) {
-          node[node.length - 1].focus()
-        }
-      })
+      return this.$refs.modal.show()
     },
     hide () {
       let data
@@ -163,7 +160,7 @@ export default {
       console.log('DIALOG hide')
 
       return this.$refs.modal.hide().then(() => {
-        console.log('DIALOG hide', data)
+        console.log('DIALOG hide data:', data)
         return data
       })
     },
