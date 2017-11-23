@@ -341,11 +341,9 @@ export default {
         console.log('watcher value: opening mobile')
         this.mobileOpened = true
         this.percentage = 1
-        document.body.classList.add(bodyClassBelow)
       }
-      else {
-        document.body.classList.add(bodyClassAbove)
-      }
+      
+      document.body.classList.add(this.belowBreakpoint ? bodyClassBelow : bodyClassAbove)
 
       clearTimeout(this.timer)
       this.timer = setTimeout(() => {
