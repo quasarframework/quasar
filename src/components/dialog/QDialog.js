@@ -109,7 +109,7 @@ export default {
             return
           }
 
-          node = this.$refs.modal.$el.getElementsByTagName('INPUT')
+          node = this.$refs.modal.$el.getElementsByTagName('BUTTON')
           if (node.length) {
             node[node.length - 1].focus()
           }
