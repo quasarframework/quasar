@@ -14,11 +14,6 @@ export default {
       default: 'Cancel'
     }
   },
-  watch: {
-    value (val) {
-      this[val ? 'show' : 'hide']()
-    }
-  },
   computed: {
     contentCss () {
       if (this.$q.theme === 'ios') {
@@ -80,17 +75,19 @@ export default {
     return h(QModal, {
       ref: 'modal',
       props: {
+        value: this.value,
         position: 'bottom',
         contentCss: this.contentCss
       },
       on: {
+        input: val => {
+          this.$emit('input', val)
+        },
         show: () => {
           this.$emit('show')
-          this.$emit('input', true)
         },
         hide: () => {
           this.$emit('hide')
-          this.$emit('input', false)
         },
         dismiss: () => {
           console.log('DIALOG received dismiss, hiding then emitting cancel')
