@@ -142,7 +142,7 @@ export default {
         this.__scrollToTab(el)
       }
 
-      if (this.$q.theme !== 'ios') {
+      if (__THEME__ !== 'ios') {
         this.currentEl = el
         this.__repositionBar()
       }

@@ -16,7 +16,7 @@ export default {
   },
   computed: {
     contentCss () {
-      if (this.$q.theme === 'ios') {
+      if (__THEME__ === 'ios') {
         return {backgroundColor: 'transparent'}
       }
     }
