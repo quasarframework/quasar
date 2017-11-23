@@ -163,11 +163,11 @@ export const LocalStorage = {
   isEmpty: storageIsEmpty.local,
 
   __installed: false,
-  install ({ Quasar }) {
+  install ({ $q }) {
     if (this.__installed) { return }
     this.__installed = true
 
-    Quasar.localStorage = LocalStorage
+    $q.localStorage = LocalStorage
   }
 }
 
@@ -185,10 +185,10 @@ export const SessionStorage = {
   isEmpty: storageIsEmpty.session,
 
   __installed: false,
-  install ({ Quasar }) {
+  install ({ $q }) {
     if (this.__installed) { return }
     this.__installed = true
 
-    Quasar.sessionStorage = SessionStorage
+    $q.sessionStorage = SessionStorage
   }
 }

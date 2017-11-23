@@ -95,11 +95,11 @@ const Loading = {
   hide,
 
   __installed: false,
-  install ({ Quasar, Vue }) {
+  install ({ $q, Vue }) {
     if (this.__installed) { return }
     this.__installed = true
 
-    Quasar.loading = Loading
+    $q.loading = Loading
   }
 }
 
