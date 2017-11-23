@@ -29,6 +29,9 @@ export default {
       }
     },
     showing (val) {
+      if (val === null) {
+        return
+      }
       if (val !== this.value && this.value !== null) {
         console.warn('Mixed showing/value', val, this.value)
         this.showing = null
@@ -67,7 +70,7 @@ export default {
       console.log('show')
       if (this.showing) {
         console.log('show already in progress')
-        return this.showPromise || Promise.resolve()
+        return this.showPromise || Promise.resolve(evt)
       }
 
       if (this.hidePromise) {
@@ -76,33 +79,40 @@ export default {
 
       this.showing = true
       this.$emit('input', true)
-      const showPromise = new Promise((resolve, reject) => {
-        this.showPromiseResolve = (evt) => {
+
+      if (!this.__show) {
+        this.$emit('show')
+        this.showPromise = null
+        this.showPromiseResolve = null
+        this.showPromiseReject = null
+        return Promise.resolve(evt)
+      }
+
+      this.showPromise = new Promise((resolve, reject) => {
+        this.showPromiseResolve = () => {
           this.showPromise = null
+          this.showPromiseResolve = null
+          this.showPromiseReject = null
           this.$emit('show')
           resolve(evt)
         }
         this.showPromiseReject = () => {
           this.showPromise = null
+          this.showPromiseResolve = null
+          this.showPromiseReject = null
           reject(new Error())
         }
       })
-      this.showPromise = showPromise
 
-      if (this.__show) {
-        this.__show(evt)
-      }
-      else {
-        this.showPromiseResolve(evt)
-      }
+      this.__show(evt)
 
-      return showPromise
+      return this.showPromise || Promise.resolve(evt)
     },
     hide (evt) {
       console.log('hide')
       if (!this.showing) {
         console.log('hide already in progress')
-        return this.hidePromise || Promise.resolve()
+        return this.hidePromise || Promise.resolve(evt)
       }
 
       if (this.showPromise) {
@@ -111,25 +121,34 @@ export default {
 
       this.showing = false
       this.$emit('input', false)
-      const hidePromise = new Promise((resolve, reject) => {
-        this.hidePromiseResolve = (evt) => {
+
+      if (!this.__hide) {
+        this.$emit('hide')
+        this.hidePromise = null
+        this.hidePromiseResolve = null
+        this.hidePromiseReject = null
+        return Promise.resolve(evt)
+      }
+
+      this.hidePromise = new Promise((resolve, reject) => {
+        this.hidePromiseResolve = () => {
           this.hidePromise = null
+          this.hidePromiseResolve = null
+          this.hidePromiseReject = null
           this.$emit('hide')
           resolve(evt)
         }
         this.hidePromiseReject = () => {
           this.hidePromise = null
+          this.hidePromiseResolve = null
+          this.hidePromiseReject = null
           reject(new Error())
         }
       })
-      this.hidePromise = hidePromise
-      if (this.__hide) {
-        this.__hide(evt)
-      }
-      else {
-        this.hidePromiseResolve(evt)
-      }
-      return hidePromise
+
+      this.__hide(evt)
+
+      return this.hidePromise || Promise.resolve(evt)
     }
   },
   beforeDestroy () {
