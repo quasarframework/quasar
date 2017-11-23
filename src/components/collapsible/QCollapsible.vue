@@ -45,7 +45,9 @@ const eventName = 'q:collapsible:close'
 export default {
   name: 'q-collapsible',
   mixins: [ModelToggleMixin],
-  noShowingHistory: true, // required by ModelToggleMixin
+  modelToggle: {
+    history: false
+  },
   components: {
     QItemWrapper,
     QItemTile,
@@ -118,8 +120,6 @@ export default {
   },
   created () {
     this.$root.$on(eventName, this.__eventHandler)
-  },
-  mounted () {
     if (this.value) {
       this.show()
     }

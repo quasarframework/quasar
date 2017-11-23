@@ -43,7 +43,7 @@ export default {
 
       console.log('MODEL-TOGGLE show')
       if (this.showing) {
-        console.log('MODEL-TOGGLE show already in progress')
+        console.log('MODEL-TOGGLE already showing/showed')
         return this.showPromise || Promise.resolve(evt)
       }
 
@@ -58,7 +58,7 @@ export default {
         this.$emit('input', true)
       }
 
-      if (this.$options.modelToggle.history) {
+      if (this.$options.modelToggle === void 0 || this.$options.modelToggle.history) {
         this.__historyEntry = {
           handler: this.hide
         }
@@ -95,7 +95,7 @@ export default {
 
       console.log('MODEL-TOGGLE hide')
       if (!this.showing) {
-        console.log('MODEL-TOGGLE already hiding')
+        console.log('MODEL-TOGGLE already hiding/hidden')
         return this.hidePromise || Promise.resolve()
       }
 
@@ -137,11 +137,6 @@ export default {
       console.log('MODEL-TOGGLE calling __hide')
       this.__hide(evt)
       return this.hidePromise || Promise.resolve()
-    }
-  },
-  mounted () {
-    if (this.$options.modelToggle.showOnMount && this.value) {
-      this.show()
     }
   },
   beforeDestroy () {

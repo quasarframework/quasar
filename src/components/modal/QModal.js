@@ -49,10 +49,6 @@ let openedModalNumber = 0
 export default {
   name: 'q-modal',
   mixins: [ModelToggleMixin],
-  modelToggle: {
-    history: true,
-    showOnMount: true
-  },
   props: {
     position: {
       type: String,
@@ -127,10 +123,10 @@ export default {
   },
   methods: {
     __dismiss () {
-      console.log('MODAL __dismiss')
       if (this.noBackdropDismiss) {
         return
       }
+      console.log('MODAL __dismiss')
       this.hide().then(() => {
         console.log('MODAL __dismiss emitting dismiss')
         this.$emit('dismiss')
@@ -172,6 +168,11 @@ export default {
         body.classList.remove('with-modal')
         body.style.paddingRight = this.bodyPadding
       }
+    }
+  },
+  mounted () {
+    if (this.value) {
+      this.show()
     }
   },
   beforeDestroy () {

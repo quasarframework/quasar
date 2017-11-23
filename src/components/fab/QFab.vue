@@ -54,7 +54,7 @@ export default {
       __qFabClose: this.hide
     }
   },
-  mounted () {
+  created () {
     if (this.value) {
       this.show()
     }
