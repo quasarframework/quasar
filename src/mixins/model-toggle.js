@@ -55,7 +55,9 @@ export default {
   },
   methods: {
     toggle (evt) {
-      return this[this.showing ? 'hide' : 'show'](evt)
+      if (!this.disable) {
+        return this[this.showing ? 'hide' : 'show'](evt)
+      }
     },
     show (evt) {
       if (this.disable) {
