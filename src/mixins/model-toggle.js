@@ -24,7 +24,7 @@ export default {
         return
       }
       console.log(this.$options.name, '__updateModel [value] watcher', val, this.showing)
-      if ((val && !this.showing) || (!val && this.showing)) {
+      if (val !== this.showing) {
         this[val ? 'show' : 'hide']()
       }
     },
