@@ -46,7 +46,7 @@ maximized-modal()
   .modal.maximized
     &.q-modal-enter, &.q-modal-leave-active
       .modal-content
-        transform translateY(101%)
+        transform translateY(30%)
 
 @media (max-width $breakpoint-sm-max)
   .modal:not(.minimized)
@@ -54,7 +54,7 @@ maximized-modal()
       maximized-modal()
     &.q-modal-enter, &.q-modal-leave-active
       .modal-content
-        transform translateY(101%)
+        transform translateY(30%)
   .modal.minimized
     &.q-modal-enter .modal-content
       transform scale(1.2)
@@ -104,19 +104,19 @@ maximized-modal()
 .q-modal-bottom-enter, .q-modal-bottom-leave-active
   opacity 0
   .modal-content
-    transform translateY(101%)
+    transform translateY(30%)
 
 .q-modal-top-enter, .q-modal-top-leave-active
   opacity 0
   .modal-content
-    transform translateY(-101%)
+    transform translateY(-30%)
 
 .q-modal-right-enter, .q-modal-right-leave-active
   opacity 0
   .modal-content
-    transform translateX(101%)
+    transform translateX(30%)
 
 .q-modal-left-enter, .q-modal-left-leave-active
   opacity 0
   .modal-content
-    transform translateX(-101%)
+    transform translateX(-30%)

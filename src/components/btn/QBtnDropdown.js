@@ -2,12 +2,12 @@ import BtnMixin from './btn-mixin'
 import QBtn from './QBtn'
 import QBtnGroup from './QBtnGroup'
 import { QPopover } from '../popover'
-import ModelToggleMixin from '../../mixins/model-toggle'
 
 export default {
   name: 'q-btn-dropdown',
-  mixins: [BtnMixin, ModelToggleMixin],
+  mixins: [BtnMixin],
   props: {
+    value: Boolean,
     label: String,
     split: Boolean
   },
@@ -25,12 +25,12 @@ export default {
           },
           on: {
             show: e => {
-              this.__updateModel(true)
               this.$emit('show', e)
+              this.$emit('input', true)
             },
             hide: e => {
-              this.__updateModel(false)
               this.$emit('hide', e)
+              this.$emit('input', false)
             }
           }
         },
@@ -122,7 +122,7 @@ export default {
             on: {
               click: () => {
                 if (!this.disable) {
-                  this.$refs.popover.show()
+                  this.show()
                 }
               }
             }
@@ -135,14 +135,10 @@ export default {
   },
   methods: {
     show () {
-      return this.$refs.popover
-        ? this.$refs.popover.show()
-        : Promise.resolve()
+      return this.$refs.popover.show()
     },
     hide () {
-      return this.$refs.popover
-        ? this.$refs.popover.hide()
-        : Promise.resolve()
+      return this.$refs.popover.hide()
     }
   }
 }

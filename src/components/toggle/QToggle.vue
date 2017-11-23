@@ -56,12 +56,12 @@ export default {
       return (this.isActive ? this.checkedIcon : this.uncheckedIcon) || this.icon
     },
     iconColor () {
-      return this.$q.theme === 'ios'
+      return __THEME__ === 'ios'
         ? 'dark'
         : (this.isActive ? 'white' : 'dark')
     },
     baseClass () {
-      if (this.$q.theme === 'ios' && this.dark) {
+      if (__THEME__ === 'ios' && this.dark) {
         return `q-toggle-base-dark`
       }
     }

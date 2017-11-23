@@ -2,7 +2,6 @@ import EscapeKey from '../../utils/escape-key'
 import extend from '../../utils/extend'
 import ModelToggleMixin from '../../mixins/model-toggle'
 import { QTransition } from '../transition'
-import { getScrollbarWidth } from '../../utils/scroll'
 
 const positions = {
   top: 'items-start justify-center with-backdrop',
@@ -10,25 +9,24 @@ const positions = {
   right: 'items-center justify-end with-backdrop',
   left: 'items-center justify-start with-backdrop'
 }
-const positionCSS = {
-  mat: {
+const positionCSS = __THEME__ === 'mat'
+  ? {
     maxHeight: '80vh',
     height: 'auto'
-  },
-  ios: {
+  }
+  : {
     maxHeight: '80vh',
     height: 'auto',
     boxShadow: 'none'
   }
-}
 
-function additionalCSS (theme, position) {
+function additionalCSS (position) {
   let css = {}
 
   if (['left', 'right'].includes(position)) {
     css.maxWidth = '90vw'
   }
-  if (theme === 'ios') {
+  if (__THEME__ === 'ios') {
     if (['left', 'top'].includes(position)) {
       css.borderTopLeftRadius = 0
     }
@@ -46,9 +44,7 @@ function additionalCSS (theme, position) {
   return css
 }
 
-let
-  duration = 200, // in ms -- synch with transition CSS from Modal
-  openedModalNumber = 0
+let openedModalNumber = 0
 
 export default {
   name: 'q-modal',
@@ -115,8 +111,8 @@ export default {
 
         css.unshift(extend(
           {},
-          positionCSS[this.$q.theme],
-          additionalCSS(this.$q.theme, this.position)
+          positionCSS,
+          additionalCSS(this.position)
         ))
 
         return css
@@ -126,17 +122,20 @@ export default {
     }
   },
   methods: {
-    show () {
-      if (this.showing) {
-        return Promise.resolve()
+    __dismiss () {
+      if (this.noBackdropDismiss) {
+        return
       }
-
+      this.hide().then(() => {
+        this.$emit('dismiss')
+      })
+    },
+    __show () {
       const body = document.body
 
       body.appendChild(this.$el)
       body.classList.add('with-modal')
-      this.bodyPadding = window.getComputedStyle(body).paddingRight
-      body.style.paddingRight = `${getScrollbarWidth()}px`
+
       EscapeKey.register(() => {
         if (!this.noEscDismiss) {
           this.hide().then(() => {
@@ -145,53 +144,31 @@ export default {
         }
       })
 
-      setTimeout(() => {
-        let content = this.$refs.content
-        content.scrollTop = 0
-        ;['modal-scroll', 'layout-view'].forEach(c => {
-          [].slice.call(content.getElementsByClassName(c)).forEach(el => {
-            el.scrollTop = 0
-          })
-        })
-      }, 10)
-
-      this.__updateModel(true)
       openedModalNumber++
 
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          this.$emit('show')
-          resolve()
-        }, duration)
+      let content = this.$refs.content
+      content.scrollTop = 0
+      ;['modal-scroll', 'layout-view'].forEach(c => {
+        [].slice.call(content.getElementsByClassName(c)).forEach(el => {
+          el.scrollTop = 0
+        })
       })
     },
-    hide () {
-      if (!this.showing) {
-        return Promise.resolve()
-      }
-
+    __hide () {
       EscapeKey.pop()
       openedModalNumber--
 
       if (openedModalNumber === 0) {
         const body = document.body
+
         body.classList.remove('with-modal')
         body.style.paddingRight = this.bodyPadding
       }
-
-      this.__updateModel(false)
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          this.$emit('hide')
-          resolve()
-        }, duration)
-      })
-    },
-    __dismiss () {
-      if (this.noBackdropDismiss) {
-        return
-      }
-      this.hide()
+    }
+  },
+  mounted () {
+    if (this.value) {
+      this.show()
     }
   },
   beforeDestroy () {
@@ -205,14 +182,27 @@ export default {
         name: this.modalTransition,
         enter: this.enterClass,
         leave: this.leaveClass
+      },
+      on: {
+        afterEnter: () => {
+          this.showPromise && this.showPromiseResolve()
+        },
+        enterCancelled: () => {
+          this.showPromise && this.showPromiseReject()
+        },
+        afterLeave: () => {
+          this.hidePromise && this.hidePromiseResolve()
+        },
+        leaveCancelled: () => {
+          this.hidePromise && this.hidePromiseReject()
+        }
       }
     }, [
       h('div', {
         staticClass: 'modal fullscreen row',
         'class': this.modalClasses,
         on: {
-          click: this.__dismiss,
-          touchstart: this.__dismiss
+          click: this.__dismiss
         },
         directives: [{
           name: 'show',

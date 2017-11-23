@@ -42,9 +42,9 @@ export default {
     },
     disable: Boolean
   },
-  data () {
-    return {
-      progress: false
+  watch: {
+    $route () {
+      this.hide()
     }
   },
   computed: {
@@ -82,28 +82,17 @@ export default {
         this.anchorEl.addEventListener('click', this.toggle)
       }
     })
+    if (this.value) {
+      this.show()
+    }
   },
   beforeDestroy () {
     if (this.anchorClick && this.anchorEl) {
       this.anchorEl.removeEventListener('click', this.toggle)
     }
-    this.hide()
   },
   methods: {
-    show (evt) {
-      if (this.disable) {
-        return Promise.resolve()
-      }
-      if (this.showing) {
-        this.__updatePosition()
-        return
-      }
-      if (evt) {
-        evt.stopPropagation()
-        evt.preventDefault()
-      }
-
-      document.body.click() // close other Popovers
+    __show (evt) {
       document.body.appendChild(this.$el)
       EscapeKey.register(() => { this.hide() })
       this.scrollTarget = getScrollTarget(this.anchorEl)
@@ -111,43 +100,34 @@ export default {
       window.addEventListener('resize', this.__updatePosition)
       this.reposition(evt)
 
-      return new Promise((resolve, reject) => {
-        this.timer = setTimeout(() => {
-          this.timer = null
-          document.body.addEventListener('click', this.hide, true)
-          document.body.addEventListener('touchstart', this.hide, true)
-          this.__updateModel(true)
-          this.$emit('show')
-          resolve()
-        }, 1)
-      })
+      clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
+        document.body.addEventListener('click', this.__bodyHide, true)
+        document.body.addEventListener('touchstart', this.__bodyHide, true)
+        this.showPromise && this.showPromiseResolve()
+      }, 0)
     },
-    hide (evt) {
-      if (!this.showing || this.progress || (evt && evt.target && this.$el.contains(evt.target))) {
-        return Promise.resolve()
+    __bodyHide (evt) {
+      if (
+        evt && evt.target &&
+        (this.$el.contains(evt.target) || (this.anchorClick && this.anchorEl.contains(evt.target)))
+      ) {
+        return
       }
 
+      this.hide(evt)
+    },
+    __hide (evt) {
       clearTimeout(this.timer)
-      document.body.removeEventListener('click', this.hide, true)
-      document.body.removeEventListener('touchstart', this.hide, true)
+
+      document.body.removeEventListener('click', this.__bodyHide, true)
+      document.body.removeEventListener('touchstart', this.__bodyHide, true)
       this.scrollTarget.removeEventListener('scroll', this.__updatePosition)
       window.removeEventListener('resize', this.__updatePosition)
       EscapeKey.pop()
-      this.progress = true
 
-      /*
-        Using setTimeout to allow
-        v-models to take effect
-      */
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          this.progress = false
-          document.body.removeChild(this.$el)
-          this.__updateModel(false)
-          this.$emit('hide')
-          resolve()
-        }, 1)
-      })
+      document.body.removeChild(this.$el)
+      this.hidePromise && this.hidePromiseResolve()
     },
     reposition (event) {
       this.$nextTick(() => {

@@ -67,6 +67,7 @@ It could be you!
 - Catalin Rogojeanu
 - William Correa
 - PHPZM
+- Klemens Witting
 
 - Ken ($5)
 - Oliver ($5)
@@ -89,3 +90,5 @@ It could be you!
 - Kyle Tippetts $100
 - Gerard Eviston $50
 - Jacob Heruty $50
+- Polaris Microsystems, L.L.C. $50
+- Jochen Geiger $50

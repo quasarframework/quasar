@@ -11,6 +11,9 @@
 export default {
   mounted () {
     window.bar = this.$refs.bar
+    if (this.$q.platform.is.cordova) {
+      console.log('on CORDOVA')
+    }
   },
   methods: {
     resetScroll (el, done) {

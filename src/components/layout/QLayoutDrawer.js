@@ -5,7 +5,8 @@ import { QResizeObservable } from '../observables'
 import ModelToggleMixin from '../../mixins/model-toggle'
 
 const
-  bodyClass = 'with-layout-drawer-opened',
+  bodyClassBelow = 'with-layout-drawer-opened',
+  bodyClassAbove = 'with-layout-drawer-opened-above',
   duration = 150
 
 export default {
@@ -54,24 +55,19 @@ export default {
   },
   watch: {
     belowBreakpoint (val, old) {
-      console.log('belowBreakpoint: change detected', val)
       if (this.mobileOpened) {
-        console.log('belowBreakpoint: mobile view is opened; aborting')
         return
       }
 
       if (val) { // from lg to xs
-        console.log('belowBreakpoint: from lg to xs; model force to false')
         if (!this.overlay) {
-          console.log('belowBreakpoint: largeScreenState set to', this.showing)
           this.largeScreenState = this.showing
         }
         // ensure we close it for small screen
-        this.__updateModel(false)
+        this.hide()
       }
       else if (!this.overlay) { // from xs to lg
-        console.log('belowBreakpoint: from xs to lg; model set to', this.largeScreenState)
-        this.__updateModel(this.largeScreenState)
+        this[this.largeScreenState ? 'show' : 'hide']()
       }
     },
     behavior (val) {
@@ -101,19 +97,16 @@ export default {
       }
     },
     onLayout (val) {
-      console.log('onLayout', val)
       this.__update('space', val)
       this.layout.__animate()
     },
     $route () {
       if (this.mobileOpened) {
-        console.log('$route watch closing')
         this.hide()
         return
       }
       if (this.onScreenOverlay) {
-        console.log('$route watch updating model')
-        this.__updateModel(false)
+        this.hide()
       }
     }
   },
@@ -218,7 +211,6 @@ export default {
     }
   },
   render (h) {
-    console.log(`drawer ${this.side} render`)
     const child = []
 
     if (this.mobileView) {
@@ -263,7 +255,7 @@ export default {
   },
   created () {
     if (this.belowBreakpoint || this.overlay) {
-      this.__updateModel(false)
+      this.hide()
     }
     else if (this.onLayout) {
       this.__update('space', true)
@@ -275,6 +267,7 @@ export default {
     })
   },
   beforeDestroy () {
+    clearTimeout(this.timer)
     this.__update('size', 0)
     this.__update('space', false)
   },
@@ -302,7 +295,7 @@ export default {
       this.percentage = between(position / width, 0, 1)
 
       if (evt.isFirst) {
-        document.body.classList.add(bodyClass)
+        document.body.classList.add(bodyClassBelow)
         this.inTransit = true
       }
     },
@@ -331,44 +324,33 @@ export default {
         this.inTransit = true
       }
     },
-    show () {
-      console.log('show', this.showing)
-      if (this.showing) {
-        return Promise.resolve()
-      }
-
+    __show () {
       if (this.belowBreakpoint) {
-        console.log('watcher value: opening mobile')
         this.mobileOpened = true
         this.percentage = 1
-        document.body.classList.add(bodyClass)
       }
 
-      this.__updateModel(true)
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          this.$emit('show')
-          resolve()
-        }, duration)
-      })
+      document.body.classList.add(this.belowBreakpoint ? bodyClassBelow : bodyClassAbove)
+
+      clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
+        if (this.showPromise) {
+          this.showPromise.then(() => {
+            document.body.classList.remove(bodyClassAbove)
+          })
+          this.showPromiseResolve()
+        }
+      }, duration)
     },
-    hide () {
-      console.log('hide', this.showing)
-      if (!this.showing) {
-        return Promise.resolve()
-      }
-
+    __hide () {
       this.mobileOpened = false
       this.percentage = 0
-      document.body.classList.remove(bodyClass)
-      this.__updateModel(false)
+      document.body.classList.remove(bodyClassAbove, bodyClassBelow)
 
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          this.$emit('hide')
-          resolve()
-        }, duration)
-      })
+      clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
+        this.hidePromise && this.hidePromiseResolve()
+      }, duration)
     },
 
     __onResize ({ width }) {

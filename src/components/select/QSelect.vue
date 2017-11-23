@@ -232,9 +232,10 @@ export default {
       }
     },
     show () {
-      if (!this.disable) {
-        return this.$refs.popover.show()
+      if (this.disable) {
+        return Promise.reject(new Error())
       }
+      return this.$refs.popover.show()
     },
     hide () {
       if (!this.disable) {

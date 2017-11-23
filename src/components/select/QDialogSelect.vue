@@ -62,7 +62,6 @@
 
 <script>
 import clone from '../../utils/clone'
-import Dialog from '../dialog'
 import SelectMixin from '../../mixins/select'
 
 export default {
@@ -101,42 +100,33 @@ export default {
         return
       }
 
-      this.dialog = Dialog.create({
+      // TODO
+      this.dialog = this.$q.dialog({
         title: this.title,
         message: this.message,
+        color: this.color,
         onDismiss: () => {
           this.dialog = null
         },
-        form: {
-          select: {
-            type: this.type,
-            model: clone(this.value),
-            color: this.color,
-            items: this.options
-          }
+        options: {
+          type: this.type,
+          model: clone(this.value),
+          items: this.options
         },
-        buttons: [
-          {
-            label: this.cancelLabel,
-            color: this.color
-          },
-          {
-            label: this.okLabel,
-            color: this.color,
-            handler: data => {
-              if (JSON.stringify(this.value) !== JSON.stringify(data.select)) {
-                this.__emit(data.select)
-              }
-            }
-          }
-        ]
+        cancel: true,
+        cancelLabel: this.cancelLabel,
+        okLabel: this.okLabel
+      }).then(data => {
+        if (JSON.stringify(this.value) !== JSON.stringify(data)) {
+          this.$emit('input', data)
+          this.$emit('change', data)
+        }
       })
     },
     hide () {
-      if (this.dialog) {
-        return this.dialog.hide()
-      }
-      return Promise.resolve()
+      return this.dialog
+        ? this.dialog.hide()
+        : Promise.resolve()
     },
 
     __onFocus () {

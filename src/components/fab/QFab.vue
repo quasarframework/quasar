@@ -35,6 +35,11 @@ export default {
     QBtn,
     QIcon
   },
+  provide () {
+    return {
+      __qFabClose: this.hide
+    }
+  },
   props: {
     icon: {
       type: String,
@@ -49,25 +54,14 @@ export default {
       default: 'right'
     }
   },
-  provide () {
-    return {
-      __qFabClose: this.hide
+  watch: {
+    $route () {
+      this.hide()
     }
   },
-  methods: {
-    show () {
-      if (!this.showing) {
-        this.__updateModel(true)
-        this.$emit('show')
-      }
-      return Promise.resolve()
-    },
-    hide () {
-      if (this.showing) {
-        this.__updateModel(false)
-        this.$emit('hide')
-      }
-      return Promise.resolve()
+  created () {
+    if (this.value) {
+      this.show()
     }
   }
 }

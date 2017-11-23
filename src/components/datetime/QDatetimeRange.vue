@@ -44,9 +44,9 @@
       :clear-label="clearLabel"
       :ok-label="okLabel"
       :cancel-label="cancelLabel"
-      :float-label="floatLabel"
-      :stack-label="stackLabel"
-      :placeholder="placeholder"
+      :float-label="floatLabelTo"
+      :stack-label="stackLabelTo"
+      :placeholder="placeholderTo"
       :disable="disable"
       :error="error"
       :inverted="inverted"
@@ -93,12 +93,15 @@ export default {
       css: [String, Object],
       defaultFrom: [String, Number, Date],
       defaultTo: [String, Number, Date],
-      vertical: Boolean
+      vertical: Boolean,
+      floatLabelTo: String,
+      stackLabelTo: String,
+      placeholderTo: String
     }
   ),
   computed: {
     classes () {
-      return this.vertical ? 'column' : 'row'
+      return this.vertical ? null : 'row'
     }
   },
   methods: {

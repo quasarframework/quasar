@@ -45,6 +45,9 @@ const eventName = 'q:collapsible:close'
 export default {
   name: 'q-collapsible',
   mixins: [ModelToggleMixin],
+  modelToggle: {
+    history: false
+  },
   components: {
     QItemWrapper,
     QItemTile,
@@ -104,18 +107,6 @@ export default {
     }
   },
   methods: {
-    show () {
-      if (!this.disable) {
-        this.__updateModel(true, false)
-      }
-      return Promise.resolve()
-    },
-    hide () {
-      if (!this.disable) {
-        this.__updateModel(false, false)
-      }
-      return Promise.resolve()
-    },
     __toggleItem () {
       if (!this.iconToggle) {
         this.toggle()
@@ -129,6 +120,9 @@ export default {
   },
   created () {
     this.$root.$on(eventName, this.__eventHandler)
+    if (this.value) {
+      this.show()
+    }
   },
   beforeDestroy () {
     this.$root.$off(eventName, this.__eventHandler)

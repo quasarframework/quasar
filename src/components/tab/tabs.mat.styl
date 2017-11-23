@@ -35,7 +35,7 @@
   .q-tab-label
     text-align center
 
-  &.icon-and-label
+  &.icon-and-label:not(.hide-icon):not(.hide-label)
     padding $tabs-padding-with-icon
     min-height $tabs-min-height-with-icon
 
@@ -67,7 +67,7 @@
       flex 1 1 auto
 
 @media (min-width $breakpoint-lg-min)
-  .q-tab, .q-tab.icon-and-label
+  .q-tab, .q-tab.icon-and-label:not(.hide-icon):not(.hide-label)
     padding-left $tabs-big-screen-horiz-padding
     padding-right $tabs-big-screen-horiz-padding
   .q-tabs-head:not(.scrollable)

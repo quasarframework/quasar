@@ -44,9 +44,7 @@ export default {
     },
     type: {
       default: 'radio',
-      validator (val) {
-        return ['radio', 'checkbox', 'toggle'].includes(val)
-      }
+      validator: v => ['radio', 'checkbox', 'toggle'].includes(v)
     },
     color: String,
     keepColor: Boolean,
@@ -81,10 +79,8 @@ export default {
     }
   },
   methods: {
-    __onChange () {
-      this.$nextTick(() => {
-        this.$emit('change', this.model)
-      })
+    __onChange (val) {
+      this.$emit('change', val)
     },
     __onFocus () {
       this.$emit('focus')

@@ -18,14 +18,14 @@ export default {
     this.remove = definition => {
       const index = this.__history.indexOf(definition)
       if (index >= 0) {
-        this.__hist.splice(index, 1)
+        this.__history.splice(index, 1)
       }
     }
 
     document.addEventListener('deviceready', () => {
       document.addEventListener('backbutton', () => {
-        if (this.history.length) {
-          const fn = this.history.pop().handler
+        if (this.__history.length) {
+          const fn = this.__history.pop().handler
           fn()
         }
         else {

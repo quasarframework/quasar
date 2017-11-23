@@ -56,7 +56,14 @@
       <q-btn color="primary" @click="$refs.eventsModal.hide()">Close</q-btn>
     </q-modal>
 
-    <q-modal ref="layoutModal" :content-css="{minWidth: '80vw', minHeight: '80vh'}">
+    <div class="fixed-bottom-right z-max bg-yellow">
+      Ref <q-btn @click="show" label="Show" /><q-btn @click="hide" label="Hide" />
+      <br>
+      Model <q-btn @click="someModel = true" label="Show" /><q-btn @click="someModel = false" label="Hide" />
+      <br>
+      {{ someModel }}
+    </div>
+    <q-modal ref="layoutModal" v-model="someModel" :content-css="{minWidth: '80vw', minHeight: '80vh'}" @show="onShow" @hide="onHide">
       <q-modal-layout>
         <q-toolbar slot="header">
           <q-icon style="font-size: 500%" class="cursor-pointer" name="map" @click="closeMe" />
@@ -113,6 +120,7 @@ export default {
     return {
       search: '',
       toggle: false,
+      someModel: false,
       types: [
         {
           label: 'Basic',
@@ -152,6 +160,28 @@ export default {
       console.log('click')
       this.$refs.layoutModal.hide()
       this.$refs.layoutModal.hide()
+    },
+    onShow () {
+      console.log('onShow')
+    },
+    onHide () {
+      console.log('onHide')
+    },
+    show () {
+      console.log('show')
+      this.$refs.layoutModal.show().then(() => {
+        console.log('---show finished')
+      }, () => {
+        console.log('---show cancelled')
+      })
+    },
+    hide () {
+      console.log('hide')
+      this.$refs.layoutModal.hide().then(() => {
+        console.log('---hide finished')
+      }, () => {
+        console.log('---hide cancelled')
+      })
     }
   }
 }

@@ -21,127 +21,168 @@
         </q-item>
       </q-list>
     </div>
+
+    {{ showActionSheet }}
+
+    <q-btn label="Toggle ref" @click="toggle" />
+    <q-btn label="Toggle model" @click="toggle2" />
+
+    <q-action-sheet
+      v-model="showActionSheet"
+      ref="modal"
+      @show="onShow"
+      @hide="onHide"
+      @cancel="onCancel"
+      @ok="onOk"
+      title="Action Sheet"
+      :actions="[
+        {
+          label: 'Delete',
+          icon: 'delete',
+          color: 'red',
+          id: 'delete'
+        },
+        {
+          label: 'Share',
+          icon: 'share',
+          color: 'primary',
+          id: 'share'
+        },
+        {
+          label: 'Play',
+          icon: 'gamepad',
+          id: 'play'
+        },
+        {},
+        {
+          label: 'Favorite',
+          icon: 'favorite',
+          id: 'favorite'
+        }
+      ]"
+    />
   </div>
 </template>
 
 <script>
-import { ActionSheet, Toast } from 'quasar'
-
-function showActionSheetWithIcons (gallery) {
-  ActionSheet.create({
-    title: 'Article Actions',
-    gallery: gallery,
-    actions: [
-      {
-        label: 'Delete',
-        icon: 'delete',
-        handler () {
-          Toast.create('Deleted Article')
-        }
-      },
-      {
-        label: 'Share',
-        icon: 'share',
-        handler () {
-          Toast.create('Shared!')
-        }
-      },
-      {
-        label: 'Play',
-        icon: 'gamepad',
-        handler () {
-          Toast.create('Launched Game')
-        }
-      },
-      {
-        label: 'Favorite',
-        icon: 'favorite',
-        handler () {
-          Toast.create('Added to favorites')
-        }
-      }
-    ],
-    dismiss: {
-      label: 'Cancel',
-      handler () {
-        Toast.create('Cancelled...')
-      }
-    }
-  })
-}
-
-function showActionSheetWithAvatar (gallery) {
-  ActionSheet.create({
-    title: 'Share to',
-    gallery: gallery,
-    actions: [
-      {
-        label: 'Joe',
-        avatar: 'statics/linux-avatar.png',
-        handler () {
-          Toast.create('Shared to Joe!')
-        }
-      },
-      {
-        label: 'John',
-        avatar: 'statics/boy-avatar.png',
-        handler () {
-          Toast.create('Shared to John!')
-        }
-      },
-      {
-        label: 'Jim',
-        avatar: 'statics/linux-avatar.png',
-        handler () {
-          Toast.create('Shared to Jim!')
-        }
-      },
-      {
-        label: 'Jack',
-        avatar: 'statics/guy-avatar.png',
-        handler () {
-          Toast.create('Shared to Jack!')
-        }
-      }
-    ],
-    dismiss: {
-      label: 'Cancel',
-      handler () {
-        Toast.create('Cancelled...')
-      }
-    }
-  })
-}
-
 export default {
   data () {
     return {
+      showActionSheet: false,
       types: [
         {
           label: 'List with Icons',
-          handler () {
-            showActionSheetWithIcons()
+          handler: () => {
+            this.showActionSheetWithIcons()
           }
         },
         {
-          label: 'Gallery with Icons',
-          handler () {
-            showActionSheetWithIcons(true)
+          label: 'Grid with Icons',
+          handler: () => {
+            this.showActionSheetWithIcons(true)
           }
         },
         {
           label: 'List with Avatars',
-          handler () {
-            showActionSheetWithAvatar()
+          handler: () => {
+            this.showActionSheetWithAvatar()
           }
         },
         {
-          label: 'Gallery with Avatars',
-          handler () {
-            showActionSheetWithAvatar(true)
+          label: 'Grid with Avatars',
+          handler: () => {
+            this.showActionSheetWithAvatar(true)
           }
         }
       ]
+    }
+  },
+  methods: {
+    toggle () {
+      this.$refs.modal.show()
+    },
+    toggle2 () {
+      this.showActionSheet = !this.showActionSheet
+    },
+    onOk (data) {
+      console.log('onOK', data)
+    },
+    onCancel (data) {
+      console.log('onCancel', data)
+    },
+    onHide (data) {
+      console.log('onHide', data)
+    },
+    onShow (data) {
+      console.log('onShow', data)
+    },
+    showActionSheetWithIcons (grid) {
+      this.$q.actionSheet({
+        title: 'Article Actions',
+        grid,
+        actions: [
+          {
+            label: 'Delete',
+            icon: 'delete',
+            color: 'red',
+            id: 'delete'
+          },
+          {
+            label: 'Share',
+            icon: 'share',
+            color: 'primary',
+            id: 'share'
+          },
+          {
+            label: 'Play',
+            icon: 'gamepad',
+            id: 'play'
+          },
+          {},
+          {
+            label: 'Favorite',
+            icon: 'favorite',
+            id: 'favorite'
+          }
+        ]
+      }).then(name => {
+        console.log('name', name)
+      }).catch(() => {
+        console.log('dismissed')
+      })
+    },
+    showActionSheetWithAvatar (grid) {
+      this.$q.actionSheet({
+        title: 'Share to',
+        grid,
+        actions: [
+          {
+            label: 'Joe',
+            avatar: 'statics/linux-avatar.png',
+            id: 'joe'
+          },
+          {
+            label: 'John',
+            avatar: 'statics/boy-avatar.png',
+            id: 'john'
+          },
+          {
+            label: 'Jim',
+            avatar: 'statics/linux-avatar.png',
+            id: 'jim'
+          },
+          {},
+          {
+            label: 'Jack',
+            avatar: 'statics/guy-avatar.png',
+            id: 'jack'
+          }
+        ]
+      }).then(name => {
+        console.log('name', name)
+      }).catch(() => {
+        console.log('dismissed')
+      })
     }
   }
 }
