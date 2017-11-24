@@ -150,11 +150,10 @@ export default {
     hide () {
       let data
 
-      if (this.hasForm) {
-        data = clone(this.__getData())
-      }
-
       return this.$refs.modal.hide().then(() => {
+        if (this.hasForm) {
+          data = clone(this.__getData())
+        }
         return data
       })
     },
