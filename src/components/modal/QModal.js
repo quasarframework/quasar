@@ -126,14 +126,11 @@ export default {
       if (this.noBackdropDismiss) {
         return
       }
-      console.log('MODAL __dismiss')
       this.hide().then(() => {
-        console.log('MODAL __dismiss emitting dismiss')
         this.$emit('dismiss')
       })
     },
     __show () {
-      console.log('MODAL __show')
       const body = document.body
 
       body.appendChild(this.$el)
@@ -158,7 +155,6 @@ export default {
       })
     },
     __hide () {
-      console.log('MODAL __hide')
       EscapeKey.pop()
       openedModalNumber--
 
@@ -189,19 +185,15 @@ export default {
       },
       on: {
         afterEnter: () => {
-          console.log('MODAL show resolve')
           this.showPromise && this.showPromiseResolve()
         },
         enterCancelled: () => {
-          console.log('MODAL show cancel')
           this.showPromise && this.showPromiseReject()
         },
         afterLeave: () => {
-          console.log('MODAL hide resolve')
           this.hidePromise && this.hidePromiseResolve()
         },
         leaveCancelled: () => {
-          console.log('MODAL hide reject')
           this.hidePromise && this.hidePromiseReject()
         }
       }

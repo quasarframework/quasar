@@ -54,7 +54,6 @@ export default {
   },
   methods: {
     __show () {
-      console.log('TOOLTIP show')
       clearTimeout(this.timer)
 
       document.body.appendChild(this.$el)
@@ -69,7 +68,6 @@ export default {
       this.showPromise && this.showPromiseResolve()
     },
     __hide () {
-      console.log('TOOLTIP hide')
       clearTimeout(this.timer)
 
       this.scrollTarget.removeEventListener('scroll', this.hide)
@@ -92,7 +90,6 @@ export default {
       })
     },
     __delayShow () {
-      console.log('TOOLTIP delaying')
       clearTimeout(this.timer)
       this.timer = setTimeout(this.show, this.delay)
     },
