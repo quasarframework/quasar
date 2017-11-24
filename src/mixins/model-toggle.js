@@ -85,7 +85,7 @@ export default {
       }
 
       if (!this.showing) {
-        return this.hidePromise || Promise.resolve()
+        return this.hidePromise || Promise.resolve(evt)
       }
 
       if (this.showPromise) {
@@ -120,7 +120,7 @@ export default {
       })
 
       this.__hide(evt)
-      return this.hidePromise || Promise.resolve()
+      return this.hidePromise || Promise.resolve(evt)
     }
   },
   beforeDestroy () {
