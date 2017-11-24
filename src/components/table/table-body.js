@@ -11,6 +11,8 @@ export default {
       let
         child = []
 
+      console.log('RENDER')
+
       if (body) {
         child = this.computedRows.map(row => {
           const

@@ -90,6 +90,7 @@ export default {
           this.$emit('hide')
         },
         dismiss: () => {
+          console.log('DIALOG received dismiss, hiding then emitting cancel')
           this.__onCancel()
         },
         'escape-key': () => {
@@ -103,9 +104,11 @@ export default {
   },
   methods: {
     show () {
+      console.log('AS show')
       return this.$refs.modal.show()
     },
     hide () {
+      console.log('AS hide')
       return this.$refs.modal.hide()
     },
     __getActions (h) {
@@ -135,12 +138,16 @@ export default {
       )
     },
     __onOk (action) {
+      console.log('AS onOK')
       this.hide().then(() => {
+        console.log('AS onOK emitting ok')
         this.$emit('ok', action)
       })
     },
     __onCancel () {
+      console.log('AS onCancel')
       this.hide().then(() => {
+        console.log('AS onCancel emitting cancel')
         this.$emit('cancel')
       })
     }

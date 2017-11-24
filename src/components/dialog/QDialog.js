@@ -96,6 +96,7 @@ export default {
           this.$emit('input', val)
         },
         show: () => {
+          console.log('DIALOG show emitting show')
           this.$emit('show')
 
           if (!this.$q.platform.is.desktop) {
@@ -114,9 +115,11 @@ export default {
           }
         },
         hide: () => {
+          console.log('DIALOG hide emitting hide')
           this.$emit('hide')
         },
         dismiss: () => {
+          console.log('DIALOG received dismiss, hiding then emitting cancel')
           this.$emit('cancel')
         },
         'escape-key': () => {
@@ -145,6 +148,7 @@ export default {
   },
   methods: {
     show () {
+      console.log('DIALOG show')
       return this.$refs.modal.show()
     },
     hide () {
@@ -154,6 +158,7 @@ export default {
         if (this.hasForm) {
           data = clone(this.__getData())
         }
+        console.log('DIALOG hide data:', data)
         return data
       })
     },
@@ -209,11 +214,13 @@ export default {
     },
     __onOk () {
       return this.hide().then(data => {
+        console.log('DIALOG emitting ok', data)
         this.$emit('ok', data)
       })
     },
     __onCancel () {
       return this.hide().then(() => {
+        console.log('DIALOG emitting cancel')
         this.$emit('cancel')
       })
     },

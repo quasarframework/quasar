@@ -97,6 +97,7 @@ export default {
     }
   },
   render (h) {
+    console.log('sticky render')
     return h('div', {
       staticClass: 'q-page-sticky q-layout-transition z-fixed',
       'class': `fixed-${this.position}`,
