@@ -20,6 +20,7 @@ export default {
       name: 'q-notifications',
       data: {
         notifs: {
+          center: [],
           top: [],
           'top-left': [],
           'top-right': [],
@@ -43,14 +44,14 @@ export default {
         }
       },
       render (h) {
-        return h('div', { staticClass: 'q-notifications' }, ['top', 'top-left', 'top-right', 'bottom', 'bottom-left', 'bottom-right'].map(pos => {
+        return h('div', { staticClass: 'q-notifications' }, ['top-left', 'top-right', 'bottom-left', 'bottom-right', 'top', 'bottom', 'center'].map(pos => {
           const
-            vert = pos.indexOf('top') > -1 ? 'top' : 'bottom',
+            vert = pos === 'center' ? 'center' : (pos.indexOf('top') > -1 ? 'top' : 'bottom'),
             align = pos.indexOf('left') > -1 ? 'start' : (pos.indexOf('right') > -1 ? 'end' : 'center')
 
           return h(QTransition, {
             key: pos,
-            staticClass: `q-notification-list-${vert} fixed column items-${align}`,
+            staticClass: `q-notification-list-${vert} fixed column ${pos === 'center' ? 'items-center justify-center' : `items-${align}`}`,
             props: {
               group: true,
               name: `q-notification-${pos}`,

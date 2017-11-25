@@ -25,8 +25,10 @@
               <q-icon name="arrow_back" />
             </q-btn>
           </div>
-          <div class="invisible">
-            <q-btn round small />
+          <div>
+            <q-btn round small color="tertiary" @click="alertAsMethod('center')">
+              <q-icon name="arrow_upward" />
+            </q-btn>
           </div>
           <div>
             <q-btn round small color="tertiary" @click="alertAsMethod('right')">
@@ -86,16 +88,25 @@ export default {
 </script>
 
 <style lang="styl">
+.q-notification-list-center
+  pointer-events none
+  top 0
+  left 0
+  right 0
+  bottom 0
+  margin-bottom 10px
 .q-notification-list-top
   pointer-events none
   top 0
   left 0
   right 0
+  margin-bottom 10px
 .q-notification-list-bottom
   pointer-events none
   left 0
   right 0
   bottom 0
+  margin-bottom 10px
 
 .q-notification
   background yellow
@@ -103,7 +114,7 @@ export default {
   border-radius 5px
   pointer-events all
   display inline-block
-  margin 10px
+  margin 10px 10px 0
   transition all 1s
 
 .q-notification-
@@ -114,16 +125,18 @@ export default {
     opacity 0
     transform translateY(-50px)
 
-  &bottom,
+  &center-enter, &center-leave-to,
+  &bottom-enter, &bottom-leave-to,
   &bottom-right-enter, &bottom-right-leave-to,
   &bottom-left-enter, &bottom-left-leave-to,
   &bottom-enter, &bottom-leave-to
     opacity 0
     transform translateY(50px)
 
+  &center-leave-active,
   &top-leave-active
     position absolute
-    bottom 0
+    top 0
     margin 10px 0
   &top-right-leave-active
     position absolute
