@@ -1,6 +1,6 @@
-// import { QAlert } from '../components/alert'
+import { QAlert } from '../components/alert'
 import { QTransition } from '../components/transition'
-import { QBtn } from '../components/btn'
+// import { QBtn } from '../components/btn'
 import uid from '../utils/uid'
 
 export default {
@@ -21,6 +21,8 @@ export default {
       data: {
         notifs: {
           center: [],
+          left: [],
+          right: [],
           top: [],
           'top-left': [],
           'top-right': [],
@@ -44,36 +46,30 @@ export default {
         }
       },
       render (h) {
-        return h('div', { staticClass: 'q-notifications' }, ['top-left', 'top-right', 'bottom-left', 'bottom-right', 'top', 'bottom', 'center'].map(pos => {
+        return h('div', { staticClass: 'q-notifications' }, ['top-left', 'top-right', 'bottom-left', 'bottom-right', 'top', 'bottom', 'left', 'right', 'center'].map(pos => {
           const
-            vert = pos === 'center' ? 'center' : (pos.indexOf('top') > -1 ? 'top' : 'bottom'),
-            align = pos.indexOf('left') > -1 ? 'start' : (pos.indexOf('right') > -1 ? 'end' : 'center')
+            vert = ['left', 'center', 'right'].includes(pos) ? 'center' : (pos.indexOf('top') > -1 ? 'top' : 'bottom'),
+            align = pos.indexOf('left') > -1 ? 'start' : (pos.indexOf('right') > -1 ? 'end' : 'center'),
+            classes = ['left', 'right'].includes(pos) ? `items-${pos === 'left' ? 'start' : 'end'} justify-center` : (pos === 'center' ? 'flex-center' : `items-${align}`)
 
           return h(QTransition, {
             key: pos,
-            staticClass: `q-notification-list-${vert} fixed column ${pos === 'center' ? 'items-center justify-center' : `items-${align}`}`,
+            staticClass: `q-notification-list-${vert} fixed column ${classes}`,
             props: {
               group: true,
               name: `q-notification-${pos}`,
               mode: 'out-in'
             }
           }, this.notifs[pos].map(notif => {
-            return h('div', { staticClass: 'q-notification', key: notif.__uid }, [
-              h('div', [
-                notif.__uid,
-                h(QBtn, {
-                  props: {
-                    color: 'primary',
-                    label: 'close'
-                  },
-                  on: {
-                    click: () => {
-                      this.remove(notif)
-                    }
-                  }
-                })
-              ])
-            ])
+            return h(QAlert, {
+              key: notif.__uid,
+              staticClass: 'q-notification',
+              props: {
+                color: notif.color || 'primary',
+                icon: notif.icon,
+                actions: [ { label: 'Close', handler: () => { this.remove(notif) } } ]
+              }
+            }, [ notif.message ])
           }))
         }))
       }

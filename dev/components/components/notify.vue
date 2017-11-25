@@ -64,6 +64,13 @@ import {
   QIcon
 } from 'quasar'
 
+const alerts = [
+  { color: 'error', message: 'Woah! Danger! You are getting good at this!', icon: 'report_problem' },
+  { color: 'warning', message: 'You need to know about this!', icon: 'warning' },
+  { color: 'amber', message: 'Wow! Nice job!', icon: 'thumb_up' },
+  { color: 'secondary', message: 'Quasar is cool! Right?', icon: 'tag_faces' }
+]
+
 export default {
   components: {
     QBtn,
@@ -77,9 +84,11 @@ export default {
   },
   methods: {
     alertAsMethod (position) {
+      const { color, icon, message } = alerts[Math.floor(Math.random(5) * 10) % 4]
       this.$q.notify({
-        title: 'Some Title',
-        message: `Notify on ${position}`,
+        color,
+        icon,
+        message,
         position: position
       })
     }
@@ -109,8 +118,6 @@ export default {
   margin-bottom 10px
 
 .q-notification
-  background yellow
-  padding 10px
   border-radius 5px
   pointer-events all
   display inline-block
@@ -127,6 +134,8 @@ export default {
 
   &center-enter, &center-leave-to,
   &bottom-enter, &bottom-leave-to,
+  &left-enter, &left-leave-to,
+  &right-enter, &right-leave-to,
   &bottom-right-enter, &bottom-right-leave-to,
   &bottom-left-enter, &bottom-left-leave-to,
   &bottom-enter, &bottom-leave-to
@@ -138,13 +147,13 @@ export default {
     position absolute
     top 0
     margin 10px 0
+  &right-leave-active,
   &top-right-leave-active
     position absolute
-    top 0
     right 0
+  &left-leave-active,
   &top-left-leave-active
     position absolute
-    top 0
     left 0
 
   &bottom-leave-active
