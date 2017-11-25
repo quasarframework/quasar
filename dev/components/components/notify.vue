@@ -1,7 +1,6 @@
 <template>
   <div class="layout-padding row justify-center">
     <div style="width: 500px; max-width: 90vw;">
-      <q-btn class="z-max fixed-bottom-right" color="primary" @click="notify" label="Show notif" />
       <div class="fixed-center z-max">
         <div class="row group">
           <div>
@@ -10,11 +9,8 @@
             </q-btn>
           </div>
           <div>
-            <q-btn round small color="tertiary" @click="alertAsMethod('top-center')">
-              <q-icon name="arrow_upward" />
-            </q-btn>
             <q-btn round small color="tertiary" @click="alertAsMethod('top')">
-              <q-icon name="vertical_align_top" />
+              <q-icon name="arrow_upward" />
             </q-btn>
           </div>
           <div>
@@ -29,7 +25,7 @@
               <q-icon name="arrow_back" />
             </q-btn>
           </div>
-          <div class="invisible" v-for="n in 2">
+          <div class="invisible">
             <q-btn round small />
           </div>
           <div>
@@ -45,11 +41,8 @@
             </q-btn>
           </div>
           <div>
-            <q-btn round small color="tertiary" @click="alertAsMethod('bottom-center')">
-              <q-icon name="arrow_downward" />
-            </q-btn>
             <q-btn round small color="tertiary" @click="alertAsMethod('bottom')">
-              <q-icon name="vertical_align_bottom" />
+              <q-icon name="arrow_downward" />
             </q-btn>
           </div>
           <div>
@@ -66,21 +59,13 @@
 <script>
 import {
   QBtn,
-  QIcon,
-  QCard,
-  QCardMain,
-  QCardActions,
-  QCardSeparator
+  QIcon
 } from 'quasar'
 
 export default {
   components: {
     QBtn,
-    QIcon,
-    QCard,
-    QCardMain,
-    QCardActions,
-    QCardSeparator
+    QIcon
   },
   data () {
     return {
@@ -89,13 +74,6 @@ export default {
     }
   },
   methods: {
-    notify () {
-      this.$q.notify({
-        title: 'Some Title',
-        message: 'Some message',
-        timeout: 3000
-      })
-    },
     alertAsMethod (position) {
       this.$q.notify({
         title: 'Some Title',
@@ -125,23 +103,28 @@ export default {
   border-radius 5px
   pointer-events all
   display inline-block
-  margin-right 10px
-  margin-top 10px
+  margin 10px
   transition all 1s
 
 .q-notification-
+  &top-enter,
   &top-right-enter, &top-right-leave-to,
   &top-left-enter, &top-left-leave-to,
   &top-enter, &top-leave-to
     opacity 0
     transform translateY(-50px)
 
+  &bottom,
   &bottom-right-enter, &bottom-right-leave-to,
   &bottom-left-enter, &bottom-left-leave-to,
   &bottom-enter, &bottom-leave-to
     opacity 0
     transform translateY(50px)
 
+  &top-leave-active
+    position absolute
+    bottom 0
+    margin 10px 0
   &top-right-leave-active
     position absolute
     top 0
@@ -149,6 +132,12 @@ export default {
   &top-left-leave-active
     position absolute
     top 0
+    left 0
+
+  &bottom-leave-active
+    position absolute
+    bottom 0
+    margin 10px 0
   &bottom-right-leave-active
     position absolute
     bottom 0

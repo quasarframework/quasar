@@ -20,15 +20,18 @@ export default {
       name: 'q-notifications',
       data: {
         notifs: {
+          top: [],
           'top-left': [],
           'top-right': [],
+          bottom: [],
           'bottom-left': [],
           'bottom-right': []
         }
       },
       methods: {
         add (notif) {
-          notif.uid = uid()
+          notif.__uid = uid()
+          console.log(notif.position)
           const action = notif.position.indexOf('top') > -1 ? 'unshift' : 'push'
           this.notifs[notif.position][action](notif)
         },
@@ -40,20 +43,23 @@ export default {
         }
       },
       render (h) {
-        return h('div', { staticClass: 'q-notifications' }, ['top-left', 'top-right', 'bottom-left', 'bottom-right'].map(pos => {
-          const vert = pos.indexOf('top') > -1 ? 'top' : 'bottom'
+        return h('div', { staticClass: 'q-notifications' }, ['top', 'top-left', 'top-right', 'bottom', 'bottom-left', 'bottom-right'].map(pos => {
+          const
+            vert = pos.indexOf('top') > -1 ? 'top' : 'bottom',
+            align = pos.indexOf('left') > -1 ? 'start' : (pos.indexOf('right') > -1 ? 'end' : 'center')
+
           return h(QTransition, {
             key: pos,
-            staticClass: `q-notification-list-${vert} fixed column items-${pos.indexOf('left') > -1 ? 'start' : 'end'}`,
+            staticClass: `q-notification-list-${vert} fixed column items-${align}`,
             props: {
               group: true,
               name: `q-notification-${pos}`,
               mode: 'out-in'
             }
           }, this.notifs[pos].map(notif => {
-            return h('div', { staticClass: 'q-notification', key: notif.uid }, [
+            return h('div', { staticClass: 'q-notification', key: notif.__uid }, [
               h('div', [
-                notif.uid,
+                notif.__uid,
                 h(QBtn, {
                   props: {
                     color: 'primary',
