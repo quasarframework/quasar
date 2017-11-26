@@ -21,6 +21,9 @@
   span + span
     margin-left 16px
 
+.q-notifications > div
+  z-index $z-notify
+
 .q-notification-list-center
   pointer-events none
   top 0
@@ -28,21 +31,18 @@
   right 0
   bottom 0
   margin-bottom 10px
-  z-index $z-notify
 .q-notification-list-top
   pointer-events none
   top 0
   left 0
   right 0
   margin-bottom 10px
-  z-index $z-notify
 .q-notification-list-bottom
   pointer-events none
   left 0
   right 0
   bottom 0
   margin-bottom 10px
-  z-index $z-notify
 
 .q-notification
   border-radius 5px
@@ -50,6 +50,7 @@
   display inline-block
   margin 10px 10px 0
   transition all 1s
+  z-index $z-notify
 
 .q-notification-
   &top-enter,

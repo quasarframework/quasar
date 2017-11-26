@@ -64,7 +64,7 @@ export default {
           if (notif.timeout) {
             notif.__timeout = setTimeout(() => {
               close()
-            }, notif.timeout)
+            }, notif.timeout + /* show duration */ 1000)
           }
 
           return close
@@ -88,6 +88,7 @@ export default {
           return h(QTransition, {
             key: pos,
             staticClass: `q-notification-list-${vert} fixed column ${classes}`,
+            tag: 'div',
             props: {
               group: true,
               name: `q-notification-${pos}`,
