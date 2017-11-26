@@ -340,10 +340,8 @@ export default {
     },
     __hidePopover () {
       this.hide()
-      this.$once('blur', () => {
-        this.$refs.input.$el.focus()
-        this.focused = true
-      })
+      this.$refs.input.$el.focus()
+      this.focused = true
     }
   }
 }
