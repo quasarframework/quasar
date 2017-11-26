@@ -64,8 +64,8 @@
       :disable="disable"
       :offset="[0, 10]"
       :anchor-click="false"
-      :max-height="scrollHeight"
-      class="column no-wrap"
+      max-height="100vh"
+      class="column no-wrap no-scroll"
       @show="__onFocus"
       @hide="__onClose"
     >
@@ -90,6 +90,7 @@
         link
         :separator="separator"
         class="no-border scroll"
+        :style="{ maxHeight: scrollHeight }"
       >
         <template v-if="multiple">
           <q-item-wrapper
@@ -256,7 +257,7 @@ export default {
         filterOffset = 0,
         middleOffset = 0
       if (this.$refs.filter) {
-        filterOffset = this.$refs.filter.$el.clientHeight + filterOffset
+        filterOffset = this.$refs.filter.$el.clientHeight
       }
       if (onOpen) {
         middleOffset = this.$refs.list.clientHeight / 2
