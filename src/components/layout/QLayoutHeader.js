@@ -86,7 +86,6 @@ export default {
     }
   },
   render (h) {
-    console.log('header render')
     return h('header', {
       staticClass: 'q-layout-header q-layout-transition',
       'class': this.computedClass,

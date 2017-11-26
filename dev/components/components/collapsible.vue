@@ -1,6 +1,7 @@
 <template>
-  <div>
-    <div class="layout-padding" style="max-width: 600px;">
+  <q-layout view="lHh Lpr lFf">
+  <q-page-container>
+    <q-page padding style="max-width: 600px;">
       <q-list>
         {{ model }}
         <q-collapsible v-model="model" icon="explore" label="With model">
@@ -168,8 +169,9 @@
           </q-card>
         </q-collapsible>
       </q-list>
-    </div>
-  </div>
+    </q-page>
+  </q-page-container>
+  </q-layout>
 </template>
 
 <script>

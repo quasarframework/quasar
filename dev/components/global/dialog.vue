@@ -43,16 +43,16 @@ export default {
       this.showDialog = !this.showDialog
     },
     onOk (data) {
-      console.log('onOK', data)
+      console.log('>>> onOK', data)
     },
     onCancel (data) {
-      console.log('onCancel', data)
+      console.log('>>> onCancel', data)
     },
     onHide (data) {
-      console.log('onHide', data)
+      console.log('>>> onHide', data)
     },
     onShow (data) {
-      console.log('onShow', data)
+      console.log('>>> onShow', data)
     },
     adHoc () {
       this.$q.dialog({
@@ -66,9 +66,9 @@ export default {
         // preventClose: true,
         color: 'secondary'
       }).then(data => {
-        console.log('OK, received:', data)
+        console.log('>>>> OK, received:', data)
       }).catch(() => {
-        console.log('dismissed')
+        console.log('>>>> Cancel')
       })
     },
     adHoc2 () {
@@ -89,9 +89,9 @@ export default {
         preventClose: true,
         color: 'secondary'
       }).then(data => {
-        console.log('OK, received:', data)
+        console.log('>>>> OK, received:', data)
       }).catch(() => {
-        console.log('dismissed')
+        console.log('>>>> Cancel')
       })
     },
     adHoc3 () {
@@ -101,9 +101,9 @@ export default {
         cancel: true,
         preventClose: true
       }).then(() => {
-        console.log('OK')
+        console.log('>>> OK')
       }).catch(() => {
-        console.log('Cancel')
+        console.log('>>> Cancel')
       })
     }
   }

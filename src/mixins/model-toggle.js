@@ -16,36 +16,16 @@ export default {
   },
   watch: {
     value (val) {
-      console.log(this.$options.name, '__updateModel value watcher', val, this.showing)
       if (this.disable && val) {
         this.$emit('input', false)
         return
       }
 
-      if (val !== this.showing) {
-        this[val ? 'show' : 'hide']()
-      }
-    },
-    showing (val) {
-      console.log(this.$options.name, '__updateModel showing watcher', val, this.value)
-      if (this.value !== val) {
-        this.$emit('input', val)
-      }
-
-      if (this.$options.noShowingHistory) {
-        return
-      }
-
-      if (val) {
-        this.__historyEntry = {
-          handler: this.hide
+      this.$nextTick(() => {
+        if (this.value !== this.showing) {
+          this[val ? 'show' : 'hide']()
         }
-        History.add(this.__historyEntry)
-      }
-      else if (this.__historyEntry) {
-        History.remove(this.__historyEntry)
-        this.__historyEntry = null
-      }
+      })
     }
   },
   methods: {
@@ -59,17 +39,36 @@ export default {
         return Promise.reject(new Error())
       }
 
-      console.log('show')
       if (this.showing) {
-        return this.showPromise || Promise.resolve()
+        return this.showPromise || Promise.resolve(evt)
+      }
+
+      if (this.hidePromise) {
+        this.hidePromiseReject()
       }
 
       this.showing = true
+      if (this.value === false) {
+        this.$emit('input', true)
+      }
+
+      if (this.$options.modelToggle === void 0 || this.$options.modelToggle.history) {
+        this.__historyEntry = {
+          handler: this.hide
+        }
+        History.add(this.__historyEntry)
+      }
+
+      if (!this.__show) {
+        this.$emit('show')
+        return Promise.resolve(evt)
+      }
+
       this.showPromise = new Promise((resolve, reject) => {
         this.showPromiseResolve = () => {
           this.showPromise = null
           this.$emit('show')
-          resolve()
+          resolve(evt)
         }
         this.showPromiseReject = () => {
           this.showPromise = null
@@ -77,25 +76,37 @@ export default {
         }
       })
 
-      this.$nextTick(() => {
-        if (this.__show) {
-          this.__show(evt)
-        }
-        else {
-          this.showPromiseResolve()
-        }
-      })
-
-      return this.showPromise
+      this.__show(evt)
+      return this.showPromise || Promise.resolve(evt)
     },
     hide (evt) {
-      console.log('hide')
+      if (this.disable) {
+        return Promise.reject(new Error())
+      }
+
       if (!this.showing) {
-        console.log('hide aborting')
         return this.hidePromise || Promise.resolve()
       }
 
+      if (this.showPromise) {
+        this.showPromiseReject()
+      }
+
       this.showing = false
+      if (this.value === true) {
+        this.$emit('input', false)
+      }
+
+      if (this.__historyEntry) {
+        History.remove(this.__historyEntry)
+        this.__historyEntry = null
+      }
+
+      if (!this.__hide) {
+        this.$emit('hide')
+        return Promise.resolve()
+      }
+
       this.hidePromise = new Promise((resolve, reject) => {
         this.hidePromiseResolve = () => {
           this.hidePromise = null
@@ -107,20 +118,13 @@ export default {
           reject(new Error())
         }
       })
-      this.$nextTick(() => {
-        if (this.__hide) {
-          this.__hide(evt)
-        }
-        else {
-          this.hidePromiseResolve()
-        }
-      })
-      return this.hidePromise
+
+      this.__hide(evt)
+      return this.hidePromise || Promise.resolve()
     }
   },
   beforeDestroy () {
     if (this.showing) {
-      console.log('beforeDestroy calling hide')
       this.showPromise && this.showPromiseReject()
       this.hidePromise && this.hidePromiseReject()
       this.$emit('input', false)

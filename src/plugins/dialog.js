@@ -3,10 +3,10 @@ import modalFn from '../utils/modal-fn'
 
 export default {
   __installed: false,
-  install ({ Quasar, Vue }) {
+  install ({ $q, Vue }) {
     if (this.__installed) { return }
     this.__installed = true
 
-    Quasar.dialog = modalFn(QDialog, Vue)
+    $q.dialog = modalFn(QDialog, Vue)
   }
 }

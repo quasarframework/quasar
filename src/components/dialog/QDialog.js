@@ -25,11 +25,6 @@ export default {
       default: 'primary'
     }
   },
-  watch: {
-    value (val) {
-      this[val ? 'show' : 'hide']()
-    }
-  },
   render (h) {
     const
       child = [],
@@ -90,22 +85,38 @@ export default {
     return h(QModal, {
       ref: 'modal',
       props: {
+        value: this.value,
         minimized: true,
         noBackdropDismiss: this.preventClose,
         noEscDismiss: this.preventClose,
         position: this.position
       },
       on: {
+        input: val => {
+          this.$emit('input', val)
+        },
         show: () => {
           this.$emit('show')
-          this.$emit('input', true)
+
+          if (!this.$q.platform.is.desktop) {
+            return
+          }
+
+          let node = this.$refs.modal.$el.getElementsByTagName('INPUT')
+          if (node.length) {
+            node[0].focus()
+            return
+          }
+
+          node = this.$refs.modal.$el.getElementsByTagName('BUTTON')
+          if (node.length) {
+            node[node.length - 1].focus()
+          }
         },
         hide: () => {
           this.$emit('hide')
-          this.$emit('input', false)
         },
         dismiss: () => {
-          console.log('DIALOG received dismiss, hiding then emitting cancel')
           this.$emit('cancel')
         },
         'escape-key': () => {
@@ -134,36 +145,15 @@ export default {
   },
   methods: {
     show () {
-      console.log('DIALOG show')
-      return this.$refs.modal.show().then(() => {
-        console.log('DIALOG show emitting show')
-
-        if (!this.$q.platform.is.desktop) {
-          return
-        }
-
-        let node = this.$refs.modal.$el.getElementsByTagName('INPUT')
-        if (node.length) {
-          node[0].focus()
-          return
-        }
-
-        node = this.$refs.modal.$el.getElementsByTagName('INPUT')
-        if (node.length) {
-          node[node.length - 1].focus()
-        }
-      })
+      return this.$refs.modal.show()
     },
     hide () {
       let data
 
-      if (this.hasForm) {
-        data = clone(this.__getData())
-      }
-      console.log('DIALOG hide')
-
       return this.$refs.modal.hide().then(() => {
-        console.log('DIALOG hide', data)
+        if (this.hasForm) {
+          data = clone(this.__getData())
+        }
         return data
       })
     },
@@ -219,13 +209,11 @@ export default {
     },
     __onOk () {
       return this.hide().then(data => {
-        console.log('DIALOG emitting ok', data)
         this.$emit('ok', data)
       })
     },
     __onCancel () {
       return this.hide().then(() => {
-        console.log('DIALOG emitting cancel')
         this.$emit('cancel')
       })
     },

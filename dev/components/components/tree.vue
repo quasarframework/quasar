@@ -22,8 +22,6 @@
 </template>
 
 <script>
-import { Toast } from 'quasar'
-
 export default {
   data () {
     return {
@@ -64,7 +62,7 @@ export default {
               title: 'Item 1.3',
               expanded: false,
               handler () {
-                Toast.create('Tapped on item 1.3')
+                this.$q.notify('Tapped on item 1.3')
               },
               children: []
             }

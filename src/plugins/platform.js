@@ -165,7 +165,7 @@ function getPlatform () {
 
 const Platform = {
   __installed: false,
-  install ({ Quasar }) {
+  install ({ $q }) {
     if (this.__installed) { return }
     this.__installed = true
 
@@ -177,7 +177,7 @@ const Platform = {
       iframe: window.self !== window.top
     }
 
-    Quasar.platform = Platform
+    $q.platform = Platform
   }
 }
 

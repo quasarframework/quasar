@@ -24,7 +24,7 @@ export default {
   },
 
   __installed: false,
-  install ({ Quasar, Vue }) {
+  install ({ $q, Vue }) {
     if (this.__installed) { return }
     this.__installed = true
 
@@ -64,6 +64,6 @@ export default {
     })
 
     Vue.util.defineReactive({}, 'isActive', this)
-    Quasar.fullscreen = this
+    $q.fullscreen = this
   }
 }

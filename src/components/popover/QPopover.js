@@ -93,12 +93,6 @@ export default {
   },
   methods: {
     __show (evt) {
-      if (evt) {
-        evt.stopPropagation()
-        evt.preventDefault()
-      }
-
-      document.body.click() // close other Popovers
       document.body.appendChild(this.$el)
       EscapeKey.register(() => { this.hide() })
       this.scrollTarget = getScrollTarget(this.anchorEl)
@@ -106,41 +100,34 @@ export default {
       window.addEventListener('resize', this.__updatePosition)
       this.reposition(evt)
 
+      clearTimeout(this.timer)
       this.timer = setTimeout(() => {
-        this.timer = null
         document.body.addEventListener('click', this.__bodyHide, true)
         document.body.addEventListener('touchstart', this.__bodyHide, true)
         this.showPromise && this.showPromiseResolve()
-      }, 1)
+      }, 0)
     },
     __bodyHide (evt) {
-      console.log('__bodyHide')
-      if (evt && evt.target && this.$el.contains(evt.target)) {
+      if (
+        evt && evt.target &&
+        (this.$el.contains(evt.target) || (this.anchorClick && this.anchorEl.contains(evt.target)))
+      ) {
         return
       }
-      console.log('__bodyHide HIT')
-      if (evt) {
-        evt.stopPropagation()
-        evt.preventDefault()
-      }
+
       this.hide(evt)
     },
     __hide (evt) {
       clearTimeout(this.timer)
+
       document.body.removeEventListener('click', this.__bodyHide, true)
       document.body.removeEventListener('touchstart', this.__bodyHide, true)
       this.scrollTarget.removeEventListener('scroll', this.__updatePosition)
       window.removeEventListener('resize', this.__updatePosition)
       EscapeKey.pop()
 
-      /*
-        Using setTimeout to allow
-        v-models to take effect
-      */
-      setTimeout(() => {
-        document.body.removeChild(this.$el)
-        this.hidePromise && this.hidePromiseResolve()
-      }, 1)
+      document.body.removeChild(this.$el)
+      this.hidePromise && this.hidePromiseResolve()
     },
     reposition (event) {
       this.$nextTick(() => {

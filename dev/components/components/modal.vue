@@ -113,8 +113,6 @@
 </template>
 
 <script>
-import { Toast } from 'quasar'
-
 export default {
   data () {
     return {
@@ -148,7 +146,7 @@ export default {
   },
   methods: {
     notify (eventName) {
-      Toast.create(`Event "${eventName}" was triggered.`)
+      this.$q.notify(`Event "${eventName}" was triggered.`)
     },
     openSpecialPosition (position) {
       this.position = position

@@ -14,14 +14,9 @@ export default {
       default: 'Cancel'
     }
   },
-  watch: {
-    value (val) {
-      this[val ? 'show' : 'hide']()
-    }
-  },
   computed: {
     contentCss () {
-      if (this.$q.theme === 'ios') {
+      if (__THEME__ === 'ios') {
         return {backgroundColor: 'transparent'}
       }
     }
@@ -80,20 +75,21 @@ export default {
     return h(QModal, {
       ref: 'modal',
       props: {
+        value: this.value,
         position: 'bottom',
         contentCss: this.contentCss
       },
       on: {
+        input: val => {
+          this.$emit('input', val)
+        },
         show: () => {
           this.$emit('show')
-          this.$emit('input', true)
         },
         hide: () => {
           this.$emit('hide')
-          this.$emit('input', false)
         },
         dismiss: () => {
-          console.log('DIALOG received dismiss, hiding then emitting cancel')
           this.__onCancel()
         },
         'escape-key': () => {
@@ -107,11 +103,9 @@ export default {
   },
   methods: {
     show () {
-      console.log('AS show')
       return this.$refs.modal.show()
     },
     hide () {
-      console.log('AS hide')
       return this.$refs.modal.hide()
     },
     __getActions (h) {
@@ -141,16 +135,12 @@ export default {
       )
     },
     __onOk (action) {
-      console.log('AS onOK')
       this.hide().then(() => {
-        console.log('AS onOK emitting ok')
         this.$emit('ok', action)
       })
     },
     __onCancel () {
-      console.log('AS onCancel')
       this.hide().then(() => {
-        console.log('AS onCancel emitting cancel')
         this.$emit('cancel')
       })
     }

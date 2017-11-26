@@ -1,5 +1,4 @@
 import { version } from '../package.json'
-import { setVue } from './deps'
 import { ready } from './utils/dom'
 import Platform from './plugins/platform'
 import History from './plugins/history'
@@ -26,15 +25,13 @@ export default function (_Vue, opts = {}) {
   }
   this.__installed = true
 
-  setVue(_Vue)
-
-  const Quasar = {
+  const $q = {
     version,
     theme: __THEME__
   }
 
   // required plugins
-  Platform.install({ Quasar })
+  Platform.install({ $q })
   History.install()
 
   // inject body classes
@@ -60,10 +57,10 @@ export default function (_Vue, opts = {}) {
     Object.keys(opts.plugins).forEach(key => {
       const p = opts.plugins[key]
       if (typeof p.install === 'function') {
-        p.install({ Quasar, Vue: _Vue })
+        p.install({ $q, Vue: _Vue })
       }
     })
   }
 
-  _Vue.prototype.$q = Quasar
+  _Vue.prototype.$q = $q
 }

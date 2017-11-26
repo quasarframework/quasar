@@ -6,7 +6,6 @@ import { version } from '../package.json'
 import * as components from './components'
 import * as directives from './directives'
 import * as plugins from './plugins'
-import * as globals from './globals'
 import * as utils from './utils'
 
 Vue.use({ install }, {
@@ -21,6 +20,5 @@ export default {
 
   components,
   directives,
-  globals,
   utils
 }

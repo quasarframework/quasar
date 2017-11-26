@@ -123,17 +123,14 @@ export default {
   },
   methods: {
     __dismiss () {
-      console.log('MODAL __dismiss')
       if (this.noBackdropDismiss) {
         return
       }
       this.hide().then(() => {
-        console.log('MODAL __dismiss emitting dismiss')
         this.$emit('dismiss')
       })
     },
     __show () {
-      console.log('MODAL show')
       const body = document.body
 
       body.appendChild(this.$el)
@@ -147,21 +144,17 @@ export default {
         }
       })
 
-      this.$once('show', () => {
-        console.log('trigger')
-        let content = this.$refs.content
-        content.scrollTop = 0
-        ;['modal-scroll', 'layout-view'].forEach(c => {
-          [].slice.call(content.getElementsByClassName(c)).forEach(el => {
-            el.scrollTop = 0
-          })
+      openedModalNumber++
+
+      let content = this.$refs.content
+      content.scrollTop = 0
+      ;['modal-scroll', 'layout-view'].forEach(c => {
+        [].slice.call(content.getElementsByClassName(c)).forEach(el => {
+          el.scrollTop = 0
         })
       })
-
-      openedModalNumber++
     },
     __hide () {
-      console.log('MODAL hide')
       EscapeKey.pop()
       openedModalNumber--
 
@@ -192,19 +185,15 @@ export default {
       },
       on: {
         afterEnter: () => {
-          console.log('show resolve')
           this.showPromise && this.showPromiseResolve()
         },
         enterCancelled: () => {
-          console.log('show cancel')
           this.showPromise && this.showPromiseReject()
         },
         afterLeave: () => {
-          console.log('hide resolve')
           this.hidePromise && this.hidePromiseResolve()
         },
         leaveCancelled: () => {
-          console.log('hide reject')
           this.hidePromise && this.hidePromiseReject()
         }
       }

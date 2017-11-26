@@ -5,7 +5,8 @@ import { QResizeObservable } from '../observables'
 import ModelToggleMixin from '../../mixins/model-toggle'
 
 const
-  bodyClass = 'with-layout-drawer-opened',
+  bodyClassBelow = 'with-layout-drawer-opened',
+  bodyClassAbove = 'with-layout-drawer-opened-above',
   duration = 150
 
 export default {
@@ -35,15 +36,23 @@ export default {
     }
   },
   data () {
-    const belowBreakpoint = (
-      this.behavior === 'mobile' ||
-      (this.behavior !== 'desktop' && this.breakpoint >= this.layout.width)
-    )
+    const
+      largeScreenState = this.value !== void 0 ? this.value : true,
+      showing = this.behavior !== 'mobile' && this.breakpoint < this.layout.width && !this.overlay
+        ? largeScreenState
+        : false
+
+    if (this.value !== void 0 && this.value !== showing) {
+      this.$emit('input', showing)
+    }
 
     return {
-      showing: true,
-      belowBreakpoint,
-      largeScreenState: this.value,
+      showing,
+      belowBreakpoint: (
+        this.behavior === 'mobile' ||
+        (this.behavior !== 'desktop' && this.breakpoint >= this.layout.width)
+      ),
+      largeScreenState,
       mobileOpened: false,
 
       size: 300,
@@ -54,23 +63,18 @@ export default {
   },
   watch: {
     belowBreakpoint (val, old) {
-      console.log('belowBreakpoint: change detected', val)
       if (this.mobileOpened) {
-        console.log('belowBreakpoint: mobile view is opened; aborting')
         return
       }
 
       if (val) { // from lg to xs
-        console.log('belowBreakpoint: from lg to xs; model force to false')
         if (!this.overlay) {
-          console.log('belowBreakpoint: largeScreenState set to', this.showing)
           this.largeScreenState = this.showing
         }
         // ensure we close it for small screen
         this.hide()
       }
       else if (!this.overlay) { // from xs to lg
-        console.log('belowBreakpoint: from xs to lg; model set to', this.largeScreenState)
         this[this.largeScreenState ? 'show' : 'hide']()
       }
     },
@@ -101,18 +105,15 @@ export default {
       }
     },
     onLayout (val) {
-      console.log('onLayout', val)
       this.__update('space', val)
       this.layout.__animate()
     },
     $route () {
       if (this.mobileOpened) {
-        console.log('$route watch closing')
         this.hide()
         return
       }
       if (this.onScreenOverlay) {
-        console.log('$route watch updating model')
         this.hide()
       }
     }
@@ -218,7 +219,6 @@ export default {
     }
   },
   render (h) {
-    console.log(`drawer ${this.side} render`)
     const child = []
 
     if (this.mobileView) {
@@ -262,11 +262,7 @@ export default {
     ]))
   },
   created () {
-    if (this.belowBreakpoint || this.overlay) {
-      console.log('created -- hiding')
-      this.hide()
-    }
-    else if (this.onLayout) {
+    if (this.onLayout) {
       this.__update('space', true)
       this.__update('offset', this.offset)
     }
@@ -276,6 +272,7 @@ export default {
     })
   },
   beforeDestroy () {
+    clearTimeout(this.timer)
     this.__update('size', 0)
     this.__update('space', false)
   },
@@ -303,7 +300,7 @@ export default {
       this.percentage = between(position / width, 0, 1)
 
       if (evt.isFirst) {
-        document.body.classList.add(bodyClass)
+        document.body.classList.add(bodyClassBelow)
         this.inTransit = true
       }
     },
@@ -333,27 +330,30 @@ export default {
       }
     },
     __show () {
-      console.log('show', this.showing)
-
       if (this.belowBreakpoint) {
-        console.log('watcher value: opening mobile')
         this.mobileOpened = true
         this.percentage = 1
-        document.body.classList.add(bodyClass)
       }
 
-      setTimeout(() => {
-        this.showPromise && this.showPromiseResolve()
+      document.body.classList.add(this.belowBreakpoint ? bodyClassBelow : bodyClassAbove)
+
+      clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
+        if (this.showPromise) {
+          this.showPromise.then(() => {
+            document.body.classList.remove(bodyClassAbove)
+          })
+          this.showPromiseResolve()
+        }
       }, duration)
     },
     __hide () {
-      console.log('hide', this.showing)
-
       this.mobileOpened = false
       this.percentage = 0
-      document.body.classList.remove(bodyClass)
+      document.body.classList.remove(bodyClassAbove, bodyClassBelow)
 
-      setTimeout(() => {
+      clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
         this.hidePromise && this.hidePromiseResolve()
       }, duration)
     },
