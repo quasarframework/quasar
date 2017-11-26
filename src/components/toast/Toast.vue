@@ -12,7 +12,7 @@
       <q-icon v-if="stack[0].icon" :name="stack[0].icon"></q-icon>
       <img v-if="stack[0].image" :src="stack[0].image">
 
-      <div class="q-toast-message col" v-html="stack[0].html"></div>
+      <div :class="['q-toast-message', 'col', fullscreenAdjustment]" v-html="stack[0].html"></div>
 
       <a
         v-if="stack[0].button && stack[0].button.label"
@@ -86,6 +86,14 @@ export default {
       }
 
       return this.stack[0].classes.split(' ')
+    },
+    fullscreenAdjustment () {
+      let viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+      let toastHeight = document.querySelector('.q-toast-message').offsetHeight;
+      if (toastHeight > viewHeight) {
+        return 'q-toast-message--fullscreen'
+      }
+      return ''
     }
   },
   methods: {
