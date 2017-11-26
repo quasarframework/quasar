@@ -85,96 +85,17 @@ export default {
   methods: {
     alertAsMethod (position) {
       const { color, icon, message } = alerts[ Math.floor(Math.random(5) * 10) % 4 ]
-      this.$q.notify({
+      const remove = this.$q.notify({
         color,
         icon,
         message,
         position,
+        actions: Math.random() * 100 > 50
+          ? [ { label: 'Close', handler: () => remove() } ]
+          : null,
         timeout: Math.random() * 5000 + 3000
       })
     }
   }
 }
 </script>
-
-<style lang="styl">
-.q-notification-list-center
-  pointer-events none
-  top 0
-  left 0
-  right 0
-  bottom 0
-  margin-bottom 10px
-.q-notification-list-top
-  pointer-events none
-  top 0
-  left 0
-  right 0
-  margin-bottom 10px
-.q-notification-list-bottom
-  pointer-events none
-  left 0
-  right 0
-  bottom 0
-  margin-bottom 10px
-
-.q-notification
-  border-radius 5px
-  pointer-events all
-  display inline-block
-  margin 10px 10px 0
-  transition all 1s
-  z-index 9999 // $z-max
-
-.q-notification-
-  &top-enter,
-  &top-right-enter, &top-right-leave-to,
-  &top-left-enter, &top-left-leave-to,
-  &top-enter, &top-leave-to
-    opacity 0
-    transform translateY(-50px)
-
-  &center-enter, &center-leave-to,
-  &bottom-enter, &bottom-leave-to,
-  &left-enter, &left-leave-to,
-  &right-enter, &right-leave-to,
-  &bottom-right-enter, &bottom-right-leave-to,
-  &bottom-left-enter, &bottom-left-leave-to,
-  &bottom-enter, &bottom-leave-to
-    opacity 0
-    transform translateY(50px)
-    z-index 9998 // $z-max - 1
-
-  &center-leave-active,
-  &top-leave-active
-    position absolute
-    top 0
-    margin 10px 0
-    z-index 9998 // $z-max - 1
-  &right-leave-active,
-  &top-right-leave-active
-    position absolute
-    right 0
-    z-index 9998 // $z-max - 1
-  &left-leave-active,
-  &top-left-leave-active
-    position absolute
-    left 0
-    z-index 9998 // $z-max - 1
-
-  &bottom-leave-active
-    position absolute
-    bottom 0
-    margin 10px 0
-    z-index 9998 // $z-max - 1
-  &bottom-right-leave-active
-    position absolute
-    bottom 0
-    right 0
-    z-index 9998 // $z-max - 1
-  &bottom-left-leave-active
-    position absolute
-    bottom 0
-    left 0
-    z-index 9998 // $z-max - 1
-</style>

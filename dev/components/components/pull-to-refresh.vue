@@ -25,8 +25,6 @@
 </template>
 
 <script>
-import { Toast } from 'quasar'
-
 export default {
   data () {
     return {
@@ -38,7 +36,7 @@ export default {
       setTimeout(() => {
         done()
         this.items.push({})
-        Toast.create('Item #' + this.items.length + ' is new.')
+        this.$q.notify('Item #' + this.items.length + ' is new.')
       }, 1000)
     }
   }

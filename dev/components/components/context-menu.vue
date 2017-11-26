@@ -40,7 +40,7 @@
             <q-item
               v-for="n in 10"
               :key="n"
-              @click="showToast(), $refs.context.hide()"
+              @click="showNotify(), $refs.context.hide()"
             >
               <q-item-main label="Label" sublabel="Value" />
             </q-item>
@@ -53,7 +53,6 @@
 
 <script>
 import {
-  Toast,
   QContextMenu,
   QList,
   QItem,
@@ -62,15 +61,14 @@ import {
 
 export default {
   components: {
-    Toast,
     QContextMenu,
     QList,
     QItem,
     QItemMain
   },
   methods: {
-    showToast () {
-      Toast.create((this.$q.platform.is.desktop ? 'Clicked' : 'Tapped') + ' on a context menu item.')
+    showNotify () {
+      this.$q.notify((this.$q.platform.is.desktop ? 'Clicked' : 'Tapped') + ' on a context menu item.')
     }
   }
 }

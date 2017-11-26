@@ -1,11 +1,10 @@
 import { QAlert } from '../components/alert'
 import { QTransition } from '../components/transition'
-// import { QBtn } from '../components/btn'
 import uid from '../utils/uid'
 
 export default {
   create (opts) {
-    this.__vm.add(opts)
+    return this.__vm.add(opts)
   },
 
   __installed: false,
@@ -32,8 +31,19 @@ export default {
         }
       },
       methods: {
-        validate (notif) {
-          if (
+        add (notif) {
+          if (!notif) {
+            console.error('Notify: parameter required')
+            return false
+          }
+          if (typeof notif === 'string') {
+            notif = {
+              message: notif,
+              timeout: 5000,
+              position: 'bottom'
+            }
+          }
+          else if (
             ![
               'center', 'left', 'right', 'top', 'bottom',
               'top-left', 'top-right', 'bottom-left', 'bottom-right'
@@ -43,20 +53,25 @@ export default {
             return false
           }
 
-          return true
-        },
-        add (notif) {
-          if (!this.validate(notif)) { return }
-
           notif.__uid = uid()
           const action = notif.position.indexOf('top') > -1 ? 'unshift' : 'push'
           this.notifs[notif.position][action](notif)
 
-          notif.timeout && setTimeout(() => {
+          const close = () => {
             this.remove(notif)
-          }, notif.timeout)
+          }
+
+          if (notif.timeout) {
+            notif.__timeout = setTimeout(() => {
+              close()
+            }, notif.timeout)
+          }
+
+          return close
         },
         remove (notif) {
+          if (notif.__timeout) { clearTimeout(notif.__timeout) }
+
           const index = this.notifs[notif.position].indexOf(notif)
           if (index !== -1) {
             this.notifs[notif.position].splice(index, 1)
@@ -83,9 +98,10 @@ export default {
               key: notif.__uid,
               staticClass: 'q-notification',
               props: {
-                color: notif.color || 'primary',
+                color: notif.color,
+                textColor: notif.textColor,
                 icon: notif.icon,
-                actions: [ { label: 'Close', handler: () => { this.remove(notif) } } ]
+                actions: notif.actions
               }
             }, [ notif.message ])
           }))

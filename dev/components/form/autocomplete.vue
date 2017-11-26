@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import { uid, filter, Toast } from 'quasar'
+import { uid, filter } from 'quasar'
 import countries from 'data/autocomplete.json'
 
 const icons = ['alarm', 'email', 'search', 'build', 'card_giftcard', 'perm_identity', 'receipt', 'schedule', 'speaker_phone', 'archive', 'weekend', 'battery_charging_full']
@@ -107,7 +107,7 @@ export default {
       }, 1000)
     },
     selected (item) {
-      Toast.create(`Selected suggestion "${item.label}"`)
+      this.$q.notify(`Selected suggestion "${item.label}"`)
     },
     onChange (val) {
       console.log('@change', val)

@@ -1,5 +1,4 @@
 import { version } from '../package.json'
-import { setVue } from './deps'
 import { ready } from './utils/dom'
 import Platform from './plugins/platform'
 import History from './plugins/history'
@@ -25,8 +24,6 @@ export default function (_Vue, opts = {}) {
     return
   }
   this.__installed = true
-
-  setVue(_Vue)
 
   const $q = {
     version,
