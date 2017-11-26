@@ -23,6 +23,7 @@
     @click.native="show"
     @focus.native="__onFocus"
     @blur.native="__onBlur"
+    @keydown.native="__handleKeydown"
   >
     <div
       v-if="hasChips"
@@ -48,7 +49,6 @@
       :class="alignClass"
       v-html="actualValue"
     ></div>
-
     <q-icon
       v-if="!disable && clearable && length"
       slot="after"
@@ -64,6 +64,7 @@
       :disable="disable"
       :offset="[0, 10]"
       :anchor-click="false"
+      :max-height="scrollHeight"
       class="column no-wrap"
       @show="__onFocus"
       @hide="__onClose"
@@ -73,7 +74,8 @@
           v-if="filter"
           ref="filter"
           v-model="terms"
-          @input="reposition"
+          @input="onInputFilter"
+          @keydown="__handleKeydown"
           :placeholder="filterPlaceholder"
           :debounce="100"
           :color="color"
@@ -83,16 +85,18 @@
         ></q-search>
       </q-field-reset>
 
-      <q-list
+    <q-list
+        ref="list"
         link
         :separator="separator"
         class="no-border scroll"
       >
         <template v-if="multiple">
           <q-item-wrapper
-            v-for="opt in visibleOptions"
+            v-for="(opt, index) in visibleOptions"
             :key="JSON.stringify(opt)"
             :cfg="opt"
+            :active="selectedIndex === index"
             slot-replace
             @click.capture="__toggleMultiple(opt.value)"
           >
@@ -112,11 +116,12 @@
         </template>
         <template v-else>
           <q-item-wrapper
-            v-for="opt in visibleOptions"
+            v-for="(opt, index) in visibleOptions"
             :key="JSON.stringify(opt)"
             :cfg="opt"
             slot-replace
-            :active="value === opt.value"
+            :class="{'text-bold text-primary': value === opt.value}"
+            :active="selectedIndex === index"
             @click.capture="__singleSelect(opt.value)"
           >
             <q-radio
@@ -143,6 +148,8 @@ import { QRadio } from '../radio'
 import { QToggle } from '../toggle'
 import SelectMixin from '../../mixins/select'
 import clone from '../../utils/clone'
+import prevent from '../../utils/prevent'
+import { normalizeToInterval } from '../../utils/format'
 
 function defaultFilterFn (terms, obj) {
   return obj.label.toLowerCase().indexOf(terms) > -1
@@ -170,7 +177,11 @@ export default {
     autofocusFilter: Boolean,
     radio: Boolean,
     placeholder: String,
-    separator: Boolean
+    separator: Boolean,
+    scrollHeight: {
+      type: String,
+      default: '300px'
+    }
   },
   computed: {
     optModel () {
@@ -196,11 +207,6 @@ export default {
       return typeof this.filter === 'boolean'
         ? defaultFilterFn
         : this.filter
-    },
-    activeItemSelector () {
-      return this.multiple
-        ? `.q-item-side > ${this.toggle ? '.q-toggle' : '.q-checkbox'} > .active`
-        : `.q-item.active`
     }
   },
   methods: {
@@ -208,28 +214,79 @@ export default {
       if (this.disable) {
         return Promise.reject(new Error())
       }
+      if (this.multiple) {
+        this.selectedIndex = this.options.findIndex(opt => this.value.includes(opt.value))
+      }
+      else {
+        this.selectedIndex = this.options.findIndex(opt => this.value === opt.value)
+      }
       return this.$refs.popover.show()
     },
     hide () {
+      this.selectedIndex = -1
       return this.$refs.popover.hide()
     },
-    reposition () {
+    onInputFilter () {
       const popover = this.$refs.popover
       if (popover.showing) {
         popover.reposition()
+        this.selectedIndex = 0
+        this.$nextTick(this.scrollToSelectedItem)
       }
     },
-
+    setCurrentSelection () {
+      if (this.selectedIndex >= 0) {
+        if (this.multiple) {
+          this.__toggleMultiple(this.visibleOptions[this.selectedIndex].value)
+        }
+        else {
+          this.__singleSelect(this.visibleOptions[this.selectedIndex].value)
+          this.__hidePopover()
+        }
+      }
+    },
+    scrollToSelectedItem (onOpen = false) {
+      const selected = this.$refs.list.querySelector('.q-item.active')
+      if (selected) {
+        this.scrollIntoView(selected, onOpen)
+      }
+    },
+    scrollIntoView (element, onOpen = false) {
+      let
+        filterOffset = 0,
+        middleOffset = 0
+      if (this.$refs.filter) {
+        filterOffset = this.$refs.filter.$el.clientHeight + filterOffset
+      }
+      if (onOpen) {
+        middleOffset = this.$refs.list.clientHeight / 2
+      }
+      const top = element.offsetTop - filterOffset + middleOffset
+      const bottom = element.offsetTop + element.offsetHeight - filterOffset + middleOffset
+      const viewRectTop = this.$refs.list.scrollTop
+      const viewRectBottom = viewRectTop + this.$refs.list.clientHeight
+      if (top < viewRectTop) {
+        this.$refs.list.scrollTop = top
+      }
+      else if (bottom > viewRectBottom) {
+        this.$refs.list.scrollTop = bottom - this.$refs.list.clientHeight
+      }
+    },
+    move (offset) {
+      this.selectedIndex = normalizeToInterval(
+        this.selectedIndex + offset,
+        0,
+        this.visibleOptions.length - 1
+      )
+      this.$nextTick(this.scrollToSelectedItem)
+    },
     __onFocus () {
       this.focused = true
       if (this.filter && this.autofocusFilter) {
         this.$refs.filter.focus()
       }
       this.$emit('focus')
-      const selected = this.$refs.popover.$el.querySelector(this.activeItemSelector)
-      if (selected) {
-        selected.scrollIntoView()
-      }
+      this.$nextTick(this.scrollToSelectedItem.bind(null, true))
     },
     __onBlur (e) {
       this.__onClose()
@@ -248,6 +305,44 @@ export default {
     __singleSelect (val) {
       this.__emit(val)
       this.hide()
+    },
+    __handleKeydown (e) {
+      if (this.$refs.popover.showing) {
+        switch (e.keyCode || e.which) {
+          case 38: // up
+            this.__moveCursor(-1, e)
+            break
+          case 40: // down
+            this.__moveCursor(1, e)
+            break
+          case 13: // enter
+            this.setCurrentSelection()
+            prevent(e)
+            break
+          case 27: // escape
+            this.__hidePopover()
+            prevent(e)
+            break
+        }
+      }
+      else if (e.keyCode === 13 || e.which === 13) { // enter
+        this.show()
+        if (this.filter) {
+          this.$nextTick(this.$refs.filter.focus)
+        }
+        prevent(e)
+      }
+    },
+    __moveCursor (offset, e) {
+      prevent(e)
+      this.move(offset)
+    },
+    __hidePopover () {
+      this.hide()
+      this.$once('blur', () => {
+        this.$refs.input.$el.focus()
+        this.focused = true
+      })
     }
   }
 }

@@ -29,7 +29,8 @@ export default {
   data () {
     return {
       terms: '',
-      focused: false
+      focused: false,
+      selectedIndex: -1
     }
   },
   computed: {

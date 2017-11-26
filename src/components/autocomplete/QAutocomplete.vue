@@ -23,15 +23,11 @@
 import { width } from '../../utils/dom'
 import filter from '../../utils/filter'
 import uid from '../../utils/uid'
+import prevent from '../../utils/prevent'
 import { normalizeToInterval } from '../../utils/format'
 import { QInput } from '../input'
 import { QPopover } from '../popover'
 import { QList, QItemWrapper } from '../list'
-
-function prevent (e) {
-  e.preventDefault()
-  e.stopPropagation()
-}
 
 export default {
   name: 'q-autocomplete',
@@ -233,7 +229,7 @@ export default {
     }
     this.$nextTick(() => {
       this.inputEl = this.__input.getEl()
-      this.inputEl.addEventListener('keyup', this.__handleKeypress)
+      this.inputEl.addEventListener('keydown', this.__handleKeypress)
     })
   },
   beforeDestroy () {
