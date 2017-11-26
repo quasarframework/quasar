@@ -32,11 +32,29 @@ export default {
         }
       },
       methods: {
+        validate (notif) {
+          if (
+            ![
+              'center', 'left', 'right', 'top', 'bottom',
+              'top-left', 'top-right', 'bottom-left', 'bottom-right'
+            ].includes(notif.position)
+          ) {
+            console.error(`Notify: wrong position: ${notif.position}`)
+            return false
+          }
+
+          return true
+        },
         add (notif) {
+          if (!this.validate(notif)) { return }
+
           notif.__uid = uid()
-          console.log(notif.position)
           const action = notif.position.indexOf('top') > -1 ? 'unshift' : 'push'
           this.notifs[notif.position][action](notif)
+
+          notif.timeout && setTimeout(() => {
+            this.remove(notif)
+          }, notif.timeout)
         },
         remove (notif) {
           const index = this.notifs[notif.position].indexOf(notif)

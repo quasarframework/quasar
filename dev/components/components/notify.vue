@@ -27,7 +27,7 @@
           </div>
           <div>
             <q-btn round small color="tertiary" @click="alertAsMethod('center')">
-              <q-icon name="arrow_upward" />
+              <q-icon name="fullscreen_exit" />
             </q-btn>
           </div>
           <div>
@@ -84,12 +84,13 @@ export default {
   },
   methods: {
     alertAsMethod (position) {
-      const { color, icon, message } = alerts[Math.floor(Math.random(5) * 10) % 4]
+      const { color, icon, message } = alerts[ Math.floor(Math.random(5) * 10) % 4 ]
       this.$q.notify({
         color,
         icon,
         message,
-        position: position
+        position,
+        timeout: Math.random() * 5000 + 3000
       })
     }
   }
@@ -123,6 +124,7 @@ export default {
   display inline-block
   margin 10px 10px 0
   transition all 1s
+  z-index 9999 // $z-max
 
 .q-notification-
   &top-enter,
@@ -141,31 +143,38 @@ export default {
   &bottom-enter, &bottom-leave-to
     opacity 0
     transform translateY(50px)
+    z-index 9998 // $z-max - 1
 
   &center-leave-active,
   &top-leave-active
     position absolute
     top 0
     margin 10px 0
+    z-index 9998 // $z-max - 1
   &right-leave-active,
   &top-right-leave-active
     position absolute
     right 0
+    z-index 9998 // $z-max - 1
   &left-leave-active,
   &top-left-leave-active
     position absolute
     left 0
+    z-index 9998 // $z-max - 1
 
   &bottom-leave-active
     position absolute
     bottom 0
     margin 10px 0
+    z-index 9998 // $z-max - 1
   &bottom-right-leave-active
     position absolute
     bottom 0
     right 0
+    z-index 9998 // $z-max - 1
   &bottom-left-leave-active
     position absolute
     bottom 0
     left 0
+    z-index 9998 // $z-max - 1
 </style>
