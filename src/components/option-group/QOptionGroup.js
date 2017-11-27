@@ -1,29 +1,3 @@
-<template>
-  <div class="q-option-group group" :class="{'q-option-group-inline-opts': inline}">
-    <div v-for="(opt, index) in options">
-      <component
-        :is="component"
-        v-model="model"
-        :val="opt.value"
-        :disable="disable || opt.disable"
-        :label="opt.label"
-        :left-label="leftLabel"
-        :color="opt.color || color"
-        :checked-icon="opt.checkedIcon"
-        :unchecked-icon="opt.uncheckedIcon"
-        :indeterminate-icon="opt.indeterminateIcon"
-        :indeterminate="indeterminate"
-        :dark="opt.dark || dark"
-        :keep-color="opt.keepColor || keepColor"
-        @focus="__onFocus"
-        @blur="__onBlur"
-        @change="__onChange"
-      ></component>
-    </div>
-  </div>
-</template>
-
-<script>
 import { QRadio } from '../radio'
 import { QCheckbox } from '../checkbox'
 import { QToggle } from '../toggle'
@@ -108,6 +82,42 @@ export default {
     if (this.__field) {
       this.field.__unregisterInput()
     }
+  },
+  render (h) {
+    return h(
+      'div',
+      {
+        staticClass: 'q-option-group group',
+        'class': { 'q-option-group-inline-opts': this.inline }
+      },
+      this.options.map(
+        opt => h('div', [
+          h(this.component, {
+            props: {
+              value: this.model,
+              val: opt.value,
+              disable: this.disable || opt.disable,
+              label: opt.label,
+              leftLabel: opt.leftLabel,
+              color: opt.color || this.color,
+              checkedIcon: opt.checkedIcon,
+              uncheckedIcon: opt.uncheckedIcon,
+              indeterminateIcon: opt.indeterminateIcon,
+              indeterminate: opt.indeterminate,
+              dark: opt.dark || this.dark,
+              keepColor: opt.keepColor || this.keepColor
+            },
+            on: {
+              input: val => {
+                this.model = val
+              },
+              focus: this.__onFocus,
+              blur: this.__onBlur,
+              change: this.__onChange
+            }
+          })
+        ])
+      )
+    )
   }
 }
-</script>
