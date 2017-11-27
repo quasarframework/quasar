@@ -48,15 +48,18 @@ export default {
               timeout: 5000
             }
           }
-          else if (notif.position && !positionList.includes(notif.position)) {
-            console.error(`Notify: wrong position: ${notif.position}`)
-            return false
+          else if (notif.position) {
+            if (!positionList.includes(notif.position)) {
+              console.error(`Notify: wrong position: ${notif.position}`)
+              return false
+            }
+          }
+          else {
+            notif.position = 'bottom'
           }
 
           notif.__uid = uid()
-          if (!notif.position) {
-            notif.position = 'bottom'
-          }
+
           const action = notif.position.indexOf('top') > -1 ? 'unshift' : 'push'
           this.notifs[notif.position][action](notif)
 
