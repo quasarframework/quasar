@@ -1,24 +1,3 @@
-<template>
-  <div class="pull-to-refresh">
-    <div
-      class="pull-to-refresh-container"
-      :style="style"
-      v-touch-pan.vertical.scroll="__pull"
-    >
-      <div class="pull-to-refresh-message row flex-center">
-        <q-icon v-show="state !== 'refreshing'" :class="{'rotate-180': state === 'pulled'}" name="arrow_downward"></q-icon>
-        <q-icon v-show="state === 'refreshing'" class="animate-spin" :name="refreshIcon"></q-icon>
-
-        &nbsp;&nbsp;
-        <span v-html="message"></span>
-      </div>
-
-      <slot></slot>
-    </div>
-  </div>
-</template>
-
-<script>
 import { getScrollTarget, getScrollPosition } from '../../utils/scroll'
 import { cssTransform } from '../../utils/dom'
 import { QIcon } from '../icon'
@@ -26,9 +5,6 @@ import TouchPan from '../../directives/touch-pan'
 
 export default {
   name: 'q-pull-to-refresh',
-  components: {
-    QIcon
-  },
   directives: {
     TouchPan
   },
@@ -162,6 +138,42 @@ export default {
     this.$nextTick(() => {
       this.scrollContainer = this.inline ? this.$el.parentNode : getScrollTarget(this.$el)
     })
+  },
+  render (h) {
+    return h('div', { staticClass: 'pull-to-refresh' }, [
+      h('div', {
+        staticClass: 'pull-to-refresh-container',
+        style: this.style,
+        directives: [{
+          name: 'touch-pan',
+          modifiers: {
+            vertical: true,
+            scroll: true
+          },
+          value: this.__pull
+        }]
+      }, [
+        h('div', { staticClass: 'pull-to-refresh-message row flex-center' }, [
+          h(QIcon, {
+            'class': { 'rotate-180': this.state === 'pulled' },
+            props: { name: 'arrow_downward' },
+            directives: [{
+              name: 'show',
+              value: this.state !== 'refreshing'
+            }]
+          }),
+          h(QIcon, {
+            staticClass: 'animate-spin',
+            props: { name: this.refreshIcon },
+            directives: [{
+              name: 'show',
+              value: this.state === 'refreshing'
+            }]
+          }),
+          ` ${this.message}`
+        ]),
+        this.$slots.default
+      ])
+    ])
   }
 }
-</script>

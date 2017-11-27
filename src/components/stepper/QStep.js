@@ -1,24 +1,3 @@
-<template>
-  <div
-    class="q-stepper-step"
-    :style="style"
-  >
-    <step-tab
-      v-if="__stepper.vertical"
-      :vm="this"
-    ></step-tab>
-
-    <q-slide-transition>
-      <div v-if="active" class="q-stepper-step-content">
-        <div class="q-stepper-step-inner">
-          <slot></slot>
-        </div>
-      </div>
-    </q-slide-transition>
-  </div>
-</template>
-
-<script>
 import { QSlideTransition } from '../slide-transition'
 import StepTab from './StepTab'
 import uid from '../../utils/uid'
@@ -31,10 +10,6 @@ export default {
         console.error('QStep needs to be child of QStepper')
       }
     }
-  },
-  components: {
-    QSlideTransition,
-    StepTab
   },
   props: {
     name: {
@@ -121,6 +96,26 @@ export default {
   },
   beforeDestroy () {
     this.__stepper.__unregisterStep(this)
+  },
+  render (h) {
+    return h('div', {
+      staticClass: 'q-stepper-step',
+      style: this.style
+    }, [
+      this.__stepper.vertical
+        ? h(StepTab, { props: { vm: this } })
+        : null,
+      h(QSlideTransition, [
+        this.active
+          ? h('div', {
+            staticClass: 'q-stepper-step-content'
+          }, [
+            h('div', { staticClass: 'q-stepper-step-inner' }, [
+              this.$slots.default
+            ])
+          ])
+          : null
+      ])
+    ])
   }
 }
-</script>

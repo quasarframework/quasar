@@ -1,15 +1,3 @@
-<template>
-  <div class="q-infinite-scroll">
-    <div ref="content" class="q-infinite-scroll-content">
-      <slot></slot>
-    </div>
-    <div class="q-infinite-scroll-message" v-show="fetching">
-      <slot name="message"></slot>
-    </div>
-  </div>
-</template>
-
-<script>
 import { height, offset } from '../../utils/dom'
 import { debounce } from '../../utils/debounce'
 import { getScrollTarget } from '../../utils/scroll'
@@ -95,6 +83,22 @@ export default {
   },
   beforeDestroy () {
     this.scrollContainer.removeEventListener('scroll', this.poll)
+  },
+  render (h) {
+    return h('div', { staticClass: 'q-infinite-scroll' }, [
+      h('div', {
+        ref: 'content',
+        staticClass: 'q-infinite-scroll-content'
+      }, [ this.$slots.default ]),
+      h('div', {
+        staticClass: 'q-infinite-scroll-message',
+        directives: [{
+          name: 'show',
+          value: this.fetching
+        }]
+      }, [
+        this.$slots.message
+      ])
+    ])
   }
 }
-</script>

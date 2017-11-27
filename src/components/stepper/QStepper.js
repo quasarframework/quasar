@@ -1,25 +1,3 @@
-<template>
-  <div
-    class="q-stepper column overflow-hidden relative-position"
-    :class="classes"
-  >
-    <div
-      v-if="!vertical"
-      class="q-stepper-header row items-stretch justify-between shadow-1"
-      :class="{'alternative-labels': alternativeLabels}"
-    >
-      <step-tab
-        v-for="(step, index) in steps"
-        :key="step.name"
-        :vm="step"
-      ></step-tab>
-    </div>
-
-    <slot></slot>
-  </div>
-</template>
-
-<script>
 import StepTab from './StepTab'
 import { frameDebounce } from '../../utils/debounce'
 
@@ -168,6 +146,25 @@ export default {
   },
   created () {
     this.__sortSteps = frameDebounce(this.__sortSteps)
+  },
+  render (h) {
+    return h('div', {
+      staticClass: 'q-stepper column overflow-hidden relative-position',
+      'class': this.classes
+    }, [
+      this.vertical
+        ? null
+        : h('div', {
+          staticClass: 'q-stepper-header row items-stretch justify-between shadow-1',
+          'class': { 'alternative-labels': this.alternativeLabels }
+        },
+        this.steps.map(step => h(StepTab, {
+          key: step.name,
+          props: {
+            vm: step
+          }
+        }))),
+      this.$slots.default
+    ])
   }
 }
-</script>

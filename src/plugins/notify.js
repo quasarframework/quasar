@@ -45,7 +45,8 @@ export default {
           if (typeof notif === 'string') {
             notif = {
               message: notif,
-              timeout: 5000
+              timeout: 5000,
+              position: 'bottom'
             }
           }
           else if (notif.position) {

@@ -1,30 +1,7 @@
-<template>
-  <q-popover
-    fit
-    @show="$emit('show')"
-    @hide="$emit('hide')"
-    :offset="[0, 10]"
-    ref="popover"
-    :anchor-click="false"
-  >
-    <q-list no-border link :separator="separator" :style="computedWidth">
-      <q-item-wrapper
-        v-for="(result, index) in computedResults"
-        :key="result.id || JSON.stringify(result)"
-        :cfg="result"
-        :class="{active: selectedIndex === index}"
-        @click="setValue(result)"
-      ></q-item-wrapper>
-    </q-list>
-  </q-popover>
-</template>
-
-<script>
 import { width } from '../../utils/dom'
 import filter from '../../utils/filter'
 import uid from '../../utils/uid'
 import { normalizeToInterval } from '../../utils/format'
-import { QInput } from '../input'
 import { QPopover } from '../popover'
 import { QList, QItemWrapper } from '../list'
 
@@ -35,12 +12,6 @@ function prevent (e) {
 
 export default {
   name: 'q-autocomplete',
-  components: {
-    QInput,
-    QPopover,
-    QList,
-    QItemWrapper
-  },
   props: {
     minCharacters: {
       type: Number,
@@ -91,9 +62,9 @@ export default {
   },
   computed: {
     computedResults () {
-      if (this.maxResults && this.results.length > 0) {
-        return this.results.slice(0, this.maxResults)
-      }
+      return this.maxResults && this.results.length > 0
+        ? this.results.slice(0, this.maxResults)
+        : []
     },
     computedWidth () {
       return {minWidth: this.width}
@@ -246,6 +217,36 @@ export default {
       this.inputEl.removeEventListener('keydown', this.__handleKeypress)
       this.hide()
     }
+  },
+  render (h) {
+    return h(QPopover, {
+      ref: 'popover',
+      props: {
+        fit: true,
+        offset: [0, 10],
+        anchorClick: false
+      },
+      on: {
+        show: () => this.$emit('show'),
+        hide: () => this.$emit('hide')
+      }
+    }, [
+      h(QList, {
+        props: {
+          noBorder: true,
+          link: true,
+          separator: this.separator
+        },
+        style: this.computedWidth
+      },
+      this.computedResults.map((result, index) => h(QItemWrapper, {
+        key: result.id || JSON.stringify(result),
+        'class': { active: this.selectedIndex === index },
+        props: { cfg: result },
+        on: {
+          click: () => { this.setValue(result) }
+        }
+      })))
+    ])
   }
 }
-</script>

@@ -434,7 +434,8 @@ export default {
         }
       }
 
-      this.queue.map(file => this.__getUploadPromise(file))
+      this.queue
+        .map(file => this.__getUploadPromise(file))
         .forEach(promise => {
           promise.then(solved).catch(solved)
         })
