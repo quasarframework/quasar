@@ -45,8 +45,7 @@ export default {
           if (typeof notif === 'string') {
             notif = {
               message: notif,
-              timeout: 5000,
-              position: 'bottom'
+              timeout: 5000
             }
           }
           else if (!positionList.includes(notif.position)) {
@@ -55,6 +54,9 @@ export default {
           }
 
           notif.__uid = uid()
+          if (!notif.position) {
+            notif.position = 'bottom'
+          }
           const action = notif.position.indexOf('top') > -1 ? 'unshift' : 'push'
           this.notifs[notif.position][action](notif)
 
