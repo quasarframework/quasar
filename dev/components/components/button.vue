@@ -4,7 +4,7 @@
       <p class="caption">Regular (rectangle) and Circular</p>
       <q-btn color="primary">Some very, but very long button title that should wrap to the next line without any problems</q-btn>
       <p class="group">
-        <q-btn icon="alarm" color="orange" label="Icoon" />
+        <q-btn icon="alarm" color="orange" label="No ripple" no-ripple />
         <q-btn icon="alarm" color="orange" label="Icoon" />
         <q-btn icon="ion-shuffle" label="Icoon" />
         <q-btn icon="fa-bath" label="Icoon" />

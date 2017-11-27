@@ -3,7 +3,6 @@
     <div class="layout-padding">
       <p class="caption">
         Notify the user something is going on under the covers.
-        There is also the <em>progress</em> Dialog type you can use.
       </p>
       <div class="group">
         <q-btn push color="secondary" @click="noMessage()">
