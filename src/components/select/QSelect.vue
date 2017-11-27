@@ -253,17 +253,15 @@ export default {
       }
     },
     scrollIntoView (element, onOpen = false) {
-      let
-        filterOffset = 0,
-        middleOffset = 0
+      let offset = 0
       if (this.$refs.filter) {
-        filterOffset = this.$refs.filter.$el.clientHeight
+        offset -= this.$refs.filter.$el.clientHeight
       }
       if (onOpen) {
-        middleOffset = this.$refs.list.clientHeight / 2
+        offset += this.$refs.list.clientHeight / 2
       }
-      const top = element.offsetTop - filterOffset + middleOffset
-      const bottom = element.offsetTop + element.offsetHeight - filterOffset + middleOffset
+      const top = element.offsetTop + offset
+      const bottom = element.offsetTop + element.offsetHeight + offset
       const viewRectTop = this.$refs.list.scrollTop
       const viewRectBottom = viewRectTop + this.$refs.list.clientHeight
       if (top < viewRectTop) {
