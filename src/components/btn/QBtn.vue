@@ -91,7 +91,7 @@ export default {
         })
       }
 
-      if (this.$q.theme !== 'ios' || this.noRipple) {
+      if (__THEME__ !== 'ios' && this.noRipple) {
         trigger()
       }
       else {
