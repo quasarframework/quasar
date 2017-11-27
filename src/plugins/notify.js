@@ -98,12 +98,7 @@ export default {
             return h(QAlert, {
               key: notif.__uid,
               staticClass: 'q-notification',
-              props: {
-                color: notif.color,
-                textColor: notif.textColor,
-                icon: notif.icon,
-                actions: notif.actions
-              }
+              props: notif
             }, [ notif.message ])
           }))
         }))

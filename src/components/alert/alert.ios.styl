@@ -9,17 +9,21 @@
 
 .q-alert-side
   font-size 150%
-  background rgba(0, 0, 0, .2)
+  background rgba(0, 0, 0, .1)
 
 .q-alert-actions
   margin-top 4px
-  border-top 1px solid rgba(0, 0, 0, .2)
+  border-top 1px solid currentColor
+  opacity .7
   padding-top 4px
   font-size .8rem
   span
     cursor pointer
   span + span
     margin-left 16px
+
+.q-notifications > div
+  z-index $z-notify
 
 .q-notification-list-center
   pointer-events none
@@ -28,21 +32,18 @@
   right 0
   bottom 0
   margin-bottom 10px
-  z-index $z-notify
 .q-notification-list-top
   pointer-events none
   top 0
   left 0
   right 0
   margin-bottom 10px
-  z-index $z-notify
 .q-notification-list-bottom
   pointer-events none
   left 0
   right 0
   bottom 0
   margin-bottom 10px
-  z-index $z-notify
 
 .q-notification
   border-radius 5px
@@ -50,6 +51,7 @@
   display inline-block
   margin 10px 10px 0
   transition all 1s
+  z-index $z-notify
 
 .q-notification-
   &top-enter,
