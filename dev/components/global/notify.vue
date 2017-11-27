@@ -93,7 +93,6 @@ export default {
         message,
         position,
         avatar,
-        wide: Math.random() * 100 > 70,
         actions: Math.random() * 100 > 50
           ? [ { label: 'Close', handler: () => remove() } ]
           : null,

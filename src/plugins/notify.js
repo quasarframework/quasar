@@ -93,7 +93,7 @@ export default {
 
           return h(QTransition, {
             key: pos,
-            staticClass: `q-notification-list-${vert} fixed column ${classes}`,
+            staticClass: `q-notification-list q-notification-list-${vert} fixed column ${classes}`,
             tag: 'div',
             props: {
               group: true,
@@ -104,9 +104,6 @@ export default {
             return h(QAlert, {
               key: notif.__uid,
               staticClass: 'q-notification',
-              'class': {
-                'self-stretch': notif.wide
-              },
               props: notif
             }, [ notif.message ])
           }))

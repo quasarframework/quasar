@@ -26,25 +26,18 @@
 .q-notifications > div
   z-index $z-notify
 
+.q-notification-list
+  pointer-events none
+  left 0
+  right 0
+  margin-bottom 10px
 .q-notification-list-center
-  pointer-events none
   top 0
-  left 0
-  right 0
   bottom 0
-  margin-bottom 10px
 .q-notification-list-top
-  pointer-events none
   top 0
-  left 0
-  right 0
-  margin-bottom 10px
 .q-notification-list-bottom
-  pointer-events none
-  left 0
-  right 0
   bottom 0
-  margin-bottom 10px
 
 .q-notification
   border-radius 5px
@@ -61,6 +54,7 @@
   &top-enter, &top-leave-to
     opacity 0
     transform translateY(-50px)
+    z-index ($z-notify - 1)
 
   &center-enter, &center-leave-to,
   &bottom-enter, &bottom-leave-to,

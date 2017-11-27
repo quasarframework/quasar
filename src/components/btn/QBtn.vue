@@ -79,6 +79,7 @@ export default {
         return
       }
 
+      clearTimeout(this.timer)
       const trigger = () => {
         if (this.loader !== false || this.$slots.loading) {
           this.loading = true
