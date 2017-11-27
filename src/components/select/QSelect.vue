@@ -249,26 +249,23 @@ export default {
     scrollToSelectedItem (onOpen = false) {
       const selected = this.$refs.list.querySelector('.q-item.active')
       if (selected) {
-        this.scrollIntoView(selected, onOpen)
-      }
-    },
-    scrollIntoView (element, onOpen = false) {
-      let offset = 0
-      if (this.$refs.filter) {
-        offset -= this.$refs.filter.$el.clientHeight
-      }
-      if (onOpen) {
-        offset += this.$refs.list.clientHeight / 2
-      }
-      const top = element.offsetTop + offset
-      const bottom = element.offsetTop + element.offsetHeight + offset
-      const viewRectTop = this.$refs.list.scrollTop
-      const viewRectBottom = viewRectTop + this.$refs.list.clientHeight
-      if (top < viewRectTop) {
-        this.$refs.list.scrollTop = top
-      }
-      else if (bottom > viewRectBottom) {
-        this.$refs.list.scrollTop = bottom - this.$refs.list.clientHeight
+        let offset = 0
+        if (this.$refs.filter) {
+          offset -= this.$refs.filter.$el.clientHeight
+        }
+        if (onOpen) {
+          offset += this.$refs.list.clientHeight / 2
+        }
+        const selectedTop = selected.offsetTop + offset
+        const selectedBottom = selected.offsetTop + selected.offsetHeight + offset
+        const listTop = this.$refs.list.scrollTop
+        const listBottom = listTop + this.$refs.list.clientHeight
+        if (selectedTop < listTop) {
+          this.$refs.list.scrollTop = selectedTop
+        }
+        else if (selectedBottom > listBottom) {
+          this.$refs.list.scrollTop = selectedBottom - this.$refs.list.clientHeight
+        }
       }
     },
     move (offset) {
