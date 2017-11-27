@@ -390,6 +390,7 @@ export default {
           { page, rowsPerPage, sortBy, descending } = props.pagination
 
         if (props.filter) {
+          console.log('filter hit')
           rows = table.filterMethod(rows, props.filter)
         }
 

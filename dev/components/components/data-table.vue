@@ -569,6 +569,8 @@ export default {
           rows = table.sortMethod(rows, sortBy, descending)
         }
 
+        this.serverPagination.rowsNumber = rows.length
+
         if (rowsPerPage) {
           rows = rows.slice((page - 1) * rowsPerPage, page * rowsPerPage)
         }
