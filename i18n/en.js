@@ -20,14 +20,6 @@ export default {
     release: 'Release to refresh',
     refresh: 'Refreshing...'
   },
-  storageUnits: {
-    b: 'B',
-    kb: 'kB',
-    mb: 'MB',
-    bg: 'GB',
-    tb: 'TB',
-    pb: 'PB'
-  },
   dataTable: {
     noData: 'No data available',
     noResults: 'No matching records found',
