@@ -134,12 +134,12 @@ export default {
     },
     okLabel () {
       return this.ok === true
-        ? 'OK'
+        ? this.$q.i18n.label.ok
         : this.ok
     },
     cancelLabel () {
       return this.cancel === true
-        ? 'Cancel'
+        ? this.$q.i18n.label.cancel
         : this.cancel
     }
   },
