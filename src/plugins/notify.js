@@ -48,7 +48,7 @@ export default {
               timeout: 5000
             }
           }
-          else if (!positionList.includes(notif.position)) {
+          else if (notif.position && !positionList.includes(notif.position)) {
             console.error(`Notify: wrong position: ${notif.position}`)
             return false
           }
