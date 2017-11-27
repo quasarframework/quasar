@@ -315,7 +315,6 @@ export default {
             this.__moveCursor(1, e)
             break
           case 13: // enter
-          case 32: // space    
             this.setCurrentSelection()
             prevent(e)
             break
