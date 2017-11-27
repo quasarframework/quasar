@@ -236,7 +236,7 @@ export default {
       }
     },
     setCurrentSelection () {
-      if (this.selectedIndex >= 0) {
+      if (this.selectedIndex >= 0 && this.visibleOptions[this.selectedIndex]) {
         if (this.multiple) {
           this.__toggleMultiple(this.visibleOptions[this.selectedIndex].value)
         }
