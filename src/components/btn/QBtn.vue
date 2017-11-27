@@ -91,7 +91,7 @@ export default {
         })
       }
 
-      if (__THEME__ !== 'ios' && this.noRipple) {
+      if (__THEME__ !== 'mat' || this.noRipple) {
         trigger()
       }
       else {
