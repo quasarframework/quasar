@@ -90,7 +90,7 @@
         link
         :separator="separator"
         class="no-border scroll"
-        :style="{ maxHeight: scrollHeight }"
+        :style="{ maxHeight: listMaxHeight }"
       >
         <template v-if="multiple">
           <q-item-wrapper
@@ -179,7 +179,7 @@ export default {
     radio: Boolean,
     placeholder: String,
     separator: Boolean,
-    scrollHeight: {
+    listMaxHeight: {
       type: String,
       default: '300px'
     }
@@ -315,6 +315,7 @@ export default {
             this.__moveCursor(1, e)
             break
           case 13: // enter
+          case 32: // space    
             this.setCurrentSelection()
             prevent(e)
             break
