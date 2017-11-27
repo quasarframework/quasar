@@ -24,7 +24,8 @@ export default {
     big: Boolean,
     color: String,
     glossy: Boolean,
-    compact: Boolean
+    compact: Boolean,
+    noRipple: Boolean
   },
   computed: {
     size () {

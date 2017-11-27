@@ -1,6 +1,6 @@
 <template>
   <button
-    v-ripple.mat="!isDisabled"
+    v-ripple.mat="hasRipple"
     @click="click"
     class="q-btn row inline flex-center q-focusable q-hoverable relative-position"
     :class="classes"
@@ -66,6 +66,9 @@ export default {
     },
     width () {
       return `${between(this.percentage, 0, 100)}%`
+    },
+    hasRipple () {
+      return !this.noRipple && !this.isDisabled
     }
   },
   methods: {
@@ -75,15 +78,29 @@ export default {
       if (this.isDisabled) {
         return
       }
-      if (this.loader !== false || this.$slots.loading) {
-        this.loading = true
-        this.$emit('input', true)
+
+      clearTimeout(this.timer)
+      const trigger = () => {
+        if (this.loader !== false || this.$slots.loading) {
+          this.loading = true
+          this.$emit('input', true)
+        }
+        this.$emit('click', e, () => {
+          this.loading = false
+          this.$emit('input', false)
+        })
       }
-      this.$emit('click', e, () => {
-        this.loading = false
-        this.$emit('input', false)
-      })
+
+      if (__THEME__ !== 'mat' || this.noRipple) {
+        trigger()
+      }
+      else {
+        this.timer = setTimeout(trigger, 350)
+      }
     }
+  },
+  beforeDestroy () {
+    clearTimeout(this.timer)
   }
 }
 </script>

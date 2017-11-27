@@ -2,6 +2,12 @@ import { QAlert } from '../components/alert'
 import { QTransition } from '../components/transition'
 import uid from '../utils/uid'
 
+const positionList = [
+  'top-left', 'top-right',
+  'bottom-left', 'bottom-right',
+  'top', 'bottom', 'left', 'right', 'center'
+]
+
 export default {
   create (opts) {
     return this.__vm.add(opts)
@@ -43,17 +49,18 @@ export default {
               position: 'bottom'
             }
           }
-          else if (
-            ![
-              'center', 'left', 'right', 'top', 'bottom',
-              'top-left', 'top-right', 'bottom-left', 'bottom-right'
-            ].includes(notif.position)
-          ) {
-            console.error(`Notify: wrong position: ${notif.position}`)
-            return false
+          else if (notif.position) {
+            if (!positionList.includes(notif.position)) {
+              console.error(`Notify: wrong position: ${notif.position}`)
+              return false
+            }
+          }
+          else {
+            notif.position = 'bottom'
           }
 
           notif.__uid = uid()
+
           const action = notif.position.indexOf('top') > -1 ? 'unshift' : 'push'
           this.notifs[notif.position][action](notif)
 
@@ -79,7 +86,7 @@ export default {
         }
       },
       render (h) {
-        return h('div', { staticClass: 'q-notifications' }, ['top-left', 'top-right', 'bottom-left', 'bottom-right', 'top', 'bottom', 'left', 'right', 'center'].map(pos => {
+        return h('div', { staticClass: 'q-notifications' }, positionList.map(pos => {
           const
             vert = ['left', 'center', 'right'].includes(pos) ? 'center' : (pos.indexOf('top') > -1 ? 'top' : 'bottom'),
             align = pos.indexOf('left') > -1 ? 'start' : (pos.indexOf('right') > -1 ? 'end' : 'center'),
@@ -87,7 +94,7 @@ export default {
 
           return h(QTransition, {
             key: pos,
-            staticClass: `q-notification-list-${vert} fixed column ${classes}`,
+            staticClass: `q-notification-list q-notification-list-${vert} fixed column ${classes}`,
             tag: 'div',
             props: {
               group: true,
@@ -98,12 +105,7 @@ export default {
             return h(QAlert, {
               key: notif.__uid,
               staticClass: 'q-notification',
-              props: {
-                color: notif.color,
-                textColor: notif.textColor,
-                icon: notif.icon,
-                actions: notif.actions
-              }
+              props: notif
             }, [ notif.message ])
           }))
         }))

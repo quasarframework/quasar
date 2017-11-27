@@ -1,7 +1,6 @@
 import Top from './table-top'
 import TableHeader from './table-header'
 import TableBody from './table-body'
-import TableFooter from './table-footer'
 import Bottom from './table-bottom'
 
 import Sort from './table-sort'
@@ -19,7 +18,6 @@ export default {
     Top,
     TableHeader,
     TableBody,
-    TableFooter,
     Bottom,
     Sort,
     Filter,
@@ -100,7 +98,7 @@ export default {
       const { sortBy, descending, rowsPerPage } = this.computedPagination
 
       if (this.hasFilter && this.filter) {
-        rows = this.filterMethod(rows, this.filter, this.computedCols)
+        rows = this.filterMethod(rows, this.filter, this.computedCols, this.getCellValue)
       }
 
       if (this.columnToSort) {
@@ -141,8 +139,7 @@ export default {
           h('table', { staticClass: `q-table q-table-${this.separator}-separator${this.dark ? ' q-table-dark' : ''}` },
             [
               this.getTableHeader(h),
-              this.getTableBody(h),
-              this.getTableFooter(h)
+              this.getTableBody(h)
             ]
           )
         ]),

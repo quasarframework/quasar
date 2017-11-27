@@ -1,6 +1,7 @@
 <template>
   <div class="layout-padding">
     <h4>Emulate server-side</h4>
+    {{serverPagination}}
     <q-table
       ref="server"
       color="primary"
@@ -389,6 +390,7 @@ export default {
           { page, rowsPerPage, sortBy, descending } = props.pagination
 
         if (props.filter) {
+          console.log('filter hit')
           rows = table.filterMethod(rows, props.filter)
         }
 
@@ -396,11 +398,12 @@ export default {
           rows = table.sortMethod(rows, sortBy, descending)
         }
 
+        this.serverPagination.rowsNumber = rows.length
+
         if (rowsPerPage) {
           rows = rows.slice((page - 1) * rowsPerPage, page * rowsPerPage)
         }
 
-        this.serverPagination.rowsNumber = rows.length
         this.serverData = rows
         this.loader = false
       }, 1500)
