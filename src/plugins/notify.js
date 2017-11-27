@@ -2,6 +2,12 @@ import { QAlert } from '../components/alert'
 import { QTransition } from '../components/transition'
 import uid from '../utils/uid'
 
+const positionList = [
+  'top-left', 'top-right',
+  'bottom-left', 'bottom-right',
+  'top', 'bottom', 'left', 'right', 'center'
+]
+
 export default {
   create (opts) {
     return this.__vm.add(opts)
@@ -43,12 +49,7 @@ export default {
               position: 'bottom'
             }
           }
-          else if (
-            ![
-              'center', 'left', 'right', 'top', 'bottom',
-              'top-left', 'top-right', 'bottom-left', 'bottom-right'
-            ].includes(notif.position)
-          ) {
+          else if (!positionList.includes(notif.position)) {
             console.error(`Notify: wrong position: ${notif.position}`)
             return false
           }
@@ -79,7 +80,7 @@ export default {
         }
       },
       render (h) {
-        return h('div', { staticClass: 'q-notifications' }, ['top-left', 'top-right', 'bottom-left', 'bottom-right', 'top', 'bottom', 'left', 'right', 'center'].map(pos => {
+        return h('div', { staticClass: 'q-notifications' }, positionList.map(pos => {
           const
             vert = ['left', 'center', 'right'].includes(pos) ? 'center' : (pos.indexOf('top') > -1 ? 'top' : 'bottom'),
             align = pos.indexOf('left') > -1 ? 'start' : (pos.indexOf('right') > -1 ? 'end' : 'center'),
@@ -98,6 +99,9 @@ export default {
             return h(QAlert, {
               key: notif.__uid,
               staticClass: 'q-notification',
+              'class': {
+                'self-stretch': notif.wide
+              },
               props: notif
             }, [ notif.message ])
           }))

@@ -46,8 +46,7 @@ export default {
     value: Boolean,
     loader: Boolean,
     percentage: Number,
-    darkPercentage: Boolean,
-    noRipple: Boolean
+    darkPercentage: Boolean
   },
   data () {
     return {
