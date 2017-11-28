@@ -38,7 +38,8 @@ module.exports = {
       'quasar-css': resolve(`src/css/${env.platform.theme}.styl`),
       assets: resolve('dev/assets'),
       components: resolve('dev/components'),
-      data: resolve('dev/data')
+      data: resolve('dev/data'),
+      variables: resolve(`src/css/core.variables.styl`)
     }
   },
   module: {
