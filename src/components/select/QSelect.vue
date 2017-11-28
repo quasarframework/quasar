@@ -301,9 +301,6 @@ export default {
     },
     __onFocus () {
       this.focused = true
-      if (this.filter && this.$q.platform.is.desktop) {
-        this.$refs.filter.focus()
-      }
       this.$emit('focus')
     },
     __onBlur (e) {
