@@ -66,8 +66,8 @@
       :anchor-click="false"
       max-height="100vh"
       class="column no-wrap no-scroll"
-      @show="__onFocus"
-      @hide="__onClose"
+      @show="onShowPopover"
+      @hide="onHidePopover"
     >
       <q-field-reset>
         <q-search
@@ -76,6 +76,7 @@
           v-model="terms"
           @input="onInputFilter"
           @keydown="__handleKeydown"
+          @focus="onFocusFilter"
           :placeholder="filterPlaceholder"
           :debounce="100"
           :color="color"
@@ -175,13 +176,17 @@ export default {
       type: String,
       default: 'Filter'
     },
-    autofocusFilter: Boolean,
     radio: Boolean,
     placeholder: String,
     separator: Boolean,
     listMaxHeight: {
       type: String,
       default: '300px'
+    }
+  },
+  data () {
+    return {
+      listShowing: false
     }
   },
   computed: {
@@ -212,9 +217,10 @@ export default {
   },
   methods: {
     show () {
-      if (this.disable) {
+      if (this.disable || this.listShowing) {
         return Promise.reject(new Error())
       }
+      this.listShowing = true
       if (this.multiple) {
         this.selectedIndex = this.options.findIndex(opt => this.value.includes(opt.value))
       }
@@ -231,9 +237,14 @@ export default {
       const popover = this.$refs.popover
       if (popover.showing) {
         popover.reposition()
-        this.selectedIndex = 0
+        this.selectedIndex = this.$q.platform.is.desktop ? 0 : -1
         this.$nextTick(this.scrollToSelectedItem)
       }
+    },
+    onFocusFilter () {
+      this.$nextTick(() => {
+        this.listShowing = true
+      })
     },
     setCurrentSelection () {
       if (this.selectedIndex >= 0 && this.visibleOptions[this.selectedIndex]) {
@@ -241,8 +252,8 @@ export default {
           this.__toggleMultiple(this.visibleOptions[this.selectedIndex].value)
         }
         else {
-          this.__singleSelect(this.visibleOptions[this.selectedIndex].value)
-          this.__hidePopover()
+          this.__emit(this.visibleOptions[this.selectedIndex].value)
+          this.__onEscape()
         }
       }
     },
@@ -276,16 +287,28 @@ export default {
       )
       this.$nextTick(this.scrollToSelectedItem)
     },
+    onShowPopover () {
+      if (this.filter && this.$q.platform.is.desktop) {
+        this.$refs.filter.focus()
+      }
+      this.$nextTick(this.scrollToSelectedItem.bind(null, true))
+    },
+    onHidePopover () {
+      this.terms = ''
+      this.$nextTick(() => {
+        this.listShowing = false
+      })
+    },
     __onFocus () {
       this.focused = true
-      if (this.filter && this.autofocusFilter) {
+      if (this.filter && this.$q.platform.is.desktop) {
         this.$refs.filter.focus()
       }
       this.$emit('focus')
-      this.$nextTick(this.scrollToSelectedItem.bind(null, true))
     },
     __onBlur (e) {
-      this.__onClose()
+      this.focused = false
+      this.$emit('blur')
       setTimeout(() => {
         const el = document.activeElement
         if (el !== document.body && !this.$refs.popover.$el.contains(el)) {
@@ -293,10 +316,9 @@ export default {
         }
       }, 1)
     },
-    __onClose () {
-      this.focused = false
-      this.$emit('blur')
-      this.terms = ''
+    __onEscape () {
+      this.hide()
+      this.$refs.input.$el.focus()
     },
     __singleSelect (val) {
       this.__emit(val)
@@ -316,7 +338,7 @@ export default {
             prevent(e)
             break
           case 27: // escape
-            this.__hidePopover()
+            this.__onEscape()
             prevent(e)
             break
         }
@@ -332,11 +354,6 @@ export default {
     __moveCursor (offset, e) {
       prevent(e)
       this.move(offset)
-    },
-    __hidePopover () {
-      this.hide()
-      this.$refs.input.$el.focus()
-      this.focused = true
     }
   }
 }
