@@ -20,6 +20,16 @@
   bottom 0
   left 0
   width 15px
+  &.q-timeline-dot-icon
+    width 31px
+    left -8px
+    .q-icon
+      position absolute
+      top 9px
+      left 5px
+      font-size 21px
+      color white
+      transition color .3s ease-in-out
 
   &:before, &:after
     content ''
@@ -34,12 +44,18 @@
     top 4px
     left 0
     transition background .3s ease-in-out, border .3s ease-in-out
+  &.q-timeline-dot-icon:before
+    height 31px
+    width 31px
   &:after
     width 3px
     opacity .4
     top 24px
     bottom 0
     left 6px
+  &.q-timeline-dot-icon:after
+    top 41px
+    left 14px
 
 .q-timeline-dark
   color white
@@ -54,9 +70,12 @@
     padding-bottom 0
     .q-timeline-dot:after
       content none
-  &:hover .q-timeline-dot:before
-    background transparent
-    border 3px solid currentColor
+  &:hover
+    .q-timeline-dot:before
+      background transparent
+      border 3px solid currentColor
+    .q-timeline-dot-icon .q-icon
+      color currentColor
 
 .q-timeline-content
   padding-bottom 24px
@@ -109,6 +128,9 @@
     position absolute
     left 50%
     margin-left -7.15px
+    &.q-timeline-dot-icon
+      left 50%
+      margin-left -14.15px
   .q-timeline-subtitle, .q-timeline-content
     width 50%
   .q-timeline-entry-left .q-timeline-content,
