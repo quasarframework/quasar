@@ -181,8 +181,8 @@ export default {
   computed: {
     optModel () {
       if (this.multiple) {
-        return this.value.length > 0
-          ? this.options.map(opt => this.value.includes(opt.value))
+        return this.model.length > 0
+          ? this.options.map(opt => this.model.includes(opt.value))
           : this.options.map(opt => false)
       }
     },
@@ -250,6 +250,9 @@ export default {
       this.focused = false
       this.$emit('blur')
       this.terms = ''
+      if (JSON.stringify(this.model) !== JSON.stringify(this.value)) {
+        this.$emit('change', this.model)
+      }
     },
     __singleSelect (val, disable) {
       if (disable) {

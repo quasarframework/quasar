@@ -27,6 +27,7 @@
         v-for="(label, index) in model"
         :key="label"
         :color="color"
+        @focus="__clearTimer"
         @hide="remove(index)"
       >
         {{ label }}
@@ -56,7 +57,8 @@
       slot="after"
       class="q-if-control self-end"
       :class="{invisible: !input.length}"
-      @click="add()"
+      @mousedown="__clearTimer"
+      @mouseup="add()"
     ></q-icon>
   </q-input-frame>
 </template>
@@ -121,6 +123,9 @@ export default {
         this.model.splice(index, 1)
         this.$emit('input', this.model)
       }
+    },
+    __clearTimer () {
+      this.$nextTick(() => clearTimeout(this.timer))
     },
     __handleKey (e) {
       // ENTER key

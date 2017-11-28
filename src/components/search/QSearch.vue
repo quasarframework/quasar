@@ -95,7 +95,7 @@ export default {
         return
       }
       if (!val && val !== 0) {
-        this.model = ''
+        this.model = this.type === 'number' ? null : ''
       }
       this.timer = setTimeout(() => {
         this.$emit('input', this.model)

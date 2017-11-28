@@ -20,6 +20,7 @@
     :top-addons="isTextarea"
 
     @click="__onClick"
+    @focus="__onFocus"
   >
     <slot name="before"></slot>
 
@@ -89,7 +90,8 @@
       slot="after"
       :name="showPass ? 'visibility' : 'visibility_off'"
       class="q-if-control"
-      @click="togglePass"
+      @mousedown="__clearTimer"
+      @mouseup="togglePass"
     ></q-icon>
 
     <q-icon
@@ -97,7 +99,8 @@
       slot="after"
       name="cancel"
       class="q-if-control"
-      @click="clear"
+      @mousedown="__clearTimer"
+      @mouseup="clear"
     ></q-icon>
 
     <q-spinner
@@ -226,32 +229,38 @@ export default {
   methods: {
     togglePass () {
       this.showPass = !this.showPass
+      clearTimeout(this.timer)
+      this.focus()
     },
     clear () {
       clearTimeout(this.timer)
       this.focus()
       if (this.editable) {
-        this.model = ''
-        this.$emit('input', '')
+        this.model = this.isNumber ? null : ''
+        this.$emit('input', this.model)
       }
+    },
+
+    __clearTimer () {
+      this.$nextTick(() => clearTimeout(this.timer))
     },
 
     __set (e) {
       let val = e.target ? e.target.value : e
-      if (val !== this.value) {
-        if (this.isNumber) {
-          if (val === '') {
-            val = null
-          }
-          else {
-            val = Number.isInteger(this.maxDecimals)
-              ? parseFloat(val).toFixed(this.maxDecimals)
-              : parseFloat(val)
-          }
+      if (this.isNumber) {
+        val = parseFloat(val)
+        if (isNaN(val)) {
+          // Number.isInteger(this.maxDecimals)
+          val = null
         }
-        this.model = val
+        else if (Number.isInteger(this.maxDecimals)) {
+          val = parseFloat(val.toFixed(this.maxDecimals))
+        }
+      }
+      if (val !== this.model) {
         this.$emit('input', val)
       }
+      this.model = val
     },
     __updateArea () {
       const shadow = this.$refs.shadow

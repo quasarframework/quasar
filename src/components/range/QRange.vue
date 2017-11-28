@@ -100,6 +100,7 @@ export default {
   },
   data () {
     return {
+      model: { ...this.value },
       dragging: false,
       currentMinPercentage: (this.value.min - this.min) / (this.max - this.min),
       currentMaxPercentage: (this.value.max - this.min) / (this.max - this.min)
@@ -107,10 +108,10 @@ export default {
   },
   computed: {
     percentageMin () {
-      return this.snap ? (this.value.min - this.min) / (this.max - this.min) : this.currentMinPercentage
+      return this.snap ? (this.model.min - this.min) / (this.max - this.min) : this.currentMinPercentage
     },
     percentageMax () {
-      return this.snap ? (this.value.max - this.min) / (this.max - this.min) : this.currentMaxPercentage
+      return this.snap ? (this.model.max - this.min) / (this.max - this.min) : this.currentMaxPercentage
     },
     activeTrackWidth () {
       return 100 * (this.percentageMax - this.percentageMin) + '%'
@@ -118,12 +119,12 @@ export default {
     leftDisplayValue () {
       return this.leftLabelValue !== void 0
         ? this.leftLabelValue
-        : this.value.min
+        : this.model.min
     },
     rightDisplayValue () {
       return this.rightLabelValue !== void 0
         ? this.rightLabelValue
-        : this.value.max
+        : this.model.max
     },
     leftTooltipColor () {
       return this.leftLabelColor || this.labelColor
@@ -134,37 +135,43 @@ export default {
   },
   watch: {
     'value.min' (value) {
+      this.model.min = value
+    },
+    'value.max' (value) {
+      this.model.max = value
+    },
+    'model.min' (value) {
       if (this.dragging) {
         return
       }
-      if (value > this.value.max) {
-        value = this.value.max
+      if (value > this.model.max) {
+        value = this.model.max
       }
       this.currentMinPercentage = (value - this.min) / (this.max - this.min)
     },
-    'value.max' (value) {
+    'model.max' (value) {
       if (this.dragging) {
         return
       }
-      if (value < this.value.min) {
-        value = this.value.min
+      if (value < this.model.min) {
+        value = this.model.min
       }
       this.currentMaxPercentage = (value - this.min) / (this.max - this.min)
     },
     min (value) {
-      if (this.value.min < value) {
+      if (this.model.min < value) {
         this.__update({min: value})
       }
-      if (this.value.max < value) {
+      if (this.model.max < value) {
         this.__update({max: value})
       }
       this.$nextTick(this.__validateProps)
     },
     max (value) {
-      if (this.value.min > value) {
+      if (this.model.min > value) {
         this.__update({min: value})
       }
-      if (this.value.max > value) {
+      if (this.model.max > value) {
         this.__update({max: value})
       }
       this.$nextTick(this.__validateProps)
@@ -183,8 +190,8 @@ export default {
       this.dragging = {
         left: container.getBoundingClientRect().left,
         width,
-        valueMin: this.value.min,
-        valueMax: this.value.max,
+        valueMin: this.model.min,
+        valueMax: this.model.max,
         percentageMin: this.currentMinPercentage,
         percentageMax: this.currentMaxPercentage
       }
@@ -291,14 +298,17 @@ export default {
     },
     __end () {
       this.dragging = false
-      this.currentMinPercentage = (this.value.min - this.min) / (this.max - this.min)
-      this.currentMaxPercentage = (this.value.max - this.min) / (this.max - this.min)
+      this.currentMinPercentage = (this.model.min - this.min) / (this.max - this.min)
+      this.currentMaxPercentage = (this.model.max - this.min) / (this.max - this.min)
+      if (this.model.min !== this.value.min || this.model.max !== this.value.max) {
+        this.$emit('change', this.model)
+      }
     },
-    __updateInput ({min = this.value.min, max = this.value.max}) {
+    __updateInput ({min = this.model.min, max = this.model.max}) {
       const val = {min, max}
-      if (this.value.min !== min || this.value.max !== max) {
+      if (this.model.min !== min || this.model.max !== max) {
+        this.model = val
         this.$emit('input', val)
-        this.$emit('change', val)
       }
     },
     __validateProps () {
@@ -308,11 +318,11 @@ export default {
       else if (notDivides((this.max - this.min) / this.step, this.decimals)) {
         console.error('Range error: step must be a divisor of max - min', this.min, this.max, this.step)
       }
-      else if (notDivides((this.value.min - this.min) / this.step, this.decimals)) {
-        console.error('Range error: step must be a divisor of initial value.min - min', this.value.min, this.min, this.step)
+      else if (notDivides((this.model.min - this.min) / this.step, this.decimals)) {
+        console.error('Range error: step must be a divisor of initial value.min - min', this.model.min, this.min, this.step)
       }
-      else if (notDivides((this.value.max - this.min) / this.step, this.decimals)) {
-        console.error('Range error: step must be a divisor of initial value.max - min', this.value.max, this.max, this.step)
+      else if (notDivides((this.model.max - this.min) / this.step, this.decimals)) {
+        console.error('Range error: step must be a divisor of initial value.max - min', this.model.max, this.max, this.step)
       }
     }
   }

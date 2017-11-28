@@ -67,7 +67,7 @@
       :class="classNames"
       :transition="transition"
       :position-classes="position"
-      :content-css="css"
+      :content-css="contentCSS"
       @show="__onFocus"
       @hide="__onHide"
     >
@@ -145,7 +145,7 @@ export default {
   ),
   data () {
     let data = this.usingPopover ? {} : {
-      css: contentCSS,
+      contentCSS,
       position: __THEME__ === 'ios' ? 'items-end justify-center' : 'flex-center',
       transition: __THEME__ === 'ios' ? 'q-modal-bottom' : 'q-modal',
       classNames: __THEME__ === 'ios' ? '' : 'minimized'
@@ -227,8 +227,9 @@ export default {
       this.model = this.value
     },
     __update () {
-      const val = this.model || this.$refs.target.model
+      let val = this.model || this.$refs.target.model
       if (!isSameDate(this.value, val)) {
+        val = (new Date(val)).valueOf()
         this.$emit('input', val)
         this.$emit('change', val)
       }

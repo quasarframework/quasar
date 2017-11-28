@@ -34,6 +34,7 @@ export default {
     },
 
     __onFocus (e) {
+      clearTimeout(this.timer)
       this.focused = true
       this.$emit('focus', e)
     },
