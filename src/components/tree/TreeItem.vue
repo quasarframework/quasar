@@ -29,6 +29,7 @@
 import { QIcon } from '../icon'
 import { QSlideTransition } from '../slide-transition'
 import Ripple from '../../directives/ripple'
+import extend from '../../utils/extend'
 
 export default {
   name: 'q-tree-item',
@@ -42,20 +43,18 @@ export default {
   props: ['model', 'contractHtml', 'expandHtml'],
   data () {
     return {
-      item: {
+      item: extend({
         expanded: false,
-        children: [],
-        ...this.model
-      }
+        children: []
+      }, this.model)
     }
   },
   watch: {
     model (value) {
-      this.item = {
+      this.item = extend({
         expanded: false,
-        children: [],
-        ...value
-      }
+        children: []
+      }, value)
     }
   },
   methods: {
