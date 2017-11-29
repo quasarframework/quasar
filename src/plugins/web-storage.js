@@ -31,7 +31,7 @@ function decode (value) {
   let type, length, source
 
   length = value.length
-  if (length < 10) {
+  if (length < 9) {
     // then it wasn't encoded by us
     return value
   }
