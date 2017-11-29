@@ -38,7 +38,6 @@ export default {
     columns: 'Columns'
   },
   editor: {
-    link: 'Link',
     url: 'URL',
     bold: 'Bold',
     italic: 'Italic',

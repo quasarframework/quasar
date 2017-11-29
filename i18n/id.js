@@ -38,7 +38,6 @@ export default {
     columns: 'Kolom'
   },
   editor: {
-    link: 'Tautan',
     url: 'URL',
     bold: 'Tebal',
     italic: 'Miring',

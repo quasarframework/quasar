@@ -38,7 +38,6 @@ export default {
     columns: 'Colonne'
   },
   editor: {
-    link: 'Collegamento',
     url: 'URL',
     bold: 'Grassetto',
     italic: 'Corsivo',

@@ -25,7 +25,7 @@ export default {
   pullToRefresh: {
     pull: 'Trage în jos pentru a actualiza',
     release: 'Eliberează pentru a actualiza',
-    refresh: 'Actualizez...'
+    refresh: 'Se actualizează...'
   },
   table: {
     noData: 'Nu sunt date disponibile',
@@ -38,18 +38,17 @@ export default {
     columns: 'Coloane'
   },
   editor: {
-    link: 'Link',
     url: 'URL',
-    bold: 'Bold',
-    italic: 'Italic',
+    bold: 'Îngroșat',
+    italic: 'Înclinat',
     strikethrough: 'Tăiat',
     underline: 'Subliniat',
     unorderedList: 'Listă neordonată',
     orderedList: 'Listă ordonată',
-    subscript: 'Subscript',
-    superscript: 'Superscript',
+    subscript: 'Deasupra',
+    superscript: 'Dedesubt',
     hyperlink: 'Hyperlink',
-    toggleFullscreen: 'Comută Fullscreen',
+    toggleFullscreen: 'Comută ecran complet',
     quote: 'Citare',
     left: 'Aliniere la stânga',
     center: 'Aliniere la centru',
@@ -62,9 +61,9 @@ export default {
     formatting: 'Formatare',
     fontSize: 'Mărime font',
     align: 'Aliniază',
-    hr: 'Linie orizontală',
-    undo: 'Undo',
-    redo: 'Redo',
+    hr: 'Adaugă linie orizontală',
+    undo: 'Schimbă inapoi',
+    redo: 'Refă',
     header1: 'Header 1',
     header2: 'Header 2',
     header3: 'Header 3',
