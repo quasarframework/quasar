@@ -49,7 +49,7 @@ export default {
     superscript: 'Deasupra',
     hyperlink: 'Hyperlink',
     toggleFullscreen: 'Comută ecran complet',
-    quote: 'Citare',
+    quote: 'Citat',
     left: 'Aliniere la stânga',
     center: 'Aliniere la centru',
     right: 'Aliniere la dreapta',
