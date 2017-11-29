@@ -45,7 +45,7 @@ export default {
       staticClass: `q-timeline-entry`,
       'class': {
         'q-timeline-entry-with-icon': this.icon,
-        `q-timeline-entry-${this.side === 'left' ? 'left' : 'right'}`: true
+        [`q-timeline-entry-${this.side === 'left' ? 'left' : 'right'}`]: true
       }
     }, [
       h('div', { staticClass: 'q-timeline-subtitle' }, [
