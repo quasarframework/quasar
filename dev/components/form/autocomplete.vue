@@ -7,9 +7,21 @@
       </p>
 
 
-      <q-search @change="onChange" v-model="terms" placeholder="Start typing a country name">
+      <q-search @change="onChange" @input="onInput" v-model="terms" placeholder="Start typing a country name">
         <q-autocomplete @search="search" @selected="selected" />
       </q-search>
+
+      <q-search @change="val => { terms = val; onChange(val) }" @input="onInput" :value="terms" placeholder="Start typing a country name (onChange)">
+        <q-autocomplete @search="search" @selected="selected" />
+      </q-search>
+
+      <q-input @change="onChange" @input="onInput" v-model="terms" placeholder="Start typing a country name">
+        <q-autocomplete @search="search" @selected="selected" />
+      </q-input>
+
+      <q-input @change="val => { terms = val; onChange(val) }" @input="onInput" :value="terms" placeholder="Start typing a country name (onChange)">
+        <q-autocomplete @search="search" @selected="selected" />
+      </q-input>
 
       <q-search inverted v-model="terms" placeholder="Start typing a country name">
         <q-autocomplete @search="search" @selected="selected"  />
@@ -110,7 +122,10 @@ export default {
       this.$q.notify(`Selected suggestion "${item.label}"`)
     },
     onChange (val) {
-      console.log('@change', val)
+      console.log('@change', JSON.stringify(val))
+    },
+    onInput (val) {
+      console.log('@input', JSON.stringify(val))
     }
   }
 }

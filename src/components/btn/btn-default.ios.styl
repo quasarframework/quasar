@@ -11,8 +11,6 @@ button-round-factor($size)
   outline 0
   border 0
   vertical-align middle
-  vertical-align -webkit-baseline-middle
-  vertical-align -moz-middle-with-baseline
   cursor pointer
   -webkit-appearance button
   padding $button-padding
@@ -44,7 +42,8 @@ button-round-factor($size)
   border-radius $button-push-border-radius
   border-bottom 3px solid rgba(0, 0, 0, .15)
   &:active:not(.disabled)
-    border-bottom 0
+    transform translateY(3px)
+    border-bottom-color transparent
 
 .q-btn-rounded
   border-radius $button-rounded-border-radius

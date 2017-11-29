@@ -30,13 +30,13 @@
       :class="alignClass"
     >
       <q-chip
-        v-for="{label, value} in selectedOptions"
+        v-for="{label, value, disable: optDisable} in selectedOptions"
         :key="label"
         small
-        :closable="!disable"
+        :closable="!disable && !optDisable"
         :color="color"
         @click.native.stop
-        @hide="__toggleMultiple(value)"
+        @hide="__toggleMultiple(value, disable || optDisable)"
       >
         {{ label }}
       </q-chip>
@@ -84,7 +84,6 @@
       </q-field-reset>
 
       <q-list
-        link
         :separator="separator"
         class="no-border scroll"
       >
@@ -93,20 +92,24 @@
             v-for="opt in visibleOptions"
             :key="JSON.stringify(opt)"
             :cfg="opt"
+            :link="!opt.disable"
+            :class="{'text-faded': opt.disable}"
             slot-replace
-            @click.capture="__toggleMultiple(opt.value)"
+            @click.capture="__toggleMultiple(opt.value, opt.disable)"
           >
             <q-toggle
               v-if="toggle"
               slot="right"
               :color="color"
               :value="optModel[opt.index]"
+              :disable="opt.disable"
             ></q-toggle>
             <q-checkbox
               v-else
               slot="left"
               :color="color"
               :value="optModel[opt.index]"
+              :disable="opt.disable"
             ></q-checkbox>
           </q-item-wrapper>
         </template>
@@ -115,9 +118,11 @@
             v-for="opt in visibleOptions"
             :key="JSON.stringify(opt)"
             :cfg="opt"
+            :link="!opt.disable"
+            :class="{'text-faded': opt.disable}"
             slot-replace
             :active="value === opt.value"
-            @click.capture="__singleSelect(opt.value)"
+            @click.capture="__singleSelect(opt.value, opt.disable)"
           >
             <q-radio
               v-if="radio"
@@ -125,6 +130,7 @@
               slot="left"
               :value="value"
               :val="opt.value"
+              :disable="opt.disable"
             ></q-radio>
           </q-item-wrapper>
         </template>
@@ -175,8 +181,8 @@ export default {
   computed: {
     optModel () {
       if (this.multiple) {
-        return this.value.length > 0
-          ? this.options.map(opt => this.value.includes(opt.value))
+        return this.model.length > 0
+          ? this.options.map(opt => this.model.includes(opt.value))
           : this.options.map(opt => false)
       }
     },
@@ -244,8 +250,14 @@ export default {
       this.focused = false
       this.$emit('blur')
       this.terms = ''
+      if (JSON.stringify(this.model) !== JSON.stringify(this.value)) {
+        this.$emit('change', this.model)
+      }
     },
-    __singleSelect (val) {
+    __singleSelect (val, disable) {
+      if (disable) {
+        return
+      }
       this.__emit(val)
       this.hide()
     }

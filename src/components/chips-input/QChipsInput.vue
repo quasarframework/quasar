@@ -24,9 +24,10 @@
       <q-chip
         small
         :closable="!disable"
-        v-for="(label, index) in value"
+        v-for="(label, index) in model"
         :key="label"
         :color="color"
+        @focus="__clearTimer"
         @hide="remove(index)"
       >
         {{ label }}
@@ -56,6 +57,8 @@
       slot="after"
       class="q-if-control self-end"
       :class="{invisible: !input.length}"
+      @mousedown="__clearTimer"
+      @touchstart="__clearTimer"
       @click="add()"
     ></q-icon>
   </q-input-frame>
@@ -84,32 +87,46 @@ export default {
   data () {
     return {
       input: '',
-      focused: false
+      model: [...this.value]
+    }
+  },
+  watch: {
+    value (v) {
+      if (Array.isArray(v)) {
+        this.model = [...v]
+      }
+      else {
+        this.model = []
+      }
     }
   },
   computed: {
     length () {
-      return this.value
-        ? this.value.length
+      return this.model
+        ? this.model.length
         : 0
     }
   },
   methods: {
     add (value = this.input) {
+      clearTimeout(this.timer)
+      this.focus()
       if (!this.disable && value) {
-        this.value.push(value)
-        this.$emit('change', this.value)
+        this.model.push(value)
+        this.$emit('input', this.model)
         this.input = ''
       }
     },
     remove (index) {
+      clearTimeout(this.timer)
+      this.focus()
       if (!this.disable && index >= 0 && index < this.length) {
-        this.value.splice(index, 1)
-        this.$emit('change', this.value)
+        this.model.splice(index, 1)
+        this.$emit('input', this.model)
       }
     },
-    __onInputBlur (e) {
-      this.__onBlur(e)
+    __clearTimer () {
+      this.$nextTick(() => clearTimeout(this.timer))
     },
     __handleKey (e) {
       // ENTER key

@@ -12,6 +12,8 @@
         class="q-if-control q-if-control-before"
         :class="{hidden: __additionalHidden(item, hasError, hasWarning, length)}"
         :name="item.icon"
+        @mousedown="__onMouseDown"
+        @touchstart="__onMouseDown"
         @click="__baHandler($event, item)"
       ></q-icon>
     </template>
@@ -49,6 +51,8 @@
         class="q-if-control"
         :class="{hidden: __additionalHidden(item, hasError, hasWarning, length)}"
         :name="item.icon"
+        @mousedown="__onMouseDown"
+        @touchstart="__onMouseDown"
         @click="__baHandler($event, item)"
       ></q-icon>
     </template>
@@ -119,6 +123,9 @@ export default {
   methods: {
     __onClick (e) {
       this.$emit('click', e)
+    },
+    __onMouseDown (e) {
+      this.$nextTick(() => this.$emit('focus', e))
     },
     __additionalHidden (item, hasError, hasWarning, length) {
       if (item.condition !== void 0) {

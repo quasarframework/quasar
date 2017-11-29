@@ -1,6 +1,7 @@
 import { QRadio } from '../radio'
 import { QCheckbox } from '../checkbox'
 import { QToggle } from '../toggle'
+import clone from '../../utils/clone'
 
 export default {
   name: 'q-option-group',
@@ -40,7 +41,7 @@ export default {
     },
     model: {
       get () {
-        return this.value
+        return clone(this.value)
       },
       set (value) {
         this.$emit('input', value)
@@ -54,6 +55,9 @@ export default {
   },
   methods: {
     __onChange (val) {
+      if (this.type !== 'radio') {
+        this.$emit('input', val)
+      }
       this.$emit('change', val)
     },
     __onFocus () {
