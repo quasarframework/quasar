@@ -20,7 +20,6 @@
   bottom 0
   left 0
   width 15px
-
   &:before, &:after
     content ''
     background currentColor
@@ -41,6 +40,26 @@
     bottom 0
     left 6px
 
+.q-timeline-entry-with-icon
+  .q-timeline-dot
+    width 31px
+    left -8px
+    &:before
+      height 31px
+      width 31px
+    &:after
+      top 41px
+      left 14px
+    .q-icon
+      position absolute
+      top 8px
+      left 4px
+      font-size 23px
+      color white
+      transition color .3s ease-in-out
+  .q-timeline-subtitle
+    padding-top 8px
+
 .q-timeline-dark
   color white
   .q-timeline-subtitle
@@ -54,9 +73,12 @@
     padding-bottom 0
     .q-timeline-dot:after
       content none
-  &:hover .q-timeline-dot:before
-    background transparent
-    border 3px solid currentColor
+  &:hover
+    .q-timeline-dot:before
+      background transparent
+      border 3px solid currentColor
+  &.q-timeline-entry-with-icon:hover .q-timeline-dot .q-icon
+    color currentColor
 
 .q-timeline-content
   padding-bottom 24px
@@ -94,6 +116,8 @@
     position relative
   .q-timeline-content
     padding-left 30px
+  .q-timeline-entry-with-icon .q-timeline-content
+    padding-top 8px
   .q-timeline-subtitle
     padding-right 30px
 
@@ -109,6 +133,9 @@
     position absolute
     left 50%
     margin-left -7.15px
+  .q-timeline-entry-with-icon .q-timeline-dot
+    left 50%
+    margin-left -15px
   .q-timeline-subtitle, .q-timeline-content
     width 50%
   .q-timeline-entry-left .q-timeline-content,
@@ -121,6 +148,8 @@
     float right
     text-align left
     padding-left 30px
+  .q-timeline-entry-with-icon .q-timeline-content
+    padding-top 8px
   .q-timeline-entry
     padding-bottom 24px
     overflow hidden

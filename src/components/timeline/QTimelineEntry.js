@@ -1,3 +1,5 @@
+import { QIcon } from '../icon'
+
 export default {
   name: 'q-timeline-entry',
   inject: {
@@ -18,6 +20,7 @@ export default {
       default: 'right',
       validator: v => ['left', 'right'].includes(v)
     },
+    icon: String,
     color: String,
     title: String,
     subtitle: String
@@ -25,6 +28,12 @@ export default {
   computed: {
     colorClass () {
       return `text-${this.color || this.__timeline.color}`
+    },
+    classes () {
+      return [
+        `q-timeline-entry-${this.side === 'left' ? 'left' : 'right'}`,
+        this.icon ? 'q-timeline-entry-with-icon' : ''
+      ]
     }
   },
   render (h) {
@@ -39,16 +48,22 @@ export default {
     }
 
     return h('li', {
-      staticClass: 'q-timeline-entry',
-      'class': this.side === 'left' ? 'q-timeline-entry-left' : 'q-timeline-entry-right'
+      staticClass: `q-timeline-entry`,
+      'class': this.classes
     }, [
       h('div', { staticClass: 'q-timeline-subtitle' }, [
         h('span', this.subtitle)
       ]),
+ 
       h('div', {
         staticClass: 'q-timeline-dot',
         'class': this.colorClass
-      }),
+      }, [
+        this.icon
+          ? h(QIcon, { props: { name: this.icon } })
+          : null
+      ],
+ 
       h('div', { staticClass: 'q-timeline-content' }, [
         h('h6', { staticClass: 'q-timeline-title' }, [ this.title ]),
         this.$slots.default
