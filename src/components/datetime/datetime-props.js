@@ -33,8 +33,7 @@ export const inline = {
     validator: modelValidator,
     default: null
   },
-  mondayFirst: Boolean,
-  saturdayFirst: Boolean,
+  firstDayOfWeek: Number,
   format24h: Boolean
 }
 

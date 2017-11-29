@@ -18,7 +18,9 @@ export default {
     days: 'Duminică_Luni_Marți_Miercuri_Joi_Vineri_Sâmbătă'.split('_'),
     daysShort: 'Dum_Lun_Mar_Mie_Joi_Vin_Sâm'.split('_'),
     months: 'Ianuarie_Februarie_Martie_Aprilie_Mai_Iunie_Iulie_August_Septembrie_Octombrie_Noiembrie_Decembrie'.split('_'),
-    monthsShort: 'Ian_Feb_Mar_Apr_Mai_Iun_Iul_Aug_Sep_Oct_Nov_Dec'.split('_')
+    monthsShort: 'Ian_Feb_Mar_Apr_Mai_Iun_Iul_Aug_Sep_Oct_Nov_Dec'.split('_'),
+    firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
+    format24h: true
   },
   pullToRefresh: {
     pull: 'Trage în jos pentru actualizare',
@@ -29,7 +31,7 @@ export default {
     noData: 'Nu sunt date disponibile',
     noResults: 'Nu am găsit înregistrări care să corespundă',
     loader: 'Se încarcă...',
-    selectedRows: rows => `${rows} rânduri selectate.`,
+    selectedRows: rows => rows > 1 ? `${rows} rânduri selectate.` : `${rows === 0 ? 'Nici un' : '1'} rând selectat.`,
     rowsPerPage: 'Rânduri pe pagină:',
     allRows: 'Toate',
     pagination: (start, end, total) => `${start}-${end} din ${total}`,
@@ -57,6 +59,9 @@ export default {
     outdent: 'Decrease indentation',
     indent: 'Increase indentation',
     removeFormat: 'Remove formatting',
+    formatting: 'Formatare',
+    fontSize: 'Marime font',
+    align: 'Aliniază',
     hr: 'Insert Horizontal Rule',
     undo: 'Undo',
     redo: 'Redo',

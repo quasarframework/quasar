@@ -10,7 +10,8 @@
     >
       <q-select
         :options="[
-          { label: 'English', value: 'en' }
+          { label: 'English (US)', value: 'en-us' }
+          ,{ label: 'English (UK)', value: 'en-uk' }
           ,{ label: 'Romanian', value: 'ro' }
           ,{ label: 'Italian', value: 'it' }
           //,{ label: 'Spanish', value: 'es' },
@@ -27,7 +28,7 @@
 export default {
   data () {
     return {
-      lang: 'en'
+      lang: 'en-us'
     }
   },
   watch: {

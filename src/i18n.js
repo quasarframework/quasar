@@ -1,4 +1,4 @@
-import langEn from '../i18n/en'
+import langEn from '../i18n/en-us'
 
 export default {
   __installed: false,

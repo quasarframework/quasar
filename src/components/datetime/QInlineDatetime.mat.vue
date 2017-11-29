@@ -48,7 +48,7 @@
             {{ __pad(minute) }}
           </span>
         </div>
-        <div v-if="!format24h" class="q-datetime-ampm column col-auto col-md-12 justify-around">
+        <div v-if="!computedFormat24h" class="q-datetime-ampm column col-auto col-md-12 justify-around">
           <div
             :class="{active: am}"
             class="q-datetime-link"
@@ -168,7 +168,7 @@
               <div class="q-datetime-clock-pointer" :style="clockPointerStyle">
                 <span></span>
               </div>
-              <div v-if="format24h">
+              <div v-if="computedFormat24h">
                 <div
                   v-for="n in 24"
                   class="q-datetime-clock-position fmt24"
@@ -300,15 +300,20 @@ export default {
       }
       return cls
     },
-    firstDayOfWeek () {
-      return this.mondayFirst
-        ? 1
-        : (this.saturdayFirst ? 6 : 0)
+    computedFormat24h () {
+      return this.format24h !== void 0
+        ? this.format24h
+        : this.$q.i18n.date.format24h
+    },
+    computedFirstDayOfWeek () {
+      return this.firstDayOfWeek !== void 0
+        ? this.firstDayOfWeek
+        : this.$q.i18n.date.firstDayOfWeek
     },
     headerDayNames () {
       const
         days = this.$q.i18n.date.daysShort,
-        first = this.firstDayOfWeek
+        first = this.computedFirstDayOfWeek
 
       return first > 0
         ? days.slice(first, 7).concat(days.slice(0, first))
@@ -326,7 +331,7 @@ export default {
     },
 
     fillerDays () {
-      let days = (new Date(this.model.getFullYear(), this.model.getMonth(), 1).getDay() - this.firstDayOfWeek)
+      let days = (new Date(this.model.getFullYear(), this.model.getMonth(), 1).getDay() - this.computedFirstDayOfWeek)
       if (days < 0) {
         days += 7
       }
@@ -360,7 +365,7 @@ export default {
 
     hour () {
       const h = this.model.getHours()
-      return this.format24h
+      return this.computedFormat24h
         ? h
         : convertToAmPm(h)
     },
@@ -372,7 +377,7 @@ export default {
     },
     clockPointerStyle () {
       let
-        divider = this.view === 'minute' ? 60 : (this.format24h ? 24 : 12),
+        divider = this.view === 'minute' ? 60 : (this.computedFormat24h ? 24 : 12),
         degrees = Math.round((this.view === 'minute' ? this.minute : this.hour) * (360 / divider)) - 180
 
       return cssTransform(`rotate(${degrees}deg)`)
@@ -411,7 +416,7 @@ export default {
 
       value = this.__parseTypeValue('hour', value)
 
-      if (!this.format24h && value < 12 && !this.am) {
+      if (!this.computedFormat24h && value < 12 && !this.am) {
         value += 12
       }
 
@@ -477,7 +482,7 @@ export default {
       }
 
       if (this.view === 'hour') {
-        this.setHour(Math.round(angle / (this.format24h ? 15 : 30)))
+        this.setHour(Math.round(angle / (this.computedFormat24h ? 15 : 30)))
       }
       else {
         this.setMinute(Math.round(angle / 6))
