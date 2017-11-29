@@ -8,7 +8,7 @@
         </span>
       </p>
       <q-slider @change="onChange" @input="onInput" v-model="standalone" :min="0" :max="50"></q-slider>
-      <q-slider @change="val => { standalone = val; onChange(val); }" @input="onInput" :value="standalone" :min="0" :max="50"></q-slider>
+      <q-slider @change="val => { standalone = val; onChange(val); }" @input="onInput" :value="standalone" :min="0" :max="50" label></q-slider>
       <q-slider v-model="standalone" :min="0" :max="50" square></q-slider>
 
       <p class="caption">

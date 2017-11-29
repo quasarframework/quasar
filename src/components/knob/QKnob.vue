@@ -33,7 +33,7 @@
       <div
         class="q-knob-label row flex-center content-center"
       >
-        <span v-if="!$slots.default">{{ value }}</span>
+        <span v-if="!$slots.default">{{ model }}</span>
         <slot v-else></slot>
       </div>
     </div>

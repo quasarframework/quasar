@@ -7,12 +7,14 @@
   >
     <div ref="handle" class="q-slider-handle-container">
       <div class="q-slider-track"></div>
-      <div
-        v-if="markers"
-        class="q-slider-mark"
-        v-for="n in ((max - min) / step + 1)"
-        :style="{left: (n - 1) * 100 * step / (max - min) + '%'}"
-      ></div>
+      <template v-if="markers">
+        <div
+          class="q-slider-mark"
+          v-for="n in ((max - min) / step + 1)"
+          :key="n"
+          :style="{left: (n - 1) * 100 * step / (max - min) + '%'}"
+        ></div>
+      </template>
       <div
         class="q-slider-track active-track"
         :style="{left: `${percentageMin * 100}%`, width: activeTrackWidth}"
@@ -23,7 +25,7 @@
         class="q-slider-handle q-slider-handle-min"
         ref="handleMin"
         :style="{left: `${percentageMin * 100}%`, borderRadius: square ? '0' : '50%'}"
-        :class="{dragging: dragging, 'handle-at-minimum': !fillHandleAlways && value.min === min}"
+        :class="{dragging: dragging, 'handle-at-minimum': !fillHandleAlways && model.min === min}"
       >
         <q-chip
           pointing="down"
@@ -41,7 +43,7 @@
       <div
         class="q-slider-handle q-slider-handle-max"
         :style="{left: `${percentageMax * 100}%`, borderRadius: square ? '0' : '50%'}"
-        :class="{dragging: dragging, 'handle-at-maximum': value.max === max}"
+        :class="{dragging: dragging, 'handle-at-maximum': model.max === max}"
       >
         <q-chip
           pointing="down"

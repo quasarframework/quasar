@@ -18,12 +18,12 @@
       <div
         class="q-slider-track active-track"
         :style="{width: percentage}"
-        :class="{'no-transition': dragging, 'handle-at-minimum': value === min}"
+        :class="{'no-transition': dragging, 'handle-at-minimum': model === min}"
       ></div>
       <div
         class="q-slider-handle"
         :style="{left: percentage, borderRadius: square ? '0' : '50%'}"
-        :class="{dragging: dragging, 'handle-at-minimum': !fillHandleAlways && value === min}"
+        :class="{dragging: dragging, 'handle-at-minimum': !fillHandleAlways && model === min}"
       >
         <q-chip
           pointing="down"
@@ -141,7 +141,7 @@ export default {
     },
     __end () {
       this.dragging = false
-      this.currentPercentage = (this.value - this.min) / (this.max - this.min)
+      this.currentPercentage = (this.model - this.min) / (this.max - this.min)
       if (this.value !== this.model) {
         this.$emit('change', this.model)
       }

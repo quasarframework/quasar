@@ -9,7 +9,7 @@
         </span>
       </p>
       <q-range @change="onChange" @input="onInput" v-model="standalone" :min="0" :max="50"></q-range>
-      <q-range @change="val => { standalone = val; onChange(val); }" @input="onInput" :value="standalone" :min="0" :max="50"></q-range>
+      <q-range @change="val => { standalone = val; onChange(val); }" @input="onInput" :value="standalone" :min="0" :max="50" label></q-range>
       <q-range v-model="standalone" :min="0" :max="50" square></q-range>
 
       <p class="caption">
