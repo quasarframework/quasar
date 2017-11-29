@@ -36,6 +36,14 @@ export const inline = {
     validator: modelValidator,
     default: null
   },
+  leftArrowIcon: {
+    type: String,
+    default: 'keyboard_arrow_left'
+  },
+  rightArrowIcon: {
+    type: String,
+    default: 'keyboard_arrow_right'
+  },
   monthNames: {
     type: Array,
     default: () => monthNames

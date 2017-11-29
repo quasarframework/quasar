@@ -108,7 +108,7 @@
               :color="color"
               @click="setMonth(month - 1)"
               :disabled="beforeMinDays"
-              icon="keyboard_arrow_left"
+              :icon="leftArrowIcon"
             ></q-btn>
             <div class="col q-datetime-dark">
               {{ monthStamp }}
@@ -120,7 +120,7 @@
               :color="color"
               @click="setMonth(month + 1)"
               :disabled="afterMaxDays"
-              icon="keyboard_arrow_right"
+              :icon="rightArrowIcon"
             ></q-btn>
           </div>
           <div class="q-datetime-weekdays row items-center justify-start">
