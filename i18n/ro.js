@@ -21,13 +21,13 @@ export default {
     monthsShort: 'Ian_Feb_Mar_Apr_Mai_Iun_Iul_Aug_Sep_Oct_Nov_Dec'.split('_')
   },
   pullToRefresh: {
-    pull: 'Pull down to refresh',
-    release: 'Release to refresh',
-    refresh: 'Reactulizez...'
+    pull: 'Trage în jos pentru actualizare',
+    release: 'Eliberează pentru actualizare',
+    refresh: 'Actulizez...'
   },
   table: {
-    noData: 'No data available',
-    noResults: 'No matching records found',
+    noData: 'Nu sunt date disponibile',
+    noResults: 'Nu am găsit înregistrări care să corespundă',
     loader: 'Se încarcă...',
     selectedRows: rows => `${rows} rânduri selectate.`,
     rowsPerPage: 'Rânduri pe pagină:',
@@ -41,9 +41,9 @@ export default {
     bold: 'Bold',
     italic: 'Italic',
     strikethrough: 'Strikethrough',
-    underline: 'Underline',
-    unorderedList: 'Unordered List',
-    orderedList: 'Ordered List',
+    underline: 'Subliniat',
+    unorderedList: 'Listă neordonată',
+    orderedList: 'Listă ordonată',
     subscript: 'Subscript',
     superscript: 'Superscript',
     hyperlink: 'Hyperlink',
