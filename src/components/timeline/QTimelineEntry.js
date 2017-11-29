@@ -48,16 +48,9 @@ export default {
       h('div', { staticClass: 'q-timeline-subtitle' }, [
         h('span', this.subtitle)
       ]),
-      this.icon ? h('div', { staticClass: 'q-timeline-dot q-timeline-dot-icon', 'class': this.colorClass }, [
-        h(QIcon, {
-          props: {
-            name: this.icon
-          }
-        })
-      ]) : h('div', {
-        staticClass: 'q-timeline-dot',
-        'class': this.colorClass
-      }),
+      h('div', { staticClass: `q-timeline-dot${this.icon ? ' q-timeline-dot-icon' : ''}`, 'class': this.colorClass }, this.icon ? [
+        h(QIcon, { props: { name: this.icon } })
+      ] : []),
       h('div', { staticClass: 'q-timeline-content' }, [
         h('h6', { staticClass: 'q-timeline-title' }, [ this.title ]),
         this.$slots.default
