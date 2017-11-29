@@ -6,7 +6,7 @@
     v-model="model"
     :type="type"
     :autofocus="autofocus"
-    :placeholder="placeholder"
+    :placeholder="placeholder || $q.i18n.label.search"
     :disable="disable"
     :error="error"
     :align="align"
@@ -60,10 +60,7 @@ export default {
       type: String,
       default: 'search'
     },
-    placeholder: {
-      type: String,
-      default: 'Search'
-    }
+    placeholder: String
   },
   data () {
     return {

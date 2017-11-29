@@ -1,34 +1,38 @@
 export default {
   date: {
-    days: 'Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday'.split('_'),
-    month: 'January_February_March_April_May_June_July_August_September_October_November_December'.split('_')
+    days: 'Duminica_Luni_Marti_Miercuri_Joi_Vineri_Sambata'.split('_'),
+    daysShort: 'Dum_Lun_Mar_Mie_Joi_Vin_Sam'.split('_'),
+    months: 'Ianuarie_Februarie_Martie_Aprilie_Mai_Iunie_Iulie_August_Septembrie_Octombrie_Noiembrie_Decembrie'.split('_'),
+    monthsShort: 'Ian_Feb_Mar_Apr_Mai_Iun_Iul_Aug_Sep_Oct_Nov_Dec'.split('_')
   },
   label: {
-    clear: 'Clear',
-    ok: 'Da',
-    cancel: 'Renunta',
+    clear: 'Goleste',
+    ok: 'OK',
+    cancel: 'Anuleaza',
+    close: 'Inchide',
     set: 'Seteaza',
-    select: 'Select',
-    remove: 'Remove',
-    update: 'Update',
-    create: 'Create',
-    search: 'Search', // QSearch
-    filter: 'Filter' // QSelect
+    select: 'Alege',
+    reset: 'Reseteaza',
+    remove: 'Elimina',
+    update: 'Actualizeaza',
+    create: 'Creeaza',
+    search: 'Cauta',
+    filter: 'Filtreaza'
   },
   pullToRefresh: {
     pull: 'Pull down to refresh',
     release: 'Release to refresh',
     refresh: 'Refreshing...'
   },
-  dataTable: {
+  table: {
     noData: 'No data available',
     noResults: 'No matching records found',
-    loader: 'Loading...',
-    selectedRows: rows => `${rows} selected row(s).`,
-    rowsPerPage: 'Rows per page:',
-    allRows: 'All',
-    pagination: (start, end, total) => `${start}-${end} of ${total}`,
-    columns: 'Columns' // QTableColumns
+    loader: 'Se incarca...',
+    selectedRows: rows => `${rows} randuri selectate.`,
+    rowsPerPage: 'Randuri pe pagina:',
+    allRows: 'Toate',
+    pagination: (start, end, total) => `${start}-${end} din ${total}`,
+    columns: 'Coloane'
   },
   editor: {
     link: 'Link',

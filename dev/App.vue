@@ -4,11 +4,31 @@
       <router-view></router-view>
     </q-transition>
     <q-ajax-bar ref="bar" />
+    <q-select
+      :options="[
+        { label: 'English', value: 'en' },
+        { label: 'Romana', value: 'ro' }
+      ]"
+      v-model="lang"
+      class="fixed-bottom-right z-max"
+    />
   </q-app>
 </template>
 
 <script>
 export default {
+  data () {
+    return {
+      lang: 'en'
+    }
+  },
+  watch: {
+    lang (lang) {
+      import(`../i18n/${lang}`).then(lang => {
+        this.$q.i18n.set(lang.default)
+      })
+    }
+  },
   mounted () {
     window.bar = this.$refs.bar
     if (this.$q.platform.is.cordova) {

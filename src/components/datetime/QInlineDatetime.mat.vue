@@ -92,7 +92,7 @@
             :class="{active: month === index + monthMin}"
             @click="setMonth(index + monthMin, true)"
           >
-            {{ monthNames[index + monthMin - 1] }}
+            {{ $q.i18n.date.months[index + monthMin - 1] }}
           </q-btn>
         </div>
 
@@ -307,7 +307,7 @@ export default {
     },
     headerDayNames () {
       const
-        days = this.dayNames.map(day => day.slice(0, 3)),
+        days = this.$q.i18n.date.daysShort,
         first = this.firstDayOfWeek
 
       return first > 0
@@ -316,13 +316,13 @@ export default {
     },
 
     monthString () {
-      return `${this.monthNames[this.month - 1].slice(0, 3)}`
+      return `${this.$q.i18n.date.monthsShort[this.month - 1]}`
     },
     monthStamp () {
-      return `${this.monthNames[this.month - 1]} ${this.year}`
+      return `${this.$q.i18n.date.months[this.month - 1]} ${this.year}`
     },
     weekDayString () {
-      return this.dayNames[this.model.getDay()]
+      return this.$q.i18n.date.days[this.model.getDay()]
     },
 
     fillerDays () {

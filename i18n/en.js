@@ -1,26 +1,29 @@
 export default {
   date: {
     days: 'Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday'.split('_'),
-    month: 'January_February_March_April_May_June_July_August_September_October_November_December'.split('_')
+    daysShort: 'Sun_Mon_Tue_Wed_Thu_Fri_Sat'.split('_'),
+    months: 'January_February_March_April_May_June_July_August_September_October_November_December'.split('_'),
+    monthsShort: 'Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec'.split('_')
   },
   label: {
     clear: 'Clear',
     ok: 'OK',
     cancel: 'Cancel',
+    close: 'Close',
     set: 'Set',
     select: 'Select',
     remove: 'Remove',
     update: 'Update',
     create: 'Create',
-    search: 'Search', // QSearch
-    filter: 'Filter' // QSelect
+    search: 'Search',
+    filter: 'Filter'
   },
   pullToRefresh: {
     pull: 'Pull down to refresh',
     release: 'Release to refresh',
     refresh: 'Refreshing...'
   },
-  dataTable: {
+  table: {
     noData: 'No data available',
     noResults: 'No matching records found',
     loader: 'Loading...',
@@ -28,7 +31,7 @@ export default {
     rowsPerPage: 'Rows per page:',
     allRows: 'All',
     pagination: (start, end, total) => `${start}-${end} of ${total}`,
-    columns: 'Columns' // QTableColumns
+    columns: 'Columns'
   },
   editor: {
     link: 'Link',

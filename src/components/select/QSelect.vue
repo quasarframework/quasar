@@ -74,7 +74,7 @@
           ref="filter"
           v-model="terms"
           @input="reposition"
-          :placeholder="filterPlaceholder"
+          :placeholder="filterPlaceholder || $q.i18n.label.filter"
           :debounce="100"
           :color="color"
           icon="filter_list"
@@ -169,10 +169,7 @@ export default {
   },
   props: {
     filter: [Function, Boolean],
-    filterPlaceholder: {
-      type: String,
-      default: 'Filter'
-    },
+    filterPlaceholder: String,
     autofocusFilter: Boolean,
     radio: Boolean,
     placeholder: String,

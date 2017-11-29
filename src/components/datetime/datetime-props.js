@@ -1,6 +1,3 @@
-import {
-  dayNames, monthNames
-} from '../../utils/date'
 import { isDate } from '../../utils/is'
 
 export const modelValidator = v => {
@@ -36,14 +33,6 @@ export const inline = {
     validator: modelValidator,
     default: null
   },
-  monthNames: {
-    type: Array,
-    default: () => monthNames
-  },
-  dayNames: {
-    type: Array,
-    default: () => dayNames
-  },
   mondayFirst: Boolean,
   saturdayFirst: Boolean,
   format24h: Boolean
@@ -53,16 +42,7 @@ export const input = {
   format: String,
   noClear: Boolean,
   placeholder: String,
-  clearLabel: {
-    type: String,
-    default: 'Clear'
-  },
-  okLabel: {
-    type: String,
-    default: 'Set'
-  },
-  cancelLabel: {
-    type: String,
-    default: 'Cancel'
-  }
+  clearLabel: String,
+  okLabel: String,
+  cancelLabel: String
 }
