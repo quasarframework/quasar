@@ -19,11 +19,10 @@
     focusable
     :length="length"
     :additional-length="additionalLength"
-
     @click.native="show"
     @focus.native="__onFocus"
     @blur.native="__onBlur"
-    @keydown.native="__handleKeydown"
+    @keydown.enter.native="show"
   >
     <div
       v-if="hasChips"
@@ -76,7 +75,6 @@
           v-model="terms"
           @input="onInputFilter"
           @keydown="__handleKeydown"
-          @focus="onFocusFilter"
           :placeholder="filterPlaceholder"
           :debounce="100"
           :color="color"
@@ -92,6 +90,8 @@
         :separator="separator"
         class="no-border scroll"
         :style="{ maxHeight: listMaxHeight }"
+        :tabindex="0"
+        @keydown="__handleKeydown"
       >
         <template v-if="multiple">
           <q-item-wrapper
@@ -231,6 +231,7 @@ export default {
     },
     hide () {
       this.selectedIndex = -1
+      this.$refs.input.$el.focus()
       return this.$refs.popover.hide()
     },
     onInputFilter () {
@@ -241,19 +242,13 @@ export default {
         this.$nextTick(this.scrollToSelectedItem)
       }
     },
-    onFocusFilter () {
-      this.$nextTick(() => {
-        this.listShowing = true
-      })
-    },
     setCurrentSelection () {
       if (this.selectedIndex >= 0 && this.visibleOptions[this.selectedIndex]) {
         if (this.multiple) {
           this.__toggleMultiple(this.visibleOptions[this.selectedIndex].value)
         }
         else {
-          this.__emit(this.visibleOptions[this.selectedIndex].value)
-          this.__onEscape()
+          this.__singleSelect(this.visibleOptions[this.selectedIndex].value)
         }
       }
     },
@@ -291,61 +286,53 @@ export default {
       if (this.filter && this.$q.platform.is.desktop) {
         this.$refs.filter.focus()
       }
+      else {
+        this.$refs.list.focus()
+      }
       this.$nextTick(this.scrollToSelectedItem.bind(null, true))
     },
     onHidePopover () {
+      this.__onBlur()
       this.terms = ''
       this.$nextTick(() => {
         this.listShowing = false
       })
     },
     __onFocus () {
-      this.focused = true
-      this.$emit('focus')
+      if (!this.focused) {
+        this.focused = true
+        this.$emit('focus')
+      }
     },
     __onBlur (e) {
-      this.focused = false
-      this.$emit('blur')
-      setTimeout(() => {
-        const el = document.activeElement
-        if (el !== document.body && !this.$refs.popover.$el.contains(el)) {
-          this.hide()
+      this.$nextTick(() => {
+        const elm = document.activeElement
+        if (elm !== this.$refs.input.$el && !this.$refs.popover.$el.contains(elm)) {
+          this.focused = false
+          this.$emit('blur')
         }
-      }, 1)
-    },
-    __onEscape () {
-      this.hide()
-      this.$refs.input.$el.focus()
+      })
     },
     __singleSelect (val) {
       this.__emit(val)
       this.hide()
     },
     __handleKeydown (e) {
-      if (this.$refs.popover.showing) {
-        switch (e.keyCode || e.which) {
-          case 38: // up
-            this.__moveCursor(-1, e)
-            break
-          case 40: // down
-            this.__moveCursor(1, e)
-            break
-          case 13: // enter
-            this.setCurrentSelection()
-            prevent(e)
-            break
-          case 27: // escape
-            this.__onEscape()
-            prevent(e)
-            break
-        }
-      }
-      else if (e.keyCode === 13 || e.which === 13) { // enter
-        this.show()
-        if (this.filter) {
-          this.$nextTick(this.$refs.filter.focus)
-        }
-        prevent(e)
+      switch (e.keyCode || e.which) {
+        case 38: // up
+          this.__moveCursor(-1, e)
+          break
+        case 40: // down
+          this.__moveCursor(1, e)
+          break
+        case 13: // enter
+          this.setCurrentSelection()
+          prevent(e)
+          break
+        case 27: // escape
+          this.hide()
+          prevent(e)
+          break
       }
     },
     __moveCursor (offset, e) {
