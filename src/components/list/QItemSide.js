@@ -28,8 +28,21 @@ export default {
       data = ctx.data,
       prop = ctx.props,
       cls = data.staticClass
-
-    data.staticClass = `q-item-side q-item-side-${prop.right ? 'right' : 'left'} q-item-section${prop.color ? ` text-${prop.color}` : ''}${cls ? ` ${cls}` : ''}`
+    let color = ''
+    if (prop.letter) {
+      if (prop.inverted) {
+        color = 'q-item-text-inverted'
+        if (prop.color) {
+          color = `${color} text-white bg-${prop.color}`
+        }
+      }
+      else {
+        if (prop.color) {
+          color = `text-${prop.color}`
+        }
+      }
+    }
+    data.staticClass =  `q-item-side q-item-side-${prop.right ? 'right' : 'left'} q-item-section ${color} ${cls ? ` ${cls}` : ''}`
 
     if (prop.image) {
       if (!data.hasOwnProperty('attrs')) {
