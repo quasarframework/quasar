@@ -65,7 +65,10 @@ export default {
     }
   },
   methods: {
-    __toggleMultiple (value) {
+    __toggleMultiple (value, disable) {
+      if (disable) {
+        return
+      }
       const
         model = this.value,
         index = model.indexOf(value)
@@ -77,6 +80,7 @@ export default {
         model.push(value)
       }
 
+      this.$emit('input', model)
       this.$emit('change', model)
     },
     __emit (val) {
