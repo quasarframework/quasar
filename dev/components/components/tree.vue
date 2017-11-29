@@ -61,7 +61,7 @@ export default {
             {
               title: 'Item 1.3',
               expanded: false,
-              handler () {
+              handler: () => {
                 this.$q.notify('Tapped on item 1.3')
               },
               children: []
@@ -105,9 +105,34 @@ export default {
               children: []
             },
             {
-              title: 'Item 2.3',
+              title: 'Item 2.3 - Click to add children to it',
               expanded: false,
-              children: []
+              handler: (item) => {
+                item.children = [
+                  { title: 'Item 2.3.1', expanded: false },
+                  { title: 'Item 2.3.2', expanded: false },
+                  { title: 'Item 2.3.3', expanded: false },
+                  {
+                    title: 'Item 2.3.4',
+                    expanded: false,
+                    children: [
+                      { title: 'Item 2.3.4.1', expanded: false },
+                      { title: 'Item 2.3.4.2', expanded: false }
+                    ]
+                  }
+                ]
+                item.expanded = true
+                const prevTitle = item.title
+                const prevHandler = item.handler
+                item.title = 'Item 2.3 - Click to remove children from it'
+                item.handler = (item) => {
+                  item.title = prevTitle
+                  delete item.children
+                  item.handler = prevHandler
+                  this.$q.notify('Children removed')
+                }
+                this.$q.notify('Children added')
+              }
             }
           ]
         }
