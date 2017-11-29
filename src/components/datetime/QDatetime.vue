@@ -50,12 +50,10 @@
         class="no-border"
       >
         <div class="row q-datetime-controls modal-buttons-top">
-          <q-btn :color="color" v-if="!noClear && model" @click="clear" flat>
-            <span v-html="clearLabel"></span>
-          </q-btn>
+          <q-btn :color="color" v-if="!noClear && model" @click="clear" flat wait-for-ripple :label="clearLabel"></q-btn>
           <div class="col"></div>
-          <q-btn :color="color" @click="hide" flat><span v-html="cancelLabel"></span></q-btn>
-          <q-btn :color="color" @click="hide(), __update()" flat><span v-html="okLabel"></span></q-btn>
+          <q-btn :color="color" @click="hide" flat wait-for-ripple :label="cancelLabel"></q-btn>
+          <q-btn :color="color" @click="hide(), __update()" flat wait-for-ripple :label="okLabel"></q-btn>
         </div>
       </q-inline-datetime>
     </q-popover>
@@ -88,12 +86,10 @@
         :class="{'full-width': $q.theme === 'ios'}"
       >
         <div class="modal-buttons modal-buttons-top row full-width">
-          <q-btn :color="color" v-if="!noClear && model" @click="clear" flat>
-            <span v-html="clearLabel"></span>
-          </q-btn>
+          <q-btn :color="color" v-if="!noClear && model" @click="clear" flat wait-for-ripple :label="clearLabel"></q-btn>
           <div class="col"></div>
-          <q-btn :color="color" @click="hide" flat><span v-html="cancelLabel"></span></q-btn>
-          <q-btn :color="color" @click="hide(), __update()" flat><span v-html="okLabel"></span></q-btn>
+          <q-btn :color="color" @click="hide" flat wait-for-ripple :label="cancelLabel"></q-btn>
+          <q-btn :color="color" @click="hide(), __update()" flat wait-for-ripple :label="okLabel"></q-btn>
         </div>
       </q-inline-datetime>
     </q-modal>

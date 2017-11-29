@@ -194,13 +194,13 @@ export default {
 
       if (this.cancel) {
         child.push(h(QBtn, {
-          props: { color: this.color, flat: true, label: this.cancelLabel },
+          props: { color: this.color, flat: true, label: this.cancelLabel, waitForRipple: true },
           on: { click: this.__onCancel }
         }))
       }
       if (this.ok) {
         child.push(h(QBtn, {
-          props: { color: this.color, flat: true, label: this.okLabel },
+          props: { color: this.color, flat: true, label: this.okLabel, waitForRipple: true },
           on: { click: this.__onOk }
         }))
       }
