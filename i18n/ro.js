@@ -42,7 +42,7 @@ export default {
     url: 'URL',
     bold: 'Bold',
     italic: 'Italic',
-    strikethrough: 'Strikethrough',
+    strikethrough: 'Tăiat',
     underline: 'Subliniat',
     unorderedList: 'Listă neordonată',
     orderedList: 'Listă ordonată',
