@@ -221,12 +221,7 @@ export default {
         return Promise.reject(new Error())
       }
       this.listShowing = true
-      if (this.multiple) {
-        this.selectedIndex = this.options.findIndex(opt => this.value.includes(opt.value))
-      }
-      else {
-        this.selectedIndex = this.options.findIndex(opt => this.value === opt.value)
-      }
+      this.selectedIndex = this.multiple ? this.options.findIndex(opt => this.value.includes(opt.value)) : this.options.findIndex(opt => this.value === opt.value)
       return this.$refs.popover.show()
     },
     hide () {
@@ -244,24 +239,15 @@ export default {
     },
     setCurrentSelection () {
       if (this.selectedIndex >= 0 && this.visibleOptions[this.selectedIndex]) {
-        if (this.multiple) {
-          this.__toggleMultiple(this.visibleOptions[this.selectedIndex].value)
-        }
-        else {
-          this.__singleSelect(this.visibleOptions[this.selectedIndex].value)
-        }
+        this.multiple ? this.__toggleMultiple(this.visibleOptions[this.selectedIndex].value) : this.__singleSelect(this.visibleOptions[this.selectedIndex].value)
       }
     },
     scrollToSelectedItem (onOpen = false) {
       const selected = this.$refs.list.querySelector('.q-item.active')
       if (selected) {
         let offset = 0
-        if (this.$refs.filter) {
-          offset -= this.$refs.filter.$el.clientHeight
-        }
-        if (onOpen) {
-          offset += this.$refs.list.clientHeight / 2
-        }
+        this.$refs.filter && (offset -= this.$refs.filter.$el.clientHeight)
+        onOpen && (offset += this.$refs.list.clientHeight / 2)
         const selectedTop = selected.offsetTop + offset
         const selectedBottom = selected.offsetTop + selected.offsetHeight + offset
         const listTop = this.$refs.list.scrollTop
@@ -283,12 +269,7 @@ export default {
       this.$nextTick(this.scrollToSelectedItem)
     },
     onShowPopover () {
-      if (this.filter && this.$q.platform.is.desktop) {
-        this.$refs.filter.focus()
-      }
-      else {
-        this.$refs.list.focus()
-      }
+      this.filter && this.$q.platform.is.desktop ? this.$refs.filter.focus() : this.$refs.list.focus()
       this.$nextTick(this.scrollToSelectedItem.bind(null, true))
     },
     onHidePopover () {
