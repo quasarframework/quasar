@@ -12,7 +12,7 @@ export default {
     create: 'Creează',
     search: 'Caută',
     filter: 'Filtrează',
-    refresh: 'Reactualizează'
+    refresh: 'Actualizează'
   },
   date: {
     days: 'Duminică_Luni_Marți_Miercuri_Joi_Vineri_Sâmbătă'.split('_'),
@@ -23,9 +23,9 @@ export default {
     format24h: true
   },
   pullToRefresh: {
-    pull: 'Trage în jos pentru actualizare',
-    release: 'Eliberează pentru actualizare',
-    refresh: 'Actulizez...'
+    pull: 'Trage în jos pentru a actualiza',
+    release: 'Eliberează pentru a actualiza',
+    refresh: 'Actualizez...'
   },
   table: {
     noData: 'Nu sunt date disponibile',
@@ -35,7 +35,7 @@ export default {
     rowsPerPage: 'Rânduri pe pagină:',
     allRows: 'Toate',
     pagination: (start, end, total) => `${start}-${end} din ${total}`,
-    columns: 'Coloane'
+    columns: 'Columns'
   },
   editor: {
     link: 'Link',
@@ -49,20 +49,20 @@ export default {
     subscript: 'Subscript',
     superscript: 'Superscript',
     hyperlink: 'Hyperlink',
-    toggleFullscreen: 'Toggle Fullscreen',
-    quote: 'Quote',
-    left: 'Left align',
-    center: 'Center align',
-    right: 'Right align',
-    justify: 'Justify align',
-    print: 'Print',
-    outdent: 'Decrease indentation',
-    indent: 'Increase indentation',
-    removeFormat: 'Remove formatting',
+    toggleFullscreen: 'Comută Fullscreen',
+    quote: 'Citare',
+    left: 'Aliniere la stânga',
+    center: 'Aliniere la centru',
+    right: 'Aliniere la dreapta',
+    justify: 'Aliniere totală',
+    print: 'Tipărește',
+    outdent: 'Scade spațierea',
+    indent: 'Crește spațierea',
+    removeFormat: 'Îndepărtează formatările',
     formatting: 'Formatare',
     fontSize: 'Marime font',
     align: 'Aliniază',
-    hr: 'Insert Horizontal Rule',
+    hr: 'Adaugă linie orizontală',
     undo: 'Undo',
     redo: 'Redo',
     header1: 'Header 1',
@@ -71,15 +71,15 @@ export default {
     header4: 'Header 4',
     header5: 'Header 5',
     header6: 'Header 6',
-    paragraph: 'Paragraph',
-    code: 'Code',
-    size1: 'Very small',
-    size2: 'A bit small',
+    paragraph: 'Paragraf',
+    code: 'Cod',
+    size1: 'Foarte mic',
+    size2: 'Mic',
     size3: 'Normal',
-    size4: 'Medium-large',
+    size4: 'Mediu-mare',
     size5: 'Big',
-    size6: 'Very big',
-    size7: 'Maximum',
-    defaultFont: 'Default Font'
+    size6: 'Foarte mare',
+    size7: 'Maxim',
+    defaultFont: 'Font implicit'
   }
 }
