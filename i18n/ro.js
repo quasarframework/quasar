@@ -35,7 +35,7 @@ export default {
     rowsPerPage: 'Rânduri pe pagină:',
     allRows: 'Toate',
     pagination: (start, end, total) => `${start}-${end} din ${total}`,
-    columns: 'Columns'
+    columns: 'Coloane'
   },
   editor: {
     link: 'Link',
