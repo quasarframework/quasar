@@ -30,13 +30,13 @@
       :class="alignClass"
     >
       <q-chip
-        v-for="{label, value} in selectedOptions"
+        v-for="{label, value, disable: optDisable} in selectedOptions"
         :key="label"
         small
-        :closable="!disable"
+        :closable="!disable && !optDisable"
         :color="color"
         @click.native.stop
-        @hide="__toggleMultiple(value)"
+        @hide="__toggleMultiple(value, disable || optDisable)"
       >
         {{ label }}
       </q-chip>
@@ -86,7 +86,6 @@
 
     <q-list
         ref="list"
-        link
         :separator="separator"
         class="no-border scroll"
         :style="{ maxHeight: listMaxHeight }"
@@ -99,20 +98,24 @@
             :key="JSON.stringify(opt)"
             :cfg="opt"
             :active="selectedIndex === index"
+            :link="!opt.disable"
+            :class="{'text-light': opt.disable}"
             slot-replace
-            @click.capture="__toggleMultiple(opt.value)"
+            @click.capture="__toggleMultiple(opt.value, opt.disable)"
           >
             <q-toggle
               v-if="toggle"
               slot="right"
               :color="color"
               :value="optModel[opt.index]"
+              :disable="opt.disable"
             ></q-toggle>
             <q-checkbox
               v-else
               slot="left"
               :color="color"
               :value="optModel[opt.index]"
+              :disable="opt.disable"
             ></q-checkbox>
           </q-item-wrapper>
         </template>
@@ -121,10 +124,11 @@
             v-for="(opt, index) in visibleOptions"
             :key="JSON.stringify(opt)"
             :cfg="opt"
+            :link="!opt.disable"
             slot-replace
-            :class="{'text-bold text-primary': value === opt.value}"
+            :class="{'text-bold text-primary': value === opt.value, 'text-light': opt.disable}"
             :active="selectedIndex === index"
-            @click.capture="__singleSelect(opt.value)"
+            @click.capture="__singleSelect(opt.value, opt.disable)"
           >
             <q-radio
               v-if="radio"
@@ -132,6 +136,7 @@
               slot="left"
               :value="value"
               :val="opt.value"
+              :disable="opt.disable"
             ></q-radio>
           </q-item-wrapper>
         </template>
@@ -186,7 +191,8 @@ export default {
   },
   data () {
     return {
-      listShowing: false
+      listShowing: false,
+      selectedIndex: -1
     }
   },
   computed: {
@@ -209,6 +215,9 @@ export default {
       }
       return opts
     },
+    enabledVisibleOptions () {
+      return this.visibleOptions.filter(opt => !opt.disable)
+    },
     filterFn () {
       return typeof this.filter === 'boolean'
         ? defaultFilterFn
@@ -221,7 +230,9 @@ export default {
         return Promise.reject(new Error())
       }
       this.listShowing = true
-      this.selectedIndex = this.multiple ? this.options.findIndex(opt => this.value.includes(opt.value)) : this.options.findIndex(opt => this.value === opt.value)
+      this.selectedIndex = this.multiple
+        ? this.options.findIndex(opt => this.value.includes(opt.value))
+        : this.options.findIndex(opt => this.value === opt.value)
       return this.$refs.popover.show()
     },
     hide () {
@@ -233,13 +244,17 @@ export default {
       const popover = this.$refs.popover
       if (popover.showing) {
         popover.reposition()
-        this.selectedIndex = this.$q.platform.is.desktop ? 0 : -1
+        this.selectedIndex = this.$q.platform.is.desktop && this.enabledVisibleOptions.length !== 0
+          ? this.visibleOptions.findIndex(opt => !opt.disable)
+          : -1
         this.$nextTick(this.scrollToSelectedItem)
       }
     },
     setCurrentSelection () {
-      if (this.selectedIndex >= 0 && this.visibleOptions[this.selectedIndex]) {
-        this.multiple ? this.__toggleMultiple(this.visibleOptions[this.selectedIndex].value) : this.__singleSelect(this.visibleOptions[this.selectedIndex].value)
+      if (this.selectedIndex >= 0 && !this.visibleOptions[this.selectedIndex].disable) {
+        this.multiple
+          ? this.__toggleMultiple(this.visibleOptions[this.selectedIndex].value)
+          : this.__singleSelect(this.visibleOptions[this.selectedIndex].value)
       }
     },
     scrollToSelectedItem (onOpen = false) {
@@ -266,7 +281,7 @@ export default {
         0,
         this.visibleOptions.length - 1
       )
-      this.$nextTick(this.scrollToSelectedItem)
+      this.visibleOptions[this.selectedIndex].disable === true ? this.move(offset) : this.$nextTick(this.scrollToSelectedItem)
     },
     onShowPopover () {
       this.filter && this.$q.platform.is.desktop ? this.$refs.filter.focus() : this.$refs.list.focus()
@@ -294,7 +309,10 @@ export default {
         }
       })
     },
-    __singleSelect (val) {
+    __singleSelect (val, disable) {
+      if (disable) {
+        return
+      }
       this.__emit(val)
       this.hide()
     },
@@ -307,18 +325,18 @@ export default {
           this.__moveCursor(1, e)
           break
         case 13: // enter
-          this.setCurrentSelection()
           prevent(e)
+          this.setCurrentSelection()
           break
         case 27: // escape
-          this.hide()
           prevent(e)
+          this.hide()
           break
       }
     },
     __moveCursor (offset, e) {
       prevent(e)
-      this.move(offset)
+      this.enabledVisibleOptions.length !== 0 && this.move(offset)
     }
   }
 }

@@ -30,13 +30,13 @@
       :class="alignClass"
     >
       <q-chip
-        v-for="{label, value} in selectedOptions"
+        v-for="{label, value, disable: optDisable} in selectedOptions"
         :key="label"
         small
-        :closable="!disable"
+        :closable="!disable && !optDisable"
         :color="color"
         @click.native.stop
-        @hide="__toggle(value)"
+        @hide="__toggleMultiple(value, disable || optDisable)"
       >
         {{ label }}
       </q-chip>

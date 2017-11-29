@@ -137,8 +137,9 @@ for $name, $size in $sizes
       flex-basis 0
       flex-grow 1
     .col-{$name}-auto
-      width auto
       flex 0 0 auto
+      .row > &
+        width auto
 
     for $i in (1..$flex-cols)
       .col-{$name}-{$i}
