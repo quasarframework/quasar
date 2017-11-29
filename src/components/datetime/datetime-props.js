@@ -34,7 +34,11 @@ export const inline = {
     default: null
   },
   firstDayOfWeek: Number,
-  format24h: Boolean
+  format24h: {
+    type: [Boolean, Number],
+    default: 0,
+    validator: v => [true, false, 0].includes(v)
+  }
 }
 
 export const input = {

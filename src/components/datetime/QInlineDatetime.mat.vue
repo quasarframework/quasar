@@ -301,7 +301,7 @@ export default {
       return cls
     },
     computedFormat24h () {
-      return this.format24h !== void 0
+      return this.format24h !== 0
         ? this.format24h
         : this.$q.i18n.date.format24h
     },
