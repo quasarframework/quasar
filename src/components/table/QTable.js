@@ -51,30 +51,12 @@ export default {
       default: 'horizontal',
       validator: v => ['horizontal', 'vertical', 'cell', 'none'].includes(v)
     },
-    noDataLabel: {
-      type: String,
-      default: 'No data available'
-    },
-    noResultsLabel: {
-      type: String,
-      default: 'No matching records found'
-    },
-    loaderLabel: {
-      type: String,
-      default: 'Loading...'
-    },
-    selectedRowsLabel: {
-      type: Function,
-      default: rows => `${rows} selected row(s).`
-    },
-    rowsPerPageLabel: {
-      type: String,
-      default: 'Rows per page:'
-    },
-    paginationLabel: {
-      type: Function,
-      default: (start, end, total) => `${start}-${end} of ${total}`
-    },
+    noDataLabel: String,
+    noResultsLabel: String,
+    loaderLabel: String,
+    selectedRowsLabel: Function,
+    rowsPerPageLabel: String,
+    paginationLabel: Function,
     tableStyle: {
       type: [String, Array, Object],
       default: ''

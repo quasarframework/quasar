@@ -72,7 +72,9 @@ export default {
             big: this.big,
             color: this.color,
             glossy: this.glossy,
-            compact: this.compact
+            compact: this.compact,
+            noRipple: this.noRipple,
+            waitForRipple: this.waitForRipple
           },
           staticClass: `${this.split ? 'q-btn-dropdown-current' : 'q-btn-dropdown q-btn-dropdown-simple'}`,
           on: {
@@ -116,7 +118,9 @@ export default {
               small: this.small,
               big: this.big,
               color: this.color,
-              glossy: this.glossy
+              glossy: this.glossy,
+              noRipple: this.noRipple,
+              waitForRipple: this.waitForRipple
             },
             staticClass: 'q-btn-dropdown-arrow',
             on: {

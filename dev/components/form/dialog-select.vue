@@ -95,12 +95,20 @@ export default {
       ]
     }
   },
+  watch: {
+    select (val, old) {
+      console.log(`Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+    },
+    multipleSelect (val, old) {
+      console.log(`Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+    }
+  },
   methods: {
     onChange (val) {
-      console.log('@change', val)
+      console.log('@change', JSON.stringify(val))
     },
     onInput (val) {
-      console.log('@input', val)
+      console.log('@input', JSON.stringify(val))
     }
   }
 }

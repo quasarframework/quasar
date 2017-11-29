@@ -2,6 +2,8 @@
   <div
     class="q-chip row no-wrap inline items-center"
     :class="classes"
+    @mousedown="__onMouseDown"
+    @touchstart="__onMouseDown"
     @click="__onClick"
   >
     <div
@@ -76,6 +78,9 @@ export default {
   methods: {
     __onClick (e) {
       this.$emit('click', e)
+    },
+    __onMouseDown (e) {
+      this.$emit('focus', e)
     }
   }
 }

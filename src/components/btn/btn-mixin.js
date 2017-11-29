@@ -37,6 +37,9 @@ export default {
     isDisabled () {
       return this.disable || this.loading
     },
+    hasRipple () {
+      return __THEME__ === 'mat' && !this.noRipple && !this.isDisabled
+    },
     classes () {
       const
         cls = [this.shape, this.size],

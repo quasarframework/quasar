@@ -9,10 +9,7 @@ export default {
     title: String,
     grid: Boolean,
     actions: Array,
-    dismissLabel: {
-      type: String,
-      default: 'Cancel'
-    }
+    dismissLabel: String
   },
   computed: {
     contentCss () {
@@ -65,7 +62,7 @@ export default {
             }
           }, [
             h(QItemMain, { staticClass: 'text-center text-primary' }, [
-              this.dismissLabel
+              this.dismissLabel || this.$q.i18n.label.cancel
             ])
           ])
         ])

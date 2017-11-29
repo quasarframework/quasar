@@ -1,37 +1,43 @@
 export default {
-  date: {
-    days: 'Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday'.split('_'),
-    month: 'January_February_March_April_May_June_July_August_September_October_November_December'.split('_')
-  },
   label: {
     clear: 'Clear',
     ok: 'OK',
     cancel: 'Cancel',
+    close: 'Close',
     set: 'Set',
     select: 'Select',
+    reset: 'Reset',
     remove: 'Remove',
     update: 'Update',
     create: 'Create',
-    search: 'Search', // QSearch
-    filter: 'Filter' // QSelect
+    search: 'Search',
+    filter: 'Filter',
+    refresh: 'Refresh'
+  },
+  date: {
+    days: 'Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday'.split('_'),
+    daysShort: 'Sun_Mon_Tue_Wed_Thu_Fri_Sat'.split('_'),
+    months: 'January_February_March_April_May_June_July_August_September_October_November_December'.split('_'),
+    monthsShort: 'Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec'.split('_'),
+    firstDayOfWeek: 0, // 0-6, 0 - Sunday, 1 Monday, ...
+    format24h: false
   },
   pullToRefresh: {
     pull: 'Pull down to refresh',
     release: 'Release to refresh',
     refresh: 'Refreshing...'
   },
-  dataTable: {
+  table: {
     noData: 'No data available',
     noResults: 'No matching records found',
     loader: 'Loading...',
-    selectedRows: rows => `${rows} selected row(s).`,
+    selectedRows: rows => rows > 1 ? `${rows} selected row(s).` : `${rows === 0 ? 'No' : '1'} selected rows.`,
     rowsPerPage: 'Rows per page:',
     allRows: 'All',
     pagination: (start, end, total) => `${start}-${end} of ${total}`,
-    columns: 'Columns' // QTableColumns
+    columns: 'Columns'
   },
   editor: {
-    link: 'Link',
     url: 'URL',
     bold: 'Bold',
     italic: 'Italic',
@@ -52,6 +58,9 @@ export default {
     outdent: 'Decrease indentation',
     indent: 'Increase indentation',
     removeFormat: 'Remove formatting',
+    formatting: 'Formatting',
+    fontSize: 'Font Size',
+    align: 'Align',
     hr: 'Insert Horizontal Rule',
     undo: 'Undo',
     redo: 'Redo',

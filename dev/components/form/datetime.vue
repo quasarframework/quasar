@@ -57,7 +57,7 @@
       </p>
       <q-datetime v-model="model" type="time" />
 
-      <p class="caption">Time 24hr Format</p>
+      <p class="caption">Time 24hr Format (force)</p>
       <q-datetime v-model="model" type="time" format24h />
 
       <p class="caption">Date & Time</p>
@@ -145,7 +145,7 @@
       </p>
       <q-inline-datetime v-model="model" type="time" />
 
-      <p class="caption">Time 24hr Format</p>
+      <p class="caption">Time 24hr Format (force)</p>
       <q-inline-datetime v-model="model" type="time" format24h />
 
       <p class="caption">Date & Time</p>
@@ -163,11 +163,6 @@
       <q-inline-datetime readonly v-model="model" type="datetime" />
       <p class="caption">Min & Max</p>
       <q-inline-datetime type="datetime" v-model="minMaxModel" :min="min" :max="max" />
-
-
-      <p class="caption">I18n</p>
-      <q-datetime inverted format="YYYY-MMMM-dddd" v-model="model" type="date" monday-first :day-names="dayNames" :month-names="monthNames" />
-      <q-inline-datetime v-model="model" monday-first type="date" :day-names="dayNames" :month-names="monthNames" />
     </div>
   </div>
 </template>
@@ -187,10 +182,7 @@ export default {
       minMaxModel: date.formatDate(day),
 
       min: date.subtractFromDate(day, {days: 5}),
-      max: date.addToDate(day, {days: 4, month: 1, minutes: 10}),
-
-      dayNames: ['Duminica', 'Luni', 'Marti', 'Miercuri', 'Joi', 'Vineri', 'Sambata'],
-      monthNames: ['Ianuarie', 'Februarie', 'Martie', 'Aprilie', 'Mai', 'Iunie', 'Iulie', 'August', 'Septembrie', 'Octombrie', 'Noiembrie', 'Decembrie']
+      max: date.addToDate(day, {days: 4, month: 1, minutes: 10})
     }
   },
   methods: {

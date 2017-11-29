@@ -75,7 +75,7 @@
           v-model="terms"
           @input="onInputFilter"
           @keydown="__handleKeydown"
-          :placeholder="filterPlaceholder"
+          :placeholder="filterPlaceholder || $q.i18n.label.filter"
           :debounce="100"
           :color="color"
           icon="filter_list"
@@ -177,10 +177,7 @@ export default {
   },
   props: {
     filter: [Function, Boolean],
-    filterPlaceholder: {
-      type: String,
-      default: 'Filter'
-    },
+    filterPlaceholder: String,
     radio: Boolean,
     placeholder: String,
     separator: Boolean,
@@ -198,8 +195,8 @@ export default {
   computed: {
     optModel () {
       if (this.multiple) {
-        return this.value.length > 0
-          ? this.options.map(opt => this.value.includes(opt.value))
+        return this.model.length > 0
+          ? this.options.map(opt => this.model.includes(opt.value))
           : this.options.map(opt => false)
       }
     },
@@ -306,6 +303,9 @@ export default {
         if (!document.hasFocus() || (elm !== this.$refs.input.$el && !this.$refs.popover.$el.contains(elm))) {
           this.focused = false
           this.$emit('blur')
+          if (JSON.stringify(this.model) !== JSON.stringify(this.value)) {
+            this.$emit('change', this.model)
+          }
         }
       })
     },
