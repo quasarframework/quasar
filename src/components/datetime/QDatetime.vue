@@ -43,8 +43,6 @@
         :max="max"
         :format24h="format24h"
         :first-day-of-week="firstDayOfWeek"
-        :month-names="$q.i18n.date.months"
-        :day-names="$q.i18n.date.days"
         :color="color"
         class="no-border"
       >
@@ -77,8 +75,6 @@
         :max="max"
         :format24h="format24h"
         :first-day-of-week="firstDayOfWeek"
-        :month-names="$q.i18n.date.months"
-        :day-names="$q.i18n.date.days"
         :color="color"
         class="no-border"
         :class="{'full-width': $q.theme === 'ios'}"

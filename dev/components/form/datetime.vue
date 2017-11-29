@@ -57,7 +57,7 @@
       </p>
       <q-datetime v-model="model" type="time" />
 
-      <p class="caption">Time 24hr Format</p>
+      <p class="caption">Time 24hr Format (force)</p>
       <q-datetime v-model="model" type="time" format24h />
 
       <p class="caption">Date & Time</p>
@@ -145,7 +145,7 @@
       </p>
       <q-inline-datetime v-model="model" type="time" />
 
-      <p class="caption">Time 24hr Format</p>
+      <p class="caption">Time 24hr Format (force)</p>
       <q-inline-datetime v-model="model" type="time" format24h />
 
       <p class="caption">Date & Time</p>

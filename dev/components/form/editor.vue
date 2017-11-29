@@ -9,13 +9,13 @@
         ['print', 'fullscreen'],
         [
           {
-            label: 'Formatting',
+            label: $q.i18n.editor.formatting,
             icon: 'text_format',
             list: 'no-icons',
             options: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'code']
           },
           {
-            label: 'Font Size',
+            label: $q.i18n.editor.fontSize,
             icon: 'format_size',
             fixedLabel: true,
             fixedIcon: true,
@@ -23,7 +23,7 @@
             options: ['size-1', 'size-2', 'size-3', 'size-4', 'size-5', 'size-6', 'size-7']
           },
           {
-            label: 'Default Font',
+            label: $q.i18n.editor.defaultFont,
             icon: 'font_download',
             fixedIcon: true,
             list: 'no-icons',
@@ -34,14 +34,14 @@
         ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
         [
           {
-            label: 'Align',
+            label: $q.i18n.editor.align,
             icon: 'format_align_left',
             fixedLabel: true,
             list: 'only-icons',
             options: ['left', 'center', 'right', 'justify']
           },
           {
-            label: 'Align',
+            label: $q.i18n.editor.align,
             icon: 'format_align_left',
             fixedLabel: true,
             options: ['left', 'center', 'right', 'justify']
