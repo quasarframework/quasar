@@ -28,6 +28,12 @@ export default {
   computed: {
     colorClass () {
       return `text-${this.color || this.__timeline.color}`
+    },
+    classes () {
+      return [
+        `q-timeline-entry-${this.side === 'left' ? 'left' : 'right'}`,
+        this.icon ? 'q-timeline-entry-with-icon' : ''
+      ]
     }
   },
   render (h) {
@@ -43,10 +49,7 @@ export default {
 
     return h('li', {
       staticClass: `q-timeline-entry`,
-      'class': {
-        'q-timeline-entry-with-icon': this.icon,
-        [`q-timeline-entry-${this.side === 'left' ? 'left' : 'right'}`]: true
-      }
+      'class': this.classes
     }, [
       h('div', { staticClass: 'q-timeline-subtitle' }, [
         h('span', this.subtitle)
