@@ -126,7 +126,7 @@
             :cfg="opt"
             :link="!opt.disable"
             slot-replace
-            :class="{'text-bold text-primary': value === opt.value, 'text-light': opt.disable}"
+            :class="{'text-bold text-primary': value === opt.value && !opt.disable, 'text-light': opt.disable}"
             :active="selectedIndex === index"
             @click.capture="__singleSelect(opt.value, opt.disable)"
           >
@@ -303,7 +303,7 @@ export default {
     __onBlur (e) {
       this.$nextTick(() => {
         const elm = document.activeElement
-        if (elm !== this.$refs.input.$el && !this.$refs.popover.$el.contains(elm)) {
+        if (!document.hasFocus() || (elm !== this.$refs.input.$el && !this.$refs.popover.$el.contains(elm))) {
           this.focused = false
           this.$emit('blur')
         }
