@@ -2,17 +2,24 @@
   <li class="q-tree-item">
     <div
       class="row inline items-center"
-      :class="{'q-tree-link': model.handler || isExpandable}"
+      :class="{'q-tree-link': hasHandler || isExpandable}"
     >
-      <div @click="tap" class="q-tree-label relative-position row items-center" v-ripple.mat>
-        <q-icon v-if="model.icon" :name="model.icon" class="on-left"></q-icon>
-        <span v-html="model.title"></span>
+      <div @click="tap" class="q-tree-label relative-position row items-center" v-ripple.mat="hasHandler || isExpandable">
+        <q-icon v-if="item.icon" :name="item.icon" class="on-left"></q-icon>
+        <span v-if="item.safe" v-html="item.title"></span>
+        <span v-else>{{item.title}}</span>
       </div>
-      <span v-if="isExpandable" @click="toggle" class="on-right" v-html="model.expanded ? contractHtml : expandHtml"></span>
+      <span v-if="isExpandable" @click="toggle" class="on-right" v-html="item.expanded ? contractHtml : expandHtml"></span>
     </div>
     <q-slide-transition>
-      <ul v-show="isExpandable && model.expanded">
-        <q-tree-item v-for="item in model.children" :key="item.id || item.title" :model="item" :contract-html="contractHtml" :expand-html="expandHtml"></q-tree-item>
+      <ul v-show="isExpandable && item.expanded">
+        <q-tree-item
+          v-for="item in item.children"
+          :key="item.id || item.title"
+          :model="item"
+          :contract-html="contractHtml"
+          :expand-html="expandHtml"
+        ></q-tree-item>
       </ul>
     </q-slide-transition>
   </li>
@@ -33,22 +40,41 @@ export default {
     Ripple
   },
   props: ['model', 'contractHtml', 'expandHtml'],
+  data () {
+    return {
+      item: {
+        expanded: false,
+        children: [],
+        ...this.model
+      }
+    }
+  },
+  watch: {
+    model (value) {
+      this.item = {
+        expanded: false,
+        children: [],
+        ...value
+      }
+    }
+  },
   methods: {
     tap () {
-      if (typeof this.model.handler === 'function') {
-        this.model.handler(this.model)
+      if (this.hasHandler) {
+        return this.item.handler(this.model)
       }
       this.toggle()
     },
     toggle () {
-      if (this.isExpandable) {
-        this.model.expanded = !this.model.expanded
-      }
+      this.item.expanded = !this.item.expanded
     }
   },
   computed: {
     isExpandable () {
-      return this.model.children && this.model.children.length
+      return this.item.children && this.item.children.length > 0
+    },
+    hasHandler () {
+      return typeof this.item.handler === 'function'
     }
   }
 }
