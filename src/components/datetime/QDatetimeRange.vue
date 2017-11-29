@@ -107,6 +107,7 @@ export default {
   methods: {
     __onChange () {
       this.$nextTick(() => {
+        this.$emit('input', this.value)
         this.$emit('change', this.value)
       })
     }

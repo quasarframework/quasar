@@ -2,6 +2,7 @@ import { QIcon } from '../components/icon'
 import { QInputFrame } from '../components/input-frame'
 import { QChip } from '../components/chip'
 import FrameMixin from './input-frame'
+import clone from '../utils/clone'
 
 export default {
   components: {
@@ -28,8 +29,14 @@ export default {
   },
   data () {
     return {
+      model: clone(this.value),
       terms: '',
       focused: false
+    }
+  },
+  watch: {
+    value (val) {
+      this.model = clone(val)
     }
   },
   computed: {
@@ -38,7 +45,7 @@ export default {
         return this.displayValue
       }
       if (!this.multiple) {
-        const opt = this.options.find(opt => opt.value === this.value)
+        const opt = this.options.find(opt => opt.value === this.model)
         return opt ? opt.label : ''
       }
 
@@ -48,7 +55,7 @@ export default {
     selectedOptions () {
       if (this.multiple) {
         return this.length > 0
-          ? this.options.filter(opt => this.value.includes(opt.value))
+          ? this.options.filter(opt => this.model.includes(opt.value))
           : []
       }
     },
@@ -57,8 +64,8 @@ export default {
     },
     length () {
       return this.multiple
-        ? this.value.length
-        : ([null, undefined, ''].includes(this.value) ? 0 : 1)
+        ? this.model.length
+        : ([null, undefined, ''].includes(this.model) ? 0 : 1)
     },
     additionalLength () {
       return this.displayValue && this.displayValue.length > 0
@@ -70,7 +77,7 @@ export default {
         return
       }
       const
-        model = this.value,
+        model = this.model,
         index = model.indexOf(value)
 
       if (index > -1) {
@@ -81,7 +88,6 @@ export default {
       }
 
       this.$emit('input', model)
-      this.$emit('change', model)
     },
     __emit (val) {
       if (this.value !== val) {

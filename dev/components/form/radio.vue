@@ -8,13 +8,13 @@
       <q-toggle v-model="keepColor" label="Keep Color" />
 
       <p class="caption">Standalone</p>
-      <q-radio @change="onChange" v-model="option" val="opt1" :dark="dark" :keep-color="keepColor" />
+      <q-radio @change="onChange" @input="onInput" v-model="option" val="opt1" :dark="dark" :keep-color="keepColor" />
       <br><br>
-      <q-radio @change="onChange" v-model="option" val="opt2" label="Option 2" :dark="dark" :keep-color="keepColor" />
+      <q-radio @change="onChange" @input="onInput" v-model="option" val="opt2" label="Option 2" :dark="dark" :keep-color="keepColor" />
       <br><br>
-      <q-radio @change="onChange" v-model="option" val="opt3" color="teal" label="Option 3" :dark="dark" :keep-color="keepColor" />
+      <q-radio @change="onChange" @input="onInput" v-model="option" val="opt3" color="teal" label="Option 3" :dark="dark" :keep-color="keepColor" />
       <br><br>
-      <q-radio @change="onChange" v-model="option" val="opt4" color="orange" label="Option 4" :dark="dark" :keep-color="keepColor" />
+      <q-radio @change="onChange" @input="onInput" v-model="option" val="opt4" color="orange" label="Option 4" :dark="dark" :keep-color="keepColor" />
 
       <p class="caption">Label on the left side</p>
       <q-radio v-model="option" val="opt2" left-label label="Option 2" :dark="dark" :keep-color="keepColor" />
@@ -37,6 +37,7 @@
           type="radio"
           v-model="group"
           @change="onChange"
+          @input="onInput"
           :dark="dark"
           :keep-color="keepColor"
           :options="[
@@ -130,9 +131,20 @@ export default {
       keepColor: false
     }
   },
+  watch: {
+    option (val, old) {
+      console.log(`Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+    },
+    group (val, old) {
+      console.log(`Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+    }
+  },
   methods: {
-    onChange (v) {
-      console.log('@change', v)
+    onChange (val) {
+      console.log('@change', JSON.stringify(val))
+    },
+    onInput (val) {
+      console.log('@input', JSON.stringify(val))
     }
   }
 }

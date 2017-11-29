@@ -12,7 +12,7 @@
       <q-checkbox v-model="checked" checked-icon="visibility" unchecked-icon="visibility_off" style="margin-left: 50px" :dark="dark" :keep-color="keepColor" />
 
       <br><br>
-      <q-checkbox @change="onChange" v-model="checked" :dark="dark" :keep-color="keepColor" />
+      <q-checkbox @change="onChange" @input="onInput" v-model="checked" :dark="dark" :keep-color="keepColor" />
       <br><br>
       <q-checkbox v-model="checked" label="Label" :dark="dark" :keep-color="keepColor" />
       <br><br>
@@ -57,6 +57,7 @@
           color="secondary"
           v-model="group"
           @change="onChange"
+          @input="onInput"
           :dark="dark"
           :keep-color="keepColor"
           :options="[
@@ -131,9 +132,17 @@ export default {
       keepColor: false
     }
   },
+  watch: {
+    group (val, old) {
+      console.log(`Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+    }
+  },
   methods: {
     onChange (val) {
-      console.log('@change', val)
+      console.log('@change', JSON.stringify(val))
+    },
+    onInput (val) {
+      console.log('@input', JSON.stringify(val))
     },
     onFocus () {
       console.log('focused')

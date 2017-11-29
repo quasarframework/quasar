@@ -65,7 +65,7 @@
       :class="classNames"
       :transition="transition"
       :position-classes="position"
-      :content-css="css"
+      :content-css="contentCSS"
       @show="__onFocus"
       @hide="__onHide"
     >
@@ -141,7 +141,7 @@ export default {
   ),
   data () {
     let data = this.usingPopover ? {} : {
-      css: contentCSS,
+      contentCSS,
       position: __THEME__ === 'ios' ? 'items-end justify-center' : 'flex-center',
       transition: __THEME__ === 'ios' ? 'q-modal-bottom' : 'q-modal',
       classNames: __THEME__ === 'ios' ? '' : 'minimized'

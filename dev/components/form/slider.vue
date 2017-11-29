@@ -7,7 +7,8 @@
           Model <span class="right-detail"><em>{{standalone}}</em> &nbsp;&nbsp;(0 to 50)</span>
         </span>
       </p>
-      <q-slider @change="onChange" v-model="standalone" :min="0" :max="50"></q-slider>
+      <q-slider @change="onChange" @input="onInput" v-model="standalone" :min="0" :max="50"></q-slider>
+      <q-slider @change="val => { standalone = val; onChange(val); }" @input="onInput" :value="standalone" :min="0" :max="50" label></q-slider>
       <q-slider v-model="standalone" :min="0" :max="50" square></q-slider>
 
       <p class="caption">
@@ -29,10 +30,10 @@
       <p class="caption">
         With Label
         <span class="label inline bg-secondary text-white">
-          Model <span class="right-detail"><em>{{label}}</em> &nbsp;&nbsp;(-20 to 20, step 4)</span>
+          Model <span class="right-detail"><em>{{label}}</em> &nbsp;&nbsp;(-10 to 10, step 4)</span>
         </span>
       </p>
-      <q-slider v-model="label" :min="-20" :max="20" :step="4" label></q-slider>
+      <q-slider v-model="label" :min="-10" :max="10" :step="4" label></q-slider>
 
       <p class="caption">
         Snaps to Steps
@@ -122,9 +123,20 @@ export default {
       marker: 6
     }
   },
+  watch: {
+    standalone (val, old) {
+      console.log(`Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+    },
+    step (val, old) {
+      console.log(`Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+    }
+  },
   methods: {
     onChange (val) {
-      console.log('@change', val)
+      console.log('@change', JSON.stringify(val))
+    },
+    onInput (val) {
+      console.log('@input', JSON.stringify(val))
     }
   }
 }
