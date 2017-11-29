@@ -28,7 +28,7 @@ export default {
     noData: 'Nessun dato disponibile',
     noResults: 'Nessuna corrispondenza trovata',
     loader: 'Caricamento...',
-    selectedRows: rows => `${rows} riga/he selezionata/e.`,
+    selectedRows: rows => rows > 1 ? `${rows} righe selezionate.` : `${rows === 0 ? 'Nessuna' : '1'} riga selezionata.`,
     rowsPerPage: 'Righe per pagina:',
     allRows: 'Tutte',
     pagination: (start, end, total) => `${start}-${end} di ${total}`,
