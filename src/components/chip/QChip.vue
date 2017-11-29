@@ -3,6 +3,7 @@
     class="q-chip row no-wrap inline items-center"
     :class="classes"
     @mousedown="__onMouseDown"
+    @touchstart="__onMouseDown"
     @click="__onClick"
   >
     <div

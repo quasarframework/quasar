@@ -58,7 +58,8 @@
       class="q-if-control self-end"
       :class="{invisible: !input.length}"
       @mousedown="__clearTimer"
-      @mouseup="add()"
+      @touchstart="__clearTimer"
+      @click="add()"
     ></q-icon>
   </q-input-frame>
 </template>

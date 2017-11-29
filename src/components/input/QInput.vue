@@ -91,7 +91,8 @@
       :name="showPass ? 'visibility' : 'visibility_off'"
       class="q-if-control"
       @mousedown="__clearTimer"
-      @mouseup="togglePass"
+      @touchstart="__clearTimer"
+      @click="togglePass"
     ></q-icon>
 
     <q-icon
@@ -100,7 +101,8 @@
       name="cancel"
       class="q-if-control"
       @mousedown="__clearTimer"
-      @mouseup="clear"
+      @touchstart="__clearTimer"
+      @click="clear"
     ></q-icon>
 
     <q-spinner

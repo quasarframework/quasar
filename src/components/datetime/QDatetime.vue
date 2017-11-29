@@ -229,7 +229,6 @@ export default {
     __update () {
       let val = this.model || this.$refs.target.model
       if (!isSameDate(this.value, val)) {
-        val = (new Date(val)).valueOf()
         this.$emit('input', val)
         this.$emit('change', val)
       }

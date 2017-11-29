@@ -13,7 +13,8 @@
         :class="{hidden: __additionalHidden(item, hasError, hasWarning, length)}"
         :name="item.icon"
         @mousedown="__onMouseDown"
-        @mouseup="__baHandler($event, item)"
+        @touchstart="__onMouseDown"
+        @click="__baHandler($event, item)"
       ></q-icon>
     </template>
 
@@ -51,7 +52,8 @@
         :class="{hidden: __additionalHidden(item, hasError, hasWarning, length)}"
         :name="item.icon"
         @mousedown="__onMouseDown"
-        @mouseup="__baHandler($event, item)"
+        @touchstart="__onMouseDown"
+        @click="__baHandler($event, item)"
       ></q-icon>
     </template>
   </div>
