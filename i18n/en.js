@@ -10,7 +10,8 @@ export default {
     update: 'Update',
     create: 'Create',
     search: 'Search',
-    filter: 'Filter'
+    filter: 'Filter',
+    refresh: 'Refresh'
   },
   date: {
     days: 'Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday'.split('_'),

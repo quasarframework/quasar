@@ -1,35 +1,36 @@
 export default {
   label: {
-    clear: 'Goleste',
+    clear: 'Golește',
     ok: 'OK',
-    cancel: 'Anuleaza',
-    close: 'Inchide',
-    set: 'Seteaza',
+    cancel: 'Anulează',
+    close: 'Închide',
+    set: 'Setează',
     select: 'Alege',
-    reset: 'Reseteaza',
-    remove: 'Elimina',
-    update: 'Actualizeaza',
-    create: 'Creeaza',
-    search: 'Cauta',
-    filter: 'Filtreaza'
+    reset: 'Resetează',
+    remove: 'Elimină',
+    update: 'Actualizează',
+    create: 'Creează',
+    search: 'Caută',
+    filter: 'Filtrează',
+    refresh: 'Reactualizează'
   },
   date: {
-    days: 'Duminica_Luni_Marti_Miercuri_Joi_Vineri_Sambata'.split('_'),
-    daysShort: 'Dum_Lun_Mar_Mie_Joi_Vin_Sam'.split('_'),
+    days: 'Duminică_Luni_Marți_Miercuri_Joi_Vineri_Sâmbătă'.split('_'),
+    daysShort: 'Dum_Lun_Mar_Mie_Joi_Vin_Sâm'.split('_'),
     months: 'Ianuarie_Februarie_Martie_Aprilie_Mai_Iunie_Iulie_August_Septembrie_Octombrie_Noiembrie_Decembrie'.split('_'),
     monthsShort: 'Ian_Feb_Mar_Apr_Mai_Iun_Iul_Aug_Sep_Oct_Nov_Dec'.split('_')
   },
   pullToRefresh: {
     pull: 'Pull down to refresh',
     release: 'Release to refresh',
-    refresh: 'Refreshing...'
+    refresh: 'Reactulizez...'
   },
   table: {
     noData: 'No data available',
     noResults: 'No matching records found',
-    loader: 'Se incarca...',
-    selectedRows: rows => `${rows} randuri selectate.`,
-    rowsPerPage: 'Randuri pe pagina:',
+    loader: 'Se încarcă...',
+    selectedRows: rows => `${rows} rânduri selectate.`,
+    rowsPerPage: 'Rânduri pe pagină:',
     allRows: 'Toate',
     pagination: (start, end, total) => `${start}-${end} din ${total}`,
     columns: 'Coloane'
