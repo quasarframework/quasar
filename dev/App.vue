@@ -4,14 +4,22 @@
       <router-view></router-view>
     </q-transition>
     <q-ajax-bar ref="bar" />
-    <q-select
-      :options="[
-        { label: 'English', value: 'en' },
-        { label: 'Romana', value: 'ro' }
-      ]"
-      v-model="lang"
-      class="fixed-bottom-right z-max"
-    />
+    <div
+      style="padding: 0px 10px; right: 0; bottom: 100px"
+      class="bg-white shadow-4 fixed z-max"
+    >
+      <q-select
+        :options="[
+          { label: 'English', value: 'en' }
+          ,{ label: 'Romanian', value: 'ro' }
+          ,{ label: 'Italian', value: 'it' }
+          //,{ label: 'Spanish', value: 'es' },
+          //,{ label: 'French', value: 'fr' },
+          //,{ label: 'German', value: 'de' }
+        ]"
+        v-model="lang"
+      />
+    </div>
   </q-app>
 </template>
 
