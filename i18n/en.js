@@ -1,10 +1,4 @@
 export default {
-  date: {
-    days: 'Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday'.split('_'),
-    daysShort: 'Sun_Mon_Tue_Wed_Thu_Fri_Sat'.split('_'),
-    months: 'January_February_March_April_May_June_July_August_September_October_November_December'.split('_'),
-    monthsShort: 'Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec'.split('_')
-  },
   label: {
     clear: 'Clear',
     ok: 'OK',
@@ -17,6 +11,12 @@ export default {
     create: 'Create',
     search: 'Search',
     filter: 'Filter'
+  },
+  date: {
+    days: 'Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday'.split('_'),
+    daysShort: 'Sun_Mon_Tue_Wed_Thu_Fri_Sat'.split('_'),
+    months: 'January_February_March_April_May_June_July_August_September_October_November_December'.split('_'),
+    monthsShort: 'Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec'.split('_')
   },
   pullToRefresh: {
     pull: 'Pull down to refresh',
