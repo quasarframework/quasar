@@ -42,13 +42,13 @@ export default {
     }
 
     return h('li', {
-      staticClass: 'q-timeline-entry',
+      staticClass: `q-timeline-entry${this.icon ? ' q-timeline-entry-with-icon' : ''}`,
       'class': this.side === 'left' ? 'q-timeline-entry-left' : 'q-timeline-entry-right'
     }, [
       h('div', { staticClass: 'q-timeline-subtitle' }, [
         h('span', this.subtitle)
       ]),
-      h('div', { staticClass: `q-timeline-dot${this.icon ? ' q-timeline-dot-icon' : ''}`, 'class': this.colorClass }, this.icon ? [
+      h('div', { staticClass: 'q-timeline-dot', 'class': this.colorClass }, this.icon ? [
         h(QIcon, { props: { name: this.icon } })
       ] : []),
       h('div', { staticClass: 'q-timeline-content' }, [

@@ -20,17 +20,6 @@
   bottom 0
   left 0
   width 15px
-  &.q-timeline-dot-icon
-    width 31px
-    left -8px
-    .q-icon
-      position absolute
-      top 9px
-      left 5px
-      font-size 21px
-      color white
-      transition color .3s ease-in-out
-
   &:before, &:after
     content ''
     background currentColor
@@ -44,18 +33,32 @@
     top 4px
     left 0
     transition background .3s ease-in-out, border .3s ease-in-out
-  &.q-timeline-dot-icon:before
-    height 31px
-    width 31px
   &:after
     width 3px
     opacity .4
     top 24px
     bottom 0
     left 6px
-  &.q-timeline-dot-icon:after
-    top 41px
-    left 14px
+
+.q-timeline-entry-with-icon
+  .q-timeline-dot
+    width 31px
+    left -8px
+    &:before
+      height 31px
+      width 31px
+    &:after
+      top 41px
+      left 14px
+    .q-icon
+      position absolute
+      top 8px
+      left 5px
+      font-size 22px
+      color white
+      transition color .3s ease-in-out
+  .q-timeline-subtitle
+    padding-top 8px
 
 .q-timeline-dark
   color white
@@ -74,8 +77,8 @@
     .q-timeline-dot:before
       background transparent
       border 3px solid currentColor
-    .q-timeline-dot-icon .q-icon
-      color currentColor
+  &.q-timeline-entry-with-icon:hover .q-timeline-dot .q-icon
+    color currentColor
 
 .q-timeline-content
   padding-bottom 24px
@@ -113,6 +116,8 @@
     position relative
   .q-timeline-content
     padding-left 30px
+  .q-timeline-entry-with-icon .q-timeline-content
+    padding-top 8px
   .q-timeline-subtitle
     padding-right 30px
 
@@ -128,9 +133,9 @@
     position absolute
     left 50%
     margin-left -7.15px
-    &.q-timeline-dot-icon
-      left 50%
-      margin-left -15px
+  .q-timeline-entry-with-icon .q-timeline-dot
+    left 50%
+    margin-left -15px
   .q-timeline-subtitle, .q-timeline-content
     width 50%
   .q-timeline-entry-left .q-timeline-content,
@@ -143,6 +148,8 @@
     float right
     text-align left
     padding-left 30px
+  .q-timeline-entry-with-icon .q-timeline-content
+    padding-top 8px
   .q-timeline-entry
     padding-bottom 24px
     overflow hidden
