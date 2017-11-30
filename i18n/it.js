@@ -6,7 +6,7 @@ export default {
     close: 'Chiudi',
     set: 'Imposta',
     select: 'Seleziona',
-    reset: 'Risistemare',
+    reset: 'Ripristina',
     remove: 'Rimuovi',
     update: 'Aggiorna',
     create: 'Crea',
@@ -23,7 +23,7 @@ export default {
     format24h: true
   },
   pullToRefresh: {
-    pull: 'Tira giù per aggiornare',
+    pull: 'Trascina in basso per aggiornare',
     release: 'Rilascia per aggiornare',
     refresh: 'Aggiornamento...'
   },
@@ -58,9 +58,9 @@ export default {
     outdent: 'Diminuisci identazione',
     indent: 'Aumenta identazione',
     removeFormat: 'Rimuovi formattazione',
-    formatting: 'Formatazzione',
-    fontSize: 'Dimensione del font',
-    align: 'Allineare',
+    formatting: 'Formattazione',
+    fontSize: 'Dimensione del font,',
+    align: 'Allinea',
     hr: 'Inserisci righello orizzontale',
     undo: 'Indietro',
     redo: 'Avanti',
@@ -79,6 +79,6 @@ export default {
     size5: 'Grande',
     size6: 'Molto grande',
     size7: 'Massimo',
-    defaultFont: 'Carattere predefinito'
+    defaultFont: 'Font predefinito'
   }
 }
