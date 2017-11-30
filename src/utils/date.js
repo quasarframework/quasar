@@ -8,7 +8,7 @@ const
   MILLISECONDS_IN_DAY = 86400000,
   MILLISECONDS_IN_HOUR = 3600000,
   MILLISECONDS_IN_MINUTE = 60000,
-  token = /d{1,4}|M{1,4}|m{1,2}|w{1,2}|Qo|Do|D{1,4}|YY(?:YY)?|H{1,2}|h{1,2}|s{1,2}|S{1,3}|Z{1,2}|a{1,2}|[AQExX]/g
+  token = /\[((?:[^\]\\]|\\]|\\)*)\]|d{1,4}|M{1,4}|m{1,2}|w{1,2}|Qo|Do|D{1,4}|YY(?:YY)?|H{1,2}|h{1,2}|s{1,2}|S{1,3}|Z{1,2}|a{1,2}|[AQExX]/g
 
 function formatTimezone (offset, delimeter = '') {
   const
@@ -507,10 +507,12 @@ export function formatDate (val, mask = 'YYYY-MM-DDTHH:mm:ss.SSSZ') {
 
   let date = new Date(val)
 
-  return mask.replace(token, function (match) {
+  return mask.replace(token, function (match, text) {
     if (match in formatter) {
       return formatter[match](date)
     }
-    return match
+    return text === void 0
+      ? match
+      : text.split('\\]').join(']')
   })
 }
