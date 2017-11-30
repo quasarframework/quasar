@@ -6,7 +6,7 @@
     <q-ajax-bar ref="bar" />
     <div
       style="padding: 0px 10px; right: 0; bottom: 100px"
-      class="bg-white shadow-4 fixed z-max"
+      class="hidden bg-white shadow-4 fixed z-max"
     >
       <q-select
         :options="[

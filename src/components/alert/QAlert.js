@@ -1,5 +1,6 @@
 import typeIcon from '../../utils/type-icons'
 import { QIcon } from '../icon'
+import { QBtn } from '../btn'
 
 export default {
   name: 'q-alert',
@@ -13,10 +14,11 @@ export default {
       default: 'negative'
     },
     textColor: String,
+    message: String,
+    detail: String,
     icon: String,
     avatar: String,
-    actions: Array,
-    message: String
+    actions: Array
   },
   computed: {
     computedIcon () {
@@ -25,11 +27,7 @@ export default {
         : typeIcon[this.type || this.color]
     },
     classes () {
-      let cls = `bg-${this.type || this.color}`
-      if (this.textColor) {
-        cls += ` text-${this.textColor}`
-      }
-      return cls
+      return `bg-${this.type || this.color} text-${this.textColor || 'white'}`
     }
   },
   render (h) {
@@ -53,7 +51,7 @@ export default {
 
     return h('div', [
       h('div', {
-        staticClass: 'q-alert row no-wrap shadow-4',
+        staticClass: 'q-alert row no-wrap shadow-2',
         'class': this.classes
       }, [
         side.length
@@ -62,19 +60,27 @@ export default {
         h('div', {
           staticClass: 'q-alert-content col self-center'
         }, [
-          this.$slots.default || this.message,
-          this.actions && this.actions.length
-            ? h('div', { staticClass: 'q-alert-actions row items-center' },
-              this.actions.map(action =>
-                h('span', {
-                  on: {
-                    click: () => action.handler()
-                  }
-                }, [ action.label ])
-              )
-            )
-            : null
-        ])
+          h('div', this.$slots.default || this.message),
+          this.detail ? h('div', { staticClass: 'q-alert-detail' }, [ this.detail ]) : null
+        ]),
+        this.actions && this.actions.length
+          ? h('div', {
+            staticClass: 'q-alert-actions col-auto xs-gutter flex-center'
+          },
+          this.actions.map(action =>
+            h('div', [
+              h(QBtn, {
+                props: {
+                  flat: true,
+                  compact: true
+                },
+                on: {
+                  click: () => action.handler()
+                }
+              }, [ action.label ])
+            ])
+          ))
+          : null
       ])
     ])
   }

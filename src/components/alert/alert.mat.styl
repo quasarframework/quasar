@@ -1,23 +1,22 @@
 .q-alert
-  color $alert-color
-  background $alert-background
-  border-radius $alert-border-radius
-  min-width $alert-min-width
+  border-radius $generic-border-radius
+  min-width 200px
+  box-shadow none
+
+  .avatar
+    width 32px
+    height 32px
 
 .q-alert-side, .q-alert-content
-  padding $alert-padding
+  padding 12px
+  font-size 16px
 
 .q-alert-side
-  font-size 150%
+  font-size 24px
   background rgba(0, 0, 0, .1)
 
 .q-alert-actions
-  margin-top 4px
-  border-top 1px solid currentColor
-  opacity .7
-  padding-top 4px
-  font-size .8rem
-  span
-    cursor pointer
-  span + span
-    margin-left 16px
+  padding 12px 12px 12px 0
+
+.q-alert-detail
+  font-size 12px

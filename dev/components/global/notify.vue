@@ -65,11 +65,11 @@ import {
 } from 'quasar'
 
 const alerts = [
-  { color: 'error', message: 'Woah! Danger! You are getting good at this!', icon: 'report_problem' },
-  { color: 'warning', message: 'You need to know about this!', icon: 'warning' },
-  { color: 'amber', message: 'Wow! Nice job!', icon: 'thumb_up' },
+  { color: 'negative', message: 'Woah! Danger! You are getting good at this!', icon: 'report_problem' },
+  { color: 'pink', message: 'You need to know about this!', icon: 'warning' },
+  { color: 'orange', textColor: 'black', message: 'Wow! Nice job!', icon: 'thumb_up' },
   { color: 'secondary', message: 'Quasar is cool! Right?', icon: 'tag_faces' },
-  { color: 'amber', textColor: 'black', message: 'Jim just pinged you', avatar: 'statics/boy-avatar.png' }
+  { color: 'tertiary', message: 'Jim just pinged you', avatar: 'statics/boy-avatar.png' }
 ]
 
 export default {
@@ -94,7 +94,7 @@ export default {
         position,
         avatar,
         actions: Math.random() * 100 > 50
-          ? [ { label: 'Close', handler: () => remove() } ]
+          ? [ { label: 'Reply', handler: () => remove() } ]
           : null,
         timeout: Math.random() * 5000 + 3000
       })
