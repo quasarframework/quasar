@@ -19,7 +19,7 @@
     focusable
     :length="length"
     :additional-length="additionalLength"
-    @click.native="show"
+
     @focus.native="__onFocus"
     @blur.native="__onBlur"
     @keydown.enter.native="show"
@@ -55,14 +55,14 @@
       class="q-if-control"
       @click.stop="clear"
     ></q-icon>
-    <q-icon slot="after" name="arrow_drop_down" class="q-if-control"></q-icon>
+    <q-icon slot="after" @click="show" name="arrow_drop_down" class="q-if-control"></q-icon>
 
     <q-popover
       ref="popover"
       fit
       :disable="disable"
       :offset="[0, 10]"
-      :anchor-click="false"
+      :anchor-click="true"
       max-height="100vh"
       class="column no-wrap no-scroll"
       @show="onShowPopover"
@@ -188,7 +188,6 @@ export default {
   },
   data () {
     return {
-      listShowing: false,
       selectedIndex: -1
     }
   },
@@ -223,13 +222,9 @@ export default {
   },
   methods: {
     show () {
-      if (this.disable || this.listShowing) {
+      if (this.disable) {
         return Promise.reject(new Error())
       }
-      this.listShowing = true
-      this.selectedIndex = this.multiple
-        ? this.options.findIndex(opt => this.value.includes(opt.value))
-        : this.options.findIndex(opt => this.value === opt.value)
       return this.$refs.popover.show()
     },
     hide () {
@@ -281,15 +276,15 @@ export default {
       this.visibleOptions[this.selectedIndex].disable === true ? this.move(offset) : this.$nextTick(this.scrollToSelectedItem)
     },
     onShowPopover () {
+      this.selectedIndex = this.multiple
+        ? this.options.findIndex(opt => this.value.includes(opt.value))
+        : this.options.findIndex(opt => this.value === opt.value)
       this.filter && this.$q.platform.is.desktop ? this.$refs.filter.focus() : this.$refs.list.focus()
       this.$nextTick(this.scrollToSelectedItem.bind(null, true))
     },
     onHidePopover () {
       this.__onBlur()
       this.terms = ''
-      this.$nextTick(() => {
-        this.listShowing = false
-      })
     },
     __onFocus () {
       if (!this.focused) {
