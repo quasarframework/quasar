@@ -23,7 +23,7 @@ export default {
       format24h: true
     },
     pullToRefresh: {
-      pull: 'Tirer pour rafraichir',
+      pull: 'Tirer pour rafraîchir',
       release: 'Relâcher pour rafraîchir',
       refresh: 'Chargement...'
     },
