@@ -154,7 +154,8 @@ export default {
       type: Number,
       default: 1
     },
-    maxDecimals: Number
+    maxDecimals: Number,
+    upperCase: Boolean
   },
   data () {
     return {
@@ -249,6 +250,7 @@ export default {
 
     __set (e) {
       let val = e.target ? e.target.value : e
+
       if (this.isNumber) {
         val = parseFloat(val)
         if (isNaN(val)) {
@@ -259,6 +261,10 @@ export default {
           val = parseFloat(val.toFixed(this.maxDecimals))
         }
       }
+      else if (this.upperCase) {
+        val = val.toUpperCase()
+      }
+
       if (val !== this.model) {
         this.$emit('input', val)
       }

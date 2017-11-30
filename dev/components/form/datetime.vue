@@ -12,8 +12,12 @@
         </span>
       </p>
 
-      <div class="label bg-secondary text-white">
-        Model <span class="right-detail"><em>{{model}}</em></span>
+      <div class="bg-secondary text-white">
+        Model: <em>{{model}}</em>
+      </div>
+      <q-input v-model="format" float-label="Format string" />
+      <div class="bg-secondary text-white">
+        Formatted: <em>{{modelFormatted}}</em>
       </div>
 
       <p class="caption">
@@ -179,10 +183,17 @@ export default {
       model: undefined,
       defaultSelection: '2016-09-18T10:45:00.000Z',
 
+      format: 'MMMM D, YYYY [at] h:mm [[]a[\\]]',
+
       minMaxModel: date.formatDate(day),
 
       min: date.subtractFromDate(day, {days: 5}),
       max: date.addToDate(day, {days: 4, month: 1, minutes: 10})
+    }
+  },
+  computed: {
+    modelFormatted () {
+      return date.formatDate(this.model, this.format)
     }
   },
   methods: {
