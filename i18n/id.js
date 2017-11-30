@@ -1,4 +1,5 @@
 export default {
+  lang: 'id',
   label: {
     clear: 'Bersihkan',
     ok: 'OK',

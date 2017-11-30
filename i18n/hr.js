@@ -1,4 +1,5 @@
 export default {
+  lang: 'hr',
   label: {
     clear: 'Očisti',
     ok: 'OK',

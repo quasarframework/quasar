@@ -1,4 +1,5 @@
 export default {
+  lang: 'it',
   label: {
     clear: 'Pulisci',
     ok: 'OK',
