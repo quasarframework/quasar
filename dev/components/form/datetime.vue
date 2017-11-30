@@ -183,7 +183,7 @@ export default {
       model: undefined,
       defaultSelection: '2016-09-18T10:45:00.000Z',
 
-      format: 'YYYY-MM-DDTHH:mm:ss.SSSZ',
+      format: 'MMMM D, YYYY [at] h:mm [[]a[\\]]',
 
       minMaxModel: date.formatDate(day),
 

@@ -250,7 +250,7 @@ export default {
 
     __set (e) {
       let val = e.target ? e.target.value : e
- 
+
       if (this.isNumber) {
         val = parseFloat(val)
         if (isNaN(val)) {
@@ -264,7 +264,7 @@ export default {
       else if (this.upperCase) {
         val = val.toUpperCase()
       }
- 
+
       if (val !== this.model) {
         this.$emit('input', val)
       }
