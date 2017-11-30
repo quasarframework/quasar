@@ -59,7 +59,7 @@ export default {
     indent: 'Aumenta identazione',
     removeFormat: 'Rimuovi formattazione',
     formatting: 'Formattazione',
-    fontSize: 'Dimensione del font,',
+    fontSize: 'Dimensione del font',
     align: 'Allinea',
     hr: 'Inserisci righello orizzontale',
     undo: 'Indietro',
