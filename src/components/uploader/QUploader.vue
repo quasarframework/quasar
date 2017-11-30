@@ -186,7 +186,11 @@ export default {
     noThumbnails: Boolean,
     autoExpand: Boolean,
     expandStyle: [Array, String, Object],
-    expandClass: [Array, String, Object]
+    expandClass: [Array, String, Object],
+    sendRaw: {
+      type: Boolean,
+      default: false
+    }
   },
   data () {
     return {
@@ -398,7 +402,12 @@ export default {
           }
 
           this.xhrs.push(xhr)
-          xhr.send(form)
+          if (this.sendRaw) {
+            xhr.send(file)
+          }
+          else {
+            xhr.send(form)
+          }
         })
       })
     },
@@ -425,7 +434,8 @@ export default {
         }
       }
 
-      this.queue.map(file => this.__getUploadPromise(file))
+      this.queue
+        .map(file => this.__getUploadPromise(file))
         .forEach(promise => {
           promise.then(solved).catch(solved)
         })

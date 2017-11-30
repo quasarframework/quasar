@@ -1,7 +1,7 @@
 .q-btn-group
   border-radius $button-border-radius
   box-shadow $button-shadow
-  vertical-align middle
+  vertical-align text-bottom
   > .q-btn-group
     box-shadow none
   .q-btn
@@ -14,6 +14,9 @@
     border-bottom-left-radius 0
 .q-btn-group-push
   border-radius $button-push-border-radius
+  .q-btn-push:active:not(.disabled)
+    border-bottom 0 solid transparent
+    transform translateY(0)
 .q-btn-group-rounded
   border-radius $button-rounded-border-radius
 .q-btn-group-flat, .q-btn-group-outline

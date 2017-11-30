@@ -1,8 +1,9 @@
-import Platform from './plugins/platform'
 import { version } from '../package.json'
-import { setVue } from './deps'
 import { ready } from './utils/dom'
+import Platform from './plugins/platform'
+import History from './plugins/history'
 import './polyfills'
+import i18n from './i18n'
 
 function addBodyClasses () {
   const cls = [
@@ -20,18 +21,23 @@ function addBodyClasses () {
 }
 
 export default function (_Vue, opts = {}) {
-  if (this.installed) {
+  if (this.__installed) {
     return
   }
-  this.installed = true
+  this.__installed = true
 
-  setVue(_Vue)
-  ready(addBodyClasses)
-
-  const Quasar = {
+  const $q = {
     version,
     theme: __THEME__
   }
+
+  // required plugins
+  Platform.install({ $q })
+  History.install()
+  i18n.install({ $q, Vue: _Vue, lang: opts.i18n })
+
+  // inject body classes
+  ready(addBodyClasses)
 
   if (opts.directives) {
     Object.keys(opts.directives).forEach(key => {
@@ -41,6 +47,7 @@ export default function (_Vue, opts = {}) {
       }
     })
   }
+
   if (opts.components) {
     Object.keys(opts.components).forEach(key => {
       const c = opts.components[key]
@@ -49,17 +56,15 @@ export default function (_Vue, opts = {}) {
       }
     })
   }
-  if (opts.plugins) {
-    // required plugin
-    Platform.install({ Quasar })
 
+  if (opts.plugins) {
     Object.keys(opts.plugins).forEach(key => {
       const p = opts.plugins[key]
       if (typeof p.install === 'function') {
-        p.install({ Quasar, Vue: _Vue })
+        p.install({ $q, Vue: _Vue })
       }
     })
   }
 
-  _Vue.prototype.$q = Quasar
+  _Vue.prototype.$q = $q
 }

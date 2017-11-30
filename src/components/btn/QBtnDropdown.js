@@ -7,13 +7,9 @@ export default {
   name: 'q-btn-dropdown',
   mixins: [BtnMixin],
   props: {
+    value: Boolean,
     label: String,
     split: Boolean
-  },
-  data () {
-    return {
-      opened: false
-    }
   },
   render (h) {
     const
@@ -28,13 +24,13 @@ export default {
             self: 'top right'
           },
           on: {
-            open: e => {
-              this.opened = true
-              this.$emit('open', e)
+            show: e => {
+              this.$emit('show', e)
+              this.$emit('input', true)
             },
-            close: e => {
-              this.opened = false
-              this.$emit('close', e)
+            hide: e => {
+              this.$emit('hide', e)
+              this.$emit('input', false)
             }
           }
         },
@@ -48,7 +44,7 @@ export default {
           },
           staticClass: 'transition-generic',
           'class': {
-            'rotate-180': this.opened,
+            'rotate-180': this.showing,
             'on-right': !this.split,
             'q-btn-dropdown-arrow': !this.split
           }
@@ -76,7 +72,9 @@ export default {
             big: this.big,
             color: this.color,
             glossy: this.glossy,
-            compact: this.compact
+            compact: this.compact,
+            noRipple: this.noRipple,
+            waitForRipple: this.waitForRipple
           },
           staticClass: `${this.split ? 'q-btn-dropdown-current' : 'q-btn-dropdown q-btn-dropdown-simple'}`,
           on: {
@@ -120,29 +118,31 @@ export default {
               small: this.small,
               big: this.big,
               color: this.color,
-              glossy: this.glossy
+              glossy: this.glossy,
+              noRipple: this.noRipple,
+              waitForRipple: this.waitForRipple
             },
             staticClass: 'q-btn-dropdown-arrow',
             on: {
               click: () => {
                 if (!this.disable) {
-                  this.$refs.popover.open()
+                  this.show()
                 }
               }
             }
           },
-          [Icon]
+          [ Icon ]
         ),
         child
       ]
     )
   },
   methods: {
-    open () {
-      this.$refs.popover.open()
+    show () {
+      return this.$refs.popover.show()
     },
-    close () {
-      this.$refs.popover.close()
+    hide () {
+      return this.$refs.popover.hide()
     }
   }
 }

@@ -21,6 +21,7 @@ export default {
     stackLabel: String,
     floatLabel: String,
     error: Boolean,
+    warning: Boolean,
     disable: Boolean,
     color: {
       type: String,

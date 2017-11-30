@@ -10,7 +10,10 @@ export default {
     }
   },
   props: {
-    value: Boolean,
+    value: {
+      type: Boolean,
+      default: true
+    },
     reveal: Boolean,
     revealOffset: {
       type: Number,
@@ -83,7 +86,6 @@ export default {
     }
   },
   render (h) {
-    console.log('header render')
     return h('header', {
       staticClass: 'q-layout-header q-layout-transition',
       'class': this.computedClass,

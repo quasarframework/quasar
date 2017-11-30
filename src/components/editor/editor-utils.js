@@ -67,7 +67,7 @@ function getDropdown (h, vm, btn) {
     Items
 
   function closeDropdown () {
-    Dropdown.componentInstance.close()
+    Dropdown.componentInstance.hide()
   }
 
   if (onlyIcons) {
@@ -166,7 +166,7 @@ export function getToolbar (h, vm) {
   }
 }
 
-export function getFonts (defaultFont, fonts = {}) {
+export function getFonts (defaultFont, defaultFontLabel, fonts = {}) {
   const aliases = Object.keys(fonts)
   if (aliases.length === 0) {
     return {}
@@ -177,7 +177,7 @@ export function getFonts (defaultFont, fonts = {}) {
       cmd: 'fontName',
       param: defaultFont,
       icon: 'font_download',
-      tip: 'Default Font'
+      tip: defaultFontLabel
     }
   }
 

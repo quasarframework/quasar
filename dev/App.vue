@@ -4,13 +4,46 @@
       <router-view></router-view>
     </q-transition>
     <q-ajax-bar ref="bar" />
+    <div
+      style="padding: 0px 10px; right: 0; bottom: 100px"
+      class="bg-white shadow-4 fixed z-max"
+    >
+      <q-select
+        :options="[
+          { label: 'English (US)', value: 'en-us' }
+          ,{ label: 'English (UK)', value: 'en-uk' }
+          ,{ label: 'Romanian', value: 'ro' }
+          ,{ label: 'Italian', value: 'it' }
+          //,{ label: 'Spanish', value: 'es' },
+          //,{ label: 'French', value: 'fr' },
+          //,{ label: 'German', value: 'de' }
+          ,{ label: 'Indonezian', value: 'id' }
+        ]"
+        v-model="lang"
+      />
+    </div>
   </q-app>
 </template>
 
 <script>
 export default {
+  data () {
+    return {
+      lang: 'en-us'
+    }
+  },
+  watch: {
+    lang (lang) {
+      import(`../i18n/${lang}`).then(lang => {
+        this.$q.i18n.set(lang.default)
+      })
+    }
+  },
   mounted () {
     window.bar = this.$refs.bar
+    if (this.$q.platform.is.cordova) {
+      console.log('on CORDOVA')
+    }
   },
   methods: {
     resetScroll (el, done) {

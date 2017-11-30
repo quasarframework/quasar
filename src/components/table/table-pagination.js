@@ -3,7 +3,7 @@ export default {
     pagination: Object,
     rowsPerPageOptions: {
       type: Array,
-      default: () => [3, 5, 7, 10, 15, 20, 25, 50, 'All']
+      default: () => [3, 5, 7, 10, 15, 20, 25, 50, 0]
     }
   },
   data () {
@@ -30,8 +30,8 @@ export default {
     },
     computedRowsPerPageOptions () {
       return this.rowsPerPageOptions.map(count => ({
-        label: '' + count,
-        value: typeof count === 'string' ? 0 : count
+        label: count === 0 ? this.$q.i18n.table.allRows : '' + count,
+        value: count
       }))
     }
   },

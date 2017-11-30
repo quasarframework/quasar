@@ -108,84 +108,84 @@ export default {
     }
   },
   methods: {
-    previous (done) {
-      if (this.canGoToPrevious) {
-        this.goToSlide(this.slide - 1, done)
-      }
+    previous () {
+      return this.canGoToPrevious
+        ? this.goToSlide(this.slide - 1)
+        : Promise.resolve()
     },
-    next (done) {
-      if (this.canGoToNext) {
-        this.goToSlide(this.slide + 1, done)
-      }
+    next () {
+      return this.canGoToNext
+        ? this.goToSlide(this.slide + 1)
+        : Promise.resolve()
     },
-    goToSlide (slide, done, fromSwipe = false) {
-      let
-        direction = '',
-        pos
+    goToSlide (slide, fromSwipe = false) {
+      return new Promise((resolve, reject) => {
+        let
+          direction = '',
+          pos
 
-      this.__cleanup()
+        this.__cleanup()
 
-      const finish = () => {
-        this.$emit('input', this.slide)
-        this.$emit('slide-direction', direction)
-        this.__planAutoPlay()
-        if (typeof done === 'function') {
-          done()
+        const finish = () => {
+          this.$emit('input', this.slide)
+          this.$emit('slide-direction', direction)
+          this.__planAutoPlay()
+          resolve()
         }
-      }
 
-      if (this.slidesNumber < 2) {
-        this.slide = 0
-        this.positionSlide = 0
-        pos = 0
-      }
-      else {
-        if (!this.hasOwnProperty('initialPosition')) {
-          this.position = -this.slide * 100
-        }
-        direction = slide > this.slide ? 'next' : 'previous'
-        if (this.infinite) {
-          this.slide = normalizeToInterval(slide, 0, this.slidesNumber - 1)
-          pos = normalizeToInterval(slide, -1, this.slidesNumber)
-          if (!fromSwipe) {
-            this.positionSlide = pos
-          }
+        if (this.slidesNumber < 2) {
+          this.slide = 0
+          this.positionSlide = 0
+          pos = 0
         }
         else {
-          this.slide = between(slide, 0, this.slidesNumber - 1)
-          this.positionSlide = this.slide
-          pos = this.slide
-        }
-      }
-
-      pos = pos * -100
-
-      if (!this.animation) {
-        this.position = pos
-        finish()
-        return
-      }
-
-      this.animationInProgress = true
-
-      this.animUid = start({
-        from: this.position,
-        to: pos,
-        duration: isNumber(this.animation) ? this.animation : 300,
-        easing: fromSwipe
-          ? this.swipeEasing || decelerate
-          : this.easing || standard,
-        apply: pos => {
-          this.position = pos
-        },
-        done: () => {
-          if (this.infinite) {
+          if (!this.hasOwnProperty('initialPosition')) {
             this.position = -this.slide * 100
-            this.positionSlide = this.slide
           }
-          this.animationInProgress = false
-          finish()
+          direction = slide > this.slide ? 'next' : 'previous'
+          if (this.infinite) {
+            this.slide = normalizeToInterval(slide, 0, this.slidesNumber - 1)
+            pos = normalizeToInterval(slide, -1, this.slidesNumber)
+            if (!fromSwipe) {
+              this.positionSlide = pos
+            }
+          }
+          else {
+            this.slide = between(slide, 0, this.slidesNumber - 1)
+            this.positionSlide = this.slide
+            pos = this.slide
+          }
         }
+
+        pos = pos * -100
+
+        if (!this.animation) {
+          this.position = pos
+          finish()
+          return
+        }
+
+        this.animationInProgress = true
+
+        this.animUid = start({
+          from: this.position,
+          to: pos,
+          duration: isNumber(this.animation) ? this.animation : 300,
+          easing: fromSwipe
+            ? this.swipeEasing || decelerate
+            : this.easing || standard,
+          apply: pos => {
+            this.position = pos
+          },
+          done: () => {
+            if (this.infinite) {
+              this.position = -this.slide * 100
+              this.positionSlide = this.slide
+            }
+            this.animationInProgress = false
+            finish()
+          }
+        })
       })
     },
     stopAnimation () {
@@ -224,11 +224,10 @@ export default {
           event.distance.x < 100
             ? this.slide
             : this.positionSlide,
-          () => {
-            delete this.initialPosition
-          },
           true
-        )
+        ).then(() => {
+          delete this.initialPosition
+        })
       }
     },
     __planAutoPlay () {

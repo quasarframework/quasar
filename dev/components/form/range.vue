@@ -8,7 +8,8 @@
           Model <span class="right-detail"><em>{{standalone.min}} to {{standalone.max}}</em> &nbsp;&nbsp;(0 to 50)</span>
         </span>
       </p>
-      <q-range @change="onChange" v-model="standalone" :min="0" :max="50"></q-range>
+      <q-range @change="onChange" @input="onInput" v-model="standalone" :min="0" :max="50"></q-range>
+      <q-range @change="val => { standalone = val; onChange(val); }" @input="onInput" :value="standalone" :min="0" :max="50" label></q-range>
       <q-range v-model="standalone" :min="0" :max="50" square></q-range>
 
       <p class="caption">
@@ -73,7 +74,8 @@
           Model <span class="right-detail"><em>{{range.min}} to {{range.max}}</em> &nbsp;&nbsp;(0 to 100, step 1)</span>
         </span>
       </p>
-      <q-range v-model="range" :min="0" :max="100" label drag-range></q-range>
+      <q-range @change="onChange" @input="onInput" v-model="range" :min="0" :max="100" label drag-range></q-range>
+      <q-range @change="val => { range = val; onChange(val); }" @input="onInput" :value="range" :min="0" :max="100" label drag-range></q-range>
 
       <p class="caption">
         Drag Range + Snap to Step
@@ -172,9 +174,26 @@ export default {
       }
     }
   },
+  watch: {
+    'standalone.min' (val, old) {
+      console.log(`Changed [min] from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+    },
+    'standalone.max' (val, old) {
+      console.log(`Changed [max] from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+    },
+    'range.min' (val, old) {
+      console.log(`Changed [min] from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+    },
+    'range.max' (val, old) {
+      console.log(`Changed [max] from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+    }
+  },
   methods: {
     onChange (val) {
-      console.log('@change', val.min, val.max)
+      console.log('@change', JSON.stringify(val))
+    },
+    onInput (val) {
+      console.log('@input', JSON.stringify(val))
     }
   }
 }

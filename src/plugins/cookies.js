@@ -97,10 +97,10 @@ export default {
   all: () => get(),
 
   __installed: false,
-  install ({ Quasar }) {
+  install ({ $q }) {
     if (this.__installed) { return }
     this.__installed = true
 
-    Quasar.cookies = this
+    $q.cookies = this
   }
 }

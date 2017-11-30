@@ -62,7 +62,6 @@ export default {
     }
   },
   render (h) {
-    console.log('layout render')
     return h('div', { staticClass: 'q-layout' }, [
       h(QScrollObservable, {
         on: { scroll: this.__onPageScroll }

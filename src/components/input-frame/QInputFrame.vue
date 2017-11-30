@@ -10,8 +10,10 @@
         v-for="item in before"
         :key="item.icon"
         class="q-if-control q-if-control-before"
-        :class="{hidden: __additionalHidden(item, hasError, length)}"
+        :class="{hidden: __additionalHidden(item, hasError, hasWarning, length)}"
         :name="item.icon"
+        @mousedown="__onMouseDown"
+        @touchstart="__onMouseDown"
         @click="__baHandler($event, item)"
       ></q-icon>
     </template>
@@ -47,8 +49,10 @@
         v-for="item in after"
         :key="item.icon"
         class="q-if-control"
-        :class="{hidden: __additionalHidden(item, hasError, length)}"
+        :class="{hidden: __additionalHidden(item, hasError, hasWarning, length)}"
         :name="item.icon"
+        @mousedown="__onMouseDown"
+        @touchstart="__onMouseDown"
         @click="__baHandler($event, item)"
       ></q-icon>
     </template>
@@ -91,13 +95,14 @@ export default {
         'q-if-has-label': this.label,
         'q-if-focused': this.focused,
         'q-if-error': this.hasError,
+        'q-if-warning': this.hasWarning,
         'q-if-disabled': this.disable,
         'q-if-focusable': this.focusable && !this.disable,
         'q-if-inverted': this.inverted,
         'q-if-dark': this.dark || this.inverted
       }]
 
-      const color = this.hasError ? 'negative' : this.color
+      const color = this.hasError ? 'negative' : this.hasWarning ? 'warning' : this.color
       if (this.inverted) {
         cls.push(`bg-${color}`)
         cls.push(`text-white`)
@@ -109,19 +114,27 @@ export default {
     },
     hasError () {
       return !!(this.field.error || this.error)
+    },
+    hasWarning () {
+      // error is the higher priority
+      return !!(!this.hasError && (this.field.warning || this.warning))
     }
   },
   methods: {
     __onClick (e) {
       this.$emit('click', e)
     },
-    __additionalHidden (item, hasError, length) {
+    __onMouseDown (e) {
+      this.$nextTick(() => this.$emit('focus', e))
+    },
+    __additionalHidden (item, hasError, hasWarning, length) {
       if (item.condition !== void 0) {
         return item.condition === false
       }
       return (
         (item.content !== void 0 && !item.content === (length > 0)) ||
-        (item.error !== void 0 && !item.error === hasError)
+        (item.error !== void 0 && !item.error === hasError) ||
+        (item.warning !== void 0 && !item.warning === hasWarning)
       )
     },
     __baHandler (evt, item) {

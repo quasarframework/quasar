@@ -20,6 +20,9 @@
       <p class="caption">
         Date Range
       </p>
+      <q-datetime-range type="date" float-label="Date range" v-model="first.range" :min="first.min" :max="first.max" @change="onChange" @input="onInput" />
+      <q-datetime-range type="date" float-label="Date range (onChange)" :value="first.range" :min="first.min" :max="first.max" @change="val => { first.range = val; onChange(val); }" @input="onInput" />
+
       <q-datetime-range vertical type="date" v-model="first.range" :min="first.min" :max="first.max" />
       <div class="bg-grey-8" style="width: 300px; padding: 25px">
         <q-datetime-range color="secondary" dark type="date" v-model="first.range" :min="first.min" :max="first.max" />
@@ -64,10 +67,6 @@
         Time Range
       </p>
       <q-datetime-range type="time" v-model="second.range" :min="second.min" :max="second.max" />
-
-
-      <p class="caption">I18n</p>
-      <q-datetime-range inverted color="amber" type="date" v-model="first.range" :day-names="dayNames" :month-names="monthNames" />
     </div>
   </div>
 </template>
@@ -103,15 +102,23 @@ export default {
           from: null,
           to: null
         }
-      },
-
-      dayNames: ['Duminica', 'Luni', 'Marti', 'Miercuri', 'Joi', 'Vineri', 'Sambata'],
-      monthNames: ['Ianuarie', 'Februarie', 'Martie', 'Aprilie', 'Mai', 'Iunie', 'Iulie', 'August', 'Septembrie', 'Octombrie', 'Noiembrie', 'Decembrie']
+      }
+    }
+  },
+  watch: {
+    'first.range.from' (val, old) {
+      console.log(`Changed [from] from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+    },
+    'first.range.to' (val, old) {
+      console.log(`Changed [to] from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
     }
   },
   methods: {
     onChange (val) {
-      console.log('@change', val.from, val.to)
+      console.log('@change', JSON.stringify(val))
+    },
+    onInput (val) {
+      console.log('@input', JSON.stringify(val))
     }
   }
 }

@@ -180,7 +180,7 @@ export default {
       headerReveal: false,
       footerReveal: false,
       leftOverlay: true,
-      rightOverlay: false,
+      rightOverlay: true,
       leftBehavior: 'default',
       rightBehavior: 'default',
       leftBreakpoint: 992,

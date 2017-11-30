@@ -11,12 +11,15 @@
         :min="min"
         :max="max"
         @change="onChange"
+        @input="onInput"
       ></q-knob>
       <q-knob
         class="text-primary"
-        v-model="model"
+        :value="model"
         :min="min"
         :max="max"
+        @change="val => { model = val; onChange(val) }"
+        @input="onInput"
       ></q-knob>
 
       <p class="caption">With Step</p>
@@ -113,9 +116,17 @@ export default {
       max: 50
     }
   },
+  watch: {
+    model (val, old) {
+      console.log(`Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+    }
+  },
   methods: {
     onChange (val) {
-      console.log('@change', val)
+      console.log('@change', JSON.stringify(val))
+    },
+    onInput (val) {
+      console.log('@input', JSON.stringify(val))
     }
   }
 }

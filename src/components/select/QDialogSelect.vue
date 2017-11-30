@@ -30,13 +30,13 @@
       :class="alignClass"
     >
       <q-chip
-        v-for="{label, value} in selectedOptions"
+        v-for="{label, value, disable: optDisable} in selectedOptions"
         :key="label"
         small
-        :closable="!disable"
+        :closable="!disable && !optDisable"
         :color="color"
         @click.native.stop
-        @close="__toggle(value)"
+        @hide="__toggleMultiple(value, disable || optDisable)"
       >
         {{ label }}
       </q-chip>
@@ -62,21 +62,14 @@
 
 <script>
 import clone from '../../utils/clone'
-import Dialog from '../dialog'
 import SelectMixin from '../../mixins/select'
 
 export default {
   name: 'q-dialog-select',
   mixins: [SelectMixin],
   props: {
-    okLabel: {
-      type: String,
-      default: 'OK'
-    },
-    cancelLabel: {
-      type: String,
-      default: 'Cancel'
-    },
+    okLabel: String,
+    cancelLabel: String,
     title: {
       type: String,
       default: 'Select'
@@ -101,41 +94,32 @@ export default {
         return
       }
 
-      this.dialog = Dialog.create({
-        title: this.title,
+      // TODO
+      this.dialog = this.$q.dialog({
+        title: this.title || this.$q.i18n.label.select,
         message: this.message,
-        onDismiss: () => {
-          this.dialog = null
+        color: this.color,
+        options: {
+          type: this.type,
+          model: clone(this.value),
+          items: this.options
         },
-        form: {
-          select: {
-            type: this.type,
-            model: clone(this.value),
-            color: this.color,
-            items: this.options
-          }
-        },
-        buttons: [
-          {
-            label: this.cancelLabel,
-            color: this.color
-          },
-          {
-            label: this.okLabel,
-            color: this.color,
-            handler: data => {
-              if (JSON.stringify(this.value) !== JSON.stringify(data.select)) {
-                this.__emit(data.select)
-              }
-            }
-          }
-        ]
+        cancel: this.cancelLabel || true,
+        ok: this.okLabel || true
+      }).catch(() => {
+        this.dialog = null
+      }).then(data => {
+        this.dialog = null
+        if (JSON.stringify(this.value) !== JSON.stringify(data)) {
+          this.$emit('input', data)
+          this.$emit('change', data)
+        }
       })
     },
-    close () {
-      if (this.dialog) {
-        this.dialog.close()
-      }
+    hide () {
+      return this.dialog
+        ? this.dialog.hide()
+        : Promise.resolve()
     },
 
     __onFocus () {

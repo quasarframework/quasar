@@ -20,7 +20,7 @@
     :length="length"
     :additional-length="additionalLength"
 
-    @click.native="open"
+    @click.native="show"
     @focus.native="__onFocus"
     @blur.native="__onBlur"
   >
@@ -30,13 +30,13 @@
       :class="alignClass"
     >
       <q-chip
-        v-for="{label, value} in selectedOptions"
+        v-for="{label, value, disable: optDisable} in selectedOptions"
         :key="label"
         small
-        :closable="!disable"
+        :closable="!disable && !optDisable"
         :color="color"
         @click.native.stop
-        @close="__toggleMultiple(value)"
+        @hide="__toggleMultiple(value, disable || optDisable)"
       >
         {{ label }}
       </q-chip>
@@ -65,8 +65,8 @@
       :offset="[0, 10]"
       :anchor-click="false"
       class="column no-wrap"
-      @open="__onFocus"
-      @close="__onClose"
+      @show="__onFocus"
+      @hide="__onClose"
     >
       <q-field-reset>
         <q-search
@@ -74,7 +74,7 @@
           ref="filter"
           v-model="terms"
           @input="reposition"
-          :placeholder="filterPlaceholder"
+          :placeholder="filterPlaceholder || $q.i18n.label.filter"
           :debounce="100"
           :color="color"
           icon="filter_list"
@@ -84,7 +84,6 @@
       </q-field-reset>
 
       <q-list
-        link
         :separator="separator"
         class="no-border scroll"
       >
@@ -93,20 +92,24 @@
             v-for="opt in visibleOptions"
             :key="JSON.stringify(opt)"
             :cfg="opt"
+            :link="!opt.disable"
+            :class="{'text-faded': opt.disable}"
             slot-replace
-            @click.capture="__toggleMultiple(opt.value)"
+            @click.capture="__toggleMultiple(opt.value, opt.disable)"
           >
             <q-toggle
               v-if="toggle"
               slot="right"
               :color="color"
               :value="optModel[opt.index]"
+              :disable="opt.disable"
             ></q-toggle>
             <q-checkbox
               v-else
               slot="left"
               :color="color"
               :value="optModel[opt.index]"
+              :disable="opt.disable"
             ></q-checkbox>
           </q-item-wrapper>
         </template>
@@ -115,9 +118,11 @@
             v-for="opt in visibleOptions"
             :key="JSON.stringify(opt)"
             :cfg="opt"
+            :link="!opt.disable"
+            :class="{'text-faded': opt.disable}"
             slot-replace
             :active="value === opt.value"
-            @click.capture="__singleSelect(opt.value)"
+            @click.capture="__singleSelect(opt.value, opt.disable)"
           >
             <q-radio
               v-if="radio"
@@ -125,6 +130,7 @@
               slot="left"
               :value="value"
               :val="opt.value"
+              :disable="opt.disable"
             ></q-radio>
           </q-item-wrapper>
         </template>
@@ -163,10 +169,7 @@ export default {
   },
   props: {
     filter: [Function, Boolean],
-    filterPlaceholder: {
-      type: String,
-      default: 'Filter'
-    },
+    filterPlaceholder: String,
     autofocusFilter: Boolean,
     radio: Boolean,
     placeholder: String,
@@ -175,8 +178,8 @@ export default {
   computed: {
     optModel () {
       if (this.multiple) {
-        return this.value.length > 0
-          ? this.options.map(opt => this.value.includes(opt.value))
+        return this.model.length > 0
+          ? this.options.map(opt => this.model.includes(opt.value))
           : this.options.map(opt => false)
       }
     },
@@ -204,17 +207,18 @@ export default {
     }
   },
   methods: {
-    open (event) {
-      if (!this.disable) {
-        this.$refs.popover.open()
+    show () {
+      if (this.disable) {
+        return Promise.reject(new Error())
       }
+      return this.$refs.popover.show()
     },
-    close () {
-      this.$refs.popover.close()
+    hide () {
+      return this.$refs.popover.hide()
     },
     reposition () {
       const popover = this.$refs.popover
-      if (popover.opened) {
+      if (popover.showing) {
         popover.reposition()
       }
     },
@@ -235,7 +239,7 @@ export default {
       setTimeout(() => {
         const el = document.activeElement
         if (el !== document.body && !this.$refs.popover.$el.contains(el)) {
-          this.close()
+          this.hide()
         }
       }, 1)
     },
@@ -243,10 +247,16 @@ export default {
       this.focused = false
       this.$emit('blur')
       this.terms = ''
+      if (JSON.stringify(this.model) !== JSON.stringify(this.value)) {
+        this.$emit('change', this.model)
+      }
     },
-    __singleSelect (val) {
+    __singleSelect (val, disable) {
+      if (disable) {
+        return
+      }
       this.__emit(val)
-      this.close()
+      this.hide()
     }
   }
 }

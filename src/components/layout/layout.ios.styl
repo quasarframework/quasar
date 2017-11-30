@@ -39,7 +39,7 @@
   &.fixed
     border-left $layout-border
 
-main, .q-layout, .q-layout-header, .q-layout-footer
+.q-layout, .q-layout-header, .q-layout-footer, .q-layout-page
   position relative
 
 .q-layout-header, .q-layout-footer
@@ -49,7 +49,9 @@ main, .q-layout, .q-layout-header, .q-layout-footer
 
 .q-layout-backdrop
   z-index ($z-fixed-drawer - 1) !important
-  background $dimmed-background
+  will-change background-color
+.q-layout-backdrop-transition
+  transition background .12s
 
 .q-layout-drawer-opener
   z-index ($z-marginals + 1)
@@ -62,6 +64,8 @@ body
 
   &.with-layout-drawer-opened
     overflow hidden
+  &.with-layout-drawer-opened-above
+    overflow-x hidden
 
   &.cordova.platform-ios
     .q-layout-header > .q-toolbar:first-child, .q-layout-drawer.top-padding

@@ -15,20 +15,20 @@ export default {
         anchorClick: false
       },
       on: {
-        open: () => { this.$emit('open') },
-        close: () => { this.$emit('close') }
+        show: () => { this.$emit('show') },
+        hide: () => { this.$emit('hide') }
       }
     }, this.$slots.default)
   },
   methods: {
-    close () {
-      this.$refs.popover.close()
+    hide () {
+      return this.$refs.popover.hide()
     },
-    __open (evt) {
+    __show (evt) {
       if (!evt || this.disable) {
         return
       }
-      this.close()
+      this.hide()
       evt.preventDefault()
       evt.stopPropagation()
       /*
@@ -36,15 +36,15 @@ export default {
         Firefox workaround
        */
       setTimeout(() => {
-        this.$refs.popover.open(evt)
+        this.$refs.popover.show(evt)
       }, 100)
     }
   },
   mounted () {
     this.target = this.$refs.popover.$el.parentNode
-    this.target.addEventListener('contextmenu', this.__open)
+    this.target.addEventListener('contextmenu', this.__show)
   },
   beforeDestroy () {
-    this.target.removeEventListener('contexmenu', this.__open)
+    this.target.removeEventListener('contexmenu', this.__show)
   }
 }

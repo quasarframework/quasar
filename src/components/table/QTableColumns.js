@@ -7,10 +7,7 @@ export default {
       type: Array,
       required: true
     },
-    label: {
-      type: String,
-      default: 'Columns'
-    },
+    label: String,
     columns: {
       type: Array,
       required: true
@@ -32,7 +29,7 @@ export default {
         toggle: true,
         value: this.value,
         options: this.computedOptions,
-        displayValue: this.label,
+        displayValue: this.label || this.$q.i18n.table.columns,
         color: this.color
       }
     })

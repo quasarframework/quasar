@@ -160,22 +160,22 @@
       <p class="caption">
         Launch Carousel on Fullscreen
       </p>
-      <q-btn color="primary" class="glossy" @click="$refs.modal.open()">
+      <q-btn color="primary" class="glossy" @click="$refs.modal.show()">
         Launch
       </q-btn>
       <q-modal ref="modal" maximized>
         <q-carousel arrows dots class="text-white full-height">
           <q-carousel-slide class="bg-primary centered">
             <h1>Slide 1</h1>
-            <q-btn color="dark" class="glossy" @click="$refs.modal.close()">Close Me</q-btn>
+            <q-btn color="dark" class="glossy" @click="$refs.modal.hide()">Close Me</q-btn>
           </div>
           <q-carousel-slide class="bg-secondary centered">
             <h1>Slide 2</h1>
-            <q-btn color="dark" class="glossy" @click="$refs.modal.close()">Close Me</q-btn>
+            <q-btn color="dark" class="glossy" @click="$refs.modal.hide()">Close Me</q-btn>
           </div>
           <q-carousel-slide class="bg-tertiary centered">
             <h1>Slide 3</h1>
-            <q-btn color="dark" class="glossy" @click="$refs.modal.close()">Close Me</q-btn>
+            <q-btn color="dark" class="glossy" @click="$refs.modal.hide()">Close Me</q-btn>
           </div>
         </q-carousel>
       </q-modal>

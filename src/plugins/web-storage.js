@@ -31,7 +31,7 @@ function decode (value) {
   let type, length, source
 
   length = value.length
-  if (length < 10) {
+  if (length < 9) {
     // then it wasn't encoded by us
     return value
   }
@@ -163,11 +163,11 @@ export const LocalStorage = {
   isEmpty: storageIsEmpty.local,
 
   __installed: false,
-  install ({ Quasar }) {
+  install ({ $q }) {
     if (this.__installed) { return }
     this.__installed = true
 
-    Quasar.localStorage = LocalStorage
+    $q.localStorage = LocalStorage
   }
 }
 
@@ -185,10 +185,10 @@ export const SessionStorage = {
   isEmpty: storageIsEmpty.session,
 
   __installed: false,
-  install ({ Quasar }) {
+  install ({ $q }) {
     if (this.__installed) { return }
     this.__installed = true
 
-    Quasar.sessionStorage = SessionStorage
+    $q.sessionStorage = SessionStorage
   }
 }

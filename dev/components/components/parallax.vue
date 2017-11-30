@@ -9,7 +9,7 @@
       <p v-for="n in 7" class="par-text">{{loremipsum}}</p>
     </div>
 
-    <q-parallax :src="'statics/parallax1.jpg'" :height="200">
+    <q-parallax src="statics/parallax1.jpg" :height="200">
       <div slot="loading">Loading...</div>
       <h1>Parallax  Title</h1>
     </q-parallax>

@@ -7,6 +7,7 @@
     :stack-label="stackLabel"
     :float-label="floatLabel"
     :error="error"
+    :warning="warning"
     :disable="disable"
     :inverted="inverted"
     :dark="dark"
@@ -19,6 +20,7 @@
     :top-addons="isTextarea"
 
     @click="__onClick"
+    @focus="__onFocus"
   >
     <slot name="before"></slot>
 
@@ -28,7 +30,7 @@
         <textarea
           class="col q-input-target q-input-shadow absolute-top"
           ref="shadow"
-          :value="value"
+          :value="model"
           :rows="minRows"
         ></textarea>
 
@@ -44,11 +46,11 @@
           :rows="minRows"
           v-bind="attributes"
 
-          :value="value"
+          :value="model"
           @input="__set"
 
           @focus="__onFocus"
-          @blur="__onBlur"
+          @blur="__onInputBlur"
           @keydown="__onKeydown"
           @keyup="__onKeyup"
         ></textarea>
@@ -74,11 +76,11 @@
       :step="inputStep"
 
       :type="inputType"
-      :value="value"
+      :value="model"
       @input="__set"
 
       @focus="__onFocus"
-      @blur="__onBlur"
+      @blur="__onInputBlur"
       @keydown="__onKeydown"
       @keyup="__onKeyup"
     />
@@ -88,6 +90,8 @@
       slot="after"
       :name="showPass ? 'visibility' : 'visibility_off'"
       class="q-if-control"
+      @mousedown="__clearTimer"
+      @touchstart="__clearTimer"
       @click="togglePass"
     ></q-icon>
 
@@ -96,6 +100,8 @@
       slot="after"
       name="cancel"
       class="q-if-control"
+      @mousedown="__clearTimer"
+      @touchstart="__clearTimer"
       @click="clear"
     ></q-icon>
 
@@ -149,24 +155,21 @@ export default {
       default: 1
     },
     maxDecimals: Number,
-    upperCase: {
-      type: Boolean,
-      default: false
-    }
+    upperCase: Boolean
   },
   data () {
     return {
-      focused: false,
       showPass: false,
+      model: this.value,
       shadow: {
-        val: this.value,
+        val: this.model,
         set: this.__set,
         loading: false,
         hasFocus: () => {
           return document.activeElement === this.$refs.input
         },
         register: () => {
-          this.watcher = this.$watch('value', val => {
+          this.watcher = this.$watch('model', val => {
             this.shadow.val = val
           })
         },
@@ -177,6 +180,11 @@ export default {
           return this.$refs.input
         }
       }
+    }
+  },
+  watch: {
+    value (v) {
+      this.model = v
     }
   },
   provide () {
@@ -213,8 +221,8 @@ export default {
         : this.type
     },
     length () {
-      return this.value || (this.isNumber && this.value !== null)
-        ? ('' + this.value).length
+      return this.model !== null && this.model !== undefined
+        ? ('' + this.model).length
         : 0
     },
     editable () {
@@ -224,33 +232,41 @@ export default {
   methods: {
     togglePass () {
       this.showPass = !this.showPass
+      clearTimeout(this.timer)
+      this.focus()
     },
     clear () {
+      clearTimeout(this.timer)
+      this.focus()
       if (this.editable) {
-        this.$emit('input', '')
-        this.$emit('change', '')
+        this.model = this.isNumber ? null : ''
+        this.$emit('input', this.model)
       }
+    },
+
+    __clearTimer () {
+      this.$nextTick(() => clearTimeout(this.timer))
     },
 
     __set (e) {
       let val = e.target ? e.target.value : e
-      if (val !== this.value) {
-        if (this.isNumber) {
-          if (val === '') {
-            val = null
-          }
-          else {
-            val = Number.isInteger(this.maxDecimals)
-              ? parseFloat(val).toFixed(this.maxDecimals)
-              : parseFloat(val)
-          }
+      if (this.isNumber) {
+        val = parseFloat(val)
+        if (isNaN(val)) {
+          // Number.isInteger(this.maxDecimals)
+          val = null
         }
-        if (this.upperCase) {
-          val = val.toUpperCase()
+        else if (Number.isInteger(this.maxDecimals)) {
+          val = parseFloat(val.toFixed(this.maxDecimals))
         }
-        this.$emit('input', val)
-        this.$emit('change', val)
       }
+      if (this.upperCase) {
+        val = val.toUpperCase()
+      }
+      if (val !== this.model) {
+        this.$emit('input', val)
+      }
+      this.model = val
     },
     __updateArea () {
       const shadow = this.$refs.shadow
@@ -265,7 +281,7 @@ export default {
     this.__updateArea = frameDebounce(this.__updateArea)
     if (this.isTextarea) {
       this.__updateArea()
-      this.watcher = this.$watch('value', this.__updateArea)
+      this.watcher = this.$watch('model', this.__updateArea)
     }
   },
   beforeDestroy () {

@@ -23,10 +23,7 @@
       :color="color"
       :align="align"
       :format24h="format24h"
-      :monday-first="mondayFirst"
-      :saturday-first="saturdayFirst"
-      :month-names="monthNames"
-      :day-names="dayNames"
+      :first-day-of-week="firstDayOfWeek"
       class="col q-datetime-range-left"
       :class="className"
       :style="css"
@@ -44,9 +41,9 @@
       :clear-label="clearLabel"
       :ok-label="okLabel"
       :cancel-label="cancelLabel"
-      :float-label="floatLabel"
-      :stack-label="stackLabel"
-      :placeholder="placeholder"
+      :float-label="floatLabelTo"
+      :stack-label="stackLabelTo"
+      :placeholder="placeholderTo"
       :disable="disable"
       :error="error"
       :inverted="inverted"
@@ -56,10 +53,7 @@
       :color="color"
       :align="align"
       :format24h="format24h"
-      :monday-first="mondayFirst"
-      :saturday-first="saturdayFirst"
-      :month-names="monthNames"
-      :day-names="dayNames"
+      :first-day-of-week="firstDayOfWeek"
       class="col q-datetime-range-right"
       :class="className"
       :style="css"
@@ -93,17 +87,21 @@ export default {
       css: [String, Object],
       defaultFrom: [String, Number, Date],
       defaultTo: [String, Number, Date],
-      vertical: Boolean
+      vertical: Boolean,
+      floatLabelTo: String,
+      stackLabelTo: String,
+      placeholderTo: String
     }
   ),
   computed: {
     classes () {
-      return this.vertical ? 'column' : 'row'
+      return this.vertical ? null : 'row'
     }
   },
   methods: {
     __onChange () {
       this.$nextTick(() => {
+        this.$emit('input', this.value)
         this.$emit('change', this.value)
       })
     }
