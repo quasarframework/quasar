@@ -12,7 +12,7 @@ export default {
       create: 'Créer',
       search: 'Rechercher',
       filter: 'Filtrer',
-      refresh: 'Rafraichir'
+      refresh: 'Rafraîchir'
     },
     date: {
       days: 'Dimanche_Lundi_Mardi_Mercredi_Jeudi_Vendredi_Samedi'.split('_'),
