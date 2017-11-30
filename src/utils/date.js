@@ -511,6 +511,8 @@ export function formatDate (val, mask = 'YYYY-MM-DDTHH:mm:ss.SSSZ') {
     if (match in formatter) {
       return formatter[match](date)
     }
-    return text === void 0 ? match : text.split('\\]').join(']')
+    return text === void 0
+      ? match
+      : text.split('\\]').join(']')
   })
 }
