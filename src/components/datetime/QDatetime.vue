@@ -42,18 +42,15 @@
         :min="min"
         :max="max"
         :format24h="format24h"
-        :monday-first="mondayFirst"
-        :saturday-first="saturdayFirst"
-        :month-names="monthNames"
-        :day-names="dayNames"
+        :first-day-of-week="firstDayOfWeek"
         :color="color"
         class="no-border"
       >
         <div class="row q-datetime-controls modal-buttons-top">
-          <q-btn :color="color" v-if="!noClear && model" @click="clear" flat wait-for-ripple :label="clearLabel"></q-btn>
+          <q-btn :color="color" v-if="!noClear && model" @click="clear" flat wait-for-ripple :label="clearLabel || $q.i18n.label.clear"></q-btn>
           <div class="col"></div>
-          <q-btn :color="color" @click="hide" flat wait-for-ripple :label="cancelLabel"></q-btn>
-          <q-btn :color="color" @click="hide(), __update()" flat wait-for-ripple :label="okLabel"></q-btn>
+          <q-btn :color="color" @click="hide" flat wait-for-ripple :label="cancelLabel || $q.i18n.label.cancel"></q-btn>
+          <q-btn :color="color" @click="hide(), __update()" flat wait-for-ripple :label="okLabel || $q.i18n.label.ok"></q-btn>
         </div>
       </q-inline-datetime>
     </q-popover>
@@ -77,19 +74,16 @@
         :min="min"
         :max="max"
         :format24h="format24h"
-        :monday-first="mondayFirst"
-        :saturday-first="saturdayFirst"
-        :month-names="monthNames"
-        :day-names="dayNames"
+        :first-day-of-week="firstDayOfWeek"
         :color="color"
         class="no-border"
         :class="{'full-width': $q.theme === 'ios'}"
       >
         <div class="modal-buttons modal-buttons-top row full-width">
-          <q-btn :color="color" v-if="!noClear && model" @click="clear" flat wait-for-ripple :label="clearLabel"></q-btn>
+          <q-btn :color="color" v-if="!noClear && model" @click="clear" flat wait-for-ripple :label="clearLabel || $q.i18n.label.clear"></q-btn>
           <div class="col"></div>
-          <q-btn :color="color" @click="hide" flat wait-for-ripple :label="cancelLabel"></q-btn>
-          <q-btn :color="color" @click="hide(), __update()" flat wait-for-ripple :label="okLabel"></q-btn>
+          <q-btn :color="color" @click="hide" flat wait-for-ripple :label="cancelLabel || $q.i18n.label.cancel"></q-btn>
+          <q-btn :color="color" @click="hide(), __update()" flat wait-for-ripple :label="okLabel || $q.i18n.label.ok"></q-btn>
         </div>
       </q-inline-datetime>
     </q-modal>
@@ -177,10 +171,7 @@ export default {
         format = 'YYYY-MM-DD HH:mm:ss'
       }
 
-      return formatDate(this.value, format, {
-        dayNames: this.dayNames,
-        monthNames: this.monthNames
-      })
+      return formatDate(this.value, format, /* for reactiveness */ this.$q.i18n.date)
     }
   },
   methods: {

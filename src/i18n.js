@@ -1,4 +1,4 @@
-import langEn from '../i18n/en'
+import langEn from '../i18n/en-us'
 
 export default {
   __installed: false,
@@ -7,6 +7,8 @@ export default {
     this.__installed = true
 
     this.set = (lang = langEn) => {
+      lang.set = this.set
+
       Vue.set($q, 'i18n', lang)
       this.lang = lang
     }

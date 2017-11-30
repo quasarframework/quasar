@@ -17,18 +17,9 @@ export default {
       type: Number,
       default: 35
     },
-    pullMessage: {
-      type: String,
-      default: 'Pull down to refresh'
-    },
-    releaseMessage: {
-      type: String,
-      default: 'Release to refresh'
-    },
-    refreshMessage: {
-      type: String,
-      default: 'Refreshing...'
-    },
+    pullMessage: String,
+    releaseMessage: String,
+    refreshMessage: String,
     refreshIcon: {
       type: String,
       default: 'refresh'
@@ -52,12 +43,12 @@ export default {
     message () {
       switch (this.state) {
         case 'pulled':
-          return this.releaseMessage
+          return this.releaseMessage || this.$q.i18n.label.pullToRefresh.release
         case 'refreshing':
-          return this.refreshMessage
+          return this.refreshMessage || this.$q.i18n.label.pullToRefresh.refresh
         case 'pull':
         default:
-          return this.pullMessage
+          return this.pullMessage || this.$q.i18n.label.pullToRefresh.pull
       }
     },
     style () {
