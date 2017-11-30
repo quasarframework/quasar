@@ -22,7 +22,7 @@
 
     @focus.native="__onFocus"
     @blur.native="__onBlur"
-    @keydown.enter.native="show"
+    @keydown.enter.native="$refs.popover.show"
   >
     <div
       v-if="hasChips"
@@ -55,14 +55,13 @@
       class="q-if-control"
       @click.stop="clear"
     ></q-icon>
-    <q-icon slot="after" @click="show" name="arrow_drop_down" class="q-if-control"></q-icon>
+    <q-icon slot="after" name="arrow_drop_down" class="q-if-control"></q-icon>
 
     <q-popover
       ref="popover"
       fit
       :disable="disable"
       :offset="[0, 10]"
-      :anchor-click="true"
       max-height="100vh"
       class="column no-wrap no-scroll"
       @show="onShowPopover"
@@ -221,17 +220,6 @@ export default {
     }
   },
   methods: {
-    show () {
-      if (this.disable) {
-        return Promise.reject(new Error())
-      }
-      return this.$refs.popover.show()
-    },
-    hide () {
-      this.selectedIndex = -1
-      this.$refs.input.$el.focus()
-      return this.$refs.popover.hide()
-    },
     onInputFilter () {
       const popover = this.$refs.popover
       if (popover.showing) {
@@ -283,8 +271,10 @@ export default {
       this.$nextTick(this.scrollToSelectedItem.bind(null, true))
     },
     onHidePopover () {
-      this.__onBlur()
+      this.selectedIndex = -1
+      this.$refs.input.$el.focus()
       this.terms = ''
+      this.__onBlur()
     },
     __onFocus () {
       if (!this.focused) {
@@ -292,7 +282,7 @@ export default {
         this.$emit('focus')
       }
     },
-    __onBlur (e) {
+    __onBlur () {
       this.$nextTick(() => {
         const elm = document.activeElement
         if (!document.hasFocus() || (elm !== this.$refs.input.$el && !this.$refs.popover.$el.contains(elm))) {
@@ -309,7 +299,7 @@ export default {
         return
       }
       this.__emit(val)
-      this.hide()
+      this.$refs.popover.hide()
     },
     __handleKeydown (e) {
       switch (e.keyCode || e.which) {
@@ -325,7 +315,7 @@ export default {
           break
         case 27: // escape
           prevent(e)
-          this.hide()
+          this.$refs.popover.hide()
           break
       }
     },

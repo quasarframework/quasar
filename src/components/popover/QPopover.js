@@ -74,7 +74,7 @@ export default {
     this.$nextTick(() => {
       this.anchorEl = this.$el.parentNode
       this.anchorEl.removeChild(this.$el)
-      if (this.anchorEl.classList.contains('q-btn-inner')) {
+      if (this.anchorEl.classList.contains('q-btn-inner') || this.anchorEl.classList.contains('q-if-inner')) {
         this.anchorEl = this.anchorEl.parentNode
       }
       if (this.anchorClick) {
