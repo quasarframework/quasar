@@ -34,7 +34,7 @@ export default {
     noData: 'Нет данных',
     noResults: 'Совпадений не найдено',
     loader: 'Загрузка...',
-    selectedRows: rows => `${rows} ${declOfNum(rows, ['строка выбрана', 'строки выбраны', 'строк выбрано'])}.`,
+    selectedRows: rows => `${rows} ${declOfNum(0, ['строка выбрана', 'строки выбраны', 'строк выбрано'])}.`,
     rowsPerPage: 'Строк на странице:',
     allRows: 'Все',
     pagination: (start, end, total) => `${start}-${end} из ${total}`,
