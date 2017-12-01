@@ -18,6 +18,7 @@
           ,{ label: 'French', value: 'fr' }
           //,{ label: 'German', value: 'de' }
           ,{ label: 'Indonezian', value: 'id' }
+          ,{ label: 'Croatian', value: 'hr' }
         ]"
         v-model="lang"
       />
