@@ -34,7 +34,7 @@ export default {
     noData: 'Немає даних',
     noResults: 'Співпадінь не знайдено',
     loader: 'Завантаження...',
-    selectedRows: rows => `${rows} ${declOfNum(rows, ['рядок обраний', 'рядки обрані', 'рядків обрано'])}.`,
+    selectedRows: rows => rows > 0 ? `${rows} ${declOfNum(rows, ['рядок обраний', 'рядки обрані', 'рядків обрано'])}.` : 'Жодного рядку не обрано',
     rowsPerPage: 'Рядків на сторінці:',
     allRows: 'Усі',
     pagination: (start, end, total) => `${start}-${end} з ${total}`,
