@@ -18,6 +18,8 @@
           ,{ label: 'French', value: 'fr' }
           //,{ label: 'German', value: 'de' }
           ,{ label: 'Indonezian', value: 'id' }
+          ,{ label: 'Russian', value: 'ru' }
+          ,{ label: 'Ukrainian', value: 'ua' }
         ]"
         v-model="lang"
       />
