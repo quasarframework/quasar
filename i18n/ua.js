@@ -1,7 +1,7 @@
 import { declOfNum } from '../src/utils/plural'
 
 export default {
-  lang: 'ru',
+  lang: 'ua',
   label: {
     clear: 'Очистити',
     ok: 'OK',
