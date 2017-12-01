@@ -1,3 +1,5 @@
+import { declOfNum } from '../src/utils/plural'
+
 export default {
   lang: 'ru',
   label: {
@@ -17,54 +19,54 @@ export default {
   },
   date: {
     days: 'Воскресенье_Понедельник_Вторник_Среда_Четверг_Пятница_Суббота'.split('_'),
-    daysShort: 'Вс_Пн_Вт_Ср_Чт-Пт_Сб'.split('_'),
+    daysShort: 'Вс_Пн_Вт_Ср_Чт_Пт_Сб'.split('_'),
     months: 'Январь_Февраль_Март_Апрель_Май_Июнь_Июль_Август_Сентябрь_Октябрь_Ноябрь_Декабрь'.split('_'),
     monthsShort: 'Янв_Фев_Мар_Апр_Май_Июн_Июл_Авг_Сен_Окт_Ноя_Дек'.split('_'),
-    firstDayOfWeek: 1,
+    firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true
   },
   pullToRefresh: {
-    pull: 'Потяните, чтобы обновить',
-    release: 'Отпустите, чтобы обновить',
+    pull: 'Потяните вниз для обновления',
+    release: 'Отпустите для обновления',
     refresh: 'Обновление...'
   },
   table: {
     noData: 'Нет данных',
-    noResults: 'Не найдено записей',
-    loader: 'Загрузку...',
-    selectedRows: rows => rows > 0 ? (rows % 10 == 1) && (rows % 100 != 11) ? `Выбрана ${rows} строка.` : ((((rows % 10 >= 2) && (rows % 10 <= 4) && ((rows % 100 < 10) || (rows % 100 >= 20))))) ? `Выбрано ${rows} строки.` : `Выбрано ${rows} строк.` : 'Нет выбранных строк.',
+    noResults: 'Совпадений не найдено',
+    loader: 'Загрузка...',
+    selectedRows: rows => rows > 0 ? `${rows} ${declOfNum(rows, ['строка выбрана', 'строки выбраны', 'строк выбрано'])}.` : 'Ни одна строка не выбрана.',
     rowsPerPage: 'Строк на странице:',
     allRows: 'Все',
     pagination: (start, end, total) => `${start}-${end} из ${total}`,
-    columns: 'Столбцы'
+    columns: 'Колонки'
   },
   editor: {
     url: 'URL',
-    bold: 'Жирный',
+    bold: 'Полужирный',
     italic: 'Курсив',
     strikethrough: 'Зачеркнутый',
     underline: 'Подчеркнутый',
-    unorderedList: 'Неупорядоченный список',
-    orderedList: 'Упорядоченный список',
+    unorderedList: 'Маркированный список',
+    orderedList: 'Нумерованный список',
     subscript: 'Подстрочный',
     superscript: 'Надстрочный',
-    hyperlink: 'Ссылка',
+    hyperlink: 'Гиперссылка',
     toggleFullscreen: 'Полноэкранный режим',
     quote: 'Цитата',
-    left: 'Выравнивани по левому краю',
-    center: 'Выравнивани по центру',
-    right: 'Выравнивани по правому краю',
-    justify: 'Выравнивани по ширине',
+    left: 'Выравнивание по левому краю',
+    center: 'Выравнивание по центру',
+    right: 'Выравнивание по правому краю',
+    justify: 'Выравнивание по ширине',
     print: 'Печать',
     outdent: 'Уменьшить отступ',
     indent: 'Увеличить отступ',
-    removeFormat: 'Убрать форматирование',
+    removeFormat: 'Удалить форматирование',
     formatting: 'Форматирование',
     fontSize: 'Размер шрифта',
     align: 'Выравнивание',
-    hr: 'Вставить разделяющую линию',
-    undo: 'Назад',
-    redo: 'Вернуть',
+    hr: 'Вставить горизонтальную линию',
+    undo: 'Отменить',
+    redo: 'Повторить',
     header1: 'Заголовок 1',
     header2: 'Заголовок 2',
     header3: 'Заголовок 3',
@@ -79,7 +81,7 @@ export default {
     size4: 'Средний',
     size5: 'Большой',
     size6: 'Очень большой',
-    size7: 'Максимальный',
-    defaultFont: 'Стандартный шрифт'
+    size7: 'Огромный',
+    defaultFont: 'Шрифт по умолчанию'
   }
 }
