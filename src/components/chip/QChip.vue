@@ -2,6 +2,8 @@
   <div
     class="q-chip row no-wrap inline items-center"
     :class="classes"
+    @mousedown="__onMouseDown"
+    @touchstart="__onMouseDown"
     @click="__onClick"
   >
     <div
@@ -26,7 +28,7 @@
         v-if="closable"
         name="cancel"
         class="cursor-pointer"
-        @click.stop="$emit('close')"
+        @click.stop="$emit('hide')"
       ></q-icon>
     </div>
   </div>
@@ -76,6 +78,9 @@ export default {
   methods: {
     __onClick (e) {
       this.$emit('click', e)
+    },
+    __onMouseDown (e) {
+      this.$emit('focus', e)
     }
   }
 }

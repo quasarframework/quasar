@@ -1,6 +1,15 @@
 export default {
   name: 'q-page-container',
-  inject: ['layout'],
+  inject: {
+    layout: {
+      default () {
+        console.error('QPageContainer needs to be child of QLayout')
+      }
+    }
+  },
+  provide: {
+    pageContainer: true
+  },
   computed: {
     computedStyle () {
       const css = {}

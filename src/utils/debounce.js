@@ -1,7 +1,8 @@
 
 export function debounce (fn, wait = 250, immediate) {
   let timeout
-  return function (...args) {
+
+  function debounced (...args) {
     const later = () => {
       timeout = null
       if (!immediate) {
@@ -15,6 +16,12 @@ export function debounce (fn, wait = 250, immediate) {
     }
     timeout = setTimeout(later, wait)
   }
+
+  debounced.cancel = () => {
+    clearTimeout(timeout)
+  }
+
+  return debounced
 }
 
 export function frameDebounce (fn) {

@@ -1,6 +1,7 @@
 <template>
   <div class="layout-padding">
     <h4>Emulate server-side</h4>
+    {{serverPagination}}
     <q-table
       ref="server"
       color="primary"
@@ -105,11 +106,11 @@
         <q-btn color="primary" flat round small icon="more_vert" class="on-right">
           <q-popover ref="popover">
             <q-list link>
-              <q-item @click="$refs.popover.close()">
+              <q-item @click="$refs.popover.hide()">
                 <q-item-side icon="map" />
                 <q-item-main label="View map" />
               </q-item>
-              <q-item @click="$refs.popover.close()">
+              <q-item @click="$refs.popover.hide()">
                 <q-item-side icon="add" />
                 <q-item-main label="Create new table" />
               </q-item>
@@ -389,6 +390,7 @@ export default {
           { page, rowsPerPage, sortBy, descending } = props.pagination
 
         if (props.filter) {
+          console.log('filter hit')
           rows = table.filterMethod(rows, props.filter)
         }
 
@@ -396,11 +398,12 @@ export default {
           rows = table.sortMethod(rows, sortBy, descending)
         }
 
+        this.serverPagination.rowsNumber = rows.length
+
         if (rowsPerPage) {
           rows = rows.slice((page - 1) * rowsPerPage, page * rowsPerPage)
         }
 
-        this.serverPagination.rowsNumber = rows.length
         this.serverData = rows
         this.loader = false
       }, 1500)

@@ -1,5 +1,12 @@
 export default {
   name: 'q-tab-pane',
+  inject: {
+    data: {
+      default () {
+        console.error('QTabPane needs to be child of QTabs')
+      }
+    }
+  },
   props: {
     name: {
       type: String,
@@ -7,7 +14,6 @@ export default {
     },
     keepAlive: Boolean
   },
-  inject: ['data'],
   data () {
     return {
       shown: false

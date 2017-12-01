@@ -10,7 +10,7 @@ export default {
   },
   props: {
     disable: Boolean,
-    label: String,
+    label: [Number, String],
     noCaps: Boolean,
     noWrap: Boolean,
     icon: String,
@@ -24,7 +24,8 @@ export default {
     big: Boolean,
     color: String,
     glossy: Boolean,
-    compact: Boolean
+    compact: Boolean,
+    noRipple: Boolean
   },
   computed: {
     size () {
@@ -35,6 +36,9 @@ export default {
     },
     isDisabled () {
       return this.disable || this.loading
+    },
+    hasRipple () {
+      return __THEME__ === 'mat' && !this.noRipple && !this.isDisabled
     },
     classes () {
       const

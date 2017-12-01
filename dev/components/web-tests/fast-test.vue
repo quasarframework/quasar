@@ -21,3 +21,8 @@ export default {
   }
 }
 </script>
+
+<style lang="styl">
+@import '~variables'
+
+</style>

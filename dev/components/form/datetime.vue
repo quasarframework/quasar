@@ -12,8 +12,12 @@
         </span>
       </p>
 
-      <div class="label bg-secondary text-white">
-        Model <span class="right-detail"><em>{{model}}</em></span>
+      <div class="bg-secondary text-white">
+        Model: <em>{{model}}</em>
+      </div>
+      <q-input v-model="format" float-label="Format string" />
+      <div class="bg-secondary text-white">
+        Formatted: <em>{{modelFormatted}}</em>
       </div>
 
       <p class="caption">
@@ -34,7 +38,7 @@
           </span>
         </small>
       </p>
-      <q-datetime format="YYYY-MMMM-dddd" v-model="model" type="date" align="right" />
+      <q-datetime format="YYYY-MMMM-dddd Do Qo Q" v-model="model" type="date" align="right" />
       <q-datetime stack-label="Stack Label" v-model="model" type="date" />
       <q-datetime float-label="Float Label" v-model="model" type="date" />
 
@@ -57,7 +61,7 @@
       </p>
       <q-datetime v-model="model" type="time" />
 
-      <p class="caption">Time 24hr Format</p>
+      <p class="caption">Time 24hr Format (force)</p>
       <q-datetime v-model="model" type="time" format24h />
 
       <p class="caption">Date & Time</p>
@@ -145,7 +149,7 @@
       </p>
       <q-inline-datetime v-model="model" type="time" />
 
-      <p class="caption">Time 24hr Format</p>
+      <p class="caption">Time 24hr Format (force)</p>
       <q-inline-datetime v-model="model" type="time" format24h />
 
       <p class="caption">Date & Time</p>
@@ -163,11 +167,6 @@
       <q-inline-datetime readonly v-model="model" type="datetime" />
       <p class="caption">Min & Max</p>
       <q-inline-datetime type="datetime" v-model="minMaxModel" :min="min" :max="max" />
-
-
-      <p class="caption">I18n</p>
-      <q-datetime inverted format="YYYY-MMMM-dddd" v-model="model" type="date" monday-first :day-names="dayNames" :month-names="monthNames" />
-      <q-inline-datetime v-model="model" monday-first type="date" :day-names="dayNames" :month-names="monthNames" />
     </div>
   </div>
 </template>
@@ -184,13 +183,17 @@ export default {
       model: undefined,
       defaultSelection: '2016-09-18T10:45:00.000Z',
 
+      format: 'MMMM D, YYYY [at] h:mm [[]a[\\]]',
+
       minMaxModel: date.formatDate(day),
 
       min: date.subtractFromDate(day, {days: 5}),
-      max: date.addToDate(day, {days: 4, month: 1, minutes: 10}),
-
-      dayNames: ['Duminica', 'Luni', 'Marti', 'Miercuri', 'Joi', 'Vineri', 'Sambata'],
-      monthNames: ['Ianuarie', 'Februarie', 'Martie', 'Aprilie', 'Mai', 'Iunie', 'Iulie', 'August', 'Septembrie', 'Octombrie', 'Noiembrie', 'Decembrie']
+      max: date.addToDate(day, {days: 4, month: 1, minutes: 10})
+    }
+  },
+  computed: {
+    modelFormatted () {
+      return date.formatDate(this.model, this.format)
     }
   },
   methods: {

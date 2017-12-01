@@ -5,7 +5,7 @@
     :style="{width: size, height: size}"
   >
     <div
-      @click="__onInput"
+      @click="__onInput($event, undefined, true)"
       v-touch-pan="__pan"
     >
       <svg viewBox="0 0 100 100">
@@ -33,7 +33,7 @@
       <div
         class="q-knob-label row flex-center content-center"
       >
-        <span v-if="!$slots.default">{{ value }}</span>
+        <span v-if="!$slots.default">{{ model }}</span>
         <slot v-else></slot>
       </div>
     </div>
@@ -101,7 +101,7 @@ export default {
     svgStyle () {
       return {
         'stroke-dasharray': '295.31px, 295.31px',
-        'stroke-dashoffset': (295.31 * (1.0 - (this.value - this.min) / (this.max - this.min))) + 'px',
+        'stroke-dashoffset': (295.31 * (1.0 - (this.model - this.min) / (this.max - this.min))) + 'px',
         'transition': this.dragging ? '' : 'stroke-dashoffset 0.6s ease 0s, stroke 0.6s ease'
       }
     },
@@ -111,6 +111,7 @@ export default {
   },
   data () {
     return {
+      model: this.value,
       dragging: false
     }
   },
@@ -118,9 +119,14 @@ export default {
     value (value) {
       if (value < this.min) {
         this.$emit('input', this.min)
+        this.model = this.min
       }
       else if (value > this.max) {
         this.$emit('input', this.max)
+        this.model = this.max
+      }
+      else {
+        this.model = value
       }
     }
   },
@@ -166,8 +172,9 @@ export default {
       ev.stopPropagation()
       ev.preventDefault()
       this.dragging = false
+      this.__onInput(ev, this.centerPosition, true)
     },
-    __onInput (ev, center = this.__getCenter()) {
+    __onInput (ev, center = this.__getCenter(), emitChange) {
       if (!this.editable) {
         return
       }
@@ -197,8 +204,11 @@ export default {
         this.max
       )
 
-      if (this.value !== val) {
+      if (this.model !== val) {
+        this.model = val
         this.$emit('input', val)
+      }
+      if (emitChange && this.value !== val) {
         this.$emit('change', val)
       }
     },

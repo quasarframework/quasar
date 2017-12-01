@@ -1,6 +1,13 @@
 export default {
   name: 'q-page',
-  inject: ['layout'],
+  inject: {
+    pageContainer: {
+      default () {
+        console.error('QPage needs to be child of QPageContainer')
+      }
+    },
+    layout: {}
+  },
   props: {
     padding: Boolean
   },

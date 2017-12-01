@@ -39,7 +39,7 @@ It could be you!
 
 ### $10+
 
-- Max Matteo Staack ($35)
+- Max Matteo Staack ($4400)
 - Valerian Cure ($25)
 - Shawn Makinson ($25)
 - Anca-Anamaria Enache ($20)
@@ -50,7 +50,6 @@ It could be you!
 - Marek Urbanowicz
 - Samuel Lin
 - Matsumoto Takamasa
-- Borris Barroso
 - Josh Bodine
 - William Marques Vicente Gomes Correa
 - Samuel Desconsi
@@ -64,6 +63,11 @@ It could be you!
 - Guilherme S L de Souza
 - Jim O'Quinn
 - Bert Jehoul
+- Derrick Bass
+- Catalin Rogojeanu
+- William Correa
+- PHPZM
+- Klemens Witting
 
 - Ken ($5)
 - Oliver ($5)
@@ -76,7 +80,7 @@ It could be you!
 
 ---
 
-### One time
+### Notable one time
 
 - Jurgen Hollfelder 500 EUR
 - Robert Preston $250
@@ -86,5 +90,5 @@ It could be you!
 - Kyle Tippetts $100
 - Gerard Eviston $50
 - Jacob Heruty $50
-- Mickaël Le Normand $15
-- Tommy Carlsson $10
+- Polaris Microsystems, L.L.C. $50
+- Jochen Geiger $50

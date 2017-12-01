@@ -3,7 +3,7 @@ export default {
   isVisible: null,
 
   __installed: false,
-  install ({ Quasar, Vue }) {
+  install ({ $q, Vue }) {
     if (this.__installed) { return }
     this.__installed = true
 
@@ -23,13 +23,13 @@ export default {
     }
 
     const update = () => {
-      this.isVisible = Quasar.appVisible = !document[prop]
+      this.isVisible = $q.appVisible = !document[prop]
     }
 
     update()
 
     if (evt && typeof document[prop] !== 'undefined') {
-      Vue.util.defineReactive({}, 'appVisible', Quasar)
+      Vue.util.defineReactive({}, 'appVisible', $q)
       document.addEventListener(evt, update, false)
     }
   }

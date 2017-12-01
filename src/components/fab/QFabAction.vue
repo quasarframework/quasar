@@ -24,7 +24,13 @@ export default {
   components: {
     QBtn
   },
-  inject: ['__qFabClose'],
+  inject: {
+    __qFabClose: {
+      default () {
+        console.error('QFabAction needs to be child of QFab')
+      }
+    }
+  },
   props: {
     icon: {
       type: String,
@@ -33,7 +39,7 @@ export default {
   },
   methods: {
     click (e) {
-      this.__qFabClose(() => {
+      this.__qFabClose().then(() => {
         this.$emit('click', e)
       })
     }

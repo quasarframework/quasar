@@ -1,5 +1,3 @@
-import Dialog from '../dialog'
-
 function getBlockElement (el, parent) {
   if (parent && el === parent) {
     return null
@@ -202,15 +200,14 @@ export class Caret {
         this.range.selectNodeContents(this.parent)
       }
       this.save()
-      Dialog.create({
+      // TODO
+      this.$q.dialog({
         title: 'Link',
         message: this.selection ? this.selection.toString() : null,
-        form: {
-          url: {
-            type: 'text',
-            label: 'URL',
-            model: link || 'http://'
-          }
+        prompt: {
+          type: 'text',
+          label: 'URL',
+          model: link || 'http://'
         },
         buttons: [
           {

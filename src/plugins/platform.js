@@ -152,7 +152,11 @@ function getPlatform () {
   else if (document.location.href.indexOf('chrome-extension://') === 0) {
     browser.chromeExt = true
   }
-  else if (window._cordovaNative || document.location.href.indexOf('http') !== 0) {
+  else if (
+    window._cordovaNative ||
+    window.cordova ||
+    document.location.href.indexOf('http://') === -1
+  ) {
     browser.cordova = true
   }
 
@@ -160,22 +164,21 @@ function getPlatform () {
 }
 
 const Platform = {
-  is: getPlatform(),
-  has: {
-    touch: (() => !!('ontouchstart' in document.documentElement) || window.navigator.msMaxTouchPoints > 0)()
-  },
-  within: {
-    iframe: window.self !== window.top
-  },
-
   __installed: false,
-  install ({ Quasar }) {
+  install ({ $q }) {
     if (this.__installed) { return }
     this.__installed = true
 
-    Quasar.platform = Platform
+    Platform.is = getPlatform()
+    Platform.has = {
+      touch: (() => !!('ontouchstart' in document.documentElement) || window.navigator.msMaxTouchPoints > 0)()
+    }
+    Platform.within = {
+      iframe: window.self !== window.top
+    }
+
+    $q.platform = Platform
   }
 }
 
-Platform.has.popstate = !Platform.within.iframe && !Platform.is.electron
 export default Platform

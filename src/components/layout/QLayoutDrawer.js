@@ -2,32 +2,57 @@ import TouchPan from '../../directives/touch-pan'
 import { cssTransform } from '../../utils/dom'
 import { between } from '../../utils/format'
 import { QResizeObservable } from '../observables'
-import History from '../../mixins/history'
+import ModelToggleMixin from '../../mixins/model-toggle'
 
 const
-  bodyClass = 'with-layout-drawer-opened',
-  duration = 120 + 30
+  bodyClassBelow = 'with-layout-drawer-opened',
+  bodyClassAbove = 'with-layout-drawer-opened-above',
+  duration = 150
 
 export default {
   name: 'q-layout-drawer',
-  inject: ['layout'],
+  inject: {
+    layout: {
+      default () {
+        console.error('QLayoutDrawer needs to be child of QLayout')
+      }
+    }
+  },
+  mixins: [ModelToggleMixin],
   directives: {
     TouchPan
   },
   props: {
-    value: Boolean,
     overlay: Boolean,
     rightSide: Boolean,
     breakpoint: {
       type: Number,
       default: 992
+    },
+    behavior: {
+      type: String,
+      validator: v => ['default', 'desktop', 'mobile'].includes(v),
+      default: 'default'
     }
   },
   data () {
-    const belowBreakpoint = this.breakpoint >= this.layout.width
+    const
+      largeScreenState = this.value !== void 0 ? this.value : true,
+      showing = this.behavior !== 'mobile' && this.breakpoint < this.layout.width && !this.overlay
+        ? largeScreenState
+        : false
+
+    if (this.value !== void 0 && this.value !== showing) {
+      this.$emit('input', showing)
+    }
+
     return {
-      belowBreakpoint,
-      largeScreenState: this.value,
+      showing,
+      belowBreakpoint: (
+        this.behavior === 'mobile' ||
+        (this.behavior !== 'desktop' && this.breakpoint >= this.layout.width)
+      ),
+      largeScreenState,
       mobileOpened: false,
 
       size: 300,
@@ -37,81 +62,39 @@ export default {
     }
   },
   watch: {
-    value (val) {
-      console.log('watcher value', val)
-      if (!val && this.mobileOpened) {
-        console.log('watcher value: mobile opened; history remove')
-        History.remove()
-        return
-      }
-
-      if (val && this.belowBreakpoint) {
-        console.log('watcher value: opening mobile')
-        this.mobileOpened = true
-        this.percentage = 1
-        document.body.classList.add(bodyClass)
-
-        History.add(() => new Promise((resolve, reject) => {
-          this.mobileOpened = false
-          this.percentage = 0
-          document.body.classList.remove(bodyClass)
-          this.__updateModel(this.belowBreakpoint || this.overlay ? false : this.largeScreenState)
-          if (typeof this.__onClose === 'function') {
-            setTimeout(() => {
-              resolve()
-              this.__onClose()
-              this.__onClose = null
-            }, duration)
-          }
-          else {
-            resolve()
-          }
-        }))
-      }
-
-      if (val) {
-        console.log('watcher value: calling onshow')
-        if (typeof this.__onShow === 'function') {
-          this.__onShow()
-          this.__onShow = null
-        }
-        return
-      }
-
-      console.log('watcher value: calling onclose')
-      if (typeof this.__onClose === 'function') {
-        setTimeout(() => {
-          this.__onClose()
-          this.__onClose = null
-        }, duration)
-      }
-    },
     belowBreakpoint (val, old) {
-      console.log('belowBreakpoint: change detected', val)
       if (this.mobileOpened) {
-        console.log('belowBreakpoint: mobile view is opened; aborting')
         return
       }
 
       if (val) { // from lg to xs
-        console.log('belowBreakpoint: from lg to xs; model force to false')
         if (!this.overlay) {
-          console.log('belowBreakpoint: largeScreenState set to', this.value)
-          this.largeScreenState = this.value
+          this.largeScreenState = this.showing
         }
         // ensure we close it for small screen
-        this.__updateModel(false)
+        this.hide()
       }
       else if (!this.overlay) { // from xs to lg
-        console.log('belowBreakpoint: from xs to lg; model set to', this.largeScreenState)
-        this.__updateModel(this.largeScreenState)
+        this[this.largeScreenState ? 'show' : 'hide']()
       }
     },
-    breakpoint () {
-      this.__updateLocal('belowBreakpoint', this.breakpoint > this.layout.width)
+    behavior (val) {
+      this.__updateLocal('belowBreakpoint', (
+        val === 'mobile' ||
+        (val !== 'desktop' && this.breakpoint >= this.layout.width)
+      ))
     },
-    'layout.width' () {
-      this.__updateLocal('belowBreakpoint', this.breakpoint > this.layout.width)
+    breakpoint (val) {
+      this.__updateLocal('belowBreakpoint', (
+        this.behavior === 'mobile' ||
+        (this.behavior !== 'desktop' && val >= this.layout.width)
+      ))
+    },
+    'layout.width' (val) {
+      this.__updateLocal('belowBreakpoint', (
+        this.behavior === 'mobile' ||
+        (this.behavior !== 'desktop' && this.breakpoint >= val)
+      ))
     },
     offset (val) {
       this.__update('offset', val)
@@ -122,14 +105,16 @@ export default {
       }
     },
     onLayout (val) {
-      console.log('onLayout', val)
       this.__update('space', val)
       this.layout.__animate()
     },
     $route () {
+      if (this.mobileOpened) {
+        this.hide()
+        return
+      }
       if (this.onScreenOverlay) {
-        console.log('on screen overlay; closing')
-        this.__updateModel(false)
+        this.hide()
       }
     }
   },
@@ -138,7 +123,7 @@ export default {
       return this.rightSide ? 'right' : 'left'
     },
     offset () {
-      return this.value && !this.mobileOpened
+      return this.showing && !this.mobileOpened
         ? this.size
         : 0
     },
@@ -146,15 +131,15 @@ export default {
       return this.overlay || this.layout.view.indexOf(this.rightSide ? 'R' : 'L') > -1
     },
     onLayout () {
-      return this.value && !this.mobileView && !this.overlay
+      return this.showing && !this.mobileView && !this.overlay
     },
     onScreenOverlay () {
-      return this.value && !this.mobileView && this.overlay
+      return this.showing && !this.mobileView && this.overlay
     },
     backdropClass () {
       return {
-        'transition-generic': !this.inTransit,
-        'no-pointer-events': !this.inTransit && !this.value
+        'q-layout-backdrop-transition': !this.inTransit,
+        'no-pointer-events': !this.inTransit && !this.showing
       }
     },
     mobileView () {
@@ -177,14 +162,14 @@ export default {
         )
     },
     backdropStyle () {
-      return { opacity: this.percentage }
+      return { backgroundColor: `rgba(0,0,0,${this.percentage * 0.4})` }
     },
     belowClass () {
       return {
         'fixed': true,
-        'on-top': this.inTransit || this.value,
-        'on-screen': this.value,
-        'off-screen': !this.value,
+        'on-top': true,
+        'on-screen': this.showing,
+        'off-screen': !this.showing,
         'transition-generic': !this.inTransit,
         'top-padding': this.fixed || this.headerSlot
       }
@@ -234,7 +219,6 @@ export default {
     }
   },
   render (h) {
-    console.log(`drawer ${this.side} render`)
     const child = []
 
     if (this.mobileView) {
@@ -278,10 +262,7 @@ export default {
     ]))
   },
   created () {
-    if (this.belowBreakpoint || this.overlay) {
-      this.__updateModel(false)
-    }
-    else if (this.onLayout) {
+    if (this.onLayout) {
       this.__update('space', true)
       this.__update('offset', this.offset)
     }
@@ -290,7 +271,8 @@ export default {
       this.animateOverlay = true
     })
   },
-  destroyed () {
+  beforeDestroy () {
+    clearTimeout(this.timer)
     this.__update('size', 0)
     this.__update('space', false)
   },
@@ -318,7 +300,7 @@ export default {
       this.percentage = between(position / width, 0, 1)
 
       if (evt.isFirst) {
-        document.body.classList.add(bodyClass)
+        document.body.classList.add(bodyClassBelow)
         this.inTransit = true
       }
     },
@@ -347,38 +329,38 @@ export default {
         this.inTransit = true
       }
     },
-    show (fn) {
-      if (this.value === true) {
-        if (typeof fn === 'function') {
-          fn()
-        }
-        return
+    __show () {
+      if (this.belowBreakpoint) {
+        this.mobileOpened = true
+        this.percentage = 1
       }
 
-      this.__onShow = fn
-      this.__updateModel(true)
+      document.body.classList.add(this.belowBreakpoint ? bodyClassBelow : bodyClassAbove)
+
+      clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
+        if (this.showPromise) {
+          this.showPromise.then(() => {
+            document.body.classList.remove(bodyClassAbove)
+          })
+          this.showPromiseResolve()
+        }
+      }, duration)
     },
-    hide (fn) {
-      if (this.value === false) {
-        if (typeof fn === 'function') {
-          fn()
-        }
-        return
-      }
+    __hide () {
+      this.mobileOpened = false
+      this.percentage = 0
+      document.body.classList.remove(bodyClassAbove, bodyClassBelow)
 
-      this.__onClose = fn
-      this.__updateModel(false)
+      clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
+        this.hidePromise && this.hidePromiseResolve()
+      }, duration)
     },
 
     __onResize ({ width }) {
       this.__update('size', width)
       this.__updateLocal('size', width)
-    },
-    __updateModel (val) {
-      if (this.value !== val) {
-        console.log('new model', val)
-        this.$emit('input', val)
-      }
     },
     __update (prop, val) {
       if (this.layout[this.side][prop] !== val) {

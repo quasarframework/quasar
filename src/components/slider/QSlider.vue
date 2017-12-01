@@ -7,21 +7,23 @@
   >
     <div ref="handle" class="q-slider-handle-container">
       <div class="q-slider-track"></div>
-      <div
-        v-if="markers"
-        class="q-slider-mark"
-        v-for="n in ((max - min) / step + 1)"
-        :style="{left: (n - 1) * 100 * step / (max - min) + '%'}"
-      ></div>
+      <template v-if="markers">
+        <div
+          class="q-slider-mark"
+          v-for="n in ((max - min) / step + 1)"
+          :key="n"
+          :style="{left: (n - 1) * 100 * step / (max - min) + '%'}"
+        ></div>
+      </template>
       <div
         class="q-slider-track active-track"
         :style="{width: percentage}"
-        :class="{'no-transition': dragging, 'handle-at-minimum': value === min}"
+        :class="{'no-transition': dragging, 'handle-at-minimum': model === min}"
       ></div>
       <div
         class="q-slider-handle"
         :style="{left: percentage, borderRadius: square ? '0' : '50%'}"
-        :class="{dragging: dragging, 'handle-at-minimum': !fillHandleAlways && value === min}"
+        :class="{dragging: dragging, 'handle-at-minimum': !fillHandleAlways && model === min}"
       >
         <q-chip
           pointing="down"
@@ -64,6 +66,7 @@ export default {
   },
   data () {
     return {
+      model: this.value,
       dragging: false,
       currentPercentage: (this.value - this.min) / (this.max - this.min)
     }
@@ -71,14 +74,14 @@ export default {
   computed: {
     percentage () {
       if (this.snap) {
-        return (this.value - this.min) / (this.max - this.min) * 100 + '%'
+        return (this.model - this.min) / (this.max - this.min) * 100 + '%'
       }
       return 100 * this.currentPercentage + '%'
     },
     displayValue () {
       return this.labelValue !== void 0
         ? this.labelValue
-        : this.value
+        : this.model
     }
   },
   watch: {
@@ -86,18 +89,27 @@ export default {
       if (this.dragging) {
         return
       }
-      this.currentPercentage = (value - this.min) / (this.max - this.min)
+      if (value < this.min) {
+        this.model = this.min
+      }
+      else if (value > this.max) {
+        this.model = this.max
+      }
+      else {
+        this.model = value
+      }
+      this.currentPercentage = (this.model - this.min) / (this.max - this.min)
     },
     min (value) {
-      if (this.value < value) {
-        this.value = value
+      if (this.model < value) {
+        this.model = value
         return
       }
       this.$nextTick(this.__validateProps)
     },
     max (value) {
-      if (this.value > value) {
-        this.value = value
+      if (this.model > value) {
+        this.model = value
         return
       }
       this.$nextTick(this.__validateProps)
@@ -122,14 +134,17 @@ export default {
         model = getModel(percentage, this.min, this.max, this.step, this.decimals)
 
       this.currentPercentage = percentage
-      if (model !== this.value) {
+      if (model !== this.model) {
         this.$emit('input', model)
-        this.$emit('change', model)
+        this.model = model
       }
     },
     __end () {
       this.dragging = false
-      this.currentPercentage = (this.value - this.min) / (this.max - this.min)
+      this.currentPercentage = (this.model - this.min) / (this.max - this.min)
+      if (this.value !== this.model) {
+        this.$emit('change', this.model)
+      }
     },
     __validateProps () {
       if (this.min >= this.max) {

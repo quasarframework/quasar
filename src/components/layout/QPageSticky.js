@@ -2,7 +2,13 @@ import { cssTransform } from '../../utils/dom'
 
 export default {
   name: 'q-page-sticky',
-  inject: ['layout'],
+  inject: {
+    layout: {
+      default () {
+        console.error('QPageSticky needs to be child of QLayout')
+      }
+    }
+  },
   props: {
     position: {
       type: String,
@@ -91,7 +97,6 @@ export default {
     }
   },
   render (h) {
-    console.log('sticky render')
     return h('div', {
       staticClass: 'q-page-sticky q-layout-transition z-fixed',
       'class': `fixed-${this.position}`,

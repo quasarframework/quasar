@@ -4,7 +4,7 @@
       <p class="caption">Regular (rectangle) and Circular</p>
       <q-btn color="primary">Some very, but very long button title that should wrap to the next line without any problems</q-btn>
       <p class="group">
-        <q-btn icon="alarm" color="orange" label="Icoon" />
+        <q-btn icon="alarm" color="orange" label="No ripple" no-ripple />
         <q-btn icon="alarm" color="orange" label="Icoon" />
         <q-btn icon="ion-shuffle" label="Icoon" />
         <q-btn icon="fa-bath" label="Icoon" />
@@ -179,6 +179,40 @@
       <div class="group">
         <q-btn color="primary" class="full-width">Full-width Full-width Full-width Full-width Full-width Full-width Full-width Full-width Full-width</q-btn>
         <q-btn color="secondary" class="full-width">Full-width</q-btn>
+        <q-btn color="primary" icon="alarm" class="full-width">Full-width</q-btn>
+        <q-btn color="secondary" icon-right="alarm" class="full-width">Full-width</q-btn>
+        <q-btn color="secondary" icon="lock" icon-right="alarm" class="full-width">Full-width</q-btn>
+      </div>
+
+      <p class="caption">Multiline Buttons</p>
+      <div class="group">
+        <q-btn color="primary" small>Small<br/>Multiline<br/>Button</q-btn>
+        <q-btn color="primary">Normal<br/>Multiline<br/>Button</q-btn>
+        <q-btn color="primary" big>Big<br/>Multiline<br/>Button</q-btn>
+        <q-btn color="primary" icon="alarm" small>Small<br/>Multiline<br/>Button</q-btn>
+        <q-btn color="primary" icon="alarm">Normal<br/>Multiline<br/>Button</q-btn>
+        <q-btn color="primary" icon="alarm" big>Big<br/>Multiline<br/>Button</q-btn>
+        <q-btn color="primary" icon-right="alarm" small>Small<br/>Multiline<br/>Button</q-btn>
+        <q-btn color="primary" icon-right="alarm">Normal<br/>Multiline<br/>Button</q-btn>
+        <q-btn color="primary" icon-right="alarm" big>Big<br/>Multiline<br/>Button</q-btn>
+        <q-btn color="primary" icon="lock" icon-right="alarm" small>Small<br/>Multiline<br/>Button</q-btn>
+        <q-btn color="primary" icon="lock" icon-right="alarm">Normal<br/>Multiline<br/>Button</q-btn>
+        <q-btn color="primary" icon="lock" icon-right="alarm" big>Big<br/>Multiline<br/>Button</q-btn>
+        <q-btn color="primary" class="full-width" icon="lock" icon-right="alarm" small>Very long text that should wrap on the next line. I really mean it, it's a very long text. Maybe it's not clear, but it should be very, very long, so long that even a fullscreen width is not enough. I know it's not easy, but we should try.</q-btn>
+        <q-btn color="primary" class="full-width" icon="lock" icon-right="alarm">Very long text that should wrap on the next line. I really mean it, it's a very long text. Maybe it's not clear, but it should be very, very long, so long that even a fullscreen width is not enough. I know it's not easy, but we should try.</q-btn>
+        <q-btn color="primary" class="full-width" icon="lock" icon-right="alarm" big>Very long text that should wrap on the next line. I really mean it, it's a very long text. Maybe it's not clear, but it should be very, very long, so long that even a fullscreen width is not enough. I know it's not easy, but we should try.</q-btn>
+        <q-btn color="primary" small class="full-width">Small Full-width<br/>Multiline<br/>Button</q-btn>
+        <q-btn color="primary" class="full-width">Normal Full-width<br/>Multiline<br/>Button</q-btn>
+        <q-btn color="primary" big class="full-width">Big Full-width<br/>Multiline<br/>Button</q-btn>
+        <q-btn color="primary" icon="alarm" small class="full-width">Small Full-width<br/>Multiline<br/>Button</q-btn>
+        <q-btn color="primary" icon="alarm" class="full-width">Normal Full-width<br/>Multiline<br/>Button</q-btn>
+        <q-btn color="primary" icon="alarm" big class="full-width">Big Full-width<br/>Multiline<br/>Button</q-btn>
+        <q-btn color="primary" icon-right="alarm" small class="full-width">Small Full-width<br/>Multiline<br/>Button</q-btn>
+        <q-btn color="primary" icon-right="alarm" class="full-width">Normal Full-width<br/>Multiline<br/>Button</q-btn>
+        <q-btn color="primary" icon-right="alarm" big class="full-width">Big Full-width<br/>Multiline<br/>Button</q-btn>
+        <q-btn color="primary" icon="lock" icon-right="alarm" small class="full-width">Small Full-width<br/>Multiline<br/>Button</q-btn>
+        <q-btn color="primary" icon="lock" icon-right="alarm" class="full-width">Normal Full-width<br/>Multiline<br/>Button</q-btn>
+        <q-btn color="primary" icon="lock" icon-right="alarm" big class="full-width">Big Full-width<br/>Multiline<br/>Button</q-btn>
       </div>
 
       <p class="caption">Wrap test</p>

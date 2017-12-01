@@ -13,11 +13,10 @@ export default {
     const
       prop = ctx.props,
       data = ctx.data,
-      theme = ctx.parent.$q.theme,
       cls = ctx.data.staticClass,
-      icon = prop.mat && theme === 'mat'
+      icon = prop.mat && __THEME__ === 'mat'
         ? prop.mat
-        : (prop.ios && theme === 'ios' ? prop.ios : ctx.props.name)
+        : (prop.ios && __THEME__ === 'ios' ? prop.ios : ctx.props.name)
 
     if (!icon) {
       name = ''
@@ -30,6 +29,9 @@ export default {
     }
     else if (icon.startsWith('ion-') || icon.startsWith('icon-')) {
       name = `${icon}`
+    }
+    else if (icon.startsWith('mdi-')) {
+      name = `mdi ${icon}`
     }
     else {
       name = 'material-icons'

@@ -2,9 +2,9 @@
   <div>
     <div class="layout-padding">
       <p class="caption">With Radios</p>
-      <q-dialog-select @change="onChange" v-model="select" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Radios" />
+      <q-dialog-select @change="onChange" @input="onInput" v-model="select" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Radios" />
       <p class="caption">With Checkboxes</p>
-      <q-dialog-select @change="onChange" multiple v-model="multipleSelect" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Checkboxes" />
+      <q-dialog-select @change="onChange" @input="onInput" multiple v-model="multipleSelect" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Checkboxes" />
       <p class="caption">With Toggles</p>
       <q-dialog-select toggle multiple v-model="multipleSelect" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Toggles" />
 
@@ -18,7 +18,7 @@
       <q-dialog-select stack-label="Stack Label" v-model="select" :options="selectOptions" static-label="Company" />
 
       <p class="caption">With Chips</p>
-      <q-dialog-select @change="onChange" chips float-label="Float Label" multiple v-model="multipleSelect" :options="selectOptions" placeholder="Pick Company" />
+      <q-dialog-select @change="onChange" @input="onInput" chips float-label="Float Label" multiple v-model="multipleSelect" :options="selectOptions" placeholder="Pick Company" />
 
       <p class="caption">Disabled State</p>
       <q-dialog-select disable v-model="select" :options="selectOptions" />
@@ -81,7 +81,8 @@ export default {
         },
         {
           label: 'Twitter',
-          value: 'twtr'
+          value: 'twtr',
+          disable: true
         },
         {
           label: 'Apple Inc.',
@@ -94,9 +95,20 @@ export default {
       ]
     }
   },
+  watch: {
+    select (val, old) {
+      console.log(`Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+    },
+    multipleSelect (val, old) {
+      console.log(`Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+    }
+  },
   methods: {
     onChange (val) {
-      console.log('@change', val)
+      console.log('@change', JSON.stringify(val))
+    },
+    onInput (val) {
+      console.log('@input', JSON.stringify(val))
     }
   }
 }

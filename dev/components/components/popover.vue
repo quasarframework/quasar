@@ -15,7 +15,7 @@
               <q-item
                 v-for="n in 20"
                 :key="n"
-                @click="showToast(), $refs.popover1.close()"
+                @click="showNotify(), $refs.popover1.hide()"
               >
                 <q-item-main label="Label" sublabel="Click me" />
               </q-item>
@@ -41,7 +41,7 @@
                   <q-item
                     v-for="n in 3"
                     :key="n"
-                    @click="showToast(), $refs.popover2.close()"
+                    @click="showNotify(), $refs.popover2.hide()"
                   >
                     <q-item-main label="Label" />
                   </q-item>
@@ -101,7 +101,7 @@
             <img
               src="~assets/map.png"
               style="height: 150px; width: 200px;"
-              @click="showToast(), $refs.popover3.close()"
+              @click="showNotify(), $refs.popover3.hide()"
             >
           </q-popover>
         </q-btn>
@@ -109,9 +109,9 @@
         <q-btn color="tertiary" class="fixed-bottom-right" icon="plus_one" style="bottom: 10px; right: 16px;">
           <q-popover ref="popover4">
             <div class="group" style="width: 220px; text-align: center;">
-              <q-btn icon="thumb_up" flat color="primary" @click="showToast(), $refs.popover4.close()" />
-              <q-btn icon="thumb_down" flat color="primary" @click="showToast(), $refs.popover4.close()" />
-              <q-btn icon="share" flat color="secondary" @click="showToast(), $refs.popover4.close()" />
+              <q-btn icon="thumb_up" flat color="primary" @click="showNotify(), $refs.popover4.hide()" />
+              <q-btn icon="thumb_down" flat color="primary" @click="showNotify(), $refs.popover4.hide()" />
+              <q-btn icon="share" flat color="secondary" @click="showNotify(), $refs.popover4.hide()" />
             </div>
           </q-popover>
         </q-btn>
@@ -123,7 +123,7 @@
             <q-item
               v-for="n in 20"
               :key="n"
-              @click="showToast(), $refs.popover5.close()"
+              @click="showNotify(), $refs.popover5.hide()"
             >
               <q-item-main label="Label" sublabel="Click me" />
             </q-item>
@@ -135,8 +135,6 @@
 </template>
 
 <script>
-import { Platform, Toast } from 'quasar'
-
 export default {
   data () {
     return {
@@ -154,8 +152,8 @@ export default {
     }
   },
   methods: {
-    showToast () {
-      Toast.create((Platform.is.desktop ? 'Clicked' : 'Tapped') + ' on a Popover item')
+    showNotify () {
+      this.$q.notify((this.$q.platform.is.desktop ? 'Clicked' : 'Tapped') + ' on a Popover item')
     }
   }
 }

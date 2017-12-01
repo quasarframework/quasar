@@ -1,7 +1,7 @@
 <template>
   <div
     class="q-fab z-fab row inline justify-center"
-    :class="{'q-fab-opened': opened}"
+    :class="{'q-fab-opened': showing}"
   >
     <q-btn
       @click="toggle"
@@ -35,6 +35,11 @@ export default {
     QBtn,
     QIcon
   },
+  provide () {
+    return {
+      __qFabClose: this.hide
+    }
+  },
   props: {
     icon: {
       type: String,
@@ -49,38 +54,14 @@ export default {
       default: 'right'
     }
   },
-  provide () {
-    return {
-      __qFabClose: this.close
+  watch: {
+    $route () {
+      this.hide()
     }
   },
-  data () {
-    return {
-      opened: false
-    }
-  },
-  methods: {
-    open () {
-      this.opened = true
-      this.__updateModel(true)
-      this.$emit('open')
-    },
-    close (fn) {
-      this.opened = false
-      this.__updateModel(false)
-      this.$emit('close')
-
-      if (typeof fn === 'function') {
-        fn()
-      }
-    },
-    toggle () {
-      if (this.opened) {
-        this.close()
-      }
-      else {
-        this.open()
-      }
+  created () {
+    if (this.value) {
+      this.show()
     }
   }
 }

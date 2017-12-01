@@ -1,11 +1,16 @@
 .q-carousel
   overflow hidden
-  &.fullscreen
-    z-index $z-max
+  position relative
 
 .q-carousel-inner
   position relative
   height 100%
+
+.q-carousel-slide
+  flex 0 0 100%
+  min-height $carousel-min-height
+  margin 0
+  padding $carousel-padding
 
 .q-carousel-track
   padding 0
@@ -15,27 +20,6 @@
   flex-wrap nowrap
   height 100%
 
-  > div
-    flex 0 0 100%
-    min-height $slider-min-height
-    margin 0
-    padding $slider-padding
-
-    &.centered
-      display flex
-      flex-direction column
-      align-items center
-      justify-content center
-
-  &.with-arrows
-    > div
-      padding-left 10%
-      padding-right 10%
-      -ms-flex-preferred-size 80%
-  &.with-toolbar
-    > div
-      padding-bottom ($slider-padding + 1rem)
-
   &.infinite-left > div:nth-last-child(2)
     order -1000
     margin-left -100%
@@ -43,42 +27,23 @@
   &.infinite-right > div:nth-child(2)
     order 1000
 
-.q-carousel-left-button,
-.q-carousel-right-button
-  position absolute
-  top 0
-  bottom 0
-  font-size $slider-arrow-size
-  width 10%
-  max-width 70px
-  pointer-events none
-  i
-    cursor pointer
-    pointer-events all
-    padding 3px
-    border-radius 50%
-    background $slider-ovelay-color
-    opacity $slider-opacity
-    transition opacity .3s
-    &:hover
-      opacity $slider-opacity-active
-.q-carousel-left-button
-  left 0
-.q-carousel-right-button
-  right 0
+.q-carousel-left-arrow,
+.q-carousel-right-arrow
+  top 50%
+  transform translateY(-50%)
+  .q-icon
+    font-size 42px !important
+.q-carousel-left-arrow
+  left 5px
+.q-carousel-right-arrow
+  right 5px
 
-.q-carousel-toolbar
-  position absolute
-  bottom 0
-  left 0
-  right 0
-  margin 0
-  opacity $slider-opacity
-  padding .5rem .8rem
-  transition opacity .3s
-  i
-    cursor pointer
-    padding 5px
-    font-size $slider-button-size
-  .q-carousel-dots i
-    font-size $slider-dots-size
+.q-carousel-quick-nav
+  padding 2px 0
+  background $carousel-quick-nav-background
+  .q-icon
+    font-size $carousel-quick-nav-icon-font-size !important
+  .q-btn.inactive
+    opacity .5
+    .q-icon
+      font-size $carousel-quick-nav-icon-inactive-font-size !important

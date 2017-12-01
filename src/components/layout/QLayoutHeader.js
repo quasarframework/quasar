@@ -2,9 +2,18 @@ import { QResizeObservable } from '../observables'
 
 export default {
   name: 'q-layout-header',
-  inject: ['layout'],
+  inject: {
+    layout: {
+      default () {
+        console.error('QLayoutHeader needs to be child of QLayout')
+      }
+    }
+  },
   props: {
-    value: Boolean,
+    value: {
+      type: Boolean,
+      default: true
+    },
     reveal: Boolean,
     revealOffset: {
       type: Number,
@@ -77,7 +86,6 @@ export default {
     }
   },
   render (h) {
-    console.log('header render')
     return h('header', {
       staticClass: 'q-layout-header q-layout-transition',
       'class': this.computedClass,

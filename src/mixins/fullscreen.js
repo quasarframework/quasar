@@ -1,4 +1,4 @@
-import History from './history'
+import History from '../plugins/history'
 
 export default {
   data () {
@@ -6,39 +6,54 @@ export default {
       inFullscreen: false
     }
   },
-  created () {
-    this.fillerNode = document.createElement('span')
+  watch: {
+    $route () {
+      this.__exitFullscreen()
+    }
   },
   methods: {
     toggleFullscreen () {
       if (this.inFullscreen) {
-        History.remove()
-        return
+        this.exitFullscreen()
       }
-
-      this.__setFullscreen(true)
-      History.add(() => new Promise((resolve, reject) => {
-        this.__setFullscreen(false)
-        resolve()
-      }))
+      else {
+        this.setFullscreen()
+      }
     },
-    __setFullscreen (state) {
-      if (this.inFullscreen === state) {
+    setFullscreen () {
+      if (this.inFullscreen) {
         return
       }
 
-      if (state) {
-        this.container = this.$el.parentNode
-        this.container.replaceChild(this.fillerNode, this.$el)
-        document.body.appendChild(this.$el)
-        document.body.classList.add('with-mixin-fullscreen')
-        this.inFullscreen = true
+      this.inFullscreen = true
+      this.container = this.$el.parentNode
+      this.container.replaceChild(this.fullscreenFillerNode, this.$el)
+      document.body.appendChild(this.$el)
+      document.body.classList.add('with-mixin-fullscreen')
+
+      this.__historyFullscreen = {
+        handler: this.exitFullscreen
+      }
+      History.add(this.__historyFullscreen)
+    },
+    exitFullscreen () {
+      if (!this.inFullscreen) {
         return
       }
 
-      this.inFullscreen = false
-      this.container.replaceChild(this.$el, this.fillerNode)
+      if (this.__historyFullscreen) {
+        History.remove(this.__historyFullscreen)
+        this.__historyFullscreen = null
+      }
+      this.container.replaceChild(this.$el, this.fullscreenFillerNode)
       document.body.classList.remove('with-mixin-fullscreen')
+      this.inFullscreen = false
     }
+  },
+  created () {
+    this.fullscreenFillerNode = document.createElement('span')
+  },
+  beforeDestroy () {
+    this.exitFullscreen()
   }
 }

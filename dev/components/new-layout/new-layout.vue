@@ -43,7 +43,7 @@
       </q-toolbar>
     </q-layout-footer>
 
-    <q-layout-drawer v-model="left" :overlay="leftOverlay">
+    <q-layout-drawer v-model="left" :overlay="leftOverlay" :behavior="leftBehavior" :breakpoint="leftBreakpoint">
       <q-scroll-area style="width: 100%; height: 100%;" :thumb-style="{right: '4px', borderRadius: '2px', background: 'blue', opacity: .6, width: '4px'}">
         <q-btn @click="$router.push('/layout-quick/a')">Go to A</q-btn>
         <q-btn @click="$router.push('/layout-quick/b')">Go to B</q-btn>
@@ -59,7 +59,7 @@
     </q-layout-drawer>
 
     <q-page-container>
-      <q-layout-drawer right-side v-model="right" :overlay="rightOverlay">
+      <q-layout-drawer right-side v-model="right" :overlay="rightOverlay" :behavior="rightBehavior" :breakpoint="rightBreakpoint">
         <q-btn @click="$router.push('/layout-quick/a')">Go to A</q-btn>
         <q-btn @click="$router.push('/layout-quick/b')">Go to B</q-btn>
         <q-btn @click="$router.push('/layout-quick/c')">Go to C</q-btn>
@@ -78,27 +78,35 @@
     </q-page-container>
   </q-layout>
 
-  <div class="fixed-center bg-amber z-max">
-    <div class="row">
+  <div class="fixed-center bg-amber z-fullscreen">
+    <div class="row group no-wrap">
       <div>
         <q-toggle v-model="header" label="Header" /><br>
-        <q-toggle v-model="footer" label="Footer" /><br>
+        <q-toggle v-model="headerReveal" label="Header Reveal" /><br>
+        <br>
         <q-toggle v-model="left" label="Left Drawer" /><br>
-        <q-toggle v-model="right" label="Right Drawer" /><br>
+        <q-toggle v-model="leftOverlay" label="Left as Overlay" /><br>
+        <q-select v-model="leftBehavior" :options="drawerBehaviorOptions" class="no-padding no-margin" />
+        <q-input type="number" align="right" prefix="Bkpt" placeholder="Bkpt" v-model="leftBreakpoint" class="no-padding no-margin" />
       </div>
       <div>
-        <q-toggle v-model="headerReveal" label="Header Reveal" /><br>
+        <q-toggle v-model="footer" label="Footer" /><br>
         <q-toggle v-model="footerReveal" label="Footer Reveal" /><br>
-        <q-toggle v-model="leftOverlay" label="Left as Overlay" /><br>
+        <br>
+        <q-toggle v-model="right" label="Right Drawer" /><br>
         <q-toggle v-model="rightOverlay" label="Right as Overlay" /><br>
-        <q-chip slot="subtitle" tag color="primary" style="margin-top: 15px">
-          view: {{ view }}
-        </q-chip>
+        <q-select v-model="rightBehavior" :options="drawerBehaviorOptions" class="no-padding no-margin" />
+        <q-input type="number" align="right" prefix="Bkpt" placeholder="Bkpt" v-model="rightBreakpoint" class="no-padding no-margin" />
       </div>
     </div>
 
+    <div class="row justify-center q-mt-big">
+      <q-chip color="primary">
+        view: {{ view }}
+      </q-chip>
+    </div>
     <div class="flex justify-center">
-      <div style="width: 400px; max-width: 90vw">
+      <div style="min-width: 400px; max-width: 90vw">
         <div class="doc-layout-grid row justify-center">
           <div class="doc-row-definition row flex-center no-border">
             Header
@@ -172,7 +180,11 @@ export default {
       headerReveal: false,
       footerReveal: false,
       leftOverlay: true,
-      rightOverlay: false,
+      rightOverlay: true,
+      leftBehavior: 'default',
+      rightBehavior: 'default',
+      leftBreakpoint: 992,
+      rightBreakpoint: 992,
 
       scrolling: true,
 
@@ -184,7 +196,12 @@ export default {
       middleright: v[6],
       bottomleft: v[8],
       bottomcenter: v[9],
-      bottomright: v[10]
+      bottomright: v[10],
+      drawerBehaviorOptions: [
+        { label: 'Behave Normal', value: 'default' },
+        { label: 'Behave Mobile', value: 'mobile' },
+        { label: 'Behave Desktop', value: 'desktop' }
+      ]
     }
   },
   computed: {

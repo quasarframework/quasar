@@ -60,6 +60,11 @@ export let mixin = {
     disable: Boolean
   },
   computed: {
+    data () {
+      return {
+        clickDisabled: false
+      }
+    },
     classes () {
       const cls = {
         disabled: this.disable,
@@ -85,6 +90,10 @@ export let mixin = {
         return
       }
       if (event.isFinal) {
+        this.clickDisabled = true
+        this.$nextTick(() => {
+          this.clickDisabled = false
+        })
         this.__end(event.evt)
       }
       else if (event.isFirst) {
@@ -95,7 +104,7 @@ export let mixin = {
       }
     },
     __click (event) {
-      if (this.disable) {
+      if (this.disable || this.clickDisabled) {
         return
       }
       this.__setActive(event)

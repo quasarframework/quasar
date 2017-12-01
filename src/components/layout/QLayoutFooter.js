@@ -2,9 +2,18 @@ import { QResizeObservable } from '../observables'
 
 export default {
   name: 'q-layout-footer',
-  inject: ['layout'],
+  inject: {
+    layout: {
+      default () {
+        console.error('QLayoutFooter needs to be child of QLayout')
+      }
+    }
+  },
   props: {
-    value: Boolean,
+    value: {
+      type: Boolean,
+      default: true
+    },
     reveal: Boolean
   },
   data () {
@@ -73,7 +82,6 @@ export default {
     }
   },
   render (h) {
-    console.log('footer render')
     return h('footer', {
       staticClass: 'q-layout-footer q-layout-transition',
       'class': this.computedClass,

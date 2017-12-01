@@ -70,6 +70,12 @@ const
 
 export default {
   name: 'q-tabs',
+  provide () {
+    return {
+      data: this.data,
+      selectTab: this.selectTab
+    }
+  },
   components: {
     QIcon
   },
@@ -117,12 +123,6 @@ export default {
       this.data.inverted = v
     }
   },
-  provide () {
-    return {
-      data: this.data,
-      selectTab: this.selectTab
-    }
-  },
   methods: {
     selectTab (name) {
       if (this.data.tabName === name) {
@@ -142,7 +142,7 @@ export default {
         this.__scrollToTab(el)
       }
 
-      if (this.$q.theme !== 'ios') {
+      if (__THEME__ !== 'ios') {
         this.currentEl = el
         this.__repositionBar()
       }
@@ -337,11 +337,8 @@ export default {
         this.selectTab(this.value)
       }
 
-      // let browser drawing stabilize then
-      setTimeout(() => {
-        this.__redraw()
-        this.__findTabAndScroll(this.data.tabName, true)
-      }, debounceDelay)
+      this.__redraw()
+      this.__findTabAndScroll(this.data.tabName, true)
     })
   },
   beforeDestroy () {
@@ -349,6 +346,8 @@ export default {
     this.__stopAnimScroll()
     this.$refs.scroller.removeEventListener('scroll', this.__updateScrollIndicator)
     window.removeEventListener('resize', this.__redraw)
+    this.__redraw.cancel()
+    this.__updateScrollIndicator.cancel()
   }
 }
 </script>

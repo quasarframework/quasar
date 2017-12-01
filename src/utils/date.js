@@ -2,21 +2,13 @@
 
 import { isDate } from './is'
 import { pad, capitalize } from './format'
+import i18n from '../i18n'
 
 const
   MILLISECONDS_IN_DAY = 86400000,
   MILLISECONDS_IN_HOUR = 3600000,
   MILLISECONDS_IN_MINUTE = 60000,
-  token = /d{1,4}|M{1,4}|m{1,2}|w{1,2}|D{1,4}|YY(?:YY)?|H{1,2}|h{1,2}|s{1,2}|S{1,3}|Z{1,2}|a{1,2}|[AQExX]/g
-
-export const dayNames = [
-  'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
-]
-
-export const monthNames = [
-  'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December'
-]
+  token = /\[((?:[^\]\\]|\\]|\\)*)\]|d{1,4}|M{1,4}|m{1,2}|w{1,2}|Qo|Do|D{1,4}|YY(?:YY)?|H{1,2}|h{1,2}|s{1,2}|S{1,3}|Z{1,2}|a{1,2}|[AQExX]/g
 
 function formatTimezone (offset, delimeter = '') {
   const
@@ -297,6 +289,18 @@ export function daysInMonth (date) {
   return (new Date(date.getFullYear(), date.getMonth() + 1, 0)).getDate()
 }
 
+function getOrdinal (n) {
+  if (n >= 11 && n <= 13) {
+    return `${n}th`
+  }
+  switch (n % 10) {
+    case 1: return `${n}st`
+    case 2: return `${n}nd`
+    case 3: return `${n}rd`
+  }
+  return `${n}th`
+}
+
 export const formatter = {
   // Year: 00, 01, ..., 99
   YY (date) {
@@ -320,12 +324,12 @@ export const formatter = {
 
   // Month Short Name: Jan, Feb, ...
   MMM (date) {
-    return this.MMMM(date).slice(0, 3)
+    return i18n.lang.date.monthsShort[date.getMonth()]
   },
 
   // Month Name: January, February, ...
-  MMMM (date, opts = {}) {
-    return (opts.monthNames || monthNames)[date.getMonth()]
+  MMMM (date) {
+    return i18n.lang.date.months[date.getMonth()]
   },
 
   // Quarter: 1, 2, 3, 4
@@ -333,9 +337,19 @@ export const formatter = {
     return Math.ceil((date.getMonth() + 1) / 3)
   },
 
+  // Quarter: 1st, 2nd, 3rd, 4th
+  Qo (date) {
+    return getOrdinal(this.Q(date))
+  },
+
   // Day of month: 1, 2, ..., 31
   D (date) {
     return date.getDate()
+  },
+
+  // Day of month: 1st, 2nd, ..., 31st
+  Do (date) {
+    return getOrdinal(date.getDate())
   },
 
   // Day of month: 01, 02, ..., 31
@@ -365,12 +379,12 @@ export const formatter = {
 
   // Day of week: Sun, Mon, ...
   ddd (date) {
-    return this.dddd(date).slice(0, 3)
+    return i18n.lang.date.daysShort[date.getDay()]
   },
 
   // Day of week: Sunday, Monday, ...
-  dddd (date, opts = {}) {
-    return (opts.dayNames || dayNames)[date.getDay()]
+  dddd (date) {
+    return i18n.lang.date.days[date.getDay()]
   },
 
   // Day of ISO week: 1, 2, ..., 7
@@ -486,17 +500,19 @@ export const formatter = {
   }
 }
 
-export function formatDate (val, mask = 'YYYY-MM-DDTHH:mm:ss.SSSZ', opts) {
+export function formatDate (val, mask = 'YYYY-MM-DDTHH:mm:ss.SSSZ') {
   if (!val) {
     return
   }
 
   let date = new Date(val)
 
-  return mask.replace(token, function (match) {
+  return mask.replace(token, function (match, text) {
     if (match in formatter) {
-      return formatter[match](date, opts)
+      return formatter[match](date)
     }
-    return match
+    return text === void 0
+      ? match
+      : text.split('\\]').join(']')
   })
 }
