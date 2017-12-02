@@ -20,7 +20,7 @@
           ,{ label: 'Indonezian', value: 'id' }
           ,{ label: 'Croatian', value: 'hr' }
           ,{ label: 'Russian', value: 'ru' }
-          ,{ label: 'Ukrainian', value: 'ua'}
+          ,{ label: 'Ukrainian', value: 'ua' }
           ,{ label: 'Polski', value: 'pl' }
         ]"
         v-model="lang"
