@@ -1,0 +1,87 @@
+import { declOfNum } from '../src/utils/plural'
+
+export default {
+  lang: 'ru',
+  label: {
+    clear: 'Очистить',
+    ok: 'OK',
+    cancel: 'Отмена',
+    close: 'Закрыть',
+    set: 'Установить',
+    select: 'Выбрать',
+    reset: 'Сбросить',
+    remove: 'Удалить',
+    update: 'Обновить',
+    create: 'Создать',
+    search: 'Поиск',
+    filter: 'Фильтр',
+    refresh: 'Обновить'
+  },
+  date: {
+    days: 'Воскресенье_Понедельник_Вторник_Среда_Четверг_Пятница_Суббота'.split('_'),
+    daysShort: 'Вс_Пн_Вт_Ср_Чт_Пт_Сб'.split('_'),
+    months: 'Январь_Февраль_Март_Апрель_Май_Июнь_Июль_Август_Сентябрь_Октябрь_Ноябрь_Декабрь'.split('_'),
+    monthsShort: 'Янв_Фев_Мар_Апр_Май_Июн_Июл_Авг_Сен_Окт_Ноя_Дек'.split('_'),
+    firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
+    format24h: true
+  },
+  pullToRefresh: {
+    pull: 'Потяните вниз для обновления',
+    release: 'Отпустите для обновления',
+    refresh: 'Обновление...'
+  },
+  table: {
+    noData: 'Нет данных',
+    noResults: 'Совпадений не найдено',
+    loader: 'Загрузка...',
+    selectedRows: rows => rows > 0 ? `${rows} ${declOfNum(rows, ['строка выбрана', 'строки выбраны', 'строк выбрано'])}.` : 'Ни одна строка не выбрана.',
+    rowsPerPage: 'Строк на странице:',
+    allRows: 'Все',
+    pagination: (start, end, total) => `${start}-${end} из ${total}`,
+    columns: 'Колонки'
+  },
+  editor: {
+    url: 'URL',
+    bold: 'Полужирный',
+    italic: 'Курсив',
+    strikethrough: 'Зачеркнутый',
+    underline: 'Подчеркнутый',
+    unorderedList: 'Маркированный список',
+    orderedList: 'Нумерованный список',
+    subscript: 'Подстрочный',
+    superscript: 'Надстрочный',
+    hyperlink: 'Гиперссылка',
+    toggleFullscreen: 'Полноэкранный режим',
+    quote: 'Цитата',
+    left: 'Выравнивание по левому краю',
+    center: 'Выравнивание по центру',
+    right: 'Выравнивание по правому краю',
+    justify: 'Выравнивание по ширине',
+    print: 'Печать',
+    outdent: 'Уменьшить отступ',
+    indent: 'Увеличить отступ',
+    removeFormat: 'Удалить форматирование',
+    formatting: 'Форматирование',
+    fontSize: 'Размер шрифта',
+    align: 'Выравнивание',
+    hr: 'Вставить горизонтальную линию',
+    undo: 'Отменить',
+    redo: 'Повторить',
+    header1: 'Заголовок 1',
+    header2: 'Заголовок 2',
+    header3: 'Заголовок 3',
+    header4: 'Заголовок 4',
+    header5: 'Заголовок 5',
+    header6: 'Заголовок 6',
+    paragraph: 'Параграф',
+    code: 'Код',
+    size1: 'Очень маленький',
+    size2: 'Маленький',
+    size3: 'Нормальный',
+    size4: 'Средний',
+    size5: 'Большой',
+    size6: 'Очень большой',
+    size7: 'Огромный',
+    defaultFont: 'Шрифт по умолчанию'
+  }
+}

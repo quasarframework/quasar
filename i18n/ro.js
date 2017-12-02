@@ -1,4 +1,5 @@
 export default {
+  lang: 'ro',
   label: {
     clear: 'Golește',
     ok: 'OK',

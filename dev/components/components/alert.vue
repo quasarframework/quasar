@@ -40,9 +40,42 @@
     <q-alert icon="map" color="primary">Learn how you can get there</q-alert>
     <br>
     <q-alert
+      icon="map"
+      color="primary"
+      :actions="[ { label: 'Dismiss', handler: () => {} } ]"
+    >Learn how you can get there</q-alert>
+    <br>
+    <q-alert
+      icon="map"
+      color="primary"
+      :actions="[ { label: 'Reply', icon: 'map', handler: () => {} }, { label: 'Dismiss', handler: () => {} } ]"
+    >Learn how you can get there</q-alert>
+    <br>
+    <q-alert
+      icon="map"
+      color="primary"
+      :actions="[ { label: 'Reply', icon: 'map', handler: () => {} }, { label: 'Reply', icon: 'map', handler: () => {} }, { label: 'Dismiss', handler: () => {} } ]"
+    >Learn how you can get there</q-alert>
+    <br>
+    <q-alert
       avatar="statics/boy-avatar.png"
       color="dark"
-      :actions="[ { label: 'Reply', handler: () => {} }, { label: 'Dismiss', handler: () => {} } ]"
+      :actions="[ { label: 'Reply', icon: 'map', handler: () => {} }, { label: 'Dismiss', handler: () => {} } ]"
+    >Your friend just pinged you</q-alert>
+    <br>
+    <q-alert
+      avatar="statics/boy-avatar.png"
+      color="amber"
+      text-color="black"
+      message="Title"
+      detail="Learn how you can get there"
+    />
+    <br>
+    <q-alert
+      avatar="statics/boy-avatar.png"
+      color="amber"
+      text-color="black"
+      :actions="[ { label: 'Dismiss', handler: () => {} } ]"
     >Your friend just pinged you</q-alert>
     <br>
 

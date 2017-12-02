@@ -15,9 +15,13 @@
           ,{ label: 'Romanian', value: 'ro' }
           ,{ label: 'Italian', value: 'it' }
           //,{ label: 'Spanish', value: 'es' },
-          //,{ label: 'French', value: 'fr' },
+          ,{ label: 'French', value: 'fr' }
           //,{ label: 'German', value: 'de' }
           ,{ label: 'Indonezian', value: 'id' }
+          ,{ label: 'Croatian', value: 'hr' }
+          ,{ label: 'Russian', value: 'ru' }
+          ,{ label: 'Ukrainian', value: 'ua' }
+          ,{ label: 'Polish', value: 'pl' }
         ]"
         v-model="lang"
       />
@@ -29,7 +33,7 @@
 export default {
   data () {
     return {
-      lang: 'en-us'
+      lang: this.$q.i18n.lang
     }
   },
   watch: {
