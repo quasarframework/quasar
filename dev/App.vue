@@ -21,7 +21,7 @@
           ,{ label: 'Croatian', value: 'hr' }
           ,{ label: 'Russian', value: 'ru' }
           ,{ label: 'Ukrainian', value: 'ua' }
-          ,{ label: 'Polski', value: 'pl' }
+          ,{ label: 'Polish', value: 'pl' }
         ]"
         v-model="lang"
       />
