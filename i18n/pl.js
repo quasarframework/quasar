@@ -1,5 +1,5 @@
 export default {
-  lang: 'en-uk',
+  lang: 'pl',
   label: {
     clear: 'Wyczyść',
     ok: 'OK',
