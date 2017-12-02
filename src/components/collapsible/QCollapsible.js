@@ -99,7 +99,7 @@ export default {
       return [
         h(QItemTile, {
           slot: slot ? 'right' : undefined,
-          staticClass: 'cursor-pointer transition-generic',
+          staticClass: 'cursor-pointer transition-generic relative-position',
           'class': {
             'rotate-180': this.showing,
             invisible: this.disable
@@ -151,7 +151,7 @@ export default {
       this.$slots.header
         ? h(QItem, this.__getItemProps(), [
           this.$slots.header,
-          h(QItemSide, { props: { right: true } }, this.__getToggleSide(h))
+          h(QItemSide, { props: { right: true }, staticClass: 'relative-position' }, this.__getToggleSide(h))
         ])
         : h(QItemWrapper, this.__getItemProps(true), this.__getToggleSide(h, true)),
 
