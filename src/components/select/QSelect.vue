@@ -237,12 +237,12 @@ export default {
           : this.__singleSelect(this.visibleOptions[this.selectedIndex].value)
       }
     },
-    scrollToSelectedItem (onOpen = false) {
+    scrollToSelectedItem (onShow = false) {
       const selected = this.$refs.list.querySelector('.q-item.active')
       if (selected) {
         let offset = 0
         this.$refs.filter && (offset -= this.$refs.filter.$el.clientHeight)
-        onOpen && (offset += this.$refs.list.clientHeight / 2)
+        onShow && (offset += this.$refs.list.clientHeight / 2)
         const selectedTop = selected.offsetTop + offset
         const selectedBottom = selected.offsetTop + selected.offsetHeight + offset
         const listTop = this.$refs.list.scrollTop
@@ -269,6 +269,7 @@ export default {
         : this.options.findIndex(opt => this.value === opt.value)
       this.filter && this.$q.platform.is.desktop ? this.$refs.filter.focus() : this.$refs.list.focus()
       this.$nextTick(this.scrollToSelectedItem.bind(null, true))
+      this.focused = true
     },
     onHidePopover () {
       this.selectedIndex = -1
