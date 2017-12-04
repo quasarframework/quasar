@@ -88,7 +88,7 @@
       </q-inline-datetime>
     </q-modal>
 
-    <q-icon slot="after" name="arrow_drop_down" class="q-if-control"></q-icon>
+    <q-icon slot="after" :name="$q.icon.datetime.dropdown" class="q-if-control"></q-icon>
   </q-input-frame>
 </template>
 

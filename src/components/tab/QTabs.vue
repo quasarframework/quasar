@@ -39,7 +39,7 @@
         @mouseup="__stopAnimScroll"
         @touchend="__stopAnimScroll"
       >
-        <q-icon name="chevron_left"></q-icon>
+        <q-icon :name="$q.icon.tabs.left"></q-icon>
       </div>
       <div
         ref="rightScroll"
@@ -49,7 +49,7 @@
         @mouseup="__stopAnimScroll"
         @touchend="__stopAnimScroll"
       >
-        <q-icon name="chevron_right"></q-icon>
+        <q-icon :name="$q.icon.tabs.right"></q-icon>
       </div>
     </div>
 

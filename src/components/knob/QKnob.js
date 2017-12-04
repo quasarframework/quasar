@@ -1,46 +1,3 @@
-<template>
-  <div
-    class="q-knob non-selectable"
-    :class="classes"
-    :style="{width: size, height: size}"
-  >
-    <div
-      @click="__onInput($event, undefined, true)"
-      v-touch-pan="__pan"
-    >
-      <svg viewBox="0 0 100 100">
-        <path
-          d="M 50,50 m 0,-47
-             a 47,47 0 1 1 0,94
-             a 47,47 0 1 1 0,-94"
-          :class="`text-${trackColor}`"
-          stroke="currentColor"
-          :stroke-width="lineWidth"
-          fill-opacity="0"
-        ></path>
-        <path
-          stroke-linecap="round"
-          fill-opacity="0"
-          d="M 50,50 m 0,-47
-             a 47,47 0 1 1 0,94
-             a 47,47 0 1 1 0,-94"
-          stroke="currentColor"
-          :stroke-width="lineWidth"
-          :style="svgStyle"
-        ></path>
-      </svg>
-
-      <div
-        class="q-knob-label row flex-center content-center"
-      >
-        <span v-if="!$slots.default">{{ model }}</span>
-        <slot v-else></slot>
-      </div>
-    </div>
-  </div>
-</template>
-
-<script>
 import { position } from '../../utils/event'
 import { between } from '../../utils/format'
 import { offset, height, width } from '../../utils/dom'
@@ -219,6 +176,55 @@ export default {
         left: knobOffset.left + width(this.$el) / 2
       }
     }
+  },
+  render (h) {
+    return h('div', {
+      staticClass: 'q-knob non-selectable',
+      'class': this.classes,
+      style: {
+        width: this.size,
+        height: this.size
+      }
+    }, [
+      h('div', {
+        on: {
+          click: e => this.__onInput(e, undefined, true)
+        },
+        directives: [{
+          name: 'touch-pan',
+          value: this.__pan
+        }]
+      }, [
+        h('svg', { attrs: { viewBox: '0 0 100 100' } }, [
+          h('path', {
+            attrs: {
+              d: 'M 50,50 m 0,-47 a 47,47 0 1 1 0,94 a 47,47 0 1 1 0,-94',
+              'fill-opacity': '0',
+              stroke: 'currentColor',
+              'stroke-width': this.lineWidth
+            },
+            'class': `text-${this.trackColor}`
+          }),
+          h('path', {
+            attrs: {
+              d: 'M 50,50 m 0,-47 a 47,47 0 1 1 0,94 a 47,47 0 1 1 0,-94',
+              'fill-opacity': '0',
+              stroke: 'currentColor',
+              'stroke-linecap': 'round',
+              'stroke-width': this.lineWidth
+            },
+            style: this.svgStyle
+          })
+        ]),
+
+        h('div', {
+          staticClass: 'q-knob-label row flex-center content-center'
+        }, [
+          this.$slots.default
+            ? this.$slots.default
+            : h('span', [ this.model ])
+        ])
+      ])
+    ])
   }
 }
-</script>
