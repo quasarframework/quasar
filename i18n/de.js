@@ -1,7 +1,7 @@
 export default {
   label: {
     clear: 'Leeren',
-    ok: 'OK',
+    ok: 'Ok',
     cancel: 'Abbrechen',
     close: 'Schließen',
     set: 'Setzen',
@@ -44,7 +44,7 @@ export default {
     strikethrough: 'Durchgestrichen',
     underline: 'Unterstrichen',
     unorderedList: 'Ungeordnete Liste',
-    orderedList: 'Geordnete  Liset',
+    orderedList: 'Geordnete Liste',
     subscript: 'tiefgestellt',
     superscript: 'hochgestellt',
     hyperlink: 'Link',
