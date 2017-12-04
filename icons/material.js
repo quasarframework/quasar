@@ -50,15 +50,32 @@ export default {
     hidePass: 'visibility_off',
     clear: 'cancel'
   },
+  pagination: {
+    first: 'first_page',
+    prev: 'keyboard_arrow_left',
+    next: 'keyboard_arrow_right',
+    last: 'last_page'
+  },
   rating: {
     icon: 'grade'
   },
   select: {
     dropdown: 'arrow_drop_down'
   },
+  stepper: {
+    done: 'check',
+    active: 'edit',
+    error: 'warning'
+  },
   tabs: {
     left: 'chevron_left',
     right: 'chevron_right'
+  },
+  table: {
+    arrowUp: 'arrow_upward',
+    warning: 'warning',
+    prevPage: 'chevron_left',
+    nextPage: 'chevron_right'
   },
   uploader: {
     done: 'done',

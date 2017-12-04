@@ -1,11 +1,11 @@
 <template>
   <div class="q-pagination" :class="{disabled: disable}">
-    <q-btn :disable="value === min" :color="color" flat small @click="set(min)" icon="first_page"></q-btn>
-    <q-btn :disable="value === min" :color="color" flat small @click="setByOffset(-1)" icon="keyboard_arrow_left"></q-btn>
+    <q-btn :disable="value === min" :color="color" flat small round @click="set(min)" :icon="$q.icon.pagination.first"></q-btn>
+    <q-btn :disable="value === min" :color="color" flat small round @click="setByOffset(-1)" :icon="$q.icon.pagination.prev"></q-btn>
 
     <q-input
       ref="input"
-      class="inline"
+      class="inline no-margin"
       type="number"
       v-model="newPage"
       :min="min"
@@ -18,8 +18,8 @@
       @blur="__update"
     ></q-input>
 
-    <q-btn :disable="value === max" :color="color" flat small @click="setByOffset(1)" icon="keyboard_arrow_right"></q-btn>
-    <q-btn :disable="value === max" :color="color" flat small @click="set(max)" icon="last_page"></q-btn>
+    <q-btn :disable="value === max" :color="color" flat small round @click="setByOffset(1)" :icon="$q.icon.pagination.next"></q-btn>
+    <q-btn :disable="value === max" :color="color" flat small round @click="set(max)" :icon="$q.icon.pagination.last"></q-btn>
   </div>
 </template>
 
