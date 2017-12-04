@@ -30,6 +30,20 @@ export default {
     right: 'chevron_right',
     quickNav: 'lens'
   },
+  checkbox: {
+    checked: {
+      ios: 'check_circle',
+      mat: 'check_box'
+    },
+    unchecked: {
+      ios: 'radio_button_unchecked',
+      mat: 'check_box_outline_blank'
+    },
+    indeterminate: {
+      ios: '',
+      mat: 'indeterminate_check_box'
+    }
+  },
   chip: {
     close: 'cancel'
   },
@@ -40,6 +54,34 @@ export default {
     arrowLeft: 'chevron_left',
     arrowRight: 'chevron_right',
     dropdown: 'arrow_drop_down'
+  },
+  editor: {
+    bold: 'format_bold',
+    italic: 'format_italic',
+    strikethrough: 'strikethrough_s',
+    underline: 'format_underlined',
+    unorderedList: 'format_list_bulleted',
+    orderedList: 'format_list_numbered',
+    subscript: 'vertical_align_bottom',
+    superscript: 'vertical_align_top',
+    hyperlink: 'link',
+    toggleFullscreen: 'fullscreen',
+    quote: 'format_quote',
+    left: 'format_align_left',
+    center: 'format_align_center',
+    right: 'format_align_right',
+    justify: 'format_align_justify',
+    print: 'print',
+    outdent: 'format_indent_decrease',
+    indent: 'format_indent_increase',
+    removeFormat: 'format_clear',
+    hr: 'remove',
+    undo: 'undo',
+    redo: 'redo',
+    header: 'format_size',
+    code: 'code',
+    size: 'format_size',
+    font: 'font_download'
   },
   fab: {
     icon: 'add',
@@ -55,6 +97,16 @@ export default {
     prev: 'keyboard_arrow_left',
     next: 'keyboard_arrow_right',
     last: 'last_page'
+  },
+  radio: {
+    checked: {
+      ios: 'check',
+      mat: 'radio_button_checked'
+    },
+    unchecked: {
+      ios: 'radio_button_unchecked',
+      mat: 'radio_button_unchecked'
+    }
   },
   rating: {
     icon: 'grade'

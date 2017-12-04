@@ -12,18 +12,9 @@ export default {
     vertical: Boolean,
     alternativeLabels: Boolean,
     contractable: Boolean,
-    doneIcon: {
-      type: [String, Boolean],
-      default: 'check'
-    },
-    activeIcon: {
-      type: [String, Boolean],
-      default: 'edit'
-    },
-    errorIcon: {
-      type: [String, Boolean],
-      default: 'warning'
-    }
+    doneIcon: Boolean,
+    activeIcon: Boolean,
+    errorIcon: Boolean
   },
   data () {
     return {

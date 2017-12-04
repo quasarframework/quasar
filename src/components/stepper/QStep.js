@@ -49,13 +49,13 @@ export default {
       const data = this.__stepper
 
       if (this.active) {
-        return this.activeIcon || data.activeIcon
+        return this.activeIcon || data.activeIcon || this.$q.icon.stepper.active
       }
       if (this.error) {
-        return this.errorIcon || data.errorIcon
+        return this.errorIcon || data.errorIcon || this.$q.icon.stepper.error
       }
       if (this.done && !this.disable) {
-        return this.doneIcon || data.doneIcon
+        return this.doneIcon || data.doneIcon || this.$q.icon.stepper.done
       }
 
       return this.icon

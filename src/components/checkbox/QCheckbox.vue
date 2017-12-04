@@ -20,9 +20,9 @@
 
       <div class="q-focus-helper"></div>
 
-      <q-icon class="q-checkbox-icon cursor-pointer" :name="uncheckedIcon" :style="uncheckedStyle"></q-icon>
-      <q-icon class="q-checkbox-icon cursor-pointer absolute-full" :name="indeterminateIcon" :style="indeterminateStyle"></q-icon>
-      <q-icon class="q-checkbox-icon cursor-pointer absolute-full" :name="checkedIcon" :style="checkedStyle"></q-icon>
+      <q-icon class="q-checkbox-icon cursor-pointer" :name="uncheckedIcon || $q.icon.checkbox.unchecked[$q.theme]" :style="uncheckedStyle"></q-icon>
+      <q-icon class="q-checkbox-icon cursor-pointer absolute-full" :name="indeterminateIcon || $q.icon.checkbox.indeterminate[$q.theme]" :style="indeterminateStyle"></q-icon>
+      <q-icon class="q-checkbox-icon cursor-pointer absolute-full" :name="checkedIcon || $q.icon.checkbox.checked[$q.theme]" :style="checkedStyle"></q-icon>
 
       <div v-if="$q.theme !== 'ios'" ref="ripple" class="q-radial-ripple"></div>
     </div>
@@ -45,18 +45,9 @@ export default {
   },
   props: {
     indeterminate: Boolean,
-    checkedIcon: {
-      type: String,
-      default: __THEME__ === 'ios' ? 'check_circle' : 'check_box'
-    },
-    uncheckedIcon: {
-      type: String,
-      default: __THEME__ === 'ios' ? 'radio_button_unchecked' : 'check_box_outline_blank'
-    },
-    indeterminateIcon: {
-      type: String,
-      default: __THEME__ === 'ios' ? '' : 'indeterminate_check_box'
-    }
+    checkedIcon: String,
+    uncheckedIcon: String,
+    indeterminateIcon: String
   },
   computed: {
     checkedStyle () {
