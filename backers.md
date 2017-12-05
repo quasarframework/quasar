@@ -39,7 +39,7 @@ It could be you!
 
 ### $10+
 
-- Max Matteo Staack ($4400)
+- Max Matteo Staack ($40)
 - Valerian Cure ($25)
 - Shawn Makinson ($25)
 - Anca-Anamaria Enache ($20)
