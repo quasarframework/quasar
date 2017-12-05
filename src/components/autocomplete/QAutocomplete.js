@@ -204,7 +204,8 @@ export default {
     }
     this.$nextTick(() => {
       this.inputEl = this.__input.getEl()
-      this.inputEl.addEventListener('keyup', this.__handleKeypress)
+      this.inputEl.addEventListener('keydown', this.__handleKeypress)
+      this.inputEl.addEventListener('blur', this.hide)
     })
   },
   beforeDestroy () {
@@ -215,6 +216,7 @@ export default {
     }
     if (this.inputEl) {
       this.inputEl.removeEventListener('keydown', this.__handleKeypress)
+      this.inputEl.removeEventListener('blur', this.hide)
       this.hide()
     }
   },
