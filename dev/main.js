@@ -15,13 +15,13 @@ import 'quasar-extras/ionicons'
 import 'quasar-extras/fontawesome'
 import 'quasar-extras/animate'
 
-import iconSet from '../icons/fontawesome'
+// import iconSet from '../icons/fontawesome'
 
 Vue.use(Quasar, {
   components: Everything,
   directives: Everything,
-  plugins: Everything,
-  iconSet
+  plugins: Everything
+  // ,iconSet
 })
 
 /* eslint-disable no-new */

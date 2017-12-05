@@ -13,9 +13,10 @@ export default {
     const
       data = ctx.data,
       prop = ctx.props,
+      link = prop.to !== void 0,
       cls = itemClasses(prop)
 
-    if (prop.to !== void 0) {
+    if (link) {
       data.props = prop
     }
     else {
@@ -24,6 +25,6 @@ export default {
 
     data.class = data.class ? [data.class, cls] : cls
 
-    return h(prop.to ? 'router-link' : prop.tag, data, ctx.children)
+    return h(link ? 'router-link' : prop.tag, data, ctx.children)
   }
 }
