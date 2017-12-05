@@ -1,4 +1,5 @@
 export default {
+  name: 'material',
   type: {
     positive: 'check_circle',
     negative: 'warning',
@@ -16,6 +17,9 @@ export default {
     right: 'chevron_right'
   },
 
+  btn: {
+    dropdown: 'arrow_drop_down'
+  },
   pullToRefresh: {
     arrow: 'arrow_downward',
     refresh: 'refresh'
@@ -75,6 +79,9 @@ export default {
     outdent: 'format_indent_decrease',
     indent: 'format_indent_increase',
     removeFormat: 'format_clear',
+    formatting: 'text_format',
+    fontSize: 'format_size',
+    align: 'format_align_left',
     hr: 'remove',
     undo: 'undo',
     redo: 'redo',

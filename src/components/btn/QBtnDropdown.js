@@ -40,7 +40,7 @@ export default {
         'q-icon',
         {
           props: {
-            name: 'arrow_drop_down'
+            name: this.$q.icon.btn.dropdown
           },
           staticClass: 'transition-generic',
           'class': {

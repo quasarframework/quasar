@@ -82,6 +82,7 @@ It could be you!
 
 ### Notable one time
 
+- Bert Van den Eynde 600 EUR
 - Jurgen Hollfelder 500 EUR
 - Robert Preston $250
 - Remo Laubacher $200
