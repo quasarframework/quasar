@@ -45,7 +45,7 @@ export default {
       if (comp.componentOptions && comp.componentOptions.tag === 'q-breadcrumb-el') {
         const middle = i < length
 
-        child.push(h('div', { staticClass: `${middle ? active : color}${middle ? '' : ' q-breadcrumb-last'}` }, [ comp ]))
+        child.push(h('div', { staticClass: `${middle ? active : color} ${middle ? 'text-weight-bold' : 'q-breadcrumb-last'}` }, [ comp ]))
         if (middle) {
           child.push(h('div', { staticClass: `q-breadcrumb-separator ${color}` }, [ separator ]))
         }

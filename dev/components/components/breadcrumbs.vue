@@ -27,7 +27,7 @@
       </q-breadcrumbs>
       <br><br>
       <q-breadcrumbs align="justify" style="max-width: 700px">
-        <q-icon name="trending_flat" slot="separator" />
+        <q-icon name="arrow_forward" slot="separator" />
         <q-breadcrumb-el>Home</q-breadcrumb-el>
         <q-breadcrumb-el>Components</q-breadcrumb-el>
         <q-breadcrumb-el>Breadcrumbs</q-breadcrumb-el>
