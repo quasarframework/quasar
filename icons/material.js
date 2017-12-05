@@ -92,6 +92,9 @@ export default {
     hidePass: 'visibility_off',
     clear: 'cancel'
   },
+  notify: {
+    close: 'close'
+  },
   pagination: {
     first: 'first_page',
     prev: 'keyboard_arrow_left',

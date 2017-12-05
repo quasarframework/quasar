@@ -71,7 +71,8 @@ export default {
               h(QBtn, {
                 props: {
                   flat: true,
-                  compact: true
+                  compact: true,
+                  icon: action.icon
                 },
                 on: {
                   click: () => action.handler()
