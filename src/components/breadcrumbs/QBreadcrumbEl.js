@@ -29,7 +29,7 @@ export default {
     },
     this.label || this.icon
       ? [
-        this.icon ? h(QIcon, { staticClass: 'q-breacrumb-el-icon q-mr-small', props: { name: this.icon } }) : null,
+        this.icon ? h(QIcon, { staticClass: 'q-breacrumb-el-icon q-mr-sm', props: { name: this.icon } }) : null,
         this.label
       ]
       : [ this.$slots.default ]
