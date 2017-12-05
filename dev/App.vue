@@ -14,6 +14,7 @@
           { label: 'English (US)', value: 'en-us' }
           ,{ label: 'English (UK)', value: 'en-uk' }
           ,{ label: 'Romanian', value: 'ro' }
+          ,{ label: 'Chinese (Simplified)', value: 'zh-hans' }
           ,{ label: 'Italian', value: 'it' }
           ,{ label: 'Spanish', value: 'es' }
           ,{ label: 'French', value: 'fr' }
