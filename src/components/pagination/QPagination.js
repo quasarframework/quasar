@@ -285,7 +285,7 @@ export default {
       }
       for (let i = pgFrom; i <= pgTo; i += 1) {
         contentMiddle.push(h(QBtn, {
-          key: i,
+          key: `${i}.${i === this.value}`,
           style,
           props: {
             disable: this.disable,
