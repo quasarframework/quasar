@@ -11,8 +11,7 @@ export default {
     percentage: Number,
     darkPercentage: Boolean,
     waitForRipple: Boolean,
-    repeatTimeout: {
-      type: [Number, Function]
+    repeatTimeout: [Number, Function]
     }
   },
   data () {
