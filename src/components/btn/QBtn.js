@@ -88,7 +88,7 @@ export default {
       
       setTimer()
     },
-    endRepeat (e) {
+    endRepeat () {
       clearTimeout(this.timer)
     }
   },
