@@ -79,24 +79,32 @@
   </q-layout>
 
   <div class="fixed-center bg-amber z-fullscreen">
-    <div class="row group no-wrap">
-      <div>
-        <q-toggle v-model="header" label="Header" /><br>
-        <q-toggle v-model="headerReveal" label="Header Reveal" /><br>
+    <div class="row xs-gutter no-wrap">
+      <div class="col xs-gutter">
+        <q-toggle v-model="header" label="Header" />
+        <q-toggle v-model="headerReveal" label="Header Reveal" />
         <br>
-        <q-toggle v-model="left" label="Left Drawer" /><br>
-        <q-toggle v-model="leftOverlay" label="Left as Overlay" /><br>
-        <q-select v-model="leftBehavior" :options="drawerBehaviorOptions" class="no-padding no-margin" />
-        <q-input type="number" align="right" prefix="Bkpt" placeholder="Bkpt" v-model="leftBreakpoint" class="no-padding no-margin" />
+        <q-toggle v-model="left" label="Left Drawer" />
+        <q-toggle v-model="leftOverlay" label="Left as Overlay" />
+        <div>
+          <q-select v-model="leftBehavior" :options="drawerBehaviorOptions" class="no-margin" />
+        </div>
+        <div>
+          <q-input type="number" align="right" prefix="Bkpt" placeholder="Bkpt" v-model="leftBreakpoint" class="no-margin" />
+        </div>
       </div>
-      <div>
-        <q-toggle v-model="footer" label="Footer" /><br>
-        <q-toggle v-model="footerReveal" label="Footer Reveal" /><br>
+      <div class="col xs-gutter">
+        <q-toggle v-model="footer" label="Footer" />
+        <q-toggle v-model="footerReveal" label="Footer Reveal" />
         <br>
-        <q-toggle v-model="right" label="Right Drawer" /><br>
-        <q-toggle v-model="rightOverlay" label="Right as Overlay" /><br>
-        <q-select v-model="rightBehavior" :options="drawerBehaviorOptions" class="no-padding no-margin" />
-        <q-input type="number" align="right" prefix="Bkpt" placeholder="Bkpt" v-model="rightBreakpoint" class="no-padding no-margin" />
+        <q-toggle v-model="right" label="Right Drawer" />
+        <q-toggle v-model="rightOverlay" label="Right as Overlay" />
+        <div>
+          <q-select v-model="rightBehavior" :options="drawerBehaviorOptions" class="no-margin" />
+        </div>
+        <div>
+          <q-input type="number" align="right" prefix="Bkpt" placeholder="Bkpt" v-model="rightBreakpoint" class="no-margin" />
+        </div>
       </div>
     </div>
 

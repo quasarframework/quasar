@@ -37,6 +37,7 @@
         @mousedown="__animScrollTo(0)"
         @touchstart="__animScrollTo(0)"
         @mouseup="__stopAnimScroll"
+        @mouseleave="__stopAnimScroll"
         @touchend="__stopAnimScroll"
       >
         <q-icon :name="$q.icon.tabs.left"></q-icon>
@@ -47,6 +48,7 @@
         @mousedown="__animScrollTo(9999)"
         @touchstart="__animScrollTo(9999)"
         @mouseup="__stopAnimScroll"
+        @mouseleave="__stopAnimScroll"
         @touchend="__stopAnimScroll"
       >
         <q-icon :name="$q.icon.tabs.right"></q-icon>
