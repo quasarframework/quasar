@@ -254,12 +254,17 @@ export default {
       let val = e.target ? e.target.value : e
 
       if (this.isNumber) {
-        val = parseFloat(val)
-        if (isNaN(val)) {
-          return
+        if (('' + val).length === 0) {
+          val = null
         }
-        if (Number.isInteger(this.maxDecimals)) {
-          val = parseFloat(val.toFixed(this.maxDecimals))
+        else {
+          val = parseFloat(val)
+          if (isNaN(val)) {
+            return
+          }
+          if (Number.isInteger(this.maxDecimals)) {
+            val = parseFloat(val.toFixed(this.maxDecimals))
+          }
         }
       }
       else if (this.upperCase) {
