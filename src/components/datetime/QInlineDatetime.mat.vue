@@ -109,7 +109,7 @@
               @click="setMonth(month - 1)"
               :disabled="beforeMinDays"
               :icon="$q.icon.datetime.arrowLeft"
-              :repeatTimeout="__repeatEasing()"
+              :repeatTimeout="__getRepeatEasing()"
             ></q-btn>
             <div class="col q-datetime-dark">
               {{ monthStamp }}
@@ -122,7 +122,7 @@
               @click="setMonth(month + 1)"
               :disabled="afterMaxDays"
               :icon="$q.icon.datetime.arrowRight"
-              :repeatTimeout="__repeatEasing()"
+              :repeatTimeout="__getRepeatEasing()"
             ></q-btn>
           </div>
           <div class="q-datetime-weekdays row items-center justify-start">
@@ -490,7 +490,7 @@ export default {
         this.setMinute(Math.round(angle / 6))
       }
     },
-    __repeatEasing (from = 300, step = 10, to = 100) {
+    __getRepeatEasing (from = 300, step = 10, to = 100) {
       return cnt => cnt ? Math.max(to, from - cnt * cnt * step) : 100
     }
   }
