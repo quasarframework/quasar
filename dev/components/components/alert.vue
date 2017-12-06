@@ -30,7 +30,7 @@
         type="negative"
         dismissible
         style="margin-bottom: 1.5rem"
-        :actions="[{label: 'Snooze', handler () {}}]"
+        :actions="[ { icon: 'snooze', handler: () => { visible2 = false } } ]"
       >
         Lorem ipsum dolor sit amet.
       </q-alert>

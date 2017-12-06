@@ -61,12 +61,21 @@ export default {
 
           notif.__uid = uid()
 
-          const action = notif.position.indexOf('top') > -1 ? 'unshift' : 'push'
-          this.notifs[notif.position][action](notif)
-
           const close = () => {
             this.remove(notif)
           }
+
+          if (!notif.timeout && (!notif.actions || !notif.actions.length)) {
+            notif.actions = [
+              {
+                icon: this.$q.icon.notify.close,
+                handler: close
+              }
+            ]
+          }
+
+          const action = notif.position.indexOf('top') > -1 ? 'unshift' : 'push'
+          this.notifs[notif.position][action](notif)
 
           if (notif.timeout) {
             notif.__timeout = setTimeout(() => {
