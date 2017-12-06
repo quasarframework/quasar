@@ -31,7 +31,7 @@
           class="col q-input-target q-input-shadow absolute-top"
           ref="shadow"
           :value="model"
-          :rows="minRows"
+          v-bind="$attrs"
         ></textarea>
 
         <textarea
@@ -43,8 +43,7 @@
           :disabled="disable"
           :readonly="readonly"
           :maxlength="maxLength"
-          :rows="minRows"
-          v-bind="attributes"
+          v-bind="$attrs"
 
           :value="model"
           @input="__set"
@@ -65,15 +64,10 @@
 
       :name="name"
       :placeholder="inputPlaceholder"
-      :pattern="pattern"
       :disabled="disable"
       :readonly="readonly"
       :maxlength="maxLength"
-      v-bind="attributes"
-
-      :min="min"
-      :max="max"
-      :step="inputStep"
+      v-bind="$attrs"
 
       :type="inputType"
       :value="model"
@@ -157,14 +151,7 @@ export default {
     noPassToggle: Boolean,
     noNumberToggle: Boolean,
     readonly: Boolean,
-    attributes: Object,
 
-    min: Number,
-    max: Number,
-    step: {
-      type: Number,
-      default: 1
-    },
     maxDecimals: Number,
     upperCase: Boolean
   },
@@ -219,22 +206,16 @@ export default {
     },
     pattern () {
       if (this.isNumber) {
-        return '[0-9]*'
-      }
-    },
-    inputStep () {
-      if (this.isNumber) {
-        return this.step
+        return this.$attrs.pattern || '[0-9]*'
       }
     },
     inputType () {
-      return this.isPassword
-        ? (this.showPass ? 'text' : 'password')
-        : (
-          this.isNumber
-            ? (this.showNumber ? 'number' : 'text')
-            : this.type
-        )
+      if (this.isPassword) {
+        return this.showPass ? 'text' : 'password'
+      }
+      return this.isNumber
+        ? (this.showNumber ? 'number' : 'text')
+        : this.type
     },
     length () {
       return this.model !== null && this.model !== undefined
@@ -275,10 +256,9 @@ export default {
       if (this.isNumber) {
         val = parseFloat(val)
         if (isNaN(val)) {
-          // Number.isInteger(this.maxDecimals)
-          val = null
+          return
         }
-        else if (Number.isInteger(this.maxDecimals)) {
+        if (Number.isInteger(this.maxDecimals)) {
           val = parseFloat(val.toFixed(this.maxDecimals))
         }
       }
