@@ -29,8 +29,7 @@ export default {
     compact: Boolean,
     rounded: Boolean,
     push: Boolean,
-    small: Boolean,
-    big: Boolean,
+    size: String,
     glossy: Boolean,
     noRipple: Boolean,
     waitForRipple: Boolean
@@ -76,8 +75,7 @@ export default {
           rounded: this.rounded,
           push: this.push,
           glossy: this.glossy,
-          small: this.small,
-          big: this.big,
+          size: this.size,
           compact: this.compact,
           noRipple: this.noRipple,
           waitForRipple: this.waitForRipple

@@ -44,6 +44,7 @@ export default {
     return h('button', {
       staticClass: 'q-btn q-btn-toggle row inline flex-center q-focusable q-hoverable relative-position',
       'class': this.classes,
+      style: this.sizeStyle,
       on: { click: this.click },
       directives: this.hasRipple
         ? [{
@@ -63,7 +64,7 @@ export default {
       }, [
         this.icon
           ? h('q-icon', {
-            'class': { 'on-left': this.label && !this.round },
+            'class': { 'on-left': (this.label || this.$slots.default) && !this.round },
             props: { name: this.icon }
           })
           : null,

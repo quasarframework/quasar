@@ -1,9 +1,3 @@
-button-round-factor($size)
-  if $size == 'small'
-    .54
-  else
-    .47
-
 .q-btn
   display inline-flex
   align-items center
@@ -21,6 +15,13 @@ button-round-factor($size)
   box-shadow $button-shadow
   transition $button-transition
   text-transform uppercase
+  min-height (100 / 38)em
+  font-size round($button-standard * .38)
+  .q-icon
+    font-size (68 / 38)em
+  .q-spinner
+    height (68 / 38)em
+    width (68 / 38)em
 
   &.disabled
     opacity .7 !important
@@ -64,28 +65,23 @@ button-round-factor($size)
   border-radius 50%
   padding 0
   box-shadow $button-shadow
+  font-size $button-round-standard
+  min-height unset
+  height 1em
+  width 1em
+  .q-icon, .q-spinner
+    height 1em
+    width 1em
+    font-size .54em
   &:active
     box-shadow $shadow-8
 
 for $name, $size in $button-sizes
   .q-btn-{$name}
-    min-height (100 / 38)em
     font-size round($size * .38)
-    .q-icon
-      font-size (68 / 38)em
-    .q-spinner
-      height (68 / 38)em
-      width (68 / 38)em
 for $name, $size in $button-round-sizes
   .q-btn-round.q-btn-{$name}
     font-size $size
-    min-height unset
-    height 1em
-    width 1em
-    .q-icon, .q-spinner
-      height 1em
-      width 1em
-      font-size button-round-factor($name)em
 
 .q-btn-compact
   padding 2px 6px

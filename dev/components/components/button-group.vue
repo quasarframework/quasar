@@ -1,64 +1,33 @@
 <template>
   <div class="layout-padding button-group-test">
-    <q-btn-group>
-      <q-btn color="yellow">
-        First
-      </q-btn>
-      <q-btn color="amber">
-        Second
-      </q-btn>
-      <q-btn color="orange">
-        Third
-      </q-btn>
-    </q-btn-group>
-    <br>
-    <q-btn-group push>
-      <q-btn color="yellow" push>
-        First
-      </q-btn>
-      <q-btn color="amber" push>
-        Second
-      </q-btn>
-      <q-btn color="orange" push>
-        Third
-      </q-btn>
-    </q-btn-group>
-    <br>
-    <q-btn-group rounded>
-      <q-btn color="yellow" rounded>
-        First
-      </q-btn>
-      <q-btn color="amber" rounded>
-        Second
-      </q-btn>
-      <q-btn color="orange" rounded>
-        Third
-      </q-btn>
-    </q-btn-group>
-    <br>
-    <q-btn-group outline>
-      <q-btn color="yellow" outline>
-        First
-      </q-btn>
-      <q-btn color="amber" outline>
-        Second
-      </q-btn>
-      <q-btn color="orange" outline>
-        Third
-      </q-btn>
-    </q-btn-group>
-    <br>
-    <q-btn-group flat>
-      <q-btn color="yellow" flat>
-        First
-      </q-btn>
-      <q-btn color="amber" flat>
-        Second
-      </q-btn>
-      <q-btn color="orange" flat>
-        Third
-      </q-btn>
-    </q-btn-group>
+    <div v-for="push in options" :key="push">
+      <div v-for="flat in options" :key="flat" v-if="!push || !flat">
+        <div v-for="outline in options" :key="outline" v-if="!(push || flat) || !outline">
+          <div v-for="rounded in options" :key="rounded">
+            <div v-for="size in sizes" :key="size" class="q-ma-sm">
+              <p class="caption">
+                {{push ? 'push ' : ''}}
+                {{rounded ? 'rounded ' : ''}}
+                {{outline ? 'outline ' : ''}}
+                {{flat ? 'flat ' : ''}}
+                {{size}}
+              </p>
+              <q-btn-group :push="push" :rounded="rounded" :outline="outline" :flat="flat">
+                <q-btn color="yellow" :push="push" :rounded="rounded" :outline="outline" :flat="flat" :size="size">
+                  First
+                </q-btn>
+                <q-btn color="amber" :push="push" :rounded="rounded" :outline="outline" :flat="flat" :size="size">
+                  Second
+                </q-btn>
+                <q-btn color="orange" :push="push" :rounded="rounded" :outline="outline" :flat="flat" :size="size">
+                  Third
+                </q-btn>
+              </q-btn-group>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -67,3 +36,14 @@
   .q-btn-group
     margin 5px 15px
 </style>
+
+<script>
+export default {
+  data () {
+    return {
+      options: [true, false],
+      sizes: ['sm', 'md', 'lg']
+    }
+  }
+}
+</script>
