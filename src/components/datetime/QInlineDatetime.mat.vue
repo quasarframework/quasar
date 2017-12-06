@@ -491,7 +491,7 @@ export default {
       }
     },
     __repeatEasing (from = 300, step = 10, to = 100) {
-      return (cnt) => cnt ? Math.max(to, from - cnt * cnt * step) : 100
+      return cnt => cnt ? Math.max(to, from - cnt * cnt * step) : 100
     }
   }
 }
