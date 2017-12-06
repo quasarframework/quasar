@@ -96,6 +96,16 @@
     ></q-icon>
 
     <q-icon
+      v-if="isNumber && !noNumberToggle && length"
+      slot="after"
+      :name="$q.icon.input[showNumber ? 'showNumber' : 'hideNumber']"
+      class="q-if-control"
+      @mousedown="__clearTimer"
+      @touchstart="__clearTimer"
+      @click="toggleNumber"
+    ></q-icon>
+
+    <q-icon
       v-if="editable && clearable && length"
       slot="after"
       :name="$q.icon.input.clear"
@@ -145,6 +155,7 @@ export default {
     minRows: Number,
     clearable: Boolean,
     noPassToggle: Boolean,
+    noNumberToggle: Boolean,
     readonly: Boolean,
     attributes: Object,
 
@@ -160,6 +171,7 @@ export default {
   data () {
     return {
       showPass: false,
+      showNumber: true,
       model: this.value,
       shadow: {
         val: this.model,
@@ -218,7 +230,11 @@ export default {
     inputType () {
       return this.isPassword
         ? (this.showPass ? 'text' : 'password')
-        : this.type
+        : (
+          this.isNumber
+            ? (this.showNumber ? 'number' : 'text')
+            : this.type
+        )
     },
     length () {
       return this.model !== null && this.model !== undefined
@@ -232,6 +248,11 @@ export default {
   methods: {
     togglePass () {
       this.showPass = !this.showPass
+      clearTimeout(this.timer)
+      this.focus()
+    },
+    toggleNumber () {
+      this.showNumber = !this.showNumber
       clearTimeout(this.timer)
       this.focus()
     },
