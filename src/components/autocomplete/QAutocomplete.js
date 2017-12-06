@@ -70,10 +70,14 @@ export default {
     }
   },
   methods: {
+    isWorking () {
+      return this.$refs && this.$refs.popover
+    },
     trigger () {
-      if (!this.__input.hasFocus()) {
+      if (!this.__input.hasFocus() || !this.isWorking()) {
         return
       }
+
       const terms = this.__input.val
       this.width = width(this.inputEl) + 'px'
       const searchId = uid()
@@ -89,9 +93,7 @@ export default {
       if (this.staticData) {
         this.searchId = ''
         this.results = this.filter(terms, this.staticData)
-        if (this.$q.platform.is.desktop) {
-          this.selectedIndex = 0
-        }
+        this.selectedIndex = 0
         this.$refs.popover.show()
         return
       }
@@ -99,7 +101,7 @@ export default {
       this.hide()
       this.__input.loading = true
       this.$emit('search', terms, results => {
-        if (this.searchId !== searchId) {
+        if (!this.isWorking() || this.searchId !== searchId) {
           return
         }
 
@@ -111,12 +113,8 @@ export default {
 
         if (Array.isArray(results) && results.length > 0) {
           this.results = results
-          if (this.$refs && this.$refs.popover) {
-            if (this.$q.platform.is.desktop) {
-              this.selectedIndex = 0
-            }
-            this.$refs.popover.show()
-          }
+          this.selectedIndex = 0
+          this.$refs.popover.show()
           return
         }
 
@@ -126,7 +124,9 @@ export default {
     hide () {
       this.results = []
       this.selectedIndex = -1
-      return this.$refs.popover.hide()
+      return this.isWorking()
+        ? this.$refs.popover.hide()
+        : Promise.resolve()
     },
     __clearSearch () {
       clearTimeout(this.timer)
@@ -201,6 +201,7 @@ export default {
     this.$nextTick(() => {
       this.inputEl = this.__input.getEl()
       this.inputEl.addEventListener('keydown', this.__handleKeypress)
+      this.inputEl.addEventListener('blur', this.hide)
     })
   },
   beforeDestroy () {
@@ -211,6 +212,7 @@ export default {
     }
     if (this.inputEl) {
       this.inputEl.removeEventListener('keydown', this.__handleKeypress)
+      this.inputEl.removeEventListener('blur', this.hide)
       this.hide()
     }
   },

@@ -20,10 +20,7 @@ export default {
     pullMessage: String,
     releaseMessage: String,
     refreshMessage: String,
-    refreshIcon: {
-      type: String,
-      default: 'refresh'
-    },
+    refreshIcon: String,
     inline: Boolean,
     disable: Boolean
   },
@@ -43,12 +40,12 @@ export default {
     message () {
       switch (this.state) {
         case 'pulled':
-          return this.releaseMessage || this.$q.i18n.label.pullToRefresh.release
+          return this.releaseMessage || this.$q.i18n.pullToRefresh.release
         case 'refreshing':
-          return this.refreshMessage || this.$q.i18n.label.pullToRefresh.refresh
+          return this.refreshMessage || this.$q.i18n.pullToRefresh.refresh
         case 'pull':
         default:
-          return this.pullMessage || this.$q.i18n.label.pullToRefresh.pull
+          return this.pullMessage || this.$q.i18n.pullToRefresh.pull
       }
     },
     style () {
@@ -147,7 +144,7 @@ export default {
         h('div', { staticClass: 'pull-to-refresh-message row flex-center' }, [
           h(QIcon, {
             'class': { 'rotate-180': this.state === 'pulled' },
-            props: { name: 'arrow_downward' },
+            props: { name: this.$q.icon.pullToRefresh.arrow },
             directives: [{
               name: 'show',
               value: this.state !== 'refreshing'
@@ -155,7 +152,7 @@ export default {
           }),
           h(QIcon, {
             staticClass: 'animate-spin',
-            props: { name: this.refreshIcon },
+            props: { name: this.refreshIcon || this.$q.icon.pullToRefresh.refresh },
             directives: [{
               name: 'show',
               value: this.state === 'refreshing'

@@ -1,4 +1,3 @@
-import typeIcon from '../../utils/type-icons'
 import { QIcon } from '../icon'
 import { QBtn } from '../btn'
 
@@ -24,7 +23,7 @@ export default {
     computedIcon () {
       return this.icon
         ? this.icon
-        : typeIcon[this.type || this.color]
+        : this.$q.icon.type[this.type || this.color]
     },
     classes () {
       return `bg-${this.type || this.color} text-${this.textColor || 'white'}`

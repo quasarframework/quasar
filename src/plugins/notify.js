@@ -82,6 +82,9 @@ export default {
           const index = this.notifs[notif.position].indexOf(notif)
           if (index !== -1) {
             this.notifs[notif.position].splice(index, 1)
+            if (typeof notif.onDismiss === 'function') {
+              notif.onDismiss()
+            }
           }
         }
       },

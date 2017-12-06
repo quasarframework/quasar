@@ -88,7 +88,7 @@
     <q-icon
       v-if="isPassword && !noPassToggle && length"
       slot="after"
-      :name="showPass ? 'visibility' : 'visibility_off'"
+      :name="$q.icon.input[showPass ? 'showPass' : 'hidePass']"
       class="q-if-control"
       @mousedown="__clearTimer"
       @touchstart="__clearTimer"
@@ -98,7 +98,7 @@
     <q-icon
       v-if="editable && clearable && length"
       slot="after"
-      name="cancel"
+      :name="$q.icon.input.clear"
       class="q-if-control"
       @mousedown="__clearTimer"
       @touchstart="__clearTimer"

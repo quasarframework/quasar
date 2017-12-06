@@ -55,7 +55,7 @@
       class="q-if-control"
       @click.stop="clear"
     ></q-icon>
-    <q-icon slot="after" name="arrow_drop_down" class="q-if-control"></q-icon>
+    <q-icon slot="after" :name="$q.icon.select.dropdown" class="q-if-control"></q-icon>
 
     <q-popover
       ref="popover"

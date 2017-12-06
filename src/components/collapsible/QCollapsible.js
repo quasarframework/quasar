@@ -117,7 +117,7 @@ export default {
           on: {
             click: this.__toggleIcon
           },
-          props: { icon: 'keyboard_arrow_down' },
+          props: { icon: this.$q.icon.collapsible.icon },
           directives: this.iconToggle && this.hasRipple
             ? [{ name: 'ripple', value: !this.disable }]
             : []

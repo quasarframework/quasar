@@ -110,7 +110,7 @@ export default {
     __bodyHide (evt) {
       if (
         evt && evt.target &&
-        (this.$el.contains(evt.target) || (this.anchorClick && this.anchorEl.contains(evt.target)))
+        (this.$el.contains(evt.target) || this.anchorEl.contains(evt.target))
       ) {
         return
       }

@@ -45,12 +45,9 @@ export default {
       },
       staticClass: 'q-tab column flex-center relative-position',
       'class': this.classes,
-      directives: [{
-        name: 'ripple',
-        modifiers: {
-          mat: true
-        }
-      }]
+      directives: __THEME__ === 'mat'
+        ? [{ name: 'ripple' }]
+        : null
     }, this.__getTabContent(h))
   }
 }

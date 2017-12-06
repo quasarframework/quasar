@@ -1,54 +1,11 @@
-<template>
-  <q-input
-    ref="input"
-    class="q-search"
 
-    v-model="model"
-    :type="type"
-    :autofocus="autofocus"
-    :placeholder="placeholder || $q.i18n.label.search"
-    :disable="disable"
-    :error="error"
-    :align="align"
-    :float-label="floatLabel"
-    :stack-label="stackLabel"
-    :prefix="prefix"
-    :suffix="suffix"
-    :inverted="inverted"
-    :dark="dark"
-    :max-length="maxLength"
-
-    :color="color"
-    :before="controlBefore"
-    :after="controlAfter"
-
-    @focus="__onFocus"
-    @blur="__onBlur"
-    @keyup="__onKeyup"
-    @keydown="__onKeydown"
-    @click="__onClick"
-  >
-    <slot></slot>
-  </q-input>
-</template>
-
-<script>
-import { QIcon } from '../icon'
 import { QInput } from '../input'
 import InputMixin from '../../mixins/input'
 import FrameMixin from '../../mixins/input-frame'
-import Ripple from '../../directives/ripple'
 
 export default {
   name: 'q-search',
   mixins: [FrameMixin, InputMixin],
-  components: {
-    QIcon,
-    QInput
-  },
-  directives: {
-    Ripple
-  },
   props: {
     value: { required: true },
     type: String,
@@ -56,10 +13,7 @@ export default {
       type: Number,
       default: 300
     },
-    icon: {
-      type: String,
-      default: 'search'
-    },
+    icon: String,
     placeholder: String
   },
   data () {
@@ -106,11 +60,14 @@ export default {
         : this.debounce
     },
     controlBefore () {
-      return this.before || [{icon: this.icon, handler: this.focus}]
+      return this.before || [{
+        icon: this.icon || this.$q.icon.search.icon,
+        handler: this.focus
+      }]
     },
     controlAfter () {
       return this.after || [{
-        icon: this.inverted ? 'clear' : 'cancel',
+        icon: this.$q.icon.search[`clear${this.inverted ? 'Inverted' : ''}`],
         content: true,
         handler: this.clear
       }]
@@ -120,6 +77,40 @@ export default {
     clear () {
       this.$refs.input.clear()
     }
+  },
+  render (h) {
+    return h(QInput, {
+      ref: 'input',
+      staticClass: 'q-search',
+      props: {
+        value: this.model,
+        type: this.type,
+        autofocus: this.autofocus,
+        placeholder: this.placeholder || this.$q.i18n.label.search,
+        disable: this.disable,
+        error: this.error,
+        align: this.align,
+        floatLabel: this.floatLabel,
+        stackLabel: this.stackLabel,
+        prefix: this.prefix,
+        suffix: this.suffix,
+        inverted: this.inverted,
+        dark: this.dark,
+        maxLength: this.maxLength,
+        color: this.color,
+        before: this.controlBefore,
+        after: this.controlAfter
+      },
+      on: {
+        input: v => { this.model = v },
+        focus: this.__onFocus,
+        blur: this.__onBlur,
+        keyup: this.__onKeyup,
+        keydown: this.__onKeydown,
+        click: this.__onClick
+      }
+    }, [
+      this.$slots.default
+    ])
   }
 }
-</script>

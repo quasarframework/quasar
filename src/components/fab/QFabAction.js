@@ -1,29 +1,9 @@
-<template>
-  <q-btn
-    round
-    small
-    @click="click"
-    :outline="outline"
-    :push="push"
-    :flat="flat"
-    :color="color"
-    :glossy="glossy"
-    :icon="icon"
-  >
-    <slot></slot>
-  </q-btn>
-</template>
-
-<script>
 import { QBtn } from '../btn'
 import FabMixin from './fab-mixin'
 
 export default {
   name: 'q-fab-action',
   mixins: [FabMixin],
-  components: {
-    QBtn
-  },
   inject: {
     __qFabClose: {
       default () {
@@ -43,6 +23,24 @@ export default {
         this.$emit('click', e)
       })
     }
+  },
+  render (h) {
+    return h(QBtn, {
+      props: {
+        round: true,
+        small: true,
+        outline: this.outline,
+        push: this.push,
+        flat: this.flat,
+        color: this.color,
+        glossy: this.glossy,
+        icon: this.icon
+      },
+      on: {
+        click: this.click
+      }
+    }, [
+      this.$slots.default
+    ])
   }
 }
-</script>
