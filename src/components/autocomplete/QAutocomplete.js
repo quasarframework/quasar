@@ -93,10 +93,12 @@ export default {
       if (this.staticData) {
         this.searchId = ''
         this.results = this.filter(terms, this.staticData)
-        if (this.$q.platform.is.desktop) {
-          this.selectedIndex = 0
+        if (this.$refs && this.$refs.popover) {
+          if (this.$q.platform.is.desktop) {
+            this.selectedIndex = 0
+          }
+          this.$refs.popover.show()
         }
-        this.$refs.popover.show()
         return
       }
 
@@ -130,7 +132,10 @@ export default {
     hide () {
       this.results = []
       this.selectedIndex = -1
-      return this.$refs.popover.hide()
+      if (this.$refs && this.$refs.popover) {
+        return this.$refs.popover.hide()
+      }
+      return Promise.resolve()
     },
     __clearSearch () {
       clearTimeout(this.timer)

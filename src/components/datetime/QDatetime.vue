@@ -18,7 +18,7 @@
     focusable
     :length="actualValue.length"
 
-    @click.native="show"
+    @click.native="toggle"
     @focus.native="__onFocus"
     @blur.native="__onBlur"
   >
@@ -47,10 +47,10 @@
         class="no-border"
       >
         <div class="row q-datetime-controls modal-buttons-top">
-          <q-btn :color="color" v-if="!noClear && model" @click="clear" flat wait-for-ripple :label="clearLabel || $q.i18n.label.clear"></q-btn>
+          <q-btn :color="color" v-if="!noClear && model" @click="clear" flat :label="clearLabel || $q.i18n.label.clear"></q-btn>
           <div class="col"></div>
-          <q-btn :color="color" @click="hide" flat wait-for-ripple :label="cancelLabel || $q.i18n.label.cancel"></q-btn>
-          <q-btn :color="color" @click="hide(), __update()" flat wait-for-ripple :label="okLabel || $q.i18n.label.ok"></q-btn>
+          <q-btn :color="color" @click="hide" flat :label="cancelLabel || $q.i18n.label.cancel"></q-btn>
+          <q-btn :color="color" @click="hide(), __update()" flat :label="okLabel || $q.i18n.label.ok"></q-btn>
         </div>
       </q-inline-datetime>
     </q-popover>
@@ -175,6 +175,9 @@ export default {
     }
   },
   methods: {
+    toggle () {
+      this[this.$refs.popup.showing ? 'hide' : 'show']()
+    },
     show () {
       if (!this.disable) {
         this.__setModel()
