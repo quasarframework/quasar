@@ -109,7 +109,7 @@
               @click="setMonth(month - 1)"
               :disabled="beforeMinDays"
               :icon="$q.icon.datetime.arrowLeft"
-              :repeatTimeout="__ease()"
+              :repeatTimeout="__ease"
             ></q-btn>
             <div class="col q-datetime-dark">
               {{ monthStamp }}
@@ -122,7 +122,7 @@
               @click="setMonth(month + 1)"
               :disabled="afterMaxDays"
               :icon="$q.icon.datetime.arrowRight"
-              :repeatTimeout="__ease()"
+              :repeatTimeout="__ease"
             ></q-btn>
           </div>
           <div class="q-datetime-weekdays row items-center justify-start">
