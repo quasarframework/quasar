@@ -86,7 +86,8 @@ export default {
   methods: {
     alertAsMethod (position) {
       const { color, textColor, icon, message, avatar } = alerts[ Math.floor(Math.random(5) * 10) % 5 ]
-      const remove = this.$q.notify({
+      // const remove =
+      this.$q.notify({
         color,
         textColor,
         icon,
@@ -94,7 +95,7 @@ export default {
         position,
         avatar,
         actions: Math.random() * 100 > 50
-          ? [ { label: 'Reply', handler: () => remove() } ]
+          ? [ { label: 'Reply', handler: () => console.log('wooow') } ]
           : null,
         timeout: Math.random() * 5000 + 3000
       })
