@@ -81,7 +81,7 @@ export default {
       if (!this.__input.hasFocus() || !this.isWorking()) {
         return
       }
-  
+
       const terms = this.__input.val
       this.width = width(this.inputEl) + 'px'
       const searchId = uid()

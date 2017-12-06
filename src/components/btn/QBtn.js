@@ -68,7 +68,7 @@ export default {
     },
     startRepeat (e) {
       this.repeated = 0
- 
+
       const setTimer = () => {
         this.timer = setTimeout(
           trigger,
@@ -85,7 +85,7 @@ export default {
         this.$emit('click', e)
         setTimer()
       }
-      
+
       setTimer()
     },
     endRepeat () {
@@ -107,7 +107,7 @@ export default {
       }
 
     on.click = this.click
- 
+
     return h('button', {
       staticClass: 'q-btn row inline flex-center q-focusable q-hoverable relative-position',
       'class': this.classes,
