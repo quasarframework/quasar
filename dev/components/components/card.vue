@@ -8,7 +8,7 @@
         <q-card-title class="relative-position">
           <q-btn round color="primary" icon="place" class="absolute" style="top: 0; right: 8px; transform: translateY(-50%);" />
 
-          Cafe Basilico
+          <div class="ellipsis">Cafe Basilico Cafe Basilico Cafe Basilico Cafe Basilico Cafe Basilico Cafe Basilico Cafe Basilico</div>
           <q-rating slot="subtitle" v-model="stars" :max="5" />
           <div slot="right" class="row items-center">
             <q-icon name="place" /> 250 ft
