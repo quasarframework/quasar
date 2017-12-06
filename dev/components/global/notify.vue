@@ -99,6 +99,21 @@ export default {
           : null,
         timeout: Math.random() * 5000 + 3000
       })
+      /* closeBtn test
+      this.$q.notify({
+        color,
+        textColor,
+        icon,
+        message,
+        position,
+        avatar,
+        closeBtn: true,
+        actions: Math.random() * 100 > 50
+          ? [ { label: 'Reply', handler: () => console.log('wooow') } ]
+          : null,
+        timeout: Math.random() * 5000 + 3000
+      })
+      */
     }
   }
 }

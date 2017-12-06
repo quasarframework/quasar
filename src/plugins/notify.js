@@ -65,9 +65,6 @@ export default {
             notif.timeout = 5000
           }
 
-          const action = notif.position.indexOf('top') > -1 ? 'unshift' : 'push'
-          this.notifs[notif.position][action](notif)
-
           const close = () => {
             this.remove(notif)
           }
@@ -85,11 +82,25 @@ export default {
             })
           }
 
+          if (notif.closeBtn) {
+            const btn = [{
+              closeBtn: true,
+              label: notif.closeBtn,
+              handler: close
+            }]
+            notif.actions = notif.actions
+              ? notif.actions.concat(btn)
+              : btn
+          }
+
           if (notif.timeout) {
             notif.__timeout = setTimeout(() => {
               close()
             }, notif.timeout + /* show duration */ 1000)
           }
+
+          const action = notif.position.indexOf('top') > -1 ? 'unshift' : 'push'
+          this.notifs[notif.position][action](notif)
 
           return close
         },

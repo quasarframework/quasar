@@ -73,7 +73,9 @@ export default {
                   flat: true,
                   compact: true,
                   icon: action.icon,
-                  label: action.label
+                  label: action.closeBtn === true
+                    ? (typeof action.label === 'string' ? action.label : this.$q.i18n.label.close)
+                    : action.label
                 },
                 on: {
                   click: () => action.handler()
