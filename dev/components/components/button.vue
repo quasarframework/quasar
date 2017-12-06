@@ -63,7 +63,7 @@
       <p class="group">
         <q-btn loader :percentage="percentage" color="primary" @click="startProgress">
           Btn with progress
-          <span slot="loading">
+          <span slot="loading" class="row items-center">
             <q-spinner class="on-left" />
             Computing...
           </span>
@@ -87,6 +87,18 @@
         <q-btn round small icon="check" color="primary" />
         <q-btn round icon="cloud" color="primary" />
         <q-btn round big icon="alarm" color="primary" />
+      </p>
+
+      <p class="group">
+        <q-btn v-for="i in 30" :key="i" round icon="cloud" color="primary" :style="{ fontSize: `${8 + i * 4}px` }" />
+      </p>
+
+      <p class="group">
+        <q-btn v-for="i in 15" :key="i" :label="`Size ${4 + i * 4}px`" color="primary" :style="{ fontSize: `${4 + i * 4}px` }" />
+      </p>
+
+      <p class="group">
+        <q-btn v-for="i in 15" :key="i" icon="cloud" :label="`Size ${4 + i * 4}px`" color="primary" :style="{ fontSize: `${4 + i * 4}px` }" />
       </p>
 
       <p class="caption">Compact - Small, Medium (default) and Big</p>

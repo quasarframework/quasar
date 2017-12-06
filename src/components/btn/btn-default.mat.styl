@@ -69,21 +69,23 @@ button-round-factor($size)
 
 for $name, $size in $button-sizes
   .q-btn-{$name}
-    min-height $size
+    min-height (100 / 38)em
     font-size round($size * .38)
     .q-icon
-      font-size round($size * .68)
+      font-size (68 / 38)em
     .q-spinner
-      height round($size * .68)
-      width round($size * .68)
+      height (68 / 38)em
+      width (68 / 38)em
 for $name, $size in $button-round-sizes
   .q-btn-round.q-btn-{$name}
-    height $size
-    width $size
+    font-size $size
+    min-height unset
+    height 1em
+    width 1em
     .q-icon, .q-spinner
-      height round(button-round-factor($name) * $size)
-      width round(button-round-factor($name) * $size)
-      font-size round(button-round-factor($name) * $size)
+      height 1em
+      width 1em
+      font-size button-round-factor($name)em
 
 .q-btn-compact
   padding 2px 6px
