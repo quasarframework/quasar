@@ -10,11 +10,15 @@ export default {
     loader: Boolean,
     percentage: Number,
     darkPercentage: Boolean,
-    waitForRipple: Boolean
+    waitForRipple: Boolean,
+    repeatTimeout: {
+      type: [Number, Function]
+    }
   },
   data () {
     return {
-      loading: this.value || false
+      loading: this.value || false,
+      repeated: 0
     }
   },
   watch: {
@@ -36,13 +40,15 @@ export default {
     click (e) {
       this.$el.blur()
 
-      if (this.isDisabled) {
+      clearTimeout(this.timer)
+
+      if (this.isDisabled || this.repeated) {
+        this.repeated = 0
         return
       }
 
-      clearTimeout(this.timer)
       const trigger = () => {
-        if (this.loader !== false || this.$slots.loading) {
+        if (this.hasLoader) {
           this.loading = true
           this.$emit('input', true)
         }
@@ -58,6 +64,21 @@ export default {
       else {
         trigger()
       }
+    },
+    startRepeat (e) {
+      this.repeated = 0
+      const trigger = () => {
+        if (this.isDisabled || this.hasLoader || !this.repeatTimeout) {
+          return
+        }
+        this.repeated += 1
+        this.$emit('click', e)
+        this.timer = setTimeout(trigger, typeof this.repeatTimeout === 'function' ? this.repeatTimeout(this.repeated) : this.repeatTimeout)
+      }
+      this.timer = setTimeout(trigger, typeof this.repeatTimeout === 'function' ? this.repeatTimeout(this.repeated) : this.repeatTimeout)
+    },
+    endRepeat (e) {
+      clearTimeout(this.timer)
     }
   },
   beforeDestroy () {
@@ -67,7 +88,14 @@ export default {
     return h('button', {
       staticClass: 'q-btn row inline flex-center q-focusable q-hoverable relative-position',
       'class': this.classes,
-      on: { click: this.click },
+      on: {
+        click: this.click,
+        mousedown: this.startRepeat,
+        touchstart: this.startRepeat,
+        mouseup: this.endRepeat,
+        mouseleave: this.endRepeat,
+        touchend: this.endRepeat
+      },
       directives: this.hasRipple
         ? [{
           name: 'ripple',

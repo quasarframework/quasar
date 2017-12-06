@@ -40,6 +40,9 @@ export default {
     hasRipple () {
       return __THEME__ === 'mat' && !this.noRipple && !this.isDisabled
     },
+    hasLoader () {
+      return this.loader !== false || this.$slots.loading
+    },
     classes () {
       const
         cls = [this.shape, this.size],
