@@ -78,6 +78,9 @@ export default {
     __update () {
       this.model = this.newPage
       this.newPage = null
+    },
+    __getRepeatEasing (from = 300, step = 10, to = 100) {
+      return (cnt) => cnt ? Math.max(to, from - cnt * cnt * step) : 100
     }
   },
   computed: {
@@ -118,6 +121,7 @@ export default {
     const contentMiddle = []
     if (this.__boundaryLinks) {
       contentStart.push(h(QBtn, {
+        key: 'bls',
         props: {
           disable: this.disable || this.value <= this.min,
           color: this.color,
@@ -131,6 +135,7 @@ export default {
         }
       }))
       contentEnd.unshift(h(QBtn, {
+        key: 'ble',
         props: {
           disable: this.disable || this.value >= this.max,
           color: this.color,
@@ -146,26 +151,30 @@ export default {
     }
     if (this.__directionLinks) {
       contentStart.push(h(QBtn, {
+        key: 'bdp',
         props: {
           disable: this.disable || this.value <= this.min,
           color: this.color,
           flat: true,
           compact: true,
           small: true,
-          icon: this.$q.icon.pagination.prev
+          icon: this.$q.icon.pagination.prev,
+          repeatTimeout: this.__getRepeatEasing()
         },
         on: {
           click: () => this.setByOffset(-1)
         }
       }))
       contentEnd.unshift(h(QBtn, {
+        key: 'bdn',
         props: {
           disable: this.disable || this.value >= this.max,
           color: this.color,
           flat: true,
           compact: true,
           small: true,
-          icon: this.$q.icon.pagination.next
+          icon: this.$q.icon.pagination.next,
+          repeatTimeout: this.__getRepeatEasing()
         },
         on: {
           click: () => this.setByOffset(1)
@@ -229,6 +238,7 @@ export default {
       }
       if (boundaryStart) {
         contentStart.push(h(QBtn, {
+          key: 'bns',
           style,
           props: {
             disable: this.disable || this.value <= this.min,
@@ -243,6 +253,7 @@ export default {
       }
       if (boundaryEnd) {
         contentEnd.unshift(h(QBtn, {
+          key: 'bne',
           style,
           props: {
             disable: this.disable || this.value >= this.max,
@@ -257,12 +268,14 @@ export default {
       }
       if (ellipsesStart) {
         contentStart.push(h(QBtn, {
+          key: 'bes',
           style,
           props: {
             disable: this.disable,
             color: this.color,
             flat: true,
-            compact: true
+            compact: true,
+            repeatTimeout: this.__getRepeatEasing()
           },
           on: {
             click: () => this.set(pgFrom - 1)
@@ -271,12 +284,14 @@ export default {
       }
       if (ellipsesEnd) {
         contentEnd.unshift(h(QBtn, {
+          key: 'bee',
           style,
           props: {
             disable: this.disable,
             color: this.color,
             flat: true,
-            compact: true
+            compact: true,
+            repeatTimeout: this.__getRepeatEasing()
           },
           on: {
             click: () => this.set(pgTo + 1)
