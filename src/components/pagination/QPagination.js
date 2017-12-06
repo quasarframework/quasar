@@ -79,7 +79,7 @@ export default {
       this.model = this.newPage
       this.newPage = null
     },
-    __ease (from = 300, step = 10, to = 100) {
+    __getRepeatEasing (from = 300, step = 10, to = 100) {
       return (cnt) => cnt ? Math.max(to, from - cnt * cnt * step) : 100
     }
   },
@@ -159,7 +159,7 @@ export default {
           compact: true,
           small: true,
           icon: this.$q.icon.pagination.prev,
-          repeatTimeout: this.__ease()
+          repeatTimeout: this.__getRepeatEasing()
         },
         on: {
           click: () => this.setByOffset(-1)
@@ -174,7 +174,7 @@ export default {
           compact: true,
           small: true,
           icon: this.$q.icon.pagination.next,
-          repeatTimeout: this.__ease()
+          repeatTimeout: this.__getRepeatEasing()
         },
         on: {
           click: () => this.setByOffset(1)
@@ -275,7 +275,7 @@ export default {
             color: this.color,
             flat: true,
             compact: true,
-            repeatTimeout: this.__ease()
+            repeatTimeout: this.__getRepeatEasing()
           },
           on: {
             click: () => this.set(pgFrom - 1)
@@ -291,7 +291,7 @@ export default {
             color: this.color,
             flat: true,
             compact: true,
-            repeatTimeout: this.__ease()
+            repeatTimeout: this.__getRepeatEasing()
           },
           on: {
             click: () => this.set(pgTo + 1)
