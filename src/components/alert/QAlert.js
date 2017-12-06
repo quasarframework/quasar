@@ -71,12 +71,14 @@ export default {
               h(QBtn, {
                 props: {
                   flat: true,
-                  compact: true
+                  compact: true,
+                  icon: action.icon,
+                  label: action.label
                 },
                 on: {
                   click: () => action.handler()
                 }
-              }, [ action.label ])
+              })
             ])
           ))
           : null
