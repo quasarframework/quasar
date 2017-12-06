@@ -78,7 +78,7 @@ export default {
         )
       }
       const trigger = () => {
-        if () {
+        if (this.hasNoRepeat || this.$slots.loading) {
           return
         }
         this.repeated += 1
