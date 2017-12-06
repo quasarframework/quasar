@@ -68,7 +68,10 @@ export default {
   },
   computed: {
     computedRows () {
-      let rows = this.data.slice()
+      let rows = this.data.slice().map((row, i) => {
+        row.__index = i
+        return row
+      })
 
       if (rows.length === 0) {
         return []
@@ -79,7 +82,7 @@ export default {
 
       const { sortBy, descending, rowsPerPage } = this.computedPagination
 
-      if (this.hasFilter && this.filter) {
+      if (this.hasFilter) {
         rows = this.filterMethod(rows, this.filter, this.computedCols, this.getCellValue)
       }
 
