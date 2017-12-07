@@ -23,6 +23,7 @@ export default {
     separator: Boolean,
     insetSeparator: Boolean,
     noRipple: Boolean,
+    collapseIcon: String,
 
     dense: Boolean,
     sparse: Boolean,
@@ -39,8 +40,7 @@ export default {
     label: String,
     sublabel: String,
     labelLines: [String, Number],
-    sublabelLines: [String, Number],
-    customicon: String
+    sublabelLines: [String, Number]
   },
   computed: {
     cfg () {
@@ -70,7 +70,7 @@ export default {
       }
     },
     hasRipple () {
-      return __THEME__ === 'mat' && !this.noRipple
+      return __THEME__ === 'mat' && !this.noRipple && !this.disable
     },
     classes () {
       return {
@@ -118,10 +118,10 @@ export default {
           on: {
             click: this.__toggleIcon
           },
-          props: { icon: this.customicon ? this.customicon : this.$q.icon.collapsible.icon },
+          props: { icon: this.collapseIcon || this.$q.icon.collapsible.icon },
           directives: this.iconToggle && this.hasRipple
-            ? [{ name: 'ripple', value: !this.disable }]
-            : []
+            ? [{ name: 'ripple' }]
+            : null
         })
       ]
     },
@@ -136,8 +136,8 @@ export default {
           click: this.__toggleItem
         },
         directives: this.hasRipple && !this.iconToggle
-          ? [{ name: 'ripple', value: !this.disable }]
-          : []
+          ? [{ name: 'ripple' }]
+          : null
       }
     }
   },
