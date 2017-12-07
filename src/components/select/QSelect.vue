@@ -20,9 +20,10 @@
     :length="length"
     :additional-length="additionalLength"
 
+    @click.native="togglePopup"
     @focus.native="__onFocus"
     @blur.native="__onBlur"
-    @keydown.enter.native="$refs.popover.show"
+    @keydown.enter.native="togglePopup"
   >
     <div
       v-if="hasChips"
@@ -62,7 +63,7 @@
       fit
       :disable="disable"
       :offset="[0, 10]"
-      :anchor-click="false"
+      :anchorClick="false"
       max-height="100vh"
       class="column no-wrap no-scroll"
       @show="onShowPopover"
@@ -187,6 +188,10 @@ export default {
     listMaxHeight: {
       type: String,
       default: '300px'
+    },
+    autoOpen: {
+      type: Boolean,
+      default: true
     }
   },
   data () {
@@ -228,6 +233,7 @@ export default {
   },
   methods: {
     togglePopup () {
+      console.log('toggle')
       this[this.$refs.popover.showing ? 'hide' : 'show']()
     },
     show () {
@@ -300,21 +306,24 @@ export default {
       this.__onBlur()
     },
     __onFocus () {
+      console.log('__onFocus')
       if (!this.focused) {
         this.focused = true
         this.$emit('focus')
-        this.$refs.popover.show()
-      }
-      else {
-        this.togglePopup()
+        console.log('emit focus')
+        if (this.autoOpen) {
+          setTimeout(this.show, 1000)
+        }
       }
     },
     __onBlur () {
+      console.log('__onBlur')
       this.$nextTick(() => {
         const elm = document.activeElement
         if (!document.hasFocus() || (elm !== this.$refs.input.$el && !this.$refs.popover.$el.contains(elm))) {
           this.focused = false
           this.$emit('blur')
+          console.log('emit blur')
           if (JSON.stringify(this.model) !== JSON.stringify(this.value)) {
             this.$emit('change', this.model)
           }
@@ -347,7 +356,12 @@ export default {
           break
         case 9: // tab
           prevent(e)
-          this.goToNext()
+          if (e.shiftKey) {
+            this.goToNext()
+          }
+          else {
+            this.goToNext()
+          }
           break
       }
     },
