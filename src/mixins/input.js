@@ -10,7 +10,8 @@ export default {
   data () {
     return {
       focused: false,
-      timer: null
+      timer: null,
+      isNumberError: false
     }
   },
   computed: {
@@ -47,9 +48,10 @@ export default {
     __onBlur (e) {
       this.focused = false
       this.$emit('blur', e)
-      if (JSON.stringify(this.model) !== JSON.stringify(this.value)) {
-        this.$emit('input', this.model)
-        this.$emit('change', this.model)
+      let model = this.isNumber && this.isNumberError ? null : this.model
+      if (JSON.stringify(model) !== JSON.stringify(this.value)) {
+        this.$emit('input', model)
+        this.$emit('change', model)
       }
     },
     __onKeydown (e) {
