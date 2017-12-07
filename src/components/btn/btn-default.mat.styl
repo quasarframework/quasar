@@ -5,6 +5,7 @@
   outline 0
   border 0
   vertical-align middle
+  vertical-align -webkit-baseline-middle
   cursor pointer
   -webkit-appearance button
   padding $button-padding
@@ -16,7 +17,7 @@
   transition $button-transition
   text-transform uppercase
   min-height (100 / 38)em
-  font-size round($button-standard * .38)
+  font-size round($button-md * .38)
   .q-icon
     font-size (68 / 38)em
   .q-spinner
@@ -65,14 +66,15 @@
   border-radius 50%
   padding 0
   box-shadow $button-shadow
-  font-size $button-round-standard
-  min-height unset
+  font-size $button-round-md
+  min-height 0
   height 1em
   width 1em
-  .q-icon, .q-spinner
-    height 1em
-    width 1em
+  .q-icon
     font-size .54em
+  .q-spinner
+    height .54em
+    width .54em
   &:active
     box-shadow $shadow-8
 

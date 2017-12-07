@@ -46,10 +46,16 @@
         <q-btn loader color="orange" @click="simulateProgress" label="Button" />
         <q-btn loader color="secondary" @click="simulateProgress" label="Button" />
         <q-btn loader color="amber" @click="simulateProgress" label="Button" />
+        <q-btn loader color="dark" size="xs" @click="simulateProgress" label="Button" />
         <q-btn loader color="dark" size="sm" @click="simulateProgress" label="Button" />
+        <q-btn loader color="dark" size="md" @click="simulateProgress" label="Button" />
+        <q-btn loader color="dark" size="lg" @click="simulateProgress" label="Button" />
+        <q-btn loader color="dark" size="xl" @click="simulateProgress" label="Button" />
+        <q-btn size="xs" round loader @click="simulateProgress" color="primary" icon="mail" />
         <q-btn size="sm" round loader @click="simulateProgress" color="primary" icon="mail" />
         <q-btn round loader @click="simulateProgress" color="primary" icon="mail" />
         <q-btn size="lg" round loader @click="simulateProgress" color="primary" icon="mail" />
+        <q-btn size="xl" round loader @click="simulateProgress" color="primary" icon="mail" />
 
         <q-btn color="dark" size="sm" @click="simulateProgress" icon-right="alarm" label="Button">
           <q-spinner-audio slot="loading" />
@@ -58,6 +64,39 @@
           <q-spinner-audio slot="loading" />
         </q-btn>
         <q-btn color="negative" @click="stopProgress">Stop</q-btn>
+      </p>
+
+      <p class="group">
+        <q-btn color="primary" icon="alarm" label="Label" />
+        <q-btn color="primary" iconRight="alarm" label="Label" />
+        <q-btn color="primary" icon="alarm" icon-right="alarm" label="Label" />
+        <q-btn color="primary" icon="alarm" icon-right="alarm" />
+        <q-btn color="secondary" icon="alarm" label="Label">Slot</q-btn>
+        <q-btn color="secondary" iconRight="alarm" label="Label">Slot</q-btn>
+        <q-btn color="secondary" icon="alarm" icon-right="alarm" label="Label">Slot</q-btn>
+        <q-btn color="secondary" icon="alarm" icon-right="alarm">Slot</q-btn>
+        <q-btn color="positive" icon="alarm" label="Label"></q-btn>
+        <q-btn color="positive" iconRight="alarm" label="Label"></q-btn>
+        <q-btn color="positive" icon="alarm" icon-right="alarm" label="Label"></q-btn>
+        <q-btn color="positive" icon="alarm" icon-right="alarm"></q-btn>
+        <q-btn color="negative" icon="alarm" label="Label"><q-tooltip>Popover</q-tooltip></q-btn>
+        <q-btn color="negative" iconRight="alarm" label="Label"><q-tooltip>Popover</q-tooltip></q-btn>
+        <q-btn color="negative" icon="alarm" icon-right="alarm" label="Label"><q-tooltip>Popover</q-tooltip></q-btn>
+        <q-btn color="negative" icon="alarm" icon-right="alarm"><q-tooltip>Popover</q-tooltip></q-btn>
+      </p>
+      <p class="group">
+        <q-btn round color="primary" icon="alarm" label="Label" />
+        <q-btn round color="primary" iconRight="alarm" label="Label" />
+        <q-btn round color="primary" icon="alarm" icon-right="alarm" label="Label" />
+        <q-btn round color="primary" icon="alarm" icon-right="alarm" />
+        <q-btn round color="positive" icon="alarm" label="Label"></q-btn>
+        <q-btn round color="positive" iconRight="alarm" label="Label"></q-btn>
+        <q-btn round color="positive" icon="alarm" icon-right="alarm" label="Label"></q-btn>
+        <q-btn round color="positive" icon="alarm" icon-right="alarm"></q-btn>
+        <q-btn round color="negative" icon="alarm" label="Label"><q-tooltip>Popover</q-tooltip></q-btn>
+        <q-btn round color="negative" iconRight="alarm" label="Label"><q-tooltip>Popover</q-tooltip></q-btn>
+        <q-btn round color="negative" icon="alarm" icon-right="alarm" label="Label"><q-tooltip>Popover</q-tooltip></q-btn>
+        <q-btn round color="negative" icon="alarm" icon-right="alarm"><q-tooltip>Popover</q-tooltip></q-btn>
       </p>
 
       <p class="group">

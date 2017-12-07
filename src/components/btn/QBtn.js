@@ -142,7 +142,7 @@ export default {
         : [
           this.icon
             ? h('q-icon', {
-              'class': { 'on-left': (this.label || this.$slots.default) && !this.round },
+              'class': { 'on-left': this.label && !this.round },
               props: { name: this.icon }
             })
             : null,
