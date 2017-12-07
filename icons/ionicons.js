@@ -97,6 +97,8 @@ export default {
   input: {
     showPass: 'ion-eye',
     hidePass: 'ion-eye-disabled',
+    showNumber: 'keyboard', // TODO
+    hideNumber: 'keyboard_hide', // TODO
     clear: 'ion-backspace-outline'
   },
   pagination: {

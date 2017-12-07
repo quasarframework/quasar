@@ -97,6 +97,8 @@ export default {
   input: {
     showPass: 'fa-eye',
     hidePass: 'fa-eye-slash',
+    showNumber: 'keyboard', // TODO
+    hideNumber: 'keyboard_hide', // TODO
     clear: 'fa-times'
   },
   pagination: {
