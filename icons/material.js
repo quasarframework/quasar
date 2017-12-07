@@ -97,6 +97,8 @@ export default {
   input: {
     showPass: 'visibility',
     hidePass: 'visibility_off',
+    showNumber: 'keyboard',
+    hideNumber: 'keyboard_hide',
     clear: 'cancel'
   },
   pagination: {
