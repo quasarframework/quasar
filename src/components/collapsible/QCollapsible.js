@@ -39,7 +39,8 @@ export default {
     label: String,
     sublabel: String,
     labelLines: [String, Number],
-    sublabelLines: [String, Number]
+    sublabelLines: [String, Number],
+    customicon: String
   },
   computed: {
     cfg () {
@@ -117,7 +118,7 @@ export default {
           on: {
             click: this.__toggleIcon
           },
-          props: { icon: this.$q.icon.collapsible.icon },
+          props: { icon: this.customicon ? this.customicon : this.$q.icon.collapsible.icon },
           directives: this.iconToggle && this.hasRipple
             ? [{ name: 'ripple', value: !this.disable }]
             : []
