@@ -184,6 +184,7 @@ export default {
   watch: {
     value (v) {
       this.model = v
+      this.isNumberError = false
     }
   },
   provide () {
@@ -254,17 +255,14 @@ export default {
       let val = e.target ? e.target.value : e
 
       if (this.isNumber) {
-        if (('' + val).length === 0) {
-          val = null
+        val = parseFloat(val)
+        if (isNaN(val)) {
+          this.isNumberError = true
+          return
         }
-        else {
-          val = parseFloat(val)
-          if (isNaN(val)) {
-            return
-          }
-          if (Number.isInteger(this.maxDecimals)) {
-            val = parseFloat(val.toFixed(this.maxDecimals))
-          }
+        this.isNumberError = false
+        if (Number.isInteger(this.maxDecimals)) {
+          val = parseFloat(val.toFixed(this.maxDecimals))
         }
       }
       else if (this.upperCase) {
