@@ -3,7 +3,7 @@
     class="q-radio q-option cursor-pointer no-outline q-focusable row inline no-wrap items-center"
     :class="{disabled: disable, reverse: leftLabel}"
     @click.stop.prevent="select"
-    tabindex="0"
+    :tabindex="focusable && !disable ? 0 : null"
     @focus="$emit('focus')"
     @blur="$emit('blur')"
     @keydown.space.enter.prevent="select(false)"
@@ -49,7 +49,11 @@ export default {
       required: true
     },
     checkedIcon: String,
-    uncheckedIcon: String
+    uncheckedIcon: String,
+    focusable: {
+      type: Boolean,
+      default: true
+    }
   },
   computed: {
     model: {

@@ -3,7 +3,7 @@
     class="q-checkbox q-option cursor-pointer no-outline q-focusable row inline no-wrap items-center"
     :class="{disabled: disable, reverse: leftLabel}"
     @click.stop.prevent="toggle"
-    tabindex="0"
+    :tabindex="focusable && !disable ? 0 : null"
     @focus="$emit('focus')"
     @blur="$emit('blur')"
     @keydown.space.enter.prevent="toggle(false)"
@@ -47,7 +47,11 @@ export default {
     indeterminate: Boolean,
     checkedIcon: String,
     uncheckedIcon: String,
-    indeterminateIcon: String
+    indeterminateIcon: String,
+    focusable: {
+      type: Boolean,
+      default: true
+    }
   },
   computed: {
     checkedStyle () {

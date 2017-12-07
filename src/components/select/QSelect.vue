@@ -62,6 +62,7 @@
       fit
       :disable="disable"
       :offset="[0, 10]"
+      :anchor-click="false"
       max-height="100vh"
       class="column no-wrap no-scroll"
       @show="onShowPopover"
@@ -105,6 +106,7 @@
             <q-toggle
               v-if="toggle"
               slot="right"
+              :focusable="false"
               :color="color"
               :value="optModel[opt.index]"
               :disable="opt.disable"
@@ -112,6 +114,7 @@
             <q-checkbox
               v-else
               slot="left"
+              :focusable="false"
               :color="color"
               :value="optModel[opt.index]"
               :disable="opt.disable"
@@ -131,6 +134,7 @@
           >
             <q-radio
               v-if="radio"
+              :focusable="false"
               :color="color"
               slot="left"
               :value="value"
@@ -191,6 +195,9 @@ export default {
     }
   },
   computed: {
+    focusabledElements () {
+      return Array.prototype.slice.call(document.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"]'))
+    },
     optModel () {
       if (this.multiple) {
         return this.model.length > 0
@@ -220,6 +227,18 @@ export default {
     }
   },
   methods: {
+    togglePopup () {
+      this[this.$refs.popover.showing ? 'hide' : 'show']()
+    },
+    show () {
+      if (this.disable) {
+        return Promise.reject(new Error())
+      }
+      return this.$refs.popover.show()
+    },
+    hide () {
+      return this.$refs.popover.hide()
+    },
     onInputFilter () {
       const popover = this.$refs.popover
       if (popover.showing) {
@@ -232,9 +251,13 @@ export default {
     },
     setCurrentSelection () {
       if (this.selectedIndex >= 0 && !this.visibleOptions[this.selectedIndex].disable) {
-        this.multiple
-          ? this.__toggleMultiple(this.visibleOptions[this.selectedIndex].value)
-          : this.__singleSelect(this.visibleOptions[this.selectedIndex].value)
+        if (this.multiple) {
+          this.__toggleMultiple(this.visibleOptions[this.selectedIndex].value)
+        }
+        else {
+          this.__singleSelect(this.visibleOptions[this.selectedIndex].value)
+          this.$refs.input.$el.focus()
+        }
       }
     },
     scrollToSelectedItem (onShow = false) {
@@ -273,7 +296,6 @@ export default {
     },
     onHidePopover () {
       this.selectedIndex = -1
-      this.$refs.input.$el.focus()
       this.terms = ''
       this.__onBlur()
     },
@@ -281,6 +303,10 @@ export default {
       if (!this.focused) {
         this.focused = true
         this.$emit('focus')
+        this.$refs.popover.show()
+      }
+      else {
+        this.togglePopup()
       }
     },
     __onBlur () {
@@ -317,8 +343,19 @@ export default {
         case 27: // escape
           prevent(e)
           this.$refs.popover.hide()
+          this.$refs.input.$el.focus()
+          break
+        case 9: // tab
+          prevent(e)
+          this.goToNext()
           break
       }
+    },
+    goToNext () {
+      this.$refs.popover.hide()
+      let tabIndex = this.focusabledElements.findIndex(el => el === this.$refs.input.$el)
+      tabIndex = tabIndex === -1 || tabIndex === this.focusabledElements.length - 1 ? 0 : tabIndex + 1
+      this.focusabledElements[tabIndex].focus()
     },
     __moveCursor (offset, e) {
       prevent(e)

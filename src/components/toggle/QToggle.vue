@@ -4,7 +4,7 @@
     :class="{disabled: disable, reverse: leftLabel}"
     v-touch-swipe.horizontal="__swipe"
     @click.stop.prevent="toggle"
-    tabindex="0"
+    :tabindex="focusable && !disable ? 0 : null"
     @focus="$emit('focus')"
     @blur="$emit('blur')"
     @keydown.space.enter.prevent="toggle(false)"
@@ -49,7 +49,11 @@ export default {
   props: {
     icon: String,
     checkedIcon: String,
-    uncheckedIcon: String
+    uncheckedIcon: String,
+    focusable: {
+      type: Boolean,
+      default: true
+    }
   },
   computed: {
     currentIcon () {
