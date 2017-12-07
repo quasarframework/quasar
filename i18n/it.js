@@ -1,3 +1,5 @@
+import { declOfNum } from '../src/utils/plural'
+
 export default {
   lang: 'it',
   label: {
@@ -32,7 +34,7 @@ export default {
     noData: 'Nessun dato disponibile',
     noResults: 'Nessuna corrispondenza trovata',
     loader: 'Caricamento...',
-    selectedRows: rows => rows > 1 ? `${rows} righe selezionate.` : `${rows === 0 ? 'Nessuna' : '1'} riga selezionata.`,
+    selectedRows: rows => rows > 0 ? `${rows} ${declOfNum(rows, ['riga selezionata', 'righe selezionate'])}.` : 'Nessuna riga selezionata.',
     rowsPerPage: 'Righe per pagina:',
     allRows: 'Tutte',
     pagination: (start, end, total) => `${start}-${end} di ${total}`,
