@@ -40,7 +40,7 @@ export default {
         'q-icon',
         {
           props: {
-            name: 'arrow_drop_down'
+            name: this.$q.icon.btn.dropdown
           },
           staticClass: 'transition-generic',
           'class': {
@@ -79,6 +79,7 @@ export default {
           staticClass: `${this.split ? 'q-btn-dropdown-current' : 'q-btn-dropdown q-btn-dropdown-simple'}`,
           on: {
             click: e => {
+              this.split && this.hide()
               if (!this.disable) {
                 this.$emit('click', e)
               }
@@ -126,7 +127,7 @@ export default {
             on: {
               click: () => {
                 if (!this.disable) {
-                  this.show()
+                  this.toggle()
                 }
               }
             }
@@ -138,6 +139,9 @@ export default {
     )
   },
   methods: {
+    toggle () {
+      return this.$refs.popover.toggle()
+    },
     show () {
       return this.$refs.popover.show()
     },

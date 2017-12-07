@@ -20,8 +20,8 @@
 
       <div class="q-focus-helper"></div>
 
-      <q-icon v-if="$q.theme !== 'ios'" class="q-radio-unchecked absolute-full cursor-pointer" :name="uncheckedIcon"></q-icon>
-      <q-icon class="q-radio-checked cursor-pointer absolute-full" :name="checkedIcon"></q-icon>
+      <q-icon v-if="$q.theme !== 'ios'" class="q-radio-unchecked absolute-full cursor-pointer" :name="uncheckedIcon || $q.icon.radio.unchecked[$q.theme]"></q-icon>
+      <q-icon class="q-radio-checked cursor-pointer absolute-full" :name="checkedIcon || $q.icon.radio.checked[$q.theme]"></q-icon>
 
       <div v-if="$q.theme !== 'ios'" ref="ripple" class="q-radial-ripple"></div>
     </div>
@@ -48,14 +48,8 @@ export default {
     val: {
       required: true
     },
-    checkedIcon: {
-      type: String,
-      default: __THEME__ === 'ios' ? 'check' : 'radio_button_checked'
-    },
-    uncheckedIcon: {
-      type: String,
-      default: 'radio_button_unchecked'
-    }
+    checkedIcon: String,
+    uncheckedIcon: String
   },
   computed: {
     model: {

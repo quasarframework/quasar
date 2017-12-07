@@ -42,13 +42,12 @@ export default {
       on: {
         click: this.__select
       },
-      directives: [{
-        name: 'ripple',
-        modifiers: {
-          mat: true
-        },
-        value: this.vm.done
-      }]
+      directives: __THEME__ === 'mat'
+        ? [{
+          name: 'ripple',
+          value: this.vm.done
+        }]
+        : null
     }, [
       h('div', { staticClass: 'q-stepper-dot row flex-center q-stepper-line relative-position' }, [
         h('span', { staticClass: 'row flex-center' }, [ icon ])

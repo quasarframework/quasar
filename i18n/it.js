@@ -1,4 +1,5 @@
 export default {
+  lang: 'it',
   label: {
     clear: 'Pulisci',
     ok: 'OK',
@@ -6,7 +7,7 @@ export default {
     close: 'Chiudi',
     set: 'Imposta',
     select: 'Seleziona',
-    reset: 'Risistemare',
+    reset: 'Ripristina',
     remove: 'Rimuovi',
     update: 'Aggiorna',
     create: 'Crea',
@@ -23,7 +24,7 @@ export default {
     format24h: true
   },
   pullToRefresh: {
-    pull: 'Tira giù per aggiornare',
+    pull: 'Trascina in basso per aggiornare',
     release: 'Rilascia per aggiornare',
     refresh: 'Aggiornamento...'
   },
@@ -31,7 +32,7 @@ export default {
     noData: 'Nessun dato disponibile',
     noResults: 'Nessuna corrispondenza trovata',
     loader: 'Caricamento...',
-    selectedRows: rows => rows > 1 ? `${rows} righe selezionate.` : `${rows === 0 ? 'Nessuna' : '1'} riga selezionata.`,
+    selectedRows: rows => rows > 0 ? `${rows} ${rows === 1 ? 'riga selezionata' : 'righe selezionate'}.` : 'Nessuna riga selezionata.',
     rowsPerPage: 'Righe per pagina:',
     allRows: 'Tutte',
     pagination: (start, end, total) => `${start}-${end} di ${total}`,
@@ -58,9 +59,9 @@ export default {
     outdent: 'Diminuisci identazione',
     indent: 'Aumenta identazione',
     removeFormat: 'Rimuovi formattazione',
-    formatting: 'Formatazzione',
+    formatting: 'Formattazione',
     fontSize: 'Dimensione del font',
-    align: 'Allineare',
+    align: 'Allinea',
     hr: 'Inserisci righello orizzontale',
     undo: 'Indietro',
     redo: 'Avanti',
@@ -79,6 +80,6 @@ export default {
     size5: 'Grande',
     size6: 'Molto grande',
     size7: 'Massimo',
-    defaultFont: 'Carattere predefinito'
+    defaultFont: 'Font predefinito'
   }
 }

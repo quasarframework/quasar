@@ -1,6 +1,7 @@
 import { QAlert } from '../components/alert'
 import { QTransition } from '../components/transition'
 import uid from '../utils/uid'
+import clone from '../utils/clone'
 
 const positionList = [
   'top-left', 'top-right',
@@ -45,7 +46,6 @@ export default {
           if (typeof notif === 'string') {
             notif = {
               message: notif,
-              timeout: 5000,
               position: 'bottom'
             }
           }
@@ -61,11 +61,36 @@ export default {
 
           notif.__uid = uid()
 
-          const action = notif.position.indexOf('top') > -1 ? 'unshift' : 'push'
-          this.notifs[notif.position][action](notif)
+          if (notif.timeout === void 0) {
+            notif.timeout = 5000
+          }
 
           const close = () => {
             this.remove(notif)
+          }
+
+          if (notif.actions) {
+            notif.actions = clone(notif.actions).map(action => {
+              const handler = action.handler
+              action.handler = () => {
+                close()
+                if (typeof handler === 'function') {
+                  handler()
+                }
+              }
+              return action
+            })
+          }
+
+          if (notif.closeBtn) {
+            const btn = [{
+              closeBtn: true,
+              label: notif.closeBtn,
+              handler: close
+            }]
+            notif.actions = notif.actions
+              ? notif.actions.concat(btn)
+              : btn
           }
 
           if (notif.timeout) {
@@ -73,6 +98,9 @@ export default {
               close()
             }, notif.timeout + /* show duration */ 1000)
           }
+
+          const action = notif.position.indexOf('top') > -1 ? 'unshift' : 'push'
+          this.notifs[notif.position][action](notif)
 
           return close
         },
@@ -82,6 +110,9 @@ export default {
           const index = this.notifs[notif.position].indexOf(notif)
           if (index !== -1) {
             this.notifs[notif.position].splice(index, 1)
+            if (typeof notif.onDismiss === 'function') {
+              notif.onDismiss()
+            }
           }
         }
       },

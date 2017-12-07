@@ -20,7 +20,7 @@
     :length="length"
     :additional-length="additionalLength"
 
-    @click.native="show"
+    @click.native="togglePopup"
     @focus.native="__onFocus"
     @blur.native="__onBlur"
   >
@@ -56,7 +56,7 @@
       class="q-if-control"
       @click.stop="clear"
     ></q-icon>
-    <q-icon slot="after" name="arrow_drop_down" class="q-if-control"></q-icon>
+    <q-icon slot="after" :name="$q.icon.select.dropdown" class="q-if-control"></q-icon>
 
     <q-popover
       ref="popover"
@@ -207,6 +207,9 @@ export default {
     }
   },
   methods: {
+    togglePopup () {
+      this[this.$refs.popover.showing ? 'hide' : 'show']()
+    },
     show () {
       if (this.disable) {
         return Promise.reject(new Error())

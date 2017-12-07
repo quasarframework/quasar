@@ -13,7 +13,7 @@ export default {
   },
   computed: {
     hasFilter () {
-      return this.filter !== void 0
+      return this.filter !== void 0 && this.filter.length > 0
     }
   },
   watch: {

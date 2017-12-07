@@ -1,4 +1,5 @@
 export default {
+  lang: 'en-uk',
   label: {
     clear: 'Clear',
     ok: 'OK',
@@ -31,7 +32,7 @@ export default {
     noData: 'No data available',
     noResults: 'No matching records found',
     loader: 'Loading...',
-    selectedRows: rows => rows > 1 ? `${rows} selected row(s).` : `${rows === 0 ? 'No' : '1'} selected rows.`,
+    selectedRows: rows => rows > 0 ? `${rows} row${rows === 1 ? '' : 's'} selected.` : 'No selected rows.',
     rowsPerPage: 'Rows per page:',
     allRows: 'All',
     pagination: (start, end, total) => `${start}-${end} of ${total}`,

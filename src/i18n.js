@@ -10,6 +10,7 @@ export default {
       lang.set = this.set
 
       Vue.set($q, 'i18n', lang)
+      this.name = lang.lang
       this.lang = lang
     }
 

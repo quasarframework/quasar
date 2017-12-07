@@ -11,7 +11,7 @@ export default {
           : (this.loader ? this.loaderLabel || this.$q.i18n.table.loader : this.noDataLabel || this.$q.i18n.table.noData)
 
         return h('div', { staticClass: 'q-table-bottom row items-center q-table-nodata' }, [
-          h(QIcon, {props: {name: 'warning'}}),
+          h(QIcon, {props: { name: this.$q.icon.table.warning }}),
           message
         ])
       }
@@ -69,7 +69,7 @@ export default {
             props: {
               color: this.color,
               round: true,
-              icon: 'chevron_left',
+              icon: this.$q.icon.table.prevPage,
               small: true,
               flat: true,
               disable: page === 1
@@ -84,7 +84,7 @@ export default {
             props: {
               color: this.color,
               round: true,
-              icon: 'chevron_right',
+              icon: this.$q.icon.table.nextPage,
               small: true,
               flat: true,
               disable: this.lastRowIndex === 0 || page * rowsPerPage >= this.computedRowsNumber
