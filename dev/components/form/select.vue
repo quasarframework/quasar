@@ -5,9 +5,7 @@
       <p class="caption">Single Selection</p>
       <q-select v-model="select" @change="onChange" @input="onInput" :auto-open="autoOpen" :options="selectOptions" align="right" clearable ></q-select>
       <q-select v-model="select" :auto-open="autoOpen" :options="selectOptions" separator></q-select>
-      <q-checkbox :value="true" />
       <q-select v-model="select" :auto-open="autoOpen" :options="selectListOptions"></q-select>
-      <q-input value="asd" float-label="Text" placeholder="Placeholder" />
       <q-select v-model="select" :auto-open="autoOpen" :options="selectDisabledOptions"></q-select>
 
       <p class="caption">Coloring</p>
