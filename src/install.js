@@ -1,9 +1,10 @@
 import { version } from '../package.json'
-import { setVue } from './deps'
 import { ready } from './utils/dom'
 import Platform from './plugins/platform'
 import History from './plugins/history'
 import './polyfills'
+import i18n from './i18n'
+import icons from './icons'
 
 function addBodyClasses () {
   const cls = [
@@ -26,8 +27,6 @@ export default function (_Vue, opts = {}) {
   }
   this.__installed = true
 
-  setVue(_Vue)
-
   const $q = {
     version,
     theme: __THEME__
@@ -36,6 +35,8 @@ export default function (_Vue, opts = {}) {
   // required plugins
   Platform.install({ $q })
   History.install()
+  i18n.install({ $q, Vue: _Vue, lang: opts.i18n })
+  icons.install({ $q, Vue: _Vue, iconSet: opts.iconSet })
 
   // inject body classes
   ready(addBodyClasses)
@@ -48,6 +49,7 @@ export default function (_Vue, opts = {}) {
       }
     })
   }
+
   if (opts.components) {
     Object.keys(opts.components).forEach(key => {
       const c = opts.components[key]
@@ -56,6 +58,7 @@ export default function (_Vue, opts = {}) {
       }
     })
   }
+
   if (opts.plugins) {
     Object.keys(opts.plugins).forEach(key => {
       const p = opts.plugins[key]

@@ -23,10 +23,7 @@
       :color="color"
       :align="align"
       :format24h="format24h"
-      :monday-first="mondayFirst"
-      :saturday-first="saturdayFirst"
-      :month-names="monthNames"
-      :day-names="dayNames"
+      :first-day-of-week="firstDayOfWeek"
       class="col q-datetime-range-left"
       :class="className"
       :style="css"
@@ -56,10 +53,7 @@
       :color="color"
       :align="align"
       :format24h="format24h"
-      :monday-first="mondayFirst"
-      :saturday-first="saturdayFirst"
-      :month-names="monthNames"
-      :day-names="dayNames"
+      :first-day-of-week="firstDayOfWeek"
       class="col q-datetime-range-right"
       :class="className"
       :style="css"
@@ -107,6 +101,7 @@ export default {
   methods: {
     __onChange () {
       this.$nextTick(() => {
+        this.$emit('input', this.value)
         this.$emit('change', this.value)
       })
     }

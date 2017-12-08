@@ -6,9 +6,9 @@
       </div>
 
       <div style="font-size: 2rem; margin-top: 20px;">
-        <q-rating v-model="ratingModel" :max="3"></q-rating>
+        <q-rating v-model="ratingModel" :max="3" @change="onChange" @input="onInput"></q-rating>
         <br>
-        <q-rating color="primary" v-model="ratingModel" :max="5" icon="pets"></q-rating>
+        <q-rating color="primary" :value="ratingModel" :max="5" icon="pets" @change="val => { ratingModel = val; onChange(val); }" @input="onInput"></q-rating>
         <br>
         <q-rating color="teal" v-model="ratingModel" :max="9" icon="thumb_up"></q-rating>
         <br>
@@ -29,6 +29,19 @@ export default {
   data () {
     return {
       ratingModel: 4
+    }
+  },
+  watch: {
+    ratingModel (val, old) {
+      console.log(`Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+    }
+  },
+  methods: {
+    onChange (val) {
+      console.log('@change', JSON.stringify(val))
+    },
+    onInput (val) {
+      console.log('@input', JSON.stringify(val))
     }
   }
 }

@@ -1,7 +1,6 @@
 import Top from './table-top'
 import TableHeader from './table-header'
 import TableBody from './table-body'
-import TableFooter from './table-footer'
 import Bottom from './table-bottom'
 
 import Sort from './table-sort'
@@ -19,7 +18,6 @@ export default {
     Top,
     TableHeader,
     TableBody,
-    TableFooter,
     Bottom,
     Sort,
     Filter,
@@ -53,30 +51,12 @@ export default {
       default: 'horizontal',
       validator: v => ['horizontal', 'vertical', 'cell', 'none'].includes(v)
     },
-    noDataLabel: {
-      type: String,
-      default: 'No data available'
-    },
-    noResultsLabel: {
-      type: String,
-      default: 'No matching records found'
-    },
-    loaderLabel: {
-      type: String,
-      default: 'Loading...'
-    },
-    selectedRowsLabel: {
-      type: Function,
-      default: rows => `${rows} selected row(s).`
-    },
-    rowsPerPageLabel: {
-      type: String,
-      default: 'Rows per page:'
-    },
-    paginationLabel: {
-      type: Function,
-      default: (start, end, total) => `${start}-${end} of ${total}`
-    },
+    noDataLabel: String,
+    noResultsLabel: String,
+    loaderLabel: String,
+    selectedRowsLabel: Function,
+    rowsPerPageLabel: String,
+    paginationLabel: Function,
     tableStyle: {
       type: [String, Array, Object],
       default: ''
@@ -88,7 +68,10 @@ export default {
   },
   computed: {
     computedRows () {
-      let rows = this.data.slice()
+      let rows = this.data.slice().map((row, i) => {
+        row.__index = i
+        return row
+      })
 
       if (rows.length === 0) {
         return []
@@ -99,8 +82,8 @@ export default {
 
       const { sortBy, descending, rowsPerPage } = this.computedPagination
 
-      if (this.hasFilter && this.filter) {
-        rows = this.filterMethod(rows, this.filter, this.computedCols)
+      if (this.hasFilter) {
+        rows = this.filterMethod(rows, this.filter, this.computedCols, this.getCellValue)
       }
 
       if (this.columnToSort) {
@@ -141,8 +124,7 @@ export default {
           h('table', { staticClass: `q-table q-table-${this.separator}-separator${this.dark ? ' q-table-dark' : ''}` },
             [
               this.getTableHeader(h),
-              this.getTableBody(h),
-              this.getTableFooter(h)
+              this.getTableBody(h)
             ]
           )
         ]),

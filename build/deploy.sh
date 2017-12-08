@@ -15,7 +15,7 @@ fi
 npm run build
 rm -rf deploy
 mkdir deploy
-cp -R dist LICENSE package.json deploy
+cp -R dist i18n icons LICENSE package.json deploy
 cp "build/README-$1.md" deploy/README.md
 node_modules/git-directory-deploy/bin/git-directory-deploy.sh -ddeploy -bmaster "-rgit@github.com:quasarframework/quasar-$1.git"
 rm -rf deploy

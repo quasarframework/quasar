@@ -1,17 +1,14 @@
 ie_style = @block
+  /* Flex */
+  .absolute .q-if-inner, .fixed .q-if-inner
+    min-width 10em
+
   /* QAlert */
   .q-alert-container
     max-width 100%
   .row > .col
     &.q-alert-content
       flex-basis auto
-
-  /* QToast */
-  .q-toast
-    a
-      white-space nowrap
-  .col.q-toast-message
-    flex-basis auto
 
   /* QSlider, QRange */
   .q-slider-handle
@@ -32,9 +29,16 @@ ie_style = @block
         margin 0 1px 0 -1px
 
   /* QChip */
+  .q-chip
+    .q-chip-main
+      line-height $chip-height
+    &.small .q-chip-main
+      line-height normal
   .q-btn
     .q-chip
       display inline-block
+      .q-chip-main
+        line-height normal
   .q-tab
     .q-chip
       left auto
@@ -45,6 +49,7 @@ ie_style = @block
     &.q-fab-right
       display block
       white-space nowrap
+      top -6px
 
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none)
   {ie_style}

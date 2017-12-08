@@ -25,7 +25,7 @@ for $heading, $value in $h-tags
   {$heading}
     font-size: $value.size
     font-weight: $value.weight
-    margin: 0 0 $spaces.regular.y
+    margin: 0 0 $spaces.md.y
     if $value.line-height
       line-height: $value.line-height
     if $value.letter-spacing
@@ -39,14 +39,14 @@ for $heading, $value in $headings
   .q-{$heading}
     font-size: $value.size
     font-weight: $value.weight
-    margin: 0 0 $spaces.regular.y
+    margin: 0 0 $spaces.md.y
     if $value.line-height
       line-height: $value.line-height
     if $value.letter-spacing
       letter-spacing: $value.letter-spacing
 
 p
-  margin: 0 0 $spaces.regular.y
+  margin: 0 0 $spaces.md.y
 
 .uppercase
   text-transform uppercase
@@ -87,20 +87,15 @@ sub
 sup
   top -.5em
 
-.strong
-  font-weight bold
-.emphasize
-  font-style italic
-
 blockquote
-  padding: $spaces.small.y $spaces.regular.x
+  padding: $spaces.sm.y $spaces.md.x
   margin 0
   font-size 16px
-  border-left: $spaces.smaller.x solid $primary
+  border-left: $spaces.xs.x solid $primary
   &.text-right
-    padding-right: $spaces.regular.x
+    padding-right: $spaces.md.x
     padding-left 0
-    border-right: $spaces.smaller.x solid $primary
+    border-right: $spaces.xs.x solid $primary
     border-left 0
     text-align right
 

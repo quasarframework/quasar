@@ -33,10 +33,7 @@ export default {
     autoplay: [Number, Boolean],
     handleArrowKeys: Boolean,
     quickNav: Boolean,
-    quickNavIcon: {
-      type: String,
-      default: 'lens'
-    }
+    quickNavIcon: String
   },
   provide () {
     return {
@@ -303,7 +300,7 @@ export default {
             key: i,
             'class': { inactive: i !== this.slide },
             props: {
-              icon: this.quickNavIcon,
+              icon: this.quickNavIcon || this.$q.icon.carousel.quickNav,
               round: true,
               small: true,
               flat: true,
@@ -356,13 +353,13 @@ export default {
       ]),
       this.arrows ? h(QBtn, {
         staticClass: 'q-carousel-left-arrow absolute',
-        props: { color: this.color, icon: 'chevron_left', round: true, small: true, flat: true },
+        props: { color: this.color, icon: this.$q.icon.carousel.left, round: true, small: true, flat: true },
         directives: [{ name: 'show', value: this.canGoToPrevious }],
         on: { click: this.previous }
       }) : null,
       this.arrows ? h(QBtn, {
         staticClass: 'q-carousel-right-arrow absolute',
-        props: { color: this.color, icon: 'chevron_right', round: true, small: true, flat: true },
+        props: { color: this.color, icon: this.$q.icon.carousel.right, round: true, small: true, flat: true },
         directives: [{ name: 'show', value: this.canGoToNext }],
         on: { click: this.next }
       }) : null,

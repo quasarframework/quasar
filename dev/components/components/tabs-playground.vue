@@ -200,7 +200,84 @@ export default {
     return {
       tab: 'one',
       third: true,
-      alert: true
+      alert: true,
+      align: 'left',
+      position: 'top',
+      inverted: true,
+      twoLines: false,
+      noPaneBorder: false,
+      glossy: false,
+      tabStyles: {
+        height: null,
+        minHeight: null,
+        maxHeight: null
+      },
+      tabs: {
+        tab1: {
+          tabStyles: {
+            height: null,
+            minHeight: null,
+            maxHeight: null
+          },
+          default: true,
+          name: 'Tab 1',
+          count: 1
+        },
+        tab2: {
+          tabStyles: {
+            height: null,
+            minHeight: null,
+            maxHeight: null
+          },
+          name: 'Tab 2',
+          count: 10
+        },
+        tab3: {
+          tabStyles: {
+            height: null,
+            minHeight: null,
+            maxHeight: null
+          },
+          name: 'Tab 3',
+          count: 100
+        },
+        tab4: {
+          tabStyles: {
+            height: null,
+            minHeight: null,
+            maxHeight: null
+          },
+          name: 'Tab4WithVeryLongNameToScroll',
+          count: 100
+        },
+        tab5: {
+          tabStyles: {
+            height: null,
+            minHeight: null,
+            maxHeight: null
+          },
+          name: 'Tab5WithVeryLongNameToScroll',
+          count: 100
+        },
+        tab6: {
+          tabStyles: {
+            height: null,
+            minHeight: null,
+            maxHeight: null
+          },
+          name: 'Tab6WithVeryLongNameToScroll',
+          count: 100
+        },
+        tab7: {
+          tabStyles: {
+            height: null,
+            minHeight: null,
+            maxHeight: null
+          },
+          name: 'Tab7WithVeryLongNameToScroll',
+          count: 100
+        }
+      }
     }
   },
   methods: {

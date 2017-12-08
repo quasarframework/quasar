@@ -23,6 +23,7 @@
   flex-basis 0
   flex-grow 1
   min-height 1px
+  min-width 0
 
 .row
   > .col
@@ -44,6 +45,7 @@ for $name, $size in $sizes
   width auto
 .col-auto
   flex 0 0 auto
+  min-width 0
 .col-grow
   flex 1 1 auto
 
@@ -137,8 +139,9 @@ for $name, $size in $sizes
       flex-basis 0
       flex-grow 1
     .col-{$name}-auto
-      width auto
       flex 0 0 auto
+      .row > &
+        width auto
 
     for $i in (1..$flex-cols)
       .col-{$name}-{$i}

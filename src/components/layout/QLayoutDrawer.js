@@ -36,15 +36,23 @@ export default {
     }
   },
   data () {
-    const belowBreakpoint = (
-      this.behavior === 'mobile' ||
-      (this.behavior !== 'desktop' && this.breakpoint >= this.layout.width)
-    )
+    const
+      largeScreenState = this.value !== void 0 ? this.value : true,
+      showing = this.behavior !== 'mobile' && this.breakpoint < this.layout.width && !this.overlay
+        ? largeScreenState
+        : false
+
+    if (this.value !== void 0 && this.value !== showing) {
+      this.$emit('input', showing)
+    }
 
     return {
-      showing: true,
-      belowBreakpoint,
-      largeScreenState: this.value,
+      showing,
+      belowBreakpoint: (
+        this.behavior === 'mobile' ||
+        (this.behavior !== 'desktop' && this.breakpoint >= this.layout.width)
+      ),
+      largeScreenState,
       mobileOpened: false,
 
       size: 300,
@@ -254,10 +262,7 @@ export default {
     ]))
   },
   created () {
-    if (this.belowBreakpoint || this.overlay) {
-      this.hide()
-    }
-    else if (this.onLayout) {
+    if (this.onLayout) {
       this.__update('space', true)
       this.__update('offset', this.offset)
     }

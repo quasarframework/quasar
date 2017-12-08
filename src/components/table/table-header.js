@@ -17,7 +17,8 @@ export default {
             h(QProgress, {
               props: {
                 color: this.color,
-                indeterminate: true
+                indeterminate: true,
+                height: '2px'
               }
             })
           ])

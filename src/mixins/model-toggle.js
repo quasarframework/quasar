@@ -1,5 +1,10 @@
 import History from '../plugins/history'
 
+// Needs:
+// __show()
+// __hide()
+// Calling this.showPromiseResolve, this.hidePromiseResolve
+// avoid backbutton with setting noShowingHistory
 export default {
   props: {
     value: Boolean
@@ -80,7 +85,7 @@ export default {
       }
 
       if (!this.showing) {
-        return this.hidePromise || Promise.resolve()
+        return this.hidePromise || Promise.resolve(evt)
       }
 
       if (this.showPromise) {
@@ -115,7 +120,7 @@ export default {
       })
 
       this.__hide(evt)
-      return this.hidePromise || Promise.resolve()
+      return this.hidePromise || Promise.resolve(evt)
     }
   },
   beforeDestroy () {

@@ -30,13 +30,13 @@
       :class="alignClass"
     >
       <q-chip
-        v-for="{label, value} in selectedOptions"
+        v-for="{label, value, disable: optDisable} in selectedOptions"
         :key="label"
         small
-        :closable="!disable"
+        :closable="!disable && !optDisable"
         :color="color"
         @click.native.stop
-        @hide="__toggle(value)"
+        @hide="__toggleMultiple(value, disable || optDisable)"
       >
         {{ label }}
       </q-chip>
@@ -56,7 +56,7 @@
       class="q-if-control"
       @click.stop="clear"
     ></q-icon>
-    <q-icon slot="after" name="arrow_drop_down" class="q-if-control"></q-icon>
+    <q-icon slot="after" :name="$q.icon.select.dropdown" class="q-if-control"></q-icon>
   </q-input-frame>
 </template>
 
@@ -68,14 +68,8 @@ export default {
   name: 'q-dialog-select',
   mixins: [SelectMixin],
   props: {
-    okLabel: {
-      type: String,
-      default: 'OK'
-    },
-    cancelLabel: {
-      type: String,
-      default: 'Cancel'
-    },
+    okLabel: String,
+    cancelLabel: String,
     title: {
       type: String,
       default: 'Select'
@@ -102,21 +96,20 @@ export default {
 
       // TODO
       this.dialog = this.$q.dialog({
-        title: this.title,
+        title: this.title || this.$q.i18n.label.select,
         message: this.message,
         color: this.color,
-        onDismiss: () => {
-          this.dialog = null
-        },
         options: {
           type: this.type,
           model: clone(this.value),
           items: this.options
         },
-        cancel: true,
-        cancelLabel: this.cancelLabel,
-        okLabel: this.okLabel
+        cancel: this.cancelLabel || true,
+        ok: this.okLabel || true
+      }).catch(() => {
+        this.dialog = null
       }).then(data => {
+        this.dialog = null
         if (JSON.stringify(this.value) !== JSON.stringify(data)) {
           this.$emit('input', data)
           this.$emit('change', data)

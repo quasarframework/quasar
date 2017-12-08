@@ -13,7 +13,7 @@
                 v-for="index in monthInterval"
                 class="q-datetime-item"
               >
-                {{ monthNames[index + monthMin - 1] }}
+                {{ $q.i18n.date.months[index + monthMin - 1] }}
               </div>
             </div>
           </div>

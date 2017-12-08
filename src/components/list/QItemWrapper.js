@@ -9,21 +9,19 @@ function push (child, h, name, slot, replace, conf) {
     child.push(h(name, defaultProps, slot))
     return
   }
-  let props, v = false
-  if (!slot) {
-    for (let p in conf) {
-      if (conf.hasOwnProperty(p)) {
-        v = conf[p]
-        if (v !== void 0 && v !== true) {
-          props = true
-          break
-        }
+
+  let v = false
+  for (let p in conf) {
+    if (conf.hasOwnProperty(p)) {
+      v = conf[p]
+      if (v !== void 0 && v !== true) {
+        child.push(h(name, { props: conf }))
+        break
       }
     }
   }
-  if (props || slot) {
-    child.push(h(name, props ? {props: conf} : defaultProps, slot))
-  }
+
+  slot && child.push(h(name, defaultProps, slot))
 }
 
 export default {

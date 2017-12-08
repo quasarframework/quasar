@@ -25,8 +25,7 @@ export default {
     document.addEventListener('deviceready', () => {
       document.addEventListener('backbutton', () => {
         if (this.__history.length) {
-          const fn = this.__history.pop().handler
-          fn()
+          this.__history.pop().handler()
         }
         else {
           window.history.back()

@@ -10,45 +10,45 @@
 
       <div class="column items-center" style="margin-top: 100px; margin-bottom: 100px;">
         <q-fab color="purple" icon="keyboard_arrow_up" direction="up">
-          <q-fab-action @click="toast('mail')" icon="mail" />
-          <q-fab-action @click="toast('alarm')" icon="alarm" />
-          <q-fab-action @click="toast('alarm')" icon="alarm" />
-          <q-fab-action @click="toast('alarm')" icon="alarm" />
-          <q-fab-action @click="toast('alarm')" icon="alarm" />
+          <q-fab-action @click="notify('mail')" icon="mail" />
+          <q-fab-action @click="notify('alarm')" icon="alarm" />
+          <q-fab-action @click="notify('alarm')" icon="alarm" />
+          <q-fab-action @click="notify('alarm')" icon="alarm" />
+          <q-fab-action @click="notify('alarm')" icon="alarm" />
         </q-fab>
 
         <br>
 
         <q-toggle v-model="toggle" class="z-max fixed-top" />
         <q-fab v-model="toggle" icon="keyboard_arrow_left" direction="left">
-          <q-fab-action @click="toast('mail')" icon="mail" />
-          <q-fab-action @click="toast('alarm')" icon="alarm" />
-          <q-fab-action @click="toast('alarm')" icon="alarm" />
-          <q-fab-action @click="toast('alarm')" icon="alarm" />
-          <q-fab-action @click="toast('alarm')" icon="alarm" />
-          <q-fab-action @click="toast('alarm')" icon="alarm" />
+          <q-fab-action @click="notify('mail')" icon="mail" />
+          <q-fab-action @click="notify('alarm')" icon="alarm" />
+          <q-fab-action @click="notify('alarm')" icon="alarm" />
+          <q-fab-action @click="notify('alarm')" icon="alarm" />
+          <q-fab-action @click="notify('alarm')" icon="alarm" />
+          <q-fab-action @click="notify('alarm')" icon="alarm" />
         </q-fab>
 
         <br>
 
         <q-fab color="secondary" push icon="keyboard_arrow_right" direction="right">
-          <q-fab-action color="primary" @click="toast('mail')" icon="mail" />
-          <q-fab-action @click="toast('alarm')" icon="alarm" />
-          <q-fab-action @click="toast('alarm')" icon="alarm" />
-          <q-fab-action @click="toast('alarm')" icon="alarm" />
-          <q-fab-action @click="toast('alarm')" icon="alarm" />
-          <q-fab-action @click="toast('alarm')" icon="alarm" />
+          <q-fab-action color="primary" @click="notify('mail')" icon="mail" />
+          <q-fab-action @click="notify('alarm')" icon="alarm" />
+          <q-fab-action @click="notify('alarm')" icon="alarm" />
+          <q-fab-action @click="notify('alarm')" icon="alarm" />
+          <q-fab-action @click="notify('alarm')" icon="alarm" />
+          <q-fab-action @click="notify('alarm')" icon="alarm" />
         </q-fab>
 
         <br>
 
         <q-fab color="tertiary" glossy icon="keyboard_arrow_down" direction="down">
-          <q-fab-action color="amber" @click="toast('mail')" icon="mail" />
-          <q-fab-action color="amber" @click="toast('alarm')" icon="alarm" />
-          <q-fab-action color="amber" @click="toast('alarm')" icon="alarm" />
-          <q-fab-action color="amber" @click="toast('alarm')" icon="alarm" />
-          <q-fab-action color="amber" @click="toast('alarm')" icon="alarm" />
-          <q-fab-action color="amber" @click="toast('alarm')" icon="alarm" />
+          <q-fab-action color="amber" @click="notify('mail')" icon="mail" />
+          <q-fab-action color="amber" @click="notify('alarm')" icon="alarm" />
+          <q-fab-action color="amber" @click="notify('alarm')" icon="alarm" />
+          <q-fab-action color="amber" @click="notify('alarm')" icon="alarm" />
+          <q-fab-action color="amber" @click="notify('alarm')" icon="alarm" />
+          <q-fab-action color="amber" @click="notify('alarm')" icon="alarm" />
         </q-fab>
       </div>
 
@@ -86,10 +86,10 @@
         style="right: 18px; bottom: 18px;"
       >
         <q-tooltip ref="tooltip0" slot="tooltip" anchor="center left" self="center right" :offset="[20, 0]">Tooltip in FAB</q-tooltip>
-        <q-fab-action color="purple" @click="toast('mail')" icon="mail">
+        <q-fab-action color="purple" @click="notify('mail')" icon="mail">
           <q-tooltip anchor="center left" self="center right" :offset="[20, 0]">Mail</q-tooltip>
         </q-fab-action>
-        <q-fab-action color="secondary" @click="toast('alarm')" icon="alarm">
+        <q-fab-action color="secondary" @click="notify('alarm')" icon="alarm">
           <q-tooltip anchor="center left" self="center right" :offset="[20, 0]">Alarm</q-tooltip>
         </q-fab-action>
       </q-fab>
@@ -98,8 +98,6 @@
 </template>
 
 <script>
-import { Dialog, Toast } from 'quasar'
-
 export default {
   data () {
     return {
@@ -108,15 +106,15 @@ export default {
   },
   methods: {
     alert () {
-      Dialog.create({
+      this.$q.dialog({
         title: 'FAB',
         message: 'Good job! Keep it going.'
       })
     },
-    toast (icon) {
-      Toast.create({
+    notify (icon) {
+      this.$q.notify({
         icon,
-        html: 'So you want your ' + icon + 's, huh?'
+        message: 'So you want your ' + icon + 's, huh?'
       })
     },
     openFab () {

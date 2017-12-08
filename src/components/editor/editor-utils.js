@@ -166,7 +166,7 @@ export function getToolbar (h, vm) {
   }
 }
 
-export function getFonts (defaultFont, fonts = {}) {
+export function getFonts (defaultFont, defaultFontLabel, defaultFontIcon, fonts = {}) {
   const aliases = Object.keys(fonts)
   if (aliases.length === 0) {
     return {}
@@ -176,8 +176,8 @@ export function getFonts (defaultFont, fonts = {}) {
     default_font: {
       cmd: 'fontName',
       param: defaultFont,
-      icon: 'font_download',
-      tip: 'Default Font'
+      icon: defaultFontIcon,
+      tip: defaultFontLabel
     }
   }
 
@@ -186,7 +186,7 @@ export function getFonts (defaultFont, fonts = {}) {
     def[alias] = {
       cmd: 'fontName',
       param: name,
-      icon: 'font_download',
+      icon: defaultFontIcon,
       tip: name,
       htmlTip: `<font face="${name}">${name}</font>`
     }

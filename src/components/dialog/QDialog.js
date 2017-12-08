@@ -134,12 +134,12 @@ export default {
     },
     okLabel () {
       return this.ok === true
-        ? 'OK'
+        ? this.$q.i18n.label.ok
         : this.ok
     },
     cancelLabel () {
       return this.cancel === true
-        ? 'Cancel'
+        ? this.$q.i18n.label.cancel
         : this.cancel
     }
   },
@@ -150,11 +150,10 @@ export default {
     hide () {
       let data
 
-      if (this.hasForm) {
-        data = clone(this.__getData())
-      }
-
       return this.$refs.modal.hide().then(() => {
+        if (this.hasForm) {
+          data = clone(this.__getData())
+        }
         return data
       })
     },
@@ -195,13 +194,13 @@ export default {
 
       if (this.cancel) {
         child.push(h(QBtn, {
-          props: { color: this.color, flat: true, label: this.cancelLabel },
+          props: { color: this.color, flat: true, label: this.cancelLabel, waitForRipple: true },
           on: { click: this.__onCancel }
         }))
       }
       if (this.ok) {
         child.push(h(QBtn, {
-          props: { color: this.color, flat: true, label: this.okLabel },
+          props: { color: this.color, flat: true, label: this.okLabel, waitForRipple: true },
           on: { click: this.__onOk }
         }))
       }

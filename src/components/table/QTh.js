@@ -49,7 +49,7 @@ export default {
 
       child[action](
         h(QIcon, {
-          props: { name: 'arrow_upward' },
+          props: { name: ctx.parent.$q.icon.table.arrowUp },
           staticClass: col.__iconClass
         })
       )
