@@ -31,6 +31,11 @@ export function position (e) {
     e = e.changedTouches[0]
   }
 
+  if (!e.clientX && !e.clientY) {
+    const elemOffset = targetElement(e).getBoundingClientRect()
+    posx = ((elemOffset.right - elemOffset.left) / 2) + elemOffset.left
+    posy = ((elemOffset.bottom - elemOffset.top) / 2) + elemOffset.top
+  }
   if (e.clientX || e.clientY) {
     posx = e.clientX
     posy = e.clientY
