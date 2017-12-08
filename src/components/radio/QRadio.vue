@@ -1,7 +1,7 @@
 <template>
   <div
-    class="q-radio q-option cursor-pointer no-outline q-focusable row inline no-wrap items-center"
-    :class="{disabled: disable, reverse: leftLabel}"
+    class="q-radio q-option cursor-pointer no-outline row inline no-wrap items-center"
+    :class="{disabled: disable, reverse: leftLabel, 'q-focusable': focusable && !disable}"
     @click.stop.prevent="select"
     :tabindex="focusable && !disable ? 0 : null"
     @focus="$emit('focus')"

@@ -1,66 +1,69 @@
 <template>
   <div>
     <div class="layout-padding">
+      <q-toggle v-model="autoOpen" label="Auto-open popover" />
       <p class="caption">Single Selection</p>
-      <q-select v-model="select" @change="onChange" @input="onInput" :options="selectOptions" align="right" clearable ></q-select>
-      <q-select v-model="select" :options="selectOptions" separator></q-select>
-      <q-select v-model="select" :options="selectListOptions"></q-select>
-      <q-select v-model="select" :options="selectDisabledOptions"></q-select>
+      <q-select v-model="select" @change="onChange" @input="onInput" :auto-open="autoOpen" :options="selectOptions" align="right" clearable ></q-select>
+      <q-select v-model="select" :auto-open="autoOpen" :options="selectOptions" separator></q-select>
+      <q-checkbox :value="true" />
+      <q-select v-model="select" :auto-open="autoOpen" :options="selectListOptions"></q-select>
+      <q-input value="asd" float-label="Text" placeholder="Placeholder" />
+      <q-select v-model="select" :auto-open="autoOpen" :options="selectDisabledOptions"></q-select>
 
       <p class="caption">Coloring</p>
-      <q-select color="amber" v-model="select" :options="selectListOptions"></q-select>
-      <q-select inverted color="secondary" v-model="select" :options="selectListOptions"></q-select>
-      <q-select inverted float-label="Float Label" color="amber" v-model="select" :options="selectListOptions"></q-select>
+      <q-select color="amber" v-model="select" :auto-open="autoOpen" :options="selectListOptions"></q-select>
+      <q-select inverted color="secondary" v-model="select" :auto-open="autoOpen" :options="selectListOptions"></q-select>
+      <q-select inverted float-label="Float Label" color="amber" v-model="select" :auto-open="autoOpen" :options="selectListOptions"></q-select>
 
       <p class="caption">Single Selection with Radio</p>
       <q-field label="gogu">
-        <q-select @change="onChange" @input="onInput" v-model="select" float-label="Gogu" radio :options="selectListOptions" :count="10"></q-select>
+        <q-select @change="onChange" @input="onInput" v-model="select" float-label="Gogu" radio :auto-open="autoOpen" :options="selectListOptions" :count="10"></q-select>
       </q-field>
       <q-field label="gogu">
-        <q-select @change="onChange" @input="onInput" v-model="select" float-label="Gogu" radio :options="selectDisabledOptions" :count="10"></q-select>
+        <q-select @change="onChange" @input="onInput" v-model="select" float-label="Gogu" radio :auto-open="autoOpen" :options="selectDisabledOptions" :count="10"></q-select>
       </q-field>
 
       <p class="caption">Multiple Selection</p>
-      <q-select @change="onChange" @input="onInput" multiple v-model="multipleSelect" :options="selectListOptions" clearable></q-select>
-      <q-select @change="val => { multipleSelect = val; onChange(val); }" @input="onInput" multiple :value="multipleSelect" :options="selectListOptions" clearable></q-select>
-      <q-select @change="onChange" @input="onInput" multiple v-model="multipleSelect" :options="selectDisabledOptions"></q-select>
+      <q-select @change="onChange" @input="onInput" multiple v-model="multipleSelect" :auto-open="autoOpen" :options="selectListOptions" clearable></q-select>
+      <q-select @change="val => { multipleSelect = val; onChange(val); }" @input="onInput" multiple :value="multipleSelect" :auto-open="autoOpen" :options="selectListOptions" clearable></q-select>
+      <q-select @change="onChange" @input="onInput" multiple v-model="multipleSelect" :auto-open="autoOpen" :options="selectDisabledOptions"></q-select>
 
       <p class="caption">Multiple Selection with Chips</p>
       <q-field label="gogu" :count="10">
-        <q-select @change="onChange" @input="onInput" multiple chips v-model="multipleSelect" :options="selectListOptions" float-label="Some label" max-height="36px" clearable></q-select>
+        <q-select @change="onChange" @input="onInput" multiple chips v-model="multipleSelect" :auto-open="autoOpen" :options="selectListOptions" float-label="Some label" max-height="36px" clearable></q-select>
       </q-field>
       <q-field label="gogu" :count="10">
-        <q-select @change="onChange" @input="onInput" multiple v-model="multipleSelect" :options="selectListOptions" float-label="Some label" max-height="36px"></q-select>
+        <q-select @change="onChange" @input="onInput" multiple v-model="multipleSelect" :auto-open="autoOpen" :options="selectListOptions" float-label="Some label" max-height="36px"></q-select>
       </q-field>
-      <q-select inverted color="dark" frame-color="amber" multiple chips v-model="multipleSelect" :options="selectListOptions" float-label="Some label" max-height="36px"></q-select>
-      <q-select inverted color="dark" frame-color="amber" multiple chips v-model="multipleSelect" :options="selectDisabledOptions" float-label="Some label" max-height="36px"></q-select>
+      <q-select inverted color="dark" frame-color="amber" multiple chips v-model="multipleSelect" :auto-open="autoOpen" :options="selectListOptions" float-label="Some label" max-height="36px"></q-select>
+      <q-select inverted color="dark" frame-color="amber" multiple chips v-model="multipleSelect" :auto-open="autoOpen" :options="selectDisabledOptions" float-label="Some label" max-height="36px"></q-select>
 
       <p class="caption">Multiple Selection with Checkboxes</p>
-      <q-select multiple checkbox v-model="multipleSelect" :options="selectListOptions"></q-select>
-      <q-select multiple checkbox v-model="multipleSelect" :options="selectDisabledOptions"></q-select>
+      <q-select multiple checkbox v-model="multipleSelect" :auto-open="autoOpen" :options="selectListOptions"></q-select>
+      <q-select multiple checkbox v-model="multipleSelect" :auto-open="autoOpen" :options="selectDisabledOptions"></q-select>
 
       <p class="caption">Multiple Selection with Toggle</p>
-      <q-select multiple toggle v-model="multipleSelect" :options="selectListOptions"></q-select>
-      <q-select multiple toggle v-model="multipleSelect" :options="selectDisabledOptions"></q-select>
+      <q-select multiple toggle v-model="multipleSelect" :auto-open="autoOpen" :options="selectListOptions"></q-select>
+      <q-select multiple toggle v-model="multipleSelect" :auto-open="autoOpen" :options="selectDisabledOptions"></q-select>
 
       <p class="caption">Simple</p>
-      <q-select simple v-model="select" :options="selectOptions"></q-select>
+      <q-select simple v-model="select" :auto-open="autoOpen" :options="selectOptions"></q-select>
 
       <p class="caption">With Filter</p>
-      <q-select filter autofocus-filter v-model="select" :options="selectListOptions"></q-select>
-      <q-select filter autofocus-filter v-model="select" :options="selectLongListOptions"></q-select>
-      <q-select filter autofocus-filter inverted v-model="select" :options="selectListOptions"></q-select>
-      <q-select filter inverted v-model="select" :options="selectLongListOptions"></q-select>
-      <q-select filter multiple checkbox v-model="multipleSelect" :options="selectListOptions"></q-select>
+      <q-select filter autofocus-filter v-model="select" :auto-open="autoOpen" :options="selectListOptions"></q-select>
+      <q-select filter autofocus-filter v-model="select" :auto-open="autoOpen" :options="selectLongListOptions"></q-select>
+      <q-select filter autofocus-filter inverted v-model="select" :auto-open="autoOpen" :options="selectListOptions"></q-select>
+      <q-select filter inverted v-model="select" :auto-open="autoOpen" :options="selectLongListOptions"></q-select>
+      <q-select filter multiple checkbox v-model="multipleSelect" :auto-open="autoOpen" :options="selectListOptions"></q-select>
 
       <p class="caption">With Static Label</p>
-      <q-select multiple v-model="multipleSelect" :options="selectOptions" static-label="Company"></q-select>
+      <q-select multiple v-model="multipleSelect" :auto-open="autoOpen" :options="selectOptions" static-label="Company"></q-select>
 
       <p class="caption">Disabled State</p>
-      <q-select disable float-label="Disabled Select" multiple v-model="multipleSelect" :options="selectOptions"></q-select>
+      <q-select disable float-label="Disabled Select" multiple v-model="multipleSelect" :auto-open="autoOpen" :options="selectOptions"></q-select>
 
       <p class="caption">Error State</p>
-      <q-select error multiple v-model="multipleSelect" :options="selectOptions"></q-select>
+      <q-select error multiple v-model="multipleSelect" :auto-open="autoOpen" :options="selectOptions"></q-select>
 
       <p class="caption">Inside of a List</p>
       <q-list>
@@ -71,6 +74,7 @@
             <q-select
               class="no-margin"
               v-model="select"
+              :auto-open="autoOpen"
               :options="selectOptions"
             />
           </q-item-main>
@@ -84,6 +88,7 @@
               multiple
               class="no-margin"
               v-model="multipleSelect"
+              :auto-open="autoOpen"
               :options="selectOptions"
             />
           </q-item-main>
@@ -92,30 +97,30 @@
 
 
       <p class="caption">Scroll into View</p>
-      <q-select v-model="select" :options="selectLongListOptions"></q-select>
-      <q-select multiple v-model="multipleSelectLong" :options="selectLongListOptions"></q-select>
-      <q-select multiple toggle v-model="multipleSelectLong" :options="selectLongListOptions"></q-select>
-      <q-select filter v-model="select" :options="selectLongListOptions"></q-select>
-      <q-select filter multiple v-model="multipleSelectLong" :options="selectLongListOptions"></q-select>
-      <q-select filter multiple toggle v-model="multipleSelectLong" :options="selectLongListOptions"></q-select>
-      <q-select multiple multipleToggle v-model="multipleSelectLong" :options="selectLongListOptions"></q-select>
-      <q-select multiple multipleToggle toggle v-model="multipleSelectLong" :options="selectLongListOptions"></q-select>
-      <q-select filter multiple multipleToggle v-model="multipleSelectLong" :options="selectLongListOptions"></q-select>
-      <q-select filter multiple multipleToggle toggle v-model="multipleSelectLong" :options="selectLongListOptions"></q-select>
-      <q-select inverted multiple multipleToggle v-model="multipleSelectLong" :options="selectLongListOptions"></q-select>
-      <q-select inverted multiple multipleToggle toggle v-model="multipleSelectLong" :options="selectLongListOptions"></q-select>
-      <q-select inverted filter v-model="select" :options="selectLongListOptions"></q-select>
-      <q-select inverted filter multiple multipleToggle v-model="multipleSelectLong" :options="selectLongListOptions"></q-select>
-      <q-select inverted filter multiple multipleToggle toggle v-model="multipleSelectLong" :options="selectLongListOptions"></q-select>
-      <q-select color="orange" inverted multiple multipleToggle v-model="multipleSelectLong" :options="selectLongListOptions"></q-select>
-      <q-select color="orange" inverted multiple multipleToggle toggle v-model="multipleSelectLong" :options="selectLongListOptions"></q-select>
-      <q-select color="orange" inverted filter v-model="select" :options="selectLongListOptions"></q-select>
-      <q-select color="orange" inverted filter multiple multipleToggle v-model="multipleSelectLong" :options="selectLongListOptions"></q-select>
-      <q-select color="orange" inverted filter multiple multipleToggle toggle v-model="multipleSelectLong" :options="selectLongListOptions"></q-select>
+      <q-select v-model="select" :auto-open="autoOpen" :options="selectLongListOptions"></q-select>
+      <q-select multiple v-model="multipleSelectLong" :auto-open="autoOpen" :options="selectLongListOptions"></q-select>
+      <q-select multiple toggle v-model="multipleSelectLong" :auto-open="autoOpen" :options="selectLongListOptions"></q-select>
+      <q-select filter v-model="select" :auto-open="autoOpen" :options="selectLongListOptions"></q-select>
+      <q-select filter multiple v-model="multipleSelectLong" :auto-open="autoOpen" :options="selectLongListOptions"></q-select>
+      <q-select filter multiple toggle v-model="multipleSelectLong" :auto-open="autoOpen" :options="selectLongListOptions"></q-select>
+      <q-select multiple multipleToggle v-model="multipleSelectLong" :auto-open="autoOpen" :options="selectLongListOptions"></q-select>
+      <q-select multiple multipleToggle toggle v-model="multipleSelectLong" :auto-open="autoOpen" :options="selectLongListOptions"></q-select>
+      <q-select filter multiple multipleToggle v-model="multipleSelectLong" :auto-open="autoOpen" :options="selectLongListOptions"></q-select>
+      <q-select filter multiple multipleToggle toggle v-model="multipleSelectLong" :auto-open="autoOpen" :options="selectLongListOptions"></q-select>
+      <q-select inverted multiple multipleToggle v-model="multipleSelectLong" :auto-open="autoOpen" :options="selectLongListOptions"></q-select>
+      <q-select inverted multiple multipleToggle toggle v-model="multipleSelectLong" :auto-open="autoOpen" :options="selectLongListOptions"></q-select>
+      <q-select inverted filter v-model="select" :auto-open="autoOpen" :options="selectLongListOptions"></q-select>
+      <q-select inverted filter multiple multipleToggle v-model="multipleSelectLong" :auto-open="autoOpen" :options="selectLongListOptions"></q-select>
+      <q-select inverted filter multiple multipleToggle toggle v-model="multipleSelectLong" :auto-open="autoOpen" :options="selectLongListOptions"></q-select>
+      <q-select color="orange" inverted multiple multipleToggle v-model="multipleSelectLong" :auto-open="autoOpen" :options="selectLongListOptions"></q-select>
+      <q-select color="orange" inverted multiple multipleToggle toggle v-model="multipleSelectLong" :auto-open="autoOpen" :options="selectLongListOptions"></q-select>
+      <q-select color="orange" inverted filter v-model="select" :auto-open="autoOpen" :options="selectLongListOptions"></q-select>
+      <q-select color="orange" inverted filter multiple multipleToggle v-model="multipleSelectLong" :auto-open="autoOpen" :options="selectLongListOptions"></q-select>
+      <q-select color="orange" inverted filter multiple multipleToggle toggle v-model="multipleSelectLong" :auto-open="autoOpen" :options="selectLongListOptions"></q-select>
 
       <p class="caption">Display Value</p>
-      <q-select multiple v-model="multipleSelect" float-label="Gigi" :options="selectLongListOptions" :display-value="`${ multipleSelect.length } item${ multipleSelect.length !== 1 ? 's' : '' } selected`"></q-select>
-      <q-select multiple toggle v-model="multipleSelect" :options="selectLongListOptions" :display-value="`${ multipleSelect.length } item${ multipleSelect.length !== 1 ? 's' : '' } selected`"></q-select>
+      <q-select multiple v-model="multipleSelect" float-label="Gigi" :auto-open="autoOpen" :options="selectLongListOptions" :display-value="`${ multipleSelect.length } item${ multipleSelect.length !== 1 ? 's' : '' } selected`"></q-select>
+      <q-select multiple toggle v-model="multipleSelect" :auto-open="autoOpen" :options="selectLongListOptions" :display-value="`${ multipleSelect.length } item${ multipleSelect.length !== 1 ? 's' : '' } selected`"></q-select>
     </div>
   </div>
 </template>
@@ -124,6 +129,7 @@
 export default {
   data () {
     return {
+      autoOpen: false,
       select: 'fb',
       multipleSelect: ['goog', 'twtr'],
       multipleSelectLong: [],

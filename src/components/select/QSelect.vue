@@ -20,10 +20,11 @@
     :length="length"
     :additional-length="additionalLength"
 
-    @click.native="togglePopup"
+    @mousedown.native="isClick = true"
+    @mouseup.native="isClick = false"
     @focus.native="__onFocus"
     @blur.native="__onBlur"
-    @keydown.enter.native="togglePopup"
+    @keydown.enter.native="$refs.popover.show"
   >
     <div
       v-if="hasChips"
@@ -63,7 +64,6 @@
       fit
       :disable="disable"
       :offset="[0, 10]"
-      :anchorClick="false"
       max-height="100vh"
       class="column no-wrap no-scroll"
       @show="onShowPopover"
@@ -189,20 +189,15 @@ export default {
       type: String,
       default: '300px'
     },
-    autoOpen: {
-      type: Boolean,
-      default: true
-    }
+    autoOpen: Boolean
   },
   data () {
     return {
-      selectedIndex: -1
+      selectedIndex: -1,
+      isClick: false
     }
   },
   computed: {
-    focusabledElements () {
-      return Array.prototype.slice.call(document.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"]'))
-    },
     optModel () {
       if (this.multiple) {
         return this.model.length > 0
@@ -222,8 +217,8 @@ export default {
       }
       return opts
     },
-    enabledVisibleOptions () {
-      return this.visibleOptions.filter(opt => !opt.disable)
+    enabledVisibleOptionsCount () {
+      return this.visibleOptions.filter(opt => !opt.disable).length
     },
     filterFn () {
       return typeof this.filter === 'boolean'
@@ -232,24 +227,14 @@ export default {
     }
   },
   methods: {
-    togglePopup () {
-      console.log('toggle')
-      this[this.$refs.popover.showing ? 'hide' : 'show']()
-    },
-    show () {
-      if (this.disable) {
-        return Promise.reject(new Error())
-      }
-      return this.$refs.popover.show()
-    },
-    hide () {
-      return this.$refs.popover.hide()
+    getFocusableElements () {
+      return Array.prototype.slice.call(document.querySelectorAll('.q-if-focusable, .q-focusable, input.q-input-target:not([disabled])'))
     },
     onInputFilter () {
       const popover = this.$refs.popover
       if (popover.showing) {
         popover.reposition()
-        this.selectedIndex = this.$q.platform.is.desktop && this.enabledVisibleOptions.length !== 0
+        this.selectedIndex = this.$q.platform.is.desktop && this.enabledVisibleOptionsCount !== 0
           ? this.visibleOptions.findIndex(opt => !opt.disable)
           : -1
         this.$nextTick(this.scrollToSelectedItem)
@@ -284,14 +269,6 @@ export default {
         }
       }
     },
-    move (offset) {
-      this.selectedIndex = normalizeToInterval(
-        this.selectedIndex + offset,
-        0,
-        this.visibleOptions.length - 1
-      )
-      this.visibleOptions[this.selectedIndex].disable === true ? this.move(offset) : this.$nextTick(this.scrollToSelectedItem)
-    },
     onShowPopover () {
       this.selectedIndex = this.multiple
         ? this.options.findIndex(opt => this.value.includes(opt.value))
@@ -306,27 +283,24 @@ export default {
       this.__onBlur()
     },
     __onFocus () {
-      console.log('__onFocus')
       if (!this.focused) {
         this.focused = true
         this.$emit('focus')
-        console.log('emit focus')
-        if (this.autoOpen) {
-          setTimeout(this.show, 1000)
+        if (this.autoOpen && !this.isClick) {
+          this.$refs.popover.show()
         }
       }
     },
     __onBlur () {
-      console.log('__onBlur')
       this.$nextTick(() => {
         const elm = document.activeElement
-        if (!document.hasFocus() || (elm !== this.$refs.input.$el && !this.$refs.popover.$el.contains(elm))) {
-          this.focused = false
-          this.$emit('blur')
-          console.log('emit blur')
-          if (JSON.stringify(this.model) !== JSON.stringify(this.value)) {
-            this.$emit('change', this.model)
-          }
+        if (document.hasFocus() && (elm === this.$refs.input.$el || this.$refs.popover.$el.contains(elm))) {
+          return
+        }
+        this.focused = false
+        this.$emit('blur')
+        if (JSON.stringify(this.model) !== JSON.stringify(this.value)) {
+          this.$emit('change', this.model)
         }
       })
     },
@@ -340,10 +314,10 @@ export default {
     __handleKeydown (e) {
       switch (e.keyCode || e.which) {
         case 38: // up
-          this.__moveCursor(-1, e)
+          this.cursorNavigate(-1, e)
           break
         case 40: // down
-          this.__moveCursor(1, e)
+          this.cursorNavigate(1, e)
           break
         case 13: // enter
           prevent(e)
@@ -356,24 +330,35 @@ export default {
           break
         case 9: // tab
           prevent(e)
-          if (e.shiftKey) {
-            this.goToNext()
-          }
-          else {
-            this.goToNext()
-          }
+          this.$refs.popover.hide()
+          this.tabNavigate(e.shiftKey ? -1 : 1)
           break
       }
     },
-    goToNext () {
-      this.$refs.popover.hide()
-      let tabIndex = this.focusabledElements.findIndex(el => el === this.$refs.input.$el)
-      tabIndex = tabIndex === -1 || tabIndex === this.focusabledElements.length - 1 ? 0 : tabIndex + 1
-      this.focusabledElements[tabIndex].focus()
+    tabNavigate (offset) {
+      let fosableElements = this.getFocusableElements()
+      if (fosableElements.length < 2) {
+        return
+      }
+      let tabIndex = fosableElements.findIndex(el => el === this.$refs.input.$el)
+      tabIndex = normalizeToInterval(
+        tabIndex + offset,
+        0,
+        fosableElements.length - 1
+      )
+      fosableElements[tabIndex].focus()
     },
-    __moveCursor (offset, e) {
+    cursorNavigate (offset, e) {
       prevent(e)
-      this.enabledVisibleOptions.length !== 0 && this.move(offset)
+      if (this.enabledVisibleOptionsCount === 0) {
+        return
+      }
+      this.selectedIndex = normalizeToInterval(
+        this.selectedIndex + offset,
+        0,
+        this.visibleOptions.length - 1
+      )
+      this.visibleOptions[this.selectedIndex].disable === true ? this.cursorNavigate(offset) : this.$nextTick(this.scrollToSelectedItem)
     }
   }
 }
