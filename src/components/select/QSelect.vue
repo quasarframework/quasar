@@ -314,10 +314,12 @@ export default {
     __handleKeydown (e) {
       switch (e.keyCode || e.which) {
         case 38: // up
-          this.cursorNavigate(-1, e)
+          prevent(e)
+          this.cursorNavigate(-1)
           break
         case 40: // down
-          this.cursorNavigate(1, e)
+          prevent(e)
+          this.cursorNavigate(1)
           break
         case 13: // enter
           prevent(e)
@@ -348,8 +350,7 @@ export default {
       )
       fosableElements[tabIndex].focus()
     },
-    cursorNavigate (offset, e) {
-      prevent(e)
+    cursorNavigate (offset) {
       if (this.enabledVisibleOptionsCount === 0) {
         return
       }
