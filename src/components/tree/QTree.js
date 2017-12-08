@@ -3,6 +3,7 @@ import { QCheckbox } from '../checkbox'
 import { QSlideTransition } from '../slide-transition'
 import { QSpinner } from '../spinner'
 import Ripple from '../../directives/ripple'
+import clone from '../../utils/clone'
 
 export default {
   name: 'q-tree',
@@ -32,14 +33,38 @@ export default {
       return node.label && node.label.indexOf(filter) > -1
     }
   },
+  data () {
+    return {
+      loading: {}
+    }
+  },
   computed: {
-    model () {
-      const mapNode = (node, parentNode) => {
-        node.__key = node[this.nodeKey]
-        node.__isExpandable = node.lazyLoad || (node.children && node.children.length > 0)
-        node.__parent = parentNode
+    meta () {
+      const meta = {}
 
-        if (node.__isExpandable) {
+      const mapNode = (node, parentNode) => {
+        const key = node[this.nodeKey]
+
+        meta[key] = {
+          key,
+          expandable: node.lazyLoad || (node.children && node.children.length > 0),
+          disabled: node.disable === true
+        }
+
+        if (node.children) {
+          node.children.forEach(n => mapNode(n, node))
+        }
+      }
+
+      this.value.forEach(node => mapNode(node, null))
+
+      return meta
+    },
+    model () {
+      const mapNode = node => {
+        const meta = this.meta[node[this.nodeKey]]
+
+        if (meta.expandable) {
           if (node.expanded === void 0) {
             this.$set(node, 'expanded', false)
           }
@@ -58,7 +83,7 @@ export default {
         return node
       }
 
-      return this.value.map(n => mapNode(n, null))
+      return clone(this.value).map(n => mapNode(n))
     },
     hasRipple () {
       return __THEME__ === 'mat' && !this.noRipple
@@ -80,11 +105,12 @@ export default {
 
       this.$emit(type, node, node[prop])
       this.$emit('input', this.model)
+      this.$emit('change', this.model)
     },
-    __getSlotScope (node) {
-      const scope = { node }
+    __getSlotScope (node, key) {
+      const scope = { node, key }
 
-      node.__isExpandable && Object.defineProperty(scope, 'expanded', {
+      this.meta[key].expandable && Object.defineProperty(scope, 'expanded', {
         get: () => { return node.expanded },
         set: val => { val !== node.expanded && this.__toggle('expand', node) }
       })
@@ -100,18 +126,26 @@ export default {
         return h('div', {
           staticClass: 'q-tree-node-content relative-position',
           'class': {
-            'q-tree-node-content-with-children': scope.node.__isExpandable
+            'q-tree-node-content-with-children': this.meta[scope.key].expandable
           }
         }, [ slot(scope) ])
       }
     },
+    __getNodeIcon (h, node, side) {
+      return node.icon
+        ? h(QIcon, { staticClass: `q-m${side}-xs`, props: { name: node.icon } })
+        : null
+    },
     __getNode (h, node) {
       const
+        key = node[this.nodeKey],
+        meta = this.meta[key],
+        link = node.expandable !== false && (meta.expandable || node.singleSelection),
         header = node.header
           ? this.$scopedSlots[`header-${node.header}`]
           : null,
         slotScope = header || node.body
-          ? this.__getSlotScope(node)
+          ? this.__getSlotScope(node, key)
           : null,
         body = node.body
           ? this.__getNodeContent(h, this.$scopedSlots[`content-${node.body}`], slotScope)
@@ -119,45 +153,55 @@ export default {
 
       return h('div', { staticClass: 'q-tree-node' }, [
         h('div', {
-          'class': { 'q-tree-link': node.__isExpandable }
-        }, [
-          h('div', {
-            staticClass: 'q-tree-node-label relative-position row items-center',
-            on: {
-              click: () => {
-                node.handler && node.handler(node)
+          staticClass: 'q-tree-node-label relative-position row inline items-center',
+          'class': {
+            'q-tree-link': link,
+            'q-tree-node-label-selected': node.selected,
+            disabled: node.disabled
+          },
+          on: {
+            click: () => {
+              console.log('click')
+              node.handler && node.handler(node)
 
-                if (node.lazyLoad) {
-                  const res = node.lazyLoad(node)
-                  if (res) {
-                    this.$set(node, 'loading', true)
-                    res.then(() => {
-                      node.loading = false
-                      this.__toggle('expand', node)
-                      delete node.lazyLoad
-                    })
-                  }
-                  else {
+              if (this.singleSelection) {
+                node.selected = !node.selected
+              }
+              if (node.expandable === false) {
+                return
+              }
+
+              if (node.lazyLoad) {
+                const res = node.lazyLoad(node)
+                if (res) {
+                  this.$set(this.loading, key, true)
+                  res.then(() => {
+                    delete this.loading[key]
                     this.__toggle('expand', node)
                     delete node.lazyLoad
-                  }
+                  })
                 }
-                else if (node.__isExpandable) {
+                else {
                   this.__toggle('expand', node)
+                  delete node.lazyLoad
                 }
               }
-            },
-            directives: this.hasRipple && node.__isExpandable
-              ? [{ name: 'ripple' }]
-              : null
+              else if (meta.expandable) {
+                this.__toggle('expand', node)
+              }
+            }
           },
+          directives: link && this.hasRipple && meta.expandable
+            ? [{ name: 'ripple' }]
+            : null
+        }, [
           header
             ? header(slotScope)
             : [
-              node.loading
+              this.loading[key]
                 ? h(QSpinner, { staticClass: 'q-mr-xs', props: { color: this.color } })
                 : (
-                  node.__isExpandable
+                  meta.expandable
                     ? h(QIcon, {
                       staticClass: 'q-mr-xs transition-generic text-faded',
                       'class': {
@@ -167,32 +211,36 @@ export default {
                     })
                     : null
                 ),
-              this.hasSelection
+              this.multipleSelection
                 ? h(QCheckbox, {
                   staticClass: 'q-mr-xs',
                   props: {
                     value: node.selected,
-                    color: node.color || this.color
+                    color: node.color || this.color,
+                    disable: node.selectable === false
                   },
                   on: {
                     input: () => { this.__toggle('select', node) }
                   }
                 })
-                : null,
+                : this.__getNodeIcon(h, node, 'r'),
               node.label,
-              node.icon
-                ? h(QIcon, { staticClass: 'q-ml-xs', props: { name: node.icon } })
+              this.multipleSelection
+                ? this.__getNodeIcon(h, node, 'l')
                 : null
-            ])
+            ]
         ]),
 
-        node.__isExpandable
+        meta.expandable
           ? h(QSlideTransition, [
             h('div', {
               directives: [{ name: 'show', value: node.expanded }]
             }, [
               body,
-              h('div', { staticClass: 'q-tree-children' }, this.__getChildren(h, node.children))
+              h('div', {
+                staticClass: 'q-tree-children',
+                'class': { disabled: node.disabled }
+              }, this.__getChildren(h, node.children))
             ])
           ])
           : body
@@ -205,6 +253,14 @@ export default {
     }
   },
   render (h) {
-    return h('div', { staticClass: 'q-tree relative-position' }, this.__getChildren(h, this.model))
+    console.log('RENDER')
+    return h('div', {
+      staticClass: 'q-tree relative-position',
+      'class': {
+        'q-tree-no-selection': this.selection === 'none',
+        'q-tree-single-selection': this.singleSelection,
+        'q-tree-multiple-selection': this.multipleSelection
+      }
+    }, this.__getChildren(h, this.model))
   }
 }

@@ -107,6 +107,43 @@ export default {
                       header: '2-1-2-2'
                     }
                   ]
+                },
+                {
+                  label: 'Node 2.1.3 - Non exp/sel',
+                  expanded: true,
+                  selected: false,
+                  expandable: false,
+                  selectable: false,
+                  children: [
+                    {
+                      label: 'Node 2.1.3.1',
+                      expanded: true,
+                      selected: false
+                    },
+                    {
+                      label: 'Node 2.1.3.2',
+                      expanded: false,
+                      selected: false
+                    }
+                  ]
+                },
+                {
+                  label: 'Node 2.1.4 - Disabled',
+                  expanded: true,
+                  selected: false,
+                  disabled: true,
+                  children: [
+                    {
+                      label: 'Node 2.1.4.1',
+                      expanded: true,
+                      selected: false
+                    },
+                    {
+                      label: 'Node 2.1.4.2',
+                      expanded: false,
+                      selected: false
+                    }
+                  ]
                 }
               ]
             },

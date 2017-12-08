@@ -30,6 +30,8 @@
 
 .q-tree-children
   padding-left 30px
+  &.disabled
+    pointer-events none
 .q-tree-node-content
   padding-top 5px
   padding-left 29px
@@ -46,14 +48,7 @@
     border-left 1px solid $tree-connector-color
     bottom 50px
 .q-tree-link
-  display inline-block
   cursor pointer
-  .q-tree-node-label:active
-    color $tree-highlight-color
-    background $tree-highlight-background
-
-  span:nth-child(2) i
-    color $tree-connector-color
 
 .q-tree
   // Remove connectors before root
@@ -62,7 +57,8 @@
     &:after, &:before
       border 0
 
-body.desktop .q-tree-link .q-tree-node-label:hover
+.q-tree-single-selection .q-tree-node-label-selected,
+body.desktop .q-tree-link:hover
   color $tree-highlight-color
   background $tree-highlight-background
 
@@ -71,3 +67,5 @@ body.desktop .q-tree-link .q-tree-node-label:hover
   border-radius $tree-label-border-radius
   .q-icon, .q-spinner
     font-size 130%
+  &.disabled
+    pointer-events none
