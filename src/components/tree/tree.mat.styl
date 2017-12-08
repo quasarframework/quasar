@@ -1,55 +1,73 @@
-.q-tree
-  li
-    margin 0
-    list-style-type none
-    position relative
-    padding 5px 5px 0
+.q-tree-node
+  margin 0
+  list-style-type none
+  position relative
+  padding 5px 5px 0
 
-    &:before
-      content ''
-      position absolute
-      top 0
-      width 1px
-      height 100%
-      right auto
-      left -15px
-      border-left 1px solid $tree-connector-color
-      bottom 50px
+  &:before
+    content ''
+    position absolute
+    top 0
+    width 1px
+    height 100%
+    right auto
+    left -15px
+    border-left 1px solid $tree-connector-color
+    bottom 50px
 
-    &:after
-      content ''
-      position absolute
-      top 20px
-      width 20px
-      height 20px
-      right auto
-      left -15px
-      border-top 1px solid $tree-connector-color
+  &:after
+    content ''
+    position absolute
+    top 20px
+    width 20px
+    height 20px
+    right auto
+    left -15px
+    border-top 1px solid $tree-connector-color
 
-    &:last-child:before
-      height 20px
+  &:last-child:before
+    height 20px
 
-  // Remove connectors before root
-  > ul > li
-    &:after, &:before
-      border 0
-
+.q-tree-children
+  padding-left 30px
+.q-tree-node-content
+  padding-top 5px
+  padding-left 29px
+.q-tree-node-content-with-children
+  padding-left 42px
+  &:before
+    content ''
+    position absolute
+    top 0
+    width 1px
+    height 100%
+    right auto
+    left 15px
+    border-left 1px solid $tree-connector-color
+    bottom 50px
 .q-tree-link
   display inline-block
   cursor pointer
-  .q-tree-label:active
+  .q-tree-node-label:active
     color $tree-highlight-color
     background $tree-highlight-background
 
   span:nth-child(2) i
     color $tree-connector-color
 
-body.desktop .q-tree-link .q-tree-label:hover
+.q-tree
+  // Remove connectors before root
+  > .q-tree-node
+    padding 0
+    &:after, &:before
+      border 0
+
+body.desktop .q-tree-link .q-tree-node-label:hover
   color $tree-highlight-color
   background $tree-highlight-background
 
-.q-tree-label
+.q-tree-node-label
   padding $tree-label-padding
   border-radius $tree-label-border-radius
-  .q-icon
-    font-size $tree-label-icon-font-size
+  .q-icon, .q-spinner
+    font-size 130%

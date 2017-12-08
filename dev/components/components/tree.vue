@@ -1,22 +1,24 @@
 <template>
   <div>
     <div class="layout-padding">
-      <p class="caption">
-        <span class="desktop-only">Click</span>
-        <span class="mobile-only">Tap</span>
-        on items to expand/contract and especially on "Item 1.3"
-        to trigger an event.
-      </p>
-      <p class="caption">
-        Trees are stripped out of any design by default so you can
-        turn them into anything you want.
-      </p>
+      <h1>WIP</h1>
+      <div class="row sm-gutter items-center">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <q-select v-model="selection" :options="[{label: 'None', value: 'none'}, {label: 'Single', value: 'single'}, {label: 'Multiple', value: 'multiple'}]" stack-label="Selection" />
+        </div>
+      </div>
 
       <q-tree
-        :model="treeModel"
-        contract-html="<i class='material-icons'>remove_circle</i>"
-        expand-html="<i class='material-icons'>add_circle</i>"
-      />
+        v-model="treeModel"
+        node-key="label"
+        :selection="selection"
+        @expand="onExpand"
+        @select="onSelect"
+      >
+        <div slot="content-2-1-2-1" slot-scope="prop">
+          Content for 2-1-2-1: {{prop.node.__key}}
+        </div>
+      </q-tree>
     </div>
   </div>
 </template>
@@ -25,118 +27,156 @@
 export default {
   data () {
     return {
+      selection: 'multiple',
       treeModel: [
         {
-          title: 'Item 1',
+          label: 'Node 1',
           expanded: true,
+          selected: false,
           icon: 'alarm',
           children: [
             {
-              title: 'Item 1.1',
+              label: 'Node 1.1',
               expanded: false,
+              selected: false,
               children: [
                 {
-                  title: 'Item 1.1.1',
+                  label: 'Node 1.1.1',
                   expanded: false,
+                  selected: false,
                   children: [
                     {
-                      title: 'Item 1.1.1.1',
+                      label: 'Node 1.1.1.1',
                       expanded: false,
-                      children: []
+                      selected: false
                     }
                   ]
                 },
                 {
-                  title: 'Item 1.1.2',
+                  label: 'Node 1.1.2',
                   expanded: false,
-                  children: []
+                  selected: false
                 }
               ]
             },
             {
-              title: 'Item 1.2',
+              label: 'Node 1.2',
               expanded: false,
-              children: []
+              selected: false
             },
             {
-              title: 'Item 1.3',
+              label: 'Node 1.3',
               expanded: false,
+              selected: false,
               handler: () => {
-                this.$q.notify('Tapped on item 1.3')
-              },
-              children: []
+                this.$q.notify('Tapped on node 1.3')
+              }
             }
           ]
         },
         {
-          title: 'Item 2',
-          expanded: false,
+          label: 'Node 2',
+          expanded: true,
+          selected: false,
           children: [
             {
-              title: 'Item 2.1',
-              expanded: false,
+              label: 'Node 2.1',
+              expanded: true,
+              selected: false,
               children: [
                 {
-                  title: 'Item 2.1.1',
+                  label: 'Node 2.1.1',
                   expanded: false,
-                  children: []
+                  selected: false
                 },
                 {
-                  title: 'Item 2.1.2',
-                  expanded: false,
+                  label: 'Node 2.1.2',
+                  expanded: true,
+                  selected: false,
                   children: [
                     {
-                      title: 'Item 2.1.2.1',
-                      expanded: false,
-                      children: []
+                      label: 'Node 2.1.2.1',
+                      expanded: true,
+                      selected: false,
+                      body: '2-1-2-1'
                     },
                     {
-                      title: 'Item 2.1.2.2',
+                      label: 'Node 2.1.2.2',
                       expanded: false,
-                      children: []
+                      selected: false,
+                      header: '2-1-2-2'
                     }
                   ]
                 }
               ]
             },
             {
-              title: 'Item 2.2',
+              label: 'Node 2.2',
               expanded: false,
-              children: []
+              selected: false
             },
             {
-              title: 'Item 2.3 - Click to add children to it',
+              label: 'Node 2.3 - Lazy load',
               expanded: false,
-              handler: (item) => {
-                item.children = [
-                  { title: 'Item 2.3.1', expanded: false },
-                  { title: 'Item 2.3.2', expanded: false },
-                  { title: 'Item 2.3.3', expanded: false },
-                  {
-                    title: 'Item 2.3.4',
-                    expanded: false,
-                    children: [
-                      { title: 'Item 2.3.4.1', expanded: false },
-                      { title: 'Item 2.3.4.2', expanded: false }
+              selected: false,
+              lazyLoad: node => {
+                return new Promise((resolve, reject) => {
+                  setTimeout(() => {
+                    node.children = [
+                      { label: 'Node 2.3.1', expanded: false },
+                      { label: 'Node 2.3.2', expanded: false },
+                      { label: 'Node 2.3.3', expanded: false },
+                      {
+                        label: 'Node 2.3.4',
+                        expanded: false,
+                        selected: false,
+                        children: [
+                          { label: 'Node 2.3.4.1', expanded: false, selected: true },
+                          { label: 'Node 2.3.4.2', expanded: false, selected: false }
+                        ]
+                      }
                     ]
-                  }
-                ]
-                item.expanded = true
-                const prevTitle = item.title
-                const prevHandler = item.handler
-                item.title = 'Item 2.3 - Click to remove children from it'
-                item.handler = (item) => {
-                  item.title = prevTitle
-                  delete item.children
-                  item.handler = prevHandler
-                  this.$q.notify('Children removed')
-                }
-                this.$q.notify('Children added')
+                    /*
+                    const prevLabel = node.label
+                    const prevHandler = node.handler
+                    node.label = 'Node 2.3 - Click to remove children from it'
+                    node.handler = node => {
+                      node.label = prevLabel
+                      node.children = []
+                      node.handler = prevHandler
+                      this.$q.notify('Children removed')
+                    } */
+                    this.$q.notify('Children added')
+                    resolve()
+                  }, 2000)
+                })
+              }
+            },
+            {
+              label: 'Node 2.4 - Lazy load empty',
+              expanded: false,
+              selected: false,
+              children: [],
+              lazyLoad: node => {
+                return new Promise((resolve, reject) => {
+                  setTimeout(() => {
+                    node.children = []
+                    resolve()
+                  }, 2000)
+                })
               }
             }
           ]
         }
       ]
+    }
+  },
+  methods: {
+    onExpand (node, val) {
+      console.log(`@expand(${val})`, node.__key, node)
+    },
+    onSelect (node, val) {
+      console.log(`@select(${val})`, node.__key, node)
     }
   }
 }
