@@ -35,20 +35,22 @@ export default {
   },
   data () {
     return {
-      loading: {}
+      lazyLoad: {}
     }
   },
   computed: {
     meta () {
       const meta = {}
 
-      const mapNode = (node, parentNode) => {
+      const mapNode = node => {
         const key = node[this.nodeKey]
 
         meta[key] = {
-          key,
-          expandable: node.lazyLoad || (node.children && node.children.length > 0),
+          expandable: Boolean((node.lazyLoad && this.lazyLoad[key] !== 'loaded') || (node.children && node.children.length > 0)),
           disabled: node.disable === true
+        }
+        if (key === 'Node 2.3 - Lazy load') {
+          console.log(key, meta[key].expandable, node, (node.lazyLoad && this.lazyLoad[key] !== 'loaded'), (node.children && node.children.length > 0))
         }
 
         if (node.children) {
@@ -56,7 +58,7 @@ export default {
         }
       }
 
-      this.value.forEach(node => mapNode(node, null))
+      this.value.forEach(node => mapNode(node))
 
       return meta
     },
@@ -99,13 +101,32 @@ export default {
     }
   },
   methods: {
+    getNodeByKey (key, keyProp = this.nodeKey) {
+      const reduce = [].reduce
+
+      function runner (result, node) {
+        if (result || !node) {
+          return result
+        }
+        if (Array.isArray(node)) {
+          return reduce.call(Object(node), runner, result)
+        }
+        if (node[keyProp] === key) {
+          return node
+        }
+        if (node.children) {
+          return runner(null, node.children)
+        }
+      }
+
+      return runner(null, this.model)
+    },
     __toggle (type, node) {
       const prop = `${type}ed`
       node[prop] = !node[prop]
 
-      this.$emit(type, node, node[prop])
+      this.$emit(type, { node, key: node[this.nodeKey] })
       this.$emit('input', this.model)
-      this.$emit('change', this.model)
     },
     __getSlotScope (node, key) {
       const scope = { node, key }
@@ -124,9 +145,9 @@ export default {
     __getNodeContent (h, slot, scope) {
       if (slot) {
         return h('div', {
-          staticClass: 'q-tree-node-content relative-position',
+          staticClass: 'q-tree-node-body relative-position',
           'class': {
-            'q-tree-node-content-with-children': this.meta[scope.key].expandable
+            'q-tree-node-body-with-children': this.meta[scope.key].expandable
           }
         }, [ slot(scope) ])
       }
@@ -140,7 +161,7 @@ export default {
       const
         key = node[this.nodeKey],
         meta = this.meta[key],
-        link = node.expandable !== false && (meta.expandable || node.singleSelection),
+        link = !node.freezeExpand && (meta.expandable || node.singleSelection),
         header = node.header
           ? this.$scopedSlots[`header-${node.header}`]
           : null,
@@ -148,7 +169,7 @@ export default {
           ? this.__getSlotScope(node, key)
           : null,
         body = node.body
-          ? this.__getNodeContent(h, this.$scopedSlots[`content-${node.body}`], slotScope)
+          ? this.__getNodeContent(h, this.$scopedSlots[`body-${node.body}`], slotScope)
           : null
 
       return h('div', { staticClass: 'q-tree-node' }, [
@@ -161,33 +182,39 @@ export default {
           },
           on: {
             click: () => {
-              console.log('click')
               node.handler && node.handler(node)
 
-              if (this.singleSelection) {
-                node.selected = !node.selected
+              if (this.singleSelection && !node.freezeSelect) {
+                this.__toggle('select', node)
               }
-              if (node.expandable === false) {
+              if (node.freezeExpand || this.lazyLoad[key] === true) {
                 return
               }
 
-              if (node.lazyLoad) {
-                const res = node.lazyLoad(node)
-                if (res) {
-                  this.$set(this.loading, key, true)
-                  res.then(() => {
-                    delete this.loading[key]
-                    this.__toggle('expand', node)
-                    delete node.lazyLoad
-                  })
-                }
-                else {
-                  this.__toggle('expand', node)
-                  delete node.lazyLoad
-                }
-              }
-              else if (meta.expandable) {
+              if (node.children && node.children.length > 0) {
                 this.__toggle('expand', node)
+              }
+              else if (node.lazyLoad && this.lazyLoad[key] !== 'loaded') {
+                this.$set(this.lazyLoad, key, true)
+                this.$emit('lazyLoad', {
+                  node,
+                  key,
+                  done: children => {
+                    this.lazyLoad[key] = 'loaded'
+                    const node = this.getNodeByKey(key)
+                    if (node == null) {
+                      return
+                    }
+                    node.children = children
+                    if (node.children.length) {
+                      console.log('expanding', node)
+                      this.__toggle('expand', node)
+                    }
+                    else {
+                      this.$emit('input', this.model)
+                    }
+                  }
+                })
               }
             }
           },
@@ -195,29 +222,29 @@ export default {
             ? [{ name: 'ripple' }]
             : null
         }, [
+          this.lazyLoad[key] === true
+            ? h(QSpinner, { staticClass: 'q-mr-xs', props: { color: this.color } })
+            : (
+              meta.expandable
+                ? h(QIcon, {
+                  staticClass: 'q-mr-xs transition-generic text-faded',
+                  'class': {
+                    'rotate-90': node.expanded
+                  },
+                  props: { name: 'play_arrow' }
+                })
+                : null
+            ),
           header
             ? header(slotScope)
             : [
-              this.loading[key]
-                ? h(QSpinner, { staticClass: 'q-mr-xs', props: { color: this.color } })
-                : (
-                  meta.expandable
-                    ? h(QIcon, {
-                      staticClass: 'q-mr-xs transition-generic text-faded',
-                      'class': {
-                        'rotate-90': node.expanded
-                      },
-                      props: { name: 'play_arrow' }
-                    })
-                    : null
-                ),
               this.multipleSelection
                 ? h(QCheckbox, {
                   staticClass: 'q-mr-xs',
                   props: {
                     value: node.selected,
                     color: node.color || this.color,
-                    disable: node.selectable === false
+                    disable: node.freezeSelect
                   },
                   on: {
                     input: () => { this.__toggle('select', node) }
