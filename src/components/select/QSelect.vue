@@ -57,7 +57,7 @@
       class="q-if-control"
       @click.stop="clear"
     ></q-icon>
-    <q-icon slot="after" :name="$q.icon.select.dropdown" class="q-if-control"></q-icon>
+    <q-icon slot="after" :name="$q.icon.select.dropdown" class="q-if-control" :class="{'rotate-180': $refs.popover && $refs.popover.showing}"></q-icon>
 
     <q-popover
       ref="popover"
@@ -231,9 +231,8 @@ export default {
       return Array.prototype.slice.call(document.querySelectorAll('.q-if-focusable, .q-focusable, input.q-input-target:not([disabled])'))
     },
     onInputFilter () {
-      const popover = this.$refs.popover
-      if (popover.showing) {
-        popover.reposition()
+      if (this.$refs.popover && this.$refs.popover.showing) {
+        // this.$refs.popover.reposition() // ??? .. jumps around the screen when located at the top of the field
         this.selectedIndex = this.$q.platform.is.desktop && this.enabledVisibleOptionsCount !== 0
           ? this.visibleOptions.findIndex(opt => !opt.disable)
           : -1
