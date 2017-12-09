@@ -56,10 +56,10 @@ export default {
   data () {
     return {
       selection: 'multiple',
-      selected: [],
+      selected: ['Node 2', 'Node 2.2'],
       expanded: ['Node 2.1.4 - Disabled'],
-      color: 'primary',
-      dark: false,
+      color: 'amber',
+      dark: true,
       nodes: [
         {
           label: 'Node 1',

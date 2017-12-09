@@ -17,7 +17,7 @@ export default {
       return !this.node.freezeExpand && (
         this.hasChildren ||
         this.__tree.singleSelection ||
-        this.node.lazyLoad
+        (this.node.lazyLoad && !this.lazyLoaded)
       )
     },
     disabled () {
