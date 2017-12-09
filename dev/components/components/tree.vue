@@ -7,72 +7,85 @@
           <q-select v-model="selection" :options="[{label: 'None', value: 'none'}, {label: 'Single', value: 'single'}, {label: 'Multiple', value: 'multiple'}]" stack-label="Selection" />
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <q-toggle v-model="dark" label="On dark background" />
+        </div>
+      </div>
+
+      <div class="row sm-gutter items-center">
+        <div class="col-6">
+          Selected: {{selected}}
+        </div>
+        <div class="col-6">
+          Expanded: {{expanded}}
+        </div>
+        <div class="col-12">
           <q-btn @click="getNodeByKey" no-caps label="getNodeByKey test" />
         </div>
       </div>
 
-      <q-tree
-        v-model="treeModel"
-        ref="gigi"
-        node-key="label"
-        :selection="selection"
-        @expand="onExpand"
-        @select="onSelect"
-        @lazyLoad="onLazyLoad"
-      >
-        <div slot="body-2-1-2-1" slot-scope="prop" class="text-italic text-faded">
-          Content for 2-1-2-1: {{prop.key}}
-        </div>
-      </q-tree>
+      <div class="q-mt-lg q-pa-lg" :class="{'bg-black': dark}">
+        <q-tree
+          :nodes="nodes"
+          ref="gigi"
+          node-key="label"
+          :selection="selection"
+          :selected.sync="selected"
+          :expanded.sync="expanded"
+          :dark="dark"
+          :color="color"
+          @expand="onExpand"
+          @select="onSelect"
+          @lazy-load="onLazyLoad"
+        >
+          <div slot="body-2-1-2-1" slot-scope="prop" class="text-italic text-faded">
+            Content for: {{prop.key}}
+          </div>
+        </q-tree>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  watch: {
+    dark (v) {
+      this.color = v ? 'amber' : 'primary'
+    }
+  },
   data () {
     return {
       selection: 'multiple',
-      treeModel: [
+      selected: [],
+      expanded: ['Node 2.1.4 - Disabled'],
+      color: 'primary',
+      dark: false,
+      nodes: [
         {
           label: 'Node 1',
-          expanded: false,
-          selected: false,
           icon: 'alarm',
           children: [
             {
               label: 'Node 1.1',
-              expanded: false,
-              selected: false,
               children: [
                 {
                   label: 'Node 1.1.1',
-                  expanded: false,
-                  selected: false,
                   children: [
                     {
-                      label: 'Node 1.1.1.1',
-                      expanded: false,
-                      selected: false
+                      label: 'Node 1.1.1.1'
                     }
                   ]
                 },
                 {
-                  label: 'Node 1.1.2',
-                  expanded: false,
-                  selected: false
+                  label: 'Node 1.1.2'
                 }
               ]
             },
             {
-              label: 'Node 1.2',
-              expanded: false,
-              selected: false
+              label: 'Node 1.2'
             },
             {
               label: 'Node 1.3',
-              expanded: false,
-              selected: false,
               handler: () => {
                 this.$q.notify('Tapped on node 1.3')
               }
@@ -81,111 +94,74 @@ export default {
         },
         {
           label: 'Node 2',
-          expanded: true,
-          selected: false,
           children: [
             {
               label: 'Node 2.1',
-              expanded: false,
-              selected: false,
               children: [
                 {
-                  label: 'Node 2.1.1',
-                  expanded: false,
-                  selected: false
+                  label: 'Node 2.1.1'
                 },
                 {
                   label: 'Node 2.1.2',
-                  expanded: true,
-                  selected: false,
                   children: [
                     {
                       label: 'Node 2.1.2.1 - body slot',
-                      expanded: true,
-                      selected: false,
                       body: '2-1-2-1'
                     },
                     {
                       label: 'Node 2.1.2.2 - body slot & children',
-                      expanded: true,
-                      selected: false,
                       body: '2-1-2-1',
                       children: [
                         {
-                          label: 'Node 2.1.2.2.1',
-                          expanded: false,
-                          selected: false
+                          label: 'Node 2.1.2.2.1'
                         },
                         {
-                          label: 'Node 2.1.2.2.2',
-                          expanded: false,
-                          selected: false
+                          label: 'Node 2.1.2.2.2'
                         }
                       ]
                     },
                     {
                       label: 'Node 2.1.2.3 - header slot',
-                      expanded: false,
-                      selected: false,
                       header: '2-1-2-2'
                     }
                   ]
                 },
                 {
                   label: 'Node 2.1.3 - freeze exp/sel',
-                  expanded: true,
-                  selected: false,
                   freezeExpand: true,
                   freezeSelect: true,
                   children: [
                     {
-                      label: 'Node 2.1.3.1',
-                      expanded: true,
-                      selected: false
+                      label: 'Node 2.1.3.1'
                     },
                     {
-                      label: 'Node 2.1.3.2',
-                      expanded: false,
-                      selected: false
+                      label: 'Node 2.1.3.2'
                     }
                   ]
                 },
                 {
                   label: 'Node 2.1.4 - Disabled',
-                  expanded: true,
-                  selected: false,
                   disabled: true,
                   children: [
                     {
-                      label: 'Node 2.1.4.1',
-                      expanded: true,
-                      selected: false
+                      label: 'Node 2.1.4.1'
                     },
                     {
-                      label: 'Node 2.1.4.2',
-                      expanded: false,
-                      selected: false
+                      label: 'Node 2.1.4.2'
                     }
                   ]
                 }
               ]
             },
             {
-              label: 'Node 2.2',
-              expanded: false,
-              selected: false
+              label: 'Node 2.2'
             },
             {
               label: 'Node 2.3 - Lazy load',
-              expanded: false,
-              selected: false,
               lazyLoad: true
             },
             {
               label: 'Node 2.4 - Lazy load empty',
-              expanded: false,
-              selected: false,
-              children: [],
               lazyLoad: true
             }
           ]

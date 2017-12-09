@@ -18,7 +18,7 @@
   &:after
     content ''
     position absolute
-    top 20px
+    top 18px
     width 15px
     height 20px
     right auto
@@ -26,17 +26,16 @@
     border-top 1px solid $tree-connector-color
 
   &:last-child:before
-    height 20px
+    height 18px
 
 .q-tree-children
   padding-left 25px
   &.disabled
     pointer-events none
 .q-tree-node-body
-  padding-top 5px
-  padding-left 5px
+  padding 5px 0 8px 5px
 .q-tree-node-body-with-children
-  padding-left 30px
+  padding 5px 0 8px 30px
   &:before
     content ''
     position absolute
@@ -47,8 +46,31 @@
     left 15px
     border-left 1px solid $tree-connector-color
     bottom 50px
-.q-tree-link
+.q-tree-node-link
   cursor pointer
+
+.q-tree-single-selection .q-tree-node-selected
+  background rgba(0, 0, 0, .15)
+body.desktop
+  .q-tree-node-link:hover
+    background rgba(0, 0, 0, .1)
+  .q-tree-dark .q-tree-node-link:hover
+    background rgba(255, 255, 255, .3)
+
+.q-tree-node-header
+  padding 4px 8px 4px 4px
+  border-radius $tree-header-border-radius
+  &.disabled
+    pointer-events none
+.q-tree-node-header-media
+  font-size 130%
+  color $tree-connector-color
+
+.q-tree-dark
+  .q-tree-node
+    color white
+  &.q-tree-single-selection .q-tree-node-selected
+    background rgba(255, 255, 255, .4)
 
 .q-tree
   // Remove connectors before root
@@ -56,16 +78,3 @@
     padding 0
     &:after, &:before
       border 0
-
-.q-tree-single-selection .q-tree-node-label-selected,
-body.desktop .q-tree-link:hover
-  color $tree-highlight-color
-  background $tree-highlight-background
-
-.q-tree-node-label
-  padding $tree-label-padding
-  border-radius $tree-label-border-radius
-  .q-icon, .q-spinner
-    font-size 130%
-  &.disabled
-    pointer-events none
