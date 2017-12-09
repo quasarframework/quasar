@@ -49,9 +49,6 @@ export default {
           expandable: Boolean((node.lazyLoad && this.lazyLoad[key] !== 'loaded') || (node.children && node.children.length > 0)),
           disabled: node.disable === true
         }
-        if (key === 'Node 2.3 - Lazy load') {
-          console.log(key, meta[key].expandable, node, (node.lazyLoad && this.lazyLoad[key] !== 'loaded'), (node.children && node.children.length > 0))
-        }
 
         if (node.children) {
           node.children.forEach(n => mapNode(n, node))
@@ -266,6 +263,7 @@ export default {
               body,
               h('div', {
                 staticClass: 'q-tree-children',
+                key,
                 'class': { disabled: node.disabled }
               }, this.__getChildren(h, node.children))
             ])

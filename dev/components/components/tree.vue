@@ -20,7 +20,7 @@
         @select="onSelect"
         @lazyLoad="onLazyLoad"
       >
-        <div slot="body-2-1-2-1" slot-scope="prop">
+        <div slot="body-2-1-2-1" slot-scope="prop" class="text-italic text-faded">
           Content for 2-1-2-1: {{prop.key}}
         </div>
       </q-tree>
@@ -100,13 +100,31 @@ export default {
                   selected: false,
                   children: [
                     {
-                      label: 'Node 2.1.2.1',
+                      label: 'Node 2.1.2.1 - body slot',
                       expanded: true,
                       selected: false,
                       body: '2-1-2-1'
                     },
                     {
-                      label: 'Node 2.1.2.2',
+                      label: 'Node 2.1.2.2 - body slot & children',
+                      expanded: true,
+                      selected: false,
+                      body: '2-1-2-1',
+                      children: [
+                        {
+                          label: 'Node 2.1.2.2.1',
+                          expanded: false,
+                          selected: false
+                        },
+                        {
+                          label: 'Node 2.1.2.2.2',
+                          expanded: false,
+                          selected: false
+                        }
+                      ]
+                    },
+                    {
+                      label: 'Node 2.1.2.3 - header slot',
                       expanded: false,
                       selected: false,
                       header: '2-1-2-2'
