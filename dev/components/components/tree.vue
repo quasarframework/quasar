@@ -42,7 +42,7 @@
           @select="onSelect"
           @lazy-load="onLazyLoad"
         >
-          <div slot="body-2-1-2-1" slot-scope="prop" class="text-italic text-faded">
+          <div slot="body-2-1-2-1" slot-scope="prop">
             Content for: {{prop.key}}
           </div>
         </q-tree>
@@ -53,9 +53,9 @@
 
 <script>
 export default {
-  watch: {
-    dark (v) {
-      this.color = v ? 'amber' : 'primary'
+  computed: {
+    color () {
+      return this.dark ? 'amber' : 'secondary'
     }
   },
   data () {
@@ -63,8 +63,7 @@ export default {
       selection: 'multiple',
       selected: ['Node 2', 'Node 2.2'],
       expanded: ['Node 2.1.4 - Disabled'],
-      color: 'amber',
-      dark: true,
+      dark: false,
       filter: '',
       nodes: [
         {
