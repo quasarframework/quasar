@@ -39,6 +39,11 @@ export function position (e) {
     posx = e.pageX - document.body.scrollLeft - document.documentElement.scrollLeft
     posy = e.pageY - document.body.scrollTop - document.documentElement.scrollTop
   }
+  else {
+    const offset = targetElement(e).getBoundingClientRect()
+    posx = ((offset.right - offset.left) / 2) + offset.left
+    posy = ((offset.bottom - offset.top) / 2) + offset.top
+  }
 
   return {
     top: posy,
