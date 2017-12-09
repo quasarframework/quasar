@@ -95,7 +95,7 @@ export default {
                 'class': {
                   'rotate-90': this.expanded
                 },
-                props: { name: 'play_arrow' }
+                props: { name: this.$q.icon.tree.arrowRight }
               })
               : null
           ),

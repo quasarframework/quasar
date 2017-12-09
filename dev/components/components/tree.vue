@@ -9,6 +9,9 @@
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
           <q-toggle v-model="dark" label="On dark background" />
         </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <q-input v-model="filter" stack-label="Filter" />
+        </div>
       </div>
 
       <div class="row sm-gutter items-center">
@@ -33,6 +36,8 @@
           :expanded.sync="expanded"
           :dark="dark"
           :color="color"
+          :filter="filter"
+          default-expand-all
           @expand="onExpand"
           @select="onSelect"
           @lazy-load="onLazyLoad"
@@ -60,6 +65,7 @@ export default {
       expanded: ['Node 2.1.4 - Disabled'],
       color: 'amber',
       dark: true,
+      filter: '',
       nodes: [
         {
           label: 'Node 1',

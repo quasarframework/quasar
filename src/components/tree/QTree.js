@@ -30,7 +30,7 @@ export default {
     },
     selected: Array,
     expanded: Array,
-    defaultExpand: Boolean, // TODO
+    defaultExpandAll: Boolean, // TODO
 
     accordion: Boolean,
     noRipple: Boolean,
@@ -169,5 +169,28 @@ export default {
     }, this.nodes.map(node => h(QTreeNode, {
       props: { node }
     })))
+  },
+  created () {
+    if (!this.defaultExpandAll) {
+      return
+    }
+
+    const
+      expanded = [],
+      travel = node => {
+        expanded.push(node[this.nodeKey])
+        if (node.children) {
+          node.children.forEach(travel)
+        }
+      }
+
+    this.nodes.forEach(travel)
+
+    if (this.expanded !== void 0) {
+      this.$emit(`update:expanded`, expanded)
+    }
+    else {
+      this.innerExpanded = expanded
+    }
   }
 }

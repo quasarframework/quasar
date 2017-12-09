@@ -138,6 +138,9 @@ export default {
     prevPage: 'fa-chevron-left',
     nextPage: 'fa-chevron-right'
   },
+  tree: {
+    arrowRight: 'fa-play'
+  },
   uploader: {
     done: 'fa-check',
     clear: 'fa-times',

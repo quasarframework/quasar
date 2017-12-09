@@ -138,6 +138,9 @@ export default {
     prevPage: 'ion-chevron-left',
     nextPage: 'ion-chevron-right'
   },
+  tree: {
+    arrowRight: 'ion-play'
+  },
   uploader: {
     done: 'ion-ios-checkmark-outline',
     clear: 'ion-ios-close-outline',
