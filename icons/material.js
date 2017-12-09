@@ -138,6 +138,9 @@ export default {
     prevPage: 'chevron_left',
     nextPage: 'chevron_right'
   },
+  tree: {
+    arrowRight: 'play_arrow'
+  },
   uploader: {
     done: 'done',
     clear: 'clear',

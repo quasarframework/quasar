@@ -34,18 +34,18 @@ export default {
     right: 'ion-chevron-right',
     quickNav: 'ion-record'
   },
-  checkbox: { // TODO
+  checkbox: {
     checked: {
-      ios: 'check_circle',
-      mat: 'check_box'
+      ios: 'ion-ios-checkmark',
+      mat: 'ion-android-checkbox'
     },
     unchecked: {
-      ios: 'radio_button_unchecked',
-      mat: 'check_box_outline_blank'
+      ios: 'ion-ios-circle-outline',
+      mat: 'ion-android-checkbox-outline-blank'
     },
     indeterminate: {
       ios: '',
-      mat: 'indeterminate_check_box'
+      mat: 'ion-android-checkbox-blank'
     }
   },
   chip: {
@@ -97,8 +97,8 @@ export default {
   input: {
     showPass: 'ion-eye',
     hidePass: 'ion-eye-disabled',
-    showNumber: 'keyboard', // TODO
-    hideNumber: 'keyboard_hide', // TODO
+    showNumber: 'ion-calculator',
+    hideNumber: 'ion-ios-keypad',
     clear: 'ion-backspace-outline'
   },
   pagination: {
@@ -107,14 +107,14 @@ export default {
     next: 'ion-ios-arrow-right',
     last: 'ion-ios-skipforward-outline'
   },
-  radio: { // TODO
+  radio: {
     checked: {
-      ios: 'check',
-      mat: 'radio_button_checked'
+      ios: 'ion-ios-checkmark-empty',
+      mat: 'ion-android-radio-button-on'
     },
     unchecked: {
-      ios: 'radio_button_unchecked',
-      mat: 'radio_button_unchecked'
+      ios: 'ion-ios-circle-outline',
+      mat: 'ion-android-radio-button-off'
     }
   },
   rating: {
@@ -137,6 +137,9 @@ export default {
     warning: 'ion-alert-circled',
     prevPage: 'ion-chevron-left',
     nextPage: 'ion-chevron-right'
+  },
+  tree: {
+    arrowRight: 'ion-play'
   },
   uploader: {
     done: 'ion-ios-checkmark-outline',

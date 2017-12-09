@@ -106,14 +106,14 @@ export default {
         },
         cancel: this.cancelLabel || true,
         ok: this.okLabel || true
-      }).catch(() => {
-        this.dialog = null
       }).then(data => {
         this.dialog = null
         if (JSON.stringify(this.value) !== JSON.stringify(data)) {
           this.$emit('input', data)
           this.$emit('change', data)
         }
+      }).catch(() => {
+        this.dialog = null
       })
     },
     hide () {

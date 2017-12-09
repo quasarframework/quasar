@@ -1,4 +1,6 @@
-import { declOfNum } from '../src/utils/plural'
+function plurals (n, opts) {
+  return opts[n % 10 === 1 && n % 100 !== 11 ? 0 : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 1 : 2]
+}
 
 export default {
   lang: 'ru',
@@ -34,7 +36,7 @@ export default {
     noData: 'Нет данных',
     noResults: 'Совпадений не найдено',
     loader: 'Загрузка...',
-    selectedRows: rows => rows > 0 ? `${rows} ${declOfNum(rows, ['строка выбрана', 'строки выбраны', 'строк выбрано'])}.` : 'Ни одна строка не выбрана.',
+    selectedRows: rows => rows > 0 ? `${rows} ${plurals(rows, ['строка выбрана', 'строки выбраны', 'строк выбрано'])}.` : 'Ни одна строка не выбрана.',
     rowsPerPage: 'Строк на странице:',
     allRows: 'Все',
     pagination: (start, end, total) => `${start}-${end} из ${total}`,

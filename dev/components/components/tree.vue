@@ -1,142 +1,212 @@
 <template>
   <div>
     <div class="layout-padding">
-      <p class="caption">
-        <span class="desktop-only">Click</span>
-        <span class="mobile-only">Tap</span>
-        on items to expand/contract and especially on "Item 1.3"
-        to trigger an event.
-      </p>
-      <p class="caption">
-        Trees are stripped out of any design by default so you can
-        turn them into anything you want.
-      </p>
+      <h1>WIP</h1>
+      <div class="row sm-gutter items-center">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <q-select v-model="selection" :options="[{label: 'None', value: 'none'}, {label: 'Single', value: 'single'}, {label: 'Multiple', value: 'multiple'}]" stack-label="Selection" />
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <q-toggle v-model="dark" label="On dark background" />
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <q-input v-model="filter" stack-label="Filter" />
+        </div>
+      </div>
 
-      <q-tree
-        :model="treeModel"
-        contract-html="<i class='material-icons'>remove_circle</i>"
-        expand-html="<i class='material-icons'>add_circle</i>"
-      />
+      <div class="row sm-gutter items-center">
+        <div class="col-6">
+          Selected: {{selected}}
+        </div>
+        <div class="col-6">
+          Expanded: {{expanded}}
+        </div>
+        <div class="col-12">
+          <q-btn @click="getNodeByKey" no-caps label="getNodeByKey test" />
+        </div>
+      </div>
+
+      <div class="q-mt-lg q-pa-lg" :class="{'bg-black': dark}">
+        <q-tree
+          :nodes="nodes"
+          ref="gigi"
+          node-key="label"
+          :selection="selection"
+          :selected.sync="selected"
+          :expanded.sync="expanded"
+          :dark="dark"
+          :color="color"
+          :filter="filter"
+          default-expand-all
+          @expand="onExpand"
+          @select="onSelect"
+          @lazy-load="onLazyLoad"
+        >
+          <div slot="body-2-1-2-1" slot-scope="prop" class="text-italic text-faded">
+            Content for: {{prop.key}}
+          </div>
+        </q-tree>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  watch: {
+    dark (v) {
+      this.color = v ? 'amber' : 'primary'
+    }
+  },
   data () {
     return {
-      treeModel: [
+      selection: 'multiple',
+      selected: ['Node 2', 'Node 2.2'],
+      expanded: ['Node 2.1.4 - Disabled'],
+      color: 'amber',
+      dark: true,
+      filter: '',
+      nodes: [
         {
-          title: 'Item 1',
-          expanded: true,
+          label: 'Node 1',
           icon: 'alarm',
           children: [
             {
-              title: 'Item 1.1',
-              expanded: false,
+              label: 'Node 1.1',
               children: [
                 {
-                  title: 'Item 1.1.1',
-                  expanded: false,
+                  label: 'Node 1.1.1',
                   children: [
                     {
-                      title: 'Item 1.1.1.1',
-                      expanded: false,
-                      children: []
+                      label: 'Node 1.1.1.1'
                     }
                   ]
                 },
                 {
-                  title: 'Item 1.1.2',
-                  expanded: false,
-                  children: []
+                  label: 'Node 1.1.2'
                 }
               ]
             },
             {
-              title: 'Item 1.2',
-              expanded: false,
-              children: []
+              label: 'Node 1.2'
             },
             {
-              title: 'Item 1.3',
-              expanded: false,
+              label: 'Node 1.3',
               handler: () => {
-                this.$q.notify('Tapped on item 1.3')
-              },
-              children: []
+                this.$q.notify('Tapped on node 1.3')
+              }
             }
           ]
         },
         {
-          title: 'Item 2',
-          expanded: false,
+          label: 'Node 2',
           children: [
             {
-              title: 'Item 2.1',
-              expanded: false,
+              label: 'Node 2.1',
               children: [
                 {
-                  title: 'Item 2.1.1',
-                  expanded: false,
-                  children: []
+                  label: 'Node 2.1.1'
                 },
                 {
-                  title: 'Item 2.1.2',
-                  expanded: false,
+                  label: 'Node 2.1.2',
                   children: [
                     {
-                      title: 'Item 2.1.2.1',
-                      expanded: false,
-                      children: []
+                      label: 'Node 2.1.2.1 - body slot',
+                      body: '2-1-2-1'
                     },
                     {
-                      title: 'Item 2.1.2.2',
-                      expanded: false,
-                      children: []
+                      label: 'Node 2.1.2.2 - body slot & children',
+                      body: '2-1-2-1',
+                      children: [
+                        {
+                          label: 'Node 2.1.2.2.1'
+                        },
+                        {
+                          label: 'Node 2.1.2.2.2'
+                        }
+                      ]
+                    },
+                    {
+                      label: 'Node 2.1.2.3 - header slot',
+                      header: '2-1-2-2'
+                    }
+                  ]
+                },
+                {
+                  label: 'Node 2.1.3 - freeze exp/sel',
+                  freezeExpand: true,
+                  freezeSelect: true,
+                  children: [
+                    {
+                      label: 'Node 2.1.3.1'
+                    },
+                    {
+                      label: 'Node 2.1.3.2'
+                    }
+                  ]
+                },
+                {
+                  label: 'Node 2.1.4 - Disabled',
+                  disabled: true,
+                  children: [
+                    {
+                      label: 'Node 2.1.4.1'
+                    },
+                    {
+                      label: 'Node 2.1.4.2'
                     }
                   ]
                 }
               ]
             },
             {
-              title: 'Item 2.2',
-              expanded: false,
-              children: []
+              label: 'Node 2.2'
             },
             {
-              title: 'Item 2.3 - Click to add children to it',
-              expanded: false,
-              handler: (item) => {
-                item.children = [
-                  { title: 'Item 2.3.1', expanded: false },
-                  { title: 'Item 2.3.2', expanded: false },
-                  { title: 'Item 2.3.3', expanded: false },
-                  {
-                    title: 'Item 2.3.4',
-                    expanded: false,
-                    children: [
-                      { title: 'Item 2.3.4.1', expanded: false },
-                      { title: 'Item 2.3.4.2', expanded: false }
-                    ]
-                  }
-                ]
-                item.expanded = true
-                const prevTitle = item.title
-                const prevHandler = item.handler
-                item.title = 'Item 2.3 - Click to remove children from it'
-                item.handler = (item) => {
-                  item.title = prevTitle
-                  delete item.children
-                  item.handler = prevHandler
-                  this.$q.notify('Children removed')
-                }
-                this.$q.notify('Children added')
-              }
+              label: 'Node 2.3 - Lazy load',
+              lazyLoad: true
+            },
+            {
+              label: 'Node 2.4 - Lazy load empty',
+              lazyLoad: true
             }
           ]
         }
       ]
+    }
+  },
+  methods: {
+    getNodeByKey () {
+      console.log(this.$refs.gigi.getNodeByKey('Node 2.1.1'))
+    },
+    onExpand ({ node, key }) {
+      console.log(`@expand(${node.expanded})`, key, node)
+    },
+    onSelect ({ node, key }) {
+      console.log(`@select(${node.selected})`, key, node)
+    },
+    onLazyLoad ({ node, key, done }) {
+      setTimeout(() => {
+        if (key === 'Node 2.4 - Lazy load empty') {
+          done([])
+          return
+        }
+
+        done([
+          { label: 'Node 2.3.1', expanded: false },
+          { label: 'Node 2.3.2', expanded: false },
+          { label: 'Node 2.3.3', expanded: false },
+          {
+            label: 'Node 2.3.4',
+            expanded: false,
+            selected: false,
+            children: [
+              { label: 'Node 2.3.4.1', expanded: false, selected: true },
+              { label: 'Node 2.3.4.2', expanded: false, selected: false }
+            ]
+          }
+        ])
+      }, 1000)
     }
   }
 }
