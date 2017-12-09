@@ -1,5 +1,4 @@
 import QTreeNode from './QTreeNode'
-import Ripple from '../../directives/ripple'
 
 export default {
   name: 'q-tree',
@@ -8,21 +7,22 @@ export default {
       __tree: this
     }
   },
-  directives: {
-    Ripple
-  },
   props: {
     nodes: Array,
-
-    color: {
-      type: String,
-      default: 'primary'
-    },
-    dark: Boolean,
     nodeKey: {
       type: String,
       default: 'id'
     },
+
+    color: {
+      type: String,
+      default: 'grey'
+    },
+    controlColor: String,
+    textColor: String,
+    dark: Boolean,
+
+    icon: String,
 
     selection: {
       type: String,
@@ -30,10 +30,9 @@ export default {
     },
     selected: Array,
     expanded: Array,
-    defaultExpandAll: Boolean, // TODO
 
+    defaultExpandAll: Boolean,
     accordion: Boolean,
-    noRipple: Boolean,
 
     filter: String,
     filterMethod: (node, filter) => {
@@ -54,12 +53,21 @@ export default {
       return this.selection === 'multiple'
     },
     classes () {
-      return {
+      return [`text-${this.color}`, {
         'q-tree-no-selection': this.selection === 'none',
         'q-tree-single-selection': this.singleSelection,
         'q-tree-multiple-selection': this.multipleSelection,
         'q-tree-dark': this.dark
-      }
+      }]
+    },
+    computedIcon () {
+      return this.icon || this.$q.icon.tree.icon
+    },
+    computedControlColor () {
+      return this.controlColor || this.color
+    },
+    contentClass () {
+      return `text-${this.textColor || (this.dark ? 'white' : 'black')}`
     }
   },
   data () {
@@ -163,12 +171,15 @@ export default {
   },
   render (h) {
     console.log('RENDER')
-    return h('div', {
-      staticClass: 'q-tree relative-position',
-      'class': this.classes
-    }, this.nodes.map(node => h(QTreeNode, {
-      props: { node }
-    })))
+    return h(
+      'div', {
+        staticClass: 'q-tree relative-position',
+        'class': this.classes
+      },
+      this.nodes.map(node => h(QTreeNode, {
+        props: { node }
+      }))
+    )
   },
   created () {
     if (!this.defaultExpandAll) {
@@ -178,8 +189,8 @@ export default {
     const
       expanded = [],
       travel = node => {
-        expanded.push(node[this.nodeKey])
-        if (node.children) {
+        if (!node.lazyLoad && node.children && node.children.length > 0) {
+          expanded.push(node[this.nodeKey])
           node.children.forEach(travel)
         }
       }
@@ -187,7 +198,7 @@ export default {
     this.nodes.forEach(travel)
 
     if (this.expanded !== void 0) {
-      this.$emit(`update:expanded`, expanded)
+      this.$emit('update:expanded', expanded)
     }
     else {
       this.innerExpanded = expanded

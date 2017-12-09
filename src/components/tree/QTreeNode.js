@@ -67,7 +67,9 @@ export default {
         staticClass: 'q-tree-node-body relative-position',
         'class': { 'q-tree-node-body-with-children': this.hasChildren }
       }, [
-        body(slotScope)
+        h('div', { 'class': this.__tree.contentClass }, [
+          body(slotScope)
+        ])
       ])
     }
 
@@ -79,55 +81,55 @@ export default {
           'q-tree-node-selected': this.selected,
           disabled: this.disabled
         },
-        on: {
-          click: this.onClick
-        },
-        directives: this.link && this.__tree.hasRipple
-          ? [{ name: 'ripple' }]
-          : null
+        on: { click: this.onClick }
       }, [
         this.lazyLoading
-          ? h(QSpinner, { staticClass: 'q-tree-node-header-media q-mr-xs', props: { color: this.__tree.color } })
+          ? h(QSpinner, {
+            staticClass: 'q-tree-node-header-media q-mr-xs',
+            props: { color: this.__tree.computedControlColor }
+          })
           : (
             this.hasChildren || (this.node.lazyLoad && !this.lazyLoaded)
               ? h(QIcon, {
                 staticClass: 'q-tree-node-header-media q-mr-xs transition-generic',
-                'class': {
-                  'rotate-90': this.expanded
-                },
-                props: { name: this.$q.icon.tree.arrowRight }
+                'class': { 'rotate-90': this.expanded },
+                props: { name: this.__tree.computedIcon }
               })
               : null
           ),
 
-        header
-          ? header(slotScope)
-          : [
-            this.__tree.multipleSelection
-              ? h(QCheckbox, {
-                staticClass: 'q-mr-xs',
-                props: {
-                  value: this.selected,
-                  color: this.__tree.color,
-                  dark: this.__tree.dark,
-                  disable: this.node.freezeSelect
-                },
-                on: {
-                  input: this.select
-                }
-              })
-              : this.__getNodeIcon(h, 'r'),
-            h('span', this.node.label),
-            this.__tree.multipleSelection
-              ? this.__getNodeIcon(h, 'l')
-              : null
-          ]
+        h('span', { 'class': this.__tree.contentClass }, [
+          header
+            ? header(slotScope)
+            : [
+              this.__tree.multipleSelection
+                ? h(QCheckbox, {
+                  staticClass: 'q-mr-xs',
+                  props: {
+                    value: this.selected,
+                    color: this.__tree.computedControlColor,
+                    dark: this.__tree.dark,
+                    disable: this.node.freezeSelect
+                  },
+                  on: {
+                    input: this.select
+                  }
+                })
+                : this.__getNodeIcon(h, 'r'),
+              h('span', this.node.label),
+              this.__tree.multipleSelection
+                ? this.__getNodeIcon(h, 'l')
+                : null
+            ]
+        ])
       ]),
 
       this.hasChildren
         ? h(QSlideTransition, [
           h('div', {
-            directives: [{ name: 'show', value: this.expanded }]
+            directives: [{ name: 'show', value: this.expanded }],
+            staticClass: 'q-tree-node-collapsible',
+            'class': `text-${this.__tree.color}`
           }, [
             body,
             h('div', {

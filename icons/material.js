@@ -139,7 +139,7 @@ export default {
     nextPage: 'chevron_right'
   },
   tree: {
-    arrowRight: 'play_arrow'
+    icon: 'play_arrow'
   },
   uploader: {
     done: 'done',

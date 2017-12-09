@@ -139,7 +139,7 @@ export default {
     nextPage: 'fa-chevron-right'
   },
   tree: {
-    arrowRight: 'fa-play'
+    icon: 'fa-play'
   },
   uploader: {
     done: 'fa-check',
