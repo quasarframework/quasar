@@ -26,38 +26,52 @@
     @blur.native="__onBlur"
     @keydown.enter.native="$refs.popover.show"
   >
-    <div
-      v-if="hasChips"
-      class="col row items-center group q-input-chips"
-      :class="alignClass"
-    >
-      <q-chip
-        v-for="{label, value, disable: optDisable} in selectedOptions"
-        :key="label"
-        small
-        :closable="!disable && !optDisable"
-        :color="color"
-        @click.native.stop
-        @hide="__toggleMultiple(value, disable || optDisable)"
+    <template v-if="!loading">
+      <div
+        v-if="hasChips"
+        class="col row items-center group q-input-chips"
+        :class="alignClass"
       >
-        {{ label }}
-      </q-chip>
-    </div>
+        <q-chip
+          v-for="{label, value, disable: optDisable} in selectedOptions"
+          :key="label"
+          small
+          :closable="!disable && !optDisable"
+          :color="color"
+          @click.native.stop
+          @hide="onHideChip(value)"
+        >
+          {{ label }}
+        </q-chip>
+      </div>
 
-    <div
-      v-else
-      class="col row items-center q-input-target"
-      :class="alignClass"
-      v-html="actualValue"
-    ></div>
+      <div
+        v-else
+        class="col row items-center q-input-target"
+        :class="alignClass"
+        v-html="actualValue"
+      ></div>
+      <q-icon
+        v-if="!disable && clearable && length"
+        slot="after"
+        name="cancel"
+        class="q-if-control"
+        @click.stop="clear"
+      ></q-icon>
+    </template>
     <q-icon
-      v-if="!disable && clearable && length"
       slot="after"
-      name="cancel"
+      v-if="!loading"
+      :name="$q.icon.select.dropdown"
       class="q-if-control"
-      @click.stop="clear"
+      :class="{'rotate-180': $refs.popover && $refs.popover.showing}"
     ></q-icon>
-    <q-icon slot="after" :name="$q.icon.select.dropdown" class="q-if-control" :class="{'rotate-180': $refs.popover && $refs.popover.showing}"></q-icon>
+    <q-spinner
+      v-else
+      slot="after"
+      size="24px"
+      class="q-if-control"
+    ></q-spinner>
 
     <q-popover
       ref="popover"
@@ -93,14 +107,14 @@
         :tabindex="0"
         @keydown="__handleKeydown"
       >
-        <template v-if="multiple">
+        <template v-if="multiple && visibleOptions.length > 0 && !loading">
           <q-item-wrapper
             v-for="(opt, index) in visibleOptions"
             :key="JSON.stringify(opt)"
             :cfg="opt"
             :active="selectedIndex === index"
-            :link="!opt.disable"
-            :class="{'text-light': opt.disable}"
+            @mouseenter="hoverItem(opt, index)"
+            :class="{'text-light cursor-not-allowed': opt.disable, 'cursor-pointer': !opt.disable}"
             slot-replace
             @click.capture="__toggleMultiple(opt.value, opt.disable)"
           >
@@ -122,15 +136,15 @@
             ></q-checkbox>
           </q-item-wrapper>
         </template>
-        <template v-else>
+        <template v-else-if="visibleOptions.length > 0 && !loading">
           <q-item-wrapper
             v-for="(opt, index) in visibleOptions"
             :key="JSON.stringify(opt)"
             :cfg="opt"
-            :link="!opt.disable"
             slot-replace
-            :class="{'text-bold text-primary': value === opt.value && !opt.disable, 'text-light': opt.disable}"
+            :class="{'text-bold text-primary': value === opt.value && !opt.disable, 'text-light cursor-not-allowed': opt.disable, 'cursor-pointer': !opt.disable}"
             :active="selectedIndex === index"
+            @mouseenter="hoverItem(opt, index)"
             @click.capture="__singleSelect(opt.value, opt.disable)"
           >
             <q-radio
@@ -144,6 +158,9 @@
             ></q-radio>
           </q-item-wrapper>
         </template>
+        <template v-else="emptyText">
+            <q-item class="text-center non-selectable block">{{ emptyText }}</q-item>
+        </template>
       </q-list>
     </q-popover>
   </q-input-frame>
@@ -153,10 +170,11 @@
 import { QFieldReset } from '../field'
 import { QSearch } from '../search'
 import { QPopover } from '../popover'
-import { QList, QItemWrapper } from '../list'
+import { QList, QItemWrapper, QItem } from '../list'
 import { QCheckbox } from '../checkbox'
 import { QRadio } from '../radio'
 import { QToggle } from '../toggle'
+import { QSpinner } from '../spinner'
 import SelectMixin from '../../mixins/select'
 import clone from '../../utils/clone'
 import prevent from '../../utils/prevent'
@@ -175,9 +193,11 @@ export default {
     QPopover,
     QList,
     QItemWrapper,
+    QItem,
     QCheckbox,
     QRadio,
-    QToggle
+    QToggle,
+    QSpinner
   },
   props: {
     filter: [Function, Boolean],
@@ -189,7 +209,11 @@ export default {
       type: String,
       default: '300px'
     },
-    autoOpen: Boolean
+    autoOpen: Boolean,
+    loading: Boolean,
+    loadingLabel: String,
+    noResultsLabel: String,
+    noDataLabel: String
   },
   data () {
     return {
@@ -224,18 +248,45 @@ export default {
       return typeof this.filter === 'boolean'
         ? defaultFilterFn
         : this.filter
+    },
+    defaultSelectedIndex () {
+      return this.$q.platform.is.desktop && this.enabledVisibleOptionsCount !== 0
+        ? this.visibleOptions.findIndex(opt => !opt.disable)
+        : -1
+    },
+    currentSelectedIndex () {
+      return this.multiple
+        ? this.visibleOptions.findIndex(opt => this.value.includes(opt.value) && !opt.disable)
+        : this.visibleOptions.findIndex(opt => this.value === opt.value)
+    },
+    emptyText () {
+      if (this.loading) {
+        return this.loadingLabel || this.$q.i18n.table.loader
+      }
+      else {
+        if (this.filter && this.terms && this.options.length > 0 && this.visibleOptions.length === 0) {
+          return this.noResultsLabel || this.$q.i18n.table.noResults
+        }
+        if (this.options.length === 0) {
+          return this.noDataLabel || this.$q.i18n.table.noData
+        }
+      }
+      return false
     }
   },
   methods: {
+    hoverItem (opt, index) {
+      if (!opt.disable) {
+        this.selectedIndex = index
+      }
+    },
     getFocusableElements () {
       return Array.prototype.slice.call(document.querySelectorAll('.q-if-focusable, .q-focusable, input.q-input-target:not([disabled])'))
     },
     onInputFilter () {
       if (this.$refs.popover && this.$refs.popover.showing) {
         // this.$refs.popover.reposition() // ??? .. jumps around the screen when located at the top of the field
-        this.selectedIndex = this.$q.platform.is.desktop && this.enabledVisibleOptionsCount !== 0
-          ? this.visibleOptions.findIndex(opt => !opt.disable)
-          : -1
+        this.selectedIndex = this.defaultSelectedIndex
         this.$nextTick(this.scrollToSelectedItem)
       }
     },
@@ -269,9 +320,7 @@ export default {
       }
     },
     onShowPopover () {
-      this.selectedIndex = this.multiple
-        ? this.options.findIndex(opt => this.value.includes(opt.value))
-        : this.options.findIndex(opt => this.value === opt.value)
+      this.selectedIndex = this.length > 0 ? this.currentSelectedIndex : this.defaultSelectedIndex
       this.filter && this.$q.platform.is.desktop ? this.$refs.filter.focus() : this.$refs.list.focus()
       this.$nextTick(this.scrollToSelectedItem.bind(null, true))
       this.focused = true
@@ -280,6 +329,12 @@ export default {
       this.selectedIndex = -1
       this.terms = ''
       this.__onBlur()
+    },
+    onHideChip (value) {
+      this.__toggleMultiple(value)
+      if (this.$refs.popover && this.$refs.popover.showing) {
+        this.$nextTick(this.onShowPopover)
+      }
     },
     __onFocus () {
       if (!this.focused) {

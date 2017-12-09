@@ -97,6 +97,9 @@ export default {
     },
     clear () {
       this.__emit(this.multiple ? [] : null)
+      if (this.$refs.popover && this.$refs.popover.showing) {
+        this.$nextTick(this.onShowPopover)
+      }
     }
   }
 }
