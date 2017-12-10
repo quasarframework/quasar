@@ -184,7 +184,9 @@ export default {
     onSelect ({ node, key }) {
       console.log(`@select(${node.selected})`, key, node)
     },
-    onLazyLoad ({ node, key, done }) {
+    onLazyLoad ({ node, key, done, fail }) {
+      // call fail() if any error occurs
+
       setTimeout(() => {
         if (key === 'Node 2.4 - Lazy load empty') {
           done([])
