@@ -1,6 +1,7 @@
 export default {
   props: {
     autofocus: Boolean,
+    autoselect: Boolean,
     name: String,
     maxLength: [Number, String],
     maxHeight: Number,
@@ -68,8 +69,13 @@ export default {
   mounted () {
     this.$nextTick(() => {
       const input = this.$refs.input
-      if (this.autofocus && input) {
-        input.focus()
+      if (input) {
+        if (this.autoselect) {
+          input.select()
+        }
+        if (this.autofocus) {
+          input.focus()
+        }
       }
     })
   },
