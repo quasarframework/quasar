@@ -107,7 +107,7 @@
         :tabindex="0"
         @keydown="__handleKeydown"
       >
-        <template v-if="multiple && visibleOptions.length > 0 && !loading">
+        <template v-if="multiple && !emptyText">
           <q-item-wrapper
             v-for="(opt, index) in visibleOptions"
             :key="JSON.stringify(opt)"
@@ -136,7 +136,7 @@
             ></q-checkbox>
           </q-item-wrapper>
         </template>
-        <template v-else-if="visibleOptions.length > 0 && !loading">
+        <template v-else-if="!emptyText">
           <q-item-wrapper
             v-for="(opt, index) in visibleOptions"
             :key="JSON.stringify(opt)"
@@ -158,7 +158,7 @@
             ></q-radio>
           </q-item-wrapper>
         </template>
-        <q-item v-else-if="emptyText" class="text-center non-selectable block">{{ emptyText }}</q-item>
+        <q-item v-else class="text-center non-selectable block">{{ emptyText }}</q-item>
       </q-list>
     </q-popover>
   </q-input-frame>
@@ -283,7 +283,6 @@ export default {
     },
     onInputFilter () {
       if (this.$refs.popover && this.$refs.popover.showing) {
-        // this.$refs.popover.reposition() // ??? .. jumps around the screen when located at the top of the field
         this.selectedIndex = this.defaultSelectedIndex
         this.$nextTick(this.scrollToSelectedItem)
       }
