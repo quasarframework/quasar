@@ -390,17 +390,17 @@ export default {
       }
     },
     tabNavigate (offset) {
-      let fosableElements = this.getFocusableElements()
-      if (fosableElements.length < 2) {
+      let focusableElements = this.getFocusableElements()
+      if (focusableElements.length < 2) {
         return
       }
-      let tabIndex = fosableElements.findIndex(el => el === this.$refs.input.$el)
+      let tabIndex = focusableElements.findIndex(el => el === this.$refs.input.$el)
       tabIndex = normalizeToInterval(
         tabIndex + offset,
         0,
-        fosableElements.length - 1
+        focusableElements.length - 1
       )
-      fosableElements[tabIndex].focus()
+      focusableElements[tabIndex].focus()
     },
     cursorNavigate (offset) {
       if (this.enabledVisibleOptionsCount === 0) {
