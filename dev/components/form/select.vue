@@ -7,10 +7,9 @@
       <q-select v-model="select" :auto-open="autoOpen" :loading="loading" :options="[]"></q-select>
       <p class="caption">Single Selection</p>
       <q-select v-model="select" @change="onChange" @input="onInput" :auto-open="autoOpen" :loading="loading" :options="selectOptions" align="right" clearable ></q-select>
-      <q-select v-model="select" :auto-open="autoOpen" :loading="loading" :options="selectOptions" separator></q-select>
-      <q-select v-model="select" :auto-open="autoOpen" :loading="loading" :options="selectListOptions"></q-select>
-      <q-select v-model="select" :auto-open="autoOpen" :loading="loading" :options="selectDisabledOptions"></q-select>
-
+      <q-select v-model="select" tabindex="3" stack-label="tabindex 3" :auto-open="autoOpen" :loading="loading" :options="selectOptions" separator></q-select>
+      <q-select v-model="select" tabindex="2" stack-label="tabindex 2" :auto-open="autoOpen" :loading="loading" :options="selectListOptions"></q-select>
+      <q-select v-model="select" tabindex="1" stack-label="tabindex 1" :auto-open="autoOpen" :loading="loading" :options="selectDisabledOptions"></q-select>
       <p class="caption">Coloring</p>
       <q-select color="amber" v-model="select" :auto-open="autoOpen" :loading="loading" :options="selectListOptions"></q-select>
       <q-select inverted color="secondary" v-model="select" :auto-open="autoOpen" :loading="loading" :options="selectListOptions"></q-select>

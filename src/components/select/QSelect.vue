@@ -279,7 +279,12 @@ export default {
       }
     },
     getFocusableElements () {
-      return Array.prototype.slice.call(document.querySelectorAll('.q-if-focusable, .q-focusable, input.q-input-target:not([disabled])'))
+      let elements = Array.prototype.slice.call(document.querySelectorAll('.q-if-focusable, .q-focusable, input.q-input-target:not([disabled])'))
+      return elements.sort((a, b) => {
+        a = a.getAttribute('tabindex') || 0
+        b = b.getAttribute('tabindex') || 0
+        return a > b ? 1 : b > a ? -1 : 0
+      })
     },
     onInputFilter () {
       if (this.$refs.popover && this.$refs.popover.showing) {
