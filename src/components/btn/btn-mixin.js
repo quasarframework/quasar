@@ -79,5 +79,13 @@ export default {
 
       return cls
     }
+  },
+  methods: {
+    removeFocus (e) {
+      // if is touch enabled and focus was received from pointer
+      if (this.$q.platform.has.touch && e.detail) {
+        this.$el.blur()
+      }
+    }
   }
 }
