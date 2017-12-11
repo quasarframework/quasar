@@ -32,6 +32,11 @@ export default {
     release: 'Отпустите для обновления',
     refresh: 'Обновление...'
   },
+  select: {
+    noData: 'Нет данных',
+    noResults: 'Совпадений не найдено',
+    loading: 'Загрузка...'
+  },
   table: {
     noData: 'Нет данных',
     noResults: 'Совпадений не найдено',

@@ -259,14 +259,14 @@ export default {
     },
     emptyText () {
       if (this.loading) {
-        return this.loadingLabel || this.$q.i18n.table.loader
+        return this.loadingLabel || this.$q.i18n.select.loading
       }
       else {
         if (this.filter && this.terms && this.options.length > 0 && this.visibleOptions.length === 0) {
-          return this.noResultsLabel || this.$q.i18n.table.noResults
+          return this.noResultsLabel || this.$q.i18n.select.noResults
         }
         if (this.options.length === 0) {
-          return this.noDataLabel || this.$q.i18n.table.noData
+          return this.noDataLabel || this.$q.i18n.select.noData
         }
       }
       return false
@@ -279,8 +279,8 @@ export default {
       }
     },
     getFocusableElements () {
-      let elements = Array.prototype.slice.call(document.querySelectorAll('.q-if-focusable, .q-focusable, input.q-input-target:not([disabled])'))
-      return elements.sort((a, b) => {
+      let focusableElements = Array.prototype.slice.call(document.querySelectorAll('.q-if-focusable, .q-focusable, input.q-input-target:not([disabled])'))
+      return focusableElements.sort((a, b) => {
         a = a.getAttribute('tabindex') || 0
         b = b.getAttribute('tabindex') || 0
         return a > b ? 1 : b > a ? -1 : 0

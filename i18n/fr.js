@@ -28,6 +28,11 @@ export default {
     release: 'Relâcher pour rafraîchir',
     refresh: 'Chargement...'
   },
+  select: {
+    noData: 'Aucune donnée à afficher',
+    noResults: 'Aucune donnée trouvée',
+    loading: 'Chargement...'
+  },
   table: {
     noData: 'Aucune donnée à afficher',
     noResults: 'Aucune donnée trouvée',

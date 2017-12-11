@@ -27,6 +27,11 @@ export default {
     release: 'Loslassen zum aktualisieren',
     refresh: 'Aktualisiere...'
   },
+  select: {
+    noData: 'Keine Daten vorhanden.',
+    noResults: 'Keine Einträge gefunden',
+    loading: 'Lade...'
+  },
   table: {
     noData: 'Keine Daten vorhanden.',
     noResults: 'Keine Einträge gefunden',

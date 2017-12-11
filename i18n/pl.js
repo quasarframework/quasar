@@ -28,6 +28,11 @@ export default {
     release: 'Puść, aby odświeżyć',
     refresh: 'Odświeżanie...'
   },
+  select: {
+    noData: 'Brak dostępnych danych',
+    noResults: 'Nie znaleziono pasujących wpisów',
+    loading: 'Ładowanie...'
+  },
   table: {
     noData: 'Brak dostępnych danych',
     noResults: 'Nie znaleziono pasujących wpisów',

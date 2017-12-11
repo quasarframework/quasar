@@ -28,6 +28,11 @@ export default {
     release: '释放刷新',
     refresh: '正在刷新...'
   },
+  select: {
+    noData: '没有可用数据',
+    noResults: '找不到匹配的数据',
+    loading: '正在加载...'
+  },
   table: {
     noData: '没有可用数据',
     noResults: '找不到匹配的数据',
