@@ -68,12 +68,10 @@ export default {
   mounted () {
     this.$nextTick(() => {
       const input = this.$refs.input
-      if (input) {
+      if (this.autofocus && input) {
+        input.focus()
         if (this.autofocus === 'select') {
           input.select()
-        }
-        if (this.autofocus) {
-          input.focus()
         }
       }
     })
