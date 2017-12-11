@@ -13,41 +13,36 @@ export default {
     key () {
       return this.node[this.__tree.nodeKey]
     },
+    meta () {
+      return this.__tree.meta[this.key]
+    },
     link () {
       return !this.node.freezeExpand && (
-        this.hasChildren ||
+        this.isParent ||
         this.__tree.singleSelection ||
         (this.node.lazyLoad && !this.lazyLoaded)
       )
     },
+    selected () {
+      return this.meta.selected
+    },
+    expanded () {
+      return this.meta.expanded
+    },
+    indeterminate () {
+      return this.meta.indeterminate
+    },
     disabled () {
       return this.node.disabled
     },
-    hasChildren () {
-      return this.node.children && this.node.children.length > 0
+    isParent () {
+      return this.meta.isParent
     }
   },
   data () {
-    const key = this.node[this.__tree.nodeKey]
     return {
-      selected: this.__tree.innerSelected.includes(key),
-      expanded: this.__tree.innerExpanded.includes(key),
       lazyLoaded: false,
       lazyLoading: false
-    }
-  },
-  watch: {
-    '__tree.innerSelected' (val) {
-      const state = val.includes(this.key)
-      if (this.selected !== state) {
-        this.selected = state
-      }
-    },
-    '__tree.innerExpanded' (val) {
-      const state = val.includes(this.key)
-      if (this.expanded !== state) {
-        this.expanded = state
-      }
     }
   },
   render (h) {
@@ -65,7 +60,7 @@ export default {
     if (body) {
       body = h('div', {
         staticClass: 'q-tree-node-body relative-position',
-        'class': { 'q-tree-node-body-with-children': this.hasChildren }
+        'class': { 'q-tree-node-body-with-children': this.isParent }
       }, [
         h('div', { 'class': this.__tree.contentClass }, [
           body(slotScope)
@@ -89,7 +84,7 @@ export default {
             props: { color: this.__tree.computedControlColor }
           })
           : (
-            this.hasChildren || (this.node.lazyLoad && !this.lazyLoaded)
+            this.isParent || (this.node.lazyLoad && !this.lazyLoaded)
               ? h(QIcon, {
                 staticClass: 'q-tree-node-header-media q-mr-xs transition-generic',
                 'class': { 'rotate-90': this.expanded },
@@ -109,10 +104,11 @@ export default {
                     value: this.selected,
                     color: this.__tree.computedControlColor,
                     dark: this.__tree.dark,
+                    indeterminate: this.indeterminate,
                     disable: this.node.freezeSelect
                   },
                   on: {
-                    input: this.select
+                    input: v => this.select(v)
                   }
                 })
                 : this.__getNodeIcon(h, 'r'),
@@ -124,7 +120,7 @@ export default {
         ])
       ]),
 
-      this.hasChildren
+      this.isParent
         ? h(QSlideTransition, [
           h('div', {
             directives: [{ name: 'show', value: this.expanded }],
@@ -136,7 +132,7 @@ export default {
               staticClass: 'q-tree-children',
               'class': { disabled: this.disabled }
             },
-            this.hasChildren
+            this.isParent
               ? this.node.children.map(node => {
                 return h('q-tree-node', {
                   key: node[this.__tree.nodeKey],
@@ -179,23 +175,53 @@ export default {
               this.$set(this.node, 'children', children)
             }
             this.$nextTick(() => {
-              if (this.hasChildren) {
+              if (this.isParent) {
                 this.expand()
               }
             })
+          },
+          fail: () => {
+            this.lazyLoading = false
           }
         })
       }
     },
     expand () {
-      if (this.hasChildren && !this.node.freezeExpand) {
-        this.__tree.expand(this.key)
+      if (this.isParent && !this.node.freezeExpand) {
+        this.__tree.expand([this.key], !this.expanded)
       }
     },
-    select () {
-      if (this.__tree.hasSelection && !this.node.freezeSelect) {
-        this.__tree.select(this.key)
+    select (selected) {
+      if (!this.__tree.hasSelection || this.node.freezeSelect) {
+        return
       }
+
+      const keys = []
+
+      if (this.meta.isParent) {
+        const travel = node => {
+          keys.push(node.key)
+          if (node.isParent) {
+            node.children.forEach(travel)
+          }
+        }
+        travel(this.meta)
+      }
+      else {
+        keys.push(this.key)
+      }
+
+      if (!selected) {
+        const travel = node => {
+          if (node && node.selected) {
+            keys.push(node.key)
+            travel(node.parent)
+          }
+        }
+        travel(this.meta.parent)
+      }
+
+      this.__tree.select(keys, selected)
     },
     __getNodeIcon (h, side) {
       return this.node.icon

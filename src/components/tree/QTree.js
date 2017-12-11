@@ -68,6 +68,55 @@ export default {
     },
     contentClass () {
       return `text-${this.textColor || (this.dark ? 'white' : 'black')}`
+    },
+    meta () {
+      const meta = {}
+
+      const travel = (node, parent) => {
+        const key = node[this.nodeKey]
+        const m = {
+          key,
+          indeterminate: false,
+          selected: this.innerSelected.includes(key),
+          isParent: node.children && node.children.length,
+          parent
+        }
+
+        m.isLeaf = !m.isParent
+        meta[key] = m
+
+        if (m.isLeaf) {
+          m.expanded = false
+          return m
+        }
+
+        m.expanded = this.innerExpanded.includes(key)
+        m.children = node.children.map(n => travel(n, m))
+
+        const
+          sel = m.children.reduce((acc, node) => node.selected ? acc + 1 : acc, 0),
+          len = m.children.length
+
+        if (sel === 0) {
+          m.selected = false
+        }
+        else if (sel > 0 && sel < len) {
+          m.selected = false
+          m.indeterminate = true
+        }
+        else {
+          m.selected = true
+        }
+
+        if (m.selected === false && m.indeterminate === false) {
+          m.indeterminate = m.children.some(n => n.indeterminate)
+        }
+
+        return m
+      }
+
+      this.nodes.forEach(node => travel(node, null))
+      return meta
     }
   },
   data () {
@@ -111,40 +160,35 @@ export default {
     getExpandedNodes () {
       return this.innerExpanded.map(key => this.getNodeByKey(key))
     },
-    select (key) {
-      this.__toggle(
+    select (keys, val) {
+      this.__setState(
         this.innerSelected,
-        key,
-        'selected'
+        keys,
+        'selected',
+        val
       )
     },
-    expand (key) {
-      this.__toggle(
+    expand (keys, val) {
+      this.__setState(
         this.innerExpanded,
-        key,
-        'expanded'
+        keys,
+        'expanded',
+        val
       )
     },
-    __toggle (target, key, name) {
-      const
-        index = target.indexOf(key),
-        emit = this[name] !== void 0,
-        add = index === -1
+    __setState (target, keys, name, add) {
+      const emit = this[name] !== void 0
 
       if (emit) {
         target = target.slice()
       }
 
-      if (this.singleSelection && name === 'selected') {
-        target = add ? [ key ] : []
+      if (add) {
+        target = target.concat(keys)
+          .filter((key, index, self) => self.indexOf(key) === index)
       }
       else {
-        if (add) {
-          target.push(key)
-        }
-        else {
-          target.splice(index, 1)
-        }
+        target = target.filter(key => !keys.includes(key))
       }
 
       if (emit) {
