@@ -22,7 +22,10 @@
         <div class="col-6">
           <span class="text-bold">Expanded</span>:<br>{{expanded}}
         </div>
-        <div class="col-12">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <span class="text-bold">Focused</span>:<br>{{focused}}
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
           <q-btn @click="getNodeByKey" no-caps label="getNodeByKey test" />
         </div>
       </div>
@@ -32,6 +35,7 @@
           :nodes="nodes"
           ref="gigi"
           node-key="label"
+          :focused.sync="focused"
           :selection="selection"
           :selected.sync="selected"
           :expanded.sync="expanded"
@@ -60,6 +64,7 @@ export default {
   },
   data () {
     return {
+      focused: null,
       selection: 'leaf',
       selected: ['Node 2.2'],
       expanded: ['Node 2.1.4 - Disabled'],
@@ -91,7 +96,8 @@ export default {
                   ]
                 },
                 {
-                  label: 'Node 1.1.3'
+                  label: 'Node 1.1.3 -- not focusable',
+                  focusable: false
                 }
               ]
             },
@@ -114,6 +120,10 @@ export default {
               children: [
                 {
                   label: 'Node 2.1.1'
+                },
+                {
+                  label: 'Node 2.1.1 BIS - not selectable',
+                  selectable: false
                 },
                 {
                   label: 'Node 2.1.2',

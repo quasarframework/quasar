@@ -28,6 +28,7 @@ export default {
     },
     selected: Array, // sync
     expanded: Array, // sync
+    focused: {}, // sync
 
     defaultExpandAll: Boolean,
     accordion: Boolean,
@@ -48,9 +49,16 @@ export default {
       return __THEME__ === 'mat' && !this.noRipple
     },
     classes () {
-      return [`text-${this.color}`, {
-        'q-tree-dark': this.dark
-      }]
+      return [
+        `text-${this.color}`,
+        {
+          'q-tree-dark': this.dark,
+          'q-tree-focus': this.hasFocus
+        }
+      ]
+    },
+    hasFocus () {
+      return this.focused !== void 0
     },
     hasSelection () {
       return this.selection !== 'none'
@@ -84,10 +92,13 @@ export default {
           parent,
           isParent,
           isLeaf,
+          focused: key === this.focused && node.focusable !== false,
+          focusable: node.focusable !== false,
           disabled: node.disabled,
+          selectable: node.selectable !== false,
           freezeExpand: node.disabled || node.freezeExpand,
           freezeSelect: node.disabled || node.freezeSelect || (this.leafSelection && parent && parent.freezeSelect),
-          link: !node.freezeExpand && isParent,
+          link: this.hasFocus || (!node.freezeExpand && isParent),
           expanded: isParent ? this.innerExpanded.includes(key) : false,
           selected: this.strictSelection
             ? this.innerSelected.includes(key)
@@ -171,6 +182,16 @@ export default {
     },
     getExpandedNodes () {
       return this.innerExpanded.map(key => this.getNodeByKey(key))
+    },
+    isSelected (key) {
+      return key && this.meta[key]
+        ? this.meta[key].selected
+        : false
+    },
+    isExpanded (key) {
+      return key && this.meta[key]
+        ? this.meta[key].expanded
+        : false
     },
     setExpanded (key, state) {
       let target = this.innerExpanded
@@ -303,10 +324,10 @@ export default {
           staticClass: 'q-tree-node-header relative-position row inline items-center',
           'class': {
             'q-tree-node-link': meta.link,
-            'q-tree-node-selected': meta.selected,
+            'q-tree-node-focused': meta.focused,
             disabled: meta.disabled
           },
-          on: { click: () => { this.onNodeClick(node, meta) } }
+          on: { click: () => { this.__onClick(node, meta) } }
         }, [
           meta.lazyLoading
             ? h(QSpinner, {
@@ -318,7 +339,12 @@ export default {
                 ? h(QIcon, {
                   staticClass: 'q-tree-node-header-media q-mr-xs transition-generic',
                   'class': { 'rotate-90': meta.expanded },
-                  props: { name: this.computedIcon }
+                  props: { name: this.computedIcon },
+                  on: {
+                    click: this.hasFocus
+                      ? e => { this.__onExpandClick(meta, e) }
+                      : () => {}
+                  }
                 })
                 : null
             ),
@@ -327,7 +353,7 @@ export default {
             header
               ? header(slotScope)
               : [
-                this.hasSelection
+                this.hasSelection && meta.selectable
                   ? h(QCheckbox, {
                     staticClass: 'q-mr-xs',
                     props: {
@@ -339,7 +365,7 @@ export default {
                     },
                     on: {
                       input: v => {
-                        this.onNodeSelect(node, meta, v)
+                        this.__onSelectClick(node, meta, v)
                       }
                     }
                   })
@@ -369,21 +395,34 @@ export default {
           : body
       ])
     },
-    onNodeClick (node, meta) {
-      console.log('onNodeClick', meta.key)
-      if (typeof node.handler === 'function') {
-        this.node.handler(node)
+    __onClick (node, meta) {
+      console.log('__onClick', meta.key)
+      if (this.hasFocus) {
+        meta.focusable && this.$emit('update:focused', meta.key)
+      }
+      else {
+        this.__onExpandClick(meta)
       }
 
-      if (meta.isParent && !node.freezeExpand) {
+      if (typeof node.handler === 'function') {
+        node.handler(node)
+      }
+    },
+    __onExpandClick (meta, e) {
+      console.log('__onExpandClick', meta.key)
+      if (e !== void 0) {
+        console.log('stop propagation')
+        e.stopPropagation()
+      }
+      if (meta.isParent && !meta.freezeExpand) {
         this.setExpanded(meta.key, !meta.expanded)
       }
     },
-    onNodeSelect (node, meta, state) {
+    __onSelectClick (node, meta, state) {
       if (meta.indeterminate && state) {
         state = false
       }
-      console.log('onNodeSelect', meta.key, state)
+      console.log('__onSelectClick', meta.key, state)
       if (this.strictSelection) {
         this.setSelected([ meta.key ], state)
       }
@@ -412,7 +451,11 @@ export default {
         'class': this.classes
       },
       children.length === 0
-        ? (this.filter ? this.noResultsLabel || this.$q.i18n.tree.noResults : this.noNodesLabel || this.$q.i18n.tree.noNodes)
+        ? (
+          this.filter
+            ? this.noResultsLabel || this.$q.i18n.tree.noResults
+            : this.noNodesLabel || this.$q.i18n.tree.noNodes
+        )
         : children
     )
   },
@@ -425,8 +468,10 @@ export default {
       expanded = [],
       travel = node => {
         if (node.children && node.children.length > 0) {
-          expanded.push(node[this.nodeKey])
-          node.children.forEach(travel)
+          if (!node.freezeExpand) {
+            expanded.push(node[this.nodeKey])
+            node.children.forEach(travel)
+          }
         }
       }
 
