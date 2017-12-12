@@ -428,6 +428,38 @@
           <q-item-main label="John Joe" />
           <q-item-side right avatar="/statics/boy-avatar.png" />
         </q-item>
+        <q-item v-for="n in 3" :key="n">
+         <q-item-side letter="A" color="red-9" />
+         <q-item-main label="John Joe" />
+         <q-item-side right avatar="/statics/boy-avatar.png" />
+         </q-item>
+      </q-list>
+      
+      <q-list>
+         <q-list-header inset>Letter inverted - default color</q-list-header>
+         <q-item v-for="n in 3" :key="n">
+           <q-item-side inverted letter="A" />
+           <q-item-main label="John Joe" />
+           <q-item-side right inverted avatar="/statics/boy-avatar.png" />
+         </q-item>
+         <q-item v-for="n in 3" :key="n">
+         <q-item-side avatar="/statics/boy-avatar.png" />
+           <q-item-main label="John Joe" />
+           <q-item-side right inverted letter="A" />
+         </q-item>
+      </q-list>
+      <q-list>
+         <q-list-header inset>Letter inverted - with color</q-list-header>
+         <q-item v-for="n in 3" :key="n">
+           <q-item-side inverted color='red-7' letter="A" />
+           <q-item-main label="John Joe" />
+           <q-item-side right inverted avatar="/statics/boy-avatar.png" />
+         </q-item>
+         <q-item v-for="n in 3" :key="n">
+         <q-item-side avatar="/statics/boy-avatar.png" />
+           <q-item-main label="John Joe" />
+           <q-item-side right inverted  color='green-7' letter="A" />
+         </q-item>
       </q-list>
 
       <q-list>
