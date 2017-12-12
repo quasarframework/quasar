@@ -19,14 +19,14 @@ export default {
   },
   methods: {
     click (e) {
-      this.$el.blur()
+      clearTimeout(this.timer)
 
       if (this.isDisabled) {
         return
       }
 
-      clearTimeout(this.timer)
       const trigger = () => {
+        this.removeFocus(e)
         const state = !this.toggled
         this.$emit('change', state)
         this.$emit('click', e, state)
@@ -52,7 +52,7 @@ export default {
         }]
         : null
     }, [
-      h('div', { staticClass: 'desktop-only q-focus-helper' }),
+      h('div', { staticClass: 'q-focus-helper' }),
 
       h('span', {
         staticClass: 'q-btn-inner row col flex-center',

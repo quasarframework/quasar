@@ -1,6 +1,6 @@
 export default {
   props: {
-    autofocus: Boolean,
+    autofocus: [Boolean, String],
     name: String,
     maxLength: [Number, String],
     maxHeight: Number,
@@ -70,6 +70,9 @@ export default {
       const input = this.$refs.input
       if (this.autofocus && input) {
         input.focus()
+        if (this.autofocus === 'select') {
+          input.select()
+        }
       }
     })
   },

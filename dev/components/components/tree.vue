@@ -4,9 +4,10 @@
       <h1>WIP</h1>
       <div class="row sm-gutter items-center">
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <q-select v-model="selection" :options="[{label: 'None', value: 'none'}, {label: 'Single', value: 'single'}, {label: 'Multiple', value: 'multiple'}]" stack-label="Selection" />
+          <q-select v-model="selection" :options="[{label: 'None', value: 'none'}, {label: 'Leaf', value: 'leaf'}, {label: 'Strict', value: 'strict'}]" stack-label="Selection" />
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <q-toggle v-model="accordion" label="Accordion mode" />
           <q-toggle v-model="dark" label="On dark background" />
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
@@ -16,10 +17,10 @@
 
       <div class="row sm-gutter items-center">
         <div class="col-6">
-          Selected: {{selected}}
+          <span class="text-bold">Selected</span>:<br>{{selected}}
         </div>
         <div class="col-6">
-          Expanded: {{expanded}}
+          <span class="text-bold">Expanded</span>:<br>{{expanded}}
         </div>
         <div class="col-12">
           <q-btn @click="getNodeByKey" no-caps label="getNodeByKey test" />
@@ -35,11 +36,10 @@
           :selected.sync="selected"
           :expanded.sync="expanded"
           :dark="dark"
+          :accordion="accordion"
           :color="color"
           :filter="filter"
           default-expand-all
-          @expand="onExpand"
-          @select="onSelect"
           @lazy-load="onLazyLoad"
         >
           <div slot="body-2-1-2-1" slot-scope="prop">
@@ -60,18 +60,19 @@ export default {
   },
   data () {
     return {
-      selection: 'multiple',
-      selected: ['Node 2', 'Node 2.2'],
+      selection: 'leaf',
+      selected: ['Node 2.2'],
       expanded: ['Node 2.1.4 - Disabled'],
       dark: false,
+      accordion: false,
       filter: '',
       nodes: [
         {
-          label: 'Node 1',
+          label: 'Node 1 - filter',
           icon: 'alarm',
           children: [
             {
-              label: 'Node 1.1',
+              label: 'Node 1.1 - accordion test on children',
               children: [
                 {
                   label: 'Node 1.1.1',
@@ -82,7 +83,15 @@ export default {
                   ]
                 },
                 {
-                  label: 'Node 1.1.2'
+                  label: 'Node 1.1.2',
+                  children: [
+                    {
+                      label: 'Node 1.1.2.1'
+                    }
+                  ]
+                },
+                {
+                  label: 'Node 1.1.3'
                 }
               ]
             },
@@ -163,11 +172,11 @@ export default {
             },
             {
               label: 'Node 2.3 - Lazy load',
-              lazyLoad: true
+              lazy: true
             },
             {
               label: 'Node 2.4 - Lazy load empty',
-              lazyLoad: true
+              lazy: true
             }
           ]
         }
@@ -177,12 +186,6 @@ export default {
   methods: {
     getNodeByKey () {
       console.log(this.$refs.gigi.getNodeByKey('Node 2.1.1'))
-    },
-    onExpand ({ node, key }) {
-      console.log(`@expand(${node.expanded})`, key, node)
-    },
-    onSelect ({ node, key }) {
-      console.log(`@select(${node.selected})`, key, node)
     },
     onLazyLoad ({ node, key, done, fail }) {
       // call fail() if any error occurs
