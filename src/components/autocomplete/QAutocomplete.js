@@ -46,18 +46,7 @@ export default {
       results: [],
       selectedIndex: -1,
       width: 0,
-      enterKey: false,
       timer: null
-    }
-  },
-  watch: {
-    '__input.val' () {
-      if (this.enterKey) {
-        this.enterKey = false
-      }
-      else {
-        this.__delayTrigger()
-      }
     }
   },
   computed: {
@@ -163,7 +152,6 @@ export default {
       )
     },
     setCurrentSelection () {
-      this.enterKey = true
       if (this.selectedIndex >= 0 && this.selectedIndex < this.results.length) {
         this.setValue(this.results[this.selectedIndex])
       }
@@ -216,6 +204,7 @@ export default {
       this.inputEl = this.__input.getEl()
       this.inputEl.addEventListener('keydown', this.__handleKeypress)
       this.inputEl.addEventListener('blur', this.blurHide)
+      this.inputEl.addEventListener('input', this.__delayTrigger)
     })
   },
   beforeDestroy () {
@@ -227,6 +216,7 @@ export default {
     if (this.inputEl) {
       this.inputEl.removeEventListener('keydown', this.__handleKeypress)
       this.inputEl.removeEventListener('blur', this.blurHide)
+      this.inputEl.removeEventListener('input', this.__delayTrigger)
       this.hide()
     }
   },
