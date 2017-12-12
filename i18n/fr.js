@@ -81,5 +81,9 @@ export default {
     size6: 'Très grand',
     size7: 'Maximum',
     defaultFont: 'Police par défaut'
+  },
+  tree: {
+    noData: 'Aucune nœuds à afficher',
+    noResults: 'Aucune nœuds trouvée'
   }
 }
