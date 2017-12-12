@@ -34,18 +34,18 @@ export default {
     right: 'fa-chevron-right',
     quickNav: 'fa-circle'
   },
-  checkbox: { // TODO
+  checkbox: {
     checked: {
-      ios: 'check_circle',
-      mat: 'check_box'
+      ios: 'fa-check-circle',
+      mat: 'fa-check-square'
     },
     unchecked: {
-      ios: 'radio_button_unchecked',
-      mat: 'check_box_outline_blank'
+      ios: 'fa-circle-o',
+      mat: 'fa-square-o'
     },
     indeterminate: {
       ios: '',
-      mat: 'indeterminate_check_box'
+      mat: 'fa-minus-square'
     }
   },
   chip: {
@@ -97,6 +97,8 @@ export default {
   input: {
     showPass: 'fa-eye',
     hidePass: 'fa-eye-slash',
+    showNumber: 'fa-calculator',
+    hideNumber: 'fa-keyboard-o',
     clear: 'fa-times'
   },
   pagination: {
@@ -105,14 +107,14 @@ export default {
     next: 'fa-chevron-right',
     last: 'fa-step-forward'
   },
-  radio: { // TODO
+  radio: {
     checked: {
-      ios: 'check',
-      mat: 'radio_button_checked'
+      ios: 'fa-check',
+      mat: 'fa-dot-circle-o'
     },
     unchecked: {
-      ios: 'radio_button_unchecked',
-      mat: 'radio_button_unchecked'
+      ios: 'fa-circle-o',
+      mat: 'fa-circle-o'
     }
   },
   rating: {
@@ -135,6 +137,9 @@ export default {
     warning: 'fa-exclamation-triangle',
     prevPage: 'fa-chevron-left',
     nextPage: 'fa-chevron-right'
+  },
+  tree: {
+    icon: 'fa-play'
   },
   uploader: {
     done: 'fa-check',

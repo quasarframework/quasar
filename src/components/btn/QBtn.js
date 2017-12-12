@@ -10,11 +10,13 @@ export default {
     loader: Boolean,
     percentage: Number,
     darkPercentage: Boolean,
-    waitForRipple: Boolean
+    waitForRipple: Boolean,
+    repeatTimeout: [Number, Function]
   },
   data () {
     return {
-      loading: this.value || false
+      loading: this.value || false,
+      repeated: 0
     }
   },
   watch: {
@@ -30,18 +32,22 @@ export default {
     },
     width () {
       return `${between(this.percentage, 0, 100)}%`
+    },
+    hasNoRepeat () {
+      return this.isDisabled || !this.repeatTimeout || this.loader !== false
     }
   },
   methods: {
     click (e) {
-      this.$el.blur()
+      clearTimeout(this.timer)
 
-      if (this.isDisabled) {
+      if (this.isDisabled || this.repeated) {
+        this.repeated = 0
         return
       }
 
-      clearTimeout(this.timer)
       const trigger = () => {
+        this.removeFocus(e)
         if (this.loader !== false || this.$slots.loading) {
           this.loading = true
           this.$emit('input', true)
@@ -58,16 +64,53 @@ export default {
       else {
         trigger()
       }
+    },
+    startRepeat (e) {
+      this.repeated = 0
+
+      const setTimer = () => {
+        this.timer = setTimeout(
+          trigger,
+          typeof this.repeatTimeout === 'function'
+            ? this.repeatTimeout(this.repeated)
+            : this.repeatTimeout
+        )
+      }
+      const trigger = () => {
+        if (this.hasNoRepeat || this.$slots.loading) {
+          return
+        }
+        this.repeated += 1
+        this.$emit('click', e)
+        setTimer()
+      }
+
+      setTimer()
+    },
+    endRepeat () {
+      clearTimeout(this.timer)
     }
   },
   beforeDestroy () {
     clearTimeout(this.timer)
   },
   render (h) {
+    const on = this.hasNoRepeat || this.$slots.loading
+      ? {}
+      : {
+        mousedown: this.startRepeat,
+        touchstart: this.startRepeat,
+        mouseup: this.endRepeat,
+        mouseleave: this.endRepeat,
+        touchend: this.endRepeat
+      }
+
+    on.click = this.click
+
     return h('button', {
       staticClass: 'q-btn row inline flex-center q-focusable q-hoverable relative-position',
       'class': this.classes,
-      on: { click: this.click },
+      on,
       directives: this.hasRipple
         ? [{
           name: 'ripple',
@@ -75,7 +118,7 @@ export default {
         }]
         : null
     }, [
-      h('div', { staticClass: 'desktop-only q-focus-helper' }),
+      h('div', { staticClass: 'q-focus-helper' }),
 
       this.loading && this.hasPercentage
         ? h('div', {

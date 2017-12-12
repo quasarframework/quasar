@@ -20,7 +20,7 @@
     :length="length"
     :additional-length="additionalLength"
 
-    @click.native="show"
+    @click.native="togglePopup"
     @focus.native="__onFocus"
     @blur.native="__onBlur"
   >
@@ -207,6 +207,9 @@ export default {
     }
   },
   methods: {
+    togglePopup () {
+      this[this.$refs.popover.showing ? 'hide' : 'show']()
+    },
     show () {
       if (this.disable) {
         return Promise.reject(new Error())

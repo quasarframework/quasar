@@ -9,3 +9,4 @@ test/e2e/dist/
 cordova
 *.sublime*
 .idea/
+/nbproject/private/

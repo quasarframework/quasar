@@ -18,6 +18,7 @@
         :max="max"
         :boundaryLinks="boundaryLinks"
         :directionLinks="directionLinks"
+        :input="inputType"
       />
 
       <p class="caption">Disabled State</p>
@@ -26,6 +27,7 @@
         :max="max"
         :boundaryLinks="boundaryLinks"
         :directionLinks="directionLinks"
+        :input="inputType"
       />
 
       <p class="caption">Page buttons</p>
@@ -37,6 +39,7 @@
         :directionLinks="directionLinks"
         :ellipses="ellipses"
         :maxPages="maxPages"
+        :input="inputType"
       />
 
       <p class="caption">Page buttons - disabled</p>
@@ -48,6 +51,7 @@
         :directionLinks="directionLinks"
         :ellipses="ellipses"
         :maxPages="maxPages"
+        :input="inputType"
       />
 
       <p class="caption">Configuration</p>
@@ -73,6 +77,9 @@
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
           <q-input type="number" v-model="maxPages" stack-label="Maximum number of page buttons" />
         </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <q-toggle v-model="inputType" label="Input type" />
+        </div>
       </div>
     </div>
   </div>
@@ -82,6 +89,7 @@
 export default {
   data () {
     return {
+      inputType: false,
       page: 1,
       min: 1,
       max: 17,

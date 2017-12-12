@@ -106,7 +106,7 @@ for type in desktop mobile cordova electron ios mat touch within-iframe platform
   opacity 0
   transition opacity .12s ease-in
 
-.q-focusable:focus, .q-hoverable:hover
+.q-focusable:focus, body.no-touch .q-hoverable:hover, body.touch .q-hoverable:active
   .q-focus-helper
     opacity .15
 

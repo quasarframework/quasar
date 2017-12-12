@@ -32,7 +32,7 @@ export default {
     noData: 'Aucune donnée à afficher',
     noResults: 'Aucune donnée trouvée',
     loader: 'Chargement...',
-    selectedRows: rows => rows > 1 ? `${rows} ligne(s) sélectionnée(s).` : `${rows === 0 ? 'Non' : '1'} ligne(s) sélectionnée(s).`,
+    selectedRows: rows => rows > 0 ? `${rows} ${rows === 1 ? 'ligne sélectionnée' : 'lignes sélectionnées'}.` : 'Non lignes sélectionnées.',
     rowsPerPage: 'Lignes par page:',
     allRows: 'Tous',
     pagination: (start, end, total) => `${start}-${end} sur ${total}`,

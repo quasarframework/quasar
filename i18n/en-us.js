@@ -32,7 +32,7 @@ export default {
     noData: 'No data available',
     noResults: 'No matching records found',
     loader: 'Loading...',
-    selectedRows: rows => rows > 1 ? `${rows} selected row(s).` : `${rows === 0 ? 'No' : '1'} selected rows.`,
+    selectedRows: rows => rows > 0 ? `${rows} row${rows === 1 ? '' : 's'} selected.` : 'No selected rows.',
     rowsPerPage: 'Rows per page:',
     allRows: 'All',
     pagination: (start, end, total) => `${start}-${end} of ${total}`,
@@ -81,5 +81,9 @@ export default {
     size6: 'Very big',
     size7: 'Maximum',
     defaultFont: 'Default Font'
+  },
+  tree: {
+    noNodes: 'No nodes available',
+    noResults: 'No matching nodes found'
   }
 }

@@ -1,3 +1,4 @@
 export default function (data) {
-  return JSON.parse(JSON.stringify(data))
+  const s = JSON.stringify(data)
+  return s === void 0 ? s : JSON.parse(JSON.stringify(data))
 }

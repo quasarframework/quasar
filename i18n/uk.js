@@ -1,7 +1,9 @@
-import { declOfNum } from '../src/utils/plural'
+function plurals (n, opts) {
+  return opts[n % 10 === 1 && n % 100 !== 11 ? 0 : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 1 : 2]
+}
 
 export default {
-  lang: 'ua',
+  lang: 'uk',
   label: {
     clear: 'Очистити',
     ok: 'OK',
@@ -34,7 +36,7 @@ export default {
     noData: 'Немає даних',
     noResults: 'Співпадінь не знайдено',
     loader: 'Завантаження...',
-    selectedRows: rows => rows > 0 ? `${rows} ${declOfNum(rows, ['рядок обраний', 'рядки обрані', 'рядків обрано'])}.` : 'Жодного рядку не обрано',
+    selectedRows: rows => rows > 0 ? `${rows} ${plurals(rows, ['рядок обраний', 'рядки обрані', 'рядків обрано'])}.` : 'Жодного рядку не обрано',
     rowsPerPage: 'Рядків на сторінці:',
     allRows: 'Усі',
     pagination: (start, end, total) => `${start}-${end} з ${total}`,

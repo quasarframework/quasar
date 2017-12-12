@@ -97,6 +97,8 @@ export default {
   input: {
     showPass: 'visibility',
     hidePass: 'visibility_off',
+    showNumber: 'keyboard',
+    hideNumber: 'keyboard_hide',
     clear: 'cancel'
   },
   pagination: {
@@ -135,6 +137,9 @@ export default {
     warning: 'warning',
     prevPage: 'chevron_left',
     nextPage: 'chevron_right'
+  },
+  tree: {
+    icon: 'play_arrow'
   },
   uploader: {
     done: 'done',
