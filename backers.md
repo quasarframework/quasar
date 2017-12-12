@@ -68,6 +68,8 @@ It could be you!
 - William Correa
 - PHPZM
 - Klemens Witting
+- Jochen Geiger
+- Rok Kogovšek
 
 - Ken ($5)
 - Oliver ($5)
