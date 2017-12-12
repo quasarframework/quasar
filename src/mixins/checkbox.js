@@ -93,7 +93,7 @@ export default {
       if (ref) {
         ref.classList.add('active')
         setTimeout(() => {
-          ref.classList.remove('active')
+          ref && ref.classList.remove('active')
         }, 10)
       }
       this.$nextTick(() => {
