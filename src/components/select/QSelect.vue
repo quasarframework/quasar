@@ -158,7 +158,7 @@
             ></q-radio>
           </q-item-wrapper>
         </template>
-        <q-item v-else class="text-center non-selectable block">{{ emptyText }}</q-item>
+        <q-item v-else class="non-selectable">{{ emptyText }}</q-item>
       </q-list>
     </q-popover>
   </q-input-frame>
