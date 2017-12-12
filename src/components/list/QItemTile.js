@@ -46,7 +46,7 @@ export default {
     data.staticClass += prop.letter && prop.inverted
       ? ` q-item-letter-inverted${bgColor}`
       : textColor
- 
+
     if ((prop.label || prop.sublabel) && prop.lines) {
       if (prop.lines === '1' || prop.lines === 1) {
         data.staticClass += ' ellipsis'
