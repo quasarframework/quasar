@@ -90,13 +90,19 @@ export default {
           selectable = !node.disabled && this.hasSelection && node.selectable !== false,
           expandable = !node.disabled && node.expandable !== false
 
+        let lazy = node.lazy
+        if (lazy && this.lazy[key]) {
+          lazy = this.lazy[key]
+        }
+
         const m = {
           key,
           parent,
           isParent,
           isLeaf,
+          lazy,
           disabled: node.disabled,
-          link: selectable || (expandable && isParent),
+          link: selectable || (expandable && (isParent || lazy === true)),
           children: [],
           matchesFilter: this.filter ? this.filterMethod(node, this.filter) : true,
 
@@ -104,7 +110,7 @@ export default {
           selectable,
           expanded: isParent ? this.innerExpanded.includes(key) : false,
           expandable,
-          noTick: node.noTick,
+          noTick: node.noTick || (!this.strictTicking && lazy && lazy !== 'loaded'),
           tickable: node.disabled || node.tickable || (this.leafTicking && parent && parent.tickable),
           ticked: this.strictTicking
             ? this.innerTicked.includes(key)
@@ -120,19 +126,25 @@ export default {
             m.matchesFilter = m.children.some(n => n.matchesFilter)
           }
 
-          if (this.leafTicking) {
-            m.ticked = false
-            m.indeterminate = m.children.some(node => node.indeterminate)
+          if (m.matchesFilter) {
+            if (!this.strictTicking && m.children.every(n => n.noTick)) {
+              m.noTick = true
+            }
 
-            if (!m.indeterminate) {
-              const sel = m.children
-                .reduce((acc, meta) => meta.ticked ? acc + 1 : acc, 0)
+            if (this.leafTicking) {
+              m.ticked = false
+              m.indeterminate = m.children.some(node => node.indeterminate)
 
-              if (sel === m.children.length) {
-                m.ticked = true
-              }
-              else if (sel > 0) {
-                m.indeterminate = true
+              if (!m.indeterminate) {
+                const sel = m.children
+                  .reduce((acc, meta) => meta.ticked ? acc + 1 : acc, 0)
+
+                if (sel === m.children.length) {
+                  m.ticked = true
+                }
+                else if (sel > 0) {
+                  m.indeterminate = true
+                }
               }
             }
           }
@@ -336,22 +348,20 @@ export default {
             ? [{ name: 'ripple' }]
             : null
         }, [
-          meta.lazyLoading
+          meta.lazy === 'loading'
             ? h(QSpinner, {
               staticClass: 'q-tree-node-header-media q-mr-xs',
               props: { color: this.computedControlColor }
             })
             : (
-              isParent || (node.lazy && !meta.lazyLoaded)
+              isParent || (meta.lazy && meta.lazy !== 'loaded')
                 ? h(QIcon, {
                   staticClass: 'q-tree-node-header-media q-mr-xs transition-generic',
                   'class': { 'rotate-90': meta.expanded },
                   props: { name: this.computedIcon },
-                  on: {
-                    click: this.hasSelection
-                      ? e => { this.__onExpandClick(meta, e) }
-                      : () => {}
-                  }
+                  on: this.hasSelection
+                    ? { click: e => { this.__onExpandClick(node, meta, e) } }
+                    : undefined
                 })
                 : null
             ),
@@ -408,20 +418,47 @@ export default {
         meta.selectable && this.$emit('update:selected', meta.key)
       }
       else {
-        this.__onExpandClick(meta)
+        this.__onExpandClick(node, meta)
       }
 
       if (typeof node.handler === 'function') {
         node.handler(node)
       }
     },
-    __onExpandClick (meta, e) {
+    __onExpandClick (node, meta, e) {
       console.log('__onExpandClick', meta.key)
       if (e !== void 0) {
-        console.log('stop propagation')
         e.stopPropagation()
       }
-      if (meta.isParent && meta.expandable) {
+      if (meta.lazy && meta.lazy !== 'loaded') {
+        if (meta.lazy === 'loading') {
+          return
+        }
+
+        const key = meta.key
+
+        this.$set(this.lazy, key, 'loading')
+        this.$emit('lazy-load', {
+          node,
+          key,
+          done: children => {
+            this.lazy[key] = 'loaded'
+            if (children) {
+              node.children = children
+            }
+            this.$nextTick(() => {
+              const m = this.meta[key]
+              if (m && m.isParent) {
+                this.setExpanded(key, true)
+              }
+            })
+          },
+          fail: () => {
+            this.$delete(this.lazy, key)
+          }
+        })
+      }
+      else if (meta.isParent && meta.expandable) {
         this.setExpanded(meta.key, !meta.expanded)
       }
     },
@@ -439,7 +476,7 @@ export default {
           if (meta.isParent) {
             meta.children.forEach(travel)
           }
-          else if (!meta.tickable) {
+          else if (!meta.noTick || !meta.tickable) {
             keys.push(meta.key)
           }
         }

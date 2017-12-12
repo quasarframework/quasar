@@ -210,22 +210,22 @@ export default {
       // call fail() if any error occurs
 
       setTimeout(() => {
-        if (key === 'Node 2.4 - Lazy load empty') {
+        if (key.indexOf('Lazy load empty') > -1) {
           done([])
           return
         }
 
+        const label = node.label.replace(' - Lazy load', '')
+
         done([
-          { label: 'Node 2.3.1', expanded: false },
-          { label: 'Node 2.3.2', expanded: false },
-          { label: 'Node 2.3.3', expanded: false },
+          { label: `${label}.1` },
+          { label: `${label}.2` },
+          { label: `${label}.3`, lazy: true },
           {
-            label: 'Node 2.3.4',
-            expanded: false,
-            ticked: false,
+            label: `${label}.4`,
             children: [
-              { label: 'Node 2.3.4.1', expanded: false, ticked: true },
-              { label: 'Node 2.3.4.2', expanded: false, ticked: false }
+              { label: `${label}.4.1`, lazy: true },
+              { label: `${label}.4.2`, lazy: true }
             ]
           }
         ])
