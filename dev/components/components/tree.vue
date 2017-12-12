@@ -4,11 +4,12 @@
       <h1>WIP</h1>
       <div class="row sm-gutter items-center">
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <q-select v-model="selection" :options="[{label: 'None', value: 'none'}, {label: 'Leaf', value: 'leaf'}, {label: 'Strict', value: 'strict'}]" stack-label="Selection" />
+          <q-select v-model="tickStrategy" :options="[{label: 'None', value: 'none'}, {label: 'Leaf', value: 'leaf'}, {label: 'Strict', value: 'strict'}]" stack-label="Tick Strategy" />
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
           <q-toggle v-model="accordion" label="Accordion mode" />
           <q-toggle v-model="dark" label="On dark background" />
+          <q-toggle v-model="selectableNodes" label="Selectable nodes" />
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
           <q-input v-model="filter" stack-label="Filter" />
@@ -17,13 +18,13 @@
 
       <div class="row sm-gutter items-center">
         <div class="col-6">
-          <span class="text-bold">Selected</span>:<br>{{selected}}
+          <span class="text-bold">Ticked</span>:<br>{{ticked}}
         </div>
         <div class="col-6">
           <span class="text-bold">Expanded</span>:<br>{{expanded}}
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <span class="text-bold">Focused</span>:<br>{{focused}}
+        <div v-if="selectableNodes" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <span class="text-bold">Selected</span>:<br>{{selected}}
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
           <q-btn @click="getNodeByKey" no-caps label="getNodeByKey test" />
@@ -35,9 +36,9 @@
           :nodes="nodes"
           ref="gigi"
           node-key="label"
-          :focused.sync="focused"
-          :selection="selection"
           :selected.sync="selected"
+          :tick-strategy="tickStrategy"
+          :ticked.sync="ticked"
           :expanded.sync="expanded"
           :dark="dark"
           :accordion="accordion"
@@ -62,12 +63,20 @@ export default {
       return this.dark ? 'amber' : 'secondary'
     }
   },
+  watch: {
+    selectableNodes (v) {
+      this.selected = v
+        ? this.selected || null
+        : undefined
+    }
+  },
   data () {
     return {
-      focused: null,
-      selection: 'leaf',
-      selected: ['Node 2.2'],
+      selected: null,
+      tickStrategy: 'leaf',
+      ticked: ['Node 2.2'],
       expanded: ['Node 2.1.4 - Disabled'],
+      selectableNodes: true,
       dark: false,
       accordion: false,
       filter: '',
@@ -96,8 +105,8 @@ export default {
                   ]
                 },
                 {
-                  label: 'Node 1.1.3 -- not focusable',
-                  focusable: false
+                  label: 'Node 1.1.3 -- not selectable',
+                  selectable: false
                 }
               ]
             },
@@ -105,7 +114,7 @@ export default {
               label: 'Node 1.2'
             },
             {
-              label: 'Node 1.3',
+              label: 'Node 1.3 - tap on me!',
               handler: () => {
                 this.$q.notify('Tapped on node 1.3')
               }
@@ -122,8 +131,8 @@ export default {
                   label: 'Node 2.1.1'
                 },
                 {
-                  label: 'Node 2.1.1 BIS - not selectable',
-                  selectable: false
+                  label: 'Node 2.1.1 BIS - no tick present',
+                  noTick: true
                 },
                 {
                   label: 'Node 2.1.2',
@@ -151,9 +160,9 @@ export default {
                   ]
                 },
                 {
-                  label: 'Node 2.1.3 - freeze exp/sel',
-                  freezeExpand: true,
-                  freezeSelect: true,
+                  label: 'Node 2.1.3 - freeze exp/tick',
+                  expandable: false,
+                  tickable: true,
                   children: [
                     {
                       label: 'Node 2.1.3.1'
@@ -213,10 +222,10 @@ export default {
           {
             label: 'Node 2.3.4',
             expanded: false,
-            selected: false,
+            ticked: false,
             children: [
-              { label: 'Node 2.3.4.1', expanded: false, selected: true },
-              { label: 'Node 2.3.4.2', expanded: false, selected: false }
+              { label: 'Node 2.3.4.1', expanded: false, ticked: true },
+              { label: 'Node 2.3.4.2', expanded: false, ticked: false }
             ]
           }
         ])
