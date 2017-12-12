@@ -1,7 +1,14 @@
 import Ripple from '../../directives/ripple'
 import { QIcon } from '../icon'
 
-const sizes = ['xs', 'sm', 'md', 'lg', 'xl']
+const sizes = {
+  rectangle: {
+    xs: 20, sm: 28, md: 36, lg: 44, xl: 52
+  },
+  round: {
+    xs: 24, sm: 40, md: 56, lg: 72, xl: 88
+  }
+}
 
 export default {
   components: {
@@ -29,13 +36,14 @@ export default {
     noRipple: Boolean
   },
   computed: {
-    sizeClass () {
-      return sizes.includes(this.size) ? `q-btn-${this.size}` : null
-    },
-    sizeStyle () {
-      return sizes.includes(this.size)
-        ? {}
-        : { fontSize: this.size }
+    style () {
+      const def = sizes[this.round ? 'round' : 'rectangle']
+      
+      return {
+        fontSize: this.size
+          ? (this.size in def ? `${def[this.size]}px` : `${this.size}`)
+          : `${def.md}px`
+      }
     },
     shape () {
       return `q-btn-${this.round ? 'round' : 'rectangle'}`
@@ -48,7 +56,7 @@ export default {
     },
     classes () {
       const
-        cls = [this.shape, this.sizeClass],
+        cls = [ this.shape ],
         color = this.toggled ? this.toggleColor : this.color
 
       if (this.toggled) {
