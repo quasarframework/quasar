@@ -20,7 +20,7 @@
         </q-card-main>
         <q-card-separator />
         <q-card-actions>
-          <q-btn flat round small icon="event" />
+          <q-btn flat round size="sm" icon="event" />
           <q-btn flat>5:30PM</q-btn>
           <q-btn flat>7:30PM</q-btn>
           <q-btn flat>9:00PM</q-btn>
@@ -326,9 +326,9 @@
           <img src="~assets/mountains.jpg">
         </q-card-media>
         <q-card-actions align="around">
-          <q-btn flat round small color="red" icon="favorite" />
-          <q-btn flat round small color="faded" icon="bookmark" />
-          <q-btn flat round small color="primary" icon="share" />
+          <q-btn flat round size="sm" color="red" icon="favorite" />
+          <q-btn flat round size="sm" color="faded" icon="bookmark" />
+          <q-btn flat round size="sm" color="primary" icon="share" />
         </q-card-actions>
       </q-card>
 

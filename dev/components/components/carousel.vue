@@ -41,12 +41,12 @@
         </q-carousel-control>
 
         <q-carousel-control slot="control-left" slot-scope="carousel" position="top-left" :offset="[18, 18]">
-          <q-btn small round color="tertiary" :icon="carousel.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="carousel.toggleFullscreen()" />
+          <q-btn size="sm" round color="tertiary" :icon="carousel.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="carousel.toggleFullscreen()" />
         </q-carousel-control>
 
         <q-carousel-control slot="control-nav" slot-scope="carousel" :offset="[18, 52]">
-          <q-btn :disable="!carousel.canGoToPrevious" color="primary" icon="keyboard_arrow_left" round small @click="carousel.previous" class="q-mr-small" />
-          <q-btn :disable="!carousel.canGoToNext" color="primary" icon="keyboard_arrow_right" round small @click="carousel.next" />
+          <q-btn :disable="!carousel.canGoToPrevious" color="primary" icon="keyboard_arrow_left" round size="sm" @click="carousel.previous" class="q-mr-small" />
+          <q-btn :disable="!carousel.canGoToNext" color="primary" icon="keyboard_arrow_right" round size="sm" @click="carousel.next" />
         </q-carousel-control>
 
         <q-carousel-control slot="progress" slot-scope="carousel" position="top">
@@ -77,7 +77,8 @@
           slot="quick-nav"
           slot-scope="props"
           color="white"
-          flat small
+          flat
+          size="sm"
           :label="`${props.slide + 1}`"
           @click="props.goToSlide()"
           :class="{inactive: !props.current}"
