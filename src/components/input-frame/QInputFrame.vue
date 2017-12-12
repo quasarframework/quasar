@@ -20,7 +20,7 @@
 
     <div class="q-if-inner col row no-wrap items-center relative-position">
       <div
-        v-if="label"
+        v-if="hasLabel"
         class="q-if-label ellipsis full-width absolute self-start"
         :class="{'q-if-label-above': labelIsAbove}"
         v-html="label"
@@ -81,12 +81,18 @@ export default {
     __field: { default: null }
   },
   computed: {
+    hasStackLabel () {
+      return typeof this.stackLabel === 'string' && this.stackLabel.length > 0
+    },
+    hasLabel () {
+      return this.hasStackLabel || (typeof this.floatLabel === 'string' && this.floatLabel.length > 0)
+    },
     label () {
-      return this.stackLabel || this.floatLabel
+      return this.hasStackLabel ? this.stackLabel : this.floatLabel
     },
     addonClass () {
       return {
-        'q-if-addon-visible': this.labelIsAbove,
+        'q-if-addon-visible': !this.hasLabel || this.labelIsAbove,
         'self-start': this.topAddons
       }
     },

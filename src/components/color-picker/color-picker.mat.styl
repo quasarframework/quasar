@@ -1,0 +1,88 @@
+.q-inline-color-picker
+  max-width 100vw
+  border 1px solid $grey-4
+  display inline-block
+  width 320px
+  padding $alert-padding
+
+.q-saturation-value-picker
+  width 100%
+  padding-bottom 50%
+  position relative
+  overflow hidden
+  border-radius $generic-border-radius
+
+.q-saturation-value-picker--white,
+.q-saturation-value-picker--black
+  cursor pointer
+  position absolute
+  top 0
+  left 0
+  right 0
+  bottom 0
+
+.q-saturation-value-picker--white
+  background linear-gradient(to right, #fff, rgba(255,255,255,0))
+
+.q-saturation-value-picker--black
+  background linear-gradient(to top, #000, rgba(0,0,0,0))
+
+.q-saturation-value-picker-pointer
+  cursor pointer
+  position absolute
+
+.q-saturation-value-picker-circle
+  cursor head
+  width 10px
+  height 10px
+  box-shadow 0 0 0 1.5px #fff, inset 0 0 1px 1px rgba(0,0,0,.3), 0 0 1px 2px rgba(0,0,0,.4)
+  border-radius 50%
+  transform translate(-5px, -5px)
+
+.q-hue-slider .q-slider-track
+  background linear-gradient(to right, #f00 0%, #ff0 17%, #0f0 33%, #0ff 50%, #00f 67%, #f0f 83%, #f00 100%)
+  opacity 1
+  height $dot-size * .8
+  border-radius $generic-border-radius
+  &.active-track
+    opacity 0
+
+.q-alpha-slider .q-slider-track
+  position relative
+  background: white
+  background-image url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAH0lEQVQoU2NkYGAwZkAFZ5G5jPRRgOYEVDeB3EBjBQBOZwTVugIGyAAAAABJRU5ErkJggg==')
+  opacity 1
+  height $dot-size * .8
+  border-radius $generic-border-radius
+  &:after
+    content ''
+    display block
+    position absolute
+    left 0
+    right 0
+    top 0
+    bottom 0
+    background linear-gradient(90deg, rgba(255,255,255,0), currentColor)
+    border-radius $generic-border-radius
+  &.active-track
+    opacity 0
+
+.q-color-swatch
+  position relative
+  width 58px
+  height 58px
+  border-radius $generic-border-radius
+  &:after
+    content ''
+    display block
+    position absolute
+    left 0
+    right 0
+    top 0
+    bottom 0
+    border-radius $generic-border-radius
+    z-index -1
+    background-image url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAH0lEQVQoU2NkYGAwZkAFZ5G5jPRRgOYEVDeB3EBjBQBOZwTVugIGyAAAAABJRU5ErkJggg==')
+
+.q-inline-color-picker .q-color-swatch
+  margin-right 10px

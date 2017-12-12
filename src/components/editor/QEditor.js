@@ -59,7 +59,7 @@ export default {
         outline: this.outline,
         flat: this.flat,
         push: this.push,
-        small: true,
+        size: 'sm',
         compact: true
       }
     },

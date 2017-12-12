@@ -332,6 +332,9 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
+      if (!this.$refs.scroller) {
+        return
+      }
       this.$refs.scroller.addEventListener('scroll', this.__updateScrollIndicator)
       window.addEventListener('resize', this.__redraw)
 

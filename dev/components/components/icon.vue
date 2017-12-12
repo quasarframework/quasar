@@ -34,8 +34,3 @@ export default {
   }
 }
 </script>
-
-<style lang="stylus">
-.big-btn
-  font-size: 5rem
-</style>

@@ -302,7 +302,7 @@ export default {
             props: {
               icon: this.quickNavIcon || this.$q.icon.carousel.quickNav,
               round: true,
-              small: true,
+              size: 'sm',
               flat: true,
               color: this.color
             },
@@ -353,13 +353,13 @@ export default {
       ]),
       this.arrows ? h(QBtn, {
         staticClass: 'q-carousel-left-arrow absolute',
-        props: { color: this.color, icon: this.$q.icon.carousel.left, round: true, small: true, flat: true },
+        props: { color: this.color, icon: this.$q.icon.carousel.left, round: true, size: 'sm', flat: true },
         directives: [{ name: 'show', value: this.canGoToPrevious }],
         on: { click: this.previous }
       }) : null,
       this.arrows ? h(QBtn, {
         staticClass: 'q-carousel-right-arrow absolute',
-        props: { color: this.color, icon: this.$q.icon.carousel.right, round: true, small: true, flat: true },
+        props: { color: this.color, icon: this.$q.icon.carousel.right, round: true, size: 'sm', flat: true },
         directives: [{ name: 'show', value: this.canGoToNext }],
         on: { click: this.next }
       }) : null,

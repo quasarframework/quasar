@@ -39,8 +39,6 @@ export default {
   },
   methods: {
     click (e) {
-      this.$el.blur()
-
       clearTimeout(this.timer)
 
       if (this.isDisabled || this.repeated) {
@@ -49,6 +47,7 @@ export default {
       }
 
       const trigger = () => {
+        this.removeFocus(e)
         if (this.loader !== false || this.$slots.loading) {
           this.loading = true
           this.$emit('input', true)
@@ -111,6 +110,7 @@ export default {
     return h('button', {
       staticClass: 'q-btn row inline flex-center q-focusable q-hoverable relative-position',
       'class': this.classes,
+      style: this.style,
       on,
       directives: this.hasRipple
         ? [{
@@ -119,7 +119,7 @@ export default {
         }]
         : null
     }, [
-      h('div', { staticClass: 'desktop-only q-focus-helper' }),
+      h('div', { staticClass: 'q-focus-helper' }),
 
       this.loading && this.hasPercentage
         ? h('div', {

@@ -1,23 +1,3 @@
-<template>
-  <div class="absolute-full overflow-hidden invisible" style="z-index: -1">
-    <div
-      ref="expand"
-      class="absolute-full overflow-hidden invisible"
-      @scroll="onResize"
-    >
-      <div ref="expandChild" class="absolute-top-left transition-0" style="width: 100000px; height: 100000px;"></div>
-    </div>
-    <div
-      ref="shrink"
-      class="absolute-full overflow-hidden invisible"
-      @scroll="onResize"
-    >
-      <div class="absolute-top-left transition-0" style="width: 200%; height: 200%;"></div>
-    </div>
-  </div>
-</template>
-
-<script>
 function getSize (el) {
   return {
     width: el.offsetWidth,
@@ -36,7 +16,7 @@ export default {
       }
 
       if (!this.timer) {
-        this.timer = window.requestAnimationFrame(this.emit)
+        this.timer = setTimeout(this.emit, 32)
       }
 
       this.size = size
@@ -58,6 +38,34 @@ export default {
       }
     }
   },
+  render (h) {
+    return h('div', {
+      staticClass: 'absolute-full overflow-hidden invisible',
+      style: 'z-index: -1;'
+    }, [
+      h('div', {
+        ref: 'expand',
+        staticClass: 'absolute-full overflow-hidden invisible',
+        on: { scroll: this.onResize }
+      }, [
+        h('div', {
+          ref: 'expandChild',
+          staticClass: 'absolute-top-left transition-0',
+          style: 'width: 100000px; height: 100000px;'
+        })
+      ]),
+      h('div', {
+        ref: 'shrink',
+        staticClass: 'absolute-full overflow-hidden invisible',
+        on: { scroll: this.onResize }
+      }, [
+        h('div', {
+          staticClass: 'absolute-top-left transition-0',
+          style: 'width: 200%; height: 200%;'
+        })
+      ])
+    ])
+  },
   mounted () {
     this.$nextTick(() => {
       this.size = {}
@@ -65,8 +73,7 @@ export default {
     })
   },
   beforeDestroy () {
-    window.cancelAnimationFrame(this.timer)
+    clearTimeout(this.timer)
     this.$emit('resize', {width: 0, height: 0})
   }
 }
-</script>

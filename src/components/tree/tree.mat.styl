@@ -1,55 +1,77 @@
+.q-tree-node
+  margin 0
+  list-style-type none
+  position relative
+  padding 5px 5px 0
+
+  &:before
+    content ''
+    position absolute
+    top 0
+    width 1px
+    height 100%
+    right auto
+    left -10px
+    border-left 1px solid currentColor
+    bottom 50px
+
+  &:after
+    content ''
+    position absolute
+    top 18px
+    width 15px
+    height 20px
+    right auto
+    left -10px
+    border-top 1px solid currentColor
+
+  &:last-child:before
+    height 18px
+
+.q-tree-children
+  padding-left 25px
+  &.disabled
+    pointer-events none
+.q-tree-node-body
+  padding 5px 0 8px 5px
+.q-tree-node-body-with-children
+  padding 5px 0 8px 30px
+  &:before
+    content ''
+    position absolute
+    top 0
+    width 1px
+    height 100%
+    right auto
+    left 15px
+    border-left 1px solid currentColor
+    bottom 50px
+.q-tree-node-link
+  cursor pointer
+
+.q-tree-node-selected
+  background rgba(0, 0, 0, .15)
+.q-tree-dark .q-tree-node-selected
+  background rgba(255, 255, 255, .4)
+
+body.desktop
+  .q-tree-node-link:hover
+    background rgba(0, 0, 0, .1)
+  .q-tree-dark .q-tree-node-link:hover
+    background rgba(255, 255, 255, .3)
+
+.q-tree-node-header
+  padding 4px 8px 4px 4px
+  border-radius $generic-border-radius
+  &.disabled
+    pointer-events none
+.q-tree-node-header-media
+  font-size 130%
+  color currentColor
+
 .q-tree
-  li
-    margin 0
-    list-style-type none
-    position relative
-    padding 5px 5px 0
-
-    &:before
-      content ''
-      position absolute
-      top 0
-      width 1px
-      height 100%
-      right auto
-      left -15px
-      border-left 1px solid $tree-connector-color
-      bottom 50px
-
-    &:after
-      content ''
-      position absolute
-      top 20px
-      width 20px
-      height 20px
-      right auto
-      left -15px
-      border-top 1px solid $tree-connector-color
-
-    &:last-child:before
-      height 20px
-
   // Remove connectors before root
-  > ul > li
+  > .q-tree-node
+    padding 0
     &:after, &:before
       border 0
-
-.q-tree-link
-  display inline-block
-  cursor pointer
-  .q-tree-label:active
-    color $tree-highlight-color
-    background $tree-highlight-background
-
-  span:nth-child(2) i
-    color $tree-connector-color
-
-body.desktop .q-tree-link .q-tree-label:hover
-  color $tree-highlight-color
-  background $tree-highlight-background
-
-.q-tree-label
-  padding $tree-label-padding
-  border-radius $tree-label-border-radius
-  .q-icon
-    font-size $tree-label-icon-font-size
