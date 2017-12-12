@@ -29,33 +29,24 @@ export default {
       prop = ctx.props,
       cls = data.staticClass,
       type = getType(prop),
-      icon = prop.icon,
-      textColor = prop.color ? ` text-${prop.color}` : ''
+      textColor = prop.color ? ` text-${prop.color}` : '',
+      bgColor = prop.color ? ` bg-${prop.color}` : ''
 
     data.staticClass = `q-item-${type}${cls ? ` ${cls}` : ''}`
 
-    if (icon) {
-      data.props = { name: icon }
-      if (prop.inverted) {
-        data.staticClass += ' q-item-icon-inverted'
-        if (prop.color) {
-          data.staticClass += ` bg-${prop.color}`
-        }
-      }
-      else {
-        data.staticClass += textColor
-      }
+    if (prop.icon) {
+      data.props = { name: prop.icon }
+      data.staticClass += prop.inverted
+        ? ` q-item-icon-inverted${bgColor}`
+        : textColor
+
       return h(QIcon, data, ctx.children)
     }
-    else if (prop.letter && prop.inverted) {
-      data.staticClass += ' q-item-letter-inverted'
-      if (prop.color) {
-        data.staticClass += ` bg-${prop.color}`
-      }
-    }
-    else {
-      data.staticClass += textColor
-    }
+
+    data.staticClass += prop.letter && prop.inverted
+      ? ` q-item-letter-inverted${bgColor}`
+      : textColor
+ 
     if ((prop.label || prop.sublabel) && prop.lines) {
       if (prop.lines === '1' || prop.lines === 1) {
         data.staticClass += ' ellipsis'
