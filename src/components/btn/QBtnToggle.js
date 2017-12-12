@@ -44,7 +44,7 @@ export default {
     return h('button', {
       staticClass: 'q-btn q-btn-toggle row inline flex-center q-focusable q-hoverable relative-position',
       'class': this.classes,
-      style: this.sizeStyle,
+      style: this.style,
       on: { click: this.click },
       directives: this.hasRipple
         ? [{

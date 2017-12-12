@@ -3,7 +3,7 @@ import { QIcon } from '../icon'
 
 const sizes = {
   rectangle: {
-    xs: 20, sm: 28, md: 36, lg: 44, xl: 52
+    xs: Math.round(20 * 0.38), sm: Math.round(28 * 0.38), md: Math.round(36 * 0.38), lg: Math.round(44 * 0.38), xl: Math.round(52 * 0.38)
   },
   round: {
     xs: 24, sm: 40, md: 56, lg: 72, xl: 88
@@ -38,7 +38,7 @@ export default {
   computed: {
     style () {
       const def = sizes[this.round ? 'round' : 'rectangle']
-      
+
       return {
         fontSize: this.size
           ? (this.size in def ? `${def[this.size]}px` : `${this.size}`)

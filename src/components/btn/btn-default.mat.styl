@@ -17,7 +17,6 @@
   transition $button-transition
   text-transform uppercase
   min-height (100 / 38)em
-  font-size round($button-md * .38)
   .q-icon
     font-size (68 / 38)em
   .q-spinner
@@ -66,7 +65,6 @@
   border-radius 50%
   padding 0
   box-shadow $button-shadow
-  font-size $button-round-md
   min-height 0
   height 1em
   width 1em
@@ -77,13 +75,6 @@
     width .54em
   &:active
     box-shadow $shadow-8
-
-for $name, $size in $button-sizes
-  .q-btn-{$name}
-    font-size round($size * .38)
-for $name, $size in $button-round-sizes
-  .q-btn-round.q-btn-{$name}
-    font-size $size
 
 .q-btn-compact
   padding 2px 6px

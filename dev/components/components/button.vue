@@ -129,15 +129,18 @@
       </p>
 
       <p class="group">
-        <q-btn v-for="i in 30" :key="i" round icon="cloud" color="primary" :size="`${8 + i * 4}px`" />
+        <q-btn v-for="i in 30" :key="i" round icon="cloud" color="primary" :size="`${8 + i * 4}px`" :title="`Size ${8 + i * 4}px`" />
+        <q-btn v-for="size in sizes" :key="size" round icon="cloud" color="primary" :size="size" :title="`Size ${size}`" />
       </p>
 
       <p class="group">
         <q-btn v-for="i in 15" :key="i" :label="`Size ${4 + i * 4}px`" color="primary" :size="`${4 + i * 4}px`" />
+        <q-btn v-for="size in sizes" :key="size" :label="`Size ${size}`" color="primary" :size="size" />
       </p>
 
       <p class="group">
         <q-btn v-for="i in 15" :key="i" icon="cloud" :label="`Size ${4 + i * 4}px`" color="primary" :size="`${4 + i * 4}px`" />
+        <q-btn v-for="size in sizes" :key="size" icon="cloud" :label="`Size ${size}`" color="primary" :size="size" />
       </p>
 
       <p class="caption">Compact - Small, Medium (default) and Big</p>
@@ -274,7 +277,7 @@
       </div>
 
       <h2>Sizes</h2>
-      <template v-for="size in sizes">
+      <div v-for="size in sizes" :key="size">
         <h3 class="capitalize">{{size}}</h3>
         <q-btn color="primary" :size="size" label="Btn" />
         <q-btn color="primary" :size="size" :icon="icon" label="Btn" />
@@ -292,8 +295,8 @@
           :rounded="extra === 'rounded'"
           :glossy="extra === 'glossy'"
         >{{extra}}</q-btn>
-      </template>
-      <template v-for="size in sizes">
+      </div>
+      <div v-for="size in sizes" :key="size">
         <h3 class="capitalize">{{size}}</h3>
         <q-btn color="primary" round :size="size"><q-icon :name="icon" /></q-btn>
         text
@@ -309,11 +312,11 @@
           :push="extra === 'push'"
           :rounded="extra === 'rounded'"
         ><q-icon :name="icon" /></q-btn>
-      </template>
+      </div>
       <br><br>
       <h2>Types</h2>
       <h3 class="capitalize">Rectangular</h3>
-      <template v-for="color in colors">
+      <div v-for="color in colors" :key="color">
         <h4 class="capitalize">{{color}}</h4>
         <q-btn :color="color">{{color}}</q-btn>
         <q-btn :color="color" :icon="icon" :label="color" />
@@ -329,10 +332,10 @@
           :rounded="extra === 'rounded'"
           :glossy="extra === 'glossy'"
         >{{color}}-{{extra}}</q-btn>
-      </template>
+      </div>
 
       <h3 class="capitalize">Circular</h3>
-      <template v-for="color in colors">
+      <div v-for="color in colors" :key="color">
         <h4 class="capitalize">{{color}}</h4>
         <q-btn round :color="color"><q-icon :name="icon" /></q-btn>
         <q-btn round disable :color="color"><q-icon :name="icon" /></q-btn>
@@ -348,7 +351,7 @@
           :glossy="extra === 'glossy'"
           icon="wifi"
         />
-      </template>
+      </div>
     </div>
   </div>
 </template>
@@ -358,7 +361,7 @@ export default {
   data () {
     return {
       icon: 'alarm',
-      sizes: ['sm', 'md', 'lg'],
+      sizes: ['xs', 'sm', 'md', 'lg', 'xl'],
       colors: [
         'primary', 'secondary', 'tertiary', 'positive', 'negative', 'warning', 'info', '', 'light', 'dark',
         'red', 'pink', 'purple', 'deep-purple', 'indigo', 'blue', 'light-blue', 'cyan', 'teal', 'green',
