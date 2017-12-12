@@ -81,5 +81,9 @@ export default {
     size6: 'Muy',
     size7: 'Maximo',
     defaultFont: 'Fuente por defecto'
+  },
+  tree: {
+    noNodes: 'No nodes disponibles',
+    noResults: 'No se encontraron nodes corespondientes'
   }
 }
