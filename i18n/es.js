@@ -83,7 +83,7 @@ export default {
     defaultFont: 'Fuente por defecto'
   },
   tree: {
-    noNodes: 'No nodes disponibles',
-    noResults: 'No se encontraron nodes corespondientes'
+    noNodes: 'No nodos disponibles',
+    noResults: 'No se encontraron nodos corespondientes'
   }
 }
