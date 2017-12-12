@@ -83,7 +83,7 @@ export default {
     defaultFont: 'Police par défaut'
   },
   tree: {
-    noData: 'Aucune nœuds à afficher',
-    noResults: 'Aucune nœuds trouvée'
+    noData: 'Aucune node à afficher',
+    noResults: 'Aucune node trouvée'
   }
 }
