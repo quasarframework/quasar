@@ -207,7 +207,7 @@
               (1 mile)
             </div>
             <div class="col"></div>
-            <q-btn flat color="primary" small icon="directions" label="Start" />
+            <q-btn flat color="primary" size="sm" icon="directions" label="Start" />
           </q-card-actions>
         </q-card>
       </q-collapsible>

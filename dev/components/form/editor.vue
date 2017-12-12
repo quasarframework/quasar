@@ -70,8 +70,8 @@
         gogu: {tip: 'Custom', icon: 'account_balance', handler: vm => vm.runCmd('print')}
       }"
     >
-      <q-btn compact small color="yellow" slot="custom_btn">Wow</q-btn>
-      <q-btn-dropdown small compact no-caps ref="token" no-wrap slot="token" color="green" label="Token">
+      <q-btn compact size="sm" color="yellow" slot="custom_btn">Wow</q-btn>
+      <q-btn-dropdown size="sm" compact no-caps ref="token" no-wrap slot="token" color="green" label="Token">
         <q-list link separator>
           <q-item tag="label" @click="add('email')">
             <q-item-side icon="mail" />

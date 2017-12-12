@@ -54,7 +54,7 @@
         <q-btn @click="$router.replace('/layout-quick/a')">Replace Go to A</q-btn>
         <q-btn @click="$router.replace('/layout-quick/b')">Replace Go to B</q-btn>
         <q-btn @click="$router.replace('/layout-quick/c')">Replace Go to C</q-btn>
-        <div v-for="n in 60">{{n}} Left drawer</div>
+        <div v-for="n in 60" :key="n">{{n}} Left drawer</div>
       </q-scroll-area>
     </q-layout-drawer>
 
@@ -70,7 +70,7 @@
           <q-btn @click="$router.replace('/layout-quick/a')">Replace Go to A</q-btn>
           <q-btn @click="$router.replace('/layout-quick/b')">Replace Go to B</q-btn>
           <q-btn @click="$router.replace('/layout-quick/c')">Replace Go to C</q-btn>
-          <div v-for="n in 60">{{n}} Right drawer</div>
+          <div v-for="n in 60" :key="n">{{n}} Right drawer</div>
         </div>
       </q-layout-drawer>
 
