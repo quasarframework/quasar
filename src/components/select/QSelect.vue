@@ -107,19 +107,19 @@
         :tabindex="0"
         @keydown="__handleKeydown"
       >
-        <template v-if="multiple && !emptyText">
+        <template v-if="!emptyText">
           <q-item-wrapper
             v-for="(opt, index) in visibleOptions"
             :key="JSON.stringify(opt)"
             :cfg="opt"
             :active="selectedIndex === index"
-            @mouseenter="hoverItem(opt, index)"
-            :class="{'text-light cursor-not-allowed': opt.disable, 'cursor-pointer': !opt.disable}"
+            :class="getItemClass(opt)"
             slot-replace
-            @click.capture="__toggleMultiple(opt.value, opt.disable)"
+            @mouseenter="hoverItem(opt, index)"
+            @click.capture="onItemClick(opt.value, opt.disable)"
           >
             <q-toggle
-              v-if="toggle"
+              v-if="multiple && toggle"
               slot="right"
               no-focus
               :color="color"
@@ -127,28 +127,15 @@
               :disable="opt.disable"
             ></q-toggle>
             <q-checkbox
-              v-else
+              v-else-if="multiple"
               slot="left"
               no-focus
               :color="color"
               :value="optModel[opt.index]"
               :disable="opt.disable"
             ></q-checkbox>
-          </q-item-wrapper>
-        </template>
-        <template v-else-if="!emptyText">
-          <q-item-wrapper
-            v-for="(opt, index) in visibleOptions"
-            :key="JSON.stringify(opt)"
-            :cfg="opt"
-            slot-replace
-            :class="{'text-bold text-primary': value === opt.value && !opt.disable, 'text-light cursor-not-allowed': opt.disable, 'cursor-pointer': !opt.disable}"
-            :active="selectedIndex === index"
-            @mouseenter="hoverItem(opt, index)"
-            @click.capture="__singleSelect(opt.value, opt.disable)"
-          >
             <q-radio
-              v-if="radio"
+              v-else-if="radio"
               no-focus
               :color="color"
               slot="left"
@@ -273,6 +260,16 @@ export default {
     }
   },
   methods: {
+    getItemClass (opt) {
+      const itemClass = opt.disable ? ['disabled', 'cursor-not-allowed'] : ['cursor-pointer']
+      if ((this.multiple && this.optModel[opt.index]) || (!this.multiple && this.value === opt.value)) {
+        itemClass.push(`text-${this.color}`)
+      }
+      return itemClass
+    },
+    onItemClick (value, disable) {
+      this.multiple ? this.__toggleMultiple(value, disable) : this.__singleSelect(value, disable)
+    },
     hoverItem (opt, index) {
       if (!opt.disable) {
         this.selectedIndex = index
