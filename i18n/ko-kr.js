@@ -28,6 +28,11 @@ export default {
     release: '놓아서 새로 고침',
     refresh: '새로 고치는 중...'
   },
+  select: {
+    noData: '데이터가 없습니다.',
+    noResults: '결과가 없습니다.',
+    loading: '로드 중...'
+  },
   table: {
     noData: '데이터가 없습니다.',
     noResults: '결과가 없습니다.',
