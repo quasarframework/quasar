@@ -70,7 +70,7 @@
         >
           <q-btn
             v-for="n in yearInterval"
-            :key="n"
+            :key="`yi${n}`"
             flat
             class="q-datetime-btn full-width"
             :class="{active: n + yearMin === year}"
@@ -86,7 +86,7 @@
         >
           <q-btn
             v-for="index in monthInterval"
-            :key="index"
+            :key="`mi${index}`"
             flat
             class="q-datetime-btn full-width"
             :class="{active: month === index + monthMin}"
@@ -126,18 +126,18 @@
             ></q-btn>
           </div>
           <div class="q-datetime-weekdays row items-center justify-start">
-            <div v-for="day in headerDayNames" :key="day">{{day}}</div>
+            <div v-for="day in headerDayNames" :key="`dh${day}`">{{day}}</div>
           </div>
           <div class="q-datetime-days row wrap items-center justify-start content-center">
-            <div v-for="fillerDay in fillerDays" :key="fillerDay" class="q-datetime-fillerday"></div>
+            <div v-for="fillerDay in fillerDays" :key="`fd${fillerDay}`" class="q-datetime-fillerday"></div>
             <template v-if="min">
-              <div v-for="fillerDay in beforeMinDays" :key="fillerDay" class="row items-center content-center justify-center disabled">
+              <div v-for="fillerDay in beforeMinDays" :key="`fb${fillerDay}`" class="row items-center content-center justify-center disabled">
                 {{ fillerDay }}
               </div>
             </template>
             <div
               v-for="monthDay in daysInterval"
-              :key="monthDay"
+              :key="`md${monthDay}`"
               class="row items-center content-center justify-center cursor-pointer"
               :class="{
                 'q-datetime-day-active': monthDay === day,
@@ -148,7 +148,7 @@
               <span>{{ monthDay }}</span>
             </div>
             <template v-if="max">
-              <div v-for="fillerDay in afterMaxDays" :key="fillerDay" class="row items-center content-center justify-center disabled">
+              <div v-for="fillerDay in afterMaxDays" :key="`fa${fillerDay}`" class="row items-center content-center justify-center disabled">
                 {{ fillerDay + maxDay }}
               </div>
             </template>
@@ -178,7 +178,7 @@
               <div v-if="computedFormat24h">
                 <div
                   v-for="n in 24"
-                  :key="n"
+                  :key="`hi${n}`"
                   class="q-datetime-clock-position fmt24"
                   :class="[`q-datetime-clock-pos-${n-1}`, (n - 1) === hour ? 'active' : '']"
                 >
@@ -188,7 +188,7 @@
               <div v-else>
                 <div
                   v-for="n in 12"
-                  :key="n"
+                  :key="`hi${n}`"
                   class="q-datetime-clock-position"
                   :class="['q-datetime-clock-pos-' + n, n === hour ? 'active' : '']"
                 >
@@ -215,7 +215,7 @@
               </div>
               <div
                 v-for="n in 12"
-                :key="n"
+                :key="`mi${n}`"
                 class="q-datetime-clock-position"
                 :class="['q-datetime-clock-pos-' + (n - 1), (n - 1) * 5 === minute ? 'active' : '']"
               >
