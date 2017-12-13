@@ -123,6 +123,15 @@ export default {
                 {
                   label: 'Node 1.1.3 -- not selectable',
                   selectable: false
+                },
+                {
+                  label: 'Node 1.1.4 - not tickable',
+                  tickable: false,
+                  children: [
+                    {
+                      label: 'Node 1.1.4.1'
+                    }
+                  ]
                 }
               ]
             },

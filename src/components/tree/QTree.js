@@ -90,6 +90,11 @@ export default {
           selectable = !node.disabled && this.hasSelection && node.selectable !== false,
           expandable = !node.disabled && node.expandable !== false
 
+        let tickable = !node.disabled && node.tickable !== false
+        if (this.leafTicking && tickable && parent && !parent.tickable) {
+          tickable = false
+        }
+
         let lazy = node.lazy
         if (lazy && this.lazy[key]) {
           lazy = this.lazy[key]
@@ -111,7 +116,7 @@ export default {
           expanded: isParent ? this.innerExpanded.includes(key) : false,
           expandable,
           noTick: node.noTick || (!this.strictTicking && lazy && lazy !== 'loaded'),
-          tickable: node.disabled || node.tickable || (this.leafTicking && parent && parent.tickable),
+          tickable,
           ticked: this.strictTicking
             ? this.innerTicked.includes(key)
             : (isLeaf ? this.innerTicked.includes(key) : false)
@@ -438,7 +443,7 @@ export default {
                   dark: this.dark,
                   keepColor: true,
                   indeterminate: meta.indeterminate,
-                  disable: meta.tickable
+                  disable: !meta.tickable
                 },
                 on: {
                   input: v => {
@@ -474,7 +479,6 @@ export default {
       ])
     },
     __onClick (node, meta) {
-      console.log('__onClick', meta.key)
       if (this.hasSelection) {
         meta.selectable && this.$emit('update:selected', meta.key)
       }
@@ -487,7 +491,6 @@ export default {
       }
     },
     __onExpandClick (node, meta, e) {
-      console.log('__onExpandClick', meta.key)
       if (e !== void 0) {
         e.stopPropagation()
       }
@@ -497,7 +500,6 @@ export default {
       if (meta.indeterminate && state) {
         state = false
       }
-      console.log('__onTickedClick', meta.key, state)
       if (this.strictTicking) {
         this.setTicked([ meta.key ], state)
       }
@@ -507,7 +509,7 @@ export default {
           if (meta.isParent) {
             meta.children.forEach(travel)
           }
-          else if (!meta.noTick || !meta.tickable) {
+          else if (!meta.noTick && meta.tickable) {
             keys.push(meta.key)
           }
         }
