@@ -31,6 +31,7 @@
   </div>
   <div
     v-else
+    ref="target"
     class="q-scroll-area scroll relative-position"
     :style="contentStyle"
   >
