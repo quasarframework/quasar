@@ -2,9 +2,13 @@ import { QIcon } from '../icon'
 import { QCheckbox } from '../checkbox'
 import { QSlideTransition } from '../slide-transition'
 import { QSpinner } from '../spinner'
+import Ripple from '../../directives/ripple'
 
 export default {
   name: 'q-tree',
+  directives: {
+    Ripple
+  },
   props: {
     nodes: Array,
     nodeKey: {
@@ -22,12 +26,13 @@ export default {
 
     icon: String,
 
-    selection: {
+    tickStrategy: {
       type: String,
       validation: v => ['none', 'strict', 'leaf'].includes(v)
     },
-    selected: Array, // sync
+    ticked: Array, // sync
     expanded: Array, // sync
+    selected: {}, // sync
 
     defaultExpandAll: Boolean,
     accordion: Boolean,
@@ -48,18 +53,22 @@ export default {
       return __THEME__ === 'mat' && !this.noRipple
     },
     classes () {
-      return [`text-${this.color}`, {
-        'q-tree-dark': this.dark
-      }]
+      return [
+        `text-${this.color}`,
+        { 'q-tree-dark': this.dark }
+      ]
     },
     hasSelection () {
-      return this.selection !== 'none'
+      return this.selected !== void 0
     },
-    strictSelection () {
-      return this.selection === 'strict'
+    hasTicking () {
+      return this.tickStrategy !== 'none'
     },
-    leafSelection () {
-      return this.selection === 'leaf'
+    strictTicking () {
+      return this.tickStrategy === 'strict'
+    },
+    leafTicking () {
+      return this.tickStrategy === 'leaf'
     },
     computedIcon () {
       return this.icon || this.$q.icon.tree.icon
@@ -77,23 +86,35 @@ export default {
         const
           key = node[this.nodeKey],
           isParent = node.children && node.children.length > 0,
-          isLeaf = !isParent
+          isLeaf = !isParent,
+          selectable = !node.disabled && this.hasSelection && node.selectable !== false,
+          expandable = !node.disabled && node.expandable !== false
+
+        let lazy = node.lazy
+        if (lazy && this.lazy[key]) {
+          lazy = this.lazy[key]
+        }
 
         const m = {
           key,
           parent,
           isParent,
           isLeaf,
+          lazy,
           disabled: node.disabled,
-          freezeExpand: node.disabled || node.freezeExpand,
-          freezeSelect: node.disabled || node.freezeSelect || (this.leafSelection && parent && parent.freezeSelect),
-          link: !node.freezeExpand && isParent,
-          expanded: isParent ? this.innerExpanded.includes(key) : false,
-          selected: this.strictSelection
-            ? this.innerSelected.includes(key)
-            : (isLeaf ? this.innerSelected.includes(key) : false),
+          link: selectable || (expandable && (isParent || lazy === true)),
           children: [],
-          matchesFilter: this.filter ? this.filterMethod(node, this.filter) : true
+          matchesFilter: this.filter ? this.filterMethod(node, this.filter) : true,
+
+          selected: key === this.selected && selectable,
+          selectable,
+          expanded: isParent ? this.innerExpanded.includes(key) : false,
+          expandable,
+          noTick: node.noTick || (!this.strictTicking && lazy && lazy !== 'loaded'),
+          tickable: node.disabled || node.tickable || (this.leafTicking && parent && parent.tickable),
+          ticked: this.strictTicking
+            ? this.innerTicked.includes(key)
+            : (isLeaf ? this.innerTicked.includes(key) : false)
         }
 
         meta[key] = m
@@ -105,19 +126,25 @@ export default {
             m.matchesFilter = m.children.some(n => n.matchesFilter)
           }
 
-          if (this.leafSelection) {
-            m.selected = false
-            m.indeterminate = m.children.some(node => node.indeterminate)
+          if (m.matchesFilter) {
+            if (!this.strictTicking && m.children.every(n => n.noTick)) {
+              m.noTick = true
+            }
 
-            if (!m.indeterminate) {
-              const sel = m.children
-                .reduce((acc, node) => node.selected ? acc + 1 : acc, 0)
+            if (this.leafTicking) {
+              m.ticked = false
+              m.indeterminate = m.children.some(node => node.indeterminate)
 
-              if (sel === m.children.length) {
-                m.selected = true
-              }
-              else if (sel > 0) {
-                m.indeterminate = true
+              if (!m.indeterminate) {
+                const sel = m.children
+                  .reduce((acc, meta) => meta.ticked ? acc + 1 : acc, 0)
+
+                if (sel === m.children.length) {
+                  m.ticked = true
+                }
+                else if (sel > 0) {
+                  m.indeterminate = true
+                }
               }
             }
           }
@@ -133,13 +160,13 @@ export default {
   data () {
     return {
       lazy: {},
-      innerSelected: this.selected || [],
+      innerTicked: this.ticked || [],
       innerExpanded: this.expanded || []
     }
   },
   watch: {
-    selected (val) {
-      this.innerSelected = val
+    ticked (val) {
+      this.innerTicked = val
     },
     expanded (val) {
       this.innerExpanded = val
@@ -166,11 +193,21 @@ export default {
 
       return find(null, this.nodes)
     },
-    getSelectedNodes () {
-      return this.innerSelected.map(key => this.getNodeByKey(key))
+    getTickedNodes () {
+      return this.innerTicked.map(key => this.getNodeByKey(key))
     },
     getExpandedNodes () {
       return this.innerExpanded.map(key => this.getNodeByKey(key))
+    },
+    isTicked (key) {
+      return key && this.meta[key]
+        ? this.meta[key].ticked
+        : false
+    },
+    isExpanded (key) {
+      return key && this.meta[key]
+        ? this.meta[key].expanded
+        : false
     },
     setExpanded (key, state) {
       let target = this.innerExpanded
@@ -186,7 +223,7 @@ export default {
             const collapse = []
             if (this.meta[key].parent) {
               this.meta[key].parent.children.forEach(m => {
-                if (m.key !== key && !m.freezeExpand) {
+                if (m.key !== key && m.expandable) {
                   collapse.push(m.key)
                 }
               })
@@ -216,9 +253,9 @@ export default {
         this.$emit(`update:expanded`, target)
       }
     },
-    setSelected (keys, state) {
-      let target = this.innerSelected
-      const emit = this.selected !== void 0
+    setTicked (keys, state) {
+      let target = this.innerTicked
+      const emit = this.ticked !== void 0
 
       if (emit) {
         target = target.slice()
@@ -233,7 +270,7 @@ export default {
       }
 
       if (emit) {
-        this.$emit(`update:selected`, target)
+        this.$emit(`update:ticked`, target)
       }
     },
     __getSlotScope (node, meta, key) {
@@ -243,9 +280,9 @@ export default {
         get: () => { return meta.expanded },
         set: val => { val !== meta.expanded && this.setExpanded(key, val) }
       })
-      Object.defineProperty(scope, 'selected', {
-        get: () => { return meta.selected },
-        set: val => { val !== meta.selected && this.setSelected([ key ], val) }
+      Object.defineProperty(scope, 'ticked', {
+        get: () => { return meta.ticked },
+        set: val => { val !== meta.ticked && this.setTicked([ key ], val) }
       })
 
       return scope
@@ -306,19 +343,25 @@ export default {
             'q-tree-node-selected': meta.selected,
             disabled: meta.disabled
           },
-          on: { click: () => { this.onNodeClick(node, meta) } }
+          on: { click: () => { this.__onClick(node, meta) } },
+          directives: __THEME__ === 'mat' && meta.selectable
+            ? [{ name: 'ripple' }]
+            : null
         }, [
-          meta.lazyLoading
+          meta.lazy === 'loading'
             ? h(QSpinner, {
               staticClass: 'q-tree-node-header-media q-mr-xs',
               props: { color: this.computedControlColor }
             })
             : (
-              isParent || (node.lazy && !meta.lazyLoaded)
+              isParent || (meta.lazy && meta.lazy !== 'loaded')
                 ? h(QIcon, {
                   staticClass: 'q-tree-node-header-media q-mr-xs transition-generic',
                   'class': { 'rotate-90': meta.expanded },
-                  props: { name: this.computedIcon }
+                  props: { name: this.computedIcon },
+                  on: this.hasSelection
+                    ? { click: e => { this.__onExpandClick(node, meta, e) } }
+                    : undefined
                 })
                 : null
             ),
@@ -327,25 +370,25 @@ export default {
             header
               ? header(slotScope)
               : [
-                this.hasSelection
+                this.hasTicking && !meta.noTick
                   ? h(QCheckbox, {
                     staticClass: 'q-mr-xs',
                     props: {
-                      value: meta.selected,
+                      value: meta.ticked,
                       color: this.computedControlColor,
                       dark: this.dark,
                       indeterminate: meta.indeterminate,
-                      disable: meta.freezeSelect
+                      disable: meta.tickable
                     },
                     on: {
                       input: v => {
-                        this.onNodeSelect(node, meta, v)
+                        this.__onTickedClick(node, meta, v)
                       }
                     }
                   })
                   : this.__getNodeIcon(h, node, 'r'),
                 h('span', node.label),
-                this.hasSelection
+                this.hasTicking
                   ? this.__getNodeIcon(h, node, 'l')
                   : null
               ]
@@ -369,36 +412,76 @@ export default {
           : body
       ])
     },
-    onNodeClick (node, meta) {
-      console.log('onNodeClick', meta.key)
-      if (typeof node.handler === 'function') {
-        this.node.handler(node)
+    __onClick (node, meta) {
+      console.log('__onClick', meta.key)
+      if (this.hasSelection) {
+        meta.selectable && this.$emit('update:selected', meta.key)
+      }
+      else {
+        this.__onExpandClick(node, meta)
       }
 
-      if (meta.isParent && !node.freezeExpand) {
+      if (typeof node.handler === 'function') {
+        node.handler(node)
+      }
+    },
+    __onExpandClick (node, meta, e) {
+      console.log('__onExpandClick', meta.key)
+      if (e !== void 0) {
+        e.stopPropagation()
+      }
+      if (meta.lazy && meta.lazy !== 'loaded') {
+        if (meta.lazy === 'loading') {
+          return
+        }
+
+        const key = meta.key
+
+        this.$set(this.lazy, key, 'loading')
+        this.$emit('lazy-load', {
+          node,
+          key,
+          done: children => {
+            this.lazy[key] = 'loaded'
+            if (children) {
+              node.children = children
+            }
+            this.$nextTick(() => {
+              const m = this.meta[key]
+              if (m && m.isParent) {
+                this.setExpanded(key, true)
+              }
+            })
+          },
+          fail: () => {
+            this.$delete(this.lazy, key)
+          }
+        })
+      }
+      else if (meta.isParent && meta.expandable) {
         this.setExpanded(meta.key, !meta.expanded)
       }
     },
-    onNodeSelect (node, meta, state) {
+    __onTickedClick (node, meta, state) {
       if (meta.indeterminate && state) {
         state = false
       }
-      console.log('onNodeSelect', meta.key, state)
-      if (this.strictSelection) {
-        this.setSelected([ meta.key ], state)
+      console.log('__onTickedClick', meta.key, state)
+      if (this.strictTicking) {
+        this.setTicked([ meta.key ], state)
       }
-      else if (this.leafSelection) {
+      else if (this.leafTicking) {
         const keys = []
         const travel = meta => {
           if (meta.isParent) {
             meta.children.forEach(travel)
           }
-          else if (!meta.freezeSelect) {
+          else if (!meta.noTick || !meta.tickable) {
             keys.push(meta.key)
           }
         }
         travel(meta)
-        this.setSelected(keys, state)
+        this.setTicked(keys, state)
       }
     }
   },
@@ -412,7 +495,11 @@ export default {
         'class': this.classes
       },
       children.length === 0
-        ? (this.filter ? this.noResultsLabel || this.$q.i18n.tree.noResults : this.noNodesLabel || this.$q.i18n.tree.noNodes)
+        ? (
+          this.filter
+            ? this.noResultsLabel || this.$q.i18n.tree.noResults
+            : this.noNodesLabel || this.$q.i18n.tree.noNodes
+        )
         : children
     )
   },
@@ -425,8 +512,10 @@ export default {
       expanded = [],
       travel = node => {
         if (node.children && node.children.length > 0) {
-          expanded.push(node[this.nodeKey])
-          node.children.forEach(travel)
+          if (node.expandable !== false) {
+            expanded.push(node[this.nodeKey])
+            node.children.forEach(travel)
+          }
         }
       }
 

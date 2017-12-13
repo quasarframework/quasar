@@ -4,11 +4,12 @@
       <h1>WIP</h1>
       <div class="row sm-gutter items-center">
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <q-select v-model="selection" :options="[{label: 'None', value: 'none'}, {label: 'Leaf', value: 'leaf'}, {label: 'Strict', value: 'strict'}]" stack-label="Selection" />
+          <q-select v-model="tickStrategy" :options="[{label: 'None', value: 'none'}, {label: 'Leaf', value: 'leaf'}, {label: 'Strict', value: 'strict'}]" stack-label="Tick Strategy" />
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
           <q-toggle v-model="accordion" label="Accordion mode" />
           <q-toggle v-model="dark" label="On dark background" />
+          <q-toggle v-model="selectableNodes" label="Selectable nodes" />
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
           <q-input v-model="filter" stack-label="Filter" />
@@ -17,12 +18,15 @@
 
       <div class="row sm-gutter items-center">
         <div class="col-6">
-          <span class="text-bold">Selected</span>:<br>{{selected}}
+          <span class="text-bold">Ticked</span>:<br>{{ticked}}
         </div>
         <div class="col-6">
           <span class="text-bold">Expanded</span>:<br>{{expanded}}
         </div>
-        <div class="col-12">
+        <div v-if="selectableNodes" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <span class="text-bold">Selected</span>:<br>{{selected}}
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
           <q-btn @click="getNodeByKey" no-caps label="getNodeByKey test" />
         </div>
       </div>
@@ -32,8 +36,9 @@
           :nodes="nodes"
           ref="gigi"
           node-key="label"
-          :selection="selection"
           :selected.sync="selected"
+          :tick-strategy="tickStrategy"
+          :ticked.sync="ticked"
           :expanded.sync="expanded"
           :dark="dark"
           :accordion="accordion"
@@ -58,11 +63,20 @@ export default {
       return this.dark ? 'amber' : 'secondary'
     }
   },
+  watch: {
+    selectableNodes (v) {
+      this.selected = v
+        ? this.selected || null
+        : undefined
+    }
+  },
   data () {
     return {
-      selection: 'leaf',
-      selected: ['Node 2.2'],
+      selected: null,
+      tickStrategy: 'leaf',
+      ticked: ['Node 2.2'],
       expanded: ['Node 2.1.4 - Disabled'],
+      selectableNodes: true,
       dark: false,
       accordion: false,
       filter: '',
@@ -91,7 +105,8 @@ export default {
                   ]
                 },
                 {
-                  label: 'Node 1.1.3'
+                  label: 'Node 1.1.3 -- not selectable',
+                  selectable: false
                 }
               ]
             },
@@ -99,7 +114,7 @@ export default {
               label: 'Node 1.2'
             },
             {
-              label: 'Node 1.3',
+              label: 'Node 1.3 - tap on me!',
               handler: () => {
                 this.$q.notify('Tapped on node 1.3')
               }
@@ -114,6 +129,10 @@ export default {
               children: [
                 {
                   label: 'Node 2.1.1'
+                },
+                {
+                  label: 'Node 2.1.1 BIS - no tick present',
+                  noTick: true
                 },
                 {
                   label: 'Node 2.1.2',
@@ -141,9 +160,9 @@ export default {
                   ]
                 },
                 {
-                  label: 'Node 2.1.3 - freeze exp/sel',
-                  freezeExpand: true,
-                  freezeSelect: true,
+                  label: 'Node 2.1.3 - freeze exp/tick',
+                  expandable: false,
+                  tickable: true,
                   children: [
                     {
                       label: 'Node 2.1.3.1'
@@ -191,22 +210,22 @@ export default {
       // call fail() if any error occurs
 
       setTimeout(() => {
-        if (key === 'Node 2.4 - Lazy load empty') {
+        if (key.indexOf('Lazy load empty') > -1) {
           done([])
           return
         }
 
+        const label = node.label.replace(' - Lazy load', '')
+
         done([
-          { label: 'Node 2.3.1', expanded: false },
-          { label: 'Node 2.3.2', expanded: false },
-          { label: 'Node 2.3.3', expanded: false },
+          { label: `${label}.1` },
+          { label: `${label}.2` },
+          { label: `${label}.3`, lazy: true },
           {
-            label: 'Node 2.3.4',
-            expanded: false,
-            selected: false,
+            label: `${label}.4`,
             children: [
-              { label: 'Node 2.3.4.1', expanded: false, selected: true },
-              { label: 'Node 2.3.4.2', expanded: false, selected: false }
+              { label: `${label}.4.1`, lazy: true },
+              { label: `${label}.4.2`, lazy: true }
             ]
           }
         ])

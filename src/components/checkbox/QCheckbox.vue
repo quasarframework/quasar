@@ -67,7 +67,7 @@ export default {
     uncheckedStyle () {
       return this.isActive
         ? {transition: 'opacity 650ms cubic-bezier(0.23, 1, 0.32, 1) 150ms', opacity: 0}
-        : {transition: 'opacity 1000ms cubic-bezier(0.23, 1, 0.32, 1) 200ms', opacity: 1}
+        : {opacity: 1}
     }
   }
 }

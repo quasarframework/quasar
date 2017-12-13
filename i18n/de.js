@@ -85,5 +85,9 @@ export default {
     size6: 'Sehr groß',
     size7: 'Maximum',
     defaultFont: 'Standard Schrift'
+  },
+  tree: {
+    noNodes: 'Keine Knoten verfügbar',
+    noResults: 'Keine passenden Knoten gefunden'
   }
 }

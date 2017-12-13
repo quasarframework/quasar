@@ -90,5 +90,9 @@ export default {
     size6: 'Очень большой',
     size7: 'Огромный',
     defaultFont: 'Шрифт по умолчанию'
+  },
+  tree: {
+    noNodes: 'Нет доступных узлов',
+    noResults: 'Совпадений не найдено'
   }
 }

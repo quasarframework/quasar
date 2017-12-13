@@ -49,8 +49,11 @@
 .q-tree-node-link
   cursor pointer
 
-.q-tree-single-selection .q-tree-node-selected
+.q-tree-node-focused
   background rgba(0, 0, 0, .15)
+.q-tree-dark .q-tree-node-focused
+  background rgba(255, 255, 255, .4)
+
 body.desktop
   .q-tree-node-link:hover
     background rgba(0, 0, 0, .1)
@@ -65,10 +68,6 @@ body.desktop
 .q-tree-node-header-media
   font-size 130%
   color currentColor
-
-.q-tree-dark
-  &.q-tree-single-selection .q-tree-node-selected
-    background rgba(255, 255, 255, .4)
 
 .q-tree
   // Remove connectors before root
