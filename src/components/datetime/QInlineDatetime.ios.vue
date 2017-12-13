@@ -11,7 +11,7 @@
             <div ref="month" class="q-datetime-col-wrapper" :style="__monthStyle">
               <div
                 v-for="index in monthInterval"
-                :key="index"
+                :key="`mi${index}`"
                 class="q-datetime-item"
               >
                 {{ $q.i18n.date.months[index + monthMin - 1] }}
@@ -26,7 +26,7 @@
             <div ref="date" class="q-datetime-col-wrapper" :style="__dayStyle">
               <div
                 v-for="index in daysInterval"
-                :key="index"
+                :key="`di${index}`"
                 class="q-datetime-item"
               >
                 {{ index + dayMin - 1 }}
@@ -41,7 +41,7 @@
             <div ref="year" class="q-datetime-col-wrapper" :style="__yearStyle">
               <div
                 v-for="n in yearInterval"
-                :key="n"
+                :key="`yi${n}`"
                 class="q-datetime-item"
               >
                 {{ n + yearMin }}
@@ -58,7 +58,7 @@
             <div ref="hour" class="q-datetime-col-wrapper" :style="__hourStyle">
               <div
                 v-for="n in hourInterval"
-                :key="n"
+                :key="`hi${n}`"
                 class="q-datetime-item"
               >
                 {{ n + hourMin - 1 }}
@@ -73,7 +73,7 @@
             <div ref="minute" class="q-datetime-col-wrapper" :style="__minuteStyle">
               <div
                 v-for="n in minuteInterval"
-                :key="n"
+                :key="`ni${n}`"
                 class="q-datetime-item"
               >
                 {{ __pad(n + minuteMin - 1) }}
