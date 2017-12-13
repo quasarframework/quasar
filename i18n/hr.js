@@ -86,5 +86,9 @@ export default {
     size6: 'Vrlo veliko',
     size7: 'Nejveće',
     defaultFont: 'Zadani font'
+  },
+  tree: {
+    noNodes: 'Nema nijednog čvora',
+    noResults: 'Nema odgovarajućih čvorova'
   }
 }

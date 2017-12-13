@@ -12,6 +12,7 @@ export default {
       validator: v => ['up', 'right', 'down', 'left'].includes(v)
     },
     color: String,
+    textColor: String,
     icon: String,
     iconRight: String,
     avatar: String,
@@ -30,7 +31,10 @@ export default {
       this.pointing && cls.push(`pointing-${this.pointing}`)
       if (this.color) {
         cls.push(`bg-${this.color}`)
-        cls.push(`text-white`)
+        !this.textColor && cls.push(`text-white`)
+      }
+      if (this.textColor) {
+        cls.push(`text-${this.textColor}`)
       }
       return cls
     }
