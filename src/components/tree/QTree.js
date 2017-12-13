@@ -225,7 +225,38 @@ export default {
         this.innerExpanded = expanded
       }
     },
-    setExpanded (key, state) {
+    setExpanded (key, state, node = this.getNodeByKey(key), meta = this.meta[key]) {
+      if (meta.lazy && meta.lazy !== 'loaded') {
+        if (meta.lazy === 'loading') {
+          return
+        }
+
+        this.$set(this.lazy, key, 'loading')
+        this.$emit('lazy-load', {
+          node,
+          key,
+          done: children => {
+            this.lazy[key] = 'loaded'
+            if (children) {
+              node.children = children
+            }
+            this.$nextTick(() => {
+              const m = this.meta[key]
+              if (m && m.isParent) {
+                this.__setExpanded(key, true)
+              }
+            })
+          },
+          fail: () => {
+            this.$delete(this.lazy, key)
+          }
+        })
+      }
+      else if (meta.isParent && meta.expandable) {
+        this.__setExpanded(key, state)
+      }
+    },
+    __setExpanded (key, state) {
       let target = this.innerExpanded
       const emit = this.expanded !== void 0
 
@@ -295,7 +326,7 @@ export default {
       }
     },
     __getSlotScope (node, meta, key) {
-      const scope = { node, key, color: this.color, dark: this.dark }
+      const scope = { tree: this, node, key, color: this.color, dark: this.dark }
 
       Object.defineProperty(scope, 'expanded', {
         get: () => { return meta.expanded },
@@ -335,8 +366,8 @@ export default {
         key = node[this.nodeKey],
         meta = this.meta[key],
         header = node.header
-          ? this.$scopedSlots[`header-${node.header}`]
-          : null
+          ? this.$scopedSlots[`header-${node.header}`] || this.$scopedSlots['default-header']
+          : this.$scopedSlots['default-header']
 
       const children = meta.isParent
         ? this.__getChildren(h, node.children)
@@ -346,10 +377,10 @@ export default {
 
       let
         body = node.body
-          ? this.$scopedSlots[`body-${node.body}`]
-          : null,
+          ? this.$scopedSlots[`body-${node.body}`] || this.$scopedSlots['default-body']
+          : this.$scopedSlots['default-body'],
         slotScope = header || body
-          ? this.__getSlotScope(node, this.key)
+          ? this.__getSlotScope(node, meta, key)
           : null
 
       if (body) {
@@ -460,37 +491,7 @@ export default {
       if (e !== void 0) {
         e.stopPropagation()
       }
-      if (meta.lazy && meta.lazy !== 'loaded') {
-        if (meta.lazy === 'loading') {
-          return
-        }
-
-        const key = meta.key
-
-        this.$set(this.lazy, key, 'loading')
-        this.$emit('lazy-load', {
-          node,
-          key,
-          done: children => {
-            this.lazy[key] = 'loaded'
-            if (children) {
-              node.children = children
-            }
-            this.$nextTick(() => {
-              const m = this.meta[key]
-              if (m && m.isParent) {
-                this.setExpanded(key, true)
-              }
-            })
-          },
-          fail: () => {
-            this.$delete(this.lazy, key)
-          }
-        })
-      }
-      else if (meta.isParent && meta.expandable) {
-        this.setExpanded(meta.key, !meta.expanded)
-      }
+      this.setExpanded(meta.key, !meta.expanded, node, meta)
     },
     __onTickedClick (node, meta, state) {
       if (meta.indeterminate && state) {

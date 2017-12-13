@@ -1,7 +1,6 @@
 <template>
   <div>
     <div class="layout-padding">
-      <h1>WIP</h1>
       <div class="row sm-gutter items-center">
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
           <q-select v-model="tickStrategy" :options="[{label: 'None', value: 'none'}, {label: 'Leaf', value: 'leaf'}, {label: 'Strict', value: 'strict'}]" stack-label="Tick Strategy" />
@@ -47,6 +46,14 @@
           default-expand-all
           @lazy-load="onLazyLoad"
         >
+          <!--
+            <div slot="default-header" slot-scope="prop">
+              Default H: {{prop.node.label}}
+            </div>
+            <div slot="default-body" slot-scope="prop">
+              Default body
+            </div>
+          -->
           <div slot="header-custom" slot-scope="prop" class="row items-center">
             <q-icon :name="prop.node.icon" size="32px" class="q-mr-sm" />
             <div>
@@ -54,6 +61,7 @@
               <br>Wooooow. Custom
             </div>
           </div>
+
           <div slot="body-2-1-2-1" slot-scope="prop">
             Content for: {{prop.key}}
           </div>
@@ -150,7 +158,17 @@ export default {
                   children: [
                     {
                       label: 'Node 2.1.2.1 - body slot',
-                      body: '2-1-2-1'
+                      body: '2-1-2-1',
+                      children: [
+                        {
+                          label: 'Node q',
+                          lazy: true
+                        },
+                        {
+                          label: 'Node a',
+                          lazy: true
+                        }
+                      ]
                     },
                     {
                       label: 'Node 2.1.2.2 - body slot & children',
