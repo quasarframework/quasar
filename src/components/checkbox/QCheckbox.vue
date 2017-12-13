@@ -1,9 +1,9 @@
 <template>
   <div
     class="q-checkbox q-option cursor-pointer no-outline row inline no-wrap items-center"
-    :class="{disabled: disable, reverse: leftLabel, 'q-focusable': focusable && !disable}"
+    :class="{disabled: disable, reverse: leftLabel, 'q-focusable': focusable}"
     @click.stop.prevent="toggle"
-    :tabindex="focusable && !disable ? 0 : null"
+    :tabindex="tabindex"
     @focus="$emit('focus')"
     @blur="$emit('blur')"
     @keydown.space.enter.prevent="toggle(false)"
@@ -47,11 +47,7 @@ export default {
     indeterminate: Boolean,
     checkedIcon: String,
     uncheckedIcon: String,
-    indeterminateIcon: String,
-    focusable: {
-      type: Boolean,
-      default: true
-    }
+    indeterminateIcon: String
   },
   computed: {
     checkedStyle () {

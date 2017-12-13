@@ -121,7 +121,7 @@
             <q-toggle
               v-if="toggle"
               slot="right"
-              :focusable="false"
+              no-focus
               :color="color"
               :value="optModel[opt.index]"
               :disable="opt.disable"
@@ -129,7 +129,7 @@
             <q-checkbox
               v-else
               slot="left"
-              :focusable="false"
+              no-focus
               :color="color"
               :value="optModel[opt.index]"
               :disable="opt.disable"
@@ -149,7 +149,7 @@
           >
             <q-radio
               v-if="radio"
-              :focusable="false"
+              no-focus
               :color="color"
               slot="left"
               :value="value"

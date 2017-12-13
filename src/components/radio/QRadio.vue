@@ -1,9 +1,9 @@
 <template>
   <div
     class="q-radio q-option cursor-pointer no-outline row inline no-wrap items-center"
-    :class="{disabled: disable, reverse: leftLabel, 'q-focusable': focusable && !disable}"
+    :class="{disabled: disable, reverse: leftLabel, 'q-focusable': focusable}"
     @click.stop.prevent="select"
-    :tabindex="focusable && !disable ? 0 : null"
+    :tabindex="tabindex"
     @focus="$emit('focus')"
     @blur="$emit('blur')"
     @keydown.space.enter.prevent="select(false)"
@@ -49,11 +49,7 @@ export default {
       required: true
     },
     checkedIcon: String,
-    uncheckedIcon: String,
-    focusable: {
-      type: Boolean,
-      default: true
-    }
+    uncheckedIcon: String
   },
   computed: {
     model: {

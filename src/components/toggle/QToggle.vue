@@ -1,10 +1,10 @@
 <template>
   <div
     class="q-toggle q-option cursor-pointer no-outline row inline no-wrap items-center"
-    :class="{disabled: disable, reverse: leftLabel, 'q-focusable': focusable && !disable}"
+    :class="{disabled: disable, reverse: leftLabel, 'q-focusable': focusable}"
     v-touch-swipe.horizontal="__swipe"
     @click.stop.prevent="toggle"
-    :tabindex="focusable && !disable ? 0 : null"
+    :tabindex="tabindex"
     @focus="$emit('focus')"
     @blur="$emit('blur')"
     @keydown.space.enter.prevent="toggle(false)"
@@ -49,11 +49,7 @@ export default {
   props: {
     icon: String,
     checkedIcon: String,
-    uncheckedIcon: String,
-    focusable: {
-      type: Boolean,
-      default: true
-    }
+    uncheckedIcon: String
   },
   computed: {
     currentIcon () {
