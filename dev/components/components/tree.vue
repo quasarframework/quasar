@@ -33,8 +33,8 @@
 
       <div class="q-mt-lg q-pa-lg" :class="{'bg-black': dark}">
         <q-tree
+          ref="tree"
           :nodes="nodes"
-          ref="gigi"
           node-key="label"
           :selected.sync="selected"
           :tick-strategy="tickStrategy"
@@ -47,6 +47,13 @@
           default-expand-all
           @lazy-load="onLazyLoad"
         >
+          <div slot="header-custom" slot-scope="prop" class="row items-center">
+            <q-icon :name="prop.node.icon" size="32px" class="q-mr-sm" />
+            <div>
+              {{prop.node.label}} <q-chip color="red">New</q-chip>
+              <br>Wooooow. Custom
+            </div>
+          </div>
           <div slot="body-2-1-2-1" slot-scope="prop">
             Content for: {{prop.key}}
           </div>
@@ -60,7 +67,7 @@
 export default {
   computed: {
     color () {
-      return this.dark ? 'amber' : 'secondary'
+      return this.dark ? 'red' : 'secondary'
     }
   },
   watch: {
@@ -87,6 +94,7 @@ export default {
           children: [
             {
               label: 'Node 1.1 - accordion test on children',
+              avatar: 'statics/boy-avatar.png',
               children: [
                 {
                   label: 'Node 1.1.1',
@@ -111,10 +119,13 @@ export default {
               ]
             },
             {
-              label: 'Node 1.2'
+              label: 'Node 1.2',
+              icon: 'map',
+              header: 'custom'
             },
             {
               label: 'Node 1.3 - tap on me!',
+              img: 'statics/mountains.jpg',
               handler: () => {
                 this.$q.notify('Tapped on node 1.3')
               }
@@ -156,6 +167,18 @@ export default {
                     {
                       label: 'Node 2.1.2.3 - header slot',
                       header: '2-1-2-2'
+                    }
+                  ]
+                },
+                {
+                  label: 'Node 2.1.x - Disabled',
+                  disabled: true,
+                  children: [
+                    {
+                      label: 'Node 2.1.x.1'
+                    },
+                    {
+                      label: 'Node 2.1.x.2'
                     }
                   ]
                 },
@@ -204,7 +227,7 @@ export default {
   },
   methods: {
     getNodeByKey () {
-      console.log(this.$refs.gigi.getNodeByKey('Node 2.1.1'))
+      console.log(this.$refs.tree.getNodeByKey('Node 2.1.1'))
     },
     onLazyLoad ({ node, key, done, fail }) {
       // call fail() if any error occurs

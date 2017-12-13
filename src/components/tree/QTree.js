@@ -183,7 +183,7 @@ export default {
         if (Array.isArray(node)) {
           return reduce.call(Object(node), find, result)
         }
-        if (node[this.nodeProp] === key) {
+        if (node[this.nodeKey] === key) {
           return node
         }
         if (node.children) {
@@ -199,15 +199,31 @@ export default {
     getExpandedNodes () {
       return this.innerExpanded.map(key => this.getNodeByKey(key))
     },
-    isTicked (key) {
-      return key && this.meta[key]
-        ? this.meta[key].ticked
-        : false
-    },
     isExpanded (key) {
       return key && this.meta[key]
         ? this.meta[key].expanded
         : false
+    },
+    expandAll () {
+      const
+        expanded = [],
+        travel = node => {
+          if (node.children && node.children.length > 0) {
+            if (node.expandable !== false) {
+              expanded.push(node[this.nodeKey])
+              node.children.forEach(travel)
+            }
+          }
+        }
+
+      this.nodes.forEach(travel)
+
+      if (this.expanded !== void 0) {
+        this.$emit('update:expanded', expanded)
+      }
+      else {
+        this.innerExpanded = expanded
+      }
     },
     setExpanded (key, state) {
       let target = this.innerExpanded
@@ -253,6 +269,11 @@ export default {
         this.$emit(`update:expanded`, target)
       }
     },
+    isTicked (key) {
+      return key && this.meta[key]
+        ? this.meta[key].ticked
+        : false
+    },
     setTicked (keys, state) {
       let target = this.innerTicked
       const emit = this.ticked !== void 0
@@ -294,10 +315,20 @@ export default {
           : nodes
       ).map(child => this.__getNode(h, child))
     },
-    __getNodeIcon (h, node, side) {
-      return node.icon
-        ? h(QIcon, { staticClass: `q-m${side}-xs`, props: { name: node.icon } })
-        : null
+    __getNodeMedia (h, node) {
+      if (node.icon) {
+        return h(QIcon, {
+          staticClass: `q-tree-icon q-mr-sm`,
+          props: { name: node.icon }
+        })
+      }
+      if (node.img || node.avatar) {
+        return h('img', {
+          staticClass: `q-tree-img q-mr-sm`,
+          'class': { avatar: node.avatar },
+          domProps: { src: node.img || node.avatar }
+        })
+      }
     },
     __getNode (h, node) {
       const
@@ -337,7 +368,7 @@ export default {
         staticClass: 'q-tree-node'
       }, [
         h('div', {
-          staticClass: 'q-tree-node-header relative-position row inline items-center',
+          staticClass: 'q-tree-node-header relative-position row items-center',
           'class': {
             'q-tree-node-link': meta.link,
             'q-tree-node-selected': meta.selected,
@@ -356,7 +387,7 @@ export default {
             : (
               isParent || (meta.lazy && meta.lazy !== 'loaded')
                 ? h(QIcon, {
-                  staticClass: 'q-tree-node-header-media q-mr-xs transition-generic',
+                  staticClass: 'q-tree-arrow q-mr-xs transition-generic',
                   'class': { 'rotate-90': meta.expanded },
                   props: { name: this.computedIcon },
                   on: this.hasSelection
@@ -366,31 +397,30 @@ export default {
                 : null
             ),
 
-          h('span', { 'class': this.contentClass }, [
+          h('span', { 'staticClass': 'row items-center', 'class': this.contentClass }, [
+            this.hasTicking && !meta.noTick
+              ? h(QCheckbox, {
+                staticClass: 'q-mr-xs',
+                props: {
+                  value: meta.ticked,
+                  color: this.computedControlColor,
+                  dark: this.dark,
+                  keepColor: true,
+                  indeterminate: meta.indeterminate,
+                  disable: meta.tickable
+                },
+                on: {
+                  input: v => {
+                    this.__onTickedClick(node, meta, v)
+                  }
+                }
+              })
+              : null,
             header
               ? header(slotScope)
               : [
-                this.hasTicking && !meta.noTick
-                  ? h(QCheckbox, {
-                    staticClass: 'q-mr-xs',
-                    props: {
-                      value: meta.ticked,
-                      color: this.computedControlColor,
-                      dark: this.dark,
-                      indeterminate: meta.indeterminate,
-                      disable: meta.tickable
-                    },
-                    on: {
-                      input: v => {
-                        this.__onTickedClick(node, meta, v)
-                      }
-                    }
-                  })
-                  : this.__getNodeIcon(h, node, 'r'),
-                h('span', node.label),
-                this.hasTicking
-                  ? this.__getNodeIcon(h, node, 'l')
-                  : null
+                this.__getNodeMedia(h, node),
+                h('span', node.label)
               ]
           ])
         ]),
@@ -486,7 +516,6 @@ export default {
     }
   },
   render (h) {
-    console.log('RENDER')
     const children = this.__getChildren(h, this.nodes)
 
     return h(
@@ -504,28 +533,8 @@ export default {
     )
   },
   created () {
-    if (!this.defaultExpandAll) {
-      return
-    }
-
-    const
-      expanded = [],
-      travel = node => {
-        if (node.children && node.children.length > 0) {
-          if (node.expandable !== false) {
-            expanded.push(node[this.nodeKey])
-            node.children.forEach(travel)
-          }
-        }
-      }
-
-    this.nodes.forEach(travel)
-
-    if (this.expanded !== void 0) {
-      this.$emit('update:expanded', expanded)
-    }
-    else {
-      this.innerExpanded = expanded
+    if (this.defaultExpandAll) {
+      this.expandAll()
     }
   }
 }
