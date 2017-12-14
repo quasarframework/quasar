@@ -5,7 +5,9 @@
         <pre>{{model}}</pre>
       </div>
 
-      <q-inline-color-picker v-model="model" />
+      <div>
+        <q-color v-model="model" />
+      </div>
     </div>
   </div>
 </template>
