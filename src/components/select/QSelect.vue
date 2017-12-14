@@ -79,7 +79,7 @@
       :disable="disable"
       :offset="[0, 10]"
       max-height="100vh"
-      class="column no-wrap no-scroll"
+      class="q-select-popover column no-wrap no-scroll"
       @show="onShowPopover"
       @hide="onHidePopover"
     >
@@ -285,6 +285,7 @@ export default {
     },
     onInputFilter () {
       if (this.$refs.popover && this.$refs.popover.showing) {
+        this.$refs.popover.reposition()
         this.selectedIndex = this.defaultSelectedIndex
         this.$nextTick(this.scrollToSelectedItem)
       }
