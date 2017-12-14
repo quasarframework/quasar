@@ -60,7 +60,7 @@ export default {
     __getSaturation (h) {
       return h('div', {
         ref: 'saturation',
-        staticClass: 'q-color-saturation non-selectable',
+        staticClass: 'q-color-saturation non-selectable relative-position overflow-hidden cursor-pointer',
         style: this.saturationStyle,
         on: {
           click: this.__saturationClick
@@ -70,10 +70,10 @@ export default {
           value: this.__saturationPan
         }]
       }, [
-        h('div', { staticClass: 'q-color-saturation-white absolute-full cursor-pointer' }),
-        h('div', { staticClass: 'q-color-saturation-black absolute-full cursor-pointer' }),
+        h('div', { staticClass: 'q-color-saturation-white absolute-full' }),
+        h('div', { staticClass: 'q-color-saturation-black absolute-full' }),
         h('div', {
-          staticClass: 'q-color-saturation-pointer absolute',
+          staticClass: 'absolute',
           style: this.saturationPointerStyle
         }, [
           h('div', { staticClass: 'q-color-saturation-circle' })
@@ -131,7 +131,7 @@ export default {
     __getNumericInputs (h) {
       return ['r', 'g', 'b', 'a'].map(type => {
         const max = type === 'a' ? 100 : 255
-        return h('div', { staticClass: 'col' }, [
+        return h('div', { staticClass: 'col q-color-padding' }, [
           h('input', {
             attrs: {
               type: 'number',
@@ -178,7 +178,6 @@ export default {
           h(QBtn, {
             props: {
               flat: true,
-              size: 'xs',
               color: 'grey-7'
             },
             on: {
