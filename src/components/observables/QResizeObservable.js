@@ -33,13 +33,16 @@ export default {
       object = document.createElement('object'),
       onIE = this.$q.platform.is.ie
 
-    this.size = {}
+    this.size = {
+      width: this.$el.offsetWidth,
+      height: this.$el.offsetHeight
+    }
+    this.emit()
 
     this.object = object
     object.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; pointer-events: none; z-index: -1;')
     object.onload = () => {
       object.contentDocument.defaultView.addEventListener('resize', this.onResize)
-      this.onResize()
     }
     object.type = 'text/html'
     if (onIE) {
