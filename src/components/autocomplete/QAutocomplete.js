@@ -66,12 +66,12 @@ export default {
     isWorking () {
       return this.$refs && this.$refs.popover
     },
-    trigger () {
+    trigger (val) {
       if (!this.__input.hasFocus() || !this.isWorking()) {
         return
       }
 
-      const terms = this.__input.val
+      const terms = val || this.__input.val
       const searchId = uid()
       this.searchId = searchId
 
@@ -157,16 +157,16 @@ export default {
         this.setValue(this.results[this.selectedIndex])
       }
     },
-    __delayTrigger () {
+    onInput (e) {
       this.__clearSearch()
       if (!this.__input.hasFocus()) {
         return
       }
       if (this.staticData) {
-        this.trigger()
+        this.trigger(e.target.value)
         return
       }
-      this.timer = setTimeout(this.trigger, this.debounce)
+      this.timer = setTimeout(this.trigger.bind(null, e.target.value), this.debounce)
     },
     __handleKeypress (e) {
       switch (e.keyCode || e.which) {
@@ -205,7 +205,7 @@ export default {
       this.inputEl = this.__input.getEl()
       this.inputEl.addEventListener('keydown', this.__handleKeypress)
       this.inputEl.addEventListener('blur', this.blurHide)
-      this.inputEl.addEventListener('input', this.__delayTrigger)
+      this.inputEl.addEventListener('input', this.onInput)
     })
   },
   beforeDestroy () {
@@ -217,7 +217,7 @@ export default {
     if (this.inputEl) {
       this.inputEl.removeEventListener('keydown', this.__handleKeypress)
       this.inputEl.removeEventListener('blur', this.blurHide)
-      this.inputEl.removeEventListener('input', this.__delayTrigger)
+      this.inputEl.removeEventListener('input', this.onInput)
       this.hide()
     }
   },
