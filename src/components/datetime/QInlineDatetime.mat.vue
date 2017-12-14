@@ -296,11 +296,13 @@ export default {
     },
     focused (value) {
       if (value === true) {
-        if (this.view !== this.initialView) {
-          this.view = this.initialView
-        }
-        else {
-          this.scrollView(this.view)
+        if (this.initialView !== '') {
+          if (this.view !== this.initialView) {
+            this.view = this.initialView
+          }
+          else {
+            this.scrollView(this.view)
+          }
         }
       }
     }
