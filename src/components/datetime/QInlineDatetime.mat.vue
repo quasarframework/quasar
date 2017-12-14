@@ -292,18 +292,16 @@ export default {
       if (value !== 'year' && value !== 'month') {
         return
       }
-
-      let
-        view = this.$refs.selector,
-        rows = value === 'year' ? this.year - this.yearMin : this.month - this.monthMin
-
-      this.$nextTick(() => {
-        view.scrollTop = rows * height(view.children[0].children[0]) - height(view) / 2.5
-      })
+      this.scrollView(value)
     },
     focused (value) {
-      if (!value) {
-        this.view = this.initialView
+      if (value === true) {
+        if (this.view !== this.initialView) {
+          this.view = this.initialView
+        }
+        else {
+          this.scrollView(this.view)
+        }
       }
     }
   },
@@ -414,14 +412,14 @@ export default {
     /* date */
     setYear (value) {
       if (this.editable) {
-        this.model = new Date(this.model.setFullYear(this.__parseTypeValue('year', value)))
         this.view = 'day'
+        this.model = new Date(this.model.setFullYear(this.__parseTypeValue('year', value)))
       }
     },
     setMonth (value) {
       if (this.editable) {
-        this.model = adjustDate(this.model, {month: value})
         this.view = 'day'
+        this.model = adjustDate(this.model, {month: value})
       }
     },
     setDay (value) {
@@ -449,6 +447,15 @@ export default {
       }
 
       this.model = new Date(this.model.setMinutes(this.__parseTypeValue('minute', value)))
+    },
+    scrollView (value) {
+      let
+        view = this.$refs.selector,
+        rows = value === 'year' ? this.year - this.yearMin : this.month - this.monthMin
+
+      this.$nextTick(() => {
+        view.scrollTop = rows * height(view.children[0].children[0]) - height(view) / 2.5
+      })
     },
 
     /* helpers */
