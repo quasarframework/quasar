@@ -5,7 +5,7 @@
     </q-transition>
     <q-ajax-bar ref="bar" />
     <div
-      style="padding: 0px 10px; right: 10px; top: 10px"
+      style="padding: 0px 10px; right: 10px; bottom: 10px"
       class="bg-white shadow-4 fixed z-top"
     >
       <q-select

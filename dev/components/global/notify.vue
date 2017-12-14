@@ -4,51 +4,51 @@
       <div class="fixed-center z-max">
         <div class="row group">
           <div>
-            <q-btn round small color="secondary" @click="alertAsMethod('top-left')">
+            <q-btn round size="sm" color="secondary" @click="alertAsMethod('top-left')">
               <q-icon name="arrow_back" class="rotate-45" />
             </q-btn>
           </div>
           <div>
-            <q-btn round small color="tertiary" @click="alertAsMethod('top')">
+            <q-btn round size="sm" color="tertiary" @click="alertAsMethod('top')">
               <q-icon name="arrow_upward" />
             </q-btn>
           </div>
           <div>
-            <q-btn round small color="secondary" @click="alertAsMethod('top-right')">
+            <q-btn round size="sm" color="secondary" @click="alertAsMethod('top-right')">
               <q-icon name="arrow_upward" class="rotate-45" />
             </q-btn>
           </div>
         </div>
         <div class="row group">
           <div>
-            <q-btn round small color="tertiary" @click="alertAsMethod('left')">
+            <q-btn round size="sm" color="tertiary" @click="alertAsMethod('left')">
               <q-icon name="arrow_back" />
             </q-btn>
           </div>
           <div>
-            <q-btn round small color="tertiary" @click="alertAsMethod('center')">
+            <q-btn round size="sm" color="tertiary" @click="alertAsMethod('center')">
               <q-icon name="fullscreen_exit" />
             </q-btn>
           </div>
           <div>
-            <q-btn round small color="tertiary" @click="alertAsMethod('right')">
+            <q-btn round size="sm" color="tertiary" @click="alertAsMethod('right')">
               <q-icon name="arrow_forward" />
             </q-btn>
           </div>
         </div>
         <div class="row group">
           <div>
-            <q-btn round small color="secondary" @click="alertAsMethod('bottom-left')">
+            <q-btn round size="sm" color="secondary" @click="alertAsMethod('bottom-left')">
               <q-icon name="arrow_forward" class="rotate-135" />
             </q-btn>
           </div>
           <div>
-            <q-btn round small color="tertiary" @click="alertAsMethod('bottom')">
+            <q-btn round size="sm" color="tertiary" @click="alertAsMethod('bottom')">
               <q-icon name="arrow_downward" />
             </q-btn>
           </div>
           <div>
-            <q-btn round small color="secondary" @click="alertAsMethod('bottom-right')">
+            <q-btn round size="sm" color="secondary" @click="alertAsMethod('bottom-right')">
               <q-icon name="arrow_forward" class="rotate-45" />
             </q-btn>
           </div>

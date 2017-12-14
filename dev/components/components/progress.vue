@@ -13,7 +13,7 @@
 
       <h5>Determinate State</h5>
       <p class="group">
-        <q-btn small color="primary" @click="randomize">Change Model</q-btn>
+        <q-btn size="sm" color="primary" @click="randomize">Change Model</q-btn>
         <q-progress :percentage="progress"></q-progress>
         <q-progress :percentage="progress" color="positive"></q-progress>
         <q-progress :percentage="progress" color="info"></q-progress>
@@ -38,7 +38,7 @@
 
       <h5>Buffering</h5>
       <p class="group">
-        <q-btn small color="primary" @click="randomizeBuffer">Change Buffer Model</q-btn>
+        <q-btn size="sm" color="primary" @click="randomizeBuffer">Change Buffer Model</q-btn>
         <q-progress :percentage="progressBuffer" :buffer="buffer"></q-progress>
         <q-progress :percentage="progressBuffer" stripe :buffer="buffer"></q-progress>
         <q-progress :percentage="progressBuffer" stripe animate color="secondary" :buffer="buffer"></q-progress>

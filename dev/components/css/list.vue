@@ -428,6 +428,78 @@
           <q-item-main label="John Joe" />
           <q-item-side right avatar="/statics/boy-avatar.png" />
         </q-item>
+        <q-list-header inset>Normal - default color</q-list-header>
+        <q-item v-for="n in 3" :key="n" link>
+          <q-item-side letter="A" />
+          <q-item-main label="John Joe" />
+          <q-item-side right icon="alarm" />
+          <q-item-side right stamp="Stamp" />
+        </q-item>
+        <q-list-header inset>Normal - with color</q-list-header>
+        <q-item v-for="n in 3" :key="n" link>
+          <q-item-side letter="A" :color="`red-${n + 2}`" />
+          <q-item-main label="John Joe" />
+          <q-item-side right icon="alarm" :color="`red-${n + 2}`" />
+          <q-item-side right stamp="Stamp" :color="`red-${n + 2}`" />
+        </q-item>
+        <q-list-header inset>Inverted - default color</q-list-header>
+        <q-item v-for="n in 3" :key="n" link>
+          <q-item-side letter="A" inverted />
+          <q-item-main label="John Joe" />
+          <q-item-side right icon="alarm" inverted />
+        </q-item>
+        <q-list-header inset>Inverted - with color</q-list-header>
+        <q-item v-for="n in 3" :key="n" link>
+          <q-item-side letter="A" inverted :color="`red-${n + 2}`" />
+          <q-item-main label="John Joe" />
+          <q-item-side right icon="alarm" inverted :color="`red-${n + 2}`" />
+        </q-item>
+        <q-list-header inset>Normal - Tile - default color</q-list-header>
+        <q-item v-for="n in 3" :key="n" link>
+          <q-item-side>
+            <q-item-tile letter>A</q-item-tile>
+          </q-item-side>
+          <q-item-main label="John Joe" />
+          <q-item-side right>
+            <q-item-tile icon="alarm" />
+          </q-item-side>
+          <q-item-side right>
+            <q-item-tile stamp>Stamp</q-item-tile>
+          </q-item-side>
+        </q-item>
+        <q-list-header inset>Normal - Tile - with color</q-list-header>
+        <q-item v-for="n in 3" :key="n" link>
+          <q-item-side>
+            <q-item-tile letter :color="`red-${n + 2}`">A</q-item-tile>
+          </q-item-side>
+          <q-item-main label="John Joe" />
+          <q-item-side right>
+            <q-item-tile icon="alarm" :color="`red-${n + 2}`" />
+          </q-item-side>
+          <q-item-side right>
+            <q-item-tile stamp :color="`red-${n + 2}`">Stamp</q-item-tile>
+          </q-item-side>
+        </q-item>
+        <q-list-header inset>Inverted - Tile - default color</q-list-header>
+        <q-item v-for="n in 3" :key="n" link>
+          <q-item-side>
+            <q-item-tile letter inverted>A</q-item-tile>
+          </q-item-side>
+          <q-item-main label="John Joe" />
+          <q-item-side right>
+            <q-item-tile icon="alarm" inverted />
+          </q-item-side>
+        </q-item>
+        <q-list-header inset>Inverted - Tile - with color</q-list-header>
+        <q-item v-for="n in 3" :key="n" link>
+          <q-item-side>
+            <q-item-tile letter inverted :color="`red-${n + 2}`">A</q-item-tile>
+          </q-item-side>
+          <q-item-main label="John Joe" />
+          <q-item-side right>
+            <q-item-tile icon="alarm" inverted :color="`red-${n + 2}`" />
+          </q-item-side>
+        </q-item>
       </q-list>
 
       <q-list>

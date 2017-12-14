@@ -139,7 +139,7 @@ export default {
     nextPage: 'ion-chevron-right'
   },
   tree: {
-    icon: 'ion-play'
+    icon: 'ion-ios-play'
   },
   uploader: {
     done: 'ion-ios-checkmark-outline',

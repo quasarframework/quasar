@@ -54,7 +54,10 @@ export default {
       child.push(h(QIcon, {
         props: { name: prop.icon },
         staticClass: 'q-item-icon',
-        class: { 'q-item-icon-inverted': prop.inverted }
+        class: {
+          'q-item-icon-inverted': prop.inverted,
+          [`bg-${prop.color}`]: prop.color && prop.inverted
+        }
       }))
     }
     if (prop.avatar) {
@@ -64,10 +67,13 @@ export default {
       }))
     }
     if (prop.letter) {
-      child.push(h(
-        'div',
-        { staticClass: 'q-item-letter' },
-        prop.letter
+      child.push(h('div', {
+        staticClass: 'q-item-letter',
+        class: {
+          'q-item-letter-inverted': prop.inverted,
+          [`bg-${prop.color}`]: prop.color && prop.inverted
+        }
+      }, prop.letter
       ))
     }
 

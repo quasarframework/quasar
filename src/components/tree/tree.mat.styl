@@ -2,31 +2,29 @@
   margin 0
   list-style-type none
   position relative
-  padding 5px 5px 0
-
-  &:before
-    content ''
-    position absolute
-    top 0
-    width 1px
-    height 100%
-    right auto
-    left -10px
-    border-left 1px solid currentColor
-    bottom 50px
+  padding 0 0 3px 2px
 
   &:after
     content ''
     position absolute
-    top 18px
-    width 15px
-    height 20px
+    top -3px
+    bottom 0
+    width 1px
     right auto
-    left -10px
-    border-top 1px solid currentColor
+    left -13px
+    border-left 1px solid currentColor
+  &:last-child:after
+    display none
 
-  &:last-child:before
-    height 18px
+.q-tree-node-header:before
+  content ''
+  position absolute
+  top -3px
+  bottom 50%
+  width 15px
+  left -15px
+  border-left 1px solid currentColor
+  border-bottom 1px solid currentColor
 
 .q-tree-children
   padding-left 25px
@@ -36,21 +34,24 @@
   padding 5px 0 8px 5px
 .q-tree-node-body-with-children
   padding 5px 0 8px 30px
-  &:before
+  &:after
     content ''
     position absolute
     top 0
     width 1px
     height 100%
     right auto
-    left 15px
+    left 12px
     border-left 1px solid currentColor
     bottom 50px
 .q-tree-node-link
   cursor pointer
 
-.q-tree-single-selection .q-tree-node-selected
+.q-tree-node-selected
   background rgba(0, 0, 0, .15)
+.q-tree-dark .q-tree-node-selected
+  background rgba(255, 255, 255, .4)
+
 body.desktop
   .q-tree-node-link:hover
     background rgba(0, 0, 0, .1)
@@ -58,21 +59,26 @@ body.desktop
     background rgba(255, 255, 255, .3)
 
 .q-tree-node-header
-  padding 4px 8px 4px 4px
+  padding 4px
+  margin-top 3px
   border-radius $generic-border-radius
   &.disabled
     pointer-events none
-.q-tree-node-header-media
-  font-size 130%
-  color currentColor
-
-.q-tree-dark
-  &.q-tree-single-selection .q-tree-node-selected
-    background rgba(255, 255, 255, .4)
+.q-tree-icon
+  font-size 1.5em
+.q-tree-arrow
+  font-size 1rem
+  width 1rem
+  height 1rem
+.q-tree-img
+  height 3em
+  &.avatar
+    width 2em
+    height 2em
 
 .q-tree
   // Remove connectors before root
   > .q-tree-node
     padding 0
-    &:after, &:before
-      border 0
+    &:after, > .q-tree-node-header:before
+      display none

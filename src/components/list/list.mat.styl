@@ -21,11 +21,16 @@
 
 .q-item-letter, .q-item-icon
   font-size $item-icon-size
-.q-item-icon-inverted
+  width 100%
+  text-align center
+.q-item-letter-inverted, .q-item-icon-inverted
   border-radius 50%
-  font-size $item-inverted-icon-size
   color white
   background $primary
+.q-item-letter-inverted
+  padding 4px 0 5px
+.q-item-icon-inverted
+  font-size $item-inverted-icon-size
   padding 9px
 
 .q-item-main
