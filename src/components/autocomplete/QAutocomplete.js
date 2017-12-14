@@ -66,12 +66,12 @@ export default {
     isWorking () {
       return this.$refs && this.$refs.popover
     },
-    trigger (val) {
+    trigger (e) {
       if (!this.__input.hasFocus() || !this.isWorking()) {
         return
       }
 
-      const terms = val || this.__input.val
+      const terms = e && e.target ? e.target.value : this.__input.val
       const searchId = uid()
       this.searchId = searchId
 
@@ -159,10 +159,10 @@ export default {
         return
       }
       if (this.staticData) {
-        this.trigger(e.target.value)
+        this.trigger(e)
         return
       }
-      this.timer = setTimeout(this.trigger.bind(null, e.target.value), this.debounce)
+      this.timer = setTimeout(this.trigger.bind(null, e), this.debounce)
     },
     __handleKeypress (e) {
       switch (e.keyCode || e.which) {
