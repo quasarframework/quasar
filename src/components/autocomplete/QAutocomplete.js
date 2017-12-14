@@ -30,7 +30,8 @@ export default {
       default: filter
     },
     staticData: Object,
-    separator: Boolean
+    separator: Boolean,
+    triggerOnFocus: Boolean
   },
   inject: {
     __input: {
@@ -75,8 +76,7 @@ export default {
       const searchId = uid()
       this.searchId = searchId
 
-      if (terms.length < this.minCharacters) {
-        this.searchId = ''
+      if (!terms || terms.length < this.minCharacters) {
         this.__clearSearch()
         this.hide()
         return
@@ -164,6 +164,16 @@ export default {
       }
       this.timer = setTimeout(this.trigger.bind(null, e), this.debounce)
     },
+    onFocus (e) {
+      if (this.__input.isClear) {
+        this.__clearSearch()
+        this.hide()
+        this.__input.isClear = false
+      }
+      else if (this.triggerOnFocus) {
+        this.trigger(e)
+      }
+    },
     __handleKeypress (e) {
       switch (e.keyCode || e.which) {
         case 38: // up
@@ -180,7 +190,6 @@ export default {
           this.__clearSearch()
           break
         case 9: // tab
-          this.__clearSearch()
           this.hide()
           break
       }
@@ -204,7 +213,9 @@ export default {
     this.$nextTick(() => {
       this.inputEl = this.__input.getEl()
       this.inputEl.addEventListener('keydown', this.__handleKeypress)
+      this.inputEl.addEventListener('blur', this.__clearSearch)
       this.inputEl.addEventListener('input', this.onInput)
+      this.inputEl.addEventListener('focus', this.onFocus)
     })
   },
   beforeDestroy () {
@@ -215,7 +226,9 @@ export default {
     }
     if (this.inputEl) {
       this.inputEl.removeEventListener('keydown', this.__handleKeypress)
+      this.inputEl.removeEventListener('blur', this.__clearSearch)
       this.inputEl.removeEventListener('input', this.onInput)
+      this.inputEl.removeEventListener('focus', this.onFocus)
       this.hide()
     }
   },
