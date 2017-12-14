@@ -1,44 +1,3 @@
-<template>
-  <div
-    v-if="$q.platform.is.desktop"
-    class="q-scrollarea relative-position"
-    @mouseenter="hover = true"
-    @mouseleave="hover = false"
-  >
-    <div
-      ref="target"
-      class="scroll relative-position overflow-hidden full-height full-width"
-      @wheel="__mouseWheel"
-      @mousewheel="__mouseWheel"
-      @DOMMouseScroll="__mouseWheel"
-      v-touch-pan.vertical.nomouse="__panContainer"
-    >
-      <div class="absolute full-width" :style="mainStyle">
-        <slot></slot>
-        <q-resize-observable class="resize-obs" @resize="__updateScrollHeight"></q-resize-observable>
-      </div>
-      <q-scroll-observable class="scroll-obs" @scroll="__updateScroll"></q-scroll-observable>
-    </div>
-
-    <q-resize-observable class="main-resize-obs" @resize="__updateContainer"></q-resize-observable>
-
-    <div
-      class="q-scrollarea-thumb absolute-right"
-      :style="style"
-      :class="{'invisible-thumb': thumbHidden}"
-      v-touch-pan.vertical="__panThumb"
-    ></div>
-  </div>
-  <div
-    v-else
-    class="q-scroll-area scroll relative-position"
-    :style="contentStyle"
-  >
-    <slot></slot>
-  </div>
-</template>
-
-<script>
 import extend from '../../utils/extend'
 import { between } from '../../utils/format'
 import { getMouseWheelDistance } from '../../utils/event'
@@ -48,10 +7,6 @@ import TouchPan from '../../directives/touch-pan'
 
 export default {
   name: 'q-scroll-area',
-  components: {
-    QResizeObservable,
-    QScrollObservable
-  },
   directives: {
     TouchPan
   },
@@ -196,6 +151,70 @@ export default {
         this.timer = null
       }, this.delay)
     }
+  },
+  render (h) {
+    if (!this.$q.platform.is.desktop) {
+      return h('div', {
+        ref: 'target',
+        staticClass: 'q-scroll-area scroll relative-position',
+        style: this.contentStyle
+      }, [
+        this.$slots.default
+      ])
+    }
+
+    return h('div', {
+      staticClass: 'q-scrollarea relative-position',
+      on: {
+        mouseenter: () => { this.hover = true },
+        mouseleave: () => { this.hover = false }
+      }
+    }, [
+      h('div', {
+        ref: 'target',
+        staticClass: 'scroll relative-position overflow-hidden full-height full-width',
+        on: {
+          wheel: this.__mouseWheel,
+          mousewheel: this.__mouseWheel,
+          DOMMouseScroll: this.__mouseWheel
+        },
+        directives: [{
+          name: 'touch-pan',
+          modifiers: { vertical: true, nomouse: true },
+          value: this.__panContainer
+        }]
+      }, [
+        h('div', {
+          staticClass: 'absolute full-width',
+          style: this.mainStyle
+        }, [
+          this.$slots.default,
+          h(QResizeObservable, {
+            staticClass: 'resize-obs',
+            on: { resize: this.__updateScrollHeight }
+          })
+        ]),
+        h(QScrollObservable, {
+          staticClass: 'scroll-obs',
+          on: { scroll: this.__updateScroll }
+        })
+      ]),
+
+      h(QResizeObservable, {
+        staticClass: 'main-resize-obs',
+        on: { resize: this.__updateContainer }
+      }),
+
+      h('div', {
+        staticClass: 'q-scrollarea-thumb absolute-right',
+        style: this.style,
+        'class': { 'invisible-thumb': this.thumbHidden },
+        directives: [{
+          name: 'touch-pan',
+          modifiers: { vertical: true },
+          value: this.__panThumb
+        }]
+      })
+    ])
   }
 }
-</script>
