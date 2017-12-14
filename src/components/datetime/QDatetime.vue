@@ -45,6 +45,7 @@
         :first-day-of-week="firstDayOfWeek"
         :color="color"
         :initial-view="initialView"
+        :focused="focused"
         class="no-border"
       >
         <div class="row q-datetime-controls modal-buttons-top">
@@ -78,6 +79,7 @@
         :first-day-of-week="firstDayOfWeek"
         :color="color"
         :initial-view="initialView"
+        :focused="focused"
         class="no-border"
         :class="{'full-width': $q.theme === 'ios'}"
       >

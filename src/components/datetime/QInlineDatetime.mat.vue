@@ -249,7 +249,8 @@ export default {
   props: {
     defaultSelection: [String, Number, Date],
     disable: Boolean,
-    readonly: Boolean
+    readonly: Boolean,
+    focused: Boolean
   },
   components: {
     QBtn
@@ -284,24 +285,26 @@ export default {
   watch: {
     value (val) {
       if (!val) {
-        if (this.initialView) {
-          this.view = this.initialView
-        }
         this.view = ['date', 'datetime'].includes(this.type) ? 'day' : 'hour'
       }
     },
-    view (newVal, oldVal) {
-      if (newVal !== 'year' && newVal !== 'month') {
+    view (value) {
+      if (value !== 'year' && value !== 'month') {
         return
       }
 
       let
         view = this.$refs.selector,
-        rows = newVal === 'year' ? this.year - this.yearMin : this.month - this.monthMin
+        rows = value === 'year' ? this.year - this.yearMin : this.month - this.monthMin
 
       this.$nextTick(() => {
         view.scrollTop = rows * height(view.children[0].children[0]) - height(view) / 2.5
       })
+    },
+    focused (value) {
+      if (!value) {
+        this.view = this.initialView
+      }
     }
   },
   computed: {
@@ -411,14 +414,14 @@ export default {
     /* date */
     setYear (value) {
       if (this.editable) {
-        this.view = 'day'
         this.model = new Date(this.model.setFullYear(this.__parseTypeValue('year', value)))
+        this.view = 'day'
       }
     },
     setMonth (value) {
       if (this.editable) {
-        this.view = 'day'
         this.model = adjustDate(this.model, {month: value})
+        this.view = 'day'
       }
     },
     setDay (value) {
