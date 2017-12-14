@@ -128,10 +128,6 @@ export default {
         ? this.$refs.popover.hide()
         : Promise.resolve()
     },
-    blurHide () {
-      this.__clearSearch()
-      setTimeout(() => this.hide(), 300)
-    },
     __clearSearch () {
       clearTimeout(this.timer)
       this.__input.loading = false
@@ -183,6 +179,10 @@ export default {
         case 27: // escape
           this.__clearSearch()
           break
+        case 9: // tab
+          this.__clearSearch()
+          this.hide()
+          break
       }
     },
     __moveCursor (offset, e) {
@@ -204,7 +204,6 @@ export default {
     this.$nextTick(() => {
       this.inputEl = this.__input.getEl()
       this.inputEl.addEventListener('keydown', this.__handleKeypress)
-      this.inputEl.addEventListener('blur', this.blurHide)
       this.inputEl.addEventListener('input', this.onInput)
     })
   },
@@ -216,7 +215,6 @@ export default {
     }
     if (this.inputEl) {
       this.inputEl.removeEventListener('keydown', this.__handleKeypress)
-      this.inputEl.removeEventListener('blur', this.blurHide)
       this.inputEl.removeEventListener('input', this.onInput)
       this.hide()
     }
@@ -237,16 +235,16 @@ export default {
       h(QList, {
         props: {
           noBorder: true,
-          link: true,
           separator: this.separator
         },
         style: this.computedWidth
       },
       this.computedResults.map((result, index) => h(QItemWrapper, {
         key: result.id || JSON.stringify(result),
-        'class': { active: this.selectedIndex === index },
+        'class': { 'cursor-pointer': true, active: this.selectedIndex === index },
         props: { cfg: result },
         on: {
+          mouseenter: () => { this.selectedIndex = index },
           click: () => { this.setValue(result) }
         }
       })))
