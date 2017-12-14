@@ -137,10 +137,22 @@
 <script>
 export default {
   data () {
+    let list = []
+    for (let i = 0; i < 26 * 30; i += 1) {
+      const c = String.fromCharCode(97 + (i % 26))
+      const v = `${c}${c}${c}${c}${c}#${i}`
+      list.push({ label: v, value: v })
+    }
     return {
       toggle: false,
       anchorOrigin: {vertical: 'bottom', horizontal: 'left'},
-      selfOrigin: {vertical: 'top', horizontal: 'left'}
+      selfOrigin: {vertical: 'top', horizontal: 'left'},
+      terms: '',
+      modelDate: null,
+      model: 30,
+      min: 0,
+      max: 50,
+      list
     }
   },
   computed: {
