@@ -260,14 +260,19 @@ export default {
   data () {
     let view
 
-    switch (this.type) {
-      case 'time':
-        view = 'hour'
-        break
-      case 'date':
-      default:
-        view = 'day'
-        break
+    if (this.initialView !== '') {
+      view = this.initialView
+    }
+    else {
+      switch (this.type) {
+        case 'time':
+          view = 'hour'
+          break
+        case 'date':
+        default:
+          view = 'day'
+          break
+      }
     }
 
     return {
@@ -279,17 +284,20 @@ export default {
   watch: {
     value (val) {
       if (!val) {
+        if (this.initialView) {
+          this.view = this.initialView
+        }
         this.view = ['date', 'datetime'].includes(this.type) ? 'day' : 'hour'
       }
     },
-    view (value) {
-      if (value !== 'year' && value !== 'month') {
+    view (newVal, oldVal) {
+      if (newVal !== 'year' && newVal !== 'month') {
         return
       }
 
       let
         view = this.$refs.selector,
-        rows = value === 'year' ? this.year - this.yearMin : this.month - this.monthMin
+        rows = newVal === 'year' ? this.year - this.yearMin : this.month - this.monthMin
 
       this.$nextTick(() => {
         view.scrollTop = rows * height(view.children[0].children[0]) - height(view) / 2.5
