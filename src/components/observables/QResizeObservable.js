@@ -1,15 +1,11 @@
-function getSize (el) {
-  return {
-    width: el.offsetWidth,
-    height: el.offsetHeight
-  }
-}
-
 export default {
   name: 'q-resize-observable',
   methods: {
     onResize () {
-      const size = getSize(this.$el.parentNode)
+      const size = {
+        width: this.$el.offsetWidth,
+        height: this.$el.offsetHeight
+      }
 
       if (size.width === this.size.width && size.height === this.size.height) {
         return
@@ -23,57 +19,47 @@ export default {
     },
     emit () {
       this.timer = null
-      this.reset()
       this.$emit('resize', this.size)
-    },
-    reset () {
-      const ref = this.$refs
-      if (ref.expand) {
-        ref.expand.scrollLeft = 100000
-        ref.expand.scrollTop = 100000
-      }
-      if (ref.shrink) {
-        ref.shrink.scrollLeft = 100000
-        ref.shrink.scrollTop = 100000
-      }
     }
   },
   render (h) {
     return h('div', {
       staticClass: 'absolute-full overflow-hidden invisible',
       style: 'z-index: -1;'
-    }, [
-      h('div', {
-        ref: 'expand',
-        staticClass: 'absolute-full overflow-hidden invisible',
-        on: { scroll: this.onResize }
-      }, [
-        h('div', {
-          ref: 'expandChild',
-          staticClass: 'absolute-top-left transition-0',
-          style: 'width: 100000px; height: 100000px;'
-        })
-      ]),
-      h('div', {
-        ref: 'shrink',
-        staticClass: 'absolute-full overflow-hidden invisible',
-        on: { scroll: this.onResize }
-      }, [
-        h('div', {
-          staticClass: 'absolute-top-left transition-0',
-          style: 'width: 200%; height: 200%;'
-        })
-      ])
-    ])
+    })
   },
   mounted () {
-    this.$nextTick(() => {
-      this.size = {}
-      this.onResize()
-    })
+    const
+      object = document.createElement('object'),
+      onIE = this.$q.platform.is.ie
+
+    this.size = {
+      width: this.$el.offsetWidth,
+      height: this.$el.offsetHeight
+    }
+    this.emit()
+
+    this.object = object
+    object.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; pointer-events: none; z-index: -1;')
+    object.onload = () => {
+      object.contentDocument.defaultView.addEventListener('resize', this.onResize)
+    }
+    object.type = 'text/html'
+    if (onIE) {
+      this.$el.appendChild(object)
+    }
+    object.data = 'about:blank'
+    if (!onIE) {
+      this.$el.appendChild(object)
+    }
   },
   beforeDestroy () {
     clearTimeout(this.timer)
-    this.$emit('resize', {width: 0, height: 0})
+    if (this.object && this.object.onload) {
+      if (!this.$q.platform.is.ie && this.object.contentDocument) {
+        this.object.contentDocument.defaultView.removeEventListener('resize', this.onResize)
+      }
+      delete this.object.onload
+    }
   }
 }
