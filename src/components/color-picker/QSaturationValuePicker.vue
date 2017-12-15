@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import { prevent } from '../../utils/event'
 import throttle from '../../utils/throttle'
 import TouchPan from '../../directives/touch-pan'
 
@@ -79,8 +80,7 @@ export default {
       if (!this.editable) {
         return
       }
-      event.evt.stopPropagation()
-      event.evt.preventDefault()
+      prevent(event.evt)
 
       this.dragging = true
       this.__input(event)
@@ -89,8 +89,7 @@ export default {
       if (!this.dragging || !this.editable) {
         return
       }
-      event.evt.stopPropagation()
-      event.evt.preventDefault()
+      prevent(event.evt)
 
       this.__input(event)
     },
@@ -98,8 +97,7 @@ export default {
       if (!this.editable) {
         return
       }
-      event.evt.stopPropagation()
-      event.evt.preventDefault()
+      prevent(event.evt)
       this.dragging = false
     },
     __calcSaturationAndValueFromPositionInContainer ({ x, y }) {

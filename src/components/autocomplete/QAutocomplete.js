@@ -1,14 +1,10 @@
 import { width } from '../../utils/dom'
+import { prevent } from '../../utils/event'
 import filter from '../../utils/filter'
 import uid from '../../utils/uid'
 import { normalizeToInterval } from '../../utils/format'
 import { QPopover } from '../popover'
 import { QList, QItemWrapper } from '../list'
-
-function prevent (e) {
-  e.preventDefault()
-  e.stopPropagation()
-}
 
 export default {
   name: 'q-autocomplete',
