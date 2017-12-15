@@ -4,6 +4,7 @@ import TouchPan from '../../directives/touch-pan'
 import { stopAndPrevent } from '../../utils/event'
 import throttle from '../../utils/throttle'
 import extend from '../../utils/extend'
+import clone from '../../utils/clone'
 import { hexToRgb, rgbToHex, rgbToHsv, hsvToRgb } from '../../utils/colors'
 
 export default {
@@ -344,12 +345,13 @@ export default {
       this.view = this.view === 'hex' ? 'rgba' : 'hex'
     },
     __parseModel (v) {
-      let model = v
+      let model
       if (typeof v === 'string') {
         model = hexToRgb(v)
         model.hex = v
       }
       else {
+        model = clone(v)
         model.hex = rgbToHex(v)
       }
       return extend({ a: 100 }, model, rgbToHsv(model))
