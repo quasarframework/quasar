@@ -1,10 +1,5 @@
-export function rgbToHex (r, g, b) {
-  if (typeof r === 'string') {
-    const res = r.match(/\b\d{1,3}\b/g).map(Number)
-    r = res[0]
-    g = res[1]
-    b = res[2]
-  }
+export function rgbToHex (r, g, b, a) {
+  const alpha = a !== void 0
 
   if (
     typeof r !== 'number' ||
@@ -12,12 +7,17 @@ export function rgbToHex (r, g, b) {
     typeof b !== 'number' ||
     r > 255 ||
     g > 255 ||
-    b > 255
+    b > 255 ||
+    (alpha && (typeof a !== 'number' || a > 100))
   ) {
-    throw new TypeError('Expected three numbers below 256')
+    throw new TypeError('Expected 3 numbers below 256 (and optionally 1 below 100)')
   }
 
-  return ((b | g << 8 | r << 16) | 1 << 24).toString(16).slice(1)
+  const hex = alpha
+    ? (b | g << 8 | r << 16 | a << 24) | 1 << 32
+    : (b | g << 8 | r << 16) | 1 << 24
+
+  return hex.toString(alpha ? 24 : 16).slice(1)
 }
 
 export function hexToRgb (hex) {
@@ -30,13 +30,18 @@ export function hexToRgb (hex) {
   if (hex.length === 3) {
     hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2]
   }
+  else if (hex.length === 4) {
+    hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2] + hex[3] + hex[3]
+  }
 
   let num = parseInt(hex, 16)
 
-  return [num >> 16, num >> 8 & 255, num & 255]
+  return hex.length > 6
+    ? [num >> 24, num >> 16 & 255, num >> 8 & 255, (num & 255) / 255]
+    : [num >> 16, num >> 8 & 255, num & 255]
 }
 
-export function hsvToRgb (h, s, v) {
+export function hsvToRgb (h, s, v, a) {
   let r, g, b, i, f, p, q, t
 
   if (arguments.length === 1) {
@@ -88,11 +93,12 @@ export function hsvToRgb (h, s, v) {
   return {
     r: Math.round(r * 255),
     g: Math.round(g * 255),
-    b: Math.round(b * 255)
+    b: Math.round(b * 255),
+    a
   }
 }
 
-export function rgbToHsv (r, g, b) {
+export function rgbToHsv (r, g, b, a) {
   if (arguments.length === 1) {
     r = r.r
     g = r.g
@@ -127,6 +133,7 @@ export function rgbToHsv (r, g, b) {
   return {
     h: h * 360,
     s: s,
-    v: v
+    v: v,
+    a
   }
 }
