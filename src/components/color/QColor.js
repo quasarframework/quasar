@@ -213,7 +213,8 @@ export default {
       ])
     },
 
-    __onSaturationChange ({ s, v }) {
+    __onSaturationChange (left, top) {
+      let { s, v } = this.__getSaturationValue(left, top)
       this.__update({
         h: this.value.h,
         s: s,
@@ -289,18 +290,14 @@ export default {
     },
     __saturationChange (evt) {
       this.__onSaturationChange(
-        this.__getSaturationValue(
-          evt.position.left,
-          evt.position.top
-        )
+        evt.position.left,
+        evt.position.top
       )
     },
     __saturationClick (evt) {
       this.__onSaturationChange(
-        this.__getSaturationValue(
-          evt.pageX - window.pageXOffset,
-          evt.pageY - window.pageYOffset
-        )
+        evt.pageX - window.pageXOffset,
+        evt.pageY - window.pageYOffset
       )
     },
     __getSaturationValue (x, y) {
