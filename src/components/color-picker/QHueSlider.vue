@@ -1,9 +1,7 @@
 <template>
-<div
-  class="q-hue-slider non-selectable"
->
-  <q-slider :value="hue" @input="__onInput" :min="0" :max="360" label />
-</div>
+  <div class="q-hue-slider non-selectable">
+    <q-slider :value="hue" @input="__onInput" :min="0" :max="360" label />
+  </div>
 </template>
 
 <script>

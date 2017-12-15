@@ -1,9 +1,5 @@
 <template>
-<div
-  class="q-color-swatch non-selectable"
-  :style="style"
->
-</div>
+  <div class="q-color-swatch non-selectable" :style="style"></div>
 </template>
 
 <script>
