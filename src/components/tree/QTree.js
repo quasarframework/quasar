@@ -28,7 +28,7 @@ export default {
 
     tickStrategy: {
       type: String,
-      validation: v => ['none', 'strict', 'leaf'].includes(v)
+      validator: v => ['none', 'strict', 'leaf'].includes(v)
     },
     ticked: Array, // sync
     expanded: Array, // sync
