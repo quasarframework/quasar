@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="q-inline-color-picker non-selectable"
-  >
+  <div class="q-inline-color-picker non-selectable">
     <div class="row">
       <q-color-swatch :value="value" />
       <q-input class="col" :value="hex" @change="__onHexChange" stack-label="HEX" />
@@ -26,7 +24,7 @@ import QSaturationValuePicker from './QSaturationValuePicker.vue'
 import QHueSlider from './QHueSlider.vue'
 import QAlphaSlider from './QAlphaSlider.vue'
 import TouchPan from '../../directives/touch-pan'
-import { colorChange } from './color-picker-utils'
+import { colorChange } from '../../utils/colors'
 export default {
   name: 'q-inline-color-picker',
   directives: {

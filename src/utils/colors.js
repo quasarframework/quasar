@@ -1,3 +1,5 @@
+import extend from './extend'
+
 export function rgbToHex (r, g, b) {
   if (typeof r === 'string') {
     const res = r.match(/\b\d{1,3}\b/g).map(Number)
@@ -30,8 +32,15 @@ export function hexToRgb (hex) {
   if (hex.length === 3) {
     hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2]
   }
+  if (hex.length === 4) {
+    hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2] + hex[3] + hex[3]
+  }
 
   let num = parseInt(hex, 16)
+
+  if (hex.length > 6) {
+    return [num >> 24, num >> 16 & 255, num >> 8 & 255, (num & 255) / 255]
+  }
 
   return [num >> 16, num >> 8 & 255, num & 255]
 }
@@ -129,4 +138,45 @@ export function rgbToHsv (r, g, b) {
     s: s,
     v: v
   }
+}
+
+export function colorChange (inputColor) {
+  let outputColor = extend(
+    { h: 0, s: 0, v: 0, r: 0, g: 0, b: 0, a: 1, hex: '#000000' },
+    inputColor
+  )
+
+  // HSV input
+  if (inputColor.h !== undefined && inputColor.s !== undefined && inputColor.v !== undefined) {
+    let rgb = hsvToRgb(inputColor.h, inputColor.s, inputColor.v)
+    let hex = `#${rgbToHex(rgb.r, rgb.g, rgb.b)}`
+
+    outputColor = { ...outputColor, ...rgb, ...{ hex: hex } }
+  }
+
+  // RGB input
+  if (inputColor.r !== undefined && inputColor.g !== undefined && inputColor.b !== undefined) {
+    let hsv = rgbToHsv(inputColor.r, inputColor.g, inputColor.b)
+    let hex = `#${rgbToHex(inputColor.r, inputColor.g, inputColor.b)}`
+
+    outputColor = { ...outputColor, ...hsv, ...{ hex: hex } }
+  }
+
+  // HEX input
+  if (inputColor.hex !== undefined) {
+    let rgbArr = hexToRgb(inputColor.hex)
+    let rgb = { r: rgbArr[0], g: rgbArr[1], b: rgbArr[2] }
+    let hsv = rgbToHsv(rgb.r, rgb.g, rgb.b)
+
+    outputColor = { ...outputColor, ...rgb, ...hsv }
+
+    if (rgbArr.length === 4) {
+      inputColor.a = rgbArr[3]
+    }
+  }
+
+  // ALPA input
+  outputColor = { ...outputColor, ...{ a: inputColor.a === undefined ? 1.0 : inputColor.a } }
+
+  return outputColor
 }

@@ -3,7 +3,7 @@ import { QSlider } from '../slider'
 import TouchPan from '../../directives/touch-pan'
 import { stopAndPrevent } from '../../utils/event'
 import throttle from '../../utils/throttle'
-import getColor from './get-color'
+import { colorChange } from '../../utils/colors'
 
 export default {
   name: 'q-color',
@@ -66,7 +66,7 @@ export default {
         ref: 'saturation',
         staticClass: 'q-color-saturation non-selectable relative-position overflow-hidden cursor-pointer',
         style: this.saturationStyle,
-        'class': { readonly: this.readonly },
+        'class': { readonly: !this.editable },
         on: this.editable
           ? { click: this.__saturationClick }
           : null,
@@ -107,7 +107,7 @@ export default {
                 readonly: !this.editable
               },
               style: {
-                color: this.value.hex
+                color: `rgb(${this.value.r},${this.value.g},${this.value.b})`
               },
               on: {
                 input: this.__onHueChange
@@ -122,15 +122,13 @@ export default {
                 min: 0,
                 max: 100,
                 fillHandleAlways: true,
-                readonly: this.readonly
+                readonly: !this.editable
               },
               style: {
-                color: this.value.hex
+                color: `rgb(${this.value.r},${this.value.g},${this.value.b})`
               },
               on: {
-                input: value => {
-                  this.__onPropChange({ target: { value } }, 'a', 100)
-                }
+                input: this.__onAlphaChange
               }
             })
           ])
@@ -150,7 +148,7 @@ export default {
             },
             staticClass: 'full-width text-center',
             domProps: {
-              value: (type === 'a' ? 100 : 1) * this.value[type]
+              value: Math.round((type === 'a' ? 100 : 1) * this.value[type])
             },
             on: {
               input: evt => {
@@ -170,7 +168,7 @@ export default {
           h('div', { staticClass: 'col' }, [
             h('input', {
               domProps: { value: this.value.hex },
-              attrs: { readonly: this.readonly },
+              attrs: { readonly: !this.editable },
               on: { input: this.__onHexChange },
               staticClass: 'full-width text-center uppercase'
             }),
@@ -231,6 +229,14 @@ export default {
         a: this.value.a
       })
     },
+    __onAlphaChange (a) {
+      this.__update({
+        h: this.value.h,
+        s: this.value.s,
+        v: this.value.v,
+        a: a / 100
+      })
+    },
     __onPropChange (evt, type, max) {
       let val = Number(evt.target.value)
       if (!isNaN(val) && val >= 0 && val <= max) {
@@ -251,7 +257,7 @@ export default {
     },
     __update (color, change) {
       // todo is different?
-      this.$emit(change ? 'change' : 'input', getColor(color))
+      this.$emit(change ? 'change' : 'input', colorChange(color))
     },
     __nextInputView () {
       this.view = this.view === 'hex' ? 'rgba' : 'hex'
