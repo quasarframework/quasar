@@ -189,7 +189,7 @@ export default {
               max,
               readonly: !this.editable
             },
-            staticClass: 'full-width text-center',
+            staticClass: 'full-width text-center q-color-number',
             domProps: {
               value: Math.round(this.model[type])
             },
