@@ -17,6 +17,15 @@
           </q-popover>
         </q-input>
       </q-field>
+      <q-field label="With Popover (hide underline)">
+        <q-input v-model="model" :count="10" hide-underline>
+          <q-popover fit :offset="[0, 10]">
+            <div style="padding: 10px" class="bg-primary text-white">
+              Some Popover
+            </div>
+          </q-popover>
+        </q-input>
+      </q-field>
 
       <q-field>
         <q-input v-model="model" />
@@ -41,6 +50,33 @@
         helper="Helper"
       >
         <q-input suffix="#" prefix="@" v-model="model" :count="10" />
+      </q-field>
+
+      <p class="caption">Hide Underline</p>
+
+      <q-field>
+        <q-input v-model="model" hide-underline />
+      </q-field>
+
+      <q-field count>
+        <q-input suffix="#" prefix="@" type="password" v-model="model" hide-underline />
+      </q-field>
+
+      <q-field :count="10">
+        <q-input suffix="#" prefix="@" type="textarea" v-model="model" hide-underline />
+      </q-field>
+
+      <q-field
+        icon="cloud"
+      >
+        <q-input suffix="#" prefix="@" v-model="model" hide-underline />
+      </q-field>
+
+      <q-field
+        icon="cloud"
+        helper="Helper"
+      >
+        <q-input suffix="#" prefix="@" v-model="model" :count="10" hide-underline />
       </q-field>
 
       <q-field

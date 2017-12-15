@@ -8,9 +8,11 @@
     :stack-label="stackLabel"
     :float-label="floatLabel"
     :error="error"
+    :warning="warning"
     :disable="disable"
     :inverted="inverted"
     :dark="dark"
+    :hide-underline="hideUnderline"
     :before="before"
     :after="after"
     :color="frameColor || color"
@@ -55,8 +57,8 @@
       name="cancel"
       class="q-if-control"
       @click.stop="clear"
-    ></q-icon>
-    <q-icon slot="after" :name="$q.icon.select.dropdown" class="q-if-control"></q-icon>
+    />
+    <q-icon slot="after" :name="$q.icon.select.dropdown" class="q-if-control" />
 
     <q-popover
       ref="popover"
@@ -80,7 +82,7 @@
           icon="filter_list"
           class="no-margin"
           style="min-height: 50px; padding: 10px;"
-        ></q-search>
+        />
       </q-field-reset>
 
       <q-list
@@ -103,14 +105,16 @@
               :color="color"
               :value="optModel[opt.index]"
               :disable="opt.disable"
-            ></q-toggle>
+              no-focus
+            />
             <q-checkbox
               v-else
               slot="left"
               :color="color"
               :value="optModel[opt.index]"
               :disable="opt.disable"
-            ></q-checkbox>
+              no-focus
+            />
           </q-item-wrapper>
         </template>
         <template v-else>
@@ -131,7 +135,8 @@
               :value="value"
               :val="opt.value"
               :disable="opt.disable"
-            ></q-radio>
+              no-focus
+            />
           </q-item-wrapper>
         </template>
       </q-list>

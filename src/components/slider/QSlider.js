@@ -1,61 +1,13 @@
-<template>
-  <div
-    class="q-slider non-selectable"
-    :class="classes"
-    @click="__click"
-    v-touch-pan.horizontal="__pan"
-  >
-    <div ref="handle" class="q-slider-handle-container">
-      <div class="q-slider-track"></div>
-      <template v-if="markers">
-        <div
-          class="q-slider-mark"
-          v-for="n in ((max - min) / step + 1)"
-          :key="n"
-          :style="{left: (n - 1) * 100 * step / (max - min) + '%'}"
-        ></div>
-      </template>
-      <div
-        class="q-slider-track active-track"
-        :style="{width: percentage}"
-        :class="{'no-transition': dragging, 'handle-at-minimum': model === min}"
-      ></div>
-      <div
-        class="q-slider-handle"
-        :style="{left: percentage, borderRadius: square ? '0' : '50%'}"
-        :class="{dragging: dragging, 'handle-at-minimum': !fillHandleAlways && model === min}"
-      >
-        <q-chip
-          pointing="down"
-          square
-          :color="labelColor"
-          class="q-slider-label no-pointer-events"
-          :class="{'label-always': labelAlways}"
-          v-if="label || labelAlways"
-        >
-          {{ displayValue }}
-        </q-chip>
-
-        <div v-if="$q.theme !== 'ios'" class="q-slider-ring"></div>
-      </div>
-    </div>
-  </div>
-</template>
-
-<script>
 import {
   getModel,
   getPercentage,
   notDivides,
   mixin
 } from './slider-utils'
-import TouchPan from '../../directives/touch-pan'
+import { QChip } from '../chip'
 
 export default {
   name: 'q-slider',
-  directives: {
-    TouchPan
-  },
   mixins: [mixin],
   props: {
     value: {
@@ -153,7 +105,44 @@ export default {
       else if (notDivides((this.max - this.min) / this.step, this.decimals)) {
         console.error('Range error: step must be a divisor of max - min', this.min, this.max, this.step, this.decimals)
       }
+    },
+    __getContent (h) {
+      return [
+        h('div', {
+          staticClass: 'q-slider-track active-track',
+          style: { width: this.percentage },
+          'class': {
+            'no-transition': this.dragging,
+            'handle-at-minimum': this.model === this.min
+          }
+        }),
+        h('div', {
+          staticClass: 'q-slider-handle',
+          style: {
+            left: this.percentage,
+            borderRadius: this.square ? '0' : '50%'
+          },
+          'class': {
+            dragging: this.dragging,
+            'handle-at-minimum': !this.fillHandleAlways && this.model === this.min
+          }
+        }, [
+          this.label || this.labelAlways
+            ? h(QChip, {
+              staticClass: 'q-slider-label no-pointer-events',
+              'class': { 'label-always': this.labelAlways },
+              props: {
+                pointing: 'down',
+                square: true,
+                color: this.labelColor
+              }
+            }, [ this.displayValue ])
+            : null,
+          __THEME__ !== 'ios'
+            ? h('div', { staticClass: 'q-slider-ring' })
+            : null
+        ])
+      ]
     }
   }
 }
-</script>

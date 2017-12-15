@@ -8,7 +8,8 @@ export default {
     },
     keepColor: Boolean,
     dark: Boolean,
-    disable: Boolean
+    disable: Boolean,
+    noFocus: Boolean
   },
   computed: {
     innerClasses () {
@@ -22,6 +23,12 @@ export default {
 
         return `text-${color}`
       }
+    },
+    focusable () {
+      return !this.noFocus && !this.disable
+    },
+    tabindex () {
+      return this.focusable ? 0 : null
     }
   }
 }

@@ -127,3 +127,11 @@ export function getMouseWheelDistance (e) {
     pixelY: pY
   }
 }
+
+export function stopAndPrevent (e) {
+  if (!e) {
+    return
+  }
+  e.preventDefault()
+  e.stopPropagation()
+}
