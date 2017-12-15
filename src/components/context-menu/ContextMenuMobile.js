@@ -1,4 +1,4 @@
-import { prevent } from '../../utils/event'
+import { stopAndPrevent } from '../../utils/event'
 import { QModal } from '../modal'
 
 export default {
@@ -19,7 +19,7 @@ export default {
     __touchStartHandler (evt) {
       this.target.classList.add('non-selectable')
       this.touchTimer = setTimeout(() => {
-        prevent(evt)
+        stopAndPrevent(evt)
         setTimeout(() => {
           this.__cleanup()
           this.__show()

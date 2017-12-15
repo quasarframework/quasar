@@ -91,7 +91,7 @@
 
 <script>
 import { between, capitalize } from '../../utils/format'
-import { position, prevent } from '../../utils/event'
+import { position, stopAndPrevent } from '../../utils/event'
 import { css } from '../../utils/dom'
 import { isSameDate, adjustDate } from '../../utils/date'
 import DateMixin from './datetime-mixin'
@@ -283,7 +283,7 @@ export default {
         return
       }
 
-      prevent(ev)
+      stopAndPrevent(ev)
 
       this[type + 'DragOffset'] = 0
       this.dragging = type
@@ -296,7 +296,7 @@ export default {
         return
       }
 
-      prevent(ev)
+      stopAndPrevent(ev)
 
       const offset = (this.__dragPosition - position(ev).top) / 36
       this[type + 'DragOffset'] = offset
@@ -306,7 +306,7 @@ export default {
       if (this.dragging !== type || !this.editable) {
         return
       }
-      prevent(ev)
+      stopAndPrevent(ev)
       this.dragging = false
 
       let

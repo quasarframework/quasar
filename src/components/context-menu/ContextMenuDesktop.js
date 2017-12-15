@@ -1,4 +1,4 @@
-import { prevent } from '../../utils/event'
+import { stopAndPrevent } from '../../utils/event'
 import { QPopover } from '../popover'
 
 export default {
@@ -30,7 +30,7 @@ export default {
         return
       }
       this.hide()
-      prevent(evt)
+      stopAndPrevent(evt)
       /*
         Opening with a timeout for
         Firefox workaround

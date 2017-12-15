@@ -1,5 +1,5 @@
 import { width } from '../../utils/dom'
-import { prevent } from '../../utils/event'
+import { stopAndPrevent } from '../../utils/event'
 import filter from '../../utils/filter'
 import uid from '../../utils/uid'
 import { normalizeToInterval } from '../../utils/format'
@@ -185,7 +185,7 @@ export default {
           break
         case 13: // enter
           this.setCurrentSelection()
-          prevent(e)
+          stopAndPrevent(e)
           break
         case 27: // escape
           this.__clearSearch()
@@ -193,7 +193,7 @@ export default {
       }
     },
     __moveCursor (offset, e) {
-      prevent(e)
+      stopAndPrevent(e)
 
       if (!this.$refs.popover.showing) {
         this.trigger()

@@ -128,7 +128,7 @@ export function getMouseWheelDistance (e) {
   }
 }
 
-export function prevent (e) {
+export function stopAndPrevent (e) {
   if (!e) {
     return
   }

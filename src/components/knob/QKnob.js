@@ -1,4 +1,4 @@
-import { position, prevent } from '../../utils/event'
+import { position, stopAndPrevent } from '../../utils/event'
 import { between } from '../../utils/format'
 import { offset, height, width } from '../../utils/dom'
 import TouchPan from '../../directives/touch-pan'
@@ -106,7 +106,7 @@ export default {
       if (!this.editable) {
         return
       }
-      prevent(ev)
+      stopAndPrevent(ev)
 
       this.centerPosition = this.__getCenter()
 
@@ -117,14 +117,14 @@ export default {
       if (!this.dragging || !this.editable) {
         return
       }
-      prevent(ev)
+      stopAndPrevent(ev)
       this.__onInput(ev, this.centerPosition)
     },
     __dragStop (ev) {
       if (!this.editable) {
         return
       }
-      prevent(ev)
+      stopAndPrevent(ev)
       this.dragging = false
       this.__onInput(ev, this.centerPosition, true)
     },

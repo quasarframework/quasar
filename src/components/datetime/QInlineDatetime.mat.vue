@@ -233,7 +233,7 @@
 
 <script>
 import { height, width, offset, cssTransform } from '../../utils/dom'
-import { position, prevent } from '../../utils/event'
+import { position, stopAndPrevent } from '../../utils/event'
 import { QBtn } from '../btn'
 import { isSameDate, adjustDate } from '../../utils/date'
 import DateMixin from './datetime-mixin'
@@ -445,7 +445,7 @@ export default {
       return (unit < 10 ? filler || '0' : '') + unit
     },
     __dragStart (ev) {
-      prevent(ev)
+      stopAndPrevent(ev)
 
       let
         clock = this.$refs.clock,
@@ -463,11 +463,11 @@ export default {
       if (!this.dragging) {
         return
       }
-      prevent(ev)
+      stopAndPrevent(ev)
       this.__updateClock(ev)
     },
     __dragStop (ev) {
-      prevent(ev)
+      stopAndPrevent(ev)
       this.dragging = false
       this.view = 'minute'
     },
