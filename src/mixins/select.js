@@ -3,6 +3,7 @@ import { QInputFrame } from '../components/input-frame'
 import { QChip } from '../components/chip'
 import FrameMixin from './input-frame'
 import clone from '../utils/clone'
+import { isNumber } from '../utils/is'
 
 export default {
   components: {
@@ -15,7 +16,7 @@ export default {
     value: {
       required: true
     },
-    multiple: Boolean,
+    multiple: [Number, Boolean],
     toggle: Boolean,
     chips: Boolean,
     options: {
@@ -72,6 +73,9 @@ export default {
     }
   },
   methods: {
+    isItemDisabled (opt) {
+      return opt.disable || (isNumber(this.multiple) && this.multiple > 0 && this.length >= this.multiple && !this.optModel[opt.index])
+    },
     __toggleMultiple (value, disable) {
       if (disable) {
         return

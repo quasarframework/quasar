@@ -33,7 +33,11 @@ export default {
     },
     leftLabel: Boolean,
     inline: Boolean,
-    disable: Boolean
+    disable: Boolean,
+    limit: {
+      type: Number,
+      default: 0
+    }
   },
   computed: {
     component () {
@@ -65,6 +69,9 @@ export default {
     },
     __onBlur () {
       this.$emit('blur')
+    },
+    isDisabled (opt) {
+      return this.disable || opt.disable || (this.limit > 0 && this.length >= this.limit && !this.value.includes(opt.value))
     }
   },
   created () {
@@ -100,7 +107,7 @@ export default {
             props: {
               value: this.model,
               val: opt.value,
-              disable: this.disable || opt.disable,
+              disable: this.isDisabled(opt),
               label: opt.label,
               leftLabel: opt.leftLabel,
               color: opt.color || this.color,

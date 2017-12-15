@@ -7,7 +7,8 @@
       <q-dialog-select @change="onChange" @input="onInput" multiple v-model="multipleSelect" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Checkboxes" />
       <p class="caption">With Toggles</p>
       <q-dialog-select toggle multiple v-model="multipleSelect" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Toggles" />
-
+      <p class="caption">With Multiple Limit</p>
+      <q-dialog-select @change="onChange" @input="onInput" :multiple="2" v-model="multipleSelect" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Checkboxes" />
       <p class="caption">With Label</p>
       <q-dialog-select multiple v-model="multipleSelect" :options="selectOptions" label="Pick Company" />
 

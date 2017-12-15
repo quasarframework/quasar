@@ -63,6 +63,7 @@
 <script>
 import clone from '../../utils/clone'
 import SelectMixin from '../../mixins/select'
+import { isNumber } from '../../utils/is'
 
 export default {
   name: 'q-dialog-select',
@@ -102,7 +103,8 @@ export default {
         options: {
           type: this.type,
           model: clone(this.value),
-          items: this.options
+          items: this.options,
+          limit: isNumber(this.multiple) ? this.multiple : 0
         },
         cancel: this.cancelLabel || true,
         ok: this.okLabel || true

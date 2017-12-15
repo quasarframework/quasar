@@ -116,7 +116,7 @@
             :class="getItemClass(opt)"
             slot-replace
             @mouseenter="hoverItem(opt, index)"
-            @click.capture="onItemClick(opt.value, opt.disable)"
+            @click.capture="selectItem(opt)"
           >
             <q-toggle
               v-if="multiple && toggle"
@@ -227,7 +227,7 @@ export default {
       return opts
     },
     enabledVisibleOptionsCount () {
-      return this.visibleOptions.filter(opt => !opt.disable).length
+      return this.visibleOptions.filter(opt => !this.isItemDisabled(opt)).length
     },
     filterFn () {
       return typeof this.filter === 'boolean'
@@ -236,12 +236,12 @@ export default {
     },
     defaultSelectedIndex () {
       return this.$q.platform.is.desktop && this.enabledVisibleOptionsCount !== 0
-        ? this.visibleOptions.findIndex(opt => !opt.disable)
+        ? this.visibleOptions.findIndex(opt => !this.isItemDisabled(opt))
         : -1
     },
     currentSelectedIndex () {
       return this.multiple
-        ? this.visibleOptions.findIndex(opt => this.value.includes(opt.value) && !opt.disable)
+        ? this.visibleOptions.findIndex(opt => this.value.includes(opt.value) && !this.isItemDisabled(opt))
         : this.visibleOptions.findIndex(opt => this.value === opt.value)
     },
     emptyText () {
@@ -261,19 +261,23 @@ export default {
   },
   methods: {
     getItemClass (opt) {
-      const itemClass = opt.disable ? ['disabled', 'cursor-not-allowed'] : ['cursor-pointer']
+      const itemClass = this.isItemDisabled(opt) ? ['disabled', 'cursor-not-allowed'] : ['cursor-pointer']
       if ((this.multiple && this.optModel[opt.index]) || (!this.multiple && this.value === opt.value)) {
         itemClass.push(`text-${this.color}`)
       }
       return itemClass
     },
-    onItemClick (value, disable) {
-      this.multiple ? this.__toggleMultiple(value, disable) : this.__singleSelect(value, disable)
+    selectItem (opt) {
+      if (this.isItemDisabled(opt)) {
+        return
+      }
+      this.multiple ? this.__toggleMultiple(opt.value, opt.disable) : this.__singleSelect(opt.value, opt.disable)
     },
     hoverItem (opt, index) {
-      if (!opt.disable) {
-        this.selectedIndex = index
+      if (this.isItemDisabled(opt)) {
+        return
       }
+      this.selectedIndex = index
     },
     getFocusableElements () {
       let focusableElements = Array.prototype.slice.call(document.querySelectorAll('.q-if-focusable, .q-focusable, input.q-input-target:not([disabled])'))
@@ -291,15 +295,8 @@ export default {
       }
     },
     setCurrentSelection () {
-      if (this.selectedIndex >= 0 && !this.visibleOptions[this.selectedIndex].disable) {
-        if (this.multiple) {
-          this.__toggleMultiple(this.visibleOptions[this.selectedIndex].value)
-        }
-        else {
-          this.__singleSelect(this.visibleOptions[this.selectedIndex].value)
-          this.$refs.input.$el.focus()
-        }
-      }
+      this.selectedIndex >= 0 && this.selectItem(this.visibleOptions[this.selectedIndex])
+      !this.multiple && this.$refs.input.$el.focus()
     },
     scrollToSelectedItem (onShow = false) {
       const selected = this.$refs.list.querySelector('.q-item.active')
@@ -413,7 +410,7 @@ export default {
         0,
         this.visibleOptions.length - 1
       )
-      this.visibleOptions[this.selectedIndex].disable === true ? this.cursorNavigate(offset) : this.$nextTick(this.scrollToSelectedItem)
+      this.isItemDisabled(this.visibleOptions[this.selectedIndex]) ? this.cursorNavigate(offset) : this.$nextTick(this.scrollToSelectedItem)
     }
   }
 }

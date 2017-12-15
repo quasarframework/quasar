@@ -28,6 +28,11 @@
       <q-select @change="val => { multipleSelect = val; onChange(val); }" @input="onInput" multiple :value="multipleSelect" :auto-open="autoOpen" :loading="loading" :options="selectListOptions" clearable></q-select>
       <q-select @change="onChange" @input="onInput" multiple v-model="multipleSelect" :auto-open="autoOpen" :loading="loading" :options="selectDisabledOptions"></q-select>
 
+      <p class="caption">Multiple Selection with Limit</p>
+      <q-select @change="onChange" @input="onInput" :multiple="2" v-model="multipleSelect" :auto-open="autoOpen" :loading="loading" :options="selectListOptions" clearable></q-select>
+      <q-select @change="val => { multipleSelect = val; onChange(val); }" @input="onInput" :multiple="2" :value="multipleSelect" :auto-open="autoOpen" :loading="loading" :options="selectListOptions" clearable></q-select>
+      <q-select @change="onChange" @input="onInput" :multiple="2" v-model="multipleSelect" :auto-open="autoOpen" :loading="loading" :options="selectDisabledOptions"></q-select>
+
       <p class="caption">Multiple Selection with Chips</p>
       <q-field label="gogu" :count="10">
         <q-select @change="onChange" @input="onInput" multiple chips v-model="multipleSelect" :auto-open="autoOpen" :loading="loading" :options="selectListOptions" float-label="Some label" max-height="36px" clearable></q-select>
