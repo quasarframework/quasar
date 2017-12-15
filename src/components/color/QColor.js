@@ -231,11 +231,18 @@ export default {
     },
 
     __onSaturationChange (left, top) {
-      let { s, v } = this.__getSaturationValue(left, top)
+      const
+        panel = this.$refs.saturation,
+        width = panel.clientWidth,
+        height = panel.clientHeight,
+        rect = panel.getBoundingClientRect(),
+        x = Math.min(width, Math.max(0, left - rect.left)),
+        y = Math.min(height, Math.max(0, top - rect.top))
+
       this.__update({
         h: this.value.h,
-        s: s,
-        v: v,
+        s: x / width,
+        v: Math.max(0, Math.min(1, -(y / height) + 1)),
         a: this.value.a
       })
     },
@@ -312,20 +319,6 @@ export default {
         evt.pageX - window.pageXOffset,
         evt.pageY - window.pageYOffset
       )
-    },
-    __getSaturationValue (x, y) {
-      const
-        panel = this.$refs.saturation,
-        width = panel.clientWidth,
-        height = panel.clientHeight,
-        rect = panel.getBoundingClientRect(),
-        left = Math.min(width, Math.max(0, x - rect.left)),
-        top = Math.min(height, Math.max(0, y - rect.top))
-
-      return {
-        s: left / width,
-        v: Math.max(0, Math.min(1, -(top / height) + 1))
-      }
     }
   }
 }
