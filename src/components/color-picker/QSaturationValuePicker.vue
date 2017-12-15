@@ -1,17 +1,17 @@
 <template>
-<div
-  class="q-saturation-value-picker non-selectable"
-  v-touch-pan="__pan"
-  @click="__onClick"
-  :style="{background: bgColor}"
-  ref="container"
->
-  <div class="q-saturation-value-picker--white"></div>
-  <div class="q-saturation-value-picker--black"></div>
-  <div class="q-saturation-value-picker-pointer" :style="{top: pointerTop, left: pointerLeft}">
-    <div class="q-saturation-value-picker-circle"></div>
+  <div
+    class="q-saturation-value-picker non-selectable"
+    v-touch-pan="__pan"
+    @click="__onClick"
+    :style="{background: bgColor}"
+    ref="container"
+  >
+    <div class="q-saturation-value-picker--white"></div>
+    <div class="q-saturation-value-picker--black"></div>
+    <div class="q-saturation-value-picker-pointer" :style="{top: pointerTop, left: pointerLeft}">
+      <div class="q-saturation-value-picker-circle"></div>
+    </div>
   </div>
-</div>
 </template>
 
 <script>

@@ -3,7 +3,7 @@ import { QSlider } from '../slider'
 import TouchPan from '../../directives/touch-pan'
 import { stopAndPrevent } from '../../utils/event'
 import throttle from '../../utils/throttle'
-import getColor from './get-color'
+import { getColor } from '../../utils/colors'
 
 export default {
   name: 'q-color',
@@ -143,9 +143,7 @@ export default {
                   color: this.rgbColor
                 },
                 on: {
-                  input: value => {
-                    this.__onPropChange({ target: { value } }, 'a', 100)
-                  }
+                  input: this.__onAlphaChange
                 }
               })
             ])
@@ -252,6 +250,14 @@ export default {
         s: this.value.s,
         v: this.value.v,
         a: this.value.a
+      })
+    },
+    __onAlphaChange (a) {
+      this.__update({
+        h: this.value.h,
+        s: this.value.s,
+        v: this.value.v,
+        a: a / 100
       })
     },
     __onPropChange (evt, type, max) {

@@ -1,9 +1,7 @@
 <template>
-<div
-  class="q-alpha-slider non-selectable"
->
-  <q-slider :value="alpha" @input="__onInput" :min="0" :max="100" label />
-</div>
+  <div class="q-alpha-slider non-selectable">
+    <q-slider :value="alpha" @input="__onInput" :min="0" :max="100" label />
+  </div>
 </template>
 
 <script>

@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="q-inline-color-picker non-selectable"
-  >
+  <div class="q-inline-color-picker non-selectable">
     <div class="row">
       <q-color-swatch :value="value" />
       <q-input class="col" :value="hex" @change="__onHexChange" stack-label="HEX" />
@@ -26,7 +24,7 @@ import QSaturationValuePicker from './QSaturationValuePicker.vue'
 import QHueSlider from './QHueSlider.vue'
 import QAlphaSlider from './QAlphaSlider.vue'
 import TouchPan from '../../directives/touch-pan'
-import { colorChange } from './color-picker-utils'
+import { getColor } from '../../utils/colors'
 export default {
   name: 'q-inline-color-picker',
   directives: {
@@ -36,7 +34,7 @@ export default {
   props: {
     value: {
       type: Object,
-      default: colorChange({ hex: '#000000' }),
+      default: getColor({ hex: '#000000' }),
       required: true
     }
   },
@@ -65,7 +63,7 @@ export default {
   },
   methods: {
     __onSaturationAndValueChange ({s, v}) {
-      this.__changeColor(colorChange({
+      this.__changeColor(getColor({
         h: this.value.h,
         s: s,
         v: v,
@@ -73,7 +71,7 @@ export default {
       }))
     },
     __onHueChange (h) {
-      this.__changeColor(colorChange({
+      this.__changeColor(getColor({
         h: h,
         s: this.value.s,
         v: this.value.v,
@@ -82,7 +80,7 @@ export default {
     },
     __onRChange (r) {
       if (r && r >= 0 && r <= 255) {
-        this.__changeColor(colorChange({
+        this.__changeColor(getColor({
           r: r,
           g: this.value.g,
           b: this.value.b,
@@ -92,7 +90,7 @@ export default {
     },
     __onGChange (g) {
       if (g && g >= 0 && g <= 255) {
-        this.__changeColor(colorChange({
+        this.__changeColor(getColor({
           r: this.value.r,
           g: g,
           b: this.value.b,
@@ -102,7 +100,7 @@ export default {
     },
     __onBChange (b) {
       if (b && b >= 0 && b <= 255) {
-        this.__changeColor(colorChange({
+        this.__changeColor(getColor({
           r: this.value.r,
           g: this.value.g,
           b: b,
@@ -112,7 +110,7 @@ export default {
     },
     __onAlphaChange (a) {
       if (a && a >= 0 && a <= 100) {
-        this.__changeColor(colorChange({
+        this.__changeColor(getColor({
           h: this.value.h,
           s: this.value.s,
           v: this.value.v,
@@ -121,7 +119,7 @@ export default {
       }
     },
     __onHexChange (hex) {
-      this.__changeColor(colorChange({
+      this.__changeColor(getColor({
         hex: hex,
         a: this.value.a
       }))
