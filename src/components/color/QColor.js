@@ -19,6 +19,7 @@ export default {
       type: String,
       default: 'primary'
     },
+    noAlpha: Boolean,
     dark: Boolean,
     disable: Boolean,
     readonly: Boolean
@@ -42,6 +43,19 @@ export default {
     },
     editable () {
       return !this.disable && !this.readonly
+    },
+    hasAlpha () {
+      return !this.noAlpha
+    },
+    inputsArray () {
+      const inp = ['r', 'g', 'b']
+      if (this.hasAlpha) {
+        inp.push('a')
+      }
+      return inp
+    },
+    rgbColor () {
+      return `rgb(${this.value.r},${this.value.g},${this.value.b})`
     }
   },
   data: () => ({
@@ -66,7 +80,7 @@ export default {
         ref: 'saturation',
         staticClass: 'q-color-saturation non-selectable relative-position overflow-hidden cursor-pointer',
         style: this.saturationStyle,
-        'class': { readonly: this.readonly },
+        'class': { readonly: !this.editable },
         on: this.editable
           ? { click: this.__saturationClick }
           : null,
@@ -107,38 +121,40 @@ export default {
                 readonly: !this.editable
               },
               style: {
-                color: this.value.hex
+                color: this.rgbColor
               },
               on: {
                 input: this.__onHueChange
               }
             })
           ]),
-          h('div', { staticClass: 'q-color-alpha non-selectable' }, [
-            h(QSlider, {
-              props: {
-                value: this.value.a * 100,
-                color: 'none',
-                min: 0,
-                max: 100,
-                fillHandleAlways: true,
-                readonly: this.readonly
-              },
-              style: {
-                color: this.value.hex
-              },
-              on: {
-                input: value => {
-                  this.__onPropChange({ target: { value } }, 'a', 100)
+          this.hasAlpha
+            ? h('div', { staticClass: 'q-color-alpha non-selectable' }, [
+              h(QSlider, {
+                props: {
+                  value: this.value.a * 100,
+                  color: 'none',
+                  min: 0,
+                  max: 100,
+                  fillHandleAlways: true,
+                  readonly: !this.editable
+                },
+                style: {
+                  color: this.rgbColor
+                },
+                on: {
+                  input: value => {
+                    this.__onPropChange({ target: { value } }, 'a', 100)
+                  }
                 }
-              }
-            })
-          ])
+              })
+            ])
+            : null
         ])
       ])
     },
     __getNumericInputs (h) {
-      return ['r', 'g', 'b', 'a'].map(type => {
+      return this.inputsArray.map(type => {
         const max = type === 'a' ? 100 : 255
         return h('div', { staticClass: 'col q-color-padding' }, [
           h('input', {
@@ -150,7 +166,7 @@ export default {
             },
             staticClass: 'full-width text-center',
             domProps: {
-              value: (type === 'a' ? 100 : 1) * this.value[type]
+              value: Math.round((type === 'a' ? 100 : 1) * this.value[type])
             },
             on: {
               input: evt => {
@@ -170,7 +186,7 @@ export default {
           h('div', { staticClass: 'col' }, [
             h('input', {
               domProps: { value: this.value.hex },
-              attrs: { readonly: this.readonly },
+              attrs: { readonly: !this.editable },
               on: { input: this.__onHexChange },
               staticClass: 'full-width text-center uppercase'
             }),
@@ -250,7 +266,6 @@ export default {
       })
     },
     __update (color, change) {
-      // todo is different?
       this.$emit(change ? 'change' : 'input', getColor(color))
     },
     __nextInputView () {
