@@ -1,32 +1,37 @@
 <template>
   <div>
     <div class="layout-padding">
-      <div class="row sm-gutter items-center">
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <q-select v-model="tickStrategy" :options="[{label: 'None', value: 'none'}, {label: 'Leaf', value: 'leaf'}, {label: 'Strict', value: 'strict'}]" stack-label="Tick Strategy" />
-        </div>
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <q-toggle v-model="accordion" label="Accordion mode" />
-          <q-toggle v-model="dark" label="On dark background" />
-          <q-toggle v-model="selectableNodes" label="Selectable nodes" />
-        </div>
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <q-input v-model="filter" stack-label="Filter" />
-        </div>
-      </div>
-
-      <div class="row sm-gutter items-center">
-        <div class="col-6">
-          <span class="text-bold">Ticked</span>:<br>{{ticked}}
-        </div>
-        <div class="col-6">
-          <span class="text-bold">Expanded</span>:<br>{{expanded}}
-        </div>
-        <div v-if="selectableNodes" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <span class="text-bold">Selected</span>:<br>{{selected}}
-        </div>
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <q-btn @click="getNodeByKey" no-caps label="getNodeByKey test" />
+      <div>
+        <div class="row sm-gutter items-center">
+          <div class="col-xs-12 col-md-4">
+            <q-select v-model="tickStrategy" :options="[
+              {label: 'None', value: 'none'},
+              {label: 'Leaf', value: 'leaf'},
+              {label: 'Leaf Filtered', value: 'leaf-filtered'},
+              {label: 'Strict', value: 'strict'}
+            ]" stack-label="Tick Strategy" />
+          </div>
+          <div class="col-xs-12 col-md-4">
+            <q-toggle v-model="accordion" label="Accordion mode" />
+            <q-toggle v-model="dark" label="On dark background" />
+            <q-toggle v-model="selectableNodes" label="Selectable nodes" />
+          </div>
+          <div class="col-xs-12 col-md-4">
+            <q-input v-model="filter" stack-label="Filter" />
+          </div>
+          <div class="col-6 scroll" style="height: 6em;">
+            <span class="text-bold">Ticked</span>:<br>{{ticked}}
+          </div>
+          <div class="col-6 scroll" style="height: 6em;">
+            <span class="text-bold">Expanded</span>:<br>{{expanded}}
+          </div>
+          <div v-if="selectableNodes" class="col-xs-12 col-md-6">
+            <span class="text-bold">Selected</span>:<br>{{selected}}
+          </div>
+          <div class="col-xs-12 col-md-6">
+            <q-btn @click="getNodeByKey" no-caps label="getNodeByKey test" />
+            <q-btn @click="expandAll" no-caps label="Expand all" />
+          </div>
         </div>
       </div>
 
@@ -43,7 +48,6 @@
           :accordion="accordion"
           :color="color"
           :filter="filter"
-          default-expand-all
           @lazy-load="onLazyLoad"
         >
           <!--
@@ -86,15 +90,23 @@ export default {
     }
   },
   data () {
+    let children = []
+    for (let i = 0; i < 500; i += 1) {
+      children.push({
+        label: 'Node 1.1.1.1.' + (i + 1)
+      })
+    }
+
     return {
       selected: null,
       tickStrategy: 'leaf',
       ticked: ['Node 2.2'],
-      expanded: ['Node 2.1.4 - Disabled'],
+      expanded: ['Node 2.1.4 - Disabled', 'Node 2.1.3 - freeze exp / tickable'],
       selectableNodes: true,
       dark: false,
       accordion: false,
       filter: '',
+      defaultExpandAll: false,
       nodes: [
         {
           label: 'Node 1 - filter',
@@ -105,15 +117,18 @@ export default {
               avatar: 'statics/boy-avatar.png',
               children: [
                 {
-                  label: 'Node 1.1.1',
+                  label: 'Node 1.1.1 - tick strategy leaf-filtered',
+                  tickStrategy: 'leaf-filtered',
                   children: [
                     {
-                      label: 'Node 1.1.1.1'
+                      label: 'Node 1.1.1.1 - lots of leafs',
+                      children
                     }
                   ]
                 },
                 {
-                  label: 'Node 1.1.2',
+                  label: 'Node 1.1.2 - tick strategy leaf',
+                  tickStrategy: 'leaf',
                   children: [
                     {
                       label: 'Node 1.1.2.1'
@@ -163,7 +178,8 @@ export default {
                   noTick: true
                 },
                 {
-                  label: 'Node 2.1.2',
+                  label: 'Node 2.1.2 - tick strategy strict',
+                  tickStrategy: 'strict',
                   children: [
                     {
                       label: 'Node 2.1.2.1 - body slot',
@@ -210,7 +226,7 @@ export default {
                   ]
                 },
                 {
-                  label: 'Node 2.1.3 - freeze exp/tick',
+                  label: 'Node 2.1.3 - freeze exp / tickable',
                   expandable: false,
                   tickable: true,
                   children: [
@@ -255,6 +271,9 @@ export default {
   methods: {
     getNodeByKey () {
       console.log(this.$refs.tree.getNodeByKey('Node 2.1.1'))
+    },
+    expandAll () {
+      this.$refs.tree.expandAll()
     },
     onLazyLoad ({ node, key, done, fail }) {
       // call fail() if any error occurs
