@@ -1,6 +1,7 @@
 import { QBtn } from '../btn'
 import { QSlider } from '../slider'
 import TouchPan from '../../directives/touch-pan'
+import { stopAndPrevent } from '../../utils/event'
 import throttle from '../../utils/throttle'
 import getColor from './get-color'
 
@@ -268,8 +269,7 @@ export default {
       }
     },
     __dragStart (event) {
-      event.evt.stopPropagation()
-      event.evt.preventDefault()
+      stopAndPrevent(event.evt)
 
       this.saturationDragging = true
       this.__saturationChange(event)
@@ -278,14 +278,12 @@ export default {
       if (!this.saturationDragging) {
         return
       }
-      event.evt.stopPropagation()
-      event.evt.preventDefault()
+      stopAndPrevent(event.evt)
 
       this.__saturationChange(event)
     },
     __dragStop (event) {
-      event.evt.stopPropagation()
-      event.evt.preventDefault()
+      stopAndPrevent(event.evt)
       this.saturationDragging = false
     },
     __saturationChange (evt) {
