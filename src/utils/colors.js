@@ -1,23 +1,26 @@
-export function rgbToHex (r, g, b) {
-  if (typeof r === 'string') {
-    const res = r.match(/\b\d{1,3}\b/g).map(Number)
-    r = res[0]
-    g = res[1]
-    b = res[2]
-  }
+export function rgbToHex ({ r, g, b, a }) {
+  const alpha = a !== void 0
+
+  r = Math.round(r)
+  g = Math.round(g)
+  b = Math.round(b)
 
   if (
-    typeof r !== 'number' ||
-    typeof g !== 'number' ||
-    typeof b !== 'number' ||
     r > 255 ||
     g > 255 ||
-    b > 255
+    b > 255 ||
+    (alpha && a > 100)
   ) {
-    throw new TypeError('Expected three numbers below 256')
+    throw new TypeError('Expected 3 numbers below 256 (and optionally one below 100)')
   }
 
-  return ((b | g << 8 | r << 16) | 1 << 24).toString(16).slice(1)
+  console.log('rgbToHex', a)
+  a = alpha
+    ? (Math.round(255 * a / 100) | 1 << 8).toString(16).slice(1)
+    : ''
+  console.log('rgbToHex final', a)
+
+  return '#' + ((b | g << 8 | r << 16) | 1 << 24).toString(16).slice(1) + a
 }
 
 export function hexToRgb (hex) {
@@ -30,20 +33,21 @@ export function hexToRgb (hex) {
   if (hex.length === 3) {
     hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2]
   }
+  else if (hex.length === 4) {
+    hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2] + hex[3] + hex[3]
+  }
 
   let num = parseInt(hex, 16)
 
-  return [num >> 16, num >> 8 & 255, num & 255]
+  return hex.length > 6
+    ? {r: num >> 24 & 255, g: num >> 16 & 255, b: num >> 8 & 255, a: Math.round((num & 255) / 2.55)}
+    : {r: num >> 16, g: num >> 8 & 255, b: num & 255}
 }
 
-export function hsvToRgb (h, s, v) {
+export function hsvToRgb ({ h, s, v, a }) {
   let r, g, b, i, f, p, q, t
-
-  if (arguments.length === 1) {
-    s = h.s
-    v = h.v
-    h = h.h
-  }
+  s = s / 100
+  v = v / 100
 
   h = h / 360
   i = Math.floor(h * 6)
@@ -88,17 +92,12 @@ export function hsvToRgb (h, s, v) {
   return {
     r: Math.round(r * 255),
     g: Math.round(g * 255),
-    b: Math.round(b * 255)
+    b: Math.round(b * 255),
+    a
   }
 }
 
-export function rgbToHsv (r, g, b) {
-  if (arguments.length === 1) {
-    r = r.r
-    g = r.g
-    b = r.b
-  }
-
+export function rgbToHsv ({ r, g, b, a }) {
   let
     max = Math.max(r, g, b), min = Math.min(r, g, b),
     d = max - min,
@@ -125,8 +124,9 @@ export function rgbToHsv (r, g, b) {
   }
 
   return {
-    h: h * 360,
-    s: s,
-    v: v
+    h: Math.round(h * 360),
+    s: Math.round(s * 100),
+    v: Math.round(v * 100),
+    a
   }
 }

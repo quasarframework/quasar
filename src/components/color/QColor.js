@@ -3,7 +3,8 @@ import { QSlider } from '../slider'
 import TouchPan from '../../directives/touch-pan'
 import { stopAndPrevent } from '../../utils/event'
 import throttle from '../../utils/throttle'
-import getColor from './get-color'
+import extend from '../../utils/extend'
+import { hexToRgb, rgbToHex, rgbToHsv, hsvToRgb } from '../../utils/colors'
 
 export default {
   name: 'q-color',
@@ -12,7 +13,7 @@ export default {
   },
   props: {
     value: {
-      type: Object,
+      type: [String, Object],
       required: true
     },
     color: {
@@ -23,30 +24,62 @@ export default {
     disable: Boolean,
     readonly: Boolean
   },
+  data () {
+    return {
+      view: this.isHex ? 'hex' : 'rgb',
+      model: this.__parseModel(this.value)
+    }
+  },
+  watch: {
+    value: {
+      handler (v) {
+        this.model = this.__parseModel(v)
+      },
+      deep: true
+    }
+  },
   computed: {
+    isHex () {
+      return typeof this.value === 'string'
+    },
+    isRgb () {
+      return !this.isHex
+    },
+    editable () {
+      return !this.disable && !this.readonly
+    },
+    hasAlpha () {
+      return this.isHex
+        ? this.value.length > 7
+        : this.value.a !== void 0
+    },
     swatchStyle () {
       return {
-        backgroundColor: `rgba(${this.value.r},${this.value.g},${this.value.b},${this.value.a})`
+        backgroundColor: `rgba(${this.model.r},${this.model.g},${this.model.b},${this.model.a})`
       }
     },
     saturationStyle () {
       return {
-        background: `hsl(${this.value.h},100%,50%)`
+        background: `hsl(${this.model.h},100%,50%)`
       }
     },
     saturationPointerStyle () {
       return {
-        top: `${this.value.v * -100 + 101}%`,
-        left: `${this.value.s * 100}%`
+        top: `${101 - this.model.v}%`,
+        left: `${this.model.s}%`
       }
     },
-    editable () {
-      return !this.disable && !this.readonly
+    inputsArray () {
+      const inp = ['r', 'g', 'b']
+      if (this.hasAlpha) {
+        inp.push('a')
+      }
+      return inp
+    },
+    rgbColor () {
+      return `rgb(${this.model.r},${this.model.g},${this.model.b})`
     }
   },
-  data: () => ({
-    view: 'hex'
-  }),
   created () {
     this.__saturationChange = throttle(this.__saturationChange, 20)
   },
@@ -55,6 +88,11 @@ export default {
       staticClass: 'q-color',
       'class': { disabled: this.disable }
     }, [
+      h('div', { style: 'word-break: break-all' }, [
+        this.hasAlpha ? 'WITH-alpha' : 'NO_ALPHA',
+        this.isHex ? '(HEX)' : '(RGB)',
+        JSON.stringify(this.model)
+      ]),
       this.__getSaturation(h),
       this.__getSliders(h),
       this.__getInputs(h)
@@ -66,7 +104,7 @@ export default {
         ref: 'saturation',
         staticClass: 'q-color-saturation non-selectable relative-position overflow-hidden cursor-pointer',
         style: this.saturationStyle,
-        'class': { readonly: this.readonly },
+        'class': { readonly: !this.editable },
         on: this.editable
           ? { click: this.__saturationClick }
           : null,
@@ -99,7 +137,7 @@ export default {
           h('div', { staticClass: 'q-color-hue non-selectable' }, [
             h(QSlider, {
               props: {
-                value: this.value.h,
+                value: this.model.h,
                 color: 'none',
                 min: 0,
                 max: 360,
@@ -107,38 +145,40 @@ export default {
                 readonly: !this.editable
               },
               style: {
-                color: this.value.hex
+                color: this.rgbColor
               },
               on: {
                 input: this.__onHueChange
               }
             })
           ]),
-          h('div', { staticClass: 'q-color-alpha non-selectable' }, [
-            h(QSlider, {
-              props: {
-                value: this.value.a * 100,
-                color: 'none',
-                min: 0,
-                max: 100,
-                fillHandleAlways: true,
-                readonly: this.readonly
-              },
-              style: {
-                color: this.value.hex
-              },
-              on: {
-                input: value => {
-                  this.__onPropChange({ target: { value } }, 'a', 100)
+          this.hasAlpha
+            ? h('div', { staticClass: 'q-color-alpha non-selectable' }, [
+              h(QSlider, {
+                props: {
+                  value: this.model.a,
+                  color: 'none',
+                  min: 0,
+                  max: 100,
+                  fillHandleAlways: true,
+                  readonly: !this.editable
+                },
+                style: {
+                  color: this.rgbColor
+                },
+                on: {
+                  input: value => {
+                    this.__onPropChange({ target: { value } }, 'a', 100)
+                  }
                 }
-              }
-            })
-          ])
+              })
+            ])
+            : null
         ])
       ])
     },
     __getNumericInputs (h) {
-      return ['r', 'g', 'b', 'a'].map(type => {
+      return this.inputsArray.map(type => {
         const max = type === 'a' ? 100 : 255
         return h('div', { staticClass: 'col q-color-padding' }, [
           h('input', {
@@ -150,7 +190,7 @@ export default {
             },
             staticClass: 'full-width text-center',
             domProps: {
-              value: (type === 'a' ? 100 : 1) * this.value[type]
+              value: Math.round(this.model[type])
             },
             on: {
               input: evt => {
@@ -169,8 +209,8 @@ export default {
         ? [
           h('div', { staticClass: 'col' }, [
             h('input', {
-              domProps: { value: this.value.hex },
-              attrs: { readonly: this.readonly },
+              domProps: { value: this.model.hex },
+              attrs: { readonly: !this.editable },
               on: { input: this.__onHexChange },
               staticClass: 'full-width text-center uppercase'
             }),
@@ -215,46 +255,69 @@ export default {
     },
 
     __onSaturationChange (left, top) {
-      let { s, v } = this.__getSaturationValue(left, top)
-      this.__update({
-        h: this.value.h,
-        s: s,
-        v: v,
-        a: this.value.a
+      const
+        panel = this.$refs.saturation,
+        width = panel.clientWidth,
+        height = panel.clientHeight,
+        rect = panel.getBoundingClientRect(),
+        x = Math.min(width, Math.max(0, left - rect.left)),
+        y = Math.min(height, Math.max(0, top - rect.top))
+
+      const val = hsvToRgb({
+        h: this.model.h,
+        s: 100 * x / width,
+        v: 100 * Math.max(0, Math.min(1, -(y / height) + 1)),
+        a: this.hasAlpha ? this.model.a : void 0
       })
+      this.__update(this.isHex ? rgbToHex(val) : val)
     },
     __onHueChange (h) {
-      this.__update({
+      const val = hsvToRgb({
         h: h,
-        s: this.value.s,
-        v: this.value.v,
-        a: this.value.a
+        s: this.model.s,
+        v: this.model.v,
+        a: this.hasAlpha ? this.model.a : void 0
       })
+      this.__update(this.isHex ? rgbToHex(val) : val)
     },
     __onPropChange (evt, type, max) {
       let val = Number(evt.target.value)
       if (!isNaN(val) && val >= 0 && val <= max) {
         val = Math.floor(val)
-        this.__update({
-          r: type === 'r' ? val : this.value.r,
-          g: type === 'g' ? val : this.value.g,
-          b: type === 'b' ? val : this.value.b,
-          a: type === 'a' ? val / 100 : this.value.a
-        })
+        const rgb = {
+          r: type === 'r' ? val : this.model.r,
+          g: type === 'g' ? val : this.model.g,
+          b: type === 'b' ? val : this.model.b,
+          a: this.hasAlpha
+            ? (type === 'a' ? val : this.model.a)
+            : void 0
+        }
+        this.__update(this.isHex ? rgbToHex(rgb) : rgb)
       }
     },
     __onHexChange (evt) {
-      this.__update({
-        hex: evt.target.value,
-        a: this.value.a
-      })
+      const val = evt.target.value
+      this.__update(this.isHex ? val : hexToRgb(val))
     },
-    __update (color, change) {
-      // todo is different?
-      this.$emit(change ? 'change' : 'input', getColor(color))
+    __update (model, change) {
+      this.$emit(
+        change ? 'change' : 'input',
+        model
+      )
     },
     __nextInputView () {
       this.view = this.view === 'hex' ? 'rgba' : 'hex'
+    },
+    __parseModel (v) {
+      let model = v
+      if (typeof v === 'string') {
+        model = hexToRgb(v)
+        model.hex = v
+      }
+      else {
+        model.hex = rgbToHex(v)
+      }
+      return extend({ a: 100 }, model, rgbToHsv(model))
     },
 
     __saturationPan (evt) {
@@ -297,20 +360,6 @@ export default {
         evt.pageX - window.pageXOffset,
         evt.pageY - window.pageYOffset
       )
-    },
-    __getSaturationValue (x, y) {
-      const
-        panel = this.$refs.saturation,
-        width = panel.clientWidth,
-        height = panel.clientHeight,
-        rect = panel.getBoundingClientRect(),
-        left = Math.min(width, Math.max(0, x - rect.left)),
-        top = Math.min(height, Math.max(0, y - rect.top))
-
-      return {
-        s: left / width,
-        v: Math.max(0, Math.min(1, -(top / height) + 1))
-      }
     }
   }
 }
