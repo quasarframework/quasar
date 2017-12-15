@@ -129,12 +129,12 @@ export default {
         }, [
           this.label || this.labelAlways
             ? h(QChip, {
+              staticClass: 'q-slider-label no-pointer-events',
+              'class': { 'label-always': this.labelAlways },
               props: {
                 pointing: 'down',
                 square: true,
-                color: this.labelColor,
-                staticClass: 'q-slider-label no-pointer-events',
-                'class': { 'label-always': this.labelAlways }
+                color: this.labelColor
               }
             }, [ this.displayValue ])
             : null,
