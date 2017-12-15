@@ -13,6 +13,7 @@
         <q-search v-model="search" color="primary" icon="local_airport" placeholder="Airports"></q-search>
         <q-search v-model="search" color="dark" icon="local_hotel" placeholder="Hotels"></q-search>
         <q-search stack-label="Stack Label" v-model="search" color="amber" icon="local_hotel" placeholder="Hotels"></q-search>
+        <q-search hide-underline stack-label="Stack Label (hide underline)" v-model="search" color="amber" icon="local_hotel" placeholder="Hotels"></q-search>
       </div>
 
       <div style="margin-top: 15px">

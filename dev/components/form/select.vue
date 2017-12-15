@@ -7,6 +7,11 @@
       <q-select v-model="select" :options="selectListOptions"></q-select>
       <q-select v-model="select" :options="selectDisabledOptions"></q-select>
 
+      <p class="caption">Hide Underline</p>
+      <q-select hide-underline v-model="select" :options="selectDisabledOptions"></q-select>
+      <q-select hide-underline color="amber" v-model="select" :options="selectListOptions"></q-select>
+      <q-select hide-underline inverted color="secondary" v-model="select" :options="selectListOptions"></q-select>
+
       <p class="caption">Coloring</p>
       <q-select color="amber" v-model="select" :options="selectListOptions"></q-select>
       <q-select inverted color="secondary" v-model="select" :options="selectListOptions"></q-select>
