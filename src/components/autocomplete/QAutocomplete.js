@@ -82,7 +82,7 @@ export default {
         return
       }
 
-      const terms = typeof this.__input.val === 'number' ? String(this.__input.val) : this.__input.val
+      const terms = [null, void 0].includes(this.__input.val) ? '' : String(this.__input.val)
       const searchId = uid()
       this.searchId = searchId
 
@@ -148,8 +148,15 @@ export default {
       this.searchId = ''
     },
     setValue (result) {
+      const value = this.staticData ? result[this.staticData.field] : result.value
       const suffix = this.__inputDebounce ? 'Debounce' : ''
-      this[`__input${suffix}`].set(this.staticData ? result[this.staticData.field] : result.value)
+
+      if (this.inputEl && this.__input && !this.__input.hasFocus()) {
+        this.inputEl.focus()
+      }
+
+      this.enterKey = this.__input && value !== this.__input.val
+      this[`__input${suffix}`].set(value)
 
       this.$emit('selected', result)
       this.__clearSearch()
@@ -163,7 +170,6 @@ export default {
       )
     },
     setCurrentSelection () {
-      this.enterKey = true
       if (this.selectedIndex >= 0 && this.selectedIndex < this.results.length) {
         this.setValue(this.results[this.selectedIndex])
       }
