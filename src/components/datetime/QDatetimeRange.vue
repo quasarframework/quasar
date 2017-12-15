@@ -19,11 +19,7 @@
       :warning="warning"
       :inverted="inverted"
       :dark="dark"
-<<<<<<< HEAD
-=======
-      :light="light"
       :hide-underline="hideUnderline"
->>>>>>> 358a7a9... Add hideUnderline prop to QInputFrame
       :before="before"
       :after="after"
       :color="color"
