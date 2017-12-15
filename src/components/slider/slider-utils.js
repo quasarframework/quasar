@@ -57,17 +57,22 @@ export let mixin = {
     color: String,
     fillHandleAlways: Boolean,
     error: Boolean,
+    readonly: Boolean,
     disable: Boolean
   },
+  data () {
+    return {
+      clickDisabled: false
+    }
+  },
   computed: {
-    data () {
-      return {
-        clickDisabled: false
-      }
+    editable () {
+      return !this.disable && !this.readonly
     },
     classes () {
       const cls = {
         disabled: this.disable,
+        readonly: this.readonly,
         'label-always': this.labelAlways,
         'has-error': this.error
       }
@@ -86,7 +91,7 @@ export let mixin = {
   },
   methods: {
     __pan (event) {
-      if (this.disable) {
+      if (!this.editable) {
         return
       }
       if (event.isFinal) {
@@ -104,7 +109,7 @@ export let mixin = {
       }
     },
     __click (event) {
-      if (this.disable || this.clickDisabled) {
+      if (!this.editable || this.clickDisabled) {
         return
       }
       this.__setActive(event)

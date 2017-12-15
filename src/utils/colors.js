@@ -94,9 +94,9 @@ export function hsvToRgb (h, s, v) {
 
 export function rgbToHsv (r, g, b) {
   if (arguments.length === 1) {
+    r = r.r
     g = r.g
     b = r.b
-    r = r.r
   }
 
   let

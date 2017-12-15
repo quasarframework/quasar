@@ -7,6 +7,10 @@
 
       <div>
         <q-color v-model="model" />
+
+        <q-color v-model="model" readonly />
+
+        <q-color v-model="model" disable />
       </div>
     </div>
   </div>

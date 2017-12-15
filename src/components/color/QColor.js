@@ -43,13 +43,16 @@ export default {
       return !this.disable && !this.readonly
     }
   },
-  data: () => ({ view: 'hex' }),
+  data: () => ({
+    view: 'hex'
+  }),
   created () {
     this.__saturationChange = throttle(this.__saturationChange, 20)
   },
   render (h) {
     return h('div', {
-      staticClass: 'q-color'
+      staticClass: 'q-color',
+      'class': { disabled: this.disable }
     }, [
       this.__getSaturation(h),
       this.__getSliders(h),
@@ -62,13 +65,16 @@ export default {
         ref: 'saturation',
         staticClass: 'q-color-saturation non-selectable relative-position overflow-hidden cursor-pointer',
         style: this.saturationStyle,
-        on: {
-          click: this.__saturationClick
-        },
-        directives: [{
-          name: 'touch-pan',
-          value: this.__saturationPan
-        }]
+        'class': { readonly: this.readonly },
+        on: this.editable
+          ? { click: this.__saturationClick }
+          : null,
+        directives: this.editable
+          ? [{
+            name: 'touch-pan',
+            value: this.__saturationPan
+          }]
+          : null
       }, [
         h('div', { staticClass: 'q-color-saturation-white absolute-full' }),
         h('div', { staticClass: 'q-color-saturation-black absolute-full' }),
@@ -96,7 +102,8 @@ export default {
                 color: 'none',
                 min: 0,
                 max: 360,
-                fillHandleAlways: true
+                fillHandleAlways: true,
+                readonly: !this.editable
               },
               style: {
                 color: this.value.hex
@@ -113,7 +120,8 @@ export default {
                 color: 'none',
                 min: 0,
                 max: 100,
-                fillHandleAlways: true
+                fillHandleAlways: true,
+                readonly: this.readonly
               },
               style: {
                 color: this.value.hex
@@ -136,10 +144,13 @@ export default {
             attrs: {
               type: 'number',
               min: 0,
-              max
+              max,
+              readonly: !this.editable
             },
             staticClass: 'full-width text-center',
-            domProps: { value: (type === 'a' ? 100 : 1) * this.value[type] },
+            domProps: {
+              value: (type === 'a' ? 100 : 1) * this.value[type]
+            },
             on: {
               input: evt => {
                 this.__onPropChange(evt, type, max)
@@ -158,9 +169,8 @@ export default {
           h('div', { staticClass: 'col' }, [
             h('input', {
               domProps: { value: this.value.hex },
-              on: {
-                input: this.__onHexChange
-              },
+              attrs: { readonly: this.readonly },
+              on: { input: this.__onHexChange },
               staticClass: 'full-width text-center uppercase'
             }),
             h('div', { staticClass: 'q-color-label text-center' }, [
@@ -246,10 +256,6 @@ export default {
     },
 
     __saturationPan (evt) {
-      if (!this.editable) {
-        return
-      }
-
       if (evt.isFinal) {
         this.__dragStop(evt)
       }
@@ -261,10 +267,6 @@ export default {
       }
     },
     __dragStart (event) {
-      if (!this.editable) {
-        return
-      }
-
       event.evt.stopPropagation()
       event.evt.preventDefault()
 
@@ -272,7 +274,7 @@ export default {
       this.__saturationChange(event)
     },
     __dragMove (event) {
-      if (!this.saturationDragging || !this.editable) {
+      if (!this.saturationDragging) {
         return
       }
       event.evt.stopPropagation()
@@ -281,10 +283,6 @@ export default {
       this.__saturationChange(event)
     },
     __dragStop (event) {
-      if (!this.editable) {
-        return
-      }
-
       event.evt.stopPropagation()
       event.evt.preventDefault()
       this.saturationDragging = false
