@@ -62,7 +62,7 @@ export default {
     },
     swatchStyle () {
       return {
-        backgroundColor: `rgba(${this.model.r},${this.model.g},${this.model.b},${this.model.a})`
+        backgroundColor: `rgba(${this.model.r},${this.model.g},${this.model.b},${this.model.a / 100})`
       }
     },
     saturationStyle () {
@@ -295,32 +295,47 @@ export default {
     },
     __onPropChange (evt, type, max) {
       let val = Number(evt.target.value)
-      if (!isNaN(val) && val >= 0 && val <= max) {
-        val = Math.floor(val)
-        const rgb = {
-          r: type === 'r' ? val : this.model.r,
-          g: type === 'g' ? val : this.model.g,
-          b: type === 'b' ? val : this.model.b,
-          a: this.hasAlpha
-            ? (type === 'a' ? val : this.model.a)
-            : void 0
-        }
-        this.__update(rgb, rgbToHex(rgb))
+      if (isNaN(val)) {
+        return
       }
+
+      val = Math.floor(val)
+      const rgb = {
+        r: type === 'r' ? val : this.model.r,
+        g: type === 'g' ? val : this.model.g,
+        b: type === 'b' ? val : this.model.b,
+        a: this.hasAlpha
+          ? (type === 'a' ? val : this.model.a)
+          : void 0
+      }
+      if (type !== 'a') {
+        const hsv = rgbToHsv(rgb)
+        this.model.h = hsv.h
+        this.model.s = hsv.s
+        this.model.v = hsv.v
+      }
+      this.__update(rgb, rgbToHex(rgb))
     },
     __onHexChange (evt) {
-      const val = evt.target.value
-      this.__update(hexToRgb(val), val)
+      const
+        hex = evt.target.value,
+        rgb = hexToRgb(hex),
+        hsv = rgbToHsv(rgb)
+
+      this.model.h = hsv.h
+      this.model.s = hsv.s
+      this.model.v = hsv.v
+      this.__update(rgb, hex)
     },
     __update (rgb, hex, change) {
       // update internally
+      this.model.hex = hex
       this.model.r = rgb.r
       this.model.g = rgb.g
       this.model.b = rgb.b
       if (this.hasAlpha) {
         this.model.a = rgb.a
       }
-      this.model.hex = hex
 
       // avoid recomputing
       this.avoidModelWatch = true
