@@ -13,6 +13,7 @@
         on Chips Textbox below to start adding Chips.
       </p>
       <q-chips-input align="right" @change="onChange" @input="onInput" color="secondary" float-label="Float Label" v-model="model" placeholder="Some placeholder" />
+      <q-chips-input align="right" @change="onChange" @input="onInput" color="secondary" hide-underline float-label="Float Label (hide underline)" v-model="model" placeholder="Some placeholder" />
       <q-chips-input align="right" @change="val => { model = val; onChange(val) }" @input="onInput" color="secondary" float-label="Float Label (onChange)" :value="model" placeholder="Some placeholder" />
       <q-chips-input inverted color="dark" frame-color="amber" float-label="Float Label" v-model="model" placeholder="Some placeholder" />
 
