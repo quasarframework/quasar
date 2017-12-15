@@ -82,7 +82,7 @@ export default {
         return
       }
 
-      const terms = this.__input.val
+      const terms = typeof this.__input.val === 'number' ? String(this.__input.val) : this.__input.val
       const searchId = uid()
       this.searchId = searchId
 
@@ -246,17 +246,20 @@ export default {
       h(QList, {
         props: {
           noBorder: true,
-          link: true,
           separator: this.separator
         },
         style: this.computedWidth
       },
       this.computedResults.map((result, index) => h(QItemWrapper, {
         key: result.id || JSON.stringify(result),
-        'class': { active: this.selectedIndex === index },
+        'class': {
+          active: this.selectedIndex === index,
+          'cursor-pointer': !result.disable
+        },
         props: { cfg: result },
         on: {
-          click: () => { this.setValue(result) }
+          mouseenter: () => { !result.disable && (this.selectedIndex = index) },
+          click: () => { !result.disable && this.setValue(result) }
         }
       })))
     ])
