@@ -14,11 +14,9 @@ export function rgbToHex ({ r, g, b, a }) {
     throw new TypeError('Expected 3 numbers below 256 (and optionally one below 100)')
   }
 
-  console.log('rgbToHex', a)
   a = alpha
     ? (Math.round(255 * a / 100) | 1 << 8).toString(16).slice(1)
     : ''
-  console.log('rgbToHex final', a)
 
   return '#' + ((b | g << 8 | r << 16) | 1 << 24).toString(16).slice(1) + a
 }

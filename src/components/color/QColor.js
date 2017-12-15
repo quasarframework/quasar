@@ -33,7 +33,14 @@ export default {
   watch: {
     value: {
       handler (v) {
-        this.model = this.__parseModel(v)
+        if (this.avoidModelWatch) {
+          this.avoidModelWatch = false
+          return
+        }
+        const model = this.__parseModel(v)
+        if (model.hex !== this.model.hex) {
+          this.model = model
+        }
       },
       deep: true
     }
@@ -261,24 +268,30 @@ export default {
         height = panel.clientHeight,
         rect = panel.getBoundingClientRect(),
         x = Math.min(width, Math.max(0, left - rect.left)),
-        y = Math.min(height, Math.max(0, top - rect.top))
+        y = Math.min(height, Math.max(0, top - rect.top)),
+        s = Math.round(100 * x / width),
+        v = Math.round(100 * Math.max(0, Math.min(1, -(y / height) + 1)))
 
       const val = hsvToRgb({
         h: this.model.h,
-        s: 100 * x / width,
-        v: 100 * Math.max(0, Math.min(1, -(y / height) + 1)),
+        s,
+        v,
         a: this.hasAlpha ? this.model.a : void 0
       })
-      this.__update(this.isHex ? rgbToHex(val) : val)
+      this.model.s = s
+      this.model.v = v
+      this.__update(val, rgbToHex(val))
     },
     __onHueChange (h) {
+      h = Math.round(h)
       const val = hsvToRgb({
-        h: h,
+        h,
         s: this.model.s,
         v: this.model.v,
         a: this.hasAlpha ? this.model.a : void 0
       })
-      this.__update(this.isHex ? rgbToHex(val) : val)
+      this.model.h = h
+      this.__update(val, rgbToHex(val))
     },
     __onPropChange (evt, type, max) {
       let val = Number(evt.target.value)
@@ -292,17 +305,30 @@ export default {
             ? (type === 'a' ? val : this.model.a)
             : void 0
         }
-        this.__update(this.isHex ? rgbToHex(rgb) : rgb)
+        this.__update(rgb, rgbToHex(rgb))
       }
     },
     __onHexChange (evt) {
       const val = evt.target.value
-      this.__update(this.isHex ? val : hexToRgb(val))
+      this.__update(hexToRgb(val), val)
     },
-    __update (model, change) {
+    __update (rgb, hex, change) {
+      // update internally
+      this.model.r = rgb.r
+      this.model.g = rgb.g
+      this.model.b = rgb.b
+      if (this.hasAlpha) {
+        this.model.a = rgb.a
+      }
+      this.model.hex = hex
+
+      // avoid recomputing
+      this.avoidModelWatch = true
+
+      // emit new value
       this.$emit(
         change ? 'change' : 'input',
-        model
+        this.isHex ? hex : rgb
       )
     },
     __nextInputView () {
