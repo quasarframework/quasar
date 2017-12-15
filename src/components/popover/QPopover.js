@@ -103,16 +103,18 @@ export default {
 
       clearTimeout(this.timer)
       this.timer = setTimeout(() => {
-        document.body.addEventListener('click', this.__bodyHide, true)
-        document.body.addEventListener('touchstart', this.__bodyHide, true)
+        document.body.addEventListener('click', this.__bodyHide)
         this.showPromise && this.showPromiseResolve()
       }, 0)
     },
     __bodyHide (evt) {
       if (
-        evt && evt.target &&
-        (this.$el.contains(evt.target) || this.anchorEl.contains(evt.target))
+        evt && (
+          evt.skipPopup ||
+          (evt.target && (this.$el.contains(evt.target) || this.anchorEl.contains(evt.target)))
+        )
       ) {
+        evt.skipPopup = true
         return
       }
 

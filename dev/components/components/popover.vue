@@ -9,7 +9,7 @@
 
       <div>
         <q-toggle v-model="toggle" class="z-max fixed-top" />
-        <q-btn color="primary" icon="assignment">
+        <q-btn color="primary" icon="assignment" class="q-ma-xs">
           <q-popover v-model="toggle" ref="popover1">
             <q-list link separator class="scroll" style="min-width: 100px">
               <q-item
@@ -42,6 +42,88 @@
         <q-btn ref="target4" color="negative" label="Disabled Popover">
           <q-popover disable>
             This Popover content won't be shown because of "disable"
+          </q-popover>
+        </q-btn>
+
+        <q-btn color="info" label="Autocomplete static in popup" class="q-ma-xs">
+          <q-popover anchor="bottom right" self="top right" fit>
+            <div class="row">
+              <div class="col-12 q-pa-sm">
+                <q-search v-model="terms" placeholder="Search">
+                  <q-autocomplete
+                    :static-data="{field: 'value', list}"
+                    @selected="selected"
+                  />
+                </q-search>
+              </div>
+            </div>
+          </q-popover>
+        </q-btn>
+
+        <q-btn color="info" label="Autocomplete debounced in popup" class="q-ma-xs">
+          <q-popover anchor="bottom right" self="top right" fit>
+            <div class="row">
+              <div class="col-12 q-pa-sm">
+                <q-search v-model="terms" placeholder="Search" :debounce="500">
+                  <q-autocomplete
+                    @search="search"
+                    @selected="selected"
+                  />
+                </q-search>
+              </div>
+            </div>
+          </q-popover>
+        </q-btn>
+
+        <q-btn color="info" label="Select in popup" class="q-ma-xs">
+          <q-popover anchor="bottom right" self="top right" fit>
+            <div class="row">
+              <div class="col-12 q-pa-sm">
+                <q-select
+                  v-model="terms"
+                  :options="list"
+                  filter
+                  @input="selected"
+                />
+              </div>
+            </div>
+          </q-popover>
+        </q-btn>
+
+        <q-btn color="info" label="More controls in popup" class="q-ma-xs">
+          <q-popover anchor="bottom right" self="top right" fit>
+            <div class="row">
+              <div class="col-12 q-pa-sm">
+                <q-knob
+                  v-model="model"
+                  :min="min"
+                  :max="max"
+                >
+                  <q-icon class="on-left" name="volume_up" /> {{model}}
+                </q-knob>
+              </div>
+              <div class="col-12 q-pa-sm">
+                <q-datetime v-model="modelDate" type="datetime" />
+              </div>
+              <div class="col-12 q-px-sm q-py-lg">
+                <q-slider v-model="model" :min="min" :max="max" square label></q-slider>
+              </div>
+              <div class="col-12 q-pa-sm">
+                <q-select radio
+                  v-model="terms"
+                  :options="list"
+                  filter
+                  @input="selected"
+                />
+              </div>
+              <div class="col-12 q-pa-sm">
+                <q-toggle v-model="toggleModal" label="Toggle modal" />
+                <q-modal v-model="toggleModal" position="right" :content-css="{padding: '20px'}">
+                  <h4>Modal</h4><p>This one gets displayed from right.</p>
+                  <q-btn color="orange" @click="toggleModal = false">Close Me</q-btn>
+                </q-modal>
+              </div>
+            </div>
           </q-popover>
         </q-btn>
 
@@ -151,6 +233,8 @@
 </template>
 
 <script>
+import { filter } from 'quasar'
+
 export default {
   data () {
     let list = []
@@ -161,6 +245,7 @@ export default {
     }
     return {
       toggle: false,
+      toggleModal: false,
       anchorOrigin: {vertical: 'bottom', horizontal: 'left'},
       selfOrigin: {vertical: 'top', horizontal: 'left'},
       terms: '',
@@ -182,6 +267,14 @@ export default {
   methods: {
     showNotify () {
       this.$q.notify((this.$q.platform.is.desktop ? 'Clicked' : 'Tapped') + ' on a Popover item')
+    },
+    search (terms, done) {
+      setTimeout(() => {
+        done(filter(terms, {field: 'value', list: this.list}))
+      }, 1000)
+    },
+    selected (item) {
+      this.$q.notify(`Selected suggestion "${JSON.stringify(item)}"`)
     }
   }
 }
