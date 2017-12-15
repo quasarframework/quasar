@@ -20,7 +20,6 @@ export default {
       type: String,
       default: 'primary'
     },
-    dark: Boolean,
     disable: Boolean,
     readonly: Boolean
   },
@@ -145,14 +144,11 @@ export default {
             h(QSlider, {
               props: {
                 value: this.model.h,
-                color: 'none',
+                color: 'white',
                 min: 0,
                 max: 360,
                 fillHandleAlways: true,
                 readonly: !this.editable
-              },
-              style: {
-                color: this.rgbColor
               },
               on: {
                 input: this.__onHueChange
@@ -164,14 +160,11 @@ export default {
               h(QSlider, {
                 props: {
                   value: this.model.a,
-                  color: 'none',
+                  color: 'white',
                   min: 0,
                   max: 100,
                   fillHandleAlways: true,
                   readonly: !this.editable
-                },
-                style: {
-                  color: this.rgbColor
                 },
                 on: {
                   input: value => {
@@ -270,17 +263,17 @@ export default {
         x = Math.min(width, Math.max(0, left - rect.left)),
         y = Math.min(height, Math.max(0, top - rect.top)),
         s = Math.round(100 * x / width),
-        v = Math.round(100 * Math.max(0, Math.min(1, -(y / height) + 1)))
+        v = Math.round(100 * Math.max(0, Math.min(1, -(y / height) + 1))),
+        rgb = hsvToRgb({
+          h: this.model.h,
+          s,
+          v,
+          a: this.hasAlpha ? this.model.a : void 0
+        })
 
-      const val = hsvToRgb({
-        h: this.model.h,
-        s,
-        v,
-        a: this.hasAlpha ? this.model.a : void 0
-      })
       this.model.s = s
       this.model.v = v
-      this.__update(val, rgbToHex(val))
+      this.__update(rgb, rgbToHex(rgb))
     },
     __onHueChange (h) {
       h = Math.round(h)
@@ -290,6 +283,7 @@ export default {
         v: this.model.v,
         a: this.hasAlpha ? this.model.a : void 0
       })
+
       this.model.h = h
       this.__update(val, rgbToHex(val))
     },
