@@ -102,18 +102,16 @@ export default {
 
       clearTimeout(this.timer)
       this.timer = setTimeout(() => {
-        document.body.addEventListener('click', this.__bodyHide)
+        document.body.addEventListener('click', this.__bodyHide, true)
+        document.body.addEventListener('touchstart', this.__bodyHide, true)
         this.showPromise && this.showPromiseResolve()
       }, 0)
     },
     __bodyHide (evt) {
       if (
-        evt && (
-          evt.skipPopup ||
-          (evt.target && (this.$el.contains(evt.target) || this.anchorEl.contains(evt.target)))
-        )
+        evt && evt.target &&
+        (this.$el.contains(evt.target) || this.anchorEl.contains(evt.target))
       ) {
-        evt.skipPopup = true
         return
       }
 
@@ -122,7 +120,8 @@ export default {
     __hide (evt) {
       clearTimeout(this.timer)
 
-      document.body.removeEventListener('click', this.__bodyHide)
+      document.body.removeEventListener('click', this.__bodyHide, true)
+      document.body.removeEventListener('touchstart', this.__bodyHide, true)
       this.scrollTarget.removeEventListener('scroll', this.__updatePosition)
       window.removeEventListener('resize', this.__updatePosition)
       EscapeKey.pop()

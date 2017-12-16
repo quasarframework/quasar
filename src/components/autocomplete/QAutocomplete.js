@@ -73,6 +73,7 @@ export default {
       this.searchId = searchId
 
       if (terms === '' || terms.length < this.minCharacters) {
+        this.searchId = ''
         this.__clearSearch()
         this.hide()
         return
