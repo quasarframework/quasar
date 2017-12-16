@@ -35,12 +35,12 @@ export default {
             ? (this.selectedRowsLabel || this.$q.i18n.table.selectedRows)(this.rowsSelectedNumber)
             : ''
         ]),
-        h('div', [
+        h('div', { staticClass: 'flex items-center' }, [
           h('span', { style: {marginRight: '32px'} }, [
             this.rowsPerPageLabel || this.$q.i18n.table.rowsPerPage
           ]),
           h(QSelect, {
-            staticClass: 'inline',
+            staticClass: 'inline q-pb-none',
             style: {
               margin: '0 15px',
               minWidth: '50px'
@@ -49,7 +49,8 @@ export default {
               color: this.color,
               value: rowsPerPage,
               options: this.computedRowsPerPageOptions,
-              dark: this.dark
+              dark: this.dark,
+              hideUnderline: true
             },
             on: {
               input: rowsPerPage => {

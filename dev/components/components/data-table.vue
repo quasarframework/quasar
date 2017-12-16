@@ -31,7 +31,7 @@
         @request="request"
       >
         <template slot="top-right" slot-scope="props">
-          <q-search v-model="filter" />
+          <q-search hide-underline v-model="filter" />
         </template>
       </q-table>
 
@@ -76,9 +76,10 @@
         </template>
 
         <q-td slot="body-cell-desc" slot-scope="props" :props="props">
-          <q-chip color="secondary">{{ props.value }}</q-chip>
-          <br>
-          <q-chip color="secondary">{{ props.value }}</q-chip>
+          <div class="q-mb-xs">
+            <q-chip small color="secondary">{{ props.value }}</q-chip>
+          </div>
+          <q-chip small color="secondary">{{ props.value }}</q-chip>
         </q-td>
       </q-table>
 
@@ -211,7 +212,7 @@
           <q-td key="desc" :props="props">
             {{ props.row.name }}
             <q-popover>
-              <q-input v-model="props.row.name" />
+              <q-input hide-underline v-model="props.row.name" />
             </q-popover>
           </q-td>
           <q-td key="calories" :props="props">{{ props.row.calories }}</q-td>
@@ -221,7 +222,7 @@
           <q-td key="sodium" :props="props">{{ props.row.sodium }}</q-td>
           <q-td key="calcium" :props="props">{{ props.row.calcium }}</q-td>
           <q-td key="iron" :props="props">
-            <q-chip square color="amber">{{ props.row.iron }}</q-chip>
+            <q-chip small square color="amber">{{ props.row.iron }}</q-chip>
           </q-td>
         </q-tr>
       </q-table>
@@ -321,7 +322,7 @@
             <q-td key="sodium" :props="props">{{ props.row.sodium }}</q-td>
             <q-td key="calcium" :props="props">{{ props.row.calcium }}</q-td>
             <q-td key="iron" :props="props">
-              <q-chip square color="amber">{{ props.row.iron }}</q-chip>
+              <q-chip small square color="amber">{{ props.row.iron }}</q-chip>
             </q-td>
           </q-tr>
           <q-tr v-show="props.expand" :props="props">

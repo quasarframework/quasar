@@ -30,7 +30,8 @@ export default {
         value: this.value,
         options: this.computedOptions,
         displayValue: this.label || this.$q.i18n.table.columns,
-        color: this.color
+        color: this.color,
+        hideUnderline: true
       }
     })
   }

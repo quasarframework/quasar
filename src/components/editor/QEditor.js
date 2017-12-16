@@ -1,4 +1,4 @@
-import { getEventKey } from '../../utils/event'
+import { getEventKey, stopAndPrevent } from '../../utils/event'
 import { getToolbar, getFonts } from './editor-utils'
 import { Caret } from './editor-caret'
 import extend from '../../utils/extend'
@@ -217,8 +217,7 @@ export default {
       const target = this.keys[key]
       if (target !== void 0) {
         const { cmd, param } = target
-        e.preventDefault()
-        e.stopPropagation()
+        stopAndPrevent(e)
         this.runCmd(cmd, param, false)
       }
     },

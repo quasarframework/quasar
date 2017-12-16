@@ -1,68 +1,3 @@
-<template>
-  <div
-    class="q-slider non-selectable"
-    :class="classes"
-    @click="__click"
-    v-touch-pan.horizontal="__pan"
-  >
-    <div ref="handle" class="q-slider-handle-container">
-      <div class="q-slider-track"></div>
-      <template v-if="markers">
-        <div
-          class="q-slider-mark"
-          v-for="n in ((max - min) / step + 1)"
-          :key="n"
-          :style="{left: (n - 1) * 100 * step / (max - min) + '%'}"
-        ></div>
-      </template>
-      <div
-        class="q-slider-track active-track"
-        :style="{left: `${percentageMin * 100}%`, width: activeTrackWidth}"
-        :class="{dragging: dragging, 'track-draggable': dragRange || dragOnlyRange}"
-      ></div>
-
-      <div
-        class="q-slider-handle q-slider-handle-min"
-        ref="handleMin"
-        :style="{left: `${percentageMin * 100}%`, borderRadius: square ? '0' : '50%'}"
-        :class="{dragging: dragging, 'handle-at-minimum': !fillHandleAlways && model.min === min}"
-      >
-        <q-chip
-          pointing="down"
-          square
-          :color="leftTooltipColor"
-          class="q-slider-label no-pointer-events"
-          :class="{'label-always': labelAlways}"
-          v-if="label || labelAlways"
-        >
-          {{ leftDisplayValue }}
-        </q-chip>
-
-        <div v-if="$q.theme !== 'ios'" class="q-slider-ring"></div>
-      </div>
-      <div
-        class="q-slider-handle q-slider-handle-max"
-        :style="{left: `${percentageMax * 100}%`, borderRadius: square ? '0' : '50%'}"
-        :class="{dragging: dragging, 'handle-at-maximum': model.max === max}"
-      >
-        <q-chip
-          pointing="down"
-          square
-          :color="rightTooltipColor"
-          class="q-slider-label no-pointer-events"
-          :class="{'label-always': labelAlways}"
-          v-if="label || labelAlways"
-        >
-          {{ rightDisplayValue }}
-        </q-chip>
-
-        <div v-if="$q.theme !== 'ios'" class="q-slider-ring"></div>
-      </div>
-    </div>
-  </div>
-</template>
-
-<script>
 import { between } from '../../utils/format'
 import extend from '../../utils/extend'
 import clone from '../../utils/clone'
@@ -72,7 +7,7 @@ import {
   notDivides,
   mixin
 } from '../slider/slider-utils'
-import TouchPan from '../../directives/touch-pan'
+import { QChip } from '../chip'
 
 const dragType = {
   MIN: 0,
@@ -82,9 +17,6 @@ const dragType = {
 
 export default {
   name: 'q-range',
-  directives: {
-    TouchPan
-  },
   mixins: [mixin],
   props: {
     value: {
@@ -327,7 +259,60 @@ export default {
       else if (notDivides((this.model.max - this.min) / this.step, this.decimals)) {
         console.error('Range error: step must be a divisor of initial value.max - min', this.model.max, this.max, this.step)
       }
+    },
+
+    __getHandle (h, lower, upper, edge, percentage, color, label) {
+      return h('div', {
+        ref: `handle${upper}`,
+        staticClass: `q-slider-handle q-slider-handle-${lower}`,
+        style: {
+          left: `${percentage * 100}%`,
+          borderRadius: this.square ? '0' : '50%'
+        },
+        'class': [
+          edge ? 'handle-at-minimum' : null,
+          { dragging: this.dragging }
+        ]
+      }, [
+        this.label || this.labelAlways
+          ? h(QChip, {
+            props: {
+              pointing: 'down',
+              square: true,
+              color
+            },
+            staticClass: 'q-slider-label no-pointer-events',
+            'class': { 'label-always': this.labelAlways }
+          }, [ label ])
+          : null,
+        __THEME__ !== 'ios'
+          ? h('div', { staticClass: 'q-slider-ring' })
+          : null
+      ])
+    },
+    __getContent (h) {
+      return [
+        h('div', {
+          staticClass: 'q-slider-track active-track',
+          style: {
+            left: `${this.percentageMin * 100}%`,
+            width: this.activeTrackWidth
+          },
+          'class': {
+            dragging: this.dragging,
+            'track-draggable': this.dragRange || this.dragOnlyRange
+          }
+        }),
+
+        this.__getHandle(
+          h, 'min', 'Min', !this.fillHandleAlways && this.model.min === this.min, this.percentageMin,
+          this.leftTooltipColor, this.leftDisplayValue
+        ),
+        this.__getHandle(
+          h, 'max', 'Max', false, this.percentageMax,
+          this.rightTooltipColor, this.rightDisplayValue
+        )
+      ]
     }
   }
 }
-</script>

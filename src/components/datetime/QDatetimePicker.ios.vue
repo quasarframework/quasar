@@ -91,14 +91,14 @@
 
 <script>
 import { between, capitalize } from '../../utils/format'
-import { position } from '../../utils/event'
+import { position, stopAndPrevent } from '../../utils/event'
 import { css } from '../../utils/dom'
 import { isSameDate, adjustDate } from '../../utils/date'
 import DateMixin from './datetime-mixin'
 import TouchPan from '../../directives/touch-pan'
 
 export default {
-  name: 'q-inline-datetime',
+  name: 'q-datetime-picker',
   mixins: [DateMixin],
   directives: {
     TouchPan
@@ -283,8 +283,7 @@ export default {
         return
       }
 
-      ev.stopPropagation()
-      ev.preventDefault()
+      stopAndPrevent(ev)
 
       this[type + 'DragOffset'] = 0
       this.dragging = type
@@ -297,8 +296,7 @@ export default {
         return
       }
 
-      ev.stopPropagation()
-      ev.preventDefault()
+      stopAndPrevent(ev)
 
       const offset = (this.__dragPosition - position(ev).top) / 36
       this[type + 'DragOffset'] = offset
@@ -308,8 +306,7 @@ export default {
       if (this.dragging !== type || !this.editable) {
         return
       }
-      ev.stopPropagation()
-      ev.preventDefault()
+      stopAndPrevent(ev)
       this.dragging = false
 
       let

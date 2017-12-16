@@ -17,7 +17,7 @@
       :loader="loader"
     >
       <template slot="top-right" slot-scope="props">
-        <q-search v-model="filter" />
+        <q-search hide-underline v-model="filter" />
       </template>
     </q-table>
 
@@ -101,7 +101,7 @@
       color="primary"
     >
       <template slot="top-right" slot-scope="props">
-        <q-search color="primary" v-model="filter" />
+        <q-search hide-underline color="primary" v-model="filter" />
         <q-table-columns color="primary" class="on-right" v-model="visibleColumns" :columns="columns" />
         <q-btn color="primary" flat round size="sm" icon="more_vert" class="on-right">
           <q-popover ref="popover">

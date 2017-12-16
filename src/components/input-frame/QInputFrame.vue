@@ -105,7 +105,8 @@ export default {
         'q-if-disabled': this.disable,
         'q-if-focusable': this.focusable && !this.disable,
         'q-if-inverted': this.inverted,
-        'q-if-dark': this.dark || this.inverted
+        'q-if-dark': this.dark || this.inverted,
+        'q-if-hide-underline': this.hideUnderline
       }]
 
       const color = this.hasError ? 'negative' : this.hasWarning ? 'warning' : this.color

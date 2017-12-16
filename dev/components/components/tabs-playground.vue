@@ -78,7 +78,7 @@
 
     <q-tabs
       v-for="align in ['left', 'center', 'right', 'justify']"
-      :key="align"
+      :key="`${align}1`"
       v-model="tab"
       :align="align"
       color="purple"
@@ -95,7 +95,7 @@
 
     <q-tabs
       v-for="align in ['left', 'center', 'right', 'justify']"
-      :key="align"
+      :key="`${align}2`"
       :align="align"
       color="secondary"
     >
@@ -110,7 +110,7 @@
 
     <q-tabs
       v-for="align in ['left', 'center', 'right', 'justify']"
-      :key="align"
+      :key="`${align}3`"
       :align="align"
       color="amber"
     >
@@ -145,7 +145,7 @@
 
     <q-tabs
       v-for="align in ['left', 'center', 'right', 'justify']"
-      :key="align"
+      :key="`${align}4`"
       v-model="tab"
       :align="align"
       color="purple"
@@ -162,7 +162,7 @@
 
     <q-tabs
       v-for="align in ['left', 'center', 'right', 'justify']"
-      :key="align"
+      :key="`${align}5`"
       :align="align"
       color="secondary"
       inverted
@@ -178,7 +178,7 @@
 
     <q-tabs
       v-for="align in ['left', 'center', 'right', 'justify']"
-      :key="align"
+      :key="`${align}6`"
       :align="align"
       color="amber"
       inverted

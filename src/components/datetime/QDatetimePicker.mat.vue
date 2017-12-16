@@ -233,7 +233,7 @@
 
 <script>
 import { height, width, offset, cssTransform } from '../../utils/dom'
-import { position } from '../../utils/event'
+import { position, stopAndPrevent } from '../../utils/event'
 import { QBtn } from '../btn'
 import { isSameDate, adjustDate } from '../../utils/date'
 import DateMixin from './datetime-mixin'
@@ -244,7 +244,7 @@ function convertToAmPm (hour) {
 }
 
 export default {
-  name: 'q-inline-datetime',
+  name: 'q-datetime-picker',
   mixins: [DateMixin],
   props: {
     defaultSelection: [String, Number, Date],
@@ -262,11 +262,17 @@ export default {
 
     switch (this.type) {
       case 'time':
-        view = 'hour'
+        view = this.defaultView && ['hour', 'minute'].includes(this.defaultView)
+          ? this.defaultView
+          : 'hour'
         break
       case 'date':
+        view = this.defaultView && ['year', 'month', 'day'].includes(this.defaultView)
+          ? this.defaultView
+          : 'day'
+        break
       default:
-        view = 'day'
+        view = this.defaultView || 'day'
         break
     }
 
@@ -282,18 +288,8 @@ export default {
         this.view = ['date', 'datetime'].includes(this.type) ? 'day' : 'hour'
       }
     },
-    view (value) {
-      if (value !== 'year' && value !== 'month') {
-        return
-      }
-
-      let
-        view = this.$refs.selector,
-        rows = value === 'year' ? this.year - this.yearMin : this.month - this.monthMin
-
-      this.$nextTick(() => {
-        view.scrollTop = rows * height(view.children[0].children[0]) - height(view) / 2.5
-      })
+    view () {
+      this.__scrollView()
     }
   },
   computed: {
@@ -441,12 +437,39 @@ export default {
     },
 
     /* helpers */
+    setView (view) {
+      if (this.type === 'time') {
+        if (['hour', 'minute'].includes(view)) {
+          this.view = view
+        }
+      }
+      else if (this.type === 'date') {
+        if (['year', 'month', 'day'].includes(view)) {
+          this.view = view
+        }
+      }
+      else {
+        this.view = view
+      }
+    },
     __pad (unit, filler) {
       return (unit < 10 ? filler || '0' : '') + unit
     },
+    __scrollView () {
+      if (this.view !== 'year' && this.view !== 'month') {
+        return
+      }
+
+      let
+        el = this.$refs.selector,
+        rows = this.view === 'year' ? this.year - this.yearMin : this.month - this.monthMin
+
+      this.$nextTick(() => {
+        el.scrollTop = rows * height(el.children[0].children[0]) - height(el) / 2.5
+      })
+    },
     __dragStart (ev) {
-      ev.stopPropagation()
-      ev.preventDefault()
+      stopAndPrevent(ev)
 
       let
         clock = this.$refs.clock,
@@ -464,13 +487,11 @@ export default {
       if (!this.dragging) {
         return
       }
-      ev.stopPropagation()
-      ev.preventDefault()
+      stopAndPrevent(ev)
       this.__updateClock(ev)
     },
     __dragStop (ev) {
-      ev.stopPropagation()
-      ev.preventDefault()
+      stopAndPrevent(ev)
       this.dragging = false
       this.view = 'minute'
     },
@@ -501,6 +522,9 @@ export default {
     __getRepeatEasing (from = 300, step = 10, to = 100) {
       return cnt => cnt ? Math.max(to, from - cnt * cnt * step) : 100
     }
+  },
+  mounted () {
+    this.__scrollView()
   }
 }
 </script>

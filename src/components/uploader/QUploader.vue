@@ -12,12 +12,15 @@
       :stack-label="stackLabel"
       :float-label="floatLabel"
       :error="error"
+      :warning="warning"
       :disable="disable"
+      :inverted="inverted"
+      :dark="dark"
+      :hide-underline="hideUnderline"
       :before="before"
       :after="after"
       :color="color"
       :align="align"
-      :inverted="inverted"
 
       :length="queueLength"
       additional-length
@@ -410,6 +413,11 @@ export default {
           }
         })
       })
+    },
+    pick () {
+      if (!this.addDisabled) {
+        this.$refs.file.click()
+      }
     },
     upload () {
       const length = this.queueLength

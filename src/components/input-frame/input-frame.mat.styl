@@ -13,8 +13,10 @@
   input::-webkit-inner-spin-button // @stylint ignore
     -webkit-appearance none
 
+  &:not(.q-if-hide-underline):not(.q-if-inverted)
+    &:before, &:after
+      content ''
   &:before, &:after
-    content ''
     position absolute
     bottom 0
     left 0
@@ -101,8 +103,6 @@
   padding-left 8px
   padding-right 8px
   box-shadow $shadow-1
-  &:before, &:after
-    display none
   .q-if-control
     color white
 

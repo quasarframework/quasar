@@ -350,7 +350,9 @@ export default {
     __hide () {
       this.mobileOpened = false
       this.percentage = 0
-      document.body.classList.remove(bodyClassAbove, bodyClassBelow)
+
+      document.body.classList.remove(bodyClassAbove)
+      document.body.classList.remove(bodyClassBelow)
 
       clearTimeout(this.timer)
       this.timer = setTimeout(() => {

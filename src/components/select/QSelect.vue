@@ -8,9 +8,11 @@
     :stack-label="stackLabel"
     :float-label="floatLabel"
     :error="error"
+    :warning="warning"
     :disable="disable"
     :inverted="inverted"
     :dark="dark"
+    :hide-underline="hideUnderline"
     :before="before"
     :after="after"
     :color="frameColor || color"
@@ -57,7 +59,7 @@
         name="cancel"
         class="q-if-control"
         @click.stop="clear"
-      ></q-icon>
+      />
     </template>
     <q-icon
       slot="after"
@@ -65,13 +67,13 @@
       :name="$q.icon.select.dropdown"
       class="q-if-control"
       :class="{'rotate-180': $refs.popover && $refs.popover.showing}"
-    ></q-icon>
+    />
     <q-spinner
       v-else
       slot="after"
       size="24px"
       class="q-if-control"
-    ></q-spinner>
+    />
 
     <q-popover
       ref="popover"
@@ -96,7 +98,7 @@
           icon="filter_list"
           class="no-margin"
           style="min-height: 50px; padding: 10px;"
-        ></q-search>
+        />
       </q-field-reset>
 
     <q-list
@@ -125,7 +127,8 @@
               :color="color"
               :value="optModel[opt.index]"
               :disable="opt.disable"
-            ></q-toggle>
+              no-focus
+            />
             <q-checkbox
               v-else-if="multiple"
               slot="left"
@@ -133,7 +136,7 @@
               :color="color"
               :value="optModel[opt.index]"
               :disable="opt.disable"
-            ></q-checkbox>
+            />
             <q-radio
               v-else-if="radio"
               no-focus
@@ -142,7 +145,8 @@
               :value="value"
               :val="opt.value"
               :disable="opt.disable"
-            ></q-radio>
+              no-focus
+            />
           </q-item-wrapper>
         </template>
         <q-item v-else class="non-selectable">{{ emptyText }}</q-item>
@@ -162,7 +166,7 @@ import { QToggle } from '../toggle'
 import { QSpinner } from '../spinner'
 import SelectMixin from '../../mixins/select'
 import clone from '../../utils/clone'
-import prevent from '../../utils/prevent'
+import { stopAndPrevent } from '../../utils/event'
 import { normalizeToInterval } from '../../utils/format'
 
 function defaultFilterFn (terms, obj) {
@@ -365,24 +369,24 @@ export default {
     __handleKeydown (e) {
       switch (e.keyCode || e.which) {
         case 38: // up
-          prevent(e)
+          stopAndPrevent(e)
           this.cursorNavigate(-1)
           break
         case 40: // down
-          prevent(e)
+          stopAndPrevent(e)
           this.cursorNavigate(1)
           break
         case 13: // enter
-          prevent(e)
+          stopAndPrevent(e)
           this.setCurrentSelection()
           break
         case 27: // escape
-          prevent(e)
+          stopAndPrevent(e)
           this.$refs.popover.hide()
           this.$refs.input.$el.focus()
           break
         case 9: // tab
-          prevent(e)
+          stopAndPrevent(e)
           this.$refs.popover.hide()
           this.tabNavigate(e.shiftKey ? -1 : 1)
           break

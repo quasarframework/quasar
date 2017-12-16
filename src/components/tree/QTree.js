@@ -28,7 +28,7 @@ export default {
 
     tickStrategy: {
       type: String,
-      validation: v => ['none', 'strict', 'leaf'].includes(v)
+      validator: v => ['none', 'strict', 'leaf', 'leaf-filtered'].includes(v)
     },
     ticked: Array, // sync
     expanded: Array, // sync
@@ -61,15 +61,6 @@ export default {
     hasSelection () {
       return this.selected !== void 0
     },
-    hasTicking () {
-      return this.tickStrategy !== 'none'
-    },
-    strictTicking () {
-      return this.tickStrategy === 'strict'
-    },
-    leafTicking () {
-      return this.tickStrategy === 'leaf'
-    },
     computedIcon () {
       return this.icon || this.$q.icon.tree.icon
     },
@@ -83,15 +74,20 @@ export default {
       const meta = {}
 
       const travel = (node, parent) => {
+        const tickStrategy = node.tickStrategy || (parent ? parent.tickStrategy : this.tickStrategy)
         const
           key = node[this.nodeKey],
           isParent = node.children && node.children.length > 0,
           isLeaf = !isParent,
           selectable = !node.disabled && this.hasSelection && node.selectable !== false,
-          expandable = !node.disabled && node.expandable !== false
+          expandable = !node.disabled && node.expandable !== false,
+          hasTicking = tickStrategy !== 'none',
+          strictTicking = tickStrategy === 'strict',
+          leafFilteredTicking = tickStrategy === 'leaf-filtered',
+          leafTicking = tickStrategy === 'leaf' || tickStrategy === 'leaf-filtered'
 
         let tickable = !node.disabled && node.tickable !== false
-        if (this.leafTicking && tickable && parent && !parent.tickable) {
+        if (leafTicking && tickable && parent && !parent.tickable) {
           tickable = false
         }
 
@@ -115,9 +111,14 @@ export default {
           selectable,
           expanded: isParent ? this.innerExpanded.includes(key) : false,
           expandable,
-          noTick: node.noTick || (!this.strictTicking && lazy && lazy !== 'loaded'),
+          noTick: node.noTick || (!strictTicking && lazy && lazy !== 'loaded'),
           tickable,
-          ticked: this.strictTicking
+          tickStrategy,
+          hasTicking,
+          strictTicking,
+          leafFilteredTicking,
+          leafTicking,
+          ticked: strictTicking
             ? this.innerTicked.includes(key)
             : (isLeaf ? this.innerTicked.includes(key) : false)
         }
@@ -127,16 +128,28 @@ export default {
         if (isParent) {
           m.children = node.children.map(n => travel(n, m))
 
-          if (this.filter && !m.matchesFilter) {
-            m.matchesFilter = m.children.some(n => n.matchesFilter)
+          if (this.filter) {
+            if (!m.matchesFilter) {
+              m.matchesFilter = m.children.some(n => n.matchesFilter)
+            }
+            if (
+              m.matchesFilter &&
+              !m.noTick &&
+              !m.disabled &&
+              m.tickable &&
+              leafFilteredTicking &&
+              m.children.every(n => !n.matchesFilter || n.noTick || !n.tickable)
+            ) {
+              m.tickable = false
+            }
           }
 
           if (m.matchesFilter) {
-            if (!this.strictTicking && m.children.every(n => n.noTick)) {
+            if (!m.noTick && !strictTicking && m.children.every(n => n.noTick)) {
               m.noTick = true
             }
 
-            if (this.leafTicking) {
+            if (leafTicking) {
               m.ticked = false
               m.indeterminate = m.children.some(node => node.indeterminate)
 
@@ -209,12 +222,20 @@ export default {
         ? this.meta[key].expanded
         : false
     },
+    collapseAll () {
+      if (this.expanded !== void 0) {
+        this.$emit('update:expanded', [])
+      }
+      else {
+        this.innerExpanded = []
+      }
+    },
     expandAll () {
       const
-        expanded = [],
+        expanded = this.innerExpanded,
         travel = node => {
           if (node.children && node.children.length > 0) {
-            if (node.expandable !== false) {
+            if (node.expandable !== false && node.disabled !== true) {
               expanded.push(node[this.nodeKey])
               node.children.forEach(travel)
             }
@@ -404,7 +425,7 @@ export default {
         staticClass: 'q-tree-node'
       }, [
         h('div', {
-          staticClass: 'q-tree-node-header relative-position row items-center',
+          staticClass: 'q-tree-node-header relative-position row no-wrap items-center',
           'class': {
             'q-tree-node-link': meta.link,
             'q-tree-node-selected': meta.selected,
@@ -433,8 +454,8 @@ export default {
                 : null
             ),
 
-          h('span', { 'staticClass': 'row items-center', 'class': this.contentClass }, [
-            this.hasTicking && !meta.noTick
+          h('span', { 'staticClass': 'row no-wrap items-center', 'class': this.contentClass }, [
+            meta.hasTicking && !meta.noTick
               ? h(QCheckbox, {
                 staticClass: 'q-mr-xs',
                 props: {
@@ -500,16 +521,21 @@ export default {
       if (meta.indeterminate && state) {
         state = false
       }
-      if (this.strictTicking) {
+      if (meta.strictTicking) {
         this.setTicked([ meta.key ], state)
       }
-      else if (this.leafTicking) {
+      else if (meta.leafTicking) {
         const keys = []
         const travel = meta => {
           if (meta.isParent) {
-            meta.children.forEach(travel)
+            if (!state && !meta.noTick && meta.tickable) {
+              keys.push(meta.key)
+            }
+            if (meta.leafTicking) {
+              meta.children.forEach(travel)
+            }
           }
-          else if (!meta.noTick && meta.tickable) {
+          else if (!meta.noTick && meta.tickable && (!meta.leafFilteredTicking || meta.matchesFilter)) {
             keys.push(meta.key)
           }
         }

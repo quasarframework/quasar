@@ -1,0 +1,92 @@
+.q-color
+  max-width 100vw
+  border 1px solid $grey-4
+  display inline-block
+  width 240px
+
+.q-color-number
+  -moz-appearance textfield
+.q-color-number::-webkit-outer-spin-button,
+.q-color-number::-webkit-inner-spin-button
+  -webkit-appearance none
+  margin 0
+
+.q-color-saturation
+  width 100%
+  height 123px
+
+.q-color-saturation-white
+  background linear-gradient(to right, white, rgba(255, 255, 255, 0))
+
+.q-color-saturation-black
+  background linear-gradient(to top, black, rgba(0, 0, 0, 0))
+
+.q-color-saturation-circle
+  cursor head
+  width 10px
+  height 10px
+  box-shadow 0 0 0 1.5px white, inset 0 0 1px 1px rgba(0, 0, 0, .3), 0 0 1px 2px rgba(0, 0, 0, .4)
+  border-radius 50%
+  transform translate(-5px, -5px)
+
+.q-color-swatch:after, .q-color-alpha .q-slider-track
+  background-image url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAH0lEQVQoU2NkYGAwZkAFZ5G5jPRRgOYEVDeB3EBjBQBOZwTVugIGyAAAAABJRU5ErkJggg==') !important
+
+.q-color-swatch
+  position relative
+  width 32px
+  height 32px
+  border-radius 50%
+  &:after
+    content ''
+    position absolute
+    left 0
+    right 0
+    top 0
+    bottom 0
+    border-radius $generic-border-radius
+    z-index -1
+
+.q-color-hue .q-slider-track
+  border-radius 2px
+  background linear-gradient(to right, #f00 0%, #ff0 17%, #0f0 33%, #0ff 50%, #00f 67%, #f0f 83%, #f00 100%) // @stylint ignore
+  opacity 1
+  height $dot-size * .8
+  &.active-track
+    opacity 0
+
+.q-color-alpha .q-slider-track
+  position relative
+  background white
+  opacity 1
+  height $dot-size * .8
+  &:after
+    content ''
+    position absolute
+    left 0
+    right 0
+    top 0
+    bottom 0
+    background linear-gradient(90deg, rgba(255, 255, 255, 0), $grey-7)
+  &.active-track
+    opacity 0
+
+.q-color-sliders
+  height 56px
+  .q-slider
+    height 20px
+  .q-slider-handle
+    box-shadow 0 1px 4px 0 rgba(0, 0, 0, .37)
+  .q-slider-ring
+    display none
+
+.q-color-inputs
+  font-size 11px
+  input
+    border 1px solid $grey-4
+    outline 0
+.q-color-padding
+  padding 0 2px
+.q-color-label
+  color $grey-7
+  padding-top 4px

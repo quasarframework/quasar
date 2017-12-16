@@ -11,8 +11,17 @@
         <q-autocomplete @search="search" @selected="selected" />
       </q-search>
 
+      <q-search @change="onChange" @input="onInput" v-model="terms" hide-underline placeholder="Start typing a country name (hide underline)">
+        <q-autocomplete @search="search" @selected="selected" />
+      </q-search>
+
       <q-search @change="val => { terms = val; onChange(val) }" @input="onInput" :value="terms" placeholder="Start typing a country name (onChange)">
         <q-autocomplete @search="search" @selected="selected" />
+      </q-search>
+
+      <p class="caption">Number selected: {{ JSON.stringify(termsN) }}</p>
+      <q-search type="number" v-model="termsN" placeholder="Start typing a number">
+        <q-autocomplete :static-data="{field: 'value', list: numbers}" @selected="selected" />
       </q-search>
 
       <q-input @change="onChange" @input="onInput" v-model="terms" placeholder="Start typing a country name">
@@ -109,7 +118,9 @@ export default {
   data () {
     return {
       terms: '',
-      countries: parseCountries()
+      termsN: null,
+      countries: parseCountries(),
+      numbers: [1, 2, 3, 4, 5, 1111, 2222, 3333, 4444, 5555].map(v => ({ label: String(v), value: v }))
     }
   },
   methods: {
@@ -119,7 +130,7 @@ export default {
       }, 1000)
     },
     selected (item) {
-      this.$q.notify(`Selected suggestion "${item.label}"`)
+      this.$q.notify(`Selected suggestion ${JSON.stringify(item.label)}`)
     },
     onChange (val) {
       console.log('@change', JSON.stringify(val))

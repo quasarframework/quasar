@@ -31,6 +31,7 @@ export default {
     before: marginal,
     after: marginal,
     inverted: Boolean,
+    hideUnderline: Boolean,
     align: {
       type: String,
       default: 'left',

@@ -1,6 +1,6 @@
 import { between } from '../../utils/format'
 import { position } from '../../utils/event'
-import { QChip } from '../chip'
+import TouchPan from '../../directives/touch-pan'
 
 export function getPercentage (event, dragging) {
   return between((position(event).left - dragging.left) / dragging.width, 0, 1)
@@ -29,8 +29,8 @@ export function getModel (percentage, min, max, step, decimals) {
 }
 
 export let mixin = {
-  components: {
-    QChip
+  directives: {
+    TouchPan
   },
   props: {
     min: {
@@ -57,17 +57,22 @@ export let mixin = {
     color: String,
     fillHandleAlways: Boolean,
     error: Boolean,
+    readonly: Boolean,
     disable: Boolean
   },
+  data () {
+    return {
+      clickDisabled: false
+    }
+  },
   computed: {
-    data () {
-      return {
-        clickDisabled: false
-      }
+    editable () {
+      return !this.disable && !this.readonly
     },
     classes () {
       const cls = {
         disabled: this.disable,
+        readonly: this.readonly,
         'label-always': this.labelAlways,
         'has-error': this.error
       }
@@ -78,6 +83,9 @@ export let mixin = {
 
       return cls
     },
+    markersLen () {
+      return (this.max - this.min) / this.step + 1
+    },
     labelColor () {
       return this.error
         ? 'negative'
@@ -86,9 +94,6 @@ export let mixin = {
   },
   methods: {
     __pan (event) {
-      if (this.disable) {
-        return
-      }
       if (event.isFinal) {
         this.clickDisabled = true
         this.$nextTick(() => {
@@ -104,14 +109,55 @@ export let mixin = {
       }
     },
     __click (event) {
-      if (this.disable || this.clickDisabled) {
+      if (this.clickDisabled) {
         return
       }
       this.__setActive(event)
       this.__end(event)
+    },
+    __getMarkers (h) {
+      if (!this.markers) {
+        return
+      }
+
+      const markers = []
+
+      for (let i = 0; i < this.markersLen; i++) {
+        markers.push(h('div', {
+          staticClass: 'q-slider-mark',
+          key: `marker${i}`,
+          style: {
+            left: `${i * 100 * this.step / (this.max - this.min)}%`
+          }
+        }))
+      }
+
+      return markers
     }
   },
   created () {
     this.__validateProps()
+  },
+  render (h) {
+    return h('div', {
+      staticClass: 'q-slider non-selectable',
+      'class': this.classes,
+      on: this.editable ? { click: this.__click } : null,
+      directives: this.editable
+        ? [{
+          name: 'touch-pan',
+          modifiers: { horizontal: true },
+          value: this.__pan
+        }]
+        : null
+    }, [
+      h('div', {
+        ref: 'handle',
+        staticClass: 'q-slider-handle-container'
+      }, [
+        h('div', { staticClass: 'q-slider-track' }),
+        this.__getMarkers(h)
+      ].concat(this.__getContent(h)))
+    ])
   }
 }
