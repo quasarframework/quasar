@@ -41,7 +41,7 @@ export default {
       mat: 'mdi-check-box-outline-blank'
     },
     indeterminate: {
-      ios: 'mdi-',
+      ios: '',
       mat: 'mdi-indeterminate-check-box'
     }
   },
