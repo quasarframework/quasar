@@ -29,50 +29,6 @@
           </q-popover>
         </q-btn>
 
-        <q-btn color="info" label="Autocomplete static in popup">
-          <q-popover anchor="bottom right" self="top right" fit>
-            <div class="row">
-              <div class="col-12 q-pa-sm">
-                <q-search v-model="terms" placeholder="Search">
-                  <q-autocomplete
-                    :static-data="{field: 'value', list}"
-                    @selected="selected"
-                  />
-                </q-search>
-              </div>
-            </div>
-          </q-popover>
-        </q-btn>
-
-        <q-btn color="info" label="Autocomplete debounced in popup">
-          <q-popover anchor="bottom right" self="top right" fit>
-            <div class="row">
-              <div class="col-12 q-pa-sm">
-                <q-search v-model="terms" placeholder="Search" :debounce="500">
-                  <q-autocomplete
-                    @search="search"
-                    @selected="selected"
-                  />
-                </q-search>
-              </div>
-            </div>
-          </q-popover>
-        </q-btn>
-
-        <q-btn color="info" label="Select in popup">
-          <q-popover anchor="bottom right" self="top right" fit>
-            <div class="row">
-              <div class="col-12 q-pa-sm">
-                <q-select
-                  v-model="selection"
-                  :options="list"
-                  @input="selected"
-                />
-              </div>
-            </div>
-          </q-popover>
-        </q-btn>
-
         <q-card style="margin-top: 75px">
           <q-card-title class="bg-primary text-center">
             <q-btn push color="orange" label="Tap Me">
@@ -179,8 +135,6 @@
 </template>
 
 <script>
-import { filter } from 'quasar'
-
 export default {
   data () {
     let list = []
@@ -212,14 +166,6 @@ export default {
   methods: {
     showNotify () {
       this.$q.notify((this.$q.platform.is.desktop ? 'Clicked' : 'Tapped') + ' on a Popover item')
-    },
-    search (terms, done) {
-      setTimeout(() => {
-        done(filter(terms, {field: 'value', list: this.list}))
-      }, 1000)
-    },
-    selected (item) {
-      this.$q.notify(`Selected suggestion "${JSON.stringify(item)}"`)
     }
   }
 }
