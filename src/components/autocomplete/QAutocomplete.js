@@ -74,7 +74,7 @@ export default {
       const searchId = uid()
       this.searchId = searchId
 
-      if (terms === '' || terms.length < this.minCharacters) {
+      if (terms.length < this.minCharacters) {
         this.__clearSearch()
         this.hide()
         return
