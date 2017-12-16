@@ -72,6 +72,9 @@
       <q-datetime v-model="model" :default-selection="defaultSelection" type="datetime" />
       <q-datetime v-model="model" :default-selection="defaultSelection" type="time" />
 
+      <p class="caption">Initial View</p>
+      <q-datetime @change="onChange" v-model="model" initialView="year" type="date" />
+
       <p class="caption">With Label</p>
       <q-datetime v-model="model" type="date" label="Pick Date" />
 
