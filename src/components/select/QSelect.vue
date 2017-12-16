@@ -64,7 +64,7 @@
     <q-icon
       slot="after"
       v-if="!loading"
-      :name="$q.icon.select.dropdown"
+      :name="$q.icon.input.dropdown"
       class="q-if-control"
       :class="{'rotate-180': $refs.popover && $refs.popover.showing}"
     />
