@@ -70,6 +70,30 @@
       <q-field
         icon="cloud"
         helper="Helper"
+        label="Horizontal Limited"
+        :dark="dark"
+        error-label="Max 10 characters!"
+      >
+        <q-option-group
+          inline
+          type="toggle"
+          v-model="group"
+          @change="onChange"
+          @input="onInput"
+          :limit="2"
+          :dark="dark"
+          :keep-color="keepColor"
+          :options="[
+            { label: 'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ', value: 'op2' },
+            { label: 'Option 3', value: 'op3', color: 'secondary' },
+            { label: 'Option 4', value: 'op4', color: 'tertiary' }
+          ]"
+        />
+      </q-field>
+
+      <q-field
+        icon="cloud"
+        helper="Helper"
         label="Horizontal"
         :dark="dark"
         error-label="Max 10 characters!"
