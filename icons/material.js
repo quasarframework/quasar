@@ -17,9 +17,6 @@ export default {
     right: 'chevron_right'
   },
 
-  btn: {
-    dropdown: 'arrow_drop_down'
-  },
   pullToRefresh: {
     arrow: 'arrow_downward',
     refresh: 'refresh'
@@ -56,8 +53,7 @@ export default {
   },
   datetime: {
     arrowLeft: 'chevron_left',
-    arrowRight: 'chevron_right',
-    dropdown: 'arrow_drop_down'
+    arrowRight: 'chevron_right'
   },
   editor: {
     bold: 'format_bold',
@@ -99,7 +95,8 @@ export default {
     hidePass: 'visibility_off',
     showNumber: 'keyboard',
     hideNumber: 'keyboard_hide',
-    clear: 'cancel'
+    clear: 'cancel',
+    dropdown: 'arrow_drop_down'
   },
   pagination: {
     first: 'first_page',
@@ -119,9 +116,6 @@ export default {
   },
   rating: {
     icon: 'grade'
-  },
-  select: {
-    dropdown: 'arrow_drop_down'
   },
   stepper: {
     done: 'check',

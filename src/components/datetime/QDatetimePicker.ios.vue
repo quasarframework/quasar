@@ -98,7 +98,7 @@ import DateMixin from './datetime-mixin'
 import TouchPan from '../../directives/touch-pan'
 
 export default {
-  name: 'q-inline-datetime',
+  name: 'q-datetime-picker',
   mixins: [DateMixin],
   directives: {
     TouchPan

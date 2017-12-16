@@ -17,9 +17,6 @@ export default {
     right: 'fa-chevron-right'
   },
 
-  btn: {
-    dropdown: 'fa-caret-down'
-  },
   pullToRefresh: {
     arrow: 'fa-arrow-circle-down',
     refresh: 'fa-refresh'
@@ -56,8 +53,7 @@ export default {
   },
   datetime: {
     arrowLeft: 'fa-chevron-left',
-    arrowRight: 'fa-chevron-right',
-    dropdown: 'fa-caret-down'
+    arrowRight: 'fa-chevron-right'
   },
   editor: {
     bold: 'fa-bold',
@@ -99,7 +95,8 @@ export default {
     hidePass: 'fa-eye-slash',
     showNumber: 'fa-calculator',
     hideNumber: 'fa-keyboard-o',
-    clear: 'fa-times'
+    clear: 'fa-times',
+    dropdown: 'fa-caret-down'
   },
   pagination: {
     first: 'fa-step-backward',
@@ -119,9 +116,6 @@ export default {
   },
   rating: {
     icon: 'fa-star'
-  },
-  select: {
-    dropdown: 'fa-caret-down'
   },
   stepper: {
     done: 'fa-check',

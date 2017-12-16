@@ -1,402 +1,266 @@
-import { QBtn } from '../btn'
-import { QSlider } from '../slider'
-import TouchPan from '../../directives/touch-pan'
-import { stopAndPrevent } from '../../utils/event'
-import throttle from '../../utils/throttle'
+import FrameMixin from '../../mixins/input-frame'
 import extend from '../../utils/extend'
+import { QInputFrame } from '../input-frame'
+import { QPopover } from '../popover'
+import QColorPicker from './QColorPicker'
+import { QBtn } from '../btn'
+import { QModal } from '../modal'
 import clone from '../../utils/clone'
-import { hexToRgb, rgbToHex, rgbToHsv, hsvToRgb } from '../../utils/colors'
+
+let contentCss = __THEME__ === 'ios'
+  ? {
+    maxHeight: '80vh',
+    height: 'auto',
+    boxShadow: 'none',
+    backgroundColor: '#e4e4e4'
+  }
+  : {
+    maxWidth: '95vw',
+    maxHeight: '98vh'
+  }
 
 export default {
   name: 'q-color',
-  directives: {
-    TouchPan
-  },
+  mixins: [FrameMixin],
   props: {
     value: {
-      type: [String, Object],
       required: true
     },
     color: {
       type: String,
       default: 'primary'
     },
-    disable: Boolean,
-    readonly: Boolean
+    defaultSelection: {
+      type: [String, Object],
+      default: '#000000'
+    },
+    displayValue: String,
+    placeholder: String,
+    noClear: Boolean,
+    clearLabel: String,
+    okLabel: String,
+    cancelLabel: String
   },
   data () {
-    return {
-      view: this.isHex ? 'hex' : 'rgb',
-      model: this.__parseModel(this.value)
+    let data = this.isPopover() ? {} : {
+      transition: __THEME__ === 'ios' ? 'q-modal-bottom' : 'q-modal'
     }
+    data.focused = false
+    data.model = this.defaultSelection
+    return data
   },
   watch: {
-    value: {
-      handler (v) {
-        if (this.avoidModelWatch) {
-          this.avoidModelWatch = false
-          return
-        }
-        const model = this.__parseModel(v)
-        if (model.hex !== this.model.hex) {
-          this.model = model
-        }
-      },
-      deep: true
+    value () {
+      this.$nextTick(this.__setModel)
     }
   },
   computed: {
-    isHex () {
-      return typeof this.value === 'string'
+    usingPopover () {
+      return this.isPopover()
     },
-    isRgb () {
-      return !this.isHex
-    },
-    editable () {
-      return !this.disable && !this.readonly
-    },
-    hasAlpha () {
-      return this.isHex
-        ? this.value.length > 7
-        : this.value.a !== void 0
-    },
-    swatchStyle () {
-      return {
-        backgroundColor: `rgba(${this.model.r},${this.model.g},${this.model.b},${this.model.a / 100})`
+    actualValue () {
+      if (this.displayValue) {
+        return this.displayValue
       }
-    },
-    saturationStyle () {
-      return {
-        background: `hsl(${this.model.h},100%,50%)`
+      if (!this.value) {
+        return this.placeholder || ''
       }
-    },
-    saturationPointerStyle () {
-      return {
-        top: `${101 - this.model.v}%`,
-        left: `${this.model.s}%`
+
+      if (this.value) {
+        return typeof this.value === 'string'
+          ? this.value
+          : `rgb${this.value.a !== void 0 ? 'a' : ''}(${this.value.r},${this.value.g},${this.value.b}${this.value.a !== void 0 ? `,${this.value.a / 100}` : ''})`
       }
-    },
-    inputsArray () {
-      const inp = ['r', 'g', 'b']
-      if (this.hasAlpha) {
-        inp.push('a')
-      }
-      return inp
-    },
-    rgbColor () {
-      return `rgb(${this.model.r},${this.model.g},${this.model.b})`
     }
-  },
-  created () {
-    this.__saturationChange = throttle(this.__saturationChange, 20)
-  },
-  render (h) {
-    return h('div', {
-      staticClass: 'q-color',
-      'class': { disabled: this.disable }
-    }, [
-      h('div', { style: 'word-break: break-all' }, [
-        this.hasAlpha ? 'WITH-alpha' : 'NO_ALPHA',
-        this.isHex ? '(HEX)' : '(RGB)',
-        JSON.stringify(this.model)
-      ]),
-      this.__getSaturation(h),
-      this.__getSliders(h),
-      this.__getInputs(h)
-    ])
   },
   methods: {
-    __getSaturation (h) {
-      return h('div', {
-        ref: 'saturation',
-        staticClass: 'q-color-saturation non-selectable relative-position overflow-hidden cursor-pointer',
-        style: this.saturationStyle,
-        'class': { readonly: !this.editable },
-        on: this.editable
-          ? { click: this.__saturationClick }
-          : null,
-        directives: this.editable
-          ? [{
-            name: 'touch-pan',
-            value: this.__saturationPan
-          }]
-          : null
-      }, [
-        h('div', { staticClass: 'q-color-saturation-white absolute-full' }),
-        h('div', { staticClass: 'q-color-saturation-black absolute-full' }),
-        h('div', {
-          staticClass: 'absolute',
-          style: this.saturationPointerStyle
-        }, [
-          h('div', { staticClass: 'q-color-saturation-circle' })
-        ])
-      ])
+    isPopover () {
+      return this.$q.platform.is.desktop && !this.$q.platform.within.iframe
     },
-    __getSliders (h) {
-      return h('div', {
-        staticClass: 'q-color-sliders row items-center'
-      }, [
-        h('div', {
-          staticClass: 'q-color-swatch q-mt-sm q-ml-sm q-mb-sm non-selectable overflow-hidden',
-          style: this.swatchStyle
-        }),
-        h('div', { staticClass: 'col q-pa-sm' }, [
-          h('div', { staticClass: 'q-color-hue non-selectable' }, [
-            h(QSlider, {
-              props: {
-                value: this.model.h,
-                color: 'white',
-                min: 0,
-                max: 360,
-                fillHandleAlways: true,
-                readonly: !this.editable
-              },
-              on: {
-                input: this.__onHueChange
-              }
-            })
-          ]),
-          this.hasAlpha
-            ? h('div', { staticClass: 'q-color-alpha non-selectable' }, [
-              h(QSlider, {
-                props: {
-                  value: this.model.a,
-                  color: 'white',
-                  min: 0,
-                  max: 100,
-                  fillHandleAlways: true,
-                  readonly: !this.editable
-                },
-                on: {
-                  input: value => {
-                    this.__onPropChange({ target: { value } }, 'a', 100)
-                  }
-                }
-              })
-            ])
-            : null
-        ])
-      ])
+    toggle () {
+      this[this.$refs.popup.showing ? 'hide' : 'show']()
     },
-    __getNumericInputs (h) {
-      return this.inputsArray.map(type => {
-        const max = type === 'a' ? 100 : 255
-        return h('div', { staticClass: 'col q-color-padding' }, [
-          h('input', {
-            attrs: {
-              type: 'number',
-              min: 0,
-              max,
-              readonly: !this.editable
-            },
-            staticClass: 'full-width text-center q-color-number',
-            domProps: {
-              value: Math.round(this.model[type])
-            },
-            on: {
-              input: evt => {
-                this.__onPropChange(evt, type, max)
+    show () {
+      if (!this.disable) {
+        this.__setModel()
+        return this.$refs.popup.show()
+      }
+    },
+    hide () {
+      this.focused = false
+      return this.$refs.popup.hide()
+    },
+    clear () {
+      if (this.value) {
+        this.$emit('input', null)
+        this.$emit('change', null)
+      }
+      this.$refs.popup.hide()
+    },
+
+    __onFocus () {
+      this.focused = true
+      this.$emit('focus')
+    },
+    __onBlur (e) {
+      this.__onHide()
+      setTimeout(() => {
+        const el = document.activeElement
+        if (el !== document.body && !this.$refs.popup.$el.contains(el)) {
+          this.hide()
+        }
+      }, 1)
+    },
+    __onHide () {
+      this.focused = false
+      this.$emit('blur')
+    },
+    __setModel () {
+      this.model = this.value
+        ? clone(this.value)
+        : this.defaultSelection
+    },
+    __update () {
+      this.$emit('input', this.model)
+      this.$emit('change', this.model)
+    },
+
+    __getPicker (h, modal) {
+      const child = [
+        h(QColorPicker, {
+          staticClass: `no-border${modal ? ' full-width' : ''}`,
+          props: extend({
+            color: this.color,
+            value: this.model
+          }, this.$attrs),
+          on: {
+            input: v => {
+              this.model = v
+              if (this.usingPopover) {
+                this.__update()
               }
             }
-          }),
-          h('div', { staticClass: 'q-color-label text-center uppercase' }, [
-            type
-          ])
-        ])
-      })
-    },
-    __getInputs (h) {
-      const inputs = this.view === 'hex'
-        ? [
-          h('div', { staticClass: 'col' }, [
-            h('input', {
-              domProps: { value: this.model.hex },
-              attrs: { readonly: !this.editable },
-              on: { input: this.__onHexChange },
-              staticClass: 'full-width text-center uppercase'
-            }),
-            h('div', { staticClass: 'q-color-label text-center' }, [
-              'HEX'
-            ])
-          ])
-        ]
-        : this.__getNumericInputs(h)
+          }
+        })
+      ]
 
-      return h('div', {
-        staticClass: 'q-color-inputs row items-center q-px-sm q-pb-sm'
-      }, [
-        h('div', { staticClass: 'col q-mr-sm row no-wrap' }, inputs),
-        h('div', [
+      if (modal) {
+        child[__THEME__ === 'mat' ? 'push' : 'unshift'](h('div', {
+          staticClass: 'modal-buttons modal-buttons-top row full-width'
+        }, [
+          !this.noClear && this.model
+            ? h(QBtn, {
+              props: {
+                color: this.color,
+                flat: true,
+                label: this.clearLabel || this.$q.i18n.label.clear,
+                waitForRipple: true,
+                compact: true
+              },
+              on: { click: this.clear }
+            })
+            : null,
+          h('div', { staticClass: 'col' }),
           h(QBtn, {
             props: {
+              color: this.color,
               flat: true,
-              color: 'grey-7'
+              label: this.cancelLabel || this.$q.i18n.label.cancel,
+              waitForRipple: true,
+              compact: true
+            },
+            on: { click: this.hide }
+          }),
+          h(QBtn, {
+            props: {
+              color: this.color,
+              flat: true,
+              label: this.okLabel || this.$q.i18n.label.set,
+              waitForRipple: true,
+              compact: true
             },
             on: {
-              click: this.__nextInputView
-            },
-            staticClass: 'q-pa-none'
-          }, [
-            h('svg', {
-              attrs: {
-                viewBox: '0 0 24 24'
-              },
-              style: {width: '24px', height: '24px'}
-            }, [
-              h('path', {
-                attrs: {
-                  fill: 'currentColor',
-                  d: 'M12,18.17L8.83,15L7.42,16.41L12,21L16.59,16.41L15.17,15M12,5.83L15.17,9L16.58,7.59L12,3L7.41,7.59L8.83,9L12,5.83Z'
-                }
-              })
-            ])
-          ])
-        ])
-      ])
-    },
-
-    __onSaturationChange (left, top) {
-      const
-        panel = this.$refs.saturation,
-        width = panel.clientWidth,
-        height = panel.clientHeight,
-        rect = panel.getBoundingClientRect(),
-        x = Math.min(width, Math.max(0, left - rect.left)),
-        y = Math.min(height, Math.max(0, top - rect.top)),
-        s = Math.round(100 * x / width),
-        v = Math.round(100 * Math.max(0, Math.min(1, -(y / height) + 1))),
-        rgb = hsvToRgb({
-          h: this.model.h,
-          s,
-          v,
-          a: this.hasAlpha ? this.model.a : void 0
-        })
-
-      this.model.s = s
-      this.model.v = v
-      this.__update(rgb, rgbToHex(rgb))
-    },
-    __onHueChange (h) {
-      h = Math.round(h)
-      const val = hsvToRgb({
-        h,
-        s: this.model.s,
-        v: this.model.v,
-        a: this.hasAlpha ? this.model.a : void 0
-      })
-
-      this.model.h = h
-      this.__update(val, rgbToHex(val))
-    },
-    __onPropChange (evt, type, max) {
-      let val = Number(evt.target.value)
-      if (isNaN(val)) {
-        return
+              click: () => {
+                this.hide()
+                this.__update()
+              }
+            }
+          })
+        ]))
       }
 
-      val = Math.floor(val)
-      const rgb = {
-        r: type === 'r' ? val : this.model.r,
-        g: type === 'g' ? val : this.model.g,
-        b: type === 'b' ? val : this.model.b,
-        a: this.hasAlpha
-          ? (type === 'a' ? val : this.model.a)
-          : void 0
-      }
-      if (type !== 'a') {
-        const hsv = rgbToHsv(rgb)
-        this.model.h = hsv.h
-        this.model.s = hsv.s
-        this.model.v = hsv.v
-      }
-      this.__update(rgb, rgbToHex(rgb))
-    },
-    __onHexChange (evt) {
-      const
-        hex = evt.target.value,
-        rgb = hexToRgb(hex),
-        hsv = rgbToHsv(rgb)
-
-      this.model.h = hsv.h
-      this.model.s = hsv.s
-      this.model.v = hsv.v
-      this.__update(rgb, hex)
-    },
-    __update (rgb, hex, change) {
-      // update internally
-      this.model.hex = hex
-      this.model.r = rgb.r
-      this.model.g = rgb.g
-      this.model.b = rgb.b
-      if (this.hasAlpha) {
-        this.model.a = rgb.a
-      }
-
-      // avoid recomputing
-      this.avoidModelWatch = true
-
-      // emit new value
-      this.$emit(
-        change ? 'change' : 'input',
-        this.isHex ? hex : rgb
-      )
-    },
-    __nextInputView () {
-      this.view = this.view === 'hex' ? 'rgba' : 'hex'
-    },
-    __parseModel (v) {
-      let model
-      if (typeof v === 'string') {
-        model = hexToRgb(v)
-        model.hex = v
-      }
-      else {
-        model = clone(v)
-        model.hex = rgbToHex(v)
-      }
-      return extend({ a: 100 }, model, rgbToHsv(model))
-    },
-
-    __saturationPan (evt) {
-      if (evt.isFinal) {
-        this.__dragStop(evt)
-      }
-      else if (evt.isFirst) {
-        this.__dragStart(evt)
-      }
-      else {
-        this.__dragMove(evt)
-      }
-    },
-    __dragStart (event) {
-      stopAndPrevent(event.evt)
-
-      this.saturationDragging = true
-      this.__saturationChange(event)
-    },
-    __dragMove (event) {
-      if (!this.saturationDragging) {
-        return
-      }
-      stopAndPrevent(event.evt)
-
-      this.__saturationChange(event)
-    },
-    __dragStop (event) {
-      stopAndPrevent(event.evt)
-      this.saturationDragging = false
-    },
-    __saturationChange (evt) {
-      this.__onSaturationChange(
-        evt.position.left,
-        evt.position.top
-      )
-    },
-    __saturationClick (evt) {
-      this.__onSaturationChange(
-        evt.pageX - window.pageXOffset,
-        evt.pageY - window.pageYOffset
-      )
+      return child
     }
+  },
+  render (h) {
+    return h(QInputFrame, {
+      props: {
+        prefix: this.prefix,
+        suffix: this.suffix,
+        stackLabel: this.stackLabel,
+        floatLabel: this.floatLabel,
+        error: this.error,
+        warning: this.warning,
+        disable: this.disable,
+        inverted: this.inverted,
+        dark: this.dark,
+        hideUnderline: this.hideUnderline,
+        before: this.before,
+        after: this.after,
+        color: this.color,
+
+        focused: this.focused,
+        focusable: true,
+        length: this.actualValue.length
+      },
+      nativeOn: {
+        click: this.toggle,
+        focus: this.__onFocus,
+        blur: this.__onBlur
+      }
+    }, [
+      h('div', {
+        staticClass: 'col row items-center q-input-target',
+        'class': this.alignClass,
+        domProps: {
+          innerHTML: this.actualValue
+        }
+      }),
+
+      this.usingPopover
+        ? h(QPopover, {
+          ref: 'popup',
+          props: {
+            offset: [0, 10],
+            disable: this.disable,
+            anchorClick: false,
+            maxHeight: '100vh'
+          },
+          on: {
+            show: this.__onFocus,
+            hide: this.__onHide
+          }
+        }, this.__getPicker(h))
+        : h(QModal, {
+          ref: 'popup',
+          staticClass: 'with-backdrop',
+          props: {
+            contentCss,
+            minimized: __THEME__ === 'mat',
+            position: __THEME__ === 'ios' ? 'bottom' : null,
+            transition: this.transition
+          },
+          on: {
+            show: this.__onFocus,
+            hide: this.__onHide
+          }
+        }, this.__getPicker(h, true)),
+
+      h('q-icon', {
+        slot: 'after',
+        props: { name: this.$q.icon.input.dropdown },
+        staticClass: 'q-if-control'
+      })
+    ])
   }
 }

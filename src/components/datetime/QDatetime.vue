@@ -36,7 +36,7 @@
       @hide="__onHide"
       max-height="100vh"
     >
-      <q-inline-datetime
+      <q-datetime-picker
         ref="target"
         v-model="model"
         :default-selection="defaultSelection"
@@ -53,23 +53,23 @@
           <q-btn :color="color" v-if="!noClear && model" @click="clear" flat :label="clearLabel || $q.i18n.label.clear"></q-btn>
           <div class="col"></div>
           <q-btn :color="color" @click="hide" flat :label="cancelLabel || $q.i18n.label.cancel"></q-btn>
-          <q-btn :color="color" @click="hide(), __update()" flat :label="okLabel || $q.i18n.label.ok"></q-btn>
+          <q-btn :color="color" @click="hide(), __update()" flat :label="okLabel || $q.i18n.label.set"></q-btn>
         </div>
-      </q-inline-datetime>
+      </q-datetime-picker>
     </q-popover>
 
     <q-modal
       v-else
       ref="popup"
       class="with-backdrop"
-      :class="classNames"
       :transition="transition"
-      :position-classes="position"
+      :minimized="minimized"
+      :position="position"
       :content-css="contentCSS"
       @show="__onFocus"
       @hide="__onHide"
     >
-      <q-inline-datetime
+      <q-datetime-picker
         ref="target"
         v-model="model"
         :default-selection="defaultSelection"
@@ -87,12 +87,12 @@
           <q-btn :color="color" v-if="!noClear && model" @click="clear" flat wait-for-ripple :label="clearLabel || $q.i18n.label.clear"></q-btn>
           <div class="col"></div>
           <q-btn :color="color" @click="hide" flat wait-for-ripple :label="cancelLabel || $q.i18n.label.cancel"></q-btn>
-          <q-btn :color="color" @click="hide(), __update()" flat wait-for-ripple :label="okLabel || $q.i18n.label.ok"></q-btn>
+          <q-btn :color="color" @click="hide(), __update()" flat wait-for-ripple :label="okLabel || $q.i18n.label.set"></q-btn>
         </div>
-      </q-inline-datetime>
+      </q-datetime-picker>
     </q-modal>
 
-    <q-icon slot="after" :name="$q.icon.datetime.dropdown" class="q-if-control"></q-icon>
+    <q-icon slot="after" :name="$q.icon.input.dropdown" class="q-if-control"></q-icon>
   </q-input-frame>
 </template>
 
@@ -102,7 +102,7 @@ import extend from '../../utils/extend'
 import { input, inline } from './datetime-props'
 import { QInputFrame } from '../input-frame'
 import { QPopover } from '../popover'
-import QInlineDatetime from './QInlineDatetime'
+import QDatetimePicker from './QDatetimePicker'
 import { QBtn } from '../btn'
 import { formatDate, isSameDate } from '../../utils/date'
 import { QModal } from '../modal'
@@ -126,7 +126,7 @@ export default {
     QInputFrame,
     QPopover,
     QModal,
-    QInlineDatetime,
+    QDatetimePicker,
     QBtn
   },
   props: extend(
@@ -140,9 +140,9 @@ export default {
   data () {
     let data = this.usingPopover ? {} : {
       contentCSS,
-      position: __THEME__ === 'ios' ? 'items-end justify-center' : 'flex-center',
-      transition: __THEME__ === 'ios' ? 'q-modal-bottom' : 'q-modal',
-      classNames: __THEME__ === 'ios' ? '' : 'minimized'
+      minimized: __THEME__ === 'mat',
+      position: __THEME__ === 'ios' ? 'bottom' : null,
+      transition: __THEME__ === 'ios' ? 'q-modal-bottom' : 'q-modal'
     }
     data.model = this.value
     data.focused = false

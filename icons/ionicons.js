@@ -17,9 +17,6 @@ export default {
     right: 'ion-chevron-right'
   },
 
-  btn: {
-    dropdown: 'ion-android-arrow-dropdown'
-  },
   pullToRefresh: {
     arrow: 'ion-arrow-down-c',
     refresh: 'ion-ios-refresh'
@@ -56,8 +53,7 @@ export default {
   },
   datetime: {
     arrowLeft: 'ion-chevron-left',
-    arrowRight: 'ion-chevron-right',
-    dropdown: 'ion-android-arrow-dropdown'
+    arrowRight: 'ion-chevron-right'
   },
   editor: { // TODO
     bold: 'format_bold',
@@ -99,7 +95,8 @@ export default {
     hidePass: 'ion-eye-disabled',
     showNumber: 'ion-calculator',
     hideNumber: 'ion-ios-keypad',
-    clear: 'ion-backspace-outline'
+    clear: 'ion-backspace-outline',
+    dropdown: 'ion-android-arrow-dropdown'
   },
   pagination: {
     first: 'ion-ios-skipbackward-outline',
@@ -119,9 +116,6 @@ export default {
   },
   rating: {
     icon: 'ion-ios-star'
-  },
-  select: {
-    dropdown: 'ion-android-arrow-dropdown'
   },
   stepper: {
     done: 'ion-checkmark',
