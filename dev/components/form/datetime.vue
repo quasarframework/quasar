@@ -43,6 +43,7 @@
       <q-datetime float-label="Float Label" v-model="model" type="date" />
       <q-datetime hide-underline float-label="Float Label (hide underline)" v-model="model" type="date" />
 
+      <q-datetime default-view="month" v-model="model" type="date" float-label="Default view" />
       <q-datetime inverted v-model="model" type="date" />
       <q-datetime inverted color="secondary" stack-label="Stack Label" v-model="model" type="date" />
       <q-datetime inverted color="amber" float-label="Float Label" v-model="model" type="date" />
@@ -134,6 +135,8 @@
         </small>
       </p>
       <q-inline-datetime v-model="model" type="date" />
+      <br><br>
+      <q-inline-datetime default-view="year" v-model="model" type="date" />
 
       <p class="caption">
         Time

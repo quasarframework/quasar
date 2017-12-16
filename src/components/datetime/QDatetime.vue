@@ -46,6 +46,7 @@
         :format24h="format24h"
         :first-day-of-week="firstDayOfWeek"
         :color="color"
+        :default-view="defaultView"
         class="no-border"
       >
         <div class="row q-datetime-controls modal-buttons-top">
@@ -77,6 +78,7 @@
         :max="max"
         :format24h="format24h"
         :first-day-of-week="firstDayOfWeek"
+        :default-view="defaultView"
         :color="color"
         class="no-border"
         :class="{'full-width': $q.theme === 'ios'}"
@@ -199,6 +201,15 @@ export default {
     },
 
     __onFocus () {
+      const target = this.$refs.target
+      if (this.defaultView) {
+        if (target.view !== this.defaultView) {
+          target.setView(this.defaultView)
+        }
+        else {
+          target.__scrollView()
+        }
+      }
       this.focused = true
       this.$emit('focus')
     },

@@ -80,8 +80,8 @@ export default {
       return `rgb${color.a !== void 0 ? 'a' : ''}(${color.r},${color.g},${color.b}${color.a !== void 0 ? `,${color.a / 100}` : ''})`
     },
     setToYellow () {
-      this.modelHex = '#ffff00'
-      this.modelHexa = '#ffff00FF'
+      this.modelHex = '#FFFF00'
+      this.modelHexa = '#FFFF00FF'
       this.modelRgb = {r: 255, g: 255, b: 0}
       this.modelRgba = {r: 255, g: 255, b: 0, a: 100}
     }
