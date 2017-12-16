@@ -414,6 +414,11 @@ export default {
         })
       })
     },
+    pick () {
+      if (!this.addDisabled) {
+        this.$refs.file.click()
+      }
+    },
     upload () {
       const length = this.queueLength
       if (this.disable || length === 0) {
