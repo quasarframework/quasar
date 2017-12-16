@@ -117,7 +117,7 @@
             :active="selectedIndex === index"
             :class="getItemClass(opt)"
             slot-replace
-            @mouseenter="hoverItem(opt, index)"
+            @mouseenter="!isItemDisabled(opt) && (selectedIndex = index)"
             @click.capture="selectItem(opt)"
           >
             <q-toggle
@@ -126,7 +126,7 @@
               no-focus
               :color="color"
               :value="optModel[opt.index]"
-              :disable="opt.disable"
+              :disable="isItemDisabled(opt)"
               no-focus
             />
             <q-checkbox
@@ -135,7 +135,7 @@
               no-focus
               :color="color"
               :value="optModel[opt.index]"
-              :disable="opt.disable"
+              :disable="isItemDisabled(opt)"
             />
             <q-radio
               v-else-if="radio"
@@ -144,7 +144,7 @@
               slot="left"
               :value="value"
               :val="opt.value"
-              :disable="opt.disable"
+              :disable="isItemDisabled(opt)"
               no-focus
             />
           </q-item-wrapper>
@@ -168,6 +168,7 @@ import SelectMixin from '../../mixins/select'
 import clone from '../../utils/clone'
 import { stopAndPrevent } from '../../utils/event'
 import { normalizeToInterval } from '../../utils/format'
+import { isNumber } from '../../utils/is'
 
 function defaultFilterFn (terms, obj) {
   return obj.label.toLowerCase().indexOf(terms) > -1
@@ -271,17 +272,12 @@ export default {
       }
       return itemClass
     },
-    selectItem (opt) {
-      if (this.isItemDisabled(opt)) {
-        return
-      }
-      this.multiple ? this.__toggleMultiple(opt.value, opt.disable) : this.__singleSelect(opt.value, opt.disable)
+    isItemDisabled (opt) {
+      return opt.disable || (isNumber(this.multiple) && this.multiple > 0 && this.length >= this.multiple && !this.optModel[opt.index])
     },
-    hoverItem (opt, index) {
-      if (this.isItemDisabled(opt)) {
-        return
-      }
-      this.selectedIndex = index
+    selectItem (opt) {
+      const disable = this.isItemDisabled(opt)
+      this.multiple ? this.__toggleMultiple(opt.value, disable) : this.__singleSelect(opt.value, disable)
     },
     getFocusableElements () {
       let focusableElements = Array.prototype.slice.call(document.querySelectorAll('.q-if-focusable, .q-focusable, input.q-input-target:not([disabled])'))
