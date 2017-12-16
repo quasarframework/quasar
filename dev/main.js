@@ -14,6 +14,7 @@ import 'quasar-extras/material-icons'
 import 'quasar-extras/ionicons'
 import 'quasar-extras/fontawesome'
 import 'quasar-extras/animate'
+import 'quasar-extras/mdi'
 
 // import iconSet from '../icons/fontawesome'
 

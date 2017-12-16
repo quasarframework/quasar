@@ -76,7 +76,7 @@
     "parse5": "^2.1.0",
     "postcss-loader": "^1.0.0",
     "progress-bar-webpack-plugin": "^1.9.0",
-    "quasar-extras": "0.0.8",
+    "quasar-extras": "1.0.0",
     "raw-loader": "^0.5.1",
     "rollup": "^0.52.1",
     "rollup-plugin-babel": "^3.0.2",
