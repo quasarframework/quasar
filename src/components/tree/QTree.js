@@ -365,31 +365,12 @@ export default {
 
       return scope
     },
-    __getChildren (nodes, limitChildren) {
-      if (limitChildren) {
-        let i = limitChildren === true ? 2 : limitChildren
-        return this.filter
-          ? nodes.filter(n => {
-            const meta = this.meta[n[this.nodeKey]]
-            if (!meta.expanded) {
-              return (--i >= 0) && meta.matchesFilter
-            }
-            return meta.matchesFilter
-          })
-          : nodes.filter(n => {
-            const meta = this.meta[n[this.nodeKey]]
-            if (!meta.expanded) {
-              return --i >= 0
-            }
-            return true
-          })
-      }
-      return this.filter
-        ? nodes.filter(n => this.meta[n[this.nodeKey]].matchesFilter)
-        : nodes
-    },
-    __getChildrenNodes (h, nodes) {
-      return nodes.map(child => this.__getNode(h, child))
+    __getChildren (h, nodes) {
+      return (
+        this.filter
+          ? nodes.filter(n => this.meta[n[this.nodeKey]].matchesFilter)
+          : nodes
+      ).map(child => this.__getNode(h, child))
     },
     __getNodeMedia (h, node) {
       if (node.icon) {
@@ -415,14 +396,10 @@ export default {
           : this.$scopedSlots['default-header']
 
       const children = meta.isParent
-        ? this.__getChildren(node.children, !meta.expanded)
+        ? this.__getChildren(h, node.children)
         : []
 
       const isParent = children.length > 0
-
-      const childrenNodes = isParent
-        ? this.__getChildrenNodes(h, children)
-        : []
 
       let
         body = node.body
@@ -516,7 +493,7 @@ export default {
               h('div', {
                 staticClass: 'q-tree-children',
                 'class': { disabled: meta.disabled }
-              }, childrenNodes)
+              }, children)
             ])
           ])
           : body
@@ -568,7 +545,7 @@ export default {
     }
   },
   render (h) {
-    const children = this.__getChildrenNodes(h, this.__getChildren(this.nodes))
+    const children = this.__getChildren(h, this.nodes)
 
     return h(
       'div', {
