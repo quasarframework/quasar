@@ -5,40 +5,41 @@
         These examples feature countries autocomplete.<br>
         On desktop, Escape key closes the suggestions popover and you can navigate with keyboard arrow keys. Selection is made with either mouse/finger tap or by Enter key.
       </p>
-
+      <q-toggle v-model="triggerOnFocus" label="Trigger on Focus" />
 
       <q-search @change="onChange" @input="onInput" v-model="terms" placeholder="Start typing a country name">
-        <q-autocomplete @search="search" @selected="selected" />
+        <q-autocomplete :trigger-on-focus="triggerOnFocus" @search="search" @selected="selected" />
       </q-search>
 
       <q-search @change="onChange" @input="onInput" v-model="terms" hide-underline placeholder="Start typing a country name (hide underline)">
-        <q-autocomplete @search="search" @selected="selected" />
+        <q-autocomplete :trigger-on-focus="triggerOnFocus" @search="search" @selected="selected" />
       </q-search>
 
       <q-search @change="val => { terms = val; onChange(val) }" @input="onInput" :value="terms" placeholder="Start typing a country name (onChange)">
-        <q-autocomplete @search="search" @selected="selected" />
+        <q-autocomplete :trigger-on-focus="triggerOnFocus" @search="search" @selected="selected" />
       </q-search>
 
       <p class="caption">Number selected: {{ JSON.stringify(termsN) }}</p>
       <q-search type="number" v-model="termsN" placeholder="Start typing a number">
-        <q-autocomplete :static-data="{field: 'value', list: numbers}" @selected="selected" />
+        <q-autocomplete :trigger-on-focus="triggerOnFocus" :static-data="{field: 'value', list: numbers}" @selected="selected" />
       </q-search>
 
       <q-input @change="onChange" @input="onInput" v-model="terms" placeholder="Start typing a country name">
-        <q-autocomplete @search="search" @selected="selected" />
+        <q-autocomplete :trigger-on-focus="triggerOnFocus" @search="search" @selected="selected" />
       </q-input>
 
       <q-input @change="val => { terms = val; onChange(val) }" @input="onInput" :value="terms" placeholder="Start typing a country name (onChange)">
-        <q-autocomplete @search="search" @selected="selected" />
+        <q-autocomplete :trigger-on-focus="triggerOnFocus" @search="search" @selected="selected" />
       </q-input>
 
       <q-search inverted v-model="terms" placeholder="Start typing a country name">
-        <q-autocomplete @search="search" @selected="selected"  />
+        <q-autocomplete :trigger-on-focus="triggerOnFocus" @search="search" @selected="selected"  />
       </q-search>
 
       <p class="caption">Maximum of 2 results at a time</p>
       <q-search inverted color="amber" v-model="terms">
         <q-autocomplete
+          :trigger-on-focus="triggerOnFocus"
           @search="search"
           :max-results="2"
           @selected="selected"
@@ -48,6 +49,7 @@
       <p class="caption">Minimum 3 characters to trigger search</p>
       <q-input color="amber" v-model="terms" placeholder="Type 'fre'">
         <q-autocomplete
+          :trigger-on-focus="triggerOnFocus"
           @search="search"
           :min-characters="3"
           @selected="selected"
@@ -57,6 +59,7 @@
       <p class="caption">Custom debounce before triggering search</p>
       <q-input color="amber" v-model="terms" placeholder="One second debounce">
         <q-autocomplete
+          :trigger-on-focus="triggerOnFocus"
           @search="search"
           :debounce="1000"
           @selected="selected"
@@ -66,6 +69,7 @@
       <p class="caption">Static List</p>
       <q-search inverted color="secondary" v-model="terms" placeholder="Featuring static data">
         <q-autocomplete
+          :trigger-on-focus="triggerOnFocus"
           :static-data="{field: 'value', list: countries}"
           @selected="selected"
         />
@@ -74,6 +78,7 @@
       <p class="caption">Separator between results</p>
       <q-search v-model="terms">
         <q-autocomplete
+          :trigger-on-focus="triggerOnFocus"
           separator
           @search="search"
           @selected="selected"
@@ -120,7 +125,8 @@ export default {
       terms: '',
       termsN: null,
       countries: parseCountries(),
-      numbers: [1, 2, 3, 4, 5, 1111, 2222, 3333, 4444, 5555].map(v => ({ label: String(v), value: v }))
+      numbers: [1, 2, 3, 4, 5, 1111, 2222, 3333, 4444, 5555].map(v => ({ label: String(v), value: v })),
+      triggerOnFocus: false
     }
   },
   methods: {

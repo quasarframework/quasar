@@ -68,12 +68,13 @@ export default {
         return
       }
 
-      const terms = e && e.target ? e.target.value : [null, void 0].includes(this.__input.val) ? '' : String(this.__input.val)
+      const terms = e && e.target
+        ? e.target.value
+        : [null, void 0].includes(this.__input.val) ? '' : String(this.__input.val)
       const searchId = uid()
       this.searchId = searchId
 
       if (terms === '' || terms.length < this.minCharacters) {
-        this.searchId = ''
         this.__clearSearch()
         this.hide()
         return
@@ -105,9 +106,7 @@ export default {
         if (!this.isWorking() || this.searchId !== searchId) {
           return
         }
-
         this.__clearSearch()
-
         if (Array.isArray(results) && results.length > 0) {
           this.results = results
           this.selectedIndex = 0
@@ -195,7 +194,6 @@ export default {
     },
     __moveCursor (offset, e) {
       stopAndPrevent(e)
-
       if (!this.$refs.popover.showing) {
         this.trigger()
       }
