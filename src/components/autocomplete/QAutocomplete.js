@@ -133,10 +133,6 @@ export default {
       const value = this.staticData ? result[this.staticData.field] : result.value
       const suffix = this.__inputDebounce ? 'Debounce' : ''
 
-      if (this.inputEl && this.__input && !this.__input.hasFocus()) {
-        this.inputEl.focus()
-      }
-
       this[`__input${suffix}`].set(value)
 
       this.$emit('selected', result)
