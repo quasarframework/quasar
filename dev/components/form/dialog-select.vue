@@ -26,6 +26,10 @@
       <p class="caption">Error State</p>
       <q-dialog-select error v-model="select" :options="selectOptions" />
 
+      <p class="caption">Hide Underline</p>
+      <q-dialog-select hide-underline @change="onChange" @input="onInput" chips float-label="Float Label" multiple v-model="multipleSelect" :options="selectOptions" placeholder="Pick Company" />
+      <q-dialog-select hide-underline stack-label="Stack Label" v-model="select" :options="selectOptions" static-label="Company" />
+
       <p class="caption">Inside of a List</p>
       <q-list>
         <q-list-header>Single Selection</q-list-header>

@@ -29,6 +29,9 @@
       </div>
       <q-datetime-range inverted color="amber" type="date" v-model="first.range" :min="first.min" :max="first.max" />
 
+      <p class="caption">Hide Underline</p>
+      <q-datetime-range hide-underline @change="onChange" type="datetime" v-model="first.range" :min="first.min" :max="first.max" />
+
       <p class="caption">
         Datetime Range
       </p>

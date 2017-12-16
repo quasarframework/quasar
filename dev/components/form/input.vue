@@ -8,6 +8,7 @@
         <q-card-title class="bg-dark text-white q-px-small q-py-smaller">Text value: {{JSON.stringify(text)}}</q-card-title>
         <q-card-main>
           <q-input v-model="text" float-label="Text" placeholder="Placeholder" @input="onInput" @change="onChange" clearable />
+          <q-input v-model="text" hide-underline float-label="Text (hide underline)" placeholder="Placeholder" @input="onInput" @change="onChange" clearable />
           <q-input :value="text" float-label="Text (onChange)" placeholder="Placeholder" @input="onInput" @change="val => { text = val, onChange(val) }" clearable />
         </q-card-main>
       </q-card>

@@ -1,14 +1,10 @@
 import { width } from '../../utils/dom'
+import { stopAndPrevent } from '../../utils/event'
 import filter from '../../utils/filter'
 import uid from '../../utils/uid'
 import { normalizeToInterval } from '../../utils/format'
 import { QPopover } from '../popover'
 import { QList, QItemWrapper } from '../list'
-
-function prevent (e) {
-  e.preventDefault()
-  e.stopPropagation()
-}
 
 export default {
   name: 'q-autocomplete',
@@ -72,7 +68,7 @@ export default {
         return
       }
 
-      const terms = e && e.target ? e.target.value : this.__input.val
+      const terms = e && e.target ? e.target.value : [null, void 0].includes(this.__input.val) ? '' : String(this.__input.val)
       const searchId = uid()
       this.searchId = searchId
 
@@ -134,8 +130,14 @@ export default {
       this.searchId = ''
     },
     setValue (result) {
+      const value = this.staticData ? result[this.staticData.field] : result.value
       const suffix = this.__inputDebounce ? 'Debounce' : ''
-      this[`__input${suffix}`].set(this.staticData ? result[this.staticData.field] : result.value)
+
+      if (this.inputEl && this.__input && !this.__input.hasFocus()) {
+        this.inputEl.focus()
+      }
+
+      this[`__input${suffix}`].set(value)
 
       this.$emit('selected', result)
       this.__clearSearch()
@@ -184,7 +186,7 @@ export default {
           break
         case 13: // enter
           this.setCurrentSelection()
-          prevent(e)
+          stopAndPrevent(e)
           break
         case 27: // escape
           this.__clearSearch()
@@ -195,7 +197,7 @@ export default {
       }
     },
     __moveCursor (offset, e) {
-      prevent(e)
+      stopAndPrevent(e)
 
       if (!this.$refs.popover.showing) {
         this.trigger()
@@ -254,11 +256,14 @@ export default {
       },
       this.computedResults.map((result, index) => h(QItemWrapper, {
         key: result.id || JSON.stringify(result),
-        'class': { 'cursor-pointer': true, active: this.selectedIndex === index },
+        'class': {
+          active: this.selectedIndex === index,
+          'cursor-pointer': !result.disable
+        },
         props: { cfg: result },
         on: {
-          mouseenter: () => { this.selectedIndex = index },
-          click: () => { this.setValue(result) }
+          mouseenter: () => { !result.disable && (this.selectedIndex = index) },
+          click: () => { !result.disable && this.setValue(result) }
         }
       })))
     ])
