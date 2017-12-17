@@ -1,4 +1,5 @@
 /* eslint-disable no-useless-escape */
+/* eslint-disable no-unused-expressions */
 /* eslint-disable no-mixed-operators */
 
 function getUserAgent () {
@@ -175,6 +176,15 @@ const Platform = {
     }
     Platform.within = {
       iframe: window.self !== window.top
+    }
+
+    try {
+      if (window.localStorage) {
+        Platform.has.webStorage = true
+      }
+    }
+    catch (e) {
+      Platform.has.webStorage = false
     }
 
     $q.platform = Platform
