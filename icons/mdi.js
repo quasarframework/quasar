@@ -42,7 +42,7 @@ export default {
     },
     indeterminate: {
       ios: '',
-      mat: ''
+      mat: 'mdi-minus-box'
     }
   },
   chip: {
