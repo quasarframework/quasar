@@ -2,7 +2,7 @@ export default {
   name: 'mdi',
   type: {
     positive: 'mdi-check-circle',
-    negative: 'mdi-warning',
+    negative: 'mdi-alert',
     info: 'mdi-info',
     warning: 'mdi-priority-high'
   },
@@ -22,14 +22,14 @@ export default {
     refresh: 'mdi-refresh'
   },
   search: {
-    icon: 'mdi-search',
-    clear: 'mdi-cancel',
-    clearInverted: 'mdi-clear'
+    icon: 'mdi-magnify',
+    clear: 'mdi-close-circle',
+    clearInverted: ''
   },
   carousel: {
     left: 'mdi-chevron-left',
     right: 'mdi-chevron-right',
-    quickNav: 'mdi-lens'
+    quickNav: 'mdi-circle'
   },
   checkbox: {
     checked: {
@@ -91,36 +91,36 @@ export default {
     activeIcon: 'mdi-close'
   },
   input: {
-    showPass: 'mdi-visibility',
-    hidePass: 'mdi-visibility-off',
+    showPass: 'mdi-eye',
+    hidePass: 'mdi-eye-off',
     showNumber: 'mdi-keyboard',
-    hideNumber: 'mdi-keyboard-hide',
-    clear: 'mdi-cancel',
-    dropdown: 'mdi-chevron-down'
+    hideNumber: 'mdi-keyboard-close',
+    clear: 'mdi-close',
+    dropdown: 'mdi-menu-down'
   },
   pagination: {
-    first: 'mdi-first-page',
-    prev: 'mdi-keyboard-arrow-left',
-    next: 'mdi-keyboard-arrow-right',
-    last: 'mdi-last-page'
+    first: 'mdi-page-first',
+    prev: 'mdi-chevron-left',
+    next: 'mdi-chevron-right',
+    last: 'mdi-page-last'
   },
   radio: {
     checked: {
       ios: 'mdi-check',
-      mat: 'mdi-radio-button-checked'
+      mat: 'mdi-radiobox-marked'
     },
     unchecked: {
       ios: 'mdi-radio-button-unchecked',
-      mat: 'mdi-radio-button-unchecked'
+      mat: 'mdi-radiobox-blank'
     }
   },
   rating: {
-    icon: 'mdi-grade'
+    icon: 'mdi-star'
   },
   stepper: {
     done: 'mdi-check',
-    active: 'mdi-edit',
-    error: 'mdi-warning'
+    active: 'mdi-pencil',
+    error: 'mdi-alert'
   },
   tabs: {
     left: 'mdi-chevron-left',
@@ -128,19 +128,19 @@ export default {
   },
   table: {
     arrowUp: 'mdi-arrow-upward',
-    warning: 'mdi-warning',
+    warning: 'mdi-alert',
     prevPage: 'mdi-chevron-left',
     nextPage: 'mdi-chevron-right'
   },
   tree: {
-    icon: 'mdi-play-arrow'
+    icon: 'mdi-play'
   },
   uploader: {
     done: 'mdi-done',
-    clear: 'mdi-clear',
-    add: 'mdi-add',
+    clear: 'mdi-close',
+    add: 'mdi-plus',
     upload: 'mdi-cloud-upload',
-    expand: 'mdi-keyboard-arrow-down',
-    file: 'mdi-insert-drive-file'
+    expand: 'mdi-chevron-down',
+    file: 'mdi-file'
   }
 }
