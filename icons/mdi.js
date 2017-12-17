@@ -33,16 +33,16 @@ export default {
   },
   checkbox: {
     checked: {
-      ios: '',
+      ios: 'mdi-checkbox-marked-circle',
       mat: 'mdi-checkbox-marked'
     },
     unchecked: {
-      ios: '',
+      ios: 'mdi-checkbox-blank-circle-outline',
       mat: 'mdi-checkbox-blank-outline'
     },
     indeterminate: {
       ios: '',
-      mat: 'mdi-indeterminate-check-box'
+      mat: ''
     }
   },
   chip: {
