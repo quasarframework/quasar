@@ -49,7 +49,7 @@ export default {
     close: 'mdi-cancel'
   },
   collapsible: {
-    icon: 'mdi-keyboard-arrow-down'
+    icon: 'mdi-chevron-down'
   },
   datetime: {
     arrowLeft: 'mdi-chevron-left',
@@ -58,15 +58,15 @@ export default {
   editor: {
     bold: 'mdi-format-bold',
     italic: 'mdi-format-italic',
-    strikethrough: 'mdi-format-strikethrough',
+    strikethrough: 'mdi-format-strikethrough-variant',
     underline: 'mdi-format-underline',
     unorderedList: 'mdi-format-list-bulleted',
-    orderedList: 'mdi-format-list-numbered',
+    orderedList: 'mdi-format-list-numbers',
     subscript: 'mdi-format-subscript',
     superscript: 'mdi-format-superscript',
     hyperlink: 'mdi-link',
     toggleFullscreen: 'mdi-fullscreen',
-    quote: 'mdi-format-quote',
+    quote: 'mdi-format-quote-close',
     left: 'mdi-format-align-left',
     center: 'mdi-format-align-center',
     right: 'mdi-format-align-right',
@@ -96,7 +96,7 @@ export default {
     showNumber: 'mdi-keyboard',
     hideNumber: 'mdi-keyboard-hide',
     clear: 'mdi-cancel',
-    dropdown: 'mdi-arrow-drop-down'
+    dropdown: 'mdi-chevron-down'
   },
   pagination: {
     first: 'mdi-first-page',
