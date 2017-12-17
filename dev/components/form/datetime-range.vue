@@ -70,6 +70,10 @@
         Time Range
       </p>
       <q-datetime-range type="time" v-model="second.range" :min="second.min" :max="second.max" />
+
+      <p class="caption">Default View</p>
+      <q-datetime-range default-view="year" inverted color="amber" type="date" v-model="first.range" float-label="Default view year"/>
+      <q-datetime-range default-view="minute" type="time" v-model="second.range" float-label="Default view minute" />
     </div>
   </div>
 </template>
