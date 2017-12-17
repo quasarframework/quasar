@@ -33,12 +33,12 @@ export default {
   },
   checkbox: {
     checked: {
-      ios: 'mdi-check-circle',
-      mat: 'mdi-check-box'
+      ios: '',
+      mat: 'mdi-checkbox-marked'
     },
     unchecked: {
-      ios: 'mdi-radio-button-unchecked',
-      mat: 'mdi-check-box-outline-blank'
+      ios: '',
+      mat: 'mdi-checkbox-blank-outline'
     },
     indeterminate: {
       ios: '',
@@ -46,7 +46,7 @@ export default {
     }
   },
   chip: {
-    close: 'mdi-cancel'
+    close: 'mdi-close-circle'
   },
   collapsible: {
     icon: 'mdi-chevron-down'
@@ -75,7 +75,7 @@ export default {
     outdent: 'mdi-format-indent-decrease',
     indent: 'mdi-format-indent-increase',
     removeFormat: 'mdi-format-clear',
-    formatting: 'mdi-text-format',
+    formatting: '',
     fontSize: 'mdi-format-size',
     align: 'mdi-format-align-left',
     hr: 'mdi-minus',
@@ -84,7 +84,7 @@ export default {
     header: 'mdi-format-size',
     code: 'mdi-code',
     size: 'mdi-format-size',
-    font: 'mdi-font-download'
+    font: 'mdi-format-font'
   },
   fab: {
     icon: 'mdi-add',
