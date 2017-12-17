@@ -24,7 +24,7 @@ export default {
   search: {
     icon: 'mdi-magnify',
     clear: 'mdi-close-circle',
-    clearInverted: ''
+    clearInverted: 'mdi-close-circle-outline'
   },
   carousel: {
     left: 'mdi-chevron-left',
