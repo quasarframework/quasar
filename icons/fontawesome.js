@@ -19,7 +19,7 @@ export default {
 
   pullToRefresh: {
     arrow: 'fa-arrow-circle-down',
-    refresh: 'fa-refresh'
+    refresh: 'fa-sync'
   },
   search: {
     icon: 'fa-search',
@@ -37,8 +37,8 @@ export default {
       mat: 'fa-check-square'
     },
     unchecked: {
-      ios: 'fa-circle-o',
-      mat: 'fa-square-o'
+      ios: 'fa-circle far',
+      mat: 'fa-square far'
     },
     indeterminate: {
       ios: '',
