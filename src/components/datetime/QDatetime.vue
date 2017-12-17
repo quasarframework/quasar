@@ -201,8 +201,8 @@ export default {
     },
 
     __onFocus () {
-      const target = this.$refs.target
       if (this.defaultView) {
+        const target = this.$refs.target
         if (target.view !== this.defaultView) {
           target.setView(this.defaultView)
         }
