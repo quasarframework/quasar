@@ -21,8 +21,8 @@ import 'quasar-extras/mdi'
 Vue.use(Quasar, {
   components: Everything,
   directives: Everything,
-  plugins: Everything
-  // ,iconSet
+  plugins: Everything// ,
+  // iconSet
 })
 
 /* eslint-disable no-new */
