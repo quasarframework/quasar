@@ -266,7 +266,7 @@ export default {
   },
   methods: {
     getItemClass (opt) {
-      const itemClass = this.isItemDisabled(opt) ? ['disabled', 'cursor-not-allowed'] : ['cursor-pointer']
+      const itemClass = this.isItemDisabled(opt) ? ['disabled'] : ['cursor-pointer']
       if ((this.multiple && this.optModel[opt.index]) || (!this.multiple && this.value === opt.value)) {
         itemClass.push(`text-${this.color}`)
       }
