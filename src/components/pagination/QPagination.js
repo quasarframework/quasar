@@ -137,7 +137,8 @@ export default {
         key: 'bls',
         props: {
           disable: this.disable || this.value <= this.min,
-          icon: this.$q.icon.pagination.first
+          icon: this.$q.icon.pagination.first,
+          size: 'sm'
         },
         on: {
           click: () => this.set(this.min)
@@ -147,7 +148,8 @@ export default {
         key: 'ble',
         props: {
           disable: this.disable || this.value >= this.max,
-          icon: this.$q.icon.pagination.last
+          icon: this.$q.icon.pagination.last,
+          size: 'sm'
         },
         on: {
           click: () => this.set(this.max)
@@ -161,7 +163,8 @@ export default {
         props: {
           disable: this.disable || this.value <= this.min,
           icon: this.$q.icon.pagination.prev,
-          repeatTimeout: this.__getRepeatEasing()
+          repeatTimeout: this.__getRepeatEasing(),
+          size: 'sm'
         },
         on: {
           click: () => this.setByOffset(-1)
@@ -172,7 +175,8 @@ export default {
         props: {
           disable: this.disable || this.value >= this.max,
           icon: this.$q.icon.pagination.next,
-          repeatTimeout: this.__getRepeatEasing()
+          repeatTimeout: this.__getRepeatEasing(),
+          size: 'sm'
         },
         on: {
           click: () => this.setByOffset(1)
@@ -182,7 +186,7 @@ export default {
 
     if (this.input) {
       contentMiddle.push(h(QInput, {
-        staticClass: 'inline no-margin',
+        staticClass: 'inline no-margin no-padding',
         style: {
           width: `${this.inputPlaceholder.length}rem`
         },
@@ -194,7 +198,8 @@ export default {
           max: this.max,
           color: this.color,
           placeholder: this.inputPlaceholder,
-          disable: this.disable
+          disable: this.disable,
+          hideUnderline: true
         },
         on: {
           input: value => (this.newPage = value),

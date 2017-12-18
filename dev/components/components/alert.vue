@@ -90,7 +90,7 @@
 
     <q-alert
       v-for="type in ['positive', 'info', 'negative', 'warning']"
-      :key="type"
+      :key="`sec${type}`"
       :type="type"
       style="margin-bottom: 1.5rem"
     >

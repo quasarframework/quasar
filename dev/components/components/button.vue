@@ -129,18 +129,18 @@
       </p>
 
       <p class="group">
-        <q-btn v-for="i in 30" :key="i" round icon="cloud" color="primary" :size="`${8 + i * 4}px`" :title="`Size ${8 + i * 4}px`" />
-        <q-btn v-for="size in sizes" :key="size" round icon="cloud" color="primary" :size="size" :title="`Size ${size}`" />
+        <q-btn v-for="i in 30" :key="'a' + i" round icon="cloud" color="primary" :size="`${8 + i * 4}px`" :title="`Size ${8 + i * 4}px`" />
+        <q-btn v-for="size in sizes" :key="'aq' + size" round icon="cloud" color="primary" :size="size" :title="`Size ${size}`" />
       </p>
 
       <p class="group">
-        <q-btn v-for="i in 15" :key="i" :label="`Size ${4 + i * 4}px`" color="primary" :size="`${4 + i * 4}px`" />
-        <q-btn v-for="size in sizes" :key="size" :label="`Size ${size}`" color="primary" :size="size" />
+        <q-btn v-for="i in 15" :key="'b' + i" :label="`Size ${4 + i * 4}px`" color="primary" :size="`${4 + i * 4}px`" />
+        <q-btn v-for="size in sizes" :key="'c' + size" :label="`Size ${size}`" color="primary" :size="size" />
       </p>
 
       <p class="group">
-        <q-btn v-for="i in 15" :key="i" icon="cloud" :label="`Size ${4 + i * 4}px`" color="primary" :size="`${4 + i * 4}px`" />
-        <q-btn v-for="size in sizes" :key="size" icon="cloud" :label="`Size ${size}`" color="primary" :size="size" />
+        <q-btn v-for="i in 15" :key="'d' + i" icon="cloud" :label="`Size ${4 + i * 4}px`" color="primary" :size="`${4 + i * 4}px`" />
+        <q-btn v-for="size in sizes" :key="'e' + size" icon="cloud" :label="`Size ${size}`" color="primary" :size="size" />
       </p>
 
       <p class="caption">Compact - Small, Medium (default) and Big</p>
@@ -277,7 +277,7 @@
       </div>
 
       <h2>Sizes</h2>
-      <div v-for="size in sizes" :key="size">
+      <div v-for="size in sizes" :key="'f' + size">
         <h3 class="capitalize">{{size}}</h3>
         <q-btn color="primary" :size="size" label="Btn" />
         <q-btn color="primary" :size="size" :icon="icon" label="Btn" />
@@ -286,7 +286,7 @@
         <q-btn class="bg-primary text-white disabled" :size="size">Disabled</q-btn>
         <q-btn
           v-for="extra in extras"
-          :key="extra"
+          :key="'g' + extra"
           color="primary"
           :size="size"
           :flat="extra === 'flat'"
@@ -296,14 +296,14 @@
           :glossy="extra === 'glossy'"
         >{{extra}}</q-btn>
       </div>
-      <div v-for="size in sizes" :key="size">
+      <div v-for="size in sizes" :key="'h' + size">
         <h3 class="capitalize">{{size}}</h3>
         <q-btn color="primary" round :size="size"><q-icon :name="icon" /></q-btn>
         text
         <q-btn color="primary" round disable :size="size"><q-icon :name="icon" /></q-btn>
         <q-btn
           v-for="extra in extras"
-          :key="extra"
+          :key="'i' + extra"
           color="primary"
           round
           :size="size"
@@ -316,7 +316,7 @@
       <br><br>
       <h2>Types</h2>
       <h3 class="capitalize">Rectangular</h3>
-      <div v-for="color in colors" :key="color">
+      <div v-for="color in colors" :key="'j' + color">
         <h4 class="capitalize">{{color}}</h4>
         <q-btn :color="color">{{color}}</q-btn>
         <q-btn :color="color" :icon="icon" :label="color" />
@@ -324,7 +324,7 @@
         <q-btn class="disabled" :color="color"><q-icon :name="icon" /></q-btn>
         <q-btn
           v-for="extra in extras"
-          :key="extra"
+          :key="'k' + extra"
           :color="color"
           :flat="extra === 'flat'"
           :outline="extra === 'outline'"
@@ -335,14 +335,14 @@
       </div>
 
       <h3 class="capitalize">Circular</h3>
-      <div v-for="color in colors" :key="color">
+      <div v-for="color in colors" :key="'l' + color">
         <h4 class="capitalize">{{color}}</h4>
         <q-btn round :color="color"><q-icon :name="icon" /></q-btn>
         <q-btn round disable :color="color"><q-icon :name="icon" /></q-btn>
         <q-btn
           v-for="extra in extras"
           round
-          :key="extra"
+          :key="'m' + extra"
           :color="color"
           :flat="extra === 'flat'"
           :outline="extra === 'outline'"
