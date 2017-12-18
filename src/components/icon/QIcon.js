@@ -30,6 +30,9 @@ export default {
     else if (icon.startsWith('ion-') || icon.startsWith('icon-')) {
       name = `${icon}`
     }
+    else if (icon.startsWith('ion4-')) {
+      name = ''
+    }
     else if (icon.startsWith('mdi-')) {
       name = `mdi ${icon}`
     }
@@ -50,6 +53,13 @@ export default {
       data.style = data.style
         ? [data.style, style]
         : style
+    }
+
+    if (icon.startsWith('ion4-')) {
+      if (!ctx.children) {
+        ctx.children = []
+      }
+      ctx.children.push(h('ion-icon', {attrs: {name: icon.substr(5)}}))
     }
 
     return h('i', data, text ? [text, ctx.children] : [' ', ctx.children])
