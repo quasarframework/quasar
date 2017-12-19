@@ -41,7 +41,7 @@ export default {
       mat: 'ion-android-checkbox-outline-blank'
     },
     indeterminate: {
-      ios: '',
+      ios: 'ion-ios-minus-outline',
       mat: 'ion-android-checkbox-blank'
     }
   },
@@ -106,11 +106,11 @@ export default {
   },
   radio: {
     checked: {
-      ios: 'ion-ios-checkmark-empty',
+      ios: 'ion-android-done',
       mat: 'ion-android-radio-button-on'
     },
     unchecked: {
-      ios: 'ion-ios-circle-outline',
+      ios: '',
       mat: 'ion-android-radio-button-off'
     }
   },

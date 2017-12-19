@@ -33,15 +33,15 @@ export default {
   },
   checkbox: { // TODO
     checked: {
-      ios: 'fa-check-circle',
+      ios: 'fas fa-check-circle',
       mat: 'fas fa-check-square'
     },
     unchecked: {
-      ios: 'fa-circle far',
+      ios: 'far fa-circle',
       mat: 'far fa-square'
     },
     indeterminate: {
-      ios: '',
+      ios: 'fas fa-minus-circle',
       mat: 'fas fa-minus-square'
     }
   },
@@ -105,12 +105,12 @@ export default {
     last: 'fas fa-step-forward'
   },
   radio: {
-    checked: { // TODO
-      ios: 'fa-check',
+    checked: {
+      ios: 'fas fa-check',
       mat: 'fas fa-check-circle'
     },
     unchecked: {
-      ios: 'fa-circle-o',
+      ios: '',
       mat: 'far fa-circle'
     }
   },

@@ -104,7 +104,7 @@
     "webpack-merge": "^4.1.0"
   },
   "peerDependencies": {
-    "quasar-extras": "^1.0.0",
+    "quasar-extras": "^1.0.1",
     "vue": "^2.5.0"
   }
 }
