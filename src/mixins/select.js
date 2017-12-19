@@ -92,8 +92,8 @@ export default {
     __emit (val) {
       if (this.value !== val) {
         this.$emit('input', val)
-        this.$emit('change', val)
       }
+      this.$emit('change', val)
     },
     clear () {
       this.__emit(this.multiple ? [] : null)

@@ -94,9 +94,7 @@ export default {
     __end () {
       this.dragging = false
       this.currentPercentage = (this.model - this.min) / (this.max - this.min)
-      if (this.value !== this.model) {
-        this.$emit('change', this.model)
-      }
+      this.$emit('change', this.model)
     },
     __validateProps () {
       if (this.min >= this.max) {

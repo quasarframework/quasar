@@ -27,7 +27,13 @@ export default {
   data () {
     return {
       view: !this.value || typeof this.value === 'string' ? 'hex' : 'rgb',
-      model: this.__parseModel(this.value)
+      model: this.__parseModel(this.value),
+      inputError: {
+        hex: false,
+        r: false,
+        g: false,
+        b: false
+      }
     }
   },
   watch: {
@@ -147,7 +153,8 @@ export default {
                 readonly: !this.editable
               },
               on: {
-                input: this.__onHueChange
+                input: this.__onHueChange,
+                change: val => { this.__onHueChange(val, true) }
               }
             })
           ]),
@@ -164,7 +171,10 @@ export default {
                 },
                 on: {
                   input: value => {
-                    this.__onPropChange({ target: { value } }, 'a', 100)
+                    this.__onNumericChange({ target: { value } }, 'a', 100)
+                  },
+                  change: value => {
+                    this.__onNumericChange({ target: { value } }, 'a', 100, true)
                   }
                 }
               })
@@ -190,7 +200,10 @@ export default {
             },
             on: {
               input: evt => {
-                this.__onPropChange(evt, type, max)
+                this.__onNumericChange(evt, type, max)
+              },
+              blur: evt => {
+                this.__onNumericChange(evt, type, max, true)
               }
             }
           }),
@@ -207,7 +220,10 @@ export default {
             h('input', {
               domProps: { value: this.model.hex },
               attrs: { readonly: !this.editable },
-              on: { input: this.__onHexChange },
+              on: {
+                input: this.__onHexChange,
+                blur: evt => { console.log('blur'); this.__onHexChange(evt, true) }
+              },
               staticClass: 'full-width text-center uppercase'
             }),
             h('div', { staticClass: 'q-color-label text-center' }, [
@@ -250,7 +266,7 @@ export default {
       ])
     },
 
-    __onSaturationChange (left, top) {
+    __onSaturationChange (left, top, change) {
       const
         panel = this.$refs.saturation,
         width = panel.clientWidth,
@@ -269,9 +285,9 @@ export default {
 
       this.model.s = s
       this.model.v = v
-      this.__update(rgb, rgbToHex(rgb))
+      this.__update(rgb, rgbToHex(rgb), change)
     },
-    __onHueChange (h) {
+    __onHueChange (h, change) {
       h = Math.round(h)
       const val = hsvToRgb({
         h,
@@ -281,15 +297,22 @@ export default {
       })
 
       this.model.h = h
-      this.__update(val, rgbToHex(val))
+      this.__update(val, rgbToHex(val), change)
     },
-    __onPropChange (evt, type, max) {
+    __onNumericChange (evt, type, max, change) {
       let val = Number(evt.target.value)
       if (isNaN(val)) {
         return
       }
 
       val = Math.floor(val)
+      if (val < 0 || val > max) {
+        if (change) {
+          this.$forceUpdate()
+        }
+        return
+      }
+
       const rgb = {
         r: type === 'r' ? val : this.model.r,
         g: type === 'g' ? val : this.model.g,
@@ -304,18 +327,29 @@ export default {
         this.model.s = hsv.s
         this.model.v = hsv.v
       }
-      this.__update(rgb, rgbToHex(rgb))
+      this.__update(rgb, rgbToHex(rgb), change)
     },
-    __onHexChange (evt) {
-      const
+    __onHexChange (evt, change) {
+      let
         hex = evt.target.value,
+        len = hex.length,
+        edges = this.hasAlpha ? [5, 9] : [4, 7]
+
+      if (len !== edges[0] && len !== edges[1]) {
+        if (change) {
+          this.$forceUpdate()
+        }
+        return
+      }
+
+      const
         rgb = hexToRgb(hex),
         hsv = rgbToHsv(rgb)
 
       this.model.h = hsv.h
       this.model.s = hsv.s
       this.model.v = hsv.v
-      this.__update(rgb, hex)
+      this.__update(rgb, hex, change)
     },
     __update (rgb, hex, change) {
       // update internally
@@ -331,10 +365,12 @@ export default {
       this.avoidModelWatch = true
 
       // emit new value
-      this.$emit(
-        change ? 'change' : 'input',
-        this.isHex ? hex : rgb
-      )
+      const val = this.isHex ? hex : rgb
+
+      this.$emit('input', val)
+      if (change) {
+        this.$emit('change', val)
+      }
     },
     __nextInputView () {
       this.view = this.view === 'hex' ? 'rgba' : 'hex'
@@ -380,6 +416,11 @@ export default {
     __dragStop (event) {
       stopAndPrevent(event.evt)
       this.saturationDragging = false
+      this.__onSaturationChange(
+        event.position.left,
+        event.position.top,
+        true
+      )
     },
     __saturationChange (evt) {
       this.__onSaturationChange(

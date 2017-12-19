@@ -255,9 +255,7 @@ export default {
       this.focused = false
       this.$emit('blur')
       this.terms = ''
-      if (JSON.stringify(this.model) !== JSON.stringify(this.value)) {
-        this.$emit('change', this.model)
-      }
+      this.$emit('change', this.model)
     },
     __singleSelect (val, disable) {
       if (disable) {
