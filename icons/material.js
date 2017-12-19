@@ -41,7 +41,7 @@ export default {
       mat: 'check_box_outline_blank'
     },
     indeterminate: {
-      ios: '',
+      ios: 'remove_circle_outline',
       mat: 'indeterminate_check_box'
     }
   },
@@ -110,7 +110,7 @@ export default {
       mat: 'radio_button_checked'
     },
     unchecked: {
-      ios: 'radio_button_unchecked',
+      ios: '',
       mat: 'radio_button_unchecked'
     }
   },

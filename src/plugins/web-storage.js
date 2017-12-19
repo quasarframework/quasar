@@ -130,7 +130,7 @@ export const LocalStorage = {
     this.__installed = true
 
     if ($q.platform.has.webStorage) {
-      const storage = getStorage('session')
+      const storage = getStorage('local')
       $q.localStorage = storage
       extend(true, this, storage)
     }

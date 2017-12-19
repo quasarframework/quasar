@@ -11,7 +11,10 @@
       <q-checkbox v-model="checked" checked-icon="sentiment very satisfied" unchecked-icon="sentiment very dissatisfied" :dark="dark" :keep-color="keepColor" />
       <q-checkbox v-model="checked" checked-icon="visibility" unchecked-icon="visibility_off" style="margin-left: 50px" :dark="dark" :keep-color="keepColor" />
 
-      <br><br>
+      <p class="caption">Indeterminate</p>
+      <q-checkbox v-model="indModel" :indeterminate="indeterminate" :dark="dark" :keep-color="keepColor" />
+
+      <p class="caption">Tests</p>
       <q-checkbox @change="onChange" @input="onInput" v-model="checked" :dark="dark" :keep-color="keepColor" />
       <br><br>
       <q-checkbox v-model="checked" label="Label" :dark="dark" :keep-color="keepColor" />
@@ -153,7 +156,9 @@ export default {
       group: ['op2'],
       selection: ['one', 'two', 'three'],
       dark: false,
-      keepColor: false
+      keepColor: false,
+      indModel: false,
+      indeterminate: true
     }
   },
   watch: {
