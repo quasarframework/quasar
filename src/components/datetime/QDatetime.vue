@@ -160,13 +160,10 @@ export default {
         return this.placeholder || ''
       }
 
-      let format
-
       if (this.format) {
-        return formatDate(this.value, format, /* for reactiveness */ this.$q.i18n.date)
+        return formatDate(this.value, this.format, /* for reactiveness */ this.$q.i18n.date)
       }
       else {
-        debugger
         // If no format was specified, use the locale
         if (isValid(this.value)) {
           let date = new Date(this.value)
