@@ -104,7 +104,7 @@ import { QInputFrame } from '../input-frame'
 import { QPopover } from '../popover'
 import QDatetimePicker from './QDatetimePicker'
 import { QBtn } from '../btn'
-import { formatDate, isSameDate } from '../../utils/date'
+import { formatDate, isSameDate, isValid } from '../../utils/date'
 import { QModal } from '../modal'
 
 let contentCSS = __THEME__ === 'ios'
@@ -160,22 +160,27 @@ export default {
         return this.placeholder || ''
       }
 
-      let format
-
       if (this.format) {
-        format = this.format
-      }
-      else if (this.type === 'date') {
-        format = 'YYYY-MM-DD'
-      }
-      else if (this.type === 'time') {
-        format = 'HH:mm'
+        return formatDate(this.value, this.format, /* for reactiveness */ this.$q.i18n.date)
       }
       else {
-        format = 'YYYY-MM-DD HH:mm:ss'
+        // If no format was specified, use the locale
+        if (isValid(this.value)) {
+          let date = new Date(this.value)
+          if (this.type === 'date') {
+            return date.toLocaleDateString()
+          }
+          else if (this.type === 'time') {
+            return date.toLocaleTimeString()
+          }
+          else {
+            return date.toLocaleString()
+          }
+        }
+        else {
+          return this.placeholder || ''
+        }
       }
-
-      return formatDate(this.value, format, /* for reactiveness */ this.$q.i18n.date)
     }
   },
   methods: {
