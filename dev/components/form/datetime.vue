@@ -64,7 +64,7 @@
       <q-datetime v-model="model" type="time" />
 
       <p class="caption">Force 12hr Format for Picker, independent of time format</p>
-      <q-datetime v-model="model" type="time" format24h='12h' />
+      <q-datetime v-model="model" type="time" format24h="12h" />
       
       <p class="caption">Force 24hr Format for Picker, independent of time format</p>
       <q-datetime v-model="model" type="time" format24h />
@@ -160,10 +160,10 @@
       <q-datetime-picker v-model="model" type="time" />
       
       <p class="caption">Force 12hr Format for Picker, independent of time format</p>
-      <q-datetime-picker v-model="model" type="time" format24h='12h' />
+      <q-datetime-picker v-model="model" type="time" format24h="12h" />
       
       <p class="caption">Force 24hr Format for Picker, independent of time format</p>
-      <q-datetime-picker v-model="model" type="time" format24h='24h' />
+      <q-datetime-picker v-model="model" type="time" format24h="24h" />
       
       <p class="caption">Force i18n Format for Picker, independent of time format</p>
       <q-datetime-picker v-model="model" type="time" format24h="i18n" />

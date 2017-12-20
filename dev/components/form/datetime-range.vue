@@ -40,7 +40,7 @@
       <p class="caption">
         Datetime Range with Forced 12h Picker
       </p>
-      <q-datetime-range @change="onChange" type="datetime" format24h='12h' v-model="first.range" :min="first.min" :max="first.max" />
+      <q-datetime-range @change="onChange" type="datetime" format24h="12h" v-model="first.range" :min="first.min" :max="first.max" />
       
       <p class="caption">
         Datetime Range with Forced 24h Picker
