@@ -53,8 +53,8 @@ export default {
             props: {
               link: true
             },
-            domProps: {
-              tabindex: '0'
+            attrs: {
+              tabindex: 0
             },
             on: {
               click: this.__onCancel,
@@ -112,7 +112,9 @@ export default {
             ? 'q-actionsheet-grid-item cursor-pointer relative-position column inline flex-center'
             : null,
           'class': action.classes,
-          domProps: { tabindex: '0' },
+          attrs: {
+            tabindex: 0
+          },
           on: {
             click: () => this.__onOk(action),
             keydown: (e) => this.__onOk(action)
