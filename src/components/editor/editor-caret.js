@@ -199,7 +199,7 @@ export class Caret {
     else if (cmd === 'link') {
       const link = this.getParentAttribute('href')
       if (!link) {
-        const selection = this.selection
+        const selection = this.selectWord(this.selection)
         const url = selection ? selection.toString() : ''
         if (!url.length) {
           return
@@ -222,5 +222,27 @@ export class Caret {
 
     document.execCommand(cmd, false, param)
     done()
+  }
+
+  selectWord (sel) {
+    if (sel.isCollapsed) {
+      // Detect if selection is backwards
+      const range = document.createRange()
+      range.setStart(sel.anchorNode, sel.anchorOffset)
+      range.setEnd(sel.focusNode, sel.focusOffset)
+      const direction = range.collapsed ? ['backward', 'forward'] : ['forward', 'backward']
+      range.detach()
+
+      // modify() works on the focus of the selection
+      const endNode = sel.focusNode,
+        endOffset = sel.focusOffset
+      sel.collapse(sel.anchorNode, sel.anchorOffset)
+      sel.modify('move', direction[0], 'character')
+      sel.modify('move', direction[1], 'word')
+      sel.extend(endNode, endOffset)
+      sel.modify('extend', direction[1], 'character')
+      sel.modify('extend', direction[0], 'word')
+    }
+    return sel
   }
 }

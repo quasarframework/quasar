@@ -252,7 +252,11 @@ export function getLinkEditor (h, vm) {
             noCaps: true
           },
           on: {
-            click: updateLink
+            click: () => {
+              vm.caret.restore()
+              document.execCommand('unlink')
+              vm.editLinkUrl = null
+            }
           }
         }),
         h(QBtn, {

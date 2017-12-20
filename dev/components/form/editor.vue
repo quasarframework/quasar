@@ -1,6 +1,7 @@
 <template>
   <div class="layout-padding">
     <q-editor
+      style="margin-right: 8em"
       ref="editor"
       v-model="model"
       :toolbar="[
