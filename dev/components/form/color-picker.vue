@@ -99,7 +99,7 @@ export default {
       modelHexa: '#FF00FFCC',
       modelRgb: { r: 0, g: 0, b: 0 },
       modelRgba: { r: 255, g: 0, b: 255, a: 100 },
-      inputModelHex: '#FF00FF',
+      inputModelHex: null,
       inputModelRgb: { r: 245, g: 20, b: 150 }
     }
   },

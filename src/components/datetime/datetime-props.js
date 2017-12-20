@@ -47,9 +47,12 @@ export const inline = {
 
 export const input = {
   format: String,
-  noClear: Boolean,
   placeholder: String,
-  clearLabel: String,
+  clearable: Boolean,
   okLabel: String,
-  cancelLabel: String
+  cancelLabel: String,
+  defaultSelection: [String, Number, Date],
+  displayValue: String,
+  disable: Boolean,
+  readonly: Boolean
 }

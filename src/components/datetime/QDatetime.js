@@ -1,9 +1,11 @@
 import FrameMixin from '../../mixins/input-frame'
 import extend from '../../utils/extend'
+import { input, inline } from './datetime-props'
 import { QInputFrame } from '../input-frame'
 import { QPopover } from '../popover'
-import QColorPicker from './QColorPicker'
+import QDatetimePicker from './QDatetimePicker'
 import { QBtn } from '../btn'
+import { formatDate } from '../../utils/date'
 import { QModal } from '../modal'
 import clone from '../../utils/clone'
 import { stopAndPrevent } from '../../utils/event'
@@ -21,28 +23,12 @@ const contentCss = __THEME__ === 'ios'
   }
 
 export default {
-  name: 'q-color',
+  name: 'q-datetime',
   mixins: [FrameMixin],
-  props: {
-    value: {
-      required: true
-    },
-    color: {
-      type: String,
-      default: 'primary'
-    },
-    defaultSelection: {
-      type: [String, Object],
-      default: '#000000'
-    },
-    displayValue: String,
-    placeholder: String,
-    clearable: Boolean,
-    okLabel: String,
-    cancelLabel: String,
-    disable: Boolean,
-    readonly: Boolean
-  },
+  props: extend(
+    input,
+    inline
+  ),
   data () {
     let data = this.isPopover() ? {} : {
       transition: __THEME__ === 'ios' ? 'q-modal-bottom' : 'q-modal'
@@ -53,7 +39,7 @@ export default {
   },
   computed: {
     usingPopover () {
-      return this.isPopover()
+      return this.$q.platform.is.desktop && !this.$q.platform.within.iframe
     },
     editable () {
       return !this.disable && !this.readonly
@@ -66,11 +52,22 @@ export default {
         return this.placeholder || ''
       }
 
-      if (this.value) {
-        return typeof this.value === 'string'
-          ? this.value
-          : `rgb${this.value.a !== void 0 ? 'a' : ''}(${this.value.r},${this.value.g},${this.value.b}${this.value.a !== void 0 ? `,${this.value.a / 100}` : ''})`
+      let format
+
+      if (this.format) {
+        format = this.format
       }
+      else if (this.type === 'date') {
+        format = 'YYYY-MM-DD'
+      }
+      else if (this.type === 'time') {
+        format = 'HH:mm'
+      }
+      else {
+        format = 'YYYY-MM-DD HH:mm:ss'
+      }
+
+      return formatDate(this.value, format, /* for reactiveness */ this.$q.i18n.date)
     }
   },
   methods: {
@@ -92,11 +89,20 @@ export default {
     },
     clear (evt) {
       stopAndPrevent(evt)
-      this.$emit('input', null)
-      this.$emit('change', null)
+      this.$emit('input', '')
+      this.$emit('change', '')
     },
 
     __onFocus () {
+      if (this.defaultView) {
+        const target = this.$refs.target
+        if (target.view !== this.defaultView) {
+          target.setView(this.defaultView)
+        }
+        else {
+          target.__scrollView()
+        }
+      }
       this.__setModel(this.value)
       this.focused = true
       this.$emit('focus')
@@ -123,22 +129,30 @@ export default {
         : this.defaultSelection
     },
     __update (change) {
-      this.$emit('input', this.model)
+      const val = this.model || this.$refs.target.model
+      this.$emit('input', val)
       if (change) {
-        this.$emit('change', this.model)
+        this.$emit('change', val)
       }
     },
 
     __getPicker (h, modal) {
-      const child = [
-        h(QColorPicker, {
-          staticClass: `no-border${modal ? ' full-width' : ''}`,
-          props: extend({
+      return [
+        h(QDatetimePicker, {
+          ref: 'target',
+          staticClass: `no-border`,
+          props: {
+            type: this.type,
+            min: this.min,
+            max: this.max,
+            format24h: this.format24h,
+            firstDayOfWeek: this.firstDayOfWeek,
+            defaultView: this.defaultView,
             color: this.color,
             value: this.model,
             disable: this.disable,
             readonly: this.readonly
-          }, this.$attrs),
+          },
           on: {
             input: v => {
               this.model = v
@@ -148,47 +162,50 @@ export default {
             },
             change: v => {
               this.model = v
+            },
+            canClose: () => {
+              if (this.usingPopover) {
+                this.hide()
+              }
             }
           }
-        })
-      ]
-
-      if (modal) {
-        child[__THEME__ === 'mat' ? 'push' : 'unshift'](h('div', {
-          staticClass: 'modal-buttons modal-buttons-top row full-width'
         }, [
-          h('div', { staticClass: 'col' }),
-          h(QBtn, {
-            props: {
-              color: this.color,
-              flat: true,
-              label: this.cancelLabel || this.$q.i18n.label.cancel,
-              waitForRipple: true,
-              compact: true
-            },
-            on: { click: this.hide }
-          }),
-          this.editable
-            ? h(QBtn, {
-              props: {
-                color: this.color,
-                flat: true,
-                label: this.okLabel || this.$q.i18n.label.set,
-                waitForRipple: true,
-                compact: true
-              },
-              on: {
-                click: () => {
-                  this.hide()
-                  this.__update(true)
-                }
-              }
-            })
+          modal
+            ? h('div', {
+              staticClass: 'modal-buttons modal-buttons-top row full-width'
+            }, [
+              h('div', { staticClass: 'col' }),
+              h(QBtn, {
+                props: {
+                  color: this.color,
+                  flat: true,
+                  label: this.cancelLabel || this.$q.i18n.label.cancel,
+                  waitForRipple: true,
+                  compact: true
+                },
+                on: { click: this.hide }
+              }),
+              this.editable
+                ? h(QBtn, {
+                  props: {
+                    color: this.color,
+                    flat: true,
+                    label: this.okLabel || this.$q.i18n.label.set,
+                    waitForRipple: true,
+                    compact: true
+                  },
+                  on: {
+                    click: () => {
+                      this.hide()
+                      this.__update(true)
+                    }
+                  }
+                })
+                : null
+            ])
             : null
-        ]))
-      }
-
-      return child
+        ])
+      ]
     }
   },
   render (h) {
