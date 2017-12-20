@@ -256,6 +256,19 @@ export default {
     })
   },
   render (h) {
+    const toolbars = []
+    if (!this.readonly) {
+      const toolbarConfig = {
+        staticClass: `q-editor-toolbar q-editor-toolbar-padding overflow-auto row no-wrap bg-${this.toolbarColor}`,
+        'class': {
+          'q-editor-toolbar-separator': !this.outline && !this.push
+        }
+      }
+      toolbars.push(h('div', toolbarConfig, getToolbar(h, this)))
+      if (this.editLinkUrl !== null) {
+        toolbars.push(h('div', toolbarConfig, getLinkEditor(h, this)))
+      }
+    }
     return h(
       'div',
       { staticClass: 'q-editor' },
@@ -274,16 +287,7 @@ export default {
             }
           },
           [
-            this.readonly ? '' : h(
-              'div',
-              {
-                staticClass: `q-editor-toolbar q-editor-toolbar-padding overflow-auto row no-wrap bg-${this.toolbarColor}`,
-                'class': {
-                  'q-editor-toolbar-separator': !this.outline && !this.push
-                }
-              },
-              getToolbar(h, this)
-            ),
+            !toolbars.length ? '' : h('div', toolbars),
             h(
               'div',
               {
@@ -306,16 +310,6 @@ export default {
                   }
                 }
               }
-            ),
-            this.readonly || this.editLinkUrl === null ? '' : h(
-              'div',
-              {
-                staticClass: `q-editor-toolbar q-editor-toolbar-padding overflow-auto row no-wrap bg-${this.toolbarColor}`,
-                'class': {
-                  'q-editor-toolbar-separator': !this.outline && !this.push
-                }
-              },
-              getLinkEditor(h, this)
             )
           ]
         )

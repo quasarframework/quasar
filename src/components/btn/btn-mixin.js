@@ -3,7 +3,7 @@ import { QIcon } from '../icon'
 
 const sizes = {
   rectangle: {
-    xs: 8, sm: 11, md: 14, lg: 17, xl: 20
+    xs: 8, sm: 12, md: 16, lg: 20, xl: 24
   },
   round: {
     xs: 24, sm: 40, md: 56, lg: 72, xl: 88
