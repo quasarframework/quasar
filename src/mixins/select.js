@@ -2,7 +2,6 @@ import { QIcon } from '../components/icon'
 import { QInputFrame } from '../components/input-frame'
 import { QChip } from '../components/chip'
 import FrameMixin from './input-frame'
-import clone from '../utils/clone'
 
 export default {
   components: {
@@ -29,14 +28,14 @@ export default {
   },
   data () {
     return {
-      model: clone(this.value),
+      model: this.multiple && Array.isArray(this.value) ? this.value.slice() : this.value,
       terms: '',
       focused: false
     }
   },
   watch: {
     value (val) {
-      this.model = clone(val)
+      this.model = this.multiple && Array.isArray(val) ? val.slice() : val
     }
   },
   computed: {
