@@ -264,9 +264,9 @@ export default {
           'q-editor-toolbar-separator': !this.outline && !this.push
         }
       }
-      toolbars.push(h('div', toolbarConfig, getToolbar(h, this)))
+      toolbars.push(h('div', extend({key: 'qedt_top'}, toolbarConfig), getToolbar(h, this)))
       if (this.editLinkUrl !== null) {
-        toolbars.push(h('div', toolbarConfig, getLinkEditor(h, this)))
+        toolbars.push(h('div', extend({key: 'qedt_btm'}, toolbarConfig), getLinkEditor(h, this)))
       }
     }
     return h(
