@@ -1,4 +1,5 @@
 import { QBtn, QBtnToggle, QBtnDropdown, QBtnGroup } from '../btn'
+import { QInput } from '../input'
 import { QTooltip } from '../tooltip'
 import { QList, QItem, QItemSide, QItemMain } from '../list'
 import extend from '../../utils/extend'
@@ -193,4 +194,65 @@ export function getFonts (defaultFont, defaultFontLabel, defaultFontIcon, fonts 
   })
 
   return def
+}
+
+export function getLinkEditor (h, vm) {
+  if (vm.caret) {
+    let link = vm.editLinkUrl
+
+    return [
+      h(QInput, {
+        staticClass: 'q-ma-none q-pa-none col',
+        props: {
+          value: link,
+          color: 'dark',
+          autofocus: true,
+          hideUnderline: true,
+          floatLabel: vm.$q.i18n.editor.url
+        },
+        on: {
+          input: val => (link = val)
+        }
+      }),
+      h(QBtnGroup, {
+        props: {
+          flat: true
+        }
+      }, [
+        h(QBtn, {
+          props: {
+            color: 'negative',
+            label: vm.$q.i18n.label.remove,
+            size: 'sm',
+            flat: true,
+            compact: true,
+            noCaps: true
+          },
+          on: {
+            click: () => {
+              vm.caret.restore()
+              document.execCommand('unlink')
+              vm.editLinkUrl = null
+            }
+          }
+        }),
+        h(QBtn, {
+          props: {
+            color: 'primary',
+            label: vm.$q.i18n.label.update,
+            size: 'sm',
+            flat: true,
+            compact: true,
+            noCaps: true
+          },
+          on: {
+            click: () => {
+              vm.caret.restore()
+              document.execCommand('createLink', false, link)
+            }
+          }
+        })
+      ])
+    ]
+  }
 }
