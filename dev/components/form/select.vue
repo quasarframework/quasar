@@ -16,6 +16,7 @@
       <q-select color="amber" v-model="select" :options="selectListOptions"></q-select>
       <q-select inverted color="secondary" v-model="select" :options="selectListOptions"></q-select>
       <q-select inverted float-label="Float Label" color="amber" v-model="select" :options="selectListOptions"></q-select>
+      <q-select inverted float-label="Float Label" color="white" :dark="false" v-model="select" :options="selectListOptions"></q-select>
 
       <p class="caption">Single Selection with Radio</p>
       <q-field label="gogu">

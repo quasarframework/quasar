@@ -22,7 +22,9 @@
         <q-search inverted v-model="search" color="secondary" icon="explore" placeholder="PlacesPlacesPlacesPlacesPlacesPlacesPlaces"></q-search>
         <q-search inverted v-model="search" color="primary" icon="local_airport" placeholder="Airports"></q-search>
         <q-search inverted v-model="search" color="dark" icon="local_hotel" placeholder="Hotels"></q-search>
-        <q-search inverted stack-label="Stack Label" v-model="search" color="amber" icon="local_hotel" placeholder="Hotels"></q-search>
+        <q-search inverted v-model="search" color="amber" icon="local_hotel" placeholder="Hotels" stack-label="Stack Label"></q-search>
+        <q-search inverted v-model="search" color="white" :dark="false" icon="local_hotel" placeholder="Hotels"></q-search>
+        <q-search inverted v-model="search" color="white" :dark="false" icon="local_hotel" placeholder="Hotels" stack-label="Stack Label"></q-search>
       </div>
 
       <p class="caption">Numeric Format</p>
