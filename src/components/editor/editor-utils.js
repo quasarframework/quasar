@@ -202,6 +202,7 @@ export function getLinkEditor (h, vm) {
 
     return [
       h(QInput, {
+        key: 'qedt_btm_input',
         staticClass: 'q-ma-none q-pa-none col',
         props: {
           value: link,
@@ -215,11 +216,13 @@ export function getLinkEditor (h, vm) {
         }
       }),
       h(QBtnGroup, {
+        key: 'qedt_btm_grp',
         props: {
           flat: true
         }
       }, [
         h(QBtn, {
+          key: 'qedt_btm_rem',
           props: {
             color: 'negative',
             label: vm.$q.i18n.label.remove,
@@ -237,6 +240,7 @@ export function getLinkEditor (h, vm) {
           }
         }),
         h(QBtn, {
+          key: 'qedt_btm_upd',
           props: {
             color: 'primary',
             label: vm.$q.i18n.label.update,
@@ -248,7 +252,10 @@ export function getLinkEditor (h, vm) {
           on: {
             click: () => {
               vm.caret.restore()
-              document.execCommand('createLink', false, link)
+              if (link !== vm.editLinkUrl) {
+                document.execCommand('createLink', false, link)
+              }
+              vm.editLinkUrl = null
             }
           }
         })
