@@ -81,5 +81,9 @@ export default {
     size6: 'Bardzo duża',
     size7: 'Maksymalna',
     defaultFont: 'Domyślna czcionka'
+  },
+  tree: {
+    noNodes: 'Brak dostępnych gałęzi',
+    noResults: 'Nie znaleziono pasujących gałęzi'
   }
 }
