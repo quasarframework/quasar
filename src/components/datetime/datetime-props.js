@@ -35,8 +35,8 @@ export const inline = {
   },
   firstDayOfWeek: Number,
   format24h: {
-    type: [Boolean, String],
-    validator: v => [true, false, '', 'i18n'].includes(v)
+    type: [String],
+    validator: v => ['', '12h', '24h', 'i18n'].includes(v)
   },
   defaultView: {
     type: String,

@@ -48,7 +48,7 @@
             {{ __pad(minute) }}
           </span>
         </div>
-        <div v-if="!format24h" class="q-datetime-ampm column col-auto col-md-12 justify-around">
+        <div v-if="!computedFormat24h" class="q-datetime-ampm column col-auto col-md-12 justify-around">
           <div
             :class="{active: am}"
             class="q-datetime-link"
@@ -175,7 +175,7 @@
               <div class="q-datetime-clock-pointer" :style="clockPointerStyle">
                 <span></span>
               </div>
-              <div v-if="format24h">
+              <div v-if="computedFormat24h">
                 <div
                   v-for="n in 24"
                   :key="`hi${n}`"
@@ -288,6 +288,43 @@ export default {
       }
       return cls
     },
+    computedFormat24h () {
+      // 24h format determination
+      // Note that currently there is not support for 12h format in the iOS version of the DatetimePicker. If required, add this to Mixin.
+      if (this.format24h === 'i18n') {
+        // Explicit i18n option
+        return this.$q.i18n.date.format24h
+      }
+      else if (this.format24h === '24h' || this.format24h === '') {
+        // Explicit 24h format specified
+        return true
+      }
+      else if (this.format24h === '12h') {
+        // Explicit 12h format specified
+        return false
+      }
+      else if (this.format) {
+        // Automatically determine the 24h format from the specified format string
+        if (this.format.match(/H/)) {
+          return true
+        }
+        else {
+          return false
+        }
+      }
+      else {
+        // Attempt to determine the 24h format setting from the locale
+        // 12 hour clock is mostly used in the US, however, other countries and languages might need to be supported
+        // the relevant strings can be added to the regex below once identified
+        let date = new Date(2000, 1, 1, 23, 0, 0)
+        if (date.toLocaleTimeString().match(/am|pm|a\.m\.|p\.m\./i)) {
+          return false
+        }
+        else {
+          return true
+        }
+      }
+    },
     computedFirstDayOfWeek () {
       return this.firstDayOfWeek !== void 0
         ? this.firstDayOfWeek
@@ -348,7 +385,7 @@ export default {
 
     hour () {
       const h = this.model.getHours()
-      return this.format24h
+      return this.computedFormat24h
         ? h
         : convertToAmPm(h)
     },
@@ -360,7 +397,7 @@ export default {
     },
     clockPointerStyle () {
       let
-        divider = this.view === 'minute' ? 60 : (this.format24h ? 24 : 12),
+        divider = this.view === 'minute' ? 60 : (this.computedFormat24h ? 24 : 12),
         degrees = Math.round((this.view === 'minute' ? this.minute : this.hour) * (360 / divider)) - 180
 
       return cssTransform(`rotate(${degrees}deg)`)
@@ -399,7 +436,7 @@ export default {
 
       value = this.__parseTypeValue('hour', value)
 
-      if (!this.format24h && value < 12 && !this.am) {
+      if (!this.computedFormat24h && value < 12 && !this.am) {
         value += 12
       }
 
@@ -489,7 +526,7 @@ export default {
       }
 
       if (this.view === 'hour') {
-        this.setHour(Math.round(angle / (this.format24h ? 15 : 30)))
+        this.setHour(Math.round(angle / (this.computedFormat24h ? 15 : 30)))
       }
       else {
         this.setMinute(Math.round(angle / 6))

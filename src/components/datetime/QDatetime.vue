@@ -43,7 +43,7 @@
         :type="type"
         :min="min"
         :max="max"
-        :format24h="computedFormat24h"
+        :format24h="format24h"
         :first-day-of-week="firstDayOfWeek"
         :color="color"
         :default-view="defaultView"
@@ -179,39 +179,6 @@ export default {
           else {
             return date.toLocaleString()
           }
-        }
-      }
-    },
-    computedFormat24h () {
-      // 24h format determination
-      // Note that currently there is not support for 12h format in the iOS version of the DatetimePicker
-      if (this.format24h === 'i18n') {
-        // Explicit i18n option
-        return this.$q.i18n.date.format24h
-      }
-      else if (this.format24h === true || this.format24h === '') {
-        // Explicit 24h format specified
-        return true
-      }
-      else if (this.format) {
-        // Automatically determine the 24h format from the specified format string
-        if (this.format.match(/H/)) {
-          return true
-        }
-        else {
-          return false
-        }
-      }
-      else {
-        // Attempt to determine the 24h format setting from the locale
-        // 12 hour clock is mostly used in the US, however, other countries and languages might need to be supported
-        // the relevant strings can be added to the regex below once identified
-        let date = new Date(2000, 1, 1, 23, 0, 0)
-        if (date.toLocaleTimeString().match(/am|pm|a\.m\.|p\.m\./i)) {
-          return false
-        }
-        else {
-          return true
         }
       }
     }
