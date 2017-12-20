@@ -113,7 +113,7 @@ export default {
     __onHide () {
       this.focused = false
       this.$emit('blur')
-      if (this.usingPopover) {
+      if (this.usingPopover && this.$refs.popup.showing) {
         this.__update(true)
       }
     },
