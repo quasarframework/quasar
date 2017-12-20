@@ -136,6 +136,7 @@ export default {
         : Promise.resolve()
     },
     blurHide () {
+      this.__clearSearch()
       setTimeout(() => this.hide(), 300)
     },
     __clearSearch () {
