@@ -209,9 +209,9 @@ export default {
     },
     onKeydown (e) {
       const key = getEventKey(e)
-      this.refreshToolbar()
 
       if (!e.ctrlKey) {
+        this.refreshToolbar()
         return
       }
 

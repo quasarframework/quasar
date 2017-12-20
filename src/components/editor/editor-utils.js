@@ -199,6 +199,13 @@ export function getFonts (defaultFont, defaultFontLabel, defaultFontIcon, fonts 
 export function getLinkEditor (h, vm) {
   if (vm.caret) {
     let link = vm.editLinkUrl
+    const updateLink = () => {
+      vm.caret.restore()
+      if (link !== vm.editLinkUrl) {
+        document.execCommand('createLink', false, link === '' ? ' ' : link)
+      }
+      vm.editLinkUrl = null
+    }
 
     return [
       h(QInput, {
@@ -212,7 +219,17 @@ export function getLinkEditor (h, vm) {
           floatLabel: vm.$q.i18n.editor.url
         },
         on: {
-          input: val => (link = val)
+          input: val => (link = val),
+          keyup: event => {
+            switch (event.keyCode) {
+              case 13: // enter
+                return updateLink()
+              case 27: // escape
+                vm.caret.restore()
+                vm.editLinkUrl = null
+                break
+            }
+          }
         }
       }),
       h(QBtnGroup, {
@@ -223,6 +240,9 @@ export function getLinkEditor (h, vm) {
       }, [
         h(QBtn, {
           key: 'qedt_btm_rem',
+          attrs: {
+            tabindex: -1
+          },
           props: {
             color: 'negative',
             label: vm.$q.i18n.label.remove,
@@ -232,11 +252,7 @@ export function getLinkEditor (h, vm) {
             noCaps: true
           },
           on: {
-            click: () => {
-              vm.caret.restore()
-              document.execCommand('unlink')
-              vm.editLinkUrl = null
-            }
+            click: updateLink
           }
         }),
         h(QBtn, {
@@ -250,13 +266,7 @@ export function getLinkEditor (h, vm) {
             noCaps: true
           },
           on: {
-            click: () => {
-              vm.caret.restore()
-              if (link !== vm.editLinkUrl) {
-                document.execCommand('createLink', false, link)
-              }
-              vm.editLinkUrl = null
-            }
+            click: updateLink
           }
         })
       ])
