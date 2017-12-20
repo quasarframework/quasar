@@ -8,7 +8,7 @@ export default {
   },
   watch: {
     $route () {
-      this.__exitFullscreen()
+      this.exitFullscreen()
     }
   },
   methods: {
