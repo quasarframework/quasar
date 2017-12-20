@@ -1,5 +1,5 @@
 import { getEventKey, stopAndPrevent } from '../../utils/event'
-import { getToolbar, getFonts } from './editor-utils'
+import { getToolbar, getFonts, getLinkEditor } from './editor-utils'
 import { Caret } from './editor-caret'
 import extend from '../../utils/extend'
 import FullscreenMixin from '../../mixins/fullscreen'
@@ -186,7 +186,8 @@ export default {
   },
   data () {
     return {
-      editWatcher: true
+      editWatcher: true,
+      editLinkUrl: null
     }
   },
   watch: {
@@ -232,6 +233,7 @@ export default {
     },
     refreshToolbar () {
       setTimeout(() => {
+        this.editLinkUrl = null
         this.$forceUpdate()
       }, 1)
     },
@@ -304,6 +306,16 @@ export default {
                   }
                 }
               }
+            ),
+            this.readonly || this.editLinkUrl === null ? '' : h(
+              'div',
+              {
+                staticClass: `q-editor-toolbar q-editor-toolbar-padding overflow-auto row no-wrap bg-${this.toolbarColor}`,
+                'class': {
+                  'q-editor-toolbar-separator': !this.outline && !this.push
+                }
+              },
+              getLinkEditor(h, this)
             )
           ]
         )
