@@ -109,6 +109,12 @@ export default {
 
           const index = this.notifs[notif.position].indexOf(notif)
           if (index !== -1) {
+            const ref = this.$refs[`notif_${notif.__uid}`]
+            if (ref && ref.$el) {
+              const el = ref.$el
+              el.style.left = `${el.offsetLeft}px`
+              el.style.width = getComputedStyle(el).width
+            }
             this.notifs[notif.position].splice(index, 1)
             if (typeof notif.onDismiss === 'function') {
               notif.onDismiss()
@@ -134,6 +140,7 @@ export default {
             }
           }, this.notifs[pos].map(notif => {
             return h(QAlert, {
+              ref: `notif_${notif.__uid}`,
               key: notif.__uid,
               staticClass: 'q-notification',
               props: notif

@@ -244,7 +244,7 @@ function convertToAmPm (hour) {
 }
 
 export default {
-  name: 'q-inline-datetime',
+  name: 'q-datetime-picker',
   mixins: [DateMixin],
   props: {
     defaultSelection: [String, Number, Date],
@@ -258,26 +258,8 @@ export default {
     Ripple
   },
   data () {
-    let view
-
-    switch (this.type) {
-      case 'time':
-        view = this.defaultView && ['hour', 'minute'].includes(this.defaultView)
-          ? this.defaultView
-          : 'hour'
-        break
-      case 'date':
-        view = this.defaultView && ['year', 'month', 'day'].includes(this.defaultView)
-          ? this.defaultView
-          : 'day'
-        break
-      default:
-        view = this.defaultView || 'day'
-        break
-    }
-
     return {
-      view,
+      view: this.__calcView(this.defaultView),
       dragging: false,
       centerClockPos: 0
     }
@@ -412,6 +394,7 @@ export default {
     setDay (value) {
       if (this.editable) {
         this.model = new Date(this.model.setDate(this.__parseTypeValue('date', value)))
+        this.$emit('canClose')
       }
     },
 
@@ -436,20 +419,19 @@ export default {
       this.model = new Date(this.model.setMinutes(this.__parseTypeValue('minute', value)))
     },
 
-    /* helpers */
     setView (view) {
-      if (this.type === 'time') {
-        if (['hour', 'minute'].includes(view)) {
-          this.view = view
-        }
-      }
-      else if (this.type === 'date') {
-        if (['year', 'month', 'day'].includes(view)) {
-          this.view = view
-        }
-      }
-      else {
-        this.view = view
+      this.view = this.__calcView(view)
+    },
+
+    /* helpers */
+    __calcView (view) {
+      switch (this.type) {
+        case 'time':
+          return ['hour', 'minute'].includes(view) ? view : 'hour'
+        case 'date':
+          return ['year', 'month', 'day'].includes(view) ? view : 'day'
+        default:
+          return ['year', 'month', 'day', 'hour', 'minute'].includes(view) ? view : 'day'
       }
     },
     __pad (unit, filler) {
@@ -493,7 +475,12 @@ export default {
     __dragStop (ev) {
       stopAndPrevent(ev)
       this.dragging = false
-      this.view = 'minute'
+      if (this.view === 'minute') {
+        this.$emit('canClose')
+      }
+      else {
+        this.view = 'minute'
+      }
     },
     __updateClock (ev) {
       let

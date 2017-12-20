@@ -39,7 +39,7 @@
         </small>
       </p>
       <q-datetime format="YYYY-MMMM-dddd Do Qo Q" v-model="model" type="date" align="right" />
-      <q-datetime stack-label="Stack Label" v-model="model" type="date" />
+      <q-datetime stack-label="Stack Label" v-model="model" type="date" clearable />
       <q-datetime float-label="Float Label" v-model="model" type="date" />
       <q-datetime hide-underline float-label="Float Label (hide underline)" v-model="model" type="date" />
 
@@ -47,6 +47,11 @@
       <q-datetime inverted v-model="model" type="date" />
       <q-datetime inverted color="secondary" stack-label="Stack Label" v-model="model" type="date" />
       <q-datetime inverted color="amber" float-label="Float Label" v-model="model" type="date" />
+
+      <p class="caption">
+        Lazy Input
+      </p>
+      <q-datetime :value="model" @change="val => { model = val }" type="date" />
 
       <p class="caption">
         Time
@@ -134,9 +139,9 @@
           </span>
         </small>
       </p>
-      <q-inline-datetime v-model="model" type="date" />
+      <q-datetime-picker v-model="model" type="date" />
       <br><br>
-      <q-inline-datetime default-view="year" v-model="model" type="date" />
+      <q-datetime-picker default-view="year" v-model="model" type="date" />
 
       <p class="caption">
         Time
@@ -151,26 +156,26 @@
           <span class="mat-only">inside of the clock</span>.
         </small>
       </p>
-      <q-inline-datetime v-model="model" type="time" />
+      <q-datetime-picker v-model="model" type="time" />
 
       <p class="caption">Time 24hr Format (force)</p>
-      <q-inline-datetime v-model="model" type="time" format24h />
+      <q-datetime-picker v-model="model" type="time" format24h />
 
       <p class="caption">Date & Time</p>
-      <q-inline-datetime @change="onChange" color="secondary" v-model="model" type="datetime" />
+      <q-datetime-picker @change="onChange" color="secondary" v-model="model" type="datetime" />
 
       <p class="caption">Date - Monday as First</p>
-      <q-inline-datetime v-model="model" monday-first type="date" />
+      <q-datetime-picker v-model="model" monday-first type="date" />
       <p class="caption">Date - Saturday as First</p>
-      <q-inline-datetime v-model="model" saturday-first type="date" />
+      <q-datetime-picker v-model="model" saturday-first type="date" />
 
       <p class="caption">Disabled State</p>
-      <q-inline-datetime disable v-model="model" type="datetime" />
+      <q-datetime-picker disable v-model="model" type="datetime" />
 
       <p class="caption">Readonly State</p>
-      <q-inline-datetime readonly v-model="model" type="datetime" />
+      <q-datetime-picker readonly v-model="model" type="datetime" />
       <p class="caption">Min & Max</p>
-      <q-inline-datetime type="datetime" v-model="minMaxModel" :min="min" :max="max" />
+      <q-datetime-picker type="datetime" v-model="minMaxModel" :min="min" :max="max" />
     </div>
   </div>
 </template>

@@ -1,9 +1,7 @@
 import QDatetime from './QDatetime'
-import QDatetimeRange from './QDatetimeRange'
-import QInlineDatetime from './QInlineDatetime'
+import QDatetimePicker from './QDatetimePicker'
 
 export {
   QDatetime,
-  QDatetimeRange,
-  QInlineDatetime
+  QDatetimePicker
 }

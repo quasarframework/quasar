@@ -1,152 +1,146 @@
 export default {
   name: 'fontawesome',
   type: {
-    positive: 'fa-check',
-    negative: 'fa-exclamation-triangle',
-    info: 'fa-info',
-    warning: 'fa-exclamation'
+    positive: 'fas fa-check',
+    negative: 'fas fa-exclamation-triangle',
+    info: 'fas fa-info-circle',
+    warning: 'fas fa-exclamation'
   },
   arrow: {
-    up: 'fa-arrow-up',
-    right: 'fa-arrow-right',
-    down: 'fa-arrow-down',
-    left: 'fa-arrow-left'
+    up: 'fas fa-arrow-up',
+    right: 'fas fa-arrow-right',
+    down: 'fas fa-arrow-down',
+    left: 'fas fa-arrow-left'
   },
   chevron: {
-    left: 'fa-chevron-left',
-    right: 'fa-chevron-right'
+    left: 'fas fa-chevron-left',
+    right: 'fas fa-chevron-right'
   },
 
-  btn: {
-    dropdown: 'fa-caret-down'
-  },
   pullToRefresh: {
-    arrow: 'fa-arrow-circle-down',
-    refresh: 'fa-refresh'
+    arrow: 'far fa-arrow-alt-circle-down',
+    refresh: 'fas fa-sync-alt'
   },
   search: {
-    icon: 'fa-search',
-    clear: 'fa-times',
-    clearInverted: 'fa-times-circle'
+    icon: 'fas fa-search',
+    clear: 'far fa-times-circle',
+    clearInverted: 'fas fa-times-circle'
   },
   carousel: {
-    left: 'fa-chevron-left',
-    right: 'fa-chevron-right',
-    quickNav: 'fa-circle'
+    left: 'fas fa-chevron-left',
+    right: 'fas fa-chevron-right', // TODO
+    quickNav: 'fas fa-circle'
   },
-  checkbox: {
+  checkbox: { // TODO
     checked: {
-      ios: 'fa-check-circle',
-      mat: 'fa-check-square'
+      ios: 'fas fa-check-circle',
+      mat: 'fas fa-check-square'
     },
     unchecked: {
-      ios: 'fa-circle-o',
-      mat: 'fa-square-o'
+      ios: 'far fa-circle',
+      mat: 'far fa-square'
     },
     indeterminate: {
-      ios: '',
-      mat: 'fa-minus-square'
+      ios: 'fas fa-minus-circle',
+      mat: 'fas fa-minus-square'
     }
   },
   chip: {
-    close: 'fa-times-circle'
+    close: 'far fa-times-circle'
   },
   collapsible: {
-    icon: 'fa-chevron-down'
+    icon: 'fas fa-chevron-down'
   },
   datetime: {
-    arrowLeft: 'fa-chevron-left',
-    arrowRight: 'fa-chevron-right',
-    dropdown: 'fa-caret-down'
+    arrowLeft: 'fas fa-chevron-left',
+    arrowRight: 'fas fa-chevron-right'
   },
   editor: {
-    bold: 'fa-bold',
-    italic: 'fa-italic',
-    strikethrough: 'fa-strikethrough',
-    underline: 'fa-underline',
-    unorderedList: 'fa-list-ul',
-    orderedList: 'fa-list-ol',
-    subscript: 'fa-subscript',
-    superscript: 'fa-superscript',
-    hyperlink: 'fa-link',
-    toggleFullscreen: 'fa-arrows-alt',
-    quote: 'fa-quote-right',
-    left: 'fa-align-left',
-    center: 'fa-align-center',
-    right: 'fa-align-right',
-    justify: 'fa-align-justify',
-    print: 'fa-print',
-    outdent: 'fa-outdent',
-    indent: 'fa-indent',
-    removeFormat: 'fa-ban',
-    formatting: 'fa-header',
-    fontSize: 'fa-text-height',
-    align: 'fa-align-left',
-    hr: 'fa-minus-square',
-    undo: 'fa-undo',
-    redo: 'fa-repeat',
-    header: 'fa-header',
-    code: 'fa-code',
-    size: 'fa-text-height',
-    font: 'fa-font'
+    bold: 'fas fa-bold',
+    italic: 'fas fa-italic',
+    strikethrough: 'fas fa-strikethrough',
+    underline: 'fas fa-underline',
+    unorderedList: 'fas fa-list-ul',
+    orderedList: 'fas fa-list-ol',
+    subscript: 'fas fa-subscript',
+    superscript: 'fas fa-superscript',
+    hyperlink: 'fas fa-link',
+    toggleFullscreen: 'fas fa-expand-arrows-alt',
+    quote: 'fas fa-quote-right',
+    left: 'fas fa-align-left',
+    center: 'fas fa-align-center',
+    right: 'fas fa-align-right',
+    justify: 'fas fa-align-justify',
+    print: 'fas fa-print',
+    outdent: 'fas fa-outdent',
+    indent: 'fas fa-indent',
+    removeFormat: 'fas fa-eraser',
+    formatting: 'fas fa-heading',
+    fontSize: 'fas fa-text-height',
+    align: 'fas fa-align-left',
+    hr: 'far fa-minus-square',
+    undo: 'fas fa-undo',
+    redo: 'fas fa-redo',
+    header: 'fas fa-heading',
+    code: 'fas fa-code',
+    size: 'fas fa-text-height',
+    font: 'fas fa-font'
   },
   fab: {
-    icon: 'fa-plus',
-    activeIcon: 'fa-times'
+    icon: 'fas fa-plus',
+    activeIcon: 'fas fa-times'
   },
   input: {
-    showPass: 'fa-eye',
-    hidePass: 'fa-eye-slash',
-    showNumber: 'fa-calculator',
-    hideNumber: 'fa-keyboard-o',
-    clear: 'fa-times'
+    showPass: 'fas fa-eye',
+    hidePass: 'fas fa-eye-slash',
+    showNumber: 'fas fa-calculator',
+    hideNumber: 'fas fa-keyboard',
+    clear: 'fas fa-times',
+    dropdown: 'fas fa-caret-down'
   },
   pagination: {
-    first: 'fa-step-backward',
-    prev: 'fa-chevron-left',
-    next: 'fa-chevron-right',
-    last: 'fa-step-forward'
+    first: 'fas fa-step-backward',
+    prev: 'fas fa-chevron-left',
+    next: 'fas fa-chevron-right',
+    last: 'fas fa-step-forward'
   },
   radio: {
     checked: {
-      ios: 'fa-check',
-      mat: 'fa-dot-circle-o'
+      ios: 'fas fa-check',
+      mat: 'fas fa-check-circle'
     },
     unchecked: {
-      ios: 'fa-circle-o',
-      mat: 'fa-circle-o'
+      ios: '',
+      mat: 'far fa-circle'
     }
   },
   rating: {
-    icon: 'fa-star'
-  },
-  select: {
-    dropdown: 'fa-caret-down'
+    icon: 'fas fa-star'
   },
   stepper: {
-    done: 'fa-check',
-    active: 'fa-pencil',
-    error: 'fa-exclamation-triangle'
+    done: 'fas fa-check',
+    active: 'fas fa-pencil-alt',
+    error: 'fas fa-exclamation-triangle'
   },
   tabs: {
-    left: 'fa-chevron-left',
-    right: 'fa-chevron-right'
+    left: 'fas fa-chevron-left',
+    right: 'fas fa-chevron-right'
   },
   table: {
-    arrowUp: 'fa-long-arrow-up',
-    warning: 'fa-exclamation-triangle',
-    prevPage: 'fa-chevron-left',
-    nextPage: 'fa-chevron-right'
+    arrowUp: 'fas fa-long-arrow-up',
+    warning: 'fas fa-exclamation-triangle',
+    prevPage: 'fas fa-chevron-left',
+    nextPage: 'fas fa-chevron-right'
   },
   tree: {
-    icon: 'fa-play'
+    icon: 'fas fa-play'
   },
   uploader: {
-    done: 'fa-check',
-    clear: 'fa-times',
-    add: 'fa-plus',
-    upload: 'fa-cloud-upload',
-    expand: 'fa-chevron-down',
-    file: 'fa-file'
+    done: 'fas fa-check',
+    clear: 'far fa-times-circle',
+    add: 'fas fa-plus-square',
+    upload: 'fas fa-cloud-upload-alt',
+    expand: 'fas fa-chevron-down',
+    file: 'fas fa-file'
   }
 }

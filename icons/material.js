@@ -17,9 +17,6 @@ export default {
     right: 'chevron_right'
   },
 
-  btn: {
-    dropdown: 'arrow_drop_down'
-  },
   pullToRefresh: {
     arrow: 'arrow_downward',
     refresh: 'refresh'
@@ -44,7 +41,7 @@ export default {
       mat: 'check_box_outline_blank'
     },
     indeterminate: {
-      ios: '',
+      ios: 'remove_circle_outline',
       mat: 'indeterminate_check_box'
     }
   },
@@ -56,8 +53,7 @@ export default {
   },
   datetime: {
     arrowLeft: 'chevron_left',
-    arrowRight: 'chevron_right',
-    dropdown: 'arrow_drop_down'
+    arrowRight: 'chevron_right'
   },
   editor: {
     bold: 'format_bold',
@@ -99,7 +95,8 @@ export default {
     hidePass: 'visibility_off',
     showNumber: 'keyboard',
     hideNumber: 'keyboard_hide',
-    clear: 'cancel'
+    clear: 'cancel',
+    dropdown: 'arrow_drop_down'
   },
   pagination: {
     first: 'first_page',
@@ -113,15 +110,12 @@ export default {
       mat: 'radio_button_checked'
     },
     unchecked: {
-      ios: 'radio_button_unchecked',
+      ios: '',
       mat: 'radio_button_unchecked'
     }
   },
   rating: {
     icon: 'grade'
-  },
-  select: {
-    dropdown: 'arrow_drop_down'
   },
   stepper: {
     done: 'check',

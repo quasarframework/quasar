@@ -98,7 +98,7 @@ import DateMixin from './datetime-mixin'
 import TouchPan from '../../directives/touch-pan'
 
 export default {
-  name: 'q-inline-datetime',
+  name: 'q-datetime-picker',
   mixins: [DateMixin],
   directives: {
     TouchPan
@@ -223,10 +223,13 @@ export default {
       }
     },
 
+    setView () {},
+
     /* helpers */
     __pad (unit, filler) {
       return (unit < 10 ? filler || '0' : '') + unit
     },
+    __scrollView () {},
     __updateAllPositions () {
       this.$nextTick(() => {
         if (this.typeHasDate) {

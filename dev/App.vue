@@ -5,7 +5,7 @@
     </q-transition>
     <q-ajax-bar ref="bar" />
     <div
-      style="padding: 0px 10px; right: 10px; bottom: 10px"
+      style="padding: 0px 10px; right: 10px; top: 10px"
       class="bg-white shadow-4 fixed z-top"
     >
       <q-select
@@ -31,6 +31,7 @@
         stack-label="Icon set"
         :options="[
           { label: 'Material', value: 'material' }
+          ,{ label: 'MDI', value: 'mdi' }
           ,{ label: 'Ionicons', value: 'ionicons' }
           ,{ label: 'Fontawesome', value: 'fontawesome' }
         ]"

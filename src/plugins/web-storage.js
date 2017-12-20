@@ -1,3 +1,4 @@
+import extend from '../utils/extend'
 
 function encode (value) {
   if (Object.prototype.toString.call(value) === '[object Date]') {
@@ -66,129 +67,92 @@ function decode (value) {
   }
 }
 
-function generateFunctions (fn) {
+function getEmptyStorage () {
+  const fn = () => null
+
   return {
-    local: fn('local'),
-    session: fn('session')
+    has: fn,
+    get: {
+      length: fn,
+      item: fn,
+      index: fn,
+      all: fn
+    },
+    set: fn,
+    remove: fn,
+    clear: fn,
+    isEmpty: fn
   }
 }
 
-const
-  hasStorageItem = generateFunctions(
-    (type) => (key) => window[type + 'Storage'].getItem(key) !== null
-  ),
-
-  getStorageLength = generateFunctions(
-    (type) => () => window[type + 'Storage'].length
-  ),
-
-  getStorageItem = generateFunctions(type => {
-    let
-      hasFn = hasStorageItem[type],
-      storage = window[type + 'Storage']
-
-    return (key) => {
-      if (hasFn(key)) {
-        return decode(storage.getItem(key))
-      }
-      return null
+function getStorage (type) {
+  const
+    webStorage = window[type + 'Storage'],
+    get = key => {
+      const item = webStorage.getItem(key)
+      return item
+        ? decode(item)
+        : null
     }
-  }),
 
-  getStorageAtIndex = generateFunctions(type => {
-    let
-      lengthFn = getStorageLength[type],
-      getItemFn = getStorageItem[type],
-      storage = window[type + 'Storage']
+  return {
+    has: key => webStorage.getItem(key) !== null,
+    get: {
+      length: () => webStorage.length,
+      item: get,
+      index: index => {
+        if (index < webStorage.length) {
+          return get(webStorage.key(index))
+        }
+      },
+      all: () => {
+        let result = {}, key, len = webStorage.length
 
-    return (index) => {
-      if (index < lengthFn()) {
-        return getItemFn(storage.key(index))
+        for (let i = 0; i < len; i++) {
+          key = webStorage.key(i)
+          result[key] = get(key)
+        }
+
+        return result
       }
-    }
-  }),
-
-  getAllStorageItems = generateFunctions(type => {
-    let
-      lengthFn = getStorageLength[type],
-      storage = window[type + 'Storage'],
-      getItemFn = getStorageItem[type]
-
-    return () => {
-      let
-        result = {},
-        key,
-        length = lengthFn()
-
-      for (let i = 0; i < length; i++) {
-        key = storage.key(i)
-        result[key] = getItemFn(key)
-      }
-
-      return result
-    }
-  }),
-
-  setStorageItem = generateFunctions(type => {
-    let storage = window[type + 'Storage']
-    return (key, value) => { storage.setItem(key, encode(value)) }
-  }),
-
-  removeStorageItem = generateFunctions((type) => {
-    let storage = window[type + 'Storage']
-    return (key) => { storage.removeItem(key) }
-  }),
-
-  clearStorage = generateFunctions((type) => {
-    let storage = window[type + 'Storage']
-    return () => { storage.clear() }
-  }),
-
-  storageIsEmpty = generateFunctions(type => {
-    let getLengthFn = getStorageLength[type]
-    return () => getLengthFn() === 0
-  })
+    },
+    set: (key, value) => { webStorage.setItem(key, encode(value)) },
+    remove: key => { webStorage.removeItem(key) },
+    clear: () => { webStorage.clear() },
+    isEmpty: () => webStorage.length === 0
+  }
+}
 
 export const LocalStorage = {
-  has: hasStorageItem.local,
-  get: {
-    length: getStorageLength.local,
-    item: getStorageItem.local,
-    index: getStorageAtIndex.local,
-    all: getAllStorageItems.local
-  },
-  set: setStorageItem.local,
-  remove: removeStorageItem.local,
-  clear: clearStorage.local,
-  isEmpty: storageIsEmpty.local,
-
   __installed: false,
   install ({ $q }) {
     if (this.__installed) { return }
     this.__installed = true
 
-    $q.localStorage = LocalStorage
+    if ($q.platform.has.webStorage) {
+      const storage = getStorage('local')
+      $q.localStorage = storage
+      extend(true, this, storage)
+    }
+    else {
+      $q.localStorage = getEmptyStorage()
+    }
   }
 }
 
 export const SessionStorage = {
-  has: hasStorageItem.session,
-  get: {
-    length: getStorageLength.session,
-    item: getStorageItem.session,
-    index: getStorageAtIndex.session,
-    all: getAllStorageItems.session
-  },
-  set: setStorageItem.session,
-  remove: removeStorageItem.session,
-  clear: clearStorage.session,
-  isEmpty: storageIsEmpty.session,
-
   __installed: false,
   install ({ $q }) {
     if (this.__installed) { return }
     this.__installed = true
 
-    $q.sessionStorage = SessionStorage
+    if ($q.platform.has.webStorage) {
+      const storage = getStorage('session')
+      $q.sessionStorage = storage
+      extend(true, this, storage)
+    }
+    else {
+      $q.sessionStorage = getEmptyStorage()
+    }
   }
 }

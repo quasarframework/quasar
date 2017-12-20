@@ -12,8 +12,9 @@
       v-model="icon"
       :options="[
         {value: 'cloud', label: 'A Material icon'},
+        {value: 'mdi-airballoon', label: 'A MDI icon'},
         {value: 'fa-github', label: 'A Font Awesome icon'},
-        {value: 'ion-social-apple-outline', label: 'A Ionicon'}
+        {value: 'ion-social-apple-outline', label: 'A Ionicon'},
       ]"
       style="margin-top: 25px"
     />

@@ -235,9 +235,7 @@ export default {
       this.dragging = false
       this.currentMinPercentage = (this.model.min - this.min) / (this.max - this.min)
       this.currentMaxPercentage = (this.model.max - this.min) / (this.max - this.min)
-      if (this.model.min !== this.value.min || this.model.max !== this.value.max) {
-        this.$emit('change', this.model)
-      }
+      this.$emit('change', this.model)
     },
     __updateInput ({min = this.model.min, max = this.model.max}) {
       const val = {min, max}

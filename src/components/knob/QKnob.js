@@ -162,7 +162,7 @@ export default {
         this.model = val
         this.$emit('input', val)
       }
-      if (emitChange && this.value !== val) {
+      if (emitChange) {
         this.$emit('change', val)
       }
     },

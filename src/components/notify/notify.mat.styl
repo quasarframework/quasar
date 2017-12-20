@@ -6,6 +6,7 @@
   left 0
   right 0
   margin-bottom 10px
+  position relative
 .q-notification-list-center
   top 0
   bottom 0
@@ -23,54 +24,42 @@
   z-index $z-notify
 
 .q-notification-
-  &top-enter,
-  &top-right-enter, &top-right-leave-to,
   &top-left-enter, &top-left-leave-to,
-  &top-enter, &top-leave-to
+  &top-enter, &top-leave-to,
+  &top-right-enter, &top-right-leave-to
     opacity 0
     transform translateY(-50px)
     z-index ($z-notify - 1)
 
-  &center-enter, &center-leave-to,
-  &bottom-enter, &bottom-leave-to,
   &left-enter, &left-leave-to,
+  &center-enter, &center-leave-to,
   &right-enter, &right-leave-to,
-  &bottom-right-enter, &bottom-right-leave-to,
   &bottom-left-enter, &bottom-left-leave-to,
-  &bottom-enter, &bottom-leave-to
+  &bottom-enter, &bottom-leave-to,
+  &bottom-right-enter, &bottom-right-leave-to
     opacity 0
     transform translateY(50px)
     z-index ($z-notify - 1)
 
-  &center-leave-active,
-  &top-leave-active
-    position absolute
-    top 0
-    margin 10px 0
-    z-index ($z-notify - 1)
-  &right-leave-active,
-  &top-right-leave-active
-    position absolute
-    right 0
-    z-index ($z-notify - 1)
+  &top-left-leave-active,
+  &top-leave-active,
+  &top-right-leave-active,
   &left-leave-active,
-  &top-left-leave-active
-    position absolute
-    left 0
-    z-index ($z-notify - 1)
-
-  &bottom-leave-active
-    position absolute
-    bottom 0
-    margin 10px 0
-    z-index ($z-notify - 1)
+  &center-leave-active,
+  &right-leave-active,
+  &bottom-left-leave-active,
+  &bottom-leave-active,
   &bottom-right-leave-active
     position absolute
-    bottom 0
-    right 0
     z-index ($z-notify - 1)
-  &bottom-left-leave-active
-    position absolute
+    margin-left 0
+    margin-right 0
+
+  &top-leave-active,
+  &center-leave-active
+    top 0
+
+  &bottom-left-leave-active,
+  &bottom-leave-active,
+  &bottom-right-leave-active
     bottom 0
-    left 0
-    z-index ($z-notify - 1)

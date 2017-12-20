@@ -27,6 +27,7 @@
         @remove:cancel="removeCancel"
       />
 
+      <q-btn color="primary" @click="pick" style="margin-top: 15px">Pick Files</q-btn>
       <q-btn color="primary" @click="reset" style="margin-top: 15px">Reset the above Uploader</q-btn>
 
       <p class="caption">Single File Upload - No Upload Button</p>
@@ -94,6 +95,9 @@ export default {
     }
   },
   methods: {
+    pick () {
+      this.$refs.upld.pick()
+    },
     clear () {
       this.events = []
     },
