@@ -76,7 +76,13 @@ export default {
         cls.push('q-btn-push')
       }
 
-      this.isDisabled && cls.push('disabled')
+      if (this.isDisabled) {
+        cls.push('disabled')
+      }
+      else {
+        cls.push('q-focusable q-hoverable')
+      }
+
       this.noCaps && cls.push('q-btn-no-uppercase')
       this.rounded && cls.push('q-btn-rounded')
       this.glossy && cls.push('glossy')

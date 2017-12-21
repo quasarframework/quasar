@@ -42,7 +42,7 @@ export default {
   },
   render (h) {
     return h('button', {
-      staticClass: 'q-btn q-btn-toggle row inline flex-center q-focusable q-hoverable relative-position',
+      staticClass: 'q-btn q-btn-toggle row inline flex-center relative-position',
       'class': this.classes,
       style: this.style,
       on: { click: this.click },

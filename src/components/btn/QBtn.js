@@ -108,7 +108,7 @@ export default {
     on.click = this.click
 
     return h('button', {
-      staticClass: 'q-btn row inline flex-center q-focusable q-hoverable relative-position',
+      staticClass: 'q-btn row inline flex-center relative-position',
       'class': this.classes,
       style: this.style,
       on,
