@@ -1,6 +1,5 @@
 import { between } from '../../utils/format'
 import extend from '../../utils/extend'
-import clone from '../../utils/clone'
 import {
   getModel,
   getPercentage,
@@ -35,7 +34,7 @@ export default {
   },
   data () {
     return {
-      model: clone(this.value),
+      model: extend({}, this.value),
       dragging: false,
       currentMinPercentage: (this.value.min - this.min) / (this.max - this.min),
       currentMaxPercentage: (this.value.max - this.min) / (this.max - this.min)
