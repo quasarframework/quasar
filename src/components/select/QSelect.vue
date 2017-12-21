@@ -212,9 +212,6 @@ export default {
       this[this.$refs.popover.showing ? 'hide' : 'show']()
     },
     show () {
-      if (this.disable) {
-        return Promise.reject(new Error())
-      }
       return this.$refs.popover.show()
     },
     hide () {
