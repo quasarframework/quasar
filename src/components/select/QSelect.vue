@@ -165,10 +165,10 @@ import { QRadio } from '../radio'
 import { QToggle } from '../toggle'
 import { QSpinner } from '../spinner'
 import SelectMixin from '../../mixins/select'
-import clone from '../../utils/clone'
 import { stopAndPrevent } from '../../utils/event'
 import { normalizeToInterval } from '../../utils/format'
 import { isNumber } from '../../utils/is'
+import extend from '../../utils/extend'
 
 function defaultFilterFn (terms, obj) {
   return obj.label.toLowerCase().indexOf(terms) > -1
@@ -220,11 +220,7 @@ export default {
       }
     },
     visibleOptions () {
-      let opts = clone(this.options).map((opt, index) => {
-        opt.index = index
-        opt.value = this.options[index].value
-        return opt
-      })
+      let opts = this.options.map((opt, index) => extend({}, opt, { index }))
       if (this.filter && this.terms.length) {
         const lowerTerms = this.terms.toLowerCase()
         opts = opts.filter(opt => this.filterFn(lowerTerms, opt))

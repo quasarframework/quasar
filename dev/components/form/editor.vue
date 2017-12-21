@@ -94,7 +94,7 @@
 export default {
   data () {
     return {
-      model: ''
+      model: '<div>Editor in <a href="http://quasar-framework.org">Quasar</a></div><div>Second line</div>'
     }
   },
   methods: {

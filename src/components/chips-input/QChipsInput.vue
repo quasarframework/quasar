@@ -133,6 +133,7 @@ export default {
     __handleKey (e) {
       // ENTER key
       if (e.which === 13 || e.keyCode === 13) {
+        e.preventDefault()
         this.add()
       }
       // Backspace key

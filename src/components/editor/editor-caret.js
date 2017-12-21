@@ -31,6 +31,8 @@ function isChildOf (el, parent) {
   return false
 }
 
+const urlRegex = /^https?:\/\//
+
 export class Caret {
   constructor (el, vm) {
     this.el = el
@@ -196,40 +198,20 @@ export class Caret {
     }
     else if (cmd === 'link') {
       const link = this.getParentAttribute('href')
-      if (link && this.range) {
-        this.range.selectNodeContents(this.parent)
+      if (!link) {
+        const selection = this.selection
+        const url = selection ? selection.toString() : ''
+        if (!url.length) {
+          return
+        }
+        this.vm.editLinkUrl = urlRegex.test(url) ? url : `https://${url}`
+        document.execCommand('createLink', false, this.vm.editLinkUrl)
       }
+      else {
+        this.vm.editLinkUrl = link
+      }
+      this.range.selectNodeContents(this.parent)
       this.save()
-      // TODO
-      this.$q.dialog({
-        title: 'Link',
-        message: this.selection ? this.selection.toString() : null,
-        prompt: {
-          type: 'text',
-          label: 'URL',
-          model: link || 'http://'
-        },
-        buttons: [
-          {
-            label: link ? 'Remove' : 'Cancel',
-            handler: () => {
-              if (link) {
-                this.restore()
-                document.execCommand('unlink')
-                done()
-              }
-            }
-          },
-          {
-            label: link ? 'Update' : 'Create',
-            handler: data => {
-              this.restore()
-              document.execCommand('createLink', false, data.url)
-              done()
-            }
-          }
-        ]
-      })
       return
     }
     else if (cmd === 'fullscreen') {

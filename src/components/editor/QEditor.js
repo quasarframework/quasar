@@ -1,5 +1,5 @@
 import { getEventKey, stopAndPrevent } from '../../utils/event'
-import { getToolbar, getFonts } from './editor-utils'
+import { getToolbar, getFonts, getLinkEditor } from './editor-utils'
 import { Caret } from './editor-caret'
 import extend from '../../utils/extend'
 import FullscreenMixin from '../../mixins/fullscreen'
@@ -186,7 +186,8 @@ export default {
   },
   data () {
     return {
-      editWatcher: true
+      editWatcher: true,
+      editLinkUrl: null
     }
   },
   watch: {
@@ -208,9 +209,9 @@ export default {
     },
     onKeydown (e) {
       const key = getEventKey(e)
-      this.refreshToolbar()
 
       if (!e.ctrlKey) {
+        this.refreshToolbar()
         return
       }
 
@@ -232,6 +233,7 @@ export default {
     },
     refreshToolbar () {
       setTimeout(() => {
+        this.editLinkUrl = null
         this.$forceUpdate()
       }, 1)
     },
@@ -254,6 +256,19 @@ export default {
     })
   },
   render (h) {
+    const toolbars = []
+    if (!this.readonly) {
+      const toolbarConfig = {
+        staticClass: `q-editor-toolbar q-editor-toolbar-padding overflow-auto row no-wrap bg-${this.toolbarColor}`,
+        'class': {
+          'q-editor-toolbar-separator': !this.outline && !this.push
+        }
+      }
+      toolbars.push(h('div', extend({key: 'qedt_top'}, toolbarConfig), getToolbar(h, this)))
+      if (this.editLinkUrl !== null) {
+        toolbars.push(h('div', extend({key: 'qedt_btm'}, toolbarConfig), getLinkEditor(h, this)))
+      }
+    }
     return h(
       'div',
       { staticClass: 'q-editor' },
@@ -272,16 +287,7 @@ export default {
             }
           },
           [
-            this.readonly ? '' : h(
-              'div',
-              {
-                staticClass: `q-editor-toolbar q-editor-toolbar-padding overflow-auto row no-wrap bg-${this.toolbarColor}`,
-                'class': {
-                  'q-editor-toolbar-separator': !this.outline && !this.push
-                }
-              },
-              getToolbar(h, this)
-            ),
+            !toolbars.length ? '' : h('div', toolbars),
             h(
               'div',
               {

@@ -77,8 +77,8 @@ export default {
         const model = between(parseInt(value, 10), this.min, this.max)
         if (this.value !== model) {
           this.$emit('input', model)
-          this.$emit('change', model)
         }
+        this.$emit('change', model)
       }
     },
     inputPlaceholder () {

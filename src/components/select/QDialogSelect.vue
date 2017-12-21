@@ -63,7 +63,6 @@
 </template>
 
 <script>
-import clone from '../../utils/clone'
 import SelectMixin from '../../mixins/select'
 import { isNumber } from '../../utils/is'
 
@@ -104,7 +103,9 @@ export default {
         color: this.color,
         options: {
           type: this.type,
-          model: clone(this.value),
+          model: this.multiple && Array.isArray(this.value)
+            ? this.value.slice()
+            : this.value,
           items: this.options,
           limit: isNumber(this.multiple) ? this.multiple : 0
         },
