@@ -65,8 +65,7 @@ export default {
             props: {
               color: this.color,
               value: this.someRowsSelected ? null : this.allRowsSelected,
-              dark: this.dark,
-              indeterminate: true
+              dark: this.dark
             },
             on: {
               input: val => {

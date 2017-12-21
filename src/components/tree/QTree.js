@@ -463,7 +463,6 @@ export default {
                   color: this.computedControlColor,
                   dark: this.dark,
                   keepColor: true,
-                  indeterminate: true,
                   disable: !meta.tickable
                 },
                 on: {

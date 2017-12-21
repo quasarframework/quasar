@@ -114,7 +114,7 @@ export default {
           children: [
             {
               label: 'Node 1.1 - accordion test on children',
-              avatar: '../statics/boy-avatar.png',
+              avatar: 'statics/boy-avatar.png',
               children: [
                 {
                   label: 'Node 1.1.1 - tick strategy leaf-filtered',
@@ -157,7 +157,7 @@ export default {
             },
             {
               label: 'Node 1.3 - tap on me!',
-              img: '../statics/mountains.jpg',
+              img: 'statics/mountains.jpg',
               handler: () => {
                 this.$q.notify('Tapped on node 1.3')
               }

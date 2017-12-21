@@ -12,7 +12,7 @@
       <q-checkbox v-model="checked" checked-icon="visibility" unchecked-icon="visibility_off" style="margin-left: 50px" :dark="dark" :keep-color="keepColor" />
 
       <p class="caption">Indeterminate</p>
-      <q-checkbox v-model="indModel" indeterminate :dark="dark" :keep-color="keepColor" label="Tap me to change between 3 states" />
+      <q-checkbox v-model="indModel" toggleIndeterminate :dark="dark" :keep-color="keepColor" label="Tap me to change between 3 states" />
 
       <p class="caption">Tests</p>
       <q-checkbox @change="onChange" @input="onInput" v-model="checked" :dark="dark" :keep-color="keepColor" />
