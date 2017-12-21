@@ -79,7 +79,7 @@ export default {
   },
   watch: {
     $route () {
-      this.hide()
+      this.showing && this.hide()
     }
   },
   computed: {
