@@ -246,7 +246,7 @@ export class Caret {
     sel.extend(endNode, endOffset)
     sel.modify('extend', direction[1], 'character')
     sel.modify('extend', direction[0], 'word')
- 
+
     return sel
   }
 }

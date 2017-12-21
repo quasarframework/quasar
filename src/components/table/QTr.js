@@ -11,7 +11,7 @@ export default {
       prop = ctx.props.props
 
     if (!prop || prop.header) {
-      return h('tr', ctx.data, ctx.children)
+      return h('tr', data, ctx.children)
     }
 
     data.staticClass = `${prop.__trClass}${cls ? ` ${cls}` : ''}`
