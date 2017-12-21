@@ -10,10 +10,18 @@
   display flex
   flex-direction column
   align-items flex-end
+  .q-item-icon, .q-item-letter, .q-item-stamp
+    opacity $item-secondary-opacity
+  .q-item-letter-inverted, .q-item-icon-inverted
+    opacity 1
 
 .q-item-side
   color $item-primary-color
   min-width $item-primary-size
+  .q-item-icon, .q-item-letter, .q-item-stamp
+    opacity $item-primary-opacity
+  .q-item-letter-inverted, .q-item-icon-inverted
+    opacity 1
 .q-item-avatar, .q-item-avatar img
   width $item-primary-size
   height $item-primary-size
