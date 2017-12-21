@@ -102,7 +102,7 @@ export default {
               checkedIcon: opt.checkedIcon,
               uncheckedIcon: opt.uncheckedIcon,
               indeterminateIcon: opt.indeterminateIcon,
-              toggleIndeterminate: opt.toggleIndeterminate || this.toggleIndeterminate,
+              toggleIndeterminate: [true, false].includes(opt.toggleIndeterminate) ? opt.toggleIndeterminate : this.toggleIndeterminate,
               dark: opt.dark || this.dark,
               keepColor: opt.keepColor || this.keepColor
             },
