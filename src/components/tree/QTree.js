@@ -459,11 +459,11 @@ export default {
               ? h(QCheckbox, {
                 staticClass: 'q-mr-xs',
                 props: {
-                  value: meta.ticked,
+                  value: meta.indeterminate ? null : meta.ticked,
                   color: this.computedControlColor,
                   dark: this.dark,
                   keepColor: true,
-                  indeterminate: meta.indeterminate,
+                  indeterminate: true,
                   disable: !meta.tickable
                 },
                 on: {

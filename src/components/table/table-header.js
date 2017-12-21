@@ -64,9 +64,9 @@ export default {
           h(QCheckbox, {
             props: {
               color: this.color,
-              value: this.allRowsSelected,
+              value: this.someRowsSelected ? null : this.allRowsSelected,
               dark: this.dark,
-              indeterminate: this.someRowsSelected
+              indeterminate: true
             },
             on: {
               input: val => {
