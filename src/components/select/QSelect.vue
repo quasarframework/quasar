@@ -189,9 +189,7 @@ export default {
       }
     },
     visibleOptions () {
-      let opts = this.options.map((opt, index) => {
-        return extend({}, opt, { index })
-      })
+      let opts = this.options.map((opt, index) => extend({}, opt, { index }))
       if (this.filter && this.terms.length) {
         const lowerTerms = this.terms.toLowerCase()
         opts = opts.filter(opt => this.filterFn(lowerTerms, opt))
