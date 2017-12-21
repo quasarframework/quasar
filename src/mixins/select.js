@@ -37,7 +37,9 @@ export default {
   },
   watch: {
     value (val) {
-      this.model = this.multiple && Array.isArray(val) ? val.slice() : val
+      this.model = this.multiple && Array.isArray(val)
+        ? val.slice()
+        : val
     }
   },
   computed: {
