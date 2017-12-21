@@ -28,7 +28,9 @@ export default {
   },
   data () {
     return {
-      model: this.multiple && Array.isArray(this.value) ? this.value.slice() : this.value,
+      model: this.multiple && Array.isArray(this.value)
+        ? this.value.slice()
+        : this.value,
       terms: '',
       focused: false
     }
