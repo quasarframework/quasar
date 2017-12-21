@@ -102,7 +102,9 @@ export default {
         color: this.color,
         options: {
           type: this.type,
-          model: this.multiple && Array.isArray(this.value) ? this.value.slice() : this.value,
+          model: this.multiple && Array.isArray(this.value)
+            ? this.value.slice()
+            : this.value,
           items: this.options
         },
         cancel: this.cancelLabel || true,
