@@ -110,11 +110,11 @@ export default {
     },
     $route () {
       if (this.mobileOpened) {
-        this.hide()
+        this.showing && this.hide()
         return
       }
       if (this.onScreenOverlay) {
-        this.hide()
+        this.showing && this.hide()
       }
     }
   },
