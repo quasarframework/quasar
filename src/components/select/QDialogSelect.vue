@@ -63,7 +63,6 @@
 </template>
 
 <script>
-import clone from '../../utils/clone'
 import SelectMixin from '../../mixins/select'
 
 export default {
@@ -103,7 +102,9 @@ export default {
         color: this.color,
         options: {
           type: this.type,
-          model: clone(this.value),
+          model: this.multiple && Array.isArray(this.value)
+            ? this.value.slice()
+            : this.value,
           items: this.options
         },
         cancel: this.cancelLabel || true,

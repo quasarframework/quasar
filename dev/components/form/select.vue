@@ -121,6 +121,9 @@
       <p class="caption">Display Value</p>
       <q-select multiple v-model="multipleSelect" float-label="Gigi" :options="selectLongListOptions" :display-value="`${ multipleSelect.length } item${ multipleSelect.length !== 1 ? 's' : '' } selected`"></q-select>
       <q-select multiple toggle v-model="multipleSelect" :options="selectLongListOptions" :display-value="`${ multipleSelect.length } item${ multipleSelect.length !== 1 ? 's' : '' } selected`"></q-select>
+
+      <p class="caption">Object Value1</p>
+      <q-select v-model="selectObject" :options="selectObjectOptions"></q-select>
     </div>
   </div>
 </template>
@@ -130,6 +133,7 @@ export default {
   data () {
     return {
       select: 'fb',
+      selectObject: null,
       multipleSelect: ['goog', 'twtr'],
       multipleSelectLong: [],
       selectOptions: [
@@ -362,6 +366,20 @@ export default {
           icon: 'mail',
           rightIcon: 'alarm',
           value: 'ora-d'
+        }
+      ],
+      selectObjectOptions: [
+        {
+          label: 'Option 1',
+          value: { id: 1 }
+        },
+        {
+          label: 'Option 2',
+          value: { id: 2 }
+        },
+        {
+          label: 'Option 3',
+          value: { id: 3 }
         }
       ]
     }
