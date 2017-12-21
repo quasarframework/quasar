@@ -120,6 +120,9 @@
           </q-item-main>
         </q-item>
       </q-list>
+
+      <p class="caption">Three state toggle</p>
+      <q-checkbox :value="val" :indeterminate="ind" @change="ind ? ind = !ind : val = !(ind = val)"/>
     </div>
   </div>
 </template>
@@ -128,6 +131,8 @@
 export default {
   data () {
     return {
+      val: true,
+      ind: false,
       checked: true,
       group: ['op2'],
       selection: ['one', 'two', 'three'],
