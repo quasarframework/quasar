@@ -60,6 +60,7 @@ export default {
         flat: this.flat,
         push: this.push,
         size: 'sm',
+        dense: true,
         compact: true
       }
     },

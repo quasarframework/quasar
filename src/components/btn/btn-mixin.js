@@ -3,10 +3,10 @@ import { QIcon } from '../icon'
 
 const sizes = {
   rectangle: {
-    xs: 8, sm: 12, md: 16, lg: 20, xl: 24
+    xs: '.571em', sm: '.785em', md: '1em', lg: '1.214em', xl: '1.428em'
   },
   round: {
-    xs: 24, sm: 40, md: 56, lg: 72, xl: 88
+    xs: '.666em', sm: '.833em', md: '1em', lg: '1.166em', xl: '1.333em'
   }
 }
 
@@ -33,6 +33,8 @@ export default {
     color: String,
     glossy: Boolean,
     compact: Boolean,
+    dense: Boolean,
+    mini: Boolean,
     noRipple: Boolean
   },
   computed: {
@@ -41,8 +43,8 @@ export default {
 
       return {
         fontSize: this.size
-          ? (this.size in def ? `${def[this.size]}px` : this.size)
-          : `${def.md}px`
+          ? (this.size in def ? def[this.size] : this.size)
+          : def.md
       }
     },
     shape () {
@@ -62,9 +64,6 @@ export default {
       if (this.toggled) {
         cls.push('q-btn-toggle-active')
       }
-      if (this.compact) {
-        cls.push('q-btn-compact')
-      }
 
       if (this.flat) {
         cls.push('q-btn-flat')
@@ -83,8 +82,16 @@ export default {
         cls.push('q-focusable q-hoverable')
       }
 
+      if (this.round) {
+        this.mini && cls.push('q-btn-mini')
+      }
+      else {
+        this.compact && cls.push('q-btn-compact')
+        this.dense && cls.push('q-btn-dense')
+        this.rounded && cls.push('q-btn-rounded')
+      }
+
       this.noCaps && cls.push('q-btn-no-uppercase')
-      this.rounded && cls.push('q-btn-rounded')
       this.glossy && cls.push('glossy')
 
       if (color) {

@@ -3,7 +3,7 @@
     <div v-for="(cfg, index1) in conf" :key="`${cfg.split}-${cfg.compact}`">
       <div v-for="(size, index2) in sizes" :key="size">
         <p class="caption">{{ label(cfg) }} - {{ size }}</p>
-        <q-btn-dropdown ref="first" :size="size" :split="cfg.split" :compact="cfg.compact" @show="log('open')" @hide="log('close')" @click="log('click')" color="primary" glossy label="Dropdown Button" style="margin: 15px">
+        <q-btn-dropdown ref="first" :size="size" :split="cfg.split" dense :compact="cfg.compact" @show="log('open')" @hide="log('close')" @click="log('click')" color="primary" glossy label="Dropdown Button" style="margin: 15px">
           <q-list link>
             <q-list-header inset>Folders X</q-list-header>
             <q-item v-for="n in 3" :key="`1.${n}`" @click="hideDropdown(index1 * 3 + index2)">
@@ -12,7 +12,7 @@
                 <q-item-tile label>Photos</q-item-tile>
                 <q-item-tile sublabel>February 22, 2016</q-item-tile>
               </q-item-main>
-              </q-item-side right icon="info" />
+              <q-item-side right icon="info" />
             </q-item>
             <q-item-separator inset />
             <q-list-header inset>Files</q-list-header>
@@ -22,7 +22,7 @@
                 <q-item-tile label>Vacation</q-item-tile>
                 <q-item-tile sublabel>February 22, 2016</q-item-tile>
               </q-item-main>
-              </q-item-side right icon="info" />
+              <q-item-side right icon="info" />
             </q-item>
           </q-list>
         </q-btn-dropdown>
@@ -35,7 +35,7 @@
                 <q-item-tile label>Photos</q-item-tile>
                 <q-item-tile sublabel>February 22, 2016</q-item-tile>
               </q-item-main>
-              </q-item-side right icon="info" />
+              <q-item-side right icon="info" />
             </q-item>
             <q-item-separator inset />
             <q-list-header inset>Files</q-list-header>
@@ -45,7 +45,7 @@
                 <q-item-tile label>Vacation</q-item-tile>
                 <q-item-tile sublabel>February 22, 2016</q-item-tile>
               </q-item-main>
-              </q-item-side right icon="info" />
+              <q-item-side right icon="info" />
             </q-item>
           </q-list>
         </q-btn-dropdown>
@@ -58,7 +58,7 @@
                 <q-item-tile label>Photos</q-item-tile>
                 <q-item-tile sublabel>February 22, 2016</q-item-tile>
               </q-item-main>
-              </q-item-side right icon="info" />
+              <q-item-side right icon="info" />
             </q-item>
             <q-item-separator inset />
             <q-list-header inset>Files</q-list-header>
@@ -68,7 +68,7 @@
                 <q-item-tile label>Vacation</q-item-tile>
                 <q-item-tile sublabel>February 22, 2016</q-item-tile>
               </q-item-main>
-              </q-item-side right icon="info" />
+              <q-item-side right icon="info" />
             </q-item>
           </q-list>
         </q-btn-dropdown>
@@ -81,7 +81,7 @@
                 <q-item-tile label>Photos</q-item-tile>
                 <q-item-tile sublabel>February 22, 2016</q-item-tile>
               </q-item-main>
-              </q-item-side right icon="info" />
+              <q-item-side right icon="info" />
             </q-item>
             <q-item-separator inset />
             <q-list-header inset>Files</q-list-header>
@@ -91,7 +91,7 @@
                 <q-item-tile label>Vacation</q-item-tile>
                 <q-item-tile sublabel>February 22, 2016</q-item-tile>
               </q-item-main>
-              </q-item-side right icon="info" />
+              <q-item-side right icon="info" />
             </q-item>
           </q-list>
         </q-btn-dropdown>

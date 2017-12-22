@@ -27,6 +27,7 @@ export default {
     outline: Boolean,
     flat: Boolean,
     compact: Boolean,
+    dense: Boolean,
     rounded: Boolean,
     push: Boolean,
     size: String,
@@ -80,6 +81,7 @@ export default {
           glossy: this.glossy,
           size: this.size,
           compact: this.compact,
+          dense: this.dense,
           noRipple: this.noRipple,
           waitForRipple: this.waitForRipple
         }

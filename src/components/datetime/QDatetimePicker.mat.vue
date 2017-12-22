@@ -103,7 +103,7 @@
           <div class="row items-center content-center">
             <q-btn
               round
-              size='sm'
+              mini
               flat
               :color="color"
               @click="setMonth(month - 1)"
@@ -116,7 +116,7 @@
             </div>
             <q-btn
               round
-              size='sm'
+              mini
               flat
               :color="color"
               @click="setMonth(month + 1)"

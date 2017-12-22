@@ -121,7 +121,9 @@ export default {
         props: {
           color: this.color,
           flat: true,
-          compact: true
+          compact: true,
+          dense: true,
+          size: 'sm'
         }
       }, props))
     }
@@ -137,8 +139,7 @@ export default {
         key: 'bls',
         props: {
           disable: this.disable || this.value <= this.min,
-          icon: this.$q.icon.pagination.first,
-          size: 'sm'
+          icon: this.$q.icon.pagination.first
         },
         on: {
           click: () => this.set(this.min)
@@ -148,8 +149,7 @@ export default {
         key: 'ble',
         props: {
           disable: this.disable || this.value >= this.max,
-          icon: this.$q.icon.pagination.last,
-          size: 'sm'
+          icon: this.$q.icon.pagination.last.$emit
         },
         on: {
           click: () => this.set(this.max)
@@ -163,8 +163,7 @@ export default {
         props: {
           disable: this.disable || this.value <= this.min,
           icon: this.$q.icon.pagination.prev,
-          repeatTimeout: this.__getRepeatEasing(),
-          size: 'sm'
+          repeatTimeout: this.__getRepeatEasing()
         },
         on: {
           click: () => this.setByOffset(-1)
@@ -175,8 +174,7 @@ export default {
         props: {
           disable: this.disable || this.value >= this.max,
           icon: this.$q.icon.pagination.next,
-          repeatTimeout: this.__getRepeatEasing(),
-          size: 'sm'
+          repeatTimeout: this.__getRepeatEasing()
         },
         on: {
           click: () => this.setByOffset(1)

@@ -63,7 +63,6 @@ export default {
             icon: this.icon,
             label: this.label,
             iconRight: this.split ? this.iconRight : null,
-            round: this.round,
             outline: this.outline,
             flat: this.flat,
             rounded: this.rounded,
@@ -72,6 +71,7 @@ export default {
             color: this.color,
             glossy: this.glossy,
             compact: this.compact,
+            dense: this.dense,
             noRipple: this.noRipple,
             waitForRipple: this.waitForRipple
           },
@@ -111,13 +111,13 @@ export default {
           QBtn,
           {
             props: {
-              round: this.round,
               flat: this.flat,
               rounded: this.rounded,
               push: this.push,
               size: this.size,
               color: this.color,
               glossy: this.glossy,
+              dense: this.dense,
               noRipple: this.noRipple,
               waitForRipple: this.waitForRipple
             },
