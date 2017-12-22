@@ -71,7 +71,6 @@ export default {
             color: this.color,
             glossy: this.glossy,
             compact: this.compact,
-            dense: this.dense,
             noRipple: this.noRipple,
             waitForRipple: this.waitForRipple
           },
@@ -117,7 +116,6 @@ export default {
               size: this.size,
               color: this.color,
               glossy: this.glossy,
-              dense: this.dense,
               noRipple: this.noRipple,
               waitForRipple: this.waitForRipple
             },

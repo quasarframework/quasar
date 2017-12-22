@@ -33,18 +33,19 @@ export default {
     color: String,
     glossy: Boolean,
     compact: Boolean,
-    dense: Boolean,
     mini: Boolean,
     noRipple: Boolean
   },
   computed: {
     style () {
+      if (typeof this.size !== 'string' || ['', 'dense', 'mini'].includes(this.size)) {
+        return {}
+      }
+
       const def = sizes[this.round ? 'round' : 'rectangle']
 
       return {
-        fontSize: this.size
-          ? (this.size in def ? def[this.size] : this.size)
-          : def.md
+        fontSize: this.size in def ? def[this.size] : this.size
       }
     },
     shape () {
@@ -83,11 +84,11 @@ export default {
       }
 
       if (this.round) {
-        this.mini && cls.push('q-btn-mini')
+        (this.mini || this.size === 'mini') && cls.push('q-btn-mini')
       }
       else {
         this.compact && cls.push('q-btn-compact')
-        this.dense && cls.push('q-btn-dense')
+        this.size === 'dense' && cls.push('q-btn-dense')
         this.rounded && cls.push('q-btn-rounded')
       }
 

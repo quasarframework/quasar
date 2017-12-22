@@ -111,22 +111,29 @@
         <q-btn round loader :percentage="percentage" color="primary" @click="startProgress" icon="wifi" />
       </p>
 
-      <p class="caption">Small, Medium (default), Dense and Big</p>
+      <p class="caption">xs, sm, dense, md (default), lg, xl</p>
       <p class="group">
-        <q-btn size="sm" color="primary" label="Button Small" />
-        <q-btn dense color="primary" label="Button Dense" />
-        <q-btn color="primary" label="Button Medium" />
-        <q-btn size="lg" color="primary" label="Button Big" />
+        <q-btn size="xs" color="primary" label="Button xs" />
+        <q-btn size="sm" color="primary" label="Button sm" />
+        <q-btn size='dense' color="primary" label="Button dense" />
+        <q-btn color="primary" label="Button md" />
+        <q-btn size="lg" color="primary" label="Button lg" />
+        <q-btn size="xl" color="primary" label="Button xl" />
       </p>
       <p class="group">
-        <q-btn icon="check" size="sm" color="primary" label="Button" />
-        <q-btn icon="cloud" color="primary" label="Button" />
-        <q-btn icon="alarm" size="lg" color="primary" label="Button" />
+        <q-btn icon="check" size="xs" color="primary" label="Button xs" />
+        <q-btn icon="check" size="sm" color="primary" label="Button sm" />
+        <q-btn icon="check" size="dense" color="primary" label="Button dense" />
+        <q-btn icon="cloud" color="primary" label="Button md" />
+        <q-btn icon="alarm" size="lg" color="primary" label="Button lg" />
+        <q-btn icon="alarm" size="xl" color="primary" label="Button xl" />
       </p>
       <p class="group">
+        <q-btn round size="xs" icon="check" color="primary" />
         <q-btn round size="sm" icon="check" color="primary" />
         <q-btn round icon="cloud" color="primary" />
         <q-btn round size="lg" icon="alarm" color="primary" />
+        <q-btn round size="xl" icon="alarm" color="primary" />
       </p>
 
       <p class="group">
@@ -136,7 +143,7 @@
         </template>
       </p>
       <p class="group">
-        <template v-for="size in sizes">
+        <template v-for="size in sizes" v-if="size !== 'dense'">
           <q-btn :key="'aq' + size" round icon="cloud" color="primary" :size="size" :title="`Size ${size}`" />
           <q-btn :key="'aqm' + size" round mini icon="cloud" color="primary" :size="size" :title="`Size ${size} mini`" />
         </template>
@@ -324,7 +331,7 @@
           :glossy="extra === 'glossy'"
         >{{extra}}</q-btn>
       </div>
-      <div v-for="size in sizes" :key="'h' + size">
+      <div v-for="size in sizes" :key="'h' + size" v-if="size !== 'dense'">
         <h3 class="capitalize">{{size}}</h3>
         <q-btn color="primary" round :size="size"><q-icon :name="icon" /></q-btn>
         text
@@ -389,7 +396,7 @@ export default {
   data () {
     return {
       icon: 'alarm',
-      sizes: ['xs', 'sm', 'md', 'lg', 'xl'],
+      sizes: ['xs', 'sm', 'dense', 'md', 'lg', 'xl'],
       colors: [
         'primary', 'secondary', 'tertiary', 'positive', 'negative', 'warning', 'info', '', 'light', 'dark',
         'red', 'pink', 'purple', 'deep-purple', 'indigo', 'blue', 'light-blue', 'cyan', 'teal', 'green',

@@ -122,7 +122,6 @@ export default {
           color: this.color,
           flat: true,
           compact: true,
-          dense: true,
           size: 'sm'
         }
       }, props))
