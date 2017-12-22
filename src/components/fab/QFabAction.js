@@ -28,7 +28,7 @@ export default {
     return h(QBtn, {
       props: {
         round: true,
-        size: 'sm',
+        mini: true,
         outline: this.outline,
         push: this.push,
         flat: this.flat,

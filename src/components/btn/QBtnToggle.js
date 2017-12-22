@@ -44,7 +44,6 @@ export default {
     return h('button', {
       staticClass: 'q-btn q-btn-toggle row inline flex-center relative-position',
       'class': this.classes,
-      style: this.style,
       on: { click: this.click },
       directives: this.hasRipple
         ? [{
@@ -60,7 +59,8 @@ export default {
         'class': {
           'no-wrap': this.noWrap,
           'text-no-wrap': this.noWrap
-        }
+        },
+        style: this.style
       }, [
         this.icon
           ? h('q-icon', {

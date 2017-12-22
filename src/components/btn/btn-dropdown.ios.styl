@@ -1,6 +1,11 @@
 .q-btn-dropdown-simple .q-btn-dropdown-arrow
-  width 10px
-  font-size 24px
+  width .417em
+  font-size 1.268px
+  line-height 0
 .q-btn-dropdown-split .q-btn-dropdown-arrow
   padding 0 4px
   border-left 1px solid rgba(255, 255, 255, .3)
+@media (min-width $breakpoint-md-min)
+  .q-btn-dropdown-current, .q-btn-dropdown-simple
+    &:not(.q-btn-compact)
+      padding-left 24px

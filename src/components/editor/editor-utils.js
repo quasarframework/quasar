@@ -246,7 +246,7 @@ export function getLinkEditor (h, vm) {
           props: {
             color: 'negative',
             label: vm.$q.i18n.label.remove,
-            size: 'sm',
+            size: 'dense',
             flat: true,
             compact: true,
             noCaps: true
@@ -264,7 +264,7 @@ export function getLinkEditor (h, vm) {
           props: {
             color: 'primary',
             label: vm.$q.i18n.label.update,
-            size: 'sm',
+            size: 'dense',
             flat: true,
             compact: true,
             noCaps: true
