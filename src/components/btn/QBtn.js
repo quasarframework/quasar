@@ -129,8 +129,8 @@ export default {
         })
         : null,
 
-      h('span', {
-        staticClass: 'q-btn-inner row col flex-center',
+      h('div', {
+        staticClass: 'q-btn-inner row flex-center',
         'class': {
           'no-wrap': this.noWrap,
           'text-no-wrap': this.noWrap
@@ -146,7 +146,7 @@ export default {
             })
             : null,
 
-          this.label && !this.round ? h('span', [ this.label ]) : null,
+          this.label && !this.round ? h('div', [ this.label ]) : null,
 
           this.$slots.default,
 

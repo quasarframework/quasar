@@ -1,9 +1,9 @@
 <template>
   <div style="padding: 25px">
-    <div v-for="(cfg, index1) in conf" :key="`${cfg.split}-${cfg.compact}`">
+    <div v-for="(cfg, index1) in conf" :key="`${cfg.split}-${cfg.dense}`">
       <div v-for="(size, index2) in sizes" :key="size">
         <p class="caption">{{ label(cfg) }} - {{ size }}</p>
-        <q-btn-dropdown ref="first" :size="size" :split="cfg.split" :compact="cfg.compact" @show="log('open')" @hide="log('close')" @click="log('click')" color="primary" glossy label="Dropdown Button" style="margin: 15px">
+        <q-btn-dropdown ref="first" :size="size" :split="cfg.split" :dense="cfg.dense" @show="log('open')" @hide="log('close')" @click="log('click')" color="primary" glossy label="Dropdown Button" style="margin: 15px">
           <q-list link>
             <q-list-header inset>Folders X</q-list-header>
             <q-item v-for="n in 3" :key="`1.${n}`" @click="hideDropdown(index1 * 3 + index2)">
@@ -26,7 +26,7 @@
             </q-item>
           </q-list>
         </q-btn-dropdown>
-        <q-btn-dropdown ref="second" :size="size" :split="cfg.split" :compact="cfg.compact" @show="log('open')" @hide="log('close')" @click="log('click')" color="primary" icon="map" glossy label="Dropdown Button" style="margin: 15px">
+        <q-btn-dropdown ref="second" :size="size" :split="cfg.split" :dense="cfg.dense" @show="log('open')" @hide="log('close')" @click="log('click')" color="primary" icon="map" glossy label="Dropdown Button" style="margin: 15px">
           <q-list link>
             <q-list-header inset>Folders</q-list-header>
             <q-item v-for="n in 3" :key="`1.${n}`" @click="$refs.second[index1 * 3 + index2].hide()">
@@ -49,7 +49,7 @@
             </q-item>
           </q-list>
         </q-btn-dropdown>
-        <q-btn-dropdown ref="third" :size="size" :split="cfg.split" :compact="cfg.compact" @show="log('open')" @hide="log('close')" @click="log('click')" color="primary" icon="map" glossy style="margin: 15px">
+        <q-btn-dropdown ref="third" :size="size" :split="cfg.split" :dense="cfg.dense" @show="log('open')" @hide="log('close')" @click="log('click')" color="primary" icon="map" glossy style="margin: 15px">
           <q-list link>
             <q-list-header inset>Folders</q-list-header>
             <q-item v-for="n in 3" :key="`1.${n}`" @click="$refs.third[index1 * 3 + index2].hide()">
@@ -72,7 +72,7 @@
             </q-item>
           </q-list>
         </q-btn-dropdown>
-        <q-btn-dropdown ref="fourth" :size="size" :split="cfg.split" :compact="cfg.compact" @show="log('open')" @hide="log('close')" @click="log('click')" color="yellow" glossy icon="map" label="Dropdown Button" style="margin: 15px">
+        <q-btn-dropdown ref="fourth" :size="size" :split="cfg.split" :dense="cfg.dense" @show="log('open')" @hide="log('close')" @click="log('click')" color="yellow" glossy icon="map" label="Dropdown Button" style="margin: 15px">
           <q-list link>
             <q-list-header inset>Folders</q-list-header>
             <q-item v-for="n in 3" :key="`1.${n}`" @click="$refs.fourth[index1 * 3 + index2].hide()">
@@ -105,10 +105,10 @@ export default {
   data () {
     return {
       conf: [
-        {split: false, compact: false},
-        {split: false, compact: true},
-        {split: true, compact: false},
-        {split: true, compact: true}
+        {split: false, dense: false},
+        {split: false, dense: true},
+        {split: true, dense: false},
+        {split: true, dense: true}
       ],
       sizes: ['sm', 'md', 'lg']
     }
@@ -122,8 +122,8 @@ export default {
       if (cfg.split) {
         label += ' Split'
       }
-      if (cfg.compact) {
-        label += ' Compact'
+      if (cfg.dense) {
+        label += ' dense'
       }
       return label
     },

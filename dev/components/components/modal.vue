@@ -67,7 +67,7 @@
       <q-modal-layout>
         <q-toolbar slot="header">
           <q-icon style="font-size: 500%" class="cursor-pointer" name="map" @click="closeMe" />
-          <q-btn flat @click="$refs.layoutModal.hide()">
+          <q-btn flat round dense @click="$refs.layoutModal.hide()">
             <q-icon name="keyboard_arrow_left" />
           </q-btn>
           <q-toolbar-title>
