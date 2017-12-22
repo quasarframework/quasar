@@ -141,16 +141,16 @@ export default {
         : [
           this.icon
             ? h('q-icon', {
-              'class': { 'on-left': this.label && !this.round },
+              'class': { 'on-left': this.label && this.isRectangle },
               props: { name: this.icon }
             })
             : null,
 
-          this.label && !this.round ? h('div', [ this.label ]) : null,
+          this.label && this.isRectangle ? h('div', [ this.label ]) : null,
 
           this.$slots.default,
 
-          this.iconRight && !this.round
+          this.iconRight && this.isRectangle
             ? h('q-icon', {
               staticClass: 'on-right',
               props: { name: this.iconRight }

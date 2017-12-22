@@ -41,8 +41,14 @@ export default {
         }
       }
     },
+    isRectangle () {
+      return !this.isRound
+    },
+    isRound () {
+      return this.round || this.fab || this.fabMini
+    },
     shape () {
-      return `q-btn-${this.round || this.fab || this.fabMini ? 'round' : 'rectangle'}`
+      return `q-btn-${this.isRound ? 'round' : 'rectangle'}`
     },
     isDisabled () {
       return this.disable || this.loading
