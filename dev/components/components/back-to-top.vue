@@ -11,7 +11,7 @@
 
     <q-btn
       color="primary"
-      round
+      fab
       icon="keyboard_arrow_up"
       v-back-to-top.animate="{offset: 500, duration: 200}"
       class="fixed-bottom-right animate-pop"
