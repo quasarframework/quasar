@@ -125,6 +125,7 @@
       <p class="caption">With Detail</p>
       <p>
         <q-chip detail icon="mail">Detail</q-chip>
+        <q-chip detail square icon="mail">Detail</q-chip>
       </p>
     </div>
   </div>
