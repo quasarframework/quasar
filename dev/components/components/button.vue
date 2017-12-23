@@ -24,6 +24,23 @@
         <q-btn flat dense icon="sim_card" />
         <q-btn flat dense icon="gamepad" />
       </q-toolbar>
+      <q-toolbar color="black" style="width: 500px">
+        <q-btn flat round icon="menu" />
+        <q-btn flat round icon="android" />
+        <q-btn flat round icon="assignment_ind" />
+        <q-btn flat round icon="android" />
+        <q-toolbar-title>
+          Toolbar
+        </q-toolbar-title>
+        <q-btn flat round icon="sim_card" />
+        <q-btn flat round icon="gamepad" />
+      </q-toolbar>
+
+      <br><br>
+      <p>
+        <q-btn fab color="primary" icon="android" />
+        <q-btn fab-mini color="primary" icon="android" />
+      </p>
       <p class="caption">Regular (rectangle) and Circular</p>
       <q-btn color="primary">Some very, but very long button title that should wrap to the next line without any problems</q-btn>
       <p class="group">
