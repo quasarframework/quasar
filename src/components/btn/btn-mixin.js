@@ -2,12 +2,7 @@ import Ripple from '../../directives/ripple'
 import { QIcon } from '../icon'
 
 const sizes = {
-  rectangle: {
-    xs: 8, sm: 12, md: 16, lg: 20, xl: 24
-  },
-  round: {
-    xs: 24, sm: 40, md: 56, lg: 72, xl: 88
-  }
+  xs: '.571em', sm: '.785em', md: '1em', lg: '1.214em', xl: '1.428em'
 }
 
 export default {
@@ -33,16 +28,19 @@ export default {
     color: String,
     glossy: Boolean,
     compact: Boolean,
+    mini: Boolean,
     noRipple: Boolean
   },
   computed: {
     style () {
-      const def = sizes[this.round ? 'round' : 'rectangle']
+      if (typeof this.size !== 'string' || ['', 'dense', 'mini', 'md'].includes(this.size)) {
+        return {}
+      }
 
       return {
-        fontSize: this.size
-          ? (this.size in def ? `${def[this.size]}px` : this.size)
-          : `${def.md}px`
+        fontSize: this.size in sizes ? sizes[this.size] : this.size,
+        minHeight: 0,
+        minWidth: 0
       }
     },
     shape () {
@@ -62,9 +60,6 @@ export default {
       if (this.toggled) {
         cls.push('q-btn-toggle-active')
       }
-      if (this.compact) {
-        cls.push('q-btn-compact')
-      }
 
       if (this.flat) {
         cls.push('q-btn-flat')
@@ -83,8 +78,16 @@ export default {
         cls.push('q-focusable q-hoverable')
       }
 
+      if (this.round) {
+        (this.mini || this.size === 'mini') && cls.push('q-btn-mini')
+      }
+      else {
+        this.compact && cls.push('q-btn-compact')
+        this.rounded && cls.push('q-btn-rounded')
+      }
+
+      this.size === 'dense' && cls.push('q-btn-dense')
       this.noCaps && cls.push('q-btn-no-uppercase')
-      this.rounded && cls.push('q-btn-rounded')
       this.glossy && cls.push('glossy')
 
       if (color) {

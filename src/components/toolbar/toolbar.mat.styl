@@ -7,9 +7,13 @@
   background $toolbar-background
 
   > .q-btn
-    margin 0 .2rem
-    padding .2rem
-    &:first-child
+    margin 0 $button-padding-compact
+    &.q-btn-dense
+      padding-left $button-padding-compact
+      padding-right $button-padding-compact
+    &:not(.q-btn-dense)
+      padding $button-padding-compact
+    &:first-child, & + .q-btn
       margin-left 0
     &:last-child
       margin-right 0

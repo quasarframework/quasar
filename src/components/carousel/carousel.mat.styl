@@ -31,8 +31,7 @@
 .q-carousel-right-arrow
   top 50%
   transform translateY(-50%)
-  .q-icon
-    font-size 42px !important
+  font-size 42px
 .q-carousel-left-arrow
   left 5px
 .q-carousel-right-arrow
@@ -41,9 +40,9 @@
 .q-carousel-quick-nav
   padding 2px 0
   background $carousel-quick-nav-background
-  .q-icon
-    font-size $carousel-quick-nav-icon-font-size !important
-  .q-btn.inactive
-    opacity .5
-    .q-icon
-      font-size $carousel-quick-nav-icon-inactive-font-size !important
+  .q-btn
+    font-size $carousel-quick-nav-icon-font-size
+    &.inactive
+      opacity .5
+      .q-icon
+        font-size $carousel-quick-nav-icon-inactive-font-size

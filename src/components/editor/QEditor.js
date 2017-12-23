@@ -33,6 +33,10 @@ export default {
       type: String,
       default: 'white'
     },
+    toolbarSize: {
+      type: String,
+      default: 'dense'
+    },
     flat: Boolean,
     outline: Boolean,
     push: Boolean,
@@ -59,7 +63,7 @@ export default {
         outline: this.outline,
         flat: this.flat,
         push: this.push,
-        size: 'sm',
+        size: this.toolbarSize,
         compact: true
       }
     },

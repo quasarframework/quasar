@@ -63,7 +63,6 @@ export default {
             icon: this.icon,
             label: this.label,
             iconRight: this.split ? this.iconRight : null,
-            round: this.round,
             outline: this.outline,
             flat: this.flat,
             rounded: this.rounded,
@@ -111,7 +110,6 @@ export default {
           QBtn,
           {
             props: {
-              round: this.round,
               flat: this.flat,
               rounded: this.rounded,
               push: this.push,

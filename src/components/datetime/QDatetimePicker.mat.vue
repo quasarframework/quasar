@@ -103,8 +103,9 @@
           <div class="row items-center content-center">
             <q-btn
               round
-              size='sm'
+              mini
               flat
+              size="dense"
               :color="color"
               @click="setMonth(month - 1)"
               :disabled="beforeMinDays"
@@ -116,8 +117,9 @@
             </div>
             <q-btn
               round
-              size='sm'
+              mini
               flat
+              size="dense"
               :color="color"
               @click="setMonth(month + 1)"
               :disabled="afterMaxDays"

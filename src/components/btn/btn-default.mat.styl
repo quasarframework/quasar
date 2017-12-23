@@ -8,7 +8,6 @@
   vertical-align -webkit-baseline-middle
   cursor pointer
   -webkit-appearance button
-  padding $button-padding
   font-weight $button-font-weight
   text-decoration none
   color inherit
@@ -16,12 +15,16 @@
   box-shadow $button-shadow
   transition $button-transition
   text-transform uppercase
-  min-height (100 / 38)em
+  font-size $button-size
+  padding $button-padding
+  .q-btn-inner
+    min-height 24px
+    min-width 24px
   .q-icon
-    font-size (68 / 38)em
+    font-size 1.285em
   .q-spinner
-    height (68 / 38)em
-    width (68 / 38)em
+    height 1.285em
+    width 1.285em
 
   &.disabled
     opacity .7 !important
@@ -63,22 +66,33 @@
 
 .q-btn-round
   border-radius 50%
-  padding 0
   box-shadow $button-shadow
-  min-height 0
-  height 1em
-  width 1em
-  .q-icon
-    font-size .54em
-  .q-spinner
-    height .54em
-    width .54em
+  padding $button-round-padding
+  .q-btn-inner
+    height 1.285em
+    width 1.285em
   &:active
     box-shadow $shadow-8
 
-.q-btn-compact
-  padding 2px 6px
+@media (max-width $breakpoint-sm-max)
+  .q-btn-round
+    padding $button-round-padding-mini
+
+.q-btn-dense
+  font-size $button-size-dense
+  &:not(.q-btn-round)
+    padding $button-padding-dense
+  .q-btn-inner
+    min-height 22px
+    min-width 22px
+
+.q-btn-mini
+  padding $button-round-padding-mini
+
+.q-btn-compact:not(.q-btn-round)
+  padding-left $button-padding-compact
+  padding-right $button-padding-compact
   .on-left
-    margin-right 6px
+    margin-right $button-padding-compact
   .on-right
-    margin-left 6px
+    margin-left $button-padding-compact

@@ -1,9 +1,61 @@
 <template>
   <div>
     <div class="layout-padding buttons-test">
-      <p class="caption">Regular (rectangle) and Circular</p>
-      <q-btn color="primary">Some very, but very long button title that should wrap to the next line without any problems</q-btn>
+
       <p class="group">
+        <template v-for="n in ['xs', 'sm', 'dense', 'md', 'lg', 'xl']">
+          <span :key="'d0'+n">{{n}}</span>
+          <q-btn :key="'d1'+n" :size="n" icon="android" color="primary" compact />
+          <q-btn :key="'d2'+n" :size="n" icon="android" color="primary" />
+          <q-btn :key="'d3'+n" :size="n" icon="android" color="primary" label="Test" compact />
+          <q-btn :key="'d3'+n" :size="n" icon="android" color="primary" label="Test"/>
+          <q-btn :key="'d4'+n" :size="n" round icon="android" color="primary" />
+          <q-btn :key="'d5'+n" :size="n" round icon="android" color="primary" mini />
+          <q-btn :key="'d6'+n" :size="n" label="Test" color="primary" compact />
+          <q-btn :key="'d7'+n" :size="n" label="Test" color="primary" />
+          <br :key="'d8'+n"><br :key="'d9'+n">
+        </template>
+      </p>
+      <p class="group">
+        <template v-for="n in ['none', 'xs', 'sm', 'md', 'lg', 'xl']">
+          <span :key="'dp0'+n">Padding {{n}}</span>
+          <q-btn :key="'dp1'+n" :class="'q-pa-'+n" icon="android" color="primary" />
+          <q-btn :key="'dp2'+n" :class="'q-pa-'+n" icon="android" color="primary" label="Test"/>
+          <q-btn :key="'dp3'+n" :class="'q-pa-'+n" round icon="android" color="primary" />
+          <q-btn :key="'dp4'+n" :class="'q-pa-'+n" label="Test" color="primary" />
+          <br :key="'dp5'+n"><br :key="'dp6'+n">
+        </template>
+      </p>
+      <q-toolbar color="secondary" style="width: 500px">
+        <q-btn flat round icon="menu" />
+        <q-btn flat round icon="android" />
+        <q-btn flat icon="assignment_ind" />
+        <q-btn flat icon="android" />
+        <q-toolbar-title>
+          Toolbar
+        </q-toolbar-title>
+        <span>
+          <q-btn flat icon="sim_card" compact />
+        </span>
+        <q-btn flat icon="gamepad" />
+      </q-toolbar>
+      <q-toolbar color="primary" style="width: 500px">
+        <q-btn flat size="dense" icon="menu" />
+        <q-btn flat size="dense" icon="android" />
+        <q-btn flat size="dense" icon="assignment_ind" />
+        <q-btn flat size="dense" icon="android" />
+        <q-toolbar-title>
+          Toolbar
+        </q-toolbar-title>
+        <span>
+          <q-btn flat size="dense" icon="sim_card" compact />
+        </span>
+        <q-btn flat size="dense" icon="gamepad" />
+      </q-toolbar>
+
+      <p class="caption">Regular (rectangle) and Circular</p>
+      <p class="group">
+        <q-btn color="primary">Some very, but very long button title that should wrap to the next line without any problems</q-btn>
         <q-btn icon="alarm" color="orange" label="No ripple" no-ripple />
         <q-btn icon="alarm" color="orange" label="Icoon" />
         <q-btn icon="ion-shuffle" label="Icoon" />
@@ -15,7 +67,7 @@
         <q-btn icon="edit" icon-right="alarm" size="sm" label="Icoon" />
         <q-btn icon="edit" icon-right="alarm" size="lg" color="amber" label="Icoon" />
 
-        <q-btn size="sm" color="primary" icon="mail" />
+        <q-btn size="sm" color="primary" icon="mail" title="Size sm" />
         <q-btn color="primary" icon="mail" />
         <q-btn size="lg" color="primary" icon="mail" />
 
@@ -111,53 +163,86 @@
         <q-btn round loader :percentage="percentage" color="primary" @click="startProgress" icon="wifi" />
       </p>
 
-      <p class="caption">Small, Medium (default) and Big</p>
+      <p class="caption">Normal: xs, sm, dense, md (default), lg, xl</p>
       <p class="group">
-        <q-btn size="sm" color="primary" label="Button" />
-        <q-btn color="primary" label="Button" />
-        <q-btn size="lg" color="primary" label="Button" />
+        <q-btn size="xs" color="primary" label="Button xs" />
+        <q-btn size="sm" color="primary" label="Button sm" />
+        <q-btn size='dense' color="primary" label="Button dense" />
+        <q-btn color="primary" label="Button md" />
+        <q-btn size="lg" color="primary" label="Button lg" />
+        <q-btn size="xl" color="primary" label="Button xl" />
       </p>
       <p class="group">
-        <q-btn icon="check" size="sm" color="primary" label="Button" />
-        <q-btn icon="cloud" color="primary" label="Button" />
-        <q-btn icon="alarm" size="lg" color="primary" label="Button" />
+        <q-btn icon="check" size="xs" color="primary" label="Button xs" />
+        <q-btn icon="check" size="sm" color="primary" label="Button sm" />
+        <q-btn icon="check" size="dense" color="primary" label="Button dense" />
+        <q-btn icon="cloud" color="primary" label="Button md" />
+        <q-btn icon="alarm" size="lg" color="primary" label="Button lg" />
+        <q-btn icon="alarm" size="xl" color="primary" label="Button xl" />
       </p>
       <p class="group">
+        <q-btn round size="xs" icon="check" color="primary" />
         <q-btn round size="sm" icon="check" color="primary" />
         <q-btn round icon="cloud" color="primary" />
         <q-btn round size="lg" icon="alarm" color="primary" />
+        <q-btn round size="xl" icon="alarm" color="primary" />
+      </p>
+
+      <p class="caption">Compact: xs, sm, dense, md (default), lg, xl</p>
+      <p class="group">
+        <q-btn compact size="xs" color="primary" label="Button xs compact" />
+        <q-btn compact size="sm" color="primary" label="Button sm compact" />
+        <q-btn compact size='dense' color="primary" label="Button dense compact" />
+        <q-btn compact color="primary" label="Button md compact" />
+        <q-btn compact size="lg" color="primary" label="Button lg compact" />
+        <q-btn compact size="xl" color="primary" label="Button xl compact" />
+      </p>
+      <p class="group">
+        <q-btn compact icon="check" size="xs" color="primary" label="Button xs compact" />
+        <q-btn compact icon="check" size="sm" color="primary" label="Button sm compact" />
+        <q-btn compact icon="check" size="dense" color="primary" label="Button dense compact" />
+        <q-btn compact icon="cloud" color="primary" label="Button md compact" />
+        <q-btn compact icon="alarm" size="lg" color="primary" label="Button lg compact" />
+        <q-btn compact icon="alarm" size="xl" color="primary" label="Button xl compact" />
       </p>
 
       <p class="group">
-        <q-btn v-for="i in 30" :key="'a' + i" round icon="cloud" color="primary" :size="`${8 + i * 4}px`" :title="`Size ${8 + i * 4}px`" />
-        <q-btn v-for="size in sizes" :key="'aq' + size" round icon="cloud" color="primary" :size="size" :title="`Size ${size}`" />
+        <template v-for="i in 9">
+          <q-btn :key="'as' + i" round icon="cloud" color="primary" :size="`${4 + 4 * i}px`" :title="`Size ${4 + 4 * i}px`" />
+          <q-btn :key="'asm' + i" round mini icon="cloud" color="primary" :size="`${4 + 4 * i}px`" :title="`Size ${4 + 4 * i}px mini`" />
+        </template>
+      </p>
+      <p class="group">
+        <template v-for="size in sizes" v-if="size !== 'dense'">
+          <q-btn :key="'aq' + size" round icon="cloud" color="primary" :size="size" :title="`Size ${size}`" />
+          <q-btn :key="'aqm' + size" round mini icon="cloud" color="primary" :size="size" :title="`Size ${size} mini`" />
+        </template>
       </p>
 
       <p class="group">
-        <q-btn v-for="i in 15" :key="'b' + i" :label="`Size ${4 + i * 4}px`" color="primary" :size="`${4 + i * 4}px`" />
-        <q-btn v-for="size in sizes" :key="'c' + size" :label="`Size ${size}`" color="primary" :size="size" />
+        <template v-for="i in 15">
+          <q-btn :key="'bs' + i" :label="`Size ${6 + i}pt`" color="primary" :size="`${6 + i}pt`" />
+          <q-btn :key="'bsc' + i" compact :label="`Size ${6 + i}pt compact`" color="primary" :size="`${6 + i}pt`" />
+        </template>
+      </p>
+      <p class="group">
+        <template v-for="size in sizes">
+          <q-btn :key="'bq' + size" :label="`Size ${size}`" color="primary" :size="size" />
+          <q-btn :key="'bqc' + size" compact :label="`Size ${size} compact`" color="primary" :size="size" />
+        </template>
       </p>
 
       <p class="group">
-        <q-btn v-for="i in 15" :key="'d' + i" icon="cloud" :label="`Size ${4 + i * 4}px`" color="primary" :size="`${4 + i * 4}px`" />
-        <q-btn v-for="size in sizes" :key="'e' + size" icon="cloud" :label="`Size ${size}`" color="primary" :size="size" />
-      </p>
-
-      <p class="caption">Compact - Small, Medium (default) and Big</p>
-      <p class="group">
-        <q-btn compact size="sm" color="primary" label="Button" />
-        <q-btn compact color="primary" label="Button" />
-        <q-btn compact size="lg" color="primary" label="Button" />
+        <template v-for="i in 15">
+          <q-btn :key="'cs' + i" icon="cloud" :label="`Size ${6 + i}pt`" color="primary" :size="`${6 + i}pt`" />
+          <q-btn :key="'csc' + i" compact icon="cloud" :label="`Size ${6 + i}pt compact`" color="primary" :size="`${6 + i}pt`" />
+        </template>
       </p>
       <p class="group">
-        <q-btn compact icon="check" size="sm" color="primary" label="Button" />
-        <q-btn compact icon="cloud" color="primary" label="Button" />
-        <q-btn compact icon="alarm" size="lg" color="primary" label="Button" />
-      </p>
-      <p class="group">
-        <q-btn compact round size="sm" icon="check" color="primary" />
-        <q-btn compact round icon="cloud" color="primary" />
-        <q-btn compact round size="lg" icon="alarm" color="primary" />
+        <template v-for="size in sizes">
+          <q-btn :key="'cq' + size" icon="cloud" :label="`Size ${size}`" color="primary" :size="size" />
+          <q-btn :key="'cqc' + size" compact icon="cloud" :label="`Size ${size} compact`" color="primary" :size="size" />
+        </template>
       </p>
 
       <p class="caption">Regular with Icons</p>
@@ -296,7 +381,7 @@
           :glossy="extra === 'glossy'"
         >{{extra}}</q-btn>
       </div>
-      <div v-for="size in sizes" :key="'h' + size">
+      <div v-for="size in sizes" :key="'h' + size" v-if="size !== 'dense'">
         <h3 class="capitalize">{{size}}</h3>
         <q-btn color="primary" round :size="size"><q-icon :name="icon" /></q-btn>
         text
@@ -361,7 +446,7 @@ export default {
   data () {
     return {
       icon: 'alarm',
-      sizes: ['xs', 'sm', 'md', 'lg', 'xl'],
+      sizes: ['xs', 'sm', 'dense', 'md', 'lg', 'xl'],
       colors: [
         'primary', 'secondary', 'tertiary', 'positive', 'negative', 'warning', 'info', '', 'light', 'dark',
         'red', 'pink', 'purple', 'deep-purple', 'indigo', 'blue', 'light-blue', 'cyan', 'teal', 'green',

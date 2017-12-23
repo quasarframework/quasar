@@ -19,6 +19,7 @@
         :boundaryLinks="boundaryLinks"
         :directionLinks="directionLinks"
         :input="inputType"
+        :size="size"
       />
 
       <p class="caption">Disabled State</p>
@@ -28,6 +29,7 @@
         :boundaryLinks="boundaryLinks"
         :directionLinks="directionLinks"
         :input="inputType"
+        :size="size"
       />
 
       <p class="caption">Page buttons</p>
@@ -40,6 +42,7 @@
         :ellipses="ellipses"
         :maxPages="maxPages"
         :input="inputType"
+        :size="size"
       />
 
       <p class="caption">Page buttons - disabled</p>
@@ -52,6 +55,7 @@
         :ellipses="ellipses"
         :maxPages="maxPages"
         :input="inputType"
+        :size="size"
       />
 
       <p class="caption">Configuration</p>
@@ -78,6 +82,9 @@
           <q-input type="number" v-model="maxPages" stack-label="Maximum number of page buttons" />
         </div>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <q-select v-model="size" :options="sizeOptions" stack-label="Button size" />
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
           <q-toggle v-model="inputType" label="Input type" />
         </div>
       </div>
@@ -98,11 +105,13 @@ export default {
       directionLinks: true,
       ellipses: null,
       maxPages: 5,
+      size: 'dense',
       options: [
         {label: 'Yes', value: true},
         {label: 'No', value: false},
         {label: 'Default', value: null}
-      ]
+      ],
+      sizeOptions: ['xs', 'sm', 'dense', 'md', 'lg', 'xl'].map(s => ({ label: s, value: s }))
     }
   },
   methods: {

@@ -12,7 +12,7 @@
                 <q-item-tile label>Photos</q-item-tile>
                 <q-item-tile sublabel>February 22, 2016</q-item-tile>
               </q-item-main>
-              </q-item-side right icon="info" />
+              <q-item-side right icon="info" />
             </q-item>
             <q-item-separator inset />
             <q-list-header inset>Files</q-list-header>
@@ -22,7 +22,7 @@
                 <q-item-tile label>Vacation</q-item-tile>
                 <q-item-tile sublabel>February 22, 2016</q-item-tile>
               </q-item-main>
-              </q-item-side right icon="info" />
+              <q-item-side right icon="info" />
             </q-item>
           </q-list>
         </q-btn-dropdown>
@@ -35,7 +35,7 @@
                 <q-item-tile label>Photos</q-item-tile>
                 <q-item-tile sublabel>February 22, 2016</q-item-tile>
               </q-item-main>
-              </q-item-side right icon="info" />
+              <q-item-side right icon="info" />
             </q-item>
             <q-item-separator inset />
             <q-list-header inset>Files</q-list-header>
@@ -45,7 +45,7 @@
                 <q-item-tile label>Vacation</q-item-tile>
                 <q-item-tile sublabel>February 22, 2016</q-item-tile>
               </q-item-main>
-              </q-item-side right icon="info" />
+              <q-item-side right icon="info" />
             </q-item>
           </q-list>
         </q-btn-dropdown>
@@ -58,7 +58,7 @@
                 <q-item-tile label>Photos</q-item-tile>
                 <q-item-tile sublabel>February 22, 2016</q-item-tile>
               </q-item-main>
-              </q-item-side right icon="info" />
+              <q-item-side right icon="info" />
             </q-item>
             <q-item-separator inset />
             <q-list-header inset>Files</q-list-header>
@@ -68,7 +68,7 @@
                 <q-item-tile label>Vacation</q-item-tile>
                 <q-item-tile sublabel>February 22, 2016</q-item-tile>
               </q-item-main>
-              </q-item-side right icon="info" />
+              <q-item-side right icon="info" />
             </q-item>
           </q-list>
         </q-btn-dropdown>
@@ -81,7 +81,7 @@
                 <q-item-tile label>Photos</q-item-tile>
                 <q-item-tile sublabel>February 22, 2016</q-item-tile>
               </q-item-main>
-              </q-item-side right icon="info" />
+              <q-item-side right icon="info" />
             </q-item>
             <q-item-separator inset />
             <q-list-header inset>Files</q-list-header>
@@ -91,7 +91,7 @@
                 <q-item-tile label>Vacation</q-item-tile>
                 <q-item-tile sublabel>February 22, 2016</q-item-tile>
               </q-item-main>
-              </q-item-side right icon="info" />
+              <q-item-side right icon="info" />
             </q-item>
           </q-list>
         </q-btn-dropdown>
@@ -110,7 +110,7 @@ export default {
         {split: true, compact: false},
         {split: true, compact: true}
       ],
-      sizes: ['sm', 'md', 'lg']
+      sizes: ['xs', 'sm', 'dense', 'md', 'lg', 'xl']
     }
   },
   methods: {

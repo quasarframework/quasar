@@ -22,6 +22,7 @@ export default {
       type: String,
       default: 'primary'
     },
+    size: String,
     disable: Boolean,
     input: Boolean,
     boundaryLinks: {
@@ -121,7 +122,8 @@ export default {
         props: {
           color: this.color,
           flat: true,
-          compact: true
+          compact: true,
+          size: this.size
         }
       }, props))
     }
@@ -137,8 +139,7 @@ export default {
         key: 'bls',
         props: {
           disable: this.disable || this.value <= this.min,
-          icon: this.$q.icon.pagination.first,
-          size: 'sm'
+          icon: this.$q.icon.pagination.first
         },
         on: {
           click: () => this.set(this.min)
@@ -148,8 +149,7 @@ export default {
         key: 'ble',
         props: {
           disable: this.disable || this.value >= this.max,
-          icon: this.$q.icon.pagination.last,
-          size: 'sm'
+          icon: this.$q.icon.pagination.last
         },
         on: {
           click: () => this.set(this.max)
@@ -163,8 +163,7 @@ export default {
         props: {
           disable: this.disable || this.value <= this.min,
           icon: this.$q.icon.pagination.prev,
-          repeatTimeout: this.__getRepeatEasing(),
-          size: 'sm'
+          repeatTimeout: this.__getRepeatEasing()
         },
         on: {
           click: () => this.setByOffset(-1)
@@ -175,8 +174,7 @@ export default {
         props: {
           disable: this.disable || this.value >= this.max,
           icon: this.$q.icon.pagination.next,
-          repeatTimeout: this.__getRepeatEasing(),
-          size: 'sm'
+          repeatTimeout: this.__getRepeatEasing()
         },
         on: {
           click: () => this.setByOffset(1)
@@ -188,7 +186,7 @@ export default {
       contentMiddle.push(h(QInput, {
         staticClass: 'inline no-margin no-padding',
         style: {
-          width: `${this.inputPlaceholder.length}rem`
+          width: `${this.inputPlaceholder.length}em`
         },
         props: {
           type: 'number',
@@ -243,7 +241,7 @@ export default {
         }
       }
       const style = {
-        minWidth: `${Math.max(1.5, String(this.max).length)}em`
+        minWidth: `${2.2 * Math.max(1, String(this.max).length)}ex`
       }
       if (boundaryStart) {
         contentStart.push(this.__getBtn(h, {

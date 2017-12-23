@@ -110,7 +110,6 @@ export default {
     return h('button', {
       staticClass: 'q-btn row inline flex-center relative-position',
       'class': this.classes,
-      style: this.style,
       on,
       directives: this.hasRipple
         ? [{
@@ -129,12 +128,13 @@ export default {
         })
         : null,
 
-      h('span', {
-        staticClass: 'q-btn-inner row col flex-center',
+      h('div', {
+        staticClass: 'q-btn-inner row flex-center',
         'class': {
           'no-wrap': this.noWrap,
           'text-no-wrap': this.noWrap
-        }
+        },
+        style: this.style
       },
       this.loading
         ? [ this.$slots.loading || h(QSpinner) ]
