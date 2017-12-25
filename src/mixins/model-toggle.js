@@ -1,10 +1,6 @@
+/* eslint prefer-promise-reject-errors: 0 */
 import History from '../plugins/history'
 
-// Needs:
-// __show()
-// __hide()
-// Calling this.showPromiseResolve, this.hidePromiseResolve
-// avoid backbutton with setting noShowingHistory
 export default {
   props: {
     value: Boolean
@@ -30,16 +26,10 @@ export default {
   },
   methods: {
     toggle (evt) {
-      if (!this.disable) {
-        return this[this.showing ? 'hide' : 'show'](evt)
-      }
+      return this[this.showing ? 'hide' : 'show'](evt)
     },
     show (evt) {
-      if (this.disable) {
-        return Promise.reject(new Error())
-      }
-
-      if (this.showing) {
+      if (this.disable || this.showing) {
         return this.showPromise || Promise.resolve(evt)
       }
 
@@ -72,7 +62,7 @@ export default {
         }
         this.showPromiseReject = () => {
           this.showPromise = null
-          reject(new Error())
+          reject(null) // eslint prefer-promise-reject-errors: 0
         }
       })
 
@@ -80,11 +70,7 @@ export default {
       return this.showPromise || Promise.resolve(evt)
     },
     hide (evt) {
-      if (this.disable) {
-        return Promise.reject(new Error())
-      }
-
-      if (!this.showing) {
+      if (this.disable || !this.showing) {
         return this.hidePromise || Promise.resolve(evt)
       }
 
@@ -115,7 +101,7 @@ export default {
         }
         this.hidePromiseReject = () => {
           this.hidePromise = null
-          reject(new Error())
+          reject(null)
         }
       })
 

@@ -6,7 +6,7 @@
           <img src="~assets/donuts.png">
         </q-card-media>
         <q-card-title class="relative-position">
-          <q-btn round color="primary" icon="place" class="absolute" style="top: 0; right: 8px; transform: translateY(-50%);" />
+          <q-btn fab color="primary" icon="place" class="absolute" style="top: 0; right: 8px; transform: translateY(-50%);" />
 
           <div class="ellipsis">Cafe Basilico Cafe Basilico Cafe Basilico Cafe Basilico Cafe Basilico Cafe Basilico Cafe Basilico</div>
           <q-rating slot="subtitle" v-model="stars" :max="5" />
@@ -20,7 +20,7 @@
         </q-card-main>
         <q-card-separator />
         <q-card-actions>
-          <q-btn flat round size="sm" icon="event" />
+          <q-btn flat round icon="event" />
           <q-btn flat>5:30PM</q-btn>
           <q-btn flat>7:30PM</q-btn>
           <q-btn flat>9:00PM</q-btn>
@@ -64,7 +64,7 @@
         <q-card-title>
           Title
           <span slot="subtitle">Subtitle</span>
-          <q-icon slot="right" name="more_vert">
+          <q-btn round flat icon="more_vert" slot="right">
             <q-popover ref="popover">
               <q-list link class="no-border">
                 <q-item @click="$refs.popover.hide()">
@@ -78,7 +78,7 @@
                 </q-item>
               </q-list>
             </q-popover>
-          </q-icon>
+          </q-btn>
         </q-card-title>
         <q-card-main>
           {{lorem}}
@@ -326,9 +326,9 @@
           <img src="~assets/mountains.jpg">
         </q-card-media>
         <q-card-actions align="around">
-          <q-btn flat round size="sm" color="red" icon="favorite" />
-          <q-btn flat round size="sm" color="faded" icon="bookmark" />
-          <q-btn flat round size="sm" color="primary" icon="share" />
+          <q-btn flat round color="red" icon="favorite" />
+          <q-btn flat round color="faded" icon="bookmark" />
+          <q-btn flat round color="primary" icon="share" />
         </q-card-actions>
       </q-card>
 

@@ -9,19 +9,20 @@
   cursor pointer
   -webkit-appearance button
   padding $button-padding
+  font-size $button-font-size
   font-weight $button-font-weight
   text-decoration none
   color inherit
+  min-height 2.572em
   background transparent
   box-shadow $button-shadow
   transition $button-transition
   text-transform uppercase
-  min-height (100 / 38)em
   .q-icon
-    font-size (68 / 38)em
+    font-size 1.4em
   .q-spinner
-    height (68 / 38)em
-    width (68 / 38)em
+    height 1.4em
+    width 1.4em
 
   &.disabled
     opacity .7 !important
@@ -66,19 +67,29 @@
   padding 0
   box-shadow $button-shadow
   min-height 0
-  height 1em
-  width 1em
-  .q-icon
-    font-size .54em
-  .q-spinner
-    height .54em
-    width .54em
+  height 3em
+  width 3em
   &:active
     box-shadow $shadow-8
 
-.q-btn-compact
-  padding 2px 6px
+.q-btn-dense
+  padding $button-dense-padding
+  min-height 0
+  &.q-btn-round
+    padding 0
+    height 2.4em
+    width 2.4em
   .on-left
     margin-right 6px
   .on-right
     margin-left 6px
+
+.q-btn-fab, .q-btn-fab-mini
+  .q-icon
+    font-size 24px
+.q-btn-fab
+  height 56px
+  width 56px
+.q-btn-fab-mini
+  height 40px
+  width 40px

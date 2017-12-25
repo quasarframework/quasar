@@ -181,7 +181,7 @@ export default {
                   flat: true,
                   label: this.cancelLabel || this.$q.i18n.label.cancel,
                   waitForRipple: true,
-                  compact: true
+                  dense: true
                 },
                 on: { click: this.hide }
               }),
@@ -192,7 +192,7 @@ export default {
                     flat: true,
                     label: this.okLabel || this.$q.i18n.label.set,
                     waitForRipple: true,
-                    compact: true
+                    dense: true
                   },
                   on: {
                     click: () => {

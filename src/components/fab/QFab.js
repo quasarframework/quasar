@@ -38,7 +38,7 @@ export default {
     }, [
       h(QBtn, {
         props: {
-          round: true,
+          fab: true,
           outline: this.outline,
           push: this.push,
           flat: this.flat,

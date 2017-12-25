@@ -108,7 +108,7 @@ export default {
     on.click = this.click
 
     return h('button', {
-      staticClass: 'q-btn row inline flex-center q-focusable q-hoverable relative-position',
+      staticClass: 'q-btn row inline flex-center relative-position',
       'class': this.classes,
       style: this.style,
       on,
@@ -129,8 +129,8 @@ export default {
         })
         : null,
 
-      h('span', {
-        staticClass: 'q-btn-inner row col flex-center',
+      h('div', {
+        staticClass: 'q-btn-inner row flex-center',
         'class': {
           'no-wrap': this.noWrap,
           'text-no-wrap': this.noWrap
@@ -141,16 +141,16 @@ export default {
         : [
           this.icon
             ? h('q-icon', {
-              'class': { 'on-left': this.label && !this.round },
+              'class': { 'on-left': this.label && this.isRectangle },
               props: { name: this.icon }
             })
             : null,
 
-          this.label && !this.round ? h('span', [ this.label ]) : null,
+          this.label && this.isRectangle ? h('div', [ this.label ]) : null,
 
           this.$slots.default,
 
-          this.iconRight && !this.round
+          this.iconRight && this.isRectangle
             ? h('q-icon', {
               staticClass: 'on-right',
               props: { name: this.iconRight }

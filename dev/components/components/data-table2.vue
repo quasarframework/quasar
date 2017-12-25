@@ -86,8 +86,8 @@
       color="primary"
     >
       <template slot="top" slot-scope="props">
-        <q-btn flat color="primary" icon="add" label="Add row" />
-        <q-btn class="on-right" flat color="primary" icon="refresh" label="Refresh" />
+        <q-btn flat dense color="primary" icon="add" label="Add row" />
+        <q-btn class="on-right" flat dense color="primary" icon="refresh" label="Refresh" />
       </template>
     </q-table>
 

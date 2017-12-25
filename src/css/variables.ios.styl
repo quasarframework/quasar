@@ -18,8 +18,10 @@ $breadcrumb-hover     ?= $tertiary
 $breadcrumb-active    ?= darken($breadcrumb-hover, 15%)
 
 $button-border-radius         ?= $generic-border-radius
-$button-padding               ?= 0 16px
+$button-padding               ?= 4px 16px
+$button-dense-padding         ?= 6px
 $button-transition            ?= .12s ease-in
+$button-font-size             ?= 14px
 $button-rounded-border-radius ?= 28px
 $button-push-border-radius    ?= 7px
 
@@ -63,8 +65,10 @@ $item-base-color                   ?= $grey-5
 $item-highlight-color              ?= alpha($item-base-color, 50%)
 $item-stripe-color                 ?= alpha($item-base-color, 65%)
 $item-active-color                 ?= alpha($item-base-color, 40%)
-$item-primary-color                ?= rgba(0, 0, 0, .54)
+$item-primary-color                ?= currentColor
+$item-primary-opacity              ?= .54
 $item-secondary-color              ?= $item-primary-color
+$item-secondary-opacity            ?= $item-primary-opacity
 $item-label-color                  ?= $grey-7
 $item-content-secondary-text-color ?= $grey-7
 $item-separator-color              ?= rgb(224, 224, 224)

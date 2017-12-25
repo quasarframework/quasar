@@ -1,6 +1,46 @@
 <template>
   <div>
     <div class="layout-padding buttons-test">
+      <p class="group">
+        <template v-for="n in ['xs', 'sm', 'md', 'lg', 'xl']">
+          <span>{{n}}</span>
+          <q-btn :size="n" dense icon="android" color="primary" />
+          <q-btn :size="n" icon="android" color="primary" />
+          <q-btn :size="n" icon="android" color="primary" label="Test"/>
+          <q-btn :size="n" round icon="android" color="primary" />
+          <q-btn :size="n" round icon="android" color="primary" dense />
+          <q-btn :size="n" label="Test" color="primary" />
+          <br><br>
+        </template>
+      </p>
+      <q-toolbar color="secondary" style="width: 500px">
+        <q-btn flat dense round icon="menu" />
+        <q-btn flat round dense icon="android" />
+        <q-btn flat dense icon="assignment_ind" />
+        <q-btn flat dense icon="android" />
+        <q-toolbar-title>
+          Toolbar
+        </q-toolbar-title>
+        <q-btn flat dense icon="sim_card" />
+        <q-btn flat dense icon="gamepad" />
+      </q-toolbar>
+      <q-toolbar color="black" style="width: 500px">
+        <q-btn flat round icon="menu" />
+        <q-btn flat round icon="android" />
+        <q-btn flat round icon="assignment_ind" />
+        <q-btn flat round icon="android" />
+        <q-toolbar-title>
+          Toolbar
+        </q-toolbar-title>
+        <q-btn flat round icon="sim_card" />
+        <q-btn flat round icon="gamepad" />
+      </q-toolbar>
+
+      <br><br>
+      <p>
+        <q-btn fab color="primary" icon="android" />
+        <q-btn fab-mini color="primary" icon="android" />
+      </p>
       <p class="caption">Regular (rectangle) and Circular</p>
       <q-btn color="primary">Some very, but very long button title that should wrap to the next line without any problems</q-btn>
       <p class="group">
@@ -143,21 +183,21 @@
         <q-btn v-for="size in sizes" :key="'e' + size" icon="cloud" :label="`Size ${size}`" color="primary" :size="size" />
       </p>
 
-      <p class="caption">Compact - Small, Medium (default) and Big</p>
+      <p class="caption">dense - Small, Medium (default) and Big</p>
       <p class="group">
-        <q-btn compact size="sm" color="primary" label="Button" />
-        <q-btn compact color="primary" label="Button" />
-        <q-btn compact size="lg" color="primary" label="Button" />
+        <q-btn dense size="sm" color="primary" label="Button" />
+        <q-btn dense color="primary" label="Button" />
+        <q-btn dense size="lg" color="primary" label="Button" />
       </p>
       <p class="group">
-        <q-btn compact icon="check" size="sm" color="primary" label="Button" />
-        <q-btn compact icon="cloud" color="primary" label="Button" />
-        <q-btn compact icon="alarm" size="lg" color="primary" label="Button" />
+        <q-btn dense icon="check" size="sm" color="primary" label="Button" />
+        <q-btn dense icon="cloud" color="primary" label="Button" />
+        <q-btn dense icon="alarm" size="lg" color="primary" label="Button" />
       </p>
       <p class="group">
-        <q-btn compact round size="sm" icon="check" color="primary" />
-        <q-btn compact round icon="cloud" color="primary" />
-        <q-btn compact round size="lg" icon="alarm" color="primary" />
+        <q-btn dense round size="sm" icon="check" color="primary" />
+        <q-btn dense round icon="cloud" color="primary" />
+        <q-btn dense round size="lg" icon="alarm" color="primary" />
       </p>
 
       <p class="caption">Regular with Icons</p>

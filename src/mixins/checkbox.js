@@ -1,104 +1,69 @@
+import { stopAndPrevent } from '../utils/event'
+import TouchSwipe from '../directives/touch-swipe'
+
 export default {
+  directives: {
+    TouchSwipe
+  },
   props: {
-    value: {
-      type: [Boolean, Array],
-      required: true
-    },
-    val: {}
+    val: {},
+    trueValue: { default: true },
+    falseValue: { default: false }
   },
   computed: {
-    model: {
-      get () {
-        return this.value
-      },
-      set (val) {
-        if (this.value !== val) {
-          this.$emit('input', val)
-        }
-      }
+    isTrue () {
+      return this.modelIsArray
+        ? this.index > -1
+        : this.value === this.trueValue
     },
-    isArray () {
-      return Array.isArray(this.value)
+    isFalse () {
+      return this.modelIsArray
+        ? this.index === -1
+        : this.value === this.falseValue
     },
     index () {
-      if (this.isArray) {
-        return this.model.indexOf(this.val)
+      if (this.modelIsArray) {
+        return this.value.indexOf(this.val)
       }
     },
-    isActive () {
-      return this.isArray
-        ? this.model.indexOf(this.val) > -1
-        : this.model
+    modelIsArray () {
+      return Array.isArray(this.value)
     }
   },
   methods: {
-    toggle (withBlur) {
-      if (withBlur !== false) {
+    toggle (evt, blur = true) {
+      if (this.disable) {
+        return
+      }
+      if (evt) {
+        stopAndPrevent(evt)
+      }
+      if (blur) {
         this.$el.blur()
       }
 
-      if (this.disable) {
-        return
-      }
-      if (this.isArray) {
-        if (this.index !== -1) {
-          this.unselect()
+      let val
+
+      if (this.modelIsArray) {
+        if (this.isTrue) {
+          val = this.value.slice()
+          val.splice(this.index, 1)
         }
         else {
-          this.select()
+          val = this.value.concat(this.val)
         }
-        return
       }
-      this.model = !this.model
-      this.__onChange()
-    },
-    select () {
-      if (this.disable) {
-        return
+      else if (this.isTrue) {
+        val = this.toggleIndeterminate ? this.indeterminateValue : this.falseValue
       }
-      if (this.isArray) {
-        if (this.index === -1) {
-          this.model.push(this.val)
-          this.__onChange()
-        }
-        return
-      }
-      this.model = true
-      this.__onChange()
-    },
-    unselect () {
-      if (this.disable) {
-        return
-      }
-      if (this.isArray) {
-        if (this.index > -1) {
-          this.model.splice(this.index, 1)
-          this.__onChange()
-        }
-        return
-      }
-      this.model = false
-      this.__onChange()
-    },
-    __change (e) {
-      if (this.$q.platform.is.ios) {
-        this.toggle()
+      else if (this.isFalse) {
+        val = this.trueValue
       }
       else {
-        this.__onChange()
+        val = this.falseValue
       }
-    },
-    __onChange () {
-      const ref = this.$refs.ripple
-      if (ref) {
-        ref.classList.add('active')
-        setTimeout(() => {
-          ref.classList.remove('active')
-        }, 10)
-      }
-      this.$nextTick(() => {
-        this.$emit('change', this.model)
-      })
+
+      this.__update(val)
     }
   }
 }
