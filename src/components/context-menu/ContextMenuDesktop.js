@@ -43,8 +43,10 @@ export default {
   mounted () {
     this.target = this.$refs.popover.$el.parentNode
     this.target.addEventListener('contextmenu', this.__show)
+    this.target.addEventListener('click', this.hide)
   },
   beforeDestroy () {
     this.target.removeEventListener('contexmenu', this.__show)
+    this.target.removeEventListener('click', this.hide)
   }
 }

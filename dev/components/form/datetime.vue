@@ -39,7 +39,7 @@
         </small>
       </p>
       <q-datetime format="YYYY-MMMM-dddd Do Qo Q" v-model="model" type="date" align="right" />
-      <q-datetime stack-label="Stack Label" v-model="model" type="date" />
+      <q-datetime stack-label="Stack Label" v-model="model" type="date" clearable />
       <q-datetime float-label="Float Label" v-model="model" type="date" />
       <q-datetime hide-underline float-label="Float Label (hide underline)" v-model="model" type="date" />
 
@@ -47,6 +47,11 @@
       <q-datetime inverted v-model="model" type="date" />
       <q-datetime inverted color="secondary" stack-label="Stack Label" v-model="model" type="date" />
       <q-datetime inverted color="amber" float-label="Float Label" v-model="model" type="date" />
+
+      <p class="caption">
+        Lazy Input
+      </p>
+      <q-datetime :value="model" @change="val => { model = val }" type="date" />
 
       <p class="caption">
         Time

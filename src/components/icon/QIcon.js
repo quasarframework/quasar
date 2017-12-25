@@ -21,7 +21,12 @@ export default {
     if (!icon) {
       name = ''
     }
+    else if (icon.startsWith('fa-')) {
+      // Fontawesome 4
+      name = `fa ${icon}`
+    }
     else if (/^fa[s|r|l|b]{0,1} /.test(icon)) {
+      // Fontawesome 5
       name = icon
     }
     else if (icon.startsWith('bt-')) {

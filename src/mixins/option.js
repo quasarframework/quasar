@@ -28,7 +28,7 @@ export default {
       return !this.noFocus && !this.disable
     },
     tabindex () {
-      return this.focusable ? 0 : null
+      return this.focusable ? 0 : -1
     }
   }
 }

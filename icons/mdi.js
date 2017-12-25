@@ -41,7 +41,7 @@ export default {
       mat: 'mdi-checkbox-blank-outline'
     },
     indeterminate: {
-      ios: '',
+      ios: 'mdi-minus-circle-outline',
       mat: 'mdi-minus-box'
     }
   },
@@ -110,7 +110,7 @@ export default {
       mat: 'mdi-radiobox-marked'
     },
     unchecked: {
-      ios: 'mdi-radio-button-unchecked',
+      ios: '',
       mat: 'mdi-radiobox-blank'
     }
   },
