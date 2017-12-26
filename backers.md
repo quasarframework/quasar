@@ -41,9 +41,10 @@ It could be you!
 
 ### $10+
 
-- Max Matteo Staack ($40)
+- Max Matteo Staack ($50)
 - Valerian Cure ($25)
 - Shawn Makinson ($25)
+- Edinei Cipriani ($25)
 - Anca-Anamaria Enache ($20)
 - MSG Group ($20)
 - Pawel Rakowski ($20)
