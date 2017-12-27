@@ -36,6 +36,7 @@ It could be you!
 - ShipStream.io
 - MG Papelaria (company)
 - Moacir Schmidt
+- Evan Leonardi
 
 ---
 
