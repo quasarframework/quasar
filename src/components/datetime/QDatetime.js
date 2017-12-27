@@ -151,7 +151,8 @@ export default {
             color: this.color,
             value: this.model,
             disable: this.disable,
-            readonly: this.readonly
+            readonly: this.readonly,
+            localeView: this.localeView
           },
           on: {
             input: v => {

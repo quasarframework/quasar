@@ -2,11 +2,12 @@
   <div class="q-datetime" :class="['type-' + type, disable ? 'disabled' : '', readonly ? 'readonly' : '']">
     <slot></slot>
     <div class="q-datetime-content non-selectable">
-      <div class="q-datetime-inner full-height flex justify-center" @touchstart.stop.prevent>
+      <div class="q-datetime-inner full-height flex justify-center" @touchstart.stop.prevent :style="__localeViewStyle.qDatetimeInner">
         <template v-if="typeHasDate">
           <div
             class="q-datetime-col q-datetime-col-month"
             v-touch-pan.vertical="__dragMonth"
+            :style="__localeViewStyle.month"
           >
             <div ref="month" class="q-datetime-col-wrapper" :style="__monthStyle">
               <div
@@ -22,6 +23,7 @@
           <div
             class="q-datetime-col q-datetime-col-day"
             v-touch-pan.vertical="__dragDate"
+            :style="__localeViewStyle.date"
           >
             <div ref="date" class="q-datetime-col-wrapper" :style="__dayStyle">
               <div
@@ -37,6 +39,7 @@
           <div
             class="q-datetime-col q-datetime-col-year"
             v-touch-pan.vertical="__dragYear"
+            :style="__localeViewStyle.year"
           >
             <div ref="year" class="q-datetime-col-wrapper" :style="__yearStyle">
               <div
@@ -54,6 +57,7 @@
           <div
             class="q-datetime-col q-datetime-col-hour"
             v-touch-pan.vertical="__dragHour"
+            :style="__localeViewStyle.hour"
           >
             <div ref="hour" class="q-datetime-col-wrapper" :style="__hourStyle">
               <div
@@ -69,6 +73,7 @@
           <div
             class="q-datetime-col q-datetime-col-minute"
             v-touch-pan.vertical="__dragMinute"
+            :style="__localeViewStyle.minute"
           >
             <div ref="minute" class="q-datetime-col-wrapper" :style="__minuteStyle">
               <div
@@ -169,6 +174,19 @@ export default {
     },
     __minuteStyle () {
       return this.__colStyle(82 - (this.minute + this.minuteDragOffset) * 36)
+    },
+    __localeViewStyle () {
+      let localeObj = {}
+      let localeView = this.localeView || ''
+      let localeViewArray = localeView.split('_')
+      if (localeViewArray.length > 0) {
+        localeObj.qDatetimeInner = {
+          'justify-content': 'space-around',
+          'text-align': 'left'
+        }
+      }
+      let defaultLocaleViews = ['year', 'month', 'date', 'hour', 'minute']
+      return this.__itemOrder(localeViewArray, defaultLocaleViews, localeObj)
     }
   },
   methods: {
@@ -278,6 +296,12 @@ export default {
         '-ms-transform': 'translate3d(0, ' + translation + 'px, 0) rotateX(' + rotation + 'deg)',
         'transform': 'translate3d(0, ' + translation + 'px, 0) rotateX(' + rotation + 'deg)'
       }
+    },
+    __itemOrder (localeViewArray, defaultLocaleViews, localeObj) {
+      defaultLocaleViews.forEach((item, index) => {
+        localeObj[item] = {order: localeViewArray.indexOf(item) !== -1 ? localeViewArray.indexOf(item) : 0}
+      })
+      return localeObj
     },
 
     /* common */
