@@ -327,13 +327,13 @@
           <q-item-side right icon="more_vert">
             <q-popover ref="popover">
               <q-list link>
-                <q-item @click="$refs.popover.hide()">
+                <q-item @click.native="$refs.popover.hide()">
                   <q-item-main label="Reply" />
                 </q-item>
-                <q-item @click="$refs.popover.hide()">
+                <q-item @click.native="$refs.popover.hide()">
                   <q-item-main label="Forward" />
                 </q-item>
-                <q-item @click="$refs.popover.hide()">
+                <q-item @click.native="$refs.popover.hide()">
                   <q-item-main label="Delete" />
                 </q-item>
               </q-list>

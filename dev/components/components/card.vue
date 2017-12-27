@@ -67,13 +67,13 @@
           <q-btn round flat icon="more_vert" slot="right">
             <q-popover ref="popover">
               <q-list link class="no-border">
-                <q-item @click="$refs.popover.hide()">
+                <q-item @click.native="$refs.popover.hide()">
                   <q-item-main label="Remove Card" />
                 </q-item>
-                <q-item @click="$refs.popover.hide()">
+                <q-item @click.native="$refs.popover.hide()">
                   <q-item-main label="Send Feedback" />
                 </q-item>
-                <q-item @click="$refs.popover.hide()">
+                <q-item @click.native="$refs.popover.hide()">
                   <q-item-main label="Share" />
                 </q-item>
               </q-list>

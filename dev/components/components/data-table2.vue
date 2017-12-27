@@ -106,11 +106,11 @@
         <q-btn color="primary" flat round size="sm" icon="more_vert" class="on-right">
           <q-popover ref="popover">
             <q-list link>
-              <q-item @click="$refs.popover.hide()">
+              <q-item @click.native="$refs.popover.hide()">
                 <q-item-side icon="map" />
                 <q-item-main label="View map" />
               </q-item>
-              <q-item @click="$refs.popover.hide()">
+              <q-item @click.native="$refs.popover.hide()">
                 <q-item-side icon="add" />
                 <q-item-main label="Create new table" />
               </q-item>
