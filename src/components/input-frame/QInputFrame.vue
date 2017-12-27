@@ -12,9 +12,9 @@
         class="q-if-control q-if-control-before"
         :class="{hidden: __additionalHidden(item, hasError, hasWarning, length)}"
         :name="item.icon"
-        @mousedown="__onMouseDown"
-        @touchstart="__onMouseDown"
-        @click="__baHandler($event, item)"
+        @mousedown.native="__onMouseDown"
+        @touchstart.native="__onMouseDown"
+        @click.native="__baHandler($event, item)"
       ></q-icon>
     </template>
 
@@ -51,9 +51,9 @@
         class="q-if-control"
         :class="{hidden: __additionalHidden(item, hasError, hasWarning, length)}"
         :name="item.icon"
-        @mousedown="__onMouseDown"
-        @touchstart="__onMouseDown"
-        @click="__baHandler($event, item)"
+        @mousedown.native="__onMouseDown"
+        @touchstart.native="__onMouseDown"
+        @click.native="__baHandler($event, item)"
       ></q-icon>
     </template>
   </div>

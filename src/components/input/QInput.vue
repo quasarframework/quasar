@@ -85,9 +85,9 @@
       slot="after"
       :name="$q.icon.input[showPass ? 'showPass' : 'hidePass']"
       class="q-if-control"
-      @mousedown="__clearTimer"
-      @touchstart="__clearTimer"
-      @click="togglePass"
+      @mousedown.native="__clearTimer"
+      @touchstart.native="__clearTimer"
+      @click.native="togglePass"
     ></q-icon>
 
     <q-icon
@@ -95,9 +95,9 @@
       slot="after"
       :name="$q.icon.input[showNumber ? 'showNumber' : 'hideNumber']"
       class="q-if-control"
-      @mousedown="__clearTimer"
-      @touchstart="__clearTimer"
-      @click="toggleNumber"
+      @mousedown.native="__clearTimer"
+      @touchstart.native="__clearTimer"
+      @click.native="toggleNumber"
     ></q-icon>
 
     <q-icon
@@ -105,9 +105,9 @@
       slot="after"
       :name="$q.icon.input.clear"
       class="q-if-control"
-      @mousedown="__clearTimer"
-      @touchstart="__clearTimer"
-      @click="clear"
+      @mousedown.native="__clearTimer"
+      @touchstart.native="__clearTimer"
+      @click.native="clear"
     ></q-icon>
 
     <q-spinner

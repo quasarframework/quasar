@@ -59,11 +59,6 @@
 </template>
 
 <script>
-import {
-  QBtn,
-  QIcon
-} from 'quasar'
-
 const alerts = [
   { color: 'negative', message: 'Woah! Danger! You are getting good at this!', icon: 'report_problem' },
   { color: 'pink', message: 'You need to know about this!', icon: 'warning' },
@@ -73,10 +68,6 @@ const alerts = [
 ]
 
 export default {
-  components: {
-    QBtn,
-    QIcon
-  },
   data () {
     return {
       visible: true,

@@ -110,7 +110,7 @@ function getDropdown (h, vm, btn) {
         {
           props: { active, link: !disable },
           staticClass: disable ? 'disabled' : '',
-          on: {
+          nativeOn: {
             click (e) {
               if (disable) { return }
               closeDropdown()

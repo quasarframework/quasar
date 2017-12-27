@@ -1,6 +1,5 @@
 export default {
   name: 'q-card-actions',
-  functional: true,
   props: {
     vertical: Boolean,
     align: {
@@ -9,17 +8,18 @@ export default {
       validator: v => ['start', 'center', 'end', 'around', 'between'].includes(v)
     }
   },
-  render (h, ctx) {
-    const
-      data = ctx.data,
-      classes = data.staticClass,
-      prop = ctx.props
-
-    data.staticClass = `q-card-actions ` +
-      `q-card-actions-${prop.vertical ? 'vert column justify-start' : 'horiz row'} ` +
-      `${prop.vertical ? 'items' : 'justify'}-${prop.align}` +
-      `${classes ? ` ${classes}` : ''}`
-
-    return h('div', data, ctx.children)
+  computed: {
+    classes () {
+      return `q-card-actions-${this.vertical ? 'vert column justify-start' : 'horiz row'} ` +
+        `${this.vertical ? 'items' : 'justify'}-${this.align}`
+    }
+  },
+  render (h) {
+    return h('div', {
+      staticClass: 'q-card-actions',
+      'class': this.classes
+    }, [
+      this.$slots.default
+    ])
   }
 }

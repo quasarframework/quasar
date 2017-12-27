@@ -276,7 +276,7 @@ export default {
         ? h('q-icon', {
           slot: 'after',
           props: { name: this.$q.icon.input.clear },
-          on: { click: this.clear },
+          nativeOn: { click: this.clear },
           staticClass: 'q-if-control'
         })
         : null,

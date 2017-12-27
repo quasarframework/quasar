@@ -3,7 +3,6 @@ import { textStyle, getType } from './list-utils'
 
 export default {
   name: 'q-item-tile',
-  functional: true,
   props: {
     icon: String,
     inverted: Boolean,
@@ -23,37 +22,38 @@ export default {
       default: 'div'
     }
   },
-  render (h, ctx) {
+  render (h) {
     const
-      data = ctx.data,
-      prop = ctx.props,
-      cls = data.staticClass,
-      type = getType(prop),
-      textColor = prop.color ? ` text-${prop.color}` : '',
-      bgColor = prop.color ? ` bg-${prop.color}` : ''
-
-    data.staticClass = `q-item-${type}${cls ? ` ${cls}` : ''}`
-
-    if (prop.icon) {
-      data.props = { name: prop.icon }
-      data.staticClass += prop.inverted
-        ? ` q-item-icon-inverted${bgColor}`
-        : textColor
-
-      return h(QIcon, data, ctx.children)
-    }
-
-    data.staticClass += prop.letter && prop.inverted
-      ? ` q-item-letter-inverted${bgColor}`
-      : textColor
-
-    if ((prop.label || prop.sublabel) && prop.lines) {
-      if (prop.lines === '1' || prop.lines === 1) {
-        data.staticClass += ' ellipsis'
+      textColor = this.color ? ` text-${this.color}` : '',
+      bgColor = this.color ? ` bg-${this.color}` : '',
+      data = {
+        'class': ['q-item-' + getType(this.$props)]
       }
-      data.style = [data.style, textStyle(prop.lines)]
+
+    if (this.icon) {
+      data.props = { name: this.icon }
+      data['class'].push(
+        this.inverted
+          ? `q-item-icon-inverted${bgColor}`
+          : textColor
+      )
+
+      return h(QIcon, data, [ this.$slots.default ])
     }
 
-    return h(prop.tag, data, ctx.children)
+    data['class'].push(
+      this.letter && this.inverted
+        ? `q-item-letter-inverted${bgColor}`
+        : textColor
+    )
+
+    if ((this.label || this.sublabel) && this.lines) {
+      if (this.lines === '1' || this.lines === 1) {
+        data['class'].push('ellipsis')
+      }
+      data.style = textStyle(this.lines)
+    }
+
+    return h(this.tag, data, [ this.$slots.default ])
   }
 }

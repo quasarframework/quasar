@@ -1,6 +1,5 @@
 export default {
   name: 'q-modal-layout',
-  functional: true,
   props: {
     headerStyle: [String, Object, Array],
     headerClass: [String, Object, Array],
@@ -11,39 +10,36 @@ export default {
     footerStyle: [String, Object, Array],
     footerClass: [String, Object, Array]
   },
-  render (h, ctx) {
-    const
-      child = [],
-      props = ctx.props,
-      slots = ctx.slots()
+  render (h) {
+    const child = []
 
-    if (slots.header || (__THEME__ !== 'ios' && slots.navigation)) {
+    if (this.$slots.header || (__THEME__ !== 'ios' && this.$slots.navigation)) {
       child.push(h('div', {
         staticClass: 'q-layout-header',
-        style: props.headerStyle,
-        'class': props.headerClass
+        style: this.headerStyle,
+        'class': this.headerClass
       }, [
-        slots.header,
-        __THEME__ !== 'ios' ? slots.navigation : null
+        this.$slots.header,
+        __THEME__ !== 'ios' ? this.$slots.navigation : null
       ]))
     }
 
     child.push(h('div', {
       staticClass: 'q-modal-layout-content col scroll',
-      style: props.contentStyle,
-      'class': props.contentClass
+      style: this.contentStyle,
+      'class': this.contentClass
     }, [
-      slots.default
+      this.$slots.default
     ]))
 
-    if (slots.footer || (__THEME__ === 'ios' && slots.navigation)) {
+    if (this.$slots.footer || (__THEME__ === 'ios' && this.$slots.navigation)) {
       child.push(h('div', {
         staticClass: 'q-layout-footer',
-        style: props.footerStyle,
-        'class': props.footerClass
+        style: this.footerStyle,
+        'class': this.footerClass
       }, [
-        slots.footer,
-        __THEME__ === 'ios' ? slots.navigation : null
+        this.$slots.footer,
+        __THEME__ === 'ios' ? this.$slots.navigation : null
       ]))
     }
 
