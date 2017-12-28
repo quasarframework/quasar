@@ -51,11 +51,11 @@ export default {
       }, [
         this.$slots.tooltip,
         h(QIcon, {
-          staticClass: 'q-fab-icon absolute-full row flex-center full-width full-height',
+          staticClass: 'q-fab-icon absolute-full',
           props: { name: this.icon || this.$q.icon.fab.icon }
         }),
         h(QIcon, {
-          staticClass: 'q-fab-active-icon absolute-full row flex-center full-width full-height',
+          staticClass: 'q-fab-active-icon absolute-full',
           props: { name: this.activeIcon || this.$q.icon.fab.activeIcon }
         })
       ]),

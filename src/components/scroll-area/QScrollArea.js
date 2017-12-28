@@ -172,7 +172,7 @@ export default {
     }, [
       h('div', {
         ref: 'target',
-        staticClass: 'scroll relative-position overflow-hidden full-height full-width',
+        staticClass: 'scroll relative-position overflow-hidden fit',
         on: {
           wheel: this.__mouseWheel,
           mousewheel: this.__mouseWheel,
