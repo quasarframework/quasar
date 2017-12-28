@@ -17,6 +17,8 @@ export default {
     return h('div', {
       staticClass: 'q-btn-group row no-wrap inline',
       'class': this.classes
-    })
+    }, [
+      this.$slots.default
+    ])
   }
 }
