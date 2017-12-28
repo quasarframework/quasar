@@ -1,40 +1,31 @@
 export default {
   name: 'q-td',
-  functional: true,
   props: {
     props: Object,
     autoWidth: Boolean
   },
-  render (h, ctx) {
-    const
-      data = ctx.data,
-      prop = ctx.props.props,
-      name = ctx.data.key,
-      autoWidth = ctx.props.autoWidth
-
-    let
-      col,
-      cls = data.staticClass
-
-    if (autoWidth) {
-      cls = `q-table-col-auto-width${cls ? ` ${cls}` : ''}`
+  render (h) {
+    if (!this.props) {
+      return h('td', {
+        'class': { 'q-table-col-auto-width': this.autoWidth }
+      }, [ this.$slots.default ])
     }
 
-    if (!prop) {
-      data.staticClass = cls
-      return h('td', data, ctx.children)
-    }
+    let col
+    const name = this.$vnode.key
 
     if (name) {
-      col = prop.colsMap[name]
+      col = this.props.colsMap[name]
       if (!col) { return }
     }
     else {
-      col = prop.col
+      col = this.props.col
     }
 
-    data.staticClass = `${col.__tdClass}${cls ? ` ${cls}` : ''}`
-
-    return h('td', data, ctx.children)
+    return h('td', {
+      'class': [col.__tdClass, {
+        'q-table-col-auto-width': this.autoWidth
+      }]
+    }, [ this.$slots.default ])
   }
 }

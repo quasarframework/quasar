@@ -1,38 +1,38 @@
 export default {
   name: 'q-card',
-  functional: true,
   props: {
     square: Boolean,
     flat: Boolean,
     inline: Boolean,
-    color: String
+    color: String,
+    textColor: String
   },
-  render (h, ctx) {
-    const
-      data = ctx.data,
-      classes = data.staticClass,
-      prop = ctx.props
+  computed: {
+    classes () {
+      const cls = [{
+        'no-border-radius': this.square,
+        'no-shadow': this.flat,
+        'inline-block': this.inline
+      }]
 
-    let cls = ['q-card']
-    if (prop.square) {
-      cls.push('no-border-radius')
-    }
-    if (prop.flat) {
-      cls.push('no-shadow')
-    }
-    if (prop.inline) {
-      cls.push('inline-block')
-    }
-    if (prop.color) {
-      cls.push(`bg-${prop.color} text-white q-card-dark`)
-    }
+      if (this.color) {
+        cls.push(`bg-${this.color}`)
+        cls.push(`q-card-dark`)
+        cls.push(`text-${this.textColor || 'white'}`)
+      }
+      else if (this.textColor) {
+        cls.push(`text-${this.textColor}`)
+      }
 
-    data.staticClass = `${cls.join(' ')}${classes ? ` ${classes}` : ''}`
-
-    return h(
-      'div',
-      data,
-      ctx.children
-    )
+      return cls
+    }
+  },
+  render (h) {
+    return h('div', {
+      staticClass: 'q-card',
+      'class': this.classes
+    }, [
+      this.$slots.default
+    ])
   }
 }

@@ -3,10 +3,6 @@ import QBtnToggle from './QBtnToggle'
 
 export default {
   name: 'q-btn-toggle-group',
-  components: {
-    QBtnGroup,
-    QBtnToggle
-  },
   props: {
     value: {
       required: true
@@ -26,7 +22,7 @@ export default {
     noWrap: Boolean,
     outline: Boolean,
     flat: Boolean,
-    compact: Boolean,
+    dense: Boolean,
     rounded: Boolean,
     push: Boolean,
     size: String,
@@ -79,7 +75,7 @@ export default {
           push: this.push,
           glossy: this.glossy,
           size: this.size,
-          compact: this.compact,
+          dense: this.dense,
           noRipple: this.noRipple,
           waitForRipple: this.waitForRipple
         }

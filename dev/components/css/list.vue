@@ -20,44 +20,44 @@
 
       <p class="caption">Dense List</p>
       <q-list dense>
-        <q-item :key="n" v-for="n in 3">
+        <q-item :key="'ak' + n" v-for="n in 3">
           <q-item-main label="List Item" />
         </q-item>
       </q-list>
       <q-list>
-        <q-item :key="n" v-for="n in 3" dense>
+        <q-item :key="'al' + n" v-for="n in 3" dense>
           <q-item-main label="List Item" />
         </q-item>
       </q-list>
 
       <p class="caption">Sparse List</p>
       <q-list sparse>
-        <q-item :key="n" v-for="n in 3">
+        <q-item :key="'am' + n" v-for="n in 3">
           <q-item-main label="List Item" />
         </q-item>
       </q-list>
       <q-list>
-        <q-item :key="n" v-for="n in 3" sparse>
+        <q-item :key="'an' + n" v-for="n in 3" sparse>
           <q-item-main label="List Item" />
         </q-item>
       </q-list>
 
       <p class="caption">No Border</p>
       <q-list no-border>
-        <q-item :key="n" v-for="n in 3">
+        <q-item :key="'ao' + n" v-for="n in 3">
           <q-item-main label="List Item" />
         </q-item>
       </q-list>
 
       <p class="caption">Striped</p>
       <q-list striped>
-        <q-item :key="n" v-for="n in 6">
+        <q-item :key="'ap' + n" v-for="n in 6">
           <q-item-main label="List Item" />
         </q-item>
       </q-list>
 
       <q-list striped-odd>
-        <q-item :key="n" v-for="n in 3">
+        <q-item :key="'aq' + n" v-for="n in 3">
           <q-item-main label="List Item" />
         </q-item>
       </q-list>
@@ -79,33 +79,33 @@
 
       <p class="caption">Separator within Items</p>
       <q-list separator>
-        <q-item :key="n" v-for="n in 3">
+        <q-item :key="'ba' + n" v-for="n in 3">
           <q-item-main label="List Item" />
         </q-item>
       </q-list>
 
       <q-list>
-        <q-item :key="n" v-for="n in 3" separator>
+        <q-item :key="'bb' + n" v-for="n in 3" separator>
           <q-item-main label="List Item" />
         </q-item>
       </q-list>
 
       <p class="caption">Inset Separator within Items</p>
       <q-list inset-separator>
-        <q-item :key="n" v-for="n in 3">
+        <q-item :key="'bc' + n" v-for="n in 3">
           <q-item-main inset label="List Item" />
         </q-item>
       </q-list>
 
       <q-list>
-        <q-item :key="n" v-for="n in 3" inset-separator>
+        <q-item :key="'bd' + n" v-for="n in 3" inset-separator>
           <q-item-main inset label="List Item" />
         </q-item>
       </q-list>
 
       <p class="caption">Router Links</p>
       <q-list>
-        <q-item to="/" exact v-for="n in 2" :key="n">
+        <q-item to="/" exact v-for="n in 2" :key="'be' + n">
           <q-item-main inset label="Go to Home" />
         </q-item>
       </q-list>
@@ -113,12 +113,12 @@
       <p class="caption">List Labels</p>
       <q-list>
         <q-list-header>List Label</q-list-header>
-        <q-item :key="n" v-for="n in 2">
+        <q-item :key="'bf' + n" v-for="n in 2">
           <q-item-main label="List Item" />
         </q-item>
         <q-item-separator />
         <q-list-header>Another List Label</q-list-header>
-        <q-item :key="n" v-for="n in 3">
+        <q-item :key="'bg' + n" v-for="n in 3">
           <q-item-main label="List Item" />
         </q-item>
       </q-list>
@@ -130,7 +130,7 @@
         </q-item>
         <q-item-separator inset />
         <q-list-header inset>Inset List Label</q-list-header>
-        <q-item :key="n" v-for="n in 2">
+        <q-item :key="'bh' + n" v-for="n in 2">
           <q-item-main inset label="List Item" />
         </q-item>
         <q-item-separator inset />
@@ -152,7 +152,7 @@
         </small>
       </p>
       <q-list highlight>
-        <q-item :key="n" v-for="n in 2">
+        <q-item :key="'bi' + n" v-for="n in 2">
           <q-item-main label="List Item" />
         </q-item>
       </q-list>
@@ -170,7 +170,7 @@
         </small>
       </p>
       <q-list link>
-        <q-item :key="n" v-for="n in 2">
+        <q-item :key="'bj' + n" v-for="n in 2">
           <q-item-main label="List Item" />
         </q-item>
       </q-list>
@@ -327,13 +327,13 @@
           <q-item-side right icon="more_vert">
             <q-popover ref="popover">
               <q-list link>
-                <q-item @click="$refs.popover.hide()">
+                <q-item @click.native="$refs.popover.hide()">
                   <q-item-main label="Reply" />
                 </q-item>
-                <q-item @click="$refs.popover.hide()">
+                <q-item @click.native="$refs.popover.hide()">
                   <q-item-main label="Forward" />
                 </q-item>
-                <q-item @click="$refs.popover.hide()">
+                <q-item @click.native="$refs.popover.hide()">
                   <q-item-main label="Delete" />
                 </q-item>
               </q-list>
@@ -353,7 +353,7 @@
           <q-item-side right>
             <q-item-tile stamp>10 min ago</q-item-tile>
             <span class="text-amber">
-              <q-item-tile icon="star" v-for="n in 2" :key="n" />
+              <q-item-tile icon="star" v-for="n in 2" :key="'bk' + n" />
             </span>
           </q-item-side>
         </q-item>
@@ -361,12 +361,12 @@
 
       <q-list>
         <q-collapsible icon="inbox" indent label="Inbox" sublabel="Where your email is">
-          <q-item v-for="n in 3" :key="n">
+          <q-item v-for="n in 3" :key="'bl' + n">
             <q-item-side icon="mail" />
             <q-item-main :label="`Email ${n + 1}`" />
           </q-item>
           <q-collapsible icon="favorite" label="Favorites">
-            <q-item v-for="n in 3" :key="n">
+            <q-item v-for="n in 3" :key="'bm' + n">
               <q-item-side icon="mail" />
               <q-item-main :label="`Favorite ${n + 1}`" />
             </q-item>
@@ -377,13 +377,13 @@
           </q-item>
         </q-collapsible>
         <q-collapsible icon="send" label="Sent">
-          <q-item v-for="n in 3" :key="n">
+          <q-item v-for="n in 3" :key="'bn' + n">
             <q-item-side icon="mail" />
             <q-item-main :label="`Email ${n + 1}`" />
           </q-item>
         </q-collapsible>
         <q-collapsible icon="delete" label="Trash">
-          <q-item v-for="n in 3" :key="n">
+          <q-item v-for="n in 3" :key="'bo' + n">
             <q-item-side icon="mail" />
             <q-item-main :label="`Email ${n + 1}`" />
           </q-item>
@@ -399,21 +399,21 @@
             <q-item-tile icon="chat_bubble" color="green" />
           </q-item-side>
         </q-item>
-        <q-item v-for="n in 3" :key="n">
+        <q-item v-for="n in 3" :key="'bp' + n">
           <q-item-side avatar="/statics/boy-avatar.png" />
           <q-item-main label="John Doe" />
           <q-item-side right icon="chat_bubble" />
         </q-item>
         <q-item-separator />
         <q-list-header>Previous chats</q-list-header>
-        <q-item v-for="n in 3" :key="n">
+        <q-item v-for="n in 3" :key="'bq' + n">
           <q-item-side avatar="/statics/guy-avatar.png" />
           <q-item-main label="Jack Doe" />
         </q-item>
       </q-list>
 
       <q-list>
-        <q-item v-for="n in 3" :key="n">
+        <q-item v-for="n in 3" :key="'br' + n">
           <q-item-side icon="star" color="yellow" />
           <q-item-main label="John Joe" />
           <q-item-side right>
@@ -423,39 +423,39 @@
           </q-item-side>
         </q-item>
         <q-item-separator inset />
-        <q-item v-for="n in 3" :key="n">
+        <q-item v-for="n in 3" :key="'bs' + n">
           <q-item-side letter="A" />
           <q-item-main label="John Joe" />
           <q-item-side right avatar="/statics/boy-avatar.png" />
         </q-item>
         <q-list-header inset>Normal - default color</q-list-header>
-        <q-item v-for="n in 3" :key="n" link>
+        <q-item v-for="n in 3" :key="'bt' + n" link>
           <q-item-side letter="A" />
           <q-item-main label="John Joe" />
           <q-item-side right icon="alarm" />
           <q-item-side right stamp="Stamp" />
         </q-item>
         <q-list-header inset>Normal - with color</q-list-header>
-        <q-item v-for="n in 3" :key="n" link>
+        <q-item v-for="n in 3" :key="'bu' + n" link>
           <q-item-side letter="A" :color="`red-${n + 2}`" />
           <q-item-main label="John Joe" />
           <q-item-side right icon="alarm" :color="`red-${n + 2}`" />
           <q-item-side right stamp="Stamp" :color="`red-${n + 2}`" />
         </q-item>
         <q-list-header inset>Inverted - default color</q-list-header>
-        <q-item v-for="n in 3" :key="n" link>
+        <q-item v-for="n in 3" :key="'bv' + n" link>
           <q-item-side letter="A" inverted />
           <q-item-main label="John Joe" />
           <q-item-side right icon="alarm" inverted />
         </q-item>
         <q-list-header inset>Inverted - with color</q-list-header>
-        <q-item v-for="n in 3" :key="n" link>
+        <q-item v-for="n in 3" :key="'bx' + n" link>
           <q-item-side letter="A" inverted :color="`red-${n + 2}`" />
           <q-item-main label="John Joe" />
           <q-item-side right icon="alarm" inverted :color="`red-${n + 2}`" />
         </q-item>
         <q-list-header inset>Normal - Tile - default color</q-list-header>
-        <q-item v-for="n in 3" :key="n" link>
+        <q-item v-for="n in 3" :key="'by' + n" link>
           <q-item-side>
             <q-item-tile letter>A</q-item-tile>
           </q-item-side>
@@ -468,7 +468,7 @@
           </q-item-side>
         </q-item>
         <q-list-header inset>Normal - Tile - with color</q-list-header>
-        <q-item v-for="n in 3" :key="n" link>
+        <q-item v-for="n in 3" :key="'bw' + n" link>
           <q-item-side>
             <q-item-tile letter :color="`red-${n + 2}`">A</q-item-tile>
           </q-item-side>
@@ -481,7 +481,7 @@
           </q-item-side>
         </q-item>
         <q-list-header inset>Inverted - Tile - default color</q-list-header>
-        <q-item v-for="n in 3" :key="n" link>
+        <q-item v-for="n in 3" :key="'bz' + n" link>
           <q-item-side>
             <q-item-tile letter inverted>A</q-item-tile>
           </q-item-side>
@@ -491,7 +491,7 @@
           </q-item-side>
         </q-item>
         <q-list-header inset>Inverted - Tile - with color</q-list-header>
-        <q-item v-for="n in 3" :key="n" link>
+        <q-item v-for="n in 3" :key="'ca' + n" link>
           <q-item-side>
             <q-item-tile letter inverted :color="`red-${n + 2}`">A</q-item-tile>
           </q-item-side>
@@ -504,7 +504,7 @@
 
       <q-list>
         <q-list-header inset>Folders</q-list-header>
-        <q-item v-for="n in 3" :key="n">
+        <q-item v-for="n in 3" :key="'cb' + n">
           <q-item-side icon="folder" inverted color="grey-6" />
           <q-item-main>
             <q-item-tile label>Photos</q-item-tile>
@@ -514,7 +514,7 @@
         </q-item>
         <q-item-separator inset />
         <q-list-header inset>Files</q-list-header>
-        <q-item v-for="n in 3" :key="n">
+        <q-item v-for="n in 3" :key="'cc' + n">
           <q-item-side icon="assignment" inverted color="grey-6" />
           <q-item-main>
             <q-item-tile label>Vacation</q-item-tile>
@@ -724,7 +724,7 @@
       </q-list>
 
       <q-list>
-        <q-item v-for="n in 3" :key="n">
+        <q-item v-for="n in 3" :key="'cd' + n">
           <q-item-side icon="phone" color="primary" v-if="n === 1" />
           <q-item-main :inset="n > 1">
             <q-item-tile label>(650) 555 - 1234</q-item-tile>
@@ -733,7 +733,7 @@
           <q-item-side right icon="chat_bubble" />
         </q-item>
         <q-item-separator inset />
-        <q-item v-for="n in 3" :key="n">
+        <q-item v-for="n in 3" :key="'ce' + n">
           <q-item-side icon="mail" color="primary" v-if="n === 1" />
           <q-item-main :inset="n > 1">
             <q-item-tile label>john@doe.com</q-item-tile>

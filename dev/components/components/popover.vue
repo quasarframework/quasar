@@ -15,7 +15,7 @@
               <q-item
                 v-for="n in 20"
                 :key="n"
-                @click="showNotify(), $refs.popover1.hide()"
+                @click.native="showNotify(), $refs.popover1.hide()"
               >
                 <q-item-main label="Label" sublabel="Click me" />
               </q-item>
@@ -123,7 +123,7 @@
             <q-item
               v-for="n in 20"
               :key="n"
-              @click="showNotify(), $refs.popover5.hide()"
+              @click.native="showNotify(), $refs.popover5.hide()"
             >
               <q-item-main label="Label" sublabel="Click me" />
             </q-item>

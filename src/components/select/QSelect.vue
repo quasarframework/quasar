@@ -58,7 +58,7 @@
         slot="after"
         name="cancel"
         class="q-if-control"
-        @click.stop="clear"
+        @click.stop.native="clear"
       />
     </template>
     <q-icon
@@ -107,18 +107,17 @@
         class="no-border scroll"
         :style="{ maxHeight: listMaxHeight }"
         :tabindex="0"
-        @keydown="__handleKeydown"
+        @keydown.native="__handleKeydown"
       >
         <template v-if="!emptyText">
           <q-item-wrapper
             v-for="(opt, index) in visibleOptions"
             :key="JSON.stringify(opt)"
             :cfg="opt"
-            :active="selectedIndex === index"
             :class="getItemClass(opt)"
             slot-replace
-            @mouseenter="!isItemDisabled(opt) && (selectedIndex = index)"
-            @click.capture="selectItem(opt)"
+            @mouseenter.native="!isItemDisabled(opt) && (selectedIndex = index)"
+            @click.native.capture="selectItem(opt)"
           >
             <q-toggle
               v-if="multiple && toggle"
@@ -266,6 +265,9 @@ export default {
       if ((this.multiple && this.optModel[opt.index]) || (!this.multiple && this.value === opt.value)) {
         itemClass.push(`text-${this.color}`)
       }
+      if (this.selectedIndex === opt.index) {
+        itemClass.push('active')
+      }
       return itemClass
     },
     isItemDisabled (opt) {
@@ -295,26 +297,26 @@ export default {
       !this.multiple && this.$refs.input.$el.focus()
     },
     scrollToSelectedItem (onShow = false) {
-      const selected = this.$refs.list.querySelector('.q-item.active')
+      const selected = this.$refs.list.$el.querySelector('.q-item.active')
       if (selected) {
         let offset = 0
         this.$refs.filter && (offset -= this.$refs.filter.$el.clientHeight)
-        onShow && (offset += this.$refs.list.clientHeight / 2)
+        onShow && (offset += this.$refs.list.$el.clientHeight / 2)
         const selectedTop = selected.offsetTop + offset
         const selectedBottom = selected.offsetTop + selected.offsetHeight + offset
-        const listTop = this.$refs.list.scrollTop
-        const listBottom = listTop + this.$refs.list.clientHeight
+        const listTop = this.$refs.list.$el.scrollTop
+        const listBottom = listTop + this.$refs.list.$el.clientHeight
         if (selectedTop < listTop) {
-          this.$refs.list.scrollTop = selectedTop
+          this.$refs.list.$el.scrollTop = selectedTop
         }
         else if (selectedBottom > listBottom) {
-          this.$refs.list.scrollTop = selectedBottom - this.$refs.list.clientHeight
+          this.$refs.list.$el.scrollTop = selectedBottom - this.$refs.list.$el.clientHeight
         }
       }
     },
     onShowPopover () {
       this.selectedIndex = this.length > 0 ? this.currentSelectedIndex : this.defaultSelectedIndex
-      this.filter && this.$q.platform.is.desktop ? this.$refs.filter.focus() : this.$refs.list.focus()
+      this.filter && this.$q.platform.is.desktop ? this.$refs.filter.focus() : this.$refs.list.$el.focus()
       this.$nextTick(this.scrollToSelectedItem.bind(null, true))
       this.focused = true
     },

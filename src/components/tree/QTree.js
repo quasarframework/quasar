@@ -447,7 +447,7 @@ export default {
                   staticClass: 'q-tree-arrow q-mr-xs transition-generic',
                   'class': { 'rotate-90': meta.expanded },
                   props: { name: this.computedIcon },
-                  on: this.hasSelection
+                  nativeOn: this.hasSelection
                     ? { click: e => { this.__onExpandClick(node, meta, e) } }
                     : undefined
                 })
@@ -459,11 +459,10 @@ export default {
               ? h(QCheckbox, {
                 staticClass: 'q-mr-xs',
                 props: {
-                  value: meta.ticked,
+                  value: meta.indeterminate ? null : meta.ticked,
                   color: this.computedControlColor,
                   dark: this.dark,
                   keepColor: true,
-                  indeterminate: meta.indeterminate,
                   disable: !meta.tickable
                 },
                 on: {

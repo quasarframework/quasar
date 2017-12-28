@@ -60,7 +60,7 @@ export default {
         flat: this.flat,
         push: this.push,
         size: 'sm',
-        compact: true
+        dense: true
       }
     },
     buttonDef () {

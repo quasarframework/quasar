@@ -71,7 +71,7 @@ export default {
               color: this.color,
               round: true,
               icon: this.$q.icon.table.prevPage,
-              size: 'sm',
+              dense: true,
               flat: true,
               disable: page === 1
             },
@@ -86,7 +86,7 @@ export default {
               color: this.color,
               round: true,
               icon: this.$q.icon.table.nextPage,
-              size: 'sm',
+              dense: true,
               flat: true,
               disable: this.lastRowIndex === 0 || page * rowsPerPage >= this.computedRowsNumber
             },

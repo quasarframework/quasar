@@ -2,7 +2,6 @@ import { QIcon } from '../icon'
 
 export default {
   name: 'q-item-side',
-  functional: true,
   props: {
     right: Boolean,
 
@@ -23,61 +22,62 @@ export default {
       default: 'div'
     }
   },
-  render (h, ctx) {
-    const
-      data = ctx.data,
-      prop = ctx.props,
-      cls = data.staticClass
-
-    data.staticClass = `q-item-side q-item-side-${prop.right ? 'right' : 'left'} q-item-section${prop.color ? ` text-${prop.color}` : ''}${cls ? ` ${cls}` : ''}`
-
-    if (prop.image) {
-      if (!data.hasOwnProperty('attrs')) {
-        data.attrs = {}
+  computed: {
+    classes () {
+      return [
+        `q-item-side-${this.right ? 'right' : 'left'}`,
+        `${this.color ? `text-${this.color}` : ''}`,
+        this.image ? 'q-item-image' : ''
+      ]
+    },
+    subClasses () {
+      return {
+        'q-item-letter-inverted': this.inverted,
+        [`bg-${this.color}`]: this.color && this.inverted
       }
-      data.attrs.src = prop.image
-      data.staticClass += ' q-item-image'
+    }
+  },
+  render (h) {
+    const data = {
+      staticClass: 'q-item-side q-item-section',
+      'class': this.classes
+    }
+
+    if (this.image) {
+      data.attrs = { src: this.image }
       return h('img', data)
     }
 
-    let child = []
+    return h(this.tag, data, [
+      this.stamp
+        ? h('div', { staticClass: 'q-item-stamp' }, [
+          this.stamp
+        ])
+        : null,
 
-    if (prop.stamp) {
-      child.push(h('div', {
-        staticClass: 'q-item-stamp',
-        domProps: {
-          innerHTML: prop.stamp
-        }
-      }))
-    }
-    if (prop.icon) {
-      child.push(h(QIcon, {
-        props: { name: prop.icon },
-        staticClass: 'q-item-icon',
-        class: {
-          'q-item-icon-inverted': prop.inverted,
-          [`bg-${prop.color}`]: prop.color && prop.inverted
-        }
-      }))
-    }
-    if (prop.avatar) {
-      child.push(h('img', {
-        attrs: { src: prop.avatar },
-        staticClass: 'q-item-avatar'
-      }))
-    }
-    if (prop.letter) {
-      child.push(h('div', {
-        staticClass: 'q-item-letter',
-        class: {
-          'q-item-letter-inverted': prop.inverted,
-          [`bg-${prop.color}`]: prop.color && prop.inverted
-        }
-      }, prop.letter
-      ))
-    }
+      this.icon
+        ? h(QIcon, {
+          props: { name: this.icon },
+          staticClass: 'q-item-icon',
+          'class': this.subClasses
+        })
+        : null,
 
-    child.push(ctx.children)
-    return h(prop.tag, data, child)
+      this.avatar
+        ? h('img', {
+          staticClass: 'q-item-avatar',
+          attrs: { src: this.avatar }
+        })
+        : null,
+
+      this.letter
+        ? h('div', {
+          staticClass: 'q-item-letter',
+          'class': this.subClasses
+        }, [ this.letter ])
+        : null,
+
+      this.$slots.default
+    ])
   }
 }

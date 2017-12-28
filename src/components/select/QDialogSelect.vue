@@ -56,7 +56,7 @@
       slot="after"
       name="cancel"
       class="q-if-control"
-      @click.stop="clear"
+      @click.stop.native="clear"
     ></q-icon>
     <q-icon slot="after" :name="$q.icon.input.dropdown" class="q-if-control"></q-icon>
   </q-input-frame>

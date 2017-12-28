@@ -85,12 +85,12 @@
 
     <p class="caption">Group a.k.a Accordion (opening one closes the other)</p>
     <q-list>
-      <q-collapsible group="somegroup" icon="explore" label="First" :value="true">
+      <q-collapsible group="somegroup" icon="explore" label="First" :value="true" header-class="bg-primary text-white">
         <div>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
         </div>
       </q-collapsible>
-      <q-collapsible group="somegroup" icon="perm_identity" label="Second">
+      <q-collapsible group="somegroup" icon="perm_identity" label="Second" header-class="text-negative">
         <div>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
         </div>

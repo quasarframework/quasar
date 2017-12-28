@@ -56,7 +56,7 @@ export default {
             attrs: {
               tabindex: 0
             },
-            on: {
+            nativeOn: {
               click: this.__onCancel,
               keydown: this.__onCancel
             }
@@ -115,7 +115,7 @@ export default {
           attrs: {
             tabindex: 0
           },
-          on: {
+          nativeOn: {
             click: () => this.__onOk(action),
             keydown: (e) => this.__onOk(action)
           }

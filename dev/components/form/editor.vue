@@ -1,6 +1,7 @@
 <template>
   <div class="layout-padding">
     <q-editor
+      style="margin-right: 8em"
       ref="editor"
       v-model="model"
       :toolbar="[
@@ -70,14 +71,14 @@
         gogu: {tip: 'Custom', icon: 'account_balance', handler: vm => vm.runCmd('print')}
       }"
     >
-      <q-btn compact size="sm" color="yellow" slot="custom_btn">Wow</q-btn>
-      <q-btn-dropdown size="sm" compact no-caps ref="token" no-wrap slot="token" color="green" label="Token">
+      <q-btn dense size="sm" color="yellow" slot="custom_btn">Wow</q-btn>
+      <q-btn-dropdown size="sm" dense no-caps ref="token" no-wrap slot="token" color="green" label="Token">
         <q-list link separator>
-          <q-item tag="label" @click="add('email')">
+          <q-item tag="label" @click.native="add('email')">
             <q-item-side icon="mail" />
             <q-item-main label="Email" />
           </q-item>
-          <q-item tag="label" @click="add('title')">
+          <q-item tag="label" @click.native="add('title')">
             <q-item-side icon="title" />
             <q-item-main label="Title" />
           </q-item>

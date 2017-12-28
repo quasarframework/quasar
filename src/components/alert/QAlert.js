@@ -71,7 +71,7 @@ export default {
               h(QBtn, {
                 props: {
                   flat: true,
-                  compact: true,
+                  dense: true,
                   icon: action.icon,
                   label: action.closeBtn === true
                     ? (typeof action.label === 'string' ? action.label : this.$q.i18n.label.close)

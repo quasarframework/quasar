@@ -185,7 +185,7 @@ export default {
             limit: this.options.limit
           },
           on: {
-            change: v => { this.options.model = v }
+            input: v => { this.options.model = v }
           }
         })
       ]

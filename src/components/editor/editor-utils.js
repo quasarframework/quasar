@@ -38,6 +38,7 @@ function getBtn (h, vm, btn, clickHandler) {
       props: extend({
         icon: btn.icon,
         label: btn.label,
+        dense: true,
         toggled: btn.toggled ? btn.toggled(vm) : btn.cmd && vm.caret.is(btn.cmd, btn.param),
         color: vm.color,
         toggleColor: vm.toggleColor,
@@ -51,6 +52,7 @@ function getBtn (h, vm, btn, clickHandler) {
       props: extend({
         icon: btn.icon,
         color: vm.color,
+        dense: true,
         label: btn.label,
         disable: btn.disable ? btn.disable(vm) : false
       }, vm.buttonProps),
@@ -108,7 +110,7 @@ function getDropdown (h, vm, btn) {
         {
           props: { active, link: !disable },
           staticClass: disable ? 'disabled' : '',
-          on: {
+          nativeOn: {
             click (e) {
               if (disable) { return }
               closeDropdown()
@@ -246,23 +248,24 @@ export function getLinkEditor (h, vm) {
           props: {
             color: 'negative',
             label: vm.$q.i18n.label.remove,
-            size: 'sm',
             flat: true,
-            compact: true,
+            dense: true,
             noCaps: true
           },
           on: {
-            click: updateLink
+            click: () => {
+              vm.caret.restore()
+              document.execCommand('unlink')
+              vm.editLinkUrl = null
+            }
           }
         }),
         h(QBtn, {
           key: 'qedt_btm_upd',
           props: {
-            color: 'primary',
             label: vm.$q.i18n.label.update,
-            size: 'sm',
             flat: true,
-            compact: true,
+            dense: true,
             noCaps: true
           },
           on: {

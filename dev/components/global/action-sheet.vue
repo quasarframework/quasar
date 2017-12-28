@@ -12,7 +12,7 @@
           link
           v-for="dialog in types"
           :key="dialog.label"
-          @click="dialog.handler()"
+          @click.native="dialog.handler()"
           v-ripple.mat
         >
           <q-item-side icon="settings" />

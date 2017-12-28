@@ -26,7 +26,6 @@ function push (child, h, name, slot, replace, conf) {
 
 export default {
   name: 'q-item-wrapper',
-  functional: true,
   props: {
     cfg: {
       type: Object,
@@ -34,14 +33,13 @@ export default {
     },
     slotReplace: Boolean
   },
-  render (h, ctx) {
+  render (h) {
     const
-      cfg = ctx.props.cfg,
-      replace = ctx.props.slotReplace,
-      slot = ctx.slots(),
+      cfg = this.cfg,
+      replace = this.slotReplace,
       child = []
 
-    push(child, h, QItemSide, slot.left, replace, {
+    push(child, h, QItemSide, this.$slots.left, replace, {
       icon: cfg.icon,
       color: cfg.leftColor,
       avatar: cfg.avatar,
@@ -49,7 +47,7 @@ export default {
       image: cfg.image
     })
 
-    push(child, h, QItemMain, slot.main, replace, {
+    push(child, h, QItemMain, this.$slots.main, replace, {
       label: cfg.label,
       sublabel: cfg.sublabel,
       labelLines: cfg.labelLines,
@@ -57,7 +55,7 @@ export default {
       inset: cfg.inset
     })
 
-    push(child, h, QItemSide, slot.right, replace, {
+    push(child, h, QItemSide, this.$slots.right, replace, {
       right: true,
       icon: cfg.rightIcon,
       color: cfg.rightColor,
@@ -67,11 +65,8 @@ export default {
       stamp: cfg.stamp
     })
 
-    if (slot.default) {
-      child.push(slot.default)
-    }
+    child.push(this.$slots.default)
 
-    ctx.data.props = cfg
-    return h(QItem, ctx.data, child)
+    return h(QItem, { props: cfg }, child)
   }
 }

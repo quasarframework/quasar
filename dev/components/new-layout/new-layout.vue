@@ -3,20 +3,20 @@
   <q-layout :view="view" @scroll="onScroll">
     <q-layout-header v-model="header" :reveal="headerReveal">
       <q-toolbar>
-        <q-btn flat icon="menu" @click="left = !left" />
+        <q-btn flat round dense icon="menu" @click="left = !left" />
         <q-toolbar-title>
           Header
           <span slot="subtitle">The Subtiiiitleeee</span>
         </q-toolbar-title>
-        <q-btn flat icon="menu" @click="right = !right" />
+        <q-btn flat round dense icon="menu" @click="right = !right" />
       </q-toolbar>
       <q-toolbar>
-        <q-btn flat icon="menu" @click="left = !left" />
+        <q-btn flat round dense icon="menu" @click="left = !left" />
         <q-toolbar-title>
           Header
           <span slot="subtitle">The Subtiiiitleeee</span>
         </q-toolbar-title>
-        <q-btn flat icon="menu" @click="right = !right" />
+        <q-btn flat round dense icon="menu" @click="right = !right" />
       </q-toolbar>
       <q-tabs>
         <q-route-tab slot="title" icon="view_quilt" to="/layout-quick/default" replace hide="icon" label="Default" />
@@ -28,18 +28,18 @@
 
     <q-layout-footer v-model="footer" :reveal="footerReveal">
       <q-toolbar>
-        <q-btn flat icon="menu" @click="left = !left" />
+        <q-btn flat round dense icon="menu" @click="left = !left" />
         <q-toolbar-title>
           Footer
         </q-toolbar-title>
-        <q-btn flat icon="menu" @click="right = !right" />
+        <q-btn flat round dense icon="menu" @click="right = !right" />
       </q-toolbar>
       <q-toolbar>
-        <q-btn flat icon="menu" @click="left = !left" />
+        <q-btn flat round dense icon="menu" @click="left = !left" />
         <q-toolbar-title>
           Footer
         </q-toolbar-title>
-        <q-btn flat icon="menu" @click="right = !right" />
+        <q-btn flat round dense icon="menu" @click="right = !right" />
       </q-toolbar>
     </q-layout-footer>
 

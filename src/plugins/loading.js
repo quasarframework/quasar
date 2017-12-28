@@ -26,7 +26,7 @@ const Loading = {
     props.messageColor = messageColor
 
     if (customClass && typeof customClass === 'string') {
-      props.customClass = ` ${customClass.trim()}`
+      props.customClass = customClass.trim()
     }
 
     if (this.isActive) {
@@ -44,27 +44,26 @@ const Loading = {
       vm = new this.__Vue({
         name: 'q-loading',
         el: node,
-        functional: true,
         render (h) {
-          const child = [
+          return h('div', {
+            staticClass,
+            'class': props.customClass
+          }, [
             h(props.spinner, {
               props: {
                 color: props.spinnerColor,
                 size: props.spinnerSize
               }
-            })
-          ]
-
-          if (message) {
-            child.push(h('div', {
-              staticClass: `text-${props.messageColor}`,
-              domProps: {
-                innerHTML: props.message
-              }
-            }))
-          }
-
-          return h('div', {staticClass: staticClass + props.customClass}, child)
+            }),
+            message
+              ? h('div', {
+                'class': `text-${props.messageColor}`,
+                domProps: {
+                  innerHTML: props.message
+                }
+              })
+              : null
+          ])
         }
       })
     }, delay)
