@@ -226,7 +226,7 @@ export default {
         staticClass: `q-layout-drawer-opener fixed-${this.side}`,
         directives: [{
           name: 'touch-pan',
-          modifier: { horizontal: true },
+          modifiers: { horizontal: true },
           value: this.__openByTouch
         }]
       }))
@@ -237,7 +237,7 @@ export default {
         on: { click: this.hide },
         directives: [{
           name: 'touch-pan',
-          modifier: { horizontal: true },
+          modifiers: { horizontal: true },
           value: this.__closeByTouch
         }]
       }))
@@ -250,7 +250,7 @@ export default {
         style: this.computedStyle,
         directives: this.mobileView ? [{
           name: 'touch-pan',
-          modifier: { horizontal: true },
+          modifiers: { horizontal: true },
           value: this.__closeByTouch
         }] : null
       }, [
@@ -308,6 +308,7 @@ export default {
       if (!this.mobileOpened) {
         return
       }
+
       const
         width = this.size,
         position = evt.direction === this.side
