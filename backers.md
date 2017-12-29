@@ -47,6 +47,7 @@ It could be you!
 - Shawn Makinson ($25)
 - Edinei Cipriani ($25)
 - Anca-Anamaria Enache ($20)
+- Carlos Tulloch ($20)
 - MSG Group ($20)
 - Pawel Rakowski ($20)
 - Jonas Viczian ($15)
@@ -74,6 +75,7 @@ It could be you!
 - Klemens Witting
 - Jochen Geiger
 - Rok Kogovšek
+- Josh Torres
 
 - Ken ($5)
 - Oliver ($5)
