@@ -76,6 +76,7 @@ It could be you!
 - Jochen Geiger
 - Rok Kogovšek
 - Josh Torres
+- Stian Mikkelsen
 
 - Ken ($5)
 - Oliver ($5)
