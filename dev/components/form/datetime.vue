@@ -97,8 +97,7 @@
       <q-datetime type="datetime" v-model="minMaxModel" :min="min" :max="max" />
 
       <p class="caption">Locale View</p>
-      <q-datetime @change="onChange" v-model="model" type="datetime" locale-view="year_month_date_hour_minute"/>
-      <q-datetime @change="onChange" v-model="model" type="datetime" locale-view="month_date_year_hour_minute"/>
+      <q-datetime @change="onChange" v-model="model" type="datetime" format="YYYY-MM-DD HH:mm"/>
 
       <p class="caption">Inside of a List</p>
       <q-list>
@@ -181,7 +180,7 @@
       <p class="caption">Min & Max</p>
       <q-datetime-picker type="datetime" v-model="minMaxModel" :min="min" :max="max" />
       <p class="caption">Locale View</p>
-      <q-datetime-picker type="datetime" v-model="model" align="right"  locale-view="year_month_date_hour_minute"/>
+      <q-datetime-picker type="datetime" v-model="model" align="right"  format="YYYY-MM-DDTHH:mm:ss.SSSZ"/>
     </div>
   </div>
 </template>

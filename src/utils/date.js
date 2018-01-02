@@ -516,3 +516,8 @@ export function formatDate (val, mask = 'YYYY-MM-DDTHH:mm:ss.SSSZ') {
       : text.split('\\]').join(']')
   })
 }
+
+export function matchFormat (format) {
+  format = format || ''
+  return format.match(token)
+}

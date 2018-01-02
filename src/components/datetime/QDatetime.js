@@ -152,7 +152,7 @@ export default {
             value: this.model,
             disable: this.disable,
             readonly: this.readonly,
-            localeView: this.localeView
+            format: this.format
           },
           on: {
             input: v => {

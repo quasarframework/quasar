@@ -98,7 +98,7 @@
 import { between, capitalize } from '../../utils/format'
 import { position, stopAndPrevent } from '../../utils/event'
 import { css } from '../../utils/dom'
-import { isSameDate, adjustDate } from '../../utils/date'
+import { isSameDate, adjustDate, matchFormat } from '../../utils/date'
 import DateMixin from './datetime-mixin'
 import TouchPan from '../../directives/touch-pan'
 
@@ -111,7 +111,8 @@ export default {
   props: {
     defaultSelection: [String, Number, Date],
     disable: Boolean,
-    readonly: Boolean
+    readonly: Boolean,
+    format: String
   },
   data () {
     return {
@@ -177,16 +178,8 @@ export default {
     },
     __localeViewStyle () {
       let localeObj = {}
-      let localeView = this.localeView || ''
-      let localeViewArray = localeView.split('_')
-      if (localeViewArray.length > 0) {
-        localeObj.qDatetimeInner = {
-          'justify-content': 'space-around',
-          'text-align': 'left'
-        }
-      }
-      let defaultLocaleViews = ['year', 'month', 'date', 'hour', 'minute']
-      return this.__itemOrder(localeViewArray, defaultLocaleViews, localeObj)
+      let formatArray = matchFormat(this.format)
+      return this.__itemOrder(formatArray, localeObj)
     }
   },
   methods: {
@@ -297,10 +290,76 @@ export default {
         'transform': 'translate3d(0, ' + translation + 'px, 0) rotateX(' + rotation + 'deg)'
       }
     },
-    __itemOrder (localeViewArray, defaultLocaleViews, localeObj) {
-      defaultLocaleViews.forEach((item, index) => {
-        localeObj[item] = {order: localeViewArray.indexOf(item) !== -1 ? localeViewArray.indexOf(item) : 0}
-      })
+    __itemOrder (formatArray, localeObj) {
+      if (formatArray && formatArray.length > 0) {
+        let yearOrder = 0, monthOrder = 0, dateOrder = 0, hourOrder = 0, minuteOrder = 0
+        if (formatArray.indexOf('YYYY') !== -1) {
+          yearOrder = formatArray.indexOf('YYYY')
+        }
+        else if (formatArray.indexOf('YY') !== -1) {
+          yearOrder = formatArray.indexOf('YY')
+        }
+        if (formatArray.indexOf('MM') !== -1) {
+          monthOrder = formatArray.indexOf('MM')
+        }
+        else if (formatArray.indexOf('M') !== -1) {
+          monthOrder = formatArray.indexOf('M')
+        }
+        else if (formatArray.indexOf('MMM') !== -1) {
+          monthOrder = formatArray.indexOf('YY')
+        }
+        else if (formatArray.indexOf('MMMM') !== -1) {
+          monthOrder = formatArray.indexOf('MMMM')
+        }
+        if (formatArray.indexOf('DD') !== -1) {
+          dateOrder = formatArray.indexOf('DD')
+        }
+        else if (formatArray.indexOf('D') !== -1) {
+          dateOrder = formatArray.indexOf('YY')
+        }
+        else if (formatArray.indexOf('Do') !== -1) {
+          dateOrder = formatArray.indexOf('Do')
+        }
+        if (formatArray.indexOf('HH') !== -1) {
+          hourOrder = formatArray.indexOf('HH')
+        }
+        else if (formatArray.indexOf('H') !== -1) {
+          hourOrder = formatArray.indexOf('H')
+        }
+        else if (formatArray.indexOf('h') !== -1) {
+          hourOrder = formatArray.indexOf('h')
+        }
+        else if (formatArray.indexOf('hh') !== -1) {
+          hourOrder = formatArray.indexOf('hh')
+        }
+        if (formatArray.indexOf('mm') !== -1) {
+          minuteOrder = formatArray.indexOf('mm')
+        }
+        else if (formatArray.indexOf('m') !== -1) {
+          minuteOrder = formatArray.indexOf('m')
+        }
+        localeObj = {
+          qDatetimeInner: {
+            'justify-content': 'space-around',
+            'text-align': 'left'
+          },
+          year: {
+            order: yearOrder
+          },
+          month: {
+            order: monthOrder
+          },
+          date: {
+            order: dateOrder
+          },
+          hour: {
+            order: hourOrder
+          },
+          minute: {
+            order: minuteOrder
+          }
+        }
+      }
       return localeObj
     },
 
