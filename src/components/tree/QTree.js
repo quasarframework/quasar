@@ -447,7 +447,7 @@ export default {
                   staticClass: 'q-tree-arrow q-mr-xs transition-generic',
                   'class': { 'rotate-90': meta.expanded },
                   props: { name: this.computedIcon },
-                  on: this.hasSelection
+                  nativeOn: this.hasSelection
                     ? { click: e => { this.__onExpandClick(node, meta, e) } }
                     : undefined
                 })

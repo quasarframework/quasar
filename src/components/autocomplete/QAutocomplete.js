@@ -260,7 +260,7 @@ export default {
           'cursor-pointer': !result.disable
         },
         props: { cfg: result },
-        on: {
+        nativeOn: {
           mouseenter: () => { !result.disable && (this.selectedIndex = index) },
           click: () => { !result.disable && this.setValue(result) }
         }

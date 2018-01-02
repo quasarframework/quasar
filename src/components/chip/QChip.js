@@ -84,7 +84,7 @@ export default {
           h(QIcon, {
             props: { name: this.$q.icon.chip.close },
             staticClass: 'cursor-pointer',
-            on: {
+            nativeOn: {
               click: e => {
                 e && e.stopPropagation()
                 this.$emit('hide')

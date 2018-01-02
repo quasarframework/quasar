@@ -74,7 +74,7 @@ export default {
           exselected: this.mouseModel && this.model >= i && this.mouseModel < i,
           hovered: this.mouseModel === i
         },
-        on: {
+        nativeOn: {
           click: () => this.set(i),
           mouseover: () => this.__setHoverValue(i),
           mouseout: () => { this.mouseModel = 0 }

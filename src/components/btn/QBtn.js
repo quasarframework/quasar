@@ -130,7 +130,7 @@ export default {
         : null,
 
       h('div', {
-        staticClass: 'q-btn-inner row flex-center',
+        staticClass: 'q-btn-inner row col flex-center',
         'class': {
           'no-wrap': this.noWrap,
           'text-no-wrap': this.noWrap

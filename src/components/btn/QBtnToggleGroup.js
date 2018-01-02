@@ -3,10 +3,6 @@ import QBtnToggle from './QBtnToggle'
 
 export default {
   name: 'q-btn-toggle-group',
-  components: {
-    QBtnGroup,
-    QBtnToggle
-  },
   props: {
     value: {
       required: true
