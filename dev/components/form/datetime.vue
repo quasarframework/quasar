@@ -96,9 +96,6 @@
       <p class="caption">Min & Max</p>
       <q-datetime type="datetime" v-model="minMaxModel" :min="min" :max="max" />
 
-      <p class="caption">Locale View</p>
-      <q-datetime @change="onChange" v-model="model" type="datetime" format="YYYY-MM-DD HH:mm"/>
-
       <p class="caption">Inside of a List</p>
       <q-list>
         <q-list-header>Date or Time</q-list-header>
@@ -179,8 +176,6 @@
       <q-datetime-picker readonly v-model="model" type="datetime" />
       <p class="caption">Min & Max</p>
       <q-datetime-picker type="datetime" v-model="minMaxModel" :min="min" :max="max" />
-      <p class="caption">Locale View</p>
-      <q-datetime-picker type="datetime" v-model="model" align="right"  format="YYYY-MM-DDTHH:mm:ss.SSSZ"/>
     </div>
   </div>
 </template>
@@ -194,8 +189,7 @@ export default {
   data () {
     return {
       // model: '2016-09-18T10:45:00.000Z',
-      // model: undefined,
-      model: 0,
+      model: undefined,
       defaultSelection: '2016-09-18T10:45:00.000Z',
 
       format: 'MMMM D, YYYY [at] h:mm [[]a[\\]]',

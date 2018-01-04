@@ -124,7 +124,7 @@ export default {
       }
     },
     __setModel (val = this.value) {
-      this.model = val === 0 || val
+      this.model = val
         ? clone(val)
         : this.defaultSelection
     },
@@ -151,8 +151,7 @@ export default {
             color: this.color,
             value: this.model,
             disable: this.disable,
-            readonly: this.readonly,
-            format: this.format
+            readonly: this.readonly
           },
           on: {
             input: v => {
@@ -277,7 +276,7 @@ export default {
         ? h('q-icon', {
           slot: 'after',
           props: { name: this.$q.icon.input.clear },
-          nativeOn: { click: this.clear },
+          on: { click: this.clear },
           staticClass: 'q-if-control'
         })
         : null,

@@ -2,12 +2,11 @@
   <div class="q-datetime" :class="['type-' + type, disable ? 'disabled' : '', readonly ? 'readonly' : '']">
     <slot></slot>
     <div class="q-datetime-content non-selectable">
-      <div class="q-datetime-inner full-height flex justify-center" @touchstart.stop.prevent :style="__localeViewStyle.qDatetimeInner">
+      <div class="q-datetime-inner full-height flex justify-center" @touchstart.stop.prevent>
         <template v-if="typeHasDate">
           <div
             class="q-datetime-col q-datetime-col-month"
             v-touch-pan.vertical="__dragMonth"
-            :style="__localeViewStyle.month"
           >
             <div ref="month" class="q-datetime-col-wrapper" :style="__monthStyle">
               <div
@@ -23,7 +22,6 @@
           <div
             class="q-datetime-col q-datetime-col-day"
             v-touch-pan.vertical="__dragDate"
-            :style="__localeViewStyle.date"
           >
             <div ref="date" class="q-datetime-col-wrapper" :style="__dayStyle">
               <div
@@ -39,7 +37,6 @@
           <div
             class="q-datetime-col q-datetime-col-year"
             v-touch-pan.vertical="__dragYear"
-            :style="__localeViewStyle.year"
           >
             <div ref="year" class="q-datetime-col-wrapper" :style="__yearStyle">
               <div
@@ -57,7 +54,6 @@
           <div
             class="q-datetime-col q-datetime-col-hour"
             v-touch-pan.vertical="__dragHour"
-            :style="__localeViewStyle.hour"
           >
             <div ref="hour" class="q-datetime-col-wrapper" :style="__hourStyle">
               <div
@@ -73,7 +69,6 @@
           <div
             class="q-datetime-col q-datetime-col-minute"
             v-touch-pan.vertical="__dragMinute"
-            :style="__localeViewStyle.minute"
           >
             <div ref="minute" class="q-datetime-col-wrapper" :style="__minuteStyle">
               <div
@@ -98,7 +93,7 @@
 import { between, capitalize } from '../../utils/format'
 import { position, stopAndPrevent } from '../../utils/event'
 import { css } from '../../utils/dom'
-import { isSameDate, adjustDate, matchFormat } from '../../utils/date'
+import { isSameDate, adjustDate } from '../../utils/date'
 import DateMixin from './datetime-mixin'
 import TouchPan from '../../directives/touch-pan'
 
@@ -111,8 +106,7 @@ export default {
   props: {
     defaultSelection: [String, Number, Date],
     disable: Boolean,
-    readonly: Boolean,
-    format: String
+    readonly: Boolean
   },
   data () {
     return {
@@ -175,11 +169,6 @@ export default {
     },
     __minuteStyle () {
       return this.__colStyle(82 - (this.minute + this.minuteDragOffset) * 36)
-    },
-    __localeViewStyle () {
-      let localeObj = {}
-      let formatArray = matchFormat(this.format)
-      return this.__itemOrder(formatArray, localeObj)
     }
   },
   methods: {
@@ -289,78 +278,6 @@ export default {
         '-ms-transform': 'translate3d(0, ' + translation + 'px, 0) rotateX(' + rotation + 'deg)',
         'transform': 'translate3d(0, ' + translation + 'px, 0) rotateX(' + rotation + 'deg)'
       }
-    },
-    __itemOrder (formatArray, localeObj) {
-      if (formatArray && formatArray.length > 0) {
-        let yearOrder = 0, monthOrder = 0, dateOrder = 0, hourOrder = 0, minuteOrder = 0
-        if (formatArray.indexOf('YYYY') !== -1) {
-          yearOrder = formatArray.indexOf('YYYY')
-        }
-        else if (formatArray.indexOf('YY') !== -1) {
-          yearOrder = formatArray.indexOf('YY')
-        }
-        if (formatArray.indexOf('MM') !== -1) {
-          monthOrder = formatArray.indexOf('MM')
-        }
-        else if (formatArray.indexOf('M') !== -1) {
-          monthOrder = formatArray.indexOf('M')
-        }
-        else if (formatArray.indexOf('MMM') !== -1) {
-          monthOrder = formatArray.indexOf('YY')
-        }
-        else if (formatArray.indexOf('MMMM') !== -1) {
-          monthOrder = formatArray.indexOf('MMMM')
-        }
-        if (formatArray.indexOf('DD') !== -1) {
-          dateOrder = formatArray.indexOf('DD')
-        }
-        else if (formatArray.indexOf('D') !== -1) {
-          dateOrder = formatArray.indexOf('YY')
-        }
-        else if (formatArray.indexOf('Do') !== -1) {
-          dateOrder = formatArray.indexOf('Do')
-        }
-        if (formatArray.indexOf('HH') !== -1) {
-          hourOrder = formatArray.indexOf('HH')
-        }
-        else if (formatArray.indexOf('H') !== -1) {
-          hourOrder = formatArray.indexOf('H')
-        }
-        else if (formatArray.indexOf('h') !== -1) {
-          hourOrder = formatArray.indexOf('h')
-        }
-        else if (formatArray.indexOf('hh') !== -1) {
-          hourOrder = formatArray.indexOf('hh')
-        }
-        if (formatArray.indexOf('mm') !== -1) {
-          minuteOrder = formatArray.indexOf('mm')
-        }
-        else if (formatArray.indexOf('m') !== -1) {
-          minuteOrder = formatArray.indexOf('m')
-        }
-        localeObj = {
-          qDatetimeInner: {
-            'justify-content': 'space-around',
-            'text-align': 'left'
-          },
-          year: {
-            order: yearOrder
-          },
-          month: {
-            order: monthOrder
-          },
-          date: {
-            order: dateOrder
-          },
-          hour: {
-            order: hourOrder
-          },
-          minute: {
-            order: minuteOrder
-          }
-        }
-      }
-      return localeObj
     },
 
     /* common */
