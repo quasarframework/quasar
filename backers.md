@@ -97,7 +97,7 @@ It could be you!
 - Remo Laubacher $200
 - Max Matteo Staack 150 EUR
 - Musicformellons $100
-- Kyle Tippetts $100
+- Kyle Tippetts $100 (x2)
 - Gerard Eviston $50
 - Jacob Heruty $50
 - Polaris Microsystems, L.L.C. $50
