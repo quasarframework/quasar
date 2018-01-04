@@ -37,12 +37,12 @@ It could be you!
 - MG Papelaria (company)
 - Moacir Schmidt
 - Evan Leonardi
+- Max Matteo Staack ($50)
 
 ---
 
 ### $10+
 
-- Max Matteo Staack ($50)
 - Valerian Cure ($25)
 - Shawn Makinson ($25)
 - Edinei Cipriani ($25)
@@ -77,6 +77,7 @@ It could be you!
 - Rok Kogovšek
 - Josh Torres
 - Stian Mikkelsen
+- El Matzo
 
 - Ken ($5)
 - Oliver ($5)
@@ -102,3 +103,4 @@ It could be you!
 - Jacob Heruty $50
 - Polaris Microsystems, L.L.C. $50
 - Jochen Geiger $50
+- Martin Beaudet $30
