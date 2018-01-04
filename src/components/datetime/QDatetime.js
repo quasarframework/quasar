@@ -124,7 +124,7 @@ export default {
       }
     },
     __setModel (val = this.value) {
-      this.model = val === 0 || val
+      this.model = val
         ? clone(val)
         : this.defaultSelection
     },
