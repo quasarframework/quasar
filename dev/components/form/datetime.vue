@@ -194,7 +194,8 @@ export default {
   data () {
     return {
       // model: '2016-09-18T10:45:00.000Z',
-      model: undefined,
+      // model: undefined,
+      model: 0,
       defaultSelection: '2016-09-18T10:45:00.000Z',
 
       format: 'MMMM D, YYYY [at] h:mm [[]a[\\]]',
