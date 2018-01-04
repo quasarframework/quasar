@@ -48,7 +48,7 @@ export default {
       if (this.displayValue) {
         return this.displayValue
       }
-      if (!this.value) {
+      if (this.value !== 0 && !this.value) {
         return this.placeholder || ''
       }
 

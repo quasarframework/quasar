@@ -501,7 +501,7 @@ export const formatter = {
 }
 
 export function formatDate (val, mask = 'YYYY-MM-DDTHH:mm:ss.SSSZ') {
-  if (!val) {
+  if (val !== 0 && !val) {
     return
   }
 
