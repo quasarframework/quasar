@@ -12,7 +12,7 @@ export default {
   computed: {
     model: {
       get () {
-        let date = this.value === 0 || this.value
+        let date = this.value
           ? new Date(this.value)
           : (this.defaultSelection ? new Date(this.defaultSelection) : startOfDate(new Date(), 'day'))
 
