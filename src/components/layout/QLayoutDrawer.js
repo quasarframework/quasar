@@ -24,7 +24,11 @@ export default {
   },
   props: {
     overlay: Boolean,
-    rightSide: Boolean,
+    side: {
+      type: String,
+      default: 'left',
+      validator: v => ['left', 'right'].includes(v)
+    },
     breakpoint: {
       type: Number,
       default: 992
@@ -119,8 +123,8 @@ export default {
     }
   },
   computed: {
-    side () {
-      return this.rightSide ? 'right' : 'left'
+    rightSide () {
+      return this.side === 'right'
     },
     offset () {
       return this.showing && !this.mobileOpened

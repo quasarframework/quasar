@@ -59,7 +59,7 @@
     </q-layout-drawer>
 
     <q-page-container>
-      <q-layout-drawer right-side v-model="right" :overlay="rightOverlay" :behavior="rightBehavior" :breakpoint="rightBreakpoint">
+      <q-layout-drawer side="right" v-model="right" :overlay="rightOverlay" :behavior="rightBehavior" :breakpoint="rightBreakpoint">
         <div class="fit-min bg-orange-3 q-pa-sm">
           <q-btn @click="$router.push('/layout-quick/a')">Go to A</q-btn>
           <q-btn @click="$router.push('/layout-quick/b')">Go to B</q-btn>
