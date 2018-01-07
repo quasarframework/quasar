@@ -78,6 +78,7 @@ It could be you!
 - Josh Torres
 - Stian Mikkelsen
 - El Matzo
+- Thomas Gick
 
 - Ken ($5)
 - Oliver ($5)
