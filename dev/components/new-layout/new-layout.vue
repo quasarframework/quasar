@@ -74,9 +74,9 @@
         </div>
       </q-layout-drawer>
 
-      <q-transition enter="fadeIn" leave="fadeOut" mode="out-in">
+      <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in">
         <router-view />
-      </q-transition>
+      </transition>
     </q-page-container>
   </q-layout>
 

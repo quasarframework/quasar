@@ -2,9 +2,9 @@
   <div class="layout-padding">
     <q-toggle v-model="visible" label="Show/hide next one" />
     <br><br>
-    <q-transition
-      enter="bounceInLeft"
-      leave="bounceOutRight"
+    <transition
+      enter-active-class="animated bounceInLeft"
+      leave-active-class="animated bounceOutRight"
       appear
     >
       <q-alert
@@ -15,14 +15,14 @@
       >
         Lorem ipsum dolor sit amet.
       </q-alert>
-    </q-transition>
+    </transition>
 
     <q-toggle v-model="visible2" label="Show/hide next one" />
     <br><br>
 
-    <q-transition
-      enter="bounceInLeft"
-      leave="bounceOutRight"
+    <transition
+      enter-active-class="animated bounceInLeft"
+      leave-active-class="animated bounceOutRight"
       appear
     >
       <q-alert
@@ -34,7 +34,7 @@
       >
         Lorem ipsum dolor sit amet.
       </q-alert>
-    </q-transition>
+    </transition>
 
     <br>
     <q-alert icon="map" color="primary">Learn how you can get there</q-alert>
