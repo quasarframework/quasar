@@ -1,5 +1,4 @@
 import { QAlert } from '../components/alert'
-import { QTransition } from '../components/transition'
 import uid from '../utils/uid'
 import clone from '../utils/clone'
 
@@ -129,12 +128,11 @@ export default {
             align = pos.indexOf('left') > -1 ? 'start' : (pos.indexOf('right') > -1 ? 'end' : 'center'),
             classes = ['left', 'right'].includes(pos) ? `items-${pos === 'left' ? 'start' : 'end'} justify-center` : (pos === 'center' ? 'flex-center' : `items-${align}`)
 
-          return h(QTransition, {
+          return h('transition-group', {
             key: pos,
             staticClass: `q-notification-list q-notification-list-${vert} fixed column ${classes}`,
             tag: 'div',
             props: {
-              group: true,
               name: `q-notification-${pos}`,
               mode: 'out-in'
             }

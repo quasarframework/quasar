@@ -64,7 +64,8 @@ export default {
     tableClass: {
       type: [String, Array, Object],
       default: ''
-    }
+    },
+    transition: Object
   },
   computed: {
     computedRows () {

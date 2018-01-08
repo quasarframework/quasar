@@ -1,8 +1,8 @@
 <template>
   <q-app>
-    <q-transition enter="fadeIn" leave="fadeOut" mode="out-in" :duration="300" @leave="resetScroll">
+    <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in" :duration="300" @leave="resetScroll">
       <router-view></router-view>
-    </q-transition>
+    </transition>
     <q-ajax-bar ref="bar" />
     <div
       style="padding: 0px 10px; right: 10px; bottom: 100px"
