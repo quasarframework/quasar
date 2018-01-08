@@ -68,7 +68,7 @@ export default {
         child.push(bottomRow({cols: this.computedCols}))
       }
 
-      return h('tbody', child)
+      return this.transition ? h('transition-group', { props: this.transition }, child) : h('tbody', child)
     },
     addBodyRowMeta (data) {
       if (this.selection) {
