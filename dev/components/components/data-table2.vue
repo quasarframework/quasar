@@ -1,43 +1,5 @@
 <template>
   <div class="layout-padding">
-    <h4>Row Transition</h4>
-    <q-table
-      :data="data"
-      :columns="columns"
-      row-key="name"
-      selection="single"
-      :selected.sync="selected"
-      color="secondary"
-      title="Move rows"
-      :transition="transition"
-    >
-      <template slot="header" slot-scope="props">
-        <q-tr>
-          <q-th></q-th>
-          <q-th v-for="col in props.cols" :key="col.name" :props="props">
-            {{col.label}}
-          </q-th>
-        </q-tr>
-      </template>
-
-      <template slot="body" slot-scope="props">
-        <q-tr slot="body" :key="props.row.name">
-          <q-td>
-            <q-btn dense color="primary" icon="arrow_drop_up" @click="moveRowUp(props.row.name)" />
-            <q-btn dense color="primary" icon="arrow_drop_down" @click="moveRowDown(props.row.name)" />
-          </q-td>
-          <q-td key="desc" :props="props">{{ props.row.name }}</q-td>
-          <q-td key="calories" :props="props">{{ props.row.calories }}</q-td>
-          <q-td key="fat" :props="props">{{ props.row.fat }}</q-td>
-          <q-td key="carbs" :props="props">{{ props.row.carbs }}</q-td>
-          <q-td key="protein" :props="props">{{ props.row.protein }}</q-td>
-          <q-td key="sodium" :props="props">{{ props.row.sodium }}</q-td>
-          <q-td key="calcium" :props="props">{{ props.row.calcium }}</q-td>
-          <q-td key="iron" :props="props">{{ props.row.iron }}</q-td>
-        </q-tr>
-      </template>
-    </q-table>
-
     <h4>Emulate server-side</h4>
     {{serverPagination}}
     <q-table
@@ -294,13 +256,6 @@ export default {
       visibleColumns: ['desc', 'fat', 'carbs', 'protein', 'sodium', 'calcium', 'iron'],
       selected: [],
 
-      transition: {
-        name: 'flip-row',
-        enterActiveClass: 'animated bounceInLeft',
-        leaveActiveClass: 'animated bounceOutRight',
-        mode: 'out-in',
-        tag: 'tbody'
-      },
       columns: [
         {
           name: 'desc',
@@ -477,6 +432,4 @@ export default {
 </script>
 
 <style lang="stylus">
-.flip-row-move
-  position absolute
 </style>
