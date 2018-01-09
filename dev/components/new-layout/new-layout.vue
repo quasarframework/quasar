@@ -44,7 +44,7 @@
     </q-layout-footer>
 
     <q-layout-drawer v-model="left" :overlay="leftOverlay" :behavior="leftBehavior" :breakpoint="leftBreakpoint">
-      <q-scroll-area class="fit bg-green-3 q-pa-sm" :thumb-style="{right: '4px', borderRadius: '2px', background: 'blue', opacity: .6, width: '4px'}">
+      <q-scroll-area class="fit" :thumb-style="{right: '4px', borderRadius: '2px', background: 'blue', opacity: .6, width: '4px'}">
         <q-btn @click="$router.push('/layout-quick/a')">Go to A</q-btn>
         <q-btn @click="$router.push('/layout-quick/b')">Go to B</q-btn>
         <q-btn @click="$router.push('/layout-quick/c')">Go to C</q-btn>
@@ -59,19 +59,25 @@
     </q-layout-drawer>
 
     <q-page-container>
-      <q-layout-drawer side="right" v-model="right" :overlay="rightOverlay" :behavior="rightBehavior" :breakpoint="rightBreakpoint">
-        <div class="fit-min bg-orange-3 q-pa-sm">
-          <q-btn @click="$router.push('/layout-quick/a')">Go to A</q-btn>
-          <q-btn @click="$router.push('/layout-quick/b')">Go to B</q-btn>
-          <q-btn @click="$router.push('/layout-quick/c')">Go to C</q-btn>
+      <q-layout-drawer
+        side="right"
+        v-model="right"
+        :overlay="rightOverlay"
+        :behavior="rightBehavior"
+        :breakpoint="rightBreakpoint"
+        content-class="bg-orange-3 q-pa-sm"
+        :content-style="{'font-size': '16px'}"
+      >
+        <q-btn @click="$router.push('/layout-quick/a')">Go to A</q-btn>
+        <q-btn @click="$router.push('/layout-quick/b')">Go to B</q-btn>
+        <q-btn @click="$router.push('/layout-quick/c')">Go to C</q-btn>
 
-          <br><br>
+        <br><br>
 
-          <q-btn @click="$router.replace('/layout-quick/a')">Replace Go to A</q-btn>
-          <q-btn @click="$router.replace('/layout-quick/b')">Replace Go to B</q-btn>
-          <q-btn @click="$router.replace('/layout-quick/c')">Replace Go to C</q-btn>
-          <div v-for="n in 60" :key="n">{{n}} Right drawer</div>
-        </div>
+        <q-btn @click="$router.replace('/layout-quick/a')">Replace Go to A</q-btn>
+        <q-btn @click="$router.replace('/layout-quick/b')">Replace Go to B</q-btn>
+        <q-btn @click="$router.replace('/layout-quick/c')">Replace Go to C</q-btn>
+        <div v-for="n in 60" :key="n">{{n}} Right drawer</div>
       </q-layout-drawer>
 
       <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in">

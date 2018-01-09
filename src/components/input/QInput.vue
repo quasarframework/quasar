@@ -147,7 +147,6 @@ export default {
       default: 'text',
       validator: t => inputTypes.includes(t)
     },
-    minRows: Number,
     clearable: Boolean,
     noPassToggle: Boolean,
     noNumberToggle: Boolean,
