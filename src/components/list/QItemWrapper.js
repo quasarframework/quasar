@@ -67,6 +67,10 @@ export default {
 
     child.push(this.$slots.default)
 
-    return h(QItem, { props: cfg }, child)
+    return h(QItem, {
+      attrs: this.$attrs,
+      on: this.$listeners,
+      props: cfg
+    }, child)
   }
 }
