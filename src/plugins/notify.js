@@ -1,5 +1,6 @@
 import { QAlert } from '../components/alert'
 import uid from '../utils/uid'
+import clone from '../utils/clone'
 
 const positionList = [
   'top-left', 'top-right',
@@ -36,18 +37,23 @@ export default {
         }
       },
       methods: {
-        add (notif) {
-          if (!notif) {
+        add (config) {
+          if (!config) {
             console.error('Notify: parameter required')
             return false
           }
-          if (typeof notif === 'string') {
+          let notif
+          if (typeof config === 'string') {
             notif = {
-              message: notif,
+              message: config,
               position: 'bottom'
             }
           }
-          else if (notif.position) {
+          else {
+            notif = clone(config)
+          }
+
+          if (notif.position) {
             if (!positionList.includes(notif.position)) {
               console.error(`Notify: wrong position: ${notif.position}`)
               return false
@@ -68,14 +74,16 @@ export default {
           }
 
           if (notif.actions) {
-            notif.actions = notif.actions.map(action => {
-              const handler = action.handler
-              action.handler = () => {
-                close()
-                if (typeof handler === 'function') {
+            notif.actions = config.actions.map(item => {
+              const
+                handler = item.handler,
+                action = clone(item)
+              action.handler = typeof handler === 'function'
+                ? () => {
                   handler()
+                  close()
                 }
-              }
+                : () => close()
               return action
             })
           }
