@@ -16,7 +16,7 @@ export default {
         ])
       }
 
-      if (this.noBottom) {
+      if (this.hidePagination) {
         return
       }
 

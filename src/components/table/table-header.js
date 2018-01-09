@@ -5,7 +5,7 @@ import QTh from './QTh'
 export default {
   methods: {
     getTableHeader (h) {
-      if (this.noHeader) {
+      if (this.hideHeader) {
         return
       }
 
@@ -88,7 +88,7 @@ export default {
     addTableHeaderRowMeta (data) {
       if (this.multipleSelection) {
         Object.defineProperty(data, 'selected', {
-          get: () => this.allRowsSelected,
+          get: () => this.someRowsSelected ? 'some' : this.allRowsSelected,
           set: val => {
             if (this.someRowsSelected) {
               val = false

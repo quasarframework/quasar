@@ -1,17 +1,13 @@
 export default {
   methods: {
     getTop (h) {
-      if (this.noTop) {
-        return
-      }
-
       const
         top = this.$scopedSlots.top,
         topLeft = this.$scopedSlots['top-left'],
         topRight = this.$scopedSlots['top-right'],
         topSelection = this.$scopedSlots['top-selection'],
         hasSelection = this.selection && topSelection && this.rowsSelectedNumber > 0,
-        cls = 'q-table-top relative-position row no-wrap items-center',
+        staticClass = 'q-table-top relative-position row no-wrap items-center',
         child = [],
         props = {
           hasSelection,
@@ -20,7 +16,7 @@ export default {
         }
 
       if (top) {
-        return h('div', { staticClass: cls }, [ top(props) ])
+        return h('div', { staticClass }, [ top(props) ])
       }
 
       if (hasSelection) {
@@ -44,9 +40,7 @@ export default {
         return
       }
 
-      return h('div', {
-        staticClass: `${cls}${hasSelection ? ` text-${this.color} q-table-top-selection` : ''}`
-      }, child)
+      return h('div', { staticClass }, child)
     }
   }
 }
