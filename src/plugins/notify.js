@@ -1,6 +1,5 @@
 import { QAlert } from '../components/alert'
 import uid from '../utils/uid'
-import clone from '../utils/clone'
 
 const positionList = [
   'top-left', 'top-right',
@@ -69,7 +68,7 @@ export default {
           }
 
           if (notif.actions) {
-            notif.actions = clone(notif.actions).map(action => {
+            notif.actions = notif.actions.map(action => {
               const handler = action.handler
               action.handler = () => {
                 close()
