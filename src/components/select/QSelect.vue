@@ -28,7 +28,7 @@
   >
     <div
       v-if="hasChips"
-      class="col row items-center group q-input-chips"
+      class="col row items-center group q-input-chips q-if-control"
       :class="alignClass"
     >
       <q-chip
@@ -46,7 +46,7 @@
 
     <div
       v-else
-      class="col row items-center q-input-target"
+      class="col row items-center q-input-target q-if-control"
       :class="alignClass"
       v-html="actualValue"
     ></div>
