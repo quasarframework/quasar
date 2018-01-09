@@ -22,60 +22,76 @@
     :length="length"
     :additional-length="additionalLength"
 
-    @click.native="togglePopup"
+    @mousedown.native="isClick = true"
+    @mouseup.native="isClick = false"
     @focus.native="__onFocus"
     @blur.native="__onBlur"
+    @keydown.enter.native="$refs.popover.show"
   >
-    <div
-      v-if="hasChips"
-      class="col row items-center group q-input-chips"
-      :class="alignClass"
-    >
-      <q-chip
-        v-for="{label, value, disable: optDisable} in selectedOptions"
-        :key="label"
-        small
-        :closable="!disable && !optDisable"
-        :color="color"
-        @click.native.stop
-        @hide="__toggleMultiple(value, disable || optDisable)"
+    <template v-if="!loading">
+      <div
+        v-if="hasChips"
+        class="col row items-center group q-input-chips"
+        :class="alignClass"
       >
-        {{ label }}
-      </q-chip>
-    </div>
+        <q-chip
+          v-for="{label, value, disable: optDisable} in selectedOptions"
+          :key="label"
+          small
+          :closable="!disable && !optDisable"
+          :color="color"
+          @click.native.stop
+          @hide="onHideChip(value)"
+        >
+          {{ label }}
+        </q-chip>
+      </div>
 
-    <div
-      v-else
-      class="col row items-center q-input-target"
-      :class="alignClass"
-      v-html="actualValue"
-    ></div>
-
+      <div
+        v-else
+        class="col row items-center q-input-target"
+        :class="alignClass"
+        v-html="actualValue"
+      ></div>
+      <q-icon
+        v-if="!disable && clearable && length"
+        slot="after"
+        name="cancel"
+        class="q-if-control"
+        @click.stop.native="clear"
+      />
+    </template>
     <q-icon
-      v-if="!disable && clearable && length"
       slot="after"
-      name="cancel"
+      v-if="!loading"
+      :name="$q.icon.input.dropdown"
       class="q-if-control"
-      @click.stop.native="clear"
+      :class="{'rotate-180': $refs.popover && $refs.popover.showing}"
     />
-    <q-icon slot="after" :name="$q.icon.input.dropdown" class="q-if-control" />
+    <q-spinner
+      v-else
+      slot="after"
+      size="24px"
+      class="q-if-control"
+    />
 
     <q-popover
       ref="popover"
       fit
       :disable="disable"
       :offset="[0, 10]"
-      :anchor-click="false"
-      class="column no-wrap"
-      @show="__onFocus"
-      @hide="__onClose"
+      max-height="100vh"
+      class="q-select-popover column no-wrap no-scroll"
+      @show="onShowPopover"
+      @hide="onHidePopover"
     >
       <q-field-reset>
         <q-search
           v-if="filter"
           ref="filter"
           v-model="terms"
-          @input="reposition"
+          @input="onInputFilter"
+          @keydown="__handleKeydown"
           :placeholder="filterPlaceholder || $q.i18n.label.filter"
           :debounce="100"
           :color="color"
@@ -85,60 +101,54 @@
         />
       </q-field-reset>
 
-      <q-list
+    <q-list
+        ref="list"
         :separator="separator"
         class="no-border scroll"
+        :style="{ maxHeight: listMaxHeight }"
+        :tabindex="0"
+        @keydown.native="__handleKeydown"
       >
-        <template v-if="multiple">
+        <template v-if="!emptyText">
           <q-item-wrapper
-            v-for="opt in visibleOptions"
+            v-for="(opt, index) in visibleOptions"
             :key="JSON.stringify(opt)"
             :cfg="opt"
-            :link="!opt.disable"
-            :class="{'text-faded': opt.disable}"
+            :class="getItemClass(opt)"
             slot-replace
-            @click.capture.native="__toggleMultiple(opt.value, opt.disable)"
+            @mouseenter.native="!isItemDisabled(opt) && (selectedIndex = index)"
+            @click.native.capture="selectItem(opt)"
           >
             <q-toggle
-              v-if="toggle"
+              v-if="multiple && toggle"
               slot="right"
+              no-focus
               :color="color"
               :value="optModel[opt.index]"
-              :disable="opt.disable"
+              :disable="isItemDisabled(opt)"
               no-focus
             />
             <q-checkbox
-              v-else
+              v-else-if="multiple"
               slot="left"
+              no-focus
               :color="color"
               :value="optModel[opt.index]"
-              :disable="opt.disable"
-              no-focus
+              :disable="isItemDisabled(opt)"
             />
-          </q-item-wrapper>
-        </template>
-        <template v-else>
-          <q-item-wrapper
-            v-for="opt in visibleOptions"
-            :key="JSON.stringify(opt)"
-            :cfg="opt"
-            :link="!opt.disable"
-            :class="{'text-faded': opt.disable}"
-            slot-replace
-            :active="value === opt.value"
-            @click.capture.native="__singleSelect(opt.value, opt.disable)"
-          >
             <q-radio
-              v-if="radio"
+              v-else-if="radio"
+              no-focus
               :color="color"
               slot="left"
               :value="value"
               :val="opt.value"
-              :disable="opt.disable"
+              :disable="isItemDisabled(opt)"
               no-focus
             />
           </q-item-wrapper>
         </template>
+        <q-item v-else class="non-selectable">{{ emptyText }}</q-item>
       </q-list>
     </q-popover>
   </q-input-frame>
@@ -148,11 +158,15 @@
 import { QFieldReset } from '../field'
 import { QSearch } from '../search'
 import { QPopover } from '../popover'
-import { QList, QItemWrapper } from '../list'
+import { QList, QItemWrapper, QItem } from '../list'
 import { QCheckbox } from '../checkbox'
 import { QRadio } from '../radio'
 import { QToggle } from '../toggle'
+import { QSpinner } from '../spinner'
 import SelectMixin from '../../mixins/select'
+import { stopAndPrevent } from '../../utils/event'
+import { normalizeToInterval } from '../../utils/format'
+import { isNumber } from '../../utils/is'
 import extend from '../../utils/extend'
 
 function defaultFilterFn (terms, obj) {
@@ -168,17 +182,33 @@ export default {
     QPopover,
     QList,
     QItemWrapper,
+    QItem,
     QCheckbox,
     QRadio,
-    QToggle
+    QToggle,
+    QSpinner
   },
   props: {
     filter: [Function, Boolean],
     filterPlaceholder: String,
-    autofocusFilter: Boolean,
     radio: Boolean,
     placeholder: String,
-    separator: Boolean
+    separator: Boolean,
+    listMaxHeight: {
+      type: String,
+      default: '300px'
+    },
+    autoOpen: Boolean,
+    loading: Boolean,
+    loadingLabel: String,
+    noResultsLabel: String,
+    noDataLabel: String
+  },
+  data () {
+    return {
+      selectedIndex: -1,
+      isClick: false
+    }
   },
   computed: {
     optModel () {
@@ -196,66 +226,189 @@ export default {
       }
       return opts
     },
+    enabledVisibleOptionsCount () {
+      return this.visibleOptions.filter(opt => !this.isItemDisabled(opt)).length
+    },
     filterFn () {
       return typeof this.filter === 'boolean'
         ? defaultFilterFn
         : this.filter
     },
-    activeItemSelector () {
+    defaultSelectedIndex () {
+      return this.$q.platform.is.desktop && this.enabledVisibleOptionsCount !== 0
+        ? this.visibleOptions.findIndex(opt => !this.isItemDisabled(opt))
+        : -1
+    },
+    currentSelectedIndex () {
       return this.multiple
-        ? `.q-item-side > ${this.toggle ? '.q-toggle' : '.q-checkbox'} > .active`
-        : `.q-item.active`
+        ? this.visibleOptions.findIndex(opt => this.value.includes(opt.value) && !this.isItemDisabled(opt))
+        : this.visibleOptions.findIndex(opt => this.value === opt.value)
+    },
+    emptyText () {
+      if (this.loading) {
+        return this.loadingLabel || this.$q.i18n.select.loading
+      }
+      else {
+        if (this.filter && this.terms && this.options.length > 0 && this.visibleOptions.length === 0) {
+          return this.noResultsLabel || this.$q.i18n.select.noResults
+        }
+        if (this.options.length === 0) {
+          return this.noDataLabel || this.$q.i18n.select.noData
+        }
+      }
+      return false
     }
   },
   methods: {
-    togglePopup () {
-      this[this.$refs.popover.showing ? 'hide' : 'show']()
+    getItemClass (opt) {
+      const itemClass = this.isItemDisabled(opt) ? ['disabled'] : ['cursor-pointer']
+      if ((this.multiple && this.optModel[opt.index]) || (!this.multiple && this.value === opt.value)) {
+        itemClass.push(`text-${this.color}`)
+      }
+      if (this.selectedIndex === opt.index) {
+        itemClass.push('active')
+      }
+      return itemClass
     },
-    show () {
-      return this.$refs.popover.show()
+    isItemDisabled (opt) {
+      return opt.disable || (isNumber(this.multiple) && this.multiple > 0 && this.length >= this.multiple && !this.optModel[opt.index])
     },
-    hide () {
-      return this.$refs.popover.hide()
+    selectItem (opt) {
+      const disable = this.isItemDisabled(opt)
+      this.multiple ? this.__toggleMultiple(opt.value, disable) : this.__singleSelect(opt.value, disable)
     },
-    reposition () {
-      const popover = this.$refs.popover
-      if (popover.showing) {
-        popover.reposition()
+    getFocusableElements () {
+      let focusableElements = Array.prototype.slice.call(document.querySelectorAll('.q-if-focusable, .q-focusable, input.q-input-target:not([disabled])'))
+      return focusableElements.sort((a, b) => {
+        a = a.getAttribute('tabindex') || 0
+        b = b.getAttribute('tabindex') || 0
+        return a > b ? 1 : b > a ? -1 : 0
+      })
+    },
+    onInputFilter () {
+      if (this.$refs.popover && this.$refs.popover.showing) {
+        this.$refs.popover.reposition()
+        this.selectedIndex = this.defaultSelectedIndex
+        this.$nextTick(this.scrollToSelectedItem)
       }
     },
-
-    __onFocus () {
-      this.focused = true
-      if (this.filter && this.autofocusFilter) {
-        this.$refs.filter.focus()
-      }
-      this.$emit('focus')
-      const selected = this.$refs.popover.$el.querySelector(this.activeItemSelector)
+    setCurrentSelection () {
+      this.selectedIndex >= 0 && this.selectItem(this.visibleOptions[this.selectedIndex])
+      !this.multiple && this.$refs.input.$el.focus()
+    },
+    scrollToSelectedItem (onShow = false) {
+      const selected = this.$refs.list.$el.querySelector('.q-item.active')
       if (selected) {
-        selected.scrollIntoView()
+        let offset = 0
+        this.$refs.filter && (offset -= this.$refs.filter.$el.clientHeight)
+        onShow && (offset += this.$refs.list.$el.clientHeight / 2)
+        const selectedTop = selected.offsetTop + offset
+        const selectedBottom = selected.offsetTop + selected.offsetHeight + offset
+        const listTop = this.$refs.list.$el.scrollTop
+        const listBottom = listTop + this.$refs.list.$el.clientHeight
+        if (selectedTop < listTop) {
+          this.$refs.list.$el.scrollTop = selectedTop
+        }
+        else if (selectedBottom > listBottom) {
+          this.$refs.list.$el.scrollTop = selectedBottom - this.$refs.list.$el.clientHeight
+        }
       }
     },
-    __onBlur (e) {
-      this.__onClose()
-      setTimeout(() => {
-        const el = document.activeElement
-        if (el !== document.body && !this.$refs.popover.$el.contains(el)) {
-          this.hide()
-        }
-      }, 1)
+    onShowPopover () {
+      this.selectedIndex = this.length > 0 ? this.currentSelectedIndex : this.defaultSelectedIndex
+      this.filter && this.$q.platform.is.desktop ? this.$refs.filter.focus() : this.$refs.list.$el.focus()
+      this.$nextTick(this.scrollToSelectedItem.bind(null, true))
+      this.focused = true
     },
-    __onClose () {
-      this.focused = false
-      this.$emit('blur')
+    onHidePopover () {
+      this.selectedIndex = -1
       this.terms = ''
-      this.$emit('change', this.model)
+      this.__onBlur()
+    },
+    onHideChip (value) {
+      this.__toggleMultiple(value)
+      if (this.$refs.popover && this.$refs.popover.showing) {
+        this.$nextTick(this.onShowPopover)
+      }
+    },
+    __onFocus () {
+      if (!this.focused) {
+        this.focused = true
+        this.$emit('focus')
+        if (this.autoOpen && !this.isClick) {
+          this.$refs.popover.show()
+        }
+      }
+    },
+    __onBlur () {
+      this.$nextTick(() => {
+        const elm = document.activeElement
+        if (document.hasFocus() && (elm === this.$refs.input.$el || this.$refs.popover.$el.contains(elm))) {
+          return
+        }
+        this.focused = false
+        this.$emit('blur')
+        if (JSON.stringify(this.model) !== JSON.stringify(this.value)) {
+          this.$emit('change', this.model)
+        }
+      })
     },
     __singleSelect (val, disable) {
       if (disable) {
         return
       }
       this.__emit(val)
-      this.hide()
+      this.$refs.popover.hide()
+    },
+    __handleKeydown (e) {
+      switch (e.keyCode || e.which) {
+        case 38: // up
+          stopAndPrevent(e)
+          this.cursorNavigate(-1)
+          break
+        case 40: // down
+          stopAndPrevent(e)
+          this.cursorNavigate(1)
+          break
+        case 13: // enter
+          stopAndPrevent(e)
+          this.setCurrentSelection()
+          break
+        case 27: // escape
+          stopAndPrevent(e)
+          this.$refs.popover.hide()
+          this.$refs.input.$el.focus()
+          break
+        case 9: // tab
+          stopAndPrevent(e)
+          this.$refs.popover.hide()
+          this.tabNavigate(e.shiftKey ? -1 : 1)
+          break
+      }
+    },
+    tabNavigate (offset) {
+      let focusableElements = this.getFocusableElements()
+      if (focusableElements.length < 2) {
+        return
+      }
+      let tabIndex = focusableElements.findIndex(el => el === this.$refs.input.$el)
+      tabIndex = normalizeToInterval(
+        tabIndex + offset,
+        0,
+        focusableElements.length - 1
+      )
+      focusableElements[tabIndex].focus()
+    },
+    cursorNavigate (offset) {
+      if (this.enabledVisibleOptionsCount === 0) {
+        return
+      }
+      this.selectedIndex = normalizeToInterval(
+        this.selectedIndex + offset,
+        0,
+        this.visibleOptions.length - 1
+      )
+      this.isItemDisabled(this.visibleOptions[this.selectedIndex]) ? this.cursorNavigate(offset) : this.$nextTick(this.scrollToSelectedItem)
     }
   }
 }

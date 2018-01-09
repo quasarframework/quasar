@@ -28,6 +28,11 @@ export default {
     release: 'Release to refresh',
     refresh: 'Refreshing...'
   },
+  select: {
+    noData: 'No data available',
+    noResults: 'No matching records found',
+    loading: 'Loading...'
+  },
   table: {
     noData: 'No data available',
     noResults: 'No matching records found',

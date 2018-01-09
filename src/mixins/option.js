@@ -25,7 +25,7 @@ export default {
         {
           disabled: this.disable,
           reverse: this.leftLabel,
-          'q-focusable': this.focusable
+          'q-focusable': !this.noFocus && !this.disable
         }
       ]
     },
@@ -40,12 +40,6 @@ export default {
 
         return `text-${color}`
       }
-    },
-    focusable () {
-      return !this.noFocus && !this.disable
-    },
-    tabindex () {
-      return this.focusable ? 0 : -1
     }
   },
   methods: {
@@ -74,7 +68,7 @@ export default {
     return h('div', {
       staticClass: 'q-option cursor-pointer no-outline row inline no-wrap items-center',
       'class': this.classes,
-      attrs: { tabindex: this.tabindex },
+      attrs: { tabindex: !this.noFocus && !this.disable ? 0 : null },
       on: {
         click: this.toggle,
         focus: () => { this.$emit('focus') },

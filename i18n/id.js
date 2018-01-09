@@ -28,6 +28,11 @@ export default {
     release: 'Lepaskan untuk menyegarkan',
     refresh: 'Menyegarkan...'
   },
+  select: {
+    noData: 'Tidak ada data tersedia',
+    noResults: 'Tidak ada yang cocok',
+    loading: 'Memuat...'
+  },
   table: {
     noData: 'Tidak ada data tersedia',
     noResults: 'Tidak ada yang cocok',

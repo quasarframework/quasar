@@ -181,10 +181,11 @@ export default {
             type: this.options.type,
             color: this.color,
             inline: this.options.inline,
-            options: this.options.items
+            options: this.options.items,
+            limit: this.options.limit
           },
           on: {
-            change: v => { this.options.model = v }
+            input: v => { this.options.model = v }
           }
         })
       ]

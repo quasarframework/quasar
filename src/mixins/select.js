@@ -14,7 +14,7 @@ export default {
     value: {
       required: true
     },
-    multiple: Boolean,
+    multiple: [Number, Boolean],
     toggle: Boolean,
     chips: Boolean,
     options: {
@@ -100,6 +100,9 @@ export default {
     },
     clear () {
       this.__emit(this.multiple ? [] : null)
+      if (this.$refs.popover && this.$refs.popover.showing) {
+        this.$nextTick(this.onShowPopover)
+      }
     }
   }
 }

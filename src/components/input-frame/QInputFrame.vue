@@ -2,7 +2,7 @@
   <div
     class="q-if row no-wrap items-center relative-position"
     :class="classes"
-    :tabindex="focusable && !disable ? 0 : -1"
+    :tabindex="focusable && !disable ? 0 : null"
     @click="__onClick"
   >
     <template v-if="before">

@@ -28,6 +28,11 @@ export default {
     release: 'Eliberează pentru a actualiza',
     refresh: 'Se actualizează...'
   },
+  select: {
+    noData: 'Nu sunt date disponibile',
+    noResults: 'Nu am găsit înregistrări care să corespundă',
+    loading: 'Se încarcă...'
+  },
   table: {
     noData: 'Nu sunt date disponibile',
     noResults: 'Nu am găsit înregistrări care să corespundă',

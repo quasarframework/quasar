@@ -28,6 +28,11 @@ export default {
     release: 'Otpusti za osvježivanje',
     refresh: 'Osvježivanje...'
   },
+  select: {
+    noData: 'Nema podataka',
+    noResults: 'Nema odgovarajućih zapisa',
+    loading: 'Učitavanje...'
+  },
   table: {
     noData: 'Nema podataka',
     noResults: 'Nema odgovarajućih zapisa',

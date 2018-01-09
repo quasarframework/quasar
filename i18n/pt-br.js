@@ -28,6 +28,11 @@ export default {
     release: 'Solte para recarregar',
     refresh: 'Recarregando...'
   },
+  select: {
+    noData: 'Sem dados disponíveis',
+    noResults: 'Nenhum dado correspondente encontrado',
+    loading: 'Carregando...'
+  },
   table: {
     noData: 'Sem dados disponíveis',
     noResults: 'Nenhum dado correspondente encontrado',

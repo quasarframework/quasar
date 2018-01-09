@@ -28,6 +28,11 @@ export default {
     release: 'Rilascia per aggiornare',
     refresh: 'Aggiornamento...'
   },
+  select: {
+    noData: 'Nessun dato disponibile',
+    noResults: 'Nessuna corrispondenza trovata',
+    loading: 'Caricamento...'
+  },
   table: {
     noData: 'Nessun dato disponibile',
     noResults: 'Nessuna corrispondenza trovata',

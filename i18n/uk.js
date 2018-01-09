@@ -32,6 +32,11 @@ export default {
     release: 'Відпустіть для оновлення',
     refresh: 'Оновлення...'
   },
+  select: {
+    noData: 'Немає даних',
+    noResults: 'Співпадінь не знайдено',
+    loading: 'Завантаження...'
+  },
   table: {
     noData: 'Немає даних',
     noResults: 'Співпадінь не знайдено',
