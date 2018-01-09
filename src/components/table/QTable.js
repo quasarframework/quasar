@@ -43,7 +43,7 @@ export default {
     loader: Boolean,
     title: String,
     hideHeader: Boolean,
-    hidePagination: Boolean,
+    hideBottom: Boolean,
     dark: Boolean,
     separator: {
       type: String,
