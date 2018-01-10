@@ -271,11 +271,12 @@
 
       <p class="caption">Full Width Buttons</p>
       <div class="group">
-        <q-btn color="primary" class="full-width">Full-width Full-width Full-width Full-width Full-width Full-width Full-width Full-width Full-width</q-btn>
-        <q-btn color="secondary" class="full-width">Full-width</q-btn>
-        <q-btn color="primary" icon="alarm" class="full-width">Full-width</q-btn>
-        <q-btn color="secondary" icon-right="alarm" class="full-width">Full-width</q-btn>
-        <q-btn color="secondary" icon="lock" icon-right="alarm" class="full-width">Full-width</q-btn>
+        <q-btn color="primary" class="full-width" label="Full-width Full-width Full-width Full-width Full-width Full-width Full-width Full-width Full-width" />
+        <q-btn color="secondary" class="full-width" label="Full-width" justify="start" />
+        <q-btn color="primary" icon="alarm" class="full-width" label="Full-width" justify="end" />
+        <q-btn color="secondary" icon-right="alarm" class="full-width" label="Full-width" justify="center" />
+        <q-btn color="secondary" icon="lock" icon-right="alarm" class="full-width" label="Full-width" justify="between" />
+        <q-btn color="secondary" icon="lock" icon-right="alarm" class="full-width" label="Full-width" justify="around" />
       </div>
 
       <p class="caption">Multiline Buttons</p>
@@ -304,9 +305,9 @@
         <q-btn color="primary" icon-right="alarm" size="sm" class="full-width">Small Full-width<br/>Multiline<br/>Button</q-btn>
         <q-btn color="primary" icon-right="alarm" class="full-width">Normal Full-width<br/>Multiline<br/>Button</q-btn>
         <q-btn color="primary" icon-right="alarm" size="lg" class="full-width">Big Full-width<br/>Multiline<br/>Button</q-btn>
-        <q-btn color="primary" icon="lock" icon-right="alarm" size="sm" class="full-width">Small Full-width<br/>Multiline<br/>Button</q-btn>
-        <q-btn color="primary" icon="lock" icon-right="alarm" class="full-width">Normal Full-width<br/>Multiline<br/>Button</q-btn>
-        <q-btn color="primary" icon="lock" icon-right="alarm" size="lg" class="full-width">Big Full-width<br/>Multiline<br/>Button</q-btn>
+        <q-btn color="primary" icon="lock" icon-right="alarm" justify="between" size="sm" class="full-width">Small Full-width<br/>Multiline<br/>Button</q-btn>
+        <q-btn color="primary" icon="lock" icon-right="alarm" justify="between" class="full-width">Normal Full-width<br/>Multiline<br/>Button</q-btn>
+        <q-btn color="primary" icon="lock" icon-right="alarm" justify="between" size="lg" class="full-width">Big Full-width<br/>Multiline<br/>Button</q-btn>
       </div>
 
       <p class="caption">Wrap test</p>

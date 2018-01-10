@@ -130,11 +130,8 @@ export default {
         : null,
 
       h('div', {
-        staticClass: 'q-btn-inner row col flex-center',
-        'class': {
-          'no-wrap': this.noWrap,
-          'text-no-wrap': this.noWrap
-        }
+        staticClass: 'q-btn-inner row col items-center',
+        'class': this.innerClasses
       },
       this.loading
         ? [ this.$slots.loading || h(QSpinner) ]

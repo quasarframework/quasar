@@ -54,7 +54,7 @@
     <q-alert
       icon="map"
       color="primary"
-      :actions="[ { label: 'Reply', icon: 'map', handler: () => {} }, { label: 'Reply', icon: 'map', handler: () => {} }, { label: 'Dismiss', handler: () => {} } ]"
+      :actions="[ { label: 'Reply', icon: 'map', handler: () => {} }, { label: 'Reply long', icon: 'map', handler: () => {} }, { label: 'Dismiss', handler: () => {} } ]"
     >Learn how you can get there</q-alert>
     <br>
     <q-alert

@@ -31,7 +31,12 @@ export default {
     textColor: String,
     glossy: Boolean,
     dense: Boolean,
-    noRipple: Boolean
+    noRipple: Boolean,
+    justify: {
+      type: String,
+      default: 'center',
+      validator: v => ['start', 'end', 'center', 'between', 'around'].includes(v)
+    }
   },
   computed: {
     style () {
@@ -104,6 +109,13 @@ export default {
       })
 
       return cls
+    },
+    innerClasses () {
+      const classes = [`justify-${this.justify}`]
+      if (this.noWrap) {
+        classes.push('no-wrap', 'text-no-wrap')
+      }
+      return classes
     }
   },
   methods: {

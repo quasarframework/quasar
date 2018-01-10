@@ -69,10 +69,12 @@ export default {
           this.actions.map(action =>
             h('div', [
               h(QBtn, {
+                staticClass: 'full-width',
                 props: {
                   flat: true,
                   dense: true,
                   icon: action.icon,
+                  justify: 'start',
                   label: action.closeBtn === true
                     ? (typeof action.label === 'string' ? action.label : this.$q.i18n.label.close)
                     : action.label
