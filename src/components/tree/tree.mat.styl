@@ -2,7 +2,7 @@
   margin 0
   list-style-type none
   position relative
-  padding 0 0 3px 2px
+  padding 0 0 3px 22px
 
   &:after
     content ''
@@ -21,8 +21,8 @@
   position absolute
   top -3px
   bottom 50%
-  width 15px
-  left -15px
+  width 35px
+  left -35px
   border-left 1px solid currentColor
   border-bottom 1px solid currentColor
 
@@ -32,18 +32,25 @@
     pointer-events none
 .q-tree-node-body
   padding 5px 0 8px 5px
-.q-tree-node-body-with-children
-  padding 5px 0 8px 30px
-  &:after
-    content ''
-    position absolute
-    top 0
-    width 1px
-    height 100%
-    right auto
-    left 12px
-    border-left 1px solid currentColor
-    bottom 50px
+
+.q-tree-node-parent
+  padding-left 2px
+  > .q-tree-node-header:before
+    width 15px
+    left -15px
+  > .q-tree-node-collapsible > .q-tree-node-body
+    padding 5px 0 8px 27px
+    &:after
+      content ''
+      position absolute
+      top 0
+      width 1px
+      height 100%
+      right auto
+      left 12px
+      border-left 1px solid currentColor
+      bottom 50px
+
 .q-tree-node-link
   cursor pointer
 

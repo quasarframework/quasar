@@ -399,7 +399,7 @@ export default {
         ? this.__getChildren(h, node.children)
         : []
 
-      const isParent = children.length > 0
+      const isParent = children.length > 0 || (meta.lazy && meta.lazy !== 'loaded')
 
       let
         body = node.body
@@ -410,10 +410,7 @@ export default {
           : null
 
       if (body) {
-        body = h('div', {
-          staticClass: 'q-tree-node-body relative-position',
-          'class': { 'q-tree-node-body-with-children': isParent }
-        }, [
+        body = h('div', { staticClass: 'q-tree-node-body relative-position' }, [
           h('div', { 'class': this.contentClass }, [
             body(slotScope)
           ])
@@ -422,7 +419,8 @@ export default {
 
       return h('div', {
         key,
-        staticClass: 'q-tree-node'
+        staticClass: 'q-tree-node',
+        'class': { 'q-tree-node-parent': isParent }
       }, [
         h('div', {
           staticClass: 'q-tree-node-header relative-position row no-wrap items-center',
@@ -442,7 +440,7 @@ export default {
               props: { color: this.computedControlColor }
             })
             : (
-              isParent || (meta.lazy && meta.lazy !== 'loaded')
+              isParent
                 ? h(QIcon, {
                   staticClass: 'q-tree-arrow q-mr-xs transition-generic',
                   'class': { 'rotate-90': meta.expanded },
