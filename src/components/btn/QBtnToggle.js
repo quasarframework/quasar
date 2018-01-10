@@ -56,10 +56,11 @@ export default {
       h('div', { staticClass: 'q-focus-helper' }),
 
       h('div', {
-        staticClass: 'q-btn-inner row col flex-center',
+        staticClass: 'q-btn-inner row col items-center',
         'class': {
           'no-wrap': this.noWrap,
-          'text-no-wrap': this.noWrap
+          'text-no-wrap': this.noWrap,
+          [`justify-${this.justify}`]: this.justify
         }
       }, [
         this.icon

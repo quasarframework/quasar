@@ -31,7 +31,12 @@ export default {
     textColor: String,
     glossy: Boolean,
     dense: Boolean,
-    noRipple: Boolean
+    noRipple: Boolean,
+    justify: {
+      type: String,
+      default: 'center',
+      validator: v => ['start', 'end', 'center', 'between', 'around'].includes(v)
+    }
   },
   computed: {
     style () {
