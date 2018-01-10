@@ -12,15 +12,6 @@ export default {
     padding: Boolean
   },
   computed: {
-    computedStyle () {
-      const offset =
-        (this.layout.header.space ? this.layout.header.size : 0) +
-        (this.layout.footer.space ? this.layout.footer.size : 0)
-
-      return {
-        minHeight: offset ? `calc(100vh - ${offset}px)` : '100vh'
-      }
-    },
     computedClass () {
       if (this.padding) {
         return 'layout-padding'
@@ -28,9 +19,10 @@ export default {
     }
   },
   render (h) {
-    return h('main', {
-      staticClass: 'q-layout-page',
-      style: this.computedStyle,
+    // Use a flexbox to fill the center space within the padding of the parent
+    // Eventually, the whole layout should be flexbox
+    return h('div', {
+      staticClass: 'q-layout-page col self-stretch',
       'class': this.computedClass
     }, [
       this.$slots.default
