@@ -271,11 +271,11 @@ export default {
               ]
             },
             {
-              label: 'Node 2.3 - Lazy load',
+              label: 'Node 2.4 - Lazy load',
               lazy: true
             },
             {
-              label: 'Node 2.4 - Lazy load empty',
+              label: 'Node 2.5 - Lazy load empty',
               lazy: true
             }
           ]
