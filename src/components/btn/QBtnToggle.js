@@ -57,11 +57,7 @@ export default {
 
       h('div', {
         staticClass: 'q-btn-inner row col items-center',
-        'class': {
-          'no-wrap': this.noWrap,
-          'text-no-wrap': this.noWrap,
-          [`justify-${this.justify}`]: this.justify
-        }
+        'class': this.innerClasses
       }, [
         this.icon
           ? h('q-icon', {

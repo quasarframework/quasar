@@ -109,6 +109,13 @@ export default {
       })
 
       return cls
+    },
+    innerClasses () {
+      const classes = [`justify-${this.justify}`]
+      if (this.noWrap) {
+        classes.push('no-wrap', 'text-no-wrap')
+      }
+      return classes
     }
   },
   methods: {
