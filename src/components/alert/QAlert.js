@@ -64,7 +64,7 @@ export default {
         ]),
         this.actions && this.actions.length
           ? h('div', {
-            staticClass: 'q-alert-actions col-auto xs-gutter flex-center'
+            staticClass: 'q-alert-actions col-auto gutter-xs flex-center'
           },
           this.actions.map(action =>
             h('div', [

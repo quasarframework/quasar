@@ -56,7 +56,7 @@ export default {
     })
 
     return h('div', {
-      staticClass: 'q-breadcrumbs flex xs-gutter items-center overflow-hidden',
+      staticClass: 'q-breadcrumbs flex gutter-xs items-center overflow-hidden',
       'class': [`text-${this.color}`, `justify-${this.computedAlign}`]
     }, child)
   }

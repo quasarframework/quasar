@@ -88,7 +88,7 @@
 
   <div class="fixed-center bg-amber z-fullscreen">
     <div class="row no-wrap">
-      <div class="col xs-gutter q-ma-xs">
+      <div class="col gutter-xs q-ma-xs">
         <div>
           <q-toggle v-model="header" label="Header" />
         </div>
@@ -108,7 +108,7 @@
           <q-input type="number" align="right" prefix="Bkpt" placeholder="Bkpt" v-model="leftBreakpoint" class="no-margin" />
         </div>
       </div>
-      <div class="col xs-gutter q-ma-xs">
+      <div class="col gutter-xs q-ma-xs">
         <div>
           <q-toggle v-model="footer" label="Footer" />
         </div>
