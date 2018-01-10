@@ -55,7 +55,7 @@
       />
 
       <p class="caption">Configuration</p>
-      <div class="row sm-gutter items-center">
+      <div class="row gutter-sm items-center">
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
           <q-input type="number" v-model="min" stack-label="Minimum page number" />
         </div>
