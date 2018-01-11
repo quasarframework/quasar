@@ -31,6 +31,40 @@
         <q-input v-model="model" />
       </q-field>
 
+      <h4>Label test</h4>
+      <q-field label="No width specified">
+        <q-input v-model="model" />
+      </q-field>
+      <q-field label="Width 12" :label-width="12">
+        <q-input v-model="model" />
+      </q-field>
+      <q-field label="Vertical" orientation="vertical">
+        <q-input v-model="model" />
+      </q-field>
+      <q-field label="Horizontal" orientation="horizontal">
+        <q-input v-model="model" />
+      </q-field>
+      <q-field label="No width specified">
+        <q-input stack-label="Stack" v-model="model" />
+      </q-field>
+      <q-field label="Stack Vertical" orientation="vertical">
+        <q-input stack-label="Stack" v-model="model" />
+      </q-field>
+      <q-field label="Stack Horizontal" orientation="horizontal">
+        <q-input stack-label="Stack" v-model="model" />
+      </q-field>
+      <q-field label="No width specified">
+        <q-input float-label="Float" v-model="model" />
+      </q-field>
+      <q-field label="Float Vertical" orientation="vertical">
+        <q-input float-label="Float" v-model="model" />
+      </q-field>
+      <q-field label="Float Horizontal" orientation="horizontal">
+        <q-input float-label="Float" v-model="model" />
+      </q-field>
+
+      <div style="height: 50px"></div>
+
       <q-field count>
         <q-input suffix="#" prefix="@" type="password" v-model="model" />
       </q-field>

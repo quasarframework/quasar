@@ -25,7 +25,7 @@ const Loading = {
     props.spinnerColor = spinnerColor
     props.messageColor = messageColor
 
-    if (customClass && typeof customClass === 'string') {
+    if (typeof customClass === 'string') {
       props.customClass = customClass.trim()
     }
 

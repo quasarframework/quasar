@@ -3,18 +3,9 @@ import { QIcon } from '../icon'
 export default {
   name: 'q-field',
   props: {
-    labelWidth: {
-      type: Number,
-      default: 5,
-      validator (val) {
-        return val >= 1 && val < 12
-      }
-    },
     inset: {
       type: String,
-      validator (val) {
-        return ['icon', 'label', 'full'].includes(val)
-      }
+      validator: v => ['icon', 'label', 'full'].includes(v)
     },
     label: String,
     count: {
@@ -27,7 +18,19 @@ export default {
     warningLabel: String,
     helper: String,
     icon: String,
-    dark: Boolean
+    dark: Boolean,
+    orientation: {
+      type: String,
+      validator: v => ['vertical', 'horizontal'].includes(v)
+    },
+    labelWidth: {
+      type: [Number, String],
+      default: 5,
+      validator (val) {
+        const v = parseInt(val, 10)
+        return v > 0 && v < 13
+      }
+    }
   },
   data () {
     return {
@@ -72,12 +75,34 @@ export default {
     },
     classes () {
       return {
+        'q-field-responsive': !this.isVertical && !this.isHorizontal,
+        'q-field-vertical': this.isVertical,
+        'q-field-horizontal': this.isHorizontal,
         'q-field-floating': this.childHasLabel,
         'q-field-no-label': !this.label && !this.$slots.label,
         'q-field-with-error': this.hasError,
         'q-field-with-warning': this.hasWarning,
         'q-field-dark': this.isDark
       }
+    },
+    computedLabelWidth () {
+      return parseInt(this.labelWidth, 10)
+    },
+    isVertical () {
+      return this.orientation === 'vertical' || this.computedLabelWidth === 12
+    },
+    isHorizontal () {
+      return this.orientation === 'horizontal'
+    },
+    labelClasses () {
+      return this.isVertical
+        ? `col-12`
+        : (this.isHorizontal ? `col-${this.labelWidth}` : `col-xs-12 col-sm-${this.labelWidth}`)
+    },
+    inputClasses () {
+      return this.isVertical
+        ? `col-xs-12`
+        : (this.isHorizontal ? 'col' : 'col-xs-12 col-sm')
     }
   },
   provide () {
@@ -121,8 +146,8 @@ export default {
       h('div', { staticClass: 'row col' }, [
         this.hasLabel
           ? h('div', {
-            staticClass: 'q-field-label col-xs-12 q-field-margin',
-            'class': `col-sm-${this.labelWidth}`
+            staticClass: 'q-field-label q-field-margin',
+            'class': this.labelClasses
           }, [
             h('div', { staticClass: 'q-field-label-inner row items-center' }, [
               this.label,
@@ -131,7 +156,10 @@ export default {
           ])
           : null,
 
-        h('div', { staticClass: 'q-field-content col-xs-12 col-sm' }, [
+        h('div', {
+          staticClass: 'q-field-content',
+          'class': this.inputClasses
+        }, [
           this.$slots.default,
           this.hasBottom
             ? h('div', {
