@@ -8,6 +8,7 @@
           Header
           <span slot="subtitle">The Subtiiiitleeee</span>
         </q-toolbar-title>
+        <q-toggle v-model="toggle" color="amber" dark />
         <q-btn flat round dense icon="menu" @click="right = !right" />
       </q-toolbar>
       <q-toolbar>
@@ -192,6 +193,11 @@
           </div>
         </div>
       </div>
+      <q-modal v-model="toggle" :content-css="{padding: '50px', minWidth: '50vw'}">
+        <h4>Basic Modal</h4>
+        <p v-for="n in 25">Scroll down to close</p>
+        <q-btn color="primary" @click="toggle = false">Close</q-btn>
+      </q-modal>
     </div>
   </div>
 </div>
@@ -208,6 +214,7 @@ export default {
   data () {
     const v = 'lHh Lpr fFf'
     return {
+      toggle: false,
       header: true,
       footer: true,
       left: true,
