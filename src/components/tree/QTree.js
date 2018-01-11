@@ -498,7 +498,9 @@ export default {
     },
     __onClick (node, meta) {
       if (this.hasSelection) {
-        meta.selectable && this.$emit('update:selected', meta.key)
+        if (meta.selectable) {
+          this.$emit('update:selected', meta.key !== this.selected ? meta.key : null)
+        }
       }
       else {
         this.__onExpandClick(node, meta)
