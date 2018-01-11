@@ -165,7 +165,6 @@ export default {
         const body = document.body
 
         body.classList.remove('with-modal')
-        body.style.paddingRight = this.bodyPadding
       }
     }
   },
