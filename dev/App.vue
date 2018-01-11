@@ -1,5 +1,5 @@
 <template>
-  <q-app>
+  <div class="q-app">
     <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in" :duration="300" @leave="resetScroll">
       <router-view></router-view>
     </transition>
@@ -38,7 +38,7 @@
         v-model="iconSet"
       />
     </div>
-  </q-app>
+  </div>
 </template>
 
 <script>
