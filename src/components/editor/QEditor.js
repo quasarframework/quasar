@@ -59,7 +59,6 @@ export default {
         outline: this.outline,
         flat: this.flat,
         push: this.push,
-        size: 'sm',
         dense: true
       }
     },
@@ -259,14 +258,18 @@ export default {
     const toolbars = []
     if (!this.readonly) {
       const toolbarConfig = {
-        staticClass: `q-editor-toolbar q-editor-toolbar-padding overflow-auto row no-wrap bg-${this.toolbarColor}`,
+        staticClass: `q-editor-toolbar row no-wrap scroll bg-${this.toolbarColor}`,
         'class': {
           'q-editor-toolbar-separator': !this.outline && !this.push
         }
       }
-      toolbars.push(h('div', extend({key: 'qedt_top'}, toolbarConfig), getToolbar(h, this)))
+      toolbars.push(h('div', extend({key: 'qedt_top'}, toolbarConfig), [
+        h('div', { staticClass: 'row no-wrap q-editor-toolbar-padding fit items-center' }, getToolbar(h, this))
+      ]))
       if (this.editLinkUrl !== null) {
-        toolbars.push(h('div', extend({key: 'qedt_btm'}, toolbarConfig), getLinkEditor(h, this)))
+        toolbars.push(h('div', extend({key: 'qedt_btm'}, toolbarConfig), [
+          h('div', { staticClass: 'row no-wrap q-editor-toolbar-padding fit items-center' }, getLinkEditor(h, this))
+        ]))
       }
     }
     return h(

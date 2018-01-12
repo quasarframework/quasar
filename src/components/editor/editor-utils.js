@@ -153,7 +153,7 @@ export function getToolbar (h, vm) {
   if (vm.caret) {
     return vm.buttons.map(group => h(
       QBtnGroup,
-      { props: vm.buttonProps, staticClass: 'relative-position' },
+      { props: vm.buttonProps, staticClass: 'items-center relative-position' },
       group.map(btn => {
         if (btn.type === 'slot') {
           return vm.$slots[btn.slot]
@@ -210,6 +210,7 @@ export function getLinkEditor (h, vm) {
     }
 
     return [
+      h('div', { staticClass: 'q-mr-sm' }, [`${vm.$q.i18n.editor.url}: `]),
       h(QInput, {
         key: 'qedt_btm_input',
         staticClass: 'q-ma-none q-pa-none col',
@@ -217,11 +218,10 @@ export function getLinkEditor (h, vm) {
           value: link,
           color: 'dark',
           autofocus: true,
-          hideUnderline: true,
-          floatLabel: vm.$q.i18n.editor.url
+          hideUnderline: true
         },
         on: {
-          input: val => (link = val),
+          input: val => { link = val },
           keyup: event => {
             switch (event.keyCode) {
               case 13: // enter
@@ -245,6 +245,7 @@ export function getLinkEditor (h, vm) {
           attrs: {
             tabindex: -1
           },
+          staticClass: 'q-mr-sm',
           props: {
             color: 'negative',
             label: vm.$q.i18n.label.remove,

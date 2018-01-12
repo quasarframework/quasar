@@ -3,6 +3,8 @@
     <div v-for="(cfg, index1) in conf" :key="`${cfg.split}-${cfg.dense}`">
       <div v-for="(size, index2) in sizes" :key="size">
         <p class="caption">{{ label(cfg) }} - {{ size }}</p>
+        text
+        <q-btn :size="size" color="primary" glossy :dense="cfg.dense" label="Test" />
         <q-btn-dropdown ref="first" :size="size" :split="cfg.split" :dense="cfg.dense" @show="log('open')" @hide="log('close')" @click="log('click')" color="primary" glossy label="Dropdown Button" style="margin: 15px">
           <q-list link>
             <q-list-header inset>Folders X</q-list-header>

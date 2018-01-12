@@ -3,13 +3,22 @@
     <div class="layout-padding buttons-test">
       <p class="group">
         <template v-for="n in ['xs', 'sm', 'md', 'lg', 'xl']">
-          <span>{{n}}</span>
           <q-btn :size="n" dense icon="android" color="primary" />
           <q-btn :size="n" icon="android" color="primary" />
+          <q-btn :size="n" label="Test" color="primary" />
           <q-btn :size="n" icon="android" color="primary" label="Test"/>
           <q-btn :size="n" round icon="android" color="primary" />
           <q-btn :size="n" round icon="android" color="primary" dense />
           <q-btn :size="n" label="Test" color="primary" />
+          <span>{{n}}</span>
+          <br><br>
+        </template>
+        <template v-for="n in ['xs', 'sm', 'md', 'lg', 'xl']">
+          <q-btn :size="n" dense label="Test" color="primary" />
+          <q-btn :size="n" dense icon="android" color="primary" />
+          <q-btn :size="n" dense icon="android" color="primary" label="Test"/>
+          <q-btn :size="n" dense round icon="android" color="primary" />
+          <span>{{n}}</span>
           <br><br>
         </template>
       </p>
@@ -27,7 +36,7 @@
       <q-toolbar color="black" style="width: 500px">
         <q-btn flat round icon="menu" />
         <q-btn flat round icon="android" />
-        <q-btn flat round icon="assignment_ind" />
+        <q-btn flat dense icon="assignment_ind" />
         <q-btn flat round icon="android" />
         <q-toolbar-title>
           Toolbar
