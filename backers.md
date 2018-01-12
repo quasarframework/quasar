@@ -79,11 +79,13 @@ It could be you!
 - Stian Mikkelsen
 - El Matzo
 - Thomas Gick
+- Alexey Telyatnikov
 
 - Ken ($5)
 - Oliver ($5)
 - Mahesh Narayanamurthi ($5)
 - Rodolfo Torres Jaime ($5)
+- Scott Brooks ($5)
 - Rogério Queiroz ($3)
 - Joe L Wroten ($1)
 - Yasuhiro Kawagoe ($1)
