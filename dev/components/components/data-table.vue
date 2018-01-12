@@ -200,7 +200,7 @@
           </q-th>
         </tr>
       </q-table>
-      <h2>body template</h2>
+      <h2>body template - cell button with loader</h2>
       <q-table
         :data="data"
         :columns="columns"
@@ -220,7 +220,9 @@
           <q-td key="carbs" :props="props">{{ props.row.carbs }}</q-td>
           <q-td key="protein" :props="props">{{ props.row.protein }}</q-td>
           <q-td key="sodium" :props="props">{{ props.row.sodium }}</q-td>
-          <q-td key="calcium" :props="props">{{ props.row.calcium }}</q-td>
+          <q-td key="calcium" :props="props">
+            <q-btn loader color="secondary" icon="sms_failed" @click="($event, done) => { notifyWithProps(done, props) }" :label="props.row.calcium" />
+          </q-td>
           <q-td key="iron" :props="props">
             <q-chip small square color="amber">{{ props.row.iron }}</q-chip>
           </q-td>
@@ -551,6 +553,15 @@ export default {
     }
   },
   methods: {
+    notifyWithProps (done, props) {
+      // Row cell event with access to props
+      this.$q.notify({
+        message: 'The dessert ' + props.row.name + ' has ' + props.row.calcium + ' Calcium!',
+        icon: 'restaurant'
+      })
+      // Remove button spinner after 3 seconds
+      setTimeout(() => { done() }, 3000)
+    },
     request (props) {
       this.loader = true
       console.log('REQUEST', props)
