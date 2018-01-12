@@ -49,7 +49,7 @@ export default {
     }
   },
   methods: {
-    __update (val, change) {
+    __update (val) {
       const ref = this.$refs.ripple
       if (ref) {
         ref.classList.add('active')
@@ -59,9 +59,7 @@ export default {
       }
 
       this.$emit('input', val)
-      if (change) {
-        this.$emit('change', val)
-      }
+      this.$emit('change', val)
     },
     __onKeydown (evt) {
       const key = getEventKey(evt)
