@@ -276,7 +276,7 @@ export default {
       files = Array.prototype.slice.call(files || e.target.files)
       this.$refs.file.value = ''
 
-      let files_ready = [] // List of image load promises
+      let filesReady = [] // List of image load promises
       files = files.filter(file => !this.queue.some(f => file.name === f.name))
         .map(file => {
           initFile(file)
@@ -294,15 +294,15 @@ export default {
                 file.__img = img
                 this.queue.push(file)
                 this.__computeTotalSize()
-                resolve( true )
+                resolve(true)
               }
               reader.onerror = (e) => {
-                reject( e )
+                reject(e)
               }
             })
-            
+
             reader.readAsDataURL(file)
-            files_ready.push( p )
+            filesReady.push(p)
           }
 
           return file
@@ -310,10 +310,11 @@ export default {
 
       if (files.length > 0) {
         this.files = this.files.concat(files)
-        if( files_ready.length == 0 )
+        if (filesReady.length === 0) {
           this.$emit('add', files)
+        }
         else {
-          Promise.all().then(() => {
+          Promise.all(filesReady).then(() => {
             this.$emit('add', files)
           })
         }
