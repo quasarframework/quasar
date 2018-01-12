@@ -221,8 +221,7 @@
           <q-td key="protein" :props="props">{{ props.row.protein }}</q-td>
           <q-td key="sodium" :props="props">{{ props.row.sodium }}</q-td>
           <q-td key="calcium" :props="props">
-            <q-btn loader color="secondary" icon="sms_failed" @click="($event, done) => { notifyWithProps($event, done, props) }" :label="props.row.calcium"></q-btn>
-            
+            <q-btn loader color="secondary" icon="sms_failed" @click="($event, done) => { notifyWithProps(done, props) }" :label="props.row.calcium" />
           </q-td>
           <q-td key="iron" :props="props">
             <q-chip small square color="amber">{{ props.row.iron }}</q-chip>
@@ -554,7 +553,7 @@ export default {
     }
   },
   methods: {
-    notifyWithProps ($event, done, props) {
+    notifyWithProps (done, props) {
       // Row cell event with access to props
       this.$q.notify({
         message: 'The dessert ' + props.row.name + ' has ' + props.row.calcium + ' Calcium!',
