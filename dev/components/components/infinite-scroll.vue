@@ -6,14 +6,14 @@
       <br>
       <q-infinite-scroll :handler="refresher">
         <p v-for="(item, index) in items" class="caption">
-          <span class="label bg-secondary text-white shadow-1">
+          <q-chip square color="secondary" class="shadow-1">
             {{ index + 1 }}
-          </span>
+          </q-chip>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
         </p>
 
         <div class="row justify-center" style="margin-bottom: 50px;">
-          <spinner name="dots" slot="message" :size="40"></spinner>
+          <q-spinner name="dots" slot="message" :size="40"></q-spinner>
         </div>
       </q-infinite-scroll>
     </div>

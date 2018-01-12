@@ -1,78 +1,105 @@
 <template>
   <div>
     <div class="layout-padding">
-      <q-transition name="slide">
-        <q-stepper @finish="finish()" @step="onStep" ref="stepper" v-show="!finished" color="green">
-          <q-step title="Select campaign settings">
-            For each ad campaign that you create, you can control how much you're willing to spend on clicks and conversions, which networks and geographical locations you want your ads to show on, and more.
-          </q-step>
-          <q-step title="Create an ad group" icon="alarm" :ready="ready">
-            An ad group contains one or more ads which target a shared set of keywords.
-            <br><br>
-            <label>
-              <q-toggle v-model="ready"></q-toggle>
-              Enable next step
-            </label>
-          </q-step>
-          <q-step title="Create an ad">
-            Try out different ad text to see what brings in the most customers, and learn how to enhance your ads using features like ad extensions. If you run into any problems with your ads, find out how to tell if they're running and how to resolve approval issues.
-          </q-step>
-        </q-stepper>
-      </q-transition>
+      <q-toggle label="Alternative Labels" v-model="alt" />
+      <q-toggle label="Contractable" v-model="contractable" />
+      <br><br>
 
-      <div v-show="finished" class="items-center column justify-center full-width full-height">
-        <p class="caption">
-          <i class="text-primary" style="font-size: 2rem; margin-right: 1rem;">check</i>
-          <span>Finished. Well done!</span>
-        </p>
-        <button class="primary" @click="reset()">Reset</button>
-      </div>
+      <q-stepper :color="color" flat ref="stepper" v-model="step" :alternative-labels="alt" :contractable="contractable">
+        <q-step default name="first" title="Ad style">
+          <div v-for="n in 10">Step 1</div>
+          <q-stepper-navigation>
+            <q-btn :color="color" @click="$refs.stepper.next()">Continue</q-btn>
+          </q-stepper-navigation>
+        </q-step>
+        <q-step error title="Custom channels" subtitle="Alert message">
+          <div v-for="n in 10">Step 2</div>
+          <q-stepper-navigation>
+            <q-btn :color="color" @click="$refs.stepper.next()">Next</q-btn>
+            <q-btn :color="color" flat @click="$refs.stepper.previous()">Back</q-btn>
+          </q-stepper-navigation>
+        </q-step>
+        <q-step title="Get code">
+          <div v-for="n in 3">Step 3</div>
+          <q-stepper-navigation>
+            <q-btn :color="color" @click="$refs.stepper.next()">Next</q-btn>
+            <q-btn :color="color" flat @click="$refs.stepper.previous()">Back</q-btn>
+          </q-stepper-navigation>
+        </q-step>
+        <q-step name="fifth" disable title="Disabled">
+          <div v-for="n in 3">Step 4</div>
+          <q-stepper-navigation>
+            <q-btn :color="color" @click="$refs.stepper.next()">Next</q-btn>
+            <q-btn :color="color" flat @click="$refs.stepper.previous()">Back</q-btn>
+          </q-stepper-navigation>
+        </q-step>
+        <q-step name="fourth" title="Editable">
+          <div v-for="n in 3">Step 5</div>
+          <q-stepper-navigation>
+            <q-btn :color="color" @click="$refs.stepper.goToStep('first')">Restart</q-btn>
+            <q-btn :color="color" flat @click="$refs.stepper.previous()">Back</q-btn>
+          </q-stepper-navigation>
+        </q-step>
 
-      <span class="label bg-amber fixed-bottom-left" style="left: 18px; bottom: 18px;">
-        <span class="left-detail">Step</span> {{ currentStep }} {{ stepMessage }}
-      </span>
+        <q-stepper-navigation>
+          <q-btn :color="color" flat @click="$refs.stepper.previous()">Back</q-btn>
+          <q-btn :color="color" @click="$refs.stepper.next()">Next</q-btn>
+        </q-stepper-navigation>
+      </q-stepper>
 
+      <br><br>
+
+      <q-stepper ref="stepper2" :color="color" v-model="step2" :alternative-labels="alt" vertical>
+        <q-step default name="first" title="Ad style">
+          <div v-for="n in 10">Step 1</div>
+          <q-stepper-navigation>
+            <q-btn :color="color" @click="$refs.stepper2.next()">Continue</q-btn>
+          </q-stepper-navigation>
+        </q-step>
+        <q-step error title="Custom channels" subtitle="Alert message">
+          <div v-for="n in 10">Step 2</div>
+          <q-stepper-navigation>
+            <q-btn :color="color" @click="$refs.stepper2.next()">Next</q-btn>
+            <q-btn :color="color" flat @click="$refs.stepper2.previous()">Back</q-btn>
+          </q-stepper-navigation>
+        </q-step>
+        <q-step title="Get code">
+          <div v-for="n in 3">Step 3</div>
+          <q-stepper-navigation>
+            <q-btn :color="color" @click="$refs.stepper2.next()">Next</q-btn>
+            <q-btn :color="color" flat @click="$refs.stepper2.previous()">Back</q-btn>
+          </q-stepper-navigation>
+        </q-step>
+        <q-step name="fifth" disable title="Disabled">
+          <div v-for="n in 3">Step 4</div>
+          <q-stepper-navigation>
+            <q-btn :color="color" @click="$refs.stepper2.next()">Next</q-btn>
+            <q-btn :color="color" flat @click="$refs.stepper2.previous()">Back</q-btn>
+          </q-stepper-navigation>
+        </q-step>
+        <q-step name="fourth" title="Editable">
+          <div v-for="n in 3">Step 5</div>
+          <q-stepper-navigation>
+            <q-btn :color="color" @click="$refs.stepper2.goToStep('first')">Restart</q-btn>
+            <q-btn :color="color" flat @click="$refs.stepper2.previous()">Back</q-btn>
+          </q-stepper-navigation>
+        </q-step>
+      </q-stepper>
     </div>
   </div>
 </template>
 
 <script>
+
 export default {
   data () {
     return {
-      ready: false,
-      finished: false,
-      currentStep: 0,
-      stepMessage: ''
-    }
-  },
-  methods: {
-    finish () {
-      this.finished = true
-    },
-    onStep (currentStep) {
-      this.currentStep = currentStep
-      switch (this.currentStep) {
-        case 1:
-          this.stepMessage = 'started'
-          break
-        case 2:
-          this.stepMessage = 'second step'
-          break
-        case 3:
-          this.stepMessage = 'next to finish'
-          break
-        case 4:
-          this.stepMessage = 'done!'
-          break
-        default:
-          this.stepMessage = ''
-          break
-      }
-    },
-    reset () {
-      this.$refs.stepper.reset()
-      this.finished = false
+      step: 'first',
+      step2: 'first',
+      alt: false,
+      contractable: false,
+      color: 'secondary',
+      text: ''
     }
   }
 }

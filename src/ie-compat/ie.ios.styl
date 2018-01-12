@@ -1,0 +1,58 @@
+ie_style = @block
+  /* Flex */
+  .absolute .q-if-inner, .fixed .q-if-inner
+    min-width 10em
+
+  /* QAlert */
+  .q-alert-container
+    max-width 100%
+  .row > .col
+    &.q-alert-content
+      flex-basis auto
+
+  /* QSlider, QRange */
+  .q-slider-handle
+    > .q-chip.inline.row
+      display -ms-inline-grid
+
+  /* QBtn */
+  .q-btn.row
+    &:not(.q-btn-round)
+      &.inline
+        display inline-block
+      &.block
+        display block
+    &:active
+      .q-btn-inner
+        margin -1px 1px 1px -1px
+      &.q-btn-push .q-btn-inner
+        margin 0 1px 0 -1px
+
+  /* QChip */
+  .q-chip
+    .q-chip-main
+      line-height $chip-height
+    &.small .q-chip-main
+      line-height normal
+  .q-btn
+    .q-chip
+      display inline-block
+      .q-chip-main
+        line-height normal
+  .q-tab
+    .q-chip
+      left auto
+
+  /* QFab */
+  .q-fab-actions
+    &.q-fab-left
+    &.q-fab-right
+      display block
+      white-space nowrap
+      top -6px
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none)
+  {ie_style}
+
+@supports (-ms-ime-align:auto)
+  {ie_style}

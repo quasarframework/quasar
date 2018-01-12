@@ -1,0 +1,20 @@
+.q-option-inner
+  display inline-block
+  line-height 0
+
+  & + .q-option-label
+    margin-left $label-offset
+
+.q-option
+  vertical-align middle
+  input
+    display none !important
+  &.reverse .q-option-inner + .q-option-label
+    margin-right $label-offset
+    margin-left 0
+
+.q-option-group-inline-opts > div
+  display inline-flex
+.q-option-group
+  margin -5px
+  padding 5px 0

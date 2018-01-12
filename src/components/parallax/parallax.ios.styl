@@ -1,0 +1,19 @@
+.q-parallax
+  position relative
+  width 100%
+  overflow hidden
+
+.q-parallax-image
+  > img
+    visibility hidden
+    position absolute
+    left 50%
+    bottom 0
+    min-width 100%
+    min-height 100%
+
+    &.ready
+      visibility visible
+
+.q-parallax-text
+  text-shadow $paralax-text-shadow

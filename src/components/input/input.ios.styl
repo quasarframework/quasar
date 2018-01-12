@@ -1,0 +1,53 @@
+@-webkit-keyframes autofill
+  to
+    background transparent
+
+.q-input-target::-webkit-outer-spin-button,
+.q-input-target::-webkit-inner-spin-button
+  -webkit-appearance none
+
+.q-input-target, .q-input-shadow
+  border 0
+  outline 0
+  padding 0
+  color black
+  background transparent
+  min-height 18px
+  font-size inherit
+  overflow hidden
+  resize none
+  display flex
+  align-items center
+  &:-webkit-autofill
+    -webkit-animation-name autofill
+    -webkit-animation-fill-mode both
+  &::-ms-clear, &::-ms-reveal
+    display none
+    width 0
+    height 0
+
+input.q-input-target
+  height 18px
+  outline 0
+.q-input-chips
+  min-height 36px !important
+
+.q-if-dark .q-input-target
+  color white
+
+  &::-webkit-input-placeholder /* Chrome/Opera/Safari */
+    color rgba(255, 255, 255, .6) !important
+  &::-moz-placeholder /* Firefox 19+ */
+    color rgba(255, 255, 255, .6) !important
+  &:-ms-input-placeholder /* IE 10+ */
+    color rgba(255, 255, 255, .6) !important
+
+  &::selection
+    background white
+    color black
+
+.q-input-shadow
+  overflow hidden
+  visibility hidden
+  pointer-events none
+  height auto

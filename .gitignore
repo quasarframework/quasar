@@ -1,5 +1,5 @@
 .DS_Store
-.vscode
+.Thumbs.db
 node_modules/
 dist/
 deploy/
@@ -8,3 +8,4 @@ test/unit/coverage/
 test/e2e/dist/
 cordova
 *.sublime*
+.idea/

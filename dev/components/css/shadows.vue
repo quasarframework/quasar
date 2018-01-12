@@ -1,19 +1,18 @@
 <template>
-  <div>
-    <div class="layout-padding">
-      <div style="margin: 10px; text-align: center">
-        <div class="flex inline shadow-box items-center justify-center inset-shadow">.inset-shadow</div>
-        <div class="flex inline shadow-box items-center justify-center" v-for="n in 5" :class="['shadow-' + n]">.shadow-{{n}}</div>
-        <div class="flex inline shadow-box items-center justify-center" v-for="n in 5" :class="['shadow-up-' + n]">.shadow-up-{{n}}</div>
-      </div>
-    </div>
+  <div class="layout-padding">
+    <p class="caption text-left">Standard shadows</p>
+    <div class="flex inline shadow-box flex-center" v-for="n in 24" :class="['shadow-' + n]">.shadow-{{n}}</div>
+    <p class="caption text-left">Shadows pointing up</p>
+    <div class="flex inline shadow-box flex-center" v-for="n in 24" :class="['shadow-up-' + n]">.shadow-up-{{n}}</div>
+    <p class="caption text-left">Inset Shadow</p>
+    <div class="flex inline shadow-box flex-center inset-shadow">.inset-shadow</div>
   </div>
 </template>
 
-<style lang="styl" scoped>
+<style lang="styl">
 .shadow-box
-  width 100px
-  height 100px
-  margin 15px
-  border-radius 50%
+  width 110px
+  height 110px
+  margin 25px
+  border-radius 5px
 </style>

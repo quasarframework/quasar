@@ -1,26 +1,31 @@
 <template>
   <div>
     <div class="layout-padding">
-      <div>
-        <div class="light-paragraph">
-          Size: {{ size }}px
-        </div>
-        <div>
-          <q-range label v-model="size" :min="20" :max="256"></q-range>
-        </div>
+      <q-field
+        icon="format size"
+        :label="`Size: ${size}px`"
+      >
+        <q-slider label v-model="size" :min="20" :max="256" />
+      </q-field>
 
-        <i class="text-grey-7" style="font-size: 2rem">palette</i>
-        <label for="color-spinner" class="auto">Color</label>
-        <input id="color-spinner" v-model="color" style="width: 80px; text-align: center; margin-right: 10px;">
-        <q-dialog-select
-          type="radio"
-          v-model="color"
-          :options="colorOptions"
-          ok-label="Pick"
-          title="Spinner Color"
-          style="vertical-align: middle"
-        ></q-dialog-select>
-      </div>
+      <q-field
+        icon="palette"
+        label="Color"
+      >
+        <div class="row no-wrap">
+          <q-input
+            v-model="color"
+            class="col"
+            float-label="Color Palette"
+          />
+          <q-select
+            class="col"
+            v-model="color"
+            float-label="Quick Pick"
+            :options="colorOptions"
+          />
+        </div>
+      </q-field>
 
       <p class="caption">
         Hover over them to see their names
@@ -28,18 +33,18 @@
 
       <div style="margin-top: 20px" class="group">
         <div v-for="spinner in spinners" class="inline-block">
-          <spinner
-            :name="spinner"
-            :color="color"
+          <component
+            :is="`q-spinner-${spinner}`"
             :size="size"
-          ></spinner>
-          <q-tooltip>{{spinner}}</q-tooltip>
+            :color="color"
+          ></component>
+          <q-tooltip :offset="[0, 8]">{{spinner}}</q-tooltip>
         </div>
       </div>
 
       <p class="caption">
         Default Theme Spinner:
-        <spinner :color="color" :size="size" style="margin-left: 1rem;"></spinner>
+        <q-spinner :color="color" :size="size" style="margin-left: 1rem;" />
       </p>
     </div>
   </div>
@@ -50,29 +55,43 @@ export default {
   data () {
     return {
       size: 36,
-      color: '#00ff00',
+      color: 'primary',
       spinners: [
-        'audio', 'ball', 'bars', 'circles', 'dots',
-        'facebook', 'gears', 'grid', 'hearts',
-        'hourglass', 'infinity', 'ios', 'oval',
+        'audio', 'ball', 'bars', 'circles', 'comment',
+        'cube', 'dots', 'facebook', 'gears', 'grid', 'hearts',
+        'hourglass', 'infinity', 'ios', 'mat', 'oval',
         'pie', 'puff', 'radio', 'rings', 'tail'
       ],
       colorOptions: [
         {
           label: 'Black',
-          value: '#000000'
+          color: 'black',
+          value: 'black'
+        },
+        {
+          label: 'Primary',
+          color: 'primary',
+          value: 'primary'
+        },
+        {
+          label: 'Secondary',
+          color: 'secondary',
+          value: 'secondary'
         },
         {
           label: 'Red',
-          value: '#ff0000'
+          color: 'red',
+          value: 'red'
         },
         {
           label: 'Green',
-          value: '#00ff00'
+          color: 'green',
+          value: 'green'
         },
         {
           label: 'Blue',
-          value: '#0000ff'
+          color: 'blue',
+          value: 'blue'
         }
       ]
     }

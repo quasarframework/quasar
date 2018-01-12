@@ -2,65 +2,68 @@
   <div>
     <div class="layout-padding">
       <p class="caption">With Radios</p>
-      <q-dialog-select type="radio" v-model="select" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Radios"></q-dialog-select>
+      <q-dialog-select @change="onChange" @input="onInput" v-model="select" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Radios" />
       <p class="caption">With Checkboxes</p>
-      <q-dialog-select type="checkbox" v-model="multipleSelect" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Checkboxes"></q-dialog-select>
+      <q-dialog-select @change="onChange" @input="onInput" multiple v-model="multipleSelect" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Checkboxes" />
       <p class="caption">With Toggles</p>
-      <q-dialog-select type="toggle" v-model="multipleSelect" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Toggles"></q-dialog-select>
+      <q-dialog-select toggle multiple v-model="multipleSelect" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Toggles" />
 
       <p class="caption">With Label</p>
-      <q-dialog-select type="checkbox" v-model="multipleSelect" :options="selectOptions" label="Pick Company"></q-dialog-select>
+      <q-dialog-select multiple v-model="multipleSelect" :options="selectOptions" label="Pick Company" />
 
-      <p class="caption">With Placeholder</p>
-      <q-dialog-select type="radio" v-model="select" :options="selectOptions" placeholder="Pick Company"></q-dialog-select>
+      <p class="caption">With Float Label</p>
+      <q-dialog-select float-label="Float Label" multiple v-model="multipleSelect" :options="selectOptions" placeholder="Pick Company" />
 
-      <p class="caption">With Static Label</p>
-      <q-dialog-select type="radio" v-model="select" :options="selectOptions" static-label="Company"></q-dialog-select>
+      <p class="caption">With Stack Label</p>
+      <q-dialog-select stack-label="Stack Label" v-model="select" :options="selectOptions" static-label="Company" />
+
+      <p class="caption">With Chips</p>
+      <q-dialog-select @change="onChange" @input="onInput" chips float-label="Float Label" multiple v-model="multipleSelect" :options="selectOptions" placeholder="Pick Company" />
 
       <p class="caption">Disabled State</p>
-      <q-dialog-select disable type="radio" v-model="select" :options="selectOptions"></q-dialog-select>
-
-      <p class="caption">Readonly State</p>
-      <q-dialog-select readonly type="radio" v-model="select" :options="selectOptions"></q-dialog-select>
+      <q-dialog-select disable v-model="select" :options="selectOptions" />
 
       <p class="caption">Error State</p>
-      <q-dialog-select class="has-error" type="radio" v-model="select" :options="selectOptions"></q-dialog-select>
+      <q-dialog-select error v-model="select" :options="selectOptions" />
+
+      <p class="caption">Hide Underline</p>
+      <q-dialog-select hide-underline @change="onChange" @input="onInput" chips float-label="Float Label" multiple v-model="multipleSelect" :options="selectOptions" placeholder="Pick Company" />
+      <q-dialog-select hide-underline stack-label="Stack Label" v-model="select" :options="selectOptions" static-label="Company" />
 
       <p class="caption">Inside of a List</p>
-      <div class="list">
-        <div class="list-label">Single Selection</div>
-        <div class="item two-lines">
-          <i class="item-primary">supervisor_account</i>
-          <div class="item-content row items-center">
-            <label style="margin-right: 10px;">Radio:</label>
-            <br>
-            <q-dialog-select class="auto" type="radio" v-model="select" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Company"></q-dialog-select>
-          </div>
-        </div>
-        <div class="item two-lines">
-          <i class="item-primary">supervisor_account</i>
-          <div class="item-content row items-center">
-            <label style="margin-right: 10px;">Radio:</label>
-            <q-dialog-select class="auto" type="radio" v-model="select" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Company"></q-dialog-select>
-          </div>
-        </div>
-        <hr>
-        <div class="list-label">Multiple Selection</div>
-        <div class="item two-lines">
-          <i class="item-primary">supervisor_account</i>
-          <div class="item-content row items-center">
-            <label style="margin-right: 10px;">Checkbox:</label>
-            <q-dialog-select class="auto" type="checkbox" v-model="multipleSelect" :options="selectOptions" ok-label="Pick" title="Companies"></q-dialog-select>
-          </div>
-        </div>
-        <div class="item two-lines">
-          <i class="item-primary">supervisor_account</i>
-          <div class="item-content row items-center">
-            <label style="margin-right: 10px;">Toggle:</label>
-            <q-dialog-select class="auto" type="toggle" v-model="multipleSelect" :options="selectOptions" ok-label="Pick" title="Companies"></q-dialog-select>
-          </div>
-        </div>
-      </div>
+      <q-list>
+        <q-list-header>Single Selection</q-list-header>
+        <q-item>
+          <q-item-side icon="supervisor_account" />
+          <q-item-main>
+            <q-dialog-select class="no-margin" v-model="select" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Company" />
+          </q-item-main>
+        </q-item>
+        <q-item>
+          <q-item-side icon="supervisor_account" />
+          <q-item-main>
+            <q-dialog-select class="no-margin" v-model="select" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Company" />
+          </q-item-main>
+        </q-item>
+        <q-item-separator />
+        <q-list-header>Multiple Selection</q-list-header>
+        <q-item>
+          <q-item-side icon="supervisor_account" />
+          <q-item-main>
+            <q-dialog-select class="no-margin" multiple v-model="multipleSelect" :options="selectOptions" ok-label="Pick" title="Companies" />
+          </q-item-main>
+        </q-item>
+        <q-item>
+          <q-item-side icon="supervisor_account" />
+          <q-item-main>
+            <q-dialog-select class="no-margin" toggle multiple v-model="multipleSelect" :options="selectOptions" ok-label="Pick" title="Companies" />
+          </q-item-main>
+        </q-item>
+      </q-list>
+
+      <p class="caption">Display Value</p>
+      <q-dialog-select multiple v-model="multipleSelect" :options="selectOptions" float-label="Gigi" ok-label="Pick" cancel-label="Neah" title="Checkboxes" :display-value="`${ multipleSelect.length } item${ multipleSelect.length !== 1 ? 's' : '' } selected`" />
+      <q-dialog-select toggle multiple v-model="multipleSelect" :options="selectOptions" ok-label="Pick" cancel-label="Neah" title="Toggles" :display-value="`${ multipleSelect.length } item${ multipleSelect.length !== 1 ? 's' : '' } selected`" />
     </div>
   </div>
 </template>
@@ -82,7 +85,8 @@ export default {
         },
         {
           label: 'Twitter',
-          value: 'twtr'
+          value: 'twtr',
+          disable: true
         },
         {
           label: 'Apple Inc.',
@@ -93,6 +97,22 @@ export default {
           value: 'ora'
         }
       ]
+    }
+  },
+  watch: {
+    select (val, old) {
+      console.log(`Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+    },
+    multipleSelect (val, old) {
+      console.log(`Changed from ${JSON.stringify(old)} to ${JSON.stringify(val)}`)
+    }
+  },
+  methods: {
+    onChange (val) {
+      console.log('@change', JSON.stringify(val))
+    },
+    onInput (val) {
+      console.log('@input', JSON.stringify(val))
     }
   }
 }

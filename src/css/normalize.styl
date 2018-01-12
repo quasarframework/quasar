@@ -1,0 +1,154 @@
+/*
+ * Normalizing -- credits go to Normalize.css 4
+ */
+
+*, *:before, *:after // @stylint ignore
+  box-sizing inherit
+  -webkit-tap-highlight-color transparent
+  -moz-tap-highlight-color transparent
+
+html, body, #q-app
+  width 100%
+  direction ltr
+html, body
+  margin 0
+  box-sizing border-box
+
+/* iPad Input Shadows */
+input[type='text'], input[type='email'], input[type='search'], input[type='password']
+  -webkit-appearance none
+  -moz-appearance none /* mobile firefox too! */
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+main,
+menu,
+nav,
+section,
+summary
+  display block
+
+/*
+ * Add the correct display in iOS 4-7.
+ */
+audio:not([controls])
+  display none
+  height 0
+
+/*
+ * 1. Remove the bottom border in Firefox 39-.
+ * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.
+ */
+
+abbr[title]
+  border-bottom none /* 1 */
+  text-decoration underline /* 2 */
+  text-decoration underline dotted /* 2 */
+
+/*
+ * Add the correct font style in Android 4.3-.
+ */
+
+dfn
+  font-style italic
+
+img
+  border-style none
+
+/*
+ * Hide the overflow in IE.
+ */
+
+svg:not(:root)
+  overflow hidden
+
+/*
+ * 1. Correct the inheritance and scaling of font size in all browsers.
+ * 2. Correct the odd `em` font sizing in all browsers.
+ */
+
+code, kbd, pre, samp
+  font-family monospace, monospace /* 1 */
+  font-size 1em /* 2 */
+
+/*
+ * 1. Add the correct box sizing in Firefox.
+ * 2. Show the overflow in Edge and IE.
+ */
+
+hr
+  box-sizing content-box /* 1 */
+  height 0 /* 1 */
+  overflow visible /* 2 */
+
+/*
+ * Change font properties to `inherit` in all browsers (opinionated).
+ */
+
+button,
+input,
+select,
+textarea
+  font inherit
+  margin 0
+
+/*
+ * Restore the font weight unset by the previous rule.
+ */
+
+optgroup
+  font-weight bold
+
+/*
+ * Show the overflow in IE.
+ * 1. Show the overflow in Edge.
+ * 2. Show the overflow in Edge, Firefox, and IE.
+ */
+
+button,
+input, /* 1 */
+select /* 2 */
+  overflow visible
+
+/*
+ * Remove the inner border and padding in Firefox.
+ */
+
+button::-moz-focus-inner, input::-moz-focus-inner
+  border 0
+  padding 0
+
+/*
+ * Restore the focus styles unset by the previous rule.
+ */
+
+button:-moz-focusring, input:-moz-focusring
+  outline 1px dotted ButtonText
+
+/*
+ * Remove the default vertical scrollbar in IE.
+ */
+
+textarea
+  overflow auto
+
+/*
+ * Correct the odd appearance of search inputs in Chrome and Safari.
+ */
+
+input[type='search']
+  -webkit-appearance textfield
+
+/*
+ * Remove the inner padding and cancel buttons in Chrome on OS X and
+ * Safari on OS X.
+ */
+
+input[type='search']::-webkit-search-cancel-button,
+input[type='search']::-webkit-search-decoration
+  -webkit-appearance none

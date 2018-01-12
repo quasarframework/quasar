@@ -1,7 +1,7 @@
 <template>
   <q-layout>
-    <div class="toolbar" slot="header">
-      <q-toolbar-title>Pull To Refresh</q-toolbar-title>
+    <div class="q-toolbar" slot="header">
+      <div class="q-toolbar-title">Pull To Refresh</div>
     </div>
 
     <div class="layout-view">
@@ -13,9 +13,9 @@
           </p>
 
           <p v-for="(item, index) in items" class="caption">
-            <span class="label bg-secondary text-white shadow-1">
+            <q-chip square color="secondary" class="shadow-1">
               {{ items.length - index }}
-            </span>
+            </q-chip>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
           </p>
         </div>
@@ -25,8 +25,6 @@
 </template>
 
 <script>
-import { Toast } from 'quasar'
-
 export default {
   data () {
     return {
@@ -38,7 +36,7 @@ export default {
       setTimeout(() => {
         done()
         this.items.push({})
-        Toast.create('Item #' + this.items.length + ' is new.')
+        this.$q.notify('Item #' + this.items.length + ' is new.')
       }, 1000)
     }
   }

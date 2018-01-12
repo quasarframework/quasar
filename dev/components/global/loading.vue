@@ -3,34 +3,37 @@
     <div class="layout-padding">
       <p class="caption">
         Notify the user something is going on under the covers.
-        There is also the <em>progress</em> Dialog type you can use.
       </p>
       <div class="group">
-        <button class="light push" @click="noMessage()">
+        <q-btn push color="secondary" @click="noMessage()">
           Show
-        </button>
-        <button class="primary push" @click="withMessage()">
+        </q-btn>
+        <q-btn push color="primary" @click="withMessage()">
           Show With Message
-        </button>
+        </q-btn>
       </div>
       <p class="caption">
-        You can use a custom spinner.
+        ...with a custom spinner, colors and size.
       </p>
-      <button class="light push" @click="customSpinner()">
-        Custom Spinner
-      </button>
+      <q-btn push color="secondary" @click="customLoading()">
+        Show custom Loading
+      </q-btn>
       <p class="caption">
-        ...with a custom color and spinner size.
+        Change Message while Being Displayed
       </p>
-      <button class="light push" @click="customColorSpinner()">
-        Custom Color and Size Spinner
-      </button>
+      <q-btn push color="secondary" @click="changeMessage()">
+        Show & Change
+      </q-btn>
     </div>
   </div>
 </template>
 
 <script>
-import { Loading } from 'quasar'
+import {
+  Loading,
+  QSpinnerFacebook,
+  QSpinnerGears
+} from 'quasar'
 
 function show (options) {
   Loading.show(options)
@@ -45,20 +48,27 @@ export default {
     noMessage () {
       show()
     },
-    customSpinner () {
-      show({spinner: 'facebook'})
-    },
-    customColorSpinner () {
+    customLoading () {
       show({
-        spinner: 'pie',
-        spinnerColor: '#027be3',
-        spinnerSize: 220,
+        spinner: QSpinnerFacebook,
+        spinnerColor: 'amber',
+        spinnerSize: 140,
         message: 'Some important process is in progress. Hang on...',
-        messageColor: '#ef0'
+        messageColor: 'orange'
       })
     },
     withMessage () {
       show({message: 'Some important process is in progress. Hang on...'})
+    },
+    changeMessage () {
+      Loading.show({message: 'First message. Gonna change it in 3 seconds...'})
+      setTimeout(() => {
+        show({
+          spinner: QSpinnerGears,
+          spinnerColor: 'amber',
+          message: 'Updated message'
+        })
+      }, 3000)
     }
   }
 }

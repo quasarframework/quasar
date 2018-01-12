@@ -1,0 +1,144 @@
+.q-item-stamp
+  font-size $item-stamp-font-size
+  line-height $item-stamp-font-size
+  white-space nowrap
+  margin .3rem 0
+
+.q-item-side-right
+  text-align right
+  color $item-secondary-color
+  display flex
+  flex-direction column
+  align-items flex-end
+  .q-item-icon, .q-item-letter, .q-item-stamp
+    opacity $item-secondary-opacity
+  .q-item-letter-inverted, .q-item-icon-inverted
+    opacity 1
+
+.q-item-side
+  color $item-primary-color
+  min-width $item-primary-size
+  .q-item-icon, .q-item-letter, .q-item-stamp
+    opacity $item-primary-opacity
+  .q-item-letter-inverted, .q-item-icon-inverted
+    opacity 1
+.q-item-avatar, .q-item-avatar img
+  width $item-primary-size
+  height $item-primary-size
+  border-radius 50%
+
+.q-item-letter, .q-item-icon
+  font-size $item-icon-size
+  width 100%
+  text-align center
+.q-item-letter-inverted, .q-item-icon-inverted
+  border-radius 50%
+  color white
+  background $primary
+.q-item-letter-inverted
+  padding 4px 0 5px
+.q-item-icon-inverted
+  font-size $item-inverted-icon-size
+  padding 9px
+
+.q-item-main
+  flex 1 1 auto
+  min-width 0
+.q-item-main-inset
+  margin-left ($item-gutter + $item-primary-size)
+
+.q-item-label > span
+  color $item-content-secondary-text-color
+.q-item-sublabel
+  color $item-content-secondary-text-color
+  font-size 90%
+  margin-top .2rem
+  > span
+    font-weight 500
+
+.q-item-section + .q-item-section
+  margin-left $item-gutter
+
+.q-item
+  position relative
+  display flex
+  align-items center
+  font-size $item-font-size
+  text-align left
+
+  padding ($item-padding / 2) $item-padding
+  min-height $item-min-height
+
+  &.active, &.router-link-active, &:focus
+    background $item-active-color
+
+  &:focus
+    outline 0
+
+.q-item-image
+  min-width $item-image-size
+  max-width $item-image-size
+  max-height $item-image-size
+
+.q-list-multiline > .q-item, .q-item-multiline
+  align-items flex-start
+
+.q-list-link > .q-item, .q-item-link
+  cursor pointer
+
+.q-list-highlight > .q-item, .q-item-highlight,
+.q-list-link > .q-item, .q-item-link
+  &:hover
+    background $item-highlight-color
+
+.q-list-separator > .q-item-division + .q-item-division, .q-item-division + .q-item-separator
+  border-top 1px solid $item-separator-color
+.q-list-inset-separator > .q-item-division + .q-item-division, .q-item-division + .q-item-inset-separator
+  &:after
+    content ''
+    position absolute
+    top 0
+    right 0
+    left ($item-padding + $item-gutter + $item-primary-size)
+    height 1px
+    background $item-separator-color
+
+.q-list-dense > .q-item, .q-item-dense
+  padding round($item-padding * $item-dense-factor) $item-padding
+  min-height round($item-min-height * $item-dense-factor)
+.q-list-sparse > .q-item, .q-item-sparse
+  padding ($item-padding * $item-sparse-factor) $item-padding
+  min-height ($item-min-height * $item-sparse-factor)
+
+.q-list-striped > .q-item:nth-child(even)
+  background-color $item-stripe-color
+.q-list-striped-odd > .q-item:nth-child(odd)
+  background-color $item-stripe-color
+
+.q-list
+  border 1px solid $item-separator-color
+  padding ($item-padding / 2) 0
+
+  & + .q-list
+    margin-top 32px
+
+.q-item-separator-component
+  margin ($item-padding / 2) 0
+  height 1px
+  border 0
+  background-color $item-separator-color
+  &:last-child
+    display none
+  & + .q-list-header
+    margin-top (- $item-padding / 2)
+.q-item-separator-inset-component
+  margin-left ($item-padding + $item-gutter + $item-primary-size)
+
+.q-list-header
+  color $item-label-color
+  font-size 14px
+  font-weight 500
+  line-height 48px
+  padding-left $item-padding
+.q-list-header-inset
+  padding-left ($item-padding + $item-gutter + $item-primary-size)

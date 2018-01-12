@@ -12,14 +12,16 @@ export function getAnchorPosition (el, offset) {
     }
 
   if (offset) {
-    a.top += offset[1]
-    a.left += offset[0]
+    a.top -= offset[1]
+    a.left -= offset[0]
     if (bottom) {
       bottom += offset[1]
     }
     if (right) {
       right += offset[0]
     }
+    a.width += offset[0]
+    a.height += offset[1]
   }
 
   a.right = right || a.left + a.width
@@ -91,24 +93,24 @@ export function applyAutoPositionIfNeeded (anchor, target, selfOrigin, anchorOri
   if (targetPosition.top < 0 || targetPosition.top + target.bottom > window.innerHeight) {
     let newTop = anchor[anchorPos.vertical] - target[positions.y[0]]
     if (newTop + target.bottom <= window.innerHeight) {
-      targetPosition.top = Math.max(0, newTop)
+      targetPosition.top = newTop
     }
     else {
       newTop = anchor[anchorPos.vertical] - target[positions.y[1]]
       if (newTop + target.bottom <= window.innerHeight) {
-        targetPosition.top = Math.max(0, newTop)
+        targetPosition.top = newTop
       }
     }
   }
   if (targetPosition.left < 0 || targetPosition.left + target.right > window.innerWidth) {
     let newLeft = anchor[anchorPos.horizontal] - target[positions.x[0]]
     if (newLeft + target.right <= window.innerWidth) {
-      targetPosition.left = Math.max(0, newLeft)
+      targetPosition.left = newLeft
     }
     else {
       newLeft = anchor[anchorPos.horizontal] - target[positions.x[1]]
       if (newLeft + target.right <= window.innerWidth) {
-        targetPosition.left = Math.max(0, newLeft)
+        targetPosition.left = newLeft
       }
     }
   }
@@ -131,7 +133,7 @@ export function getTransformProperties ({selfOrigin}) {
 
 export function setPosition ({el, anchorEl, anchorOrigin, selfOrigin, maxHeight, event, anchorClick, touchPosition, offset}) {
   let anchor
-  el.style.maxHeight = this.maxHeight || '65vh'
+  el.style.maxHeight = maxHeight || '65vh'
 
   if (event && (!anchorClick || touchPosition)) {
     const {top, left} = eventPosition(event)

@@ -1,99 +1,90 @@
 var
-  fs = require('fs'),
   path = require('path'),
   stylus = require('stylus'),
+  shell = require('shelljs'),
+  rtlcss = require('rtlcss'),
   postcss = require('postcss'),
   cssnano = require('cssnano'),
   autoprefixer = require('autoprefixer'),
-  themes = ['ios', 'mat'],
-  nonStandalone = process.argv[2] === 'simple' || process.argv[3] === 'simple',
-  version = process.env.VERSION || require('../package.json').version,
-  pathList = [path.join(__dirname, '../src/themes/')],
-  banner =
-    '/*!\n' +
-    ' * Quasar Framework v' + version + '\n' +
-    ' * (c) ' + new Date().getFullYear() + ' Razvan Stoenescu\n' +
-    ' * Released under the MIT License.\n' +
-    ' */\n'
+  buildConf = require('./build.conf'),
+  buildUtils = require('./build.utils'),
+  pathList = [path.join(__dirname, '../src/css/')]
 
-themes.forEach(function (theme) {
-  var
-    src = 'src/themes/quasar.' + theme + '.styl',
-    deps,
-    data
+/* copy core.variables.styl */
+shell.cp(
+  path.join(__dirname, '../src/css/core.variables.styl'),
+  path.join(__dirname, '../dist')
+)
+build(buildConf.themes)
 
-  deps = stylus(readFile(src))
+function build (themes) {
+  Promise
+    .all(themes.map(generateTheme))
+    .catch(e => {
+      console.error(e)
+    })
+}
+
+function generateTheme (theme) {
+  const src = `src/css/${theme}.styl`
+  const deps = stylus(buildUtils.readFile(src))
     .set('paths', pathList)
     .deps()
 
-  data = compile([src].concat(deps))
-
-  // write Stylus file
-  writeFile('dist/quasar.' + theme + '.styl', data)
-
-  // write compiled CSS file
-  stylus(data)
-    .set('paths', pathList)
-    .render(function (err, css) {
-      if (err) {
-        logError('Stylus could not compile ' + src.gray + ' file...')
-        throw err
-      }
-
-      // write unprefixed non-standalone version
-      writeFile('dist/quasar.' + theme + '.css', css)
-
-      if (nonStandalone) {
-        return
-      }
-
-      // write auto-prefixed standalone version
-      postcss([autoprefixer]).process(css).then(function (result) {
-        result.warnings().forEach(function (warn) {
-          console.warn(warn.toString())
-        })
-        writeFile('dist/quasar.' + theme + '.standalone.css', result.css)
-        cssnano.process(result.css).then(function (result) {
-          writeFile('dist/quasar.' + theme + '.standalone.min.css', result.css)
-        })
+  return prepareStylus([src].concat(deps))
+    .then(code => buildUtils.writeFile(`dist/quasar.${theme}.styl`, code))
+    .then(code => compileStylus(code))
+    .then(code => postcss([autoprefixer]).process(code))
+    .then(code => {
+      code.warnings().forEach(warn => {
+        console.warn(warn.toString())
       })
+      return new Promise((resolve, reject) => resolve(code.css))
     })
-})
-
-function logError (err) {
-  console.error('[Error]'.red, err)
+    .then(code => Promise.all([
+      generateStandalone(theme, code),
+      generateStandalone(theme, rtlcss.process(code), '.rtl')
+    ]))
 }
 
-function readFile (file) {
-  return fs.readFileSync(file, 'utf-8')
+function generateStandalone (theme, code, ext = '') {
+  return buildUtils.writeFile(`dist/quasar.${theme}${ext}.css`, code, true)
+    .then(code => cssnano.process(code))
+    .then(code => buildUtils.writeFile(`dist/quasar.${theme}${ext}.min.css`, code.css, true))
 }
 
-function writeFile (file, data) {
-  fs.writeFile(file, data, 'utf-8', function (err) {
-    if (err) {
-      logError('Could not write ' + file.gray + ' file...')
-      return
-    }
-    console.log(file.bold + ' ' + getSize(data).gray)
+function prepareStylus (src) {
+  return new Promise((resolve, reject) => {
+    let code = buildConf.banner
+
+    src.forEach(function (file) {
+      code += buildUtils.readFile(file) + '\n'
+    })
+
+    code = code
+      // remove imports
+      .replace(/@import\s+'[^']+'[\s\r\n]+/g, '')
+      // remove comments
+      .replace(/(\/\*[\w'-.,`\s\r\n*@]*\*\/)|(\/\/[^\r\n]*)/g, '')
+      // remove unnecessary newlines
+      .replace(/[\r\n]+/g, '\n')
+
+    resolve(code)
   })
 }
 
-function compile (src) {
-  var data = banner
-
-  src.forEach(function (file) {
-    data += readFile(file) + '\n'
+function compileStylus (code) {
+  return new Promise((resolve, reject) => {
+    stylus(code)
+      .set('paths', pathList)
+      .render((err, code) => {
+        if (err) {
+          console.log()
+          reject(err)
+        }
+        else {
+          resolve(code)
+        }
+      })
   })
-
-  return data
-    // remove imports
-    .replace(/@import '[^']+'\n/g, '')
-    // remove comments
-    .replace(/(\/\*[\w'-\.,`\s\r\n\*@]*\*\/)|(\/\/[^\n]*)/g, '')
-    // remove unnecessary newlines
-    .replace(/\n[\n]+/g, '\n')
-}
-
-function getSize (code) {
-  return (code.length / 1024).toFixed(2) + 'kb'
 }

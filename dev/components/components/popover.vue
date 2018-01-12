@@ -8,201 +8,151 @@
       </p>
 
       <div>
-        <button class="primary">
-          <i>assignment</i>
-
-          <q-popover ref="popover1">
-            <div class="list scroll highlight" style="min-width: 150px; max-height: 500px;">
-              <div
-                class="item item-link two-lines item-delimiter"
+        <q-toggle v-model="toggle" class="z-max fixed-top" />
+        <q-btn color="primary" icon="assignment">
+          <q-popover v-model="toggle" ref="popover1">
+            <q-list link separator class="scroll" style="min-width: 100px">
+              <q-item
                 v-for="n in 20"
-                @click="showToast(), $refs.popover1.close()"
+                :key="n"
+                @click.native="showNotify(), $refs.popover1.hide()"
               >
-                <div class="item-content">
-                  <div>Label</div>
-                  <div>Value</div>
-                </div>
-              </div>
-            </div>
+                <q-item-main label="Label" sublabel="Click me" />
+              </q-item>
+            </q-list>
           </q-popover>
-        </button>
+        </q-btn>
 
-        <button ref="target4" class="negative">
-          Disabled Popover
-
+        <q-btn ref="target4" color="negative" label="Disabled Popover">
           <q-popover disable>
             This Popover content won't be shown because of "disable"
           </q-popover>
-        </button>
+        </q-btn>
 
-        <div class="card" style="margin-top: 75px">
-          <div class="card-title bg-primary text-center">
-            <button class="orange push">
-              Tap Me
-
+        <q-card style="margin-top: 75px">
+          <q-card-title class="bg-primary text-center">
+            <q-btn push color="orange" label="Tap Me">
               <q-popover
                 ref="popover2"
                 :anchor="anchor"
                 :self="self"
               >
-                <div class="list highlight" style="min-width: 100px">
-                  <div
-                    class="item item-link item-delimiter"
+                <q-list link style="min-width: 100px">
+                  <q-item
                     v-for="n in 3"
-                    @click="showToast(), $refs.popover2.close()"
+                    :key="n"
+                    @click="showNotify(), $refs.popover2.hide()"
                   >
-                    <div class="item-content">
-                      Label
-                    </div>
-                  </div>
-                </div>
+                    <q-item-main label="Label" />
+                  </q-item>
+                </q-list>
               </q-popover>
-            </button>
-          </div>
+            </q-btn>
+          </q-card-title>
 
           <p class="caption text-center">Configure the Popover for button above.</p>
           <p class="text-center">
-            <span class="tag label bg-light">anchor="{{anchor}}"</span>
-            <span class="tag label bg-light">self="{{self}}"</span>
+            <q-chip tag color="primary">anchor="{{anchor}}"</q-chip>
+            <q-chip tag color="primary">self="{{self}}"</q-chip>
           </p>
-          <div class="card-content group row sm-column">
-            <div class="auto column items-center">
+          <q-card-main class="row">
+            <div class="column items-center col-6">
               <p class="caption">Anchor Origin</p>
               <div class="flex">
                 <div class="column group">
                   <div>Vertical</div>
-                  <label>
-                    <q-radio v-model="anchorOrigin.vertical" val="top"></q-radio>
-                    Top
-                  </label>
-                  <label>
-                    <q-radio v-model="anchorOrigin.vertical" val="center"></q-radio>
-                    Center
-                  </label>
-                  <label>
-                    <q-radio v-model="anchorOrigin.vertical" val="bottom"></q-radio>
-                    Bottom
-                  </label>
+                  <q-radio v-model="anchorOrigin.vertical" val="top" label="Top" />
+                  <q-radio v-model="anchorOrigin.vertical" val="center" label="Center" />
+                  <q-radio v-model="anchorOrigin.vertical" val="bottom" label="Bottom" />
                 </div>
                 <div class="column group">
                   <div>Horizontal</div>
-                  <label>
-                    <q-radio v-model="anchorOrigin.horizontal" val="left"></q-radio>
-                    Left
-                  </label>
-                  <label>
-                    <q-radio v-model="anchorOrigin.horizontal" val="middle"></q-radio>
-                    Middle
-                  </label>
-                  <label>
-                    <q-radio v-model="anchorOrigin.horizontal" val="right"></q-radio>
-                    Right
-                  </label>
+                  <q-radio v-model="anchorOrigin.horizontal" val="left" label="Left" />
+                  <q-radio v-model="anchorOrigin.horizontal" val="middle" label="Middle" />
+                  <q-radio v-model="anchorOrigin.horizontal" val="right" label="Right" />
                 </div>
               </div>
             </div>
 
-            <div class="auto column items-center">
+            <div class="column items-center col-6">
               <p class="caption">Self Origin</p>
               <div class="flex">
                 <div class="column group">
                   <div>Vertical</div>
-                  <label>
-                    <q-radio v-model="selfOrigin.vertical" val="top"></q-radio>
-                    Top
-                  </label>
-                  <label>
-                    <q-radio v-model="selfOrigin.vertical" val="center"></q-radio>
-                    Center
-                  </label>
-                  <label>
-                    <q-radio v-model="selfOrigin.vertical" val="bottom"></q-radio>
-                    Bottom
-                  </label>
+                  <q-radio v-model="selfOrigin.vertical" val="top" label="Top" />
+                  <q-radio v-model="selfOrigin.vertical" val="center" label="Center" />
+                  <q-radio v-model="selfOrigin.vertical" val="bottom" label="Bottom" />
                 </div>
                 <div class="column group">
                   <div>Horizontal</div>
-                  <label>
-                    <q-radio v-model="selfOrigin.horizontal" val="left"></q-radio>
-                    Left
-                  </label>
-                  <label>
-                    <q-radio v-model="selfOrigin.horizontal" val="middle"></q-radio>
-                    Middle
-                  </label>
-                  <label>
-                    <q-radio v-model="selfOrigin.horizontal" val="right"></q-radio>
-                    Right
-                  </label>
+                  <q-radio v-model="selfOrigin.horizontal" val="left" label="Left" />
+                  <q-radio v-model="selfOrigin.horizontal" val="middle" label="Middle" />
+                  <q-radio v-model="selfOrigin.horizontal" val="right" label="Right" />
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+          </q-card-main>
+        </q-card>
 
         <div style="margin-bottom: 700px;"></div>
 
-        <button class="secondary fixed-top-right" style="top: 65px; right: 10px; right: 16px;">
-          <i>directions</i>
-
+        <q-btn color="secondary" class="fixed-top-right" icon="directions" style="top: 65px; right: 16px;">
           <q-popover ref="popover3">
             <img
               src="~assets/map.png"
               style="height: 150px; width: 200px;"
-              @click="showToast(), $refs.popover3.close()"
+              @click="showNotify(), $refs.popover3.hide()"
             >
           </q-popover>
-        </button>
+        </q-btn>
 
-        <button class="tertiary fixed-bottom-right" style="bottom: 10px; right: 16px;">
-          <i>plus_one</i>
-
+        <q-btn color="tertiary" class="fixed-bottom-right" icon="plus_one" style="bottom: 10px; right: 16px;">
           <q-popover ref="popover4">
-            <div class="group" style="width: 200px; height: 50px; text-align: center;">
-              <button class="primary clear" @click="showToast(), $refs.popover4.close()">
-                <i>thumb_up</i>
-              </button>
-              <button class="primary clear" @click="showToast(), $refs.popover4.close()">
-                <i>thumb_down</i>
-              </button>
-              <button class="secondary clear" @click="showToast(), $refs.popover4.close()">
-                <i>share</i>
-              </button>
+            <div class="group" style="width: 220px; text-align: center;">
+              <q-btn icon="thumb_up" flat color="primary" @click="showNotify(), $refs.popover4.hide()" />
+              <q-btn icon="thumb_down" flat color="primary" @click="showNotify(), $refs.popover4.hide()" />
+              <q-btn icon="share" flat color="secondary" @click="showNotify(), $refs.popover4.hide()" />
             </div>
           </q-popover>
-        </button>
+        </q-btn>
       </div>
 
-      <button class="primary fixed-bottom-left" style="bottom: 10px; left: 10px;">
-        <i>menu</i>
-
+      <q-btn icon="menu" color="primary" class="fixed-bottom-left" style="bottom: 10px; left: 10px;">
         <q-popover ref="popover5">
-          <div class="list highlight" style="min-width: 150px">
-            <div
-              class="item item-link two-lines item-delimiter"
+          <q-list link separator class="scroll" style="min-width: 200px">
+            <q-item
               v-for="n in 20"
-              @click="showToast(), $refs.popover5.close()"
-              >
-              <div class="item-content">
-                <div>Label</div>
-                <div>Value</div>
-              </div>
-            </div>
-          </div>
+              :key="n"
+              @click.native="showNotify(), $refs.popover5.hide()"
+            >
+              <q-item-main label="Label" sublabel="Click me" />
+            </q-item>
+          </q-list>
         </q-popover>
-      </button>
+      </q-btn>
     </div>
   </div>
 </template>
 
 <script>
-import { Platform, Toast } from 'quasar'
-
 export default {
   data () {
+    let list = []
+    for (let i = 0; i < 26 * 30; i += 1) {
+      const c = String.fromCharCode(97 + (i % 26))
+      const v = `${c}${c}${c}${c}${c}#${i}`
+      list.push({ label: v, value: v })
+    }
     return {
+      toggle: false,
       anchorOrigin: {vertical: 'bottom', horizontal: 'left'},
-      selfOrigin: {vertical: 'top', horizontal: 'left'}
+      selfOrigin: {vertical: 'top', horizontal: 'left'},
+      terms: '',
+      modelDate: null,
+      model: 30,
+      min: 0,
+      max: 50,
+      list
     }
   },
   computed: {
@@ -214,8 +164,8 @@ export default {
     }
   },
   methods: {
-    showToast () {
-      Toast.create((Platform.is.desktop ? 'Clicked' : 'Tapped') + ' on a Popover item')
+    showNotify () {
+      this.$q.notify((this.$q.platform.is.desktop ? 'Clicked' : 'Tapped') + ' on a Popover item')
     }
   }
 }

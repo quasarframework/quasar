@@ -6,48 +6,85 @@
         On desktop, Escape key closes the suggestions popover and you can navigate with keyboard arrow keys. Selection is made with either mouse/finger tap or by Enter key.
       </p>
 
-      <q-autocomplete v-model="terms" @search="search" @selected="selected" :delay="0">
-        <q-search v-model="terms" placeholder="Start typing a country name" />
-      </q-autocomplete>
 
-      <br>
+      <q-search @change="onChange" @input="onInput" v-model="terms" placeholder="Start typing a country name">
+        <q-autocomplete @search="search" @selected="selected" />
+      </q-search>
+
+      <q-search @change="onChange" @input="onInput" v-model="terms" hide-underline placeholder="Start typing a country name (hide underline)">
+        <q-autocomplete @search="search" @selected="selected" />
+      </q-search>
+
+      <q-search @change="val => { terms = val; onChange(val) }" @input="onInput" :value="terms" placeholder="Start typing a country name (onChange)">
+        <q-autocomplete @search="search" @selected="selected" />
+      </q-search>
+
+      <p class="caption">Number selected: {{ JSON.stringify(termsN) }}</p>
+      <q-search type="number" v-model="termsN" placeholder="Start typing a number">
+        <q-autocomplete :static-data="{field: 'value', list: numbers}" @selected="selected" />
+      </q-search>
+
+      <q-input @change="onChange" @input="onInput" v-model="terms" placeholder="Start typing a country name">
+        <q-autocomplete @search="search" @selected="selected" />
+      </q-input>
+
+      <q-input @change="val => { terms = val; onChange(val) }" @input="onInput" :value="terms" placeholder="Start typing a country name (onChange)">
+        <q-autocomplete @search="search" @selected="selected" />
+      </q-input>
+
+      <q-search inverted v-model="terms" placeholder="Start typing a country name">
+        <q-autocomplete @search="search" @selected="selected"  />
+      </q-search>
 
       <p class="caption">Maximum of 2 results at a time</p>
-      <q-autocomplete v-model="terms" @search="search" :max-results="2" @selected="selected" :delay="0">
-        <q-search v-model="terms" />
-      </q-autocomplete>
-
-      <br>
+      <q-search inverted color="amber" v-model="terms">
+        <q-autocomplete
+          @search="search"
+          :max-results="2"
+          @selected="selected"
+        />
+      </q-search>
 
       <p class="caption">Minimum 3 characters to trigger search</p>
-      <q-autocomplete v-model="terms" @search="search" :minCharacters="3" @selected="selected">
-        <input v-model="terms" class="full-width" placeholder="Type 'fre'" />
-      </q-autocomplete>
+      <q-input color="amber" v-model="terms" placeholder="Type 'fre'">
+        <q-autocomplete
+          @search="search"
+          :min-characters="3"
+          @selected="selected"
+        />
+      </q-input>
 
-      <br>
-
-      <p class="caption">Fills with its own input field (check source)</p>
-      <q-autocomplete v-model="terms" @search="search" @selected="selected" />
-
-      <br>
+      <p class="caption">Custom debounce before triggering search</p>
+      <q-input color="amber" v-model="terms" placeholder="One second debounce">
+        <q-autocomplete
+          @search="search"
+          :debounce="1000"
+          @selected="selected"
+        />
+      </q-input>
 
       <p class="caption">Static List</p>
-      <q-autocomplete v-model="terms" :static-data="{field: 'value', list: countries}" @selected="selected" :delay="0">
-        <q-search v-model="terms" placeholder="Featuring static data" />
-      </q-autocomplete>
+      <q-search inverted color="secondary" v-model="terms" placeholder="Featuring static data">
+        <q-autocomplete
+          :static-data="{field: 'value', list: countries}"
+          @selected="selected"
+        />
+      </q-search>
 
-      <br>
-
-      <p class="caption">Delimiter between results</p>
-      <q-autocomplete v-model="terms" delimiter @search="search" @selected="selected" :delay="0">
-        <q-search v-model="terms" />
-      </q-autocomplete>
+      <p class="caption">Separator between results</p>
+      <q-search v-model="terms">
+        <q-autocomplete
+          separator
+          @search="search"
+          @selected="selected"
+        />
+      </q-search>
     </div>
   </div>
 </template>
 
 <script>
-import { Utils, Toast } from 'quasar'
+import { uid, filter } from 'quasar'
 import countries from 'data/autocomplete.json'
 
 const icons = ['alarm', 'email', 'search', 'build', 'card_giftcard', 'perm_identity', 'receipt', 'schedule', 'speaker_phone', 'archive', 'weekend', 'battery_charging_full']
@@ -62,14 +99,14 @@ function getRandomStamp () {
 }
 function getRandomSecondLabel () {
   if (Math.floor(Math.random() * 50) % 4 === 0) {
-    return `UID: ${Utils.uid().substring(0, 8)}`
+    return `UID: ${uid().substring(0, 8)}`
   }
 }
 function parseCountries () {
   return countries.map(country => {
     return {
       label: country,
-      secondLabel: getRandomSecondLabel(),
+      sublabel: getRandomSecondLabel(),
       icon: getRandomIcon(),
       stamp: getRandomStamp(),
       value: country
@@ -81,17 +118,25 @@ export default {
   data () {
     return {
       terms: '',
-      countries: parseCountries()
+      termsN: null,
+      countries: parseCountries(),
+      numbers: [1, 2, 3, 4, 5, 1111, 2222, 3333, 4444, 5555].map(v => ({ label: String(v), value: v }))
     }
   },
   methods: {
     search (terms, done) {
       setTimeout(() => {
-        done(Utils.filter(terms, {field: 'value', list: parseCountries()}))
-      }, 500)
+        done(filter(terms, {field: 'value', list: parseCountries()}))
+      }, 1000)
     },
     selected (item) {
-      Toast.create(`Selected suggestion "${item.label}"`)
+      this.$q.notify(`Selected suggestion ${JSON.stringify(item.label)}`)
+    },
+    onChange (val) {
+      console.log('@change', JSON.stringify(val))
+    },
+    onInput (val) {
+      console.log('@input', JSON.stringify(val))
     }
   }
 }

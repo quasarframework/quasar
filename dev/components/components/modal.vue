@@ -7,109 +7,118 @@
         on each type to see it in action.
       </p>
 
-      <div class="list" style="max-width: 600px;">
-        <div
-          class="item item-link"
+      <q-list style="max-width: 600px;">
+        <q-item
+          link
           v-for="modal in types"
-          @click="$refs[modal.ref].open()"
+          :key="modal.label"
+          @click.native="$refs[modal.ref].show()"
+          v-ripple.mat
         >
-          <i class="item-primary">open_in_new</i>
-          <div class="item-content has-secondary">
-            <div>{{modal.label}}</div>
-          </div>
-          <i class="item-secondary">keyboard_arrow_right</i>
-        </div>
-      </div>
+          <q-item-side icon="open_in_new" />
+          <q-item-main :label="modal.label" />
+          <q-item-side right icon="keyboard_arrow_right" />
+        </q-item>
+      </q-list>
 
       <p class="caption">Appear from Edges</p>
-      <div class="list" style="max-width: 600px;">
-        <div
-          class="item item-link"
+      <q-list style="max-width: 600px;">
+        <q-item
+          link
           v-for="position in ['top', 'bottom', 'left', 'right']"
-          @click="openSpecialPosition(position)"
+          :key="position"
+          @click.native="openSpecialPosition(position)"
+          v-ripple.mat
         >
-          <i class="item-primary">open_in_new</i>
-          <div class="item-content has-secondary">
-            <div>Modal from {{position}}</div>
-          </div>
-          <i class="item-secondary">keyboard_arrow_right</i>
-        </div>
-      </div>
+          <q-item-side icon="open_in_new" />
+          <q-item-main :label="`Modal from ${position}`" />
+          <q-item-side right icon="keyboard_arrow_right" />
+        </q-item>
+      </q-list>
     </div>
 
-    <q-modal ref="basicModal" :content-css="{padding: '50px', minWidth: '50vw'}">
+    <q-toggle v-model="toggle" class="z-max fixed-top" />
+    <q-modal v-model="toggle" ref="basicModal" :content-css="{padding: '50px', minWidth: '50vw'}">
       <h4>Basic Modal</h4>
       <p v-for="n in 25">Scroll down to close</p>
-      <button class="primary" @click="$refs.basicModal.close()">Close</button>
+      <q-btn color="primary" @click="$refs.basicModal.hide()">Close</q-btn>
     </q-modal>
 
     <q-modal
       ref="eventsModal"
-      @open="notify('open')"
+      @show="notify('open')"
       @escape-key="notify('escape-key')"
-      @close="notify('close')"
+      @hide="notify('close')"
       :content-css="{padding: '50px', minWidth: '50vw'}"
     >
       <h4>Modal with Events</h4>
       <p v-for="n in 25">Scroll down to close</p>
-      <button class="primary" @click="$refs.eventsModal.close()">Close</button>
+      <q-btn color="primary" @click="$refs.eventsModal.hide()">Close</q-btn>
     </q-modal>
 
-    <q-modal ref="layoutModal" :content-css="{minWidth: '80vw', minHeight: '80vh'}">
-      <q-layout>
-        <div slot="header" class="toolbar">
-          <button @click="$refs.layoutModal.close()">
-            <i>keyboard_arrow_left</i>
-          </button>
-          <q-toolbar-title :padding="1">
+    <div class="fixed-bottom-right z-max bg-yellow">
+      Ref <q-btn @click="show" label="Show" /><q-btn @click="hide" label="Hide" />
+      <br>
+      Model <q-btn @click="someModel = true" label="Show" /><q-btn @click="someModel = false" label="Hide" />
+      <br>
+      {{ someModel }}
+    </div>
+    <q-modal ref="layoutModal" v-model="someModel" :content-css="{minWidth: '80vw', minHeight: '80vh'}" @show="onShow" @hide="onHide">
+      <q-modal-layout>
+        <q-toolbar slot="header">
+          <q-icon style="font-size: 500%" class="cursor-pointer" name="map" @click="closeMe" />
+          <q-btn flat round dense @click="$refs.layoutModal.hide()">
+            <q-icon name="keyboard_arrow_left" />
+          </q-btn>
+          <q-toolbar-title>
             Header
           </q-toolbar-title>
-        </div>
+        </q-toolbar>
 
-        <div slot="header" class="toolbar primary">
-          <q-search class="primary"></q-search>
-        </div>
+        <q-toolbar slot="header">
+          <q-search inverted v-model="search" color="none"></q-search>
+        </q-toolbar>
 
-        <div slot="footer" class="toolbar">
-          <q-toolbar-title :padding="1">
+        <q-toolbar slot="footer">
+          <q-toolbar-title>
             Footer
           </q-toolbar-title>
-        </div>
+        </q-toolbar>
 
-        <div class="layout-view">
-          <div class="layout-padding">
-            <h1>Modal</h1>
-            <button class="primary" @click="$refs.layoutModal.close()">Close</button>
-            <p class="caption" v-for="n in 15">This is a Modal presenting a Layout.</p>
-          </div>
+        <div class="layout-padding">
+          <h1>Modal</h1>
+
+          <q-btn color="primary" @click="$refs.layoutModal.hide()">Close</q-btn>
+          <p class="caption" v-for="n in 15">This is a Modal presenting a Layout.</p>
         </div>
-      </q-layout>
+      </q-modal-layout>
     </q-modal>
 
-    <q-modal ref="minimizedModal" class="minimized" :content-css="{padding: '50px'}">
+    <q-modal ref="minimizedModal" minimized :content-css="{padding: '50px'}">
       <h4>Minimized Modal</h4>
       <p>This one has backdrop on small screens too.</p>
-      <button class="red" @click="$refs.minimizedModal.close()">Close Me</button>
+      <q-btn color="red" @click="$refs.minimizedModal.hide()">Close Me</q-btn>
     </q-modal>
 
-    <q-modal ref="maximizedModal" class="maximized" :content-css="{padding: '50px'}">
+    <q-modal ref="maximizedModal" maximized :content-css="{padding: '50px'}">
       <h4>Maximized Modal</h4><p>This one is maximized on bigger screens too.</p>
-      <button class="tertiary" @click="$refs.maximizedModal.close()">Close Me</button>
+      <q-btn color="tertiary" @click="$refs.maximizedModal.hide()">Close Me</q-btn>
     </q-modal>
 
     <q-modal ref="positionModal" :position="position" :content-css="{padding: '20px'}">
       <h4>Modal</h4><p>This one gets displayed from {{position}}.</p>
-      <button class="orange" @click="$refs.positionModal.close()">Close Me</button>
+      <q-btn color="orange" @click="$refs.positionModal.hide()">Close Me</q-btn>
     </q-modal>
   </div>
 </template>
 
 <script>
-import { Toast } from 'quasar'
-
 export default {
   data () {
     return {
+      search: '',
+      toggle: false,
+      someModel: false,
       types: [
         {
           label: 'Basic',
@@ -137,12 +146,39 @@ export default {
   },
   methods: {
     notify (eventName) {
-      Toast.create(`Event "${eventName}" was triggered.`)
+      this.$q.notify(`Event "${eventName}" was triggered.`)
     },
     openSpecialPosition (position) {
       this.position = position
       this.$nextTick(() => {
-        this.$refs.positionModal.open()
+        this.$refs.positionModal.show()
+      })
+    },
+    closeMe () {
+      console.log('click')
+      this.$refs.layoutModal.hide()
+      this.$refs.layoutModal.hide()
+    },
+    onShow () {
+      console.log('onShow')
+    },
+    onHide () {
+      console.log('onHide')
+    },
+    show () {
+      console.log('show')
+      this.$refs.layoutModal.show().then(() => {
+        console.log('---show finished')
+      }, () => {
+        console.log('---show cancelled')
+      })
+    },
+    hide () {
+      console.log('hide')
+      this.$refs.layoutModal.hide().then(() => {
+        console.log('---hide finished')
+      }, () => {
+        console.log('---hide cancelled')
       })
     }
   }

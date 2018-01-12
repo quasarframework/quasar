@@ -7,14 +7,23 @@
         to switch between fullscreen mode and default mode.
       </p>
 
+      <div>Is fullscreen: {{ $q.fullscreen.isActive }}</div>
+
       <p>
-        <button
-          class="secondary"
+        <q-btn
+          color="secondary"
+          @click="$q.fullscreen.toggle()"
+          icon="zoom_out_map"
+          label="Toggle Fullscreen ($q)"
+        />
+      </p>
+      <p>
+        <q-btn
+          color="secondary"
           @click="toggleFullscreen()"
-        >
-          <i class="on-left">zoom_out_map</i>
-          Toggle Fullscreen
-        </button>
+          icon="zoom_out_map"
+          label="Toggle Fullscreen (import)"
+        />
       </p>
 
       <p class="caption">
@@ -41,6 +50,9 @@ export default {
   methods: {
     toggleFullscreen () {
       AppFullscreen.toggle()
+      setTimeout(() => {
+        console.log(AppFullscreen.isActive)
+      }, 100)
     }
   }
 }

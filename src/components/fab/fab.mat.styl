@@ -1,0 +1,61 @@
+.q-fab
+  position relative
+  vertical-align middle
+
+.z-fab
+  z-index $z-fab
+
+.q-fab-opened
+  .q-fab-actions
+    opacity 1
+    transform scaleX(1) scaleY(1) translateX(0) translateY(0)
+    pointer-events all
+  .q-fab-icon
+    transform rotate3d(0, 0, 1, 180deg)
+    opacity 0
+  .q-fab-active-icon
+    transform rotate3d(0, 0, 1, 0deg)
+    opacity 1
+
+.q-fab-icon, .q-fab-active-icon
+  transition opacity .4s, transform .4s
+.q-fab-icon
+  opacity 1
+  transform rotate3d(0, 0, 1, 0deg)
+.q-fab-active-icon
+  opacity 0
+  transform rotate3d(0, 0, 1, -180deg)
+
+.q-fab-actions
+  position absolute
+  opacity 0
+  transition all .2s ease-in
+  pointer-events none
+  .q-btn
+    margin $fab-margin
+
+.q-fab-right
+  transform scaleX(.4) scaleY(.4) translateX(-100%)
+  top 0
+  bottom 0
+  left 120%
+.q-fab-left
+  transform scaleX(.4) scaleY(.4) translateX(100%)
+  top 0
+  bottom 0
+  right 120%
+  flex-direction row-reverse
+.q-fab-up
+  transform scaleX(.4) scaleY(.4) translateY(100%)
+  flex-direction column-reverse
+  justify-content center
+  bottom 120%
+  left 0
+  right 0
+.q-fab-down
+  transform scaleX(.4) scaleY(.4) translateY(-100%)
+  flex-direction column
+  justify-content center
+  top 120%
+  left 0
+  right 0

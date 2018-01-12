@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div class="layout-padding">
+    <div class="layout-padding" style="max-width: 500px">
+      <div class="row justify-center" style="padding-bottom: 25px">
+        <img src="statics/quasar-logo.png">
+      </div>
       <div
         class="list no-border"
         v-for="(category, title) in list"
@@ -10,15 +13,13 @@
         </h4>
         <router-link
           v-for="feature in category"
-          :key="feature"
+          :key="`${feature.route}${feature.title}`"
           tag="div"
-          class="item item-link item-delimiter"
+          class="q-item q-item-link"
           :to="feature.route"
         >
-          <div class="item-content has-secondary">
-            <div>{{ feature.title }}</div>
-          </div>
-          <i class="item-secondary">chevron_right</i>
+          <q-item-main :label="feature.title" />
+          <q-item-side right icon="chevron_right" />
         </router-link>
       </div>
     </div>

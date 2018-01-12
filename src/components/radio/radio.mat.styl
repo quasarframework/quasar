@@ -1,0 +1,21 @@
+$radio-size = 21px
+
+.q-radio-unchecked, .q-radio-checked, .q-radio .q-option-inner
+  height $radio-size
+  width $radio-size
+  min-width $radio-size
+  font-size $radio-size
+  transition transform .45s cubic-bezier(.23, 1, .32, 1)
+  opacity 1
+
+.q-radio-unchecked
+  opacity 1
+.q-radio-checked
+  transform-origin 50% 50% 0
+  transform scale(0)
+
+.q-radio .q-option-inner.active
+  .q-radio-unchecked
+    opacity 0
+  .q-radio-checked
+    transform scale(1)

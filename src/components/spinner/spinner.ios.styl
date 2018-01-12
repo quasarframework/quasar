@@ -1,0 +1,22 @@
+.q-spinner
+  vertical-align middle
+
+.q-spinner-mat
+  animation q-spin 2s linear infinite
+  transform-origin center center
+  .path
+    stroke-dasharray 1, 200
+    stroke-dashoffset 0
+    stroke-linecap round
+    animation q-mat-dash 1.5s ease-in-out infinite
+
+@keyframes q-mat-dash
+  0%
+    stroke-dasharray 1, 200
+    stroke-dashoffset 0
+  50%
+    stroke-dasharray 89, 200
+    stroke-dashoffset -35px
+  100%
+    stroke-dasharray 89, 200
+    stroke-dashoffset -124px
