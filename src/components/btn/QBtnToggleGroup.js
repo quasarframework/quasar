@@ -61,6 +61,7 @@ export default {
         },
         on: { change: () => this.set(opt.value, opt) },
         props: {
+          disable: this.disable,
           toggled: this.val[i],
           label: opt.label,
           color: opt.color || this.color,
