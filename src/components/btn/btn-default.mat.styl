@@ -25,7 +25,7 @@
 
   &.disabled
     opacity .7 !important
-  &:not([disabled]):active
+  &:active:not(.disabled)
     box-shadow $shadow-8
   &.full-width
     border-radius 0 !important
@@ -68,7 +68,7 @@
   min-height 0
   height 3em
   width 3em
-  &:active
+  &:active:not(.disabled)
     box-shadow $shadow-8
 
 .q-btn-dense
