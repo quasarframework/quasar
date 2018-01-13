@@ -1,6 +1,38 @@
 <template>
   <div class="layout-padding">
     <q-editor
+      v-model="model"
+      :toolbar="[
+        ['underline','print', 'bold', 'italic'],
+        ['customItalic'],
+        ['save', 'upload'],
+        ['spellcheck'],
+        ['disabledButton'],
+        ['custom_btn']
+      ]"
+      :definitions="{
+        bold: {cmd: 'bold', label: 'Bold', icon: null, tip: 'My bold tooltip'},
+        italic: {cmd: 'italic', tip: 'My italic tooltip'},
+        customItalic: {cmd: 'italic', icon: 'camera_enhance', tip: 'Italic'},
+        save: {tip: 'Save your work', icon: 'save', label: 'Save', handler: saveWork},
+        spellcheck: {tip: 'Run spell-check', icon: 'spellcheck', handler: spellCheck},
+        upload: {tip: 'Upload to cloud', textColor: 'amber', icon: 'cloud_upload', label: 'Upload', handler: upload},
+        disabledButton: {tip: 'I am disabled...', disable: true, icon: 'cloud_off', handler: saveWork}
+      }"
+    >
+      <q-btn
+        slot="custom_btn"
+        dense
+        color="secondary"
+        icon="import_contacts"
+        label="Import"
+        @click="importSomething"
+      />
+    </q-editor>
+
+    <br><br><br>
+
+    <q-editor
       ref="editor"
       v-model="model"
       :toolbar="[
@@ -98,6 +130,33 @@ export default {
     }
   },
   methods: {
+    saveWork () {
+      this.$q.notify({
+        icon: 'done',
+        color: 'positive',
+        message: 'I guess something got saved.'
+      })
+    },
+    upload () {
+      this.$q.notify({
+        icon: 'cloud_upload',
+        color: 'secondary',
+        message: 'Hmm, will upload at another time, ok?'
+      })
+    },
+    spellCheck () {
+      this.$q.notify({
+        icon: 'spellcheck',
+        color: 'secondary',
+        message: `I'll sure run the spellcheck. Later.`
+      })
+    },
+    importSomething () {
+      this.$q.notify({
+        color: 'tertiary',
+        message: `Importing...`
+      })
+    },
     add (name) {
       const edit = this.$refs.editor
       this.$refs.token.hide()

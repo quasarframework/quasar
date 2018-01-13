@@ -21,7 +21,8 @@ function getBtn (h, vm, btn, clickHandler) {
         clickHandler && clickHandler()
         run(e, btn, vm)
       }
-    }
+    },
+    toggle = btn.type === 'toggle'
 
   if (btn.tip && vm.$q.platform.is.desktop) {
     const Key = btn.key
@@ -33,32 +34,18 @@ function getBtn (h, vm, btn, clickHandler) {
     ]))
   }
 
-  if (btn.type === void 0) {
-    return h(QBtnToggle, {
-      props: extend({
-        icon: btn.icon,
-        label: btn.label,
-        dense: true,
-        toggled: btn.toggled ? btn.toggled(vm) : btn.cmd && vm.caret.is(btn.cmd, btn.param),
-        color: vm.color,
-        toggleColor: vm.toggleColor,
-        disable: btn.disable ? btn.disable(vm) : false
-      }, vm.buttonProps),
-      on: events
-    }, child)
-  }
-  if (btn.type === 'no-state') {
-    return h(QBtn, {
-      props: extend({
-        icon: btn.icon,
-        color: vm.color,
-        dense: true,
-        label: btn.label,
-        disable: btn.disable ? btn.disable(vm) : false
-      }, vm.buttonProps),
-      on: events
-    }, child)
-  }
+  return h(toggle ? QBtnToggle : QBtn, {
+    props: extend({
+      icon: btn.icon,
+      color: btn.color || vm.color,
+      textColor: btn.textColor,
+      label: btn.label,
+      toggled: toggle ? (btn.toggled ? btn.toggled(vm) : btn.cmd && vm.caret.is(btn.cmd, btn.param)) : null,
+      toggleColor: vm.toggleColor,
+      disable: btn.disable ? (typeof btn.disable === 'function' ? btn.disable(vm) : true) : false
+    }, vm.buttonProps),
+    on: events
+  }, child)
 }
 
 function getDropdown (h, vm, btn) {

@@ -112,12 +112,13 @@ export default {
       }
     },
     buttons () {
-      let def = this.definitions || this.fonts
+      const userDef = this.definitions || {}
+      const def = this.definitions || this.fonts
         ? extend(
           true,
           {},
           this.buttonDef,
-          this.definitions || {},
+          userDef,
           getFonts(
             this.defaultFont,
             this.$q.i18n.editor.defaultFont,
@@ -145,9 +146,11 @@ export default {
           const obj = def[token]
 
           if (obj) {
-            return token.handler
-              ? extend(true, { type: 'no-state' }, obj)
-              : obj
+            return obj.type === 'no-state' || (userDef[token] && (
+              obj.cmd === void 0 || (this.buttonDef[obj.cmd] && this.buttonDef[obj.cmd].type === 'no-state')
+            ))
+              ? obj
+              : extend(true, { type: 'toggle' }, obj)
           }
           else {
             return {
