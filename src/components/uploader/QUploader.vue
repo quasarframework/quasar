@@ -332,10 +332,6 @@ export default {
       this.files = this.files.filter(obj => obj.name !== name)
       this.__computeTotalSize()
     },
-    __removeUploaded () {
-      this.files = this.files.filter(f => !f.__doneUploading)
-      this.__computeTotalSize()
-    },
     __pick () {
       if (!this.addDisabled && this.$q.platform.is.mozilla) {
         this.$refs.file.click()
