@@ -50,6 +50,11 @@
         <q-btn fab color="primary" icon="android" />
         <q-btn fab-mini color="primary" icon="android" />
       </p>
+
+      <br><br>
+      <q-btn color="amber" text-color="black" icon="map" label="Some label" />
+      <q-btn text-color="amber" icon="map" label="Some label" />
+
       <p class="caption">Regular (rectangle) and Circular</p>
       <q-btn color="primary">Some very, but very long button title that should wrap to the next line without any problems</q-btn>
       <p class="group">

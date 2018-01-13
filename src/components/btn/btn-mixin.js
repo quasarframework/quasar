@@ -99,6 +99,9 @@ export default {
           cls.push(`text-${this.textColor || 'white'}`)
         }
       }
+      else if (this.textColor) {
+        cls.push(`text-${this.textColor}`)
+      }
 
       cls.push({
         'q-btn-no-uppercase': this.noCaps,
