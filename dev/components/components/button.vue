@@ -237,6 +237,8 @@
       <p class="group">
         <q-btn color="primary" disable>Disabled</q-btn>
         <q-btn round color="primary" disable icon="card_giftcard" />
+        <q-btn push color="primary" disable>Push</q-btn>
+        <q-btn push color="primary" disable round icon="card_giftcard" />
       <p>
 
       <p class="caption">Flat Buttons</p>
