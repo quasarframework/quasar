@@ -34,12 +34,6 @@ export default {
       else if (icon.startsWith('ion-') || icon.startsWith('icon-')) {
         cls = `${icon}`
       }
-      else if (icon.startsWith('ion4-')) {
-        if (!ctx.children) {
-          ctx.children = []
-        }
-        ctx.children.push(h('ion-icon', {attrs: {name: icon.substr(5)}}))
-      }
       else if (icon.startsWith('mdi-')) {
         cls = `mdi ${icon}`
       }
