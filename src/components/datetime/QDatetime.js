@@ -8,7 +8,6 @@ import { QBtn } from '../btn'
 import { formatDate } from '../../utils/date'
 import { QModal } from '../modal'
 import clone from '../../utils/clone'
-import { stopAndPrevent } from '../../utils/event'
 
 const contentCss = __THEME__ === 'ios'
   ? {

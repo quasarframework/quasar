@@ -10,6 +10,7 @@
         ['disabledButton'],
         ['custom_btn']
       ]"
+      hide-toolbar
       :definitions="{
         bold: {cmd: 'bold', label: 'Bold', icon: null, tip: 'My bold tooltip'},
         italic: {cmd: 'italic', tip: 'My italic tooltip'},

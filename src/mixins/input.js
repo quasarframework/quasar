@@ -1,4 +1,4 @@
-import { stopAndPrevent } from '../../utils/event'
+import { stopAndPrevent } from '../utils/event'
 
 export default {
   props: {

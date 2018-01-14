@@ -48,11 +48,15 @@ export default {
           ['undo', 'redo']
         ]
       }
-    }
+    },
+    hideToolbar: Boolean
   },
   computed: {
     editable () {
       return !this.readonly && !this.disable
+    },
+    hasToolbar () {
+      return !this.hideToolbar && this.toolbar && this.toolbar.length > 0
     },
     buttonProps () {
       return {
@@ -259,7 +263,7 @@ export default {
   },
   render (h) {
     const toolbars = []
-    if (!this.readonly) {
+    if (!this.readonly && this.hasToolbar) {
       const toolbarConfig = {
         staticClass: `q-editor-toolbar row no-wrap scroll bg-${this.toolbarColor}`,
         'class': {
