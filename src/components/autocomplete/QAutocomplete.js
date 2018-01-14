@@ -26,7 +26,8 @@ export default {
       default: filter
     },
     staticData: Object,
-    separator: Boolean
+    separator: Boolean,
+    triggerOnFocus: Boolean
   },
   inject: {
     __input: {
@@ -42,18 +43,7 @@ export default {
       results: [],
       selectedIndex: -1,
       width: 0,
-      enterKey: false,
       timer: null
-    }
-  },
-  watch: {
-    '__input.val' () {
-      if (this.enterKey) {
-        this.enterKey = false
-      }
-      else {
-        this.__delayTrigger()
-      }
     }
   },
   computed: {
@@ -73,17 +63,18 @@ export default {
     isWorking () {
       return this.$refs && this.$refs.popover
     },
-    trigger () {
+    trigger (e) {
       if (!this.__input.hasFocus() || !this.isWorking()) {
         return
       }
 
-      const terms = [null, void 0].includes(this.__input.val) ? '' : String(this.__input.val)
+      const terms = e && e.target
+        ? e.target.value
+        : [null, void 0].includes(this.__input.val) ? '' : String(this.__input.val)
       const searchId = uid()
       this.searchId = searchId
 
       if (terms.length < this.minCharacters) {
-        this.searchId = ''
         this.__clearSearch()
         this.hide()
         return
@@ -115,9 +106,7 @@ export default {
         if (!this.isWorking() || this.searchId !== searchId) {
           return
         }
-
         this.__clearSearch()
-
         if (Array.isArray(results) && results.length > 0) {
           this.results = results
           this.selectedIndex = 0
@@ -135,10 +124,6 @@ export default {
         ? this.$refs.popover.hide()
         : Promise.resolve()
     },
-    blurHide () {
-      this.__clearSearch()
-      setTimeout(() => this.hide(), 300)
-    },
     __clearSearch () {
       clearTimeout(this.timer)
       this.__input.loading = false
@@ -148,11 +133,6 @@ export default {
       const value = this.staticData ? result[this.staticData.field] : result.value
       const suffix = this.__inputDebounce ? 'Debounce' : ''
 
-      if (this.inputEl && this.__input && !this.__input.hasFocus()) {
-        this.inputEl.focus()
-      }
-
-      this.enterKey = this.__input && value !== this.__input.val
       this[`__input${suffix}`].set(value)
 
       this.$emit('selected', result)
@@ -171,16 +151,26 @@ export default {
         this.setValue(this.results[this.selectedIndex])
       }
     },
-    __delayTrigger () {
+    onInput (e) {
       this.__clearSearch()
       if (!this.__input.hasFocus()) {
         return
       }
       if (this.staticData) {
-        this.trigger()
+        this.trigger(e)
         return
       }
-      this.timer = setTimeout(this.trigger, this.debounce)
+      this.timer = setTimeout(this.trigger.bind(null, e), this.debounce)
+    },
+    onFocus (e) {
+      if (this.__input.isClear) {
+        this.__clearSearch()
+        this.hide()
+        this.__input.isClear = false
+      }
+      else if (this.triggerOnFocus) {
+        this.trigger(e)
+      }
     },
     __handleKeypress (e) {
       switch (e.keyCode || e.which) {
@@ -197,11 +187,13 @@ export default {
         case 27: // escape
           this.__clearSearch()
           break
+        case 9: // tab
+          this.hide()
+          break
       }
     },
     __moveCursor (offset, e) {
       stopAndPrevent(e)
-
       if (!this.$refs.popover.showing) {
         this.trigger()
       }
@@ -218,7 +210,9 @@ export default {
     this.$nextTick(() => {
       this.inputEl = this.__input.getEl()
       this.inputEl.addEventListener('keydown', this.__handleKeypress)
-      this.inputEl.addEventListener('blur', this.blurHide)
+      this.inputEl.addEventListener('blur', this.__clearSearch)
+      this.inputEl.addEventListener('input', this.onInput)
+      this.inputEl.addEventListener('focus', this.onFocus)
     })
   },
   beforeDestroy () {
@@ -229,7 +223,9 @@ export default {
     }
     if (this.inputEl) {
       this.inputEl.removeEventListener('keydown', this.__handleKeypress)
-      this.inputEl.removeEventListener('blur', this.blurHide)
+      this.inputEl.removeEventListener('blur', this.__clearSearch)
+      this.inputEl.removeEventListener('input', this.onInput)
+      this.inputEl.removeEventListener('focus', this.onFocus)
       this.hide()
     }
   },

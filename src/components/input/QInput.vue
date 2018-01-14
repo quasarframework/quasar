@@ -164,6 +164,7 @@ export default {
         val: this.model,
         set: this.__set,
         loading: false,
+        isClear: false,
         hasFocus: () => {
           return document.activeElement === this.$refs.input
         },
@@ -240,6 +241,7 @@ export default {
     },
     clear () {
       clearTimeout(this.timer)
+      this.shadow.isClear = true
       this.focus()
       if (this.editable) {
         this.model = this.isNumber ? null : ''
