@@ -310,14 +310,9 @@ export default {
 
       if (files.length > 0) {
         this.files = this.files.concat(files)
-        if (filesReady.length === 0) {
+        Promise.all(filesReady).then(() => {
           this.$emit('add', files)
-        }
-        else {
-          Promise.all(filesReady).then(() => {
-            this.$emit('add', files)
-          })
-        }
+        })
         this.__computeTotalSize()
       }
     },
