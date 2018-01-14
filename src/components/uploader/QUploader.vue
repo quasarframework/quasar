@@ -87,13 +87,14 @@
         <div class="q-uploader-files scroll" :style="filesStyle">
           <q-item
             v-for="file in files"
-            :key="file.name"
-            class="q-uploader-file"
+            :key="file.name + file.__timestamp"
+            class="q-uploader-file q-pa-xs"
           >
             <q-progress v-if="!hideUploadProgress"
               class="q-uploader-progress-bg absolute-full"
               :color="file.__failed ? 'negative' : 'grey'"
               :percentage="file.__progress"
+              height="100%"
             ></q-progress>
             <div class="q-uploader-progress-text absolute" v-if="!hideUploadProgress">
               {{ file.__progress }}%
@@ -281,6 +282,7 @@ export default {
         .map(file => {
           initFile(file)
           file.__size = humanStorageSize(file.size)
+          file.__timestamp = new Date().getTime()
 
           if (this.noThumbnails || !file.type.startsWith('image')) {
             this.queue.push(file)
