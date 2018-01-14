@@ -1,6 +1,38 @@
 <template>
   <div class="layout-padding">
     <q-editor
+      v-model="model"
+      :toolbar="[
+        ['underline','print', 'bold', 'italic'],
+        ['customItalic'],
+        ['save', 'upload'],
+        ['spellcheck'],
+        ['disabledButton'],
+        ['custom_btn']
+      ]"
+      :definitions="{
+        bold: {cmd: 'bold', label: 'Bold', icon: null, tip: 'My bold tooltip'},
+        italic: {cmd: 'italic', tip: 'My italic tooltip'},
+        customItalic: {cmd: 'italic', icon: 'camera_enhance', tip: 'Italic'},
+        save: {tip: 'Save your work', icon: 'save', label: 'Save', handler: saveWork},
+        spellcheck: {tip: 'Run spell-check', icon: 'spellcheck', handler: spellCheck},
+        upload: {tip: 'Upload to cloud', textColor: 'amber', icon: 'cloud_upload', label: 'Upload', handler: upload},
+        disabledButton: {tip: 'I am disabled...', disable: true, icon: 'cloud_off', handler: saveWork}
+      }"
+    >
+      <q-btn
+        slot="custom_btn"
+        dense
+        color="secondary"
+        icon="import_contacts"
+        label="Import"
+        @click="importSomething"
+      />
+    </q-editor>
+
+    <br><br><br>
+
+    <q-editor
       ref="editor"
       v-model="model"
       :toolbar="[
@@ -70,14 +102,14 @@
         gogu: {tip: 'Custom', icon: 'account_balance', handler: vm => vm.runCmd('print')}
       }"
     >
-      <q-btn compact size="sm" color="yellow" slot="custom_btn">Wow</q-btn>
-      <q-btn-dropdown size="sm" compact no-caps ref="token" no-wrap slot="token" color="green" label="Token">
+      <q-btn dense color="yellow" slot="custom_btn">Wow</q-btn>
+      <q-btn-dropdown dense no-caps ref="token" no-wrap slot="token" color="green" label="Token">
         <q-list link separator>
-          <q-item tag="label" @click="add('email')">
+          <q-item tag="label" @click.native="add('email')">
             <q-item-side icon="mail" />
             <q-item-main label="Email" />
           </q-item>
-          <q-item tag="label" @click="add('title')">
+          <q-item tag="label" @click.native="add('title')">
             <q-item-side icon="title" />
             <q-item-main label="Title" />
           </q-item>
@@ -94,10 +126,37 @@
 export default {
   data () {
     return {
-      model: ''
+      model: '<div>Editor in <a href="http://quasar-framework.org">Quasar</a></div><div>Second line</div>'
     }
   },
   methods: {
+    saveWork () {
+      this.$q.notify({
+        icon: 'done',
+        color: 'positive',
+        message: 'I guess something got saved.'
+      })
+    },
+    upload () {
+      this.$q.notify({
+        icon: 'cloud_upload',
+        color: 'secondary',
+        message: 'Hmm, will upload at another time, ok?'
+      })
+    },
+    spellCheck () {
+      this.$q.notify({
+        icon: 'spellcheck',
+        color: 'secondary',
+        message: `I'll sure run the spellcheck. Later.`
+      })
+    },
+    importSomething () {
+      this.$q.notify({
+        color: 'tertiary',
+        message: `Importing...`
+      })
+    },
     add (name) {
       const edit = this.$refs.editor
       this.$refs.token.hide()

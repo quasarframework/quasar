@@ -18,6 +18,7 @@ export default {
         {
           ref: 'popover',
           props: {
+            disable: this.disable,
             fit: true,
             anchorClick: !this.split,
             anchor: 'bottom right',
@@ -63,7 +64,6 @@ export default {
             icon: this.icon,
             label: this.label,
             iconRight: this.split ? this.iconRight : null,
-            round: this.round,
             outline: this.outline,
             flat: this.flat,
             rounded: this.rounded,
@@ -71,7 +71,7 @@ export default {
             size: this.size,
             color: this.color,
             glossy: this.glossy,
-            compact: this.compact,
+            dense: this.dense,
             noRipple: this.noRipple,
             waitForRipple: this.waitForRipple
           },
@@ -111,24 +111,19 @@ export default {
           QBtn,
           {
             props: {
-              round: this.round,
+              disable: this.disable,
               flat: this.flat,
               rounded: this.rounded,
               push: this.push,
               size: this.size,
               color: this.color,
+              dense: this.dense,
               glossy: this.glossy,
               noRipple: this.noRipple,
               waitForRipple: this.waitForRipple
             },
             staticClass: 'q-btn-dropdown-arrow',
-            on: {
-              click: () => {
-                if (!this.disable) {
-                  this.toggle()
-                }
-              }
-            }
+            on: { click: () => { this.toggle() } }
           },
           [ Icon ]
         ),

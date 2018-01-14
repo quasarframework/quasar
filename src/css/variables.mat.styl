@@ -17,8 +17,10 @@ $breadcrumb-hover     ?= $tertiary
 $breadcrumb-active    ?= darken($breadcrumb-hover, 15%)
 
 $button-border-radius         ?= $generic-border-radius
-$button-padding               ?= 3px 16px
+$button-padding               ?= 4px 16px
+$button-dense-padding         ?= 4px
 $button-transition            ?= .12s ease-in
+$button-font-size             ?= 14px
 $button-font-weight           ?= 500
 $button-shadow                ?= $shadow-2
 $button-rounded-border-radius ?= 28px
@@ -64,8 +66,10 @@ $item-base-color                   ?= $grey-5
 $item-highlight-color              ?= alpha($item-base-color, 50%)
 $item-stripe-color                 ?= alpha($item-base-color, 65%)
 $item-active-color                 ?= alpha($item-base-color, 40%)
-$item-primary-color                ?= rgba(0, 0, 0, .54)
+$item-primary-color                ?= currentColor
+$item-primary-opacity              ?= .54
 $item-secondary-color              ?= $item-primary-color
+$item-secondary-opacity            ?= $item-primary-opacity
 $item-label-color                  ?= $grey-7
 $item-content-secondary-text-color ?= $grey-7
 $item-separator-color              ?= rgb(224, 224, 224)
@@ -156,7 +160,7 @@ $modal-body-color        ?= rgba(0, 0, 0, .5)
 $modal-body-padding      ?= 5px 24px 24px 24px
 $modal-slim-body-padding ?= 0 24px
 $modal-scroll-size       ?= 240px
-$modal-buttons-padding   ?= 8px 8px 12px 24px
+$modal-buttons-padding   ?= 8px
 
 $label-offset ?= 8px
 

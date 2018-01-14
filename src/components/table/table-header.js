@@ -5,7 +5,7 @@ import QTh from './QTh'
 export default {
   methods: {
     getTableHeader (h) {
-      if (this.noHeader) {
+      if (this.hideHeader) {
         return
       }
 
@@ -64,9 +64,8 @@ export default {
           h(QCheckbox, {
             props: {
               color: this.color,
-              value: this.allRowsSelected,
-              dark: this.dark,
-              indeterminate: this.someRowsSelected
+              value: this.someRowsSelected ? null : this.allRowsSelected,
+              dark: this.dark
             },
             on: {
               input: val => {
@@ -89,7 +88,7 @@ export default {
     addTableHeaderRowMeta (data) {
       if (this.multipleSelection) {
         Object.defineProperty(data, 'selected', {
-          get: () => this.allRowsSelected,
+          get: () => this.someRowsSelected ? 'some' : this.allRowsSelected,
           set: val => {
             if (this.someRowsSelected) {
               val = false

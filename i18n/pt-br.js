@@ -2,7 +2,7 @@ export default {
   lang: 'pt-br',
   label: {
     clear: 'Limpar',
-    ok: 'Pronto',
+    ok: 'OK',
     cancel: 'Cancelar',
     close: 'Fechar',
     set: 'Escolher',

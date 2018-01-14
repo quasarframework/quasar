@@ -64,15 +64,17 @@ export default {
         ]),
         this.actions && this.actions.length
           ? h('div', {
-            staticClass: 'q-alert-actions col-auto xs-gutter flex-center'
+            staticClass: 'q-alert-actions col-auto gutter-xs flex-center'
           },
           this.actions.map(action =>
             h('div', [
               h(QBtn, {
+                staticClass: 'full-width',
                 props: {
                   flat: true,
-                  compact: true,
+                  dense: true,
                   icon: action.icon,
+                  justify: 'start',
                   label: action.closeBtn === true
                     ? (typeof action.label === 'string' ? action.label : this.$q.i18n.label.close)
                     : action.label

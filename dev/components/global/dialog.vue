@@ -29,9 +29,6 @@
 </template>
 
 <script>
-import langRo from '../../../i18n/ro'
-import Quasar from 'quasar'
-
 export default {
   data () {
     return {
@@ -108,10 +105,6 @@ export default {
       }).catch(() => {
         console.log('>>> Cancel')
       })
-
-      setTimeout(() => {
-        Quasar.i18n.set(langRo)
-      }, 3000)
     }
   }
 }

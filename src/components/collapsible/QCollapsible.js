@@ -40,14 +40,15 @@ export default {
     label: String,
     sublabel: String,
     labelLines: [String, Number],
-    sublabelLines: [String, Number]
+    sublabelLines: [String, Number],
+
+    headerStyle: [Array, String, Object],
+    headerClass: [Array, String, Object]
   },
   computed: {
     cfg () {
       return {
         link: !this.iconToggle,
-        headerStyle: [Array, String, Object],
-        headerClass: [Array, String, Object],
 
         dark: this.dark,
         dense: this.dense,
@@ -115,7 +116,7 @@ export default {
             'rotate-180': this.showing,
             invisible: this.disable
           },
-          on: {
+          nativeOn: {
             click: this.__toggleIcon
           },
           props: { icon: this.collapseIcon || this.$q.icon.collapsible.icon },
@@ -132,7 +133,7 @@ export default {
           : { link: !this.iconToggle },
         style: this.headerStyle,
         'class': this.headerClass,
-        on: {
+        nativeOn: {
           click: this.__toggleItem
         },
         directives: this.hasRipple && !this.iconToggle

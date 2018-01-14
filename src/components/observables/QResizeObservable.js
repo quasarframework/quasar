@@ -1,24 +1,19 @@
+import { debounce } from '../../utils/debounce'
+
 export default {
   name: 'q-resize-observable',
   methods: {
     onResize () {
       const size = {
-        width: this.$el.offsetWidth,
-        height: this.$el.offsetHeight
+        width: this.parent.offsetWidth,
+        height: this.parent.offsetHeight
       }
 
       if (size.width === this.size.width && size.height === this.size.height) {
         return
       }
 
-      if (!this.timer) {
-        this.timer = setTimeout(this.emit, 32)
-      }
-
       this.size = size
-    },
-    emit () {
-      this.timer = null
       this.$emit('resize', this.size)
     }
   },
@@ -33,11 +28,10 @@ export default {
       object = document.createElement('object'),
       onIE = this.$q.platform.is.ie
 
-    this.size = {
-      width: this.$el.offsetWidth,
-      height: this.$el.offsetHeight
-    }
-    this.emit()
+    this.parent = this.$el.parentNode
+    this.size = { width: -1, height: -1 }
+    this.onResize = debounce(this.onResize, 100)
+    this.onResize()
 
     this.object = object
     object.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; pointer-events: none; z-index: -1;')
@@ -54,7 +48,6 @@ export default {
     }
   },
   beforeDestroy () {
-    clearTimeout(this.timer)
     if (this.object && this.object.onload) {
       if (!this.$q.platform.is.ie && this.object.contentDocument) {
         this.object.contentDocument.defaultView.removeEventListener('resize', this.onResize)

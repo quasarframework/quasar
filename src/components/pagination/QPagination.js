@@ -22,6 +22,7 @@ export default {
       type: String,
       default: 'primary'
     },
+    size: String,
     disable: Boolean,
     input: Boolean,
     boundaryLinks: {
@@ -77,8 +78,8 @@ export default {
         const model = between(parseInt(value, 10), this.min, this.max)
         if (this.value !== model) {
           this.$emit('input', model)
-          this.$emit('change', model)
         }
+        this.$emit('change', model)
       }
     },
     inputPlaceholder () {
@@ -121,7 +122,7 @@ export default {
         props: {
           color: this.color,
           flat: true,
-          compact: true
+          size: this.size
         }
       }, props))
     }
@@ -137,8 +138,7 @@ export default {
         key: 'bls',
         props: {
           disable: this.disable || this.value <= this.min,
-          icon: this.$q.icon.pagination.first,
-          size: 'sm'
+          icon: this.$q.icon.pagination.first
         },
         on: {
           click: () => this.set(this.min)
@@ -148,8 +148,7 @@ export default {
         key: 'ble',
         props: {
           disable: this.disable || this.value >= this.max,
-          icon: this.$q.icon.pagination.last,
-          size: 'sm'
+          icon: this.$q.icon.pagination.last
         },
         on: {
           click: () => this.set(this.max)
@@ -163,8 +162,7 @@ export default {
         props: {
           disable: this.disable || this.value <= this.min,
           icon: this.$q.icon.pagination.prev,
-          repeatTimeout: this.__getRepeatEasing(),
-          size: 'sm'
+          repeatTimeout: this.__getRepeatEasing()
         },
         on: {
           click: () => this.setByOffset(-1)
@@ -175,8 +173,7 @@ export default {
         props: {
           disable: this.disable || this.value >= this.max,
           icon: this.$q.icon.pagination.next,
-          repeatTimeout: this.__getRepeatEasing(),
-          size: 'sm'
+          repeatTimeout: this.__getRepeatEasing()
         },
         on: {
           click: () => this.setByOffset(1)

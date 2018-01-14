@@ -103,7 +103,7 @@
           <div class="row items-center content-center">
             <q-btn
               round
-              size='sm'
+              dense
               flat
               :color="color"
               @click="setMonth(month - 1)"
@@ -116,7 +116,7 @@
             </div>
             <q-btn
               round
-              size='sm'
+              dense
               flat
               :color="color"
               @click="setMonth(month + 1)"
@@ -394,6 +394,7 @@ export default {
     setDay (value) {
       if (this.editable) {
         this.model = new Date(this.model.setDate(this.__parseTypeValue('date', value)))
+        this.$emit('canClose')
       }
     },
 
@@ -474,7 +475,12 @@ export default {
     __dragStop (ev) {
       stopAndPrevent(ev)
       this.dragging = false
-      this.view = 'minute'
+      if (this.view === 'minute') {
+        this.$emit('canClose')
+      }
+      else {
+        this.view = 'minute'
+      }
     },
     __updateClock (ev) {
       let

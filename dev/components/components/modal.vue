@@ -12,7 +12,7 @@
           link
           v-for="modal in types"
           :key="modal.label"
-          @click="$refs[modal.ref].show()"
+          @click.native="$refs[modal.ref].show()"
           v-ripple.mat
         >
           <q-item-side icon="open_in_new" />
@@ -27,7 +27,7 @@
           link
           v-for="position in ['top', 'bottom', 'left', 'right']"
           :key="position"
-          @click="openSpecialPosition(position)"
+          @click.native="openSpecialPosition(position)"
           v-ripple.mat
         >
           <q-item-side icon="open_in_new" />
@@ -67,7 +67,7 @@
       <q-modal-layout>
         <q-toolbar slot="header">
           <q-icon style="font-size: 500%" class="cursor-pointer" name="map" @click="closeMe" />
-          <q-btn flat @click="$refs.layoutModal.hide()">
+          <q-btn flat round dense @click="$refs.layoutModal.hide()">
             <q-icon name="keyboard_arrow_left" />
           </q-btn>
           <q-toolbar-title>

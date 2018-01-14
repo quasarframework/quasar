@@ -1,14 +1,13 @@
 export default {
   name: 'q-field-reset',
-  functional: true,
   provide () {
     return {
       __field: undefined
     }
   },
-  render (h, ctx) {
+  render (h) {
     return h('div', [
-      ctx.children
+      this.$slots.default
     ])
   }
 }

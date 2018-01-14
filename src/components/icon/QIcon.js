@@ -1,6 +1,5 @@
 export default {
   name: 'q-icon',
-  functional: true,
   props: {
     name: String,
     mat: String,
@@ -8,56 +7,70 @@ export default {
     color: String,
     size: String
   },
-  render (h, ctx) {
-    let name, text
-    const
-      prop = ctx.props,
-      data = ctx.data,
-      cls = ctx.data.staticClass,
-      icon = prop.mat && __THEME__ === 'mat'
-        ? prop.mat
-        : (prop.ios && __THEME__ === 'ios' ? prop.ios : ctx.props.name)
+  computed: {
+    icon () {
+      return this.mat && __THEME__ === 'mat'
+        ? this.mat
+        : (this.ios && __THEME__ === 'ios' ? this.ios : this.name)
+    },
+    classes () {
+      let cls
+      const icon = this.icon
 
-    if (!icon) {
-      name = ''
-    }
-    else if (/^fa[s|r|l|b]{0,1} /.test(icon)) {
-      name = icon
-    }
-    else if (icon.startsWith('bt-')) {
-      name = `bt ${icon}`
-    }
-    else if (icon.startsWith('ion-') || icon.startsWith('icon-')) {
-      name = `${icon}`
-    }
-    else if (icon.startsWith('ion4-')) {
-      if (!ctx.children) {
-        ctx.children = []
+      if (!icon) {
+        cls = ''
       }
-      ctx.children.push(h('ion-icon', {attrs: {name: icon.substr(5)}}))
-    }
-    else if (icon.startsWith('mdi-')) {
-      name = `mdi ${icon}`
-    }
-    else {
-      name = 'material-icons'
-      text = icon.replace(/ /g, '_')
-    }
+      else if (icon.startsWith('fa-')) {
+        // Fontawesome 4
+        cls = `fa ${icon}`
+      }
+      else if (/^fa[s|r|l|b]{0,1} /.test(icon)) {
+        // Fontawesome 5
+        cls = icon
+      }
+      else if (icon.startsWith('bt-')) {
+        cls = `bt ${icon}`
+      }
+      else if (icon.startsWith('ion-') || icon.startsWith('icon-')) {
+        cls = `${icon}`
+      }
+      else if (icon.startsWith('ion4-')) {
+        if (!ctx.children) {
+          ctx.children = []
+        }
+        ctx.children.push(h('ion-icon', {attrs: {name: icon.substr(5)}}))
+      }
+      else if (icon.startsWith('mdi-')) {
+        cls = `mdi ${icon}`
+      }
+      else {
+        cls = 'material-icons'
+      }
 
-    data.staticClass = `${cls ? cls + ' ' : ''}q-icon${name.length ? ` ${name}` : ''}${prop.color ? ` text-${prop.color}` : ''}`
-
-    if (!data.hasOwnProperty('attrs')) {
-      data.attrs = {}
+      return this.color
+        ? `${cls} text-${this.color}`
+        : cls
+    },
+    content () {
+      return this.classes.startsWith('material-icons')
+        ? this.icon.replace(/ /g, '_')
+        : ' '
+    },
+    style () {
+      if (this.size) {
+        return { fontSize: this.size }
+      }
     }
-    data.attrs['aria-hidden'] = 'true'
-
-    if (prop.size) {
-      const style = `font-size: ${prop.size};`
-      data.style = data.style
-        ? [data.style, style]
-        : style
-    }
-
-    return h('i', data, text ? [text, ctx.children] : [' ', ctx.children])
+  },
+  render (h) {
+    return h('i', {
+      staticClass: 'q-icon',
+      'class': this.classes,
+      style: this.style,
+      attrs: { 'aria-hidden': true }
+    }, [
+      this.content,
+      this.$slots.default
+    ])
   }
 }

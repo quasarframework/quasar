@@ -29,7 +29,7 @@
 
     <div style="margin-top: 25px">
       <q-btn-toggle
-        compact
+        dense
         v-model="toggled"
         toggle-color="primary"
       >
@@ -37,7 +37,7 @@
       </q-btn-toggle>
 
       <q-btn-toggle
-        compact
+        dense
         v-model="toggled"
         color="green"
         toggle-color="red"
@@ -46,11 +46,44 @@
       </q-btn-toggle>
 
       <q-btn-toggle
-        compact
+        dense
         v-model="toggled"
         color="green"
         toggle-color="red"
         push
+      >
+        Toggle me
+      </q-btn-toggle>
+    </div>
+    
+    <div style="margin-top: 25px">
+      Disable
+      <q-btn-toggle
+        dense
+        v-model="toggled"
+        toggle-color="primary"
+        disable
+      >
+        Toggle me
+      </q-btn-toggle>
+
+      <q-btn-toggle
+        dense
+        v-model="toggled"
+        color="green"
+        toggle-color="red"
+        disable
+      >
+        Toggle me
+      </q-btn-toggle>
+
+      <q-btn-toggle
+        dense
+        v-model="toggled"
+        color="green"
+        toggle-color="red"
+        push
+        disable
       >
         Toggle me
       </q-btn-toggle>

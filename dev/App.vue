@@ -1,11 +1,11 @@
 <template>
-  <q-app>
-    <q-transition enter="fadeIn" leave="fadeOut" mode="out-in" :duration="300" @leave="resetScroll">
+  <div class="q-app">
+    <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in" :duration="300" @leave="resetScroll">
       <router-view></router-view>
-    </q-transition>
+    </transition>
     <q-ajax-bar ref="bar" />
     <div
-      style="padding: 0px 10px; right: 10px; bottom: 10px"
+      style="padding: 0px 10px; right: 10px; bottom: 100px"
       class="bg-white shadow-4 fixed z-top"
     >
       <q-select
@@ -38,7 +38,7 @@
         v-model="iconSet"
       />
     </div>
-  </q-app>
+  </div>
 </template>
 
 <script>

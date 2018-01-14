@@ -50,7 +50,7 @@
   .q-field-no-input
     border-top 1px solid $warning
 
-@media (max-width $breakpoint-xs-max)
+qfield-vertical()
   .q-field-label + .q-field-content
     padding-top 8px
   .q-field-floating.q-field-no-label
@@ -59,9 +59,22 @@
   .q-field-no-label .q-field-label
     display none
 
-@media (min-width $breakpoint-sm-min)
+qfield-horizontal()
   .q-field-floating
     .q-field-margin
       margin-top 12px
   .q-field-label + .q-field-content
     padding-top 0
+
+.q-field-vertical
+  qfield-vertical()
+.q-field-horizontal
+  qfield-horizontal()
+
+@media (max-width $breakpoint-xs-max)
+  .q-field-responsive
+    qfield-vertical()
+
+@media (min-width $breakpoint-sm-min)
+  .q-field-responsive
+    qfield-horizontal()

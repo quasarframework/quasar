@@ -63,6 +63,8 @@
 
       <p class="caption">Disabled State</p>
       <q-select disable float-label="Disabled Select" multiple v-model="multipleSelect" :options="selectOptions"></q-select>
+      <q-select disable @change="onChange" @input="onInput" multiple chips v-model="multipleSelect" :options="selectListOptions" float-label="Disabled Select" max-height="36px" clearable></q-select>
+      <q-select disable inverted color="dark" frame-color="amber" multiple chips v-model="multipleSelect" :options="selectListOptions" float-label="Disabled Select" max-height="36px"></q-select>
 
       <p class="caption">Error State</p>
       <q-select error multiple v-model="multipleSelect" :options="selectOptions"></q-select>
@@ -121,6 +123,9 @@
       <p class="caption">Display Value</p>
       <q-select multiple v-model="multipleSelect" float-label="Gigi" :options="selectLongListOptions" :display-value="`${ multipleSelect.length } item${ multipleSelect.length !== 1 ? 's' : '' } selected`"></q-select>
       <q-select multiple toggle v-model="multipleSelect" :options="selectLongListOptions" :display-value="`${ multipleSelect.length } item${ multipleSelect.length !== 1 ? 's' : '' } selected`"></q-select>
+
+      <p class="caption">Object Value1</p>
+      <q-select v-model="selectObject" :options="selectObjectOptions"></q-select>
     </div>
   </div>
 </template>
@@ -130,6 +135,7 @@ export default {
   data () {
     return {
       select: 'fb',
+      selectObject: null,
       multipleSelect: ['goog', 'twtr'],
       multipleSelectLong: [],
       selectOptions: [
@@ -362,6 +368,20 @@ export default {
           icon: 'mail',
           rightIcon: 'alarm',
           value: 'ora-d'
+        }
+      ],
+      selectObjectOptions: [
+        {
+          label: 'Option 1',
+          value: { id: 1 }
+        },
+        {
+          label: 'Option 2',
+          value: { id: 2 }
+        },
+        {
+          label: 'Option 3',
+          value: { id: 3 }
         }
       ]
     }

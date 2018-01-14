@@ -11,11 +11,10 @@
     </div>
     <div class="layout-padding relative-position"
       style="height: 450px; width: 600px; background-color: lightgrey; padding: 15px;">
-      <q-transition
+      <transition
         appear
-        enter="fadeIn"
-        leave="fadeOut"
-        :disable="false"
+        enter-active-class="animated fadeIn"
+        leave-active-class="animated fadeOut"
       >
         <div v-show="showSimulatedReturnData">
           <h4>Lorem Ipsum</h4>
@@ -26,7 +25,7 @@
             Duis bibendum mi nec lacus cursus fermentum. Ut elit odio, iaculis nec rutrum sollicitudin, sodales non neque. Nulla sit amet ex dui. Pellentesque nec feugiat magna. Aenean tempus mattis consectetur. Nam fermentum velit mi, nec aliquet lorem dictum in. Nulla placerat elit rhoncus condimentum accumsan. Integer sit amet metus sit amet metus commodo bibendum non vel mauris. Morbi ligula augue, tincidunt eget sagittis vitae, consectetur in quam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed facilisis elit id mauris porttitor tincidunt.
           </p>
         </div>
-      </q-transition>
+      </transition>
       <q-inner-loading :visible="visible">
         <q-spinner-gears :size="50" color="primary"></q-spinner-gears>
       </q-inner-loading>

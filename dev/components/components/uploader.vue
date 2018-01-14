@@ -77,7 +77,7 @@
 
       <div class="absolute-right no-pointer-events">
         <q-btn @click="clear" style="pointer-events: all" color="primary">Clear Debug Log</q-btn>
-        <div v-for="evt in events" :key="evt">
+        <div v-for="evt in events">
           {{evt}}
         </div>
       </div>

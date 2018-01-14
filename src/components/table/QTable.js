@@ -42,9 +42,8 @@ export default {
     columns: Array,
     loader: Boolean,
     title: String,
-    noTop: Boolean,
-    noHeader: Boolean,
-    noBottom: Boolean,
+    hideHeader: Boolean,
+    hideBottom: Boolean,
     dark: Boolean,
     separator: {
       type: String,

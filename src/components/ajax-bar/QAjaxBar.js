@@ -1,10 +1,3 @@
-<template>
-  <div class="q-loading-bar shadow-1" :class="[position, animate ? '' : 'no-transition']" :style="containerStyle">
-    <div class="q-loading-bar-inner" :class="`bg-${color}`"></div>
-  </div>
-</template>
-
-<script>
 import { cssTransform } from '../../utils/dom'
 import { between } from '../../utils/format'
 
@@ -23,6 +16,7 @@ function translate ({p, pos, active, horiz, reverse}) {
 
   if (reverse) { y = -1 }
   if (pos === 'right') { x = -1 }
+
   return cssTransform(`translate3d(${active ? 0 : x * -200}%, ${y * (p - 100)}%, 0)`)
 }
 
@@ -103,7 +97,16 @@ export default {
     }
   },
   computed: {
-    containerStyle () {
+    classes () {
+      return [
+        this.position,
+        { 'no-trantion': this.animate }
+      ]
+    },
+    innerClasses () {
+      return `bg-${this.color}`
+    },
+    style () {
       let o = translate({
         p: this.progress,
         pos: this.position,
@@ -179,6 +182,17 @@ export default {
   beforeDestroy () {
     clearTimeout(this.timer)
     restoreAjax()
+  },
+  render (h) {
+    return h('div', {
+      staticClass: 'q-loading-bar shadow-4',
+      'class': this.classes,
+      style: this.style
+    }, [
+      h('div', {
+        staticClass: 'q-loading-bar-inner',
+        'class': this.innerClasses
+      })
+    ])
   }
 }
-</script>

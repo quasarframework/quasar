@@ -136,6 +136,7 @@ export default {
         : Promise.resolve()
     },
     blurHide () {
+      this.__clearSearch()
       setTimeout(() => this.hide(), 300)
     },
     __clearSearch () {
@@ -259,7 +260,7 @@ export default {
           'cursor-pointer': !result.disable
         },
         props: { cfg: result },
-        on: {
+        nativeOn: {
           mouseenter: () => { !result.disable && (this.selectedIndex = index) },
           click: () => { !result.disable && this.setValue(result) }
         }

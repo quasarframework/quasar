@@ -1,7 +1,6 @@
 import { QRadio } from '../radio'
 import { QCheckbox } from '../checkbox'
 import { QToggle } from '../toggle'
-import clone from '../../utils/clone'
 
 export default {
   name: 'q-option-group',
@@ -24,7 +23,6 @@ export default {
     color: String,
     keepColor: Boolean,
     dark: Boolean,
-    indeterminate: Boolean,
     options: {
       type: Array,
       validator (opts) {
@@ -41,7 +39,7 @@ export default {
     },
     model: {
       get () {
-        return clone(this.value)
+        return Array.isArray(this.value) ? this.value.slice() : this.value
       },
       set (value) {
         this.$emit('input', value)
@@ -54,17 +52,14 @@ export default {
     }
   },
   methods: {
-    __onChange (val) {
-      if (this.type !== 'radio') {
-        this.$emit('input', val)
-      }
-      this.$emit('change', val)
-    },
     __onFocus () {
       this.$emit('focus')
     },
     __onBlur () {
       this.$emit('blur')
+    },
+    __update (val, change) {
+      this.$emit('input', val)
     }
   },
   created () {
@@ -98,7 +93,7 @@ export default {
         opt => h('div', [
           h(this.component, {
             props: {
-              value: this.model,
+              value: this.value,
               val: opt.value,
               disable: this.disable || opt.disable,
               label: opt.label,
@@ -106,18 +101,14 @@ export default {
               color: opt.color || this.color,
               checkedIcon: opt.checkedIcon,
               uncheckedIcon: opt.uncheckedIcon,
-              indeterminateIcon: opt.indeterminateIcon,
-              indeterminate: opt.indeterminate,
               dark: opt.dark || this.dark,
               keepColor: opt.keepColor || this.keepColor
             },
             on: {
-              input: val => {
-                this.model = val
-              },
+              input: this.__update,
               focus: this.__onFocus,
-              blur: this.__onBlur,
-              change: this.__onChange
+              blur: this.__onBlur
+              // TODO change: this.__onChange
             }
           })
         ])

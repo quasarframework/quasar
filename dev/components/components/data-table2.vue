@@ -86,8 +86,8 @@
       color="primary"
     >
       <template slot="top" slot-scope="props">
-        <q-btn flat color="primary" icon="add" label="Add row" />
-        <q-btn class="on-right" flat color="primary" icon="refresh" label="Refresh" />
+        <q-btn flat dense color="primary" icon="add" label="Add row" />
+        <q-btn class="on-right" flat dense color="primary" icon="refresh" label="Refresh" />
       </template>
     </q-table>
 
@@ -103,14 +103,14 @@
       <template slot="top-right" slot-scope="props">
         <q-search hide-underline color="primary" v-model="filter" />
         <q-table-columns color="primary" class="on-right" v-model="visibleColumns" :columns="columns" />
-        <q-btn color="primary" flat round size="sm" icon="more_vert" class="on-right">
+        <q-btn color="primary" flat round dense icon="more_vert" class="on-right">
           <q-popover ref="popover">
             <q-list link>
-              <q-item @click="$refs.popover.hide()">
+              <q-item @click.native="$refs.popover.hide()">
                 <q-item-side icon="map" />
                 <q-item-main label="View map" />
               </q-item>
-              <q-item @click="$refs.popover.hide()">
+              <q-item @click.native="$refs.popover.hide()">
                 <q-item-side icon="add" />
                 <q-item-main label="Create new table" />
               </q-item>
@@ -407,6 +407,18 @@ export default {
         this.serverData = rows
         this.loader = false
       }, 1500)
+    },
+    moveRowUp (name) {
+      const rowIndex = this.data.findIndex(t => t.name === name)
+      if (rowIndex > -1 && rowIndex > 0) {
+        this.data.splice(rowIndex - 1, 0, this.data.splice(rowIndex, 1)[0])
+      }
+    },
+    moveRowDown (name) {
+      const rowIndex = this.data.findIndex(t => t.name === name)
+      if (rowIndex > -1 && rowIndex < this.data.length - 1) {
+        this.data.splice(rowIndex + 1, 0, this.data.splice(rowIndex, 1)[0])
+      }
     }
   },
   mounted () {

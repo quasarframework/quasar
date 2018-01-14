@@ -1,5 +1,3 @@
-export * from './components/app'
-
 export * from './components/action-sheet'
 export * from './components/ajax-bar'
 export * from './components/alert'
@@ -52,7 +50,6 @@ export * from './components/timeline'
 export * from './components/toggle'
 export * from './components/toolbar'
 export * from './components/tooltip'
-export * from './components/transition'
 export * from './components/tree'
 export * from './components/uploader'
 export * from './components/video'

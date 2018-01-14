@@ -24,7 +24,11 @@ export default {
   },
   props: {
     overlay: Boolean,
-    rightSide: Boolean,
+    side: {
+      type: String,
+      default: 'left',
+      validator: v => ['left', 'right'].includes(v)
+    },
     breakpoint: {
       type: Number,
       default: 992
@@ -33,7 +37,9 @@ export default {
       type: String,
       validator: v => ['default', 'desktop', 'mobile'].includes(v),
       default: 'default'
-    }
+    },
+    contentStyle: Object,
+    contentClass: [String, Object, Array]
   },
   data () {
     const
@@ -119,8 +125,8 @@ export default {
     }
   },
   computed: {
-    side () {
-      return this.rightSide ? 'right' : 'left'
+    rightSide () {
+      return this.side === 'right'
     },
     offset () {
       return this.showing && !this.mobileOpened
@@ -212,10 +218,10 @@ export default {
       return css
     },
     computedStyle () {
-      return this.mobileView ? this.belowStyle : this.aboveStyle
+      return [this.contentStyle, this.mobileView ? this.belowStyle : this.aboveStyle]
     },
     computedClass () {
-      return this.mobileView ? this.belowClass : this.aboveClass
+      return [this.contentClass, this.mobileView ? this.belowClass : this.aboveClass]
     }
   },
   render (h) {
@@ -226,7 +232,7 @@ export default {
         staticClass: `q-layout-drawer-opener fixed-${this.side}`,
         directives: [{
           name: 'touch-pan',
-          modifier: { horizontal: true },
+          modifiers: { horizontal: true },
           value: this.__openByTouch
         }]
       }))
@@ -237,7 +243,7 @@ export default {
         on: { click: this.hide },
         directives: [{
           name: 'touch-pan',
-          modifier: { horizontal: true },
+          modifiers: { horizontal: true },
           value: this.__closeByTouch
         }]
       }))
@@ -248,9 +254,11 @@ export default {
         staticClass: `q-layout-drawer q-layout-drawer-${this.side} scroll q-layout-transition`,
         'class': this.computedClass,
         style: this.computedStyle,
+        attrs: this.$attrs,
+        listeners: this.$listeners,
         directives: this.mobileView ? [{
           name: 'touch-pan',
-          modifier: { horizontal: true },
+          modifiers: { horizontal: true },
           value: this.__closeByTouch
         }] : null
       }, [
@@ -308,6 +316,7 @@ export default {
       if (!this.mobileOpened) {
         return
       }
+
       const
         width = this.size,
         position = evt.direction === this.side

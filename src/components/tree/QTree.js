@@ -399,7 +399,7 @@ export default {
         ? this.__getChildren(h, node.children)
         : []
 
-      const isParent = children.length > 0
+      const isParent = children.length > 0 || (meta.lazy && meta.lazy !== 'loaded')
 
       let
         body = node.body
@@ -410,10 +410,7 @@ export default {
           : null
 
       if (body) {
-        body = h('div', {
-          staticClass: 'q-tree-node-body relative-position',
-          'class': { 'q-tree-node-body-with-children': isParent }
-        }, [
+        body = h('div', { staticClass: 'q-tree-node-body relative-position' }, [
           h('div', { 'class': this.contentClass }, [
             body(slotScope)
           ])
@@ -422,7 +419,8 @@ export default {
 
       return h('div', {
         key,
-        staticClass: 'q-tree-node'
+        staticClass: 'q-tree-node',
+        'class': { 'q-tree-node-parent': isParent }
       }, [
         h('div', {
           staticClass: 'q-tree-node-header relative-position row no-wrap items-center',
@@ -442,12 +440,12 @@ export default {
               props: { color: this.computedControlColor }
             })
             : (
-              isParent || (meta.lazy && meta.lazy !== 'loaded')
+              isParent
                 ? h(QIcon, {
                   staticClass: 'q-tree-arrow q-mr-xs transition-generic',
                   'class': { 'rotate-90': meta.expanded },
                   props: { name: this.computedIcon },
-                  on: this.hasSelection
+                  nativeOn: this.hasSelection
                     ? { click: e => { this.__onExpandClick(node, meta, e) } }
                     : undefined
                 })
@@ -459,11 +457,10 @@ export default {
               ? h(QCheckbox, {
                 staticClass: 'q-mr-xs',
                 props: {
-                  value: meta.ticked,
+                  value: meta.indeterminate ? null : meta.ticked,
                   color: this.computedControlColor,
                   dark: this.dark,
                   keepColor: true,
-                  indeterminate: meta.indeterminate,
                   disable: !meta.tickable
                 },
                 on: {
@@ -501,7 +498,9 @@ export default {
     },
     __onClick (node, meta) {
       if (this.hasSelection) {
-        meta.selectable && this.$emit('update:selected', meta.key)
+        if (meta.selectable) {
+          this.$emit('update:selected', meta.key !== this.selected ? meta.key : null)
+        }
       }
       else {
         this.__onExpandClick(node, meta)

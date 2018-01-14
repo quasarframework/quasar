@@ -1,5 +1,4 @@
 import { QAlert } from '../components/alert'
-import { QTransition } from '../components/transition'
 import uid from '../utils/uid'
 import clone from '../utils/clone'
 
@@ -38,18 +37,23 @@ export default {
         }
       },
       methods: {
-        add (notif) {
-          if (!notif) {
+        add (config) {
+          if (!config) {
             console.error('Notify: parameter required')
             return false
           }
-          if (typeof notif === 'string') {
+          let notif
+          if (typeof config === 'string') {
             notif = {
-              message: notif,
+              message: config,
               position: 'bottom'
             }
           }
-          else if (notif.position) {
+          else {
+            notif = clone(config)
+          }
+
+          if (notif.position) {
             if (!positionList.includes(notif.position)) {
               console.error(`Notify: wrong position: ${notif.position}`)
               return false
@@ -70,14 +74,16 @@ export default {
           }
 
           if (notif.actions) {
-            notif.actions = clone(notif.actions).map(action => {
-              const handler = action.handler
-              action.handler = () => {
-                close()
-                if (typeof handler === 'function') {
+            notif.actions = config.actions.map(item => {
+              const
+                handler = item.handler,
+                action = clone(item)
+              action.handler = typeof handler === 'function'
+                ? () => {
                   handler()
+                  close()
                 }
-              }
+                : () => close()
               return action
             })
           }
@@ -109,6 +115,12 @@ export default {
 
           const index = this.notifs[notif.position].indexOf(notif)
           if (index !== -1) {
+            const ref = this.$refs[`notif_${notif.__uid}`]
+            if (ref && ref.$el) {
+              const el = ref.$el
+              el.style.left = `${el.offsetLeft}px`
+              el.style.width = getComputedStyle(el).width
+            }
             this.notifs[notif.position].splice(index, 1)
             if (typeof notif.onDismiss === 'function') {
               notif.onDismiss()
@@ -123,17 +135,17 @@ export default {
             align = pos.indexOf('left') > -1 ? 'start' : (pos.indexOf('right') > -1 ? 'end' : 'center'),
             classes = ['left', 'right'].includes(pos) ? `items-${pos === 'left' ? 'start' : 'end'} justify-center` : (pos === 'center' ? 'flex-center' : `items-${align}`)
 
-          return h(QTransition, {
+          return h('transition-group', {
             key: pos,
             staticClass: `q-notification-list q-notification-list-${vert} fixed column ${classes}`,
             tag: 'div',
             props: {
-              group: true,
               name: `q-notification-${pos}`,
               mode: 'out-in'
             }
           }, this.notifs[pos].map(notif => {
             return h(QAlert, {
+              ref: `notif_${notif.__uid}`,
               key: notif.__uid,
               staticClass: 'q-notification',
               props: notif

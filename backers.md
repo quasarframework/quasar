@@ -26,6 +26,10 @@ It could be you!
 
 <a href="http://picktype.com" target="_blank"><img src="https://picktype.com/wp-content/uploads/2017/04/pt-trans-full-256.png" width="200px"></a>
 
+- Adrien M
+
+<a href="www.kalisio.com" target="_blank"><img src="https://lh5.googleusercontent.com/Ew4UoeGiCyw2TOnO8MOoqFZCbV6yQrffbnoY2g0_L8v5Z19ix45K4KE6LYCyoQbR38vVNlwi70xSZohD9d7ATOV23LyxkqDcGnX3rShc6qs16A1EN1c=w974" width="200px"></a>
+
 ---
 
 ### $50+
@@ -34,15 +38,18 @@ It could be you!
 - ShipStream.io
 - MG Papelaria (company)
 - Moacir Schmidt
+- Evan Leonardi
+- Max Matteo Staack ($50)
 
 ---
 
 ### $10+
 
-- Max Matteo Staack ($40)
 - Valerian Cure ($25)
 - Shawn Makinson ($25)
+- Edinei Cipriani ($25)
 - Anca-Anamaria Enache ($20)
+- Carlos Tulloch ($20)
 - MSG Group ($20)
 - Pawel Rakowski ($20)
 - Jonas Viczian ($15)
@@ -70,11 +77,17 @@ It could be you!
 - Klemens Witting
 - Jochen Geiger
 - Rok Kogovšek
+- Josh Torres
+- Stian Mikkelsen
+- El Matzo
+- Thomas Gick
+- Alexey Telyatnikov
 
 - Ken ($5)
 - Oliver ($5)
 - Mahesh Narayanamurthi ($5)
 - Rodolfo Torres Jaime ($5)
+- Scott Brooks ($5)
 - Rogério Queiroz ($3)
 - Joe L Wroten ($1)
 - Yasuhiro Kawagoe ($1)
@@ -90,8 +103,9 @@ It could be you!
 - Remo Laubacher $200
 - Max Matteo Staack 150 EUR
 - Musicformellons $100
-- Kyle Tippetts $100
+- Kyle Tippetts $100 (x2)
 - Gerard Eviston $50
 - Jacob Heruty $50
 - Polaris Microsystems, L.L.C. $50
 - Jochen Geiger $50
+- Martin Beaudet $30
