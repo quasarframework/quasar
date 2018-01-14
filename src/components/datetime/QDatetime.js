@@ -48,7 +48,7 @@ export default {
       if (this.displayValue) {
         return this.displayValue
       }
-      if (!this.value) {
+      if (this.value !== 0 && !this.value) {
         return this.placeholder || ''
       }
 
@@ -124,7 +124,7 @@ export default {
       }
     },
     __setModel (val = this.value) {
-      this.model = val
+      this.model = val === 0 || val
         ? clone(val)
         : this.defaultSelection
     },
