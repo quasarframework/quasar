@@ -242,8 +242,9 @@ export default {
       clearTimeout(this.timer)
       this.focus()
       if (this.editable) {
-        this.model = this.isNumber ? null : ''
+        this.model = this.clearValue || (this.isNumber ? null : '')
         this.$emit('input', this.model)
+        this.$emit('clear')
       }
     },
 

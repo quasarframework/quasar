@@ -152,7 +152,10 @@ import { QList, QItemWrapper } from '../list'
 import { QCheckbox } from '../checkbox'
 import { QRadio } from '../radio'
 import { QToggle } from '../toggle'
-import SelectMixin from '../../mixins/select'
+import { QIcon } from '../components/icon'
+import { QInputFrame } from '../components/input-frame'
+import { QChip } from '../components/chip'
+import FrameMixin from './input-frame'
 import extend from '../../utils/extend'
 
 function defaultFilterFn (terms, obj) {
@@ -161,7 +164,7 @@ function defaultFilterFn (terms, obj) {
 
 export default {
   name: 'q-select',
-  mixins: [SelectMixin],
+  mixins: [FrameMixin],
   components: {
     QFieldReset,
     QSearch,
@@ -170,7 +173,10 @@ export default {
     QItemWrapper,
     QCheckbox,
     QRadio,
-    QToggle
+    QToggle,
+    QIcon,
+    QInputFrame,
+    QChip
   },
   props: {
     filter: [Function, Boolean],
@@ -178,7 +184,36 @@ export default {
     autofocusFilter: Boolean,
     radio: Boolean,
     placeholder: String,
-    separator: Boolean
+    separator: Boolean,
+    value: { required: true },
+    multiple: Boolean,
+    toggle: Boolean,
+    chips: Boolean,
+    options: {
+      type: Array,
+      required: true,
+      validator: v => v.every(o => 'label' in o && 'value' in o)
+    },
+    frameColor: String,
+    displayValue: String,
+    clearable: Boolean,
+    clearValue: {}
+  },
+  data () {
+    return {
+      model: this.multiple && Array.isArray(this.value)
+        ? this.value.slice()
+        : this.value,
+      terms: '',
+      focused: false
+    }
+  },
+  watch: {
+    value (val) {
+      this.model = this.multiple && Array.isArray(val)
+        ? val.slice()
+        : val
+    }
   },
   computed: {
     optModel () {
@@ -205,6 +240,36 @@ export default {
       return this.multiple
         ? `.q-item-side > ${this.toggle ? '.q-toggle' : '.q-checkbox'} > .active`
         : `.q-item.active`
+    },
+    actualValue () {
+      if (this.displayValue) {
+        return this.displayValue
+      }
+      if (!this.multiple) {
+        const opt = this.options.find(opt => opt.value === this.model)
+        return opt ? opt.label : ''
+      }
+
+      const opt = this.selectedOptions.map(opt => opt.label)
+      return opt.length ? opt.join(', ') : ''
+    },
+    selectedOptions () {
+      if (this.multiple) {
+        return this.length > 0
+          ? this.options.filter(opt => this.model.includes(opt.value))
+          : []
+      }
+    },
+    hasChips () {
+      return this.multiple && this.chips
+    },
+    length () {
+      return this.multiple
+        ? this.model.length
+        : ([null, undefined, ''].includes(this.model) ? 0 : 1)
+    },
+    additionalLength () {
+      return this.displayValue && this.displayValue.length > 0
     }
   },
   methods: {
@@ -256,6 +321,33 @@ export default {
       }
       this.__emit(val)
       this.hide()
+    },
+    __toggleMultiple (value, disable) {
+      if (disable) {
+        return
+      }
+      const
+        model = this.model,
+        index = model.indexOf(value)
+
+      if (index > -1) {
+        model.splice(index, 1)
+      }
+      else {
+        model.push(value)
+      }
+
+      this.$emit('input', model)
+    },
+    __emit (val) {
+      if (this.value !== val) {
+        this.$emit('input', val)
+      }
+      this.$emit('change', val)
+    },
+    clear () {
+      this.__emit(this.clearValue || (this.multiple ? [] : null))
+      this.$emit('clear')
     }
   }
 }

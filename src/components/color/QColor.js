@@ -6,7 +6,6 @@ import QColorPicker from './QColorPicker'
 import { QBtn } from '../btn'
 import { QModal } from '../modal'
 import clone from '../../utils/clone'
-import { stopAndPrevent } from '../../utils/event'
 
 const contentCss = __THEME__ === 'ios'
   ? {
@@ -89,11 +88,6 @@ export default {
     hide () {
       this.focused = false
       return this.$refs.popup.hide()
-    },
-    clear (evt) {
-      stopAndPrevent(evt)
-      this.$emit('input', null)
-      this.$emit('change', null)
     },
 
     __onFocus () {

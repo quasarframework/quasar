@@ -76,6 +76,7 @@ export default {
   methods: {
     clear () {
       this.$refs.input.clear()
+      this.$emit('clear')
     }
   },
   render (h) {
@@ -101,7 +102,8 @@ export default {
         maxLength: this.maxLength,
         color: this.color,
         before: this.controlBefore,
-        after: this.controlAfter
+        after: this.controlAfter,
+        clearValue: this.clearValue
       },
       on: {
         input: v => { this.model = v },
@@ -109,7 +111,8 @@ export default {
         blur: this.__onBlur,
         keyup: this.__onKeyup,
         keydown: this.__onKeydown,
-        click: this.__onClick
+        click: this.__onClick,
+        clear: () => { this.$emit('clear') }
       }
     }, [
       this.$slots.default

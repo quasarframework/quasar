@@ -87,11 +87,6 @@ export default {
       this.focused = false
       return this.$refs.popup.hide()
     },
-    clear (evt) {
-      stopAndPrevent(evt)
-      this.$emit('input', '')
-      this.$emit('change', '')
-    },
 
     __onFocus () {
       if (this.defaultView) {

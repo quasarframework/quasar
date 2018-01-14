@@ -197,6 +197,9 @@ export default {
         case 27: // escape
           this.__clearSearch()
           break
+        case 9: // tab
+          this.hide()
+          break
       }
     },
     __moveCursor (offset, e) {

@@ -517,7 +517,6 @@ export function formatDate (val, mask = 'YYYY-MM-DDTHH:mm:ss.SSSZ') {
   })
 }
 
-export function matchFormat (format) {
-  format = format || ''
+export function matchFormat (format = '') {
   return format.match(token)
 }
