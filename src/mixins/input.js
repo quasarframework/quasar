@@ -1,5 +1,3 @@
-import { stopAndPrevent } from '../utils/event'
-
 export default {
   props: {
     autofocus: [Boolean, String],
@@ -7,8 +5,7 @@ export default {
     maxLength: [Number, String],
     maxHeight: Number,
     placeholder: String,
-    loading: Boolean,
-    clearValue: {}
+    loading: Boolean
   },
   data () {
     return {
@@ -35,13 +32,6 @@ export default {
     },
     select () {
       this.$refs.input.select()
-    },
-    clear (evt) {
-      stopAndPrevent(evt)
-      const val = this.clearValue || null
-      this.$emit('input', val)
-      this.$emit('change', val)
-      this.$emit('clear')
     },
 
     __onFocus (e) {

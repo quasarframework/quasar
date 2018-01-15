@@ -1,10 +1,10 @@
-import Mixin from '../../mixins/checkbox'
+import CheckboxMixin from '../../mixins/checkbox'
 import OptionMixin from '../../mixins/option'
 import { QIcon } from '../icon'
 
 export default {
   name: 'q-toggle',
-  mixins: [Mixin, OptionMixin],
+  mixins: [CheckboxMixin, OptionMixin],
   props: {
     icon: String
   },

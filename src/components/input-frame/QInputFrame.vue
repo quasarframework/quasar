@@ -60,11 +60,11 @@
 </template>
 
 <script>
-import Mixin from '../../mixins/input-frame'
+import FrameMixin from '../../mixins/input-frame'
 
 export default {
   name: 'q-input-frame',
-  mixins: [Mixin],
+  mixins: [FrameMixin],
   props: {
     topAddons: Boolean,
     focused: Boolean,

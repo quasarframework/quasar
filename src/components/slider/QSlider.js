@@ -2,13 +2,13 @@ import {
   getModel,
   getPercentage,
   notDivides,
-  mixin
+  SliderMixin
 } from './slider-utils'
 import { QChip } from '../chip'
 
 export default {
   name: 'q-slider',
-  mixins: [mixin],
+  mixins: [SliderMixin],
   props: {
     value: {
       type: Number,

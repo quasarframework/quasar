@@ -28,7 +28,7 @@ export function getModel (percentage, min, max, step, decimals) {
   return between(model, min, max)
 }
 
-export let mixin = {
+export let SliderMixin = {
   directives: {
     TouchPan
   },
