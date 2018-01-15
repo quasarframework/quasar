@@ -3,8 +3,6 @@
     <q-toggle v-model="hideToolbar" label="Hide Toolbar" class="q-mb-lg" />
     <q-editor
       v-model="model"
-      toolbar-push
-      toolbar-text-color="amber"
       :toolbar="hideToolbar ? [] : [
         ['underline', 'print', 'bold', 'italic', 'link'],
         ['customItalic'],
@@ -69,10 +67,6 @@
       :toolbar-push="push"
       :toolbar-outline="outline"
       :toolbar-rounded="rounded"
-      toolbar-text-color="white"
-      toolbar-bg="dark"
-      toolbar-toggle-color="secondary"
-      content-class="bg-black text-white"
       :toolbar="[
         ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript'],
         ['token', 'hr', 'link', 'custom_btn'],
