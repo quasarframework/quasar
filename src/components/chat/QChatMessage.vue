@@ -10,8 +10,8 @@
     <p v-if="label" class="q-message-label text-center" v-html="label"></p>
 
     <div class="q-message-container row items-end no-wrap">
-      <slot v-if="hasAvatarSlot" name="avatar"></slot>
-      <img v-if='avatar && !hasAvatarSlot' class="q-message-avatar" :src="avatar" />
+      <slot v-if="hasAvatarSlot()" name="avatar"></slot>
+      <img v-if='avatar && !hasAvatarSlot()' class="q-message-avatar" :src="avatar" />
       
       <div :class="sizeClass">
         <div v-if="name" class="q-message-name" v-html="name"></div>
@@ -28,7 +28,7 @@
             </span>
           </div>
         </template>
-        <div v-if="hasDefaultSlot" class="q-message-text" :class="messageClass">
+        <div v-if="hasDefaultSlot()" class="q-message-text" :class="messageClass">
           <span class="q-message-text-content" :class="textClass">
             <slot></slot>
             <div v-if="stamp" class="q-message-stamp" v-html="stamp"></div>
@@ -68,7 +68,9 @@ export default {
       if (this.size) {
         return `col-${this.size}`
       }
-    },
+    }
+  },
+  methods: {
     hasDefaultSlot () {
       return Boolean(this.$slots['default'])
     },
