@@ -33,7 +33,7 @@ export default {
       transition: __THEME__ === 'ios' ? 'q-modal-bottom' : 'q-modal'
     }
     data.focused = false
-    data.model = this.defaultSelection
+    data.model = clone(this.value === 0 || this.value ? this.value : this.defaultSelection)
     return data
   },
   computed: {
@@ -78,7 +78,7 @@ export default {
     },
     show () {
       if (!this.disable) {
-        this.__setModel()
+        this.__setModel(this.value)
         return this.$refs.popup.show()
       }
     },
@@ -117,13 +117,11 @@ export default {
         this.__update(true)
       }
     },
-    __setModel (val = this.value) {
-      this.model = val === 0 || val
-        ? clone(val)
-        : this.defaultSelection
+    __setModel (val) {
+      this.model = clone(val === 0 || val ? val : this.defaultSelection)
     },
     __update (change) {
-      const val = this.model || this.$refs.target.model
+      const val = this.model
       this.$emit('input', val)
       if (change) {
         this.$emit('change', val)

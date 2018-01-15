@@ -47,7 +47,7 @@ export default {
       transition: __THEME__ === 'ios' ? 'q-modal-bottom' : 'q-modal'
     }
     data.focused = false
-    data.model = this.defaultSelection
+    data.model = clone(this.value || this.defaultSelection)
     return data
   },
   computed: {
@@ -81,7 +81,7 @@ export default {
     },
     show () {
       if (!this.disable) {
-        this.__setModel()
+        this.__setModel(this.value)
         return this.$refs.popup.show()
       }
     },
@@ -107,14 +107,12 @@ export default {
     __onHide () {
       this.focused = false
       this.$emit('blur')
-      if (this.usingPopover && this.$refs.popup.showing) {
+      if (this.usingPopover && !this.$refs.popup.showing) {
         this.__update(true)
       }
     },
-    __setModel (val = this.value) {
-      this.model = val
-        ? clone(val)
-        : this.defaultSelection
+    __setModel (val) {
+      this.model = clone(val || this.defaultSelection)
     },
     __update (change) {
       this.$emit('input', this.model)

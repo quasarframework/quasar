@@ -1,4 +1,5 @@
 import { QIcon } from '../components/icon'
+import { stopAndPrevent } from '../utils/event'
 
 const marginal = {
   type: Array,
@@ -36,6 +37,9 @@ export default {
       type: String,
       default: 'left',
       validator: v => ['left', 'center', 'right'].includes(v)
+    },
+    clearValue: {
+      default: null
     }
   },
   computed: {
@@ -44,6 +48,17 @@ export default {
     },
     alignClass () {
       return `justify-${align[this.align]}`
+    }
+  },
+  methods: {
+    clear (evt) {
+      stopAndPrevent(evt)
+      const val = this.clearValue
+      if (this.__setModel) {
+        this.__setModel(val)
+      }
+      this.$emit('input', val)
+      this.$emit('clear')
     }
   }
 }
