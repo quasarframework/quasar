@@ -222,7 +222,7 @@ export default {
               attrs: { readonly: !this.editable },
               on: {
                 input: this.__onHexChange,
-                blur: evt => { console.log('blur'); this.__onHexChange(evt, true) }
+                blur: evt => this.__onHexChange(evt, true)
               },
               staticClass: 'full-width text-center uppercase'
             }),
@@ -352,6 +352,8 @@ export default {
       this.__update(rgb, hex, change)
     },
     __update (rgb, hex, change) {
+      const val = this.isHex ? hex : rgb
+
       // update internally
       this.model.hex = hex
       this.model.r = rgb.r
@@ -365,10 +367,8 @@ export default {
       this.avoidModelWatch = true
 
       // emit new value
-      const val = this.isHex ? hex : rgb
-
       this.$emit('input', val)
-      if (change) {
+      if (change && JSON.stringify(val) !== JSON.stringify(this.value)) {
         this.$emit('change', val)
       }
     },
@@ -415,7 +415,9 @@ export default {
     },
     __dragStop (event) {
       stopAndPrevent(event.evt)
-      this.saturationDragging = false
+      setTimeout(() => {
+        this.saturationDragging = false
+      }, 100)
       this.__onSaturationChange(
         event.position.left,
         event.position.top,
@@ -429,9 +431,13 @@ export default {
       )
     },
     __saturationClick (evt) {
+      if (this.saturationDragging) {
+        return
+      }
       this.__onSaturationChange(
         evt.pageX - window.pageXOffset,
-        evt.pageY - window.pageYOffset
+        evt.pageY - window.pageYOffset,
+        true
       )
     }
   }

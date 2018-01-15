@@ -125,7 +125,9 @@ export default {
         return
       }
       stopAndPrevent(ev)
-      this.dragging = false
+      setTimeout(() => {
+        this.dragging = false
+      }, 100)
       this.__onInput(ev, this.centerPosition, true)
     },
     __onInput (ev, center = this.__getCenter(), emitChange) {
@@ -158,11 +160,9 @@ export default {
         this.max
       )
 
-      if (this.model !== val) {
-        this.model = val
-        this.$emit('input', val)
-      }
-      if (emitChange) {
+      this.model = val
+      this.$emit('input', val)
+      if (emitChange && JSON.stringify(val) !== JSON.stringify(this.value)) {
         this.$emit('change', val)
       }
     },

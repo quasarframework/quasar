@@ -54,9 +54,6 @@ export default {
     usingPopover () {
       return this.isPopover()
     },
-    editable () {
-      return !this.disable && !this.readonly
-    },
     actualValue () {
       if (this.displayValue) {
         return this.displayValue
@@ -81,7 +78,7 @@ export default {
     },
     show () {
       if (!this.disable) {
-        this.__setModel(this.value)
+        this.__setModel(this.value, true)
         return this.$refs.popup.show()
       }
     },
@@ -91,7 +88,7 @@ export default {
     },
 
     __onFocus () {
-      this.__setModel(this.value)
+      this.__setModel(this.value, true)
       this.focused = true
       this.$emit('focus')
     },
@@ -108,15 +105,20 @@ export default {
       this.focused = false
       this.$emit('blur')
       if (this.usingPopover && !this.$refs.popup.showing) {
-        this.__update(true)
+        this.__update(true, true)
       }
     },
-    __setModel (val) {
+    __setModel (val, skipUpdate) {
       this.model = clone(val || this.defaultSelection)
+      if (!skipUpdate && this.usingPopover) {
+        this.__update()
+      }
     },
-    __update (change) {
-      this.$emit('input', this.model)
-      if (change) {
+    __update (change, skipInput) {
+      if (!skipInput) {
+        this.$emit('input', this.model)
+      }
+      if (change && JSON.stringify(this.model) !== JSON.stringify(this.value)) {
         this.$emit('change', this.model)
       }
     },
@@ -133,13 +135,7 @@ export default {
           }, this.$attrs),
           on: {
             input: v => {
-              this.model = v
-              if (this.usingPopover) {
-                this.__update()
-              }
-            },
-            change: v => {
-              this.model = v
+              this.__setModel(v)
             }
           }
         })

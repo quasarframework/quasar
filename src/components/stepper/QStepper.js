@@ -70,8 +70,9 @@ export default {
 
       this.step = step
 
+      this.$emit('input', step)
       if (this.value !== step) {
-        this.$emit('input', step)
+        this.$emit('change', step)
         this.$emit('step', step)
       }
     },

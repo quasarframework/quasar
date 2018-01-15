@@ -50,9 +50,8 @@ export default {
       this.$emit('blur', e)
       let model = this.isNumber && this.isNumberError ? null : this.model
       if (JSON.stringify(model) !== JSON.stringify(this.value)) {
-        this.$emit('input', model)
+        this.$emit('change', model)
       }
-      this.$emit('change', model)
     },
     __onKeydown (e) {
       this.$emit('keydown', e)

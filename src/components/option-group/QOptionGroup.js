@@ -37,13 +37,8 @@ export default {
     component () {
       return `q-${this.type}`
     },
-    model: {
-      get () {
-        return Array.isArray(this.value) ? this.value.slice() : this.value
-      },
-      set (value) {
-        this.$emit('input', value)
-      }
+    model () {
+      return Array.isArray(this.value) ? this.value.slice() : this.value
     },
     length () {
       return this.value
@@ -58,8 +53,9 @@ export default {
     __onBlur () {
       this.$emit('blur')
     },
-    __update (val, change) {
+    __update (val) {
       this.$emit('input', val)
+      this.$emit('change', val)
     }
   },
   created () {
@@ -108,7 +104,6 @@ export default {
               input: this.__update,
               focus: this.__onFocus,
               blur: this.__onBlur
-              // TODO change: this.__onChange
             }
           })
         ])

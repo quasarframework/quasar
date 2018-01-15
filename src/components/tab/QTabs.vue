@@ -134,8 +134,9 @@ export default {
       this.data.tabName = name
       this.$emit('select', name)
 
+      this.$emit('input', name)
       if (this.value !== name) {
-        this.$emit('input', name)
+        this.$emit('change', name)
       }
 
       const el = this.__getTabElByName(name)

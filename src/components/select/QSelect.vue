@@ -301,10 +301,10 @@ export default {
       }
     },
     __onBlur (e) {
-      this.__onClose()
       setTimeout(() => {
         const el = document.activeElement
         if (el !== document.body && !this.$refs.popover.$el.contains(el)) {
+          this.__onClose()
           this.hide()
         }
       }, 1)
@@ -313,7 +313,9 @@ export default {
       this.focused = false
       this.$emit('blur')
       this.terms = ''
-      this.$emit('change', this.model)
+      if (JSON.stringify(this.model) !== JSON.stringify(this.value)) {
+        this.$emit('change', this.model)
+      }
     },
     __singleSelect (val, disable) {
       if (disable) {
@@ -340,14 +342,14 @@ export default {
       this.$emit('input', model)
     },
     __emit (val) {
-      if (this.value !== val) {
-        this.$emit('input', val)
+      this.$emit('input', val)
+      if (JSON.stringify(this.value) !== JSON.stringify(val)) {
+        this.$emit('change', val)
       }
-      this.$emit('change', val)
     },
-    clear () {
-      this.__emit(this.clearValue || (this.multiple ? [] : null))
-      this.$emit('clear')
+    __setModel (val) {
+      this.model = val || (this.multiple ? [] : null)
+      this.$emit('input', this.model)
     }
   }
 }

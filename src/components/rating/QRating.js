@@ -30,10 +30,10 @@ export default {
         return this.value
       },
       set (val) {
+        this.$emit('input', val)
         if (this.value !== val) {
-          this.$emit('input', val)
+          this.$emit('change', val)
         }
-        this.$emit('change', val)
       }
     },
     editable () {

@@ -5,7 +5,7 @@ import { QInputFrame } from '../input-frame'
 import { QPopover } from '../popover'
 import QDatetimePicker from './QDatetimePicker'
 import { QBtn } from '../btn'
-import { formatDate } from '../../utils/date'
+import { formatDate, isSameDate } from '../../utils/date'
 import { QModal } from '../modal'
 import clone from '../../utils/clone'
 
@@ -39,9 +39,6 @@ export default {
   computed: {
     usingPopover () {
       return this.$q.platform.is.desktop && !this.$q.platform.within.iframe
-    },
-    editable () {
-      return !this.disable && !this.readonly
     },
     actualValue () {
       if (this.displayValue) {
@@ -78,7 +75,7 @@ export default {
     },
     show () {
       if (!this.disable) {
-        this.__setModel(this.value)
+        this.__setModel(this.value, true)
         return this.$refs.popup.show()
       }
     },
@@ -97,7 +94,7 @@ export default {
           target.__scrollView()
         }
       }
-      this.__setModel(this.value)
+      this.__setModel(this.value, true)
       this.focused = true
       this.$emit('focus')
     },
@@ -113,17 +110,22 @@ export default {
     __onHide () {
       this.focused = false
       this.$emit('blur')
-      if (this.usingPopover) {
-        this.__update(true)
+      if (this.usingPopover && !this.$refs.popup.showing) {
+        this.__update(true, true)
       }
     },
-    __setModel (val) {
+    __setModel (val, skipUpdate) {
       this.model = clone(val === 0 || val ? val : this.defaultSelection)
+      if (!skipUpdate && this.usingPopover) {
+        this.__update()
+      }
     },
-    __update (change) {
+    __update (change, skipInput) {
       const val = this.model
-      this.$emit('input', val)
-      if (change) {
+      if (!skipInput) {
+        this.$emit('input', val)
+      }
+      if (change && !isSameDate(val, this.value)) {
         this.$emit('change', val)
       }
     },
@@ -146,15 +148,7 @@ export default {
             readonly: this.readonly
           },
           on: {
-            input: v => {
-              this.model = v
-              if (this.usingPopover) {
-                this.__update()
-              }
-            },
-            change: v => {
-              this.model = v
-            },
+            input: v => this.__setModel(v),
             canClose: () => {
               if (this.usingPopover) {
                 this.hide()

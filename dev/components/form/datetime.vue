@@ -39,7 +39,7 @@
         </small>
       </p>
       <q-datetime format="YYYY-MMMM-dddd Do Qo Q" v-model="model" type="date" align="right" />
-      <q-datetime stack-label="Stack Label" v-model="model" type="date" clearable />
+      <q-datetime @change="value => log('@change', value)" @input="value => log('@input', value)" stack-label="Stack Label" v-model="model" type="date" clearable />
       <q-datetime float-label="Float Label" v-model="model" type="date" />
       <q-datetime hide-underline float-label="Float Label (hide underline)" v-model="model" type="date" />
 
@@ -51,7 +51,7 @@
       <p class="caption">
         Lazy Input
       </p>
-      <q-datetime :value="model" @change="val => { model = val }" type="date" />
+      <q-datetime :value="model" @change="val => { model = val; log('@change', val) }" @input="value => log('@input', value)" type="date" clearable />
 
       <p class="caption">
         Time
@@ -72,7 +72,7 @@
       <q-datetime v-model="model" type="time" format24h />
 
       <p class="caption">Date & Time</p>
-      <q-datetime @change="onChange" v-model="model" type="datetime" />
+      <q-datetime @change="value => log('@change', value)" v-model="model" type="datetime" />
 
       <p class="caption">Default Selection</p>
       <q-datetime v-model="model" :default-selection="defaultSelection" type="datetime" />
@@ -162,7 +162,7 @@
       <q-datetime-picker v-model="model" type="time" format24h />
 
       <p class="caption">Date & Time</p>
-      <q-datetime-picker @change="onChange" color="secondary" v-model="model" type="datetime" />
+      <q-datetime-picker @change="value => log('@change', value)" color="secondary" v-model="model" type="datetime" />
 
       <p class="caption">Date - Monday as First</p>
       <q-datetime-picker v-model="model" monday-first type="date" />
@@ -207,8 +207,8 @@ export default {
     }
   },
   methods: {
-    onChange (val) {
-      console.log('@change', val)
+    log (name, data) {
+      console.log(name, JSON.stringify(data))
     }
   }
 }

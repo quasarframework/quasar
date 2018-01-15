@@ -5,7 +5,7 @@
 
       <div class="row gutter-md" style="width: 550px">
         <div class="col-6">
-          <q-color-picker v-model="modelHex" />
+          <q-color-picker v-model="modelHex" @input="value => log('@input', value)" @change="value => log('@change', value)" />
           <div class="inline-block text-white" style="text-shadow: black 0px 0px 7px; padding: 10px" :style="{ backgroundColor: this.modelHex }">
             <pre>Hex: {{modelHex}}</pre>
           </div>
@@ -33,7 +33,7 @@
       <h4>Lazy</h4>
       <div class="row gutter-md" style="width: 550px">
         <div class="col-6">
-          <q-color-picker :value="modelHex" @change="model => { modelHex = model }" />
+          <q-color-picker :value="modelHex" @change="model => { modelHex = model; log('@change', model) }" @input="value => log('@input', value)" />
           <div class="inline-block text-white" style="text-shadow: black 0px 0px 7px; padding: 10px" :style="{ backgroundColor: this.modelHex }">
             <pre>Hex: {{modelHex}}</pre>
           </div>
@@ -47,13 +47,13 @@
       </div>
 
       <h4>Input</h4>
-      <q-color v-model="inputModelHex" clearable default-selection="#ffffff" />
-      <q-color v-model="inputModelHex" inverted />
-      <q-color v-model="inputModelRgb" readonly float-label="Readonly" />
+      <q-color v-model="inputModelHex" clearable default-selection="#ffffff" @input="value => log('@input', value)" @change="value => log('@change', value)" />
+      <q-color v-model="inputModelHex" inverted readonly float-label="Readonly" />
+      <q-color v-model="inputModelRgb" float-label="RGB" />
       <q-color v-model="inputModelRgb" inverted disable float-label="Disable" />
 
       <h4>Lazy Input</h4>
-      <q-color :value="inputModelHex" @change="val => inputModelHex = val" clearable />
+      <q-color :value="inputModelHex" @change="val => { inputModelHex = val; log('@change', val)}" @input="value => log('@input', value)" clearable />
       <q-color :value="inputModelRgb" @change="val => inputModelRgb = val" clearable />
 
       <h4>Readonly</h4>
@@ -112,6 +112,9 @@ export default {
       this.modelHexa = '#FFFF00FF'
       this.modelRgb = {r: 255, g: 255, b: 0}
       this.modelRgba = {r: 255, g: 255, b: 0, a: 100}
+    },
+    log (name, data) {
+      console.log(name, JSON.stringify(data))
     }
   }
 }

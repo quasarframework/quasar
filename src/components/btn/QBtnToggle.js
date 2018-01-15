@@ -38,8 +38,8 @@ export default {
   },
   methods: {
     set (value, opt) {
+      this.$emit('input', value, opt)
       if (value !== this.value) {
-        this.$emit('input', value)
         this.$emit('change', value, opt)
       }
     }
