@@ -17,13 +17,6 @@
         </div>
 
         <div>
-          <p class="caption">QDialogSelect</p>
-          <q-dialog-select v-model="select" :options="selectOptions" />
-          <q-dialog-select stack-label="Stack Label" v-model="select" :options="selectOptions" />
-          <q-dialog-select float-label="Float Label" v-model="select" :options="selectOptions" />
-        </div>
-
-        <div>
           <p class="caption">QSearch</p>
           <q-search v-model="text" />
           <q-search stack-label="Stack Label" v-model="text" />
@@ -66,13 +59,6 @@
           <q-select inverted v-model="select" :options="selectOptions" />
           <q-select inverted stack-label="Stack Label" v-model="select" :options="selectOptions" />
           <q-select inverted float-label="Float Label" v-model="select" :options="selectOptions" />
-        </div>
-
-        <div>
-          <p class="caption">QDialogSelect</p>
-          <q-dialog-select inverted v-model="select" :options="selectOptions" />
-          <q-dialog-select inverted stack-label="Stack Label" v-model="select" :options="selectOptions" />
-          <q-dialog-select inverted float-label="Float Label" v-model="select" :options="selectOptions" />
         </div>
 
         <div>
