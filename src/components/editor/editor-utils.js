@@ -62,7 +62,6 @@ function getDropdown (h, vm, btn) {
 
   if (onlyIcons) {
     Items = btn.options.map(btn => {
-      console.log(btn)
       const active = btn.type === void 0
         ? vm.caret.is(btn.cmd, btn.param)
         : false
