@@ -4,7 +4,7 @@ import {
   getModel,
   getPercentage,
   notDivides,
-  mixin
+  SliderMixin
 } from '../slider/slider-utils'
 import { QChip } from '../chip'
 
@@ -16,7 +16,7 @@ const dragType = {
 
 export default {
   name: 'q-range',
-  mixins: [mixin],
+  mixins: [SliderMixin],
   props: {
     value: {
       type: Object,
