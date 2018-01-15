@@ -27,6 +27,9 @@
       <p class="caption">Disabled State</p>
       <q-chips-input v-model="model" disable/>
 
+      <p class="caption">Readonly State</p>
+      <q-chips-input v-model="model" readonly/>
+
       <p class="caption">Error State</p>
       <q-chips-input v-model="model" error/>
 

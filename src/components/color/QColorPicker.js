@@ -219,7 +219,10 @@ export default {
           h('div', { staticClass: 'col' }, [
             h('input', {
               domProps: { value: this.model.hex },
-              attrs: { readonly: !this.editable },
+              attrs: {
+                readonly: !this.editable,
+                tabindex: this.editable ? 0 : -1
+              },
               on: {
                 input: this.__onHexChange,
                 blur: evt => this.__onHexChange(evt, true)

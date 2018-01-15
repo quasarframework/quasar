@@ -25,6 +25,7 @@
     @click.native="togglePopup"
     @focus.native="__onFocus"
     @blur.native="__onBlur"
+    @keydown.native="__handleKey"
   >
     <div
       v-if="hasChips"
@@ -289,6 +290,18 @@ export default {
       }
     },
 
+    __handleKey (e) {
+      // ENTER key
+      if (e.which === 13 || e.keyCode === 13) {
+        this.show()
+      }
+      // Backspace key
+      else if (e.which === 8 || e.keyCode === 8) {
+        if (this.editable && this.clearable && this.actualValue.length) {
+          this.clear()
+        }
+      }
+    },
     __onFocus () {
       this.focused = true
       if (this.filter && this.autofocusFilter) {

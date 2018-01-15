@@ -66,11 +66,11 @@
       <q-input v-model="text" suffix="@gmail.com" float-label="Clearable" clearable />
       <q-input v-model="text" type="password" float-label="Password & no-pass-toggle" no-pass-toggle />
 
-      <q-input disable v-model="text" float-label="Float Label" placeholder="Gigi" />
-      <q-input inverted disable v-model="text" float-label="Float Label" placeholder="Gigi" clearable />
+      <q-input disable v-model="text" float-label="Float Label disabled" placeholder="Gigi" />
+      <q-input inverted disable v-model="text" float-label="Float Label disabled" placeholder="Gigi" clearable />
 
-      <q-input readonly v-model="text" float-label="Float Label" placeholder="Gigi" />
-      <q-input inverted readonly v-model="text" float-label="Float Label" placeholder="Gigi" clearable />
+      <q-input readonly v-model="text" float-label="Float Label readonly" placeholder="Gigi" />
+      <q-input inverted readonly v-model="text" float-label="Float Label readonly" placeholder="Gigi" clearable />
 
       <q-input v-model="text" float-label="Colored" color="amber" />
       <q-input v-model="text" float-label="Colored" color="amber" error />

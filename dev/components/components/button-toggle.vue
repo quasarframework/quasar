@@ -20,7 +20,7 @@
                   {{size}}
                 </p>
 
-                <q-btn-toggle v-model="model" toggle-color="primary" color="amber" text-color="dark"
+                <q-btn-toggle v-model="model" toggle-color="primary" color="amber" text-color="red"
                   :push="push" :flat="flat" :outline="outline" :glossy="glossy" :rounded="rounded" :size="size"
                   :options="[
                     {label: 'One', value: 'one'},

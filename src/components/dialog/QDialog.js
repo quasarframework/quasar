@@ -102,10 +102,20 @@ export default {
             return
           }
 
-          let node = this.$refs.modal.$el.getElementsByTagName('INPUT')
-          if (node.length) {
-            node[0].focus()
-            return
+          let node
+          if (this.prompt) {
+            node = this.$refs.modal.$el.getElementsByTagName('INPUT')
+            if (node.length) {
+              node[0].focus()
+              return
+            }
+          }
+          else {
+            node = this.$refs.modal.$el.getElementsByClassName('q-option')
+            if (node.length) {
+              node[0].focus()
+              return
+            }
           }
 
           node = this.$refs.modal.$el.getElementsByTagName('BUTTON')

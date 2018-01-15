@@ -87,6 +87,18 @@ export default {
       return this.$refs.popup.hide()
     },
 
+    __handleKey (e) {
+      // ENTER key
+      if (e.which === 13 || e.keyCode === 13) {
+        this.show()
+      }
+      // Backspace key
+      else if (e.which === 8 || e.keyCode === 8) {
+        if (this.editable && this.clearable && this.actualValue.length) {
+          this.clear()
+        }
+      }
+    },
     __onFocus () {
       this.__setModel(this.value, true)
       this.focused = true
@@ -203,7 +215,8 @@ export default {
       nativeOn: {
         click: this.toggle,
         focus: this.__onFocus,
-        blur: this.__onBlur
+        blur: this.__onBlur,
+        keydown: this.__handleKey
       }
     }, [
       h('div', {

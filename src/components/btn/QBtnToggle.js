@@ -57,9 +57,6 @@ export default {
     this.options.map(
       (opt, i) => h(QBtn, {
         key: `${opt.label}${opt.icon}${opt.iconRight}`,
-        attrs: {
-          tabindex: opt.tabindex || 0
-        },
         on: { click: () => this.set(opt.value, opt) },
         props: {
           disable: this.disable,
@@ -78,7 +75,8 @@ export default {
           size: this.size,
           dense: this.dense,
           noRipple: this.noRipple,
-          waitForRipple: this.waitForRipple
+          waitForRipple: this.waitForRipple,
+          tabindex: opt.tabindex
         }
       })
     ))
