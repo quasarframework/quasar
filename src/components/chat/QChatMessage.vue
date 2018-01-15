@@ -8,8 +8,8 @@
   >
     <p v-if="label" class="q-message-label text-center" v-html="label"></p>
 
-    <div v-if="avatar" class="q-message-container row items-end no-wrap">
-      <slot name="avatar">
+    <div v-if="text" class="q-message-container row items-end no-wrap">
+      <slot v-if="avatar" name="avatar">
         <img class="q-message-avatar" :src="avatar">
       </slot>
       <div :class="sizeClass">
@@ -48,6 +48,7 @@ export default {
 
     name: String,
     avatar: String,
+    avatarPlaceholder: Boolean,
     text: Array,
     stamp: String,
     size: String

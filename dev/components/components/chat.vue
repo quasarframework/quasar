@@ -1,6 +1,8 @@
 <template>
   <div>
     <div class="layout-padding" style="max-width: 500px;">
+      <h4>Chat with avatar section</h4>
+      <p>To mix messages with avatar and without in the same thread, use a placeholder avatar image.</p>
       <q-chat-message
         v-for="msg in messages"
         :key="msg.label"
@@ -13,13 +15,20 @@
         :text="msg.text"
         :stamp="msg.stamp"
       />
-
+      <br><br><br><br>
+      <h4>Chat without avatar section</h4>
       <q-chat-message
-        name="Vladimir"
-        avatar="/statics/boy-avatar.png"
-      >
-        <q-spinner-dots size="2rem" />
-      </q-chat-message>
+        v-for="msg in messages"
+        :key="msg.label"
+        :label="msg.label"
+        :sent="msg.sent"
+        :text-color="msg.textColor"
+        :bg-color="msg.bgColor"
+        :name="msg.name"
+        :text="msg.text"
+        :stamp="msg.stamp"
+      />
+
     </div>
   </div>
 </template>
