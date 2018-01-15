@@ -20,27 +20,11 @@ export default {
     },
     maxHeight: String,
     height: String,
-    color: String,
-    toggleColor: {
-      type: String,
-      default: 'primary'
-    },
-    toolbarColor: {
-      type: String,
-      default: 'grey-4'
-    },
-    contentColor: {
-      type: String,
-      default: 'white'
-    },
-    flat: Boolean,
-    outline: Boolean,
-    push: Boolean,
     definitions: Object,
     fonts: Object,
     toolbar: {
       type: Array,
-      validator: v => v.length > 0 && v.every(group => group.length),
+      validator: v => v.length === 0 || v.every(group => group.length),
       default () {
         return [
           ['left', 'center', 'right', 'justify'],
@@ -49,21 +33,44 @@ export default {
         ]
       }
     },
-    hideToolbar: Boolean
+    toolbarColor: String,
+    toolbarTextColor: String,
+    toolbarToggleColor: {
+      type: String,
+      default: 'primary'
+    },
+    toolbarBg: {
+      type: String,
+      default: 'grey-3'
+    },
+    toolbarFlat: Boolean,
+    toolbarOutline: Boolean,
+    toolbarPush: Boolean,
+    toolbarRounded: Boolean,
+    contentStyle: Object,
+    contentClass: [Object, Array, String]
   },
   computed: {
     editable () {
       return !this.readonly && !this.disable
     },
     hasToolbar () {
-      return !this.hideToolbar && this.toolbar && this.toolbar.length > 0
+      return this.toolbar && this.toolbar.length > 0
+    },
+    toolbarBackgroundClass () {
+      if (this.toolbarBg) {
+        return `bg-${this.toolbarBg}`
+      }
     },
     buttonProps () {
       return {
-        outline: this.outline,
-        flat: this.flat,
-        push: this.push,
-        dense: true
+        outline: this.toolbarOutline,
+        flat: this.toolbarFlat,
+        push: this.toolbarPush,
+        rounded: this.toolbarRounded,
+        dense: true,
+        color: this.toolbarColor,
+        disable: !this.editable
       }
     },
     buttonDef () {
@@ -97,12 +104,12 @@ export default {
         undo: {type: 'no-state', cmd: 'undo', icon: i.undo, tip: e.undo, key: 90},
         redo: {type: 'no-state', cmd: 'redo', icon: i.redo, tip: e.redo, key: 89},
 
-        h1: {cmd: 'formatBlock', param: 'H1', icon: i.header, tip: e.header1, htmlTip: `<h1>${e.header1}</h1>`},
-        h2: {cmd: 'formatBlock', param: 'H2', icon: i.header, tip: e.header2, htmlTip: `<h2>${e.header2}</h2>`},
-        h3: {cmd: 'formatBlock', param: 'H3', icon: i.header, tip: e.header3, htmlTip: `<h3>${e.header3}</h3>`},
-        h4: {cmd: 'formatBlock', param: 'H4', icon: i.header, tip: e.header4, htmlTip: `<h4>${e.header4}</h4>`},
-        h5: {cmd: 'formatBlock', param: 'H5', icon: i.header, tip: e.header5, htmlTip: `<h5>${e.header5}</h5>`},
-        h6: {cmd: 'formatBlock', param: 'H6', icon: i.header, tip: e.header6, htmlTip: `<h6>${e.header6}</h6>`},
+        h1: {cmd: 'formatBlock', param: 'H1', icon: i.header, tip: e.header1, htmlTip: `<h1 class="q-ma-none">${e.header1}</h1>`},
+        h2: {cmd: 'formatBlock', param: 'H2', icon: i.header, tip: e.header2, htmlTip: `<h2 class="q-ma-none">${e.header2}</h2>`},
+        h3: {cmd: 'formatBlock', param: 'H3', icon: i.header, tip: e.header3, htmlTip: `<h3 class="q-ma-none">${e.header3}</h3>`},
+        h4: {cmd: 'formatBlock', param: 'H4', icon: i.header, tip: e.header4, htmlTip: `<h4 class="q-ma-none">${e.header4}</h4>`},
+        h5: {cmd: 'formatBlock', param: 'H5', icon: i.header, tip: e.header5, htmlTip: `<h5 class="q-ma-none">${e.header5}</h5>`},
+        h6: {cmd: 'formatBlock', param: 'H6', icon: i.header, tip: e.header6, htmlTip: `<h6 class="q-ma-none">${e.header6}</h6>`},
         p: {cmd: 'formatBlock', param: 'DIV', icon: i.header, tip: e.paragraph},
         code: {cmd: 'formatBlock', param: 'PRE', icon: i.code, tip: `<code>${e.code}</code>`},
 
@@ -262,14 +269,16 @@ export default {
     })
   },
   render (h) {
-    const toolbars = []
-    if (!this.readonly && this.hasToolbar) {
+    let toolbars
+    if (this.hasToolbar) {
       const toolbarConfig = {
-        staticClass: `q-editor-toolbar row no-wrap scroll bg-${this.toolbarColor}`,
-        'class': {
-          'q-editor-toolbar-separator': !this.outline && !this.push
-        }
+        staticClass: `q-editor-toolbar row no-wrap scroll`,
+        'class': [
+          { 'q-editor-toolbar-separator': !this.toolbarOutline && !this.toolbarPush },
+          this.toolbarBackgroundClass
+        ]
       }
+      toolbars = []
       toolbars.push(h('div', extend({key: 'qedt_top'}, toolbarConfig), [
         h('div', { staticClass: 'row no-wrap q-editor-toolbar-padding fit items-center' }, getToolbar(h, this))
       ]))
@@ -278,50 +287,46 @@ export default {
           h('div', { staticClass: 'row no-wrap q-editor-toolbar-padding fit items-center' }, getLinkEditor(h, this))
         ]))
       }
+      toolbars = h('div', toolbars)
     }
+
     return h(
       'div',
-      { staticClass: 'q-editor' },
+      {
+        staticClass: 'q-editor',
+        style: {
+          height: this.inFullscreen ? '100vh' : null
+        },
+        'class': {
+          disabled: this.disable,
+          fullscreen: this.inFullscreen,
+          column: this.inFullscreen
+        }
+      },
       [
+        toolbars,
         h(
           'div',
           {
-            staticClass: 'q-editor-inner',
-            style: {
-              height: this.inFullscreen ? '100vh' : null
-            },
-            'class': {
-              disabled: this.disable,
-              fullscreen: this.inFullscreen,
-              column: this.inFullscreen
-            }
-          },
-          [
-            !toolbars.length ? '' : h('div', toolbars),
-            h(
-              'div',
-              {
-                ref: 'content',
-                staticClass: `q-editor-content bg-${this.contentColor}`,
-                style: this.inFullscreen
-                  ? {}
-                  : { minHeight: this.minHeight, height: this.height, maxHeight: this.maxHeight },
-                class: {
-                  col: this.inFullscreen,
-                  'overflow-auto': this.inFullscreen
-                },
-                attrs: { contenteditable: this.editable },
-                on: {
-                  input: this.onInput,
-                  keydown: this.onKeydown,
-                  click: this.refreshToolbar,
-                  blur: () => {
-                    this.caret.save()
-                  }
-                }
+            ref: 'content',
+            staticClass: `q-editor-content`,
+            style: this.inFullscreen
+              ? this.contentStyle
+              : [{ minHeight: this.minHeight, height: this.height, maxHeight: this.maxHeight }, this.contentStyle],
+            class: [
+              this.contentClass,
+              { col: this.inFullscreen, 'overflow-auto': this.inFullscreen }
+            ],
+            attrs: { contenteditable: this.editable },
+            on: {
+              input: this.onInput,
+              keydown: this.onKeydown,
+              click: this.refreshToolbar,
+              blur: () => {
+                this.caret.save()
               }
-            )
-          ]
+            }
+          }
         )
       ]
     )

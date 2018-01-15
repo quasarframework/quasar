@@ -1,94 +1,85 @@
 <template>
-  <div class="layout-padding button-group-test">
-    <q-toggle v-model="toggled" />
-    <br><br>
+  <div class="layout-padding button-toggle-group-test">
+    <p class="caption">
+      <span>Model: </span>
+      <strong>{{ model }}</strong>
+    </p>
 
-    <q-btn-toggle
-      v-model="toggled"
-      toggle-color="primary"
-    >
-      Toggle me
-    </q-btn-toggle>
+    <div v-for="push in options" :key="push">
+      <div v-for="flat in options" :key="flat" v-if="!push || !flat">
+        <div v-for="outline in options" :key="outline" v-if="!(push || flat) || !outline">
+          <div v-for="glossy in options" :key="glossy" v-if="!(push || flat) || !outline">
+            <div v-for="rounded in options" :key="rounded">
+              <div v-for="size in sizes" :key="size" class="q-ma-sm">
+                <p class="caption">
+                  {{push ? 'push ' : ''}}
+                  {{rounded ? 'rounded ' : ''}}
+                  {{outline ? 'outline ' : ''}}
+                  {{flat ? 'flat ' : ''}}
+                  {{glossy ? 'glossy ' : ''}}
+                  {{size}}
+                </p>
 
-    <q-btn-toggle
-      v-model="toggled"
-      color="green"
-      toggle-color="red"
-    >
-      Toggle me
-    </q-btn-toggle>
+                <q-btn-toggle v-model="model" toggle-color="primary" color="amber" text-color="dark"
+                  :push="push" :flat="flat" :outline="outline" :glossy="glossy" :rounded="rounded" :size="size"
+                  :options="[
+                    {label: 'One', value: 'one'},
+                    {label: 'Two', value: 'two'},
+                    {label: 'Three', value: 'three'}
+                  ]"
+                />
 
-    <q-btn-toggle
-      v-model="toggled"
-      color="green"
-      toggle-color="red"
-      push
-    >
-      Toggle me
-    </q-btn-toggle>
+                <q-btn-toggle v-model="model" toggle-color="primary"
+                  :push="push" :flat="flat" :outline="outline" :glossy="glossy" :rounded="rounded" :size="size"
+                  disable
+                  :options="[
+                    {label: 'One', value: 'one'},
+                    {label: 'Two', value: 'two'},
+                    {label: 'Three', value: 'three'}
+                  ]"
+                />
 
-    <div style="margin-top: 25px">
-      <q-btn-toggle
-        dense
-        v-model="toggled"
-        toggle-color="primary"
-      >
-        Toggle me
-      </q-btn-toggle>
+                <q-btn-toggle v-model="model" toggle-color="primary"
+                  :push="push" :flat="flat" :outline="outline" :glossy="glossy" :rounded="rounded" :size="size"
+                  :options="[
+                    {label: 'One', icon: 'filter_1', value: 'one'},
+                    {label: 'Two', icon: 'filter_2', value: 'two'},
+                    {label: 'Three', icon: 'filter_3', value: 'three'}
+                  ]"
+                />
 
-      <q-btn-toggle
-        dense
-        v-model="toggled"
-        color="green"
-        toggle-color="red"
-      >
-        Toggle me
-      </q-btn-toggle>
+                <q-btn-toggle v-model="model" toggle-color="primary"
+                  :push="push" :flat="flat" :outline="outline" :glossy="glossy" :rounded="rounded" :size="size"
+                  :options="[
+                    {icon: 'filter_1', value: 'one'},
+                    {icon: 'filter_2', value: 'two'},
+                    {icon: 'filter_3', value: 'three'}
+                  ]"
+                />
 
-      <q-btn-toggle
-        dense
-        v-model="toggled"
-        color="green"
-        toggle-color="red"
-        push
-      >
-        Toggle me
-      </q-btn-toggle>
+                <q-btn-toggle v-model="model" toggle-color="primary"
+                  :push="push" :flat="flat" :outline="outline" :glossy="glossy" :rounded="rounded" :size="size"
+                  :options="[
+                    {label: 'One', iconRight: 'filter_1', value: 'one'},
+                    {label: 'Two', iconRight: 'filter_2', value: 'two'},
+                    {label: 'Three', iconRight: 'filter_3', value: 'three'}
+                  ]"
+                />
+
+                <q-btn-toggle v-model="model" toggle-color="primary"
+                  :push="push" :flat="flat" :outline="outline" :glossy="glossy" :rounded="rounded" :size="size"
+                  :options="[
+                    {label: 'One', value: 'one'},
+                    {label: 'Two', toggleColor: 'yellow', value: 'two'},
+                    {label: 'Three', toggleColor: 'red', value: 'three'}
+                  ]"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    
-    <div style="margin-top: 25px">
-      Disable
-      <q-btn-toggle
-        dense
-        v-model="toggled"
-        toggle-color="primary"
-        disable
-      >
-        Toggle me
-      </q-btn-toggle>
-
-      <q-btn-toggle
-        dense
-        v-model="toggled"
-        color="green"
-        toggle-color="red"
-        disable
-      >
-        Toggle me
-      </q-btn-toggle>
-
-      <q-btn-toggle
-        dense
-        v-model="toggled"
-        color="green"
-        toggle-color="red"
-        push
-        disable
-      >
-        Toggle me
-      </q-btn-toggle>
-    </div>
-
   </div>
 </template>
 
@@ -96,14 +87,15 @@
 export default {
   data () {
     return {
-      toggled: false
+      model: '',
+      options: [true, false],
+      sizes: ['sm', 'md', 'lg']
     }
   }
 }
 </script>
 
 <style lang="stylus">
-.button-toggle-test
-  .q-btn-toggle
-    margin 5px 15px
+.button-toggle-group-test .q-btn-toggle
+  margin 15px
 </style>

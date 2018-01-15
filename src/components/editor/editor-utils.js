@@ -1,4 +1,4 @@
-import { QBtn, QBtnToggle, QBtnDropdown, QBtnGroup } from '../btn'
+import { QBtn, QBtnDropdown, QBtnGroup } from '../btn'
 import { QInput } from '../input'
 import { QTooltip } from '../tooltip'
 import { QList, QItem, QItemSide, QItemMain } from '../list'
@@ -13,16 +13,18 @@ function run (e, btn, vm) {
   }
 }
 
-function getBtn (h, vm, btn, clickHandler) {
+function getBtn (h, vm, btn, clickHandler, active = false) {
   const
+    toggled = active || (btn.type === 'toggle'
+      ? (btn.toggled ? btn.toggled(vm) : btn.cmd && vm.caret.is(btn.cmd, btn.param))
+      : false),
     child = [],
     events = {
       click (e) {
         clickHandler && clickHandler()
         run(e, btn, vm)
       }
-    },
-    toggle = btn.type === 'toggle'
+    }
 
   if (btn.tip && vm.$q.platform.is.desktop) {
     const Key = btn.key
@@ -34,14 +36,12 @@ function getBtn (h, vm, btn, clickHandler) {
     ]))
   }
 
-  return h(toggle ? QBtnToggle : QBtn, {
+  return h(QBtn, {
     props: extend({
       icon: btn.icon,
-      color: btn.color || vm.color,
-      textColor: btn.textColor,
+      color: toggled ? btn.toggleColor || vm.toolbarToggleColor : btn.color || vm.toolbarColor,
+      textColor: toggled && (vm.toolbarFlat || vm.toolbarOutline) ? null : btn.textColor || vm.toolbarTextColor,
       label: btn.label,
-      toggled: toggle ? (btn.toggled ? btn.toggled(vm) : btn.cmd && vm.caret.is(btn.cmd, btn.param)) : null,
-      toggleColor: vm.toggleColor,
       disable: btn.disable ? (typeof btn.disable === 'function' ? btn.disable(vm) : true) : false
     }, vm.buttonProps),
     on: events
@@ -62,6 +62,7 @@ function getDropdown (h, vm, btn) {
 
   if (onlyIcons) {
     Items = btn.options.map(btn => {
+      console.log(btn)
       const active = btn.type === void 0
         ? vm.caret.is(btn.cmd, btn.param)
         : false
@@ -70,12 +71,17 @@ function getDropdown (h, vm, btn) {
         label = btn.tip
         icon = btn.icon
       }
-      return getBtn(h, vm, btn, closeDropdown)
+      return getBtn(h, vm, btn, closeDropdown, active)
     })
     Items = [
       h(
         QBtnGroup,
-        { props: vm.buttonProps, staticClass: 'relative-position q-editor-toolbar-padding' },
+        {
+          props: vm.buttonProps,
+          staticClass: 'relative-position q-editor-toolbar-padding',
+          'class': vm.toolbarBackgroundClass,
+          style: { borderRadius: '0' }
+        },
         Items
       )
     ]
@@ -96,7 +102,7 @@ function getDropdown (h, vm, btn) {
         QItem,
         {
           props: { active, link: !disable },
-          staticClass: disable ? 'disabled' : '',
+          'class': { disabled: disable },
           nativeOn: {
             click (e) {
               if (disable) { return }
@@ -117,16 +123,23 @@ function getDropdown (h, vm, btn) {
         ]
       )
     })
-    Items = [ h(QList, { props: { separator: true } }, [ Items ]) ]
+    Items = [
+      h(QList, {
+        props: { separator: true },
+        'class': [vm.toolbarBackgroundClass, vm.toolbarTextColor ? `text-${vm.toolbarTextColor}` : '']
+      }, [ Items ])
+    ]
   }
 
+  const highlight = btn.highlight && label !== btn.label
   const Dropdown = h(
     QBtnDropdown,
     {
       props: extend({
         noCaps: true,
         noWrap: true,
-        color: btn.highlight && label !== btn.label ? vm.toggleColor : vm.color,
+        color: highlight ? vm.toolbarToggleColor : vm.toolbarColor,
+        textColor: highlight && (vm.toolbarFlat || vm.toolbarOutline) ? null : vm.toolbarTextColor,
         label: btn.fixedLabel ? btn.label : label,
         icon: btn.fixedIcon ? btn.icon : icon
       }, vm.buttonProps)
@@ -187,6 +200,7 @@ export function getFonts (defaultFont, defaultFontLabel, defaultFontIcon, fonts 
 
 export function getLinkEditor (h, vm) {
   if (vm.caret) {
+    const color = vm.toolbarColor || vm.toolbarTextColor
     let link = vm.editLinkUrl
     const updateLink = () => {
       vm.caret.restore()
@@ -197,13 +211,13 @@ export function getLinkEditor (h, vm) {
     }
 
     return [
-      h('div', { staticClass: 'q-mr-sm' }, [`${vm.$q.i18n.editor.url}: `]),
+      h('div', { staticClass: 'q-mx-xs', 'class': `text-${color}` }, [`${vm.$q.i18n.editor.url}: `]),
       h(QInput, {
         key: 'qedt_btm_input',
-        staticClass: 'q-ma-none q-pa-none col',
+        staticClass: 'q-ma-none q-pa-none col q-editor-input',
         props: {
           value: link,
-          color: 'dark',
+          color,
           autofocus: true,
           hideUnderline: true
         },
@@ -223,23 +237,17 @@ export function getLinkEditor (h, vm) {
       }),
       h(QBtnGroup, {
         key: 'qedt_btm_grp',
-        props: {
-          flat: true
-        }
+        props: vm.buttonProps
       }, [
         h(QBtn, {
           key: 'qedt_btm_rem',
           attrs: {
             tabindex: -1
           },
-          staticClass: 'q-mr-sm',
-          props: {
-            color: 'negative',
+          props: extend({
             label: vm.$q.i18n.label.remove,
-            flat: true,
-            dense: true,
             noCaps: true
-          },
+          }, vm.buttonProps),
           on: {
             click: () => {
               vm.caret.restore()
@@ -250,12 +258,10 @@ export function getLinkEditor (h, vm) {
         }),
         h(QBtn, {
           key: 'qedt_btm_upd',
-          props: {
+          props: extend({
             label: vm.$q.i18n.label.update,
-            flat: true,
-            dense: true,
             noCaps: true
-          },
+          }, vm.buttonProps),
           on: {
             click: updateLink
           }

@@ -1,13 +1,11 @@
 import QBtn from './QBtn'
-import QBtnToggle from './QBtnToggle'
 import QBtnGroup from './QBtnGroup'
 import QBtnDropdown from './QBtnDropdown'
-import QBtnToggleGroup from './QBtnToggleGroup'
+import QBtnToggle from './QBtnToggle'
 
 export {
   QBtn,
   QBtnGroup,
-  QBtnToggle,
   QBtnDropdown,
-  QBtnToggleGroup
+  QBtnToggle
 }

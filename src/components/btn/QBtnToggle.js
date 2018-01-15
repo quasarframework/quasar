@@ -1,82 +1,86 @@
-import BtnMixin from './btn-mixin'
+import QBtn from './QBtn'
+import QBtnGroup from './QBtnGroup'
 
 export default {
   name: 'q-btn-toggle',
-  mixins: [BtnMixin],
-  model: {
-    prop: 'toggled',
-    event: 'change'
-  },
   props: {
-    toggled: {
-      type: Boolean,
+    value: {
       required: true
     },
+    color: String,
+    textColor: String,
     toggleColor: {
       type: String,
       required: true
+    },
+    options: {
+      type: Array,
+      required: true,
+      validator: v => v.every(opt => ('label' in opt || 'icon' in opt) && 'value' in opt)
+    },
+    disable: Boolean,
+    noCaps: Boolean,
+    noWrap: Boolean,
+    outline: Boolean,
+    flat: Boolean,
+    dense: Boolean,
+    rounded: Boolean,
+    push: Boolean,
+    size: String,
+    glossy: Boolean,
+    noRipple: Boolean,
+    waitForRipple: Boolean
+  },
+  computed: {
+    val () {
+      return this.options.map(opt => opt.value === this.value)
     }
   },
   methods: {
-    click (e) {
-      clearTimeout(this.timer)
-
-      if (this.isDisabled) {
-        return
-      }
-
-      const trigger = () => {
-        this.removeFocus(e)
-        const state = !this.toggled
-        this.$emit('change', state)
-        this.$emit('click', e, state)
-      }
-
-      if (this.waitForRipple && this.hasRipple) {
-        this.timer = setTimeout(trigger, 350)
-      }
-      else {
-        trigger()
+    set (value, opt) {
+      if (value !== this.value) {
+        this.$emit('input', value)
+        this.$emit('change', value, opt)
       }
     }
   },
   render (h) {
-    return h('button', {
-      staticClass: 'q-btn q-btn-toggle row inline flex-center relative-position',
-      'class': this.classes,
-      style: this.style,
-      on: { click: this.click },
-      directives: this.hasRipple
-        ? [{
-          name: 'ripple',
-          value: true
-        }]
-        : null
-    }, [
-      h('div', { staticClass: 'q-focus-helper' }),
-
-      h('div', {
-        staticClass: 'q-btn-inner row col items-center',
-        'class': this.innerClasses
-      }, [
-        this.icon
-          ? h('q-icon', {
-            'class': { 'on-left': this.label && this.isRectangle },
-            props: { name: this.icon }
-          })
-          : null,
-
-        this.label && this.isRectangle ? h('div', [ this.label ]) : null,
-
-        this.$slots.default,
-
-        this.iconRight && this.isRectangle
-          ? h('q-icon', {
-            staticClass: 'on-right',
-            props: { name: this.iconRight }
-          })
-          : null
-      ])
-    ])
+    return h(QBtnGroup, {
+      staticClass: 'q-btn-toggle',
+      props: {
+        outline: this.outline,
+        flat: this.flat,
+        rounded: this.rounded,
+        push: this.push
+      }
+    },
+    this.options.map(
+      (opt, i) => h(QBtn, {
+        key: `${opt.label}${opt.icon}${opt.iconRight}`,
+        attrs: {
+          tabindex: opt.tabindex || 0
+        },
+        on: { click: () => this.set(opt.value, opt) },
+        props: {
+          disable: this.disable,
+          label: opt.label,
+          color: this.val[i] ? opt.toggleColor || this.toggleColor : opt.color || this.color,
+          textColor: opt.textColor || this.textColor,
+          icon: opt.icon,
+          iconRight: opt.iconRight,
+          noCaps: this.noCaps,
+          noWrap: this.noWrap,
+          outline: this.outline,
+          flat: this.flat,
+          rounded: this.rounded,
+          push: this.push,
+          glossy: this.glossy,
+          size: this.size,
+          dense: this.dense,
+          noRipple: this.noRipple,
+          waitForRipple: this.waitForRipple
+        }
+      })
+    ))
   }
 }

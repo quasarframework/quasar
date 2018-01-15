@@ -6,7 +6,7 @@
       </q-field>
 
       <div>
-        <q-btn-toggle color="primary" toggle-color="red" v-model="loader" label="Show loader" />
+        <q-toggle color="primary" v-model="loader" label="Show loader" />
         <q-toggle color="primary" v-model="selectionToggle" label="Multiple selection" />
         <q-select multiple toggle v-model="visibleColumns" :options="visibleColumnsOptions" />
         <q-radio v-model="separator" val="horizontal" label="Horizontal" />

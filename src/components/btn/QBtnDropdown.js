@@ -70,6 +70,7 @@ export default {
             push: this.push,
             size: this.size,
             color: this.color,
+            textColor: this.textColor,
             glossy: this.glossy,
             dense: this.dense,
             noRipple: this.noRipple,

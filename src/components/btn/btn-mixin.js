@@ -62,9 +62,7 @@ export default {
       return __THEME__ === 'mat' && !this.noRipple && !this.isDisabled
     },
     classes () {
-      const
-        cls = [ this.shape ],
-        color = this.toggled ? this.toggleColor : this.color
+      const cls = [ this.shape ]
 
       if (this.fab) {
         cls.push('q-btn-fab')
@@ -90,12 +88,12 @@ export default {
         cls.push('q-focusable q-hoverable')
       }
 
-      if (color) {
+      if (this.color) {
         if (this.flat || this.outline) {
-          cls.push(`text-${this.textColor || color}`)
+          cls.push(`text-${this.textColor || this.color}`)
         }
         else {
-          cls.push(`bg-${color}`)
+          cls.push(`bg-${this.color}`)
           cls.push(`text-${this.textColor || 'white'}`)
         }
       }
@@ -107,7 +105,6 @@ export default {
         'q-btn-no-uppercase': this.noCaps,
         'q-btn-rounded': this.rounded,
         'q-btn-dense': this.dense,
-        'q-btn-toggle-active': this.toggled,
         'glossy': this.glossy
       })
 
