@@ -104,6 +104,10 @@
   "peerDependencies": {
     "vue": "^2.5.0"
   },
+  "engines": {
+    "node": ">= 8.9.0",
+    "npm": ">= 5.6.0"
+  },
   "browserslist": [
     "> 1%",
     "last 2 versions",

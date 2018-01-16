@@ -20,45 +20,53 @@ const
 const builds = [
   {
     rollup: {
-      input: resolve(`src/index.esm.js`),
+      input: {
+        input: resolve(`src/index.esm.js`)
+      },
       output: {
         file: resolve(`dist/quasar.${buildConf.themeToken}.esm.js`),
         format: 'es'
       }
     },
-    meta: { buildUnminified: true }
+    build: { unminified: true }
   },
   {
     rollup: {
-      input: resolve('src/ie-compat/ie.js'),
+      input: {
+        input: resolve('src/ie-compat/ie.js')
+      },
       output: {
         file: resolve('dist/quasar.ie.polyfills.js'),
         format: 'es'
       }
     },
-    meta: { buildUnminified: true }
+    build: { unminified: true }
   },
   {
     rollup: {
-      input: resolve('src/ie-compat/ie.js'),
+      input: {
+        input: resolve('src/ie-compat/ie.js')
+      },
       output: {
         file: resolve('dist/umd/quasar.ie.polyfills.umd.js'),
         format: 'umd'
       }
     },
-    meta: { buildMinified: true }
+    build: { minified: true }
   },
   {
     rollup: {
-      input: resolve(`src/index.umd.js`),
+      input: {
+        input: resolve(`src/index.umd.js`)
+      },
       output: {
         file: resolve(`dist/umd/quasar.${buildConf.themeToken}.umd.js`),
         format: 'umd'
       }
     },
-    meta: {
-      buildUnminified: true,
-      buildMinified: true
+    build: {
+      unminified: true,
+      minified: true
     }
   }
 ]
@@ -76,30 +84,27 @@ function resolve (_path) {
   return path.resolve(__dirname, '..', _path)
 }
 
-function camel (str) {
-  return str.charAt(0).toUpperCase() + str.substr(1)
-}
-
 function addAssets (builds, type) {
   const
     files = fs.readdirSync(resolve(type)),
-    plugins = [ buble() ],
-    camelType = camel(type)
+    plugins = [ buble() ]
 
   files.forEach(file => {
-    const name = file.replace(/-([a-z])/g, g => g[1].toUpperCase())
+    const name = file.substr(0, file.length - 3).replace(/-([a-z])/g, g => g[1].toUpperCase())
     builds.push({
       rollup: {
-        input: resolve(`${type}/${file}`),
+        input: {
+          input: resolve(`${type}/${file}`),
+          plugins
+        },
         output: {
           file: addExtension(resolve(`dist/umd/${type}.${file}`), 'umd'),
           format: 'umd',
-          name: `Quasar${camelType}${camel(name)}`
-        },
-        plugins
+          name: `Quasar.${type}.${name}`
+        }
       },
-      meta: {
-        buildMinified: true
+      build: {
+        minified: true
       }
     })
   })
@@ -117,7 +122,7 @@ function processEntries (entries) {
     buildConf.themes.forEach(theme => {
       const clone = JSON.parse(JSON.stringify(entry))
       clone.rollup.output.file = entry.rollup.output.file.replace(buildConf.themeToken, theme)
-      clone.meta.theme = theme
+      clone.build.theme = theme
       builds.push(clone)
     })
   })
@@ -132,11 +137,11 @@ function build (builds) {
 }
 
 function genConfig (opts) {
-  const theme = opts.meta && opts.meta.theme
-    ? opts.meta.theme
+  const theme = opts.build && opts.build.theme
+    ? opts.build.theme
     : null
 
-  const plugins = opts.meta.plugins || [
+  const plugins = opts.rollup.input.plugins || [
     nodeResolve({
       extensions: theme
         ? [`.${theme}.js`, '.js', `.${theme}.vue`, '.vue']
@@ -156,16 +161,16 @@ function genConfig (opts) {
     )
   }
 
+  opts.rollup.input.plugins = plugins
   opts.rollup.output.banner = buildConf.banner
   opts.rollup.output.name = opts.rollup.output.name || 'Quasar'
-  opts.rollup.plugins = plugins
 
   if (opts.rollup.output.format === 'umd') {
+    opts.rollup.input.external = opts.rollup.input.external || []
+    opts.rollup.input.external.push('vue')
+
     opts.rollup.output.globals = opts.rollup.output.globals || {}
     opts.rollup.output.globals.vue = 'Vue'
-
-    opts.rollup.external = opts.rollup.external || []
-    opts.rollup.external.push('vue')
   }
 
   return opts
@@ -178,15 +183,15 @@ function addExtension (filename, ext = 'min') {
 
 function buildEntry (config) {
   return rollup
-    .rollup(config.rollup)
-    .then(bundle => bundle.generate(config.rollup))
+    .rollup(config.rollup.input)
+    .then(bundle => bundle.generate(config.rollup.output))
     .then(({ code }) => {
-      return config.meta.buildUnminified
+      return config.build.unminified
         ? buildUtils.writeFile(config.rollup.output.file, code)
         : code
     })
     .then(code => {
-      if (!config.meta.buildMinified) {
+      if (!config.build.minified) {
         return code
       }
 
@@ -202,7 +207,7 @@ function buildEntry (config) {
 
       return buildUtils.writeFile(
         addExtension(config.rollup.output.file),
-        (config.rollup.output.banner || '') + minified.code,
+        buildConf.banner + minified.code,
         true
       )
     })
