@@ -9,9 +9,14 @@
     border-bottom-left-radius 0
 .q-btn-group-push
   border-radius $button-push-border-radius
-  .q-btn-push:active:not(.disabled)
-    border-bottom 0 solid transparent
-    transform translateY(0)
+  .q-btn-push
+    .q-btn-inner
+      transition $button-transition
+    &:active:not(.disabled)
+      border-bottom-color rgba(0, 0, 0, .15)
+      transform translateY(0)
+      .q-btn-inner
+        transform translateY(3px)
 .q-btn-group-rounded
   border-radius $button-rounded-border-radius
 .q-btn-group-outline

@@ -222,9 +222,6 @@ export default {
       return this.model !== null && this.model !== undefined
         ? ('' + this.model).length
         : 0
-    },
-    editable () {
-      return !this.disable && !this.readonly
     }
   },
   methods: {
@@ -238,22 +235,18 @@ export default {
       clearTimeout(this.timer)
       this.focus()
     },
-    clear () {
-      clearTimeout(this.timer)
-      this.focus()
-      if (this.editable) {
-        this.model = this.clearValue || (this.isNumber ? null : '')
-        this.$emit('input', this.model)
-        this.$emit('clear')
-      }
-    },
 
     __clearTimer () {
       this.$nextTick(() => clearTimeout(this.timer))
     },
 
+    __setModel (val) {
+      clearTimeout(this.timer)
+      this.focus()
+      this.__set(val || (this.isNumber ? null : ''))
+    },
     __set (e) {
-      let val = e.target ? e.target.value : e
+      let val = e && e.target ? e.target.value : e
 
       if (this.isNumber) {
         val = parseFloat(val)
@@ -270,9 +263,7 @@ export default {
         val = val.toUpperCase()
       }
 
-      if (val !== this.model) {
-        this.$emit('input', val)
-      }
+      this.$emit('input', val)
       this.model = val
     },
     __updateArea () {

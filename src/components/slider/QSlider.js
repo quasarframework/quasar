@@ -86,15 +86,18 @@ export default {
         model = getModel(percentage, this.min, this.max, this.step, this.decimals)
 
       this.currentPercentage = percentage
-      if (model !== this.model) {
-        this.$emit('input', model)
-        this.model = model
-      }
+      this.model = model
+      this.$emit('input', model)
     },
     __end () {
       this.dragging = false
       this.currentPercentage = (this.model - this.min) / (this.max - this.min)
-      this.$emit('change', this.model)
+      this.$nextTick(() => {
+        if (JSON.stringify(this.model) !== JSON.stringify(this.value)) {
+          this.$emit('change', this.model)
+        }
+        this.$emit('dragend', this.model)
+      })
     },
     __validateProps () {
       if (this.min >= this.max) {

@@ -29,11 +29,13 @@ export default {
       get () {
         return this.value
       },
-      set (val) {
-        if (this.value !== val) {
-          this.$emit('input', val)
-        }
-        this.$emit('change', val)
+      set (value) {
+        this.$emit('input', value)
+        this.$nextTick(() => {
+          if (JSON.stringify(value) !== JSON.stringify(this.value)) {
+            this.$emit('change', value)
+          }
+        })
       }
     },
     editable () {

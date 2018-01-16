@@ -24,11 +24,13 @@ export default {
       },
       set (val) {
         const date = getDateBetween(val, this.pmin, this.pmax)
-        if (!isSameDate(this.value, date)) {
-          const val = convertDateToFormat(date, this.value)
-          this.$emit('input', val)
-          this.$emit('change', val)
-        }
+        const value = convertDateToFormat(date, this.value)
+        this.$emit('input', value)
+        this.$nextTick(() => {
+          if (!isSameDate(value, this.value)) {
+            this.$emit('change', value)
+          }
+        })
       }
     },
     pmin () {
@@ -88,13 +90,6 @@ export default {
   },
 
   methods: {
-    clear () {
-      if (this.value !== '') {
-        this.$emit('input', '')
-        this.$emit('change', '')
-      }
-    },
-
     toggleAmPm () {
       if (!this.editable) {
         return

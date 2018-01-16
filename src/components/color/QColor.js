@@ -54,9 +54,6 @@ export default {
     usingPopover () {
       return this.isPopover()
     },
-    editable () {
-      return !this.disable && !this.readonly
-    },
     actualValue () {
       if (this.displayValue) {
         return this.displayValue
@@ -81,7 +78,9 @@ export default {
     },
     show () {
       if (!this.disable) {
-        this.__setModel(this.value)
+        if (!this.focused) {
+          this.__setModel(this.value)
+        }
         return this.$refs.popup.show()
       }
     },
@@ -90,7 +89,22 @@ export default {
       return this.$refs.popup.hide()
     },
 
+    __handleKey (e) {
+      // ENTER key
+      if (e.which === 13 || e.keyCode === 13) {
+        this.show()
+      }
+      // Backspace key
+      else if (e.which === 8 || e.keyCode === 8) {
+        if (this.editable && this.clearable && this.actualValue.length) {
+          this.clear()
+        }
+      }
+    },
     __onFocus () {
+      if (this.focused) {
+        return
+      }
       this.__setModel(this.value)
       this.focused = true
       this.$emit('focus')
@@ -111,14 +125,21 @@ export default {
         this.__update(true)
       }
     },
-    __setModel (val) {
+    __setModel (val, forceUpdate) {
       this.model = clone(val || this.defaultSelection)
+      if (forceUpdate || (this.usingPopover && this.$refs.popup.showing)) {
+        this.__update()
+      }
     },
     __update (change) {
-      this.$emit('input', this.model)
-      if (change) {
-        this.$emit('change', this.model)
-      }
+      this.$nextTick(() => {
+        this.$emit('input', this.model)
+        this.$nextTick(() => {
+          if (change && JSON.stringify(this.model) !== JSON.stringify(this.value)) {
+            this.$emit('change', this.model)
+          }
+        })
+      })
     },
 
     __getPicker (h, modal) {
@@ -132,15 +153,7 @@ export default {
             readonly: this.readonly
           }, this.$attrs),
           on: {
-            input: v => {
-              this.model = v
-              if (this.usingPopover) {
-                this.__update()
-              }
-            },
-            change: v => {
-              this.model = v
-            }
+            input: v => this.$nextTick(() => this.__setModel(v))
           }
         })
       ]
@@ -207,7 +220,8 @@ export default {
       nativeOn: {
         click: this.toggle,
         focus: this.__onFocus,
-        blur: this.__onBlur
+        blur: this.__onBlur,
+        keydown: this.__handleKey
       }
     }, [
       h('div', {

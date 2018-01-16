@@ -111,6 +111,7 @@ export default {
       staticClass: 'q-btn row inline flex-center relative-position',
       'class': this.classes,
       style: this.style,
+      attrs: { tabindex: this.isDisabled ? -1 : this.tabindex || 0 },
       on,
       directives: this.hasRipple
         ? [{

@@ -36,7 +36,8 @@ export default {
       type: String,
       default: 'center',
       validator: v => ['start', 'end', 'center', 'between', 'around'].includes(v)
-    }
+    },
+    tabindex: Number
   },
   computed: {
     style () {

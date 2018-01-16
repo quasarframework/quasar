@@ -51,7 +51,10 @@ export const input = {
   clearable: Boolean,
   okLabel: String,
   cancelLabel: String,
-  defaultSelection: [String, Number, Date],
+  defaultSelection: {
+    type: [String, Number, Date],
+    default: null
+  },
   displayValue: String,
   disable: Boolean,
   readonly: Boolean

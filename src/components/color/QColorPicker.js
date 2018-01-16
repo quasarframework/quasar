@@ -39,10 +39,6 @@ export default {
   watch: {
     value: {
       handler (v) {
-        if (this.avoidModelWatch) {
-          this.avoidModelWatch = false
-          return
-        }
         const model = this.__parseModel(v)
         if (model.hex !== this.model.hex) {
           this.model = model
@@ -154,7 +150,7 @@ export default {
               },
               on: {
                 input: this.__onHueChange,
-                change: val => { this.__onHueChange(val, true) }
+                dragend: val => this.__onHueChange(val, true)
               }
             })
           ]),
@@ -170,12 +166,8 @@ export default {
                   readonly: !this.editable
                 },
                 on: {
-                  input: value => {
-                    this.__onNumericChange({ target: { value } }, 'a', 100)
-                  },
-                  change: value => {
-                    this.__onNumericChange({ target: { value } }, 'a', 100, true)
-                  }
+                  input: value => this.__onNumericChange({ target: { value } }, 'a', 100),
+                  dragend: value => this.__onNumericChange({ target: { value } }, 'a', 100, true)
                 }
               })
             ])
@@ -219,10 +211,13 @@ export default {
           h('div', { staticClass: 'col' }, [
             h('input', {
               domProps: { value: this.model.hex },
-              attrs: { readonly: !this.editable },
+              attrs: {
+                readonly: !this.editable,
+                tabindex: this.editable ? 0 : -1
+              },
               on: {
                 input: this.__onHexChange,
-                blur: evt => { console.log('blur'); this.__onHexChange(evt, true) }
+                blur: evt => this.__onHexChange(evt, true)
               },
               staticClass: 'full-width text-center uppercase'
             }),
@@ -352,6 +347,8 @@ export default {
       this.__update(rgb, hex, change)
     },
     __update (rgb, hex, change) {
+      const value = this.isHex ? hex : rgb
+
       // update internally
       this.model.hex = hex
       this.model.r = rgb.r
@@ -361,16 +358,13 @@ export default {
         this.model.a = rgb.a
       }
 
-      // avoid recomputing
-      this.avoidModelWatch = true
-
       // emit new value
-      const val = this.isHex ? hex : rgb
-
-      this.$emit('input', val)
-      if (change) {
-        this.$emit('change', val)
-      }
+      this.$emit('input', value)
+      this.$nextTick(() => {
+        if (change && JSON.stringify(value) !== JSON.stringify(this.value)) {
+          this.$emit('change', value)
+        }
+      })
     },
     __nextInputView () {
       this.view = this.view === 'hex' ? 'rgba' : 'hex'
@@ -415,7 +409,9 @@ export default {
     },
     __dragStop (event) {
       stopAndPrevent(event.evt)
-      this.saturationDragging = false
+      setTimeout(() => {
+        this.saturationDragging = false
+      }, 100)
       this.__onSaturationChange(
         event.position.left,
         event.position.top,
@@ -429,9 +425,13 @@ export default {
       )
     },
     __saturationClick (evt) {
+      if (this.saturationDragging) {
+        return
+      }
       this.__onSaturationChange(
         evt.pageX - window.pageXOffset,
-        evt.pageY - window.pageYOffset
+        evt.pageY - window.pageYOffset,
+        true
       )
     }
   }

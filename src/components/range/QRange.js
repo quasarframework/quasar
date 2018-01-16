@@ -234,14 +234,17 @@ export default {
       this.dragging = false
       this.currentMinPercentage = (this.model.min - this.min) / (this.max - this.min)
       this.currentMaxPercentage = (this.model.max - this.min) / (this.max - this.min)
-      this.$emit('change', this.model)
+      this.$nextTick(() => {
+        if (JSON.stringify(this.model) !== JSON.stringify(this.value)) {
+          this.$emit('change', this.model)
+        }
+        this.$emit('dragend', this.model)
+      })
     },
     __updateInput ({min = this.model.min, max = this.model.max}) {
-      const val = {min, max}
-      if (this.model.min !== min || this.model.max !== max) {
-        this.model = val
-        this.$emit('input', val)
-      }
+      const model = {min, max}
+      this.model = model
+      this.$emit('input', model)
     },
     __validateProps () {
       if (this.min >= this.max) {

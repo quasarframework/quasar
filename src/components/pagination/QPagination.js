@@ -71,15 +71,17 @@ export default {
       get () {
         return this.value
       },
-      set (value) {
-        if (this.disable || !value || isNaN(value)) {
+      set (val) {
+        if (this.disable || !val || isNaN(val)) {
           return
         }
-        const model = between(parseInt(value, 10), this.min, this.max)
-        if (this.value !== model) {
-          this.$emit('input', model)
-        }
-        this.$emit('change', model)
+        const value = between(parseInt(val, 10), this.min, this.max)
+        this.$emit('input', value)
+        this.$nextTick(() => {
+          if (JSON.stringify(value) !== JSON.stringify(this.value)) {
+            this.$emit('change', value)
+          }
+        })
       }
     },
     inputPlaceholder () {

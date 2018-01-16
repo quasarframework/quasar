@@ -20,13 +20,24 @@
                   {{size}}
                 </p>
 
-                <q-btn-toggle v-model="model" toggle-color="primary" color="amber" text-color="dark"
+                <q-btn-toggle v-model="model" toggle-color="primary" color="amber" text-color="red"
                   :push="push" :flat="flat" :outline="outline" :glossy="glossy" :rounded="rounded" :size="size"
                   :options="[
                     {label: 'One', value: 'one'},
                     {label: 'Two', value: 'two'},
                     {label: 'Three', value: 'three'}
                   ]"
+                  @input="value => log('@input', value)"
+                  @change="value => log('@change', value)"
+                />
+
+                <q-btn toggle-color="primary" color="primary"
+                  :push="push" :flat="flat" :outline="outline" :glossy="glossy" :rounded="rounded" :size="size"
+                  label="test"
+                />
+                <q-btn round toggle-color="primary" color="primary"
+                  :push="push" :flat="flat" :outline="outline" :glossy="glossy" :size="size"
+                  icon="android"
                 />
 
                 <q-btn-toggle v-model="model" toggle-color="primary"
@@ -39,13 +50,15 @@
                   ]"
                 />
 
-                <q-btn-toggle v-model="model" toggle-color="primary"
+                <q-btn-toggle :value="model" toggle-color="primary"
                   :push="push" :flat="flat" :outline="outline" :glossy="glossy" :rounded="rounded" :size="size"
                   :options="[
                     {label: 'One', icon: 'filter_1', value: 'one'},
                     {label: 'Two', icon: 'filter_2', value: 'two'},
                     {label: 'Three', icon: 'filter_3', value: 'three'}
                   ]"
+                  @input="value => log('@input', value)"
+                  @change="value => { model = value; log('@change', value) }"
                 />
 
                 <q-btn-toggle v-model="model" toggle-color="primary"
@@ -112,6 +125,11 @@ export default {
       model: '',
       options: [true, false],
       sizes: ['sm', 'md', 'lg']
+    }
+  },
+  methods: {
+    log (name, data) {
+      console.log(name, JSON.stringify(data))
     }
   }
 }

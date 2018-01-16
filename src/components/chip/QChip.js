@@ -1,4 +1,5 @@
 import { QIcon } from '../icon'
+import { getEventKey } from '../../utils/event'
 
 export default {
   name: 'q-chip',
@@ -45,6 +46,12 @@ export default {
     },
     __onMouseDown (e) {
       this.$emit('focus', e)
+    },
+    __onKeydown (evt) {
+      const key = getEventKey(evt)
+      if (this.closable && (key === 13 /* enter */ || key === 32 /* spacebar */)) {
+        this.$emit('hide')
+      }
     }
   },
   render (h) {
@@ -54,7 +61,8 @@ export default {
       on: {
         mousedown: this.__onMouseDown,
         touchstart: this.__onMouseDown,
-        click: this.__onClick
+        click: this.__onClick,
+        keydown: this.__onKeydown
       }
     }, [
       this.icon || this.avatar

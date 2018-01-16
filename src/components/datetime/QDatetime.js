@@ -5,7 +5,7 @@ import { QInputFrame } from '../input-frame'
 import { QPopover } from '../popover'
 import QDatetimePicker from './QDatetimePicker'
 import { QBtn } from '../btn'
-import { formatDate } from '../../utils/date'
+import { formatDate, isSameDate } from '../../utils/date'
 import { QModal } from '../modal'
 import clone from '../../utils/clone'
 
@@ -39,9 +39,6 @@ export default {
   computed: {
     usingPopover () {
       return this.$q.platform.is.desktop && !this.$q.platform.within.iframe
-    },
-    editable () {
-      return !this.disable && !this.readonly
     },
     actualValue () {
       if (this.displayValue) {
@@ -78,7 +75,9 @@ export default {
     },
     show () {
       if (!this.disable) {
-        this.__setModel(this.value)
+        if (!this.focused) {
+          this.__setModel(this.value)
+        }
         return this.$refs.popup.show()
       }
     },
@@ -87,6 +86,18 @@ export default {
       return this.$refs.popup.hide()
     },
 
+    __handleKey (e) {
+      // ENTER key
+      if (e.which === 13 || e.keyCode === 13) {
+        this.show()
+      }
+      // Backspace key
+      else if (e.which === 8 || e.keyCode === 8) {
+        if (this.editable && this.clearable && this.actualValue.length) {
+          this.clear()
+        }
+      }
+    },
     __onFocus () {
       if (this.defaultView) {
         const target = this.$refs.target
@@ -96,6 +107,9 @@ export default {
         else {
           target.__scrollView()
         }
+      }
+      if (this.focused) {
+        return
       }
       this.__setModel(this.value)
       this.focused = true
@@ -113,19 +127,25 @@ export default {
     __onHide () {
       this.focused = false
       this.$emit('blur')
-      if (this.usingPopover) {
+      if (this.usingPopover && !this.$refs.popup.showing) {
         this.__update(true)
       }
     },
-    __setModel (val) {
+    __setModel (val, forceUpdate) {
       this.model = clone(val === 0 || val ? val : this.defaultSelection)
+      if (forceUpdate || (this.usingPopover && this.$refs.popup.showing)) {
+        this.__update()
+      }
     },
     __update (change) {
-      const val = this.model
-      this.$emit('input', val)
-      if (change) {
-        this.$emit('change', val)
-      }
+      this.$nextTick(() => {
+        this.$emit('input', this.model)
+        this.$nextTick(() => {
+          if (change && !isSameDate(this.model, this.value)) {
+            this.$emit('change', this.model)
+          }
+        })
+      })
     },
 
     __getPicker (h, modal) {
@@ -146,15 +166,7 @@ export default {
             readonly: this.readonly
           },
           on: {
-            input: v => {
-              this.model = v
-              if (this.usingPopover) {
-                this.__update()
-              }
-            },
-            change: v => {
-              this.model = v
-            },
+            input: v => this.$nextTick(() => this.__setModel(v)),
             canClose: () => {
               if (this.usingPopover) {
                 this.hide()
@@ -224,7 +236,8 @@ export default {
       nativeOn: {
         click: this.toggle,
         focus: this.__onFocus,
-        blur: this.__onBlur
+        blur: this.__onBlur,
+        keydown: this.__handleKey
       }
     }, [
       h('div', {

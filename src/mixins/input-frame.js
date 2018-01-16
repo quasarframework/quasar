@@ -48,17 +48,25 @@ export default {
     },
     alignClass () {
       return `justify-${align[this.align]}`
+    },
+    editable () {
+      return !this.disable && !this.readonly
     }
   },
   methods: {
     clear (evt) {
+      if (!this.editable) {
+        return
+      }
       stopAndPrevent(evt)
       const val = this.clearValue
       if (this.__setModel) {
-        this.__setModel(val)
+        this.__setModel(val, true)
       }
-      this.$emit('input', val)
-      this.$emit('clear')
+      else {
+        this.$emit('input', val)
+      }
+      this.$emit('clear', val)
     }
   }
 }

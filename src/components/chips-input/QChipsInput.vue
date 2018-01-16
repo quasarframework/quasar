@@ -25,12 +25,14 @@
     <div class="col row items-center group q-input-chips">
       <q-chip
         small
-        :closable="!disable"
+        :closable="editable"
         v-for="(label, index) in model"
-        :key="label"
+        :key="`${label}#${index}`"
         :color="color"
         @focus="__clearTimer"
+        @focus.native="__clearTimer"
         @hide="remove(index)"
+        :tabindex="editable && focused ? 0 : -1"
       >
         {{ label }}
       </q-chip>
@@ -44,6 +46,7 @@
         :name="name"
         :placeholder="inputPlaceholder"
         :disabled="disable"
+        :readonly="readonly"
         :max-length="maxLength"
 
         @focus="__onFocus"
@@ -54,7 +57,7 @@
     </div>
 
     <q-icon
-      v-if="!disable"
+      v-if="editable"
       name="send"
       slot="after"
       class="q-if-control self-end"
@@ -84,7 +87,8 @@ export default {
       type: Array,
       required: true
     },
-    frameColor: String
+    frameColor: String,
+    readonly: Boolean
   },
   data () {
     return {
@@ -113,7 +117,7 @@ export default {
     add (value = this.input) {
       clearTimeout(this.timer)
       this.focus()
-      if (!this.disable && value) {
+      if (this.editable && value) {
         this.model.push(value)
         this.$emit('input', this.model)
         this.input = ''
@@ -122,7 +126,7 @@ export default {
     remove (index) {
       clearTimeout(this.timer)
       this.focus()
-      if (!this.disable && index >= 0 && index < this.length) {
+      if (this.editable && index >= 0 && index < this.length) {
         this.model.splice(index, 1)
         this.$emit('input', this.model)
       }

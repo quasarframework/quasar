@@ -394,7 +394,12 @@ export default {
     setDay (value) {
       if (this.editable) {
         this.model = new Date(this.model.setDate(this.__parseTypeValue('date', value)))
-        this.$emit('canClose')
+        if (this.type === 'date') {
+          this.$emit('canClose')
+        }
+        else {
+          this.view = 'hour'
+        }
       }
     },
 
