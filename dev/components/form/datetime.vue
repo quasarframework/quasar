@@ -39,6 +39,9 @@
         </small>
       </p>
       <q-datetime format="YYYY-MMMM-dddd Do Qo Q" v-model="model" type="date" align="right" />
+      @input<q-datetime @change="value => log('@change', value)" @input="value => log('@input', value)" stack-label="Stack Label" v-model="model" type="date" clearable />
+      @change<q-datetime :value="model" @change="value => { model = value; log('@change', value) }" @input="value => log('@input', value)" stack-label="Stack Label" type="date" clearable />
+
       <q-datetime @change="value => log('@change', value)" @input="value => log('@input', value)" stack-label="Stack Label" v-model="model" type="date" clearable />
       <q-datetime float-label="Float Label" v-model="model" type="date" />
       <q-datetime hide-underline float-label="Float Label (hide underline)" v-model="model" type="date" />
@@ -162,7 +165,8 @@
       <q-datetime-picker v-model="model" type="time" format24h />
 
       <p class="caption">Date & Time</p>
-      <q-datetime-picker @change="value => log('@change', value)" color="secondary" v-model="model" type="datetime" />
+      @input<q-datetime-picker @input="value => log('@input', value)" @change="value => log('@change', value)" color="secondary" v-model="model" type="datetime" />
+      @change<q-datetime-picker :value="model" @input="value => log('@input', value)" @change="value => { model = value; log('@change', value) }" color="secondary" type="datetime" />
 
       <p class="caption">Date - Monday as First</p>
       <q-datetime-picker v-model="model" monday-first type="date" />
