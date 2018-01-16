@@ -29,6 +29,7 @@
         v-for="(label, index) in model"
         :key="`${label}#${index}`"
         :color="color"
+        @blur.native="__onInputBlur"
         @focus="__clearTimer"
         @focus.native="__clearTimer"
         @hide="remove(index)"
