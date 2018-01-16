@@ -5,7 +5,8 @@
   "files": [
     "dist",
     "i18n",
-    "icons"
+    "icons",
+    "src"
   ],
   "scripts": {
     "clean": "node build/script.clean.js",
