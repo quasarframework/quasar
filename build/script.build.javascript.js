@@ -202,7 +202,7 @@ function buildEntry (config) {
 
       return buildUtils.writeFile(
         addExtension(config.rollup.output.file),
-        (config.rollup.output.banner ? config.rollup.output.banner + '\n' : '') + minified.code,
+        (config.rollup.output.banner || '') + minified.code,
         true
       )
     })

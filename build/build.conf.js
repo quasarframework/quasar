@@ -9,5 +9,5 @@ module.exports = {
     ' * Quasar Framework v' + version + '\n' +
     ' * (c) 2016-present Razvan Stoenescu\n' +
     ' * Released under the MIT License.\n' +
-    ' */'
+    ' */\n'
 }

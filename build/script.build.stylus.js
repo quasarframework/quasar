@@ -34,7 +34,7 @@ function generateTheme (theme) {
   return prepareStylus([src].concat(deps))
     .then(code => buildUtils.writeFile(`dist/quasar.${theme}.styl`, code))
     .then(code => compileStylus(code))
-    .then(code => postcss([autoprefixer]).process(code))
+    .then(code => postcss([autoprefixer]).process(code, { from: src }))
     .then(code => {
       code.warnings().forEach(warn => {
         console.warn(warn.toString())
@@ -55,7 +55,7 @@ function generateUMD (theme, code, ext = '') {
 
 function prepareStylus (src) {
   return new Promise((resolve, reject) => {
-    let code = buildConf.banner + '\n'
+    let code = buildConf.banner
 
     src.forEach(function (file) {
       code += buildUtils.readFile(file) + '\n'
