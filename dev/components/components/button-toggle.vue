@@ -66,12 +66,34 @@
                   ]"
                 />
 
+                <!-- Pizza all dressed version to test all options. Empty colors are on purpose to test defaults -->
                 <q-btn-toggle v-model="model" toggle-color="primary"
                   :push="push" :flat="flat" :outline="outline" :glossy="glossy" :rounded="rounded" :size="size"
                   :options="[
-                    {label: 'One', value: 'one'},
-                    {label: 'Two', toggleColor: 'yellow', value: 'two'},
-                    {label: 'Three', toggleColor: 'red', value: 'three'}
+                    {label: 'One',
+                      color: 'green',
+                      textColor: '',
+                      toggleColor: 'blue',
+                      textToggleColor: 'yellow',
+                      icon: 'filter_1',
+                      iconRight: 'explore',
+                      value: 'one'},
+                    {label: 'Two',
+                      color: 'yellow',
+                      textColor: 'purple',
+                      toggleColor: 'teal',
+                      textToggleColor: '',
+                      icon: 'filter_2',
+                      iconRight: 'event',
+                      value: 'two'},
+                    {label: 'Three',
+                      color: '',
+                      textColor: 'red',
+                      toggleColor: 'red',
+                      textToggleColor: 'blue',
+                      icon: 'filter_3',
+                      iconRight: 'eject',
+                      value: 'three'}
                   ]"
                 />
               </div>

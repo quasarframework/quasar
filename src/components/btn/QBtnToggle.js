@@ -7,12 +7,14 @@ export default {
     value: {
       required: true
     },
+    // To avoid seeing the active raise shadow through the transparent button, give it a color (even white).
     color: String,
     textColor: String,
     toggleColor: {
       type: String,
-      required: true
+      default: 'primary'
     },
+    textToggleColor: String,
     options: {
       type: Array,
       required: true,
@@ -64,8 +66,9 @@ export default {
         props: {
           disable: this.disable,
           label: opt.label,
+          // Colors come from the button specific options first, then from general props
           color: this.val[i] ? opt.toggleColor || this.toggleColor : opt.color || this.color,
-          textColor: opt.textColor || this.textColor,
+          textColor: this.val[i] ? opt.textToggleColor || this.textToggleColor : opt.textColor || this.textColor,
           icon: opt.icon,
           iconRight: opt.iconRight,
           noCaps: this.noCaps,
