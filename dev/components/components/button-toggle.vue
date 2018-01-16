@@ -31,6 +31,15 @@
                   @change="value => log('@change', value)"
                 />
 
+                <q-btn toggle-color="primary" color="primary"
+                  :push="push" :flat="flat" :outline="outline" :glossy="glossy" :rounded="rounded" :size="size"
+                  label="test"
+                />
+                <q-btn round toggle-color="primary" color="primary"
+                  :push="push" :flat="flat" :outline="outline" :glossy="glossy" :size="size"
+                  icon="android"
+                />
+
                 <q-btn-toggle v-model="model" toggle-color="primary"
                   :push="push" :flat="flat" :outline="outline" :glossy="glossy" :rounded="rounded" :size="size"
                   disable
