@@ -39,10 +39,6 @@ export default {
   watch: {
     value: {
       handler (v) {
-        if (this.avoidModelWatch) {
-          this.avoidModelWatch = false
-          return
-        }
         const model = this.__parseModel(v)
         if (model.hex !== this.model.hex) {
           this.model = model
@@ -154,7 +150,7 @@ export default {
               },
               on: {
                 input: this.__onHueChange,
-                change: val => { this.__onHueChange(val, true) }
+                dragend: val => this.__onHueChange(val, true)
               }
             })
           ]),
@@ -170,12 +166,8 @@ export default {
                   readonly: !this.editable
                 },
                 on: {
-                  input: value => {
-                    this.__onNumericChange({ target: { value } }, 'a', 100)
-                  },
-                  change: value => {
-                    this.__onNumericChange({ target: { value } }, 'a', 100, true)
-                  }
+                  input: value => this.__onNumericChange({ target: { value } }, 'a', 100),
+                  dragend: value => this.__onNumericChange({ target: { value } }, 'a', 100, true)
                 }
               })
             ])
@@ -355,7 +347,7 @@ export default {
       this.__update(rgb, hex, change)
     },
     __update (rgb, hex, change) {
-      const val = this.isHex ? hex : rgb
+      const value = this.isHex ? hex : rgb
 
       // update internally
       this.model.hex = hex
@@ -366,14 +358,13 @@ export default {
         this.model.a = rgb.a
       }
 
-      // avoid recomputing
-      this.avoidModelWatch = true
-
       // emit new value
-      this.$emit('input', val)
-      if (change && JSON.stringify(val) !== JSON.stringify(this.value)) {
-        this.$emit('change', val)
-      }
+      this.$emit('input', value)
+      this.$nextTick(() => {
+        if (change && JSON.stringify(value) !== JSON.stringify(this.value)) {
+          this.$emit('change', value)
+        }
+      })
     },
     __nextInputView () {
       this.view = this.view === 'hex' ? 'rgba' : 'hex'

@@ -126,20 +126,22 @@ export default {
     }
   },
   methods: {
-    selectTab (name) {
-      if (this.data.tabName === name) {
+    selectTab (value) {
+      if (this.data.tabName === value) {
         return
       }
 
-      this.data.tabName = name
-      this.$emit('select', name)
+      this.data.tabName = value
+      this.$emit('select', value)
 
-      this.$emit('input', name)
-      if (this.value !== name) {
-        this.$emit('change', name)
-      }
+      this.$emit('input', value)
+      this.$nextTick(() => {
+        if (JSON.stringify(value) !== JSON.stringify(this.value)) {
+          this.$emit('change', value)
+        }
+      })
 
-      const el = this.__getTabElByName(name)
+      const el = this.__getTabElByName(value)
 
       if (el) {
         this.__scrollToTab(el)

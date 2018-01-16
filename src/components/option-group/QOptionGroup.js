@@ -53,9 +53,13 @@ export default {
     __onBlur () {
       this.$emit('blur')
     },
-    __update (val) {
-      this.$emit('input', val)
-      this.$emit('change', val)
+    __update (value) {
+      this.$emit('input', value)
+      this.$nextTick(() => {
+        if (JSON.stringify(value) !== JSON.stringify(this.value)) {
+          this.$emit('change', value)
+        }
+      })
     }
   },
   created () {

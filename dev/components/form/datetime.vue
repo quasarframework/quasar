@@ -139,9 +139,9 @@
           </span>
         </small>
       </p>
-      <q-datetime-picker v-model="model" type="date" />
+      <q-datetime-picker v-model="model" type="date" @change="value => log('@change', value)" @input="value => log('@input', value)" />
       <br><br>
-      <q-datetime-picker default-view="year" v-model="model" type="date" />
+      <q-datetime-picker default-view="year" :value="model" type="date" @change="value => { model = value; log('@change', value) }" @input="value => log('@input', value)" />
 
       <p class="caption">
         Time

@@ -78,7 +78,9 @@ export default {
     },
     show () {
       if (!this.disable) {
-        this.__setModel(this.value, true)
+        if (!this.focused) {
+          this.__setModel(this.value)
+        }
         return this.$refs.popup.show()
       }
     },
@@ -100,7 +102,10 @@ export default {
       }
     },
     __onFocus () {
-      this.__setModel(this.value, true)
+      if (this.focused) {
+        return
+      }
+      this.__setModel(this.value)
       this.focused = true
       this.$emit('focus')
     },
@@ -117,22 +122,24 @@ export default {
       this.focused = false
       this.$emit('blur')
       if (this.usingPopover && !this.$refs.popup.showing) {
-        this.__update(true, true)
+        this.__update(true)
       }
     },
-    __setModel (val, skipUpdate) {
+    __setModel (val, forceUpdate) {
       this.model = clone(val || this.defaultSelection)
-      if (!skipUpdate && this.usingPopover) {
+      if (forceUpdate || (this.usingPopover && this.$refs.popup.showing)) {
         this.__update()
       }
     },
-    __update (change, skipInput) {
-      if (!skipInput) {
+    __update (change) {
+      this.$nextTick(() => {
         this.$emit('input', this.model)
-      }
-      if (change && JSON.stringify(this.model) !== JSON.stringify(this.value)) {
-        this.$emit('change', this.model)
-      }
+        this.$nextTick(() => {
+          if (change && JSON.stringify(this.model) !== JSON.stringify(this.value)) {
+            this.$emit('change', this.model)
+          }
+        })
+      })
     },
 
     __getPicker (h, modal) {
@@ -146,9 +153,7 @@ export default {
             readonly: this.readonly
           }, this.$attrs),
           on: {
-            input: v => {
-              this.__setModel(v)
-            }
+            input: v => this.$nextTick(() => this.__setModel(v))
           }
         })
       ]

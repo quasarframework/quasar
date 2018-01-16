@@ -48,10 +48,12 @@ export default {
     __onBlur (e) {
       this.focused = false
       this.$emit('blur', e)
-      let model = this.isNumber && this.isNumberError ? null : this.model
-      if (JSON.stringify(model) !== JSON.stringify(this.value)) {
-        this.$emit('change', model)
-      }
+      let value = this.isNumber && this.isNumberError ? null : this.model
+      this.$nextTick(() => {
+        if (JSON.stringify(value) !== JSON.stringify(this.value)) {
+          this.$emit('change', value)
+        }
+      })
     },
     __onKeydown (e) {
       this.$emit('keydown', e)

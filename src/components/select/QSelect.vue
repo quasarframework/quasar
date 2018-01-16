@@ -326,9 +326,11 @@ export default {
       this.focused = false
       this.$emit('blur')
       this.terms = ''
-      if (JSON.stringify(this.model) !== JSON.stringify(this.value)) {
-        this.$emit('change', this.model)
-      }
+      this.$nextTick(() => {
+        if (JSON.stringify(this.model) !== JSON.stringify(this.value)) {
+          this.$emit('change', this.model)
+        }
+      })
     },
     __singleSelect (val, disable) {
       if (disable) {
@@ -354,15 +356,20 @@ export default {
 
       this.$emit('input', model)
     },
-    __emit (val) {
-      this.$emit('input', val)
-      if (JSON.stringify(this.value) !== JSON.stringify(val)) {
-        this.$emit('change', val)
-      }
+    __emit (value) {
+      this.$emit('input', value)
+      this.$nextTick(() => {
+        if (JSON.stringify(value) !== JSON.stringify(this.value)) {
+          this.$emit('change', value)
+        }
+      })
     },
     __setModel (val) {
       this.model = val || (this.multiple ? [] : null)
       this.$emit('input', this.model)
+      if (!this.$refs.popover.showing) {
+        this.__onClose()
+      }
     }
   }
 }

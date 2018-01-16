@@ -63,18 +63,20 @@ export default {
     }
   },
   methods: {
-    goToStep (step) {
-      if (this.step === step || step === void 0) {
+    goToStep (value) {
+      if (this.step === value || value === void 0) {
         return
       }
 
-      this.step = step
+      this.step = value
 
-      this.$emit('input', step)
-      if (this.value !== step) {
-        this.$emit('change', step)
-        this.$emit('step', step)
-      }
+      this.$emit('input', value)
+      this.$emit('step', value)
+      this.$nextTick(() => {
+        if (JSON.stringify(value) !== JSON.stringify(this.value)) {
+          this.$emit('change', value)
+        }
+      })
     },
     next () {
       this.__go(1)

@@ -39,9 +39,11 @@ export default {
   methods: {
     set (value, opt) {
       this.$emit('input', value, opt)
-      if (value !== this.value) {
-        this.$emit('change', value, opt)
-      }
+      this.$nextTick(() => {
+        if (JSON.stringify(value) !== JSON.stringify(this.value)) {
+          this.$emit('change', value, opt)
+        }
+      })
     }
   },
   render (h) {

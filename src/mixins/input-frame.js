@@ -61,7 +61,7 @@ export default {
       stopAndPrevent(evt)
       const val = this.clearValue
       if (this.__setModel) {
-        this.__setModel(val)
+        this.__setModel(val, true)
       }
       else {
         this.$emit('input', val)

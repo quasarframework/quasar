@@ -77,10 +77,20 @@ export default {
       if (value < this.min) {
         this.$emit('input', this.min)
         this.model = this.min
+        this.$nextTick(() => {
+          if (JSON.stringify(this.model) !== JSON.stringify(this.value)) {
+            this.$emit('change', this.model)
+          }
+        })
       }
       else if (value > this.max) {
         this.$emit('input', this.max)
         this.model = this.max
+        this.$nextTick(() => {
+          if (JSON.stringify(this.model) !== JSON.stringify(this.value)) {
+            this.$emit('change', this.model)
+          }
+        })
       }
       else {
         this.model = value
@@ -128,9 +138,9 @@ export default {
       setTimeout(() => {
         this.dragging = false
       }, 100)
-      this.__onInput(ev, this.centerPosition, true)
+      this.__onInput(ev, this.centerPosition, true, true)
     },
-    __onInput (ev, center = this.__getCenter(), emitChange) {
+    __onInput (ev, center = this.__getCenter(), emitChange, dragStop) {
       if (!this.editable) {
         return
       }
@@ -154,17 +164,22 @@ export default {
         model = this.min + (angle / 360) * (this.max - this.min),
         modulo = model % this.step
 
-      const val = between(
+      const value = between(
         model - modulo + (Math.abs(modulo) >= this.step / 2 ? (modulo < 0 ? -1 : 1) * this.step : 0),
         this.min,
         this.max
       )
 
-      this.model = val
-      this.$emit('input', val)
-      if (emitChange && JSON.stringify(val) !== JSON.stringify(this.value)) {
-        this.$emit('change', val)
-      }
+      this.model = value
+      this.$emit('input', value)
+      this.$nextTick(() => {
+        if (emitChange && JSON.stringify(value) !== JSON.stringify(this.value)) {
+          this.$emit('change', value)
+        }
+        if (dragStop) {
+          this.$emit('dragend', value)
+        }
+      })
     },
     __getCenter () {
       let knobOffset = offset(this.$el)
