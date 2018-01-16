@@ -40,3 +40,14 @@ module.exports.readFile = function (file) {
 module.exports.logError = function (err) {
   console.error('[Error]'.red, err)
 }
+
+module.exports.rollupQuasarUMD = function (config = {}) {
+  return {
+    name: 'quasar-umd',
+    transform (code, id) {
+      return {
+        code: `Quasar.${config.type}.set(${code.replace('export default ', '')})`
+      }
+    }
+  }
+}

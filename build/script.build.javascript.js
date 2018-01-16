@@ -1,9 +1,8 @@
 process.env.BABEL_ENV = 'production'
 
 const
-
   path = require('path'),
-
+  fs = require('fs'),
   rollup = require('rollup'),
   uglify = require('uglify-es'),
   buble = require('rollup-plugin-buble'),
@@ -18,44 +17,98 @@ const
     htmlMinifier: {collapseBooleanAttributes: false}
   }
 
+const builds = [
+  {
+    rollup: {
+      input: resolve(`src/index.esm.js`),
+      output: resolve(`dist/quasar.${buildConf.themeToken}.esm.js`),
+      format: 'es'
+    },
+    meta: { buildUnminified: true }
+  },
+  {
+    rollup: {
+      input: resolve('src/ie-compat/ie.js'),
+      output: resolve('dist/quasar.ie.polyfills.js'),
+      format: 'es'
+    },
+    meta: { buildUnminified: true }
+  },
+  {
+    rollup: {
+      input: resolve('src/ie-compat/ie.js'),
+      output: resolve('dist/umd/quasar.ie.polyfills.umd.js'),
+      format: 'umd'
+    },
+    meta: { buildMinified: true }
+  },
+  {
+    rollup: {
+      input: resolve(`src/index.umd.js`),
+      output: resolve(`dist/umd/quasar.${buildConf.themeToken}.umd.js`),
+      format: 'umd'
+    },
+    meta: {
+      buildUnminified: true,
+      buildMinified: true
+    }
+  }
+]
+
+addAssets(builds, 'i18n')
+addAssets(builds, 'icons')
+
+build(builds)
+
+/**
+ * Helpers
+ */
+
 function resolve (_path) {
   return path.resolve(__dirname, '..', _path)
 }
 
-build([
-  {
-    input: resolve(`src/index.esm.js`),
-    output: resolve(`dist/quasar.${buildConf.themeToken}.esm.js`),
-    format: 'es'
-  },
-  {
-    input: resolve('src/ie-compat/ie.js'),
-    output: resolve('dist/quasar.ie.polyfills.js'),
-    format: 'umd'
-  },
-  {
-    input: resolve(`src/index.umd.js`),
-    output: resolve(`dist/quasar.${buildConf.themeToken}.umd.js`),
-    format: 'umd'
-  }
-])
+function camel (str) {
+  return str.charAt(0).toUpperCase() + str.substr(1)
+}
+
+function addAssets (builds, type) {
+  const
+    files = fs.readdirSync(resolve(type)),
+    plugins = [ buble() ],
+    camelType = camel(type)
+
+  files.forEach(file => {
+    const name = file.replace(/-([a-z])/g, g => g[1].toUpperCase())
+    builds.push({
+      rollup: {
+        input: resolve(`${type}/${file}`),
+        output: addExtension(resolve(`dist/umd/${type}.${file}`), 'umd'),
+        name: `Quasar${camelType}${camel(name)}`,
+        format: 'umd',
+        plugins
+      },
+      meta: {
+        buildMinified: true
+      }
+    })
+  })
+}
 
 function processEntries (entries) {
   const builds = []
 
   entries.forEach(entry => {
-    if (entry.output.indexOf(buildConf.themeToken) === -1) {
+    if (entry.rollup.output.indexOf(buildConf.themeToken) === -1) {
       builds.push(entry)
       return
     }
 
     buildConf.themes.forEach(theme => {
-      builds.push({
-        input: entry.input,
-        output: entry.output.replace(buildConf.themeToken, theme),
-        format: entry.format,
-        meta: { theme }
-      })
+      const clone = JSON.parse(JSON.stringify(entry))
+      clone.rollup.output = entry.rollup.output.replace(buildConf.themeToken, theme)
+      clone.meta.theme = theme
+      builds.push(clone)
     })
   })
 
@@ -73,7 +126,7 @@ function genConfig (opts) {
     ? opts.meta.theme
     : null
 
-  const plugins = [
+  const plugins = opts.meta.plugins || [
     nodeResolve({
       extensions: theme
         ? [`.${theme}.js`, '.js', `.${theme}.vue`, '.vue']
@@ -93,35 +146,40 @@ function genConfig (opts) {
     )
   }
 
-  Object.assign(opts, {
+  Object.assign(opts.rollup, {
     banner: buildConf.banner,
-    name: 'Quasar',
+    name: opts.rollup.name || 'Quasar',
     plugins
   })
 
-  delete opts.meta
-
   if (opts.format === 'umd') {
-    opts.globals = {vue: 'Vue'}
-    opts.external = ['vue']
+    opts.rollup.globals = opts.rollup.globals || {}
+    opts.rollup.globals.vue = 'Vue'
+
+    opts.rollup.external = opts.rollup.external || []
+    opts.rollup.external.push('vue')
   }
 
   return opts
 }
 
-function addMinExtension (filename) {
+function addExtension (filename, ext = 'min') {
   const insertionPoint = filename.lastIndexOf('.')
-  return `${filename.slice(0, insertionPoint)}.min${filename.slice(insertionPoint)}`
+  return `${filename.slice(0, insertionPoint)}.${ext}${filename.slice(insertionPoint)}`
 }
 
 function buildEntry (config) {
   return rollup
-    .rollup(config)
-    .then(bundle => bundle.generate(config))
-    .then(({ code }) => buildUtils.writeFile(config.output, code))
+    .rollup(config.rollup)
+    .then(bundle => bundle.generate(config.rollup))
+    .then(({ code }) => {
+      return config.meta.buildUnminified
+        ? buildUtils.writeFile(config.rollup.output, code)
+        : code
+    })
     .then(code => {
-      if (config.format !== 'umd') {
-        return new Promise((resolve) => resolve(code))
+      if (!config.meta.buildMinified) {
+        return code
       }
 
       const minified = uglify.minify(code, {
@@ -135,8 +193,8 @@ function buildEntry (config) {
       }
 
       return buildUtils.writeFile(
-        addMinExtension(config.output),
-        (config.banner ? config.banner + '\n' : '') + minified.code,
+        addExtension(config.rollup.output),
+        (config.banner ? config.rollup.banner + '\n' : '') + minified.code,
         true
       )
     })

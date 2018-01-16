@@ -1,5 +1,5 @@
-
-var
+const
+  fs = require('fs'),
   path = require('path'),
   shell = require('shelljs'),
   type = process.argv[2]
@@ -13,12 +13,22 @@ var
 
 require('colors')
 
+function createFolder (folder) {
+  const dir = path.join(__dirname, '..', folder)
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir)
+  }
+}
+
 if (!type) {
   require('./script.clean.js')
   shell.mkdir('-p', path.join(__dirname, '../dist/'))
 }
 
 console.log(' Building Quasar...\n')
+
+createFolder('dist')
+createFolder('dist/umd')
 
 if (!type || type === 'js') {
   require('./script.build.javascript')
