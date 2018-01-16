@@ -55,7 +55,7 @@ function generateUMD (theme, code, ext = '') {
 
 function prepareStylus (src) {
   return new Promise((resolve, reject) => {
-    let code = buildConf.banner
+    let code = buildConf.banner + '\n'
 
     src.forEach(function (file) {
       code += buildUtils.readFile(file) + '\n'

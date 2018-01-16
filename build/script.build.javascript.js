@@ -21,32 +21,40 @@ const builds = [
   {
     rollup: {
       input: resolve(`src/index.esm.js`),
-      output: resolve(`dist/quasar.${buildConf.themeToken}.esm.js`),
-      format: 'es'
+      output: {
+        file: resolve(`dist/quasar.${buildConf.themeToken}.esm.js`),
+        format: 'es'
+      }
     },
     meta: { buildUnminified: true }
   },
   {
     rollup: {
       input: resolve('src/ie-compat/ie.js'),
-      output: resolve('dist/quasar.ie.polyfills.js'),
-      format: 'es'
+      output: {
+        file: resolve('dist/quasar.ie.polyfills.js'),
+        format: 'es'
+      }
     },
     meta: { buildUnminified: true }
   },
   {
     rollup: {
       input: resolve('src/ie-compat/ie.js'),
-      output: resolve('dist/umd/quasar.ie.polyfills.umd.js'),
-      format: 'umd'
+      output: {
+        file: resolve('dist/umd/quasar.ie.polyfills.umd.js'),
+        format: 'umd'
+      }
     },
     meta: { buildMinified: true }
   },
   {
     rollup: {
       input: resolve(`src/index.umd.js`),
-      output: resolve(`dist/umd/quasar.${buildConf.themeToken}.umd.js`),
-      format: 'umd'
+      output: {
+        file: resolve(`dist/umd/quasar.${buildConf.themeToken}.umd.js`),
+        format: 'umd'
+      }
     },
     meta: {
       buildUnminified: true,
@@ -83,9 +91,11 @@ function addAssets (builds, type) {
     builds.push({
       rollup: {
         input: resolve(`${type}/${file}`),
-        output: addExtension(resolve(`dist/umd/${type}.${file}`), 'umd'),
-        name: `Quasar${camelType}${camel(name)}`,
-        format: 'umd',
+        output: {
+          file: addExtension(resolve(`dist/umd/${type}.${file}`), 'umd'),
+          format: 'umd',
+          name: `Quasar${camelType}${camel(name)}`
+        },
         plugins
       },
       meta: {
@@ -99,14 +109,14 @@ function processEntries (entries) {
   const builds = []
 
   entries.forEach(entry => {
-    if (entry.rollup.output.indexOf(buildConf.themeToken) === -1) {
+    if (entry.rollup.output.file.indexOf(buildConf.themeToken) === -1) {
       builds.push(entry)
       return
     }
 
     buildConf.themes.forEach(theme => {
       const clone = JSON.parse(JSON.stringify(entry))
-      clone.rollup.output = entry.rollup.output.replace(buildConf.themeToken, theme)
+      clone.rollup.output.file = entry.rollup.output.file.replace(buildConf.themeToken, theme)
       clone.meta.theme = theme
       builds.push(clone)
     })
@@ -146,15 +156,13 @@ function genConfig (opts) {
     )
   }
 
-  Object.assign(opts.rollup, {
-    banner: buildConf.banner,
-    name: opts.rollup.name || 'Quasar',
-    plugins
-  })
+  opts.rollup.output.banner = buildConf.banner
+  opts.rollup.output.name = opts.rollup.output.name || 'Quasar'
+  opts.rollup.plugins = plugins
 
-  if (opts.format === 'umd') {
-    opts.rollup.globals = opts.rollup.globals || {}
-    opts.rollup.globals.vue = 'Vue'
+  if (opts.rollup.output.format === 'umd') {
+    opts.rollup.output.globals = opts.rollup.output.globals || {}
+    opts.rollup.output.globals.vue = 'Vue'
 
     opts.rollup.external = opts.rollup.external || []
     opts.rollup.external.push('vue')
@@ -174,7 +182,7 @@ function buildEntry (config) {
     .then(bundle => bundle.generate(config.rollup))
     .then(({ code }) => {
       return config.meta.buildUnminified
-        ? buildUtils.writeFile(config.rollup.output, code)
+        ? buildUtils.writeFile(config.rollup.output.file, code)
         : code
     })
     .then(code => {
@@ -193,8 +201,8 @@ function buildEntry (config) {
       }
 
       return buildUtils.writeFile(
-        addExtension(config.rollup.output),
-        (config.banner ? config.rollup.banner + '\n' : '') + minified.code,
+        addExtension(config.rollup.output.file),
+        (config.rollup.output.banner ? config.rollup.output.banner + '\n' : '') + minified.code,
         true
       )
     })
