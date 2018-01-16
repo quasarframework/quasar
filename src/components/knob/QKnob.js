@@ -78,7 +78,7 @@ export default {
         this.$emit('input', this.min)
         this.model = this.min
         this.$nextTick(() => {
-          if (JSON.stringify(this.model) !== JSON.stringify(this.value)) {
+          if (this.model !== this.value) {
             this.$emit('change', this.model)
           }
         })
@@ -87,7 +87,7 @@ export default {
         this.$emit('input', this.max)
         this.model = this.max
         this.$nextTick(() => {
-          if (JSON.stringify(this.model) !== JSON.stringify(this.value)) {
+          if (this.model !== this.value) {
             this.$emit('change', this.model)
           }
         })
