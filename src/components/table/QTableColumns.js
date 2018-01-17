@@ -32,6 +32,10 @@ export default {
         displayValue: this.label || this.$q.i18n.table.columns,
         color: this.color,
         hideUnderline: true
+      },
+      on: {
+        input: v => { this.$emit('input', v) },
+        change: v => { this.$emit('change', v) }
       }
     })
   }
