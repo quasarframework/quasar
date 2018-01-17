@@ -1,5 +1,30 @@
 <template>
   <div style="padding: 25px">
+    <q-toggle v-model="toggle" label="Show" />
+    <q-btn-dropdown v-model="toggle" @show="log('open')" @hide="log('close')" @click="log('click')" color="primary" glossy label="Dropdown Button" style="margin: 15px">
+      <q-list link>
+        <q-list-header inset>Folders X</q-list-header>
+        <q-item v-for="n in 3" :key="`x.${n}`" @click.native="toggle = false">
+          <q-item-side icon="folder" inverted color="grey-6" />
+          <q-item-main>
+            <q-item-tile label>Photos</q-item-tile>
+            <q-item-tile sublabel>February 22, 2016</q-item-tile>
+          </q-item-main>
+          </q-item-side right icon="info" />
+        </q-item>
+        <q-item-separator inset />
+        <q-list-header inset>Files</q-list-header>
+        <q-item v-for="n in 3" :key="`y.${n}`" @click.native="toggle = false">
+          <q-item-side icon="assignment" inverted color="grey-6" />
+          <q-item-main>
+            <q-item-tile label>Vacation</q-item-tile>
+            <q-item-tile sublabel>February 22, 2016</q-item-tile>
+          </q-item-main>
+          </q-item-side right icon="info" />
+        </q-item>
+      </q-list>
+    </q-btn-dropdown>
+
     <div v-for="(cfg, index1) in conf" :key="`${cfg.split}-${cfg.dense}-${cfg.disable}`">
       <div v-for="(size, index2) in sizes" :key="size">
         <p class="caption">{{ label(cfg) }} - {{ size }}</p>
@@ -106,6 +131,7 @@
 export default {
   data () {
     return {
+      toggle: false,
       conf: [
         {split: false, dense: false, disable: false},
         {split: false, dense: true, disable: false},

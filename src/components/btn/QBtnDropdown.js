@@ -18,6 +18,7 @@ export default {
         {
           ref: 'popover',
           props: {
+            value: this.value,
             disable: this.disable,
             fit: true,
             anchorClick: !this.split,
