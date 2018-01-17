@@ -60,7 +60,7 @@
     <input
       v-else
       ref="input"
-      class="col q-input-target"
+      class="col q-input-target q-no-input-spinner"
       :class="[`text-${align}`]"
 
       :name="name"
@@ -68,6 +68,7 @@
       :disabled="disable"
       :readonly="readonly"
       :maxlength="maxLength"
+      :step="actualStep"
       v-bind="$attrs"
 
       :type="inputType"
@@ -153,6 +154,7 @@ export default {
     readonly: Boolean,
 
     maxDecimals: Number,
+    step: Number,
     upperCase: Boolean
   },
   data () {
@@ -222,6 +224,9 @@ export default {
       return this.model !== null && this.model !== undefined
         ? ('' + this.model).length
         : 0
+    },
+    actualStep () {
+      return this.step || (this.maxDecimals ? 10 ** -this.maxDecimals : 'any')
     }
   },
   methods: {
