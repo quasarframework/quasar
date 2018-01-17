@@ -131,6 +131,7 @@ import { between } from '../../utils/format'
 import { QInputFrame } from '../input-frame'
 import { QResizeObservable } from '../observables'
 import { QSpinner } from '../spinner'
+import { QIcon } from '../icon'
 
 export default {
   name: 'q-input',
@@ -138,7 +139,8 @@ export default {
   components: {
     QInputFrame,
     QSpinner,
-    QResizeObservable
+    QResizeObservable,
+    QIcon
   },
   props: {
     value: { required: true },
