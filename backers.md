@@ -16,15 +16,13 @@ It could be you or your company!
 
 ### $250
 
-- Juggle Street
+<a href="http://comcomservices.com/" target="_blank"><img src="https://web.jugglestreet.com/images/header-logo-banner.png" width="200px"></a>
 
 ---
 
 ### $100+
 
 <a href="http://comcomservices.com/" target="_blank"><img src="http://comcomservices.com/wp-content/uploads/2016/03/Final-ComComLogo.png" width="200px"></a>
-
-<a href="http://picktype.com" target="_blank"><img src="https://picktype.com/wp-content/uploads/2017/04/pt-trans-full-256.png" width="200px"></a>
 
 - Adrien M
 
