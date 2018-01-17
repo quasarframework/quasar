@@ -75,13 +75,15 @@ import FrameMixin from '../../mixins/input-frame'
 import InputMixin from '../../mixins/input'
 import { QInputFrame } from '../input-frame'
 import { QChip } from '../chip'
+import { QIcon } from '../icon'
 
 export default {
   name: 'q-chips-input',
   mixins: [FrameMixin, InputMixin],
   components: {
     QInputFrame,
-    QChip
+    QChip,
+    QIcon
   },
   props: {
     value: {

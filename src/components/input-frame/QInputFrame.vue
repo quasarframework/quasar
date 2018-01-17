@@ -61,10 +61,14 @@
 
 <script>
 import FrameMixin from '../../mixins/input-frame'
+import { QIcon } from '../icon'
 
 export default {
   name: 'q-input-frame',
   mixins: [FrameMixin],
+  components: {
+    QIcon
+  },
   props: {
     topAddons: Boolean,
     focused: Boolean,
