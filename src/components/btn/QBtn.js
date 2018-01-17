@@ -108,7 +108,7 @@ export default {
     on.click = this.click
 
     return h('button', {
-      staticClass: 'q-btn row inline flex-center relative-position',
+      staticClass: 'q-btn inline relative-position',
       'class': this.classes,
       style: this.style,
       attrs: { tabindex: this.isDisabled ? -1 : this.tabindex || 0 },
