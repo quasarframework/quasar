@@ -16,7 +16,7 @@ It could be you or your company!
 
 ### $250
 
-<a href="http://comcomservices.com/" target="_blank"><img src="https://web.jugglestreet.com/images/header-logo-banner.png" width="200px"></a>
+<a href="https://www.jugglestreet.com.au/" target="_blank"><img src="https://web.jugglestreet.com/images/header-logo-banner.png" width="200px"></a>
 
 ---
 
