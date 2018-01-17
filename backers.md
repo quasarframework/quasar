@@ -82,6 +82,7 @@ It could be you or your company!
 - Alexey Telyatnikov
 - Ryan Timmins
 - Asif Mehedi
+- Sevenview Studios
 
 - Ken ($5)
 - Oliver ($5)
