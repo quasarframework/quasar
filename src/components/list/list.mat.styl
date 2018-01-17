@@ -4,24 +4,12 @@
   white-space nowrap
   margin .3rem 0
 
-.q-item-side-right
-  text-align right
-  color $item-secondary-color
-  display flex
-  flex-direction column
-  align-items flex-end
-  .q-item-icon, .q-item-letter, .q-item-stamp
-    opacity $item-secondary-opacity
-  .q-item-letter-inverted, .q-item-icon-inverted
-    opacity 1
 
 .q-item-side
-  color $item-primary-color
+  color $item-side-color
   min-width $item-primary-size
-  .q-item-icon, .q-item-letter, .q-item-stamp
-    opacity $item-primary-opacity
-  .q-item-letter-inverted, .q-item-icon-inverted
-    opacity 1
+.q-item-side-right
+  text-align right
 .q-item-avatar, .q-item-avatar img
   width $item-primary-size
   height $item-primary-size
@@ -29,14 +17,13 @@
 
 .q-item-letter, .q-item-icon
   font-size $item-icon-size
-  width 100%
-  text-align center
 .q-item-letter-inverted, .q-item-icon-inverted
   border-radius 50%
   color white
-  background $primary
+  background $item-side-color
 .q-item-letter-inverted
-  padding 4px 0 5px
+  padding 5px 0
+  text-align center
 .q-item-icon-inverted
   font-size $item-inverted-icon-size
   padding 9px
@@ -118,9 +105,6 @@
 .q-list
   border 1px solid $item-separator-color
   padding ($item-padding / 2) 0
-
-  & + .q-list
-    margin-top 32px
 
 .q-item-separator-component
   margin ($item-padding / 2) 0

@@ -4,18 +4,6 @@ export function textStyle (n) {
     : {overflow: 'hidden', display: '-webkit-box', '-webkit-box-orient': 'vertical', '-webkit-line-clamp': n}
 }
 
-const list = ['icon', 'label', 'sublabel', 'image', 'avatar', 'letter', 'stamp']
-
-export function getType (prop) {
-  const len = list.length
-  for (let i = 0; i < len; i++) {
-    if (prop[list[i]]) {
-      return list[i]
-    }
-  }
-  return ''
-}
-
 export function itemClasses (prop) {
   return {
     'q-item': true,

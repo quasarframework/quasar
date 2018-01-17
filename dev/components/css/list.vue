@@ -6,6 +6,243 @@
         to see how you can beatifully combine the List elements.
       </p>
 
+      <q-list inset-separator>
+        <q-list-header>QItemSide</q-list-header>
+        <q-item>
+          <q-item-side avatar="/statics/boy-avatar.png" />
+          <q-item-main label="Jack" />
+          <q-item-side right avatar="/statics/boy-avatar.png" />
+        </q-item>
+        <q-item>
+          <q-item-side image="/statics/mountains.jpg" />
+          <q-item-main label="Jim's Photos" />
+          <q-item-side right image="/statics/mountains.jpg" />
+        </q-item>
+        <q-item>
+          <q-item-side icon="voice_chat" />
+          <q-item-main label="Voice Chat with Joe" />
+          <q-item-side right icon="voice_chat" />
+        </q-item>
+        <q-item>
+          <q-item-side inverted icon="voice_chat" />
+          <q-item-main label="Voice Chat with Joe" />
+          <q-item-side right inverted icon="voice_chat" />
+        </q-item>
+        <q-item>
+          <q-item-side letter="J" />
+          <q-item-main label="John Doe" />
+          <q-item-side right letter="J" />
+        </q-item>
+        <q-item>
+          <q-item-side inverted letter="J" />
+          <q-item-main label="John Doe" />
+          <q-item-side right inverted letter="J" />
+        </q-item>
+        <q-item>
+          <q-item-side inverted stamp="Stamp" />
+          <q-item-main label="John Doe" />
+          <q-item-side right inverted stamp="Stamp" />
+        </q-item>
+
+        <q-item-separator />
+
+        <q-item>
+          <q-item-side icon="voice_chat" color="amber" />
+          <q-item-main label="Voice Chat with Joe" />
+          <q-item-side right icon="voice_chat" color="amber" />
+        </q-item>
+        <q-item>
+          <q-item-side inverted icon="voice_chat" color="amber" />
+          <q-item-main label="Voice Chat with Joe" />
+          <q-item-side right inverted icon="voice_chat" color="amber" />
+        </q-item>
+        <q-item>
+          <q-item-side inverted icon="voice_chat" color="amber" text-color="black" />
+          <q-item-main label="Voice Chat with Joe" />
+          <q-item-side right inverted icon="voice_chat" color="amber" text-color="black" />
+        </q-item>
+        <q-item>
+          <q-item-side letter="J" color="amber" />
+          <q-item-main label="John Doe" />
+          <q-item-side right letter="J" color="amber" />
+        </q-item>
+        <q-item>
+          <q-item-side inverted letter="J" color="amber" />
+          <q-item-main label="John Doe" />
+          <q-item-side right inverted letter="J" color="amber" />
+        </q-item>
+        <q-item>
+          <q-item-side inverted letter="J" color="amber" text-color="black" />
+          <q-item-main label="John Doe" />
+          <q-item-side right inverted letter="J" color="amber" text-color="black" />
+        </q-item>
+
+        <q-item-separator />
+        <q-list-header>QItemTile</q-list-header>
+
+        <q-item multiline>
+          <q-item-side>
+            <q-item-tile letter>Q</q-item-tile>
+          </q-item-side>
+          <q-item-main>
+            <q-item-tile label>Brunch <span>5</span></q-item-tile>
+            <q-item-tile sublabel lines="2">John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe</q-item-tile>
+          </q-item-main>
+          <q-item-side right>
+            <q-item-tile letter>Q</q-item-tile>
+          </q-item-side>
+        </q-item>
+        <q-item multiline>
+          <q-item-side>
+            <q-item-tile inverted letter>Q</q-item-tile>
+          </q-item-side>
+          <q-item-main>
+            <q-item-tile label>Brunch <span>5</span></q-item-tile>
+            <q-item-tile sublabel lines="2">John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe</q-item-tile>
+          </q-item-main>
+          <q-item-side right>
+            <q-item-tile inverted letter>Q</q-item-tile>
+          </q-item-side>
+        </q-item>
+        <q-item multiline>
+          <q-item-side>
+            <q-item-tile stamp>Stamp</q-item-tile>
+          </q-item-side>
+          <q-item-main>
+            <q-item-tile label>Brunch <span>5</span></q-item-tile>
+            <q-item-tile sublabel lines="2">John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe</q-item-tile>
+          </q-item-main>
+          <q-item-side right>
+            <q-item-tile stamp>Stamp</q-item-tile>
+          </q-item-side>
+        </q-item>
+        <q-item multiline>
+          <q-item-side>
+            <q-item-tile icon="map" />
+          </q-item-side>
+          <q-item-main>
+            <q-item-tile label>Brunch <span>5</span></q-item-tile>
+            <q-item-tile sublabel lines="2">John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe</q-item-tile>
+          </q-item-main>
+          <q-item-side right>
+            <q-item-tile icon="map" />
+          </q-item-side>
+        </q-item>
+        <q-item multiline>
+          <q-item-side>
+            <q-item-tile inverted icon="map" />
+          </q-item-side>
+          <q-item-main>
+            <q-item-tile label>Brunch <span>5</span></q-item-tile>
+            <q-item-tile sublabel lines="2">John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe</q-item-tile>
+          </q-item-main>
+          <q-item-side right>
+            <q-item-tile inverted icon="map" />
+          </q-item-side>
+        </q-item>
+        <q-item multiline>
+          <q-item-side>
+            <q-item-tile avatar>
+              <img src="~assets/boy-avatar.png" />
+            </q-item-tile>
+          </q-item-side>
+          <q-item-main>
+            <q-item-tile label>Brunch <span>5</span></q-item-tile>
+            <q-item-tile sublabel lines="2">John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe</q-item-tile>
+          </q-item-main>
+          <q-item-tile right avatar>
+            <img src="~assets/boy-avatar.png" />
+          </q-item-tile>
+        </q-item>
+
+        <q-item-separator />
+
+        <q-item multiline>
+          <q-item-side>
+            <q-item-tile letter color="amber">Q</q-item-tile>
+          </q-item-side>
+          <q-item-main>
+            <q-item-tile label>Brunch <span>5</span></q-item-tile>
+            <q-item-tile sublabel lines="2">John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe</q-item-tile>
+          </q-item-main>
+          <q-item-side right>
+            <q-item-tile letter color="amber">Q</q-item-tile>
+          </q-item-side>
+        </q-item>
+        <q-item multiline>
+          <q-item-side>
+            <q-item-tile inverted letter color="amber">Q</q-item-tile>
+          </q-item-side>
+          <q-item-main>
+            <q-item-tile label>Brunch <span>5</span></q-item-tile>
+            <q-item-tile sublabel lines="2">John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe</q-item-tile>
+          </q-item-main>
+          <q-item-side right>
+            <q-item-tile inverted letter color="amber">Q</q-item-tile>
+          </q-item-side>
+        </q-item>
+        <q-item multiline>
+          <q-item-side>
+            <q-item-tile inverted letter color="amber" text-color="black">Q</q-item-tile>
+          </q-item-side>
+          <q-item-main>
+            <q-item-tile label>Brunch <span>5</span></q-item-tile>
+            <q-item-tile sublabel lines="2">John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe</q-item-tile>
+          </q-item-main>
+          <q-item-side right>
+            <q-item-tile inverted letter color="amber" text-color="black">Q</q-item-tile>
+          </q-item-side>
+        </q-item>
+        <q-item multiline>
+          <q-item-side>
+            <q-item-tile stamp color="amber">Stamp</q-item-tile>
+          </q-item-side>
+          <q-item-main>
+            <q-item-tile label>Brunch <span>5</span></q-item-tile>
+            <q-item-tile sublabel lines="2">John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe</q-item-tile>
+          </q-item-main>
+          <q-item-side right>
+            <q-item-tile stamp color="amber">Stamp</q-item-tile>
+          </q-item-side>
+        </q-item>
+        <q-item multiline>
+          <q-item-side>
+            <q-item-tile icon="map" color="amber" />
+          </q-item-side>
+          <q-item-main>
+            <q-item-tile label>Brunch <span>5</span></q-item-tile>
+            <q-item-tile sublabel lines="2">John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe</q-item-tile>
+          </q-item-main>
+          <q-item-side right>
+            <q-item-tile icon="map" color="amber" />
+          </q-item-side>
+        </q-item>
+        <q-item multiline>
+          <q-item-side>
+            <q-item-tile inverted icon="map" color="amber" />
+          </q-item-side>
+          <q-item-main>
+            <q-item-tile label>Brunch <span>5</span></q-item-tile>
+            <q-item-tile sublabel lines="2">John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe</q-item-tile>
+          </q-item-main>
+          <q-item-side right>
+            <q-item-tile inverted icon="map" color="amber" />
+          </q-item-side>
+        </q-item>
+        <q-item multiline>
+          <q-item-side>
+            <q-item-tile inverted icon="map" color="amber" text-color="black" />
+          </q-item-side>
+          <q-item-main>
+            <q-item-tile label>Brunch <span>5</span></q-item-tile>
+            <q-item-tile sublabel lines="2">John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe</q-item-tile>
+          </q-item-main>
+          <q-item-side right>
+            <q-item-tile inverted icon="map" color="amber" text-color="black" />
+          </q-item-side>
+        </q-item>
+      </q-list>
+
       <p class="caption">Basic List</p>
       <q-list>
         <q-item>

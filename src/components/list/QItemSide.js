@@ -6,77 +6,82 @@ export default {
     right: Boolean,
 
     icon: String,
-    inverted: Boolean,
-
-    avatar: String,
     letter: {
       type: String,
       validator: v => v.length === 1
     },
+    inverted: Boolean, // for icon and letter only
+
+    avatar: String,
     image: String,
     stamp: String,
 
     color: String,
-    tag: {
-      type: String,
-      default: 'div'
-    }
+    textColor: String // only for inverted icon/letter
   },
   computed: {
-    classes () {
-      return [
-        `q-item-side-${this.right ? 'right' : 'left'}`,
-        `${this.color ? `text-${this.color}` : ''}`,
-        this.image ? 'q-item-image' : ''
-      ]
+    type () {
+      return ['icon', 'image', 'avatar', 'letter', 'stamp'].find(type => this[type])
     },
-    subClasses () {
-      return {
-        'q-item-letter-inverted': this.inverted,
-        [`bg-${this.color}`]: this.color && this.inverted
+    classes () {
+      const cls = [ `q-item-side-${this.right ? 'right' : 'left'}` ]
+
+      if (this.color && (!this.icon && !this.letter)) {
+        cls.push(`text-${this.color}`)
       }
+
+      return cls
+    },
+    typeClasses () {
+      const cls = [ `q-item-${this.type}` ]
+
+      if (this.color) {
+        if (this.inverted && (this.icon || this.letter)) {
+          cls.push(`bg-${this.color}`)
+        }
+        else if (!this.textColor) {
+          cls.push(`text-${this.color}`)
+        }
+      }
+      this.textColor && cls.push(`text-${this.textColor}`)
+
+      if (this.inverted) {
+        this.icon && cls.push('q-item-icon-inverted')
+        this.letter && cls.push('q-item-letter-inverted')
+      }
+
+      return cls
+    },
+    imagePath () {
+      return this.image || this.avatar
     }
   },
   render (h) {
-    const data = {
+    let child
+
+    if (this.type) {
+      if (this.icon) {
+        child = h(QIcon, {
+          'class': this.typeClasses,
+          props: { name: this.icon }
+        }, [ this.$slots.default ])
+      }
+      else if (this.imagePath) {
+        child = h('img', {
+          'class': this.typeClasses,
+          attrs: { src: this.imagePath }
+        })
+      }
+      else {
+        child = h('div', { 'class': this.typeClasses }, [ this.stamp || this.letter ])
+      }
+    }
+
+    return h('div', {
       staticClass: 'q-item-side q-item-section',
       'class': this.classes
-    }
-
-    if (this.image) {
-      data.attrs = { src: this.image }
-      return h('img', data)
-    }
-
-    return h(this.tag, data, [
-      this.stamp
-        ? h('div', { staticClass: 'q-item-stamp' }, [
-          this.stamp
-        ])
-        : null,
-
-      this.icon
-        ? h(QIcon, {
-          props: { name: this.icon },
-          staticClass: 'q-item-icon',
-          'class': this.subClasses
-        })
-        : null,
-
-      this.avatar
-        ? h('img', {
-          staticClass: 'q-item-avatar',
-          attrs: { src: this.avatar }
-        })
-        : null,
-
-      this.letter
-        ? h('div', {
-          staticClass: 'q-item-letter',
-          'class': this.subClasses
-        }, [ this.letter ])
-        : null,
-
+    }, [
+      child,
       this.$slots.default
     ])
   }

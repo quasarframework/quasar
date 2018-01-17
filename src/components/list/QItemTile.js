@@ -1,15 +1,15 @@
 import { QIcon } from '../icon'
-import { textStyle, getType } from './list-utils'
+import { textStyle } from './list-utils'
 
 export default {
   name: 'q-item-tile',
   props: {
     icon: String,
-    inverted: Boolean,
+    letter: Boolean,
+    inverted: Boolean, // for icon and letter only
 
     image: Boolean,
     avatar: Boolean,
-    letter: Boolean,
     stamp: Boolean,
 
     label: Boolean,
@@ -17,43 +17,56 @@ export default {
     lines: [Number, String],
 
     color: String,
-    tag: {
-      type: String,
-      default: 'div'
+    textColor: String // only for inverted icon/letter
+  },
+  computed: {
+    hasLines () {
+      return (this.label || this.sublabel) && this.lines
+    },
+    type () {
+      return ['icon', 'label', 'sublabel', 'image', 'avatar', 'letter', 'stamp'].find(type => this[type])
+    },
+    classes () {
+      const cls = []
+
+      if (this.color) {
+        if (this.inverted) {
+          cls.push(`bg-${this.color}`)
+        }
+        else if (!this.textColor) {
+          cls.push(`text-${this.color}`)
+        }
+      }
+      this.textColor && cls.push(`text-${this.textColor}`)
+      this.type && cls.push(`q-item-${this.type}`)
+
+      if (this.inverted) {
+        this.icon && cls.push('q-item-icon-inverted')
+        this.letter && cls.push('q-item-letter-inverted')
+      }
+
+      if (this.hasLines && (this.lines === '1' || this.lines === 1)) {
+        cls.push('ellipsis')
+      }
+
+      return cls
+    },
+    style () {
+      if (this.hasLines) {
+        return textStyle(this.lines)
+      }
     }
   },
   render (h) {
-    const
-      textColor = this.color ? ` text-${this.color}` : '',
-      bgColor = this.color ? ` bg-${this.color}` : '',
-      data = {
-        'class': ['q-item-' + getType(this.$props)]
-      }
+    const data = {
+      'class': this.classes,
+      style: this.style
+    }
 
     if (this.icon) {
       data.props = { name: this.icon }
-      data['class'].push(
-        this.inverted
-          ? `q-item-icon-inverted${bgColor}`
-          : textColor
-      )
-
-      return h(QIcon, data, [ this.$slots.default ])
     }
 
-    data['class'].push(
-      this.letter && this.inverted
-        ? `q-item-letter-inverted${bgColor}`
-        : textColor
-    )
-
-    if ((this.label || this.sublabel) && this.lines) {
-      if (this.lines === '1' || this.lines === 1) {
-        data['class'].push('ellipsis')
-      }
-      data.style = textStyle(this.lines)
-    }
-
-    return h(this.tag, data, [ this.$slots.default ])
+    return h(this.icon ? QIcon : 'div', data, [ this.$slots.default ])
   }
 }
