@@ -2,10 +2,6 @@
   to
     background transparent
 
-.q-input-target::-webkit-outer-spin-button,
-.q-input-target::-webkit-inner-spin-button
-  -webkit-appearance none
-
 .q-input-target, .q-input-shadow
   border 0
   outline 0
@@ -25,6 +21,8 @@
     display none
     width 0
     height 0
+  &:invalid
+    box-shadow inherit
 
 input.q-input-target
   height 18px
