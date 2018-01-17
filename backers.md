@@ -10,13 +10,13 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 
 ### $500
 
-It could be you!
+It could be you or your company!
 
 ---
 
 ### $250
 
-It could be you!
+- Juggle Street
 
 ---
 
