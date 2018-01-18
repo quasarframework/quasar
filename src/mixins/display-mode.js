@@ -5,7 +5,6 @@ export default {
   },
   computed: {
     isPopover () {
-      debugger
       // Explicit popover / modal choice
       if (this.popover) return true
       if (this.modal) return false
