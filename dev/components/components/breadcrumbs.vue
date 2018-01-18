@@ -20,14 +20,14 @@
       </q-breadcrumbs>
       <br><br>
       <q-breadcrumbs align="center">
-        <q-icon name="trending_flat" slot="separator" />
+        <q-icon name="trending_flat" slot="separator" slot-scope="props" />
         <q-breadcrumb-el active>Home</q-breadcrumb-el>
         <q-breadcrumb-el>Components</q-breadcrumb-el>
         <q-breadcrumb-el>Breadcrumbs</q-breadcrumb-el>
       </q-breadcrumbs>
       <br><br>
       <q-breadcrumbs align="justify" style="max-width: 700px">
-        <q-icon name="arrow_forward" slot="separator" />
+        <q-icon name="arrow_forward" slot="separator" slot-scope="props" />
         <q-breadcrumb-el>Home</q-breadcrumb-el>
         <q-breadcrumb-el>Components</q-breadcrumb-el>
         <q-breadcrumb-el>Breadcrumbs</q-breadcrumb-el>

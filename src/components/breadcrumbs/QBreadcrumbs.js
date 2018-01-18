@@ -27,17 +27,15 @@ export default {
     }
   },
   computed: {
-    computedAlign () {
-      return alignMap[this.align]
+    classes () {
+      return [`text-${this.color}`, `justify-${alignMap[this.align]}`]
     }
   },
   render (h) {
     const
       child = [],
       length = this.$slots.default.length - 1,
-      separator = this.$slots.separator
-        ? this.$slots.separator
-        : this.separator,
+      separator = this.$scopedSlots.separator || (() => this.separator),
       color = `text-${this.color}`,
       active = `text-${this.activeColor}`
 
@@ -45,9 +43,12 @@ export default {
       if (comp.componentOptions && comp.componentOptions.tag === 'q-breadcrumb-el') {
         const middle = i < length
 
-        child.push(h('div', { staticClass: `${middle ? active : color} ${middle ? 'text-weight-bold' : 'q-breadcrumb-last'}` }, [ comp ]))
+        child.push(h('div', {
+          'class': [ middle ? active : color, middle ? 'text-weight-bold' : 'q-breadcrumb-last' ]
+        }, [ comp ]))
+
         if (middle) {
-          child.push(h('div', { staticClass: `q-breadcrumb-separator ${color}` }, [ separator ]))
+          child.push(h('div', { staticClass: `q-breadcrumb-separator`, 'class': color }, [ separator() ]))
         }
       }
       else {
@@ -57,7 +58,7 @@ export default {
 
     return h('div', {
       staticClass: 'q-breadcrumbs flex gutter-xs items-center overflow-hidden',
-      'class': [`text-${this.color}`, `justify-${this.computedAlign}`]
+      'class': this.classes
     }, child)
   }
 }
