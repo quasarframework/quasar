@@ -1,4 +1,5 @@
 import FrameMixin from '../../mixins/input-frame'
+import DisplayModeMixin from '../../mixins/display-mode'
 import extend from '../../utils/extend'
 import { QInputFrame } from '../input-frame'
 import { QPopover } from '../popover'
@@ -21,7 +22,7 @@ const contentCss = __THEME__ === 'ios'
 
 export default {
   name: 'q-color',
-  mixins: [FrameMixin],
+  mixins: [FrameMixin, DisplayModeMixin],
   props: {
     value: {
       required: true
@@ -43,7 +44,7 @@ export default {
     readonly: Boolean
   },
   data () {
-    let data = this.isPopover() ? {} : {
+    let data = this.isPopover ? {} : {
       transition: __THEME__ === 'ios' ? 'q-modal-bottom' : 'q-modal'
     }
     data.focused = false
@@ -51,9 +52,6 @@ export default {
     return data
   },
   computed: {
-    usingPopover () {
-      return this.isPopover()
-    },
     actualValue () {
       if (this.displayValue) {
         return this.displayValue
@@ -70,9 +68,6 @@ export default {
     }
   },
   methods: {
-    isPopover () {
-      return this.$q.platform.is.desktop && !this.$q.platform.within.iframe
-    },
     toggle () {
       this[this.$refs.popup.showing ? 'hide' : 'show']()
     },
@@ -121,13 +116,13 @@ export default {
     __onHide () {
       this.focused = false
       this.$emit('blur')
-      if (this.usingPopover && !this.$refs.popup.showing) {
+      if (this.isPopover && !this.$refs.popup.showing) {
         this.__update(true)
       }
     },
     __setModel (val, forceUpdate) {
       this.model = clone(val || this.defaultSelection)
-      if (forceUpdate || (this.usingPopover && this.$refs.popup.showing)) {
+      if (forceUpdate || (this.isPopover && this.$refs.popup.showing)) {
         this.__update()
       }
     },
@@ -197,6 +192,7 @@ export default {
     }
   },
   render (h) {
+    console.log('isPopover: ' + this.isPopover)
     return h(QInputFrame, {
       props: {
         prefix: this.prefix,
@@ -232,7 +228,7 @@ export default {
         }
       }),
 
-      this.usingPopover
+      this.isPopover
         ? h(QPopover, {
           ref: 'popup',
           props: {
