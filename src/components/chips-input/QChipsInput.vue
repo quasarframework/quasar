@@ -59,7 +59,7 @@
 
     <q-icon
       v-if="editable"
-      name="send"
+      :name="icon"
       slot="after"
       class="q-if-control self-end"
       :class="{invisible: !input.length}"
@@ -89,7 +89,11 @@ export default {
       required: true
     },
     frameColor: String,
-    readonly: Boolean
+    readonly: Boolean,
+    icon: {
+      type: String,
+      default: 'send'
+    }
   },
   data () {
     return {

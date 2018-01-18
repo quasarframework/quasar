@@ -21,6 +21,11 @@
         <q-chips-input dark color="amber" float-label="Float Label" v-model="model" placeholder="Some placeholder" />
       </div>
 
+      <p class="caption">Custom icons</p>
+      <q-chips-input v-model="model" icon="check" />
+      <q-chips-input v-model="model" icon="add" />
+      <q-chips-input v-model="model" icon="add_circle" />
+      
       <p class="caption">v-model.lazy</p>
       <q-chips-input :value="model" @change="value => { model = value; log('@change', value) }"/>
 
