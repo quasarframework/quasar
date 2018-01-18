@@ -81,6 +81,16 @@
       <q-datetime v-model="model" :default-selection="defaultSelection" type="datetime" />
       <q-datetime v-model="model" :default-selection="defaultSelection" type="time" />
 
+      <p class="caption">With explicit popover</p>
+      <q-datetime v-model="model" popover type="date"     float-label="Pick Date" />
+      <q-datetime v-model="model" popover type="time"     float-label="Pick Time" />
+      <q-datetime v-model="model" popover type="datetime" float-label="Pick DateTime" />
+      
+      <p class="caption">With explicit modal</p>
+      <q-datetime v-model="model" modal type="date"     float-label="Pick Date" />
+      <q-datetime v-model="model" modal type="time"     float-label="Pick Time" />
+      <q-datetime v-model="model" modal type="datetime" float-label="Pick DateTime" />
+      
       <p class="caption">With Label</p>
       <q-datetime v-model="model" type="date" label="Pick Date" />
 

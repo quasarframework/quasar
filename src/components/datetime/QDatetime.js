@@ -1,11 +1,12 @@
 import FrameMixin from '../../mixins/input-frame'
+import DisplayModeMixin from '../../mixins/display-mode'
 import extend from '../../utils/extend'
 import { input, inline } from './datetime-props'
 import { QInputFrame } from '../input-frame'
 import { QPopover } from '../popover'
 import QDatetimePicker from './QDatetimePicker'
 import { QBtn } from '../btn'
-import { formatDate, isSameDate } from '../../utils/date'
+import { formatDate, isSameDate, isValid } from '../../utils/date'
 import { QModal } from '../modal'
 import clone from '../../utils/clone'
 
@@ -23,28 +24,25 @@ const contentCss = __THEME__ === 'ios'
 
 export default {
   name: 'q-datetime',
-  mixins: [FrameMixin],
+  mixins: [FrameMixin, DisplayModeMixin],
   props: extend(
     input,
     inline
   ),
   data () {
-    let data = this.isPopover() ? {} : {
+    let data = this.isPopover ? {} : {
       transition: __THEME__ === 'ios' ? 'q-modal-bottom' : 'q-modal'
     }
     data.focused = false
-    data.model = clone(this.value === 0 || this.value ? this.value : this.defaultSelection)
+    data.model = clone(isValid(this.value) ? this.value : this.defaultSelection)
     return data
   },
   computed: {
-    usingPopover () {
-      return this.$q.platform.is.desktop && !this.$q.platform.within.iframe
-    },
     actualValue () {
       if (this.displayValue) {
         return this.displayValue
       }
-      if (this.value !== 0 && !this.value) {
+      if (!isValid(this.value)) {
         return this.placeholder || ''
       }
 
@@ -67,9 +65,6 @@ export default {
     }
   },
   methods: {
-    isPopover () {
-      return this.$q.platform.is.desktop && !this.$q.platform.within.iframe
-    },
     toggle () {
       this[this.$refs.popup.showing ? 'hide' : 'show']()
     },
@@ -127,13 +122,13 @@ export default {
     __onHide () {
       this.focused = false
       this.$emit('blur')
-      if (this.usingPopover && !this.$refs.popup.showing) {
+      if (this.isPopover && !this.$refs.popup.showing) {
         this.__update(true)
       }
     },
     __setModel (val, forceUpdate) {
-      this.model = clone(val === 0 || val ? val : this.defaultSelection)
-      if (forceUpdate || (this.usingPopover && this.$refs.popup.showing)) {
+      this.model = clone(isValid(val) ? val : this.defaultSelection)
+      if (forceUpdate || (this.isPopover && this.$refs.popup.showing)) {
         this.__update()
       }
     },
@@ -168,7 +163,7 @@ export default {
           on: {
             input: v => this.$nextTick(() => this.__setModel(v)),
             canClose: () => {
-              if (this.usingPopover) {
+              if (this.isPopover) {
                 this.hide()
               }
             }
@@ -248,7 +243,7 @@ export default {
         }
       }),
 
-      this.usingPopover
+      this.isPopover
         ? h(QPopover, {
           ref: 'popup',
           props: {
