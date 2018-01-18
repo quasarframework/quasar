@@ -55,6 +55,11 @@
       <h4>Lazy Input</h4>
       <q-color :value="inputModelHex" @change="val => { inputModelHex = val; log('@change', val)}" @input="value => log('@input', value)" clearable />
       <q-color :value="inputModelRgb" @change="val => inputModelRgb = val" clearable />
+      
+      <h4>Explicit Popover or Modal</h4>
+      <q-color         v-model="inputModelRgb" float-label="RGB Default" />
+      <q-color popover v-model="inputModelRgb" float-label="RGB Popover" />
+      <q-color modal   v-model="inputModelRgb" float-label="RGB Modal" />
 
       <h4>Readonly</h4>
       <div class="row gutter-md" style="width: 550px">
