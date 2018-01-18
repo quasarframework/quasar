@@ -39,7 +39,9 @@ export default {
       default: 'default'
     },
     contentStyle: Object,
-    contentClass: [String, Object, Array]
+    contentClass: [String, Object, Array],
+    noSwipeOpen: Boolean,
+    noSwipeClose: Boolean
   },
   data () {
     const
@@ -228,14 +230,16 @@ export default {
     const child = []
 
     if (this.mobileView) {
-      child.push(h('div', {
-        staticClass: `q-layout-drawer-opener fixed-${this.side}`,
-        directives: [{
-          name: 'touch-pan',
-          modifiers: { horizontal: true },
-          value: this.__openByTouch
-        }]
-      }))
+      if (!this.noSwipeOpen) {
+        child.push(h('div', {
+          staticClass: `q-layout-drawer-opener fixed-${this.side}`,
+          directives: [{
+            name: 'touch-pan',
+            modifiers: { horizontal: true },
+            value: this.__openByTouch
+          }]
+        }))
+      }
       child.push(h('div', {
         staticClass: 'fullscreen q-layout-backdrop',
         'class': this.backdropClass,
@@ -256,7 +260,7 @@ export default {
         style: this.computedStyle,
         attrs: this.$attrs,
         listeners: this.$listeners,
-        directives: this.mobileView ? [{
+        directives: this.mobileView && !this.noSwipeClose ? [{
           name: 'touch-pan',
           modifiers: { horizontal: true },
           value: this.__closeByTouch
