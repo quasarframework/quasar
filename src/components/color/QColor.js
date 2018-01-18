@@ -192,7 +192,6 @@ export default {
     }
   },
   render (h) {
-    console.log('isPopover: ' + this.isPopover)
     return h(QInputFrame, {
       props: {
         prefix: this.prefix,

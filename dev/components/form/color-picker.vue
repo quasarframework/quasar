@@ -60,6 +60,7 @@
       <q-color         v-model="inputModelRgb" float-label="RGB Default" />
       <q-color popover v-model="inputModelRgb" float-label="RGB Popover" />
       <q-color modal   v-model="inputModelRgb" float-label="RGB Modal" />
+      <q-color modal   v-model="inputModelRgb" float-label="RGB Modal Readonly " readonly  />
 
       <h4>Readonly</h4>
       <div class="row gutter-md" style="width: 550px">
