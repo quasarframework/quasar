@@ -4,7 +4,8 @@ import {
   convertDateToFormat,
   getDateBetween,
   startOfDate,
-  isSameDate
+  isSameDate,
+  isValid
 } from '../../utils/date'
 
 export default {
@@ -12,7 +13,7 @@ export default {
   computed: {
     model: {
       get () {
-        let date = this.value === 0 || this.value
+        let date = isValid(this.value)
           ? new Date(this.value)
           : (this.defaultSelection ? new Date(this.defaultSelection) : startOfDate(new Date(), 'day'))
 
