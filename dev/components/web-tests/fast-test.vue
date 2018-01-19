@@ -22,7 +22,7 @@ export default {
 }
 </script>
 
-<style lang="styl">
+<style lang="stylus">
 @import '~variables'
 
 </style>

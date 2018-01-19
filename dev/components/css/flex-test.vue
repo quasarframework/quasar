@@ -36,7 +36,7 @@ export default {
 }
 </script>
 
-<style lang="styl">
+<style lang="stylus">
 .ex
   border 1px solid #ccc
   padding 2px

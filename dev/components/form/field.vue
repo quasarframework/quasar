@@ -445,7 +445,7 @@ export default {
 }
 </script>
 
-<style lang="styl">
+<style lang="stylus">
 .q-field
   // border 1px solid black
   // padding 0
