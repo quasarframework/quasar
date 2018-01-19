@@ -78,7 +78,7 @@ export default {
     outdent: 'mdi-format-indent-decrease',
     indent: 'mdi-format-indent-increase',
     removeFormat: 'mdi-format-clear',
-    formatting: '',
+    formatting: 'mdi-format-color-text',
     fontSize: 'mdi-format-size',
     align: 'mdi-format-align-left',
     hr: 'mdi-minus',
