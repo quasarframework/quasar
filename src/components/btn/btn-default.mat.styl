@@ -1,7 +1,4 @@
 .q-btn
-  display inline-flex
-  align-items center
-  justify-content center
   outline 0
   border 0
   vertical-align middle
@@ -20,18 +17,18 @@
   .q-icon
     font-size 1.4em
   .q-spinner
-    height 1.4em
-    width 1.4em
+    height 1.39em
+    width 1.39em
 
   &.disabled
     opacity .7 !important
 
   &.full-width
     border-radius 0 !important
-    
+
   &:active:not(.disabled):not(.q-btn-flat):not(.q-btn-outline):not(.q-btn-push):after
     // This places the button active raise shadow behind adjacent elements
-    // Active raise shadow will still be visible under adjacent transparent elements, this is ok and coherent with a desired transparency effect.  
+    // Active raise shadow will still be visible under adjacent transparent elements, this is ok and coherent with a desired transparency effect.
     // Visible active raise shadow can be removed by specifying a background color to the button
     // Visible active raise shadow can be removed by specifying a flat or outline button type
     content ''
