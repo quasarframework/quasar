@@ -48,6 +48,9 @@ export default {
   chip: {
     close: 'mdi-close-circle'
   },
+  chipsInput: {
+    add: 'mdi-send'
+  },
   collapsible: {
     icon: 'mdi-chevron-down'
   },

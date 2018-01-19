@@ -48,6 +48,9 @@ export default {
   chip: {
     close: 'far fa-times-circle'
   },
+  chipsInput: {
+    add: 'far fa-paper-plane'
+  },
   collapsible: {
     icon: 'fas fa-chevron-down'
   },
