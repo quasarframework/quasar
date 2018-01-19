@@ -48,7 +48,11 @@ export default {
     __onBlur (e) {
       this.focused = false
       this.$emit('blur', e)
-      let value = this.isNumber && this.isNumberError ? null : this.model
+      const isNumberError = this.isNumber && this.isNumberError
+      const value = isNumberError ? null : this.model
+      if (isNumberError) {
+        this.$emit('input', value)
+      }
       this.$nextTick(() => {
         if (JSON.stringify(value) !== JSON.stringify(this.value)) {
           this.$emit('change', value)

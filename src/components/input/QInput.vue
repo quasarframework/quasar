@@ -248,15 +248,19 @@ export default {
     __setModel (val) {
       clearTimeout(this.timer)
       this.focus()
-      this.__set(val || (this.isNumber ? null : ''))
+      this.__set(val || (this.isNumber ? null : ''), true)
     },
-    __set (e) {
+    __set (e, force) {
       let val = e && e.target ? e.target.value : e
 
       if (this.isNumber) {
+        const forcedValue = val
         val = parseFloat(val)
         if (isNaN(val)) {
           this.isNumberError = true
+          if (force) {
+            this.$emit('input', forcedValue)
+          }
           return
         }
         this.isNumberError = false
