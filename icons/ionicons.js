@@ -48,6 +48,9 @@ export default {
   chip: {
     close: 'ion-ios-close'
   },
+  chipsInput: {
+    add: 'ion-android-send'
+  },
   collapsible: {
     icon: 'ion-chevron-down'
   },

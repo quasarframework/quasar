@@ -48,6 +48,9 @@ export default {
   chip: {
     close: 'cancel'
   },
+  chipsInput: {
+    add: 'send'
+  },
   collapsible: {
     icon: 'keyboard_arrow_down'
   },
