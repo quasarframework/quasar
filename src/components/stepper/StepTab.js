@@ -2,7 +2,7 @@ import { QIcon } from '../icon'
 import Ripple from '../../directives/ripple'
 
 export default {
-  name: 'q-step-header',
+  name: 'q-step-tab',
   components: {
     QIcon
   },
