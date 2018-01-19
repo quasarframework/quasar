@@ -59,7 +59,7 @@
 
     <q-icon
       v-if="editable"
-      :name="icon"
+      :name="computedIcon"
       slot="after"
       class="q-if-control self-end"
       :class="{invisible: !input.length}"
@@ -90,10 +90,7 @@ export default {
     },
     frameColor: String,
     readonly: Boolean,
-    icon: {
-      type: String,
-      default: 'send'
-    }
+    icon: String // Default icon is send (computed propery computedIcon)
   },
   data () {
     return {
@@ -116,6 +113,11 @@ export default {
       return this.model
         ? this.model.length
         : 0
+    },
+    computedIcon () {
+      if (this.icon) return this.icon
+      // Default icon
+      return this.$q.icon.chipsInput.add
     }
   },
   methods: {
