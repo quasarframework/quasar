@@ -258,7 +258,9 @@ export default {
         val = parseFloat(val)
         if (isNaN(val)) {
           this.isNumberError = true
-          this.$emit('input', forcedValue)
+          if (force) {
+            this.$emit('input', forcedValue)
+          }
           return
         }
         this.isNumberError = false
