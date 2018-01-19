@@ -48,8 +48,8 @@ export default {
     __onBlur (e) {
       this.focused = false
       this.$emit('blur', e)
-      let isNumberError = this.isNumber && this.isNumberError
-      let value = isNumberError ? null : this.model
+      const isNumberError = this.isNumber && this.isNumberError
+      const value = isNumberError ? null : this.model
       if (isNumberError) {
         this.$emit('input', value)
       }
