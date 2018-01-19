@@ -22,9 +22,9 @@
       </div>
 
       <p class="caption">Custom icons</p>
-      <q-chips-input v-model="model" icon="check" />
-      <q-chips-input v-model="model" icon="add" />
-      <q-chips-input v-model="model" icon="add_circle" />
+      <q-chips-input v-model="model" add-icon="check" />
+      <q-chips-input v-model="model" add-icon="add" />
+      <q-chips-input v-model="model" add-icon="add_circle" />
       
       <p class="caption">v-model.lazy</p>
       <q-chips-input :value="model" @change="value => { model = value; log('@change', value) }"/>
