@@ -10,11 +10,16 @@ import * as utils from './utils'
 import i18n from './i18n'
 import icons from './icons'
 
-Vue.use({ install }, {
-  components,
-  directives,
-  plugins
-})
+if (Vue === void 0) {
+  console.error('[ Quasar ] Vue is required to run. Please add a script tag for it before loading Quasar.')
+}
+else {
+  Vue.use({ install }, {
+    components,
+    directives,
+    plugins
+  })
+}
 
 export default {
   version,
@@ -24,5 +29,6 @@ export default {
   icons,
   components,
   directives,
+  plugins,
   utils
 }
