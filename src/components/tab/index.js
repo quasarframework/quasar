@@ -1,7 +1,7 @@
-import QRouteTab from './QRouteTab.vue'
-import QTab from './QTab.vue'
-import QTabPane from './QTabPane.vue'
-import QTabs from './QTabs.vue'
+import QRouteTab from './QRouteTab'
+import QTab from './QTab'
+import QTabPane from './QTabPane'
+import QTabs from './QTabs'
 
 export {
   QRouteTab,

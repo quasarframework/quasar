@@ -8,12 +8,13 @@ $toggle-base-height = round($toggle-handle-size / 1.7)
   width 100%
   height $toggle-base-height
   border-radius 30px
-  background-color currentColor
+  background currentColor
   opacity .5
 
 .q-toggle-handle
-  background-color rgb(245, 245, 245)
+  background rgb(245, 245, 245)
   transition all 450ms cubic-bezier(.23, 1, .32, 1)
+  box-shadow $shadow-1
   border-radius 50%
   position absolute
   top 0
@@ -29,7 +30,7 @@ $toggle-base-height = round($toggle-handle-size / 1.7)
   padding round(($toggle-height - $toggle-base-height) / 2) 0
   &.active
     .q-toggle-handle
-      background-color currentColor
+      background currentColor
       left ($toggle-width - $toggle-handle-size)
     .q-toggle-icon
       color white

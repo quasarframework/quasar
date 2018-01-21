@@ -23,6 +23,7 @@
   flex-basis 0
   flex-grow 1
   min-height 1px
+  min-width 0
 
 .row
   > .col
@@ -44,6 +45,7 @@ for $name, $size in $sizes
   width auto
 .col-auto
   flex 0 0 auto
+  min-width 0
 .col-grow
   flex 1 1 auto
 
@@ -115,20 +117,18 @@ for $i in (1..$flex-cols)
     margin-left (round($i / $flex-cols * 100, 4))%
 
 for $name, $size in $flex-gutter
-  .{$name}-gutter
+  .gutter-{$name}
     margin (- $size) 0 0 (- $size)
     > div
       padding $size 0 0 $size
-
-.no-horiz-gutter
-  margin-left 0
-  > div
-    padding-left 0
-
-.no-vert-gutter
-  margin-top 0
-  > div
-    padding-top 0
+  .gutter-x-{$name}
+    margin-left (- $size)
+    > div
+      padding-left $size
+  .gutter-y-{$name}
+    margin-top (- $size)
+    > div
+      padding-top $size
 
 for $name, $size in $sizes
   @media (min-width $size)
@@ -137,8 +137,9 @@ for $name, $size in $sizes
       flex-basis 0
       flex-grow 1
     .col-{$name}-auto
-      width auto
       flex 0 0 auto
+      .row > &
+        width auto
 
     for $i in (1..$flex-cols)
       .col-{$name}-{$i}

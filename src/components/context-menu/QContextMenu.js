@@ -1,6 +1,6 @@
-import Platform from '../../features/platform'
-import ContextMenuDesktop from './ContextMenuDesktop.vue'
-import ContextMenuMobile from './ContextMenuMobile.vue'
+import ContextMenuDesktop from './ContextMenuDesktop'
+import ContextMenuMobile from './ContextMenuMobile'
+import Platform from '../../plugins/platform'
 
 export default {
   name: 'q-context-menu',

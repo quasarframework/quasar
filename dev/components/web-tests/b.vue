@@ -1,6 +1,6 @@
 <template>
   <div class="layout-padding">
-    BBB
+    <span>BBB</span>
   </div>
 </template>
 

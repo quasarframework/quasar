@@ -6,9 +6,13 @@ var
   HtmlWebpackPlugin = require('html-webpack-plugin'),
   ProgressBarPlugin = require('progress-bar-webpack-plugin'),
   projectRoot = path.resolve(__dirname, '../'),
-  entry = ['./build/hot-reload', './dev/main.js'],
+  entry = ['./build/hot-reload', './src/ie-compat/ie.js', './dev/main.js'],
   merge = require('webpack-merge'),
   FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
+
+function resolve (dir) {
+  return path.join(__dirname, '..', dir)
+}
 
 module.exports = {
   devtool: '#eval-source-map',
@@ -24,16 +28,18 @@ module.exports = {
     filename: '[name].js'
   },
   resolve: {
-    extensions: ['.js', '.vue'],
+    extensions: [`.${env.platform.theme}.js`, '.js', `.${env.platform.theme}.vue`, '.vue'],
     modules: [
-      path.join(__dirname, '../src'),
+      resolve('src'),
       'node_modules'
     ],
     alias: {
-      quasar: path.resolve(__dirname, '../src/index.esm'),
-      assets: path.resolve(__dirname, '../dev/assets'),
-      components: path.resolve(__dirname, '../dev/components'),
-      data: path.resolve(__dirname, '../dev/data')
+      quasar: resolve(`src/index.esm`),
+      'quasar-css': resolve(`src/css/${env.platform.theme}.styl`),
+      assets: resolve('dev/assets'),
+      components: resolve('dev/components'),
+      data: resolve('dev/data'),
+      variables: resolve(`src/css/core.variables.styl`)
     }
   },
   module: {
@@ -66,15 +72,7 @@ module.exports = {
         }
       },
       {
-        test: /\.svg$/,
-        loader: 'raw'
-      },
-      {
-        test: /\.json$/,
-        loader: 'json-loader'
-      },
-      {
-        test: /\.(png|jpe?g|gif)(\?.*)?$/,
+        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
         options: {
           limit: 10000,
@@ -97,7 +95,7 @@ module.exports = {
       'process.env': {
         NODE_ENV: '"development"'
       },
-      '__THEME': '"' + env.platform.theme + '"'
+      '__THEME__': JSON.stringify(env.platform.theme)
     }),
     new webpack.NoEmitOnErrorsPlugin(),
     new HtmlWebpackPlugin({
@@ -107,7 +105,7 @@ module.exports = {
     }),
     new webpack.LoaderOptionsPlugin({
       options: {
-        context: path.resolve(__dirname, '../src'),
+        context: resolve('src'),
         eslint: {
           formatter: require('eslint-friendly-formatter')
         },

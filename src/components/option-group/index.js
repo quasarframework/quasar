@@ -1,4 +1,4 @@
-import QOptionGroup from './QOptionGroup.vue'
+import QOptionGroup from './QOptionGroup'
 
 export {
   QOptionGroup

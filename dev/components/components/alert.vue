@@ -1,52 +1,88 @@
 <template>
   <div class="layout-padding">
-
-    <div style="margin-bottom: 25px">
-      <q-btn color="primary" @click="alertAsMethod">Show Alert as Method</q-btn>
-      <q-btn color="primary" @click="reset">Reset First 2 Alerts</q-btn>
-    </div>
-
-    <q-alert
-      color="brown"
-      icon="cloud"
-      enter="bounceInLeft"
-      leave="bounceOutRight"
+    <q-toggle v-model="visible" label="Show/hide next one" />
+    <br><br>
+    <transition
+      enter-active-class="animated bounceInLeft"
+      leave-active-class="animated bounceOutRight"
       appear
-      style="margin-bottom: 1.5rem"
-      v-model="visible"
-      dismissible
     >
-      Lorem ipsum dolor sit amet.
-    </q-alert>
+      <q-alert
+        v-if="visible"
+        color="brown"
+        icon="cloud"
+        style="margin-bottom: 1.5rem"
+      >
+        Lorem ipsum dolor sit amet.
+      </q-alert>
+    </transition>
 
-    <q-alert
-      type="negative"
-      ref="destroyableAlert"
-      v-model="visible2"
-      dismissible
-      style="margin-bottom: 1.5rem"
-      :actions="[{label: 'Snooze', handler () {}}]"
-    >
-      Lorem ipsum dolor sit amet.
-    </q-alert>
+    <q-toggle v-model="visible2" label="Show/hide next one" />
+    <br><br>
 
-    <q-toggle v-model="diss" label="Dismiss next one" />
-    <q-alert
-      type="negative"
-      style="margin-bottom: 1.5rem"
-      dismissible
-      v-model="diss"
-      @dismiss="dismissed"
-      :actions="actions"
+    <transition
+      enter-active-class="animated bounceInLeft"
+      leave-active-class="animated bounceOutRight"
+      appear
     >
-      No anim, dismiss test.
-    </q-alert>
+      <q-alert
+        v-if="visible2"
+        type="negative"
+        dismissible
+        style="margin-bottom: 1.5rem"
+        :actions="[{label: 'Snooze', handler () {}}]"
+      >
+        Lorem ipsum dolor sit amet.
+      </q-alert>
+    </transition>
+
+    <br>
+    <q-alert icon="map" color="primary">Learn how you can get there</q-alert>
+    <br>
+    <q-alert
+      icon="map"
+      color="primary"
+      :actions="[ { label: 'Dismiss', handler: () => {} } ]"
+    >Learn how you can get there</q-alert>
+    <br>
+    <q-alert
+      icon="map"
+      color="primary"
+      :actions="[ { label: 'Reply', icon: 'map', handler: () => {} }, { label: 'Dismiss', handler: () => {} } ]"
+    >Learn how you can get there</q-alert>
+    <br>
+    <q-alert
+      icon="map"
+      color="primary"
+      :actions="[ { label: 'Reply', icon: 'map', handler: () => {} }, { label: 'Reply long', icon: 'map', handler: () => {} }, { label: 'Dismiss', handler: () => {} } ]"
+    >Learn how you can get there</q-alert>
+    <br>
+    <q-alert
+      avatar="statics/boy-avatar.png"
+      color="dark"
+      :actions="[ { label: 'Reply', icon: 'map', handler: () => {} }, { label: 'Dismiss', handler: () => {} } ]"
+    >Your friend just pinged you</q-alert>
+    <br>
+    <q-alert
+      avatar="statics/boy-avatar.png"
+      color="amber"
+      text-color="black"
+      message="Title"
+      detail="Learn how you can get there"
+    />
+    <br>
+    <q-alert
+      avatar="statics/boy-avatar.png"
+      color="amber"
+      text-color="black"
+      :actions="[ { label: 'Dismiss', handler: () => {} } ]"
+    >Your friend just pinged you</q-alert>
+    <br>
 
     <q-alert
       v-for="type in ['positive', 'info', 'negative', 'warning']"
       :key="type"
-      :color="type"
-      dismissible
+      :type="type"
       style="margin-bottom: 1.5rem"
     >
       Lorem ipsum dolor sit amet.
@@ -54,8 +90,8 @@
 
     <q-alert
       v-for="type in ['positive', 'info', 'negative', 'warning']"
-      :key="type"
-      :color="type"
+      :key="`sec${type}`"
+      :type="type"
       style="margin-bottom: 1.5rem"
     >
       Non dismissible. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
@@ -64,19 +100,15 @@
 </template>
 
 <script>
-import { Alert } from 'quasar'
 // import 'quasar-extras/animate/bounceInLeft.css'
 // import 'quasar-extras/animate/bounceInRight.css'
 // import 'quasar-extras/animate/bounceOutRight.css'
 
-Alert.create({html: 'Warning, warning Will Robinson!'})
-
 export default {
-
   data () {
     return {
       visible: true,
-      visible2: true,
+      visible2: false,
       diss: true,
       actions: [{
         label: 'Snooze',
@@ -89,30 +121,6 @@ export default {
   methods: {
     dismissed () {
       console.log('@dismiss')
-    },
-    alertAsMethod () {
-      Alert.create({
-        enter: 'bounceInRight',
-        leave: 'bounceOutRight',
-        color: 'warning',
-        icon: 'wifi',
-        html: `A text with your alert's awesome message`,
-        position: 'top-right',
-        actions: [
-          {
-            label: 'Snooze',
-            handler () {
-              console.log('acting')
-            }
-          },
-          {
-            label: 'Abort',
-            handler () {
-              console.log('aborting')
-            }
-          }
-        ]
-      })
     },
     reset () {
       this.visible = true

@@ -7,9 +7,11 @@
     :stack-label="stackLabel"
     :float-label="floatLabel"
     :error="error"
+    :warning="warning"
     :disable="disable"
     :inverted="inverted"
     :dark="dark"
+    :hide-underline="hideUnderline"
     :before="before"
     :after="after"
     :color="inverted ? frameColor || color : color"
@@ -23,11 +25,15 @@
     <div class="col row items-center group q-input-chips">
       <q-chip
         small
-        :closable="!disable"
-        v-for="(label, index) in value"
-        :key="label"
+        :closable="editable"
+        v-for="(label, index) in model"
+        :key="`${label}#${index}`"
         :color="color"
-        @close="remove(index)"
+        @blur.native="__onInputBlur"
+        @focus="__clearTimer"
+        @focus.native="__clearTimer"
+        @hide="remove(index)"
+        :tabindex="editable && focused ? 0 : -1"
       >
         {{ label }}
       </q-chip>
@@ -41,6 +47,7 @@
         :name="name"
         :placeholder="inputPlaceholder"
         :disabled="disable"
+        :readonly="readonly"
         :max-length="maxLength"
 
         @focus="__onFocus"
@@ -51,19 +58,21 @@
     </div>
 
     <q-icon
-      v-if="!disable"
-      name="send"
+      v-if="editable"
+      :name="computedAddIcon"
       slot="after"
       class="q-if-control self-end"
       :class="{invisible: !input.length}"
-      @click="add()"
+      @mousedown.native="__clearTimer"
+      @touchstart.native="__clearTimer"
+      @click.native="add()"
     ></q-icon>
   </q-input-frame>
 </template>
 
 <script>
-import FrameMixin from '../input-frame/input-frame-mixin'
-import InputMixin from '../input/input-mixin'
+import FrameMixin from '../../mixins/input-frame'
+import InputMixin from '../../mixins/input'
 import { QInputFrame } from '../input-frame'
 import { QChip } from '../chip'
 
@@ -79,41 +88,61 @@ export default {
       type: Array,
       required: true
     },
-    frameColor: String
+    frameColor: String,
+    readonly: Boolean,
+    addIcon: String
   },
   data () {
     return {
       input: '',
-      focused: false
+      model: [...this.value]
+    }
+  },
+  watch: {
+    value (v) {
+      if (Array.isArray(v)) {
+        this.model = [...v]
+      }
+      else {
+        this.model = []
+      }
     }
   },
   computed: {
     length () {
-      return this.value
-        ? this.value.length
+      return this.model
+        ? this.model.length
         : 0
+    },
+    computedAddIcon () {
+      return this.addIcon || this.$q.icon.chipsInput.add
     }
   },
   methods: {
     add (value = this.input) {
-      if (!this.disable && value) {
-        this.value.push(value)
-        this.$emit('change', this.value)
+      clearTimeout(this.timer)
+      this.focus()
+      if (this.editable && value) {
+        this.model.push(value)
+        this.$emit('input', this.model)
         this.input = ''
       }
     },
     remove (index) {
-      if (!this.disable && index >= 0 && index < this.length) {
-        this.value.splice(index, 1)
-        this.$emit('change', this.value)
+      clearTimeout(this.timer)
+      this.focus()
+      if (this.editable && index >= 0 && index < this.length) {
+        this.model.splice(index, 1)
+        this.$emit('input', this.model)
       }
     },
-    __onInputBlur (e) {
-      this.__onBlur(e)
+    __clearTimer () {
+      this.$nextTick(() => clearTimeout(this.timer))
     },
     __handleKey (e) {
       // ENTER key
       if (e.which === 13 || e.keyCode === 13) {
+        e.preventDefault()
         this.add()
       }
       // Backspace key

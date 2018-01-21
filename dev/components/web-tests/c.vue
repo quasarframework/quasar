@@ -1,13 +1,6 @@
 <template>
   <div class="layout-padding">
-    CCC
+    <span>CCC</span>
+    <q-btn @click="$router.replace('/web-tests/a')">Go to A</q-btn>
   </div>
 </template>
-
-<script>
-export default {
-  data () {
-    return {}
-  }
-}
-</script>

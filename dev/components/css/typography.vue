@@ -5,53 +5,37 @@
         <q-card-title>
           Headings
         </q-card-title>
+        <q-card-separator />
         <q-card-main>
-          <h1>Header 1</h1>
-          <p>Text</p>
-
-          <h2>Header 2</h2>
-          <p>Text</p>
-
-          <h3>Header 3</h3>
-          <p>Text</p>
-
-          <h4>Header 4</h4>
-          <p>Text</p>
-
-          <h5>Header 5</h5>
-          <p>Text</p>
-
-          <h6>Header 6</h6>
-          <p>Text</p>
+          <div v-for="heading in headings" class="row items-center q-mb-bigger">
+            <div class="col-sm-3 col-12">
+              <q-chip color="primary" square>.{{ heading.class }}</q-chip>
+              <q-chip color="secondary" square v-if="heading.equivalent">{{ heading.equivalent }}</q-chip>
+            </div>
+            <div class="col-sm-9 col-12 q-pl-regular q-pt-regular">
+              <div class="q-mb-regular" :class="[heading.class, `${heading.class}-opacity`]">{{ heading.label }}</div>
+              <div class="text-weight-light">
+                black <strong>{{ heading.color }}%</strong>, font weight <strong>{{ heading.weight }}</strong>
+              </div>
+            </div>
+          </div>
         </q-card-main>
       </q-card>
 
       <q-card>
         <q-card-title>
-          Text & Paragraphs
+          Weights
         </q-card-title>
+        <q-card-separator />
         <q-card-main>
-          <div>
-            <small>Small Text</small>
-            Normal Text
-            <big>Big Text</big>
+          <div v-for="weight in weights" class="row items-center q-mb-regular">
+            <div class="col-sm-3 col-12">
+              <q-chip color="primary" square>.text-weight-{{ weight }}</q-chip>
+            </div>
+            <div class="col-sm-9 col-12 q-mb-none q-pl-regular q-pt-small q-pb-small">
+              <div :class="`text-weight-${weight}`"> Lorem Ipsum is simply dummy text of the printing and typesetting industry.</div>
+            </div>
           </div>
-          <div>
-            <sub>Subtext</sub>
-            Text
-            <sup>Supertext</sup>
-          </div>
-          <br>
-          <p><strong>Default Paragraph</strong>: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
-          <p class="caption"><strong>Caption Paragraph</strong>: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
-          <p class="light-paragraph"><strong>Light Paragraph</strong>: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
-          <p class="thin-paragraph"><strong>Thin Paragraph</strong>: Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
-
-          <p class="text-bold">Bold text</p>
-          <p class="text-italic">Italic text</p>
-
-          <p class="caption">Tokens</p>
-          Some <span class="token">token</span> and <span class="token">other token</span>
         </q-card-main>
       </q-card>
 
@@ -113,3 +97,27 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  data () {
+    return {
+      headings: [
+        {label: 'Light 112sp', 'class': 'q-display-4', equivalent: 'h1', color: 54, weight: 300},
+        {label: 'Regular 56sp', 'class': 'q-display-3', equivalent: 'h2', color: 54, weight: 400},
+        {label: 'Regular 45sp', 'class': 'q-display-2', equivalent: 'h3', color: 54, weight: 400},
+        {label: 'Regular 34sp', 'class': 'q-display-1', equivalent: 'h4', color: 54, weight: 400},
+        {label: 'Regular 24sp', 'class': 'q-headline', equivalent: 'h5', color: 87, weight: 400},
+        {label: 'Medium 20sp', 'class': 'q-title', equivalent: 'h6', color: 87, weight: 500},
+        {label: 'Regular 16sp', 'class': 'q-subheading', color: 87, weight: 400},
+        {label: 'Medium 14sp', 'class': 'q-body-2', color: 87, weight: 500},
+        {label: 'Regular 14sp', 'class': 'q-body-1', color: 87, weight: 400},
+        {label: 'Regular 12sp', 'class': 'q-caption', color: 54, weight: 400}
+      ],
+      weights: [
+        'thin', 'light', 'regular', 'medium', 'bold', 'bolder'
+      ]
+    }
+  }
+}
+</script>

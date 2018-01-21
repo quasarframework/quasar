@@ -1,3 +1,33 @@
+$space-base   ?= 16px
+$space-x-base ?= $space-base
+$space-y-base ?= $space-base
+$spaces = {
+  none: {
+    x: 0,
+    y: 0
+  },
+  xs: {
+    x: ($space-x-base * .25),
+    y: ($space-y-base * .25)
+  },
+  sm: {
+    x: ($space-x-base * .5),
+    y: ($space-y-base * .5)
+  },
+  md: {
+    x: $space-x-base,
+    y: $space-y-base
+  },
+  lg: {
+    x: ($space-x-base * 1.5),
+    y: ($space-y-base * 1.5)
+  },
+  xl: {
+    x: ($space-x-base * 3),
+    y: ($space-y-base * 3)
+  }
+}
+
 // Max width at which point
 // current size ends
 $breakpoint-xs ?= 575px
@@ -12,7 +42,11 @@ $flex-gutter-md ?= 32px
 $flex-gutter-lg ?= 48px
 $flex-gutter-xl ?= 64px
 
+$body-background ?= white
+$body-color      ?= #0c0c0c
+
 $flex-gutter = {
+  none: 0,
   xs: $flex-gutter-xs,
   sm: $flex-gutter-sm,
   md: $flex-gutter-md,
@@ -45,6 +79,89 @@ $breakpoint-xl-max = 9999px
 $backdrop-opacity     ?= .3
 $backdrop-background  ?= rgba(0, 0, 0, $backdrop-opacity)
 
+$headings = {
+  display-4: {
+    size: 112px,
+    weight: 300,
+    opacity: .54,
+    line-height: 1,
+    letter-spacing: -.04em
+  },
+  display-3: {
+    size: 56px,
+    weight: 400,
+    opacity: .54,
+    line-height: 1.35,
+    letter-spacing: -.02em
+  },
+  display-2: {
+    size: 45px,
+    weight: 400,
+    opacity: .54,
+    line-height: 48px,
+    letter-spacing: normal
+  },
+  display-1: {
+    size: 34px,
+    weight: 400,
+    opacity: .54,
+    line-height: 40px,
+    letter-spacing: normal
+  },
+  headline: {
+    size: 24px,
+    weight: 400,
+    opacity: .87
+    line-height: 32px,
+    letter-spacing: normal
+  },
+  title: {
+    size: 20px,
+    weight: 500,
+    opacity: .87
+    line-height: 1,
+    letter-spacing: .02em
+  },
+  subheading: {
+    size: 16px,
+    weight: 400,
+    opacity: .87
+  },
+  body-2: {
+    size: 14px,
+    weight: 500,
+    opacity: .87
+  },
+  body-1: {
+    size: 14px,
+    weight: 400,
+    opacity: .87
+  },
+  caption: {
+    size: 12px,
+    weight: 400,
+    opacity: .54
+  }
+}
+
+$h-tags = {
+  h1: $headings.display-4,
+  h2: $headings.display-3,
+  h3: $headings.display-2,
+  h4: $headings.display-1,
+  h5: $headings.headline,
+  h6: $headings.title
+}
+
+$text-weights = {
+  thin: 100,
+  light: 300,
+  regular: 400,
+  medium: 500,
+  bold: 700,
+  bolder: 900
+}
+
 $primary   ?= #027be3
 $secondary ?= #26A69A
 $tertiary  ?= #555
@@ -55,8 +172,8 @@ $info      ?= #31CCEC
 $warning   ?= #F2C037
 
 $white     ?= #fff
-$light     ?= #f4f4f4
-$dark      ?= #333
+$light     ?= #bdbdbd
+$dark      ?= #757575
 $faded     ?= #777
 
 $link-color          ?= lighten($primary, 25%)
@@ -402,20 +519,17 @@ max(value1, value2)
 
 $ios-statusbar-height ?= 20px
 
+$z-fab            ?= 990
 $z-side           ?= 1000
 $z-marginals      ?= 2000
-$z-fixed-side     ?= 3000
-$z-fixed          ?= 4000
-$z-fab            ?= 4100
-
+$z-fixed-drawer   ?= 3000
 $z-modal          ?= 5000
-$z-popover        ?= 6000
-$z-tooltip        ?= 7000
-$z-toast          ?= 8000
-$z-alert          ?= 8100
-
-$z-body-dimmed    ?= 10000
-$z-absolute       ?= 20000
+$z-fullscreen     ?= 6000
+$z-top            ?= 7000
+$z-popover        ?= 8000
+$z-tooltip        ?= 9000
+$z-notify         ?= 9500
+$z-max            ?= 9998
 
 $shadow-color ?= black
 $shadow-transition ?= box-shadow .28s cubic-bezier(.4, 0, .2, 1)

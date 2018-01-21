@@ -4,16 +4,12 @@
   white-space nowrap
   margin .3rem 0
 
-.q-item-side-right
-  text-align right
-  color $item-secondary-color
-  display flex
-  flex-direction column
-  align-items flex-end
 
 .q-item-side
-  color $item-primary-color
+  color $item-side-color
   min-width $item-primary-size
+.q-item-side-right
+  text-align right
 .q-item-avatar, .q-item-avatar img
   width $item-primary-size
   height $item-primary-size
@@ -21,11 +17,15 @@
 
 .q-item-letter, .q-item-icon
   font-size $item-icon-size
-.q-item-icon-inverted
+.q-item-letter-inverted, .q-item-icon-inverted
   border-radius 50%
-  font-size $item-inverted-icon-size
   color white
-  background $primary
+  background $item-side-color
+.q-item-letter-inverted
+  padding 5px 0
+  text-align center
+.q-item-icon-inverted
+  font-size $item-inverted-icon-size
   padding 9px
 
 .q-item-main
@@ -97,17 +97,14 @@
   padding ($item-padding * $item-sparse-factor) $item-padding
   min-height ($item-min-height * $item-sparse-factor)
 
-.q-list-striped .q-item:nth-child(even)
+.q-list-striped > .q-item:nth-child(even)
   background-color $item-stripe-color
-.q-list-striped-odd .q-item:nth-child(odd)
+.q-list-striped-odd > .q-item:nth-child(odd)
   background-color $item-stripe-color
 
 .q-list
   border 1px solid $item-separator-color
   padding ($item-padding / 2) 0
-
-  & + .q-list
-    margin-top 32px
 
 .q-item-separator-component
   margin ($item-padding / 2) 0

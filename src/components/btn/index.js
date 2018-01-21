@@ -1,5 +1,11 @@
-import QBtn from './QBtn.vue'
+import QBtn from './QBtn'
+import QBtnGroup from './QBtnGroup'
+import QBtnDropdown from './QBtnDropdown'
+import QBtnToggle from './QBtnToggle'
 
 export {
-  QBtn
+  QBtn,
+  QBtnGroup,
+  QBtnDropdown,
+  QBtnToggle
 }

@@ -1,4 +1,4 @@
-import QProgress from './QProgress.vue'
+import QProgress from './QProgress'
 
 export {
   QProgress

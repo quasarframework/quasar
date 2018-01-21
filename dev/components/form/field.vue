@@ -17,10 +17,53 @@
           </q-popover>
         </q-input>
       </q-field>
+      <q-field label="With Popover (hide underline)">
+        <q-input v-model="model" :count="10" hide-underline>
+          <q-popover fit :offset="[0, 10]">
+            <div style="padding: 10px" class="bg-primary text-white">
+              Some Popover
+            </div>
+          </q-popover>
+        </q-input>
+      </q-field>
 
       <q-field>
         <q-input v-model="model" />
       </q-field>
+
+      <h4>Label test</h4>
+      <q-field label="No width specified">
+        <q-input v-model="model" />
+      </q-field>
+      <q-field label="Width 12" :label-width="12">
+        <q-input v-model="model" />
+      </q-field>
+      <q-field label="Vertical" orientation="vertical">
+        <q-input v-model="model" />
+      </q-field>
+      <q-field label="Horizontal" orientation="horizontal">
+        <q-input v-model="model" />
+      </q-field>
+      <q-field label="No width specified">
+        <q-input stack-label="Stack" v-model="model" />
+      </q-field>
+      <q-field label="Stack Vertical" orientation="vertical">
+        <q-input stack-label="Stack" v-model="model" />
+      </q-field>
+      <q-field label="Stack Horizontal" orientation="horizontal">
+        <q-input stack-label="Stack" v-model="model" />
+      </q-field>
+      <q-field label="No width specified">
+        <q-input float-label="Float" v-model="model" />
+      </q-field>
+      <q-field label="Float Vertical" orientation="vertical">
+        <q-input float-label="Float" v-model="model" />
+      </q-field>
+      <q-field label="Float Horizontal" orientation="horizontal">
+        <q-input float-label="Float" v-model="model" />
+      </q-field>
+
+      <div style="height: 50px"></div>
 
       <q-field count>
         <q-input suffix="#" prefix="@" type="password" v-model="model" />
@@ -41,6 +84,33 @@
         helper="Helper"
       >
         <q-input suffix="#" prefix="@" v-model="model" :count="10" />
+      </q-field>
+
+      <p class="caption">Hide Underline</p>
+
+      <q-field>
+        <q-input v-model="model" hide-underline />
+      </q-field>
+
+      <q-field count>
+        <q-input suffix="#" prefix="@" type="password" v-model="model" hide-underline />
+      </q-field>
+
+      <q-field :count="10">
+        <q-input suffix="#" prefix="@" type="textarea" v-model="model" hide-underline />
+      </q-field>
+
+      <q-field
+        icon="cloud"
+      >
+        <q-input suffix="#" prefix="@" v-model="model" hide-underline />
+      </q-field>
+
+      <q-field
+        icon="cloud"
+        helper="Helper"
+      >
+        <q-input suffix="#" prefix="@" v-model="model" :count="10" hide-underline />
       </q-field>
 
       <q-field
@@ -96,6 +166,17 @@
         error="error"
         error-label="Error!"
         label="Horizontal"
+        orientation="horizontal"
+      >
+        <q-input suffix="#" prefix="@" v-model="model" :count="10" />
+      </q-field>
+
+      <q-field
+        icon="warning"
+        helper="Helper"
+        :warning="warning"
+        warning-label="Warning!"
+        label="Horizontal Warning"
         orientation="horizontal"
       >
         <q-input suffix="#" prefix="@" v-model="model" :count="10" />
@@ -298,10 +379,16 @@
         <q-select inverted v-model="select" :options="selectListOptions" float-label="Float label without filter"></q-select>
       </q-field>
     </div>
-    <label class="fixed-bottom-right">
-      <q-checkbox v-model="error" />
-      Error
-    </label>
+    <div class="fixed-bottom-right">
+      <label>
+        <q-checkbox v-model="error" />
+        Error
+      </label>
+      <label>
+        <q-checkbox v-model="warning" />
+        Warning
+      </label>
+    </div>
   </div>
 </template>
 
@@ -311,6 +398,7 @@ export default {
     return {
       option: '',
       error: true,
+      warning: true,
       model: 'Some input',
       modelX: 'sdflkjsbnfkjdabfa dfasldgfa gfg lasdfl gasdf asdfhl asdgfgasdlf hlahf lsadf asdhlf hasdhadlfasdhfadf hasdg lfasdg lfgasdfasdflasdhfgasdljfljasdh fsdkjfgasdf gjasdgfjasdljgasdjk gjlasdfa sdfgasdljf gljasdfgljasd',
       modelY: '',
@@ -357,7 +445,7 @@ export default {
 }
 </script>
 
-<style lang="styl">
+<style lang="stylus">
 .q-field
   // border 1px solid black
   // padding 0

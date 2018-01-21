@@ -8,8 +8,11 @@
       <p class="caption">No Thumbnails</p>
       <q-uploader style="max-width: 320px" no-thumbnails color="amber" :url="url" />
 
+      <q-toggle v-model="inverted" label="Inverted" />
       <p class="caption">Multiple File Upload</p>
       <q-uploader
+        :inverted="inverted"
+        auto-expand
         style="max-width: 320px"
         float-label="Upload files"
         multiple
@@ -24,6 +27,7 @@
         @remove:cancel="removeCancel"
       />
 
+      <q-btn color="primary" @click="pick" style="margin-top: 15px">Pick Files</q-btn>
       <q-btn color="primary" @click="reset" style="margin-top: 15px">Reset the above Uploader</q-btn>
 
       <p class="caption">Single File Upload - No Upload Button</p>
@@ -73,7 +77,7 @@
 
       <div class="absolute-right no-pointer-events">
         <q-btn @click="clear" style="pointer-events: all" color="primary">Clear Debug Log</q-btn>
-        <div v-for="evt in events" :key="evt">
+        <div v-for="evt in events">
           {{evt}}
         </div>
       </div>
@@ -86,10 +90,14 @@ export default {
   data () {
     return {
       url: 'http://1.1.1.195/upload.php',
-      events: []
+      events: [],
+      inverted: false
     }
   },
   methods: {
+    pick () {
+      this.$refs.upld.pick()
+    },
     clear () {
       this.events = []
     },

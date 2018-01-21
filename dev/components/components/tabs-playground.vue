@@ -78,7 +78,7 @@
 
     <q-tabs
       v-for="align in ['left', 'center', 'right', 'justify']"
-      :key="align"
+      :key="`${align}1`"
       v-model="tab"
       :align="align"
       color="purple"
@@ -95,7 +95,7 @@
 
     <q-tabs
       v-for="align in ['left', 'center', 'right', 'justify']"
-      :key="align"
+      :key="`${align}2`"
       :align="align"
       color="secondary"
     >
@@ -110,7 +110,7 @@
 
     <q-tabs
       v-for="align in ['left', 'center', 'right', 'justify']"
-      :key="align"
+      :key="`${align}3`"
       :align="align"
       color="amber"
     >
@@ -145,7 +145,7 @@
 
     <q-tabs
       v-for="align in ['left', 'center', 'right', 'justify']"
-      :key="align"
+      :key="`${align}4`"
       v-model="tab"
       :align="align"
       color="purple"
@@ -162,7 +162,7 @@
 
     <q-tabs
       v-for="align in ['left', 'center', 'right', 'justify']"
-      :key="align"
+      :key="`${align}5`"
       :align="align"
       color="secondary"
       inverted
@@ -178,7 +178,7 @@
 
     <q-tabs
       v-for="align in ['left', 'center', 'right', 'justify']"
-      :key="align"
+      :key="`${align}6`"
       :align="align"
       color="amber"
       inverted
@@ -200,7 +200,84 @@ export default {
     return {
       tab: 'one',
       third: true,
-      alert: true
+      alert: true,
+      align: 'left',
+      position: 'top',
+      inverted: true,
+      twoLines: false,
+      noPaneBorder: false,
+      glossy: false,
+      tabStyles: {
+        height: null,
+        minHeight: null,
+        maxHeight: null
+      },
+      tabs: {
+        tab1: {
+          tabStyles: {
+            height: null,
+            minHeight: null,
+            maxHeight: null
+          },
+          default: true,
+          name: 'Tab 1',
+          count: 1
+        },
+        tab2: {
+          tabStyles: {
+            height: null,
+            minHeight: null,
+            maxHeight: null
+          },
+          name: 'Tab 2',
+          count: 10
+        },
+        tab3: {
+          tabStyles: {
+            height: null,
+            minHeight: null,
+            maxHeight: null
+          },
+          name: 'Tab 3',
+          count: 100
+        },
+        tab4: {
+          tabStyles: {
+            height: null,
+            minHeight: null,
+            maxHeight: null
+          },
+          name: 'Tab4WithVeryLongNameToScroll',
+          count: 100
+        },
+        tab5: {
+          tabStyles: {
+            height: null,
+            minHeight: null,
+            maxHeight: null
+          },
+          name: 'Tab5WithVeryLongNameToScroll',
+          count: 100
+        },
+        tab6: {
+          tabStyles: {
+            height: null,
+            minHeight: null,
+            maxHeight: null
+          },
+          name: 'Tab6WithVeryLongNameToScroll',
+          count: 100
+        },
+        tab7: {
+          tabStyles: {
+            height: null,
+            minHeight: null,
+            maxHeight: null
+          },
+          name: 'Tab7WithVeryLongNameToScroll',
+          count: 100
+        }
+      }
     }
   },
   methods: {

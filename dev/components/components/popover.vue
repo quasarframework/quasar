@@ -8,15 +8,14 @@
       </p>
 
       <div>
-        <q-btn color="primary">
-          <q-icon name="assignment" />
-
-          <q-popover ref="popover1">
+        <q-toggle v-model="toggle" class="z-max fixed-top" />
+        <q-btn color="primary" icon="assignment">
+          <q-popover v-model="toggle" ref="popover1">
             <q-list link separator class="scroll" style="min-width: 100px">
               <q-item
                 v-for="n in 20"
                 :key="n"
-                @click="showToast(), $refs.popover1.close()"
+                @click.native="showNotify(), $refs.popover1.hide()"
               >
                 <q-item-main label="Label" sublabel="Click me" />
               </q-item>
@@ -24,9 +23,7 @@
           </q-popover>
         </q-btn>
 
-        <q-btn ref="target4" color="negative">
-          Disabled Popover
-
+        <q-btn ref="target4" color="negative" label="Disabled Popover">
           <q-popover disable>
             This Popover content won't be shown because of "disable"
           </q-popover>
@@ -34,9 +31,7 @@
 
         <q-card style="margin-top: 75px">
           <q-card-title class="bg-primary text-center">
-            <q-btn push color="orange">
-              Tap Me
-
+            <q-btn push color="orange" label="Tap Me">
               <q-popover
                 ref="popover2"
                 :anchor="anchor"
@@ -46,7 +41,7 @@
                   <q-item
                     v-for="n in 3"
                     :key="n"
-                    @click="showToast(), $refs.popover2.close()"
+                    @click="showNotify(), $refs.popover2.hide()"
                   >
                     <q-item-main label="Label" />
                   </q-item>
@@ -101,46 +96,34 @@
 
         <div style="margin-bottom: 700px;"></div>
 
-        <q-btn color="secondary" class="fixed-top-right" style="top: 65px; right: 10px; right: 16px;">
-          <q-icon name="directions" />
-
+        <q-btn color="secondary" class="fixed-top-right" icon="directions" style="top: 65px; right: 16px;">
           <q-popover ref="popover3">
             <img
               src="~assets/map.png"
               style="height: 150px; width: 200px;"
-              @click="showToast(), $refs.popover3.close()"
+              @click="showNotify(), $refs.popover3.hide()"
             >
           </q-popover>
         </q-btn>
 
-        <q-btn color="tertiary" class="fixed-bottom-right" style="bottom: 10px; right: 16px;">
-          <q-icon name="plus_one" />
-
+        <q-btn color="tertiary" class="fixed-bottom-right" icon="plus_one" style="bottom: 10px; right: 16px;">
           <q-popover ref="popover4">
             <div class="group" style="width: 220px; text-align: center;">
-              <q-btn flat color="primary" @click="showToast(), $refs.popover4.close()">
-                <q-icon name="thumb_up" />
-              </q-btn>
-              <q-btn flat color="primary" @click="showToast(), $refs.popover4.close()">
-                <q-icon name="thumb_down" />
-              </q-btn>
-              <q-btn flat color="secondary" @click="showToast(), $refs.popover4.close()">
-                <q-icon name="share" />
-              </q-btn>
+              <q-btn icon="thumb_up" flat color="primary" @click="showNotify(), $refs.popover4.hide()" />
+              <q-btn icon="thumb_down" flat color="primary" @click="showNotify(), $refs.popover4.hide()" />
+              <q-btn icon="share" flat color="secondary" @click="showNotify(), $refs.popover4.hide()" />
             </div>
           </q-popover>
         </q-btn>
       </div>
 
-      <q-btn color="primary" class="fixed-bottom-left" style="bottom: 10px; left: 10px;">
-        <q-icon name="menu" />
-
+      <q-btn icon="menu" color="primary" class="fixed-bottom-left" style="bottom: 10px; left: 10px;">
         <q-popover ref="popover5">
           <q-list link separator class="scroll" style="min-width: 200px">
             <q-item
               v-for="n in 20"
               :key="n"
-              @click="showToast(), $refs.popover5.close()"
+              @click.native="showNotify(), $refs.popover5.hide()"
             >
               <q-item-main label="Label" sublabel="Click me" />
             </q-item>
@@ -152,13 +135,24 @@
 </template>
 
 <script>
-import { Platform, Toast } from 'quasar'
-
 export default {
   data () {
+    let list = []
+    for (let i = 0; i < 26 * 30; i += 1) {
+      const c = String.fromCharCode(97 + (i % 26))
+      const v = `${c}${c}${c}${c}${c}#${i}`
+      list.push({ label: v, value: v })
+    }
     return {
+      toggle: false,
       anchorOrigin: {vertical: 'bottom', horizontal: 'left'},
-      selfOrigin: {vertical: 'top', horizontal: 'left'}
+      selfOrigin: {vertical: 'top', horizontal: 'left'},
+      terms: '',
+      modelDate: null,
+      model: 30,
+      min: 0,
+      max: 50,
+      list
     }
   },
   computed: {
@@ -170,8 +164,8 @@ export default {
     }
   },
   methods: {
-    showToast () {
-      Toast.create((Platform.is.desktop ? 'Clicked' : 'Tapped') + ' on a Popover item')
+    showNotify () {
+      this.$q.notify((this.$q.platform.is.desktop ? 'Clicked' : 'Tapped') + ' on a Popover item')
     }
   }
 }

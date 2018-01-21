@@ -1,5 +1,5 @@
-$toggle-width           = 42px
-$toggle-height          = 24px
+$toggle-width           = 50px
+$toggle-height          = 32px
 $toggle-span            = 2px
 $toggle-handle-size     = $toggle-height - 2 * $toggle-span
 
@@ -7,14 +7,16 @@ $toggle-handle-size     = $toggle-height - 2 * $toggle-span
   transition all .45s cubic-bezier(.23, 1, .32, 1)
   width 100%
   height $toggle-height
-  color white
-  background-color currentColor
+  color $grey-2
+  background currentColor
   border-radius 16px
-  border 2px solid $grey-3
+  border 2px solid $light
+.q-toggle-base-dark
+  color darken($light, 10%)
 
 .q-toggle-handle
-  background-color white
-  border 1px solid $grey-3
+  background white
+  box-shadow 0 3px 3px rgba(0, 0, 0, .2), 0 0 0 2px $light // @stylint ignore
   transition all 450ms cubic-bezier(.23, 1, .32, 1)
   border-radius 50%
   position absolute
@@ -33,4 +35,5 @@ $toggle-handle-size     = $toggle-height - 2 * $toggle-span
       color currentColor
       border 0
     .q-toggle-handle
+      box-shadow $shadow-2
       left ($toggle-width - $toggle-handle-size - $toggle-span)

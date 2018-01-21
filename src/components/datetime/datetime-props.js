@@ -1,6 +1,3 @@
-import {
-  dayNames, monthNames
-} from '../../utils/date'
 import { isDate } from '../../utils/is'
 
 export const modelValidator = v => {
@@ -36,33 +33,29 @@ export const inline = {
     validator: modelValidator,
     default: null
   },
-  monthNames: {
-    type: Array,
-    default: () => monthNames
+  firstDayOfWeek: Number,
+  format24h: {
+    type: [Boolean, Number],
+    default: 0,
+    validator: v => [true, false, 0].includes(v)
   },
-  dayNames: {
-    type: Array,
-    default: () => dayNames
-  },
-  mondayFirst: Boolean,
-  saturdayFirst: Boolean,
-  format24h: Boolean
+  defaultView: {
+    type: String,
+    validator: v => ['year', 'month', 'day', 'hour', 'minute'].includes(v)
+  }
 }
 
 export const input = {
   format: String,
-  noClear: Boolean,
   placeholder: String,
-  clearLabel: {
-    type: String,
-    default: 'Clear'
+  clearable: Boolean,
+  okLabel: String,
+  cancelLabel: String,
+  defaultSelection: {
+    type: [String, Number, Date],
+    default: null
   },
-  okLabel: {
-    type: String,
-    default: 'Set'
-  },
-  cancelLabel: {
-    type: String,
-    default: 'Cancel'
-  }
+  displayValue: String,
+  disable: Boolean,
+  readonly: Boolean
 }

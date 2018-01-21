@@ -37,9 +37,10 @@
         @mousedown="__animScrollTo(0)"
         @touchstart="__animScrollTo(0)"
         @mouseup="__stopAnimScroll"
+        @mouseleave="__stopAnimScroll"
         @touchend="__stopAnimScroll"
       >
-        <q-icon name="chevron_left"></q-icon>
+        <q-icon :name="$q.icon.tabs.left"></q-icon>
       </div>
       <div
         ref="rightScroll"
@@ -47,9 +48,10 @@
         @mousedown="__animScrollTo(9999)"
         @touchstart="__animScrollTo(9999)"
         @mouseup="__stopAnimScroll"
+        @mouseleave="__stopAnimScroll"
         @touchend="__stopAnimScroll"
       >
-        <q-icon name="chevron_right"></q-icon>
+        <q-icon :name="$q.icon.tabs.right"></q-icon>
       </div>
     </div>
 
@@ -63,7 +65,6 @@
 import { width, css, cssTransform } from '../../utils/dom'
 import { debounce } from '../../utils/debounce'
 import { QIcon } from '../icon'
-import { current as theme } from '../../features/theme'
 
 const
   scrollNavigationSpeed = 5, // in pixels
@@ -71,6 +72,12 @@ const
 
 export default {
   name: 'q-tabs',
+  provide () {
+    return {
+      data: this.data,
+      selectTab: this.selectTab
+    }
+  },
   components: {
     QIcon
   },
@@ -78,7 +85,7 @@ export default {
     value: String,
     align: {
       type: String,
-      default: theme === 'ios' ? 'center' : 'left',
+      default: __THEME__ === 'ios' ? 'center' : 'left',
       validator: v => ['left', 'center', 'right', 'justify'].includes(v)
     },
     position: {
@@ -118,32 +125,29 @@ export default {
       this.data.inverted = v
     }
   },
-  provide () {
-    return {
-      data: this.data,
-      selectTab: this.selectTab
-    }
-  },
   methods: {
-    selectTab (name) {
-      if (this.data.tabName === name) {
+    selectTab (value) {
+      if (this.data.tabName === value) {
         return
       }
 
-      this.data.tabName = name
-      this.$emit('select', name)
+      this.data.tabName = value
+      this.$emit('select', value)
 
-      if (this.value !== name) {
-        this.$emit('input', name)
-      }
+      this.$emit('input', value)
+      this.$nextTick(() => {
+        if (JSON.stringify(value) !== JSON.stringify(this.value)) {
+          this.$emit('change', value)
+        }
+      })
 
-      const el = this.__getTabElByName(name)
+      const el = this.__getTabElByName(value)
 
       if (el) {
         this.__scrollToTab(el)
       }
 
-      if (this.$q.theme !== 'ios') {
+      if (__THEME__ !== 'ios') {
         this.currentEl = el
         this.__repositionBar()
       }
@@ -331,6 +335,9 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
+      if (!this.$refs.scroller) {
+        return
+      }
       this.$refs.scroller.addEventListener('scroll', this.__updateScrollIndicator)
       window.addEventListener('resize', this.__redraw)
 
@@ -338,11 +345,8 @@ export default {
         this.selectTab(this.value)
       }
 
-      // let browser drawing stabilize then
-      setTimeout(() => {
-        this.__redraw()
-        this.__findTabAndScroll(this.data.tabName, true)
-      }, debounceDelay)
+      this.__redraw()
+      this.__findTabAndScroll(this.data.tabName, true)
     })
   },
   beforeDestroy () {
@@ -350,6 +354,8 @@ export default {
     this.__stopAnimScroll()
     this.$refs.scroller.removeEventListener('scroll', this.__updateScrollIndicator)
     window.removeEventListener('resize', this.__redraw)
+    this.__redraw.cancel()
+    this.__updateScrollIndicator.cancel()
   }
 }
 </script>

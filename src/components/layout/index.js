@@ -1,9 +1,17 @@
-import QLayout from './QLayout.vue'
-import QFixedPosition from './QFixedPosition.vue'
-import QSideLink from './QSideLink.vue'
+import QLayout from './QLayout'
+import QLayoutDrawer from './QLayoutDrawer'
+import QLayoutFooter from './QLayoutFooter'
+import QLayoutHeader from './QLayoutHeader'
+import QPage from './QPage'
+import QPageContainer from './QPageContainer'
+import QPageSticky from './QPageSticky'
 
 export {
   QLayout,
-  QFixedPosition,
-  QSideLink
+  QLayoutDrawer,
+  QLayoutFooter,
+  QLayoutHeader,
+  QPage,
+  QPageContainer,
+  QPageSticky
 }

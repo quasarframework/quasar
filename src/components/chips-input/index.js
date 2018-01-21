@@ -1,4 +1,4 @@
-import QChipsInput from './QChipsInput.vue'
+import QChipsInput from './QChipsInput'
 
 export {
   QChipsInput

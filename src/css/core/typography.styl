@@ -1,11 +1,14 @@
 body
-  min-width 200px
+  min-width 100px
   font-family $typography-font-family
   -ms-text-size-adjust 100%
   -webkit-text-size-adjust 100%
   -webkit-font-smoothing antialiased
   -moz-osx-font-smoothing grayscale
   font-smoothing antialiased
+  background $body-background
+  color $body-color
+  min-height 100vh
 
 a
   color $link-color
@@ -18,59 +21,32 @@ a
   &:active, &:hover
     outline-width 0
 
-h1, h2, h3, h4, h5, h6
-  font-weight 400
-  line-height 110%
-  -webkit-font-smoothing antialised
+for $heading, $value in $h-tags
+  {$heading}
+    font-size: $value.size
+    font-weight: $value.weight
+    margin: 0 0 $spaces.md.y
+    if $value.line-height
+      line-height: $value.line-height
+    if $value.letter-spacing
+      letter-spacing: $value.letter-spacing
+    @media screen and (max-width $breakpoint-sm)
+      font-size: ($value.size * .6)
 
-h1
-  font-size 4.2rem
-  letter-spacing -.04em
-  margin 2.1rem 0 1.68rem
-  font-weight 300
-
-h2
-  font-size 3.56rem
-  letter-spacing -.02em
-  margin 1.78rem 0 1.424rem
-
-h3
-  font-size 2.92rem
-  margin 1.46rem 0 1.168rem
-
-h4
-  font-size 2.28rem
-  margin 1.14rem 0 .912rem
-
-h5
-  font-size 1.64rem
-  margin .82rem 0 .656rem
-  -moz-osx-font-smoothing grayscale
-
-h6
-  font-size 1rem
-  letter-spacing .02em
-  margin .5rem 0 .4rem
-  font-weight 500
+for $heading, $value in $headings
+  .q-{$heading}-opacity
+    opacity: $value.opacity
+  .q-{$heading}
+    font-size: $value.size
+    font-weight: $value.weight
+    margin: 0 0 $spaces.md.y
+    if $value.line-height
+      line-height: $value.line-height
+    if $value.letter-spacing
+      letter-spacing: $value.letter-spacing
 
 p
-  font-size 1rem
-  letter-spacing 0
-  margin 0 0 1rem
-  line-height 24px
-  padding 0
-  -webkit-font-smoothing antialiased
-  &.caption
-    font-weight 300
-    &:not(:first-child)
-      margin-top 2rem
-
-.token
-  color opposite-non-color($primary)
-  background alpha($primary, .7)
-  border-radius $generic-border-radius
-  padding 3px 5px
-  font-size 90%
+  margin: 0 0 $spaces.md.y
 
 .uppercase
   text-transform uppercase
@@ -79,26 +55,28 @@ p
 .capitalize
   text-transform capitalize
 
-+prefix-classes('text-')
-  .center
+.text-
+  &center
     text-align center
-  .left
+  &left
     text-align left
-  .right
+  &right
     text-align right
-  .justify
+  &justify
     text-align justify
     hyphens auto
 
-  .italic
+  &italic
     font-style italic
-  .bold
+  &bold
     font-weight bold
 
-.light-paragraph
-  font-weight 300
-.thin-paragraph
-  font-weight 100
+  &no-wrap
+    white-space nowrap
+
+  for $weight, $value in $text-weights
+    &weight-{$weight}
+      font-weight $value
 
 small
   font-size 80%
@@ -109,20 +87,15 @@ sub
 sup
   top -.5em
 
-.strong
-  font-weight bold
-.emphasize
-  font-style italic
-
 blockquote
-  padding 10px 20px
-  margin 0 0 20px
-  font-size 17.5px
-  border-left 5px solid $primary
+  padding: $spaces.sm.y $spaces.md.x
+  margin 0
+  font-size 16px
+  border-left: $spaces.xs.x solid $primary
   &.text-right
-    padding-right 15px
+    padding-right: $spaces.md.x
     padding-left 0
-    border-right 5px solid $primary
+    border-right: $spaces.xs.x solid $primary
     border-left 0
     text-align right
 
@@ -165,8 +138,6 @@ dl
     dd
       margin-left 30%
 
-
-
 ::-webkit-selection,
 ::-moz-selection,
 ::selection
@@ -181,7 +152,3 @@ textarea::selection,
 input::selection
   background alpha($primary, .4)
   color alpha(opposite-non-color($primary), .87)
-
-*:-webkit-full-screen // @stylint ignore
-  width 100%
-  height 100%

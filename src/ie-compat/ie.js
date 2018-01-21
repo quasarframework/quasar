@@ -1,6 +1,10 @@
 /* eslint-disable no-extend-native */
 
-require('es6-promise').polyfill()
+import * as Promise from 'es6-promise-shim'
+
+if (window && !window.Promise) {
+  window.Promise = Promise
+}
 
 if (!Number.isInteger) {
   Number.isInteger = function (value) {

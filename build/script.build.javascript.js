@@ -1,124 +1,214 @@
 process.env.BABEL_ENV = 'production'
 
-var
-  fs = require('fs'),
+const
   path = require('path'),
-  zlib = require('zlib'),
+  fs = require('fs'),
   rollup = require('rollup'),
-  uglify = require('uglify-js'),
+  uglify = require('uglify-es'),
   buble = require('rollup-plugin-buble'),
   json = require('rollup-plugin-json'),
   vue = require('rollup-plugin-vue'),
-  localResolve = require('rollup-plugin-local-resolve'),
-  version = process.env.VERSION || require('../package.json').version,
-  banner =
-    '/*!\n' +
-    ' * Quasar Framework v' + version + '\n' +
-    ' * (c) 2016-present Razvan Stoenescu\n' +
-    ' * Released under the MIT License.\n' +
-    ' */',
+  replace = require('rollup-plugin-replace'),
+  nodeResolve = require('rollup-plugin-node-resolve'),
+  buildConf = require('./build.conf'),
+  buildUtils = require('./build.utils'),
   vueConfig = {
     compileTemplate: true,
     htmlMinifier: {collapseBooleanAttributes: false}
   }
 
+const builds = [
+  {
+    rollup: {
+      input: {
+        input: resolve(`src/index.esm.js`)
+      },
+      output: {
+        file: resolve(`dist/quasar.${buildConf.themeToken}.esm.js`),
+        format: 'es'
+      }
+    },
+    build: { unminified: true }
+  },
+  {
+    rollup: {
+      input: {
+        input: resolve('src/ie-compat/ie.js')
+      },
+      output: {
+        file: resolve('dist/quasar.ie.polyfills.js'),
+        format: 'es'
+      }
+    },
+    build: { unminified: true }
+  },
+  {
+    rollup: {
+      input: {
+        input: resolve('src/ie-compat/ie.js')
+      },
+      output: {
+        file: resolve('dist/umd/quasar.ie.polyfills.umd.js'),
+        format: 'umd'
+      }
+    },
+    build: { minified: true }
+  },
+  {
+    rollup: {
+      input: {
+        input: resolve(`src/index.umd.js`)
+      },
+      output: {
+        file: resolve(`dist/umd/quasar.${buildConf.themeToken}.umd.js`),
+        format: 'umd'
+      }
+    },
+    build: {
+      unminified: true,
+      minified: true
+    }
+  }
+]
+
+addAssets(builds, 'i18n')
+addAssets(builds, 'icons')
+
+build(builds)
+
+/**
+ * Helpers
+ */
+
 function resolve (_path) {
   return path.resolve(__dirname, '..', _path)
 }
 
-build([
-  {
-    entry: resolve('src/index.esm.js'),
-    dest: resolve('dist/quasar.esm.js'),
-    format: 'es'
-  },
-  {
-    entry: resolve('src/ie-compat/ie.js'),
-    dest: resolve('dist/quasar.ie.js'),
-    format: 'es'
-  }
-].map(genConfig))
+function addAssets (builds, type) {
+  const
+    files = fs.readdirSync(resolve(type)),
+    plugins = [ buble() ]
+
+  files.forEach(file => {
+    const name = file.substr(0, file.length - 3).replace(/-([a-z])/g, g => g[1].toUpperCase())
+    builds.push({
+      rollup: {
+        input: {
+          input: resolve(`${type}/${file}`),
+          plugins
+        },
+        output: {
+          file: addExtension(resolve(`dist/umd/${type}.${file}`), 'umd'),
+          format: 'umd',
+          name: `Quasar.${type}.${name}`
+        }
+      },
+      build: {
+        minified: true
+      }
+    })
+  })
+}
+
+function processEntries (entries) {
+  const builds = []
+
+  entries.forEach(entry => {
+    if (entry.rollup.output.file.indexOf(buildConf.themeToken) === -1) {
+      builds.push(entry)
+      return
+    }
+
+    buildConf.themes.forEach(theme => {
+      const clone = JSON.parse(JSON.stringify(entry))
+      clone.rollup.output.file = entry.rollup.output.file.replace(buildConf.themeToken, theme)
+      clone.build.theme = theme
+      builds.push(clone)
+    })
+  })
+
+  return builds
+}
 
 function build (builds) {
-  var
-    built = 0,
-    total = builds.length
-
-  function next () {
-    buildEntry(builds[built]).then(function () {
-      built++
-      if (built < total) {
-        next()
-      }
-    }).catch(function (e) {
-      console.log(e)
-    })
-  }
-
-  next()
+  Promise
+    .all(processEntries(builds).map(genConfig).map(buildEntry))
+    .catch(buildUtils.logError)
 }
 
 function genConfig (opts) {
-  return {
-    entry: opts.entry,
-    dest: opts.dest,
-    format: opts.format,
-    banner: banner,
-    moduleName: 'Quasar',
-    plugins: [
-      localResolve(),
-      json(),
-      vue(vueConfig),
-      buble()
-    ]
+  const theme = opts.build && opts.build.theme
+    ? opts.build.theme
+    : null
+
+  const plugins = opts.rollup.input.plugins || [
+    nodeResolve({
+      extensions: theme
+        ? [`.${theme}.js`, '.js', `.${theme}.vue`, '.vue']
+        : ['.js', '.vue'],
+      preferBuiltins: false
+    }),
+    json(),
+    vue(vueConfig),
+    buble()
+  ]
+
+  if (theme) {
+    plugins.push(
+      replace({
+        '__THEME__': JSON.stringify(theme)
+      })
+    )
   }
+
+  opts.rollup.input.plugins = plugins
+  opts.rollup.output.banner = buildConf.banner
+  opts.rollup.output.name = opts.rollup.output.name || 'Quasar'
+
+  if (opts.rollup.output.format === 'umd') {
+    opts.rollup.input.external = opts.rollup.input.external || []
+    opts.rollup.input.external.push('vue')
+
+    opts.rollup.output.globals = opts.rollup.output.globals || {}
+    opts.rollup.output.globals.vue = 'Vue'
+  }
+
+  return opts
+}
+
+function addExtension (filename, ext = 'min') {
+  const insertionPoint = filename.lastIndexOf('.')
+  return `${filename.slice(0, insertionPoint)}.${ext}${filename.slice(insertionPoint)}`
 }
 
 function buildEntry (config) {
-  const isProd = /min\.js$/.test(config.dest)
-  return rollup.rollup(config).then(bundle => {
-    const code = bundle.generate(config).code
+  return rollup
+    .rollup(config.rollup.input)
+    .then(bundle => bundle.generate(config.rollup.output))
+    .then(({ code }) => {
+      return config.build.unminified
+        ? buildUtils.writeFile(config.rollup.output.file, code)
+        : code
+    })
+    .then(code => {
+      if (!config.build.minified) {
+        return code
+      }
 
-    if (isProd) {
-      var minified = (config.banner ? config.banner + '\n' : '') + uglify.minify(code, {
-        fromString: true,
-        output: {
-          screw_ie8: true,
-          ascii_only: true
-        },
+      const minified = uglify.minify(code, {
         compress: {
           pure_funcs: ['makeMap']
         }
-      }).code
-      return write(config.dest, minified, true)
-    }
+      })
 
-    return write(config.dest, code)
-  })
-}
-
-function write (dest, code, zip) {
-  return new Promise((resolve, reject) => {
-    function report (extra) {
-      console.log((path.relative(process.cwd(), dest)).bold + ' ' + getSize(code).gray + (extra || ''))
-      resolve()
-    }
-
-    fs.writeFile(dest, code, err => {
-      if (err) return reject(err)
-      if (zip) {
-        zlib.gzip(code, (err, zipped) => {
-          if (err) return reject(err)
-          report(' (gzipped: ' + getSize(zipped) + ')')
-        })
+      if (minified.error) {
+        return new Promise((resolve, reject) => reject(minified.error))
       }
-      else {
-        report()
-      }
+
+      return buildUtils.writeFile(
+        addExtension(config.rollup.output.file),
+        buildConf.banner + minified.code,
+        true
+      )
     })
-  })
-}
-
-function getSize (code) {
-  return (code.length / 1024).toFixed(2) + 'kb'
 }

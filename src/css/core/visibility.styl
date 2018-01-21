@@ -23,7 +23,9 @@
   &-3-lines
     -webkit-line-clamp 3
 
-.readonly, [readonly], .disabled, [disabled]
+.readonly
+  cursor default !important
+.disabled, [disabled]
   &, * // @stylint ignore
     cursor not-allowed !important
 .disabled, [disabled]
@@ -53,12 +55,10 @@
   background $dimmed-background !important
 .light-dimmed:after
   background $light-dimmed-background !important
-body
-  &.dimmed, &.light-dimmed
-    &:after
-      z-index $z-body-dimmed !important
-.z-absolute
-  z-index $z-absolute !important
+.z-top
+  z-index $z-top !important
+.z-max
+  z-index $z-max !important
 
 for type in desktop mobile cordova electron ios mat touch within-iframe platform-ios platform-android
   body:not(.{type}) .{type}-only,
@@ -71,6 +71,13 @@ for type in desktop mobile cordova electron ios mat touch within-iframe platform
 
 @media all and (orientation landscape)
   .orientation-portrait
+    display none !important
+
+@media screen
+  .print-only
+    display none !important
+@media print
+  .print-hide
     display none !important
 
 @media (max-width $breakpoint-xs-max)
@@ -101,7 +108,7 @@ for type in desktop mobile cordova electron ios mat touch within-iframe platform
   opacity 0
   transition opacity .12s ease-in
 
-.q-focusable:focus, .q-hoverable:hover
+.q-focusable:focus, body.no-touch .q-hoverable:hover, body.touch .q-hoverable:active
   .q-focus-helper
     opacity .15
 

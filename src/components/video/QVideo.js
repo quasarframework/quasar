@@ -1,27 +1,27 @@
 export default {
   name: 'q-video',
-  functional: true,
   props: {
     src: {
       type: String,
       required: true
     }
   },
-  render (h, ctx) {
-    const
-      data = ctx.data,
-      prop = ctx.props,
-      cls = data.staticClass,
-      iframeData = {
+  computed: {
+    iframeData () {
+      return {
         attrs: {
-          src: prop.src,
+          src: this.src,
           frameborder: '0',
           allowfullscreen: true
         }
       }
-
-    data.staticClass = `q-video${cls ? ` ${cls}` : ''}`
-
-    return h('div', data, [ h('iframe', iframeData) ])
+    }
+  },
+  render (h) {
+    return h('div', {
+      staticClass: 'q-video'
+    }, [
+      h('iframe', this.iframeData)
+    ])
   }
 }

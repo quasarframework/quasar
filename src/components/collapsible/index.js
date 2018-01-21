@@ -1,4 +1,4 @@
-import QCollapsible from './QCollapsible.vue'
+import QCollapsible from './QCollapsible'
 
 export {
   QCollapsible

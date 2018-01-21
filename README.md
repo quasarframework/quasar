@@ -2,16 +2,20 @@
 
 # Quasar Framework
 
-> Build responsive websites and hybrid mobile Apps (that look native!) using same code, with VueJs 2.
+> Build responsive websites, PWAs, hybrid mobile Apps (that look native!) and Electron apps using same code, powered with Vue.
 
 <a href="https://badge.fury.io/js/quasar-framework" target="_blank"><img src="https://badge.fury.io/js/quasar-framework.svg"></a>
 [![Join the chat at https://gitter.im/quasarframework/Lobby](https://badges.gitter.im/quasarframework/Lobby.svg)](https://gitter.im/quasarframework/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 <a href="http://forum.quasar-framework.org" target="_blank"><img src="https://img.shields.io/badge/community-forum-brightgreen.svg"></a>
 
-For bleeding edge (unstable & unreleased to NPM) version of Quasar please see https://github.com/quasarframework/quasar-edge.
+Please submit a PR to https://github.com/quasarframework/quasar-awesome with your website/app/Quasar tutorial/video etc. Thank you!
 
 ## Supporting Quasar
 Quasar Framework is an MIT-licensed open source project. Its ongoing development is made possible thanks to the support by these awesome [backers](https://github.com/rstoenescu/quasar-framework/blob/dev/backers.md). If you'd like to join them, check out [Quasar Framework's Patreon campaign](https://www.patreon.com/quasarframework).
+
+### Proudly sponsored by:
+
+[![Truelogic](http://quasar-framework.org/images/truelogic_logo.png)](http://truelogic.com)
 
 ## Documentation
 

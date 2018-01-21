@@ -1,18 +1,22 @@
 .q-chip
-  height $chip-height
+  min-height $chip-height
   padding $chip-padding-horizontal $chip-padding-vertical
   font-size $chip-font-size
   border $chip-border
   border-radius $chip-border-radius
-  cursor default
-  white-space nowrap
   vertical-align middle
   color $chip-color
   background $chip-background
 
+  &:focus
+    box-shadow $shadow-2
+
   .q-icon
     font-size $chip-icon-size
     line-height 1
+
+  .q-chip-main
+    line-height initial
 
   .q-chip-side
     border-radius 50%
@@ -100,11 +104,16 @@
     background rgba(0, 0, 0, .1)
     opacity .8
     padding 0 5px
+    border-radius inherit
     border-top-right-radius 0
     border-bottom-right-radius 0
 
   &.small
-    height $chip-small-height
+    min-height $chip-small-height
+
+    .q-chip-main
+      padding 4px 0
+      line-height initial
 
     .q-chip-side
       height $chip-small-height

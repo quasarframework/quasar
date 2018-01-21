@@ -1,5 +1,9 @@
-import QCarousel from './QCarousel.vue'
+import QCarousel from './QCarousel'
+import QCarouselSlide from './QCarouselSlide'
+import QCarouselControl from './QCarouselControl'
 
 export {
-  QCarousel
+  QCarousel,
+  QCarouselSlide,
+  QCarouselControl
 }

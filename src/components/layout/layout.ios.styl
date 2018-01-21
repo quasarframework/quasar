@@ -1,56 +1,74 @@
-.layout
+.q-layout
   width 100%
   min-height 100vh
 
-.layout-header
+.q-layout-header
   border-bottom $layout-border
+  &-hidden
+    transform translateY(-110%)
 
-.layout-footer
+.q-layout-footer
   border-top $layout-border
+  &-hidden
+    transform translateY(110%)
 
-.layout-aside
+.q-layout-drawer
   position absolute
   top 0
   bottom 0
   background $layout-aside-background
-  &.fixed
-    z-index $z-side
+  z-index $z-side
   &.on-top
-    z-index $z-fixed-side
-.layout-aside-left
+    z-index $z-fixed-drawer
+.q-layout-drawer-left
   left 0
   width $layout-aside-left-width
+  &.off-screen
+    transform translateX(-100%)
+  &.on-screen
+    transform translateX(0)
   &.fixed
     border-right $layout-border
-.layout-aside-right
+.q-layout-drawer-right
   right 0
   width $layout-aside-right-width
+  &.off-screen
+    transform translateX(100%)
+  &.on-screen
+    transform translateX(0)
   &.fixed
     border-left $layout-border
 
-main, .layout, .layout-header, .layout-footer
+.q-layout, .q-layout-header, .q-layout-footer, .q-layout-page
   position relative
 
-.layout-header, .layout-footer
+.q-layout-header, .q-layout-footer
   color $toolbar-color
   background $toolbar-background
   z-index $z-marginals
 
-.layout-backdrop
-  z-index ($z-fixed-side - 1)
-  background $dimmed-background
+.q-layout-backdrop
+  z-index ($z-fixed-drawer - 1) !important
+  will-change background-color
+.q-layout-backdrop-transition
+  transition background .12s
 
-.layout-side-opener
+.q-layout-drawer-opener
   z-index ($z-marginals + 1)
   height 100vh
   width 15px
 
-body.with-layout-side-opened
-  overflow hidden
-
 body
-  &.cordova.platform-ios, &.demo-site.within-iframe
-    .layout-header > .q-toolbar:first-child, .layout-aside.top-padding
+  &.q-layout-animate .q-layout-transition
+    transition all .12s ease-in
+
+  &.with-layout-drawer-opened
+    overflow hidden
+  &.with-layout-drawer-opened-above
+    overflow-x hidden
+
+  &.cordova.platform-ios
+    .q-layout-header > .q-toolbar:first-child, .q-layout-drawer.top-padding
       padding-top $ios-statusbar-height
       min-height ($toolbar-min-height + $ios-statusbar-height)
 

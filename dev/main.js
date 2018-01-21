@@ -1,37 +1,33 @@
-// DON'T add this imports into your app,
-// at least not in this way!
-require('../src/ie-compat/ie')
-require('../src/css/' + __THEME + '.styl')
-// require('../dist/quasar.' + __THEME + '.rtl.css')
-require('../src/ie-compat/ie.' + __THEME + '.styl')
-// require('../src/ie-compat/ie.' + __THEME + '.rtl.css')
-
 import Vue from 'vue'
 
-// Everything bit is just a hack.
+// "Everything" bit is just a hack.
 // Don't use it in your apps.
 import Quasar, * as Everything from 'quasar'
 
+import App from './App'
 import router from './router'
 
-if (__THEME === 'mat') {
+if (__THEME__ === 'mat') {
   require('quasar-extras/roboto-font')
 }
 import 'quasar-extras/material-icons'
 import 'quasar-extras/ionicons'
 import 'quasar-extras/fontawesome'
 import 'quasar-extras/animate'
+import 'quasar-extras/mdi'
+
+// import iconSet from '../icons/fontawesome'
 
 Vue.use(Quasar, {
   components: Everything,
-  directives: Everything
+  directives: Everything,
+  plugins: Everything// ,
+  // iconSet
 })
 
-Quasar.start(() => {
-  /* eslint-disable no-new */
-  new Vue({
-    el: '#q-app',
-    router,
-    render: h => h(require('./App'))
-  })
+/* eslint-disable no-new */
+new Vue({
+  el: '#q-app',
+  router,
+  render: h => h(App)
 })

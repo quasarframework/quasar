@@ -12,8 +12,12 @@
         </span>
       </p>
 
-      <div class="label bg-secondary text-white">
-        Model <span class="right-detail"><em>{{model}}</em></span>
+      <div class="bg-secondary text-white">
+        Model: <em>{{model}}</em>
+      </div>
+      <q-input v-model="format" float-label="Format string" />
+      <div class="bg-secondary text-white">
+        Formatted: <em>{{modelFormatted}}</em>
       </div>
 
       <p class="caption">
@@ -34,13 +38,23 @@
           </span>
         </small>
       </p>
-      <q-datetime format="YYYY-MMMM-dddd" v-model="model" type="date" align="right" />
-      <q-datetime stack-label="Stack Label" v-model="model" type="date" />
-      <q-datetime float-label="Float Label" v-model="model" type="date" />
+      <q-datetime format="YYYY-MMMM-dddd Do Qo Q" v-model="model" type="date" align="right" />
+      @input<q-datetime @change="value => log('@change', value)" @input="value => log('@input', value)" stack-label="Stack Label" v-model="model" type="date" clearable />
+      @change<q-datetime :value="model" @change="value => { model = value; log('@change', value) }" @input="value => log('@input', value)" stack-label="Stack Label" type="date" clearable />
 
+      <q-datetime @change="value => log('@change', value)" @input="value => log('@input', value)" stack-label="Stack Label" v-model="model" type="date" clearable />
+      <q-datetime float-label="Float Label" v-model="model" type="date" />
+      <q-datetime hide-underline float-label="Float Label (hide underline)" v-model="model" type="date" />
+
+      <q-datetime default-view="month" v-model="model" type="date" float-label="Default view" />
       <q-datetime inverted v-model="model" type="date" />
       <q-datetime inverted color="secondary" stack-label="Stack Label" v-model="model" type="date" />
       <q-datetime inverted color="amber" float-label="Float Label" v-model="model" type="date" />
+
+      <p class="caption">
+        Lazy Input
+      </p>
+      <q-datetime :value="model" @change="val => { model = val; log('@change', val) }" @input="value => log('@input', value)" type="date" clearable />
 
       <p class="caption">
         Time
@@ -57,16 +71,26 @@
       </p>
       <q-datetime v-model="model" type="time" />
 
-      <p class="caption">Time 24hr Format</p>
+      <p class="caption">Time 24hr Format (force)</p>
       <q-datetime v-model="model" type="time" format24h />
 
       <p class="caption">Date & Time</p>
-      <q-datetime @change="onChange" v-model="model" type="datetime" />
+      <q-datetime @change="value => log('@change', value)" v-model="model" type="datetime" />
 
       <p class="caption">Default Selection</p>
       <q-datetime v-model="model" :default-selection="defaultSelection" type="datetime" />
       <q-datetime v-model="model" :default-selection="defaultSelection" type="time" />
 
+      <p class="caption">With explicit popover</p>
+      <q-datetime v-model="model" popover type="date"     float-label="Pick Date" />
+      <q-datetime v-model="model" popover type="time"     float-label="Pick Time" />
+      <q-datetime v-model="model" popover type="datetime" float-label="Pick DateTime" />
+      
+      <p class="caption">With explicit modal</p>
+      <q-datetime v-model="model" modal type="date"     float-label="Pick Date" />
+      <q-datetime v-model="model" modal type="time"     float-label="Pick Time" />
+      <q-datetime v-model="model" modal type="datetime" float-label="Pick DateTime" />
+      
       <p class="caption">With Label</p>
       <q-datetime v-model="model" type="date" label="Pick Date" />
 
@@ -128,7 +152,9 @@
           </span>
         </small>
       </p>
-      <q-inline-datetime v-model="model" type="date" />
+      <q-datetime-picker v-model="model" type="date" @change="value => log('@change', value)" @input="value => log('@input', value)" />
+      <br><br>
+      <q-datetime-picker default-view="year" :value="model" type="date" @change="value => { model = value; log('@change', value) }" @input="value => log('@input', value)" />
 
       <p class="caption">
         Time
@@ -143,31 +169,27 @@
           <span class="mat-only">inside of the clock</span>.
         </small>
       </p>
-      <q-inline-datetime v-model="model" type="time" />
+      <q-datetime-picker v-model="model" type="time" />
 
-      <p class="caption">Time 24hr Format</p>
-      <q-inline-datetime v-model="model" type="time" format24h />
+      <p class="caption">Time 24hr Format (force)</p>
+      <q-datetime-picker v-model="model" type="time" format24h />
 
       <p class="caption">Date & Time</p>
-      <q-inline-datetime @change="onChange" color="secondary" v-model="model" type="datetime" />
+      @input<q-datetime-picker @input="value => log('@input', value)" @change="value => log('@change', value)" color="secondary" v-model="model" type="datetime" />
+      @change<q-datetime-picker :value="model" @input="value => log('@input', value)" @change="value => { model = value; log('@change', value) }" color="secondary" type="datetime" />
 
       <p class="caption">Date - Monday as First</p>
-      <q-inline-datetime v-model="model" monday-first type="date" />
+      <q-datetime-picker v-model="model" monday-first type="date" />
       <p class="caption">Date - Saturday as First</p>
-      <q-inline-datetime v-model="model" saturday-first type="date" />
+      <q-datetime-picker v-model="model" saturday-first type="date" />
 
       <p class="caption">Disabled State</p>
-      <q-inline-datetime disable v-model="model" type="datetime" />
+      <q-datetime-picker disable v-model="model" type="datetime" />
 
       <p class="caption">Readonly State</p>
-      <q-inline-datetime readonly v-model="model" type="datetime" />
+      <q-datetime-picker readonly v-model="model" type="datetime" />
       <p class="caption">Min & Max</p>
-      <q-inline-datetime type="datetime" v-model="minMaxModel" :min="min" :max="max" />
-
-
-      <p class="caption">I18n</p>
-      <q-datetime inverted format="YYYY-MMMM-dddd" v-model="model" type="date" monday-first :day-names="dayNames" :month-names="monthNames" />
-      <q-inline-datetime v-model="model" monday-first type="date" :day-names="dayNames" :month-names="monthNames" />
+      <q-datetime-picker type="datetime" v-model="minMaxModel" :min="min" :max="max" />
     </div>
   </div>
 </template>
@@ -182,20 +204,25 @@ export default {
     return {
       // model: '2016-09-18T10:45:00.000Z',
       model: undefined,
+      // model: 0,
       defaultSelection: '2016-09-18T10:45:00.000Z',
+
+      format: 'MMMM D, YYYY [at] h:mm [[]a[\\]]',
 
       minMaxModel: date.formatDate(day),
 
       min: date.subtractFromDate(day, {days: 5}),
-      max: date.addToDate(day, {days: 4, month: 1, minutes: 10}),
-
-      dayNames: ['Duminica', 'Luni', 'Marti', 'Miercuri', 'Joi', 'Vineri', 'Sambata'],
-      monthNames: ['Ianuarie', 'Februarie', 'Martie', 'Aprilie', 'Mai', 'Iunie', 'Iulie', 'August', 'Septembrie', 'Octombrie', 'Noiembrie', 'Decembrie']
+      max: date.addToDate(day, {days: 4, month: 1, minutes: 10})
+    }
+  },
+  computed: {
+    modelFormatted () {
+      return date.formatDate(this.model, this.format)
     }
   },
   methods: {
-    onChange (val) {
-      console.log('@change', val)
+    log (name, data) {
+      console.log(name, JSON.stringify(data))
     }
   }
 }

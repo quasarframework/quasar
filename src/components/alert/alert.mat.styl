@@ -1,31 +1,21 @@
-.q-alert-container
-  pointer-events none
-
 .q-alert
-  color $alert-color
-  background $alert-background
-  border-radius $alert-border-radius
-  min-width $alert-min-width
-  pointer-events all
+  border-radius $generic-border-radius
+  box-shadow none
 
-.q-alert-icon, .q-alert-content
-  padding $alert-padding
+  .avatar
+    width 32px
+    height 32px
 
-.q-alert-icon
-  font-size 150%
-  background rgba(0, 0, 0, .2)
+.q-alert-side, .q-alert-content
+  padding 12px
+  font-size 16px
 
-.q-alert-close
-  padding 0
-  .q-icon
-    padding .9rem
+.q-alert-side
+  font-size 24px
+  background rgba(0, 0, 0, .1)
 
 .q-alert-actions
-  margin-top .5rem
-  border-top 1px solid rgba(0, 0, 0, .2)
-  padding-top .5rem
-  font-size .8rem
-  span
-    cursor pointer
-  span + span
-    margin-left 16px
+  padding 12px 12px 12px 0
+
+.q-alert-detail
+  font-size 12px

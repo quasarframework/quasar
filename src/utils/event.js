@@ -15,6 +15,11 @@ export function rightClick (e) {
   return false
 }
 
+export function getEventKey (e) {
+  e = getEvent(e)
+  return e.which || e.keyCode
+}
+
 export function position (e) {
   let posx, posy
   e = getEvent(e)
@@ -33,6 +38,11 @@ export function position (e) {
   else if (e.pageX || e.pageY) {
     posx = e.pageX - document.body.scrollLeft - document.documentElement.scrollLeft
     posy = e.pageY - document.body.scrollTop - document.documentElement.scrollTop
+  }
+  else {
+    const offset = targetElement(e).getBoundingClientRect()
+    posx = ((offset.right - offset.left) / 2) + offset.left
+    posy = ((offset.bottom - offset.top) / 2) + offset.top
   }
 
   return {
@@ -116,4 +126,12 @@ export function getMouseWheelDistance (e) {
     pixelX: pX,
     pixelY: pY
   }
+}
+
+export function stopAndPrevent (e) {
+  if (!e) {
+    return
+  }
+  e.preventDefault()
+  e.stopPropagation()
 }

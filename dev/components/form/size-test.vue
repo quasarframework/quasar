@@ -17,13 +17,6 @@
         </div>
 
         <div>
-          <p class="caption">QDialogSelect</p>
-          <q-dialog-select v-model="select" :options="selectOptions" />
-          <q-dialog-select stack-label="Stack Label" v-model="select" :options="selectOptions" />
-          <q-dialog-select float-label="Float Label" v-model="select" :options="selectOptions" />
-        </div>
-
-        <div>
           <p class="caption">QSearch</p>
           <q-search v-model="text" />
           <q-search stack-label="Stack Label" v-model="text" />
@@ -35,6 +28,20 @@
           <q-datetime type="time" v-model="date" />
           <q-datetime type="time" stack-label="Stack Label" v-model="date" />
           <q-datetime type="time" float-label="Float Label" v-model="date" />
+        </div>
+
+        <div>
+          <p class="caption">QDatetime</p>
+          <q-datetime type="date" v-model="date" />
+          <q-datetime type="date" stack-label="Stack Label" v-model="date" />
+          <q-datetime type="date" float-label="Float Label" v-model="date" />
+        </div>
+
+        <div>
+          <p class="caption">QDatetime</p>
+          <q-datetime type="datetime" v-model="date" />
+          <q-datetime type="datetime" stack-label="Stack Label" v-model="date" />
+          <q-datetime type="datetime" float-label="Float Label" v-model="date" />
         </div>
       </div>
 
@@ -55,13 +62,6 @@
         </div>
 
         <div>
-          <p class="caption">QDialogSelect</p>
-          <q-dialog-select inverted v-model="select" :options="selectOptions" />
-          <q-dialog-select inverted stack-label="Stack Label" v-model="select" :options="selectOptions" />
-          <q-dialog-select inverted float-label="Float Label" v-model="select" :options="selectOptions" />
-        </div>
-
-        <div>
           <p class="caption">QSearch</p>
           <q-search inverted v-model="text" />
           <q-search inverted stack-label="Stack Label" v-model="text" />
@@ -73,6 +73,20 @@
           <q-datetime inverted type="time" v-model="date" />
           <q-datetime inverted type="time" stack-label="Stack Label" v-model="date" />
           <q-datetime inverted type="time" float-label="Float Label" v-model="date" />
+        </div>
+
+        <div>
+          <p class="caption">QDatetime</p>
+          <q-datetime inverted type="date" v-model="date" />
+          <q-datetime inverted type="date" stack-label="Stack Label" v-model="date" />
+          <q-datetime inverted type="date" float-label="Float Label" v-model="date" />
+        </div>
+
+        <div>
+          <p class="caption">QDatetime</p>
+          <q-datetime inverted type="datetime" v-model="date" />
+          <q-datetime inverted type="datetime" stack-label="Stack Label" v-model="date" />
+          <q-datetime inverted type="datetime" float-label="Float Label" v-model="date" />
         </div>
       </div>
     </div>

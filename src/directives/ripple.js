@@ -1,7 +1,5 @@
 import { cssTransform, css } from '../utils/dom'
-import Platform from '../features/platform'
 import { position } from '../utils/event'
-import { current as theme } from '../features/theme'
 
 function showRipple (evt, el, stopPropagation) {
   if (stopPropagation) {
@@ -30,37 +28,23 @@ function showRipple (evt, el, stopPropagation) {
 
   animNode.classList.add('q-ripple-animation-enter', 'q-ripple-animation-visible')
   css(animNode, cssTransform(`translate(-50%, -50%) translate(${x}px, ${y}px) scale(.001)`))
-  animNode.dataset.activated = Date.now()
 
   setTimeout(() => {
     animNode.classList.remove('q-ripple-animation-enter')
     css(animNode, cssTransform(`translate(-50%, -50%) translate(${x}px, ${y}px)`))
-  }, 0)
-}
-
-function hideRipple (el) {
-  const ripples = el.getElementsByClassName('q-ripple-animation')
-
-  if (!ripples.length) {
-    return
-  }
-
-  const animNode = ripples[ripples.length - 1]
-  const diff = Date.now() - Number(animNode.dataset.activated)
-
-  setTimeout(() => {
-    animNode.classList.remove('q-ripple-animation-visible')
-
     setTimeout(() => {
-      animNode.parentNode.remove()
-    }, 300)
-  }, Math.max(0, 400 - diff))
+      animNode.classList.remove('q-ripple-animation-visible')
+      setTimeout(() => {
+        animNode.parentNode.remove()
+      }, 300)
+    }, 400)
+  }, 25)
 }
 
 function shouldAbort ({mat, ios}) {
   return (
-    (mat && theme !== 'mat') ||
-    (ios && theme !== 'ios')
+    (mat && __THEME__ !== 'mat') ||
+    (ios && __THEME__ !== 'ios')
   )
 }
 
@@ -71,37 +55,17 @@ export default {
       return
     }
 
-    function show (evt) {
-      if (ctx.enabled) {
-        showRipple(evt, el, modifiers.stop)
+    const ctx = {
+      enabled: value !== false,
+      click (evt) {
+        if (ctx.enabled) {
+          showRipple(evt, el, modifiers.stop)
+        }
       }
     }
-    function hide () {
-      if (ctx.enabled) {
-        hideRipple(el)
-      }
-    }
 
-    const
-      ctx = {enabled: value !== false},
-      h = {}
-
-    if (Platform.is.desktop) {
-      h.mousedown = show
-      h.mouseup = hide
-      h.mouseleave = hide
-    }
-    if (Platform.has.touch) {
-      h.touchstart = show
-      h.touchend = hide
-      h.touchcancel = hide
-    }
-
-    ctx.h = h
     el.__qripple = ctx
-    Object.keys(h).forEach(evt => {
-      el.addEventListener(evt, h[evt], false)
-    })
+    el.addEventListener('click', ctx.click, false)
   },
   update (el, { value, oldValue }) {
     if (el.__qripple && value !== oldValue) {
@@ -114,9 +78,7 @@ export default {
     }
 
     const ctx = el.__qripple
-    Object.keys(ctx.h).forEach(evt => {
-      el.removeEventListener(evt, ctx.h[evt], false)
-    })
+    el.removeEventListener('click', ctx.click, false)
     delete el.__qripple
   }
 }

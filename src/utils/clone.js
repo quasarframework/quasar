@@ -1,3 +1,6 @@
 export default function (data) {
-  return JSON.parse(JSON.stringify(data))
+  const s = JSON.stringify(data)
+  if (s) {
+    return JSON.parse(s)
+  }
 }

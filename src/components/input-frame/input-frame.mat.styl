@@ -2,20 +2,17 @@
   transition $input-frame-transition
 
 .q-if
-  font-size 16px
   min-height 32px
   margin-top 16px
   margin-bottom 8px
   padding-bottom 8px
   color $primary
+  outline 0
 
-  /* Remove browser controller for input type="number" */
-  input::-webkit-outer-spin-button,
-  input::-webkit-inner-spin-button // @stylint ignore
-    -webkit-appearance none
-
+  &:not(.q-if-hide-underline):not(.q-if-inverted)
+    &:before, &:after
+      content ''
   &:before, &:after
-    content ''
     position absolute
     bottom 0
     left 0
@@ -66,22 +63,21 @@
   color rgba(0, 0, 0, .46)
   opacity 0
 .q-if-addon-left
-  padding-right 8px
+  padding-right 1px
 .q-if-addon-right
-  padding-left 8px
+  padding-left 1px
 .q-if-addon-visible
   opacity 1
 
 .q-if-control
   cursor pointer
-  margin-left 8px
   color rgba(0, 0, 0, .54)
   font-size 24px
   &:hover
     opacity .7
 .q-if-control-before
   margin-left 0
-  margin-right 8px
+  margin-right 4px
 
 .q-if-dark
   &:before, .q-if-label, .q-if-control
@@ -99,20 +95,23 @@
   min-height 38px
   border-radius 2px
   padding-top 8px
+  padding-left 8px
+  padding-right 8px
   box-shadow $shadow-1
-  &:before, &:after
-    display none
   .q-if-control
     color white
-  .q-if-control, .q-if-inner
-    margin-left 8px
-    margin-right 8px
 
 .q-if-error
   &:before, &:after, &:not(.q-if-inverted) .q-if-label, .q-if-addon
     color $negative
   &:hover:before
     color lighten($negative, 26%)
+
+.q-if-warning
+  &:before, &:after, &:not(.q-if-inverted) .q-if-label, .q-if-addon
+    color $warning
+  &:hover:before
+    color lighten($warning, 26%)
 
 .q-if-disabled
   cursor not-allowed !important
