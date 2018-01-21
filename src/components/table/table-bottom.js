@@ -5,6 +5,10 @@ import { QIcon } from '../icon'
 export default {
   methods: {
     getBottom (h) {
+      if (this.hideBottom) {
+        return
+      }
+
       if (this.nothingToDisplay) {
         const message = this.filter
           ? this.noResultsLabel || this.$q.i18n.table.noResults
@@ -14,10 +18,6 @@ export default {
           h(QIcon, {props: { name: this.$q.icon.table.warning }}),
           message
         ])
-      }
-
-      if (this.hideBottom) {
-        return
       }
 
       const bottom = this.$scopedSlots.bottom
