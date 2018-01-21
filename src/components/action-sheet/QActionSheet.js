@@ -115,9 +115,9 @@ export default {
           attrs: {
             tabindex: 0
           },
-          nativeOn: {
+          [this.grid ? 'on' : 'nativeOn']: {
             click: () => this.__onOk(action),
-            keydown: (e) => this.__onOk(action)
+            keydown: () => this.__onOk(action)
           }
         }, this.grid
           ? [
@@ -135,6 +135,9 @@ export default {
     },
     __onOk (action) {
       this.hide().then(() => {
+        if (typeof action.handler === 'function') {
+          action.handler()
+        }
         this.$emit('ok', action)
       })
     },
