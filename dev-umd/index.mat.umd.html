@@ -8,8 +8,8 @@
     <meta name="viewport" content="user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1,width=device-width">
 
     <title>Quasar UMD test</title>
-    <link href="dist/umd/quasar.mat.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" rel="stylesheet" type="text/css">
+    <link href="dist/umd/quasar.mat.css" rel="stylesheet" type="text/css">
   </head>
   <body>
     <div id="q-app">
@@ -19,7 +19,7 @@
             <q-btn flat round dense @click="drawerState = !drawerState" icon="menu"></q-btn>
 
             <q-toolbar-title>
-              Quasar UMD test
+              Quasar App - t
               <div slot="subtitle">Running on Quasar v{{ version }}</div>
             </q-toolbar-title>
           </q-toolbar>
@@ -48,23 +48,19 @@
         </q-layout-drawer>
 
         <q-page-container>
-          <my-page></my-page>
+          <q-page padding>
+
+            <!-- page content; replace this entirely -->
+            <div class="column flex-center absolute-full">
+              <div>"npm run test:umd"</div>
+              <div>You need to build & refresh page on each change on Quasar</div>
+              <div>Do not include index.mat.umd.html in your commits</div>
+            </div>
+    
+          </q-page>
         </q-page-container>
       </q-layout>
     </div>
-
-    <script type="text/x-template" id="my-page">
-      <q-page padding>
-
-        <!-- page content; replace this entirely -->
-        <div class="column flex-center absolute-full">
-          <div>"npm run test:umd"</div>
-          <div>You need to build & refresh page on each change on Quasar</div>
-          <div>Do not include index.mat.umd.html in your commits</div>
-        </div>
-
-      </q-page>
-    </script>
 
     <script src="dist/umd/quasar.ie.polyfills.umd.min.js"></script>
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
@@ -73,11 +69,6 @@
 
     <script>
       Quasar.i18n.set(Quasar.i18n.es)
-      Quasar.icons.set(Quasar.icons.fontawesome)
-
-      Vue.component('my-page', {
-        template: '#my-page'
-      })
 
       new Vue({
         el: '#q-app',
