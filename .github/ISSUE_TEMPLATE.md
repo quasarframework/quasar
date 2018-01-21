@@ -12,6 +12,8 @@ Reporting a bug?
 ================
 - Are you sure it isn't already reported? Do a search first! It may have already been answered or even fixed in the development branch (`dev`).
 
+- If you are reporting a bug for Quasar v0.15+, then please try to include a JsFiddle forked from this: https://jsfiddle.net/rstoenescu/waugrryy/
+
 - Are you sure you are reporting to the right repo? If you are not reporting an issue which deals directly with Quasar distributable, then there are [multiple Quasar repos](https://github.com/quasarframework) besides this one:
   -- Quasar CLI: https://github.com/quasarframework/quasar-cli
   -- Quasar Starter Kit (project folder template): https://github.com/quasarframework/quasar-template-default
