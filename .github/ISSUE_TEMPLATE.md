@@ -44,6 +44,9 @@ iOS:
 Android:
 Any other software related to your bug:
 
+### JsFiddle (for Quasar v0.15+ only)
+<!-- Fork this https://jsfiddle.net/rstoenescu/waugrryy/ and fill it in here -->
+
 ### What did you get as the error?
 
 ### What were you expecting?
