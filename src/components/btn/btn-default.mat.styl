@@ -75,11 +75,11 @@
 .q-btn-round
   border-radius 50%
   padding 0
-  box-shadow $button-shadow
   min-height 0
   height 3em
   width 3em
-  box-shadow none
+  &:not(.q-btn-flat):not(.q-btn-outline)
+    box-shadow $button-shadow
 
 .q-btn-dense
   padding .285em

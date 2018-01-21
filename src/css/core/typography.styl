@@ -25,7 +25,6 @@ for $heading, $value in $h-tags
   {$heading}
     font-size: $value.size
     font-weight: $value.weight
-    margin: 0 0 $spaces.md.y
     if $value.line-height
       line-height: $value.line-height
     if $value.letter-spacing
@@ -39,7 +38,6 @@ for $heading, $value in $headings
   .q-{$heading}
     font-size: $value.size
     font-weight: $value.weight
-    margin: 0 0 $spaces.md.y
     if $value.line-height
       line-height: $value.line-height
     if $value.letter-spacing
@@ -47,6 +45,13 @@ for $heading, $value in $headings
 
 p
   margin: 0 0 $spaces.md.y
+
+.caption
+  color $grey-9
+  letter-spacing 0
+  line-height 24px
+  padding 0
+  font-weight 300
 
 .uppercase
   text-transform uppercase

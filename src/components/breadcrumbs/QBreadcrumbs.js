@@ -1,12 +1,8 @@
-const alignMap = {
-  left: 'start',
-  center: 'center',
-  right: 'end',
-  justify: 'between'
-}
+import AlignMixin from '../../mixins/align'
 
 export default {
   name: 'q-breadcrumbs',
+  mixins: [AlignMixin],
   props: {
     color: {
       type: String,
@@ -21,14 +17,12 @@ export default {
       default: '/'
     },
     align: {
-      type: String,
-      default: 'left',
-      validator: v => ['left', 'center', 'right', 'justify'].includes(v)
+      default: 'left'
     }
   },
   computed: {
     classes () {
-      return [`text-${this.color}`, `justify-${alignMap[this.align]}`]
+      return [`text-${this.color}`, this.alignClass]
     }
   },
   render (h) {
