@@ -8,15 +8,15 @@
     <meta name="viewport" content="user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1,width=device-width">
 
     <title>Quasar UMD test</title>
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" rel="stylesheet" type="text/css">
     <link href="dist/umd/quasar.mat.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" rel="stylesheet" type="text/css">
   </head>
   <body>
     <div id="q-app">
       <q-layout view="lHh Lpr fff">
         <q-layout-header>
           <q-toolbar class="glossy">
-            <q-btn flat round dense @click="drawerState = !drawerState" icon="fas fa-bars"></q-btn>
+            <q-btn flat round dense @click="drawerState = !drawerState" icon="menu"></q-btn>
 
             <q-toolbar-title>
               Quasar App - t
@@ -29,19 +29,19 @@
           <q-list no-border link inset-delimiter>
             <q-list-header>Essential Links</q-list-header>
             <q-item @click.native="launch('http://quasar-framework.org')">
-              <q-item-side icon="fas fa-graduation-cap"></q-item-side>
+              <q-item-side icon="school"></q-item-side>
               <q-item-main label="Docs" sublabel="quasar-framework.org"></q-item-main>
             </q-item>
             <q-item @click.native="launch('http://forum.quasar-framework.org')">
-              <q-item-side icon="far fa-clipboard"></q-item-side>
+              <q-item-side icon="forum"></q-item-side>
               <q-item-main label="Forum" sublabel="forum.quasar-framework.org"></q-item-main>
             </q-item>
             <q-item @click.native="launch('https://gitter.im/quasarframework/Lobby')">
-              <q-item-side icon="fas fa-comments"></q-item-side>
+              <q-item-side icon="chat"></q-item-side>
               <q-item-main label="Gitter Channel" sublabel="Quasar Lobby"></q-item-main>
             </q-item>
             <q-item @click.native="launch('https://twitter.com/quasarframework')">
-              <q-item-side icon="fab fa-twitter"></q-item-side>
+              <q-item-side icon="rss feed"></q-item-side>
               <q-item-main label="Twitter" sublabel="@quasarframework"></q-item-main>
             </q-item>
           </q-list>
@@ -57,8 +57,9 @@
       <q-page padding>
 
         <!-- page content; replace this entirely -->
-        <div class="row flex-center absolute-full">
-          "npm run test:umd"
+        <div class="column flex-center absolute-full">
+          <div>"npm run test:umd"</div>
+          <div>You need to build & refresh page on each change on Quasar</div>
         </div>
 
       </q-page>
@@ -68,7 +69,6 @@
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <script src="dist/umd/quasar.mat.umd.js"></script>
     <script src="dist/umd/i18n.es.umd.min.js"></script>
-    <script src="dist/umd/icons.fontawesome.umd.min.js"></script>
 
     <script>
       Quasar.i18n.set(Quasar.i18n.es)
