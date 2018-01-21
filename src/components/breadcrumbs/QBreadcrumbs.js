@@ -40,15 +40,15 @@ export default {
       active = `text-${this.activeColor}`
 
     this.$slots.default.forEach((comp, i) => {
-      if (comp.componentOptions && comp.componentOptions.tag === 'q-breadcrumb-el') {
+      if (comp.componentOptions && comp.componentOptions.tag === 'q-breadcrumbs-el') {
         const middle = i < length
 
         child.push(h('div', {
-          'class': [ middle ? active : color, middle ? 'text-weight-bold' : 'q-breadcrumb-last' ]
+          'class': [ middle ? active : color, middle ? 'text-weight-bold' : 'q-breadcrumbs-last' ]
         }, [ comp ]))
 
         if (middle) {
-          child.push(h('div', { staticClass: `q-breadcrumb-separator`, 'class': color }, [ separator() ]))
+          child.push(h('div', { staticClass: `q-breadcrumbs-separator`, 'class': color }, [ separator() ]))
         }
       }
       else {

@@ -1,7 +1,7 @@
 import QBreadcrumbs from './QBreadcrumbs'
-import QBreadcrumbEl from './QBreadcrumbEl'
+import QBreadcrumbsEl from './QBreadcrumbsEl'
 
 export {
   QBreadcrumbs,
-  QBreadcrumbEl
+  QBreadcrumbsEl
 }
