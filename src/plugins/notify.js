@@ -2,6 +2,7 @@ import { QAlert } from '../components/alert'
 import uid from '../utils/uid'
 import clone from '../utils/clone'
 import { ready } from '../utils/dom'
+import { isSSR } from './platform'
 
 const positionList = [
   'top-left', 'top-right',
@@ -153,9 +154,14 @@ function init ({ $q, Vue }) {
 
 export default {
   create (opts) {
+    if (isSSR) {
+      return
+    }
+
     if (this.__vm !== void 0) {
       return this.__vm.add(opts)
     }
+
     ready(() => {
       setTimeout(() => {
         this.create(opts)
@@ -168,8 +174,10 @@ export default {
     if (this.__installed) { return }
     this.__installed = true
 
-    ready(() => {
-      init.call(this, args)
-    })
+    if (!isSSR) {
+      ready(() => {
+        init.call(this, args)
+      })
+    }
   }
 }

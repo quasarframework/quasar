@@ -1,4 +1,5 @@
 import extend from '../utils/extend'
+import { isSSR } from './platform'
 
 function encode (string) {
   return encodeURIComponent(string)
@@ -100,6 +101,15 @@ export default {
   install ({ $q }) {
     if (this.__installed) { return }
     this.__installed = true
+
+    if (isSSR) {
+      const noop = () => {}
+      this.get = noop
+      this.set = noop
+      this.has = noop
+      this.remove = noop
+      this.all = noop
+    }
 
     $q.cookies = this
   }

@@ -1,9 +1,10 @@
 import { cssTransform } from '../../utils/dom'
 import { between } from '../../utils/format'
+import { isSSR } from '../../plugins/platform'
 
 const
-  xhr = XMLHttpRequest,
-  send = xhr.prototype.send
+  xhr = isSSR ? null : XMLHttpRequest,
+  send = isSSR ? null : xhr.prototype.send
 
 function translate ({p, pos, active, horiz, reverse}) {
   let x = 1, y = 1
@@ -180,10 +181,14 @@ export default {
     highjackAjax(this.start, this.stop)
   },
   beforeDestroy () {
-    clearTimeout(this.timer)
-    restoreAjax()
+    if (!isSSR) {
+      clearTimeout(this.timer)
+      restoreAjax()
+    }
   },
   render (h) {
+    if (isSSR) { return }
+
     return h('div', {
       staticClass: 'q-loading-bar shadow-4',
       'class': this.classes,

@@ -1,4 +1,5 @@
 import { QSpinner } from '../components/spinner'
+import { isSSR } from './platform'
 
 let
   vm,
@@ -19,6 +20,8 @@ const Loading = {
     spinner = QSpinner,
     customClass = false
   } = {}) {
+    if (isSSR) { return }
+
     props.spinner = spinner
     props.message = message
     props.spinnerSize = spinnerSize

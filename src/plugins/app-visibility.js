@@ -1,11 +1,17 @@
+import { isSSR } from './platform'
 
 export default {
-  isVisible: null,
+  appVisible: false,
 
   __installed: false,
   install ({ $q, Vue }) {
     if (this.__installed) { return }
     this.__installed = true
+
+    if (isSSR) {
+      this.appVisible = $q.appVisible = true
+      return
+    }
 
     let prop, evt
 
@@ -23,7 +29,7 @@ export default {
     }
 
     const update = () => {
-      this.isVisible = $q.appVisible = !document[prop]
+      this.appVisible = $q.appVisible = !document[prop]
     }
 
     update()

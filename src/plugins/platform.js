@@ -2,6 +2,8 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-mixed-operators */
 
+export const isSSR = typeof window === 'undefined'
+
 function getUserAgent () {
   return (navigator.userAgent || navigator.vendor || window.opera).toLowerCase()
 }
@@ -170,21 +172,34 @@ const Platform = {
     if (this.__installed) { return }
     this.__installed = true
 
-    Platform.is = getPlatform()
-    Platform.has = {
-      touch: (() => !!('ontouchstart' in document.documentElement) || window.navigator.msMaxTouchPoints > 0)()
-    }
-    Platform.within = {
-      iframe: window.self !== window.top
-    }
-
-    try {
-      if (window.localStorage) {
-        Platform.has.webStorage = true
+    if (isSSR) {
+      Platform.is = { ssr: true }
+      Platform.has = {
+        touch: false,
+        webStorage: false
       }
+      Platform.within = { iframe: false }
     }
-    catch (e) {
-      Platform.has.webStorage = false
+    else {
+      let webStorage
+
+      try {
+        if (window.localStorage) {
+          webStorage = true
+        }
+      }
+      catch (e) {
+        webStorage = false
+      }
+
+      Platform.is = getPlatform()
+      Platform.has = {
+        touch: (() => !!('ontouchstart' in document.documentElement) || window.navigator.msMaxTouchPoints > 0)(),
+        webStorage
+      }
+      Platform.within = {
+        iframe: window.self !== window.top
+      }
     }
 
     $q.platform = Platform

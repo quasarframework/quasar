@@ -1,4 +1,4 @@
-import Platform from './platform'
+import Platform, { isSSR } from './platform'
 
 export default {
   __history: [],
@@ -7,7 +7,7 @@ export default {
 
   __installed: false,
   install () {
-    if (this.__installed || !Platform.is.cordova) {
+    if (this.__installed || !Platform.is.cordova || isSSR) {
       return
     }
 

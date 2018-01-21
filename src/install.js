@@ -1,6 +1,6 @@
 import { version } from '../package.json'
 import { ready } from './utils/dom'
-import Platform from './plugins/platform'
+import Platform, { isSSR } from './plugins/platform'
 import History from './plugins/history'
 import './polyfills'
 import i18n from './i18n'
@@ -38,8 +38,10 @@ export default function (_Vue, opts = {}) {
   i18n.install({ $q, Vue: _Vue, lang: opts.i18n })
   icons.install({ $q, Vue: _Vue, iconSet: opts.iconSet })
 
-  // inject body classes
-  ready(addBodyClasses)
+  if (!isSSR) {
+    // inject body classes
+    ready(addBodyClasses)
+  }
 
   if (opts.directives) {
     Object.keys(opts.directives).forEach(key => {

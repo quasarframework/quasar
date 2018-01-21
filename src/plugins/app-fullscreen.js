@@ -1,11 +1,13 @@
+import { isSSR } from './platform'
 
 export default {
-  isCapable: null,
-  isActive: null,
+  isCapable: false,
+  isActive: false,
   __prefixes: {},
 
-  request (target = document.documentElement) {
+  request (target) {
     if (this.isCapable && !this.isActive) {
+      target = target || document.documentElement
       target[this.__prefixes.request]()
     }
   },
@@ -27,6 +29,11 @@ export default {
   install ({ $q, Vue }) {
     if (this.__installed) { return }
     this.__installed = true
+
+    if (isSSR) {
+      $q.fullscreen = this
+      return
+    }
 
     const request = [
       'requestFullscreen',

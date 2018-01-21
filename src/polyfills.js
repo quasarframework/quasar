@@ -1,4 +1,5 @@
 /* eslint-disable no-extend-native, one-var, no-self-compare */
+import { isSSR } from './plugins/platform'
 
 if (!Array.prototype.includes) {
   Array.prototype.includes = function (searchEl, startFrom) {
@@ -53,7 +54,7 @@ if (!String.prototype.endsWith) {
   }
 }
 
-if (typeof Element.prototype.matches !== 'function') {
+if (!isSSR && typeof Element.prototype.matches !== 'function') {
   Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.mozMatchesSelector || Element.prototype.webkitMatchesSelector || function matches (selector) {
     let
       element = this,
@@ -68,7 +69,7 @@ if (typeof Element.prototype.matches !== 'function') {
   }
 }
 
-if (typeof Element.prototype.closest !== 'function') {
+if (!isSSR && typeof Element.prototype.closest !== 'function') {
   Element.prototype.closest = function closest (selector) {
     let el = this
     while (el && el.nodeType === 1) {
