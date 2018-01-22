@@ -14,10 +14,18 @@
       <p class="caption">
         With Floating Point Precision
         <span class="label inline bg-secondary text-white">
-          Model <span class="right-detail"><em>{{precision}}</em> &nbsp;&nbsp;(0.1 to 1.0)</span>
+          Model <span class="right-detail"><em>{{precision}}</em> &nbsp;&nbsp;(0.1 to 2.0, step 0.01) - decimals set to 1</span>
         </span>
       </p>
-      <q-slider v-model="precision" :min="0.1" :max="1" :step="0.1" :decimals="1"></q-slider>
+      <q-slider v-model="precision" :min="0.1" :max="2" :step="0.01" :decimals="1"></q-slider>
+
+      <p class="caption">
+        With Floating Point Precision
+        <span class="label inline bg-secondary text-white">
+          Model <span class="right-detail"><em>{{precision}}</em> &nbsp;&nbsp;(0.1 to 2.0, step 0.01) - decimals not set (auto 2)</span>
+        </span>
+      </p>
+      <q-slider v-model="precision" :min="0.1" :max="2" :step="0.01"></q-slider>
 
       <p class="caption">
         With Step

@@ -45,10 +45,7 @@ export let SliderMixin = {
       type: Number,
       default: 1
     },
-    decimals: {
-      type: Number,
-      default: 0
-    },
+    decimals: Number,
     snap: Boolean,
     markers: Boolean,
     label: Boolean,
@@ -90,6 +87,9 @@ export let SliderMixin = {
       return this.error
         ? 'negative'
         : this.color || 'primary'
+    },
+    computedDecimals () {
+      return this.decimals !== void 0 ? this.decimals || 0 : (String(this.step).trim('0').split('.')[1] || '').length
     }
   },
   methods: {

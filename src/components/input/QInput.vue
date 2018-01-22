@@ -68,7 +68,7 @@
       :disabled="disable"
       :readonly="readonly"
       :maxlength="maxLength"
-      :step="actualStep"
+      :step="computedStep"
       v-bind="$attrs"
 
       :type="inputType"
@@ -153,7 +153,7 @@ export default {
     noNumberToggle: Boolean,
     readonly: Boolean,
 
-    maxDecimals: Number,
+    decimals: Number,
     step: Number,
     upperCase: Boolean
   },
@@ -225,8 +225,8 @@ export default {
         ? ('' + this.model).length
         : 0
     },
-    actualStep () {
-      return this.step || (this.maxDecimals ? 10 ** -this.maxDecimals : 'any')
+    computedStep () {
+      return this.step || (this.decimals ? 10 ** -this.decimals : 'any')
     }
   },
   methods: {
@@ -264,8 +264,8 @@ export default {
           return
         }
         this.isNumberError = false
-        if (Number.isInteger(this.maxDecimals)) {
-          val = parseFloat(val.toFixed(this.maxDecimals))
+        if (Number.isInteger(this.decimals)) {
+          val = parseFloat(val.toFixed(this.decimals))
         }
       }
       else if (this.upperCase) {

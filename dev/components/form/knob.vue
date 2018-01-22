@@ -22,16 +22,33 @@
         @input="onInput"
       ></q-knob>
 
-      <p class="caption">With Step</p>
-      <div class="group">
-        <q-knob
-          v-model="model"
-          :min="min"
-          :max="max"
-          :step="10"
-        ></q-knob>
+      <p class="caption">With Step ({{min}} to {{max}}, step 10)</p>
+      <q-knob
+        v-model="model"
+        :min="min"
+        :max="max"
+        :step="10"
+      ></q-knob>
 
-        <p class="caption">Styling</p>
+      <p class="caption">With Step ({{min}} to {{maxSmall}}, step 0.01) - decimals set to 1</p>
+      <q-knob
+        v-model="modelSmall"
+        :min="min"
+        :max="maxSmall"
+        :step="0.01"
+        :decimals="1"
+      ></q-knob>
+
+      <p class="caption">With Step ({{min}} to {{maxSmall}}, step 0.01) - decimals not set (auto 2)</p>
+      <q-knob
+        v-model="modelSmall"
+        :min="min"
+        :max="maxSmall"
+        :step="0.01"
+      ></q-knob>
+
+      <p class="caption">Styling</p>
+      <div class="group">
         <q-knob
           v-model="model"
           size="150px"
@@ -112,8 +129,10 @@ export default {
   data () {
     return {
       model: 30,
+      modelSmall: 1.1,
       min: 0,
-      max: 50
+      max: 50,
+      maxSmall: 2
     }
   },
   watch: {
