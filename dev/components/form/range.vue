@@ -15,12 +15,20 @@
       <p class="caption">
         With Floating Point Precision
         <span class="label inline bg-secondary text-white">
-          Model <span class="right-detail"><em>{{precision}}</em> &nbsp;&nbsp;(0.1 to 1.0)</span>
+          Model <span class="right-detail"><em>{{precision}}</em> &nbsp;&nbsp;(0.1 to 2.0, step 0.01) - decimals set to 1</span>
         </span>
       </p>
-      <q-range v-model="precision" :min="0.1" :max="1.0" :step="0.1" :decimals="1"></q-range>
+      <q-range v-model="precision" :min="0.1" :max="2" :step="0.01" :decimals="1"></q-range>
 
-       <p class="caption">
+      <p class="caption">
+        With Floating Point Precision
+        <span class="label inline bg-secondary text-white">
+          Model <span class="right-detail"><em>{{precision}}</em> &nbsp;&nbsp;(0.1 to 2.0, step 0.01) - decimals not set (auto 2)</span>
+        </span>
+      </p>
+      <q-range v-model="precision" :min="0.1" :max="2" :step="0.01"></q-range>
+
+      <p class="caption">
         With Label
         <span class="label inline bg-secondary text-white">
           Model <span class="right-detail"><em>{{label.min}} to {{label.max}}</em> &nbsp;&nbsp;(-20 to 20, step 4)</span>

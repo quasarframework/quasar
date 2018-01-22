@@ -83,7 +83,7 @@ export default {
     __update (event) {
       let
         percentage = getPercentage(event, this.dragging),
-        model = getModel(percentage, this.min, this.max, this.step, this.decimals)
+        model = getModel(percentage, this.min, this.max, this.step, this.computedDecimals)
 
       this.currentPercentage = percentage
       this.model = model
@@ -103,8 +103,8 @@ export default {
       if (this.min >= this.max) {
         console.error('Range error: min >= max', this.$el, this.min, this.max)
       }
-      else if (notDivides((this.max - this.min) / this.step, this.decimals)) {
-        console.error('Range error: step must be a divisor of max - min', this.min, this.max, this.step, this.decimals)
+      else if (notDivides((this.max - this.min) / this.step, this.computedDecimals)) {
+        console.error('Range error: step must be a divisor of max - min', this.min, this.max, this.step, this.computedDecimals)
       }
     },
     __getContent (h) {

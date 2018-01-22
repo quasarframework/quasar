@@ -38,6 +38,7 @@ export default {
       type: Number,
       default: 1
     },
+    decimals: Number,
     disable: Boolean,
     readonly: Boolean
   },
@@ -64,6 +65,9 @@ export default {
     },
     editable () {
       return !this.disable && !this.readonly
+    },
+    computedDecimals () {
+      return this.decimals !== void 0 ? this.decimals || 0 : (String(this.step).trim('0').split('.')[1] || '').length
     }
   },
   data () {
@@ -93,7 +97,9 @@ export default {
         })
       }
       else {
-        this.model = value
+        this.model = this.computedDecimals
+          ? parseFloat(value.toFixed(this.computedDecimals))
+          : value
       }
     }
   },
@@ -164,11 +170,14 @@ export default {
         model = this.min + (angle / 360) * (this.max - this.min),
         modulo = model % this.step
 
-      const value = between(
+      let value = between(
         model - modulo + (Math.abs(modulo) >= this.step / 2 ? (modulo < 0 ? -1 : 1) * this.step : 0),
         this.min,
         this.max
       )
+      value = this.computedDecimals
+        ? parseFloat(value.toFixed(this.computedDecimals))
+        : value
 
       this.model = value
       this.$emit('input', value)

@@ -142,7 +142,7 @@ export default {
           type = dragType.RANGE
           extend(this.dragging, {
             offsetPercentage: percentage,
-            offsetModel: getModel(percentage, this.min, this.max, this.step, this.decimals),
+            offsetModel: getModel(percentage, this.min, this.max, this.step, this.computedDecimals),
             rangeValue: this.dragging.valueMax - this.dragging.valueMin,
             rangePercentage: this.currentMaxPercentage - this.currentMinPercentage
           })
@@ -168,7 +168,7 @@ export default {
     __update (event) {
       let
         percentage = getPercentage(event, this.dragging),
-        model = getModel(percentage, this.min, this.max, this.step, this.decimals),
+        model = getModel(percentage, this.min, this.max, this.step, this.computedDecimals),
         pos
 
       switch (this.dragging.type) {
@@ -250,13 +250,13 @@ export default {
       if (this.min >= this.max) {
         console.error('Range error: min >= max', this.$el, this.min, this.max)
       }
-      else if (notDivides((this.max - this.min) / this.step, this.decimals)) {
+      else if (notDivides((this.max - this.min) / this.step, this.computedDecimals)) {
         console.error('Range error: step must be a divisor of max - min', this.min, this.max, this.step)
       }
-      else if (notDivides((this.model.min - this.min) / this.step, this.decimals)) {
+      else if (notDivides((this.model.min - this.min) / this.step, this.computedDecimals)) {
         console.error('Range error: step must be a divisor of initial value.min - min', this.model.min, this.min, this.step)
       }
-      else if (notDivides((this.model.max - this.min) / this.step, this.decimals)) {
+      else if (notDivides((this.model.max - this.min) / this.step, this.computedDecimals)) {
         console.error('Range error: step must be a divisor of initial value.max - min', this.model.max, this.max, this.step)
       }
     },
