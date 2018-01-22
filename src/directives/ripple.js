@@ -77,8 +77,7 @@ export default {
       return
     }
 
-    const ctx = el.__qripple
-    el.removeEventListener('click', ctx.click, false)
+    el.removeEventListener('click', el.__qripple.click, false)
     delete el.__qripple
   }
 }

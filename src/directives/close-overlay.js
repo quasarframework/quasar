@@ -1,39 +1,21 @@
-
-/* function updateBinding (el, { value, modifiers }) {
-  const ctx = el.__qclose
-} */
-
-/* ,
-  update (el, binding) {
-    if (binding.oldValue !== binding.value) {
-      updateBinding(el, binding)
-    }
-  } */
-
 export default {
   name: 'close-overlay',
   bind (el, binding, vnode) {
-    let vm = vnode.componentInstance
-    while ((vm = vm.$parent)) {
-      const name = vm.$options.name
-      if (name === 'q-popover' || name === 'q-modal') {
-        break
+    const handler = () => {
+      let vm = vnode.componentInstance
+      while ((vm = vm.$parent)) {
+        const name = vm.$options.name
+        if (name === 'q-popover' || name === 'q-modal') {
+          vm.hide()
+          break
+        }
       }
     }
-
-    el.__qclose = {
-      handler () {
-        vm && vm.hide()
-      }
-    }
-  },
-  inserted (el) {
-    let ctx = el.__qclose
-    el.addEventListener('click', ctx.handler)
+    el.__qclose = { handler }
+    el.addEventListener('click', handler)
   },
   unbind (el) {
-    let ctx = el.__qclose
-    el.removeEventListener('click', ctx.handler)
+    el.removeEventListener('click', el.__qclose.handler)
     delete el.__qclose
   }
 }
