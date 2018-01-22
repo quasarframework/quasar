@@ -60,10 +60,7 @@ export default {
       child.push(
         h('div', {
           staticClass: 'modal-buttons',
-          'class': {
-            row: !this.stackButtons,
-            column: this.stackButtons
-          }
+          'class': this.buttonClass
         }, [
           this.$scopedSlots.buttons({
             ok: this.__onOk,
@@ -73,13 +70,7 @@ export default {
       )
     }
     else if (this.ok || this.cancel) {
-      child.push(
-        h(
-          'div',
-          { staticClass: 'modal-buttons row' },
-          this.__getButtons(h)
-        )
-      )
+      child.push(this.__getButtons(h))
     }
 
     return h(QModal, {
@@ -144,6 +135,11 @@ export default {
       return this.cancel === true
         ? this.$q.i18n.label.cancel
         : this.cancel
+    },
+    buttonClass () {
+      return this.stackButtons
+        ? 'column'
+        : 'row'
     }
   },
   methods: {
@@ -208,7 +204,10 @@ export default {
         }))
       }
 
-      return child
+      return h('div', {
+        staticClass: 'modal-buttons',
+        'class': this.buttonClass
+      }, child)
     },
     __onOk () {
       return this.hide().then(data => {
