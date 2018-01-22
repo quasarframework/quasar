@@ -41,20 +41,22 @@ export default {
     if (msg) {
       child.push(
         h('div', {
-          staticClass: 'modal-body modal-scroll'
+          staticClass: 'modal-body modal-message modal-scroll'
         }, [ msg ])
       )
     }
 
-    child.push(
-      h(
-        'div',
-        { staticClass: 'modal-body modal-scroll' },
-        this.hasForm
-          ? (this.prompt ? this.__getPrompt(h) : this.__getOptions(h))
-          : [ this.$slots.default ]
+    if (this.hasForm || this.$slots.body) {
+      child.push(
+        h(
+          'div',
+          { staticClass: 'modal-body modal-scroll' },
+          this.hasForm
+            ? (this.prompt ? this.__getPrompt(h) : this.__getOptions(h))
+            : [ this.$slots.body ]
+        )
       )
-    )
+    }
 
     if (this.$scopedSlots.buttons) {
       child.push(
