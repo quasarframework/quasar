@@ -14,7 +14,7 @@
     :hide-underline="hideUnderline"
     :before="before"
     :after="after"
-    :color="inverted ? frameColor || color : color"
+    :color="computedColor"
 
     :focused="focused"
     :length="length"
@@ -28,7 +28,8 @@
         :closable="editable"
         v-for="(label, index) in model"
         :key="`${label}#${index}`"
-        :color="color"
+        :color="computedChipColor"
+        :text-color="computedChipTextColor"
         @blur.native="__onInputBlur"
         @focus="__clearTimer"
         @focus.native="__clearTimer"
@@ -116,6 +117,24 @@ export default {
     },
     computedAddIcon () {
       return this.addIcon || this.$q.icon.chipsInput.add
+    },
+    computedColor () {
+      return this.inverted ? this.frameColor || this.color : this.color
+    },
+    computedChipColor () {
+      if (this.inverted) {
+        if (this.frameColor) {
+          return this.color
+        }
+        return this.dark !== false ? 'white' : null
+      }
+      return this.color
+    },
+    computedChipTextColor () {
+      if (this.inverted) {
+        return this.frameColor || this.color
+      }
+      return this.dark !== false ? 'white' : null
     }
   },
   methods: {
