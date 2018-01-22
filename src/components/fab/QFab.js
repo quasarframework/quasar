@@ -43,6 +43,7 @@ export default {
           push: this.push,
           flat: this.flat,
           color: this.color,
+          textColor: this.textColor,
           glossy: this.glossy
         },
         on: {
