@@ -35,12 +35,13 @@
       >
         Target area
 
-        <q-context-menu ref="context">
+        <q-context-menu>
           <q-list link separator no-border style="min-width: 150px; max-height: 300px;">
             <q-item
               v-for="n in 10"
               :key="n"
-              @click="showNotify(), $refs.context.hide()"
+              v-close-overlay
+              @click.native="showNotify()"
             >
               <q-item-main label="Label" sublabel="Value" />
             </q-item>

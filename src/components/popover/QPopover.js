@@ -117,7 +117,7 @@ export default {
 
       this.hide(evt)
     },
-    __hide (evt) {
+    __hide () {
       clearTimeout(this.timer)
 
       document.body.removeEventListener('click', this.__bodyHide, true)

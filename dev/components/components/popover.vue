@@ -15,9 +15,25 @@
               <q-item
                 v-for="n in 20"
                 :key="n"
-                @click.native="showNotify(), $refs.popover1.hide()"
+                v-close-overlay
+                @click.native="showNotify()"
               >
                 <q-item-main label="Label" sublabel="Click me" />
+              </q-item>
+            </q-list>
+          </q-popover>
+        </q-btn>
+
+        <q-btn color="primary" icon="map">
+          <q-popover>
+            <q-list link separator class="scroll" style="min-width: 100px">
+              <q-item
+                v-for="n in 20"
+                :key="n"
+                v-close-overlay
+                @click.native="showNotify()"
+              >
+                <q-item-main label="X Label" sublabel="X Click me" />
               </q-item>
             </q-list>
           </q-popover>

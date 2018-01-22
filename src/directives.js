@@ -1,4 +1,5 @@
 import BackToTop from './directives/back-to-top'
+import CloseOverlay from './directives/close-overlay'
 import GoBack from './directives/go-back'
 import Move from './directives/move'
 import Ripple from './directives/ripple'
@@ -10,6 +11,7 @@ import TouchSwipe from './directives/touch-swipe'
 
 export {
   BackToTop,
+  CloseOverlay,
   GoBack,
   Move,
   Ripple,

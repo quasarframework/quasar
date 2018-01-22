@@ -175,7 +175,7 @@ export default {
         this.min,
         this.max
       )
-      
+
       if (this.computedDecimals) {
         value = parseFloat(value.toFixed(this.computedDecimals))
       }
