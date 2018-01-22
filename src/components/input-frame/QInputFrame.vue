@@ -61,10 +61,11 @@
 
 <script>
 import FrameMixin from '../../mixins/input-frame'
+import RegisterInputMixin from '../../mixins/register-input'
 
 export default {
   name: 'q-input-frame',
-  mixins: [FrameMixin],
+  mixins: [FrameMixin, RegisterInputMixin],
   props: {
     topAddons: Boolean,
     focused: Boolean,
@@ -76,9 +77,6 @@ export default {
     return {
       field: {}
     }
-  },
-  inject: {
-    __field: { default: null }
   },
   computed: {
     hasStackLabel () {
@@ -151,17 +149,6 @@ export default {
       if (item.handler) {
         item.handler(evt)
       }
-    }
-  },
-  created () {
-    if (this.__field) {
-      this.field = this.__field
-      this.field.__registerInput(this)
-    }
-  },
-  beforeDestroy () {
-    if (this.__field) {
-      this.field.__unregisterInput()
     }
   }
 }

@@ -1,12 +1,11 @@
 import { QRadio } from '../radio'
 import { QCheckbox } from '../checkbox'
 import { QToggle } from '../toggle'
+import RegisterInputMixin from '../../mixins/register-input'
 
 export default {
   name: 'q-option-group',
-  inject: {
-    __field: { default: null }
-  },
+  mixins: [RegisterInputMixin],
   components: {
     QRadio,
     QCheckbox,
@@ -60,6 +59,12 @@ export default {
           this.$emit('change', value)
         }
       })
+    },
+    __registerInput () {
+      if (this.__field) {
+        this.field = this.__field
+        this.field.__registerInput(this, true)
+      }
     }
   },
   created () {
@@ -71,15 +76,6 @@ export default {
     }
     else if (!isArray) {
       console.error('q-option-group: model should be array in your case')
-    }
-    if (this.__field) {
-      this.field = this.__field
-      this.field.__registerInput(this, true)
-    }
-  },
-  beforeDestroy () {
-    if (this.__field) {
-      this.field.__unregisterInput()
     }
   },
   render (h) {

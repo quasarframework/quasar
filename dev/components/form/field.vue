@@ -419,6 +419,18 @@
       <q-field icon="cloud" :error="error" :warning="warning" label="Field label" helper="Field helper text" error-label="Field error label" :label-width="3">
         <q-knob v-model="knob" :min="knobMin" :max="knobMax" />
       </q-field>
+      <q-field icon="cloud" :error="error" :warning="warning" label="Field label" helper="Field helper text" error-label="Field error label" :label-width="3">
+        <q-option-group
+          type="radio"
+          v-model="model"
+          :options="[
+            { label: 'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ', value: 'op2' },
+            { label: 'Option 3', value: 'op3', color: 'secondary' },
+            { label: 'Option 4', value: 'op4', color: 'amber' }
+          ]"
+        />
+      </q-field>
+
 
       <q-field icon="cloud" :error="error" :warning="warning" label="Field label" helper="Field helper text" error-label="Field error label" :label-width="3">
         <q-input inverted v-model="model" float-label="Float label" />
