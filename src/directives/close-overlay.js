@@ -13,8 +13,6 @@
 export default {
   name: 'close-overlay',
   bind (el, binding, vnode) {
-    console.log('bind')
-
     let vm = vnode.componentInstance
     while ((vm = vm.$parent)) {
       const name = vm.$options.name
@@ -30,12 +28,10 @@ export default {
     }
   },
   inserted (el) {
-    console.log('inserted')
     let ctx = el.__qclose
     el.addEventListener('click', ctx.handler)
   },
   unbind (el) {
-    console.log('unbind')
     let ctx = el.__qclose
     el.removeEventListener('click', ctx.handler)
     delete el.__qclose
