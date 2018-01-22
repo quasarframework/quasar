@@ -175,9 +175,10 @@ export default {
         this.min,
         this.max
       )
-      value = this.computedDecimals
-        ? parseFloat(value.toFixed(this.computedDecimals))
-        : value
+      
+      if (this.computedDecimals) {
+        value = parseFloat(value.toFixed(this.computedDecimals))
+      }
 
       this.model = value
       this.$emit('input', value)
