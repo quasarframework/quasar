@@ -183,6 +183,9 @@ export default {
       this.timer = setTimeout(this.trigger, this.debounce)
     },
     __handleKeypress (e) {
+      if (!this.$refs.popover.showing) {
+        return
+      }
       switch (e.keyCode || e.which) {
         case 38: // up
           this.__moveCursor(-1, e)

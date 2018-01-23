@@ -162,20 +162,22 @@ export default {
       showPass: false,
       showNumber: true,
       model: this.value,
+      watcher: null,
       shadow: {
         val: this.model,
         set: this.__set,
         loading: false,
+        watched: false,
         hasFocus: () => {
           return document.activeElement === this.$refs.input
         },
         register: () => {
-          this.watcher = this.$watch('model', val => {
-            this.shadow.val = val
-          })
+          this.shadow.watched = true
+          this.__watcherRegister()
         },
         unregister: () => {
-          this.watcher()
+          this.shadow.watched = false
+          this.__watcherUnregister()
         },
         getEl: () => {
           return this.$refs.input
@@ -187,6 +189,9 @@ export default {
     value (v) {
       this.model = v
       this.isNumberError = false
+    },
+    isTextarea (v) {
+      this[v ? '__watcherRegister' : '__watcherUnregister']()
     }
   },
   provide () {
@@ -288,19 +293,39 @@ export default {
         const max = this.maxHeight || h
         this.$refs.input.style.minHeight = `${between(h, 19, max)}px`
       }
+    },
+    __watcher (value) {
+      if (this.isTextarea) {
+        this.__updateArea(value)
+      }
+      if (this.shadow.watched) {
+        this.shadow.val = value
+      }
+    },
+    __watcherRegister () {
+      if (!this.watcher) {
+        this.watcher = this.$watch('model', this.__watcher)
+      }
+    },
+    __watcherUnregister (forced) {
+      if (
+        this.watcher &&
+        (forced || (!this.isTextarea && !this.shadow.watched))
+      ) {
+        this.watcher()
+        this.watcher = null
+      }
     }
   },
   mounted () {
     this.__updateArea = frameDebounce(this.__updateArea)
     if (this.isTextarea) {
       this.__updateArea()
-      this.watcher = this.$watch('model', this.__updateArea)
+      this.__watcherRegister()
     }
   },
   beforeDestroy () {
-    if (this.watcher !== void 0) {
-      this.watcher()
-    }
+    this.__watcherUnregister(true)
   }
 }
 </script>
