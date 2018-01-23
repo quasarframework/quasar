@@ -10,6 +10,7 @@
           <div v-for="n in 10">Step 1</div>
           <q-stepper-navigation>
             <q-btn :color="color" @click="$refs.stepper.next()">Continue</q-btn>
+            <q-btn :color="color" @click="$refs.stepper.goToStep('fifth')">Go to Step 4</q-btn>
           </q-stepper-navigation>
         </q-step>
         <q-step error title="Custom channels" subtitle="Alert message">
