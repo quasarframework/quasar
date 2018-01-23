@@ -24,6 +24,7 @@ export default {
     insetSeparator: Boolean,
     noRipple: Boolean,
     collapseIcon: String,
+    opened: Boolean,
 
     dense: Boolean,
     sparse: Boolean,
@@ -144,7 +145,7 @@ export default {
   },
   created () {
     this.$root.$on(eventName, this.__eventHandler)
-    if (this.value) {
+    if (this.opened || this.value) {
       this.show()
     }
   },
