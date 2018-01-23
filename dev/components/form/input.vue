@@ -54,6 +54,16 @@
       </q-card>
 
       <q-card>
+        <q-card-title class="bg-dark text-white q-px-small q-py-smaller">Numeric value: {{JSON.stringify(numberInt)}}, No Number Toggle</q-card-title>
+        <q-card-main>
+          <q-input v-model="numberInt" type="number" prefix="$" float-label="Number (initial int)" @input="onInput" @change="onChange" clearable no-number-toggle />
+          <q-input :value="numberInt" type="number" prefix="$" float-label="Number (initial int, onChange)" @input="onInput" @change="val => { numberInt = val, onChange(val) }" clearable no-number-toggle />
+          <q-input v-model="numberInt" type="number" :decimals="2" prefix="$" float-label="Number (initial int, 2 decimals)" @input="onInput" @change="onChange" clearable no-number-toggle />
+          <q-input :value="numberInt" type="number" :decimals="2" prefix="$" float-label="Number (initial int, 2 decimals, onChange)" @input="onInput" @change="val => { numberInt = val, onChange(val) }" clearable no-number-toggle />
+        </q-card-main>
+      </q-card>
+      
+      <q-card>
         <q-card-title class="bg-dark text-white q-px-small q-py-smaller">Password: {{JSON.stringify(text)}}</q-card-title>
         <q-card-main>
           <q-input v-model="text" type="password" float-label="Password" @input="onInput" @change="onChange" />
