@@ -92,7 +92,7 @@
     ></q-icon>
 
     <q-icon
-      v-if="isNumber && !noNumberToggle && length"
+      v-if="keyboardToggle"
       slot="after"
       :name="$q.icon.input[showNumber ? 'showNumber' : 'hideNumber']"
       class="q-if-control"
@@ -150,7 +150,7 @@ export default {
     },
     clearable: Boolean,
     noPassToggle: Boolean,
-    noNumberToggle: Boolean,
+    numericKeyboardToggle: Boolean,
     readonly: Boolean,
 
     decimals: Number,
@@ -211,6 +211,12 @@ export default {
       if (this.isNumber) {
         return this.$attrs.pattern || '[0-9]*'
       }
+    },
+    keyboardToggle () {
+      return this.$q.platform.is.mobile &&
+        this.isNumber &&
+        this.numericKeyboardToggle &&
+        length
     },
     inputType () {
       if (this.isPassword) {
