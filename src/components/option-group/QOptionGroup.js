@@ -1,11 +1,11 @@
 import { QRadio } from '../radio'
 import { QCheckbox } from '../checkbox'
 import { QToggle } from '../toggle'
-import RegisterInputMixin from '../../mixins/register-input'
+import FieldParentMixin from '../../mixins/field-parent'
 
 export default {
   name: 'q-option-group',
-  mixins: [RegisterInputMixin],
+  mixins: [FieldParentMixin],
   components: {
     QRadio,
     QCheckbox,
