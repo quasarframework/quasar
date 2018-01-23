@@ -466,6 +466,22 @@
       <q-field icon="cloud" :error="error" :warning="warning" label="Field label" helper="Field helper text" error-label="Field error label" :label-width="3">
         <q-select inverted v-model="select" :options="selectListOptions" float-label="Float label" />
       </q-field>
+
+
+      <q-field v-if="cond1" icon="cloud" :error="error" :warning="warning" label="Test field" helper="Field helper text" error-label="Field error label" :label-width="3">
+        <q-input v-if="cond2" v-model="model" placeholder="Test control">
+          <q-autocomplete :static-data="{field: 'value', list: numbers}" />
+        </q-input>
+        <div v-else>Control is not rendered now</div>
+      </q-field>
+      <div class="row">
+        <div class="col-xs-6">
+          <q-toggle v-model="cond1" label="Render test field" />
+        </div>
+        <div class="col-xs-6">
+          <q-toggle v-model="cond2" label="Render test ctrl" />
+        </div>
+      </div>
     </div>
     <div class="fixed-bottom-right">
       <label>
@@ -531,7 +547,9 @@ export default {
           value: 'ora'
         }
       ],
-      numbers: [1, 2, 3, 4, 5, 1111, 2222, 3333, 4444, 5555].map(v => ({ label: String(v), value: v }))
+      numbers: [1, 2, 3, 4, 5, 1111, 2222, 3333, 4444, 5555].map(v => ({ label: String(v), value: v })),
+      cond1: true,
+      cond2: true
     }
   }
 }

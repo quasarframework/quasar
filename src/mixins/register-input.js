@@ -3,18 +3,15 @@ export default {
     __field: { default: null }
   },
   methods: {
-    __registerInput () {
-      if (this.__field) {
-        this.field = this.__field
-        this.field.__registerInput(this)
-      }
+    __registerInput (update) {
+      this.field.__registerInput(this)
     }
   },
-  created () {
-    this.__registerInput()
-  },
-  updated () {
-    this.__registerInput()
+  mounted () {
+    if (this.__field) {
+      this.field = this.__field
+      this.__registerInput()
+    }
   },
   beforeDestroy () {
     if (this.__field) {

@@ -61,10 +61,7 @@ export default {
       })
     },
     __registerInput () {
-      if (this.__field) {
-        this.field = this.__field
-        this.field.__registerInput(this, true)
-      }
+      this.field.__registerInput(this, true)
     }
   },
   created () {
