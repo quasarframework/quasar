@@ -378,6 +378,148 @@
       <q-field icon="cloud">
         <q-select inverted v-model="select" :options="selectListOptions" float-label="Float label without filter"></q-select>
       </q-field>
+
+      <q-field icon="cloud" :error="error" :warning="warning" label="Field label" helper="Field helper text" error-label="Field error label" :label-width="3">
+        <q-input v-model="model" float-label="Float label" />
+      </q-field>
+      <q-field icon="cloud" :error="error" :warning="warning" label="Field label" helper="Field helper text" error-label="Field error label" :label-width="3">
+        <q-chips-input v-model="modelA" float-label="Float label" />
+      </q-field>
+      <q-field icon="cloud" :error="error" :warning="warning" label="Field label" helper="Field helper text" error-label="Field error label" :label-width="3">
+        <q-color v-model="modelC" float-label="Float label" />
+      </q-field>
+      <q-field icon="cloud" :error="error" :warning="warning" label="Field label" helper="Field helper text" error-label="Field error label" :label-width="3">
+        <q-color-picker v-model="modelC" float-label="Float label" />
+      </q-field>
+      <q-field icon="cloud" :error="error" :warning="warning" label="Field label" helper="Field helper text" error-label="Field error label" :label-width="3">
+        <q-search v-model="model" placeholder="Start typing">
+          <q-autocomplete :static-data="{field: 'value', list: numbers}" />
+        </q-search>
+      </q-field>
+      <q-field icon="cloud" :error="error" :warning="warning" label="Field label" helper="Field helper text" error-label="Field error label" :label-width="3">
+        <q-input v-model="model" placeholder="Start typing">
+          <q-autocomplete :static-data="{field: 'value', list: numbers}" />
+        </q-input>
+      </q-field>
+      <q-field icon="cloud" :error="error" :warning="warning" label="Field label" helper="Field helper text" error-label="Field error label" :label-width="3">
+        <q-slider v-model="knob" :min="knobMin" :max="knobMax" />
+      </q-field>
+      <q-field icon="cloud" :error="error" :warning="warning" label="Field label" helper="Field helper text" error-label="Field error label" :label-width="3">
+        <q-datetime v-model="modelD" />
+      </q-field>
+      <q-field icon="cloud" :error="error" :warning="warning" label="Field label" helper="Field helper text" error-label="Field error label" :label-width="12">
+        <q-datetime-picker v-model="modelD" type="datetime" vertical />
+      </q-field>
+      <q-field icon="cloud" :error="error" :warning="warning" label="Field label" helper="Field helper text" error-label="Field error label" :label-width="3">
+        <q-select v-model="select" :options="selectListOptions" float-label="Float label" />
+      </q-field>
+      <q-field icon="cloud" :error="error" :warning="warning" label="Field label" helper="Field helper text" error-label="Field error label" :label-width="3">
+        <q-rating v-model="knob" :max="knobMax" />
+      </q-field>
+      <q-field icon="cloud" :error="error" :warning="warning" label="Field label" helper="Field helper text" error-label="Field error label" :label-width="3">
+        <q-knob v-model="knob" :min="knobMin" :max="knobMax" />
+      </q-field>
+      <q-field icon="cloud" :error="error" :warning="warning" label="Field label" helper="Field helper text" error-label="Field error label" :label-width="3">
+        <q-option-group
+          type="radio"
+          v-model="model"
+          :options="[
+            { label: 'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ', value: 'op2' },
+            { label: 'Option 3', value: 'op3', color: 'secondary' },
+            { label: 'Option 4', value: 'op4', color: 'amber' }
+          ]"
+        />
+      </q-field>
+
+
+      <q-field icon="cloud" :error="error" :warning="warning" label="Field label" helper="Field helper text" error-label="Field error label" :label-width="3">
+        <q-input inverted v-model="model" float-label="Float label" />
+      </q-field>
+      <q-field icon="cloud" :error="error" :warning="warning" label="Field label" helper="Field helper text" error-label="Field error label" :label-width="3">
+        <q-chips-input inverted v-model="modelA" float-label="Float label" />
+      </q-field>
+      <q-field icon="cloud" :error="error" :warning="warning" label="Field label" helper="Field helper text" error-label="Field error label" :label-width="3">
+        <q-chips-input inverted v-model="modelA" float-label="Float label" color="orange" />
+      </q-field>
+      <q-field icon="cloud" :error="error" :warning="warning" label="Field label" helper="Field helper text" error-label="Field error label" :label-width="3">
+        <q-chips-input inverted v-model="modelA" float-label="Float label" color="orange" frame-color="green" />
+      </q-field>
+      <q-field icon="cloud" :error="error" :warning="warning" label="Field label" helper="Field helper text" error-label="Field error label" :label-width="3">
+        <q-chips-input inverted v-model="modelA" float-label="Float label" color="orange" frame-color="white" :dark="false" />
+      </q-field>
+      <q-field icon="cloud" :error="error" :warning="warning" label="Field label" helper="Field helper text" error-label="Field error label" :label-width="3">
+        <q-color inverted v-model="modelC" float-label="Float label" />
+      </q-field>
+      <q-field icon="cloud" :error="error" :warning="warning" label="Field label" helper="Field helper text" error-label="Field error label" :label-width="3">
+        <q-search inverted v-model="model" placeholder="Start typing">
+          <q-autocomplete :static-data="{field: 'value', list: numbers}" />
+        </q-search>
+      </q-field>
+      <q-field icon="cloud" :error="error" :warning="warning" label="Field label" helper="Field helper text" error-label="Field error label" :label-width="3">
+        <q-input inverted v-model="model" placeholder="Start typing">
+          <q-autocomplete :static-data="{field: 'value', list: numbers}" />
+        </q-input>
+      </q-field>
+      <q-field icon="cloud" :error="error" :warning="warning" label="Field label" helper="Field helper text" error-label="Field error label" :label-width="3">
+        <q-datetime inverted v-model="modelD" />
+      </q-field>
+      <q-field icon="cloud" :error="error" :warning="warning" label="Field label" helper="Field helper text" error-label="Field error label" :label-width="3">
+        <q-select inverted v-model="select" :options="selectListOptions" float-label="Float label" />
+      </q-field>
+
+
+      <q-field v-if="cond1" icon="cloud" :error="error" :warning="warning" label="Test field" helper="Field helper text" error-label="Field error label" :label-width="3">
+        <q-input v-if="cond2" v-model="model" placeholder="Test control">
+          <q-autocomplete :static-data="{field: 'value', list: numbers}" />
+        </q-input>
+        <div v-else>Control is not rendered now</div>
+      </q-field>
+      <q-field v-if="cond1" icon="cloud" :error="error" :warning="warning" label="Test field" helper="Field helper text" error-label="Field error label" :label-width="3">
+        <div>
+          <q-input v-if="cond2" v-model="model" placeholder="Test control">
+            <q-autocomplete :static-data="{field: 'value', list: numbers}" />
+          </q-input>
+          <div v-else>Control is not rendered now</div>
+        </div>
+      </q-field>
+      <q-field v-if="cond1" icon="cloud" :error="error" :warning="warning" label="Test field" helper="Field helper text" error-label="Field error label" :label-width="3">
+        <div v-if="cond2">
+          <q-input v-model="model" placeholder="Test control">
+            <q-autocomplete :static-data="{field: 'value', list: numbers}" />
+          </q-input>
+        </div>
+        <div v-else>Control is not rendered now</div>
+      </q-field>
+      <q-field v-if="cond1" icon="cloud" :error="error" :warning="warning" label="Test field" helper="Field helper text" error-label="Field error label" :label-width="3">
+        <div v-if="cond2">
+          <q-input v-if="cond2" v-model="model" placeholder="Test control">
+            <q-autocomplete :static-data="{field: 'value', list: numbers}" />
+          </q-input>
+        </div>
+        <div v-else>Control is not rendered now</div>
+      </q-field>
+      <q-field v-if="cond1" icon="cloud" :error="error" :warning="warning" label="Test field" helper="Field helper text" error-label="Field error label" :label-width="3">
+        <div v-if="cond2">
+          <q-option-group v-if="cond2"
+            type="radio"
+            v-model="model"
+            :options="[
+              { label: 'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ', value: 'op2' },
+              { label: 'Option 3', value: 'op3', color: 'secondary' },
+              { label: 'Option 4', value: 'op4', color: 'amber' }
+            ]"
+          />
+        </div>
+        <div v-else>Control is not rendered now</div>
+      </q-field>
+      <div class="row">
+        <div class="col-xs-6">
+          <q-toggle v-model="cond1" label="Render test field" />
+        </div>
+        <div class="col-xs-6">
+          <q-toggle v-model="cond2" label="Render test ctrl" />
+        </div>
+      </div>
     </div>
     <div class="fixed-bottom-right">
       <label>
@@ -402,6 +544,9 @@ export default {
       model: 'Some input',
       modelX: 'sdflkjsbnfkjdabfa dfasldgfa gfg lasdfl gasdf asdfhl asdgfgasdlf hlahf lsadf asdhlf hasdhadlfasdhfadf hasdg lfasdg lfgasdfasdflasdhfgasdljfljasdh fsdkjfgasdf gjasdgfjasdljgasdjk gjlasdfa sdfgasdljf gljasdfgljasd',
       modelY: '',
+      modelA: ['aaa', 'bbb'],
+      modelC: '#f45',
+      modelD: new Date(),
       numberModel: 5555,
       nullModel: null,
       knob: 10,
@@ -439,7 +584,10 @@ export default {
           rightIcon: 'alarm',
           value: 'ora'
         }
-      ]
+      ],
+      numbers: [1, 2, 3, 4, 5, 1111, 2222, 3333, 4444, 5555].map(v => ({ label: String(v), value: v })),
+      cond1: true,
+      cond2: false
     }
   }
 }

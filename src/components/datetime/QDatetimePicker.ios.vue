@@ -95,11 +95,12 @@ import { position, stopAndPrevent } from '../../utils/event'
 import { css } from '../../utils/dom'
 import { isSameDate, adjustDate } from '../../utils/date'
 import DateMixin from './datetime-mixin'
+import RegisterInputMixin from '../../mixins/register-input'
 import TouchPan from '../../directives/touch-pan'
 
 export default {
   name: 'q-datetime-picker',
-  mixins: [DateMixin],
+  mixins: [DateMixin, RegisterInputMixin],
   directives: {
     TouchPan
   },
