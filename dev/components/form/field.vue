@@ -573,7 +573,7 @@ export default {
       ],
       numbers: [1, 2, 3, 4, 5, 1111, 2222, 3333, 4444, 5555].map(v => ({ label: String(v), value: v })),
       cond1: true,
-      cond2: true
+      cond2: false
     }
   }
 }

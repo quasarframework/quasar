@@ -1,20 +1,22 @@
 export default {
   inject: {
-    __field: { default: null }
+    field: {
+      from: '__field',
+      default: null
+    }
   },
   methods: {
-    __registerInput (update) {
+    __registerInput () {
       this.field.__registerInput(this)
     }
   },
-  mounted () {
-    if (this.__field) {
-      this.field = this.__field
+  beforeMount () {
+    if (this.field) {
       this.__registerInput()
     }
   },
   beforeDestroy () {
-    if (this.__field) {
+    if (this.field) {
       this.field.__unregisterInput()
     }
   }

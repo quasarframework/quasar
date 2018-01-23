@@ -73,11 +73,6 @@ export default {
     focusable: Boolean,
     additionalLength: Boolean
   },
-  data () {
-    return {
-      field: {}
-    }
-  },
   computed: {
     hasStackLabel () {
       return typeof this.stackLabel === 'string' && this.stackLabel.length > 0
@@ -118,11 +113,11 @@ export default {
       return cls
     },
     hasError () {
-      return !!(this.field.error || this.error)
+      return !!((this.field && this.field.error) || this.error)
     },
     hasWarning () {
       // error is the higher priority
-      return !!(!this.hasError && (this.field.warning || this.warning))
+      return !!(!this.hasError && ((this.field && this.field.warning) || this.warning))
     }
   },
   methods: {
