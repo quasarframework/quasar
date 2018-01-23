@@ -63,7 +63,7 @@ export default {
       return ['icon', 'full'].includes(this.inset)
     },
     hasNoInput () {
-      return !this.input.$options || this.input.__needsBottom
+      return !this.input.$options || this.input.__needsBorder
     },
     counter () {
       if (this.count) {

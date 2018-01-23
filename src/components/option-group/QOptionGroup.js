@@ -44,7 +44,7 @@ export default {
         ? (this.type === 'radio' ? 1 : this.value.length)
         : 0
     },
-    __needsBottom () {
+    __needsBorder () {
       return true
     }
   },
