@@ -5,14 +5,9 @@ export default {
       default: null
     }
   },
-  methods: {
-    __registerInput () {
-      this.field.__registerInput(this)
-    }
-  },
   beforeMount () {
     if (this.field) {
-      this.__registerInput()
+      this.field.__registerInput(this)
     }
   },
   beforeDestroy () {

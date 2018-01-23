@@ -111,8 +111,7 @@ export default {
     }
   },
   methods: {
-    __registerInput (vm, needsBottom) {
-      vm.__needsBottom = needsBottom
+    __registerInput (vm) {
       this.input = vm
     },
     __unregisterInput () {

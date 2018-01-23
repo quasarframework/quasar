@@ -498,6 +498,20 @@
         </div>
         <div v-else>Control is not rendered now</div>
       </q-field>
+      <q-field v-if="cond1" icon="cloud" :error="error" :warning="warning" label="Test field" helper="Field helper text" error-label="Field error label" :label-width="3">
+        <div v-if="cond2">
+          <q-option-group v-if="cond2"
+            type="radio"
+            v-model="model"
+            :options="[
+              { label: 'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ', value: 'op2' },
+              { label: 'Option 3', value: 'op3', color: 'secondary' },
+              { label: 'Option 4', value: 'op4', color: 'amber' }
+            ]"
+          />
+        </div>
+        <div v-else>Control is not rendered now</div>
+      </q-field>
       <div class="row">
         <div class="col-xs-6">
           <q-toggle v-model="cond1" label="Render test field" />

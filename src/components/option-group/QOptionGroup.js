@@ -43,6 +43,9 @@ export default {
       return this.value
         ? (this.type === 'radio' ? 1 : this.value.length)
         : 0
+    },
+    __needsBottom () {
+      return true
     }
   },
   methods: {
@@ -59,9 +62,6 @@ export default {
           this.$emit('change', value)
         }
       })
-    },
-    __registerInput () {
-      this.field.__registerInput(this, true)
     }
   },
   created () {
