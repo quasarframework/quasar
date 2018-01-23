@@ -3,7 +3,7 @@
     <div>Page A</div>
 
     <br>
-
+    <p style="width:10000px"> Test super wide for scroll!! lksja dflkjs dl;fkj sal;dfkjasd fhlkhjaskfhlksjadhfkh lhiasdpogshadpfouhaspdfiubhfj jo sdfhpusa hdfphfih asf</p>
     <q-btn @click="$router.push('/layout-quick/a')">Go to A</q-btn>
     <q-btn @click="$router.push('/layout-quick/b')">Go to B</q-btn>
     <q-btn @click="$router.push('/layout-quick/c')">Go to C</q-btn>
@@ -13,6 +13,39 @@
     <q-btn @click="$router.replace('/layout-quick/a')">Replace Go to A</q-btn>
     <q-btn @click="$router.replace('/layout-quick/b')">Replace Go to B</q-btn>
     <q-btn @click="$router.replace('/layout-quick/c')">Replace Go to C</q-btn>
+    <br>Test lots of lines for scroll
+    <br>Test lots of lines for scroll
+    <br>Test lots of lines for scroll
+    <br>Test lots of lines for scroll
+    <br>Test lots of lines for scroll
+    <br>Test lots of lines for scroll
+    <br>Test lots of lines for scroll
+    <br>Test lots of lines for scroll
+    <br>Test lots of lines for scroll
+    <br>Test lots of lines for scroll
+    <br>Test lots of lines for scroll
+    <br>Test lots of lines for scroll
+    <br>Test lots of lines for scroll
+    <br>Test lots of lines for scroll
+    <br>Test lots of lines for scroll
+    <br>Test lots of lines for scroll
+    <br>Test lots of lines for scroll
+    <br>Test lots of lines for scroll
+    <br>Test lots of lines for scroll
+    <br>Test lots of lines for scroll
+    <br>Test lots of lines for scroll
+    <br>Test lots of lines for scroll
+    <br>Test lots of lines for scroll
+    <br>Test lots of lines for scroll
+    <br>Test lots of lines for scroll
+    <br>Test lots of lines for scroll
+    <br>Test lots of lines for scroll
+    <br>Test lots of lines for scroll
+    <br>Test lots of lines for scroll
+    <br>Test lots of lines for scroll
+    <br>Test lots of lines for scroll
+    <br>Test lots of lines for scroll
+    <br>Test lots of lines for scroll
   </q-page>
 </template>
 

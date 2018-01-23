@@ -62,7 +62,7 @@ export default {
     }
   },
   render (h) {
-    return h('div', { staticClass: 'q-layout' }, [
+    return h('div', { staticClass: 'q-layout row fit' }, [
       h(QScrollObservable, {
         on: { scroll: this.__onPageScroll }
       }),

@@ -20,15 +20,18 @@
   flex-wrap wrap-reverse
 
 .col
-  flex-basis 0
+  // commented out values will be auto, this permit flex-grow under more scenarios, 
+  // such as the modal absolute full-screen, which causes the grow to collapse
+  // flex-basis 0
   flex-grow 1
   min-height 1px
   min-width 0
 
-.row
-  > .col
-    max-width 100%
-    width 100%
+// There is no reason to always force rows to 100%, this has already caused bad structure and design in will cause more in the future
+// .row
+//   > .col
+//     max-width 100%
+//     width 100%
 
 for $name, $size in $sizes
   .row > .col-{$name}

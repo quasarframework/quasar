@@ -32,7 +32,7 @@ export default {
   },
   render (h) {
     return h('div', {
-      staticClass: 'q-layout-page-container q-layout-transition',
+      staticClass: 'q-layout-page-container q-layout-transition row col self-stretch',
       style: this.computedStyle
     }, [
       this.$slots.default

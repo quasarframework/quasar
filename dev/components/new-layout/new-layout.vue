@@ -11,14 +11,6 @@
         <q-toggle v-model="toggle" color="amber" dark />
         <q-btn flat round dense icon="menu" @click="right = !right" />
       </q-toolbar>
-      <q-toolbar>
-        <q-btn flat round dense icon="menu" @click="left = !left" />
-        <q-toolbar-title>
-          Header
-          <span slot="subtitle">The Subtiiiitleeee</span>
-        </q-toolbar-title>
-        <q-btn flat round dense icon="menu" @click="right = !right" />
-      </q-toolbar>
       <q-tabs>
         <q-route-tab slot="title" icon="view_quilt" to="/layout-quick/default" replace hide="icon" label="Default" />
         <q-route-tab slot="title" icon="view_day" to="/layout-quick/a" replace hide="label" label="A" />
@@ -28,13 +20,6 @@
     </q-layout-header>
 
     <q-layout-footer v-model="footer" :reveal="footerReveal">
-      <q-toolbar>
-        <q-btn flat round dense icon="menu" @click="left = !left" />
-        <q-toolbar-title>
-          Footer
-        </q-toolbar-title>
-        <q-btn flat round dense icon="menu" @click="right = !right" />
-      </q-toolbar>
       <q-toolbar>
         <q-btn flat round dense icon="menu" @click="left = !left" />
         <q-toolbar-title>
