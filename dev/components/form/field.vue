@@ -474,6 +474,30 @@
         </q-input>
         <div v-else>Control is not rendered now</div>
       </q-field>
+      <q-field v-if="cond1" icon="cloud" :error="error" :warning="warning" label="Test field" helper="Field helper text" error-label="Field error label" :label-width="3">
+        <div>
+          <q-input v-if="cond2" v-model="model" placeholder="Test control">
+            <q-autocomplete :static-data="{field: 'value', list: numbers}" />
+          </q-input>
+          <div v-else>Control is not rendered now</div>
+        </div>
+      </q-field>
+      <q-field v-if="cond1" icon="cloud" :error="error" :warning="warning" label="Test field" helper="Field helper text" error-label="Field error label" :label-width="3">
+        <div v-if="cond2">
+          <q-input v-model="model" placeholder="Test control">
+            <q-autocomplete :static-data="{field: 'value', list: numbers}" />
+          </q-input>
+        </div>
+        <div v-else>Control is not rendered now</div>
+      </q-field>
+      <q-field v-if="cond1" icon="cloud" :error="error" :warning="warning" label="Test field" helper="Field helper text" error-label="Field error label" :label-width="3">
+        <div v-if="cond2">
+          <q-input v-if="cond2" v-model="model" placeholder="Test control">
+            <q-autocomplete :static-data="{field: 'value', list: numbers}" />
+          </q-input>
+        </div>
+        <div v-else>Control is not rendered now</div>
+      </q-field>
       <div class="row">
         <div class="col-xs-6">
           <q-toggle v-model="cond1" label="Render test field" />
