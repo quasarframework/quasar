@@ -33,7 +33,15 @@ export default {
     },
     defaultSelection: {
       type: [String, Object],
-      default: '#000000'
+      default: null
+    },
+    forceHex: {
+      type: Boolean,
+      default: null
+    },
+    forceAlpha: {
+      type: Boolean,
+      default: null
     },
     displayValue: String,
     placeholder: String,
@@ -142,10 +150,11 @@ export default {
         h(QColorPicker, {
           staticClass: `no-border${modal ? ' full-width' : ''}`,
           props: extend({
-            color: this.color,
-            value: this.model,
+            value: this.model || '#000',
             disable: this.disable,
-            readonly: this.readonly
+            readonly: this.readonly,
+            forceHex: this.forceHex,
+            forceAlpha: this.forceAlpha
           }, this.$attrs),
           on: {
             input: v => this.$nextTick(() => this.__setModel(v))

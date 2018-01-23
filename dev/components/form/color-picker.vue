@@ -55,7 +55,13 @@
       <h4>Lazy Input</h4>
       <q-color :value="inputModelHex" @change="val => { inputModelHex = val; log('@change', val)}" @input="value => log('@input', value)" clearable />
       <q-color :value="inputModelRgb" @change="val => inputModelRgb = val" clearable />
-      
+
+      <h4>Force Alpha / Force RGB: <small>{{modelVar}}</small></h4>
+      <q-color v-model="modelVar" float-label="forceHex true - forceAlpha true" clearable :force-hex="true" :force-alpha="true" @input="value => log('@input', value)" @change="value => log('@change', value)" />
+      <q-color v-model="modelVar" float-label="forceHex true - forceAlpha false" clearable :force-hex="true" :force-alpha="false" @input="value => log('@input', value)" @change="value => log('@change', value)" />
+      <q-color v-model="modelVar" float-label="forceHex false - forceAlpha true" clearable :force-hex="false" :force-alpha="true" @input="value => log('@input', value)" @change="value => log('@change', value)" />
+      <q-color v-model="modelVar" float-label="forceHex false - forceAlpha false" clearable :force-hex="false" :force-alpha="false" @input="value => log('@input', value)" @change="value => log('@change', value)" />
+
       <h4>Explicit Popover or Modal</h4>
       <q-color         v-model="inputModelRgb" float-label="RGB Default" />
       <q-color popover v-model="inputModelRgb" float-label="RGB Popover" />
@@ -105,6 +111,7 @@ export default {
       modelHexa: '#FF00FFCC',
       modelRgb: { r: 0, g: 0, b: 0 },
       modelRgba: { r: 255, g: 0, b: 255, a: 100 },
+      modelVar: '#FF00FF',
       inputModelHex: null,
       inputModelRgb: { r: 245, g: 20, b: 150 }
     }

@@ -19,9 +19,13 @@ export default {
       type: [String, Object],
       required: true
     },
-    color: {
-      type: String,
-      default: 'primary'
+    forceHex: {
+      type: Boolean,
+      default: null
+    },
+    forceAlpha: {
+      type: Boolean,
+      default: null
     },
     disable: Boolean,
     readonly: Boolean
@@ -53,20 +57,26 @@ export default {
     isHex () {
       return typeof this.value === 'string'
     },
-    isRgb () {
-      return !this.isHex
+    isOutputHex () {
+      if (this.forceHex !== null) {
+        return this.forceHex
+      }
+      return this.isHex
     },
     editable () {
       return !this.disable && !this.readonly
     },
     hasAlpha () {
+      if (this.forceAlpha !== null) {
+        return this.forceAlpha
+      }
       return this.isHex
         ? this.value.length > 7
         : this.value.a !== void 0
     },
     swatchStyle () {
       return {
-        backgroundColor: `rgba(${this.model.r},${this.model.g},${this.model.b},${this.model.a / 100})`
+        backgroundColor: `rgba(${this.model.r},${this.model.g},${this.model.b},${(this.model.a === void 0 ? 100 : this.model.a) / 100})`
       }
     },
     saturationStyle () {
@@ -86,9 +96,6 @@ export default {
         inp.push('a')
       }
       return inp
-    },
-    rgbColor () {
-      return `rgb(${this.model.r},${this.model.g},${this.model.b})`
     }
   },
   created () {
@@ -349,16 +356,14 @@ export default {
       this.__update(rgb, hex, change)
     },
     __update (rgb, hex, change) {
-      const value = this.isHex ? hex : rgb
+      const value = this.isOutputHex ? hex : rgb
 
       // update internally
       this.model.hex = hex
       this.model.r = rgb.r
       this.model.g = rgb.g
       this.model.b = rgb.b
-      if (this.hasAlpha) {
-        this.model.a = rgb.a
-      }
+      this.model.a = this.hasAlpha ? rgb.a : void 0
 
       // emit new value
       this.$emit('input', value)
@@ -372,15 +377,11 @@ export default {
       this.view = this.view === 'hex' ? 'rgba' : 'hex'
     },
     __parseModel (v) {
-      let model
-      if (typeof v === 'string') {
-        model = hexToRgb(v)
-        model.hex = v
+      let model = typeof v === 'string' ? hexToRgb(v) : clone(v)
+      if (this.forceAlpha === (model.a === void 0)) {
+        model.a = this.forceAlpha ? 100 : void 0
       }
-      else {
-        model = clone(v)
-        model.hex = rgbToHex(v)
-      }
+      model.hex = rgbToHex(model)
       return extend({ a: 100 }, model, rgbToHsv(model))
     },
 
