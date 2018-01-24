@@ -13,7 +13,7 @@ export default {
     nodes: Array,
     nodeKey: {
       type: String,
-      default: 'id'
+      required: true
     },
 
     color: {
@@ -41,7 +41,8 @@ export default {
     filterMethod: {
       type: Function,
       default (node, filter) {
-        return node.label && node.label.indexOf(filter) > -1
+        const filt = filter.toLowerCase()
+        return node.label && node.label.toLowerCase().indexOf(filt) > -1
       }
     },
 
@@ -81,7 +82,7 @@ export default {
           isLeaf = !isParent,
           selectable = !node.disabled && this.hasSelection && node.selectable !== false,
           expandable = !node.disabled && node.expandable !== false,
-          hasTicking = tickStrategy !== 'none',
+          hasTicking = tickStrategy !== void 0 && tickStrategy !== 'none',
           strictTicking = tickStrategy === 'strict',
           leafFilteredTicking = tickStrategy === 'leaf-filtered',
           leafTicking = tickStrategy === 'leaf' || tickStrategy === 'leaf-filtered'
@@ -325,6 +326,9 @@ export default {
       if (emit) {
         this.$emit(`update:expanded`, target)
       }
+      else {
+        this.innerExpanded = target
+      }
     },
     isTicked (key) {
       return key && this.meta[key]
@@ -445,9 +449,11 @@ export default {
                   staticClass: 'q-tree-arrow q-mr-xs transition-generic',
                   'class': { 'rotate-90': meta.expanded },
                   props: { name: this.computedIcon },
-                  nativeOn: this.hasSelection
-                    ? { click: e => { this.__onExpandClick(node, meta, e) } }
-                    : undefined
+                  nativeOn: {
+                    click: e => {
+                      this.__onExpandClick(node, meta, e)
+                    }
+                  }
                 })
                 : null
             ),
