@@ -81,6 +81,9 @@ export default {
     canGoToNext () {
       return this.infinite ? this.slidesNumber > 1 : this.slide < this.slidesNumber - 1
     },
+    computedQuickNavIcon () {
+      return this.quickNavIcon || this.$q.icon.carousel.quickNav
+    },
     computedStyle () {
       if (!this.inFullscreen && this.height) {
         return `height: ${this.height}`
@@ -300,7 +303,7 @@ export default {
             key: i,
             'class': { inactive: i !== this.slide },
             props: {
-              icon: this.quickNavIcon || this.$q.icon.carousel.quickNav,
+              icon: this.computedQuickNavIcon,
               round: true,
               flat: true,
               dense: true,
