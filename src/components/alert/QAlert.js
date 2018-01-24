@@ -54,7 +54,7 @@ export default {
         'class': this.classes
       }, [
         side.length
-          ? h('div', { staticClass: 'q-alert-side row col-auto flex-center' }, side)
+          ? h('div', { staticClass: 'q-alert-side col-auto row flex-center' }, side)
           : null,
         h('div', {
           staticClass: 'q-alert-content col self-center'
@@ -64,7 +64,7 @@ export default {
         ]),
         this.actions && this.actions.length
           ? h('div', {
-            staticClass: 'q-alert-actions col-auto gutter-xs'
+            staticClass: 'q-alert-actions col-auto gutter-xs column flex-center'
           },
           this.actions.map(action =>
             h('div', [
