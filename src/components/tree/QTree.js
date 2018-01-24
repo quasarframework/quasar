@@ -28,6 +28,7 @@ export default {
 
     tickStrategy: {
       type: String,
+      default: 'none',
       validator: v => ['none', 'strict', 'leaf', 'leaf-filtered'].includes(v)
     },
     ticked: Array, // sync
@@ -82,7 +83,7 @@ export default {
           isLeaf = !isParent,
           selectable = !node.disabled && this.hasSelection && node.selectable !== false,
           expandable = !node.disabled && node.expandable !== false,
-          hasTicking = tickStrategy !== void 0 && tickStrategy !== 'none',
+          hasTicking = tickStrategy !== 'none',
           strictTicking = tickStrategy === 'strict',
           leafFilteredTicking = tickStrategy === 'leaf-filtered',
           leafTicking = tickStrategy === 'leaf' || tickStrategy === 'leaf-filtered'
