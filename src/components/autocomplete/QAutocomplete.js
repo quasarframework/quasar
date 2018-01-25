@@ -183,9 +183,6 @@ export default {
       this.timer = setTimeout(this.trigger, this.debounce)
     },
     __handleKeypress (e) {
-      if (!this.$refs.popover.showing) {
-        return
-      }
       switch (e.keyCode || e.which) {
         case 38: // up
           this.__moveCursor(-1, e)
@@ -194,8 +191,10 @@ export default {
           this.__moveCursor(1, e)
           break
         case 13: // enter
-          this.setCurrentSelection()
-          stopAndPrevent(e)
+          if (this.$refs.popover.showing) {
+            this.setCurrentSelection()
+            stopAndPrevent(e)
+          }
           break
         case 27: // escape
           this.__clearSearch()
