@@ -261,7 +261,7 @@ export default {
       this.focus()
       this.__set(val || (this.isNumber ? null : ''), true)
     },
-    __set (e, force) {
+    __set (e, forceUpdate) {
       let val = e && e.target ? e.target.value : e
 
       if (this.isNumber) {
@@ -269,7 +269,7 @@ export default {
         val = parseFloat(val)
         if (isNaN(val)) {
           this.isNumberError = true
-          if (force) {
+          if (forceUpdate) {
             this.$emit('input', forcedValue)
           }
           return
@@ -307,10 +307,10 @@ export default {
         this.watcher = this.$watch('model', this.__watcher)
       }
     },
-    __watcherUnregister (forced) {
+    __watcherUnregister (forceUnregister) {
       if (
         this.watcher &&
-        (forced || (!this.isTextarea && !this.shadow.watched))
+        (forceUnregister || (!this.isTextarea && !this.shadow.watched))
       ) {
         this.watcher()
         this.watcher = null
