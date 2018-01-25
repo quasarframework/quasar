@@ -51,6 +51,18 @@
       <q-datetime inverted color="secondary" stack-label="Stack Label" v-model="model" type="date" />
       <q-datetime inverted color="amber" float-label="Float Label" v-model="model" type="date" />
 
+      <p class="caption">Format Model</p>
+      <div class="bg-secondary text-white">
+        Model: <em>{{modelVar}}</em> <strong>{{modelVarType}}</strong>
+      </div>
+      <div class="bg-secondary text-white">
+        Formatted: <em>{{modelVarFormatted}}</em>
+      </div>
+      <q-datetime @change="value => log('@change', value)" @input="value => log('@input', value)" v-model="modelVar" type="date" clearable stack-label="Format Model 'auto'" format-model="auto" />
+      <q-datetime @change="value => log('@change', value)" @input="value => log('@input', value)" v-model="modelVar" type="date" clearable stack-label="Format Model 'date'" format-model="date" />
+      <q-datetime @change="value => log('@change', value)" @input="value => log('@input', value)" v-model="modelVar" type="date" clearable stack-label="Format Model 'number'" format-model="number" />
+      <q-datetime @change="value => log('@change', value)" @input="value => log('@input', value)" v-model="modelVar" type="date" clearable stack-label="Format Model 'string'" format-model="string" />
+
       <p class="caption">
         Lazy Input
       </p>
@@ -85,12 +97,12 @@
       <q-datetime v-model="model" popover type="date"     float-label="Pick Date" />
       <q-datetime v-model="model" popover type="time"     float-label="Pick Time" />
       <q-datetime v-model="model" popover type="datetime" float-label="Pick DateTime" />
-      
+
       <p class="caption">With explicit modal</p>
       <q-datetime v-model="model" modal type="date"     float-label="Pick Date" />
       <q-datetime v-model="model" modal type="time"     float-label="Pick Time" />
       <q-datetime v-model="model" modal type="datetime" float-label="Pick DateTime" />
-      
+
       <p class="caption">With Label</p>
       <q-datetime v-model="model" type="date" label="Pick Date" />
 
@@ -204,6 +216,7 @@ export default {
     return {
       // model: '2016-09-18T10:45:00.000Z',
       model: undefined,
+      modelVar: undefined,
       // model: 0,
       defaultSelection: '2016-09-18T10:45:00.000Z',
 
@@ -218,6 +231,12 @@ export default {
   computed: {
     modelFormatted () {
       return date.formatDate(this.model, this.format)
+    },
+    modelVarFormatted () {
+      return date.formatDate(this.modelVar, this.format)
+    },
+    modelVarType () {
+      return typeof this.modelVar
     }
   },
   methods: {

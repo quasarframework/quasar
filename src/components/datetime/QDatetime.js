@@ -6,9 +6,8 @@ import { QInputFrame } from '../input-frame'
 import { QPopover } from '../popover'
 import QDatetimePicker from './QDatetimePicker'
 import { QBtn } from '../btn'
-import { formatDate, isSameDate, isValid } from '../../utils/date'
+import { clone, formatDate, isSameDate, isValid } from '../../utils/date'
 import { QModal } from '../modal'
-import clone from '../../utils/clone'
 
 const contentCss = __THEME__ === 'ios'
   ? {
@@ -152,6 +151,7 @@ export default {
             type: this.type,
             min: this.min,
             max: this.max,
+            formatModel: this.formatModel,
             format24h: this.format24h,
             firstDayOfWeek: this.firstDayOfWeek,
             defaultView: this.defaultView,
