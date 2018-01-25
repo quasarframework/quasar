@@ -42,8 +42,7 @@ export default {
         'q-icon',
         {
           props: {
-            name: this.$q.icon.input.dropdown,
-            color: this.textColor
+            name: this.$q.icon.input.dropdown
           },
           staticClass: 'transition-generic',
           'class': {
@@ -120,6 +119,7 @@ export default {
               push: this.push,
               size: this.size,
               color: this.color,
+              textColor: this.textColor,
               dense: this.dense,
               glossy: this.glossy,
               noRipple: this.noRipple,
