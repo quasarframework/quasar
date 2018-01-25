@@ -48,6 +48,9 @@ function getChange (date, mod, add) {
 }
 
 export function isValid (date) {
+  if (typeof date === 'number') {
+    return true
+  }
   const t = Date.parse(date)
   return isNaN(t) === false
 }
@@ -208,19 +211,30 @@ export function getDayOfYear (date) {
   return getDateDiff(date, startOfDate(date, 'year'), 'days') + 1
 }
 
-export function convertDateToFormat (date, example) {
-  if (!date) {
+export function inferDateFormat (example) {
+  if (isDate(example)) {
+    return 'date'
+  }
+  if (typeof example === 'number') {
+    return 'number'
+  }
+
+  return 'string'
+}
+
+export function convertDateToFormat (date, type) {
+  if (!date && date !== 0) {
     return
   }
 
-  if (isDate(example)) {
-    return date
+  switch (type) {
+    case 'date':
+      return date
+    case 'number':
+      return date.getTime()
+    default:
+      return formatDate(date)
   }
-  if (typeof example === 'number') {
-    return date.getTime()
-  }
-
-  return formatDate(date)
 }
 
 export function getDateBetween (date, min, max) {
@@ -519,4 +533,8 @@ export function formatDate (val, mask = 'YYYY-MM-DDTHH:mm:ss.SSSZ') {
 
 export function matchFormat (format = '') {
   return format.match(token)
+}
+
+export function clone (value) {
+  return isDate(value) ? new Date(value.getTime()) : value
 }

@@ -17,9 +17,7 @@ export const inline = {
   type: {
     type: String,
     default: 'date',
-    validator (value) {
-      return ['date', 'time', 'datetime'].includes(value)
-    }
+    validator: v => ['date', 'time', 'datetime'].includes(v)
   },
   color: {
     type: String,
@@ -34,6 +32,11 @@ export const inline = {
     default: null
   },
   firstDayOfWeek: Number,
+  formatModel: {
+    type: String,
+    default: 'auto',
+    validator: v => ['auto', 'date', 'number', 'string'].includes(v)
+  },
   format24h: {
     type: [Boolean, Number],
     default: 0,

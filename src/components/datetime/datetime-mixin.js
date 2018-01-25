@@ -3,6 +3,7 @@ import { inline as props } from './datetime-props'
 import {
   convertDateToFormat,
   getDateBetween,
+  inferDateFormat,
   startOfDate,
   isSameDate,
   isValid
@@ -25,7 +26,7 @@ export default {
       },
       set (val) {
         const date = getDateBetween(val, this.pmin, this.pmax)
-        const value = convertDateToFormat(date, this.value)
+        const value = convertDateToFormat(date, this.formatModel === 'auto' ? inferDateFormat(this.value) : this.formatModel)
         this.$emit('input', value)
         this.$nextTick(() => {
           if (!isSameDate(value, this.value)) {
