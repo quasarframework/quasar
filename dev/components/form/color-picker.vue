@@ -57,10 +57,11 @@
       <q-color :value="inputModelRgb" @change="val => inputModelRgb = val" clearable />
 
       <h4>Type: <small>{{modelVar}}</small></h4>
-      <q-color v-model="modelVar" float-label="Type 'hexa'" clearable type="hexa" @input="value => log('@input', value)" @change="value => log('@change', value)" />
-      <q-color v-model="modelVar" float-label="Type 'hex'"  clearable type="hex"  @input="value => log('@input', value)" @change="value => log('@change', value)" />
-      <q-color v-model="modelVar" float-label="Type 'rgba'" clearable type="rgba" @input="value => log('@input', value)" @change="value => log('@change', value)" />
-      <q-color v-model="modelVar" float-label="Type 'rgb'"  clearable type="rgb"  @input="value => log('@input', value)" @change="value => log('@change', value)" />
+      <q-color v-model="modelVar" clearable @input="value => log('@input', value)" @change="value => log('@change', value)" stack-label="Type 'auto'" type="auto" />
+      <q-color v-model="modelVar" clearable @input="value => log('@input', value)" @change="value => log('@change', value)" stack-label="Type 'hexa'" type="hexa" />
+      <q-color v-model="modelVar" clearable @input="value => log('@input', value)" @change="value => log('@change', value)" stack-label="Type 'hex'" type="hex" />
+      <q-color v-model="modelVar" clearable @input="value => log('@input', value)" @change="value => log('@change', value)" stack-label="Type 'rgba'" type="rgba" />
+      <q-color v-model="modelVar" clearable @input="value => log('@input', value)" @change="value => log('@change', value)" stack-label="Type 'rgb'" type="rgb" />
 
       <h4>Explicit Popover or Modal</h4>
       <q-color         v-model="inputModelRgb" float-label="RGB Default" />
