@@ -191,8 +191,10 @@ export default {
           this.__moveCursor(1, e)
           break
         case 13: // enter
-          this.setCurrentSelection()
-          stopAndPrevent(e)
+          if (this.$refs.popover.showing) {
+            this.setCurrentSelection()
+            stopAndPrevent(e)
+          }
           break
         case 27: // escape
           this.__clearSearch()

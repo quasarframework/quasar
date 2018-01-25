@@ -28,6 +28,10 @@
         <q-autocomplete @search="search" @selected="selected" />
       </q-input>
 
+      <q-input type="textarea" @change="onChange" @input="onInput" v-model="terms" placeholder="Start typing a country name" stack-label="Autocomplete in textarea">
+        <q-autocomplete @search="search" @selected="selected" />
+      </q-input>
+
       <q-input @change="val => { terms = val; onChange(val) }" @input="onInput" :value="terms" placeholder="Start typing a country name (onChange)">
         <q-autocomplete @search="search" @selected="selected" />
       </q-input>
