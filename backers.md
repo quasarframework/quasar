@@ -1,6 +1,6 @@
 Quasar Framework is an MIT licensed open source project and completely free to use. However, the amount of effort needed to maintain and develop new features for the project is not sustainable without some financial backing.
 
-## Proudly sponsored by:
+## Platinum sponsor:
 
 [![Truelogic](http://quasar-framework.org/images/truelogic_logo.png)](http://truelogic.com)
 
@@ -37,7 +37,8 @@ It could be you or your company!
 - MG Papelaria (company)
 - Moacir Schmidt
 - Evan Leonardi
-- Max Matteo Staack ($50)
+- Max Matteo Staack
+- Bobby Ross
 
 ---
 
