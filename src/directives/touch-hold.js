@@ -17,7 +17,7 @@ export default {
 
     let ctx = {
       mouseStart (evt) {
-        if (mouse && leftClick(evt)) {
+        if (leftClick(evt)) {
           document.addEventListener('mousemove', ctx.mouseAbort)
           document.addEventListener('mouseup', ctx.mouseAbort)
           ctx.start(evt)

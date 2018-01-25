@@ -2,6 +2,10 @@ export function leftClick (e = window.event) {
   return e.button === 0
 }
 
+export function middleClick (e = window.event) {
+  return e.button === 1
+}
+
 export function rightClick (e = window.event) {
   return e.button === 2
 }

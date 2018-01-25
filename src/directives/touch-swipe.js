@@ -53,7 +53,7 @@ export default {
       direction: getDirection(binding.modifiers),
 
       mouseStart (evt) {
-        if (mouse && leftClick(evt)) {
+        if (leftClick(evt)) {
           document.addEventListener('mousemove', ctx.mouseMove)
           document.addEventListener('mouseup', ctx.mouseEnd)
           ctx.start(evt)
