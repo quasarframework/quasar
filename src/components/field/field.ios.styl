@@ -4,6 +4,8 @@
   .q-if
     margin-top 0 !important
     margin-bottom 0 !important
+    &.q-if-inverted:not(.q-if-has-label)
+      margin-top -8px !important
 
 .q-field-icon
   width $field-icon-size
@@ -53,14 +55,14 @@
 qfield-vertical()
   .q-field-label + .q-field-content
     padding-top 8px
-  .q-field-floating.q-field-no-label
+  &.q-field-floating.q-field-no-label
     .q-field-margin
       margin-top 12px
-  .q-field-no-label .q-field-label
+  &.q-field-no-label .q-field-label
     display none
 
 qfield-horizontal()
-  .q-field-floating
+  &.q-field-floating
     .q-field-margin
       margin-top 12px
   .q-field-label + .q-field-content
