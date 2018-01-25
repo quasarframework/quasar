@@ -56,11 +56,11 @@
       <q-color :value="inputModelHex" @change="val => { inputModelHex = val; log('@change', val)}" @input="value => log('@input', value)" clearable />
       <q-color :value="inputModelRgb" @change="val => inputModelRgb = val" clearable />
 
-      <h4>Force Alpha / Force RGB: <small>{{modelVar}}</small></h4>
-      <q-color v-model="modelVar" float-label="forceHex true - forceAlpha true" clearable :force-hex="true" :force-alpha="true" @input="value => log('@input', value)" @change="value => log('@change', value)" />
-      <q-color v-model="modelVar" float-label="forceHex true - forceAlpha false" clearable :force-hex="true" :force-alpha="false" @input="value => log('@input', value)" @change="value => log('@change', value)" />
-      <q-color v-model="modelVar" float-label="forceHex false - forceAlpha true" clearable :force-hex="false" :force-alpha="true" @input="value => log('@input', value)" @change="value => log('@change', value)" />
-      <q-color v-model="modelVar" float-label="forceHex false - forceAlpha false" clearable :force-hex="false" :force-alpha="false" @input="value => log('@input', value)" @change="value => log('@change', value)" />
+      <h4>Type: <small>{{modelVar}}</small></h4>
+      <q-color v-model="modelVar" float-label="Type 'hexa'" clearable type="hexa" @input="value => log('@input', value)" @change="value => log('@change', value)" />
+      <q-color v-model="modelVar" float-label="Type 'hex'"  clearable type="hex"  @input="value => log('@input', value)" @change="value => log('@change', value)" />
+      <q-color v-model="modelVar" float-label="Type 'rgba'" clearable type="rgba" @input="value => log('@input', value)" @change="value => log('@change', value)" />
+      <q-color v-model="modelVar" float-label="Type 'rgb'"  clearable type="rgb"  @input="value => log('@input', value)" @change="value => log('@change', value)" />
 
       <h4>Explicit Popover or Modal</h4>
       <q-color         v-model="inputModelRgb" float-label="RGB Default" />

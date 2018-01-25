@@ -19,13 +19,10 @@ export default {
       type: [String, Object],
       required: true
     },
-    forceHex: {
-      type: Boolean,
-      default: null
-    },
-    forceAlpha: {
-      type: Boolean,
-      default: null
+    type: {
+      type: String,
+      default: 'auto',
+      validator: v => ['auto', 'hex', 'rgb', 'hexa', 'rgba'].includes(v)
     },
     disable: Boolean,
     readonly: Boolean
@@ -54,6 +51,18 @@ export default {
     }
   },
   computed: {
+    forceHex () {
+      if (this.type === 'auto') {
+        return null
+      }
+      return this.type.indexOf('hex') > -1
+    },
+    forceAlpha () {
+      if (this.type === 'auto') {
+        return null
+      }
+      return this.type.indexOf('a') > -1
+    },
     isHex () {
       return typeof this.value === 'string'
     },

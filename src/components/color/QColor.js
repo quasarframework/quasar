@@ -35,13 +35,10 @@ export default {
       type: [String, Object],
       default: null
     },
-    forceHex: {
-      type: Boolean,
-      default: null
-    },
-    forceAlpha: {
-      type: Boolean,
-      default: null
+    type: {
+      type: String,
+      default: 'auto',
+      validator: v => ['auto', 'hex', 'rgb', 'hexa', 'rgba'].includes(v)
     },
     displayValue: String,
     placeholder: String,
@@ -153,8 +150,7 @@ export default {
             value: this.model || '#000',
             disable: this.disable,
             readonly: this.readonly,
-            forceHex: this.forceHex,
-            forceAlpha: this.forceAlpha
+            type: this.type
           }, this.$attrs),
           on: {
             input: v => this.$nextTick(() => this.__setModel(v))
