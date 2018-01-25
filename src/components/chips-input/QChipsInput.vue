@@ -101,12 +101,7 @@ export default {
   },
   watch: {
     value (v) {
-      if (Array.isArray(v)) {
-        this.model = [...v]
-      }
-      else {
-        this.model = []
-      }
+      this.model = Array.isArray(v) ? [...v] : []
     }
   },
   computed: {
