@@ -1,4 +1,4 @@
-import { position } from '../utils/event'
+import { position, leftClick } from '../utils/event'
 
 function getDirection (mod) {
   if (Object.keys(mod).length === 0) {
@@ -97,12 +97,22 @@ export default {
       direction: getDirection(binding.modifiers),
 
       mouseStart (evt) {
-        if (mouse) {
+        if (mouse && leftClick(evt)) {
           document.addEventListener('mousemove', ctx.mouseMove)
           document.addEventListener('mouseup', ctx.mouseEnd)
+          ctx.start(evt)
         }
-        ctx.start(evt)
       },
+      mouseMove (evt) {
+        ctx.event.prevent = true
+        ctx.move(evt)
+      },
+      mouseEnd (evt) {
+        document.removeEventListener('mousemove', ctx.mouseMove)
+        document.removeEventListener('mouseup', ctx.mouseEnd)
+        ctx.end(evt)
+      },
+
       start (evt) {
         let pos = position(evt)
         ctx.event = {
@@ -115,10 +125,6 @@ export default {
           lastX: pos.left,
           lastY: pos.top
         }
-      },
-      mouseMove (evt) {
-        ctx.event.prevent = true
-        ctx.move(evt)
       },
       move (evt) {
         if (ctx.event.prevent) {
@@ -153,13 +159,6 @@ export default {
         else if (Math.abs(distX) < Math.abs(distY)) {
           ctx.event.prevent = true
         }
-      },
-      mouseEnd (evt) {
-        if (mouse) {
-          document.removeEventListener('mousemove', ctx.mouseMove)
-          document.removeEventListener('mouseup', ctx.mouseEnd)
-        }
-        ctx.end(evt)
       },
       end (evt) {
         if (!ctx.event.prevent || ctx.event.isFirst) {

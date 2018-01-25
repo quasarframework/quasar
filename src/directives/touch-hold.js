@@ -1,4 +1,4 @@
-import { position } from '../utils/event'
+import { position, leftClick } from '../utils/event'
 
 function updateBinding (el, binding) {
   const ctx = el.__qtouchhold
@@ -16,6 +16,19 @@ export default {
     const mouse = !binding.modifiers.nomouse
 
     let ctx = {
+      mouseStart (evt) {
+        if (mouse && leftClick(evt)) {
+          document.addEventListener('mousemove', ctx.mouseAbort)
+          document.addEventListener('mouseup', ctx.mouseAbort)
+          ctx.start(evt)
+        }
+      },
+      mouseAbort (evt) {
+        document.removeEventListener('mousemove', ctx.mouseAbort)
+        document.removeEventListener('mouseup', ctx.mouseAbort)
+        ctx.abort(evt)
+      },
+
       start (evt) {
         const startTime = new Date().getTime()
         ctx.timer = setTimeout(() => {
@@ -31,34 +44,20 @@ export default {
           })
         }, ctx.duration)
       },
-      mouseStart (evt) {
-        if (mouse) {
-          document.addEventListener('mousemove', ctx.mouseAbort)
-          document.addEventListener('mouseup', ctx.mouseAbort)
-        }
-        ctx.start(evt)
-      },
       abort (evt) {
         clearTimeout(ctx.timer)
         ctx.timer = null
-      },
-      mouseAbort (evt) {
-        if (mouse) {
-          document.removeEventListener('mousemove', ctx.mouseAbort)
-          document.removeEventListener('mouseup', ctx.mouseAbort)
-        }
-        ctx.abort(evt)
       }
     }
 
     el.__qtouchhold = ctx
     updateBinding(el, binding)
-    el.addEventListener('touchstart', ctx.start)
-    el.addEventListener('touchend', ctx.abort)
     if (mouse) {
-      el.addEventListener('touchmove', ctx.abort)
       el.addEventListener('mousedown', ctx.mouseStart)
     }
+    el.addEventListener('touchstart', ctx.start)
+    el.addEventListener('touchmove', ctx.abort)
+    el.addEventListener('touchend', ctx.abort)
   },
   update (el, binding) {
     updateBinding(el, binding)

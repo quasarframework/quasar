@@ -1,4 +1,4 @@
-import { position } from '../utils/event'
+import { position, leftClick } from '../utils/event'
 
 function getDirection (mod) {
   if (Object.keys(mod).length === 0) {
@@ -52,6 +52,24 @@ export default {
       handler: binding.value,
       direction: getDirection(binding.modifiers),
 
+      mouseStart (evt) {
+        if (mouse && leftClick(evt)) {
+          document.addEventListener('mousemove', ctx.mouseMove)
+          document.addEventListener('mouseup', ctx.mouseEnd)
+          ctx.start(evt)
+        }
+      },
+      mouseMove (evt) {
+        ctx.event.prevent = true
+        ctx.move(evt)
+      },
+      mouseEnd (evt) {
+        ctx.mouse = false
+        document.removeEventListener('mousemove', ctx.mouseMove)
+        document.removeEventListener('mouseup', ctx.mouseEnd)
+        ctx.end(evt)
+      },
+
       start (evt) {
         let pos = position(evt)
         ctx.event = {
@@ -60,10 +78,6 @@ export default {
           time: new Date().getTime(),
           detected: false,
           prevent: ctx.direction.horizontal && ctx.direction.vertical
-        }
-        if (mouse) {
-          document.addEventListener('mousemove', ctx.move)
-          document.addEventListener('mouseup', ctx.end)
         }
       },
       move (evt) {
@@ -95,11 +109,6 @@ export default {
         }
       },
       end (evt) {
-        if (mouse) {
-          document.removeEventListener('mousemove', ctx.move)
-          document.removeEventListener('mouseup', ctx.end)
-        }
-
         let
           direction,
           pos = position(evt),
@@ -132,7 +141,7 @@ export default {
     el.__qtouchswipe = ctx
     updateClasses(el, ctx.direction)
     if (mouse) {
-      el.addEventListener('mousedown', ctx.start)
+      el.addEventListener('mousedown', ctx.mouseStart)
     }
     el.addEventListener('touchstart', ctx.start)
     el.addEventListener('touchmove', ctx.move)
