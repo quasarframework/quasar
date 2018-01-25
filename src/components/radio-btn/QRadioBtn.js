@@ -1,8 +1,7 @@
-import QBtn from './QBtn'
-import QBtnGroup from './QBtnGroup'
+import { QBtn, QBtnGroup } from '../btn'
 
 export default {
-  name: 'q-btn-toggle',
+  name: 'q-radio-btn',
   props: {
     value: {
       required: true
@@ -50,7 +49,7 @@ export default {
   },
   render (h) {
     return h(QBtnGroup, {
-      staticClass: 'q-btn-toggle',
+      staticClass: 'q-radio-btn',
       props: {
         outline: this.outline,
         flat: this.flat,
