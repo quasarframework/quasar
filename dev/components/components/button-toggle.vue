@@ -20,7 +20,7 @@
                   {{size}}
                 </p>
 
-                <q-radio-btn v-model="model" toggle-color="primary" color="amber" text-color="red"
+                <q-btn-toggle v-model="model" toggle-color="primary" color="amber" text-color="red"
                   :push="push" :flat="flat" :outline="outline" :glossy="glossy" :rounded="rounded" :size="size"
                   :options="[
                     {label: 'One', value: 'one'},
@@ -40,7 +40,7 @@
                   icon="android"
                 />
 
-                <q-radio-btn v-model="model" toggle-color="primary"
+                <q-btn-toggle v-model="model" toggle-color="primary"
                   :push="push" :flat="flat" :outline="outline" :glossy="glossy" :rounded="rounded" :size="size"
                   disable
                   :options="[
@@ -50,7 +50,7 @@
                   ]"
                 />
 
-                <q-radio-btn :value="model" toggle-color="primary"
+                <q-btn-toggle :value="model" toggle-color="primary"
                   :push="push" :flat="flat" :outline="outline" :glossy="glossy" :rounded="rounded" :size="size"
                   :options="[
                     {label: 'One', icon: 'filter_1', value: 'one'},
@@ -61,7 +61,7 @@
                   @change="value => { model = value; log('@change', value) }"
                 />
 
-                <q-radio-btn v-model="model" toggle-color="primary"
+                <q-btn-toggle v-model="model" toggle-color="primary"
                   :push="push" :flat="flat" :outline="outline" :glossy="glossy" :rounded="rounded" :size="size"
                   :options="[
                     {icon: 'filter_1', value: 'one'},
@@ -70,7 +70,7 @@
                   ]"
                 />
 
-                <q-radio-btn v-model="model" toggle-color="primary"
+                <q-btn-toggle v-model="model" toggle-color="primary"
                   :push="push" :flat="flat" :outline="outline" :glossy="glossy" :rounded="rounded" :size="size"
                   :options="[
                     {label: 'One', iconRight: 'filter_1', value: 'one'},
@@ -80,7 +80,7 @@
                 />
 
                 <!-- Pizza all dressed version to test all options. Empty colors are on purpose to test defaults -->
-                <q-radio-btn v-model="model" toggle-color="primary"
+                <q-btn-toggle v-model="model" toggle-color="primary"
                   :push="push" :flat="flat" :outline="outline" :glossy="glossy" :rounded="rounded" :size="size"
                   :options="[
                     {label: 'One',
@@ -136,6 +136,6 @@ export default {
 </script>
 
 <style lang="stylus">
-.button-toggle-group-test .q-radio-btn
+.button-toggle-group-test .q-btn-toggle
   margin 15px
 </style>
