@@ -125,10 +125,9 @@
       </div>
     </div>
     
-    <p class="caption">Empty label reactivity problem. Click either button</p>
+    <p class="caption">Empty label reactivity problem. Label should be {{ labelA }}</p>
     <div class="q-ma-md">
       <q-btn-dropdown @click="labelA+='+'" :label="labelA"></q-btn-dropdown>
-      <q-btn @click="labelA+='+'" :label="labelA"></q-btn>
     </div>
   
   </div>
