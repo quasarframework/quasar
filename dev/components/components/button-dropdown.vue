@@ -130,12 +130,6 @@
       <q-btn-dropdown @click="labelA+='+'" :label="labelA"></q-btn-dropdown>
       <q-btn @click="labelA+='+'" :label="labelA"></q-btn>
     </div>
-    
-    <p class="caption">Empty label reactivity problem. Fixed by adding keys!?</p>
-    <div class="q-ma-md">
-      <q-btn-dropdown key='1' @click="labelA+='+'" :label="labelA"></q-btn-dropdown>
-      <q-btn key='2' @click="labelA+='+'" :label="labelA"></q-btn>
-    </div>
   
   </div>
 </template>
