@@ -105,9 +105,6 @@ export default {
       this.label
         ? h('span', {
           staticClass: 'q-option-label',
-          'class': {
-            'text-light': this.dark
-          },
           domProps: { innerHTML: this.label }
         })
         : null,
