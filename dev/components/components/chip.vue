@@ -28,6 +28,12 @@
         <q-chip icon="alarm" icon-right="alarm" color="primary">
           q-chip
         </q-chip>
+        <q-chip icon="alarm" icon-right="alarm" color="primary" closable>
+          q-chip
+        </q-chip>
+        <q-chip icon="alarm" icon-right="alarm" color="primary" closable small>
+          q-chip
+        </q-chip>
         <q-chip color="secondary" class="shadow-1">10k</q-chip>
       </p>
       <p>
@@ -41,6 +47,12 @@
           q-chip
         </q-chip>
         <q-chip square icon="alarm" icon-right="alarm" color="primary">
+          q-chip
+        </q-chip>
+        <q-chip square icon="alarm" icon-right="alarm" color="primary" closable>
+          q-chip
+        </q-chip>
+        <q-chip square icon="alarm" icon-right="alarm" color="primary" closable small>
           q-chip
         </q-chip>
         <q-chip square color="secondary" class="shadow-1">10k</q-chip>

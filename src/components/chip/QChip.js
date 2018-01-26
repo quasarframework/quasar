@@ -83,7 +83,7 @@ export default {
       this.iconRight
         ? h(QIcon, {
           props: { name: this.iconRight },
-          staticClass: 'on-right'
+          'class': this.closable ? 'on-right' : 'q-chip-side chip-right'
         })
         : null,
 
