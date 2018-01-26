@@ -161,7 +161,7 @@
       </q-field>
 
       <q-field
-        class="bg-grey-9 q-pa-sm"
+        class="bg-grey-9 text-light q-pa-sm"
         icon="cloud"
         helper="Helper"
         label="Horizontal"
