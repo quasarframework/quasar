@@ -26,7 +26,7 @@ It could be you or your company!
 
 - Adrien M
 
-<a href="www.kalisio.com" target="_blank"><img src="https://lh5.googleusercontent.com/Ew4UoeGiCyw2TOnO8MOoqFZCbV6yQrffbnoY2g0_L8v5Z19ix45K4KE6LYCyoQbR38vVNlwi70xSZohD9d7ATOV23LyxkqDcGnX3rShc6qs16A1EN1c=w974" width="200px"></a>
+<a href="www.kalisio.com" target="_blank"><img src="https://raw.githubusercontent.com/kalisio/kdk/master/images/kalisio-banner-250x96.png" width="200px"></a>
 
 ---
 
