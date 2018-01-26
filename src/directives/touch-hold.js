@@ -13,7 +13,10 @@ function updateBinding (el, binding) {
 export default {
   name: 'touch-hold',
   bind (el, binding) {
-    const mouse = !binding.modifiers.nomouse
+    const
+      mouse = !binding.modifiers.nomouse,
+      stopPropagation = binding.modifiers.stop,
+      preventDefault = binding.modifiers.prevent
 
     let ctx = {
       mouseStart (evt) {
@@ -31,6 +34,10 @@ export default {
 
       start (evt) {
         const startTime = new Date().getTime()
+
+        stopPropagation && evt.stopPropagation()
+        preventDefault && evt.preventDefault()
+
         ctx.timer = setTimeout(() => {
           if (mouse) {
             document.removeEventListener('mousemove', ctx.mouseAbort)
@@ -52,6 +59,7 @@ export default {
 
     el.__qtouchhold = ctx
     updateBinding(el, binding)
+
     if (mouse) {
       el.addEventListener('mousedown', ctx.mouseStart)
     }

@@ -1,4 +1,5 @@
 import { getScrollPosition, getScrollTarget } from '../../utils/scroll'
+import { listenOpts } from '../../utils/event'
 
 export default {
   name: 'q-scroll-observable',
@@ -44,10 +45,10 @@ export default {
   },
   mounted () {
     this.target = getScrollTarget(this.$el.parentNode)
-    this.target.addEventListener('scroll', this.trigger)
+    this.target.addEventListener('scroll', this.trigger, listenOpts.passive)
     this.trigger()
   },
   beforeDestroy () {
-    this.target.removeEventListener('scroll', this.trigger)
+    this.target.removeEventListener('scroll', this.trigger, listenOpts.passive)
   }
 }

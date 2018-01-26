@@ -8,6 +8,7 @@ import {
   setPosition
 } from '../../utils/popup'
 import ModelToggleMixin from '../../mixins/model-toggle'
+import { listenOpts } from '../../utils/event'
 
 export default {
   name: 'q-tooltip',
@@ -58,8 +59,8 @@ export default {
 
       document.body.appendChild(this.$el)
       this.scrollTarget = getScrollTarget(this.anchorEl)
-      this.scrollTarget.addEventListener('scroll', this.hide)
-      window.addEventListener('resize', this.__debouncedUpdatePosition)
+      this.scrollTarget.addEventListener('scroll', this.hide, listenOpts.passive)
+      window.addEventListener('resize', this.__debouncedUpdatePosition, listenOpts.passive)
       if (this.$q.platform.is.mobile) {
         document.body.addEventListener('click', this.hide, true)
       }
@@ -70,8 +71,8 @@ export default {
     __hide () {
       clearTimeout(this.timer)
 
-      this.scrollTarget.removeEventListener('scroll', this.hide)
-      window.removeEventListener('resize', this.__debouncedUpdatePosition)
+      this.scrollTarget.removeEventListener('scroll', this.hide, listenOpts.passive)
+      window.removeEventListener('resize', this.__debouncedUpdatePosition, listenOpts.passive)
       document.body.removeChild(this.$el)
       if (this.$q.platform.is.mobile) {
         document.body.removeEventListener('click', this.hide, true)

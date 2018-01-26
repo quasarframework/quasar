@@ -1,4 +1,5 @@
 import { debounce } from '../../utils/debounce'
+import { listenOpts } from '../../utils/event'
 
 export default {
   name: 'q-resize-observable',
@@ -36,7 +37,7 @@ export default {
     this.object = object
     object.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; pointer-events: none; z-index: -1;')
     object.onload = () => {
-      object.contentDocument.defaultView.addEventListener('resize', this.onResize)
+      object.contentDocument.defaultView.addEventListener('resize', this.onResize, listenOpts.passive)
     }
     object.type = 'text/html'
     if (onIE) {
@@ -50,7 +51,7 @@ export default {
   beforeDestroy () {
     if (this.object && this.object.onload) {
       if (!this.$q.platform.is.ie && this.object.contentDocument) {
-        this.object.contentDocument.defaultView.removeEventListener('resize', this.onResize)
+        this.object.contentDocument.defaultView.removeEventListener('resize', this.onResize, listenOpts.passive)
       }
       delete this.object.onload
     }

@@ -1,12 +1,6 @@
 import { position, leftClick } from '../utils/event'
 
 function getDirection (mod) {
-  if (Object.keys(mod).length === 0) {
-    return {
-      left: true, right: true, up: true, down: true, horizontal: true, vertical: true
-    }
-  }
-
   let dir = {}
 
   ;['left', 'right', 'up', 'down', 'horizontal', 'vertical'].forEach(direction => {
@@ -14,33 +8,27 @@ function getDirection (mod) {
       dir[direction] = true
     }
   })
+
+  if (Object.keys(dir).length === 0) {
+    return {
+      left: true, right: true, up: true, down: true, horizontal: true, vertical: true
+    }
+  }
+
   if (dir.horizontal) {
     dir.left = dir.right = true
   }
   if (dir.vertical) {
     dir.up = dir.down = true
   }
-  if (dir.left || dir.right) {
+  if (dir.left && dir.right) {
     dir.horizontal = true
   }
-  if (dir.up || dir.down) {
+  if (dir.up && dir.down) {
     dir.vertical = true
   }
 
   return dir
-}
-
-function updateClasses (el, dir) {
-  el.classList.add('q-touch')
-
-  if (dir.horizontal && !dir.vertical) {
-    el.classList.add('q-touch-y')
-    el.classList.remove('q-touch-x')
-  }
-  else if (!dir.horizontal && dir.vertical) {
-    el.classList.add('q-touch-x')
-    el.classList.remove('q-touch-y')
-  }
 }
 
 export default {
@@ -50,99 +38,127 @@ export default {
 
     let ctx = {
       handler: binding.value,
+      threshold: parseInt(binding.arg, 10) || 300,
       direction: getDirection(binding.modifiers),
 
       mouseStart (evt) {
         if (leftClick(evt)) {
-          document.addEventListener('mousemove', ctx.mouseMove)
+          document.addEventListener('mousemove', ctx.move)
           document.addEventListener('mouseup', ctx.mouseEnd)
           ctx.start(evt)
         }
       },
-      mouseMove (evt) {
-        ctx.event.prevent = true
-        ctx.move(evt)
-      },
       mouseEnd (evt) {
-        ctx.mouse = false
-        document.removeEventListener('mousemove', ctx.mouseMove)
+        document.removeEventListener('mousemove', ctx.move)
         document.removeEventListener('mouseup', ctx.mouseEnd)
         ctx.end(evt)
       },
 
       start (evt) {
-        let pos = position(evt)
+        const pos = position(evt)
+
         ctx.event = {
           x: pos.left,
           y: pos.top,
           time: new Date().getTime(),
           detected: false,
-          prevent: ctx.direction.horizontal && ctx.direction.vertical
+          abort: false
         }
       },
       move (evt) {
-        let
-          pos = position(evt),
-          distX = pos.left - ctx.event.x,
-          distY = pos.top - ctx.event.y
+        if (ctx.event.abort) {
+          return
+        }
 
-        if (ctx.event.prevent) {
+        if (new Date().getTime() - ctx.event.time > ctx.threshold) {
+          ctx.event.abort = true
+          return
+        }
+
+        if (ctx.event.detected) {
+          evt.stopPropagation()
           evt.preventDefault()
           return
         }
-        if (ctx.event.detected) {
+
+        const
+          pos = position(evt),
+          distX = pos.left - ctx.event.x,
+          absX = Math.abs(distX),
+          distY = pos.top - ctx.event.y,
+          absY = Math.abs(distY)
+
+        if (absX === absY) {
           return
         }
 
         ctx.event.detected = true
-        if (ctx.direction.horizontal && !ctx.direction.vertical) {
-          if (Math.abs(distX) > Math.abs(distY)) {
-            evt.preventDefault()
-            ctx.event.prevent = true
-          }
-        }
-        else {
-          if (Math.abs(distX) < Math.abs(distY)) {
-            evt.preventDefault()
-            ctx.event.prevent = true
-          }
-        }
+        ctx.event.abort = !(
+          (ctx.direction.vertical && absX < absY) ||
+          (ctx.direction.horizontal && absX > absY) ||
+          (ctx.direction.up && absX < absY && distY < 0) ||
+          (ctx.direction.down && absX < absY && distY > 0) ||
+          (ctx.direction.left && absX > absY && distX < 0) ||
+          (ctx.direction.right && absX > absY && distX > 0)
+        )
+
+        ctx.move(evt)
       },
       end (evt) {
+        if (ctx.event.abort || !ctx.event.detected) {
+          return
+        }
+
+        const duration = new Date().getTime() - ctx.event.time
+        if (duration > ctx.threshold) {
+          return
+        }
+
+        evt.stopPropagation()
+        evt.preventDefault()
+
         let
           direction,
           pos = position(evt),
           distX = pos.left - ctx.event.x,
-          distY = pos.top - ctx.event.y
+          absX = Math.abs(distX),
+          distY = pos.top - ctx.event.y,
+          absY = Math.abs(distY)
 
-        if (distX !== 0 || distY !== 0) {
-          if (Math.abs(distX) >= Math.abs(distY)) {
-            direction = distX < 0 ? 'left' : 'right'
+        if (absX >= absY) {
+          if (absX < 50) {
+            return
           }
-          else {
-            direction = distY < 0 ? 'up' : 'down'
+          direction = distX < 0 ? 'left' : 'right'
+        }
+        else {
+          if (absY < 50) {
+            return
           }
+          direction = distY < 0 ? 'up' : 'down'
+        }
 
-          if (ctx.direction[direction]) {
-            ctx.handler({
-              evt,
-              direction,
-              duration: new Date().getTime() - ctx.event.time,
-              distance: {
-                x: Math.abs(distX),
-                y: Math.abs(distY)
-              }
-            })
-          }
+        if (ctx.direction[direction]) {
+          ctx.handler({
+            evt,
+            direction,
+            duration,
+            distance: {
+              x: absX,
+              y: absY
+            }
+          })
         }
       }
     }
 
     el.__qtouchswipe = ctx
-    updateClasses(el, ctx.direction)
+    el.classList.add('q-touch')
+
     if (mouse) {
       el.addEventListener('mousedown', ctx.mouseStart)
     }
+
     el.addEventListener('touchstart', ctx.start)
     el.addEventListener('touchmove', ctx.move)
     el.addEventListener('touchend', ctx.end)
@@ -153,11 +169,14 @@ export default {
     }
   },
   unbind (el, binding) {
-    let ctx = el.__qtouchswipe
-    el.removeEventListener('mousedown', ctx.start)
+    const ctx = el.__qtouchswipe
+
+    el.removeEventListener('mousedown', ctx.mouseStart)
+
     el.removeEventListener('touchstart', ctx.start)
     el.removeEventListener('touchmove', ctx.move)
     el.removeEventListener('touchend', ctx.end)
+
     delete el.__qtouchswipe
   }
 }

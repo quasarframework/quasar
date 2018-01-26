@@ -133,6 +133,10 @@ export default {
         directives: this.editable
           ? [{
             name: 'touch-pan',
+            modifiers: {
+              prevent: true,
+              stop: true
+            },
             value: this.__saturationPan
           }]
           : null

@@ -336,7 +336,11 @@ export default {
           ? null
           : [{
             name: 'touch-pan',
-            modifiers: { horizontal: true },
+            modifiers: {
+              horizontal: true,
+              prevent: true,
+              stop: true
+            },
             value: this.__pan
           }]
       }, [

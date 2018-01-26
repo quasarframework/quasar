@@ -1,6 +1,7 @@
 import { debounce } from '../utils/debounce'
 import { viewport, height, offset } from '../utils/dom'
 import { getScrollTarget } from '../utils/scroll'
+import { listenOpts } from '../utils/event'
 
 function updateBinding (el, binding) {
   const ctx = el.__qscrollfire
@@ -13,7 +14,7 @@ function updateBinding (el, binding) {
 
   ctx.handler = binding.value
   if (typeof binding.oldValue !== 'function') {
-    ctx.scrollTarget.addEventListener('scroll', ctx.scroll)
+    ctx.scrollTarget.addEventListener('scroll', ctx.scroll, listenOpts.passive)
     ctx.scroll()
   }
 }
@@ -36,7 +37,7 @@ export default {
         }
 
         if (fire) {
-          ctx.scrollTarget.removeEventListener('scroll', ctx.scroll)
+          ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, listenOpts.passive)
           ctx.handler(el)
         }
       }, 25)
@@ -56,7 +57,7 @@ export default {
   },
   unbind (el) {
     let ctx = el.__qscrollfire
-    ctx.scrollTarget.removeEventListener('scroll', ctx.scroll)
+    ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, listenOpts.passive)
     delete el.__qscrollfire
   }
 }

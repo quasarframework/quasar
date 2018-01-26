@@ -1,4 +1,5 @@
 import { viewport } from '../../utils/dom'
+import { listenOpts } from '../../utils/event'
 
 export default {
   name: 'q-window-resize-observable',
@@ -18,9 +19,9 @@ export default {
     this.emit()
   },
   mounted () {
-    window.addEventListener('resize', this.trigger)
+    window.addEventListener('resize', this.trigger, listenOpts.passive)
   },
   beforeDestroy () {
-    window.removeEventListener('resize', this.trigger)
+    window.removeEventListener('resize', this.trigger, listenOpts.passive)
   }
 }

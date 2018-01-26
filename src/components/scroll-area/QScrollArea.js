@@ -82,7 +82,7 @@ export default {
       }
     },
     __panThumb (e) {
-      e.evt.preventDefault()
+      // e.evt.preventDefault()
 
       if (e.isFirst) {
         this.refPos = this.scrollPosition
@@ -180,7 +180,11 @@ export default {
         },
         directives: [{
           name: 'touch-pan',
-          modifiers: { vertical: true, nomouse: true },
+          modifiers: {
+            vertical: true,
+            nomouse: true,
+            mightPrevent: true
+          },
           value: this.__panContainer
         }]
       }, [
@@ -211,7 +215,10 @@ export default {
         'class': { 'invisible-thumb': this.thumbHidden },
         directives: [{
           name: 'touch-pan',
-          modifiers: { vertical: true },
+          modifiers: {
+            vertical: true,
+            prevent: true
+          },
           value: this.__panThumb
         }]
       })

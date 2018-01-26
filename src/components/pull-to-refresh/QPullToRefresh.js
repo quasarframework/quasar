@@ -136,7 +136,7 @@ export default {
           name: 'touch-pan',
           modifiers: {
             vertical: true,
-            scroll: true
+            mightPrevent: true
           },
           value: this.__pull
         }]

@@ -1,6 +1,7 @@
 import { height, viewport, offset, css, cssTransform } from '../../utils/dom'
 import { debounce, frameDebounce } from '../../utils/debounce'
 import { getScrollTarget } from '../../utils/scroll'
+import { listenOpts } from '../../utils/event'
 
 export default {
   name: 'q-parallax',
@@ -120,13 +121,13 @@ export default {
       this.scrollTarget = getScrollTarget(this.$el)
       this.resizeHandler = debounce(this.__onResize, 50)
 
-      window.addEventListener('resize', this.resizeHandler)
-      this.scrollTarget.addEventListener('scroll', this.__updatePos)
+      window.addEventListener('resize', this.resizeHandler, listenOpts.passive)
+      this.scrollTarget.addEventListener('scroll', this.__updatePos, listenOpts.passive)
       this.__onResize()
     })
   },
   beforeDestroy () {
-    window.removeEventListener('resize', this.resizeHandler)
-    this.scrollTarget.removeEventListener('scroll', this.__updatePos)
+    window.removeEventListener('resize', this.resizeHandler, listenOpts.passive)
+    this.scrollTarget.removeEventListener('scroll', this.__updatePos, listenOpts.passive)
   }
 }

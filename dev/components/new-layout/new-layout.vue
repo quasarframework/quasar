@@ -195,7 +195,7 @@
       </div>
       <q-modal v-model="toggle" :content-css="{padding: '50px', minWidth: '50vw'}">
         <h4>Basic Modal</h4>
-        <p v-for="n in 25">Scroll down to close</p>
+        <p v-for="n in 25" :key="`basic-${n}`">Scroll down to close</p>
         <q-btn color="primary" @click="toggle = false">Close</q-btn>
       </q-modal>
     </div>

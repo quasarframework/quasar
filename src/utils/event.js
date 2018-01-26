@@ -1,3 +1,36 @@
+function hasPassiveEvents () {
+  let has = false
+
+  try {
+    var opts = Object.defineProperty({}, 'passive', {
+      get () {
+        has = true
+      }
+    })
+    window.addEventListener('qtest', null, opts)
+    window.removeEventListener('qtest', null, opts)
+  }
+  catch (e) {}
+
+  return has
+}
+
+export const listenOpts = {}
+Object.defineProperty(listenOpts, 'passive', {
+  configurable: true,
+  get () {
+    listenOpts.passive = hasPassiveEvents()
+      ? { passive: true }
+      : void 0
+    return listenOpts.passive
+  },
+  set (val) {
+    Object.defineProperty(this, 'passive', {
+      value: val
+    })
+  }
+})
+
 export function leftClick (e = window.event) {
   return e.button === 0
 }

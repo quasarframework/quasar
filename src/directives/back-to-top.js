@@ -1,5 +1,6 @@
 import { debounce } from '../utils/debounce'
 import { getScrollPosition, setScrollPosition, getScrollTarget } from '../utils/scroll'
+import { listenOpts } from '../utils/event'
 
 function updateBinding (el, { value, modifiers }) {
   const ctx = el.__qbacktotop
@@ -63,8 +64,8 @@ export default {
     ctx.scrollTarget = getScrollTarget(el)
     ctx.animate = binding.modifiers.animate
     updateBinding(el, binding)
-    ctx.scrollTarget.addEventListener('scroll', ctx.update)
-    window.addEventListener('resize', ctx.update)
+    ctx.scrollTarget.addEventListener('scroll', ctx.update, listenOpts.passive)
+    window.addEventListener('resize', ctx.update, listenOpts.passive)
     el.addEventListener('click', ctx.goToTop)
   },
   update (el, binding) {
@@ -74,8 +75,8 @@ export default {
   },
   unbind (el) {
     let ctx = el.__qbacktotop
-    ctx.scrollTarget.removeEventListener('scroll', ctx.update)
-    window.removeEventListener('resize', ctx.update)
+    ctx.scrollTarget.removeEventListener('scroll', ctx.update, listenOpts.passive)
+    window.removeEventListener('resize', ctx.update, listenOpts.passive)
     el.removeEventListener('click', ctx.goToTop)
     delete el.__qbacktotop
   }

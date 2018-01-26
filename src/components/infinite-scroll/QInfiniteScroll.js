@@ -1,6 +1,7 @@
 import { height, offset } from '../../utils/dom'
 import { debounce } from '../../utils/debounce'
 import { getScrollTarget } from '../../utils/scroll'
+import { listenOpts } from '../../utils/event'
 
 export default {
   name: 'q-infinite-scroll',
@@ -60,12 +61,12 @@ export default {
     },
     resume () {
       this.working = true
-      this.scrollContainer.addEventListener('scroll', this.poll)
+      this.scrollContainer.addEventListener('scroll', this.poll, listenOpts.passive)
       this.poll()
     },
     stop () {
       this.working = false
-      this.scrollContainer.removeEventListener('scroll', this.poll)
+      this.scrollContainer.removeEventListener('scroll', this.poll, listenOpts.passive)
     }
   },
   mounted () {
@@ -75,14 +76,14 @@ export default {
 
       this.scrollContainer = this.inline ? this.$el : getScrollTarget(this.$el)
       if (this.working) {
-        this.scrollContainer.addEventListener('scroll', this.poll)
+        this.scrollContainer.addEventListener('scroll', this.poll, listenOpts.passive)
       }
 
       this.poll()
     })
   },
   beforeDestroy () {
-    this.scrollContainer.removeEventListener('scroll', this.poll)
+    this.scrollContainer.removeEventListener('scroll', this.poll, listenOpts.passive)
   },
   render (h) {
     return h('div', { staticClass: 'q-infinite-scroll' }, [
