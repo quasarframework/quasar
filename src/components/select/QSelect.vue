@@ -25,7 +25,7 @@
     @click.native="togglePopup"
     @focus.native="__onFocus"
     @blur.native="__onBlur"
-    @keydown.native="__handleKey"
+    @keydown.native="__handleKeyDown"
   >
     <div
       v-if="hasChips"
@@ -158,6 +158,7 @@ import { QInputFrame } from '../input-frame'
 import { QChip } from '../chip'
 import FrameMixin from '../../mixins/input-frame'
 import extend from '../../utils/extend'
+import { getEventKey, stopAndPrevent } from '../../utils/event'
 
 function defaultFilterFn (terms, obj) {
   return obj.label.toLowerCase().indexOf(terms) > -1
@@ -290,16 +291,16 @@ export default {
       }
     },
 
-    __handleKey (e) {
-      // ENTER key
-      if (e.which === 13 || e.keyCode === 13) {
-        this.show()
-      }
-      // Backspace key
-      else if (e.which === 8 || e.keyCode === 8) {
-        if (this.editable && this.clearable && this.actualValue.length) {
-          this.clear()
-        }
+    __handleKeyDown (e) {
+      switch (getEventKey(e)) {
+        case 13: // ENTER key
+        case 32: // SPACE key
+          stopAndPrevent(e)
+          return this.show()
+        case 8: // Backspace key
+          if (this.editable && this.clearable && this.actualValue.length) {
+            this.clear()
+          }
       }
     },
     __onFocus () {

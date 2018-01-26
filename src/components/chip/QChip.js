@@ -1,5 +1,5 @@
 import { QIcon } from '../icon'
-import { getEventKey } from '../../utils/event'
+import { getEventKey, stopAndPrevent } from '../../utils/event'
 
 export default {
   name: 'q-chip',
@@ -47,9 +47,9 @@ export default {
     __onMouseDown (e) {
       this.$emit('focus', e)
     },
-    __onKeydown (evt) {
-      const key = getEventKey(evt)
-      if (this.closable && (key === 13 /* enter */ || key === 32 /* spacebar */)) {
+    __handleKeyDown (e) {
+      if (this.closable && [13, 32].includes(getEventKey(e))) {
+        stopAndPrevent(e)
         this.$emit('hide')
       }
     }
@@ -62,7 +62,7 @@ export default {
         mousedown: this.__onMouseDown,
         touchstart: this.__onMouseDown,
         click: this.__onClick,
-        keydown: this.__onKeydown
+        keydown: this.__handleKeyDown
       }
     }, [
       this.icon || this.avatar
@@ -88,7 +88,7 @@ export default {
         : null,
 
       this.closable
-        ? h('div', { staticClass: 'q-chip-side chip-right row flex-center' }, [
+        ? h('div', { staticClass: 'q-chip-side q-chip-close chip-right row flex-center' }, [
           h(QIcon, {
             props: { name: this.$q.icon.chip.close },
             staticClass: 'cursor-pointer',

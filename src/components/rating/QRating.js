@@ -1,4 +1,4 @@
-import { getEventKey } from '../../utils/event'
+import { getEventKey, stopAndPrevent } from '../../utils/event'
 import { between } from '../../utils/format'
 import { QIcon } from '../icon'
 
@@ -81,10 +81,18 @@ export default {
         },
         attrs: { tabindex },
         nativeOn: {
-          click: () => this.set(i),
+          click: e => {
+            e.target.blur()
+            this.set(i)
+          },
           mouseover: () => this.__setHoverValue(i),
           mouseout: () => { this.mouseModel = 0 },
-          keydown: e => [13, 32].includes(getEventKey(e)) && this.set(i),
+          keydown: e => {
+            if ([13, 32].includes(getEventKey(e))) {
+              stopAndPrevent(e)
+              this.set(i)
+            }
+          },
           focus: () => this.__setHoverValue(i),
           blur: () => { this.mouseModel = 0 }
         }

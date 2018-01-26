@@ -8,6 +8,7 @@ import { QBtn } from '../btn'
 import { QModal } from '../modal'
 import { QFieldReset } from '../field'
 import clone from '../../utils/clone'
+import { getEventKey, stopAndPrevent } from '../../utils/event'
 
 const contentCss = __THEME__ === 'ios'
   ? {
@@ -90,16 +91,16 @@ export default {
       return this.$refs.popup.hide()
     },
 
-    __handleKey (e) {
-      // ENTER key
-      if (e.which === 13 || e.keyCode === 13) {
-        this.show()
-      }
-      // Backspace key
-      else if (e.which === 8 || e.keyCode === 8) {
-        if (this.editable && this.clearable && this.actualValue.length) {
-          this.clear()
-        }
+    __handleKeyDown (e) {
+      switch (getEventKey(e)) {
+        case 13: // ENTER key
+        case 32: // SPACE key
+          stopAndPrevent(e)
+          return this.show()
+        case 8: // BACKSPACE key
+          if (this.editable && this.clearable && this.actualValue.length) {
+            this.clear()
+          }
       }
     },
     __onFocus () {
@@ -224,7 +225,7 @@ export default {
         click: this.toggle,
         focus: this.__onFocus,
         blur: this.__onBlur,
-        keydown: this.__handleKey
+        keydown: this.__handleKeyDown
       }
     }, [
       h('div', {

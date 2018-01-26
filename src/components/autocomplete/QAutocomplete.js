@@ -1,5 +1,5 @@
 import { width } from '../../utils/dom'
-import { stopAndPrevent } from '../../utils/event'
+import { getEventKey, stopAndPrevent } from '../../utils/event'
 import filter from '../../utils/filter'
 import uid from '../../utils/uid'
 import { normalizeToInterval } from '../../utils/format'
@@ -182,24 +182,25 @@ export default {
       }
       this.timer = setTimeout(this.trigger, this.debounce)
     },
-    __handleKeypress (e) {
-      switch (e.keyCode || e.which) {
-        case 38: // up
+    __handleKeyDown (e) {
+      switch (getEventKey(e)) {
+        case 38: // UP key
           this.__moveCursor(-1, e)
           break
-        case 40: // down
+        case 40: // DOWN key
           this.__moveCursor(1, e)
           break
-        case 13: // enter
+        case 13: // ENTER key
+        case 32: // SPACE key
           if (this.$refs.popover.showing) {
-            this.setCurrentSelection()
             stopAndPrevent(e)
+            this.setCurrentSelection()
           }
           break
-        case 27: // escape
+        case 27: // ESCAPE key
           this.__clearSearch()
           break
-        case 9: // tab
+        case 9: // TAB key
           this.hide()
           break
       }
@@ -222,7 +223,7 @@ export default {
     }
     this.$nextTick(() => {
       this.inputEl = this.__input.getEl()
-      this.inputEl.addEventListener('keydown', this.__handleKeypress)
+      this.inputEl.addEventListener('keydown', this.__handleKeyDown)
       this.inputEl.addEventListener('blur', this.blurHide)
     })
   },
@@ -233,7 +234,7 @@ export default {
       this.__inputDebounce.setChildDebounce(false)
     }
     if (this.inputEl) {
-      this.inputEl.removeEventListener('keydown', this.__handleKeypress)
+      this.inputEl.removeEventListener('keydown', this.__handleKeyDown)
       this.inputEl.removeEventListener('blur', this.blurHide)
       this.hide()
     }
