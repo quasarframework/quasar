@@ -182,7 +182,7 @@ export default {
           name: 'touch-pan',
           modifiers: {
             vertical: true,
-            nomouse: true,
+            noMouse: true,
             mightPrevent: true
           },
           value: this.__panContainer

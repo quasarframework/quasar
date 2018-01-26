@@ -14,7 +14,7 @@ export default {
   name: 'touch-hold',
   bind (el, binding) {
     const
-      mouse = !binding.modifiers.nomouse,
+      mouse = !binding.modifiers.noMouse,
       stopPropagation = binding.modifiers.stop,
       preventDefault = binding.modifiers.prevent
 

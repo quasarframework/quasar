@@ -75,7 +75,7 @@ export default {
   name: 'touch-pan',
   bind (el, binding) {
     const
-      mouse = !binding.modifiers.nomouse,
+      mouse = !binding.modifiers.noMouse,
       stopPropagation = binding.modifiers.stop,
       preventDefault = binding.modifiers.prevent,
       evtOpts = preventDefault || binding.modifiers.mightPrevent ? null : listenOpts.passive

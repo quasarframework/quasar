@@ -34,7 +34,7 @@ function getDirection (mod) {
 export default {
   name: 'touch-swipe',
   bind (el, binding) {
-    const mouse = !binding.modifiers.nomouse
+    const mouse = !binding.modifiers.noMouse
 
     let ctx = {
       handler: binding.value,
