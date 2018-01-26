@@ -8,7 +8,6 @@ export default {
   mixins: [BtnMixin],
   props: {
     value: Boolean,
-    label: String,
     split: Boolean
   },
   render (h) {
@@ -36,7 +35,7 @@ export default {
             }
           }
         },
-        this.$slots.default
+        [ this.$slots.default ]
       ),
       Icon = h(
         'q-icon',
@@ -52,48 +51,39 @@ export default {
           }
         }
       ),
-      child = [Popover]
-
-    const getBtn = () => {
-      return h(
-        QBtn,
-        {
-          props: {
-            disable: this.disable,
-            noCaps: this.noCaps,
-            noWrap: this.noWrap,
-            icon: this.icon,
-            label: this.label,
-            iconRight: this.split ? this.iconRight : null,
-            outline: this.outline,
-            flat: this.flat,
-            rounded: this.rounded,
-            push: this.push,
-            size: this.size,
-            color: this.color,
-            textColor: this.textColor,
-            glossy: this.glossy,
-            dense: this.dense,
-            noRipple: this.noRipple,
-            waitForRipple: this.waitForRipple
-          },
-          staticClass: `${this.split ? 'q-btn-dropdown-current' : 'q-btn-dropdown q-btn-dropdown-simple'}`,
-          on: {
-            click: e => {
-              this.split && this.hide()
-              if (!this.disable) {
-                this.$emit('click', e)
-              }
+      Btn = h(QBtn, {
+        props: {
+          disable: this.disable,
+          noCaps: this.noCaps,
+          noWrap: this.noWrap,
+          icon: this.icon,
+          label: this.label,
+          iconRight: this.split ? this.iconRight : null,
+          outline: this.outline,
+          flat: this.flat,
+          rounded: this.rounded,
+          push: this.push,
+          size: this.size,
+          color: this.color,
+          textColor: this.textColor,
+          glossy: this.glossy,
+          dense: this.dense,
+          noRipple: this.noRipple,
+          waitForRipple: this.waitForRipple
+        },
+        'class': this.split ? 'q-btn-dropdown-current' : 'q-btn-dropdown q-btn-dropdown-simple',
+        on: {
+          click: e => {
+            this.split && this.hide()
+            if (!this.disable) {
+              this.$emit('click', e)
             }
           }
-        },
-        this.split ? null : child
-      )
-    }
+        }
+      }, this.split ? null : [ Icon, Popover ])
 
     if (!this.split) {
-      child.push(Icon)
-      return getBtn()
+      return Btn
     }
 
     return h(
@@ -108,7 +98,7 @@ export default {
         staticClass: 'q-btn-dropdown q-btn-dropdown-split no-wrap'
       },
       [
-        getBtn(),
+        Btn,
         h(
           QBtn,
           {
@@ -130,7 +120,7 @@ export default {
           },
           [ Icon ]
         ),
-        child
+        [ Popover ]
       ]
     )
   },
