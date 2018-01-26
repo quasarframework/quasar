@@ -124,6 +124,13 @@
         </q-btn-dropdown>
       </div>
     </div>
+    
+    <p class="caption">Empty label reactivity problem. Click either button</p>
+    <div class="q-ma-md">
+      <q-btn-dropdown @click="labelA+='+'" :label="labelA"></q-btn-dropdown>
+      <q-btn @click="labelA+='+'" :label="labelA"></q-btn>
+    </div>
+  
   </div>
 </template>
 
@@ -142,7 +149,8 @@ export default {
         {split: true, dense: false, disable: true},
         {split: true, dense: true, disable: true}
       ],
-      sizes: ['sm', 'md', 'lg']
+      sizes: ['sm', 'md', 'lg'],
+      labelA: ''
     }
   },
   methods: {
