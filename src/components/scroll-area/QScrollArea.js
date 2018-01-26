@@ -82,8 +82,6 @@ export default {
       }
     },
     __panThumb (e) {
-      // e.evt.preventDefault()
-
       if (e.isFirst) {
         this.refPos = this.scrollPosition
         this.__setActive(true, true)
@@ -95,6 +93,7 @@ export default {
           window.getSelection().removeAllRanges()
         }
       }
+
       if (e.isFinal) {
         this.__setActive(false)
         document.body.classList.remove('non-selectable')
