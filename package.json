@@ -1,6 +1,6 @@
 {
   "name": "quasar-framework",
-  "version": "0.15.0-beta.10",
+  "version": "0.15.0-beta.11",
   "description": "Simultaneously build desktop/mobile SPA websites & phone/tablet apps with VueJS",
   "files": [
     "dist",
