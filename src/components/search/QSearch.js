@@ -76,7 +76,6 @@ export default {
   methods: {
     clear () {
       this.$refs.input.clear()
-      this.$emit('clear')
     }
   },
   render (h) {
@@ -112,7 +111,7 @@ export default {
         keyup: this.__onKeyup,
         keydown: this.__onKeydown,
         click: this.__onClick,
-        clear: () => { this.$emit('clear') }
+        clear: val => this.$emit('clear', val)
       }
     }, [
       this.$slots.default

@@ -65,10 +65,9 @@ export default {
         }
       })
     },
-    __onKeydown (evt) {
-      const key = getEventKey(evt)
-      if (key === 13 /* enter */ || key === 32 /* spacebar */) {
-        this.toggle(evt, false)
+    __handleKeyDown (e) {
+      if ([13, 32].includes(getEventKey(e))) {
+        this.toggle(e, false)
       }
     }
   },
@@ -81,7 +80,7 @@ export default {
         click: this.toggle,
         focus: () => { this.$emit('focus') },
         blur: () => { this.$emit('blur') },
-        keydown: this.__onKeydown
+        keydown: this.__handleKeyDown
       },
       directives: this.$options._componentTag === 'q-toggle'
         ? [{

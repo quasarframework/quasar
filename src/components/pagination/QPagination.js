@@ -2,6 +2,7 @@ import { between } from '../../utils/format'
 import { QBtn } from '../btn'
 import { QInput } from '../input'
 import extend from '../../utils/extend'
+import { getEventKey } from '../../utils/event'
 
 export default {
   name: 'q-pagination',
@@ -202,7 +203,7 @@ export default {
         },
         on: {
           input: value => (this.newPage = value),
-          keyup: event => (event.keyCode === 13 && this.__update()),
+          keydown: event => (getEventKey(event) === 13 && this.__update()),
           blur: () => this.__update()
         }
       }))

@@ -30,6 +30,7 @@
         :key="`${label}#${index}`"
         :color="computedChipColor"
         :text-color="computedChipTextColor"
+        @blur="__onInputBlur"
         @blur.native="__onInputBlur"
         @focus="__clearTimer"
         @focus.native="__clearTimer"
@@ -53,7 +54,7 @@
 
         @focus="__onFocus"
         @blur="__onInputBlur"
-        @keydown="__handleKey"
+        @keydown="__handleKeyDown"
         @keyup="__onKeyup"
       />
     </div>
@@ -76,6 +77,7 @@ import FrameMixin from '../../mixins/input-frame'
 import InputMixin from '../../mixins/input'
 import { QInputFrame } from '../input-frame'
 import { QChip } from '../chip'
+import { getEventKey, stopAndPrevent } from '../../utils/event'
 
 export default {
   name: 'q-chips-input',
@@ -153,20 +155,18 @@ export default {
     __clearTimer () {
       this.$nextTick(() => clearTimeout(this.timer))
     },
-    __handleKey (e) {
-      // ENTER key
-      if (e.which === 13 || e.keyCode === 13) {
-        e.preventDefault()
-        this.add()
-      }
-      // Backspace key
-      else if (e.which === 8 || e.keyCode === 8) {
-        if (!this.input.length && this.length) {
-          this.remove(this.length - 1)
-        }
-      }
-      else {
-        this.__onKeydown(e)
+    __handleKeyDown (e) {
+      switch (getEventKey(e)) {
+        case 13: // ENTER key
+          stopAndPrevent(e)
+          return this.add()
+        case 8: // Backspace key
+          if (!this.input.length && this.length) {
+            this.remove(this.length - 1)
+          }
+          return
+        default:
+          return this.__onKeydown(e)
       }
     },
     __onClick () {

@@ -3,6 +3,7 @@ import { QInput } from '../input'
 import { QTooltip } from '../tooltip'
 import { QList, QItem, QItemSide, QItemMain } from '../list'
 import extend from '../../utils/extend'
+import { getEventKey } from '../../utils/event'
 
 function run (e, btn, vm) {
   if (btn.handler) {
@@ -222,11 +223,11 @@ export function getLinkEditor (h, vm) {
         },
         on: {
           input: val => { link = val },
-          keyup: event => {
-            switch (event.keyCode) {
-              case 13: // enter
+          keydown: event => {
+            switch (getEventKey(event)) {
+              case 13: // ENTER key
                 return updateLink()
-              case 27: // escape
+              case 27: // ESCAPE key
                 vm.caret.restore()
                 vm.editLinkUrl = null
                 break
