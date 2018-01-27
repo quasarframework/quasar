@@ -109,6 +109,21 @@
       <h4>Modal</h4><p>This one gets displayed from {{position}}.</p>
       <q-btn color="orange" @click="$refs.positionModal.hide()">Close Me</q-btn>
     </q-modal>
+    
+    <q-modal ref="noSizeModalLayout">
+      <q-modal-layout>
+        <q-toolbar slot="header">
+          Modal with layout and no minimum size (auto-sizing)
+        </q-toolbar>
+        <q-toolbar slot="footer">
+          <q-btn @click="text += testingText">Add Text (Width)</q-btn>
+          <q-btn @click="text += ('<br>' + testingText)">Add Text (Height)</q-btn>
+          <q-btn @click="$refs.noSizeModalLayout.hide()">Close</q-btn>
+        </q-toolbar>
+        <div class="layout-padding" v-html="text">
+        </div>
+      </q-modal-layout>
+    </q-modal>
   </div>
 </template>
 
@@ -139,9 +154,15 @@ export default {
         {
           label: 'Always Maximized',
           ref: 'maximizedModal'
+        },
+        {
+          label: 'Modal with Layout (auto-sizing)',
+          ref: 'noSizeModalLayout'
         }
       ],
-      position: 'bottom'
+      position: 'bottom',
+      testingText: 'testing text stretch and scrollbars! ',
+      text: ''
     }
   },
   methods: {
