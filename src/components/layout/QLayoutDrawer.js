@@ -117,11 +117,7 @@ export default {
       this.layout.__animate()
     },
     $route () {
-      if (this.mobileOpened) {
-        this.hide()
-        return
-      }
-      if (this.onScreenOverlay) {
+      if (this.mobileOpened || this.onScreenOverlay) {
         this.hide()
       }
     }

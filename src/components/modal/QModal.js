@@ -73,12 +73,13 @@ export default {
       type: Boolean,
       default: false
     },
+    noRouteDismiss: Boolean,
     minimized: Boolean,
     maximized: Boolean
   },
   watch: {
     $route () {
-      if (this.value === void 0) {
+      if (!this.noRouteDismiss) {
         this.hide()
       }
     }
