@@ -46,23 +46,27 @@ export default {
       if (!isValid(this.value)) {
         return this.placeholder || ''
       }
-
-      let format
-
       if (this.format) {
-        format = this.format
-      }
-      else if (this.type === 'date') {
-        format = 'YYYY-MM-DD'
-      }
-      else if (this.type === 'time') {
-        format = 'HH:mm'
+        return formatDate(this.value, this.format, /* for reactiveness */ this.$q.i18n.date)
       }
       else {
-        format = 'YYYY-MM-DD HH:mm:ss'
+        // If no format was specified, use the locale
+        let date = new Date(this.value)
+        if (isNaN(date.valueOf())) {
+          return this.placeholder || ''
+        }
+        else {
+          if (this.type === 'date') {
+            return date.toLocaleDateString()
+          }
+          else if (this.type === 'time') {
+            return date.toLocaleTimeString()
+          }
+          else {
+            return date.toLocaleString()
+          }
+        }
       }
-
-      return formatDate(this.value, format, /* for reactiveness */ this.$q.i18n.date)
     }
   },
   methods: {

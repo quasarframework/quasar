@@ -290,9 +290,41 @@ export default {
       return cls
     },
     computedFormat24h () {
-      return this.format24h !== 0
-        ? this.format24h
-        : this.$q.i18n.date.format24h
+      // 24h format determination
+      // iOS: The is currently no support for 12h format in the iOS version of the DatetimePicker. If required, add this to Mixin.
+      if (this.format24h === 'i18n') {
+        // Explicit i18n option
+        return this.$q.i18n.date.format24h
+      }
+      else if (this.format24h === '24h' || this.format24h === '') {
+        // Explicit 24h format specified
+        return true
+      }
+      else if (this.format24h === '12h') {
+        // Explicit 12h format specified
+        return false
+      }
+      else if (this.format) {
+        // Automatically determine the 24h format from the specified format string
+        if (this.format.match(/H/)) {
+          return true
+        }
+        else {
+          return false
+        }
+      }
+      else {
+        // Attempt to determine the 24h format setting from the locale
+        // 12 hour clock is mostly used in the US, however, other countries and languages might need to be supported
+        // the relevant strings can be added to the regex below once identified
+        let date = new Date(2000, 1, 1, 23, 0, 0)
+        if (date.toLocaleTimeString().match(/am|pm|a\.m\.|p\.m\./i)) {
+          return false
+        }
+        else {
+          return true
+        }
+      }
     },
     computedFirstDayOfWeek () {
       return this.firstDayOfWeek !== void 0
