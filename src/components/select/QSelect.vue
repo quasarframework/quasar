@@ -81,7 +81,6 @@
           :debounce="100"
           :color="color"
           icon="filter_list"
-          class="no-margin"
           style="min-height: 50px; padding: 10px;"
         />
       </q-field-reset>

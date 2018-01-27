@@ -81,7 +81,6 @@
           <q-item-side icon="supervisor_account" />
           <q-item-main>
             <q-select
-              class="no-margin"
               v-model="select"
               :options="selectOptions"
             />
@@ -94,7 +93,6 @@
           <q-item-main>
             <q-select
               multiple
-              class="no-margin"
               v-model="multipleSelect"
               :options="selectOptions"
             />

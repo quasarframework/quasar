@@ -5,7 +5,6 @@
   >
     <q-input-frame
       ref="input"
-      class="no-margin"
 
       :prefix="prefix"
       :suffix="suffix"

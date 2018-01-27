@@ -103,10 +103,10 @@
           <q-toggle v-model="leftOverlay" label="Left as Overlay" />
         </div>
         <div>
-          <q-select v-model="leftBehavior" :options="drawerBehaviorOptions" class="no-margin" />
+          <q-select v-model="leftBehavior" :options="drawerBehaviorOptions" />
         </div>
         <div>
-          <q-input type="number" align="right" prefix="Bkpt" placeholder="Bkpt" v-model="leftBreakpoint" class="no-margin" />
+          <q-input type="number" align="right" prefix="Bkpt" placeholder="Bkpt" v-model="leftBreakpoint" />
         </div>
       </div>
       <div class="col gutter-xs q-ma-xs">
@@ -123,10 +123,10 @@
           <q-toggle v-model="rightOverlay" label="Right as Overlay" />
         </div>
         <div>
-          <q-select v-model="rightBehavior" :options="drawerBehaviorOptions" class="no-margin" />
+          <q-select v-model="rightBehavior" :options="drawerBehaviorOptions" />
         </div>
         <div>
-          <q-input type="number" align="right" prefix="Bkpt" placeholder="Bkpt" v-model="rightBreakpoint" class="no-margin" />
+          <q-input type="number" align="right" prefix="Bkpt" placeholder="Bkpt" v-model="rightBreakpoint" />
         </div>
       </div>
     </div>

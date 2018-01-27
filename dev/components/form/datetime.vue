@@ -127,13 +127,13 @@
         <q-item>
           <q-item-side icon="access_time" />
           <q-item-main>
-            <q-datetime class="no-margin" v-model="model" type="time" />
+            <q-datetime v-model="model" type="time" />
           </q-item-main>
         </q-item>
         <q-item>
           <q-item-side icon="update" />
           <q-item-main>
-            <q-datetime class="no-margin" v-model="model" type="date" />
+            <q-datetime v-model="model" type="date" />
           </q-item-main>
         </q-item>
         <q-item-separator />
@@ -141,7 +141,7 @@
         <q-item>
           <q-item-side icon="notifications" />
           <q-item-main>
-            <q-datetime class="no-margin" v-model="model" type="datetime" />
+            <q-datetime v-model="model" type="datetime" />
           </q-item-main>
         </q-item>
       </q-list>
