@@ -3,10 +3,7 @@ import History from '../plugins/history'
 
 export default {
   props: {
-    value: {
-      type: Boolean,
-      default: undefined // Undefined required to identify when the value prop is not provided.  Undefined is falsly, so no impact
-    }
+    value: Boolean
   },
   data () {
     return {
