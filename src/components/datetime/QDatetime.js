@@ -39,6 +39,11 @@ export default {
     return data
   },
   computed: {
+    // Putting this added defaultDetailsIcon at the top permits me to git merge automatically my multiple branches (RC)
+    defaultDetailsIcon () {
+      if (this.type === 'time') return this.$q.icon.datetime.detailsTime // Time
+      return this.$q.icon.datetime.detailsDate // Date or Datetime
+    },
     actualValue () {
       if (this.displayValue) {
         return this.displayValue
@@ -228,7 +233,8 @@ export default {
 
         focused: this.focused,
         focusable: true,
-        length: this.actualValue.length
+        length: this.actualValue.length,
+        detailsIcon: this.computedDetailsIcon
       },
       nativeOn: {
         click: this.toggle,
@@ -281,13 +287,7 @@ export default {
           nativeOn: { click: this.clear },
           staticClass: 'q-if-control'
         })
-        : null,
-
-      h('q-icon', {
-        slot: 'after',
-        props: { name: this.$q.icon.input.dropdown },
-        staticClass: 'q-if-control'
-      })
+        : null
     ])
   }
 }

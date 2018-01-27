@@ -54,9 +54,14 @@ export default {
   collapsible: {
     icon: 'keyboard_arrow_down'
   },
+  color: {
+    details: 'color_lens'
+  },
   datetime: {
     arrowLeft: 'chevron_left',
-    arrowRight: 'chevron_right'
+    arrowRight: 'chevron_right',
+    detailsDate: 'event',
+    detailsTime: 'schedule'
   },
   editor: {
     bold: 'format_bold',
@@ -99,7 +104,7 @@ export default {
     showNumber: 'keyboard',
     hideNumber: 'keyboard_hide',
     clear: 'cancel',
-    dropdown: 'arrow_drop_down'
+    details: 'arrow_drop_down'
   },
   pagination: {
     first: 'first_page',
@@ -119,6 +124,9 @@ export default {
   },
   rating: {
     icon: 'grade'
+  },
+  select: {
+    details: 'arrow_drop_down'
   },
   stepper: {
     done: 'check',

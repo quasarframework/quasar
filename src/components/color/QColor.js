@@ -72,6 +72,9 @@ export default {
           ? this.value
           : `rgb${this.value.a !== void 0 ? 'a' : ''}(${this.value.r},${this.value.g},${this.value.b}${this.value.a !== void 0 ? `,${this.value.a / 100}` : ''})`
       }
+    },
+    defaultDetailsIcon () {
+      return this.$q.icon.color.details
     }
   },
   methods: {
@@ -219,7 +222,8 @@ export default {
 
         focused: this.focused,
         focusable: true,
-        length: this.actualValue.length
+        length: this.actualValue.length,
+        detailsIcon: this.computedDetailsIcon
       },
       nativeOn: {
         click: this.toggle,
@@ -272,13 +276,7 @@ export default {
           nativeOn: { click: this.clear },
           staticClass: 'q-if-control'
         })
-        : null,
-
-      h('q-icon', {
-        slot: 'after',
-        props: { name: this.$q.icon.input.dropdown },
-        staticClass: 'q-if-control'
-      })
+        : null
     ])
   }
 }

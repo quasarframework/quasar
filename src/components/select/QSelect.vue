@@ -21,6 +21,7 @@
     focusable
     :length="length"
     :additional-length="additionalLength"
+    :detailsIcon="computedDetailsIcon"
 
     @click.native="togglePopup"
     @focus.native="__onFocus"
@@ -59,7 +60,6 @@
       class="q-if-control"
       @click.stop.native="clear"
     />
-    <q-icon slot="after" :name="$q.icon.input.dropdown" class="q-if-control" />
 
     <q-popover
       ref="popover"
@@ -271,6 +271,9 @@ export default {
     },
     additionalLength () {
       return this.displayValue && this.displayValue.length > 0
+    },
+    defaultDetailsIcon () {
+      return this.defaultDetailsIconSuggestion
     }
   },
   methods: {

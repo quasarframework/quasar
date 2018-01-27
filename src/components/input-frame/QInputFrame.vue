@@ -5,6 +5,7 @@
     :tabindex="focusable && !disable ? 0 : -1"
     @click="__onClick"
   >
+    <!-- This prop "before" seems to be completely replaced does not seem to be by uses in current quasar code, maybe replace it with a named slot like "after"? (RC) -->
     <template v-if="before">
       <q-icon
         v-for="item in before"
@@ -44,6 +45,7 @@
     </div>
 
     <slot name="after"></slot>
+    <!-- This prop after seems to be completely replaced by the named slots above. I didn't find any uses in current quasar code.  Can we remove it? (RC) -->
     <template v-if="after">
       <q-icon
         v-for="item in after"
@@ -56,6 +58,7 @@
         @click.native="__baHandler($event, item)"
       ></q-icon>
     </template>
+    <q-icon v-if="computedDetailsIcon" :name="computedDetailsIcon" class="q-if-control" @click.native="$emit('details')"/>
   </div>
 </template>
 

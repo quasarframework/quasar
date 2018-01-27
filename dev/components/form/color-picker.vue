@@ -68,6 +68,15 @@
       <q-color popover v-model="inputModelRgb" float-label="RGB Popover" />
       <q-color modal   v-model="inputModelRgb" float-label="RGB Modal" />
       <q-color modal   v-model="inputModelRgb" float-label="RGB Modal Readonly " readonly  />
+      
+      <h4>Details Icon Variations</h4>
+      <q-color v-model="inputModelRgb"                                      float-label="Default (undefined)" />
+      <q-color v-model="inputModelRgb" :details-icon=false                   float-label="Explicit False"      />
+      <q-color v-model="inputModelRgb" details-icon                          float-label="Prop specified"      />
+      <q-color v-model="inputModelRgb" :details-icon=true                    float-label="Explicit True"       />
+      <q-color v-model="inputModelRgb" details-icon="arrow_drop_down_circle" float-label="Custom Icon"         />
+      <q-color v-model="inputModelRgb" details-icon="format_paint"           float-label="Custom Icon"         />
+      <q-color v-model="inputModelRgb" details-icon="colorize"               float-label="Custom Icon"         />
 
       <h4>Readonly</h4>
       <div class="row gutter-md" style="width: 550px">
