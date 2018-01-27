@@ -1,5 +1,12 @@
 export default {
   name: 'q-modal-layout',
+  inject: {
+    modal: {
+      default () {
+        console.error('QModalLayout needs to be child of QModal')
+      }
+    }
+  },
   props: {
     headerStyle: [String, Object, Array],
     headerClass: [String, Object, Array],
