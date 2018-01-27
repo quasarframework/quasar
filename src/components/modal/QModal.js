@@ -78,8 +78,9 @@ export default {
   },
   watch: {
     $route () {
-      // If value prop is provided, always respect it.  Therefore no hide on route change.
-      if (typeof this.value === 'undefined') this.hide()
+      if (this.value === void 0) {
+        this.hide()
+      }
     }
   },
   computed: {
