@@ -98,12 +98,12 @@ export default {
         inverted: this.inverted,
         dark: this.dark,
         hideUnderline: this.hideUnderline,
-        maxLength: this.maxLength,
         color: this.color,
         before: this.controlBefore,
         after: this.controlAfter,
         clearValue: this.clearValue
       },
+      attrs: this.$attrs,
       on: {
         input: v => { this.model = v },
         focus: this.__onFocus,

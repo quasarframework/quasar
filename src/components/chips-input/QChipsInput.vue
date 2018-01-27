@@ -46,11 +46,10 @@
         :class="[`text-${align}`]"
         v-model="input"
 
-        :name="name"
         :placeholder="inputPlaceholder"
         :disabled="disable"
         :readonly="readonly"
-        :max-length="maxLength"
+        v-bind="$attrs"
 
         @focus="__onFocus"
         @blur="__onInputBlur"

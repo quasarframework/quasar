@@ -39,11 +39,9 @@
           ref="input"
           class="col q-input-target q-input-area"
 
-          :name="name"
           :placeholder="inputPlaceholder"
           :disabled="disable"
           :readonly="readonly"
-          :maxlength="maxLength"
           v-bind="$attrs"
 
           :value="model"
@@ -63,11 +61,9 @@
       class="col q-input-target q-no-input-spinner"
       :class="[`text-${align}`]"
 
-      :name="name"
       :placeholder="inputPlaceholder"
       :disabled="disable"
       :readonly="readonly"
-      :maxlength="maxLength"
       :step="computedStep"
       v-bind="$attrs"
 

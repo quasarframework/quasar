@@ -3,9 +3,10 @@
 
 .q-if
   min-height 32px
-  padding-bottom 8px
   color $primary
   outline 0
+  &:not(.q-field-hide-underline)
+    padding-bottom 8px
 
   &:not(.q-if-hide-underline):not(.q-if-inverted)
     &:before, &:after
