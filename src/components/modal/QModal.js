@@ -78,7 +78,9 @@ export default {
   },
   watch: {
     $route () {
-      this.hide()
+      if (this.value === void 0) {
+        this.hide()
+      }
     }
   },
   computed: {
