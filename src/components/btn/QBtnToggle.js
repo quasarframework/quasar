@@ -20,6 +20,7 @@ export default {
       required: true,
       validator: v => v.every(opt => ('label' in opt || 'icon' in opt) && 'value' in opt)
     },
+    readonly: Boolean,
     disable: Boolean,
     noCaps: Boolean,
     noWrap: Boolean,
@@ -40,6 +41,9 @@ export default {
   },
   methods: {
     set (value, opt) {
+      if (this.readonly) {
+        return
+      }
       this.$emit('input', value, opt)
       this.$nextTick(() => {
         if (JSON.stringify(value) !== JSON.stringify(this.value)) {
