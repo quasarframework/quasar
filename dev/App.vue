@@ -1,5 +1,6 @@
 <template>
   <div class="q-app">
+    <q-document :title="`Quasar Dev: ${$route.path.split('/').pop() || 'Home'}`" />
     <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in" :duration="300" @leave="resetScroll">
       <router-view></router-view>
     </transition>
