@@ -64,7 +64,7 @@
     <q-popover
       ref="popover"
       fit
-      :disable="disable"
+      :disable="readonly || disable"
       :offset="[0, 10]"
       :anchor-click="false"
       class="column no-wrap"
@@ -190,6 +190,7 @@ export default {
     multiple: Boolean,
     toggle: Boolean,
     chips: Boolean,
+    readonly: Boolean,
     options: {
       type: Array,
       required: true,
