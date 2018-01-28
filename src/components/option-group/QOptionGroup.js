@@ -30,7 +30,8 @@ export default {
     },
     leftLabel: Boolean,
     inline: Boolean,
-    disable: Boolean
+    disable: Boolean,
+    readonly: Boolean
   },
   computed: {
     component () {
@@ -88,9 +89,10 @@ export default {
             props: {
               value: this.value,
               val: opt.value,
+              readonly: this.readonly || opt.readonly,
               disable: this.disable || opt.disable,
               label: opt.label,
-              leftLabel: opt.leftLabel,
+              leftLabel: this.leftLabel || opt.leftLabel,
               color: opt.color || this.color,
               checkedIcon: opt.checkedIcon,
               uncheckedIcon: opt.uncheckedIcon,
