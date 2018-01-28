@@ -48,6 +48,11 @@ let openedModalNumber = 0
 export default {
   name: 'q-modal',
   mixins: [ModelToggleMixin],
+  provide () {
+    return {
+      __qmodal: true
+    }
+  },
   props: {
     position: {
       type: String,
