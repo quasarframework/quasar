@@ -14,6 +14,7 @@ export default {
     keepColor: Boolean,
     dark: Boolean,
     disable: Boolean,
+    readonly: Boolean,
     noFocus: Boolean,
     checkedIcon: String,
     uncheckedIcon: String
@@ -42,7 +43,7 @@ export default {
       }
     },
     focusable () {
-      return !this.noFocus && !this.disable
+      return !this.noFocus && !this.disable && !this.readonly
     },
     tabindex () {
       return this.focusable ? 0 : -1

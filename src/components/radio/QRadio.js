@@ -17,7 +17,7 @@ export default {
   },
   methods: {
     toggle (evt, blur = true) {
-      if (this.disable) {
+      if (this.disable || this.readonly) {
         return
       }
       if (evt) {
