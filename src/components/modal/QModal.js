@@ -50,7 +50,7 @@ export default {
   mixins: [ModelToggleMixin],
   provide () {
     return {
-      modal: true
+      __qmodal: true
     }
   },
   props: {
