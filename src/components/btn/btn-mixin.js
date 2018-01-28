@@ -20,6 +20,7 @@ export default {
     noCaps: Boolean,
     noWrap: Boolean,
     icon: String,
+    iconRight: String,
     iconSide: String,
     round: Boolean,
     outline: Boolean,
