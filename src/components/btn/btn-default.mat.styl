@@ -42,6 +42,18 @@
       // Transitions on the creation of pseudoelements do not work
       // pseudoelement must already exist, then the shadow is added when required.
       box-shadow $shadow-8
+  &.left-most-icon
+    .q-btn-inner
+      padding-left 2em
+    .q-icon
+      position absolute
+      left .5em
+  &.right-most-icon
+    .q-btn-inner
+      padding-right 2em
+    .q-icon
+      position absolute
+      right .5em
 
 .q-btn-progress
   transition all .3s

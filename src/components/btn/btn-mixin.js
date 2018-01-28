@@ -20,7 +20,7 @@ export default {
     noCaps: Boolean,
     noWrap: Boolean,
     icon: String,
-    iconRight: String,
+    iconSide: String,
     round: Boolean,
     outline: Boolean,
     flat: Boolean,
@@ -97,6 +97,13 @@ export default {
       }
       else if (this.textColor) {
         cls.push(`text-${this.textColor}`)
+      }
+
+      if (this.iconSide === 'left') {
+        cls.push('left-most-icon')
+      }
+      else if (this.iconSide === 'right') {
+        cls.push('right-most-icon')
       }
 
       cls.push({
