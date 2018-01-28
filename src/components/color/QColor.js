@@ -172,8 +172,7 @@ export default {
               color: this.color,
               flat: true,
               label: this.cancelLabel || this.$q.i18n.label.cancel,
-              waitForRipple: true,
-              dense: true
+              waitForRipple: true
             },
             on: { click: this.hide }
           }),
@@ -183,8 +182,7 @@ export default {
                 color: this.color,
                 flat: true,
                 label: this.okLabel || this.$q.i18n.label.set,
-                waitForRipple: true,
-                dense: true
+                waitForRipple: true
               },
               on: {
                 click: () => {
