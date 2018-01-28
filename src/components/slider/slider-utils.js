@@ -54,6 +54,7 @@ export let SliderMixin = {
     color: String,
     fillHandleAlways: Boolean,
     error: Boolean,
+    warning: Boolean,
     readonly: Boolean,
     disable: Boolean
   },
@@ -71,10 +72,11 @@ export let SliderMixin = {
         disabled: this.disable,
         readonly: this.readonly,
         'label-always': this.labelAlways,
-        'has-error': this.error
+        'has-error': this.error,
+        'has-warning': this.warning
       }
 
-      if (!this.error && this.color) {
+      if (!this.error && !this.warning && this.color) {
         cls[`text-${this.color}`] = true
       }
 
@@ -86,7 +88,7 @@ export let SliderMixin = {
     labelColor () {
       return this.error
         ? 'negative'
-        : this.color || 'primary'
+        : (this.warning ? 'warning' : (this.color || 'primary'))
     },
     computedDecimals () {
       return this.decimals !== void 0 ? this.decimals || 0 : (String(this.step).trim('0').split('.')[1] || '').length
