@@ -52,25 +52,22 @@ export default {
   },
   computed: {
     forceHex () {
-      if (this.type === 'auto') {
-        return null
-      }
-      return this.type.indexOf('hex') > -1
+      return this.type === 'auto'
+        ? null
+        : this.type.indexOf('hex') > -1
     },
     forceAlpha () {
-      if (this.type === 'auto') {
-        return null
-      }
-      return this.type.indexOf('a') > -1
+      return this.type === 'auto'
+        ? null
+        : this.type.indexOf('a') > -1
     },
     isHex () {
       return typeof this.value === 'string'
     },
     isOutputHex () {
-      if (this.forceHex !== null) {
-        return this.forceHex
-      }
-      return this.isHex
+      return this.forceHex !== null
+        ? this.forceHex
+        : this.isHex
     },
     editable () {
       return !this.disable && !this.readonly
