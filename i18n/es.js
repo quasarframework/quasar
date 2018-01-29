@@ -12,19 +12,19 @@ export default {
     update: 'Actualizar',
     create: 'Crear',
     search: 'Buscar',
-    filter: 'Filtro',
+    filter: 'Filtrar',
     refresh: 'Actualizar'
   },
   date: {
-    days: 'Domingo_Lunes_Martes_Miercoles_Jueves_Viernes_Sábado'.split('_'),
-    daysShort: 'Dom_Lun_Mar_Mie_Jue_Vie_Sáb'.split('_'),
+    days: 'Domingo_Lunes_Martes_Miércoles_Jueves_Viernes_Sábado'.split('_'),
+    daysShort: 'Dom_Lun_Mar_Mié_Jue_Vie_Sáb'.split('_'),
     months: 'Enero_Febrero_Marzo_Abril_Mayo_Junio_Julio_Agosto_Septiembre_Octubre_Noviembre_Diciembre'.split('_'),
     monthsShort: 'Ene_Feb_Mar_Abr_May_Jun_Jul_Ago_Sep_Oct_Nov_Dic'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true
   },
   pullToRefresh: {
-    pull: 'Jalar hacia abajo para actualizar',
+    pull: 'Halar hacia abajo para actualizar',
     release: 'Soltar para actualizar',
     refresh: 'Actualizando...'
   },
@@ -41,11 +41,11 @@ export default {
   editor: {
     url: 'URL',
     bold: 'Negrita',
-    italic: 'Italico',
+    italic: 'Itálico',
     strikethrough: 'Tachado',
     underline: 'Subrayado',
     unorderedList: 'Lista Desordenada',
-    orderedList: 'List Ordenada',
+    orderedList: 'Lista Ordenada',
     subscript: 'Subíndice',
     superscript: 'Superíndice',
     hyperlink: 'Hipervínculo',
@@ -58,11 +58,11 @@ export default {
     print: 'Imprimir',
     outdent: 'Disminuir indentación',
     indent: 'Aumentar indentación',
-    removeFormat: 'Remover formato',
+    removeFormat: 'Eliminar formato',
     formatting: 'Formato',
     fontSize: 'Tamaño de Fuente',
     align: 'Alinear',
-    hr: 'Insertar HR',
+    hr: 'Insertar línea horizontal',
     undo: 'Deshacer',
     redo: 'Rehacer',
     header1: 'Encabezado 1',
@@ -71,19 +71,19 @@ export default {
     header4: 'Encabezado 4',
     header5: 'Encabezado 5',
     header6: 'Encabezado 6',
-    paragraph: 'Parafo',
-    code: 'Codigo',
+    paragraph: 'Párrafo',
+    code: 'Código',
     size1: 'Muy pequeño',
     size2: 'Pequeño',
     size3: 'Normal',
-    size4: 'MedioMedium-large',
+    size4: 'Mediano',
     size5: 'Grande',
-    size6: 'Muy',
-    size7: 'Maximo',
+    size6: 'Muy grande',
+    size7: 'Máximo',
     defaultFont: 'Fuente por defecto'
   },
   tree: {
     noNodes: 'Sin nodos disponibles',
-    noResults: 'No se encontraron nodos corespondientes'
+    noResults: 'No se encontraron nodos correspondientes'
   }
 }
