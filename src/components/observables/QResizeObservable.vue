@@ -1,18 +1,18 @@
 <template>
-  <div class="absolute-full overflow-hidden invisible" style="z-index: -1">
+  <div :style="absoluteFull" style="z-index: -1">
     <div
       ref="expand"
-      class="absolute-full overflow-hidden invisible"
+      :style="absoluteFull"
       @scroll="onResize"
     >
-      <div ref="expandChild" class="absolute-top-left transition-0" style="width: 100000px; height: 100000px;"></div>
+      <div ref="expandChild" :style="absoluteTop" style="width: 100000px; height: 100000px;"></div>
     </div>
     <div
       ref="shrink"
-      class="absolute-full overflow-hidden invisible"
+      :style="absoluteFull"
       @scroll="onResize"
     >
-      <div class="absolute-top-left transition-0" style="width: 200%; height: 200%;"></div>
+      <div :style="absoluteTop" style="width: 200%; height: 200%;"></div>
     </div>
   </div>
 </template>
@@ -27,6 +27,23 @@ function getSize (el) {
 
 export default {
   name: 'q-resize-observable',
+  data: () => ({
+    absoluteFull: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      overflow: 'hidden',
+      visibility: 'hidden'
+    },
+    absoluteTop: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      transition: '0s'
+    }
+  }),
   methods: {
     onResize () {
       const size = getSize(this.$el.parentNode)
