@@ -191,9 +191,9 @@
       @change<q-datetime-picker :value="model" @input="value => log('@input', value)" @change="value => { model = value; log('@change', value) }" color="secondary" type="datetime" />
 
       <p class="caption">Date - Monday as First</p>
-      <q-datetime-picker v-model="model" monday-first type="date" />
+      <q-datetime-picker v-model="model" :first-day-of-week="1" type="date" />
       <p class="caption">Date - Saturday as First</p>
-      <q-datetime-picker v-model="model" saturday-first type="date" />
+      <q-datetime-picker v-model="model" :first-day-of-week="6" type="date" />
 
       <p class="caption">Disabled State</p>
       <q-datetime-picker disable v-model="model" type="datetime" />
