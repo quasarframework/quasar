@@ -127,22 +127,29 @@
 /*
  * dense size
  */
-@media (max-width $breakpoint-sm-max)
+
+table-dense()
   .q-table-top
-    min-height 54px
+    min-height 48px
   .q-table-top, .q-table-bottom
-    padding-left 10px
-    padding-right 10px
+    padding-left 8px
+    padding-right 8px
   .q-table-bottom
-    min-height 47px
+    min-height 42px
 
   .q-table-sort-icon
     font-size 110%
   .q-table
     th, td
-      padding 5px 8px
+      padding 4px 8px
     thead tr, tbody td
-      height 42px
+      height 28px
+
+.q-table-dense
+  table-dense()
+
+@media (max-width $breakpoint-sm-max)
+  table-dense()
 
 /*
  * On light background

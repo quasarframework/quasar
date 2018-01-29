@@ -27,6 +27,7 @@
       :columns="columns"
       title="Client side data"
       row-key="name"
+      dense
     />
 
     <h4>Dark</h4>

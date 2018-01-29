@@ -39,6 +39,7 @@ export default {
       type: String,
       default: 'grey-8'
     },
+    dense: Boolean,
     columns: Array,
     loader: Boolean,
     title: String,
@@ -113,6 +114,7 @@ export default {
         'class': {
           'q-table-container': true,
           'q-table-dark': this.dark,
+          'q-table-dense': this.dense,
           fullscreen: this.inFullscreen,
           scroll: this.inFullscreen
         }
