@@ -81,7 +81,7 @@ export default {
     show () {
       if (!this.disable) {
         if (!this.focused) {
-          this.__setModel(this.value)
+          this.__setModel(this.value || this.defaultSelection)
         }
         return this.$refs.popup.show()
       }
@@ -107,7 +107,7 @@ export default {
       if (this.focused) {
         return
       }
-      this.__setModel(this.value)
+      this.__setModel(this.value || this.defaultSelection)
       this.focused = true
       this.$emit('focus')
     },
@@ -128,7 +128,7 @@ export default {
       }
     },
     __setModel (val, forceUpdate) {
-      this.model = clone(val || this.defaultSelection)
+      this.model = clone(val)
       if (forceUpdate || (this.isPopover && this.$refs.popup.showing)) {
         this.__update()
       }
