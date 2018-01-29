@@ -425,7 +425,7 @@ export default {
       return h('div', {
         key,
         staticClass: 'q-tree-node',
-        'class': { 'q-tree-node-parent': isParent }
+        'class': { 'q-tree-node-parent': isParent, 'q-tree-node-child': !isParent }
       }, [
         h('div', {
           staticClass: 'q-tree-node-header relative-position row no-wrap items-center',
