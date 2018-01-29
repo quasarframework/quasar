@@ -6,14 +6,15 @@
       <p>Immediate</p>
       <q-color v-model="inputModelRgb" stack-label="simple" />
       <q-color v-model="inputModelRgb" clearable stack-label="clearable" />
-      <q-color v-model="inputModelRgb" default-value="#ccc" stack-label="default" />
-      <q-color v-model="inputModelRgb" default-value="#ccc" clearable stack-label="default, clearable" />
+      <q-color v-model="inputModelRgb" default-selection="#ccc" stack-label="default-selection" />
+      <q-color v-model="inputModelRgb" default-selection="#ccc" clearable stack-label="default-selection, clearable" />
       <p>Lazy</p>
       <q-color :value="inputModelRgb" @change="val => inputModelRgb = val" stack-label="simple" />
       <q-color :value="inputModelRgb" @change="val => inputModelRgb = val" clearable stack-label="clearable" />
-      <q-color :value="inputModelRgb" @change="val => inputModelRgb = val" default-value="#ccc" stack-label="default" />
-      <q-color :value="inputModelRgb" @change="val => inputModelRgb = val" default-value="#ccc" clearable stack-label="default, clearable" />
+      <q-color :value="inputModelRgb" @change="val => inputModelRgb = val" default-value="#ccc" stack-label="default-selection" />
+      <q-color :value="inputModelRgb" @change="val => inputModelRgb = val" default-value="#ccc" clearable stack-label="default-selection, clearable" />
 
+      <br><br>
       <q-btn color="primary" label="Set to yellow" @click="setToYellow"/>
 
       <div class="row gutter-md" style="width: 550px">

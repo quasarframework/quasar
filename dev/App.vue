@@ -5,11 +5,12 @@
     </transition>
     <q-ajax-bar ref="bar" />
     <div
-      style="padding: 0px 10px; right: 10px; bottom: 100px"
+      style="padding: 0px 10px; right: 10px; bottom: 100px; padding: 5px; border-radius: 5px;"
       class="bg-white shadow-4 fixed z-top"
     >
       <q-select
         stack-label="I18n"
+        hide-underline
         :options="[
           { label: 'English (US)', value: 'en-us' }
           ,{ label: 'English (UK)', value: 'en-uk' }
@@ -28,6 +29,7 @@
         v-model="lang"
       />
       <q-select
+        hide-underline
         stack-label="Icon set"
         :options="[
           { label: 'Material', value: 'material' }
