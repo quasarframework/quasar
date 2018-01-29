@@ -1,6 +1,7 @@
 <template>
   <div
     class="q-uploader relative-position"
+    :class="classes"
     @dragover.prevent.stop="__onDragOver"
   >
     <q-input-frame
@@ -238,6 +239,13 @@ export default {
         cls.push('inverted')
       }
       return cls
+    },
+    classes () {
+      return {
+        'q-uploader-expanded': this.expanded,
+        'q-uploader-dark': this.dark,
+        'q-uploader-files-no-border': this.inverted || !this.hideUnderline
+      }
     }
   },
   watch: {

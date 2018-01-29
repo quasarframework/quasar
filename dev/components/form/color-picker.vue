@@ -11,8 +11,8 @@
       <p>Lazy</p>
       <q-color :value="inputModelRgb" @change="val => inputModelRgb = val" stack-label="simple" />
       <q-color :value="inputModelRgb" @change="val => inputModelRgb = val" clearable stack-label="clearable" />
-      <q-color :value="inputModelRgb" @change="val => inputModelRgb = val" default-value="#ccc" stack-label="default-selection" />
-      <q-color :value="inputModelRgb" @change="val => inputModelRgb = val" default-value="#ccc" clearable stack-label="default-selection, clearable" />
+      <q-color :value="inputModelRgb" @change="val => inputModelRgb = val" default-selection="#ccc" stack-label="default-selection" />
+      <q-color :value="inputModelRgb" @change="val => inputModelRgb = val" default-selection="#ccc" clearable stack-label="default-selection, clearable" />
 
       <br><br>
       <q-btn color="primary" label="Set to yellow" @click="setToYellow"/>

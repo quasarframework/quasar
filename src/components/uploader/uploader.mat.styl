@@ -13,9 +13,10 @@
 
 .q-uploader-files
   border 1px solid $grey-4
-  border-top 0
   font-size 14px
   max-height 500px
+.q-uploader-files-no-border .q-uploader-files
+  border-top 0 !important
 .q-uploader-file:not(:last-child)
   border-bottom 1px solid $grey-4
 .q-uploader-progress-bg, .q-uploader-progress-text
@@ -35,3 +36,10 @@
   background rgba(255, 255, 255, .6)
   &.inverted
     background rgba(0, 0, 0, .3)
+
+.q-uploader-dark
+  .q-uploader-files
+    color white
+    border 1px solid $field-dark-label-color
+  .q-uploader-file:not(:last-child)
+    border-bottom 1px solid $field-dark-label-color

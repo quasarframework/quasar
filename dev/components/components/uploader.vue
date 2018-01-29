@@ -2,6 +2,31 @@
   <div>
     <div class="layout-padding">
       <q-input v-model="url" />
+      <br>
+      <div class="bg-black q-pa-sm" style="max-width: 500px">
+        <q-uploader dark :url="url" multiple color="lime" float-label="Float label" />
+        <br>
+        <q-uploader dark hide-underline :url="url" multiple color="orange" float-label="Float label" />
+        <br>
+        <q-field
+          icon="wifi"
+          label="Wifi network"
+          :count="10"
+          helper="We need this for connecting you"
+        >
+          <q-uploader dark :url="url" multiple color="orange" float-label="Float label" />
+        </q-field>
+        <br>
+        <q-field
+          icon="wifi"
+          label="Wifi network"
+          :count="10"
+          helper="We need this for connecting you"
+        >
+          <q-uploader dark inverted :url="url" multiple color="orange" float-label="Float label" />
+        </q-field>
+      </div>
+
       <p class="caption">Single File Upload</p>
       <q-uploader style="max-width: 320px" color="amber" stack-label="Stack Label" :url="url" />
 
