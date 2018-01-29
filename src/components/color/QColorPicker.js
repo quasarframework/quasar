@@ -156,6 +156,7 @@ export default {
           staticClass: 'q-color-swatch q-mt-sm q-ml-sm q-mb-sm non-selectable overflow-hidden',
           style: this.swatchStyle
         }),
+        // where is the defination of class q-pa-sm , i have searched the whole repo couldn't find any ?????
         h('div', { staticClass: 'col q-pa-sm' }, [
           h('div', { staticClass: 'q-color-hue non-selectable' }, [
             h(QSlider, {
