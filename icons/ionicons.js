@@ -54,9 +54,14 @@ export default {
   collapsible: {
     icon: 'ion-chevron-down'
   },
+  color: {
+    details: 'ion-ios-color-filter'
+  },
   datetime: {
     arrowLeft: 'ion-chevron-left',
-    arrowRight: 'ion-chevron-right'
+    arrowRight: 'ion-chevron-right',
+    detailsDate: 'ion-ios-calendar',
+    detailsTime: 'ion-ios-clock'
   },
   editor: { // TODO (requires Material icons for some as Ionicons simply does not have everything needed)
     bold: 'format_bold',
@@ -99,7 +104,7 @@ export default {
     showNumber: 'ion-calculator',
     hideNumber: 'ion-ios-keypad',
     clear: 'ion-backspace-outline',
-    dropdown: 'ion-android-arrow-dropdown'
+    details: 'ion-arrow-down-b'
   },
   pagination: {
     first: 'ion-ios-skipbackward-outline',

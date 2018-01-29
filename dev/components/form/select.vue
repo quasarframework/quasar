@@ -56,6 +56,15 @@
       <p class="caption">Simple</p>
       <q-select simple v-model="select" :options="selectOptions"></q-select>
 
+      <p class="caption">Details Icon Variations</p>
+      <q-select simple v-model="select" :options="selectOptions"                                      float-label="Default (undefined)" />
+      <q-select simple v-model="select" :options="selectOptions" :details-icon=false                   float-label="Explicit False"      />
+      <q-select simple v-model="select" :options="selectOptions" details-icon                          float-label="Prop specified"      />
+      <q-select simple v-model="select" :options="selectOptions" :details-icon=true                    float-label="Explicit True"       />
+      <q-select simple v-model="select" :options="selectOptions" details-icon="arrow_drop_down_circle" float-label="Custom Icon"         />
+      <q-select simple v-model="select" :options="selectOptions" details-icon="account_balance"        float-label="Custom Icon"         />
+      <q-select simple v-model="select" :options="selectOptions" detailsIcon="face"                   float-label="Custom Icon"         />
+
       <p class="caption">With Filter</p>
       <q-select filter autofocus-filter v-model="select" :options="selectListOptions"></q-select>
       <q-select filter autofocus-filter v-model="select" :options="selectLongListOptions"></q-select>

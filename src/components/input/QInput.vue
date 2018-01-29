@@ -19,9 +19,11 @@
     :focused="focused"
     :length="length"
     :top-addons="isTextarea"
+    :detailsIcon="computedDetailsIcon"
 
     @click="__onClick"
     @focus="__onFocus"
+    @details="$emit('details')"
   >
     <slot name="before"></slot>
 

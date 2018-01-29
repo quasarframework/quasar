@@ -112,6 +112,18 @@
       <p class="caption">With Static Label</p>
       <q-datetime v-model="model" type="date" static-label="Party Date" />
 
+      <p class="caption">Details Icon Variations</p>
+      <q-datetime v-model="model"                                      float-label="Default (undefined)" />
+      <q-datetime v-model="model" type="date"                          float-label="Date"                />
+      <q-datetime v-model="model" type="datetime"                      float-label="Datetime"            />
+      <q-datetime v-model="model" type="time"                          float-label="Time"                />
+      <q-datetime v-model="model" :details-icon=false                   float-label="Explicit False"      />
+      <q-datetime v-model="model" details-icon                          float-label="Prop specified"      />
+      <q-datetime v-model="model" :details-icon=true                    float-label="Explicit True"       />
+      <q-datetime v-model="model" details-icon="arrow_drop_down_circle" float-label="Custom Icon"         />
+      <q-datetime v-model="model" details-icon="airplanemode_active"    float-label="Custom Icon"         />
+      <q-datetime v-model="model" details-icon="alarm_on"               float-label="Custom Icon"         />
+      
       <p class="caption">Disabled State</p>
       <q-datetime disable v-model="model" type="datetime" />
 

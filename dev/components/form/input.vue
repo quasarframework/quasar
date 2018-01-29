@@ -88,6 +88,15 @@
       <q-input v-model="text" float-label="Has warning" warning />
       <q-input v-model="text" float-label="Has both error and warning" error warning />
 
+      <p class="caption">Details Icon Options</p>
+      <q-input v-model="text"                                      float-label="Default (undefined)" />
+      <q-input v-model="text" :details-icon=false                   float-label="Explicit False"      />
+      <q-input v-model="text" details-icon                          float-label="Prop specified"      />
+      <q-input v-model="text" :details-icon=true                    float-label="Explicit True"       />
+      <q-input v-model="text" details-icon="face"                   float-label="Custom Icon"         />
+      <q-input v-model="text" details-icon="assessment"             float-label="Custom Icon"         />
+      <q-input v-model="text" details-icon="event_seat"             float-label="Custom Icon"         />
+      
       <p class="caption">False initial value</p>
       <q-input v-model="textFalse" float-label="Some placeholder" />
       <q-input v-model="textFalse" stack-label="Some placeholder" />
