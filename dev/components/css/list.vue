@@ -1,12 +1,13 @@
 <template>
-  <div>
+  <div :class="dark ? 'bg-black text-white' : ''">
     <div class="layout-padding">
+      <q-toggle :dark="dark" v-model="dark" label="On dark background" />
       <p class="light-paragraph">
         You'll learn the <strong>List basics</strong> here then you can jump to the other sections
         to see how you can beatifully combine the List elements.
       </p>
 
-      <q-list inset-separator>
+      <q-list :dark="dark" inset-separator>
         <q-list-header>QItemSide</q-list-header>
         <q-item>
           <q-item-side avatar="/statics/boy-avatar.png" />
@@ -244,7 +245,7 @@
       </q-list>
 
       <p class="caption">Basic List</p>
-      <q-list>
+      <q-list :dark="dark">
         <q-item>
           <q-item-main label="List Item" />
         </q-item>
@@ -256,51 +257,51 @@
       </q-list>
 
       <p class="caption">Dense List</p>
-      <q-list dense>
+      <q-list :dark="dark" dense>
         <q-item :key="'ak' + n" v-for="n in 3">
           <q-item-main label="List Item" />
         </q-item>
       </q-list>
-      <q-list>
+      <q-list :dark="dark">
         <q-item :key="'al' + n" v-for="n in 3" dense>
           <q-item-main label="List Item" />
         </q-item>
       </q-list>
 
       <p class="caption">Sparse List</p>
-      <q-list sparse>
+      <q-list :dark="dark" sparse>
         <q-item :key="'am' + n" v-for="n in 3">
           <q-item-main label="List Item" />
         </q-item>
       </q-list>
-      <q-list>
+      <q-list :dark="dark">
         <q-item :key="'an' + n" v-for="n in 3" sparse>
           <q-item-main label="List Item" />
         </q-item>
       </q-list>
 
       <p class="caption">No Border</p>
-      <q-list no-border>
+      <q-list :dark="dark" no-border>
         <q-item :key="'ao' + n" v-for="n in 3">
           <q-item-main label="List Item" />
         </q-item>
       </q-list>
 
       <p class="caption">Striped</p>
-      <q-list striped>
+      <q-list :dark="dark" striped>
         <q-item :key="'ap' + n" v-for="n in 6">
           <q-item-main label="List Item" />
         </q-item>
       </q-list>
 
-      <q-list striped-odd>
+      <q-list :dark="dark" striped-odd>
         <q-item :key="'aq' + n" v-for="n in 3">
           <q-item-main label="List Item" />
         </q-item>
       </q-list>
 
       <p class="caption">Separator Between Items</p>
-      <q-list>
+      <q-list :dark="dark">
         <q-item>
           <q-item-main label="List Item" />
         </q-item>
@@ -315,40 +316,40 @@
       </q-list>
 
       <p class="caption">Separator within Items</p>
-      <q-list separator>
+      <q-list :dark="dark" separator>
         <q-item :key="'ba' + n" v-for="n in 3">
           <q-item-main label="List Item" />
         </q-item>
       </q-list>
 
-      <q-list>
+      <q-list :dark="dark">
         <q-item :key="'bb' + n" v-for="n in 3" separator>
           <q-item-main label="List Item" />
         </q-item>
       </q-list>
 
       <p class="caption">Inset Separator within Items</p>
-      <q-list inset-separator>
+      <q-list :dark="dark" inset-separator>
         <q-item :key="'bc' + n" v-for="n in 3">
           <q-item-main inset label="List Item" />
         </q-item>
       </q-list>
 
-      <q-list>
+      <q-list :dark="dark">
         <q-item :key="'bd' + n" v-for="n in 3" inset-separator>
           <q-item-main inset label="List Item" />
         </q-item>
       </q-list>
 
       <p class="caption">Router Links</p>
-      <q-list>
+      <q-list :dark="dark">
         <q-item to="/" exact v-for="n in 2" :key="'be' + n">
           <q-item-main inset label="Go to Home" />
         </q-item>
       </q-list>
 
       <p class="caption">List Labels</p>
-      <q-list>
+      <q-list :dark="dark">
         <q-list-header>List Label</q-list-header>
         <q-item :key="'bf' + n" v-for="n in 2">
           <q-item-main label="List Item" />
@@ -361,7 +362,7 @@
       </q-list>
 
       <p class="caption">Inset: Items, Separators and Labels</p>
-      <q-list>
+      <q-list :dark="dark">
         <q-item>
           <q-item-main inset label="List Item" />
         </q-item>
@@ -388,7 +389,7 @@
           </span>
         </small>
       </p>
-      <q-list highlight>
+      <q-list :dark="dark" highlight>
         <q-item :key="'bi' + n" v-for="n in 2">
           <q-item-main label="List Item" />
         </q-item>
@@ -406,14 +407,14 @@
           </span>
         </small>
       </p>
-      <q-list link>
+      <q-list :dark="dark" link>
         <q-item :key="'bj' + n" v-for="n in 2">
           <q-item-main label="List Item" />
         </q-item>
       </q-list>
 
       <p class="caption">Primary</p>
-      <q-list inset-separator>
+      <q-list :dark="dark" inset-separator>
         <q-item>
           <q-item-side icon="assignment_ind" />
           <q-item-main label="Icon as Primary" />
@@ -427,7 +428,7 @@
           <q-item-main label="One character as Primary" />
         </q-item>
       </q-list>
-      <q-list inset-separator>
+      <q-list :dark="dark" inset-separator>
         <q-item>
           <q-item-side icon="assignment_ind" />
           <q-item-main label="Icon as Primary" />
@@ -451,7 +452,7 @@
       </q-list>
 
       <p class="caption">Secondary</p>
-      <q-list>
+      <q-list :dark="dark">
         <q-item>
           <q-item-main label="Icon as Secondary" />
           <q-item-side right icon="info" />
@@ -469,7 +470,7 @@
       </q-list>
 
       <p class="caption">Example Items with Primary and Secondary</p>
-      <q-list inset-separator>
+      <q-list :dark="dark" inset-separator>
         <q-item>
           <q-item-side avatar="/statics/boy-avatar.png" />
           <q-item-main label="Jack" />
@@ -498,7 +499,7 @@
       </q-list>
 
       <p class="caption">Stamp and Truncated Content</p>
-      <q-list highlight inset-separator style="max-width: 400px">
+      <q-list :dark="dark" highlight inset-separator style="max-width: 400px">
         <q-item>
           <q-item-side avatar="/statics/boy-avatar.png" />
           <q-item-main label="Brunch this weekend? Brunch this weekend? Brunch this weekend?" label-lines="1" />
@@ -557,13 +558,13 @@
       </q-list>
 
       <p class="caption">Item with different secondaries</p>
-      <q-list inset-separator>
+      <q-list :dark="dark" inset-separator>
         <q-item>
           <q-item-side avatar="/statics/boy-avatar.png" />
           <q-item-main label="Brunch this weekend?" />
           <q-item-side right icon="more_vert">
             <q-popover ref="popover">
-              <q-list link>
+              <q-list :dark="dark" link>
                 <q-item @click.native="$refs.popover.hide()">
                   <q-item-main label="Reply" />
                 </q-item>
@@ -596,7 +597,7 @@
         </q-item>
       </q-list>
 
-      <q-list>
+      <q-list :dark="dark">
         <q-collapsible icon="inbox" indent label="Inbox" sublabel="Where your email is">
           <q-item v-for="n in 3" :key="'bl' + n">
             <q-item-side icon="mail" />
@@ -627,7 +628,7 @@
         </q-collapsible>
       </q-list>
 
-      <q-list highlight>
+      <q-list :dark="dark" highlight>
         <q-list-header>Recent chats</q-list-header>
         <q-item>
           <q-item-side avatar="/statics/boy-avatar.png" />
@@ -649,7 +650,7 @@
         </q-item>
       </q-list>
 
-      <q-list>
+      <q-list :dark="dark">
         <q-item v-for="n in 3" :key="'br' + n">
           <q-item-side icon="star" color="yellow" />
           <q-item-main label="John Joe" />
@@ -739,7 +740,7 @@
         </q-item>
       </q-list>
 
-      <q-list>
+      <q-list :dark="dark">
         <q-list-header inset>Folders</q-list-header>
         <q-item v-for="n in 3" :key="'cb' + n">
           <q-item-side icon="folder" inverted color="grey-6" />
@@ -762,7 +763,7 @@
       </q-list>
 
       <p class="caption">Settings</p>
-      <q-list link>
+      <q-list :dark="dark" link>
         <q-list-header>User controls</q-list-header>
         <q-item>
           <q-item-main>
@@ -780,7 +781,7 @@
         <q-list-header>General</q-list-header>
         <q-item tag="label">
           <q-item-side>
-            <q-checkbox v-model="checked" />
+            <q-checkbox :dark="dark" v-model="checked" />
           </q-item-side>
           <q-item-main>
             <q-item-tile label>Notifications</q-item-tile>
@@ -789,7 +790,7 @@
         </q-item>
         <q-item tag="label">
           <q-item-side>
-            <q-checkbox v-model="checked" />
+            <q-checkbox :dark="dark" v-model="checked" />
           </q-item-side>
           <q-item-main>
             <q-item-tile label>Sound</q-item-tile>
@@ -798,7 +799,7 @@
         </q-item>
         <q-item tag="label">
           <q-item-side>
-            <q-checkbox v-model="checked" />
+            <q-checkbox :dark="dark" v-model="checked" />
           </q-item-side>
           <q-item-main>
             <q-item-tile label>Auto-add widgets</q-item-tile>
@@ -808,17 +809,17 @@
       </q-list>
 
       <p class="caption">More form components examples</p>
-      <q-list link>
+      <q-list :dark="dark" link>
         <q-list-header>Radios</q-list-header>
         <q-item tag="label">
           <q-item-side>
-            <q-radio v-model="option" val="opt1"></q-radio>
+            <q-radio :dark="dark" v-model="option" val="opt1"></q-radio>
           </q-item-side>
           <q-item-main label="Option 1" />
         </q-item>
         <q-item tag="label">
           <q-item-side>
-            <q-radio color="purple" v-model="option" val="opt2"></q-radio>
+            <q-radio :dark="dark" color="purple" v-model="option" val="opt2"></q-radio>
           </q-item-side>
           <q-item-main>
             <q-item-tile label>Option 2</q-item-tile>
@@ -827,7 +828,7 @@
         </q-item>
         <q-item tag="label">
           <q-item-side>
-            <q-radio color="red" v-model="option" val="opt3"></q-radio>
+            <q-radio :dark="dark" color="red" v-model="option" val="opt3"></q-radio>
           </q-item-side>
           <q-item-main>
             <q-item-tile label>Option 3</q-item-tile>
@@ -836,12 +837,12 @@
         </q-item>
       </q-list>
 
-      <q-list link>
+      <q-list :dark="dark" link>
         <q-list-header>Toggles</q-list-header>
         <q-item tag="label">
           <q-item-main label="Events and reminders" />
           <q-item-side right>
-            <q-toggle v-model="checked"></q-toggle>
+            <q-toggle :dark="dark" v-model="checked"></q-toggle>
           </q-item-side>
         </q-item>
         <q-item tag="label" multiline>
@@ -850,7 +851,7 @@
             <q-item-tile sublabel>Lorem ipsum</q-item-tile>
           </q-item-main>
           <q-item-side right>
-            <q-toggle v-model="checked" color="purple"></q-toggle>
+            <q-toggle :dark="dark" v-model="checked" color="purple"></q-toggle>
           </q-item-side>
         </q-item>
         <q-item tag="label" multiline>
@@ -859,24 +860,24 @@
             <q-item-tile sublabel lines="3">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</q-item-tile>
           </q-item-main>
           <q-item-side right>
-            <q-toggle v-model="checked" color="red"></q-toggle>
+            <q-toggle :dark="dark" v-model="checked" color="red"></q-toggle>
           </q-item-side>
         </q-item>
       </q-list>
 
       <p class="caption">More form components examples</p>
-      <q-list>
+      <q-list :dark="dark">
         <q-list-header>Selects</q-list-header>
         <q-item>
           <q-item-side icon="supervisor_account" />
           <q-item-main>
-            <q-select class="full-width" v-model="select" :options="selectOptions" />
+            <q-select :dark="dark" class="full-width" v-model="select" :options="selectOptions" />
           </q-item-main>
         </q-item>
         <q-item>
           <q-item-side icon="supervisor_account" />
           <q-item-main>
-            <q-select class="full-width" multiple checkbox v-model="multipleSelect" :options="selectOptions" />
+            <q-select :dark="dark" class="full-width" multiple checkbox v-model="multipleSelect" :options="selectOptions" />
           </q-item-main>
         </q-item>
 
@@ -904,7 +905,7 @@
         </q-item>
       </q-list>
 
-      <q-list>
+      <q-list :dark="dark">
         <q-list-header>Movies</q-list-header>
         <q-item>
           <q-item-side image="/statics/mountains.jpg" />
@@ -931,7 +932,7 @@
         </q-item>
       </q-list>
 
-      <q-list>
+      <q-list :dark="dark">
         <q-list-header>People</q-list-header>
         <q-item>
           <q-item-side avatar="/statics/boy-avatar.png" />
@@ -960,7 +961,7 @@
         </q-item>
       </q-list>
 
-      <q-list>
+      <q-list :dark="dark">
         <q-item v-for="n in 3" :key="'cd' + n">
           <q-item-side icon="phone" color="primary" v-if="n === 1" />
           <q-item-main :inset="n > 1">
@@ -979,7 +980,7 @@
         </q-item>
       </q-list>
 
-      <q-list link>
+      <q-list :dark="dark" link>
         <q-item>
           <q-item-side icon="inbox" />
           <q-item-main label="Inbox" />
@@ -1014,6 +1015,7 @@
 export default {
   data () {
     return {
+      dark: false,
       checked: false,
       option: 'opt1',
       select: 'fb',

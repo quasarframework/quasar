@@ -4,7 +4,6 @@
   white-space nowrap
   margin .3rem 0
 
-
 .q-item-side
   color $item-side-color
   flex 0 0 auto
@@ -127,3 +126,39 @@
   padding-left $item-padding
 .q-list-header-inset
   padding-left ($item-padding + $item-gutter + $item-primary-size)
+
+
+.q-list-dark, .q-item-dark
+  .q-item-side
+    color $item-side-dark-color
+  .q-item-letter-inverted, .q-item-icon-inverted
+    color black
+    background $item-side-dark-color
+  .q-item-label > span
+    color $item-content-secondary-text-dark-color
+  .q-item-sublabel
+    color $item-content-secondary-text-dark-color
+  .q-item
+    color white
+    &.active, &.router-link-active, &:focus
+      background $item-active-dark-color
+.q-list-dark
+  border 1px solid $item-separator-dark-color
+  &.q-list-separator > .q-item-division + .q-item-division, .q-item-division + .q-item-separator
+    border-top 1px solid $item-separator-dark-color
+  &.q-list-inset-separator > .q-item-division + .q-item-division, .q-item-division + .q-item-inset-separator
+    &:after
+      background $item-separator-dark-color
+  &.q-list-striped > .q-item:nth-child(even)
+    background-color $item-stripe-dark-color
+  &.q-list-striped-odd > .q-item:nth-child(odd)
+    background-color $item-stripe-dark-color
+  .q-item-separator-component
+    background-color $item-separator-dark-color
+  .q-list-header
+    color $item-label-dark-color
+
+  &.q-list-highlight > .q-item, .q-item-highlight,
+  &.q-list-link > .q-item, .q-item-link
+    &:hover
+      background $item-highlight-dark-color
