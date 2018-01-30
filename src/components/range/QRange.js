@@ -220,8 +220,8 @@ export default {
           pos = {
             minP,
             maxP: minP + this.dragging.rangePercentage,
-            min,
-            max: min + this.dragging.rangeValue
+            min: parseFloat(min.toFixed(this.computedDecimals)),
+            max: parseFloat((min + this.dragging.rangeValue).toFixed(this.computedDecimals))
           }
           break
       }
