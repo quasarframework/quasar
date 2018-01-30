@@ -48,7 +48,7 @@ export default {
       this.$emit('focus', e)
     },
     __handleKeyDown (e) {
-      if (this.closable && [13, 32].includes(getEventKey(e))) {
+      if (this.closable && [8, 13, 32].includes(getEventKey(e))) {
         stopAndPrevent(e)
         this.$emit('hide')
       }
