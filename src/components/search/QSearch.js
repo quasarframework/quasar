@@ -111,7 +111,10 @@ export default {
         keyup: this.__onKeyup,
         keydown: this.__onKeydown,
         click: this.__onClick,
-        clear: val => this.$emit('clear', val)
+        clear: val => {
+          this.$emit('clear', val)
+          this.__emit()
+        }
       }
     }, [
       this.$slots.default

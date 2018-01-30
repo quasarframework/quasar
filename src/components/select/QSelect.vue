@@ -33,12 +33,15 @@
       :class="alignClass"
     >
       <q-chip
-        v-for="{label, value, color: optColor, disable: optDisable} in selectedOptions"
+        v-for="{label, value, color: optColor, icon: optIcon, rightIcon: optIconRight, avatar: optAvatar, disable: optDisable} in selectedOptions"
         :key="label"
         small
         :closable="!disable && !optDisable"
         :color="computedChipColor(optColor)"
         :text-color="computedChipTextColor(optColor)"
+        :icon="optIcon"
+        :iconRight="optIconRight"
+        :avatar="optAvatar"
         @click.native.stop
         @hide="__toggleMultiple(value, disable || optDisable)"
       >
@@ -311,6 +314,9 @@ export default {
       }
     },
     __onFocus () {
+      if (this.focused) {
+        return
+      }
       this.focused = true
       if (this.filter && this.autofocusFilter) {
         this.$refs.filter.focus()
@@ -324,7 +330,10 @@ export default {
     __onBlur (e) {
       setTimeout(() => {
         const el = document.activeElement
-        if (el !== document.body && !this.$refs.popover.$el.contains(el)) {
+        if (
+          !this.$refs.popover.showing ||
+          (el !== document.body && !this.$refs.popover.$el.contains(el))
+        ) {
           this.__onClose()
           this.hide()
         }
@@ -372,10 +381,10 @@ export default {
         }
       })
     },
-    __setModel (val) {
+    __setModel (val, forceUpdate) {
       this.model = val || (this.multiple ? [] : null)
       this.$emit('input', this.model)
-      if (!this.$refs.popover.showing) {
+      if (forceUpdate || !this.$refs.popover.showing) {
         this.__onClose()
       }
     },
