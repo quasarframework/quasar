@@ -221,7 +221,7 @@ export default {
 
       if (event.isFinal) {
         this.goToSlide(
-          event.distance.x < 100
+          event.distance.x < 10
             ? this.slide
             : this.positionSlide,
           true
