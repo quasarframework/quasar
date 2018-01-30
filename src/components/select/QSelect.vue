@@ -15,7 +15,7 @@
     :hide-underline="hideUnderline"
     :before="before"
     :after="after"
-    :color="frameColor || color"
+    :color="computedColor"
 
     :focused="focused"
     focusable
@@ -37,7 +37,8 @@
         :key="label"
         small
         :closable="!disable && !optDisable"
-        :color="optColor || color"
+        :color="computedChipColor(optColor)"
+        :text-color="computedChipTextColor(optColor)"
         @click.native.stop
         @hide="__toggleMultiple(value, disable || optDisable)"
       >
@@ -103,6 +104,7 @@
               v-if="toggle"
               slot="right"
               :color="opt.color || color"
+              :keep-color="!!opt.color"
               :value="optModel[opt.index]"
               :disable="opt.disable"
               no-focus
@@ -111,6 +113,7 @@
               v-else
               slot="left"
               :color="opt.color || color"
+              :keep-color="!!opt.color"
               :value="optModel[opt.index]"
               :disable="opt.disable"
               no-focus
@@ -131,6 +134,7 @@
             <q-radio
               v-if="radio"
               :color="opt.color || color"
+              :keep-color="!!opt.color"
               slot="left"
               :value="value"
               :val="opt.value"
@@ -272,6 +276,9 @@ export default {
     },
     additionalLength () {
       return this.displayValue && this.displayValue.length > 0
+    },
+    computedColor () {
+      return this.inverted ? this.frameColor || this.color : this.color
     }
   },
   methods: {
@@ -371,6 +378,22 @@ export default {
       if (!this.$refs.popover.showing) {
         this.__onClose()
       }
+    },
+
+    computedChipColor (optColor) {
+      if (this.inverted) {
+        if (this.frameColor) {
+          return this.color
+        }
+        return this.dark !== false ? 'white' : null
+      }
+      return optColor || this.color
+    },
+    computedChipTextColor (optColor) {
+      if (this.inverted) {
+        return optColor || this.frameColor || this.color
+      }
+      return this.dark !== false ? 'white' : null
     }
   }
 }
