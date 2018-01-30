@@ -22,14 +22,13 @@ export default {
   },
   computed: {
     classes () {
-      const cls = [{
-        tag: this.tag,
-        square: this.square,
-        floating: this.floating,
-        pointing: this.pointing,
-        small: this.small || this.floating
-      }]
-      this.pointing && cls.push(`pointing-${this.pointing}`)
+      const cls = []
+
+      this.pointing && cls.push(`q-chip-pointing-${this.pointing}`)
+      ;['tag', 'square', 'floating', 'pointing', 'small'].forEach(prop => {
+        this[prop] && cls.push(`q-chip-${prop}`)
+      })
+
       if (this.color) {
         cls.push(`bg-${this.color}`)
         !this.textColor && cls.push(`text-white`)
@@ -37,6 +36,7 @@ export default {
       if (this.textColor) {
         cls.push(`text-${this.textColor}`)
       }
+
       return cls
     }
   },
@@ -67,11 +67,11 @@ export default {
     }, [
       this.icon || this.avatar
         ? h('div', {
-          staticClass: 'q-chip-side chip-left row flex-center',
-          'class': { 'chip-detail': this.detail }
+          staticClass: 'q-chip-side q-chip-left row flex-center',
+          'class': { 'q-chip-detail': this.detail }
         }, [
           this.icon
-            ? h(QIcon, { props: { name: this.icon } })
+            ? h(QIcon, { staticClass: 'q-chip-icon', props: { name: this.icon } })
             : (this.avatar ? h('img', { domProps: { src: this.avatar } }) : null)
         ])
         : null,
@@ -83,12 +83,12 @@ export default {
       this.iconRight
         ? h(QIcon, {
           props: { name: this.iconRight },
-          'class': this.closable ? 'on-right' : 'q-chip-side chip-right'
+          'class': this.closable ? 'on-right q-chip-icon' : 'q-chip-side q-chip-right'
         })
         : null,
 
       this.closable
-        ? h('div', { staticClass: 'q-chip-side q-chip-close chip-right row flex-center' }, [
+        ? h('div', { staticClass: 'q-chip-side q-chip-close q-chip-right row flex-center' }, [
           h(QIcon, {
             props: { name: this.$q.icon.chip.close },
             staticClass: 'cursor-pointer',
