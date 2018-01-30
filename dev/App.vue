@@ -9,8 +9,8 @@
       class="bg-white shadow-4 fixed z-top"
     >
       <q-select
-        stack-label="I18n"
         hide-underline
+        stack-label="I18n"
         :options="[
           { label: 'English (US)', value: 'en-us' }
           ,{ label: 'English (UK)', value: 'en-uk' }

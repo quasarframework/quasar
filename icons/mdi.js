@@ -24,7 +24,7 @@ export default {
   search: {
     icon: 'mdi-magnify',
     clear: 'mdi-close-circle',
-    clearInverted: 'mdi-close-circle-outline'
+    clearInverted: 'mdi-close'
   },
   carousel: {
     left: 'mdi-chevron-left',
@@ -98,7 +98,8 @@ export default {
     hidePass: 'mdi-eye-off',
     showNumber: 'mdi-keyboard',
     hideNumber: 'mdi-keyboard-close',
-    clear: 'mdi-close',
+    clear: 'mdi-close-circle',
+    clearInverted: 'mdi-close',
     dropdown: 'mdi-menu-down'
   },
   pagination: {
@@ -140,7 +141,8 @@ export default {
   },
   uploader: {
     done: 'mdi-done',
-    clear: 'mdi-close',
+    clear: 'mdi-close-circle',
+    clearInverted: 'mdi-close',
     add: 'mdi-plus',
     upload: 'mdi-cloud-upload',
     expand: 'mdi-chevron-down',

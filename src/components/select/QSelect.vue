@@ -325,8 +325,8 @@ export default {
     },
     __onClose () {
       this.focused = false
-      this.$emit('blur')
       this.terms = ''
+      this.$emit('blur')
       this.$nextTick(() => {
         if (JSON.stringify(this.model) !== JSON.stringify(this.value)) {
           this.$emit('change', this.model)

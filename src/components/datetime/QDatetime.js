@@ -130,7 +130,7 @@ export default {
     __setModel (val, forceUpdate) {
       this.model = clone(val)
       if (forceUpdate || (this.isPopover && this.$refs.popup.showing)) {
-        this.__update()
+        this.__update(forceUpdate)
       }
     },
     __update (change) {
@@ -277,7 +277,7 @@ export default {
       this.editable && this.clearable && this.actualValue.length
         ? h('q-icon', {
           slot: 'after',
-          props: { name: this.$q.icon.input.clear },
+          props: { name: this.$q.icon.input[`clear${this.inverted ? 'Inverted' : ''}`] },
           nativeOn: { click: this.clear },
           staticClass: 'q-if-control'
         })

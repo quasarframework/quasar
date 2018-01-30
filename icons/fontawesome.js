@@ -23,8 +23,8 @@ export default {
   },
   search: {
     icon: 'fas fa-search',
-    clear: 'far fa-times-circle',
-    clearInverted: 'fas fa-times-circle'
+    clear: 'fas fa-times-circle',
+    clearInverted: 'fas fa-times'
   },
   carousel: {
     left: 'fas fa-chevron-left',
@@ -46,7 +46,7 @@ export default {
     }
   },
   chip: {
-    close: 'far fa-times-circle'
+    close: 'fas fa-times-circle'
   },
   chipsInput: {
     add: 'far fa-paper-plane'
@@ -98,7 +98,8 @@ export default {
     hidePass: 'fas fa-eye-slash',
     showNumber: 'fas fa-calculator',
     hideNumber: 'fas fa-keyboard',
-    clear: 'fas fa-times',
+    clear: 'fas fa-times-circle',
+    clearInverted: 'fas fa-times',
     dropdown: 'fas fa-caret-down'
   },
   pagination: {
@@ -140,7 +141,8 @@ export default {
   },
   uploader: {
     done: 'fas fa-check',
-    clear: 'far fa-times-circle',
+    clear: 'fas fa-times-circle',
+    clearInverted: 'fas fa-times',
     add: 'fas fa-plus-square',
     upload: 'fas fa-cloud-upload-alt',
     expand: 'fas fa-chevron-down',
