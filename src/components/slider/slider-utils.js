@@ -149,6 +149,7 @@ export let SliderMixin = {
         ? [{
           name: 'touch-pan',
           modifiers: {
+            horizontal: true,
             prevent: true,
             stop: true
           },
