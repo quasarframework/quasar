@@ -120,10 +120,10 @@ export default {
         }
       }, 1)
     },
-    __onHide () {
+    __onHide (forceUpdate) {
       this.focused = false
       this.$emit('blur')
-      if (this.isPopover && !this.$refs.popup.showing) {
+      if (forceUpdate || (this.isPopover && this.$refs.popup.showing)) {
         this.__update(true)
       }
     },
@@ -256,7 +256,7 @@ export default {
           },
           on: {
             show: this.__onFocus,
-            hide: this.__onHide
+            hide: val => this.__onHide(true)
           }
         }, this.__getPicker(h))
         : h(QModal, {
@@ -270,7 +270,7 @@ export default {
           },
           on: {
             show: this.__onFocus,
-            hide: this.__onHide
+            hide: val => this.__onHide(true)
           }
         }, this.__getPicker(h, true)),
 
