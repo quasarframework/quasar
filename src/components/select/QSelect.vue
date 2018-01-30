@@ -15,7 +15,7 @@
     :hide-underline="hideUnderline"
     :before="before"
     :after="after"
-    :color="frameColor || color"
+    :color="computedColor"
 
     :focused="focused"
     focusable
@@ -33,11 +33,15 @@
       :class="alignClass"
     >
       <q-chip
-        v-for="{label, value, color: optColor, disable: optDisable} in selectedOptions"
+        v-for="{label, value, color: optColor, icon: optIcon, rightIcon: optIconRight, avatar: optAvatar, disable: optDisable} in selectedOptions"
         :key="label"
         small
         :closable="!disable && !optDisable"
-        :color="optColor || color"
+        :color="computedChipColor(optColor)"
+        :text-color="computedChipTextColor(optColor)"
+        :icon="optIcon"
+        :iconRight="optIconRight"
+        :avatar="optAvatar"
         @click.native.stop
         @hide="__toggleMultiple(value, disable || optDisable)"
       >
@@ -103,6 +107,7 @@
               v-if="toggle"
               slot="right"
               :color="opt.color || color"
+              :keep-color="!!opt.color"
               :value="optModel[opt.index]"
               :disable="opt.disable"
               no-focus
@@ -111,6 +116,7 @@
               v-else
               slot="left"
               :color="opt.color || color"
+              :keep-color="!!opt.color"
               :value="optModel[opt.index]"
               :disable="opt.disable"
               no-focus
@@ -131,6 +137,7 @@
             <q-radio
               v-if="radio"
               :color="opt.color || color"
+              :keep-color="!!opt.color"
               slot="left"
               :value="value"
               :val="opt.value"
@@ -272,6 +279,9 @@ export default {
     },
     additionalLength () {
       return this.displayValue && this.displayValue.length > 0
+    },
+    computedColor () {
+      return this.inverted ? this.frameColor || this.color : this.color
     }
   },
   methods: {
@@ -304,6 +314,9 @@ export default {
       }
     },
     __onFocus () {
+      if (this.focused) {
+        return
+      }
       this.focused = true
       if (this.filter && this.autofocusFilter) {
         this.$refs.filter.focus()
@@ -317,7 +330,10 @@ export default {
     __onBlur (e) {
       setTimeout(() => {
         const el = document.activeElement
-        if (el !== document.body && !this.$refs.popover.$el.contains(el)) {
+        if (
+          !this.$refs.popover.showing ||
+          (el !== document.body && !this.$refs.popover.$el.contains(el))
+        ) {
           this.__onClose()
           this.hide()
         }
@@ -325,8 +341,8 @@ export default {
     },
     __onClose () {
       this.focused = false
-      this.$emit('blur')
       this.terms = ''
+      this.$emit('blur')
       this.$nextTick(() => {
         if (JSON.stringify(this.model) !== JSON.stringify(this.value)) {
           this.$emit('change', this.model)
@@ -365,12 +381,28 @@ export default {
         }
       })
     },
-    __setModel (val) {
+    __setModel (val, forceUpdate) {
       this.model = val || (this.multiple ? [] : null)
       this.$emit('input', this.model)
-      if (!this.$refs.popover.showing) {
+      if (forceUpdate || !this.$refs.popover.showing) {
         this.__onClose()
       }
+    },
+
+    computedChipColor (optColor) {
+      if (this.inverted) {
+        if (this.frameColor) {
+          return this.color
+        }
+        return this.dark !== false ? 'white' : null
+      }
+      return optColor || this.color
+    },
+    computedChipTextColor (optColor) {
+      if (this.inverted) {
+        return optColor || this.frameColor || this.color
+      }
+      return this.dark !== false ? 'white' : null
     }
   }
 }

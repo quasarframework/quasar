@@ -54,9 +54,6 @@ export default {
       if (this.__setModel) {
         this.__setModel(val, true)
       }
-      else {
-        this.$emit('input', val)
-      }
       this.$emit('clear', val)
     }
   }

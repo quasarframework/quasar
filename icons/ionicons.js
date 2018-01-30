@@ -23,8 +23,8 @@ export default {
   },
   search: {
     icon: 'ion-ios-search',
-    clear: 'ion-close-round',
-    clearInverted: 'ion-close-circled'
+    clear: 'ion-close-circled',
+    clearInverted: 'ion-close-round'
   },
   carousel: {
     left: 'ion-chevron-left',
@@ -46,7 +46,7 @@ export default {
     }
   },
   chip: {
-    close: 'ion-ios-close'
+    close: 'ion-close-circled'
   },
   chipsInput: {
     add: 'ion-android-send'
@@ -98,7 +98,8 @@ export default {
     hidePass: 'ion-eye-disabled',
     showNumber: 'ion-calculator',
     hideNumber: 'ion-ios-keypad',
-    clear: 'ion-backspace-outline',
+    clear: 'ion-close-circled',
+    clearInverted: 'ion-close-round',
     dropdown: 'ion-android-arrow-dropdown'
   },
   pagination: {
@@ -140,7 +141,8 @@ export default {
   },
   uploader: {
     done: 'ion-ios-checkmark-outline',
-    clear: 'ion-ios-close-outline',
+    clear: 'ion-close-circled',
+    clearInverted: 'ion-close-round',
     add: 'ion-ios-plus-outline',
     upload: 'ion-ios-cloud-upload-outline',
     expand: 'ion-chevron-down',

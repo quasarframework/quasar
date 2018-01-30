@@ -100,7 +100,7 @@
     <q-icon
       v-if="editable && clearable && length"
       slot="after"
-      :name="$q.icon.input.clear"
+      :name="$q.icon.input[`clear${this.inverted ? 'Inverted' : ''}`]"
       class="q-if-control"
       @mousedown.native="__clearTimer"
       @touchstart.native="__clearTimer"
@@ -267,6 +267,11 @@ export default {
           this.isNumberError = true
           if (forceUpdate) {
             this.$emit('input', forcedValue)
+            this.$nextTick(() => {
+              if (JSON.stringify(forcedValue) !== JSON.stringify(this.value)) {
+                this.$emit('change', forcedValue)
+              }
+            })
           }
           return
         }
@@ -279,8 +284,15 @@ export default {
         val = val.toUpperCase()
       }
 
-      this.$emit('input', val)
       this.model = val
+      this.$emit('input', val)
+      if (forceUpdate) {
+        this.$nextTick(() => {
+          if (JSON.stringify(val) !== JSON.stringify(this.value)) {
+            this.$emit('change', val)
+          }
+        })
+      }
     },
     __updateArea () {
       const shadow = this.$refs.shadow
