@@ -122,15 +122,17 @@ export default {
         if (this.frameColor) {
           return this.color
         }
-        return this.dark !== false ? 'white' : null
+        return this.dark === false ? 'dark' : 'white'
       }
       return this.color
     },
     computedChipTextColor () {
       if (this.inverted) {
-        return this.frameColor || this.color
+        if (this.frameColor) {
+          return this.frameColor
+        }
+        return this.dark === false ? 'white' : this.color
       }
-      return this.dark !== false ? 'white' : null
     }
   },
   methods: {

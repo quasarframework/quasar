@@ -158,7 +158,7 @@ export default {
               format24h: this.format24h,
               firstDayOfWeek: this.firstDayOfWeek,
               defaultView: this.defaultView,
-              color: this.color,
+              color: !this.inverted || this.dark !== false ? this.color : null,
               dark: this.dark,
               value: this.model,
               disable: this.disable,

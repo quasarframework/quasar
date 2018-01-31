@@ -109,7 +109,8 @@
             <q-toggle
               v-if="toggle"
               slot="right"
-              :color="opt.color || color"
+              :color="opt.color || (dark !== false ? color : null)"
+              :dark="dark"
               :keep-color="!!opt.color"
               :value="optModel[opt.index]"
               :disable="opt.disable"
@@ -118,7 +119,8 @@
             <q-checkbox
               v-else
               slot="left"
-              :color="opt.color || color"
+              :color="opt.color || (dark !== false ? color : null)"
+              :dark="dark"
               :keep-color="!!opt.color"
               :value="optModel[opt.index]"
               :disable="opt.disable"
@@ -397,15 +399,17 @@ export default {
         if (this.frameColor) {
           return this.color
         }
-        return this.dark !== false ? 'white' : null
+        return this.dark === false ? 'dark' : 'white'
       }
       return optColor || this.color
     },
     computedChipTextColor (optColor) {
       if (this.inverted) {
-        return optColor || this.frameColor || this.color
+        if (optColor || this.frameColor) {
+          return optColor || this.frameColor
+        }
+        return this.dark === false ? 'white' : optColor || this.color
       }
-      return this.dark !== false ? 'white' : null
     }
   }
 }
