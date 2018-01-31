@@ -281,15 +281,9 @@ export default {
   computed: {
     classes () {
       const cls = []
-      if (this.disable) {
-        cls.push('disabled')
-      }
-      if (this.readonly) {
-        cls.push('readonly')
-      }
-      if (this.dark) {
-        cls.push('q-datetime-dark')
-      }
+      this.disable && cls.push('disabled')
+      this.readonly && cls.push('readonly')
+      this.dark && cls.push('q-datetime-dark')
       if (this.color) {
         cls.push(`text-${this.color}`)
       }
