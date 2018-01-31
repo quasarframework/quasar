@@ -164,9 +164,8 @@ export default {
         set: this.__set,
         loading: false,
         watched: false,
-        hasFocus: () => {
-          return document.activeElement === this.$refs.input
-        },
+        isDark: () => this.dark,
+        hasFocus: () => document.activeElement === this.$refs.input,
         register: () => {
           this.shadow.watched = true
           this.__watcherRegister()
@@ -175,9 +174,7 @@ export default {
           this.shadow.watched = false
           this.__watcherUnregister()
         },
-        getEl: () => {
-          return this.$refs.input
-        }
+        getEl: () => this.$refs.input
       }
     }
   },

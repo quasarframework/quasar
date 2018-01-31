@@ -9,17 +9,15 @@
   text-align center
   user-select none
   line-height initial
-
-.q-datetime-dark
-  color black
-
-.q-datetime-light
-  color white
+  &.q-datetime-dark
+    background $dark
 
 .q-datetime-header
   background currentColor
   > div
     color white
+  .q-datetime-dark &
+    background $grey-8
 
 .q-datetime-weekdaystring
   font-size .8rem
@@ -56,6 +54,16 @@ div + .q-datetime-time
 .q-datetime-view-day
   width 250px
   height 300px
+  color black
+  .q-datetime-dark &
+    color white
+.q-datetime-view-year, .q-datetime-view-month
+    & > .q-btn:not(.active)
+      color black
+.q-datetime-dark
+  .q-datetime-view-year, .q-datetime-view-month
+    & > .q-btn:not(.active)
+      color white
 
 .q-datetime-weekdays
   font-size .75rem
@@ -89,6 +97,10 @@ div + .q-datetime-time
     font-size 105%
   &:not(.q-datetime-fillerday):not(.disabled):not(.q-datetime-day-active):hover
     background $grey-4
+    .q-datetime-dark &
+      color black
+.q-datetime-dark .q-datetime-days div.q-datetime-day-active > span
+  color black
 
 .q-datetime-btn
   font-weight normal
@@ -103,6 +115,8 @@ div + .q-datetime-time
   border-radius 50%
   background $grey-4
   padding 24px
+  .q-datetime-dark &
+    background $grey-8
 
 .q-datetime-clock-circle
   position relative
@@ -146,6 +160,8 @@ div + .q-datetime-time
 
 body.desktop .q-datetime-clock-position:not(.active):hover
   background $grey-2 !important
+body.desktop .q-datetime-dark .q-datetime-clock-position:not(.active):hover
+  color black
 
 .q-datetime-clock-position
   position absolute
@@ -160,6 +176,8 @@ body.desktop .q-datetime-clock-position:not(.active):hover
   border-radius 50%
   &:not(.active)
     color black
+    .q-datetime-dark &
+      color white
   &.active
     background currentColor
     > span
@@ -197,10 +215,13 @@ for $pos in 0..23
       margin-top 1.3rem
   .q-datetime
     width 290px
-    &:not(.no-border) .q-datetime-content
-      border-width 0 1px 1px 1px
-      border-style solid
-      border-color $grey-4
+    &:not(.no-border)
+      &:not(.q-datetime-dark) .q-datetime-content
+        border-width 0 1px 1px 1px
+        border-style solid
+        border-color $grey-4
+      &.q-datetime-dark
+        border 1px solid $dark
 
 @media (min-width $breakpoint-md-min)
   .q-datetime-datestring
@@ -221,7 +242,10 @@ for $pos in 0..23
     width 290px
   .q-datetime
     width 480px
-    &:not(.no-border) .q-datetime-content
-      border-width 1px 1px 1px 0
-      border-style solid
-      border-color $grey-4
+    &:not(.no-border)
+      &:not(.q-datetime-dark) .q-datetime-content
+        border-width 1px 1px 1px 0
+        border-style solid
+        border-color $grey-4
+      &.q-datetime-dark
+        border 1px solid $dark

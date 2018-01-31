@@ -240,8 +240,10 @@ export default {
     }
   },
   render (h) {
+    const dark = this.__input.isDark()
     return h(QPopover, {
       ref: 'popover',
+      'class': dark ? 'bg-dark' : null,
       props: {
         fit: true,
         offset: [0, 10],
@@ -254,6 +256,7 @@ export default {
     }, [
       h(QList, {
         props: {
+          dark,
           noBorder: true,
           separator: this.separator
         },

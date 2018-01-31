@@ -72,6 +72,7 @@
       :offset="[0, 10]"
       :anchor-click="false"
       class="column no-wrap"
+      :class="dark ? 'bg-dark' : null"
       @show="__onFocus"
       @hide="__onClose"
     >
@@ -84,6 +85,7 @@
           :placeholder="filterPlaceholder || $q.i18n.label.filter"
           :debounce="100"
           :color="color"
+          :dark="dark"
           icon="filter_list"
           style="min-height: 50px; padding: 10px;"
         />
@@ -91,6 +93,7 @@
 
       <q-list
         :separator="separator"
+        :dark="dark"
         class="no-border scroll"
       >
         <template v-if="multiple">
