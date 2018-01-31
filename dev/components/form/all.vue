@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding column" style="height: 100vh;" :class="dark ? 'text-orange bg-grey-8' : null">
+    <div class="layout-padding column" style="height: 100vh;" :class="dark ? 'text-orange bg-black' : null">
       <div class="col-auto">
         <q-checkbox toggleIndeterminate :dark="dark" v-model="dark" label="Dark mode" />
         <q-toggle :dark="dark" v-model="disable" label="Disabled" />
@@ -154,8 +154,8 @@
         <p class="q-subtitle">Color selected: {{ JSON.stringify(color) }}</p>
         <q-color :dark="dark" :disable="disable" :readonly="readonly" :clearable="clearable" class="q-ma-sm" @change="onChange" @input="onInput" @clear="onClear" v-model="color" float-label="Color (RGBA)" type="rgba" />
         <q-color :dark="dark" :color="dark === false ? 'white' : 'primary'" :disable="disable" :readonly="readonly" inverted :clearable="clearable" class="q-ma-sm" @change="val => { color = val; onChange(val) }" @input="onInput" @clear="onClear" :value="color" float-label="Color (onChange)" />
-        <q-color :dark="dark" :disable="disable" :readonly="readonly" :clearable="clearable" class="q-ma-sm" @change="onChange" @input="onInput" @clear="onClear" v-model="color" :default-selection="defaultColor" :float-label="`Color (default ${defaultColor})`" />
-        <q-color :dark="dark" :color="dark === false ? 'white' : 'primary'" :disable="disable" :readonly="readonly" inverted :clearable="clearable" class="q-ma-sm" @change="val => { color = val; onChange(val) }" @input="onInput" @clear="onClear" :value="color" :default-selection="defaultColor" :float-label="`Color (default ${defaultColor}, onChange)`" />
+        <q-color :dark="dark" :disable="disable" :readonly="readonly" :clearable="clearable" class="q-ma-sm" @change="onChange" @input="onInput" @clear="onClear" v-model="color" :default-value="defaultColor" :float-label="`Color (default ${defaultColor})`" />
+        <q-color :dark="dark" :color="dark === false ? 'white' : 'primary'" :disable="disable" :readonly="readonly" inverted :clearable="clearable" class="q-ma-sm" @change="val => { color = val; onChange(val) }" @input="onInput" @clear="onClear" :value="color" :default-value="defaultColor" :float-label="`Color (default ${defaultColor}, onChange)`" />
 
         <p class="q-subtitle">Color selected: {{ JSON.stringify(colorP) }}</p>
         <div class="row gutter-sm">
@@ -169,19 +169,19 @@
           </div>
           <div>
             <div>Color (default {{defaultColor}})</div>
-            <q-color-picker :dark="dark" :disable="disable" :readonly="readonly" @change="onChange" @input="onInput" @clear="onClear" v-model="colorP" :default-selection="defaultColor" />
+            <q-color-picker :dark="dark" :disable="disable" :readonly="readonly" @change="onChange" @input="onInput" @clear="onClear" v-model="colorP" :default-value="defaultColor" />
           </div>
           <div>
             <div>Color (default {{defaultColor}}, onChange)</div>
-            <q-color-picker :dark="dark" :disable="disable" :readonly="readonly" @change="val => { colorP = val; onChange(val) }" @input="onInput" @clear="onClear" :value="colorP" :default-selection="defaultColor" />
+            <q-color-picker :dark="dark" :disable="disable" :readonly="readonly" @change="val => { colorP = val; onChange(val) }" @input="onInput" @clear="onClear" :value="colorP" :default-value="defaultColor" />
           </div>
         </div>
 
         <p class="q-subtitle">Date selected: {{ JSON.stringify(date) }}</p>
         <q-datetime :dark="dark" :disable="disable" :readonly="readonly" type="date" formatModel="date" :clearable="clearable" class="q-ma-sm" @change="onChange" @input="onInput" @clear="onClear" v-model="date" float-label="Date" />
         <q-datetime :dark="dark" :color="dark === false ? 'white' : 'primary'" :disable="disable" :readonly="readonly" type="date" formatModel="date" inverted :clearable="clearable" class="q-ma-sm" @change="val => { date = val; onChange(val) }" @input="onInput" @clear="onClear" :value="date" float-label="Date (onChange)" />
-        <q-datetime :dark="dark" :disable="disable" :readonly="readonly" type="date" formatModel="date" :clearable="clearable" class="q-ma-sm" @change="onChange" @input="onInput" @clear="onClear" v-model="date" :default-selection="defaultDate" :float-label="`Date (default ${defaultDate})`" />
-        <q-datetime :dark="dark" :color="dark === false ? 'white' : 'orange'" :disable="disable" :readonly="readonly" type="datetime" formatModel="date" inverted :clearable="clearable" class="q-ma-sm" @change="val => { date = val; onChange(val) }" @input="onInput" @clear="onClear" :value="date" :default-selection="defaultDate" :float-label="`Datetime (default ${defaultDate}, onChange)`" />
+        <q-datetime :dark="dark" :disable="disable" :readonly="readonly" type="date" formatModel="date" :clearable="clearable" class="q-ma-sm" @change="onChange" @input="onInput" @clear="onClear" v-model="date" :default-value="defaultDate" :float-label="`Date (default ${defaultDate})`" />
+        <q-datetime :dark="dark" :color="dark === false ? 'white' : 'orange'" :disable="disable" :readonly="readonly" type="datetime" formatModel="date" inverted :clearable="clearable" class="q-ma-sm" @change="val => { date = val; onChange(val) }" @input="onInput" @clear="onClear" :value="date" :default-value="defaultDate" :float-label="`Datetime (default ${defaultDate}, onChange)`" />
 
         <p class="q-subtitle">Date selected: {{ JSON.stringify(date) }}</p>
         <div class="row gutter-sm">
@@ -195,11 +195,11 @@
           </div>
           <div>
             <div>Date (default {{defaultDate}})</div>
-            <q-datetime-picker :dark="dark" color="secondary" :disable="disable" :readonly="readonly" type="date" formatModel="date" @change="onChange" @input="onInput" @clear="onClear" v-model="date" :default-selection="defaultDate" />
+            <q-datetime-picker :dark="dark" color="secondary" :disable="disable" :readonly="readonly" type="date" formatModel="date" @change="onChange" @input="onInput" @clear="onClear" v-model="date" :default-value="defaultDate" />
           </div>
           <div>
             <div>Date (default {{defaultDate}}, onChange)</div>
-            <q-datetime-picker :dark="dark" color="dark" :disable="disable" :readonly="readonly" type="date" formatModel="date" @change="val => { date = val; onChange(val) }" @input="onInput" @clear="onClear" :value="date" :default-selection="defaultDate" />
+            <q-datetime-picker :dark="dark" color="dark" :disable="disable" :readonly="readonly" type="date" formatModel="date" @change="val => { date = val; onChange(val) }" @input="onInput" @clear="onClear" :value="date" :default-value="defaultDate" />
           </div>
           <div>
             <div>Datetime</div>

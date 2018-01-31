@@ -35,7 +35,7 @@ export default {
       transition: __THEME__ === 'ios' ? 'q-modal-bottom' : 'q-modal'
     }
     data.focused = false
-    data.model = clone(isValid(this.value) ? this.value : this.defaultSelection)
+    data.model = clone(isValid(this.value) ? this.value : this.defaultValue)
     return data
   },
   computed: {
@@ -72,7 +72,7 @@ export default {
     show () {
       if (!this.disable) {
         if (!this.focused) {
-          this.__setModel(isValid(this.value) ? this.value : this.defaultSelection)
+          this.__setModel(isValid(this.value) ? this.value : this.defaultValue)
         }
         return this.$refs.popup.show()
       }
@@ -107,7 +107,7 @@ export default {
           target.__scrollView()
         }
       }
-      this.__setModel(isValid(this.value) ? this.value : this.defaultSelection)
+      this.__setModel(isValid(this.value) ? this.value : this.defaultValue)
       this.focused = true
       this.$emit('focus')
     },

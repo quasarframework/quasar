@@ -16,7 +16,7 @@ export default {
   },
   props: {
     value: [String, Object],
-    defaultSelection: {
+    defaultValue: {
       type: [String, Object],
       default: '#000'
     },
@@ -32,7 +32,7 @@ export default {
   data () {
     return {
       view: !this.value || typeof this.value === 'string' ? 'hex' : 'rgb',
-      model: this.__parseModel(this.value || this.defaultSelection),
+      model: this.__parseModel(this.value || this.defaultValue),
       inputError: {
         hex: false,
         r: false,
@@ -44,7 +44,7 @@ export default {
   watch: {
     value: {
       handler (v) {
-        const model = this.__parseModel(v || this.defaultSelection)
+        const model = this.__parseModel(v || this.defaultValue)
         if (model.hex !== this.model.hex) {
           this.model = model
         }

@@ -251,7 +251,7 @@ export default {
   name: 'q-datetime-picker',
   mixins: [DateMixin, FieldParentMixin],
   props: {
-    defaultSelection: [String, Number, Date],
+    defaultValue: [String, Number, Date],
     disable: Boolean,
     readonly: Boolean
   },

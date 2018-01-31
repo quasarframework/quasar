@@ -105,7 +105,7 @@ export default {
     TouchPan
   },
   props: {
-    defaultSelection: [String, Number, Date],
+    defaultValue: [String, Number, Date],
     disable: Boolean,
     readonly: Boolean
   },

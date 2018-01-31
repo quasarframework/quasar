@@ -14,7 +14,7 @@ export const inline = {
     validator: modelValidator,
     required: true
   },
-  defaultSelection: {
+  defaultValue: {
     type: [String, Number, Date],
     default: null
   },

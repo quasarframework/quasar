@@ -16,7 +16,7 @@ export default {
       get () {
         let date = isValid(this.value)
           ? new Date(this.value)
-          : (this.defaultSelection ? new Date(this.defaultSelection) : startOfDate(new Date(), 'day'))
+          : (this.defaultValue ? new Date(this.defaultValue) : startOfDate(new Date(), 'day'))
 
         return getDateBetween(
           date,

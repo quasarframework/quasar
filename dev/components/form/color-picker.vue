@@ -6,13 +6,13 @@
       <p>Immediate</p>
       <q-color v-model="inputModelRgb" stack-label="simple" />
       <q-color v-model="inputModelRgb" clearable stack-label="clearable" />
-      <q-color v-model="inputModelRgb" default-selection="#ccc" stack-label="default-selection" />
-      <q-color v-model="inputModelRgb" default-selection="#ccc" clearable stack-label="default-selection, clearable" />
+      <q-color v-model="inputModelRgb" default-value="#ccc" stack-label="default-value" />
+      <q-color v-model="inputModelRgb" default-value="#ccc" clearable stack-label="default-value, clearable" />
       <p>Lazy</p>
       <q-color :value="inputModelRgb" @change="val => inputModelRgb = val" stack-label="simple" />
       <q-color :value="inputModelRgb" @change="val => inputModelRgb = val" clearable stack-label="clearable" />
-      <q-color :value="inputModelRgb" @change="val => inputModelRgb = val" default-selection="#ccc" stack-label="default-selection" />
-      <q-color :value="inputModelRgb" @change="val => inputModelRgb = val" default-selection="#ccc" clearable stack-label="default-selection, clearable" />
+      <q-color :value="inputModelRgb" @change="val => inputModelRgb = val" default-value="#ccc" stack-label="default-value" />
+      <q-color :value="inputModelRgb" @change="val => inputModelRgb = val" default-value="#ccc" clearable stack-label="default-value, clearable" />
 
       <br><br>
       <q-btn color="primary" label="Set to yellow" @click="setToYellow"/>
@@ -61,7 +61,7 @@
       </div>
 
       <h4>Input</h4>
-      <q-color v-model="inputModelHex" clearable default-selection="#ffffff" @input="value => log('@input', value)" @change="value => log('@change', value)" />
+      <q-color v-model="inputModelHex" clearable default-value="#ffffff" @input="value => log('@input', value)" @change="value => log('@change', value)" />
       <q-color v-model="inputModelHex" inverted readonly float-label="Readonly" />
       <q-color v-model="inputModelRgb" float-label="RGB" />
       <q-color v-model="inputModelRgb" inverted disable float-label="Disable" />

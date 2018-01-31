@@ -91,8 +91,8 @@
       <q-datetime @change="value => log('@change', value)" v-model="model" type="datetime" />
 
       <p class="caption">Default Selection</p>
-      <q-datetime v-model="model" :default-selection="defaultSelection" type="datetime" />
-      <q-datetime v-model="model" :default-selection="defaultSelection" type="time" />
+      <q-datetime v-model="model" :default-value="defaultValue" type="datetime" />
+      <q-datetime v-model="model" :default-value="defaultValue" type="time" />
 
       <p class="caption">With explicit popover</p>
       <q-datetime v-model="model" popover type="date"     float-label="Pick Date" />
@@ -219,7 +219,7 @@ export default {
       model: undefined,
       modelVar: undefined,
       // model: 0,
-      defaultSelection: '2016-09-18T10:45:00.000Z',
+      defaultValue: '2016-09-18T10:45:00.000Z',
 
       format: 'MMMM D, YYYY [at] h:mm [[]a[\\]]',
 
