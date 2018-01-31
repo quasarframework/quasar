@@ -112,7 +112,7 @@
               :color="color"
               :icon="$q.icon.datetime.arrowLeft"
               :repeatTimeout="__getRepeatEasing()"
-              :disable="beforeMinDays || disable || readonly"
+              :disable="beforeMinDays > 0 || disable || readonly"
               @click="setMonth(month - 1)"
             ></q-btn>
             <div class="col" :class="classDark">
@@ -125,7 +125,7 @@
               :color="color"
               :icon="$q.icon.datetime.arrowRight"
               :repeatTimeout="__getRepeatEasing()"
-              :disable="afterMaxDays || disable || readonly"
+              :disable="afterMaxDays > 0 || disable || readonly"
               @click="setMonth(month + 1)"
             ></q-btn>
           </div>
@@ -351,8 +351,8 @@ export default {
     },
     daysInterval () {
       let after = this.pmax === null || this.afterMaxDays === false ? 0 : this.afterMaxDays
-      if (this.beforeMinDays || after) {
-        let min = this.beforeMinDays ? this.beforeMinDays + 1 : 1
+      if (this.beforeMinDays > 0 || after) {
+        let min = this.beforeMinDays > 0 ? this.beforeMinDays + 1 : 1
         return Array.apply(null, {length: this.daysInMonth - min - after + 1}).map((day, index) => {
           return index + min
         })

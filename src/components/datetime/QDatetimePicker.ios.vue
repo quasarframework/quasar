@@ -1,5 +1,5 @@
 <template>
-  <div class="q-datetime" :class="['type-' + type, disable ? 'disabled' : '', readonly ? 'readonly' : '']">
+  <div class="q-datetime" :class="['type-' + type, disable ? 'disabled' : '', readonly ? 'readonly' : '', dark ? 'q-datetime-dark' : '']">
     <slot></slot>
     <div class="q-datetime-content non-selectable">
       <div class="q-datetime-inner full-height flex justify-center" @touchstart.stop.prevent>
