@@ -107,6 +107,7 @@
       <q-input v-model="text" inverted stack-label="Colored" color="amber" />
       <q-input v-model="text" inverted stack-label="Colored" :after="[{icon: 'arrow_forward', content: true, handler () {}}]"/>
       <q-input v-model="text" inverted type="textarea" stack-label="Colored" color="tertiary" :min-rows="5" />
+      <q-input v-model="text" inverted type="textarea" stack-label="Colored" color="white" :dark="false" :min-rows="5" />
 
       <p class="caption">On dark background</p>
       <div class="bg-grey-9" style="width: 500px; padding: 25px">

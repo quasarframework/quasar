@@ -50,6 +50,7 @@
       <q-datetime inverted v-model="model" type="date" />
       <q-datetime inverted color="secondary" stack-label="Stack Label" v-model="model" type="date" />
       <q-datetime inverted color="amber" float-label="Float Label" v-model="model" type="date" />
+      <q-datetime inverted color="white" :dark="false" float-label="Float Label" v-model="model" type="date" />
 
       <p class="caption">Format Model</p>
       <div class="bg-secondary text-white">

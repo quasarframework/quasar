@@ -29,7 +29,10 @@ export default {
     align: {
       default: 'left'
     },
-    dark: Boolean,
+    dark: {
+      type: Boolean,
+      default: null
+    },
     before: marginal,
     after: marginal,
     inverted: Boolean,

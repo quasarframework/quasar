@@ -98,14 +98,16 @@ export default {
         'q-if-disabled': this.disable,
         'q-if-focusable': this.focusable && !this.disable,
         'q-if-inverted': this.inverted,
-        'q-if-dark': this.dark || this.inverted,
+        'q-if-dark': this.dark || (this.inverted && this.dark !== false),
         'q-if-hide-underline': this.hideUnderline
       }]
 
       const color = this.hasError ? 'negative' : this.hasWarning ? 'warning' : this.color
       if (this.inverted) {
         cls.push(`bg-${color}`)
-        cls.push(`text-white`)
+        if (this.dark !== false) {
+          cls.push(`text-white`)
+        }
       }
       else {
         cls.push(`text-${color}`)

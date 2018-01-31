@@ -48,6 +48,13 @@
           @selected="selected"
         />
       </q-search>
+      <q-search inverted color="white" :dark="false" v-model="terms">
+        <q-autocomplete
+          @search="search"
+          :max-results="2"
+          @selected="selected"
+        />
+      </q-search>
 
       <p class="caption">Minimum 3 characters to trigger search</p>
       <q-input color="amber" v-model="terms" placeholder="Type 'fre'">
