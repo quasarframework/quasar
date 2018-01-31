@@ -2,7 +2,7 @@ Quasar Framework is an MIT licensed open source project and completely free to u
 
 ## Platinum sponsor:
 
-[![Truelogic](http://quasar-framework.org/images/truelogic_logo.png)](http://truelogic.com)
+[![Truelogic](https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/a579cb37/truelogic.png)](http://truelogic.com)
 
 # Backers
 
@@ -10,23 +10,23 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 
 ### $500
 
-It could be you or your company!
+<a href="http://campuscloudservices.com/" target="_blank"><img src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/a579cb37/campus-cloud-services.png" width="350px"></a>
 
 ---
 
 ### $250
 
-<a href="https://www.jugglestreet.com.au/" target="_blank"><img src="https://web.jugglestreet.com/images/header-logo-banner.png" width="200px"></a>
+<a href="https://www.jugglestreet.com.au/" target="_blank"><img src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/a579cb37/juggle-street.png" width="200px"></a>
 
 ---
 
 ### $100+
 
-<a href="http://comcomservices.com/" target="_blank"><img src="http://comcomservices.com/wp-content/uploads/2016/03/Final-ComComLogo.png" width="200px"></a>
+<a href="http://comcomservices.com/" target="_blank"><img src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/a579cb37/com-com-services.png" width="200px"></a>
 
 - Adrien M
 
-<a href="http://www.kalisio.com/" target="_blank"><img src="https://raw.githubusercontent.com/kalisio/kdk/master/images/kalisio-banner-250x96.png" width="200px"></a>
+<a href="http://www.kalisio.com/" target="_blank"><img src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/a579cb37/kalisio.png" width="200px"></a>
 
 ---
 
