@@ -3,12 +3,7 @@
   border 1px solid $grey-4
   display inline-block
   width 240px
-  &.q-color-dark
-    background $dark
-    border 1px solid $grey-9
-    input
-      background $dark
-      color $light
+  background white
 
 .q-color-saturation
   width 100%
@@ -81,11 +76,21 @@
 
 .q-color-inputs
   font-size 11px
+  color $grey-7
   input
     border 1px solid $grey-4
     outline 0
 .q-color-padding
   padding 0 2px
 .q-color-label
-  color $grey-7
   padding-top 4px
+
+.q-color-dark
+  background $dark
+  border 1px solid $grey-9
+  input
+    background $dark
+    color $light
+    border 1px solid $light
+  .q-color-inputs
+    color $light

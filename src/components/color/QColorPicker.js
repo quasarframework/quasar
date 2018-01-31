@@ -254,7 +254,6 @@ export default {
           h(QBtn, {
             props: {
               flat: true,
-              color: 'grey-7',
               disable: this.disable
             },
             on: {

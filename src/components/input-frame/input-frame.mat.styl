@@ -80,12 +80,6 @@
   margin-left 0
   margin-right 4px
 
-.q-if-dark
-  &:before, .q-if-label, .q-if-control
-    color rgba(255, 255, 255, .7)
-  &:hover:before, .q-if-addon
-    color rgba(255, 255, 255, .9)
-
 .q-if-focused
   &:after
     width 100%
@@ -99,9 +93,12 @@
   padding-left 8px
   padding-right 8px
   box-shadow $shadow-1
+
 .q-if-dark
-  .q-if-control
-    color white
+  &:before, .q-if-label, .q-if-control
+    color rgba(255, 255, 255, .7)
+  &:hover:before, .q-if-addon
+    color rgba(255, 255, 255, .9)
 
 .q-if-error
   &:before, &:after, &:not(.q-if-inverted) .q-if-label, .q-if-addon

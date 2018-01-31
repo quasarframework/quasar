@@ -9,15 +9,11 @@
   text-align center
   user-select none
   line-height initial
-  &.q-datetime-dark
-    background $dark
 
 .q-datetime-header
   background currentColor
   > div
     color white
-  .q-datetime-dark &
-    background $grey-8
 
 .q-datetime-weekdaystring
   font-size .8rem
@@ -55,15 +51,10 @@ div + .q-datetime-time
   width 250px
   height 300px
   color black
-  .q-datetime-dark &
-    color white
+
 .q-datetime-view-year, .q-datetime-view-month
-    & > .q-btn:not(.active)
-      color black
-.q-datetime-dark
-  .q-datetime-view-year, .q-datetime-view-month
-    & > .q-btn:not(.active)
-      color white
+  > .q-btn:not(.active)
+    color black
 
 .q-datetime-weekdays
   font-size .75rem
@@ -97,10 +88,6 @@ div + .q-datetime-time
     font-size 105%
   &:not(.q-datetime-fillerday):not(.disabled):not(.q-datetime-day-active):hover
     background $grey-4
-    .q-datetime-dark &
-      color black
-.q-datetime-dark .q-datetime-days div.q-datetime-day-active > span
-  color black
 
 .q-datetime-btn
   font-weight normal
@@ -115,8 +102,6 @@ div + .q-datetime-time
   border-radius 50%
   background $grey-4
   padding 24px
-  .q-datetime-dark &
-    background $grey-8
 
 .q-datetime-clock-circle
   position relative
@@ -157,6 +142,19 @@ div + .q-datetime-time
     min-height 0
     transform translate(-50%, -50%)
     background currentColor
+
+.q-datetime-dark
+  background $dark
+  .q-datetime-header, .q-datetime-clock
+    background $grey-8
+  .q-datetime-view-day
+    color white
+  .q-datetime-view-year, .q-datetime-view-month
+    > .q-btn:not(.active)
+      color white
+  .q-datetime-days div
+    &:not(.q-datetime-fillerday):not(.disabled):not(.q-datetime-day-active):hover
+      color black
 
 body.desktop .q-datetime-clock-position:not(.active):hover
   background $grey-2 !important
