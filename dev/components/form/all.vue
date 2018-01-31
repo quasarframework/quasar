@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layout-padding column" style="height: 100vh;" :class="dark ? 'text-orange bg-grey-10' : null">
+    <div class="layout-padding column" style="height: 100vh;" :class="dark ? 'text-orange bg-grey-8' : null">
       <div class="col-auto">
         <q-toggle :dark="dark" v-model="dark" label="Dark mode" :false-value="null" />
         <q-toggle :dark="dark" v-model="disable" label="Disabled" />
@@ -152,7 +152,7 @@
         <q-chips-input :dark="dark" :disable="disable" :readonly="readonly" inverted class="q-mt-sm" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" float-label="List (onChange)" :value="options" />
 
         <p class="q-subtitle">Color selected: {{ JSON.stringify(color) }}</p>
-        <q-color :dark="dark" :disable="disable" :readonly="readonly" :clearable="clearable" class="q-mt-sm" @change="onChange" @input="onInput" @clear="onClear" v-model="color" float-label="Color" />
+        <q-color :dark="dark" :disable="disable" :readonly="readonly" :clearable="clearable" class="q-mt-sm" @change="onChange" @input="onInput" @clear="onClear" v-model="color" float-label="Color (RGBA)" type="rgba" />
         <q-color :dark="dark" :disable="disable" :readonly="readonly" inverted :clearable="clearable" class="q-mt-sm" @change="val => { color = val; onChange(val) }" @input="onInput" @clear="onClear" :value="color" float-label="Color (onChange)" />
         <q-color :dark="dark" :disable="disable" :readonly="readonly" :clearable="clearable" class="q-mt-sm" @change="onChange" @input="onInput" @clear="onClear" v-model="color" :default-selection="defaultColor" :float-label="`Color (default ${defaultColor})`" />
         <q-color :dark="dark" :disable="disable" :readonly="readonly" inverted :clearable="clearable" class="q-mt-sm" @change="val => { color = val; onChange(val) }" @input="onInput" @clear="onClear" :value="color" :default-selection="defaultColor" :float-label="`Color (default ${defaultColor}, onChange)`" />
@@ -164,8 +164,8 @@
             <q-color-picker :dark="dark" :disable="disable" :readonly="readonly" @change="onChange" @input="onInput" @clear="onClear" v-model="colorP" />
           </div>
           <div>
-            <div>Color (onChange)</div>
-            <q-color-picker :dark="dark" :disable="disable" :readonly="readonly" @change="val => { colorP = val; onChange(val) }" @input="onInput" @clear="onClear" :value="colorP" />
+            <div>Color (HEXA, onChange)</div>
+            <q-color-picker :dark="dark" :disable="disable" :readonly="readonly" @change="val => { colorP = val; onChange(val) }" @input="onInput" @clear="onClear" :value="colorP" type="hexa" />
           </div>
           <div>
             <div>Color (default {{defaultColor}})</div>
@@ -181,7 +181,7 @@
         <q-datetime :dark="dark" :disable="disable" :readonly="readonly" type="date" formatModel="date" :clearable="clearable" class="q-mt-sm" @change="onChange" @input="onInput" @clear="onClear" v-model="date" float-label="Date" />
         <q-datetime :dark="dark" :disable="disable" :readonly="readonly" type="date" formatModel="date" inverted :clearable="clearable" class="q-mt-sm" @change="val => { date = val; onChange(val) }" @input="onInput" @clear="onClear" :value="date" float-label="Date (onChange)" />
         <q-datetime :dark="dark" :disable="disable" :readonly="readonly" type="date" formatModel="date" :clearable="clearable" class="q-mt-sm" @change="onChange" @input="onInput" @clear="onClear" v-model="date" :default-selection="defaultDate" :float-label="`Date (default ${defaultDate})`" />
-        <q-datetime :dark="dark" :disable="disable" :readonly="readonly" type="date" formatModel="date" inverted :clearable="clearable" class="q-mt-sm" @change="val => { date = val; onChange(val) }" @input="onInput" @clear="onClear" :value="date" :default-selection="defaultDate" :float-label="`Date (default ${defaultDate}, onChange)`" />
+        <q-datetime color="orange" :dark="dark" :disable="disable" :readonly="readonly" type="datetime" formatModel="date" inverted :clearable="clearable" class="q-mt-sm" @change="val => { date = val; onChange(val) }" @input="onInput" @clear="onClear" :value="date" :default-selection="defaultDate" :float-label="`Datetime (default ${defaultDate}, onChange)`" />
 
         <p class="q-subtitle">Date selected: {{ JSON.stringify(date) }}</p>
         <div class="row gutter-sm">
@@ -203,7 +203,7 @@
           </div>
           <div>
             <div>Datetime</div>
-            <q-datetime-picker :dark="dark" color="light" :disable="disable" :readonly="readonly" type="datetime" formatModel="date" @change="onChange" @input="onInput" @clear="onClear" v-model="date" />
+            <q-datetime-picker :dark="dark" :disable="disable" :readonly="readonly" type="datetime" formatModel="date" @change="onChange" @input="onInput" @clear="onClear" v-model="date" />
           </div>
           <div>
             <div>Datetime (onChange)</div>
@@ -300,7 +300,7 @@
         <q-select :dark="dark" :disable="disable" :readonly="readonly" inverted :clearable="clearable" class="q-mt-sm" @change="val => { option = val; onChange(val) }" @input="onInput" @clear="onClear" :value="option" :options="countries" float-label="Select (onChange)" />
 
         <p class="q-subtitle">Selected options: {{ JSON.stringify(options) }}</p>
-        <q-select :dark="dark" :disable="disable" :readonly="readonly" multiple :clearable="clearable" class="q-mt-sm" @change="onChange" @input="onInput" @clear="onClear" v-model="options" :options="countries" float-label="Select multiple" />
+        <q-select :dark="dark" :disable="disable" :readonly="readonly" multiple :clearable="clearable" class="q-mt-sm" @change="onChange" @input="onInput" @clear="onClear" v-model="options" :options="countries" float-label="Select multiple (with filter)" filter />
         <q-select :dark="dark" :disable="disable" :readonly="readonly" multiple inverted :clearable="clearable" class="q-mt-sm" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" :value="options" :options="countries" float-label="Select multiple (onChange)" />
         <q-select :dark="dark" :disable="disable" :readonly="readonly" multiple chips :clearable="clearable" class="q-mt-sm" @change="onChange" @input="onInput" @clear="onClear" v-model="options" :options="countries" float-label="Select multiple - chips" />
         <q-select :dark="dark" :disable="disable" :readonly="readonly" multiple chips inverted :clearable="clearable" class="q-mt-sm" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" :value="options" :options="countries" float-label="Select multiple - chips (onChange)" />
@@ -375,7 +375,7 @@ export default {
       maxVal: 6,
       step: 0.01,
       decimals: 1,
-      countries: countries.slice(0, 20).map(country => ({ label: country, value: country, color: randomColor(), rightIcon: randomIcon() })),
+      countries: countries.slice(0, 40).map(country => ({ label: country, value: country, color: randomColor(), rightIcon: randomIcon() })),
       numbers: [1, 2, 3, 4, 5, 1111, 2222, 3333, 4444, 5555].map(v => ({ label: String(v), value: v }))
     }
   },

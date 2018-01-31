@@ -150,7 +150,8 @@ export default {
               value: this.model || '#000',
               disable: this.disable,
               readonly: this.readonly,
-              type: this.type
+              type: this.type,
+              dark: this.dark
             }, this.$attrs),
             on: {
               input: v => this.$nextTick(() => this.__setModel(v))

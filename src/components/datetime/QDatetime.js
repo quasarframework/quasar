@@ -159,6 +159,7 @@ export default {
               firstDayOfWeek: this.firstDayOfWeek,
               defaultView: this.defaultView,
               color: this.color,
+              dark: this.dark,
               value: this.model,
               disable: this.disable,
               readonly: this.readonly

@@ -26,7 +26,8 @@ export default {
       validator: v => ['auto', 'hex', 'rgb', 'hexa', 'rgba'].includes(v)
     },
     disable: Boolean,
-    readonly: Boolean
+    readonly: Boolean,
+    dark: Boolean
   },
   data () {
     return {
@@ -111,7 +112,7 @@ export default {
   render (h) {
     return h('div', {
       staticClass: 'q-color',
-      'class': { disabled: this.disable }
+      'class': { disabled: this.disable, 'q-color-dark': this.dark }
     }, [
       this.__getSaturation(h),
       this.__getSliders(h),

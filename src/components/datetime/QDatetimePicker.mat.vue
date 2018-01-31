@@ -74,7 +74,6 @@
             flat
             class="q-datetime-btn full-width"
             :class="{active: n + yearMin === year}"
-            :color="dark ? 'light' : 'dark'"
             :disable="!editable"
             @click="setYear(n + yearMin)"
           >
@@ -92,7 +91,6 @@
             flat
             class="q-datetime-btn full-width"
             :class="{active: month === index + monthMin}"
-            :color="dark ? 'light' : 'dark'"
             :disable="!editable"
             @click="setMonth(index + monthMin, true)"
           >
@@ -115,7 +113,7 @@
               :disable="beforeMinDays > 0 || disable || readonly"
               @click="setMonth(month - 1)"
             ></q-btn>
-            <div class="col" :class="classDark">
+            <div class="col">
               {{ monthStamp }}
             </div>
             <q-btn
@@ -129,10 +127,10 @@
               @click="setMonth(month + 1)"
             ></q-btn>
           </div>
-          <div class="q-datetime-weekdays row items-center justify-start" :class="classDark">
+          <div class="q-datetime-weekdays row items-center justify-start">
             <div v-for="day in headerDayNames" :key="`dh${day}`">{{day}}</div>
           </div>
-          <div class="q-datetime-days row wrap items-center justify-start content-center" :class="classDark">
+          <div class="q-datetime-days row wrap items-center justify-start content-center">
             <div v-for="fillerDay in fillerDays" :key="`fd${fillerDay}`" class="q-datetime-fillerday"></div>
             <template v-if="min">
               <div v-for="fillerDay in beforeMinDays" :key="`fb${fillerDay}`" class="row items-center content-center justify-center disabled">
@@ -281,9 +279,6 @@ export default {
     }
   },
   computed: {
-    classDark () {
-      return this.dark ? 'q-datetime-light' : 'q-datetime-dark'
-    },
     classes () {
       const cls = []
       if (this.disable) {
@@ -291,6 +286,9 @@ export default {
       }
       if (this.readonly) {
         cls.push('readonly')
+      }
+      if (this.dark) {
+        cls.push('q-datetime-dark')
       }
       if (this.color) {
         cls.push(`text-${this.color}`)
