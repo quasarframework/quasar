@@ -20,6 +20,8 @@ export default {
     error: Boolean,
     warning: Boolean,
     disable: Boolean,
+    readonly: Boolean,
+    clearable: Boolean,
     color: {
       type: String,
       default: 'primary'

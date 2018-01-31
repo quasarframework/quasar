@@ -10,10 +10,7 @@ export default {
   name: 'q-slider',
   mixins: [SliderMixin],
   props: {
-    value: {
-      type: Number,
-      required: true
-    },
+    value: Number,
     labelValue: String
   },
   data () {

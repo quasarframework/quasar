@@ -14,6 +14,10 @@ export const inline = {
     validator: modelValidator,
     required: true
   },
+  defaultSelection: {
+    type: [String, Number, Date],
+    default: null
+  },
   type: {
     type: String,
     default: 'date',
@@ -23,6 +27,7 @@ export const inline = {
     type: String,
     default: 'primary'
   },
+  dark: Boolean,
   min: {
     validator: modelValidator,
     default: null
@@ -51,14 +56,7 @@ export const inline = {
 export const input = {
   format: String,
   placeholder: String,
-  clearable: Boolean,
   okLabel: String,
   cancelLabel: String,
-  defaultSelection: {
-    type: [String, Number, Date],
-    default: null
-  },
-  displayValue: String,
-  disable: Boolean,
-  readonly: Boolean
+  displayValue: String
 }

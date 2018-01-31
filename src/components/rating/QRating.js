@@ -5,11 +5,7 @@ import { QIcon } from '../icon'
 export default {
   name: 'q-rating',
   props: {
-    value: {
-      type: Number,
-      default: 0,
-      required: true
-    },
+    value: Number,
     max: {
       type: Number,
       default: 5
@@ -55,7 +51,8 @@ export default {
   methods: {
     set (value) {
       if (this.editable) {
-        this.model = between(parseInt(value, 10), 1, this.max)
+        const model = between(parseInt(value, 10), 1, this.max)
+        this.model = this.model === model ? 0 : model
         this.mouseModel = 0
       }
     },
@@ -73,6 +70,7 @@ export default {
     for (let i = 1; i <= this.max; i++) {
       child.push(h(QIcon, {
         key: i,
+        ref: `rt${i}`,
         props: { name: this.icon || this.$q.icon.rating.icon },
         'class': {
           active: (!this.mouseModel && this.model >= i) || (this.mouseModel && this.mouseModel >= i),
@@ -88,9 +86,23 @@ export default {
           mouseover: () => this.__setHoverValue(i),
           mouseout: () => { this.mouseModel = 0 },
           keydown: e => {
-            if ([13, 32].includes(getEventKey(e))) {
-              stopAndPrevent(e)
-              this.set(i)
+            switch (getEventKey(e)) {
+              case 13:
+              case 32:
+                this.set(i)
+                return stopAndPrevent(e)
+              case 37: // LEFT ARROW
+              case 40: // DOWN ARROW
+                if (this.$refs[`rt${i - 1}`]) {
+                  this.$refs[`rt${i - 1}`].$el.focus()
+                }
+                return stopAndPrevent(e)
+              case 39: // RIGHT ARROW
+              case 38: // UP ARROW
+                if (this.$refs[`rt${i + 1}`]) {
+                  this.$refs[`rt${i + 1}`].$el.focus()
+                }
+                return stopAndPrevent(e)
             }
           },
           focus: () => this.__setHoverValue(i),

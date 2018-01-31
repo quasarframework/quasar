@@ -66,11 +66,16 @@ export default {
       }]
     },
     controlAfter () {
-      return this.after || [{
-        icon: this.$q.icon.search[`clear${this.inverted ? 'Inverted' : ''}`],
-        content: true,
-        handler: this.clear
-      }]
+      if (this.after) {
+        return this.after
+      }
+      if (this.editable && this.clearable) {
+        return [{
+          icon: this.$q.icon.search[`clear${this.inverted ? 'Inverted' : ''}`],
+          content: true,
+          handler: this.clear
+        }]
+      }
     }
   },
   methods: {
@@ -88,6 +93,7 @@ export default {
         autofocus: this.autofocus,
         placeholder: this.placeholder || this.$q.i18n.label.search,
         disable: this.disable,
+        readonly: this.readonly,
         error: this.error,
         warning: this.warning,
         align: this.align,

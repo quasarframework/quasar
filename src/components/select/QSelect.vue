@@ -36,7 +36,7 @@
         v-for="{label, value, color: optColor, icon: optIcon, rightIcon: optIconRight, avatar: optAvatar, disable: optDisable} in selectedOptions"
         :key="label"
         small
-        :closable="!disable && !optDisable"
+        :closable="!disable && !readonly && !optDisable"
         :color="computedChipColor(optColor)"
         :text-color="computedChipTextColor(optColor)"
         :icon="optIcon"
@@ -57,7 +57,7 @@
     ></div>
 
     <q-icon
-      v-if="!disable && clearable && length"
+      v-if="!disable && !readonly && clearable && length"
       slot="after"
       name="cancel"
       class="q-if-control"
@@ -307,14 +307,14 @@ export default {
         case 32: // SPACE key
           stopAndPrevent(e)
           return this.show()
-        case 8: // Backspace key
+        case 8: // BACKSPACE key
           if (this.editable && this.clearable && this.actualValue.length) {
             this.clear()
           }
       }
     },
     __onFocus () {
-      if (this.focused) {
+      if (this.disable || this.focused) {
         return
       }
       this.focused = true

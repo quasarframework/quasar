@@ -44,11 +44,8 @@ export default {
     },
     displayValue: String,
     placeholder: String,
-    clearable: Boolean,
     okLabel: String,
-    cancelLabel: String,
-    disable: Boolean,
-    readonly: Boolean
+    cancelLabel: String
   },
   data () {
     let data = this.isPopover ? {} : {
@@ -104,7 +101,7 @@ export default {
       }
     },
     __onFocus () {
-      if (this.focused) {
+      if (this.disable || this.focused) {
         return
       }
       this.__setModel(this.value || this.defaultSelection)

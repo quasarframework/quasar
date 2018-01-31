@@ -13,6 +13,9 @@
 .q-datetime-dark
   color black
 
+.q-datetime-light
+  color white
+
 .q-datetime-header
   background currentColor
   > div
@@ -55,7 +58,6 @@ div + .q-datetime-time
   height 300px
 
 .q-datetime-weekdays
-  color rgba(0, 0, 0, .87)
   font-size .75rem
   margin-top 10px
   margin-bottom 5px
@@ -77,8 +79,6 @@ div + .q-datetime-time
   height 35px
   border-radius 50%
 
-  &:not(.q-datetime-day-active)
-    color black
   &.q-datetime-day-active
     background currentColor
     > span
@@ -92,8 +92,6 @@ div + .q-datetime-time
 
 .q-datetime-btn
   font-weight normal
-  &:not(.active)
-    color black !important
   &.active
     font-size 1.5rem
     padding-top 1rem

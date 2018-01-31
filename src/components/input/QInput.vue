@@ -78,7 +78,7 @@
     />
 
     <q-icon
-      v-if="isPassword && !noPassToggle && length"
+      v-if="!disable && isPassword && !noPassToggle && length"
       slot="after"
       :name="$q.icon.input[showPass ? 'showPass' : 'hidePass']"
       class="q-if-control"
@@ -88,7 +88,7 @@
     ></q-icon>
 
     <q-icon
-      v-if="keyboardToggle"
+      v-if="editable && keyboardToggle"
       slot="after"
       :name="$q.icon.input[showNumber ? 'showNumber' : 'hideNumber']"
       class="q-if-control"
@@ -221,10 +221,10 @@ export default {
     },
     inputType () {
       if (this.isPassword) {
-        return this.showPass ? 'text' : 'password'
+        return this.showPass && this.editable ? 'text' : 'password'
       }
       return this.isNumber
-        ? (this.showNumber ? 'number' : 'text')
+        ? (this.showNumber || !this.editable ? 'number' : 'text')
         : this.type
     },
     length () {
