@@ -20,9 +20,12 @@ export default {
   props: {
     value: {
       type: Object,
-      required: true,
+      default: () => ({
+        min: 0,
+        max: 0
+      }),
       validator (value) {
-        return typeof value.min !== 'undefined' && typeof value.max !== 'undefined'
+        return value.hasOwnProperty('min') && value.hasOwnProperty('max')
       }
     },
     dragRange: Boolean,

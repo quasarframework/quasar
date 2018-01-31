@@ -9,10 +9,7 @@ export default {
     TouchPan
   },
   props: {
-    value: {
-      type: Number,
-      required: true
-    },
+    value: Number,
     min: {
       type: Number,
       default: 0
@@ -97,7 +94,7 @@ export default {
         })
       }
       else {
-        this.model = this.computedDecimals
+        this.model = this.computedDecimals && typeof value === 'number'
           ? parseFloat(value.toFixed(this.computedDecimals))
           : value
       }

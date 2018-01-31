@@ -7,21 +7,21 @@
           <span
             :class="{active: view === 'month'}"
             class="q-datetime-link small col-auto col-md-12"
-            @click="view = 'month'"
+            @click="!disable && (view = 'month')"
           >
             {{ monthString }}
           </span>
           <span
             :class="{active: view === 'day'}"
             class="q-datetime-link col-auto col-md-12"
-            @click="view = 'day'"
+            @click="!disable && (view = 'day')"
           >
             {{ day }}
           </span>
           <span
             :class="{active: view === 'year'}"
             class="q-datetime-link small col-auto col-md-12"
-            @click="view = 'year'"
+            @click="!disable && (view = 'year')"
           >
             {{ year }}
           </span>
@@ -35,7 +35,7 @@
           <span
             :class="{active: view === 'hour'}"
             class="q-datetime-link col-auto col-md-12"
-            @click="view = 'hour'"
+            @click="!disable && (view = 'hour')"
           >
             {{ __pad(hour, '&nbsp;&nbsp;') }}
           </span>
@@ -43,7 +43,7 @@
           <span
             :class="{active: view === 'minute'}"
             class="q-datetime-link col-auto col-md-12"
-            @click="view = 'minute'"
+            @click="!disable && (view = 'minute')"
           >
             {{ __pad(minute) }}
           </span>
@@ -74,6 +74,8 @@
             flat
             class="q-datetime-btn full-width"
             :class="{active: n + yearMin === year}"
+            :color="dark ? 'light' : 'dark'"
+            :disable="!editable"
             @click="setYear(n + yearMin)"
           >
             {{ n + yearMin }}
@@ -90,6 +92,8 @@
             flat
             class="q-datetime-btn full-width"
             :class="{active: month === index + monthMin}"
+            :color="dark ? 'light' : 'dark'"
+            :disable="!editable"
             @click="setMonth(index + monthMin, true)"
           >
             {{ $q.i18n.date.months[index + monthMin - 1] }}
@@ -106,12 +110,12 @@
               dense
               flat
               :color="color"
-              @click="setMonth(month - 1)"
-              :disabled="beforeMinDays"
               :icon="$q.icon.datetime.arrowLeft"
               :repeatTimeout="__getRepeatEasing()"
+              :disable="beforeMinDays || disable || readonly"
+              @click="setMonth(month - 1)"
             ></q-btn>
-            <div class="col q-datetime-dark">
+            <div class="col" :class="classDark">
               {{ monthStamp }}
             </div>
             <q-btn
@@ -119,16 +123,16 @@
               dense
               flat
               :color="color"
-              @click="setMonth(month + 1)"
-              :disabled="afterMaxDays"
               :icon="$q.icon.datetime.arrowRight"
               :repeatTimeout="__getRepeatEasing()"
+              :disable="afterMaxDays || disable || readonly"
+              @click="setMonth(month + 1)"
             ></q-btn>
           </div>
-          <div class="q-datetime-weekdays row items-center justify-start">
+          <div class="q-datetime-weekdays row items-center justify-start" :class="classDark">
             <div v-for="day in headerDayNames" :key="`dh${day}`">{{day}}</div>
           </div>
-          <div class="q-datetime-days row wrap items-center justify-start content-center">
+          <div class="q-datetime-days row wrap items-center justify-start content-center" :class="classDark">
             <div v-for="fillerDay in fillerDays" :key="`fd${fillerDay}`" class="q-datetime-fillerday"></div>
             <template v-if="min">
               <div v-for="fillerDay in beforeMinDays" :key="`fb${fillerDay}`" class="row items-center content-center justify-center disabled">
@@ -139,10 +143,11 @@
               v-for="monthDay in daysInterval"
               :key="`md${monthDay}`"
               class="row items-center content-center justify-center cursor-pointer"
-              :class="{
+              :class="[color && monthDay === day ? `text-${color}` : null, {
                 'q-datetime-day-active': monthDay === day,
-                'q-datetime-day-today': monthDay === today
-              }"
+                'q-datetime-day-today': monthDay === today,
+                'disabled': !editable
+              }]"
               @click="setDay(monthDay)"
             >
               <span>{{ monthDay }}</span>
@@ -276,6 +281,9 @@ export default {
     }
   },
   computed: {
+    classDark () {
+      return this.dark ? 'q-datetime-light' : 'q-datetime-dark'
+    },
     classes () {
       const cls = []
       if (this.disable) {

@@ -95,6 +95,9 @@ export default {
       }
     },
     __onFocus () {
+      if (this.disable || this.focused) {
+        return
+      }
       if (this.defaultView) {
         const target = this.$refs.target
         if (target.view !== this.defaultView) {
@@ -103,9 +106,6 @@ export default {
         else {
           target.__scrollView()
         }
-      }
-      if (this.focused) {
-        return
       }
       this.__setModel(isValid(this.value) ? this.value : this.defaultSelection)
       this.focused = true
@@ -219,6 +219,7 @@ export default {
         error: this.error,
         warning: this.warning,
         disable: this.disable,
+        readonly: this.readonly,
         inverted: this.inverted,
         dark: this.dark,
         hideUnderline: this.hideUnderline,
