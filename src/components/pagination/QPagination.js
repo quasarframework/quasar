@@ -23,6 +23,7 @@ export default {
       type: String,
       default: 'primary'
     },
+    textColor: String,
     size: String,
     disable: Boolean,
     input: Boolean,
@@ -300,12 +301,14 @@ export default {
         }))
       }
       for (let i = pgFrom; i <= pgTo; i++) {
+        let active = i === this.value
         contentMiddle.push(this.__getBtn(h, {
-          key: `${i}.${i === this.value}`,
+          key: `${i}.${active}`,
           style,
           props: {
             disable: this.disable,
-            flat: i !== this.value,
+            flat: !active,
+            textColor: active ? this.textColor : null,
             label: i,
             noRipple: true
           },
