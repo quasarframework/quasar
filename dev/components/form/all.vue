@@ -2,7 +2,7 @@
   <div>
     <div class="layout-padding column" style="height: 100vh;" :class="dark ? 'text-orange bg-black' : null">
       <div class="col-auto">
-        <q-checkbox :dark="dark" v-model="dark" label="Dark mode" />
+        <q-toggle :dark="dark" v-model="dark" label="Dark mode" />
         <q-toggle :dark="dark" v-model="disable" label="Disabled" />
         <q-toggle :dark="dark" v-model="readonly" label="Readonly" />
         <q-toggle :dark="dark" v-model="clearable" label="Clearable" />
@@ -150,6 +150,9 @@
         <p class="q-subtitle">Options selected: {{ JSON.stringify(options) }}</p>
         <q-chips-input :dark="dark" :disable="disable" :readonly="readonly" class="q-ma-sm" @change="onChange" @input="onInput" @clear="onClear" float-label="List" v-model="options" />
         <q-chips-input :dark="dark" color="primary" :disable="disable" :readonly="readonly" inverted class="q-ma-sm" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" float-label="List (onChange)" :value="options" />
+        <q-chips-input :dark="dark" color="amber-2" :disable="disable" :readonly="readonly" inverted-light class="q-ma-sm" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" float-label="List (onChange)" :value="options" />
+        <q-chips-input :dark="dark" color="amber-2" frame-color="green" :disable="disable" :readonly="readonly" inverted class="q-ma-sm" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" float-label="List (onChange)" :value="options" />
+        <q-chips-input :dark="dark" color="green" frame-color="amber-2" :disable="disable" :readonly="readonly" inverted-light class="q-ma-sm" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" float-label="List (onChange)" :value="options" />
 
         <p class="q-subtitle">Color selected: {{ JSON.stringify(color) }}</p>
         <q-color :dark="dark" :disable="disable" :readonly="readonly" :clearable="clearable" class="q-ma-sm" @change="onChange" @input="onInput" @clear="onClear" v-model="color" float-label="Color (RGBA)" type="rgba" />
@@ -181,7 +184,8 @@
         <q-datetime :dark="dark" :disable="disable" :readonly="readonly" type="date" formatModel="date" :clearable="clearable" class="q-ma-sm" @change="onChange" @input="onInput" @clear="onClear" v-model="date" float-label="Date" />
         <q-datetime :dark="dark" color="primary" :disable="disable" :readonly="readonly" type="date" formatModel="date" inverted :clearable="clearable" class="q-ma-sm" @change="val => { date = val; onChange(val) }" @input="onInput" @clear="onClear" :value="date" float-label="Date (onChange)" />
         <q-datetime :dark="dark" :disable="disable" :readonly="readonly" type="date" formatModel="date" :clearable="clearable" class="q-ma-sm" @change="onChange" @input="onInput" @clear="onClear" v-model="date" :default-value="defaultDate" :float-label="`Date (default ${defaultDate})`" />
-        <q-datetime :dark="dark" :color="dark === false ? 'white' : 'orange'" :disable="disable" :readonly="readonly" type="datetime" formatModel="date" inverted :clearable="clearable" class="q-ma-sm" @change="val => { date = val; onChange(val) }" @input="onInput" @clear="onClear" :value="date" :default-value="defaultDate" :float-label="`Datetime (default ${defaultDate}, onChange)`" />
+        <q-datetime :dark="dark" color="orange" :disable="disable" :readonly="readonly" type="datetime" formatModel="date" inverted :clearable="clearable" class="q-ma-sm" @change="val => { date = val; onChange(val) }" @input="onInput" @clear="onClear" :value="date" :default-value="defaultDate" :float-label="`Datetime (default ${defaultDate}, onChange)`" />
+        <q-datetime :dark="dark" color="amber-2" :disable="disable" :readonly="readonly" type="datetime" formatModel="date" inverted-light :clearable="clearable" class="q-ma-sm" @change="val => { date = val; onChange(val) }" @input="onInput" @clear="onClear" :value="date" :default-value="defaultDate" :float-label="`Datetime (default ${defaultDate}, onChange)`" />
 
         <p class="q-subtitle">Date selected: {{ JSON.stringify(date) }}</p>
         <div class="row gutter-sm">
@@ -199,7 +203,7 @@
           </div>
           <div>
             <div>Date (default {{defaultDate}}, onChange)</div>
-            <q-datetime-picker :dark="dark" color="dark" :disable="disable" :readonly="readonly" type="date" formatModel="date" @change="val => { date = val; onChange(val) }" @input="onInput" @clear="onClear" :value="date" :default-value="defaultDate" />
+            <q-datetime-picker :dark="dark" color="grey-8" :disable="disable" :readonly="readonly" type="date" formatModel="date" @change="val => { date = val; onChange(val) }" @input="onInput" @clear="onClear" :value="date" :default-value="defaultDate" />
           </div>
           <div>
             <div>Datetime</div>
@@ -304,6 +308,7 @@
         <q-select :dark="dark" color="primary" :disable="disable" :readonly="readonly" multiple inverted :clearable="clearable" class="q-ma-sm" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" :value="options" :options="countries" float-label="Select multiple (onChange)" />
         <q-select :dark="dark" :disable="disable" :readonly="readonly" multiple chips :clearable="clearable" class="q-ma-sm" @change="onChange" @input="onInput" @clear="onClear" v-model="options" :options="countries" float-label="Select multiple - chips" />
         <q-select :dark="dark" color="primary" :disable="disable" :readonly="readonly" multiple chips inverted :clearable="clearable" class="q-ma-sm" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" :value="options" :options="countries" float-label="Select multiple - chips (onChange)" />
+        <q-select :dark="dark" color="amber-2" :disable="disable" :readonly="readonly" multiple chips inverted-light :clearable="clearable" class="q-ma-sm" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" :value="options" :options="countries" float-label="Select multiple - chips (onChange)" />
 
         <p class="q-subtitle">Rating: {{ JSON.stringify(termT) }}</p>
         <div class="row gutter-sm">

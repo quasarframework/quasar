@@ -116,23 +116,25 @@ export default {
       return this.addIcon || this.$q.icon.chipsInput.add
     },
     computedColor () {
-      return this.inverted || this.invertedLight ? this.frameColor || this.color : this.color
+      return this.isInverted ? this.frameColor || this.color : this.color
     },
     computedChipColor () {
-      if (this.inverted) {
-        return 'white'
-      }
-      if (this.invertedLight) {
-        return 'grey-7'
-      }
-      return this.color
-    },
-    computedChipTextColor () {
-      if (this.inverted || this.invertedLight) {
+      if ((!this.isInverted && !this.dark) || (this.isInverted && this.frameColor)) {
         return this.color
       }
-
-      return this.dark ? 'black' : 'white'
+      if (!this.isInverted && this.dark && this.frameColor) {
+        return this.frameColor
+      }
+      return this.invertedLight ? 'grey-10' : 'white'
+    },
+    computedChipTextColor () {
+      if (!this.isInverted && !this.dark && !this.frameColor) {
+        return 'white'
+      }
+      if (this.frameColor && (this.isInverted || !this.dark)) {
+        return this.frameColor
+      }
+      return this.color
     }
   },
   methods: {

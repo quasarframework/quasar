@@ -50,6 +50,9 @@ export default {
     },
     editable () {
       return !this.disable && !this.readonly
+    },
+    isInverted () {
+      return this.inverted || this.invertedLight
     }
   },
   methods: {

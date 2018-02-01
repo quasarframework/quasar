@@ -31,6 +31,8 @@
         :class="alignClass"
         :value="label"
         readonly
+        :disabled="this.disable"
+        tabindex="-1"
       />
 
       <q-spinner

@@ -55,8 +55,10 @@
       class="col q-input-target cursor-inherit"
       :class="alignClass"
       :value="this.actualValue"
-      placeholder="inputPlaceholder"
+      :placeholder="inputPlaceholder"
       readonly
+      :disabled="this.disable"
+      tabindex="-1"
     />
 
     <q-icon
@@ -113,7 +115,7 @@
               v-if="toggle"
               slot="right"
               keep-color
-              :color="opt.color || color"
+              :color="opt.color || (invertedLight ? null : color)"
               :dark="dark"
               :value="optModel[opt.index]"
               :disable="opt.disable"
@@ -123,7 +125,7 @@
               v-else
               slot="left"
               keep-color
-              :color="opt.color || color"
+              :color="opt.color || (invertedLight ? null : color)"
               :dark="dark"
               :value="optModel[opt.index]"
               :disable="opt.disable"
@@ -145,7 +147,7 @@
             <q-radio
               v-if="radio"
               keep-color
-              :color="opt.color || color"
+              :color="opt.color || (invertedLight ? null : color)"
               slot="left"
               :value="value"
               :val="opt.value"
@@ -289,7 +291,7 @@ export default {
       return this.displayValue && this.displayValue.length > 0
     },
     computedColor () {
-      return this.inverted ? this.frameColor || this.color : this.color
+      return this.isInverted ? this.frameColor || this.color : this.color
     }
   },
   methods: {
@@ -398,20 +400,22 @@ export default {
     },
 
     computedChipColor (optColor) {
-      if (this.inverted) {
-        return 'white'
-      }
-      if (this.invertedLight) {
-        return 'grey-7'
-      }
-      return optColor || this.color
-    },
-    computedChipTextColor (optColor) {
-      if (this.inverted || this.invertedLight) {
+      if ((!this.isInverted && !this.dark) || (this.isInverted && this.frameColor)) {
         return optColor || this.color
       }
-
-      return this.dark ? 'black' : 'white'
+      if (!this.isInverted && this.dark && this.frameColor) {
+        return this.frameColor
+      }
+      return this.invertedLight ? 'grey-10' : 'white'
+    },
+    computedChipTextColor (optColor) {
+      if (!this.isInverted && !this.dark && !this.frameColor) {
+        return 'white'
+      }
+      if (this.frameColor && (this.isInverted || !this.dark)) {
+        return this.frameColor
+      }
+      return optColor || this.color
     }
   }
 }

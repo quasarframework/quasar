@@ -146,7 +146,7 @@ export default {
 
     __getPicker (h, modal) {
       return [
-        h(QFieldReset, [
+        h(QFieldReset, { staticClass: 'flex' }, [
           h(QDatetimePicker, {
             ref: 'target',
             staticClass: `no-border`,
@@ -158,7 +158,7 @@ export default {
               format24h: this.format24h,
               firstDayOfWeek: this.firstDayOfWeek,
               defaultView: this.defaultView,
-              color: this.color,
+              color: this.invertedLight ? 'black' : this.color,
               dark: this.dark,
               value: this.model,
               disable: this.disable,
@@ -246,7 +246,9 @@ export default {
         attrs: {
           value: this.actualValue,
           placeholder: this.inputPlaceholder,
-          readonly: true
+          readonly: true,
+          disabled: this.disable,
+          tabindex: -1
         }
       }),
 
