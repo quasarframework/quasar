@@ -30,7 +30,7 @@
   >
     <div
       v-if="hasChips"
-      class="col row items-center group q-input-chips q-if-control"
+      class="col row items-center group q-input-chips"
       :class="alignClass"
     >
       <q-chip
@@ -112,9 +112,9 @@
             <q-toggle
               v-if="toggle"
               slot="right"
-              :color="opt.color || (dark !== false ? color : null)"
+              keep-color
+              :color="opt.color || color"
               :dark="dark"
-              :keep-color="!!opt.color"
               :value="optModel[opt.index]"
               :disable="opt.disable"
               no-focus
@@ -122,9 +122,9 @@
             <q-checkbox
               v-else
               slot="left"
-              :color="opt.color || (dark !== false ? color : null)"
+              keep-color
+              :color="opt.color || color"
               :dark="dark"
-              :keep-color="!!opt.color"
               :value="optModel[opt.index]"
               :disable="opt.disable"
               no-focus
@@ -144,8 +144,8 @@
           >
             <q-radio
               v-if="radio"
+              keep-color
               :color="opt.color || color"
-              :keep-color="!!opt.color"
               slot="left"
               :value="value"
               :val="opt.value"
@@ -399,20 +399,19 @@ export default {
 
     computedChipColor (optColor) {
       if (this.inverted) {
-        if (this.frameColor) {
-          return this.color
-        }
-        return this.dark === false ? 'dark' : 'white'
+        return 'white'
+      }
+      if (this.invertedLight) {
+        return 'grey-7'
       }
       return optColor || this.color
     },
     computedChipTextColor (optColor) {
-      if (this.inverted) {
-        if (optColor || this.frameColor) {
-          return optColor || this.frameColor
-        }
-        return this.dark === false ? 'white' : optColor || this.color
+      if (this.inverted || this.invertedLight) {
+        return optColor || this.color
       }
+
+      return this.dark ? 'black' : 'white'
     }
   }
 }
