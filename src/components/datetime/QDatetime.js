@@ -145,6 +145,13 @@ export default {
     },
 
     __getPicker (h, modal) {
+      let btnColor = this.color
+      if (this.inverted && this.dark) {
+        btnColor = 'white'
+      }
+      if (this.invertedLight && !this.dark) {
+        btnColor = 'black'
+      }
       return [
         h(QFieldReset, { staticClass: 'flex' }, [
           h(QDatetimePicker, {
@@ -180,7 +187,7 @@ export default {
                 h('div', { staticClass: 'col' }),
                 h(QBtn, {
                   props: {
-                    color: this.color,
+                    color: btnColor,
                     flat: true,
                     label: this.cancelLabel || this.$q.i18n.label.cancel,
                     waitForRipple: true
@@ -190,7 +197,7 @@ export default {
                 this.editable
                   ? h(QBtn, {
                     props: {
-                      color: this.color,
+                      color: btnColor,
                       flat: true,
                       label: this.okLabel || this.$q.i18n.label.set,
                       waitForRipple: true
@@ -284,7 +291,7 @@ export default {
       this.editable && this.clearable && this.actualValue.length
         ? h('q-icon', {
           slot: 'after',
-          props: { name: this.$q.icon.input[`clear${this.inverted ? 'Inverted' : ''}`] },
+          props: { name: this.$q.icon.input[`clear${this.isInverted ? 'Inverted' : ''}`] },
           nativeOn: { click: this.clear },
           staticClass: 'q-if-control'
         })

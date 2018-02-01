@@ -98,7 +98,7 @@ export default {
         'q-if-disabled': this.disable,
         'q-if-focusable': this.focusable && !this.disable,
         'q-if-inverted': this.isInverted,
-        'q-if-inverted-light': this.invertedLight || (this.inverted && this.hasWarning),
+        'q-if-inverted-light': this.isInvertedLight,
         'q-if-light-color': this.lightColor,
         'q-if-dark': this.dark,
         'q-if-hide-underline': this.hideUnderline
@@ -108,20 +108,13 @@ export default {
 
       if (this.isInverted) {
         cls.push(`bg-${color}`)
-        cls.push(`text-${this.invertedLight || this.hasWarning ? 'black' : 'white'}`)
+        cls.push(`text-${this.isInvertedLight ? 'black' : 'white'}`)
       }
       else if (color) {
         cls.push(`text-${color}`)
       }
 
       return cls
-    },
-    hasError () {
-      return !!((this.field && this.field.error) || this.error)
-    },
-    hasWarning () {
-      // error is the higher priority
-      return !!(!this.hasError && ((this.field && this.field.warning) || this.warning))
     }
   },
   methods: {

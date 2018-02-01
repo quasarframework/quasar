@@ -115,7 +115,7 @@
               v-if="toggle"
               slot="right"
               keep-color
-              :color="opt.color || (invertedLight ? null : color)"
+              :color="opt.color || (invertedLight && !dark ? null : color)"
               :dark="dark"
               :value="optModel[opt.index]"
               :disable="opt.disable"
@@ -125,7 +125,7 @@
               v-else
               slot="left"
               keep-color
-              :color="opt.color || (invertedLight ? null : color)"
+              :color="opt.color || (invertedLight && !dark ? null : color)"
               :dark="dark"
               :value="optModel[opt.index]"
               :disable="opt.disable"
@@ -147,7 +147,7 @@
             <q-radio
               v-if="radio"
               keep-color
-              :color="opt.color || (invertedLight ? null : color)"
+              :color="opt.color || (invertedLight && !dark ? null : color)"
               slot="left"
               :value="value"
               :val="opt.value"

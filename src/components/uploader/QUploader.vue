@@ -46,7 +46,7 @@
         v-if="uploading"
         slot="after"
         class="q-if-control"
-        :name="$q.icon.uploader[`clear${this.inverted ? 'Inverted' : ''}`]"
+        :name="$q.icon.uploader[`clear${this.isInverted ? 'Inverted' : ''}`]"
         @click.native="abort"
       ></q-icon>
 
@@ -240,7 +240,7 @@ export default {
     },
     dndClass () {
       const cls = [`text-${this.color}`]
-      if (this.inverted) {
+      if (this.isInverted) {
         cls.push('inverted')
       }
       return cls
@@ -249,7 +249,7 @@ export default {
       return {
         'q-uploader-expanded': this.expanded,
         'q-uploader-dark': this.dark,
-        'q-uploader-files-no-border': this.inverted || !this.hideUnderline
+        'q-uploader-files-no-border': this.isInverted || !this.hideUnderline
       }
     }
   },
