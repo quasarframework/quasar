@@ -207,6 +207,7 @@ export default {
         warning: this.warning,
         disable: this.disable,
         inverted: this.inverted,
+        invertedLight: this.invertedLight,
         dark: this.dark,
         hideUnderline: this.hideUnderline,
         before: this.before,
