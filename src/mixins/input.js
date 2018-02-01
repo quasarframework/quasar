@@ -12,13 +12,6 @@ export default {
       isNumberError: false
     }
   },
-  computed: {
-    inputPlaceholder () {
-      if ((!this.floatLabel && !this.stackLabel) || this.labelIsAbove) {
-        return this.placeholder
-      }
-    }
-  },
   methods: {
     focus () {
       if (!this.disable) {

@@ -10,6 +10,7 @@
     :warning="warning"
     :disable="disable"
     :inverted="inverted"
+    :invertedLight="invertedLight"
     :dark="dark"
     :hide-underline="hideUnderline"
     :before="before"
@@ -43,7 +44,7 @@
       <input
         ref="input"
         class="col q-input-target"
-        :class="[`text-${align}`]"
+        :class="alignClass"
         v-model="input"
 
         :placeholder="inputPlaceholder"
@@ -115,24 +116,23 @@ export default {
       return this.addIcon || this.$q.icon.chipsInput.add
     },
     computedColor () {
-      return this.inverted ? this.frameColor || this.color : this.color
+      return this.inverted || this.invertedLight ? this.frameColor || this.color : this.color
     },
     computedChipColor () {
       if (this.inverted) {
-        if (this.frameColor) {
-          return this.color
-        }
-        return this.dark === false ? 'dark' : 'white'
+        return 'white'
+      }
+      if (this.invertedLight) {
+        return 'grey-7'
       }
       return this.color
     },
     computedChipTextColor () {
-      if (this.inverted) {
-        if (this.frameColor) {
-          return this.frameColor
-        }
-        return this.dark === false ? 'white' : this.color
+      if (this.inverted || this.invertedLight) {
+        return this.color
       }
+
+      return this.dark ? 'black' : 'white'
     }
   },
   methods: {

@@ -11,6 +11,7 @@
     :warning="warning"
     :disable="disable"
     :inverted="inverted"
+    :invertedLight="invertedLight"
     :dark="dark"
     :hide-underline="hideUnderline"
     :before="before"
@@ -49,12 +50,14 @@
       </q-chip>
     </div>
 
-    <div
+    <input
       v-else
-      class="col row items-center q-input-target q-if-control"
+      class="col q-input-target cursor-inherit"
       :class="alignClass"
-      v-html="actualValue"
-    ></div>
+      :value="this.actualValue"
+      placeholder="inputPlaceholder"
+      readonly
+    />
 
     <q-icon
       v-if="!disable && !readonly && clearable && length"

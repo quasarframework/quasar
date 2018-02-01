@@ -3,7 +3,6 @@
 
 .q-if
   min-height 32px
-  color $primary
   outline 0
   &:not(.q-if-hide-underline)
     padding-bottom 8px
@@ -19,7 +18,7 @@
     background currentColor
   &:before
     height 1px
-    color rgba(0, 0, 0, .12)
+    color $light
     transform scaleY(1)
   &:after
     width 0
@@ -27,7 +26,7 @@
     color currentColor
 
   &:hover:before
-    color rgba(0, 0, 0, .36)
+    color black
 
   .group
     margin -5px
@@ -46,7 +45,6 @@
     padding-top 15px
 
 .q-if-label
-  color rgba(0, 0, 0, .46)
   pointer-events none
   user-select none
   top 15px
@@ -59,7 +57,6 @@
 
 .q-if-addon
   pointer-events none
-  color rgba(0, 0, 0, .46)
   opacity 0
 .q-if-addon-left
   padding-right 1px
@@ -70,7 +67,6 @@
 
 .q-if-control
   cursor pointer
-  color rgba(0, 0, 0, .54)
   font-size 24px
   &.q-icon
     cursor pointer
@@ -80,11 +76,8 @@
   margin-left 0
   margin-right 4px
 
-.q-if-focused
-  &:after
-    width 100%
-  .q-if-label
-    color currentColor
+.q-if-label, .q-if-addon, .q-if-control
+  color $form-dark
 
 .q-if-inverted
   min-height 38px
@@ -94,23 +87,39 @@
   padding-right 8px
   box-shadow $shadow-1
 
+  .q-input-target
+    color inherit
+  .q-if-label, .q-if-addon,  .q-if-control
+    color #ddd
+
 .q-if-dark
-  &:before, .q-if-label, .q-if-control
-    color rgba(255, 255, 255, .7)
-  &:hover:before, .q-if-addon
-    color rgba(255, 255, 255, .9)
+  &:hover:before
+    color white
+  &:not(.q-if-inverted-light)
+    .q-input-target
+      color white
+
+.q-if-inverted-light
+  .q-if-label, .q-if-addon,  .q-if-control
+    color #656565
+
+.q-if-focused
+  &:after
+    width 100%
+  .q-if-label, .q-if-addon, .q-if-control
+    color currentColor !important
 
 .q-if-error
-  &:before, &:after, &:not(.q-if-inverted) .q-if-label, .q-if-addon
+  &:before, &:after, &:not(.q-if-inverted) .q-if-label
     color $negative
   &:hover:before
-    color lighten($negative, 26%)
+    color lighten($negative, 46%)
 
 .q-if-warning
-  &:before, &:after, &:not(.q-if-inverted) .q-if-label, .q-if-addon
+  &:before, &:after, &:not(.q-if-inverted) .q-if-label
     color $warning
   &:hover:before
-    color lighten($warning, 26%)
+    color lighten($warning, 46%)
 
 .q-if-disabled
   cursor not-allowed !important

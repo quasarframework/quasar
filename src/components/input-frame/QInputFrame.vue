@@ -97,21 +97,23 @@ export default {
         'q-if-warning': this.hasWarning,
         'q-if-disabled': this.disable,
         'q-if-focusable': this.focusable && !this.disable,
-        'q-if-inverted': this.inverted,
-        'q-if-dark': this.dark || (this.inverted && this.dark !== false),
+        'q-if-inverted': this.inverted || this.invertedLight,
+        'q-if-inverted-light': this.invertedLight || (this.inverted && this.hasWarning),
+        'q-if-light-color': this.lightColor,
+        'q-if-dark': this.dark,
         'q-if-hide-underline': this.hideUnderline
       }]
 
-      const color = this.hasError ? 'negative' : this.hasWarning ? 'warning' : this.color
-      if (this.inverted) {
+      const color = this.hasError ? 'negative' : (this.hasWarning ? 'warning' : this.color)
+
+      if (this.inverted || this.invertedLight) {
         cls.push(`bg-${color}`)
-        if (this.dark !== false) {
-          cls.push(`text-white`)
-        }
+        cls.push(`text-${this.invertedLight || this.hasWarning ? 'black' : 'white'}`)
       }
-      else {
+      else if (color) {
         cls.push(`text-${color}`)
       }
+
       return cls
     },
     hasError () {

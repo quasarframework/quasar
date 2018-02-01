@@ -29,19 +29,22 @@ export default {
     align: {
       default: 'left'
     },
-    dark: {
-      type: Boolean,
-      default: null
-    },
+    dark: Boolean,
     before: marginal,
     after: marginal,
     inverted: Boolean,
+    invertedLight: Boolean,
     hideUnderline: Boolean,
     clearValue: {
       default: null
     }
   },
   computed: {
+    inputPlaceholder () {
+      if ((!this.floatLabel && !this.stackLabel) || this.labelIsAbove) {
+        return this.placeholder
+      }
+    },
     labelIsAbove () {
       return this.focused || this.length || this.additionalLength || this.stackLabel
     },

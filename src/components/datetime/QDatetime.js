@@ -44,7 +44,7 @@ export default {
         return this.displayValue
       }
       if (!isValid(this.value)) {
-        return this.placeholder || ''
+        return ''
       }
 
       let format
@@ -158,7 +158,7 @@ export default {
               format24h: this.format24h,
               firstDayOfWeek: this.firstDayOfWeek,
               defaultView: this.defaultView,
-              color: !this.inverted || this.dark !== false ? this.color : null,
+              color: this.color,
               dark: this.dark,
               value: this.model,
               disable: this.disable,
@@ -222,6 +222,7 @@ export default {
         disable: this.disable,
         readonly: this.readonly,
         inverted: this.inverted,
+        invertedLight: this.invertedLight,
         dark: this.dark,
         hideUnderline: this.hideUnderline,
         before: this.before,
@@ -239,11 +240,13 @@ export default {
         keydown: this.__handleKeyDown
       }
     }, [
-      h('div', {
-        staticClass: 'col row items-center q-input-target',
+      h('input', {
+        staticClass: 'col q-input-target cursor-inherit',
         'class': this.alignClass,
-        domProps: {
-          innerHTML: this.actualValue
+        attrs: {
+          value: this.actualValue,
+          placeholder: this.inputPlaceholder,
+          readonly: true
         }
       }),
 

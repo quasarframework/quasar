@@ -224,11 +224,13 @@ export default {
         keydown: this.__handleKeyDown
       }
     }, [
-      h('div', {
-        staticClass: 'col row items-center q-input-target',
+      h('input', {
+        staticClass: 'col q-input-target cursor-inherit',
         'class': this.alignClass,
-        domProps: {
-          innerHTML: this.actualValue
+        attrs: {
+          value: this.actualValue,
+          placeholder: this.inputPlaceholder,
+          readonly: true
         }
       }),
 

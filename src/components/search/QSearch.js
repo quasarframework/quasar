@@ -1,4 +1,3 @@
-
 import { QInput } from '../input'
 import InputMixin from '../../mixins/input'
 import FrameMixin from '../../mixins/input-frame'
@@ -102,6 +101,7 @@ export default {
         prefix: this.prefix,
         suffix: this.suffix,
         inverted: this.inverted,
+        invertedLight: this.invertedLight,
         dark: this.dark,
         hideUnderline: this.hideUnderline,
         color: this.color,

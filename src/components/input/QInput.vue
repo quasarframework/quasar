@@ -10,6 +10,7 @@
     :warning="warning"
     :disable="disable"
     :inverted="inverted"
+    :invertedLight="invertedLight"
     :dark="dark"
     :hide-underline="hideUnderline"
     :before="before"
@@ -59,7 +60,7 @@
       v-else
       ref="input"
       class="col q-input-target q-no-input-spinner"
-      :class="[`text-${align}`]"
+      :class="alignClass"
 
       :placeholder="inputPlaceholder"
       :disabled="disable"

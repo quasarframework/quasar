@@ -49,8 +49,8 @@
       <q-datetime default-view="month" v-model="model" type="date" float-label="Default view" />
       <q-datetime inverted v-model="model" type="date" />
       <q-datetime inverted color="secondary" stack-label="Stack Label" v-model="model" type="date" />
-      <q-datetime inverted color="amber" float-label="Float Label" v-model="model" type="date" />
-      <q-datetime inverted color="white" :dark="false" float-label="Float Label" v-model="model" type="date" />
+      <q-datetime inverted-light color="amber" float-label="Float Label" v-model="model" type="date" />
+      <q-datetime inverted-light color="white" :dark="false" float-label="Float Label" v-model="model" type="date" />
 
       <p class="caption">Format Model</p>
       <div class="bg-secondary text-white">
@@ -183,6 +183,13 @@
         </small>
       </p>
       <q-datetime-picker v-model="model" type="time" />
+
+      <div class="bg-black q-pa-md">
+        <q-datetime-picker class="q-my-md" dark v-model="model" type="datetime" />
+        <q-datetime-picker class="q-my-md" dark color="primary" v-model="model" type="datetime" />
+        <q-datetime-picker class="q-my-md" dark color="secondary" v-model="model" type="datetime" />
+        <q-datetime-picker class="q-my-md" dark color="amber" v-model="model" type="datetime" />
+      </div>
 
       <p class="caption">Time 24hr Format (force)</p>
       <q-datetime-picker v-model="model" type="time" format24h />

@@ -15,6 +15,7 @@
       :warning="warning"
       :disable="disable"
       :inverted="inverted"
+      :invertedLight="invertedLight"
       :dark="dark"
       :hide-underline="hideUnderline"
       :before="before"
@@ -25,10 +26,12 @@
       :length="queueLength"
       additional-length
     >
-      <div
-        class="col row items-center q-input-target"
-        v-html="label"
-      ></div>
+      <input
+        class="col q-input-target cursor-inherit"
+        :class="alignClass"
+        :value="label"
+        readonly
+      />
 
       <q-spinner
         v-if="uploading"
