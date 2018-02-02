@@ -34,19 +34,19 @@
       :class="alignClass"
     >
       <q-chip
-        v-for="{label, value, icon: optIcon, rightIcon: optIconRight, avatar: optAvatar, disable: optDisable} in selectedOptions"
-        :key="label"
+        v-for="opt in selectedOptions"
+        :key="opt.label"
         small
-        :closable="!disable && !readonly && !optDisable"
-        :color="computedChipBgColor"
-        :text-color="computedChipTextColor"
-        :icon="optIcon"
-        :iconRight="optIconRight"
-        :avatar="optAvatar"
+        :closable="!disable && !readonly && !opt.disable"
+        :color="__getChipBgColor(opt.color)"
+        :text-color="__getChipTextColor(opt.color)"
+        :icon="opt.icon"
+        :iconRight="opt.iconRight"
+        :avatar="opt.avatar"
         @click.native.stop
-        @hide="__toggleMultiple(value, disable || optDisable)"
+        @hide="__toggleMultiple(opt.value, disable || opt.disable)"
       >
-        {{ label }}
+        {{ opt.label }}
       </q-chip>
     </div>
 
@@ -284,31 +284,6 @@ export default {
     hasChips () {
       return this.multiple && this.chips
     },
-    computedChipTextColor () {
-      if (this.chipsColor) {
-        return this.chipsColor
-      }
-      if (this.inverted || this.invertedLight) {
-        return this.color
-      }
-      return this.dark
-        ? this.color
-        : 'white'
-    },
-    computedChipBgColor () {
-      if (this.chipsBgColor) {
-        return this.chipsBgColor
-      }
-      if (this.inverted) {
-        return 'white'
-      }
-      if (this.invertedLight) {
-        return 'grey-8'
-      }
-      return this.dark
-        ? 'white'
-        : this.color
-    },
     length () {
       return this.multiple
         ? this.model.length
@@ -444,6 +419,31 @@ export default {
       if (forceUpdate || !this.$refs.popover.showing) {
         this.__onClose()
       }
+    },
+    __getChipTextColor (optColor) {
+      if (this.chipsColor) {
+        return this.chipsColor
+      }
+      if (this.inverted || this.invertedLight) {
+        return optColor || this.color
+      }
+      return this.dark
+        ? optColor || this.color
+        : 'white'
+    },
+    __getChipBgColor (optColor) {
+      if (this.chipsBgColor) {
+        return this.chipsBgColor
+      }
+      if (this.inverted) {
+        return 'white'
+      }
+      if (this.invertedLight) {
+        return 'grey-8'
+      }
+      return this.dark
+        ? 'white'
+        : optColor || this.color
     }
   }
 }
