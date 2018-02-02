@@ -15,7 +15,9 @@ export default {
     el.addEventListener('click', handler)
   },
   unbind (el) {
-    el.removeEventListener('click', el.__qclose.handler)
+    const ctx = el.__qclose
+    if (!ctx) { return }
+    el.removeEventListener('click', ctx.handler)
     delete el.__qclose
   }
 }

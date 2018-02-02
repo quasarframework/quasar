@@ -75,6 +75,7 @@ export default {
   },
   unbind (el) {
     let ctx = el.__qbacktotop
+    if (!ctx) { return }
     ctx.scrollTarget.removeEventListener('scroll', ctx.update, listenOpts.passive)
     window.removeEventListener('resize', ctx.update, listenOpts.passive)
     el.removeEventListener('click', ctx.goToTop)

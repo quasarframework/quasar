@@ -180,6 +180,7 @@ export default {
   },
   unbind (el, binding) {
     let ctx = el.__qtouchpan
+    if (!ctx) { return }
     const evtOpts = binding.modifiers.prevent ? null : listenOpts.passive
 
     el.removeEventListener('mousedown', ctx.mouseStart, evtOpts)

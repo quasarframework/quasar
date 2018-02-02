@@ -72,6 +72,7 @@ export default {
   },
   unbind (el, binding) {
     let ctx = el.__qtouchhold
+    if (!ctx) { return }
     el.removeEventListener('touchstart', ctx.start)
     el.removeEventListener('touchend', ctx.abort)
     el.removeEventListener('touchmove', ctx.abort)

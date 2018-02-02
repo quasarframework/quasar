@@ -170,6 +170,7 @@ export default {
   },
   unbind (el, binding) {
     const ctx = el.__qtouchswipe
+    if (!ctx) { return }
 
     el.removeEventListener('mousedown', ctx.mouseStart)
 

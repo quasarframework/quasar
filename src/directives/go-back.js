@@ -25,7 +25,9 @@ export default {
     }
   },
   unbind (el) {
-    el.removeEventListener('click', el.__qgoback.goBack)
+    const ctx = el.__qgoback
+    if (!ctx) { return }
+    el.removeEventListener('click', ctx.goBack)
     delete el.__qgoback
   }
 }
