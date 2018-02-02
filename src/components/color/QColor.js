@@ -231,7 +231,9 @@ export default {
         attrs: {
           value: this.actualValue,
           placeholder: this.inputPlaceholder,
-          readonly: true
+          readonly: true,
+          disabled: this.disable,
+          tabindex: -1
         }
       }),
 

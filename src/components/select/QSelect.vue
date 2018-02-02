@@ -57,6 +57,8 @@
       :value="actualValue"
       :placeholder="inputPlaceholder"
       readonly
+      :disabled="this.disable"
+      tabindex="-1"
     />
 
     <q-icon
@@ -76,7 +78,7 @@
       :anchor-click="false"
       class="column no-wrap"
       :class="dark ? 'bg-dark' : null"
-      @show="__onFocus"
+      @show="__onShow"
       @hide="__onClose"
     >
       <q-field-reset>
@@ -326,10 +328,16 @@ export default {
         return
       }
       this.focused = true
+      this.$emit('focus')
+    },
+    __onShow () {
+      if (this.disable) {
+        return
+      }
+      this.__onFocus()
       if (this.filter && this.autofocusFilter) {
         this.$refs.filter.focus()
       }
-      this.$emit('focus')
       const selected = this.$refs.popover.$el.querySelector(this.activeItemSelector)
       if (selected) {
         selected.scrollIntoView()
@@ -348,8 +356,8 @@ export default {
       }, 1)
     },
     __onClose () {
-      this.focused = false
       this.terms = ''
+      this.focused = false
       this.$emit('blur')
       this.$nextTick(() => {
         if (JSON.stringify(this.model) !== JSON.stringify(this.value)) {
