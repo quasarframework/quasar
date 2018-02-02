@@ -26,7 +26,7 @@
     @click.native="togglePopup"
     @focus.native="__onFocus"
     @blur.native="__onBlur"
-    @keydown.native="__handleKeyDown"
+    @keydown.native="__keyboardHandleKey"
   >
     <div
       v-if="hasChips"
@@ -101,11 +101,10 @@
       >
         <template v-if="multiple">
           <q-item-wrapper
-            v-for="opt in visibleOptions"
+            v-for="(opt, index) in visibleOptions"
             :key="JSON.stringify(opt)"
             :cfg="opt"
-            :link="!opt.disable"
-            :class="{'text-faded': opt.disable}"
+            :class="{'text-faded': opt.disable, 'q-select-highlight': index === keyboardIndex}"
             slot-replace
             @click.capture.native="__toggleMultiple(opt.value, opt.disable)"
           >
@@ -133,12 +132,12 @@
         </template>
         <template v-else>
           <q-item-wrapper
-            v-for="opt in visibleOptions"
+            v-for="(opt, index) in visibleOptions"
             :key="JSON.stringify(opt)"
             :cfg="opt"
-            :link="!opt.disable"
-            :class="{'text-faded': opt.disable}"
+            :class="{'text-faded': opt.disable, 'q-select-highlight': index === keyboardIndex}"
             slot-replace
+            :link="!opt.disable"
             :active="value === opt.value"
             @click.capture.native="__singleSelect(opt.value, opt.disable)"
           >
@@ -172,7 +171,7 @@ import { QInputFrame } from '../input-frame'
 import { QChip } from '../chip'
 import FrameMixin from '../../mixins/input-frame'
 import extend from '../../utils/extend'
-import { getEventKey, stopAndPrevent } from '../../utils/event'
+import KeyboardSelectionMixin from '../../mixins/keyboard-selection'
 
 function defaultFilterFn (terms, obj) {
   return obj.label.toLowerCase().indexOf(terms) > -1
@@ -180,7 +179,7 @@ function defaultFilterFn (terms, obj) {
 
 export default {
   name: 'q-select',
-  mixins: [FrameMixin],
+  mixins: [FrameMixin, KeyboardSelectionMixin],
   components: {
     QFieldReset,
     QSearch,
@@ -248,6 +247,9 @@ export default {
       }
       return opts
     },
+    keyboardMaxIndex () {
+      return this.visibleOptions.length
+    },
     filterFn () {
       return typeof this.filter === 'boolean'
         ? defaultFilterFn
@@ -297,6 +299,7 @@ export default {
       this[this.$refs.popover.showing ? 'hide' : 'show']()
     },
     show () {
+      this.__keyboardShow(-1)
       return this.$refs.popover.show()
     },
     hide () {
@@ -309,17 +312,36 @@ export default {
       }
     },
 
-    __handleKeyDown (e) {
-      switch (getEventKey(e)) {
+    __keyboardCustomKeyHandle (key, e) {
+      switch (key) {
         case 13: // ENTER key
         case 32: // SPACE key
-          stopAndPrevent(e)
-          return this.show()
+          if (!this.$refs.popover.showing) {
+            this.show()
+          }
+          break
         case 8: // BACKSPACE key
           if (this.editable && this.clearable && this.actualValue.length) {
             this.clear()
           }
+          break
       }
+    },
+    __keyboardShowTrigger () {
+      this.show()
+    },
+    __keyboardSetSelection (index) {
+      const opt = this.visibleOptions[index]
+
+      if (this.multiple) {
+        this.__toggleMultiple(opt.value, opt.disable)
+      }
+      else {
+        this.__singleSelect(opt.value, opt.disable)
+      }
+    },
+    __keyboardIsSelectableIndex (index) {
+      return index > -1 && !this.visibleOptions[index].disable
     },
     __onFocus () {
       if (this.disable || this.focused) {
