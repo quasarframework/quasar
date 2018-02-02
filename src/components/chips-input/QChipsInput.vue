@@ -15,7 +15,7 @@
     :hide-underline="hideUnderline"
     :before="before"
     :after="after"
-    :color="computedColor"
+    :color="color"
 
     :focused="focused"
     :length="length"
@@ -29,7 +29,7 @@
         :closable="editable"
         v-for="(label, index) in model"
         :key="`${label}#${index}`"
-        :color="computedChipColor"
+        :color="computedChipBgColor"
         :text-color="computedChipTextColor"
         @blur="__onInputBlur"
         @blur.native="__onInputBlur"
@@ -91,7 +91,8 @@ export default {
       type: Array,
       required: true
     },
-    frameColor: String,
+    chipsColor: String,
+    chipsBgColor: String,
     readonly: Boolean,
     addIcon: String
   },
@@ -115,24 +116,30 @@ export default {
     computedAddIcon () {
       return this.addIcon || this.$q.icon.chipsInput.add
     },
-    computedColor () {
-      return this.inverted || this.invertedLight ? this.frameColor || this.color : this.color
+    computedChipTextColor () {
+      if (this.chipsColor) {
+        return this.chipsColor
+      }
+      if (this.inverted || this.invertedLight) {
+        return this.color
+      }
+      return this.dark
+        ? this.color
+        : 'white'
     },
-    computedChipColor () {
+    computedChipBgColor () {
+      if (this.chipsBgColor) {
+        return this.chipsBgColor
+      }
       if (this.inverted) {
         return 'white'
       }
       if (this.invertedLight) {
-        return 'grey-7'
+        return 'grey-8'
       }
-      return this.color
-    },
-    computedChipTextColor () {
-      if (this.inverted || this.invertedLight) {
-        return this.color
-      }
-
-      return this.dark ? 'black' : 'white'
+      return this.dark
+        ? 'white'
+        : this.color
     }
   },
   methods: {
