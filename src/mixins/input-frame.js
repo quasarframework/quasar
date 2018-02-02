@@ -50,6 +50,19 @@ export default {
     },
     editable () {
       return !this.disable && !this.readonly
+    },
+    isInverted () {
+      return this.inverted || this.invertedLight
+    },
+    isInvertedLight () {
+      return (this.inverted && this.hasWarning) || (this.invertedLight && !this.hasError)
+    },
+    hasError () {
+      return !!((this.field && this.field.error) || this.error)
+    },
+    hasWarning () {
+      // error is the higher priority
+      return !!(!this.hasError && ((this.field && this.field.warning) || this.warning))
     }
   },
   methods: {

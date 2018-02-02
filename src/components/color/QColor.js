@@ -231,7 +231,9 @@ export default {
         attrs: {
           value: this.actualValue,
           placeholder: this.inputPlaceholder,
-          readonly: true
+          readonly: true,
+          disabled: this.disable,
+          tabindex: -1
         }
       }),
 
@@ -267,7 +269,7 @@ export default {
       this.editable && this.clearable && this.actualValue.length
         ? h('q-icon', {
           slot: 'after',
-          props: { name: this.$q.icon.input[`clear${this.inverted ? 'Inverted' : ''}`] },
+          props: { name: this.$q.icon.input[`clear${this.isInverted ? 'Inverted' : ''}`] },
           nativeOn: { click: this.clear },
           staticClass: 'q-if-control'
         })

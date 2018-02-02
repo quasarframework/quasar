@@ -62,13 +62,16 @@
         <q-chips-input :dark="dark" class="q-my-sm" v-model="chips" placeholder="Placeholder" float-label="With placeholder" clearable suffix="SUF" prefix="PRE" />
         <q-chips-input :dark="dark" class="q-my-sm" v-model="chips" placeholder="Placeholder" clearable suffix="SUF" prefix="PRE" />
         <q-chips-input :dark="dark" class="q-my-sm" color="amber-2" v-model="chips" stack-label="Stack Label" clearable suffix="SUF" prefix="PRE" />
+        <q-chips-input :dark="dark" class="q-my-sm" frame-color="dark" color="amber-2" v-model="chips" stack-label="Stack Label" clearable suffix="SUF" prefix="PRE" />
         <q-chips-input :dark="dark" class="q-my-sm" v-model="chips" inverted stack-label="Stack Label" clearable />
         <q-chips-input :dark="dark" class="q-my-sm" v-model="chips" inverted stack-label="Stack Label" clearable suffix="SUF" prefix="PRE" />
         <q-chips-input :dark="dark" class="q-my-sm" v-model="chips" inverted color="secondary" stack-label="With placeholder" placeholder="Placeholder" clearable suffix="SUF" prefix="PRE" />
         <q-chips-input :dark="dark" class="q-my-sm" color="amber-2" v-model="chips" inverted-light stack-label="Stack Label" clearable suffix="SUF" prefix="PRE" />
         <q-chips-input :dark="dark" class="q-my-sm" color="amber-2" v-model="chips" inverted-light float-label="With placeholder" placeholder="Placeholder" clearable suffix="SUF" prefix="PRE" />
         <q-chips-input :dark="dark" class="q-my-sm" color="white" v-model="chips" inverted-light stack-label="Stack Label" clearable suffix="SUF" prefix="PRE" />
-        <q-chips-input :dark="dark" class="q-my-sm" inverted frame-color="dark" color="dark" v-model="chips" stack-label="Stack Label" clearable suffix="SUF" prefix="PRE" />
+        <q-chips-input :dark="dark" class="q-my-sm" inverted frame-color="dark" color="grey-10" v-model="chips" stack-label="Stack Label" clearable suffix="SUF" prefix="PRE" />
+        <q-chips-input :dark="dark" class="q-my-sm" inverted frame-color="dark" color="orange" v-model="chips" stack-label="Stack Label" clearable suffix="SUF" prefix="PRE" />
+        <q-chips-input :dark="dark" class="q-my-sm" frame-color="dark" color="orange" v-model="chips" stack-label="Stack Label" clearable suffix="SUF" prefix="PRE" />
       </div>
       <q-toggle v-model="dark" label="Dark" class="fixed-top-left bg-grey-5 q-pa-sm" style="top: 18px; left: 18px;" />
     </div>

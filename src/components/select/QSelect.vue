@@ -55,8 +55,10 @@
       class="col q-input-target cursor-inherit"
       :class="alignClass"
       :value="this.actualValue"
-      placeholder="inputPlaceholder"
+      :placeholder="inputPlaceholder"
       readonly
+      :disabled="this.disable"
+      tabindex="-1"
     />
 
     <q-icon
@@ -76,7 +78,7 @@
       :anchor-click="false"
       class="column no-wrap"
       :class="dark ? 'bg-dark' : null"
-      @show="__onFocus"
+      @show="__onShow"
       @hide="__onClose"
     >
       <q-field-reset>
@@ -113,7 +115,7 @@
               v-if="toggle"
               slot="right"
               keep-color
-              :color="opt.color || color"
+              :color="opt.color || optionColor"
               :dark="dark"
               :value="optModel[opt.index]"
               :disable="opt.disable"
@@ -123,7 +125,7 @@
               v-else
               slot="left"
               keep-color
-              :color="opt.color || color"
+              :color="opt.color || optionColor"
               :dark="dark"
               :value="optModel[opt.index]"
               :disable="opt.disable"
@@ -145,7 +147,7 @@
             <q-radio
               v-if="radio"
               keep-color
-              :color="opt.color || color"
+              :color="opt.color || optionColor"
               slot="left"
               :value="value"
               :val="opt.value"
@@ -289,7 +291,10 @@ export default {
       return this.displayValue && this.displayValue.length > 0
     },
     computedColor () {
-      return this.inverted ? this.frameColor || this.color : this.color
+      return this.isInverted ? this.frameColor || this.color : this.color
+    },
+    optionColor () {
+      return this.invertedLight && !this.dark && !this.frameColor ? null : this.color
     }
   },
   methods: {
@@ -326,10 +331,16 @@ export default {
         return
       }
       this.focused = true
+      this.$emit('focus')
+    },
+    __onShow () {
+      if (this.disable) {
+        return
+      }
+      this.__onFocus()
       if (this.filter && this.autofocusFilter) {
         this.$refs.filter.focus()
       }
-      this.$emit('focus')
       const selected = this.$refs.popover.$el.querySelector(this.activeItemSelector)
       if (selected) {
         selected.scrollIntoView()
@@ -398,20 +409,22 @@ export default {
     },
 
     computedChipColor (optColor) {
-      if (this.inverted) {
-        return 'white'
-      }
-      if (this.invertedLight) {
-        return 'grey-7'
-      }
-      return optColor || this.color
-    },
-    computedChipTextColor (optColor) {
-      if (this.inverted || this.invertedLight) {
+      if ((!this.isInverted && !this.dark) || (this.isInverted && this.frameColor)) {
         return optColor || this.color
       }
-
-      return this.dark ? 'black' : 'white'
+      if (!this.isInverted && this.dark && this.frameColor) {
+        return this.frameColor
+      }
+      return this.invertedLight ? 'grey-10' : 'white'
+    },
+    computedChipTextColor (optColor) {
+      if (!this.isInverted && !this.dark && !this.frameColor) {
+        return 'white'
+      }
+      if (this.frameColor && (this.isInverted || !this.dark)) {
+        return this.frameColor
+      }
+      return optColor || this.color
     }
   }
 }
