@@ -41,7 +41,7 @@
         :color="__getChipBgColor(opt.color)"
         :text-color="__getChipTextColor(opt.color)"
         :icon="opt.icon"
-        :iconRight="opt.iconRight"
+        :iconRight="opt.rightIcon"
         :avatar="opt.avatar"
         @click.native.stop
         @hide="__toggleMultiple(opt.value, disable || opt.disable)"
