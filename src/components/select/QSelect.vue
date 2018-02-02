@@ -16,7 +16,7 @@
     :hide-underline="hideUnderline"
     :before="before"
     :after="after"
-    :color="computedColor"
+    :color="color"
 
     :focused="focused"
     focusable
@@ -34,12 +34,12 @@
       :class="alignClass"
     >
       <q-chip
-        v-for="{label, value, color: optColor, icon: optIcon, rightIcon: optIconRight, avatar: optAvatar, disable: optDisable} in selectedOptions"
+        v-for="{label, value, icon: optIcon, rightIcon: optIconRight, avatar: optAvatar, disable: optDisable} in selectedOptions"
         :key="label"
         small
         :closable="!disable && !readonly && !optDisable"
-        :color="computedChipColor(optColor)"
-        :text-color="computedChipTextColor(optColor)"
+        :color="computedChipBgColor"
+        :text-color="computedChipTextColor"
         :icon="optIcon"
         :iconRight="optIconRight"
         :avatar="optAvatar"
@@ -104,6 +104,7 @@
             v-for="(opt, index) in visibleOptions"
             :key="JSON.stringify(opt)"
             :cfg="opt"
+            :link="!opt.disable"
             :class="{'text-faded': opt.disable, 'q-select-highlight': index === keyboardIndex}"
             slot-replace
             @click.capture.native="__toggleMultiple(opt.value, opt.disable)"
@@ -210,7 +211,8 @@ export default {
       required: true,
       validator: v => v.every(o => 'label' in o && 'value' in o)
     },
-    frameColor: String,
+    chipsColor: String,
+    chipsBgColor: String,
     displayValue: String,
     clearable: Boolean,
     clearValue: {}
@@ -281,6 +283,31 @@ export default {
     },
     hasChips () {
       return this.multiple && this.chips
+    },
+    computedChipTextColor () {
+      if (this.chipsColor) {
+        return this.chipsColor
+      }
+      if (this.inverted || this.invertedLight) {
+        return this.color
+      }
+      return this.dark
+        ? this.color
+        : 'white'
+    },
+    computedChipBgColor () {
+      if (this.chipsBgColor) {
+        return this.chipsBgColor
+      }
+      if (this.inverted) {
+        return 'white'
+      }
+      if (this.invertedLight) {
+        return 'grey-8'
+      }
+      return this.dark
+        ? 'white'
+        : this.color
     },
     length () {
       return this.multiple
@@ -417,23 +444,6 @@ export default {
       if (forceUpdate || !this.$refs.popover.showing) {
         this.__onClose()
       }
-    },
-
-    computedChipColor (optColor) {
-      if (this.inverted) {
-        return 'white'
-      }
-      if (this.invertedLight) {
-        return 'grey-7'
-      }
-      return optColor || this.color
-    },
-    computedChipTextColor (optColor) {
-      if (this.inverted || this.invertedLight) {
-        return optColor || this.color
-      }
-
-      return this.dark ? 'black' : 'white'
     }
   }
 }
