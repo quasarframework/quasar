@@ -233,6 +233,14 @@ export default {
       this.model = this.multiple && Array.isArray(val)
         ? val.slice()
         : val
+    },
+    keyboardIndex () {
+      if (this.$refs.popover.showing) {
+        const selected = this.$refs.popover.$el.querySelector('.q-select-highlight')
+        if (selected && selected.scrollIntoViewIfNeeded) {
+          selected.scrollIntoViewIfNeeded(false)
+        }
+      }
     }
   },
   computed: {
@@ -363,7 +371,7 @@ export default {
         this.$refs.filter.focus()
       }
       const selected = this.$refs.popover.$el.querySelector(this.activeItemSelector)
-      if (selected) {
+      if (selected && selected.scrollIntoView) {
         selected.scrollIntoView()
       }
     },
