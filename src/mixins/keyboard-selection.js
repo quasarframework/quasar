@@ -61,7 +61,7 @@ export default {
             this.keyboardMaxIndex
           )
         }
-        while (!valid(index))
+        while (index !== this.keyboardIndex && !valid(index))
 
         this.keyboardIndex = index
         return
