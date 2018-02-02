@@ -33,8 +33,6 @@
     <h4>Dark</h4>
     <q-table
       dark
-      class="bg-grey-10"
-      color="grey-3"
       :data="data"
       :columns="columns"
       title="Client side"

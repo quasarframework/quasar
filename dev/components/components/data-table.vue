@@ -38,8 +38,6 @@
       <h2>NO templates</h2>
       <q-table
         dark
-        class="bg-black"
-        color="grey-3"
         :separator="separator"
         :data="data"
         :columns="columns"
