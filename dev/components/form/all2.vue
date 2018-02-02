@@ -69,7 +69,7 @@
         <q-chips-input :dark="dark" class="q-my-sm" color="amber-2" v-model="chips" inverted-light stack-label="Stack Label" clearable suffix="SUF" prefix="PRE" />
         <q-chips-input :dark="dark" class="q-my-sm" color="amber-2" v-model="chips" inverted-light float-label="With placeholder" placeholder="Placeholder" clearable suffix="SUF" prefix="PRE" />
         <q-chips-input :dark="dark" class="q-my-sm" color="white" v-model="chips" inverted-light stack-label="Stack Label" clearable suffix="SUF" prefix="PRE" />
-        <q-chips-input :dark="dark" class="q-my-sm" inverted frame-color="dark" color="dark" v-model="chips" stack-label="Stack Label" clearable suffix="SUF" prefix="PRE" />
+        <q-chips-input :dark="dark" class="q-my-sm" inverted frame-color="dark" color="grey-10" v-model="chips" stack-label="Stack Label" clearable suffix="SUF" prefix="PRE" />
         <q-chips-input :dark="dark" class="q-my-sm" inverted frame-color="dark" color="orange" v-model="chips" stack-label="Stack Label" clearable suffix="SUF" prefix="PRE" />
         <q-chips-input :dark="dark" class="q-my-sm" frame-color="dark" color="orange" v-model="chips" stack-label="Stack Label" clearable suffix="SUF" prefix="PRE" />
       </div>

@@ -89,7 +89,7 @@
 
     <q-slide-transition>
       <div v-show="expanded">
-        <div class="q-uploader-files scroll" :style="filesStyle">
+        <q-list :dark="dark" class="q-uploader-files q-py-none scroll" :style="filesStyle">
           <q-item
             v-for="file in files"
             :key="file.name + file.__timestamp"
@@ -106,7 +106,7 @@
             </div>
 
             <q-item-side v-if="file.__img" :image="file.__img.src"></q-item-side>
-            <q-item-side v-else :icon="$q.icon.uploader.file" :color="color"></q-item-side>
+            <q-item-side v-else :icon="$q.icon.uploader.file" :color="color" :text-color="dark ? 'white' : null" :inverted="dark || inverted"></q-item-side>
 
             <q-item-main :label="file.name" :sublabel="file.__size"></q-item-main>
 
@@ -114,12 +114,14 @@
               <q-item-tile
                 :icon="$q.icon.uploader[file.__doneUploading ? 'done' : 'clear']"
                 :color="color"
+                :text-color="dark ? 'white' : null"
+                :inverted="dark || inverted"
                 class="cursor-pointer"
                 @click.native="__remove(file)"
               ></q-item-tile>
             </q-item-side>
           </q-item>
-        </div>
+        </q-list>
       </div>
     </q-slide-transition>
 

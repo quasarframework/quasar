@@ -78,7 +78,7 @@
       :anchor-click="false"
       class="column no-wrap"
       :class="dark ? 'bg-dark' : null"
-      @show="__onFocus"
+      @show="__onShow"
       @hide="__onClose"
     >
       <q-field-reset>
@@ -115,7 +115,7 @@
               v-if="toggle"
               slot="right"
               keep-color
-              :color="opt.color || (invertedLight && !dark ? null : color)"
+              :color="opt.color || optionColor"
               :dark="dark"
               :value="optModel[opt.index]"
               :disable="opt.disable"
@@ -125,7 +125,7 @@
               v-else
               slot="left"
               keep-color
-              :color="opt.color || (invertedLight && !dark ? null : color)"
+              :color="opt.color || optionColor"
               :dark="dark"
               :value="optModel[opt.index]"
               :disable="opt.disable"
@@ -147,7 +147,7 @@
             <q-radio
               v-if="radio"
               keep-color
-              :color="opt.color || (invertedLight && !dark ? null : color)"
+              :color="opt.color || optionColor"
               slot="left"
               :value="value"
               :val="opt.value"
@@ -292,6 +292,9 @@ export default {
     },
     computedColor () {
       return this.isInverted ? this.frameColor || this.color : this.color
+    },
+    optionColor () {
+      return this.invertedLight && !this.dark && !this.frameColor ? null : this.color
     }
   },
   methods: {
@@ -328,10 +331,16 @@ export default {
         return
       }
       this.focused = true
+      this.$emit('focus')
+    },
+    __onShow () {
+      if (this.disable) {
+        return
+      }
+      this.__onFocus()
       if (this.filter && this.autofocusFilter) {
         this.$refs.filter.focus()
       }
-      this.$emit('focus')
       const selected = this.$refs.popover.$el.querySelector(this.activeItemSelector)
       if (selected) {
         selected.scrollIntoView()
