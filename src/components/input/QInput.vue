@@ -101,7 +101,7 @@
     <q-icon
       v-if="editable && clearable && length"
       slot="after"
-      :name="$q.icon.input[`clear${this.inverted ? 'Inverted' : ''}`]"
+      :name="$q.icon.input[`clear${isInverted ? 'Inverted' : ''}`]"
       class="q-if-control"
       @mousedown.native="__clearTimer"
       @touchstart.native="__clearTimer"

@@ -54,8 +54,8 @@
       v-else
       class="col q-input-target cursor-inherit"
       :class="alignClass"
-      :value="this.actualValue"
-      placeholder="inputPlaceholder"
+      :value="actualValue"
+      :placeholder="inputPlaceholder"
       readonly
     />
 

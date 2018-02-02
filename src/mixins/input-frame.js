@@ -45,11 +45,21 @@ export default {
         return this.placeholder
       }
     },
+    isInverted () {
+      return this.inverted || this.invertedLight
+    },
     labelIsAbove () {
       return this.focused || this.length || this.additionalLength || this.stackLabel
     },
     editable () {
       return !this.disable && !this.readonly
+    },
+    hasError () {
+      return !!((this.field && this.field.error) || this.error)
+    },
+    hasWarning () {
+      // error is the higher priority
+      return !!(!this.hasError && ((this.field && this.field.warning) || this.warning))
     }
   },
   methods: {

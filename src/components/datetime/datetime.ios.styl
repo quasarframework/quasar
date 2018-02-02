@@ -70,8 +70,6 @@ body.desktop .q-datetime-col-wrapper
   width 100%
   backface-visibility hidden
   transform-origin center center -110px
-  .q-datetime-dark &
-    color rgba(255, 255, 255, .87)
 
 .q-datetime-mask
   position absolute
@@ -83,8 +81,6 @@ body.desktop .q-datetime-col-wrapper
   width 100%
   background linear-gradient(to top, white, rgba(255, 255, 255, 0.0) 50%, white)
   pointer-events none
-  .q-datetime-dark &
-    background linear-gradient(to top, black, rgba(0, 0, 0, 0.0) 50%, black)
 
 .q-datetime-highlight
   height 36px
@@ -108,3 +104,11 @@ body.desktop .q-datetime-col-wrapper
       border-bottom-left-radius 0
   &.column > div + div
     margin-top $datetime-range-space
+
+.q-datetime-dark
+  background $dark
+
+  .q-datetime-item
+    color rgba(255, 255, 255, .87)
+  .q-datetime-mask
+    background linear-gradient(to top, black, rgba(0, 0, 0, 0.0) 50%, black)

@@ -70,7 +70,7 @@ export default {
       }
       if (this.editable && this.clearable) {
         return [{
-          icon: this.$q.icon.search[`clear${this.inverted ? 'Inverted' : ''}`],
+          icon: this.$q.icon.search[`clear${this.isInverted ? 'Inverted' : ''}`],
           content: true,
           handler: this.clear
         }]
