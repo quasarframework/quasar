@@ -359,8 +359,8 @@ export default {
       }, 1)
     },
     __onClose () {
-      this.focused = false
       this.terms = ''
+      this.focused = false
       this.$emit('blur')
       this.$nextTick(() => {
         if (JSON.stringify(this.model) !== JSON.stringify(this.value)) {
