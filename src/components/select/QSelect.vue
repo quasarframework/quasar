@@ -239,7 +239,7 @@ export default {
         this.$nextTick(() => {
           const selected = this.$refs.popover.$el.querySelector('.q-select-highlight')
           if (selected && selected.scrollIntoView) {
-            if (!selected.scrollIntoViewIfNeeded) {
+            if (selected.scrollIntoViewIfNeeded) {
               return selected.scrollIntoViewIfNeeded(false)
             }
             selected.scrollIntoView(this.keyboardMoveDirection < 0)
