@@ -87,6 +87,7 @@
           ref="filter"
           v-model="terms"
           @input="reposition"
+          @keydown.native="__keyboardHandleKey"
           :placeholder="filterPlaceholder || $q.i18n.label.filter"
           :debounce="100"
           :color="color"
@@ -234,8 +235,8 @@ export default {
         ? val.slice()
         : val
     },
-    keyboardIndex () {
-      if (this.$refs.popover.showing && this.keyboardMoveDirection) {
+    keyboardIndex (val) {
+      if (this.$refs.popover.showing && this.keyboardMoveDirection && val > -1) {
         this.$nextTick(() => {
           const selected = this.$refs.popover.$el.querySelector('.q-select-highlight')
           if (selected && selected.scrollIntoView) {
@@ -262,6 +263,7 @@ export default {
         const lowerTerms = this.terms.toLowerCase()
         opts = opts.filter(opt => this.filterFn(lowerTerms, opt))
       }
+      this.$nextTick(() => this.__keyboardCalcIndex(opts))
       return opts
     },
     keyboardMaxIndex () {
@@ -311,6 +313,7 @@ export default {
       this[this.$refs.popover.showing ? 'hide' : 'show']()
     },
     show () {
+      this.__keyboardCalcIndex(this.visibleOptions, 0)
       return this.$refs.popover.show()
     },
     hide () {
@@ -323,17 +326,21 @@ export default {
       }
     },
 
+    __keyboardCalcIndex (opts, fallback) {
+      if (fallback === void 0) {
+        fallback = Math.min(opts.length - 1, this.keyboardIndex)
+      }
+      this.keyboardMoveDirection = true
+      this.keyboardIndex = -1
+      const sel = this.multiple ? this.model[0] : this.model
+      this.$nextTick(() => this.__keyboardShow(sel === void 0 ? fallback : Math.max(fallback, opts.findIndex(opt => opt.value === sel))))
+    },
     __keyboardCustomKeyHandle (key, e) {
       switch (key) {
         case 13: // ENTER key
         case 32: // SPACE key
           if (!this.$refs.popover.showing) {
             this.show()
-          }
-          break
-        case 8: // BACKSPACE key
-          if (this.editable && this.clearable && this.actualValue.length) {
-            this.clear()
           }
           break
       }
@@ -374,8 +381,6 @@ export default {
       if (this.filter && this.autofocusFilter) {
         this.$refs.filter.focus()
       }
-      const sel = this.multiple ? this.model[0] : this.model
-      this.__keyboardShow(sel === void 0 ? -1 : this.visibleOptions.findIndex(opt => opt.value === sel))
     },
     __onBlur (e) {
       setTimeout(() => {

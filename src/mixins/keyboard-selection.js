@@ -3,7 +3,7 @@ import { normalizeToInterval } from '../utils/format'
 
 export default {
   data: () => ({
-    keyboardIndex: -1,
+    keyboardIndex: 0,
     keyboardMoveDirection: false,
     keyboardMoveTimer: false
   }),
