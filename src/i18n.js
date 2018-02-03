@@ -14,6 +14,18 @@ export default {
       this.lang = lang
     }
 
+    this.detectLocale = () => {
+      let val =
+        navigator.language ||
+        navigator.languages[0] ||
+        navigator.browserLanguage ||
+        navigator.userLanguage ||
+        navigator.systemLanguage
+      if (val) {
+        return val.toLowerCase()
+      }
+    }
+
     this.set(lang)
   }
 }
