@@ -247,6 +247,9 @@ export default {
           }
         })
       }
+    },
+    visibleOptions () {
+      this.__keyboardCalcIndex()
     }
   },
   computed: {
@@ -263,7 +266,6 @@ export default {
         const lowerTerms = this.terms.toLowerCase()
         opts = opts.filter(opt => this.filterFn(lowerTerms, opt))
       }
-      this.$nextTick(() => this.__keyboardCalcIndex(opts))
       return opts
     },
     keyboardMaxIndex () {
@@ -313,7 +315,7 @@ export default {
       this[this.$refs.popover.showing ? 'hide' : 'show']()
     },
     show () {
-      this.__keyboardCalcIndex(this.visibleOptions, 0)
+      this.__keyboardCalcIndex()
       return this.$refs.popover.show()
     },
     hide () {
@@ -326,14 +328,11 @@ export default {
       }
     },
 
-    __keyboardCalcIndex (opts, fallback) {
-      if (fallback === void 0) {
-        fallback = Math.min(opts.length - 1, this.keyboardIndex)
-      }
+    __keyboardCalcIndex () {
       this.keyboardMoveDirection = true
       this.keyboardIndex = -1
-      const sel = this.multiple ? this.model[0] : this.model
-      this.$nextTick(() => this.__keyboardShow(sel === void 0 ? fallback : Math.max(fallback, opts.findIndex(opt => opt.value === sel))))
+      const sel = this.multiple ? this.selectedOptions.map(o => o.value) : [this.model]
+      this.$nextTick(() => this.__keyboardShow(sel === void 0 ? 0 : Math.max(0, this.visibleOptions.findIndex(opt => sel.includes(opt.value)))))
     },
     __keyboardCustomKeyHandle (key, e) {
       switch (key) {
