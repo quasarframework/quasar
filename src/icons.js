@@ -14,7 +14,6 @@ export default {
       this.def = iconDef
     }
 
-    // TODO default ???
     this.set(iconSet)
   }
 }

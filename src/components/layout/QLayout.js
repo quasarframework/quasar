@@ -103,6 +103,7 @@ export default {
       if (this.width !== width) {
         this.width = width
       }
+      this.$emit('resize', { height, width })
     }
   }
 }
