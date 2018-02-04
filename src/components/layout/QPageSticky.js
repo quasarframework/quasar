@@ -102,7 +102,9 @@ export default {
       'class': `fixed-${this.position}`,
       style: this.computedStyle
     }, [
-      this.$slots.default
+      h('span', [
+        this.$slots.default
+      ])
     ])
   }
 }
