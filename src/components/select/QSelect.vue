@@ -87,6 +87,7 @@
           ref="filter"
           v-model="terms"
           @input="reposition"
+          @keydown.native="__keyboardHandleKey"
           :placeholder="filterPlaceholder || $q.i18n.label.filter"
           :debounce="100"
           :color="color"
@@ -107,9 +108,13 @@
             :key="JSON.stringify(opt)"
             :cfg="opt"
             :link="!opt.disable"
-            :class="{'text-faded': opt.disable, 'q-select-highlight': index === keyboardIndex}"
+            :class="[
+              opt.disable ? 'text-faded' : 'cursor-pointer',
+              index === keyboardIndex ? 'q-select-highlight' : ''
+            ]"
             slot-replace
             @click.capture.native="__toggleMultiple(opt.value, opt.disable)"
+            @mouseenter.native="(e) => !opt.disable && __mouseEnterHandler(e, index)"
           >
             <q-toggle
               v-if="toggle"
@@ -138,11 +143,12 @@
             v-for="(opt, index) in visibleOptions"
             :key="JSON.stringify(opt)"
             :cfg="opt"
-            :class="{'text-faded': opt.disable, 'q-select-highlight': index === keyboardIndex}"
-            slot-replace
             :link="!opt.disable"
+            :class="[opt.disable ? 'text-faded' : 'cursor-pointer', {'q-select-highlight': index === keyboardIndex}]"
+            slot-replace
             :active="value === opt.value"
             @click.capture.native="__singleSelect(opt.value, opt.disable)"
+            @mouseenter.native="(e) => !opt.disable && __mouseEnterHandler(e, index)"
           >
             <q-radio
               v-if="radio"
@@ -234,13 +240,21 @@ export default {
         ? val.slice()
         : val
     },
-    keyboardIndex () {
-      if (this.$refs.popover.showing) {
-        const selected = this.$refs.popover.$el.querySelector('.q-select-highlight')
-        if (selected && selected.scrollIntoViewIfNeeded) {
-          selected.scrollIntoViewIfNeeded(false)
-        }
+    keyboardIndex (val) {
+      if (this.$refs.popover.showing && this.keyboardMoveDirection && val > -1) {
+        this.$nextTick(() => {
+          const selected = this.$refs.popover.$el.querySelector('.q-select-highlight')
+          if (selected && selected.scrollIntoView) {
+            if (selected.scrollIntoViewIfNeeded) {
+              return selected.scrollIntoViewIfNeeded(false)
+            }
+            selected.scrollIntoView(this.keyboardMoveDirection < 0)
+          }
+        })
       }
+    },
+    visibleOptions () {
+      this.__keyboardCalcIndex()
     }
   },
   computed: {
@@ -260,17 +274,12 @@ export default {
       return opts
     },
     keyboardMaxIndex () {
-      return this.visibleOptions.length
+      return this.visibleOptions.length - 1
     },
     filterFn () {
       return typeof this.filter === 'boolean'
         ? defaultFilterFn
         : this.filter
-    },
-    activeItemSelector () {
-      return this.multiple
-        ? `.q-item-side > ${this.toggle ? '.q-toggle' : '.q-checkbox'} > .active`
-        : `.q-item.active`
     },
     actualValue () {
       if (this.displayValue) {
@@ -311,7 +320,7 @@ export default {
       this[this.$refs.popover.showing ? 'hide' : 'show']()
     },
     show () {
-      this.__keyboardShow(-1)
+      this.__keyboardCalcIndex()
       return this.$refs.popover.show()
     },
     hide () {
@@ -324,17 +333,18 @@ export default {
       }
     },
 
+    __keyboardCalcIndex () {
+      this.keyboardMoveDirection = true
+      this.keyboardIndex = -1
+      const sel = this.multiple ? this.selectedOptions.map(o => o.value) : [this.model]
+      this.$nextTick(() => this.__keyboardShow(sel === void 0 ? 0 : Math.max(0, this.visibleOptions.findIndex(opt => sel.includes(opt.value)))))
+    },
     __keyboardCustomKeyHandle (key, e) {
       switch (key) {
         case 13: // ENTER key
         case 32: // SPACE key
           if (!this.$refs.popover.showing) {
             this.show()
-          }
-          break
-        case 8: // BACKSPACE key
-          if (this.editable && this.clearable && this.actualValue.length) {
-            this.clear()
           }
           break
       }
@@ -353,7 +363,12 @@ export default {
       }
     },
     __keyboardIsSelectableIndex (index) {
-      return index > -1 && !this.visibleOptions[index].disable
+      return index > -1 && index < this.visibleOptions.length && !this.visibleOptions[index].disable
+    },
+    __mouseEnterHandler (e, index) {
+      if (!this.keyboardMoveDirection) {
+        this.keyboardIndex = index
+      }
     },
     __onFocus () {
       if (this.disable || this.focused) {
@@ -369,10 +384,6 @@ export default {
       this.__onFocus()
       if (this.filter && this.autofocusFilter) {
         this.$refs.filter.focus()
-      }
-      const selected = this.$refs.popover.$el.querySelector(this.activeItemSelector)
-      if (selected && selected.scrollIntoView) {
-        selected.scrollIntoView()
       }
     },
     __onBlur (e) {

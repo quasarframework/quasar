@@ -62,7 +62,7 @@ export default {
         : []
     },
     keyboardMaxIndex () {
-      return this.computedResults.length
+      return this.computedResults.length - 1
     },
     computedWidth () {
       return {minWidth: this.width}

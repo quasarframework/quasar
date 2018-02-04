@@ -3,7 +3,9 @@ import { normalizeToInterval } from '../utils/format'
 
 export default {
   data: () => ({
-    keyboardIndex: -1
+    keyboardIndex: 0,
+    keyboardMoveDirection: false,
+    keyboardMoveTimer: false
   }),
   methods: {
     __keyboardShow (index = 0) {
@@ -12,7 +14,7 @@ export default {
       }
     },
     __keyboardSetCurrentSelection () {
-      if (this.keyboardIndex >= 0 && this.keyboardIndex < this.keyboardMaxIndex) {
+      if (this.keyboardIndex >= 0 && this.keyboardIndex <= this.keyboardMaxIndex) {
         this.__keyboardSetSelection(this.keyboardIndex)
       }
     },
@@ -45,14 +47,10 @@ export default {
       stopAndPrevent(e)
 
       if (this.$refs.popover.showing) {
+        clearTimeout(this.keyboardMoveTimer)
         let
           index = this.keyboardIndex,
-          fn = this.__keyboardIsSelectableIndex || (() => true),
-          valid = index => {
-            return index > -1 && index < this.keyboardMaxIndex
-              ? fn(index)
-              : true
-          }
+          valid = this.__keyboardIsSelectableIndex || (() => true)
 
         do {
           index = normalizeToInterval(
@@ -63,6 +61,8 @@ export default {
         }
         while (index !== this.keyboardIndex && !valid(index))
 
+        this.keyboardMoveDirection = index > this.keyboardIndex ? 1 : -1
+        this.keyboardMoveTimer = setTimeout(() => { this.keyboardMoveDirection = false }, 500)
         this.keyboardIndex = index
         return
       }
