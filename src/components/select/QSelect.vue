@@ -107,6 +107,7 @@
             v-for="(opt, index) in visibleOptions"
             :key="JSON.stringify(opt)"
             :cfg="opt"
+            :link="!opt.disable"
             :class="[
               opt.disable ? 'text-faded' : 'cursor-pointer',
               index === keyboardIndex ? 'q-select-highlight' : ''
@@ -142,6 +143,7 @@
             v-for="(opt, index) in visibleOptions"
             :key="JSON.stringify(opt)"
             :cfg="opt"
+            :link="!opt.disable"
             :class="[opt.disable ? 'text-faded' : 'cursor-pointer', {'q-select-highlight': index === keyboardIndex}]"
             slot-replace
             :active="value === opt.value"
