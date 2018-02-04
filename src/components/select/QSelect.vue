@@ -107,7 +107,10 @@
             v-for="(opt, index) in visibleOptions"
             :key="JSON.stringify(opt)"
             :cfg="opt"
-            :class="[opt.disable ? 'text-faded' : 'cursor-pointer', {'q-select-highlight': index === keyboardIndex}]"
+            :class="[
+              opt.disable ? 'text-faded' : 'cursor-pointer',
+              index === keyboardIndex ? 'q-select-highlight' : ''
+            ]"
             slot-replace
             @click.capture.native="__toggleMultiple(opt.value, opt.disable)"
             @mouseenter.native="(e) => !opt.disable && __mouseEnterHandler(e, index)"
