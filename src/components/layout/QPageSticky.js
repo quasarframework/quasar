@@ -98,7 +98,7 @@ export default {
   },
   render (h) {
     return h('div', {
-      staticClass: 'q-page-sticky q-layout-transition z-fixed',
+      staticClass: 'q-page-sticky q-layout-transition z-fixed row flex-center',
       'class': `fixed-${this.position}`,
       style: this.computedStyle
     }, [
