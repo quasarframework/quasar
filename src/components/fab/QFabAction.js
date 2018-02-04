@@ -11,12 +11,6 @@ export default {
       }
     }
   },
-  props: {
-    icon: {
-      type: String,
-      required: true
-    }
-  },
   methods: {
     click (e) {
       this.__qFabClose().then(() => {
