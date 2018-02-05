@@ -114,7 +114,7 @@
             ]"
             slot-replace
             @click.capture.native="__toggleMultiple(opt.value, opt.disable)"
-            @mouseenter.native="(e) => !opt.disable && __mouseEnterHandler(e, index)"
+            @mouseenter.native="e => !opt.disable && __mouseEnterHandler(e, index)"
           >
             <q-toggle
               v-if="toggle"
@@ -144,11 +144,14 @@
             :key="JSON.stringify(opt)"
             :cfg="opt"
             :link="!opt.disable"
-            :class="[opt.disable ? 'text-faded' : 'cursor-pointer', {'q-select-highlight': index === keyboardIndex}]"
+            :class="[
+              opt.disable ? 'text-faded' : 'cursor-pointer',
+              index === keyboardIndex ? 'q-select-highlight' : ''
+            ]"
             slot-replace
             :active="value === opt.value"
             @click.capture.native="__singleSelect(opt.value, opt.disable)"
-            @mouseenter.native="(e) => !opt.disable && __mouseEnterHandler(e, index)"
+            @mouseenter.native="e => !opt.disable && __mouseEnterHandler(e, index)"
           >
             <q-radio
               v-if="radio"
