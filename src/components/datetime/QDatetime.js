@@ -8,7 +8,6 @@ import QDatetimePicker from './QDatetimePicker'
 import { QBtn } from '../btn'
 import { clone, formatDate, isSameDate, isValid } from '../../utils/date'
 import { QModal } from '../modal'
-import { QFieldReset } from '../field'
 import { getEventKey, stopAndPrevent } from '../../utils/event'
 
 const contentCss = __THEME__ === 'ios'
@@ -146,66 +145,65 @@ export default {
 
     __getPicker (h, modal) {
       return [
-        h(QFieldReset, { staticClass: 'flex' }, [
-          h(QDatetimePicker, {
-            ref: 'target',
-            staticClass: `no-border`,
-            props: {
-              type: this.type,
-              min: this.min,
-              max: this.max,
-              formatModel: this.formatModel,
-              format24h: this.format24h,
-              firstDayOfWeek: this.firstDayOfWeek,
-              defaultView: this.defaultView,
-              color: this.color,
-              dark: this.dark,
-              value: this.model,
-              disable: this.disable,
-              readonly: this.readonly
-            },
-            on: {
-              input: v => this.$nextTick(() => this.__setModel(v)),
-              canClose: () => {
-                if (this.isPopover) {
-                  this.hide()
-                }
+        h(QDatetimePicker, {
+          ref: 'target',
+          staticClass: `no-border block`,
+          props: {
+            type: this.type,
+            min: this.min,
+            max: this.max,
+            formatModel: this.formatModel,
+            format24h: this.format24h,
+            firstDayOfWeek: this.firstDayOfWeek,
+            defaultView: this.defaultView,
+            color: this.color,
+            dark: this.dark,
+            value: this.model,
+            disable: this.disable,
+            readonly: this.readonly,
+            noParentField: true
+          },
+          on: {
+            input: v => this.$nextTick(() => this.__setModel(v)),
+            canClose: () => {
+              if (this.isPopover) {
+                this.hide()
               }
             }
-          }, [
-            modal
-              ? h('div', {
-                staticClass: 'modal-buttons modal-buttons-top row full-width'
-              }, [
-                h('div', { staticClass: 'col' }),
-                h(QBtn, {
+          }
+        }, [
+          modal
+            ? h('div', {
+              staticClass: 'modal-buttons modal-buttons-top row full-width'
+            }, [
+              h('div', { staticClass: 'col' }),
+              h(QBtn, {
+                props: {
+                  color: this.color,
+                  flat: true,
+                  label: this.cancelLabel || this.$q.i18n.label.cancel,
+                  waitForRipple: true
+                },
+                on: { click: this.hide }
+              }),
+              this.editable
+                ? h(QBtn, {
                   props: {
                     color: this.color,
                     flat: true,
-                    label: this.cancelLabel || this.$q.i18n.label.cancel,
+                    label: this.okLabel || this.$q.i18n.label.set,
                     waitForRipple: true
                   },
-                  on: { click: this.hide }
-                }),
-                this.editable
-                  ? h(QBtn, {
-                    props: {
-                      color: this.color,
-                      flat: true,
-                      label: this.okLabel || this.$q.i18n.label.set,
-                      waitForRipple: true
-                    },
-                    on: {
-                      click: () => {
-                        this.hide()
-                        this.__update(true)
-                      }
+                  on: {
+                    click: () => {
+                      this.hide()
+                      this.__update(true)
                     }
-                  })
-                  : null
-              ])
-              : null
-          ])
+                  }
+                })
+                : null
+            ])
+            : null
         ])
       ]
     }

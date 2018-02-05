@@ -5,13 +5,16 @@ export default {
       default: null
     }
   },
+  props: {
+    noParentField: Boolean
+  },
   beforeMount () {
-    if (this.field) {
+    if (!this.noParentField && this.field) {
       this.field.__registerInput(this)
     }
   },
   beforeDestroy () {
-    if (this.field) {
+    if (!this.noParentField && this.field) {
       this.field.__unregisterInput()
     }
   }
