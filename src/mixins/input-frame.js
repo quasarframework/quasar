@@ -55,11 +55,11 @@ export default {
       return !this.disable && !this.readonly
     },
     hasError () {
-      return !!((this.field && this.field.error) || this.error)
+      return !!((!this.noParentField && this.field && this.field.error) || this.error)
     },
     hasWarning () {
       // error is the higher priority
-      return !!(!this.hasError && ((this.field && this.field.warning) || this.warning))
+      return !!(!this.hasError && ((!this.noParentField && this.field && this.field.warning) || this.warning))
     }
   },
   methods: {
