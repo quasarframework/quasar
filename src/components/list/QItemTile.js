@@ -1,5 +1,5 @@
 import { QIcon } from '../icon'
-import { textStyle } from './list-utils'
+import { textStyle } from '../../mixins/item'
 
 export default {
   name: 'q-item-tile',

@@ -1,4 +1,4 @@
-import { ItemMixin, itemClasses } from './list-utils'
+import ItemMixin from '../../mixins/item'
 import { RouterLinkMixin } from '../../utils/router-link'
 
 export default {
@@ -13,7 +13,7 @@ export default {
   },
   computed: {
     classes () {
-      const cls = itemClasses(this.$props)
+      const cls = this.itemClasses
       return this.to !== void 0
         ? cls
         : [{active: this.active}, cls]

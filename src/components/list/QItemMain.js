@@ -1,4 +1,4 @@
-import { textStyle } from './list-utils'
+import { textStyle } from '../../mixins/item'
 
 function text (h, name, val, n) {
   n = parseInt(n, 10)

@@ -2,12 +2,14 @@ import { QItem, QItemSide, QItemTile, QItemWrapper } from '../list'
 import { QSlideTransition } from '../slide-transition'
 import Ripple from '../../directives/ripple'
 import ModelToggleMixin from '../../mixins/model-toggle'
+import ItemMixin from '../../mixins/item'
+import extend from '../../utils/extend'
 
 const eventName = 'q:collapsible:close'
 
 export default {
   name: 'q-collapsible',
-  mixins: [ModelToggleMixin],
+  mixins: [ModelToggleMixin, ItemMixin],
   modelToggle: {
     history: false
   },
@@ -20,57 +22,14 @@ export default {
     indent: Boolean,
     group: String,
     iconToggle: Boolean,
-    separator: Boolean,
-    insetSeparator: Boolean,
     noRipple: Boolean,
     collapseIcon: String,
     opened: Boolean,
-
-    dense: Boolean,
-    sparse: Boolean,
-    multiline: Boolean,
-
-    icon: String,
-    rightIcon: String,
-    image: String,
-    rightImage: String,
-    avatar: String,
-    rightAvatar: String,
-    letter: String,
-    rightLetter: String,
-    label: String,
-    sublabel: String,
-    labelLines: [String, Number],
-    sublabelLines: [String, Number],
 
     headerStyle: [Array, String, Object],
     headerClass: [Array, String, Object]
   },
   computed: {
-    cfg () {
-      return {
-        link: !this.iconToggle,
-
-        dark: this.dark,
-        dense: this.dense,
-        sparse: this.sparse,
-        multiline: this.multiline,
-
-        icon: this.icon,
-        rightIcon: this.rightIcon,
-        image: this.image,
-        rightImage: this.rightImage,
-        avatar: this.avatar,
-        rightAvatar: this.rightAvatar,
-        letter: this.letter,
-        rightLetter: this.rightLetter,
-
-        label: this.label,
-        sublabel: this.sublabel,
-        labelLines: this.labelLines,
-        sublabelLines: this.sublabelLines
-      }
-    },
     hasRipple () {
       return __THEME__ === 'mat' && !this.noRipple && !this.disable
     },
@@ -82,6 +41,11 @@ export default {
         'q-item-inset-separator': this.insetSeparator,
         disabled: this.disable
       }
+    },
+    wrapperCfg () {
+      return extend({}, this.$props, {
+        link: !this.iconToggle
+      })
     }
   },
   watch: {
@@ -130,7 +94,7 @@ export default {
     __getItemProps (wrapper) {
       return {
         props: wrapper
-          ? { cfg: this.cfg }
+          ? { cfg: this.wrapperCfg }
           : { link: !this.iconToggle },
         style: this.headerStyle,
         'class': this.headerClass,
