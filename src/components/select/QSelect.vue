@@ -451,8 +451,11 @@ export default {
       if (this.chipsColor) {
         return this.chipsColor
       }
-      if (this.inverted || this.invertedLight) {
-        return optColor || this.color
+      if (this.isInvertedLight) {
+        return this.invertedLight ? optColor || this.color : 'white'
+      }
+      if (this.isInverted) {
+        return optColor || (this.invertedLight ? 'grey-10' : this.color)
       }
       return this.dark
         ? optColor || this.color
@@ -462,11 +465,11 @@ export default {
       if (this.chipsBgColor) {
         return this.chipsBgColor
       }
-      if (this.inverted) {
-        return 'white'
+      if (this.isInvertedLight) {
+        return this.invertedLight ? 'grey-10' : optColor || this.color
       }
-      if (this.invertedLight) {
-        return 'grey-8'
+      if (this.isInverted) {
+        return this.invertedLight ? this.color : 'white'
       }
       return this.dark
         ? 'white'
