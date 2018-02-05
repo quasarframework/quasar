@@ -21,6 +21,22 @@
         :input="inputType"
       />
 
+      <p class="caption">Inline</p>
+      <q-pagination class="inline" @change="onChange" @input="onInput" v-model="page"
+        :min="min"
+        :max="max"
+        :boundaryLinks="boundaryLinks"
+        :directionLinks="directionLinks"
+        :input="inputType"
+      />
+      <q-pagination class="inline" @change="onChange" @input="onInput" v-model="page"
+        :min="min"
+        :max="max"
+        :boundaryLinks="boundaryLinks"
+        :directionLinks="directionLinks"
+        :input="inputType"
+      />
+
       <p class="caption">Disabled State</p>
       <q-pagination @change="onChange" @input="onInput" v-model="page" disable
         :min="min"

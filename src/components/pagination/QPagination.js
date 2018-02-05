@@ -226,7 +226,7 @@ export default {
         maxPages = 1 + Math.floor(maxPages / 2) * 2
         pgFrom = Math.max(this.min, Math.min(this.max - maxPages + 1, this.value - Math.floor(maxPages / 2)))
         pgTo = Math.min(this.max, pgFrom + maxPages - 1)
-        if (this.__boundaryNumbers && pgFrom > this.min) {
+        if (this.__boundaryNumbers) {
           boundaryStart = true
           pgFrom += 1
         }
@@ -234,7 +234,7 @@ export default {
           ellipsesStart = true
           pgFrom += 1
         }
-        if (this.__boundaryNumbers && pgTo < this.max) {
+        if (this.__boundaryNumbers) {
           boundaryEnd = true
           pgTo -= 1
         }
@@ -247,12 +247,16 @@ export default {
         minWidth: `${Math.max(1.5, String(this.max).length)}em`
       }
       if (boundaryStart) {
+        const active = this.min === this.value
         contentStart.push(this.__getBtn(h, {
           key: 'bns',
           style,
           props: {
-            disable: this.disable || this.value <= this.min,
-            label: this.min
+            disable: this.disable,
+            flat: !active,
+            textColor: active ? this.textColor : null,
+            label: this.min,
+            noRipple: true
           },
           on: {
             click: () => this.set(this.min)
@@ -260,12 +264,16 @@ export default {
         }))
       }
       if (boundaryEnd) {
+        const active = this.max === this.value
         contentEnd.unshift(this.__getBtn(h, {
           key: 'bne',
           style,
           props: {
-            disable: this.disable || this.value >= this.max,
-            label: this.max
+            disable: this.disable,
+            flat: !active,
+            textColor: active ? this.textColor : null,
+            label: this.max,
+            noRipple: true
           },
           on: {
             click: () => this.set(this.max)
@@ -301,7 +309,7 @@ export default {
         }))
       }
       for (let i = pgFrom; i <= pgTo; i++) {
-        let active = i === this.value
+        const active = i === this.value
         contentMiddle.push(this.__getBtn(h, {
           key: `${i}.${active}`,
           style,
@@ -320,12 +328,12 @@ export default {
     }
 
     return h('div', {
-      staticClass: 'q-pagination',
+      staticClass: 'q-pagination row no-wrap items-start',
       'class': { disabled: this.disable }
     }, [
       contentStart,
 
-      h('div', { staticClass: 'row wrap justify-center' }, [
+      h('div', { staticClass: 'row justify-center' }, [
         contentMiddle
       ]),
 
