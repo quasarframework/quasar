@@ -6,7 +6,6 @@ import { QPopover } from '../popover'
 import QColorPicker from './QColorPicker'
 import { QBtn } from '../btn'
 import { QModal } from '../modal'
-import { QFieldReset } from '../field'
 import clone from '../../utils/clone'
 import { getEventKey, stopAndPrevent } from '../../utils/event'
 
@@ -143,21 +142,20 @@ export default {
 
     __getPicker (h, modal) {
       const child = [
-        h(QFieldReset, [
-          h(QColorPicker, {
-            staticClass: `no-border${modal ? ' full-width' : ''}`,
-            props: extend({
-              value: this.model || '#000',
-              disable: this.disable,
-              readonly: this.readonly,
-              type: this.type,
-              dark: this.dark
-            }, this.$attrs),
-            on: {
-              input: v => this.$nextTick(() => this.__setModel(v))
-            }
-          })
-        ])
+        h(QColorPicker, {
+          staticClass: `no-border${modal ? ' full-width' : ''}`,
+          props: extend({
+            value: this.model || '#000',
+            disable: this.disable,
+            readonly: this.readonly,
+            type: this.type,
+            dark: this.dark,
+            noParentField: true
+          }, this.$attrs),
+          on: {
+            input: v => this.$nextTick(() => this.__setModel(v))
+          }
+        })
       ]
 
       if (modal) {

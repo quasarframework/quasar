@@ -81,21 +81,20 @@
       @show="__onShow"
       @hide="__onClose"
     >
-      <q-field-reset>
-        <q-search
-          v-if="filter"
-          ref="filter"
-          v-model="terms"
-          @input="reposition"
-          @keydown.native="__keyboardHandleKey"
-          :placeholder="filterPlaceholder || $q.i18n.label.filter"
-          :debounce="100"
-          :color="color"
-          :dark="dark"
-          icon="filter_list"
-          style="min-height: 50px; padding: 10px;"
-        />
-      </q-field-reset>
+      <q-search
+        v-if="filter"
+        ref="filter"
+        v-model="terms"
+        @input="reposition"
+        @keydown.native="__keyboardHandleKey"
+        :placeholder="filterPlaceholder || $q.i18n.label.filter"
+        :debounce="100"
+        :color="color"
+        :dark="dark"
+        no-parent-field
+        icon="filter_list"
+        style="min-height: 50px; padding: 10px;"
+      />
 
       <q-list
         :separator="separator"
@@ -168,7 +167,6 @@
 </template>
 
 <script>
-import { QFieldReset } from '../field'
 import { QSearch } from '../search'
 import { QPopover } from '../popover'
 import { QList, QItemWrapper } from '../list'
@@ -190,7 +188,6 @@ export default {
   name: 'q-select',
   mixins: [FrameMixin, KeyboardSelectionMixin],
   components: {
-    QFieldReset,
     QSearch,
     QPopover,
     QList,
