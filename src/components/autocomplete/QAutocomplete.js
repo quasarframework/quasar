@@ -98,7 +98,7 @@ export default {
         this.results = this.filter(terms, this.staticData)
         const popover = this.$refs.popover
         if (this.results.length) {
-          this.__keyboardShow(this.$q.platform.has.touch ? -1 : 0)
+          this.__keyboardShow(this.$q.platform.is.desktop ? 0 : -1)
           if (popover.showing) {
             popover.reposition()
           }
@@ -122,7 +122,7 @@ export default {
 
         if (Array.isArray(results) && results.length > 0) {
           this.results = results
-          this.__keyboardShow(this.$q.platform.has.touch ? -1 : 0)
+          this.__keyboardShow(this.$q.platform.is.desktop ? 0 : -1)
           this.$refs.popover.show()
           return
         }
