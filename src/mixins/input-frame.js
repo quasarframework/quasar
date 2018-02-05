@@ -48,6 +48,9 @@ export default {
     isInverted () {
       return this.inverted || this.invertedLight
     },
+    isInvertedLight () {
+      return (this.invertedLight && !this.hasError) || (this.inverted && this.hasWarning)
+    },
     labelIsAbove () {
       return this.focused || this.length || this.additionalLength || this.stackLabel
     },
