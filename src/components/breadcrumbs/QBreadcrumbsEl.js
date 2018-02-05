@@ -7,8 +7,7 @@ export default {
   props: {
     label: String,
     icon: String,
-    color: String,
-    noRipple: Boolean
+    color: String
   },
   computed: {
     link () {
