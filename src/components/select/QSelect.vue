@@ -310,9 +310,6 @@ export default {
     },
     additionalLength () {
       return this.displayValue && this.displayValue.length > 0
-    },
-    computedColor () {
-      return this.inverted ? this.frameColor || this.color : this.color
     }
   },
   methods: {
