@@ -114,7 +114,7 @@ export default {
       this.newPage = null
     },
     __getRepeatEasing (from = 300, step = 10, to = 100) {
-      return (cnt) => cnt ? Math.max(to, from - cnt * cnt * step) : 100
+      return cnt => cnt ? Math.max(to, from - cnt * cnt * step) : 100
     },
     __getBool (val, otherwise) {
       return [true, false].includes(val)
