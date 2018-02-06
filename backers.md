@@ -78,7 +78,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Rok Kogovšek
 - Josh Torres
 - Stian Mikkelsen
-- El Matzo
 - Thomas Gick
 - Alexey Telyatnikov
 - Ryan Timmins
