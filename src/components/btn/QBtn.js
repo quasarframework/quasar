@@ -41,12 +41,12 @@ export default {
     click (e) {
       clearTimeout(this.timer)
 
-      if (this.isDisabled || this.repeated) {
-        this.repeated = 0
-        return
-      }
-
       const trigger = () => {
+        if (this.isDisabled || this.repeated) {
+          this.__clearRepeat(0)
+          return
+        }
+
         this.removeFocus(e)
         if (this.loader !== false || this.$slots.loading) {
           this.loading = true
@@ -65,8 +65,16 @@ export default {
         trigger()
       }
     },
-    startRepeat (e) {
-      this.repeated = 0
+    __clearRepeat (delay = 500) {
+      clearTimeout(this.clearTimer)
+      clearTimeout(this.timer)
+      this.clearTimer = setTimeout(() => { this.repeated = 0 }, delay)
+    },
+    __startRepeat (e) {
+      if (this.repeated) {
+        return
+      }
+      this.__clearRepeat(0)
 
       const setTimer = () => {
         this.timer = setTimeout(
@@ -78,31 +86,35 @@ export default {
       }
       const trigger = () => {
         if (this.hasNoRepeat || this.$slots.loading) {
+          this.__clearRepeat()
           return
         }
         this.repeated += 1
+        e.repeatCount = this.repeated
         this.$emit('click', e)
         setTimer()
       }
 
       setTimer()
     },
-    endRepeat () {
-      clearTimeout(this.timer)
+    __endRepeat () {
+      this.__clearRepeat()
     }
   },
   beforeDestroy () {
+    clearTimeout(this.clearTimer)
     clearTimeout(this.timer)
   },
   render (h) {
     const on = this.hasNoRepeat || this.$slots.loading
       ? {}
       : {
-        mousedown: this.startRepeat,
-        touchstart: this.startRepeat,
-        mouseup: this.endRepeat,
-        mouseleave: this.endRepeat,
-        touchend: this.endRepeat
+        mousedown: this.__startRepeat,
+        touchstart: this.__startRepeat,
+        mouseup: this.__endRepeat,
+        mouseleave: this.__endRepeat,
+        touchend: this.__endRepeat,
+        touchcancel: this.__endRepeat
       }
 
     on.click = this.click
