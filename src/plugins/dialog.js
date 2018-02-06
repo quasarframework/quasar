@@ -8,7 +8,7 @@ export default {
     if (this.__installed) { return }
     this.__installed = true
 
-    $q.dialog = isSSR
+    this.create = $q.dialog = isSSR
       ? () => new Promise()
       : modalFn(QDialog, Vue)
   }

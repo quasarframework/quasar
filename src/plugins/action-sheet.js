@@ -7,6 +7,6 @@ export default {
     if (this.__installed) { return }
     this.__installed = true
 
-    $q.actionSheet = modalFn(QActionSheet, Vue)
+    this.create = $q.actionSheet = modalFn(QActionSheet, Vue)
   }
 }
