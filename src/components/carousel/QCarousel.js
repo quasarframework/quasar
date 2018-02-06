@@ -381,7 +381,6 @@ export default {
       this.__setArrowKeys(true)
     }
     this.__stopSlideNumberNotifier = this.$watch('slidesNumber', val => {
-      this.$emit('slides-number', val)
       if (this.value >= val) {
         this.$emit('input', val - 1)
       }
