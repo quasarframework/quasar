@@ -34,7 +34,7 @@ export default {
 
       return [
         h('div', { staticClass: 'col' }, [
-          this.selection && this.rowsSelectedNumber > 0
+          this.hasSelectionMode && this.rowsSelectedNumber > 0
             ? (this.selectedRowsLabel || this.$q.i18n.table.selectedRows)(this.rowsSelectedNumber)
             : ''
         ]),

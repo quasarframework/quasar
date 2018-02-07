@@ -40,7 +40,7 @@ export default {
                   : h('td', { staticClass: col.__tdClass }, this.getCellValue(col, row))
               })
 
-          if (this.selection) {
+          if (this.hasSelectionMode) {
             child.unshift(h('td', { staticClass: 'q-table-col-auto-width' }, [
               h(QCheckbox, {
                 props: {
@@ -71,7 +71,7 @@ export default {
       return h('tbody', child)
     },
     addBodyRowMeta (data) {
-      if (this.selection) {
+      if (this.hasSelectionMode) {
         Object.defineProperty(data, 'selected', {
           get: () => this.isRowSelected(data.key),
           set: adding => {

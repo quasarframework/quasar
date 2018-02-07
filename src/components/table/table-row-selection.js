@@ -2,7 +2,8 @@ export default {
   props: {
     selection: {
       type: String,
-      validator: v => ['single', 'multiple'].includes(v)
+      default: 'none',
+      validator: v => ['single', 'multiple', 'none'].includes(v)
     },
     selected: {
       type: Array,
@@ -16,6 +17,9 @@ export default {
         keys[key] = true
       })
       return keys
+    },
+    hasSelectionMode () {
+      return this.selection !== 'none'
     },
     singleSelection () {
       return this.selection === 'single'

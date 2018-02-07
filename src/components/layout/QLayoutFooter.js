@@ -31,8 +31,9 @@ export default {
     offset (val) {
       this.__update('offset', val)
     },
-    revealed () {
+    revealed (val) {
       this.layout.__animate()
+      this.$emit('reveal', val)
     },
     'layout.scroll' () {
       this.__updateRevealed()
