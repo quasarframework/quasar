@@ -154,25 +154,35 @@ export default {
         this.__repositionBar()
       }
     },
-    selectTabRouter ({ value, selectable, exact, selected, priority }) {
-      const first = !this.buffer.length
-      const existingIndex = first ? -1 : this.buffer.findIndex(t => t.value === value)
+    selectTabRouter (params) {
+      const
+        { value, selectable, exact, selected, priority } = params,
+        first = !this.buffer.length,
+        existingIndex = first ? -1 : this.buffer.findIndex(t => t.value === value)
+
       if (existingIndex > -1) {
-        exact && (this.buffer[existingIndex].exact = exact)
-        selectable && (this.buffer[existingIndex].selectable = selectable)
-        selected && (this.buffer[existingIndex].selected = selected)
-        priority && (this.buffer[existingIndex].priority = priority)
+        const buffer = this.buffer[existingIndex]
+        exact && (buffer.exact = exact)
+        selectable && (buffer.selectable = selectable)
+        selected && (buffer.selected = selected)
+        priority && (buffer.priority = priority)
       }
       else {
-        this.buffer.push({ value, selectable, exact, selected, priority })
+        this.buffer.push(params)
       }
+
       if (first) {
         this.bufferTimer = setTimeout(() => {
-          let tab = this.buffer.find(t => t.selectable && t.exact && t.selected) ||
-            this.buffer.find(t => t.selectable && t.selected) ||
-            this.buffer.find(t => t.exact) ||
+          let tab = (
+            this.buffer.find(t => 
+              (t.selectable && t.exact && t.selected) ||
+              (t.selectable && t.selected) ||
+              t.exact
+            ) ||
             this.buffer.filter(t => t.selectable).sort((t1, t2) => t2.priority - t1.priority)[0] ||
             this.buffer[0]
+          )
+
           this.buffer.length = 0
           this.selectTab(tab.value)
         }, 100)
