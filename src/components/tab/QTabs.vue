@@ -171,7 +171,7 @@ export default {
           let tab = this.buffer.find(t => t.selectable && t.exact && t.selected) ||
             this.buffer.find(t => t.selectable && t.selected) ||
             this.buffer.find(t => t.exact) ||
-            this.buffer.filter(t => t.selectable).sort((t1, t2) => t1.priority > t2.priority ? -1 : 1)[0] ||
+            this.buffer.filter(t => t.selectable).sort((t1, t2) => t2.priority - t1.priority)[0] ||
             this.buffer[0]
           this.buffer.length = 0
           this.selectTab(tab.value)
