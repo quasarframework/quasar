@@ -17,14 +17,7 @@ export default {
   render (h) {
     return h(this.link ? 'router-link' : 'span', {
       staticClass: 'q-breadcrumbs-el flex inline items-center relative-position',
-      props: this.link
-        ? {
-          to: this.to,
-          exact: this.exact,
-          append: this.append,
-          replace: this.replace
-        }
-        : null
+      props: this.link ? this.$props : null
     },
     this.label || this.icon
       ? [

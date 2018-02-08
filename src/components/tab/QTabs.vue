@@ -76,7 +76,8 @@ export default {
   provide () {
     return {
       data: this.data,
-      selectTab: this.selectTab
+      selectTab: this.selectTab,
+      selectTabRouter: this.selectTabRouter
     }
   },
   components: {
@@ -151,6 +152,40 @@ export default {
       if (__THEME__ !== 'ios') {
         this.currentEl = el
         this.__repositionBar()
+      }
+    },
+    selectTabRouter (params) {
+      const
+        { value, selectable, exact, selected, priority } = params,
+        first = !this.buffer.length,
+        existingIndex = first ? -1 : this.buffer.findIndex(t => t.value === value)
+
+      if (existingIndex > -1) {
+        const buffer = this.buffer[existingIndex]
+        exact && (buffer.exact = exact)
+        selectable && (buffer.selectable = selectable)
+        selected && (buffer.selected = selected)
+        priority && (buffer.priority = priority)
+      }
+      else {
+        this.buffer.push(params)
+      }
+
+      if (first) {
+        this.bufferTimer = setTimeout(() => {
+          let tab = (
+            this.buffer.find(t => 
+              (t.selectable && t.exact && t.selected) ||
+              (t.selectable && t.selected) ||
+              t.exact
+            ) ||
+            this.buffer.filter(t => t.selectable).sort((t1, t2) => t2.priority - t1.priority)[0] ||
+            this.buffer[0]
+          )
+
+          this.buffer.length = 0
+          this.selectTab(tab.value)
+        }, 100)
       }
     },
     __repositionBar () {
@@ -326,7 +361,10 @@ export default {
     }
   },
   created () {
+    this.timer = null
     this.scrollTimer = null
+    this.bufferTimer = null
+    this.buffer = []
     this.scrollable = !this.$q.platform.is.desktop
 
     // debounce some costly methods;
@@ -352,6 +390,7 @@ export default {
   },
   beforeDestroy () {
     clearTimeout(this.timer)
+    clearTimeout(this.bufferTimer)
     this.__stopAnimScroll()
     this.$refs.scroller.removeEventListener('scroll', this.__updateScrollIndicator, listenOpts.passive)
     window.removeEventListener('resize', this.__redraw, listenOpts.passive)
