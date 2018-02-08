@@ -1,4 +1,4 @@
-@-webkit-keyframes autofill
+@-webkit-keyframes webkit-autofill, @keyframes webkit-autofill
   to
     background transparent
 
@@ -14,7 +14,7 @@
   display flex
   align-items center
   &:-webkit-autofill
-    -webkit-animation-name autofill
+    -webkit-animation-name webkit-autofill
     -webkit-animation-fill-mode both
   &::-ms-clear, &::-ms-reveal
     display none
