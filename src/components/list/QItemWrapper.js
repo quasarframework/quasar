@@ -44,7 +44,9 @@ export default {
       color: cfg.leftColor,
       avatar: cfg.avatar,
       letter: cfg.letter,
-      image: cfg.image
+      image: cfg.image,
+      inverted: cfg.leftInverted,
+      textColor: cfg.leftTextColor
     })
 
     push(child, h, QItemMain, this.$slots.main, replace, {
@@ -62,7 +64,9 @@ export default {
       avatar: cfg.rightAvatar,
       letter: cfg.rightLetter,
       image: cfg.rightImage,
-      stamp: cfg.stamp
+      stamp: cfg.stamp,
+      inverted: cfg.rightInverted,
+      textColor: cfg.rightTextColor
     })
 
     child.push(this.$slots.default)
