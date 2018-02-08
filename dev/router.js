@@ -19,6 +19,18 @@ function component (path) {
 let routes = [
   {path: '/', component: load('index')},
   {
+    path: '/tabs',
+    component: load('components/tabs-playground'),
+    children: [
+      { path: 'a' },
+      { path: 'a/a' },
+      { path: 'a/b' },
+      { path: 'b' },
+      { path: 'b/a' },
+      { path: 'c' }
+    ]
+  },
+  {
     path: '/lay',
     component: load('web-tests/layout'),
     children: [

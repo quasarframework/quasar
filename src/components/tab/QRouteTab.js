@@ -4,6 +4,9 @@ import TabMixin from './tab-mixin'
 export default {
   name: 'q-route-tab',
   mixins: [TabMixin, RouterLinkMixin],
+  inject: {
+    selectTabRouter: {}
+  },
   watch: {
     $route () {
       this.checkIfSelected()
@@ -14,16 +17,20 @@ export default {
       this.$emit('click', this.name)
       if (!this.disable) {
         this.$el.dispatchEvent(routerLinkEvent)
-        this.selectTab(this.name)
+        this.selectTabRouter({ value: this.name, selected: true })
       }
     },
     checkIfSelected () {
       this.$nextTick(() => {
-        if (this.$el.classList.contains('router-link-active') || this.$el.classList.contains('router-link-exact-active')) {
-          this.selectTab(this.name)
+        if (this.$el.classList.contains('q-router-link-exact-active')) {
+          this.selectTabRouter({ value: this.name, selectable: true, exact: true })
+        }
+        else if (this.$el.classList.contains('q-router-link-active')) {
+          const path = this.$router.resolve(this.to, undefined, this.append)
+          this.selectTabRouter({ value: this.name, selectable: true, priority: path.href.length })
         }
         else if (this.active) {
-          this.selectTab(null)
+          this.selectTabRouter({ value: null })
         }
       })
     }
@@ -36,9 +43,12 @@ export default {
       props: {
         tag: 'div',
         to: this.to,
-        replace: this.replace,
+        exact: this.exact,
         append: this.append,
-        event: routerLinkEventName
+        replace: this.replace,
+        event: routerLinkEventName,
+        activeClass: 'q-router-link-active',
+        exactActiveClass: 'q-router-link-exact-active'
       },
       nativeOn: {
         click: this.select

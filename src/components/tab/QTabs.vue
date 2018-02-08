@@ -76,7 +76,8 @@ export default {
   provide () {
     return {
       data: this.data,
-      selectTab: this.selectTab
+      selectTab: this.selectTab,
+      selectTabRouter: this.selectTabRouter
     }
   },
   components: {
@@ -151,6 +152,30 @@ export default {
       if (__THEME__ !== 'ios') {
         this.currentEl = el
         this.__repositionBar()
+      }
+    },
+    selectTabRouter ({ value, selectable, exact, selected, priority }) {
+      const first = !this.buffer.length
+      const existingIndex = first ? -1 : this.buffer.findIndex(t => t.value === value)
+      if (existingIndex > -1) {
+        exact && (this.buffer[existingIndex].exact = exact)
+        selectable && (this.buffer[existingIndex].selectable = selectable)
+        selected && (this.buffer[existingIndex].selected = selected)
+        priority && (this.buffer[existingIndex].priority = priority)
+      }
+      else {
+        this.buffer.push({ value, selectable, exact, selected, priority })
+      }
+      if (first) {
+        this.bufferTimer = setTimeout(() => {
+          let tab = this.buffer.find(t => t.selectable && t.exact && t.selected) ||
+            this.buffer.find(t => t.selectable && t.selected) ||
+            this.buffer.find(t => t.exact) ||
+            this.buffer.filter(t => t.selectable).sort((t1, t2) => t1.priority > t2.priority ? -1 : 1)[0] ||
+            this.buffer[0]
+          this.buffer.length = 0
+          this.selectTab(tab.value)
+        }, 100)
       }
     },
     __repositionBar () {
@@ -326,7 +351,10 @@ export default {
     }
   },
   created () {
+    this.timer = null
     this.scrollTimer = null
+    this.bufferTimer = null
+    this.buffer = []
     this.scrollable = !this.$q.platform.is.desktop
 
     // debounce some costly methods;
@@ -352,6 +380,7 @@ export default {
   },
   beforeDestroy () {
     clearTimeout(this.timer)
+    clearTimeout(this.bufferTimer)
     this.__stopAnimScroll()
     this.$refs.scroller.removeEventListener('scroll', this.__updateScrollIndicator, listenOpts.passive)
     window.removeEventListener('resize', this.__redraw, listenOpts.passive)

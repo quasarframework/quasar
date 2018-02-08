@@ -76,8 +76,11 @@ $breakpoint-lg-max = $breakpoint-lg
 $breakpoint-xl-min = $sizes[xl]
 $breakpoint-xl-max = 9999px
 
-$backdrop-opacity     ?= .3
-$backdrop-background  ?= rgba(0, 0, 0, $backdrop-opacity)
+$backdrop-opacity    ?= .3
+$backdrop-background ?= rgba(0, 0, 0, $backdrop-opacity)
+
+$router-link-active       ?= router-link-active
+$router-link-exact-active ?= router-link-exact-active
 
 $headings = {
   display-4: {
@@ -179,8 +182,8 @@ $faded     ?= #777
 $form-light ?= #a7a7a7
 $form-dark  ?= #979797
 
-$link-color          ?= lighten($primary, 25%)
-$link-color-active   ?= $primary
+$link-color        ?= lighten($primary, 25%)
+$link-color-active ?= $primary
 
 $dimmed-background       ?= rgba(0, 0, 0, .4)
 $light-dimmed-background ?= rgba(255, 255, 255, .6)
@@ -522,17 +525,17 @@ max(value1, value2)
 
 $ios-statusbar-height ?= 20px
 
-$z-fab            ?= 990
-$z-side           ?= 1000
-$z-marginals      ?= 2000
-$z-fixed-drawer   ?= 3000
-$z-modal          ?= 5000
-$z-fullscreen     ?= 6000
-$z-top            ?= 7000
-$z-popover        ?= 8000
-$z-tooltip        ?= 9000
-$z-notify         ?= 9500
-$z-max            ?= 9998
+$z-fab          ?= 990
+$z-side         ?= 1000
+$z-marginals    ?= 2000
+$z-fixed-drawer ?= 3000
+$z-modal        ?= 5000
+$z-fullscreen   ?= 6000
+$z-top          ?= 7000
+$z-popover      ?= 8000
+$z-tooltip      ?= 9000
+$z-notify       ?= 9500
+$z-max          ?= 9998
 
 $shadow-color ?= black
 $shadow-transition ?= box-shadow .28s cubic-bezier(.4, 0, .2, 1)
