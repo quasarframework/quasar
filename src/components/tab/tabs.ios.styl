@@ -1,5 +1,6 @@
 .q-tabs
   flex-direction column
+  width 100%
 
 .q-tabs-scroller
   overflow hidden
@@ -8,12 +9,15 @@
 .q-tab-pane
   padding $tabs-pane-padding
   border $tabs-pane-border
+  flex-grow 1
 
 .q-tabs-no-pane-border .q-tab-pane
   border 0
 
-.q-tabs-panes:empty
-  display none
+.q-tabs-panes
+  flex-grow 1
+  &:empty
+    display none
 
 .q-tab-icon, .q-tab-label
   opacity $tabs-unselected-opacity

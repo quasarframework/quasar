@@ -1,6 +1,3 @@
-.q-tabs
-  flex-direction column
-
 .q-tabs-scroller
   overflow hidden
   color $tabs-color
@@ -8,12 +5,15 @@
 .q-tab-pane
   padding $tabs-pane-padding
   border $tabs-pane-border
+  flex-grow 1
 
 .q-tabs-no-pane-border .q-tab-pane
   border 0
 
-.q-tabs-panes:empty
-  display none
+.q-tabs-panes
+  flex-grow 1
+  &:empty
+    display none
 
 .q-tabs-normal
   .q-tabs-bar
@@ -117,8 +117,7 @@
   justify-content flex-end
 
 .q-tabs-bar
-  border $tabs-border-width solid currentColor
-  border-width 0
+  border 0 solid currentColor
   position absolute
   height 0
   left 0

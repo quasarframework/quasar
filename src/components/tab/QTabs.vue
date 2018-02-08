@@ -1,6 +1,6 @@
 <template>
   <div
-    class="q-tabs flex no-wrap"
+    class="q-tabs flex"
     :class="[
       `q-tabs-position-${position}`,
       `q-tabs-${inverted ? 'inverted' : 'normal'}`,
@@ -8,55 +8,57 @@
       twoLines ? 'q-tabs-two-lines' : ''
     ]"
   >
-    <div
-      class="q-tabs-head row"
-      ref="tabs"
-      :class="{
-        [`q-tabs-align-${align}`]: true,
-        glossy: glossy,
-        [`bg-${color}`]: !inverted && color
-      }"
-    >
-      <div ref="scroller" class="q-tabs-scroller row no-wrap">
-        <slot name="title"></slot>
-        <div
-          v-if="$q.theme !== 'ios'"
-          class="relative-position self-stretch q-tabs-global-bar-container"
-          :class="[inverted && color ? `text-${color}` : '', data.highlight ? 'highlight' : '']"
-        >
+    <div class="column full-width no-wrap" :style="tabStyle">
+      <div
+        class="q-tabs-head row"
+        ref="tabs"
+        :class="{
+          [`q-tabs-align-${align}`]: true,
+          glossy: glossy,
+          [`bg-${color}`]: !inverted && color
+        }"
+      >
+        <div ref="scroller" class="q-tabs-scroller row no-wrap">
+          <slot name="title"></slot>
           <div
-            ref="posbar"
-            class="q-tabs-bar q-tabs-global-bar"
-            @transitionend="__updatePosbarTransition"
-          ></div>
+            v-if="$q.theme !== 'ios'"
+            class="relative-position self-stretch q-tabs-global-bar-container"
+            :class="[inverted && color ? `text-${color}` : '', data.highlight ? 'highlight' : '']"
+          >
+            <div
+              ref="posbar"
+              class="q-tabs-bar q-tabs-global-bar"
+              @transitionend="__updatePosbarTransition"
+            ></div>
+          </div>
+        </div>
+        <div
+          ref="leftScroll"
+          class="row flex-center q-tabs-left-scroll"
+          @mousedown="__animScrollTo(0)"
+          @touchstart="__animScrollTo(0)"
+          @mouseup="__stopAnimScroll"
+          @mouseleave="__stopAnimScroll"
+          @touchend="__stopAnimScroll"
+        >
+          <q-icon :name="$q.icon.tabs.left"></q-icon>
+        </div>
+        <div
+          ref="rightScroll"
+          class="row flex-center q-tabs-right-scroll"
+          @mousedown="__animScrollTo(9999)"
+          @touchstart="__animScrollTo(9999)"
+          @mouseup="__stopAnimScroll"
+          @mouseleave="__stopAnimScroll"
+          @touchend="__stopAnimScroll"
+        >
+          <q-icon :name="$q.icon.tabs.right"></q-icon>
         </div>
       </div>
-      <div
-        ref="leftScroll"
-        class="row flex-center q-tabs-left-scroll"
-        @mousedown="__animScrollTo(0)"
-        @touchstart="__animScrollTo(0)"
-        @mouseup="__stopAnimScroll"
-        @mouseleave="__stopAnimScroll"
-        @touchend="__stopAnimScroll"
-      >
-        <q-icon :name="$q.icon.tabs.left"></q-icon>
-      </div>
-      <div
-        ref="rightScroll"
-        class="row flex-center q-tabs-right-scroll"
-        @mousedown="__animScrollTo(9999)"
-        @touchstart="__animScrollTo(9999)"
-        @mouseup="__stopAnimScroll"
-        @mouseleave="__stopAnimScroll"
-        @touchend="__stopAnimScroll"
-      >
-        <q-icon :name="$q.icon.tabs.right"></q-icon>
-      </div>
-    </div>
 
-    <div class="q-tabs-panes">
-      <slot></slot>
+      <div class="q-tabs-panes column scroll">
+        <slot></slot>
+      </div>
     </div>
   </div>
 </template>
@@ -99,7 +101,8 @@ export default {
     inverted: Boolean,
     twoLines: Boolean,
     noPaneBorder: Boolean,
-    glossy: Boolean
+    glossy: Boolean,
+    tabStyle: [String, Object]
   },
   data () {
     return {

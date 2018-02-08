@@ -8,20 +8,85 @@
       For some test that you think it should be persistent,
       make a new *.vue file here or in another folder under /dev/components.
     -->
-    <div class="group">
-      <q-option-group
-        type="radio"
-        v-model="tab"
-        :options="[
-          {label: 'Oaua', value: 'three'},
-          {label: 'Gogu', value: 'one'},
-          {label: 'Gigi', value: 'two'},
-          {label: 'Bogus', value: 'bogus'}
-        ]"
-      />
-      <q-checkbox v-model="third" />
-      <q-checkbox v-model="alert" />
+    <div class="row">
+      <div class="group">
+        <q-option-group
+          type="radio"
+          v-model="tab"
+          :options="[
+            {label: 'Oaua', value: 'three'},
+            {label: 'Gogu', value: 'one'},
+            {label: 'Gigi', value: 'two'},
+            {label: 'Bogus', value: 'bogus'}
+          ]"
+        />
+        <q-checkbox v-model="third" />
+        <q-checkbox v-model="alert" />
+      </div>
+      <div class="group">
+        <q-option-group
+          type="radio"
+          v-model="align"
+          :options="[
+            {label: 'Left', value: 'left'},
+            {label: 'Center', value: 'center'},
+            {label: 'Right', value: 'right'},
+            {label: 'Justify', value: 'justify'}
+          ]"
+        />
+        <q-option-group
+          type="radio"
+          v-model="position"
+          :options="[
+            {label: 'Top', value: 'top'},
+            {label: 'Bottom', value: 'bottom'}
+          ]"
+        />
+      </div>
+      <div class="group">
+        <div class="q-option-group group">
+          <div>
+            <q-checkbox v-model="inverted">Inverted</q-checkbox>
+          </div>
+          <div>
+            <q-checkbox v-model="twoLines">Two Lines</q-checkbox>
+          </div>
+          <div>
+            <q-checkbox v-model="noPaneBorder">No Border</q-checkbox>
+          </div>
+          <div>
+            <q-checkbox v-model="glossy">Glossy</q-checkbox>
+          </div>
+        </div>
+      </div>
+      <div class="col group">
+        <q-input type="number" v-model="tabStyles.height" stack-label="Tab height" />
+        <q-input type="number" v-model="tabStyles.minHeight" stack-label="Tab min-height" />
+        <q-input type="number" v-model="tabStyles.maxHeight" stack-label="Tab max-height" />
+      </div>
     </div>
+
+    <q-tabs :tab-style="calcTabStyles(tabStyles)"
+      :align="align"
+      :position="position"
+      :inverted="inverted"
+      :twoLines="twoLines"
+      :noPaneBorder="noPaneBorder"
+      :glossy="glossy"
+    >
+      <template v-for="(tab, name) in tabs">
+        <q-tab slot="title" :name="name" :label="tab.name" :default="tab.default" :key="`t_${name}`" />
+        <q-tab-pane :name="name" :style="calcTabStyles(tab.tabStyles)" :key="`p_${name}`">
+          <div class="group">
+            <q-input type="number" v-model="tab.tabStyles.height" stack-label="Tab height" />
+            <q-input type="number" v-model="tab.tabStyles.minHeight" stack-label="Tab min-height" />
+            <q-input type="number" v-model="tab.tabStyles.maxHeight" stack-label="Tab max-height" />
+            <q-input type="number" v-model="tab.count" stack-label="Rows" />
+          </div>
+          <div v-for="n in tab.count" :key="n">{{n}} - {{tab.name}}</div>
+        </q-tab-pane>
+      </template>
+    </q-tabs>
 
     <q-tabs>
       <q-tab alert slot="title" v-if="third" label="Oaua" />
@@ -312,6 +377,14 @@ export default {
   methods: {
     onEvent (event, source, payload) {
       console.log(source, event, payload)
+    },
+    calcTabStyles (styles) {
+      return Object.keys(styles).reduce((acc, k) => {
+        if (styles[k] !== null) {
+          acc[k] = `${styles[k]}px`
+        }
+        return acc
+      }, {})
     }
   }
 }
