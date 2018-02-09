@@ -149,6 +149,9 @@ export default {
         h(QDatetimePicker, {
           ref: 'target',
           staticClass: 'no-border',
+          'class': {
+            'datetime-ios-modal': __THEME__ === 'ios' && modal
+          },
           props: {
             type: this.type,
             min: this.min,

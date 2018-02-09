@@ -2,15 +2,12 @@
   min-width $datetime-input-min-width
 
 .q-datetime
-  max-width 100vw
   border 1px solid $grey-4
 
-  &.type-date
+  &.type-date, &.type-datetime
     width 320px
   &.type-time
     width 250px
-  &.type-datetime
-    width 320px
 
 .q-datetime-content
   height 200px
@@ -35,8 +32,6 @@
 .q-datetime-col-wrapper, .q-datetime-item
   transform-style preserve-3d
   transition all .2s ease-out
-
-body.desktop .q-datetime-col-wrapper
   cursor pointer
 
 .q-datetime-col-divider
@@ -115,3 +110,12 @@ body.desktop .q-datetime-col-wrapper
     color rgba(255, 255, 255, .87)
   .q-datetime-mask
     background linear-gradient(to top, black, rgba(0, 0, 0, 0.0) 50%, black)
+
+@media (max-width $breakpoint-sm-max)
+  .datetime-ios-modal
+    &.type-date, &.type-datetime
+      min-width 320px
+      width auto
+    &.type-time
+      min-width 250px
+      width auto
