@@ -20,7 +20,7 @@ export default {
       type: [String, Object],
       default: '#000'
     },
-    type: {
+    formatModel: {
       type: String,
       default: 'auto',
       validator: v => ['auto', 'hex', 'rgb', 'hexa', 'rgba'].includes(v)
@@ -54,14 +54,14 @@ export default {
   },
   computed: {
     forceHex () {
-      return this.type === 'auto'
+      return this.formatModel === 'auto'
         ? null
-        : this.type.indexOf('hex') > -1
+        : this.formatModel.indexOf('hex') > -1
     },
     forceAlpha () {
-      return this.type === 'auto'
+      return this.formatModel === 'auto'
         ? null
-        : this.type.indexOf('a') > -1
+        : this.formatModel.indexOf('a') > -1
     },
     isHex () {
       return typeof this.value === 'string'
@@ -197,8 +197,8 @@ export default {
       ])
     },
     __getNumericInputs (h) {
-      return this.inputsArray.map(type => {
-        const max = type === 'a' ? 100 : 255
+      return this.inputsArray.map(formatModel => {
+        const max = formatModel === 'a' ? 100 : 255
         return h('div', { staticClass: 'col q-color-padding' }, [
           h('input', {
             attrs: {
@@ -210,15 +210,15 @@ export default {
             },
             staticClass: 'full-width text-center q-no-input-spinner',
             domProps: {
-              value: Math.round(this.model[type])
+              value: Math.round(this.model[formatModel])
             },
             on: {
-              input: evt => this.__onNumericChange(evt, type, max),
-              blur: evt => this.editable && this.__onNumericChange(evt, type, max, true)
+              input: evt => this.__onNumericChange(evt, formatModel, max),
+              blur: evt => this.editable && this.__onNumericChange(evt, formatModel, max, true)
             }
           }),
           h('div', { staticClass: 'q-color-label text-center uppercase' }, [
-            type
+            formatModel
           ])
         ])
       })
@@ -312,7 +312,7 @@ export default {
       this.model.h = h
       this.__update(val, rgbToHex(val), change)
     },
-    __onNumericChange (evt, type, max, change) {
+    __onNumericChange (evt, formatModel, max, change) {
       let val = Number(evt.target.value)
       if (isNaN(val)) {
         return
@@ -327,14 +327,14 @@ export default {
       }
 
       const rgb = {
-        r: type === 'r' ? val : this.model.r,
-        g: type === 'g' ? val : this.model.g,
-        b: type === 'b' ? val : this.model.b,
+        r: formatModel === 'r' ? val : this.model.r,
+        g: formatModel === 'g' ? val : this.model.g,
+        b: formatModel === 'b' ? val : this.model.b,
         a: this.hasAlpha
-          ? (type === 'a' ? val : this.model.a)
+          ? (formatModel === 'a' ? val : this.model.a)
           : void 0
       }
-      if (type !== 'a') {
+      if (formatModel !== 'a') {
         const hsv = rgbToHsv(rgb)
         this.model.h = hsv.h
         this.model.s = hsv.s

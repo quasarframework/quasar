@@ -36,7 +36,7 @@ export default {
       type: [String, Object],
       default: null
     },
-    type: {
+    formatModel: {
       type: String,
       default: 'auto',
       validator: v => ['auto', 'hex', 'rgb', 'hexa', 'rgba'].includes(v)
@@ -148,7 +148,7 @@ export default {
             value: this.model || '#000',
             disable: this.disable,
             readonly: this.readonly,
-            type: this.type,
+            formatModel: this.formatModel,
             dark: this.dark,
             noParentField: true
           }, this.$attrs),
