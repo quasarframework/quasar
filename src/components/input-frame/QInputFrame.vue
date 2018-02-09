@@ -1,6 +1,6 @@
 <template>
   <div
-    class="q-if row no-wrap items-center relative-position"
+    class="q-if row no-wrap items-baseline relative-position"
     :class="classes"
     :tabindex="focusable && !disable ? 0 : -1"
     @click="__onClick"
@@ -18,7 +18,7 @@
       ></q-icon>
     </template>
 
-    <div class="q-if-inner col row no-wrap items-center relative-position">
+    <div class="q-if-inner col row no-wrap relative-position">
       <div
         v-if="hasLabel"
         class="q-if-label ellipsis full-width absolute self-start"
@@ -101,7 +101,7 @@ export default {
         'q-if-inverted-light': this.isInvertedLight,
         'q-if-light-color': this.lightColor,
         'q-if-dark': this.dark,
-        'q-if-hide-underline': this.hideUnderline
+        'q-if-hide-underline': !this.isInverted && this.hideUnderline
       }]
 
       const color = this.hasError ? 'negative' : (this.hasWarning ? 'warning' : this.color)

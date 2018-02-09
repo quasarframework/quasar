@@ -39,13 +39,13 @@
         v-if="uploading"
         slot="after"
         size="24px"
-        class="q-if-control"
+        class="q-if-end self-center"
       ></q-spinner>
 
       <q-icon
         v-if="uploading"
         slot="after"
-        class="q-if-control"
+        class="q-if-end self-center"
         :name="$q.icon.uploader[`clear${isInverted ? 'Inverted' : ''}`]"
         @click.native="abort"
       ></q-icon>

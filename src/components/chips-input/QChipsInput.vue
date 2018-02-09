@@ -63,7 +63,7 @@
       v-if="editable"
       :name="computedAddIcon"
       slot="after"
-      class="q-if-control self-end"
+      class="q-if-control"
       :class="{invisible: !input.length}"
       @mousedown.native="__clearTimer"
       @touchstart.native="__clearTimer"

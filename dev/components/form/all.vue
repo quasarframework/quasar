@@ -13,6 +13,47 @@
         <q-btn size="sm" color="positive" label="Fill" @click="fill()" />
       </div>
       <q-scroll-area class="col q-pa-md">
+        <p class="q-subtitle">Autocomplete</p>
+        <form @submit.prevent>
+          <q-input class="q-ma-sm" autocomplete="username"
+            v-model="username"
+            :prefix="autofillUsername ? '[Filled]' : null"
+            :float-label="autofillUsername ? null : 'Username'"
+            :stack-label="autofillUsername ? 'Username' : null"
+            :dark="dark"
+            :error="error"
+            :warning="warning"
+            :disable="disable"
+            :readonly="readonly"
+            :clearable="clearable"
+            @focus="(ev) => onFocus(ev, 'username')"
+            @blur="onBlur"
+            @change="onChange"
+            @input="onInput"
+            @clear="onClear"
+            @autofill="(ev, el) => onAutofill(ev, el, 'username')"
+          />
+          <q-input type="password" class="q-ma-sm" autocomplete="current-password"
+            v-model="password"
+            :prefix="autofillPassword ? '[Filled]': null"
+            :float-label="autofillPassword ? null : 'Password'"
+            :stack-label="autofillPassword ? 'Password' : null"
+            :dark="dark"
+            :error="error"
+            :warning="warning"
+            :disable="disable"
+            :readonly="readonly"
+            :clearable="clearable"
+            @focus="(ev) => onFocus(ev, 'password')"
+            @blur="onBlur"
+            @change="onChange"
+            @input="onInput"
+            @clear="onClear"
+            @autofill="(ev, el) => onAutofill(ev, el, 'password')"
+          />
+          <div><q-btn type="submit" flat label="Login" /></div>
+        </form>
+
         <p class="q-subtitle">Country selected: {{ JSON.stringify(terms) }}</p>
         <q-search :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" float-label="Start typing a country name - search">
           <q-autocomplete :static-data="{field: 'value', list: countries}" @selected="selected" />
@@ -183,7 +224,7 @@
         <q-select :dark="dark" color="black" :error="error" :warning="warning" :disable="disable" :readonly="readonly" multiple chips inverted :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" :value="options" :options="countries" float-label="Select multiple - chips (onChange)" filter />
 
         <p class="q-subtitle">Color selected: {{ JSON.stringify(color) }}</p>
-        <q-color :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="color" float-label="Color (RGBA)" type="rgba" />
+        <q-color :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="color" float-label="Color (RGBA)" format-model="rgba" />
         <q-color :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" inverted :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="val => { color = val; onChange(val) }" @input="onInput" @clear="onClear" :value="color" float-label="Color (onChange)" />
         <q-color :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="color" :default-value="defaultColor" :float-label="`Color (default ${defaultColor})`" />
         <q-color :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" inverted :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="val => { color = val; onChange(val) }" @input="onInput" @clear="onClear" :value="color" :default-value="defaultColor" :float-label="`Color (default ${defaultColor}, onChange)`" />
@@ -196,7 +237,7 @@
           </div>
           <div>
             <div>Color (HEXA, onChange)</div>
-            <q-color-picker :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" @focus="onFocus" @blur="onBlur" @change="val => { colorP = val; onChange(val) }" @input="onInput" @clear="onClear" :value="colorP" type="hexa" />
+            <q-color-picker :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" @focus="onFocus" @blur="onBlur" @change="val => { colorP = val; onChange(val) }" @input="onInput" @clear="onClear" :value="colorP" format-model="hexa" />
           </div>
           <div>
             <div>Color (default {{defaultColor}})</div>
@@ -348,6 +389,9 @@
     border-left 5px solid #00f
     margin-top 1rem
     padding .5rem
+  .autofill-helper
+    opacity .2
+    width 5em
 </style>
 
 
@@ -380,6 +424,11 @@ export default {
       error: false,
       warning: false,
       clearable: true,
+
+      username: '',
+      password: '',
+      autofillUsername: false,
+      autofillPassword: false,
 
       terms: '',
       termsN: null,
@@ -416,11 +465,30 @@ export default {
     onInput (val) {
       console.log('@input', JSON.stringify(val))
     },
-    onFocus (val) {
-      console.log('@focus', JSON.stringify(val))
+    onFocus (val, name) {
+      switch (name) {
+        case 'username':
+          this.autofillUsername && (this.autofillUsername = false)
+          break
+        case 'password':
+          this.autofillPassword && (this.autofillPassword = false)
+          break
+      }
+      console.log('@focus', JSON.stringify(val), name)
     },
     onBlur (val) {
       console.log('@blur', JSON.stringify(val))
+    },
+    onAutofill (ev, el, name) {
+      switch (name) {
+        case 'username':
+          this.autofillUsername || (this.autofillUsername = true)
+          break
+        case 'password':
+          this.autofillPassword || (this.autofillPassword = true)
+          break
+      }
+      console.log('@autofill', el._uid, name)
     },
     clear (value) {
       this.terms = value

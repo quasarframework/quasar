@@ -328,7 +328,7 @@ export default {
     }
 
     return h('div', {
-      staticClass: 'q-pagination row no-wrap items-start',
+      staticClass: 'q-pagination row no-wrap items-center',
       'class': { disabled: this.disable }
     }, [
       contentStart,

@@ -76,6 +76,8 @@
       @blur="__onInputBlur"
       @keydown="__onKeydown"
       @keyup="__onKeyup"
+
+      @animationstart="__onAnimationStart"
     />
 
     <q-icon
@@ -248,6 +250,12 @@ export default {
 
     __clearTimer () {
       this.$nextTick(() => clearTimeout(this.timer))
+    },
+
+    __onAnimationStart (e) {
+      if (e.animationName === 'webkit-autofill') {
+        this.$emit('autofill', e, this)
+      }
     },
 
     __setModel (val) {

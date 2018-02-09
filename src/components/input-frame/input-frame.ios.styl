@@ -4,8 +4,9 @@
 .q-if
   min-height 32px
   outline 0
-  &:not(.q-if-hide-underline)
-    padding-bottom 8px
+  padding-bottom 8px
+  &.q-if-hide-underline
+    margin-bottom -8px
 
   &:not(.q-if-hide-underline):not(.q-if-inverted)
     &:before, &:after
@@ -37,12 +38,13 @@
 
 .q-if-inner
   min-height 24px !important
+  align-items center
 
 .q-if-has-label
   min-height 41px
   .q-if-inner
-    min-height 34px !important
-    padding-top 15px
+    min-height 36px !important
+    padding-top 12px
 
 .q-if-label
   pointer-events none
@@ -68,6 +70,7 @@
 .q-if-control
   cursor pointer
   font-size 24px
+  align-self flex-end
   &.q-icon
     cursor pointer
   &:hover
