@@ -14,7 +14,7 @@ export default {
       type: String,
       default: 'primary'
     },
-    textToggleColor: String,
+    toggleTextColor: String,
     options: {
       type: Array,
       required: true,
@@ -71,7 +71,7 @@ export default {
           label: opt.label,
           // Colors come from the button specific options first, then from general props
           color: this.val[i] ? opt.toggleColor || this.toggleColor : opt.color || this.color,
-          textColor: this.val[i] ? opt.textToggleColor || this.textToggleColor : opt.textColor || this.textColor,
+          textColor: this.val[i] ? opt.toggleTextColor || this.toggleTextColor : opt.textColor || this.textColor,
           icon: opt.icon,
           iconRight: opt.iconRight,
           noCaps: this.noCaps,
