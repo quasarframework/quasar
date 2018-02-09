@@ -74,8 +74,8 @@ export default {
           textColor: this.val[i] ? opt.toggleTextColor || this.toggleTextColor : opt.textColor || this.textColor,
           icon: opt.icon,
           iconRight: opt.iconRight,
-          noCaps: this.noCaps,
-          noWrap: this.noWrap,
+          noCaps: this.noCaps || this.opt.noCaps,
+          noWrap: this.noWrap || this.opt.noWrap,
           outline: this.outline,
           flat: this.flat,
           rounded: this.rounded,
@@ -83,8 +83,8 @@ export default {
           glossy: this.glossy,
           size: this.size,
           dense: this.dense,
-          noRipple: this.noRipple,
-          waitForRipple: this.waitForRipple,
+          noRipple: this.noRipple || opt.noRipple,
+          waitForRipple: this.waitForRipple || opt.waitForRipple,
           tabindex: opt.tabindex
         }
       })
