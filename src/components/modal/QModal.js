@@ -145,7 +145,9 @@ export default {
       const body = document.body
 
       body.appendChild(this.$el)
-      body.classList.add('with-modal')
+      if (openedModalNumber === 0) {
+        body.classList.add('with-modal')
+      }
 
       EscapeKey.register(() => {
         if (!this.noEscDismiss) {
@@ -170,9 +172,7 @@ export default {
       openedModalNumber--
 
       if (openedModalNumber === 0) {
-        const body = document.body
-
-        body.classList.remove('with-modal')
+        document.body.classList.remove('with-modal')
       }
     }
   },
