@@ -3,7 +3,7 @@ import { QIcon } from '../icon'
 import AlignMixin from '../../mixins/align'
 
 const sizes = {
-  xs: 8, sm: 10, md: 14, lg: 20, xl: 24
+  xs: 8, sm: 10, md: 14, lg: 20, xl: 24, 'form-xs': 9.4, 'form-sm': 12.5, 'form-md': 15.5, 'form-lg': 17.1, 'form-xl': 20.2
 }
 
 export default {

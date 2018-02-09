@@ -1,5 +1,5 @@
 <template>
-  <div class="q-datetime inline row" :class="classes">
+  <div class="q-datetime row" :class="classes">
     <div class="q-datetime-header column col-xs-12 col-md-4 justify-center">
       <div v-if="typeHasDate">
         <div class="q-datetime-weekdaystring col-12">{{ weekDayString }}</div>
@@ -284,9 +284,7 @@ export default {
       this.disable && cls.push('disabled')
       this.readonly && cls.push('readonly')
       this.dark && cls.push('q-datetime-dark')
-      if (this.color) {
-        cls.push(`text-${this.color}`)
-      }
+      this.color && cls.push(`text-${this.color}`)
       return cls
     },
     computedFormat24h () {

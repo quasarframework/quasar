@@ -144,10 +144,11 @@ export default {
     },
 
     __getPicker (h, modal) {
+      const btnColor = !this.dark === !this.invertedLight ? this.color : (this.dark ? 'white' : 'dark')
       return [
         h(QDatetimePicker, {
           ref: 'target',
-          staticClass: `no-border block`,
+          staticClass: 'no-border',
           props: {
             type: this.type,
             min: this.min,
@@ -156,7 +157,7 @@ export default {
             format24h: this.format24h,
             firstDayOfWeek: this.firstDayOfWeek,
             defaultView: this.defaultView,
-            color: this.color,
+            color: this.invertedLight ? 'grey-7' : this.color,
             dark: this.dark,
             value: this.model,
             disable: this.disable,
@@ -179,7 +180,7 @@ export default {
               h('div', { staticClass: 'col' }),
               h(QBtn, {
                 props: {
-                  color: this.color,
+                  color: btnColor,
                   flat: true,
                   label: this.cancelLabel || this.$q.i18n.label.cancel,
                   waitForRipple: true
@@ -189,7 +190,7 @@ export default {
               this.editable
                 ? h(QBtn, {
                   props: {
-                    color: this.color,
+                    color: btnColor,
                     flat: true,
                     label: this.okLabel || this.$q.i18n.label.set,
                     waitForRipple: true
