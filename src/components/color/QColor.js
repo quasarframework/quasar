@@ -239,7 +239,6 @@ export default {
         ? h(QPopover, {
           ref: 'popup',
           props: {
-            offset: [0, 10],
             disable: this.disable,
             anchorClick: false,
             maxHeight: '100vh'

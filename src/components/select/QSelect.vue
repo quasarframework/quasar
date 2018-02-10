@@ -74,7 +74,6 @@
       ref="popover"
       fit
       :disable="readonly || disable"
-      :offset="[0, 10]"
       :anchor-click="false"
       class="column no-wrap"
       :class="dark ? 'bg-dark' : null"
