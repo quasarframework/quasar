@@ -17,39 +17,36 @@
         <form @submit.prevent>
           <q-input class="q-ma-sm" autocomplete="username"
             v-model="username"
-            :prefix="autofillUsername ? '[Filled]' : null"
-            :float-label="autofillUsername ? null : 'Username'"
-            :stack-label="autofillUsername ? 'Username' : null"
+            float-label="Username"
             :dark="dark"
             :error="error"
             :warning="warning"
             :disable="disable"
             :readonly="readonly"
             :clearable="clearable"
-            @focus="(ev) => onFocus(ev, 'username')"
+            @focus="onFocus"
             @blur="onBlur"
             @change="onChange"
             @input="onInput"
             @clear="onClear"
-            @autofill="(ev, el) => onAutofill(ev, el, 'username')"
+            @autofill="ev => onAutofill(ev, 'username')"
           />
           <q-input type="password" class="q-ma-sm" autocomplete="current-password"
             v-model="password"
             :prefix="autofillPassword ? '[Filled]': null"
-            :float-label="autofillPassword ? null : 'Password'"
-            :stack-label="autofillPassword ? 'Password' : null"
+            float-label="Password"
             :dark="dark"
             :error="error"
             :warning="warning"
             :disable="disable"
             :readonly="readonly"
             :clearable="clearable"
-            @focus="(ev) => onFocus(ev, 'password')"
+            @focus="onFocus"
             @blur="onBlur"
             @change="onChange"
             @input="onInput"
             @clear="onClear"
-            @autofill="(ev, el) => onAutofill(ev, el, 'password')"
+            @autofill="ev => onAutofill(ev, 'password')"
           />
           <div><q-btn type="submit" flat label="Login" /></div>
         </form>
@@ -465,30 +462,22 @@ export default {
     onInput (val) {
       console.log('@input', JSON.stringify(val))
     },
-    onFocus (val, name) {
-      switch (name) {
-        case 'username':
-          this.autofillUsername && (this.autofillUsername = false)
-          break
-        case 'password':
-          this.autofillPassword && (this.autofillPassword = false)
-          break
-      }
+    onFocus (val) {
       console.log('@focus', JSON.stringify(val), name)
     },
     onBlur (val) {
       console.log('@blur', JSON.stringify(val))
     },
-    onAutofill (ev, el, name) {
+    onAutofill (ev, name) {
       switch (name) {
         case 'username':
-          this.autofillUsername || (this.autofillUsername = true)
+          this.autofillUsername !== ev.value && (this.autofillUsername = ev.value)
           break
         case 'password':
-          this.autofillPassword || (this.autofillPassword = true)
+          this.autofillPassword !== ev.value && (this.autofillPassword = ev.value)
           break
       }
-      console.log('@autofill', el._uid, name)
+      console.log('@autofill', ev.el._uid, name, ev.value)
     },
     clear (value) {
       this.terms = value
