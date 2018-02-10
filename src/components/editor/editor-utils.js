@@ -98,6 +98,8 @@ function getDropdown (h, vm, btn) {
         icon = btn.icon
       }
 
+      const htmlTip = btn.htmlTip
+
       return h(
         QItem,
         {
@@ -116,9 +118,12 @@ function getDropdown (h, vm, btn) {
         [
           noIcons ? '' : h(QItemSide, {props: {icon: btn.icon}}),
           h(QItemMain, {
-            props: {
-              label: btn.htmlTip || btn.tip
-            }
+            props: !htmlTip && btn.tip
+              ? { label: btn.tip }
+              : null,
+            domProps: htmlTip
+              ? { innerHTML: btn.htmlTip }
+              : null
           })
         ]
       )
