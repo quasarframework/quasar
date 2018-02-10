@@ -18,7 +18,7 @@
     :color="color"
 
     :focused="focused"
-    :length="length"
+    :length="autofilled + length"
     :top-addons="isTextarea"
 
     @click="__onClick"
@@ -60,7 +60,7 @@
       v-else
       ref="input"
       class="col q-input-target q-no-input-spinner"
-      :class="alignClass"
+      :class="inputClasses"
 
       :placeholder="inputPlaceholder"
       :disabled="disable"
@@ -162,6 +162,7 @@ export default {
       showNumber: true,
       model: this.value,
       watcher: null,
+      autofilled: false,
       shadow: {
         val: this.model,
         set: this.__set,
@@ -227,6 +228,11 @@ export default {
         ? (this.showNumber || !this.editable ? 'number' : 'text')
         : this.type
     },
+    inputClasses () {
+      const classes = [this.alignClass]
+      this.autofilled && classes.push('q-input-autofill')
+      return classes
+    },
     length () {
       return this.model !== null && this.model !== undefined
         ? ('' + this.model).length
@@ -253,8 +259,13 @@ export default {
     },
 
     __onAnimationStart (e) {
-      if (e.animationName === 'webkit-autofill') {
-        this.$emit('autofill', e, this)
+      if (e.animationName.indexOf('webkit-autofill-') === 0) {
+        const value = e.animationName === 'webkit-autofill-on'
+        if (value !== this.autofilled) {
+          e.value = this.autofilled = value
+          e.el = this
+          return this.$emit('autofill', e)
+        }
       }
     },
 

@@ -1,7 +1,10 @@
-@keyframes webkit-autofill
+@keyframes webkit-autofill-on
   to
     background transparent
     color $form-autofill
+@keyframes webkit-autofill-off
+  to
+    background transparent
 
 .q-input-target, .q-input-shadow
   border 0
@@ -15,7 +18,10 @@
   display flex
   align-items center
   &:-webkit-autofill
-    -webkit-animation-name webkit-autofill
+    -webkit-animation-name webkit-autofill-on
+    -webkit-animation-fill-mode both
+  &.q-input-autofill:not(:-webkit-autofill)
+    -webkit-animation-name webkit-autofill-off
     -webkit-animation-fill-mode both
   &::-ms-clear, &::-ms-reveal
     display none
