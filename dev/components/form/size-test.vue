@@ -316,4 +316,6 @@ export default {
 .guidelines .size-test-example > div:last-child > div
   &:before, &:after
     border-color rgba(0, 0, 255, .4)
+.q-if-hide-underline
+  margin-bottom -8px
 </style>
