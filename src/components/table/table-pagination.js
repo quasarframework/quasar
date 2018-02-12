@@ -61,6 +61,9 @@ export default {
         return
       }
 
+      newPagination.page = Math.min(newPagination.page,
+        this.computedRowsNumber / this.computedPagination.rowsPerPage)
+
       if (this.pagination) {
         this.$emit('update:pagination', newPagination)
       }
@@ -83,5 +86,10 @@ export default {
   },
   created () {
     this.$emit('update:pagination', Object.assign({}, this.computedPagination))
+  },
+  watch: {
+    data() {
+      this.setPagination({})
+    }
   }
 }
