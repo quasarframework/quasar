@@ -55,6 +55,14 @@
       <q-btn color="amber" text-color="black" icon="map" label="Some label" />
       <q-btn text-color="amber" icon="map" label="Some label" />
 
+      <br><br>
+      <p class="caption">Keep holding click</p>
+      <!-- Click and hold to triger every second -->
+      <q-btn @click="clickHandler" :repeat-timeout="1000" label="click me" />
+      <!-- Click and hold to triger faster over time -->
+      <q-btn @click="clickHandler" :repeat-timeout="repeatFunction" label="click me" />
+      <q-chip>{{ clickTimes }}</q-chip>
+
       <p class="caption">Regular (rectangle) and Circular</p>
       <q-btn color="primary">Some very, but very long button title that should wrap to the next line without any problems</q-btn>
       <p class="group">
@@ -79,6 +87,7 @@
 
         <q-btn label="Button" />
         <q-btn color="amber" label="Button" />
+        <q-btn round icon="card_giftcard" />
         <q-btn round color="secondary" icon="card_giftcard" />
 
         <q-btn icon="alarm" label="Icoon" />
@@ -91,30 +100,31 @@
       </p>
 
       <p class="group">
-        <q-btn loader @click="simulateProgress" label="Button">
+        <q-chip>{{ loading }}</q-chip>
+        <q-btn :loading="loading" @click="simulateProgress" label="Button">
           <q-spinner-oval slot="loading" />
         </q-btn>
-        <q-btn loader  @click="simulateProgress" label="Button">
+        <q-btn :loading="loading"  @click="simulateProgress" label="Button">
           <span slot="loading">Loading...</span>
         </q-btn>
-        <q-btn loader color="orange" @click="simulateProgress" label="Button" />
-        <q-btn loader color="secondary" @click="simulateProgress" label="Button" />
-        <q-btn loader color="amber" @click="simulateProgress" label="Button" />
-        <q-btn loader color="dark" size="xs" @click="simulateProgress" label="Button" />
-        <q-btn loader color="dark" size="sm" @click="simulateProgress" label="Button" />
-        <q-btn loader color="dark" size="md" @click="simulateProgress" label="Button" />
-        <q-btn loader color="dark" size="lg" @click="simulateProgress" label="Button" />
-        <q-btn loader color="dark" size="xl" @click="simulateProgress" label="Button" />
-        <q-btn size="xs" round loader @click="simulateProgress" color="primary" icon="mail" />
-        <q-btn size="sm" round loader @click="simulateProgress" color="primary" icon="mail" />
-        <q-btn round loader @click="simulateProgress" color="primary" icon="mail" />
-        <q-btn size="lg" round loader @click="simulateProgress" color="primary" icon="mail" />
-        <q-btn size="xl" round loader @click="simulateProgress" color="primary" icon="mail" />
+        <q-btn :loading="loading" color="orange" @click="simulateProgress" label="Button" />
+        <q-btn :loading="loading" color="secondary" @click="simulateProgress" label="Button" />
+        <q-btn :loading="loading" color="amber" @click="simulateProgress" label="Button" />
+        <q-btn :loading="loading" color="dark" size="xs" @click="simulateProgress" label="Button" />
+        <q-btn :loading="loading" color="dark" size="sm" @click="simulateProgress" label="Button" />
+        <q-btn :loading="loading" color="dark" size="md" @click="simulateProgress" label="Button" />
+        <q-btn :loading="loading" color="dark" size="lg" @click="simulateProgress" label="Button" />
+        <q-btn :loading="loading" color="dark" size="xl" @click="simulateProgress" label="Button" />
+        <q-btn size="xs" round :loading="loading" @click="simulateProgress" color="primary" icon="mail" />
+        <q-btn size="sm" round :loading="loading" @click="simulateProgress" color="primary" icon="mail" />
+        <q-btn round :loading="loading" @click="simulateProgress" color="primary" icon="mail" />
+        <q-btn size="lg" round :loading="loading" @click="simulateProgress" color="primary" icon="mail" />
+        <q-btn size="xl" round :loading="loading" @click="simulateProgress" color="primary" icon="mail" />
 
-        <q-btn color="dark" size="sm" @click="simulateProgress" icon-right="alarm" label="Button">
+        <q-btn color="dark" :loading="loading" size="sm" @click="simulateProgress" icon-right="alarm" label="Button">
           <q-spinner-audio slot="loading" />
         </q-btn>
-        <q-btn round @click="simulateProgress" color="primary" size="lg" icon="alarm">
+        <q-btn round :loading="loading" @click="simulateProgress" color="primary" size="lg" icon="alarm">
           <q-spinner-audio slot="loading" />
         </q-btn>
         <q-btn color="negative" @click="stopProgress">Stop</q-btn>
@@ -154,7 +164,7 @@
       </p>
 
       <p class="group">
-        <q-btn loader :percentage="percentage" color="primary" @click="startProgress">
+        <q-btn :loading="loading2" :percentage="percentage" color="primary" @click="startProgress">
           Btn with progress
           <span slot="loading" class="row items-center">
             <q-spinner class="on-left" />
@@ -162,7 +172,7 @@
           </span>
         </q-btn>
 
-        <q-btn round loader :percentage="percentage" color="primary" @click="startProgress" icon="wifi" />
+        <q-btn round :loading="loading2" :percentage="percentage" color="primary" @click="startProgress" icon="wifi" />
       </p>
 
       <p class="caption">Small, Medium (default) and Big</p>
@@ -425,29 +435,37 @@ export default {
         'light-green', 'lime', 'yellow', 'amber', 'orange', 'deep-orange', 'brown', 'grey', 'blue-grey'
       ],
       extras: ['flat', 'outline', 'round', 'rounded', 'push', 'glossy'],
-      done: [],
-      percentage: 0
+      loading: false,
+      loading2: false,
+      percentage: 0,
+      clickTimes: 0
     }
   },
   methods: {
-    startProgress (e, done) {
+    clickHandler (e) {
+      this.clickTimes++
+    },
+    repeatFunction (timesTriggered) {
+      // first time timesTriggered is 0, so we add 1
+      // to be sure we don't divide by 0
+      return 1000 / (timesTriggered + 1)
+    },
+    startProgress () {
       this.percentage = 0
+      this.loading2 = true
       this.interval = setInterval(() => {
         this.percentage += Math.floor(Math.random() * 8 + 10)
         if (this.percentage >= 100) {
           clearInterval(this.interval)
-          done()
+          this.loading2 = false
         }
       }, 700)
     },
-    simulateProgress (e, done) {
-      this.done.push(done)
+    simulateProgress () {
+      this.loading = true
     },
     stopProgress () {
-      if (this.done.length) {
-        this.done.forEach(d => d())
-      }
-      this.done = []
+      this.loading = false
     }
   },
   beforeDestroy () {

@@ -24,7 +24,7 @@
     opacity .7 !important
 
   &:not(.disabled):not(.q-btn-flat):not(.q-btn-outline):not(.q-btn-push)
-    &:after
+    &:before
       // This places the button active raise shadow behind adjacent elements
       // Active raise shadow will still be visible under adjacent transparent elements, this is ok and coherent with a desired transparency effect.
       // Visible active raise shadow can be removed by specifying a background color to the button
@@ -38,9 +38,7 @@
       border-radius inherit
       z-index -1
       transition $button-transition
-    &:active:after
-      // Transitions on the creation of pseudoelements do not work
-      // pseudoelement must already exist, then the shadow is added when required.
+    &:active:before
       box-shadow $shadow-8
 
 .q-btn-progress

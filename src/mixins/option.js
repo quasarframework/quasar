@@ -99,7 +99,9 @@ export default {
           attrs: { type: 'checkbox' },
           on: { change: this.toggle }
         }),
-        h('div', { staticClass: 'q-focus-helper' }),
+        this.$q.platform.is.desktop
+          ? h('div', { staticClass: 'q-focus-helper' })
+          : null,
         this.__getContent(h)
       ]),
 

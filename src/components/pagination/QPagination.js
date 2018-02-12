@@ -113,8 +113,10 @@ export default {
       this.model = this.newPage
       this.newPage = null
     },
-    __getRepeatEasing (from = 300, step = 10, to = 100) {
-      return cnt => cnt ? Math.max(to, from - cnt * cnt * step) : 100
+    __repeatTimeout (count) {
+      return count
+        ? Math.max(100, 300 - count * count * 10)
+        : 100
     },
     __getBool (val, otherwise) {
       return [true, false].includes(val)
@@ -166,7 +168,7 @@ export default {
         props: {
           disable: this.disable || this.value <= this.min,
           icon: this.$q.icon.pagination.prev,
-          repeatTimeout: this.__getRepeatEasing()
+          repeatTimeout: this.__repeatTimeout
         },
         on: {
           click: () => this.setByOffset(-1)
@@ -177,7 +179,7 @@ export default {
         props: {
           disable: this.disable || this.value >= this.max,
           icon: this.$q.icon.pagination.next,
-          repeatTimeout: this.__getRepeatEasing()
+          repeatTimeout: this.__repeatTimeout
         },
         on: {
           click: () => this.setByOffset(1)
@@ -287,7 +289,7 @@ export default {
           props: {
             disable: this.disable,
             label: '…',
-            repeatTimeout: this.__getRepeatEasing()
+            repeatTimeout: this.__repeatTimeout
           },
           on: {
             click: () => this.set(pgFrom - 1)
@@ -301,7 +303,7 @@ export default {
           props: {
             disable: this.disable,
             label: '…',
-            repeatTimeout: this.__getRepeatEasing()
+            repeatTimeout: this.__repeatTimeout
           },
           on: {
             click: () => this.set(pgTo + 1)

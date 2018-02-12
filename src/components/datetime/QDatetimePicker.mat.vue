@@ -109,7 +109,7 @@
               flat
               :color="color"
               :icon="$q.icon.datetime.arrowLeft"
-              :repeatTimeout="__getRepeatEasing()"
+              :repeatTimeout="__repeatTimeout"
               :disable="beforeMinDays > 0 || disable || readonly"
               @click="setMonth(month - 1)"
             ></q-btn>
@@ -122,7 +122,7 @@
               flat
               :color="color"
               :icon="$q.icon.datetime.arrowRight"
-              :repeatTimeout="__getRepeatEasing()"
+              :repeatTimeout="__repeatTimeout"
               :disable="afterMaxDays > 0 || disable || readonly"
               @click="setMonth(month + 1)"
             ></q-btn>
@@ -510,8 +510,10 @@ export default {
         this.setMinute(Math.round(angle / 6))
       }
     },
-    __getRepeatEasing (from = 300, step = 10, to = 100) {
-      return cnt => cnt ? Math.max(to, from - cnt * cnt * step) : 100
+    __repeatTimeout (count) {
+      return count
+        ? Math.max(100, 300 - count * count * 10)
+        : 100
     }
   },
   mounted () {

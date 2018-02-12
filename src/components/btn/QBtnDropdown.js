@@ -53,6 +53,7 @@ export default {
       ),
       Btn = h(QBtn, {
         props: {
+          loading: this.loading,
           disable: this.disable,
           noCaps: this.noCaps,
           noWrap: this.noWrap,

@@ -15,6 +15,7 @@ export default {
     Ripple
   },
   props: {
+    loading: Boolean,
     disable: Boolean,
     label: [Number, String],
     noCaps: Boolean,
@@ -58,6 +59,9 @@ export default {
     },
     hasRipple () {
       return __THEME__ === 'mat' && !this.noRipple && !this.isDisabled
+    },
+    computedTabIndex () {
+      return this.isDisabled ? -1 : this.tabindex || 0
     },
     classes () {
       const cls = [ this.shape ]
@@ -110,18 +114,9 @@ export default {
     },
     innerClasses () {
       const classes = [ this.alignClass ]
-      if (this.noWrap) {
-        classes.push('no-wrap', 'text-no-wrap')
-      }
+      this.noWrap && classes.push('no-wrap', 'text-no-wrap')
+      this.repeating && classes.push('non-selectable')
       return classes
-    }
-  },
-  methods: {
-    removeFocus (e) {
-      // if is touch enabled and focus was received from pointer
-      if (this.$q.platform.has.touch && e.detail) {
-        this.$el.blur()
-      }
     }
   }
 }
