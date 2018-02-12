@@ -33,6 +33,11 @@
 .q-btn-outline
   border 1px solid currentColor
   background transparent !important
+  .q-focus-helper
+    top -1px
+    bottom -1px
+    left -1px
+    right -1px
 
 .q-btn-push
   border-radius $button-push-border-radius
@@ -40,6 +45,8 @@
   &:active:not(.disabled)
     transform translateY(3px)
     border-bottom-color transparent
+  .q-focus-helper
+    bottom -3px
 
 .q-btn-rounded
   border-radius $button-rounded-border-radius
@@ -62,7 +69,6 @@
     margin-right 6px
   .on-right
     margin-left 6px
-
 
 .q-btn-fab, .q-btn-fab-mini
   .q-icon
