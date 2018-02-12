@@ -114,9 +114,7 @@ export default {
       this.newPage = null
     },
     __repeatTimeout (count) {
-      return count
-        ? Math.max(100, 300 - count * count * 10)
-        : 100
+      return Math.max(100, 300 - count * count * 10)
     },
     __getBool (val, otherwise) {
       return [true, false].includes(val)
