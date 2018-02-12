@@ -6,7 +6,7 @@
       </q-field>
 
       <div>
-        <q-toggle color="primary" v-model="loader" label="Show loader" />
+        <q-toggle color="primary" v-model="loading" label="Show loading" />
         <q-toggle color="primary" v-model="selectionToggle" label="Multiple selection" />
         <q-select multiple toggle v-model="visibleColumns" :options="visibleColumnsOptions" />
         <q-radio v-model="separator" val="horizontal" label="Horizontal" />
@@ -22,7 +22,7 @@
         :columns="columns"
         :title="title"
         :filter="filter"
-        :loader="loader"
+        :loading="loading"
         selection="multiple"
         :selected.sync="selected"
         row-key="name"
@@ -43,7 +43,7 @@
         :columns="columns"
         :title="title"
         :filter="filter"
-        :loader="loader"
+        :loading="loading"
         selection="multiple"
         :selected.sync="selected"
         row-key="name"
@@ -55,7 +55,7 @@
         :columns="columns"
         :title="title"
         :filter="filter"
-        :loader="loader"
+        :loading="loading"
         :selection="selection"
         :selected.sync="selected"
         :visible-columns="visibleColumns"
@@ -88,7 +88,7 @@
         :columns="columns"
         :title="title"
         :filter="filter"
-        :loader="loader"
+        :loading="loading"
         row-key="name"
         color="primary"
         no-top
@@ -101,7 +101,7 @@
         :columns="columns"
         :title="title"
         :filter="filter"
-        :loader="loader"
+        :loading="loading"
         :selection="selection"
         :selected.sync="selected"
         :visible-columns="visibleColumns"
@@ -127,7 +127,7 @@
         :columns="columns"
         :title="title"
         :filter="filter"
-        :loader="loader"
+        :loading="loading"
         row-key="name"
         color="primary"
       >
@@ -199,7 +199,7 @@
           </q-th>
         </tr>
       </q-table>
-      <h2>body template - cell button with loader</h2>
+      <h2>body template - cell button with loading</h2>
       <q-table
         :data="data"
         :columns="columns"
@@ -220,7 +220,7 @@
           <q-td key="protein" :props="props">{{ props.row.protein }}</q-td>
           <q-td key="sodium" :props="props">{{ props.row.sodium }}</q-td>
           <q-td key="calcium" :props="props">
-            <q-btn loader color="secondary" icon="sms_failed" @click="($event, done) => { notifyWithProps(done, props) }" :label="props.row.calcium" />
+            <q-btn loading color="secondary" icon="sms_failed" @click="($event, done) => { notifyWithProps(done, props) }" :label="props.row.calcium" />
           </q-td>
           <q-td key="iron" :props="props">
             <q-chip small square color="amber">{{ props.row.iron }}</q-chip>
@@ -294,7 +294,7 @@
         row-key="name"
         :selection="selection"
         :selected.sync="selected"
-        :loader="loader"
+        :loading="loading"
         :visible-columns="visibleColumns"
         :title="title"
       >
@@ -341,7 +341,7 @@
         row-key="name"
         :selection="selection"
         :selected.sync="selected"
-        :loader="loader"
+        :loading="loading"
         :visible-columns="visibleColumns"
         :title="title"
       >
@@ -371,7 +371,7 @@
         row-key="name"
         :selection="selection"
         :selected.sync="selected"
-        :loader="loader"
+        :loading="loading"
         :visible-columns="visibleColumns"
         :title="title"
       >
@@ -391,7 +391,7 @@
         row-key="name"
         :selection="selection"
         :selected.sync="selected"
-        :loader="loader"
+        :loading="loading"
         :visible-columns="visibleColumns"
         :title="title"
       />
@@ -404,7 +404,7 @@ export default {
   data () {
     return {
       selectionToggle: false,
-      loader: false,
+      loading: false,
       color: 'amber',
       visibleColumns: ['desc', 'fat', 'carbs', 'protein', 'sodium', 'calcium', 'iron'],
       separator: 'horizontal',
@@ -562,7 +562,7 @@ export default {
       setTimeout(() => { done() }, 3000)
     },
     request (props) {
-      this.loader = true
+      this.loading = true
       console.log('REQUEST', props)
       setTimeout(() => {
         this.serverPagination = props.pagination
@@ -587,7 +587,7 @@ export default {
         }
 
         this.serverData = rows
-        this.loader = false
+        this.loading = false
       }, 1500)
     }
   },

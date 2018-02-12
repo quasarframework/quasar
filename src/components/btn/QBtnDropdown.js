@@ -8,7 +8,9 @@ export default {
   mixins: [BtnMixin],
   props: {
     value: Boolean,
-    split: Boolean
+    split: Boolean,
+    contentClass: [Array, String, Object],
+    contentStyle: [Array, String, Object]
   },
   render (h) {
     const
@@ -24,6 +26,8 @@ export default {
             anchor: 'bottom right',
             self: 'top right'
           },
+          'class': this.contentClass,
+          style: this.contentStyle,
           on: {
             show: e => {
               this.$emit('show', e)

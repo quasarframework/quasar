@@ -121,16 +121,6 @@ export function parseHorizTransformOrigin (pos) {
   return pos === 'middle' ? 'center' : pos
 }
 
-export function getTransformProperties ({selfOrigin}) {
-  let
-    vert = selfOrigin.vertical,
-    horiz = parseHorizTransformOrigin(selfOrigin.horizontal)
-
-  return {
-    'transform-origin': vert + ' ' + horiz + ' 0px'
-  }
-}
-
 export function setPosition ({el, anchorEl, anchorOrigin, selfOrigin, maxHeight, event, anchorClick, touchPosition, offset}) {
   let anchor
   el.style.maxHeight = maxHeight || '65vh'

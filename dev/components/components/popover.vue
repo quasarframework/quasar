@@ -11,7 +11,7 @@
         <q-toggle v-model="toggle" class="z-max fixed-top" />
         <q-btn color="primary" icon="assignment">
           <q-popover v-model="toggle" ref="popover1">
-            <q-list link separator class="scroll" style="min-width: 100px">
+            <q-list no-border link separator style="min-width: 100px">
               <q-item
                 v-for="n in 20"
                 :key="n"
@@ -26,7 +26,7 @@
 
         <q-btn color="primary" icon="map">
           <q-popover>
-            <q-list link separator class="scroll" style="min-width: 100px">
+            <q-list no-border link separator style="min-width: 100px">
               <q-item
                 v-for="n in 20"
                 :key="n"
@@ -53,7 +53,7 @@
                 :anchor="anchor"
                 :self="self"
               >
-                <q-list link style="min-width: 100px">
+                <q-list no-border link style="min-width: 100px">
                   <q-item
                     v-for="n in 3"
                     :key="n"
@@ -135,7 +135,7 @@
 
       <q-btn icon="menu" color="primary" class="fixed-bottom-left" style="bottom: 10px; left: 10px;">
         <q-popover ref="popover5">
-          <q-list link separator class="scroll" style="min-width: 200px">
+          <q-list no-border link separator style="min-width: 200px">
             <q-item
               v-for="n in 20"
               :key="n"

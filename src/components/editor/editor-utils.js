@@ -55,6 +55,7 @@ function getDropdown (h, vm, btn) {
     icon = btn.icon,
     noIcons = btn.list === 'no-icons',
     onlyIcons = btn.list === 'only-icons',
+    contentClass,
     Items
 
   function closeDropdown () {
@@ -73,13 +74,13 @@ function getDropdown (h, vm, btn) {
       }
       return getBtn(h, vm, btn, closeDropdown, active)
     })
+    contentClass = vm.toolbarBackgroundClass
     Items = [
       h(
         QBtnGroup,
         {
           props: vm.buttonProps,
           staticClass: 'relative-position q-editor-toolbar-padding',
-          'class': vm.toolbarBackgroundClass,
           style: { borderRadius: '0' }
         },
         Items
@@ -128,10 +129,10 @@ function getDropdown (h, vm, btn) {
         ]
       )
     })
+    contentClass = [vm.toolbarBackgroundClass, vm.toolbarTextColor ? `text-${vm.toolbarTextColor}` : '']
     Items = [
       h(QList, {
-        props: { separator: true },
-        'class': [vm.toolbarBackgroundClass, vm.toolbarTextColor ? `text-${vm.toolbarTextColor}` : '']
+        props: { separator: true }
       }, [ Items ])
     ]
   }
@@ -146,7 +147,8 @@ function getDropdown (h, vm, btn) {
         color: highlight ? vm.toolbarToggleColor : vm.toolbarColor,
         textColor: highlight && (vm.toolbarFlat || vm.toolbarOutline) ? null : vm.toolbarTextColor,
         label: btn.fixedLabel ? btn.label : label,
-        icon: btn.fixedIcon ? btn.icon : icon
+        icon: btn.fixedIcon ? btn.icon : icon,
+        contentClass
       }, vm.buttonProps)
     },
     Items

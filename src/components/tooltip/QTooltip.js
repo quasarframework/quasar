@@ -4,7 +4,6 @@ import {
   positionValidator,
   offsetValidator,
   parsePosition,
-  getTransformProperties,
   setPosition
 } from '../../utils/popup'
 import ModelToggleMixin from '../../mixins/model-toggle'
@@ -46,11 +45,6 @@ export default {
     },
     selfOrigin () {
       return parsePosition(this.self)
-    },
-    transformCSS () {
-      return getTransformProperties({
-        selfOrigin: this.selfOrigin
-      })
     }
   },
   methods: {
@@ -101,9 +95,13 @@ export default {
   },
   render (h) {
     return h('span', {
-      staticClass: 'q-tooltip animate-scale',
+      staticClass: 'q-tooltip animate-popup',
       style: this.transformCSS
-    }, [ this.$slots.default ])
+    }, [
+      h('div', [
+        this.$slots.default
+      ])
+    ])
   },
   created () {
     this.__debouncedUpdatePosition = debounce(() => {

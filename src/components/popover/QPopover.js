@@ -1,7 +1,6 @@
 import {
   positionValidator,
   offsetValidator,
-  getTransformProperties,
   parsePosition,
   setPosition
 } from '../../utils/popup'
@@ -49,9 +48,6 @@ export default {
     }
   },
   computed: {
-    transformCSS () {
-      return getTransformProperties({selfOrigin: this.selfOrigin})
-    },
     anchorOrigin () {
       return parsePosition(this.anchor)
     },
@@ -61,12 +57,15 @@ export default {
   },
   render (h) {
     return h('div', {
-      staticClass: 'q-popover animate-scale',
-      style: this.transformCSS,
+      staticClass: 'q-popover animate-popup scroll',
       on: {
         click (e) { e.stopPropagation() }
       }
-    }, this.$slots.default)
+    }, [
+      h('div', [
+        this.$slots.default
+      ])
+    ])
   },
   created () {
     this.__updatePosition = frameDebounce(() => { this.reposition() })
