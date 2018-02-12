@@ -193,18 +193,15 @@ export default {
         }, [
           this.$slots.default,
           h(QResizeObservable, {
-            staticClass: 'resize-obs',
             on: { resize: this.__updateScrollHeight }
           })
         ]),
         h(QScrollObservable, {
-          staticClass: 'scroll-obs',
           on: { scroll: this.__updateScroll }
         })
       ]),
 
       h(QResizeObservable, {
-        staticClass: 'main-resize-obs',
         on: { resize: this.__updateContainer }
       }),
 
