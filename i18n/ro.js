@@ -31,7 +31,7 @@ export default {
   table: {
     noData: 'Nu sunt date disponibile',
     noResults: 'Nu am găsit înregistrări care să corespundă',
-    loader: 'Se încarcă...',
+    loading: 'Se încarcă...',
     selectedRows: rows => rows > 1 ? `${rows} rânduri selectate.` : `${rows === 0 ? 'Nici un' : '1'} rând selectat.`,
     rowsPerPage: 'Rânduri pe pagină:',
     allRows: 'Toate',

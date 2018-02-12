@@ -17,7 +17,7 @@
       :pagination.sync="pagination"
       :selection="selection"
       :selected.sync="selected"
-      :loader="loader"
+      :loading="loading"
       :visible-columns="visibleColumns"
       :title="title"
       table-style="max-height: 500px;"
@@ -32,7 +32,7 @@ export default {
   data () {
     return {
       selectionToggle: false,
-      loader: false,
+      loading: false,
       color: 'amber',
       visibleColumns: ['desc', 'fat', 'carbs', 'protein', 'sodium', 'calcium', 'iron'],
       separator: 'horizontal',

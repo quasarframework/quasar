@@ -31,7 +31,7 @@ export default {
   table: {
     noData: 'ไม่มีข้อมูล',
     noResults: 'ไม่มีผลลัพธ์',
-    loader: 'กำลังโหลด...',
+    loading: 'กำลังโหลด...',
     selectedRows: rows => rows > 0 ? `เลือกทั้งหมด ${rows} แถว` : 'ไม่มีแถวที่ถูกเลือก',
     rowsPerPage: 'แถวต่อหน้า:',
     allRows: 'แถวทั้งหมด',

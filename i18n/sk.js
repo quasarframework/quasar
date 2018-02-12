@@ -31,7 +31,7 @@ export default {
   table: {
     noData: 'Nie sú dostupné údaje',
     noResults: 'Neboli nájdené vyhovujúce záznamy',
-    loader: 'Načítavam...',
+    loading: 'Načítavam...',
     selectedRows: rows => rows > 0 ? `${rows} ${rows === 1 ? 'riadok vybratý' : rows < 5 ? 'riadky vybraté' : 'riadkov vybratých'}.` : 'Žiadne vybraté riadky.',
     rowsPerPage: 'Riadkov na stránku:',
     allRows: 'Všetky',

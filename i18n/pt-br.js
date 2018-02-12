@@ -31,7 +31,7 @@ export default {
   table: {
     noData: 'Sem dados disponíveis',
     noResults: 'Nenhum dado correspondente encontrado',
-    loader: 'Carregando...',
+    loading: 'Carregando...',
     selectedRows: rows => rows > 0 ? `${rows} linha${rows === 1 ? ' selecionada' : 's selecionas'} .` : 'Nenhuma linha selecionada.',
     rowsPerPage: 'Linhas por página:',
     allRows: 'Todas',

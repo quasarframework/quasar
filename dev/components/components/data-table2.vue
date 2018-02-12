@@ -14,7 +14,7 @@
       row-key="name"
       :pagination.sync="serverPagination"
       @request="request"
-      :loader="loader"
+      :loading="loading"
     >
       <template slot="top-right" slot-scope="props">
         <q-search hide-underline v-model="filter" />
@@ -68,7 +68,7 @@
       :data="data"
       :columns="columns"
       :filter="filter"
-      :loader="loader"
+      :loading="loading"
       row-key="name"
       color="primary"
       no-top
@@ -80,7 +80,7 @@
       :data="data"
       :columns="columns"
       :filter="filter"
-      :loader="loader"
+      :loading="loading"
       row-key="name"
       color="primary"
     >
@@ -251,7 +251,7 @@ export default {
         rowsNumber: 10
       },
       serverData: [],
-      loader: false,
+      loading: false,
       visibleColumns: ['desc', 'fat', 'carbs', 'protein', 'sodium', 'calcium', 'iron'],
       selected: [],
 
@@ -378,7 +378,7 @@ export default {
   },
   methods: {
     request (props) {
-      this.loader = true
+      this.loading = true
       console.log('REQUEST', props)
       setTimeout(() => {
         this.serverPagination = props.pagination
@@ -404,7 +404,7 @@ export default {
         }
 
         this.serverData = rows
-        this.loader = false
+        this.loading = false
       }, 1500)
     },
     moveRowUp (name) {

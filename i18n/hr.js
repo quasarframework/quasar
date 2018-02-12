@@ -31,7 +31,7 @@ export default {
   table: {
     noData: 'Nema podataka',
     noResults: 'Nema odgovarajućih zapisa',
-    loader: 'Učitavanje...',
+    loading: 'Učitavanje...',
     selectedRows: rows => rows > 1 ? `${rows} izabranih redova.` : `${rows === 0 ? 'Nema' : '1'} izabranih redova.`,
     rowsPerPage: 'Redova po stranici:',
     allRows: 'Sve',

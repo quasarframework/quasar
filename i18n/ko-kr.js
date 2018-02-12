@@ -31,7 +31,7 @@ export default {
   table: {
     noData: '데이터가 없습니다.',
     noResults: '결과가 없습니다.',
-    loader: '로드 중...',
+    loading: '로드 중...',
     selectedRows: rows => rows > 0 ? `${rows} 개가 선택 되었습니다.` : '선택된 항목이 없습니다.',
     rowsPerPage: '페이지 당 개수:',
     allRows: '전체',

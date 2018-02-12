@@ -31,7 +31,7 @@ export default {
   table: {
     noData: 'データがありません', // 'No data available',
     noResults: '検索結果がありません', // 'No matching records found',
-    loader: '読込中...', // 'Loading...',
+    loading: '読込中...', // 'Loading...',
     selectedRows: rows => rows > 0 ? `${rows}行を選択中` : '行を選択', // rows => rows > 0 ? `${rows} row${rows === 1 ? '' : 's'} selected.` : 'No selected rows.',
     rowsPerPage: 'ページあたりの行数', // 'Rows per page:',
     allRows: '全て', // 'All',

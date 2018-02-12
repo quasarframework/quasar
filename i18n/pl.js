@@ -31,7 +31,7 @@ export default {
   table: {
     noData: 'Brak dostępnych danych',
     noResults: 'Nie znaleziono pasujących wpisów',
-    loader: 'Ładowanie...',
+    loading: 'Ładowanie...',
     selectedRows: rows => rows > 1 ? `${rows} zaznaczony(ch) wiersz(y).` : `${rows === 0 ? 'Brak' : '1'} zaznaczony wiersz.`,
     rowsPerPage: 'Wierszy na stronę:',
     allRows: 'Wszystkie',

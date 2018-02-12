@@ -31,7 +31,7 @@ export default {
   table: {
     noData: 'Tidak ada data tersedia',
     noResults: 'Tidak ada yang cocok',
-    loader: 'Memuat...',
+    loading: 'Memuat...',
     selectedRows: rows => rows > 1 ? `${rows} baris terpilih.` : `${rows === 0 ? 'tidak ada' : '1'} baris terpilih.`,
     rowsPerPage: 'Baris per halaman:',
     allRows: 'Semua',

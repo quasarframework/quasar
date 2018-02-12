@@ -30,7 +30,7 @@ export default {
   table: {
     noData: 'Keine Daten vorhanden.',
     noResults: 'Keine Einträge gefunden',
-    loader: 'Lade...',
+    loading: 'Lade...',
     selectedRows: rows => rows > 1 ? `${rows} ausgewählte Zeilen` : `${rows === 0 ? 'Keine' : '1'} ausgewahlt.`,
     rowsPerPage: 'Zeilen pro Seite',
     allRows: 'Alle',

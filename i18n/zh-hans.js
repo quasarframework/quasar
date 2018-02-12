@@ -31,7 +31,7 @@ export default {
   table: {
     noData: '没有可用数据',
     noResults: '找不到匹配的数据',
-    loader: '正在加载...',
+    loading: '正在加载...',
     selectedRows: rows => rows > 1 ? `${rows} selected row(s).` : `${rows === 0 ? 'No' : '1'} selected rows.`,
     rowsPerPage: '每页的行数:',
     allRows: '全部',

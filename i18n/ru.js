@@ -35,7 +35,7 @@ export default {
   table: {
     noData: 'Нет данных',
     noResults: 'Совпадений не найдено',
-    loader: 'Загрузка...',
+    loading: 'Загрузка...',
     selectedRows: rows => rows > 0 ? `${rows} ${plurals(rows, ['строка выбрана', 'строки выбраны', 'строк выбрано'])}.` : 'Ни одна строка не выбрана.',
     rowsPerPage: 'Строк на странице:',
     allRows: 'Все',

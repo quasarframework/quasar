@@ -12,7 +12,7 @@ export default {
       if (this.nothingToDisplay) {
         const message = this.filter
           ? this.noResultsLabel || this.$q.i18n.table.noResults
-          : (this.loader ? this.loaderLabel || this.$q.i18n.table.loader : this.noDataLabel || this.$q.i18n.table.noData)
+          : (this.loading ? this.loadingLabel || this.$q.i18n.table.loading : this.noDataLabel || this.$q.i18n.table.noData)
 
         return h('div', { staticClass: 'q-table-bottom row items-center q-table-nodata' }, [
           h(QIcon, {props: { name: this.$q.icon.table.warning }}),
