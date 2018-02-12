@@ -511,9 +511,7 @@ export default {
       }
     },
     __repeatTimeout (count) {
-      return count
-        ? Math.max(100, 300 - count * count * 10)
-        : 100
+      return Math.max(100, 300 - count * count * 10)
     }
   },
   mounted () {
