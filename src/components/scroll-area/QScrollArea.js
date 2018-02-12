@@ -193,12 +193,12 @@ export default {
         }, [
           this.$slots.default,
           h(QResizeObservable, {
-            staticClass: 'resize-obs',
+            staticClass: 'resize-obs', // where is the defination of this class ,i searched the whole repo ????
             on: { resize: this.__updateScrollHeight }
           })
         ]),
         h(QScrollObservable, {
-          staticClass: 'scroll-obs',
+          staticClass: 'scroll-obs', // same here ????? 
           on: { scroll: this.__updateScroll }
         })
       ]),
