@@ -10,17 +10,6 @@ body
   color $body-color
   min-height 100vh
 
-a
-  color $link-color
-  text-decoration none
-  cursor pointer
-  outline 0
-  transition color .25s
-  &:hover
-    color $link-color-active
-  &:active, &:hover
-    outline-width 0
-
 for $heading, $value in $h-tags
   {$heading}
     font-size: $value.size
