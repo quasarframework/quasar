@@ -243,7 +243,7 @@ export default {
       }
     }, [
       h('input', {
-        staticClass: 'col q-input-target cursor-inherit',
+        staticClass: 'col q-input-target cursor-inherit non-selectable no-pointer-events',
         'class': this.alignClass,
         attrs: {
           value: this.actualValue,

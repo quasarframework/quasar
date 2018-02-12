@@ -27,7 +27,7 @@
       additional-length
     >
       <input
-        class="col q-input-target cursor-inherit"
+        class="col q-input-target cursor-inherit non-selectable no-pointer-events"
         :class="alignClass"
         :value="label"
         readonly

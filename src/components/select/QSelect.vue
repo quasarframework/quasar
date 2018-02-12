@@ -52,7 +52,7 @@
 
     <input
       v-else
-      class="col q-input-target cursor-inherit"
+      class="col q-input-target cursor-inherit non-selectable no-pointer-events"
       :class="alignClass"
       :value="actualValue"
       :placeholder="inputPlaceholder"
