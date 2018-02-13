@@ -60,6 +60,17 @@
       </div>
 
       <p class="caption">Items Baseline</p>
+      <div class="row no-wrap gutter-sm size-test-example-base items-baseline" style="width: 100%">
+        <div class="col-auto">Text</div>
+        <div class="col"><q-input v-model="text" clearable /></div>
+        <div class="col"><q-select v-model="select" :options="selectOptions" clearable /></div>
+        <div class="col"><q-search v-model="text" clearable /></div>
+        <div class="col"><q-search stack-label="Label" v-model="text" clearable /></div>
+        <div class="col"><q-search hide-underline v-model="text" clearable /></div>
+        <div class="col"><q-datetime type="datetime" v-model="date" clearable /></div>
+        <div class="self-end"><q-btn color="primary" size="form-sm" outline label="Button" /></div>
+        <div class="self-end"><q-btn color="primary" size="form-sm" flat label="Button" /></div>
+      </div>
       <div class="row no-wrap gutter-sm size-test-example-base items-baseline">
         <div>Text</div>
         <div><q-input v-model="text" clearable /></div>

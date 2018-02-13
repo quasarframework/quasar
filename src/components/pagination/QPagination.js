@@ -187,10 +187,7 @@ export default {
 
     if (this.input) {
       contentMiddle.push(h(QInput, {
-        staticClass: 'inline no-padding',
-        style: {
-          width: `${this.inputPlaceholder.length}rem`
-        },
+        staticClass: 'inline',
         props: {
           type: 'number',
           value: this.newPage,

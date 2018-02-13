@@ -50,16 +50,18 @@
       </q-chip>
     </div>
 
-    <input
-      v-else
-      class="col q-input-target cursor-inherit non-selectable no-pointer-events"
-      :class="alignClass"
-      :value="actualValue"
-      :placeholder="inputPlaceholder"
-      readonly
-      :disabled="this.disable"
-      tabindex="-1"
-    />
+    <div class="col q-input-target-wrapper" v-else>
+      <input
+        class="q-input-target cursor-inherit non-selectable no-pointer-events"
+        :class="alignClass"
+        :value="actualValue"
+        :placeholder="inputPlaceholder"
+        readonly
+        :disabled="this.disable"
+        tabindex="-1"
+      />
+      <div>{{inputTargetText}}</div>
+    </div>
 
     <q-icon
       v-if="!disable && !readonly && clearable && length"
@@ -291,6 +293,9 @@ export default {
 
       const opt = this.selectedOptions.map(opt => opt.label)
       return opt.length ? opt.join(', ') : ''
+    },
+    inputTargetText () {
+      return this.actualValue && ('' + this.actualValue) !== '0' ? this.actualValue : this.inputPlaceholder || ' '
     },
     selectedOptions () {
       if (this.multiple) {

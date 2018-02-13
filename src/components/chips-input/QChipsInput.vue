@@ -41,22 +41,25 @@
         {{ label }}
       </q-chip>
 
-      <input
-        ref="input"
-        class="col q-input-target"
-        :class="alignClass"
-        v-model="input"
+      <div class="col q-input-target-wrapper">
+        <input
+          ref="input"
+          class="col q-input-target"
+          :class="alignClass"
+          v-model="input"
 
-        :placeholder="inputPlaceholder"
-        :disabled="disable"
-        :readonly="readonly"
-        v-bind="$attrs"
+          :placeholder="inputPlaceholder"
+          :disabled="disable"
+          :readonly="readonly"
+          v-bind="$attrs"
 
-        @focus="__onFocus"
-        @blur="__onInputBlur"
-        @keydown="__handleKeyDown"
-        @keyup="__onKeyup"
-      />
+          @focus="__onFocus"
+          @blur="__onInputBlur"
+          @keydown="__handleKeyDown"
+          @keyup="__onKeyup"
+        />
+        <div>{{inputTargetText}}</div>
+      </div>
     </div>
 
     <q-icon
@@ -108,6 +111,9 @@ export default {
     }
   },
   computed: {
+    inputTargetText () {
+      return this.input && ('' + this.input) !== '0' ? this.input : this.inputPlaceholder || ' '
+    },
     length () {
       return this.model
         ? this.model.length
