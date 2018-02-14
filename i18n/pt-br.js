@@ -32,7 +32,7 @@ export default {
     noData: 'Sem dados disponíveis',
     noResults: 'Nenhum dado correspondente encontrado',
     loading: 'Carregando...',
-    selectedRows: rows => rows > 0 ? `${rows} linha${rows === 1 ? ' selecionada' : 's selecionas'} .` : 'Nenhuma linha selecionada.',
+    selectedRows: rows => rows > 0 ? `${rows} linha${rows === 1 ? ' selecionada' : 's selecionadas'} .` : 'Nenhuma linha selecionada.',
     rowsPerPage: 'Linhas por página:',
     allRows: 'Todas',
     pagination: (start, end, total) => `${start}-${end} de ${total}`,
