@@ -52,6 +52,12 @@
         </form>
 
         <p class="q-subtitle">Country selected: {{ JSON.stringify(terms) }}</p>
+        <q-search :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" placeholder="Start typing a country name - search">
+          <q-autocomplete :static-data="{field: 'value', list: countries}" @selected="selected" />
+        </q-search>
+        <q-search :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" inverted :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" placeholder="Start typing a country name - search">
+          <q-autocomplete :static-data="{field: 'value', list: countries}" @selected="selected" />
+        </q-search>
         <q-search :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" float-label="Start typing a country name - search">
           <q-autocomplete :static-data="{field: 'value', list: countries}" @selected="selected" />
         </q-search>

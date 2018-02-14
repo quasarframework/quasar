@@ -57,12 +57,12 @@ export default {
   },
   render (h) {
     return h('div', {
-      staticClass: 'q-popover animate-popup scroll',
+      staticClass: 'q-popover animate-popup',
       on: {
         click (e) { e.stopPropagation() }
       }
     }, [
-      h('div', [
+      h('div', { staticClass: 'column no-wrap scroll' }, [
         this.$slots.default
       ])
     ])
@@ -98,7 +98,7 @@ export default {
       this.scrollTarget = getScrollTarget(this.anchorEl)
       this.scrollTarget.addEventListener('scroll', this.__updatePosition, listenOpts.passive)
       window.addEventListener('resize', this.__updatePosition, listenOpts.passive)
-      this.reposition(evt)
+      this.reposition(evt, true)
 
       clearTimeout(this.timer)
       this.timer = setTimeout(() => {
@@ -129,7 +129,7 @@ export default {
       document.body.removeChild(this.$el)
       this.hidePromise && this.hidePromiseResolve()
     },
-    reposition (event) {
+    reposition (event, setClass) {
       this.$nextTick(() => {
         if (this.fit) {
           this.$el.style.minWidth = width(this.anchorEl) + 'px'
@@ -139,7 +139,7 @@ export default {
         if (top < 0 || top > height) {
           return this.hide()
         }
-        setPosition({
+        const direction = setPosition({
           event,
           el: this.$el,
           offset: this.offset,
@@ -150,6 +150,9 @@ export default {
           anchorClick: this.anchorClick,
           touchPosition: this.touchPosition
         })
+        if (setClass) {
+          this.$el.classList[direction === 'up' ? 'add' : 'remove']('animate-popup-up')
+        }
       })
     }
   }

@@ -94,7 +94,7 @@
         :dark="dark"
         no-parent-field
         icon="filter_list"
-        style="min-height: 50px; padding: 10px;"
+        style="min-height: 50px; padding: 13px 10px;"
       />
 
       <q-list
