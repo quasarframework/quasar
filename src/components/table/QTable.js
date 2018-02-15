@@ -67,7 +67,7 @@ export default {
     }
   },
   computed: {
-    computedRows () {
+    filteredRows () {
       let rows = this.data.slice().map((row, i) => {
         row.__index = i
         return row
@@ -80,7 +80,7 @@ export default {
         return rows
       }
 
-      const { sortBy, descending, rowsPerPage } = this.computedPagination
+      const { sortBy, descending } = this.computedPagination
 
       if (this.hasFilter) {
         rows = this.filterMethod(rows, this.filter, this.computedCols, this.getCellValue)
@@ -90,16 +90,21 @@ export default {
         rows = this.sortMethod(rows, sortBy, descending)
       }
 
-      if (rowsPerPage) {
-        rows = rows.slice(this.firstRowIndex, this.lastRowIndex)
+      return rows
+    },
+    computedRows () {
+      const { rowsPerPage } = this.computedPagination
+
+      if (this.isServerSide || !rowsPerPage) {
+        return this.filteredRows
       }
 
-      return rows
+      return this.filteredRows.slice(this.firstRowIndex, this.lastRowIndex)
     },
     computedRowsNumber () {
       return this.isServerSide
         ? this.computedPagination.rowsNumber || 0
-        : this.data.length
+        : this.filteredRows.length
     },
     nothingToDisplay () {
       return this.computedRows.length === 0
