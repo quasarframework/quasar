@@ -33,7 +33,7 @@ export default {
         paginationSlot = this.$scopedSlots.pagination
 
       return [
-        h('div', { staticClass: 'col-grow' }, [
+        h('div', { staticClass: 'col' }, [
           this.hasSelectionMode && this.rowsSelectedNumber > 0
             ? (this.selectedRowsLabel || this.$q.i18n.table.selectedRows)(this.rowsSelectedNumber)
             : ''
