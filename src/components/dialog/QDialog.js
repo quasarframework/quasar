@@ -19,6 +19,8 @@ export default {
     cancel: [String, Boolean],
     stackButtons: Boolean,
     preventClose: Boolean,
+    noBackdropDismiss: Boolean,
+    noEscDismiss: Boolean,
     position: String,
     color: {
       type: String,
@@ -80,8 +82,8 @@ export default {
       props: {
         value: this.value,
         minimized: true,
-        noBackdropDismiss: this.preventClose,
-        noEscDismiss: this.preventClose,
+        noBackdropDismiss: this.noBackdropDismiss || this.preventClose,
+        noEscDismiss: this.noEscDismiss || this.preventClose,
         position: this.position
       },
       on: {
