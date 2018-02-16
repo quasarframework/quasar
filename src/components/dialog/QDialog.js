@@ -24,14 +24,8 @@ export default {
       type: String,
       default: 'primary'
     },
-    okColor: {
-      type: String,
-      default: ''
-    },
-    cancelColor: {
-      type: String,
-      default: ''
-    }
+    okColor: String,
+    cancelColor: String
   },
   render (h) {
     const
