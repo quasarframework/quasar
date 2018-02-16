@@ -107,35 +107,37 @@
             v-for="(opt, index) in visibleOptions"
             :key="JSON.stringify(opt)"
             :cfg="opt"
-            :link="!opt.disable"
+            :link="!opt.disable && !opt.group"
             :class="[
-              opt.disable ? 'text-faded' : 'cursor-pointer',
+              opt.group ? `text-${opt.color}` : (opt.disable ? 'text-faded' : 'cursor-pointer'),
               index === keyboardIndex ? 'q-select-highlight' : ''
             ]"
             slot-replace
-            @click.capture.native="__toggleMultiple(opt.value, opt.disable)"
-            @mouseenter.native="e => !opt.disable && __mouseEnterHandler(e, index)"
+            @click.capture.native="__toggleMultiple(opt.value, opt.disable || opt.group)"
+            @mouseenter.native="e => !opt.disable && !opt.group && __mouseEnterHandler(e, index)"
           >
-            <q-toggle
-              v-if="toggle"
-              slot="right"
-              keep-color
-              :color="opt.color || color"
-              :dark="dark"
-              :value="optModel[opt.index]"
-              :disable="opt.disable"
-              no-focus
-            />
-            <q-checkbox
-              v-else
-              slot="left"
-              keep-color
-              :color="opt.color || color"
-              :dark="dark"
-              :value="optModel[opt.index]"
-              :disable="opt.disable"
-              no-focus
-            />
+            <template v-if="!opt.group">
+              <q-toggle
+                v-if="toggle"
+                slot="right"
+                keep-color
+                :color="opt.color || color"
+                :dark="dark"
+                :value="optModel[opt.index]"
+                :disable="opt.disable"
+                no-focus
+              />
+              <q-checkbox
+                v-else
+                slot="left"
+                keep-color
+                :color="opt.color || color"
+                :dark="dark"
+                :value="optModel[opt.index]"
+                :disable="opt.disable"
+                no-focus
+              />
+            </template>
           </q-item-wrapper>
         </template>
         <template v-else>
@@ -145,16 +147,16 @@
             :cfg="opt"
             :link="!opt.disable"
             :class="[
-              opt.disable ? 'text-faded' : 'cursor-pointer',
+              opt.group ? `text-${opt.color}` : (opt.disable ? 'text-faded' : 'cursor-pointer'),
               index === keyboardIndex ? 'q-select-highlight' : ''
             ]"
             slot-replace
             :active="value === opt.value"
-            @click.capture.native="__singleSelect(opt.value, opt.disable)"
-            @mouseenter.native="e => !opt.disable && __mouseEnterHandler(e, index)"
+            @click.capture.native="__singleSelect(opt.value, opt.disable || opt.group)"
+            @mouseenter.native="e => !opt.disable && !opt.group && __mouseEnterHandler(e, index)"
           >
             <q-radio
-              v-if="radio"
+              v-if="radio && !opt.group"
               keep-color
               :color="opt.color || color"
               slot="left"
@@ -218,7 +220,7 @@ export default {
     options: {
       type: Array,
       required: true,
-      validator: v => v.every(o => 'label' in o && 'value' in o)
+      validator: v => v.every(o => 'label' in o && ('value' in o || o.group))
     },
     chipsColor: String,
     chipsBgColor: String,
@@ -335,10 +337,16 @@ export default {
     },
 
     __keyboardCalcIndex () {
-      this.keyboardMoveDirection = true
       this.keyboardIndex = -1
       const sel = this.multiple ? this.selectedOptions.map(o => o.value) : [this.model]
-      this.$nextTick(() => this.__keyboardShow(sel === void 0 ? 0 : Math.max(0, this.visibleOptions.findIndex(opt => sel.includes(opt.value)))))
+      this.$nextTick(() => {
+        const index = sel === void 0 ? -1 : Math.max(-1, this.visibleOptions.findIndex(opt => sel.includes(opt.value)))
+        if (index > -1) {
+          this.keyboardMoveDirection = true
+          setTimeout(() => { this.keyboardMoveDirection = false }, 500)
+        }
+        this.__keyboardShow(index)
+      })
     },
     __keyboardCustomKeyHandle (key, e) {
       switch (key) {
@@ -357,14 +365,14 @@ export default {
       const opt = this.visibleOptions[index]
 
       if (this.multiple) {
-        this.__toggleMultiple(opt.value, opt.disable)
+        this.__toggleMultiple(opt.value, opt.disable || opt.group)
       }
       else {
-        this.__singleSelect(opt.value, opt.disable)
+        this.__singleSelect(opt.value, opt.disable || opt.group)
       }
     },
     __keyboardIsSelectableIndex (index) {
-      return index > -1 && index < this.visibleOptions.length && !this.visibleOptions[index].disable
+      return index > -1 && index < this.visibleOptions.length && !this.visibleOptions[index].disable && !this.visibleOptions[index].group
     },
     __mouseEnterHandler (e, index) {
       if (!this.keyboardMoveDirection) {
