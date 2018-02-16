@@ -212,7 +212,7 @@ export default {
       return this.loading || this.shadow.loading
     },
     inputTargetText () {
-      return this.model && ('' + this.model) !== '0' ? this.model : this.inputPlaceholder || ' '
+      return this.model || this.model === 0 ? this.model : this.inputPlaceholder || ' '
     },
     pattern () {
       if (this.isNumber) {

@@ -235,7 +235,7 @@ export default {
             tabindex: -1
           }
         }),
-        h('div', [this.actualValue && ('' + this.actualValue) !== '0' ? this.actualValue : this.inputPlaceholder || ' '])
+        h('div', [this.actualValue || this.actualValue === 0 ? this.actualValue : this.inputPlaceholder || ' '])
       ]),
 
       this.isPopover

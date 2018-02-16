@@ -116,7 +116,7 @@ export default {
   },
   computed: {
     inputTargetText () {
-      return this.input && ('' + this.input) !== '0' ? this.input : this.inputPlaceholder || ' '
+      return this.input || this.input === 0 ? this.input : this.inputPlaceholder || ' '
     },
     length () {
       return this.model

@@ -295,7 +295,7 @@ export default {
       return opt.length ? opt.join(', ') : ''
     },
     inputTargetText () {
-      return this.actualValue && ('' + this.actualValue) !== '0' ? this.actualValue : this.inputPlaceholder || ' '
+      return this.actualValue || this.actualValue === 0 ? this.actualValue : this.inputPlaceholder || ' '
     },
     selectedOptions () {
       if (this.multiple) {
