@@ -2,9 +2,8 @@ const units = ['B', 'kB', 'MB', 'GB', 'TB', 'PB']
 
 export function humanStorageSize (bytes) {
   let u = 0
-  bytes = parseInt(bytes)  
 
-  while (Math.abs(bytes) >= 1024 && u < units.length - 1) {
+  while (parseInt(bytes) >= 1024 && u < units.length - 1) {
     bytes /= 1024
     ++u
   }
