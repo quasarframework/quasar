@@ -3,6 +3,7 @@ import { QInput } from '../input'
 import { QBtn } from '../btn'
 import { QOptionGroup } from '../option-group'
 import clone from '../../utils/clone'
+import extend from '../../utils/extend'
 
 export default {
   name: 'q-dialog',
@@ -13,10 +14,10 @@ export default {
     prompt: Object,
     options: Object,
     ok: {
-      type: [String, Boolean],
+      type: [String, Object, Boolean],
       default: true
     },
-    cancel: [String, Boolean],
+    cancel: [String, Object, Boolean],
     stackButtons: Boolean,
     preventClose: Boolean,
     noBackdropDismiss: Boolean,
@@ -144,6 +145,24 @@ export default {
       return this.stackButtons
         ? 'column'
         : 'row'
+    },
+    okProps () {
+      return Object(this.ok) === this.ok
+        ? extend({
+          color: this.color,
+          label: this.$q.i18n.label.ok,
+          waitForRipple: true
+        }, this.ok)
+        : { color: this.color, flat: true, label: this.okLabel, waitForRipple: true }
+    },
+    cancelProps () {
+      return Object(this.cancel) === this.cancel
+        ? extend({
+          color: this.color,
+          label: this.$q.i18n.label.cancel,
+          waitForRipple: true
+        }, this.cancel)
+        : { color: this.color, flat: true, label: this.cancelLabel, waitForRipple: true }
     }
   },
   methods: {
@@ -197,13 +216,13 @@ export default {
 
       if (this.cancel) {
         child.push(h(QBtn, {
-          props: { color: this.color, flat: true, label: this.cancelLabel, waitForRipple: true },
+          props: this.cancelProps,
           on: { click: this.__onCancel }
         }))
       }
       if (this.ok) {
         child.push(h(QBtn, {
-          props: { color: this.color, flat: true, label: this.okLabel, waitForRipple: true },
+          props: this.okProps,
           on: { click: this.__onOk }
         }))
       }

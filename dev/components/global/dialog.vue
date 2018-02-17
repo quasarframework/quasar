@@ -131,7 +131,13 @@ export default {
       this.$q.dialog({
         title: 'Alert',
         message: 'Modern HTML5 Single Page Application front-end framework on steroids.',
-        cancel: true,
+        ok: {
+          push: true
+        },
+        cancel: {
+          push: true,
+          color: 'negative'
+        },
         preventClose: true
       }).then(() => {
         console.log('>>> OK')
