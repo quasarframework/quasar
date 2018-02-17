@@ -25,7 +25,9 @@ export default {
     color: {
       type: String,
       default: 'primary'
-    }
+    },
+    okColor: String,
+    cancelColor: String
   },
   render (h) {
     const
@@ -197,13 +199,13 @@ export default {
 
       if (this.cancel) {
         child.push(h(QBtn, {
-          props: { color: this.color, flat: true, label: this.cancelLabel, waitForRipple: true },
+          props: { color: this.cancelColor || this.color, flat: true, label: this.cancelLabel, waitForRipple: true },
           on: { click: this.__onCancel }
         }))
       }
       if (this.ok) {
         child.push(h(QBtn, {
-          props: { color: this.color, flat: true, label: this.okLabel, waitForRipple: true },
+          props: { color: this.okColor || this.color, flat: true, label: this.okLabel, waitForRipple: true },
           on: { click: this.__onOk }
         }))
       }
