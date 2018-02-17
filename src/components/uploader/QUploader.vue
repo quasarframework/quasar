@@ -26,14 +26,17 @@
       :length="queueLength"
       additional-length
     >
-      <input
-        class="col q-input-target cursor-inherit non-selectable no-pointer-events"
-        :class="alignClass"
-        :value="label"
-        readonly
-        :disabled="this.disable"
-        tabindex="-1"
-      />
+      <div class="col q-input-target-wrapper">
+        <input
+          class="col q-input-target cursor-inherit non-selectable no-pointer-events"
+          :class="alignClass"
+          :value="label"
+          readonly
+          :disabled="this.disable"
+          tabindex="-1"
+        />
+        <div>{{label || ' '}}</div>
+      </div>
 
       <q-spinner
         v-if="uploading"

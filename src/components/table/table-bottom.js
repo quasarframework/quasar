@@ -22,7 +22,7 @@ export default {
 
       const bottom = this.$scopedSlots.bottom
 
-      return h('div', { staticClass: 'q-table-bottom row items-center' },
+      return h('div', { staticClass: 'q-table-bottom row no-wrap items-center' },
         bottom ? [ bottom(this.marginalsProps) ] : this.getPaginationRow(h)
       )
     },
@@ -38,15 +38,12 @@ export default {
             ? (this.selectedRowsLabel || this.$q.i18n.table.selectedRows)(this.rowsSelectedNumber)
             : ''
         ]),
-        h('div', { staticClass: 'flex items-center' }, [
+        h('div', { staticClass: 'col-auto flex items-center justify-end no-wrap' }, [
           h('span', { staticClass: 'q-mr-lg' }, [
             this.rowsPerPageLabel || this.$q.i18n.table.rowsPerPage
           ]),
           h(QSelect, {
-            staticClass: 'inline q-my-none q-ml-none q-mr-lg',
-            style: {
-              minWidth: '50px'
-            },
+            staticClass: 'inline q-ml-none q-mr-lg',
             props: {
               color: this.color,
               value: rowsPerPage,

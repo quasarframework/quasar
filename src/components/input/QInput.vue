@@ -56,29 +56,31 @@
       </div>
     </template>
 
-    <input
-      v-else
-      ref="input"
-      class="col q-input-target q-no-input-spinner"
-      :class="inputClasses"
+    <div class="col q-input-target-wrapper" v-else>
+      <input
+        ref="input"
+        class="col q-input-target q-no-input-spinner"
+        :class="inputClasses"
 
-      :placeholder="inputPlaceholder"
-      :disabled="disable"
-      :readonly="readonly"
-      :step="computedStep"
-      v-bind="$attrs"
+        :placeholder="inputPlaceholder"
+        :disabled="disable"
+        :readonly="readonly"
+        :step="computedStep"
+        v-bind="$attrs"
 
-      :type="inputType"
-      :value="model"
-      @input="__set"
+        :type="inputType"
+        :value="model"
+        @input="__set"
 
-      @focus="__onFocus"
-      @blur="__onInputBlur"
-      @keydown="__onKeydown"
-      @keyup="__onKeyup"
+        @focus="__onFocus"
+        @blur="__onInputBlur"
+        @keydown="__onKeydown"
+        @keyup="__onKeyup"
 
-      @animationstart="__onAnimationStart"
-    />
+        @animationstart="__onAnimationStart"
+      />
+      <div>{{inputTargetText}}</div>
+    </div>
 
     <q-icon
       v-if="!disable && isPassword && !noPassToggle && length"
@@ -208,6 +210,9 @@ export default {
     },
     isLoading () {
       return this.loading || this.shadow.loading
+    },
+    inputTargetText () {
+      return this.model || this.model === 0 ? this.model : this.inputPlaceholder || ' '
     },
     pattern () {
       if (this.isNumber) {

@@ -143,6 +143,7 @@ export function setPosition ({el, anchorEl, anchorOrigin, selfOrigin, maxHeight,
 
   el.style.top = Math.max(0, targetPosition.top) + 'px'
   el.style.left = Math.max(0, targetPosition.left) + 'px'
+  return targetPosition.top < anchor.top ? 'up' : 'down'
 }
 
 export function positionValidator (pos) {
