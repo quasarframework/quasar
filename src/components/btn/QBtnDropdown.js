@@ -12,6 +12,16 @@ export default {
     contentClass: [Array, String, Object],
     contentStyle: [Array, String, Object]
   },
+  data () {
+    return {
+      showing: this.value
+    }
+  },
+  watch: {
+    value (val) {
+      this.$refs.popover[val ? 'show' : 'hide']()
+    }
+  },
   render (h) {
     const
       Popover = h(
@@ -19,7 +29,6 @@ export default {
         {
           ref: 'popover',
           props: {
-            value: this.value,
             disable: this.disable,
             fit: true,
             anchorClick: !this.split,
@@ -30,10 +39,12 @@ export default {
           style: this.contentStyle,
           on: {
             show: e => {
+              this.showing = true
               this.$emit('show', e)
               this.$emit('input', true)
             },
             hide: e => {
+              this.showing = false
               this.$emit('hide', e)
               this.$emit('input', false)
             }
@@ -139,5 +150,12 @@ export default {
     hide () {
       return this.$refs.popover.hide()
     }
+  },
+  mounted () {
+    this.$nextTick(() => {
+      if (this.value) {
+        this.$refs.popover.show()
+      }
+    })
   }
 }

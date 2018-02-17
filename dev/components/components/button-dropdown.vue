@@ -124,12 +124,12 @@
         </q-btn-dropdown>
       </div>
     </div>
-    
+
     <p class="caption">Empty label reactivity problem. Label should be {{ labelA }}</p>
     <div class="q-ma-md">
       <q-btn-dropdown @click="labelA+='+'" :label="labelA"></q-btn-dropdown>
     </div>
-  
+
   </div>
 </template>
 
@@ -137,7 +137,7 @@
 export default {
   data () {
     return {
-      toggle: false,
+      toggle: true,
       conf: [
         {split: false, dense: false, disable: false},
         {split: false, dense: true, disable: false},
