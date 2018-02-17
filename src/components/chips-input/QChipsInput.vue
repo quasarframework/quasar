@@ -79,6 +79,10 @@ import { QInputFrame } from '../input-frame'
 import { QChip } from '../chip'
 import { getEventKey, stopAndPrevent } from '../../utils/event'
 
+function uniqueValues (value) {
+  return Array.isArray(value) ? [...new Set(value)] : []
+}
+
 export default {
   name: 'q-chips-input',
   mixins: [FrameMixin, InputMixin],
@@ -99,12 +103,12 @@ export default {
   data () {
     return {
       input: '',
-      model: [...this.value]
+      model: uniqueValues(this.value)
     }
   },
   watch: {
     value (v) {
-      this.model = Array.isArray(v) ? [...v] : []
+      this.model = uniqueValues(v)
     }
   },
   computed: {
