@@ -49,7 +49,6 @@
           <q-card-title class="bg-primary text-center">
             <q-btn push color="orange" label="Tap Me">
               <q-popover
-                ref="popover2"
                 :anchor="anchor"
                 :self="self"
               >
@@ -57,7 +56,8 @@
                   <q-item
                     v-for="n in 3"
                     :key="n"
-                    @click="showNotify(), $refs.popover2.hide()"
+                    v-close-overlay
+                    @click="showNotify()"
                   >
                     <q-item-main label="Label" />
                   </q-item>

@@ -79,29 +79,30 @@
   60%
     transform translateY(-15px)
 
-.animate-popup
-  animation q-popup .35s
-  > div
-    animation q-popup-inner .5s
-    transform-origin left top 0px
-  &, > div
-    animation-timing-function cubic-bezier(0.23, 1, 0.32, 1)
+.animate-popup-up, .animate-popup-down
+  animation-timing-function cubic-bezier(0.23, 1, 0.32, 1)
+.animate-popup-down
+  animation q-popup-down .5s
+  transform-origin left top 0px
+.animate-popup-up
+  animation q-popup-up .5s
+  transform-origin left bottom 0px
 
-@keyframes q-popup
+@keyframes q-popup-down
   0%
     opacity 0
-    transform translateY(-40px)
+    transform translateY(-20px) scaleY(.3)
     pointer-events none
   100%
     opacity 1
 
-@keyframes q-popup-inner
+@keyframes q-popup-up
   0%
     opacity 0
-    transform scaleY(.3)
+    transform translateY(20px) scaleY(.3)
+    pointer-events none
   100%
     opacity 1
-    transform scaleY(1)
 
 .animated
   animation-duration 1s

@@ -57,14 +57,12 @@ export default {
   },
   render (h) {
     return h('div', {
-      staticClass: 'q-popover animate-popup scroll',
+      staticClass: 'q-popover scroll',
       on: {
         click (e) { e.stopPropagation() }
       }
     }, [
-      h('div', [
-        this.$slots.default
-      ])
+      this.$slots.default
     ])
   },
   created () {
@@ -98,7 +96,7 @@ export default {
       this.scrollTarget = getScrollTarget(this.anchorEl)
       this.scrollTarget.addEventListener('scroll', this.__updatePosition, listenOpts.passive)
       window.addEventListener('resize', this.__updatePosition, listenOpts.passive)
-      this.reposition(evt)
+      this.reposition(evt, true)
 
       clearTimeout(this.timer)
       this.timer = setTimeout(() => {
@@ -129,18 +127,22 @@ export default {
       document.body.removeChild(this.$el)
       this.hidePromise && this.hidePromiseResolve()
     },
-    reposition (event) {
+    reposition (event, animate) {
       this.$nextTick(() => {
         if (this.fit) {
           this.$el.style.minWidth = width(this.anchorEl) + 'px'
         }
-        const { top } = this.anchorEl.getBoundingClientRect()
-        const { height } = viewport()
+        const
+          { top } = this.anchorEl.getBoundingClientRect(),
+          { height } = viewport()
+
         if (top < 0 || top > height) {
           return this.hide()
         }
+
         setPosition({
           event,
+          animate,
           el: this.$el,
           offset: this.offset,
           anchorEl: this.anchorEl,

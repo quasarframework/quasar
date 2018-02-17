@@ -137,7 +137,7 @@
 export default {
   data () {
     return {
-      toggle: true,
+      toggle: false,
       conf: [
         {split: false, dense: false, disable: false},
         {split: false, dense: true, disable: false},

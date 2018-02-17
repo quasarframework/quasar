@@ -77,6 +77,7 @@ export default {
     __updatePosition () {
       setPosition({
         el: this.$el,
+        animate: true,
         offset: this.offset,
         anchorEl: this.anchorEl,
         anchorOrigin: this.anchorOrigin,
