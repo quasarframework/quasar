@@ -95,12 +95,12 @@ import { position } from '../../utils/event'
 import { css } from '../../utils/dom'
 import { isSameDate, adjustDate } from '../../utils/date'
 import DateMixin from './datetime-mixin'
-import FieldParentMixin from '../../mixins/field-parent'
+import ParentFieldMixin from '../../mixins/parent-field'
 import TouchPan from '../../directives/touch-pan'
 
 export default {
   name: 'q-datetime-picker',
-  mixins: [DateMixin, FieldParentMixin],
+  mixins: [DateMixin, ParentFieldMixin],
   directives: {
     TouchPan
   },

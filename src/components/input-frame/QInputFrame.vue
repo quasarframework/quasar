@@ -61,11 +61,11 @@
 
 <script>
 import FrameMixin from '../../mixins/input-frame'
-import FieldParentMixin from '../../mixins/field-parent'
+import ParentFieldMixin from '../../mixins/parent-field'
 
 export default {
   name: 'q-input-frame',
-  mixins: [FrameMixin, FieldParentMixin],
+  mixins: [FrameMixin, ParentFieldMixin],
   props: {
     topAddons: Boolean,
     focused: Boolean,

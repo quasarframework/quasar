@@ -1,6 +1,6 @@
 import { QBtn } from '../btn'
 import { QSlider } from '../slider'
-import FieldParentMixin from '../../mixins/field-parent'
+import ParentFieldMixin from '../../mixins/parent-field'
 import TouchPan from '../../directives/touch-pan'
 import { stopAndPrevent } from '../../utils/event'
 import throttle from '../../utils/throttle'
@@ -10,7 +10,7 @@ import { hexToRgb, rgbToHex, rgbToHsv, hsvToRgb } from '../../utils/colors'
 
 export default {
   name: 'q-color-picker',
-  mixins: [FieldParentMixin],
+  mixins: [ParentFieldMixin],
   directives: {
     TouchPan
   },

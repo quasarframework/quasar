@@ -240,7 +240,7 @@ import { position, stopAndPrevent } from '../../utils/event'
 import { QBtn } from '../btn'
 import { isSameDate, adjustDate } from '../../utils/date'
 import DateMixin from './datetime-mixin'
-import FieldParentMixin from '../../mixins/field-parent'
+import ParentFieldMixin from '../../mixins/parent-field'
 import Ripple from '../../directives/ripple'
 
 function convertToAmPm (hour) {
@@ -249,7 +249,7 @@ function convertToAmPm (hour) {
 
 export default {
   name: 'q-datetime-picker',
-  mixins: [DateMixin, FieldParentMixin],
+  mixins: [DateMixin, ParentFieldMixin],
   props: {
     defaultValue: [String, Number, Date],
     disable: Boolean,
