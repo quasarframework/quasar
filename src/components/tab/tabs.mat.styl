@@ -96,17 +96,17 @@
     text-shadow 0 0 10px black
     font-size (1.2 * $tabs-icon-font-size)
     visibility hidden
-  &:hover .q-icon
-    visibility visible
   &.disabled
     display none
+.q-tabs:hover
+  .q-tabs-left-scroll, .q-tabs-right-scroll
+    .q-icon
+      visibility visible
 
 .q-tabs-left-scroll
   left 0
-  background linear-gradient(to left, transparent, rgba(255, 255, 255, .5))
 .q-tabs-right-scroll
   right 0
-  background linear-gradient(to right, transparent, rgba(255, 255, 255, .5))
 
 .q-tabs-align-justify
   .q-tabs-scroller, .q-tab
@@ -160,11 +160,6 @@
 .q-tabs-inverted
   .q-tabs-scroller
     color $tabs-background
-
-  .q-tabs-left-scroll
-    background linear-gradient(to left, transparent, rgba(0, 0, 0, .1))
-  .q-tabs-right-scroll
-    background linear-gradient(to right, transparent, rgba(0, 0, 0, .1))
 
   .q-tabs-head
     background transparent
