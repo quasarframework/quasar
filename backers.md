@@ -81,6 +81,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Ryan Timmins
 - Asif Mehedi
 - Sevenview Studios
+- Rus Brushkoff
 
 - Ken ($5)
 - Oliver ($5)
