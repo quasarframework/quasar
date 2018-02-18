@@ -81,6 +81,7 @@
         v-if="filter"
         ref="filter"
         v-model="terms"
+        class="q-select-filter"
         @input="reposition"
         @keydown.native="__keyboardHandleKey"
         :placeholder="filterPlaceholder || $q.i18n.label.filter"
@@ -88,8 +89,8 @@
         :color="color"
         :dark="dark"
         no-parent-field
-        icon="filter_list"
-        style="min-height: 50px; padding: 10px;"
+        icon=""
+        style="padding: 10px;"
       />
 
       <q-list

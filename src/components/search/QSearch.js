@@ -59,10 +59,14 @@ export default {
         : this.debounce
     },
     controlBefore () {
-      return this.before || [{
-        icon: this.icon || this.$q.icon.search.icon,
-        handler: this.focus
-      }]
+      return this.before || (
+        this.icon
+          ? [{
+            icon: this.icon || this.$q.icon.search.icon,
+            handler: this.focus
+          }]
+          : null
+      )
     },
     controlAfter () {
       if (this.after) {
