@@ -50,16 +50,13 @@
       </q-chip>
     </div>
 
-    <input
+    <div
       v-else
-      class="col q-input-target cursor-inherit non-selectable no-pointer-events"
-      :class="alignClass"
-      :value="actualValue"
-      :placeholder="inputPlaceholder"
-      readonly
-      :disabled="this.disable"
-      tabindex="-1"
-    />
+      class="col q-input-target ellipsis"
+      :class="fakeInputClasses"
+    >
+      {{ fakeInputValue }}
+    </div>
 
     <q-icon
       v-if="!disable && !readonly && clearable && length"

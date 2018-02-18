@@ -63,6 +63,18 @@ export default {
     hasWarning () {
       // error is the higher priority
       return !!(!this.hasError && ((!this.noParentField && this.field && this.field.warning) || this.warning))
+    },
+    fakeInputValue () {
+      return this.actualValue || this.actualValue === 0
+        ? this.actualValue
+        : this.placeholder
+    },
+    fakeInputClasses () {
+      const hasValue = this.actualValue
+      return [this.alignClass, {
+        invisible: (this.stackLabel || this.floatLabel) && !this.labelIsAbove && !hasValue,
+        'q-input-target-placeholder': !hasValue && this.inputPlaceholder
+      }]
     }
   },
   methods: {
@@ -73,6 +85,7 @@ export default {
       stopAndPrevent(evt)
       const val = this.clearValue
       if (this.__setModel) {
+        console.log('clear with', val)
         this.__setModel(val, true)
       }
       this.$emit('clear', val)

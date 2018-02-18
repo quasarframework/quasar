@@ -17,6 +17,7 @@
   resize none
   display flex
   align-items center
+  color black
   &:-webkit-autofill
     -webkit-animation-name webkit-autofill-on
     -webkit-animation-fill-mode both
@@ -36,41 +37,50 @@ input.q-input-target
 .q-input-chips
   min-height 36px !important
 
-.q-if .q-input-target
-  &::-webkit-input-placeholder /* Chrome/Opera/Safari */
+.q-if
+  .q-input-target-placeholder
     color $form-dark !important
-  &::-moz-placeholder /* Firefox 19+ */
-    color $form-dark !important
-  &:-ms-input-placeholder /* IE 10+ */
-    color $form-dark !important
+  .q-input-target
+    &::-webkit-input-placeholder /* Chrome/Opera/Safari */
+      color $form-dark !important
+    &::-moz-placeholder /* Firefox 19+ */
+      color $form-dark !important
+    &:-ms-input-placeholder /* IE 10+ */
+      color $form-dark !important
 
-  &::selection
-    background black
-    color white
+    &::selection
+      background black
+      color white
 
-.q-if-dark .q-input-target
-  &::-webkit-input-placeholder /* Chrome/Opera/Safari */
+.q-if-dark
+  .q-input-target-placeholder
     color #979797 !important
-  &::-moz-placeholder /* Firefox 19+ */
-    color #979797 !important
-  &:-ms-input-placeholder /* IE 10+ */
-    color #979797 !important
+  .q-input-target
+    &::-webkit-input-placeholder /* Chrome/Opera/Safari */
+      color #979797 !important
+    &::-moz-placeholder /* Firefox 19+ */
+      color #979797 !important
+    &:-ms-input-placeholder /* IE 10+ */
+      color #979797 !important
 
-  &::selection
-    background white
-    color black
+    &::selection
+      background white
+      color black
 
-.q-if-inverted:not(.q-if-inverted-light) .q-input-target
-  &::-webkit-input-placeholder /* Chrome/Opera/Safari */
+.q-if-inverted:not(.q-if-inverted-light)
+  .q-input-target-placeholder
     color #ddd !important
-  &::-moz-placeholder /* Firefox 19+ */
-    color #ddd !important
-  &:-ms-input-placeholder /* IE 10+ */
-    color #ddd !important
+  .q-input-target
+    &::-webkit-input-placeholder /* Chrome/Opera/Safari */
+      color #ddd !important
+    &::-moz-placeholder /* Firefox 19+ */
+      color #ddd !important
+    &:-ms-input-placeholder /* IE 10+ */
+      color #ddd !important
 
-  &::selection
-    background white
-    color black
+    &::selection
+      background white
+      color black
 
 .q-input-shadow
   overflow hidden
