@@ -37,7 +37,8 @@ export default {
     hideUnderline: Boolean,
     clearValue: {
       default: null
-    }
+    },
+    noParentField: Boolean
   },
   computed: {
     inputPlaceholder () {

@@ -17,6 +17,7 @@
     :before="before"
     :after="after"
     :color="color"
+    :no-parent-field="noParentField"
 
     :focused="focused"
     focusable
@@ -81,7 +82,6 @@
         v-if="filter"
         ref="filter"
         v-model="terms"
-        class="q-select-filter"
         @input="reposition"
         @keydown.native="__keyboardHandleKey"
         :placeholder="filterPlaceholder || $q.i18n.label.filter"
@@ -89,7 +89,7 @@
         :color="color"
         :dark="dark"
         no-parent-field
-        icon=""
+        no-icon
         style="padding: 10px;"
       />
 

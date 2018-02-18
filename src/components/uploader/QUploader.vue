@@ -22,6 +22,7 @@
       :after="after"
       :color="color"
       :align="align"
+      :no-parent-field="noParentField"
 
       :length="queueLength"
       additional-length

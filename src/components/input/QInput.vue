@@ -16,6 +16,7 @@
     :before="before"
     :after="after"
     :color="color"
+    :no-parent-field="noParentField"
 
     :focused="focused"
     :length="autofilled + length"

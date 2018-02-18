@@ -13,7 +13,8 @@ export default {
       default: 300
     },
     icon: String,
-    placeholder: String
+    placeholder: String,
+    noIcon: Boolean
   },
   data () {
     return {
@@ -60,12 +61,12 @@ export default {
     },
     controlBefore () {
       return this.before || (
-        this.icon
-          ? [{
+        this.noIcon
+          ? null
+          : [{
             icon: this.icon || this.$q.icon.search.icon,
             handler: this.focus
           }]
-          : null
       )
     },
     controlAfter () {
@@ -100,6 +101,7 @@ export default {
         error: this.error,
         warning: this.warning,
         align: this.align,
+        noParentField: this.noParentField,
         floatLabel: this.floatLabel,
         stackLabel: this.stackLabel,
         prefix: this.prefix,
