@@ -33,6 +33,7 @@
     <h4>Dark</h4>
     <q-table
       dark
+      class="bg-black"
       :data="data"
       :columns="columns"
       title="Client side"
@@ -235,7 +236,7 @@
         <q-btn color="secondary" flat label="Action 1" />
         <q-btn color="secondary" flat label="Action 2" />
         <div class="col"></div>
-        <q-btn color="negative" flat round size="sm" icon="delete" />
+        <q-btn color="negative" flat round dense icon="delete" />
       </template>
     </q-table>
   </div>

@@ -39,14 +39,11 @@ export default {
             : ''
         ]),
         h('div', { staticClass: 'flex items-center' }, [
-          h('span', { staticClass: 'q-mr-lg' }, [
+          h('span', { staticClass: 'q-table-bottom-item' }, [
             this.rowsPerPageLabel || this.$q.i18n.table.rowsPerPage
           ]),
           h(QSelect, {
-            staticClass: 'inline q-mr-lg',
-            style: {
-              minWidth: '50px'
-            },
+            staticClass: 'inline q-table-bottom-item',
             props: {
               color: this.color,
               value: rowsPerPage,
@@ -66,7 +63,7 @@ export default {
           paginationSlot
             ? paginationSlot(this.marginalsProps)
             : [
-              h('span', { staticClass: 'q-mr-lg' }, [
+              h('span', { staticClass: 'q-table-bottom-item' }, [
                 rowsPerPage
                   ? paginationLabel(this.firstRowIndex + 1, Math.min(this.lastRowIndex, this.computedRowsNumber), this.computedRowsNumber)
                   : paginationLabel(1, this.computedRowsNumber, this.computedRowsNumber)
