@@ -1,6 +1,6 @@
 <template>
   <div
-    class="q-if row no-wrap items-baseline relative-position"
+    class="q-if row no-wrap items-end relative-position"
     :class="classes"
     :tabindex="focusable && !disable ? 0 : -1"
     @click="__onClick"

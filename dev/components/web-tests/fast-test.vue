@@ -8,6 +8,7 @@
       For some test that you think it should be persistent,
       make a new *.vue file here or in another folder under /dev/components.
     -->
+    <q-input v-model="test" align="center" />
   </div>
 </template>
 
@@ -15,6 +16,7 @@
 export default {
   data () {
     return {
+      test: ''
     }
   },
   methods: {

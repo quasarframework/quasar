@@ -43,7 +43,7 @@ export default {
             this.rowsPerPageLabel || this.$q.i18n.table.rowsPerPage
           ]),
           h(QSelect, {
-            staticClass: 'inline q-my-none q-ml-none q-mr-lg',
+            staticClass: 'inline q-mr-lg',
             style: {
               minWidth: '50px'
             },

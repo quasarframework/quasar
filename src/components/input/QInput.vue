@@ -147,6 +147,10 @@ export default {
       default: 'text',
       validator: t => inputTypes.includes(t)
     },
+    align: {
+      type: String,
+      validator: v => ['left', 'center', 'right'].includes(v)
+    },
     clearable: Boolean,
     noPassToggle: Boolean,
     numericKeyboardToggle: Boolean,
@@ -229,7 +233,8 @@ export default {
         : this.type
     },
     inputClasses () {
-      const classes = [this.alignClass]
+      const classes = []
+      this.align && classes.push(`text-${this.align}`)
       this.autofilled && classes.push('q-input-autofill')
       return classes
     },
