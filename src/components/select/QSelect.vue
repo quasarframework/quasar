@@ -90,10 +90,12 @@
         :dark="dark"
         no-parent-field
         no-icon
+        class="col-auto"
         style="padding: 10px;"
       />
 
       <q-list
+        v-if="visibleOptions.length"
         :separator="separator"
         :dark="dark"
         class="no-border scroll"
