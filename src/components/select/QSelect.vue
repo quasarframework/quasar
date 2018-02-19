@@ -328,10 +328,16 @@ export default {
     },
 
     __keyboardCalcIndex () {
-      this.keyboardMoveDirection = true
       this.keyboardIndex = -1
       const sel = this.multiple ? this.selectedOptions.map(o => o.value) : [this.model]
-      this.$nextTick(() => this.__keyboardShow(sel === void 0 ? 0 : Math.max(0, this.visibleOptions.findIndex(opt => sel.includes(opt.value)))))
+      this.$nextTick(() => {
+        const index = sel === void 0 ? -1 : Math.max(-1, this.visibleOptions.findIndex(opt => sel.includes(opt.value)))
+        if (index > -1) {
+          this.keyboardMoveDirection = true
+          setTimeout(() => { this.keyboardMoveDirection = false }, 500)
+          this.__keyboardShow(index)
+        }
+      })
     },
     __keyboardCustomKeyHandle (key, e) {
       switch (key) {
