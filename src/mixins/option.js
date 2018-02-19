@@ -37,7 +37,7 @@ export default {
       else {
         const color = this.keepColor
           ? this.color
-          : (this.dark ? 'light' : 'dark')
+          : (this.dark ? 'light' : 'faded')
 
         return `text-${color}`
       }
