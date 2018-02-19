@@ -10,7 +10,7 @@ export default {
   },
   computed: {
     currentIcon () {
-      return (this.isActive ? this.checkedIcon : this.uncheckedIcon) || this.icon
+      return (this.isTrue ? this.checkedIcon : this.uncheckedIcon) || this.icon
     },
     iconColor () {
       return __THEME__ === 'ios'
