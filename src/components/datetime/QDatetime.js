@@ -242,17 +242,20 @@ export default {
         keydown: this.__handleKeyDown
       }
     }, [
-      h('input', {
-        staticClass: 'col q-input-target cursor-inherit non-selectable no-pointer-events',
-        'class': this.alignClass,
-        attrs: {
-          value: this.actualValue,
-          placeholder: this.inputPlaceholder,
-          readonly: true,
-          disabled: this.disable,
-          tabindex: -1
-        }
-      }),
+      h('div', { staticClass: 'col q-input-target-wrapper' }, [
+        h('input', {
+          staticClass: 'col q-input-target cursor-inherit non-selectable no-pointer-events',
+          'class': this.alignClass,
+          attrs: {
+            value: this.actualValue,
+            placeholder: this.inputPlaceholder,
+            readonly: true,
+            disabled: this.disable,
+            tabindex: -1
+          }
+        }),
+        h('div', [this.actualValue || this.actualValue === 0 ? this.actualValue : this.inputPlaceholder || ' '])
+      ]),
 
       this.isPopover
         ? h(QPopover, {

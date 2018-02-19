@@ -98,7 +98,7 @@ export default {
         this.results = this.filter(terms, this.staticData)
         const popover = this.$refs.popover
         if (this.results.length) {
-          this.__keyboardShow(this.$q.platform.is.desktop ? 0 : -1)
+          this.__keyboardShow(-1)
           if (popover.showing) {
             popover.reposition()
           }
@@ -122,7 +122,7 @@ export default {
 
         if (Array.isArray(results) && results.length > 0) {
           this.results = results
-          this.__keyboardShow(this.$q.platform.is.desktop ? 0 : -1)
+          this.__keyboardShow(-1)
           this.$refs.popover.show()
           return
         }
@@ -152,6 +152,9 @@ export default {
     },
     __keyboardShowTrigger () {
       this.trigger()
+    },
+    __keyboardIsSelectableIndex (index) {
+      return index > -1 && index < this.computedResults.length && !this.computedResults[index].disable
     },
     setValue (result) {
       const value = this.staticData ? result[this.staticData.field] : result.value
@@ -232,7 +235,8 @@ export default {
         key: result.id || JSON.stringify(result),
         'class': {
           active: this.keyboardIndex === index,
-          'cursor-pointer': !result.disable
+          'cursor-pointer': !result.disable,
+          'text-faded': result.disable
         },
         props: { cfg: result },
         nativeOn: {

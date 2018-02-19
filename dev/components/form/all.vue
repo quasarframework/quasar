@@ -52,6 +52,12 @@
         </form>
 
         <p class="q-subtitle">Country selected: {{ JSON.stringify(terms) }}</p>
+        <q-search :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" placeholder="Start typing a country name - search">
+          <q-autocomplete :static-data="{field: 'value', list: countries}" @selected="selected" />
+        </q-search>
+        <q-search :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" inverted :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" placeholder="Start typing a country name - search">
+          <q-autocomplete :static-data="{field: 'value', list: countries}" @selected="selected" />
+        </q-search>
         <q-search :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" float-label="Start typing a country name - search">
           <q-autocomplete :static-data="{field: 'value', list: countries}" @selected="selected" />
         </q-search>
@@ -412,6 +418,29 @@ function randomIcon () {
   return v >= 30 ? icons[v - 30] : null
 }
 
+let prevFirstLetter
+const countriesList = countries.reduce((acc, country, i) => {
+  if (prevFirstLetter !== country[0]) {
+    prevFirstLetter = country[0].toUpperCase()
+    const t = `Countries starting with "${prevFirstLetter}"`
+    acc.push({
+      label: t,
+      group: true,
+      disable: true,
+      color: 'primary',
+      rightIcon: randomIcon()
+    })
+  }
+  acc.push({
+    label: country,
+    value: country,
+    color: randomColor(),
+    rightIcon: randomIcon(),
+    disable: !i || Math.random() > 0.9
+  })
+  return acc
+}, [])
+
 export default {
   data () {
     return {
@@ -445,7 +474,7 @@ export default {
       maxVal: 6,
       step: 0.01,
       decimals: 1,
-      countries: countries.slice(0, 40).map(country => ({ label: country, value: country, color: randomColor(), rightIcon: randomIcon() })),
+      countries: countriesList,
       numbers: [1, 2, 3, 4, 5, 1111, 2222, 3333, 4444, 5555].map(v => ({ label: String(v), value: v }))
     }
   },

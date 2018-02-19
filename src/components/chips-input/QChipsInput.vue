@@ -41,22 +41,25 @@
         {{ label }}
       </q-chip>
 
-      <input
-        ref="input"
-        class="col q-input-target"
-        :class="alignClass"
-        v-model="input"
+      <div class="col q-input-target-wrapper">
+        <input
+          ref="input"
+          class="col q-input-target"
+          :class="alignClass"
+          v-model="input"
 
-        :placeholder="inputPlaceholder"
-        :disabled="disable"
-        :readonly="readonly"
-        v-bind="$attrs"
+          :placeholder="inputPlaceholder"
+          :disabled="disable"
+          :readonly="readonly"
+          v-bind="$attrs"
 
-        @focus="__onFocus"
-        @blur="__onInputBlur"
-        @keydown="__handleKeyDown"
-        @keyup="__onKeyup"
-      />
+          @focus="__onFocus"
+          @blur="__onInputBlur"
+          @keydown="__handleKeyDown"
+          @keyup="__onKeyup"
+        />
+        <div>{{inputTargetText}}</div>
+      </div>
     </div>
 
     <q-icon
@@ -79,6 +82,10 @@ import { QInputFrame } from '../input-frame'
 import { QChip } from '../chip'
 import { getEventKey, stopAndPrevent } from '../../utils/event'
 
+function uniqueValues (value) {
+  return Array.isArray(value) ? [...new Set(value)] : []
+}
+
 export default {
   name: 'q-chips-input',
   mixins: [FrameMixin, InputMixin],
@@ -99,15 +106,18 @@ export default {
   data () {
     return {
       input: '',
-      model: [...this.value]
+      model: uniqueValues(this.value)
     }
   },
   watch: {
     value (v) {
-      this.model = Array.isArray(v) ? [...v] : []
+      this.model = uniqueValues(v)
     }
   },
   computed: {
+    inputTargetText () {
+      return this.input || this.input === 0 ? this.input : this.inputPlaceholder || ' '
+    },
     length () {
       return this.model
         ? this.model.length
@@ -149,7 +159,7 @@ export default {
     add (value = this.input) {
       clearTimeout(this.timer)
       this.focus()
-      if (this.editable && value) {
+      if (this.editable && value && this.model.indexOf(value) === -1) {
         this.model.push(value)
         this.$emit('input', this.model)
         this.input = ''
