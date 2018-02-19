@@ -71,7 +71,7 @@ export default {
         : this.placeholder
     },
     fakeInputClasses () {
-      const hasValue = this.actualValue
+      const hasValue = this.actualValue || this.actualValue === 0
       return [this.alignClass, {
         invisible: (this.stackLabel || this.floatLabel) && !this.labelIsAbove && !hasValue,
         'q-input-target-placeholder': !hasValue && this.inputPlaceholder
