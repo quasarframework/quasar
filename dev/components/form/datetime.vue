@@ -184,7 +184,9 @@
       </p>
       <q-datetime-picker v-model="model" type="time" />
 
+      <q-datetime v-model="model" type="datetime" />
       <div class="bg-black q-pa-md">
+        <q-datetime dark v-model="model" type="datetime" />
         <q-datetime-picker class="q-my-md" dark v-model="model" type="datetime" />
         <q-datetime-picker class="q-my-md" dark color="primary" v-model="model" type="datetime" />
         <q-datetime-picker class="q-my-md" dark color="secondary" v-model="model" type="datetime" />

@@ -107,20 +107,20 @@
               round
               dense
               flat
-              :color="color"
+              class="q-datetime-arrow"
               :icon="$q.icon.datetime.arrowLeft"
               :repeatTimeout="__repeatTimeout"
               :disable="beforeMinDays > 0 || disable || readonly"
               @click="setMonth(month - 1)"
             ></q-btn>
-            <div class="col">
+            <div class="col q-datetime-month-stamp">
               {{ monthStamp }}
             </div>
             <q-btn
               round
               dense
               flat
-              :color="color"
+              class="q-datetime-arrow"
               :icon="$q.icon.datetime.arrowRight"
               :repeatTimeout="__repeatTimeout"
               :disable="afterMaxDays > 0 || disable || readonly"

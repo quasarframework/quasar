@@ -31,15 +31,7 @@
   width 32px
   height 32px
   border-radius 50%
-  &:after
-    content ''
-    position absolute
-    left 0
-    right 0
-    top 0
-    bottom 0
-    border-radius 50%
-    background-color inherit
+  background white
 
 .q-color-hue .q-slider-track
   border-radius 2px
@@ -86,11 +78,13 @@
   padding-top 4px
 
 .q-color-dark
-  background $dark
+  background black
   border 1px solid $grey-9
   input
-    background $dark
+    background black
     color $light
-    border 1px solid $light
+    border 1px solid $dark
   .q-color-inputs
     color $light
+  .q-color-swatch
+    border 1px solid $dark

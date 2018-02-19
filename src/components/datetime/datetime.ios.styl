@@ -104,7 +104,6 @@
 
   .modal-buttons
     background black
-    border-top 1px solid $dark
 
   .q-datetime-item
     color rgba(255, 255, 255, .87)
@@ -119,3 +118,6 @@
     &.type-time
       min-width 250px
       width auto
+@media (min-width $breakpoint-md-min)
+  .datetime-ios-modal.type-time
+    min-width 280px

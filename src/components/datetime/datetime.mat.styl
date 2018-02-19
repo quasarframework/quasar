@@ -5,10 +5,12 @@
   padding 0 10px 8px
 
 .q-datetime
-  font-size 1rem
+  font-size 12px
   text-align center
   user-select none
   line-height initial
+  .modal-buttons
+    padding-top 8px
 
 .q-datetime-header
   background currentColor
@@ -49,16 +51,17 @@ div + .q-datetime-time
 
 .q-datetime-view-day
   width 250px
-  height 300px
+  height 285px
   color black
 
 .q-datetime-view-year, .q-datetime-view-month
   > .q-btn:not(.active)
     color black
 
+.q-datetime-month-stamp
+  font-size 16px
+
 .q-datetime-weekdays
-  font-size .75rem
-  margin-top 10px
   margin-bottom 5px
   div
     opacity .6
@@ -72,20 +75,21 @@ div + .q-datetime-time
     background transparent
 
 .q-datetime-days div
-  font-size 12px
-  line-height 35px
-  width 35px
-  height 35px
+  margin 1px
+  line-height 33px
+  width 33px
+  height 33px
   border-radius 50%
 
   &.q-datetime-day-active
     background currentColor
     > span
       color white
+      font-weight bold
   &.q-datetime-day-today
     color currentColor
     font-weight bold
-    font-size 105%
+    font-size 14px
   &:not(.q-datetime-fillerday):not(.disabled):not(.q-datetime-day-active):hover
     background $grey-4
 
@@ -143,8 +147,13 @@ div + .q-datetime-time
     transform translate(-50%, -50%)
     background currentColor
 
+.q-datetime-arrow
+  color $grey-7
+
 .q-datetime-dark
   background $dark
+  .q-datetime-arrow
+    color $light
   .q-datetime-header, .q-datetime-clock
     background $grey-8
   .q-datetime-view-day
@@ -153,7 +162,7 @@ div + .q-datetime-time
     > .q-btn:not(.active)
       color white
   .q-datetime-days div
-    &:not(.q-datetime-fillerday):not(.disabled):not(.q-datetime-day-active):hover
+    &.q-datetime-day-active > span, &:not(.q-datetime-fillerday):not(.disabled):not(.q-datetime-day-active):hover
       color black
 
 body.desktop .q-datetime-clock-position:not(.active):hover

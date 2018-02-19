@@ -14,6 +14,11 @@
       <q-color :value="inputModelRgb" @change="val => inputModelRgb = val" default-value="#ccc" stack-label="default-value" />
       <q-color :value="inputModelRgb" @change="val => inputModelRgb = val" default-value="#ccc" clearable stack-label="default-value, clearable" />
 
+      <div class="bg-black q-pa-md q-my-md">
+        <q-color dark v-model="inputModelRgb" />
+        <q-color-picker dark v-model="modelHexa" />
+      </div>
+
       <br><br>
       <q-btn color="primary" label="Set to yellow" @click="setToYellow"/>
 
