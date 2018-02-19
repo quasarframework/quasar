@@ -22,7 +22,7 @@ export default {
 
       const bottom = this.$scopedSlots.bottom
 
-      return h('div', { staticClass: 'q-table-bottom row items-center' },
+      return h('div', { staticClass: 'q-table-bottom row items-center gutter-x-sm justify-between' },
         bottom ? [ bottom(this.marginalsProps) ] : this.getPaginationRow(h)
       )
     },
