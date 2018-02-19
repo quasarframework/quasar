@@ -146,7 +146,9 @@ export function setPosition ({el, animate, anchorEl, anchorOrigin, selfOrigin, m
   el.style.left = Math.max(0, targetPosition.left) + 'px'
 
   if (animate) {
-    el.classList.add(`animate-popup-${targetPosition.top < anchor.top ? 'up' : 'down'}`)
+    const directions = targetPosition.top < anchor.top ? ['up', 'down'] : ['down', 'up']
+    el.classList.add(`animate-popup-${directions[0]}`)
+    el.classList.remove(`animate-popup-${directions[1]}`)
   }
 }
 
