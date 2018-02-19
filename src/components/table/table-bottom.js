@@ -33,12 +33,12 @@ export default {
         paginationSlot = this.$scopedSlots.pagination
 
       return [
-        h('div', { staticClass: 'col' }, [
+        h('div', { staticClass: 'col-auto' }, [
           this.hasSelectionMode && this.rowsSelectedNumber > 0
             ? (this.selectedRowsLabel || this.$q.i18n.table.selectedRows)(this.rowsSelectedNumber)
             : ''
         ]),
-        h('div', { staticClass: 'flex items-center' }, [
+        h('div', { staticClass: 'col-auto flex items-center no-wrap' }, [
           h('span', { staticClass: 'q-table-bottom-item' }, [
             this.rowsPerPageLabel || this.$q.i18n.table.rowsPerPage
           ]),
