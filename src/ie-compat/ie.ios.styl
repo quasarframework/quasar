@@ -1,7 +1,9 @@
 ie_style = @block
   /* Flex */
-  .absolute .q-if-inner, .fixed .q-if-inner
-    min-width 10em
+  .absolute, .fixed
+    .q-if-inner, .q-input-target
+      min-width auto
+      flex-basis auto
 
   /* QAlert */
   .q-alert-container
