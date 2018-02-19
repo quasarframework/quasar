@@ -2,8 +2,8 @@
   flex-direction column
 
 .q-tabs-scroller
-  overflow hidden
   color $tabs-color
+  overflow hidden
 
 .q-tab-pane
   padding $tabs-pane-padding
@@ -131,15 +131,15 @@
   order -1
 
 .q-tabs-inverted
+  background $tabs-inverted-background
   .q-tab
-    color $tabs-inverted-color
     &.active
       color $tabs-background
     &:active
       background rgba(0, 0, 0, .1)
 
   .q-tabs-scroller
-    color $tabs-background
+    color $tabs-inverted-color
 
   .q-tabs-head
     background transparent

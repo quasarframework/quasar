@@ -1,21 +1,12 @@
 <template>
   <div
     class="q-tabs flex no-wrap"
-    :class="[
-      `q-tabs-position-${position}`,
-      `q-tabs-${inverted ? 'inverted' : 'normal'}`,
-      noPaneBorder ? 'q-tabs-no-pane-border' : '',
-      twoLines ? 'q-tabs-two-lines' : ''
-    ]"
+    :class="classes"
   >
     <div
       class="q-tabs-head row"
       ref="tabs"
-      :class="{
-        [`q-tabs-align-${align}`]: true,
-        glossy: glossy,
-        [`bg-${color}`]: !inverted && color
-      }"
+      :class="innerClasses"
     >
       <div ref="scroller" class="q-tabs-scroller row no-wrap">
         <slot name="title"></slot>
@@ -125,6 +116,24 @@ export default {
     },
     inverted (v) {
       this.data.inverted = v
+    }
+  },
+  computed: {
+    classes () {
+      return [
+        `q-tabs-position-${this.position}`,
+        `q-tabs-${this.inverted ? 'inverted' : 'normal'}`,
+        this.noPaneBorder ? 'q-tabs-no-pane-border' : '',
+        this.twoLines ? 'q-tabs-two-lines' : ''
+      ]
+    },
+    innerClasses () {
+      const cls = [ `q-tabs-align-${this.align}` ]
+      this.glossy && cls.push('glossy')
+      if (!this.inverted && this.color) {
+        cls.push(`bg-${this.color}`)
+      }
+      return cls
     }
   },
   methods: {

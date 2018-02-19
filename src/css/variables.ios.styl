@@ -135,14 +135,16 @@ $table-dark-selected-background ?= rgba(255, 255, 255, .2)
 
 $input-frame-transition ?= all .45s cubic-bezier(.23, 1, .32, 1)
 
-$toolbar-color              ?= white
-$toolbar-background         ?= $primary
-$toolbar-min-height         ?= 50px
-$toolbar-padding            ?= 4px 10px
-$toolbar-title-font-size    ?= 16px
-$toolbar-subtitle-font-size ?= 12px
-$toolbar-title-font-weight  ?= 600
-$toolbar-title-padding      ?= 0 5px
+$toolbar-color               ?= white
+$toolbar-background          ?= $primary
+$toolbar-inverted-color      ?= $toolbar-background
+$toolbar-inverted-background ?= $toolbar-color
+$toolbar-min-height          ?= 50px
+$toolbar-padding             ?= 4px 10px
+$toolbar-title-font-size     ?= 16px
+$toolbar-subtitle-font-size  ?= 12px
+$toolbar-title-font-weight   ?= 600
+$toolbar-title-padding       ?= 0 5px
 
 $layout-aside-background   ?= white
 $layout-aside-left-width   ?= 280px
@@ -206,6 +208,7 @@ $tabs-pane-padding             ?= 12px
 $tabs-color                    ?= $toolbar-color
 $tabs-background               ?= $toolbar-background
 $tabs-inverted-color           ?= $grey-6
+$tabs-inverted-background      ?= white
 $tabs-pane-border              ?= 1px solid rgba(0, 0, 0, .1)
 $tabs-unselected-opacity       ?= .6
 $tabs-font-size                ?= .9rem

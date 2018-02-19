@@ -9,7 +9,7 @@ export default {
     classes () {
       return [
         `q-toolbar-${this.inverted ? 'inverted' : 'normal'}`,
-        this.color ? ` ${this.inverted ? 'text' : 'bg'}-${this.color}` : '',
+        this.color ? `${this.inverted ? 'text' : 'bg'}-${this.color}` : '',
         this.glossy ? 'glossy' : ''
       ]
     }
