@@ -38,6 +38,13 @@
         </div>
 
         <div class="group">
+          <p class="caption">QDatetime</p>
+          <div><q-datetime type="datetime" v-model="date" /></div>
+          <div><q-datetime type="datetime" stack-label="Stack Label" v-model="date" /></div>
+          <div><q-datetime type="datetime" float-label="Float Label" v-model="date" /></div>
+        </div>
+
+        <div class="group">
           <p class="caption">Button</p>
           <div><q-btn color="primary" size="form" outline label="Button" /></div>
           <div><q-btn color="primary" size="form-label" outline label="Button" /></div>
@@ -89,6 +96,13 @@
         </div>
 
         <div class="group">
+          <p class="caption">QDatetime</p>
+          <div><q-datetime hide-underline type="datetime" v-model="date" /></div>
+          <div><q-datetime hide-underline type="datetime" stack-label="Stack Label" v-model="date" /></div>
+          <div><q-datetime hide-underline type="datetime" float-label="Float Label" v-model="date" /></div>
+        </div>
+
+        <div class="group">
           <p class="caption">Button</p>
           <div><q-btn color="primary" size="form-hide-underline" outline label="Button" /></div>
           <div><q-btn color="primary" size="form-label-hide-underline" outline label="Button" /></div>
@@ -103,6 +117,7 @@
         </div>
       </div>
 
+      <p class="caption">Inverted</p>
       <div class="row no-wrap gutter-sm size-test-example">
         <div class="group">
           <p class="caption">QInput</p>
@@ -137,6 +152,13 @@
           <div><q-datetime inverted type="date" v-model="date" /></div>
           <div><q-datetime inverted type="date" stack-label="Stack Label" v-model="date" /></div>
           <div><q-datetime inverted type="date" float-label="Float Label" v-model="date" /></div>
+        </div>
+
+        <div class="group">
+          <p class="caption">QDatetime</p>
+          <div><q-datetime inverted type="datetime" v-model="date" /></div>
+          <div><q-datetime inverted type="datetime" stack-label="Stack Label" v-model="date" /></div>
+          <div><q-datetime inverted type="datetime" float-label="Float Label" v-model="date" /></div>
         </div>
 
         <div class="group">
