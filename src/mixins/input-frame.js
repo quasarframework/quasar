@@ -86,7 +86,6 @@ export default {
       stopAndPrevent(evt)
       const val = this.clearValue
       if (this.__setModel) {
-        console.log('clear with', val)
         this.__setModel(val, true)
       }
       this.$emit('clear', val)
