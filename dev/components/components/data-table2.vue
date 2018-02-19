@@ -100,23 +100,31 @@
       row-key="name"
       color="primary"
     >
+      <template slot="top-left" slot-scope="props">
+        <q-btn size="sm" round flat :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen()" />
+        {{visibleColumns}}
+      </template>
       <template slot="top-right" slot-scope="props">
-        <q-search hide-underline color="primary" v-model="filter" />
-        <q-table-columns color="primary" class="on-right" v-model="visibleColumns" :columns="columns" />
-        <q-btn color="primary" flat round dense icon="more_vert" class="on-right">
-          <q-popover ref="popover">
-            <q-list link>
-              <q-item @click.native="$refs.popover.hide()">
-                <q-item-side icon="map" />
-                <q-item-main label="View map" />
-              </q-item>
-              <q-item @click.native="$refs.popover.hide()">
-                <q-item-side icon="add" />
-                <q-item-main label="Create new table" />
-              </q-item>
-            </q-list>
-          </q-popover>
-        </q-btn>
+        <div class="col-auto row items-center justify-end gutter-x-sm">
+          <q-btn flat dense color="primary" icon="add" label="Add row" />
+          <q-btn flat dense color="primary" icon="refresh" label="Refresh" />
+          <q-search hide-underline color="primary" v-model="filter" />
+          <q-table-columns color="primary" v-model="visibleColumns" :columns="columns" />
+          <q-btn color="primary" flat round dense icon="more_vert">
+            <q-popover ref="popover">
+              <q-list link>
+                <q-item @click.native="$refs.popover.hide()">
+                  <q-item-side icon="map" />
+                  <q-item-main label="View map" />
+                </q-item>
+                <q-item @click.native="$refs.popover.hide()">
+                  <q-item-side icon="add" />
+                  <q-item-main label="Create new table" />
+                </q-item>
+              </q-list>
+            </q-popover>
+          </q-btn>
+        </div>
       </template>
     </q-table>
 
