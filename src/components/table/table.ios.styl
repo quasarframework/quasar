@@ -7,7 +7,7 @@
 
 .q-table-top
   min-height 64px
-  padding 4px 24px
+  padding 8px 24px
   &:before
     content ''
     position absolute
@@ -18,16 +18,19 @@
     left 0
     opacity .2
     transition $table-transition
+  .q-table-control
+    min-height 36px
+    padding 8px 0
+    flex-wrap wrap
+.q-table-title
+  font-size 20px
+  letter-spacing 0.005em
+  font-weight 400
 .q-table-separator
   min-width 8px !important
 .q-table-nodata .q-icon
   font-size 200%
   padding-right 15px
-
-.q-table-title
-  font-size 20px
-  letter-spacing .005em
-  font-weight 400
 
 .q-table-progress
   height 0 !important
@@ -44,8 +47,14 @@
 
 .q-table-bottom
   min-height 48px
-  padding 0 14px 0 24px
+  padding 4px 14px 4px 24px
   font-size 12px
+  .q-table-control
+    min-height 24px
+
+.q-table-control
+  display flex
+  align-items center
 
 .q-table-sort-icon
   transition $table-transition
@@ -148,7 +157,9 @@ table-dense()
   .q-table
     th, td
       padding 4px 8px
-    thead tr, tbody td
+    thead tr
+      height 40px
+    tbody td
       height 28px
 
   .q-table-bottom-item

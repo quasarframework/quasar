@@ -22,9 +22,10 @@ export default {
 
       const bottom = this.$scopedSlots.bottom
 
-      return h('div', { staticClass: 'q-table-bottom row items-center gutter-x-sm justify-between' },
-        bottom ? [ bottom(this.marginalsProps) ] : this.getPaginationRow(h)
-      )
+      return h('div', {
+        staticClass: 'q-table-bottom row items-center',
+        'class': bottom ? null : 'justify-end'
+      }, bottom ? [ bottom(this.marginalsProps) ] : this.getPaginationRow(h))
     },
     getPaginationRow (h) {
       const
@@ -33,12 +34,15 @@ export default {
         paginationSlot = this.$scopedSlots.pagination
 
       return [
-        h('div', { staticClass: 'col-auto' }, [
-          this.hasSelectionMode && this.rowsSelectedNumber > 0
-            ? (this.selectedRowsLabel || this.$q.i18n.table.selectedRows)(this.rowsSelectedNumber)
-            : ''
+        h('div', { staticClass: 'q-table-control' }, [
+          h('div', [
+            this.hasSelectionMode && this.rowsSelectedNumber > 0
+              ? (this.selectedRowsLabel || this.$q.i18n.table.selectedRows)(this.rowsSelectedNumber)
+              : ''
+          ])
         ]),
-        h('div', { staticClass: 'col-auto flex items-center no-wrap' }, [
+        h('div', { staticClass: 'q-table-separator col' }),
+        h('div', { staticClass: 'q-table-control' }, [
           h('span', { staticClass: 'q-table-bottom-item' }, [
             this.rowsPerPageLabel || this.$q.i18n.table.rowsPerPage
           ]),
@@ -59,7 +63,9 @@ export default {
                 })
               }
             }
-          }),
+          })
+        ]),
+        h('div', { staticClass: 'q-table-control' }, [
           paginationSlot
             ? paginationSlot(this.marginalsProps)
             : [
