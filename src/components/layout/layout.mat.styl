@@ -69,7 +69,9 @@ body
     overflow-x hidden
 
   &.cordova.platform-ios
-    .q-layout-header > .q-toolbar:first-child, .q-layout-drawer.top-padding
+    .q-layout-header > .q-toolbar:first-child,
+    .q-layout-header > .q-tabs:first-child .q-tabs-head
+    .q-layout-drawer.top-padding
       padding-top $ios-statusbar-height
       min-height ($toolbar-min-height + $ios-statusbar-height)
 

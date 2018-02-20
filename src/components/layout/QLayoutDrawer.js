@@ -175,7 +175,7 @@ export default {
         'on-screen': this.showing,
         'off-screen': !this.showing,
         'transition-generic': !this.inTransit,
-        'top-padding': this.fixed || this.headerSlot
+        'top-padding': true
       }
     },
     belowStyle () {
@@ -189,7 +189,7 @@ export default {
         'off-screen': !onScreen,
         'on-screen': onScreen,
         'fixed': this.fixed || !this.onLayout,
-        'top-padding': this.fixed || this.headerSlot
+        'top-padding': this.headerSlot
       }
     },
     aboveStyle () {

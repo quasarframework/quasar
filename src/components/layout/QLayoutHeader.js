@@ -92,10 +92,10 @@ export default {
       'class': this.computedClass,
       style: this.computedStyle
     }, [
+      this.$slots.default,
       h(QResizeObservable, {
         on: { resize: this.__onResize }
-      }),
-      this.$slots.default
+      })
     ])
   },
   created () {
