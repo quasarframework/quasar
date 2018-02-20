@@ -52,7 +52,7 @@ export default {
       if (topRight) {
         child.push(h('div', { staticClass: 'q-table-separator col' }))
         child.push(
-          h('div', { staticClass: 'q-table-control' }, [
+          h('div', { staticClass: 'q-table-control justify-end' }, [
             topRight(this.marginalsProps)
           ])
         )
@@ -62,7 +62,10 @@ export default {
         return
       }
 
-      return h('div', { staticClass }, child)
+      return h('div', {
+        staticClass,
+        'class': topRight ? 'justify-end' : null
+      }, child)
     }
   }
 }
