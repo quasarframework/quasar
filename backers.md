@@ -49,7 +49,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Carlos Tulloch ($20)
 - MSG Group ($20)
 - Pawel Rakowski ($20)
-- Jonas Viczian ($15)
 - Laurent Aapro ($12)
 - Marek Urbanowicz
 - Samuel Lin
