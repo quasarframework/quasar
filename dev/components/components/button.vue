@@ -100,34 +100,35 @@
       </p>
 
       <p class="group">
-        <q-chip>{{ loading }}</q-chip>
-        <q-btn :loading="loading" @click="simulateProgress" label="Button">
+        <q-btn :loading="!!loading[0]" @click="simulateProgress(0)" label="Button">
           <q-spinner-oval slot="loading" />
         </q-btn>
-        <q-btn :loading="loading"  @click="simulateProgress" label="Button">
+        <q-btn :loading="!!loading[1]"  @click="simulateProgress(1)" label="Button">
           <span slot="loading">Loading...</span>
         </q-btn>
-        <q-btn :loading="loading" color="orange" @click="simulateProgress" label="Button" />
-        <q-btn :loading="loading" color="secondary" @click="simulateProgress" label="Button" />
-        <q-btn :loading="loading" color="amber" @click="simulateProgress" label="Button" />
-        <q-btn :loading="loading" color="dark" size="xs" @click="simulateProgress" label="Button" />
-        <q-btn :loading="loading" color="dark" size="sm" @click="simulateProgress" label="Button" />
-        <q-btn :loading="loading" color="dark" size="md" @click="simulateProgress" label="Button" />
-        <q-btn :loading="loading" color="dark" size="lg" @click="simulateProgress" label="Button" />
-        <q-btn :loading="loading" color="dark" size="xl" @click="simulateProgress" label="Button" />
-        <q-btn size="xs" round :loading="loading" @click="simulateProgress" color="primary" icon="mail" />
-        <q-btn size="sm" round :loading="loading" @click="simulateProgress" color="primary" icon="mail" />
-        <q-btn round :loading="loading" @click="simulateProgress" color="primary" icon="mail" />
-        <q-btn size="lg" round :loading="loading" @click="simulateProgress" color="primary" icon="mail" />
-        <q-btn size="xl" round :loading="loading" @click="simulateProgress" color="primary" icon="mail" />
+        <q-btn :loading="!!loading[2]" color="orange" @click="simulateProgress(2)" label="Button" />
+        <q-btn :loading="!!loading[3]" color="secondary" @click="simulateProgress(3)" label="Button" />
+        <q-btn :loading="!!loading[4]" color="amber" @click="simulateProgress(4)" label="Button" />
+        <q-btn :loading="!!loading[5]" color="dark" size="xs" @click="simulateProgress(5)" label="Button" />
+        <q-btn :loading="!!loading[6]" color="dark" size="sm" @click="simulateProgress(6)" label="Button" />
+        <q-btn :loading="!!loading[7]" color="dark" size="md" @click="simulateProgress(7)" label="Button" />
+        <q-btn :loading="!!loading[8]" color="dark" size="lg" @click="simulateProgress(8)" label="Button" />
+        <q-btn :loading="!!loading[9]" color="dark" size="xl" @click="simulateProgress(9)" label="Button" />
+        <q-btn size="xs" round :loading="!!loading[10]" @click="simulateProgress(10)" color="primary" icon="mail" />
+        <q-btn size="sm" round :loading="!!loading[11]" @click="simulateProgress(11)" color="primary" icon="mail" />
+        <q-btn round :loading="!!loading[12]" @click="simulateProgress(12)" color="primary" icon="mail" />
+        <q-btn size="lg" round :loading="!!loading[13]" @click="simulateProgress(13)" color="primary" icon="mail" />
+        <q-btn size="xl" round :loading="!!loading[14]" @click="simulateProgress(14)" color="primary" icon="mail" />
 
-        <q-btn color="dark" :loading="loading" size="sm" @click="simulateProgress" icon-right="alarm" label="Button">
+        <q-btn color="dark" :loading="!!loading[15]" size="sm" @click="simulateProgress(15)" icon-right="alarm" label="Button">
           <q-spinner-audio slot="loading" />
         </q-btn>
-        <q-btn round :loading="loading" @click="simulateProgress" color="primary" size="lg" icon="alarm">
+        <q-btn round :loading="!!loading[16]" @click="simulateProgress(16)" color="primary" size="lg" icon="alarm">
           <q-spinner-audio slot="loading" />
         </q-btn>
+        <br />
         <q-btn color="negative" @click="stopProgress">Stop</q-btn>
+        <q-chip small v-for="(l, i) in loading" :key="i">{{ i }}: {{ l }}</q-chip>
       </p>
 
       <p class="group">
@@ -424,6 +425,8 @@
 </template>
 
 <script>
+import { extend } from 'quasar'
+
 export default {
   data () {
     return {
@@ -435,7 +438,7 @@ export default {
         'light-green', 'lime', 'yellow', 'amber', 'orange', 'deep-orange', 'brown', 'grey', 'blue-grey'
       ],
       extras: ['flat', 'outline', 'round', 'rounded', 'push', 'glossy'],
-      loading: false,
+      loading: {},
       loading2: false,
       percentage: 0,
       clickTimes: 0
@@ -461,11 +464,17 @@ export default {
         }
       }, 700)
     },
-    simulateProgress () {
-      this.loading = true
+    simulateProgress (index) {
+      const timeout = setTimeout(() => {
+        if (index in this.loading) {
+          this.loading = extend({}, this.loading, { [index]: false })
+        }
+      }, 5 * 60 * 1000)
+      this.loading = extend({}, this.loading, { [index]: timeout })
     },
     stopProgress () {
-      this.loading = false
+      Object.values(this.loading).filter(t => t).map(t => clearTimeout(t))
+      this.loading = {}
     }
   },
   beforeDestroy () {
