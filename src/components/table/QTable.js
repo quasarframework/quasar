@@ -67,17 +67,20 @@ export default {
     }
   },
   computed: {
-    computedRows () {
+    computedData () {
       let rows = this.data.slice().map((row, i) => {
         row.__index = i
         return row
       })
 
       if (rows.length === 0) {
-        return []
+        return {
+          rowsNumber: 0,
+          rows: []
+        }
       }
       if (this.isServerSide) {
-        return rows
+        return { rows }
       }
 
       const { sortBy, descending, rowsPerPage } = this.computedPagination
@@ -90,16 +93,21 @@ export default {
         rows = this.sortMethod(rows, sortBy, descending)
       }
 
+      const rowsNumber = rows.length
+
       if (rowsPerPage) {
         rows = rows.slice(this.firstRowIndex, this.lastRowIndex)
       }
 
-      return rows
+      return { rowsNumber, rows }
+    },
+    computedRows () {
+      return this.computedData.rows
     },
     computedRowsNumber () {
       return this.isServerSide
         ? this.computedPagination.rowsNumber || 0
-        : this.data.length
+        : this.computedData.rowsNumber
     },
     nothingToDisplay () {
       return this.computedRows.length === 0

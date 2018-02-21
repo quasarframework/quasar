@@ -15,12 +15,5 @@ export default {
     hasFilter () {
       return this.filter !== void 0 && this.filter.length > 0
     }
-  },
-  watch: {
-    filter () {
-      this.$nextTick(() => {
-        this.setPagination({ page: 1 })
-      })
-    }
   }
 }

@@ -50,6 +50,16 @@ export default {
       }))
     }
   },
+  watch: {
+    pagesNumber (lastPage) {
+      if (this.computedPagination.page > lastPage) {
+        return this.setPagination({ page: lastPage })
+      }
+      if (lastPage > 0 && !this.computedPagination.page) {
+        return this.setPagination({ page: 1 })
+      }
+    }
+  },
   methods: {
     setPagination (val) {
       const newPagination = Object.assign({}, this.computedPagination, val)
