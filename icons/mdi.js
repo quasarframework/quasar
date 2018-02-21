@@ -4,7 +4,7 @@ export default {
     positive: 'mdi-check-circle',
     negative: 'mdi-alert',
     info: 'mdi-info',
-    warning: 'mdi-priority-high'
+    warning: 'mdi-exclamation'
   },
   arrow: {
     up: 'mdi-arrow-upward',
