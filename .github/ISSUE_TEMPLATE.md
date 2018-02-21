@@ -12,7 +12,7 @@ Reporting a bug?
 ================
 - Are you sure it isn't already reported? Do a search first! It may have already been answered or even fixed in the development branch (`dev`).
 
-- If you are reporting a bug for Quasar v0.15+, then please try to include a JsFiddle forked from one of these: https://jsfiddle.net/rstoenescu/waugrryy/ (Material theme) or https://jsfiddle.net/rstoenescu/7gu065yg/ (iOS theme)
+- If you are reporting a bug for Quasar v0.15+, then please try to include a forked JsFiddle/Codepen from one of these: https://jsfiddle.net/rstoenescu/waugrryy/ (jsFiddle - Material theme) or https://jsfiddle.net/rstoenescu/7gu065yg/ (jsFiddle - iOS theme) or https://codepen.io/rstoenescu/pen/KQRZJg (Codepen - Material theme) or https://codepen.io/rstoenescu/pen/paVpBN (Codepen - iOS theme)
 
 - Are you sure you are reporting to the right repo? If you are not reporting an issue which deals directly with Quasar distributable, then there are [multiple Quasar repos](https://github.com/quasarframework) besides this one:
   -- Quasar CLI: https://github.com/quasarframework/quasar-cli
