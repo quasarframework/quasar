@@ -82,6 +82,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Asif Mehedi
 - Sevenview Studios
 - Rus Brushkoff
+- Abdelkarim Mateos
 
 - Ken ($5)
 - Oliver ($5)
@@ -89,6 +90,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Rodolfo Torres Jaime ($5)
 - Scott Brooks ($5)
 - Rogério Queiroz ($3)
+- Robson Martins ($2.5)
 - Joe L Wroten ($1)
 - Yasuhiro Kawagoe ($1)
 - Luca Ban ($1)
