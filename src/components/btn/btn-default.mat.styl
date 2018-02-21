@@ -6,19 +6,21 @@
   -webkit-appearance button
   padding $button-padding
   font-size $button-font-size
-  font-weight $button-font-weight
   text-decoration none
   color inherit
-  min-height 2.572em
   background transparent
-  box-shadow $button-shadow
   transition $button-transition
+  min-height 2.572em
+  box-shadow $button-shadow
+  font-weight $button-font-weight
   text-transform uppercase
   .q-icon
     font-size 1.4em
   .q-spinner
-    height 1.39em
-    width 1.39em
+    height 1.4em
+    width 1.4em
+  .q-btn-inner:before
+    content ''
 
   &.disabled
     opacity .7 !important
