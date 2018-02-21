@@ -151,18 +151,18 @@ export default {
         ? extend({
           color: this.color,
           label: this.$q.i18n.label.ok,
-          waitForRipple: true
+          noRipple: true
         }, this.ok)
-        : { color: this.color, flat: true, label: this.okLabel, waitForRipple: true }
+        : { color: this.color, flat: true, label: this.okLabel, noRipple: true }
     },
     cancelProps () {
       return Object(this.cancel) === this.cancel
         ? extend({
           color: this.color,
           label: this.$q.i18n.label.cancel,
-          waitForRipple: true
+          noRipple: true
         }, this.cancel)
-        : { color: this.color, flat: true, label: this.cancelLabel, waitForRipple: true }
+        : { color: this.color, flat: true, label: this.cancelLabel, noRipple: true }
     }
   },
   methods: {
