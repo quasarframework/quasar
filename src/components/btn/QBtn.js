@@ -109,7 +109,7 @@ export default {
   },
   render (h) {
     return h('button', {
-      staticClass: 'q-btn inline relative-position',
+      staticClass: 'q-btn inline relative-position q-btn-item',
       'class': this.classes,
       style: this.style,
       attrs: { tabindex: this.computedTabIndex },

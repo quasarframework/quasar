@@ -2,19 +2,28 @@
   border-radius $button-border-radius
   box-shadow $button-shadow
   vertical-align middle
+  > .q-btn-item
+    box-shadow none
   > .q-btn-group
-    box-shadow none
-  .q-btn
-    box-shadow none
-  .q-btn:not(:last-child)
+    > .q-btn:first-child
+      border-top-left-radius inherit
+      border-bottom-left-radius inherit
+    > .q-btn:last-child
+      border-top-right-radius inherit
+      border-bottom-right-radius inherit
+  > .q-btn-group:not(:first-child) > .q-btn:first-child
+    border-left 0
+  > .q-btn-group:not(:last-child) > .q-btn:last-child
+    border-right 0
+  > .q-btn-item:not(:last-child)
     border-top-right-radius 0
     border-bottom-right-radius 0
-  .q-btn + .q-btn
+  > .q-btn-item + .q-btn-item
     border-top-left-radius 0
     border-bottom-left-radius 0
 .q-btn-group-push
   border-radius $button-push-border-radius
-  .q-btn-push
+  > .q-btn-push
     .q-btn-inner
       transition $button-transition
     &:active:not(.disabled)
@@ -27,9 +36,7 @@
 .q-btn-group-flat, .q-btn-group-outline
   box-shadow none
 .q-btn-group-outline
-  .q-btn + .q-btn
+  > .q-btn-item + .q-btn-item
     border-left 0
-  .q-btn:not(:first-child)
-    border-left 0
-  .q-btn:not(:last-child)
+  > .q-btn-item:not(:last-child)
     border-right 0

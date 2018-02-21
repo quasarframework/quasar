@@ -111,7 +111,7 @@ export default {
           rounded: this.rounded,
           push: this.push
         },
-        staticClass: 'q-btn-dropdown q-btn-dropdown-split no-wrap'
+        staticClass: 'q-btn-dropdown q-btn-dropdown-split no-wrap q-btn-item'
       },
       [
         Btn,
@@ -120,6 +120,7 @@ export default {
           {
             props: {
               disable: this.disable,
+              outline: this.outline,
               flat: this.flat,
               rounded: this.rounded,
               push: this.push,
