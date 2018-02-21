@@ -11,6 +11,13 @@ export default {
       }
     }
   },
+  watch: {
+    filter () {
+      this.$nextTick(() => {
+        this.setPagination({ page: 1 })
+      })
+    }
+  },
   computed: {
     hasFilter () {
       return this.filter !== void 0 && this.filter.length > 0
