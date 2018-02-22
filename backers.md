@@ -84,6 +84,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Rus Brushkoff
 - Abdelkarim Mateos
 - Scott Brooks
+- Luca Ban ($10)
 
 - Ken ($5)
 - Oliver ($5)
@@ -93,7 +94,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Robson Martins ($2.5)
 - Joe L Wroten ($1)
 - Yasuhiro Kawagoe ($1)
-- Luca Ban ($1)
 
 ---
 
