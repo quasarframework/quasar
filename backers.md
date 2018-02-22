@@ -49,6 +49,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Carlos Tulloch ($20)
 - MSG Group ($20)
 - Pawel Rakowski ($20)
+- Stephen Clarke ($20)
 - Laurent Aapro ($12)
 - Marek Urbanowicz
 - Samuel Lin
@@ -82,12 +83,12 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Sevenview Studios
 - Rus Brushkoff
 - Abdelkarim Mateos
+- Scott Brooks
 
 - Ken ($5)
 - Oliver ($5)
 - Mahesh Narayanamurthi ($5)
 - Rodolfo Torres Jaime ($5)
-- Scott Brooks ($5)
 - Rogério Queiroz ($3)
 - Robson Martins ($2.5)
 - Joe L Wroten ($1)
