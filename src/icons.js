@@ -1,4 +1,4 @@
-import iconMaterial from '../icons/material'
+import materialIcons from '../icons/material-icons'
 
 export default {
   __installed: false,
@@ -6,7 +6,7 @@ export default {
     if (this.__installed) { return }
     this.__installed = true
 
-    this.set = (iconDef = iconMaterial) => {
+    this.set = (iconDef = materialIcons) => {
       iconDef.set = this.set
 
       Vue.set($q, 'icon', iconDef)
