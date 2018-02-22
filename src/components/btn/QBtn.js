@@ -121,7 +121,7 @@ export default {
         }]
         : null
     }, [
-      this.$q.platform.is.desktop
+      this.$q.platform.is.desktop || this.$q.platform.is.ios
         ? h('div', { staticClass: 'q-focus-helper' })
         : null,
 
