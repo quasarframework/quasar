@@ -32,7 +32,7 @@ export default {
     noData: 'No hi ha dades disponibles',
     noResults: 'No s\'han trobat resultats',
     loading: 'Carregant...',
-    selectedRows: rows => rows > 0 ? `${rows} row${rows === 1 ? '' : 's'} seleccionada.` : 'No hi ha files seleccionades.',
+    selectedRows: rows => rows > 1 ? `${rows} files seleccionades.` : `${rows === 0 ? 'Sense' : '1'} fila seleccionada.`,
     rowsPerPage: 'Files per pàgina:',
     allRows: 'Totes',
     pagination: (start, end, total) => `${start}-${end} de ${total}`,
