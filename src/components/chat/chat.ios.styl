@@ -65,7 +65,7 @@
 .q-message-text
   background currentColor
   padding $chat-message-text-padding-vert $chat-message-text-padding-horiz
-  line-height 1.2
+  line-height max(1.2, $min-line-height)
   word-break break-word
   position relative
   transform translate3d(0, 0, 0)
