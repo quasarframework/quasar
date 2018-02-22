@@ -14,11 +14,9 @@
   box-shadow $button-shadow
   font-weight $button-font-weight
   text-transform uppercase
-  .q-icon
+  .q-icon, .q-spinner
     font-size 1.4em
-  .q-spinner
-    height 1.4em
-    width 1.4em
+  // workaround for alignment/sizing change when showing loader
   .q-btn-inner:before
     content ''
 

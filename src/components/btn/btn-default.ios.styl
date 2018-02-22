@@ -11,11 +11,9 @@
   background transparent
   transition $button-transition
   min-height 2.572em
-  .q-icon
+  .q-icon, .q-spinner
     font-size 1.4em
-  .q-spinner
-    height 1.4em
-    width 1.4em
+  // workaround for alignment/sizing change when showing loader
   .q-btn-inner:before
     content ''
 
