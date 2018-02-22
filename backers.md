@@ -51,6 +51,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Pawel Rakowski ($20)
 - Stephen Clarke ($20)
 - Laurent Aapro ($12)
+- Alex Tyutchev ($11)
 - Marek Urbanowicz
 - Samuel Lin
 - Matsumoto Takamasa
@@ -84,7 +85,8 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Rus Brushkoff
 - Abdelkarim Mateos
 - Scott Brooks
-- Luca Ban ($10)
+- Luca Ban
+- Borut
 
 - Ken ($5)
 - Oliver ($5)
