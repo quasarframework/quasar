@@ -491,7 +491,7 @@ export default {
     repeatFunction (timesTriggered) {
       // first time timesTriggered is 0, so we add 1
       // to be sure we don't divide by 0
-      return 1000 / (timesTriggered + 1)
+      return Math.max(300, 1000 / (timesTriggered + 1))
     },
     startProgress () {
       this.percentage = 0
