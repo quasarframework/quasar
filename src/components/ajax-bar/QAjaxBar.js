@@ -101,7 +101,7 @@ export default {
     classes () {
       return [
         this.position,
-        { 'no-trantion': this.animate }
+        { 'no-transition': this.animate }
       ]
     },
     innerClasses () {
