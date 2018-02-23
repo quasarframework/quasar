@@ -31,7 +31,7 @@ export default {
     noData: 'Keine Daten vorhanden.',
     noResults: 'Keine Einträge gefunden',
     loading: 'Lade...',
-    selectedRows: rows => rows > 1 ? `${rows} ausgewählte Zeilen` : `${rows === 0 ? 'Keine' : '1'} ausgewahlt.`,
+    selectedRows: rows => rows > 1 ? `${rows} ausgewählte Zeilen` : `${rows === 0 ? 'Keine' : '1'} ausgewählt.`,
     rowsPerPage: 'Zeilen pro Seite',
     allRows: 'Alle',
     pagination: (start, end, total) => `${start}-${end} von ${total}`,
