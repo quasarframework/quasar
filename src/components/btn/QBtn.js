@@ -31,6 +31,12 @@ export default {
           mouseleave: this.__abortRepeat,
           touchmove: this.__abortRepeat
         }
+    },
+    useFocusHelper () {
+      return this.$q.platform.is.desktop || this.$q.theme === 'ios'
+    },
+    iosActiveHelper () {
+      return this.$q.platform.is.ios && this.$q.theme === 'ios' ? '' : void 0
     }
   },
   data () {
@@ -109,10 +115,10 @@ export default {
   },
   render (h) {
     return h('button', {
-      staticClass: 'q-btn inline relative-position q-btn-item',
+      staticClass: 'q-btn inline relative-position q-btn-item non-selectable',
       'class': this.classes,
       style: this.style,
-      attrs: { tabindex: this.computedTabIndex },
+      attrs: { tabindex: this.computedTabIndex, ontouchstart: this.iosActiveHelper },
       on: this.events,
       directives: this.hasRipple
         ? [{
@@ -121,7 +127,7 @@ export default {
         }]
         : null
     }, [
-      this.$q.platform.is.desktop
+      this.useFocusHelper
         ? h('div', { staticClass: 'q-focus-helper' })
         : null,
 
