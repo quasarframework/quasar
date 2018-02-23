@@ -32,10 +32,16 @@ export default {
     noData: 'Nessun dato disponibile',
     noResults: 'Nessuna corrispondenza trovata',
     loading: 'Caricamento...',
-    selectedRows: rows => rows > 0 ? `${rows} ${rows === 1 ? 'riga selezionata' : 'righe selezionate'}.` : 'Nessuna riga selezionata.',
+    selectedRows: function (rows) {
+      return rows > 0
+        ? rows + ' ' + (rows === 1 ? 'riga selezionata' : 'righe selezionate').'
+        : 'Nessuna riga selezionata.'
+    },
     rowsPerPage: 'Righe per pagina:',
     allRows: 'Tutte',
-    pagination: (start, end, total) => `${start}-${end} di ${total}`,
+    pagination: function (start, end, total) {
+      return start + '-' + end + ' di ' + total
+    },
     columns: 'Colonne'
   },
   editor: {

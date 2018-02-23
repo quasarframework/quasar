@@ -32,10 +32,16 @@ export default {
     noData: 'Tidak ada data tersedia',
     noResults: 'Tidak ada yang cocok',
     loading: 'Memuat...',
-    selectedRows: rows => rows > 1 ? `${rows} baris terpilih.` : `${rows === 0 ? 'tidak ada' : '1'} baris terpilih.`,
+    selectedRows: function (rows) {
+      return rows > 1
+        ? rows + ' baris terpilih.'
+        : (rows === 0 ? 'tidak ada' : '1') + ' baris terpilih.'
+    },
     rowsPerPage: 'Baris per halaman:',
     allRows: 'Semua',
-    pagination: (start, end, total) => `${start}-${end} dari ${total}`,
+    pagination: function (start, end, total) {
+      return start + '-' + end + ' dari ' + total
+    },
     columns: 'Kolom'
   },
   editor: {

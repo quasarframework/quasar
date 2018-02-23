@@ -32,12 +32,17 @@ export default {
     noData: 'データがありません', // 'No data available',
     noResults: '検索結果がありません', // 'No matching records found',
     loading: '読込中...', // 'Loading...',
-    selectedRows: rows => rows > 0 ? `${rows}行を選択中` : '行を選択', // rows => rows > 0 ? `${rows} row${rows === 1 ? '' : 's'} selected.` : 'No selected rows.',
+    selectedRows: function (rows) {
+      return rows > 0
+        ? rows + '行を選択中'
+        : '行を選択'
+    },
     rowsPerPage: 'ページあたりの行数', // 'Rows per page:',
     allRows: '全て', // 'All',
-    pagination: (start, end, total) => `${start}-${end}／${total}`, // (start, end, total) => `${start}-${end} of ${total}`,
+    pagination: function (start, end, total) {
+      return start + '-' + end + ' ／ ' + total
+    },
     columns: '列' // 'Columns'
-
   },
   editor: {
     url: 'URL', // 'URL',

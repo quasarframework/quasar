@@ -32,10 +32,16 @@ export default {
     noData: 'Sin datos disponibles',
     noResults: 'No se econtraron resultados',
     loading: 'Cargando...',
-    selectedRows: rows => rows > 1 ? `${rows} filas seleccionadas.` : `${rows === 0 ? 'Sin' : '1'} fila seleccionada.`,
+    selectedRows: function (rows) {
+      return rows > 1
+        ? rows + ' filas seleccionadas.'
+        : (rows === 0 ? 'Sin' : '1') + ' fila seleccionada.'
+    },
     rowsPerPage: 'Filas por página:',
     allRows: 'Todas',
-    pagination: (start, end, total) => `${start}-${end} de ${total}`,
+    pagination: function (start, end, total) {
+      return start + '-' + end + ' de ' + total
+    },
     columns: 'Columnas'
   },
   editor: {

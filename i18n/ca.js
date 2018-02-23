@@ -32,10 +32,16 @@ export default {
     noData: 'No hi ha dades disponibles',
     noResults: 'No s\'han trobat resultats',
     loading: 'Carregant...',
-    selectedRows: rows => rows > 1 ? `${rows} files seleccionades.` : `${rows === 0 ? 'Sense' : '1'} fila seleccionada.`,
+    selectedRows: function (rows) {
+      return rows > 1
+        ? rows + ' files seleccionades.'
+        : (rows === 0 ? 'Sense' : '1') + ' fila seleccionada.'
+    },
     rowsPerPage: 'Files per pàgina:',
     allRows: 'Totes',
-    pagination: (start, end, total) => `${start}-${end} de ${total}`,
+    pagination: function (start, end, total) {
+      return start + '-' + end + ' de ' + total
+    },
     columns: 'Columnes'
   },
   editor: {
