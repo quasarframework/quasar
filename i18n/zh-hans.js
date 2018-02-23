@@ -40,7 +40,7 @@ export default {
     rowsPerPage: '每页的行数:',
     allRows: '全部',
     pagination: function (start, end, total) {
-      return start + '-' + end + ' of ' + total
+      return start + '-' + end + ' / ' + total
     },
     columns: '列'
   },
