@@ -32,10 +32,16 @@ export default {
     noData: 'Nu sunt date disponibile',
     noResults: 'Nu am găsit înregistrări care să corespundă',
     loading: 'Se încarcă...',
-    selectedRows: rows => rows > 1 ? `${rows} rânduri selectate.` : `${rows === 0 ? 'Nici un' : '1'} rând selectat.`,
+    selectedRows: function (rows) {
+      return rows > 1
+        ? rows + ' rânduri selectate.'
+        : (rows === 0 ? 'Nici un' : '1') + ' rând selectat.'
+    },
     rowsPerPage: 'Rânduri pe pagină:',
     allRows: 'Toate',
-    pagination: (start, end, total) => `${start}-${end} din ${total}`,
+    pagination: function (start, end, total) {
+      return start + '-' + end + ' din ' + total
+    },
     columns: 'Coloane'
   },
   editor: {

@@ -32,10 +32,16 @@ export default {
     noData: 'Nie sú dostupné údaje',
     noResults: 'Neboli nájdené vyhovujúce záznamy',
     loading: 'Načítavam...',
-    selectedRows: rows => rows > 0 ? `${rows} ${rows === 1 ? 'riadok vybratý' : rows < 5 ? 'riadky vybraté' : 'riadkov vybratých'}.` : 'Žiadne vybraté riadky.',
+    selectedRows: function (rows) {
+      return rows > 0
+        ? rows + ' ' + (rows === 1 ? 'riadok vybratý' : (rows < 5 ? 'riadky vybraté' : 'riadkov vybratých')) + '.'
+        : 'Žiadne vybraté riadky.'
+    },
     rowsPerPage: 'Riadkov na stránku:',
     allRows: 'Všetky',
-    pagination: (start, end, total) => `${start}-${end} z ${total}`,
+    pagination: function (start, end, total) {
+      return start + '-' + end + ' z ' + total
+    },
     columns: 'Stĺpce'
   },
   editor: {
