@@ -1,3 +1,5 @@
+import extend from '../../utils/extend'
+
 export default {
   props: {
     pagination: Object,
@@ -18,7 +20,7 @@ export default {
   },
   computed: {
     computedPagination () {
-      return Object.assign({}, this.innerPagination, this.pagination)
+      return extend({}, this.innerPagination, this.pagination)
     },
     firstRowIndex () {
       const { page, rowsPerPage } = this.computedPagination
@@ -50,9 +52,20 @@ export default {
       }))
     }
   },
+  watch: {
+    pagesNumber (lastPage) {
+      const currentPage = this.computedPagination.page
+      if (lastPage && !currentPage) {
+        this.setPagination({ page: 1 })
+      }
+      else if (lastPage < currentPage) {
+        this.setPagination({ page: lastPage })
+      }
+    }
+  },
   methods: {
     setPagination (val) {
-      const newPagination = Object.assign({}, this.computedPagination, val)
+      const newPagination = extend({}, this.computedPagination, val)
 
       if (this.isServerSide) {
         this.requestServerInteraction({
@@ -82,6 +95,6 @@ export default {
     }
   },
   created () {
-    this.$emit('update:pagination', Object.assign({}, this.computedPagination))
+    this.$emit('update:pagination', extend({}, this.computedPagination))
   }
 }
