@@ -265,7 +265,7 @@
         :title="title"
         row-key="name"
       >
-        <div slot="top">
+        <div slot="top" slot-scope="props">
           Top
         </div>
         <q-tr slot="top-row" slot-scope="props">
@@ -280,7 +280,7 @@
           </q-td>
         </q-tr>
 
-        <div slot="bottom">
+        <div slot="bottom" slot-scope="props">
           Bottom
         </div>
       </q-table>
