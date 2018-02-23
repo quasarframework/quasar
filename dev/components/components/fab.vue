@@ -80,6 +80,7 @@
 
       <q-fab
         color="primary"
+        icon="add"
         active-icon="alarm"
         direction="up"
         class="fixed-bottom-right"

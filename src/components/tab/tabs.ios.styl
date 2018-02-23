@@ -2,8 +2,8 @@
   flex-direction column
 
 .q-tabs-scroller
-  color $tabs-color
   overflow hidden
+  color $tabs-color
 
 .q-tab-pane
   padding $tabs-pane-padding
@@ -44,7 +44,9 @@
   .q-chip
     top 5px
     right 0
-    left initial
+    left auto
+    min-height auto
+    padding 2px 6px
     color white
     background alpha($dot-color, .75)
 
@@ -95,6 +97,7 @@
   height 100%
   cursor pointer
   color white
+  top 0
   .q-icon
     text-shadow 0 0 10px black
     font-size (1.2 * $tabs-icon-font-size)

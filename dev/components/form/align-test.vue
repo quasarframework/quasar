@@ -100,6 +100,11 @@
   </div>
 </template>
 
+<style lang="stylus">
+  .size-test-example-base > div:not(:first-child)
+    flex 1 1 100%
+</style>
+
 <script>
 export default {
   data () {
