@@ -34,7 +34,7 @@ export default {
     loading: 'Caricamento...',
     selectedRows: function (rows) {
       return rows > 0
-        ? rows + ' ' + (rows === 1 ? 'riga selezionata' : 'righe selezionate').'
+        ? rows + ' ' + (rows === 1 ? 'riga selezionata' : 'righe selezionate') + '.'
         : 'Nessuna riga selezionata.'
     },
     rowsPerPage: 'Righe per pagina:',
