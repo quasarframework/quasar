@@ -36,10 +36,16 @@ export default {
     noData: 'Нет данных',
     noResults: 'Совпадений не найдено',
     loading: 'Загрузка...',
-    selectedRows: rows => rows > 0 ? `${rows} ${plurals(rows, ['строка выбрана', 'строки выбраны', 'строк выбрано'])}.` : 'Ни одна строка не выбрана.',
+    selectedRows: function (rows) {
+      return rows > 0
+        ? rows + ' ' + plurals(rows, ['строка выбрана', 'строки выбраны', 'строк выбрано']) + '.'
+        : 'Ни одна строка не выбрана.'
+    },
     rowsPerPage: 'Строк на странице:',
     allRows: 'Все',
-    pagination: (start, end, total) => `${start}-${end} из ${total}`,
+    pagination: function (start, end, total) {
+      return start + '-' + end + ' из ' + total
+    },
     columns: 'Колонки'
   },
   editor: {

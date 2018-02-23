@@ -36,10 +36,16 @@ export default {
     noData: 'Немає даних',
     noResults: 'Співпадінь не знайдено',
     loading: 'Завантаження...',
-    selectedRows: rows => rows > 0 ? `${rows} ${plurals(rows, ['рядок обраний', 'рядки обрані', 'рядків обрано'])}.` : 'Жодного рядку не обрано',
+    selectedRows: function (rows) {
+      return rows > 0
+        ? rows + ' ' + plurals(rows, ['рядок обраний', 'рядки обрані', 'рядків обрано']) + '.'
+        : 'Жодного рядку не обрано.'
+    },
     rowsPerPage: 'Рядків на сторінці:',
     allRows: 'Усі',
-    pagination: (start, end, total) => `${start}-${end} з ${total}`,
+    pagination: function (start, end, total) {
+      return start + '-' + end + ' з ' + total
+    },
     columns: 'Колонки'
   },
   editor: {

@@ -32,10 +32,16 @@ export default {
     noData: '没有可用数据',
     noResults: '找不到匹配的数据',
     loading: '正在加载...',
-    selectedRows: rows => rows > 1 ? `${rows} selected row(s).` : `${rows === 0 ? 'No' : '1'} selected rows.`,
+    selectedRows: function (rows) {
+      return rows === 1
+        ? '1 selected row.'
+        : (rows === 0 ? 'No' : rows) + ' selected rows.'
+    },
     rowsPerPage: '每页的行数:',
     allRows: '全部',
-    pagination: (start, end, total) => `${start}-${end} of ${total}`,
+    pagination: function (start, end, total) {
+      return start + '-' + end + ' / ' + total
+    },
     columns: '列'
   },
   editor: {

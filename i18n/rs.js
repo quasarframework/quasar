@@ -32,10 +32,16 @@ export default {
     noData: 'Nema podataka',
     noResults: 'Nema odgovarajućih zapisa',
     loading: 'Učitavanje...',
-    selectedRows: rows => rows > 1 ? `${rows} izabranih redova.` : `${rows === 0 ? 'Nema' : '1'} izabranih redova.`,
+    selectedRows: function (rows) {
+      return rows > 1
+        ? rows + ' izabranih redova.'
+        : (rows === 0 ? 'Nema' : '1') + ' izabranih redova.'
+    },
     rowsPerPage: 'Redova po stranici:',
     allRows: 'Sve',
-    pagination: (start, end, total) => `${start}-${end} od ${total}`,
+    pagination: function (start, end, total) {
+      return start + '-' + end + ' od ' + total
+    },
     columns: 'Kolone'
   },
   editor: {
