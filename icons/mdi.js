@@ -7,10 +7,10 @@ export default {
     warning: 'mdi-exclamation'
   },
   arrow: {
-    up: 'mdi-arrow-upward',
-    right: 'mdi-arrow-forward',
-    down: 'mdi-arrow-downward',
-    left: 'mdi-arrow-back'
+    up: 'mdi-arrow-up',
+    right: 'mdi-arrow-right',
+    down: 'mdi-arrow-down',
+    left: 'mdi-arrow-left'
   },
   chevron: {
     left: 'mdi-chevron-left',
@@ -18,7 +18,7 @@ export default {
   },
 
   pullToRefresh: {
-    arrow: 'mdi-arrow-downward',
+    arrow: 'mdi-arrow-down',
     refresh: 'mdi-refresh'
   },
   search: {
@@ -90,7 +90,7 @@ export default {
     font: 'mdi-format-font'
   },
   fab: {
-    icon: 'mdi-add',
+    icon: 'mdi-plus',
     activeIcon: 'mdi-close'
   },
   input: {
@@ -131,7 +131,7 @@ export default {
     right: 'mdi-chevron-right'
   },
   table: {
-    arrowUp: 'mdi-arrow-upward',
+    arrowUp: 'mdi-arrow-up',
     warning: 'mdi-alert',
     prevPage: 'mdi-chevron-left',
     nextPage: 'mdi-chevron-right'
@@ -140,7 +140,7 @@ export default {
     icon: 'mdi-play'
   },
   uploader: {
-    done: 'mdi-done',
+    done: 'mdi-check',
     clear: 'mdi-close-circle',
     clearInverted: 'mdi-close',
     add: 'mdi-plus',
