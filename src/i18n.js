@@ -8,8 +8,15 @@ export default {
 
     this.set = (lang = langEn) => {
       lang.set = this.set
+      lang.getLocale = this.getLocale
 
-      Vue.set($q, 'i18n', lang)
+      if ($q.i18n) {
+        $q.i18n = lang
+      }
+      else {
+        Vue.util.defineReactive($q, 'i18n', lang)
+      }
+
       this.name = lang.lang
       this.lang = lang
     }

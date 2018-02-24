@@ -9,7 +9,13 @@ export default {
     this.set = (iconDef = materialIcons) => {
       iconDef.set = this.set
 
-      Vue.set($q, 'icon', iconDef)
+      if ($q.icon) {
+        $q.icon = iconDef
+      }
+      else {
+        Vue.util.defineReactive($q, 'icon', iconDef)
+      }
+
       this.name = iconDef.name
       this.def = iconDef
     }

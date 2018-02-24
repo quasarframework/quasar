@@ -1,4 +1,5 @@
 export default {
+  lang: 'de',
   label: {
     clear: 'Leeren',
     ok: 'Ok',

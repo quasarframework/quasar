@@ -70,7 +70,7 @@ export default {
       }
     })
 
-    Vue.util.defineReactive({}, 'isActive', this)
+    Vue.util.defineReactive(this, 'isActive', this.isActive)
     $q.fullscreen = this
   }
 }

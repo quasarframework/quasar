@@ -35,7 +35,7 @@ export default {
     update()
 
     if (evt && typeof document[prop] !== 'undefined') {
-      Vue.util.defineReactive({}, 'appVisible', $q)
+      Vue.util.defineReactive($q, 'appVisible', this.appVisible)
       document.addEventListener(evt, update, false)
     }
   }
