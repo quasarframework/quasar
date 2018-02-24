@@ -16,6 +16,11 @@ export default {
     sublabel: Boolean,
     lines: [Number, String],
 
+    tag: {
+      type: String,
+      default: 'div'
+    },
+
     color: String,
     textColor: String // only for inverted icon/letter
   },
@@ -67,6 +72,6 @@ export default {
       data.props = { name: this.icon }
     }
 
-    return h(this.icon ? QIcon : 'div', data, [ this.$slots.default ])
+    return h(this.icon ? QIcon : this.tag, data, [ this.$slots.default ])
   }
 }
