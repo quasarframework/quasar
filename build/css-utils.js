@@ -26,7 +26,8 @@ module.exports.styleLoaders = function (options) {
     }).join('!')
 
     if (options.extract) {
-      return ExtractTextPlugin.extract({
+      var extractTextPlugin = new ExtractTextPlugin({ allChunks: true })
+      return extractTextPlugin.extract({
         fallbackLoader: 'vue-style-loader',
         loader: sourceLoader
       })
