@@ -1,5 +1,6 @@
 import langEn from '../i18n/en-us'
 import { isSSR } from './plugins/platform'
+import { ready } from './utils/dom'
 
 export default {
   __installed: false,
@@ -13,7 +14,9 @@ export default {
       lang.rtl = lang.rtl || false
 
       if (!isSSR) {
-        document.documentElement.setAttribute('dir', lang.rtl ? 'rtl' : 'ltr')
+        ready(() => {
+          document.documentElement.setAttribute('dir', lang.rtl ? 'rtl' : 'ltr')
+        })
       }
 
       if ($q.i18n) {
