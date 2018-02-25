@@ -52,7 +52,8 @@ export default {
     computedStyle () {
       const
         attach = this.attach,
-        transforms = []
+        transforms = [],
+        dir = this.$q.i18n.rtl ? -1 : 1
 
       if (attach.top && this.top) {
         transforms.push(`translateY(${this.top}px)`)
@@ -62,10 +63,10 @@ export default {
       }
 
       if (attach.left && this.left) {
-        transforms.push(`translateX(${this.left}px)`)
+        transforms.push(`translateX(${dir * this.left}px)`)
       }
       else if (attach.right && this.right) {
-        transforms.push(`translateX(${-this.right}px)`)
+        transforms.push(`translateX(${-dir * this.right}px)`)
       }
 
       const css = transforms.length
