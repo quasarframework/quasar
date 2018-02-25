@@ -86,11 +86,14 @@ export function getWeekOfYear (date) {
   return 1 + Math.floor(weekDiff)
 }
 
-export function isBetweenDates (date, from, to) {
-  const
+export function isBetweenDates (date, from, to, opts = {}) {
+  let
     d1 = new Date(from).getTime(),
     d2 = new Date(to).getTime(),
     cur = new Date(date).getTime()
+
+  opts.inclusiveFrom && d1--
+  opts.inclusiveTo && d2++
 
   return cur > d1 && cur < d2
 }
