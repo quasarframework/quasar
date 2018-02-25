@@ -80,12 +80,11 @@ export default {
 }
 </script>
 
-<style lang="stylus" src="quasar-css"></style>
-
 <style lang="stylus">
 p.caption
   margin 35px 0
   padding 12px 0 12px 12px
   border-left 4px solid #027be3
   font-weight bold
+  margin-left 10px
 </style>
