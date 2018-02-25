@@ -10,3 +10,4 @@ test/e2e/dist/
 cordova
 *.sublime*
 .idea/
+debug.log
