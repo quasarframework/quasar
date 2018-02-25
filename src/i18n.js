@@ -1,4 +1,5 @@
 import langEn from '../i18n/en-us'
+import { isSSR } from './plugins/platform'
 
 export default {
   __installed: false,
@@ -10,6 +11,10 @@ export default {
       lang.set = this.set
       lang.getLocale = this.getLocale
       lang.rtl = lang.rtl || false
+
+      if (!isSSR) {
+        document.documentElement.setAttribute('dir', lang.rtl ? 'rtl' : 'ltr')
+      }
 
       if ($q.i18n) {
         $q.i18n = lang

@@ -18,9 +18,7 @@ module.exports.cssLoaders = function (options = {}) {
   if (options.rtl) {
     postcssLoader.options.plugins = () => {
       return module.exports.postCSSrc.plugins.concat([
-        require('postcss-rtl')({
-          onlyDirection: 'rtl'
-        })
+        require('postcss-rtl')()
       ])
     }
   }

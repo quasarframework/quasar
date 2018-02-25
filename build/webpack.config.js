@@ -73,9 +73,7 @@ module.exports = {
             },
             plugins: rtl
               ? [
-                require('postcss-rtl')({
-                  onlyDirection: 'rtl'
-                })
+                require('postcss-rtl')()
               ]
               : []
           }),
