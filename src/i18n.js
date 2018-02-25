@@ -9,6 +9,7 @@ export default {
     this.set = (lang = langEn) => {
       lang.set = this.set
       lang.getLocale = this.getLocale
+      lang.rtl = lang.rtl || false
 
       if ($q.i18n) {
         $q.i18n = lang
