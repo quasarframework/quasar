@@ -1,5 +1,6 @@
 import { QSpinner } from '../components/spinner'
 import { isSSR } from './platform'
+import log from '../utils/log'
 
 let
   vm,
@@ -7,6 +8,7 @@ let
   props = {}
 
 const staticClass = 'q-loading animate-fade fullscreen column flex-center z-max'
+const notInstalled = 'You must include Loading inside quasar.conf before using it.'
 
 const Loading = {
   isActive: false,
@@ -21,6 +23,11 @@ const Loading = {
     customClass = false
   } = {}) {
     if (isSSR) { return }
+
+    if (!this.__installed) {
+      log.error(notInstalled)
+      return
+    }
 
     props.spinner = spinner
     props.message = message
@@ -74,6 +81,11 @@ const Loading = {
     this.isActive = true
   },
   hide () {
+    if (!this.__installed) {
+      log.error(notInstalled)
+      return
+    }
+
     if (!this.isActive) {
       return
     }
