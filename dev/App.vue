@@ -18,6 +18,7 @@
           ,{ label: 'Chinese (Simplified)', value: 'zh-hans' }
           ,{ label: 'Italian', value: 'it' }
           ,{ label: 'Spanish', value: 'es' }
+          ,{ label: 'Swedish', value: 'sv' }
           ,{ label: 'French', value: 'fr' }
           ,{ label: 'German', value: 'de' }
           ,{ label: 'Indonezian', value: 'id' }
