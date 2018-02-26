@@ -191,10 +191,10 @@ export default {
           staticClass: 'absolute full-width',
           style: this.mainStyle
         }, [
-          this.$slots.default,
           h(QResizeObservable, {
             on: { resize: this.__updateScrollHeight }
-          })
+          }),
+          this.$slots.default
         ]),
         h(QScrollObservable, {
           on: { scroll: this.__updateScroll }
