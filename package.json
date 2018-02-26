@@ -90,7 +90,6 @@
     "rollup-plugin-node-resolve": "^3.0.3",
     "rollup-plugin-replace": "^2.0.0",
     "rollup-plugin-vue": "^3.0.0",
-    "rtlcss": "^2.2.1",
     "shelljs": "^0.8.1",
     "stylint": "^1.5.9",
     "stylus": "^0.54.5",
