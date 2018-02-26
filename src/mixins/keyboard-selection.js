@@ -30,7 +30,7 @@ export default {
           break
         case 13: // ENTER key
         case 32: // SPACE key
-          if (this.$refs.popover.showing) {
+          if (this.$refs.popover.showing && !this.inputEl) {
             stopAndPrevent(e)
             this.__keyboardSetCurrentSelection()
             return
