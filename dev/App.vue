@@ -20,6 +20,7 @@
           ,{ label: 'Spanish', value: 'es' }
           ,{ label: 'Swedish', value: 'sv' }
           ,{ label: 'French', value: 'fr' }
+          ,{ label: 'Dutch', value: 'nl' }
           ,{ label: 'German', value: 'de' }
           ,{ label: 'Indonezian', value: 'id' }
           ,{ label: 'Croatian', value: 'hr' }
