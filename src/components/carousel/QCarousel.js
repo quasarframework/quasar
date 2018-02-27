@@ -216,11 +216,19 @@ export default {
           )
         )
       ) {
-        delta = delta / 10
+        delta = 0
       }
 
-      this.position = this.initialPosition + delta / this.$refs.track.offsetWidth * 100
-      this.positionSlide = (event.direction === 'left' ? this.slide + 1 : this.slide - 1)
+      const
+        pos = this.initialPosition + delta / this.$refs.track.offsetWidth * 100,
+        slidePos = (event.direction === 'left' ? this.slide + 1 : this.slide - 1)
+
+      if (this.position !== pos) {
+        this.position = pos
+      }
+      if (this.positionSlide !== slidePos) {
+        this.positionSlide = slidePos
+      }
 
       if (event.isFinal) {
         this.goToSlide(
