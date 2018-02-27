@@ -128,6 +128,7 @@ export default {
 
         const finish = () => {
           this.$emit('input', this.slide)
+          this.$emit('slide', this.slide, direction)
           this.$emit('slide-direction', direction)
           this.__planAutoPlay()
           resolve()
@@ -157,6 +158,7 @@ export default {
           }
         }
 
+        this.$emit('slide-trigger', this.slide, direction)
         pos = pos * -100
 
         if (!this.animation) {
