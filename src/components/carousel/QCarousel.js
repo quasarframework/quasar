@@ -122,6 +122,7 @@ export default {
       return new Promise((resolve, reject) => {
         let
           direction = '',
+          curSlide = this.slide,
           pos
 
         this.__cleanup()
@@ -158,7 +159,7 @@ export default {
           }
         }
 
-        this.$emit('slide-trigger', this.slide, direction)
+        this.$emit('slide-trigger', curSlide, this.slide, direction)
         pos = pos * -100
 
         if (!this.animation) {
