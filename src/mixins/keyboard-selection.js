@@ -29,6 +29,12 @@ export default {
           this.__keyboardMoveCursor(1, e)
           break
         case 13: // ENTER key
+          if (this.$refs.popover.showing) {
+            stopAndPrevent(e)
+            this.__keyboardSetCurrentSelection()
+            return
+          }
+          break
         case 32: // SPACE key
           if (this.$refs.popover.showing && !this.inputEl) {
             stopAndPrevent(e)
