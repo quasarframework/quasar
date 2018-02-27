@@ -253,6 +253,18 @@ export default {
     },
     progressColor () {
       return this.dark ? 'white' : 'grey'
+    },
+    computedExtensions () {
+      if (this.extensions) {
+        return this.extensions.split(',').map(ext => {
+          ext = ext.trim()
+          // support "image/*"
+          if (ext.endsWith('/*')) {
+            ext = ext.slice(0, ext.length - 1)
+          }
+          return ext
+        })
+      }
     }
   },
   watch: {
@@ -274,14 +286,26 @@ export default {
     },
     __onDrop (e) {
       this.dnd = false
+      let files = e.dataTransfer.files
 
-      const
-        files = e.dataTransfer.files,
-        count = files.length
-
-      if (count > 0) {
-        this.__add(null, this.multiple ? files : [ files[0] ])
+      if (files.length === 0) {
+        return
       }
+
+      files = this.multiple ? files : [ files[0] ]
+      if (this.extensions) {
+        files = this.__filter(files)
+        if (files.length === 0) {
+          return
+        }
+      }
+
+      this.__add(null, files)
+    },
+    __filter (files) {
+      return Array.prototype.filter.call(files, file => {
+        return this.computedExtensions.some(ext => file.type.startsWith(ext) || file.name.endsWith(ext))
+      })
     },
     __add (e, files) {
       if (this.addDisabled) {
