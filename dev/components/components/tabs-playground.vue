@@ -31,6 +31,16 @@
       <q-tab default slot="title" label="Gigiiiiiiiii sdfsdfs aadsf asfsda" />
     </q-tabs>
 
+    <q-tabs>
+      <q-tab :alert="alert" default slot="title" hide="label" name="three" label="Oaua" icon="bluetooth" />
+      <q-tab alert slot="title" hide="icon" name="one" label="Gogu" icon="wifi" />
+      <q-tab alert slot="title" name="two" label="Gigiiiiiiiii sdfsdfs aadsf asfsda" icon="important_devices" />
+
+      <q-tab-pane name="one">Tab One</q-tab-pane>
+      <q-tab-pane name="two">Tab Two</q-tab-pane>
+      <q-tab-pane name="three">Tab Three</q-tab-pane>
+    </q-tabs>
+
     <p class="caption">Router tabs</p>
     <div class="row gutter-xs justify-stretch">
       <div class="col-12 col-sm-6 col-md">

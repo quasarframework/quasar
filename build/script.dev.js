@@ -13,7 +13,7 @@ var
   webpackConfig = require('./webpack.config'),
   app = express(),
   port = process.env.PORT || 8080,
-  uri = 'http://localhost:' + port
+  uri = 'http://' + (process.env.HOST || 'localhost') + ':' + port
 
 console.log(' Starting dev server with "' + (process.argv[2] || env.platform.theme).bold + '" theme...')
 console.log(' Will listen at ' + uri.bold)
@@ -23,7 +23,7 @@ var compiler = webpack(webpackConfig)
 
 var devMiddleware = require('webpack-dev-middleware')(compiler, {
   publicPath: webpackConfig.output.publicPath,
-  quiet: true
+  logLevel: 'silent'
 })
 
 var hotMiddleware = require('webpack-hot-middleware')(compiler, {

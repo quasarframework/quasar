@@ -7,15 +7,16 @@ var
   ProgressBarPlugin = require('progress-bar-webpack-plugin'),
   projectRoot = path.resolve(__dirname, '../'),
   entry = ['./build/hot-reload', './src/ie-compat/ie.js', './dev/main.js'],
+  FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin'),
   merge = require('webpack-merge'),
-  FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
+  rtl = process.env.QUASAR_RTL !== void 0
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
 module.exports = {
-  devtool: '#eval-source-map',
+  devtool: '#cheap-module-eval-source-map',
   devServer: {
     historyApiFallback: true,
     noInfo: true
@@ -63,12 +64,27 @@ module.exports = {
       {
         test: /\.vue$/,
         loader: 'vue-loader',
+        include: projectRoot,
         options: {
-          postcss: cssUtils.postcss,
-          loaders: merge(
-            {js: 'babel-loader'},
-            cssUtils.styleLoaders({sourceMap: true})
-          )
+          postcss: merge(cssUtils.postCSSrc, {
+            useConfigFile: false,
+            options: {
+              sourceMap: true
+            },
+            plugins: rtl
+              ? [
+                require('postcss-rtl')()
+              ]
+              : []
+          }),
+          cssSourceMap: true,
+          loaders: cssUtils.cssLoaders(),
+          transformToRequire: {
+            video: 'src',
+            source: 'src',
+            img: 'src',
+            image: 'xlink:href'
+          }
         }
       },
       {
@@ -87,7 +103,7 @@ module.exports = {
           name: 'fonts/[name].[hash:7].[ext]'
         }
       }
-    ].concat(cssUtils.styleRules({sourceMap: true, postcss: true}))
+    ].concat(cssUtils.styleLoaders({ rtl, postCSS: true }))
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
@@ -101,21 +117,17 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'dev/index.html',
-      inject: true
-    }),
-    new webpack.LoaderOptionsPlugin({
-      options: {
-        context: resolve('src'),
-        eslint: {
-          formatter: require('eslint-friendly-formatter')
-        },
-        postcss: cssUtils.postcss
-      }
+      inject: true,
+
+      // custom
+      rtl
     }),
     new ProgressBarPlugin({
       format: ' [:bar] ' + ':percent'.bold + ' (:msg)'
     }),
-    new FriendlyErrorsPlugin()
+    new FriendlyErrorsPlugin({
+      clearConsole: true
+    })
   ],
   performance: {
     hints: false

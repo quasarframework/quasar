@@ -19,10 +19,7 @@ export default {
     }
   },
   render (h) {
-    return h('div', {
-      staticClass: 'absolute-full overflow-hidden invisible',
-      style: 'z-index: -1;'
-    })
+    return h('span')
   },
   mounted () {
     const
@@ -35,7 +32,7 @@ export default {
     this.onResize()
 
     this.object = object
-    object.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; pointer-events: none; z-index: -1;')
+    object.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; right: 0; bottom: 0; height: 100%; width: 100%; overflow: hidden; pointer-events: none; z-index: -1;')
     object.onload = () => {
       object.contentDocument.defaultView.addEventListener('resize', this.onResize, listenOpts.passive)
     }

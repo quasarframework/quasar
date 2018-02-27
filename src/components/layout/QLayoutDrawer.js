@@ -301,7 +301,7 @@ export default {
         return
       }
 
-      this.position = this.rightSide
+      this.position = (this.$q.i18n.rtl ? !this.rightSide : this.rightSide)
         ? Math.max(width - position, 0)
         : Math.min(0, position - width)
 
@@ -319,7 +319,8 @@ export default {
 
       const
         width = this.size,
-        position = evt.direction === this.side
+        dir = evt.direction === this.side,
+        position = (this.$q.i18n.rtl ? !dir : dir)
           ? between(evt.distance.x, 0, width)
           : 0
 
@@ -331,7 +332,7 @@ export default {
         return
       }
 
-      this.position = (this.rightSide ? 1 : -1) * position
+      this.position = (this.$q.i18n.rtl ? -1 : 1) * (this.rightSide ? 1 : -1) * position
       this.percentage = between(1 - position / width, 0, 1)
 
       if (evt.isFirst) {

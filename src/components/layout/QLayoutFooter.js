@@ -73,10 +73,10 @@ export default {
         css = {}
 
       if (view[0] === 'l' && this.layout.left.space) {
-        css.marginLeft = `${this.layout.left.size}px`
+        css[`margin${this.$q.i18n.rtl ? 'Right' : 'Left'}`] = `${this.layout.left.size}px`
       }
       if (view[2] === 'r' && this.layout.right.space) {
-        css.marginRight = `${this.layout.right.size}px`
+        css[`margin${this.$q.i18n.rtl ? 'Left' : 'Right'}`] = `${this.layout.right.size}px`
       }
 
       return css

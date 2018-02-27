@@ -25,21 +25,11 @@
   user-select none
   padding $tabs-padding
   min-height $tabs-min-height
-  text-transform $tabs-text-transform
 
   > .q-icon, .q-tab-label
     transition transform .2s
   > .q-icon + .q-tab-label
-    margin-top 7px
-  .q-tab-label
-    text-align center
-
-  &.icon-and-label:not(.hide-icon):not(.hide-label)
-    padding $tabs-padding-with-icon
-    min-height $tabs-min-height-with-icon
-
-  .q-tab-icon
-    font-size $tabs-icon-font-size
+    margin-top 3px
 
   .q-chip
     top 5px
@@ -58,13 +48,24 @@
   &:active
     background rgba(255, 255, 255, .3)
 
+.q-tab-label
+  text-align center
+  line-height 1.3
+
+.q-tab-only-label
+  font-size $tabs-big-font-size
+
+.q-tab-icon
+  font-size $tabs-icon-font-size
+
 @media (max-width $breakpoint-sm-max)
   .q-tab
     &.hide-icon .q-tab-icon,
     &.hide-label .q-tab-label
       display none !important
     &.hide-icon .q-tab-label
-        margin-top 0
+      font-size $tabs-big-font-size
+      margin-top 0
 
 @media (max-width $breakpoint-md-max)
   .q-tabs-head:not(.scrollable)
@@ -72,9 +73,11 @@
       flex 1 1 auto
 
 @media (min-width $breakpoint-lg-min)
-  .q-tab, .q-tab.icon-and-label:not(.hide-icon):not(.hide-label)
+  .q-tab
     padding-left $tabs-big-screen-horiz-padding
     padding-right $tabs-big-screen-horiz-padding
+  .q-tab-label
+    font-size $tabs-big-font-size
   .q-tabs-head:not(.scrollable)
     padding-left $tabs-big-screen-side-padding
     padding-right $tabs-big-screen-side-padding

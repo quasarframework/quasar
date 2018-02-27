@@ -22,7 +22,8 @@ export default {
     offset: {
       type: Array,
       validator: v => v.length === 2
-    }
+    },
+    expand: Boolean
   },
   computed: {
     attach () {
@@ -52,7 +53,8 @@ export default {
     computedStyle () {
       const
         attach = this.attach,
-        transforms = []
+        transforms = [],
+        dir = this.$q.i18n.rtl ? -1 : 1
 
       if (attach.top && this.top) {
         transforms.push(`translateY(${this.top}px)`)
@@ -62,10 +64,10 @@ export default {
       }
 
       if (attach.left && this.left) {
-        transforms.push(`translateX(${this.left}px)`)
+        transforms.push(`translateX(${dir * this.left}px)`)
       }
       else if (attach.right && this.right) {
-        transforms.push(`translateX(${-this.right}px)`)
+        transforms.push(`translateX(${-dir * this.right}px)`)
       }
 
       const css = transforms.length
@@ -94,17 +96,22 @@ export default {
       }
 
       return css
+    },
+    classes () {
+      return [ `fixed-${this.position}`, `q-page-sticky-${this.expand ? 'expand' : 'shrink'}` ]
     }
   },
   render (h) {
     return h('div', {
       staticClass: 'q-page-sticky q-layout-transition z-fixed row flex-center',
-      'class': `fixed-${this.position}`,
+      'class': this.classes,
       style: this.computedStyle
     }, [
-      h('span', [
-        this.$slots.default
-      ])
+      this.expand
+        ? this.$slots.default
+        : h('span', [
+          this.$slots.default
+        ])
     ])
   }
 }

@@ -1,5 +1,6 @@
 export default {
   lang: 'he',
+  rtl: true,
   label: {
     clear: 'נקה',
     ok: 'אישור',

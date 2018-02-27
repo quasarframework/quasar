@@ -35,9 +35,10 @@
 
       <q-toggle v-model="inverted" label="Inverted" />
       <q-toggle v-model="dark" label="Dark" />
-      <p class="caption">Multiple File Upload</p>
+      <p class="caption">Multiple File Upload (Only .jpg)</p>
       <div class="q-pa-sm" :class="this.dark ? 'bg-grey-10 text-orange' : ''">
         <q-uploader
+          extensions=".jpg"
           :inverted="inverted"
           :dark="dark"
           auto-expand
