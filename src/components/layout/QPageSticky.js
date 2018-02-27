@@ -22,7 +22,8 @@ export default {
     offset: {
       type: Array,
       validator: v => v.length === 2
-    }
+    },
+    expand: Boolean
   },
   computed: {
     attach () {
@@ -95,17 +96,22 @@ export default {
       }
 
       return css
+    },
+    classes () {
+      return [ `fixed-${this.position}`, `q-page-sticky-${this.expand ? 'expand' : 'shrink'}` ]
     }
   },
   render (h) {
     return h('div', {
       staticClass: 'q-page-sticky q-layout-transition z-fixed row flex-center',
-      'class': `fixed-${this.position}`,
+      'class': this.classes,
       style: this.computedStyle
     }, [
-      h('span', [
-        this.$slots.default
-      ])
+      this.expand
+        ? this.$slots.default
+        : h('span', [
+          this.$slots.default
+        ])
     ])
   }
 }
