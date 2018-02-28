@@ -33,6 +33,7 @@ export default {
     autoplay: [Number, Boolean],
     handleArrowKeys: Boolean,
     quickNav: Boolean,
+    quickNavTop: Boolean,
     quickNavIcon: String
   },
   provide () {
@@ -340,8 +341,8 @@ export default {
       }
 
       return h('div', {
-        staticClass: 'q-carousel-quick-nav absolute-bottom scroll text-center',
-        'class': `text-${this.color}`
+        staticClass: 'q-carousel-quick-nav scroll text-center',
+        'class': [`text-${this.color}`, this.quickNavTop ? 'absolute-top' : 'absolute-bottom']
       }, items)
     }
   },
