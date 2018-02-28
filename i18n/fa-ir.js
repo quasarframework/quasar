@@ -34,7 +34,7 @@ export default {
     noResults: 'هیچ موردی یافت نشد',
     loading: 'در حال بارگذاری ...',
     selectedRows: function (rows) {
-      return rows === 0 ? 'ردیفی انتخاب نشده': rows + ' ردیف انتخاب شده'
+      return rows === 0 ? 'ردیفی انتخاب نشده' : rows + ' ردیف انتخاب شده'
     },
     rowsPerPage: 'ردیف بر صفحه:',
     allRows: 'همه',
