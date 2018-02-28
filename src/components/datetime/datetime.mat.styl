@@ -44,6 +44,7 @@ div + .q-datetime-time
 
 .q-datetime-clockstring
   font-size 2.7rem
+  direction: ltr /* rtl:ignore */
 
 .q-datetime-selector
   height 310px
@@ -179,7 +180,7 @@ body.desktop .q-datetime-dark .q-datetime-clock-position:not(.active):hover
   line-height 32px
   margin 0
   padding 0
-  transform translate(-50%, -50%)
+  transform translate(-50%, -50%) /* rtl:ignore */
   border-radius 50%
   &:not(.active)
     color black
@@ -194,13 +195,13 @@ for $pos in 0..12
   $degree = (270 + 30 * $pos)
   .q-datetime-clock-pos-{$pos}
     top round(((1 + sin($degree * 1deg)) * 100%) / 2, 2)
-    left round(((1 + cos($degree * 1deg)) * 100%) / 2, 2)
+    left round(((1 + cos($degree * 1deg)) * 100%) / 2, 2) /* rtl:ignore */
 
 for $pos in 0..23
   $degree = (270 + 15 * $pos)
   .q-datetime-clock-pos-{$pos}.fmt24
     top round(((1 + sin($degree * 1deg)) * 100%) / 2, 2)
-    left round(((1 + cos($degree * 1deg)) * 100%) / 2, 2)
+    left round(((1 + cos($degree * 1deg)) * 100%) / 2, 2) /* rtl:ignore */
 
 .q-datetime-range
   &.row

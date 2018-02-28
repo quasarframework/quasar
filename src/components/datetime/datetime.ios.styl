@@ -21,6 +21,7 @@
   text-align right
   position relative
   padding 0
+  direction ltr /* rtl:ignore */
 
 .q-datetime-col
   display block
@@ -64,6 +65,9 @@
   width 100%
   backface-visibility hidden
   transform-origin center center -110px
+
+[dir=rtl] .q-datetime-col-month .q-datetime-item
+  padding-right 5px
 
 .q-datetime-mask
   position absolute

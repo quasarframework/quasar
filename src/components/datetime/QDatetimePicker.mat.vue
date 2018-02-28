@@ -108,7 +108,7 @@
               dense
               flat
               class="q-datetime-arrow"
-              :icon="$q.icon.datetime.arrowLeft"
+              :icon="dateArrow[0]"
               :repeatTimeout="__repeatTimeout"
               :disable="beforeMinDays > 0 || disable || readonly"
               @click="setMonth(month - 1)"
@@ -121,7 +121,7 @@
               dense
               flat
               class="q-datetime-arrow"
-              :icon="$q.icon.datetime.arrowRight"
+              :icon="dateArrow[1]"
               :repeatTimeout="__repeatTimeout"
               :disable="afterMaxDays > 0 || disable || readonly"
               @click="setMonth(month + 1)"
@@ -286,6 +286,10 @@ export default {
       this.dark && cls.push('q-datetime-dark')
       this.color && cls.push(`text-${this.color}`)
       return cls
+    },
+    dateArrow () {
+      const val = [ this.$q.icon.datetime.arrowLeft, this.$q.icon.datetime.arrowRight ]
+      return this.$q.i18n.rtl ? val.reverse() : val
     },
     computedFormat24h () {
       return this.format24h !== 0
