@@ -2,8 +2,9 @@ import { between } from '../../utils/format'
 import { position } from '../../utils/event'
 import TouchPan from '../../directives/touch-pan'
 
-export function getPercentage (event, dragging) {
-  return between((position(event).left - dragging.left) / dragging.width, 0, 1)
+export function getPercentage (event, dragging, rtl) {
+  const val = between((position(event).left - dragging.left) / dragging.width, 0, 1)
+  return rtl ? 1.0 - val : val
 }
 
 export function notDivides (res, decimals) {

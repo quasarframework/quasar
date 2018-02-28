@@ -134,7 +134,7 @@ export default {
       }
 
       let
-        percentage = getPercentage(event, this.dragging),
+        percentage = getPercentage(event, this.dragging, this.$q.i18n.rtl),
         type
 
       if (percentage < this.currentMinPercentage + sensitivity) {
@@ -170,7 +170,7 @@ export default {
     },
     __update (event) {
       let
-        percentage = getPercentage(event, this.dragging),
+        percentage = getPercentage(event, this.dragging, this.$q.i18n.rtl),
         model = getModel(percentage, this.min, this.max, this.step, this.computedDecimals),
         pos
 
@@ -269,7 +269,7 @@ export default {
         ref: `handle${upper}`,
         staticClass: `q-slider-handle q-slider-handle-${lower}`,
         style: {
-          left: `${percentage * 100}%`,
+          [this.$q.i18n.rtl ? 'right' : 'left']: `${percentage * 100}%`,
           borderRadius: this.square ? '0' : '50%'
         },
         'class': [
@@ -298,7 +298,7 @@ export default {
         h('div', {
           staticClass: 'q-slider-track active-track',
           style: {
-            left: `${this.percentageMin * 100}%`,
+            [this.$q.i18n.rtl ? 'right' : 'left']: `${this.percentageMin * 100}%`,
             width: this.activeTrackWidth
           },
           'class': {

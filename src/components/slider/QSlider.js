@@ -79,7 +79,7 @@ export default {
     },
     __update (event) {
       let
-        percentage = getPercentage(event, this.dragging),
+        percentage = getPercentage(event, this.dragging, this.$q.i18n.rtl),
         model = getModel(percentage, this.min, this.max, this.step, this.computedDecimals)
 
       this.currentPercentage = percentage
@@ -117,7 +117,7 @@ export default {
         h('div', {
           staticClass: 'q-slider-handle',
           style: {
-            left: this.percentage,
+            [this.$q.i18n.rtl ? 'right' : 'left']: this.percentage,
             borderRadius: this.square ? '0' : '50%'
           },
           'class': {
