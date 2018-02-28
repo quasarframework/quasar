@@ -17,12 +17,10 @@ export default {
   props: {
     anchor: {
       type: String,
-      default: 'bottom left',
       validator: positionValidator
     },
     self: {
       type: String,
-      default: 'top left',
       validator: positionValidator
     },
     fit: Boolean,
@@ -49,10 +47,10 @@ export default {
   },
   computed: {
     anchorOrigin () {
-      return parsePosition(this.anchor)
+      return parsePosition(this.anchor || `bottom ${this.$q.i18n.rtl ? 'right' : 'left'}`)
     },
     selfOrigin () {
-      return parsePosition(this.self)
+      return parsePosition(this.self || `top ${this.$q.i18n.rtl ? 'right' : 'left'}`)
     }
   },
   render (h) {
