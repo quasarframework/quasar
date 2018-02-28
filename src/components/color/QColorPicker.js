@@ -95,7 +95,7 @@ export default {
     saturationPointerStyle () {
       return {
         top: `${101 - this.model.v}%`,
-        left: `${this.model.s}%`
+        [this.$q.i18n.rtl ? 'right' : 'left']: `${this.model.s}%`
       }
     },
     inputsArray () {
@@ -285,8 +285,14 @@ export default {
         panel = this.$refs.saturation,
         width = panel.clientWidth,
         height = panel.clientHeight,
-        rect = panel.getBoundingClientRect(),
-        x = Math.min(width, Math.max(0, left - rect.left)),
+        rect = panel.getBoundingClientRect()
+      let x = Math.min(width, Math.max(0, left - rect.left))
+
+      if (this.$q.i18n.rtl) {
+        x = width - x
+      }
+
+      const
         y = Math.min(height, Math.max(0, top - rect.top)),
         s = Math.round(100 * x / width),
         v = Math.round(100 * Math.max(0, Math.min(1, -(y / height) + 1))),
