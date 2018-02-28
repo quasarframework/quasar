@@ -87,6 +87,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Scott Brooks
 - Luca Ban
 - Borut
+- Thibaut Renoncourt
 
 - Ken ($5)
 - Oliver ($5)
