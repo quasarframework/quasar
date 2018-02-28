@@ -100,6 +100,15 @@ export default {
     },
     __ellipses () {
       return this.__getBool(this.ellipses, !this.input)
+    },
+    icons () {
+      const ico = [
+        this.$q.icon.pagination.first,
+        this.$q.icon.pagination.prev,
+        this.$q.icon.pagination.next,
+        this.$q.icon.pagination.last
+      ]
+      return this.$q.i18n.rtl ? ico.reverse() : ico
     }
   },
   methods: {
@@ -142,7 +151,7 @@ export default {
         key: 'bls',
         props: {
           disable: this.disable || this.value <= this.min,
-          icon: this.$q.icon.pagination.first
+          icon: this.icons[0]
         },
         on: {
           click: () => this.set(this.min)
@@ -152,7 +161,7 @@ export default {
         key: 'ble',
         props: {
           disable: this.disable || this.value >= this.max,
-          icon: this.$q.icon.pagination.last
+          icon: this.icons[3]
         },
         on: {
           click: () => this.set(this.max)
@@ -165,7 +174,7 @@ export default {
         key: 'bdp',
         props: {
           disable: this.disable || this.value <= this.min,
-          icon: this.$q.icon.pagination.prev,
+          icon: this.icons[1],
           repeatTimeout: this.__repeatTimeout
         },
         on: {
@@ -176,7 +185,7 @@ export default {
         key: 'bdn',
         props: {
           disable: this.disable || this.value >= this.max,
-          icon: this.$q.icon.pagination.next,
+          icon: this.icons[2],
           repeatTimeout: this.__repeatTimeout
         },
         on: {
