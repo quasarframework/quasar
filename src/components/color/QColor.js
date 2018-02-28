@@ -201,6 +201,7 @@ export default {
   },
   render (h) {
     return h(QInputFrame, {
+      staticClass: 'q-color-input',
       props: {
         prefix: this.prefix,
         suffix: this.suffix,

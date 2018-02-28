@@ -218,6 +218,7 @@ export default {
   },
   render (h) {
     return h(QInputFrame, {
+      staticClass: 'q-datetime-input',
       props: {
         prefix: this.prefix,
         suffix: this.suffix,
