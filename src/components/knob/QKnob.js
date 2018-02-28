@@ -54,9 +54,10 @@ export default {
       return cls
     },
     svgStyle () {
+      const dir = this.$q.i18n.rtl ? -1 : 1
       return {
         'stroke-dasharray': '295.31px, 295.31px',
-        'stroke-dashoffset': (295.31 * (1.0 - (this.model - this.min) / (this.max - this.min))) + 'px',
+        'stroke-dashoffset': (295.31 * dir * (1.0 - (this.model - this.min) / (this.max - this.min))) + 'px',
         'transition': this.dragging ? '' : 'stroke-dashoffset 0.6s ease 0s, stroke 0.6s ease'
       }
     },
@@ -161,6 +162,10 @@ export default {
       }
       else {
         angle = center.left < pos.left ? angle + 90 : 270 - angle
+      }
+
+      if (this.$q.i18n.rtl) {
+        angle = 360 - angle
       }
 
       let
