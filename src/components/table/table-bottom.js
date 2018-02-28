@@ -3,6 +3,12 @@ import { QBtn } from '../btn'
 import { QIcon } from '../icon'
 
 export default {
+  computed: {
+    navIcon () {
+      const ico = [ this.$q.icon.table.prevPage, this.$q.icon.table.nextPage ]
+      return this.$q.i18n.rtl ? ico.reverse() : ico
+    }
+  },
   methods: {
     getBottom (h) {
       if (this.hideBottom) {
@@ -78,7 +84,7 @@ export default {
                 props: {
                   color: this.color,
                   round: true,
-                  icon: this.$q.icon.table.prevPage,
+                  icon: this.navIcon[0],
                   dense: true,
                   flat: true,
                   disable: this.isFirstPage
@@ -89,7 +95,7 @@ export default {
                 props: {
                   color: this.color,
                   round: true,
-                  icon: this.$q.icon.table.nextPage,
+                  icon: this.navIcon[1],
                   dense: true,
                   flat: true,
                   disable: this.isLastPage
