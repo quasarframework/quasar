@@ -20,6 +20,7 @@
           ,{ label: 'Italian', value: 'it' }
           ,{ label: 'Spanish', value: 'es' }
           ,{ label: 'Swedish', value: 'sv' }
+          ,{ label: 'Farsi', value: 'fa-ir' }
           ,{ label: 'French', value: 'fr' }
           ,{ label: 'Dutch', value: 'nl' }
           ,{ label: 'German', value: 'de' }
