@@ -15,6 +15,7 @@
           { label: 'English (US)', value: 'en-us' }
           ,{ label: 'English (UK)', value: 'en-uk' }
           ,{ label: 'Romanian', value: 'ro' }
+          ,{ label: 'Hebrew', value: 'he' }
           ,{ label: 'Chinese (Simplified)', value: 'zh-hans' }
           ,{ label: 'Italian', value: 'it' }
           ,{ label: 'Spanish', value: 'es' }
@@ -27,7 +28,6 @@
           ,{ label: 'Russian', value: 'ru' }
           ,{ label: 'Ukrainian', value: 'uk' }
           ,{ label: 'Polish', value: 'pl' }
-          ,{ label: 'Hebrew', value: 'he' }
         ]"
         v-model="lang"
       />

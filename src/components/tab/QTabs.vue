@@ -245,7 +245,10 @@ export default {
         return
       }
       this.posbar = {width, left}
-      css(this.$refs.posbar, cssTransform(`translateX(${left}px) scaleX(${width})`))
+      const xPos = this.$q.i18n.rtl
+        ? left + width
+        : left
+      css(this.$refs.posbar, cssTransform(`translateX(${xPos}px) scaleX(${width})`))
     },
     __updatePosbarTransition () {
       if (
@@ -266,10 +269,11 @@ export default {
       if (!this.$q.platform.is.desktop) {
         return
       }
-      if (width(this.$refs.scroller) === 0 && this.$refs.scroller.scrollWidth === 0) {
+      this.scrollerWidth = width(this.$refs.scroller)
+      if (this.scrollerWidth === 0 && this.$refs.scroller.scrollWidth === 0) {
         return
       }
-      if (width(this.$refs.scroller) + 5 < this.$refs.scroller.scrollWidth) {
+      if (this.scrollerWidth + 5 < this.$refs.scroller.scrollWidth) {
         this.$refs.tabs.classList.add('scrollable')
         this.scrollable = true
         this.__updateScrollIndicator()
