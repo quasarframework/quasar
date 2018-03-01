@@ -42,25 +42,26 @@ function updateBinding (el, { value, modifiers }) {
 export default {
   name: 'back-to-top',
   bind (el) {
-    let ctx = {
+    const ctx = {
       offset: 200,
       duration: 300,
-      update: debounce(() => {
-        const trigger = getScrollPosition(ctx.scrollTarget) > ctx.offset
-        if (ctx.visible !== trigger) {
-          ctx.visible = trigger
-          el.classList[trigger ? 'remove' : 'add']('hidden')
+      updateNow: () => {
+        const trigger = getScrollPosition(ctx.scrollTarget) <= ctx.offset
+
+        if (trigger !== el.classList.contains('hidden')) {
+          el.classList[trigger ? 'add' : 'remove']('hidden')
         }
-      }, 25),
+      },
       goToTop () {
         setScrollPosition(ctx.scrollTarget, 0, ctx.animate ? ctx.duration : 0)
       }
     }
+    ctx.update = debounce(ctx.updateNow, 25)
     el.classList.add('hidden')
     el.__qbacktotop = ctx
   },
   inserted (el, binding) {
-    let ctx = el.__qbacktotop
+    const ctx = el.__qbacktotop
     ctx.scrollTarget = getScrollTarget(el)
     ctx.animate = binding.modifiers.animate
     updateBinding(el, binding)
@@ -69,12 +70,18 @@ export default {
     el.addEventListener('click', ctx.goToTop)
   },
   update (el, binding) {
-    if (binding.oldValue !== binding.value) {
+    console.log('update')
+    if (JSON.stringify(binding.oldValue) !== JSON.stringify(binding.value)) {
       updateBinding(el, binding)
+    }
+    else {
+      setTimeout(() => {
+        el.__qbacktotop.updateNow()
+      }, 0)
     }
   },
   unbind (el) {
-    let ctx = el.__qbacktotop
+    const ctx = el.__qbacktotop
     if (!ctx) { return }
     ctx.scrollTarget.removeEventListener('scroll', ctx.update, listenOpts.passive)
     window.removeEventListener('resize', ctx.update, listenOpts.passive)
