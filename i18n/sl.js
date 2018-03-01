@@ -25,8 +25,8 @@ export default {
   },
   pullToRefresh: {
     pull: 'Za ponovno nalaganje povleci navzdol',
-    release: 'Za ponovno nalaganje pusti',
-    refresh: 'Ponovno nalogam...'
+    release: 'Za ponovno nalaganje spusti',
+    refresh: 'Ponovno nalagam...'
   },
   table: {
     noData: 'Ni dosegljivih podatkov',
@@ -34,8 +34,8 @@ export default {
     loading: 'Nalagam...',
     selectedRows: function (rows) {
       return rows === 1
-        ? '1 selected row.'
-        : (rows === 0 ? 'No' : rows) + ' selected rows.'
+        ? '1 izbrana vrstica.'
+        : (rows === 2 ? '2 izbrani vrstici.' : (rows === 0 ? 'Ni' : rows) + ' izbranih vrstic.')
     },
     rowsPerPage: 'Vrstic na stran:',
     allRows: 'Vse',
@@ -55,7 +55,7 @@ export default {
     subscript: 'Podpisano',
     superscript: 'Nadpisano',
     hyperlink: 'Hiper povezava',
-    toggleFullscreen: 'Toggle Fullscreen',
+    toggleFullscreen: 'Preklopi celoten zaslon',
     quote: 'Citat',
     left: 'Poravnaj levo',
     center: 'Poravnaj na sredino',
