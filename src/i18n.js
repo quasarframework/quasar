@@ -15,7 +15,9 @@ export default {
 
       if (!isSSR) {
         ready(() => {
-          document.documentElement.setAttribute('dir', lang.rtl ? 'rtl' : 'ltr')
+          const el = document.documentElement
+          el.setAttribute('dir', lang.rtl ? 'rtl' : 'ltr')
+          el.setAttribute('lang', lang.lang)
         })
       }
 
