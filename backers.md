@@ -83,7 +83,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Asif Mehedi
 - Sevenview Studios
 - Rus Brushkoff
-- Abdelkarim Mateos
 - Scott Brooks
 - Luca Ban
 - Borut
