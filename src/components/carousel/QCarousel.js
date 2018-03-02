@@ -33,7 +33,11 @@ export default {
     autoplay: [Number, Boolean],
     handleArrowKeys: Boolean,
     quickNav: Boolean,
-    quickNavTop: Boolean,
+    quickNavPosition: {
+      type: String,
+      default: 'bottom',
+      validator: v => ['top', 'bottom'].includes(v)
+    },
     quickNavIcon: String
   },
   provide () {
@@ -238,7 +242,6 @@ export default {
       }
       if (this.positionSlide !== slidePos) {
         this.positionSlide = slidePos
-        console.log(slidePos)
       }
 
       if (event.isFinal) {
@@ -342,7 +345,7 @@ export default {
 
       return h('div', {
         staticClass: 'q-carousel-quick-nav scroll text-center',
-        'class': [`text-${this.color}`, this.quickNavTop ? 'absolute-top' : 'absolute-bottom']
+        'class': [`text-${this.color}`, `absolute-${this.quickNavPosition}`]
       }, items)
     }
   },
