@@ -149,18 +149,16 @@ function getPlatform () {
   browser.name = matched.browser
   browser.platform = matched.platform
 
-  if (window && window.process && window.process.versions && window.process.versions.electron) {
-    browser.electron = true
-  }
-  else if (document.location.href.indexOf('chrome-extension://') === 0) {
-    browser.chromeExt = true
-  }
-  else if (
-    window._cordovaNative ||
-    window.cordova ||
-    document.location.href.indexOf('http://') === -1
-  ) {
-    browser.cordova = true
+  if (!isSSR) {
+    if (window.process && window.process.versions && window.process.versions.electron) {
+      browser.electron = true
+    }
+    else if (document.location.href.indexOf('chrome-extension://') === 0) {
+      browser.chromeExt = true
+    }
+    else if (window._cordovaNative || window.cordova) {
+      browser.cordova = true
+    }
   }
 
   return browser
