@@ -1,6 +1,6 @@
 {
   "name": "quasar-framework",
-  "version": "0.15.6",
+  "version": "0.15.7",
   "description": "Build responsive websites, PWAs, hybrid mobile apps and Electron apps, all simultaneously using same codebase",
   "files": [
     "dist",
