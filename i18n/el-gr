@@ -34,7 +34,7 @@ export default {
     loading: 'Φόρτωση...',
     selectedRows: function (rows) {
       return rows === 1
-        ? '1 Επιλεγμένες εγγραφές.'
+        ? '1 Επιλεγμένη εγγραφή.'
         : (rows === 0 ? 'Καμμία' : rows) + ' Επιλεγμένες Εγγραφές.'
     },
     rowsPerPage: 'Εγγραφές ανα σελίδα:',
