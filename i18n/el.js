@@ -1,5 +1,5 @@
 export default {
-  lang: 'el-gr',
+  lang: 'el',
   label: {
     clear: 'Καθαρισμός',
     ok: 'Εντάξει',
@@ -21,7 +21,7 @@ export default {
     months: 'Ιανουάριος_Φεβρουάριος_Μάρτιος_Απρίλιος_Μάιος_Ιούνιος_Ιούλιος_Αύγουστος_Σεπτέμβριος_Οκτώβριος_Νοέμβριος_Δεκέμβριος'.split('_'),
     monthsShort: 'Ιαν_Φεβ_Μαρ_Απρ_Μαϊ_Ιουν_Ιουλ_Αυγ_Σεπ_Οκτ_Νοε_Δεκ'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: false // needs further reading and testing
+    format24h: true
   },
   pullToRefresh: {
     pull: 'Τράβηξε κάτω για ανανέωση',
