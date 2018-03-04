@@ -26,6 +26,8 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 
 <a href="http://www.kalisio.com/" target="_blank"><img src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/a579cb37/kalisio.png" width="200px"></a>
 
+KPA Productions
+
 ---
 
 ### $50+
