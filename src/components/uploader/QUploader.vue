@@ -305,7 +305,10 @@ export default {
     },
     __filter (files) {
       return Array.prototype.filter.call(files, file => {
-        return this.computedExtensions.some(ext => file.type.startsWith(ext) || file.name.endsWith(ext))
+        return this.computedExtensions.some(ext => {
+           return file.type.toUpperCase().startsWith(ext.toUpperCase()) ||
+              file.name.toUpperCase().endsWith(ext.toUpperCase())
+        })
       })
     },
     __add (e, files) {
@@ -323,7 +326,7 @@ export default {
           file.__size = humanStorageSize(file.size)
           file.__timestamp = new Date().getTime()
 
-          if (this.noThumbnails || !file.type.startsWith('image')) {
+          if (this.noThumbnails || !file.type.toUpperCase().startsWith('IMAGE')) {
             this.queue.push(file)
           }
           else {
