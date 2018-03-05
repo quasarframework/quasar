@@ -46,7 +46,7 @@ function additionalCSS (position) {
 let openedModalNumber = 0
 
 export default {
-  name: 'q-modal',
+  name: 'QModal',
   mixins: [ModelToggleMixin],
   provide () {
     return {

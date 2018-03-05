@@ -24,7 +24,7 @@ import QSpinnerTail from './list/tail'
 
 const QSpinner = {
   mixins: [DefaultSpinner],
-  name: 'q-spinner'
+  name: 'QSpinner'
 }
 
 export {

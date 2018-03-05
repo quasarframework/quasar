@@ -152,7 +152,7 @@ function initFile (file) {
 }
 
 export default {
-  name: 'q-uploader',
+  name: 'QUploader',
   mixins: [FrameMixin],
   components: {
     QInputFrame,

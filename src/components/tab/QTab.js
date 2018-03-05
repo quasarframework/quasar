@@ -1,7 +1,7 @@
 import TabMixin from './tab-mixin'
 
 export default {
-  name: 'q-tab',
+  name: 'QTab',
   mixins: [TabMixin],
   props: {
     default: Boolean

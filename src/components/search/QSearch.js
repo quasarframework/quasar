@@ -3,7 +3,7 @@ import InputMixin from '../../mixins/input'
 import FrameMixin from '../../mixins/input-frame'
 
 export default {
-  name: 'q-search',
+  name: 'QSearch',
   mixins: [FrameMixin, InputMixin],
   props: {
     value: { required: true },

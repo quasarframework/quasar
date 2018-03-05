@@ -187,7 +187,7 @@ function defaultFilterFn (terms, obj) {
 }
 
 export default {
-  name: 'q-select',
+  name: 'QSelect',
   mixins: [FrameMixin, KeyboardSelectionMixin],
   components: {
     QSearch,

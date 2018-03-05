@@ -62,7 +62,7 @@ function restoreAjax () {
 }
 
 export default {
-  name: 'q-ajax-bar',
+  name: 'QAjaxBar',
   props: {
     position: {
       type: String,

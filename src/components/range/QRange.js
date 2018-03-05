@@ -15,7 +15,7 @@ const dragType = {
 }
 
 export default {
-  name: 'q-range',
+  name: 'QRange',
   mixins: [SliderMixin],
   props: {
     value: {

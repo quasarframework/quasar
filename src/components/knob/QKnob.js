@@ -4,7 +4,7 @@ import { offset, height, width } from '../../utils/dom'
 import TouchPan from '../../directives/touch-pan'
 
 export default {
-  name: 'q-knob',
+  name: 'QKnob',
   directives: {
     TouchPan
   },

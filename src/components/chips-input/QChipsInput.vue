@@ -81,7 +81,7 @@ import { QChip } from '../chip'
 import { getEventKey, stopAndPrevent } from '../../utils/event'
 
 export default {
-  name: 'q-chips-input',
+  name: 'QChipsInput',
   mixins: [FrameMixin, InputMixin],
   components: {
     QInputFrame,

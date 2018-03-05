@@ -4,7 +4,7 @@ import { getScrollTarget } from '../../utils/scroll'
 import { listenOpts } from '../../utils/event'
 
 export default {
-  name: 'q-infinite-scroll',
+  name: 'QInfiniteScroll',
   props: {
     handler: {
       type: Function,

@@ -1,5 +1,5 @@
 export default {
-  name: 'q-timeline',
+  name: 'QTimeline',
   provide () {
     return {
       __timeline: this

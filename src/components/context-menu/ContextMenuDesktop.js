@@ -2,7 +2,7 @@ import { stopAndPrevent } from '../../utils/event'
 import { QPopover } from '../popover'
 
 export default {
-  name: 'q-context-menu',
+  name: 'QContextMenu',
   components: {
     QPopover
   },

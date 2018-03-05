@@ -3,7 +3,7 @@ import { QSpinner } from '../spinner'
 import { between } from '../../utils/format'
 
 export default {
-  name: 'q-btn',
+  name: 'QBtn',
   mixins: [BtnMixin],
   props: {
     percentage: Number,
@@ -141,7 +141,7 @@ export default {
         ? [ this.$slots.loading || h(QSpinner) ]
         : [
           this.icon
-            ? h('q-icon', {
+            ? h('QIcon', {
               'class': { 'on-left': this.label && this.isRectangle },
               props: { name: this.icon }
             })
@@ -152,7 +152,7 @@ export default {
           this.$slots.default,
 
           this.iconRight && this.isRectangle
-            ? h('q-icon', {
+            ? h('QIcon', {
               staticClass: 'on-right',
               props: { name: this.iconRight }
             })

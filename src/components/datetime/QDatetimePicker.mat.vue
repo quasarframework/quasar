@@ -248,7 +248,7 @@ function convertToAmPm (hour) {
 }
 
 export default {
-  name: 'q-datetime-picker',
+  name: 'QDatetimePicker',
   mixins: [DateMixin, ParentFieldMixin],
   props: {
     defaultValue: [String, Number, Date],

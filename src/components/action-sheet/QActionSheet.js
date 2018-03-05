@@ -3,7 +3,7 @@ import { QIcon } from '../icon'
 import { QList, QItem, QItemSide, QItemMain, QItemSeparator } from '../list'
 
 export default {
-  name: 'q-action-sheet',
+  name: 'QActionSheet',
   props: {
     value: Boolean,
     title: String,

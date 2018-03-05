@@ -12,7 +12,7 @@ import ModelToggleMixin from '../../mixins/model-toggle'
 import { listenOpts } from '../../utils/event'
 
 export default {
-  name: 'q-popover',
+  name: 'QPopover',
   mixins: [ModelToggleMixin],
   props: {
     anchor: {

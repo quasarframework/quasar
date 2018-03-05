@@ -4,7 +4,7 @@ import { getScrollTarget } from '../../utils/scroll'
 import { listenOpts } from '../../utils/event'
 
 export default {
-  name: 'q-parallax',
+  name: 'QParallax',
   props: {
     src: {
       type: String,

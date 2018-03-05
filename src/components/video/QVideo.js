@@ -1,5 +1,5 @@
 export default {
-  name: 'q-video',
+  name: 'QVideo',
   props: {
     src: {
       type: String,

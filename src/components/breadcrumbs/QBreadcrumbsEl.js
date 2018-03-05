@@ -2,7 +2,7 @@ import { QIcon } from '../icon'
 import { RouterLinkMixin } from '../../utils/router-link'
 
 export default {
-  name: 'q-breadcrumbs-el',
+  name: 'QBreadcrumbsEl',
   mixins: [{ props: RouterLinkMixin.props }],
   props: {
     label: String,

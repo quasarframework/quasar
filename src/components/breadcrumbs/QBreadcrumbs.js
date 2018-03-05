@@ -1,7 +1,7 @@
 import AlignMixin from '../../mixins/align'
 
 export default {
-  name: 'q-breadcrumbs',
+  name: 'QBreadcrumbs',
   mixins: [AlignMixin],
   props: {
     color: {

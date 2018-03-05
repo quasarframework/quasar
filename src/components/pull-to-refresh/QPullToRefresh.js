@@ -4,7 +4,7 @@ import { QIcon } from '../icon'
 import TouchPan from '../../directives/touch-pan'
 
 export default {
-  name: 'q-pull-to-refresh',
+  name: 'QPullToRefresh',
   directives: {
     TouchPan
   },

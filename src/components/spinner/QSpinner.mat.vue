@@ -14,7 +14,7 @@
 import mixin from './spinner-mixin'
 
 export default {
-  name: 'q-spinner-mat',
+  name: 'QSpinnerMat',
   mixins: [mixin]
 }
 </script>

@@ -1,7 +1,7 @@
 import { QResizeObservable } from '../observables'
 
 export default {
-  name: 'q-layout-header',
+  name: 'QLayoutHeader',
   inject: {
     layout: {
       default () {

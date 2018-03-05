@@ -1,5 +1,5 @@
 export default {
-  name: 'q-tab-pane',
+  name: 'QTabPane',
   inject: {
     data: {
       default () {

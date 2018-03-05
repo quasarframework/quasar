@@ -1,5 +1,5 @@
 export default {
-  name: 'q-card-actions',
+  name: 'QCardActions',
   props: {
     vertical: Boolean,
     align: {

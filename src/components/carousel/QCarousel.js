@@ -9,7 +9,7 @@ import { getEventKey } from '../../utils/event'
 import FullscreenMixin from '../../mixins/fullscreen'
 
 export default {
-  name: 'q-carousel',
+  name: 'QCarousel',
   mixins: [FullscreenMixin],
   directives: {
     TouchPan

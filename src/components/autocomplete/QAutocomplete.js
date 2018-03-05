@@ -6,7 +6,7 @@ import { QList, QItemWrapper } from '../list'
 import KeyboardSelectionMixin from '../../mixins/keyboard-selection'
 
 export default {
-  name: 'q-autocomplete',
+  name: 'QAutocomplete',
   mixins: [KeyboardSelectionMixin],
   props: {
     minCharacters: {

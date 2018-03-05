@@ -4,7 +4,7 @@ import FabMixin from './fab-mixin'
 import ModelToggleMixin from '../../mixins/model-toggle'
 
 export default {
-  name: 'q-fab',
+  name: 'QFab',
   mixins: [FabMixin, ModelToggleMixin],
   provide () {
     return {

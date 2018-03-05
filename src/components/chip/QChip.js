@@ -2,7 +2,7 @@ import { QIcon } from '../icon'
 import { getEventKey, stopAndPrevent } from '../../utils/event'
 
 export default {
-  name: 'q-chip',
+  name: 'QChip',
   props: {
     small: Boolean,
     tag: Boolean,

@@ -134,7 +134,7 @@ import { QResizeObservable } from '../observables'
 import { QSpinner } from '../spinner'
 
 export default {
-  name: 'q-input',
+  name: 'QInput',
   mixins: [FrameMixin, InputMixin],
   components: {
     QInputFrame,

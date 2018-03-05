@@ -2,7 +2,7 @@ import { viewport } from '../../utils/dom'
 import { listenOpts } from '../../utils/event'
 
 export default {
-  name: 'q-window-resize-observable',
+  name: 'QWindowResizeObservable',
   render () {},
   methods: {
     trigger () {

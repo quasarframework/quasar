@@ -7,7 +7,7 @@ import {
 import { QChip } from '../chip'
 
 export default {
-  name: 'q-slider',
+  name: 'QSlider',
   mixins: [SliderMixin],
   props: {
     value: Number,

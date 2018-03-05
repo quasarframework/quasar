@@ -23,7 +23,7 @@ const contentCss = __THEME__ === 'ios'
   }
 
 export default {
-  name: 'q-datetime',
+  name: 'QDatetime',
   mixins: [FrameMixin, DisplayModeMixin],
   props: extend(
     input,
@@ -284,7 +284,7 @@ export default {
         }, this.__getPicker(h, true)),
 
       this.editable && this.clearable && this.actualValue.length
-        ? h('q-icon', {
+        ? h('QIcon', {
           slot: 'after',
           props: { name: this.$q.icon.input[`clear${this.isInverted ? 'Inverted' : ''}`] },
           nativeOn: { click: this.clear },
@@ -292,7 +292,7 @@ export default {
         })
         : null,
 
-      h('q-icon', {
+      h('QIcon', {
         slot: 'after',
         props: { name: this.$q.icon.input.dropdown },
         staticClass: 'q-if-control'

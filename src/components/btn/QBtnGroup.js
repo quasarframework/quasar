@@ -1,5 +1,5 @@
 export default {
-  name: 'q-btn-group',
+  name: 'QBtnGroup',
   props: {
     outline: Boolean,
     flat: Boolean,

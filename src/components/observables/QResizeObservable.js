@@ -2,7 +2,7 @@ import { debounce } from '../../utils/debounce'
 import { listenOpts } from '../../utils/event'
 
 export default {
-  name: 'q-resize-observable',
+  name: 'QResizeObservable',
   methods: {
     onResize () {
       const size = {

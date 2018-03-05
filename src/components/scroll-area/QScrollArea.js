@@ -6,7 +6,7 @@ import { QResizeObservable, QScrollObservable } from '../observables'
 import TouchPan from '../../directives/touch-pan'
 
 export default {
-  name: 'q-scroll-area',
+  name: 'QScrollArea',
   directives: {
     TouchPan
   },

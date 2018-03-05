@@ -1,7 +1,7 @@
 import { QIcon } from '../icon'
 
 export default {
-  name: 'q-field',
+  name: 'QField',
   props: {
     inset: {
       type: String,

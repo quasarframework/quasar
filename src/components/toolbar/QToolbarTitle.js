@@ -1,5 +1,5 @@
 export default {
-  name: 'q-toolbar-title',
+  name: 'QToolbarTitle',
   props: {
     shrink: Boolean
   },

@@ -1,5 +1,5 @@
 export default {
-  name: 'q-toolbar',
+  name: 'QToolbar',
   props: {
     color: String,
     textColor: String,

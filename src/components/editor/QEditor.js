@@ -5,7 +5,7 @@ import extend from '../../utils/extend'
 import FullscreenMixin from '../../mixins/fullscreen'
 
 export default {
-  name: 'q-editor',
+  name: 'QEditor',
   mixins: [FullscreenMixin],
   props: {
     value: {

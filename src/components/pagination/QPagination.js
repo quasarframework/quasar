@@ -5,7 +5,7 @@ import extend from '../../utils/extend'
 import { getEventKey } from '../../utils/event'
 
 export default {
-  name: 'q-pagination',
+  name: 'QPagination',
   props: {
     value: {
       type: Number,

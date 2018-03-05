@@ -10,7 +10,7 @@ const
   duration = 150
 
 export default {
-  name: 'q-layout-drawer',
+  name: 'QLayoutDrawer',
   inject: {
     layout: {
       default () {

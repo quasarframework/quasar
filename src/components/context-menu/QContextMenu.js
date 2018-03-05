@@ -3,7 +3,7 @@ import ContextMenuMobile from './ContextMenuMobile'
 import Platform from '../../plugins/platform'
 
 export default {
-  name: 'q-context-menu',
+  name: 'QContextMenu',
   functional: true,
   render (h, ctx) {
     return h(

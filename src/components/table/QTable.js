@@ -12,7 +12,7 @@ import Expand from './table-expand'
 import FullscreenMixin from '../../mixins/fullscreen'
 
 export default {
-  name: 'q-table',
+  name: 'QTable',
   mixins: [
     FullscreenMixin,
     Top,

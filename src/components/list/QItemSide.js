@@ -1,7 +1,7 @@
 import { QIcon } from '../icon'
 
 export default {
-  name: 'q-item-side',
+  name: 'QItemSide',
   props: {
     right: Boolean,
 

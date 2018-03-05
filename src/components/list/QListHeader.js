@@ -1,5 +1,5 @@
 export default {
-  name: 'q-list-header',
+  name: 'QListHeader',
   props: {
     inset: Boolean
   },

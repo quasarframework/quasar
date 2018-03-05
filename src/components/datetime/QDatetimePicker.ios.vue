@@ -99,7 +99,7 @@ import ParentFieldMixin from '../../mixins/parent-field'
 import TouchPan from '../../directives/touch-pan'
 
 export default {
-  name: 'q-datetime-picker',
+  name: 'QDatetimePicker',
   mixins: [DateMixin, ParentFieldMixin],
   directives: {
     TouchPan

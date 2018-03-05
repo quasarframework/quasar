@@ -64,7 +64,7 @@ import FrameMixin from '../../mixins/input-frame'
 import ParentFieldMixin from '../../mixins/parent-field'
 
 export default {
-  name: 'q-input-frame',
+  name: 'QInputFrame',
   mixins: [FrameMixin, ParentFieldMixin],
   props: {
     topAddons: Boolean,

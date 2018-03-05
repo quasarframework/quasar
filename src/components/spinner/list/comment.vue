@@ -6,7 +6,7 @@
 import mixin from '../spinner-mixin'
 
 export default {
-  name: 'q-spinner-comment',
+  name: 'QSpinnerComment',
   mixins: [mixin]
 }
 </script>

@@ -1,7 +1,7 @@
 import { QResizeObservable } from '../observables'
 
 export default {
-  name: 'q-layout-footer',
+  name: 'QLayoutFooter',
   inject: {
     layout: {
       default () {

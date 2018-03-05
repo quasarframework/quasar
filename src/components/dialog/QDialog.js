@@ -6,7 +6,7 @@ import clone from '../../utils/clone'
 import extend from '../../utils/extend'
 
 export default {
-  name: 'q-dialog',
+  name: 'QDialog',
   props: {
     value: Boolean,
     title: String,

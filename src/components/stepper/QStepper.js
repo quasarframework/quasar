@@ -2,7 +2,7 @@ import StepTab from './StepTab'
 import { frameDebounce } from '../../utils/debounce'
 
 export default {
-  name: 'q-stepper',
+  name: 'QStepper',
   components: {
     StepTab
   },

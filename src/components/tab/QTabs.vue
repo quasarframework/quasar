@@ -63,7 +63,7 @@ const
   debounceDelay = 50 // in ms
 
 export default {
-  name: 'q-tabs',
+  name: 'QTabs',
   provide () {
     return {
       data: this.data,

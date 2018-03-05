@@ -1,7 +1,7 @@
 import { cssTransform } from '../../utils/dom'
 
 export default {
-  name: 'q-page-sticky',
+  name: 'QPageSticky',
   inject: {
     layout: {
       default () {

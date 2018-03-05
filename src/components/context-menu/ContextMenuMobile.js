@@ -2,7 +2,7 @@ import { stopAndPrevent } from '../../utils/event'
 import { QModal } from '../modal'
 
 export default {
-  name: 'q-context-menu',
+  name: 'QContextMenu',
   props: {
     disable: Boolean
   },

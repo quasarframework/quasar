@@ -1,5 +1,5 @@
 export default {
-  name: 'q-tr',
+  name: 'QTr',
   props: {
     props: Object
   },

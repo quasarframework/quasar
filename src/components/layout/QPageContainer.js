@@ -1,5 +1,5 @@
 export default {
-  name: 'q-page-container',
+  name: 'QPageContainer',
   inject: {
     layout: {
       default () {

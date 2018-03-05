@@ -1,5 +1,5 @@
 export default {
-  name: 'q-td',
+  name: 'QTd',
   props: {
     props: Object,
     autoWidth: Boolean

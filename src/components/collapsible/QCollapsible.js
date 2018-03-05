@@ -8,7 +8,7 @@ import extend from '../../utils/extend'
 const eventName = 'q:collapsible:close'
 
 export default {
-  name: 'q-collapsible',
+  name: 'QCollapsible',
   mixins: [ModelToggleMixin, ItemMixin],
   modelToggle: {
     history: false

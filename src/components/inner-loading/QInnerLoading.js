@@ -1,7 +1,7 @@
 import { QSpinner } from '../spinner'
 
 export default {
-  name: 'q-inner-loading',
+  name: 'QInnerLoading',
   props: {
     dark: Boolean,
     visible: Boolean,

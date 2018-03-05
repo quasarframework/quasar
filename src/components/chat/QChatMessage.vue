@@ -12,7 +12,7 @@
     <div class="q-message-container row items-end no-wrap">
       <slot v-if="hasAvatarSlot()" name="avatar"></slot>
       <img v-if='avatar && !hasAvatarSlot()' class="q-message-avatar" :src="avatar" />
-      
+
       <div :class="sizeClass">
         <div v-if="name" class="q-message-name" v-html="name"></div>
         <template v-if="text">
@@ -41,7 +41,7 @@
 
 <script>
 export default {
-  name: 'q-chat-message',
+  name: 'QChatMessage',
   props: {
     sent: Boolean,
     label: String,

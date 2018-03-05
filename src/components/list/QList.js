@@ -1,5 +1,5 @@
 export default {
-  name: 'q-list',
+  name: 'QList',
   props: {
     noBorder: Boolean,
     dark: Boolean,

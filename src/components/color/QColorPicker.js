@@ -9,7 +9,7 @@ import clone from '../../utils/clone'
 import { hexToRgb, rgbToHex, rgbToHsv, hsvToRgb } from '../../utils/colors'
 
 export default {
-  name: 'q-color-picker',
+  name: 'QColorPicker',
   mixins: [ParentFieldMixin],
   directives: {
     TouchPan

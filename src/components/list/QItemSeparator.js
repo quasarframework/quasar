@@ -1,5 +1,5 @@
 export default {
-  name: 'q-item-separator',
+  name: 'QItemSeparator',
   props: {
     inset: Boolean
   },

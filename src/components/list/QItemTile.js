@@ -2,7 +2,7 @@ import { QIcon } from '../icon'
 import { textStyle } from '../../mixins/item'
 
 export default {
-  name: 'q-item-tile',
+  name: 'QItemTile',
   props: {
     icon: String,
     letter: Boolean,
