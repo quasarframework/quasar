@@ -141,7 +141,7 @@ import { humanStorageSize } from '../../utils/format'
 import { QSpinner } from '../spinner'
 import { QIcon } from '../icon'
 import { QProgress } from '../progress'
-import { QItem, QItemSide, QItemMain, QItemTile } from '../list'
+import { QItem, QItemSide, QItemMain, QItemTile, QList } from '../list'
 import { QSlideTransition } from '../slide-transition'
 
 function initFile (file) {
