@@ -159,6 +159,7 @@ export default {
     QSpinner,
     QIcon,
     QProgress,
+    QList,
     QItem,
     QItemSide,
     QItemMain,
