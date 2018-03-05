@@ -40,6 +40,7 @@ export default {
     },
     contentStyle: Object,
     contentClass: [String, Object, Array],
+    noHideOnRouteChange: Boolean,
     noSwipeOpen: Boolean,
     noSwipeClose: Boolean
   },
@@ -117,6 +118,10 @@ export default {
       this.layout.__animate()
     },
     $route () {
+      if (this.noHideOnRouteChange) {
+        return
+      }
+
       if (this.mobileOpened || this.onScreenOverlay) {
         this.hide()
       }
