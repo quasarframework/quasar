@@ -306,8 +306,8 @@ export default {
     __filter (files) {
       return Array.prototype.filter.call(files, file => {
         return this.computedExtensions.some(ext => {
-           return file.type.toUpperCase().startsWith(ext.toUpperCase()) ||
-              file.name.toUpperCase().endsWith(ext.toUpperCase())
+          return file.type.toUpperCase().startsWith(ext.toUpperCase()) ||
+            file.name.toUpperCase().endsWith(ext.toUpperCase())
         })
       })
     },
