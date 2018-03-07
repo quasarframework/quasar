@@ -17,16 +17,14 @@
 
 .q-item-letter, .q-item-icon
   font-size $item-icon-size
-.q-item-letter-inverted, .q-item-icon-inverted
+.q-item-inverted
   border-radius 50%
   color white
   background $item-side-color
-.q-item-letter-inverted
-  padding 5px 0
-  text-align center
-.q-item-icon-inverted
-  font-size $item-inverted-icon-size
-  padding 9px
+  height $item-primary-size
+  width $item-primary-size
+  &, .q-icon
+    font-size $item-inverted-icon-size
 
 .q-item-main
   flex 1 1 auto
@@ -134,7 +132,7 @@
 .q-list-dark, .q-item-dark
   .q-item-side
     color $item-side-dark-color
-  .q-item-letter-inverted, .q-item-icon-inverted
+  .q-item-inverted
     color black
     background $item-side-dark-color
   .q-item-label > span, .q-item-sublabel
