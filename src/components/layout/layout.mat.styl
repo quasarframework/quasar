@@ -17,6 +17,7 @@
   top 0
   bottom 0
   background $layout-aside-background
+  transition all .12s ease-in
   z-index $z-side
   &.fixed.on-screen
     box-shadow $layout-aside-shadow
@@ -25,17 +26,9 @@
 .q-layout-drawer-left
   left 0
   width $layout-aside-left-width
-  &.off-screen
-    transform translateX(-100%)
-  &.on-screen
-    transform translateX(0)
 .q-layout-drawer-right
   right 0
   width $layout-aside-right-width
-  &.off-screen
-    transform translateX(100%)
-  &.on-screen
-    transform translateX(0)
 
 .q-layout, .q-layout-header, .q-layout-footer, .q-layout-page
   position relative
@@ -46,8 +39,6 @@
 .q-layout-backdrop
   z-index ($z-fixed-drawer - 1) !important
   will-change background-color
-.q-layout-backdrop-transition
-  transition background .12s
 
 .q-layout-drawer-opener
   z-index ($z-marginals + 1)

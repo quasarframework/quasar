@@ -1,5 +1,5 @@
 import TouchPan from '../../directives/touch-pan'
-import { cssTransform } from '../../utils/dom'
+import { css, cssTransform } from '../../utils/dom'
 import { between } from '../../utils/format'
 import { QResizeObservable } from '../observables'
 import ModelToggleMixin from '../../mixins/model-toggle'
@@ -63,10 +63,7 @@ export default {
       largeScreenState,
       mobileOpened: false,
 
-      size: 300,
-      inTransit: false,
-      position: 0,
-      percentage: 0
+      size: 300
     }
   },
   watch: {
@@ -142,8 +139,7 @@ export default {
     },
     backdropClass () {
       return {
-        'q-layout-backdrop-transition': !this.inTransit,
-        'no-pointer-events': !this.inTransit && !this.showing
+        'no-pointer-events': !this.showing
       }
     },
     mobileView () {
@@ -165,29 +161,16 @@ export default {
           : this.layout.rows.bottom[0] === 'l'
         )
     },
-    backdropStyle () {
-      return { backgroundColor: `rgba(0,0,0,${this.percentage * 0.4})` }
-    },
     belowClass () {
       return {
         'fixed': true,
         'on-top': true,
-        'on-screen': this.showing,
-        'off-screen': !this.showing,
-        'transition-generic': !this.inTransit,
         'top-padding': true
       }
     },
-    belowStyle () {
-      if (this.inTransit) {
-        return cssTransform(`translateX(${this.position}px)`)
-      }
-    },
     aboveClass () {
-      const onScreen = this.onLayout || this.onScreenOverlay
+      // const onScreen = this.onLayout || this.onScreenOverlay
       return {
-        'off-screen': !onScreen,
-        'on-screen': onScreen,
         'fixed': this.fixed || !this.onLayout,
         'top-padding': this.headerSlot
       }
@@ -216,10 +199,13 @@ export default {
       return css
     },
     computedStyle () {
-      return [this.contentStyle, this.mobileView ? this.belowStyle : this.aboveStyle]
+      return [this.contentStyle, this.mobileView ? '' : this.aboveStyle]
     },
     computedClass () {
       return [this.contentClass, this.mobileView ? this.belowClass : this.aboveClass]
+    },
+    stateDirection () {
+      return (this.$q.i18n.rtl ? -1 : 1) * (this.rightSide ? 1 : -1)
     }
   },
   render (h) {
@@ -237,9 +223,9 @@ export default {
         }))
       }
       child.push(h('div', {
+        ref: 'backdrop',
         staticClass: 'fullscreen q-layout-backdrop',
         'class': this.backdropClass,
-        style: this.backdropStyle,
         on: { click: this.hide },
         directives: [{
           name: 'touch-pan',
@@ -251,6 +237,7 @@ export default {
 
     return h('div', { staticClass: 'q-drawer-container' }, child.concat([
       h('aside', {
+        ref: 'content',
         staticClass: `q-layout-drawer q-layout-drawer-${this.side} scroll q-layout-transition`,
         'class': this.computedClass,
         style: this.computedStyle,
@@ -279,12 +266,23 @@ export default {
       this.animateOverlay = true
     })
   },
+  mounted () {
+    if (!this.showing) {
+      this.applyPosition(this.stateDirection * this.size)
+    }
+  },
   beforeDestroy () {
     clearTimeout(this.timer)
     this.__update('size', 0)
     this.__update('space', false)
   },
   methods: {
+    applyPosition (position) {
+      css(this.$refs.content, cssTransform(`translateX(${position}px)`))
+    },
+    applyBackdrop (x) {
+      this.$refs.backdrop && css(this.$refs.backdrop, { backgroundColor: `rgba(0,0,0,${x * 0.4})` })
+    },
     __openByTouch (evt) {
       if (!this.belowBreakpoint) {
         return
@@ -295,21 +293,29 @@ export default {
 
       if (evt.isFinal) {
         const opened = position >= Math.min(75, width)
-        this.inTransit = false
-        if (opened) { this.show() }
-        else { this.percentage = 0 }
+        this.$refs.content.classList.remove('no-transition')
+        if (opened) {
+          this.show()
+        }
+        else {
+          this.applyBackdrop(0)
+          this.applyPosition(this.stateDirection * width)
+        }
         return
       }
 
-      this.position = (this.$q.i18n.rtl ? !this.rightSide : this.rightSide)
-        ? Math.max(width - position, 0)
-        : Math.min(0, position - width)
-
-      this.percentage = between(position / width, 0, 1)
+      this.applyPosition(
+        (this.$q.i18n.rtl ? !this.rightSide : this.rightSide)
+          ? Math.max(width - position, 0)
+          : Math.min(0, position - width)
+      )
+      this.applyBackdrop(
+        between(position / width, 0, 1)
+      )
 
       if (evt.isFirst) {
         document.body.classList.add(bodyClassBelow)
-        this.inTransit = true
+        this.$refs.content.classList.add('no-transition')
       }
     },
     __closeByTouch (evt) {
@@ -326,25 +332,31 @@ export default {
 
       if (evt.isFinal) {
         const opened = Math.abs(position) < Math.min(75, width)
-        this.inTransit = false
-        if (opened) { this.percentage = 1 }
-        else { this.hide() }
+        this.$refs.content.classList.remove('no-transition')
+        if (opened) {
+          this.applyBackdrop(1)
+          this.applyPosition(0)
+        }
+        else {
+          this.hide()
+        }
         return
       }
 
-      this.position = (this.$q.i18n.rtl ? -1 : 1) * (this.rightSide ? 1 : -1) * position
-      this.percentage = between(1 - position / width, 0, 1)
+      this.applyPosition(this.stateDirection * position)
+      this.applyBackdrop(between(1 - position / width, 0, 1))
 
       if (evt.isFirst) {
-        this.inTransit = true
+        this.$refs.content.classList.add('no-transition')
       }
     },
     __show () {
       if (this.belowBreakpoint) {
         this.mobileOpened = true
-        this.percentage = 1
+        this.applyBackdrop(1)
       }
 
+      this.applyPosition(0)
       document.body.classList.add(this.belowBreakpoint ? bodyClassBelow : bodyClassAbove)
 
       clearTimeout(this.timer)
@@ -359,7 +371,8 @@ export default {
     },
     __hide () {
       this.mobileOpened = false
-      this.percentage = 0
+      this.applyPosition((this.$q.i18n.rtl ? -1 : 1) * (this.rightSide ? 1 : -1) * this.size)
+      this.applyBackdrop(0)
 
       document.body.classList.remove(bodyClassAbove)
       document.body.classList.remove(bodyClassBelow)
