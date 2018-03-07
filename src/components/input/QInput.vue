@@ -321,8 +321,8 @@ export default {
       const shadow = this.$refs.shadow
       if (shadow) {
         let h = shadow.scrollHeight
-        const max = this.maxHeight || h
-        this.$refs.input.style.minHeight = `${between(h, 19, max)}px`
+        const minHeight = between(h, 19, this.maxHeight || h)
+        this.$refs.input.style.minHeight = `${minHeight + 19}px`
       }
     },
     __watcher (value) {
