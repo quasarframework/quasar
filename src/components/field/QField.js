@@ -122,8 +122,10 @@ export default {
     __registerInput (vm) {
       this.input = vm
     },
-    __unregisterInput () {
-      this.input = {}
+    __unregisterInput (vm) {
+      if (!vm || vm === this.input) {
+        this.input = {}
+      }
     },
     __getBottomContent (h) {
       if (this.hasError && this.errorLabel) {
