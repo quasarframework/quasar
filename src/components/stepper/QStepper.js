@@ -11,6 +11,7 @@ export default {
     color: String,
     vertical: Boolean,
     alternativeLabels: Boolean,
+    noHeaderNavigation: Boolean,
     contractable: Boolean,
     doneIcon: Boolean,
     activeIcon: Boolean,

@@ -29,9 +29,9 @@
     color black
     .q-stepper-dot
       color $stepper-label-inactive-color
-  &.step-done
-    cursor pointer
+  &.step-navigation
     user-select none
+    cursor pointer
   &.step-color
     color currentColor
   &.step-active .q-stepper-title
@@ -142,7 +142,7 @@
     top 100%
     margin-top 8px
 
-body.desktop .q-stepper-tab.step-done:hover
+body.desktop .q-stepper-tab.step-navigation:hover
   background $stepper-hover-background
 
 @media (max-width $breakpoint-sm-max)
