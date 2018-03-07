@@ -1,5 +1,7 @@
 import { getEventKey } from '../utils/event'
 
+const reKebab = /([a-zA-Z])(?=[A-Z])/g
+
 export default {
   props: {
     value: {
@@ -20,9 +22,24 @@ export default {
     uncheckedIcon: String
   },
   computed: {
+    __tag () {
+      if (
+        this.$vnode &&
+        this.$vnode.componentOptions &&
+        this.$vnode.componentOptions.Ctor &&
+        this.$vnode.componentOptions.Ctor.extendOptions &&
+        this.$vnode.componentOptions.Ctor.extendOptions.name
+      ) {
+        return this.$vnode.componentOptions.Ctor.extendOptions.name
+      }
+      return this.$options._componentTag
+    },
+    __tagKebab () {
+      return this.__tag.replace(reKebab, '$1-').toLowerCase()
+    },
     classes () {
       return [
-        this.$options._componentTag,
+        this.__tagKebab,
         {
           disabled: this.disable,
           reverse: this.leftLabel,
@@ -83,7 +100,7 @@ export default {
         blur: () => { this.$emit('blur') },
         keydown: this.__handleKeyDown
       },
-      directives: this.$options._componentTag === 'q-toggle'
+      directives: this.__tag === 'QToggle'
         ? [{
           name: 'touch-swipe',
           modifiers: { horizontal: true },

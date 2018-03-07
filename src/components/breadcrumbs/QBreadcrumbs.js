@@ -34,7 +34,12 @@ export default {
       active = `text-${this.activeColor}`
 
     this.$slots.default.forEach((comp, i) => {
-      if (comp.componentOptions && comp.componentOptions.tag === 'q-breadcrumbs-el') {
+      if (
+        comp.componentOptions &&
+        comp.componentOptions.Ctor &&
+        comp.componentOptions.Ctor.extendOptions &&
+        comp.componentOptions.Ctor.extendOptions.name === 'QBreadcrumbsEl'
+      ) {
         const middle = i < length
 
         child.push(h('div', {
