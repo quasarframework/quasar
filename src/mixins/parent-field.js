@@ -15,7 +15,7 @@ export default {
   },
   beforeDestroy () {
     if (!this.noParentField && this.field) {
-      this.field.__unregisterInput()
+      this.field.__unregisterInput(this)
     }
   }
 }
