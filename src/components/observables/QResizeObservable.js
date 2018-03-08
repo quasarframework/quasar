@@ -3,6 +3,9 @@ import { listenOpts } from '../../utils/event'
 
 export default {
   name: 'QResizeObservable',
+  props: {
+    noDebounce: Boolean // not reactive for performance
+  },
   methods: {
     onResize () {
       const size = {
@@ -28,7 +31,9 @@ export default {
 
     this.parent = this.$el.parentNode
     this.size = { width: -1, height: -1 }
-    this.onResize = debounce(this.onResize, 100)
+    if (!this.noDebounce) {
+      this.onResize = debounce(this.onResize, 100)
+    }
     this.onResize()
 
     this.object = object

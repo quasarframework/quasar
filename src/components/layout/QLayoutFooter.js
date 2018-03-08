@@ -95,6 +95,7 @@ export default {
     }, [
       this.$slots.default,
       h(QResizeObservable, {
+        props: { noDebounce: true },
         on: { resize: this.__onResize }
       })
     ])
