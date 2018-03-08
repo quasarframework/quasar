@@ -42,13 +42,13 @@ export default {
       return this.layout.header.offset
     },
     right () {
-      return this.layout.right.offset
+      return this.layout.right.space ? this.layout.right.offset : 0
     },
     bottom () {
       return this.layout.footer.offset
     },
     left () {
-      return this.layout.left.offset
+      return this.layout.left.space ? this.layout.left.offset : 0
     },
     computedStyle () {
       const

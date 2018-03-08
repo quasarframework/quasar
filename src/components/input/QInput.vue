@@ -172,15 +172,15 @@ export default {
         val: this.model,
         set: this.__set,
         loading: false,
-        watched: false,
+        watched: 0,
         isDark: () => this.dark,
         hasFocus: () => document.activeElement === this.$refs.input,
         register: () => {
-          this.shadow.watched = true
+          this.shadow.watched += 1
           this.__watcherRegister()
         },
         unregister: () => {
-          this.shadow.watched = false
+          this.shadow.watched = Math.max(0, this.shadow.watched - 1)
           this.__watcherUnregister()
         },
         getEl: () => this.$refs.input

@@ -26,22 +26,26 @@ export default {
       header: {
         size: 0,
         offset: 0,
-        space: true
+        space: true,
+        instance: null
       },
       right: {
         size: 300,
         offset: 0,
-        space: false
+        space: false,
+        instance: null
       },
       footer: {
         size: 0,
         offset: 0,
-        space: true
+        space: true,
+        instance: null
       },
       left: {
         size: 300,
         offset: 0,
-        space: false
+        space: false,
+        instance: null
       },
 
       scrollHeight: 0,

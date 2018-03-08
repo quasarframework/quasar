@@ -257,6 +257,7 @@ export default {
     ]))
   },
   created () {
+    this.__update('instance', this)
     if (this.onLayout) {
       this.__update('space', true)
       this.__update('offset', this.offset)
@@ -273,8 +274,11 @@ export default {
   },
   beforeDestroy () {
     clearTimeout(this.timer)
-    this.__update('size', 0)
-    this.__update('space', false)
+    if (this.layout[this.side].instance === this) {
+      this.__update('instance', null)
+      this.__update('size', 0)
+      this.__update('space', false)
+    }
   },
   methods: {
     applyPosition (position) {
@@ -352,6 +356,10 @@ export default {
     },
     __show () {
       if (this.belowBreakpoint) {
+        const otherSide = this.layout[this.rightSide ? 'left' : 'right']
+        if (otherSide.instance && otherSide.instance.mobileOpened) {
+          otherSide.instance.hide()
+        }
         this.mobileOpened = true
         this.applyBackdrop(1)
       }
