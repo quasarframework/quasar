@@ -31,6 +31,11 @@ export default {
     offset (val) {
       this.__update('offset', val)
     },
+    reveal (val) {
+      if (!val) {
+        this.__updateLocal('revealed', this.value)
+      }
+    },
     revealed (val) {
       this.layout.__animate()
       this.$emit('reveal', val)
@@ -95,11 +100,15 @@ export default {
     ])
   },
   created () {
+    this.__update('instance', this)
     this.__update('space', this.value)
   },
-  destroyed () {
-    this.__update('size', 0)
-    this.__update('space', false)
+  beforeDestroy () {
+    if (this.layout.footer.instance === this) {
+      this.__update('instance', null)
+      this.__update('size', 0)
+      this.__update('space', false)
+    }
   },
   methods: {
     __onResize ({ height }) {
