@@ -8,7 +8,8 @@
         :key="color"
         :class="'bg-' + color"
       >
-        {{color}}
+        <div class="col">{{color}}</div>
+        <q-btn flat dense round icon="colorize" @click="selectColor(color)" />
       </div>
       <div
         class="main-color shadow-1 row inline flex-center text-dark"
@@ -16,7 +17,12 @@
         :key="color"
         :class="'bg-' + color"
       >
-        {{color}}
+        <div class="col">{{color}}</div>
+        <q-btn flat dense round icon="colorize" @click="selectColor(color)" />
+      </div>
+      <div v-if="currentColor" class="row justify-center items-end q-mt-md">
+        <q-color class="main-picker" :value="mainColorValues[currentColor]" @input="val => setColor(currentColor, val)" clearable />
+        <q-btn flat size="form" icon="undo" @click="undoColor(currentColor)" />
       </div>
 
       <h5>Full Palette</h5>
@@ -29,12 +35,46 @@
 </template>
 
 <script>
+import { clone } from 'quasar'
+
+const mainColors = ['primary', 'secondary', 'tertiary', 'positive', 'negative', 'info', 'warning', 'faded', 'dark', 'black']
+const mainLightColors = ['white', 'light']
+let mainColorValuesOrig
+
 export default {
   data () {
+    const rootStyle = getComputedStyle(document.documentElement)
+    const mainColorValues = [...mainColors, ...mainLightColors].reduce((acc, color) => {
+      acc[color] = rootStyle.getPropertyValue(`--q-color-${color}`) || null
+      return acc
+    }, {})
+    if (!mainColorValuesOrig) {
+      mainColorValuesOrig = clone(mainColorValues)
+    }
+
     return {
-      mainColors: ['primary', 'secondary', 'tertiary', 'positive', 'negative', 'info', 'warning', 'faded', 'dark'],
-      mainLightColors: ['white', 'light'],
+      mainColors,
+      mainLightColors,
+      mainColorValues,
+      mainColorValuesOrig,
+      currentColor: null,
       colors: ['red', 'pink', 'purple', 'deep-purple', 'indigo', 'blue', 'light-blue', 'cyan', 'teal', 'green', 'light-green', 'lime', 'yellow', 'amber', 'orange', 'deep-orange', 'brown', 'grey', 'blue-grey']
+    }
+  },
+  methods: {
+    selectColor (color) {
+      setTimeout(() => {
+        this.currentColor = color
+      }, 300)
+    },
+    setColor (color, value) {
+      this.mainColorValues[color] = value
+      document.documentElement.style.setProperty(`--q-color-${color}`, value)
+    },
+    undoColor (color) {
+      const value = this.mainColorValuesOrig[color]
+      this.mainColorValues[color] = value
+      document.documentElement.style.setProperty(`--q-color-${color}`, value)
     }
   }
 }
@@ -42,8 +82,10 @@ export default {
 
 <style lang="stylus">
 #view-colors
+  .main-picker
+    min-width 10em
   div.main-color
-    width 110px
+    width 130px
     margin 5px
     height 40px
 
