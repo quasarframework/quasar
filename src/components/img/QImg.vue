@@ -25,12 +25,16 @@
 
 <script>
 
-// https://github.com/Akryum/vue-observe-visibility
+// Source
 // https://www.sitepoint.com/how-to-build-your-own-progressive-image-loader/
-// https://css-tricks.com/the-blur-up-technique-for-loading-background-images/
+
+import ScrollFire from '../../directives/scroll-fire'
 
 export default {
   name: 'QImg',
+  directives: {
+    ScrollFire
+  },
   props: {
     lazy: {
       type: Boolean,
