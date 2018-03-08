@@ -50,8 +50,8 @@ export default {
       }
       this.__updateLocal('revealed',
         scroll.direction === 'up' ||
-          scroll.position <= this.revealOffset ||
-          scroll.position - scroll.inflexionPosition < 100
+        scroll.position <= this.revealOffset ||
+        scroll.position - scroll.inflexionPosition < 100
       )
     }
   },
