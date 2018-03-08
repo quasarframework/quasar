@@ -79,7 +79,7 @@ export default {
         return this.forceAlpha
       }
       return this.isHex
-        ? this.value.length > 7
+        ? this.value.trim().length > 7
         : this.value && this.value.a !== void 0
     },
     swatchColor () {
@@ -393,7 +393,7 @@ export default {
       this.view = this.view === 'hex' ? 'rgba' : 'hex'
     },
     __parseModel (v) {
-      let model = typeof v === 'string' ? hexToRgb(v) : clone(v)
+      let model = typeof v === 'string' ? hexToRgb(v.trim()) : clone(v)
       if (this.forceAlpha === (model.a === void 0)) {
         model.a = this.forceAlpha ? 100 : void 0
       }
