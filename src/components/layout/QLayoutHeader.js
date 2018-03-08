@@ -104,12 +104,12 @@ export default {
     ])
   },
   created () {
-    this.__update('instance', this)
+    this.layout.instances.header = this
     this.__update('space', this.value)
   },
   beforeDestroy () {
-    if (this.layout.header.instance === this) {
-      this.__update('instance', null)
+    if (this.layout.instances.header === this) {
+      this.layout.instances.header = null
       this.__update('size', 0)
       this.__update('space', false)
     }

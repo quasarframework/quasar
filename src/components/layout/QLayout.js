@@ -26,26 +26,22 @@ export default {
       header: {
         size: 0,
         offset: 0,
-        space: true,
-        instance: null
+        space: false
       },
       right: {
         size: 300,
         offset: 0,
-        space: false,
-        instance: null
+        space: false
       },
       footer: {
         size: 0,
         offset: 0,
-        space: true,
-        instance: null
+        space: false
       },
       left: {
         size: 300,
         offset: 0,
-        space: false,
-        instance: null
+        space: false
       },
 
       scrollHeight: 0,
@@ -63,6 +59,14 @@ export default {
         middle: rows[1].split(''),
         bottom: rows[2].split('')
       }
+    }
+  },
+  created () {
+    this.instances = {
+      header: null,
+      right: null,
+      footer: null,
+      left: null
     }
   },
   render (h) {

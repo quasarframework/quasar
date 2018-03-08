@@ -100,12 +100,12 @@ export default {
     ])
   },
   created () {
-    this.__update('instance', this)
+    this.layout.instances.footer = this
     this.__update('space', this.value)
   },
   beforeDestroy () {
-    if (this.layout.footer.instance === this) {
-      this.__update('instance', null)
+    if (this.layout.instances.footer === this) {
+      this.layout.instances.footer = null
       this.__update('size', 0)
       this.__update('space', false)
     }
