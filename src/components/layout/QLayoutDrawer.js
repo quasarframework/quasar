@@ -238,7 +238,7 @@ export default {
     return h('div', { staticClass: 'q-drawer-container' }, child.concat([
       h('aside', {
         ref: 'content',
-        staticClass: `q-layout-drawer q-layout-drawer-${this.side} scroll q-layout-transition`,
+        staticClass: `q-layout-drawer q-layout-drawer-${this.side} scroll`,
         'class': this.computedClass,
         style: this.computedStyle,
         attrs: this.$attrs,
