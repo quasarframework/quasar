@@ -124,7 +124,7 @@ export default {
       return this.side === 'right'
     },
     offset () {
-      return this.showing && !this.mobileOpened
+      return this.showing && !this.mobileOpened && !this.overlay
         ? this.size
         : 0
     },
@@ -260,7 +260,6 @@ export default {
     this.layout.instances[this.side] = this
     if (this.onLayout) {
       this.__update('space', true)
-      this.__update('offset', this.offset)
     }
 
     this.$nextTick(() => {
@@ -277,6 +276,7 @@ export default {
     if (this.layout.instances[this.side] === this) {
       this.layout.instances[this.side] = null
       this.__update('size', 0)
+      this.__update('offset', 0)
       this.__update('space', false)
     }
   },

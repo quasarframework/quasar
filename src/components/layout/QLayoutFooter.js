@@ -107,6 +107,7 @@ export default {
     if (this.layout.instances.footer === this) {
       this.layout.instances.footer = null
       this.__update('size', 0)
+      this.__update('offset', 0)
       this.__update('space', false)
     }
   },
