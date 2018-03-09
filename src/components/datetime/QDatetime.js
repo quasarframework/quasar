@@ -176,6 +176,11 @@ export default {
             canClose: () => {
               if (this.isPopover) {
                 this.hide()
+                // go back to initial entry point for that type of control
+                // if it has defaultView it's goint to be reapplied anyway on focus
+                if (!this.defaultView) {
+                  this.$refs.target.setView()
+                }
               }
             }
           }
