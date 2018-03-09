@@ -21,10 +21,10 @@ $layout-transition = all .12s ease-in
   background $layout-aside-background
   transition $layout-transition
   z-index $z-side
-  &.fixed.on-screen
-    box-shadow $layout-aside-shadow
   &.on-top
     z-index $z-fixed-drawer
+.q-layout-drawer-delimiter
+  box-shadow $layout-aside-shadow
 .q-layout-drawer-left
   left 0
   width $layout-aside-left-width

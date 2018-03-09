@@ -165,13 +165,14 @@ export default {
       return {
         'fixed': true,
         'on-top': true,
+        'q-layout-drawer-delimiter': this.fixed && this.showing,
         'top-padding': true
       }
     },
     aboveClass () {
-      // const onScreen = this.onLayout || this.onScreenOverlay
       return {
         'fixed': this.fixed || !this.onLayout,
+        'q-layout-drawer-delimiter': this.fixed && this.showing,
         'top-padding': this.headerSlot
       }
     },
@@ -297,14 +298,18 @@ export default {
         position = between(evt.distance.x, 0, width)
 
       if (evt.isFinal) {
-        const opened = position >= Math.min(75, width)
-        this.$refs.content.classList.remove('no-transition')
+        const
+          el = this.$refs.content,
+          opened = position >= Math.min(75, width)
+
+        el.classList.remove('no-transition')
         if (opened) {
           this.show()
         }
         else {
           this.applyBackdrop(0)
           this.applyPosition(this.stateDirection * width)
+          el.classList.remove('q-layout-drawer-delimiter')
         }
         return
       }
@@ -319,8 +324,10 @@ export default {
       )
 
       if (evt.isFirst) {
+        const el = this.$refs.content
         document.body.classList.add(bodyClassBelow)
-        this.$refs.content.classList.add('no-transition')
+        el.classList.add('no-transition')
+        el.classList.add('q-layout-drawer-delimiter')
       }
     },
     __closeByTouch (evt) {
