@@ -26,20 +26,23 @@ export default {
     }
   },
   render (h) {
+    if (!this.$slots.default) {
+      return
+    }
+
     const
       child = [],
-      length = this.$slots.default.length - 1,
+      len = this.$slots.default.filter(c => c.tag !== void 0 && c.tag.endsWith('-QBreadcrumbsEl')).length,
       separator = this.$scopedSlots.separator || (() => this.separator),
       color = `text-${this.color}`,
       active = `text-${this.activeColor}`
+    let els = 1
 
     for (const i in this.$slots.default) {
       const comp = this.$slots.default[i]
-      if (
-        comp.componentOptions &&
-        ['q-breadcrumbs-el', 'QBreadcrumbsEl', 'qBreadcrumbsEl'].includes(comp.componentOptions.tag)
-      ) {
-        const middle = i < length
+      if (comp.tag !== void 0 && comp.tag.endsWith('-QBreadcrumbsEl')) {
+        const middle = els < len
+        els++
 
         child.push(h('div', {
           'class': [ middle ? active : color, middle ? 'text-weight-bold' : 'q-breadcrumbs-last' ]
