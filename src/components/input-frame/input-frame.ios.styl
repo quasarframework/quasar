@@ -18,6 +18,7 @@
   &:before
     height 1px
     color $light
+    color var(--q-color-light, $light)
     transform scaleY(1)
   &:after
     width 0
@@ -120,12 +121,14 @@ div.q-input-target
 .q-if-error
   &:before, &:after, &:not(.q-if-inverted) .q-if-label
     color $negative
+    color var(--q-color-negative, $negative)
   &:hover:before
     color lighten($negative, 46%)
 
 .q-if-warning
   &:before, &:after, &:not(.q-if-inverted) .q-if-label
     color $warning
+    color var(--q-color-warning, $warning)
   &:hover:before
     color lighten($warning, 46%)
 
