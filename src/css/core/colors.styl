@@ -1,62 +1,94 @@
+:root
+  --q-color-primary   $primary
+  --q-color-secondary $secondary
+  --q-color-tertiary  $tertiary
+  --q-color-positive  $positive
+  --q-color-negative  $negative
+  --q-color-info      $info
+  --q-color-warning   $warning
+  --q-color-light     $light
+  --q-color-faded     $faded
+  --q-color-dark      $dark
+
 .text-primary
   color $primary !important
+  color var(--q-color-primary, $primary) !important
 .bg-primary
   background $primary !important
+  background var(--q-color-primary, $primary) !important
 
 .text-secondary
   color $secondary !important
+  color var(--q-color-secondary, $secondary) !important
 .bg-secondary
   background $secondary !important
+  background var(--q-color-secondary, $secondary) !important
 
 .text-tertiary
   color $tertiary !important
+  color var(--q-color-tertiary, $tertiary) !important
 .bg-tertiary
   background $tertiary !important
+  background var(--q-color-tertiary, $tertiary) !important
 
 .text-faded
   color $faded !important
+  color var(--q-color-faded, $faded) !important
 .bg-faded
   background $faded !important
+  background var(--q-color-faded, $faded) !important
 
 .text-positive
   color $positive !important
+  color var(--q-color-positive, $positive) !important
 .bg-positive
   background $positive !important
+  background var(--q-color-positive, $positive) !important
 
 .text-negative
   color $negative !important
+  color var(--q-color-negative, $negative) !important
 .bg-negative
   background $negative !important
+  background var(--q-color-negative, $negative) !important
 
 .text-info
   color $info !important
+  color var(--q-color-info, $info) !important
 .bg-info
   background $info !important
+  background var(--q-color-info, $info) !important
 
 .text-warning
   color $warning !important
+  color var(--q-color-warning, $warning) !important
 .bg-warning
   background $warning !important
+  background var(--q-color-warning, $warning) !important
 
 .text-white
-  color white !important
+  color #fff !important
 .bg-white
-  background white !important
+  background #fff !important
 
 .text-black
-  color black !important
+  color #000 !important
 .bg-black
-  background black !important
+  background #000 !important
 
 .text-light
   color $light !important
+  color var(--q-color-light, $light) !important
 .bg-light
   background $light !important
+  background var(--q-color-light, $light) !important
 
 .text-dark
   color $dark !important
+  color var(--q-color-dark, $dark) !important
 .bg-dark
   background $dark !important
+  background var(--q-color-dark, $dark) !important
 
 .text-transparent
   color transparent !important
