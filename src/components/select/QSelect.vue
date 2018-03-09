@@ -73,6 +73,7 @@
       fit
       :disable="readonly || disable"
       :anchor-click="false"
+      :fullscreen="fullscreen"
       class="column no-wrap"
       :class="dark ? 'bg-dark' : null"
       @show="__onShow"
@@ -309,6 +310,9 @@ export default {
     },
     additionalLength () {
       return this.displayValue && this.displayValue.length > 0
+    },
+    fullscreen () {
+      return this.filter && this.$q.platform.is.mobile
     }
   },
   methods: {

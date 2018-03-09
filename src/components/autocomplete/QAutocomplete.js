@@ -216,7 +216,8 @@ export default {
       'class': dark ? 'bg-dark' : null,
       props: {
         fit: true,
-        anchorClick: false
+        anchorClick: false,
+        fullscreen: this.$q.platform.is.mobile
       },
       on: {
         show: () => this.$emit('show'),

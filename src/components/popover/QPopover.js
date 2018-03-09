@@ -38,6 +38,7 @@ export default {
       type: Array,
       validator: offsetValidator
     },
+    forceTop: Boolean,
     disable: Boolean
   },
   watch: {

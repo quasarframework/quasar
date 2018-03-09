@@ -122,7 +122,7 @@ export function parseHorizTransformOrigin (pos) {
   return pos === 'middle' ? 'center' : pos
 }
 
-export function setPosition ({el, animate, anchorEl, anchorOrigin, selfOrigin, maxHeight, event, anchorClick, touchPosition, offset}) {
+export function setPosition ({el, animate, anchorEl, anchorOrigin, selfOrigin, maxHeight, event, anchorClick, touchPosition, offset, fullscreen}) {
   let anchor
   el.style.maxHeight = maxHeight || '65vh'
 
@@ -136,7 +136,7 @@ export function setPosition ({el, animate, anchorEl, anchorOrigin, selfOrigin, m
 
   let target = getTargetPosition(el)
   let targetPosition = {
-    top: anchor[anchorOrigin.vertical] - target[selfOrigin.vertical],
+    top: (fullscreen ? 0 : anchor[anchorOrigin.vertical] - target[selfOrigin.vertical]),
     left: anchor[anchorOrigin.horizontal] - target[selfOrigin.horizontal]
   }
 
