@@ -99,6 +99,7 @@ blockquote
     display block
     line-height 1.4
     color $faded
+    color var(--q-color-faded, $faded)
     &:before
       content '\2014 \00A0'
 
@@ -140,6 +141,7 @@ dl
 ::-moz-selection,
 ::selection
   background $primary
+  background var(--q-color-primary, $primary)
   color alpha(opposite-non-color($primary), .87)
 
 textarea::-webkit-selection,

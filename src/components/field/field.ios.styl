@@ -34,14 +34,18 @@
 .q-field-with-error
   .q-field-icon, .q-field-label, .q-field-bottom
     color $negative
+    color var(--q-color-negative, $negative)
   .q-field-no-input
     border-top 1px solid $negative
+    border-top 1px solid var(--q-color-negative, $negative)
 
 .q-field-with-warning
   .q-field-icon, .q-field-label, .q-field-bottom
     color $warning
+    color var(--q-color-warning, $warning)
   .q-field-no-input
     border-top 1px solid $warning
+    border-top 1px solid var(--q-color-warning, $warning)
 
 qfield-vertical()
   .q-field-label + .q-field-content
