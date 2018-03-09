@@ -3,7 +3,6 @@
 
 .q-tabs-scroller
   overflow hidden
-  color $tabs-color
 
 .q-tab-pane
   padding $tabs-pane-padding
@@ -16,8 +15,6 @@
   display none
 
 .q-tabs-normal
-  .q-tabs-bar
-    color white
   .q-tab-icon, .q-tab-label
     opacity $tabs-unselected-opacity
 
@@ -76,7 +73,6 @@
 .q-tabs-head
   min-height $tabs-min-height
   overflow hidden
-  background $tabs-background
   font-size $tabs-font-size
   font-weight $tabs-font-weight
   transition color .18s ease-in, box-shadow .18s ease-in
@@ -158,8 +154,7 @@
     order -1
 
 .q-tabs-inverted
-  .q-tabs-scroller
-    color $tabs-background
+  background white
 
   .q-tabs-head
     background transparent
