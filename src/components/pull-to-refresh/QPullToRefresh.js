@@ -68,9 +68,6 @@ export default {
       if (event.isFinal) {
         this.scrolling = false
         this.pulling = false
-        if (this.scrolling) {
-          return
-        }
         if (this.state === 'pulled') {
           this.state = 'refreshing'
           this.__animateTo(0)
