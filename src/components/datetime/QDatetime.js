@@ -75,8 +75,12 @@ export default {
     },
     show () {
       if (!this.disable) {
-        if (!this.focused) {
-          this.__setModel(isValid(this.value) ? this.value : this.defaultValue)
+        const val = isValid(this.value) ? this.value : this.defaultValue
+        if (this.focused) {
+          this.model = clone(val)
+        }
+        else {
+          this.__setModel(val)
         }
         return this.$refs.popup.show()
       }
