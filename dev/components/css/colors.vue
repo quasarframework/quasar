@@ -9,7 +9,7 @@
         :class="'bg-' + color"
       >
         <div class="col">{{color}}</div>
-        <q-btn flat dense round icon="colorize" @click="selectColor(color)" />
+        <q-btn flat dense round icon="colorize" @click="selectColor(color)" v-if="color !== 'black'" />
       </div>
       <div
         class="main-color shadow-1 row inline flex-center text-dark"
@@ -18,7 +18,7 @@
         :class="'bg-' + color"
       >
         <div class="col">{{color}}</div>
-        <q-btn flat dense round icon="colorize" @click="selectColor(color)" />
+        <q-btn flat dense round icon="colorize" @click="selectColor(color)" v-if="color !== 'white'" />
       </div>
       <div v-if="currentColor" class="row justify-center items-end q-mt-md">
         <q-color class="main-picker" :value="mainColorValues[currentColor]" @input="val => setColor(currentColor, val)" clearable />
