@@ -117,3 +117,4 @@ KPA Productions
 - Polaris Microsystems, L.L.C. $50
 - Jochen Geiger $50
 - Martin Beaudet $30
+- Jomo Daniels $30
