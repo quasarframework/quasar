@@ -33,8 +33,12 @@ export default {
       color = `text-${this.color}`,
       active = `text-${this.activeColor}`
 
-    this.$slots.default.forEach((comp, i) => {
-      if (comp.componentOptions && comp.componentOptions.tag === 'q-breadcrumbs-el') {
+    for (const i in this.$slots.default) {
+      const comp = this.$slots.default[i]
+      if (
+        comp.componentOptions &&
+        ['q-breadcrumbs-el', 'QBreadcrumbsEl', 'qBreadcrumbsEl'].includes(comp.componentOptions.tag)
+      ) {
         const middle = i < length
 
         child.push(h('div', {
@@ -48,7 +52,7 @@ export default {
       else {
         child.push(comp)
       }
-    })
+    }
 
     return h('div', {
       staticClass: 'q-breadcrumbs flex gutter-xs items-center overflow-hidden',
