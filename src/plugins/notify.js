@@ -1,6 +1,7 @@
 import { QAlert } from '../components/alert'
 import uid from '../utils/uid'
 import clone from '../utils/clone'
+import log from '../utils/log'
 import { ready } from '../utils/dom'
 import { isSSR } from './platform'
 
@@ -155,6 +156,11 @@ function init ({ $q, Vue }) {
 export default {
   create (opts) {
     if (isSSR) {
+      return
+    }
+
+    if (!this.__installed) {
+      log.error('You must include Notify inside quasar.conf before using it.')
       return
     }
 

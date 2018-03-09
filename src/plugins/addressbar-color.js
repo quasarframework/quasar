@@ -1,6 +1,7 @@
 import Platform, { isSSR } from './platform'
 import { ready } from '../utils/dom'
 import { rgbToHex } from '../utils/colors'
+import log from '../utils/log'
 
 function getPrimaryHex () {
   let tempDiv = document.createElement('div')
@@ -45,6 +46,11 @@ export default {
   },
 
   set (hexColor) {
+    if (!this.__installed) {
+      log.error('You must include AddressbarColor inside quasar.conf before using it.')
+      return
+    }
+
     if (!Platform.is.mobile || Platform.is.cordova || isSSR) {
       return
     }

@@ -1,4 +1,5 @@
 import extend from '../utils/extend'
+import log from '../utils/log'
 
 function encode (value) {
   if (Object.prototype.toString.call(value) === '[object Date]') {
@@ -67,9 +68,7 @@ function decode (value) {
   }
 }
 
-function getEmptyStorage () {
-  const fn = () => null
-
+function getEmptyStorage (fn = () => null) {
   return {
     has: fn,
     get: {
@@ -123,8 +122,14 @@ function getStorage (type) {
   }
 }
 
+function defaultFunctions (type) {
+  const msg = `You must include ${type} inside quasar.conf before using it.`
+  return getEmptyStorage(() => log.error(msg))
+}
+
 export const LocalStorage = {
   __installed: false,
+  ...defaultFunctions('LocalStorage'),
   install ({ $q }) {
     if (this.__installed) { return }
     this.__installed = true
@@ -142,6 +147,7 @@ export const LocalStorage = {
 
 export const SessionStorage = {
   __installed: false,
+  ...defaultFunctions('SessionStorage'),
   install ({ $q }) {
     if (this.__installed) { return }
     this.__installed = true
