@@ -109,6 +109,7 @@ KPA Productions
 - Robert Preston $250
 - Remo Laubacher $200
 - Max Matteo Staack 150 EUR
+- Max Matteo Staack $123
 - Musicformellons $100
 - Kyle Tippetts $100 (x2)
 - Gerard Eviston $50
