@@ -153,10 +153,10 @@ div + .q-datetime-time
 
 .q-datetime-dark
   background $dark
-  background var(--q-color-dark, $dark)
+  background var(--q-color-dark)
   .q-datetime-arrow
     color $light
-    color var(--q-color-light, $light)
+    color var(--q-color-light)
   .q-datetime-header, .q-datetime-clock
     background $grey-8
   .q-datetime-view-day
@@ -232,7 +232,7 @@ for $pos in 0..23
         border-color $grey-4
       &.q-datetime-dark
         border 1px solid $dark
-        border 1px solid var(--q-color-dark, $dark)
+        border 1px solid var(--q-color-dark)
 
 @media (min-width $breakpoint-md-min)
   .q-datetime-datestring
@@ -260,4 +260,4 @@ for $pos in 0..23
         border-color $grey-4
       &.q-datetime-dark
         border 1px solid $dark
-        border 1px solid var(--q-color-dark, $dark)
+        border 1px solid var(--q-color-dark)
