@@ -149,7 +149,7 @@ export function textToRgb (color) {
 export function lighten (color, percent) {
   const rgb = textToRgb(color),
     t = percent < 0 ? 0 : 255,
-    p = (percent < 0 ? percent * -1 : percent) / 100,
+    p = Math.abs(percent) / 100,
     R = rgb.r,
     G = rgb.g,
     B = rgb.b
