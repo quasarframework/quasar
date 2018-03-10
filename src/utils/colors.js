@@ -157,7 +157,7 @@ export function lighten (color, percent) {
     throw new TypeError('Expected a string as color')
   }
   if (typeof percent !== 'number') {
-    throw new TypeError('Expected a string')
+    throw new TypeError('Expected a numeric percent')
   }
 
   const rgb = textToRgb(color),
@@ -176,7 +176,7 @@ export function lighten (color, percent) {
 
 export function luminosity (color) {
   if (typeof color !== 'string' || color.r === void 0) {
-    throw new TypeError('Expected a string as color or a {r, g, b} object')
+    throw new TypeError('Expected a string or a {r, g, b} object as color')
   }
 
   const
@@ -197,9 +197,6 @@ export function setBrand (color, value, element = document.body) {
   if (typeof value !== 'string') {
     throw new TypeError('Expected a string as value')
   }
-  if (typeof color !== 'string') {
-    throw new TypeError('Expected a string')
-  }
   if (!(element instanceof Element)) {
     throw new TypeError('Expected a DOM element')
   }
@@ -218,6 +215,9 @@ export function setBrand (color, value, element = document.body) {
 export function getBrand (color, element = document.body) {
   if (typeof color !== 'string') {
     throw new TypeError('Expected a string as color')
+  }
+  if (!(element instanceof Element)) {
+    throw new TypeError('Expected a DOM element')
   }
 
   return getComputedStyle(element).getPropertyValue(`--q-color-${color}`).trim() || null
