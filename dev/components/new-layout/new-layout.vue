@@ -8,6 +8,7 @@
           Header
           <span slot="subtitle">The Subtiiiitleeee</span>
         </q-toolbar-title>
+        <q-color dark v-model="mainColor" />
         <q-toggle v-model="toggle" color="amber" dark />
         <q-btn flat round dense icon="menu" @click="right = !right" />
       </q-toolbar>
@@ -217,6 +218,8 @@ export default {
   data () {
     const v = 'lHh Lpr fFf'
     return {
+      mainColor: '#027be3',
+
       toggle: false,
       header: true,
       footer: true,
@@ -260,6 +263,11 @@ export default {
         bottom = `${this.bottomleft}${this.bottomcenter}${this.bottomright}`
 
       return `${top} ${middle} ${bottom}`
+    }
+  },
+  watch: {
+    mainColor (v) {
+      document.documentElement.style.setProperty(`--q-color-primary`, v)
     }
   },
   methods: {
