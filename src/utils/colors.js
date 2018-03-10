@@ -154,7 +154,11 @@ export function lighten (color, percent) {
     G = rgb.g,
     B = rgb.b
 
-  return '#' + (0x1000000 + (Math.round((t - R) * p) + R) * 0x10000 + (Math.round((t - G) * p) + G) * 0x100 + (Math.round((t - B) * p) + B)).toString(16).slice(1)
+  return '#' + (
+    0x1000000 + (Math.round((t - R) * p) + R) * 0x10000 +
+    (Math.round((t - G) * p) + G) * 0x100 +
+    (Math.round((t - B) * p) + B)
+  ).toString(16).slice(1)
 }
 
 export function luminosity (color) {
@@ -175,13 +179,6 @@ export function setBrand (colorName, value, element = document.body) {
     case 'negative':
     case 'warning':
       element.style.setProperty(`--q-color-${colorName}-l`, lighten(value, 46))
-      break
-    case 'primary':
-      const
-        rgb = textToRgb(value),
-        fg = luminosity(rgb) > 0.29 ? 0 : 255
-      element.style.setProperty(`--q-color-selection-bg`, `rgba(${rgb.r},${rgb.g},${rgb.b},.4)`)
-      element.style.setProperty(`--q-color-selection-fg`, `rgba(${fg},${fg},${fg},.87)`)
       break
     case 'light':
       element.style.setProperty(`--q-color-${colorName}-d`, lighten(value, -10))
