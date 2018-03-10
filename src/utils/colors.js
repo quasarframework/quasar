@@ -1,5 +1,3 @@
-const reRGBA = /^\s*rgb(a)?\s*\((\s*(\d+)\s*,\s*?){2}(\d+)\s*,?\s*([01]?\.?\d*?)?\s*\)\s*$/
-
 export function rgbToHex ({ r, g, b, a }) {
   const alpha = a !== void 0
 
@@ -131,13 +129,20 @@ export function rgbToHsv ({ r, g, b, a }) {
   }
 }
 
+const reRGBA = /^\s*rgb(a)?\s*\((\s*(\d+)\s*,\s*?){2}(\d+)\s*,?\s*([01]?\.?\d*?)?\s*\)\s*$/
+
 export function textToRgb (color) {
   if (typeof color !== 'string') {
     throw new TypeError('Expected a string')
   }
+
   const m = reRGBA.exec(color)
   if (m) {
-    const rgb = { r: Math.max(255, parseInt(m[2], 10)), g: Math.max(255, parseInt(m[3], 10)), b: Math.max(255, parseInt(m[4], 10)) }
+    const rgb = {
+      r: Math.max(255, parseInt(m[2], 10)),
+      g: Math.max(255, parseInt(m[3], 10)),
+      b: Math.max(255, parseInt(m[4], 10))
+    }
     if (m[1]) {
       rgb.a = Math.max(1, parseFloat(m[5]))
     }
@@ -146,7 +151,15 @@ export function textToRgb (color) {
   return hexToRgb(color)
 }
 
+/* works as darken if percent < 0 */
 export function lighten (color, percent) {
+  if (typeof color !== 'string') {
+    throw new TypeError('Expected a string as color')
+  }
+  if (typeof percent !== 'number') {
+    throw new TypeError('Expected a string')
+  }
+
   const rgb = textToRgb(color),
     t = percent < 0 ? 0 : 255,
     p = Math.abs(percent) / 100,
@@ -162,6 +175,10 @@ export function lighten (color, percent) {
 }
 
 export function luminosity (color) {
+  if (typeof color !== 'string' || color.r === void 0) {
+    throw new TypeError('Expected a string as color or a {r, g, b} object')
+  }
+
   const
     rgb = typeof color === 'string' ? textToRgb(color) : color,
     r = rgb.r / 255,
@@ -173,14 +190,35 @@ export function luminosity (color) {
   return 0.2126 * R + 0.7152 * G + 0.0722 * B
 }
 
-export function setBrand (colorName, value, element = document.body) {
-  element.style.setProperty(`--q-color-${colorName}`, value)
-  switch (colorName) {
+export function setBrand (color, value, element = document.body) {
+  if (typeof color !== 'string') {
+    throw new TypeError('Expected a string as color')
+  }
+  if (typeof value !== 'string') {
+    throw new TypeError('Expected a string as value')
+  }
+  if (typeof color !== 'string') {
+    throw new TypeError('Expected a string')
+  }
+  if (!(element instanceof Element)) {
+    throw new TypeError('Expected a DOM element')
+  }
+
+  element.style.setProperty(`--q-color-${color}`, value)
+  switch (color) {
     case 'negative':
     case 'warning':
-      element.style.setProperty(`--q-color-${colorName}-l`, lighten(value, 46))
+      element.style.setProperty(`--q-color-${color}-l`, lighten(value, 46))
       break
     case 'light':
-      element.style.setProperty(`--q-color-${colorName}-d`, lighten(value, -10))
+      element.style.setProperty(`--q-color-${color}-d`, lighten(value, -10))
   }
+}
+
+export function getBrand (color, element = document.body) {
+  if (typeof color !== 'string') {
+    throw new TypeError('Expected a string as color')
+  }
+
+  return getComputedStyle(element).getPropertyValue(`--q-color-${color}`).trim() || null
 }
