@@ -1,38 +1,48 @@
 import Platform, { isSSR } from './platform'
 import { ready } from '../utils/dom'
-import { rgbToHex } from '../utils/colors'
+import { getBrand } from '../utils/colors'
 
-function getPrimaryHex () {
-  let tempDiv = document.createElement('div')
-  tempDiv.style.height = '10px'
-  tempDiv.style.position = 'absolute'
-  tempDiv.style.top = '-100000px'
-  tempDiv.className = 'bg-primary'
-  document.body.appendChild(tempDiv)
-  const primaryColor = window.getComputedStyle(tempDiv).getPropertyValue('background-color')
-  document.body.removeChild(tempDiv)
+let metaValue
 
-  const rgb = primaryColor.match(/\d+/g)
-  return `#${rgbToHex(parseInt(rgb[0]), parseInt(rgb[1]), parseInt(rgb[2]))}`
+function getProp () {
+  if (Platform.is.winphone) {
+    return 'msapplication-navbutton-color'
+  }
+  if (Platform.is.safari) {
+    return 'apple-mobile-web-app-status-bar-style'
+  }
+  // Chrome, Firefox OS, Opera, Vivaldi
+  return 'theme-color'
+}
+
+function getMetaTag (v) {
+  const els = document.getElementsByTagName('meta')
+  for (let i in els) {
+    if (els[i].name === v) {
+      return els[i]
+    }
+  }
 }
 
 function setColor (hexColor) {
-  // http://stackoverflow.com/a/33193739
-  let metaTag = document.createElement('meta')
+  if (metaValue === void 0) {
+    // cache it
+    metaValue = getProp()
+  }
 
-  if (Platform.is.winphone) {
-    metaTag.setAttribute('name', 'msapplication-navbutton-color')
-  }
-  else if (Platform.is.safari) {
-    metaTag.setAttribute('name', 'apple-mobile-web-app-status-bar-style')
-  }
-  // Chrome, Firefox OS, Opera, Vivaldi
-  else {
-    metaTag.setAttribute('name', 'theme-color')
+  let metaTag = getMetaTag(metaValue)
+  const newTag = metaTag === void 0
+
+  if (newTag) {
+    metaTag = document.createElement('meta')
+    metaTag.setAttribute('name', metaValue)
   }
 
   metaTag.setAttribute('content', hexColor)
-  document.getElementsByTagName('head')[0].appendChild(metaTag)
+
+  if (newTag) {
+    document.getElementsByTagName('head')[0].appendChild(metaTag)
+  }
 }
 
 export default {
@@ -53,7 +63,7 @@ export default {
     }
 
     ready(() => {
-      setColor(hexColor || getPrimaryHex())
+      setColor(hexColor || getBrand('primary'))
     })
   }
 }
