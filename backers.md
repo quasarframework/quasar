@@ -28,6 +28,8 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 
 KPA Productions
 
+<a href="http://platformpurple.com/" target="_blank"><img src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/592beec0/platform-purple.png" width="200px"></a>
+
 ---
 
 ### $50+
