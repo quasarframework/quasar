@@ -21,8 +21,9 @@
         <q-btn flat dense round icon="colorize" @click="selectColor(color)" v-if="color !== 'white'" />
       </div>
       <div v-if="currentColor" class="row justify-center items-end q-mt-md">
-        <q-color class="main-picker" :value="mainColorValues[currentColor]" @input="val => setColor(currentColor, val)" clearable />
-        <q-btn flat size="form" icon="undo" @click="undoColor(currentColor)" />
+        <div class="q-px-md q-py-sm shadow-2">
+          <q-color color="dark" hide-underline :value="mainColorValues[currentColor]" @input="val => setColor(currentColor, val)" :after="[ { icon: 'undo', handler () { undoColor(currentColor) } }]" />
+        </div>
       </div>
 
       <h5>Full Palette</h5>
@@ -35,7 +36,7 @@
 </template>
 
 <script>
-import { clone } from 'quasar'
+import { clone, colors } from 'quasar'
 
 const mainColors = ['primary', 'secondary', 'tertiary', 'positive', 'negative', 'info', 'warning', 'faded', 'dark', 'black']
 const mainLightColors = ['white', 'light']
@@ -43,11 +44,13 @@ let mainColorValuesOrig
 
 export default {
   data () {
-    const rootStyle = getComputedStyle(document.documentElement)
-    const mainColorValues = [...mainColors, ...mainLightColors].reduce((acc, color) => {
-      acc[color] = rootStyle.getPropertyValue(`--q-color-${color}`) || null
-      return acc
-    }, {})
+    const style = getComputedStyle(document.body)
+    const mainColorValues = [...mainColors, ...mainLightColors]
+      .filter(c => !['white', 'black'].includes(c))
+      .reduce((acc, color) => {
+        acc[color] = style.getPropertyValue(`--q-color-${color}`) || null
+        return acc
+      }, {})
     if (!mainColorValuesOrig) {
       mainColorValuesOrig = clone(mainColorValues)
     }
@@ -69,12 +72,12 @@ export default {
     },
     setColor (color, value) {
       this.mainColorValues[color] = value
-      document.documentElement.style.setProperty(`--q-color-${color}`, value)
+      colors.setBrand(color, value)
     },
     undoColor (color) {
       const value = this.mainColorValuesOrig[color]
       this.mainColorValues[color] = value
-      document.documentElement.style.setProperty(`--q-color-${color}`, value)
+      colors.setBrand(color, value)
     }
   }
 }
@@ -82,8 +85,6 @@ export default {
 
 <style lang="stylus">
 #view-colors
-  .main-picker
-    min-width 10em
   div.main-color
     width 130px
     margin 5px

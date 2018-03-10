@@ -214,6 +214,8 @@
 </style>
 
 <script>
+import { colors } from 'quasar'
+
 export default {
   data () {
     const v = 'lHh Lpr fFf'
@@ -267,7 +269,7 @@ export default {
   },
   watch: {
     mainColor (v) {
-      document.documentElement.style.setProperty(`--q-color-primary`, v)
+      colors.setBrand(`primary`, v)
     }
   },
   methods: {
