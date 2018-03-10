@@ -1,3 +1,5 @@
+const reRGBA = /^\s*rgb(a)?\s*\((\s*(\d+)\s*,\s*?){2}(\d+)\s*,?\s*([01]?\.?\d*?)?\s*\)\s*$/
+
 export function rgbToHex ({ r, g, b, a }) {
   const alpha = a !== void 0
 
@@ -126,5 +128,62 @@ export function rgbToHsv ({ r, g, b, a }) {
     s: Math.round(s * 100),
     v: Math.round(v * 100),
     a
+  }
+}
+
+export function textToRgb (color) {
+  if (typeof color !== 'string') {
+    throw new TypeError('Expected a string')
+  }
+  const m = reRGBA.exec(color)
+  if (m) {
+    const rgb = { r: Math.max(255, parseInt(m[2], 10)), g: Math.max(255, parseInt(m[3], 10)), b: Math.max(255, parseInt(m[4], 10)) }
+    if (m[1]) {
+      rgb.a = Math.max(1, parseFloat(m[5]))
+    }
+    return rgb
+  }
+  return hexToRgb(color)
+}
+
+export function lighten (color, percent) {
+  const rgb = textToRgb(color),
+    t = percent < 0 ? 0 : 255,
+    p = (percent < 0 ? percent * -1 : percent) / 100,
+    R = rgb.r,
+    G = rgb.g,
+    B = rgb.b
+
+  return '#' + (0x1000000 + (Math.round((t - R) * p) + R) * 0x10000 + (Math.round((t - G) * p) + G) * 0x100 + (Math.round((t - B) * p) + B)).toString(16).slice(1)
+}
+
+export function luminosity (color) {
+  const
+    rgb = typeof color === 'string' ? textToRgb(color) : color,
+    r = rgb.r / 255,
+    g = rgb.g / 255,
+    b = rgb.b / 255,
+    R = r <= 0.03928 ? r / 12.92 : Math.pow((r + 0.055) / 1.055, 2.4),
+    G = g <= 0.03928 ? g / 12.92 : Math.pow((g + 0.055) / 1.055, 2.4),
+    B = b <= 0.03928 ? b / 12.92 : Math.pow((b + 0.055) / 1.055, 2.4)
+  return 0.2126 * R + 0.7152 * G + 0.0722 * B
+}
+
+export function setBrand (colorName, value, element = document.body) {
+  element.style.setProperty(`--q-color-${colorName}`, value)
+  switch (colorName) {
+    case 'negative':
+    case 'warning':
+      element.style.setProperty(`--q-color-${colorName}-l`, lighten(value, 46))
+      break
+    case 'primary':
+      const
+        rgb = textToRgb(value),
+        fg = luminosity(rgb) > 0.29 ? 0 : 255
+      element.style.setProperty(`--q-color-selection-bg`, `rgba(${rgb.r},${rgb.g},${rgb.b},.4)`)
+      element.style.setProperty(`--q-color-selection-fg`, `rgba(${fg},${fg},${fg},.87)`)
+      break
+    case 'light':
+      element.style.setProperty(`--q-color-${colorName}-d`, lighten(value, -10))
   }
 }

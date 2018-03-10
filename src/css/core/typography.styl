@@ -143,6 +143,7 @@ dl
   background $primary
   background var(--q-color-primary)
   color alpha(opposite-non-color($primary), .87)
+  color var(--q-color-selection-fg)
 
 textarea::-webkit-selection,
 input::-webkit-selection,
@@ -151,4 +152,6 @@ input::-moz-selection,
 textarea::selection,
 input::selection
   background alpha($primary, .4)
+  background var(--q-color-selection-bg)
   color alpha(opposite-non-color($primary), .87)
+  color var(--q-color-selection-fg)

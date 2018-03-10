@@ -1,14 +1,19 @@
 :root
-  --q-color-primary   $primary
-  --q-color-secondary $secondary
-  --q-color-tertiary  $tertiary
-  --q-color-positive  $positive
-  --q-color-negative  $negative
-  --q-color-info      $info
-  --q-color-warning   $warning
-  --q-color-light     $light
-  --q-color-faded     $faded
-  --q-color-dark      $dark
+  --q-color-primary      $primary
+  --q-color-secondary    $secondary
+  --q-color-tertiary     $tertiary
+  --q-color-positive     $positive
+  --q-color-negative     $negative
+  --q-color-negative-l   lighten($negative, 46%)
+  --q-color-info         $info
+  --q-color-warning      $warning
+  --q-color-warning-l    lighten($warning, 46%)
+  --q-color-light        $light
+  --q-color-light-d      darken($light, 10%)
+  --q-color-faded        $faded
+  --q-color-dark         $dark
+  --q-color-selection-bg alpha($primary, .4)
+  --q-color-selection-fg alpha(opposite-non-color($primary), .87)
 
 .text-primary
   color $primary !important
