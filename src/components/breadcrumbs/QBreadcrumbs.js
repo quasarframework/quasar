@@ -45,6 +45,7 @@ export default {
         els++
 
         child.push(h('div', {
+          staticClass: 'flex items-center',
           'class': [ middle ? active : color, middle ? 'text-weight-bold' : 'q-breadcrumbs-last' ]
         }, [ comp ]))
 

@@ -16,6 +16,14 @@
         <q-breadcrumbs-el v-if="third" label="Breadcrumbs" icon="navigation" />
       </q-breadcrumbs>
 
+
+      <br><br>
+      <q-breadcrumbs>
+        <q-breadcrumbs-el class="cursor-pointer" label="Home" icon="home" @click.native="path = '/'"/>
+        <q-breadcrumbs-el label="Home" />
+        <q-breadcrumbs-el label="Home" />
+        <q-breadcrumbs-el label="Home" />
+      </q-breadcrumbs>
       <br><br>
       <q-breadcrumbs icon-separator="chevron_right" active-color="secondary" color="light">
         <q-breadcrumbs-el label="Home" to="/" />
