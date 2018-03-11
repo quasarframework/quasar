@@ -41,6 +41,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Evan Leonardi
 - Max Matteo Staack
 - Bobby Ross
+- Nikolaj Frey
 
 ---
 
