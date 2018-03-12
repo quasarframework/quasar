@@ -52,7 +52,7 @@ export default {
     add: 'ion-android-send'
   },
   collapsible: {
-    icon: 'ion-chevron-down'
+    icon: 'ion-arrow-down-b'
   },
   datetime: {
     arrowLeft: 'ion-chevron-left',
