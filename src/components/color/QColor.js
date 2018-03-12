@@ -80,8 +80,12 @@ export default {
     },
     show () {
       if (!this.disable) {
-        if (!this.focused) {
-          this.__setModel(this.value || this.defaultValue)
+        const val = this.value || this.defaultValue
+        if (this.focused) {
+          this.model = clone(val)
+        }
+        else {
+          this.__setModel(val)
         }
         return this.$refs.popup.show()
       }

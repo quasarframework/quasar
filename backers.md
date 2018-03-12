@@ -26,7 +26,9 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 
 <a href="http://www.kalisio.com/" target="_blank"><img src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/a579cb37/kalisio.png" width="200px"></a>
 
-KPA Productions
+<a href="http://www.kpaproductions.com/" target="_blank"><img src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/26279c87/kpa-productions.png" width="200px"></a>
+
+<a href="http://platformpurple.com/" target="_blank"><img src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/592beec0/platform-purple.png" width="200px"></a>
 
 ---
 
@@ -39,6 +41,7 @@ KPA Productions
 - Evan Leonardi
 - Max Matteo Staack
 - Bobby Ross
+- Nikolaj Frey
 
 ---
 
@@ -91,6 +94,8 @@ KPA Productions
 - Thibaut Renoncourt
 - Benoit Ranque
 - Brian J Petersen
+- Felipe Santiago
+- Heitor Ribeiro
 
 - Ken ($5)
 - Oliver ($5)
@@ -109,6 +114,7 @@ KPA Productions
 - Robert Preston $250
 - Remo Laubacher $200
 - Max Matteo Staack 150 EUR
+- Max Matteo Staack $123
 - Musicformellons $100
 - Kyle Tippetts $100 (x2)
 - Gerard Eviston $50
@@ -116,3 +122,4 @@ KPA Productions
 - Polaris Microsystems, L.L.C. $50
 - Jochen Geiger $50
 - Martin Beaudet $30
+- Jomo Daniels $30

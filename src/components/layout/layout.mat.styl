@@ -1,3 +1,5 @@
+$layout-transition = all .12s ease-in
+
 .q-layout
   width 100%
   min-height 100vh
@@ -17,12 +19,12 @@
   top 0
   bottom 0
   background $layout-aside-background
-  transition all .12s ease-in
+  transition $layout-transition
   z-index $z-side
-  &.fixed.on-screen
-    box-shadow $layout-aside-shadow
   &.on-top
     z-index $z-fixed-drawer
+.q-layout-drawer-delimiter
+  box-shadow $layout-aside-shadow
 .q-layout-drawer-left
   left 0
   width $layout-aside-left-width
@@ -52,7 +54,7 @@
 
 body
   &.q-layout-animate .q-layout-transition
-    transition all .12s ease-in
+    transition $layout-transition
 
   &.with-layout-drawer-opened
     overflow hidden

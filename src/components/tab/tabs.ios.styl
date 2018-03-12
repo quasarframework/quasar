@@ -3,7 +3,6 @@
 
 .q-tabs-scroller
   overflow hidden
-  color $tabs-color
 
 .q-tab-pane
   padding $tabs-pane-padding
@@ -85,7 +84,6 @@
 .q-tabs-head
   min-height $tabs-min-height
   overflow hidden
-  background $tabs-background
   font-size $tabs-font-size
   font-weight $tabs-font-weight
   transition color .18s ease-in, box-shadow .18s ease-in
@@ -137,15 +135,11 @@
   order -1
 
 .q-tabs-inverted
-  background $tabs-inverted-background
+  background white
+
   .q-tab
-    &.active
-      color $tabs-background
     &:active
       background rgba(0, 0, 0, .1)
-
-  .q-tabs-scroller
-    color $tabs-inverted-color
 
   .q-tabs-head
     background transparent

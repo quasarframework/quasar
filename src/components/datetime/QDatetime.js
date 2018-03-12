@@ -75,8 +75,12 @@ export default {
     },
     show () {
       if (!this.disable) {
-        if (!this.focused) {
-          this.__setModel(isValid(this.value) ? this.value : this.defaultValue)
+        const val = isValid(this.value) ? this.value : this.defaultValue
+        if (this.focused) {
+          this.model = clone(val)
+        }
+        else {
+          this.__setModel(val)
         }
         return this.$refs.popup.show()
       }
@@ -176,6 +180,11 @@ export default {
             canClose: () => {
               if (this.isPopover) {
                 this.hide()
+                // go back to initial entry point for that type of control
+                // if it has defaultView it's goint to be reapplied anyway on focus
+                if (!this.defaultView) {
+                  this.$refs.target.setView()
+                }
               }
             }
           }

@@ -56,7 +56,7 @@ export default {
       }
 
       const color = this.data.inverted
-        ? this.color || this.data.color
+        ? this.color || this.data.textColor || this.data.color
         : this.color
 
       if (color) {

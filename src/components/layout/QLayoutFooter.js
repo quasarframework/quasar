@@ -31,6 +31,11 @@ export default {
     offset (val) {
       this.__update('offset', val)
     },
+    reveal (val) {
+      if (!val) {
+        this.__updateLocal('revealed', this.value)
+      }
+    },
     revealed (val) {
       this.layout.__animate()
       this.$emit('reveal', val)
@@ -90,16 +95,22 @@ export default {
     }, [
       this.$slots.default,
       h(QResizeObservable, {
+        props: { debounce: 0 },
         on: { resize: this.__onResize }
       })
     ])
   },
   created () {
+    this.layout.instances.footer = this
     this.__update('space', this.value)
   },
-  destroyed () {
-    this.__update('size', 0)
-    this.__update('space', false)
+  beforeDestroy () {
+    if (this.layout.instances.footer === this) {
+      this.layout.instances.footer = null
+      this.__update('size', 0)
+      this.__update('offset', 0)
+      this.__update('space', false)
+    }
   },
   methods: {
     __onResize ({ height }) {

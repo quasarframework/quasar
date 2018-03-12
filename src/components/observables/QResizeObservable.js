@@ -1,8 +1,13 @@
-import { debounce } from '../../utils/debounce'
 import { listenOpts } from '../../utils/event'
 
 export default {
   name: 'QResizeObservable',
+  props: {
+    debounce: {
+      type: Number,
+      default: 100
+    }
+  },
   methods: {
     onResize () {
       const size = {
@@ -15,7 +20,16 @@ export default {
       }
 
       this.size = size
+      this.timer = null
       this.$emit('resize', this.size)
+    },
+    trigger () {
+      if (this.debounce === 0) {
+        this.onResize()
+      }
+      else if (!this.timer) {
+        this.timer = setTimeout(this.onResize, this.debounce)
+      }
     }
   },
   render (h) {
@@ -28,14 +42,13 @@ export default {
 
     this.parent = this.$el.parentNode
     this.size = { width: -1, height: -1 }
-    this.onResize = debounce(this.onResize, 100)
-    this.onResize()
+    this.trigger()
 
     this.object = object
     object.setAttribute('aria-hidden', true)
     object.setAttribute('style', 'display:block;position:absolute;top:0;left:0;right:0;bottom:0;height:100%;width:100%;overflow:hidden;pointer-events:none;z-index:-1;visibility:hidden;')
     object.onload = () => {
-      object.contentDocument.defaultView.addEventListener('resize', this.onResize, listenOpts.passive)
+      object.contentDocument.defaultView.addEventListener('resize', this.trigger, listenOpts.passive)
     }
     object.type = 'text/html'
     if (onIE) {
@@ -47,9 +60,10 @@ export default {
     }
   },
   beforeDestroy () {
+    clearTimeout(this.timer)
     if (this.object && this.object.onload) {
       if (!this.$q.platform.is.ie && this.object.contentDocument) {
-        this.object.contentDocument.defaultView.removeEventListener('resize', this.onResize, listenOpts.passive)
+        this.object.contentDocument.defaultView.removeEventListener('resize', this.trigger, listenOpts.passive)
       }
       delete this.object.onload
     }

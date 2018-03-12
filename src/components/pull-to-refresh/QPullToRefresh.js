@@ -13,6 +13,10 @@ export default {
       type: Function,
       required: true
     },
+    color: {
+      type: String,
+      default: 'primary'
+    },
     distance: {
       type: Number,
       default: 35
@@ -50,6 +54,9 @@ export default {
     },
     style () {
       return cssTransform(`translateY(${this.pullPosition}px)`)
+    },
+    messageClass () {
+      return `text-${this.color}`
     }
   },
   methods: {
@@ -61,9 +68,6 @@ export default {
       if (event.isFinal) {
         this.scrolling = false
         this.pulling = false
-        if (this.scrolling) {
-          return
-        }
         if (this.state === 'pulled') {
           this.state = 'refreshing'
           this.__animateTo(0)
@@ -141,7 +145,10 @@ export default {
           value: this.__pull
         }]
       }, [
-        h('div', { staticClass: 'pull-to-refresh-message row flex-center' }, [
+        h('div', {
+          staticClass: 'pull-to-refresh-message row flex-center',
+          'class': this.messageClass
+        }, [
           h(QIcon, {
             'class': { 'rotate-180': this.state === 'pulled' },
             props: { name: this.$q.icon.pullToRefresh.arrow },

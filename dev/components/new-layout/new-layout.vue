@@ -8,6 +8,7 @@
           Header
           <span slot="subtitle">The Subtiiiitleeee</span>
         </q-toolbar-title>
+        <q-color dark v-model="mainColor" />
         <q-toggle v-model="toggle" color="amber" dark />
         <q-btn flat round dense icon="menu" @click="right = !right" />
       </q-toolbar>
@@ -84,10 +85,13 @@
       <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in">
         <router-view />
       </transition>
+      <div class="fixed-bottom-right bg-grey-5 q-pa-sm z-max" style="bottom: 8px; right: 8px;">
+        <q-toggle v-model="showConfig" label="Config" />
+      </div>
     </q-page-container>
   </q-layout>
 
-  <div class="fixed-center bg-amber z-fullscreen">
+  <div class="fixed-center bg-amber z-fullscreen" v-if="showConfig">
     <div class="row no-wrap">
       <div class="col gutter-xs q-ma-xs">
         <div>
@@ -193,13 +197,13 @@
           </div>
         </div>
       </div>
-      <q-modal v-model="toggle" :content-css="{padding: '50px', minWidth: '50vw'}">
-        <h4>Basic Modal</h4>
-        <p v-for="n in 25" :key="`basic-${n}`">Scroll down to close</p>
-        <q-btn color="primary" @click="toggle = false">Close</q-btn>
-      </q-modal>
     </div>
   </div>
+  <q-modal v-model="toggle" :content-css="{padding: '50px', minWidth: '50vw'}">
+    <h4>Basic Modal</h4>
+    <p v-for="n in 25" :key="`basic-${n}`">Scroll down to close</p>
+    <q-btn color="primary" @click="toggle = false">Close</q-btn>
+  </q-modal>
 </div>
 </template>
 
@@ -210,10 +214,14 @@
 </style>
 
 <script>
+import { colors } from 'quasar'
+
 export default {
   data () {
     const v = 'lHh Lpr fFf'
     return {
+      mainColor: '#027be3',
+
       toggle: false,
       header: true,
       footer: true,
@@ -244,7 +252,9 @@ export default {
         { label: 'Behave Normal', value: 'default' },
         { label: 'Behave Mobile', value: 'mobile' },
         { label: 'Behave Desktop', value: 'desktop' }
-      ]
+      ],
+
+      showConfig: true
     }
   },
   computed: {
@@ -255,6 +265,11 @@ export default {
         bottom = `${this.bottomleft}${this.bottomcenter}${this.bottomright}`
 
       return `${top} ${middle} ${bottom}`
+    }
+  },
+  watch: {
+    mainColor (v) {
+      colors.setBrand(`primary`, v)
     }
   },
   methods: {

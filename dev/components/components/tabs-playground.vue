@@ -152,6 +152,7 @@
       :key="`${align}3`"
       :align="align"
       color="amber"
+      text-color="dark"
     >
       <q-tab :alert="alert" default slot="title" v-if="third" name="three" label="Oaua" icon="bluetooth" />
       <q-tab color="red" alert slot="title" name="one" label="Gogu" icon="wifi" />
