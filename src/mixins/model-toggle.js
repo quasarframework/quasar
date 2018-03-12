@@ -33,9 +33,7 @@ export default {
         return this.showPromise || Promise.resolve(evt)
       }
 
-      if (this.hidePromise) {
-        this.hidePromiseReject()
-      }
+      this.hidePromise && this.hidePromiseReject()
 
       this.showing = true
       if (this.value === false) {
@@ -74,9 +72,7 @@ export default {
         return this.hidePromise || Promise.resolve(evt)
       }
 
-      if (this.showPromise) {
-        this.showPromiseReject()
-      }
+      this.showPromise && this.showPromiseReject()
 
       this.showing = false
       if (this.value === true) {
