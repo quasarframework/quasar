@@ -16,7 +16,7 @@ function getProp () {
 }
 
 function getMetaTag (v) {
-  const els = document.getElementsByTagName('meta')
+  const els = document.getElementsByTagName('META')
   for (let i in els) {
     if (els[i].name === v) {
       return els[i]
@@ -41,7 +41,7 @@ function setColor (hexColor) {
   metaTag.setAttribute('content', hexColor)
 
   if (newTag) {
-    document.getElementsByTagName('head')[0].appendChild(metaTag)
+    document.getElementsByTagName('HEAD')[0].appendChild(metaTag)
   }
 }
 
