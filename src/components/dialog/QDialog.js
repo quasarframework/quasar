@@ -186,6 +186,7 @@ export default {
           props: {
             value: this.prompt.model,
             type: this.prompt.type || 'text',
+            autofocus: true,
             color: this.color,
             noPassToggle: true
           },

@@ -29,6 +29,13 @@ export default {
     input,
     inline
   ),
+  watch: {
+    value (v) {
+      if (!this.disable && this.$refs.popup && this.$refs.popup.showing) {
+        this.model = clone(v)
+      }
+    }
+  },
   data () {
     let data = this.isPopover ? {} : {
       transition: __THEME__ === 'ios' ? 'q-modal-bottom' : 'q-modal'
@@ -120,6 +127,10 @@ export default {
       this.$emit('focus')
     },
     __onBlur (e) {
+      if (this.$refs.popup && this.$refs.popup.showing) {
+        return
+      }
+
       this.__onHide()
       setTimeout(() => {
         const el = document.activeElement
@@ -132,7 +143,7 @@ export default {
       this.focused = false
       this.$emit('blur')
       if (forceUpdate || (this.isPopover && this.$refs.popup.showing)) {
-        this.__update(true)
+        this.__update(forceUpdate)
       }
     },
     __setModel (val, forceUpdate) {
@@ -143,12 +154,12 @@ export default {
     },
     __update (change) {
       this.$nextTick(() => {
-        this.$emit('input', this.model)
-        this.$nextTick(() => {
-          if (change && !isSameDate(this.model, this.value)) {
+        if (!isSameDate(this.model, this.value)) {
+          this.$emit('input', this.model)
+          if (change) {
             this.$emit('change', this.model)
           }
-        })
+        }
       })
     },
 
@@ -199,9 +210,14 @@ export default {
                   color: this.modalBtnColor,
                   flat: true,
                   label: this.cancelLabel || this.$q.i18n.label.cancel,
-                  waitForRipple: true
+                  noRipple: true
                 },
-                on: { click: this.hide }
+                on: {
+                  click: () => {
+                    this.__onHide()
+                    this.hide()
+                  }
+                }
               }),
               this.editable
                 ? h(QBtn, {
@@ -209,12 +225,12 @@ export default {
                     color: this.modalBtnColor,
                     flat: true,
                     label: this.okLabel || this.$q.i18n.label.set,
-                    waitForRipple: true
+                    noRipple: true
                   },
                   on: {
                     click: () => {
+                      this.__onHide(true)
                       this.hide()
-                      this.__update(true)
                     }
                   }
                 })
@@ -246,7 +262,7 @@ export default {
         color: this.color,
         noParentField: this.noParentField,
 
-        focused: this.focused,
+        focused: this.focused || (this.$refs.popup && this.$refs.popup.showing),
         focusable: true,
         length: this.actualValue.length
       },
@@ -287,8 +303,7 @@ export default {
             transition: this.transition
           },
           on: {
-            show: this.__onFocus,
-            hide: val => this.__onHide(true)
+            dismiss: this.__onHide
           }
         }, this.__getPicker(h, true)),
 
