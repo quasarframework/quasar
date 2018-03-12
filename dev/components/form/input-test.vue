@@ -32,7 +32,7 @@
       @change="onChange2"
       placeholder="Color (RGBA)"
       modal
-      :after="[ { icon: 'colorize', handler () { color = defaultColor } }]" />
+      :after="[ { icon: 'colorize', handler () { color = null; $nextTick(() => { color = defaultColor }) } }]" />
 
     <br><br>
     <q-color
@@ -59,7 +59,7 @@
       @change="onChange2"
       placeholder="Color (RGBA)"
       popover
-      :after="[ { icon: 'colorize', handler () { color = defaultColor } }]" />
+      :after="[ { icon: 'colorize', handler () { color = null; $nextTick(() => { color = defaultColor }) } }]" />
 
     <br><br>
     <q-datetime
@@ -72,8 +72,8 @@
       @clear="donClear"
       v-model="date"
       modal
-      placeholder="Color (RGBA)"
-      :after="[ { icon: 'colorize', handler () { date = defaultDate } }]" />
+      placeholder="Date"
+      :after="[ { icon: 'today', handler () { date = defaultDate } }]" />
 
     <q-datetime
       clearable
@@ -84,9 +84,9 @@
       @clear="donClear"
       :value="date"
       @change="donChange2"
-      placeholder="Color (RGBA)"
+      placeholder="Date"
       modal
-      :after="[ { icon: 'colorize', handler () { date = defaultDate } }]" />
+      :after="[ { icon: 'today', handler () { date = null; $nextTick(() => { date = defaultDate }) } }]" />
 
     <br><br>
     <q-datetime
@@ -99,8 +99,8 @@
       @clear="donClear"
       v-model="date"
       popover
-      placeholder="Color (RGBA)"
-      :after="[ { icon: 'colorize', handler () { date = defaultDate } }]" />
+      placeholder="Date"
+      :after="[ { icon: 'today', handler () { date = defaultDate } }]" />
 
     <q-datetime
       clearable
@@ -111,9 +111,9 @@
       @clear="donClear"
       :value="date"
       @change="donChange2"
-      placeholder="Color (RGBA)"
+      placeholder="Date"
       popover
-      :after="[ { icon: 'colorize', handler () { date = defaultDate } }]" />
+      :after="[ { icon: 'today', handler () { date = null; $nextTick(() => { date = defaultDate }) } }]" />
 
   </div>
 </template>
