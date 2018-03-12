@@ -52,7 +52,7 @@ export default {
     add: 'fal fa-paper-plane'
   },
   collapsible: {
-    icon: 'fal fa-chevron-down'
+    icon: 'fal fa-caret-down'
   },
   datetime: {
     arrowLeft: 'fal fa-chevron-left',
