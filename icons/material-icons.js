@@ -52,7 +52,7 @@ export default {
     add: 'send'
   },
   collapsible: {
-    icon: 'keyboard_arrow_down'
+    icon: 'arrow_drop_down'
   },
   datetime: {
     arrowLeft: 'chevron_left',
