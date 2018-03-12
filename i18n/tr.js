@@ -33,7 +33,7 @@ export default {
     noResults: 'Uyuşan kayıt bulunamadı',
     loading: 'Yükleniyor...',
     selectedRows: function (rows) {
-      return rows + ' seçili kayıt.'  
+      return rows + ' seçili kayıt.'
     },
     rowsPerPage: 'Sayfa başına kayıt:',
     allRows: 'Tümü',
