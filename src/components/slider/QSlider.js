@@ -132,6 +132,7 @@ export default {
               props: {
                 pointing: 'down',
                 square: true,
+                dense: true,
                 color: this.labelColor
               }
             }, [ this.displayValue ])

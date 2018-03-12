@@ -282,6 +282,7 @@ export default {
             props: {
               pointing: 'down',
               square: true,
+              dense: true,
               color
             },
             staticClass: 'q-slider-label no-pointer-events',
