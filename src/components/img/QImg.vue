@@ -65,9 +65,9 @@ export default {
     img
       display block
       width 100%
+      height 100%
       max-width none
       border 0 none
-      height auto // required for IE11
 
       &.preview
         filter blur(2vw)
