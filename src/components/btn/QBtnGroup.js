@@ -15,7 +15,7 @@ export default {
   },
   render (h) {
     return h('div', {
-      staticClass: 'q-btn-group row no-wrap inline',
+      staticClass: 'q-btn-group row inline',
       'class': this.classes
     }, [
       this.$slots.default
