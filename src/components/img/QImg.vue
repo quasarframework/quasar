@@ -2,8 +2,8 @@
   <div class="q-img">
     <!-- trigger load on top of image, not bottom -->
     <!-- TODO: check horizontal scroll -->
-    <span v-scroll-fire="() =>  { if (state === 0) state += 1 }"/>
-    <!-- this trnasition mostly optional, removes browser flicker -->
+    <span v-scroll-fire="() =>  { if (state === 0) state = 1 }"/>
+    <!-- this transition mostly optional, removes browser flicker -->
     <transition name="preview">
       <img
         v-if="placeholder && state < 2"
@@ -12,11 +12,11 @@
         :alt="$attrs.alt"
       >
     </transition>
-    <transition name="reveal" @after-enter="state += 1">
+    <transition name="reveal" @after-enter="state = 3">
       <img
         v-if="state > 0"
         v-show="state > 1"
-        @load="state += 1"
+        @load="state = 2"
         v-bind="$attrs"
       >
     </transition>
@@ -52,7 +52,7 @@ export default {
     }
   },
   mounted () {
-    if (!this.lazy) this.state += 1
+    if (!this.lazy) this.state = 1
   }
 }
 </script>
