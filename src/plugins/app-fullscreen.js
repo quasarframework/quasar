@@ -30,8 +30,9 @@ export default {
     if (this.__installed) { return }
     this.__installed = true
 
+    $q.fullscreen = this
+
     if (isSSR) {
-      $q.fullscreen = this
       return
     }
 
@@ -71,6 +72,5 @@ export default {
     })
 
     Vue.util.defineReactive(this, 'isActive', this.isActive)
-    $q.fullscreen = this
   }
 }
