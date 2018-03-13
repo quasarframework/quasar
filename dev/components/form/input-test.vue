@@ -64,6 +64,7 @@
     <br><br>
     <q-datetime
       clearable
+      type="datetime"
       class="q-ma-sm"
       @focus="donFocus"
       @blur="donBlur"
@@ -77,6 +78,7 @@
 
     <q-datetime
       clearable
+      type="datetime"
       class="q-ma-sm"
       @focus="donFocus"
       @blur="donBlur"
@@ -91,6 +93,7 @@
     <br><br>
     <q-datetime
       clearable
+      type="datetime"
       class="q-ma-sm"
       @focus="donFocus"
       @blur="donBlur"
@@ -104,6 +107,7 @@
 
     <q-datetime
       clearable
+      type="datetime"
       class="q-ma-sm"
       @focus="donFocus"
       @blur="donBlur"
