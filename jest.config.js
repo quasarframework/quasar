@@ -1,11 +1,12 @@
 
 let arg = process.argv[2];
+let __THEME__;
 if(!arg){
   console.warn("Defaulting to ios. Use jest [ios|mat] to specify");
   arg = "ios.vue";
-  global.__THEME__ = 'ios';
+  __THEME__ = "ios";
 }else{
-  global.__THEME__ = arg;
+  __THEME__ = arg;
   arg += ".vue";
 }
 
@@ -16,6 +17,9 @@ module.exports = {
       "vue",
       arg
     ],
+    "globals":{
+      __THEME__
+    },
     "transform": {
       "^.+\\.js$": "<rootDir>/node_modules/babel-jest",
       ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest"
