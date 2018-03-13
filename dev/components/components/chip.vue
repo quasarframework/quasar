@@ -82,26 +82,24 @@
 
       <p class="caption">Floating Label Chips</p>
       <p>
-        <q-btn color="light" class="text-black relative-position">
-          Inbox
+        <q-btn color="light" text-color="black" label="Inbox">
           <q-chip floating color="primary">22</q-chip>
         </q-btn>
         &nbsp;&nbsp;
-        <q-btn color="red" class="relative-position">
-          Inbox
+        <q-btn color="red" label="Inbox">
           <q-chip floating color="dark">22</q-chip>
         </q-btn>
         &nbsp;&nbsp;
-        <q-btn color="red" class="relative-position" label="Inbox">
-          <q-chip dense square floating color="dark">22</q-chip>
+        <q-btn color="red" label="Inbox">
+          <q-chip floating color="dark">22</q-chip>
         </q-btn>
         &nbsp;&nbsp;
-        <q-btn round dense color="dark" class="relative-position" icon="announcement">
-          <q-chip dense square floating color="red">22</q-chip>
+        <q-btn round dense color="dark" icon="announcement">
+          <q-chip floating color="red">22</q-chip>
         </q-btn>
         &nbsp;&nbsp;
-        <q-btn round dense color="dark" class="relative-position" icon="announcement">
-          <q-chip dense square floating color="red">1</q-chip>
+        <q-btn round dense color="dark" icon="announcement">
+          <q-chip floating color="red">1</q-chip>
         </q-btn>
       </p>
 
