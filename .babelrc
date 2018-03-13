@@ -11,6 +11,11 @@
     "production": {
       "presets": ["es2015-rollup"],
       "comments": false
+    },
+    "test": {
+      "presets": [
+        ["env", { "targets": { "node": 8 }}]
+      ]
     }
   }
 }
