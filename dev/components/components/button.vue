@@ -295,8 +295,8 @@
         <q-btn round color="primary" disable icon="card_giftcard" />
         <q-btn push color="primary" disable>Push</q-btn>
         <q-btn push color="primary" disable round icon="card_giftcard" />
-        <q-btn push class="bg-white text-primary" disable>Push</q-btn>
-        <q-btn push class="bg-white text-primary" disable round icon="card_giftcard" />
+        <q-btn push color="white" text-color="primary" disable>Push</q-btn>
+        <q-btn push color="white" text-color="primary" disable round icon="card_giftcard" />
       <p>
 
       <p class="caption">Flat Buttons</p>
