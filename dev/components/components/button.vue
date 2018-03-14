@@ -295,6 +295,8 @@
         <q-btn round color="primary" disable icon="card_giftcard" />
         <q-btn push color="primary" disable>Push</q-btn>
         <q-btn push color="primary" disable round icon="card_giftcard" />
+        <q-btn push class="bg-white text-primary" disable>Push</q-btn>
+        <q-btn push class="bg-white text-primary" disable round icon="card_giftcard" />
       <p>
 
       <p class="caption">Flat Buttons</p>
@@ -313,6 +315,8 @@
       <p class="group">
         <q-btn push color="primary">Push</q-btn>
         <q-btn push color="primary" round icon="card_giftcard" />
+        <q-btn push class="bg-white text-primary">Push</q-btn>
+        <q-btn push class="bg-white text-primary" round icon="card_giftcard" />
       <p>
 
       <p class="caption">Round Buttons</p>
