@@ -112,7 +112,7 @@ export let SliderMixin = {
       }
     },
     __click (event) {
-      if (this.clickDisabled) {
+      if (this.clickDisabled || this.dragging) {
         return
       }
       this.__setActive(event)
