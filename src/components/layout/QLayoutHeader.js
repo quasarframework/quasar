@@ -107,6 +107,7 @@ export default {
   created () {
     this.layout.instances.header = this
     this.__update('space', this.value)
+    this.__update('offset', this.offset)
   },
   beforeDestroy () {
     if (this.layout.instances.header === this) {

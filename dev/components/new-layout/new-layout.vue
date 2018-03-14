@@ -233,7 +233,7 @@ export default {
 
       headerReveal: false,
       footerReveal: false,
-      leftOverlay: true,
+      leftOverlay: false,
       rightOverlay: true,
       leftBehavior: 'default',
       rightBehavior: 'default',
