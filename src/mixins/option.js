@@ -1,19 +1,5 @@
 import { getEventKey } from '../utils/event'
 
-const reKebab = /([a-zA-Z])(?=[A-Z])/g
-
-function kebabTag (vm) {
-  const tag = (
-    vm.$vnode &&
-    vm.$vnode.componentOptions &&
-    vm.$vnode.componentOptions.Ctor &&
-    vm.$vnode.componentOptions.Ctor.extendOptions &&
-    vm.$vnode.componentOptions.Ctor.extendOptions.name
-  ) || vm.$options._componentTag
-
-  return tag.replace(reKebab, '$1-').toLowerCase()
-}
-
 export default {
   props: {
     value: {
@@ -85,9 +71,6 @@ export default {
         this.toggle(e, false)
       }
     }
-  },
-  beforeCreate () {
-    this.__kebabTag = kebabTag(this)
   },
   render (h) {
     return h('div', {
