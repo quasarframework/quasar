@@ -1,5 +1,19 @@
 import { getEventKey } from '../utils/event'
 
+const reKebab = /([a-zA-Z])(?=[A-Z])/g
+
+function kebabTag (vm) {
+  const tag = (
+    vm.$vnode &&
+    vm.$vnode.componentOptions &&
+    vm.$vnode.componentOptions.Ctor &&
+    vm.$vnode.componentOptions.Ctor.extendOptions &&
+    vm.$vnode.componentOptions.Ctor.extendOptions.name
+  ) || vm.$options._componentTag
+
+  return tag.replace(reKebab, '$1-').toLowerCase()
+}
+
 export default {
   props: {
     value: {
@@ -22,7 +36,7 @@ export default {
   computed: {
     classes () {
       return [
-        this.$options._componentTag,
+        this.__kebabTag,
         {
           disabled: this.disable,
           reverse: this.leftLabel,
@@ -72,6 +86,9 @@ export default {
       }
     }
   },
+  beforeCreate () {
+    this.__kebabTag = kebabTag(this)
+  },
   render (h) {
     return h('div', {
       staticClass: 'q-option cursor-pointer no-outline row inline no-wrap items-center',
@@ -83,7 +100,7 @@ export default {
         blur: () => { this.$emit('blur') },
         keydown: this.__handleKeyDown
       },
-      directives: this.$options._componentTag === 'q-toggle'
+      directives: this.__kebabTag === 'q-toggle'
         ? [{
           name: 'touch-swipe',
           modifiers: { horizontal: true },
