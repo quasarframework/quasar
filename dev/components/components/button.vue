@@ -315,8 +315,8 @@
       <p class="group">
         <q-btn push color="primary">Push</q-btn>
         <q-btn push color="primary" round icon="card_giftcard" />
-        <q-btn push class="bg-white text-primary">Push</q-btn>
-        <q-btn push class="bg-white text-primary" round icon="card_giftcard" />
+        <q-btn push color="white" text-color="primary">Push</q-btn>
+        <q-btn push color="white" text-color="primary" round icon="card_giftcard" />
       <p>
 
       <p class="caption">Round Buttons</p>
