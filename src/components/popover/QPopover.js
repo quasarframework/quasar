@@ -64,7 +64,7 @@ export default {
     ])
   },
   created () {
-    this.__updatePosition = frameDebounce(() => { this.reposition() })
+    this.__updatePosition = frameDebounce((_, event, animate) => this.reposition(event, animate))
   },
   mounted () {
     this.$nextTick(() => {
@@ -94,7 +94,7 @@ export default {
       this.scrollTarget = getScrollTarget(this.anchorEl)
       this.scrollTarget.addEventListener('scroll', this.__updatePosition, listenOpts.passive)
       window.addEventListener('resize', this.__updatePosition, listenOpts.passive)
-      this.reposition(evt, true)
+      this.__updatePosition(0, evt, true)
 
       clearTimeout(this.timer)
       this.timer = setTimeout(() => {
@@ -126,30 +126,28 @@ export default {
       this.hidePromise && this.hidePromiseResolve()
     },
     reposition (event, animate) {
-      this.$nextTick(() => {
-        if (this.fit) {
-          this.$el.style.minWidth = width(this.anchorEl) + 'px'
-        }
-        const
-          { top } = this.anchorEl.getBoundingClientRect(),
-          { height } = viewport()
+      if (this.fit) {
+        this.$el.style.minWidth = width(this.anchorEl) + 'px'
+      }
+      const
+        { top } = this.anchorEl.getBoundingClientRect(),
+        { height } = viewport()
 
-        if (top < 0 || top > height) {
-          return this.hide()
-        }
+      if (top < 0 || top > height) {
+        return this.hide()
+      }
 
-        setPosition({
-          event,
-          animate,
-          el: this.$el,
-          offset: this.offset,
-          anchorEl: this.anchorEl,
-          anchorOrigin: this.anchorOrigin,
-          selfOrigin: this.selfOrigin,
-          maxHeight: this.maxHeight,
-          anchorClick: this.anchorClick,
-          touchPosition: this.touchPosition
-        })
+      setPosition({
+        event,
+        animate,
+        el: this.$el,
+        offset: this.offset,
+        anchorEl: this.anchorEl,
+        anchorOrigin: this.anchorOrigin,
+        selfOrigin: this.selfOrigin,
+        maxHeight: this.maxHeight,
+        anchorClick: this.anchorClick,
+        touchPosition: this.touchPosition
       })
     }
   }
