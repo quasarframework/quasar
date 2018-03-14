@@ -1,3 +1,5 @@
+/* run tests with 'jest' in the command line*/
+
 
 let arg = process.argv[2];
 let __THEME__;
