@@ -52,5 +52,8 @@ export default {
         ])
       ]
     }
+  },
+  beforeCreate () {
+    this.__kebabTag = 'q-toggle'
   }
 }

@@ -394,6 +394,20 @@
             <q-rating class="q-ma-md" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" size="3rem" @focus="onFocus" @blur="onBlur" @change="val => { termT = val; onChange(val) }" @input="onInput" :value="termT" :max="maxVal" icon="create" />
           </div>
         </div>
+
+        <p class="q-subtitle">Option: {{ JSON.stringify(optionValue) }}</p>
+        <div class="row gutter-sm">
+          <q-select :dark="dark" class="col q-ma-sm" v-model="optionType" :options="optionTypes" />
+          <div class="col">
+            <component :is="optionType" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="optionValue" :label="`${optionType}${optionType === 'QRadio' ? ' (true)' : ''}`" :val="true" />
+            <component v-if="optionType === 'QRadio'" :is="optionType" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="optionValue" :label="`${optionType} (false)`" :val="false" />
+          </div>
+        </div>
+        <div class="row gutter-sm">
+          <QToggle ref="qtoggle1" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="optionValue" label="QToggle" />
+          <qToggle ref="qtoggle2" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="optionValue" label="qToggle" />
+          <q-toggle ref="qtoggle3" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="optionValue" label="q-toggle" />
+        </div>
       </q-scroll-area>
     </div>
   </div>
@@ -472,7 +486,10 @@ export default {
       step: 0.01,
       decimals: 1,
       countries: countriesList,
-      numbers: [1, 2, 3, 4, 5, 1111, 2222, 3333, 4444, 5555].map(v => ({ label: String(v), value: v }))
+      numbers: [1, 2, 3, 4, 5, 1111, 2222, 3333, 4444, 5555].map(v => ({ label: String(v), value: v })),
+      optionType: 'QCheckbox',
+      optionValue: false,
+      optionTypes: ['Checkbox', 'Radio', 'Toggle'].map(v => ({ label: String(v), value: `Q${v}` }))
     }
   },
   methods: {
