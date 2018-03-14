@@ -87,17 +87,8 @@ export default {
       this.$emit('input', model)
     },
     __end () {
-      setTimeout(() => {
-        this.dragging = false
-      }, 100)
       this.currentPercentage = (this.model - this.min) / (this.max - this.min)
-      this.$emit('input', this.model)
-      this.$nextTick(() => {
-        this.$emit('dragend', this.model)
-        if (JSON.stringify(this.model) !== JSON.stringify(this.value)) {
-          this.$emit('change', this.model)
-        }
-      })
+      this.__endEmit()
     },
     __validateProps () {
       if (this.min >= this.max) {

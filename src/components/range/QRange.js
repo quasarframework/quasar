@@ -236,18 +236,9 @@ export default {
       this.__updateInput(pos)
     },
     __end () {
-      setTimeout(() => {
-        this.dragging = false
-      }, 100)
       this.currentMinPercentage = (this.model.min - this.min) / (this.max - this.min)
       this.currentMaxPercentage = (this.model.max - this.min) / (this.max - this.min)
-      this.$emit('input', this.model)
-      this.$nextTick(() => {
-        this.$emit('dragend', this.model)
-        if (JSON.stringify(this.model) !== JSON.stringify(this.value)) {
-          this.$emit('change', this.model)
-        }
-      })
+      this.__endEmit()
     },
     __updateInput ({min = this.model.min, max = this.model.max}) {
       const model = {min, max}
