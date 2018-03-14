@@ -392,6 +392,7 @@ export default {
       setTimeout(() => {
         const el = document.activeElement
         if (
+          !this.$refs.popover ||
           !this.$refs.popover.showing ||
           (el !== document.body && !this.$refs.popover.$el.contains(el))
         ) {
