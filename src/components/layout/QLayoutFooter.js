@@ -103,6 +103,7 @@ export default {
   created () {
     this.layout.instances.footer = this
     this.__update('space', this.value)
+    this.__update('offset', this.offset)
   },
   beforeDestroy () {
     if (this.layout.instances.footer === this) {

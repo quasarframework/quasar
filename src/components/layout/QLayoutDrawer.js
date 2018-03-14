@@ -265,9 +265,8 @@ export default {
   },
   created () {
     this.layout.instances[this.side] = this
-    if (this.onLayout) {
-      this.__update('space', true)
-    }
+    this.__update('space', this.onLayout)
+    this.__update('offset', this.offset)
 
     this.$nextTick(() => {
       this.animateOverlay = true
