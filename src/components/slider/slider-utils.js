@@ -111,8 +111,20 @@ export let SliderMixin = {
         this.__update(event.evt)
       }
     },
+    __endEmit () {
+      setTimeout(() => {
+        this.dragging = false
+      }, 100)
+      this.$emit('input', this.model)
+      this.$nextTick(() => {
+        this.$emit('dragend', this.model)
+        if (JSON.stringify(this.model) !== JSON.stringify(this.value)) {
+          this.$emit('change', this.model)
+        }
+      })
+    },
     __click (event) {
-      if (this.clickDisabled) {
+      if (this.clickDisabled || this.dragging) {
         return
       }
       this.__setActive(event)
