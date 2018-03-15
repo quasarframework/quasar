@@ -13,8 +13,8 @@
     "dev": "node build/script.dev.js",
     "build": "node build/script.build.js",
     "test:umd": "node build/script.test-umd.js",
-    "lint": "eslint --ext .js,.vue src dev",
-    "lint:fix":"eslint --ext .js,.vue src dev --fix",
+    "lint": "eslint --ext .js,.vue src dev test",
+    "lint:fix": "eslint --ext .js,.vue src dev test --fix",
     "deploy": "bash build/deploy.sh"
   },
   "repository": {
