@@ -215,7 +215,7 @@ export default {
     }, [
       h('div', {
         on: {
-          click: e => !this.dragging && this.__onInput(e, undefined, true)
+          click: e => !this.dragging && this.__onInput(e, void 0, true)
         },
         directives: [{
           name: 'touch-pan',

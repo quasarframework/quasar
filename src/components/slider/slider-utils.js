@@ -59,11 +59,6 @@ export let SliderMixin = {
     readonly: Boolean,
     disable: Boolean
   },
-  data () {
-    return {
-      clickDisabled: false
-    }
-  },
   computed: {
     editable () {
       return !this.disable && !this.readonly
@@ -98,37 +93,44 @@ export let SliderMixin = {
   methods: {
     __pan (event) {
       if (event.isFinal) {
-        this.clickDisabled = true
-        this.$nextTick(() => {
-          this.clickDisabled = false
-        })
-        this.__end(event.evt)
+        if (this.dragging) {
+          this.dragTimer = setTimeout(() => {
+            this.dragging = false
+          }, 100)
+          this.__end(event.evt)
+          this.__update(true)
+        }
       }
       else if (event.isFirst) {
-        this.__setActive(event.evt)
+        clearTimeout(this.dragTimer)
+        this.dragging = this.__getDragging(event.evt)
       }
       else if (this.dragging) {
-        this.__update(event.evt)
+        this.__move(event.evt)
+        this.__update()
       }
     },
-    __endEmit () {
-      setTimeout(() => {
-        this.dragging = false
-      }, 100)
-      this.$emit('input', this.model)
-      this.$nextTick(() => {
-        this.$emit('dragend', this.model)
-        if (JSON.stringify(this.model) !== JSON.stringify(this.value)) {
-          this.$emit('change', this.model)
-        }
-      })
-    },
-    __click (event) {
-      if (this.clickDisabled || this.dragging) {
+    __update (change) {
+      if (JSON.stringify(this.model) === JSON.stringify(this.value)) {
         return
       }
-      this.__setActive(event)
-      this.__end(event)
+      this.$emit('input', this.model)
+      if (change) {
+        this.$nextTick(() => {
+          if (JSON.stringify(this.model) !== JSON.stringify(this.value)) {
+            this.$emit('change', this.model)
+          }
+        })
+      }
+    },
+    __click (event) {
+      if (!this.dragging) {
+        const dragging = this.__getDragging(event)
+        if (dragging) {
+          this.__end(event, dragging)
+          this.__update(true)
+        }
+      }
     },
     __getMarkers (h) {
       if (!this.markers) {
