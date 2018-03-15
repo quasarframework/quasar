@@ -105,11 +105,6 @@ export default {
     offset (val) {
       this.__update('offset', val)
     },
-    onScreenOverlay () {
-      if (this.animateOverlay) {
-        this.layout.__animate()
-      }
-    },
     onLayout (val) {
       this.__update('space', val)
       this.layout.__animate()
@@ -244,7 +239,7 @@ export default {
     return h('div', { staticClass: 'q-drawer-container' }, child.concat([
       h('aside', {
         ref: 'content',
-        staticClass: `q-layout-drawer q-layout-drawer-${this.side} scroll`,
+        staticClass: `q-layout-drawer q-layout-transition q-layout-drawer-${this.side} scroll`,
         'class': this.computedClass,
         style: this.computedStyle,
         attrs: this.$attrs,
@@ -273,8 +268,8 @@ export default {
     })
   },
   mounted () {
-    if (!this.showing) {
-      this.applyPosition(this.stateDirection * this.size)
+    if (this.showing) {
+      this.applyPosition(0)
     }
   },
   beforeDestroy () {
@@ -307,14 +302,17 @@ export default {
           opened = position >= Math.min(75, width)
 
         el.classList.remove('no-transition')
-        if (opened) {
-          this.show()
-        }
-        else {
-          this.applyBackdrop(0)
-          this.applyPosition(this.stateDirection * width)
-          el.classList.remove('q-layout-drawer-delimiter')
-        }
+        this.layout.__animate()
+        this.$nextTick(() => {
+          if (opened) {
+            this.show()
+          }
+          else {
+            this.applyBackdrop(0)
+            this.applyPosition(this.stateDirection * width)
+            el.classList.remove('q-layout-drawer-delimiter')
+          }
+        })
         return
       }
 
@@ -349,13 +347,16 @@ export default {
       if (evt.isFinal) {
         const opened = Math.abs(position) < Math.min(75, width)
         this.$refs.content.classList.remove('no-transition')
-        if (opened) {
-          this.applyBackdrop(1)
-          this.applyPosition(0)
-        }
-        else {
-          this.hide()
-        }
+        this.layout.__animate()
+        this.$nextTick(() => {
+          if (opened) {
+            this.applyBackdrop(1)
+            this.applyPosition(0)
+          }
+          else {
+            this.hide()
+          }
+        })
         return
       }
 
@@ -367,6 +368,8 @@ export default {
       }
     },
     __show () {
+      this.layout.__animate()
+
       if (this.belowBreakpoint) {
         const otherSide = this.layout.instances[this.rightSide ? 'left' : 'right']
         if (otherSide && otherSide.mobileOpened) {
@@ -390,6 +393,9 @@ export default {
       }, duration)
     },
     __hide () {
+      this.layout.__animate()
+      clearTimeout(this.timer)
+
       this.mobileOpened = false
       this.applyPosition((this.$q.i18n.rtl ? -1 : 1) * (this.rightSide ? 1 : -1) * this.size)
       this.applyBackdrop(0)
@@ -397,7 +403,6 @@ export default {
       document.body.classList.remove(bodyClassAbove)
       document.body.classList.remove(bodyClassBelow)
 
-      clearTimeout(this.timer)
       this.timer = setTimeout(() => {
         this.hidePromise && this.hidePromiseResolve()
       }, duration)
