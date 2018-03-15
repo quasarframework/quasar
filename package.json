@@ -15,6 +15,7 @@
     "test:umd": "node build/script.test-umd.js",
     "lint": "eslint --ext .js,.vue src dev test",
     "lint:fix": "eslint --ext .js,.vue src dev test --fix",
+    "test":"jest",
     "deploy": "bash build/deploy.sh"
   },
   "repository": {
