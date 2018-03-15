@@ -185,9 +185,6 @@ export default {
       this.model = value
       this.$emit('input', value)
       this.$nextTick(() => {
-        if (dragStop) {
-          this.$emit('dragend', value)
-        }
         if (emitChange && JSON.stringify(value) !== JSON.stringify(this.value)) {
           this.$emit('change', value)
         }

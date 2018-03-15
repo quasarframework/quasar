@@ -327,19 +327,19 @@
         <div class="row gutter-sm">
           <div class="col-6">
             <div>Between {{minVal}} and {{maxVal}}, step {{step}}</div>
-            <q-knob :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :step="step" @focus="onFocus" @blur="onBlur" @dragend="onDragEnd" @change="onChange" @input="onInput" v-model="termsK" :min="minVal" :max="maxVal" />
+            <q-knob :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :step="step" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="termsK" :min="minVal" :max="maxVal" />
           </div>
           <div class="col-6">
             <div>Between {{minVal}} and {{maxVal}}, step {{step}} (onChange)</div>
-            <q-knob :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :step="step" @focus="onFocus" @blur="onBlur" @dragend="onDragEnd" @change="val => { termsK = val; onChange(val) }" @input="onInput" :value="termsK" :min="minVal" :max="maxVal" />
+            <q-knob :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :step="step" @focus="onFocus" @blur="onBlur" @change="val => { termsK = val; onChange(val) }" @input="onInput" :value="termsK" :min="minVal" :max="maxVal" />
           </div>
           <div class="col-6">
             <div>Between {{minVal}} and {{maxVal}}, step {{step}}, decimals {{decimals}}</div>
-            <q-knob :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :step="step" :decimals="decimals" @focus="onFocus" @blur="onBlur" @dragend="onDragEnd" @change="onChange" @input="onInput" v-model="termsK" :min="minVal" :max="maxVal" />
+            <q-knob :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :step="step" :decimals="decimals" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="termsK" :min="minVal" :max="maxVal" />
           </div>
           <div class="col-6">
             <div>Between {{minVal}} and {{maxVal}}, step {{step}}, decimals {{decimals}} (onChange)</div>
-            <q-knob :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :step="step" :decimals="decimals" @focus="onFocus" @blur="onBlur" @dragend="onDragEnd" @change="val => { termsK = val; onChange(val) }" @input="onInput" :value="termsK" :min="minVal" :max="maxVal" />
+            <q-knob :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :step="step" :decimals="decimals" @focus="onFocus" @blur="onBlur" @change="val => { termsK = val; onChange(val) }" @input="onInput" :value="termsK" :min="minVal" :max="maxVal" />
           </div>
         </div>
 
