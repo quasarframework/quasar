@@ -77,28 +77,27 @@ export default {
   watch: {
     value (value) {
       if (value < this.min) {
-        this.$emit('input', this.min)
         this.model = this.min
-        this.$nextTick(() => {
-          if (this.model !== this.value) {
-            this.$emit('change', this.model)
-          }
-        })
       }
       else if (value > this.max) {
-        this.$emit('input', this.max)
         this.model = this.max
-        this.$nextTick(() => {
-          if (this.model !== this.value) {
-            this.$emit('change', this.model)
-          }
-        })
       }
       else {
-        this.model = this.computedDecimals && typeof value === 'number'
+        const newVal = this.computedDecimals && typeof value === 'number'
           ? parseFloat(value.toFixed(this.computedDecimals))
           : value
+        if (newVal !== this.model) {
+          this.model = newVal
+        }
+        return
       }
+
+      this.$emit('input', this.model)
+      this.$nextTick(() => {
+        if (this.model !== this.value) {
+          this.$emit('change', this.model)
+        }
+      })
     }
   },
   methods: {
@@ -121,9 +120,8 @@ export default {
         return
       }
       stopAndPrevent(ev)
-
       this.centerPosition = this.__getCenter()
-
+      clearTimeout(this.timer)
       this.dragging = true
       this.__onInput(ev)
     },
@@ -139,12 +137,12 @@ export default {
         return
       }
       stopAndPrevent(ev)
-      setTimeout(() => {
+      this.timer = setTimeout(() => {
         this.dragging = false
       }, 100)
-      this.__onInput(ev, this.centerPosition, true, true)
+      this.__onInput(ev, this.centerPosition, true)
     },
-    __onInput (ev, center = this.__getCenter(), emitChange, dragStop) {
+    __onInput (ev, center = this.__getCenter(), emitChange) {
       if (!this.editable) {
         return
       }
@@ -182,13 +180,21 @@ export default {
         value = parseFloat(value.toFixed(this.computedDecimals))
       }
 
-      this.model = value
+      if (this.model !== value) {
+        this.model = value
+      }
+      if (this.value === value) {
+        return
+      }
+
       this.$emit('input', value)
-      this.$nextTick(() => {
-        if (emitChange && JSON.stringify(value) !== JSON.stringify(this.value)) {
-          this.$emit('change', value)
-        }
-      })
+      if (emitChange) {
+        this.$nextTick(() => {
+          if (JSON.stringify(value) !== JSON.stringify(this.value)) {
+            this.$emit('change', value)
+          }
+        })
+      }
     },
     __getCenter () {
       let knobOffset = offset(this.$el)
