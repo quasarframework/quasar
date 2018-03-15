@@ -117,6 +117,15 @@ export default {
       if (this.mobileOpened || this.onScreenOverlay) {
         this.hide()
       }
+    },
+    rightSide () {
+      this.applyPosition()
+    },
+    size () {
+      this.applyPosition()
+    },
+    '$q.i18n.rtl' () {
+      this.applyPosition()
     }
   },
   computed: {
@@ -283,6 +292,16 @@ export default {
   },
   methods: {
     applyPosition (position) {
+      if (position === void 0) {
+        this.$nextTick(() => {
+          position = this.showing
+            ? 0
+            : (this.$q.i18n.rtl ? -1 : 1) * (this.rightSide ? 1 : -1) * this.size
+
+          this.applyPosition(position)
+        })
+        return
+      }
       css(this.$refs.content, cssTransform(`translateX(${position}px)`))
     },
     applyBackdrop (x) {
