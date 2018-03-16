@@ -34,10 +34,10 @@ export default {
   },
   render (h) {
     return h('object', {
-      style: 'display:block;position:absolute;top:0;left:0;right:0;bottom:0;height:100%;width:100%;overflow:hidden;pointer-events:none;z-index:-1;visibility:hidden;',
+      style: this.style,
       attrs: {
         type: 'text/html',
-        data: this.$q.platform.is.ie ? null : 'about:blank',
+        data: this.url,
         'aria-hidden': true
       },
       on: {
@@ -47,6 +47,11 @@ export default {
         }
       }
     })
+  },
+  beforeCreate () {
+    const ie = this.$q.platform.is.ie
+    this.style = `display:block;position:absolute;top:0;left:0;right:0;bottom:0;height:100%;width:100%;overflow:hidden;pointer-events:none;z-index:-1;${ie ? 'visibility:hidden;' : ''}`
+    this.url = ie ? null : 'about:blank'
   },
   mounted () {
     this.parent = this.$el.parentNode
