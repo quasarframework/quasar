@@ -10,10 +10,16 @@ export default {
   },
   methods: {
     onResize () {
-      const size = {
-        width: this.parent.offsetWidth,
-        height: this.parent.offsetHeight
+      if (!this.$el || !this.$el.parentNode) {
+        return
       }
+
+      const
+        parent = this.$el.parentNode,
+        size = {
+          width: parent.offsetWidth,
+          height: parent.offsetHeight
+        }
 
       if (size.width === this.size.width && size.height === this.size.height) {
         return
@@ -54,7 +60,6 @@ export default {
     this.url = ie ? null : 'about:blank'
   },
   mounted () {
-    this.parent = this.$el.parentNode
     this.size = { width: -1, height: -1 }
     this.trigger()
 
