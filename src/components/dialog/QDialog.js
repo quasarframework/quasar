@@ -4,6 +4,7 @@ import { QBtn } from '../btn'
 import { QOptionGroup } from '../option-group'
 import clone from '../../utils/clone'
 import extend from '../../utils/extend'
+import { getEventKey } from '../../utils/event'
 
 export default {
   name: 'QDialog',
@@ -94,7 +95,7 @@ export default {
         show: () => {
           this.$emit('show')
 
-          if (!this.$q.platform.is.desktop) {
+          if (!this.$q.platform.is.desktop || (!this.prompt && !this.options)) {
             return
           }
 
@@ -186,12 +187,17 @@ export default {
           props: {
             value: this.prompt.model,
             type: this.prompt.type || 'text',
-            autofocus: true,
             color: this.color,
             noPassToggle: true
           },
           on: {
-            change: v => { this.prompt.model = v }
+            input: v => { this.prompt.model = v },
+            keyup: evt => {
+              // if ENTER key
+              if (getEventKey(evt) === 13) {
+                this.__onOk()
+              }
+            }
           }
         })
       ]

@@ -105,11 +105,6 @@ export default {
     offset (val) {
       this.__update('offset', val)
     },
-    onScreenOverlay () {
-      if (this.animateOverlay) {
-        this.layout.__animate()
-      }
-    },
     onLayout (val) {
       this.__update('space', val)
       this.layout.__animate()
@@ -122,6 +117,15 @@ export default {
       if (this.mobileOpened || this.onScreenOverlay) {
         this.hide()
       }
+    },
+    rightSide () {
+      this.applyPosition()
+    },
+    size () {
+      this.applyPosition()
+    },
+    '$q.i18n.rtl' () {
+      this.applyPosition()
     }
   },
   computed: {
@@ -244,7 +248,7 @@ export default {
     return h('div', { staticClass: 'q-drawer-container' }, child.concat([
       h('aside', {
         ref: 'content',
-        staticClass: `q-layout-drawer q-layout-drawer-${this.side} scroll`,
+        staticClass: `q-layout-drawer q-layout-transition q-layout-drawer-${this.side} scroll`,
         'class': this.computedClass,
         style: this.computedStyle,
         attrs: this.$attrs,
@@ -255,27 +259,26 @@ export default {
           value: this.__closeByTouch
         }] : null
       }, [
-        this.$slots.default,
         h(QResizeObservable, {
           props: { debounce: 0 },
           on: { resize: this.__onResize }
-        })
+        }),
+        this.$slots.default
       ])
     ]))
   },
   created () {
     this.layout.instances[this.side] = this
-    if (this.onLayout) {
-      this.__update('space', true)
-    }
+    this.__update('space', this.onLayout)
+    this.__update('offset', this.offset)
 
     this.$nextTick(() => {
       this.animateOverlay = true
     })
   },
   mounted () {
-    if (!this.showing) {
-      this.applyPosition(this.stateDirection * this.size)
+    if (this.showing) {
+      this.applyPosition(0)
     }
   },
   beforeDestroy () {
@@ -289,6 +292,16 @@ export default {
   },
   methods: {
     applyPosition (position) {
+      if (position === void 0) {
+        this.$nextTick(() => {
+          position = this.showing
+            ? 0
+            : (this.$q.i18n.rtl ? -1 : 1) * (this.rightSide ? 1 : -1) * this.size
+
+          this.applyPosition(position)
+        })
+        return
+      }
       css(this.$refs.content, cssTransform(`translateX(${position}px)`))
     },
     applyBackdrop (x) {
@@ -308,14 +321,17 @@ export default {
           opened = position >= Math.min(75, width)
 
         el.classList.remove('no-transition')
-        if (opened) {
-          this.show()
-        }
-        else {
-          this.applyBackdrop(0)
-          this.applyPosition(this.stateDirection * width)
-          el.classList.remove('q-layout-drawer-delimiter')
-        }
+        this.layout.__animate()
+        this.$nextTick(() => {
+          if (opened) {
+            this.show()
+          }
+          else {
+            this.applyBackdrop(0)
+            this.applyPosition(this.stateDirection * width)
+            el.classList.remove('q-layout-drawer-delimiter')
+          }
+        })
         return
       }
 
@@ -350,13 +366,16 @@ export default {
       if (evt.isFinal) {
         const opened = Math.abs(position) < Math.min(75, width)
         this.$refs.content.classList.remove('no-transition')
-        if (opened) {
-          this.applyBackdrop(1)
-          this.applyPosition(0)
-        }
-        else {
-          this.hide()
-        }
+        this.layout.__animate()
+        this.$nextTick(() => {
+          if (opened) {
+            this.applyBackdrop(1)
+            this.applyPosition(0)
+          }
+          else {
+            this.hide()
+          }
+        })
         return
       }
 
@@ -368,6 +387,8 @@ export default {
       }
     },
     __show () {
+      this.layout.__animate()
+
       if (this.belowBreakpoint) {
         const otherSide = this.layout.instances[this.rightSide ? 'left' : 'right']
         if (otherSide && otherSide.mobileOpened) {
@@ -391,6 +412,9 @@ export default {
       }, duration)
     },
     __hide () {
+      this.layout.__animate()
+      clearTimeout(this.timer)
+
       this.mobileOpened = false
       this.applyPosition((this.$q.i18n.rtl ? -1 : 1) * (this.rightSide ? 1 : -1) * this.size)
       this.applyBackdrop(0)
@@ -398,7 +422,6 @@ export default {
       document.body.classList.remove(bodyClassAbove)
       document.body.classList.remove(bodyClassBelow)
 
-      clearTimeout(this.timer)
       this.timer = setTimeout(() => {
         this.hidePromise && this.hidePromiseResolve()
       }, duration)

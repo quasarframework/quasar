@@ -133,7 +133,7 @@ export default {
         : Promise.resolve()
     },
     goToSlide (slide, fromSwipe = false) {
-      return new Promise((resolve, reject) => {
+      return new Promise(resolve => {
         let
           direction = '',
           curSlide = this.slide,

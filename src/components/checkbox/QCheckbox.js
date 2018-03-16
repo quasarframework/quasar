@@ -53,5 +53,8 @@ export default {
           : null
       ]
     }
+  },
+  beforeCreate () {
+    this.__kebabTag = 'q-checkbox'
   }
 }

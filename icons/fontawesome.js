@@ -52,7 +52,7 @@ export default {
     add: 'far fa-paper-plane'
   },
   collapsible: {
-    icon: 'fas fa-chevron-down'
+    icon: 'fas fa-caret-down'
   },
   datetime: {
     arrowLeft: 'fas fa-chevron-left',

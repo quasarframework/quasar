@@ -19,7 +19,6 @@ $layout-transition = all .12s ease-in
   top 0
   bottom 0
   background $layout-aside-background
-  transition $layout-transition
   z-index $z-side
   &.on-top
     z-index $z-fixed-drawer
@@ -27,9 +26,11 @@ $layout-transition = all .12s ease-in
   box-shadow $layout-aside-shadow
 .q-layout-drawer-left
   left 0
+  transform translateX(-100%)
   width $layout-aside-left-width
 .q-layout-drawer-right
   right 0
+  transform translateX(100%)
   width $layout-aside-right-width
 
 .q-layout, .q-layout-header, .q-layout-footer, .q-layout-page

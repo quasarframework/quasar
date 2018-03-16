@@ -20,16 +20,17 @@ $layout-transition = all .12s ease-in
   bottom 0
   background $layout-aside-background
   z-index $z-side
-  transition $layout-transition
   &.on-top
     z-index $z-fixed-drawer
 .q-layout-drawer-left
   left 0
+  transform translateX(-100%)
   width $layout-aside-left-width
   &.fixed
     border-right $layout-border
 .q-layout-drawer-right
   right 0
+  transform translateX(100%)
   width $layout-aside-right-width
   &.fixed
     border-left $layout-border

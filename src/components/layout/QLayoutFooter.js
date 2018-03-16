@@ -93,16 +93,17 @@ export default {
       'class': this.computedClass,
       style: this.computedStyle
     }, [
-      this.$slots.default,
       h(QResizeObservable, {
         props: { debounce: 0 },
         on: { resize: this.__onResize }
-      })
+      }),
+      this.$slots.default
     ])
   },
   created () {
     this.layout.instances.footer = this
     this.__update('space', this.value)
+    this.__update('offset', this.offset)
   },
   beforeDestroy () {
     if (this.layout.instances.footer === this) {

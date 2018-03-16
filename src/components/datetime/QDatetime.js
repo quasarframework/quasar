@@ -162,6 +162,13 @@ export default {
         }
       })
     },
+    __resetView () {
+      // go back to initial entry point for that type of control
+      // if it has defaultView it's going to be reapplied anyway on focus
+      if (!this.defaultView) {
+        this.$refs.target.setView()
+      }
+    },
 
     __getPicker (h, modal) {
       return [
@@ -191,11 +198,7 @@ export default {
             canClose: () => {
               if (this.isPopover) {
                 this.hide()
-                // go back to initial entry point for that type of control
-                // if it has defaultView it's goint to be reapplied anyway on focus
-                if (!this.defaultView) {
-                  this.$refs.target.setView()
-                }
+                this.__resetView()
               }
             }
           }
@@ -216,6 +219,7 @@ export default {
                   click: () => {
                     this.__onHide()
                     this.hide()
+                    this.__resetView()
                   }
                 }
               }),
@@ -231,6 +235,7 @@ export default {
                     click: () => {
                       this.__onHide(true)
                       this.hide()
+                      this.__resetView()
                     }
                   }
                 })

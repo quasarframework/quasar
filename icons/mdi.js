@@ -52,7 +52,7 @@ export default {
     add: 'mdi-send'
   },
   collapsible: {
-    icon: 'mdi-chevron-down'
+    icon: 'mdi-menu-down'
   },
   datetime: {
     arrowLeft: 'mdi-chevron-left',

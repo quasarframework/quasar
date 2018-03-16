@@ -58,16 +58,48 @@
         <q-chip square color="secondary" class="shadow-1">10k</q-chip>
       </p>
 
+      <p>
+        <q-chip dense square color="primary">q-chip</q-chip>
+        <q-chip dense square color="secondary" class="shadow-1">10k</q-chip>
+        <q-chip dense square small color="secondary" class="shadow-1">10k</q-chip>
+        <q-chip dense square icon="alarm" color="primary">
+          q-chip
+        </q-chip>
+        <q-chip dense icon-right="alarm" square color="primary">
+          q-chip
+        </q-chip>
+        <q-chip dense square icon="alarm" icon-right="alarm" color="primary">
+          q-chip
+        </q-chip>
+        <q-chip dense square icon="alarm" icon-right="alarm" color="primary" closable>
+          q-chip
+        </q-chip>
+        <q-chip dense square icon="chat" icon-right="chat" color="primary" closable small>
+          q-chip
+        </q-chip>
+        <q-chip dense square color="secondary" class="shadow-1">10k</q-chip>
+      </p>
+
       <p class="caption">Floating Label Chips</p>
       <p>
-        <q-btn color="light" class="text-black relative-position">
-          Inbox
+        <q-btn color="light" text-color="black" label="Inbox">
           <q-chip floating color="primary">22</q-chip>
         </q-btn>
         &nbsp;&nbsp;
-        <q-btn color="red" class="relative-position">
-          Inbox
+        <q-btn color="red" label="Inbox">
           <q-chip floating color="dark">22</q-chip>
+        </q-btn>
+        &nbsp;&nbsp;
+        <q-btn color="red" label="Inbox">
+          <q-chip floating color="dark">22</q-chip>
+        </q-btn>
+        &nbsp;&nbsp;
+        <q-btn round dense color="dark" icon="announcement">
+          <q-chip floating color="red">22</q-chip>
+        </q-btn>
+        &nbsp;&nbsp;
+        <q-btn round dense color="dark" icon="announcement">
+          <q-chip floating color="red">1</q-chip>
         </q-btn>
       </p>
 
@@ -83,11 +115,14 @@
           <q-chip avatar="/statics/boy-avatar.png" closable color="red">Joe</q-chip>
           <q-chip avatar="/statics/boy-avatar.png" closable color="primary">Jim</q-chip>
           <q-chip avatar="/statics/boy-avatar.png" small closable color="red">Joe</q-chip>
+          <q-chip avatar="/statics/boy-avatar.png" dense closable color="red">Joe</q-chip>
           <br>
           <q-chip color="grey-4" class="text-black">John</q-chip>
           <q-chip color="teal">Joe</q-chip>
           <q-chip color="black">Jim</q-chip>
           <q-chip small color="teal">Joe</q-chip>
+          <q-chip dense color="teal">Joe</q-chip>
+          <q-chip dense square color="teal">Joe</q-chip>
         </div>
       </p>
 
@@ -102,6 +137,11 @@
       </p>
       <p>
         <q-chip tag square color="primary">Featured</q-chip>
+      </p>
+      <p>
+        <q-chip dense tag icon-right="mail" color="light" class="text-black">New</q-chip>
+        <q-chip dense tag closable color="red">Upcoming</q-chip>
+        <q-chip dense tag square color="primary">Featured</q-chip>
       </p>
 
       <p class="caption">Pointing Label Chips</p>
@@ -124,6 +164,19 @@
         <q-chip square pointing="left" color="primary">Pointing Left</q-chip>
       </p>
 
+      <p>
+        <q-chip dense pointing="up" color="primary">Pointing Up</q-chip>
+        <q-chip dense pointing="down" color="primary">Pointing Down</q-chip>
+        <q-chip dense pointing="right" color="primary">Pointing Right</q-chip>
+        <q-chip dense pointing="left" color="primary">Pointing Left</q-chip>
+      </p>
+      <p>
+        <q-chip dense square pointing="up" color="primary">Pointing Up</q-chip>
+        <q-chip dense square pointing="down" color="primary">Pointing Down</q-chip>
+        <q-chip dense square pointing="right" color="primary">Pointing Right</q-chip>
+        <q-chip dense square pointing="left" color="primary">Pointing Left</q-chip>
+      </p>
+
       <p class="caption">With Icons</p>
       <p>
         <q-chip icon="mail" color="primary">
@@ -133,11 +186,23 @@
           10
         </q-chip>
       </p>
+      <p>
+        <q-chip dense icon="mail" color="primary">
+          10
+        </q-chip>
+        <q-chip dense icon-right="mail" color="tertiary">
+          10
+        </q-chip>
+      </p>
 
       <p class="caption">With Detail</p>
       <p>
         <q-chip detail icon="mail">Detail</q-chip>
         <q-chip detail square icon="mail">Detail</q-chip>
+      </p>
+      <p>
+        <q-chip dense detail icon="mail">Detail</q-chip>
+        <q-chip dense detail square icon="mail">Detail</q-chip>
       </p>
     </div>
   </div>
