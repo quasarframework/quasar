@@ -253,7 +253,7 @@ export default {
         }
       }
       const style = {
-        minWidth: `${Math.max(1.5, String(this.max).length)}em`
+        minWidth: `${Math.max(2, String(this.max).length)}em`
       }
       if (boundaryStart) {
         const active = this.min === this.value
