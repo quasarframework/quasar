@@ -98,6 +98,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Felipe Santiago
 - Heitor Ribeiro
 - Allan Gaunt
+- Kévin Marrec
 
 - Ken ($5)
 - Oliver ($5)
