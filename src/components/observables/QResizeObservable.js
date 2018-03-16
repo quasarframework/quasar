@@ -58,9 +58,9 @@ export default {
     const ie = this.$q.platform.is.ie
     this.style = `display:block;position:absolute;top:0;left:0;right:0;bottom:0;height:100%;width:100%;overflow:hidden;pointer-events:none;z-index:-1;${ie ? 'visibility:hidden;' : ''}`
     this.url = ie ? null : 'about:blank'
+    this.size = { width: -1, height: -1 }
   },
   mounted () {
-    this.size = { width: -1, height: -1 }
     this.trigger()
 
     if (this.$q.platform.is.ie) {
