@@ -259,11 +259,11 @@ export default {
           value: this.__closeByTouch
         }] : null
       }, [
-        this.$slots.default,
         h(QResizeObservable, {
           props: { debounce: 0 },
           on: { resize: this.__onResize }
-        })
+        }),
+        this.$slots.default
       ])
     ]))
   },

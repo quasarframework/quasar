@@ -4,6 +4,7 @@
     <q-layout-header v-model="header" :reveal="headerReveal">
       <q-toolbar :inverted="$q.theme === 'ios'">
         <q-btn flat round dense icon="menu" @click="left = !left" />
+        <q-toggle v-model="extraRow" color="amber" dark />
         <q-toolbar-title>
           Header
           <span slot="subtitle">The Subtiiiitleeee</span>
@@ -15,7 +16,7 @@
         <q-toggle v-model="toggle" color="amber" dark />
         <q-btn flat round dense icon="menu" @click="right = !right" />
       </q-toolbar>
-      <q-toolbar :inverted="$q.theme === 'ios'">
+      <q-toolbar v-if="extraRow" :inverted="$q.theme === 'ios'">
         <q-btn flat round dense icon="menu" @click="left = !left" />
         <q-toolbar-title>
           Header
@@ -224,6 +225,7 @@ export default {
     const v = 'lHh Lpr fFf'
     return {
       mainColor: '#027be3',
+      extraRow: true,
 
       toggle: false,
       header: true,
