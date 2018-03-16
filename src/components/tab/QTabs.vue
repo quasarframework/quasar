@@ -156,7 +156,6 @@ export default {
   },
   methods: {
     selectTab (value) {
-      console.log('selectTab', value)
       if (this.data.tabName === value) {
         return
       }

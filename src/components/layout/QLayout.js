@@ -1,5 +1,4 @@
 import { viewport } from '../../utils/dom'
-import { getScrollHeight } from '../../utils/scroll'
 import { QScrollObservable, QResizeObservable, QWindowResizeObservable } from '../observables'
 
 export default {
@@ -101,7 +100,7 @@ export default {
       this.$emit('scroll', data)
     },
     __onLayoutResize () {
-      this.scrollHeight = getScrollHeight(this.$el)
+      this.scrollHeight = this.$el.scrollHeight
       this.$emit('scrollHeight', this.scrollHeight)
     },
     __onWindowResize ({ height, width }) {

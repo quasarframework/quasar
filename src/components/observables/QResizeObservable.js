@@ -8,6 +8,11 @@ export default {
       default: 100
     }
   },
+  data () {
+    return this.hasObserver
+      ? {}
+      : { url: this.$q.platform.is.ie ? null : 'about:blank' }
+  },
   methods: {
     onResize () {
       if (!this.$el || !this.$el.parentNode) {
@@ -39,8 +44,12 @@ export default {
     }
   },
   render (h) {
+    if (this.hasObserver) {
+      return
+    }
+
     return h('object', {
-      style: this.style,
+      style: `display:block;position:absolute;top:0;left:0;right:0;bottom:0;height:100%;width:100%;overflow:hidden;pointer-events:none;z-index:-1;`,
       attrs: {
         type: 'text/html',
         data: this.url,
@@ -55,22 +64,30 @@ export default {
     })
   },
   beforeCreate () {
-    const ie = this.$q.platform.is.ie
-    this.style = `display:block;position:absolute;top:0;left:0;right:0;bottom:0;height:100%;width:100%;overflow:hidden;pointer-events:none;z-index:-1;${ie ? 'visibility:hidden;' : ''}`
-    this.url = ie ? null : 'about:blank'
     this.size = { width: -1, height: -1 }
+    this.hasObserver = typeof ResizeObserver !== 'undefined'
   },
   mounted () {
+    if (this.hasObserver) {
+      this.observer = new ResizeObserver(this.trigger)
+      this.observer.observe(this.$el.parentNode)
+      return
+    }
+
     this.trigger()
 
     if (this.$q.platform.is.ie) {
-      this.$el.data = 'about:blank'
+      this.url = 'about:blank'
     }
   },
   beforeDestroy () {
     clearTimeout(this.timer)
-    if (!this.$q.platform.is.ie && this.$el.contentDocument) {
-      this.$el.contentDocument.defaultView.removeEventListener('resize', this.trigger, listenOpts.passive)
+
+    if (this.hasObserver) {
+      this.observer.unobserve(this.$el.parentNode)
+      return
     }
+
+    this.$el.contentDocument.defaultView.removeEventListener('resize', this.trigger, listenOpts.passive)
   }
 }

@@ -63,19 +63,19 @@ export default {
     setScrollPosition (offset, duration) {
       setScrollPosition(this.$refs.target, offset, duration)
     },
-    __updateContainer (size) {
-      if (this.containerHeight !== size.height) {
-        this.containerHeight = size.height
+    __updateContainer ({ height }) {
+      if (this.containerHeight !== height) {
+        this.containerHeight = height
         this.__setActive(true, true)
       }
     },
-    __updateScroll (scroll) {
-      if (this.scrollPosition !== scroll.position) {
-        this.scrollPosition = scroll.position
+    __updateScroll ({ position }) {
+      if (this.scrollPosition !== position) {
+        this.scrollPosition = position
         this.__setActive(true, true)
       }
     },
-    __updateScrollHeight ({height}) {
+    __updateScrollHeight ({ height }) {
       if (this.scrollHeight !== height) {
         this.scrollHeight = height
         this.__setActive(true, true)
