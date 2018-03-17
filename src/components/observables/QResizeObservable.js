@@ -57,6 +57,7 @@ export default {
       },
       on: {
         load: () => {
+          this.loaded = true
           this.$el.contentDocument.defaultView.addEventListener('resize', this.trigger, listenOpts.passive)
           this.trigger()
         }
@@ -88,6 +89,8 @@ export default {
       return
     }
 
-    this.$el.contentDocument.defaultView.removeEventListener('resize', this.trigger, listenOpts.passive)
+    if (this.loaded) {
+      this.$el.contentDocument.defaultView.removeEventListener('resize', this.trigger, listenOpts.passive)
+    }
   }
 }
