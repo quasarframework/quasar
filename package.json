@@ -46,21 +46,13 @@
   },
   "homepage": "http://quasar-framework.org",
   "devDependencies": {
-<<<<<<< HEAD
     "@vue/test-utils": "^1.0.0-beta.12",
-    "ajv": "^6.1.1",
-    "autoprefixer": "^8.0.0",
-    "babel-core": "^6.26.0",
-    "babel-eslint": "^8.2.2",
     "babel-jest": "^22.4.1",
-    "babel-loader": "^7.1.2",
-=======
     "ajv": "^6.2.1",
     "autoprefixer": "^8.1.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.2",
     "babel-loader": "^7.1.4",
->>>>>>> 542be99a9b326323e976756ed8455a1b48c7db69
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "1.6.1",
     "babel-preset-es2015-rollup": "^3.0.0",
@@ -110,14 +102,9 @@
     "sym": "0.0.4",
     "uglify-es": "^3.3.9",
     "url-loader": "^0.6.2",
-<<<<<<< HEAD
-    "vue": "^2.5.13",
     "vue-jest": "^2.1.1",
-    "vue-loader": "^14.1.1",
-=======
     "vue": "^2.5.16",
     "vue-loader": "^14.2.1",
->>>>>>> 542be99a9b326323e976756ed8455a1b48c7db69
     "vue-router": "^3.0.1",
     "vue-style-loader": "^4.0.2",
     "vue-template-compiler": "^2.5.16",
