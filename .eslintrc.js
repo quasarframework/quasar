@@ -10,6 +10,7 @@ module.exports = {
   globals: {
     '__THEME__': true,
     'cordova': true
+
   },
   // https://github.com/feross/standard/blob/master/RULES.md#javascript-standard-style
   extends: [
