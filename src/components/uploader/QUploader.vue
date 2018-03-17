@@ -279,6 +279,12 @@ export default {
     }
   },
   methods: {
+    add (files) {
+      if (files) {
+        this.__add(null, files)
+      }
+    },
+
     __onDragOver () {
       this.dnd = true
     },
