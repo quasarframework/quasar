@@ -100,11 +100,13 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Allan Gaunt
 - Kévin Marrec
 - Taillefer Brice
+- 良平 勝目
 
 - Ken ($5)
 - Oliver ($5)
 - Mahesh Narayanamurthi ($5)
 - Rogério Queiroz ($5)
+- Sustained ($3.14)
 - Robson Martins ($2.5)
 - Joe L Wroten ($1)
 - Yasuhiro Kawagoe ($1)
