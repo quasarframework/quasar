@@ -56,7 +56,7 @@
         <q-btn class="fit" size="sm" color="secondary" @click="$router.push('/tabs/b#123')" label="/tabs/b#123 - select no tab" />
       </div>
     </div>
-    <q-tabs class="test q-mt-sm" @input="onEvent('input', 'route', $event)" @change="onEvent('change', 'route', $event)" @select="onEvent('select', 'route', $event)" @click="onEvent('click', 'route', $event)">
+    <q-tabs class="test q-mt-sm" @input="onEvent('input', 'route', $event)" @select="onEvent('select', 'route', $event)" @click="onEvent('click', 'route', $event)">
       <q-route-tab slot="title" name="tabs" to="/tabs" exact label="/tabs" />
       <q-route-tab slot="title" name="tabs/a" to="/tabs/a" exact label="/tabs/a" />
       <q-route-tab slot="title" name="tabs/a *" to="/tabs/a" label="/tabs/a *" />

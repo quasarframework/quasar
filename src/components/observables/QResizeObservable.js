@@ -8,12 +8,23 @@ export default {
       default: 100
     }
   },
+  data () {
+    return this.hasObserver
+      ? {}
+      : { url: this.$q.platform.is.ie ? null : 'about:blank' }
+  },
   methods: {
     onResize () {
-      const size = {
-        width: this.parent.offsetWidth,
-        height: this.parent.offsetHeight
+      if (!this.$el || !this.$el.parentNode) {
+        return
       }
+
+      const
+        parent = this.$el.parentNode,
+        size = {
+          width: parent.offsetWidth,
+          height: parent.offsetHeight
+        }
 
       if (size.width === this.size.width && size.height === this.size.height) {
         return
@@ -33,11 +44,15 @@ export default {
     }
   },
   render (h) {
+    if (this.hasObserver) {
+      return
+    }
+
     return h('object', {
-      style: 'display:block;position:absolute;top:0;left:0;right:0;bottom:0;height:100%;width:100%;overflow:hidden;pointer-events:none;z-index:-1;visibility:hidden;',
+      style: `display:block;position:absolute;top:0;left:0;right:0;bottom:0;height:100%;width:100%;overflow:hidden;pointer-events:none;z-index:-1;`,
       attrs: {
         type: 'text/html',
-        data: this.$q.platform.is.ie ? null : 'about:blank',
+        data: this.url,
         'aria-hidden': true
       },
       on: {
@@ -48,19 +63,31 @@ export default {
       }
     })
   },
-  mounted () {
-    this.parent = this.$el.parentNode
+  beforeCreate () {
     this.size = { width: -1, height: -1 }
+    this.hasObserver = typeof ResizeObserver !== 'undefined'
+  },
+  mounted () {
+    if (this.hasObserver) {
+      this.observer = new ResizeObserver(this.trigger)
+      this.observer.observe(this.$el.parentNode)
+      return
+    }
+
     this.trigger()
 
     if (this.$q.platform.is.ie) {
-      this.$el.data = 'about:blank'
+      this.url = 'about:blank'
     }
   },
   beforeDestroy () {
     clearTimeout(this.timer)
-    if (!this.$q.platform.is.ie && this.$el.contentDocument) {
-      this.$el.contentDocument.defaultView.removeEventListener('resize', this.trigger, listenOpts.passive)
+
+    if (this.hasObserver) {
+      this.observer.unobserve(this.$el.parentNode)
+      return
     }
+
+    this.$el.contentDocument.defaultView.removeEventListener('resize', this.trigger, listenOpts.passive)
   }
 }

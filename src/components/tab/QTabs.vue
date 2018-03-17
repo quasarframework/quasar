@@ -161,24 +161,27 @@ export default {
       }
 
       this.data.tabName = value
-      this.$emit('select', value)
-
       this.$emit('input', value)
-      this.$nextTick(() => {
-        if (JSON.stringify(value) !== JSON.stringify(this.value)) {
-          this.$emit('change', value)
-        }
-      })
+      this.$emit('select', value)
 
       const el = this.__getTabElByName(value)
 
       if (el) {
         this.__scrollToTab(el)
-      }
 
-      if (__THEME__ !== 'ios') {
-        this.currentEl = el
-        this.__repositionBar()
+        if (__THEME__ !== 'ios') {
+          this.currentEl = el
+
+          if (this.oldEl) {
+            this.__repositionBar()
+          }
+          else {
+            this.oldEl = el
+          }
+        }
+      }
+      else {
+        this.oldEl = null
       }
     },
     selectTabRouter (params) {
