@@ -1,1 +1,3 @@
-export default {platform: {is: {mobile: true}}}
+export default {
+    platform: {is: {mobile: true}},
+    icon:{checkbox:{checked:{}, unchecked:{}, indeterminate:{}}}}
