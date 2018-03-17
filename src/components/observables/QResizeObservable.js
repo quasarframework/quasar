@@ -15,6 +15,8 @@ export default {
   },
   methods: {
     onResize () {
+      this.timer = null
+
       if (!this.$el || !this.$el.parentNode) {
         return
       }
@@ -31,7 +33,6 @@ export default {
       }
 
       this.size = size
-      this.timer = null
       this.$emit('resize', this.size)
     },
     trigger () {
