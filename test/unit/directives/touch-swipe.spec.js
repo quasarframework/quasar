@@ -2,34 +2,43 @@ import { mouseEvents } from '../../mocks/'
 import TouchSwipe from '@/directives/touch-swipe'
 import { mount } from '@vue/test-utils'
 
+describe('TouchSwipe provides correct direction', () => {
+  let wrapper,
+    isFired
 
-const Listener = {
-    bind(el, binding){
-        el.addEventListener('touchstart', function(e){
-            console.log('touchstart:fired', e)
-        })
-        el.addEventListener('touchend', function(e){
-            console.log('touchstart:ended', e)
-        })
-    }
-}
-
-
-describe('TouchSwipe', () => {
-    test('provides directions of swipe', async ()=>{        
-        let fired = false;
-        const wrapper = mount({ template: `<div v-touch-swipe="onSwipe" />`, 
-            directives:{ TouchSwipe},
-            methods:{
-                onSwipe(e){
-                    expect(e.direction).toBe('left')
-                    fired = true
-                }
-            }
-        })
-        wrapper.trigger('touchstart', mouseEvents.east)
-        wrapper.trigger('touchmove', mouseEvents.middle)
-        wrapper.trigger('touchend', mouseEvents.west)
-        expect(fired).toBe(true)     
+  function testDirection (direction, touchStartEvent, touchMoveEvent, touchEndEvent) {
+    wrapper.setMethods({
+      onSwipe (e) {
+        expect(e.direction).toBe(direction)
+        isFired = true
+      }
     })
+    wrapper.trigger('touchstart', touchStartEvent)
+    wrapper.trigger('touchmove', touchMoveEvent)
+    wrapper.trigger('touchend', touchEndEvent)
+    expect(isFired).toBe(true)
+  }
+  beforeAll(() => {
+    wrapper = mount({ template: `<div v-touch-swipe="onSwipe" />`,
+      directives: { TouchSwipe },
+      methods: {onSwipe () {}}
+    })
+  })
+
+  beforeEach(() => {
+    isFired = false
+  })
+
+  test('returns left on left-swipe', () => {
+    testDirection('left', mouseEvents.east, mouseEvents.middle, mouseEvents.west)
+  })
+  test('returns right on right-swipe', () => {
+    testDirection('right', mouseEvents.west, mouseEvents.middle, mouseEvents.east)
+  })
+  test('returns up on up-swipe', () => {
+    testDirection('up', mouseEvents.south, mouseEvents.middle, mouseEvents.north)
+  })
+  test('returns down on down-swipe', () => {
+    testDirection('down', mouseEvents.north, mouseEvents.middle, mouseEvents.south)
+  })
 })
