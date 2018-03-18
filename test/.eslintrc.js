@@ -12,8 +12,11 @@ module.exports = {
     'cordova': true,
     'describe': true,
     'test': true,
-    'expect': true
-
+    'expect': true,
+    'beforeEach': true,
+    'beforeAll': true,
+    'afterEach': true,
+    'afterAll': true
   },
   // https://github.com/feross/standard/blob/master/RULES.md#javascript-standard-style
   extends: [
