@@ -3,11 +3,20 @@ import { listenOpts } from '../../utils/event'
 
 export default {
   name: 'QWindowResizeObservable',
+  props: {
+    debounce: {
+      type: Number,
+      default: 80
+    }
+  },
   render () {},
   methods: {
     trigger () {
-      if (!this.timer) {
-        this.timer = window.requestAnimationFrame(this.emit)
+      if (this.debounce === 0) {
+        this.emit()
+      }
+      else if (!this.timer) {
+        this.timer = setTimeout(this.emit, this.debounce)
       }
     },
     emit () {
@@ -22,6 +31,7 @@ export default {
     window.addEventListener('resize', this.trigger, listenOpts.passive)
   },
   beforeDestroy () {
+    clearTimeout(this.timer)
     window.removeEventListener('resize', this.trigger, listenOpts.passive)
   }
 }
