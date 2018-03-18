@@ -163,7 +163,6 @@ export default {
     if (this.__installed) { return }
     this.__installed = true
 
-    console.log('install')
     if (!isSSR) {
       init.call(this, args)
     }
