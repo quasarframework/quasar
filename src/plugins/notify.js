@@ -1,7 +1,6 @@
 import { QAlert } from '../components/alert'
 import uid from '../utils/uid'
 import clone from '../utils/clone'
-import { ready } from '../utils/dom'
 import { isSSR } from './platform'
 
 const positionList = [
