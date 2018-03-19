@@ -101,6 +101,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Kévin Marrec
 - Taillefer Brice
 - 良平 勝目
+- Jörg Walter
 
 - Ken ($5)
 - Oliver ($5)
