@@ -160,6 +160,10 @@ export default {
       openedModalNumber++
 
       let content = this.$refs.content
+      if (this.$q.platform.is.ios) {
+        // workaround the iOS hover/touch issue
+        content.click()
+      }
       content.scrollTop = 0
       ;['modal-scroll', 'layout-view'].forEach(c => {
         [].slice.call(content.getElementsByClassName(c)).forEach(el => {
