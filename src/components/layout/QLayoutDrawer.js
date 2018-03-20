@@ -330,6 +330,7 @@ export default {
             this.applyBackdrop(0)
             this.applyPosition(this.stateDirection * width)
             el.classList.remove('q-layout-drawer-delimiter')
+            document.body.classList.remove(bodyClassBelow)
           }
         })
         return
