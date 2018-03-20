@@ -49,6 +49,7 @@ export default {
       }
     },
     __hideSmall (fn) {
+      document.body.classList.remove('with-layout-side-opened')
       this.rightState.openedSmall = false
       this.leftState.openedSmall = false
       this.backdrop.percentage = 0
@@ -73,7 +74,6 @@ export default {
         return
       }
 
-      document.body.classList.remove('with-layout-side-opened')
       if (this.$q.platform.has.popstate) {
         this.popStateCallback = fn
         if (window.history.state && !window.history.state.__quasar_layout_overlay) {
@@ -137,7 +137,9 @@ export default {
           this.__show(side)
         }
         else {
-          this.backdrop.percentage = 0
+          if (withBackdrop) {
+            this.__hideSmall()
+          }
         }
         return
       }
