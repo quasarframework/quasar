@@ -57,7 +57,7 @@ export default {
     hyperlink: 'Liên kết',
     toggleFullscreen: 'Điều chỉnh chế độ toàn màn hình',
     quote: 'Trích dẫn',
-    left: 'Căn trái',,
+    left: 'Căn trái',
     center: 'Căn giữa',
     right: 'Căn phải',
     justify: 'Căn đều 2 bên',
