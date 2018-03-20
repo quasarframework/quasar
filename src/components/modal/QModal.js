@@ -82,6 +82,11 @@ export default {
     minimized: Boolean,
     maximized: Boolean
   },
+  data () {
+    return {
+      contentStaticClasses: ''
+    }
+  },
   watch: {
     $route () {
       if (!this.noRouteDismiss) {
@@ -181,6 +186,22 @@ export default {
     }
   },
   mounted () {
+    this.contentStaticClasses = 'modal-content scroll'
+
+    // Add column class to q-modal when q-modal-layout, this permits the content to grow and have scrolling in between the header and footer
+    // Class column cannot be imposed when there is no q-modal-layout child since this will change the behavior of the contents, which will be diplayed in columns
+    // This can be simplified later when the QModal and QModalLayout are consolidated.
+    // For the moment, because QModalLayout is added in a slot by the user, there is no simple way for the QModalLayout to tell QModal that it exists.
+    if (this.$el.firstChild) {
+      if (this.$el.firstChild.firstChild) {
+        if (this.$el.firstChild.firstChild.className) {
+          if (this.$el.firstChild.firstChild.className.search('q-modal-layout') >= 0) {
+            this.contentStaticClasses += ' column'
+          }
+        }
+      }
+    }
+
     if (this.value) {
       this.show()
     }
@@ -221,7 +242,7 @@ export default {
       }, [
         h('div', {
           ref: 'content',
-          staticClass: 'modal-content scroll',
+          staticClass: this.contentStaticClasses,
           style: this.modalCss,
           'class': this.contentClasses,
           on: {

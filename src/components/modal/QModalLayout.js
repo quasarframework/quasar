@@ -32,7 +32,7 @@ export default {
     }
 
     child.push(h('div', {
-      staticClass: 'q-modal-layout-content col scroll',
+      staticClass: 'q-modal-layout-content col-grow scroll',
       style: this.contentStyle,
       'class': this.contentClass
     }, [
@@ -51,7 +51,7 @@ export default {
     }
 
     return h('div', {
-      staticClass: 'q-modal-layout column absolute-full'
+      staticClass: 'q-modal-layout column col-grow no-wrap'
     }, child)
   }
 }
