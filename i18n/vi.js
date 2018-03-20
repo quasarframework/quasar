@@ -13,83 +13,83 @@ export default {
     create: 'Tạo',
     search: 'Tìm kiếm',
     filter: 'Bộ lọc',
-    refresh: 'Tải lại'
+    refresh: 'Làm mới'
   },
   date: {
     days: 'Chủ Nhật_Thứ Hai_Thứ Ba_Thứ Tư_Thứ Năm_Thứ Sáu_Thứ Bảy'.split('_'),
     daysShort: 'CN_T2_T3_T4_T5_T6_T7'.split('_'),
-    months: 'January_February_March_April_May_June_July_August_September_October_November_December'.split('_'),
-    monthsShort: 'Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec'.split('_'),
+    months: 'Tháng Một_Tháng Hai_Tháng Ba_Tháng Tư_Tháng Năm_Tháng Sáu_Tháng Bảy_Tháng Tám_Tháng Chín_Tháng Mười_Tháng Mười Một_Tháng Mười Hai'.split('_'),
+    monthsShort: 'Th1_Th2_Th3_Th4_Th5_Th6_Th7_Th8_Th9_Th10_Th11_Th12'.split('_'),
     firstDayOfWeek: 0, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: false
   },
   pullToRefresh: {
-    pull: 'Pull down to refresh',
-    release: 'Release to refresh',
-    refresh: 'Refreshing...'
+    pull: 'Kéo xuống để làm mới',
+    release: 'Thả ra để làm mới',
+    refresh: 'Đang làm mới'
   },
   table: {
-    noData: 'No data available',
-    noResults: 'No matching records found',
-    loading: 'Loading...',
+    noData: 'Không có dữ liệu',
+    noResults: 'Không tìm thấy kết quả',
+    loading: 'Đang tải',
     selectedRows: function (rows) {
       return rows === 1
-        ? '1 selected row.'
-        : (rows === 0 ? 'No' : rows) + ' selected rows.'
+        ? '1 hàng đã chọn.'
+        : (rows === 0 ? 'Không có hàng nào' : rows) + ' hàng đã chọn.'
     },
-    rowsPerPage: 'Rows per page:',
-    allRows: 'All',
+    rowsPerPage: 'Hàng trên mỗi trang:',
+    allRows: 'Tất cả',
     pagination: function (start, end, total) {
-      return start + '-' + end + ' of ' + total
+      return start + '-' + end + ' của ' + total
     },
-    columns: 'Columns'
+    columns: 'Cột'
   },
   editor: {
     url: 'URL',
-    bold: 'Bold',
-    italic: 'Italic',
-    strikethrough: 'Strikethrough',
-    underline: 'Underline',
-    unorderedList: 'Unordered List',
-    orderedList: 'Ordered List',
-    subscript: 'Subscript',
-    superscript: 'Superscript',
-    hyperlink: 'Hyperlink',
-    toggleFullscreen: 'Toggle Fullscreen',
-    quote: 'Quote',
-    left: 'Left align',
-    center: 'Center align',
-    right: 'Right align',
-    justify: 'Justify align',
-    print: 'Print',
-    outdent: 'Decrease indentation',
-    indent: 'Increase indentation',
-    removeFormat: 'Remove formatting',
-    formatting: 'Formatting',
-    fontSize: 'Font Size',
-    align: 'Align',
-    hr: 'Insert Horizontal Rule',
-    undo: 'Undo',
-    redo: 'Redo',
-    header1: 'Header 1',
-    header2: 'Header 2',
-    header3: 'Header 3',
-    header4: 'Header 4',
-    header5: 'Header 5',
-    header6: 'Header 6',
-    paragraph: 'Paragraph',
-    code: 'Code',
-    size1: 'Very small',
-    size2: 'A bit small',
-    size3: 'Normal',
-    size4: 'Medium-large',
-    size5: 'Big',
-    size6: 'Very big',
-    size7: 'Maximum',
-    defaultFont: 'Default Font'
+    bold: 'Đậm',
+    italic: 'Nghiêng',
+    strikethrough: 'Gạch giữa',
+    underline: 'Gạch dưới',
+    unorderedList: 'Danh sách không theo thứ tự',
+    orderedList: 'Danh sách theo thứ tự',
+    subscript: 'Chỉ số dưới',
+    superscript: 'Chỉ số trên',
+    hyperlink: 'Liên kết',
+    toggleFullscreen: 'Điều chỉnh chế độ toàn màn hình',
+    quote: 'Trích dẫn',
+    left: 'Căn trái',,
+    center: 'Căn giữa',
+    right: 'Căn phải',
+    justify: 'Căn đều 2 bên',
+    print: 'In',
+    outdent: 'Giảm lề',
+    indent: 'Tăng lề',
+    removeFormat: 'Xóa định dạng',
+    formatting: 'Định dạng',
+    fontSize: 'Kích cỡ phông',
+    align: 'Căn chỉnh',
+    hr: 'Chèn Quy Tắc Ngang',
+    undo: 'Hoàn tác',
+    redo: 'Làm lại',
+    header1: 'Tiêu đề 1',
+    header2: 'Tiêu đề 2',
+    header3: 'Tiêu đề 3',
+    header4: 'Tiêu đề 4',
+    header5: 'Tiêu đề 5',
+    header6: 'Tiêu đề 6',
+    paragraph: 'Đoạn',
+    code: 'Mã',
+    size1: 'Rất nhỏ',
+    size2: 'Nhỏ vừa',
+    size3: 'Thường',
+    size4: 'To vừa',
+    size5: 'To',
+    size6: 'Rất To',
+    size7: 'Tối đa',
+    defaultFont: 'Phông mặc định'
   },
   tree: {
-    noNodes: 'No nodes available',
-    noResults: 'No matching nodes found'
+    noNodes: 'Không có nốt nào có sẵn',
+    noResults: 'Không tìm thấy các nốt'
   }
 }
