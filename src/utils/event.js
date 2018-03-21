@@ -1,28 +1,22 @@
-function hasPassiveEvents () {
-  let has = false
-
-  try {
-    var opts = Object.defineProperty({}, 'passive', {
-      get () {
-        has = true
-      }
-    })
-    window.addEventListener('qtest', null, opts)
-    window.removeEventListener('qtest', null, opts)
-  }
-  catch (e) {}
-
-  return has
-}
-
 export const listenOpts = {}
 Object.defineProperty(listenOpts, 'passive', {
   configurable: true,
   get () {
-    listenOpts.passive = hasPassiveEvents()
-      ? { passive: true }
-      : void 0
-    return listenOpts.passive
+    let passive
+
+    try {
+      var opts = Object.defineProperty({}, 'passive', {
+        get () {
+          passive = { passive: true }
+        }
+      })
+      window.addEventListener('qtest', null, opts)
+      window.removeEventListener('qtest', null, opts)
+    }
+    catch (e) {}
+
+    listenOpts.passive = passive
+    return passive
   },
   set (val) {
     Object.defineProperty(this, 'passive', {
@@ -94,6 +88,33 @@ export function targetElement (e = window.event) {
 
   return target
 }
+
+export const wheelEvent = {}
+Object.defineProperty(wheelEvent, 'name', {
+  configurable: true,
+  get () {
+    let evt
+    if ('onwheel' in document.createElement('div')) {
+      // Modern browsers support "wheel"
+      evt = 'wheel'
+    }
+    else if (document.onmousewheel !== undefined) {
+      // Webkit and IE support at least "mousewheel"
+      evt = 'mousewheel'
+    }
+    else {
+      // let's assume that remaining browsers are older Firefox
+      evt = 'DOMMouseScroll'
+    }
+    wheelEvent.name = evt
+    return evt
+  },
+  set (val) {
+    Object.defineProperty(this, 'name', {
+      value: val
+    })
+  }
+})
 
 // Reasonable defaults
 const

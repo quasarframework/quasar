@@ -1,6 +1,3 @@
-body.with-modal
-  overflow hidden !important
-
 minimized-modal()
   max-width 80vw
   max-height 80vh
@@ -47,6 +44,8 @@ maximized-modal()
         transform translateX(30%)
 
 @media (max-width $breakpoint-sm-max)
+  .q-responsive-modal
+    overflow hidden
   .modal:not(.minimized)
     .modal-content
       maximized-modal()
@@ -58,6 +57,9 @@ maximized-modal()
       transform scale(1.2)
     &.q-modal-leave-active .modal-content
       transform scale(.8)
+
+.q-maximized-modal
+  overflow hidden
 
 .modal, .modal-content
   transition all .2s ease-in-out

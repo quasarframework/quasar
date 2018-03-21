@@ -3,10 +3,10 @@ import { css, cssTransform } from '../../utils/dom'
 import { between } from '../../utils/format'
 import { QResizeObservable } from '../observables'
 import ModelToggleMixin from '../../mixins/model-toggle'
+import { stopAndPrevent, getMouseWheelDistance, wheelEvent } from '../../utils/event'
 
 const
-  bodyClassBelow = 'with-layout-drawer-opened',
-  bodyClassAbove = 'with-layout-drawer-opened-above',
+  bodyClass = 'q-drawer-scroll',
   duration = 150
 
 export default {
@@ -216,6 +216,11 @@ export default {
     },
     stateDirection () {
       return (this.$q.i18n.rtl ? -1 : 1) * (this.rightSide ? 1 : -1)
+    },
+    containerOn () {
+      if (this.$q.platform.is.desktop) {
+        return { [wheelEvent.name]: this.__onWheel }
+      }
     }
   },
   render (h) {
@@ -245,7 +250,10 @@ export default {
       }))
     }
 
-    return h('div', { staticClass: 'q-drawer-container' }, child.concat([
+    return h('div', {
+      staticClass: 'q-drawer-container',
+      on: this.containerOn
+    }, child.concat([
       h('aside', {
         ref: 'content',
         staticClass: `q-layout-drawer q-layout-transition q-layout-drawer-${this.side} scroll`,
@@ -307,6 +315,12 @@ export default {
     applyBackdrop (x) {
       this.$refs.backdrop && css(this.$refs.backdrop, { backgroundColor: `rgba(0,0,0,${x * 0.4})` })
     },
+    __onWheel (e) {
+      if (this.fixed) {
+        stopAndPrevent(e)
+        this.$refs.content.scrollTop += getMouseWheelDistance(e).pixelY
+      }
+    },
     __openByTouch (evt) {
       if (!this.belowBreakpoint) {
         return
@@ -330,7 +344,6 @@ export default {
             this.applyBackdrop(0)
             this.applyPosition(this.stateDirection * width)
             el.classList.remove('q-layout-drawer-delimiter')
-            document.body.classList.remove(bodyClassBelow)
           }
         })
         return
@@ -347,7 +360,6 @@ export default {
 
       if (evt.isFirst) {
         const el = this.$refs.content
-        document.body.classList.add(bodyClassBelow)
         el.classList.add('no-transition')
         el.classList.add('q-layout-drawer-delimiter')
       }
@@ -389,6 +401,7 @@ export default {
     },
     __show () {
       this.layout.__animate()
+      this.applyPosition(0)
 
       if (this.belowBreakpoint) {
         const otherSide = this.layout.instances[this.rightSide ? 'left' : 'right']
@@ -398,15 +411,15 @@ export default {
         this.mobileOpened = true
         this.applyBackdrop(1)
       }
-
-      this.applyPosition(0)
-      document.body.classList.add(this.belowBreakpoint ? bodyClassBelow : bodyClassAbove)
+      else {
+        document.body.classList.add(bodyClass)
+      }
 
       clearTimeout(this.timer)
       this.timer = setTimeout(() => {
         if (this.showPromise) {
           this.showPromise.then(() => {
-            document.body.classList.remove(bodyClassAbove)
+            document.body.classList.remove(bodyClass)
           })
           this.showPromiseResolve()
         }
@@ -420,8 +433,7 @@ export default {
       this.applyPosition((this.$q.i18n.rtl ? -1 : 1) * (this.rightSide ? 1 : -1) * this.size)
       this.applyBackdrop(0)
 
-      document.body.classList.remove(bodyClassAbove)
-      document.body.classList.remove(bodyClassBelow)
+      document.body.classList.remove(bodyClass)
 
       this.timer = setTimeout(() => {
         this.hidePromise && this.hidePromiseResolve()

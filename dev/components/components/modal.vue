@@ -110,6 +110,8 @@
       <h4>Modal</h4><p>This one gets displayed from {{position}}.</p>
       <q-btn color="orange" @click="$refs.positionModal.hide()">Close Me</q-btn>
     </q-modal>
+
+    <div style="height: 800px">&nbsp;</div>
   </div>
 </template>
 

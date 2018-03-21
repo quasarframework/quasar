@@ -1,6 +1,7 @@
 import EscapeKey from '../../utils/escape-key'
 import extend from '../../utils/extend'
 import ModelToggleMixin from '../../mixins/model-toggle'
+import { stopAndPrevent, getMouseWheelDistance, wheelEvent } from '../../utils/event'
 
 const positions = {
   top: 'items-start justify-center with-backdrop',
@@ -43,7 +44,10 @@ function additionalCSS (position) {
   return css
 }
 
-let openedModalNumber = 0
+let modals = {
+  responsive: 0,
+  maximized: 0
+}
 
 export default {
   name: 'QModal',
@@ -130,6 +134,19 @@ export default {
       }
 
       return this.contentCss
+    },
+    contentOn () {
+      const evt = {
+        click: this.__stopPropagation,
+        touchstart: this.__stopPropagation
+      }
+      if (this.$q.platform.is.desktop) {
+        evt[wheelEvent.name] = e => {
+          stopAndPrevent(e)
+          this.$refs.content.scrollTop += getMouseWheelDistance(e).pixelY
+        }
+      }
+      return evt
     }
   },
   methods: {
@@ -145,9 +162,7 @@ export default {
       const body = document.body
 
       body.appendChild(this.$el)
-      if (openedModalNumber === 0) {
-        body.classList.add('with-modal')
-      }
+      this.__register(true)
 
       EscapeKey.register(() => {
         if (!this.noEscDismiss) {
@@ -156,8 +171,6 @@ export default {
           })
         }
       })
-
-      openedModalNumber++
 
       let content = this.$refs.content
       if (this.$q.platform.is.ios) {
@@ -173,10 +186,29 @@ export default {
     },
     __hide () {
       EscapeKey.pop()
-      openedModalNumber--
+      this.__register(false)
+    },
+    __stopPropagation (e) {
+      e.stopPropagation()
+    },
+    __register (opening) {
+      let state = opening
+        ? { action: 'add', step: 1 }
+        : { action: 'remove', step: -1 }
 
-      if (openedModalNumber === 0) {
-        document.body.classList.remove('with-modal')
+      if (this.maximized) {
+        modals.maximized += state.step
+        if (!opening && modals.maximized > 0) {
+          return
+        }
+        document.body.classList[state.action]('q-maximized-modal')
+      }
+      else if (!this.minimized) {
+        modals.responsive += state.step
+        if (!opening && modals.responsive > 0) {
+          return
+        }
+        document.body.classList[state.action]('q-responsive-modal')
       }
     }
   },
@@ -212,7 +244,8 @@ export default {
         staticClass: 'modal fullscreen row',
         'class': this.modalClasses,
         on: {
-          click: this.__dismiss
+          click: this.__dismiss,
+          [wheelEvent.name]: stopAndPrevent
         },
         directives: [{
           name: 'show',
@@ -224,14 +257,7 @@ export default {
           staticClass: 'modal-content scroll',
           style: this.modalCss,
           'class': this.contentClasses,
-          on: {
-            click (e) {
-              e.stopPropagation()
-            },
-            touchstart (e) {
-              e.stopPropagation()
-            }
-          }
+          on: this.contentOn
         }, [ this.$slots.default ])
       ])
     ])

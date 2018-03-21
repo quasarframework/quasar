@@ -1,6 +1,6 @@
 import extend from '../../utils/extend'
 import { between } from '../../utils/format'
-import { getMouseWheelDistance } from '../../utils/event'
+import { stopAndPrevent, getMouseWheelDistance, wheelEvent } from '../../utils/event'
 import { setScrollPosition } from '../../utils/scroll'
 import { QResizeObservable, QScrollObservable } from '../observables'
 import TouchPan from '../../directives/touch-pan'
@@ -122,7 +122,7 @@ export default {
       const el = this.$refs.target
       el.scrollTop += getMouseWheelDistance(e).pixelY
       if (el.scrollTop > 0 && el.scrollTop + this.containerHeight < this.scrollHeight) {
-        e.preventDefault()
+        stopAndPrevent(e)
       }
     },
     __setActive (active, timer) {
@@ -173,9 +173,7 @@ export default {
         ref: 'target',
         staticClass: 'scroll relative-position overflow-hidden fit',
         on: {
-          wheel: this.__mouseWheel,
-          mousewheel: this.__mouseWheel,
-          DOMMouseScroll: this.__mouseWheel
+          [wheelEvent.name]: this.__mouseWheel
         },
         directives: [{
           name: 'touch-pan',
