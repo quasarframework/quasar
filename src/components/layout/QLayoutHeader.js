@@ -66,7 +66,7 @@ export default {
       if (this.fixed) {
         return this.revealed ? this.size : 0
       }
-      const offset = this.size - this.layout.scroll.position
+      const offset = this.size - (this.layout.scroll.position || (-1 * parseInt(document.body.style.top, 10)) || 0)
       return offset > 0 ? offset : 0
     },
     computedClass () {

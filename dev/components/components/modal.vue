@@ -98,7 +98,7 @@
       <h4>Minimized Modal</h4>
       <p>This one has backdrop on small screens too.</p>
       <q-btn color="red" @click="$refs.minimizedModal.hide()">Close Me</q-btn>
-      <q-input type="textarea" v-model="textarea" />
+      <q-input type="textarea" v-model="textarea" :max-height="100" />
     </q-modal>
 
     <q-modal ref="maximizedModal" maximized :content-css="{padding: '50px'}">

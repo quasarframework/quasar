@@ -88,3 +88,27 @@ export function getScrollbarWidth () {
 
   return size
 }
+
+let originalScrollTop
+let bodyScrollHideRequests = 0
+export function setBodyScroll (scrollable) {
+  const body = document.body
+  bodyScrollHideRequests = Math.max(0, bodyScrollHideRequests + (scrollable ? -1 : 1))
+  if (scrollable) {
+    if (!bodyScrollHideRequests) {
+      body.style.top = 0
+      body.classList.remove('body-scroll-disabled')
+      body.classList.remove('body-overflow-scroll')
+      setScroll(window, originalScrollTop)
+    }
+  }
+  else if (bodyScrollHideRequests === 1) {
+    originalScrollTop = getScrollPosition(window)
+
+    if (getScrollHeight(body) > document.documentElement.clientHeight) {
+      body.style.top = `-${originalScrollTop}px`
+      body.classList.add('body-overflow-scroll')
+    }
+    setTimeout(() => body.classList.add('body-scroll-disabled'), 1)
+  }
+}

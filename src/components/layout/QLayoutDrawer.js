@@ -1,9 +1,9 @@
 import TouchPan from '../../directives/touch-pan'
 import { css, cssTransform } from '../../utils/dom'
 import { between } from '../../utils/format'
+import { setBodyScroll } from '../../utils/scroll'
 import { QResizeObservable } from '../observables'
 import ModelToggleMixin from '../../mixins/model-toggle'
-import { stopAndPrevent, getMouseWheelDistance, wheelEvent } from '../../utils/event'
 
 const
   bodyClass = 'q-drawer-scroll',
@@ -216,11 +216,6 @@ export default {
     },
     stateDirection () {
       return (this.$q.i18n.rtl ? -1 : 1) * (this.rightSide ? 1 : -1)
-    },
-    containerOn () {
-      if (this.$q.platform.is.desktop) {
-        return { [wheelEvent.name]: this.__onWheel }
-      }
     }
   },
   render (h) {
@@ -250,10 +245,7 @@ export default {
       }))
     }
 
-    return h('div', {
-      staticClass: 'q-drawer-container',
-      on: this.containerOn
-    }, child.concat([
+    return h('div', { staticClass: 'q-drawer-container' }, child.concat([
       h('aside', {
         ref: 'content',
         staticClass: `q-layout-drawer q-layout-transition q-layout-drawer-${this.side} scroll`,
@@ -314,12 +306,6 @@ export default {
     },
     applyBackdrop (x) {
       this.$refs.backdrop && css(this.$refs.backdrop, { backgroundColor: `rgba(0,0,0,${x * 0.4})` })
-    },
-    __onWheel (e) {
-      if (this.fixed) {
-        stopAndPrevent(e)
-        this.$refs.content.scrollTop += getMouseWheelDistance(e).pixelY
-      }
     },
     __openByTouch (evt) {
       if (!this.belowBreakpoint) {
@@ -409,6 +395,7 @@ export default {
       }
       if (this.belowBreakpoint) {
         this.mobileOpened = true
+        setBodyScroll(false)
         this.applyBackdrop(1)
       }
       else {
@@ -429,6 +416,7 @@ export default {
       this.layout.__animate()
       clearTimeout(this.timer)
 
+      this.mobileOpened && setBodyScroll(true)
       this.mobileOpened = false
       this.applyPosition((this.$q.i18n.rtl ? -1 : 1) * (this.rightSide ? 1 : -1) * this.size)
       this.applyBackdrop(0)

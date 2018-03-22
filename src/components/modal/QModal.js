@@ -1,7 +1,7 @@
 import EscapeKey from '../../utils/escape-key'
 import extend from '../../utils/extend'
+import { setBodyScroll } from '../../utils/scroll'
 import ModelToggleMixin from '../../mixins/model-toggle'
-import { stopAndPrevent, getMouseWheelDistance, wheelEvent } from '../../utils/event'
 
 const positions = {
   top: 'items-start justify-center with-backdrop',
@@ -140,12 +140,6 @@ export default {
         click: this.__stopPropagation,
         touchstart: this.__stopPropagation
       }
-      if (this.$q.platform.is.desktop) {
-        evt[wheelEvent.name] = e => {
-          stopAndPrevent(e)
-          this.$refs.content.scrollTop += getMouseWheelDistance(e).pixelY
-        }
-      }
       return evt
     }
   },
@@ -196,6 +190,7 @@ export default {
         ? { action: 'add', step: 1 }
         : { action: 'remove', step: -1 }
 
+      setBodyScroll(!opening)
       if (this.maximized) {
         modals.maximized += state.step
         if (!opening && modals.maximized > 0) {
@@ -244,8 +239,7 @@ export default {
         staticClass: 'modal fullscreen row',
         'class': this.modalClasses,
         on: {
-          click: this.__dismiss,
-          [wheelEvent.name]: stopAndPrevent
+          click: this.__dismiss
         },
         directives: [{
           name: 'show',

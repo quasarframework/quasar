@@ -45,7 +45,7 @@ maximized-modal()
 
 @media (max-width $breakpoint-sm-max)
   .q-responsive-modal
-    overflow hidden
+    overflow hidden !important
   .modal:not(.minimized)
     .modal-content
       maximized-modal()
@@ -59,7 +59,7 @@ maximized-modal()
       transform scale(.8)
 
 .q-maximized-modal
-  overflow hidden
+  overflow hidden !important
 
 .modal, .modal-content
   transition all .2s ease-in-out
