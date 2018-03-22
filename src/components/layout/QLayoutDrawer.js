@@ -403,11 +403,11 @@ export default {
       this.layout.__animate()
       this.applyPosition(0)
 
+      const otherSide = this.layout.instances[this.rightSide ? 'left' : 'right']
+      if (otherSide && otherSide.mobileOpened) {
+        otherSide.hide()
+      }
       if (this.belowBreakpoint) {
-        const otherSide = this.layout.instances[this.rightSide ? 'left' : 'right']
-        if (otherSide && otherSide.mobileOpened) {
-          otherSide.hide()
-        }
         this.mobileOpened = true
         this.applyBackdrop(1)
       }
