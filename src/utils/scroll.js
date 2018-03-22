@@ -105,7 +105,7 @@ export function setBodyScroll (scrollable) {
   else if (bodyScrollHideRequests === 1) {
     originalScrollTop = getScrollPosition(window)
 
-    if (getScrollHeight(body) > document.documentElement.clientHeight) {
+    if (body.scrollHeight > document.documentElement.clientHeight) {
       body.style.top = `-${originalScrollTop}px`
       body.classList.add('body-overflow-scroll')
     }
