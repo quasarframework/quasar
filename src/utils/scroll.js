@@ -88,3 +88,14 @@ export function getScrollbarWidth () {
 
   return size
 }
+
+export function hasScrollbar (el) {
+  if (!el || el.nodeType !== Node.ELEMENT_NODE) {
+    return false
+  }
+
+  return (
+    el.classList.contains('scroll') ||
+    ['auto', 'scroll'].includes(window.getComputedStyle(el)['overflow-y'])
+  ) && el.scrollHeight > el.clientHeight
+}

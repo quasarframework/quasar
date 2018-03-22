@@ -1,7 +1,7 @@
 import EscapeKey from '../../utils/escape-key'
 import extend from '../../utils/extend'
 import ModelToggleMixin from '../../mixins/model-toggle'
-import { stopAndPrevent, getMouseWheelDistance, wheelEvent } from '../../utils/event'
+import PreventScroll from '../../mixins/prevent-scroll'
 
 const positions = {
   top: 'items-start justify-center with-backdrop',
@@ -51,7 +51,7 @@ let modals = {
 
 export default {
   name: 'QModal',
-  mixins: [ModelToggleMixin],
+  mixins: [ModelToggleMixin, PreventScroll],
   provide () {
     return {
       __qmodal: true
@@ -134,19 +134,6 @@ export default {
       }
 
       return this.contentCss
-    },
-    contentOn () {
-      const evt = {
-        click: this.__stopPropagation,
-        touchstart: this.__stopPropagation
-      }
-      if (this.$q.platform.is.desktop) {
-        evt[wheelEvent.name] = e => {
-          stopAndPrevent(e)
-          this.$refs.content.scrollTop += getMouseWheelDistance(e).pixelY
-        }
-      }
-      return evt
     }
   },
   methods: {
@@ -163,6 +150,7 @@ export default {
 
       body.appendChild(this.$el)
       this.__register(true)
+      this.__preventScroll(true)
 
       EscapeKey.register(() => {
         if (!this.noEscDismiss) {
@@ -186,6 +174,7 @@ export default {
     },
     __hide () {
       EscapeKey.pop()
+      this.__preventScroll(false)
       this.__register(false)
     },
     __stopPropagation (e) {
@@ -244,8 +233,7 @@ export default {
         staticClass: 'modal fullscreen row',
         'class': this.modalClasses,
         on: {
-          click: this.__dismiss,
-          [wheelEvent.name]: stopAndPrevent
+          click: this.__dismiss
         },
         directives: [{
           name: 'show',
@@ -257,7 +245,10 @@ export default {
           staticClass: 'modal-content scroll',
           style: this.modalCss,
           'class': this.contentClasses,
-          on: this.contentOn
+          on: {
+            click: this.__stopPropagation,
+            touchstart: this.__stopPropagation
+          }
         }, [ this.$slots.default ])
       ])
     ])

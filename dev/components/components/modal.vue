@@ -40,6 +40,7 @@
     <q-toggle v-model="toggle" class="z-max fixed-top" />
     <q-modal v-model="toggle" ref="basicModal" :content-css="{padding: '50px', minWidth: '50vw'}">
       <h4>Basic Modal</h4>
+      <q-input type="textarea" v-model="textarea" :max-height="50" />
       <p v-for="n in 25">Scroll down to close</p>
       <q-btn color="primary" @click="$refs.basicModal.hide()">Close</q-btn>
     </q-modal>
@@ -76,7 +77,7 @@
         </q-toolbar>
 
         <q-toolbar slot="header">
-          <q-search inverted v-model="search" color="none"></q-search>
+          <q-search class="col" inverted v-model="search" color="none"></q-search>
         </q-toolbar>
 
         <q-toolbar slot="footer">
@@ -98,12 +99,13 @@
       <h4>Minimized Modal</h4>
       <p>This one has backdrop on small screens too.</p>
       <q-btn color="red" @click="$refs.minimizedModal.hide()">Close Me</q-btn>
-      <q-input type="textarea" v-model="textarea" />
+      <q-input type="textarea" v-model="textarea" :max-height="50" />
     </q-modal>
 
     <q-modal ref="maximizedModal" maximized :content-css="{padding: '50px'}">
       <h4>Maximized Modal</h4><p>This one is maximized on bigger screens too.</p>
       <q-btn color="tertiary" @click="$refs.maximizedModal.hide()">Close Me</q-btn>
+      <p v-for="n in 25">Intended scroll</p>
     </q-modal>
 
     <q-modal ref="positionModal" :position="position" :content-css="{padding: '20px'}">

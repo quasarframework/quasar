@@ -89,32 +89,29 @@ export function targetElement (e = window.event) {
   return target
 }
 
-export const wheelEvent = {}
-Object.defineProperty(wheelEvent, 'name', {
-  configurable: true,
-  get () {
-    let evt
-    if ('onwheel' in document.createElement('div')) {
-      // Modern browsers support "wheel"
-      evt = 'wheel'
-    }
-    else if (document.onmousewheel !== undefined) {
-      // Webkit and IE support at least "mousewheel"
-      evt = 'mousewheel'
-    }
-    else {
-      // let's assume that remaining browsers are older Firefox
-      evt = 'DOMMouseScroll'
-    }
-    wheelEvent.name = evt
-    return evt
-  },
-  set (val) {
-    Object.defineProperty(this, 'name', {
-      value: val
-    })
+export function getEventPath (e = window.event) {
+  if (e.path) {
+    return e.path
   }
-})
+  if (e.composedPath) {
+    return e.composedPath()
+  }
+
+  const path = []
+  let el = e.target
+
+  while (el) {
+    path.push(el)
+
+    if (el.tagName === 'HTML') {
+      path.push(document)
+      path.push(window)
+      return path
+    }
+
+    el = el.parentElement
+  }
+}
 
 // Reasonable defaults
 const
