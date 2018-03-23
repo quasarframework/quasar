@@ -154,11 +154,15 @@ export default {
   render (h) {
     if (!this.$q.platform.is.desktop) {
       return h('div', {
-        ref: 'target',
-        staticClass: 'q-scroll-area scroll relative-position',
+        staticClass: 'q-scroll-area relative-position',
         style: this.contentStyle
       }, [
-        this.$slots.default
+        h('div', {
+          ref: 'target',
+          staticClass: 'scroll relative-position fit'
+        }, [
+          this.$slots.default
+        ])
       ])
     }
 
@@ -173,9 +177,7 @@ export default {
         ref: 'target',
         staticClass: 'scroll relative-position overflow-hidden fit',
         on: {
-          wheel: this.__mouseWheel,
-          mousewheel: this.__mouseWheel,
-          DOMMouseScroll: this.__mouseWheel
+          wheel: this.__mouseWheel
         },
         directives: [{
           name: 'touch-pan',

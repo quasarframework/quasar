@@ -113,13 +113,13 @@ export default {
       if (this.disable || this.focused) {
         return
       }
-      if (this.defaultView) {
+      if (__THEME__ === 'mat') {
         const target = this.$refs.target
-        if (target.view !== this.defaultView) {
+        if (this.defaultView && target.view !== this.defaultView) {
           target.setView(this.defaultView)
         }
         else {
-          target.__scrollView()
+          target.setView()
         }
       }
       this.__setModel(isValid(this.value) ? this.value : this.defaultValue)
@@ -182,6 +182,7 @@ export default {
             type: this.type,
             min: this.min,
             max: this.max,
+            minimal: this.minimal,
             formatModel: this.formatModel,
             format24h: this.format24h,
             firstDayOfWeek: this.firstDayOfWeek,

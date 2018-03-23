@@ -1,7 +1,6 @@
 import { QAlert } from '../components/alert'
 import uid from '../utils/uid'
 import clone from '../utils/clone'
-import { ready } from '../utils/dom'
 import { isSSR } from './platform'
 
 const positionList = [
@@ -149,24 +148,13 @@ function init ({ $q, Vue }) {
   })
 
   this.__vm.$mount(node)
-  $q.notify = this.create.bind(this)
 }
 
 export default {
   create (opts) {
-    if (isSSR) {
-      return
+    if (!isSSR) {
+      this.__vm.add(opts)
     }
-
-    if (this.__vm !== void 0) {
-      return this.__vm.add(opts)
-    }
-
-    ready(() => {
-      setTimeout(() => {
-        this.create(opts)
-      })
-    })
   },
 
   __installed: false,
@@ -175,9 +163,8 @@ export default {
     this.__installed = true
 
     if (!isSSR) {
-      ready(() => {
-        init.call(this, args)
-      })
+      init.call(this, args)
     }
+    args.$q.notify = this.create.bind(this)
   }
 }

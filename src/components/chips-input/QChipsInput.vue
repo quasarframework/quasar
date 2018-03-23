@@ -150,11 +150,18 @@ export default {
     add (value = this.input) {
       clearTimeout(this.timer)
       this.focus()
-      if (this.editable && value && !this.model.includes(value)) {
-        this.model.push(value)
-        this.$emit('input', this.model)
-        this.input = ''
+
+      if (!this.editable || !value) {
+        return
       }
+      if (this.model.includes(value)) {
+        this.$emit('duplicate', value)
+        return
+      }
+
+      this.model.push(value)
+      this.$emit('input', this.model)
+      this.input = ''
     },
     remove (index) {
       clearTimeout(this.timer)

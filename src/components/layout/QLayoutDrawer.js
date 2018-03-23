@@ -3,10 +3,10 @@ import { css, cssTransform } from '../../utils/dom'
 import { between } from '../../utils/format'
 import { QResizeObservable } from '../observables'
 import ModelToggleMixin from '../../mixins/model-toggle'
+import PreventScroll from '../../mixins/prevent-scroll'
 
 const
-  bodyClassBelow = 'with-layout-drawer-opened',
-  bodyClassAbove = 'with-layout-drawer-opened-above',
+  bodyClass = 'q-drawer-scroll',
   duration = 150
 
 export default {
@@ -18,7 +18,7 @@ export default {
       }
     }
   },
-  mixins: [ModelToggleMixin],
+  mixins: [ModelToggleMixin, PreventScroll],
   directives: {
     TouchPan
   },
@@ -245,7 +245,9 @@ export default {
       }))
     }
 
-    return h('div', { staticClass: 'q-drawer-container' }, child.concat([
+    return h('div', {
+      staticClass: 'q-drawer-container'
+    }, child.concat([
       h('aside', {
         ref: 'content',
         staticClass: `q-layout-drawer q-layout-transition q-layout-drawer-${this.side} scroll`,
@@ -346,7 +348,6 @@ export default {
 
       if (evt.isFirst) {
         const el = this.$refs.content
-        document.body.classList.add(bodyClassBelow)
         el.classList.add('no-transition')
         el.classList.add('q-layout-drawer-delimiter')
       }
@@ -388,24 +389,26 @@ export default {
     },
     __show () {
       this.layout.__animate()
+      this.applyPosition(0)
 
+      const otherSide = this.layout.instances[this.rightSide ? 'left' : 'right']
+      if (otherSide && otherSide.mobileOpened) {
+        otherSide.hide()
+      }
       if (this.belowBreakpoint) {
-        const otherSide = this.layout.instances[this.rightSide ? 'left' : 'right']
-        if (otherSide && otherSide.mobileOpened) {
-          otherSide.hide()
-        }
         this.mobileOpened = true
         this.applyBackdrop(1)
+        this.__preventScroll(true)
       }
-
-      this.applyPosition(0)
-      document.body.classList.add(this.belowBreakpoint ? bodyClassBelow : bodyClassAbove)
+      else {
+        document.body.classList.add(bodyClass)
+      }
 
       clearTimeout(this.timer)
       this.timer = setTimeout(() => {
         if (this.showPromise) {
           this.showPromise.then(() => {
-            document.body.classList.remove(bodyClassAbove)
+            document.body.classList.remove(bodyClass)
           })
           this.showPromiseResolve()
         }
@@ -415,12 +418,15 @@ export default {
       this.layout.__animate()
       clearTimeout(this.timer)
 
-      this.mobileOpened = false
+      if (this.mobileOpened) {
+        this.__preventScroll(false)
+        this.mobileOpened = false
+      }
+
       this.applyPosition((this.$q.i18n.rtl ? -1 : 1) * (this.rightSide ? 1 : -1) * this.size)
       this.applyBackdrop(0)
 
-      document.body.classList.remove(bodyClassAbove)
-      document.body.classList.remove(bodyClassBelow)
+      document.body.classList.remove(bodyClass)
 
       this.timer = setTimeout(() => {
         this.hidePromise && this.hidePromiseResolve()

@@ -1,6 +1,7 @@
 import EscapeKey from '../../utils/escape-key'
 import extend from '../../utils/extend'
 import ModelToggleMixin from '../../mixins/model-toggle'
+import PreventScroll from '../../mixins/prevent-scroll'
 
 const positions = {
   top: 'items-start justify-center with-backdrop',
@@ -43,11 +44,14 @@ function additionalCSS (position) {
   return css
 }
 
-let openedModalNumber = 0
+let modals = {
+  responsive: 0,
+  maximized: 0
+}
 
 export default {
   name: 'QModal',
-  mixins: [ModelToggleMixin],
+  mixins: [ModelToggleMixin, PreventScroll],
   provide () {
     return {
       __qmodal: true
@@ -106,13 +110,13 @@ export default {
       if (this.position) {
         return { name: `q-modal-${this.position}` }
       }
-      if (this.enterClass === void 0 && this.leaveClass === void 0) {
-        return { name: this.transition || 'q-modal' }
+      if (this.enterClass || this.leaveClass) {
+        return {
+          enterActiveClass: this.enterClass,
+          leaveActiveClass: this.leaveClass
+        }
       }
-      return {
-        enterActiveClass: this.enterClass,
-        leaveActiveClass: this.leaveClass
-      }
+      return { name: this.transition || 'q-modal' }
     },
     modalCss () {
       if (this.position) {
@@ -145,9 +149,8 @@ export default {
       const body = document.body
 
       body.appendChild(this.$el)
-      if (openedModalNumber === 0) {
-        body.classList.add('with-modal')
-      }
+      this.__register(true)
+      this.__preventScroll(true)
 
       EscapeKey.register(() => {
         if (!this.noEscDismiss) {
@@ -157,9 +160,11 @@ export default {
         }
       })
 
-      openedModalNumber++
-
       let content = this.$refs.content
+      if (this.$q.platform.is.ios) {
+        // workaround the iOS hover/touch issue
+        content.click()
+      }
       content.scrollTop = 0
       ;['modal-scroll', 'layout-view'].forEach(c => {
         [].slice.call(content.getElementsByClassName(c)).forEach(el => {
@@ -169,10 +174,30 @@ export default {
     },
     __hide () {
       EscapeKey.pop()
-      openedModalNumber--
+      this.__preventScroll(false)
+      this.__register(false)
+    },
+    __stopPropagation (e) {
+      e.stopPropagation()
+    },
+    __register (opening) {
+      let state = opening
+        ? { action: 'add', step: 1 }
+        : { action: 'remove', step: -1 }
 
-      if (openedModalNumber === 0) {
-        document.body.classList.remove('with-modal')
+      if (this.maximized) {
+        modals.maximized += state.step
+        if (!opening && modals.maximized > 0) {
+          return
+        }
+        document.body.classList[state.action]('q-maximized-modal')
+      }
+      else if (!this.minimized) {
+        modals.responsive += state.step
+        if (!opening && modals.responsive > 0) {
+          return
+        }
+        document.body.classList[state.action]('q-responsive-modal')
       }
     }
   },
@@ -221,12 +246,8 @@ export default {
           style: this.modalCss,
           'class': this.contentClasses,
           on: {
-            click (e) {
-              e.stopPropagation()
-            },
-            touchstart (e) {
-              e.stopPropagation()
-            }
+            click: this.__stopPropagation,
+            touchstart: this.__stopPropagation
           }
         }, [ this.$slots.default ])
       ])

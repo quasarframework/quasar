@@ -50,7 +50,8 @@ export const inline = {
   defaultView: {
     type: String,
     validator: v => ['year', 'month', 'day', 'hour', 'minute'].includes(v)
-  }
+  },
+  minimal: Boolean
 }
 
 export const input = {

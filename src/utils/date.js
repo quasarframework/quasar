@@ -271,27 +271,27 @@ export function isSameDate (date, date2, unit) {
 
   switch (unit) {
     case 'second':
-      if (t.getUTCSeconds() !== d.getUTCSeconds()) {
+      if (t.getSeconds() !== d.getSeconds()) {
         return false
       }
     case 'minute': // intentional fall-through
-      if (t.getUTCMinutes() !== d.getUTCMinutes()) {
+      if (t.getMinutes() !== d.getMinutes()) {
         return false
       }
     case 'hour': // intentional fall-through
-      if (t.getUTCHours() !== d.getUTCHours()) {
+      if (t.getHours() !== d.getHours()) {
         return false
       }
     case 'day': // intentional fall-through
-      if (t.getUTCDate() !== d.getUTCDate()) {
+      if (t.getDate() !== d.getDate()) {
         return false
       }
     case 'month': // intentional fall-through
-      if (t.getUTCMonth() !== d.getUTCMonth()) {
+      if (t.getMonth() !== d.getMonth()) {
         return false
       }
     case 'year': // intentional fall-through
-      if (t.getUTCFullYear() !== d.getUTCFullYear()) {
+      if (t.getFullYear() !== d.getFullYear()) {
         return false
       }
       break

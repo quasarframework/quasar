@@ -1,28 +1,22 @@
-function hasPassiveEvents () {
-  let has = false
-
-  try {
-    var opts = Object.defineProperty({}, 'passive', {
-      get () {
-        has = true
-      }
-    })
-    window.addEventListener('qtest', null, opts)
-    window.removeEventListener('qtest', null, opts)
-  }
-  catch (e) {}
-
-  return has
-}
-
 export const listenOpts = {}
 Object.defineProperty(listenOpts, 'passive', {
   configurable: true,
   get () {
-    listenOpts.passive = hasPassiveEvents()
-      ? { passive: true }
-      : void 0
-    return listenOpts.passive
+    let passive
+
+    try {
+      var opts = Object.defineProperty({}, 'passive', {
+        get () {
+          passive = { passive: true }
+        }
+      })
+      window.addEventListener('qtest', null, opts)
+      window.removeEventListener('qtest', null, opts)
+    }
+    catch (e) {}
+
+    listenOpts.passive = passive
+    return passive
   },
   set (val) {
     Object.defineProperty(this, 'passive', {
@@ -93,6 +87,30 @@ export function targetElement (e = window.event) {
   }
 
   return target
+}
+
+export function getEventPath (e = window.event) {
+  if (e.path) {
+    return e.path
+  }
+  if (e.composedPath) {
+    return e.composedPath()
+  }
+
+  const path = []
+  let el = e.target
+
+  while (el) {
+    path.push(el)
+
+    if (el.tagName === 'HTML') {
+      path.push(document)
+      path.push(window)
+      return path
+    }
+
+    el = el.parentElement
+  }
 }
 
 // Reasonable defaults

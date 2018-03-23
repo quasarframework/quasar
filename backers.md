@@ -30,6 +30,8 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 
 <a href="http://platformpurple.com/" target="_blank"><img src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/592beec0/platform-purple.png" width="200px"></a>
 
+- Gabriel Balint
+
 ---
 
 ### $50+
@@ -48,6 +50,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 
 ### $10+
 
+- Hansol Song ($25)
 - Valerian Cure ($25)
 - Shawn Makinson ($25)
 - Edinei Cipriani ($25)
@@ -56,6 +59,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - MSG Group ($20)
 - Pawel Rakowski ($20)
 - Stephen Clarke ($20)
+- Shone Radulovic ($15)
 - Laurent Aapro ($12)
 - Alex Tyutchev ($11)
 - Marek Urbanowicz
@@ -101,6 +105,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Kévin Marrec
 - Taillefer Brice
 - 良平 勝目
+- Jörg Walter
 
 - Ken ($5)
 - Oliver ($5)

@@ -82,13 +82,13 @@
           <span class="mat-only">inside of the clock</span>.
         </small>
       </p>
-      <q-datetime v-model="model" type="time" />
+      <q-datetime minimal v-model="model" type="time" />
 
       <p class="caption">Time 24hr Format (force)</p>
-      <q-datetime v-model="model" type="time" format24h />
+      <q-datetime minimal v-model="model" type="time" format24h />
 
       <p class="caption">Date & Time</p>
-      <q-datetime @change="value => log('@change', value)" v-model="model" type="datetime" />
+      <q-datetime minimal @change="value => log('@change', value)" v-model="model" type="datetime" />
 
       <p class="caption">Default Selection</p>
       <q-datetime v-model="model" :default-value="defaultValue" type="datetime" />
