@@ -110,13 +110,13 @@ export default {
       if (this.position) {
         return { name: `q-modal-${this.position}` }
       }
-      if (this.enterClass === void 0 && this.leaveClass === void 0) {
-        return { name: this.transition || 'q-modal' }
+      if (this.enterClass || this.leaveClass) {
+        return {
+          enterActiveClass: this.enterClass,
+          leaveActiveClass: this.leaveClass
+        }
       }
-      return {
-        enterActiveClass: this.enterClass,
-        leaveActiveClass: this.leaveClass
-      }
+      return { name: this.transition || 'q-modal' }
     },
     modalCss () {
       if (this.position) {
