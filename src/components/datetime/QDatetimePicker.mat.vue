@@ -1,6 +1,6 @@
 <template>
   <div class="q-datetime row" :class="classes">
-    <div class="q-datetime-header column col-xs-12 col-md-4 justify-center">
+    <div v-if="!minimal" class="q-datetime-header column col-xs-12 col-md-4 justify-center">
       <div v-if="typeHasDate">
         <div class="q-datetime-weekdaystring col-12">{{ weekDayString }}</div>
         <div class="q-datetime-datestring row flex-center">
@@ -428,18 +428,27 @@ export default {
     },
 
     setView (view) {
-      this.view = this.__calcView(view)
+      const newView = this.__calcView(view)
+      if (this.view !== newView) {
+        this.view = newView
+      }
     },
 
     /* helpers */
     __calcView (view) {
       switch (this.type) {
         case 'time':
-          return ['hour', 'minute'].includes(view) ? view : 'hour'
+          return view
+            ? (['hour', 'minute'].includes(view) ? view : 'hour')
+            : 'hour'
         case 'date':
-          return ['year', 'month', 'day'].includes(view) ? view : 'day'
+          return view
+            ? (['year', 'month', 'day'].includes(view) ? view : 'day')
+            : 'day'
         default:
-          return ['year', 'month', 'day', 'hour', 'minute'].includes(view) ? view : 'day'
+          return view
+            ? (['year', 'month', 'day', 'hour', 'minute'].includes(view) ? view : 'day')
+            : 'day'
       }
     },
     __pad (unit, filler) {
