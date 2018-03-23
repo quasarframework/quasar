@@ -1,4 +1,4 @@
-import { getScrollPosition, getScrollTarget } from '../../utils/scroll'
+import { getScrollPosition, getScrollTarget, isBodyScrollHidden } from '../../utils/scroll'
 import { listenOpts } from '../../utils/event'
 
 export default {
@@ -9,7 +9,8 @@ export default {
       pos: 0,
       dir: 'down',
       dirChanged: false,
-      dirChangePos: 0
+      dirChangePos: 0,
+      scrollHidden: false
     }
   },
   methods: {
@@ -18,7 +19,8 @@ export default {
         position: this.pos,
         direction: this.dir,
         directionChanged: this.dirChanged,
-        inflexionPosition: this.dirChangePos
+        inflexionPosition: this.dirChangePos,
+        scrollHidden: this.scrollHidden
       }
     },
     trigger () {
@@ -30,17 +32,25 @@ export default {
       const
         pos = Math.max(0, getScrollPosition(this.target)),
         delta = pos - this.pos,
-        dir = delta < 0 ? 'up' : 'down'
+        dir = delta < 0 ? 'up' : 'down',
+        scrollHidden = isBodyScrollHidden()
 
       this.dirChanged = this.dir !== dir
       if (this.dirChanged) {
         this.dir = dir
         this.dirChangePos = this.pos
       }
+      if (scrollHidden) {
+        this.scrollHidden = scrollHidden
+      }
 
       this.timer = null
       this.pos = pos
       this.$emit('scroll', this.getPosition())
+
+      if (!scrollHidden) {
+        this.scrollHidden = scrollHidden
+      }
     }
   },
   mounted () {

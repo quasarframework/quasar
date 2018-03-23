@@ -45,7 +45,7 @@ export default {
       this.$emit('reveal', val)
     },
     'layout.scroll' (scroll) {
-      if (!this.reveal) {
+      if (!this.reveal || scroll.scrollHidden) {
         return
       }
       this.__updateLocal('revealed',

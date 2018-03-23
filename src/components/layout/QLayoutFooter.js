@@ -129,7 +129,7 @@ export default {
       }
     },
     __updateRevealed () {
-      if (!this.reveal) {
+      if (!this.reveal || this.layout.scroll.scrollHidden) {
         return
       }
       const
