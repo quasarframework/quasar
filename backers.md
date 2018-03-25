@@ -30,7 +30,9 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 
 <a href="http://platformpurple.com/" target="_blank"><img src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/592beec0/platform-purple.png" width="200px"></a>
 
-- Gabriel Balint
+<a href="http://www.bgasoft.com/" target="_blank"><img src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/3e1d0d43/bgasoft.png" width="200px"></a>
+
+- Mark Crady
 
 ---
 
@@ -79,7 +81,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Jim O'Quinn
 - Bert Jehoul
 - Derrick Bass
-- Catalin Rogojeanu
 - William Correa
 - PHPZM
 - Klemens Witting
@@ -124,6 +125,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Jurgen Hollfelder 500 EUR
 - Robert Preston $250
 - Remo Laubacher $200
+- Egor Molodov $200
 - Max Matteo Staack 150 EUR
 - Max Matteo Staack $123
 - Musicformellons $100
