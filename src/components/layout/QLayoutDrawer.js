@@ -313,6 +313,7 @@ export default {
       if (!this.belowBreakpoint) {
         return
       }
+
       const
         width = this.size,
         position = between(evt.distance.x, 0, width)
@@ -323,17 +324,17 @@ export default {
           opened = position >= Math.min(75, width)
 
         el.classList.remove('no-transition')
-        this.layout.__animate()
-        this.$nextTick(() => {
-          if (opened) {
-            this.show()
-          }
-          else {
-            this.applyBackdrop(0)
-            this.applyPosition(this.stateDirection * width)
-            el.classList.remove('q-layout-drawer-delimiter')
-          }
-        })
+
+        if (opened) {
+          this.show()
+        }
+        else {
+          this.layout.__animate()
+          this.applyBackdrop(0)
+          this.applyPosition(this.stateDirection * width)
+          el.classList.remove('q-layout-drawer-delimiter')
+        }
+
         return
       }
 
@@ -367,16 +368,16 @@ export default {
       if (evt.isFinal) {
         const opened = Math.abs(position) < Math.min(75, width)
         this.$refs.content.classList.remove('no-transition')
-        this.layout.__animate()
-        this.$nextTick(() => {
-          if (opened) {
-            this.applyBackdrop(1)
-            this.applyPosition(0)
-          }
-          else {
-            this.hide()
-          }
-        })
+
+        if (opened) {
+          this.layout.__animate()
+          this.applyBackdrop(1)
+          this.applyPosition(0)
+        }
+        else {
+          this.hide()
+        }
+
         return
       }
 
@@ -416,7 +417,6 @@ export default {
     },
     __hide () {
       this.layout.__animate()
-      clearTimeout(this.timer)
 
       if (this.mobileOpened) {
         this.__preventScroll(false)
@@ -428,6 +428,7 @@ export default {
 
       document.body.classList.remove(bodyClass)
 
+      clearTimeout(this.timer)
       this.timer = setTimeout(() => {
         this.hidePromise && this.hidePromiseResolve()
       }, duration)
