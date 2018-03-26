@@ -1,5 +1,5 @@
 <template>
-  <div class="q-datetime" :class="['type-' + type, disable ? 'disabled' : '', readonly ? 'readonly' : '', dark ? 'q-datetime-dark' : '']">
+  <div class="q-datetime" :class="classes">
     <slot></slot>
     <div class="q-datetime-content non-selectable">
       <div class="q-datetime-inner full-height flex justify-center" @touchstart.stop.prevent>
@@ -125,6 +125,14 @@ export default {
     }
   },
   computed: {
+    classes () {
+      const cls = ['type-' + this.type]
+      this.disable && cls.push('disabled')
+      this.readonly && cls.push('readonly')
+      this.dark && cls.push('q-datetime-dark')
+      this.minimal && cls.push('q-datetime-minimal')
+      return cls
+    },
     dayMin () {
       return this.pmin !== null && isSameDate(this.pmin, this.model, 'month')
         ? this.pmin.getDate()

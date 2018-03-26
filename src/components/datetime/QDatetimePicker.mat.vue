@@ -62,7 +62,7 @@
         </div>
       </div>
     </div>
-    <div class="q-datetime-content col-xs-12 col-md-8 column">
+    <div class="q-datetime-content col-xs-12 column" :class="contentClasses">
       <div ref="selector" class="q-datetime-selector auto row flex-center">
         <div
           v-if="view === 'year'"
@@ -284,8 +284,14 @@ export default {
       this.disable && cls.push('disabled')
       this.readonly && cls.push('readonly')
       this.dark && cls.push('q-datetime-dark')
+      this.minimal && cls.push('q-datetime-minimal')
       this.color && cls.push(`text-${this.color}`)
       return cls
+    },
+    contentClasses () {
+      if (!this.minimal) {
+        return 'col-md-8'
+      }
     },
     dateArrow () {
       const val = [ this.$q.icon.datetime.arrowLeft, this.$q.icon.datetime.arrowRight ]
