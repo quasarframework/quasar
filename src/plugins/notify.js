@@ -2,6 +2,7 @@ import { QAlert } from '../components/alert'
 import uid from '../utils/uid'
 import clone from '../utils/clone'
 import { isSSR } from './platform'
+import { ready } from '../utils/dom'
 
 const positionList = [
   'top-left', 'top-right',
@@ -10,6 +11,13 @@ const positionList = [
 ]
 
 function init ({ $q, Vue }) {
+  if (!document.body) {
+    ready(() => {
+      init.call(this, { $q, Vue })
+    })
+    return
+  }
+
   const node = document.createElement('div')
   document.body.appendChild(node)
 
@@ -153,7 +161,14 @@ function init ({ $q, Vue }) {
 export default {
   create (opts) {
     if (!isSSR) {
-      this.__vm.add(opts)
+      if (!document.body) {
+        ready(() => {
+          this.create(opts)
+        })
+      }
+      else {
+        this.__vm.add(opts)
+      }
     }
   },
 
