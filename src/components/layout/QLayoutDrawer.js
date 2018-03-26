@@ -6,7 +6,7 @@ import ModelToggleMixin from '../../mixins/model-toggle'
 import PreventScroll from '../../mixins/prevent-scroll'
 
 const
-  bodyClass = 'q-drawer-scroll',
+  bodyClass = 'q-body-drawer-toggle',
   duration = 150
 
 export default {
@@ -396,6 +396,7 @@ export default {
       if (otherSide && otherSide.mobileOpened) {
         otherSide.hide()
       }
+
       if (this.belowBreakpoint) {
         this.mobileOpened = true
         this.applyBackdrop(1)

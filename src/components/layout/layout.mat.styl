@@ -53,19 +53,19 @@ $layout-transition = all .12s ease-in
   > span
     pointer-events auto
 
-body
-  &.q-layout-animate .q-layout-transition
-    transition $layout-transition
+body.cordova.platform-ios
+  .q-layout-header > .q-toolbar:first-child,
+  .q-layout-header > .q-tabs:first-child .q-tabs-head
+  .q-layout-drawer.top-padding
+    padding-top $ios-statusbar-height
+    min-height ($toolbar-min-height + $ios-statusbar-height)
 
-  &.cordova.platform-ios
-    .q-layout-header > .q-toolbar:first-child,
-    .q-layout-header > .q-tabs:first-child .q-tabs-head
-    .q-layout-drawer.top-padding
-      padding-top $ios-statusbar-height
-      min-height ($toolbar-min-height + $ios-statusbar-height)
-
-.q-drawer-scroll
+/* body */
+.q-layout-animate .q-layout-transition
+  transition $layout-transition
+.q-body-drawer-toggle
   overflow-x hidden
+/* body - end */
 
 .layout-padding
   @media (max-width $breakpoint-sm-max)

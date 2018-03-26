@@ -34,15 +34,17 @@ function shouldPreventScroll (e) {
 export default {
   methods: {
     __preventScroll (register) {
-      if (!this.$q.platform.is.desktop) {
-        return
-      }
-
       registered += register ? 1 : -1
       if (registered > 1) { return }
 
-      const action = `${register ? 'add' : 'remove'}EventListener`
-      window[action]('wheel', onWheel)
+      const action = register ? 'add' : 'remove'
+
+      if (this.$q.platform.is.mobile) {
+        document.body.classList[action]('q-body-prevent-scroll')
+      }
+      else if (this.$q.platform.is.desktop) {
+        window[`${action}EventListener`]('wheel', onWheel)
+      }
     }
   }
 }

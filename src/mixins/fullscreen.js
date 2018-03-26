@@ -29,7 +29,7 @@ export default {
       this.container = this.$el.parentNode
       this.container.replaceChild(this.fullscreenFillerNode, this.$el)
       document.body.appendChild(this.$el)
-      document.body.classList.add('with-mixin-fullscreen')
+      document.body.classList.add('q-body-fullscreen-mixin')
 
       this.__historyFullscreen = {
         handler: this.exitFullscreen
@@ -46,7 +46,7 @@ export default {
         this.__historyFullscreen = null
       }
       this.container.replaceChild(this.$el, this.fullscreenFillerNode)
-      document.body.classList.remove('with-mixin-fullscreen')
+      document.body.classList.remove('q-body-fullscreen-mixin')
       this.inFullscreen = false
     }
   },
