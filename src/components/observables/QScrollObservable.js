@@ -1,4 +1,4 @@
-import { getScrollPosition, getScrollTarget, isBodyScrollHidden } from '../../utils/scroll'
+import { getScrollPosition, getScrollTarget, isScrollHidden } from '../../utils/scroll'
 import { listenOpts } from '../../utils/event'
 
 export default {
@@ -33,7 +33,7 @@ export default {
         pos = Math.max(0, getScrollPosition(this.target)),
         delta = pos - this.pos,
         dir = delta < 0 ? 'up' : 'down',
-        scrollHidden = isBodyScrollHidden()
+        scrollHidden = isScrollHidden()
 
       this.dirChanged = this.dir !== dir
       if (this.dirChanged) {

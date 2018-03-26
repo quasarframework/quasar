@@ -89,38 +89,38 @@ export function getScrollbarWidth () {
   return size
 }
 
-const originalBodyStyle = {
+const originalScrollStyle = {
   top: '',
   scrollTop: 0
 }
 
-let bodyScrollHideRequests = 0
+let scrollHideRequests = 0
 
-export function isBodyScrollHidden () {
-  return bodyScrollHideRequests > 0
+export function isScrollHidden () {
+  return scrollHideRequests > 0
 }
 
 export function setBodyScroll (scrollable) {
   const body = document.body
-  bodyScrollHideRequests = Math.max(0, bodyScrollHideRequests + (scrollable ? -1 : 1))
+  scrollHideRequests = Math.max(0, scrollHideRequests + (scrollable ? -1 : 1))
   if (scrollable) {
-    if (!bodyScrollHideRequests) {
-      body.style.top = originalBodyStyle.top
+    if (!scrollHideRequests) {
+      body.style.top = originalScrollStyle.top
       body.classList.remove('body-scroll-disabled')
       body.classList.remove('body-overflow-scroll')
-      setScroll(window, originalBodyStyle.scrollTop)
+      setScroll(window, originalScrollStyle.scrollTop)
     }
   }
-  else if (bodyScrollHideRequests === 1) {
-    originalBodyStyle.top = body.style.top
-    originalBodyStyle.scrollTop = getScrollPosition(window)
+  else if (scrollHideRequests === 1) {
+    originalScrollStyle.top = body.style.top
+    originalScrollStyle.scrollTop = getScrollPosition(window)
 
     if (body.scrollHeight > document.documentElement.clientHeight) {
-      body.style.top = `-${originalBodyStyle.scrollTop}px`
+      body.style.top = `-${originalScrollStyle.scrollTop}px`
       body.classList.add('body-overflow-scroll')
     }
     setTimeout(() => {
-      if (bodyScrollHideRequests) {
+      if (scrollHideRequests) {
         body.classList.add('body-scroll-disabled')
       }
     }, 0)
