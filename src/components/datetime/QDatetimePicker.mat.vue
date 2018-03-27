@@ -139,16 +139,16 @@
             </template>
             <div
               v-for="monthDay in daysInterval"
-              :key="`md${monthDay}`"
+              :key="`md${monthDay.value}`"
               class="row items-center content-center justify-center cursor-pointer"
-              :class="[color && monthDay === day ? `text-${color}` : null, {
-                'q-datetime-day-active': monthDay === day,
-                'q-datetime-day-today': monthDay === today,
-                'disabled': !editable
+              :class="[color && monthDay.value === day ? `text-${color}` : null, {
+                'q-datetime-day-active': monthDay.value === day,
+                'q-datetime-day-today': monthDay.value === today,
+                'disabled': !editable || !monthDay.enabled
               }]"
-              @click="setDay(monthDay)"
+              @click="monthDay.enabled && setDay(monthDay.value)"
             >
-              <span>{{ monthDay }}</span>
+              <span>{{ monthDay.value }}</span>
             </div>
             <template v-if="max">
               <div v-for="fillerDay in afterMaxDays" :key="`fa${fillerDay}`" class="row items-center content-center justify-center disabled">
@@ -238,7 +238,7 @@
 import { height, width, offset, cssTransform } from '../../utils/dom'
 import { position, stopAndPrevent } from '../../utils/event'
 import { QBtn } from '../btn'
-import { isSameDate, adjustDate } from '../../utils/date'
+import { isSameDate, adjustDate, clone } from '../../utils/date'
 import DateMixin from './datetime-mixin'
 import ParentFieldMixin from '../../mixins/parent-field'
 import Ripple from '../../directives/ripple'
@@ -353,11 +353,11 @@ export default {
       let after = this.pmax === null || this.afterMaxDays === false ? 0 : this.afterMaxDays
       if (this.beforeMinDays > 0 || after) {
         let min = this.beforeMinDays > 0 ? this.beforeMinDays + 1 : 1
-        return Array.apply(null, {length: this.daysInMonth - min - after + 1}).map((day, index) => {
-          return index + min
-        })
+        return this.inactivate(Array.apply(null, {length: this.daysInMonth - min - after + 1}).map((day, index) => {
+          return { value: index + min, enabled: true }
+        }), clone(this.model))
       }
-      return this.daysInMonth
+      return this.inactivate(Array.from(Array(this.daysInMonth).keys(), x => ({ value: x + 1, enabled: true })), clone(this.model))
     },
 
     hour () {
