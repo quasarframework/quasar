@@ -88,6 +88,10 @@ function init ({ $q, Vue }) {
           })
         }
 
+        if (typeof config.onDismiss === 'function') {
+          notif.onDismiss = config.onDismiss
+        }
+
         if (notif.closeBtn) {
           const btn = [{
             closeBtn: true,
