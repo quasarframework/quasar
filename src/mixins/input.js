@@ -9,7 +9,8 @@ export default {
     return {
       focused: false,
       timer: null,
-      isNumberError: false
+      isNumberError: false,
+      isNegZero: false
     }
   },
   methods: {
@@ -43,7 +44,7 @@ export default {
     },
     __emit () {
       const isNumberError = this.isNumber && this.isNumberError
-      const value = isNumberError ? null : this.model
+      const value = isNumberError ? (this.isNegZero ? -0 : null) : this.model
       if (isNumberError) {
         this.$emit('input', value)
       }

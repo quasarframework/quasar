@@ -191,6 +191,7 @@ export default {
     value (v) {
       this.model = v
       this.isNumberError = false
+      this.isNegZero = false
     },
     isTextarea (v) {
       this[v ? '__watcherRegister' : '__watcherUnregister']()
@@ -213,11 +214,6 @@ export default {
     },
     isLoading () {
       return this.loading || this.shadow.loading
-    },
-    pattern () {
-      if (this.isNumber) {
-        return this.$attrs.pattern || '[0-9]*'
-      }
     },
     keyboardToggle () {
       return this.$q.platform.is.mobile &&
@@ -284,9 +280,10 @@ export default {
       let val = e && e.target ? e.target.value : e
 
       if (this.isNumber) {
-        const forcedValue = val
+        this.isNegZero = (1 / val) === -Infinity
+        const forcedValue = this.isNegZero ? -0 : val
         val = parseFloat(val)
-        if (isNaN(val)) {
+        if (isNaN(val) || this.isNegZero) {
           this.isNumberError = true
           if (forceUpdate) {
             this.$emit('input', forcedValue)
