@@ -47,10 +47,10 @@
 
       <br><br>
       <p>
-        <form @submit.prevent="submit" class="shadow-2 row q-pa-md items-center">
+        <form @submit.prevent="submit" @reset.prevent="reset" class="shadow-2 row q-pa-md items-center">
           <q-input v-model="test" class="col" />
-          <q-btn fab color="primary" icon="android" type="submit" class="on-right" title="Submit" />
           <q-btn fab-mini color="primary" icon="android" type="reset" class="on-right" title="Reset" />
+          <q-btn fab color="primary" icon="android" type="submit" class="on-right" title="Submit" />
         </form>
       </p>
 
@@ -526,6 +526,10 @@ export default {
     },
     submit () {
       this.$q.notify('Submit called')
+    },
+    reset () {
+      this.test = 'Initial value'
+      this.$q.notify('Reset called')
     }
   },
   beforeDestroy () {
