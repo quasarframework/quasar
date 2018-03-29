@@ -88,7 +88,7 @@
 
     <q-slide-transition>
       <div v-show="expanded">
-        <q-list :dark="dark" class="q-uploader-files q-py-none scroll" :style="filesStyle">
+        <q-list :dark="dark" class="q-uploader-files q-py-none scroll" :style="filesStyle" :class="expandClass">
           <q-item
             v-for="file in files"
             :key="file.name + file.__timestamp"
@@ -194,7 +194,6 @@ export default {
     hideUploadProgress: Boolean,
     noThumbnails: Boolean,
     autoExpand: Boolean,
-    expandStyle: [Array, String, Object],
     expandClass: [Array, String, Object],
     sendRaw: {
       type: Boolean,
