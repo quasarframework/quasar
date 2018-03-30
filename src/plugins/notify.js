@@ -73,7 +73,7 @@ function init ({ $q, Vue }) {
           this.remove(notif)
         }
 
-        if (notif.actions) {
+        if (config.actions) {
           notif.actions = config.actions.map(item => {
             const
               handler = item.handler,
@@ -81,7 +81,7 @@ function init ({ $q, Vue }) {
             action.handler = typeof handler === 'function'
               ? () => {
                 handler()
-                close()
+                !item.noDismiss && close()
               }
               : () => close()
             return action
