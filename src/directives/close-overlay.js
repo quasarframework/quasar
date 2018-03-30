@@ -1,7 +1,7 @@
 export default {
   name: 'close-overlay',
   bind (el, binding, vnode) {
-    const handler = (ev) => {
+    const handler = ev => {
       let vm = vnode.componentInstance
       while ((vm = vm.$parent)) {
         const name = vm.$options.name
