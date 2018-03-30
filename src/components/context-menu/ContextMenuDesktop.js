@@ -23,7 +23,9 @@ export default {
   },
   methods: {
     hide (evt) {
-      return this.$refs.popover.hide(evt)
+      if (this.$refs.popover) {
+        return this.$refs.popover.hide(evt)
+      }
     },
     show (evt) {
       if (!evt || this.disable) {
