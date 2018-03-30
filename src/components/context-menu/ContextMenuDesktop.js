@@ -17,7 +17,7 @@ export default {
       },
       on: {
         show: () => { this.$emit('show', this.event) },
-        hide: (evt) => { this.$emit('hide', this.event, evt) }
+        hide: evt => { this.$emit('hide', this.event, evt) }
       }
     }, this.$slots.default)
   },
