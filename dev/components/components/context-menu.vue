@@ -52,6 +52,43 @@
       </div>
       <p class="caption">Visible: {{visible}}</p>
       <pre v-if="event && event.target">{{event.target.innerText}}</pre>
+
+
+      <div class="block-1 q-ma-md">
+        <q-context-menu>
+          <q-list link separator style="min-width: 150px;">
+            <q-item v-close-overlay><q-item-main label="Foo"></q-item-main></q-item>
+            <q-item v-close-overlay><q-item-main label="Bar"></q-item-main></q-item>
+          </q-list>
+        </q-context-menu>
+      </div>
+
+      <div class="block-2 q-ma-md">
+        <q-context-menu>
+          <q-list link separator style="min-width: 150px;">
+            <q-item v-close-overlay><q-item-main label="Foo"></q-item-main></q-item>
+            <q-item v-close-overlay><q-item-main label="Bar"></q-item-main></q-item>
+          </q-list>
+        </q-context-menu>
+      </div>
+
+      <div class="block-3 q-ma-md">
+        <q-context-menu>
+          <q-list link separator style="min-width: 150px;">
+            <q-item v-close-overlay><q-item-main label="Foo"></q-item-main></q-item>
+            <q-item v-close-overlay><q-item-main label="Bar"></q-item-main></q-item>
+          </q-list>
+        </q-context-menu>
+      </div>
+
+      <div class="block-4 q-ma-md">
+        <q-context-menu>
+          <q-list link separator style="min-width: 150px;">
+            <q-item v-close-overlay><q-item-main label="Foo"></q-item-main></q-item>
+            <q-item v-close-overlay><q-item-main label="Bar"></q-item-main></q-item>
+          </q-list>
+        </q-context-menu>
+      </div>
     </div>
   </div>
 </template>
@@ -94,3 +131,27 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus">
+.block-1, .block-2, .block-3, .block-4 {
+  display: inline-block;
+  width: 150px;
+  height: 150px;
+}
+
+.block-1 {
+  background: red;
+}
+
+.block-2 {
+  background: yellow;
+}
+
+.block-3 {
+  background: blue;
+}
+
+.block-4 {
+  background: pink;
+}
+</style>
