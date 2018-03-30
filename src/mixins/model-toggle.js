@@ -48,14 +48,14 @@ export default {
       }
 
       if (!this.__show) {
-        this.$emit('show')
+        this.$emit('show', evt)
         return Promise.resolve(evt)
       }
 
       this.showPromise = new Promise((resolve, reject) => {
         this.showPromiseResolve = () => {
           this.showPromise = null
-          this.$emit('show')
+          this.$emit('show', evt)
           resolve(evt)
         }
         this.showPromiseReject = () => {
@@ -85,14 +85,14 @@ export default {
       }
 
       if (!this.__hide) {
-        this.$emit('hide')
+        this.$emit('hide', evt)
         return Promise.resolve()
       }
 
       this.hidePromise = new Promise((resolve, reject) => {
         this.hidePromiseResolve = () => {
           this.hidePromise = null
-          this.$emit('hide')
+          this.$emit('hide', evt)
           resolve()
         }
         this.hidePromiseReject = () => {

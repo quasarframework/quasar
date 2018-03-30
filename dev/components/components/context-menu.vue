@@ -31,11 +31,13 @@
 
       <div
         style="height: 300px; margin-top: 40px;"
-        class="bg-secondary text-white row flex-center"
+        class="bg-secondary text-white row items-stretch"
       >
-        Target area
+        <div class="col-6 flex flex-center" v-for="n in 4" :key="n" >
+          Target area {{n}}
+        </div>
 
-        <q-context-menu>
+        <q-context-menu @show="onShow" @hide="onHide">
           <q-list link separator no-border style="min-width: 150px; max-height: 300px;">
             <q-item
               v-for="n in 10"
@@ -48,6 +50,8 @@
           </q-list>
         </q-context-menu>
       </div>
+      <p class="caption">Visible: {{visible}}</p>
+      <pre v-if="event && event.target">{{event.target.innerText}}</pre>
     </div>
   </div>
 </template>
@@ -67,9 +71,25 @@ export default {
     QItem,
     QItemMain
   },
+  data () {
+    return {
+      event: null,
+      visible: false
+    }
+  },
   methods: {
     showNotify () {
       this.$q.notify((this.$q.platform.is.desktop ? 'Clicked' : 'Tapped') + ' on a context menu item.')
+    },
+    onShow (showEv) {
+      console.log('Show event:', showEv)
+      this.event = showEv
+      this.visible = true
+    },
+    onHide (showEv, hideEv) {
+      console.log('Hide event:', hideEv)
+      this.event = showEv
+      this.visible = false
     }
   }
 }
