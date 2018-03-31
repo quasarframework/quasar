@@ -54,8 +54,8 @@ export default {
       this.$emit('show', this.event)
     },
     __onHide (evt) {
-      document.body.addEventListener('contextmenu', this.__bodyHide, true)
-      document.body.addEventListener('click', this.__bodyHide, true)
+      document.body.removeEventListener('contextmenu', this.__bodyHide, true)
+      document.body.removeEventListener('click', this.__bodyHide, true)
       this.$emit('hide', this.event, evt)
     }
   },
