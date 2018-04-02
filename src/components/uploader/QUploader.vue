@@ -64,6 +64,8 @@
           :accept="extensions"
           v-bind.prop="{multiple: multiple}"
           @change="__add"
+          @click="__selectDialogOnOpen"
+          @blur="__selectDialogOnClose"
         >
       </q-icon>
 
@@ -143,6 +145,7 @@ import { QIcon } from '../icon'
 import { QProgress } from '../progress'
 import { QItem, QItemSide, QItemMain, QItemTile, QList } from '../list'
 import { QSlideTransition } from '../slide-transition'
+import EscapeKey from '../../utils/escape-key'
 
 function initFile (file) {
   file.__doneUploading = false
@@ -150,6 +153,10 @@ function initFile (file) {
   file.__uploaded = 0
   file.__progress = 0
 }
+
+let
+  selectDialogOpened,
+  selectDialogTimer
 
 export default {
   name: 'QUploader',
@@ -317,6 +324,7 @@ export default {
       })
     },
     __add (e, files) {
+      this.__selectDialogOnClose()
       if (this.addDisabled) {
         return
       }
@@ -394,8 +402,37 @@ export default {
     },
     __pick () {
       if (!this.addDisabled && this.$q.platform.is.mozilla) {
+        this.__selectDialogOnOpen()
         this.$refs.file.click()
       }
+    },
+    __selectDialogOnOpen () {
+      clearTimeout(selectDialogTimer)
+      if (selectDialogOpened) {
+        return
+      }
+      selectDialogTimer = setTimeout(() => {
+        clearTimeout(selectDialogTimer)
+        selectDialogOpened = true
+        EscapeKey.register(() => {
+          clearTimeout(selectDialogTimer)
+          selectDialogTimer = setTimeout(() => {
+            selectDialogOpened = false
+            EscapeKey.pop()
+            // console.log('END-ESC listen for esc')
+          }, 300)
+        })
+        // console.log('START listen for esc')
+      }, 300)
+    },
+    __selectDialogOnClose () {
+      if (!selectDialogOpened) {
+        return
+      }
+      clearTimeout(selectDialogTimer)
+      selectDialogOpened = false
+      EscapeKey.pop()
+      // console.log('END listen for esc')
     },
     __getUploadPromise (file) {
       const
@@ -515,6 +552,10 @@ export default {
       this.__computeTotalSize()
       this.$emit('reset')
     }
+  },
+  beforeDestroy () {
+    clearTimeout(selectDialogTimer)
+    this.__selectDialogOnClose()
   }
 }
 </script>
