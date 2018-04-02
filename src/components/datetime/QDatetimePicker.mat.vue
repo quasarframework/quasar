@@ -183,7 +183,7 @@
                   v-for="n in 24"
                   :key="`hi${n}`"
                   class="q-datetime-clock-position fmt24"
-                  :class="[`q-datetime-clock-pos-${n-1}`, (n - 1) === hour ? 'active' : '']"
+                  :class="[`q-datetime-clock-pos-${n-1}`, (n - 1) === hour ? 'active' : '', __checkHourIsDisabled(n-1) ? 'disabled' : '']"
                 >
                   <span>{{ n - 1 }}</span>
                 </div>
@@ -193,7 +193,7 @@
                   v-for="n in 12"
                   :key="`hi${n}`"
                   class="q-datetime-clock-position"
-                  :class="['q-datetime-clock-pos-' + n, n === hour ? 'active' : '']"
+                  :class="['q-datetime-clock-pos-' + n, n === hour ? 'active' : '', __checkHourIsDisabled(n) ? 'disabled' : '']"
                 >
                   <span>{{ n }}</span>
                 </div>
@@ -511,14 +511,17 @@ export default {
     __dragStop (ev) {
       stopAndPrevent(ev)
       this.dragging = false
+      let value = this.__getTimeValue(ev)
       if (this.view === 'minute') {
         this.$emit('canClose')
       }
       else {
-        this.view = 'minute'
+        if (!this.__checkHourIsDisabled(value)) {
+          this.view = 'minute'
+        }
       }
     },
-    __updateClock (ev) {
+    __getTimeValue (ev) {
       let
         pos = position(ev),
         height = Math.abs(pos.top - this.centerClockPos.top),
@@ -536,12 +539,39 @@ export default {
       }
 
       if (this.view === 'hour') {
-        this.setHour(Math.round(angle / (this.computedFormat24h ? 15 : 30)))
+        return Math.round(angle / (this.computedFormat24h ? 15 : 30))
       }
       else {
-        this.setMinute(Math.round(angle / 6))
+        return Math.round(angle / 6)
       }
     },
+    __updateClock (ev) {
+      let value = this.__getTimeValue(ev)
+      if (this.view === 'hour') {
+        if (!this.__checkHourIsDisabled(value)) {
+          this.setHour(value)
+        }
+      }
+      else {
+        this.setMinute(value)
+      }
+    },
+
+    __checkHourIsDisabled (hour) {
+      let disabledByMin = false
+      let disabledByMax = false
+      if (this.computedFormat24h) {
+        disabledByMin = hour < this.minHour
+        disabledByMax = hour > this.maxHour
+      }
+      else {
+        disabledByMin = ((hour % 12) + (12 * !this.am)) < this.minHour
+        disabledByMax = ((hour % 12) + (12 * !this.am)) > this.maxHour
+      }
+
+      return (this.maxHour < this.minHour) ? (disabledByMin && disabledByMax) : (disabledByMin || disabledByMax)
+    },
+
     __repeatTimeout (count) {
       return Math.max(100, 300 - count * count * 10)
     }

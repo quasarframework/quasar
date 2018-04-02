@@ -59,6 +59,14 @@ export const inline = {
     type: Array,
     default: () => []
   },
+  minHour: {
+    type: Number,
+    default: 0
+  },
+  maxHour: {
+    type: Number,
+    default: 24
+  },
   minimal: Boolean
 }
 
