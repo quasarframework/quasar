@@ -351,13 +351,16 @@ export default {
     },
     daysInterval () {
       let after = this.pmax === null || this.afterMaxDays === false ? 0 : this.afterMaxDays
+      let days = []
       if (this.beforeMinDays > 0 || after) {
         let min = this.beforeMinDays > 0 ? this.beforeMinDays + 1 : 1
-        return this.inactivate(Array.apply(null, {length: this.daysInMonth - min - after + 1}).map((day, index) => {
+        days = Array.apply(null, {length: this.daysInMonth - min - after + 1}).map((day, index) => {
           return { value: index + min, enabled: true }
-        }), clone(this.model))
+        })
       }
-      return this.inactivate(Array.from(Array(this.daysInMonth).keys(), x => ({ value: x + 1, enabled: true })), clone(this.model))
+      days = Array.from(Array(this.daysInMonth).keys(), x => ({ value: x + 1, enabled: true }))
+
+      return this.disableDates(this.disableDaysInWeek(days), clone(this.model))
     },
 
     hour () {

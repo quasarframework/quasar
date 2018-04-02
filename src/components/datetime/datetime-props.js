@@ -51,9 +51,13 @@ export const inline = {
     type: String,
     validator: v => ['year', 'month', 'day', 'hour', 'minute'].includes(v)
   },
-  inactivate: {
+  disableDates: {
     type: Function,
     default: days => days
+  },
+  disableDays: {
+    type: Array,
+    default: () => []
   },
   minimal: Boolean
 }

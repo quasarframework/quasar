@@ -103,6 +103,20 @@ export default {
       this.model = new Date(this.model.setHours(hour + offset))
     },
 
+    disableDaysInWeek (days) {
+      if (!this.disableDays.length) {
+        return days
+      }
+
+      const year = this.year
+      const month = this.month
+      const disableDays = this.disableDays
+      return days.map(day => ({
+        value: day.value,
+        enabled: !disableDays.includes(new Date(year, month, day.value).getDay())
+      }))
+    },
+
     __parseTypeValue (type, value) {
       if (type === 'month') {
         return between(value, 1, 12)
