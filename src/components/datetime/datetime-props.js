@@ -53,7 +53,7 @@ export const inline = {
   },
   disableDates: {
     type: Function,
-    default: days => days
+    default: (year, month, days) => []
   },
   disableDays: {
     type: Array,

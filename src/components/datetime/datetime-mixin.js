@@ -105,16 +105,10 @@ export default {
 
     disableDaysInWeek (days) {
       if (!this.disableDays.length) {
-        return days
+        return []
       }
 
-      const year = this.year
-      const month = this.month
-      const disableDays = this.disableDays
-      return days.map(day => ({
-        value: day.value,
-        enabled: !disableDays.includes(new Date(year, month, day.value).getDay())
-      }))
+      return days.filter(day => this.disableDays.includes(new Date(this.year, this.month, day).getDay()))
     },
 
     __parseTypeValue (type, value) {

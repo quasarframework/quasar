@@ -238,7 +238,7 @@
 import { height, width, offset, cssTransform } from '../../utils/dom'
 import { position, stopAndPrevent } from '../../utils/event'
 import { QBtn } from '../btn'
-import { isSameDate, adjustDate, clone } from '../../utils/date'
+import { isSameDate, adjustDate } from '../../utils/date'
 import DateMixin from './datetime-mixin'
 import ParentFieldMixin from '../../mixins/parent-field'
 import Ripple from '../../directives/ripple'
@@ -355,12 +355,22 @@ export default {
       if (this.beforeMinDays > 0 || after) {
         let min = this.beforeMinDays > 0 ? this.beforeMinDays + 1 : 1
         days = Array.apply(null, {length: this.daysInMonth - min - after + 1}).map((day, index) => {
-          return { value: index + min, enabled: true }
+          return index + min
         })
       }
-      days = Array.from(Array(this.daysInMonth).keys(), x => ({ value: x + 1, enabled: true }))
+      else {
+        days = Array.from(Array(this.daysInMonth).keys(), day => day)
+      }
 
-      return this.disableDates(this.disableDaysInWeek(days), clone(this.model))
+      let disabledDays = this.disableDaysInWeek(days)
+      let disableDates = this.disableDates(this.year, this.month, days.filter(d => !disabledDays.includes(d)))
+      if (!Array.isArray(disableDates)) {
+        disableDates = []
+      }
+      return days.map(day => ({
+        value: day,
+        enabled: !disabledDays.includes(day) && !disableDates.includes(day)
+      }))
     },
 
     hour () {
