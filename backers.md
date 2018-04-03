@@ -70,7 +70,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Matsumoto Takamasa
 - Josh Bodine
 - William Marques Vicente Gomes Correa
-- Samuel Desconsi
 - John (JCharante)
 - Florent Peyrard
 - Jacob Heruty
