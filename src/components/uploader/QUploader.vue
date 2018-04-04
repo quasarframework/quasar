@@ -111,7 +111,7 @@
 
             <q-item-side right>
               <q-item-tile
-                :icon="$q.icon.uploader[file.__doneUploading ? 'done' : 'clear']"
+                :icon="$q.icon.uploader['clear']"
                 :color="color"
                 class="cursor-pointer"
                 @click.native="__remove(file)"
