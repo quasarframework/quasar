@@ -142,7 +142,7 @@
               :key="`md${monthDay}`"
               class="row items-center content-center justify-center cursor-pointer"
               :class="[color && monthDay === day ? `text-${color}` : null, {
-                'q-datetime-day-active': monthDay === day,
+                'q-datetime-day-active': isValid && monthDay === day,
                 'q-datetime-day-today': monthDay === today,
                 'disabled': !editable
               }]"
@@ -238,7 +238,7 @@
 import { height, width, offset, cssTransform } from '../../utils/dom'
 import { position, stopAndPrevent } from '../../utils/event'
 import { QBtn } from '../btn'
-import { isSameDate, adjustDate } from '../../utils/date'
+import { isSameDate, isValid, adjustDate } from '../../utils/date'
 import DateMixin from './datetime-mixin'
 import ParentFieldMixin from '../../mixins/parent-field'
 import Ripple from '../../directives/ripple'
@@ -378,6 +378,9 @@ export default {
         degrees = Math.round((this.view === 'minute' ? this.minute : this.hour) * (360 / divider)) - 180
 
       return cssTransform(`rotate(${degrees}deg)`)
+    },
+    isValid () {
+      return isValid(this.value)
     },
     today () {
       const today = new Date()
