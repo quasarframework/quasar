@@ -18,7 +18,7 @@ export default {
     value: [String, Object],
     defaultValue: {
       type: [String, Object],
-      default: '#000'
+      default: null
     },
     formatModel: {
       type: String,
@@ -32,13 +32,7 @@ export default {
   data () {
     return {
       view: !this.value || typeof this.value === 'string' ? 'hex' : 'rgb',
-      model: this.__parseModel(this.value || this.defaultValue),
-      inputError: {
-        hex: false,
-        r: false,
-        g: false,
-        b: false
-      }
+      model: this.__parseModel(this.value || this.defaultValue)
     }
   },
   watch: {
@@ -146,7 +140,7 @@ export default {
           staticClass: 'absolute',
           style: this.saturationPointerStyle
         }, [
-          h('div', { staticClass: 'q-color-saturation-circle' })
+          this.model.hex !== void 0 ? h('div', { staticClass: 'q-color-saturation-circle' }) : null
         ])
       ])
     },
@@ -211,7 +205,7 @@ export default {
             },
             staticClass: 'full-width text-center q-no-input-spinner',
             domProps: {
-              value: Math.round(this.model[formatModel])
+              value: this.model.hex === void 0 ? '' : Math.round(this.model[formatModel])
             },
             on: {
               input: evt => this.__onNumericChange(evt, formatModel, max),
@@ -393,6 +387,10 @@ export default {
       this.view = this.view === 'hex' ? 'rgba' : 'hex'
     },
     __parseModel (v) {
+      if (v === null || v === void 0) {
+        return { h: 0, s: 0, v: 0, r: 0, g: 0, b: 0, hex: void 0, a: 100 }
+      }
+
       let model = typeof v === 'string' ? hexToRgb(v.trim()) : clone(v)
       if (this.forceAlpha === (model.a === void 0)) {
         model.a = this.forceAlpha ? 100 : void 0

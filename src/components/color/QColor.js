@@ -34,7 +34,7 @@ export default {
     },
     defaultValue: {
       type: [String, Object],
-      default: '#000'
+      default: null
     },
     formatModel: {
       type: String,
@@ -171,7 +171,7 @@ export default {
         h(QColorPicker, {
           staticClass: `no-border${modal ? ' full-width' : ''}`,
           props: extend({
-            value: this.model || '#000',
+            value: this.model,
             disable: this.disable,
             readonly: this.readonly,
             formatModel: this.formatModel,
@@ -210,7 +210,8 @@ export default {
                 color: this.modalBtnColor,
                 flat: true,
                 label: this.okLabel || this.$q.i18n.label.set,
-                noRipple: true
+                noRipple: true,
+                disable: !this.model
               },
               on: {
                 click: () => {
