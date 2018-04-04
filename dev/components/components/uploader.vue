@@ -105,6 +105,12 @@
         @remove:cancel="removeCancel"
       />
 
+      <p class="caption">Upload in Modal</p>
+      <q-btn color=primary label="Open Uploader Modal" class=q-ma-md @click="modalOpen = true" />
+      <q-modal v-model="modalOpen">
+        <q-uploader url class="q-ma-xl"/>
+      </q-modal>
+
       <div class="absolute-right no-pointer-events">
         <q-btn @click="clear" style="pointer-events: all" color="primary">Clear Debug Log</q-btn>
         <div v-for="evt in events" :key="evt">
@@ -122,7 +128,8 @@ export default {
       url: 'http://1.1.1.195/upload.php',
       events: [],
       inverted: false,
-      dark: false
+      dark: false,
+      modalOpen: false
     }
   },
   methods: {
