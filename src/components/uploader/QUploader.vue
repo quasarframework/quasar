@@ -87,7 +87,7 @@
     </q-input-frame>
 
     <q-slide-transition>
-      <div v-show="expanded">
+      <div v-show="expanded" :class="expandClass" :style="expandStyle">
         <q-list :dark="dark" class="q-uploader-files q-py-none scroll" :style="filesStyle">
           <q-item
             v-for="file in files"
