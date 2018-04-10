@@ -1,7 +1,7 @@
 $space-base   ?= 16px
 $space-x-base ?= $space-base
 $space-y-base ?= $space-base
-$spaces = {
+$spaces ?= {
   none: {
     x: 0,
     y: 0
@@ -45,7 +45,7 @@ $flex-gutter-xl ?= 64px
 $body-background ?= white
 $body-color      ?= #0c0c0c
 
-$flex-gutter = {
+$flex-gutter ?= {
   none: 0,
   xs: $flex-gutter-xs,
   sm: $flex-gutter-sm,
@@ -61,20 +61,20 @@ $sizes ?= {
   xl: $breakpoint-lg + 1  // Large screen / desktop
 }
 
-$breakpoint-xs-min = 0
-$breakpoint-xs-max = $breakpoint-xs
+$breakpoint-xs-min ?= 0
+$breakpoint-xs-max ?= $breakpoint-xs
 
-$breakpoint-sm-min = $sizes[sm]
-$breakpoint-sm-max = $breakpoint-sm
+$breakpoint-sm-min ?= $sizes[sm]
+$breakpoint-sm-max ?= $breakpoint-sm
 
-$breakpoint-md-min = $sizes[md]
-$breakpoint-md-max = $breakpoint-md
+$breakpoint-md-min ?= $sizes[md]
+$breakpoint-md-max ?= $breakpoint-md
 
-$breakpoint-lg-min = $sizes[lg]
-$breakpoint-lg-max = $breakpoint-lg
+$breakpoint-lg-min ?= $sizes[lg]
+$breakpoint-lg-max ?= $breakpoint-lg
 
-$breakpoint-xl-min = $sizes[xl]
-$breakpoint-xl-max = 9999px
+$breakpoint-xl-min ?= $sizes[xl]
+$breakpoint-xl-max ?= 9999px
 
 $backdrop-opacity    ?= .3
 $backdrop-background ?= rgba(0, 0, 0, $backdrop-opacity)
@@ -82,7 +82,7 @@ $backdrop-background ?= rgba(0, 0, 0, $backdrop-opacity)
 $router-link-active       ?= router-link-active
 $router-link-exact-active ?= router-link-exact-active
 
-$headings = {
+$headings ?= {
   display-4: {
     size: 112px,
     weight: 300,
@@ -147,7 +147,7 @@ $headings = {
   }
 }
 
-$h-tags = {
+$h-tags ?= {
   h1: $headings.display-4,
   h2: $headings.display-3,
   h3: $headings.display-2,
@@ -156,7 +156,7 @@ $h-tags = {
   h6: $headings.title
 }
 
-$text-weights = {
+$text-weights ?= {
   thin: 100,
   light: 300,
   regular: 400,
@@ -440,21 +440,21 @@ $brown-11 = #d7ccc8
 $brown-12 = #bcaaa4
 $brown-13 = #8d6e63
 $brown-14 = #5d4037
-$grey = #9e9e9e
-$grey-1 = #fafafa
-$grey-2 = #f5f5f5
-$grey-3 = #eeeeee
-$grey-4 = #e0e0e0
-$grey-5 = #bdbdbd
-$grey-6 = #9e9e9e
-$grey-7 = #757575
-$grey-8 = #616161
-$grey-9 = #424242
-$grey-10 = #212121
-$grey-11 = #f5f5f5
-$grey-12 = #eeeeee
-$grey-13 = #bdbdbd
-$grey-14 = #616161
+$grey ?= #9e9e9e
+$grey-1 ?= #fafafa
+$grey-2 ?= #f5f5f5
+$grey-3 ?= #eeeeee
+$grey-4 ?= #e0e0e0
+$grey-5 ?= #bdbdbd
+$grey-6 ?= #9e9e9e
+$grey-7 ?= #757575
+$grey-8 ?= #616161
+$grey-9 ?= #424242
+$grey-10 ?= #212121
+$grey-11 ?= #f5f5f5
+$grey-12 ?= #eeeeee
+$grey-13 ?= #bdbdbd
+$grey-14 ?= #616161
 $blue-grey = #607d8b
 $blue-grey-1 = #eceff1
 $blue-grey-2 = #cfd8dc
