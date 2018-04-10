@@ -113,7 +113,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Mahesh Narayanamurthi ($5)
 - Rogério Queiroz ($5)
 - Sustained ($3.14)
-- Robson Martins ($2.5)
 - Joe L Wroten ($1)
 - Yasuhiro Kawagoe ($1)
 
