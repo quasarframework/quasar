@@ -22,7 +22,7 @@ function init ({ $q, Vue }) {
   document.body.appendChild(node)
 
   this.__vm = new Vue({
-    name: 'q-notifications',
+    name: 'QNotifications',
     data: {
       notifs: {
         center: [],

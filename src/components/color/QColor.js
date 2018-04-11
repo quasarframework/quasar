@@ -34,7 +34,7 @@ export default {
     },
     defaultValue: {
       type: [String, Object],
-      default: null
+      default: '#000'
     },
     formatModel: {
       type: String,
@@ -48,7 +48,7 @@ export default {
   },
   watch: {
     value (v) {
-      if (!this.disable && this.$refs.popup && this.$refs.popup.showing) {
+      if (!this.disable && this.isPopover) {
         this.model = clone(v)
       }
     }
@@ -76,7 +76,7 @@ export default {
       return ''
     },
     modalBtnColor () {
-      return this.$q.theme === 'mat'
+      return __THEME__ === 'mat'
         ? this.color
         : (this.dark ? 'light' : 'dark')
     }
@@ -87,18 +87,11 @@ export default {
     },
     show () {
       if (!this.disable) {
-        const val = this.value || this.defaultValue
-        if (this.focused) {
-          this.model = clone(val)
-        }
-        else {
-          this.__setModel(val)
-        }
+        this.__setModel(this.value || this.defaultValue)
         return this.$refs.popup.show()
       }
     },
     hide () {
-      this.focused = false
       return this.$refs.popup.hide()
     },
 
@@ -118,7 +111,7 @@ export default {
       if (this.disable || this.focused) {
         return
       }
-      this.__setModel(this.value || this.defaultValue)
+      this.model = clone(this.value || this.defaultValue)
       this.focused = true
       this.$emit('focus')
     },
@@ -136,15 +129,15 @@ export default {
       }, 1)
     },
     __onHide (forceUpdate) {
+      this.focused && this.$emit('blur')
       this.focused = false
-      this.$emit('blur')
-      if (forceUpdate || (this.isPopover && this.$refs.popup.showing)) {
+      if (forceUpdate || this.isPopover) {
         this.__update(forceUpdate)
       }
     },
     __setModel (val, forceUpdate) {
       this.model = clone(val)
-      if (forceUpdate || (this.isPopover && this.$refs.popup.showing)) {
+      if (forceUpdate || this.isPopover) {
         this.__update(forceUpdate)
       }
     },
@@ -233,6 +226,7 @@ export default {
         error: this.error,
         warning: this.warning,
         disable: this.disable,
+        readonly: this.readonly,
         inverted: this.inverted,
         invertedLight: this.invertedLight,
         dark: this.dark,
