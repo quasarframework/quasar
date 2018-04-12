@@ -24,11 +24,11 @@ export default {
         : {
           mousedown: this.__startRepeat,
           touchstart: this.__startRepeat,
-          keydown: (e) => [13, 32].includes(e.keyCode) && this.__startRepeat(e),
+          keydown: e => [13, 32].includes(e.keyCode) && this.__startRepeat(e),
 
           mouseup: this.__endRepeat,
           touchend: this.__endRepeat,
-          keyup: (e) => [13, 32].includes(e.keyCode) && this.__endRepeat(e),
+          keyup: e => [13, 32].includes(e.keyCode) && this.__endRepeat(e),
 
           mouseleave: this.__abortRepeat,
           touchmove: this.__abortRepeat,
