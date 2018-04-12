@@ -60,6 +60,13 @@
       />
     </div>
 
+    <q-spinner
+      v-if="isLoading"
+      slot="after"
+      size="24px"
+      class="q-if-control"
+    ></q-spinner>
+
     <q-icon
       v-if="editable"
       :name="computedAddIcon"
@@ -70,6 +77,7 @@
       @touchstart.native="__clearTimer"
       @click.native="add()"
     ></q-icon>
+    <slot></slot>
   </q-input-frame>
 </template>
 
@@ -79,6 +87,7 @@ import InputMixin from '../../mixins/input'
 import { QInputFrame } from '../input-frame'
 import { QChip } from '../chip'
 import { getEventKey, stopAndPrevent } from '../../utils/event'
+import { QSpinner } from '../spinner'
 
 export default {
   name: 'QChipsInput',
@@ -100,12 +109,38 @@ export default {
   data () {
     return {
       input: '',
-      model: this.value
+      model: this.value,
+      watcher: null,
+      shadow: {
+        val: this.input,
+        set: this.add,
+        loading: false,
+        watched: 0,
+        isDark: () => this.dark,
+        hasFocus: () => document.activeElement === this.$refs.input,
+        register: () => {
+          this.shadow.watched += 1
+          this.__watcherRegister()
+        },
+        unregister: () => {
+          this.shadow.watched = Math.max(0, this.shadow.watched - 1)
+          this.__watcherUnregister()
+        },
+        getEl: () => this.$refs.input
+      }
     }
   },
   watch: {
     value (v) {
       this.model = this.value
+    },
+    input (v) {
+      this.input = v
+    }
+  },
+  provide () {
+    return {
+      __input: this.shadow
     }
   },
   computed: {
@@ -113,6 +148,9 @@ export default {
       return this.model
         ? this.model.length
         : 0
+    },
+    isLoading () {
+      return this.loading || this.shadow.loading
     },
     computedAddIcon () {
       return this.addIcon || this.$q.icon.chipsInput.add
@@ -190,7 +228,29 @@ export default {
     },
     __onClick () {
       this.focus()
+    },
+    __watcher (value) {
+      if (this.shadow.watched) {
+        this.shadow.val = value
+      }
+    },
+    __watcherRegister () {
+      if (!this.watcher) {
+        this.watcher = this.$watch('input', this.__watcher)
+      }
+    },
+    __watcherUnregister (forceUnregister) {
+      if (
+        this.watcher &&
+        (forceUnregister || !this.shadow.watched)
+      ) {
+        this.watcher()
+        this.watcher = null
+      }
     }
+  },
+  beforeDestroy () {
+    this.__watcherUnregister(true)
   }
 }
 </script>
