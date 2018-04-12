@@ -24,12 +24,15 @@ export default {
         : {
           mousedown: this.__startRepeat,
           touchstart: this.__startRepeat,
+          keydown: (e) => [13, 32].includes(e.keyCode) && this.__startRepeat(e),
 
           mouseup: this.__endRepeat,
           touchend: this.__endRepeat,
+          keyup: (e) => [13, 32].includes(e.keyCode) && this.__endRepeat(e),
 
           mouseleave: this.__abortRepeat,
-          touchmove: this.__abortRepeat
+          touchmove: this.__abortRepeat,
+          blur: this.__abortRepeat
         }
     }
   },
@@ -61,6 +64,9 @@ export default {
       clearTimeout(this.timer)
     },
     __startRepeat (e) {
+      if (this.repeating) {
+        return
+      }
       const setTimer = () => {
         this.timer = setTimeout(
           trigger,
@@ -92,11 +98,11 @@ export default {
         return
       }
 
+      this.repeating = false
       if (this.repeatCount) {
         this.repeatCount = 0
       }
-      else if (e.detail) {
-        this.repeating = false
+      else if (e.detail || e.keyCode) {
         e.repeatCount = 0
         this.$emit('click', e)
       }
