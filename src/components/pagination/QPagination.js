@@ -320,7 +320,7 @@ export default {
       for (let i = pgFrom; i <= pgTo; i++) {
         const active = i === this.value
         contentMiddle.push(this.__getBtn(h, {
-          key: `${i}.${active}`,
+          key: `bpg${i}`,
           style,
           props: {
             disable: this.disable,
