@@ -120,9 +120,6 @@ export default {
         if (this.defaultView && target.view !== this.defaultView) {
           target.setView(this.defaultView)
         }
-        else {
-          target.setView()
-        }
       }
       this.model = clone(this.computedValue)
       this.focused = true
