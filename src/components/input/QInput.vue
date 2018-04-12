@@ -213,7 +213,7 @@ export default {
       return this.type === 'textarea'
     },
     isLoading () {
-      return this.loading || this.shadow.loading
+      return this.loading || (this.shadow.watched && this.shadow.loading)
     },
     keyboardToggle () {
       return this.$q.platform.is.mobile &&

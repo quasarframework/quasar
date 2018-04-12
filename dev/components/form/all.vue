@@ -217,6 +217,13 @@
         <q-chips-input :dark="dark" color="black" :error="error" :warning="warning" :disable="disable" :readonly="readonly" inverted class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" float-label="List (onChange)" :value="options" />
         <q-chips-input :dark="dark" color="green" :error="error" :warning="warning" :disable="disable" :readonly="readonly" inverted class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" float-label="List (onChange)" :value="options" />
 
+        <q-chips-input :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" float-label="List autocomplete" v-model="options">
+          <q-autocomplete :static-data="{field: 'value', list: countries}" @selected="selected" />
+        </q-chips-input>
+        <q-chips-input :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" float-label="List autocomplete (onChange)" :value="options">
+          <q-autocomplete :static-data="{field: 'value', list: countries}" @selected="selected" />
+        </q-chips-input>
+
         <p class="q-subtitle">Selected option: {{ JSON.stringify(option) }}</p>
         <q-select :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="option" :options="countries" placeholder="Select" filter />
         <q-select :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="option" :options="countries" float-label="Select (autofocus filter)" filter autofocus-filter />
