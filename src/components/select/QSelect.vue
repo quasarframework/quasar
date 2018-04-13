@@ -62,7 +62,7 @@
     <q-icon
       v-if="!disable && !readonly && clearable && length"
       slot="after"
-      name="cancel"
+      :name="$q.icon.input.clear"
       class="q-if-control"
       @click.stop.native="clear"
     />
@@ -76,7 +76,7 @@
       class="column no-wrap"
       :class="dark ? 'bg-dark' : null"
       @show="__onShow"
-      @hide="__onClose"
+      @hide="__onClose(true)"
     >
       <q-search
         v-if="filter"
@@ -389,6 +389,9 @@ export default {
       }
     },
     __onBlur (e) {
+      if (!this.focused) {
+        return
+      }
       setTimeout(() => {
         const el = document.activeElement
         if (
@@ -401,15 +404,19 @@ export default {
         }
       }, 1)
     },
-    __onClose () {
-      this.terms = ''
-      this.focused = false
-      this.$emit('blur')
+    __onClose (keepFocus) {
       this.$nextTick(() => {
         if (JSON.stringify(this.model) !== JSON.stringify(this.value)) {
           this.$emit('change', this.model)
         }
       })
+      this.terms = ''
+      if (keepFocus) {
+        this.$refs.input && this.$refs.input.$el && this.$refs.input.$el.focus()
+        return
+      }
+      this.focused = false
+      this.$emit('blur')
     },
     __singleSelect (val, disable) {
       if (disable) {
