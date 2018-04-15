@@ -108,6 +108,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - 良平 勝目
 - Jörg Walter
 - Alex Pereira Vieira
+- Ruan de Andrade
 
 - Ken ($5)
 - Oliver ($5)
