@@ -37,6 +37,9 @@ export default {
     data.model = clone(isValid(this.value) ? this.value : this.defaultValue)
     return data
   },
+  mounted() {
+  	alert('ninotest')
+  },
   computed: {
     actualValue () {
       if (this.displayValue) {
