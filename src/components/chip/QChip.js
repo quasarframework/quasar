@@ -2,9 +2,10 @@ import { QIcon } from '../icon'
 import { getEventKey, stopAndPrevent } from '../../utils/event'
 
 export default {
-  name: 'q-chip',
+  name: 'QChip',
   props: {
     small: Boolean,
+    dense: Boolean,
     tag: Boolean,
     square: Boolean,
     floating: Boolean,
@@ -25,9 +26,13 @@ export default {
       const cls = []
 
       this.pointing && cls.push(`q-chip-pointing-${this.pointing}`)
-      ;['tag', 'square', 'floating', 'pointing', 'small'].forEach(prop => {
+      ;['tag', 'square', 'floating', 'pointing', 'small', 'dense'].forEach(prop => {
         this[prop] && cls.push(`q-chip-${prop}`)
       })
+      if (this.floating) {
+        !this.dense && cls.push('q-chip-dense')
+        !this.square && cls.push('q-chip-square')
+      }
 
       if (this.color) {
         cls.push(`bg-${this.color}`)

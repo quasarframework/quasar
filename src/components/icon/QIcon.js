@@ -1,5 +1,5 @@
 export default {
-  name: 'q-icon',
+  name: 'QIcon',
   props: {
     name: String,
     mat: String,

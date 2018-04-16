@@ -1,5 +1,5 @@
 export default {
-  name: 'q-card-main',
+  name: 'QCardMain',
   render (h) {
     return h('div', {
       staticClass: 'q-card-main q-card-container'

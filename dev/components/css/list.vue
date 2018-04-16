@@ -513,7 +513,11 @@
             sublabel="John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe John Doe"
             sublabel-lines="2"
           />
-          <q-item-side right stamp="1 week<br>ago" />
+          <q-item-side right>
+            <q-item-tile stamp class="text-center">
+               1 week<br>ago
+            </q-item-tile>
+          </q-item-side>
         </q-item>
         <q-item multiline>
           <q-item-side avatar="/statics/boy-avatar.png" />

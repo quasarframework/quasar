@@ -3,7 +3,7 @@ import OptionMixin from '../../mixins/option'
 import { QIcon } from '../icon'
 
 export default {
-  name: 'q-checkbox',
+  name: 'QCheckbox',
   mixins: [CheckboxMixin, OptionMixin],
   props: {
     toggleIndeterminate: Boolean,
@@ -53,5 +53,8 @@ export default {
           : null
       ]
     }
+  },
+  beforeCreate () {
+    this.__kebabTag = 'q-checkbox'
   }
 }

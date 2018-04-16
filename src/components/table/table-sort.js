@@ -37,8 +37,11 @@ export default {
           if (isDate(A) && isDate(B)) {
             return sortDate(A, B) * dir
           }
+          if (typeof A === 'boolean' && typeof B === 'boolean') {
+            return (a - b) * dir
+          }
 
-          [A, B] = [A, B].map(s => s.toLowerCase())
+          [A, B] = [A, B].map(s => (s + '').toLowerCase())
 
           return A < B
             ? -1 * dir

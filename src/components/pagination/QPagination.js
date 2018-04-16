@@ -5,7 +5,7 @@ import extend from '../../utils/extend'
 import { getEventKey } from '../../utils/event'
 
 export default {
-  name: 'q-pagination',
+  name: 'QPagination',
   props: {
     value: {
       type: Number,
@@ -253,7 +253,7 @@ export default {
         }
       }
       const style = {
-        minWidth: `${Math.max(1.5, String(this.max).length)}em`
+        minWidth: `${Math.max(2, String(this.max).length)}em`
       }
       if (boundaryStart) {
         const active = this.min === this.value
@@ -320,7 +320,7 @@ export default {
       for (let i = pgFrom; i <= pgTo; i++) {
         const active = i === this.value
         contentMiddle.push(this.__getBtn(h, {
-          key: `${i}.${active}`,
+          key: `bpg${i}`,
           style,
           props: {
             disable: this.disable,

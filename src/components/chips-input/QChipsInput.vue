@@ -60,8 +60,15 @@
       />
     </div>
 
+    <q-spinner
+      v-if="isLoading"
+      slot="after"
+      size="24px"
+      class="q-if-control"
+    ></q-spinner>
+
     <q-icon
-      v-if="editable"
+      v-else-if="editable"
       :name="computedAddIcon"
       slot="after"
       class="q-if-control"
@@ -70,6 +77,8 @@
       @touchstart.native="__clearTimer"
       @click.native="add()"
     ></q-icon>
+
+    <slot></slot>
   </q-input-frame>
 </template>
 
@@ -79,13 +88,15 @@ import InputMixin from '../../mixins/input'
 import { QInputFrame } from '../input-frame'
 import { QChip } from '../chip'
 import { getEventKey, stopAndPrevent } from '../../utils/event'
+import { QSpinner } from '../spinner'
 
 export default {
-  name: 'q-chips-input',
+  name: 'QChipsInput',
   mixins: [FrameMixin, InputMixin],
   components: {
     QInputFrame,
-    QChip
+    QChip,
+    QSpinner
   },
   props: {
     value: {
@@ -100,12 +111,36 @@ export default {
   data () {
     return {
       input: '',
-      model: this.value
+      model: this.value,
+      watcher: null,
+      shadow: {
+        val: this.input,
+        set: this.add,
+        loading: false,
+        selectionOpen: false,
+        watched: 0,
+        isDark: () => this.dark,
+        hasFocus: () => document.activeElement === this.$refs.input,
+        register: () => {
+          this.shadow.watched += 1
+          this.__watcherRegister()
+        },
+        unregister: () => {
+          this.shadow.watched = Math.max(0, this.shadow.watched - 1)
+          this.__watcherUnregister()
+        },
+        getEl: () => this.$refs.input
+      }
     }
   },
   watch: {
     value (v) {
-      this.model = this.value
+      this.model = v
+    }
+  },
+  provide () {
+    return {
+      __input: this.shadow
     }
   },
   computed: {
@@ -113,6 +148,9 @@ export default {
       return this.model
         ? this.model.length
         : 0
+    },
+    isLoading () {
+      return this.loading || (this.shadow.watched && this.shadow.loading)
     },
     computedAddIcon () {
       return this.addIcon || this.$q.icon.chipsInput.add
@@ -150,11 +188,18 @@ export default {
     add (value = this.input) {
       clearTimeout(this.timer)
       this.focus()
-      if (this.editable && value && !this.model.includes(value)) {
-        this.model.push(value)
-        this.$emit('input', this.model)
-        this.input = ''
+
+      if (this.isLoading || !this.editable || !value) {
+        return
       }
+      if (this.model.includes(value)) {
+        this.$emit('duplicate', value)
+        return
+      }
+
+      this.model.push(value)
+      this.$emit('input', this.model)
+      this.input = ''
     },
     remove (index) {
       clearTimeout(this.timer)
@@ -170,6 +215,9 @@ export default {
     __handleKeyDown (e) {
       switch (getEventKey(e)) {
         case 13: // ENTER key
+          if (this.shadow.selectionOpen) {
+            return
+          }
           stopAndPrevent(e)
           return this.add()
         case 8: // Backspace key
@@ -183,7 +231,30 @@ export default {
     },
     __onClick () {
       this.focus()
+    },
+    __watcher (value) {
+      if (this.shadow.watched) {
+        this.shadow.val = value
+      }
+    },
+    __watcherRegister () {
+      if (!this.watcher) {
+        this.watcher = this.$watch('input', this.__watcher)
+      }
+    },
+    __watcherUnregister (forceUnregister) {
+      if (
+        this.watcher &&
+        (forceUnregister || !this.shadow.watched)
+      ) {
+        this.watcher()
+        this.watcher = null
+        this.shadow.selectionOpen = false
+      }
     }
+  },
+  beforeDestroy () {
+    this.__watcherUnregister(true)
   }
 }
 </script>

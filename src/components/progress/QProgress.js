@@ -5,13 +5,16 @@ function width (val) {
 }
 
 export default {
-  name: 'q-progress',
+  name: 'QProgress',
   props: {
     percentage: {
       type: Number,
       default: 0
     },
-    color: String,
+    color: {
+      type: String,
+      default: 'primary'
+    },
     stripe: Boolean,
     animate: Boolean,
     indeterminate: Boolean,
@@ -35,9 +38,7 @@ export default {
       return width(this.buffer ? 100 - this.buffer : 100)
     },
     computedClass () {
-      if (this.color) {
-        return `text-${this.color}`
-      }
+      return `text-${this.color}`
     },
     computedStyle () {
       return { height: this.height }

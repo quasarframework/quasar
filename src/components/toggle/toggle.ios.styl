@@ -11,12 +11,15 @@ $toggle-handle-size     = $toggle-height - 2 * $toggle-span
   background currentColor
   border-radius 16px
   border 2px solid $light
+  border 2px solid var(--q-color-light)
 .q-toggle-base-dark
   color darken($light, 10%)
+  color var(--q-color-light-d)
 
 .q-toggle-handle
   background white
   box-shadow 0 3px 3px rgba(0, 0, 0, .2), 0 0 0 2px $light // @stylint ignore
+  box-shadow 0 3px 3px rgba(0, 0, 0, .2), 0 0 0 2px var(--q-color-light) // @stylint ignore
   transition all 450ms cubic-bezier(.23, 1, .32, 1)
   border-radius 50%
   position absolute

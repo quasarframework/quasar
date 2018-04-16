@@ -47,8 +47,11 @@
 
       <br><br>
       <p>
-        <q-btn fab color="primary" icon="android" />
-        <q-btn fab-mini color="primary" icon="android" />
+        <form @submit.prevent="submit" @reset.prevent="reset" class="shadow-2 row q-pa-md items-center">
+          <q-input v-model="test" class="col" />
+          <q-btn fab-mini color="primary" icon="android" type="reset" class="on-right" title="Reset" />
+          <q-btn fab color="primary" icon="android" type="submit" class="on-right" title="Submit" />
+        </form>
       </p>
 
       <br><br>
@@ -295,6 +298,8 @@
         <q-btn round color="primary" disable icon="card_giftcard" />
         <q-btn push color="primary" disable>Push</q-btn>
         <q-btn push color="primary" disable round icon="card_giftcard" />
+        <q-btn push color="white" text-color="primary" disable>Push</q-btn>
+        <q-btn push color="white" text-color="primary" disable round icon="card_giftcard" />
       <p>
 
       <p class="caption">Flat Buttons</p>
@@ -313,6 +318,8 @@
       <p class="group">
         <q-btn push color="primary">Push</q-btn>
         <q-btn push color="primary" round icon="card_giftcard" />
+        <q-btn push color="white" text-color="primary">Push</q-btn>
+        <q-btn push color="white" text-color="primary" round icon="card_giftcard" />
       <p>
 
       <p class="caption">Round Buttons</p>
@@ -481,7 +488,8 @@ export default {
       loading: {},
       loading2: false,
       percentage: 0,
-      clickTimes: 0
+      clickTimes: 0,
+      test: 'Initial value'
     }
   },
   methods: {
@@ -515,6 +523,13 @@ export default {
     stopProgress () {
       Object.values(this.loading).filter(t => t).map(t => clearTimeout(t))
       this.loading = {}
+    },
+    submit () {
+      this.$q.notify('Submit called')
+    },
+    reset () {
+      this.test = 'Initial value'
+      this.$q.notify('Reset called')
     }
   },
   beforeDestroy () {

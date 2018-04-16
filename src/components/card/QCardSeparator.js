@@ -1,5 +1,5 @@
 export default {
-  name: 'q-card-separator',
+  name: 'QCardSeparator',
   props: {
     inset: Boolean
   },

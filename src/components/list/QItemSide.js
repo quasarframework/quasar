@@ -1,7 +1,7 @@
 import { QIcon } from '../icon'
 
 export default {
-  name: 'q-item-side',
+  name: 'QItemSide',
   props: {
     right: Boolean,
 
@@ -45,9 +45,10 @@ export default {
       }
       this.textColor && cls.push(`text-${this.textColor}`)
 
-      if (this.inverted) {
-        this.icon && cls.push('q-item-icon-inverted')
-        this.letter && cls.push('q-item-letter-inverted')
+      if (this.inverted && (this.icon || this.letter)) {
+        cls.push('q-item-inverted')
+        cls.push('flex')
+        cls.push('flex-center')
       }
 
       return cls
@@ -62,9 +63,15 @@ export default {
     if (this.type) {
       if (this.icon) {
         child = h(QIcon, {
-          'class': this.typeClasses,
+          'class': this.inverted ? null : this.typeClasses,
           props: { name: this.icon }
-        }, [ this.$slots.default ])
+        })
+
+        if (this.inverted) {
+          child = h('div', {
+            'class': this.typeClasses
+          }, [ child ])
+        }
       }
       else if (this.imagePath) {
         child = h('img', {

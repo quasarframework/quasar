@@ -43,7 +43,6 @@
       ></span>
     </div>
 
-    <slot name="after"></slot>
     <template v-if="after">
       <q-icon
         v-for="item in after"
@@ -56,6 +55,7 @@
         @click.native="__baHandler($event, item)"
       ></q-icon>
     </template>
+    <slot name="after"></slot>
   </div>
 </template>
 
@@ -64,7 +64,7 @@ import FrameMixin from '../../mixins/input-frame'
 import ParentFieldMixin from '../../mixins/parent-field'
 
 export default {
-  name: 'q-input-frame',
+  name: 'QInputFrame',
   mixins: [FrameMixin, ParentFieldMixin],
   props: {
     topAddons: Boolean,

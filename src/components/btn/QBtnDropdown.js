@@ -4,7 +4,7 @@ import QBtnGroup from './QBtnGroup'
 import { QPopover } from '../popover'
 
 export default {
-  name: 'q-btn-dropdown',
+  name: 'QBtnDropdown',
   mixins: [BtnMixin],
   props: {
     value: Boolean,
@@ -53,7 +53,7 @@ export default {
         [ this.$slots.default ]
       ),
       Icon = h(
-        'q-icon',
+        'QIcon',
         {
           props: {
             name: this.$q.icon.input.dropdown

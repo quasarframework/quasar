@@ -1,5 +1,5 @@
 export default {
-  name: 'q-modal-layout',
+  name: 'QModalLayout',
   inject: {
     __qmodal: {
       default () {

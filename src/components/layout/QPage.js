@@ -1,5 +1,5 @@
 export default {
-  name: 'q-page',
+  name: 'QPage',
   inject: {
     pageContainer: {
       default () {

@@ -53,7 +53,7 @@ $flex-gutter = {
   lg: $flex-gutter-lg,
   xl: $flex-gutter-xl
 }
-$sizes = {
+$sizes ?= {
   xs: 0,
   sm: $breakpoint-xs + 1, // Extra small screen / phone
   md: $breakpoint-sm + 1, // Small screen / phone
@@ -174,7 +174,6 @@ $negative  ?= #DB2828
 $info      ?= #31CCEC
 $warning   ?= #F2C037
 
-$white     ?= #fff
 $light     ?= #bdbdbd
 $dark      ?= #424242
 $faded     ?= #777
@@ -182,9 +181,6 @@ $faded     ?= #777
 $form-light    ?= #a7a7a7
 $form-dark     ?= #979797
 $form-autofill ?= #ff9800
-
-$link-color        ?= lighten($primary, 25%)
-$link-color-active ?= $primary
 
 $dimmed-background       ?= rgba(0, 0, 0, .4)
 $light-dimmed-background ?= rgba(255, 255, 255, .6)

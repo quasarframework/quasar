@@ -2,7 +2,7 @@ import ItemMixin from '../../mixins/item'
 import { RouterLinkMixin } from '../../utils/router-link'
 
 export default {
-  name: 'q-item',
+  name: 'QItem',
   mixins: [
     ItemMixin,
     { props: RouterLinkMixin.props }

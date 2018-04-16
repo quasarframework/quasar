@@ -1,5 +1,5 @@
 export default {
-  name: 'q-card-media',
+  name: 'QCardMedia',
   props: {
     overlayPosition: {
       type: String,

@@ -2,7 +2,7 @@ import { getScrollPosition, getScrollTarget } from '../../utils/scroll'
 import { listenOpts } from '../../utils/event'
 
 export default {
-  name: 'q-scroll-observable',
+  name: 'QScrollObservable',
   render () {},
   data () {
     return {

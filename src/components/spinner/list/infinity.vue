@@ -6,7 +6,7 @@
 import mixin from '../spinner-mixin'
 
 export default {
-  name: 'q-spinner-infinity',
+  name: 'QSpinnerInfinity',
   mixins: [mixin]
 }
 </script>

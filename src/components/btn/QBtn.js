@@ -3,7 +3,7 @@ import { QSpinner } from '../spinner'
 import { between } from '../../utils/format'
 
 export default {
-  name: 'q-btn',
+  name: 'QBtn',
   mixins: [BtnMixin],
   props: {
     percentage: Number,
@@ -24,12 +24,15 @@ export default {
         : {
           mousedown: this.__startRepeat,
           touchstart: this.__startRepeat,
+          keydown: e => [13, 32].includes(e.keyCode) && this.__startRepeat(e),
 
           mouseup: this.__endRepeat,
           touchend: this.__endRepeat,
+          keyup: e => [13, 32].includes(e.keyCode) && this.__endRepeat(e),
 
           mouseleave: this.__abortRepeat,
-          touchmove: this.__abortRepeat
+          touchmove: this.__abortRepeat,
+          blur: this.__abortRepeat
         }
     }
   },
@@ -61,6 +64,9 @@ export default {
       clearTimeout(this.timer)
     },
     __startRepeat (e) {
+      if (this.repeating) {
+        return
+      }
       const setTimer = () => {
         this.timer = setTimeout(
           trigger,
@@ -92,11 +98,11 @@ export default {
         return
       }
 
+      this.repeating = false
       if (this.repeatCount) {
         this.repeatCount = 0
       }
-      else if (e.detail) {
-        this.repeating = false
+      else if (e.detail || e.keyCode) {
         e.repeatCount = 0
         this.$emit('click', e)
       }
@@ -112,7 +118,7 @@ export default {
       staticClass: 'q-btn inline relative-position q-btn-item non-selectable',
       'class': this.classes,
       style: this.style,
-      attrs: { tabindex: this.computedTabIndex },
+      attrs: { tabindex: this.computedTabIndex, type: 'button' },
       on: this.events,
       directives: this.hasRipple
         ? [{
@@ -141,7 +147,7 @@ export default {
         ? [ this.$slots.loading || h(QSpinner) ]
         : [
           this.icon
-            ? h('q-icon', {
+            ? h('QIcon', {
               'class': { 'on-left': this.label && this.isRectangle },
               props: { name: this.icon }
             })
@@ -152,7 +158,7 @@ export default {
           this.$slots.default,
 
           this.iconRight && this.isRectangle
-            ? h('q-icon', {
+            ? h('QIcon', {
               staticClass: 'on-right',
               props: { name: this.iconRight }
             })

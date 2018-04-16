@@ -1,5 +1,5 @@
 export default {
-  name: 'q-carousel-slide',
+  name: 'QCarouselSlide',
   inject: {
     carousel: {
       default () {

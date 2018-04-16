@@ -10,7 +10,7 @@ import ModelToggleMixin from '../../mixins/model-toggle'
 import { listenOpts } from '../../utils/event'
 
 export default {
-  name: 'q-tooltip',
+  name: 'QTooltip',
   mixins: [ModelToggleMixin],
   props: {
     anchor: {

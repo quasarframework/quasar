@@ -1,20 +1,15 @@
 import { QItem, QItemSide, QItemTile, QItemWrapper } from '../list'
 import { QSlideTransition } from '../slide-transition'
-import Ripple from '../../directives/ripple'
 import ModelToggleMixin from '../../mixins/model-toggle'
 import ItemMixin from '../../mixins/item'
-import extend from '../../utils/extend'
 
 const eventName = 'q:collapsible:close'
 
 export default {
-  name: 'q-collapsible',
+  name: 'QCollapsible',
   mixins: [ModelToggleMixin, ItemMixin],
   modelToggle: {
     history: false
-  },
-  directives: {
-    Ripple
   },
   props: {
     disable: Boolean,
@@ -22,7 +17,6 @@ export default {
     indent: Boolean,
     group: String,
     iconToggle: Boolean,
-    noRipple: Boolean,
     collapseIcon: String,
     opened: Boolean,
 
@@ -30,22 +24,15 @@ export default {
     headerClass: [Array, String, Object]
   },
   computed: {
-    hasRipple () {
-      return __THEME__ === 'mat' && !this.noRipple && !this.disable
-    },
     classes () {
       return {
         'q-collapsible-opened': this.popup && this.showing,
         'q-collapsible-closed': this.popup && !this.showing,
+        'q-collapsible-cursor-pointer': !this.iconToggle,
         'q-item-separator': this.separator,
         'q-item-inset-separator': this.insetSeparator,
         disabled: this.disable
       }
-    },
-    wrapperCfg () {
-      return extend({}, this.$props, {
-        link: !this.iconToggle
-      })
     }
   },
   watch: {
@@ -76,7 +63,7 @@ export default {
       return [
         h(QItemTile, {
           slot: slot ? 'right' : undefined,
-          staticClass: 'cursor-pointer transition-generic relative-position',
+          staticClass: 'cursor-pointer transition-generic relative-position q-collapsible-toggle-icon',
           'class': {
             'rotate-180': this.showing,
             invisible: this.disable
@@ -84,26 +71,18 @@ export default {
           nativeOn: {
             click: this.__toggleIcon
           },
-          props: { icon: this.collapseIcon || this.$q.icon.collapsible.icon },
-          directives: this.iconToggle && this.hasRipple
-            ? [{ name: 'ripple' }]
-            : null
+          props: { icon: this.collapseIcon || this.$q.icon.collapsible.icon }
         })
       ]
     },
     __getItemProps (wrapper) {
       return {
-        props: wrapper
-          ? { cfg: this.wrapperCfg }
-          : { link: !this.iconToggle },
+        props: { cfg: this.$props },
         style: this.headerStyle,
         'class': this.headerClass,
         nativeOn: {
           click: this.__toggleItem
-        },
-        directives: this.hasRipple && !this.iconToggle
-          ? [{ name: 'ripple' }]
-          : null
+        }
       }
     }
   },

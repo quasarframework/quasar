@@ -45,7 +45,7 @@ const Loading = {
       document.body.classList.add('with-loading')
 
       vm = new this.__Vue({
-        name: 'q-loading',
+        name: 'QLoading',
         el: node,
         render (h) {
           return h('div', {

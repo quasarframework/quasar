@@ -87,7 +87,7 @@
     </q-input-frame>
 
     <q-slide-transition>
-      <div v-show="expanded">
+      <div v-show="expanded" :class="expandClass" :style="expandStyle">
         <q-list :dark="dark" class="q-uploader-files q-py-none scroll" :style="filesStyle">
           <q-item
             v-for="file in files"
@@ -141,7 +141,7 @@ import { humanStorageSize } from '../../utils/format'
 import { QSpinner } from '../spinner'
 import { QIcon } from '../icon'
 import { QProgress } from '../progress'
-import { QItem, QItemSide, QItemMain, QItemTile } from '../list'
+import { QItem, QItemSide, QItemMain, QItemTile, QList } from '../list'
 import { QSlideTransition } from '../slide-transition'
 
 function initFile (file) {
@@ -152,13 +152,14 @@ function initFile (file) {
 }
 
 export default {
-  name: 'q-uploader',
+  name: 'QUploader',
   mixins: [FrameMixin],
   components: {
     QInputFrame,
     QSpinner,
     QIcon,
     QProgress,
+    QList,
     QItem,
     QItemSide,
     QItemMain,
@@ -278,6 +279,12 @@ export default {
     }
   },
   methods: {
+    add (files) {
+      if (files) {
+        this.__add(null, files)
+      }
+    },
+
     __onDragOver () {
       this.dnd = true
     },
@@ -304,7 +311,10 @@ export default {
     },
     __filter (files) {
       return Array.prototype.filter.call(files, file => {
-        return this.computedExtensions.some(ext => file.type.startsWith(ext) || file.name.endsWith(ext))
+        return this.computedExtensions.some(ext => {
+          return file.type.toUpperCase().startsWith(ext.toUpperCase()) ||
+            file.name.toUpperCase().endsWith(ext.toUpperCase())
+        })
       })
     },
     __add (e, files) {
@@ -322,7 +332,7 @@ export default {
           file.__size = humanStorageSize(file.size)
           file.__timestamp = new Date().getTime()
 
-          if (this.noThumbnails || !file.type.startsWith('image')) {
+          if (this.noThumbnails || !file.type.toUpperCase().startsWith('IMAGE')) {
             this.queue.push(file)
           }
           else {

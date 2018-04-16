@@ -1,7 +1,7 @@
 import { QResizeObservable } from '../observables'
 
 export default {
-  name: 'q-layout-footer',
+  name: 'QLayoutFooter',
   inject: {
     layout: {
       default () {
@@ -30,6 +30,11 @@ export default {
     },
     offset (val) {
       this.__update('offset', val)
+    },
+    reveal (val) {
+      if (!val) {
+        this.__updateLocal('revealed', this.value)
+      }
     },
     revealed (val) {
       this.layout.__animate()
@@ -88,18 +93,25 @@ export default {
       'class': this.computedClass,
       style: this.computedStyle
     }, [
-      this.$slots.default,
       h(QResizeObservable, {
+        props: { debounce: 0 },
         on: { resize: this.__onResize }
-      })
+      }),
+      this.$slots.default
     ])
   },
   created () {
+    this.layout.instances.footer = this
     this.__update('space', this.value)
+    this.__update('offset', this.offset)
   },
-  destroyed () {
-    this.__update('size', 0)
-    this.__update('space', false)
+  beforeDestroy () {
+    if (this.layout.instances.footer === this) {
+      this.layout.instances.footer = null
+      this.__update('size', 0)
+      this.__update('offset', 0)
+      this.__update('space', false)
+    }
   },
   methods: {
     __onResize ({ height }) {

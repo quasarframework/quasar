@@ -76,7 +76,7 @@ function toggleSlide (el, showing, done) {
 }
 
 export default {
-  name: 'q-slide-transition',
+  name: 'QSlideTransition',
   props: {
     appear: Boolean
   },

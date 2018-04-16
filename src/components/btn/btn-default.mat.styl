@@ -39,7 +39,7 @@
       z-index -1
       transition $button-transition
     &:active:before
-      box-shadow $shadow-8
+      box-shadow $button-shadow-active
 
 .q-btn-progress
   transition all .3s
@@ -54,9 +54,6 @@
 .q-btn-rectangle
   border-radius $button-border-radius
 
-.q-btn-flat, .q-btn-outline
-  box-shadow none
-
 .q-btn-outline
   border 1px solid currentColor
   background transparent !important
@@ -68,6 +65,9 @@
     box-shadow none
     transform translateY(3px)
     border-bottom-color transparent
+  .q-focus-helper, .q-ripple-container
+    height auto
+    bottom -3px
 
 .q-btn-rounded
   border-radius $button-rounded-border-radius
@@ -78,11 +78,12 @@
   min-height 0
   height 3em
   width 3em
-  &:not(.q-btn-flat):not(.q-btn-outline)
-    box-shadow $button-shadow
+
+.q-btn-flat, .q-btn-outline
+  box-shadow none
 
 .q-btn-dense
-  padding .285em
+  padding $button-dense-padding
   min-height 2em
   &.q-btn-round
     padding 0

@@ -2,16 +2,21 @@
   <div>
   <q-layout :view="view" @scroll="onScroll">
     <q-layout-header v-model="header" :reveal="headerReveal">
-      <q-toolbar>
+      <q-toolbar :inverted="$q.theme === 'ios'">
         <q-btn flat round dense icon="menu" @click="left = !left" />
+        <q-toggle v-model="extraRow" color="amber" dark />
         <q-toolbar-title>
           Header
           <span slot="subtitle">The Subtiiiitleeee</span>
         </q-toolbar-title>
+        <q-btn round dense flat class="relative-position q-mr-md" icon="announcement">
+          <q-chip dense square floating color="red">1</q-chip>
+        </q-btn>
+        <q-color hide-underline :dark="$q.theme === 'mat'" v-model="mainColor" />
         <q-toggle v-model="toggle" color="amber" dark />
         <q-btn flat round dense icon="menu" @click="right = !right" />
       </q-toolbar>
-      <q-toolbar>
+      <q-toolbar v-if="extraRow" :inverted="$q.theme === 'ios'">
         <q-btn flat round dense icon="menu" @click="left = !left" />
         <q-toolbar-title>
           Header
@@ -19,7 +24,7 @@
         </q-toolbar-title>
         <q-btn flat round dense icon="menu" @click="right = !right" />
       </q-toolbar>
-      <q-tabs>
+      <q-tabs :inverted="$q.theme === 'ios'">
         <q-route-tab slot="title" icon="view_quilt" to="/layout-quick/default" replace hide="icon" label="Default" />
         <q-route-tab slot="title" icon="view_day" to="/layout-quick/a" replace hide="label" label="A" />
         <q-route-tab slot="title" icon="view_day" to="/layout-quick/b" replace label="B" />
@@ -28,14 +33,14 @@
     </q-layout-header>
 
     <q-layout-footer v-model="footer" :reveal="footerReveal">
-      <q-toolbar>
+      <q-toolbar :inverted="$q.theme === 'ios'">
         <q-btn flat round dense icon="menu" @click="left = !left" />
         <q-toolbar-title>
           Footer
         </q-toolbar-title>
         <q-btn flat round dense icon="menu" @click="right = !right" />
       </q-toolbar>
-      <q-toolbar>
+      <q-toolbar :inverted="$q.theme === 'ios'">
         <q-btn flat round dense icon="menu" @click="left = !left" />
         <q-toolbar-title>
           Footer
@@ -50,7 +55,7 @@
         <q-btn @click="$router.push('/layout-quick/b')">Go to B</q-btn>
         <q-btn @click="$router.push('/layout-quick/c')">Go to C</q-btn>
 
-        <br><br>
+        <br><br>fffdfs
 
         <q-btn @click="$router.replace('/layout-quick/a')">Replace Go to A</q-btn>
         <q-btn @click="$router.replace('/layout-quick/b')">Replace Go to B</q-btn>
@@ -84,10 +89,13 @@
       <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in">
         <router-view />
       </transition>
+      <div class="fixed-bottom-right bg-grey-5 q-pa-sm z-max" style="bottom: 8px; right: 8px;">
+        <q-toggle v-model="showConfig" label="Config" />
+      </div>
     </q-page-container>
   </q-layout>
 
-  <div class="fixed-center bg-amber z-fullscreen">
+  <div class="fixed-center bg-amber z-fullscreen" v-if="showConfig">
     <div class="row no-wrap">
       <div class="col gutter-xs q-ma-xs">
         <div>
@@ -193,13 +201,13 @@
           </div>
         </div>
       </div>
-      <q-modal v-model="toggle" :content-css="{padding: '50px', minWidth: '50vw'}">
-        <h4>Basic Modal</h4>
-        <p v-for="n in 25" :key="`basic-${n}`">Scroll down to close</p>
-        <q-btn color="primary" @click="toggle = false">Close</q-btn>
-      </q-modal>
     </div>
   </div>
+  <q-modal minimized v-model="toggle" :content-css="{padding: '50px', minWidth: '50vw'}">
+    <h4>Basic Modal</h4>
+    <p v-for="n in 25" :key="`basic-${n}`">Scroll down to close</p>
+    <q-btn color="primary" @click="toggle = false">Close</q-btn>
+  </q-modal>
 </div>
 </template>
 
@@ -210,10 +218,15 @@
 </style>
 
 <script>
+import { colors } from 'quasar'
+
 export default {
   data () {
     const v = 'lHh Lpr fFf'
     return {
+      mainColor: '#027be3',
+      extraRow: true,
+
       toggle: false,
       header: true,
       footer: true,
@@ -222,7 +235,7 @@ export default {
 
       headerReveal: false,
       footerReveal: false,
-      leftOverlay: true,
+      leftOverlay: false,
       rightOverlay: true,
       leftBehavior: 'default',
       rightBehavior: 'default',
@@ -244,7 +257,9 @@ export default {
         { label: 'Behave Normal', value: 'default' },
         { label: 'Behave Mobile', value: 'mobile' },
         { label: 'Behave Desktop', value: 'desktop' }
-      ]
+      ],
+
+      showConfig: true
     }
   },
   computed: {
@@ -255,6 +270,11 @@ export default {
         bottom = `${this.bottomleft}${this.bottomcenter}${this.bottomright}`
 
       return `${top} ${middle} ${bottom}`
+    }
+  },
+  watch: {
+    mainColor (v) {
+      colors.setBrand(`primary`, v)
     }
   },
   methods: {

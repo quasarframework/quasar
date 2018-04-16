@@ -1,5 +1,5 @@
 export default {
-  name: 'q-stepper-navigation',
+  name: 'QStepperNavigation',
   render (h) {
     return h('div', {
       staticClass: 'q-stepper-nav order-last row no-wrap items-center'

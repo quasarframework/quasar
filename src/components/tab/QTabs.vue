@@ -13,7 +13,7 @@
         <div
           v-if="$q.theme !== 'ios'"
           class="relative-position self-stretch q-tabs-global-bar-container"
-          :class="[inverted && color ? `text-${color}` : '', data.highlight ? 'highlight' : '']"
+          :class="posbarClasses"
         >
           <div
             ref="posbar"
@@ -63,7 +63,7 @@ const
   debounceDelay = 50 // in ms
 
 export default {
-  name: 'q-tabs',
+  name: 'QTabs',
   provide () {
     return {
       data: this.data,
@@ -86,7 +86,11 @@ export default {
       default: 'top',
       validator: v => ['top', 'bottom'].includes(v)
     },
-    color: String,
+    color: {
+      type: String,
+      default: 'primary'
+    },
+    textColor: String,
     inverted: Boolean,
     twoLines: Boolean,
     noPaneBorder: Boolean,
@@ -103,6 +107,7 @@ export default {
         highlight: true,
         tabName: this.value || '',
         color: this.color,
+        textColor: this.textColor,
         inverted: this.inverted
       }
     }
@@ -113,6 +118,9 @@ export default {
     },
     color (v) {
       this.data.color = v
+    },
+    textColor (v) {
+      this.data.textColor = v
     },
     inverted (v) {
       this.data.inverted = v
@@ -130,9 +138,19 @@ export default {
     innerClasses () {
       const cls = [ `q-tabs-align-${this.align}` ]
       this.glossy && cls.push('glossy')
-      if (!this.inverted && this.color) {
-        cls.push(`bg-${this.color}`)
+      if (this.inverted) {
+        cls.push(`text-${this.textColor || this.color}`)
       }
+      else {
+        cls.push(`bg-${this.color}`)
+        cls.push(`text-${this.textColor || 'white'}`)
+      }
+      return cls
+    },
+    posbarClasses () {
+      const cls = []
+      this.inverted && cls.push(`text-${this.textColor || this.color}`)
+      this.data.highlight && cls.push('highlight')
       return cls
     }
   },
@@ -143,24 +161,27 @@ export default {
       }
 
       this.data.tabName = value
-      this.$emit('select', value)
-
       this.$emit('input', value)
-      this.$nextTick(() => {
-        if (JSON.stringify(value) !== JSON.stringify(this.value)) {
-          this.$emit('change', value)
-        }
-      })
+      this.$emit('select', value)
 
       const el = this.__getTabElByName(value)
 
       if (el) {
         this.__scrollToTab(el)
-      }
 
-      if (__THEME__ !== 'ios') {
-        this.currentEl = el
-        this.__repositionBar()
+        if (__THEME__ !== 'ios') {
+          this.currentEl = el
+
+          if (this.oldEl) {
+            this.__repositionBar()
+          }
+          else {
+            this.oldEl = el
+          }
+        }
+      }
+      else {
+        this.oldEl = null
       }
     },
     selectTabRouter (params) {

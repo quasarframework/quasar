@@ -4,7 +4,7 @@ import { QToggle } from '../toggle'
 import ParentFieldMixin from '../../mixins/parent-field'
 
 export default {
-  name: 'q-option-group',
+  name: 'QOptionGroup',
   mixins: [ParentFieldMixin],
   components: {
     QRadio,

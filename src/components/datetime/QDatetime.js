@@ -6,7 +6,7 @@ import { QInputFrame } from '../input-frame'
 import { QPopover } from '../popover'
 import QDatetimePicker from './QDatetimePicker'
 import { QBtn } from '../btn'
-import { clone, formatDate, isSameDate, isValid } from '../../utils/date'
+import { clone, formatDate, isSameDate, isValid, startOfDate } from '../../utils/date'
 import { QModal } from '../modal'
 import { getEventKey, stopAndPrevent } from '../../utils/event'
 
@@ -23,18 +23,25 @@ const contentCss = __THEME__ === 'ios'
   }
 
 export default {
-  name: 'q-datetime',
+  name: 'QDatetime',
   mixins: [FrameMixin, DisplayModeMixin],
   props: extend(
     input,
     inline
   ),
+  watch: {
+    value (v) {
+      if (!this.disable && this.isPopover) {
+        this.model = clone(v)
+      }
+    }
+  },
   data () {
     let data = this.isPopover ? {} : {
       transition: __THEME__ === 'ios' ? 'q-modal-bottom' : 'q-modal'
     }
     data.focused = false
-    data.model = clone(isValid(this.value) ? this.value : this.defaultValue)
+    data.model = clone(this.computedValue)
     return data
   },
   mounted() {
@@ -55,19 +62,28 @@ export default {
         format = this.format
       }
       else if (this.type === 'date') {
-        format = 'YYYY-MM-DD'
+        format = 'YYYY/MM/DD'
       }
       else if (this.type === 'time') {
         format = 'HH:mm'
       }
       else {
-        format = 'YYYY-MM-DD HH:mm:ss'
+        format = 'YYYY/MM/DD HH:mm:ss'
       }
 
       return formatDate(this.value, format, /* for reactiveness */ this.$q.i18n.date)
     },
+    computedValue () {
+      if (isValid(this.value)) {
+        return this.value
+      }
+      if (__THEME__ === 'ios') {
+        return this.defaultValue || startOfDate(new Date(), 'day')
+      }
+      return this.defaultValue
+    },
     modalBtnColor () {
-      return this.$q.theme === 'mat'
+      return __THEME__ === 'mat'
         ? this.color
         : (this.dark ? 'light' : 'dark')
     }
@@ -78,14 +94,11 @@ export default {
     },
     show () {
       if (!this.disable) {
-        if (!this.focused) {
-          this.__setModel(isValid(this.value) ? this.value : this.defaultValue)
-        }
+        this.__setModel(this.computedValue)
         return this.$refs.popup.show()
       }
     },
     hide () {
-      this.focused = false
       return this.$refs.popup.hide()
     },
 
@@ -105,20 +118,24 @@ export default {
       if (this.disable || this.focused) {
         return
       }
-      if (this.defaultView) {
+      if (__THEME__ === 'mat') {
         const target = this.$refs.target
-        if (target.view !== this.defaultView) {
+        if (this.defaultView && target.view !== this.defaultView) {
           target.setView(this.defaultView)
         }
         else {
-          target.__scrollView()
+          target.setView()
         }
       }
-      this.__setModel(isValid(this.value) ? this.value : this.defaultValue)
+      this.model = clone(this.computedValue)
       this.focused = true
       this.$emit('focus')
     },
     __onBlur (e) {
+      if (this.$refs.popup && this.$refs.popup.showing) {
+        return
+      }
+
       this.__onHide()
       setTimeout(() => {
         const el = document.activeElement
@@ -128,27 +145,34 @@ export default {
       }, 1)
     },
     __onHide (forceUpdate) {
+      this.focused && this.$emit('blur')
       this.focused = false
-      this.$emit('blur')
-      if (forceUpdate || (this.isPopover && this.$refs.popup.showing)) {
-        this.__update(true)
+      if (forceUpdate || this.isPopover) {
+        this.__update(forceUpdate)
       }
     },
     __setModel (val, forceUpdate) {
       this.model = clone(val)
-      if (forceUpdate || (this.isPopover && this.$refs.popup.showing)) {
+      if (forceUpdate || this.isPopover) {
         this.__update(forceUpdate)
       }
     },
     __update (change) {
       this.$nextTick(() => {
-        this.$emit('input', this.model)
-        this.$nextTick(() => {
-          if (change && !isSameDate(this.model, this.value)) {
+        if (!isSameDate(this.model, this.value)) {
+          this.$emit('input', this.model)
+          if (change) {
             this.$emit('change', this.model)
           }
-        })
+        }
       })
+    },
+    __resetView () {
+      // go back to initial entry point for that type of control
+      // if it has defaultView it's going to be reapplied anyway on focus
+      if (!this.defaultView) {
+        this.$refs.target.setView()
+      }
     },
 
     __getPicker (h, modal) {
@@ -163,6 +187,7 @@ export default {
             type: this.type,
             min: this.min,
             max: this.max,
+            minimal: this.minimal,
             formatModel: this.formatModel,
             format24h: this.format24h,
             firstDayOfWeek: this.firstDayOfWeek,
@@ -179,6 +204,7 @@ export default {
             canClose: () => {
               if (this.isPopover) {
                 this.hide()
+                this.__resetView()
               }
             }
           }
@@ -193,9 +219,15 @@ export default {
                   color: this.modalBtnColor,
                   flat: true,
                   label: this.cancelLabel || this.$q.i18n.label.cancel,
-                  waitForRipple: true
+                  noRipple: true
                 },
-                on: { click: this.hide }
+                on: {
+                  click: () => {
+                    this.__onHide()
+                    this.hide()
+                    this.__resetView()
+                  }
+                }
               }),
               this.editable
                 ? h(QBtn, {
@@ -203,12 +235,14 @@ export default {
                     color: this.modalBtnColor,
                     flat: true,
                     label: this.okLabel || this.$q.i18n.label.set,
-                    waitForRipple: true
+                    noRipple: true,
+                    disable: !this.model
                   },
                   on: {
                     click: () => {
+                      this.__onHide(true)
                       this.hide()
-                      this.__update(true)
+                      this.__resetView()
                     }
                   }
                 })
@@ -240,7 +274,7 @@ export default {
         color: this.color,
         noParentField: this.noParentField,
 
-        focused: this.focused,
+        focused: this.focused || (this.$refs.popup && this.$refs.popup.showing),
         focusable: true,
         length: this.actualValue.length
       },
@@ -281,13 +315,12 @@ export default {
             transition: this.transition
           },
           on: {
-            show: this.__onFocus,
-            hide: val => this.__onHide(true)
+            dismiss: this.__onHide
           }
         }, this.__getPicker(h, true)),
 
       this.editable && this.clearable && this.actualValue.length
-        ? h('q-icon', {
+        ? h('QIcon', {
           slot: 'after',
           props: { name: this.$q.icon.input[`clear${this.isInverted ? 'Inverted' : ''}`] },
           nativeOn: { click: this.clear },
@@ -295,7 +328,7 @@ export default {
         })
         : null,
 
-      h('q-icon', {
+      h('QIcon', {
         slot: 'after',
         props: { name: this.$q.icon.input.dropdown },
         staticClass: 'q-if-control'

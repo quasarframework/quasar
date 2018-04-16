@@ -9,7 +9,7 @@ function text (h, name, val, n) {
 }
 
 export default {
-  name: 'q-item-main',
+  name: 'QItemMain',
   props: {
     label: String,
     labelLines: [String, Number],

@@ -7,7 +7,7 @@ import {
 import { QChip } from '../chip'
 
 export default {
-  name: 'q-slider',
+  name: 'QSlider',
   mixins: [SliderMixin],
   props: {
     value: Number,
@@ -68,33 +68,31 @@ export default {
     }
   },
   methods: {
-    __setActive (event) {
-      let container = this.$refs.handle
-
-      this.dragging = {
+    __getDragging (evt) {
+      const container = this.$refs.handle
+      return {
         left: container.getBoundingClientRect().left,
         width: container.offsetWidth
       }
-      this.__update(event)
     },
-    __update (event) {
-      let
-        percentage = getPercentage(event, this.dragging, this.$q.i18n.rtl),
-        model = getModel(percentage, this.min, this.max, this.step, this.computedDecimals)
+    __move (event) {
+      const percentage = getPercentage(
+        event,
+        this.dragging,
+        this.$q.i18n.rtl
+      )
 
       this.currentPercentage = percentage
-      this.model = model
-      this.$emit('input', model)
+      this.model = getModel(percentage, this.min, this.max, this.step, this.computedDecimals)
     },
-    __end () {
-      this.dragging = false
+    __end (event, dragging = this.dragging) {
+      const percentage = getPercentage(
+        event,
+        dragging,
+        this.$q.i18n.rtl
+      )
+      this.model = getModel(percentage, this.min, this.max, this.step, this.computedDecimals)
       this.currentPercentage = (this.model - this.min) / (this.max - this.min)
-      this.$nextTick(() => {
-        if (JSON.stringify(this.model) !== JSON.stringify(this.value)) {
-          this.$emit('change', this.model)
-        }
-        this.$emit('dragend', this.model)
-      })
     },
     __validateProps () {
       if (this.min >= this.max) {
@@ -132,6 +130,7 @@ export default {
               props: {
                 pointing: 'down',
                 square: true,
+                dense: true,
                 color: this.labelColor
               }
             }, [ this.displayValue ])

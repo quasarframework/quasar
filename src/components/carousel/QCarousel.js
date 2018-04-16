@@ -9,7 +9,7 @@ import { getEventKey } from '../../utils/event'
 import FullscreenMixin from '../../mixins/fullscreen'
 
 export default {
-  name: 'q-carousel',
+  name: 'QCarousel',
   mixins: [FullscreenMixin],
   directives: {
     TouchPan
@@ -33,6 +33,11 @@ export default {
     autoplay: [Number, Boolean],
     handleArrowKeys: Boolean,
     quickNav: Boolean,
+    quickNavPosition: {
+      type: String,
+      default: 'bottom',
+      validator: v => ['top', 'bottom'].includes(v)
+    },
     quickNavIcon: String
   },
   provide () {
@@ -128,7 +133,7 @@ export default {
         : Promise.resolve()
     },
     goToSlide (slide, fromSwipe = false) {
-      return new Promise((resolve, reject) => {
+      return new Promise(resolve => {
         let
           direction = '',
           curSlide = this.slide,
@@ -237,7 +242,6 @@ export default {
       }
       if (this.positionSlide !== slidePos) {
         this.positionSlide = slidePos
-        console.log(slidePos)
       }
 
       if (event.isFinal) {
@@ -340,8 +344,8 @@ export default {
       }
 
       return h('div', {
-        staticClass: 'q-carousel-quick-nav absolute-bottom scroll text-center',
-        'class': `text-${this.color}`
+        staticClass: 'q-carousel-quick-nav scroll text-center',
+        'class': [`text-${this.color}`, `absolute-${this.quickNavPosition}`]
       }, items)
     }
   },

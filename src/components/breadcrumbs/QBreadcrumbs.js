@@ -1,7 +1,7 @@
 import AlignMixin from '../../mixins/align'
 
 export default {
-  name: 'q-breadcrumbs',
+  name: 'QBreadcrumbs',
   mixins: [AlignMixin],
   props: {
     color: {
@@ -26,18 +26,26 @@ export default {
     }
   },
   render (h) {
+    if (!this.$slots.default) {
+      return
+    }
+
     const
       child = [],
-      length = this.$slots.default.length - 1,
+      len = this.$slots.default.filter(c => c.tag !== void 0 && c.tag.endsWith('-QBreadcrumbsEl')).length,
       separator = this.$scopedSlots.separator || (() => this.separator),
       color = `text-${this.color}`,
       active = `text-${this.activeColor}`
+    let els = 1
 
-    this.$slots.default.forEach((comp, i) => {
-      if (comp.componentOptions && comp.componentOptions.tag === 'q-breadcrumbs-el') {
-        const middle = i < length
+    for (const i in this.$slots.default) {
+      const comp = this.$slots.default[i]
+      if (comp.tag !== void 0 && comp.tag.endsWith('-QBreadcrumbsEl')) {
+        const middle = els < len
+        els++
 
         child.push(h('div', {
+          staticClass: 'flex items-center',
           'class': [ middle ? active : color, middle ? 'text-weight-bold' : 'q-breadcrumbs-last' ]
         }, [ comp ]))
 
@@ -48,7 +56,7 @@ export default {
       else {
         child.push(comp)
       }
-    })
+    }
 
     return h('div', {
       staticClass: 'q-breadcrumbs flex gutter-xs items-center overflow-hidden',

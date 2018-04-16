@@ -41,9 +41,8 @@
 
 .q-chip-floating
   position absolute
-  top -.7rem
-  left 100%
-  margin 0 0 0 -1.5rem !important
+  top -.3em
+  right -.3em
   pointer-events none
 
 .q-chip-tag
@@ -122,3 +121,30 @@
 
   .q-chip-icon
     font-size $chip-small-icon-size
+
+.q-chip-dense
+  min-height 1px
+  padding 0 3px
+  font-size 12px
+
+  &.q-chip-tag
+    padding-left 1.3rem
+  &.q-chip-pointing:before
+    width 9px
+    height 9px
+
+  .q-chip-main
+    padding 1px
+  .q-chip-side
+    height 18px
+    width 18px
+    min-width 16px
+    font-size 14px
+  .q-chip-left
+    margin-left -3px
+    margin-right 2px
+  .q-chip-right
+    margin-left 2px
+    margin-right -2px
+  .q-icon
+    font-size 16px

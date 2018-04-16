@@ -5,6 +5,7 @@ import { isSSR } from '../../plugins/platform'
 const
   xhr = isSSR ? null : XMLHttpRequest,
   send = isSSR ? null : xhr.prototype.send
+let highjackCount = 0
 
 function translate ({p, pos, active, horiz, reverse, dir}) {
   let x = 1, y = 1
@@ -55,14 +56,18 @@ function highjackAjax (startHandler, endHandler) {
 
     send.apply(this, args)
   }
+  highjackCount += 1
 }
 
 function restoreAjax () {
-  xhr.prototype.send = send
+  highjackCount = Math.max(0, highjackCount - 1)
+  if (!highjackCount) {
+    xhr.prototype.send = send
+  }
 }
 
 export default {
-  name: 'q-ajax-bar',
+  name: 'QAjaxBar',
   props: {
     position: {
       type: String,

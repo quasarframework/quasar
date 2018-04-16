@@ -1,8 +1,8 @@
 import { QAlert } from '../components/alert'
 import uid from '../utils/uid'
 import clone from '../utils/clone'
-import { ready } from '../utils/dom'
 import { isSSR } from './platform'
+import { ready } from '../utils/dom'
 
 const positionList = [
   'top-left', 'top-right',
@@ -11,11 +11,18 @@ const positionList = [
 ]
 
 function init ({ $q, Vue }) {
+  if (!document.body) {
+    ready(() => {
+      init.call(this, { $q, Vue })
+    })
+    return
+  }
+
   const node = document.createElement('div')
   document.body.appendChild(node)
 
   this.__vm = new Vue({
-    name: 'q-notifications',
+    name: 'QNotifications',
     data: {
       notifs: {
         center: [],
@@ -66,7 +73,7 @@ function init ({ $q, Vue }) {
           this.remove(notif)
         }
 
-        if (notif.actions) {
+        if (config.actions) {
           notif.actions = config.actions.map(item => {
             const
               handler = item.handler,
@@ -74,11 +81,15 @@ function init ({ $q, Vue }) {
             action.handler = typeof handler === 'function'
               ? () => {
                 handler()
-                close()
+                !item.noDismiss && close()
               }
               : () => close()
             return action
           })
+        }
+
+        if (typeof config.onDismiss === 'function') {
+          notif.onDismiss = config.onDismiss
         }
 
         if (notif.closeBtn) {
@@ -149,24 +160,20 @@ function init ({ $q, Vue }) {
   })
 
   this.__vm.$mount(node)
-  $q.notify = this.create.bind(this)
 }
 
 export default {
   create (opts) {
-    if (isSSR) {
-      return
+    if (!isSSR) {
+      if (!document.body) {
+        ready(() => {
+          this.create(opts)
+        })
+      }
+      else {
+        this.__vm.add(opts)
+      }
     }
-
-    if (this.__vm !== void 0) {
-      return this.__vm.add(opts)
-    }
-
-    ready(() => {
-      setTimeout(() => {
-        this.create(opts)
-      })
-    })
   },
 
   __installed: false,
@@ -175,9 +182,8 @@ export default {
     this.__installed = true
 
     if (!isSSR) {
-      ready(() => {
-        init.call(this, args)
-      })
+      init.call(this, args)
     }
+    args.$q.notify = this.create.bind(this)
   }
 }

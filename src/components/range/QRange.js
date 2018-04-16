@@ -15,7 +15,7 @@ const dragType = {
 }
 
 export default {
-  name: 'q-range',
+  name: 'QRange',
   mixins: [SliderMixin],
   props: {
     value: {
@@ -118,13 +118,13 @@ export default {
     }
   },
   methods: {
-    __setActive (event) {
+    __getDragging (event) {
       let
         container = this.$refs.handle,
         width = container.offsetWidth,
         sensitivity = (this.dragOnlyRange ? -1 : 1) * this.$refs.handleMin.offsetWidth / (2 * width)
 
-      this.dragging = {
+      let dragging = {
         left: container.getBoundingClientRect().left,
         width,
         valueMin: this.model.min,
@@ -134,7 +134,7 @@ export default {
       }
 
       let
-        percentage = getPercentage(event, this.dragging, this.$q.i18n.rtl),
+        percentage = getPercentage(event, dragging, this.$q.i18n.rtl),
         type
 
       if (percentage < this.currentMinPercentage + sensitivity) {
@@ -143,10 +143,10 @@ export default {
       else if (percentage < this.currentMaxPercentage - sensitivity) {
         if (this.dragRange || this.dragOnlyRange) {
           type = dragType.RANGE
-          extend(this.dragging, {
+          extend(dragging, {
             offsetPercentage: percentage,
             offsetModel: getModel(percentage, this.min, this.max, this.step, this.computedDecimals),
-            rangeValue: this.dragging.valueMax - this.dragging.valueMin,
+            rangeValue: dragging.valueMax - dragging.valueMin,
             rangePercentage: this.currentMaxPercentage - this.currentMinPercentage
           })
         }
@@ -161,93 +161,84 @@ export default {
       }
 
       if (this.dragOnlyRange && type !== dragType.RANGE) {
-        this.dragging = false
-        return
+        return false
       }
 
-      this.dragging.type = type
-      this.__update(event)
+      dragging.type = type
+      return dragging
     },
-    __update (event) {
+    __move (event, dragging = this.dragging) {
       let
-        percentage = getPercentage(event, this.dragging, this.$q.i18n.rtl),
+        percentage = getPercentage(event, dragging, this.$q.i18n.rtl),
         model = getModel(percentage, this.min, this.max, this.step, this.computedDecimals),
         pos
 
-      switch (this.dragging.type) {
+      switch (dragging.type) {
         case dragType.MIN:
-          if (percentage <= this.dragging.percentageMax) {
+          if (percentage <= dragging.percentageMax) {
             pos = {
               minP: percentage,
-              maxP: this.dragging.percentageMax,
+              maxP: dragging.percentageMax,
               min: model,
-              max: this.dragging.valueMax
+              max: dragging.valueMax
             }
           }
           else {
             pos = {
-              minP: this.dragging.percentageMax,
+              minP: dragging.percentageMax,
               maxP: percentage,
-              min: this.dragging.valueMax,
+              min: dragging.valueMax,
               max: model
             }
           }
           break
 
         case dragType.MAX:
-          if (percentage >= this.dragging.percentageMin) {
+          if (percentage >= dragging.percentageMin) {
             pos = {
-              minP: this.dragging.percentageMin,
+              minP: dragging.percentageMin,
               maxP: percentage,
-              min: this.dragging.valueMin,
+              min: dragging.valueMin,
               max: model
             }
           }
           else {
             pos = {
               minP: percentage,
-              maxP: this.dragging.percentageMin,
+              maxP: dragging.percentageMin,
               min: model,
-              max: this.dragging.valueMin
+              max: dragging.valueMin
             }
           }
           break
 
         case dragType.RANGE:
           let
-            percentageDelta = percentage - this.dragging.offsetPercentage,
-            minP = between(this.dragging.percentageMin + percentageDelta, 0, 1 - this.dragging.rangePercentage),
-            modelDelta = model - this.dragging.offsetModel,
-            min = between(this.dragging.valueMin + modelDelta, this.min, this.max - this.dragging.rangeValue)
+            percentageDelta = percentage - dragging.offsetPercentage,
+            minP = between(dragging.percentageMin + percentageDelta, 0, 1 - dragging.rangePercentage),
+            modelDelta = model - dragging.offsetModel,
+            min = between(dragging.valueMin + modelDelta, this.min, this.max - dragging.rangeValue)
 
           pos = {
             minP,
-            maxP: minP + this.dragging.rangePercentage,
+            maxP: minP + dragging.rangePercentage,
             min: parseFloat(min.toFixed(this.computedDecimals)),
-            max: parseFloat((min + this.dragging.rangeValue).toFixed(this.computedDecimals))
+            max: parseFloat((min + dragging.rangeValue).toFixed(this.computedDecimals))
           }
           break
       }
 
       this.currentMinPercentage = pos.minP
       this.currentMaxPercentage = pos.maxP
-      this.__updateInput(pos)
+      this.model = {
+        min: pos.min,
+        max: pos.max
+      }
     },
-    __end () {
-      this.dragging = false
+    __end (event, dragging = this.dragging) {
+      this.__move(event, dragging)
       this.currentMinPercentage = (this.model.min - this.min) / (this.max - this.min)
       this.currentMaxPercentage = (this.model.max - this.min) / (this.max - this.min)
-      this.$nextTick(() => {
-        if (JSON.stringify(this.model) !== JSON.stringify(this.value)) {
-          this.$emit('change', this.model)
-        }
-        this.$emit('dragend', this.model)
-      })
-    },
-    __updateInput ({min = this.model.min, max = this.model.max}) {
-      const model = {min, max}
-      this.model = model
-      this.$emit('input', model)
     },
     __validateProps () {
       if (this.min >= this.max) {
@@ -282,6 +273,7 @@ export default {
             props: {
               pointing: 'down',
               square: true,
+              dense: true,
               color
             },
             staticClass: 'q-slider-label no-pointer-events',

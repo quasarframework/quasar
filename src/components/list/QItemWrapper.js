@@ -25,7 +25,7 @@ function push (child, h, name, slot, replace, conf) {
 }
 
 export default {
-  name: 'q-item-wrapper',
+  name: 'QItemWrapper',
   props: {
     cfg: {
       type: Object,

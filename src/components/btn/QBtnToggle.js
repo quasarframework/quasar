@@ -2,7 +2,7 @@ import QBtn from './QBtn'
 import QBtnGroup from './QBtnGroup'
 
 export default {
-  name: 'q-btn-toggle',
+  name: 'QBtnToggle',
   props: {
     value: {
       required: true

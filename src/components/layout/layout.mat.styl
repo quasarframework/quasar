@@ -1,3 +1,5 @@
+$layout-transition = all .12s ease-in
+
 .q-layout
   width 100%
   min-height 100vh
@@ -18,24 +20,18 @@
   bottom 0
   background $layout-aside-background
   z-index $z-side
-  &.fixed.on-screen
-    box-shadow $layout-aside-shadow
   &.on-top
     z-index $z-fixed-drawer
+.q-layout-drawer-delimiter
+  box-shadow $layout-aside-shadow
 .q-layout-drawer-left
   left 0
+  transform translateX(-100%)
   width $layout-aside-left-width
-  &.off-screen
-    transform translateX(-100%)
-  &.on-screen
-    transform translateX(0)
 .q-layout-drawer-right
   right 0
+  transform translateX(100%)
   width $layout-aside-right-width
-  &.off-screen
-    transform translateX(100%)
-  &.on-screen
-    transform translateX(0)
 
 .q-layout, .q-layout-header, .q-layout-footer, .q-layout-page
   position relative
@@ -46,8 +42,6 @@
 .q-layout-backdrop
   z-index ($z-fixed-drawer - 1) !important
   will-change background-color
-.q-layout-backdrop-transition
-  transition background .12s
 
 .q-layout-drawer-opener
   z-index ($z-marginals + 1)
@@ -59,21 +53,19 @@
   > span
     pointer-events auto
 
-body
-  &.q-layout-animate .q-layout-transition
-    transition all .12s ease-in
+body.cordova.platform-ios
+  .q-layout-header > .q-toolbar:nth-child(2),
+  .q-layout-header > .q-tabs:nth-child(2) .q-tabs-head
+  .q-layout-drawer.top-padding
+    padding-top $ios-statusbar-height
+    min-height ($toolbar-min-height + $ios-statusbar-height)
 
-  &.with-layout-drawer-opened
-    overflow hidden
-  &.with-layout-drawer-opened-above
-    overflow-x hidden
-
-  &.cordova.platform-ios
-    .q-layout-header > .q-toolbar:first-child,
-    .q-layout-header > .q-tabs:first-child .q-tabs-head
-    .q-layout-drawer.top-padding
-      padding-top $ios-statusbar-height
-      min-height ($toolbar-min-height + $ios-statusbar-height)
+/* body */
+.q-layout-animate .q-layout-transition
+  transition $layout-transition
+.q-body-drawer-toggle
+  overflow-x hidden
+/* body - end */
 
 .layout-padding
   @media (max-width $breakpoint-sm-max)

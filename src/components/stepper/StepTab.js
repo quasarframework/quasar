@@ -2,7 +2,7 @@ import { QIcon } from '../icon'
 import Ripple from '../../directives/ripple'
 
 export default {
-  name: 'q-step-tab',
+  name: 'QStepTab',
   components: {
     QIcon
   },
@@ -11,11 +11,15 @@ export default {
   },
   props: ['vm'],
   computed: {
+    hasNavigation () {
+      return !this.vm.__stepper.noHeaderNavigation
+    },
     classes () {
       return {
         'step-error': this.vm.error,
         'step-active': this.vm.active,
         'step-done': this.vm.done,
+        'step-navigation': this.vm.done && this.hasNavigation,
         'step-waiting': this.vm.waiting,
         'step-disabled': this.vm.disable,
         'step-colored': this.vm.active || this.vm.done,
@@ -28,7 +32,9 @@ export default {
   },
   methods: {
     __select () {
-      this.vm.select()
+      if (this.hasNavigation) {
+        this.vm.select()
+      }
     }
   },
   render (h) {
@@ -42,7 +48,7 @@ export default {
       on: {
         click: this.__select
       },
-      directives: __THEME__ === 'mat'
+      directives: __THEME__ === 'mat' && this.hasNavigation
         ? [{
           name: 'ripple',
           value: this.vm.done

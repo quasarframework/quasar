@@ -1,7 +1,7 @@
 import { cssTransform } from '../../utils/dom'
 
 export default {
-  name: 'q-page-sticky',
+  name: 'QPageSticky',
   inject: {
     layout: {
       default () {
@@ -80,10 +80,10 @@ export default {
 
       if (attach.vertical) {
         if (this.left) {
-          css.left = `${this.left}px`
+          css[this.$q.i18n.rtl ? 'right' : 'left'] = `${this.left}px`
         }
         if (this.right) {
-          css.right = `${this.right}px`
+          css[this.$q.i18n.rtl ? 'left' : 'right'] = `${this.right}px`
         }
       }
       else if (attach.horizontal) {

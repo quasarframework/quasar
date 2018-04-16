@@ -2,7 +2,7 @@ import { QIcon } from '../icon'
 import { QBtn } from '../btn'
 
 export default {
-  name: 'q-alert',
+  name: 'QAlert',
   props: {
     type: {
       type: String,

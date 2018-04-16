@@ -5,7 +5,7 @@ import { QSpinner } from '../spinner'
 import Ripple from '../../directives/ripple'
 
 export default {
-  name: 'q-tree',
+  name: 'QTree',
   directives: {
     Ripple
   },

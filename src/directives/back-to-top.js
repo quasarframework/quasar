@@ -70,7 +70,6 @@ export default {
     el.addEventListener('click', ctx.goToTop)
   },
   update (el, binding) {
-    console.log('update')
     if (JSON.stringify(binding.oldValue) !== JSON.stringify(binding.value)) {
       updateBinding(el, binding)
     }

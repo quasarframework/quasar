@@ -1,9 +1,8 @@
 import { viewport } from '../../utils/dom'
-import { getScrollHeight } from '../../utils/scroll'
 import { QScrollObservable, QResizeObservable, QWindowResizeObservable } from '../observables'
 
 export default {
-  name: 'q-layout',
+  name: 'QLayout',
   provide () {
     return {
       layout: this
@@ -26,7 +25,7 @@ export default {
       header: {
         size: 0,
         offset: 0,
-        space: true
+        space: false
       },
       right: {
         size: 300,
@@ -36,7 +35,7 @@ export default {
       footer: {
         size: 0,
         offset: 0,
-        space: true
+        space: false
       },
       left: {
         size: 300,
@@ -59,6 +58,14 @@ export default {
         middle: rows[1].split(''),
         bottom: rows[2].split('')
       }
+    }
+  },
+  created () {
+    this.instances = {
+      header: null,
+      right: null,
+      footer: null,
+      left: null
     }
   },
   render (h) {
@@ -93,7 +100,7 @@ export default {
       this.$emit('scroll', data)
     },
     __onLayoutResize () {
-      this.scrollHeight = getScrollHeight(this.$el)
+      this.scrollHeight = this.$el.scrollHeight
       this.$emit('scrollHeight', this.scrollHeight)
     },
     __onWindowResize ({ height, width }) {

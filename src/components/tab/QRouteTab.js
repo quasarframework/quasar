@@ -2,7 +2,7 @@ import { RouterLinkMixin, routerLinkEvent, routerLinkEventName } from '../../uti
 import TabMixin from './tab-mixin'
 
 export default {
-  name: 'q-route-tab',
+  name: 'QRouteTab',
   mixins: [TabMixin, RouterLinkMixin],
   inject: {
     selectTabRouter: {}

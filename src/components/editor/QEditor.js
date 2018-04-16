@@ -5,7 +5,7 @@ import extend from '../../utils/extend'
 import FullscreenMixin from '../../mixins/fullscreen'
 
 export default {
-  name: 'q-editor',
+  name: 'QEditor',
   mixins: [FullscreenMixin],
   props: {
     value: {
@@ -195,6 +195,24 @@ export default {
         })
       })
       return k
+    },
+    innerStyle () {
+      return this.inFullscreen
+        ? this.contentStyle
+        : [
+          {
+            minHeight: this.minHeight,
+            height: this.height,
+            maxHeight: this.maxHeight
+          },
+          this.contentStyle
+        ]
+    },
+    innerClass () {
+      return [
+        this.contentClass,
+        { col: this.inFullscreen, 'overflow-auto': this.inFullscreen || this.maxHeight }
+      ]
     }
   },
   data () {
@@ -310,13 +328,8 @@ export default {
           {
             ref: 'content',
             staticClass: `q-editor-content`,
-            style: this.inFullscreen
-              ? this.contentStyle
-              : [{ minHeight: this.minHeight, height: this.height, maxHeight: this.maxHeight }, this.contentStyle],
-            class: [
-              this.contentClass,
-              { col: this.inFullscreen, 'overflow-auto': this.inFullscreen }
-            ],
+            style: this.innerStyle,
+            class: this.innerClass,
             attrs: { contenteditable: this.editable },
             on: {
               input: this.onInput,

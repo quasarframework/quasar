@@ -1,6 +1,6 @@
 <template>
   <div class="q-datetime row" :class="classes">
-    <div class="q-datetime-header column col-xs-12 col-md-4 justify-center">
+    <div v-if="!minimal" class="q-datetime-header column col-xs-12 col-md-4 justify-center">
       <div v-if="typeHasDate">
         <div class="q-datetime-weekdaystring col-12">{{ weekDayString }}</div>
         <div class="q-datetime-datestring row flex-center">
@@ -62,7 +62,7 @@
         </div>
       </div>
     </div>
-    <div class="q-datetime-content col-xs-12 col-md-8 column">
+    <div class="q-datetime-content col-xs-12 column" :class="contentClasses">
       <div ref="selector" class="q-datetime-selector auto row flex-center">
         <div
           v-if="view === 'year'"
@@ -142,7 +142,7 @@
               :key="`md${monthDay}`"
               class="row items-center content-center justify-center cursor-pointer"
               :class="[color && monthDay === day ? `text-${color}` : null, {
-                'q-datetime-day-active': monthDay === day,
+                'q-datetime-day-active': isValid && monthDay === day,
                 'q-datetime-day-today': monthDay === today,
                 'disabled': !editable
               }]"
@@ -238,7 +238,7 @@
 import { height, width, offset, cssTransform } from '../../utils/dom'
 import { position, stopAndPrevent } from '../../utils/event'
 import { QBtn } from '../btn'
-import { isSameDate, adjustDate } from '../../utils/date'
+import { isSameDate, isValid, adjustDate } from '../../utils/date'
 import DateMixin from './datetime-mixin'
 import ParentFieldMixin from '../../mixins/parent-field'
 import Ripple from '../../directives/ripple'
@@ -248,7 +248,7 @@ function convertToAmPm (hour) {
 }
 
 export default {
-  name: 'q-datetime-picker',
+  name: 'QDatetimePicker',
   mixins: [DateMixin, ParentFieldMixin],
   props: {
     defaultValue: [String, Number, Date],
@@ -284,8 +284,14 @@ export default {
       this.disable && cls.push('disabled')
       this.readonly && cls.push('readonly')
       this.dark && cls.push('q-datetime-dark')
+      this.minimal && cls.push('q-datetime-minimal')
       this.color && cls.push(`text-${this.color}`)
       return cls
+    },
+    contentClasses () {
+      if (!this.minimal) {
+        return 'col-md-8'
+      }
     },
     dateArrow () {
       const val = [ this.$q.icon.datetime.arrowLeft, this.$q.icon.datetime.arrowRight ]
@@ -373,6 +379,9 @@ export default {
 
       return cssTransform(`rotate(${degrees}deg)`)
     },
+    isValid () {
+      return isValid(this.value)
+    },
     today () {
       const today = new Date()
       return isSameDate(today, this.model, 'month')
@@ -428,18 +437,27 @@ export default {
     },
 
     setView (view) {
-      this.view = this.__calcView(view)
+      const newView = this.__calcView(view)
+      if (this.view !== newView) {
+        this.view = newView
+      }
     },
 
     /* helpers */
     __calcView (view) {
       switch (this.type) {
         case 'time':
-          return ['hour', 'minute'].includes(view) ? view : 'hour'
+          return view
+            ? (['hour', 'minute'].includes(view) ? view : 'hour')
+            : 'hour'
         case 'date':
-          return ['year', 'month', 'day'].includes(view) ? view : 'day'
+          return view
+            ? (['year', 'month', 'day'].includes(view) ? view : 'day')
+            : 'day'
         default:
-          return ['year', 'month', 'day', 'hour', 'minute'].includes(view) ? view : 'day'
+          return view
+            ? (['year', 'month', 'day', 'hour', 'minute'].includes(view) ? view : 'day')
+            : 'day'
       }
     },
     __pad (unit, filler) {

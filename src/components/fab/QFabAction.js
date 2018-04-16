@@ -2,7 +2,7 @@ import { QBtn } from '../btn'
 import FabMixin from './fab-mixin'
 
 export default {
-  name: 'q-fab-action',
+  name: 'QFabAction',
   mixins: [FabMixin],
   inject: {
     __qFabClose: {

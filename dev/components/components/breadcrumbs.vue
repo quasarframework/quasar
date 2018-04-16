@@ -6,10 +6,23 @@
         <br>
         If window is wide enough then labels are also displayed.
       </p>
+      <q-toggle v-model="first" label="first" />
+      <q-toggle v-model="second" label="second" />
+      <q-toggle v-model="third" label="third" />
+      <br><br>
       <q-breadcrumbs>
-        <q-breadcrumbs-el label="Home" icon="home" />
-        <q-breadcrumbs-el label="Components" icon="widgets" />
-        <q-breadcrumbs-el label="Breadcrumbs" icon="navigation" />
+        <q-breadcrumbs-el v-if="first" label="Home" icon="home" />
+        <q-breadcrumbs-el v-if="second" label="Components" icon="widgets" />
+        <q-breadcrumbs-el v-if="third" label="Breadcrumbs" icon="navigation" />
+      </q-breadcrumbs>
+
+
+      <br><br>
+      <q-breadcrumbs>
+        <q-breadcrumbs-el class="cursor-pointer" label="Home" icon="home" @click.native="path = '/'"/>
+        <q-breadcrumbs-el label="Home" />
+        <q-breadcrumbs-el label="Home" />
+        <q-breadcrumbs-el label="Home" />
       </q-breadcrumbs>
       <br><br>
       <q-breadcrumbs icon-separator="chevron_right" active-color="secondary" color="light">
@@ -35,3 +48,15 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  data () {
+    return {
+      first: true,
+      second: true,
+      third: true
+    }
+  }
+}
+</script>

@@ -55,7 +55,7 @@ export default function (_Vue, opts = {}) {
   if (opts.directives) {
     Object.keys(opts.directives).forEach(key => {
       const d = opts.directives[key]
-      if (d.name !== undefined && !d.name.startsWith('q-')) {
+      if (d.name !== undefined && d.unbind !== void 0) {
         _Vue.directive(d.name, d)
       }
     })
@@ -64,7 +64,7 @@ export default function (_Vue, opts = {}) {
   if (opts.components) {
     Object.keys(opts.components).forEach(key => {
       const c = opts.components[key]
-      if (c.name !== undefined && c.name.startsWith('q-')) {
+      if (c.name !== undefined && (c.render !== void 0 || c.mixins !== void 0)) {
         _Vue.component(c.name, c)
       }
     })

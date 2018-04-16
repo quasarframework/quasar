@@ -15,7 +15,7 @@ Quasar Framework is an MIT-licensed open source project. Its ongoing development
 
 ### Proudly sponsored by:
 
-[![Truelogic](http://quasar-framework.org/images/truelogic_logo.png)](http://truelogic.com)
+[![Truelogic](http://quasar-framework.org/images/logo_truelogic.png)](http://truelogic.com)
 
 ## Documentation
 

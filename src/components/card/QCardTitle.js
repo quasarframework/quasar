@@ -1,5 +1,5 @@
 export default {
-  name: 'q-card-title',
+  name: 'QCardTitle',
   render (h) {
     return h('div', {
       staticClass: 'q-card-primary q-card-container row no-wrap'

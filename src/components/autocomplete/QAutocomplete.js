@@ -6,7 +6,7 @@ import { QList, QItemWrapper } from '../list'
 import KeyboardSelectionMixin from '../../mixins/keyboard-selection'
 
 export default {
-  name: 'q-autocomplete',
+  name: 'QAutocomplete',
   mixins: [KeyboardSelectionMixin],
   props: {
     minCharacters: {
@@ -219,8 +219,14 @@ export default {
         anchorClick: false
       },
       on: {
-        show: () => this.$emit('show'),
-        hide: () => this.$emit('hide')
+        show: () => {
+          this.__input.selectionOpen = true
+          this.$emit('show')
+        },
+        hide: () => {
+          this.__input.selectionOpen = false
+          this.$emit('hide')
+        }
       }
     }, [
       h(QList, {

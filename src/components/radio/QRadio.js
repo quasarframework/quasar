@@ -3,7 +3,7 @@ import { QIcon } from '../icon'
 import { stopAndPrevent } from '../../utils/event'
 
 export default {
-  name: 'q-radio',
+  name: 'QRadio',
   mixins: [OptionMixin],
   props: {
     val: {
@@ -50,5 +50,8 @@ export default {
           : null
       ]
     }
+  },
+  beforeCreate () {
+    this.__kebabTag = 'q-radio'
   }
 }

@@ -1,5 +1,5 @@
 export default {
-  name: 'q-card',
+  name: 'QCard',
   props: {
     square: Boolean,
     flat: Boolean,

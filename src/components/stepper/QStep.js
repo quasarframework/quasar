@@ -3,7 +3,7 @@ import StepTab from './StepTab'
 import uid from '../../utils/uid'
 
 export default {
-  name: 'q-step',
+  name: 'QStep',
   inject: {
     __stepper: {
       default () {

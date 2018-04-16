@@ -2,15 +2,19 @@ import StepTab from './StepTab'
 import { frameDebounce } from '../../utils/debounce'
 
 export default {
-  name: 'q-stepper',
+  name: 'QStepper',
   components: {
     StepTab
   },
   props: {
     value: [Number, String],
-    color: String,
+    color: {
+      type: String,
+      default: 'primary'
+    },
     vertical: Boolean,
     alternativeLabels: Boolean,
+    noHeaderNavigation: Boolean,
     contractable: Boolean,
     doneIcon: Boolean,
     activeIcon: Boolean,
@@ -35,14 +39,10 @@ export default {
   computed: {
     classes () {
       const cls = [
-        `q-stepper-${this.vertical ? 'vertical' : 'horizontal'}`
+        `q-stepper-${this.vertical ? 'vertical' : 'horizontal'}`,
+        `text-${this.color}`
       ]
-      if (this.color) {
-        cls.push(`text-${this.color}`)
-      }
-      if (this.contractable) {
-        cls.push(`q-stepper-contractable`)
-      }
+      this.contractable && cls.push(`q-stepper-contractable`)
       return cls
     },
     hasSteps () {

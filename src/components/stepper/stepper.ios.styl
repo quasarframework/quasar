@@ -1,5 +1,4 @@
 .q-stepper
-  color $stepper-color
   border-radius $generic-border-radius
   box-shadow $shadow-2
 
@@ -29,9 +28,9 @@
     color black
     .q-stepper-dot
       color $stepper-label-inactive-color
-  &.step-done
-    cursor pointer
+  &.step-navigation
     user-select none
+    cursor pointer
     &:active
       background $stepper-active-background !important
   &.step-color
@@ -42,10 +41,12 @@
     color $stepper-label-inactive-color
   &.step-error
     color $negative
+    color var(--q-color-negative)
     .q-stepper-dot
       background transparent
       span
         color $negative
+        color var(--q-color-negative)
         font-size 24px
 
 .q-stepper-header
@@ -144,7 +145,7 @@
     top 100%
     margin-top 8px
 
-body.desktop .q-stepper-tab.step-done:hover
+body.desktop .q-stepper-tab.step-navigation:hover
   background $stepper-hover-background
 
 @media (max-width $breakpoint-sm-max)

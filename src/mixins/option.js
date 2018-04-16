@@ -22,7 +22,7 @@ export default {
   computed: {
     classes () {
       return [
-        this.$options._componentTag,
+        this.__kebabTag,
         {
           disabled: this.disable,
           reverse: this.leftLabel,
@@ -83,7 +83,7 @@ export default {
         blur: () => { this.$emit('blur') },
         keydown: this.__handleKeyDown
       },
-      directives: this.$options._componentTag === 'q-toggle'
+      directives: this.__kebabTag === 'q-toggle' && !this.disable && !this.readonly
         ? [{
           name: 'touch-swipe',
           modifiers: { horizontal: true },

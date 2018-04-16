@@ -217,26 +217,33 @@
         <q-chips-input :dark="dark" color="black" :error="error" :warning="warning" :disable="disable" :readonly="readonly" inverted class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" float-label="List (onChange)" :value="options" />
         <q-chips-input :dark="dark" color="green" :error="error" :warning="warning" :disable="disable" :readonly="readonly" inverted class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" float-label="List (onChange)" :value="options" />
 
+        <q-chips-input :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" float-label="List autocomplete" v-model="options">
+          <q-autocomplete :static-data="{field: 'value', list: countries}" @selected="selected" />
+        </q-chips-input>
+        <q-chips-input :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" float-label="List autocomplete (onChange)" :value="options">
+          <q-autocomplete :static-data="{field: 'value', list: countries}" @selected="selected" />
+        </q-chips-input>
+
         <p class="q-subtitle">Selected option: {{ JSON.stringify(option) }}</p>
         <q-select :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="option" :options="countries" placeholder="Select" filter />
-        <q-select :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="option" :options="countries" float-label="Select" filter />
+        <q-select :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="option" :options="countries" float-label="Select (autofocus filter)" filter autofocus-filter />
         <q-select :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" inverted :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="val => { option = val; onChange(val) }" @input="onInput" @clear="onClear" :value="option" :options="countries" float-label="Select (onChange)" filter />
 
         <p class="q-subtitle">Selected options: {{ JSON.stringify(options) }}</p>
-        <q-select :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" multiple :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="options" :options="countries" float-label="Select multiple" filter />
+        <q-select :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" multiple :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="options" :options="countries" float-label="Select multiple (autofocus filter)" filter autofocus-filter />
         <q-select :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" multiple inverted :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" :value="options" :options="countries" float-label="Select multiple (onChange)" filter />
-        <q-select :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" multiple chips :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="options" :options="countries" float-label="Select multiple - chips" filter />
+        <q-select :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" multiple chips :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="options" :options="countries" float-label="Select multiple - chips (autofocus filter)" filter autofocus-filter />
         <q-select :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" multiple chips inverted :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" :value="options" :options="countries" float-label="Select multiple - chips (onChange)" filter />
-        <q-select :dark="dark" color="amber-2" :error="error" :warning="warning" :disable="disable" :readonly="readonly" multiple chips inverted-light :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" :value="options" :options="countries" float-label="Select multiple - chips (onChange)" filter />
+        <q-select :dark="dark" color="amber-2" :error="error" :warning="warning" :disable="disable" :readonly="readonly" multiple chips inverted-light :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" :value="options" :options="countries" float-label="Select multiple - chips (onChange, autofocus filter)" filter autofocus-filter />
         <q-select :dark="dark" color="white" :error="error" :warning="warning" :disable="disable" :readonly="readonly" multiple chips inverted-light :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" :value="options" :options="countries" float-label="Select multiple - chips (onChange)" filter />
         <q-select :dark="dark" color="black" :error="error" :warning="warning" :disable="disable" :readonly="readonly" multiple chips inverted :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" :value="options" :options="countries" float-label="Select multiple - chips (onChange)" filter />
 
         <p class="q-subtitle">Color selected: {{ JSON.stringify(color) }}</p>
-        <q-color :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="color" placeholder="Color (RGBA)" format-model="rgba" />
+        <q-color :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="color" placeholder="Color (RGBA)" format-model="rgba" :after="[ { icon: 'colorize', handler () { color = '#f00' } }]" />
         <q-color :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="color" float-label="Color (RGBA)" format-model="rgba" />
         <q-color :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" inverted :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="val => { color = val; onChange(val) }" @input="onInput" @clear="onClear" :value="color" float-label="Color (onChange)" />
         <q-color :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="color" :default-value="defaultColor" :float-label="`Color (default ${defaultColor})`" />
-        <q-color :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" inverted :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="val => { color = val; onChange(val) }" @input="onInput" @clear="onClear" :value="color" :default-value="defaultColor" :float-label="`Color (default ${defaultColor}, onChange)`" />
+        <q-color :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" inverted :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="val => { color = val; onChange(val) }" @input="onInput" @clear="onClear" :value="color" :default-value="defaultColor" :float-label="`Color (default ${defaultColor}, onChange)`" :after="[ { icon: 'colorize', handler () { color = '#f00' } }]" />
 
         <p class="q-subtitle">Color selected: {{ JSON.stringify(colorP) }}</p>
         <div class="row gutter-sm">
@@ -259,12 +266,12 @@
         </div>
 
         <p class="q-subtitle">Date selected: {{ JSON.stringify(date) }}</p>
-        <q-datetime :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" type="date" formatModel="date" :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="date" placeholder="Date" />
+        <q-datetime :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" type="date" formatModel="date" :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="date" placeholder="Date" :after="[ { icon: 'today', handler () { date = new Date('2018-10-21') } }]" />
         <q-datetime :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" type="date" formatModel="date" :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="date" float-label="Date" />
         <q-datetime :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" type="date" formatModel="date" inverted :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="val => { date = val; onChange(val) }" @input="onInput" @clear="onClear" :value="date" float-label="Date (onChange)" />
         <q-datetime :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" type="date" formatModel="date" :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="date" :default-value="defaultDate" :float-label="`Date (default ${defaultDate})`" />
         <q-datetime :dark="dark" color="orange" :error="error" :warning="warning" :disable="disable" :readonly="readonly" type="datetime" formatModel="date" inverted :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="val => { date = val; onChange(val) }" @input="onInput" @clear="onClear" :value="date" :default-value="defaultDate" :float-label="`Datetime (default ${defaultDate}, onChange)`" />
-        <q-datetime :dark="dark" color="amber-2" :error="error" :warning="warning" :disable="disable" :readonly="readonly" type="datetime" formatModel="date" inverted-light :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="val => { date = val; onChange(val) }" @input="onInput" @clear="onClear" :value="date" :default-value="defaultDate" :float-label="`Datetime (default ${defaultDate}, onChange)`" />
+        <q-datetime :dark="dark" color="amber-2" :error="error" :warning="warning" :disable="disable" :readonly="readonly" type="datetime" formatModel="date" inverted-light :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="val => { date = val; onChange(val) }" @input="onInput" @clear="onClear" :value="date" :default-value="defaultDate" :float-label="`Datetime (default ${defaultDate}, onChange)`" :after="[ { icon: 'today', handler () { date = new Date() } }]" />
 
         <p class="q-subtitle">Date selected: {{ JSON.stringify(date) }}</p>
         <div class="row gutter-sm">
@@ -303,6 +310,9 @@
         <q-input :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" type="textarea" :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" placeholder="Textarea" />
         <q-input :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" type="textarea" :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" float-label="Textarea" />
         <q-input :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" type="textarea" inverted :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="val => { terms = val; onChange(val) }" @input="onInput" @clear="onClear" :value="terms" float-label="Textarea (onChange)" />
+
+        <q-input :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" type="textarea" :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" placeholder="Textarea (rows 5)" rows="5" />
+        <q-input :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" type="textarea" :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" placeholder="Textarea (rows 5, maxHeight 100px)" :max-height="100" rows="5" />
 
         <p class="q-subtitle">Password: {{ JSON.stringify(terms) }}</p>
         <q-input :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" type="password" :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" float-label="Password" />
@@ -391,6 +401,20 @@
             <q-rating class="q-ma-md" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" size="3rem" @focus="onFocus" @blur="onBlur" @change="val => { termT = val; onChange(val) }" @input="onInput" :value="termT" :max="maxVal" icon="create" />
           </div>
         </div>
+
+        <p class="q-subtitle">Option: {{ JSON.stringify(optionValue) }}</p>
+        <div class="row gutter-sm">
+          <q-select :dark="dark" class="col q-ma-sm" v-model="optionType" :options="optionTypes" />
+          <div class="col">
+            <component :is="optionType" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="optionValue" :label="`${optionType}${optionType === 'QRadio' ? ' (true)' : ''}`" :val="true" />
+            <component v-if="optionType === 'QRadio'" :is="optionType" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="optionValue" :label="`${optionType} (false)`" :val="false" />
+          </div>
+        </div>
+        <div class="row gutter-sm">
+          <QToggle ref="qtoggle1" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="optionValue" label="QToggle" />
+          <qToggle ref="qtoggle2" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="optionValue" label="qToggle" />
+          <q-toggle ref="qtoggle3" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="optionValue" label="q-toggle" />
+        </div>
       </q-scroll-area>
     </div>
   </div>
@@ -469,7 +493,10 @@ export default {
       step: 0.01,
       decimals: 1,
       countries: countriesList,
-      numbers: [1, 2, 3, 4, 5, 1111, 2222, 3333, 4444, 5555].map(v => ({ label: String(v), value: v }))
+      numbers: [1, 2, 3, 4, 5, 1111, 2222, 3333, 4444, 5555].map(v => ({ label: String(v), value: v })),
+      optionType: 'QCheckbox',
+      optionValue: false,
+      optionTypes: ['Checkbox', 'Radio', 'Toggle'].map(v => ({ label: String(v), value: `Q${v}` }))
     }
   },
   methods: {
@@ -484,6 +511,9 @@ export default {
     },
     onInput (val) {
       console.log('@input', JSON.stringify(val))
+    },
+    onDragEnd (val) {
+      console.log('@dragend', JSON.stringify(val))
     },
     onFocus (val) {
       console.log('@focus', JSON.stringify(val), name)

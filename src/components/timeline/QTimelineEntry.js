@@ -1,7 +1,7 @@
 import { QIcon } from '../icon'
 
 export default {
-  name: 'q-timeline-entry',
+  name: 'QTimelineEntry',
   inject: {
     __timeline: {
       default () {

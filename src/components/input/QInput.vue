@@ -134,7 +134,7 @@ import { QResizeObservable } from '../observables'
 import { QSpinner } from '../spinner'
 
 export default {
-  name: 'q-input',
+  name: 'QInput',
   mixins: [FrameMixin, InputMixin],
   components: {
     QInputFrame,
@@ -172,15 +172,15 @@ export default {
         val: this.model,
         set: this.__set,
         loading: false,
-        watched: false,
+        watched: 0,
         isDark: () => this.dark,
         hasFocus: () => document.activeElement === this.$refs.input,
         register: () => {
-          this.shadow.watched = true
+          this.shadow.watched += 1
           this.__watcherRegister()
         },
         unregister: () => {
-          this.shadow.watched = false
+          this.shadow.watched = Math.max(0, this.shadow.watched - 1)
           this.__watcherUnregister()
         },
         getEl: () => this.$refs.input
@@ -191,6 +191,7 @@ export default {
     value (v) {
       this.model = v
       this.isNumberError = false
+      this.isNegZero = false
     },
     isTextarea (v) {
       this[v ? '__watcherRegister' : '__watcherUnregister']()
@@ -212,12 +213,7 @@ export default {
       return this.type === 'textarea'
     },
     isLoading () {
-      return this.loading || this.shadow.loading
-    },
-    pattern () {
-      if (this.isNumber) {
-        return this.$attrs.pattern || '[0-9]*'
-      }
+      return this.loading || (this.shadow.watched && this.shadow.loading)
     },
     keyboardToggle () {
       return this.$q.platform.is.mobile &&
@@ -284,9 +280,10 @@ export default {
       let val = e && e.target ? e.target.value : e
 
       if (this.isNumber) {
-        const forcedValue = val
+        this.isNegZero = (1 / val) === -Infinity
+        const forcedValue = this.isNegZero ? -0 : val
         val = parseFloat(val)
-        if (isNaN(val)) {
+        if (isNaN(val) || this.isNegZero) {
           this.isNumberError = true
           if (forceUpdate) {
             this.$emit('input', forcedValue)
@@ -321,8 +318,8 @@ export default {
       const shadow = this.$refs.shadow
       if (shadow) {
         let h = shadow.scrollHeight
-        const max = this.maxHeight || h
-        this.$refs.input.style.minHeight = `${between(h, 19, max)}px`
+        const minHeight = between(h, 19, this.maxHeight || h)
+        this.$refs.input.style.minHeight = `${minHeight + 19}px`
       }
     },
     __watcher (value) {

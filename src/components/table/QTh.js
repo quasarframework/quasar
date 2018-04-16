@@ -1,7 +1,7 @@
 import { QIcon } from '../icon'
 
 export default {
-  name: 'q-th',
+  name: 'QTh',
   props: {
     props: Object,
     autoWidth: Boolean

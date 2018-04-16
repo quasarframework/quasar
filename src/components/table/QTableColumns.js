@@ -1,7 +1,7 @@
 import { QSelect } from '../select'
 
 export default {
-  name: 'q-table-columns',
+  name: 'QTableColumns',
   props: {
     value: {
       type: Array,

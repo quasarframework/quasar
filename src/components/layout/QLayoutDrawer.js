@@ -1,16 +1,16 @@
 import TouchPan from '../../directives/touch-pan'
-import { cssTransform } from '../../utils/dom'
+import { css, cssTransform } from '../../utils/dom'
 import { between } from '../../utils/format'
 import { QResizeObservable } from '../observables'
 import ModelToggleMixin from '../../mixins/model-toggle'
+import PreventScroll from '../../mixins/prevent-scroll'
 
 const
-  bodyClassBelow = 'with-layout-drawer-opened',
-  bodyClassAbove = 'with-layout-drawer-opened-above',
+  bodyClass = 'q-body-drawer-toggle',
   duration = 150
 
 export default {
-  name: 'q-layout-drawer',
+  name: 'QLayoutDrawer',
   inject: {
     layout: {
       default () {
@@ -18,7 +18,7 @@ export default {
       }
     }
   },
-  mixins: [ModelToggleMixin],
+  mixins: [ModelToggleMixin, PreventScroll],
   directives: {
     TouchPan
   },
@@ -40,6 +40,7 @@ export default {
     },
     contentStyle: Object,
     contentClass: [String, Object, Array],
+    noHideOnRouteChange: Boolean,
     noSwipeOpen: Boolean,
     noSwipeClose: Boolean
   },
@@ -63,10 +64,7 @@ export default {
       largeScreenState,
       mobileOpened: false,
 
-      size: 300,
-      inTransit: false,
-      position: 0,
-      percentage: 0
+      size: 300
     }
   },
   watch: {
@@ -107,19 +105,27 @@ export default {
     offset (val) {
       this.__update('offset', val)
     },
-    onScreenOverlay () {
-      if (this.animateOverlay) {
-        this.layout.__animate()
-      }
-    },
     onLayout (val) {
       this.__update('space', val)
       this.layout.__animate()
     },
     $route () {
+      if (this.noHideOnRouteChange) {
+        return
+      }
+
       if (this.mobileOpened || this.onScreenOverlay) {
         this.hide()
       }
+    },
+    rightSide () {
+      this.applyPosition()
+    },
+    size () {
+      this.applyPosition()
+    },
+    '$q.i18n.rtl' () {
+      this.applyPosition()
     }
   },
   computed: {
@@ -127,7 +133,7 @@ export default {
       return this.side === 'right'
     },
     offset () {
-      return this.showing && !this.mobileOpened
+      return this.showing && !this.mobileOpened && !this.overlay
         ? this.size
         : 0
     },
@@ -142,8 +148,7 @@ export default {
     },
     backdropClass () {
       return {
-        'q-layout-backdrop-transition': !this.inTransit,
-        'no-pointer-events': !this.inTransit && !this.showing
+        'no-pointer-events': !this.showing
       }
     },
     mobileView () {
@@ -165,30 +170,18 @@ export default {
           : this.layout.rows.bottom[0] === 'l'
         )
     },
-    backdropStyle () {
-      return { backgroundColor: `rgba(0,0,0,${this.percentage * 0.4})` }
-    },
     belowClass () {
       return {
         'fixed': true,
         'on-top': true,
-        'on-screen': this.showing,
-        'off-screen': !this.showing,
-        'transition-generic': !this.inTransit,
+        'q-layout-drawer-delimiter': this.fixed && this.showing,
         'top-padding': true
       }
     },
-    belowStyle () {
-      if (this.inTransit) {
-        return cssTransform(`translateX(${this.position}px)`)
-      }
-    },
     aboveClass () {
-      const onScreen = this.onLayout || this.onScreenOverlay
       return {
-        'off-screen': !onScreen,
-        'on-screen': onScreen,
         'fixed': this.fixed || !this.onLayout,
+        'q-layout-drawer-delimiter': this.fixed && this.showing,
         'top-padding': this.headerSlot
       }
     },
@@ -216,10 +209,13 @@ export default {
       return css
     },
     computedStyle () {
-      return [this.contentStyle, this.mobileView ? this.belowStyle : this.aboveStyle]
+      return [this.contentStyle, this.mobileView ? '' : this.aboveStyle]
     },
     computedClass () {
       return [this.contentClass, this.mobileView ? this.belowClass : this.aboveClass]
+    },
+    stateDirection () {
+      return (this.$q.i18n.rtl ? -1 : 1) * (this.rightSide ? 1 : -1)
     }
   },
   render (h) {
@@ -237,9 +233,9 @@ export default {
         }))
       }
       child.push(h('div', {
+        ref: 'backdrop',
         staticClass: 'fullscreen q-layout-backdrop',
         'class': this.backdropClass,
-        style: this.backdropStyle,
         on: { click: this.hide },
         directives: [{
           name: 'touch-pan',
@@ -249,9 +245,12 @@ export default {
       }))
     }
 
-    return h('div', { staticClass: 'q-drawer-container' }, child.concat([
+    return h('div', {
+      staticClass: 'q-drawer-container'
+    }, child.concat([
       h('aside', {
-        staticClass: `q-layout-drawer q-layout-drawer-${this.side} scroll q-layout-transition`,
+        ref: 'content',
+        staticClass: `q-layout-drawer q-layout-transition q-layout-drawer-${this.side} scroll`,
         'class': this.computedClass,
         style: this.computedStyle,
         attrs: this.$attrs,
@@ -262,54 +261,96 @@ export default {
           value: this.__closeByTouch
         }] : null
       }, [
-        this.$slots.default,
         h(QResizeObservable, {
+          props: { debounce: 0 },
           on: { resize: this.__onResize }
-        })
+        }),
+        this.$slots.default
       ])
     ]))
   },
   created () {
-    if (this.onLayout) {
-      this.__update('space', true)
-      this.__update('offset', this.offset)
-    }
+    this.layout.instances[this.side] = this
+    this.__update('space', this.onLayout)
+    this.__update('offset', this.offset)
 
     this.$nextTick(() => {
       this.animateOverlay = true
     })
   },
+  mounted () {
+    if (this.showing) {
+      this.applyPosition(0)
+    }
+  },
   beforeDestroy () {
     clearTimeout(this.timer)
-    this.__update('size', 0)
-    this.__update('space', false)
+    if (this.layout.instances[this.side] === this) {
+      this.layout.instances[this.side] = null
+      this.__update('size', 0)
+      this.__update('offset', 0)
+      this.__update('space', false)
+    }
   },
   methods: {
+    applyPosition (position) {
+      if (position === void 0) {
+        this.$nextTick(() => {
+          position = this.showing
+            ? 0
+            : (this.$q.i18n.rtl ? -1 : 1) * (this.rightSide ? 1 : -1) * this.size
+
+          this.applyPosition(position)
+        })
+        return
+      }
+      css(this.$refs.content, cssTransform(`translateX(${position}px)`))
+    },
+    applyBackdrop (x) {
+      this.$refs.backdrop && css(this.$refs.backdrop, { backgroundColor: `rgba(0,0,0,${x * 0.4})` })
+    },
     __openByTouch (evt) {
       if (!this.belowBreakpoint) {
         return
       }
+
       const
         width = this.size,
         position = between(evt.distance.x, 0, width)
 
       if (evt.isFinal) {
-        const opened = position >= Math.min(75, width)
-        this.inTransit = false
-        if (opened) { this.show() }
-        else { this.percentage = 0 }
+        const
+          el = this.$refs.content,
+          opened = position >= Math.min(75, width)
+
+        el.classList.remove('no-transition')
+
+        if (opened) {
+          this.show()
+        }
+        else {
+          this.layout.__animate()
+          this.applyBackdrop(0)
+          this.applyPosition(this.stateDirection * width)
+          el.classList.remove('q-layout-drawer-delimiter')
+        }
+
         return
       }
 
-      this.position = (this.$q.i18n.rtl ? !this.rightSide : this.rightSide)
-        ? Math.max(width - position, 0)
-        : Math.min(0, position - width)
-
-      this.percentage = between(position / width, 0, 1)
+      this.applyPosition(
+        (this.$q.i18n.rtl ? !this.rightSide : this.rightSide)
+          ? Math.max(width - position, 0)
+          : Math.min(0, position - width)
+      )
+      this.applyBackdrop(
+        between(position / width, 0, 1)
+      )
 
       if (evt.isFirst) {
-        document.body.classList.add(bodyClassBelow)
-        this.inTransit = true
+        const el = this.$refs.content
+        el.classList.add('no-transition')
+        el.classList.add('q-layout-drawer-delimiter')
       }
     },
     __closeByTouch (evt) {
@@ -326,43 +367,67 @@ export default {
 
       if (evt.isFinal) {
         const opened = Math.abs(position) < Math.min(75, width)
-        this.inTransit = false
-        if (opened) { this.percentage = 1 }
-        else { this.hide() }
+        this.$refs.content.classList.remove('no-transition')
+
+        if (opened) {
+          this.layout.__animate()
+          this.applyBackdrop(1)
+          this.applyPosition(0)
+        }
+        else {
+          this.hide()
+        }
+
         return
       }
 
-      this.position = (this.$q.i18n.rtl ? -1 : 1) * (this.rightSide ? 1 : -1) * position
-      this.percentage = between(1 - position / width, 0, 1)
+      this.applyPosition(this.stateDirection * position)
+      this.applyBackdrop(between(1 - position / width, 0, 1))
 
       if (evt.isFirst) {
-        this.inTransit = true
+        this.$refs.content.classList.add('no-transition')
       }
     },
     __show () {
-      if (this.belowBreakpoint) {
-        this.mobileOpened = true
-        this.percentage = 1
+      this.layout.__animate()
+      this.applyPosition(0)
+
+      const otherSide = this.layout.instances[this.rightSide ? 'left' : 'right']
+      if (otherSide && otherSide.mobileOpened) {
+        otherSide.hide()
       }
 
-      document.body.classList.add(this.belowBreakpoint ? bodyClassBelow : bodyClassAbove)
+      if (this.belowBreakpoint) {
+        this.mobileOpened = true
+        this.applyBackdrop(1)
+        this.__preventScroll(true)
+      }
+      else {
+        document.body.classList.add(bodyClass)
+      }
 
       clearTimeout(this.timer)
       this.timer = setTimeout(() => {
         if (this.showPromise) {
           this.showPromise.then(() => {
-            document.body.classList.remove(bodyClassAbove)
+            document.body.classList.remove(bodyClass)
           })
           this.showPromiseResolve()
         }
       }, duration)
     },
     __hide () {
-      this.mobileOpened = false
-      this.percentage = 0
+      this.layout.__animate()
 
-      document.body.classList.remove(bodyClassAbove)
-      document.body.classList.remove(bodyClassBelow)
+      if (this.mobileOpened) {
+        this.__preventScroll(false)
+        this.mobileOpened = false
+      }
+
+      this.applyPosition((this.$q.i18n.rtl ? -1 : 1) * (this.rightSide ? 1 : -1) * this.size)
+      this.applyBackdrop(0)
+
+      document.body.classList.remove(bodyClass)
 
       clearTimeout(this.timer)
       this.timer = setTimeout(() => {
