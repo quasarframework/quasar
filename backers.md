@@ -56,7 +56,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Hansol Song ($25)
 - Valerian Cure ($25)
 - Shawn Makinson ($25)
-- Edinei Cipriani ($25)
 - Anca-Anamaria Enache ($20)
 - Carlos Tulloch ($20)
 - MSG Group ($20)
