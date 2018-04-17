@@ -117,7 +117,7 @@ export default {
       }
       if (__THEME__ === 'mat') {
         const target = this.$refs.target
-        if (this.defaultView && target.view !== this.defaultView) {
+        if (this.defaultView) {
           target.setView(this.defaultView)
         }
         else {
