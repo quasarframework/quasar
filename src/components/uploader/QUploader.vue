@@ -338,7 +338,7 @@ export default {
           else {
             const reader = new FileReader()
             let p = new Promise((resolve, reject) => {
-              reader.onload = (e) => {
+              reader.onload = e => {
                 let img = new Image()
                 img.src = e.target.result
                 file.__img = img
@@ -346,9 +346,7 @@ export default {
                 this.__computeTotalSize()
                 resolve(true)
               }
-              reader.onerror = (e) => {
-                reject(e)
-              }
+              reader.onerror = e => { reject(e) }
             })
 
             reader.readAsDataURL(file)

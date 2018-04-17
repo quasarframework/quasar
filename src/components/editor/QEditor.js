@@ -234,8 +234,11 @@ export default {
   methods: {
     onInput (e) {
       if (this.editWatcher) {
-        this.editWatcher = false
-        this.$emit('input', this.$refs.content.innerHTML)
+        const val = this.$refs.content.innerHTML
+        if (val !== this.value) {
+          this.editWatcher = false
+          this.$emit('input', val)
+        }
       }
     },
     onKeydown (e) {
