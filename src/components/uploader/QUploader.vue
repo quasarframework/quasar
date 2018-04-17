@@ -346,7 +346,7 @@ export default {
                 this.__computeTotalSize()
                 resolve(true)
               }
-              reader.onerror = e => reject(e)
+              reader.onerror = e => { reject(e) }
             })
 
             reader.readAsDataURL(file)
