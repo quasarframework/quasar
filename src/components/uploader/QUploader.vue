@@ -507,6 +507,7 @@ export default {
     },
     abort () {
       this.xhrs.forEach(xhr => { xhr.abort() })
+      this.uploading = false
     },
     reset () {
       this.abort()
