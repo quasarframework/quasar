@@ -243,6 +243,7 @@ export default {
 
       if (!e.ctrlKey) {
         this.refreshToolbar()
+        this.$q.platform.is.ie && this.$nextTick(this.onInput)
         return
       }
 
@@ -251,6 +252,7 @@ export default {
         const { cmd, param } = target
         stopAndPrevent(e)
         this.runCmd(cmd, param, false)
+        this.$q.platform.is.ie && this.$nextTick(this.onInput)
       }
     },
     runCmd (cmd, param, update = true) {
