@@ -22,7 +22,7 @@ module.exports = {
   ],
   // add your custom rules here
   'rules': {
-    'arrow-parens': 0,
+    'arrow-parens': [2, 'as-needed'],
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
     'one-var': 0,
     'import/first': 0,
