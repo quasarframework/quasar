@@ -111,7 +111,7 @@ export default {
   data () {
     return {
       input: '',
-      model: this.value,
+      model: this.value.slice(),
       watcher: null,
       shadow: {
         val: this.input,
@@ -135,7 +135,7 @@ export default {
   },
   watch: {
     value (v) {
-      this.model = v
+      this.model = v.slice()
     }
   },
   provide () {
