@@ -34,8 +34,8 @@ export default {
     loading: 'Loading...',
     selectedRows: function (rows) {
       return rows === 1
-        ? '1 selected row.'
-        : (rows === 0 ? 'No' : rows) + ' selected rows.'
+        ? '1 row selected.'
+        : (rows === 0 ? 'No' : rows) + ' rows selected.'
     },
     rowsPerPage: 'Rows per page:',
     allRows: 'All',
