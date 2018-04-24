@@ -405,7 +405,6 @@ export default {
         this.additionalFields.forEach(field => {
           form.append(field.name, field.value)
         })
-        form.append('Content-Type', file.type || 'application/octet-stream')
         form.append(this.name, file)
       }
       catch (e) {
