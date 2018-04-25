@@ -129,8 +129,9 @@ $table-dark-header-color        ?= rgba(255, 255, 255, .64)
 $table-dark-hover-background    ?= rgba(255, 255, 255, .1)
 $table-dark-selected-background ?= rgba(255, 255, 255, .2)
 
-
 $input-frame-transition ?= all .45s cubic-bezier(.23, 1, .32, 1)
+$input-frame-transition-after-in ?= $input-frame-transition, border-right-width .45s cubic-bezier(1, -1, 1, -1)
+$input-frame-transition-after-out ?= $input-frame-transition, border-right-width .45s cubic-bezier(0, 2, 0, 2)
 
 $toolbar-min-height          ?= 50px
 $toolbar-padding             ?= 4px 12px

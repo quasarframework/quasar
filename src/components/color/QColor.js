@@ -42,7 +42,6 @@ export default {
       validator: v => ['auto', 'hex', 'rgb', 'hexa', 'rgba'].includes(v)
     },
     displayValue: String,
-    placeholder: String,
     okLabel: String,
     cancelLabel: String
   },
@@ -230,6 +229,9 @@ export default {
         inverted: this.inverted,
         invertedLight: this.invertedLight,
         dark: this.dark,
+        dense: this.dense,
+        box: this.box,
+        fullWidth: this.fullWidth,
         hideUnderline: this.hideUnderline,
         before: this.before,
         after: this.after,

@@ -856,12 +856,12 @@ function needsNew() {
   A promise can be in one of three states: pending, fulfilled, or rejected.
 
   Promises that are fulfilled have a fulfillment value and are in the fulfilled
-  state.  Promises that are rejected have a rejection reason and are in the
-  rejected state.  A fulfillment value is never a thenable.
+  state. Promises that are rejected have a rejection reason and are in the
+  rejected state. A fulfillment value is never a thenable.
 
-  Promises can also be said to *resolve* a value.  If this value is also a
+  Promises can also be said to *resolve* a value. If this value is also a
   promise, then the original promise's settled state will match the value's
-  settled state.  So a promise that *resolves* a promise that rejects will
+  settled state. So a promise that *resolves* a promise that rejects will
   itself reject, and a promise that *resolves* a promise that fulfills will
   itself fulfill.
 
@@ -966,7 +966,7 @@ var Promise$2 = function () {
   ```
    Chaining
   --------
-   The return value of `then` is itself a promise.  This second, 'downstream'
+   The return value of `then` is itself a promise. This second, 'downstream'
   promise is resolved with the return value of the first promise's fulfillment
   or rejection handler, or rejected if the handler throws an exception.
    ```js
@@ -1061,7 +1061,7 @@ var Promise$2 = function () {
   let author, books;
    try {
     author = findAuthor();
-    books  = findBooksByAuthor(author);
+    books = findBooksByAuthor(author);
     // success
   } catch(reason) {
     // failure

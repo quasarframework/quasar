@@ -13,6 +13,9 @@
     :inverted="inverted"
     :invertedLight="invertedLight"
     :dark="dark"
+    :dense="dense"
+    :box="box"
+    :full-width="fullWidth"
     :hide-underline="hideUnderline"
     :before="before"
     :after="after"
@@ -30,7 +33,7 @@
     @keydown.native="__keyboardHandleKey"
   >
     <div
-      v-if="hasChips"
+      v-if="hasChips && selectedOptions.length"
       class="col row items-center group q-input-chips"
       :class="alignClass"
     >
@@ -38,6 +41,7 @@
         v-for="opt in selectedOptions"
         :key="opt.label"
         small
+        :dense="dense"
         :closable="!disable && !readonly && !opt.disable"
         :color="__getChipBgColor(opt.color)"
         :text-color="__getChipTextColor(opt.color)"
@@ -62,7 +66,7 @@
     <q-icon
       v-if="!disable && !readonly && clearable && length"
       slot="after"
-      :name="$q.icon.input.clear"
+      :name="$q.icon.input[`clear${isInverted ? 'Inverted' : ''}`]"
       class="q-if-control"
       @click.stop.native="clear"
     />
@@ -206,7 +210,6 @@ export default {
     filterPlaceholder: String,
     autofocusFilter: Boolean,
     radio: Boolean,
-    placeholder: String,
     separator: Boolean,
     value: { required: true },
     multiple: Boolean,

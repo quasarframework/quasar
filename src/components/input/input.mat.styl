@@ -9,14 +9,17 @@
 .q-input-target, .q-input-shadow
   border 0
   outline 0
-  padding 0
+  padding: 0 0 3.2px 0
+  margin 0
   background transparent
-  min-height 18px
   font-size inherit
   resize none
   display flex
   align-items center
   color black
+  line-height 0.85
+  &.col
+    min-height 1.05em
   &:-webkit-autofill
     -webkit-animation-name webkit-autofill-on
     -webkit-animation-fill-mode both
@@ -31,10 +34,25 @@
     box-shadow inherit
 
 input.q-input-target
-  height 19px
   outline 0
+  height 1.05em
+  display inline-block
+  -webkit-appearance none
+textarea.q-input-target
+textarea.q-input-shadow
+  padding 0
+  line-height 1.2
+textarea.q-input-target
+  overflow-y hidden
 .q-input-chips
-  min-height 36px !important
+  > .q-chip
+    transform translateY(9px);
+  > .q-input-target
+    margin-bottom 0
+    align-self flex-end
+
+.q-input-area
+  margin-top 5px
 
 .q-if
   .q-input-target-placeholder

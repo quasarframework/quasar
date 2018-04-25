@@ -46,16 +46,16 @@
 
         <div class="group">
           <p class="caption">Button</p>
-          <div><q-btn color="primary" size="form" outline label="Button" /></div>
-          <div><q-btn color="primary" size="form-label" outline label="Button" /></div>
-          <div><q-btn color="primary" size="form-label" outline label="Button" /></div>
+          <div><q-btn color="primary" class="q-mt-md" size="form" outline label="Button" /></div>
+          <div><q-btn color="primary" class="q-mt-md" size="form-label" outline label="Button" /></div>
+          <div><q-btn color="primary" class="q-mt-md" size="form-label" outline label="Button" /></div>
         </div>
 
         <div class="group">
           <p class="caption">Button</p>
-          <div><q-btn color="primary" size="form" flat label="Button" /></div>
-          <div><q-btn color="primary" size="form-label" flat label="Button" /></div>
-          <div><q-btn color="primary" size="form-label" flat label="Button" /></div>
+          <div><q-btn color="primary" class="q-mt-md" size="form" flat label="Button" /></div>
+          <div><q-btn color="primary" class="q-mt-md" size="form-label" flat label="Button" /></div>
+          <div><q-btn color="primary" class="q-mt-md" size="form-label" flat label="Button" /></div>
         </div>
       </div>
 
@@ -104,16 +104,16 @@
 
         <div class="group">
           <p class="caption">Button</p>
-          <div><q-btn color="primary" size="form-hide-underline" outline label="Button" /></div>
-          <div><q-btn color="primary" size="form-label-hide-underline" outline label="Button" /></div>
-          <div><q-btn color="primary" size="form-label-hide-underline" outline label="Button" /></div>
+          <div><q-btn color="primary" class="q-mt-md" size="form-hide-underline" outline label="Button" /></div>
+          <div><q-btn color="primary" class="q-mt-md" size="form-label-hide-underline" outline label="Button" /></div>
+          <div><q-btn color="primary" class="q-mt-md" size="form-label-hide-underline" outline label="Button" /></div>
         </div>
 
         <div class="group">
           <p class="caption">Button</p>
-          <div><q-btn color="primary" size="form-hide-underline" flat label="Button" /></div>
-          <div><q-btn color="primary" size="form-label-hide-underline" flat label="Button" /></div>
-          <div><q-btn color="primary" size="form-label-hide-underline" flat label="Button" /></div>
+          <div><q-btn color="primary" class="q-mt-md" size="form-hide-underline" flat label="Button" /></div>
+          <div><q-btn color="primary" class="q-mt-md" size="form-label-hide-underline" flat label="Button" /></div>
+          <div><q-btn color="primary" class="q-mt-md" size="form-label-hide-underline" flat label="Button" /></div>
         </div>
       </div>
 
