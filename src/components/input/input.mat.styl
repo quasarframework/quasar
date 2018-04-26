@@ -9,7 +9,7 @@
 .q-input-target, .q-input-shadow
   border 0
   outline 0
-  padding: 0 0 3.2px 0
+  padding: 0 0 $input-padding-bottom 0
   margin 0
   background transparent
   font-size inherit
@@ -17,9 +17,9 @@
   display flex
   align-items center
   color black
-  line-height 0.85
+  line-height $input-line-height
   &.col
-    min-height 1.05em
+    min-height $input-height
   &:-webkit-autofill
     -webkit-animation-name webkit-autofill-on
     -webkit-animation-fill-mode both
@@ -35,7 +35,7 @@
 
 input.q-input-target
   outline 0
-  height 1.05em
+  height $input-height
   display inline-block
   -webkit-appearance none
 textarea.q-input-target
