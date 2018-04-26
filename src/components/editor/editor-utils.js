@@ -221,7 +221,7 @@ export function getLinkEditor (h, vm) {
       h('div', { staticClass: 'q-mx-xs', 'class': `text-${color}` }, [`${vm.$q.i18n.editor.url}: `]),
       h(QInput, {
         key: 'qedt_btm_input',
-        staticClass: 'q-ma-none q-pa-none col q-editor-input',
+        staticClass: 'q-ma-none q-py-xs col q-editor-input',
         props: {
           value: link,
           color,

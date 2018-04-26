@@ -12,6 +12,9 @@
     :inverted="inverted"
     :invertedLight="invertedLight"
     :dark="dark"
+    :dense="dense"
+    :box="box"
+    :full-width="fullWidth"
     :hide-underline="hideUnderline"
     :before="before"
     :after="after"
@@ -27,6 +30,7 @@
     <div class="col row items-center group q-input-chips">
       <q-chip
         small
+        :dense="dense"
         :closable="editable"
         v-for="(label, index) in model"
         :key="`${label}#${index}`"

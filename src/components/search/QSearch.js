@@ -13,7 +13,6 @@ export default {
       default: 300
     },
     icon: String,
-    placeholder: String,
     noIcon: Boolean
   },
   data () {
@@ -109,6 +108,9 @@ export default {
         inverted: this.inverted,
         invertedLight: this.invertedLight,
         dark: this.dark,
+        dense: this.dense,
+        box: this.box,
+        fullWidth: this.fullWidth,
         hideUnderline: this.hideUnderline,
         color: this.color,
         before: this.controlBefore,

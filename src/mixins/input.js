@@ -2,7 +2,6 @@ export default {
   props: {
     autofocus: [Boolean, String],
     maxHeight: Number,
-    placeholder: String,
     loading: Boolean
   },
   data () {
