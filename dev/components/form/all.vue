@@ -37,6 +37,8 @@
             @input="onInput"
             @clear="onClear"
             @autofill="ev => onAutofill(ev, 'username')"
+            prefix="PRE@jqgpy|"
+            suffix="SUF"
           />
           <q-input type="password" autocomplete="current-password"
             v-model="password"
@@ -58,56 +60,58 @@
             @input="onInput"
             @clear="onClear"
             @autofill="ev => onAutofill(ev, 'password')"
+            prefix="PRE@jqgpy|"
+            suffix="SUF"
           />
           <div><q-btn type="submit" flat label="Login" /></div>
         </form>
 
         <p class="q-subtitle">Country selected: {{ JSON.stringify(terms) }}</p>
-        <q-search :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" placeholder="Start typing a country name - search" no-icon>
+        <q-search prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" placeholder="Start typing a country name - search" no-icon>
           <q-autocomplete :static-data="{field: 'value', list: countries}" @selected="selected" />
         </q-search>
-        <q-search :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" placeholder="Start typing a country name - search">
+        <q-search prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" placeholder="Start typing a country name - search">
           <q-autocomplete :static-data="{field: 'value', list: countries}" @selected="selected" />
         </q-search>
-        <q-search :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" inverted :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" placeholder="Start typing a country name - search">
+        <q-search prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" inverted :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" placeholder="Start typing a country name - search">
           <q-autocomplete :static-data="{field: 'value', list: countries}" @selected="selected" />
         </q-search>
-        <q-search :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" float-label="Start typing a country name - search">
+        <q-search prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" float-label="Start typing a country name - search">
           <q-autocomplete :static-data="{field: 'value', list: countries}" @selected="selected" />
         </q-search>
-        <q-search :class="classes" :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" inverted :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="val => { terms = val; onChange(val) }" @input="onInput" @clear="onClear" :value="terms" float-label="Start typing a country name -search (onChange)">
+        <q-search prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" inverted :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="val => { terms = val; onChange(val) }" @input="onInput" @clear="onClear" :value="terms" float-label="Start typing a country name -search (onChange)">
           <q-autocomplete :static-data="{field: 'value', list: countries}" @selected="selected" />
         </q-search>
-        <q-input :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" float-label="Start typing a country name - input">
+        <q-input prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" float-label="Start typing a country name - input">
           <q-autocomplete :static-data="{field: 'value', list: countries}" @selected="selected" />
         </q-input>
-        <q-input :class="classes" :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" inverted :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="val => { terms = val; onChange(val) }" @input="onInput" @clear="onClear" :value="terms" float-label="Start typing a country name - input (onChange)">
+        <q-input prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" inverted :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="val => { terms = val; onChange(val) }" @input="onInput" @clear="onClear" :value="terms" float-label="Start typing a country name - input (onChange)">
           <q-autocomplete :static-data="{field: 'value', list: countries}" @selected="selected" />
         </q-input>
-        <q-input :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :clearable="clearable" type="textarea" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" float-label="Start typing a country name - textarea">
+        <q-input prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :clearable="clearable" type="textarea" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" float-label="Start typing a country name - textarea">
           <q-autocomplete :static-data="{field: 'value', list: countries}" @selected="selected" />
         </q-input>
-        <q-input :class="classes" :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" inverted :clearable="clearable" type="textarea" @focus="onFocus" @blur="onBlur" @change="val => { terms = val; onChange(val) }" @input="onInput" @clear="onClear" :value="terms" float-label="Start typing a country name - textarea (onChange)">
+        <q-input prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" inverted :clearable="clearable" type="textarea" @focus="onFocus" @blur="onBlur" @change="val => { terms = val; onChange(val) }" @input="onInput" @clear="onClear" :value="terms" float-label="Start typing a country name - textarea (onChange)">
           <q-autocomplete :static-data="{field: 'value', list: countries}" @selected="selected" />
         </q-input>
 
         <p class="q-subtitle">Number selected: {{ JSON.stringify(termsN) }}</p>
-        <q-search :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" type="number" v-model="termsN" float-label="Start typing a number">
+        <q-search prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" type="number" v-model="termsN" float-label="Start typing a number">
           <q-autocomplete :static-data="{field: 'value', list: numbers}" @selected="selected" />
         </q-search>
-        <q-search :class="classes" :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" inverted :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="val => { termsN = val; onChange(val) }" @input="onInput" @clear="onClear" type="number" :value="termsN" float-label="Start typing a number (onChange)">
+        <q-search prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" inverted :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="val => { termsN = val; onChange(val) }" @input="onInput" @clear="onClear" type="number" :value="termsN" float-label="Start typing a number (onChange)">
           <q-autocomplete :static-data="{field: 'value', list: numbers}" @selected="selected" />
         </q-search>
-        <q-input :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="termsN" float-label="Start typing a number - input">
+        <q-input prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="termsN" float-label="Start typing a number - input">
           <q-autocomplete :static-data="{field: 'value', list: numbers}" @selected="selected" />
         </q-input>
-        <q-input :class="classes" :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" inverted :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="val => { termsN = val; onChange(val) }" @input="onInput" @clear="onClear" :value="termsN" float-label="Start typing a number - input (onChange)">
+        <q-input prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" inverted :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="val => { termsN = val; onChange(val) }" @input="onInput" @clear="onClear" :value="termsN" float-label="Start typing a number - input (onChange)">
           <q-autocomplete :static-data="{field: 'value', list: numbers}" @selected="selected" />
         </q-input>
-        <q-input :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :clearable="clearable" type="textarea" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="termsN" float-label="Start typing a number - textarea">
+        <q-input prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :clearable="clearable" type="textarea" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="termsN" float-label="Start typing a number - textarea">
           <q-autocomplete :static-data="{field: 'value', list: numbers}" @selected="selected" />
         </q-input>
-        <q-input :class="classes" :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" inverted :clearable="clearable" type="textarea" @focus="onFocus" @blur="onBlur" @change="val => { termsN = val; onChange(val) }" @input="onInput" @clear="onClear" :value="termsN" float-label="Start typing a number - textarea (onChange)">
+        <q-input prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" inverted :clearable="clearable" type="textarea" @focus="onFocus" @blur="onBlur" @change="val => { termsN = val; onChange(val) }" @input="onInput" @clear="onClear" :value="termsN" float-label="Start typing a number - textarea (onChange)">
           <q-autocomplete :static-data="{field: 'value', list: numbers}" @selected="selected" />
         </q-input>
 
@@ -115,13 +119,13 @@
         <div class="row gutter-sm">
           <div>
             <div>
-              <q-checkbox :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="options" val="Romania" label="Romania" />
+              <q-checkbox :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="options" val="Romania" label="Romania" />
             </div>
             <div>
-              <q-checkbox :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" @focus="onFocus" @blur="onBlur" @change="val => { options = val; onChange(val) }" @input="onInput" :value="options" val="Albania" label="Albania (onChange)" />
+              <q-checkbox :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" @focus="onFocus" @blur="onBlur" @change="val => { options = val; onChange(val) }" @input="onInput" :value="options" val="Albania" label="Albania (onChange)" />
             </div>
           </div>
-          <q-option-group :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box"
+          <q-option-group :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box"
             type="checkbox"
             v-model="options"
             @focus="onFocus"
@@ -133,7 +137,7 @@
               { label: 'Portugal', value: 'Portugal' }
             ]"
           />
-          <q-option-group :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box"
+          <q-option-group :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box"
             type="checkbox"
             :value="options"
             @focus="onFocus"
@@ -151,13 +155,13 @@
         <div class="row gutter-sm">
           <div>
             <div>
-              <q-toggle :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="options" val="Romania" label="Romania" />
+              <q-toggle :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="options" val="Romania" label="Romania" />
             </div>
             <div>
-              <q-toggle :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" @focus="onFocus" @blur="onBlur" @change="val => { options = val; onChange(val) }" @input="onInput" :value="options" val="Albania" label="Albania (onChange)" />
+              <q-toggle :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" @focus="onFocus" @blur="onBlur" @change="val => { options = val; onChange(val) }" @input="onInput" :value="options" val="Albania" label="Albania (onChange)" />
             </div>
           </div>
-          <q-option-group :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box"
+          <q-option-group :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box"
             type="toggle"
             v-model="options"
             @focus="onFocus"
@@ -169,7 +173,7 @@
               { label: 'Portugal', value: 'Portugal' }
             ]"
           />
-          <q-option-group :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box"
+          <q-option-group :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box"
             type="toggle"
             :value="options"
             @focus="onFocus"
@@ -187,13 +191,13 @@
         <div class="row gutter-sm">
           <div>
             <div>
-              <q-radio :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="option" val="Romania" label="Romania" />
+              <q-radio :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="option" val="Romania" label="Romania" />
             </div>
             <div>
-              <q-radio :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" @focus="onFocus" @blur="onBlur" @change="val => { option = val; onChange(val) }" @input="onInput" :value="option" val="Albania" label="Albania (onChange)" />
+              <q-radio :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" @focus="onFocus" @blur="onBlur" @change="val => { option = val; onChange(val) }" @input="onInput" :value="option" val="Albania" label="Albania (onChange)" />
             </div>
           </div>
-          <q-option-group :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box"
+          <q-option-group :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box"
             type="radio"
             v-model="option"
             @focus="onFocus"
@@ -205,7 +209,7 @@
               { label: 'Portugal', value: 'Portugal' }
             ]"
           />
-          <q-option-group :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box"
+          <q-option-group :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box"
             type="radio"
             :value="option"
             @focus="onFocus"
@@ -220,152 +224,152 @@
         </div>
 
         <p class="q-subtitle">Options selected: {{ JSON.stringify(options) }}</p>
-        <q-chips-input :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" placeholder="List" v-model="options" />
-        <q-chips-input :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" float-label="List" v-model="options" />
-        <q-chips-input :class="classes" :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" inverted @focus="onFocus" @blur="onBlur" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" float-label="List (onChange)" :value="options" />
-        <q-chips-input :class="classes" :dark="dark" color="amber-2" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" inverted-light @focus="onFocus" @blur="onBlur" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" float-label="List (onChange)" :value="options" />
-        <q-chips-input :class="classes" :dark="dark" color="white" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" inverted-light @focus="onFocus" @blur="onBlur" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" float-label="List (onChange)" :value="options" />
-        <q-chips-input :class="classes" :dark="dark" color="black" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" inverted @focus="onFocus" @blur="onBlur" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" float-label="List (onChange)" :value="options" />
-        <q-chips-input :class="classes" :dark="dark" color="green" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" inverted @focus="onFocus" @blur="onBlur" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" float-label="List (onChange)" :value="options" />
+        <q-chips-input prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" placeholder="List" v-model="options" />
+        <q-chips-input prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" float-label="List" v-model="options" />
+        <q-chips-input prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" inverted @focus="onFocus" @blur="onBlur" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" float-label="List (onChange)" :value="options" />
+        <q-chips-input prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" color="amber-2" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" inverted-light @focus="onFocus" @blur="onBlur" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" float-label="List (onChange)" :value="options" />
+        <q-chips-input prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" color="white" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" inverted-light @focus="onFocus" @blur="onBlur" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" float-label="List (onChange)" :value="options" />
+        <q-chips-input prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" color="black" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" inverted @focus="onFocus" @blur="onBlur" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" float-label="List (onChange)" :value="options" />
+        <q-chips-input prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" color="green" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" inverted @focus="onFocus" @blur="onBlur" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" float-label="List (onChange)" :value="options" />
 
-        <q-chips-input :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" float-label="List autocomplete" v-model="options">
+        <q-chips-input prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" float-label="List autocomplete" v-model="options">
           <q-autocomplete :static-data="{field: 'value', list: countries}" @selected="selected" />
         </q-chips-input>
-        <q-chips-input :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" @focus="onFocus" @blur="onBlur" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" float-label="List autocomplete (onChange)" :value="options">
+        <q-chips-input prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" @focus="onFocus" @blur="onBlur" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" float-label="List autocomplete (onChange)" :value="options">
           <q-autocomplete :static-data="{field: 'value', list: countries}" @selected="selected" />
         </q-chips-input>
 
         <p class="q-subtitle">Selected option: {{ JSON.stringify(option) }}</p>
-        <q-select :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="option" :options="countries" placeholder="Select" filter />
-        <q-select :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="option" :options="countries" float-label="Select" filter />
-        <q-select :class="classes" :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" inverted :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="val => { option = val; onChange(val) }" @input="onInput" @clear="onClear" :value="option" :options="countries" float-label="Select (onChange)" filter />
+        <q-select prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="option" :options="countries" placeholder="Select" filter />
+        <q-select prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="option" :options="countries" float-label="Select" filter />
+        <q-select prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" inverted :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="val => { option = val; onChange(val) }" @input="onInput" @clear="onClear" :value="option" :options="countries" float-label="Select (onChange)" filter />
 
         <p class="q-subtitle">Selected options: {{ JSON.stringify(options) }}</p>
-        <q-select :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" multiple :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="options" :options="countries" float-label="Select multiple" filter />
-        <q-select :class="classes" :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" multiple inverted :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" :value="options" :options="countries" float-label="Select multiple (onChange)" filter />
-        <q-select :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" multiple chips :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="options" :options="countries" float-label="Select multiple - chips" filter />
-        <q-select :class="classes" :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" multiple chips inverted :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" :value="options" :options="countries" float-label="Select multiple - chips (onChange)" filter />
-        <q-select :class="classes" :dark="dark" color="amber-2" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" multiple chips inverted-light :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" :value="options" :options="countries" float-label="Select multiple - chips (onChange)" filter />
-        <q-select :class="classes" :dark="dark" color="white" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" multiple chips inverted-light :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" :value="options" :options="countries" float-label="Select multiple - chips (onChange)" filter />
-        <q-select :class="classes" :dark="dark" color="black" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" multiple chips inverted :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" :value="options" :options="countries" float-label="Select multiple - chips (onChange)" filter />
+        <q-select prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" multiple :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="options" :options="countries" float-label="Select multiple" filter />
+        <q-select prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" multiple inverted :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" :value="options" :options="countries" float-label="Select multiple (onChange)" filter />
+        <q-select prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" multiple chips :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="options" :options="countries" float-label="Select multiple - chips" filter />
+        <q-select prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" multiple chips inverted :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" :value="options" :options="countries" float-label="Select multiple - chips (onChange)" filter />
+        <q-select prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" color="amber-2" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" multiple chips inverted-light :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" :value="options" :options="countries" float-label="Select multiple - chips (onChange)" filter />
+        <q-select prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" color="white" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" multiple chips inverted-light :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" :value="options" :options="countries" float-label="Select multiple - chips (onChange)" filter />
+        <q-select prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" color="black" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" multiple chips inverted :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="val => { options = val; onChange(val) }" @input="onInput" @clear="onClear" :value="options" :options="countries" float-label="Select multiple - chips (onChange)" filter />
 
         <p class="q-subtitle">Color selected: {{ JSON.stringify(color) }}</p>
-        <q-color :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="color" placeholder="Color (RGBA)" format-model="rgba" :after="[ { icon: 'colorize', handler () { color = '#f00' } }]" />
-        <q-color :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="color" float-label="Color (RGBA)" format-model="rgba" />
-        <q-color :class="classes" :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" inverted :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="val => { color = val; onChange(val) }" @input="onInput" @clear="onClear" :value="color" float-label="Color (onChange)" />
-        <q-color :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="color" :default-value="defaultColor" :float-label="`Color (default ${defaultColor})`" />
-        <q-color :class="classes" :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" inverted :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="val => { color = val; onChange(val) }" @input="onInput" @clear="onClear" :value="color" :default-value="defaultColor" :float-label="`Color (default ${defaultColor}, onChange)`" :after="[ { icon: 'colorize', handler () { color = '#f00' } }]" />
+        <q-color prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="color" placeholder="Color (RGBA)" format-model="rgba" :after="[ { icon: 'colorize', handler () { color = '#f00' } }]" />
+        <q-color prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="color" float-label="Color (RGBA)" format-model="rgba" />
+        <q-color prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" inverted :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="val => { color = val; onChange(val) }" @input="onInput" @clear="onClear" :value="color" float-label="Color (onChange)" />
+        <q-color prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="color" :default-value="defaultColor" :float-label="`Color (default ${defaultColor})`" />
+        <q-color prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" inverted :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="val => { color = val; onChange(val) }" @input="onInput" @clear="onClear" :value="color" :default-value="defaultColor" :float-label="`Color (default ${defaultColor}, onChange)`" :after="[ { icon: 'colorize', handler () { color = '#f00' } }]" />
 
-        <q-color :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="color" placeholder="Color - modal (RGBA)" modal format-model="rgba" :after="[ { icon: 'colorize', handler () { color = '#f00' } }]" />
-        <q-color :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="color" placeholder="Color - popover (RGBA)" popover format-model="rgba" :after="[ { icon: 'colorize', handler () { color = '#f00' } }]" />
+        <q-color prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="color" placeholder="Color - modal (RGBA)" modal format-model="rgba" :after="[ { icon: 'colorize', handler () { color = '#f00' } }]" />
+        <q-color prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="color" placeholder="Color - popover (RGBA)" popover format-model="rgba" :after="[ { icon: 'colorize', handler () { color = '#f00' } }]" />
 
         <p class="q-subtitle">Color selected: {{ JSON.stringify(colorP) }}</p>
         <div class="row gutter-sm">
           <div>
             <div>Color</div>
-            <q-color-picker :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="colorP" />
+            <q-color-picker :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="colorP" />
           </div>
           <div>
             <div>Color (HEXA, onChange)</div>
-            <q-color-picker :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" @focus="onFocus" @blur="onBlur" @change="val => { colorP = val; onChange(val) }" @input="onInput" @clear="onClear" :value="colorP" format-model="hexa" />
+            <q-color-picker :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" @focus="onFocus" @blur="onBlur" @change="val => { colorP = val; onChange(val) }" @input="onInput" @clear="onClear" :value="colorP" format-model="hexa" />
           </div>
           <div>
             <div>Color (default {{defaultColor}})</div>
-            <q-color-picker :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="colorP" :default-value="defaultColor" />
+            <q-color-picker :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="colorP" :default-value="defaultColor" />
           </div>
           <div>
             <div>Color (default {{defaultColor}}, onChange)</div>
-            <q-color-picker :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" @focus="onFocus" @blur="onBlur" @change="val => { colorP = val; onChange(val) }" @input="onInput" @clear="onClear" :value="colorP" :default-value="defaultColor" />
+            <q-color-picker :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" @focus="onFocus" @blur="onBlur" @change="val => { colorP = val; onChange(val) }" @input="onInput" @clear="onClear" :value="colorP" :default-value="defaultColor" />
           </div>
         </div>
 
         <p class="q-subtitle">Date selected: {{ JSON.stringify(date) }}</p>
-        <q-datetime :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="date" formatModel="date" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="date" placeholder="Date" :after="[ { icon: 'today', handler () { date = new Date('2018-10-21') } }]" />
-        <q-datetime :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="date" formatModel="date" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="date" float-label="Date" />
-        <q-datetime :class="classes" :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="date" formatModel="date" inverted :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="val => { date = val; onChange(val) }" @input="onInput" @clear="onClear" :value="date" float-label="Date (onChange)" />
-        <q-datetime :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="date" formatModel="date" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="date" :default-value="defaultDate" :float-label="`Date (default ${defaultDate})`" />
-        <q-datetime :class="classes" :dark="dark" color="orange" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="datetime" formatModel="date" inverted :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="val => { date = val; onChange(val) }" @input="onInput" @clear="onClear" :value="date" :default-value="defaultDate" :float-label="`Datetime (default ${defaultDate}, onChange)`" />
-        <q-datetime :class="classes" :dark="dark" color="amber-2" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="datetime" formatModel="date" inverted-light :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="val => { date = val; onChange(val) }" @input="onInput" @clear="onClear" :value="date" :default-value="defaultDate" :float-label="`Datetime (default ${defaultDate}, onChange)`" :after="[ { icon: 'today', handler () { date = new Date() } }]" />
+        <q-datetime prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="date" formatModel="date" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="date" placeholder="Date" :after="[ { icon: 'today', handler () { date = new Date('2018-10-21') } }]" />
+        <q-datetime prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="date" formatModel="date" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="date" float-label="Date" />
+        <q-datetime prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="date" formatModel="date" inverted :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="val => { date = val; onChange(val) }" @input="onInput" @clear="onClear" :value="date" float-label="Date (onChange)" />
+        <q-datetime prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="date" formatModel="date" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="date" :default-value="defaultDate" :float-label="`Date (default ${defaultDate})`" />
+        <q-datetime prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" color="orange" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="datetime" formatModel="date" inverted :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="val => { date = val; onChange(val) }" @input="onInput" @clear="onClear" :value="date" :default-value="defaultDate" :float-label="`Datetime (default ${defaultDate}, onChange)`" />
+        <q-datetime prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" color="amber-2" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="datetime" formatModel="date" inverted-light :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="val => { date = val; onChange(val) }" @input="onInput" @clear="onClear" :value="date" :default-value="defaultDate" :float-label="`Datetime (default ${defaultDate}, onChange)`" :after="[ { icon: 'today', handler () { date = new Date() } }]" />
 
-        <q-datetime :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="date" formatModel="date" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="date" placeholder="Date - modal" modal :after="[ { icon: 'today', handler () { date = new Date('2018-10-21') } }]" />
-        <q-datetime :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="date" formatModel="date" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="date" placeholder="Date - popover" popover :after="[ { icon: 'today', handler () { date = new Date('2018-10-21') } }]" />
+        <q-datetime prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="date" formatModel="date" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="date" placeholder="Date - modal" modal :after="[ { icon: 'today', handler () { date = new Date('2018-10-21') } }]" />
+        <q-datetime prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="date" formatModel="date" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="date" placeholder="Date - popover" popover :after="[ { icon: 'today', handler () { date = new Date('2018-10-21') } }]" />
 
         <p class="q-subtitle">Date selected: {{ JSON.stringify(date) }}</p>
         <div class="row gutter-sm">
           <div>
             <div>Date</div>
-            <q-datetime-picker :class="classes" :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="date" formatModel="date" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="date" />
+            <q-datetime-picker :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="date" formatModel="date" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="date" />
           </div>
           <div>
             <div>Date (onChange)</div>
-            <q-datetime-picker :class="classes" :dark="dark" color="red" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="date" formatModel="date" @focus="onFocus" @blur="onBlur" @change="val => { date = val; onChange(val) }" @input="onInput" @clear="onClear" :value="date" />
+            <q-datetime-picker :dark="dark" color="red" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="date" formatModel="date" @focus="onFocus" @blur="onBlur" @change="val => { date = val; onChange(val) }" @input="onInput" @clear="onClear" :value="date" />
           </div>
           <div>
             <div>Date (default {{defaultDate}})</div>
-            <q-datetime-picker :class="classes" :dark="dark" color="secondary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="date" formatModel="date" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="date" :default-value="defaultDate" />
+            <q-datetime-picker :dark="dark" color="secondary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="date" formatModel="date" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="date" :default-value="defaultDate" />
           </div>
           <div>
             <div>Date (default {{defaultDate}}, onChange)</div>
-            <q-datetime-picker :class="classes" :dark="dark" color="grey-8" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="date" formatModel="date" @focus="onFocus" @blur="onBlur" @change="val => { date = val; onChange(val) }" @input="onInput" @clear="onClear" :value="date" :default-value="defaultDate" />
+            <q-datetime-picker :dark="dark" color="grey-8" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="date" formatModel="date" @focus="onFocus" @blur="onBlur" @change="val => { date = val; onChange(val) }" @input="onInput" @clear="onClear" :value="date" :default-value="defaultDate" />
           </div>
           <div>
             <div>Datetime</div>
-            <q-datetime-picker :class="classes" :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="datetime" formatModel="date" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="date" />
+            <q-datetime-picker :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="datetime" formatModel="date" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="date" />
           </div>
           <div>
             <div>Datetime (onChange)</div>
-            <q-datetime-picker :class="classes" :dark="dark" color="orange" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="datetime" formatModel="date" @focus="onFocus" @blur="onBlur" @change="val => { date = val; onChange(val) }" @input="onInput" @clear="onClear" :value="date" />
+            <q-datetime-picker :dark="dark" color="orange" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="datetime" formatModel="date" @focus="onFocus" @blur="onBlur" @change="val => { date = val; onChange(val) }" @input="onInput" @clear="onClear" :value="date" />
           </div>
         </div>
 
         <p class="q-subtitle">Text: {{ JSON.stringify(terms) }}</p>
-        <q-input :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" placeholder="Text" />
-        <q-input :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" float-label="Text" />
-        <q-input :class="classes" :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" inverted :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="val => { terms = val; onChange(val) }" @input="onInput" @clear="onClear" :value="terms" float-label="Text (onChange)" />
+        <q-input prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" placeholder="Text" />
+        <q-input prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" float-label="Text" />
+        <q-input prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" inverted :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="val => { terms = val; onChange(val) }" @input="onInput" @clear="onClear" :value="terms" float-label="Text (onChange)" />
 
         <p class="q-subtitle">Textarea: {{ JSON.stringify(terms) }}</p>
-        <q-input :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="textarea" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" placeholder="Textarea" />
-        <q-input :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="textarea" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" float-label="Textarea" />
-        <q-input :class="classes" :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="textarea" inverted :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="val => { terms = val; onChange(val) }" @input="onInput" @clear="onClear" :value="terms" float-label="Textarea (onChange)" />
+        <q-input prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="textarea" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" placeholder="Textarea" />
+        <q-input prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="textarea" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" float-label="Textarea" />
+        <q-input prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="textarea" inverted :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="val => { terms = val; onChange(val) }" @input="onInput" @clear="onClear" :value="terms" float-label="Textarea (onChange)" />
 
-        <q-input :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="textarea" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" placeholder="Textarea (rows 5)" :rows="5" />
-        <q-input :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="textarea" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" placeholder="Textarea (rows 5, maxHeight 100px)" :max-height="100" :rows="5" />
-        <q-input :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="textarea" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" placeholder="Textarea (rows 5, maxHeight 100px)" stack-label="Textarea (stack label, rows 5, maxHeight 100px)" :max-height="100" :rows="5" />
-        <q-input :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="textarea" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" placeholder="Textarea (rows 5, maxHeight 100px)" float-label="Textarea (float label, rows 5, maxHeight 100px)" :max-height="100" :rows="5" />
+        <q-input prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="textarea" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" placeholder="Textarea (rows 5)" :rows="5" />
+        <q-input prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="textarea" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" placeholder="Textarea (rows 5, maxHeight 100px)" :max-height="100" :rows="5" />
+        <q-input prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="textarea" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" placeholder="Textarea (rows 5, maxHeight 100px)" stack-label="Textarea (stack label, rows 5, maxHeight 100px)" :max-height="100" :rows="5" />
+        <q-input prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="textarea" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" placeholder="Textarea (rows 5, maxHeight 100px)" float-label="Textarea (float label, rows 5, maxHeight 100px)" :max-height="100" :rows="5" />
 
         <p class="q-subtitle">Password: {{ JSON.stringify(terms) }}</p>
-        <q-input :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="password" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" float-label="Password" />
-        <q-input :class="classes" :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="password" inverted :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="val => { terms = val; onChange(val) }" @input="onInput" @clear="onClear" :value="terms" float-label="Password (onChange)" />
+        <q-input prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="password" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" float-label="Password" />
+        <q-input prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="password" inverted :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="val => { terms = val; onChange(val) }" @input="onInput" @clear="onClear" :value="terms" float-label="Password (onChange)" />
 
         <p class="q-subtitle">Number: {{ JSON.stringify(termsN) }}</p>
-        <q-input :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="number" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="termsN" float-label="Number" />
-        <q-input :class="classes" :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="number" inverted :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="val => { termsN = val; onChange(val) }" @input="onInput" @clear="onClear" :value="termsN" float-label="Number (onChange)" />
+        <q-input prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="number" :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="termsN" float-label="Number" />
+        <q-input prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="number" inverted :clearable="clearable" @focus="onFocus" @blur="onBlur" @change="val => { termsN = val; onChange(val) }" @input="onInput" @clear="onClear" :value="termsN" float-label="Number (onChange)" />
 
         <p class="q-subtitle">Number (step {{step}}): {{ JSON.stringify(termsNS) }}</p>
-        <q-input :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="number" :clearable="clearable" :step="step" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="termsNS" float-label="Number" />
-        <q-input :class="classes" :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="number" inverted :clearable="clearable" :step="step" @focus="onFocus" @blur="onBlur" @change="val => { termsNS = val; onChange(val) }" @input="onInput" @clear="onClear" :value="termsNS" float-label="Number (onChange)" />
+        <q-input prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="number" :clearable="clearable" :step="step" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="termsNS" float-label="Number" />
+        <q-input prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="number" inverted :clearable="clearable" :step="step" @focus="onFocus" @blur="onBlur" @change="val => { termsNS = val; onChange(val) }" @input="onInput" @clear="onClear" :value="termsNS" float-label="Number (onChange)" />
 
         <p class="q-subtitle">Number (decimals {{decimals}}): {{ JSON.stringify(termsNS) }}</p>
-        <q-input :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="number" :clearable="clearable" :decimals="decimals" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="termsNS" float-label="Number" />
-        <q-input :class="classes" :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="number" inverted :clearable="clearable" :decimals="decimals" @focus="onFocus" @blur="onBlur" @change="val => { termsNS = val; onChange(val) }" @input="onInput" @clear="onClear" :value="termsNS" float-label="Number (onChange)" />
+        <q-input prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="number" :clearable="clearable" :decimals="decimals" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="termsNS" float-label="Number" />
+        <q-input prefix="PRE@jqgpy|" suffix="SUF" :class="classes" :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" type="number" inverted :clearable="clearable" :decimals="decimals" @focus="onFocus" @blur="onBlur" @change="val => { termsNS = val; onChange(val) }" @input="onInput" @clear="onClear" :value="termsNS" float-label="Number (onChange)" />
 
         <p class="q-subtitle">Knob: {{ JSON.stringify(termsK) }}</p>
         <div class="row gutter-sm">
           <div class="col-6">
             <div>Between {{minVal}} and {{maxVal}}, step {{step}}</div>
-            <q-knob :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :step="step" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="termsK" :min="minVal" :max="maxVal" />
+            <q-knob :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :step="step" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="termsK" :min="minVal" :max="maxVal" />
           </div>
           <div class="col-6">
             <div>Between {{minVal}} and {{maxVal}}, step {{step}} (onChange)</div>
-            <q-knob :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :step="step" @focus="onFocus" @blur="onBlur" @change="val => { termsK = val; onChange(val) }" @input="onInput" :value="termsK" :min="minVal" :max="maxVal" />
+            <q-knob :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :step="step" @focus="onFocus" @blur="onBlur" @change="val => { termsK = val; onChange(val) }" @input="onInput" :value="termsK" :min="minVal" :max="maxVal" />
           </div>
           <div class="col-6">
             <div>Between {{minVal}} and {{maxVal}}, step {{step}}, decimals {{decimals}}</div>
-            <q-knob :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :step="step" :decimals="decimals" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="termsK" :min="minVal" :max="maxVal" />
+            <q-knob :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :step="step" :decimals="decimals" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="termsK" :min="minVal" :max="maxVal" />
           </div>
           <div class="col-6">
             <div>Between {{minVal}} and {{maxVal}}, step {{step}}, decimals {{decimals}} (onChange)</div>
-            <q-knob :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :step="step" :decimals="decimals" @focus="onFocus" @blur="onBlur" @change="val => { termsK = val; onChange(val) }" @input="onInput" :value="termsK" :min="minVal" :max="maxVal" />
+            <q-knob :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :step="step" :decimals="decimals" @focus="onFocus" @blur="onBlur" @change="val => { termsK = val; onChange(val) }" @input="onInput" :value="termsK" :min="minVal" :max="maxVal" />
           </div>
         </div>
 
@@ -373,19 +377,19 @@
         <div class="row gutter-sm">
           <div class="col-6">
             <div>Between {{minVal}} and {{maxVal}}, step {{step}}</div>
-            <q-slider :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :step="step" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="termsK" :min="minVal" :max="maxVal" />
+            <q-slider :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :step="step" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="termsK" :min="minVal" :max="maxVal" />
           </div>
           <div class="col-6">
             <div>Between {{minVal}} and {{maxVal}}, step {{step}} (onChange)</div>
-            <q-slider :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :step="step" @focus="onFocus" @blur="onBlur" @change="val => { termsK = val; onChange(val) }" @input="onInput" :value="termsK" :min="minVal" :max="maxVal" />
+            <q-slider :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :step="step" @focus="onFocus" @blur="onBlur" @change="val => { termsK = val; onChange(val) }" @input="onInput" :value="termsK" :min="minVal" :max="maxVal" />
           </div>
           <div class="col-6">
             <div>Between {{minVal}} and {{maxVal}}, step {{step}}, decimals {{decimals}}</div>
-            <q-slider :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :step="step" :decimals="decimals" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="termsK" :min="minVal" :max="maxVal" />
+            <q-slider :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :step="step" :decimals="decimals" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="termsK" :min="minVal" :max="maxVal" />
           </div>
           <div class="col-6">
             <div>Between {{minVal}} and {{maxVal}}, step {{step}}, decimals {{decimals}} (onChange)</div>
-            <q-slider :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :step="step" :decimals="decimals" @focus="onFocus" @blur="onBlur" @change="val => { termsK = val; onChange(val) }" @input="onInput" :value="termsK" :min="minVal" :max="maxVal" />
+            <q-slider :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" :step="step" :decimals="decimals" @focus="onFocus" @blur="onBlur" @change="val => { termsK = val; onChange(val) }" @input="onInput" :value="termsK" :min="minVal" :max="maxVal" />
           </div>
         </div>
 
@@ -393,19 +397,19 @@
         <div class="row gutter-sm">
           <div class="col-6">
             <div>Between {{minVal}} and {{maxVal}}, step {{step}}</div>
-            <q-range :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" drag-range :step="step" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="termsR" :min="minVal" :max="maxVal" />
+            <q-range :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" drag-range :step="step" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="termsR" :min="minVal" :max="maxVal" />
           </div>
           <div class="col-6">
             <div>Between {{minVal}} and {{maxVal}}, step {{step}} (onChange)</div>
-            <q-range :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" drag-range :step="step" @focus="onFocus" @blur="onBlur" @change="val => { termsR = val; onChange(val) }" @input="onInput" :value="termsR" :min="minVal" :max="maxVal" />
+            <q-range :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" drag-range :step="step" @focus="onFocus" @blur="onBlur" @change="val => { termsR = val; onChange(val) }" @input="onInput" :value="termsR" :min="minVal" :max="maxVal" />
           </div>
           <div class="col-6">
             <div>Between {{minVal}} and {{maxVal}}, step {{step}}, decimals {{decimals}}</div>
-            <q-range :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" drag-range :step="step" :decimals="decimals" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="termsR" :min="minVal" :max="maxVal" />
+            <q-range :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" drag-range :step="step" :decimals="decimals" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="termsR" :min="minVal" :max="maxVal" />
           </div>
           <div class="col-6">
             <div>Between {{minVal}} and {{maxVal}}, step {{step}}, decimals {{decimals}} (onChange)</div>
-            <q-range :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" drag-range :step="step" :decimals="decimals" @focus="onFocus" @blur="onBlur" @change="val => { termsR = val; onChange(val) }" @input="onInput" :value="termsR" :min="minVal" :max="maxVal" />
+            <q-range :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" drag-range :step="step" :decimals="decimals" @focus="onFocus" @blur="onBlur" @change="val => { termsR = val; onChange(val) }" @input="onInput" :value="termsR" :min="minVal" :max="maxVal" />
           </div>
         </div>
 
@@ -413,26 +417,26 @@
         <div class="row gutter-sm">
           <div>
             <div>Rating</div>
-            <q-rating class="q-ma-md" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" size="3rem" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="termT" :max="maxVal" icon="create" />
+            <q-rating class="q-ma-md" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" size="3rem" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="termT" :max="maxVal" icon="create" />
           </div>
           <div>
             <div>Rating (onChange)</div>
-            <q-rating class="q-ma-md" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" size="3rem" @focus="onFocus" @blur="onBlur" @change="val => { termT = val; onChange(val) }" @input="onInput" :value="termT" :max="maxVal" icon="create" />
+            <q-rating class="q-ma-md" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" size="3rem" @focus="onFocus" @blur="onBlur" @change="val => { termT = val; onChange(val) }" @input="onInput" :value="termT" :max="maxVal" icon="create" />
           </div>
         </div>
 
         <p class="q-subtitle">Option: {{ JSON.stringify(optionValue) }}</p>
         <div class="row gutter-sm">
-          <q-select :class="classes" :dark="dark" class="col q-ma-sm" v-model="optionType" :options="optionTypes" />
+          <q-select :dark="dark" class="col q-ma-sm" v-model="optionType" :options="optionTypes" />
           <div class="col">
-            <component :is="optionType" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="optionValue" :label="`${optionType}${optionType === 'QRadio' ? ' (true)' : ''}`" :val="true" />
-            <component v-if="optionType === 'QRadio'" :is="optionType" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="optionValue" :label="`${optionType} (false)`" :val="false" />
+            <component :is="optionType" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="optionValue" :label="`${optionType}${optionType === 'QRadio' ? ' (true)' : ''}`" :val="true" />
+            <component v-if="optionType === 'QRadio'" :is="optionType" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="optionValue" :label="`${optionType} (false)`" :val="false" />
           </div>
         </div>
         <div class="row gutter-sm">
-          <QToggle ref="qtoggle1" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="optionValue" label="QToggle" />
-          <qToggle ref="qtoggle2" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="optionValue" label="qToggle" />
-          <q-toggle ref="qtoggle3" :class="classes" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="optionValue" label="q-toggle" />
+          <QToggle ref="qtoggle1" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="optionValue" label="QToggle" />
+          <qToggle ref="qtoggle2" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="optionValue" label="qToggle" />
+          <q-toggle ref="qtoggle3" :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :dense="dense" :full-width="fullWidth" :box="box" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" v-model="optionValue" label="q-toggle" />
         </div>
       </q-scroll-area>
     </div>

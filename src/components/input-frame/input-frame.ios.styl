@@ -6,7 +6,7 @@
   align-items center
   &.q-if-dense
     .q-input-target
-      font-size 13px
+      font-size 81.25%
   &.q-if-full-width
     padding 19px 16px
     border-top 1px solid $light
@@ -126,13 +126,6 @@
     .q-if-inner
       padding-top calc(0.75em + 4px)
 
-.q-if-textarea.q-if-has-label
-  .q-if-inner
-    padding-top calc(0.75em + 4px)
-  &.q-if-dense
-    .q-if-inner
-      padding-top 0.5em
-
 .q-if-label
   pointer-events none
   user-select none
@@ -163,13 +156,17 @@
   opacity 0
   padding-bottom $input-text-padding-bottom
   line-height $input-text-line-height
+.q-if-dense .q-if-addon
+  font-size 81.25%
+  padding-bottom $input-text-padding-bottom-dense
+.q-if-inverted:not(.q-if-has-label):not(.q-if-dense) .q-if-addon
+  padding-bottom 1px
 .q-if-addon-left
   padding-right 1px
 .q-if-addon-right
   padding-left 1px
 .q-if-addon-top
   align-self flex-start
-  padding-top 5px
 .q-if-addon-visible
   opacity 1
 

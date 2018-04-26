@@ -32,7 +32,7 @@
     <slot name="before"></slot>
 
     <template v-if="isTextarea">
-      <div class="col row relative-position">
+      <div class="col row relative-position q-input-area-holder">
         <q-resize-observable @resize="__updateArea()"></q-resize-observable>
         <textarea
           class="col q-input-target q-input-shadow absolute-top"
