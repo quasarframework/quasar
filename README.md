@@ -53,7 +53,7 @@ I'm excited if you want to contribute to Quasar under any form (report bugs, wri
 
 - If your issue is resolved but still open, don’t hesitate to close it. In case you found a solution by yourself, it could be helpful to explain how you fixed it.
 
-Read more [here](http://quasar-framework.org/guide/contributing.html).
+Read more [here](http://quasar-framework.org/guide/quasar-contribution-guide.html).
 
 ## Quasar Play App
 
