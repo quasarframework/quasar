@@ -75,7 +75,7 @@ export default {
     }
     else {
       setTimeout(() => {
-        el.__qbacktotop.updateNow()
+        el.__qbacktotop && el.__qbacktotop.updateNow()
       }, 0)
     }
   },
