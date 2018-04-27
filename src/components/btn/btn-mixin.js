@@ -9,11 +9,11 @@ const sizes = {
   lg: 20,
   xl: 24,
   form: 12.444,
-  'form-label': 17.1,
+  'form-label': 17.42,
   'form-hide-underline': 9.332,
-  'form-label-hide-underline': 14,
+  'form-label-hide-underline': 14.31,
   'form-inverted': 15.555,
-  'form-label-inverted': 20.22
+  'form-label-inverted': 20.53
 }
 
 export default {

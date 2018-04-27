@@ -1,4 +1,4 @@
-.q-if, .q-if:before, .q-if.q-if-focused:after, .q-if-label, .q-if-addon, .q-field-icon, .q-field-label, .q-if-control, .q-field-bottom
+.q-if, .q-if:before, .q-if:after, .q-if-label, .q-if-addon, .q-field-icon, .q-field-label, .q-if-control, .q-field-bottom
   transition $input-frame-transition
 
 .q-if
@@ -24,8 +24,9 @@
     background rgba(0, 0, 0, .06)
     &.q-if-dark
       background rgba(255, 255, 255, .1)
-    &:not(.q-if-textarea)
+    &:not(.q-if-text)
       padding-top 8px
+    &:not(.q-if-textarea)
       &:not(.q-if-disabled)
         &:before, &:after
           border-radius 4px
@@ -43,12 +44,6 @@
     border-radius 4px
     &.q-if-has-label
       padding-top 10px
-      .q-if-label
-        top -3px
-        transform scale(1) translate(0, 150%)
-      &.q-if-dense .q-if-label
-        top -4px
-        transform scale(1) translate(0, 100%)
     &:before, &:after
       border-radius 4px
       top 0
@@ -63,9 +58,10 @@
       border-width 2px
     &:after
       border-width 0
+      transition $input-frame-transition-after-out
     &.q-if-focused:after
       border-width 2px
-      transition $input-frame-transition-textarea
+      transition $input-frame-transition-after-in
 
   &:not(.q-if-hide-underline)
     padding-bottom 8px
@@ -84,9 +80,7 @@
     color var(--q-color-light)
     transform scaleY(1)
   &:after
-    width 100%
-    transform-origin center bottom 0
-    transform scaleX(0)
+    width 0
     height 2px
     color currentColor
 
@@ -98,18 +92,18 @@
     margin -15px 0 0 -5px
     > .q-chip
       margin-top 0
-      margin-bottom 5px
+      margin-bottom 5.8px
     .q-input-target:first-child
       margin-top 15px
   &.q-if-dense
     .group
       margin-top -11px
       > .q-chip
-        margin-bottom 6px
+        margin-bottom 6.65px
       .q-input-target:first-child
         margin-top 12px
     &.q-chips-input .group > .q-chip
-      margin-bottom 7px
+      margin-bottom 7.6px
 
 .q-if-focusable
   outline 0
@@ -121,12 +115,6 @@
   &.col
     min-height 24px
 
-.q-if-text:not(.q-if-has-label)
-  .q-if-inner.col
-    padding-top 7.5px
-  &.q-if-dense .q-if-inner.col
-    padding-top 9px
-
 .q-if-has-label
   .q-if-inner
     padding-top calc(0.75em + 8px)
@@ -137,8 +125,6 @@
   &.q-if-dense
     .q-if-inner
       padding-top calc(0.75em + 4px)
-    &.q-if-text .q-if-inner
-      padding-top calc(0.75em + 2px)
 
 .q-if-label
   pointer-events none
@@ -162,18 +148,16 @@
       top calc(50% + 1px)
       transform scale(1) translate(0, -50%)
     .q-if-label-above
-      top 0 !important
-      transform scale(.75) translate(0, 0) !important
+      top 0
+      transform scale(.75) translate(0, 0)
 
 .q-if-addon
   pointer-events none
   opacity 0
-  padding-top $input-text-padding-top
   padding-bottom $input-text-padding-bottom
   line-height $input-text-line-height
 .q-if-dense .q-if-addon
   font-size 81.25%
-  padding-top $input-text-padding-top-dense
   padding-bottom $input-text-padding-bottom-dense
 .q-if-inverted:not(.q-if-has-label):not(.q-if-dense) .q-if-addon
   padding-bottom 1px
@@ -232,7 +216,7 @@ div.q-input-target
 
 .q-if-focused
   &:after
-    transform scaleX(1)
+    width 100%
   .q-if-label, .q-if-addon, .q-if-control
     color currentColor !important
 
