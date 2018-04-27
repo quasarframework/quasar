@@ -122,10 +122,8 @@ export default {
           this.$emit('cancel')
         },
         'escape-key': () => {
-          this.hide().then(() => {
-            this.$emit('escape-key')
-            this.$emit('cancel')
-          })
+          this.$emit('escape-key')
+          this.$emit('cancel')
         }
       }
     }, child)

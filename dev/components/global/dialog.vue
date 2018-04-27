@@ -43,6 +43,7 @@
       <q-btn label="Prompt" @click="adHoc" />
       <q-btn label="Options" @click="adHoc2" />
       <q-btn label="Confirm" @click="adHoc3" />
+      <q-btn label="Method" @click="asMethod" />
     </div>
   </div>
 </template>
@@ -143,6 +144,17 @@ export default {
         console.log('>>> OK')
       }).catch(() => {
         console.log('>>> Cancel')
+      })
+    },
+    asMethod () {
+      this.$q.dialog({
+        title: 'Alert',
+        message: 'Modern HTML5 front-end framework on steroids.',
+        cancel: true
+      }).then(() => {
+        console.log('ok')
+      }).catch(() => {
+        console.log('cancel')
       })
     }
   },
