@@ -9,7 +9,7 @@
 .q-input-target, .q-input-shadow
   border 0
   outline 0
-  padding: 0 0 $input-padding-bottom 0
+  padding 0
   margin 0
   background transparent
   font-size inherit
@@ -17,9 +17,7 @@
   display flex
   align-items center
   color black
-  line-height $input-line-height
-  &.col
-    min-height $input-height
+  line-height $input-text-line-height
   &:-webkit-autofill
     -webkit-animation-name webkit-autofill-on
     -webkit-animation-fill-mode both
@@ -33,14 +31,28 @@
   &:invalid
     box-shadow inherit
 
+.q-input-target
+  padding-top $input-text-padding-top
+  padding-bottom $input-text-padding-bottom
+  &:before
+    content '|'
+    line-height $input-text-line-height
+    width 0
+    color transparent
+
 .q-input-area-holder
-  margin-top -3px
-  align-self flex-start
-.q-if-dense .q-input-area-holder
   margin-top -2px
+  align-self flex-start
+
+.q-if-dense
+  .q-input-target
+    padding-top $input-text-padding-top-dense
+    padding-bottom $input-text-padding-bottom-dense
 
 input.q-input-target
   outline 0
+  padding-bottom $input-padding-bottom
+  line-height $input-line-height
   height $input-height
   display inline-block
   -webkit-appearance none
