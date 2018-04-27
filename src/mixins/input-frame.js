@@ -17,7 +17,6 @@ export default {
     suffix: String,
     stackLabel: String,
     floatLabel: String,
-    placeholder: String,
     error: Boolean,
     warning: Boolean,
     disable: Boolean,
@@ -35,9 +34,6 @@ export default {
     after: marginal,
     inverted: Boolean,
     invertedLight: Boolean,
-    dense: Boolean,
-    box: Boolean,
-    fullWidth: Boolean,
     hideUnderline: Boolean,
     clearValue: {
       default: null

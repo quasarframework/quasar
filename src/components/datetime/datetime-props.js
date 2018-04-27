@@ -56,6 +56,7 @@ export const inline = {
 
 export const input = {
   format: String,
+  placeholder: String,
   okLabel: String,
   cancelLabel: String,
   displayValue: String

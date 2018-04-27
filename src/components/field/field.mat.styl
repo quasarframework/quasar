@@ -14,18 +14,10 @@
 .q-field-label-hint
   padding-left 8px
 
-.q-field-content
-  .q-if-has-label
-    margin-top 3px
-    .q-if-inverted
-      margin-top 5px
-
 .q-field-bottom
   font-size 12px
   padding-top 8px
   color $form-dark
-  .q-if-dense + &
-    padding-top 4px
 .q-field-no-input
   margin-top 8px
   border-top 1px solid rgba(0, 0, 0, .12)
@@ -60,18 +52,16 @@ qfield-vertical()
     padding-top 8px
   &.q-field-floating.q-field-no-label
     .q-field-margin
-      margin-top calc(.75em - 5px)
+      margin-top 12px
   &.q-field-no-label .q-field-label
     display none
 
 qfield-horizontal()
   &.q-field-floating
     .q-field-margin
-      margin-top calc(.75em - 5px)
-    .q-field-label
-      padding-top 10px
+      margin-top 12px
   .q-field-label + .q-field-content
-      padding-top 0
+    padding-top 0
 
 .q-field-vertical
   qfield-vertical()

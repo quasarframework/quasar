@@ -2,7 +2,6 @@
   <q-input-frame
     class="q-input"
 
-    :class="textClasses"
     :prefix="prefix"
     :suffix="suffix"
     :stack-label="stackLabel"
@@ -13,9 +12,6 @@
     :inverted="inverted"
     :invertedLight="invertedLight"
     :dark="dark"
-    :dense="dense"
-    :box="box"
-    :full-width="fullWidth"
     :hide-underline="hideUnderline"
     :before="before"
     :after="after"
@@ -32,19 +28,17 @@
     <slot name="before"></slot>
 
     <template v-if="isTextarea">
-      <div class="col row relative-position q-input-area-holder">
+      <div class="col row relative-position">
         <q-resize-observable @resize="__updateArea()"></q-resize-observable>
         <textarea
           class="col q-input-target q-input-shadow absolute-top"
           ref="shadow"
-          :rows="rows"
           :value="model"
           v-bind="$attrs"
         ></textarea>
 
         <textarea
           ref="input"
-          :rows="rows"
           class="col q-input-target q-input-area"
 
           :placeholder="inputPlaceholder"
@@ -165,12 +159,7 @@ export default {
 
     decimals: Number,
     step: Number,
-    upperCase: Boolean,
-
-    rows: {
-      type: Number,
-      default: 1
-    }
+    upperCase: Boolean
   },
   data () {
     return {
@@ -253,16 +242,6 @@ export default {
     },
     computedStep () {
       return this.step || (this.decimals ? 10 ** -this.decimals : 'any')
-    },
-    textClasses () {
-      const classes = []
-      if (this.isTextarea) {
-        classes.push('q-if-text')
-        if (this.maxHeight || this.rows > 1) {
-          classes.push('q-if-textarea')
-        }
-      }
-      return classes
     }
   },
   methods: {
@@ -339,10 +318,8 @@ export default {
       const shadow = this.$refs.shadow
       if (shadow) {
         let h = shadow.scrollHeight
-        const minHeight = between(h, 0, this.maxHeight || h)
-        const overflow = this.maxHeight && this.maxHeight < h ? 'scroll' : 'hidden'
-        this.$refs.input.style.minHeight = `${minHeight}px`
-        this.$refs.input.style.overflowY = overflow
+        const minHeight = between(h, 19, this.maxHeight || h)
+        this.$refs.input.style.minHeight = `${minHeight + 19}px`
       }
     },
     __watcher (value) {

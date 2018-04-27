@@ -1,6 +1,6 @@
 <template>
   <div
-    class="q-if row no-wrap relative-position"
+    class="q-if row no-wrap items-end relative-position"
     :class="classes"
     :tabindex="focusable && !disable ? 0 : -1"
     @click="__onClick"
@@ -48,7 +48,7 @@
         v-for="item in after"
         :key="`a${item.icon}`"
         class="q-if-control"
-        :class="[item.class, {hidden: __additionalHidden(item, hasError, hasWarning, length)}]"
+        :class="{hidden: __additionalHidden(item, hasError, hasWarning, length)}"
         :name="item.icon"
         @mousedown.native="__onMouseDown"
         @touchstart.native="__onMouseDown"
@@ -86,11 +86,10 @@ export default {
     addonClass () {
       return {
         'q-if-addon-visible': !this.hasLabel || this.labelIsAbove,
-        'q-if-addon-top': this.topAddons
+        'self-start': this.topAddons
       }
     },
     classes () {
-      const isFullWidth = !this.isInverted && !this.box && this.fullWidth
       const cls = [{
         'q-if-has-label': this.label,
         'q-if-focused': this.focused,
@@ -102,10 +101,7 @@ export default {
         'q-if-inverted-light': this.isInvertedLight,
         'q-if-light-color': this.lightColor,
         'q-if-dark': this.dark,
-        'q-if-dense': this.dense,
-        'q-if-box': this.box,
-        'q-if-full-width': isFullWidth,
-        'q-if-hide-underline': !this.isInverted && (this.hideUnderline || isFullWidth)
+        'q-if-hide-underline': !this.isInverted && this.hideUnderline
       }]
 
       const color = this.hasError ? 'negative' : (this.hasWarning ? 'warning' : this.color)

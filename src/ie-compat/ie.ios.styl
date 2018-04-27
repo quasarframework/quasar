@@ -1,19 +1,11 @@
 ie_style = @block
-  /* Inputs */
+  /* Flex */
   .absolute, .fixed
-    > .q-if
-      > .q-if-inner
-      > .q-if-inner > .q-input-target
-        min-width auto
-        flex-basis auto
-  .q-if:not(.q-if-has-label)
-    .q-if-inner.col
-      height 1px
+    .q-if-inner, .q-input-target
+      min-width auto
+      flex-basis auto
   .q-if-inner
-  .q-input-target
-    min-width auto
-    flex-basis auto
-    width 1px !important
+    min-height 21px
 
   /* QAlert */
   .row > .col
@@ -27,24 +19,17 @@ ie_style = @block
 
   /* QBtn */
   .q-btn
-    .q-btn-inner
-      flex-basis auto
-    &:not(.q-btn-round)
-      height 1px
     &:active
-    &.active
       .q-btn-inner
         margin -1px 1px 1px -1px
       &.q-btn-push
         .q-btn-inner
-          margin 1px 0 -1px 0
+          margin 0 1px 0 -1px
         &.disabled
           .q-btn-inner
             margin -1px 1px 1px -1px
-  .q-btn-group > .q-btn.q-btn-push:not(.disabled)
-    &:active .q-btn-inner
-    &.active .q-btn-inner
-      margin 0
+  .q-btn-group > .q-btn.q-btn-push:not(.disabled):active .q-btn-inner
+    margin 0
 
   /* QChip */
   .q-chip:not(.q-chip-small):not(.q-chip-dense) .q-chip-main
