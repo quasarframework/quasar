@@ -183,6 +183,9 @@ export default {
       if (this.model !== value) {
         this.model = value
       }
+
+      this.$emit('drag-value', value)
+
       if (this.value === value) {
         return
       }
