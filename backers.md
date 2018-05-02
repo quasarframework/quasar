@@ -85,7 +85,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - PHPZM
 - Klemens Witting
 - Jochen Geiger
-- Rok Kogovšek
 - Josh Torres
 - Stian Mikkelsen
 - Thomas Gick
