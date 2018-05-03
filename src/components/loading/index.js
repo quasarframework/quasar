@@ -31,6 +31,8 @@ function show ({
 
   if (customClass && typeof customClass === 'string') {
     props.customClass = ` ${customClass.trim()}`
+  } else {
+    props.customClass = "";
   }
 
   if (appIsInProgress) {
