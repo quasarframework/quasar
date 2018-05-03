@@ -1,5 +1,5 @@
 export default {
-  name: 'fontawesome-light',
+  name: 'fontawesome-pro',
   type: {
     positive: 'fal fa-check',
     negative: 'fal fa-exclamation-triangle',
