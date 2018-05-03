@@ -87,5 +87,9 @@ export default {
     size6: '非常大',
     size7: '超级大',
     defaultFont: '默认字体'
+  },
+  tree: {
+    noNodes: '没有可用节点',
+    noResults: '找不到匹配的节点'
   }
 }
