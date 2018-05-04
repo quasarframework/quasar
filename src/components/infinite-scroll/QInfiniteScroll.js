@@ -71,7 +71,6 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
-      this.poll = debounce(this.poll, 50)
       this.element = this.$refs.content
 
       this.scrollContainer = this.inline ? this.$el : getScrollTarget(this.$el)
@@ -80,6 +79,7 @@ export default {
       }
 
       this.poll()
+      this.poll = debounce(this.poll, 50)
     })
   },
   beforeDestroy () {
