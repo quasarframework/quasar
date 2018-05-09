@@ -110,7 +110,7 @@ for $name, $size in $sizes
   @extend .items-center
   @extend .justify-center
 
-for $i in (1..$flex-cols)
+for $i in (0..$flex-cols)
   .col-{$i}
     flex 0 0 (round($i / $flex-cols * 100, 4))%
   .row > .col-{$i}
@@ -119,10 +119,6 @@ for $i in (1..$flex-cols)
     margin-left (round($i / $flex-cols * 100, 4))%
 
 for $name, $size in $flex-gutter
-  .gutter-{$name}
-    margin (- $size) 0 0 (- $size)
-    > div
-      padding $size 0 0 $size
   .gutter-x-{$name}
     margin-left (- $size)
     > div
@@ -131,6 +127,10 @@ for $name, $size in $flex-gutter
     margin-top (- $size)
     > div
       padding-top $size
+  .gutter-{$name}
+    @extends .gutter-x-{$name}, .gutter-y-{$name}
+    > div
+      @extends .gutter-x-{$name} > div, .gutter-y-{$name} > div
 
 for $name, $size in $sizes
   @media (min-width $size)
@@ -143,7 +143,7 @@ for $name, $size in $sizes
       .row > &
         width auto
 
-    for $i in (1..$flex-cols)
+    for $i in (0..$flex-cols)
       .col-{$name}-{$i}
         flex 0 0 (round($i / $flex-cols * 100, 4))%
       .row > .col-{$name}-{$i}
