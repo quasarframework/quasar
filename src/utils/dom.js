@@ -1,5 +1,5 @@
 export function offset (el) {
-  if (el === window) {
+  if (!el || el === window) {
     return {top: 0, left: 0}
   }
   let {top, left} = el.getBoundingClientRect()

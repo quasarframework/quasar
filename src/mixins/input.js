@@ -20,7 +20,7 @@ export default {
       }
     },
     blur () {
-      this.$refs.input.blur()
+      this.$refs.input && this.$refs.input.blur()
     },
     select () {
       this.$refs.input.select()

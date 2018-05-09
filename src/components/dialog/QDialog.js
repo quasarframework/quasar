@@ -169,14 +169,7 @@ export default {
       return this.$refs.modal.show()
     },
     hide () {
-      let data
-
-      return this.$refs.modal.hide().then(() => {
-        if (this.hasForm) {
-          data = clone(this.__getData())
-        }
-        return data
-      })
+      return this.$refs.modal ? this.$refs.modal.hide().then(() => this.hasForm ? clone(this.__getData()) : void 0) : Promise.resolve()
     },
     __getPrompt (h) {
       return [

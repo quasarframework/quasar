@@ -242,6 +242,9 @@ export default {
     keyboardIndex (val) {
       if (this.$refs.popover.showing && this.keyboardMoveDirection && val > -1) {
         this.$nextTick(() => {
+          if (!this.$refs.popover) {
+            return
+          }
           const selected = this.$refs.popover.$el.querySelector('.q-select-highlight')
           if (selected && selected.scrollIntoView) {
             if (selected.scrollIntoViewIfNeeded) {
@@ -313,6 +316,9 @@ export default {
   },
   methods: {
     togglePopup () {
+      if (!this.$refs.popover) {
+        return
+      }
       this[this.$refs.popover.showing ? 'hide' : 'show']()
     },
     show () {
@@ -322,14 +328,12 @@ export default {
       }
     },
     hide () {
-      if (this.$refs.popover) {
-        return this.$refs.popover.hide()
-      }
+      return this.$refs.popover ? this.$refs.popover.hide() : Promise.resolve()
     },
     reposition () {
       const popover = this.$refs.popover
-      if (popover.showing) {
-        popover.reposition()
+      if (popover && popover.showing) {
+        this.$nextTick(() => popover && popover.reposition())
       }
     },
 
@@ -388,7 +392,7 @@ export default {
         return
       }
       this.__onFocus()
-      if (this.filter && this.autofocusFilter) {
+      if (this.filter && this.$refs.filter) {
         this.$refs.filter.focus()
       }
     },
@@ -457,7 +461,7 @@ export default {
     __setModel (val, forceUpdate) {
       this.model = val || (this.multiple ? [] : null)
       this.$emit('input', this.model)
-      if (forceUpdate || !this.$refs.popover.showing) {
+      if (forceUpdate || !this.$refs.popover || !this.$refs.popover.showing) {
         this.__onClose()
       }
     },

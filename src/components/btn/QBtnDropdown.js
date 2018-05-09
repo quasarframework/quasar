@@ -19,7 +19,7 @@ export default {
   },
   watch: {
     value (val) {
-      this.$refs.popover[val ? 'show' : 'hide']()
+      this.$refs.popover && this.$refs.popover[val ? 'show' : 'hide']()
     }
   },
   render (h) {
@@ -143,19 +143,19 @@ export default {
   },
   methods: {
     toggle () {
-      return this.$refs.popover.toggle()
+      return this.$refs.popover ? this.$refs.popover.toggle() : Promise.resolve()
     },
     show () {
-      return this.$refs.popover.show()
+      return this.$refs.popover ? this.$refs.popover.show() : Promise.resolve()
     },
     hide () {
-      return this.$refs.popover.hide()
+      return this.$refs.popover ? this.$refs.popover.hide() : Promise.resolve()
     }
   },
   mounted () {
     this.$nextTick(() => {
       if (this.value) {
-        this.$refs.popover.show()
+        this.$refs.popover && this.$refs.popover.show()
       }
     })
   }

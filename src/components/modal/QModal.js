@@ -160,7 +160,7 @@ export default {
         }
       })
 
-      let content = this.$refs.content
+      const content = this.$refs.content
       if (this.$q.platform.is.ios) {
         // workaround the iOS hover/touch issue
         content.click()
@@ -171,6 +171,7 @@ export default {
           el.scrollTop = 0
         })
       })
+      this.$nextTick(() => content && content.focus())
     },
     __hide () {
       EscapeKey.pop()

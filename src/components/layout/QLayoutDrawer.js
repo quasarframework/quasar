@@ -260,7 +260,7 @@ export default {
         })
         return
       }
-      css(this.$refs.content, cssTransform(`translateX(${position}px)`))
+      this.$refs.content && css(this.$refs.content, cssTransform(`translateX(${position}px)`))
     },
     applyBackdrop (x) {
       this.$refs.backdrop && css(this.$refs.backdrop, { backgroundColor: `rgba(0,0,0,${x * 0.4})` })

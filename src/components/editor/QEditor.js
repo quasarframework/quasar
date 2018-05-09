@@ -289,8 +289,10 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
-      this.caret = new Caret(this.$refs.content, this)
-      this.$refs.content.innerHTML = this.value
+      if (this.$refs.content) {
+        this.caret = new Caret(this.$refs.content, this)
+        this.$refs.content.innerHTML = this.value
+      }
       this.$nextTick(this.refreshToolbar)
     })
   },

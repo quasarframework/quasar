@@ -469,18 +469,20 @@ export default {
         return
       }
 
-      let
+      const
         el = this.$refs.selector,
         rows = this.view === 'year' ? this.year - this.yearMin : this.month - this.monthMin
 
       this.$nextTick(() => {
-        el.scrollTop = rows * height(el.children[0].children[0]) - height(el) / 2.5
+        if (el) {
+          el.scrollTop = rows * height(el.children[0].children[0]) - height(el) / 2.5
+        }
       })
     },
     __dragStart (ev) {
       stopAndPrevent(ev)
 
-      let
+      const
         clock = this.$refs.clock,
         clockOffset = offset(clock)
 
