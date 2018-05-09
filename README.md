@@ -55,14 +55,6 @@ I'm excited if you want to contribute to Quasar under any form (report bugs, wri
 
 Read more [here](http://quasar-framework.org/guide/quasar-contribution-guide.html).
 
-## Quasar Play App
-
-Instead of using mobile emulators for testing your Quasar Apps, use this App instead. You can develop apps directly on your phone/tablet (hot reload supported!), without even installing your app.
-
-Currently only on [Google Play](https://play.google.com/store/apps/details?id=com.quasarframework.quasarplay&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1). Requiring funding to pay fees on Apple Store and release the iOS counterpart too.
-
-Check its repo here: [Quasar Play](https://github.com/quasarframework/quasar-play).
-
 ## Semver
 Until Quasar reaches a 1.0 release (soon), breaking changes will be released with a new minor version. For example 0.8.1, and 0.8.4 will have the same API, but 0.9.0 will have breaking changes.
 
