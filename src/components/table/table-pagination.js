@@ -14,7 +14,7 @@ function fixPagination (p) {
     p.page = 1
   }
   if (p.rowsPerPage !== void 0 && p.rowsPerPage < 1) {
-    p.rowsPerPage = 5
+    p.rowsPerPage = 0
   }
   return p
 }
