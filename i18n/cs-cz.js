@@ -1,5 +1,5 @@
 export default {
-  lang: 'cs-cz',
+  lang: 'cs',
   label: {
     clear: 'Smazat',
     ok: 'OK',
