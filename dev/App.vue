@@ -29,7 +29,7 @@
           ,{ label: 'Russian', value: 'ru' }
           ,{ label: 'Ukrainian', value: 'uk' }
           ,{ label: 'Polish', value: 'pl' }
-          ,{ label: 'Czech', value: 'cs-cz' }
+          ,{ label: 'Czech', value: 'cs' }
         ]"
         v-model="lang"
       />
