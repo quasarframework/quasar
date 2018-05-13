@@ -12,8 +12,15 @@ export default {
     xl: 1200
   },
 
-  lt: {},
-  gt: {},
+  lt: {
+    xl: true
+  },
+  gt: {
+    xs: true,
+    sm: true,
+    md: true
+  },
+  lg: true,
 
   __installed: false,
   install ({ $q, Vue }) {
@@ -21,7 +28,6 @@ export default {
     this.__installed = true
 
     if (isSSR) {
-      this.lg = this.xl = this.gt.xs = this.gt.sm = this.gt.md = this.lt.xl = true
       this.$q.screen = this
       return
     }
@@ -58,7 +64,7 @@ export default {
       this.sm = this.gt.xs && this.lt.md
       this.md = this.gt.sm && this.lt.lg
       this.lg = this.gt.md && this.lt.xl
-      this.xl = w > s.lg
+      this.xl = w > s.xl
     }
 
     update()
