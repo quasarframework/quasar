@@ -1,5 +1,5 @@
 import { debounce } from '../utils/debounce'
-import { viewport, height, offset } from '../utils/dom'
+import { height, offset } from '../utils/dom'
 import { getScrollTarget } from '../utils/scroll'
 import { listenOpts } from '../utils/event'
 
@@ -28,7 +28,7 @@ export default {
 
         if (ctx.scrollTarget === window) {
           elementBottom = el.getBoundingClientRect().bottom
-          fire = elementBottom < viewport().height
+          fire = elementBottom < window.innerHeight
         }
         else {
           containerBottom = offset(ctx.scrollTarget).top + height(ctx.scrollTarget)

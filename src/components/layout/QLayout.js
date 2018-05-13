@@ -1,4 +1,3 @@
-import { viewport } from '../../utils/dom'
 import { QScrollObservable, QResizeObservable, QWindowResizeObservable } from '../observables'
 
 export default {
@@ -16,11 +15,9 @@ export default {
     }
   },
   data () {
-    const { height, width } = viewport()
-
     return {
-      height, // window height
-      width, // window width
+      height: window.innerHeight,
+      width: window.innerWidth,
 
       header: {
         size: 0,

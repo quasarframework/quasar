@@ -6,7 +6,7 @@ import {
 } from '../../utils/popup'
 import { frameDebounce } from '../../utils/debounce'
 import { getScrollTarget } from '../../utils/scroll'
-import { width, viewport } from '../../utils/dom'
+import { width } from '../../utils/dom'
 import EscapeKey from '../../utils/escape-key'
 import ModelToggleMixin from '../../mixins/model-toggle'
 import { listenOpts } from '../../utils/event'
@@ -131,7 +131,7 @@ export default {
       }
       const
         { top } = this.anchorEl.getBoundingClientRect(),
-        { height } = viewport()
+        { height } = window.innerHeight
 
       if (top < 0 || top > height) {
         return this.hide()
