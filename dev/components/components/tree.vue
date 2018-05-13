@@ -71,18 +71,7 @@
           </div>
         </q-tree>
       </div>
-
-      <div class="q-mt-lg q-pa-lg" >
-        <hr>
-        <h5>Empty tree</h5>
-        <div>
-          <q-tree nodeKey="nodeKey"  :nodes="[]">
-
-          </q-tree>
-        </div>
-      </div>
     </div>
-
   </div>
 </template>
 
