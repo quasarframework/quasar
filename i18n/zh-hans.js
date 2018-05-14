@@ -81,5 +81,9 @@ export default {
     size6: '非常大',
     size7: '超级大',
     defaultFont: '默认字体'
+  },
+  tree: {
+    noNodes: '没有可用结点',
+    noResults: '没有找到相关结点'
   }
 }
