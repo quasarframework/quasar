@@ -35,8 +35,8 @@ export default {
       this.size = size
       this.$emit('resize', this.size)
     },
-    trigger () {
-      if (this.debounce === 0) {
+    trigger (immediately) {
+      if (immediately || this.debounce === 0) {
         this.onResize()
       }
       else if (!this.timer) {
@@ -59,7 +59,7 @@ export default {
       on: {
         load: () => {
           this.$el.contentDocument.defaultView.addEventListener('resize', this.trigger, listenOpts.passive)
-          this.trigger()
+          this.trigger(true)
         }
       }
     })
@@ -79,7 +79,7 @@ export default {
       return
     }
 
-    this.trigger()
+    this.trigger(true)
 
     if (this.$q.platform.is.ie) {
       this.url = 'about:blank'
