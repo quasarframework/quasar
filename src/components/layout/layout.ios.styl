@@ -45,6 +45,25 @@ $layout-transition = all .12s ease-in
   z-index ($z-fixed-drawer - 1) !important
   will-change background-color
 
+
+.q-layout-drawer-mini
+  padding 0 !important
+  .q-item, .q-item-side
+    text-align center
+    justify-content center
+  .q-mini-drawer-hide,
+  .q-collapsible-inner > div:last-of-type, .q-list-header, .q-item-main, .q-item-side-right
+    display none
+
+.q-layout-drawer-normal
+  .q-mini-drawer-only
+    display none
+
+.q-layout-drawer-mobile
+  .q-mini-drawer-only, .q-mini-drawer-hide
+    display none
+
+
 .q-layout-drawer-opener
   z-index ($z-marginals + 1)
   height 100vh
