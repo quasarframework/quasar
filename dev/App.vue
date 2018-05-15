@@ -37,7 +37,7 @@
         hide-underline
         stack-label="Icon set"
         :options="[
-          { label: 'Material', value: 'material' }
+          { label: 'Material', value: 'material-icons' }
           ,{ label: 'MDI', value: 'mdi' }
           ,{ label: 'Ionicons', value: 'ionicons' }
           ,{ label: 'Fontawesome', value: 'fontawesome' }

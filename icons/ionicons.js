@@ -29,7 +29,8 @@ export default {
   carousel: {
     left: 'ion-chevron-left',
     right: 'ion-chevron-right',
-    quickNav: 'ion-record'
+    quickNav: 'ion-record',
+    thumbnails: 'ion-grid'
   },
   checkbox: {
     checked: {

@@ -29,7 +29,8 @@ export default {
   carousel: {
     left: 'fal fa-chevron-left',
     right: 'fal fa-chevron-right', // TODO
-    quickNav: 'fal fa-circle'
+    quickNav: 'fal fa-circle',
+    thumbnails: 'fal fa-th'
   },
   checkbox: { // TODO
     checked: {

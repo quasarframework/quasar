@@ -38,7 +38,12 @@ export default {
       default: 'bottom',
       validator: v => ['top', 'bottom'].includes(v)
     },
-    quickNavIcon: String
+    quickNavIcon: String,
+    thumbnails: {
+      type: Array,
+      default: () => ([])
+    },
+    thumbnailsIcon: String
   },
   provide () {
     return {
@@ -51,7 +56,8 @@ export default {
       slide: 0,
       positionSlide: 0,
       slidesNumber: 0,
-      animUid: false
+      animUid: false,
+      viewThumbnails: false
     }
   },
   watch: {
@@ -119,6 +125,9 @@ export default {
         canGoToNext: this.canGoToNext,
         canGoToPrevious: this.canGoToPrevious
       }
+    },
+    computedThumbnailIcon () {
+      return this.thumbnailIcon || this.$q.icon.carousel.thumbnails
     }
   },
   methods: {
@@ -335,9 +344,7 @@ export default {
               color: this.color
             },
             on: {
-              click: () => {
-                this.goToSlide(i)
-              }
+              click: () => { this.goToSlide(i) }
             }
           }))
         }
@@ -347,6 +354,58 @@ export default {
         staticClass: 'q-carousel-quick-nav scroll text-center',
         'class': [`text-${this.color}`, `absolute-${this.quickNavPosition}`]
       }, items)
+    },
+    __getThumbnails (h) {
+      const slides = this.thumbnails.map((img, index) => {
+        if (!img) {
+          return
+        }
+
+        return h('div', {
+          on: {
+            click: () => { this.goToSlide(index) }
+          }
+        }, [
+          h('img', {
+            attrs: { src: img },
+            'class': { active: this.slide === index }
+          })
+        ])
+      })
+
+      const nodes = [
+        h(QBtn, {
+          staticClass: 'q-carousel-thumbnail-btn absolute',
+          props: {
+            icon: this.computedThumbnailIcon,
+            fabMini: true,
+            flat: true,
+            color: this.color
+          },
+          on: {
+            click: () => {
+              this.viewThumbnails = !this.viewThumbnails
+            }
+          }
+        }),
+        h('div', {
+          staticClass: 'q-carousel-thumbnails scroll text-center absolute-bottom',
+          'class': { active: this.viewThumbnails }
+        }, slides)
+      ]
+
+      if (this.viewThumbnails) {
+        nodes.unshift(
+          h('div', {
+            staticClass: 'absolute-full',
+            on: {
+              click: () => { this.viewThumbnails = false }
+            }
+          })
+        )
+      }
+
+      return nodes
     }
   },
   render (h) {
@@ -397,6 +456,9 @@ export default {
       }) : null,
       this.__getQuickNav(h),
       this.__getScopedSlots(h),
+      this.thumbnails.length
+        ? this.__getThumbnails(h)
+        : null,
       this.$slots.control
     ])
   },
