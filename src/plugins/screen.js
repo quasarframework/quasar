@@ -68,9 +68,9 @@ export default {
     }
 
     update()
-    update = debounce(update, 100)
+    let updateEvt = debounce(update, 100)
 
-    window.addEventListener('resize', update, listenOpts.passive)
+    window.addEventListener('resize', updateEvt, listenOpts.passive)
 
     this.setSizes = sizes => {
       ['sm', 'md', 'lg', 'xl'].forEach(name => {
@@ -79,6 +79,13 @@ export default {
         }
       })
       update()
+    }
+    this.setDebounce = delay => {
+      window.removeEventListener('resize', updateEvt, listenOpts.passive)
+      updateEvt = delay > 0
+        ? debounce(update, delay)
+        : update
+      window.addEventListener('resize', updateEvt, listenOpts.passive)
     }
 
     Vue.util.defineReactive($q, 'screen', this)
