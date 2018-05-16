@@ -30,7 +30,7 @@
       </p>
 
       <div
-        style="height: 300px; margin-top: 40px;"
+        style="height: 600px; margin-top: 40px;"
         class="bg-secondary text-white row items-stretch"
       >
         <div class="col-6 flex flex-center" v-for="n in 4" :key="n" >
