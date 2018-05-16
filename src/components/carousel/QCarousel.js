@@ -43,7 +43,8 @@ export default {
       type: Array,
       default: () => ([])
     },
-    thumbnailsIcon: String
+    thumbnailsIcon: String,
+    thumbnailsHorizontal: Boolean
   },
   provide () {
     return {
@@ -127,7 +128,7 @@ export default {
       }
     },
     computedThumbnailIcon () {
-      return this.thumbnailIcon || this.$q.icon.carousel.thumbnails
+      return this.thumbnailsIcon || this.$q.icon.carousel.thumbnails
     }
   },
   methods: {
@@ -389,9 +390,12 @@ export default {
           }
         }),
         h('div', {
-          staticClass: 'q-carousel-thumbnails scroll text-center absolute-bottom',
+          staticClass: 'q-carousel-thumbnails scroll absolute-bottom',
           'class': { active: this.viewThumbnails }
-        }, slides)
+        }, [h('div', {
+          staticClass: 'row gutter-xs',
+          'class': this.thumbnailsHorizontal ? 'no-wrap' : 'justify-center'
+        }, slides)])
       ]
 
       if (this.viewThumbnails) {

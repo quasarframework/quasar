@@ -55,8 +55,7 @@
   max-height 60%
   overflow auto
   background black
-  padding-top .5rem
-  padding-bottom 2.2rem
+  padding .5rem
   text-align center
   box-shadow 0 -3px 6px rgba(0, 0, 0, .16), 0 -5px 6px rgba(0, 0, 0, .23)
 
@@ -73,11 +72,8 @@
     cursor pointer
     border 1px solid black
 
-  div
-    margin 1px 2px
-    width 100px
-    min-width 100px
-    display inline-block
+  > div > div
+    flex 0 0 108px
 
     &.active img, img.active
       opacity 1
