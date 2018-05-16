@@ -234,8 +234,11 @@ export default {
   methods: {
     onInput (e) {
       if (this.editWatcher) {
-        this.editWatcher = false
-        this.$emit('input', this.$refs.content.innerHTML)
+        const val = this.$refs.content.innerHTML
+        if (val !== this.value) {
+          this.editWatcher = false
+          this.$emit('input', val)
+        }
       }
     },
     onKeydown (e) {
@@ -243,6 +246,7 @@ export default {
 
       if (!e.ctrlKey) {
         this.refreshToolbar()
+        this.$q.platform.is.ie && this.$nextTick(this.onInput)
         return
       }
 
@@ -251,6 +255,7 @@ export default {
         const { cmd, param } = target
         stopAndPrevent(e)
         this.runCmd(cmd, param, false)
+        this.$q.platform.is.ie && this.$nextTick(this.onInput)
       }
     },
     runCmd (cmd, param, update = true) {

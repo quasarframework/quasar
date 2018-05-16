@@ -142,6 +142,8 @@ export class Caret {
         return res === `"${param}"` || res === param
       case 'fullscreen':
         return this.vm.inFullscreen
+      case void 0:
+        return false
       default:
         const state = document.queryCommandState(cmd)
         return param ? state === param : state

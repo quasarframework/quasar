@@ -13,14 +13,14 @@ export function style (el, property) {
 
 export function height (el) {
   if (el === window) {
-    return viewport().height
+    return window.innerHeight
   }
   return parseFloat(style(el, 'height'))
 }
 
 export function width (el) {
   if (el === window) {
-    return viewport().width
+    return window.innerWidth
   }
   return parseFloat(style(el, 'width'))
 }
@@ -34,18 +34,9 @@ export function css (element, css) {
 }
 
 export function viewport () {
-  let
-    e = window,
-    a = 'inner'
-
-  if (!('innerWidth' in window)) {
-    a = 'client'
-    e = document.documentElement || document.body
-  }
-
   return {
-    width: e[a + 'Width'],
-    height: e[a + 'Height']
+    width: window.innerWidth,
+    height: window.innerHeight
   }
 }
 

@@ -1,5 +1,6 @@
 export default {
   lang: 'ar',
+  rtl: true,
   label: {
     clear: 'مسح',
     ok: 'حسناً',

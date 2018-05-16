@@ -1,5 +1,5 @@
 export default {
-  name: 'fontawesome-light',
+  name: 'fontawesome-pro',
   type: {
     positive: 'fal fa-check',
     negative: 'fal fa-exclamation-triangle',
@@ -29,7 +29,8 @@ export default {
   carousel: {
     left: 'fal fa-chevron-left',
     right: 'fal fa-chevron-right', // TODO
-    quickNav: 'fal fa-circle'
+    quickNav: 'fal fa-circle',
+    thumbnails: 'fal fa-th'
   },
   checkbox: { // TODO
     checked: {

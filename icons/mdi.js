@@ -29,7 +29,8 @@ export default {
   carousel: {
     left: 'mdi-chevron-left',
     right: 'mdi-chevron-right',
-    quickNav: 'mdi-circle'
+    quickNav: 'mdi-circle',
+    thumbnails: 'mdi-view-carousel'
   },
   checkbox: {
     checked: {

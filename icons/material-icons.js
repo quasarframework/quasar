@@ -1,5 +1,5 @@
 export default {
-  name: 'material',
+  name: 'material-icons',
   type: {
     positive: 'check_circle',
     negative: 'warning',
@@ -29,7 +29,8 @@ export default {
   carousel: {
     left: 'chevron_left',
     right: 'chevron_right',
-    quickNav: 'lens'
+    quickNav: 'lens',
+    thumbnails: 'view_carousel'
   },
   checkbox: {
     checked: {

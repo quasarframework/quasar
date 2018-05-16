@@ -49,7 +49,13 @@
       </q-toolbar>
     </q-layout-footer>
 
-    <q-layout-drawer v-model="left" :overlay="leftOverlay" :behavior="leftBehavior" :breakpoint="leftBreakpoint">
+    <q-layout-drawer
+      v-model="left"
+      :overlay="leftOverlay"
+      :behavior="leftBehavior"
+      :breakpoint="leftBreakpoint"
+      content-class="bg-grey-3"
+    >
       <q-scroll-area class="fit" :thumb-style="{right: '4px', borderRadius: '2px', background: 'blue', opacity: .6, width: '4px'}">
         <q-btn @click="$router.push('/layout-quick/a')">Go to A</q-btn>
         <q-btn @click="$router.push('/layout-quick/b')">Go to B</q-btn>
@@ -64,26 +70,147 @@
       </q-scroll-area>
     </q-layout-drawer>
 
+    /*
+      @mouseover="rightMini = false"
+      @mouseout="rightMini = true"
+      ...or
+      @click.capture="e => {
+        if (rightMini) {
+          rightMini = false
+          e.preventDefault()
+          e.stopPropagation()
+        }
+      }"
+    */
     <q-page-container>
       <q-layout-drawer
         side="right"
+        :mini="rightMini"
+        @click.capture="e => {
+          if (rightMini) {
+            rightMini = false
+            e.preventDefault()
+            e.stopPropagation()
+          }
+        }"
         v-model="right"
         :overlay="rightOverlay"
         :behavior="rightBehavior"
         :breakpoint="rightBreakpoint"
-        content-class="bg-orange-3 q-pa-sm"
         :content-style="{'font-size': '16px'}"
       >
-        <q-btn @click="$router.push('/layout-quick/a')">Go to A</q-btn>
-        <q-btn @click="$router.push('/layout-quick/b')">Go to B</q-btn>
-        <q-btn @click="$router.push('/layout-quick/c')">Go to C</q-btn>
+        <!--
+        <div slot="mini">
+          <q-btn
+            class="q-mini-drawer-hide"
+            icon="keyboard_arrow_right"
+            @click="goMini"
+          />
+          <div>mini</div>
+        </div>
+        -->
+        <q-btn
+          class="q-mini-drawer-hide"
+          icon="keyboard_arrow_right"
+          @click="rightMini = true"
+        />
+        <div class="q-mini-drawer-hide">Maxi only</div>
+        <div class="q-mini-drawer-only">Mini only</div>
+        <q-collapsible
+          icon="perm_identity"
+          label="With a model and events"
+        >
+          <div>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse, fuga voluptatem! Debitis, numquam! Velit excepturi harum sint explicabo, rerum dolores illum nihil aperiam praesentium, consectetur delectus sapiente in sed provident.</div>
+        </q-collapsible>
+        <q-list link no-border>
+          <q-list-header>Folders</q-list-header>
+          <q-item>
+            <q-item-side icon="folder" inverted color="primary" />
+            <q-item-main>
+              <q-item-tile label>Photos</q-item-tile>
+              <q-item-tile sublabel>February 22, 2016</q-item-tile>
+            </q-item-main>
+            <q-item-side right icon="info" color="green" />
+          </q-item>
+          <q-item>
+            <q-item-side icon="folder" inverted color="secondary" />
+            <q-item-main>
+              <q-item-tile label>Movies</q-item-tile>
+              <q-item-tile sublabel>March 1st, 2017</q-item-tile>
+            </q-item-main>
+            <q-item-side right icon="info" />
+          </q-item>
+          <q-item>
+            <q-item-side icon="folder" inverted color="amber" />
+            <q-item-main>
+              <q-item-tile label>Games</q-item-tile>
+              <q-item-tile sublabel>Latest</q-item-tile>
+            </q-item-main>
+            <q-item-side right icon="info" />
+          </q-item>
+          <q-item-separator />
+          <q-list-header>Files</q-list-header>
+          <q-item>
+            <q-item-side icon="assignment" inverted color="grey-6" />
+            <q-item-main>
+              <q-item-tile label>Expenses spreadsheet</q-item-tile>
+              <q-item-tile sublabel>March 2nd, 2016</q-item-tile>
+            </q-item-main>
+            <q-item-side right icon="info" />
+          </q-item>
+          <q-item>
+            <q-item-side icon="place" inverted color="grey-6" />
+            <q-item-main>
+              <q-item-tile label>Places to visit</q-item-tile>
+              <q-item-tile sublabel>February 22, 2016</q-item-tile>
+            </q-item-main>
+            <q-item-side right icon="info" color="amber" />
+          </q-item>
+          <q-item>
+            <q-item-side icon="library_music" inverted color="grey-6" />
+            <q-item-main>
+              <q-item-tile label>My favorite song</q-item-tile>
+              <q-item-tile sublabel>Singing it all day</q-item-tile>
+            </q-item-main>
+            <q-item-side right icon="info" />
+          </q-item>
+          <q-item>
+            <q-item-side icon="videogame_asset" inverted color="grey-6" />
+            <q-item-main>
+              <q-item-tile label>Quasar Game</q-item-tile>
+              <q-item-tile sublabel>Have fun while building apps</q-item-tile>
+            </q-item-main>
+            <q-item-side right icon="info" />
+          </q-item>
 
-        <br><br>
-
-        <q-btn @click="$router.replace('/layout-quick/a')">Replace Go to A</q-btn>
-        <q-btn @click="$router.replace('/layout-quick/b')">Replace Go to B</q-btn>
-        <q-btn @click="$router.replace('/layout-quick/c')">Replace Go to C</q-btn>
-        <div v-for="n in 60" :key="n">{{n}} Right drawer</div>
+          <q-item-separator />
+          <q-list-header>People</q-list-header>
+          <q-item>
+            <q-item-side avatar="/statics/boy-avatar.png" />
+            <q-item-main>
+              <q-item-tile label>John</q-item-tile>
+            </q-item-main>
+            <q-item-side right>
+              <q-item-tile icon="chat_bubble" color="green" />
+            </q-item-side>
+          </q-item>
+          <q-item>
+            <q-item-side avatar="/statics/boy-avatar.png" />
+            <q-item-main>
+              <q-item-tile label>Jim</q-item-tile>
+              <q-item-tile sublabel>Javascript wiz kid</q-item-tile>
+            </q-item-main>
+            <q-item-side right icon="chat_bubble" />
+          </q-item>
+          <q-item>
+            <q-item-side avatar="/statics/boy-avatar.png" />
+            <q-item-main>
+              <q-item-tile label>Jake</q-item-tile>
+              <q-item-tile sublabel>Passionate about Quasar</q-item-tile>
+            </q-item-main>
+            <q-item-side right icon="chat_bubble" />
+          </q-item>
+        </q-list>
       </q-layout-drawer>
 
       <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in">
@@ -200,6 +327,8 @@
             <q-radio color="secondary" v-model="bottomright" val="f" label="f" />
           </div>
         </div>
+        <q-toggle v-model="leftMini" label="Left mini drawer" />
+        <q-toggle v-model="rightMini" label="Right mini drawer" />
       </div>
     </div>
   </div>
@@ -222,7 +351,7 @@ import { colors } from 'quasar'
 
 export default {
   data () {
-    const v = 'lHh Lpr fFf'
+    const v = 'lHh LpR fFf'
     return {
       mainColor: '#027be3',
       extraRow: true,
@@ -236,11 +365,13 @@ export default {
       headerReveal: false,
       footerReveal: false,
       leftOverlay: false,
-      rightOverlay: true,
+      rightOverlay: false,
       leftBehavior: 'default',
       rightBehavior: 'default',
       leftBreakpoint: 992,
       rightBreakpoint: 992,
+      leftMini: false,
+      rightMini: true,
 
       scrolling: true,
 
@@ -280,6 +411,21 @@ export default {
   methods: {
     onScroll (data) {
       // console.log('scroll', data.position)
+    },
+    goMini () {
+      console.log('goMini')
+      this.rightMini = true
+    },
+    goNormal (e) {
+      if (this.rightMini) {
+        console.log('goNormal')
+        this.rightMini = false
+        e.preventDefault()
+        e.stopPropagation()
+      }
+      else {
+        console.log('goNormal abort')
+      }
     }
   }
 }

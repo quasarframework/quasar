@@ -30,7 +30,9 @@ export default {
     }
   },
   render (h) {
-    const side = []
+    const
+      side = [],
+      detail = this.$slots.detail || this.detail
 
     if (this.avatar) {
       side.push(
@@ -60,7 +62,7 @@ export default {
           staticClass: 'q-alert-content col self-center'
         }, [
           h('div', this.$slots.default || this.message),
-          this.detail ? h('div', { staticClass: 'q-alert-detail' }, [ this.detail ]) : null
+          detail ? h('div', { staticClass: 'q-alert-detail' }, [ detail ]) : null
         ]),
         this.actions && this.actions.length
           ? h('div', {

@@ -1,6 +1,7 @@
 import { QModal } from '../modal'
 import { QIcon } from '../icon'
 import { QList, QItem, QItemSide, QItemMain, QItemSeparator } from '../list'
+import { getEventKey } from '../../utils/event'
 
 export default {
   name: 'QActionSheet',
@@ -58,7 +59,7 @@ export default {
             },
             nativeOn: {
               click: this.__onCancel,
-              keydown: this.__onCancel
+              keydown: this.__onKeyCancel
             }
           }, [
             h(QItemMain, { staticClass: 'text-center text-primary' }, [
@@ -87,13 +88,11 @@ export default {
           this.$emit('hide')
         },
         dismiss: () => {
-          this.__onCancel()
+          this.$emit('cancel')
         },
         'escape-key': () => {
-          this.hide().then(() => {
-            this.$emit('escape-key')
-            this.__onCancel()
-          })
+          this.$emit('escape-key')
+          this.$emit('cancel')
         }
       }
     }, child)
@@ -117,7 +116,11 @@ export default {
           },
           [this.grid ? 'on' : 'nativeOn']: {
             click: () => this.__onOk(action),
-            keydown: () => this.__onOk(action)
+            keydown: e => {
+              if (getEventKey(e) === /* Enter */ 13) {
+                this.__onOk(action)
+              }
+            }
           }
         }, this.grid
           ? [
@@ -145,6 +148,11 @@ export default {
       this.hide().then(() => {
         this.$emit('cancel')
       })
+    },
+    __onKeyCancel (e) {
+      if (getEventKey(e) === /* Enter */ 13) {
+        this.__onCancel()
+      }
     }
   }
 }

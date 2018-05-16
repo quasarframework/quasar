@@ -7,6 +7,7 @@ import Dialog from './plugins/dialog'
 import Loading from './plugins/loading'
 import Notify from './plugins/notify'
 import Platform from './plugins/platform'
+import Screen from './plugins/screen'
 import { LocalStorage, SessionStorage } from './plugins/web-storage'
 
 export {
@@ -19,6 +20,7 @@ export {
   Loading,
   Notify,
   Platform,
+  Screen,
   LocalStorage,
   SessionStorage
 }

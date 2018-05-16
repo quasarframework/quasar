@@ -19,7 +19,7 @@ function bodyInit () {
   Platform.is.electron && cls.push('electron')
 
   if (Platform.is.ie && Platform.is.versionNumber === 11) {
-    cls.forEach((c) => document.body.classList.add(c))
+    cls.forEach(c => document.body.classList.add(c))
   }
   else {
     document.body.classList.add.apply(document.body.classList, cls)

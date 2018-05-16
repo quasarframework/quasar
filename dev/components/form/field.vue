@@ -539,6 +539,21 @@
           <q-toggle v-model="cond2" label="Render test ctrl" />
         </div>
       </div>
+
+      <h4>Slots test</h4>
+      <q-field
+        icon="cloud"
+        :error="error"
+        :warning="warning"
+        :label-width="3"
+      >
+        Slot test
+
+        <span slot="label">Slot label</span>
+        <span slot="error-label">Slot error label</span>
+        <span slot="warning-label">Slot warning label</span>
+        <span slot="helper">Slot helper</span>
+      </q-field>
     </div>
     <div class="fixed-bottom-right">
       <label>

@@ -27,6 +27,9 @@ export default {
         if (this.__history.length) {
           this.__history.pop().handler()
         }
+        else if (window.location.hash === '#/') {
+          navigator.app.exitApp()
+        }
         else {
           window.history.back()
         }

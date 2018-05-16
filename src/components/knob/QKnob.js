@@ -183,6 +183,9 @@ export default {
       if (this.model !== value) {
         this.model = value
       }
+
+      this.$emit('drag-value', value)
+
       if (this.value === value) {
         return
       }
@@ -217,14 +220,16 @@ export default {
         on: {
           click: e => !this.dragging && this.__onInput(e, void 0, true)
         },
-        directives: [{
-          name: 'touch-pan',
-          modifiers: {
-            prevent: true,
-            stop: true
-          },
-          value: this.__pan
-        }]
+        directives: this.editable
+          ? [{
+            name: 'touch-pan',
+            modifiers: {
+              prevent: true,
+              stop: true
+            },
+            value: this.__pan
+          }]
+          : null
       }, [
         h('svg', { attrs: { viewBox: '0 0 100 100' } }, [
           h('path', {

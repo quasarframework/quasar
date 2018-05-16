@@ -45,3 +45,44 @@
     opacity .5
     .q-icon
       font-size $carousel-quick-nav-icon-inactive-font-size !important
+
+.q-carousel-thumbnails
+  will-change transform
+  transition transform .3s
+  transform translateY(105%)
+  width 100%
+  height auto
+  max-height 60%
+  overflow auto
+  background black
+  padding .5rem
+  text-align center
+  box-shadow 0 -3px 6px rgba(0, 0, 0, .16), 0 -5px 6px rgba(0, 0, 0, .23)
+
+  &.active
+    transform translateY(0)
+
+  img
+    height auto
+    width 100%
+    display block
+    opacity .5
+    will-change opacity
+    transition opacity .3s
+    cursor pointer
+    border 1px solid black
+
+  > div > div
+    flex 0 0 108px
+
+    &.active img, img.active
+      opacity 1
+      border-color white
+
+.q-carousel-thumbnail-btn
+  background $carousel-quick-nav-background
+  top 5px
+  right 5px
+
+body.desktop .q-carousel-thumbnails img:hover
+  opacity 1

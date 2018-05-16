@@ -3,7 +3,7 @@ export default {
   label: {
     clear: 'クリア', // 'Clear',
     ok: 'OK', // 'OK',
-    cancel: '取り消し', // 'Cancel',
+    cancel: 'キャンセル', // 'Cancel',
     close: '閉じる', // 'Close',
     set: '設定', // 'Set',
     select: '選択', // 'Select',

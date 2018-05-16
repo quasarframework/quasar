@@ -47,6 +47,8 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Bobby Ross
 - Nikolaj Frey
 - Netanel Edri
+- Yatima Kagurazaka
+- Edinei Cipriani
 
 ---
 
@@ -55,7 +57,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Hansol Song ($25)
 - Valerian Cure ($25)
 - Shawn Makinson ($25)
-- Edinei Cipriani ($25)
 - Anca-Anamaria Enache ($20)
 - Carlos Tulloch ($20)
 - MSG Group ($20)
@@ -69,7 +70,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Matsumoto Takamasa
 - Josh Bodine
 - William Marques Vicente Gomes Correa
-- Samuel Desconsi
 - John (JCharante)
 - Florent Peyrard
 - Jacob Heruty
@@ -85,13 +85,11 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - PHPZM
 - Klemens Witting
 - Jochen Geiger
-- Rok Kogovšek
 - Josh Torres
 - Stian Mikkelsen
 - Thomas Gick
 - Alexey Telyatnikov
 - Ryan Timmins
-- Asif Mehedi
 - Sevenview Studios
 - Rus Brushkoff
 - Scott Brooks
@@ -107,13 +105,17 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Taillefer Brice
 - 良平 勝目
 - Jörg Walter
+- Alex Pereira Vieira
+- Ruan de Andrade
+- Tanner Faulkner
+- Luca Borghini
+- Christian Kyony
 
 - Ken ($5)
 - Oliver ($5)
 - Mahesh Narayanamurthi ($5)
 - Rogério Queiroz ($5)
 - Sustained ($3.14)
-- Robson Martins ($2.5)
 - Joe L Wroten ($1)
 - Yasuhiro Kawagoe ($1)
 

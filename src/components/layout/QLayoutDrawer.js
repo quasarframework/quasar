@@ -29,6 +29,11 @@ export default {
       default: 'left',
       validator: v => ['left', 'right'].includes(v)
     },
+    mini: Boolean,
+    miniWidth: {
+      type: String,
+      default: '60px'
+    },
     breakpoint: {
       type: Number,
       default: 992
@@ -63,7 +68,6 @@ export default {
       ),
       largeScreenState,
       mobileOpened: false,
-
       size: 300
     }
   },
@@ -126,6 +130,9 @@ export default {
     },
     '$q.i18n.rtl' () {
       this.applyPosition()
+    },
+    mini () {
+      this.layout.__animate()
     }
   },
   computed: {
@@ -175,12 +182,15 @@ export default {
         'fixed': true,
         'on-top': true,
         'q-layout-drawer-delimiter': this.fixed && this.showing,
+        'q-layout-drawer-mobile': true,
         'top-padding': true
       }
     },
     aboveClass () {
       return {
         'fixed': this.fixed || !this.onLayout,
+        'q-layout-drawer-mini': this.isMini,
+        'q-layout-drawer-normal': !this.isMini,
         'q-layout-drawer-delimiter': this.fixed && this.showing,
         'top-padding': this.headerSlot
       }
@@ -206,6 +216,10 @@ export default {
         }
       }
 
+      if (this.isMini) {
+        css.width = this.miniWidth
+      }
+
       return css
     },
     computedStyle () {
@@ -216,6 +230,9 @@ export default {
     },
     stateDirection () {
       return (this.$q.i18n.rtl ? -1 : 1) * (this.rightSide ? 1 : -1)
+    },
+    isMini () {
+      return this.mini && !this.mobileView
     }
   },
   render (h) {
@@ -254,7 +271,7 @@ export default {
         'class': this.computedClass,
         style: this.computedStyle,
         attrs: this.$attrs,
-        listeners: this.$listeners,
+        on: !this.mobileView ? this.$listeners : null,
         directives: this.mobileView && !this.noSwipeClose ? [{
           name: 'touch-pan',
           modifiers: { horizontal: true },
@@ -265,7 +282,9 @@ export default {
           props: { debounce: 0 },
           on: { resize: this.__onResize }
         }),
-        this.$slots.default
+        this.mini && this.$slots.mini && !this.mobileView
+          ? this.$slots.mini
+          : this.$slots.default
       ])
     ]))
   },

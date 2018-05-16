@@ -87,7 +87,7 @@
     </q-input-frame>
 
     <q-slide-transition>
-      <div v-show="expanded">
+      <div v-show="expanded" :class="expandClass" :style="expandStyle">
         <q-list :dark="dark" class="q-uploader-files q-py-none scroll" :style="filesStyle">
           <q-item
             v-for="file in files"
@@ -338,7 +338,7 @@ export default {
           else {
             const reader = new FileReader()
             let p = new Promise((resolve, reject) => {
-              reader.onload = (e) => {
+              reader.onload = e => {
                 let img = new Image()
                 img.src = e.target.result
                 file.__img = img
@@ -346,9 +346,7 @@ export default {
                 this.__computeTotalSize()
                 resolve(true)
               }
-              reader.onerror = (e) => {
-                reject(e)
-              }
+              reader.onerror = e => { reject(e) }
             })
 
             reader.readAsDataURL(file)
@@ -507,6 +505,7 @@ export default {
     },
     abort () {
       this.xhrs.forEach(xhr => { xhr.abort() })
+      this.uploading = false
     },
     reset () {
       this.abort()

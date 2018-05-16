@@ -23,6 +23,7 @@ export default {
     preventClose: Boolean,
     noBackdropDismiss: Boolean,
     noEscDismiss: Boolean,
+    noRefocus: Boolean,
     position: String,
     color: {
       type: String,
@@ -86,6 +87,7 @@ export default {
         minimized: true,
         noBackdropDismiss: this.noBackdropDismiss || this.preventClose,
         noEscDismiss: this.noEscDismiss || this.preventClose,
+        noRefocus: this.noRefocus,
         position: this.position
       },
       on: {
@@ -120,10 +122,8 @@ export default {
           this.$emit('cancel')
         },
         'escape-key': () => {
-          this.hide().then(() => {
-            this.$emit('escape-key')
-            this.$emit('cancel')
-          })
+          this.$emit('escape-key')
+          this.$emit('cancel')
         }
       }
     }, child)

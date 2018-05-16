@@ -1,83 +1,93 @@
 export default {
   lang: 'cs',
   label: {
-    clear: 'Vymazat',
+    clear: 'Smazat',
     ok: 'OK',
     cancel: 'Zrušit',
     close: 'Zavřít',
-    set: 'Nastavit',
+    set: 'Hotovo',
     select: 'Vybrat',
-    reset: 'Resetovat',
-    remove: 'Odstranit',
-    update: 'Upravit',
+    reset: 'Reset',
+    remove: 'Odebrat',
+    update: 'Hotovo',
     create: 'Vytvořit',
-    save: 'Uložit',
     search: 'Hledat',
     filter: 'Filtrovat',
-    refresh: 'Obnovit',
+    refresh: 'Obnovit'
   },
   date: {
     days: 'Neděle_Pondělí_Úterý_Středa_Čtvrtek_Pátek_Sobota'.split('_'),
     daysShort: 'Ne_Po_Út_St_Čt_Pá_So'.split('_'),
-    months: 'Leden_Únor_Březen_Duben_Květen_Červen_Červenec_Srpen_Září_Říjen_Listopad_Prosinec'.split('_'),
-    monthsShort: 'Led_Úno_Bře_Dub_Kvě_Čen_Čec_Srp_Zář_Říj_Lis_Pro'.split('_'),
-    firstDayOfWeek: 1, // 0-6, 0 - Neděle, 1 Pondělí, ...
+    months: 'Leden_Únor_Březen_Duben_Květen_Červen_Červenec_Srpen_Září_Říjen_Listopad_Prosinec'.split(
+      '_'),
+    monthsShort: 'Led_Úno_Bře_Dub_Kvě_Čvn_Čvc_Srp_Zář_Říj_Lis_Pro'.split('_'),
+    firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true
   },
   pullToRefresh: {
-    pull: 'Potáhněte pro načtení',
-    release: 'Pro načtení pusťte',
-    refresh: 'Načítání...'
+    pull: 'Táhněte pro obnovení',
+    release: 'Pusťte pro obnovení',
+    refresh: 'Načítá se...'
   },
   table: {
-    noData: 'Žádná data',
-    noResults: 'Žádné výsledky',
-    loading: 'Nahrávám',
+    noData: 'Žádná data k dispozici',
+    noResults: 'Nebyly nalezeny žádné odpovídající záznamy',
+    loading: 'Načítá se...',
     selectedRows: function (rows) {
-      return rows > 0
-        ? rows + ' ' + (rows === 1 ? 'řádek vybrán' : (rows < 5 ? 'řádky vybrané' : 'řádků vybraných')) + '.'
-        : 'Žádné vybrané řádky.'
+      switch (rows) {
+        case 0:
+          return 'Nejsou vybrány žádné řádky.'
+        case 1:
+          return 'Vybrán 1 řádek.'
+        case 2:
+          return 'Vybrány 2 řádky.'
+        case 3:
+          return 'Vybrány 3 řádky.'
+        case 4:
+          return 'Vybrány 4 řádky.'
+      }
+      return ('Vybráno ' + rows + ' řádků.')
     },
-    rowsPerPage: 'Řádků na stránku:',
-    allRows: 'Všechny řádky',
+    rowsPerPage: 'Počet řádků na stránku:',
+    allRows: 'Všechny',
     pagination: function (start, end, total) {
       return start + '-' + end + ' z ' + total
     },
     columns: 'Sloupce'
   },
   editor: {
-    url: 'URL adresa',
+    url: 'URL',
     bold: 'Tučně',
     italic: 'Kurzíva',
-    strikethrough: 'Přeškrtnutě',
-    underline: 'Podtrženě',
-    unorderedList: 'Odrážky',
+    strikethrough: 'Přeškrtnuté',
+    underline: 'Podtržené',
+    unorderedList: 'Odrážkový seznam',
     orderedList: 'Číslovaný seznam',
     subscript: 'Dolní index',
     superscript: 'Horní index',
     hyperlink: 'Odkaz',
-    toggleFullscreen: 'Zobrazení na celou obrazovku',
-    quote: 'Citace',
-    left: 'Zarovnat doleva',
-    center: 'Vycentrovat',
-    right: 'Zarovnat doprava',
-    justify: 'Zarovnat podle okrajů',
+    toggleFullscreen: 'Přepnout zobrazení na celou obrazovku',
+    quote: 'Bloková citace',
+    left: 'Zarovnat vlevo',
+    center: 'Zarovnat na střed',
+    right: 'Zarovnat vpravo',
+    justify: 'Zarovnat do bloku',
     print: 'Tisk',
     outdent: 'Zmenšit odsazení',
     indent: 'Zvětšit odsazení',
-    removeFormat: 'Odstranit formátování',
-    formatting: 'Formátování',
+    removeFormat: 'Vymazat formátování',
+    formatting: 'Styl',
     fontSize: 'Velikost písma',
-    align: 'Zarovnat',
-    hr: 'Vložit horizontální oddělovač',
+    align: 'Zarovnání',
+    hr: 'Vložit oddělovač',
     undo: 'Zpět',
     redo: 'Znovu',
-    header1: 'Hlavička 1',
-    header2: 'Hlavička 2',
-    header3: 'Hlavička 3',
-    header4: 'Hlavička 4',
-    header5: 'Hlavička 5',
-    header6: 'Hlavička 6',
+    header1: 'Nadpis 1',
+    header2: 'Nadpis 2',
+    header3: 'Nadpis 3',
+    header4: 'Nadpis 4',
+    header5: 'Nadpis 5',
+    header6: 'Nadpis 6',
     paragraph: 'Odstavec',
     code: 'Kód',
     size1: 'Velmi malé',
@@ -86,11 +96,11 @@ export default {
     size4: 'Středně velké',
     size5: 'Velké',
     size6: 'Velmi velké',
-    size7: 'Největší',
-    defaultFont: 'Základní písmo'
+    size7: 'Maximum',
+    defaultFont: 'Výchozí písmo'
   },
   tree: {
-    noNodes: 'Nejsou dostupné větve',
-    noResults: 'Nebyly nalezeny vyhovující větve'
+    noNodes: 'Žádné uzly',
+    noResults: 'Žádné odpovídající uzly nenalezeny'
   }
 }

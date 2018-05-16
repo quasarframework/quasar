@@ -7,13 +7,14 @@ export default {
     disable: Boolean
   },
   methods: {
-    hide () {
+    hide (evt) {
       this.target.classList.remove('non-selectable')
-      return this.$refs.dialog.hide()
+      return this.$refs.dialog.hide(evt)
     },
-    __show () {
+    show (evt) {
       if (!this.disable && this.$refs.dialog) {
-        this.$refs.dialog.show()
+        this.event = evt
+        this.$refs.dialog.show(evt)
       }
     },
     __touchStartHandler (evt) {
@@ -22,7 +23,7 @@ export default {
         stopAndPrevent(evt)
         setTimeout(() => {
           this.__cleanup()
-          this.__show()
+          this.show(evt)
         }, 10)
       }, 600)
     },
@@ -38,8 +39,8 @@ export default {
         minimized: true
       },
       on: {
-        show: () => { this.$emit('show') },
-        hide: () => { this.$emit('hide') }
+        show: () => { this.$emit('show', this.event) },
+        hide: evt => { this.$emit('hide', this.event, evt) }
       }
     }, this.$slots.default)
   },

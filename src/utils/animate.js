@@ -5,7 +5,7 @@ let ids = {}
 
 export function start ({name, duration = 300, to, from, apply, done, cancel, easing}) {
   let id = name
-  const start = performance.now()
+  const start = new Date()
 
   if (id) {
     stop(id)
@@ -16,7 +16,7 @@ export function start ({name, duration = 300, to, from, apply, done, cancel, eas
 
   const delta = easing || linear
   const handler = () => {
-    let progress = (performance.now() - start) / duration
+    let progress = ((new Date()) - start) / duration
     if (progress > 1) {
       progress = 1
     }

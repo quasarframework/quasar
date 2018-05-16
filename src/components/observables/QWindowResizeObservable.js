@@ -1,4 +1,3 @@
-import { viewport } from '../../utils/dom'
 import { listenOpts } from '../../utils/event'
 
 export default {
@@ -21,7 +20,10 @@ export default {
     },
     emit () {
       this.timer = null
-      this.$emit('resize', viewport())
+      this.$emit('resize', {
+        height: window.innerHeight,
+        width: window.innerWidth
+      })
     }
   },
   created () {

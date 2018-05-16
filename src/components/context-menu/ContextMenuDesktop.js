@@ -16,37 +16,54 @@ export default {
         anchorClick: false
       },
       on: {
-        show: () => { this.$emit('show') },
-        hide: () => { this.$emit('hide') }
+        show: this.__onShow,
+        hide: this.__onHide
       }
     }, this.$slots.default)
   },
   methods: {
-    hide () {
-      return this.$refs.popover.hide()
+    hide (evt) {
+      if (this.$refs.popover) {
+        return this.$refs.popover.hide(evt)
+      }
     },
-    __show (evt) {
+    show (evt) {
       if (!evt || this.disable) {
         return
       }
-      this.hide()
       stopAndPrevent(evt)
       /*
         Opening with a timeout for
         Firefox workaround
        */
       setTimeout(() => {
-        this.$refs.popover.show(evt)
+        if (this.$refs.popover) {
+          this.event = evt
+          this.$refs.popover.show(evt)
+        }
       }, 100)
+    },
+    __bodyHide (evt) {
+      if (!this.$el.contains(evt.target)) {
+        this.hide(evt)
+      }
+    },
+    __onShow () {
+      document.body.addEventListener('contextmenu', this.__bodyHide, true)
+      document.body.addEventListener('click', this.__bodyHide, true)
+      this.$emit('show', this.event)
+    },
+    __onHide (evt) {
+      document.body.removeEventListener('contextmenu', this.__bodyHide, true)
+      document.body.removeEventListener('click', this.__bodyHide, true)
+      this.$emit('hide', this.event, evt)
     }
   },
   mounted () {
     this.target = this.$refs.popover.$el.parentNode
-    this.target.addEventListener('contextmenu', this.__show)
-    this.target.addEventListener('click', this.hide)
+    this.target.addEventListener('contextmenu', this.show)
   },
   beforeDestroy () {
-    this.target.removeEventListener('contexmenu', this.__show)
-    this.target.removeEventListener('click', this.hide)
+    this.target.removeEventListener('contextmenu', this.show)
   }
 }

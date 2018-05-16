@@ -1,4 +1,4 @@
-import { height, viewport, offset, css, cssTransform } from '../../utils/dom'
+import { height, offset, css, cssTransform } from '../../utils/dom'
 import { debounce, frameDebounce } from '../../utils/debounce'
 import { getScrollTarget } from '../../utils/scroll'
 import { listenOpts } from '../../utils/event'
@@ -47,7 +47,7 @@ export default {
       }
 
       if (this.scrollTarget === window) {
-        this.viewportHeight = viewport().height
+        this.viewportHeight = window.innerHeight
       }
       this.imageHeight = height(this.image)
       this.__updatePos()

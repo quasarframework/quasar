@@ -45,15 +45,6 @@ export default {
     hasWarning () {
       return !this.hasError && (this.input.warning || this.warning)
     },
-    hasBottom () {
-      return (this.hasError && this.errorLabel) ||
-        (this.hasWarning && this.warningLabel) ||
-        this.helper ||
-        this.count
-    },
-    hasLabel () {
-      return this.label || this.$slots.label || ['label', 'full'].includes(this.inset)
-    },
     childHasLabel () {
       return this.input.floatLabel || this.input.stackLabel
     },
@@ -111,6 +102,9 @@ export default {
         prop.color = this.iconColor
       }
       return prop
+    },
+    insetHasLabel () {
+      return ['label', 'full'].includes(this.inset)
     }
   },
   provide () {
@@ -128,19 +122,29 @@ export default {
       }
     },
     __getBottomContent (h) {
-      if (this.hasError && this.errorLabel) {
-        return h('div', { staticClass: 'q-field-error col' }, this.errorLabel)
+      let label
+
+      if (this.hasError && (label = this.$slots['error-label'] || this.errorLabel)) {
+        return h('div', { staticClass: 'q-field-error col' }, label)
       }
-      if (this.hasWarning && this.warningLabel) {
-        return h('div', { staticClass: 'q-field-warning col' }, this.warningLabel)
+      if (this.hasWarning && (label = this.$slots['warning-label'] || this.warningLabel)) {
+        return h('div', { staticClass: 'q-field-warning col' }, label)
       }
-      if (this.helper) {
-        return h('div', { staticClass: 'q-field-helper col' }, this.helper)
+      if ((label = this.$slots.helper || this.helper)) {
+        return h('div', { staticClass: 'q-field-helper col' }, label)
       }
       return h('div', { staticClass: 'col' })
+    },
+    __hasBottom () {
+      return (this.hasError && (this.$slots['error-label'] || this.errorLabel)) ||
+        (this.hasWarning && (this.$slots['warning-label'] || this.warningLabel)) ||
+        (this.$slots.helper || this.helper) ||
+        this.count
     }
   },
   render (h) {
+    const label = this.$slots.label || this.label
+
     return h('div', {
       staticClass: 'q-field row no-wrap items-start',
       'class': this.classes
@@ -153,14 +157,13 @@ export default {
         : (this.insetIcon ? h('div', { staticClass: 'q-field-icon' }) : null),
 
       h('div', { staticClass: 'row col' }, [
-        this.hasLabel
+        label || this.insetHasLabel
           ? h('div', {
             staticClass: 'q-field-label q-field-margin',
             'class': this.labelClasses
           }, [
             h('div', { staticClass: 'q-field-label-inner row items-center' }, [
-              this.label,
-              this.$slots.label
+              this.$slots.label || this.label
             ])
           ])
           : null,
@@ -170,7 +173,7 @@ export default {
           'class': this.inputClasses
         }, [
           this.$slots.default,
-          this.hasBottom
+          this.__hasBottom()
             ? h('div', {
               staticClass: 'q-field-bottom row no-wrap',
               'class': { 'q-field-no-input': this.hasNoInput }
