@@ -45,6 +45,9 @@
         'statics/mountains.jpg',
         'statics/parallax1.jpg',
         'statics/parallax2.jpg',
+        'statics/mountains.jpg',
+        'statics/parallax1.jpg',
+        'statics/parallax2.jpg'
       ]"
     >
       <q-carousel-slide img-src="statics/mountains.jpg" />
@@ -57,8 +60,12 @@
       <q-carousel-slide img-src="statics/mountains.jpg" />
       <q-carousel-slide img-src="statics/parallax1.jpg" />
       <q-carousel-slide img-src="statics/parallax2.jpg" />
+      <q-carousel-slide img-src="statics/mountains.jpg" />
+      <q-carousel-slide img-src="statics/parallax1.jpg" />
+      <q-carousel-slide img-src="statics/parallax2.jpg" />
     </q-carousel>
 
+    <p class="caption">Thumbnails - horizontal</p>
     <q-carousel
       color="white"
       arrows
@@ -74,7 +81,7 @@
         'statics/parallax2.jpg',
         'statics/mountains.jpg',
         'statics/parallax1.jpg',
-        'statics/parallax2.jpg',
+        'statics/parallax2.jpg'
       ]"
       thumbnails-horizontal
     >
