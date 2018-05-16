@@ -130,10 +130,10 @@ export default {
         this.$el.style.minWidth = width(this.anchorEl) + 'px'
       }
       const
-        { top } = this.anchorEl.getBoundingClientRect(),
+        { top, bottom } = this.anchorEl.getBoundingClientRect(),
         { height } = window.innerHeight
 
-      if (top < 0 || top > height) {
+      if (bottom < 0 || top > height) {
         return this.hide()
       }
 
