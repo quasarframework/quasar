@@ -129,11 +129,9 @@ export default {
       if (this.fit) {
         this.$el.style.minWidth = width(this.anchorEl) + 'px'
       }
-      const
-        { top, bottom } = this.anchorEl.getBoundingClientRect(),
-        { height } = window.innerHeight
+      const { top, bottom } = this.anchorEl.getBoundingClientRect()
 
-      if (bottom < 0 || top > height) {
+      if (bottom < 0 || top > window.innerHeight) {
         return this.hide()
       }
 
