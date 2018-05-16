@@ -29,6 +29,7 @@ export default {
 
     if (isSSR) {
       this.$q.screen = this
+      this.setSizes = this.setDebounce = () => {}
       return
     }
 
