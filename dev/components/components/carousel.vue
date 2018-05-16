@@ -59,6 +59,37 @@
       <q-carousel-slide img-src="statics/parallax2.jpg" />
     </q-carousel>
 
+    <q-carousel
+      color="white"
+      arrows
+      quick-nav
+      height="300px"
+      :thumbnails="[
+        'statics/mountains.jpg',
+        'statics/parallax1.jpg',
+        'statics/parallax2.jpg',
+
+        'statics/mountains.jpg',
+        'statics/parallax1.jpg',
+        'statics/parallax2.jpg',
+        'statics/mountains.jpg',
+        'statics/parallax1.jpg',
+        'statics/parallax2.jpg',
+      ]"
+      thumbnails-horizontal
+    >
+      <q-carousel-slide img-src="statics/mountains.jpg" />
+      <q-carousel-slide img-src="statics/parallax1.jpg" />
+      <q-carousel-slide img-src="statics/parallax2.jpg" />
+
+      <q-carousel-slide img-src="statics/mountains.jpg" />
+      <q-carousel-slide img-src="statics/parallax1.jpg" />
+      <q-carousel-slide img-src="statics/parallax2.jpg" />
+      <q-carousel-slide img-src="statics/mountains.jpg" />
+      <q-carousel-slide img-src="statics/parallax1.jpg" />
+      <q-carousel-slide img-src="statics/parallax2.jpg" />
+    </q-carousel>
+
     <p class="caption">Example creating custom captions for each slide.</p>
     <q-carousel
       color="white"
