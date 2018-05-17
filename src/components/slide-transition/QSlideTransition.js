@@ -88,11 +88,17 @@ export default {
         appear: this.appear
       },
       on: {
-        enter (el, done) {
-          toggleSlide(el, true, done)
+        enter: (el, done) => {
+          toggleSlide(el, true, () => {
+            this.$emit('show')
+            done()
+          })
         },
-        leave (el, done) {
-          toggleSlide(el, false, done)
+        leave: (el, done) => {
+          toggleSlide(el, false, () => {
+            this.$emit('hide')
+            done()
+          })
         }
       }
     }, this.$slots.default)

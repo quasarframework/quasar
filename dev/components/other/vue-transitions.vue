@@ -12,7 +12,7 @@
         <q-toggle v-model="visible" label="Visible image" />
       </p>
 
-      <q-slide-transition>
+      <q-slide-transition @show="log('show')" @hide="log('hide')">
         <p v-show="visible" style="margin: 0">
           <img
             class="responsive"
@@ -29,6 +29,11 @@ export default {
   data () {
     return {
       visible: true
+    }
+  },
+  methods: {
+    log (msg) {
+      console.log(msg)
     }
   }
 }

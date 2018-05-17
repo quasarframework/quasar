@@ -1,12 +1,12 @@
 import extend from '../../utils/extend'
 
-function paginationChanged (oldPag, newPag) {
+function samePagination (oldPag, newPag) {
   for (let prop in newPag) {
     if (newPag[prop] !== oldPag[prop]) {
-      return true
+      return false
     }
   }
-  return false
+  return true
 }
 
 function fixPagination (p) {
@@ -87,17 +87,24 @@ export default {
     }
   },
   methods: {
-    setPagination (val) {
+    __sendServerRequest (pagination) {
+      this.requestServerInteraction({
+        pagination,
+        filter: this.filter
+      })
+    },
+    setPagination (val, forceServerRequest) {
       const newPagination = fixPagination(extend({}, this.computedPagination, val))
 
-      if (!paginationChanged(this.computedPagination, newPagination)) {
+      if (samePagination(this.computedPagination, newPagination)) {
+        if (this.isServerSide && forceServerRequest) {
+          this.__sendServerRequest(newPagination)
+        }
         return
       }
 
       if (this.isServerSide) {
-        this.requestServerInteraction({
-          pagination: newPagination
-        })
+        this.__sendServerRequest(newPagination)
         return
       }
 
