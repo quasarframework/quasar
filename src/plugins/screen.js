@@ -33,13 +33,15 @@ export default {
       return
     }
 
-    const style = getComputedStyle(document.body)
+    if (document && document.body) {
+      const style = getComputedStyle(document.body)
 
-    // if css props available
-    if (style.getPropertyValue('--q-size-sm')) {
-      ['sm', 'md', 'lg', 'xl'].forEach(name => {
-        this.sizes[name] = parseInt(style.getPropertyValue(`--q-size-${name}`), 10)
-      })
+      // if css props available
+      if (style.getPropertyValue('--q-size-sm')) {
+        ['sm', 'md', 'lg', 'xl'].forEach(name => {
+          this.sizes[name] = parseInt(style.getPropertyValue(`--q-size-${name}`), 10)
+        })
+      }
     }
 
     let update = () => {
