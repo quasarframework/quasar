@@ -19,7 +19,7 @@ export default {
   watch: {
     filter () {
       this.$nextTick(() => {
-        this.setPagination({ page: 1 })
+        this.setPagination({ page: 1 }, true)
       })
     }
   }
