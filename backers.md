@@ -108,6 +108,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Tanner Faulkner
 - Luca Borghini
 - Christian Kyony
+- Talles Dantas
 
 - Ken ($5)
 - Oliver ($5)
