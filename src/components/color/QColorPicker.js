@@ -207,7 +207,7 @@ export default {
               min: 0,
               max,
               readonly: !this.editable,
-              tabindex: this.disable ? 0 : -1
+              tabindex: this.editable ? 0 : -1
             },
             staticClass: 'full-width text-center q-no-input-spinner',
             domProps: {
@@ -232,10 +232,10 @@ export default {
               domProps: { value: this.model.hex },
               attrs: {
                 readonly: !this.editable,
-                tabindex: this.disable ? 0 : -1
+                tabindex: this.editable ? 0 : -1
               },
               on: {
-                input: this.__onHexChange,
+                change: this.__onHexChange,
                 blur: evt => this.editable && this.__onHexChange(evt, true)
               },
               staticClass: 'full-width text-center uppercase'
