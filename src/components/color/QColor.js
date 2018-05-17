@@ -116,24 +116,35 @@ export default {
       this.$emit('focus')
     },
     __onBlur (e) {
-      if (this.$refs.popup && this.$refs.popup.showing) {
+      if (!this.focused) {
         return
       }
 
-      this.__onHide()
       setTimeout(() => {
         const el = document.activeElement
-        if (el !== document.body && !this.$refs.popup.$el.contains(el)) {
+        if (
+          !this.$refs.popup ||
+          !this.$refs.popup.showing ||
+          (el !== document.body && !this.$refs.popup.$el.contains(el))
+        ) {
+          this.__onHide()
           this.hide()
         }
       }, 1)
     },
-    __onHide (forceUpdate) {
-      this.focused && this.$emit('blur')
-      this.focused = false
+    __onHide (forceUpdate, keepFocus) {
       if (forceUpdate || this.isPopover) {
         this.__update(forceUpdate)
       }
+      if (!this.focused) {
+        return
+      }
+      if (keepFocus) {
+        this.$el.focus()
+        return
+      }
+      this.$emit('blur')
+      this.focused = false
     },
     __setModel (val, forceUpdate) {
       this.model = clone(val)
@@ -188,7 +199,7 @@ export default {
             },
             on: {
               click: () => {
-                this.__onHide()
+                this.__onHide(false, true)
                 this.hide()
               }
             }
@@ -203,7 +214,7 @@ export default {
               },
               on: {
                 click: () => {
-                  this.__onHide(true)
+                  this.__onHide(true, true)
                   this.hide()
                 }
               }
@@ -264,7 +275,7 @@ export default {
           },
           on: {
             show: this.__onFocus,
-            hide: val => this.__onHide(true)
+            hide: () => this.__onHide(true, true)
           }
         }, this.__getPicker(h))
         : h(QModal, {
@@ -277,7 +288,7 @@ export default {
             transition: this.transition
           },
           on: {
-            dismiss: this.__onHide
+            dismiss: () => this.__onHide(false, true)
           }
         }, this.__getPicker(h, true)),
 

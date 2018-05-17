@@ -82,7 +82,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Bert Jehoul
 - Derrick Bass
 - William Correa
-- PHPZM
 - Klemens Witting
 - Jochen Geiger
 - Josh Torres
@@ -102,7 +101,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Heitor Ribeiro
 - Allan Gaunt
 - Kévin Marrec
-- Taillefer Brice
 - 良平 勝目
 - Jörg Walter
 - Alex Pereira Vieira
@@ -110,6 +108,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Tanner Faulkner
 - Luca Borghini
 - Christian Kyony
+- Talles Dantas
 
 - Ken ($5)
 - Oliver ($5)
