@@ -79,8 +79,6 @@
 
       <q-fab
         color="primary"
-        icon="add"
-        active-icon="alarm"
         direction="up"
         class="fixed-bottom-right"
         style="right: 18px; bottom: 18px;"

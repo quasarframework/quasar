@@ -33,13 +33,6 @@ export function css (element, css) {
   })
 }
 
-export function viewport () {
-  return {
-    width: window.innerWidth,
-    height: window.innerHeight
-  }
-}
-
 export function ready (fn) {
   if (typeof fn !== 'function') {
     return

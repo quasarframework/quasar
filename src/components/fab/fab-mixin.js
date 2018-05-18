@@ -5,10 +5,6 @@ export default {
     flat: Boolean,
     color: String,
     textColor: String,
-    glossy: Boolean,
-    icon: {
-      type: String,
-      required: true
-    }
+    glossy: Boolean
   }
 }
