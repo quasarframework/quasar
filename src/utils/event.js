@@ -25,23 +25,23 @@ Object.defineProperty(listenOpts, 'passive', {
   }
 })
 
-export function leftClick (e = window.event) {
+export function leftClick (e) {
   return e.button === 0
 }
 
-export function middleClick (e = window.event) {
+export function middleClick (e) {
   return e.button === 1
 }
 
-export function rightClick (e = window.event) {
+export function rightClick (e) {
   return e.button === 2
 }
 
-export function getEventKey (e = window.event) {
+export function getEventKey (e) {
   return e.which || e.keyCode
 }
 
-export function position (e = window.event) {
+export function position (e) {
   let posx, posy
 
   if (e.touches && e.touches[0]) {
@@ -71,7 +71,7 @@ export function position (e = window.event) {
   }
 }
 
-export function targetElement (e = window.event) {
+export function targetElement (e) {
   let target
 
   if (e.target) {
@@ -89,7 +89,7 @@ export function targetElement (e = window.event) {
   return target
 }
 
-export function getEventPath (e = window.event) {
+export function getEventPath (e) {
   if (e.path) {
     return e.path
   }
@@ -119,7 +119,7 @@ const
   LINE_HEIGHT = 40,
   PAGE_HEIGHT = 800
 
-export function getMouseWheelDistance (e = window.event) {
+export function getMouseWheelDistance (e) {
   var
     sX = 0, sY = 0, // spinX, spinY
     pX = 0, pY = 0 // pixelX, pixelY
@@ -171,10 +171,7 @@ export function getMouseWheelDistance (e = window.event) {
   }
 }
 
-export function stopAndPrevent (e = window.event) {
-  if (!e) {
-    return
-  }
+export function stopAndPrevent (e) {
   e.preventDefault()
   e.stopPropagation()
 }

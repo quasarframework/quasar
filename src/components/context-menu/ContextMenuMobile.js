@@ -20,7 +20,7 @@ export default {
     __touchStartHandler (evt) {
       this.target.classList.add('non-selectable')
       this.touchTimer = setTimeout(() => {
-        stopAndPrevent(evt)
+        evt && stopAndPrevent(evt)
         setTimeout(() => {
           this.__cleanup()
           this.show(evt)
