@@ -132,7 +132,9 @@ export default {
       this.applyPosition()
     },
     mini () {
-      this.layout.__animate()
+      if (this.value) {
+        this.layout.__animate()
+      }
     }
   },
   computed: {
