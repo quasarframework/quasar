@@ -1,152 +1,152 @@
 export default {
   name: 'ionicons',
   type: {
-    positive: 'ion-checkmark',
-    negative: 'ion-alert-circled',
-    info: 'ion-information-circled',
+    positive: 'ion-md-checkmark',
+    negative: 'ion-alert',
+    info: 'ion-information-circle-outline',
     warning: 'ion-alert'
   },
   arrow: {
-    up: 'ion-ios-arrow-thin-up',
-    right: 'ion-ios-arrow-thin-right',
-    down: 'ion-ios-arrow-thin-down',
-    left: 'ion-ios-arrow-thin-left'
+    up: 'ion-arrow-up',
+    right: 'ion-arrow-forward',
+    down: 'ion-arrow-down',
+    left: 'ion-arrow-back'
   },
   chevron: {
-    left: 'ion-chevron-left',
-    right: 'ion-chevron-right'
+    left: 'ion-ios-arrow-back',
+    right: 'ion-ios-arrow-forward'
   },
 
   pullToRefresh: {
-    arrow: 'ion-arrow-down-c',
-    refresh: 'ion-ios-refresh'
+    arrow: 'ion-arrow-round-down',
+    refresh: 'ion-refresh'
   },
   search: {
-    icon: 'ion-ios-search',
-    clear: 'ion-close-circled',
-    clearInverted: 'ion-close-round'
+    icon: 'ion-search',
+    clear: 'ion-close-circle',
+    clearInverted: 'ion-close-circle-outline'
   },
   carousel: {
-    left: 'ion-chevron-left',
-    right: 'ion-chevron-right',
-    quickNav: 'ion-record',
+    left: 'ion-ios-arrow-back',
+    right: 'ion-ios-arrow-forward',
+    quickNav: 'ion-square',
     thumbnails: 'ion-grid'
   },
   checkbox: {
     checked: {
-      ios: 'ion-ios-checkmark',
-      mat: 'ion-android-checkbox'
+      ios: 'ion-checkmark-circle',
+      mat: 'ion-checkbox'
     },
     unchecked: {
-      ios: 'ion-ios-circle-outline',
-      mat: 'ion-android-checkbox-outline-blank'
+      ios: 'ion-radio-button-off',
+      mat: 'ion-square-outline'
     },
     indeterminate: {
-      ios: 'ion-ios-minus-outline',
-      mat: 'ion-android-checkbox-blank'
+      ios: 'ion-remove-circle-outline',
+      mat: 'ion-remove-circle'
     }
   },
   chip: {
-    close: 'ion-close-circled'
+    close: 'ion-close-circle'
   },
   chipsInput: {
-    add: 'ion-android-send'
+    add: 'ion-send'
   },
   collapsible: {
-    icon: 'ion-android-arrow-dropdown'
+    icon: 'ion-arrow-dropdown'
   },
   datetime: {
-    arrowLeft: 'ion-chevron-left',
-    arrowRight: 'ion-chevron-right'
+    arrowLeft: 'ion-ios-arrow-back',
+    arrowRight: 'ion-ios-arrow-forward'
   },
-  editor: { // TODO (requires Material icons for some as Ionicons simply does not have everything needed)
+  editor: { // requires Material icons for some as Ionicons simply does not have everything needed
     bold: 'format_bold',
     italic: 'format_italic',
     strikethrough: 'strikethrough_s',
     underline: 'format_underlined',
-    unorderedList: 'ion-ios-list-outline',
-    orderedList: 'ion-ios-paper-outline',
+    unorderedList: 'format_list_bulleted',
+    orderedList: 'format_list_numbered',
     subscript: 'vertical_align_bottom',
     superscript: 'vertical_align_top',
     hyperlink: 'ion-link',
-    toggleFullscreen: 'ion-arrow-expand',
+    toggleFullscreen: 'ion-expand',
     quote: 'ion-quote',
     left: 'format_align_left',
     center: 'format_align_center',
     right: 'format_align_right',
     justify: 'format_align_justify',
-    print: 'ion-ios-printer',
+    print: 'ion-print',
     outdent: 'format_indent_decrease',
     indent: 'format_indent_increase',
     removeFormat: 'format_clear',
     formatting: 'text_format',
     fontSize: 'format_size',
-    align: 'fa-align-left',
-    hr: 'ion-minus-round',
-    undo: 'ion-ios-undo',
-    redo: 'ion-ios-redo',
+    align: 'format_align_left',
+    hr: 'remove',
+    undo: 'ion-undo',
+    redo: 'ion-redo',
     header: 'format_size',
     code: 'ion-code',
     size: 'format_size',
     font: 'font_download'
   },
   fab: {
-    icon: 'ion-ios-plus-empty',
-    activeIcon: 'ion-ios-close-empty'
+    icon: 'ion-add',
+    activeIcon: 'ion-close'
   },
   input: {
     showPass: 'ion-eye',
-    hidePass: 'ion-eye-disabled',
+    hidePass: 'ion-eye-off',
     showNumber: 'ion-calculator',
-    hideNumber: 'ion-ios-keypad',
-    clear: 'ion-close-circled',
-    clearInverted: 'ion-close-round',
-    dropdown: 'ion-android-arrow-dropdown'
+    hideNumber: 'ion-keypad',
+    clear: 'ion-close-circle',
+    clearInverted: 'ion-close-circle-outline',
+    dropdown: 'ion-arrow-dropdown'
   },
   pagination: {
-    first: 'ion-ios-skipbackward-outline',
-    prev: 'ion-ios-arrow-left',
-    next: 'ion-ios-arrow-right',
-    last: 'ion-ios-skipforward-outline'
+    first: 'ion-skip-backward',
+    prev: 'ion-arrow-back',
+    next: 'ion-arrow-forward',
+    last: 'ion-skip-forward'
   },
   radio: {
     checked: {
-      ios: 'ion-android-done',
-      mat: 'ion-android-radio-button-on'
+      ios: 'ion-md-checkmark',
+      mat: 'ion-radio-button-on'
     },
     unchecked: {
       ios: '',
-      mat: 'ion-android-radio-button-off'
+      mat: 'ion-radio-button-off'
     }
   },
   rating: {
-    icon: 'ion-ios-star'
+    icon: 'ion-star'
   },
   stepper: {
     done: 'ion-checkmark',
-    active: 'ion-edit',
-    error: 'ion-alert-circled'
+    active: 'ion-create',
+    error: 'ion-warning'
   },
   tabs: {
-    left: 'ion-chevron-left',
-    right: 'ion-chevron-right'
+    left: 'ion-ios-arrow-back',
+    right: 'ion-ios-arrow-forward'
   },
   table: {
-    arrowUp: 'ion-ios-arrow-thin-up',
-    warning: 'ion-alert-circled',
-    prevPage: 'ion-chevron-left',
-    nextPage: 'ion-chevron-right'
+    arrowUp: 'ion-arrow-up',
+    warning: 'ion-warning',
+    prevPage: 'ion-ios-arrow-back',
+    nextPage: 'ion-ios-arrow-forward'
   },
   tree: {
-    icon: 'ion-ios-play'
+    icon: 'ion-play'
   },
   uploader: {
-    done: 'ion-ios-checkmark-outline',
-    clear: 'ion-close-circled',
-    clearInverted: 'ion-close-round',
-    add: 'ion-ios-plus-outline',
-    upload: 'ion-ios-cloud-upload-outline',
-    expand: 'ion-chevron-down',
-    file: 'ion-document-text'
+    done: 'ion-checkmark',
+    clear: 'ion-close-circle',
+    clearInverted: 'ion-close-circle-outline',
+    add: 'ion-add',
+    upload: 'ion-cloud-upload',
+    expand: 'ion-arrow-dropdown',
+    file: 'ion-document'
   }
 }

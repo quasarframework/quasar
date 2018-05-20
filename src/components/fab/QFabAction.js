@@ -4,6 +4,12 @@ import FabMixin from './fab-mixin'
 export default {
   name: 'QFabAction',
   mixins: [FabMixin],
+  props: {
+    icon: {
+      type: String,
+      required: true
+    }
+  },
   inject: {
     __qFabClose: {
       default () {

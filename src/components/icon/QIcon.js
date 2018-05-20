@@ -1,38 +1,31 @@
+const prefix = __THEME__ === 'mat' ? 'md' : 'ios'
+
 export default {
   name: 'QIcon',
   props: {
     name: String,
-    mat: String,
-    ios: String,
     color: String,
     size: String
   },
   computed: {
-    icon () {
-      return this.mat && __THEME__ === 'mat'
-        ? this.mat
-        : (this.ios && __THEME__ === 'ios' ? this.ios : this.name)
-    },
     classes () {
       let cls
-      const icon = this.icon
+      const icon = this.name
 
       if (!icon) {
-        cls = ''
+        return ''
       }
-      else if (icon.startsWith('fa-')) {
-        // Fontawesome 4
-        cls = `fa ${icon}`
-      }
-      else if (/^fa[s|r|l|b]{0,1} /.test(icon)) {
-        // Fontawesome 5
+      else if (/^fa[s|r|l|b]{0,1} /.test(icon) || icon.startsWith('icon-')) {
         cls = icon
       }
       else if (icon.startsWith('bt-')) {
         cls = `bt ${icon}`
       }
-      else if (icon.startsWith('ion-') || icon.startsWith('icon-')) {
-        cls = `${icon}`
+      else if (/^ion-(md|ios|logo)/.test(icon)) {
+        cls = `ionicons ${icon}`
+      }
+      else if (icon.startsWith('ion-')) {
+        cls = `ionicons ion-${prefix}${icon.substr(3)}`
       }
       else if (icon.startsWith('mdi-')) {
         cls = `mdi ${icon}`
@@ -47,7 +40,7 @@ export default {
     },
     content () {
       return this.classes.startsWith('material-icons')
-        ? this.icon.replace(/ /g, '_')
+        ? this.name.replace(/ /g, '_')
         : ' '
     },
     style () {

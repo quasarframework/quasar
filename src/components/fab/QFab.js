@@ -12,6 +12,7 @@ export default {
     }
   },
   props: {
+    icon: String,
     activeIcon: String,
     direction: {
       type: String,

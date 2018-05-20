@@ -83,7 +83,7 @@ export default {
       if (!this.editable) {
         return
       }
-      stopAndPrevent(evt)
+      evt && stopAndPrevent(evt)
       const val = this.clearValue
       if (this.__setModel) {
         this.__setModel(val, true)

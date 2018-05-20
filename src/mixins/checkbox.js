@@ -35,12 +35,8 @@ export default {
       if (this.disable || this.readonly) {
         return
       }
-      if (evt) {
-        stopAndPrevent(evt)
-      }
-      if (blur) {
-        this.$el.blur()
-      }
+      evt && stopAndPrevent(evt)
+      blur && this.$el.blur()
 
       let val
 

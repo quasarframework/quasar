@@ -47,6 +47,9 @@
 
       <br><br>
       <p>
+        <q-btn label="Go to index page" to="/" />
+      </p>
+      <p>
         <form @submit.prevent="submit" @reset.prevent="reset" class="shadow-2 row q-pa-md items-center">
           <q-input v-model="test" class="col" />
           <q-btn fab-mini color="primary" icon="android" type="reset" class="on-right" title="Reset" />

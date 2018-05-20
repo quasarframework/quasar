@@ -9,7 +9,9 @@ export default {
     percentage: Number,
     darkPercentage: Boolean,
     waitForRipple: Boolean,
-    repeatTimeout: [Number, Function]
+    repeatTimeout: [Number, Function],
+    to: [Object, String],
+    replace: Boolean
   },
   computed: {
     hasPercentage () {
@@ -51,6 +53,10 @@ export default {
         }
 
         this.$emit('click', e)
+
+        if (this.to !== void 0) {
+          this.$router[this.replace ? 'replace' : 'push'](this.to)
+        }
       }
 
       if (this.waitForRipple && this.hasRipple) {
