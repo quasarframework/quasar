@@ -110,6 +110,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Christian Kyony
 - Talles Dantas
 - Mast
+- 上田 進也 (Sandbox Gmbh)
 
 - Ken ($5)
 - Oliver ($5)
