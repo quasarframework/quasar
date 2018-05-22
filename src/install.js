@@ -37,13 +37,15 @@ export default function (_Vue, opts = {}) {
   }
   this.__installed = true
 
-  const $q = {
-    version,
-    theme: __THEME__
-  }
+  const
+    cfg = opts.cfg || {},
+    $q = {
+      version,
+      theme: __THEME__
+    }
 
   // required plugins
-  Platform.install({ $q })
+  Platform.install({ $q, cfg })
   History.install()
   i18n.install({ $q, Vue: _Vue, lang: opts.i18n })
   icons.install({ $q, Vue: _Vue, iconSet: opts.iconSet })
@@ -74,7 +76,7 @@ export default function (_Vue, opts = {}) {
     Object.keys(opts.plugins).forEach(key => {
       const p = opts.plugins[key]
       if (typeof p.install === 'function') {
-        p.install({ $q, Vue: _Vue })
+        p.install({ $q, Vue: _Vue, cfg })
       }
     })
   }
