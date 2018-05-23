@@ -10,7 +10,7 @@ const positionList = [
   'top', 'bottom', 'left', 'right', 'center'
 ]
 
-function init ({ $q, Vue }) {
+function init ({ $q, Vue, cfg: { notify: defaults = {} } }) {
   if (!document.body) {
     ready(() => {
       init.call(this, { $q, Vue })
@@ -42,16 +42,14 @@ function init ({ $q, Vue }) {
           console.error('Notify: parameter required')
           return false
         }
-        let notif
-        if (typeof config === 'string') {
-          notif = {
-            message: config,
-            position: 'bottom'
-          }
-        }
-        else {
-          notif = clone(config)
-        }
+
+        const notif = Object.assign(
+          {},
+          defaults,
+          typeof config === 'string'
+            ? { message: config }
+            : clone(config)
+        )
 
         if (notif.position) {
           if (!positionList.includes(notif.position)) {
@@ -78,12 +76,14 @@ function init ({ $q, Vue }) {
             const
               handler = item.handler,
               action = clone(item)
+
             action.handler = typeof handler === 'function'
               ? () => {
                 handler()
                 !item.noDismiss && close()
               }
               : () => close()
+
             return action
           })
         }
