@@ -13,6 +13,7 @@
     "dev": "node build/script.dev.js",
     "build": "node build/script.build.js",
     "test:umd": "node build/script.test-umd.js",
+    "test": "eslint --ext .js,.vue src dev",
     "lint": "eslint --ext .js,.vue src dev",
     "deploy": "bash build/deploy.sh"
   },

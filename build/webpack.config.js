@@ -9,8 +9,7 @@ const
 
 const
   env = require('./env'),
-  projectRoot = path.resolve(__dirname, '../'),
-  rtl = process.env.QUASAR_RTL !== void 0
+  projectRoot = path.resolve(__dirname, '../')
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -96,10 +95,7 @@ chain.module.rule('fonts')
       name: 'fonts/[name].[hash:7].[ext]'
     })
 
-injectStyleRules(chain, {
-  rtl,
-  sourceMap: true
-})
+injectStyleRules(chain)
 
 chain.plugin('vue-loader')
   .use(VueLoaderPlugin)
@@ -153,7 +149,7 @@ chain.plugin('friendly-errors')
   .use(FriendlyErrorsPlugin, [{
     compilationSuccessInfo: {
       messages: [
-        `Running with Quasar v${env.quasarVersion}\n`
+        `Running with Quasar v${env.quasarVersion} at ${env.uri}\n`
       ],
     },
     clearConsole: true
@@ -172,30 +168,30 @@ require('webpack-dev-server').addDevServerEntrypoints(webpackConfig, env.devServ
 
 module.exports = webpackConfig
 
-function injectRule ({ chain, pref }, lang, test, loader, options) {
+function injectRule (chain, lang, test, loader, options) {
   const rule = chain.module.rule(lang).test(test)
 
   rule.use('vue-style-loader')
     .loader('vue-style-loader')
     .options({
-      sourceMap: pref.sourceMap
+      sourceMap: true
     })
 
   rule.use('css-loader')
     .loader('css-loader')
     .options({
       importLoaders: 2 + (loader ? 1 : 0),
-      sourceMap: pref.sourceMap
+      sourceMap: true
     })
 
   const postCssOpts = {
-    sourceMap: pref.sourceMap
+    sourceMap: true
   }
 
-  if (pref.rtl) {
-    const rtlOptions = pref.rtl === true
+  if (env.rtl) {
+    const rtlOptions = env.rtl === true
       ? {}
-      : pref.rtl
+      : env.rtl
 
     postCssOpts.plugins = () => {
       return [
@@ -212,20 +208,15 @@ function injectRule ({ chain, pref }, lang, test, loader, options) {
     rule.use(loader)
       .loader(loader)
       .options(Object.assign(
-        { sourceMap: pref.sourceMap },
+        { sourceMap: true },
         options
       ))
   }
 }
 
 function injectStyleRules (chain, options) {
-  const meta = {
-    chain,
-    pref: options
-  }
-
-  injectRule(meta, 'css', /\.css$/)
-  injectRule(meta, 'stylus', /\.styl(us)?$/, 'stylus-loader', {
+  injectRule(chain, 'css', /\.css$/)
+  injectRule(chain, 'stylus', /\.styl(us)?$/, 'stylus-loader', {
     preferPathResolver: 'webpack'
   })
 }

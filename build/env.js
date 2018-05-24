@@ -1,7 +1,7 @@
 const { resolve } = require('path')
 const
   theme = process.argv[2] || 'mat',
-  host = process.env.HOST || 'localhost',
+  host = process.env.HOST || '0.0.0.0',
   port = process.env.PORT || 8080
 
 module.exports = {
@@ -9,6 +9,8 @@ module.exports = {
   quasarVersion: require('../package.json').version,
   host,
   port,
+  uri: `http://${host}:${port}`,
+  rtl: process.env.QUASAR_RTL !== void 0,
   devServerConfig: {
     publicPath: '/',
     host,

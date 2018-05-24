@@ -1,3 +1,5 @@
+import '../src/ie-compat/ie'
+
 import Vue from 'vue'
 
 // "Everything" bit is just a hack.

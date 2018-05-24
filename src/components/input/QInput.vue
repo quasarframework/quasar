@@ -30,13 +30,15 @@
     <template v-if="isTextarea">
       <div class="col row relative-position">
         <q-resize-observable @resize="__updateArea()"/>
+        <!-- eslint-disable-next-line vue/html-self-closing -->
         <textarea
           class="col q-input-target q-input-shadow absolute-top"
           ref="shadow"
           :value="model"
           v-bind="$attrs"
-        />
+        ></textarea>
 
+        <!-- eslint-disable-next-line vue/html-self-closing -->
         <textarea
           ref="input"
           class="col q-input-target q-input-area"
@@ -53,7 +55,7 @@
           @blur="__onInputBlur"
           @keydown="__onKeydown"
           @keyup="__onKeyup"
-        />
+        ></textarea>
       </div>
     </template>
 
@@ -118,8 +120,8 @@
       class="q-if-control"
     />
 
-    <slot name="after"/>
-    <slot/>
+    <slot name="after" />
+    <slot />
   </q-input-frame>
 </template>
 

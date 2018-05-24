@@ -23,7 +23,7 @@ module.exports.writeFile = function (dest, code, zip) {
       if (zip) {
         zlib.gzip(code, (err, zipped) => {
           if (err) return reject(err)
-          report(` (gzipped: ${getSize(zipped).padStart(7)})`)
+          report(` (gzipped: ${getSize(zipped).padStart(8)})`)
         })
       }
       else {
