@@ -317,10 +317,14 @@ export default {
     },
     show () {
       this.__keyboardCalcIndex()
-      return this.$refs.popover.show()
+      if (this.$refs.popover) {
+        return this.$refs.popover.show()
+      }
     },
     hide () {
-      return this.$refs.popover.hide()
+      if (this.$refs.popover) {
+        return this.$refs.popover.hide()
+      }
     },
     reposition () {
       const popover = this.$refs.popover
