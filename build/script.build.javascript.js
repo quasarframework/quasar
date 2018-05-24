@@ -13,8 +13,14 @@ const
   buildConf = require('./build.conf'),
   buildUtils = require('./build.utils'),
   vueConfig = {
+    css: false,
     compileTemplate: true,
-    htmlMinifier: {collapseBooleanAttributes: false}
+    htmlMinifier: {
+      collapseBooleanAttributes: false,
+      collapseWhitespace: true,
+      removeRedundantAttributes: true,
+      removeComments: true
+    }
   }
 
 const builds = [
