@@ -10,9 +10,7 @@ const
   env = require('./env'),
   opn = require('opn'),
   webpackConfig = require('./webpack.config'),
-  host = process.env.HOST || 'localhost',
-  port = process.env.PORT || 8080,
-  uri = `http://${host}:${port}`
+  uri = `http://${env.host}:${env.port}`
 
 console.log()
 console.log(` ☕️ Preparing for Quasar v${env.quasarVersion}`)
@@ -33,7 +31,7 @@ compiler.hooks.done.tap('dev-server-done-compiling', compiler => {
 
   this.__started = true
 
-  server.listen(port, host, () => {
+  server.listen(env.port, env.host, () => {
     opn(uri)
   })
 })
