@@ -23,7 +23,7 @@
             :class="messageClass"
           >
             <span class="q-message-text-content" :class="textClass">
-              <div v-html="msg"></div>
+              <div>{{msg}}</div>
               <div v-if="stamp" class="q-message-stamp" v-html="stamp"></div>
             </span>
           </div>
