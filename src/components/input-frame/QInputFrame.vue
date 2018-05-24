@@ -15,7 +15,7 @@
         @mousedown.native="__onMouseDown"
         @touchstart.native="__onMouseDown"
         @click.native="__baHandler($event, item)"
-      ></q-icon>
+      />
     </template>
 
     <div class="q-if-inner col row no-wrap relative-position">
@@ -24,23 +24,23 @@
         class="q-if-label ellipsis full-width absolute self-start"
         :class="{'q-if-label-above': labelIsAbove}"
         v-html="label"
-      ></div>
+      />
 
       <span
         v-if="prefix"
         class="q-if-addon q-if-addon-left"
         :class="addonClass"
         v-html="prefix"
-      ></span>
+      />
 
-      <slot></slot>
+      <slot/>
 
       <span
         v-if="suffix"
         class="q-if-addon q-if-addon-right"
         :class="addonClass"
         v-html="suffix"
-      ></span>
+      />
     </div>
 
     <template v-if="after">
@@ -53,9 +53,9 @@
         @mousedown.native="__onMouseDown"
         @touchstart.native="__onMouseDown"
         @click.native="__baHandler($event, item)"
-      ></q-icon>
+      />
     </template>
-    <slot name="after"></slot>
+    <slot name="after"/>
   </div>
 </template>
 

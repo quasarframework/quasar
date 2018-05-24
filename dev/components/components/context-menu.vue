@@ -34,7 +34,7 @@
         class="bg-secondary text-white row items-stretch"
       >
         <div class="col-6 flex flex-center" v-for="n in 4" :key="n" >
-          Target area {{n}}
+          Target area {{ n }}
         </div>
 
         <q-context-menu @show="onShow" @hide="onHide">
@@ -50,15 +50,14 @@
           </q-list>
         </q-context-menu>
       </div>
-      <p class="caption">Visible: {{visible}}</p>
-      <pre v-if="event && event.target">{{event.target.innerText}}</pre>
-
+      <p class="caption">Visible: {{ visible }}</p>
+      <pre v-if="event && event.target">{{ event.target.innerText }}</pre>
 
       <div class="block-1 q-ma-md">
         <q-context-menu>
           <q-list link separator style="min-width: 150px;">
-            <q-item v-close-overlay><q-item-main label="Foo"></q-item-main></q-item>
-            <q-item v-close-overlay><q-item-main label="Bar"></q-item-main></q-item>
+            <q-item v-close-overlay><q-item-main label="Foo"/></q-item>
+            <q-item v-close-overlay><q-item-main label="Bar"/></q-item>
           </q-list>
         </q-context-menu>
       </div>
@@ -66,8 +65,8 @@
       <div class="block-2 q-ma-md">
         <q-context-menu>
           <q-list link separator style="min-width: 150px;">
-            <q-item v-close-overlay><q-item-main label="Foo"></q-item-main></q-item>
-            <q-item v-close-overlay><q-item-main label="Bar"></q-item-main></q-item>
+            <q-item v-close-overlay><q-item-main label="Foo"/></q-item>
+            <q-item v-close-overlay><q-item-main label="Bar"/></q-item>
           </q-list>
         </q-context-menu>
       </div>
@@ -75,8 +74,8 @@
       <div class="block-3 q-ma-md">
         <q-context-menu>
           <q-list link separator style="min-width: 150px;">
-            <q-item v-close-overlay><q-item-main label="Foo"></q-item-main></q-item>
-            <q-item v-close-overlay><q-item-main label="Bar"></q-item-main></q-item>
+            <q-item v-close-overlay><q-item-main label="Foo"/></q-item>
+            <q-item v-close-overlay><q-item-main label="Bar"/></q-item>
           </q-list>
         </q-context-menu>
       </div>
@@ -84,8 +83,8 @@
       <div class="block-4 q-ma-md">
         <q-context-menu>
           <q-list link separator style="min-width: 150px;">
-            <q-item v-close-overlay><q-item-main label="Foo"></q-item-main></q-item>
-            <q-item v-close-overlay><q-item-main label="Bar"></q-item-main></q-item>
+            <q-item v-close-overlay><q-item-main label="Foo"/></q-item>
+            <q-item v-close-overlay><q-item-main label="Bar"/></q-item>
           </q-list>
         </q-context-menu>
       </div>

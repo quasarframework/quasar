@@ -10,7 +10,7 @@
     :warning="warning"
     :disable="disable"
     :inverted="inverted"
-    :invertedLight="invertedLight"
+    :inverted-light="invertedLight"
     :dark="dark"
     :hide-underline="hideUnderline"
     :before="before"
@@ -25,17 +25,17 @@
     @click="__onClick"
     @focus="__onFocus"
   >
-    <slot name="before"></slot>
+    <slot name="before"/>
 
     <template v-if="isTextarea">
       <div class="col row relative-position">
-        <q-resize-observable @resize="__updateArea()"></q-resize-observable>
+        <q-resize-observable @resize="__updateArea()"/>
         <textarea
           class="col q-input-target q-input-shadow absolute-top"
           ref="shadow"
           :value="model"
           v-bind="$attrs"
-        ></textarea>
+        />
 
         <textarea
           ref="input"
@@ -53,7 +53,7 @@
           @blur="__onInputBlur"
           @keydown="__onKeydown"
           @keyup="__onKeyup"
-        ></textarea>
+        />
       </div>
     </template>
 
@@ -79,7 +79,7 @@
       @keyup="__onKeyup"
 
       @animationstart="__onAnimationStart"
-    />
+    >
 
     <q-icon
       v-if="!disable && isPassword && !noPassToggle && length"
@@ -89,7 +89,7 @@
       @mousedown.native="__clearTimer"
       @touchstart.native="__clearTimer"
       @click.native="togglePass"
-    ></q-icon>
+    />
 
     <q-icon
       v-if="editable && keyboardToggle"
@@ -99,7 +99,7 @@
       @mousedown.native="__clearTimer"
       @touchstart.native="__clearTimer"
       @click.native="toggleNumber"
-    ></q-icon>
+    />
 
     <q-icon
       v-if="editable && clearable && length"
@@ -109,17 +109,17 @@
       @mousedown.native="__clearTimer"
       @touchstart.native="__clearTimer"
       @click.native="clear"
-    ></q-icon>
+    />
 
     <q-spinner
       v-if="isLoading"
       slot="after"
       size="24px"
       class="q-if-control"
-    ></q-spinner>
+    />
 
-    <slot name="after"></slot>
-    <slot></slot>
+    <slot name="after"/>
+    <slot/>
   </q-input-frame>
 </template>
 

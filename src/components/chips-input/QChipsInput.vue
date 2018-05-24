@@ -10,7 +10,7 @@
     :warning="warning"
     :disable="disable"
     :inverted="inverted"
-    :invertedLight="invertedLight"
+    :inverted-light="invertedLight"
     :dark="dark"
     :hide-underline="hideUnderline"
     :before="before"
@@ -57,7 +57,7 @@
         @blur="__onInputBlur"
         @keydown="__handleKeyDown"
         @keyup="__onKeyup"
-      />
+      >
     </div>
 
     <q-spinner
@@ -65,7 +65,7 @@
       slot="after"
       size="24px"
       class="q-if-control"
-    ></q-spinner>
+    />
 
     <q-icon
       v-else-if="editable"
@@ -76,9 +76,9 @@
       @mousedown.native="__clearTimer"
       @touchstart.native="__clearTimer"
       @click.native="add()"
-    ></q-icon>
+    />
 
-    <slot></slot>
+    <slot/>
   </q-input-frame>
 </template>
 

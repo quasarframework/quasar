@@ -1,6 +1,6 @@
 <template>
   <div class="q-datetime" :class="classes">
-    <slot></slot>
+    <slot/>
     <div class="q-datetime-content non-selectable">
       <div class="q-datetime-inner full-height flex justify-center" @touchstart.stop.prevent>
         <template v-if="typeHasDate">
@@ -83,8 +83,8 @@
         </template>
       </div>
 
-      <div class="q-datetime-mask"></div>
-      <div class="q-datetime-highlight"></div>
+      <div class="q-datetime-mask"/>
+      <div class="q-datetime-highlight"/>
     </div>
   </div>
 </template>

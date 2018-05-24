@@ -41,7 +41,6 @@ chain.resolve.alias
     variables: resolve(`src/css/core.variables.styl`)
   })
 
-/*
 chain.module.rule('lint')
   .test(/\.(js|vue)$/)
   .enforce('pre')
@@ -50,7 +49,6 @@ chain.module.rule('lint')
     .end()
   .use('eslint-loader')
     .loader('eslint-loader')
-*/
 
 chain.module.rule('vue')
   .test(/\.vue$/)

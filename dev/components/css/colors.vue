@@ -8,7 +8,7 @@
         :key="color"
         :class="'bg-' + color"
       >
-        <div class="col">{{color}}</div>
+        <div class="col">{{ color }}</div>
         <q-btn flat dense round icon="colorize" @click="selectColor(color)" v-if="color !== 'black'" />
       </div>
       <div
@@ -17,7 +17,7 @@
         :key="color"
         :class="'bg-' + color"
       >
-        <div class="col">{{color}}</div>
+        <div class="col">{{ color }}</div>
         <q-btn flat dense round icon="colorize" @click="selectColor(color)" v-if="color !== 'white'" />
       </div>
       <div v-if="currentColor" class="row justify-center items-end q-mt-md">
@@ -28,8 +28,8 @@
 
       <h5>Full Palette</h5>
       <div class="detail" v-for="color in colors" :key="color">
-        <h5 class="detailed-color shadow-1 column flex-center text-white" :class="'bg-' + color">{{color}}</h5>
-        <div class="detailed-color column flex-center" v-for="n in 14" :key="n" :class="'bg-' + color + '-' + n">{{color}}-{{(n)}}</div>
+        <h5 class="detailed-color shadow-1 column flex-center text-white" :class="'bg-' + color">{{ color }}</h5>
+        <div class="detailed-color column flex-center" v-for="n in 14" :key="n" :class="'bg-' + color + '-' + n">{{ color }}-{{ (n) }}</div>
       </div>
     </div>
   </div>

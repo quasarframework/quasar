@@ -104,27 +104,25 @@
       </p>
 
       <p class="caption">Advanced Label Chips</p>
-      <p>
-        <div class="group">
-          <q-chip avatar="/statics/boy-avatar.png" color="grey-4" class="text-black">John</q-chip>
-          <q-chip avatar="/statics/boy-avatar.png" color="teal">Joe</q-chip>
-          <q-chip avatar="/statics/boy-avatar.png" color="black">Jim</q-chip>
-          <q-chip avatar="/statics/boy-avatar.png" small color="teal">Joe</q-chip>
-          <br>
-          <q-chip avatar="/statics/boy-avatar.png" closable color="light" class="text-black">John</q-chip>
-          <q-chip avatar="/statics/boy-avatar.png" closable color="red">Joe</q-chip>
-          <q-chip avatar="/statics/boy-avatar.png" closable color="primary">Jim</q-chip>
-          <q-chip avatar="/statics/boy-avatar.png" small closable color="red">Joe</q-chip>
-          <q-chip avatar="/statics/boy-avatar.png" dense closable color="red">Joe</q-chip>
-          <br>
-          <q-chip color="grey-4" class="text-black">John</q-chip>
-          <q-chip color="teal">Joe</q-chip>
-          <q-chip color="black">Jim</q-chip>
-          <q-chip small color="teal">Joe</q-chip>
-          <q-chip dense color="teal">Joe</q-chip>
-          <q-chip dense square color="teal">Joe</q-chip>
-        </div>
-      </p>
+      <div class="group">
+        <q-chip avatar="/statics/boy-avatar.png" color="grey-4" class="text-black">John</q-chip>
+        <q-chip avatar="/statics/boy-avatar.png" color="teal">Joe</q-chip>
+        <q-chip avatar="/statics/boy-avatar.png" color="black">Jim</q-chip>
+        <q-chip avatar="/statics/boy-avatar.png" small color="teal">Joe</q-chip>
+        <br>
+        <q-chip avatar="/statics/boy-avatar.png" closable color="light" class="text-black">John</q-chip>
+        <q-chip avatar="/statics/boy-avatar.png" closable color="red">Joe</q-chip>
+        <q-chip avatar="/statics/boy-avatar.png" closable color="primary">Jim</q-chip>
+        <q-chip avatar="/statics/boy-avatar.png" small closable color="red">Joe</q-chip>
+        <q-chip avatar="/statics/boy-avatar.png" dense closable color="red">Joe</q-chip>
+        <br>
+        <q-chip color="grey-4" class="text-black">John</q-chip>
+        <q-chip color="teal">Joe</q-chip>
+        <q-chip color="black">Jim</q-chip>
+        <q-chip small color="teal">Joe</q-chip>
+        <q-chip dense color="teal">Joe</q-chip>
+        <q-chip dense square color="teal">Joe</q-chip>
+      </div>
 
       <q-chip avatar="/statics/boy-avatar.png" closable color="primary" @click="clickable">Jim</q-chip>
 

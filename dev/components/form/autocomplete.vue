@@ -6,7 +6,6 @@
         On desktop, Escape key closes the suggestions popover and you can navigate with keyboard arrow keys. Selection is made with either mouse/finger tap or by Enter key.
       </p>
 
-
       <q-search @change="onChange" @input="onInput" v-model="terms" placeholder="Start typing a country name">
         <q-autocomplete @search="search" @selected="selected" />
       </q-search>
@@ -37,7 +36,7 @@
       </q-input>
 
       <q-search inverted v-model="terms" placeholder="Start typing a country name">
-        <q-autocomplete @search="search" @selected="selected"  />
+        <q-autocomplete @search="search" @selected="selected" />
       </q-search>
 
       <p class="caption">Maximum of 2 results at a time</p>

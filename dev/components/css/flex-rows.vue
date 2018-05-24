@@ -250,7 +250,6 @@
       </div>
     </div>
 
-
     <div class="container">
       <div class="row">
         <div class="col-6 col-sm-3">.col-6 .col-sm-3</div>
@@ -335,34 +334,29 @@
     <div class="container">
       <div class="row">
         <div class="col-7">
-            <div class="row">
-              <div class="col-9">
-                  <div class="row">
-                    <div class="col-4">
-                    </div>
-                    <div class="col-8">
-                    </div>
-                  </div>
-              </div>
-              <div class="col-3">
-                  <div class="row">
-                    <div class="col">
-                    </div>
-                  </div>
+          <div class="row">
+            <div class="col-9">
+              <div class="row">
+                <div class="col-4"/>
+                <div class="col-8"/>
               </div>
             </div>
+            <div class="col-3">
+              <div class="row">
+                <div class="col"/>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="col-5">
-            <div class="row">
-              <div class="col-12">
-                  <div class="row">
-                    <div class="col-6">
-                    </div>
-                    <div class="col-4">
-                    </div>
-                  </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="row">
+                <div class="col-6"/>
+                <div class="col-4"/>
               </div>
             </div>
+          </div>
         </div>
       </div>
     </div>

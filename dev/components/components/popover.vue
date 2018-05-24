@@ -68,8 +68,8 @@
 
           <p class="caption text-center">Configure the Popover for button above.</p>
           <p class="text-center">
-            <q-chip tag color="primary">anchor="{{anchor}}"</q-chip>
-            <q-chip tag color="primary">self="{{self}}"</q-chip>
+            <q-chip tag color="primary">anchor="{{ anchor }}"</q-chip>
+            <q-chip tag color="primary">self="{{ self }}"</q-chip>
           </p>
           <q-card-main class="row">
             <div class="column items-center col-6">
@@ -110,7 +110,7 @@
           </q-card-main>
         </q-card>
 
-        <div style="margin-bottom: 700px;"></div>
+        <div style="margin-bottom: 700px;"/>
 
         <q-btn color="secondary" class="fixed-top-right" icon="directions" style="top: 65px; right: 16px;">
           <q-popover ref="popover3">

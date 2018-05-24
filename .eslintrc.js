@@ -30,6 +30,8 @@ module.exports = {
     'vue/max-attributes-per-line': 0,
     'vue/valid-v-for': 0,
     'vue/require-default-prop': 0,
+    'vue/require-prop-types': 0,
+    'vue/require-v-for-key': 0,
 
     // allow async-await
     'generator-star-spacing': 'off',

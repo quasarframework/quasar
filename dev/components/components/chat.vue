@@ -1,5 +1,5 @@
 <template>
-  <div>  
+  <div>
     <div class="layout-padding" style="max-width: 500px;">
       <h4>Chat with avatar</h4>
       <p>To mix messages with avatar and without avatar in the same thread, use a placeholder avatar image.</p>
@@ -21,7 +21,7 @@
       >
         <q-spinner-dots size="2rem" />
       </q-chat-message>
-      
+
       <br><br><br><br>
       <h4>Chat using avatar slot</h4>
       <q-chat-message
@@ -30,7 +30,7 @@
       >
         <q-icon name="face" size="4em" slot="avatar"/>
       </q-chat-message>
-      
+
       <br><br><br><br>
       <h4>Chat without avatar</h4>
       <q-chat-message

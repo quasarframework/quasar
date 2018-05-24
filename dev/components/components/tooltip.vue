@@ -54,8 +54,8 @@
 
         <p class="caption text-center">Configure the Tooltip for button above.</p>
         <p class="text-center">
-          <q-chip tag color="primary">anchor="{{anchor}}"</q-chip>
-          <q-chip tag color="primary">self="{{self}}"</q-chip>
+          <q-chip tag color="primary">anchor="{{ anchor }}"</q-chip>
+          <q-chip tag color="primary">self="{{ self }}"</q-chip>
         </p>
         <q-card-main class="row">
           <div class="column items-center col-6">

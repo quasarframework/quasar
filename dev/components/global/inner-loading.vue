@@ -10,7 +10,7 @@
       </q-btn>
     </div>
     <div class="layout-padding relative-position"
-      style="height: 450px; width: 600px; background-color: lightgrey; padding: 15px;">
+         style="height: 450px; width: 600px; background-color: lightgrey; padding: 15px;">
       <transition
         appear
         enter-active-class="animated fadeIn"
@@ -27,7 +27,7 @@
         </div>
       </transition>
       <q-inner-loading :visible="visible">
-        <q-spinner-gears :size="50" color="primary"></q-spinner-gears>
+        <q-spinner-gears :size="50" color="primary"/>
       </q-inner-loading>
     </div>
   </div>
