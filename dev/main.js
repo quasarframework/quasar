@@ -25,7 +25,9 @@ import 'quasar-extras/animate'
 Vue.use(Quasar, {
   components: Everything,
   directives: Everything,
-  plugins: Everything// ,
+  plugins: Everything,
+  cfg: {
+  }
   // iconSet
 })
 

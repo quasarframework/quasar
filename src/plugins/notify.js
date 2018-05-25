@@ -4,13 +4,15 @@ import clone from '../utils/clone'
 import { isSSR } from './platform'
 import { ready } from '../utils/dom'
 
+let defaults
+
 const positionList = [
   'top-left', 'top-right',
   'bottom-left', 'bottom-right',
   'top', 'bottom', 'left', 'right', 'center'
 ]
 
-function init ({ $q, Vue, cfg: { notify: defaults = {} } }) {
+function init ({ $q, Vue }) {
   if (!document.body) {
     ready(() => {
       init.call(this, { $q, Vue })
@@ -164,16 +166,19 @@ function init ({ $q, Vue, cfg: { notify: defaults = {} } }) {
 
 export default {
   create (opts) {
-    if (!isSSR) {
-      if (!document.body) {
-        ready(() => {
-          this.create(opts)
-        })
-      }
-      else {
-        this.__vm.add(opts)
-      }
+    if (isSSR) { return }
+
+    if (!document.body) {
+      ready(() => {
+        this.create(opts)
+      })
     }
+    else {
+      this.__vm.add(opts)
+    }
+  },
+  setDefaults (opts) {
+    Object.assign(defaults, opts)
   },
 
   __installed: false,
@@ -184,6 +189,10 @@ export default {
     if (!isSSR) {
       init.call(this, args)
     }
+
+    args.cfg.notify && this.setDefaults(args.cfg.notify)
+
     args.$q.notify = this.create.bind(this)
+    args.$q.notify.setDefaults = this.setDefaults
   }
 }
