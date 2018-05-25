@@ -53,7 +53,7 @@ export default function (_Vue, opts = {}) {
   // required plugins
   Platform.install({ $q, cfg })
   History.install()
-  i18n.install({ $q, Vue: _Vue, lang: opts.i18n })
+  i18n.install({ $q, Vue: _Vue, cfg, lang: opts.i18n })
   icons.install({ $q, Vue: _Vue, iconSet: opts.iconSet })
 
   if (isSSR) {

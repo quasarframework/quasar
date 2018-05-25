@@ -4,7 +4,7 @@ import { ready } from './utils/dom'
 
 export default {
   __installed: false,
-  install ({ $q, Vue, lang }) {
+  install ({ $q, Vue, lang, cfg }) {
     if (this.__installed) { return }
     this.__installed = true
 
@@ -13,7 +13,16 @@ export default {
       lang.getLocale = this.getLocale
       lang.rtl = lang.rtl || false
 
-      if (!isSSR) {
+      if (isSSR) {
+        const fn = cfg.ssr.setHtmlAttrs
+        if (typeof fn === 'function') {
+          fn({
+            dir: lang.rtl ? 'rtl' : 'ltr',
+            lang: lang.lang
+          })
+        }
+      }
+      else {
         ready(() => {
           const el = document.documentElement
           el.setAttribute('dir', lang.rtl ? 'rtl' : 'ltr')
