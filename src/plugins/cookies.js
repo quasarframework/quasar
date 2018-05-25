@@ -48,8 +48,10 @@ function set (key, val, opts = {}) {
     time.setMilliseconds(time.getMilliseconds() + opts.expires * 864e+5)
   }
 
+  const keyValue = `${encode(key)}=${stringifyCookieValue(val)}`
+
   const cookie = [
-    encode(key), '=', stringifyCookieValue(val),
+    keyValue,
     time ? '; expires=' + time.toUTCString() : '', // use expires attribute, max-age is not supported by IE
     opts.path ? '; path=' + opts.path : '',
     opts.domain ? '; domain=' + opts.domain : '',
@@ -58,6 +60,12 @@ function set (key, val, opts = {}) {
 
   if (isSSR) {
     ssrRes.setHeader('Set-Cookie', cookie)
+
+    // make temporary update so future get()
+    // within same SSR timeframe would return the set value
+    cookieSource.cookie = cookieSource.cookie
+      ? `${keyValue}; ${cookieSource.cookie}`
+      : cookie
   }
   else {
     document.cookie = cookie
