@@ -6,7 +6,7 @@ import './polyfills'
 import i18n from './i18n'
 import icons from './icons'
 
-function bodyInit () {
+function getBodyClasses () {
   const cls = [
     __THEME__,
     Platform.is.desktop ? 'desktop' : 'mobile',
@@ -17,6 +17,12 @@ function bodyInit () {
   Platform.within.iframe && cls.push('within-iframe')
   Platform.is.cordova && cls.push('cordova')
   Platform.is.electron && cls.push('electron')
+
+  return cls
+}
+
+function bodyInit () {
+  const cls = getBodyClasses()
 
   if (Platform.is.ie && Platform.is.versionNumber === 11) {
     cls.forEach(c => document.body.classList.add(c))
@@ -50,7 +56,12 @@ export default function (_Vue, opts = {}) {
   i18n.install({ $q, Vue: _Vue, lang: opts.i18n })
   icons.install({ $q, Vue: _Vue, iconSet: opts.iconSet })
 
-  if (!isSSR) {
+  if (isSSR) {
+    if (typeof cfg.ssr.setBodyClasses === 'function') {
+      cfg.ssr.setBodyClasses(getBodyClasses())
+    }
+  }
+  else {
     ready(bodyInit)
   }
 
