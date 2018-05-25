@@ -168,11 +168,12 @@ const Platform = {
     this.__installed = true
 
     if (isSSR) {
-      if (!cfg.ssr || !cfg.ssr.userAgent) {
-        console.error('[quasar-ssr]: cfg.ssr.userAgent required')
+      if (!cfg.ssr || !cfg.ssr.req || !cfg.ssr.res) {
+        console.error('[quasar-ssr]: cfg.ssr.(req & res) required')
         return
       }
-      Platform.is = getPlatform(cfg.ssr.userAgent)
+
+      Platform.is = getPlatform(cfg.ssr.req.headers['user-agent'])
       Platform.has = {
         touch: false,
         webStorage: false

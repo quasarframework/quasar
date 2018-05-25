@@ -1,6 +1,10 @@
 import extend from '../utils/extend'
 import { isSSR } from './platform'
 
+let
+  cookieSource,
+  ssrRes
+
 function encode (string) {
   return encodeURIComponent(string)
 }
@@ -44,19 +48,26 @@ function set (key, val, opts = {}) {
     time.setMilliseconds(time.getMilliseconds() + opts.expires * 864e+5)
   }
 
-  document.cookie = [
+  const cookie = [
     encode(key), '=', stringifyCookieValue(val),
     time ? '; expires=' + time.toUTCString() : '', // use expires attribute, max-age is not supported by IE
     opts.path ? '; path=' + opts.path : '',
     opts.domain ? '; domain=' + opts.domain : '',
     opts.secure ? '; secure' : ''
   ].join('')
+
+  if (isSSR) {
+    ssrRes.setHeader('Set-Cookie', cookie)
+  }
+  else {
+    document.cookie = cookie
+  }
 }
 
 function get (key) {
   let
     result = key ? undefined : {},
-    cookies = document.cookie ? document.cookie.split('; ') : [],
+    cookies = cookieSource.cookie ? cookieSource.cookie.split('; ') : [],
     i = 0,
     l = cookies.length,
     parts,
@@ -98,17 +109,16 @@ export default {
   all: () => get(),
 
   __installed: false,
-  install ({ $q }) {
+  install ({ $q, cfg }) {
     if (this.__installed) { return }
     this.__installed = true
 
     if (isSSR) {
-      const noop = () => {}
-      this.get = noop
-      this.set = noop
-      this.has = noop
-      this.remove = noop
-      this.all = noop
+      cookieSource = cfg.ssr.req.headers
+      ssrRes = cfg.ssr.res
+    }
+    else {
+      cookieSource = document
     }
 
     $q.cookies = this
