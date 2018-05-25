@@ -51,13 +51,21 @@ export default {
     if (this.__installed) { return }
     this.__installed = true
 
-    this.set = Platform.is.mobile && !Platform.is.cordova && !isSSR && (
+    this.set = Platform.is.mobile && !isSSR && (
+      Platform.is.cordova ||
       Platform.is.winphone || Platform.is.safari ||
       Platform.is.webkit || Platform.is.vivaldi
     )
       ? hexColor => {
         ready(() => {
-          setColor(hexColor || getBrand('primary'))
+          const val = hexColor || getBrand('primary')
+
+          if (Platform.is.cordova) {
+            window.StatusBar && window.StatusBar.backgroundColorByHexString(val)
+          }
+          else {
+            setColor(val)
+          }
         })
       }
       : () => {}
