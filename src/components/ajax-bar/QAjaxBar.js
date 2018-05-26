@@ -190,14 +190,10 @@ export default {
     highjackAjax(this.start, this.stop)
   },
   beforeDestroy () {
-    if (!isSSR) {
-      clearTimeout(this.timer)
-      restoreAjax()
-    }
+    clearTimeout(this.timer)
+    restoreAjax()
   },
   render (h) {
-    if (isSSR) { return }
-
     return h('div', {
       staticClass: 'q-loading-bar shadow-4',
       'class': this.classes,

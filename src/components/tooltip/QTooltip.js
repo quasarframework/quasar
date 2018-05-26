@@ -104,7 +104,7 @@ export default {
       ])
     ])
   },
-  created () {
+  beforeMount () {
     this.__debouncedUpdatePosition = debounce(() => {
       this.__updatePosition()
     }, 70)

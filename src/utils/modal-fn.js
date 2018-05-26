@@ -1,9 +1,13 @@
+import { isSSR } from '../plugins/platform'
+
 export default function (Component, Vue) {
   return props => {
-    const node = document.createElement('div')
-    document.body.appendChild(node)
-
     return new Promise((resolve, reject) => {
+      if (isSSR) { return }
+
+      const node = document.createElement('div')
+      document.body.appendChild(node)
+
       const vm = new Vue({
         el: node,
         data () {

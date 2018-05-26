@@ -50,7 +50,7 @@ export default {
       this.inFullscreen = false
     }
   },
-  created () {
+  beforeMount () {
     this.fullscreenFillerNode = document.createElement('span')
   },
   beforeDestroy () {
