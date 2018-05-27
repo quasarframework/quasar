@@ -4,9 +4,9 @@ Got a question?
 ===
 The issue list of this repo is **exclusively** for bug reports and feature requests. For simple questions, please use the following resources:
 
-- Read the docs: http://quasar-framework.org
-- For simple/quick questions ask on the Discord chat room: https://chat.quasar-framework.org/
-- For complex questions or requiring help, ask on the forum: http://forum.quasar-framework.org/
+- Read the docs: https://quasar-framework.org
+- For simple/quick questions ask on the Discord chat room: http://chat.quasar-framework.org/
+- For complex questions or requiring help, ask on the forum: https://forum.quasar-framework.org/
 
 Reporting a bug?
 ================
@@ -24,7 +24,7 @@ Reporting a bug?
 
 Have a feature suggestion/request?
 =======================
-Remove the template from below and provide thoughtful commentary *and code samples* on what this feature means for your product. What will it allow you to do that you can't do today? How will it make current work-arounds straightforward? What potential bugs and edge cases does it help to avoid? etc. Please keep it product-centric.
+Remove the template from below and provide thoughtful commentary *and code samples* on what this feature means for your product. What will it allow you to do that you can't do today? How will it make current workarounds straightforward? What potential bugs and edge cases does it help to avoid? etc. Please keep it product-centric.
 -->
 
 <!-- BUG REPORT TEMPLATE -->
