@@ -122,9 +122,6 @@ export default {
       this.model = this.newPage
       this.newPage = null
     },
-    __repeatTimeout (count) {
-      return Math.max(100, 300 - count * count * 10)
-    },
     __getBool (val, otherwise) {
       return [true, false].includes(val)
         ? val
@@ -174,8 +171,7 @@ export default {
         key: 'bdp',
         props: {
           disable: this.disable || this.value <= this.min,
-          icon: this.icons[1],
-          repeatTimeout: this.__repeatTimeout
+          icon: this.icons[1]
         },
         on: {
           click: () => this.setByOffset(-1)
@@ -185,8 +181,7 @@ export default {
         key: 'bdn',
         props: {
           disable: this.disable || this.value >= this.max,
-          icon: this.icons[2],
-          repeatTimeout: this.__repeatTimeout
+          icon: this.icons[2]
         },
         on: {
           click: () => this.setByOffset(1)
@@ -295,8 +290,7 @@ export default {
           style,
           props: {
             disable: this.disable,
-            label: '…',
-            repeatTimeout: this.__repeatTimeout
+            label: '…'
           },
           on: {
             click: () => this.set(pgFrom - 1)
@@ -309,8 +303,7 @@ export default {
           style,
           props: {
             disable: this.disable,
-            label: '…',
-            repeatTimeout: this.__repeatTimeout
+            label: '…'
           },
           on: {
             click: () => this.set(pgTo + 1)
