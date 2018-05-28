@@ -398,10 +398,6 @@ export default {
     this.__update('size', this.size)
     this.__update('space', this.onLayout)
     this.__update('offset', this.offset)
-
-    this.$nextTick(() => {
-      this.animateOverlay = true
-    })
   },
   mounted () {
     if (this.showing) {
