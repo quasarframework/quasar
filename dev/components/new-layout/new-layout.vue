@@ -50,10 +50,11 @@
       </q-layout-footer>
 
       <q-layout-drawer
-        v-model="left"
-        :overlay="leftOverlay"
-        :behavior="leftBehavior"
-        :breakpoint="leftBreakpoint"
+        v-model="right"
+        side="right"
+        :overlay="rightOverlay"
+        :behavior="rightBehavior"
+        :breakpoint="rightBreakpoint"
         content-class="bg-grey-3"
       >
         <q-scroll-area class="fit" :thumb-style="{right: '4px', borderRadius: '2px', background: 'blue', opacity: .6, width: '4px'}">
@@ -71,12 +72,12 @@
       </q-layout-drawer>
 
       /*
-      @mouseover="rightMini = false"
-      @mouseout="rightMini = true"
+      @mouseover="leftMini = false"
+      @mouseout="leftMini = true"
       ...or
       @click.capture="e => {
-      if (rightMini) {
-      rightMini = false
+      if (leftMini) {
+      leftMini = false
       e.preventDefault()
       e.stopPropagation()
       }
@@ -84,19 +85,19 @@
       */
       <q-page-container>
         <q-layout-drawer
-          side="right"
-          :mini="rightMini"
+          side="left"
+          :mini="leftMini"
           @click.capture="e => {
-            if (rightMini) {
-              rightMini = false
+            if (leftMini) {
+              leftMini = false
               e.preventDefault()
               e.stopPropagation()
             }
           }"
-          v-model="right"
-          :overlay="rightOverlay"
-          :behavior="rightBehavior"
-          :breakpoint="rightBreakpoint"
+          v-model="left"
+          :overlay="leftOverlay"
+          :behavior="leftBehavior"
+          :breakpoint="leftBreakpoint"
           :content-style="{'font-size': '16px'}"
         >
           <!--
@@ -111,8 +112,8 @@
         -->
           <q-btn
             class="q-mini-drawer-hide"
-            icon="keyboard_arrow_right"
-            @click="rightMini = true"
+            icon="keyboard_arrow_left"
+            @click="leftMini = true"
           />
           <div class="q-mini-drawer-hide">Maxi only</div>
           <div class="q-mini-drawer-only">Mini only</div>
@@ -370,8 +371,8 @@ export default {
       rightBehavior: 'default',
       leftBreakpoint: 992,
       rightBreakpoint: 992,
-      leftMini: false,
-      rightMini: true,
+      leftMini: true,
+      rightMini: false,
 
       scrolling: true,
 
