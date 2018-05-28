@@ -163,7 +163,7 @@ export default {
     },
     backdropClass () {
       return {
-        'no-pointer-events': !this.showing
+        'no-pointer-events': !this.showing || !this.mobileView
       }
     },
     mobileView () {
@@ -237,79 +237,6 @@ export default {
     },
     isMini () {
       return this.mini && !this.mobileView
-    }
-  },
-  render (h) {
-    const child = []
-
-    if (this.mobileView) {
-      if (!this.noSwipeOpen) {
-        child.push(h('div', {
-          staticClass: `q-layout-drawer-opener fixed-${this.side}`,
-          directives: [{
-            name: 'touch-pan',
-            modifiers: { horizontal: true },
-            value: this.__openByTouch
-          }]
-        }))
-      }
-      child.push(h('div', {
-        ref: 'backdrop',
-        staticClass: 'fullscreen q-layout-backdrop',
-        'class': this.backdropClass,
-        on: { click: this.hide },
-        directives: [{
-          name: 'touch-pan',
-          modifiers: { horizontal: true },
-          value: this.__closeByTouch
-        }]
-      }))
-    }
-
-    return h('div', {
-      staticClass: 'q-drawer-container'
-    }, child.concat([
-      h('aside', {
-        ref: 'content',
-        staticClass: `q-layout-drawer q-layout-transition q-layout-drawer-${this.side} scroll`,
-        'class': this.computedClass,
-        style: this.computedStyle,
-        attrs: this.$attrs,
-        on: !this.mobileView ? this.$listeners : null,
-        directives: this.mobileView && !this.noSwipeClose ? [{
-          name: 'touch-pan',
-          modifiers: { horizontal: true },
-          value: this.__closeByTouch
-        }] : null
-      }, [
-        this.isMini && this.$slots.mini
-          ? this.$slots.mini
-          : this.$slots.default
-      ])
-    ]))
-  },
-  created () {
-    this.layout.instances[this.side] = this
-    this.__update('size', this.size)
-    this.__update('space', this.onLayout)
-    this.__update('offset', this.offset)
-
-    this.$nextTick(() => {
-      this.animateOverlay = true
-    })
-  },
-  mounted () {
-    if (this.showing) {
-      this.applyPosition(0)
-    }
-  },
-  beforeDestroy () {
-    clearTimeout(this.timer)
-    if (this.layout.instances[this.side] === this) {
-      this.layout.instances[this.side] = null
-      this.__update('size', 0)
-      this.__update('offset', 0)
-      this.__update('space', false)
     }
   },
   methods: {
@@ -465,5 +392,79 @@ export default {
         this[prop] = val
       }
     }
+  },
+  created () {
+    this.layout.instances[this.side] = this
+    this.__update('size', this.size)
+    this.__update('space', this.onLayout)
+    this.__update('offset', this.offset)
+
+    this.$nextTick(() => {
+      this.animateOverlay = true
+    })
+  },
+  mounted () {
+    if (this.showing) {
+      this.applyPosition(0)
+    }
+  },
+  beforeDestroy () {
+    clearTimeout(this.timer)
+    if (this.layout.instances[this.side] === this) {
+      this.layout.instances[this.side] = null
+      this.__update('size', 0)
+      this.__update('offset', 0)
+      this.__update('space', false)
+    }
+  },
+  render (h) {
+    const child = []
+
+    if (this.mobileView) {
+      if (!this.noSwipeOpen) {
+        child.push(h('div', {
+          staticClass: `q-layout-drawer-opener fixed-${this.side}`,
+          directives: [{
+            name: 'touch-pan',
+            modifiers: { horizontal: true },
+            value: this.__openByTouch
+          }]
+        }))
+      }
+    }
+
+    child.push(h('div', {
+      ref: 'backdrop',
+      staticClass: 'fullscreen q-layout-backdrop q-layout-transition',
+      'class': this.backdropClass,
+      on: { click: this.hide },
+      directives: [{
+        name: 'touch-pan',
+        modifiers: { horizontal: true },
+        value: this.__closeByTouch
+      }]
+    }))
+
+    return h('div', {
+      staticClass: 'q-drawer-container'
+    }, child.concat([
+      h('aside', {
+        ref: 'content',
+        staticClass: `q-layout-drawer q-layout-transition q-layout-drawer-${this.side} scroll`,
+        'class': this.computedClass,
+        style: this.computedStyle,
+        attrs: this.$attrs,
+        on: !this.mobileView ? this.$listeners : null,
+        directives: this.mobileView && !this.noSwipeClose ? [{
+          name: 'touch-pan',
+          modifiers: { horizontal: true },
+          value: this.__closeByTouch
+        }] : null
+      }, [
+        this.isMini && this.$slots.mini
+          ? this.$slots.mini
+          : this.$slots.default
+      ])
+    ]))
   }
 }
