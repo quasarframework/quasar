@@ -4,7 +4,7 @@ export default {
   data () {
     const is = this.$q.platform.is
     return {
-      canRender: (is.cordova || is.electron) === true
+      canRender: is.cordova || is.electron
     }
   },
   mounted () {
