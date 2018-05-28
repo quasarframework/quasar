@@ -1,7 +1,6 @@
 import TouchPan from '../../directives/touch-pan'
 import { css, cssTransform } from '../../utils/dom'
 import { between } from '../../utils/format'
-import { QResizeObservable } from '../observables'
 import ModelToggleMixin from '../../mixins/model-toggle'
 import PreventScroll from '../../mixins/prevent-scroll'
 
@@ -29,10 +28,14 @@ export default {
       default: 'left',
       validator: v => ['left', 'right'].includes(v)
     },
+    width: {
+      type: Number,
+      default: __THEME__ === 'mat' ? 300 : 280
+    },
     mini: Boolean,
     miniWidth: {
-      type: String,
-      default: '60px'
+      type: Number,
+      default: 60
     },
     breakpoint: {
       type: Number,
@@ -67,8 +70,7 @@ export default {
         (this.behavior !== 'desktop' && this.breakpoint >= this.layout.width)
       ),
       largeScreenState,
-      mobileOpened: false,
-      size: 300
+      mobileOpened: false
     }
   },
   watch: {
@@ -125,8 +127,9 @@ export default {
     rightSide () {
       this.applyPosition()
     },
-    size () {
+    size (val) {
       this.applyPosition()
+      this.__update('size', val)
     },
     '$q.i18n.rtl' () {
       this.applyPosition()
@@ -145,6 +148,9 @@ export default {
       return this.showing && !this.mobileOpened && !this.overlay
         ? this.size
         : 0
+    },
+    size () {
+      return this.isMini ? this.miniWidth : this.width
     },
     fixed () {
       return this.overlay || this.layout.view.indexOf(this.rightSide ? 'R' : 'L') > -1
@@ -218,14 +224,10 @@ export default {
         }
       }
 
-      if (this.isMini) {
-        css.width = this.miniWidth
-      }
-
       return css
     },
     computedStyle () {
-      return [this.contentStyle, this.mobileView ? '' : this.aboveStyle]
+      return [this.contentStyle, { width: `${this.size}px` }, this.mobileView ? '' : this.aboveStyle]
     },
     computedClass () {
       return [this.contentClass, this.mobileView ? this.belowClass : this.aboveClass]
@@ -280,11 +282,7 @@ export default {
           value: this.__closeByTouch
         }] : null
       }, [
-        h(QResizeObservable, {
-          props: { debounce: 0 },
-          on: { resize: this.__onResize }
-        }),
-        this.mini && this.$slots.mini && !this.mobileView
+        this.isMini && this.$slots.mini
           ? this.$slots.mini
           : this.$slots.default
       ])
@@ -292,6 +290,7 @@ export default {
   },
   created () {
     this.layout.instances[this.side] = this
+    this.__update('size', this.size)
     this.__update('space', this.onLayout)
     this.__update('offset', this.offset)
 
@@ -456,10 +455,6 @@ export default {
       }, duration)
     },
 
-    __onResize ({ width }) {
-      this.__update('size', width)
-      this.__updateLocal('size', width)
-    },
     __update (prop, val) {
       if (this.layout[this.side][prop] !== val) {
         this.layout[this.side][prop] = val
