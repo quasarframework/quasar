@@ -418,32 +418,29 @@ export default {
     }
   },
   render (h) {
-    const child = []
-
-    if (this.mobileView) {
-      if (!this.noSwipeOpen) {
-        child.push(h('div', {
+    const child = [
+      this.mobileView && !this.noSwipeOpen
+        ? h('div', {
           staticClass: `q-layout-drawer-opener fixed-${this.side}`,
           directives: [{
             name: 'touch-pan',
             modifiers: { horizontal: true },
             value: this.__openByTouch
           }]
-        }))
-      }
-    }
-
-    child.push(h('div', {
-      ref: 'backdrop',
-      staticClass: 'fullscreen q-layout-backdrop q-layout-transition',
-      'class': this.backdropClass,
-      on: { click: this.hide },
-      directives: [{
-        name: 'touch-pan',
-        modifiers: { horizontal: true },
-        value: this.__closeByTouch
-      }]
-    }))
+        })
+        : null,
+      h('div', {
+        ref: 'backdrop',
+        staticClass: 'fullscreen q-layout-backdrop q-layout-transition',
+        'class': this.backdropClass,
+        on: { click: this.hide },
+        directives: [{
+          name: 'touch-pan',
+          modifiers: { horizontal: true },
+          value: this.__closeByTouch
+        }]
+      })
+    ]
 
     return h('div', {
       staticClass: 'q-drawer-container'
