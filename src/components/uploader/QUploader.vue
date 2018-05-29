@@ -181,6 +181,10 @@ export default {
       type: Function,
       required: false
     },
+    uploadFactory: {
+      type: Function,
+      required: false
+    },
     additionalFields: {
       type: Array,
       default: () => []
@@ -375,9 +379,13 @@ export default {
         name = file.name,
         done = file.__doneUploading
 
-      if (this.uploading && !done) {
+      if (this.uploading && !done && !this.uploadFactory) {
         this.$emit('remove:abort', file, file.xhr)
         file.xhr.abort()
+        this.uploadedSize -= file.__uploaded
+      }
+      else if (this.uploading && !done && this.uploadFactory) {
+        this.$emit('remove:abort', file)
         this.uploadedSize -= file.__uploaded
       }
       else {
@@ -390,6 +398,11 @@ export default {
 
       file.__removed = true
       this.files = this.files.filter(obj => obj.name !== name)
+
+      if (!this.files.length) {
+        this.uploading = false
+      }
+
       this.__computeTotalSize()
     },
     __pick () {
@@ -414,6 +427,34 @@ export default {
       }
 
       initFile(file)
+
+      if (this.uploadFactory) {
+        const updateProgress = (percentage) => {
+          let uploaded = percentage * file.size
+          this.uploadedSize += uploaded - file.__uploaded
+          file.__uploaded = uploaded
+          file.__progress = Math.min(99, parseInt(percentage * 100, 10))
+          this.$forceUpdate()
+        }
+
+        return new Promise((resolve, reject) => {
+          this.uploadFactory(file, updateProgress)
+            .then(file => {
+              file.__doneUploading = true
+              file.__progress = 100
+              this.$emit('uploaded', file)
+              this.$forceUpdate()
+              resolve(file)
+            })
+            .catch(error => {
+              file.__failed = true
+              this.$emit('fail', file)
+              this.$forceUpdate()
+              reject(error)
+            })
+        })
+      }
+
       file.xhr = xhr
       return new Promise((resolve, reject) => {
         xhr.upload.addEventListener('progress', e => {
@@ -507,6 +548,7 @@ export default {
     abort () {
       this.xhrs.forEach(xhr => { xhr.abort() })
       this.uploading = false
+      this.$emit('abort')
     },
     reset () {
       this.abort()
