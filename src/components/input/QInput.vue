@@ -10,7 +10,7 @@
     :warning="warning"
     :disable="disable"
     :inverted="inverted"
-    :invertedLight="invertedLight"
+    :inverted-light="invertedLight"
     :dark="dark"
     :hide-underline="hideUnderline"
     :before="before"
@@ -25,11 +25,12 @@
     @click="__onClick"
     @focus="__onFocus"
   >
-    <slot name="before"></slot>
+    <slot name="before"/>
 
     <template v-if="isTextarea">
       <div class="col row relative-position">
-        <q-resize-observable @resize="__updateArea()"></q-resize-observable>
+        <q-resize-observable @resize="__updateArea()"/>
+        <!-- eslint-disable-next-line vue/html-self-closing -->
         <textarea
           class="col q-input-target q-input-shadow absolute-top"
           ref="shadow"
@@ -37,6 +38,7 @@
           v-bind="$attrs"
         ></textarea>
 
+        <!-- eslint-disable-next-line vue/html-self-closing -->
         <textarea
           ref="input"
           class="col q-input-target q-input-area"
@@ -79,7 +81,7 @@
       @keyup="__onKeyup"
 
       @animationstart="__onAnimationStart"
-    />
+    >
 
     <q-icon
       v-if="!disable && isPassword && !noPassToggle && length"
@@ -89,7 +91,7 @@
       @mousedown.native="__clearTimer"
       @touchstart.native="__clearTimer"
       @click.native="togglePass"
-    ></q-icon>
+    />
 
     <q-icon
       v-if="editable && keyboardToggle"
@@ -99,7 +101,7 @@
       @mousedown.native="__clearTimer"
       @touchstart.native="__clearTimer"
       @click.native="toggleNumber"
-    ></q-icon>
+    />
 
     <q-icon
       v-if="editable && clearable && length"
@@ -109,17 +111,17 @@
       @mousedown.native="__clearTimer"
       @touchstart.native="__clearTimer"
       @click.native="clear"
-    ></q-icon>
+    />
 
     <q-spinner
       v-if="isLoading"
       slot="after"
       size="24px"
       class="q-if-control"
-    ></q-spinner>
+    />
 
-    <slot name="after"></slot>
-    <slot></slot>
+    <slot name="after" />
+    <slot />
   </q-input-frame>
 </template>
 

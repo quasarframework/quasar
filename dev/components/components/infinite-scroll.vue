@@ -13,7 +13,7 @@
         </p>
 
         <div class="row justify-center" style="margin-bottom: 50px;">
-          <q-spinner name="dots" slot="message" :size="40"></q-spinner>
+          <q-spinner name="dots" slot="message" :size="40"/>
         </div>
       </q-infinite-scroll>
     </div>

@@ -110,7 +110,7 @@ export default {
       ])
     ])
   },
-  created () {
+  beforeMount () {
     this.__setPos = frameDebounce(this.__setPos)
   },
   mounted () {

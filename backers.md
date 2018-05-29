@@ -45,7 +45,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Evan Leonardi
 - Max Matteo Staack
 - Bobby Ross
-- Nikolaj Frey
 - Netanel Edri
 - Yatima Kagurazaka
 - Edinei Cipriani
@@ -110,6 +109,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Christian Kyony
 - Talles Dantas
 - Mast
+- 上田 進也 (Sandbox Gmbh)
 
 - Ken ($5)
 - Oliver ($5)

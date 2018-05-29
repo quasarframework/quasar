@@ -38,9 +38,6 @@
       </q-popover>
     </q-btn>
 
-
-
-
   </div>
 </template>
 

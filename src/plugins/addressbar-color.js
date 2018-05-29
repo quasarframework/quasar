@@ -51,19 +51,25 @@ export default {
     if (this.__installed) { return }
     this.__installed = true
 
+    this.set = Platform.is.mobile && !isSSR && (
+      Platform.is.cordova ||
+      Platform.is.winphone || Platform.is.safari ||
+      Platform.is.webkit || Platform.is.vivaldi
+    )
+      ? hexColor => {
+        ready(() => {
+          const val = hexColor || getBrand('primary')
+
+          if (Platform.is.cordova) {
+            window.StatusBar && window.StatusBar.backgroundColorByHexString(val)
+          }
+          else {
+            setColor(val)
+          }
+        })
+      }
+      : () => {}
+
     $q.addressbarColor = this
-  },
-
-  set (hexColor) {
-    if (!Platform.is.mobile || Platform.is.cordova || isSSR) {
-      return
-    }
-    if (!Platform.is.winphone && !Platform.is.safari && !Platform.is.webkit && !Platform.is.vivaldi) {
-      return
-    }
-
-    ready(() => {
-      setColor(hexColor || getBrand('primary'))
-    })
   }
 }

@@ -1,3 +1,5 @@
+import '../src/ie-compat/ie'
+
 import Vue from 'vue'
 
 // "Everything" bit is just a hack.
@@ -23,7 +25,9 @@ import 'quasar-extras/animate'
 Vue.use(Quasar, {
   components: Everything,
   directives: Everything,
-  plugins: Everything// ,
+  plugins: Everything,
+  cfg: {
+  }
   // iconSet
 })
 

@@ -6,11 +6,11 @@
           <div v-for="rounded in options" :key="rounded">
             <div v-for="size in sizes" :key="size" class="q-ma-sm">
               <p class="caption">
-                {{push ? 'push ' : ''}}
-                {{rounded ? 'rounded ' : ''}}
-                {{outline ? 'outline ' : ''}}
-                {{flat ? 'flat ' : ''}}
-                {{size}}
+                {{ push ? 'push ' : '' }}
+                {{ rounded ? 'rounded ' : '' }}
+                {{ outline ? 'outline ' : '' }}
+                {{ flat ? 'flat ' : '' }}
+                {{ size }}
               </p>
               <q-btn-group :push="push" :rounded="rounded" :outline="outline" :flat="flat">
                 <q-btn color="yellow" :push="push" :rounded="rounded" :outline="outline" :flat="flat" :size="size">

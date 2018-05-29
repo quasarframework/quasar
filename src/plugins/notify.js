@@ -4,6 +4,8 @@ import clone from '../utils/clone'
 import { isSSR } from './platform'
 import { ready } from '../utils/dom'
 
+let defaults
+
 const positionList = [
   'top-left', 'top-right',
   'bottom-left', 'bottom-right',
@@ -42,16 +44,14 @@ function init ({ $q, Vue }) {
           console.error('Notify: parameter required')
           return false
         }
-        let notif
-        if (typeof config === 'string') {
-          notif = {
-            message: config,
-            position: 'bottom'
-          }
-        }
-        else {
-          notif = clone(config)
-        }
+
+        const notif = Object.assign(
+          {},
+          defaults,
+          typeof config === 'string'
+            ? { message: config }
+            : clone(config)
+        )
 
         if (notif.position) {
           if (!positionList.includes(notif.position)) {
@@ -78,12 +78,14 @@ function init ({ $q, Vue }) {
             const
               handler = item.handler,
               action = clone(item)
+
             action.handler = typeof handler === 'function'
               ? () => {
                 handler()
                 !item.noDismiss && close()
               }
               : () => close()
+
             return action
           })
         }
@@ -164,16 +166,19 @@ function init ({ $q, Vue }) {
 
 export default {
   create (opts) {
-    if (!isSSR) {
-      if (!document.body) {
-        ready(() => {
-          this.create(opts)
-        })
-      }
-      else {
-        this.__vm.add(opts)
-      }
+    if (isSSR) { return }
+
+    if (!document.body) {
+      ready(() => {
+        this.create(opts)
+      })
     }
+    else {
+      this.__vm.add(opts)
+    }
+  },
+  setDefaults (opts) {
+    Object.assign(defaults, opts)
   },
 
   __installed: false,
@@ -184,6 +189,10 @@ export default {
     if (!isSSR) {
       init.call(this, args)
     }
+
+    args.cfg.notify && this.setDefaults(args.cfg.notify)
+
     args.$q.notify = this.create.bind(this)
+    args.$q.notify.setDefaults = this.setDefaults
   }
 }

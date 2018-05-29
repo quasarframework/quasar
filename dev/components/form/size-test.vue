@@ -171,7 +171,7 @@
 
       <q-toggle v-model="guidelines" label="Guidelines" class="fixed-top-left bg-grey-3 q-pa-sm" style="top: 8px; left: 8px;" />
 
-      <div style="height: 350px"></div>
+      <div style="height: 350px"/>
     </div>
   </div>
 </template>

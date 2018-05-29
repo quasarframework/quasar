@@ -1,5 +1,3 @@
-import extend from '../utils/extend'
-
 function encode (value) {
   if (Object.prototype.toString.call(value) === '[object Date]') {
     return '__q_date|' + value.toUTCString()
@@ -68,7 +66,7 @@ function decode (value) {
 }
 
 function getEmptyStorage () {
-  const fn = () => null
+  const fn = () => {}
 
   return {
     has: fn,
@@ -132,7 +130,7 @@ export const LocalStorage = {
     if ($q.platform.has.webStorage) {
       const storage = getStorage('local')
       $q.localStorage = storage
-      extend(true, this, storage)
+      Object.assign(this, storage)
     }
     else {
       $q.localStorage = getEmptyStorage()
@@ -149,7 +147,7 @@ export const SessionStorage = {
     if ($q.platform.has.webStorage) {
       const storage = getStorage('session')
       $q.sessionStorage = storage
-      extend(true, this, storage)
+      Object.assign(this, storage)
     }
     else {
       $q.sessionStorage = getEmptyStorage()

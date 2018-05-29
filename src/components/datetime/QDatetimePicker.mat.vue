@@ -109,10 +109,10 @@
               flat
               class="q-datetime-arrow"
               :icon="dateArrow[0]"
-              :repeatTimeout="__repeatTimeout"
+              :repeat-timeout="__repeatTimeout"
               :disable="beforeMinDays > 0 || disable || readonly"
               @click="setMonth(month - 1)"
-            ></q-btn>
+            />
             <div class="col q-datetime-month-stamp">
               {{ monthStamp }}
             </div>
@@ -122,16 +122,16 @@
               flat
               class="q-datetime-arrow"
               :icon="dateArrow[1]"
-              :repeatTimeout="__repeatTimeout"
+              :repeat-timeout="__repeatTimeout"
               :disable="afterMaxDays > 0 || disable || readonly"
               @click="setMonth(month + 1)"
-            ></q-btn>
+            />
           </div>
           <div class="q-datetime-weekdays row items-center justify-start">
-            <div v-for="day in headerDayNames" :key="`dh${day}`">{{day}}</div>
+            <div v-for="day in headerDayNames" :key="`dh${day}`">{{ day }}</div>
           </div>
           <div class="q-datetime-days row wrap items-center justify-start content-center">
-            <div v-for="fillerDay in fillerDays" :key="`fd${fillerDay}`" class="q-datetime-fillerday"></div>
+            <div v-for="fillerDay in fillerDays" :key="`fd${fillerDay}`" class="q-datetime-fillerday"/>
             <template v-if="min">
               <div v-for="fillerDay in beforeMinDays" :key="`fb${fillerDay}`" class="row items-center content-center justify-center disabled">
                 {{ fillerDay }}
@@ -174,9 +174,9 @@
             @touchend="__dragStop"
           >
             <div class="q-datetime-clock-circle full-width full-height">
-              <div class="q-datetime-clock-center"></div>
+              <div class="q-datetime-clock-center"/>
               <div class="q-datetime-clock-pointer" :style="clockPointerStyle">
-                <span></span>
+                <span/>
               </div>
               <div v-if="computedFormat24h">
                 <div
@@ -212,9 +212,9 @@
             @touchend="__dragStop"
           >
             <div class="q-datetime-clock-circle full-width full-height">
-              <div class="q-datetime-clock-center"></div>
+              <div class="q-datetime-clock-center"/>
               <div class="q-datetime-clock-pointer" :style="clockPointerStyle">
-                <span></span>
+                <span/>
               </div>
               <div
                 v-for="n in 12"
@@ -229,7 +229,7 @@
         </div>
       </div>
 
-      <slot></slot>
+      <slot/>
     </div>
   </div>
 </template>

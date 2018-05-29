@@ -4,32 +4,29 @@ import { isSSR } from './platform'
 let
   vm,
   timeout,
-  props = {}
+  props = {},
+  defaults = {
+    delay: 500,
+    message: false,
+    spinnerSize: 80,
+    spinnerColor: 'white',
+    messageColor: 'white',
+    spinner: QSpinner,
+    customClass: false
+  }
 
 const staticClass = 'q-loading animate-fade fullscreen column flex-center z-max'
 
-const Loading = {
+export default {
   isActive: false,
 
-  show ({
-    delay = 500,
-    message = false,
-    spinnerSize = 80,
-    spinnerColor = 'white',
-    messageColor = 'white',
-    spinner = QSpinner,
-    customClass = false
-  } = {}) {
+  show (opts) {
     if (isSSR) { return }
 
-    props.spinner = spinner
-    props.message = message
-    props.spinnerSize = spinnerSize
-    props.spinnerColor = spinnerColor
-    props.messageColor = messageColor
+    props = Object.assign({}, defaults, opts)
 
-    if (typeof customClass === 'string') {
-      props.customClass = customClass.trim()
+    if (typeof props.customClass === 'string') {
+      props.customClass = props.customClass.trim()
     }
 
     if (this.isActive) {
@@ -58,7 +55,7 @@ const Loading = {
                 size: props.spinnerSize
               }
             }),
-            message
+            props.message
               ? h('div', {
                 'class': `text-${props.messageColor}`,
                 domProps: {
@@ -69,7 +66,7 @@ const Loading = {
           ])
         }
       })
-    }, delay)
+    }, props.delay)
 
     this.isActive = true
   },
@@ -91,16 +88,19 @@ const Loading = {
 
     this.isActive = false
   },
+  setDefaults (opts) {
+    Object.assign(defaults, opts)
+  },
 
   __Vue: null,
   __installed: false,
-  install ({ $q, Vue }) {
+  install ({ $q, Vue, cfg: { loading } }) {
     if (this.__installed) { return }
     this.__installed = true
 
-    $q.loading = Loading
+    loading && this.setDefaults(loading)
+
+    $q.loading = this
     this.__Vue = Vue
   }
 }
-
-export default Loading

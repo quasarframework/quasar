@@ -10,10 +10,11 @@ import { width } from '../../utils/dom'
 import EscapeKey from '../../utils/escape-key'
 import ModelToggleMixin from '../../mixins/model-toggle'
 import { listenOpts } from '../../utils/event'
+import CanRenderMixin from '../../mixins/can-render'
 
 export default {
   name: 'QPopover',
-  mixins: [ModelToggleMixin],
+  mixins: [ModelToggleMixin, CanRenderMixin],
   props: {
     anchor: {
       type: String,
@@ -54,6 +55,8 @@ export default {
     }
   },
   render (h) {
+    if (!this.canRender) { return }
+
     return h('div', {
       staticClass: 'q-popover scroll',
       on: {
@@ -63,10 +66,8 @@ export default {
       this.$slots.default
     ])
   },
-  created () {
-    this.__updatePosition = frameDebounce((_, event, animate) => this.reposition(event, animate))
-  },
   mounted () {
+    this.__updatePosition = frameDebounce((_, event, animate) => this.reposition(event, animate))
     this.$nextTick(() => {
       this.anchorEl = this.$el.parentNode
       this.anchorEl.removeChild(this.$el)

@@ -4,7 +4,7 @@
       <q-input ref="xi" :attributes="{gigi: 'yes'}" @change="onChange" v-model="text" />
       <q-btn @click="$refs.xi.select()">Select</q-btn>
       <q-card>
-        <q-card-title class="bg-dark text-white q-px-small q-py-smaller">Text value: {{JSON.stringify(text)}}</q-card-title>
+        <q-card-title class="bg-dark text-white q-px-small q-py-smaller">Text value: {{ JSON.stringify(text) }}</q-card-title>
         <q-card-main>
           <q-input v-model="text" float-label="Text" placeholder="Placeholder" @input="onInput" @change="onChange" clearable />
           <q-input v-model="text" hide-underline float-label="Text (hide underline)" placeholder="Placeholder" @input="onInput" @change="onChange" clearable />
@@ -13,7 +13,7 @@
       </q-card>
 
       <q-card>
-        <q-card-title class="bg-dark text-white q-px-small q-py-smaller">Numeric value: {{JSON.stringify(numberNull)}}</q-card-title>
+        <q-card-title class="bg-dark text-white q-px-small q-py-smaller">Numeric value: {{ JSON.stringify(numberNull) }}</q-card-title>
         <q-card-main>
           <q-input v-model="numberNull" type="number" prefix="$" float-label="Number (initial null)" @input="onInput" @change="onChange" clearable />
           <q-input :value="numberNull" type="number" prefix="$" float-label="Number (initial null, onChange)" @input="onInput" @change="val => { numberNull = val, onChange(val) }" clearable />
@@ -23,7 +23,7 @@
       </q-card>
 
       <q-card>
-        <q-card-title class="bg-dark text-white q-px-small q-py-smaller">Numeric value: {{JSON.stringify(numberInt)}}</q-card-title>
+        <q-card-title class="bg-dark text-white q-px-small q-py-smaller">Numeric value: {{ JSON.stringify(numberInt) }}</q-card-title>
         <q-card-main>
           <q-input v-model="numberInt" type="number" prefix="$" float-label="Number (initial int)" @input="onInput" @change="onChange" clearable />
           <q-input :value="numberInt" type="number" prefix="$" float-label="Number (initial int, onChange)" @input="onInput" @change="val => { numberInt = val, onChange(val) }" clearable />
@@ -33,7 +33,7 @@
       </q-card>
 
       <q-card>
-        <q-card-title class="bg-dark text-white q-px-small q-py-smaller">Numeric value: {{JSON.stringify(numberFloat)}}</q-card-title>
+        <q-card-title class="bg-dark text-white q-px-small q-py-smaller">Numeric value: {{ JSON.stringify(numberFloat) }}</q-card-title>
         <q-card-main>
           <q-input v-model="numberFloat" type="number" prefix="$" float-label="Number (initial float)" @input="onInput" @change="onChange" clearable />
           <q-input :value="numberFloat" type="number" prefix="$" float-label="Number (initial float, onChange)" @input="onInput" @change="val => { numberFLoat = val, onChange(val) }" clearable />
@@ -43,7 +43,7 @@
       </q-card>
 
       <q-card>
-        <q-card-title class="bg-dark text-white q-px-small q-py-smaller">Numeric value: {{JSON.stringify(numberFloatText)}}</q-card-title>
+        <q-card-title class="bg-dark text-white q-px-small q-py-smaller">Numeric value: {{ JSON.stringify(numberFloatText) }}</q-card-title>
         <q-card-main>
           <q-input v-model="numberFloatText" type="number" prefix="$" float-label="Number (initial float as text)" @input="onInput" @change="onChange" clearable />
           <q-input :value="numberFloatText" type="number" prefix="$" float-label="Number (initial float as text, onChange)" @input="onInput" @change="val => { numberFloatText = val, onChange(val) }" clearable />
@@ -53,7 +53,7 @@
       </q-card>
 
       <q-card>
-        <q-card-title class="bg-dark text-white q-px-small q-py-smaller">Numeric value: {{JSON.stringify(numberInt)}}, numeric-keyboard-toggle (mobile only)</q-card-title>
+        <q-card-title class="bg-dark text-white q-px-small q-py-smaller">Numeric value: {{ JSON.stringify(numberInt) }}, numeric-keyboard-toggle (mobile only)</q-card-title>
         <q-card-main>
           <q-input v-model="numberInt" type="number" prefix="$" float-label="Number (initial int)" @input="onInput" @change="onChange" clearable numeric-keyboard-toggle />
           <q-input :value="numberInt" type="number" prefix="$" float-label="Number (initial int, onChange)" @input="onInput" @change="val => { numberInt = val, onChange(val) }" clearable numeric-keyboard-toggle />
@@ -63,7 +63,7 @@
       </q-card>
 
       <q-card>
-        <q-card-title class="bg-dark text-white q-px-small q-py-smaller">Password: {{JSON.stringify(text)}}</q-card-title>
+        <q-card-title class="bg-dark text-white q-px-small q-py-smaller">Password: {{ JSON.stringify(text) }}</q-card-title>
         <q-card-main>
           <q-input v-model="text" type="password" float-label="Password" @input="onInput" @change="onChange" />
           <q-input :value="text" type="password" float-label="Password (onChange)" @input="onInput" @change="val => { text = val, onChange(val) }" />
@@ -95,10 +95,10 @@
       <q-input v-model="textZero" float-label="Some placeholder" />
       <q-input v-model="textZero" stack-label="Some placeholder" />
 
-      <p class="caption">v-model.lazy: "{{text}}"</p>
+      <p class="caption">v-model.lazy: "{{ text }}"</p>
       <q-input :value="text" @change="val => { text = val }" clearable placeholder="Some placeholder" />
 
-      <p class="caption">v-model.trim: "{{text}}"</p>
+      <p class="caption">v-model.trim: "{{ text }}"</p>
       <q-input v-model.trim="text" clearable placeholder="Some placeholder" />
 
       <p class="caption">Inverted Inputs</p>

@@ -11,7 +11,7 @@
     :warning="warning"
     :disable="disable"
     :inverted="inverted"
-    :invertedLight="invertedLight"
+    :inverted-light="invertedLight"
     :dark="dark"
     :hide-underline="hideUnderline"
     :before="before"
@@ -42,7 +42,7 @@
         :color="__getChipBgColor(opt.color)"
         :text-color="__getChipTextColor(opt.color)"
         :icon="opt.icon"
-        :iconRight="opt.rightIcon"
+        :icon-right="opt.rightIcon"
         :avatar="opt.avatar"
         @click.native.stop
         @hide="__toggleMultiple(opt.value, disable || opt.disable)"
@@ -317,10 +317,14 @@ export default {
     },
     show () {
       this.__keyboardCalcIndex()
-      return this.$refs.popover.show()
+      if (this.$refs.popover) {
+        return this.$refs.popover.show()
+      }
     },
     hide () {
-      return this.$refs.popover.hide()
+      if (this.$refs.popover) {
+        return this.$refs.popover.hide()
+      }
     },
     reposition () {
       const popover = this.$refs.popover

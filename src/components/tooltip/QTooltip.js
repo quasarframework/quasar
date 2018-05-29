@@ -8,10 +8,11 @@ import {
 } from '../../utils/popup'
 import ModelToggleMixin from '../../mixins/model-toggle'
 import { listenOpts } from '../../utils/event'
+import CanRenderMixin from '../../mixins/can-render'
 
 export default {
   name: 'QTooltip',
-  mixins: [ModelToggleMixin],
+  mixins: [ModelToggleMixin, CanRenderMixin],
   props: {
     anchor: {
       type: String,
@@ -95,16 +96,15 @@ export default {
     }
   },
   render (h) {
-    return h('span', {
-      staticClass: 'q-tooltip animate-popup',
-      style: this.transformCSS
-    }, [
+    if (!this.canRender) { return }
+
+    return h('span', { staticClass: 'q-tooltip animate-popup' }, [
       h('div', [
         this.$slots.default
       ])
     ])
   },
-  created () {
+  beforeMount () {
     this.__debouncedUpdatePosition = debounce(() => {
       this.__updatePosition()
     }, 70)

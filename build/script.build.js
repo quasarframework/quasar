@@ -7,11 +7,9 @@ const
 /*
   Build:
   * all: npm run build
-  * js: npm run build js
+  * js:  npm run build js
   * css: npm run build css
  */
-
-require('colors')
 
 function createFolder (folder) {
   const dir = path.join(__dirname, '..', folder)
@@ -20,12 +18,14 @@ function createFolder (folder) {
   }
 }
 
+console.log()
+
 if (!type) {
   require('./script.clean.js')
   shell.mkdir('-p', path.join(__dirname, '../dist/'))
 }
 
-console.log(' Building Quasar...\n')
+console.log(` 📦 Building Quasar v${require('../package.json').version}...\n`)
 
 createFolder('dist')
 createFolder('dist/umd')

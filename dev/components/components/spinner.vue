@@ -37,8 +37,8 @@
             :is="`q-spinner-${spinner}`"
             :size="size"
             :color="color"
-          ></component>
-          <q-tooltip :offset="[0, 8]">{{spinner}}</q-tooltip>
+          />
+          <q-tooltip :offset="[0, 8]">{{ spinner }}</q-tooltip>
         </div>
       </div>
 

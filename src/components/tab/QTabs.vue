@@ -9,7 +9,7 @@
       :class="innerClasses"
     >
       <div ref="scroller" class="q-tabs-scroller row no-wrap">
-        <slot name="title"></slot>
+        <slot name="title"/>
         <div
           v-if="$q.theme !== 'ios'"
           class="relative-position self-stretch q-tabs-global-bar-container"
@@ -19,7 +19,7 @@
             ref="posbar"
             class="q-tabs-bar q-tabs-global-bar"
             @transitionend="__updatePosbarTransition"
-          ></div>
+          />
         </div>
       </div>
       <div
@@ -31,7 +31,7 @@
         @mouseleave="__stopAnimScroll"
         @touchend="__stopAnimScroll"
       >
-        <q-icon :name="$q.icon.tabs.left"></q-icon>
+        <q-icon :name="$q.icon.tabs.left"/>
       </div>
       <div
         ref="rightScroll"
@@ -42,12 +42,12 @@
         @mouseleave="__stopAnimScroll"
         @touchend="__stopAnimScroll"
       >
-        <q-icon :name="$q.icon.tabs.right"></q-icon>
+        <q-icon :name="$q.icon.tabs.right"/>
       </div>
     </div>
 
     <div class="q-tabs-panes">
-      <slot></slot>
+      <slot/>
     </div>
   </div>
 </template>

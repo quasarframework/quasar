@@ -41,7 +41,7 @@
     <q-modal v-model="toggle" ref="basicModal" :content-css="{padding: '50px', minWidth: '50vw'}">
       <h4>Basic Modal</h4>
       <q-input type="textarea" v-model="textarea" :max-height="50" />
-      <p v-for="n in 25">Scroll down to close</p>
+      <p v-for="n in 25">{{ n }} Scroll down to close</p>
       <q-btn color="primary" @click="$refs.basicModal.hide()">Close</q-btn>
     </q-modal>
 
@@ -53,7 +53,7 @@
       :content-css="{padding: '50px', minWidth: '50vw'}"
     >
       <h4>Modal with Events</h4>
-      <p v-for="n in 25">Scroll down to close</p>
+      <p v-for="n in 25">{{ n }} Scroll down to close</p>
       <q-btn color="primary" @click="$refs.eventsModal.hide()">Close</q-btn>
     </q-modal>
 
@@ -77,7 +77,7 @@
         </q-toolbar>
 
         <q-toolbar slot="header">
-          <q-search class="col" inverted v-model="search" color="none"></q-search>
+          <q-search class="col" inverted v-model="search" color="none"/>
         </q-toolbar>
 
         <q-toolbar slot="footer">
@@ -90,7 +90,7 @@
           <h1>Modal</h1>
 
           <q-btn color="primary" @click="$refs.layoutModal.hide()">Close</q-btn>
-          <p class="caption" v-for="n in 15">This is a Modal presenting a Layout.</p>
+          <p class="caption" v-for="n in 15">{{ n }} This is a Modal presenting a Layout.</p>
         </div>
       </q-modal-layout>
     </q-modal>
@@ -105,11 +105,11 @@
     <q-modal ref="maximizedModal" maximized :content-css="{padding: '50px'}">
       <h4>Maximized Modal</h4><p>This one is maximized on bigger screens too.</p>
       <q-btn color="tertiary" @click="$refs.maximizedModal.hide()">Close Me</q-btn>
-      <p v-for="n in 25">Intended scroll</p>
+      <p v-for="n in 25">{{ n }} Intended scroll</p>
     </q-modal>
 
     <q-modal ref="positionModal" :position="position" :content-css="{padding: '20px'}">
-      <h4>Modal</h4><p>This one gets displayed from {{position}}.</p>
+      <h4>Modal</h4><p>This one gets displayed from {{ position }}.</p>
       <q-btn color="orange" @click="$refs.positionModal.hide()">Close Me</q-btn>
     </q-modal>
 

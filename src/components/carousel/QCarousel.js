@@ -441,9 +441,9 @@ export default {
             'infinite-right': this.infiniteRight
           }
         }, [
-          h('div', { staticClass: 'q-carousel-slide', style: `flex: 0 0 ${100}%`, directives: [{ name: 'show', value: this.infiniteRight }] }),
+          this.infiniteRight ? h('div', { staticClass: 'q-carousel-slide', style: `flex: 0 0 ${100}%` }) : null,
           this.$slots.default,
-          h('div', { staticClass: 'q-carousel-slide', style: `flex: 0 0 ${100}%`, directives: [{ name: 'show', value: this.infiniteLeft }] })
+          this.infiniteLeft ? h('div', { staticClass: 'q-carousel-slide', style: `flex: 0 0 ${100}%` }) : null
         ])
       ]),
       this.arrows ? h(QBtn, {

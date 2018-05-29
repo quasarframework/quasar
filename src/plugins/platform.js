@@ -4,10 +4,6 @@
 
 export const isSSR = typeof window === 'undefined'
 
-function getUserAgent () {
-  return (navigator.userAgent || navigator.vendor || window.opera).toLowerCase()
-}
-
 function getMatch (userAgent, platformMatch) {
   const match = /(edge)\/([\w.]+)/.exec(userAgent) ||
     /(opr)[\/]([\w.]+)/.exec(userAgent) ||
@@ -49,12 +45,13 @@ function getPlatformMatch (userAgent) {
     []
 }
 
-function getPlatform () {
-  let
-    userAgent = getUserAgent(),
+function getPlatform (userAgent) {
+  userAgent = (userAgent || navigator.userAgent || navigator.vendor || window.opera).toLowerCase()
+
+  const
     platformMatch = getPlatformMatch(userAgent),
     matched = getMatch(userAgent, platformMatch),
-    browser = {}
+    browser = { ssr: isSSR }
 
   if (matched.browser) {
     browser[matched.browser] = true
@@ -166,12 +163,17 @@ function getPlatform () {
 
 const Platform = {
   __installed: false,
-  install ({ $q }) {
+  install ({ $q, cfg }) {
     if (this.__installed) { return }
     this.__installed = true
 
     if (isSSR) {
-      Platform.is = { ssr: true }
+      if (!cfg.ssr || !cfg.ssr.req || !cfg.ssr.res) {
+        console.error('[quasar-ssr]: cfg.ssr.(req & res) required')
+        return
+      }
+
+      Platform.is = getPlatform(cfg.ssr.req.headers['user-agent'])
       Platform.has = {
         touch: false,
         webStorage: false

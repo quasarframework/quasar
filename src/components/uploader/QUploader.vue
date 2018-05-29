@@ -15,7 +15,7 @@
       :warning="warning"
       :disable="disable"
       :inverted="inverted"
-      :invertedLight="invertedLight"
+      :inverted-light="invertedLight"
       :dark="dark"
       :hide-underline="hideUnderline"
       :before="before"
@@ -39,7 +39,7 @@
         slot="after"
         size="24px"
         class="q-if-end self-center"
-      ></q-spinner>
+      />
 
       <q-icon
         v-if="uploading"
@@ -47,7 +47,7 @@
         class="q-if-end self-center"
         :name="$q.icon.uploader[`clear${isInverted ? 'Inverted' : ''}`]"
         @click.native="abort"
-      ></q-icon>
+      />
 
       <q-icon
         v-if="!uploading"
@@ -74,7 +74,7 @@
         class="q-if-control"
         :disabled="queueLength === 0"
         @click.native="upload"
-      ></q-icon>
+      />
 
       <q-icon
         v-if="hasExpandedContent"
@@ -83,7 +83,7 @@
         class="q-if-control generic_transition"
         :class="{'rotate-180': expanded}"
         @click.native="expanded = !expanded"
-      ></q-icon>
+      />
     </q-input-frame>
 
     <q-slide-transition>
@@ -94,20 +94,21 @@
             :key="file.name + file.__timestamp"
             class="q-uploader-file q-pa-xs"
           >
-            <q-progress v-if="!hideUploadProgress"
+            <q-progress
+              v-if="!hideUploadProgress"
               class="q-uploader-progress-bg absolute-full"
               :color="file.__failed ? 'negative' : progressColor"
               :percentage="file.__progress"
               height="100%"
-            ></q-progress>
+            />
             <div class="q-uploader-progress-text absolute" v-if="!hideUploadProgress">
               {{ file.__progress }}%
             </div>
 
-            <q-item-side v-if="file.__img" :image="file.__img.src"></q-item-side>
-            <q-item-side v-else :icon="$q.icon.uploader.file" :color="color"></q-item-side>
+            <q-item-side v-if="file.__img" :image="file.__img.src" />
+            <q-item-side v-else :icon="$q.icon.uploader.file" :color="color" />
 
-            <q-item-main :label="file.name" :sublabel="file.__size"></q-item-main>
+            <q-item-main :label="file.name" :sublabel="file.__size" />
 
             <q-item-side right>
               <q-item-tile
@@ -115,7 +116,7 @@
                 :color="color"
                 class="cursor-pointer"
                 @click.native="__remove(file)"
-              ></q-item-tile>
+              />
             </q-item-side>
           </q-item>
         </q-list>
@@ -130,7 +131,7 @@
       @dragover.prevent.stop
       @dragleave.prevent.stop="__onDragLeave"
       @drop.prevent.stop="__onDrop"
-    ></div>
+    />
   </div>
 </template>
 
