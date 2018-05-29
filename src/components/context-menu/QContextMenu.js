@@ -8,7 +8,6 @@ export default {
     disable: Boolean
   },
   data () {
-    console.log('is mobile:', this.$q.platform.is.mobile)
     return {
       mobile: this.$q.platform.is.mobile
     }

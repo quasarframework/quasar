@@ -35,7 +35,7 @@ export default {
       })
     }
   },
-  created () {
+  mounted () {
     this.checkIfSelected()
   },
   render (h) {
