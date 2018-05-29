@@ -63,6 +63,8 @@
           <q-btn @click="$router.push('/layout-quick/c')">Go to C</q-btn>
 
           <br><br>fffdfs
+          {{ right }}
+          <q-input v-model="inp" />
 
           <q-btn @click="$router.replace('/layout-quick/a')">Replace Go to A</q-btn>
           <q-btn @click="$router.replace('/layout-quick/b')">Replace Go to B</q-btn>
@@ -391,7 +393,8 @@ export default {
         { label: 'Behave Desktop', value: 'desktop' }
       ],
 
-      showConfig: true
+      showConfig: true,
+      inp: ''
     }
   },
   computed: {

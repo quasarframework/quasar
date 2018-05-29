@@ -281,6 +281,9 @@ export default {
     __set (e, forceUpdate) {
       let val = e && e.target ? e.target.value : e
 
+      // avoid "v-model on QLayoutDrawer bug"s #2094
+      e.stopPropagation()
+
       if (this.isNumber) {
         this.isNegZero = (1 / val) === -Infinity
         const forcedValue = this.isNegZero ? -0 : val
