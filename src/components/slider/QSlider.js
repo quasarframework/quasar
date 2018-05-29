@@ -135,7 +135,7 @@ export default {
               }
             }, [ this.displayValue ])
             : null,
-          __THEME__ !== 'ios'
+          process.env.THEME !== 'ios'
             ? h('div', { staticClass: 'q-slider-ring' })
             : null
         ])

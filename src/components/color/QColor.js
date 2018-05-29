@@ -9,7 +9,7 @@ import { QModal } from '../modal'
 import clone from '../../utils/clone'
 import { getEventKey, stopAndPrevent } from '../../utils/event'
 
-const contentCss = __THEME__ === 'ios'
+const contentCss = process.env.THEME === 'ios'
   ? {
     maxHeight: '80vh',
     height: 'auto',
@@ -55,7 +55,7 @@ export default {
   },
   data () {
     let data = this.isPopover ? {} : {
-      transition: __THEME__ === 'ios' ? 'q-modal-bottom' : 'q-modal'
+      transition: process.env.THEME === 'ios' ? 'q-modal-bottom' : 'q-modal'
     }
     data.focused = false
     data.model = clone(this.value || this.defaultValue)
@@ -76,7 +76,7 @@ export default {
       return ''
     },
     modalBtnColor () {
-      return __THEME__ === 'mat'
+      return process.env.THEME === 'mat'
         ? this.color
         : (this.dark ? 'light' : 'dark')
     }
@@ -185,7 +185,7 @@ export default {
       ]
 
       if (modal) {
-        child[__THEME__ === 'mat' ? 'push' : 'unshift'](h('div', {
+        child[process.env.THEME === 'mat' ? 'push' : 'unshift'](h('div', {
           staticClass: 'modal-buttons modal-buttons-top row full-width',
           'class': this.dark ? 'bg-black' : null
         }, [
@@ -283,8 +283,8 @@ export default {
           staticClass: 'with-backdrop',
           props: {
             contentCss,
-            minimized: __THEME__ === 'mat',
-            position: __THEME__ === 'ios' ? 'bottom' : null,
+            minimized: process.env.THEME === 'mat',
+            position: process.env.THEME === 'ios' ? 'bottom' : null,
             transition: this.transition
           },
           on: {

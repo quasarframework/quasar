@@ -10,7 +10,7 @@ import { clone, formatDate, isSameDate, isValid, startOfDate } from '../../utils
 import { QModal } from '../modal'
 import { getEventKey, stopAndPrevent } from '../../utils/event'
 
-const contentCss = __THEME__ === 'ios'
+const contentCss = process.env.THEME === 'ios'
   ? {
     maxHeight: '80vh',
     height: 'auto',
@@ -38,7 +38,7 @@ export default {
   },
   data () {
     let data = this.isPopover ? {} : {
-      transition: __THEME__ === 'ios' ? 'q-modal-bottom' : 'q-modal'
+      transition: process.env.THEME === 'ios' ? 'q-modal-bottom' : 'q-modal'
     }
     data.focused = false
     data.model = clone(this.computedValue)
@@ -74,13 +74,13 @@ export default {
       if (isValid(this.value)) {
         return this.value
       }
-      if (__THEME__ === 'ios') {
+      if (process.env.THEME === 'ios') {
         return this.defaultValue || startOfDate(new Date(), 'day')
       }
       return this.defaultValue
     },
     modalBtnColor () {
-      return __THEME__ === 'mat'
+      return process.env.THEME === 'mat'
         ? this.color
         : (this.dark ? 'light' : 'dark')
     }
@@ -115,7 +115,7 @@ export default {
       if (this.disable || this.focused) {
         return
       }
-      if (__THEME__ === 'mat') {
+      if (process.env.THEME === 'mat') {
         const target = this.$refs.target
         if (this.defaultView) {
           target.setView(this.defaultView)
@@ -189,7 +189,7 @@ export default {
           ref: 'target',
           staticClass: 'no-border',
           'class': {
-            'datetime-ios-modal': __THEME__ === 'ios' && modal
+            'datetime-ios-modal': process.env.THEME === 'ios' && modal
           },
           props: {
             type: this.type,
@@ -318,8 +318,8 @@ export default {
           staticClass: 'with-backdrop',
           props: {
             contentCss,
-            minimized: __THEME__ === 'mat',
-            position: __THEME__ === 'ios' ? 'bottom' : null,
+            minimized: process.env.THEME === 'mat',
+            position: process.env.THEME === 'ios' ? 'bottom' : null,
             transition: this.transition
           },
           on: {

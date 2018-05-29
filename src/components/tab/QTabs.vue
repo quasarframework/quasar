@@ -78,7 +78,7 @@ export default {
     value: String,
     align: {
       type: String,
-      default: __THEME__ === 'ios' ? 'center' : 'left',
+      default: process.env.THEME === 'ios' ? 'center' : 'left',
       validator: v => ['left', 'center', 'right', 'justify'].includes(v)
     },
     position: {
@@ -169,7 +169,7 @@ export default {
       if (el) {
         this.__scrollToTab(el)
 
-        if (__THEME__ !== 'ios') {
+        if (process.env.THEME !== 'ios') {
           this.currentEl = el
 
           if (this.oldEl) {

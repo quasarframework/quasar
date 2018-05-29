@@ -55,7 +55,7 @@ export default {
       },
       staticClass: 'q-tab column flex-center relative-position',
       'class': this.classes,
-      directives: __THEME__ === 'mat'
+      directives: process.env.THEME === 'mat'
         ? [{ name: 'ripple' }]
         : null
     }, this.__getTabContent(h))

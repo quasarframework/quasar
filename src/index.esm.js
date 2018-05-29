@@ -13,5 +13,5 @@ export default {
   install,
   i18n,
   icons,
-  theme: __THEME__
+  theme: process.env.THEME
 }

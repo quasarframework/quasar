@@ -23,7 +23,7 @@ else {
 
 export default {
   version,
-  theme: __THEME__,
+  theme: process.env.THEME,
 
   i18n,
   icons,

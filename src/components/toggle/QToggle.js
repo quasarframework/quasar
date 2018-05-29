@@ -13,12 +13,12 @@ export default {
       return (this.isTrue ? this.checkedIcon : this.uncheckedIcon) || this.icon
     },
     iconColor () {
-      return __THEME__ === 'ios'
+      return process.env.THEME === 'ios'
         ? 'dark'
         : (this.isTrue ? 'white' : 'dark')
     },
     baseClass () {
-      if (__THEME__ === 'ios' && this.dark) {
+      if (process.env.THEME === 'ios' && this.dark) {
         return `q-toggle-base-dark`
       }
     }
@@ -46,7 +46,7 @@ export default {
               props: { name: this.currentIcon, color: this.iconColor }
             })
             : null,
-          __THEME__ === 'mat'
+          process.env.THEME === 'mat'
             ? h('div', { ref: 'ripple', staticClass: 'q-radial-ripple' })
             : null
         ])

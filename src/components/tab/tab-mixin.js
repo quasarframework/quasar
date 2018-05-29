@@ -60,7 +60,7 @@ export default {
         : this.color
 
       if (color) {
-        cls[`text-${color}`] = __THEME__ === 'ios' ? this.active : true
+        cls[`text-${color}`] = process.env.THEME === 'ios' ? this.active : true
       }
 
       return cls
@@ -103,7 +103,7 @@ export default {
       }
 
       child.push(this.$slots.default)
-      if (__THEME__ !== 'ios') {
+      if (process.env.THEME !== 'ios') {
         child.push(h('div', {
           staticClass: 'q-tabs-bar',
           style: this.barStyle

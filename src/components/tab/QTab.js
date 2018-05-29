@@ -26,7 +26,7 @@ export default {
       on: {
         click: this.select
       },
-      directives: __THEME__ === 'mat'
+      directives: process.env.THEME === 'mat'
         ? [{ name: 'ripple' }]
         : null
     }, this.__getTabContent(h))

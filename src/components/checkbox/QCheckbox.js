@@ -35,20 +35,20 @@ export default {
       return [
         h(QIcon, {
           staticClass: 'q-checkbox-icon cursor-pointer',
-          props: { name: this.uncheckedIcon || this.$q.icon.checkbox.unchecked[__THEME__] },
+          props: { name: this.uncheckedIcon || this.$q.icon.checkbox.unchecked[process.env.THEME] },
           style: this.uncheckedStyle
         }),
         h(QIcon, {
           staticClass: 'q-checkbox-icon cursor-pointer absolute-full',
-          props: { name: this.indeterminateIcon || this.$q.icon.checkbox.indeterminate[__THEME__] },
+          props: { name: this.indeterminateIcon || this.$q.icon.checkbox.indeterminate[process.env.THEME] },
           style: this.indeterminateStyle
         }),
         h(QIcon, {
           staticClass: 'q-checkbox-icon cursor-pointer absolute-full',
-          props: { name: this.checkedIcon || this.$q.icon.checkbox.checked[__THEME__] },
+          props: { name: this.checkedIcon || this.$q.icon.checkbox.checked[process.env.THEME] },
           style: this.checkedStyle
         }),
-        __THEME__ === 'mat'
+        process.env.THEME === 'mat'
           ? h('div', { ref: 'ripple', staticClass: 'q-radial-ripple' })
           : null
       ]

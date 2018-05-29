@@ -8,7 +8,7 @@ import icons from './icons'
 
 function getBodyClasses () {
   const cls = [
-    __THEME__,
+    process.env.THEME,
     Platform.is.desktop ? 'desktop' : 'mobile',
     Platform.has.touch ? 'touch' : 'no-touch',
     `platform-${Platform.is.ios ? 'ios' : 'mat'}`
@@ -47,7 +47,7 @@ export default function (_Vue, opts = {}) {
     cfg = opts.cfg || {},
     $q = {
       version,
-      theme: __THEME__
+      theme: process.env.THEME
     }
 
   // required plugins

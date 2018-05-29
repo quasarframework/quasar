@@ -103,9 +103,9 @@ chain.plugin('vue-loader')
 chain.plugin('define')
   .use(webpack.DefinePlugin, [{
     'process.env': {
-      NODE_ENV: '"development"'
-    },
-    '__THEME__': JSON.stringify(env.theme)
+      NODE_ENV: '"development"',
+      THEME: JSON.stringify(env.theme)
+    }
   }])
 
 chain.plugin('progress-bar')

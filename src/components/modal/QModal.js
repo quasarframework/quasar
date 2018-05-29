@@ -9,7 +9,7 @@ const positions = {
   right: 'items-center justify-end with-backdrop',
   left: 'items-center justify-start with-backdrop'
 }
-const positionCSS = __THEME__ === 'mat'
+const positionCSS = process.env.THEME === 'mat'
   ? {
     maxHeight: '80vh',
     height: 'auto'
@@ -26,7 +26,7 @@ function additionalCSS (position) {
   if (['left', 'right'].includes(position)) {
     css.maxWidth = '90vw'
   }
-  if (__THEME__ === 'ios') {
+  if (process.env.THEME === 'ios') {
     if (['left', 'top'].includes(position)) {
       css.borderTopLeftRadius = 0
     }

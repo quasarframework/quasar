@@ -14,7 +14,7 @@ export default {
   },
   computed: {
     contentCss () {
-      if (__THEME__ === 'ios') {
+      if (process.env.THEME === 'ios') {
         return {backgroundColor: 'transparent'}
       }
     }
@@ -46,7 +46,7 @@ export default {
       )
     )
 
-    if (__THEME__ === 'ios') {
+    if (process.env.THEME === 'ios') {
       child = [
         h('div', { staticClass: 'q-actionsheet' }, child),
         h('div', { staticClass: 'q-actionsheet' }, [

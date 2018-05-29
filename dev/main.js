@@ -11,7 +11,7 @@ import router from './router'
 
 import 'quasar-css'
 
-if (__THEME__ === 'mat') {
+if (process.env.THEME === 'mat') {
   require('quasar-extras/roboto-font')
 }
 import 'quasar-extras/material-icons'

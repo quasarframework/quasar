@@ -133,7 +133,7 @@ export default {
         }]
         : null
     }, [
-      __THEME__ === 'ios' || this.$q.platform.is.desktop
+      process.env.THEME === 'ios' || this.$q.platform.is.desktop
         ? h('div', { staticClass: 'q-focus-helper' })
         : null,
 

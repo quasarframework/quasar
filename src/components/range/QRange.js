@@ -280,7 +280,7 @@ export default {
             'class': { 'label-always': this.labelAlways }
           }, [ label ])
           : null,
-        __THEME__ !== 'ios'
+        process.env.THEME !== 'ios'
           ? h('div', { staticClass: 'q-slider-ring' })
           : null
       ])

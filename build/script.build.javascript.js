@@ -162,7 +162,7 @@ function genConfig (opts) {
   if (theme) {
     plugins.push(
       replace({
-        '__THEME__': JSON.stringify(theme)
+        'process.env.THEME': `'${theme}'`
       })
     )
   }

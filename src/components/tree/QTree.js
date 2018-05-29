@@ -52,7 +52,7 @@ export default {
   },
   computed: {
     hasRipple () {
-      return __THEME__ === 'mat' && !this.noRipple
+      return process.env.THEME === 'mat' && !this.noRipple
     },
     classes () {
       return [
@@ -435,7 +435,7 @@ export default {
             disabled: meta.disabled
           },
           on: { click: () => { this.__onClick(node, meta) } },
-          directives: __THEME__ === 'mat' && meta.selectable
+          directives: process.env.THEME === 'mat' && meta.selectable
             ? [{ name: 'ripple' }]
             : null
         }, [

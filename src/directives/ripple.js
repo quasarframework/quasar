@@ -43,8 +43,8 @@ function showRipple (evt, el, stopPropagation) {
 
 function shouldAbort ({mat, ios}) {
   return (
-    (mat && __THEME__ !== 'mat') ||
-    (ios && __THEME__ !== 'ios')
+    (mat && process.env.THEME !== 'mat') ||
+    (ios && process.env.THEME !== 'ios')
   )
 }
 

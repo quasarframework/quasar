@@ -20,14 +20,14 @@ export default {
   render (h) {
     const child = []
 
-    if (this.$slots.header || (__THEME__ !== 'ios' && this.$slots.navigation)) {
+    if (this.$slots.header || (process.env.THEME !== 'ios' && this.$slots.navigation)) {
       child.push(h('div', {
         staticClass: 'q-layout-header',
         style: this.headerStyle,
         'class': this.headerClass
       }, [
         this.$slots.header,
-        __THEME__ !== 'ios' ? this.$slots.navigation : null
+        process.env.THEME !== 'ios' ? this.$slots.navigation : null
       ]))
     }
 
@@ -39,14 +39,14 @@ export default {
       this.$slots.default
     ]))
 
-    if (this.$slots.footer || (__THEME__ === 'ios' && this.$slots.navigation)) {
+    if (this.$slots.footer || (process.env.THEME === 'ios' && this.$slots.navigation)) {
       child.push(h('div', {
         staticClass: 'q-layout-footer',
         style: this.footerStyle,
         'class': this.footerClass
       }, [
         this.$slots.footer,
-        __THEME__ === 'ios' ? this.$slots.navigation : null
+        process.env.THEME === 'ios' ? this.$slots.navigation : null
       ]))
     }
 
