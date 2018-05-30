@@ -432,7 +432,7 @@ export default {
             })
         })
       }
-      
+
       const
         form = new FormData(),
         xhr = new XMLHttpRequest()
