@@ -237,6 +237,15 @@ export default {
     },
     isMini () {
       return this.mini && !this.mobileView
+    },
+    onNativeEvents () {
+      if (!this.mobileView) {
+        return {
+          '!click': e => { this.$emit('click', e) },
+          mouseover: e => { this.$emit('mouseover', e) },
+          mouseout: e => { this.$emit('mouseout', e) }
+        }
+      }
     }
   },
   methods: {
@@ -447,7 +456,7 @@ export default {
         'class': this.computedClass,
         style: this.computedStyle,
         attrs: this.$attrs,
-        on: !this.mobileView ? this.$listeners : null,
+        on: this.onNativeEvents,
         directives: this.mobileView && !this.noSwipeClose ? [{
           name: 'touch-pan',
           modifiers: { horizontal: true },
