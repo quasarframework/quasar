@@ -54,7 +54,18 @@ export default {
   mixins: [ModelToggleMixin, PreventScroll],
   provide () {
     return {
-      __qmodal: true
+      __qmodal: {
+        register: layout => {
+          if (this.layout !== layout) {
+            this.layout = layout
+          }
+        },
+        unregister: layout => {
+          if (this.layout === layout) {
+            this.layout = null
+          }
+        }
+      }
     }
   },
   props: {
@@ -86,6 +97,11 @@ export default {
     minimized: Boolean,
     maximized: Boolean
   },
+  data () {
+    return {
+      layout: null
+    }
+  },
   watch: {
     $route () {
       if (!this.noRouteDismiss) {
@@ -105,6 +121,12 @@ export default {
         return ['minimized', cls]
       }
       return cls
+    },
+    contentClassesCalc () {
+      if (this.layout) {
+        return [this.contentClasses, 'column no-wrap']
+      }
+      return this.contentClasses
     },
     transitionProps () {
       if (this.position) {
@@ -242,9 +264,10 @@ export default {
       }, [
         h('div', {
           ref: 'content',
-          staticClass: 'modal-content scroll',
+          staticClass: 'modal-content',
           style: this.modalCss,
-          'class': this.contentClasses,
+          'class': this.contentClassesCalc,
+          attrs: { tabindex: -1 },
           on: {
             click: this.__stopPropagation,
             touchstart: this.__stopPropagation
