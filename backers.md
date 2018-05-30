@@ -1,8 +1,10 @@
 Quasar Framework is an MIT licensed open source project and completely free to use. However, the amount of effort needed to maintain and develop new features for the project is not sustainable without some financial backing.
 
-## Platinum sponsor:
+## Platinum sponsors:
 
 [![Truelogic](https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/a579cb37/truelogic.png)](http://truelogic.com)
+
+[![Taylored Technology](https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/d589296b/taylored-technology.jpeg)](https://www.tayloredtechnology.net/)
 
 # Backers
 
@@ -26,7 +28,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 
 <a href="http://www.kalisio.com/" target="_blank"><img src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/a579cb37/kalisio.png" width="200px"></a>
 
-<a href="http://www.kpaproductions.com/" target="_blank"><img src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/26279c87/kpa-productions.png" width="200px"></a>
+<img src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/d589296b/kpa-productions.png" width="200px">
 
 <a href="http://platformpurple.com/" target="_blank"><img src="https://cdn.rawgit.com/rstoenescu/quasar-backers-logo/592beec0/platform-purple.png" width="200px"></a>
 
