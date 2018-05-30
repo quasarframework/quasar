@@ -181,10 +181,7 @@ export default {
       type: Function,
       required: false
     },
-    uploadFactory: {
-      type: Function,
-      required: false
-    },
+    uploadFactory: Function,
     additionalFields: {
       type: Array,
       default: () => []
@@ -379,13 +376,9 @@ export default {
         name = file.name,
         done = file.__doneUploading
 
-      if (this.uploading && !done && !this.uploadFactory) {
+      if (this.uploading && !done) {
         this.$emit('remove:abort', file, file.xhr)
-        file.xhr.abort()
-        this.uploadedSize -= file.__uploaded
-      }
-      else if (this.uploading && !done && this.uploadFactory) {
-        this.$emit('remove:abort', file)
+        file.xhr && file.xhr.abort()
         this.uploadedSize -= file.__uploaded
       }
       else {
@@ -411,21 +404,6 @@ export default {
       }
     },
     __getUploadPromise (file) {
-      const
-        form = new FormData(),
-        xhr = new XMLHttpRequest()
-
-      try {
-        this.additionalFields.forEach(field => {
-          form.append(field.name, field.value)
-        })
-        form.append('Content-Type', file.type || 'application/octet-stream')
-        form.append(this.name, file)
-      }
-      catch (e) {
-        return
-      }
-
       initFile(file)
 
       if (this.uploadFactory) {
@@ -453,6 +431,21 @@ export default {
               reject(error)
             })
         })
+      }
+      
+      const
+        form = new FormData(),
+        xhr = new XMLHttpRequest()
+
+      try {
+        this.additionalFields.forEach(field => {
+          form.append(field.name, field.value)
+        })
+        form.append('Content-Type', file.type || 'application/octet-stream')
+        form.append(this.name, file)
+      }
+      catch (e) {
+        return
       }
 
       file.xhr = xhr
