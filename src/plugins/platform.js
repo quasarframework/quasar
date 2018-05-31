@@ -167,8 +167,12 @@ const Platform = {
     if (this.__installed) { return }
     this.__installed = true
 
+    $q.platform = Platform
+
     if (isSSR) {
       if (!cfg.ssr || !cfg.ssr.req || !cfg.ssr.res) {
+        Platform.is = Platform.has = Platform.within = {}
+        cfg.ssr = { req: {}, res: {} }
         console.error('[quasar-ssr]: cfg.ssr.(req & res) required')
         return
       }
@@ -201,8 +205,6 @@ const Platform = {
         iframe: window.self !== window.top
       }
     }
-
-    $q.platform = Platform
   }
 }
 
