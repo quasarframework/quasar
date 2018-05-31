@@ -35,7 +35,10 @@ function showRipple (evt, el, stopPropagation) {
     setTimeout(() => {
       animNode.classList.remove('q-ripple-animation-visible')
       setTimeout(() => {
-        animNode.parentNode.remove()
+        const el = animNode.parentNode
+        if (el && el.parentNode) {
+          el.parentNode.removeChild(el)
+        }
       }, 300)
     }, 400)
   }, 25)

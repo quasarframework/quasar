@@ -1,8 +1,8 @@
+import './polyfills'
 import { version } from '../package.json'
 import { ready } from './utils/dom'
 import Platform, { isSSR } from './plugins/platform'
 import History from './plugins/history'
-import './polyfills'
 import i18n from './i18n'
 import icons from './icons'
 
