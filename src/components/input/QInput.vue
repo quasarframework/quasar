@@ -162,6 +162,7 @@ export default {
     decimals: Number,
     step: Number,
     upperCase: Boolean
+    lowerCase: Boolean
   },
   data () {
     return {
@@ -301,6 +302,9 @@ export default {
         if (Number.isInteger(this.decimals)) {
           val = parseFloat(val.toFixed(this.decimals))
         }
+      }
+      else if (this.lowerCase) {
+        val = val.toLowerCase()
       }
       else if (this.upperCase) {
         val = val.toUpperCase()
