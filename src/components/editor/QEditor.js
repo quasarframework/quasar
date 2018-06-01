@@ -3,6 +3,7 @@ import { getToolbar, getFonts, getLinkEditor } from './editor-utils'
 import { Caret } from './editor-caret'
 import extend from '../../utils/extend'
 import FullscreenMixin from '../../mixins/fullscreen'
+import { isSSR } from '../../plugins/platform'
 
 export default {
   name: 'QEditor',
@@ -281,8 +282,10 @@ export default {
     }
   },
   created () {
-    document.execCommand('defaultParagraphSeparator', false, 'div')
-    this.defaultFont = window.getComputedStyle(document.body).fontFamily
+    if (!isSSR) {
+      document.execCommand('defaultParagraphSeparator', false, 'div')
+      this.defaultFont = window.getComputedStyle(document.body).fontFamily
+    }
   },
   mounted () {
     this.$nextTick(() => {
@@ -336,6 +339,9 @@ export default {
             style: this.innerStyle,
             class: this.innerClass,
             attrs: { contenteditable: this.editable },
+            domProps: isSSR
+              ? { innerHTML: this.value }
+              : undefined,
             on: {
               input: this.onInput,
               keydown: this.onKeydown,
