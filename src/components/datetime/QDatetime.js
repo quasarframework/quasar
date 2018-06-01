@@ -37,12 +37,18 @@ export default {
     }
   },
   data () {
-    let data = this.isPopover ? {} : {
-      transition: process.env.THEME === 'ios' ? 'q-modal-bottom' : 'q-modal'
+    return {
+      transition: null,
+      model: null,
+      focused: false
     }
-    data.focused = false
-    data.model = clone(this.computedValue)
-    return data
+  },
+  created () {
+    this.model = clone(this.computedValue)
+
+    if (!this.isPopover) {
+      this.transition = process.env.THEME === 'ios' ? 'q-modal-bottom' : 'q-modal'
+    }
   },
   computed: {
     actualValue () {
