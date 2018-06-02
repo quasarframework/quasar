@@ -10,11 +10,11 @@ import { width } from '../../utils/dom'
 import EscapeKey from '../../utils/escape-key'
 import ModelToggleMixin from '../../mixins/model-toggle'
 import { listenOpts } from '../../utils/event'
-import CanRenderMixin from '../../mixins/can-render'
+import CanRenderMixinMixin from '../../mixins/can-render'
 
 export default {
   name: 'QPopover',
-  mixins: [ModelToggleMixin, CanRenderMixin],
+  mixins: [ModelToggleMixin, CanRenderMixinMixin],
   props: {
     anchor: {
       type: String,

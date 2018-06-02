@@ -8,11 +8,11 @@ import {
 } from '../../utils/popup'
 import ModelToggleMixin from '../../mixins/model-toggle'
 import { listenOpts } from '../../utils/event'
-import CanRenderMixin from '../../mixins/can-render'
+import CanRenderMixinMixin from '../../mixins/can-render'
 
 export default {
   name: 'QTooltip',
-  mixins: [ModelToggleMixin, CanRenderMixin],
+  mixins: [ModelToggleMixin, CanRenderMixinMixin],
   props: {
     anchor: {
       type: String,

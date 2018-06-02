@@ -1,5 +1,6 @@
 import FrameMixin from '../../mixins/input-frame'
 import DisplayModeMixin from '../../mixins/display-mode'
+import CanRenderMixin from '../../mixins/can-render'
 import extend from '../../utils/extend'
 import { input, inline } from './datetime-props'
 import { QInputFrame } from '../input-frame'
@@ -24,7 +25,7 @@ const contentCss = process.env.THEME === 'ios'
 
 export default {
   name: 'QDatetime',
-  mixins: [FrameMixin, DisplayModeMixin],
+  mixins: [FrameMixin, DisplayModeMixin, CanRenderMixin],
   props: extend(
     input,
     inline
@@ -55,7 +56,7 @@ export default {
       if (this.displayValue) {
         return this.displayValue
       }
-      if (!isValid(this.value)) {
+      if (!isValid(this.value) || !this.canRender) {
         return ''
       }
 

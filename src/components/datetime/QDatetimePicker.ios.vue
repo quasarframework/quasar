@@ -1,5 +1,5 @@
 <template>
-  <div class="q-datetime" :class="classes">
+  <div v-if="canRender" class="q-datetime" :class="classes">
     <slot/>
     <div class="q-datetime-content non-selectable">
       <div class="q-datetime-inner full-height flex justify-center" @touchstart.stop.prevent>
@@ -97,10 +97,11 @@ import { isSameDate, adjustDate } from '../../utils/date'
 import DateMixin from './datetime-mixin'
 import ParentFieldMixin from '../../mixins/parent-field'
 import TouchPan from '../../directives/touch-pan'
+import CanRenderMixin from '../../mixins/can-render'
 
 export default {
   name: 'QDatetimePicker',
-  mixins: [DateMixin, ParentFieldMixin],
+  mixins: [DateMixin, ParentFieldMixin, CanRenderMixin],
   directives: {
     TouchPan
   },

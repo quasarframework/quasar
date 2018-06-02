@@ -1,5 +1,5 @@
 <template>
-  <div class="q-datetime row" :class="classes">
+  <div v-if="canRender" class="q-datetime row" :class="classes">
     <div v-if="!minimal" class="q-datetime-header column col-xs-12 col-md-4 justify-center">
       <div v-if="typeHasDate">
         <div class="q-datetime-weekdaystring col-12">{{ weekDayString }}</div>
@@ -240,6 +240,7 @@ import { position, stopAndPrevent } from '../../utils/event'
 import { QBtn } from '../btn'
 import { isSameDate, isValid, adjustDate } from '../../utils/date'
 import DateMixin from './datetime-mixin'
+import CanRenderMixin from '../../mixins/can-render'
 import ParentFieldMixin from '../../mixins/parent-field'
 import Ripple from '../../directives/ripple'
 
@@ -249,7 +250,7 @@ function convertToAmPm (hour) {
 
 export default {
   name: 'QDatetimePicker',
-  mixins: [DateMixin, ParentFieldMixin],
+  mixins: [DateMixin, ParentFieldMixin, CanRenderMixin],
   props: {
     defaultValue: [String, Number, Date],
     disable: Boolean,
@@ -537,7 +538,9 @@ export default {
     }
   },
   mounted () {
-    this.__scrollView()
+    this.$nextTick(() => {
+      this.__scrollView()
+    })
   }
 }
 </script>
