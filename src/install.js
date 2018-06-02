@@ -7,16 +7,30 @@ import i18n from './i18n'
 import icons from './icons'
 
 function getBodyClasses () {
+  const is = Platform.is
   const cls = [
     process.env.THEME,
-    Platform.is.desktop ? 'desktop' : 'mobile',
+    is.desktop ? 'desktop' : 'mobile',
     Platform.has.touch ? 'touch' : 'no-touch',
-    `platform-${Platform.is.ios ? 'ios' : 'mat'}`
+    `platform-${is.ios ? 'ios' : 'mat'}`
   ]
 
+  if (is.cordova) {
+    cls.push('cordova')
+
+    if (is.ios) {
+      const
+        ratio = window.devicePixelRatio || 1,
+        width = window.screen.width * ratio,
+        height = window.screen.height * ratio
+
+      if (width === 1125 && height === 2001 /* 2436 for fullscreen */) {
+        cls.push(`iphone-small-padding`)
+      }
+    }
+  }
   Platform.within.iframe && cls.push('within-iframe')
-  Platform.is.cordova && cls.push('cordova')
-  Platform.is.electron && cls.push('electron')
+  is.electron && cls.push('electron')
 
   return cls
 }

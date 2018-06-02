@@ -161,7 +161,7 @@ export default {
 
     decimals: Number,
     step: Number,
-    upperCase: Boolean
+    upperCase: Boolean,
     lowerCase: Boolean
   },
   data () {
