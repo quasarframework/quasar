@@ -116,7 +116,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - altShiftDev
 
 - Ken ($5)
-- Oliver ($5)
 - Mahesh Narayanamurthi ($5)
 - Rogério Queiroz ($5)
 - Sustained ($3.14)
