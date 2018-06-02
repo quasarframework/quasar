@@ -1,5 +1,5 @@
 export default {
-  lang: 'zh-hans',
+  lang: 'zh-hant',
   label: {
     clear: '清空',
     ok: '確定',
