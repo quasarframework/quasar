@@ -6,7 +6,7 @@ import History from './plugins/history'
 import i18n from './i18n'
 import icons from './icons'
 
-function getBodyClasses () {
+function getBodyClasses (cfg) {
   const is = Platform.is
   const cls = [
     process.env.THEME,
@@ -18,14 +18,14 @@ function getBodyClasses () {
   if (is.cordova) {
     cls.push('cordova')
 
-    if (is.ios) {
+    if (is.ios && (cfg.cordova === void 0 || cfg.cordova.iosStatusBarPadding !== false)) {
       const
         ratio = window.devicePixelRatio || 1,
         width = window.screen.width * ratio,
         height = window.screen.height * ratio
 
-      if (width === 1125 && height === 2001 /* 2436 for fullscreen */) {
-        cls.push(`iphone-small-padding`)
+      if (width !== 1125 && height !== 2001 /* 2436 for iPhoneX fullscreen */) {
+        cls.push('q-ios-statusbar-padding')
       }
     }
   }
@@ -35,8 +35,8 @@ function getBodyClasses () {
   return cls
 }
 
-function bodyInit () {
-  const cls = getBodyClasses()
+function bodyInit (cfg) {
+  const cls = getBodyClasses(cfg)
 
   if (Platform.is.ie && Platform.is.versionNumber === 11) {
     cls.forEach(c => document.body.classList.add(c))
@@ -72,11 +72,13 @@ export default function (_Vue, opts = {}) {
 
   if (isSSR) {
     if (typeof cfg.ssr.setBodyClasses === 'function') {
-      cfg.ssr.setBodyClasses(getBodyClasses())
+      cfg.ssr.setBodyClasses(getBodyClasses(cfg))
     }
   }
   else {
-    ready(bodyInit)
+    ready(() => {
+      bodyInit(cfg)
+    })
   }
 
   if (opts.directives) {
