@@ -114,6 +114,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - 上田 進也 (Sandbox Gmbh)
 - Thilan M. Irshad
 - altShiftDev
+- Simon Kimber
 
 - Ken ($5)
 - Mahesh Narayanamurthi ($5)
