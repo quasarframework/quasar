@@ -79,7 +79,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Simon Hedberg
 - Saloustros Marios
 - Guilherme S L de Souza
-- Jim O'Quinn
 - Bert Jehoul
 - Derrick Bass
 - William Correa
@@ -116,6 +115,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - altShiftDev
 - Simon Kimber
 
+- Jim O'Quinn ($5)
 - Ken ($5)
 - Mahesh Narayanamurthi ($5)
 - Rogério Queiroz ($5)
