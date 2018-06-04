@@ -9,7 +9,8 @@ export default {
     layout: {}
   },
   props: {
-    padding: Boolean
+    padding: Boolean,
+    setHeight: Boolean
   },
   computed: {
     computedStyle () {
@@ -18,7 +19,8 @@ export default {
         (this.layout.footer.space ? this.layout.footer.size : 0)
 
       return {
-        minHeight: offset ? `calc(100vh - ${offset}px)` : '100vh'
+        minHeight: offset ? `calc(100vh - ${offset}px)` : '100vh',
+        height: this.setHeight ? `calc(100vh - ${offset}px)` : ''
       }
     },
     computedClass () {
