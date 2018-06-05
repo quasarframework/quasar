@@ -17,7 +17,8 @@ else {
   Vue.use({ install }, {
     components,
     directives,
-    plugins
+    plugins,
+    config: window.quasarConfig || {}
   })
 }
 
