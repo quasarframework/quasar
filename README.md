@@ -15,11 +15,11 @@ Quasar Framework is an MIT-licensed open source project. Its ongoing development
 
 ### Proudly sponsored by:
 
-[![Truelogic](http://quasar-framework.org/images/logo_truelogic.png)](http://truelogic.com)
+[![Truelogic](http://quasar-framework.org/images/logo_truelogic.png)](https://truelogic.com)
 
 ## Documentation
 
-Head on to the Quasar Framework official website: [http://quasar-framework.org](http://quasar-framework.org)
+Head on to the Quasar Framework official website: [https://quasar-framework.org](https://quasar-framework.org)
 
 ## Stay in Touch
 
@@ -27,7 +27,12 @@ For latest releases and announcements, follow on Twitter: [@quasarframework](htt
 
 ## Community Forum
 
-Head on to the official community forum: [http://forum.quasar-framework.org](http://forum.quasar-framework.org)
+Ask questions at the official community forum: [https://forum.quasar-framework.org](https://forum.quasar-framework.org)
+
+## Chat Support
+
+Ask questions at the official community forum: [https://discord.gg/5TDhbDg](https://discord.gg/5TDhbDg)
+
 
 ## Quasar Repositories
 
@@ -43,7 +48,7 @@ I'm excited if you want to contribute to Quasar under any form (report bugs, wri
 
 **Please use the appropriate Github repo to report issues. See "Related Components" above.** For example, a bug related to CLI should be reported to the CLI repo, one related to build issues to Quasar Framework Templates repo and so on.
 
-- The issue list of the repository is **exclusively** for bug reports and feature requests. For anything else please use the [Community Forum](http://forum.quasar-framework.org).
+- The issue list of the repository is **exclusively** for bug reports and feature requests. For anything else please use the [Community Forum](https://forum.quasar-framework.org).
 
 - Try to search for your issue, it may have already been fixed in the development branch or it may have a resolution.
 
@@ -53,7 +58,7 @@ I'm excited if you want to contribute to Quasar under any form (report bugs, wri
 
 - If your issue is resolved but still open, don’t hesitate to close it. In case you found a solution by yourself, it could be helpful to explain how you fixed it.
 
-Read more [here](http://quasar-framework.org/guide/quasar-contribution-guide.html).
+Read more [here](https://quasar-framework.org/guide/quasar-contribution-guide.html).
 
 ## Semver
 Until Quasar reaches a 1.0 release (soon), breaking changes will be released with a new minor version. For example 0.8.1, and 0.8.4 will have the same API, but 0.9.0 will have breaking changes.
