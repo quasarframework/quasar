@@ -26,7 +26,7 @@ Vue.use(Quasar, {
   components: Everything,
   directives: Everything,
   plugins: Everything,
-  cfg: {
+  config: {
   }
   // iconSet
 })

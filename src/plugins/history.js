@@ -6,7 +6,7 @@ export default {
   remove: () => {},
 
   __installed: false,
-  install () {
+  install ({ cfg }) {
     if (this.__installed || !Platform.is.cordova || isSSR) {
       return
     }
@@ -22,12 +22,14 @@ export default {
       }
     }
 
+    const exit = cfg.cordova === void 0 || cfg.cordova.backButtonExit !== false
+
     document.addEventListener('deviceready', () => {
       document.addEventListener('backbutton', () => {
         if (this.__history.length) {
           this.__history.pop().handler()
         }
-        else if (window.location.hash === '#/') {
+        else if (exit && window.location.hash === '#/') {
           navigator.app.exitApp()
         }
         else {

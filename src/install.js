@@ -58,7 +58,7 @@ export default function (_Vue, opts = {}) {
   this.__installed = true
 
   const
-    cfg = opts.cfg || {},
+    cfg = opts.config || {},
     $q = {
       version,
       theme: process.env.THEME
@@ -66,7 +66,7 @@ export default function (_Vue, opts = {}) {
 
   // required plugins
   Platform.install({ $q, cfg })
-  History.install()
+  History.install({ cfg })
   i18n.install({ $q, Vue: _Vue, cfg, lang: opts.i18n })
   icons.install({ $q, Vue: _Vue, iconSet: opts.iconSet })
 
