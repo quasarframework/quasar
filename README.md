@@ -25,14 +25,13 @@ Head on to the Quasar Framework official website: [https://quasar-framework.org]
 
 For latest releases and announcements, follow on Twitter: [@quasarframework](https://twitter.com/quasarframework)
 
+## Chat Support
+
+Ask questions at the official community Discord server: [http://chat.quasar-framework.org](http://chat.quasar-framework.org)
+
 ## Community Forum
 
 Ask questions at the official community forum: [https://forum.quasar-framework.org](https://forum.quasar-framework.org)
-
-## Chat Support
-
-Ask questions at the official community forum: [https://discord.gg/5TDhbDg](https://discord.gg/5TDhbDg)
-
 
 ## Quasar Repositories
 
