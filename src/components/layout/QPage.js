@@ -10,17 +10,18 @@ export default {
   },
   props: {
     padding: Boolean,
-    setHeight: Boolean
+    minHeight: Boolean
   },
   computed: {
     computedStyle () {
+      if (this.minHeight === false) return ''
+      
       const offset =
         (this.layout.header.space ? this.layout.header.size : 0) +
         (this.layout.footer.space ? this.layout.footer.size : 0)
 
       return {
-        minHeight: offset ? `calc(100vh - ${offset}px)` : '100vh',
-        height: this.setHeight ? `calc(100vh - ${offset}px)` : ''
+        minHeight: offset ? `calc(100vh - ${offset}px)` : '100vh'
       }
     },
     computedClass () {
