@@ -50,7 +50,9 @@ export default {
         active: this.active,
         hidden: this.hidden,
         disabled: this.disable,
+        'q-tab-full': this.icon && this.label,
         'q-tab-only-label': !this.icon && this.label,
+        'hide-none': !this.hide,
         'hide-icon': this.hide === 'icon',
         'hide-label': this.hide === 'label'
       }
@@ -72,35 +74,46 @@ export default {
     }
   },
   methods: {
+    __getTabMeta (h) {
+      if (this.count) {
+        return [
+          h(QChip, {
+            staticClass: 'q-tab-meta',
+            props: {
+              floating: true
+            }
+          }, [ this.count ])
+        ]
+      }
+      if (this.alert) {
+        return [
+          h('div', { staticClass: 'q-tab-meta q-dot' })
+        ]
+      }
+    },
     __getTabContent (h) {
       let child = []
 
-      this.icon && child.push(h(QIcon, {
-        staticClass: 'q-tab-icon',
-        props: {
-          name: this.icon
-        }
-      }))
+      this.icon && child.push(
+        h('div', { staticClass: 'q-tab-icon-parent relative-position' }, [
+          h(QIcon, {
+            staticClass: 'q-tab-icon',
+            props: {
+              name: this.icon
+            }
+          }),
+          this.__getTabMeta(h)
+        ])
+      )
 
-      this.label && child.push(h('div', {
-        staticClass: 'q-tab-label',
-        domProps: {
-          innerHTML: this.label
-        }
-      }))
-
-      if (this.count) {
-        child.push(h(QChip, {
-          props: {
-            floating: true
-          }
-        }, [ this.count ]))
-      }
-      else if (this.alert) {
-        child.push(h('div', {
-          staticClass: 'q-dot'
-        }))
-      }
+      this.label && child.push(
+        h('div', { staticClass: 'q-tab-label-parent relative-position' }, [
+          h('div', {
+            staticClass: 'q-tab-label'
+          }, [ this.label ]),
+          this.__getTabMeta(h)
+        ])
+      )
 
       child = child.concat(this.$slots.default)
       if (process.env.THEME !== 'ios') {

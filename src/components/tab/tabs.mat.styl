@@ -27,12 +27,12 @@
   min-height $tabs-min-height
   text-transform $tabs-text-transform
 
-  > .q-icon + .q-tab-label
+  .q-tab-icon-parent + .q-tab-label-parent
     margin-top 4px
 
   .q-chip
-    top 5px
-    right 5px
+    top -8px
+    right -10px
     left auto
     min-height auto
     color white
@@ -50,11 +50,17 @@
 
 @media (max-width $breakpoint-sm-max)
   .q-tab
-    &.hide-icon .q-tab-icon,
-    &.hide-label .q-tab-label
+    &.hide-icon .q-tab-icon-parent,
+    &.hide-label .q-tab-label-parent
       display none !important
     &.hide-icon .q-tab-label
-        margin-top 0
+      margin-top 0
+  .q-tab-full.hide-none .q-tab-label-parent .q-tab-meta
+    display none
+
+@media (min-width $breakpoint-md-min)
+  .q-tab-full .q-tab-label-parent .q-tab-meta
+    display none
 
 @media (max-width $breakpoint-md-max)
   .q-tabs-head:not(.scrollable)
