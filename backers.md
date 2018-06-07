@@ -111,7 +111,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Talles Dantas
 - Mast
 - 上田 進也 (Sandbox Gmbh)
-- Thilan M. Irshad
 - altShiftDev
 - Simon Kimber
 
