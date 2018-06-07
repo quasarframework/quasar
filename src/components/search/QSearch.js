@@ -14,7 +14,9 @@ export default {
     },
     icon: String,
     placeholder: String,
-    noIcon: Boolean
+    noIcon: Boolean,
+    upperCase: Boolean,
+    lowerCase: Boolean
   },
   data () {
     return {
@@ -113,7 +115,9 @@ export default {
         color: this.color,
         before: this.controlBefore,
         after: this.controlAfter,
-        clearValue: this.clearValue
+        clearValue: this.clearValue,
+        upperCase: this.upperCase,
+        lowerCase: this.lowerCase
       },
       attrs: this.$attrs,
       on: {
