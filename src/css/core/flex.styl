@@ -115,8 +115,9 @@ for $i in (0..$flex-cols)
     flex 0 0 (round($i / $flex-cols * 100, 4))%
   .row > .col-{$i}
     max-width (round($i / $flex-cols * 100, 4))%
-  .offset-{$i}
-    margin-left (round($i / $flex-cols * 100, 4))%
+  if $i != 0
+    .offset-{$i}
+      margin-left (round($i / $flex-cols * 100, 4))%
 
 for $name, $size in $flex-gutter
   .gutter-x-{$name}
