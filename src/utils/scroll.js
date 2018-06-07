@@ -1,7 +1,7 @@
 import { css } from './dom'
 
 export function getScrollTarget (el) {
-  return el.closest('.scroll') || window
+  return el.closest('.scroll,.scroll-y') || window
 }
 
 export function getScrollHeight (el) {

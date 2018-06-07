@@ -298,7 +298,7 @@ export default {
     let toolbars
     if (this.hasToolbar) {
       const toolbarConfig = {
-        staticClass: `q-editor-toolbar row no-wrap scroll`,
+        staticClass: `q-editor-toolbar row no-wrap scroll-x`,
         'class': [
           { 'q-editor-toolbar-separator': !this.toolbarOutline && !this.toolbarPush },
           this.toolbarBackgroundClass
