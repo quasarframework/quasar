@@ -117,9 +117,7 @@ export default {
             h('div', {
               staticClass: 'q-collapsible-sub-item relative-position',
               'class': { indent: this.indent }
-            }, [
-              this.$slots.default
-            ])
+            }, this.$slots.default)
           ])
         ])
       ])

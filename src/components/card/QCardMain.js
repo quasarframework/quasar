@@ -3,8 +3,6 @@ export default {
   render (h) {
     return h('div', {
       staticClass: 'q-card-main q-card-container'
-    }, [
-      this.$slots.default
-    ])
+    }, this.$slots.default)
   }
 }

@@ -99,9 +99,7 @@ export default {
     if (!this.canRender) { return }
 
     return h('div', { staticClass: 'q-tooltip animate-popup' }, [
-      h('div', [
-        this.$slots.default
-      ])
+      h('div', this.$slots.default)
     ])
   },
   beforeMount () {

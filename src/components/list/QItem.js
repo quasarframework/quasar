@@ -21,7 +21,7 @@ export default {
   },
   render (h) {
     return this.to !== void 0
-      ? h('router-link', { props: this.$props, 'class': this.classes }, [ this.$slots.default ])
-      : h(this.tag, { 'class': this.classes }, [ this.$slots.default ])
+      ? h('router-link', { props: this.$props, 'class': this.classes }, this.$slots.default)
+      : h(this.tag, { 'class': this.classes }, this.$slots.default)
   }
 }

@@ -30,8 +30,6 @@ export default {
     return h('div', {
       staticClass: 'q-toolbar row no-wrap items-center relative-position',
       'class': this.classes
-    }, [
-      this.$slots.default
-    ])
+    }, this.$slots.default)
   }
 }

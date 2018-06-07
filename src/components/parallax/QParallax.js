@@ -101,13 +101,13 @@ export default {
         })
       ]),
 
-      h('div', {
-        staticClass: 'q-parallax-text absolute-full column flex-center'
-      }, [
+      h(
+        'div',
+        { staticClass: 'q-parallax-text absolute-full column flex-center' },
         this.imageHasBeenLoaded
           ? this.$slots.default
-          : this.$slots.loading
-      ])
+          : [ this.$slots.loading ]
+      )
     ])
   },
   beforeMount () {

@@ -253,13 +253,13 @@ export default {
           })
         ]),
 
-        h('div', {
-          staticClass: 'q-knob-label row flex-center content-center'
-        }, [
-          this.$slots.default
-            ? this.$slots.default
-            : h('span', [ this.model ])
-        ])
+        h(
+          'div',
+          { staticClass: 'q-knob-label row flex-center content-center' },
+          this.$slots.default || [
+            h('span', [ this.model ])
+          ]
+        )
       ])
     ])
   }

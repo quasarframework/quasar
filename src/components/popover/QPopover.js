@@ -62,9 +62,7 @@ export default {
       on: {
         click (e) { e.stopPropagation() }
       }
-    }, [
-      this.$slots.default
-    ])
+    }, this.$slots.default)
   },
   mounted () {
     this.__updatePosition = frameDebounce((_, event, animate) => this.reposition(event, animate))

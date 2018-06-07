@@ -7,8 +7,6 @@ export default {
     return h('div', {
       staticClass: 'q-card-separator',
       'class': { inset: this.inset }
-    }, [
-      this.$slots.default
-    ])
+    }, this.$slots.default)
   }
 }

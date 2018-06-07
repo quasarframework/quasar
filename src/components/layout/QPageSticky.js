@@ -106,12 +106,10 @@ export default {
       staticClass: 'q-page-sticky q-layout-transition z-fixed row flex-center',
       'class': this.classes,
       style: this.computedStyle
-    }, [
-      this.expand
-        ? this.$slots.default
-        : h('span', [
-          this.$slots.default
-        ])
-    ])
+    },
+    this.expand
+      ? this.$slots.default
+      : [ h('span', this.$slots.default) ]
+    )
   }
 }

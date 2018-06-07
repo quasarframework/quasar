@@ -160,9 +160,7 @@ export default {
         h('div', {
           ref: 'target',
           staticClass: 'scroll relative-position fit'
-        }, [
-          this.$slots.default
-        ])
+        }, this.$slots.default)
       ])
     }
 

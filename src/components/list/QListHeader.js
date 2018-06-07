@@ -9,8 +9,6 @@ export default {
       'class': {
         'q-list-header-inset': this.inset
       }
-    }, [
-      this.$slots.default
-    ])
+    }, this.$slots.default)
   }
 }

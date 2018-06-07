@@ -10,13 +10,13 @@ export default {
     if (!this.props) {
       return h('td', {
         'class': { 'q-table-col-auto-width': this.autoWidth }
-      }, [ this.$slots.default ])
+      }, this.$slots.default)
     }
 
     let col
     const
       name = this.$vnode.key,
-      child = [ this.$slots.default ]
+      child = [].concat(this.$slots.default)
 
     if (name) {
       col = this.props.colsMap[name]

@@ -39,8 +39,6 @@ export default {
       on: {
         click: this.click
       }
-    }, [
-      this.$slots.default
-    ])
+    }, this.$slots.default)
   }
 }

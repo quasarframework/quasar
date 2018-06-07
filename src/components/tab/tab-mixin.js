@@ -73,7 +73,7 @@ export default {
   },
   methods: {
     __getTabContent (h) {
-      const child = []
+      let child = []
 
       this.icon && child.push(h(QIcon, {
         staticClass: 'q-tab-icon',
@@ -102,7 +102,7 @@ export default {
         }))
       }
 
-      child.push(this.$slots.default)
+      child = child.concat(this.$slots.default)
       if (process.env.THEME !== 'ios') {
         child.push(h('div', {
           staticClass: 'q-tabs-bar',

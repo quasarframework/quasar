@@ -42,7 +42,7 @@ export default {
               ? h('div', { staticClass: 'q-actionsheet-grid row wrap items-center justify-between' }, this.__getActions(h))
               : h(QList, { staticClass: 'no-border', props: { link: true } }, this.__getActions(h))
           ]
-          : [ this.$slots.default ]
+          : this.$slots.default
       )
     )
 

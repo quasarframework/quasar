@@ -110,9 +110,9 @@ export default {
           ? h('div', {
             staticClass: 'q-stepper-step-content'
           }, [
-            h('div', { staticClass: 'q-stepper-step-inner' }, [
-              this.$slots.default
-            ])
+            h('div', {
+              staticClass: 'q-stepper-step-inner'
+            }, this.$slots.default)
           ])
           : null
       ])

@@ -90,7 +90,7 @@ export default {
       h('div', {
         ref: 'content',
         staticClass: 'q-infinite-scroll-content'
-      }, [ this.$slots.default ]),
+      }, this.$slots.default),
       h('div', {
         staticClass: 'q-infinite-scroll-message',
         directives: [{

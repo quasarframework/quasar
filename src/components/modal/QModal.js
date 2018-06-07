@@ -256,7 +256,7 @@ export default {
             click: this.__stopPropagation,
             touchstart: this.__stopPropagation
           }
-        }, [ this.$slots.default ])
+        }, this.$slots.default)
       ])
     ])
   }

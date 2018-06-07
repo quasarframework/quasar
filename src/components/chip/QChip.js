@@ -81,9 +81,7 @@ export default {
         ])
         : null,
 
-      h('div', { staticClass: 'q-chip-main' }, [
-        this.$slots.default
-      ]),
+      h('div', { staticClass: 'q-chip-main' }, this.$slots.default),
 
       this.iconRight
         ? h(QIcon, {

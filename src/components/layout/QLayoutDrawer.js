@@ -462,11 +462,11 @@ export default {
           modifiers: { horizontal: true },
           value: this.__closeByTouch
         }] : null
-      }, [
-        this.isMini && this.$slots.mini
-          ? this.$slots.mini
-          : this.$slots.default
-      ])
+      },
+      this.isMini && this.$slots.mini
+        ? [ this.$slots.mini ]
+        : this.$slots.default
+      )
     ]))
   }
 }

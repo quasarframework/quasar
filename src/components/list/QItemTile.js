@@ -72,12 +72,12 @@ export default {
     if (this.icon) {
       if (this.inverted) {
         return h(this.tag, data, [
-          h(QIcon, { props: { name: this.icon } }, [ this.$slots.default ])
+          h(QIcon, { props: { name: this.icon } }, this.$slots.default)
         ])
       }
       data.props = { name: this.icon }
     }
 
-    return h(this.icon ? QIcon : this.tag, data, [ this.$slots.default ])
+    return h(this.icon ? QIcon : this.tag, data, this.$slots.default)
   }
 }

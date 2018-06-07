@@ -50,7 +50,7 @@ export default {
             }
           }
         },
-        [ this.$slots.default ]
+        this.$slots.default
       ),
       Icon = h(
         'QIcon',

@@ -64,9 +64,7 @@ export default {
       h('div', {
         staticClass: 'q-fab-actions flex no-wrap inline items-center',
         'class': `q-fab-${this.direction}`
-      }, [
-        this.$slots.default
-      ])
+      }, this.$slots.default)
     ])
   }
 }

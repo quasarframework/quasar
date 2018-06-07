@@ -34,8 +34,6 @@ export default {
     return h('div', {
       staticClass: 'q-layout-page-container q-layout-transition',
       style: this.computedStyle
-    }, [
-      this.$slots.default
-    ])
+    }, this.$slots.default)
   }
 }

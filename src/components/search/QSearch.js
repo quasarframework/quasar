@@ -128,8 +128,6 @@ export default {
           this.__emit()
         }
       }
-    }, [
-      this.$slots.default
-    ])
+    }, this.$slots.default)
   }
 }

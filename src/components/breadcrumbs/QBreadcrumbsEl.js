@@ -24,7 +24,7 @@ export default {
         this.icon ? h(QIcon, { staticClass: 'q-breacrumbs-el-icon q-mr-sm', props: { name: this.icon } }) : null,
         this.label
       ]
-      : [ this.$slots.default ]
+      : this.$slots.default
     )
   }
 }

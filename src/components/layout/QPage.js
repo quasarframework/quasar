@@ -32,8 +32,6 @@ export default {
       staticClass: 'q-layout-page',
       style: this.computedStyle,
       'class': this.computedClass
-    }, [
-      this.$slots.default
-    ])
+    }, this.$slots.default)
   }
 }

@@ -35,9 +35,7 @@ export default {
       staticClass: 'q-modal-layout-content col scroll',
       style: this.contentStyle,
       'class': this.contentClass
-    }, [
-      this.$slots.default
-    ]))
+    }, this.$slots.default))
 
     if (this.$slots.footer || (process.env.THEME === 'ios' && this.$slots.navigation)) {
       child.push(h('div', {
