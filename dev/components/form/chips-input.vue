@@ -17,6 +17,8 @@
       <q-chips-input align="right" @change="value => { model = value; log('@change', value) }" @input="value => log('@input', value)" color="secondary" float-label="Float Label (onChange)" :value="model" placeholder="Some placeholder" />
       <q-chips-input inverted color="dark" frame-color="amber" float-label="Float Label" v-model="model" placeholder="Some placeholder" />
       <q-chips-input inverted color="dark" :dark="false" frame-color="white" float-label="Float Label" v-model="model" placeholder="Some placeholder" />
+      <q-chips-input inverted float-label="Uppercase" upper-case v-model="model" placeholder="Uppercase" />
+      <q-chips-input inverted float-label="Lowercase" lower-case v-model="model" placeholder="Lowercase" />
 
       <div class="bg-grey-9" style="padding: 15px">
         <q-chips-input dark color="amber" float-label="Float Label" v-model="model" placeholder="Some placeholder" />

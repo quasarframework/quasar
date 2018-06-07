@@ -45,7 +45,7 @@
       <input
         ref="input"
         class="col q-input-target"
-        :class="alignClass"
+        :class="inputClasses"
         v-model="input"
 
         :placeholder="inputPlaceholder"
@@ -106,7 +106,9 @@ export default {
     chipsColor: String,
     chipsBgColor: String,
     readonly: Boolean,
-    addIcon: String
+    addIcon: String,
+    upperCase: Boolean,
+    lowerCase: Boolean
   },
   data () {
     return {
@@ -182,6 +184,14 @@ export default {
       return this.dark
         ? 'white'
         : this.color
+    },
+    inputClasses () {
+      const cls = [ this.alignClass ]
+
+      this.upperCase && cls.push('uppercase')
+      this.lowerCase && cls.push('lowercase')
+
+      return cls
     }
   },
   methods: {
@@ -192,12 +202,21 @@ export default {
       if (this.isLoading || !this.editable || !value) {
         return
       }
-      if (this.model.includes(value)) {
-        this.$emit('duplicate', value)
+
+      const val = this.lowerCase
+        ? value.toLowerCase()
+        : (
+          this.upperCase
+            ? value.toUpperCase()
+            : value
+        )
+
+      if (this.model.includes(val)) {
+        this.$emit('duplicate', val)
         return
       }
 
-      this.model.push(value)
+      this.model.push(val)
       this.$emit('input', this.model)
       this.input = ''
     },
