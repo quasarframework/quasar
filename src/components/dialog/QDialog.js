@@ -23,7 +23,6 @@ export default {
     preventClose: Boolean,
     noBackdropDismiss: Boolean,
     noEscDismiss: Boolean,
-    noRefocus: Boolean,
     position: String,
     color: {
       type: String,
@@ -87,7 +86,6 @@ export default {
         minimized: true,
         noBackdropDismiss: this.noBackdropDismiss || this.preventClose,
         noEscDismiss: this.noEscDismiss || this.preventClose,
-        noRefocus: this.noRefocus,
         position: this.position
       },
       on: {
