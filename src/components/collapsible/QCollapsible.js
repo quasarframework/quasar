@@ -96,7 +96,7 @@ export default {
     this.$root.$off(eventName, this.__eventHandler)
   },
   render (h) {
-    return h('div', {
+    return h(this.tag, {
       staticClass: 'q-collapsible q-item-division relative-position',
       'class': this.classes
     }, [

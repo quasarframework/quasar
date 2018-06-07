@@ -22,7 +22,7 @@ export default {
     }
   },
   render (h) {
-    return h('div', {
+    return h(this.tag, {
       staticClass: 'q-item-main q-item-section',
       'class': {
         'q-item-main-inset': this.inset
