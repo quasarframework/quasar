@@ -8,6 +8,14 @@ export default {
   props: {
     noParentField: Boolean
   },
+  watch: {
+    noParentField (val) {
+      if (!this.field) {
+        return
+      }
+      this.field[val ? '__registerInput' : '__unregisterInput'](this)
+    }
+  },
   beforeMount () {
     if (!this.noParentField && this.field) {
       this.field.__registerInput(this)

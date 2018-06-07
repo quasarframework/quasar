@@ -192,7 +192,9 @@ export default {
       this.__inputDebounce.setChildDebounce(true)
     }
     this.$nextTick(() => {
-      this.inputEl = this.__input.getEl()
+      if (this.__input) {
+        this.inputEl = this.__input.getEl()
+      }
       this.inputEl.addEventListener('keydown', this.__keyboardHandleKey)
       this.inputEl.addEventListener('blur', this.blurHide)
     })
