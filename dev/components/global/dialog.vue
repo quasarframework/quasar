@@ -45,6 +45,8 @@
       <q-btn label="Confirm" @click="adHoc3" />
       <q-btn label="Method" @click="asMethod" />
     </div>
+
+    <q-input v-model="text" @keyup.enter="adHoc" />
   </div>
 </template>
 
@@ -170,7 +172,8 @@ export default {
     return {
       showDialog: false,
       name: '',
-      nameError: false
+      nameError: false,
+      text: ''
     }
   }
 }
