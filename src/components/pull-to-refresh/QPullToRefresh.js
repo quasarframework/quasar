@@ -57,7 +57,9 @@ export default {
       }
     },
     style () {
-      return [cssTransform(`translateY(${this.pullPosition}px)`), { marginBottom: `${height}px` }]
+      const css = cssTransform(`translateY(${this.pullPosition}px)`)
+      css.marginBottom = `${height}px`
+      return css
     },
     messageClass () {
       return `text-${this.color}`
