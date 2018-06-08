@@ -108,13 +108,13 @@
 
     <div class="container">
       <div class="row">
-        <div class="col-sm-8">col-sm-8</div>
-        <div class="col-sm-4">col-sm-4</div>
+        <div class="col-xs-12 col-sm-8">col-sm-8</div>
+        <div class="col-xs-12 col-sm-4">col-sm-4</div>
       </div>
       <div class="row">
-        <div class="col-sm">col-sm</div>
-        <div class="col-sm">col-sm</div>
-        <div class="col-sm">col-sm</div>
+        <div class="col-xs-12 col-sm">col-sm</div>
+        <div class="col-xs-12 col-sm">col-sm</div>
+        <div class="col-xs-12 col-sm">col-sm</div>
       </div>
     </div>
 
@@ -138,6 +138,11 @@
       <div class="row">
         <div class="col-6">.col-6</div>
         <div class="col-6">.col-6</div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-8 col-md-auto col-lg-6">.col-xs-8 .col-md-auto .col-lg-6</div>
+        <div class="col-xs-4 col-md col-lg-6">.col-xs-4 .col-md .col-lg-6</div>
       </div>
     </div>
 

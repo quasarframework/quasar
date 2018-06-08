@@ -15,6 +15,11 @@ shell.cp(
   path.join(__dirname, '../src/css/core.variables.styl'),
   path.join(__dirname, '../dist')
 )
+/* copy responsive-flex.styl */
+shell.cp(
+  path.join(__dirname, '../src/responsive-flex/responsive-flex.styl'),
+  path.join(__dirname, '../dist')
+)
 build(buildConf.themes)
 
 function build (themes) {

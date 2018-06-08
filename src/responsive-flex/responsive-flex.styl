@@ -1,0 +1,174 @@
+fr(selector, name, i = '')
+  unquote(replace(unquote('<i>'), unquote(i), replace(unquote('<name>'), unquote(name), unquote(selector))))
+
+fe(selector, name, noProc, i = '')
+  if noProc
+    return fr(selector, name, i)
+  return unquote(join(',', fr(selector, '', i) fr(selector, name, i)))
+
+fg($name, $size)
+  $noProcZero = $size == 0
+  $noProcNotZero = $size > 0
+  @media (min-width $size)
+    {fe('.flex<name>-', $name, $noProcNotZero)}
+      &block
+        display block
+      &inline
+        display inline-block
+
+    $all-{$name}-inline-flex
+      display inline-flex
+    $row-{$name}-reverse
+      flex-direction row-reverse
+    $column-{$name}-reverse
+      flex-direction column-reverse
+
+    .row, .column, .flex
+      if $noProcNotZero
+        {fr('&.inline<name>', $name)}
+          @extends $all-{$name}-inline-flex
+      {fr('&<name>', $name)}
+        display flex
+        flex-wrap wrap
+        {fe('&.inline<name>', $name, $noProcZero)}
+          @extends $all-{$name}-inline-flex
+
+    .row
+      if $noProcNotZero
+        {fr('&.reverse<name>', $name)}
+          @extends $row-{$name}-reverse
+      {fr('&<name>', $name)}
+        flex-direction row
+        {fe('&.reverse<name>', $name, $noProcZero)}
+          @extends $row-{$name}-reverse
+
+    .column
+      if $noProcNotZero
+        {fr('&.reverse<name>', $name)}
+          @extends $column-{$name}-reverse
+      {fr('&<name>', $name)}
+        flex-direction column
+        {fe('&.reverse<name>', $name, $noProcZero)}
+          @extends $column-{$name}-reverse
+
+    {fr('.wrap<name>', $name)}
+      flex-wrap wrap
+    {fr('.no-wrap<name>', $name)}
+      flex-wrap nowrap
+    {fr('.reverse-wrap<name>', $name)}
+      flex-wrap wrap-reverse
+
+    {fr('.order<name>-', $name)}
+      &first
+        order -10000
+      &last
+        order 10000
+      &none
+        order 0
+
+    {fr('.justify<name>-', $name)}
+      &start
+        justify-content flex-start
+      &end
+        justify-content flex-end
+      &center
+        justify-content center
+      &between
+        justify-content space-between
+      &around
+        justify-content space-around
+
+    {fr('.items<name>-', $name)}
+      &start
+        align-items flex-start
+      &end
+        align-items flex-end
+      &center
+        align-items center
+      &baseline
+        align-items baseline
+      &stretch
+        align-items stretch
+
+    {fr('.content<name>-', $name)}
+      &start
+        align-content flex-start
+      &end
+        align-content flex-end
+      &center
+        align-content center
+      &between
+        align-content space-between
+      &around
+        align-content space-around
+
+    {fr('.self<name>-', $name)}
+      &start
+        align-self flex-start
+      &end
+        align-self flex-end
+      &center
+        align-self center
+      &baseline
+        align-self baseline
+      &stretch
+        align-self stretch
+
+    {fr('.flex<name>-center', $name)}
+      @extend .items{$name}-center
+      @extend .justify{$name}-center
+
+    for $gname, $gsize in $flex-gutter
+      {fr('.gutter<name>-', $name)}
+        &x-{$gname}
+          margin-left (- $gsize)
+          > div
+            padding-left $gsize
+        &y-{$gname}
+          margin-top (- $gsize)
+          > div
+            padding-top $gsize
+        &{$gname}
+          @extends .gutter{$name}-x-{$gname}, .gutter{$name}-y-{$gname}
+          > div
+            @extends .gutter{$name}-x-{$gname} > div, .gutter{$name}-y-{$gname} > div
+
+    for $i in (0..$flex-cols)
+      $ic = s('%s', $i)
+
+      $row-{$name}-col-{$i}
+        height auto
+        width (round($i / $flex-cols * 100, 4))%
+
+      $row-{$name}-offset-{$i}
+        margin-left (round($i / $flex-cols * 100, 4))%
+
+      $column-{$name}-col-{$i}
+        height (round($i / $flex-cols * 100, 4))%
+        width auto
+
+      for $name2, $size2 in $sizes
+        $name2c = s('-%s', unquote($name2))
+
+        {fr('.row<name>', $name)}
+          if $size >= $size2
+            {fe('> .col<name>-<i>', $name, $noProcNotZero, $ic)}
+              @extends $row-{$name}-col-{$i}
+            {fe('> .offset<name>-<i>', $name, $noProcNotZero, $ic)}
+              @extends $row-{$name}-offset-{$i}
+          else
+            > .col{$name2c}-{$i}
+              @extends $row-{$name}-col-{$i}
+            > .offset{$name2c}-{$i}
+              @extends $row-{$name}-offset-{$i}
+
+        {fr('.column<name>', $name)}
+          if $size >= $size2
+            {fe('> .col<name>-<i>', $name, $noProcNotZero, $ic)}
+              @extends $column-{$name}-col-{$i}
+          else
+            > .col{$name2c}-{$i}
+              @extends $column-{$name}-col-{$i}
+
+for $name, $size in $sizes
+  fg(s('-%s', unquote($name)), $size)
