@@ -3,7 +3,6 @@
   border 0
   vertical-align middle
   cursor pointer
-  -webkit-appearance button
   padding $button-padding
   font-size $button-font-size
   text-decoration none
@@ -11,6 +10,10 @@
   background transparent
   transition $button-transition
   min-height 2.572em
+  button&
+    -webkit-appearance button
+  a&
+    display inline-flex
   .q-icon, .q-spinner
     font-size 1.4em
   // workaround for alignment/sizing change when showing loader
@@ -38,6 +41,7 @@
   border-radius $button-push-border-radius
   border-bottom 3px solid rgba(0, 0, 0, .15)
   &:active:not(.disabled)
+  &.active:not(.disabled)
     transform translateY(3px)
     border-bottom-color transparent
   .q-focus-helper, .q-ripple-container

@@ -3,7 +3,6 @@
   border 0
   vertical-align middle
   cursor pointer
-  -webkit-appearance button
   padding $button-padding
   font-size $button-font-size
   text-decoration none
@@ -14,6 +13,10 @@
   box-shadow $button-shadow
   font-weight $button-font-weight
   text-transform uppercase
+  button&
+    -webkit-appearance button
+  a&
+    display inline-flex
   .q-icon, .q-spinner
     font-size 1.4em
   // workaround for alignment/sizing change when showing loader
@@ -39,6 +42,7 @@
       z-index -1
       transition $button-transition
     &:active:before
+    &.active:before
       box-shadow $button-shadow-active
 
 .q-btn-progress
@@ -62,6 +66,7 @@
   border-radius $button-push-border-radius
   border-bottom 3px solid rgba(0, 0, 0, .15)
   &:active:not(.disabled)
+  &.active:not(.disabled)
     box-shadow none
     transform translateY(3px)
     border-bottom-color transparent
