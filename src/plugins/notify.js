@@ -185,6 +185,7 @@ export default {
 
       return cancelFnWrapper
     }
+
     return this.__vm.add(opts)
   },
   setDefaults (opts) {
