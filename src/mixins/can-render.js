@@ -2,9 +2,8 @@
 
 export default {
   data () {
-    const is = this.$q.platform.is
     return {
-      canRender: is.cordova || is.electron
+      canRender: !this.$q.platform.is.fromSSR
     }
   },
   mounted () {
