@@ -275,8 +275,11 @@ export default {
     },
 
     __onSaturationChange (left, top, change) {
+      const panel = this.$refs.saturation
+      if (!panel) {
+        return
+      }
       const
-        panel = this.$refs.saturation,
         width = panel.clientWidth,
         height = panel.clientHeight,
         rect = panel.getBoundingClientRect()

@@ -110,7 +110,7 @@ function getDropdown (h, vm, btn) {
             click (e) {
               if (disable) { return }
               closeDropdown()
-              vm.$refs.content.focus()
+              vm.$refs.content && vm.$refs.content.focus()
               vm.caret.restore()
               run(e, btn, vm)
             }

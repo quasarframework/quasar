@@ -83,7 +83,7 @@ export default {
   },
   methods: {
     toggle () {
-      this[this.$refs.popup.showing ? 'hide' : 'show']()
+      this.$refs.popup && this[this.$refs.popup.showing ? 'hide' : 'show']()
     },
     show () {
       if (!this.disable) {
@@ -92,7 +92,7 @@ export default {
       }
     },
     hide () {
-      return this.$refs.popup.hide()
+      return this.$refs.popup ? this.$refs.popup.hide() : Promise.resolve()
     },
 
     __handleKeyDown (e) {

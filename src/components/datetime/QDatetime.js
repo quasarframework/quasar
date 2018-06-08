@@ -94,7 +94,7 @@ export default {
   },
   methods: {
     toggle () {
-      this[this.$refs.popup.showing ? 'hide' : 'show']()
+      this.$refs.popup && this[this.$refs.popup.showing ? 'hide' : 'show']()
     },
     show () {
       if (!this.disable) {
@@ -103,7 +103,7 @@ export default {
       }
     },
     hide () {
-      return this.$refs.popup.hide()
+      return this.$refs.popup ? this.$refs.popup.hide() : Promise.resolve()
     },
 
     __handleKeyDown (e) {
@@ -124,11 +124,13 @@ export default {
       }
       if (process.env.THEME === 'mat') {
         const target = this.$refs.target
-        if (this.defaultView) {
-          target.setView(this.defaultView)
-        }
-        else {
-          target.setView()
+        if (target) {
+          if (this.defaultView) {
+            target.setView(this.defaultView)
+          }
+          else {
+            target.setView()
+          }
         }
       }
       this.model = clone(this.computedValue)
@@ -185,7 +187,7 @@ export default {
     __resetView () {
       // go back to initial entry point for that type of control
       // if it has defaultView it's going to be reapplied anyway on focus
-      if (!this.defaultView) {
+      if (!this.defaultView && this.$refs.target) {
         this.$refs.target.setView()
       }
     },

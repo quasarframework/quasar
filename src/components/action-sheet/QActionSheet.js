@@ -102,7 +102,7 @@ export default {
       return this.$refs.modal.show()
     },
     hide () {
-      return this.$refs.modal.hide()
+      return this.$refs.modal ? this.$refs.modal.hide() : Promise.resolve()
     },
     __getActions (h) {
       return this.actions.map(action => action.label
