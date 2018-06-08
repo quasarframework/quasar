@@ -41,6 +41,8 @@
       <q-btn label="Toggle ref" @click="toggle" />
       <q-btn label="Toggle model" @click="toggle2" />
       <q-btn label="Prompt" @click="adHoc" />
+      <q-btn label="Prompt - autoresolve in 3sec" @click="adHoc(3000, 'Autocompleted')" />
+      <q-btn label="Prompt - autoreject in 3sec" @click="adHoc(3000)" />
       <q-btn label="Options" @click="adHoc2" />
       <q-btn label="Confirm" @click="adHoc3" />
       <q-btn label="Method" @click="asMethod" />
@@ -90,7 +92,13 @@ export default {
         Promise.resolve(okFn()).then(() => this.$q.notify(`Ok ${this.name}, going with ${hero}`))
       }
     },
-    adHoc () {
+    adHoc (autoclose, autoResolve) {
+      const resolver = autoclose > 0
+        ? new Promise((resolve, reject) => {
+          setTimeout(() => autoResolve ? resolve(autoResolve) : reject(new Error('Autoclosed')), autoclose)
+        })
+        : undefined
+
       this.$q.dialog({
         title: 'Prompt',
         message: 'Modern HTML5 Single Page Application front-end framework on steroids.',
@@ -101,10 +109,10 @@ export default {
         cancel: true,
         // preventClose: true,
         color: 'secondary'
-      }).then(data => {
+      }, resolver).then(data => {
         console.log('>>>> OK, received:', data)
-      }).catch(() => {
-        console.log('>>>> Cancel')
+      }).catch(error => {
+        console.log('>>>> Cancel', String(error))
       })
     },
     adHoc2 () {

@@ -1,9 +1,9 @@
 import { isSSR } from '../plugins/platform'
 
 export default function (Component, Vue) {
-  return props => {
+  return (props, resolver) => {
     return new Promise((resolve, reject) => {
-      if (isSSR) { return }
+      if (isSSR) { return reject(new Error()) }
 
       const node = document.createElement('div')
       document.body.appendChild(node)
@@ -21,8 +21,8 @@ export default function (Component, Vue) {
               resolve(data)
               vm.$destroy()
             },
-            cancel: () => {
-              reject(new Error())
+            cancel: reason => {
+              reject(reason || new Error())
               vm.$destroy()
             }
           }
@@ -31,6 +31,16 @@ export default function (Component, Vue) {
           this.$refs.modal.show()
         }
       })
+      if (resolver) {
+        resolver
+          .then(data => {
+            resolve(data)
+            vm.$destroy()
+          }).catch(reason => {
+            reject(reason || new Error())
+            vm.$destroy()
+          })
+      }
     })
   }
 }
