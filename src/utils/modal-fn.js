@@ -3,7 +3,7 @@ import { isSSR } from '../plugins/platform'
 export default function (Component, Vue) {
   return (props, resolver) => {
     return new Promise((resolve, reject) => {
-      if (isSSR) { return reject(new Error()) }
+      if (isSSR) { return resolve() }
 
       const node = document.createElement('div')
       document.body.appendChild(node)
