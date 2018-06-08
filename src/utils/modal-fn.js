@@ -7,6 +7,16 @@ export default function (Component, Vue) {
 
       const node = document.createElement('div')
       document.body.appendChild(node)
+      
+      const
+        ok = data => {
+          resolve(data)
+          vm.$destroy()
+        },
+        cancel = reason => {
+          reject(reason || new Error())
+          vm.$destroy()
+        }
 
       const vm = new Vue({
         el: node,
@@ -17,30 +27,16 @@ export default function (Component, Vue) {
           props,
           ref: 'modal',
           on: {
-            ok: data => {
-              resolve(data)
-              vm.$destroy()
-            },
-            cancel: reason => {
-              reject(reason || new Error())
-              vm.$destroy()
-            }
+            ok,
+            cancel
           }
         }),
         mounted () {
           this.$refs.modal.show()
         }
       })
-      if (resolver) {
-        resolver
-          .then(data => {
-            resolve(data)
-            vm.$destroy()
-          }).catch(reason => {
-            reject(reason || new Error())
-            vm.$destroy()
-          })
-      }
+
+      resolver && resolver.then(ok, cancel)
     })
   }
 }
