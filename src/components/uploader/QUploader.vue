@@ -184,6 +184,7 @@ export default {
       type: Array,
       default: () => []
     },
+    noContentType: Boolean,
     method: {
       type: String,
       default: 'POST'
@@ -405,6 +406,9 @@ export default {
         this.additionalFields.forEach(field => {
           form.append(field.name, field.value)
         })
+        if (this.noContentType !== true) {
+          form.append('Content-Type', file.type || 'application/octet-stream')
+        }
         form.append(this.name, file)
       }
       catch (e) {
