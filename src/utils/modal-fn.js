@@ -1,12 +1,22 @@
 import { isSSR } from '../plugins/platform'
 
 export default function (Component, Vue) {
-  return props => {
+  return (props, resolver) => {
     return new Promise((resolve, reject) => {
-      if (isSSR) { return }
+      if (isSSR) { return resolve() }
 
       const node = document.createElement('div')
       document.body.appendChild(node)
+      
+      const
+        ok = data => {
+          resolve(data)
+          vm.$destroy()
+        },
+        cancel = reason => {
+          reject(reason || new Error())
+          vm.$destroy()
+        }
 
       const vm = new Vue({
         el: node,
@@ -17,20 +27,16 @@ export default function (Component, Vue) {
           props,
           ref: 'modal',
           on: {
-            ok: data => {
-              resolve(data)
-              vm.$destroy()
-            },
-            cancel: () => {
-              reject(new Error())
-              vm.$destroy()
-            }
+            ok,
+            cancel
           }
         }),
         mounted () {
           this.$refs.modal.show()
         }
       })
+
+      resolver && resolver.then(ok, cancel)
     })
   }
 }
