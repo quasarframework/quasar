@@ -19,7 +19,7 @@ export default {
   },
   watch: {
     __qmodal (newModal, oldModal) {
-      oldModal && oldModal.register(this)
+      oldModal && oldModal.unregister(this)
       newModal && newModal.register(this)
     }
   },
