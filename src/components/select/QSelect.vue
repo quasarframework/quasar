@@ -316,10 +316,7 @@ export default {
   },
   methods: {
     togglePopup () {
-      if (!this.$refs.popover) {
-        return
-      }
-      this[this.$refs.popover.showing ? 'hide' : 'show']()
+      this.$refs.popover && this[this.$refs.popover.showing ? 'hide' : 'show']()
     },
     show () {
       this.__keyboardCalcIndex()
