@@ -77,13 +77,13 @@
       :class="dark ? 'bg-dark' : null"
       @show="__onShow"
       @hide="__onClose(true)"
+      @keydown.native="__keyboardHandleKey"
     >
       <q-search
         v-if="filter"
         ref="filter"
         v-model="terms"
         @input="reposition"
-        @keydown.native="__keyboardHandleKey"
         :placeholder="filterPlaceholder || $q.i18n.label.filter"
         :debounce="100"
         :color="color"
@@ -204,7 +204,6 @@ export default {
   props: {
     filter: [Function, Boolean],
     filterPlaceholder: String,
-    autofocusFilter: Boolean,
     radio: Boolean,
     placeholder: String,
     separator: Boolean,

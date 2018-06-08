@@ -59,7 +59,7 @@ export default {
             },
             nativeOn: {
               click: this.__onCancel,
-              keydown: this.__onKeyCancel
+              keyup: this.__onKeyCancel
             }
           }, [
             h(QItemMain, { staticClass: 'text-center text-primary' }, [
@@ -116,7 +116,7 @@ export default {
           },
           [this.grid ? 'on' : 'nativeOn']: {
             click: () => this.__onOk(action),
-            keydown: e => {
+            keyup: e => {
               if (getEventKey(e) === /* Enter */ 13) {
                 this.__onOk(action)
               }

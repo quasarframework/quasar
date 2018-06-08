@@ -55,6 +55,14 @@
 .q-tab-icon
   font-size $tabs-icon-font-size
 
+.q-tab-focus-helper
+  z-index -1
+  outline none
+  &:focus
+    z-index unset
+    background currentColor
+    opacity .1
+
 @media (max-width $breakpoint-sm-max)
   .q-tab
     &.hide-icon .q-tab-icon-parent,

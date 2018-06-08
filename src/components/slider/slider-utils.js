@@ -88,6 +88,9 @@ export let SliderMixin = {
     },
     computedDecimals () {
       return this.decimals !== void 0 ? this.decimals || 0 : (String(this.step).trim('0').split('.')[1] || '').length
+    },
+    computedStep () {
+      return this.decimals !== void 0 ? 1 / Math.pow(10, this.decimals || 0) : this.step
     }
   },
   methods: {

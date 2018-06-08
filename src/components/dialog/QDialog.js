@@ -23,6 +23,7 @@ export default {
     preventClose: Boolean,
     noBackdropDismiss: Boolean,
     noEscDismiss: Boolean,
+    noRefocus: Boolean,
     position: String,
     color: {
       type: String,
@@ -86,6 +87,7 @@ export default {
         minimized: true,
         noBackdropDismiss: this.noBackdropDismiss || this.preventClose,
         noEscDismiss: this.noEscDismiss || this.preventClose,
+        noRefocus: this.noRefocus,
         position: this.position
       },
       on: {
@@ -95,7 +97,7 @@ export default {
         show: () => {
           this.$emit('show')
 
-          if (!this.$q.platform.is.desktop || (!this.prompt && !this.options)) {
+          if (!this.$q.platform.is.desktop) {
             return
           }
 
@@ -108,7 +110,7 @@ export default {
             return
           }
 
-          node = this.$refs.modal.$el.getElementsByTagName('BUTTON')
+          node = this.$refs.modal.$el.getElementsByClassName('q-btn')
           if (node.length) {
             node[node.length - 1].focus()
           }

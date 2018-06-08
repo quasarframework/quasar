@@ -39,6 +39,8 @@ export default {
       type: Array,
       validator: offsetValidator
     },
+    noFocus: Boolean,
+    noRefocus: Boolean,
     disable: Boolean
   },
   watch: {
@@ -59,6 +61,8 @@ export default {
 
     return h('div', {
       staticClass: 'q-popover scroll',
+      ref: 'content',
+      attrs: { tabindex: -1 },
       on: {
         click (e) { e.stopPropagation() }
       }
@@ -75,6 +79,7 @@ export default {
       if (this.anchorClick) {
         this.anchorEl.classList.add('cursor-pointer')
         this.anchorEl.addEventListener('click', this.toggle)
+        this.anchorEl.addEventListener('keyup', this.__toggleKey)
       }
     })
     if (this.value) {
@@ -84,10 +89,14 @@ export default {
   beforeDestroy () {
     if (this.anchorClick && this.anchorEl) {
       this.anchorEl.removeEventListener('click', this.toggle)
+      this.anchorEl.removeEventListener('keyup', this.__toggleKey)
     }
   },
   methods: {
     __show (evt) {
+      if (!this.noRefocus) {
+        this.__refocusTarget = document.activeElement
+      }
       document.body.appendChild(this.$el)
       EscapeKey.register(() => { this.hide() })
       this.scrollTarget = getScrollTarget(this.anchorEl)
@@ -96,11 +105,19 @@ export default {
       this.__updatePosition(0, evt, true)
 
       clearTimeout(this.timer)
+      if (!this.noFocus && this.$refs.content) {
+        this.$refs.content.focus()
+      }
       this.timer = setTimeout(() => {
         document.body.addEventListener('click', this.__bodyHide, true)
         document.body.addEventListener('touchstart', this.__bodyHide, true)
         this.showPromise && this.showPromiseResolve()
       }, 0)
+    },
+    __toggleKey (evt) {
+      if (evt.keyCode === 13) {
+        this.toggle(evt)
+      }
     },
     __bodyHide (evt) {
       if (
@@ -123,6 +140,9 @@ export default {
 
       document.body.removeChild(this.$el)
       this.hidePromise && this.hidePromiseResolve()
+      if (!this.noRefocus && this.__refocusTarget) {
+        this.__refocusTarget.focus()
+      }
     },
     reposition (event, animate) {
       if (this.fit) {

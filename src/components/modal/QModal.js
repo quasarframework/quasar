@@ -94,6 +94,7 @@ export default {
       default: false
     },
     noRouteDismiss: Boolean,
+    noRefocus: Boolean,
     minimized: Boolean,
     maximized: Boolean
   },
@@ -168,6 +169,9 @@ export default {
       })
     },
     __show () {
+      if (!this.noRefocus) {
+        this.__refocusTarget = document.activeElement
+      }
       const body = document.body
 
       body.appendChild(this.$el)
@@ -178,6 +182,7 @@ export default {
         if (!this.noEscDismiss) {
           this.hide().then(() => {
             this.$emit('escape-key')
+            this.$emit('dismiss')
           })
         }
       })
@@ -199,6 +204,9 @@ export default {
       EscapeKey.pop()
       this.__preventScroll(false)
       this.__register(false)
+      if (!this.noRefocus && this.__refocusTarget) {
+        this.__refocusTarget.focus()
+      }
     },
     __stopPropagation (e) {
       e.stopPropagation()

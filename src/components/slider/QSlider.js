@@ -4,6 +4,7 @@ import {
   notDivides,
   SliderMixin
 } from './slider-utils'
+import { between } from '../../utils/format'
 import { QChip } from '../chip'
 
 export default {
@@ -94,6 +95,28 @@ export default {
       this.model = getModel(percentage, this.min, this.max, this.step, this.computedDecimals)
       this.currentPercentage = (this.model - this.min) / (this.max - this.min)
     },
+    __onKeyDown (ev) {
+      const keyCode = ev.keyCode
+      if (!this.editable || ![37, 40, 39, 38].includes(keyCode)) {
+        return
+      }
+      const
+        decimals = this.computedDecimals,
+        step = ev.ctrlKey ? 10 * this.computedStep : this.computedStep,
+        offset = [37, 40].includes(keyCode) ? -step : step,
+        model = decimals ? parseFloat((this.model + offset).toFixed(decimals)) : (this.model + offset)
+
+      this.model = between(model, this.min, this.max)
+      this.currentPercentage = (this.model - this.min) / (this.max - this.min)
+      this.__update()
+    },
+    __onKeyUp (ev) {
+      const keyCode = ev.keyCode
+      if (!this.editable || ![37, 40, 39, 38].includes(keyCode)) {
+        return
+      }
+      this.__update(true)
+    },
     __validateProps () {
       if (this.min >= this.max) {
         console.error('Range error: min >= max', this.$el, this.min, this.max)
@@ -121,6 +144,11 @@ export default {
           'class': {
             dragging: this.dragging,
             'handle-at-minimum': !this.fillHandleAlways && this.model === this.min
+          },
+          attrs: { tabindex: this.editable ? 0 : -1 },
+          on: {
+            keydown: this.__onKeyDown,
+            keyup: this.__onKeyUp
           }
         }, [
           this.label || this.labelAlways

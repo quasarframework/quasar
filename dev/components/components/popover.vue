@@ -17,6 +17,8 @@
                 :key="n"
                 v-close-overlay
                 @click.native="showNotify()"
+                @keyup.native.13.32="showNotify()"
+                :tabindex="0"
               >
                 <q-item-main label="Label" sublabel="Click me" />
               </q-item>
@@ -32,6 +34,8 @@
                 :key="n"
                 v-close-overlay
                 @click.native="showNotify()"
+                @keyup.native.13.32="showNotify()"
+                :tabindex="0"
               >
                 <q-item-main label="X Label" sublabel="X Click me" />
               </q-item>
@@ -57,7 +61,9 @@
                     v-for="n in 3"
                     :key="n"
                     v-close-overlay
-                    @click="showNotify()"
+                    @click.native="showNotify()"
+                    @keyup.native.13.32="showNotify()"
+                    :tabindex="0"
                   >
                     <q-item-main label="Label" />
                   </q-item>
@@ -118,6 +124,8 @@
               src="~assets/map.png"
               style="height: 150px; width: 200px;"
               @click="showNotify(), $refs.popover3.hide()"
+              @keyup.13.32="showNotify(), $refs.popover3.hide()"
+              :tabindex="0"
             >
           </q-popover>
         </q-btn>
@@ -140,6 +148,8 @@
               v-for="n in 20"
               :key="n"
               @click.native="showNotify(), $refs.popover5.hide()"
+              @keyup.native.13.32="showNotify(), $refs.popover5.hide()"
+              :tabindex="0"
             >
               <q-item-main label="Label" sublabel="Click me" />
             </q-item>
