@@ -73,18 +73,18 @@
         </q-scroll-area>
       </q-layout-drawer>
 
-      /*
-      @mouseover="leftMini = false"
-      @mouseout="leftMini = true"
-      ...or
-      @click.capture="e => {
-      if (leftMini) {
-      leftMini = false
-      e.preventDefault()
-      e.stopPropagation()
-      }
-      }"
-      */
+      <!--
+        @mouseover="leftMini = false"
+        @mouseout="leftMini = true"
+        ...or
+        @click.capture="e => {
+          if (leftMini) {
+            leftMini = false
+            e.preventDefault()
+            e.stopPropagation()
+          }
+        }"
+      -->
       <q-page-container>
         <q-layout-drawer
           side="left"
