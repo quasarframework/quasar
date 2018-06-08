@@ -94,10 +94,7 @@ export default {
   },
   methods: {
     toggle () {
-      if (!this.$refs.popup) {
-        return
-      }
-      this[this.$refs.popup.showing ? 'hide' : 'show']()
+      this.$refs.popup && this[this.$refs.popup.showing ? 'hide' : 'show']()
     },
     show () {
       if (!this.disable) {
