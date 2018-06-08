@@ -166,16 +166,27 @@ function init ({ $q, Vue }) {
 
 export default {
   create (opts) {
-    if (isSSR) { return }
+    if (isSSR) { return () => {} }
 
     if (!document.body) {
+      let
+        cancelled = false,
+        cancelFn = () => {},
+        cancelFnWrapper = () => {
+          cancelled = true
+          cancelFn()
+        }
+
       ready(() => {
-        this.create(opts)
+        if (!cancelled) {
+          cancelFn = this.create(opts)
+        }
       })
+
+      return cancelFnWrapper
     }
-    else {
-      this.__vm.add(opts)
-    }
+
+    return this.__vm.add(opts)
   },
   setDefaults (opts) {
     Object.assign(defaults, opts)
