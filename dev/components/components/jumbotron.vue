@@ -11,6 +11,17 @@
       <q-btn color="primary" class="q-py-sm q-px-xl" label="Learn more" />
     </q-jumbotron>
 
+    <q-jumbotron class="bg-primary" dark>
+      <div class="q-display-3">Hello, world!</div>
+      <div class="q-subheading">
+        This is a simple hero unit, a simple jumbotron-style component for calling extra
+        attention to featured content or information.
+      </div>
+      <hr class="q-hr q-my-lg">
+      <div class="q-title q-mb-md">Check out Quasar Framework components.</div>
+      <q-btn color="white" text-color="primary" class="q-py-sm q-px-xl" label="Learn more" />
+    </q-jumbotron>
+
     <div class="q-pa-md q-pt-xl bg-dark q-mb-md">
       <q-jumbotron dark>
         <div class="q-display-3">Hello, world!</div>

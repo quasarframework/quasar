@@ -18,11 +18,14 @@ export default {
       }
     },
     computedStyle () {
-      if (this.imgSrc || this.gradientType) {
+      if (this.imgSrc) {
         return {
-          background: this.imgSrc
-            ? `url(${this.imgSrc})`
-            : `${this.gradientType}-gradient(${this.gradient})`
+          'background-image': `url(${this.imgSrc})`
+        }
+      }
+      if (this.gradientType) {
+        return {
+          background: `${this.gradientType}-gradient(${this.gradient})`
         }
       }
     }
