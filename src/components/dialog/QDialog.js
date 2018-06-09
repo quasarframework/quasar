@@ -95,21 +95,26 @@ export default {
         show: () => {
           this.$emit('show')
 
-          if (!this.$q.platform.is.desktop || (!this.prompt && !this.options)) {
+          if (!this.$q.platform.is.desktop) {
             return
           }
 
-          let node = this.prompt
-            ? this.$refs.modal.$el.getElementsByTagName('INPUT')
-            : this.$refs.modal.$el.getElementsByClassName('q-option')
+          let node
 
-          if (node.length) {
-            node[0].focus()
-            return
+          if (this.prompt || this.options) {
+            node = this.prompt
+              ? this.$refs.modal.$el.getElementsByTagName('INPUT')
+              : this.$refs.modal.$el.getElementsByClassName('q-option')
+
+            if (node.length) {
+              node[0].focus()
+              return
+            }
           }
 
-          node = this.$refs.modal.$el.getElementsByTagName('BUTTON')
+          node = this.$refs.modal.$el.getElementsByClassName('q-btn')
           if (node.length) {
+            console.log('found btn')
             node[node.length - 1].focus()
           }
         },
