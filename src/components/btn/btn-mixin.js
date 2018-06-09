@@ -80,9 +80,9 @@ export default {
       return this.type === 'a' || this.to !== void 0
     },
     attrs () {
-      const att = {
-        tabindex: this.computedTabIndex,
-        type: this.type
+      const att = { tabindex: this.computedTabIndex }
+      if (this.type === 'reset' || this.type === 'submit') {
+        att.type = this.type
       }
       if (this.to !== void 0) {
         att.href = this.$router.resolve(this.to).href
