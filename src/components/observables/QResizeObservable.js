@@ -1,7 +1,10 @@
 import { listenOpts } from '../../utils/event'
+import CanRenderMixin from '../../mixins/can-render'
+import { isSSR } from '../../plugins/platform'
 
 export default {
   name: 'QResizeObservable',
+  mixins: [ CanRenderMixin ],
   props: {
     debounce: {
       type: Number,
@@ -45,7 +48,7 @@ export default {
     }
   },
   render (h) {
-    if (this.hasObserver) {
+    if (!this.canRender || this.hasObserver) {
       return
     }
 
@@ -66,6 +69,8 @@ export default {
   },
   beforeCreate () {
     this.size = { width: -1, height: -1 }
+    if (isSSR) { return }
+
     this.hasObserver = typeof ResizeObserver !== 'undefined'
 
     if (!this.hasObserver) {
