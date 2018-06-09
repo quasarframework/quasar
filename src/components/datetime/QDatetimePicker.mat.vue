@@ -7,23 +7,35 @@
           <span
             :class="{active: view === 'month'}"
             class="q-datetime-link small col-auto col-md-12"
-            @click="!disable && (view = 'month')"
+            @keydown.down.left="setMonth(month - 1, true)"
+            @keydown.up.right="setMonth(month + 1, true)"
+            :tabindex="0"
           >
-            {{ monthString }}
+            <span @click="!disable && (view = 'month')" :tabindex="-1">
+              {{ monthString }}
+            </span>
           </span>
           <span
             :class="{active: view === 'day'}"
             class="q-datetime-link col-auto col-md-12"
-            @click="!disable && (view = 'day')"
+            @keydown.down.left="setDay(day - 1, true)"
+            @keydown.up.right="setDay(day + 1, true)"
+            :tabindex="0"
           >
-            {{ day }}
+            <span @click="!disable && (view = 'day')" :tabindex="-1">
+              {{ day }}
+            </span>
           </span>
           <span
             :class="{active: view === 'year'}"
             class="q-datetime-link small col-auto col-md-12"
-            @click="!disable && (view = 'year')"
+            @keydown.down.left="setYear(year - 1, true)"
+            @keydown.up.right="setYear(year + 1, true)"
+            :tabindex="0"
           >
-            {{ year }}
+            <span @click="!disable && (view = 'year')" :tabindex="-1">
+              {{ year }}
+            </span>
           </span>
         </div>
       </div>
@@ -31,34 +43,52 @@
         v-if="typeHasTime"
         class="q-datetime-time row flex-center"
       >
-        <div class="q-datetime-clockstring col-auto col-md-12">
+        <div class="q-datetime-clockstring col-auto col-md-12 row no-wrap flex-center">
           <span
             :class="{active: view === 'hour'}"
-            class="q-datetime-link col-auto col-md-12"
-            @click="!disable && (view = 'hour')"
+            class="q-datetime-link col-md text-right q-pr-sm"
+            @keydown.down.left="setHour(hour - 1, true)"
+            @keydown.up.right="setHour(hour + 1, true)"
+            :tabindex="0"
           >
-            {{ __pad(hour, '&nbsp;&nbsp;') }}
+            <span @click="!disable && (view = 'hour')" :tabindex="-1">
+              {{ hour }}
+            </span>
           </span>
           <span style="opacity: 0.6">:</span>
           <span
             :class="{active: view === 'minute'}"
-            class="q-datetime-link col-auto col-md-12"
-            @click="!disable && (view = 'minute')"
+            class="q-datetime-link col-md text-left q-pl-sm"
+            @keydown.down.left="setMinute(minute - 1, true)"
+            @keydown.up.right="setMinute(minute + 1, true)"
+            :tabindex="0"
           >
-            {{ __pad(minute) }}
+            <span @click="!disable && (view = 'minute')" :tabindex="-1">
+              {{ __pad(minute) }}
+            </span>
           </span>
         </div>
         <div v-if="!computedFormat24h" class="q-datetime-ampm column col-auto col-md-12 justify-around">
           <div
             :class="{active: am}"
             class="q-datetime-link"
-            @click="toggleAmPm()"
-          >AM</div>
+            @keyup.13.32="toggleAmPm()"
+            :tabindex="0"
+          >
+            <span @click="toggleAmPm()" :tabindex="-1">
+              AM
+            </span>
+          </div>
           <div
             :class="{active: !am}"
             class="q-datetime-link"
-            @click="toggleAmPm()"
-          >PM</div>
+            @keyup.13.32="toggleAmPm()"
+            :tabindex="0"
+          >
+            <span @click="toggleAmPm()" :tabindex="-1">
+              PM
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -76,6 +106,7 @@
             :class="{active: n + yearMin === year}"
             :disable="!editable"
             @click="setYear(n + yearMin)"
+            :tabindex="-1"
           >
             {{ n + yearMin }}
           </q-btn>
@@ -93,6 +124,7 @@
             :class="{active: month === index + monthMin}"
             :disable="!editable"
             @click="setMonth(index + monthMin, true)"
+            :tabindex="-1"
           >
             {{ $q.i18n.date.months[index + monthMin - 1] }}
           </q-btn>
@@ -112,6 +144,7 @@
               :repeat-timeout="__repeatTimeout"
               :disable="beforeMinDays > 0 || disable || readonly"
               @click="setMonth(month - 1)"
+              :tabindex="-1"
             />
             <div class="col q-datetime-month-stamp">
               {{ monthStamp }}
@@ -125,6 +158,7 @@
               :repeat-timeout="__repeatTimeout"
               :disable="afterMaxDays > 0 || disable || readonly"
               @click="setMonth(month + 1)"
+              :tabindex="-1"
             />
           </div>
           <div class="q-datetime-weekdays row items-center justify-start">
@@ -392,25 +426,29 @@ export default {
   },
   methods: {
     /* date */
-    setYear (value) {
+    setYear (value, skipView) {
       if (this.editable) {
-        this.view = 'day'
+        if (!skipView) {
+          this.view = 'day'
+        }
         this.model = new Date(this.model.setFullYear(this.__parseTypeValue('year', value)))
       }
     },
-    setMonth (value) {
+    setMonth (value, skipView) {
       if (this.editable) {
-        this.view = 'day'
+        if (!skipView) {
+          this.view = 'day'
+        }
         this.model = adjustDate(this.model, {month: value})
       }
     },
-    setDay (value) {
+    setDay (value, skipView) {
       if (this.editable) {
         this.model = new Date(this.model.setDate(this.__parseTypeValue('date', value)))
         if (this.type === 'date') {
           this.$emit('canClose')
         }
-        else {
+        else if (!skipView) {
           this.view = 'hour'
         }
       }

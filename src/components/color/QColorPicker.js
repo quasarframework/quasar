@@ -127,8 +127,7 @@ export default {
           ? [{
             name: 'touch-pan',
             modifiers: {
-              prevent: true,
-              stop: true
+              mightPrevent: true
             },
             value: this.__saturationPan
           }]

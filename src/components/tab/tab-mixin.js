@@ -24,7 +24,8 @@ export default {
     },
     alert: Boolean,
     count: [Number, String],
-    color: String
+    color: String,
+    tabindex: Number
   },
   inject: {
     data: {
@@ -71,6 +72,9 @@ export default {
       if (!this.active || !this.data.highlight) {
         return 'display: none;'
       }
+    },
+    computedTabIndex () {
+      return this.disable || this.active ? -1 : this.tabindex || 0
     }
   },
   methods: {
@@ -122,6 +126,11 @@ export default {
           style: this.barStyle
         }))
       }
+
+      child.push(h('div', {
+        staticClass: 'q-tab-focus-helper absolute-full',
+        attrs: { tabindex: this.computedTabIndex }
+      }))
 
       return child
     }

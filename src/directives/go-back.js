@@ -15,9 +15,15 @@ export default {
         vnode.context.$router.replace(ctx.value)
       }
     }
+    ctx.goBackKey = ev => {
+      if (ev.keyCode === 13) {
+        ctx.goBack(ev)
+      }
+    }
 
     el.__qgoback = ctx
     el.addEventListener('click', ctx.goBack)
+    el.addEventListener('keyup', ctx.goBackKey)
   },
   update (el, binding) {
     if (binding.oldValue !== binding.value) {
@@ -28,6 +34,7 @@ export default {
     const ctx = el.__qgoback
     if (!ctx) { return }
     el.removeEventListener('click', ctx.goBack)
+    el.removeEventListener('keyup', ctx.goBackKey)
     delete el.__qgoback
   }
 }

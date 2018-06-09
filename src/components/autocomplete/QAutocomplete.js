@@ -218,7 +218,8 @@ export default {
       'class': dark ? 'bg-dark' : null,
       props: {
         fit: true,
-        anchorClick: false
+        anchorClick: false,
+        noFocus: true
       },
       on: {
         show: () => {

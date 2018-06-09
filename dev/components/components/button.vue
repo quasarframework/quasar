@@ -54,10 +54,17 @@
       <q-btn to="/" label="To index in 2s" @click="linkClick" glossy color="secondary" class="q-ml-md" />
       <br><br>
       <div>
-        <form @submit.prevent="submit" @reset.prevent="reset" class="shadow-2 row q-pa-md items-center">
-          <q-input v-model="test" class="col" />
-          <q-btn fab-mini color="primary" icon="android" type="reset" class="on-right" title="Reset" @click="onClick" />
-          <q-btn fab color="primary" icon="android" type="submit" class="on-right" title="Submit" @click="onClick" />
+        <form @submit.prevent="submit" @reset.prevent="reset" class="shadow-2 q-pa-md row items-center">
+          <div class="col row items-center gutter-md">
+            <div class="col">
+              <q-input v-model="test" />
+            </div>
+            <div class="col">
+              <q-input type="number" v-model="testN" />
+            </div>
+          </div>
+          <q-btn :tag="tag" fab-mini color="primary" icon="android" type="reset" class="on-right" title="Reset" @click="onClick" />
+          <q-btn :tag="tag" fab color="primary" icon="android" type="submit" class="on-right" title="Submit" @click="onClick" />
         </form>
       </div>
 
@@ -500,6 +507,7 @@ export default {
       percentage: 0,
       clickTimes: 0,
       test: 'Initial value',
+      testN: 0,
       tag: 'button'
     }
   },
@@ -537,9 +545,11 @@ export default {
     },
     submit () {
       this.$q.notify('Submit called')
+      console.log('test', this.test, 'testN', this.testN)
     },
     reset () {
       this.test = 'Initial value'
+      this.testN = 0
       this.$q.notify('Reset called')
     },
     onClick (e) {

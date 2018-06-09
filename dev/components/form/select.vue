@@ -58,11 +58,11 @@
       <q-select simple v-model="select" :options="selectOptions"/>
 
       <p class="caption">With Filter</p>
-      <q-select filter autofocus-filter v-model="select" :options="selectListOptions"/>
-      <q-select filter autofocus-filter v-model="select" :options="selectLongListOptions"/>
-      <q-select filter autofocus-filter inverted v-model="select" :options="selectListOptions"/>
-      <q-select filter inverted v-model="select" :options="selectLongListOptions"/>
-      <q-select filter multiple checkbox v-model="multipleSelect" :options="selectListOptions"/>
+      <q-select filter v-model="select" :options="selectListOptions" />
+      <q-select filter v-model="select" :options="selectLongListOptions" />
+      <q-select filter inverted v-model="select" :options="selectListOptions" />
+      <q-select filter inverted v-model="select" :options="selectLongListOptions" />
+      <q-select filter multiple checkbox v-model="multipleSelect" :options="selectListOptions" />
 
       <p class="caption">With Static Label</p>
       <q-select multiple v-model="multipleSelect" :options="selectOptions" static-label="Company"/>

@@ -64,11 +64,17 @@ export default {
         if (ctx.enabled) {
           showRipple(evt, el, modifiers.stop)
         }
+      },
+      keyup (evt) {
+        if (ctx.enabled && evt.keyCode === 13) {
+          showRipple(evt, el, modifiers.stop)
+        }
       }
     }
 
     el.__qripple = ctx
     el.addEventListener('click', ctx.click, false)
+    el.addEventListener('keyup', ctx.keyup, false)
   },
   update (el, { value, oldValue }) {
     if (el.__qripple && value !== oldValue) {
@@ -82,6 +88,7 @@ export default {
     }
 
     el.removeEventListener('click', ctx.click, false)
+    el.removeEventListener('keyup', ctx.keyup, false)
     delete el.__qripple
   }
 }

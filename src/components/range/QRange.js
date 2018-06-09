@@ -240,6 +240,29 @@ export default {
       this.currentMinPercentage = (this.model.min - this.min) / (this.max - this.min)
       this.currentMaxPercentage = (this.model.max - this.min) / (this.max - this.min)
     },
+    __onKeyDown (ev, type) {
+      const keyCode = ev.keyCode
+      if (!this.editable || ![37, 40, 39, 38].includes(keyCode)) {
+        return
+      }
+      const
+        decimals = this.computedDecimals,
+        step = ev.ctrlKey ? 10 * this.computedStep : this.computedStep,
+        offset = [37, 40].includes(keyCode) ? -step : step,
+        model = decimals ? parseFloat((this.model[type] + offset).toFixed(decimals)) : (this.model[type] + offset)
+
+      this.model[type] = between(model, type === 'min' ? this.min : this.model.min, type === 'max' ? this.max : this.model.max)
+      this.currentMinPercentage = (this.model.min - this.min) / (this.max - this.min)
+      this.currentMaxPercentage = (this.model.max - this.min) / (this.max - this.min)
+      this.__update()
+    },
+    __onKeyUp (ev, type) {
+      const keyCode = ev.keyCode
+      if (!this.editable || ![37, 40, 39, 38].includes(keyCode)) {
+        return
+      }
+      this.__update(true)
+    },
     __validateProps () {
       if (this.min >= this.max) {
         console.error('Range error: min >= max', this.$el, this.min, this.max)
@@ -266,7 +289,12 @@ export default {
         'class': [
           edge ? 'handle-at-minimum' : null,
           { dragging: this.dragging }
-        ]
+        ],
+        attrs: { tabindex: this.editable ? 0 : -1 },
+        on: {
+          keydown: ev => this.__onKeyDown(ev, lower),
+          keyup: ev => this.__onKeyUp(ev, lower)
+        }
       }, [
         this.label || this.labelAlways
           ? h(QChip, {

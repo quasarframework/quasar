@@ -51,7 +51,8 @@ export default {
         exactActiveClass: 'q-router-link-exact-active'
       },
       nativeOn: {
-        click: this.select
+        click: this.select,
+        keyup: e => e.keyCode === 13 && this.select(e)
       },
       staticClass: 'q-link q-tab column flex-center relative-position',
       'class': this.classes,

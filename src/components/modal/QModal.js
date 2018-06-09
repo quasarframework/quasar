@@ -182,6 +182,7 @@ export default {
         if (!this.noEscDismiss) {
           this.hide().then(() => {
             this.$emit('escape-key')
+            this.$emit('dismiss')
           })
         }
       })

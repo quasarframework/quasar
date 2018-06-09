@@ -55,6 +55,9 @@ export default {
       })
     },
     __onKeydown (e) {
+      if (e.keyCode === 13) {
+        this.__emit()
+      }
       this.$emit('keydown', e)
     },
     __onKeyup (e) {
