@@ -5,6 +5,7 @@ import Platform, { isSSR } from './plugins/platform'
 import History from './plugins/history'
 import i18n from './i18n'
 import icons from './icons'
+import { setBrand } from './utils/colors'
 
 function getBodyClasses (cfg) {
   const is = Platform.is
@@ -51,6 +52,12 @@ function bodyInit (cfg) {
   }
 }
 
+function setColors (brand) {
+  for (let color in brand) {
+    setBrand(color, brand[color])
+  }
+}
+
 export default function (_Vue, opts = {}) {
   if (this.__installed) {
     return
@@ -76,7 +83,11 @@ export default function (_Vue, opts = {}) {
     }
   }
   else {
+    const init = cfg.brand && document.body
+
+    init && setColors(cfg.brand)
     ready(() => {
+      !init && setColors(cfg.brand)
       bodyInit(cfg)
     })
   }

@@ -27,6 +27,11 @@ Vue.use(Quasar, {
   directives: Everything,
   plugins: Everything,
   config: {
+    /*
+    brand: {
+      primary: '#e46262'
+    }
+    */
   }
   // iconSet
 })
