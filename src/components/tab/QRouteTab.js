@@ -41,7 +41,7 @@ export default {
   render (h) {
     return h('router-link', {
       props: {
-        tag: 'div',
+        tag: 'a',
         to: this.to,
         exact: this.exact,
         append: this.append,
@@ -53,7 +53,7 @@ export default {
       nativeOn: {
         click: this.select
       },
-      staticClass: 'q-tab column flex-center relative-position',
+      staticClass: 'q-link q-tab column flex-center relative-position',
       'class': this.classes,
       directives: process.env.THEME === 'mat'
         ? [{ name: 'ripple' }]
