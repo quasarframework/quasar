@@ -9,9 +9,7 @@ export default {
     percentage: Number,
     darkPercentage: Boolean,
     waitForRipple: Boolean,
-    repeatTimeout: [Number, Function],
-    to: [Object, String],
-    replace: Boolean
+    repeatTimeout: [Number, Function]
   },
   computed: {
     hasPercentage () {
@@ -52,15 +50,19 @@ export default {
     click (e) {
       this.__cleanup()
 
+      const go = () => {
+        this.$router[this.replace ? 'replace' : 'push'](this.to)
+      }
+
       const trigger = () => {
         if (this.isDisabled) {
           return
         }
 
-        this.$emit('click', e)
+        this.$emit('click', e, go)
 
-        if (this.to !== void 0) {
-          this.$router[this.replace ? 'replace' : 'push'](this.to)
+        if (this.to !== void 0 && !e.defaultPrevented) {
+          go()
         }
       }
 
@@ -144,11 +146,11 @@ export default {
     this.__cleanup()
   },
   render (h) {
-    return h(this.type ? 'button' : 'a', {
+    return h(this.isLink ? 'a' : 'button', {
       staticClass: 'q-btn inline relative-position q-btn-item non-selectable',
       'class': this.classes,
       style: this.style,
-      attrs: { tabindex: this.computedTabIndex, type: this.type },
+      attrs: this.attrs,
       on: this.events,
       directives: this.hasRipple
         ? [{

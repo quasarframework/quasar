@@ -46,7 +46,9 @@ export default {
     glossy: Boolean,
     dense: Boolean,
     noRipple: Boolean,
-    tabindex: Number
+    tabindex: Number,
+    to: [Object, String],
+    replace: Boolean
   },
   computed: {
     style () {
@@ -73,6 +75,19 @@ export default {
     },
     computedTabIndex () {
       return this.isDisabled ? -1 : this.tabindex || 0
+    },
+    isLink () {
+      return this.type === 'a' || this.to !== void 0
+    },
+    attrs () {
+      const att = {
+        tabindex: this.computedTabIndex,
+        type: this.type
+      }
+      if (this.to !== void 0) {
+        att.href = this.$router.resolve(this.to).href
+      }
+      return att
     },
     classes () {
       const cls = [ this.shape ]

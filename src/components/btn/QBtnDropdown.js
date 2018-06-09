@@ -67,27 +67,9 @@ export default {
         }
       ),
       Btn = h(QBtn, {
-        props: {
-          type: this.type,
-          loading: this.loading,
-          disable: this.disable,
-          noCaps: this.noCaps,
-          noWrap: this.noWrap,
-          icon: this.icon,
-          label: this.label,
-          iconRight: this.split ? this.iconRight : null,
-          outline: this.outline,
-          flat: this.flat,
-          rounded: this.rounded,
-          push: this.push,
-          size: this.size,
-          color: this.color,
-          textColor: this.textColor,
-          glossy: this.glossy,
-          dense: this.dense,
-          noRipple: this.noRipple,
-          waitForRipple: this.waitForRipple
-        },
+        props: Object.assign({}, this.$props, {
+          iconRight: this.split ? this.iconRight : null
+        }),
         'class': this.split ? 'q-btn-dropdown-current' : 'q-btn-dropdown q-btn-dropdown-simple',
         on: {
           click: e => {

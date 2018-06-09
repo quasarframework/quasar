@@ -1,5 +1,17 @@
 <template>
   <div class="layout-padding button-group-test">
+    <q-btn-group push>
+      <q-btn color="yellow" push to="/a">
+        Link /a
+      </q-btn>
+      <q-btn color="amber" push to="/b">
+        Link /b
+      </q-btn>
+      <q-btn color="orange" push to="/c">
+        Link /c
+      </q-btn>
+    </q-btn-group>
+
     <div v-for="push in options" :key="push">
       <div v-for="flat in options" :key="flat" v-if="!push || !flat">
         <div v-for="outline in options" :key="outline" v-if="!(push || flat) || !outline">

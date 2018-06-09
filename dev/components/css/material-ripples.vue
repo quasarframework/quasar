@@ -12,6 +12,14 @@
         class="relative-position ripple-example shadow-2"
         :class="classes"
       />
+
+      <br><br>
+
+      <div
+        v-ripple
+        class="relative-position ripple-example ripple-round shadow-2"
+        :class="classes"
+      />
     </div>
   </div>
 </template>
@@ -50,4 +58,8 @@ export default {
   cursor pointer
   color white
   transition background 1.5s
+
+.ripple-round
+  width 150px
+  border-radius 50%
 </style>

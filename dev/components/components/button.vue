@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="layout-padding buttons-test">
-      <q-toggle v-model="tag" :label="tag ? 'Button' : 'Link'" true-value="button" false-value="a" />
-      <p class="group">
+      <q-toggle v-model="tag" :label="tag === 'button' ? 'Button' : 'Link'" true-value="button" false-value="a" />
+      <div class="group">
         <template v-for="n in ['xs', 'sm', 'md', 'lg', 'xl']">
           <q-btn :key="`n_1_1_${ n }`" :tag="tag" :size="n" dense icon="android" color="primary" />
           <q-btn :key="`n_1_2_${ n }`" :tag="tag" :size="n" icon="android" color="primary" />
@@ -22,7 +22,7 @@
           <span :key="`n_2_5_${ n }`">{{ n }}</span>
           <br :key="`n_2_6_${ n }`"><br :key="`n_2_7_${ n }`">
         </template>
-      </p>
+      </div>
       <q-toolbar color="secondary" style="width: 500px">
         <q-btn :tag="tag" flat dense round icon="menu" />
         <q-btn :tag="tag" flat round dense icon="android" />
@@ -47,9 +47,12 @@
       </q-toolbar>
 
       <br><br>
-      <p>
-        <q-btn label="Go to index page" to="/" />
-      </p>
+      <div class="heading-3">Links</div>
+      <q-btn to="/" label="To index" outline color="secondary" />
+      <q-btn type="a" href="#/gigi" label="Type 'a' - bogus href" push color="secondary" class="q-ml-md" />
+      <q-btn type="a" href="#/gigi" target="_blank" label="Type 'a' - external" color="secondary" class="q-ml-md" />
+      <q-btn to="/" label="To index in 2s" @click="linkClick" glossy color="secondary" class="q-ml-md" />
+      <br><br>
       <div>
         <form @submit.prevent="submit" @reset.prevent="reset" class="shadow-2 row q-pa-md items-center">
           <q-input v-model="test" class="col" />
@@ -63,16 +66,16 @@
       <q-btn :tag="tag" text-color="amber" icon="map" label="Some label" />
 
       <br><br>
-      <p class="caption">Keep holding click</p>
+      <div class="caption">Keep holding click</div>
       <!-- Click and hold to triger every second -->
       <q-btn :tag="tag" @click="clickHandler" :repeat-timeout="1000" label="click me" />
       <!-- Click and hold to triger faster over time -->
       <q-btn :tag="tag" @click="clickHandler" :repeat-timeout="repeatFunction" label="click me" />
       <q-chip>{{ clickTimes }}</q-chip>
 
-      <p class="caption">Regular (rectangle) and Circular</p>
+      <div class="caption">Regular (rectangle) and Circular</div>
       <q-btn :tag="tag" color="primary" label="Some very, but very long button title that should wrap to the next line without any problems" />
-      <p class="group">
+      <div class="group">
         <q-btn :tag="tag" icon="alarm" color="orange" label="No ripple" no-ripple />
         <q-btn :tag="tag" icon="alarm" color="orange" label="Icoon" />
         <q-btn :tag="tag" icon="ion-shuffle" label="Icoon" />
@@ -104,9 +107,9 @@
         <q-btn :tag="tag" icon-right="more_horiz" label="Icoon" />
         <q-btn :tag="tag" icon="cloud" icon-right="alarm" label="Icoon" />
         <q-btn :tag="tag" icon="edit" icon-right="alarm" label="Icoon" />
-      </p>
+      </div>
 
-      <p class="group">
+      <div class="group">
         <q-btn :tag="tag" :loading="!!loading[0]" @click="simulateProgress(0)" label="Button">
           <q-spinner-oval slot="loading" />
         </q-btn>
@@ -176,9 +179,9 @@
         <br>
         <q-btn :tag="tag" color="negative" label="Stop" @click="stopProgress" />
         <q-chip small v-for="(l, i) in loading" :key="i">{{ i }}: {{ l }}</q-chip>
-      </p>
+      </div>
 
-      <p class="group">
+      <div class="group">
         <q-btn :tag="tag" color="primary" icon="alarm" label="Label" />
         <q-btn :tag="tag" color="primary" icon-right="alarm" label="Label" />
         <q-btn :tag="tag" color="primary" icon="alarm" icon-right="alarm" label="Label" />
@@ -195,8 +198,8 @@
         <q-btn :tag="tag" color="negative" icon-right="alarm" label="Label"><q-tooltip>Popover</q-tooltip></q-btn>
         <q-btn :tag="tag" color="negative" icon="alarm" icon-right="alarm" label="Label"><q-tooltip>Popover</q-tooltip></q-btn>
         <q-btn :tag="tag" color="negative" icon="alarm" icon-right="alarm"><q-tooltip>Popover</q-tooltip></q-btn>
-      </p>
-      <p class="group">
+      </div>
+      <div class="group">
         <q-btn :tag="tag" round color="primary" icon="alarm" label="Label" />
         <q-btn :tag="tag" round color="primary" icon-right="alarm" label="Label" />
         <q-btn :tag="tag" round color="primary" icon="alarm" icon-right="alarm" label="Label" />
@@ -209,9 +212,9 @@
         <q-btn :tag="tag" round color="negative" icon-right="alarm" label="Label"><q-tooltip>Popover</q-tooltip></q-btn>
         <q-btn :tag="tag" round color="negative" icon="alarm" icon-right="alarm" label="Label"><q-tooltip>Popover</q-tooltip></q-btn>
         <q-btn :tag="tag" round color="negative" icon="alarm" icon-right="alarm"><q-tooltip>Popover</q-tooltip></q-btn>
-      </p>
+      </div>
 
-      <p class="group">
+      <div class="group">
         <q-btn :tag="tag" :loading="loading2" :percentage="percentage" color="primary" @click="startProgress">
           Btn with progress
           <span slot="loading" class="row items-center">
@@ -221,65 +224,65 @@
         </q-btn>
 
         <q-btn :tag="tag" round :loading="loading2" :percentage="percentage" color="primary" @click="startProgress" icon="wifi" />
-      </p>
+      </div>
 
-      <p class="caption">Small, Medium (default) and Big</p>
-      <p class="group">
+      <div class="caption">Small, Medium (default) and Big</div>
+      <div class="group">
         <q-btn :tag="tag" size="sm" color="primary" label="Button" />
         <q-btn :tag="tag" color="primary" label="Button" />
         <q-btn :tag="tag" size="lg" color="primary" label="Button" />
-      </p>
-      <p class="group">
+      </div>
+      <div class="group">
         <q-btn :tag="tag" icon="check" size="sm" color="primary" label="Button" />
         <q-btn :tag="tag" icon="cloud" color="primary" label="Button" />
         <q-btn :tag="tag" icon="alarm" size="lg" color="primary" label="Button" />
-      </p>
-      <p class="group">
+      </div>
+      <div class="group">
         <q-btn :tag="tag" round size="sm" icon="check" color="primary" />
         <q-btn :tag="tag" round icon="cloud" color="primary" />
         <q-btn :tag="tag" round size="lg" icon="alarm" color="primary" />
-      </p>
+      </div>
 
-      <p class="group">
+      <div class="group">
         <q-btn :tag="tag" v-for="i in 30" :key="'a' + i" round icon="cloud" color="primary" :size="`${8 + i * 4}px`" :title="`Size ${8 + i * 4}px`" />
         <q-btn :tag="tag" v-for="size in sizes" :key="'aq' + size" round icon="cloud" color="primary" :size="size" :title="`Size ${size}`" />
-      </p>
+      </div>
 
-      <p class="group">
+      <div class="group">
         <q-btn :tag="tag" v-for="i in 15" :key="'b' + i" :label="`Size ${4 + i * 4}px`" color="primary" :size="`${4 + i * 4}px`" />
         <q-btn :tag="tag" v-for="size in sizes" :key="'c' + size" :label="`Size ${size}`" color="primary" :size="size" />
-      </p>
+      </div>
 
-      <p class="group">
+      <div class="group">
         <q-btn :tag="tag" v-for="i in 15" :key="'d' + i" icon="cloud" :label="`Size ${4 + i * 4}px`" color="primary" :size="`${4 + i * 4}px`" />
         <q-btn :tag="tag" v-for="size in sizes" :key="'e' + size" icon="cloud" :label="`Size ${size}`" color="primary" :size="size" />
-      </p>
+      </div>
 
-      <p class="caption">dense - Small, Medium (default) and Big</p>
-      <p class="group">
+      <div class="caption">dense - Small, Medium (default) and Big</div>
+      <div class="group">
         <q-btn :tag="tag" dense size="sm" color="primary" label="Button" />
         <q-btn :tag="tag" dense color="primary" label="Button" />
         <q-btn :tag="tag" dense size="lg" color="primary" label="Button" />
-      </p>
-      <p class="group">
+      </div>
+      <div class="group">
         <q-btn :tag="tag" dense icon="check" size="sm" color="primary" label="Button" />
         <q-btn :tag="tag" dense icon="cloud" color="primary" label="Button" />
         <q-btn :tag="tag" dense icon="alarm" size="lg" color="primary" label="Button" />
-      </p>
-      <p class="group">
+      </div>
+      <div class="group">
         <q-btn :tag="tag" dense round size="sm" icon="check" color="primary" />
         <q-btn :tag="tag" dense round icon="cloud" color="primary" />
         <q-btn :tag="tag" dense round size="lg" icon="alarm" color="primary" />
-      </p>
+      </div>
 
-      <p class="caption">Regular with Icons</p>
-      <p class="group">
+      <div class="caption">Regular with Icons</div>
+      <div class="group">
         <q-btn :tag="tag" color="primary" icon="mail" label="On Left" />
         <q-btn :tag="tag" color="secondary" icon-right="mail" label="On Right" />
-      </p>
+      </div>
 
-      <p class="caption">Color Examples</p>
-      <p class="group">
+      <div class="caption">Color Examples</div>
+      <div class="group">
         <q-btn :tag="tag" color="secondary" label="Secondary" />
         <q-btn :tag="tag" color="dark" label="Dark" />
         <q-btn :tag="tag" color="orange" label="Orange" />
@@ -287,67 +290,67 @@
         <q-btn :tag="tag" color="indigo" label="Indigo" />
         <q-btn :tag="tag" color="red" label="Red" />
         <q-btn :tag="tag" round color="teal" icon="alarm" />
-      </p>
-      <p class="caption">Custom Color Examples</p>
-      <p class="group">
+      </div>
+      <div class="caption">Custom Color Examples</div>
+      <div class="group">
         <q-btn :tag="tag" flat style="color: #FF0080" label="Fuchsia Flat" />
         <q-btn :tag="tag" style="background: #FF0080; color: white" label="Fuchsia" />
         <q-btn :tag="tag" style="background: goldenrod; color: white" label="Goldenrod" />
         <q-btn :tag="tag" outline style="color: goldenrod;" label="Goldenrod" />
-      </p>
+      </div>
 
-      <p class="caption">Disabled Buttons</p>
-      <p class="group">
+      <div class="caption">Disabled Buttons</div>
+      <div class="group">
         <q-btn :tag="tag" color="primary" disable label="Disabled" />
         <q-btn :tag="tag" round color="primary" disable icon="card_giftcard" />
         <q-btn :tag="tag" push color="primary" disable label="Push" />
         <q-btn :tag="tag" push color="primary" disable round icon="card_giftcard" />
         <q-btn :tag="tag" push color="white" text-color="primary" disable label="Push" />
         <q-btn :tag="tag" push color="white" text-color="primary" disable round icon="card_giftcard" />
-      </p>
+      </div>
 
-      <p class="caption">Flat Buttons</p>
-      <p class="group">
+      <div class="caption">Flat Buttons</div>
+      <div class="group">
         <q-btn :tag="tag" flat color="primary" label="Flat" />
         <q-btn :tag="tag" flat round color="primary" icon="card_giftcard" />
-      </p>
+      </div>
 
-      <p class="caption">Outline Buttons</p>
-      <p class="group">
+      <div class="caption">Outline Buttons</div>
+      <div class="group">
         <q-btn :tag="tag" outline color="primary" label="Outline" />
         <q-btn :tag="tag" round outline color="primary" icon="card_giftcard" />
-      </p>
+      </div>
 
-      <p class="caption">Push Buttons</p>
-      <p class="group">
+      <div class="caption">Push Buttons</div>
+      <div class="group">
         <q-btn :tag="tag" push color="primary" label="Push" />
         <q-btn :tag="tag" push color="primary" round icon="card_giftcard" />
         <q-btn :tag="tag" push color="white" text-color="primary" label="Push" />
         <q-btn :tag="tag" push color="white" text-color="primary" round icon="card_giftcard" />
-      </p>
+      </div>
 
-      <p class="caption">Round Buttons</p>
-      <p class="group">
+      <div class="caption">Round Buttons</div>
+      <div class="group">
         <q-btn :tag="tag" round color="secondary" icon="alarm" />
-      </p>
+      </div>
 
-      <p class="caption">Glossy Buttons</p>
-      <p class="group">
+      <div class="caption">Glossy Buttons</div>
+      <div class="group">
         <q-btn :tag="tag" color="primary" glossy label="Glossy" />
         <q-btn :tag="tag" color="secondary" glossy label="Glossy" />
         <q-btn :tag="tag" color="deep-orange" glossy label="Glossy" />
         <q-btn :tag="tag" round color="primary" glossy icon="card_giftcard" />
         <q-btn :tag="tag" round color="secondary" glossy icon="card_giftcard" />
         <q-btn :tag="tag" round color="deep-orange" glossy icon="card_giftcard" />
-      </p>
+      </div>
 
-      <p class="caption">Block Buttons</p>
+      <div class="caption">Block Buttons</div>
       <div class="group">
         <q-btn :tag="tag" color="primary" class="block" icon="alarm" label="Block" />
         <q-btn :tag="tag" color="secondary" class="block" label="Block" />
       </div>
 
-      <p class="caption">Full Width Buttons</p>
+      <div class="caption">Full Width Buttons</div>
       <div class="group">
         <q-btn :tag="tag" color="primary" class="full-width" label="Full-width Full-width Full-width Full-width Full-width Full-width Full-width Full-width Full-width" />
         <q-btn :tag="tag" color="secondary" class="full-width" label="Full-width" justify="start" />
@@ -357,7 +360,7 @@
         <q-btn :tag="tag" color="secondary" icon="lock" icon-right="alarm" class="full-width" label="Full-width" justify="around" />
       </div>
 
-      <p class="caption">Multiline Buttons</p>
+      <div class="caption">Multiline Buttons</div>
       <div class="group">
         <q-btn :tag="tag" color="primary" size="sm">Small<br>Multiline<br>Button</q-btn>
         <q-btn :tag="tag" color="primary">Normal<br>Multiline<br>Button</q-btn>
@@ -388,7 +391,7 @@
         <q-btn :tag="tag" color="primary" icon="lock" icon-right="alarm" justify="between" size="lg" class="full-width">Big Full-width<br>Multiline<br>Button</q-btn>
       </div>
 
-      <p class="caption">Wrap test</p>
+      <div class="caption">Wrap test</div>
       <div class="group" style="width: 610px">
         <q-btn :tag="tag" color="primary" label="Full-width Full-width Full-width Full-width Full-width Full-width Full-width Full-width Full-width" />
         <q-btn :tag="tag" color="primary" no-wrap label="No wrap. Full-width Full-width Full-width Full-width Full-width Full-width Full-width Full-width Full-width" />
@@ -541,6 +544,15 @@ export default {
     },
     onClick (e) {
       this.$q.notify('Click called')
+    },
+    linkClick (e, go) {
+      e.preventDefault() // we choose when we navigate
+
+      console.log('triggering navigation in 2s')
+      setTimeout(() => {
+        console.log('navigating as promised 2s ago')
+        go()
+      }, 2000)
     }
   },
   beforeDestroy () {
