@@ -40,6 +40,7 @@ export default {
       validator: offsetValidator
     },
     noFocus: Boolean,
+    noRefocus: Boolean,
     disable: Boolean
   },
   watch: {
@@ -93,6 +94,9 @@ export default {
   },
   methods: {
     __show (evt) {
+      if (!this.noRefocus) {
+        this.__refocusTarget = document.activeElement
+      }
       document.body.appendChild(this.$el)
       EscapeKey.register(() => { this.hide() })
       this.scrollTarget = getScrollTarget(this.anchorEl)
@@ -136,6 +140,9 @@ export default {
 
       document.body.removeChild(this.$el)
       this.hidePromise && this.hidePromiseResolve()
+      if (!this.noRefocus && this.__refocusTarget) {
+        this.__refocusTarget.focus()
+      }
     },
     reposition (event, animate) {
       if (this.fit) {
