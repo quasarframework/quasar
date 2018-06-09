@@ -156,6 +156,10 @@ function getPlatform (userAgent) {
     else if (window._cordovaNative || window.cordova) {
       browser.cordova = true
     }
+
+    browser.fromSSR = browser.cordova === void 0 &&
+      browser.electron === void 0 &&
+      !!document.querySelector('[data-server-rendered]')
   }
 
   return browser

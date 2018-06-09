@@ -1,35 +1,35 @@
 .q-ripple
 
   &-container
-    color inherit
-    border-radius inherit
-    position absolute
-    left 0
     top 0
+    left 0
     width 100%
     height 100%
+    position absolute
+    color inherit
+    border-radius inherit
     overflow hidden
     z-index 0
     pointer-events none
 
   &-animation
-    color inherit
-    position absolute
     top 0
     left 0 /* rtl:ignore */
+    opacity 0
+    color inherit
+    position absolute
     border-radius 50%
     background currentColor
-    opacity 0
-    transition .5s transform cubic-bezier(.2, .4, .4, .9), .3s opacity cubic-bezier(.2, .4, .4, .1)
+    transition .3s transform cubic-bezier(.2, .4, .4, .9), .3s opacity cubic-bezier(.2, .4, .4, .1)
     pointer-events none
     overflow hidden
-    will-change opacity
+    will-change transform, opacity
 
     &-enter
       transition none
 
     &-visible
-      opacity .3
+      opacity .15
 
 .q-radial-ripple
   overflow hidden

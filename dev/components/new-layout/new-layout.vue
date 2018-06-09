@@ -58,17 +58,17 @@
         content-class="bg-grey-3"
       >
         <q-scroll-area class="fit" :thumb-style="{right: '4px', borderRadius: '2px', background: 'blue', opacity: .6, width: '4px'}">
-          <q-btn @click="$router.push('/layout-quick/a')">Go to A</q-btn>
-          <q-btn @click="$router.push('/layout-quick/b')">Go to B</q-btn>
-          <q-btn @click="$router.push('/layout-quick/c')">Go to C</q-btn>
+          <q-btn to="/layout-quick/a">Go to A</q-btn>
+          <q-btn to="/layout-quick/b">Go to B</q-btn>
+          <q-btn to="/layout-quick/c">Go to C</q-btn>
 
           <br><br>fffdfs
           {{ right }}
           <q-input v-model="inp" />
 
-          <q-btn @click="$router.replace('/layout-quick/a')">Replace Go to A</q-btn>
-          <q-btn @click="$router.replace('/layout-quick/b')">Replace Go to B</q-btn>
-          <q-btn @click="$router.replace('/layout-quick/c')">Replace Go to C</q-btn>
+          <q-btn to="/layout-quick/a" replace>Replace Go to A</q-btn>
+          <q-btn to="/layout-quick/b" replace>Replace Go to B</q-btn>
+          <q-btn to="/layout-quick/c" replace>Replace Go to C</q-btn>
           <div v-for="n in 60" :key="n">{{ n }} Left drawer</div>
         </q-scroll-area>
       </q-layout-drawer>
@@ -127,26 +127,26 @@
           </q-collapsible>
           <q-list link no-border>
             <q-list-header>Folders</q-list-header>
-            <q-item>
+            <q-item to="/layout-quick/a" replace>
               <q-item-side icon="folder" inverted color="primary" />
               <q-item-main>
-                <q-item-tile label>Photos</q-item-tile>
+                <q-item-tile label>Link A</q-item-tile>
                 <q-item-tile sublabel>February 22, 2016</q-item-tile>
               </q-item-main>
               <q-item-side right icon="info" color="green" />
             </q-item>
-            <q-item>
+            <q-item to="/layout-quick/b" replace>
               <q-item-side icon="folder" inverted color="secondary" />
               <q-item-main>
-                <q-item-tile label>Movies</q-item-tile>
+                <q-item-tile label>Link B</q-item-tile>
                 <q-item-tile sublabel>March 1st, 2017</q-item-tile>
               </q-item-main>
               <q-item-side right icon="info" />
             </q-item>
-            <q-item>
+            <q-item to="/layout-quick/c" replace>
               <q-item-side icon="folder" inverted color="amber" />
               <q-item-main>
-                <q-item-tile label>Games</q-item-tile>
+                <q-item-tile label>Link C</q-item-tile>
                 <q-item-tile sublabel>Latest</q-item-tile>
               </q-item-main>
               <q-item-side right icon="info" />

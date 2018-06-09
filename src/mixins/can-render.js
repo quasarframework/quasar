@@ -1,10 +1,10 @@
 // using it to manage SSR rendering with best performance
+import { isSSR } from '../plugins/platform'
 
 export default {
   data () {
-    const is = this.$q.platform.is
     return {
-      canRender: is.cordova || is.electron
+      canRender: !isSSR && !this.$q.platform.is.fromSSR
     }
   },
   mounted () {

@@ -7,7 +7,7 @@ export default function (Component, Vue) {
 
       const node = document.createElement('div')
       document.body.appendChild(node)
-      
+
       const
         ok = data => {
           resolve(data)

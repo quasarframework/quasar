@@ -7,20 +7,19 @@
       <div
         class="list no-border"
         v-for="(category, title) in list"
+        :key="`category-${title}`"
       >
         <h4 class="uppercase">
           {{ title }}
         </h4>
-        <router-link
+        <q-item
           v-for="feature in category"
           :key="`${feature.route}${feature.title}`"
-          tag="div"
-          class="q-item q-item-link"
           :to="feature.route"
         >
           <q-item-main :label="feature.title" />
           <q-item-side right icon="chevron_right" />
-        </router-link>
+        </q-item>
       </div>
     </div>
   </div>

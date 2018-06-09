@@ -113,6 +113,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - 上田 進也 (Sandbox Gmbh)
 - altShiftDev
 - Simon Kimber
+- Arjan Dhupia
 
 - Jim O'Quinn ($5)
 - Ken ($5)

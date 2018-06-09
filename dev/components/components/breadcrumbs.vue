@@ -27,8 +27,8 @@
       <q-breadcrumbs icon-separator="chevron_right" active-color="secondary" color="light">
         <q-breadcrumbs-el label="Home" to="/" />
         <q-breadcrumbs-el label="Components" to="/components" />
-        <q-breadcrumbs-el label="Breadcrumbs" to="/components/breadcrums" />
-        <q-breadcrumbs-el label="Bogus" to="/components/breadcrums/bogus" />
+        <q-breadcrumbs-el label="Breadcrumbs" to="/components/breadcrumbs" />
+        <q-breadcrumbs-el label="Bogus" to="/components/breadcrumbs/bogus" />
       </q-breadcrumbs>
       <br><br>
       <q-breadcrumbs align="center">

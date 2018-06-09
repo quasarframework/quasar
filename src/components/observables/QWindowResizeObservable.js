@@ -1,4 +1,5 @@
 import { listenOpts } from '../../utils/event'
+import { isSSR } from '../../plugins/platform'
 
 export default {
   name: 'QWindowResizeObservable',
@@ -18,18 +19,19 @@ export default {
         this.timer = setTimeout(this.emit, this.debounce)
       }
     },
-    emit () {
+    emit (ssr) {
       this.timer = null
       this.$emit('resize', {
-        height: window.innerHeight,
-        width: window.innerWidth
+        height: ssr ? 0 : window.innerHeight,
+        width: ssr ? 0 : window.innerWidth
       })
     }
   },
   created () {
-    this.emit()
+    this.emit(isSSR || this.$q.platform.is.fromSSR)
   },
   mounted () {
+    this.$q.platform.is.fromSSR && this.emit()
     window.addEventListener('resize', this.trigger, listenOpts.passive)
   },
   beforeDestroy () {

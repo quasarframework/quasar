@@ -15,18 +15,20 @@ if (!isSSR) {
   }
 }
 
+export const routerLinkProps = {
+  to: [String, Object],
+  exact: Boolean,
+  append: Boolean,
+  replace: Boolean,
+  event: [String, Array],
+  activeClass: String,
+  exactActiveClass: String
+}
+
 export { evt as routerLinkEvent }
 
 export const RouterLinkMixin = {
-  props: {
-    to: [String, Object],
-    exact: Boolean,
-    append: Boolean,
-    replace: Boolean,
-    event: [String, Array],
-    activeClass: String,
-    exactActiveClass: String
-  },
+  props: routerLinkProps,
   data () {
     return {
       routerLinkEventName
