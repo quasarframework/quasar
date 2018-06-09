@@ -8,43 +8,43 @@ function showRipple (evt, el, stopPropagation) {
 
   let
     container = document.createElement('span'),
-    animNode = document.createElement('span')
+    animNode = document.createElement('span'),
+    size = el.clientWidth > el.clientHeight ? el.clientWidth : el.clientHeight,
+    unit = `${size * 2}px`
 
   container.appendChild(animNode)
   container.className = 'q-ripple-container'
-
-  let size = el.clientWidth > el.clientHeight ? el.clientWidth : el.clientHeight
-  size = `${size * 2}px`
   animNode.className = 'q-ripple-animation'
-  css(animNode, { width: size, height: size })
+  animNode.style.width = unit
+  animNode.style.height = unit
 
   el.appendChild(container)
 
   const
     offset = el.getBoundingClientRect(),
     pos = position(evt),
-    x = pos.left - offset.left,
-    y = pos.top - offset.top
+    x = pos.left - offset.left - size,
+    y = pos.top - offset.top - size
 
-  animNode.classList.add('q-ripple-animation-enter', 'q-ripple-animation-visible')
-  css(animNode, cssTransform(`translate(-50%, -50%) translate(${x}px, ${y}px) scale(.001)`))
+  animNode.classList.add('q-ripple-animation-enter')
+  animNode.classList.add('q-ripple-animation-visible')
+  css(animNode, cssTransform(`translate(${x}px, ${y}px) scale3d(0, 0, 0)`))
 
   setTimeout(() => {
     animNode.classList.remove('q-ripple-animation-enter')
-    css(animNode, cssTransform(`translate(-50%, -50%) translate(${x}px, ${y}px)`))
+    css(animNode, cssTransform(`translate(${x}px, ${y}px) scale3d(1, 1, 1)`))
     setTimeout(() => {
       animNode.classList.remove('q-ripple-animation-visible')
       setTimeout(() => {
-        const el = animNode.parentNode
-        if (el && el.parentNode) {
-          el.parentNode.removeChild(el)
+        if (container.parentNode) {
+          el.removeChild(container)
         }
       }, 300)
-    }, 400)
-  }, 25)
+    }, 300)
+  }, 0)
 }
 
-function shouldAbort ({mat, ios}) {
+function shouldAbort ({ mat, ios }) {
   return (
     (mat && process.env.THEME !== 'mat') ||
     (ios && process.env.THEME !== 'ios')
