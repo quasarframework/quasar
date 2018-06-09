@@ -22,15 +22,19 @@ export default {
     },
     events () {
       return this.isDisabled || !this.repeatTimeout
-        ? { click: this.click }
+        ? {
+          click: this.click,
+          keydown: this.__onKeyDown,
+          keyup: this.__onKeyUp
+        }
         : {
           mousedown: this.__startRepeat,
           touchstart: this.__startRepeat,
-          keydown: e => [13, 32].includes(e.keyCode) && this.__startRepeat(e),
+          keydown: e => { this.__onKeyDown(e, true) },
 
           mouseup: this.__endRepeat,
           touchend: this.__endRepeat,
-          keyup: e => [13, 32].includes(e.keyCode) && this.__endRepeat(e),
+          keyup: e => { this.__onKeyUp(e, true) },
 
           mouseleave: this.__abortRepeat,
           touchmove: this.__abortRepeat,
@@ -40,7 +44,8 @@ export default {
   },
   data () {
     return {
-      repeating: false
+      repeating: false,
+      active: false
     }
   },
   methods: {
@@ -68,6 +73,25 @@ export default {
     },
     __cleanup () {
       clearTimeout(this.timer)
+    },
+    __onKeyDown (e, repeat) {
+      if (this.type || this.isDisabled || e.keyCode !== 13) {
+        return
+      }
+      this.active = true
+      if (repeat) {
+        this.__startRepeat(e)
+      }
+    },
+    __onKeyUp (e, repeat) {
+      if (!this.active) {
+        return
+      }
+      this.active = false
+      if (this.isDisabled || e.keyCode !== 13) {
+        return
+      }
+      this[repeat ? '__endRepeat' : 'click'](e)
     },
     __startRepeat (e) {
       if (this.repeating) {
@@ -120,11 +144,11 @@ export default {
     this.__cleanup()
   },
   render (h) {
-    return h('button', {
+    return h(this.type ? 'button' : 'a', {
       staticClass: 'q-btn inline relative-position q-btn-item non-selectable',
       'class': this.classes,
       style: this.style,
-      attrs: { tabindex: this.computedTabIndex, type: 'button' },
+      attrs: { tabindex: this.computedTabIndex, type: this.type },
       on: this.events,
       directives: this.hasRipple
         ? [{

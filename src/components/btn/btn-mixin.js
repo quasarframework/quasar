@@ -25,6 +25,7 @@ export default {
     Ripple
   },
   props: {
+    type: String,
     loading: Boolean,
     disable: Boolean,
     label: [Number, String],
@@ -98,6 +99,7 @@ export default {
       }
       else {
         cls.push('q-focusable q-hoverable')
+        this.active && cls.push('active')
       }
 
       if (this.color) {
