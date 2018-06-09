@@ -639,45 +639,45 @@
 </template>
 
 <style lang="stylus">
-  @import '../../../src/css/core.variables.styl'
-  @import '../../../src/responsive-flex/responsive-flex.styl'
-
-  .test-flex-demo
-    padding-bottom 30vh
-    h1
-      font-size 1.5em
-      margin 1em 0 .2em 0
-      &:first-child
-        margin-top 0
-    .test-flex
+.test-flex-demo
+  padding-bottom 30vh
+  h1
+    font-size 1.5em
+    margin 1em 0 .2em 0
+    &:first-child
+      margin-top 0
+  .test-flex
+    .placeholder
+      color #ccc
+    [class^='column']
+      height 100%
+      background-color rgba(255, 0, 0, .05)
+      outline 1px solid #c33
+      > div
+        background-color rgba(0, 255, 0, .1)
+        text-align center
+        outline 1px solid #ccc
+        overflow hidden
+        > div.fit
+          background-color rgba(0, 0, 255, .2)
+    [class^='row']
+      @extends .test-flex-demo .test-flex [class^='column']
+      > div
+        white-space nowrap
+        padding 1em 0 1em .2em
+        text-overflow ellipsis
       .placeholder
-        color #ccc
-      [class^='column']
-        height 100%
-        background-color rgba(255, 0, 0, .05)
-        outline 1px solid #c33
-        > div
-          background-color rgba(0, 255, 0, .1)
-          text-align center
-          outline 1px solid #ccc
-          overflow hidden
-          > div.fit
-            background-color rgba(0, 0, 255, .2)
-      [class^='row']
-        @extends .test-flex-demo .test-flex [class^='column']
-        > div
-          white-space nowrap
-          padding 1em 0 1em .2em
-          text-overflow ellipsis
-        .placeholder
-          display inline-block
-          width 2em
+        display inline-block
+        width 2em
 </style>
 
 <script>
 export default {
   data () {
     return {}
+  },
+  created () {
+    import('./flex-addon.styl')
   }
 }
 </script>

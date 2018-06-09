@@ -17,8 +17,8 @@ shell.cp(
 )
 /* copy responsive-flex.styl */
 shell.cp(
-  path.join(__dirname, '../src/responsive-flex/responsive-flex.styl'),
-  path.join(__dirname, '../dist')
+  path.join(__dirname, '../src/css/flex-addon.styl'),
+  path.join(__dirname, '../dist/flex.addon.styl')
 )
 build(buildConf.themes)
 
