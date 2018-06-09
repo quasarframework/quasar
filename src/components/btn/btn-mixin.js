@@ -81,7 +81,7 @@ export default {
     },
     attrs () {
       const att = { tabindex: this.computedTabIndex }
-      if (this.type === 'reset' || this.type === 'submit') {
+      if (this.type !== 'a') {
         att.type = this.type
       }
       if (this.to !== void 0) {
