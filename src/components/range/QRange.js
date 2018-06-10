@@ -1,3 +1,4 @@
+import { stopAndPrevent } from '../../utils/event'
 import { between } from '../../utils/format'
 import extend from '../../utils/extend'
 import {
@@ -245,6 +246,7 @@ export default {
       if (!this.editable || ![37, 40, 39, 38].includes(keyCode)) {
         return
       }
+      stopAndPrevent(ev)
       const
         decimals = this.computedDecimals,
         step = ev.ctrlKey ? 10 * this.computedStep : this.computedStep,

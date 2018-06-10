@@ -150,6 +150,7 @@ export default {
       if (!this.editable || ![37, 40, 39, 38].includes(keyCode)) {
         return
       }
+      stopAndPrevent(ev)
       const step = ev.ctrlKey ? 10 * this.computedStep : this.computedStep
       const offset = [37, 40].includes(keyCode) ? -step : step
       this.__onInputValue(between(this.model + offset, this.min, this.max))
