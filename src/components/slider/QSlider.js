@@ -6,6 +6,7 @@ import {
 } from './slider-utils'
 import { between } from '../../utils/format'
 import { QChip } from '../chip'
+import { stopAndPrevent } from 'utils/event'
 
 export default {
   name: 'QSlider',
@@ -100,6 +101,7 @@ export default {
       if (!this.editable || ![37, 40, 39, 38].includes(keyCode)) {
         return
       }
+      stopAndPrevent(ev)
       const
         decimals = this.computedDecimals,
         step = ev.ctrlKey ? 10 * this.computedStep : this.computedStep,
