@@ -7,8 +7,8 @@
           <span
             :class="{active: view === 'month'}"
             class="q-datetime-link small col-auto col-md-12"
-            @keydown.down.left="setMonth(month - 1, true)"
-            @keydown.up.right="setMonth(month + 1, true)"
+            @keydown.down.left.prevent.stop="setMonth(month - 1, true)"
+            @keydown.up.right.prevent.stop="setMonth(month + 1, true)"
             :tabindex="0"
           >
             <span @click="!disable && (view = 'month')" :tabindex="-1">
@@ -18,8 +18,8 @@
           <span
             :class="{active: view === 'day'}"
             class="q-datetime-link col-auto col-md-12"
-            @keydown.down.left="setDay(day - 1, true)"
-            @keydown.up.right="setDay(day + 1, true)"
+            @keydown.down.left.prevent.stop="setDay(day - 1, true)"
+            @keydown.up.right.prevent.stop="setDay(day + 1, true)"
             :tabindex="0"
           >
             <span @click="!disable && (view = 'day')" :tabindex="-1">
@@ -29,8 +29,8 @@
           <span
             :class="{active: view === 'year'}"
             class="q-datetime-link small col-auto col-md-12"
-            @keydown.down.left="setYear(year - 1, true)"
-            @keydown.up.right="setYear(year + 1, true)"
+            @keydown.down.left.prevent.stop="setYear(year - 1, true)"
+            @keydown.up.right.prevent.stop="setYear(year + 1, true)"
             :tabindex="0"
           >
             <span @click="!disable && (view = 'year')" :tabindex="-1">
@@ -47,8 +47,8 @@
           <span
             :class="{active: view === 'hour'}"
             class="q-datetime-link col-md text-right q-pr-sm"
-            @keydown.down.left="setHour(hour - 1, true)"
-            @keydown.up.right="setHour(hour + 1, true)"
+            @keydown.down.left.prevent.stop="setHour(hour - 1, true)"
+            @keydown.up.right.prevent.stop="setHour(hour + 1, true)"
             :tabindex="0"
           >
             <span @click="!disable && (view = 'hour')" :tabindex="-1">
@@ -59,8 +59,8 @@
           <span
             :class="{active: view === 'minute'}"
             class="q-datetime-link col-md text-left q-pl-sm"
-            @keydown.down.left="setMinute(minute - 1, true)"
-            @keydown.up.right="setMinute(minute + 1, true)"
+            @keydown.down.left.prevent.stop="setMinute(minute - 1, true)"
+            @keydown.up.right.prevent.stop="setMinute(minute + 1, true)"
             :tabindex="0"
           >
             <span @click="!disable && (view = 'minute')" :tabindex="-1">
@@ -72,7 +72,7 @@
           <div
             :class="{active: am}"
             class="q-datetime-link"
-            @keyup.13.32="toggleAmPm()"
+            @keyup.13.32.prevent.stop="toggleAmPm()"
             :tabindex="0"
           >
             <span @click="toggleAmPm()" :tabindex="-1">
@@ -82,7 +82,7 @@
           <div
             :class="{active: !am}"
             class="q-datetime-link"
-            @keyup.13.32="toggleAmPm()"
+            @keyup.13.32.prevent.stop="toggleAmPm()"
             :tabindex="0"
           >
             <span @click="toggleAmPm()" :tabindex="-1">
@@ -445,7 +445,7 @@ export default {
     setDay (value, skipView) {
       if (this.editable) {
         this.model = new Date(this.model.setDate(this.__parseTypeValue('date', value)))
-        if (this.type === 'date') {
+        if (!skipView && this.type === 'date') {
           this.$emit('canClose')
         }
         else if (!skipView) {
