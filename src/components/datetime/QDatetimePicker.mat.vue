@@ -18,8 +18,10 @@
           <span
             :class="{active: view === 'day'}"
             class="q-datetime-link col-auto col-md-12"
-            @keydown.down.left.prevent.stop="setDay(day - 1, true)"
-            @keydown.up.right.prevent.stop="setDay(day + 1, true)"
+            @keydown.left.prevent.stop="setDay(day - 1, true)"
+            @keydown.right.prevent.stop="setDay(day + 1, true)"
+            @keydown.down.prevent.stop="setDay(day + 7, true)"
+            @keydown.up.prevent.stop="setDay(day - 7, true)"
             :tabindex="0"
           >
             <span @click="!disable && (view = 'day')" :tabindex="-1">
