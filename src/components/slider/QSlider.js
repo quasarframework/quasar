@@ -6,7 +6,7 @@ import {
 } from './slider-utils'
 import { between } from '../../utils/format'
 import { QChip } from '../chip'
-import { stopAndPrevent } from 'utils/event'
+import { stopAndPrevent } from '../../utils/event'
 
 export default {
   name: 'QSlider',
