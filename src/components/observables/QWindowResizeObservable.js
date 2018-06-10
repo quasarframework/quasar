@@ -1,5 +1,5 @@
 import { listenOpts } from '../../utils/event'
-import { isSSR } from '../../plugins/platform'
+import { onSSR, fromSSR } from '../../plugins/platform'
 
 export default {
   name: 'QWindowResizeObservable',
@@ -28,10 +28,10 @@ export default {
     }
   },
   created () {
-    this.emit(isSSR || this.$q.platform.is.fromSSR)
+    this.emit(onSSR)
   },
   mounted () {
-    this.$q.platform.is.fromSSR && this.emit()
+    fromSSR && this.emit()
     window.addEventListener('resize', this.trigger, listenOpts.passive)
   },
   beforeDestroy () {

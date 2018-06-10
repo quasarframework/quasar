@@ -3,6 +3,8 @@
 /* eslint-disable no-mixed-operators */
 
 export const isSSR = typeof window === 'undefined'
+export let fromSSR = false
+export let onSSR = isSSR
 
 function getMatch (userAgent, platformMatch) {
   const match = /(edge)\/([\w.]+)/.exec(userAgent) ||
@@ -157,10 +159,14 @@ function getPlatform (userAgent) {
       browser.cordova = true
     }
 
-    browser.fromSSR = browser.cordova === void 0 &&
+    browser.fromSSR = fromSSR = browser.cordova === void 0 &&
       browser.electron === void 0 &&
       !!document.querySelector('[data-server-rendered]')
+
+    fromSSR && (onSSR = true)
   }
+
+  browser.onSSR = onSSR
 
   return browser
 }

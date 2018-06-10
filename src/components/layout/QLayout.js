@@ -1,5 +1,5 @@
 import { QScrollObservable, QResizeObservable, QWindowResizeObservable } from '../observables'
-import { isSSR } from '../../plugins/platform'
+import { onSSR } from '../../plugins/platform'
 
 export default {
   name: 'QLayout',
@@ -17,8 +17,8 @@ export default {
   },
   data () {
     return {
-      height: isSSR || this.$q.platform.is.fromSSR ? 0 : window.innerHeight,
-      width: isSSR || this.$q.platform.is.fromSSR ? 0 : window.innerWidth,
+      height: onSSR ? 0 : window.innerHeight,
+      width: onSSR ? 0 : window.innerWidth,
 
       header: {
         size: 0,

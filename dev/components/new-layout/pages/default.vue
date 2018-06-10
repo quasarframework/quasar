@@ -1,5 +1,5 @@
 <template>
-  <q-page padding class="bg-yellow page-default-padding">
+  <q-page padding class="page-default-padding">
     <q-toggle v-model="extra" label="Extra content" />
     <div v-if="extra">
       <div v-for="n in 50">
