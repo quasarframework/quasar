@@ -16,7 +16,7 @@
       <br><br>
 
       <div
-        v-ripple
+        v-ripple.center
         class="relative-position ripple-example ripple-round shadow-2"
         :class="classes"
       />

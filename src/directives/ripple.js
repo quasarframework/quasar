@@ -1,16 +1,17 @@
 import { cssTransform, css } from '../utils/dom'
 import { position } from '../utils/event'
 
-function showRipple (evt, el, stopPropagation) {
-  if (stopPropagation) {
+function showRipple (evt, el, { stop, center }) {
+  if (stop) {
     evt.stopPropagation()
   }
 
-  let
+  const
     container = document.createElement('span'),
     animNode = document.createElement('span'),
     size = el.clientWidth > el.clientHeight ? el.clientWidth : el.clientHeight,
-    unit = `${size * 2}px`
+    unit = `${center ? size : size * 2}px`,
+    offset = el.getBoundingClientRect()
 
   container.appendChild(animNode)
   container.className = 'q-ripple-container'
@@ -20,11 +21,16 @@ function showRipple (evt, el, stopPropagation) {
 
   el.appendChild(container)
 
-  const
-    offset = el.getBoundingClientRect(),
-    pos = position(evt),
-    x = pos.left - offset.left - size,
+  let x, y
+
+  if (center) {
+    x = y = 0
+  }
+  else {
+    const pos = position(evt)
+    x = pos.left - offset.left - size
     y = pos.top - offset.top - size
+  }
 
   animNode.classList.add('q-ripple-animation-enter')
   animNode.classList.add('q-ripple-animation-visible')
@@ -36,12 +42,10 @@ function showRipple (evt, el, stopPropagation) {
     setTimeout(() => {
       animNode.classList.remove('q-ripple-animation-visible')
       setTimeout(() => {
-        if (container.parentNode) {
-          el.removeChild(container)
-        }
+        container.parentNode && el.removeChild(container)
       }, 300)
     }, 300)
-  }, 0)
+  }, 10)
 }
 
 function shouldAbort ({ mat, ios }) {
@@ -60,14 +64,18 @@ export default {
 
     const ctx = {
       enabled: value !== false,
+      modifiers: {
+        stop: modifiers.stop,
+        center: modifiers.center
+      },
       click (evt) {
         if (ctx.enabled) {
-          showRipple(evt, el, modifiers.stop)
+          showRipple(evt, el, ctx.modifiers)
         }
       },
       keyup (evt) {
         if (ctx.enabled && evt.keyCode === 13) {
-          showRipple(evt, el, modifiers.stop)
+          showRipple(evt, el, ctx.modifiers)
         }
       }
     }
@@ -76,19 +84,19 @@ export default {
     el.addEventListener('click', ctx.click, false)
     el.addEventListener('keyup', ctx.keyup, false)
   },
-  update (el, { value, oldValue }) {
-    if (el.__qripple && value !== oldValue) {
-      el.__qripple.enabled = value !== false
+  update (el, { value, modifiers: { stop, center } }) {
+    const ctx = el.__qripple
+    if (ctx) {
+      ctx.enabled = value !== false
+      ctx.modifiers = { stop, center }
     }
   },
   unbind (el, { modifiers }) {
     const ctx = el.__qripple
-    if (!ctx || shouldAbort(modifiers)) {
-      return
+    if (ctx && !shouldAbort(modifiers)) {
+      el.removeEventListener('click', ctx.click, false)
+      el.removeEventListener('keyup', ctx.keyup, false)
+      delete el.__qripple
     }
-
-    el.removeEventListener('click', ctx.click, false)
-    el.removeEventListener('keyup', ctx.keyup, false)
-    delete el.__qripple
   }
 }

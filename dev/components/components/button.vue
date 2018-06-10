@@ -34,6 +34,17 @@
         <q-btn :type="tag" flat dense icon="sim_card" />
         <q-btn :type="tag" flat dense icon="gamepad" />
       </q-toolbar>
+      <q-toolbar color="amber" text-color="black" style="width: 500px">
+        <q-btn :type="tag" flat dense round icon="menu" />
+        <q-btn :type="tag" flat dense round icon="android" />
+        <q-btn :type="tag" flat dense round icon="assignment_ind" />
+        <q-btn :type="tag" flat dense round icon="android" />
+        <q-toolbar-title>
+          Toolbar
+        </q-toolbar-title>
+        <q-btn :type="tag" flat dense round icon="sim_card" />
+        <q-btn :type="tag" flat dense round icon="gamepad" />
+      </q-toolbar>
       <q-toolbar color="black" style="width: 500px">
         <q-btn :type="tag" flat round icon="menu" />
         <q-btn :type="tag" flat round icon="android" />

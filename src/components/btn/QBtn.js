@@ -155,7 +155,8 @@ export default {
       directives: this.hasRipple
         ? [{
           name: 'ripple',
-          value: true
+          value: true,
+          modifiers: { center: this.isRound }
         }]
         : null
     }, [
