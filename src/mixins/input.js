@@ -28,6 +28,9 @@ export default {
 
     __onFocus (e) {
       clearTimeout(this.timer)
+      if (this.focused) {
+        return
+      }
       this.focused = true
       this.$emit('focus', e)
     },
@@ -38,8 +41,10 @@ export default {
       }, 200)
     },
     __onBlur (e) {
-      this.focused = false
-      this.$emit('blur', e)
+      if (this.focused) {
+        this.focused = false
+        this.$emit('blur', e)
+      }
       this.__emit()
     },
     __emit () {
