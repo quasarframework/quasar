@@ -241,9 +241,9 @@ export default {
         style: this.computedWidth
       },
       this.computedResults.map((result, index) => h(QItemWrapper, {
-        key: result.id || JSON.stringify(result),
+        key: result.id || index,
         'class': {
-          active: this.keyboardIndex === index,
+          'q-select-highlight': this.keyboardIndex === index,
           'cursor-pointer': !result.disable,
           'text-faded': result.disable
         },

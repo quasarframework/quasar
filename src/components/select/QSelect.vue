@@ -103,12 +103,12 @@
         <template v-if="multiple">
           <q-item-wrapper
             v-for="(opt, index) in visibleOptions"
-            :key="JSON.stringify(opt)"
+            :key="index"
             :cfg="opt"
-            :link="!opt.disable"
             :class="[
               opt.disable ? 'text-faded' : 'cursor-pointer',
-              index === keyboardIndex ? 'q-select-highlight' : ''
+              index === keyboardIndex ? 'q-select-highlight' : '',
+              opt.disable ? '' : 'cursor-pointer'
             ]"
             slot-replace
             @click.capture.native="__toggleMultiple(opt.value, opt.disable)"
@@ -139,12 +139,12 @@
         <template v-else>
           <q-item-wrapper
             v-for="(opt, index) in visibleOptions"
-            :key="JSON.stringify(opt)"
+            :key="index"
             :cfg="opt"
-            :link="!opt.disable"
             :class="[
               opt.disable ? 'text-faded' : 'cursor-pointer',
-              index === keyboardIndex ? 'q-select-highlight' : ''
+              index === keyboardIndex ? 'q-select-highlight' : '',
+              opt.disable ? '' : 'cursor-pointer'
             ]"
             slot-replace
             :active="value === opt.value"
