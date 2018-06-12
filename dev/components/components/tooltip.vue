@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="layout-padding">
-      <p class="caption">
+      <div class="caption">
         <span class="desktop-only">
           Move mouse over the elements below. On a mobile device,
           you need to tap the elements.
@@ -10,7 +10,7 @@
           Tap on elements below. On desktop you can move the mouse
           over the elements.
         </span>
-      </p>
+      </div>
 
       <div style="margin-top: 40px;width: 200px; height: 70px;background-color: #26A69A;">
         &nbsp;
@@ -53,10 +53,10 @@
         </q-card-title>
 
         <p class="caption text-center">Configure the Tooltip for button above.</p>
-        <p class="text-center">
+        <div class="text-center">
           <q-chip tag color="primary">anchor="{{ anchor }}"</q-chip>
           <q-chip tag color="primary">self="{{ self }}"</q-chip>
-        </p>
+        </div>
         <q-card-main class="row">
           <div class="column items-center col-6">
             <p class="caption">Anchor Origin</p>

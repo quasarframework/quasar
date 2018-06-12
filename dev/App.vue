@@ -85,7 +85,7 @@ export default {
 </script>
 
 <style lang="stylus">
-p.caption
+.caption
   margin 35px 0
   padding 12px 0 12px 12px
   border-left 4px solid #027be3

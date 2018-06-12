@@ -20,12 +20,12 @@
             <q-pull-to-refresh :handler="refresher" :inline="hasScrollSimple" :disable="disable" class="overflow-hidden-y">
               <div class="bg-white overflow-hidden-y">
                 <div>
-                  <p class="caption bg-yellow-6">
+                  <div class="caption bg-yellow-6">
                     Pull down to refresh on the content below.
                     On desktop it works by dragging the content down.
-                  </p>
+                  </div>
 
-                  <p class="caption bg-yellow-6">
+                  <div class="caption bg-yellow-6">
                     <q-toggle v-model="header" label="Show Header" />
                     <q-toggle v-model="footer" label="Show Footer" />
                     <q-toggle v-model="guardTop" label="Show Top Guard" />
@@ -33,15 +33,15 @@
                     <q-toggle v-model="disable" label="Disable" />
                     <q-toggle v-model="scroll" label="Scroll" />
                     <q-toggle v-model="scrollArea" label="QScrollArea" />
-                  </p>
+                  </div>
                 </div>
 
-                <p v-for="(item, index) in items" :key="index" class="caption bg-yellow-6">
+                <div v-for="(item, index) in items" :key="index" class="caption bg-yellow-6">
                   <q-chip square color="secondary" class="shadow-1">
                     {{ items.length - index }}
                   </q-chip>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                </p>
+                </div>
               </div>
             </q-pull-to-refresh>
           </component>
@@ -61,7 +61,7 @@
 export default {
   data () {
     return {
-      items: [{}, {}, {}],
+      items: [{}, {}, {}, {}, {}, {}, {}, {}, {}],
       guardTop: true,
       guardBottom: true,
       header: true,

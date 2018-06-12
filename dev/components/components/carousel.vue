@@ -204,7 +204,7 @@
       />
     </q-carousel>
 
-    <p class="caption">
+    <div class="caption">
       Carousel with a model (<q-chip small color="primary">{{ slide }}</q-chip>)
       and some custom controls: an autoplay button, a progressbar showing Carousel progress
       and a fullscreen toggle button.
@@ -218,7 +218,7 @@
         label="Navigate to second slide"
         class="q-ml-sm"
       />
-    </p>
+    </div>
     <q-carousel
       v-model="slide"
       color="amber"
