@@ -99,8 +99,8 @@ export default {
         const popover = this.$refs.popover
         if (this.results.length) {
           this.__keyboardShow(-1)
-          if (popover.showing) {
-            popover.reposition()
+          if (popover && popover.showing) {
+            this.$nextTick(() => popover && popover.reposition())
           }
           else {
             popover.show()
@@ -146,8 +146,15 @@ export default {
       this.searchId = ''
     },
     __keyboardCustomKeyHandle (key) {
-      if (key === 27) { // ESCAPE
-        this.__clearSearch()
+      switch (key) {
+        case 27: // ESCAPE
+          this.__clearSearch()
+          break
+        case 38: // UP key
+        case 40: // DOWN key
+        case 9: // TAB key
+          this.__keyboardSetCurrentSelection(true)
+          break
       }
     },
     __keyboardShowTrigger () {
@@ -156,7 +163,7 @@ export default {
     __keyboardIsSelectableIndex (index) {
       return index > -1 && index < this.computedResults.length && !this.computedResults[index].disable
     },
-    setValue (result) {
+    setValue (result, noClose) {
       const value = this.staticData ? result[this.staticData.field] : result.value
       const suffix = this.__inputDebounce ? 'Debounce' : ''
 
@@ -168,11 +175,13 @@ export default {
       this[`__input${suffix}`].set(value)
 
       this.$emit('selected', result)
-      this.__clearSearch()
-      this.hide()
+      if (!noClose) {
+        this.__clearSearch()
+        this.hide()
+      }
     },
-    __keyboardSetSelection (index) {
-      this.setValue(this.results[index])
+    __keyboardSetSelection (index, navigation) {
+      this.setValue(this.results[index], navigation)
     },
     __delayTrigger () {
       this.__clearSearch()
@@ -219,7 +228,8 @@ export default {
       props: {
         fit: true,
         anchorClick: false,
-        noFocus: true
+        noFocus: true,
+        noRefocus: true
       },
       on: {
         show: () => {

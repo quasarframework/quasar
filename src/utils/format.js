@@ -29,12 +29,12 @@ export function normalizeToInterval (v, min, max) {
 
   const size = (max - min + 1)
 
-  let index = v % size
+  let index = min + (v - min) % size
   if (index < min) {
     index = size + index
   }
 
-  return index
+  return index === 0 ? 0 : index // fix for (-a % a) => -0
 }
 
 export function pad (v, length = 2, char = '0') {
