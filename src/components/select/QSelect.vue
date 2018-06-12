@@ -239,7 +239,7 @@ export default {
         : val
     },
     keyboardIndex (val) {
-      if (this.$refs.popover.showing && this.keyboardMoveDirection && val > -1) {
+      if (this.$refs.popover && this.$refs.popover.showing && this.keyboardMoveDirection && val > -1) {
         this.$nextTick(() => {
           if (!this.$refs.popover) {
             return

@@ -23,6 +23,10 @@
         <q-autocomplete :static-data="{field: 'value', list: numbers}" @selected="selected" />
       </q-search>
 
+      <q-search type="number" v-model="termsN" placeholder="Start typing a number - long list">
+        <q-autocomplete :static-data="{field: 'value', list: lots}" @selected="selected" :max-results="100" max-height="200px" />
+      </q-search>
+
       <q-input @change="onChange" @input="onInput" v-model="terms" placeholder="Start typing a country name">
         <q-autocomplete @search="search" @selected="selected" />
       </q-input>
@@ -130,7 +134,8 @@ export default {
       terms: '',
       termsN: null,
       countries: parseCountries(),
-      numbers: [1, 2, 3, 4, 5, 1111, 2222, 3333, 4444, 5555].map(v => ({ label: String(v), value: v }))
+      numbers: [1, 2, 3, 4, 5, 1111, 2222, 3333, 4444, 5555].map(v => ({ label: String(v), value: v })),
+      lots: Array(100).fill(0).map((v, i) => ({ label: String(i), value: i }))
     }
   },
   methods: {
