@@ -18,6 +18,14 @@ require('./webpack.inject.base')(chain)
 chain.entry('app')
   .add(resolve('dev/spa.app.js'))
 
+chain.plugin('define')
+  .use(webpack.DefinePlugin, [{
+    'process.env': {
+      NODE_ENV: '"development"',
+      THEME: JSON.stringify(env.theme)
+    }
+  }])
+
 chain.plugin('html-webpack')
   .use(HtmlWebpackPlugin, [{
     filename: 'index.html',

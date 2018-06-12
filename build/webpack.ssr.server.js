@@ -1,11 +1,12 @@
 const
   path = require('path'),
+  webpack = require('webpack'),
   WebpackChain = require('webpack-chain'),
   VueSSRServerPlugin = require('vue-server-renderer/server-plugin'),
-  nodeExternals = require('webpack-node-externals'),
-  WebpackBar = require('webpackbar')
+  nodeExternals = require('webpack-node-externals')
 
 const
+  env = require('./env'),
   resolve = file => path.resolve(__dirname, '..', file),
   chain = new WebpackChain()
 
@@ -31,10 +32,13 @@ chain.externals(nodeExternals({
 }))
 
 chain.plugin('define')
-  .init((Plugin, args) => new Plugin({
-    'process.env.VUE_ENV': '"server"',
-    ...args
-  }))
+  .use(webpack.DefinePlugin, [{
+    'process.env': {
+      NODE_ENV: '"development"',
+      VUE_ENV: '"server"',
+      THEME: JSON.stringify(env.theme)
+    }
+  }])
 
 chain.plugin('webpack-bar')
   .init(Plugin => new Plugin({

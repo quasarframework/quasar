@@ -1,13 +1,11 @@
 const
   path = require('path'),
   webpack = require('webpack'),
-  env = require('./env'),
   WebpackChain = require('webpack-chain'),
-  VueSSRClientPlugin = require('vue-server-renderer/client-plugin'),
-  WebpackBar = require('webpackbar'),
-  FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
+  VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
 
 const
+  env = require('./env'),
   resolve = file => path.resolve(__dirname, '..', file),
   chain = new WebpackChain()
 
@@ -24,10 +22,13 @@ chain.output
   .filename('[name].js')
 
 chain.plugin('define')
-  .init((Plugin, args) => new Plugin({
-    'process.env.VUE_ENV': '"client"',
-    ...args
-  }))
+  .use(webpack.DefinePlugin, [{
+    'process.env': {
+      NODE_ENV: '"development"',
+      VUE_ENV: '"client"',
+      THEME: JSON.stringify(env.theme)
+    }
+  }])
 
 // This plugins generates `vue-ssr-client-manifest.json`
 chain.plugin('vue-ssr-client')

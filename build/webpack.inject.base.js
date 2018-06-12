@@ -1,6 +1,5 @@
 const
   path = require('path'),
-  webpack = require('webpack'),
   VueLoaderPlugin = require('vue-loader/lib/plugin'),
   FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin'),
   WebpackBar = require('webpackbar')
@@ -95,14 +94,6 @@ module.exports = function (chain) {
 
   chain.plugin('vue-loader')
     .use(VueLoaderPlugin)
-
-  chain.plugin('define')
-    .use(webpack.DefinePlugin, [{
-      'process.env': {
-        NODE_ENV: '"development"',
-        THEME: JSON.stringify(env.theme)
-      }
-    }])
 
   chain.performance
     .hints(false)
