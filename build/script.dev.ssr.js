@@ -7,7 +7,6 @@ const
   webpack = require('webpack'),
   LRU = require('lru-cache'),
   express = require('express'),
-  opn = require('opn'),
   microcache = require('route-cache'),
   { createBundleRenderer } = require('vue-server-renderer'),
   MFS = require('memory-fs'),
@@ -72,27 +71,25 @@ function setupDevServer (app, templatePath, cb) {
     require('webpack-hot-middleware')(clientCompiler, { heartbeat: 5000 })
   )
 
-  clientCompiler.hooks.done.tap(
-    'client-dev-done-compiling',
-    ({ compilation: { errors, warnings } }) => {
-      errors.forEach(err => console.error(err))
-      warnings.forEach(err => console.warn(err))
-      if (errors.length) { return }
+  clientCompiler.hooks.done.tap('client-compiling', ({ compilation: { errors, warnings } }) => {
+    errors.forEach(err => console.error(err))
+    warnings.forEach(err => console.warn(err))
+    if (errors.length) { return }
 
-      clientManifest = JSON.parse(readFile(
-        devMiddleware.fileSystem,
-        'vue-ssr-client-manifest.json'
-      ))
-      update()
+    clientManifest = JSON.parse(readFile(
+      devMiddleware.fileSystem,
+      'vue-ssr-client-manifest.json'
+    ))
+    update()
 
-      if (clientReady) {
-        clientReady()
-        clientReady = null
-      }
-      else {
-        showBanner()
-      }
-    })
+    if (clientReady) {
+      clientReady()
+      clientReady = null
+    }
+    else {
+      showBanner()
+    }
+  })
 
   const serverCompiler = webpack(serverConfig)
   const mfs = new MFS()
@@ -196,7 +193,7 @@ function render (req, res) {
       return handleError(err)
     }
     res.send(html)
-    console.log(` ⚡️ ${Date.now() - s}ms for: ${req.url}`)
+    console.log(` ⚡️ ${Date.now() - s}ms - ${req.url}`)
   })
 }
 

@@ -14,6 +14,7 @@ module.exports = {
     publicPath: '/',
     host,
     port,
+    stats: 'none',
     hot: true,
     inline: true,
     overlay: true,

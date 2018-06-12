@@ -16,7 +16,6 @@ export default context => {
 
     // set server-side router's location
     router.push(context.url)
-    console.log(context.url)
 
     // wait until router has resolved possible async components and hooks
     router.onReady(() => {
