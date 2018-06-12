@@ -44,22 +44,11 @@ let mainColorValuesOrig
 
 export default {
   data () {
-    const style = getComputedStyle(document.body)
-    const mainColorValues = [...mainColors, ...mainLightColors]
-      .filter(c => !['white', 'black'].includes(c))
-      .reduce((acc, color) => {
-        acc[color] = style.getPropertyValue(`--q-color-${color}`) || null
-        return acc
-      }, {})
-    if (!mainColorValuesOrig) {
-      mainColorValuesOrig = clone(mainColorValues)
-    }
-
     return {
       mainColors,
       mainLightColors,
-      mainColorValues,
-      mainColorValuesOrig,
+      mainColorValues: {},
+      mainColorValuesOrig: {},
       currentColor: null,
       colors: ['red', 'pink', 'purple', 'deep-purple', 'indigo', 'blue', 'light-blue', 'cyan', 'teal', 'green', 'light-green', 'lime', 'yellow', 'amber', 'orange', 'deep-orange', 'brown', 'grey', 'blue-grey']
     }
@@ -79,6 +68,20 @@ export default {
       this.mainColorValues[color] = value
       colors.setBrand(color, value)
     }
+  },
+  beforeMount () {
+    const style = getComputedStyle(document.body)
+    const mainColorValues = [...mainColors, ...mainLightColors]
+      .filter(c => !['white', 'black'].includes(c))
+      .reduce((acc, color) => {
+        acc[color] = style.getPropertyValue(`--q-color-${color}`) || null
+        return acc
+      }, {})
+    if (!mainColorValuesOrig) {
+      mainColorValuesOrig = clone(mainColorValues)
+    }
+    this.mainColorValues = mainColorValues
+    this.mainColorValuesOrig = mainColorValuesOrig
   }
 }
 </script>
