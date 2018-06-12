@@ -13,9 +13,9 @@ export default {
         this.keyboardIndex = index
       }
     },
-    __keyboardSetCurrentSelection () {
+    __keyboardSetCurrentSelection (navigation) {
       if (this.keyboardIndex >= 0 && this.keyboardIndex <= this.keyboardMaxIndex) {
-        this.__keyboardSetSelection(this.keyboardIndex)
+        this.__keyboardSetSelection(this.keyboardIndex, navigation)
       }
     },
     __keyboardHandleKey (e) {
@@ -54,7 +54,7 @@ export default {
         do {
           index = normalizeToInterval(
             index + offset,
-            0,
+            -1,
             this.keyboardMaxIndex
           )
         }
