@@ -7,7 +7,7 @@ import Vue from 'vue'
 import Quasar, * as Everything from 'quasar'
 
 import App from './App'
-import router from './router'
+import { createRouter } from './router'
 
 import 'quasar-css'
 
@@ -39,6 +39,6 @@ Vue.use(Quasar, {
 /* eslint-disable no-new */
 new Vue({
   el: '#q-app',
-  router,
+  router: createRouter(),
   render: h => h(App)
 })

@@ -1,15 +1,12 @@
-if (!process.env.NODE_ENV) {
-  process.env.NODE_ENV = 'development'
-}
+process.env.NODE_ENV = 'development'
 
 const
   webpack = require('webpack'),
-  webpackDevServer = require('webpack-dev-server')
+  WebpackDevServer = require('webpack-dev-server')
 
 const
   env = require('./env'),
-  opn = require('opn'),
-  webpackConfig = require('./webpack.config')
+  webpackConfig = require('./webpack.spa')
 
 console.log()
 console.log(` ☕️ Preparing for Quasar v${env.quasarVersion}`)
@@ -31,9 +28,9 @@ compiler.hooks.done.tap('dev-server-done-compiling', compiler => {
   this.__started = true
 
   server.listen(env.port, env.host, () => {
-    opn(env.uri)
+    require('opn')(env.uri)
   })
 })
 
 // start building & launch server
-const server = new webpackDevServer(compiler, env.devServerConfig)
+const server = new WebpackDevServer(compiler, env.devServerConfig)

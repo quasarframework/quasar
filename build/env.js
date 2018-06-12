@@ -1,8 +1,7 @@
-const { resolve } = require('path')
 const
   theme = process.argv[2] || 'mat',
   host = process.env.HOST || '0.0.0.0',
-  port = process.env.PORT || 8080
+  port = process.env.PORT || (process.env.QUASAR_SSR ? 8554 : 8080)
 
 module.exports = {
   theme,
@@ -23,7 +22,7 @@ module.exports = {
     noInfo: true,
     disableHostCheck: true,
     contentBase: [
-      resolve(__dirname, '../dev')
+      require('path').resolve(__dirname, '../dev')
     ]
   }
 }

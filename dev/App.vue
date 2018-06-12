@@ -1,5 +1,5 @@
 <template>
-  <div class="q-app">
+  <div id="q-app">
     <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in" :duration="300" @leave="resetScroll">
       <router-view/>
     </transition>

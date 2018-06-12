@@ -56,9 +56,13 @@ pages.forEach(page => {
   routes.push(component(page))
 })
 
-routes.push({path: '*', component: load('error404')})
+if (!process.env.QUASAR_SSR) {
+  routes.push({path: '*', component: load('error404')})
+}
 
-export default new VueRouter({
-  // mode: 'history',
-  routes
-})
+export function createRouter () {
+  return new VueRouter({
+    mode: 'history',
+    routes
+  })
+}
