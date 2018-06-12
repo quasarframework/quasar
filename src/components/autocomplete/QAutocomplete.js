@@ -17,6 +17,7 @@ export default {
       type: Number,
       default: 6
     },
+    maxHeight: String,
     debounce: {
       type: Number,
       default: 500
@@ -52,6 +53,22 @@ export default {
       }
       else {
         this.__delayTrigger()
+      }
+    },
+    keyboardIndex (val) {
+      if (this.$refs.popover && this.$refs.popover.showing && this.keyboardMoveDirection && val > -1) {
+        this.$nextTick(() => {
+          if (!this.$refs.popover) {
+            return
+          }
+          const selected = this.$refs.popover.$el.querySelector('.q-select-highlight')
+          if (selected && selected.scrollIntoView) {
+            if (selected.scrollIntoViewIfNeeded) {
+              return selected.scrollIntoViewIfNeeded(false)
+            }
+            selected.scrollIntoView(this.keyboardMoveDirection < 0)
+          }
+        })
       }
     }
   },
@@ -228,6 +245,7 @@ export default {
       props: {
         fit: true,
         anchorClick: false,
+        maxHeight: this.maxHeight,
         noFocus: true,
         noRefocus: true
       },
