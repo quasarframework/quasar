@@ -55,6 +55,7 @@
     "babel-eslint": "^8.2.2",
     "babel-loader": "^8.0.0-beta.2",
     "babel-preset-es2015-rollup": "^3.0.0",
+    "chokidar": "^2.0.3",
     "connect-history-api-fallback": "^1.5.0",
     "css-loader": "^0.28.11",
     "eslint": "^4.15.0",

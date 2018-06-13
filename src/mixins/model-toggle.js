@@ -1,5 +1,5 @@
 /* eslint prefer-promise-reject-errors: 0 */
-import History from '../plugins/history'
+import History from '../history'
 
 export default {
   props: {

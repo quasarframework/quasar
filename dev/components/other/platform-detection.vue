@@ -29,17 +29,15 @@
 </template>
 
 <script>
-import { Platform } from 'quasar'
-
 export default {
   data () {
     return {
-      platform: Platform.is
+      platform: this.$q.platform.is
     }
   },
   computed: {
     touch () {
-      return Platform.has.touch ? 'has' : 'does not have'
+      return this.$q.platform.has.touch ? 'has' : 'does not have'
     }
   }
 }

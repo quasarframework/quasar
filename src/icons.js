@@ -1,3 +1,4 @@
+import { isSSR } from './plugins/platform'
 import materialIcons from '../icons/material-icons'
 
 export default {
@@ -9,7 +10,7 @@ export default {
     this.set = (iconDef = materialIcons) => {
       iconDef.set = this.set
 
-      if ($q.icon) {
+      if (isSSR || $q.icon) {
         $q.icon = iconDef
       }
       else {

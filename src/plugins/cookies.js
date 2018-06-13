@@ -1,9 +1,4 @@
-import extend from '../utils/extend'
 import { isSSR } from './platform'
-
-let
-  cookieSource,
-  ssrRes
 
 function encode (string) {
   return encodeURIComponent(string)
@@ -40,7 +35,7 @@ function read (string) {
   return string
 }
 
-function set (key, val, opts = {}) {
+function set (key, val, opts = {}, ssr) {
   let time = opts.expires
 
   if (typeof opts.expires === 'number') {
@@ -58,13 +53,13 @@ function set (key, val, opts = {}) {
     opts.secure ? '; secure' : ''
   ].join('')
 
-  if (isSSR) {
-    ssrRes.setHeader('Set-Cookie', cookie)
+  if (ssr) {
+    ssr.res.setHeader('Set-Cookie', cookie)
 
     // make temporary update so future get()
     // within same SSR timeframe would return the set value
-    cookieSource.cookie = cookieSource.cookie
-      ? `${keyValue}; ${cookieSource.cookie}`
+    ssr.req.headers.cookie = ssr.req.headers.cookie
+      ? `${keyValue}; ${ssr.req.headers.cookie}`
       : cookie
   }
   else {
@@ -72,9 +67,10 @@ function set (key, val, opts = {}) {
   }
 }
 
-function get (key) {
+function get (key, ssr) {
   let
     result = key ? undefined : {},
+    cookieSource = ssr ? ssr.req.headers : document,
     cookies = cookieSource.cookie ? cookieSource.cookie.split('; ') : [],
     i = 0,
     l = cookies.length,
@@ -99,14 +95,27 @@ function get (key) {
   return result
 }
 
-function remove (key, options) {
-  set(key, '', extend(true, {}, options, {
-    expires: -1
-  }))
+function remove (key, options, ssr) {
+  set(
+    key,
+    '',
+    Object.assign({}, options, { expires: -1 }),
+    ssr
+  )
 }
 
-function has (key) {
-  return get(key) !== undefined
+function has (key, ssr) {
+  return get(key, ssr) !== undefined
+}
+
+export function ssrGetCookies (ssr) {
+  return {
+    get: key => get(key, ssr),
+    set: (key, val, opts) => set(key, val, opts, ssr),
+    has: key => has(key, ssr),
+    remove: (key, options) => remove(key, options, ssr),
+    all: () => get(null, ssr)
+  }
 }
 
 export default {
@@ -116,19 +125,12 @@ export default {
   remove,
   all: () => get(),
 
-  __installed: false,
   install ({ $q, cfg }) {
     if (this.__installed) { return }
     this.__installed = true
 
-    if (isSSR) {
-      cookieSource = cfg.ssr.req.headers
-      ssrRes = cfg.ssr.res
+    if (!isSSR) {
+      $q.cookies = this
     }
-    else {
-      cookieSource = document
-    }
-
-    $q.cookies = this
   }
 }

@@ -1,21 +1,21 @@
-import { createApp } from './ssr.app'
+import { createApp } from './app'
 
-export default context => {
+export default ssrContext => {
   // since there could potentially be asynchronous route hooks or components,
   // we will be returning a Promise so that the server can wait until
   // everything is ready before rendering.
 
   return new Promise((resolve, reject) => {
-    const { app, router } = createApp(context)
+    const { app, router } = createApp(ssrContext)
 
-    const { fullPath } = router.resolve(context.url).route
+    const { fullPath } = router.resolve(ssrContext.url).route
 
-    if (fullPath !== context.url) {
+    if (fullPath !== ssrContext.url) {
       return reject({ url: fullPath })
     }
 
     // set server-side router's location
-    router.push(context.url)
+    router.push(ssrContext.url)
 
     // wait until router has resolved possible async components and hooks
     router.onReady(() => {

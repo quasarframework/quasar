@@ -10,10 +10,11 @@ const
   microcache = require('route-cache'),
   { createBundleRenderer } = require('vue-server-renderer'),
   MFS = require('memory-fs'),
-  clientConfig = require('./webpack.ssr.client'),
-  serverConfig = require('./webpack.ssr.server')
+  chokidar = require('chokidar')
 
 const
+  clientConfig = require('./webpack.ssr.client'),
+  serverConfig = require('./webpack.ssr.server'),
   env = require('./env'),
   resolve = file => path.resolve(__dirname, '..', file),
   useMicroCache = true,
@@ -44,10 +45,16 @@ function showBanner () {
 function setupDevServer (app, templatePath, cb) {
   let clientManifest, bundle, ready
   let clientReady, serverReady
+  let template = fs.readFileSync(templatePath, 'utf-8')
   const
-    template = fs.readFileSync(templatePath, 'utf-8'),
     clientPromise = new Promise((resolve, reject) => { clientReady = resolve }),
     serverPromise = new Promise((resolve, reject) => { serverReady = resolve })
+
+  chokidar.watch(templatePath).on('change', () => {
+    template = fs.readFileSync(templatePath, 'utf-8')
+    console.log(' 🖖 ssr.index.html template updated')
+    update()
+  })
 
   const readyPromise = new Promise((resolve, reject) => { ready = resolve })
   const update = () => {
@@ -185,7 +192,10 @@ function render (req, res) {
   const context = {
     url: req.url,
     req,
-    res
+    res,
+    bodyClasses: '',
+    htmlAttrs: '',
+    baseHref: env.devServerConfig.publicPath
   }
 
   renderer.renderToString(context, (err, html) => {

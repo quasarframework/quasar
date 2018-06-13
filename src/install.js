@@ -1,67 +1,15 @@
 import './polyfills'
 import { version } from '../package.json'
-import { ready } from './utils/dom'
 import Platform, { isSSR } from './plugins/platform'
-import History from './plugins/history'
-import i18n from './i18n'
-import icons from './icons'
-import { setBrand } from './utils/colors'
+import History from './history'
+import I18n from './i18n'
+import { clientUpdateBody } from './body'
+import Icons from './icons'
 
-function getBodyClasses (cfg) {
-  const is = Platform.is
-  const cls = [
-    process.env.THEME,
-    is.desktop ? 'desktop' : 'mobile',
-    Platform.has.touch ? 'touch' : 'no-touch',
-    `platform-${is.ios ? 'ios' : 'mat'}`
-  ]
-
-  if (is.cordova) {
-    cls.push('cordova')
-
-    if (is.ios && (cfg.cordova === void 0 || cfg.cordova.iosStatusBarPadding !== false)) {
-      const
-        ratio = window.devicePixelRatio || 1,
-        width = window.screen.width * ratio,
-        height = window.screen.height * ratio
-
-      if (width !== 1125 && height !== 2001 /* 2436 for iPhoneX fullscreen */) {
-        cls.push('q-ios-statusbar-padding')
-      }
-    }
-  }
-  Platform.within.iframe && cls.push('within-iframe')
-  is.electron && cls.push('electron')
-
-  return cls
-}
-
-function bodyInit (cfg) {
-  const cls = getBodyClasses(cfg)
-
-  if (Platform.is.ie && Platform.is.versionNumber === 11) {
-    cls.forEach(c => document.body.classList.add(c))
-  }
-  else {
-    document.body.classList.add.apply(document.body.classList, cls)
-  }
-
-  if (Platform.is.ios) {
-    // needed for iOS button active state
-    document.body.addEventListener('touchstart', () => {})
-  }
-}
-
-function setColors (brand) {
-  for (let color in brand) {
-    setBrand(color, brand[color])
-  }
-}
+export let ssrInject
 
 export default function (_Vue, opts = {}) {
-  if (this.__installed) {
-    return
-  }
+  if (this.__installed) { return }
   this.__installed = true
 
   const
@@ -74,22 +22,21 @@ export default function (_Vue, opts = {}) {
   // required plugins
   Platform.install({ $q, cfg })
   History.install({ cfg })
-  i18n.install({ $q, Vue: _Vue, cfg, lang: opts.i18n })
-  icons.install({ $q, Vue: _Vue, iconSet: opts.iconSet })
+  I18n.install({ $q, Vue: _Vue, cfg, lang: opts.i18n })
+  Icons.install({ $q, Vue: _Vue, iconSet: opts.iconSet })
 
   if (isSSR) {
-    if (typeof cfg.ssr.setBodyClasses === 'function') {
-      cfg.ssr.setBodyClasses(getBodyClasses(cfg))
-    }
+    ssrInject = $q
+
+    _Vue.mixin({
+      beforeCreate () {
+        this.$q = this.$root.$options.$q
+      }
+    })
   }
   else {
-    const init = cfg.brand && document.body
-
-    init && setColors(cfg.brand)
-    ready(() => {
-      !init && setColors(cfg.brand)
-      bodyInit(cfg)
-    })
+    clientUpdateBody({ $q, cfg })
+    _Vue.prototype.$q = $q
   }
 
   if (opts.directives) {
@@ -118,6 +65,4 @@ export default function (_Vue, opts = {}) {
       }
     })
   }
-
-  _Vue.prototype.$q = $q
 }

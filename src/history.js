@@ -1,13 +1,12 @@
-import Platform, { isSSR } from './platform'
+import Platform, { isSSR } from './plugins/platform'
 
 export default {
   __history: [],
   add: () => {},
   remove: () => {},
 
-  __installed: false,
   install ({ cfg }) {
-    if (this.__installed || !Platform.is.cordova || isSSR) {
+    if (this.__installed || isSSR || !Platform.is.cordova) {
       return
     }
 

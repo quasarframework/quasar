@@ -192,7 +192,6 @@ export default {
     Object.assign(defaults, opts)
   },
 
-  __installed: false,
   install (args) {
     if (this.__installed) { return }
     this.__installed = true

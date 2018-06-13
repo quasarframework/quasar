@@ -93,7 +93,6 @@ export default {
   },
 
   __Vue: null,
-  __installed: false,
   install ({ $q, Vue, cfg: { loading } }) {
     if (this.__installed) { return }
     this.__installed = true

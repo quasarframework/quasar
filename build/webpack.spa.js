@@ -16,7 +16,7 @@ const chain = new WebpackChain()
 require('./webpack.inject.base')(chain)
 
 chain.entry('app')
-  .add(resolve('dev/spa.app.js'))
+  .add(resolve('dev/app.entry-client.js'))
 
 chain.plugin('define')
   .use(webpack.DefinePlugin, [{

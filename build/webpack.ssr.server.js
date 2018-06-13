@@ -14,9 +14,10 @@ const
 require('./webpack.inject.base')(chain)
 
 chain.target('node')
+chain.devtool('#source-map')
 
 chain.entry('server')
-  .add(resolve('dev/ssr.app.entry-server.js'))
+  .add(resolve('dev/app.entry-server.js'))
 
 chain.output
   .filename('server-bundle.js')

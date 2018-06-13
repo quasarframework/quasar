@@ -1,3 +1,5 @@
+import { isSSR } from './platform'
+
 function encode (value) {
   if (Object.prototype.toString.call(value) === '[object Date]') {
     return '__q_date|' + value.toUTCString()
@@ -122,12 +124,11 @@ function getStorage (type) {
 }
 
 export const LocalStorage = {
-  __installed: false,
   install ({ $q }) {
     if (this.__installed) { return }
     this.__installed = true
 
-    if ($q.platform.has.webStorage) {
+    if (!isSSR && $q.platform.has.webStorage) {
       const storage = getStorage('local')
       $q.localStorage = storage
       Object.assign(this, storage)
@@ -139,12 +140,11 @@ export const LocalStorage = {
 }
 
 export const SessionStorage = {
-  __installed: false,
   install ({ $q }) {
     if (this.__installed) { return }
     this.__installed = true
 
-    if ($q.platform.has.webStorage) {
+    if (!isSSR && $q.platform.has.webStorage) {
       const storage = getStorage('session')
       $q.sessionStorage = storage
       Object.assign(this, storage)

@@ -12,9 +12,11 @@ const
 // inject base
 require('./webpack.inject.base')(chain)
 
+chain.devtool('#cheap-module-source-map')
+
 chain.entry('client')
   .add('webpack-hot-middleware/client')
-  .add(resolve('dev/ssr.app.entry-client.js'))
+  .add(resolve('dev/app.entry-client.js'))
 
 chain.output
   .path(resolve('dev'))

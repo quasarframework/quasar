@@ -171,49 +171,47 @@ function getPlatform (userAgent) {
   return browser
 }
 
+export function ssrGetPlatform (ssr) {
+  return {
+    is: getPlatform(ssr.req.headers['user-agent']),
+    has: {
+      touch: false,
+      webStorage: false
+    },
+    within: { iframe: false }
+  }
+}
+
 const Platform = {
-  __installed: false,
   install ({ $q, cfg }) {
     if (this.__installed) { return }
     this.__installed = true
 
+    if (isSSR) {
+      Platform.is = Platform.has = Platform.within = {}
+      return
+    }
+
     $q.platform = Platform
 
-    if (isSSR) {
-      if (!cfg.ssr || !cfg.ssr.req || !cfg.ssr.res) {
-        Platform.is = Platform.has = Platform.within = {}
-        cfg.ssr = { req: {}, res: {} }
-        console.error('[quasar-ssr]: cfg.ssr.(req & res) required')
-        return
-      }
+    let webStorage
 
-      Platform.is = getPlatform(cfg.ssr.req.headers['user-agent'])
-      Platform.has = {
-        touch: false,
-        webStorage: false
+    try {
+      if (window.localStorage) {
+        webStorage = true
       }
-      Platform.within = { iframe: false }
     }
-    else {
-      let webStorage
+    catch (e) {
+      webStorage = false
+    }
 
-      try {
-        if (window.localStorage) {
-          webStorage = true
-        }
-      }
-      catch (e) {
-        webStorage = false
-      }
-
-      Platform.is = getPlatform()
-      Platform.has = {
-        touch: (() => !!('ontouchstart' in document.documentElement) || window.navigator.msMaxTouchPoints > 0)(),
-        webStorage
-      }
-      Platform.within = {
-        iframe: window.self !== window.top
-      }
+    Platform.is = getPlatform()
+    Platform.has = {
+      touch: (() => !!('ontouchstart' in document.documentElement) || window.navigator.msMaxTouchPoints > 0)(),
+      webStorage
+    }
+    Platform.within = {
+      iframe: window.self !== window.top
     }
   }
 }

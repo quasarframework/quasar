@@ -9,40 +9,19 @@ import { createRouter } from './router'
 import Quasar, * as Everything from 'quasar'
 
 import 'quasar-css'
-
-/*
-if (process.env.THEME === 'mat') {
-  require('quasar-extras/roboto-font')
-}
-import 'quasar-extras/material-icons'
-import 'quasar-extras/ionicons'
-import 'quasar-extras/fontawesome'
-import 'quasar-extras/mdi'
-import 'quasar-extras/animate'
-*/
-
 // import iconSet from '../icons/fontawesome'
+
+Vue.use(Quasar, {
+  components: Everything,
+  directives: Everything,
+  plugins: Everything,
+  // iconSet,
+  config: {}
+})
 
 // export a factory function for creating fresh app, router and store
 // instances
-export function createApp (ctx) {
-  const config = {}
-
-  if (ctx) {
-    config.ssr = {
-      req: ctx.req,
-      res: ctx.res
-    }
-  }
-
-  Vue.use(Quasar, {
-    components: Everything,
-    directives: Everything,
-    plugins: Everything,
-    config
-    // iconSet
-  })
-
+export function createApp (ssrContext) {
   const router = createRouter()
 
   if (process.env.VUE_ENV === 'client') {
@@ -57,10 +36,31 @@ export function createApp (ctx) {
     })
   }
 
-  const app = new Vue({
+  const app = {
     router,
     ...App
-  })
+  }
 
-  return { app, router }
+  if (ssrContext) {
+    Quasar.ssrUpdate({
+      app,
+      req: ssrContext.req,
+      res: ssrContext.res,
+      setBodyClasses (cls) {
+        ssrContext.bodyClasses = cls.join(' ')
+      },
+      setHtmlAttrs (attrs) {
+        const str = []
+        for (let key in attrs) {
+          str.push(`${key}=${attrs[key]}`)
+        }
+        ssrContext.htmlAttrs = str.join(' ')
+      }
+    })
+  }
+
+  return {
+    app: new Vue(app),
+    router
+  }
 }

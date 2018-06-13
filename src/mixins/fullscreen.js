@@ -1,4 +1,4 @@
-import History from '../plugins/history'
+import History from '../history'
 
 export default {
   data () {

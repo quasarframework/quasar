@@ -2,9 +2,16 @@ import langEn from '../i18n/en-us'
 import { isSSR } from './plugins/platform'
 import { ready } from './utils/dom'
 
+export function ssrUpdateLang (ssr) {
+  const fn = ssr.setHtmlAttrs
+  if (typeof fn === 'function') {
+    const { rtl, lang } = ssr.app.$q.i18n
+    fn({ lang, dir: rtl ? 'rtl' : 'ltr' })
+  }
+}
+
 export default {
-  __installed: false,
-  install ({ $q, Vue, lang, cfg }) {
+  install ({ $q, Vue, lang }) {
     if (this.__installed) { return }
     this.__installed = true
 
@@ -13,16 +20,7 @@ export default {
       lang.getLocale = this.getLocale
       lang.rtl = lang.rtl || false
 
-      if (isSSR) {
-        const fn = cfg.ssr.setHtmlAttrs
-        if (typeof fn === 'function') {
-          fn({
-            dir: lang.rtl ? 'rtl' : 'ltr',
-            lang: lang.lang
-          })
-        }
-      }
-      else {
+      if (!isSSR) {
         ready(() => {
           const el = document.documentElement
           el.setAttribute('dir', lang.rtl ? 'rtl' : 'ltr')
@@ -30,7 +28,7 @@ export default {
         })
       }
 
-      if ($q.i18n) {
+      if (isSSR || $q.i18n) {
         $q.i18n = lang
       }
       else {
@@ -45,6 +43,8 @@ export default {
   },
 
   getLocale () {
+    if (isSSR) { return }
+
     let val =
       navigator.language ||
       navigator.languages[0] ||
