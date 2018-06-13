@@ -55,6 +55,9 @@
         <q-search :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" placeholder="Start typing a country name - search" no-icon>
           <q-autocomplete :static-data="{field: 'value', list: countries}" @selected="selected" />
         </q-search>
+        <q-search :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" placeholder="Country name - trigger on focus if empty - search" no-icon>
+          <q-autocomplete :static-data="{field: 'value', list: countries}" @selected="selected" :min-characters="0" />
+        </q-search>
         <q-search :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" v-model="terms" placeholder="Start typing a country name - search">
           <q-autocomplete :static-data="{field: 'value', list: countries}" @selected="selected" />
         </q-search>
@@ -83,6 +86,9 @@
         <p class="q-subtitle">Number selected: {{ JSON.stringify(termsN) }}</p>
         <q-search :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" type="number" v-model="termsN" float-label="Start typing a number">
           <q-autocomplete :static-data="{field: 'value', list: numbers}" @selected="selected" />
+        </q-search>
+        <q-search :dark="dark" :error="error" :warning="warning" :disable="disable" :readonly="readonly" :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="onChange" @input="onInput" @clear="onClear" type="number" v-model="termsN" float-label="Start typing a number - scroll">
+          <q-autocomplete :static-data="{field: 'value', list: lots}" @selected="selected" :max-results="100" max-height="200px" />
         </q-search>
         <q-search :dark="dark" color="primary" :error="error" :warning="warning" :disable="disable" :readonly="readonly" inverted :clearable="clearable" class="q-ma-sm" @focus="onFocus" @blur="onBlur" @change="val => { termsN = val; onChange(val) }" @input="onInput" @clear="onClear" type="number" :value="termsN" float-label="Start typing a number (onChange)">
           <q-autocomplete :static-data="{field: 'value', list: numbers}" @selected="selected" />
@@ -493,6 +499,7 @@ export default {
       decimals: 1,
       countries: countriesList,
       numbers: [1, 2, 3, 4, 5, 1111, 2222, 3333, 4444, 5555].map(v => ({ label: String(v), value: v })),
+      lots: Array(100).fill(0).map((v, i) => ({ label: String(i), value: i })),
       optionType: 'QCheckbox',
       optionValue: false,
       optionTypes: ['Checkbox', 'Radio', 'Toggle'].map(v => ({ label: String(v), value: `Q${v}` }))

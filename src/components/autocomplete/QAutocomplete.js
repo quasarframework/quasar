@@ -54,22 +54,6 @@ export default {
       else {
         this.__delayTrigger()
       }
-    },
-    keyboardIndex (val) {
-      if (this.$refs.popover && this.$refs.popover.showing && this.keyboardMoveDirection && val > -1) {
-        this.$nextTick(() => {
-          if (!this.$refs.popover) {
-            return
-          }
-          const selected = this.$refs.popover.$el.querySelector('.q-select-highlight')
-          if (selected && selected.scrollIntoView) {
-            if (selected.scrollIntoViewIfNeeded) {
-              return selected.scrollIntoViewIfNeeded(false)
-            }
-            selected.scrollIntoView(this.keyboardMoveDirection < 0)
-          }
-        })
-      }
     }
   },
   computed: {
@@ -92,16 +76,19 @@ export default {
     isWorking () {
       return this.$refs && this.$refs.popover
     },
-    trigger () {
-      if (!this.__input.hasFocus() || !this.isWorking()) {
+    trigger (focus) {
+      if (!this.__input || !this.__input.hasFocus() || !this.isWorking()) {
         return
       }
 
-      const terms = [null, void 0].includes(this.__input.val) ? '' : String(this.__input.val)
-      const searchId = uid()
+      const
+        terms = [null, void 0].includes(this.__input.val) ? '' : String(this.__input.val),
+        termsLength = terms.length,
+        searchId = uid()
+
       this.searchId = searchId
 
-      if (terms.length < this.minCharacters) {
+      if (termsLength < this.minCharacters || (focus === true /* avoid callback params */ && termsLength > 0)) {
         this.searchId = ''
         this.__clearSearch()
         this.hide()
@@ -177,6 +164,9 @@ export default {
     __keyboardShowTrigger () {
       this.trigger()
     },
+    __focusShowTrigger () {
+      this.trigger(true)
+    },
     __keyboardIsSelectableIndex (index) {
       return index > -1 && index < this.computedResults.length && !this.computedResults[index].disable
     },
@@ -223,6 +213,7 @@ export default {
       }
       this.inputEl.addEventListener('keydown', this.__keyboardHandleKey)
       this.inputEl.addEventListener('blur', this.blurHide)
+      this.inputEl.addEventListener('focus', this.__focusShowTrigger)
     })
   },
   beforeDestroy () {
@@ -234,6 +225,7 @@ export default {
     if (this.inputEl) {
       this.inputEl.removeEventListener('keydown', this.__keyboardHandleKey)
       this.inputEl.removeEventListener('blur', this.blurHide)
+      this.inputEl.removeEventListener('focus', this.__focusShowTrigger)
       this.hide()
     }
   },
