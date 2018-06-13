@@ -65,17 +65,22 @@
       <q-btn to="/" label="To index in 2s" @click="linkClick" glossy color="secondary" class="q-ml-md" />
       <br><br>
       <div>
+        <q-toggle v-model="testD" label="Disable form buttons" />
+        <q-toggle v-model="testR" label="Wait for ripple" />
         <form @submit.prevent="submit" @reset.prevent="reset" class="shadow-2 q-pa-md row items-center">
           <div class="col row items-center gutter-md">
             <div class="col">
               <q-input v-model="test" />
             </div>
             <div class="col">
+              <q-input :value="testC" @change="v => testC = v" />
+            </div>
+            <div class="col">
               <q-input type="number" v-model="testN" />
             </div>
           </div>
-          <q-btn :tag="tag" fab-mini color="primary" icon="android" type="reset" class="on-right" title="Reset" @click="onClick" />
-          <q-btn :tag="tag" fab color="primary" icon="android" type="submit" class="on-right" title="Submit" @click="onClick" />
+          <q-btn :tag="tag" fab-mini color="primary" icon="android" type="reset" class="on-right" title="Reset" @click="onClick" :disable="testD" :wait-for-ripple="testR" />
+          <q-btn :tag="tag" fab color="primary" icon="android" type="submit" class="on-right" title="Submit" @click="onClick" :disable="testD" :wait-for-ripple="testR" />
         </form>
       </div>
 
@@ -518,7 +523,10 @@ export default {
       percentage: 0,
       clickTimes: 0,
       test: 'Initial value',
+      testC: 'Initial value onChange',
       testN: 0,
+      testD: false,
+      testR: false,
       tag: 'button'
     }
   },
@@ -555,8 +563,7 @@ export default {
       this.loading = {}
     },
     submit () {
-      this.$q.notify('Submit called')
-      console.log('test', this.test, 'testN', this.testN)
+      this.$q.notify(`Submit called with: [${this.test}], [${this.testC}], [${this.testN}]`)
     },
     reset () {
       this.test = 'Initial value'
