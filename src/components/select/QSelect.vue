@@ -238,22 +238,6 @@ export default {
         ? val.slice()
         : val
     },
-    keyboardIndex (val) {
-      if (this.$refs.popover && this.$refs.popover.showing && this.keyboardMoveDirection && val > -1) {
-        this.$nextTick(() => {
-          if (!this.$refs.popover) {
-            return
-          }
-          const selected = this.$refs.popover.$el.querySelector('.q-select-highlight')
-          if (selected && selected.scrollIntoView) {
-            if (selected.scrollIntoViewIfNeeded) {
-              return selected.scrollIntoViewIfNeeded(false)
-            }
-            selected.scrollIntoView(this.keyboardMoveDirection < 0)
-          }
-        })
-      }
-    },
     visibleOptions () {
       this.__keyboardCalcIndex()
     }
