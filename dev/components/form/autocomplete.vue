@@ -10,6 +10,10 @@
         <q-autocomplete @search="search" @selected="selected" />
       </q-search>
 
+      <q-search @change="onChange" @input="onInput" v-model="terms" placeholder="Country name - Trigger on focus">
+        <q-autocomplete @search="search" @selected="selected" :min-characters="0" />
+      </q-search>
+
       <q-search @change="onChange" @input="onInput" v-model="terms" hide-underline placeholder="Start typing a country name (hide underline)">
         <q-autocomplete @search="search" @selected="selected" />
       </q-search>
