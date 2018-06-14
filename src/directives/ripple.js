@@ -69,7 +69,7 @@ export default {
         center: modifiers.center
       },
       click (evt) {
-        if (ctx.enabled) {
+        if (ctx.enabled && evt.detail !== -1) {
           showRipple(evt, el, ctx.modifiers)
         }
       },

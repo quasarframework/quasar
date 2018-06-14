@@ -1,5 +1,43 @@
 /* eslint-disable no-extend-native */
 
+(function (window) {
+  if (window === void 0) { return }
+
+  try {
+    new MouseEvent('test') // eslint-disable-line no-new, no-use-before-define
+    return
+  }
+  catch (e) {}
+
+  var MouseEvent = function (eventType, params) {
+    params = params || {}
+    var mouseEvent = document.createEvent('MouseEvent')
+    mouseEvent.initMouseEvent(
+      eventType,
+      params.bubbles || false,
+      params.cancelable || false,
+      params.view || window,
+      params.detail || 0,
+      params.screenX || 0,
+      params.screenY || 0,
+      params.clientX || 0,
+      params.clientY || 0,
+      params.ctrlKey || false,
+      params.altKey || false,
+      params.shiftKey || false,
+      params.metaKey || false,
+      params.button || 0,
+      params.relatedTarget || null
+    )
+
+    return mouseEvent
+  }
+
+  MouseEvent.prototype = Event.prototype
+
+  window.MouseEvent = MouseEvent
+}(window))
+
 if (!Array.prototype.findIndex) {
   Object.defineProperty(Array.prototype, 'findIndex', {
     value (predicate) {

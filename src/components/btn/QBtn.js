@@ -1,6 +1,7 @@
 import BtnMixin from './btn-mixin'
 import { QSpinner } from '../spinner'
 import { between } from '../../utils/format'
+import { stopAndPrevent } from '../../utils/event'
 
 export default {
   name: 'QBtn',
@@ -50,12 +51,25 @@ export default {
     click (e) {
       this.__cleanup()
 
+      if (this.isDisabled) {
+        e && stopAndPrevent(e) // fix for submit button
+        return
+      }
+
+      if (e && e.detail !== -1 && this.type === 'submit') {
+        stopAndPrevent(e)
+        const ev = new MouseEvent('click', Object.assign({}, e, {detail: -1}))
+        this.timer = setTimeout(() => this.$el && this.$el.dispatchEvent(ev), 200)
+        return
+      }
+
       const go = () => {
         this.$router[this.replace ? 'replace' : 'push'](this.to)
       }
 
       const trigger = () => {
         if (this.isDisabled) {
+          e && stopAndPrevent(e) // fix for submit button
           return
         }
 
