@@ -30,7 +30,7 @@ export function frameDebounce (fn) {
     if (wait) { return }
 
     wait = true
-    frame = window.requestAnimationFrame(() => {
+    frame = requestAnimationFrame(() => {
       fn.apply(this, args)
       wait = false
     })

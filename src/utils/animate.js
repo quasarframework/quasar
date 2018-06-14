@@ -34,12 +34,12 @@ export function start ({name, duration = 300, to, from, apply, done, cancel, eas
       pos: newPos,
       progress
     }
-    anim.timer = window.requestAnimationFrame(handler)
+    anim.timer = requestAnimationFrame(handler)
   }
 
   const anim = ids[id] = {
     cancel,
-    timer: window.requestAnimationFrame(handler)
+    timer: requestAnimationFrame(handler)
   }
 
   return id
