@@ -9,6 +9,7 @@ import { createRouter } from './router'
 import Quasar, * as Everything from 'quasar'
 
 import 'quasar-css'
+import './app.styl'
 // import iconSet from '../icons/fontawesome'
 
 Vue.use(Quasar, {
