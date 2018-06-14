@@ -37,8 +37,9 @@ function read (string) {
 
 function set (key, val, opts = {}, ssr) {
   let time = opts.expires
+  const hasExpire = typeof opts.expires === 'number'
 
-  if (typeof opts.expires === 'number') {
+  if (hasExpire) {
     time = new Date()
     time.setMilliseconds(time.getMilliseconds() + opts.expires * 864e+5)
   }
@@ -47,10 +48,11 @@ function set (key, val, opts = {}, ssr) {
 
   const cookie = [
     keyValue,
-    time ? '; expires=' + time.toUTCString() : '', // use expires attribute, max-age is not supported by IE
-    opts.path ? '; path=' + opts.path : '',
-    opts.domain ? '; domain=' + opts.domain : '',
-    opts.secure ? '; secure' : ''
+    time ? '; Expires=' + time.toUTCString() : '', // use expires attribute, max-age is not supported by IE
+    opts.path ? '; Path=' + opts.path : '',
+    opts.domain ? '; Domain=' + opts.domain : '',
+    opts.httpOnly ? '; HttpOnly' : '',
+    opts.secure ? '; Secure' : ''
   ].join('')
 
   if (ssr) {
@@ -58,9 +60,25 @@ function set (key, val, opts = {}, ssr) {
 
     // make temporary update so future get()
     // within same SSR timeframe would return the set value
-    ssr.req.headers.cookie = ssr.req.headers.cookie
-      ? `${keyValue}; ${ssr.req.headers.cookie}`
-      : cookie
+
+    let all = ssr.req.headers.cookie || ''
+
+    if (hasExpire && opts.expires < 0) {
+      const val = get(key, ssr)
+      if (val !== undefined) {
+        all = all
+          .replace(`${key}=${val}; `, '')
+          .replace(`; ${key}=${val}`, '')
+          .replace(`${key}=${val}`, '')
+      }
+    }
+    else {
+      all = all
+        ? `${keyValue}; ${all}`
+        : cookie
+    }
+
+    ssr.req.headers.cookie = all
   }
   else {
     document.cookie = cookie
