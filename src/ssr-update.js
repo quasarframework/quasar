@@ -4,7 +4,7 @@ import { ssrUpdateLang } from './i18n'
 import { ssrGetPlatform } from './plugins/platform'
 import { ssrGetCookies } from './plugins/cookies'
 
-export default (ssr) => {
+export default ssr => {
   ssr.app.$q = Object.assign({
     platform: ssrGetPlatform(ssr),
     cookies: ssrGetCookies(ssr)
