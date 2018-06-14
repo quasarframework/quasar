@@ -23,9 +23,6 @@ export default {
   lg: true,
 
   install ({ $q, Vue }) {
-    if (this.__installed) { return }
-    this.__installed = true
-
     if (isSSR) {
       $q.screen = this
       this.setSizes = this.setDebounce = () => {}

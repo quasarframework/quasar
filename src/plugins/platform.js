@@ -184,9 +184,6 @@ export function ssrGetPlatform (ssr) {
 
 const Platform = {
   install ({ $q, cfg }) {
-    if (this.__installed) { return }
-    this.__installed = true
-
     if (isSSR) {
       Platform.is = Platform.has = Platform.within = {}
       return
@@ -205,12 +202,12 @@ const Platform = {
       webStorage = false
     }
 
-    Platform.is = getPlatform()
-    Platform.has = {
+    this.is = getPlatform()
+    this.has = {
       touch: (() => !!('ontouchstart' in document.documentElement) || window.navigator.msMaxTouchPoints > 0)(),
       webStorage
     }
-    Platform.within = {
+    this.within = {
       iframe: window.self !== window.top
     }
   }

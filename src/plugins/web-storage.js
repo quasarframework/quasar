@@ -125,9 +125,6 @@ function getStorage (type) {
 
 export const LocalStorage = {
   install ({ $q }) {
-    if (this.__installed) { return }
-    this.__installed = true
-
     if (!isSSR && $q.platform.has.webStorage) {
       const storage = getStorage('local')
       $q.localStorage = storage
@@ -141,9 +138,6 @@ export const LocalStorage = {
 
 export const SessionStorage = {
   install ({ $q }) {
-    if (this.__installed) { return }
-    this.__installed = true
-
     if (!isSSR && $q.platform.has.webStorage) {
       const storage = getStorage('session')
       $q.sessionStorage = storage

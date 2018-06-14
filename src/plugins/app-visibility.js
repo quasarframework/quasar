@@ -4,9 +4,6 @@ export default {
   appVisible: false,
 
   install ({ $q, Vue }) {
-    if (this.__installed) { return }
-    this.__installed = true
-
     if (isSSR) {
       this.appVisible = $q.appVisible = true
       return

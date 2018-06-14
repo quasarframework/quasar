@@ -1,8 +1,6 @@
 /* eslint-disable no-extend-native */
 
-(function (window) {
-  if (window === void 0) { return }
-
+typeof window !== 'undefined' && (function (window) {
   try {
     new MouseEvent('test') // eslint-disable-line no-new, no-use-before-define
     return

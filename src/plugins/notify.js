@@ -193,12 +193,13 @@ export default {
   },
 
   install (args) {
-    if (this.__installed) { return }
-    this.__installed = true
-
-    if (!isSSR) {
-      init.call(this, args)
+    if (isSSR) {
+      args.$q.notify = () => {}
+      args.$q.notify.setDefaults = () => {}
+      return
     }
+
+    init.call(this, args)
 
     args.cfg.notify && this.setDefaults(args.cfg.notify)
 

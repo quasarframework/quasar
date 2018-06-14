@@ -27,9 +27,6 @@ export default {
   },
 
   install ({ $q, Vue }) {
-    if (this.__installed) { return }
-    this.__installed = true
-
     $q.fullscreen = this
 
     if (isSSR) { return }

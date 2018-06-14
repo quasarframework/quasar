@@ -125,10 +125,7 @@ export default {
   remove,
   all: () => get(),
 
-  install ({ $q, cfg }) {
-    if (this.__installed) { return }
-    this.__installed = true
-
+  install ({ $q }) {
     if (!isSSR) {
       $q.cookies = this
     }
