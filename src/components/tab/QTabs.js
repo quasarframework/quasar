@@ -1,58 +1,3 @@
-<template>
-  <div
-    class="q-tabs flex no-wrap"
-    :class="classes"
-  >
-    <div
-      class="q-tabs-head row"
-      ref="tabs"
-      :class="innerClasses"
-    >
-      <div ref="scroller" class="q-tabs-scroller row no-wrap">
-        <slot name="title"/>
-        <div
-          v-if="$q.theme !== 'ios'"
-          class="relative-position self-stretch q-tabs-global-bar-container"
-          :class="posbarClasses"
-        >
-          <div
-            ref="posbar"
-            class="q-tabs-bar q-tabs-global-bar"
-            @transitionend="__updatePosbarTransition"
-          />
-        </div>
-      </div>
-      <div
-        ref="leftScroll"
-        class="row flex-center q-tabs-left-scroll"
-        @mousedown="__animScrollTo(0)"
-        @touchstart="__animScrollTo(0)"
-        @mouseup="__stopAnimScroll"
-        @mouseleave="__stopAnimScroll"
-        @touchend="__stopAnimScroll"
-      >
-        <q-icon :name="$q.icon.tabs.left"/>
-      </div>
-      <div
-        ref="rightScroll"
-        class="row flex-center q-tabs-right-scroll"
-        @mousedown="__animScrollTo(9999)"
-        @touchstart="__animScrollTo(9999)"
-        @mouseup="__stopAnimScroll"
-        @mouseleave="__stopAnimScroll"
-        @touchend="__stopAnimScroll"
-      >
-        <q-icon :name="$q.icon.tabs.right"/>
-      </div>
-    </div>
-
-    <div class="q-tabs-panes">
-      <slot/>
-    </div>
-  </div>
-</template>
-
-<script>
 import { width, css, cssTransform } from '../../utils/dom'
 import { debounce } from '../../utils/debounce'
 import { QIcon } from '../icon'
@@ -70,9 +15,6 @@ export default {
       selectTab: this.selectTab,
       selectTabRouter: this.selectTabRouter
     }
-  },
-  components: {
-    QIcon
   },
   props: {
     value: String,
@@ -364,6 +306,12 @@ export default {
         }
       }, 5)
     },
+    __scrollToStart () {
+      this.__animScrollTo(0)
+    },
+    __scrollToEnd () {
+      this.__animScrollTo(9999)
+    },
     __stopAnimScroll () {
       clearInterval(this.scrollTimer)
     },
@@ -389,6 +337,73 @@ export default {
       this.$refs.scroller.scrollLeft = scrollPosition
       return done
     }
+  },
+  render (h) {
+    return h('div', {
+      staticClass: 'q-tabs flex no-wrap',
+      'class': this.classes
+    }, [
+      h('div', {
+        staticClass: 'q-tabs-head row',
+        ref: 'tabs',
+        'class': this.innerClasses
+      }, [
+        h('div', {
+          ref: 'scroller',
+          staticClass: 'q-tabs-scroller row no-wrap'
+        }, [
+          this.$slots.title,
+          process.env.THEME !== 'ios'
+            ? h('div', {
+              staticClass: 'relative-position self-stretch q-tabs-global-bar-container',
+              'class': this.posbarClasses
+            }, [
+              h('div', {
+                ref: 'posbar',
+                staticClass: 'q-tabs-bar q-tabs-global-bar',
+                on: {
+                  transitionend: this.__updatePosbarTransition
+                }
+              })
+            ])
+            : null
+        ]),
+
+        h('div', {
+          ref: 'leftScroll',
+          staticClass: 'row flex-center q-tabs-left-scroll',
+          on: {
+            mousedown: this.__scrollToStart,
+            touchstart: this.__scrollToStart,
+            mouseup: this.__stopAnimScroll,
+            mouseleave: this.__stopAnimScroll,
+            touchend: this.__stopAnimScroll
+          }
+        }, [
+          h(QIcon, {
+            props: { name: this.$q.icon.tabs.left }
+          })
+        ]),
+
+        h('div', {
+          ref: 'rightScroll',
+          staticClass: 'row flex-center q-tabs-right-scroll',
+          on: {
+            mousedown: this.__scrollToEnd,
+            touchstart: this.__scrollToEnd,
+            mouseup: this.__stopAnimScroll,
+            mouseleave: this.__stopAnimScroll,
+            touchend: this.__stopAnimScroll
+          }
+        }, [
+          h(QIcon, {
+            props: { name: this.$q.icon.tabs.right }
+          })
+        ])
+      ]),
+
+      h('div', { staticClass: 'q-tabs-panes' }, this.$slots.default)
+    ])
   },
   created () {
     this.timer = null
@@ -428,4 +443,3 @@ export default {
     this.__updateScrollIndicator.cancel()
   }
 }
-</script>
