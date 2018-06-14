@@ -1,6 +1,8 @@
 /* eslint-disable no-extend-native */
 
-if (window) {
+(function (window) {
+  if (window === void 0) { return }
+
   try {
     new MouseEvent('test') // eslint-disable-line no-new, no-use-before-define
     return
@@ -34,7 +36,7 @@ if (window) {
   MouseEvent.prototype = Event.prototype
 
   window.MouseEvent = MouseEvent
-}
+}(window))
 
 if (!Array.prototype.findIndex) {
   Object.defineProperty(Array.prototype, 'findIndex', {
