@@ -1,4 +1,5 @@
 $generic-border-radius      ?= 2px
+$generic-hover-transition   ?= .3s cubic-bezier(.25, .8, .5, 1)
 $typography-font-family     ?= 'Roboto', '-apple-system', 'Helvetica Neue', Helvetica, Arial, sans-serif
 $min-line-height            ?= 1.12
 
@@ -12,7 +13,7 @@ $alert-min-width     ?= 200px
 $button-border-radius         ?= $generic-border-radius
 $button-padding               ?= 4px 16px
 $button-dense-padding         ?= .285em
-$button-transition            ?= .3s cubic-bezier(.25, .8, .5, 1)
+$button-transition            ?= $generic-hover-transition
 $button-font-size             ?= 14px
 $button-font-weight           ?= 500
 $button-shadow                ?= $shadow-2
@@ -120,7 +121,7 @@ $field-icon-size        ?= 28px
 $field-label-color      ?= $form-dark
 $field-dark-label-color ?= $form-light
 
-$table-transition               ?= .3s cubic-bezier(.25, .8, .5, 1)
+$table-transition               ?= $generic-hover-transition
 $table-border-radius            ?= $generic-border-radius
 $table-box-shadow               ?= $shadow-2
 

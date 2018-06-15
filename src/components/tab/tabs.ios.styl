@@ -171,3 +171,15 @@ body.mobile .q-tabs-scroller
   overflow-x auto
   will-change scroll-position
   -webkit-overflow-scrolling touch
+
+body.desktop .q-tab
+  &:before
+    position absolute
+    top 0
+    right 0
+    bottom 0
+    left 0
+    opacity .1
+    background currentColor
+  &:hover:before
+    content ''
