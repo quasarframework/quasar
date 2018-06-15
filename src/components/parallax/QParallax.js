@@ -91,7 +91,7 @@ export default {
       }, [
         h('img', {
           ref: 'img',
-          domProps: {
+          attrs: {
             src: this.src
           },
           'class': { ready: this.imageHasBeenLoaded },

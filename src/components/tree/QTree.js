@@ -388,7 +388,7 @@ export default {
         return h('img', {
           staticClass: `q-tree-img q-mr-sm`,
           'class': { avatar: node.avatar },
-          domProps: { src: node.img || node.avatar }
+          attrs: { src: node.img || node.avatar }
         })
       }
     },

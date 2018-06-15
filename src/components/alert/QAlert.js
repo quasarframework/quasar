@@ -38,7 +38,7 @@ export default {
       side.push(
         h('img', {
           staticClass: 'avatar',
-          domProps: { src: this.avatar }
+          attrs: { src: this.avatar }
         })
       )
     }

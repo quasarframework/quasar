@@ -77,7 +77,7 @@ export default {
         }, [
           this.icon
             ? h(QIcon, { staticClass: 'q-chip-icon', props: { name: this.icon } })
-            : (this.avatar ? h('img', { domProps: { src: this.avatar } }) : null)
+            : (this.avatar ? h('img', { attrs: { src: this.avatar } }) : null)
         ])
         : null,
 
