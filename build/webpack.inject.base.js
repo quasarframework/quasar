@@ -1,8 +1,7 @@
 const
   path = require('path'),
   VueLoaderPlugin = require('vue-loader/lib/plugin'),
-  FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin'),
-  WebpackBar = require('webpackbar')
+  FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 
 const
   env = require('./env'),
@@ -118,9 +117,6 @@ module.exports = function (chain) {
 
   chain.optimization
     .noEmitOnErrors(true)
-
-  chain.plugin('webpack-bar')
-    .use(WebpackBar)
 
   chain.plugin('friendly-errors')
     .use(FriendlyErrorsPlugin, [{
