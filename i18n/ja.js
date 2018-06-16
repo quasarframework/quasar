@@ -8,7 +8,7 @@ export default {
     set: '設定', // 'Set',
     select: '選択', // 'Select',
     reset: 'リセット', // 'Reset',
-    remove: '除外', // 'Remove',
+    remove: '削除', // 'Remove',
     update: '更新', // 'Update',
     create: '作成', // 'Create',
     search: '検索', // 'Search',
@@ -24,7 +24,7 @@ export default {
     format24h: true // true
   },
   pullToRefresh: {
-    pull: 'プルダウンして更新', // 'Pull down to refresh',
+    pull: '引っ張って更新', // 'Pull down to refresh',
     release: '更新', // 'Release to refresh',
     refresh: '更新中...' // 'Refreshing...'
   },
