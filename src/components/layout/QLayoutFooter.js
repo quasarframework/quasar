@@ -1,7 +1,10 @@
 import { QResizeObservable } from '../observables'
+import CanRenderMixin from '../../mixins/can-render'
+import { fromSSR } from '../../plugins/platform'
 
 export default {
   name: 'QLayoutFooter',
+  mixins: [ CanRenderMixin ],
   inject: {
     layout: {
       default () {
@@ -55,7 +58,7 @@ export default {
       return this.reveal || this.layout.view.indexOf('F') > -1
     },
     offset () {
-      if (!this.value) {
+      if (!this.canRender || !this.value) {
         return 0
       }
       if (this.fixed) {
@@ -69,7 +72,7 @@ export default {
         'fixed-bottom': this.fixed,
         'absolute-bottom': !this.fixed,
         'hidden': !this.value && !this.fixed,
-        'q-layout-footer-hidden': !this.value || (this.fixed && !this.revealed)
+        'q-layout-footer-hidden': !this.canRender || !this.value || (this.fixed && !this.revealed)
       }
     },
     computedStyle () {
@@ -104,6 +107,9 @@ export default {
     this.layout.instances.footer = this
     this.__update('space', this.value)
     this.__update('offset', this.offset)
+  },
+  mounted () {
+    fromSSR && this.value && this.layout.__animate()
   },
   beforeDestroy () {
     if (this.layout.instances.footer === this) {

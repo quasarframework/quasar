@@ -1,7 +1,10 @@
 import { QResizeObservable } from '../observables'
+import CanRenderMixin from '../../mixins/can-render'
+import { fromSSR } from '../../plugins/platform'
 
 export default {
   name: 'QLayoutHeader',
+  mixins: [ CanRenderMixin ],
   inject: {
     layout: {
       default () {
@@ -60,7 +63,7 @@ export default {
       return this.reveal || this.layout.view.indexOf('H') > -1
     },
     offset () {
-      if (!this.value) {
+      if (!this.canRender || !this.value) {
         return 0
       }
       if (this.fixed) {
@@ -73,7 +76,7 @@ export default {
       return {
         'fixed-top': this.fixed,
         'absolute-top': !this.fixed,
-        'q-layout-header-hidden': !this.value || (this.fixed && !this.revealed)
+        'q-layout-header-hidden': !this.canRender || !this.value || (this.fixed && !this.revealed)
       }
     },
     computedStyle () {
@@ -108,6 +111,9 @@ export default {
     this.layout.instances.header = this
     this.__update('space', this.value)
     this.__update('offset', this.offset)
+  },
+  mounted () {
+    fromSSR && this.value && this.layout.__animate()
   },
   beforeDestroy () {
     if (this.layout.instances.header === this) {

@@ -17,7 +17,7 @@ export default {
       }
     }
   },
-  mixins: [ModelToggleMixin, PreventScroll],
+  mixins: [ ModelToggleMixin, PreventScroll ],
   directives: {
     TouchPan
   },
