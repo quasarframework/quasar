@@ -77,7 +77,7 @@ module.exports = function (chain) {
       .loader('url-loader')
       .options({
         limit: 10000,
-        name: 'img/[name].[hash:7].[ext]'
+        name: 'img/[name].[ext]'
       })
 
   chain.module.rule('fonts')
@@ -86,7 +86,7 @@ module.exports = function (chain) {
       .loader('url-loader')
       .options({
         limit: 10000,
-        name: 'fonts/[name].[hash:7].[ext]'
+        name: 'fonts/[name].[ext]'
       })
 
   injectStyleRules(chain)
