@@ -2,18 +2,19 @@ import langEn from '../i18n/en-us'
 import { isSSR } from './plugins/platform'
 import { ready } from './utils/dom'
 
-export function ssrUpdateLang (ctx) {
-  const fn = ctx.ssr.setHtmlAttrs
-  if (typeof fn === 'function') {
-    const { rtl, lang } = ctx.app.$q.i18n
-    fn({ lang, dir: rtl ? 'rtl' : 'ltr' })
-  }
-}
-
 export default {
-  install ({ $q, Vue, lang }) {
-    if (this.__installed) { return }
-    this.__installed = true
+  install ({ $q, Vue, queues, lang }) {
+    if (isSSR) {
+      queues.server.push((q, ctx) => {
+        const fn = ctx.ssr.setHtmlAttrs
+        if (typeof fn === 'function') {
+          fn({
+            lang: q.i18n.lang,
+            dir: q.i18n.rtl ? 'rtl' : 'ltr'
+          })
+        }
+      })
+    }
 
     this.set = (lang = langEn) => {
       lang.set = this.set

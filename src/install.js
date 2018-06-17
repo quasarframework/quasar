@@ -3,47 +3,48 @@ import { version } from '../package.json'
 import Platform, { isSSR } from './plugins/platform'
 import History from './history'
 import I18n from './i18n'
-import { clientUpdateBody } from './body'
+import Body from './body'
 import Icons from './icons'
 
-export let ssrInject
+export const queues = {
+  server: [], // on SSR update
+  takeover: [] // on client takeover
+}
 
-export default function (_Vue, opts = {}) {
+export const $q = {
+  version,
+  theme: process.env.THEME
+}
+
+export default function (Vue, opts = {}) {
   if (this.__installed) { return }
   this.__installed = true
 
-  const
-    cfg = opts.config || {},
-    $q = {
-      version,
-      theme: process.env.THEME
-    }
+  const cfg = opts.config || {}
 
   // required plugins
-  Platform.install({ $q, cfg })
-  History.install({ cfg })
-  I18n.install({ $q, Vue: _Vue, cfg, lang: opts.i18n })
-  Icons.install({ $q, Vue: _Vue, iconSet: opts.iconSet })
+  Platform.install({ $q, Vue, queues })
+  Body.install({ $q, queues, cfg })
+  History.install({ $q, cfg })
+  I18n.install({ $q, Vue, queues, cfg, lang: opts.i18n })
+  Icons.install({ $q, Vue, queues, iconSet: opts.iconSet })
 
   if (isSSR) {
-    ssrInject = $q
-
-    _Vue.mixin({
+    Vue.mixin({
       beforeCreate () {
         this.$q = this.$root.$options.$q
       }
     })
   }
   else {
-    clientUpdateBody({ $q, cfg })
-    _Vue.prototype.$q = $q
+    Vue.prototype.$q = $q
   }
 
   if (opts.directives) {
     Object.keys(opts.directives).forEach(key => {
       const d = opts.directives[key]
       if (d.name !== undefined && d.unbind !== void 0) {
-        _Vue.directive(d.name, d)
+        Vue.directive(d.name, d)
       }
     })
   }
@@ -52,7 +53,7 @@ export default function (_Vue, opts = {}) {
     Object.keys(opts.components).forEach(key => {
       const c = opts.components[key]
       if (c.name !== undefined && (c.render !== void 0 || c.mixins !== void 0)) {
-        _Vue.component(c.name, c)
+        Vue.component(c.name, c)
       }
     })
   }
@@ -61,7 +62,7 @@ export default function (_Vue, opts = {}) {
     Object.keys(opts.plugins).forEach(key => {
       const p = opts.plugins[key]
       if (typeof p.install === 'function' && p !== Platform) {
-        p.install({ $q, Vue: _Vue, cfg })
+        p.install({ $q, Vue, queues, cfg })
       }
     })
   }

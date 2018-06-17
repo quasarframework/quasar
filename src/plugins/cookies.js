@@ -126,7 +126,7 @@ function has (key, ssr) {
   return get(key, ssr) !== undefined
 }
 
-export function ssrGetCookies (ctx) {
+export function getObject (ctx = {}) {
   const ssr = ctx.ssr
 
   return {
@@ -139,14 +139,14 @@ export function ssrGetCookies (ctx) {
 }
 
 export default {
-  get,
-  set,
-  has,
-  remove,
-  all: () => get(),
-
-  install ({ $q }) {
-    if (!isSSR) {
+  install ({ $q, queues }) {
+    if (isSSR) {
+      queues.server.push((q, ctx) => {
+        q.cookies = getObject(ctx)
+      })
+    }
+    else {
+      Object.assign(this, getObject())
       $q.cookies = this
     }
   }

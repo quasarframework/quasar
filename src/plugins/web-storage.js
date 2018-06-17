@@ -1,4 +1,4 @@
-import { isSSR } from './platform'
+import { onSSR } from './platform'
 
 function encode (value) {
   if (Object.prototype.toString.call(value) === '[object Date]') {
@@ -125,26 +125,30 @@ function getStorage (type) {
 
 export const LocalStorage = {
   install ({ $q }) {
-    if (!isSSR && $q.platform.has.webStorage) {
+    if (onSSR) {
+      $q.localStorage = getEmptyStorage()
+      return
+    }
+
+    if ($q.platform.has.webStorage) {
       const storage = getStorage('local')
       $q.localStorage = storage
       Object.assign(this, storage)
-    }
-    else {
-      $q.localStorage = getEmptyStorage()
     }
   }
 }
 
 export const SessionStorage = {
   install ({ $q }) {
-    if (!isSSR && $q.platform.has.webStorage) {
+    if (onSSR) {
+      $q.sessionStorage = getEmptyStorage()
+      return
+    }
+
+    if ($q.platform.has.webStorage) {
       const storage = getStorage('session')
       $q.sessionStorage = storage
       Object.assign(this, storage)
-    }
-    else {
-      $q.sessionStorage = getEmptyStorage()
     }
   }
 }

@@ -1,30 +1,27 @@
-import { ssrInject } from './install'
-import { ssrUpdateBody } from './body'
-import { ssrUpdateLang } from './i18n'
-import { ssrGetPlatform, ssrClientTakeover } from './plugins/platform'
-import { ssrGetCookies } from './plugins/cookies'
+import { $q, queues } from './install'
 
-const clientAppMixin = {
+const mixin = {
   mounted () {
-    ssrClientTakeover()
+    queues.takeover.forEach(run => {
+      run(this.$q)
+    })
   }
 }
 
 export default function (ctx) {
   if (ctx.ssr) {
-    ctx.app.$q = Object.assign({
-      platform: ssrGetPlatform(ctx),
-      cookies: ssrGetCookies(ctx)
-    }, ssrInject)
+    const q = Object.assign({}, $q)
 
-    ssrUpdateBody(ctx)
-    ssrUpdateLang(ctx)
+    queues.server.forEach(run => {
+      run(q, ctx)
+    })
 
-    return
+    ctx.app.$q = q
   }
-
-  ctx.app.mixins = ctx.app.mixins || []
-  if (!ctx.app.mixins.includes(clientAppMixin)) {
-    ctx.app.mixins.push(clientAppMixin)
+  else {
+    const mixins = ctx.app.mixins || []
+    if (!mixins.includes(mixin)) {
+      ctx.app.mixins = mixins.concat(mixin)
+    }
   }
 }

@@ -1,7 +1,8 @@
 import { ready } from './utils/dom'
 import { setBrand } from './utils/colors'
+import { isSSR } from './plugins/platform'
 
-function getBodyClasses ({ is, has, within }, cfg = {}) {
+function getBodyClasses ({ is, has, within }, cfg) {
   const cls = [
     process.env.THEME,
     is.desktop ? 'desktop' : 'mobile',
@@ -51,18 +52,23 @@ function setColors (brand) {
   }
 }
 
-export function ssrUpdateBody (ctx) {
-  const update = ctx.ssr.setBodyClasses
-  if (typeof update === 'function') {
-    update(getBodyClasses(ctx.app.$q.platform))
-  }
-}
+export default {
+  install ({ $q, cfg, queues }) {
+    if (isSSR) {
+      queues.server.push((q, ctx) => {
+        const update = ctx.ssr.setBodyClasses
+        if (typeof update === 'function') {
+          update(getBodyClasses(q.platform, cfg))
+        }
+      })
+      return
+    }
 
-export function clientUpdateBody ({ $q, cfg }) {
-  const init = cfg.brand && document.body
-  init && setColors(cfg.brand)
-  ready(() => {
-    !init && setColors(cfg.brand)
-    bodyInit($q.platform, cfg)
-  })
+    const init = cfg.brand && document.body
+    init && setColors(cfg.brand)
+    ready(() => {
+      !init && setColors(cfg.brand)
+      bodyInit($q.platform, cfg)
+    })
+  }
 }

@@ -14,7 +14,7 @@
         </thead>
 
         <tbody>
-          <tr v-for="(value, prop) in platform">
+          <tr v-for="(value, prop) in $q.platform.is">
             <td>{{ prop }}</td>
             <td>{{ value }}</td>
           </tr>
@@ -30,11 +30,6 @@
 
 <script>
 export default {
-  data () {
-    return {
-      platform: this.$q.platform.is
-    }
-  },
   computed: {
     touch () {
       return this.$q.platform.has.touch ? 'has' : 'does not have'

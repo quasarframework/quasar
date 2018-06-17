@@ -169,51 +169,64 @@ function getPlatform (userAgent) {
   return browser
 }
 
-export function ssrClientTakeover () {
-  onSSR = false
-  fromSSR = false
-}
+function getClientProperties () {
+  let webStorage = false
 
-export function ssrGetPlatform (ctx) {
-  return {
-    is: getPlatform(ctx.ssr.req.headers['user-agent']),
-    has: {
-      touch: false,
-      webStorage: false
-    },
-    within: { iframe: false }
+  try {
+    if (window.localStorage) {
+      webStorage = true
+    }
   }
-}
+  catch (e) {}
 
-const Platform = {
-  install ({ $q, cfg }) {
-    if (isSSR) {
-      Platform.is = Platform.has = Platform.within = {}
-      return
-    }
-
-    $q.platform = Platform
-
-    let webStorage
-
-    try {
-      if (window.localStorage) {
-        webStorage = true
-      }
-    }
-    catch (e) {
-      webStorage = false
-    }
-
-    this.is = getPlatform()
-    this.has = {
+  return {
+    has: {
       touch: (() => !!('ontouchstart' in document.documentElement) || window.navigator.msMaxTouchPoints > 0)(),
       webStorage
-    }
-    this.within = {
+    },
+    within: {
       iframe: window.self !== window.top
     }
   }
 }
 
-export default Platform
+export default {
+  has: {
+    touch: false,
+    webStorage: false
+  },
+  within: {
+    iframe: false
+  },
+
+  install ({ $q, Vue, queues }) {
+    if (isSSR) {
+      queues.server.push((q, ctx) => {
+        q.platform = {
+          is: getPlatform(ctx.ssr.req.headers['user-agent']),
+          has: {
+            touch: false,
+            webStorage: false
+          },
+          within: { iframe: false }
+        }
+      })
+      return
+    }
+
+    this.is = getPlatform()
+
+    if (fromSSR) {
+      queues.takeover.push(q => {
+        onSSR = fromSSR = false
+        Object.assign(q.platform, getClientProperties())
+        q.platform.has.touch = true
+      })
+      Vue.util.defineReactive($q, 'platform', this)
+    }
+    else {
+      Object.assign(this, getClientProperties())
+      $q.platform = this
+    }
+  }
+}
